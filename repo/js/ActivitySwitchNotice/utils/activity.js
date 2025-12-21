@@ -1,8 +1,18 @@
+function settingsParseInt(str, defaultValue) {
+    try {
+        return str ? parseInt('' + str) : defaultValue;
+    } catch (e) {
+        log.warn(`settingsParseInt error:${e}`)
+        return defaultValue;
+    }
+}
+
 const config = {
     activityNameList: (settings.activityNameList ? settings.activityNameList.splice('|') : []),
     activityKey: (settings.activityKey ? settings.activityKey : 'F5'),
-    toTopCount: (settings.toTopCount ? parseInt('' + settings.toTopCount) : 10),//滑动到顶最大尝试次数
-    scrollPageCount: (settings.scrollPageCount ? parseInt('' + settings.scrollPageCount) : 4),//滑动次数/页
+    toTopCount: settingsParseInt(settings.toTopCount,10),//滑动到顶最大尝试次数
+    scrollPageCount: settingsParseInt(settings.scrollPageCount,4),//滑动次数/页
+    notifyHoursThreshold: settingsParseInt(settings.notifyHoursThreshold, 8760),//剩余时间阈值(默认 8760小时=365天)
 }
 const ocrRegionConfig = {
     activity: {x: 267, y: 197, width: 226, height: 616},//活动识别区域坐标和尺寸
@@ -63,7 +73,7 @@ async function scrollPage(totalDistance, isUp = false, waitCount = 6, stepDistan
  * 根据活动状态进行页面滚动
  * @param {boolean} isUp - 是否向上滚动，默认为false
  */
-async function scrollPagesByActivity(isUp = false,total=90,waitCount=6,stepDistance=30) {
+async function scrollPagesByActivity(isUp = false, total = 90, waitCount = 6, stepDistance = 30) {
     // 根据滚动方向设置坐标位置
     // 如果是向上滚动，使用顶部坐标；否则使用底部坐标
     let x = isUp ? xyConfig.top.x : xyConfig.bottom.x
@@ -111,10 +121,11 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
             // break
             return
         }
-        await scrollPagesByActivity(true,80*4,6,60)
+        await scrollPagesByActivity(true, 80 * 4, 6, 60)
     }
 
 }
+
 /**
  * 滚动到活动页面最顶部（优化版）
  * 通过连续检测顶部活动名称相同来确认已到顶，更加健壮
@@ -122,7 +133,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
  * @throws {Error} 如果超过最大尝试次数仍未检测到稳定顶部，则抛出错误
  */
 async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) {
-    let ms=800
+    let ms = 800
     let topActivityName = null;         // 上一次检测到的顶部活动名称
     let sameTopCount = 0;               // 连续出现相同顶部名称的次数
     const requiredSameCount = 1;        // 需要连续几次相同才确认到顶（推荐 2~3）
@@ -133,7 +144,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
 
     while (attemptIndex < maxAttempts) {
         attemptIndex++;
-        log.info(`第 {attemptIndex} 次尝试回顶`,attemptIndex);
+        log.info(`第 {attemptIndex} 次尝试回顶`, attemptIndex);
 
         // 移动鼠标到安全位置，避免干扰截图
         await moveMouseTo(0, 20);
@@ -157,7 +168,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
             log.warn("顶部OCR未识别到任何活动条目，可能是页面为空或识别失败");
             // 再尝试一次向上滚大距离
             // await scrollPagesByActivity(true);  // true = 向上
-            await scrollPagesByActivity(true, 80*4, 6, 60);
+            await scrollPagesByActivity(true, 80 * 4, 6, 60);
             await sleep(ms);
             continue;
         }
@@ -165,7 +176,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
         // 取当前识别到的最顶部活动名称（resList[0] 通常是列表最上面的）
         const currentTopName = resList[0].text.trim();
 
-        log.info(`当前检测到的顶部活动: {currentTopName}`,currentTopName);
+        log.info(`当前检测到的顶部活动: {currentTopName}`, currentTopName);
 
         // 判断是否与上一次相同
         if (currentTopName === topActivityName) {
@@ -173,7 +184,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
             log.debug(`顶部活动连续相同 ${sameTopCount} 次`);
 
             if (sameTopCount >= requiredSameCount) {
-                log.info(`已连续 {sameTopCount} 次检测到相同顶部活动，确认回到页面最顶部！`,sameTopCount);
+                log.info(`已连续 {sameTopCount} 次检测到相同顶部活动，确认回到页面最顶部！`, sameTopCount);
                 return;  // 成功回到顶部
             }
         } else {
@@ -186,7 +197,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
         // 这里使用更大滚动距离确保能快速回顶
         // await scrollPagesByActivity(true);  // true = 向上
         // 可选：加大单次滚动量（如果你发现默认一页不够）
-        await scrollPagesByActivity(true, 80*4, 6, 60);
+        await scrollPagesByActivity(true, 80 * 4, 6, 60);
 
         await sleep(ms);  // 给页面滚动和渲染留时间
     }
@@ -194,6 +205,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
     // 超过最大尝试次数仍未稳定
     throw new Error(`回到活动页面顶部失败：尝试 ${attemptIndex} 次后仍未检测到稳定顶部活动`);
 }
+
 /**
  * 解析原神活动剩余时间字符串，返回总小时数
  * 支持格式示例：
@@ -250,6 +262,7 @@ function formatRemainingTime(timeText) {
     const original = timeText.trim();
     return `${totalHours}小时（${days > 0 ? days + '天' : ''}${hours > 0 ? hours + '小时' : ''}）`;
 }
+
 /**
  * OCR识别活动剩余时间的函数
  * @param {Object} ocrRegion - OCR识别的区域坐标和尺寸
@@ -294,7 +307,7 @@ async function activityMain() {
     }
 
     // 3. 初始化存储所有活动的 Map
-    const activityMap = new Map();  // key: 活动名称, value: 剩余时间文本
+    let activityMap = new Map();  // key: 活动名称, value: 剩余时间文本
     let previousPageActivities = new Set();  // 新增：记录上一页识别到的所有活动名称（用于重复页判断）
 
     let lastPageBottomName = null;     // 上一次扫描到的页面最底部活动名
@@ -306,7 +319,7 @@ async function activityMain() {
     // 4. 主循环：逐页向下扫描
     while (scannedPages < maxPages) {
         scannedPages++;
-        log.info(`正在扫描第 {scannedPages} 页`,scannedPages);
+        log.info(`正在扫描第 {scannedPages} 页`, scannedPages);
         // 移动鼠标到安全位置，避免干扰截图
         await moveMouseTo(0, 20);
         // 获取当前页面活动列表区域截图并 OCR
@@ -375,11 +388,14 @@ async function activityMain() {
                 let remainingTimeText = await OcrRemainingTime(activityName);
                 if (remainingTimeText) {
                     const totalHours = parseRemainingTimeToHours(remainingTimeText);
+                    if (totalHours <= 24 && totalHours > 0) {
+                        remainingTimeText += '<即将结束>'
+                    }
                     activityMap.set(activityName, {
                         text: remainingTimeText,
                         hours: totalHours
                     });
-                    log.info(`成功记录 → {activityName} {remainingTime} 共计: {hours} 小时`,activityName, remainingTimeText,totalHours);
+                    log.info(`成功记录 → {activityName} {remainingTime} 共计: {hours} 小时`, activityName, remainingTimeText, totalHours);
                     newActivityCountThisPage++;
                 }
 
@@ -398,7 +414,7 @@ async function activityMain() {
         if (currentPageBottomName && currentPageBottomName === lastPageBottomName) {
             sameBottomCount++;
             if (sameBottomCount >= sameBottomCountMax) {
-                log.info("连续{sameBottomCountMax}次检测到相同底部活动，已确认到达页面最底部，扫描结束",sameBottomCountMax);
+                log.info("连续{sameBottomCountMax}次检测到相同底部活动，已确认到达页面最底部，扫描结束", sameBottomCountMax);
                 break;
             }
         } else {
@@ -411,11 +427,12 @@ async function activityMain() {
         await sleep(ms);
     }
 
-
+    activityMap = Array.from(activityMap.entries())
+        .filter(([, info]) => info.hours >= 0 && info.hours <= config.notifyHoursThreshold)  // 有期限且快到期
     // 7. 全部扫描完毕，统一发送通知（只发一次！）
     if (activityMap.size > 0) {
-        log.info(`扫描完成，共记录 {activityMap.size} 个活动，即将发送通知`,activityMap.size);
-        await noticeUtil.sendNotice(activityMap, "原神活动剩余时间提醒：");
+        log.info(`扫描完成，共记录 {activityMap.size} 个活动，即将发送通知`, activityMap.size);
+        await noticeUtil.sendNotice(activityMap, `原神活动剩余时间提醒(仅显示剩余 ≤ ${config.notifyHoursThreshold} 小时的活动):`);
     } else {
         log.warn("未识别到任何活动，未发送通知");
     }
