@@ -67,23 +67,36 @@ async function getDayOfWeek() {
     }
 }
 
+/**
+ * 执行秘境征讨剩余次数提醒的主函数
+ * 该函数会在每周日执行，检查秘境征讨的剩余次数并发送提醒
+ */
 async function campaignAreaMain() {
+    // 获取当前星期信息
     let dayOfWeek = getDayOfWeek();
+    // 如果不是周日(0代表周日)，则直接返回
     if (dayOfWeek.day!==0) {
         return
     }
+    // 记录开始执行秘境征讨提醒的日志
     log.info(`[{dayOfWeek.dayOfWeek}]，开始执行秘境征讨剩余次数提醒`, dayOfWeek.dayOfWeek)
+    // 设置操作间隔时间(毫秒)
     let ms = 600
+    // 等待一段时间
     await sleep(ms)
+    // 按下配置的热键
     await keyPress(config.campaignAreaKey)
     await sleep(ms * 2)
+    // 点击秘境入口坐标
     await click(xyConfig.secretRealm.x, xyConfig.secretRealm.y)
     await sleep(ms * 2)
+    // 点击秘境征讨坐标
     await click(xyConfig.campaignArea.x, xyConfig.campaignArea.y)
     await sleep(ms * 2)
-    //
+    // 使用OCR识别本周秘境征讨剩余次数
     let weekJson = await ocrWeeklyCount();
 
+    // 如果有剩余次数，则记录日志并发送通知
     if (weekJson.count > 0) {
         log.info(`剩余次数:${weekJson.count}`)
         await noticeUtil.send(`剩余次数:${weekJson.count}`, '秘境征讨')
