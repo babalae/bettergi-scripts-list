@@ -9,10 +9,10 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1765193567109,
+    "last_modified_time": 1766206855905,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A06-丘丘人射手-蒙德-达达乌帕谷-18只",
+    "name": "C06-丘丘人射手-须弥-善见地-北侧-12只",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -22,10 +22,10 @@
       "action": "",
       "action_params": "",
       "id": 1,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "teleport",
-      "x": -1866.927734375,
-      "y": 1331.55126953125
+      "x": 3397.921875,
+      "y": -1174.23095703125
     },
     {
       "action": "",
@@ -33,62 +33,62 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": -1776.48046875,
-      "y": 1363.6162109375
+      "x": 3384.478515625,
+      "y": -1146.97509765625
     },
     {
-      "action": "fight",
-      "action_params": "",
+      "action": "stop_flying",
+      "action_params": "100",
       "id": 3,
-      "move_mode": "dash",
+      "move_mode": "fly",
       "type": "path",
-      "x": -1756.322265625,
-      "y": 1395.810546875
+      "x": 3377.8115234375,
+      "y": -1116.08203125
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": -1726.64453125,
-      "y": 1398.60791015625
+      "x": 3359.794921875,
+      "y": -1040.36328125
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "dash",
+      "move_mode": "jump",
       "type": "path",
-      "x": -1707.458984375,
-      "y": 1354.025390625
+      "x": 3357.4638671875,
+      "y": -1034.23779296875
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": -1672.517578125,
-      "y": 1326.7177734375
+      "x": 3352.849609375,
+      "y": -1023.6865234375
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -1683.07421875,
-      "y": 1289.8701171875
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3591.9990234375,
+      "y": -787.3330078125
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 8,
       "move_mode": "dash",
       "type": "path",
-      "x": -1661.837890625,
-      "y": 1289.71875
+      "x": 3584.7734375,
+      "y": -784.177734375
     },
     {
       "action": "",
@@ -96,8 +96,8 @@
       "id": 9,
       "move_mode": "dash",
       "type": "path",
-      "x": -1653.296875,
-      "y": 1265.0693359375
+      "x": 3568.75390625,
+      "y": -822.06298828125
     },
     {
       "action": "",
@@ -105,26 +105,26 @@
       "id": 10,
       "move_mode": "dash",
       "type": "path",
-      "x": -1663.390625,
-      "y": 1252.814453125
+      "x": 3565.3896484375,
+      "y": -854.234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3566.3310546875,
+      "y": -877.1650390625
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 11,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -1650.83984375,
-      "y": 1252.3779296875
-    },
-    {
-      "action": "",
-      "action_params": "",
       "id": 12,
       "move_mode": "dash",
       "type": "path",
-      "x": -1667.462890625,
-      "y": 1254.9482421875
+      "x": 3570.166015625,
+      "y": -904.08251953125
     },
     {
       "action": "",
@@ -132,71 +132,71 @@
       "id": 13,
       "move_mode": "jump",
       "type": "path",
-      "x": -1674.78515625,
-      "y": 1231.7109375
+      "x": 3553.1904296875,
+      "y": -908.5029296875
     },
     {
-      "action": "fight",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 14,
       "move_mode": "dash",
       "type": "path",
-      "x": -1676.2890625,
-      "y": 1221.72998046875
+      "x": 3524.48828125,
+      "y": -919.3291015625
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 15,
       "move_mode": "dash",
       "type": "path",
-      "x": -1701.48046875,
-      "y": 1229.04638671875
+      "x": 3499.8037109375,
+      "y": -905.775390625
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 16,
-      "move_mode": "dash",
+      "move_mode": "jump",
       "type": "path",
-      "x": -1721.935546875,
-      "y": 1262.9365234375
+      "x": 3481.3759765625,
+      "y": -898.142578125
     },
     {
       "action": "",
       "action_params": "",
       "id": 17,
-      "move_mode": "dash",
+      "move_mode": "fly",
       "type": "path",
-      "x": -1713.12109375,
-      "y": 1282.7763671875
+      "x": 3470.6064453125,
+      "y": -890.61181640625
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 18,
       "move_mode": "dash",
       "type": "path",
-      "x": -1683.263671875,
-      "y": 1279.88232421875
+      "x": 3465.146484375,
+      "y": -860.26708984375
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 19,
       "move_mode": "dash",
       "type": "path",
-      "x": -1665.19140625,
-      "y": 1356.0966796875
+      "x": 3453.3876953125,
+      "y": -848.32958984375
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 20,
       "move_mode": "dash",
       "type": "path",
-      "x": -1649.57421875,
-      "y": 1356.298828125
+      "x": 3457.71875,
+      "y": -844.32666015625
     },
     {
       "action": "",
@@ -204,44 +204,44 @@
       "id": 21,
       "move_mode": "dash",
       "type": "path",
-      "x": -1598.6328125,
-      "y": 1351.796875
+      "x": 3445.759765625,
+      "y": -840.64501953125
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 22,
       "move_mode": "dash",
       "type": "path",
-      "x": -1531.87890625,
-      "y": 1352.02880859375
+      "x": 3432.361328125,
+      "y": -820.125
     },
     {
       "action": "",
       "action_params": "",
       "id": 23,
       "move_mode": "dash",
-      "type": "path",
-      "x": -1537.103515625,
-      "y": 1308.12255859375
+      "type": "target",
+      "x": 3430.119140625,
+      "y": -829.55322265625
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 24,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -1528.060546875,
-      "y": 1263.54833984375
+      "move_mode": "jump",
+      "type": "target",
+      "x": 3425.4501953125,
+      "y": -833.18798828125
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 25,
       "move_mode": "walk",
-      "type": "path",
-      "x": -1550.890625,
-      "y": 1269.7255859375
+      "type": "teleport",
+      "x": 3591.9990234375,
+      "y": -787.3330078125
     },
     {
       "action": "",
@@ -249,8 +249,8 @@
       "id": 26,
       "move_mode": "dash",
       "type": "path",
-      "x": -1555.7734375,
-      "y": 1254.67529296875
+      "x": 3586.640625,
+      "y": -797.818359375
     },
     {
       "action": "",
@@ -258,8 +258,8 @@
       "id": 27,
       "move_mode": "dash",
       "type": "path",
-      "x": -1532.71875,
-      "y": 1218.43359375
+      "x": 3574.572265625,
+      "y": -858.365234375
     },
     {
       "action": "",
@@ -267,8 +267,8 @@
       "id": 28,
       "move_mode": "dash",
       "type": "path",
-      "x": -1452.265625,
-      "y": 1241.5068359375
+      "x": 3561.9189453125,
+      "y": -896.20556640625
     },
     {
       "action": "",
@@ -276,17 +276,35 @@
       "id": 29,
       "move_mode": "dash",
       "type": "path",
-      "x": -1454.552734375,
-      "y": 1260.1220703125
+      "x": 3540.27734375,
+      "y": -948.814453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 30,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3520.8203125,
+      "y": -976.05615234375
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 30,
+      "id": 31,
       "move_mode": "dash",
       "type": "path",
-      "x": -1464.2890625,
-      "y": 1290.875
+      "x": 3528.7421875,
+      "y": -990.115234375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 32,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3539.2109375,
+      "y": -1006.0439453125
     }
   ]
 }
