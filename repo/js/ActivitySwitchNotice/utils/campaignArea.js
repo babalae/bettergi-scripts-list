@@ -46,12 +46,12 @@ async function ocrWeeklyCount(ocrRegion = ocrRegionConfig.weeklyCount) {
     let weekCountText = res.text // 获取OCR识别的文本结果
     let result = weekCountText.match(/[0-9/]+/g)?.join('') || ''; // 使用正则表达式提取数字和斜杠
 
-    log.info(`识别结果:{weekCountText}`, weekCountText) // 记录原始识别结果
-    log.info(`处理结果:{result}`, result) // 记录处理后的结果
+    log.debug(`识别结果:{weekCountText}`, weekCountText) // 记录原始识别结果
+    log.debug(`处理结果:{result}`, result) // 记录处理后的结果
     const numbers = result.split('/').map((item) => parseInt(item)); // 分割字符串并转换为数字数组
     weekJson.total = numbers[1] // 设置总数
     weekJson.count = numbers[0] // 设置当前计数
-    log.info(`Json:{weekJson}`, weekJson) // 记录最终JSON结果
+    log.debug(`Json:{weekJson}`, weekJson) // 记录最终JSON结果
     return weekJson // 返回处理后的周计数JSON对象
 }
 
@@ -66,7 +66,7 @@ async function getDayOfWeek() {
     const day = today.getDay();
     // 创建包含星期名称的数组
     const weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
-    let weekDay = weekDays[day];
+    let weekDay = `${weekDays[day]}`;
 
     log.info(`今天是[{day}]`, day)
     log.info(`今天是[{weekDays}]`, weekDay)
@@ -83,9 +83,10 @@ async function getDayOfWeek() {
  */
 async function campaignAreaMain() {
     // 获取当前星期信息
-    let dayOfWeek = getDayOfWeek();
+    let dayOfWeek = await getDayOfWeek();
     // 如果不是周日(0代表周日)，则直接返回
-    if (dayOfWeek.day==0) {
+    if (dayOfWeek.day != 0) {
+        log.info(`[{dayOfWeek.dayOfWeek}]，跳过执行秘境征讨剩余次数提醒`, dayOfWeek.dayOfWeek)
         return
     }
     // 记录开始执行秘境征讨提醒的日志
@@ -108,8 +109,8 @@ async function campaignAreaMain() {
 
     // 如果有剩余次数，则记录日志并发送通知
     if (weekJson.count > 0) {
-        log.info(`剩余次数:${weekJson.count}`)
-        await noticeUtil.send(`剩余次数:${weekJson.count}`, '秘境征讨')
+        log.info(`本周剩余消耗减半次数:${weekJson.count}`)
+        await noticeUtil.send(`>|本周剩余消耗减半次数:${weekJson.count}`, '秘境征讨')
     }
 
 }
