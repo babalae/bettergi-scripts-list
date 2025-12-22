@@ -38,7 +38,7 @@
 | `activityKey` | 打开活动页面的快捷键 | F5         | v  |
 | `toTopCount` |  滑动到顶最大尝试次数  | 10         | v  |
 | `scrollPageCount` |滑动次数/页  | 4          | x  |
-| `campaignAreaKey` | 打开征讨领域页面的快捷键 | F1         | x  |
+| `campaignAreaKey` | 打开征讨领域页面的快捷键 | F1         | v  |
 
 ### 使用流程
 
@@ -182,7 +182,7 @@ ActivitySwitchNotice/
 ---
 
 ## 版本历史
-### 0.0.2 (2025-12-21)
+### 0.0.2 (2025-12-22)
   - 新增 征讨领域周次数提醒功能
   - 新增 campaignArea.js 模块，包含征讨领域相关功能
   - 新增 campaignAreaKey 配置选项，用于自定义征讨领域页面快捷键
