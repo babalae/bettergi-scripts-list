@@ -38,7 +38,7 @@ const activityTermConversionMap = new Map([
     ["砺行修远", {dateEnum: DATE_ENUM.WEEK}],
 ]);
 const needOcrOtherMap = new Map([
-    ["砺行修远", "本周进度"],
+    ["砺行修远", ["本周进度", "完成进度"]],
 ]);
 const genshinJson = {
     width: 1920,//genshin.width,
@@ -453,9 +453,12 @@ async function activityMain() {
                             break;
                     }
                     if (needOcrOtherMap.has(activityName)) {
-                        let text = await OcrRemainingTime(activityName, needOcrOtherMap.get(activityName));
-                        if (text) {
-                            remainingTimeText += " [" + text + "] "
+                        const keys = needOcrOtherMap.get(activityName);
+                        for (const key of keys) {
+                            let text = await OcrRemainingTime(activityName, keys);
+                            if (text) {
+                                remainingTimeText += " [" + text + "] "
+                            }
                         }
                     }
                     activityMap.set(activityName, {
