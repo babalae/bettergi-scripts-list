@@ -34,35 +34,74 @@ function saveWeekData(data) {
   file.writeTextSync(storePath, JSON.stringify(data));
 }
 
+// 判断两个时间是否属于同一周
+function isSameWeek(t1, t2) {
+  const getMonday = (time) => {
+    const d = new Date(time);
+    const day = d.getDay(); // 0=周日
+    const diff = day === 0 ? -6 : 1 - day;
+    d.setDate(d.getDate() + diff);
+    d.setHours(0, 0, 0, 0);
+    return d.getTime();
+  };
+
+  return getMonday(t1) === getMonday(t2);
+}
+
 // 初始化或更新 weekTotal
 function initWeekTotal() {
   const stored = loadWeekData();
   const calculated = Math.ceil(weekMaxExp / singleExp);
+  const now = Date.now();
 
-  // 首次 OR 配置变化 → 重写
+  // 无存档 -> 初始化
+  if (!stored) {
+    const data = {
+      weekMaxExp,
+      singleExp,
+      weekTotal: calculated,
+      lastRunTime: now
+    };
+    saveWeekData(data);
+    return calculated;
+  }
+
+  // 跨周 -> 重置次数
+  if (!isSameWeek(stored.lastRunTime, now)) {
+    stored.weekTotal = calculated;
+    stored.lastRunTime = now;
+    saveWeekData(stored);
+    log.info("检测到跨周，已重置每周次数");
+    return calculated;
+  }
+
+  // 配置变化 -> 重算
   if (
-      !stored ||
       stored.weekMaxExp !== weekMaxExp ||
       stored.singleExp !== singleExp
   ) {
-    const newData = {
-      weekMaxExp,
-      singleExp,
-      weekTotal: calculated
-    };
-    saveWeekData(newData);
+    stored.weekMaxExp = weekMaxExp;
+    stored.singleExp = singleExp;
+    stored.weekTotal = calculated;
+    stored.lastRunTime = now;
+    saveWeekData(stored);
     return calculated;
   }
+
+  // 正常情况，仅更新时间
+  stored.lastRunTime = now;
+  saveWeekData(stored);
 
   return stored.weekTotal;
 }
 
-// 刷完一次 → 计数 -1
+// 刷完一次 -> 计数 -1
 function decreaseWeekTotal() {
   const stored = loadWeekData();
   if (!stored) return;
 
   stored.weekTotal = Math.max(stored.weekTotal - 1, 0);
+  stored.lastRunTime = Date.now();
   saveWeekData(stored);
   weekTotal = stored.weekTotal;
 }
