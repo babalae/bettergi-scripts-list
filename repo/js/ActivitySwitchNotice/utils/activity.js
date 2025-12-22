@@ -455,7 +455,7 @@ async function activityMain() {
                     if (needOcrOtherMap.has(activityName)) {
                         const keys = needOcrOtherMap.get(activityName);
                         for (const key of keys) {
-                            let text = await OcrRemainingTime(activityName, keys);
+                            let text = await OcrRemainingTime(activityName, key);
                             if (text) {
                                 remainingTimeText += " [" + text + "] "
                             }
@@ -500,9 +500,15 @@ async function activityMain() {
     let activityMapFilter = new Map();
     Array.from(activityMap.entries())
         .filter(([name, info]) => {
-            config.blackActivityNameList.forEach(keyword => {
-                return !name.includes(keyword)
-            })
+            let check = true;
+            for (const keyword of  config.blackActivityNameList) {
+                if (name.includes(keyword)){
+                    //
+                    check = false;
+                    break
+                }
+            }
+            return check;
         })
         .filter(([name, info]) => info.hours <= config.notifyHoursThreshold)
         .forEach(([name, info]) => activityMapFilter.set(name, info));
