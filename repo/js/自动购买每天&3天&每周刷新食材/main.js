@@ -786,6 +786,11 @@ async function qucikBuy() {
 	await naturalMove(addNumX, addNumY, addNumX + 666, addNumY - 233, 100);
 	leftButtonUp();
 
+	// 确保最终数量至最大
+	await sleep(200);
+	click(2372, 1205);
+	await sleep(200);
+
 	// 点击确认按钮
 	click(confirmBtnX, confirmBtnY);
 	// 等待购买完成
@@ -994,7 +999,7 @@ async function initRo() {
 		for (let [key, npc] of Object.entries(npcData)) {
 			if (npc.enable) {
 				await genshin.returnMainUi();
-				// log.info("开始购买NPC: {npcName}", npc.name);
+				log.info("开始购买NPC: {npcName}", npc.name);
 				// 地图追踪开始
 				await fakeLog(npc.name, false, true, 0);
 				// 设置游戏时间
