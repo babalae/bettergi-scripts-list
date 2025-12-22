@@ -430,6 +430,13 @@ async function activityMain() {
                 }
             }
 
+            if (config.blackActivityNameList.length > 0) {
+                const matched = config.blackActivityNameList.some(keyword => activityName.includes(keyword));
+                if (matched) {
+                    continue;  // 不关心的活动，跳过不点击
+                }
+            }
+
             // 避免重复点击同一个活动（防止 OCR 误识别或页面抖动）
             if (activityMap.has(activityName)) {
                 log.info(`活动已记录，跳过重复点击: ${activityName}`);
@@ -503,17 +510,6 @@ async function activityMain() {
     }
     let activityMapFilter = new Map();
     Array.from(activityMap.entries())
-        .filter(([name, info]) => {
-            let check = true;
-            for (const keyword of  config.blackActivityNameList) {
-                if (name.includes(keyword)){
-                    //
-                    check = false;
-                    break
-                }
-            }
-            return check;
-        })
         .filter(([name, info]) => info.hours <= config.notifyHoursThreshold)
         .forEach(([name, info]) => activityMapFilter.set(name, info));
     // 7. 全部扫描完毕，统一发送通知（只发一次！）
