@@ -13,7 +13,7 @@ const config = {
     toTopCount: settingsParseInt(settings.toTopCount, 10),//滑动到顶最大尝试次数
     scrollPageCount: settingsParseInt(settings.scrollPageCount, 4),//滑动次数/页
     notifyHoursThreshold: settingsParseInt(settings.notifyHoursThreshold, 8760),//剩余时间阈值(默认 8760小时=365天)
-    blackActivityNameList: (settings.blackActivityNameList ? settings.blackActivityNameList.split('|') : []),//黑名单活动名称
+    blackActivityNameList: (settings.blackActivityNameList ? settings.blackActivityNameList.split('|').filter(s => s.trim()) : []),//黑名单活动名称
 }
 const ocrRegionConfig = {
     activity: {x: 267, y: 197, width: 226, height: 616},//活动识别区域坐标和尺寸
@@ -47,7 +47,11 @@ const genshinJson = {
 
 
 function getDATE_ENUM(activityName) {
-    return activityTermConversionMap.has(activityName) ? activityTermConversionMap.get(activityName) : {dateEnum: DATE_ENUM.HOUR}
+    for (let key of activityTermConversionMap.keys()) {
+        if (activityName.includes(key))
+            return activityTermConversionMap.get(key)
+    }
+    return {dateEnum: DATE_ENUM.HOUR}
 }
 
 /**
@@ -515,7 +519,7 @@ async function activityMain() {
     // 7. 全部扫描完毕，统一发送通知（只发一次！）
     if (activityMapFilter.size > 0) {
         log.info(`扫描完成，共记录 {activityMap.size} 个活动，即将发送通知`, activityMapFilter.size);
-        await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示剩余 ≤ ${config.notifyHoursThreshold} 小时的活动)${config.blackActivityNameList.length < 0 ? "" : "|==>已开启黑名单:" + config.blackActivityNameList.join(",") + "<==|"}`);
+        await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示剩余 ≤ ${config.notifyHoursThreshold} 小时的活动)${config.blackActivityNameList.length <= 0 ? "" : "|==>已开启黑名单:" + config.blackActivityNameList.join(",") + "<==|"}`);
     } else {
         log.warn("未识别到任何活动，未发送通知");
     }
