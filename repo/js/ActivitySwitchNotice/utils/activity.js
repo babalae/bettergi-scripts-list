@@ -10,8 +10,8 @@ function settingsParseInt(str, defaultValue) {
 const config = {
     activityNameList: (settings.activityNameList ? settings.activityNameList.split('|') : []),
     activityKey: (settings.activityKey ? settings.activityKey : 'F5'),
-    toTopCount: settingsParseInt(settings.toTopCount,10),//滑动到顶最大尝试次数
-    scrollPageCount: settingsParseInt(settings.scrollPageCount,4),//滑动次数/页
+    toTopCount: settingsParseInt(settings.toTopCount, 10),//滑动到顶最大尝试次数
+    scrollPageCount: settingsParseInt(settings.scrollPageCount, 4),//滑动次数/页
     notifyHoursThreshold: settingsParseInt(settings.notifyHoursThreshold, 8760),//剩余时间阈值(默认 8760小时=365天)
 }
 const ocrRegionConfig = {
@@ -22,10 +22,37 @@ const xyConfig = {
     top: {x: 344, y: 273},
     bottom: {x: 342, y: 791},
 }
-
+const DATE_ENUM = Object.freeze({
+    YEAR: '年',
+    MON: '月',
+    WEEK: '周',
+    DAY: '天',
+    HOUR: '小时',
+    // 添加反向映射（可选）
+    fromValue(value) {
+        return Object.keys(this).find(key => this[key] === value);
+    }
+});
+const activityTermConversionMap = new Map([
+    ["砺行修远", DATE_ENUM.HOUR],
+]);
+const needOcrOtherMap = new Map([
+    ["砺行修远", "本周进度"],
+]);
 const genshinJson = {
     width: 1920,//genshin.width,
     height: 1080,//genshin.height,
+}
+
+/**
+ * 根据活动名称获取对应的日期枚举值
+ * 如果活动名称存在于活动周期转换映射表中，则返回映射表中的对应值
+ * 否则返回默认的小时枚举值
+ * @param {string} activityName - 活动名称
+ * @returns {DATE_ENUM} - 返回日期枚举值，可能是活动周期转换映射表中定义的值，或者是默认的HOUR值
+ */
+function getDATE_ENUM(activityName) {
+    return activityTermConversionMap.has(activityName) ? activityTermConversionMap.get(activityName) : DATE_ENUM.HOUR
 }
 
 /**
@@ -264,6 +291,32 @@ function formatRemainingTime(timeText) {
 }
 
 /**
+ * 将总小时数转换为周、天和小时的组合表示
+ * @param {number} totalHours - 需要转换的总小时数
+ * @returns {string} 返回格式为"X周 Y天 Z小时"的字符串
+ */
+function convertHoursToWeeksDaysHours(totalHours) {
+    // 1周 = 168小时 (7 * 24)
+    const hoursPerWeek = 168;
+    const hoursPerDay = 24;
+
+    // 计算整周数 - 使用Math.floor获取完整的周数
+    const weeks = Math.floor(totalHours / hoursPerWeek);
+
+    // 剩余小时 - 总小时数减去完整周数对应的小时数
+    let remainingHours = totalHours % hoursPerWeek;
+
+    // 从剩余小时中计算天数 - 使用Math.floor获取完整的天数
+    const days = Math.floor(remainingHours / hoursPerDay);
+
+    // 剩余的小时 - 剩余小时数减去完整天数对应的小时数
+    const hours = remainingHours % hoursPerDay;
+
+    // 返回格式化后的字符串，包含周、天和小时
+    return `${weeks}周 ${days}天 ${hours}小时`;
+}
+
+/**
  * OCR识别活动剩余时间的函数
  * @param {Object} ocrRegion - OCR识别的区域坐标和尺寸
  * @param {string} activityName - 活动名称
@@ -391,10 +444,27 @@ async function activityMain() {
                     if (totalHours <= 24 && totalHours > 0) {
                         remainingTimeText += '<即将结束>'
                     }
+                    let desc = null
+
+                    switch (getDATE_ENUM(activityName)) {
+                        case DATE_ENUM.WEEK:
+                            desc = "|==>" + convertHoursToWeeksDaysHours(totalHours) + "<==|";
+                            break;
+                        case DATE_ENUM.HOUR:
+                            break;
+                        default:
+                            break;
+                    }
+                    if (needOcrOtherMap.has(activityName)) {
+                        let text = await OcrRemainingTime(activityName, needOcrOtherMap.get(activityName));
+                        if (text) {
+                           remainingTimeText+="["+text+"]"
+                        }
+                    }
                     activityMap.set(activityName, {
                         text: remainingTimeText,
                         hours: totalHours,
-                        desc: null
+                        desc: desc
                     });
                     log.info(`成功记录 → {activityName} {remainingTime} 共计: {hours} 小时`, activityName, remainingTimeText, totalHours);
                     newActivityCountThisPage++;
@@ -428,7 +498,7 @@ async function activityMain() {
         await sleep(ms);
     }
     let activityMapFilter = new Map();
-     Array.from(activityMap.entries())
+    Array.from(activityMap.entries())
         .filter(([name, info]) => info.hours <= config.notifyHoursThreshold)
         .forEach(([name, info]) => activityMapFilter.set(name, info));
     // 7. 全部扫描完毕，统一发送通知（只发一次！）
