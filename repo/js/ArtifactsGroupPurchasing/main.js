@@ -21,6 +21,7 @@ let TMthreshold = +settings.TMthreshold || 0.9;
 let doRunExtra = false;
 let expGain;
 let skipRunning = false;
+let runnedEnding = false;
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
@@ -57,6 +58,9 @@ let skipRunning = false;
         let loopCnt = 0;
         // 按 runningOrder 依次进入世界并执行联机收尾
         for (const idx of enteringIndex) {
+            if (skipRunning) {
+                break;
+            }
             await genshin.clearPartyCache();
             if (settings.usingCharacter) { await sleep(1000); keyPress(`${settings.usingCharacter}`); }
             //构造加入idx号世界的autoEnter的settings
@@ -140,8 +144,8 @@ let skipRunning = false;
     }
     await genshin.tpToStatueOfTheSeven();
 
-    if (skipRunning) {
-        log.info(`本次运行启用并触发了强迫症模式，需要重新上线`);
+    if (skipRunning && !runnedEnding) {
+        log.info(`本次运行启用并触发了强迫症模式，且未完成收尾路线需要重新上线`);
 
         // 按中文分号分割字符串
         const segments = settings.onlyRunPerfectly.split('；');
@@ -264,7 +268,13 @@ async function runGroupPurchasing(runExtra) {
         log.info("是1p，检测当前总人数");
         const totalNumber = await findTotalNumber();
         await waitForReady(totalNumber);
-        for (let i = 1; i <= totalNumber; i++) await runEndingPath(i);
+        if (skipRunning) {
+            log.info(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
+            notification.send(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
+            await sleep(10000);
+        } else {
+            for (let i = 1; i <= totalNumber; i++) await runEndingPath(i);
+        }
         let kickAttempts = 0;
         while (kickAttempts < 10) {
             kickAttempts++;
@@ -552,17 +562,11 @@ async function runGroupPurchasing(runExtra) {
             log.warn(`文件夹 ${folderPath} 下未找到任何 JSON 路线文件`);
             return;
         }
-        if (skipRunning) {
-            log.info(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
-            notification.send(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
-            await sleep(10000);
-            return;
-        }
+        runnedEnding = true;
         if (!settings.runDebug) {
             for (const { fullPath } of files) {
                 await runPath(fullPath, 1);
             }
-
             log.info(`${folderName} 的全部路线已完成`);
         } else {
             log.info("当前为调试模式，跳过执行路线");
@@ -797,7 +801,7 @@ async function autoEnter(autoEnterSettings) {
     if (new Date() - start >= timeout * 60 * 1000) {
         log.warn("超时未达到预定人数");
         notification.error(`超时未达到预定人数`);
-        if (settings.onlyRunPerfectly && enterMode != "进入他人世界") {
+        if (settings.onlyRunPerfectly) {
             skipRunning = true;
             doRunExtra = false;
         }
