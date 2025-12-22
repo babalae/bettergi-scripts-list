@@ -187,7 +187,6 @@ ActivitySwitchNotice/
   - 新增 campaignArea.js 模块，包含征讨领域相关功能
   - 新增 campaignAreaKey 配置选项，用于自定义征讨领域页面快捷键
   - 改进 增强滚动到顶部功能的稳定性
-  - 新增 toTopCount 和 scrollPageCount 配置选项，提供更多滚动控制参数
 ### 0.0.1 (2025-12-21)
   - 新增 活动期限检测与通知功能
   - 新增 OCR识别活动列表和剩余时间
