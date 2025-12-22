@@ -393,7 +393,8 @@ async function activityMain() {
                     }
                     activityMap.set(activityName, {
                         text: remainingTimeText,
-                        hours: totalHours
+                        hours: totalHours,
+                        desc: null
                     });
                     log.info(`成功记录 → {activityName} {remainingTime} 共计: {hours} 小时`, activityName, remainingTimeText, totalHours);
                     newActivityCountThisPage++;

@@ -16,7 +16,7 @@ async function sendNotice(map, title, noNotice) {
 
     let noticeText = title ? title + "\n" : "\n"
     for (const [name, info] of sortedEntries) {
-        noticeText += `> ${name} ${info.text}<还剩 ${info.hours} 小时>\n`;
+        noticeText += `> ${name} ${info.text} <还剩 ${info.hours} 小时> ${(info.desc&&info.desc!==null)?info.desc:""}\n`;
     }
     // 发送通知
     notification.send(noticeText)
