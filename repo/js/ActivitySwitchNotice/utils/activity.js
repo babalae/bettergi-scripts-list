@@ -498,7 +498,7 @@ async function activityMain() {
     Array.from(activityMap.entries())
         .filter(([name, info]) => {
             config.blackActivityNameList.forEach(keyword => {
-               return !name.includes(keyword)
+                return !name.includes(keyword)
             })
         })
         .filter(([name, info]) => info.hours <= config.notifyHoursThreshold)
@@ -506,7 +506,7 @@ async function activityMain() {
     // 7. 全部扫描完毕，统一发送通知（只发一次！）
     if (activityMapFilter.size > 0) {
         log.info(`扫描完成，共记录 {activityMap.size} 个活动，即将发送通知`, activityMapFilter.size);
-        await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示剩余 ≤ ${config.notifyHoursThreshold} 小时的活动):`);
+        await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示剩余 ≤ ${config.notifyHoursThreshold} 小时的活动)${config.blackActivityNameList.length < 0 ? "" : "|==>已开启黑名单:" + config.blackActivityNameList.join(",") + "<==|"}`);
     } else {
         log.warn("未识别到任何活动，未发送通知");
     }
