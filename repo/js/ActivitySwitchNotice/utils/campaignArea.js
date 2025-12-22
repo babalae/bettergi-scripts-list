@@ -13,6 +13,7 @@ function settingsParseStr(str, defaultValue) {
 
 const config = {
     campaignAreaKey: settingsParseStr(settings.campaignAreaKey, 'F1'),
+    campaignAreaReminderDay: settingsParseInt(settings.campaignAreaReminderDay, 0),//征讨领域提醒日
 }
 const ocrRegionConfig = {
     weeklyCount: {x: 809, y: 258, width: 277, height: 37},//征讨领域减半次数识别区域坐标和尺寸
@@ -85,7 +86,7 @@ async function campaignAreaMain() {
     // 获取当前星期信息
     let dayOfWeek = await getDayOfWeek();
     // 如果不是周日(0代表周日)，则直接返回
-    if (dayOfWeek.day != 0) {
+    if (dayOfWeek.day != config.campaignAreaReminderDay) {
         log.info(`[{dayOfWeek.dayOfWeek}]，跳过执行秘境征讨剩余次数提醒`, dayOfWeek.dayOfWeek)
         return
     }
