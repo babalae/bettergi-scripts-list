@@ -9,11 +9,13 @@
     "bgi_version": "0.55.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766150240483,
+    "last_modified_time": 1766404926144,
     "map_match_method": "",
     "map_name": "AncientSacredMountain",
-    "name": "C04-萃凝晶-远古圣山-聚火祭验所下层（6个）",
-    "tags": [],
+    "name": "C04-萃凝晶-远古圣山-聚火祭验所下层（7个）",
+    "tags": [
+      "精英怪"
+    ],
     "type": "collect",
     "version": "1.0"
   },
@@ -258,13 +260,31 @@
       "id": 27,
       "move_mode": "walk",
       "type": "path",
+      "x": -224.2793,
+      "y": -438.0989
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -225.6899,
+      "y": -443.147
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "path",
       "x": -225.6133,
       "y": -436.2944
     },
     {
       "action": "mining",
       "action_params": "",
-      "id": 28,
+      "id": 30,
       "move_mode": "walk",
       "type": "target",
       "x": -228.4258,

@@ -9,7 +9,7 @@
     "bgi_version": "0.55.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766148868021,
+    "last_modified_time": 1766405770903,
     "map_match_method": "",
     "map_name": "AncientSacredMountain",
     "name": "C02-萃凝晶-远古圣山-聚火祭验所2（7个）",
@@ -24,35 +24,35 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -251.9226,
-      "y": -288.3481
+      "x": -245.2271,
+      "y": -291.2136
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
-      "x": -286.7249,
-      "y": -272.6255
+      "x": -288.1887,
+      "y": -267.4551
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
-      "x": -319.9126,
-      "y": -273.8745
+      "x": -327.6211,
+      "y": -280.7524
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": -364.4783,
-      "y": -301.0564
+      "x": -370.3967,
+      "y": -301.8779
     },
     {
       "action": "mining",
@@ -60,44 +60,44 @@
       "id": 5,
       "move_mode": "walk",
       "type": "target",
-      "x": -374.6111,
-      "y": -297.9441
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -378.0439,
-      "y": -296.6726
+      "x": -373.4988,
+      "y": -299.0237
     },
     {
       "action": "",
       "action_params": "",
-      "id": 7,
-      "move_mode": "jump",
+      "id": 6,
+      "move_mode": "walk",
       "type": "path",
-      "x": -387.157,
-      "y": -298.3647
+      "x": -373.8069,
+      "y": -303.6624
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -376.2024,
+      "y": -298.0649
     },
     {
       "action": "",
       "action_params": "",
       "id": 8,
-      "move_mode": "run",
+      "move_mode": "jump",
       "type": "path",
-      "x": -432.6458,
-      "y": -357.6553
+      "x": -384.5796,
+      "y": -296.303
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 9,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -436.3059,
-      "y": -364.561
+      "move_mode": "run",
+      "type": "path",
+      "x": -441.4285,
+      "y": -360.9089
     },
     {
       "action": "mining",
@@ -105,53 +105,53 @@
       "id": 10,
       "move_mode": "walk",
       "type": "target",
-      "x": -437.574,
-      "y": -366.4407
+      "x": -436.9155,
+      "y": -362.5735
     },
     {
       "action": "",
       "action_params": "",
       "id": 11,
-      "move_mode": "jump",
+      "move_mode": "walk",
       "type": "path",
-      "x": -431.0037,
-      "y": -365.552
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 12,
-      "move_mode": "run",
-      "type": "path",
-      "x": -394.481,
-      "y": -349.1277
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 13,
-      "move_mode": "fly",
-      "type": "path",
-      "x": -380.8694,
-      "y": -353.7764
+      "x": -441.6567,
+      "y": -361.5786
     },
     {
       "action": "mining",
       "action_params": "",
-      "id": 14,
+      "id": 12,
       "move_mode": "walk",
       "type": "target",
-      "x": -384.9907,
-      "y": -352.105
+      "x": -438.623,
+      "y": -364.1311
     },
     {
       "action": "",
       "action_params": "",
-      "id": 15,
-      "move_mode": "run",
+      "id": 13,
+      "move_mode": "jump",
       "type": "path",
-      "x": -377.792,
-      "y": -339.6565
+      "x": -432.2761,
+      "y": -366.8713
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -396.9465,
+      "y": -352.3521
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -378.4229,
+      "y": -350.0105
     },
     {
       "action": "mining",
@@ -159,17 +159,26 @@
       "id": 16,
       "move_mode": "walk",
       "type": "target",
-      "x": -366.231,
-      "y": -343.5779
+      "x": -383.4524,
+      "y": -351.8992
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -371.3176,
+      "y": -342.2778
     },
     {
       "action": "mining",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "walk",
       "type": "target",
-      "x": -364.4258,
-      "y": -342.5093
+      "x": -366.772,
+      "y": -342.8909
     }
   ]
 }
