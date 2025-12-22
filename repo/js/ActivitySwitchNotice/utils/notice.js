@@ -14,9 +14,9 @@ async function sendNotice(map, title, noNotice) {
     const sortedEntries = Array.from(map.entries())
         .sort((a, b) => a[1].hours - b[1].hours);
 
-    let noticeText = title ? title + "\n" : "\n"
+    let noticeText = title ? title + "\n======\n" : "\n"
     for (const [name, info] of sortedEntries) {
-        noticeText += `> ${name} ${info.text} <还剩 ${info.hours} 小时> ${(info.desc&&info.desc!==null)?info.desc:""}\n`;
+        noticeText += `> ${name} ${info.text} (还剩 ${info.hours} 小时) ${info.desc}\n----\n`;
     }
     // 发送通知
     notification.send(noticeText)
@@ -35,7 +35,7 @@ async function send(noticeText, title, noNotice) {
         return  // 直接返回，不执行后续操作
     }
     // 构建通知文本，如果有标题则先添加标题
-    let text = title ? title + "\n" : "\n"
+    let text = title ? title + "\n======\n" : "\n"
     // 添加通知内容
     text += noticeText
     // 发送通知

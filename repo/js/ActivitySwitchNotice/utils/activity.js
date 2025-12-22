@@ -34,7 +34,7 @@ const DATE_ENUM = Object.freeze({
     }
 });
 const activityTermConversionMap = new Map([
-    ["砺行修远", DATE_ENUM.HOUR],
+    ["砺行修远", {dateEnum: DATE_ENUM.WEEK}],
 ]);
 const needOcrOtherMap = new Map([
     ["砺行修远", "本周进度"],
@@ -44,15 +44,9 @@ const genshinJson = {
     height: 1080,//genshin.height,
 }
 
-/**
- * 根据活动名称获取对应的日期枚举值
- * 如果活动名称存在于活动周期转换映射表中，则返回映射表中的对应值
- * 否则返回默认的小时枚举值
- * @param {string} activityName - 活动名称
- * @returns {DATE_ENUM} - 返回日期枚举值，可能是活动周期转换映射表中定义的值，或者是默认的HOUR值
- */
+
 function getDATE_ENUM(activityName) {
-    return activityTermConversionMap.has(activityName) ? activityTermConversionMap.get(activityName) : DATE_ENUM.HOUR
+    return activityTermConversionMap.has(activityName) ? activityTermConversionMap.get(activityName) : {dateEnum: DATE_ENUM.HOUR}
 }
 
 /**
@@ -444,11 +438,13 @@ async function activityMain() {
                     if (totalHours <= 24 && totalHours > 0) {
                         remainingTimeText += '<即将结束>'
                     }
-                    let desc = null
+                    let desc = ""
 
-                    switch (getDATE_ENUM(activityName)) {
+                    let dateEnum = getDATE_ENUM(activityName);
+                    log.debug(`activityName:{activityName},dateEnum：{dateenum.dateEnum}`, activityName, dateEnum.dateEnum)
+                    switch (dateEnum.dateEnum) {
                         case DATE_ENUM.WEEK:
-                            desc = "|==>" + convertHoursToWeeksDaysHours(totalHours) + "<==|";
+                            desc += "|==>" + convertHoursToWeeksDaysHours(totalHours) + "<==|";
                             break;
                         case DATE_ENUM.HOUR:
                             break;
@@ -458,7 +454,7 @@ async function activityMain() {
                     if (needOcrOtherMap.has(activityName)) {
                         let text = await OcrRemainingTime(activityName, needOcrOtherMap.get(activityName));
                         if (text) {
-                           remainingTimeText+="["+text+"]"
+                            remainingTimeText += " [" + text + "] "
                         }
                     }
                     activityMap.set(activityName, {
