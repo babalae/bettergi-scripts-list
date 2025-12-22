@@ -13,6 +13,7 @@ const config = {
     toTopCount: settingsParseInt(settings.toTopCount, 10),//滑动到顶最大尝试次数
     scrollPageCount: settingsParseInt(settings.scrollPageCount, 4),//滑动次数/页
     notifyHoursThreshold: settingsParseInt(settings.notifyHoursThreshold, 8760),//剩余时间阈值(默认 8760小时=365天)
+    blackActivityNameList: (settings.blackActivityNameList ? settings.blackActivityNameList.split('|') : []),//黑名单活动名称
 }
 const ocrRegionConfig = {
     activity: {x: 267, y: 197, width: 226, height: 616},//活动识别区域坐标和尺寸
@@ -495,6 +496,7 @@ async function activityMain() {
     }
     let activityMapFilter = new Map();
     Array.from(activityMap.entries())
+        .filter(([name, info]) => !config.blackActivityNameList.includes(name))
         .filter(([name, info]) => info.hours <= config.notifyHoursThreshold)
         .forEach(([name, info]) => activityMapFilter.set(name, info));
     // 7. 全部扫描完毕，统一发送通知（只发一次！）

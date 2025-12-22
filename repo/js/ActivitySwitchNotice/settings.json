@@ -11,6 +11,11 @@
        "label": "活动名称(使用|分割)<可不填 默认推送所有有剩余时间的活动>"
    },
    {
+       "name": "blackActivityNameList",
+       "type": "input-text",
+       "label": "黑名单活动名称(使用|分割)<可不填,默认没有不推送的活动>"
+   },
+   {
        "name": "notifyHoursThreshold",
        "type": "input-text",
        "label": "通知剩余时间阈值<单位:小时>(默认 8760小时=365天)",
