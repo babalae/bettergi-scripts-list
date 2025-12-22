@@ -496,7 +496,11 @@ async function activityMain() {
     }
     let activityMapFilter = new Map();
     Array.from(activityMap.entries())
-        .filter(([name, info]) => !config.blackActivityNameList.includes(name))
+        .filter(([name, info]) => {
+            config.blackActivityNameList.forEach(keyword => {
+               return !name.includes(keyword)
+            })
+        })
         .filter(([name, info]) => info.hours <= config.notifyHoursThreshold)
         .forEach(([name, info]) => activityMapFilter.set(name, info));
     // 7. 全部扫描完毕，统一发送通知（只发一次！）
