@@ -1,8 +1,8 @@
 // 原神每日委托自动执行脚本 - 常量定义模块
 var Constants = {
   // 版本和编译信息
-  VERSION: "0.98.10",
-  BUILD_TIME: "2025.10.20",
+  VERSION: "0.98.11",
+  BUILD_TIME: "2025.12.21",
 
   // 文件路径常量
   SUPPORT_LIST_PATH: "name.json",
