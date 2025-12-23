@@ -33,17 +33,17 @@
 
 在 `settings.json` 中可以配置以下参数：
 
-| 设置项                       | 说明                                            | 默认值        | 开放 |
-|---------------------------|-----------------------------------------------|------------|:--:|
-| `toMainUi`                | 执行前是否自动返回游戏主界面                                | true       | v  |
-| `activityNameList`        | 监控的特定活动名称（用\|分隔）                              | 空（监控所有活动）  | v  |
-| `blackActivityNameList`   | 黑名单活动名称（用\|分隔）                                 | 空（无黑名单活动）  | v  |
-| `notifyHoursThreshold`    | 通知时间阈值（小时）                                    | 8760（365天） | v  |
-| `activityKey`             | 打开活动页面的快捷键                                    | F5         | v  |
-| `toTopCount`              | 滑动到顶最大尝试次数                                    | 10         | x  |
-| `scrollPageCount`         | 滑动次数/页                                        | 4          | x  |
-| `campaignAreaKey`         | 打开征讨领域页面的快捷键                                  | F1         | v  |
-| `campaignAreaReminderDay` | 周本提醒日(0-6,0=周日,1=周一,2=周二,3=周三,4=周四,5=周五,6=周六) | 0          | v  |
+| 设置项                        | 说明                                             | 默认值         | 开放 |
+|:---------------------------|:-----------------------------------------------|:------------|:--:|
+| `toMainUi`                 | 执行前是否自动返回游戏主界面                                 | true        | v  |
+| `activityNameList`         | 监控的特定活动名称（用\|分隔）                               | 空（监控所有活动）   | v  |
+| `blackActivityNameList`    | 黑名单活动名称（用\|分隔）                                 | 空（无黑名单活动）   | v  |
+| `notifyHoursThreshold`     | 通知时间阈值（小时）                                     | 8760（365天）  | v  |
+| `activityKey`              | 打开活动页面的快捷键                                     | F5          | v  |
+| `toTopCount`               | 滑动到顶最大尝试次数                                     | 10          | x  |
+| `scrollPageCount`          | 滑动次数/页                                         | 4           | x  |
+| `campaignAreaKey`          | 打开征讨领域页面的快捷键                                   | F1          | v  |
+| `campaignAreaReminderDay`  | 周本提醒日(0-6,0=周日,1=周一,2=周二,3=周三,4=周四,5=周五,6=周六)  | 0           | v  |
 
 ### 使用流程
 
@@ -169,17 +169,17 @@ ActivitySwitchNotice/
 
 在 `settings.json` 中可配置以下参数：
 
-| 配置项                       | 类型      | 说明                                            |
-|---------------------------|---------|-----------------------------------------------|
-| `toMainUi`                | Boolean | 是否先返回主界面再执行                                   |
-| `activityNameList`        | String  | 指定活动名称（用\|分隔）                                 |
-| `blackActivityNameList`   | String  | 黑名单活动名称（用\|分隔）                                |
-| `notifyHoursThreshold`    | Number  | 通知阈值（小时）                                      |
-| `activityKey`             | String  | 打开活动页面的快捷键                                    |
-| `toTopCount`              | Number  | 滑动到顶最大尝试次数                                    | 
-| `scrollPageCount`         | Number  | 滑动次数/页                                        | 
-| `campaignAreaKey`         | String  | 打开冒险之书页面的快捷键                                  |
-| `campaignAreaReminderDay` | Number  | 周本提醒日(0-6,0=周日,1=周一,2=周二,3=周三,4=周四,5=周五,6=周六) | 
+| 配置项                        |   类型    | 说明                                             |
+|:---------------------------|:-------:|:--|
+| `toMainUi`                 | Boolean | 是否先返回主界面再执行                                    |
+| `activityNameList`         | String  | 指定活动名称（用\|分隔）                                  |
+| `blackActivityNameList`    | String  | 黑名单活动名称（用\|分隔）                                 |
+| `notifyHoursThreshold`     | Number  | 通知阈值（小时）                                       |
+| `activityKey`              | String  | 打开活动页面的快捷键                                     |
+| `toTopCount`               | Number  | 滑动到顶最大尝试次数                                     | 
+| `scrollPageCount`          | Number  | 滑动次数/页                                         | 
+| `campaignAreaKey`          | String  | 打开冒险之书页面的快捷键                                   |
+| `campaignAreaReminderDay`  | Number  | 周本提醒日(0-6,0=周日,1=周一,2=周二,3=周三,4=周四,5=周五,6=周六)  | 
 
 ## 工作原理
 
