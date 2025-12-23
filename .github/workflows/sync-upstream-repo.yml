@@ -1,0 +1,30 @@
+name: 同步上游仓库更新
+on:
+  # 每天自动检查一次（UTC 时间 0 点）
+  schedule:
+    - cron: '0 0 * * *'
+  # 也可手动触发
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出 fork 仓库
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 拉取所有历史
+
+      - name: 配置上游仓库
+        run: |
+          git remote add upstream https://github.com/babalae/bettergi-scripts-list.git
+          git fetch upstream
+
+      - name: 合并上游更新到 fork 仓库
+        run: |
+          git checkout main  # 切换到你的主分支
+          git merge upstream/main  # 合并上游主分支
+          git push origin main  # 推送到你的 fork 仓库
+        env:
+          # 使用 GitHub 提供的令牌（自动拥有 fork 仓库的推送权限）
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
