@@ -62,7 +62,7 @@ async function saveOnlyNumber(str) {
  *   - min {number}: 最小可执行体力值
  *   - remainder {number}: 当前剩余体力值
  */
-async function ocrPhysical(opToMainUi = false) {
+async function ocrPhysical(opToMainUi = false,openMap=false) {
     // 检查是否启用体力识别功能，如果未启用则直接返回默认结果
     if (!settings.isResinExhaustionMode) {
         log.info(`===未启用===`)
@@ -79,8 +79,10 @@ async function ocrPhysical(opToMainUi = false) {
     }
     //设置最小可执行体力值
     let minPhysical = MinPhysical
-    //打开地图界面
-    await keyPress('M')
+    if (openMap){
+        //打开地图界面
+        await keyPress('M')
+    }
     await sleep(ms)
     log.debug(`===[点击+]===`)
     //点击+ 按钮 x=1264,y=39,width=18,height=19
@@ -95,7 +97,7 @@ async function ocrPhysical(opToMainUi = false) {
     let templateMatchAddButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${add_objJson.path}`), add_objJson.x, add_objJson.y, add_objJson.width, add_objJson.height);
     let regionA = captureGameRegion()
     // let buttonA = captureGameRegion().find(templateMatchAddButtonRo);
-    let buttonA = region.find(templateMatchAddButtonRo);
+    let buttonA = regionA.find(templateMatchAddButtonRo);
     regionA.Dispose()
 
     await sleep(ms)
@@ -178,7 +180,7 @@ async function ocrPhysical(opToMainUi = false) {
         let execute = (remainder - minPhysical) >= 0
         log.info(`最小可执行原粹树脂:{min},原粹树脂:{key}`, minPhysical, remainder,)
 
-        await keyPress('VK_ESCAPE')
+        // await keyPress('VK_ESCAPE')
         return {
             ok: execute,
             min: minPhysical,
@@ -187,6 +189,7 @@ async function ocrPhysical(opToMainUi = false) {
     } catch (e) {
         throwError(`识别失败,err:${e.message}`)
     } finally {
+        //返回地图操作
         if (opToMainUi) {
             await toMainUi();  // 切换到主界面
         }
