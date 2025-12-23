@@ -10,9 +10,10 @@ function settingsParseInt(str, defaultValue) {
 const config = {
     activityNameList: (settings.activityNameList ? settings.activityNameList.split('|') : []),
     activityKey: (settings.activityKey ? settings.activityKey : 'F5'),
-    toTopCount: settingsParseInt(settings.toTopCount,10),//滑动到顶最大尝试次数
-    scrollPageCount: settingsParseInt(settings.scrollPageCount,4),//滑动次数/页
+    toTopCount: settingsParseInt(settings.toTopCount, 10),//滑动到顶最大尝试次数
+    scrollPageCount: settingsParseInt(settings.scrollPageCount, 4),//滑动次数/页
     notifyHoursThreshold: settingsParseInt(settings.notifyHoursThreshold, 8760),//剩余时间阈值(默认 8760小时=365天)
+    blackActivityNameList: (settings.blackActivityNameList ? settings.blackActivityNameList.split('|').filter(s => s.trim()) : []),//黑名单活动名称
 }
 const ocrRegionConfig = {
     activity: {x: 267, y: 197, width: 226, height: 616},//活动识别区域坐标和尺寸
@@ -22,10 +23,35 @@ const xyConfig = {
     top: {x: 344, y: 273},
     bottom: {x: 342, y: 791},
 }
-
+const DATE_ENUM = Object.freeze({
+    YEAR: '年',
+    MON: '月',
+    WEEK: '周',
+    DAY: '天',
+    HOUR: '小时',
+    // 添加反向映射（可选）
+    fromValue(value) {
+        return Object.keys(this).find(key => this[key] === value);
+    }
+});
+const activityTermConversionMap = new Map([
+    ["砺行修远", {dateEnum: DATE_ENUM.WEEK}],
+]);
+const needOcrOtherMap = new Map([
+    ["砺行修远", ["本周进度", "完成进度"]],
+]);
 const genshinJson = {
     width: 1920,//genshin.width,
     height: 1080,//genshin.height,
+}
+
+
+function getDATE_ENUM(activityName) {
+    for (let key of activityTermConversionMap.keys()) {
+        if (activityName.includes(key))
+            return activityTermConversionMap.get(key)
+    }
+    return {dateEnum: DATE_ENUM.HOUR}
 }
 
 /**
@@ -264,6 +290,32 @@ function formatRemainingTime(timeText) {
 }
 
 /**
+ * 将总小时数转换为周、天和小时的组合表示
+ * @param {number} totalHours - 需要转换的总小时数
+ * @returns {string} 返回格式为"X周 Y天 Z小时"的字符串
+ */
+function convertHoursToWeeksDaysHours(totalHours) {
+    // 1周 = 168小时 (7 * 24)
+    const hoursPerWeek = 168;
+    const hoursPerDay = 24;
+
+    // 计算整周数 - 使用Math.floor获取完整的周数
+    const weeks = Math.floor(totalHours / hoursPerWeek);
+
+    // 剩余小时 - 总小时数减去完整周数对应的小时数
+    let remainingHours = totalHours % hoursPerWeek;
+
+    // 从剩余小时中计算天数 - 使用Math.floor获取完整的天数
+    const days = Math.floor(remainingHours / hoursPerDay);
+
+    // 剩余的小时 - 剩余小时数减去完整天数对应的小时数
+    const hours = remainingHours % hoursPerDay;
+
+    // 返回格式化后的字符串，包含周、天和小时
+    return `${weeks}周 ${days}天 ${hours}小时`;
+}
+
+/**
  * OCR识别活动剩余时间的函数
  * @param {Object} ocrRegion - OCR识别的区域坐标和尺寸
  * @param {string} activityName - 活动名称
@@ -378,6 +430,13 @@ async function activityMain() {
                 }
             }
 
+            if (config.blackActivityNameList.length > 0) {
+                const matched = config.blackActivityNameList.some(keyword => activityName.includes(keyword));
+                if (matched) {
+                    continue;  // 不关心的活动，跳过不点击
+                }
+            }
+
             // 避免重复点击同一个活动（防止 OCR 误识别或页面抖动）
             if (activityMap.has(activityName)) {
                 log.info(`活动已记录，跳过重复点击: ${activityName}`);
@@ -391,9 +450,32 @@ async function activityMain() {
                     if (totalHours <= 24 && totalHours > 0) {
                         remainingTimeText += '<即将结束>'
                     }
+                    let desc = ""
+
+                    let dateEnum = getDATE_ENUM(activityName);
+                    log.debug(`activityName:{activityName},dateEnum：{dateenum.dateEnum}`, activityName, dateEnum.dateEnum)
+                    switch (dateEnum.dateEnum) {
+                        case DATE_ENUM.WEEK:
+                            desc += "|==>" + convertHoursToWeeksDaysHours(totalHours) + "<==|";
+                            break;
+                        case DATE_ENUM.HOUR:
+                            break;
+                        default:
+                            break;
+                    }
+                    if (needOcrOtherMap.has(activityName)) {
+                        const keys = needOcrOtherMap.get(activityName);
+                        for (const key of keys) {
+                            let text = await OcrRemainingTime(activityName, key);
+                            if (text) {
+                                remainingTimeText += " [" + text + "] "
+                            }
+                        }
+                    }
                     activityMap.set(activityName, {
                         text: remainingTimeText,
-                        hours: totalHours
+                        hours: totalHours,
+                        desc: desc
                     });
                     log.info(`成功记录 → {activityName} {remainingTime} 共计: {hours} 小时`, activityName, remainingTimeText, totalHours);
                     newActivityCountThisPage++;
@@ -427,13 +509,13 @@ async function activityMain() {
         await sleep(ms);
     }
     let activityMapFilter = new Map();
-     Array.from(activityMap.entries())
+    Array.from(activityMap.entries())
         .filter(([name, info]) => info.hours <= config.notifyHoursThreshold)
         .forEach(([name, info]) => activityMapFilter.set(name, info));
     // 7. 全部扫描完毕，统一发送通知（只发一次！）
     if (activityMapFilter.size > 0) {
         log.info(`扫描完成，共记录 {activityMap.size} 个活动，即将发送通知`, activityMapFilter.size);
-        await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示剩余 ≤ ${config.notifyHoursThreshold} 小时的活动):`);
+        await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示剩余 ≤ ${config.notifyHoursThreshold} 小时的活动)${config.blackActivityNameList.length <= 0 ? "" : "|==>已开启黑名单:" + config.blackActivityNameList.join(",") + "<==|"}`);
     } else {
         log.warn("未识别到任何活动，未发送通知");
     }

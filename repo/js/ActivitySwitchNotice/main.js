@@ -1,5 +1,6 @@
 eval(file.readTextSync(`utils/activity.js`));
 eval(file.readTextSync(`utils/notice.js`));
+eval(file.readTextSync(`utils/campaignArea.js`));
 
 // 判断是否在主界面的函数
 const isInMainUI = () => {
@@ -42,5 +43,7 @@ async function toMainUi() {
  * @returns {Promise<void>}
  */
 async function main() {
+    await campaignAreaUtil.campaignAreaMain()
+    await toMainUi()
     await activityUtil.activityMain()
 }

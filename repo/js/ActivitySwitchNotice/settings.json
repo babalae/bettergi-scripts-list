@@ -11,6 +11,11 @@
        "label": "活动名称(使用|分割)<可不填 默认推送所有有剩余时间的活动>"
    },
    {
+       "name": "blackActivityNameList",
+       "type": "input-text",
+       "label": "黑名单活动名称(使用|分割)<可不填,默认没有不推送的活动>"
+   },
+   {
        "name": "notifyHoursThreshold",
        "type": "input-text",
        "label": "通知剩余时间阈值<单位:小时>(默认 8760小时=365天)",
@@ -21,5 +26,21 @@
       "type": "input-text",
       "label": "打开活动页面按键(不填，默认：F5)",
       "default": "F5"
-   }
+   },
+   {
+      "name": "campaignAreaReminderDay",
+      "type": "select",
+      "label": "周本提醒日(0-6,0=周日,1=周一,2=周二,3=周三,4=周四,5=周五,6=周六)",
+      "options": [
+      "0","1","2","3","4","5","6"
+      ],
+      "default": "0"
+   },
+   {
+      "name": "campaignAreaKey",
+      "type": "input-text",
+      "label": "打开冒险之证按键(不填，默认：F1)",
+      "default": "F1"
+   },
+
 ]
