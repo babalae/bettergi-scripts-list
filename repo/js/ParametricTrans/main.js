@@ -1,6 +1,7 @@
 (async function () {
 
     //初始化配置======================================================================================
+    const version ="v 1.6";
     var MATERIAL = typeof settings.MATERIAL === 'string' && settings.MATERIAL.trim() !== '' ? settings.MATERIAL : "assets/bh.png";
     var ZHIBIANYI = typeof settings.ZHIBIANY === 'string' && settings.ZHIBIANYI.trim() !== '' ? settings.ZHIBIANYI : "assets/zhibian.png";
     var actiontime = settings.actiontime != undefined && ~~settings.actiontime > 0 ? ~~settings.actiontime : 50;
@@ -12,7 +13,18 @@
         settings.ITEM === "2食物" ? 2 :
         settings.ITEM === "3材料" ? 3 :
         3 ) : 3; // 如果settings.ITEM完全未定义，也赋予ITEM为3
-    
+    const toSafePoint= settings.toSafePoint ? settings.toSafePoint : false;
+    const safePointName= settings.safePointName ? settings.safePointName : "枫丹";
+    //获取安全点
+    const safePointMap=new Map([
+        ["蒙德",{x:-867,y:2281}],
+        ["璃月",{x:267,y:-665}],
+        ["稻妻",{x:-4402,y:-3052}],
+        ["须弥",{x:2787,y:-503}],
+        ["枫丹",{x:4508,y:3630}],
+        ["纳塔",{x:9060,y:-1847}],
+        ["挪德卡莱",{x:9458,y:1660}],
+    ]);
     /**
      * 文字OCR识别封装函数（测试中，未封装完成，后续会优化逻辑）
      * @param text 要识别的文字，默认为"空参数"
@@ -27,13 +39,13 @@
      */
     async function textOCR(text="空参数",timeout=10,afterBehavior=0,debugmodel=0,x=0,y=0,w=1920,h=1080) {
         const startTime = new Date();
-        var Outcheak = 0 
-        for (var ii = 0; ii < 10; ii++) 
-        {    
+        var Outcheak = 0
+        for (var ii = 0; ii < 10; ii++)
+        {
              // 获取一张截图
              var captureRegion = captureGameRegion();
-             var  res1 
-             var  res2 
+             var  res1
+             var  res2
              var  conuntcottimecot=1;
              var  conuntcottimecomp=1;
             // 对整个区域进行 OCR
@@ -41,29 +53,29 @@
             captureRegion.dispose();
             //log.info("OCR 全区域识别结果数量 {len}", resList.count);
             if (resList.count !== 0) {
-             for (let i = 0; i < resList.count; i++) 
+             for (let i = 0; i < resList.count; i++)
              { // 遍历的是 C# 的 List 对象，所以要用 count，而不是 length
                 let  res = resList[i];
-                res1=res.text  
+                res1=res.text
                 conuntcottimecomp++;
                  if (res.text.includes(text) && debugmodel !==2 ) {
                     conuntcottimecot ++;
                     log.info(`“${res1}”找到`);
                     if (debugmodel===1 & x===0 & y===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);}else{log.info("文本OCR完成'{text}'", res.text);}
-                    if (afterBehavior===1){log.info("点击模式:开");await sleep(1000);click(res.x, res.y);}else{if (debugmodel===1 & x===0 & y===0){log.info("点击模式:关")}}  
+                    if (afterBehavior===1){log.info("点击模式:开");await sleep(1000);click(res.x, res.y);}else{if (debugmodel===1 & x===0 & y===0){log.info("点击模式:关")}}
                     if (afterBehavior===2){log.info("F模式:开");await sleep(100);keyPress("F");}else{if (debugmodel===1 & x===0 & y===0){log.info("F模式:关");}}
-                    if (conuntcottimecot>=conuntcottimecomp/2){return result = { text: res.text, x: res.x, y: res.y, found: true };}else{return result = {  found: false};}  
+                    if (conuntcottimecot>=conuntcottimecomp/2){return result = { text: res.text, x: res.x, y: res.y, found: true };}else{return result = {  found: false};}
                  }
                  if (debugmodel ===2 ){
                     if (res1 === res2){conuntcottimecot ++;res2=res1;}
                     log.info("输出模式：全图代码位置：({x},{y},{h},{w},{string})", res.x-10, res.y-10, res.width+10, res.Height+10, res.text);
                     if (Outcheak===1){ if (conuntcottimecot>=conuntcottimecomp/2){return result = { text: res.text, x: res.x, y: res.y, found: true };}else{return result = {  found: false};}}
-                }}}else{ if (debugmodel===3 && (ii % 2) === 1){await keyPress("W");}}               
+                }}}else{ if (debugmodel===3 && (ii % 2) === 1){await keyPress("W");}}
             const NowTime = new Date();
             if ((NowTime - startTime)>timeout*1000){if (debugmodel===2){ if (resList.count === 0){return result = {found: false};} else{Outcheak=1;ii=2;}     } else {Outcheak=0;if (debugmodel===1 & x===0 & y===0){log.info(`${timeout}秒超时退出，"${text}"未找到`)};return result = {found: false };}}
             else{ii=2;if (debugmodel===1 & x===0 & y===0){log.info(`"${text}"识别中……`); } }
             await sleep(100);
-            }  
+            }
     }
 
     /**
@@ -82,7 +94,7 @@
     async function imageRecognition(filePath="空参数",timeout=10,afterBehavior=0,debugmodel=0,xa=0,ya=0,wa=1920,ha=1080) {
         const startTime = new Date();
         const Imagidentify = RecognitionObject.TemplateMatch(file.ReadImageMatSync(filePath));
-        for (let ii = 0; ii < 10; ii++) {    
+        for (let ii = 0; ii < 10; ii++) {
             captureRegion = captureGameRegion();  // 获取一张截图
             let dc = captureRegion.DeriveCrop(xa, ya, wa, ha);
             let res = dc.Find(Imagidentify);
@@ -98,16 +110,16 @@
         }
         const NowTime = new Date();
         if ((NowTime - startTime)>timeout*1000){if (debugmodel===1 & xa===0 & ya===0){log.info(`${timeout}秒超时退出，未找到图片`);}return result = {found: false };}else{ii=8}
-        await sleep(200); 
+        await sleep(200);
         }
-        await sleep(1200); 
+        await sleep(1200);
     }
 
 /**======================================================================================
  * 执行质变仪的部署动作，未找到质变仪时返回false结束，找到质变仪时返回true
  */
 async function deployTransformer(){
-    
+
     await sleep(500);
     await keyPress("B");
     await sleep(1000);
@@ -124,7 +136,7 @@ async function deployTransformer(){
     await sleep(500);
     await imageRecognition(ZHIBIANYI,1,1,0);//识别质变仪图片
     if (!result.found){await genshin.returnMainUi();throw new Error("'质变仪CD中'或'未找到质变仪!'");}//没找到质变仪退出流程
-    else{await sleep(1000);await click(1699,1004);await sleep(1000);await genshin.returnMainUi();return true} //点击部署操作  
+    else{await sleep(1000);await click(1699,1004);await sleep(1000);await genshin.returnMainUi();return true} //点击部署操作
 
 }
 
@@ -178,31 +190,31 @@ async function insertMaterial(){
         if (result.found) {
             await leftButtonUp();
             await sleep(500);
-            await click(result.x,result.y); 
+            await click(result.x,result.y);
             await sleep(1000);
-            await click(440,1008);  //选择最大数量 
+            await click(440,1008);  //选择最大数量
             await sleep(1000);
-            await click(1792,1019); //质变按钮 
+            await click(1792,1019); //质变按钮
             await textOCR("参量质变仪",3,0,0,828,253,265,73);if (!result.found){throw new Error("单种材料不足，退出！");}
             await sleep(1000);
             await click(1183,764); //确认 ;
             await sleep(1000);
-            await genshin.returnMainUi(); 
-            return true   
+            await genshin.returnMainUi();
+            return true
         }
         retries++; // 重试次数加1
         //滚轮操作
         YOffset += 50;
-        await sleep(500); 
+        await sleep(500);
         if (retries === maxRetries || 161+YOffset > 1080) {
             await leftButtonUp();
-            await sleep(100); 
+            await sleep(100);
             await moveMouseTo(1287,131);
-            await genshin.returnMainUi(); 
+            await genshin.returnMainUi();
             throw new Error("未找到材料（默认薄荷，自定义请看'注意使用事项.txt'）！");
         }
         await moveMouseTo(1287,161+YOffset);
-        await sleep(300);   
+        await sleep(300);
     }
 }
 
@@ -226,7 +238,7 @@ async function executeAttack(){
     //芭芭拉攻击指令，等待质变仪完成提示出现，若超时则强制结束流程。
     while ((NowTime - startTime)<actiontime*1000){
         leftButtonClick();
-        await textOCR("质变产生了以下物质",0.7,1,0,539,251,800,425);if(result.found){return true}  
+        await textOCR("质变产生了以下物质",0.7,1,0,539,251,800,425);if(result.found){return true}
         leftButtonClick();
         await textOCR("质变产生了以下物质",0.7,1,0,539,251,800,425);if(result.found){return true}
         NowTime = new Date();
@@ -238,9 +250,16 @@ async function executeAttack(){
 
 //main/======================================================================================
     await genshin.returnMainUi();
-    log.info("版本：v1.5");
+    log.info("版本：{version}",version);
+    if (toSafePoint){
+        log.info("开始移动至安全位置");
+        let safePoint = safePointMap.get(safePointName)
+        await genshin.tp(safePoint.x,safePoint.y)
+        await sleep(1000)
+    }
+
     //检查用户是否配置队伍============================================
-    if (settings.TEAMname === undefined || settings.TEAMname === "" || settings.TEAMname === null) { 
+    if (settings.TEAMname === undefined || settings.TEAMname === "" || settings.TEAMname === null) {
         throw new Error("必填！请在配置页面填写队伍名称，芭芭拉放4号位！"); // 没选就报错后停止
     }else{TEAM = settings.TEAMname}
 
@@ -252,9 +271,9 @@ async function executeAttack(){
             log.info("部署成功，准备放入材料(默认薄荷)！！");
         }
         if ((!await insertMaterial())) {//放入材料并开始质变流程
-            log.info("未找到布置的质变仪，可能已经放入材料，尝试进行攻击流程！！"); 
+            log.info("未找到布置的质变仪，可能已经放入材料，尝试进行攻击流程！！");
         }else{
-            log.info("放入材料完成，开始质变！！"); 
+            log.info("放入材料完成，开始质变！！");
         }
         if ((await executeAttack())) {//芭芭拉攻击指令流程
             log.info("质变执行完成，结束！！");
