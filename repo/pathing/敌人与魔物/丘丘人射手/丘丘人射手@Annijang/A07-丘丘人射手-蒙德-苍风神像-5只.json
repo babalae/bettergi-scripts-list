@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1765193593848,
+    "last_modified_time": 1766424207577,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A07-丘丘人射手-蒙德-苍风神像-5只",
@@ -46,8 +46,8 @@
       "y": 1724.7329
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 4,
       "move_mode": "dash",
       "type": "path",
@@ -91,8 +91,8 @@
       "y": 1697.9492
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 9,
       "move_mode": "jump",
       "type": "path",
@@ -109,8 +109,8 @@
       "y": 1644.667
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 11,
       "move_mode": "dash",
       "type": "teleport",

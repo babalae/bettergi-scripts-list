@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1765192702363,
+    "last_modified_time": 1766465500977,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B01-丘丘人射手-璃月-山脊守望-22只",
@@ -37,8 +37,8 @@
       "y": 1493.7246
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
@@ -64,10 +64,10 @@
       "y": 1509.2627
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 6,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
       "x": -179.3926,
       "y": 1524.8428
@@ -91,8 +91,8 @@
       "y": 1582.1309
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 9,
       "move_mode": "dash",
       "type": "path",
@@ -127,8 +127,8 @@
       "y": 1558.9023
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 13,
       "move_mode": "jump",
       "type": "path",
@@ -154,7 +154,7 @@
       "y": 1544.3926
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 16,
       "move_mode": "dash",
@@ -163,8 +163,8 @@
       "y": 1549.8643
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 17,
       "move_mode": "dash",
       "type": "path",
@@ -175,7 +175,6 @@
       "action": "stop_flying",
       "action_params": "500",
       "id": 18,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": -19.5215,
@@ -191,8 +190,8 @@
       "y": 1594.5244
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 20,
       "move_mode": "jump",
       "type": "path",
@@ -218,8 +217,8 @@
       "y": 1585.0947
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 23,
       "move_mode": "walk",
       "type": "path",
@@ -254,8 +253,8 @@
       "y": 1514.2393
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 27,
       "move_mode": "dash",
       "type": "path",
@@ -290,8 +289,8 @@
       "y": 1412.4814
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 31,
       "move_mode": "dash",
       "type": "path",
@@ -326,8 +325,8 @@
       "y": 1573.3076
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 35,
       "move_mode": "dash",
       "type": "path",
@@ -380,8 +379,8 @@
       "y": 1740.4536
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 41,
       "move_mode": "dash",
       "type": "path",
@@ -398,8 +397,8 @@
       "y": 1770.1748
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 43,
       "move_mode": "walk",
       "type": "path",

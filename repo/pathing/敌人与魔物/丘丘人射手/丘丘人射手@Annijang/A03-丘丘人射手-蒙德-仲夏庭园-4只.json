@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1765193422622,
+    "last_modified_time": 1766423789834,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A03-丘丘人射手-蒙德-仲夏庭园-4只",
@@ -28,10 +28,10 @@
       "y": 2496.8022
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
       "x": -1536.5254,
       "y": 2501.3389
@@ -55,10 +55,10 @@
       "y": 2471.252
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 5,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -1445.7285,
       "y": 2459.2598

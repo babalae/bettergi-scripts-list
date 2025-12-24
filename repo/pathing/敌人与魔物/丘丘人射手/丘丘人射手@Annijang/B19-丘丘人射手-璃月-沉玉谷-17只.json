@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1765986813749,
+    "last_modified_time": 1766467360732,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B19-丘丘人射手-璃月-沉玉谷-17只",
@@ -37,8 +37,8 @@
       "y": 1398.5308
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 3,
       "move_mode": "jump",
       "type": "path",
@@ -82,8 +82,8 @@
       "y": 1591.2295
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 8,
       "move_mode": "fly",
       "type": "path",
@@ -100,8 +100,8 @@
       "y": 1640.7354
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 10,
       "move_mode": "dash",
       "type": "path",
@@ -112,7 +112,6 @@
       "action": "fight",
       "action_params": "",
       "id": 11,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 1912.9287,
@@ -140,7 +139,17 @@
       "action": "stop_flying",
       "action_params": "200",
       "id": 14,
+      "locked": false,
       "move_mode": "fly",
+      "type": "path",
+      "x": 1819.2607,
+      "y": 1933.3623
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 15,
+      "move_mode": "walk",
       "type": "path",
       "x": 1819.2607,
       "y": 1933.3623
@@ -148,7 +157,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 15,
+      "id": 16,
       "move_mode": "dash",
       "type": "path",
       "x": 1837.9854,
@@ -157,7 +166,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 16,
+      "id": 17,
       "move_mode": "dash",
       "type": "path",
       "x": 1855.4551,
@@ -166,16 +175,26 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 18,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 1977.6133,
       "y": 2341.3325
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1977.6133,
+      "y": 2341.3325
+    },
+    {
       "action": "fight",
       "action_params": "",
-      "id": 18,
+      "id": 20,
       "move_mode": "dash",
       "type": "path",
       "x": 1907.8691,
@@ -184,16 +203,16 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 19,
+      "id": 21,
       "move_mode": "dash",
       "type": "path",
       "x": 1896.8828,
       "y": 2318.7505
     },
     {
-      "action": "",
-      "action_params": "",
-      "id": 20,
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 22,
       "move_mode": "dash",
       "type": "path",
       "x": 1894.4033,
@@ -202,7 +221,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 21,
+      "id": 23,
       "move_mode": "dash",
       "type": "path",
       "x": 1852.9893,
@@ -211,7 +230,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 22,
+      "id": 24,
       "move_mode": "dash",
       "type": "path",
       "x": 1847.9453,
@@ -220,16 +239,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 23,
+      "id": 25,
       "move_mode": "walk",
       "type": "teleport",
       "x": 2207.3574,
       "y": 1253.4697
     },
     {
-      "action": "",
-      "action_params": "",
-      "id": 24,
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 26,
       "move_mode": "dash",
       "type": "path",
       "x": 2220.8516,
@@ -238,8 +257,7 @@
     {
       "action": "stop_flying",
       "action_params": "200",
-      "id": 25,
-      "locked": false,
+      "id": 27,
       "move_mode": "fly",
       "type": "path",
       "x": 2221.668,
@@ -248,7 +266,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 26,
+      "id": 28,
       "move_mode": "walk",
       "type": "path",
       "x": 2221.668,
@@ -257,7 +275,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 27,
+      "id": 29,
       "move_mode": "walk",
       "type": "teleport",
       "x": 2207.3574,
@@ -266,7 +284,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 28,
+      "id": 30,
       "move_mode": "dash",
       "type": "path",
       "x": 2202.3008,
@@ -275,7 +293,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 29,
+      "id": 31,
       "move_mode": "dash",
       "type": "path",
       "x": 2228.9453,
@@ -284,7 +302,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 30,
+      "id": 32,
       "move_mode": "dash",
       "type": "path",
       "x": 2263.2422,
@@ -293,7 +311,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(2)",
-      "id": 31,
+      "id": 33,
       "move_mode": "dash",
       "type": "path",
       "x": 2272.8008,
@@ -302,16 +320,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 32,
+      "id": 34,
       "move_mode": "jump",
       "type": "path",
       "x": 2276.2988,
       "y": 1181.7305
     },
     {
-      "action": "",
-      "action_params": "",
-      "id": 33,
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 35,
       "move_mode": "jump",
       "type": "path",
       "x": 2292.9141,
@@ -320,8 +338,7 @@
     {
       "action": "stop_flying",
       "action_params": "200",
-      "id": 34,
-      "locked": false,
+      "id": 36,
       "move_mode": "fly",
       "type": "path",
       "x": 2320.748,
@@ -330,7 +347,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 35,
+      "id": 37,
       "move_mode": "walk",
       "type": "path",
       "x": 2320.748,
@@ -339,17 +356,26 @@
     {
       "action": "",
       "action_params": "",
-      "id": 36,
+      "id": 38,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 2462.9814,
       "y": 1801.9194
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 39,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2462.9814,
+      "y": 1801.9194
+    },
+    {
       "action": "stop_flying",
       "action_params": "200",
-      "id": 37,
-      "locked": false,
+      "id": 40,
       "move_mode": "fly",
       "type": "path",
       "x": 2505.0996,
@@ -358,8 +384,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 38,
-      "locked": false,
+      "id": 41,
       "move_mode": "walk",
       "type": "path",
       "x": 2505.0996,
@@ -368,7 +393,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 39,
+      "id": 42,
       "move_mode": "walk",
       "type": "path",
       "x": 2505.0996,

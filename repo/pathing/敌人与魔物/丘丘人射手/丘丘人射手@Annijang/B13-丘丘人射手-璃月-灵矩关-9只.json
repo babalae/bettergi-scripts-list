@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1765279432353,
+    "last_modified_time": 1766466629707,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B13-丘丘人射手-璃月-灵矩关-9只",
@@ -37,8 +37,8 @@
       "y": -509.4263
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
@@ -49,7 +49,6 @@
       "action": "stop_flying",
       "action_params": "200",
       "id": 4,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 1069.5361,
@@ -74,8 +73,8 @@
       "y": -557.7266
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 7,
       "move_mode": "dash",
       "type": "path",
@@ -86,7 +85,6 @@
       "action": "stop_flying",
       "action_params": "200",
       "id": 8,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 968.9199,
@@ -102,8 +100,8 @@
       "y": -522.0127
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 10,
       "move_mode": "dash",
       "type": "path",
@@ -138,10 +136,9 @@
       "y": -509.562
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 14,
-      "locked": false,
       "move_mode": "jump",
       "type": "path",
       "x": 869.4912,
@@ -202,8 +199,8 @@
       "y": -307.9321
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 21,
       "move_mode": "dash",
       "type": "path",
