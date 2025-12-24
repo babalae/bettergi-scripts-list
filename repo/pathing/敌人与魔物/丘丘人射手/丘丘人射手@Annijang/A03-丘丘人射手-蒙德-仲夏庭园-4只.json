@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -6,10 +6,10 @@
         "name": "Annijang"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1765193422622,
+    "last_modified_time": 1766423789834,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A03-丘丘人射手-蒙德-仲夏庭园-4只",
@@ -24,17 +24,17 @@
       "id": 1,
       "move_mode": "run",
       "type": "teleport",
-      "x": -1558.4648,
-      "y": 2496.8022
+      "x": -1558.46484375,
+      "y": 2496.80224609375
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": -1536.5254,
-      "y": 2501.3389
+      "x": -1536.525390625,
+      "y": 2501.3388671875
     },
     {
       "action": "fight",
@@ -42,8 +42,8 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": -1513.6836,
-      "y": 2466.9683
+      "x": -1513.68359375,
+      "y": 2466.96826171875
     },
     {
       "action": "",
@@ -51,17 +51,17 @@
       "id": 4,
       "move_mode": "run",
       "type": "path",
-      "x": -1476.5801,
-      "y": 2471.252
+      "x": -1476.580078125,
+      "y": 2471.251953125
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 5,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": -1445.7285,
-      "y": 2459.2598
+      "x": -1445.728515625,
+      "y": 2459.259765625
     },
     {
       "action": "stop_flying",
@@ -69,8 +69,8 @@
       "id": 6,
       "move_mode": "fly",
       "type": "path",
-      "x": -1438.4297,
-      "y": 2459.2451
+      "x": -1438.4296875,
+      "y": 2459.2451171875
     },
     {
       "action": "fight",
@@ -78,8 +78,8 @@
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": -1419.6895,
-      "y": 2463.8574
+      "x": -1419.689453125,
+      "y": 2463.857421875
     }
   ]
 }
