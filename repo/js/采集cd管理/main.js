@@ -919,7 +919,7 @@ let checkInterval = +settings.checkInterval || 50;
         let loopattempts = 0;
         // ==================== 路径组循环 ====================
         while (loopattempts < 2) {
-            loopattempt++;
+            loopattempts++;
             if (await isTimeRestricted(settings.timeRule, 10)) break;
             for (let i = 1; i <= groupCount; i++) {
                 if (await isTimeRestricted(settings.timeRule, 10)) break;
