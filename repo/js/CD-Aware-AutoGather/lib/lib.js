@@ -396,16 +396,18 @@ async function updateTaskRunTime(taskName = null, accountName = null) {
 /**
  * 尝试切换队伍，如果失败则传送到七天神像后重试。
  * @param {string} partyName - 要切换的队伍名
- * @returns {Promise<void>}
+ * @returns {boolean} 切换过程触使用了强制传送到神像
  */
 async function switchPartySafely(partyName) {
-    if (!partyName) return;
+    let teleported = false;
+    if (!partyName) return teleported;
 
     try {
         if (!(await genshin.switchParty(partyName))) {
             log.info("切换队伍失败，前往七天神像重试");
             await genshin.tpToStatueOfTheSeven();
             await genshin.returnMainUi(); // 确保传送完成
+            teleported = true;
             await genshin.switchParty(partyName);
             await genshin.returnMainUi();
         }
@@ -413,6 +415,7 @@ async function switchPartySafely(partyName) {
         log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
         await genshin.returnMainUi();
     }
+    return teleported;
 }
 
 /**
@@ -612,7 +615,7 @@ function _fakeLogCore(name, isJs = true, dateIn = null) {
     if (isJs && isStart) {
         // 传入开始时间是为了在跟踪路径耗时的同时仍然保留对脚本运行时间的统计
         // 但是如果脚本开始时间和结束时间跨天，就不能使用传入时间，否则会影响日志分析(Seconds cannot be negative)
-        if (logTime.getDay() === dateIn.getDay()) {
+        if (logTime.getDate() === dateIn.getDate()) {
             logTime = dateIn;
         }
     }

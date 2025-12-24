@@ -11,6 +11,7 @@ const defaultReplacementMap = {
  * @throws {TypeError} 当 ocrRegion 既不是数组也不是对象时抛出。
  */
 function drawOcrRegion(ocrRegion, captureRegion = null) {
+    let x, y, width, height;
     if (Array.isArray(ocrRegion)) {
         [x, y, width, height] = ocrRegion;
     } else if (typeof ocrRegion === "object" && ocrRegion !== null) {
@@ -27,6 +28,7 @@ function drawOcrRegion(ocrRegion, captureRegion = null) {
     let region = captureRegion.DeriveCrop(x, y, width, height);
     let name = [x, y, width, height].toString();
     region.DrawSelf(name);
+    region.dispose();
     if (auto_created) {
         captureRegion.dispose();
     }
@@ -34,7 +36,6 @@ function drawOcrRegion(ocrRegion, captureRegion = null) {
 
 async function getTextInRegion(ocrRegion, timeout = 5000, retryInterval = 50, replacementMap = defaultReplacementMap) {
     let x, y, width, height;
-
     if (Array.isArray(ocrRegion)) {
         [x, y, width, height] = ocrRegion;
     } else if (typeof ocrRegion === "object" && ocrRegion !== null) {
@@ -69,6 +70,7 @@ async function getTextInRegion(ocrRegion, timeout = 5000, retryInterval = 50, re
         if (retryCount > debugThreshold) {
             let region = captureRegion.DeriveCrop(x, y, width, height);
             region.DrawSelf("debug");
+            region.dispose();
         }
         captureRegion.dispose();
         await sleep(retryInterval);
@@ -115,6 +117,7 @@ async function waitForTextAppear(targetText, ocrRegion, timeout = 5000, retryInt
         if (retryCount > debugThreshold) {
             let region = captureRegion.DeriveCrop(x, y, width, height);
             region.DrawSelf("debug");
+            region.dispose();
         }
         captureRegion.dispose();
         await sleep(retryInterval);
@@ -162,12 +165,13 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 5000, retr
         } catch (error) {
             log.warn(`页面标志识别失败，正在进行第 ${retryCount} 次重试...`);
         }
-        captureRegion.dispose();
         retryCount++; // 增加重试计数
         if (retryCount > debugThreshold) {
             let region = captureRegion.DeriveCrop(x, y, width, height);
             region.DrawSelf("debug");
+            region.dispose();
         }
+        captureRegion.dispose();
         await sleep(retryInterval);
     }
     return { success: false };

@@ -7,7 +7,6 @@
  */
 
 let scriptContext = {
-    scriptStartTime: new Date(),
     version: "1.0",
 };
 
@@ -226,15 +225,15 @@ async function getItemCount(itemList=null, retry=true) {
         moveMouseBy(0, 9280);
         await sleep(300);
         const retryResults = await getItemCount(itemList, false);
-        keyDown("MBUTTON");
         await genshin.returnMainUi();
+        keyPress("MBUTTON");
         return retryResults;
     }
     const finalResults = {};
     for (const itemName of itemList) {
         const normalizedName = renameMap[itemName] || itemName;
         // 如果某个元素没有找到，则不会存在对应的键值，赋值为-1以保持与单个物品查找时一致的行为
-        finalResults[itemName] = results[normalizedName] || -1;
+        finalResults[itemName] = results[normalizedName] ?? -1;
     }
     return finalResults;
 }

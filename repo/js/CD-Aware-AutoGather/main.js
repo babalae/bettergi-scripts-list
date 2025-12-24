@@ -224,7 +224,7 @@ async function runGatherMode() {
     }
 
     // 按物品数量计算实际待执行的任务，并按照数量差额从大到小的顺序排序
-    updateTargetCountOfTasks(groupedTasks, account, settings.targetCountOfSelected);
+    updateTargetCountOfTasks(groupedTasks, configMap, account, settings.targetCountOfSelected);
     const groupedTasksToRun = await calculateTodoTasksByCount(groupedTasks);
     const sortedTasksToRun = sortTasksByGap(groupedTasksToRun);
     // file.writeTextSync("sortedTasksToRun.json", JSON.stringify(sortedTasksToRun, null, 2));
@@ -379,7 +379,7 @@ function groupTasksByMaterialsName(selectedMaterials, account) {
             if (!tasksMap[dirSlug].jsonFiles.includes(jsonPath)) {
                 tasksMap[dirSlug].jsonFiles.push(jsonPath);
             }
-            const nextRefreshTime = tasksMap[dirSlug][fileName] || defaultTime;
+            const nextRefreshTime = tasksMap[dirSlug]['refreshTime'][fileName] || defaultTime;
             if (Date.now() > nextRefreshTime) {
                 materialRefreshStatus[name] = true;
             }
@@ -393,8 +393,8 @@ function groupTasksByMaterialsName(selectedMaterials, account) {
     return groupedTasks;
 }
 
-function updateTargetCountOfTasks(groupedTasks, account, targetCount) {
-    csvFile = `record/${account}/采集目标.csv`;
+function updateTargetCountOfTasks(groupedTasks, configMap, account, targetCount) {
+    const csvFile = `record/${account}/采集目标.csv`;
     if (targetCount) {
         const targetCountText = targetCount.trim().toLowerCase();
         if (targetCountText === "csv") {
@@ -414,7 +414,7 @@ function updateTargetCountOfTasks(groupedTasks, account, targetCount) {
             const fixedCount = parseInt(targetCountText, 10);
             if (isNaN(fixedCount)) {
                 log.error("采集目标数量设置无效{0}，终止运行", targetCount);
-                return;
+                throw new Error("Invalid target count");
             }
             for (const info of Object.values(groupedTasks)) {
                 info.target = fixedCount;
@@ -437,9 +437,8 @@ async function calculateTodoTasksByCount(groupedTasks) {
         Object.entries(currentCounts).forEach(([key, value]) => {
             if (value < 0) {
                 unknownCountMaterials.push(key);
-                value = 0;
             }
-            groupedTasks[key].current = value;
+            groupedTasks[key].current = value < 0 ? 0 : value;
         });
         if (unknownCountMaterials.length > 0) {
             log.warn("获取以下材料的数量失败，默认视为0: {0}", unknownCountMaterials.join(", "));
@@ -605,10 +604,35 @@ function syncWithCsv(filePath, configHierarchy) {
     if (fileExists(filePath)) {
         try {
             const content = readTextSync(filePath).replace(/^\ufeff/, "");
-            const lines = content.split("\n").slice(1); // 跳过标题行
+            // 使用正则切分行，同时兼容 Windows (\r\n) 和 Linux (\n) 换行符
+            const lines = content.split(/\r?\n/).slice(1); // 跳过标题行
+
+            // 匹配 CSV 字段的正则表达式：
+            // 1. (?:^|,)  -> 匹配行首或逗号
+            // 2. "(?:[^"]|"")*" -> 匹配双引号括起来的内容（允许其中包含连续两个双引号 ""）
+            // 3. [^,]* -> 或者匹配不含逗号的普通文本
+            const csvRegex = /"(?:[^"]|"")*"|[^,]+/g;
+
             lines.forEach((line) => {
-                const parts = line.trim().split(",");
-                if (parts.length >= 1) {
+                const trimmedLine = line.trim();
+                if (!trimmedLine) return; // 跳过空行
+
+                const parts = [];
+                let match;
+
+                // 使用 exec 循环获取所有匹配的字段
+                while ((match = csvRegex.exec(trimmedLine)) !== null) {
+                    let field = match[0];
+
+                    // 如果字段被双引号包裹，进行还原处理
+                    if (field.startsWith('"') && field.endsWith('"')) {
+                        // 去掉首尾引号，并将内部的 "" 还原为 "
+                        field = field.slice(1, -1).replace(/""/g, '"');
+                    }
+                    parts.push(field);
+                }
+
+                if (parts.length >= 2) {
                     const path = parts[0];
                     const rawVal = parts[1];
 
@@ -657,9 +681,9 @@ function syncWithCsv(filePath, configHierarchy) {
 
     try {
         file.writeTextSync(filePath, csvContent);
-        log.info("配置同步成功: {0}", "", filePath);
+        log.info("CSV配置同步成功: {0}", filePath);
     } catch (e) {
-        log.info("CSV写入失败: {0} ({1})", "", filePath, e.toString());
+        log.info("CSV写入失败: {0} ({1})",filePath, e.toString());
     }
 
     return updatedDict;
@@ -901,7 +925,7 @@ async function runPathTaskIfCooldownExpired(material, taskInfo) {
                             return !avatarAbilities.includes(element);
                         });
                         if (missingAbilitiesNew.length > 0) {
-                            log.warn("另一队伍{0}也缺少该路线所需角色{1}，跳过路线", newParty, missingAbilities.join(", "));
+                            log.warn("另一队伍{0}也缺少该路线所需角色{1}，跳过路线", newParty, missingAbilitiesNew.join(", "));
                             continue;
                         }
                     } else {
@@ -1086,7 +1110,7 @@ async function getCoOpModeAndHostUid() {
     await genshin.returnMainUi();
     keyPress("F2");
     await waitForTextAppear("多人游戏", [130, 20, 129, 57]);
-    let uid = await getGameAccount((multiAccount = true), (mask = false));
+    let uid = await getGameAccount(true, false);
     const coOpMode = !(await isTextExistedInRegion("搜索", [1638, 90, 87, 63]));
     if (coOpMode) {
         const btnText = await getTextInRegion([1560, 992, 191, 55]);
