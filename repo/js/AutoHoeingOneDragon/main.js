@@ -192,7 +192,7 @@ let runningFailCount = 0;
                 await sleep(5000);
                 break;
 
-            case width !== 1920 || height !== 1080:
+            case genshin.width !== 1920 || genshin.height !== 1080:
                 log.warn("游戏窗口非 1920×1080，可能导致图像识别失败，如果执意使用可能造成拾取等行为异常，后果自负");
                 await sleep(5000);
                 log.warn("游戏窗口非 1920×1080，可能导致图像识别失败，如果执意使用可能造成拾取等行为异常，后果自负");
