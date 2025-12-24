@@ -205,16 +205,18 @@ async function recognizeNumberByOCR(ocrRegion, pattern) {
  * 统计原粹树脂数量
  * @returns {number} 原粹树脂数量
  */
-async function countOriginalResin(tryOriginalMode,opToMainUi) {
+async function countOriginalResin(tryOriginalMode,opToMainUi,openMap) {
     if (tryOriginalMode) {
         log.info("尝试使用原始模式");
         return await countOriginalResinBackup()
     } else {
-        let ocrPhysical = await physical.ocrPhysical(opToMainUi);
+        log.info('尝试使用优化模式');
+        let ocrPhysical = await physical.ocrPhysical(opToMainUi,openMap);
         await sleep(600)
         if (ocrPhysical && ocrPhysical.ok) {
             return ocrPhysical.remainder;
         } else {
+            log.error(`ocrPhysical error`);
             throw new Error("ocrPhysical error");
         }
     }
@@ -457,43 +459,47 @@ this.countAllResin = async function () {
         setGameMetrics(1920, 1080, 1);
         log.info("开始统计树脂数量");
 
-        // 返回主界面
-        let toMainUi=true
-        // await genshin.returnMainUi();
-        // await sleep(CONFIG.UI_DELAY);
-
-        let tryPass = true;
-        try {
-            resinCounts.original = await countOriginalResin(false,toMainUi);
-        } catch (e) {
-            tryPass = false
-        }
+        await genshin.returnMainUi();
         await sleep(CONFIG.UI_DELAY);
 
         // 打开地图界面统计原粹/浓缩树脂
         await openMap();
         await sleep(CONFIG.UI_DELAY);
+        let tryPass = true;
+        try {
+            log.info("[开始]统计补充树脂界面中的树脂");
+            resinCounts.original = await countOriginalResin(false,false);
+            moveMouseTo(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y)
+            await sleep(500);
+            resinCounts.transient = await countTransientResin();
+            resinCounts.fragile = await countFragileResin();
+            log.info("[完成]统计补充树脂界面中的树脂");
+            // 点击避免选中效果影响统计
+            click(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y);
+        } catch (e) {
+            tryPass = false
+        }
+        await sleep(CONFIG.UI_DELAY);
         log.info("开始统计地图界面中的树脂");
-
         if (!tryPass){
             // 如果第一次尝试失败，则切换到蒙德
             await switchtoCountrySelection(CONFIG.COORDINATES.MONDSTADT.x, CONFIG.COORDINATES.MONDSTADT.y)
             resinCounts.original = await countOriginalResin(!tryPass);
         }
         resinCounts.condensed = await countCondensedResin();
+        if (!tryPass) {
+            // 打开补充树脂界面统计须臾/脆弱树脂
+            await openReplenishResinUi();
+            await sleep(CONFIG.UI_DELAY);
 
-        // 打开补充树脂界面统计须臾/脆弱树脂
-        await openReplenishResinUi();
-        await sleep(CONFIG.UI_DELAY);
+            // 点击避免选中效果影响统计
+            click(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y);
+            await sleep(500);
 
-        // 点击避免选中效果影响统计
-        click(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y);
-        await sleep(500);
-
-        log.info("开始统计补充树脂界面中的树脂");
-        resinCounts.transient = await countTransientResin();
-        resinCounts.fragile = await countFragileResin();
-
+            log.info("开始统计补充树脂界面中的树脂");
+            resinCounts.transient = await countTransientResin();
+            resinCounts.fragile = await countFragileResin();
+        }
         // 显示结果
         displayResults(resinCounts);
 
