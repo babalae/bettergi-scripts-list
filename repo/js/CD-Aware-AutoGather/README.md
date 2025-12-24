@@ -165,7 +165,9 @@
 
 - 得益于[FishmanTheMurloc](https://github.com/FishmanTheMurloc)的鼎力相助，脚本才能实现无图的批量材料扫描
 
-- 感谢[JamisHoo](https://github.com/JamisHoo)的配置界面优化，使得更便捷的材料选择成为可能
+- 受惠于[JamisHoo](https://github.com/JamisHoo)的配置界面优化，使得更便捷的材料选择成为可能
+
+- 感谢[this-Fish](https://github.com/this-Fish)的改进，基于坐标判断是否更新记录、将材料是否刷新的检查提前都是沿袭的TA的思路
 
 最后，要特别感谢绫华，是她陪伴了我的提瓦特之旅。在弃坑之后，唯有这份牵挂，支撑着我重新回到这里。
 
