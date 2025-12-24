@@ -99,6 +99,8 @@ const mainUiRo = RecognitionObject.TemplateMatch(mainUITemplate, 0, 0, 150, 150)
 
 let underWater = false;
 
+let checkInterval = +settings.checkInterval || 50;
+
 (async function () {
     /* ===== 零基构建 settings.json（BEGIN） ===== */
     const SETTINGS_FILE = `settings.json`;
@@ -193,6 +195,12 @@ let underWater = false;
             "name": "foodCount",
             "type": "input-text",
             "label": "食材数量\n数量对应上方的食材\n用中文逗号，分隔"
+        },
+        {
+            "name": "checkInterval",
+            "type": "input-text",
+            "label": "食材加工中的识别间隔(毫秒)，设备反应较慢出现识别错误时适当调大",
+            "default": "50"
         },
         {
             "name": "setTimeMode",
@@ -832,7 +840,7 @@ let underWater = false;
 
                 /* 4-4 计算CD（掉落材料决定）*/
                 const timeDiff = new Date() - startTime;
-                let pathRes = isArrivedAtEndPoint(fullPath);
+                let pathRes = isArrivedAtEndPoint(filePath);
 
                 // >>> 仅当 >3s 才更新 CD 并立即写回整条记录（含 history） <<<
                 if (timeDiff > 3000 && pathRes) {
@@ -904,7 +912,6 @@ let underWater = false;
 
                     await appendDailyPickup(state.runPickupLog);
                     state.runPickupLog = [];
-
                 }
 
             }
@@ -1812,12 +1819,12 @@ async function ingredientProcessing() {
             "奶酪", "培根", "香肠"
         ]);
         if (targetFoods.has(Foods[i])) {
-            if (await clickPNG("全部领取", 10)) {
+            if (await clickPNG("全部领取", 3)) {
                 await clickPNG("点击空白区域继续");
                 await findPNG("食材加工2");
                 await sleep(100);
             }
-            let res1 = await clickPNG(Foods[i] + "1", 10);
+            let res1 = await clickPNG(Foods[i] + "1", 5);
 
             if (res1) {
                 log.info(`${Foods[i]}已找到`);
@@ -1842,7 +1849,7 @@ async function ingredientProcessing() {
                         click(item.x, item.y);
                         await sleep(200);
                         click(item.x, item.y);
-                        if (await findPNG(Foods[i] + "2", 15)) {
+                        if (await findPNG(Foods[i] + "2", 5)) {
                             log.info(`${Foods[i]}已找到`);
                             res1 = true;
                             break;
@@ -1947,7 +1954,7 @@ async function appendDailyPickup(pickupLog) {
     }
 }
 
-async function clickPNG(png, maxAttempts = 60) {
+async function clickPNG(png, maxAttempts = 20) {
     //log.info(`调试-点击目标${png},重试次数${maxAttempts}`);
     const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
     pngRo.Threshold = 0.95;
@@ -1955,7 +1962,7 @@ async function clickPNG(png, maxAttempts = 60) {
     return await findAndClick(pngRo, true, maxAttempts);
 }
 
-async function findPNG(png, maxAttempts = 60) {
+async function findPNG(png, maxAttempts = 20) {
     //log.info(`调试-识别目标${png},重试次数${maxAttempts}`);
     const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
     pngRo.Threshold = 0.95;
@@ -1968,9 +1975,9 @@ async function findAndClick(target, doClick = true, maxAttempts = 60) {
         const rg = captureGameRegion();
         try {
             const res = rg.find(target);
-            if (res.isExist()) { await sleep(200); if (doClick) { res.click(); } return true; }
+            if (res.isExist()) { await sleep(checkInterval * 2 + 50); if (doClick) { res.click(); } return true; }
         } finally { rg.dispose(); }
-        if (i < maxAttempts - 1) await sleep(50);
+        if (i < maxAttempts - 1) await sleep(checkInterval);
     }
     return false;
 }
