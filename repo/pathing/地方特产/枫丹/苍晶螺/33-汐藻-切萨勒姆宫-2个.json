@@ -1,0 +1,58 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766546719679,
+    "map_match_method": "",
+    "map_name": "SeaOfBygoneEras",
+    "name": "33-汐藻-切萨勒姆宫-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4858.17431640625,
+      "y": 1412.0960693359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(6),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4863.0009765625,
+      "y": 1407.6435546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(5),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4868.35595703125,
+      "y": 1402.0390625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(1),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4883.0546875,
+      "y": 1385.3255615234375
+    }
+  ]
+}
