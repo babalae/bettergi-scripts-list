@@ -86,12 +86,12 @@ async function campaignAreaMain() {
     // 获取当前星期信息
     let dayOfWeek = await getDayOfWeek();
     // 如果不是周日(0代表周日)，则直接返回
-    if (dayOfWeek.day != config.campaignAreaReminderDay) {
-        log.info(`[{dayOfWeek.dayOfWeek}]，跳过执行秘境征讨剩余次数提醒`, dayOfWeek.dayOfWeek)
+    const bool = dayOfWeek.day != config.campaignAreaReminderDay;
+    // 记录开始执行秘境征讨提醒的日志
+    log.info(`[{dayOfWeek.dayOfWeek}]，${bool?"跳过":"开始"}执行秘境征讨剩余次数提醒`, dayOfWeek.dayOfWeek)
+    if (bool) {
         return
     }
-    // 记录开始执行秘境征讨提醒的日志
-    log.info(`[{dayOfWeek.dayOfWeek}]，开始执行秘境征讨剩余次数提醒`, dayOfWeek.dayOfWeek)
     // 设置操作间隔时间(毫秒)
     let ms = 600
     // 等待一段时间
