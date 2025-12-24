@@ -546,7 +546,7 @@ async function activityMain() {
         titleKey += `] `;
         await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示 ${titleKey} 的活动)${config.blackActivityNameList.length <= 0 ? "" : "|==>已开启黑名单:" + config.blackActivityNameList.join(",") + "<==|"}`);
     } else {
-        log.warn("未识别到任何活动，未发送通知");
+        log.warn("不存在符合条件的活动，未发送通知");
     }
 }
 
