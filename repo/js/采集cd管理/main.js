@@ -832,7 +832,10 @@ let underWater = false;
 
                 /* 4-4 计算CD（掉落材料决定）*/
                 const timeDiff = new Date() - startTime;
-                if (timeDiff > 3000) {
+                let pathRes = isArrivedAtEndPoint(fullPath);
+
+                // >>> 仅当 >3s 才更新 CD 并立即写回整条记录（含 history） <<<
+                if (timeDiff > 3000 && pathRes) {
                     /* 1) 如果runPickupLog中不含优先材料，则按其他材料查找，使用最晚刷新时间 */
                     let hasPriority = state.runPickupLog.some(name => priorityItemSet.has(name));
                     let hitMaterials;
@@ -906,10 +909,10 @@ let underWater = false;
 
             }
         }
-        let runnedAnyPath = true;
+        let loopattempts = 0;
         // ==================== 路径组循环 ====================
-        while (runnedAnyPath) {
-            runnedAnyPath = false;
+        while (loopattempts < 2) {
+            loopattempt++;
             if (await isTimeRestricted(settings.timeRule, 10)) break;
             for (let i = 1; i <= groupCount; i++) {
                 if (await isTimeRestricted(settings.timeRule, 10)) break;
@@ -1117,7 +1120,6 @@ let underWater = false;
 
                             state.running = true;
                             const pickupTask = recognizeAndInteract();
-                            runnedAnyPath = true;
 
                             log.info(`当前进度：路径组${i} ${folder} ${fileName} 为第 ${groupFiles.indexOf(filePath) + 1}/${groupFiles.length} 个`);
                             log.info(`当前路线分均效率为 ${(filePath._efficiency ?? 0).toFixed(2)}`);
@@ -1146,8 +1148,10 @@ let underWater = false;
                             state.running = false;
                             await pickupTask;
 
+                            let pathRes = isArrivedAtEndPoint(filePath.fullPath);
+
                             // >>> 仅当 >3s 才更新 CD 并立即写回整条记录（含 history） <<<
-                            if (timeDiff > 3000) {
+                            if (timeDiff > 3000 && pathRes) {
                                 let newTimestamp = new Date(startTime);
 
                                 switch (currentCdType) {
@@ -1199,7 +1203,7 @@ let underWater = false;
                                 // 清空本次记录
                                 state.runPickupLog = [];
 
-                                log.info(`本任务执行大于3秒，cd信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
+                                log.info(`本任务cd信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
                             }
                         }
                         log.info(`路径组${groupNumber} 的所有任务运行完成`);
@@ -1208,6 +1212,7 @@ let underWater = false;
                     }
                 }
             }
+            await sleep(1000);
         }
 
     } catch (error) {
@@ -1433,9 +1438,9 @@ async function loadTargetItems() {
             /* ---------- 1. 解析小括号阈值 ---------- */
             const match = it.fullPath.match(/[（(](.*?)[)）]/);
             const itsThreshold = (match => {
-                if (!match) return 0.85;
+                if (!match) return 0.9;
                 const v = parseFloat(match[1]);
-                return !isNaN(v) && v >= 0 && v <= 1 ? v : 0.85;
+                return !isNaN(v) && v >= 0 && v <= 1 ? v : 0.9;
             })(match);
             it.roi.Threshold = itsThreshold;
             it.roi.InitTemplate();
@@ -1968,4 +1973,43 @@ async function findAndClick(target, doClick = true, maxAttempts = 60) {
         if (i < maxAttempts - 1) await sleep(50);
     }
     return false;
+}
+
+/**
+ * 判断当前人物是否已到达指定路线的终点
+ * @param {string} fullPath  路线文件完整路径（.json）
+ * @returns {boolean}        true = 已到达；false = 未到达/读文件失败/取坐标失败
+ */
+function isArrivedAtEndPoint(fullPath) {
+    try {
+        /* 1. 读路线文件，取终点坐标 */
+        const raw = file.readTextSync(fullPath);
+        const json = JSON.parse(raw);
+        if (!Array.isArray(json.positions)) return false;
+
+        let endX = 0, endY = 0;
+        for (let i = json.positions.length - 1; i >= 0; i--) {
+            const p = json.positions[i];
+            if (p.type !== 'orientation' &&
+                typeof p.x === 'number' &&
+                typeof p.y === 'number') {
+                endX = p.x;
+                endY = p.y;
+                break;
+            }
+        }
+        if (endX === 0 && endY === 0) return false;   // 没找到有效点
+
+        /* 2. 取当前人物坐标 */
+        const mapName = (json.info?.map_name && json.info.map_name.trim()) ? json.info.map_name : 'Teyvat';
+        const pos = genshin.getPositionFromMap(mapName);   // 同步 API
+        const curX = pos.X;
+        const curY = pos.Y;
+
+        /* 3. 曼哈顿距离 ≤30 视为到达 */
+        return Math.abs(endX - curX) + Math.abs(endY - curY) <= 30;
+    } catch (e) {
+        /* 任何异常（读盘失败、解析失败、API 异常）都算“未到达” */
+        return false;
+    }
 }
