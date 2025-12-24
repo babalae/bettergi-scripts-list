@@ -8,12 +8,20 @@ function settingsParseInt(str, defaultValue) {
 }
 
 const config = {
-    activityNameList: (settings.activityNameList ? settings.activityNameList.split('|') : []),
+    //剩余时间,白名单 启用`和`关系(默认`与`关系)
+    relationship: settings.relationship,
+    whiteActivityNameList: (settings.whiteActivityNameList ? settings.whiteActivityNameList.split('|').filter(s => s.trim()) : []),
     activityKey: (settings.activityKey ? settings.activityKey : 'F5'),
     toTopCount: settingsParseInt(settings.toTopCount, 10),//滑动到顶最大尝试次数
     scrollPageCount: settingsParseInt(settings.scrollPageCount, 4),//滑动次数/页
     notifyHoursThreshold: settingsParseInt(settings.notifyHoursThreshold, 8760),//剩余时间阈值(默认 8760小时=365天)
-    blackActivityNameList: (settings.blackActivityNameList ? settings.blackActivityNameList.split('|').filter(s => s.trim()) : []),//黑名单活动名称
+    // 黑名单活动名称列表，这些活动将被排除在识别和处理之外
+    // 通过 | 分隔多个活动名称，并过滤掉空白项
+    // 同时确保黑名单中的活动名称不包含在白名单（whiteActivityNameList）中
+    blackActivityNameList: (settings.blackActivityNameList ? settings.blackActivityNameList.split('|').filter(s => s.trim())
+        .filter(
+            item => !settings.whiteActivityNameList.split('|').filter(s => s.trim()).some(keyword => item.includes(keyword))
+        ) : []),
 }
 const ocrRegionConfig = {
     activity: {x: 267, y: 197, width: 226, height: 616},//活动识别区域坐标和尺寸
@@ -423,8 +431,8 @@ async function activityMain() {
             const activityName = res.text.trim();
 
             // 如果设置了指定活动列表，只处理包含这些关键词的活动
-            if (config.activityNameList.length > 0) {
-                const matched = config.activityNameList.some(keyword => activityName.includes(keyword));
+            if (config.whiteActivityNameList.length > 0) {
+                const matched = config.whiteActivityNameList.some(keyword => activityName.includes(keyword));
                 if (!matched) {
                     continue;  // 不关心的活动，跳过不点击
                 }
@@ -510,12 +518,33 @@ async function activityMain() {
     }
     let activityMapFilter = new Map();
     Array.from(activityMap.entries())
-        .filter(([name, info]) => info.hours <= config.notifyHoursThreshold)
+        .filter(([name, info]) => {
+            // 检查活动是否满足通知条件：
+            // 1. 剩余时间小于等于阈值
+            // 2. 活动名称包含在白名单中
+            const isWithinThreshold = info.hours <= config.notifyHoursThreshold;
+            const isInWhitelist = config.whiteActivityNameList.some(keyword => name.includes(keyword));
+            return config.relationship ? (isWithinThreshold && isInWhitelist) : (isWithinThreshold || isInWhitelist);
+        })
         .forEach(([name, info]) => activityMapFilter.set(name, info));
+
+    if (config.whiteActivityNameList.length > 0) {
+        log.info(`[模式]==>(剩余时间,白名单)已开启{key}模式`, config.relationship ? `和` : `或`)
+
+    }
     // 7. 全部扫描完毕，统一发送通知（只发一次！）
     if (activityMapFilter.size > 0) {
         log.info(`扫描完成，共记录 {activityMap.size} 个活动，即将发送通知`, activityMapFilter.size);
-        await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示剩余 ≤ ${config.notifyHoursThreshold} 小时的活动)${config.blackActivityNameList.length <= 0 ? "" : "|==>已开启黑名单:" + config.blackActivityNameList.join(",") + "<==|"}`);
+        // 构建通知标题，根据配置显示剩余时间阈值和白名单活动信息
+        let titleKey = `[ `;
+        titleKey += `剩余时间 <= ${config.notifyHoursThreshold} 小时`;
+        // 如果配置了白名单活动，则在标题中添加相关信息
+        if (config.whiteActivityNameList.length > 0) {
+            titleKey += config.relationship ? ` 和 ` : ` 或 `;
+            titleKey += `白名单 <<${config.whiteActivityNameList.join(", ")}>>`;
+        }
+        titleKey += `] `;
+        await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示 ${titleKey} 的活动)${config.blackActivityNameList.length <= 0 ? "" : "|==>已开启黑名单:" + config.blackActivityNameList.join(",") + "<==|"}`);
     } else {
         log.warn("未识别到任何活动，未发送通知");
     }
