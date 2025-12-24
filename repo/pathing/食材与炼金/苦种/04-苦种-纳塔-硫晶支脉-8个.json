@@ -6,10 +6,10 @@
         "name": "不瘦五十斤不改名"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766479831876,
+    "last_modified_time": 1766544908664,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "04-苦种-纳塔-硫晶支脉-8个",
@@ -29,23 +29,32 @@
     {
       "action": "",
       "id": 2,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
       "x": 8692.11,
       "y": -1587.05
     },
     {
       "action": "",
+      "action_params": "",
       "id": 3,
-      "move_mode": "walk",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8682.24609375,
+      "y": -1593.58203125
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "run",
       "type": "path",
       "x": 8677.82,
       "y": -1626.88
     },
     {
       "action": "",
-      "id": 4,
-      "move_mode": "walk",
+      "id": 5,
+      "move_mode": "run",
       "type": "path",
       "x": 8681.72,
       "y": -1644.06
@@ -53,7 +62,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "walk",
       "type": "path",
       "x": 8699.3262,
@@ -61,71 +70,90 @@
     },
     {
       "action": "",
-      "id": 6,
-      "move_mode": "walk",
+      "id": 7,
+      "move_mode": "dash",
       "type": "path",
       "x": 8698.1,
       "y": -1681.57
     },
     {
       "action": "",
-      "id": 7,
-      "move_mode": "walk",
+      "id": 8,
+      "move_mode": "dash",
       "type": "path",
       "x": 8714.27,
       "y": -1690.88
     },
     {
       "action": "",
-      "id": 8,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 8796.52,
-      "y": -1721.88
-    },
-    {
-      "action": "",
+      "action_params": "",
       "id": 9,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": 8817.54,
-      "y": -1702.87
+      "x": 8764.83203125,
+      "y": -1710.75244140625
     },
     {
       "action": "",
       "id": 10,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 8823.34,
-      "y": -1696.36
+      "x": 8800.728515625,
+      "y": -1699.2705078125
     },
     {
       "action": "",
       "id": 11,
-      "move_mode": "jump",
+      "move_mode": "walk",
       "type": "path",
-      "x": 8819.64,
-      "y": -1706.85
+      "x": 8821.52734375,
+      "y": -1706.57470703125
     },
     {
       "action": "",
+      "action_params": "",
       "id": 12,
       "move_mode": "walk",
       "type": "path",
-      "x": 8801.94,
-      "y": -1725.09
+      "x": 8816.9033203125,
+      "y": -1701.3330078125
     },
     {
       "action": "",
       "id": 13,
       "move_mode": "walk",
       "type": "path",
+      "x": 8825.09765625,
+      "y": -1695.466796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8814.765625,
+      "y": -1695.0576171875
+    },
+    {
+      "action": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8801.94,
+      "y": -1725.09
+    },
+    {
+      "action": "",
+      "id": 16,
+      "move_mode": "run",
+      "type": "path",
       "x": 8788.72,
       "y": -1747.48
     },
     {
       "action": "",
-      "id": 14,
+      "id": 17,
       "move_mode": "fly",
       "type": "path",
       "x": 8787.01,
@@ -133,7 +161,7 @@
     },
     {
       "action": "",
-      "id": 15,
+      "id": 18,
       "move_mode": "fly",
       "type": "path",
       "x": 8762.73,
@@ -142,7 +170,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 19,
       "move_mode": "walk",
       "type": "path",
       "x": 8759.1162,
@@ -151,7 +179,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 20,
       "move_mode": "walk",
       "type": "path",
       "x": 8768.3066,
@@ -160,7 +188,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 21,
       "move_mode": "walk",
       "type": "path",
       "x": 8772.8027,
