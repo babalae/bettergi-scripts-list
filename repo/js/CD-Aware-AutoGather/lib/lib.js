@@ -7,7 +7,7 @@
 
 let scriptContext = {
     scriptStartTime: new Date(),
-    version: "1.3",
+    version: "2.0",
 };
 
 /**
@@ -52,6 +52,33 @@ function formatDateTimeShort(date) {
 }
 
 /**
+ * 计算两个 Date 对象的差值，并格式化为 HH:mm:ss 字符串。
+ *
+ * @param {Date} date1 第一个 Date 对象。
+ * @param {Date} date2 第二个 Date 对象。
+ * @returns {string} 格式为 "HH:mm:ss" 的时间差字符串。
+ */
+function formatTimeDifference(date1, date2) {
+    // 计算毫秒差值，确保总是正数
+    const diffInMilliseconds = Math.abs(date2.getTime() - date1.getTime());
+
+    // 将毫秒转换为总秒数
+    const totalSeconds = Math.floor(diffInMilliseconds / 1000);
+
+    // 计算时、分、秒
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    // 格式化为两位数
+    const formattedHours = String(hours).padStart(2, "0");
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    const formattedSeconds = String(seconds).padStart(2, "0");
+
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+}
+
+/**
  * 判断当前时间是否已达到目标时间（目标时间基于脚本启动时间，支持跨天）。
  * @param {string} targetTimeStr - 目标时间，格式为 "HH:mm"。
  * @returns {boolean} 如果已达到目标时间，返回 true，否则返回 false。
@@ -69,6 +96,54 @@ function isTargetTimeReached(targetTimeStr) {
     }
 
     return now >= target;
+}
+
+/**
+ * 检查当前时间是否在排除的时间段内
+ * @param {string} excludeTimeRange - 格式如 "05:20-09:28 20:20-21:28 23:20-00:30"
+ * @returns {Object} { duringRange: false or string, nearestStopTime: string}
+ */
+function checkExecutionExcludeTime(excludeTimeRange) {
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+    const ONE_DAY_MINUTES = 1440; // 24 * 60
+
+    // 辅助函数：HH:mm 转分钟
+    const timeToMinutes = (timeStr) => {
+        const [hrs, mins] = timeStr.trim().split(":").map(Number);
+        return hrs * 60 + mins;
+    };
+
+    const ranges = excludeTimeRange.split(/\s+/).map((range) => {
+        range = range.trim().replace("：", ":");
+        const [startStr, endStr] = range.split("-");
+        return {
+            start: timeToMinutes(startStr),
+            end: timeToMinutes(endStr),
+            raw: range,
+            startStr: startStr,
+        };
+    });
+
+    let duringRange = false;
+    let nearestStopTime = null;
+    let minWaitTime = Infinity;
+    for (const range of ranges) {
+        const { start, end } = range;
+        // 判断是否处于当前范围（支持跨天逻辑，如 23:00-01:00）
+        const inThisRange = end < start ? currentMinutes >= start || currentMinutes < end : currentMinutes >= start && currentMinutes < end;
+        if (inThisRange) {
+            duringRange = range.raw;
+            break;
+        }
+        // 计算到该时间段开始的分钟数 (取模处理跨天)
+        const diff = (start - currentMinutes + ONE_DAY_MINUTES) % ONE_DAY_MINUTES;
+        if (diff < minWaitTime) {
+            minWaitTime = diff;
+            nearestStopTime = range.startStr;
+        }
+    }
+    return { duringRange, nearestStopTime };
 }
 
 /**
@@ -99,7 +174,7 @@ function isNowInTimeRange(startStr, endStr) {
  * 根据上期刷新时间字符串和刷新模式计算下一次的刷新时间。
  *
  * @param {string} lastRefreshTimeStr 上次刷新时间。如果为空或无效，将使用 getDefaultTime()。
- * @param {string} refreshMode 刷新模式，例如 "每X周", "每X天Y点", "每24:05" (表示每24小时零5分), "X小时"
+ * @param {string} refreshMode 刷新模式，例如 "每X周", "每X天Y点", "每24:05" (表示每24小时零5分), "X小时", "每版本"
  * @returns {Date | null} 计算出的下一次刷新时间Date对象，如果模式无法解析则返回null。
  * @example 已进行过的测试用例(用例中 GetDefaultTime() 返回 1970-01-01T00:00:00.000+08:00)：
  * calculateNextRefreshTime("2025-06-01T10:00:00.000+08:00", "每1周"); // 2025-06-02T04:00:00.000+08:00
@@ -197,13 +272,25 @@ function calculateNextRefreshTime(lastRefreshTimeStr, refreshMode) {
         }
     }
 
+    // 5. 匹配 "每版本"
+    if (!nextRunTime) {
+        match = lowerCaseRefreshMode.match(/每(\d*)版本/);
+        if (match) {
+            const intervalVersions = parseInt(match[1] || "1", 10); // 如果没有数字，默认为1
+            const baseDate = new Date("2025-01-01T04:00:00");       // v5.3 作为base版本
+            const days = (lastRunTime - baseDate) / (1000 * 60 * 60 * 24);
+            const versionIndex = Math.trunc(days / 42);
+            nextRunTime = new Date(baseDate.getTime() + (versionIndex + intervalVersions) * 42 * 24 * 60 * 60 * 1000);
+        }
+    }
+
     return nextRunTime;
 }
 
 /**
  * 判断任务是否达到刷新时间
  *
- * @param {string} refreshMode 刷新模式，例如 "每X周", "每X天Y点", "X小时", "每24:05" (表示每24小时零5分)
+ * @param {string} refreshMode 刷新模式，例如 "每X周", "每X天Y点", "X小时", "每24:05" (表示每24小时零5分), "X小时", "每版本"
  * @param {string} taskName 任务名称或采集资源名称
  * @param {string} [accountName] 账户名称，可选
  * @returns {{isRefreshed: boolean, lastRunTime: Date | null, nextRunTime: Date | null}}
@@ -245,12 +332,12 @@ function isTaskRefreshed(refreshMode, taskName, accountName = null) {
 /**
  * 判断任务或资源是否仍然未刷新（对`isTaskRefreshed`的易用封装）
  *
- * @param {string} refreshMode 刷新模式，例如 "每X周", "每X天Y点", "X小时", "每24:05" (表示每24小时零5分)
+ * @param {string} refreshMode 刷新模式，例如 "每X周", "每X天Y点", "X小时", "每24:05" (表示每24小时零5分), "X小时", "每版本"
  * @param {string} taskName 任务名称或采集资源名称，可选
  * @param {string} [accountName] 账户名称，可选
  * @example
  * // 运行结束时调用
- * updateTaskRunTime();
+ * await updateTaskRunTime();
  * // 在脚本开头检查是否已刷新
  * if (taskIsNotRefresh("每天4点")) {
  *   return;
@@ -273,11 +360,17 @@ function taskIsNotRefresh(refreshMode, taskName = null, accountName = null) {
  * @param {string} [accountName=null] 账户名称，可选，默认为null，表示使用默认账户。
  * @returns {boolean} 如果成功更新了任务的上次运行时间则返回true，否则返回false。
  */
-function updateTaskRunTime(taskName = null, accountName = null) {
+async function updateTaskRunTime(taskName = null, accountName = null) {
     let record = {};
     taskName = taskName || "默认任务";
     const recordPath = `record/${accountName || "默认账号"}.json`;
 
+    //捕获任务取消的信息，避免执行到后面的进度更新函数
+    try {
+        await sleep(10);
+    } catch (error) {
+        return error.toString();
+    }
     // 1. 读取记录文件
     try {
         const content = file.readTextSync(recordPath);
@@ -303,16 +396,18 @@ function updateTaskRunTime(taskName = null, accountName = null) {
 /**
  * 尝试切换队伍，如果失败则传送到七天神像后重试。
  * @param {string} partyName - 要切换的队伍名
- * @returns {Promise<void>}
+ * @returns {boolean} 切换过程触使用了强制传送到神像
  */
 async function switchPartySafely(partyName) {
-    if (!partyName) return;
+    let teleported = false;
+    if (!partyName) return teleported;
 
     try {
         if (!(await genshin.switchParty(partyName))) {
             log.info("切换队伍失败，前往七天神像重试");
             await genshin.tpToStatueOfTheSeven();
             await genshin.returnMainUi(); // 确保传送完成
+            teleported = true;
             await genshin.switchParty(partyName);
             await genshin.returnMainUi();
         }
@@ -320,6 +415,7 @@ async function switchPartySafely(partyName) {
         log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
         await genshin.returnMainUi();
     }
+    return teleported;
 }
 
 /**
@@ -378,13 +474,35 @@ function getScriptName() {
     return manifest.name;
 }
 
+function fileExists(fullPath) {
+    const [dirpath, filename] = splitPath(fullPath);
+    const normalizedPath = fullPath.replaceAll("/", "\\");
+    const files = Array.from(file.ReadPathSync(dirpath));
+    return files.includes(normalizedPath);
+}
+
+/**
+ * 重写内置函数，解决每次读取不存在的文件时必然出现的、不可抑制的Error消息问题
+ *
+ * 该问题由于 [PR#2412](https://github.com/babalae/better-genshin-impact/pull/2412) 导致，
+ * 并且[看起来也不会修复](https://github.com/babalae/better-genshin-impact/issues/2474)
+ */
+function readTextSync(fullPath) {
+    if (fileExists(fullPath)) {
+        return file.readTextSync(fullPath);
+    } else {
+        throw new Error("FileNotFound: " + fullPath);
+    }
+}
+
 /**
  * 从文件路径中提取文件名。
  * @param {string} filePath - 文件路径。
  * @returns {string} - 文件名。
  */
 function basename(filePath) {
-    const lastSlashIndex = filePath.lastIndexOf("\\"); // 或者使用 '/'
+    const normalizedPath = filePath.replace(/\\/g, "/");
+    const lastSlashIndex = normalizedPath.lastIndexOf("/");
     return filePath.substring(lastSlashIndex + 1);
 }
 
@@ -399,7 +517,7 @@ function splitPath(path) {
     const normalizedPath = path.replace(/\\/g, "/");
     const lastSlashIndex = normalizedPath.lastIndexOf("/");
     if (lastSlashIndex === -1) {
-        return ["", path];
+        return [".", path];
     }
     const dir = path.slice(0, lastSlashIndex);
     const file = path.slice(lastSlashIndex + 1);
@@ -411,7 +529,7 @@ function splitPath(path) {
  * @param {string} filename - 文件名或路径中的文件部分
  * @returns {[string, string]} 返回数组，第一个是主文件名，第二个是扩展名（含点）
  * @example
- * const [dir, file] = splitPath('稻妻\\绯樱绣球\\06-绯樱绣球-神里屋敷-10个.json'); // ['稻妻\\绯樱绣球\\06-绯樱绣球-神里屋敷-10个', '.json']
+ * const [dir, file] = splitExt('稻妻\\绯樱绣球\\06-绯樱绣球-神里屋敷-10个.json'); // ['稻妻\\绯樱绣球\\06-绯樱绣球-神里屋敷-10个', '.json']
  */
 function splitExt(filename) {
     const baseName = filename.includes("/") ? filename.slice(filename.lastIndexOf("/") + 1) : filename;
@@ -436,22 +554,29 @@ function getDefaultTime() {
 }
 
 /**
- * 获取指定目录下所有指定后缀的文件列表（不含子文件夹）
- * @param {string} taskDir - 目标目录路径
- * @param {string} [ext=".json"] - 文件后缀名（默认.json）
- * @returns {string[]} 返回符合后缀的文件路径数组
+ * 获取指定目录下指定后缀的文件
+ * @param {string} folderPath - 要遍历的根文件夹路径
+ * @param {string} suffix - 目标文件后缀
+ * @returns {string[]} 匹配后缀的所有文件路径
  */
-function getFilesByExtension(taskDir, ext = ".json") {
-    const allFilesRaw = file.ReadPathSync(taskDir);
-    const extFiles = [];
+function getFilesBySuffix(folderPath, suffix, recursive = true) {
+    let files = [];
+    const items = file.ReadPathSync(folderPath);
 
-    for (const filePath of allFilesRaw) {
-        if (filePath.endsWith(ext)) {
-            extFiles.push(filePath);
+    for (const itemPath of items) {
+        if (recursive && file.IsFolder(itemPath)) {
+            const subFolderFiles = getFilesBySuffix(itemPath, suffix, recursive);
+            // 将子目录返回的数组合并到当前数组中
+            files = files.concat(subFolderFiles);
+        } else {
+            // 如果是文件且匹配后缀
+            if (itemPath.endsWith(suffix)) {
+                files.push(itemPath);
+            }
         }
     }
 
-    return extFiles;
+    return files;
 }
 
 /**
@@ -490,7 +615,7 @@ function _fakeLogCore(name, isJs = true, dateIn = null) {
     if (isJs && isStart) {
         // 传入开始时间是为了在跟踪路径耗时的同时仍然保留对脚本运行时间的统计
         // 但是如果脚本开始时间和结束时间跨天，就不能使用传入时间，否则会影响日志分析(Seconds cannot be negative)
-        if (logTime.getDay() === dateIn.getDay()) {
+        if (logTime.getDate() === dateIn.getDate()) {
             logTime = dateIn;
         }
     }
@@ -608,4 +733,11 @@ async function waitTpFinish(timeout = 30000) {
         await sleep(100);
     }
     throw new Error("传送时间超时");
+}
+
+function calculateDistance(point1, point2) {
+    const deltaX = point1.x - point2.x;
+    const deltaY = point1.y - point2.y;
+    const distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+    return distance;
 }
