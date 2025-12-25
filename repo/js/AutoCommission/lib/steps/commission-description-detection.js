@@ -17,7 +17,7 @@
         executeFile = step.data.executeFile || "";
       }
 
-      if (!targetDescription || executeFile) {
+      if (!targetDescription || !executeFile) {
         log.error("描述文本 与 json文件 为必填项！");
         return;
       }
