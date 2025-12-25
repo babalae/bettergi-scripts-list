@@ -460,7 +460,7 @@ class Actor {
             }
         } while(false);
         if (!this.next) return null;
-        else return this.next.getSuitable(relics);
+        else return this.next.getAffable(relics);
     }
 
     /* 获取圣遗物于当前角色的适用分数 */
@@ -675,16 +675,16 @@ function freeTemplate(template) {
     const characterSubAttrObj3 = RecognitionObject.Ocr(...autoZoom(1480, 419, 368, 27));
     const characterSubAttrObj4 = RecognitionObject.Ocr(...autoZoom(1480, 453, 368, 27));
 
-    try {
-        while (true) {
-            // 每次分析耗时约 100ms, 等待约 200ms
-            await sleep(200);
-            // 捕获游戏区域图像
-            const gameImage = captureGameRegion();
-            if (gameImage.IsEmpty()) {
-                log.error("无法捕获游戏画面");
-                break;
-            }
+    while (true) {
+        // 每次分析耗时约 100ms, 等待约 200ms
+        await sleep(200);
+        // 捕获游戏区域图像
+        const gameImage = captureGameRegion();
+        if (gameImage.IsEmpty()) {
+            log.error("无法捕获游戏画面");
+            break;
+        }
+        try {
             // 尝试背包界面匹配主词条
             let mainResult = gameImage.Find(backpackMainAttrObj);
             const relics = new Relics();
@@ -741,7 +741,6 @@ function freeTemplate(template) {
                 }
             }
             mainResult.Dispose();
-            gameImage.Dispose();
             /* 分析结果 */
             if (relics.main != -1) {
                 relics.make_point();// 计算副属性点数
@@ -749,11 +748,12 @@ function freeTemplate(template) {
                 characters.evaluate(relics);// 评价圣遗物
                 logout("----------------", "overlay.txt");
             }
+        } catch (error) {
+            log.error(`处理失败: ${error.message}`);
         }
-    } catch (error) {
-        log.error(`处理失败: ${error.message}`);
+        finally {
+            gameImage.Dispose();
+        }
     }
-    finally {
-        freeTemplate(template);
-    }
+    freeTemplate(template);
 })();

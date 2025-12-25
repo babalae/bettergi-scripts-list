@@ -102,7 +102,10 @@ int utf8_printf(const char *format, ...) {
 		ret = vsnprintf(buffer, ret, format, args_copy);
 	}
 	va_end(args_copy);
-	if(ret < 0) return ret;
+	if(ret < 0) {
+		free(buffer);
+		return ret;
+	}
 	wchar_t *buffer_utf16 = utf8_to_utf16(buffer);
 	free(buffer);
 	if(buffer_utf16 == NULL) return -1;
@@ -244,9 +247,9 @@ int main() {
 				if (last_content == NULL || strcmp(current_content, last_content) != 0) {
 					// 5. 若不同，则输出
 					char* last_break = strrchr(current_content, '\n');
-					*last_break = '\0';
+					if (last_break) *last_break = '\0';
 					utf8_printf("\033[2J\033[H%s\n", current_content);// 清屏并输出
-					*last_break = '\n';
+					if (last_break) *last_break = '\n';
 					// 更新 last_content
 					if (last_content) {
 						free(last_content);
