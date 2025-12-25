@@ -69,15 +69,15 @@
 
 比如勾选 `按大类选择`的矿物 + `按地区选择地方特产`里的蒙德 + `单独选择地方特产`下的稻妻地区的绯樱绣球。
 
-![pic-1](assets/pic-1.png)
+![pic-1](https://ayaka20.ggff.net/CD-Aware-AutoGather/assets/pic-1.png)
 
 **【单独选择地方特产】**
 
-![pic-2](assets/pic-2.png)
+![pic-2](https://ayaka20.ggff.net/CD-Aware-AutoGather/assets/pic-2.png)
 
 **【食材与炼金】**
 
-![pic-3](assets/pic-3.png)
+![pic-3](https://ayaka20.ggff.net/CD-Aware-AutoGather/assets/pic-3.png)
 
 **【对于具有多版本路线的物品，选择要使用的路线】**
 
@@ -85,7 +85,7 @@
 
 如果你没有指定路线，会默认执行第一项的路线。
 
-![pic-4](assets/pic-4.png)
+![pic-4](https://ayaka20.ggff.net/CD-Aware-AutoGather/assets/pic-4.png)
 
 ### 队伍配置推荐
 
