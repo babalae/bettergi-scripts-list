@@ -7,13 +7,18 @@
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "",
+    "description": "1、砂糖行走位，且队伍里带着绮良良或埃洛伊。别带双风跑图；2、不需要生存位，生存位放技能容易惊动鸟；3、运行其它地图追踪会吓跑这里的鸟，建议优先运行此追踪；4、杀死的鸟在12小时后刷新，被吓跑的鸟0点或12点刷新，1肉鸟和2肉鸟每日上限各200只。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1765939522771,
+    "last_modified_time": 1766855213804,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "禽肉7-3-悠悠集市东-2肉×2",
-    "tags": [],
+    "name": "禽肉2-07-璃月珉林-2肉×2",
+    "tags": [
+      "砂糖",
+      "禽肉",
+      "绮良良",
+      "埃洛伊"
+    ],
     "type": "collect",
     "version": "1.0"
   },
@@ -24,8 +29,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 13629.6602,
-      "y": 379.499
+      "x": 730.92,
+      "y": 1062.02
     },
     {
       "action": "",
@@ -33,17 +38,17 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 13612.0674,
-      "y": 382.2002
+      "x": 703.5137,
+      "y": 1029.8745
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "砂糖 e",
       "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": 13598.4766,
-      "y": 373.0303
+      "x": 700.0,
+      "y": 1035.9
     },
     {
       "action": "",
@@ -51,35 +56,17 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 13597.8721,
-      "y": 362.8745
+      "x": 697.06,
+      "y": 1043.09
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "fly",
-      "type": "target",
-      "x": 13598.832,
-      "y": 320.6172
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 13602.4941,
-      "y": 319.5254
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 13595.4414,
-      "y": 319.4355
+      "x": 691.6514,
+      "y": 1038.019
     }
   ]
 }

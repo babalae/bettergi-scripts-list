@@ -7,13 +7,18 @@
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "",
+    "description": "1、砂糖行走位，且队伍里带着绮良良或埃洛伊。别带双风跑图；2、不需要生存位，生存位放技能容易惊动鸟；3、运行其它地图追踪会吓跑这里的鸟，建议优先运行此追踪；4、杀死的鸟在12小时后刷新，被吓跑的鸟0点或12点刷新，1肉鸟和2肉鸟每日上限各200只。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766026415205,
+    "last_modified_time": 1766304135926,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "禽肉6-9-安饶之野东南-2肉×6",
-    "tags": [],
+    "name": "禽肉1-4-蒙德城门-1肉×11",
+    "tags": [
+      "砂糖",
+      "禽肉",
+      "绮良良",
+      "埃洛伊"
+    ],
     "type": "collect",
     "version": "1.0"
   },
@@ -24,8 +29,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9813.0,
-      "y": -2852.3184
+      "x": -1120.9,
+      "y": 2190.67
     },
     {
       "action": "",
@@ -33,53 +38,55 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 9796.125,
-      "y": -2930.4043
+      "x": -1089.68,
+      "y": 2196.67
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "砂糖 e",
       "id": 3,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 9792.5791,
-      "y": -2946.4248
+      "x": -1070.28,
+      "y": 2179.25
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 9808.8223,
-      "y": -2980.082
+      "x": -1065.55,
+      "y": 2174.11
     },
     {
-      "action": "combat_script",
-      "action_params": "砂糖 e",
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 9802.7891,
-      "y": -3017.0137
+      "x": -1064.9609,
+      "y": 2176.7358
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
+      "locked": false,
       "move_mode": "walk",
-      "type": "path",
-      "x": 9803.8828,
-      "y": -3023.5352
+      "type": "target",
+      "x": -1064.1055,
+      "y": 2172.7397
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 9801.9258,
-      "y": -3023.1777
+      "x": -1094.1055,
+      "y": 2162.7397
     },
     {
       "action": "",
@@ -87,53 +94,53 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 9801.4668,
-      "y": -3024.0918
+      "x": -1064.1055,
+      "y": 2172.7397
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "砂糖 e",
       "id": 9,
       "move_mode": "dash",
       "type": "path",
-      "x": 9843.7666,
-      "y": -3015.7637
+      "x": -1021.11,
+      "y": 2188.06
     },
     {
       "action": "",
       "action_params": "",
       "id": 10,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 9844.8008,
-      "y": -3049.6504
+      "x": -1013.56,
+      "y": 2190.98
     },
     {
       "action": "",
       "action_params": "",
       "id": 11,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 9845.9287,
-      "y": -3086.2363
+      "x": -1013.04,
+      "y": 2192.93
     },
     {
       "action": "",
       "action_params": "",
       "id": 12,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 9828.9473,
-      "y": -3101.4648
+      "x": -1016.85,
+      "y": 2191.9
     },
     {
-      "action": "combat_script",
-      "action_params": "砂糖 e",
+      "action": "",
+      "action_params": "",
       "id": 13,
       "move_mode": "walk",
       "type": "path",
-      "x": 9842.084,
-      "y": -3120.0391
+      "x": -1016.16,
+      "y": 2187.93
     },
     {
       "action": "",
@@ -141,26 +148,8 @@
       "id": 14,
       "move_mode": "walk",
       "type": "path",
-      "x": 9841.7939,
-      "y": -3126.1348
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 15,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 9844.7373,
-      "y": -3126.8164
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.4)",
-      "id": 16,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 9845.457,
-      "y": -3124.0645
+      "x": -1011.28,
+      "y": 2191.11
     }
   ]
 }
