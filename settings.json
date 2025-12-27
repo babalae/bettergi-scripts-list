@@ -1,0 +1,69 @@
+[
+  {
+    "name": "run_mode",
+    "type": "select",
+    "options": ["我全都要！", "试试“利亚姆", "试试“飞萤", "一二三，木头人"],
+    "default": "试试“利亚姆",
+    "label": "本世界跑一次，任选一个试试吧\n   一定一定要看完README并设置运行的单项哦👇"
+  },
+  {
+    "name": "liam_char_availability",
+    "type": "select",
+    "options": ["我都有", "没有提纳里", "没有 钟离（不建议跑这个了）", "都没有￣。￣"],
+    "default": "我都有",
+    "label": "---------------------------------------------------------------\n关于利亚姆:操作角色（默认是 提纳里 钟离）\n   一定一定要设置这个哦👇"
+  },
+  {
+    "name": "liam_pick_dogfood",
+    "type": "select",
+    "label": "关于利亚姆:是否拾取狗娘（要有万叶）",
+    "options": ["我全都要！", "没有万叶(≧口≦)", "节约时间，不拿了"],
+    "default": "节约时间，不拿了"
+  },
+  {
+    "name": "firefly_missing_chars",
+    "type": "input-text",
+    "label": "---------------------------------------------------------------\n关于飞萤:操作角色（默认是 芙宁娜 雷电将军）都有是不用填，没有就填2个角色，空格隔开。如：芙宁娜 爱可菲 "
+  },
+  {
+    "name": "multiplayer_task",
+    "type": "select",
+    "options": ["一二三，木头人", "放好路线啦！", "试试“利亚姆", "试试“飞萤", "摩拉上限（20小时）"],
+    "default": "一二三，木头人",
+    "label": "---------------------------------------------------------------\n关于多人:需要跑什么？（谨慎使用！）"
+  },
+  {
+    "name": "max_run_minutes",
+    "type": "input-text",
+    "label": "运行分钟数，如120，空表示12小时"
+  },
+  {
+    "name": "max_run_cycles",
+    "type": "input-text",
+    "label": "运行次数，如120，空表示133次"
+  },
+  {
+    "name": "multi_max_world",
+    "type": "input-text",
+    "label": "多人世界选择上限，默认60",
+    "value": "60"
+  },
+  {
+    "name": "multi_min_world",
+    "type": "input-text",
+    "label": "多人世界选择下限，默认59",
+    "value": "59"
+  },
+  {
+    "name": "route_folder_name",
+    "type": "input-text",
+    "label": "如果跑路线，填写文件夹名称，如：测试",
+    "value": "测试"
+  },
+  {
+    "name": "greeting_sentence",
+    "type": "input-text",
+    "label": "如果跑路线，填写问候的第一句话（30字内）\n如：你好呀，可以让我采甜甜花做饭吗,谢谢你(✿◡‿◡)",
+    "value": "你好呀，可以让我采甜甜花做饭吗,谢谢你(✿◡‿◡)"
+  }
+]
