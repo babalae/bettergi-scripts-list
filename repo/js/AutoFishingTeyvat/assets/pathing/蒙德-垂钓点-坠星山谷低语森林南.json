@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "蒙德-垂钓点-坠星山谷低语森林南",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.2",
+    "description": "地区: 蒙德\n类型: 垂钓点\n详细位置: 坠星山谷低语森林南\n鱼类: 蓝染花鳉、水晶宴、鸩棘鱼、锖假龙、流纹茶蝶鱼\n饵类: 果酿饵、赤糜饵、蠕虫假饵、飞蝇假饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1119.85,
+      "y": 2190.36,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1120.04,
+      "y": 2202.13,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1110.19,
+      "y": 2229.83,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1083.67,
+      "y": 2280.98,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1072.24,
+      "y": 2281.29,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

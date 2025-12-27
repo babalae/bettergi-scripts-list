@@ -1,0 +1,24 @@
+{
+  "manifest_version": 1,
+  "name": "自动伐木-地图追踪版",
+  "version": "3.0.6",
+  "description": "基于地图追踪的自动伐木，已支持6.0版本及之前的全部木材\n默认砍伐全部支持木材至2000上限\n自定义设置:\n-可更改砍伐木材种类和数量\n-可以单独设置每个木材数量\n-可设置队伍中是否包含一斗，按保底20%，计算砍伐数量时会除以1.2",
+  "bgi_version": "0.53.0",
+  "tags": [
+    "伐木",
+    "地图追踪",
+    "王树瑞佑"
+  ],
+  "authors": [
+    {
+      "name": "Tim",
+      "links": "https://github.com/Limint"
+    },
+    {
+      "name": "起个名字好难的喵",
+      "links": "https://github.com/MisakaAldrich"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}

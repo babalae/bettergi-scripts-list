@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "纳塔-垂钓点-奥奇卡纳塔东",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.3",
+    "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 奥奇卡纳塔东\n鱼类: 花鳉、青浪翻车鲀、晚霞翻车鲀、伪装鲨鲨独角鱼\n饵类: 果酿饵、澄晶果粒饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9427.4,
+      "y": -354.51,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 9413.34,
+      "y": -360.54,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 9401.45,
+      "y": -368.02,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 9400.31,
+      "y": -368.45,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 9387.62,
+      "y": -373.02,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 9342.43,
+      "y": -390.33,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 9199.3,
+      "y": -334.7,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 9193.28,
+      "y": -331.35,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 9189.81,
+      "y": -334.14,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

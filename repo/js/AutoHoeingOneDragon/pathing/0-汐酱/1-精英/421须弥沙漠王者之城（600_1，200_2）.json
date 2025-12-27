@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "421须弥沙漠王者之城（600_1，200_2）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时101.1秒，包含以下怪物：1只丘丘人、5只打手丘丘人、2只射手丘丘人、1只火斧丘丘暴徒、1只丘丘岩盔王、1只火深渊法师。",
+    "hash_res": "41676778",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754765042215,
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4424.97802734375,
+      "y": -739.78125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4431.50439453125,
+      "y": -766.1884765625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4436.07373046875,
+      "y": -785.423828125,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4454.01318359375,
+      "y": -797.76513671875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4467.8818359375,
+      "y": -822.849609375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4478.61376953125,
+      "y": -834.0859375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4510.54248046875,
+      "y": -845.4658203125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4521.109375,
+      "y": -841.2158203125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4548.60986328125,
+      "y": -811.35546875,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4548.60986328125,
+      "y": -811.35546875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

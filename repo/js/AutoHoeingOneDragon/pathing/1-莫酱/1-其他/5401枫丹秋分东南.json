@@ -1,0 +1,73 @@
+{
+  "info": {
+    "name": "5401枫丹秋分东南",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时59.93秒，包含以下怪物：1只雷史莱姆、1只变异雷史莱姆、1只冰史莱姆、1只泡泡雄海马、1只大天使海兔。",
+    "hash_res": "26480363",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3815.13,
+      "y": 2336.96,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3825.51,
+      "y": 2318.21,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "300",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3825.6,
+      "y": 2313.52,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3826.08,
+      "y": 2312.73,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3792.14,
+      "y": 2290.22,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3792.14,
+      "y": 2290.22,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

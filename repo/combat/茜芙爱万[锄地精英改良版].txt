@@ -1,0 +1,7 @@
+// 描述：全员零命且无专武，芙芙和爱可菲双爆堆高一点，不需要堆充能，茜尽量带祭礼，爱可菲不用堆充能基本上也能实现一动一大，如果队伍顺序不是茜芙爱万那就把数字改一下就行
+// 作者： 青杉渔
+茜特菈莉 e,wait(0.3),keypress(e),wait(0.3),keypress(e),wait(0.3),,click(middle),keypress(3)
+爱可菲 wait(0.1),e,wait(0.4),keypress(q),wait(0.4),keypress(e),wait(0.4),keypress(q),wait(0.3),click(middle),keypress(2)
+芙宁娜 e,attack(0.3),click(middle),keypress(4)
+枫原万叶 e(hold),wait(0.48),attack(0.2),wait(0.3),attack(0.3),wait(0.5),keypress(q),wait(0.3),click(middle),keypress(1)
+茜特菈莉 wait(0.3),keydown(VK_SPACE),wait(1.2),keyup(VK_SPACE),attack(0.3),wait(1),keydown(VK_SPACE),wait(1.2),keyup(VK_SPACE),attack(0.3),wait(0.5),keypress(q),click(middle)

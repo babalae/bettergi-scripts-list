@@ -1,0 +1,124 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759082132606,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "挪德卡莱-霜月之坊-银冷杉木-54个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10416.7285,
+      "y": 1657.3589
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10413.4434,
+      "y": 1661.9053
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 10413.6045,
+      "y": 1686.2109
+    },
+    {
+      "action": "use_gadget",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10422.3213,
+      "y": 1697.9927
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),dash(3),keyup(w)",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 10431.7363,
+      "y": 1735.708
+    },
+    {
+      "action": "use_gadget",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10431.7363,
+      "y": 1735.708
+    },
+    {
+      "action": "use_gadget",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10416.3809,
+      "y": 1736.4238
+    },
+    {
+      "action": "use_gadget",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10389.7129,
+      "y": 1744.458
+    },
+    {
+      "action": "use_gadget",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10368.9961,
+      "y": 1746.2725
+    },
+    {
+      "action": "use_gadget",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10371.748,
+      "y": 1751.9614
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10390.6035,
+      "y": 1752.7393
+    },
+    {
+      "action": "use_gadget",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10384.123,
+      "y": 1771.0513
+    }
+  ]
+}

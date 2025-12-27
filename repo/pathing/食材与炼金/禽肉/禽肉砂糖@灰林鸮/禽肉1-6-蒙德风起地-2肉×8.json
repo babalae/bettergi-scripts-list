@@ -1,0 +1,261 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1、砂糖行走位，且队伍里带着绮良良或埃洛伊。别带双风跑图；2、不需要生存位，生存位放技能容易惊动鸟；3、运行其它地图追踪会吓跑这里的鸟，建议优先运行此追踪；4、杀死的鸟在12小时后刷新，被吓跑的鸟0点或12点刷新，1肉鸟和2肉鸟每日上限各200只。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765848146922,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "禽肉1-6-蒙德风起地-2肉×8",
+    "tags": [
+      "砂糖",
+      "禽肉",
+      "绮良良",
+      "埃洛伊"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1266.11,
+      "y": 1933.41
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1295.13,
+      "y": 1962.8
+    },
+    {
+      "action": "combat_script",
+      "action_params": "砂糖 e",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1276.91,
+      "y": 1970.99
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1273.55,
+      "y": 1976.92
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1267.07,
+      "y": 1972.23
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1274.02,
+      "y": 1970.84
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1270.24,
+      "y": 1975.86
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1210.65,
+      "y": 1931.53
+    },
+    {
+      "action": "combat_script",
+      "action_params": "砂糖 e",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1207.09,
+      "y": 1921.55
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1205.77,
+      "y": 1909.93
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1202.46,
+      "y": 1916.76
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1206.35,
+      "y": 1913.55
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1202.01,
+      "y": 1911.96
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1175.15,
+      "y": 1895.18
+    },
+    {
+      "action": "combat_script",
+      "action_params": "砂糖 e,wait(1.5)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1177.18,
+      "y": 1873.02
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1178.93,
+      "y": 1864.81
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1175.0,
+      "y": 1870.55
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1209.3,
+      "y": 1850.96
+    },
+    {
+      "action": "combat_script",
+      "action_params": "砂糖 e",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1216.27,
+      "y": 1829.56
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1220.4,
+      "y": 1823.81
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1211.48,
+      "y": 1826.53
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1220.01,
+      "y": 1821.15
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1213.28,
+      "y": 1823.44
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1216.97,
+      "y": 1828.27
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1220.3789,
+      "y": 1827.2188
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1213.6094,
+      "y": 1827.8174
+    }
+  ]
+}

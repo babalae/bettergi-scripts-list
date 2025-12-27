@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "02-青蜜莓-彩石顶右-6个",
+    "type": "collect",
+    "author": "黎歌",
+    "version": "1.0",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "黎歌"
+      }
+    ],
+    "description": "",
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1755956855178,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8201.96,
+      "y": -2288.77,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8190.54,
+      "y": -2288.5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8152.2363,
+      "y": -2272.5312,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 8152.2363,
+      "y": -2272.5312,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 8146.49,
+      "y": -2277.18,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 8146.5,
+      "y": -2277.16,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 8135.81,
+      "y": -2289.4,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 8142.02,
+      "y": -2309.58,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "target"
+    }
+  ]
+}

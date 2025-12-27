@@ -1,0 +1,94 @@
+{
+  "info": {
+    "author": "Demo&汐&mno",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      },
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时61.93秒，包含以下怪物：1只幼嵴锋龙、1只嵴锋龙、3只幼匿叶龙、1只匿叶龙。",
+    "hash_res": "59986991",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755968098134,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6405--纳塔_万火之瓯_竞技场5_(3-5)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9084.14,
+      "y": -1965.33
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9074.599609375,
+      "y": -1979.13525390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9075.3125,
+      "y": -2010.123384285208
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.3),dash,wait(0.4),dash,keyup(w),wait(1.3)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9079.107421875,
+      "y": -2030.28662109375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9050.75,
+      "y": -2029.5599999999995
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9015,
+      "y": -2049.7199999999993
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9015,
+      "y": -2049.7199999999993
+    }
+  ]
+}

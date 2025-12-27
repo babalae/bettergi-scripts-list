@@ -1,0 +1,102 @@
+{
+  "info": {
+    "name": "安柏-5",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "爬墙时可能会被卡住，且因为是攀爬策略不会触发脱离卡死",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -749.4267578125,
+      "y": 2262.9970703125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -719.591796875,
+      "y": 2316.4404296875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -700.693359375,
+      "y": 2336.442626953125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -687.4794921875,
+      "y": 2342.513427734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -680.806640625,
+      "y": 2338.24462890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -672.2607421875,
+      "y": 2343.151123046875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -678.4326171875,
+      "y": 2358.57861328125,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -657.5615234375,
+      "y": 2368.88623046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -651.1252847424512,
+      "y": 2370.875,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -652.5,
+      "y": 2371.060791015625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": ""
+    }
+  ]
+}

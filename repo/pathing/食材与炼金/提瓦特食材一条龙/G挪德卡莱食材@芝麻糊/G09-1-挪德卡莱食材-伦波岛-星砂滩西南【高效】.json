@@ -1,0 +1,98 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "芝麻糊"
+      },
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个甜甜花；9个白灵果；3个寒涌石；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762505034267,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "G09-1-挪德卡莱食材-伦波岛-星砂滩西南【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9746.3311,
+      "y": 1916.6499
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9740.1602,
+      "y": 1916.041
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9722.2236,
+      "y": 1919.4883
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9650.8496,
+      "y": 1906.332
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9650.2998,
+      "y": 1891.8467
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9589.2383,
+      "y": 1911.5156
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9587.2539,
+      "y": 1911.2686
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9581.6162,
+      "y": 1910.6973
+    }
+  ]
+}
