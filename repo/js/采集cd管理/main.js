@@ -1762,12 +1762,13 @@ async function isTimeRestricted(timeRule, threshold = 5) {
     return false;
 }
 
+
 /**
-* 食材加工主函数，用于自动前往指定地点进行食材或料理的加工制作
-* 
-* 该函数会根据 Foods 和 foodCount 数组中的食材名称和数量，依次查找并制作对应的料理/食材
-* 支持两种类型：普通料理（需滚动查找）和调味品类食材（直接在“食材加工”界面查找）
-* 
+* 食材加工主函数，用于自动前往指定地点进行食材的加工
+*
+* 该函数会根据 Foods 和 foodCount 数组中的食材名称和数量，依次查找并制作对应的料食材
+* 支持调味品类食材（直接在“食材加工”界面查找）
+*
 * @returns {Promise<void>} 无返回值，执行完所有加工流程后退出
 */
 async function ingredientProcessing() {
@@ -1811,104 +1812,164 @@ async function ingredientProcessing() {
         }
     }
     await clickPNG("食材加工");
-    for (let i = 0; i < Foods.length; i++) {
-        log.info(`开始加工${Foods[i]}`);
-        const targetFoods = new Set([
-            "面粉", "兽肉", "鱼肉", "神秘的肉", "黑麦粉", "奶油", "熏禽肉",
-            "黄油", "火腿", "糖", "香辛料", "酸奶油", "蟹黄", "果酱",
-            "奶酪", "培根", "香肠"
-        ]);
-        if (targetFoods.has(Foods[i])) {
+
+    // 固定列表只定义一次
+    const targetFoods = new Set([
+        "面粉", "兽肉", "鱼肉", "神秘的肉", "黑麦粉", "奶油", "熏禽肉",
+        "黄油", "火腿", "糖", "香辛料", "酸奶油", "蟹黄", "果酱",
+        "奶酪", "培根", "香肠"
+    ]);
+
+    /* ===== 1. 公共加工流程 ===== */
+    async function doCraft(i) {
+        await clickPNG("制作");
+        await sleep(300);
+
+        /* ---------- 1. 队列已满 ---------- */
+        if (await findPNG("队列已满", 1)) {
+            log.warn(`检测到${Foods[i]}队列已满，等待图标消失`);
+            while (await findPNG("队列已满", 1)) {
+                log.warn(`检测到${Foods[i]}队列已满，等待图标消失`);
+                await sleep(300);
+            }
             if (await clickPNG("全部领取", 3)) {
                 await clickPNG("点击空白区域继续");
                 await findPNG("食材加工2");
                 await sleep(100);
             }
-            let res1 = await clickPNG(Foods[i] + "1", 5);
+            return false;
+        }
 
-            if (res1) {
-                log.info(`${Foods[i]}已找到`);
-            } else {
-                try {
-                    const rg = captureGameRegion();
-                    const foodItems = [];
-                    try {
-                        for (const flag of ['已加工0个', '已加工1个']) {
-                            const mat = file.ReadImageMatSync(`assets/RecognitionObject/${flag}.png`);
-                            const res = rg.findMulti(RecognitionObject.TemplateMatch(mat));
-                            for (let i = 0; i < res.count; ++i) {
-                                foodItems.push({ x: res[i].x, y: res[i].y });
-                            }
-                            mat.dispose();
-                        }
-                    } finally { rg.dispose(); }
-
-                    // 依次筛选这些项目
-                    for (const item of foodItems) {
-                        // 点击该项目
-                        click(item.x, item.y);
-                        await sleep(200);
-                        click(item.x, item.y);
-                        if (await findPNG(Foods[i] + "2", 5)) {
-                            log.info(`${Foods[i]}已找到`);
-                            res1 = true;
-                            break;
-                        }
-                    }
-                    if (!res1) {
-                        log.error(`未找到目标食材: ${Foods[i]}`);
-                        continue;
-                    }
-                } catch (error) {
-                    log.error(`食材加工识别出错：${error.message}`);
-                }
-            }
-
-            await clickPNG("制作");
-            await sleep(300);
-            if (await findPNG("队列已满", 1)) {
-                log.warn(`检测到${Foods[i]}队列已满，等待图标消失`);
-                while (true) {
-                    if (!await findPNG("队列已满", 1)) {
-                        break;
-                    } else {
-                        log.warn(`检测到${Foods[i]}已满，等待图标消失`);
-                    }
-                    await sleep(300);
-                }
-                continue;
-            }
-            if (await findPNG("材料不足", 1)) {
+        /* ---------- 2. 材料不足 ---------- */
+        if (await findPNG("材料不足", 1)) {
+            log.warn(`检测到${Foods[i]}材料不足，等待图标消失`);
+            while (await findPNG("材料不足", 1)) {
                 log.warn(`检测到${Foods[i]}材料不足，等待图标消失`);
-                while (true) {
-                    if (!await findPNG("材料不足", 1)) {
-                        break;
-                    } else {
-                        log.warn(`检测到${Foods[i]}材料不足，等待图标消失`);
-                    }
-                    await sleep(300);
-                }
-                continue;
-            }
-            await sleep(800);
-            click(960, 460);
-            await sleep(800);
-            inputText(foodCount[i]);
-            log.info(`尝试制作${Foods[i]} ${foodCount[i]}个`);
-            log.warn("由于受到队列和背包食材数量限制，实际制作数量与上述数量可能不一致！");
-            await clickPNG("确认加工");
-            await sleep(500);
-            while (true) {
-                if (!await findPNG("已不能持有更多", 1)) {
-                    break;
-                } else {
-                    log.warn(`检测到${Foods[i]}已满，等待图标消失`);
-                }
                 await sleep(300);
             }
-            await sleep(200);
+            if (await clickPNG("全部领取", 3)) {
+                await clickPNG("点击空白区域继续");
+                await findPNG("食材加工2");
+                await sleep(100);
+            }
+            Foods.splice(i, 1);
+            foodCount.splice(i, 1);
+            return false;
+        }
+
+        /* ---------- 3. 正常加工流程 ---------- */
+        await findPNG("选择加工数量");
+        click(960, 460);
+        await sleep(800);
+        inputText(foodCount[i]);
+        log.info(`尝试制作${Foods[i]} ${foodCount[i]}个`);
+        await clickPNG("确认加工");
+        await sleep(500);
+
+        /* ---------- 4. 已不能持有更多 ---------- */
+        if (await findPNG("已不能持有更多", 1)) {
+            log.warn(`检测到${Foods[i]}已满，等待图标消失`);
+            while (await findPNG("已不能持有更多", 1)) {
+                log.warn(`检测到${Foods[i]}已满，等待图标消失`);
+                await sleep(300);
+            }
+            if (await clickPNG("全部领取", 3)) {
+                await clickPNG("点击空白区域继续");
+                await findPNG("食材加工2");
+                await sleep(100);
+            }
+            Foods.splice(i, 1);
+            foodCount.splice(i, 1);
+            return false;
+        }
+
+        await sleep(200);
+        /* 正常完成：仅领取，不移除 */
+        if (await clickPNG("全部领取", 3)) {
+            await clickPNG("点击空白区域继续");
+            await findPNG("食材加工2");
+            await sleep(100);
         }
     }
+
+    /* ===== 2. 两轮扫描 ===== */
+    const done = new Array(Foods.length).fill(false);
+
+    // 进入界面先领取一次
+    if (await clickPNG("全部领取", 3)) {
+        await clickPNG("点击空白区域继续");
+        await findPNG("食材加工2");
+        await sleep(100);
+    }
+
+    /* ---------- 第一轮：直接找 Foods[i]+"1" ---------- */
+    for (let i = 0; i < Foods.length; i++) {
+        if (!targetFoods.has(Foods[i])) continue;
+        if (await clickPNG(Foods[i] + "1", 5)) {
+            log.info(`${Foods[i]}已找到`);
+            await doCraft(i);
+            done[i] = true;
+        }
+    }
+
+    /* ---------- 第二轮：先点 item，再轮询 5 次识别 ---------- */
+    const rg = captureGameRegion();
+    const foodItems = [];
+    try {
+        for (const flag of ['已加工0个', '已加工1个']) {
+            const mat = file.ReadImageMatSync(`assets/RecognitionObject/${flag}.png`);
+            const res = rg.findMulti(RecognitionObject.TemplateMatch(mat));
+            for (let k = 0; k < res.count; ++k) {
+                foodItems.push({ x: res[k].x, y: res[k].y });
+            }
+            mat.dispose();
+        }
+    } finally { rg.dispose(); }
+
+    for (const item of foodItems) {
+        click(item.x, item.y); await sleep(200);
+        click(item.x, item.y); await sleep(200);
+
+        const foodROs = [];
+        for (let i = 0; i < Foods.length; i++) {
+            if (!targetFoods.has(Foods[i])) continue;          // 只处理目标食材
+            const ro = RecognitionObject.TemplateMatch(
+                file.ReadImageMatSync(`assets/RecognitionObject/${Foods[i]}2.png`)
+            );
+            ro.Threshold = 0.95;
+            ro.InitTemplate();
+            foodROs.push({ idx: i, name: Foods[i], ro });      // 记住原数组下标
+        }
+
+        for (let round = 0; round < 5; round++) {
+            const rg = captureGameRegion();
+            try {
+                let hit = false;
+
+                /* 2. 在同一帧里用建好的模板依次匹配 */
+                for (const it of foodROs) {
+                    if (done[it.idx]) continue;                // 已完成的跳过
+
+                    const res = rg.find(it.ro);
+                    if (res.isExist()) {
+                        log.info(`${it.name}已找到`);
+                        res.click();
+                        rg.dispose();                          // 提前释放
+                        await doCraft(it.idx);
+                        done[it.idx] = true;
+                        hit = true;
+                        break;                                 // 一轮只处理一个
+                    }
+                }
+
+                if (hit) break;                                // 本轮已处理，跳出 round
+            } finally {
+                rg.dispose();                                  // 确保释放截图
+            }
+        }
+
+    }
+
     await genshin.returnMainUi();
 }
 
