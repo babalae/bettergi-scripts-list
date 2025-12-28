@@ -17,7 +17,12 @@ var Core = {
      * ------------------------------------------------------ */
     _waitEnterWorld: async function (timeout = 180) {
         for (let i = 0; i < timeout; i++) {
-            const res = await Online.core.detectPlayerCount();
+            const res = await Online.core.detectPlayerCount();    
+    /**
+     * 检测当前玩家状态
+     * 先检测派蒙菜单，存在则检测0~4P图标，返回对应数字， 不存在派蒙或找不到0~4P图标则返回false
+     * @returns {Promise<{status: string, count: number}|false>} 返回状态和玩家数量或false（错误）
+     */
             if (res && res.status !== 'loading') {
                 log.info('[Core] 已进入世界');
                 await sleep(200);
@@ -214,18 +219,17 @@ var Core = {
      * ------------------------------------------------------ */
     executeMainProcess: async function () {
         // 1. 获取配置参数
-        const mode = settings.run_mode || "试试“利亚姆";
         const mpTask = settings.multiplayer_task || "一二三，木头人";
         const LaimAttack = settings.LaimAttack || false;
         const MAX_LOOP = settings.max_run_cycles || 133;
         const MAX_TIME_S = settings.max_run_minutes * 60 || 12 * 3600;
-        const GREET_TEXT = settings.greeting_sentence || '你好呀，可以打一点飞萤吗,谢谢你(✿◡‿◡)';
+        const GREET_TEXT = '你好呀，可以打一点飞萤吗,谢谢你(✿◡‿◡)';
         const JOIN_ICON = 'assets/a.png';
         
         // 2. 检查木头人模式（早退）
-        if (mpTask === "一二三，木头人") {
-            log.info('[multiplayer] 木头人模式：直接跳过后续流程');
-            return { ok: true, reason: '木头人模式跳过' };
+        if (mpTask === "一二三，木头人" ||mpTask === "放好路线啦！" ) {
+            log.info('[multiplayer] 其他模式：直接跳过后续流程');
+            return { ok: true, reason: '其他模式跳过' };
         }
         
         try {
@@ -257,14 +261,19 @@ var Core = {
                     // 等待进入世界
                     await this._waitEnterWorld();
                     
+                    await Online.core.outF2();
+                    
+                    // 等待进入世界
+                    await this._waitEnterWorld();
+                    
                     // 世界过渡等待
                     const timers = Online.core.createTimer(60000 * 5);
                     await Online.core.waitForWorldTransition(timers);
                     await sleep(300);
                     await genshin.returnMainUi();
-                    
+                    const res = await Online.core.detectPlayerCount();    
                     // 4.2 聊天打招呼
-                    if (GREET_TEXT) {
+                    if ( res && res.count >= 1) {
                         await ChatClick.saySomething(GREET_TEXT);
                         await ChatClick.sendEmoji(5, 3);
                     }
@@ -312,7 +321,11 @@ var Core = {
                     
                     dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
                     
-                    const chatOk = await ChatClick.selectSaySomething(counter);
+                    const res1 = await Online.core.detectPlayerCount();    
+                    
+                    if (res1 && res1.count >= 1) {
+                        await ChatClick.selectSaySomething(counter);
+                    }
                     keyPress('Space');
                     await Online.core.outF2();
                     await sleep(3600);
@@ -339,7 +352,7 @@ var Core = {
     },
 
     /* ------------------------------------------------------
-     * 6. 多人路径模式（原 executeMainProcess1）
+     * 6. 多人路径模式
      * ------------------------------------------------------ */
     executeMainProcess1: async function () {
         // 1. 获取配置参数
@@ -357,6 +370,7 @@ var Core = {
         }
         
         try {
+            log.info('[multiplayer] 路径模式，开始');
             await sleep(1200);
             
             // 3. 循环控制器
@@ -390,12 +404,13 @@ var Core = {
                     await sleep(300);
                     await genshin.returnMainUi();
                     
-                    // 4.2 聊天打招呼
-                    if (GREET_TEXT) {
+                    // 4.2 聊天打招呼                    
+                    const res = await Online.core.detectPlayerCount();   
+                    if (res && res.count >= 1) {
                         await ChatClick.saySomething(GREET_TEXT);
                         await ChatClick.sendEmoji(5, 3);
-                    }
                     await ChatClick.run(true);
+                    }
                     
                     // 4.3 执行路径
                     await Online.core.runPathingFolder(folderName);
@@ -416,8 +431,10 @@ var Core = {
                     
                     dispatcher.addTimer(new RealtimeTimer("AutoPick", { forceInteraction: false }));
                     
-                    keyPress('Space');
-                    const chatOk = await ChatClick.selectSaySomething(counter);
+                    const res1 = await Online.core.detectPlayerCount();    
+                    
+                    if (res1 && res1.count >= 1) {
+                        await ChatClick.selectSaySomething(counter);}
                     keyPress('Space');
                     await Online.core.outF2();
                     await sleep(3600);
