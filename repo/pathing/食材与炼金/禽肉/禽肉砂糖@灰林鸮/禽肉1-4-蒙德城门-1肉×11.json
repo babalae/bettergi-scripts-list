@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "1、砂糖行走位，且队伍里带着绮良良或埃洛伊。别带双风跑图；2、不需要生存位，生存位放技能容易惊动鸟；3、运行其它地图追踪会吓跑这里的鸟，建议优先运行此追踪；4、杀死的鸟在12小时后刷新，被吓跑的鸟0点或12点刷新，1肉鸟和2肉鸟每日上限各200只。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766120751773,
+    "last_modified_time": 1766304135926,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "禽肉1-4-蒙德城门-1肉×11",
@@ -72,15 +72,35 @@
       "action": "",
       "action_params": "",
       "id": 6,
+      "locked": false,
       "move_mode": "walk",
       "type": "target",
       "x": -1064.1055,
       "y": 2172.7397
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1094.1055,
+      "y": 2162.7397
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1064.1055,
+      "y": 2172.7397
+    },
+    {
       "action": "combat_script",
       "action_params": "砂糖 e",
-      "id": 7,
+      "id": 9,
       "move_mode": "dash",
       "type": "path",
       "x": -1021.11,
@@ -89,7 +109,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 8,
+      "id": 10,
       "move_mode": "walk",
       "type": "path",
       "x": -1013.56,
@@ -98,7 +118,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 11,
       "move_mode": "walk",
       "type": "path",
       "x": -1013.04,
@@ -107,7 +127,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 10,
+      "id": 12,
       "move_mode": "walk",
       "type": "path",
       "x": -1016.85,
@@ -116,7 +136,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 11,
+      "id": 13,
       "move_mode": "walk",
       "type": "path",
       "x": -1016.16,
@@ -125,7 +145,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 12,
+      "id": 14,
       "move_mode": "walk",
       "type": "path",
       "x": -1011.28,
