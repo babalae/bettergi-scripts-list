@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759226052310,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B04璃月琼玑野渌华池_2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 837.51,
+      "y": 235.14
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 861.21,
+      "y": 163.66
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 854.23,
+      "y": 168.81
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(1),wait(0.08),keyup(1),wait(0.21),keydown(e),wait(0.08),keyup(e),wait(1),keydown(2),wait(0.08),keyup(2),wait(0.21),keydown(e),wait(0.08),keyup(e),wait(6)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 854.23,
+      "y": 168.81
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 854.23,
+      "y": 168.81
+    }
+  ]
+}

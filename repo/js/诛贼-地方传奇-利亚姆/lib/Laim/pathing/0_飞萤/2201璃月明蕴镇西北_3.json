@@ -1,0 +1,94 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759225123084,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "2201璃月明蕴镇西北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -188.26171875,
+      "y": 972.7373046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.21),keydown(1),wait(0.08),keyup(1),wait(0.21),keydown(e),wait(0.08),keyup(e),wait(1),keydown(2),wait(0.08),keyup(2),wait(0.21),keydown(e),wait(0.08),keyup(e)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -224.853515625,
+      "y": 965.869140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -232.59375,
+      "y": 980.5634765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(1),wait(0.08),keyup(1),wait(0.21),keydown(e),wait(0.08),keyup(e),wait(1),keydown(2),wait(0.08),keyup(2),wait(0.21),keydown(e),wait(0.08),keyup(e)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -248.48828125,
+      "y": 964.9599609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -253.9609375,
+      "y": 982.6318359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(1),wait(0.08),keyup(1),wait(0.21),keydown(e),wait(0.08),keyup(e),wait(1),keydown(2),wait(0.08),keyup(2),wait(0.21),keydown(e),wait(0.08),keyup(e)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -233.544921875,
+      "y": 992.88916015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(1),wait(0.08),keyup(1),wait(0.21),keydown(e),wait(0.08),keyup(e),wait(1),keydown(2),wait(0.08),keyup(2),wait(0.21),keydown(e),wait(0.08),keyup(e),wait(6)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -222.4609375,
+      "y": 1003.8291015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -231.994140625,
+      "y": 1006.333984375
+    }
+  ]
+}

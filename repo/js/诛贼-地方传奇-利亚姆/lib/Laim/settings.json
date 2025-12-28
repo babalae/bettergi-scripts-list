@@ -1,0 +1,19 @@
+[
+  {
+    "name": "domainName",
+    "type": "select",
+    "label": "秘境名称",
+    "options": [
+      "仲夏庭园",
+      "塞西莉亚苗圃",
+      "荒废砌造坞"
+    ]
+  },
+  {
+    "name": "option",
+    "type": "select",
+    "label": "选择模式",
+    "options": ["推荐-换人","换队"],
+    "default": "推荐-换人"
+  }
+]

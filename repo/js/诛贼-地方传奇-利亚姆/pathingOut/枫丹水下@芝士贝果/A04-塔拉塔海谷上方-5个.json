@@ -1,0 +1,66 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757386019718,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A04-塔拉塔海谷上方-16个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4328.418,
+      "y": 3961.001
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,571)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4328.418,
+      "y": 3961.001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4417.6152,
+      "y": 4164.8398
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4417.6152,
+      "y": 4164.8398
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4414.4082,
+      "y": 4166.8989
+    }
+  ]
+}

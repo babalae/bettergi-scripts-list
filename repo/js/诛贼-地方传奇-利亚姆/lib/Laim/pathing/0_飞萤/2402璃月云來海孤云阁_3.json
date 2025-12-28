@@ -1,0 +1,85 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759282434478,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B02璃月云來海孤云阁_3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -657.56,
+      "y": -90.86
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -609.13,
+      "y": -126.61
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(1),wait(0.08),keyup(1),wait(0.21),keydown(e),wait(0.08),keyup(e),wait(1),keydown(2),wait(0.08),keyup(2),wait(0.21),keydown(e),wait(0.08),keyup(e),wait(1),keydown(1),wait(0.08),keyup(1)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -597.5,
+      "y": -125.51
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -550.75,
+      "y": -130.77
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -564.74,
+      "y": -119.75
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(1),wait(0.08),keyup(1),wait(0.21),keydown(e),wait(0.08),keyup(e),wait(1),keydown(2),wait(0.08),keyup(2),wait(0.21),keydown(e),wait(0.08),keyup(e),wait(1),keydown(1),wait(0.08),keyup(1)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -561.94,
+      "y": -126.61
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(8)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -566.638671875,
+      "y": -124.26806640625
+    }
+  ]
+}
