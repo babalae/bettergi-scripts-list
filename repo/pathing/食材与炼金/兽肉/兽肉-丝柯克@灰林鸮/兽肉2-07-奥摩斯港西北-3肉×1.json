@@ -1,0 +1,76 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766943532229,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "兽肉2-07-奥摩斯港西北-3肉×1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2806.80078125,
+      "y": -1790.099609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2805.9033203125,
+      "y": -1783.837890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2814.3671875,
+      "y": -1731.73388671875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2815.38671875,
+      "y": -1725.7119140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2815.4716796875,
+      "y": -1721.962890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2813.435546875,
+      "y": -1718.94482421875
+    }
+  ]
+}

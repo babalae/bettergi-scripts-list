@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766945867980,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "兽肉3-02-纳塔天赋本-3肉×1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7796.251953125,
+      "y": -1872.90869140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7796.4853515625,
+      "y": -1874.06396484375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(5),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7792.646484375,
+      "y": -1899.28369140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7790.71484375,
+      "y": -1907.2900390625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7790.37890625,
+      "y": -1913
+    }
+  ]
+}
