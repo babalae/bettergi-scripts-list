@@ -495,34 +495,29 @@ async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonst
         iterationCount++;
     }
 
-    /* ========== 3. 最小不可再减集合（贪心逆筛） ========== */
-    const selectedList = pathings.filter(p => p.selected)
+    /* ========== 3. 最小不可再减集合（贪心逆筛，不碰优先路线） ========== */
+    // 1. 只留非优先的已选路线，按性价比升序排
+    const selectedList = pathings
+        .filter(p => p.selected && !p.prioritized)   
         .sort((a, b) => {
-            /* ********  关键修改  ******** */
-            const eliteGainA = a.e === 0 ? 200 : (a.G1 - a.G2) / a.e;
-            const normalGainA = a.m === 0 ? 40.5 : a.G2 / a.m;
-            const perSecA = a.t === 0 ? 0 : a.G1 / a.t;
-            const aScore = (((eliteGainA / 200) ** k1) + ((normalGainA / 40.5) ** k2)) * perSecA;
-
-            const eliteGainB = b.e === 0 ? 200 : (b.G1 - b.G2) / b.e;
-            const normalGainB = b.m === 0 ? 40.5 : b.G2 / b.m;
-            const perSecB = b.t === 0 ? 0 : b.G1 / b.t;
-            const bScore = (((eliteGainB / 200) ** k1) + ((normalGainB / 40.5) ** k2)) * perSecB;
-            /* ******************************** */
-
-            return aScore - bScore;   // 升序：小的先删
+            const score = p => {
+                const eliteGain = p.e === 0 ? 200 : (p.G1 - p.G2) / p.e;
+                const normalGain = p.m === 0 ? 40.5 : p.G2 / p.m;
+                const perSec = p.t === 0 ? 0 : p.G1 / p.t;
+                return ((eliteGain / 200) ** k1 + (normalGain / 40.5) ** k2) * perSec;
+            };
+            return score(a) - score(b);   // 升序：差的先删
         });
 
+    // 2. 试删
     for (const p of selectedList) {
-        // 试删
         const newE = totalSelectedElites - p.e;
         const newM = totalSelectedMonsters - p.m;
         if (newE >= targetEliteNum && newM >= targetMonsterNum) {
-            // 删了仍达标，真删
             p.selected = false;
             totalSelectedElites = newE;
             totalSelectedMonsters = newM;
-            totalGainCombined -= p.G1;   // 精英阶段已用 G1 统计
+            totalGainCombined -= p.G1;
             totalTimeCombined -= p.t;
         }
     }
