@@ -1,0 +1,710 @@
+[
+  {
+    "id": "identity_check_hit",
+    "priority": 1,
+    "category": "ask",
+    "match": {
+      "keyword": [
+        "人机", "你是人吗", "脚本", "外挂", "机器人", "自动回复", "AI", "AI吗", 
+        "脚本号", "挂机", "批量回复", "复制粘贴", "自动发言", "码", "程序", 
+        "AI聊天", "图灵", "测试", "不是人", "机器人吧", "自动回复吧", 
+        "批量", "发言", "码的", "AI吧", "脚本吧", "自动吧", "挂机吧", 
+        "图灵吧", "不是真人吧", "人工智障", "码农吧", "AI聊天吧", "自动发言吧",
+        "广告", "宣传", "推广", "营销", "骗子", "诈骗", "假人", "机器",
+        "自动", "代码", "科技", "辅助", "工具", "托管", "代练",
+        "工作室", "多开", "模拟器", "虚拟机", "云手机"
+      ]
+    },
+    "replies": [
+      "如假包换的真人，手动不偷懒～"
+    ]
+  },
+  {
+    "id": "ask_permission_001",
+    "priority": 2,
+    "category": "ask",
+    "match": {
+      "exact": [],
+      "keyword": ["方便吗", "介意吗", "不影响吧", "不介意吧", "采点", "打点", "钓会儿"],
+      "regex": ["方便.*吗", "介意.*吗", "不影响.*吧", "不介意.*吧", "采点.*", "打点.*", "钓会儿.*"]
+    },
+    "replies": ["当然可以，我轻拿轻放～", "没问题，我速战速决！", "谢谢允许，我马上搞定～"]
+  },{
+  "id": "ask_completion_001",
+  "priority": 3,
+  "category": "ask",
+  "match": {
+    "exact": ["可以了吗", "好了吗", "完成了吗"],
+    "keyword": [],
+    "regex": ""
+  },
+  "replies": ["马上就好，再等我一下下～"]
+},
+  {
+    "id": "agree_full_001",
+    "priority": 3,
+    "category": "agree",
+    "match": {
+      "exact": ["随便采", "拿吧", "可以采", "没问题", "可以拿", "随便", "打", "跟", "轻一点", "速战速决"],
+      "keyword": [],
+      "regex": ""
+    },
+    "replies": ["谢谢许可～"]
+  },
+  {
+    "id": "hi_001",
+    "priority": 4,
+    "match": {
+      "exact": ["你好！", "hi", "你好"],
+      "keyword": [],
+      "regex": ""
+    },
+    "replies": ["你好啊！我很乖的"]
+  },
+  {
+    "id": "help_001",
+    "priority": 4,
+    "match": {
+      "exact": ["救命！", "help", "救救"],
+      "keyword": ["救命", "救救"],
+      "regex": ""
+    },
+    "replies": ["别怕！马上来"]
+  },
+  {
+    "id": "thanks_001",
+    "priority": 4,
+    "match": {
+      "exact": ["谢谢！", "谢了", "多谢"],
+      "keyword": ["感谢", "多谢", "谢谢"],
+      "regex": ""
+    },
+    "replies": ["玩得开心！"]
+  },
+  {
+    "id": "praise_001",
+    "priority": 4,
+    "match": {
+      "exact": ["真是精彩！", "精彩", "太棒了"],
+      "keyword": ["精彩", "棒", "厉害"],
+      "regex": ""
+    },
+    "replies": ["哈哈"]
+  },
+  {
+    "id": "invite_001",
+    "priority": 4,
+    "match": {
+      "exact": ["再邀请我一下！！", "再邀请", "邀请"],
+      "keyword": ["邀请"],
+      "regex": ""
+    },
+    "replies": [ "收到，等我邀请]"]
+  },
+  {
+    "id": "switch_001",
+    "priority": 4,
+    "match": {
+      "exact": ["等我换一下出场角色！", "换角色", "换人物"],
+      "keyword": ["换角色", "换人物"],
+      "regex": ""
+    },
+    "replies": ["慢慢来，我不急"]
+  },
+  {
+    "id": "challenge_001",
+    "priority": 4,
+    "match": {
+      "exact": ["开始挑战吧！", "挑战", "开打"],
+      "keyword": ["挑战", "开打", "开冲"],
+      "regex": ""
+    },
+    "replies": ["马上到，等我一小会"]
+  },
+  {
+    "id": "come_001",
+    "priority": 4,
+    "match": {
+      "exact": ["到我这里来！", "过来", "来这里"],
+      "keyword": ["过来", "来这里"],
+      "regex": ""
+    },
+    "replies": ["马上到，等我一小会"]
+  },
+  {
+    "id": "agree_hit",
+    "priority": 5,
+    "category": "agree",
+    "match": { "keyword": ["好", "行", "嗯", "可", "ok", "采", "拿", "速"] },
+    "replies": ["谢谢许可，我拿完就走～"]
+  },
+  {
+    "id": "refuse_hit",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "keyword": ["不", "滚", "累", "任务", "刷本", "挂机", "离线", "朋友", "自留", "拿完", "BOSS", "等级", "录视频", "网络", "更新", "等人", "陌生人"] },
+    "replies": ["理解，那我先撤～"]
+  },
+  {
+    "id": "p_005",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["不方便", "没空"], "regex": "" },
+    "replies": ["你忙你的，不打扰啦"]
+  },
+  {
+    "id": "p_006",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["马上离线", "要下线"], "regex": "" },
+    "replies": ["好的，先走一步"]
+  },
+  {
+    "id": "p_007",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["拿过了"], "regex": "" },
+    "replies": ["收到，拜拜啦～"]
+  },
+  {
+    "id": "p_008",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["不想"], "regex": "" },
+    "replies": ["理解，拜拜啦～"]
+  },
+  {
+    "id": "p_009",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["朋友"], "regex": "" },
+    "replies": ["玩的开心！"]
+  },
+  {
+    "id": "p_010",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["自留", "自己用"], "regex": "" },
+    "replies": ["明白，那我拜拜啦～"]
+  },
+  {
+    "id": "p_011",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["拿完"], "regex": "" },
+    "replies": ["真不巧，那我先走～"]
+  },
+  {
+    "id": "p_012",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["刷本"], "regex": "" },
+    "replies": [ "理解，拜拜啦～"]
+  },
+  {
+    "id": "p_014",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["BOSS", "怕卡"], "regex": "" },
+    "replies": ["理解，那我先撤！"]
+  },
+  {
+    "id": "p_015",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["世界等级太高"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_016",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["在挂机"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_017",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["刷新时间没到"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_018",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["在录视频"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_019",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["网络不好"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_020",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["马上更新"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_021",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["今天累了", "不想说话"], "regex": "" },
+    "replies": ["你歇着，我肯定是真人啦"]
+  },
+  {
+    "id": "p_022",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["在等人"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_023",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["不信任", "陌生人"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_024",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["你谁啊", "干嘛进我世界"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_026",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["出去"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_027",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["不打招呼就拿"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_028",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["偷材料"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_029",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["烦"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_030",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": ["滚"], "keyword": [], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_031",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["没素质", "不要脸"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_032",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["烦不烦", "有完没完"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_033",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["别让我说第二遍"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_034",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["就进"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_035",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["别动"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_036",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["偷"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_037",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["不行还拿"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_038",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["出去行不行"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_039",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["我认识你", "打啥"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_040",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["自己玩"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_041",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["真烦人"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_042",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["有完没完"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_043",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["还没"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_044",
+    "priority": 5,
+    "category": "agree",
+    "match": { "exact": [], "keyword": ["好耶"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  },
+  {
+    "id": "p_045",
+    "priority": 5,
+    "category": "refuse",
+    "match": { "exact": [], "keyword": ["委屈"], "regex": "" },
+    "replies": ["理解，拜拜啦"]
+  }
+,
+  {
+    "id": "p_046",
+    "priority": 5,
+    "category": "agree",
+    "match": { "exact": [], "keyword": ["嗨"], "regex": "" },
+    "replies": ["你好呀"]
+  },
+  {
+    "id": "p_049",
+    "priority": 5,
+    "category": "agree",
+    "match": { "exact": [], "keyword": ["偷笑"], "regex": "" },
+    "replies": [ "嘿嘿"]
+  },
+  {
+    "id": "p_050",
+    "priority": 5,
+    "category": "agree",
+    "match": { "exact": [], "keyword": ["没事吧"], "regex": "" },
+    "replies": ["没事的"]
+  },
+  {
+    "id": "p_051",
+    "priority": 5,
+    "category": "agree",
+    "match": { "exact": [], "keyword": ["害羞"], "regex": "" },
+    "replies": ["害羞+1～"]
+  },
+  {
+    "id": "p_052",
+    "priority": 5,
+    "category": "agree",
+    "match": { "exact": [], "keyword": ["嘘"], "regex": "" },
+    "replies": ["理解"]
+  },
+  {
+    "id": "p_067",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["精彩"], "regex": "" },
+    "replies": ["哈哈，一起厉害～", "那当然，我们配合无敌！"]
+  },
+  {
+    "id": "p_068",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["邀请"], "regex": "" },
+    "replies": ["OK，马上拉你～"]
+  },
+  {
+    "id": "p_069",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["换角色"], "regex": "" },
+    "replies": ["慢慢来，我等你～"]
+  },
+  {
+    "id": "p_070",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["挑战"], "regex": "" },
+    "replies": ["走起！我带你飞～"]
+  },
+  {
+    "id": "p_071",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["过来"], "regex": "" },
+    "replies": ["来啦来啦！等我一小会～"]
+  },
+  {
+    "id": "p_072",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["救命"], "regex": "" },
+    "replies": ["我来啦！别慌～"]
+  },
+  {
+    "id": "p_ask_001",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["人机", "你是人吗"], "regex": "" },
+    "replies": ["人还分真假？肯定是真人啦"]
+  },
+  {
+    "id": "p_ask_002",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["脚本", "外挂"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_003",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["机器人"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_004",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["自动回复"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_005",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["AI", "AI吗"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_006",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["脚本号"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_007",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["挂机"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_008",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["批量回复"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_009",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["复制粘贴"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_010",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["自动发言"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_011",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["码", "程序"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_012",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["AI聊天"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_013",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["图灵", "测试"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_014",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["不是人"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_015",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["机器人吧"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_016",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["自动回复吧"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_017",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["批量", "发言"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_018",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["码的"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_019",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["AI吧"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_020",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["脚本吧"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_021",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["自动吧"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_022",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["复制粘贴"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_023",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["挂机吧"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_024",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["图灵吧"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_025",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["不是真人吧"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_026",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["人工智障"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_027",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["机器人吧"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_028",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["码农吧"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_029",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["AI聊天吧"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  },
+  {
+    "id": "p_ask_030",
+    "priority": 5,
+    "category": "ask",
+    "match": { "exact": [], "keyword": ["自动发言吧"], "regex": "" },
+    "replies": ["如假包换的真人，手动不偷懒～"]
+  }
+
+]

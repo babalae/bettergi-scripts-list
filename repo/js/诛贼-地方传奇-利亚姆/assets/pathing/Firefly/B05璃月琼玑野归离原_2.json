@@ -1,0 +1,139 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759226158498,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B05璃月琼玑野归离原_2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 489.39,
+      "y": 222.15
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 489.79,
+      "y": 262.2
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 482.34,
+      "y": 264.95
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 447.79,
+      "y": 277.93
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 447.86,
+      "y": 277.92
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(1),wait(0.08),keyup(1),wait(0.21),keydown(e),wait(0.08),keyup(e),wait(1),keydown(2),wait(0.08),keyup(2),wait(0.21),keydown(e),wait(0.08),keyup(e),wait(2.5)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 390.11,
+      "y": 298.33
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 390.11,
+      "y": 298.33
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 373.3,
+      "y": 301.29
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 344.86,
+      "y": 293.2
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 301.45,
+      "y": 309.74
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 265.18,
+      "y": 227.45
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(1),wait(0.08),keyup(1),wait(0.21),keydown(e),wait(0.08),keyup(e),wait(1),keydown(2),wait(0.08),keyup(2),wait(0.21),keydown(e),wait(0.08),keyup(e),wait(6)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 258.55,
+      "y": 239.19
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(5)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 258.55,
+      "y": 239.24
+    }
+  ]
+}
