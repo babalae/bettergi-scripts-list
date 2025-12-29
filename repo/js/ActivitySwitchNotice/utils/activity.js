@@ -330,7 +330,7 @@ function convertHoursToWeeksDaysHours(totalHours) {
  * @param {string} key - 要识别的关键词，默认为"剩余时间"
  * @returns {string|null} 返回识别到的剩余时间文本，若未识别到则返回null
  */
-async function OcrRemainingTime(activityName, key = "剩余时间", ocrRegion = ocrRegionConfig.remainingTime) {
+async function OcrKey(activityName, key = "剩余时间", ocrRegion = ocrRegionConfig.remainingTime) {
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
     const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
     // ocrObject.threshold = 1.0;
@@ -452,7 +452,7 @@ async function activityMain() {
                 await click(res.x, res.y);     // 点击进入活动详情
                 await sleep(ms);
 
-                let remainingTimeText = await OcrRemainingTime(activityName);
+                let remainingTimeText = await OcrKey(activityName);
                 if (remainingTimeText) {
                     const totalHours = parseRemainingTimeToHours(remainingTimeText);
                     if (totalHours <= 24 && totalHours > 0) {
@@ -474,7 +474,7 @@ async function activityMain() {
                     if (needOcrOtherMap.has(activityName)) {
                         const keys = needOcrOtherMap.get(activityName);
                         for (const key of keys) {
-                            let text = await OcrRemainingTime(activityName, key);
+                            let text = await OcrKey(activityName, key);
                             if (text) {
                                 remainingTimeText += " [" + text + "] "
                             }
