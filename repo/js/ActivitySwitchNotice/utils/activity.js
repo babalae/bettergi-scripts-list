@@ -433,7 +433,7 @@ async function activityMain() {
             // 如果设置了指定活动列表，只处理包含这些关键词的活动
             if (config.whiteActivityNameList.length > 0) {
                 const matched = config.whiteActivityNameList.some(keyword => activityName.includes(keyword));
-                if (!matched) {
+                if (!matched&&(!config.relationship)) {
                     continue;  // 不关心的活动，跳过不点击
                 }
             }
