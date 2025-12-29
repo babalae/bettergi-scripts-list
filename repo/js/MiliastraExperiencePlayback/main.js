@@ -358,6 +358,7 @@ var userConfig = {
   }, []),
   dailyLimit: Math.max(1, Number(settings.dailyLimit || "1")),
   dailyForce: settings.dailyForce ?? false,
+  closeStageDialog: settings.closeStageDialog ?? true,
   goToTeyvat: settings.goToTeyvat ?? true
 };
 //! 脚本数据存储
@@ -371,20 +372,26 @@ var store = useStoreWithDefaults("data", {
 // src/modules/regions.ts
 //! 通用：查找确认按钮
 var findConfirmBtn = () => {
-  return findTextWithinBounds("确认", 480, 720, 960, 145);
+  const txt = findTextWithinBounds("确认", 480, 720, 960, 145);
+  txt?.drawSelf("group_text");
+  return txt;
 };
 //! 通用：查找标题文字
 var findHeaderTitle = (title, contains) => {
-  return findTextWithinBounds(title, 0, 0, 300, 95, { contains });
+  const txt = findTextWithinBounds(title, 0, 0, 300, 95, { contains });
+  txt?.drawSelf("group_text");
+  return txt;
 };
 //! 通用：查找底部按钮文字
 var findBottomBtnText = (text, contains) => {
-  return findTextWithinBounds(text, 0, 980, 1920, 100, { contains });
+  const txt = findTextWithinBounds(text, 0, 980, 1920, 100, { contains });
+  txt?.drawSelf("group_text");
+  return txt;
 };
 //! 通用：查找关闭对话框按钮
 var findCloseDialog = () => {
   const img = "assets/UI_BtnIcon_Close.png";
-  const iro = findImageWithinBounds(img, 410, 160, 1100, 660, { useMask: true, threshold: 0.8 });
+  const iro = findImageWithinBounds(img, 410, 160, 1100, 660, { useMask: true, threshold: 0.7 });
   iro?.drawSelf("group_img");
   return iro;
 };
@@ -858,14 +865,16 @@ var playStage = async (playbacks) => {
     return;
   }
   //! 关闭游戏说明对话框
-  await assertRegionDisappearing(
-    findCloseDialog,
-    "关闭游戏说明对话框超时",
-    () => {
-      findCloseDialog()?.click();
-    },
-    { maxAttempts: 10, retryInterval: 500 }
-  );
+  if (userConfig.closeStageDialog) {
+    await assertRegionDisappearing(
+      findCloseDialog,
+      "关闭游戏说明对话框超时",
+      () => {
+        findCloseDialog()?.click();
+      },
+      { maxAttempts: 10, retryInterval: 500 }
+    );
+  }
   //! 执行随机通关回放文件
   await execStagePlayback(playbacks);
   await sleep(3e3);
@@ -1132,8 +1141,8 @@ var execWeeklyTask = async () => {
   //! 创建进度追踪器
   const tracker = new ProgressTracker(attempts);
   //! 迭代尝试
-  try {
-    for (let i = 0; i < attempts; i++) {
+  for (let i = 0; i < attempts; i++) {
+    try {
       tracker.print(`开始本周第 ${store.weekly.attempts + 1} 次奇域挑战...`);
       //! 删除关卡存档
       await deleteStageSave();
@@ -1152,13 +1161,13 @@ var execWeeklyTask = async () => {
           break;
         }
       }
+    } catch (err) {
+      //! 发生主机异常（如：任务取消异常等），无法再继续执行
+      if (isHostException(err)) throw err;
+      //! 发生脚本流程异常，尝试退出关卡（如果在关卡中）
+      await exitStage();
+      log.error("脚本执行出错: {error}", getErrorMessage(err));
     }
-  } catch (err) {
-    //! 发生主机异常（如：任务取消异常等），无法再继续执行
-    if (isHostException(err)) throw err;
-    //! 发生脚本流程异常，尝试退出关卡（如果在关卡中）
-    await exitStage();
-    log.error("脚本执行出错: {error}", getErrorMessage(err));
   }
   await genshin.returnMainUi();
 };
