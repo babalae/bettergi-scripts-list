@@ -511,16 +511,16 @@ async function activityMain() {
                             }
                         }
                     }
-                    let common= undefined
+                    let common = new Array()
                     // 通用key
                     if (commonList && commonList.length > 0) {
                         for (let commonKey of commonList) {
                             let text = await OcrKey(activityName, commonKey);
-                            common = text
+                            common.push(text)
                         }
                     }
                     activityMap.set(activityName, {
-                        common: common,
+                        common: common.length > 0 ? common.join(",") : undefined,
                         text: remainingTimeText,
                         hours: totalHours,
                         desc: desc
