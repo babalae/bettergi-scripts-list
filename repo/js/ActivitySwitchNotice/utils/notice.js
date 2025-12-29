@@ -16,7 +16,9 @@ async function sendNotice(map, title, noNotice) {
 
     let noticeText = title ? title + "\n======\n" : "\n"
     for (const [name, info] of sortedEntries) {
-        noticeText += `> ${name} ${info.text} (还剩 ${info.hours} 小时) ${info.desc}\n----\n`;
+        let common = info.common
+        common = common ? `(${common})` : ''
+        noticeText += `> ${common} ${name} ${info.text} (还剩 ${info.hours} 小时) ${info.desc}\n----\n`;
     }
     // 发送通知
     notification.send(noticeText)
@@ -30,7 +32,7 @@ async function sendNotice(map, title, noNotice) {
  */
 async function send(noticeText, title, noNotice) {
     // 检查是否有通知内容且设置了不发送通知的标志
-    if (noticeText&&noNotice) {
+    if (noticeText && noNotice) {
         log.info(`无通知内容`)  // 记录日志信息
         return  // 直接返回，不执行后续操作
     }
