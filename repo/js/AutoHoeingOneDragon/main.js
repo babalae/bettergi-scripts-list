@@ -1,14 +1,12 @@
-//当前js版本1.14.0
+//当前js版本1.15.0
 
 let timeMoveUp;
 let timeMoveDown;
-let pickup_Mode = settings.pickup_Mode || "模板匹配拾取，拾取狗粮和怪物材料";
+const accountName = settings.accountName || "默认账户";
+
+let pickup_Mode;
 let dumpers;
-if (settings.activeDumperMode) { //处理泥头车信息
-    dumpers = settings.activeDumperMode.split('，').map(Number).filter(num => num === 1 || num === 2 || num === 3 || num === 4);
-} else {
-    dumpers = [];
-}
+
 let gameRegion;
 let targetItemPath = "assets/targetItems";
 
@@ -36,13 +34,7 @@ const mainUIRo = RecognitionObject.TemplateMatch(mainUITemplate, 0, 0, 150, 150)
 let targetItems;
 let doFurinaSwitch = false;
 
-let findFInterval = (+settings.findFInterval || 100);
-if (findFInterval < 16) {
-    findFInterval = 16;
-}
-if (findFInterval > 200) {
-    findFInterval = 200;
-}
+let findFInterval;
 let lastRoll = new Date();
 let checkDelay = Math.round(findFInterval / 2);
 let rollingDelay = (+settings.rollingDelay || 32);
@@ -53,19 +45,95 @@ let warnMessage = [];
 let blacklist = [];
 let blacklistSet = new Set();
 let state;
-const accountName = settings.accountName || "默认账户";
+
 let pathings;
 let localeWorks;
 
-const priorityTags = (settings.priorityTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
-const excludeTags = (settings.excludeTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
+let priorityTags;
+let excludeTags;
 
 let runningFailCount = 0;
 
 (async function () {
+    if (settings.groupIndex === "路径组一") {
+        const cfg = {
+            tagsForGroup1: settings.tagsForGroup1 || "",
+            tagsForGroup2: settings.tagsForGroup2 || "",
+            tagsForGroup3: settings.tagsForGroup3 || "",
+            tagsForGroup4: settings.tagsForGroup4 || "",
+            tagsForGroup5: settings.tagsForGroup5 || "",
+            tagsForGroup6: settings.tagsForGroup6 || "",
+            tagsForGroup7: settings.tagsForGroup7 || "",
+            tagsForGroup8: settings.tagsForGroup8 || "",
+            tagsForGroup9: settings.tagsForGroup9 || "",
+            tagsForGroup10: settings.tagsForGroup10 || "",
+            disableSelfOptimization: settings.disableSelfOptimization ?? false,
+            eEfficiencyIndex: settings.eEfficiencyIndex ?? 2.5,
+            mEfficiencyIndex: settings.mEfficiencyIndex ?? 0.5,
+            splitFactor: settings.splitFactor ?? 0,
+            targetEliteNum: settings.targetEliteNum ?? 400,
+            targetMonsterNum: settings.targetMonsterNum ?? 2000,
+            priorityTags: settings.priorityTags ?? "",
+            excludeTags: settings.excludeTags ?? ""
+        };
+        const cfgStr = JSON.stringify(cfg, null, 2);
+        if (cfgStr.includes("莫酱") || cfgStr.includes("汐酱")) {
+            log.error("路线选择与分组配置中包含关键词（莫酱/汐酱），强制终止！");
+            return;
+        }
+
+        /* 校验通过，正常写文件 */
+        const filePath = `settings/${accountName}.json`;
+        file.writeText(filePath, cfgStr, false);
+    } else {
+        let cfg;
+        try {
+            const raw = await file.readText(`settings/${accountName}.json`);
+            cfg = JSON.parse(raw);
+        } catch (error) {
+            log.error(`配置文件settings/${accountName}.json不存在，请先在路径组一的配置组运行一次`);
+            await sleep(10000);
+            return;
+        }
+        settings.tagsForGroup1 = cfg.tagsForGroup1 ?? "";
+        settings.tagsForGroup2 = cfg.tagsForGroup2 ?? "";
+        settings.tagsForGroup3 = cfg.tagsForGroup3 ?? "";
+        settings.tagsForGroup4 = cfg.tagsForGroup4 ?? "";
+        settings.tagsForGroup5 = cfg.tagsForGroup5 ?? "";
+        settings.tagsForGroup6 = cfg.tagsForGroup6 ?? "";
+        settings.tagsForGroup7 = cfg.tagsForGroup7 ?? "";
+        settings.tagsForGroup8 = cfg.tagsForGroup8 ?? "";
+        settings.tagsForGroup9 = cfg.tagsForGroup9 ?? "";
+        settings.tagsForGroup10 = cfg.tagsForGroup10 ?? "";
+        settings.disableSelfOptimization = cfg.disableSelfOptimization ?? false;
+        settings.eEfficiencyIndex = cfg.eEfficiencyIndex ?? 2.5;
+        settings.mEfficiencyIndex = cfg.mEfficiencyIndex ?? 0.5;
+        settings.splitFactor = cfg.splitFactor ?? 0;
+        settings.targetEliteNum = cfg.targetEliteNum ?? 400;
+        settings.targetMonsterNum = cfg.targetMonsterNum ?? 2000;
+        settings.priorityTags = cfg.priorityTags ?? "";
+        settings.excludeTags = cfg.excludeTags ?? "";
+    }
     targetItems = await loadTargetItems();
     //自定义配置处理
     const operationMode = settings.operationMode || "运行锄地路线";
+    pickup_Mode = settings.pickup_Mode || "模板匹配拾取，拾取狗粮和怪物材料";
+    if (settings.activeDumperMode) { //处理泥头车信息
+        dumpers = settings.activeDumperMode.split('，').map(Number).filter(num => num === 1 || num === 2 || num === 3 || num === 4);
+    } else {
+        dumpers = [];
+    }
+
+    let findFInterval = (+settings.findFInterval || 100);
+    if (findFInterval < 16) {
+        findFInterval = 16;
+    }
+    if (findFInterval > 200) {
+        findFInterval = 200;
+    }
+
+    priorityTags = (settings.priorityTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
+    excludeTags = (settings.excludeTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
 
     localeWorks = !isNaN(Date.parse(new Date().toLocaleString()));
     if (!localeWorks) {
@@ -143,27 +211,9 @@ let runningFailCount = 0;
 
     //分配到不同路径组
     await assignGroups(pathings, groupTags);
-    /*
-        //分配结果输出
-        pathings.forEach((pathing, index) => {
-            log.info(`路径 ${index + 1}:`);
-            log.info(`  fullPath: ${pathing.fullPath}`);
-            log.info(`  fileName: ${pathing.fileName}`);
-            log.info(`  group: ${pathing.group}`);
-            log.info(`  cdTime: ${pathing.cdTime}`);
-            log.info(`  tags: ${pathing.tags.join(', ')}`);
-            log.info(`  available: ${pathing.available}`);
-            log.info(`  selected: ${pathing.selected}`);
-            log.info(`  预计用时: ${pathing.t} 秒`);
-            log.info(`  普通怪物数量: ${pathing.m}`);
-            log.info(`  精英怪物数量: ${pathing.e}`);
-            log.info(`  普通怪物摩拉值: ${pathing.mora_m}`);
-            log.info(`  精英怪物摩拉值: ${pathing.mora_e}`);
-            log.info(''); // 空行分隔每个路径的信息
-        });
-    */
+
     //根据操作模式选择不同的处理方式
-    if (operationMode === "输出地图追踪文件") {
+    if (operationMode === "调试路线分配") {
         log.info("开始复制并输出地图追踪文件\n请前往js文件夹查看");
         await copyPathingsByGroup(pathings);
         await updateRecords(pathings, accountName);
@@ -209,7 +259,7 @@ let runningFailCount = 0;
                 return;
 
             case avatars.includes('钟离'):
-                log.warn("当前队伍包含钟离，钟离不适合锄地，建议重新阅读 readme 相关部分");
+                log.warn("当前队伍包含钟离，不适合锄地，建议重新阅读 readme 相关部分");
                 await sleep(5000);
                 break;
 
@@ -498,7 +548,7 @@ async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonst
     /* ========== 3. 最小不可再减集合（贪心逆筛，不碰优先路线） ========== */
     // 1. 只留非优先的已选路线，按性价比升序排
     const selectedList = pathings
-        .filter(p => p.selected && !p.prioritized)   
+        .filter(p => p.selected && !p.prioritized)
         .sort((a, b) => {
             const score = p => {
                 const eliteGain = p.e === 0 ? 200 : (p.G1 - p.G2) / p.e;
