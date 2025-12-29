@@ -177,56 +177,65 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
         await moveMouseTo(0, 20);
 
         // 截图 + OCR 识别活动列表区域
-        let captureRegion = captureGameRegion();
-        const ocrObject = RecognitionObject.Ocr(
-            ocrRegion.x,
-            ocrRegion.y,
-            ocrRegion.width,
-            ocrRegion.height
-        );
-        // 可选：提升识别率
-        // ocrObject.threshold = 0.8;
+        let captureRegion = null;
+        try {
+            captureRegion = captureGameRegion();
+            const ocrObject = RecognitionObject.Ocr(
+                ocrRegion.x,
+                ocrRegion.y,
+                ocrRegion.width,
+                ocrRegion.height
+            );
+            // 可选：提升识别率
+            // ocrObject.threshold = 0.8;
 
-        let resList = captureRegion.findMulti(ocrObject);
-        captureRegion.dispose();
+            let resList = captureRegion.findMulti(ocrObject);
+            // captureRegion.dispose();
 
-        // 如果完全没识别到任何活动，可能是页面异常或已在顶（极少情况）
-        if (resList.length === 0) {
-            log.warn("顶部OCR未识别到任何活动条目，可能是页面为空或识别失败");
-            // 再尝试一次向上滚大距离
-            // await scrollPagesByActivity(true);  // true = 向上
-            await scrollPagesByActivity(true, 80 * 4, 6, 60);
-            await sleep(ms);
-            continue;
-        }
-
-        // 取当前识别到的最顶部活动名称（resList[0] 通常是列表最上面的）
-        const currentTopName = resList[0].text.trim();
-
-        log.info(`当前检测到的顶部活动: {currentTopName}`, currentTopName);
-
-        // 判断是否与上一次相同
-        if (currentTopName === topActivityName) {
-            sameTopCount++;
-            log.debug(`顶部活动连续相同 ${sameTopCount} 次`);
-
-            if (sameTopCount >= requiredSameCount) {
-                log.info(`已连续 {sameTopCount} 次检测到相同顶部活动，确认回到页面最顶部！`, sameTopCount);
-                return;  // 成功回到顶部
+            // 如果完全没识别到任何活动，可能是页面异常或已在顶（极少情况）
+            if (resList.length === 0) {
+                log.warn("顶部OCR未识别到任何活动条目，可能是页面为空或识别失败");
+                // 再尝试一次向上滚大距离
+                // await scrollPagesByActivity(true);  // true = 向上
+                await scrollPagesByActivity(true, 80 * 4, 6, 60);
+                await sleep(ms);
+                continue;
             }
-        } else {
-            // 顶部名称变了，说明还在向上滚动，重置计数
-            topActivityName = currentTopName;
-            sameTopCount = 1;  // 这次算第一次
+
+            // 取当前识别到的最顶部活动名称（resList[0] 通常是列表最上面的）
+            const currentTopName = resList[0].text.trim();
+
+            log.info(`当前检测到的顶部活动: {currentTopName}`, currentTopName);
+
+            // 判断是否与上一次相同
+            if (currentTopName === topActivityName) {
+                sameTopCount++;
+                log.debug(`顶部活动连续相同 ${sameTopCount} 次`);
+
+                if (sameTopCount >= requiredSameCount) {
+                    log.info(`已连续 {sameTopCount} 次检测到相同顶部活动，确认回到页面最顶部！`, sameTopCount);
+                    return;  // 成功回到顶部
+                }
+            } else {
+                // 顶部名称变了，说明还在向上滚动，重置计数
+                topActivityName = currentTopName;
+                sameTopCount = 1;  // 这次算第一次
+            }
+
+            // 未达到稳定状态，继续向上滚动一页（可根据实际情况调整滚动距离）
+            // 这里使用更大滚动距离确保能快速回顶
+            // await scrollPagesByActivity(true);  // true = 向上
+            // 可选：加大单次滚动量（如果你发现默认一页不够）
+            await scrollPagesByActivity(true, 80 * 4, 6, 60);
+
+            await sleep(ms);  // 给页面滚动和渲染留时间
+        } finally {
+            // 确保资源被正确释放
+            if (captureRegion) {
+                captureRegion.dispose();
+            }
         }
 
-        // 未达到稳定状态，继续向上滚动一页（可根据实际情况调整滚动距离）
-        // 这里使用更大滚动距离确保能快速回顶
-        // await scrollPagesByActivity(true);  // true = 向上
-        // 可选：加大单次滚动量（如果你发现默认一页不够）
-        await scrollPagesByActivity(true, 80 * 4, 6, 60);
-
-        await sleep(ms);  // 给页面滚动和渲染留时间
     }
 
     // 超过最大尝试次数仍未稳定
@@ -561,7 +570,7 @@ async function activityMain() {
 
         let blackText = "";
         if (config.blackActivityNameList.length > 0) {
-            blackText +=  `|==>已开启黑名单: ${config.blackActivityNameList.join(",")}<==|`
+            blackText += `|==>已开启黑名单: ${config.blackActivityNameList.join(",")}<==|`
         }
 
         await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示 ${titleKey} 的活动)${blackText}`);
