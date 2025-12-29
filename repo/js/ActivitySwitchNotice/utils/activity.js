@@ -396,148 +396,156 @@ async function activityMain() {
         // 移动鼠标到安全位置，避免干扰截图
         await moveMouseTo(0, 20);
         // 获取当前页面活动列表区域截图并 OCR
-        let captureRegion = captureGameRegion();
-        const ocrObject = RecognitionObject.Ocr(
-            ocrRegionConfig.activity.x,
-            ocrRegionConfig.activity.y,
-            ocrRegionConfig.activity.width,
-            ocrRegionConfig.activity.height
-        );
-        let resList = captureRegion.findMulti(ocrObject);
-        captureRegion.dispose();
+        let captureRegion = null;
+        try {
+            captureRegion = captureGameRegion();
 
-        // 如果本页完全没有识别到活动，可能是到底了或 OCR 失败
-        if (resList.length === 0) {
-            log.info("当前页未识别到任何活动，视为已到页面底部");
-            break;
-        }
-        // ============ 新增：提前判断是否为重复页 ============
-        const currentPageNames = new Set();
-        for (let res of resList) {
-            currentPageNames.add(res.text.trim());
-        }
+            const ocrObject = RecognitionObject.Ocr(
+                ocrRegionConfig.activity.x,
+                ocrRegionConfig.activity.y,
+                ocrRegionConfig.activity.width,
+                ocrRegionConfig.activity.height
+            );
+            let resList = captureRegion.findMulti(ocrObject);
+            // captureRegion.dispose();
 
-        // 计算与上一页的重合率
-        if (previousPageActivities.size > 0) {
-            let overlapCount = 0;
-            for (let name of currentPageNames) {
-                if (previousPageActivities.has(name)) overlapCount++;
-            }
-            const overlapRatio = overlapCount / previousPageActivities.size;
-
-            // 如果重合率 >= 70%（可调整），认为滚动未生效，是重复页
-            if (overlapRatio >= 0.7) {
-                log.info(`检测到当前页与上一页高度重复（重合率 ${Math.round(overlapRatio * 100)}%），已到达底部，停止扫描`);
+            // 如果本页完全没有识别到活动，可能是到底了或 OCR 失败
+            if (resList.length === 0) {
+                log.info("当前页未识别到任何活动，视为已到页面底部");
                 break;
             }
-        }
+            // ============ 新增：提前判断是否为重复页 ============
+            const currentPageNames = new Set();
+            for (let res of resList) {
+                currentPageNames.add(res.text.trim());
+            }
 
-        // 更新上一页记录（为下一轮做准备）
-        previousPageActivities = currentPageNames;
-        // =================================================
+            // 计算与上一页的重合率
+            if (previousPageActivities.size > 0) {
+                let overlapCount = 0;
+                for (let name of currentPageNames) {
+                    if (previousPageActivities.has(name)) overlapCount++;
+                }
+                const overlapRatio = overlapCount / previousPageActivities.size;
 
-        let currentPageBottomName = null;  // 本页最下面的活动名
-        let newActivityCountThisPage = 0;
-
-        // 遍历当前页所有识别到的活动条目
-        for (let res of resList) {
-            const activityName = res.text.trim();
-
-            // 如果设置了指定活动列表，只处理包含这些关键词的活动
-            if (config.whiteActivityNameList.length > 0) {
-                const matched = config.whiteActivityNameList.some(keyword => activityName.includes(keyword));
-                if (!matched && (config.relationship)) {
-                    continue;  // 不关心的活动，跳过不点击
+                // 如果重合率 >= 70%（可调整），认为滚动未生效，是重复页
+                if (overlapRatio >= 0.7) {
+                    log.info(`检测到当前页与上一页高度重复（重合率 ${Math.round(overlapRatio * 100)}%），已到达底部，停止扫描`);
+                    break;
                 }
             }
 
-            if (config.blackActivityNameList.length > 0) {
-                const matched = config.blackActivityNameList.some(keyword => activityName.includes(keyword));
-                if (matched) {
-                    continue;  // 不关心的活动，跳过不点击
+            // 更新上一页记录（为下一轮做准备）
+            previousPageActivities = currentPageNames;
+            // =================================================
+
+            let currentPageBottomName = null;  // 本页最下面的活动名
+            let newActivityCountThisPage = 0;
+
+            // 遍历当前页所有识别到的活动条目
+            for (let res of resList) {
+                const activityName = res.text.trim();
+
+                // 如果设置了指定活动列表，只处理包含这些关键词的活动
+                if (config.whiteActivityNameList.length > 0) {
+                    const matched = config.whiteActivityNameList.some(keyword => activityName.includes(keyword));
+                    if (!matched && (config.relationship)) {
+                        continue;  // 不关心的活动，跳过不点击
+                    }
                 }
-            }
 
-            // 避免重复点击同一个活动（防止 OCR 误识别或页面抖动）
-            if (activityMap.has(activityName)) {
-                log.info(`活动已记录，跳过重复点击: ${activityName}`);
-            } else {
-                await click(res.x, res.y);     // 点击进入活动详情
-                await sleep(ms);
-
-                let remainingTimeText = await OcrKey(activityName);
-                if (remainingTimeText) {
-                    const totalHours = parseRemainingTimeToHours(remainingTimeText);
-                    if (totalHours <= 24 && totalHours > 0) {
-                        remainingTimeText += '<即将结束>'
+                if (config.blackActivityNameList.length > 0) {
+                    const matched = config.blackActivityNameList.some(keyword => activityName.includes(keyword));
+                    if (matched) {
+                        continue;  // 不关心的活动，跳过不点击
                     }
-                    let desc = ""
+                }
 
-                    let dateEnum = getActivityTermConversion(activityName);
-                    log.debug(`activityName:{activityName},dateEnum：{dateenum.dateEnum}`, activityName, dateEnum.dateEnum)
-                    switch (dateEnum.dateEnum) {
-                        case DATE_ENUM.WEEK:
-                            desc += "|==>" + convertHoursToWeeksDaysHours(totalHours) + "<==|";
-                            break;
-                        case DATE_ENUM.HOUR:
-                            break;
-                        default:
-                            break;
-                    }
-                    let needMap = getMapByKey(needOcrOtherMap, activityName);
-                    if (needMap) {
-                        const keys = needMap;
-                        for (const key of keys) {
-                            let text = await OcrKey(activityName, key);
-                            if (text) {
-                                remainingTimeText += " [" + text + "] "
+                // 避免重复点击同一个活动（防止 OCR 误识别或页面抖动）
+                if (activityMap.has(activityName)) {
+                    log.info(`活动已记录，跳过重复点击: ${activityName}`);
+                } else {
+                    await click(res.x, res.y);     // 点击进入活动详情
+                    await sleep(ms);
+
+                    let remainingTimeText = await OcrKey(activityName);
+                    if (remainingTimeText) {
+                        const totalHours = parseRemainingTimeToHours(remainingTimeText);
+                        if (totalHours <= 24 && totalHours > 0) {
+                            remainingTimeText += '<即将结束>'
+                        }
+                        let desc = ""
+
+                        let dateEnum = getActivityTermConversion(activityName);
+                        log.debug(`activityName:{activityName},dateEnum：{dateenum.dateEnum}`, activityName, dateEnum.dateEnum)
+                        switch (dateEnum.dateEnum) {
+                            case DATE_ENUM.WEEK:
+                                desc += "|==>" + convertHoursToWeeksDaysHours(totalHours) + "<==|";
+                                break;
+                            case DATE_ENUM.HOUR:
+                                break;
+                            default:
+                                break;
+                        }
+                        let needMap = getMapByKey(needOcrOtherMap, activityName);
+                        if (needMap) {
+                            const keys = needMap;
+                            for (const key of keys) {
+                                let text = await OcrKey(activityName, key);
+                                if (text) {
+                                    remainingTimeText += " [" + text + "] "
+                                }
                             }
                         }
-                    }
-                    let common = new Array()
-                    // 通用key
-                    if (commonList && commonList.length > 0) {
-                        for (let commonKey of commonList) {
-                            let text = await OcrKey(activityName, commonKey);
-                            common.push(text)
+                        let common = new Array()
+                        // 通用key
+                        if (commonList && commonList.length > 0) {
+                            for (let commonKey of commonList) {
+                                let text = await OcrKey(activityName, commonKey);
+                                common.push(text)
+                            }
                         }
+                        activityMap.set(activityName, {
+                            common: common.length > 0 ? common.join(",") : undefined,
+                            text: remainingTimeText,
+                            hours: totalHours,
+                            desc: desc
+                        });
+                        log.info(`成功记录 → {activityName} {remainingTime} 共计: {hours} 小时`, activityName, remainingTimeText, totalHours);
+                        newActivityCountThisPage++;
                     }
-                    activityMap.set(activityName, {
-                        common: common.length > 0 ? common.join(",") : undefined,
-                        text: remainingTimeText,
-                        hours: totalHours,
-                        desc: desc
-                    });
-                    log.info(`成功记录 → {activityName} {remainingTime} 共计: {hours} 小时`, activityName, remainingTimeText, totalHours);
-                    newActivityCountThisPage++;
+
+                    await sleep(ms);
                 }
 
-                await sleep(ms);
+                // 更新本页最下面的活动名
+                currentPageBottomName = activityName;
             }
-
-            // 更新本页最下面的活动名
-            currentPageBottomName = activityName;
-        }
-        // 备用判断：本页一个新活动都没加，也认为到底（双保险）
-        if (newActivityCountThisPage === 0 && scannedPages > 1) {
-            log.info("本页无新活动添加，确认已到底");
-            break;
-        }
-        // 5. 判断是否已到达页面底部
-        if (currentPageBottomName && currentPageBottomName === lastPageBottomName) {
-            sameBottomCount++;
-            if (sameBottomCount >= sameBottomCountMax) {
-                log.info("连续{sameBottomCountMax}次检测到相同底部活动，已确认到达页面最底部，扫描结束", sameBottomCountMax);
+            // 备用判断：本页一个新活动都没加，也认为到底（双保险）
+            if (newActivityCountThisPage === 0 && scannedPages > 1) {
+                log.info("本页无新活动添加，确认已到底");
                 break;
             }
-        } else {
-            sameBottomCount = 0;  // 重置计数
-        }
-        lastPageBottomName = currentPageBottomName;
+            // 5. 判断是否已到达页面底部
+            if (currentPageBottomName && currentPageBottomName === lastPageBottomName) {
+                sameBottomCount++;
+                if (sameBottomCount >= sameBottomCountMax) {
+                    log.info("连续{sameBottomCountMax}次检测到相同底部活动，已确认到达页面最底部，扫描结束", sameBottomCountMax);
+                    break;
+                }
+            } else {
+                sameBottomCount = 0;  // 重置计数
+            }
+            lastPageBottomName = currentPageBottomName;
 
-        // 6. 向下滑动一页，继续下一轮
-        await scrollPagesByActivity(false);  // false = 向下滚动
-        await sleep(ms);
+            // 6. 向下滑动一页，继续下一轮
+            await scrollPagesByActivity(false);  // false = 向下滚动
+            await sleep(ms);
+        } finally {
+            if (captureRegion) {
+                captureRegion.dispose();
+            }
+        }
     }
     let activityMapFilter = new Map();
     Array.from(activityMap.entries())
