@@ -584,7 +584,13 @@ async function activityMain() {
             titleKey += `白名单 <<${config.whiteActivityNameList.join(", ")}>>`;
         }
         titleKey += `] `;
-        await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示 ${titleKey} 的活动)${config.blackActivityNameList.length <= 0 ? "" : "|==>已开启黑名单:" + config.blackActivityNameList.join(",") + "<==|"}`);
+
+        let blackText = "";
+        if (config.blackActivityNameList.length > 0) {
+            blackText +=  `|==>已开启黑名单: ${config.blackActivityNameList.join(",")}<==|`
+        }
+
+        await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示 ${titleKey} 的活动)${blackText}`);
     } else {
         log.warn("不存在符合条件的活动，未发送通知");
     }
