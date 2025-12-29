@@ -45,6 +45,7 @@ const DATE_ENUM = Object.freeze({
 const activityTermConversionMap = new Map([
     ["砺行修远", {dateEnum: DATE_ENUM.WEEK}],
 ]);
+const commonList = ["已完成"]
 const needOcrOtherMap = new Map([
     ["砺行修远", ["本周进度", "完成进度"]],
     ["幽境危战", ["紊乱爆发期"]],
@@ -508,6 +509,13 @@ async function activityMain() {
                             if (text) {
                                 remainingTimeText += " [" + text + "] "
                             }
+                        }
+                    }
+                    // 通用key
+                    if (commonList && commonList.length > 0) {
+                        for (let commonKey of commonList) {
+                            let text = await OcrKey(activityName, commonKey);
+                            remainingTimeText = `\{${text}\}` + remainingTimeText
                         }
                     }
                     activityMap.set(activityName, {
