@@ -34,7 +34,13 @@ const mainUIRo = RecognitionObject.TemplateMatch(mainUITemplate, 0, 0, 150, 150)
 let targetItems;
 let doFurinaSwitch = false;
 
-let findFInterval;
+let findFInterval = (+settings.findFInterval || 100);
+if (findFInterval < 16) {
+    findFInterval = 16;
+}
+if (findFInterval > 200) {
+    findFInterval = 200;
+}
 let lastRoll = new Date();
 let checkDelay = Math.round(findFInterval / 2);
 let rollingDelay = (+settings.rollingDelay || 32);
@@ -123,14 +129,6 @@ let runningFailCount = 0;
         dumpers = settings.activeDumperMode.split('，').map(Number).filter(num => num === 1 || num === 2 || num === 3 || num === 4);
     } else {
         dumpers = [];
-    }
-
-    let findFInterval = (+settings.findFInterval || 100);
-    if (findFInterval < 16) {
-        findFInterval = 16;
-    }
-    if (findFInterval > 200) {
-        findFInterval = 200;
     }
 
     priorityTags = (settings.priorityTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
