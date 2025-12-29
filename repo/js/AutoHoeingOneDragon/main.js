@@ -114,10 +114,11 @@ let runningFailCount = 0;
         settings.priorityTags = cfg.priorityTags ?? "";
         settings.excludeTags = cfg.excludeTags ?? "";
     }
-    targetItems = await loadTargetItems();
+
     //自定义配置处理
     const operationMode = settings.operationMode || "运行锄地路线";
     pickup_Mode = settings.pickup_Mode || "模板匹配拾取，拾取狗粮和怪物材料";
+    targetItems = await loadTargetItems();
     if (settings.activeDumperMode) { //处理泥头车信息
         dumpers = settings.activeDumperMode.split('，').map(Number).filter(num => num === 1 || num === 2 || num === 3 || num === 4);
     } else {
