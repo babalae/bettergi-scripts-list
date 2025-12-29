@@ -341,7 +341,7 @@ async function OcrKey(activityName, key = "剩余时间", ocrRegion = ocrRegionC
         for (let res of resList) {
             if (res.text.includes(key)) { // 检查识别结果是否包含关键词
                 log.debug(`{activityName}--{time}`, activityName, res.text); // 记录日志
-                list.add(res.text.trim())
+                list.push(res.text.trim())
                 return res.text             // 返回识别到的文本
             }
         }
