@@ -331,19 +331,29 @@ function convertHoursToWeeksDaysHours(totalHours) {
  * @returns {string|null} 返回识别到的剩余时间文本，若未识别到则返回null
  */
 async function OcrKey(activityName, key = "剩余时间", ocrRegion = ocrRegionConfig.remainingTime) {
+
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
-    const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
-    // ocrObject.threshold = 1.0;
-    let resList = captureRegion.findMulti(ocrObject); // 在指定区域进行OCR识别
-    captureRegion.dispose(); // 释放截图资源
-    for (let res of resList) {
-        if (res.text.includes(key)) { // 检查识别结果是否包含关键词
-            log.debug(`{activityName}--{time}`, activityName, res.text); // 记录日志
-            return res.text             // 返回识别到的文本
+    try {
+        let list = new Array()
+        const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
+        // ocrObject.threshold = 1.0;
+        let resList = captureRegion.findMulti(ocrObject); // 在指定区域进行OCR识别
+        for (let res of resList) {
+            if (res.text.includes(key)) { // 检查识别结果是否包含关键词
+                log.debug(`{activityName}--{time}`, activityName, res.text); // 记录日志
+                list.add(res.text.trim())
+                return res.text             // 返回识别到的文本
+            }
         }
+        if (list.length > 0) {
+            return list.join('<-->')
+        }
+        // 没有识别到剩余时间
+        return null;
+
+    } finally {
+        captureRegion.dispose(); // 释放截图资源
     }
-    // 没有识别到剩余时间
-    return null;
 }
 
 
@@ -433,7 +443,7 @@ async function activityMain() {
             // 如果设置了指定活动列表，只处理包含这些关键词的活动
             if (config.whiteActivityNameList.length > 0) {
                 const matched = config.whiteActivityNameList.some(keyword => activityName.includes(keyword));
-                if (!matched&&(config.relationship)) {
+                if (!matched && (config.relationship)) {
                     continue;  // 不关心的活动，跳过不点击
                 }
             }
