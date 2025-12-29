@@ -123,7 +123,7 @@ async function scrollPage(totalDistance, isUp = false, waitCount = 6, stepDistan
 }
 
 /**
- * 根据活动状态进行页面滚动
+ * 根据活动状态         进行页面滚动
  * @param {boolean} isUp - 是否向上滚动，默认为false
  */
 async function scrollPagesByActivity(isUp = false, total = 90, waitCount = 6, stepDistance = 30) {
@@ -362,7 +362,7 @@ async function OcrKey(activityName, key = "剩余时间", ocrRegion = ocrRegionC
             if (res.text.includes(key)) { // 检查识别结果是否包含关键词
                 log.debug(`[{key}][命中]{activityName}--{time}`, key, activityName, res.text); // 记录日志
                 list.push(res.text.trim())
-                return res.text             // 返回识别到的文本
+                // return res.text             // 返回识别到的文本
             }
         }
         if (list.length > 0) {
