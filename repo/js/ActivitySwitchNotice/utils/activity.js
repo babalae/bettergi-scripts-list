@@ -154,41 +154,6 @@ async function scrollPagesByActivity(isUp = false, total = 90, waitCount = 6, st
 }
 
 /**
- * 通过滚动页面直到到达顶部位置
- * 该函数会持续滚动页面，直到检测到页面顶部的标识不再变化为止
- * @returns {Promise<void>} 无返回值，当到达顶部时函数执行结束
- * @throws {Error} 如果尝试滚动超过10次仍未到达顶部，抛出错误
- */
-async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) {
-    let topName = null  // 用于存储检测到的顶部标识文本
-    let index = 0       // 记录滚动尝试次数的计数器
-    // 无限循环，直到到达顶部后通过return退出
-    while (true) {
-        // 检查是否已超过最大尝试次数(10次)
-        if (index >= config.toTopCount) {
-            throw new Error("回到顶部失败")  // 超过尝试次数抛出错误
-        }
-        await moveMouseTo(0, 20)
-        index++  // 增加尝试次数计数器
-        let captureRegion = captureGameRegion(); // 获取游戏区域截图
-        const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
-
-        // ocrObject.threshold = 1.0;
-        let resList = captureRegion.findMulti(ocrObject); // 在指定区域进行OCR识别
-        captureRegion.dispose(); // 释放截图资源
-        if (topName !== resList[0].text) {
-            topName = resList[0].text
-        } else {
-            log.info(`回到顶部成功`)
-            // break
-            return
-        }
-        await scrollPagesByActivity(true, 80 * 4, 6, 60)
-    }
-
-}
-
-/**
  * 滚动到活动页面最顶部（优化版）
  * 通过连续检测顶部活动名称相同来确认已到顶，更加健壮
  * @param {Object} ocrRegion - OCR识别区域，默认为活动列表区域
