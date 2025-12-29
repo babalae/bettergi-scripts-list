@@ -46,14 +46,32 @@ const activityTermConversionMap = new Map([
     ["砺行修远", {dateEnum: DATE_ENUM.WEEK}],
 ]);
 const needOcrOtherMap = new Map([
+    ["飒勇争锋", ["上限解锁"]],
     ["砺行修远", ["本周进度", "完成进度"]],
+    ["幽境危战", ["紊乱爆发期"]],
 ]);
 const genshinJson = {
     width: 1920,//genshin.width,
     height: 1080,//genshin.height,
 }
 
-
+/**
+ * 根据键名的一部分内容从Map中获取对应的值
+ * 遍历Map的所有键名，查找包含指定key字符串的键，并返回对应的值
+ *
+ * @param {Map} map - 要搜索的Map对象，默认为空Map
+ * @param {string} key - 用于匹配的键名部分字符串
+ * @returns {*} 匹配键对应的值，如果未找到匹配项则返回undefined
+ */
+function getMapByKey(map=new Map(),key) {
+    // 遍历Map的所有键名，查找包含指定key的键
+    for (let keyName of map.keys()) {
+        if (keyName.includes(key)) {
+            return map.get(keyName)
+        }
+    }
+    return undefined
+}
 function getDATE_ENUM(activityName) {
     for (let key of activityTermConversionMap.keys()) {
         if (activityName.includes(key))
@@ -481,8 +499,9 @@ async function activityMain() {
                         default:
                             break;
                     }
-                    if (needOcrOtherMap.has(activityName)) {
-                        const keys = needOcrOtherMap.get(activityName);
+                    let needMap = getMapByKey(needOcrOtherMap,activityName);
+                    if (needMap) {
+                        const keys =needMap;
                         for (const key of keys) {
                             let text = await OcrKey(activityName, key);
                             if (text) {
