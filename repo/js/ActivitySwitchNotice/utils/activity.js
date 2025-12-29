@@ -46,7 +46,6 @@ const activityTermConversionMap = new Map([
     ["砺行修远", {dateEnum: DATE_ENUM.WEEK}],
 ]);
 const needOcrOtherMap = new Map([
-    ["飒勇争锋", ["上限解锁"]],
     ["砺行修远", ["本周进度", "完成进度"]],
     ["幽境危战", ["紊乱爆发期"]],
 ]);
@@ -63,7 +62,7 @@ const genshinJson = {
  * @param {string} key - 用于匹配的键名部分字符串
  * @returns {*} 匹配键对应的值，如果未找到匹配项则返回undefined
  */
-function getMapByKey(map=new Map(),key) {
+function getMapByKey(map = new Map(), key) {
     // 遍历Map的所有键名，查找包含指定key的键
     for (let keyName of map.keys()) {
         if (keyName.includes(key)) {
@@ -72,6 +71,7 @@ function getMapByKey(map=new Map(),key) {
     }
     return undefined
 }
+
 function getDATE_ENUM(activityName) {
     for (let key of activityTermConversionMap.keys()) {
         if (activityName.includes(key))
@@ -357,8 +357,9 @@ async function OcrKey(activityName, key = "剩余时间", ocrRegion = ocrRegionC
         // ocrObject.threshold = 1.0;
         let resList = captureRegion.findMulti(ocrObject); // 在指定区域进行OCR识别
         for (let res of resList) {
+            log.debug(`[info][{key}]{activityName}--{time}`, key, activityName, res.text); // 记录日志
             if (res.text.includes(key)) { // 检查识别结果是否包含关键词
-                log.debug(`{activityName}--{time}`, activityName, res.text); // 记录日志
+                log.debug(`[{key}][命中]{activityName}--{time}`, key, activityName, res.text); // 记录日志
                 list.push(res.text.trim())
                 return res.text             // 返回识别到的文本
             }
@@ -499,9 +500,9 @@ async function activityMain() {
                         default:
                             break;
                     }
-                    let needMap = getMapByKey(needOcrOtherMap,activityName);
+                    let needMap = getMapByKey(needOcrOtherMap, activityName);
                     if (needMap) {
-                        const keys =needMap;
+                        const keys = needMap;
                         for (const key of keys) {
                             let text = await OcrKey(activityName, key);
                             if (text) {
