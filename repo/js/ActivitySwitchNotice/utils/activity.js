@@ -73,11 +73,20 @@ function getMapByKey(map = new Map(), key) {
     return undefined
 }
 
-function getDATE_ENUM(activityName) {
+/**
+ * 根据活动名称获取对应的学期转换规则
+ * @param {string} activityName - 活动名称
+ * @returns {object} 返回包含dateEnum属性的对象，表示日期枚举类型
+ */
+function getActivityTermConversion(activityName) {
+    // 遍历活动学期转换映射表的所有键
     for (let key of activityTermConversionMap.keys()) {
+        // 检查活动名称是否包含当前键
         if (activityName.includes(key))
+            // 如果包含，则返回映射表中对应的值
             return activityTermConversionMap.get(key)
     }
+    // 如果没有匹配到任何键，则返回默认的小时日期枚举
     return {dateEnum: DATE_ENUM.HOUR}
 }
 
@@ -490,7 +499,7 @@ async function activityMain() {
                     }
                     let desc = ""
 
-                    let dateEnum = getDATE_ENUM(activityName);
+                    let dateEnum = getActivityTermConversion(activityName);
                     log.debug(`activityName:{activityName},dateEnum：{dateenum.dateEnum}`, activityName, dateEnum.dateEnum)
                     switch (dateEnum.dateEnum) {
                         case DATE_ENUM.WEEK:
