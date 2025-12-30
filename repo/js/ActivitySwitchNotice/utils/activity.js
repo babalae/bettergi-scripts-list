@@ -502,7 +502,9 @@ async function activityMain() {
                         if (commonList && commonList.length > 0) {
                             for (let commonKey of commonList) {
                                 let text = await OcrKey(activityName, commonKey);
-                                common.push(text)
+                                if (text) {
+                                    common.push(text)
+                                }
                             }
                         }
                         activityMap.set(activityName, {
