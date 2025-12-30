@@ -1,0 +1,113 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "听雨♪"
+      }
+    ],
+    "bgiVersion": "0.35.1",
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762088557847,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "老孙",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 263.5,
+      "y": -672.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 247.5,
+      "y": -664.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 214.5,
+      "y": -661.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 192.5,
+      "y": -682
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 162.5,
+      "y": -681
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 157.5000949141504,
+      "y": -630.375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 139.99022999999943,
+      "y": -608.2969000000003
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 162.32030999999915,
+      "y": -592.3183600000002
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 167.29102000000057,
+      "y": -599.75684
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.75)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 163.2538999999997,
+      "y": -603.9433600000002
+    }
+  ]
+}
