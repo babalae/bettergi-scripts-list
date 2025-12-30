@@ -8,12 +8,20 @@ function settingsParseInt(str, defaultValue) {
 }
 
 const config = {
-    activityNameList: (settings.activityNameList ? settings.activityNameList.split('|') : []),
+    //剩余时间,白名单 启用`和`关系(默认`与`关系)
+    relationship: settings.relationship,
+    whiteActivityNameList: (settings.whiteActivityNameList ? settings.whiteActivityNameList.split('|').filter(s => s.trim()) : []),
     activityKey: (settings.activityKey ? settings.activityKey : 'F5'),
     toTopCount: settingsParseInt(settings.toTopCount, 10),//滑动到顶最大尝试次数
     scrollPageCount: settingsParseInt(settings.scrollPageCount, 4),//滑动次数/页
     notifyHoursThreshold: settingsParseInt(settings.notifyHoursThreshold, 8760),//剩余时间阈值(默认 8760小时=365天)
-    blackActivityNameList: (settings.blackActivityNameList ? settings.blackActivityNameList.split('|').filter(s => s.trim()) : []),//黑名单活动名称
+    // 黑名单活动名称列表，这些活动将被排除在识别和处理之外
+    // 通过 | 分隔多个活动名称，并过滤掉空白项
+    // 同时确保黑名单中的活动名称不包含在白名单（whiteActivityNameList）中
+    blackActivityNameList: (settings.blackActivityNameList ? settings.blackActivityNameList.split('|').filter(s => s.trim())
+        .filter(
+            item => !settings.whiteActivityNameList.split('|').filter(s => s.trim()).some(keyword => item.includes(keyword))
+        ) : []),
 }
 const ocrRegionConfig = {
     activity: {x: 267, y: 197, width: 226, height: 616},//活动识别区域坐标和尺寸
@@ -37,20 +45,48 @@ const DATE_ENUM = Object.freeze({
 const activityTermConversionMap = new Map([
     ["砺行修远", {dateEnum: DATE_ENUM.WEEK}],
 ]);
+const commonList = ["已完成"]
 const needOcrOtherMap = new Map([
     ["砺行修远", ["本周进度", "完成进度"]],
+    ["幽境危战", ["紊乱爆发期"]],
 ]);
 const genshinJson = {
     width: 1920,//genshin.width,
     height: 1080,//genshin.height,
 }
 
+/**
+ * 根据键名的一部分内容从Map中获取对应的值
+ * 遍历Map的所有键名，查找包含指定key字符串的键，并返回对应的值
+ *
+ * @param {Map} map - 要搜索的Map对象，默认为空Map
+ * @param {string} key - 用于匹配的键名部分字符串
+ * @returns {*} 匹配键对应的值，如果未找到匹配项则返回undefined
+ */
+function getMapByKey(map = new Map(), key) {
+    // 遍历Map的所有键名，查找包含指定key的键
+    for (let keyName of map.keys()) {
+        if (keyName.includes(key)) {
+            return map.get(keyName)
+        }
+    }
+    return undefined
+}
 
-function getDATE_ENUM(activityName) {
+/**
+ * 根据活动名称获取对应的学期转换规则
+ * @param {string} activityName - 活动名称
+ * @returns {object} 返回包含dateEnum属性的对象，表示日期枚举类型
+ */
+function getActivityTermConversion(activityName) {
+    // 遍历活动学期转换映射表的所有键
     for (let key of activityTermConversionMap.keys()) {
+        // 检查活动名称是否包含当前键
         if (activityName.includes(key))
+            // 如果包含，则返回映射表中对应的值
             return activityTermConversionMap.get(key)
     }
+    // 如果没有匹配到任何键，则返回默认的小时日期枚举
     return {dateEnum: DATE_ENUM.HOUR}
 }
 
@@ -96,7 +132,7 @@ async function scrollPage(totalDistance, isUp = false, waitCount = 6, stepDistan
 }
 
 /**
- * 根据活动状态进行页面滚动
+ * 根据活动状态         进行页面滚动
  * @param {boolean} isUp - 是否向上滚动，默认为false
  */
 async function scrollPagesByActivity(isUp = false, total = 90, waitCount = 6, stepDistance = 30) {
@@ -115,41 +151,6 @@ async function scrollPagesByActivity(isUp = false, total = 90, waitCount = 6, st
         //80 18次滑动偏移量  46次测试未发现偏移
         await scrollPage(total, isUp, waitCount, stepDistance)
     }
-}
-
-/**
- * 通过滚动页面直到到达顶部位置
- * 该函数会持续滚动页面，直到检测到页面顶部的标识不再变化为止
- * @returns {Promise<void>} 无返回值，当到达顶部时函数执行结束
- * @throws {Error} 如果尝试滚动超过10次仍未到达顶部，抛出错误
- */
-async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) {
-    let topName = null  // 用于存储检测到的顶部标识文本
-    let index = 0       // 记录滚动尝试次数的计数器
-    // 无限循环，直到到达顶部后通过return退出
-    while (true) {
-        // 检查是否已超过最大尝试次数(10次)
-        if (index >= config.toTopCount) {
-            throw new Error("回到顶部失败")  // 超过尝试次数抛出错误
-        }
-        await moveMouseTo(0, 20)
-        index++  // 增加尝试次数计数器
-        let captureRegion = captureGameRegion(); // 获取游戏区域截图
-        const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
-
-        // ocrObject.threshold = 1.0;
-        let resList = captureRegion.findMulti(ocrObject); // 在指定区域进行OCR识别
-        captureRegion.dispose(); // 释放截图资源
-        if (topName !== resList[0].text) {
-            topName = resList[0].text
-        } else {
-            log.info(`回到顶部成功`)
-            // break
-            return
-        }
-        await scrollPagesByActivity(true, 80 * 4, 6, 60)
-    }
-
 }
 
 /**
@@ -176,56 +177,65 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
         await moveMouseTo(0, 20);
 
         // 截图 + OCR 识别活动列表区域
-        let captureRegion = captureGameRegion();
-        const ocrObject = RecognitionObject.Ocr(
-            ocrRegion.x,
-            ocrRegion.y,
-            ocrRegion.width,
-            ocrRegion.height
-        );
-        // 可选：提升识别率
-        // ocrObject.threshold = 0.8;
+        let captureRegion = null;
+        try {
+            captureRegion = captureGameRegion();
+            const ocrObject = RecognitionObject.Ocr(
+                ocrRegion.x,
+                ocrRegion.y,
+                ocrRegion.width,
+                ocrRegion.height
+            );
+            // 可选：提升识别率
+            // ocrObject.threshold = 0.8;
 
-        let resList = captureRegion.findMulti(ocrObject);
-        captureRegion.dispose();
+            let resList = captureRegion.findMulti(ocrObject);
+            // captureRegion.dispose();
 
-        // 如果完全没识别到任何活动，可能是页面异常或已在顶（极少情况）
-        if (resList.length === 0) {
-            log.warn("顶部OCR未识别到任何活动条目，可能是页面为空或识别失败");
-            // 再尝试一次向上滚大距离
-            // await scrollPagesByActivity(true);  // true = 向上
-            await scrollPagesByActivity(true, 80 * 4, 6, 60);
-            await sleep(ms);
-            continue;
-        }
-
-        // 取当前识别到的最顶部活动名称（resList[0] 通常是列表最上面的）
-        const currentTopName = resList[0].text.trim();
-
-        log.info(`当前检测到的顶部活动: {currentTopName}`, currentTopName);
-
-        // 判断是否与上一次相同
-        if (currentTopName === topActivityName) {
-            sameTopCount++;
-            log.debug(`顶部活动连续相同 ${sameTopCount} 次`);
-
-            if (sameTopCount >= requiredSameCount) {
-                log.info(`已连续 {sameTopCount} 次检测到相同顶部活动，确认回到页面最顶部！`, sameTopCount);
-                return;  // 成功回到顶部
+            // 如果完全没识别到任何活动，可能是页面异常或已在顶（极少情况）
+            if (resList.length === 0) {
+                log.warn("顶部OCR未识别到任何活动条目，可能是页面为空或识别失败");
+                // 再尝试一次向上滚大距离
+                // await scrollPagesByActivity(true);  // true = 向上
+                await scrollPagesByActivity(true, 80 * 4, 6, 60);
+                await sleep(ms);
+                continue;
             }
-        } else {
-            // 顶部名称变了，说明还在向上滚动，重置计数
-            topActivityName = currentTopName;
-            sameTopCount = 1;  // 这次算第一次
+
+            // 取当前识别到的最顶部活动名称（resList[0] 通常是列表最上面的）
+            const currentTopName = resList[0].text.trim();
+
+            log.info(`当前检测到的顶部活动: {currentTopName}`, currentTopName);
+
+            // 判断是否与上一次相同
+            if (currentTopName === topActivityName) {
+                sameTopCount++;
+                log.debug(`顶部活动连续相同 ${sameTopCount} 次`);
+
+                if (sameTopCount >= requiredSameCount) {
+                    log.info(`已连续 {sameTopCount} 次检测到相同顶部活动，确认回到页面最顶部！`, sameTopCount);
+                    return;  // 成功回到顶部
+                }
+            } else {
+                // 顶部名称变了，说明还在向上滚动，重置计数
+                topActivityName = currentTopName;
+                sameTopCount = 1;  // 这次算第一次
+            }
+
+            // 未达到稳定状态，继续向上滚动一页（可根据实际情况调整滚动距离）
+            // 这里使用更大滚动距离确保能快速回顶
+            // await scrollPagesByActivity(true);  // true = 向上
+            // 可选：加大单次滚动量（如果你发现默认一页不够）
+            await scrollPagesByActivity(true, 80 * 4, 6, 60);
+
+            await sleep(ms);  // 给页面滚动和渲染留时间
+        } finally {
+            // 确保资源被正确释放
+            if (captureRegion) {
+                captureRegion.dispose();
+            }
         }
 
-        // 未达到稳定状态，继续向上滚动一页（可根据实际情况调整滚动距离）
-        // 这里使用更大滚动距离确保能快速回顶
-        // await scrollPagesByActivity(true);  // true = 向上
-        // 可选：加大单次滚动量（如果你发现默认一页不够）
-        await scrollPagesByActivity(true, 80 * 4, 6, 60);
-
-        await sleep(ms);  // 给页面滚动和渲染留时间
     }
 
     // 超过最大尝试次数仍未稳定
@@ -322,20 +332,31 @@ function convertHoursToWeeksDaysHours(totalHours) {
  * @param {string} key - 要识别的关键词，默认为"剩余时间"
  * @returns {string|null} 返回识别到的剩余时间文本，若未识别到则返回null
  */
-async function OcrRemainingTime(activityName, key = "剩余时间", ocrRegion = ocrRegionConfig.remainingTime) {
+async function OcrKey(activityName, key = "剩余时间", ocrRegion = ocrRegionConfig.remainingTime) {
+
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
-    const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
-    // ocrObject.threshold = 1.0;
-    let resList = captureRegion.findMulti(ocrObject); // 在指定区域进行OCR识别
-    captureRegion.dispose(); // 释放截图资源
-    for (let res of resList) {
-        if (res.text.includes(key)) { // 检查识别结果是否包含关键词
-            log.debug(`{activityName}--{time}`, activityName, res.text); // 记录日志
-            return res.text             // 返回识别到的文本
+    try {
+        let list = new Array()
+        const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
+        // ocrObject.threshold = 1.0;
+        let resList = captureRegion.findMulti(ocrObject); // 在指定区域进行OCR识别
+        for (let res of resList) {
+            log.debug(`[info][{key}]{activityName}--{time}`, key, activityName, res.text); // 记录日志
+            if (res.text.includes(key)) { // 检查识别结果是否包含关键词
+                log.debug(`[{key}][命中]{activityName}--{time}`, key, activityName, res.text); // 记录日志
+                list.push(res.text.trim())
+                // return res.text             // 返回识别到的文本
+            }
         }
+        if (list.length > 0) {
+            return list.join('<-->')
+        }
+        // 没有识别到剩余时间
+        return null;
+
+    } finally {
+        captureRegion.dispose(); // 释放截图资源
     }
-    // 没有识别到剩余时间
-    return null;
 }
 
 
@@ -375,149 +396,196 @@ async function activityMain() {
         // 移动鼠标到安全位置，避免干扰截图
         await moveMouseTo(0, 20);
         // 获取当前页面活动列表区域截图并 OCR
-        let captureRegion = captureGameRegion();
-        const ocrObject = RecognitionObject.Ocr(
-            ocrRegionConfig.activity.x,
-            ocrRegionConfig.activity.y,
-            ocrRegionConfig.activity.width,
-            ocrRegionConfig.activity.height
-        );
-        let resList = captureRegion.findMulti(ocrObject);
-        captureRegion.dispose();
+        let captureRegion = null;
+        try {
+            captureRegion = captureGameRegion();
 
-        // 如果本页完全没有识别到活动，可能是到底了或 OCR 失败
-        if (resList.length === 0) {
-            log.info("当前页未识别到任何活动，视为已到页面底部");
-            break;
-        }
-        // ============ 新增：提前判断是否为重复页 ============
-        const currentPageNames = new Set();
-        for (let res of resList) {
-            currentPageNames.add(res.text.trim());
-        }
+            const ocrObject = RecognitionObject.Ocr(
+                ocrRegionConfig.activity.x,
+                ocrRegionConfig.activity.y,
+                ocrRegionConfig.activity.width,
+                ocrRegionConfig.activity.height
+            );
+            let resList = captureRegion.findMulti(ocrObject);
+            // captureRegion.dispose();
 
-        // 计算与上一页的重合率
-        if (previousPageActivities.size > 0) {
-            let overlapCount = 0;
-            for (let name of currentPageNames) {
-                if (previousPageActivities.has(name)) overlapCount++;
-            }
-            const overlapRatio = overlapCount / previousPageActivities.size;
-
-            // 如果重合率 >= 70%（可调整），认为滚动未生效，是重复页
-            if (overlapRatio >= 0.7) {
-                log.info(`检测到当前页与上一页高度重复（重合率 ${Math.round(overlapRatio * 100)}%），已到达底部，停止扫描`);
+            // 如果本页完全没有识别到活动，可能是到底了或 OCR 失败
+            if (resList.length === 0) {
+                log.info("当前页未识别到任何活动，视为已到页面底部");
                 break;
             }
-        }
+            // ============ 新增：提前判断是否为重复页 ============
+            const currentPageNames = new Set();
+            for (let res of resList) {
+                currentPageNames.add(res.text.trim());
+            }
 
-        // 更新上一页记录（为下一轮做准备）
-        previousPageActivities = currentPageNames;
-        // =================================================
+            // 计算与上一页的重合率
+            if (previousPageActivities.size > 0) {
+                let overlapCount = 0;
+                for (let name of currentPageNames) {
+                    if (previousPageActivities.has(name)) overlapCount++;
+                }
+                const overlapRatio = overlapCount / previousPageActivities.size;
 
-        let currentPageBottomName = null;  // 本页最下面的活动名
-        let newActivityCountThisPage = 0;
-
-        // 遍历当前页所有识别到的活动条目
-        for (let res of resList) {
-            const activityName = res.text.trim();
-
-            // 如果设置了指定活动列表，只处理包含这些关键词的活动
-            if (config.activityNameList.length > 0) {
-                const matched = config.activityNameList.some(keyword => activityName.includes(keyword));
-                if (!matched) {
-                    continue;  // 不关心的活动，跳过不点击
+                // 如果重合率 >= 70%（可调整），认为滚动未生效，是重复页
+                if (overlapRatio >= 0.7) {
+                    log.info(`检测到当前页与上一页高度重复（重合率 ${Math.round(overlapRatio * 100)}%），已到达底部，停止扫描`);
+                    break;
                 }
             }
 
-            if (config.blackActivityNameList.length > 0) {
-                const matched = config.blackActivityNameList.some(keyword => activityName.includes(keyword));
-                if (matched) {
-                    continue;  // 不关心的活动，跳过不点击
+            // 更新上一页记录（为下一轮做准备）
+            previousPageActivities = currentPageNames;
+            // =================================================
+
+            let currentPageBottomName = null;  // 本页最下面的活动名
+            let newActivityCountThisPage = 0;
+
+            // 遍历当前页所有识别到的活动条目
+            for (let res of resList) {
+                const activityName = res.text.trim();
+
+                // 如果设置了指定活动列表，只处理包含这些关键词的活动
+                if (config.whiteActivityNameList.length > 0) {
+                    const matched = config.whiteActivityNameList.some(keyword => activityName.includes(keyword));
+                    if (!matched && (config.relationship)) {
+                        continue;  // 不关心的活动，跳过不点击
+                    }
                 }
-            }
 
-            // 避免重复点击同一个活动（防止 OCR 误识别或页面抖动）
-            if (activityMap.has(activityName)) {
-                log.info(`活动已记录，跳过重复点击: ${activityName}`);
-            } else {
-                await click(res.x, res.y);     // 点击进入活动详情
-                await sleep(ms);
-
-                let remainingTimeText = await OcrRemainingTime(activityName);
-                if (remainingTimeText) {
-                    const totalHours = parseRemainingTimeToHours(remainingTimeText);
-                    if (totalHours <= 24 && totalHours > 0) {
-                        remainingTimeText += '<即将结束>'
+                if (config.blackActivityNameList.length > 0) {
+                    const matched = config.blackActivityNameList.some(keyword => activityName.includes(keyword));
+                    if (matched) {
+                        continue;  // 不关心的活动，跳过不点击
                     }
-                    let desc = ""
+                }
 
-                    let dateEnum = getDATE_ENUM(activityName);
-                    log.debug(`activityName:{activityName},dateEnum：{dateenum.dateEnum}`, activityName, dateEnum.dateEnum)
-                    switch (dateEnum.dateEnum) {
-                        case DATE_ENUM.WEEK:
-                            desc += "|==>" + convertHoursToWeeksDaysHours(totalHours) + "<==|";
-                            break;
-                        case DATE_ENUM.HOUR:
-                            break;
-                        default:
-                            break;
-                    }
-                    if (needOcrOtherMap.has(activityName)) {
-                        const keys = needOcrOtherMap.get(activityName);
-                        for (const key of keys) {
-                            let text = await OcrRemainingTime(activityName, key);
-                            if (text) {
-                                remainingTimeText += " [" + text + "] "
+                // 避免重复点击同一个活动（防止 OCR 误识别或页面抖动）
+                if (activityMap.has(activityName)) {
+                    log.info(`活动已记录，跳过重复点击: ${activityName}`);
+                } else {
+                    await click(res.x, res.y);     // 点击进入活动详情
+                    await sleep(ms);
+
+                    let remainingTimeText = await OcrKey(activityName);
+                    if (remainingTimeText) {
+                        const totalHours = parseRemainingTimeToHours(remainingTimeText);
+                        if (totalHours <= 24 && totalHours > 0) {
+                            remainingTimeText += '<即将结束>'
+                        }
+                        let desc = ""
+
+                        let dateEnum = getActivityTermConversion(activityName);
+                        log.debug(`activityName:{activityName},dateEnum：{dateenum.dateEnum}`, activityName, dateEnum.dateEnum)
+                        switch (dateEnum.dateEnum) {
+                            case DATE_ENUM.WEEK:
+                                desc += "|==>" + convertHoursToWeeksDaysHours(totalHours) + "<==|";
+                                break;
+                            case DATE_ENUM.HOUR:
+                                break;
+                            default:
+                                break;
+                        }
+                        let needMap = getMapByKey(needOcrOtherMap, activityName);
+                        if (needMap) {
+                            const keys = needMap;
+                            for (const key of keys) {
+                                let text = await OcrKey(activityName, key);
+                                if (text) {
+                                    remainingTimeText += " [" + text + "] "
+                                }
                             }
                         }
+                        let common = new Array()
+                        // 通用key
+                        if (commonList && commonList.length > 0) {
+                            for (let commonKey of commonList) {
+                                let text = await OcrKey(activityName, commonKey);
+                                if (text) {
+                                    common.push(text)
+                                }
+                            }
+                        }
+                        activityMap.set(activityName, {
+                            common: common.length > 0 ? common.join(",") : undefined,
+                            text: remainingTimeText,
+                            hours: totalHours,
+                            desc: desc
+                        });
+                        log.info(`成功记录 → {activityName} {remainingTime} 共计: {hours} 小时`, activityName, remainingTimeText, totalHours);
+                        newActivityCountThisPage++;
                     }
-                    activityMap.set(activityName, {
-                        text: remainingTimeText,
-                        hours: totalHours,
-                        desc: desc
-                    });
-                    log.info(`成功记录 → {activityName} {remainingTime} 共计: {hours} 小时`, activityName, remainingTimeText, totalHours);
-                    newActivityCountThisPage++;
+
+                    await sleep(ms);
                 }
 
-                await sleep(ms);
+                // 更新本页最下面的活动名
+                currentPageBottomName = activityName;
             }
-
-            // 更新本页最下面的活动名
-            currentPageBottomName = activityName;
-        }
-        // 备用判断：本页一个新活动都没加，也认为到底（双保险）
-        if (newActivityCountThisPage === 0 && scannedPages > 1) {
-            log.info("本页无新活动添加，确认已到底");
-            break;
-        }
-        // 5. 判断是否已到达页面底部
-        if (currentPageBottomName && currentPageBottomName === lastPageBottomName) {
-            sameBottomCount++;
-            if (sameBottomCount >= sameBottomCountMax) {
-                log.info("连续{sameBottomCountMax}次检测到相同底部活动，已确认到达页面最底部，扫描结束", sameBottomCountMax);
+            // 备用判断：本页一个新活动都没加，也认为到底（双保险）
+            if (newActivityCountThisPage === 0 && scannedPages > 1) {
+                log.info("本页无新活动添加，确认已到底");
                 break;
             }
-        } else {
-            sameBottomCount = 0;  // 重置计数
-        }
-        lastPageBottomName = currentPageBottomName;
+            // 5. 判断是否已到达页面底部
+            if (currentPageBottomName && currentPageBottomName === lastPageBottomName) {
+                sameBottomCount++;
+                if (sameBottomCount >= sameBottomCountMax) {
+                    log.info("连续{sameBottomCountMax}次检测到相同底部活动，已确认到达页面最底部，扫描结束", sameBottomCountMax);
+                    break;
+                }
+            } else {
+                sameBottomCount = 0;  // 重置计数
+            }
+            lastPageBottomName = currentPageBottomName;
 
-        // 6. 向下滑动一页，继续下一轮
-        await scrollPagesByActivity(false);  // false = 向下滚动
-        await sleep(ms);
+            // 6. 向下滑动一页，继续下一轮
+            await scrollPagesByActivity(false);  // false = 向下滚动
+            await sleep(ms);
+        } finally {
+            if (captureRegion) {
+                captureRegion.dispose();
+            }
+        }
     }
     let activityMapFilter = new Map();
     Array.from(activityMap.entries())
-        .filter(([name, info]) => info.hours <= config.notifyHoursThreshold)
+        .filter(([name, info]) => {
+            // 检查活动是否满足通知条件：
+            // 1. 剩余时间小于等于阈值
+            // 2. 活动名称包含在白名单中
+            const isWithinThreshold = info.hours <= config.notifyHoursThreshold;
+            const isInWhitelist = config.whiteActivityNameList.some(keyword => name.includes(keyword));
+            return config.relationship ? (isWithinThreshold && isInWhitelist) : (isWithinThreshold || isInWhitelist);
+        })
         .forEach(([name, info]) => activityMapFilter.set(name, info));
+
+    if (config.whiteActivityNameList.length > 0) {
+        log.info(`[模式]==>(剩余时间,白名单)已开启{key}模式`, config.relationship ? `和` : `或`)
+
+    }
     // 7. 全部扫描完毕，统一发送通知（只发一次！）
     if (activityMapFilter.size > 0) {
         log.info(`扫描完成，共记录 {activityMap.size} 个活动，即将发送通知`, activityMapFilter.size);
-        await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示剩余 ≤ ${config.notifyHoursThreshold} 小时的活动)${config.blackActivityNameList.length <= 0 ? "" : "|==>已开启黑名单:" + config.blackActivityNameList.join(",") + "<==|"}`);
+        // 构建通知标题，根据配置显示剩余时间阈值和白名单活动信息
+        let titleKey = `[ `;
+        titleKey += `剩余时间 <= ${config.notifyHoursThreshold} 小时`;
+        // 如果配置了白名单活动，则在标题中添加相关信息
+        if (config.whiteActivityNameList.length > 0) {
+            titleKey += config.relationship ? ` 和 ` : ` 或 `;
+            titleKey += `白名单 <<${config.whiteActivityNameList.join(", ")}>>`;
+        }
+        titleKey += `] `;
+
+        let blackText = "";
+        if (config.blackActivityNameList.length > 0) {
+            blackText += `|==>已开启黑名单: ${config.blackActivityNameList.join(",")}<==|`
+        }
+
+        await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示 ${titleKey} 的活动)${blackText}`);
     } else {
-        log.warn("未识别到任何活动，未发送通知");
+        log.warn("不存在符合条件的活动，未发送通知");
     }
 }
 

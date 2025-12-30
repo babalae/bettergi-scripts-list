@@ -36,7 +36,8 @@
 | 设置项                        | 说明                                             | 默认值         | 开放 |
 |:---------------------------|:-----------------------------------------------|:------------|:--:|
 | `toMainUi`                 | 执行前是否自动返回游戏主界面                                 | true        | v  |
-| `activityNameList`         | 监控的特定活动名称（用\|分隔）                               | 空（监控所有活动）   | v  |
+| `relationship`             | 剩余时间与白名单启用`和`关系（默认`或`关系）                     | false       | v  |
+| `whiteActivityNameList`    | 白名单活动名称（用\|分隔）                               | 空（监控所有活动）   | v  |
 | `blackActivityNameList`    | 黑名单活动名称（用\|分隔）                                 | 空（无黑名单活动）   | v  |
 | `notifyHoursThreshold`     | 通知时间阈值（小时）                                     | 8760（365天）  | v  |
 | `activityKey`              | 打开活动页面的快捷键                                     | F5          | v  |
@@ -65,7 +66,7 @@
 
 #### 活动筛选
 
-- **全部活动监控**：`activityNameList` 保持空值，监控所有有剩余时间的活动
+- **全部活动监控**：`whiteActivityNameList` 保持空值，监控所有有剩余时间的活动
 - **指定活动监控**：填写活动关键词，如 `海灯节\|盛典`，只监控包含这些关键词的活动
 - **黑名单过滤**：`blackActivityNameList` 可以设置不想接收提醒的活动名称，多个活动用`|`分隔
 
@@ -74,6 +75,11 @@
 - 默认监控所有活动（`notifyHoursThreshold`=8760小时）
 - 可设置阈值，如设置为24，则只通知剩余时间≤24小时的活动
 - 即将结束(24小时内)的活动会在通知中标记 `<即将结束>`
+
+#### 逻辑关系配置
+
+- **`relationship` 为 `false`**（默认）：满足"剩余时间阈值"或"白名单活动"任一条件即发送通知
+- **`relationship` 为 `true`**：必须同时满足"剩余时间阈值"和"白名单活动"两个条件才发送通知
 
 #### 智能防重复
 
@@ -122,6 +128,7 @@
 
 
 
+
 **`以上为用户使用指南全部内容`**
 ---
 
@@ -138,6 +145,7 @@ ActivitySwitchNotice/
 ├── settings.json       # 用户设置界面定义
 └── README.md           # 说明文档
 ```
+
 
 
 
@@ -172,7 +180,8 @@ ActivitySwitchNotice/
 | 配置项                        |   类型    | 说明                                             |
 |:---------------------------|:-------:|:--|
 | `toMainUi`                 | Boolean | 是否先返回主界面再执行                                    |
-| `activityNameList`         | String  | 指定活动名称（用\|分隔）                                  |
+| `relationship`             | Boolean | 剩余时间与白名单启用`和`关系（默认`或`关系）                     |
+| `whiteActivityNameList`    | String  | 白名单活动名称（用\|分隔）                                  |
 | `blackActivityNameList`    | String  | 黑名单活动名称（用\|分隔）                                 |
 | `notifyHoursThreshold`     | Number  | 通知阈值（小时）                                       |
 | `activityKey`              | String  | 打开活动页面的快捷键                                     |
@@ -202,6 +211,14 @@ ActivitySwitchNotice/
 ---
 
 ## 版本历史
+
+### 0.0.3 (2025-12-29)
+
+- 修复 修复了活动过滤逻辑问题，将`activityNameList`更改为`whiteActivityNameList`以保持一致
+- 新增 黑名单与白名单的互斥过滤机制,黑名单中剔除白名单
+- 新增 在配置中增加了`relationship`参数，用于控制剩余时间与白名单活动的逻辑关系
+- 新增 支持剩余时间和白名单的"与"关系和"或"关系配置
+- 新增 标记界面显示 `已完成` 的活动 
 
 ### 0.0.2 (2025-12-22)
 
