@@ -1,7 +1,7 @@
 (async function () {
     await genshin.returnMainUi();
     let domainName = settings.domainName;
-    let operationDelay = settings.operationDelay?settings.operationDelay:1000;
+    let operationDelay = settings.operationDelay?Number(settings.operationDelay):1000;
     if(domainName===undefined){
         domainName="不允许加入"
     }
@@ -31,6 +31,7 @@
             log.info("锁门");
             break;
     }
+    await sleep(operationDelay);
     }
     else{
         let tag = 0;
