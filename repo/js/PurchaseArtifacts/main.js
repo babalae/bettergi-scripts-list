@@ -19,74 +19,6 @@ let userName = settings.userName || "默认账户";
         return userName;
     }
 
-    // 设置游戏时间
-    async function setTime(hour, minute) {
-        // 关于setTime
-        // 原作者: Tim
-        // 脚本名称: SetTimeMinute - 精确调整游戏时间到分钟
-        // 脚本版本: 1.0
-        // Hash: f5c2547dfc286fc643c733d630f775e8fbf12971
-
-        // 设置游戏分辨率和DPI缩放
-        setGameMetrics(1920, 1080, 1);
-        // 圆心坐标
-        const centerX = 1441;
-        const centerY = 501.6;
-        // 半径
-        const r1 = 30;
-        const r2 = 150;
-        const r3 = 300;
-        const stepDuration = 50;
-
-        function getPosition(r, index) {
-            let angle = index * Math.PI / 720;
-            return [Math.round(centerX + r * Math.cos(angle)), Math.round(centerY + r * Math.sin(angle))];
-        }
-        async function mouseClick(x, y) {
-            moveMouseTo(x, y);
-            await sleep(50);
-            leftButtonDown();
-            await sleep(50);
-            leftButtonUp();
-            await sleep(stepDuration);
-        }
-        async function mouseClickAndMove(x1, y1, x2, y2) {
-            moveMouseTo(x1, y1);
-            await sleep(50);
-            leftButtonDown();
-            await sleep(50);
-            moveMouseTo(x2, y2);
-            await sleep(50);
-            leftButtonUp();
-            await sleep(stepDuration);
-        }
-        async function setTime(hour, minute) {
-            const end = (hour + 6) * 60 + minute - 20;
-            const n = 3;
-            for (let i = - n + 1; i < 1; i++) {
-                let [x, y] = getPosition(r1, end + i * 1440 / n);
-                await mouseClick(x, y);
-            }
-            let [x1, y1] = getPosition(r2, end + 5);
-            let [x2, y2] = getPosition(r3, end + 20 + 0.5);
-            await mouseClickAndMove(x1, y1, x2, y2);
-        }
-
-        let h = Math.floor(hour + minute / 60);
-        const m = Math.floor(hour * 60 + minute) - h * 60;
-        h = ((h % 24) + 24) % 24;
-        log.info(`设置时间到 ${h} 点 ${m} 分`);
-        await keyPress("Escape");
-        await sleep(1000);
-        await click(50, 700);
-        await sleep(2000);
-        await setTime(h, m);
-        await sleep(1000);
-        await click(1500, 1000);//确认
-        await sleep(2000);
-        await genshin.returnMainUi();
-        }
-
     /**
      * 判断任务是否已刷新（固定为每周四4点刷新）
      * @param {string} filePath - 存储最后完成时间的文件路径
@@ -391,7 +323,7 @@ let userName = settings.userName || "默认账户";
             if (task.enabled) {
                 // 如果有时间设置，先设置时间
                 if (task.time) {
-                    await setTime(task.time.hour, task.time.minute);
+                    await genshin.setTime(task.time.hour, task.time.minute)
                 }
 
                 // 执行检查并购买
