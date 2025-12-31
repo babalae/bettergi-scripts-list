@@ -46,7 +46,12 @@ var printVersion = async function () {
       log.info(" ");
       log.info("=".repeat(20));
       log.info(`更新方式：软件左侧菜单 -> 全自动 -> JS脚本  -> 脚本仓库 -> 更新仓库`);
-      log.info(`等待更新完毕后即可,无需再次订阅`);
+      log.info(`更新完毕后 {text1} 在左侧找到 {txt2} -> 上方点击 {txt3} -> 找到本脚本并点击 -> 右侧点击{txt4}`,
+        "打开仓库",
+        "Javascript 脚本",
+        "已订阅",
+        "再次订阅"
+      );
       await sleep(10000);
     }
   } catch (error) {
