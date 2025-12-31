@@ -1042,7 +1042,7 @@ async function initRo() {
             if (npc.enable) {
                 npcIndex++;
                 log.info(`当前进度：${npcIndex}/${enabledNpcs.length}`);
-                log.info(`开始前往 ${npc.name} 购买`);
+                log.info(`开始前往NPC ${npc.name} 购买`);
 
                 await genshin.returnMainUi();
 
