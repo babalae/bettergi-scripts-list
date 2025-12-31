@@ -127,9 +127,18 @@ var Execute = {
           await sleep(300);
           keyUp("VK_ESCAPE");
           await sleep(1200);
-          await genshin.setBigMapZoomLevel(2);
-          // 获取地图坐标并保存
-          var bigMapPosition = genshin.getPositionFromBigMap();
+          let scale = 2.0
+          let bigMapPosition
+          while (scale <= 5.0) {
+            try {
+              await genshin.setBigMapZoomLevel(scale);
+              bigMapPosition = genshin.getPositionFromBigMap();
+              break;
+            } catch {
+              scale += 0.1;
+            }
+            await sleep(100);
+          }
           if (bigMapPosition) {
             currentCommissionPosition = bigMapPosition;
             log.info(
