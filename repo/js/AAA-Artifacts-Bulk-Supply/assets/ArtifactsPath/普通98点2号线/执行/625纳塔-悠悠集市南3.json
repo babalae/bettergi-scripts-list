@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1762603489393,
+    "last_modified_time": 1767164665534,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "625纳塔-悠悠集市南3",
@@ -33,23 +33,23 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 13909.96875,
-      "y": 362.6572265625
+      "x": 13911.6337890625,
+      "y": 359.2705078125
     },
     {
       "action": "combat_script",
-      "action_params": "w(0.3),dash,w(0.5),dash,wait(0.5)",
+      "action_params": "keydown(w),wait(0.1),dash,wait(1),dash,keyup(w)",
       "id": 3,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 13910.318359375,
-      "y": 385.5830078125
+      "x": 13913.1876724095,
+      "y": 378.56243360076223
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 4,
-      "move_mode": "dash",
+      "move_mode": "swim",
       "type": "target",
       "x": 13910.318359375,
       "y": 385.5830078125
@@ -76,7 +76,7 @@
       "action": "combat_script",
       "action_params": "s(0.1),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 7,
-      "move_mode": "dash",
+      "move_mode": "swim",
       "type": "target",
       "x": 13898.76953125,
       "y": 392.1630859375
@@ -94,7 +94,7 @@
       "action": "combat_script",
       "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 9,
-      "move_mode": "climb",
+      "move_mode": "swim",
       "type": "target",
       "x": 13863.3876953125,
       "y": 412.00244140625
