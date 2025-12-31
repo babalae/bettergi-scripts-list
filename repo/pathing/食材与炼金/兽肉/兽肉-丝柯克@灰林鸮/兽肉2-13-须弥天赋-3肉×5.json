@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766945220521,
+    "last_modified_time": 1767112507933,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "兽肉2-13-须弥天赋-3肉×5",
@@ -101,7 +101,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "action_params": "wait(0.4),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
       "id": 10,
       "move_mode": "walk",
       "type": "path",
@@ -146,8 +146,17 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.7),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "action_params": "wait(0.3)",
       "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3076.751,
+      "y": -221.8198
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.7),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 16,
       "move_mode": "walk",
       "type": "path",
       "x": 3083.5977,
@@ -156,7 +165,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
-      "id": 16,
+      "id": 17,
       "move_mode": "dash",
       "type": "path",
       "x": 3062.4502,
@@ -165,7 +174,7 @@
     {
       "action": "combat_script",
       "action_params": "丝柯克 q",
-      "id": 17,
+      "id": 18,
       "move_mode": "walk",
       "type": "path",
       "x": 3061.79,
@@ -174,7 +183,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "walk",
       "type": "path",
       "x": 3064.5703,
@@ -183,7 +192,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
+      "id": 20,
       "move_mode": "walk",
       "type": "path",
       "x": 3063.7266,

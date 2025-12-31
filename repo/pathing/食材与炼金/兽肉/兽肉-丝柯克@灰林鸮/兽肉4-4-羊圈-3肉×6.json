@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766859665602,
+    "last_modified_time": 1767163328149,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "兽肉4-4-羊圈-3肉×6",
@@ -77,9 +77,9 @@
       "action_params": "",
       "id": 7,
       "move_mode": "walk",
-      "type": "path",
-      "x": 8910.5215,
-      "y": 2554.293
+      "type": "target",
+      "x": 8912.5596,
+      "y": 2553.8765
     },
     {
       "action": "",
@@ -87,8 +87,8 @@
       "id": 8,
       "move_mode": "walk",
       "type": "target",
-      "x": 8910.2939,
-      "y": 2551.3271
+      "x": 8907.5625,
+      "y": 2553.9028
     },
     {
       "action": "",
@@ -96,17 +96,17 @@
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": 8911.4287,
-      "y": 2554.1604
+      "x": 8913.6875,
+      "y": 2552.5498
     },
     {
       "action": "",
       "action_params": "",
       "id": 10,
       "move_mode": "walk",
-      "type": "target",
-      "x": 8909.4463,
-      "y": 2554.7529
+      "type": "path",
+      "x": 8910.75,
+      "y": 2551.3306
     },
     {
       "action": "combat_script",
@@ -190,13 +190,22 @@
       "y": 2542.075
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
       "id": 20,
       "move_mode": "walk",
+      "type": "target",
+      "x": 8909.8047,
+      "y": 2537.0388
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
       "type": "path",
-      "x": 8910.0127,
-      "y": 2538.168
+      "x": 8908.9512,
+      "y": 2538.376
     }
   ]
 }

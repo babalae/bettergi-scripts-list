@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766860045347,
+    "last_modified_time": 1767163463037,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "兽肉4-5-空寂走廊北-3肉×5",
@@ -169,7 +169,7 @@
       "move_mode": "walk",
       "type": "path",
       "x": 9107.8428,
-      "y": 2708.4602
+      "y": 2707.8
     },
     {
       "action": "",
@@ -208,9 +208,18 @@
       "y": 2701.5378
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9100.8789,
+      "y": 2700.1553
+    },
+    {
       "action": "",
       "action_params": "",
-      "id": 22,
+      "id": 23,
       "move_mode": "walk",
       "type": "path",
       "x": 9094.2627,
@@ -219,7 +228,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
-      "id": 23,
+      "id": 24,
       "move_mode": "walk",
       "type": "path",
       "x": 9095.4766,
@@ -228,7 +237,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 24,
+      "id": 25,
       "move_mode": "dash",
       "type": "path",
       "x": 9114.9277,
@@ -237,7 +246,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(3.5),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
-      "id": 25,
+      "id": 26,
       "move_mode": "walk",
       "type": "path",
       "x": 9114.0654,
@@ -246,7 +255,7 @@
     {
       "action": "combat_script",
       "action_params": "丝柯克 q",
-      "id": 26,
+      "id": 27,
       "move_mode": "walk",
       "type": "path",
       "x": 9108.8584,
@@ -255,7 +264,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 27,
+      "id": 28,
       "move_mode": "walk",
       "type": "target",
       "x": 9103.748,
