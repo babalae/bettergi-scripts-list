@@ -90,7 +90,6 @@ var Core = {
       return commissions;
     } catch (error) {
       log.error("Identification函数出现错误: {error}", error.message);
-      await Utils.errorlog();
       return [];
     }
   },
@@ -381,7 +380,6 @@ var Core = {
       return completedCount > 0;
     } catch (error) {
       log.error("执行委托追踪时出错: {error}", error.message);
-      await Utils.errorlog();
       return false;
     }
   },
@@ -389,8 +387,6 @@ var Core = {
   // 主流程执行函数
   executeMainProcess: async function() {
     try {
-      log.debug("版本: {version}", Constants.VERSION);
-
       var settings = await Utils.getSetting();
       
       if (settings.skipRecognition) {
@@ -414,7 +410,6 @@ var Core = {
       }
     } catch (error) {
       log.error("执行出错: {error}", error.message);
-      await Utils.errorlog();
     }
   },
 };

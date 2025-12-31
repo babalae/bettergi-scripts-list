@@ -188,7 +188,7 @@ var Utils = {
       var captureRegion = captureGameRegion();
       var OCRresults = await captureRegion.findMulti(locationOcrRo);
       captureRegion.dispose();
-
+      log.debug("OCR结果: {OCRresults}", Array.from(OCRresults).map(r => r.text) );
       return OCRresults;
     } catch (error) {
       log.error("easyOCR识别出错: {error}", error.message);
@@ -279,15 +279,6 @@ var Utils = {
         skipCommissions: "",
       };
     }
-  },
-
-  // 输出版本和编译时间信息
-  errorlog: async function () {
-    // 输出版本和编译时间信息
-    log.info("=".repeat(20));
-    log.info("版本: {version}", Constants.VERSION);
-    log.info("编译时间: {buildTime}", Constants.BUILD_TIME);
-    log.info("=".repeat(20));
   },
 
   // 睡眠函数包装
