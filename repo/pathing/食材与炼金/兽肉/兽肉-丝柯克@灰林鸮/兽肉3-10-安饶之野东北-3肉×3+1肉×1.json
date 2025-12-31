@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766946463608,
+    "last_modified_time": 1767113915771,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "兽肉3-10-安饶之野东北-3肉×3+1肉×1",
@@ -56,7 +56,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "action_params": "wait(0.3),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
       "id": 5,
       "move_mode": "walk",
       "type": "path",
@@ -85,24 +85,42 @@
       "action": "",
       "action_params": "",
       "id": 8,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 9840.375,
-      "y": -2322.5293
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9836.0547,
+      "y": -2353.6738
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "action": "",
+      "action_params": "",
       "id": 9,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 9823.3555,
-      "y": -2316.7051
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9836.0742,
+      "y": -2356.7402
     },
     {
       "action": "",
       "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9837.3828,
+      "y": -2353.9531
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9826.623,
+      "y": -2352.9805
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 12,
       "move_mode": "dash",
       "type": "path",
       "x": 9794.5244,
@@ -111,7 +129,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 11,
+      "id": 13,
       "move_mode": "walk",
       "type": "path",
       "x": 9793.2539,
@@ -120,16 +138,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 12,
+      "id": 14,
       "move_mode": "fly",
       "type": "path",
       "x": 9796.9912,
       "y": -2255.6475
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
-      "id": 13,
+      "action": "",
+      "action_params": "",
+      "id": 15,
       "move_mode": "dash",
       "type": "path",
       "x": 9800.6797,
@@ -138,7 +156,7 @@
     {
       "action": "combat_script",
       "action_params": "丝柯克 q",
-      "id": 14,
+      "id": 16,
       "move_mode": "walk",
       "type": "path",
       "x": 9810.459,
@@ -147,7 +165,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 15,
+      "id": 17,
       "move_mode": "walk",
       "type": "path",
       "x": 9815.7568,
@@ -156,7 +174,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
-      "id": 16,
+      "id": 18,
       "move_mode": "walk",
       "type": "path",
       "x": 9812.0762,
@@ -165,7 +183,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 19,
       "move_mode": "walk",
       "type": "path",
       "x": 9816.9678,

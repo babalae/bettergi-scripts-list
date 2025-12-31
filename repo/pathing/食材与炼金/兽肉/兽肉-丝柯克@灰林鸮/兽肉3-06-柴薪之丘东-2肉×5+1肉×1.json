@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766860166225,
+    "last_modified_time": 1767163524359,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "兽肉3-06-柴薪之丘东-2肉×5+1肉×1",
@@ -77,13 +77,13 @@
       "action_params": "",
       "id": 7,
       "move_mode": "walk",
-      "type": "path",
-      "x": 8588.6865,
-      "y": -1349.7886
+      "type": "target",
+      "x": 8588.1367,
+      "y": -1349.209
     },
     {
       "action": "combat_script",
-      "action_params": "wait(2.2),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
       "id": 8,
       "move_mode": "dash",
       "type": "path",
@@ -109,13 +109,13 @@
       "y": -1354.3652
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
       "id": 11,
       "move_mode": "walk",
       "type": "path",
-      "x": 8544.0439,
-      "y": -1351.6455
+      "x": 8543.5439,
+      "y": -1351.5786
     },
     {
       "action": "combat_script",
@@ -173,7 +173,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.4)",
+      "action_params": "wait(1),keypress(m)",
       "id": 18,
       "move_mode": "walk",
       "type": "path",
