@@ -12,6 +12,7 @@ eval(file.readTextSync("lib/commission-basic.js"));
 eval(file.readTextSync("lib/commission-recognition.js"));
 eval(file.readTextSync("lib/commission-data.js"));
 eval(file.readTextSync("lib/step-processor-loader.js"));
+eval(file.readTextSync("lib/checkVersion.js"));
 
 // === BGI标准脚本入口：匿名立即执行异步函数（必须是文件的最后一个表达式） ===
 // 测试用代码
@@ -71,11 +72,8 @@ const test = async () => {
 
 (async function () {
   try {
-    // 输出版本和编译时间信息
-    log.info("=".repeat(20));
-    log.info("版本: {version}", Constants.VERSION);
-    log.info("编译时间: {buildTime}", Constants.BUILD_TIME);
-    log.info("=".repeat(20));
+    // 检查更新
+    await printVersion()
 
     // 加载步骤处理器
     log.info("正在加载步骤处理器...");

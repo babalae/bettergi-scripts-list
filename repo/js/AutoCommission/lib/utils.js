@@ -188,7 +188,7 @@ var Utils = {
       var captureRegion = captureGameRegion();
       var OCRresults = await captureRegion.findMulti(locationOcrRo);
       captureRegion.dispose();
-
+      log.debug("OCR结果: {OCRresults}", Array.from(OCRresults).map(r => r.text) );
       return OCRresults;
     } catch (error) {
       log.error("easyOCR识别出错: {error}", error.message);
