@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758606305518,
+    "last_modified_time": 1766670437099,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "216璃月-珉林北4",
@@ -29,7 +29,7 @@
     {
       "action": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
       "x": 1126.859375,
       "y": 1206.17333984375
@@ -37,7 +37,7 @@
     {
       "action": "",
       "id": 3,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
       "x": 1149.5205078125,
       "y": 1261.96435546875
@@ -52,7 +52,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),w(0.2),keypress(f),a(0.4),keypress(f),w(0.3),keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.1),keypress(f),a(0.3),keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 5,
       "move_mode": "climb",
       "type": "path",
@@ -72,7 +72,7 @@
       "action": "combat_script",
       "action_params": "keypress(f);芙宁娜 e,wait(0.2),e;",
       "id": 7,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
       "x": 1123.4375,
       "y": 1290.8752213307926
@@ -81,7 +81,7 @@
       "action": "combat_script",
       "action_params": "keypress(x),s(0.3),a(0.3),dash;万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 8,
-      "move_mode": "climb",
+      "move_mode": "swim",
       "type": "target",
       "x": 1115.0312341996687,
       "y": 1284.2187727369455
@@ -97,7 +97,7 @@
     {
       "action": "",
       "id": 10,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
       "x": 1091.9061611231336,
       "y": 1284.0621210509144
@@ -105,7 +105,7 @@
     {
       "action": "",
       "id": 11,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
       "x": 1036.33984375,
       "y": 1254.439453125
