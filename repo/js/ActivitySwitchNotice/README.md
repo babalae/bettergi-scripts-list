@@ -16,6 +16,7 @@
 - ✅ 防重复检测机制
 - ✅ 异常处理和错误恢复
 - ✅ 自动提醒征讨领域减半剩余次数（默认`周日`提醒可配置）
+- ✅ 支持独立通知功能（`0.0.4`版本新增）
 
 ---
 
@@ -31,11 +32,12 @@
 
 #### 2. 基础设置
 
-在 `settings.json` 中可以配置以下参数：
+在 [settings.json](file://G:\code\bettergi-scripts-list\archive\js\5_7PVP_Auto\settings.json) 中可以配置以下参数：
 
 | 设置项                        | 说明                                             | 默认值         | 开放 |
 |:---------------------------|:-----------------------------------------------|:------------|:--:|
 | `toMainUi`                 | 执行前是否自动返回游戏主界面                                 | true        | v  |
+| `noticeType`               | 通知模式(默认BGI通知-使用独立通知需要开启JS HTTP权限)           | BGI通知       | v  |
 | `relationship`             | 剩余时间与白名单启用`和`关系（默认`或`关系）                     | false       | v  |
 | `whiteActivityNameList`    | 白名单活动名称（用\|分隔）                               | 空（监控所有活动）   | v  |
 | `blackActivityNameList`    | 黑名单活动名称（用\|分隔）                                 | 空（无黑名单活动）   | v  |
@@ -45,6 +47,12 @@
 | `scrollPageCount`          | 滑动次数/页                                         | 4           | x  |
 | `campaignAreaKey`          | 打开征讨领域页面的快捷键                                   | F1          | v  |
 | `campaignAreaReminderDay`  | 周本提醒日(0-6,0=周日,1=周一,2=周二,3=周三,4=周四,5=周五,6=周六)  | 0           | v  |
+| `ws_proxy_url`             | WebSocket代理URL（独立通知配置）                           | http://127.0.0.1:8081/ws-proxy/message/send | v  |
+| `ws_url`                   | WebSocket客户端 URL（独立通知配置）                         | ws://127.0.0.1:8080/ | v  |
+| `ws_token`                 | WebSocket客户端 token（独立通知配置）                      | 空          | v  |
+| `action`                   | 发送类型（私聊/群聊）                                    | 私聊         | v  |
+| `send_id`                  | 发送ID（群号或QQ号，对应发送类型）                           | 空          | v  |
+| `at_list`                  | @某人列表使用,隔开（QQ号）                                | 空          | v  |
 
 ### 使用流程
 
@@ -87,6 +95,45 @@
 - 防止因页面滚动不准确造成的重复识别
 - 自动判断是否已滚动到页面底部
 
+### 独立通知配置（0.0.4版本新增）
+
+#### 配置项说明
+
+- **`noticeType`**:
+   - `BGI通知`: 使用 BetterGI 内置通知
+   - `独立通知`: 通过 WebSocket 发送通知
+   - `独立通知和BGI通知`: 同时使用两种方式
+
+- **WebSocket 配置**:
+   - `ws_proxy_url`: WebSocket 代理 URL，默认为 `http://127.0.0.1:8081/ws-proxy/message/send`
+   - `ws_url`: WebSocket 客户端 URL，默认为 `ws://127.0.0.1:8080/`
+   - `ws_token`: WebSocket 客户端认证令牌（可选）
+
+- **发送配置**:
+   - `action`: 发送类型，可选 `私聊` 或 `群聊`
+   - `send_id`: 根据 `action` 类型填写群号或 QQ 号
+   - `at_list`: @ 某人列表，使用逗号分隔多个 QQ 号
+
+#### 使用要求
+
+1. **开启权限**: 需要开启 JS HTTP 权限才能使用独立通知功能
+2. **配置服务**: 需要搭建相应的 WebSocket 服务和代理服务器
+3. **网络连接**: 确保能够连接到配置的 WebSocket 服务器
+
+#### 配置示例
+
+```json
+{
+  "noticeType": "独立通知",
+  "ws_proxy_url": "http://127.0.0.1:8081/ws-proxy/message/send",
+  "ws_url": "ws://127.0.0.1:8080/",
+  "action": "群聊",
+  "send_id": "123456789",
+  "at_list": "987654321,111222333"
+}
+```
+
+
 ### 注意事项
 
 #### 使用环境要求
@@ -116,6 +163,14 @@
 - 168：关注一周内结束的活动
 - 720：关注一个月内结束的活动
 
+#### 独立通知配置
+(作者 机器人 使用NapCat调试开发 适配 如你的机器人不适配请使用BGI通知)
+如果需要使用独立通知功能（如发送到QQ群聊），需要：
+
+1. 开启JS HTTP权限
+2. 配置WebSocket相关参数
+3. 设置发送类型和ID
+
 ### 输出示例
 
 通知消息格式如下：
@@ -125,8 +180,6 @@
 > 海灯节庆典 剩余时间：3天14小时<还剩 86 小时>
 > 风花节活动 剩余时间：1天5小时<还剩 29 小时><即将结束>
 ```
-
-
 
 
 **`以上为用户使用指南全部内容`**
@@ -139,14 +192,13 @@ ActivitySwitchNotice/
 ├── utils/
 │   ├── activity.js     # 核心活动处理逻辑
 │   ├── campaignArea.js # 征讨领域提醒功能
-│   └── notice.js       # 通知发送功能
+│   ├── notice.js       # 通知发送功能
+│   └── ws.js           # WebSocket通知功能
 ├── main.js             # 主入口文件
 ├── manifest.json       # 插件配置文件
 ├── settings.json       # 用户设置界面定义
 └── README.md           # 说明文档
 ```
-
-
 
 
 ## 核心模块
@@ -159,27 +211,33 @@ ActivitySwitchNotice/
 - `scrollPagesByActivity()` - 按页滚动活动列表
 - `scrollPagesByActivityToTop()` - 滚动到活动列表顶部
 - `parseRemainingTimeToHours()` - 解析剩余时间文本为小时数
-- `OcrRemainingTime()` - OCR识别剩余时间
+- `OcrKey()` - OCR识别剩余时间
 - `activityMain()` - 主流程控制函数
 
-### `notice.js` - 通知模块
+### [notice.js]() - 通知模块
 
 - `sendNotice()` - 发送活动提醒通知，按剩余时间排序
 - `send()` - 发送普通通知
 
-### `campaignArea.js` - 征讨领域模块
+### [campaignArea.js]() - 征讨领域模块
 
 - `ocrWeeklyCount()` - OCR识别征讨领域周次数
 - `getDayOfWeek()` - 获取当前星期信息
 - `campaignAreaMain()` - 征讨领域提醒主函数
 
+### [ws.js]() - WebSocket通知模块
+
+- `send()` - 发送WebSocket消息
+- `sendText()` - 发送文本消息
+
 ## 配置选项
 
-在 `settings.json` 中可配置以下参数：
+在 [settings.json]() 中可配置以下参数：
 
 | 配置项                        |   类型    | 说明                                             |
 |:---------------------------|:-------:|:--|
 | `toMainUi`                 | Boolean | 是否先返回主界面再执行                                    |
+| `noticeType`               | String  | 通知模式（BGI通知/独立通知/两者都发送）                          |
 | `relationship`             | Boolean | 剩余时间与白名单启用`和`关系（默认`或`关系）                     |
 | `whiteActivityNameList`    | String  | 白名单活动名称（用\|分隔）                                  |
 | `blackActivityNameList`    | String  | 黑名单活动名称（用\|分隔）                                 |
@@ -188,7 +246,13 @@ ActivitySwitchNotice/
 | `toTopCount`               | Number  | 滑动到顶最大尝试次数                                     | 
 | `scrollPageCount`          | Number  | 滑动次数/页                                         | 
 | `campaignAreaKey`          | String  | 打开冒险之书页面的快捷键                                   |
-| `campaignAreaReminderDay`  | Number  | 周本提醒日(0-6,0=周日,1=周一,2=周二,3=周三,4=周四,5=周五,6=周六)  | 
+| `campaignAreaReminderDay`  | Number  | 周本提醒日(0-6,0=周日,1=周一,2=周二,3=周三,4=周四,5=周五,6=周六)  |
+| `ws_proxy_url`             | String  | WebSocket代理URL（独立通知配置）                           |
+| `ws_url`                   | String  | WebSocket客户端 URL（独立通知配置）                         |
+| `ws_token`                 | String  | WebSocket客户端 token（独立通知配置）                      |
+| `action`                   | String  | 发送类型（私聊/群聊）                                    |
+| `send_id`                  | String  | 发送ID（群号或QQ号，对应发送类型）                           |
+| `at_list`                  | String  | @某人列表使用,隔开（QQ号）                                |
 
 ## 工作原理
 
@@ -212,13 +276,21 @@ ActivitySwitchNotice/
 
 ## 版本历史
 
+### 0.0.4 (未发布)
+
+- 新增 独立通知配置功能，支持通过 WebSocket 发送通知
+- 新增 `ws.js` 模块，实现 WebSocket 通知功能
+- 新增 `noticeType` 配置选项，用于选择通知模式
+- 新增 `ws_proxy_url`、`ws_url`、`ws_token` 配置选项
+- 新增 `action`、`send_id`、`at_list` 配置选项用于发送设置
+
 ### 0.0.3 (2025-12-29)
 
 - 修复 修复了活动过滤逻辑问题，将`activityNameList`更改为`whiteActivityNameList`以保持一致
 - 新增 黑名单与白名单的互斥过滤机制,黑名单中剔除白名单
 - 新增 在配置中增加了`relationship`参数，用于控制剩余时间与白名单活动的逻辑关系
 - 新增 支持剩余时间和白名单的"与"关系和"或"关系配置
-- 新增 标记界面显示 `已完成` 的活动 
+- 新增 标记界面显示 `已完成` 的活动
 
 ### 0.0.2 (2025-12-22)
 
