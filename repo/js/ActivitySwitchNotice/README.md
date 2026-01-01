@@ -304,7 +304,7 @@ ActivitySwitchNotice/
 
 ## 版本历史
 
-### 0.0.4 (未发布)
+### 0.0.4 (2026-01-01)
 
 - 新增 独立通知配置功能，支持通过 WebSocket 发送通知
 - 新增 `ws.js` 模块，实现 WebSocket 通知功能
