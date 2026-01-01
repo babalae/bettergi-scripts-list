@@ -35,7 +35,7 @@
 
 #### 2. 基础设置
 
-在 [settings.json](file://G:\code\bettergi-scripts-list\archive\js\5_7PVP_Auto\settings.json) 中可以配置以下参数：
+在 [settings.json]() 中可以配置以下参数：
 
 | 设置项                       | 说明                                            |                     默认值                     | 开放 |
 |:--------------------------|:----------------------------------------------|:------|:--:|
@@ -239,7 +239,7 @@ ActivitySwitchNotice/
 ### `notice.js` - 通知模块
 
 - `sendNotice()` - 发送活动提醒通知，按剩余时间排序
-- `send()` - 发送普通通知
+- `sendText()` - 发送普通通知
 
 ### `campaignArea.js` - 征讨领域模块
 
