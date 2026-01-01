@@ -1,3 +1,18 @@
+const NoticeType = Object.freeze({
+    bgi: 'bgi',//BGI通知
+    independence: 'independence',//独立通知
+    fromValue(value) {
+        return Object.keys(this).find(key => this[key] === value);
+    }
+})
+const NoticeMap=new Map([
+    ['BGI通知', [{type:NoticeType.bgi}]],
+    ['独立通知', [{type:NoticeType.independence}]],
+    ['独立通知和BGI通知', [{type:NoticeType.independence},{type:NoticeType.bgi}]],
+])
+const config={
+    noticeList:NoticeMap.get(settings.noticeType),
+}
 /**
  * 发送通知的异步函数
  * @param {Map} map - 包含通知内容键值对的Map对象
@@ -21,7 +36,16 @@ async function sendNotice(map, title, noNotice) {
         noticeText += `> ${common} ${name} ${info.text} (还剩 ${info.hours} 小时) ${info.desc}\n----\n`;
     }
     // 发送通知
-    notification.send(noticeText)
+    for (let noticeElement of config.noticeList) {
+        switch (noticeElement.type) {
+            case NoticeType.independence:
+                await wsUtil.sendText(noticeText)
+                break
+            case NoticeType.bgi:
+                notification.send(noticeText)
+                break
+        }
+    }
 }
 
 /**
@@ -41,8 +65,16 @@ async function send(noticeText, title, noNotice) {
     // 添加通知内容
     text += noticeText
     // 发送通知
-    notification.send(text)
-
+    for (let noticeElement of config.noticeList) {
+        switch (noticeElement.type) {
+            case NoticeType.independence:
+                await wsUtil.sendText(text)
+                break
+            case NoticeType.bgi:
+                notification.send(text)
+                break
+        }
+    }
 }
 
 this.noticeUtil = {

@@ -1,7 +1,15 @@
-eval(file.readTextSync(`utils/activity.js`));
-eval(file.readTextSync(`utils/notice.js`));
-eval(file.readTextSync(`utils/campaignArea.js`));
-
+async function init() {
+    let utils=[
+        "activity",
+        "ws",
+        "notice",
+        "campaignArea",
+    ]
+    for (let util of utils) {
+        eval(file.readTextSync(`utils/${util}.js`));
+    }
+    log.info("初始化完成");
+}
 // 判断是否在主界面的函数
 const isInMainUI = () => {
     let captureRegion = captureGameRegion();
@@ -32,6 +40,7 @@ async function toMainUi() {
 }
 
 (async function () {
+    await init();
     if (settings.toMainUi){
         await toMainUi();
     }
