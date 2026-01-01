@@ -1,14 +1,14 @@
 async function init() {
     let utils=[
-        "activity",
         "ws",
         "notice",
         "campaignArea",
+        "activity",
     ]
     for (let util of utils) {
         eval(file.readTextSync(`utils/${util}.js`));
     }
-    log.info("初始化完成");
+    log.info("main 初始化完成");
 }
 // 判断是否在主界面的函数
 const isInMainUI = () => {

@@ -1,13 +1,3 @@
-/**
- *
- *
- * 初始化函数
- * 该函数是一个异步函数，用于执行程序的初始化操作
- * 目前函数体为空，可以根据实际需求添加初始化逻辑
- */
-async function init() {
-}
-
 const actionType = Object.freeze({
     send_private_msg: 'send_private_msg',//私聊
     send_group_msg: 'send_group_msg',//群聊
@@ -42,7 +32,7 @@ const actionMap = new Map([
 //     [textType.at, {type: textType.at, data: {qq: ""}}],
 // ]);
 
-let config = {
+let configWs = {
     action: actionMap.get(settings.action),
     group_id: settings.send_id,
     user_id: settings.send_id,
@@ -50,6 +40,27 @@ let config = {
     ws_url: settings.ws_url,
     ws_token: settings.ws_token,
     at_list: settings.at_list ? settings.at_list.split(",") : []
+}
+
+/**
+ *
+ *
+ * 初始化函数
+ * 该函数是一个异步函数，用于执行程序的初始化操作
+ * 目前函数体为空，可以根据实际需求添加初始化逻辑
+ */
+async function init() {
+    configWs = {
+        action: actionMap.get(settings.action),
+        group_id: settings.send_id,
+        user_id: settings.send_id,
+        ws_proxy_url: settings.ws_proxy_url,
+        ws_url: settings.ws_url,
+        ws_token: settings.ws_token,
+        at_list: settings.at_list ? settings.at_list.split(",") : []
+    }
+    log.debug(`configWs:{configWs}`, JSON.stringify(configWs))
+    log.info('ws init success')
 }
 
 /**
@@ -115,7 +126,7 @@ async function send(wsProxyUrl, wsUrl, wsToken, action, group_id, user_id, textL
     // 构建请求体
     let body = {
         url: wsUrl,
-        token: token,
+        token: wsToken,
         bodyJson: JSON.stringify(json)
     }
     // 调试日志输出请求体
@@ -135,16 +146,17 @@ async function send(wsProxyUrl, wsUrl, wsToken, action, group_id, user_id, textL
 }
 
 async function sendText(text) {
-    let action = config.action;
-    let group_id = config.group_id;
-    let user_id = config.user_id;
-    let wsUrl = config.ws_url
-    let wsProxyUrl = config.ws_proxy_url;
-    let token = config.ws_token;
+    await init();
+    let action = configWs.action;
+    let group_id = configWs.group_id;
+    let user_id = configWs.user_id;
+    let wsUrl = configWs.ws_url
+    let wsProxyUrl = configWs.ws_proxy_url;
+    let ws_token = configWs.ws_token;
     let textList = [text]
-    let atList = config.at_list
+    let atList = configWs.at_list
 
-    await send(wsProxyUrl, wsUrl, token, action, group_id, user_id, textList, atList)
+    await send(wsProxyUrl, wsUrl, ws_token, action, group_id, user_id, textList, atList)
 }
 
 this.wsUtil = {
