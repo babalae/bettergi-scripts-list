@@ -10,6 +10,7 @@ const ocrRegion = {
 const filterButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/filterButton.png"));
 const resetButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/resetButton.png"));
 const researchRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/research.png"));
+const searchInterfaceRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/interface.png"));
 const confirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/confirmButton.png"), 350, 1000, 50, 50);
 (async function () {
     // 检验账户名
@@ -415,104 +416,100 @@ const confirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("a
      }
 
     async function recognizeNumberByOCR(ocrRegion, pattern) {
-    let captureRegion = null;
-    try {
-        const ocrRo = RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
-        captureRegion = captureGameRegion();
-        const resList = captureRegion.findMulti(ocrRo);
+        let captureRegion = null;
+        try {
+            const ocrRo = RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
+            captureRegion = captureGameRegion();
+            const resList = captureRegion.findMulti(ocrRo);
 
-        if (!resList || resList.length === 0) {
-            log.warn("OCR未识别到任何文本");
-            return null;
-        }
-
-        for (const res of resList) {
-            if (!res || !res.text) {
-                continue;
+            if (!resList || resList.length === 0) {
+                log.warn("OCR未识别到任何文本");
+                return null;
             }
 
-            const numberMatch = res.text.match(pattern);
-            if (numberMatch) {
-                const number = parseInt(numberMatch[1] || numberMatch[0]);
-                if (!isNaN(number)) {
-                    return number;
+            for (const res of resList) {
+                if (!res || !res.text) {
+                    continue;
+                }
+
+                const numberMatch = res.text.match(pattern);
+                if (numberMatch) {
+                    const number = parseInt(numberMatch[1] || numberMatch[0]);
+                    if (!isNaN(number)) {
+                        return number;
+                    }
                 }
             }
         }
-    }
-    catch (error) {
-        log.error(`OCR识别时发生异常: ${error.message}`);
-    }
-    finally {
-        if (captureRegion) {
-            captureRegion.dispose();
+        catch (error) {
+            log.error(`OCR识别时发生异常: ${error.message}`);
         }
+        finally {
+            if (captureRegion) {
+                captureRegion.dispose();
+            }
+        }
+        return null;
     }
-    return null;
-}
 
-    async function findAndClick(target, maxAttempts = 20) {
-        for (let attempts = 0; attempts < maxAttempts; attempts++) {
-            const gameRegion = captureGameRegion();
+    async function findAndClick(target, maxAttempts = 50, clicks=true) {
+        for (let i = 0; i < maxAttempts; i++) {
+            const rg = captureGameRegion();
             try {
-                const result = gameRegion.find(target);
-                if (result.isExist) {
-                    result.click();
-                    return true;                 // 成功立刻返回
+                const res = rg.find(target);
+                if (res.isExist()) {
+                    if(clicks)
+                        {await sleep(50); res.click()}
+                    return true;
                 }
-                log.warn(`识别失败，第 ${attempts + 1} 次重试`);
-            } catch (err) {
-            } finally {
-                gameRegion.dispose();
-            }
-            if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
-                await sleep(250);
-            }
+            } finally { rg.dispose(); }
+            if (i < maxAttempts - 1) await sleep(50);
         }
         return false;
     }
+
 
     async function getFoodNum(){
         keyPress("B");//打开背包
         await handleExpiredItems(); //处理过期物品弹窗
         await sleep(1000);
         click(863, 51);//选择食物
-        await sleep(500);
-        findAndClick(filterButtonRo);//筛选
-        await sleep(500);
-        findAndClick(resetButtonRo);//重置
-        await sleep(500);
-        findAndClick(researchRo);//点击搜索，输入名字
+        await findAndClick(filterButtonRo);//筛选
+        await findAndClick(searchInterfaceRo,50,false);//搜索界面
+        await findAndClick(resetButtonRo);//重置按钮
+        await findAndClick(researchRo);//搜索输入框
         inputText(recoveryFoodName);
-        await sleep(500);
-        findAndClick(confirmButtonRo)
-        await sleep(500);
+        await findAndClick(confirmButtonRo);//确认按钮
+        await sleep(1000);
         var recoveryNumber=await recognizeNumberByOCR(ocrRegion,/\d+/) //识别回血药数量
         // 处理回血药识别结果
         if (recoveryNumber === null) {
             recoveryNumber = 0;
             notification.send(`未识别到回血药数量，设置数量为0，药品名：${recoveryFoodName}`)
+            await sleep(5000);
+            click(863, 51);//选择食物
+            await sleep(1000);
         }
-        findAndClick(filterButtonRo);//筛选
-        await sleep(500);
-        findAndClick(resetButtonRo);//重置
-        await sleep(500);
-        findAndClick(researchRo);//点击搜索，输入名字
+        await findAndClick(filterButtonRo);//筛选
+        await findAndClick(searchInterfaceRo,50,false);//搜索界面
+        await findAndClick(resetButtonRo);//重置按钮
+        await findAndClick(researchRo);//搜索输入框
         inputText(resurrectionFoodName);
-        await sleep(500);
-        findAndClick(confirmButtonRo);//确认筛选
-        await sleep(500);
+        await findAndClick(confirmButtonRo);//确认按钮
+        await sleep(1000); // 增加等待时间
         var resurrectionNumber=await recognizeNumberByOCR(ocrRegion,/\d+/) //识别复活药数量
         // 处理复活药识别结果
         if (resurrectionNumber === null) {
             resurrectionNumber = 0;
             notification.send(`未识别到复活药数量，设置数量为0，药品名：${resurrectionFoodName}`)
+            await sleep(5000);
+            click(863, 51);//选择食物
+            await sleep(1000);
         }
-        findAndClick(filterButtonRo);//筛选
-        await sleep(500);
-        findAndClick(resetButtonRo);//重置
-        await sleep(500);
-        findAndClick(confirmButtonRo);//确认筛选
+        await findAndClick(filterButtonRo);//筛选
+        await findAndClick(searchInterfaceRo,50,false);//搜索界面
+        await findAndClick(resetButtonRo);//重置
+        await findAndClick(confirmButtonRo);//确认按钮
         await genshin.returnMainUi();
         return { recoveryNumber, resurrectionNumber };
     }
@@ -522,9 +519,9 @@ const confirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("a
     setGameMetrics(1920, 1080, 1);
     // 点击领月卡
     await genshin.blessingOfTheWelkinMoon();
-    await sleep(1000);
+    await sleep(500);
     await genshin.returnMainUi();
-    await sleep(1000);
+    await sleep(500);
     // 获取食物数量
     return await getFoodNum();
     }

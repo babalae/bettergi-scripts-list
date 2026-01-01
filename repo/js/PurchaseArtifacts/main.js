@@ -19,208 +19,75 @@ let userName = settings.userName || "默认账户";
         return userName;
     }
 
-    // 设置游戏时间
-    async function setTime(hour, minute) {
-	// 关于setTime
-	// 原作者: Tim
-	// 脚本名称: SetTimeMinute - 精确调整游戏时间到分钟
-	// 脚本版本: 1.0
-	// Hash: f5c2547dfc286fc643c733d630f775e8fbf12971
-
-	// 设置游戏分辨率和DPI缩放
-	setGameMetrics(1920, 1080, 1);
-	// 圆心坐标
-	const centerX = 1441;
-	const centerY = 501.6;
-	// 半径
-	const r1 = 30;
-	const r2 = 150;
-	const r3 = 300;
-	const stepDuration = 50;
-
-	function getPosition(r, index) {
-		let angle = index * Math.PI / 720;
-		return [Math.round(centerX + r * Math.cos(angle)), Math.round(centerY + r * Math.sin(angle))];
-	}
-	async function mouseClick(x, y) {
-		moveMouseTo(x, y);
-		await sleep(50);
-		leftButtonDown();
-		await sleep(50);
-		leftButtonUp();
-		await sleep(stepDuration);
-	}
-	async function mouseClickAndMove(x1, y1, x2, y2) {
-		moveMouseTo(x1, y1);
-		await sleep(50);
-		leftButtonDown();
-		await sleep(50);
-		moveMouseTo(x2, y2);
-		await sleep(50);
-		leftButtonUp();
-		await sleep(stepDuration);
-	}
-	async function setTime(hour, minute) {
-		const end = (hour + 6) * 60 + minute - 20;
-		const n = 3;
-		for (let i = - n + 1; i < 1; i++) {
-			let [x, y] = getPosition(r1, end + i * 1440 / n);
-			await mouseClick(x, y);
-		}
-		let [x1, y1] = getPosition(r2, end + 5);
-		let [x2, y2] = getPosition(r3, end + 20 + 0.5);
-		await mouseClickAndMove(x1, y1, x2, y2);
-	}
-
-	let h = Math.floor(hour + minute / 60);
-	const m = Math.floor(hour * 60 + minute) - h * 60;
-	h = ((h % 24) + 24) % 24;
-	log.info(`设置时间到 ${h} 点 ${m} 分`);
-	await keyPress("Escape");
-	await sleep(1000);
-	await click(50, 700);
-	await sleep(2000);
-	await setTime(h, m);
-	await sleep(1000);
-	await click(1500, 1000);//确认
-	await sleep(2000);
-	await genshin.returnMainUi();
-    }
-
     /**
-     * 判断任务是否已刷新
+     * 判断任务是否已刷新（固定为每周四4点刷新）
      * @param {string} filePath - 存储最后完成时间的文件路径
-     * @param {object} options - 配置选项
-     * @param {string} [options.refreshType] - 刷新类型: 'hourly'|'daily'|'weekly'|'monthly'|'custom'
-     * @param {number} [options.customHours] - 自定义小时数(用于'custom'类型)
-     * @param {number} [options.dailyHour=4] - 每日刷新的小时(0-23)
-     * @param {number} [options.weeklyDay=1] - 每周刷新的星期(0-6, 0是周日)
-     * @param {number} [options.weeklyHour=4] - 每周刷新的小时(0-23)
-     * @param {number} [options.monthlyDay=1] - 每月刷新的日期(1-31)
-     * @param {number} [options.monthlyHour=4] - 每月刷新的小时(0-23)
      * @returns {Promise<boolean>} - 是否已刷新
      */
-    async function isTaskRefreshed(filePath, options = {}) {
-        const {
-            refreshType = 'hourly', // 默认每小时刷新
-            customHours = 24,       // 自定义刷新小时数默认24
-            dailyHour = 4,          // 每日刷新默认凌晨4点
-            weeklyDay = 1,          // 每周刷新默认周一(0是周日)
-            weeklyHour = 4,         // 每周刷新默认凌晨4点
-            monthlyDay = 1,         // 每月刷新默认第1天
-            monthlyHour = 4          // 每月刷新默认凌晨4点
-        } = options;
+    async function isTaskRefreshed(filePath) {
+        const WEEKLY_DAY = 4;  // 周四（0是周日，1是周一，4是周四）
+        const WEEKLY_HOUR = 4; // 凌晨4点
 
         try {
             // 读取文件内容
             let content = await file.readText(filePath);
-            const lastTime = new Date(content);
-            const nowTime = new Date();
 
-
-            let shouldRefresh = false;
-
-
-            switch (refreshType) {
-                case 'hourly': // 每小时刷新
-                    shouldRefresh = (nowTime - lastTime) >= 3600 * 1000;
-                    break;
-
-                case 'daily': // 每天固定时间刷新
-                    // 检查是否已经过了当天的刷新时间
-                    const todayRefresh = new Date(nowTime);
-                    todayRefresh.setHours(dailyHour, 0, 0, 0);
-
-                    // 如果当前时间已经过了今天的刷新时间，检查上次完成时间是否在今天刷新之前
-                    if (nowTime >= todayRefresh) {
-                        shouldRefresh = lastTime < todayRefresh;
-                    } else {
-                        // 否则检查上次完成时间是否在昨天刷新之前
-                        const yesterdayRefresh = new Date(todayRefresh);
-                        yesterdayRefresh.setDate(yesterdayRefresh.getDate() - 1);
-                        shouldRefresh = lastTime < yesterdayRefresh;
-                    }
-                    break;
-
-                case 'weekly': // 每周固定时间刷新
-                    // 获取本周的刷新时间
-                    const thisWeekRefresh = new Date(nowTime);
-                    // 计算与本周指定星期几的差值
-                    const dayDiff = (thisWeekRefresh.getDay() - weeklyDay + 7) % 7;
-                    thisWeekRefresh.setDate(thisWeekRefresh.getDate() - dayDiff);
-                    thisWeekRefresh.setHours(weeklyHour, 0, 0, 0);
-
-                    // 如果当前时间已经过了本周的刷新时间
-                    if (nowTime >= thisWeekRefresh) {
-                        shouldRefresh = lastTime < thisWeekRefresh;
-                    } else {
-                        // 否则检查上次完成时间是否在上周刷新之前
-                        const lastWeekRefresh = new Date(thisWeekRefresh);
-                        lastWeekRefresh.setDate(lastWeekRefresh.getDate() - 7);
-                        shouldRefresh = lastTime < lastWeekRefresh;
-                    }
-                    break;
-
-                case 'monthly': // 每月固定时间刷新
-                    // 获取本月的刷新时间
-                    const thisMonthRefresh = new Date(nowTime);
-                    // 设置为本月指定日期的凌晨
-                    thisMonthRefresh.setDate(monthlyDay);
-                    thisMonthRefresh.setHours(monthlyHour, 0, 0, 0);
-
-                    // 如果当前时间已经过了本月的刷新时间
-                    if (nowTime >= thisMonthRefresh) {
-                        shouldRefresh = lastTime < thisMonthRefresh;
-                    } else {
-                        // 否则检查上次完成时间是否在上月刷新之前
-                        const lastMonthRefresh = new Date(thisMonthRefresh);
-                        lastMonthRefresh.setMonth(lastMonthRefresh.getMonth() - 1);
-                        shouldRefresh = lastTime < lastMonthRefresh;
-                    }
-                    break;
-
-                case 'custom': // 自定义小时数刷新
-                    shouldRefresh = (nowTime - lastTime) >= customHours * 3600 * 1000;
-                    break;
-
-                default:
-                    throw new Error(`未知的刷新类型: ${refreshType}`);
-            }
-
-            // 如果文件内容无效或不存在，视为需要刷新
-            if (!content || isNaN(lastTime.getTime())) {
+            // 如果文件内容为空或无效，视为需要刷新
+            if (!content) {
                 await file.writeText(filePath, '');
-                shouldRefresh = true;
-            }
-
-            if (shouldRefresh) {
-                notification.send(`购买狗粮已经刷新，执行脚本`);
-
-
-                return true;
-            } else {
-                log.info(`购买狗粮未刷新`);
-                return false;
-            }
-
-        } catch (error) {
-            // 如果文件不存在，创建新文件并返回true(视为需要刷新)
-            const createResult = await file.writeText(filePath, '');
-            if (createResult) {
                 log.info("创建新时间记录文件成功，执行脚本");
                 return true;
             }
-            else throw new Error(`创建新文件失败`);
+
+            const lastTime = new Date(content);
+            const nowTime = new Date();
+
+            // 检查上次记录时间是否有效
+            if (isNaN(lastTime.getTime())) {
+                log.info("时间记录文件内容无效，执行脚本");
+                return true;
+            }
+
+            // 获取本周的刷新时间
+            const thisWeekRefresh = new Date(nowTime);
+
+            // 计算与本周周四的差值
+            const dayDiff = (thisWeekRefresh.getDay() - WEEKLY_DAY + 7) % 7;
+            thisWeekRefresh.setDate(thisWeekRefresh.getDate() - dayDiff);
+            thisWeekRefresh.setHours(WEEKLY_HOUR, 0, 0, 0);
+
+            // 如果当前时间已经过了本周的刷新时间
+            if (nowTime >= thisWeekRefresh) {
+                // 检查上次完成时间是否在本周刷新之前
+                if (lastTime < thisWeekRefresh) {
+                    notification.send("购买狗粮已经刷新，执行脚本");
+                    return true;
+                }
+            } else {
+                // 否则检查上次完成时间是否在上周刷新之前
+                const lastWeekRefresh = new Date(thisWeekRefresh);
+                lastWeekRefresh.setDate(lastWeekRefresh.getDate() - 7);
+
+                if (lastTime < lastWeekRefresh) {
+                    notification.send("购买狗粮已经刷新，执行脚本");
+                    return true;
+                }
+            }
+
+            log.info("购买狗粮未刷新");
+            return false;
+
+        } catch (error) {
+            // 如果文件不存在或读取失败，创建新文件并返回true
+            log.info(`文件读取失败: ${error.message}，创建新文件`);
+            await file.writeText(filePath, '');
+            return true;
         }
     }
 
-    // 购买圣遗物
-    async function purChase(locationName) {
-        // 寻路
-        log.info(`加载路径文件: ${locationName}`);
-        let filePath = `assets/Pathing/${locationName}.json`;
-        await pathingScript.runFile(filePath);
-        await sleep(1000);
+    // 购买圣遗物 - 只执行购买部分（不包含寻路）
+    async function purchaseOnly(locationName, isRetry = false) {
+        log.info(`开始购买流程: ${locationName}${isRetry ? ' (重试)' : ''}`);
 
         // 定义模板
         let fDialogueRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Picture/F_Dialogue.png"), 1050, 400, 100, 400);
@@ -234,7 +101,7 @@ let userName = settings.userName || "默认账户";
             let fRes = ra.find(fDialogueRo);
             ra.dispose();
             if (!fRes.isExist()) {
-                let f_attempts = null; // 初始化尝试次数
+                let f_attempts = 0; // 初始化尝试次数
                 while (f_attempts < 6) { // 最多尝试 5 次
                     f_attempts++;
                     log.info(`当前尝试次数：${f_attempts}`);
@@ -246,9 +113,8 @@ let userName = settings.userName || "默认账户";
                         await sleep(500);
                     } else if (f_attempts <= 5) {
                         // 第 4-5 次尝试
-                        log.info("重新加载路径文件");
-                        await pathingScript.runFile(filePath);
-                        await sleep(500);
+                        log.warn("无法找到NPC，退出购买流程");
+                        return { success: false, reason: "npc_not_found" };
                     } else {
                         // 第 6 次尝试，尝试次数已达上限
                         log.warn("尝试次数已达上限");
@@ -269,116 +135,218 @@ let userName = settings.userName || "默认账户";
                 // 如果尝试次数用完仍未找到 F 图标，返回 false
                 if (!fRes.isExist()) {
                     log.warn("经过多次尝试后仍未找到 F 图标");
-                    return false;
+                    return { success: false, reason: "npc_not_found" };
                 }
             }
-            return true
+            return { success: true, reason: "" };
         }
-        let isAligned = await checkFAlignment(fDialogueRo);
-        if(isAligned){
-            // 进入对话选项
-            for (let i = 0; i < 5; i++) {
-                // 最多 F 5次
-                let captureRegion = captureGameRegion();  // 获取一张截图
-                let res = captureRegion.Find(shopDialogueRo);
-                captureRegion.dispose();
-                if (res.isEmpty()) {
-                  keyPress("F");
-                  await sleep(1000);
-                } else {
-                  res.click();
-                  log.info("已到达对话选项界面，点击商店图标({x},{y},{h},{w})", res.x, res.y, res.width, res.Height);
-                  break;
+
+        let alignmentResult = await checkFAlignment(fDialogueRo);
+        if(!alignmentResult.success){
+            // 返回一个对象，包含购买数量和失败原因
+            return { purchasedCount: 0, failureReason: alignmentResult.reason, aligned: false };
+        }
+
+        // 进入对话选项
+        for (let i = 0; i < 5; i++) {
+            // 最多 F 5次
+            let captureRegion = captureGameRegion();  // 获取一张截图
+            let res = captureRegion.Find(shopDialogueRo);
+            captureRegion.dispose();
+            if (res.isEmpty()) {
+              keyPress("F");
+              await sleep(1000);
+            } else {
+              res.click();
+              log.info("已到达对话选项界面，点击商店图标({x},{y},{h},{w})", res.x, res.y, res.width, res.Height);
+              break;
+            }
+            await sleep(500);
+        }
+        // 进入商店界面
+        for (let i = 0; i < 5; i++) {
+            // 最多 F 5次
+            let captureRegion = captureGameRegion();  // 获取一张截图
+            let res = captureRegion.Find(shopDialogueRo2);
+            captureRegion.dispose();
+            if (res.isEmpty()) {
+              keyPress("F");
+              await sleep(1000);
+            } else {
+              log.info("已到达商店界面");
+              break;
+            }
+            await sleep(500);
+        }
+        if (locationName=='稻妻购买狗粮'){
+            click(200, 400); await sleep(500); // 选择狗粮
+        }
+        // 购买狗粮
+        let purchasedCount = 0; // 记录购买次数
+        for (let i = 0; i < 6; i++) {
+            // 最多购买6次
+            let captureRegion = captureGameRegion();  // 获取一张截图
+            let res = captureRegion.Find(conFirmRo);
+            captureRegion.dispose();
+            if (res.isEmpty()) {
+                log.info('圣遗物已售罄');
+                break;
+            }else{
+                // 识别到购买标识，模拟购买操作的后续点击
+                await click(1600, 1020);
+                await sleep(1000); // 购买
+                await click(1320, 780);
+                await sleep(1000); // 最终确认
+                await click(1320, 780);
+                await sleep(1000); // 点击空白
+                purchasedCount++; // 购买成功，计数加1
+            }
+            await sleep(500);
+        }
+
+        // 返回购买结果对象
+        return { purchasedCount, failureReason: purchasedCount === 0 ? "sold_out" : "", aligned: true };
+    }
+
+    // 完整的购买流程（包含寻路）
+    async function purChase(locationName) {
+        // 寻路
+        log.info(`加载路径文件: ${locationName}`);
+        let filePath = `assets/Pathing/${locationName}.json`;
+        await pathingScript.runFile(filePath);
+        await sleep(1000);
+
+        // 执行购买
+        return await purchaseOnly(locationName);
+    }
+
+    // 检查函数，如果未买完则重新对话购买
+    async function checkAndPurchase(locationName) {
+        let maxRetries = 2; // 最大重试次数（加上第一次共3次）
+        let retryCount = 0;
+        let totalPurchased = 0;
+
+        // 第一次执行完整的购买流程（包含寻路）
+        log.info(`开始执行 ${locationName} 的完整购买流程`);
+        let purchaseResult = await purChase(locationName);
+        let purchasedCount = purchaseResult.purchasedCount;
+        let failureReason = purchaseResult.failureReason;
+        let aligned = purchaseResult.aligned;
+
+        totalPurchased += purchasedCount;
+
+        // 如果购买数量为0，检查失败原因
+        if (purchasedCount === 0) {
+            if (failureReason === "npc_not_found" || !aligned) {
+                // NPC对齐失败，重新执行一次完整购买流程
+                log.info(`${locationName} NPC对齐失败，重新执行完整购买流程`);
+                await genshin.returnMainUi();
+                await sleep(2000);
+
+                purchaseResult = await purChase(locationName);
+                purchasedCount = purchaseResult.purchasedCount;
+                failureReason = purchaseResult.failureReason;
+                aligned = purchaseResult.aligned;
+                totalPurchased = purchasedCount; // 重置总购买数
+
+                if (purchasedCount === 0 && (failureReason === "npc_not_found" || !aligned)) {
+                    log.warn(`${locationName} 第二次完整购买仍然NPC对齐失败，跳过此地点`);
+                    return 0;
                 }
-                await sleep(500);
+            } else if (failureReason === "sold_out") {
+                // 商店已售罄，说明之前已经买过了
+                log.info(`${locationName} 商店已售罄，之前已完整购买过`);
+                return 0;
             }
-            // 进入商店界面
-            for (let i = 0; i < 5; i++) {
-                // 最多 F 5次
-                let captureRegion = captureGameRegion();  // 获取一张截图
-                let res = captureRegion.Find(shopDialogueRo2);
-                captureRegion.dispose();
-                if (res.isEmpty()) {
-                  keyPress("F");
-                  await sleep(1000);
-                } else {
-                  log.info("已到达商店界面");
-                  break;
-                }
-                await sleep(500);
-            }
-            if (locationName=='稻妻购买狗粮'){
-                click(200, 400); await sleep(500); // 选择狗粮
-            }
-            // 购买狗粮
-            for (let i = 0; i < 5; i++) {
-                // 最多购买5次
-                let captureRegion = captureGameRegion();  // 获取一张截图
-                let res = captureRegion.Find(conFirmRo);
-                captureRegion.dispose();
-                if (res.isEmpty()) {
-                    log.info('圣遗物已售罄');
-                    break;
-                }else{
-                    // 识别到购买标识，模拟购买操作的后续点击
-                    await click(1600, 1020);
-                    await sleep(1000); // 购买
-                    await click(1320, 780);
-                    await sleep(1000); // 最终确认
-                    await click(1320, 780);
-                    await sleep(1000); // 点击空白
-                }
-                await sleep(500);
-            }
+        }
+
+        // 如果第一次没买完（且数量大于0），尝试重新对话购买
+        while (totalPurchased < 5 && retryCount < maxRetries) {
+            retryCount++;
+            log.info(`第 ${retryCount} 次重试购买 ${locationName}，已购买 ${totalPurchased} 个`);
+
+            // 返回主界面
             await genshin.returnMainUi();
+            await sleep(2000);
+
+            // 重新执行购买（不包含寻路）
+            log.info(`重新执行 ${locationName} 的购买流程（不包含寻路）`);
+            purchaseResult = await purchaseOnly(locationName, true);
+            purchasedCount = purchaseResult.purchasedCount;
+            failureReason = purchaseResult.failureReason;
+
+            // 如果重新购买时数量为0，检查失败原因
+            if (purchasedCount === 0) {
+                if (failureReason === "npc_not_found") {
+                    log.info(`${locationName} 重试时NPC对齐失败，停止重试`);
+                    break;
+                } else if (failureReason === "sold_out") {
+                    log.info(`${locationName} 重试时已无圣遗物可购买，停止重试`);
+                    break;
+                }
+            }
+
+            totalPurchased += purchasedCount;
+
+            if (totalPurchased >= 5) {
+                log.info(`成功购买 ${locationName} 的所有圣遗物`);
+                break;
+            }
         }
+
+        if (totalPurchased < 5 && totalPurchased > 0) {
+            log.warn(`购买 ${locationName} 未完成，只购买了 ${totalPurchased} 个圣遗物`);
+        } else if (totalPurchased === 0) {
+            log.info(`${locationName} 无圣遗物可购买`);
+        }
+
+        return totalPurchased;
     }
 
     async function main() {
-    await genshin.returnMainUi();
-    if(settings.select1){
-    await purChase('蒙德购买狗粮');
-    }
+        await genshin.returnMainUi();
+        // 使用数组存储要执行的地点
+        const purchaseTasks = [
+            { enabled: settings.select1, name: '蒙德购买狗粮' },
+            { enabled: settings.select2, name: '璃月购买狗粮1' },
+            { enabled: settings.select3, name: '璃月购买狗粮2', time: { hour: 19, minute: 0 } },
+            { enabled: settings.select4, name: '稻妻购买狗粮' },
+            { enabled: settings.select5, name: '须弥购买狗粮' },
+            { enabled: settings.select6, name: '枫丹购买狗粮' },
+            { enabled: settings.select7, name: '纳塔购买狗粮' },
+            { enabled: settings.select8, name: '挪德卡莱购买狗粮' }
+        ];
 
-    if(settings.select2){
-    await purChase('璃月购买狗粮1');
-    }
+        let totalPurchased = 0;
 
-    if(settings.select3){
-    await setTime(19,00)
-    await purChase('璃月购买狗粮2');
-    }
+        for (const task of purchaseTasks) {
+            if (task.enabled) {
+                // 如果有时间设置，先设置时间
+                if (task.time) {
+                    await genshin.setTime(task.time.hour, task.time.minute)
+                }
 
-    if(settings.select4){
-    await purChase('稻妻购买狗粮');
-       }
-    if(settings.select5){
-    await purChase('须弥购买狗粮');
-    }
+                // 执行检查并购买
+                let count = await checkAndPurchase(task.name);
+                totalPurchased += count;
 
-    if(settings.select6){
-    await purChase('枫丹购买狗粮');
-    }
+                log.info(`${task.name} 完成，购买了 ${count} 个圣遗物`);
 
-    if(settings.select7){
-    await purChase('纳塔购买狗粮');
-    }
+                // 返回主界面准备下一个任务
+                await genshin.returnMainUi();
+                await sleep(1000);
+            }
+        }
 
-    if(settings.select8){
-    await purChase('挪德卡莱购买狗粮');
-    }
+        notification.send(`所有任务完成，总共购买了 ${totalPurchased} 个圣遗物`);
 
-    await file.writeText(recordPath, new Date().toISOString());
-}
+        await file.writeText(recordPath, new Date().toISOString());
+    }
 
     userName = await getUserName();
     const recordPath = `assets/${userName}.txt`;
     //每周四4点刷新
-    if( await isTaskRefreshed(recordPath, {
-        refreshType: 'weekly',
-        weeklyDay: 4, // 周四
-        weeklyHour: 4 // 凌晨4点
-    })|| settings.select9){
+    if( await isTaskRefreshed(recordPath)|| settings.select9){
     await main();
     }
 })();
