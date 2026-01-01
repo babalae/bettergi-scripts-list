@@ -16,7 +16,7 @@
 - ✅ 防重复检测机制
 - ✅ 异常处理和错误恢复
 - ✅ 自动提醒征讨领域减半剩余次数（默认`周日`提醒可配置）
-- ✅ 支持独立通知功能（`0.0.4`版本新增）
+- ✅ 支持独立通知功能（`0.0.4`版本新增 需搭配WsProxy使用）[前往WsProxy](https://github.com/Kirito520Asuna/WsProxy)
 
 ---
 
@@ -32,7 +32,7 @@
 
 #### 2. 基础设置
 
-在 [settings.json](file://G:\code\bettergi-scripts-list\archive\js\5_7PVP_Auto\settings.json) 中可以配置以下参数：
+在 [settings.json]() 中可以配置以下参数：
 
 | 设置项                        | 说明                                             | 默认值         | 开放 |
 |:---------------------------|:-----------------------------------------------|:------------|:--:|
@@ -121,7 +121,6 @@
 3. **网络连接**: 确保能够连接到配置的 WebSocket 服务器
 
 #### 配置示例
-
 ```json
 {
   "noticeType": "独立通知",
@@ -132,8 +131,12 @@
   "at_list": "987654321,111222333"
 }
 ```
-
-
+## 部署[WsProxy](https://github.com/Kirito520Asuna/WsProxy)
+提供docker镜像，方便用户快速搭建WebSocket代理服务
+```shell
+docker pull ghcr.io/kirito520asuna/wsproxy:latest
+docker run -d -p 8081:8081 -v /path/to/application-prod.yml:/app/application-prod.yml --name wsproxy ghcr.io/kirito520asuna/wsproxy:latest
+```
 ### 注意事项
 
 #### 使用环境要求
