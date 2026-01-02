@@ -13,7 +13,7 @@
     "bgi_version": "0.45.0",
     "description": "地区: 须弥\n类型: 垂钓点\n详细位置: 千壑沙地「五绿洲」的孑遗\n鱼类: 真果角鲀、吹沙角鲀、暮云角鲀、青金斧枪鱼、翡玉斧枪鱼\n饵类: 甘露饵\n附加信息: 战斗",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766917187348,
+    "last_modified_time": 1766933035550,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "须弥-垂钓点-千壑沙地「五绿洲」的孑遗",
@@ -26,7 +26,6 @@
       "action": "",
       "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4694.293,
@@ -36,31 +35,28 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 4707.6943359375,
-      "y": -264.052734375
+      "x": 4707.6943,
+      "y": -264.0527
     },
     {
       "action": "stop_flying",
       "action_params": "",
       "id": 3,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
-      "x": 4731.7041015625,
-      "y": -246.3447265625
+      "x": 4731.7041,
+      "y": -246.3447
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 4734.7919921875,
-      "y": -242.41259765625
+      "x": 4734.792,
+      "y": -242.4126
     },
     {
       "action": "",
@@ -68,8 +64,8 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 4749.8095703125,
-      "y": -235.77099609375
+      "x": 4749.8096,
+      "y": -235.771
     },
     {
       "action": "fight",
@@ -84,7 +80,6 @@
       "action": "",
       "action_params": "",
       "id": 7,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 4750.0791,
@@ -94,7 +89,6 @@
       "action": "",
       "action_params": "",
       "id": 8,
-      "locked": false,
       "move_mode": "jump",
       "type": "target",
       "x": 4753.3945,
@@ -104,7 +98,6 @@
       "action": "combat_script",
       "action_params": "wait(0.2),keypress(t),keypress(t),keypress(t),keypress(t),wait(0.2)",
       "id": 9,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 4768.6885,
@@ -114,7 +107,6 @@
       "action": "",
       "action_params": "",
       "id": 10,
-      "locked": false,
       "move_mode": "jump",
       "type": "orientation",
       "x": 4799.1484,
@@ -124,17 +116,33 @@
       "action": "",
       "action_params": "",
       "id": 11,
-      "locked": false,
       "move_mode": "jump",
       "type": "path",
       "x": 4799.2773,
       "y": -191.5317
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 12,
-      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4812.44,
+      "y": -179.03
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4810.1247,
+      "y": -181.125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
       "move_mode": "dash",
       "type": "path",
       "x": 4812.44,
@@ -143,22 +151,20 @@
     {
       "action": "",
       "action_params": "",
-      "id": 13,
-      "locked": false,
+      "id": 15,
       "move_mode": "walk",
       "type": "path",
-      "x": 4805.7421875,
-      "y": -177.1533203125
+      "x": 4805.7422,
+      "y": -177.1533
     },
     {
       "action": "combat_script",
       "action_params": "wait(7.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
-      "id": 14,
-      "locked": false,
+      "id": 16,
       "move_mode": "walk",
       "type": "path",
-      "x": 4811.6162109375,
-      "y": -182.36572265625
+      "x": 4811.6162,
+      "y": -182.3657
     }
   ]
 }
