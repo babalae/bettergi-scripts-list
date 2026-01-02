@@ -16,9 +16,9 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时186.21秒，包含以下怪物：2只盗宝团·火之药剂师、1只盗宝团·雷之药剂师、1只盗宝团·神射手、1只盗宝团·拳术家、1只铸砂勇士·碎盾者、1只疾讯勇士·重刃讯使、1只嵴锋龙武士·破岩锐刃、1只幼嵴锋龙、3只嵴锋龙、1只幼匿叶龙。",
-    "hash_res": "88314685",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1759249127160,
+    "hash_res": "88314685",
+    "last_modified_time": 1767024534181,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "6502--纳塔_坚岩隘谷_硫晶支脉2_(4-9)",
@@ -58,7 +58,6 @@
       "action": "fight",
       "action_params": "",
       "id": 4,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 8494.1923828125,
@@ -93,7 +92,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1)",
+      "action_params": "wait(0.876)",
       "id": 8,
       "move_mode": "dash",
       "type": "orientation",
@@ -138,12 +137,21 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1)",
+      "action_params": "wait(0.876)",
       "id": 13,
       "move_mode": "walk",
       "type": "orientation",
       "x": 8334.26,
       "y": -1378.1099999999997
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7973.994140625,
+      "y": -1557.32666015625
     }
   ]
 }

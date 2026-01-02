@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "author": "mno",
     "authors": [
@@ -11,7 +11,7 @@
     "description": "  路线信息：该路线预计用时127.94秒，包含以下怪物：2只火史莱姆、1只大型火史莱姆、1只雷史莱姆、1只冰史莱姆、1只大型冰史莱姆、1只炽热骗骗花、1只冰霜骗骗花。",
     "enable_monster_loot_split": false,
     "hash_res": "77254531",
-    "last_modified_time": 1764704202603,
+    "last_modified_time": 1767118687823,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "3205(高危)稻妻踏鞴反应炉东三骗骗花",
@@ -129,8 +129,8 @@
       "y": -3670.0200000000004
     },
     {
-      "action": "fight",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.2),keydown(w),dash(0.2),keyup(w)",
       "id": 13,
       "move_mode": "dash",
       "type": "path",
@@ -138,9 +138,18 @@
       "y": -3634.66
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.1)",
+      "action": "fight",
+      "action_params": "",
       "id": 14,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3157.3100000000013,
+      "y": -3634.66
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.876)",
+      "id": 15,
       "move_mode": "walk",
       "type": "orientation",
       "x": -3157.3100000000013,
