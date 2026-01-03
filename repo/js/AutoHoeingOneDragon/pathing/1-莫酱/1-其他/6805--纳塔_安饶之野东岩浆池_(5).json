@@ -1,0 +1,99 @@
+{
+  "info": {
+    "author": "汐&mno",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      },
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时93.19秒，包含以下怪物：2只丘丘人、2只突角龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764702256922,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6805--纳塔_安饶之野东岩浆池_(5)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9807.2,
+      "y": -2668.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9798.4,
+      "y": -2644.67
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9749.37,
+      "y": -2621.26
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9725.1,
+      "y": -2637.54
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9694.46,
+      "y": -2651.25
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9727.0751953125,
+      "y": -2692.5380859375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9733.19,
+      "y": -2683.63
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9733.19,
+      "y": -2683.63
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时63.84秒，包含以下怪物：2只大型碎石隙境原体。",
+    "hash_res": "95991010",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756237946173,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "522枫丹特别温暖的地方（400_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4795.1552734375,
+      "y": 2510.637939453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4824.380859375,
+      "y": 2582.419189453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4824.380859375,
+      "y": 2582.419189453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4800.5732421875,
+      "y": 2618.52001953125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4803.623046875,
+      "y": 2646.79052734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4803.623046875,
+      "y": 2646.79052734375
+    }
+  ]
+}

@@ -1,0 +1,239 @@
+{
+  "info": {
+    "name": "08-绯樱绣球-镇守之森-8个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "丽莎可采集全，久岐忍漏最后1个(大部分路径是久岐忍(二命行走/治疗位)可采集全，可两个都带，久岐忍序号排前)",
+    "bgi_version": "0.42.3",
+    "tags": [
+      "丽莎"
+    ],
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4430.18,
+      "y": -2799.47,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4441.73,
+      "y": -2802.02,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4453.35,
+      "y": -2815.15,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -4464.49,
+      "y": -2813.26,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -4512.45,
+      "y": -2790.23,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -4520.4,
+      "y": -2782.59,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": -4510.84,
+      "y": -2762.9,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -4518.62,
+      "y": -2747.04,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -4508.39,
+      "y": -2728.32,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -4504.08,
+      "y": -2682.75,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": -4504.08,
+      "y": -2682.75,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -4430.18,
+      "y": -2799.47,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 13,
+      "x": -4432.47,
+      "y": -2763.39,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": -4415.37,
+      "y": -2790.02,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -4405.78,
+      "y": -2793.63,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 16,
+      "x": -4383.61,
+      "y": -2793.55,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -4378.83,
+      "y": -2849.36,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 18,
+      "x": -4378.83,
+      "y": -2849.36,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": -4430.18,
+      "y": -2799.47,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 20,
+      "x": -4372.05,
+      "y": -2777.36,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": -4306.23,
+      "y": -2761.5,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 22,
+      "x": -4312.17,
+      "y": -2808.59,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": -4314.87,
+      "y": -2817.25,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": -4314.38,
+      "y": -2819.58,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1);瓦雷莎 charge,wait(2);八重神子 charge",
+      "type": "target"
+    },
+    {
+      "id": 25,
+      "x": -4314.38,
+      "y": -2819.58,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(VK_SPACE),wait(1),keypress(VK_SPACE)",
+      "type": "target"
+    }
+  ]
+}

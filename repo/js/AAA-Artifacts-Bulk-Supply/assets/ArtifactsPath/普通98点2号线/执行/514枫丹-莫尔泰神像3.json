@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766670072491,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "514枫丹-莫尔泰神像3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3555.486328125,
+      "y": 3021.65869140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3579.474609375,
+      "y": 3072.33837890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3585.40234375,
+      "y": 3071.051025390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3555.486328125,
+      "y": 3021.65869140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3578.41796875,
+      "y": 3022.179931640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.3),dash,wait(1),dash,wait(1.2),keyup(w),",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3600.2890625,
+      "y": 3007.707275390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3600.857421875,
+      "y": 3007.4482421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 3606.48046875,
+      "y": 3019.11279296875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.08),keydown(w),wait(0.1),j,keypress(f),wait(0.2),keyup(w),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),j",
+      "id": 9,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 3604.7421875,
+      "y": 3021.3291015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.8);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 10,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 3605.359375,
+      "y": 3024.743408203125
+    }
+  ]
+}

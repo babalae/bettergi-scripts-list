@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "331稻妻渊下宫大日御舆东（200_3）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时85.65秒，包含以下怪物：2只丘丘人、1只火斧丘丘暴徒、1只火深渊法师、1只雷深渊法师。",
+    "hash_res": "71554451",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 90.34,
+      "y": 254.52,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 79.55,
+      "y": 320.97,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "4000",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 80.1,
+      "y": 323.39,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 84.59,
+      "y": 336.25,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 89.87,
+      "y": 347.3,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(0.3),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),"
+    },
+    {
+      "id": 6,
+      "x": 114.52,
+      "y": 340.05,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 114.52,
+      "y": 340.05,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

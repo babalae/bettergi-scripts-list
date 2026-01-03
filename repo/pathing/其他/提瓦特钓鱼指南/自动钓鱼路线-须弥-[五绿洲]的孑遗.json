@@ -1,0 +1,138 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "TTTTFT"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "有战斗（冰法师），稳定性不高",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758270995942,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "自动钓鱼路线-须弥-[五绿洲]的孑遗",
+    "tags": [
+      "钓鱼",
+      "须弥"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4694.2988,
+      "y": -261.7241
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4705.3027,
+      "y": -268.458
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4727.9639,
+      "y": -266.7803
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4724.1465,
+      "y": -218.6309
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4754.1934,
+      "y": -202.5127
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4763.001,
+      "y": -203.2666
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4796.9424,
+      "y": -188.5796
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4810.7861,
+      "y": -176.9395
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4810.7861,
+      "y": -176.9395
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4810.7861,
+      "y": -176.9395
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4812.7373,
+      "y": -180.4937
+    },
+    {
+      "action": "fishing",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4816.6592,
+      "y": -186.4829
+    }
+  ]
+}

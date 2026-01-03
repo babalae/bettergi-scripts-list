@@ -1,0 +1,121 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758789358081,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "636纳塔-呼呼丘西北沙滩3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14221.912109375,
+      "y": 803.3681640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14242.677734375,
+      "y": 813.91650390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 14246.5283203125,
+      "y": 814.4375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(x);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.4);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);芙宁娜 e;",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 14247.048828125,
+      "y": 813.49609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 14243.8291015625,
+      "y": 812.8388671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14232.09375,
+      "y": 817.1238601464138
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14274.625,
+      "y": 893.5107124103988
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14296.84375,
+      "y": 914.4065266634916
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14302.9921875,
+      "y": 912.5078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 14304.015625,
+      "y": 913.3515625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),s(0.15);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 11,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 14304.380859375,
+      "y": 914.3330078125
+    }
+  ]
+}

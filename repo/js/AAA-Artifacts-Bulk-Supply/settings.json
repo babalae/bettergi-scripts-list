@@ -1,0 +1,84 @@
+[
+  {
+    "name": "artifactPartyName",
+    "type": "input-text",
+    "label": "#############################################\n队伍切换配置\n\n请输入【狗粮队伍】的名称",
+    "default": "狗粮"
+  },
+  {
+    "name": "combatPartyName",
+    "type": "input-text",
+    "label": "请输入【清怪队伍】的名称\n请在配置组设置中为该配队配置对应的战斗策略\n不填时不执行清怪路线"
+  },
+  {
+    "name": "minIntervalTime",
+    "type": "input-text",
+    "label": "#############################################\n卡时间与收尾配置\n\n最短间隔时间（分钟）\n默认为1分钟，过短可能导致丢失收尾和额外收益",
+    "default": "1"
+  },
+  {
+    "name": "maxWaitingTime",
+    "type": "input-text",
+    "label": "最大额外等待时间（分钟）\n默认值为0分钟\n普通路线结束后额外尝试等待\n以卡时间执行更多次优先收尾路线",
+    "default": "0"
+  },
+  {
+    "name": "forceAlternate",
+    "type": "checkbox",
+    "label": "强制收尾路线交替执行"
+  },
+  {
+    "name": "onlyActivate",
+    "type": "checkbox",
+    "label": "只激活收尾和额外路线，不执行\n用于联机收尾获取更高收益\n【不跑联机狗粮别勾】"
+  },
+  {
+    "name": "decomposeMode",
+    "type": "select",
+    "label": "#############################################\n狗粮分解配置\n\n狗粮分解模式",
+    "options": [
+      "保留",
+      "分解（经验瓶）",
+      "销毁（摩拉）"
+    ],
+    "default": "保留"
+  },
+  {
+    "name": "keep4Star",
+    "type": "checkbox",
+    "label": "是否保留四星（默认不保留）"
+  },
+  {
+    "name": "autoSalvage",
+    "type": "checkbox",
+    "label": "是否沿路自动分解（默认：否)"
+  },
+  {
+    "name": "notify",
+    "type": "checkbox",
+    "label": "#############################################\n其他配置\n\n是否通知信息"
+  },
+  {
+    "name": "accountName",
+    "type": "input-text",
+    "label": "账户名称\n用于多账户运行时区分不同账户\n单账户无需修改",
+    "default": "默认账户"
+  },
+  {
+    "name": "furina",
+    "type": "checkbox",
+    "label": "如果你的【狗粮队伍】中有芙宁娜，请勾选"
+  },
+  {
+    "name": "TMthreshold",
+    "type": "input-text",
+    "label": "拾取使用的匹配阈值\n观察到误捡可适当调高\n观察到漏捡可适当调低",
+    "default": "0.9"
+  },
+  {
+    "name": "findFInterval",
+    "type": "input-text",
+    "label": "识别间隔(毫秒)\n两次检测f图标之间等待时间",
+    "default": "100"
+  }
+]

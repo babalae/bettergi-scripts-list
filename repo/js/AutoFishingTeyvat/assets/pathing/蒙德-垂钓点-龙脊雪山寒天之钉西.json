@@ -1,0 +1,71 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 蒙德\n类型: 垂钓点\n详细位置: 龙脊雪山寒天之钉西\n鱼类: 花鳉、鸩棘鱼、雪中君、流纹茶蝶鱼\n饵类: 果酿饵、赤糜饵、蠕虫假饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764505541091,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蒙德-垂钓点-龙脊雪山寒天之钉西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -705.5,
+      "y": 925.62
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -687.73,
+      "y": 926.62
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -658.82,
+      "y": 962.1
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -604.83,
+      "y": 1006.54
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -605.82,
+      "y": 995.64
+    }
+  ]
+}

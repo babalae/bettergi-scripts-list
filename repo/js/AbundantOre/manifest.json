@@ -1,0 +1,19 @@
+{
+  "bgi_version": "0.50.0",
+  "manifest_version": 1,
+  "name": "矿产资源批发",
+  "version": "0.26",
+  "description": "自动记录矿石刷新时间，优先选择效率最高的路线，支持按区域、种类、数量自动规划挖矿路线",
+  "authors": [
+    {
+      "name": "芝士贝果",
+      "links": "https://github.com/cheese-bagel"
+    }
+  ],
+  "saved_files": [
+    "local/disabled_paths.txt",
+    "local/persistent_data.json"
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}

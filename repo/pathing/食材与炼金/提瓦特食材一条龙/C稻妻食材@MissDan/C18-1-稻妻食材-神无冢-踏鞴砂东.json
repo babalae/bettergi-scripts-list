@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个薄荷；2个电气水晶；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762342146032,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C18-1-稻妻食材-神无冢-踏鞴砂东",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3399.793,
+      "y": -3557.6133
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3414.4531,
+      "y": -3548.5674
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3419.9434,
+      "y": -3544.7412
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3412.2402,
+      "y": -3543.7207
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3414.8945,
+      "y": -3549.5039
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3415.7148,
+      "y": -3551.7783
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3414.3633,
+      "y": -3544.7725
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3405.5039,
+      "y": -3538.2051
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3404.7891,
+      "y": -3532.4131
+    }
+  ]
+}

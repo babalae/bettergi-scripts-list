@@ -1,0 +1,149 @@
+{
+  "info": {
+    "name": "10-月莲-降魔山左下-8个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芙宁娜"
+    ],
+    "last_modified_time": 1751169434958,
+    "authors": [
+      {
+        "name": "tignioj"
+      },
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2567.48,
+      "y": -1424.08,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2594.33,
+      "y": -1429.42,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2618.9,
+      "y": -1433.51,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2645.72,
+      "y": -1436.63,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 2678.83,
+      "y": -1435.1,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2695.64,
+      "y": -1440.95,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芙宁娜 attack,e(wait)",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 2695.64,
+      "y": -1440.95,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 2696.9,
+      "y": -1452.01,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 2700.53,
+      "y": -1453.75,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 2701.33,
+      "y": -1459.14,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 2719.98,
+      "y": -1460.27,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芙宁娜 attack,e(wait)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 2719.98,
+      "y": -1460.27,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 2721.16,
+      "y": -1464.8,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": 2717.78,
+      "y": -1466.56,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": 2719.55,
+      "y": -1472.12,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target"
+    }
+  ]
+}

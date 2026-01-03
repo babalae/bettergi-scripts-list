@@ -1,0 +1,164 @@
+{
+  "info": {
+    "name": "日落果01-9个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "纳西妲",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "今天下雨w",
+        "links": "https://github.com/aqing11520"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1273.99,
+      "y": 2721.71,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1284.06,
+      "y": 2730.24,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1313.13,
+      "y": 2736.34,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1301.68,
+      "y": 2768.1,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1301.39,
+      "y": 2788.22,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1266.61,
+      "y": 2798.97,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1256.76,
+      "y": 2811.77,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -1222.83,
+      "y": 2808.12,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -1180.56,
+      "y": 2802.96,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -1164.32,
+      "y": 2793.0,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -1153.34,
+      "y": 2780.57,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": -1153.34,
+      "y": 2780.57,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -1205.39,
+      "y": 2744.57,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": -1197.25,
+      "y": 2709.53,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": -1185.06,
+      "y": 2642.24,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 16,
+      "x": -1185.06,
+      "y": 2642.24,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

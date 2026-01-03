@@ -1,0 +1,42 @@
+[
+    {
+        "name": "target",
+        "type": "select",
+        "label": "暗杀目标",
+        "options": [
+            "科西霍",
+            "海浪中的莎孚",
+            "自己去"
+        ],
+        "default": "科西霍"
+    },
+    {
+        "name": "cycleTimes",
+        "type": "input-text",
+        "label": "芙宁娜海鲜释放次数"
+    },
+    {
+        "name": "Furina",
+        "type": "select",
+        "label": "芙宁娜在队伍中的序号",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4"
+        ],
+        "default": "1"
+    },
+    {
+        "name": "onField",
+        "type": "select",
+        "label": "暗杀时站场角色的序号",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4"
+        ],
+        "default": "2"
+    }
+]

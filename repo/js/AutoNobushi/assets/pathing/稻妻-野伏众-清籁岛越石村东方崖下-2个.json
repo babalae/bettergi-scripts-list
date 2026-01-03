@@ -1,0 +1,48 @@
+{
+    "info": {
+        "name": "稻妻-野伏众-清籁岛越石村东方崖下-2个",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "野伏众-2个\n稻妻-清籁岛越石村东方崖下",
+        "bgi_version": "0.39.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -4187.71,
+            "y": -4386.27,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "action": "",
+            "move_mode": "walk",
+            "type": "path",
+            "x": -4164.5,
+            "y": -4380.0,
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": -4149.5,
+            "y": -4379.75,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "action": "fight",
+            "move_mode": "walk",
+            "type": "target",
+            "x": -4149.19,
+            "y": -4379.78,
+            "action_params": ""
+        }
+    ]
+}

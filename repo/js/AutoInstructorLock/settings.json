@@ -1,0 +1,24 @@
+[
+    {
+        "name": "chargeOnly",
+        "type": "checkbox",
+        "label": "是否只锁定带充能词条教官"
+    },
+    {
+        "name": "thressStartONly",
+        "type": "checkbox",
+        "label": "是否只锁定初始三教官"
+    },
+    {
+        "name": "scrollTimes",
+        "type": "input-text",
+        "label": "翻页次数，锁定完该页教官后将尝试翻到下一页继续锁定\n警告：填几次翻几次，不检测翻到底",
+        "default": 0
+    },
+    {
+        "name": "scrollLoops",
+        "type": "input-text",
+        "label": "翻页距离，影响单次翻页时滑动的距离\n数值越大一次滑动越多",
+        "default": 37
+    }
+]

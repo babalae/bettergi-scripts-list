@@ -1,0 +1,140 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时205.32秒，包含以下怪物：2只丘丘人、3只冲锋丘丘人、1只火箭丘丘人、2只冰箭丘丘人、1只火斧丘丘暴徒、1只雷斧丘丘暴徒、1只深渊使徒·激流、5只遗迹守卫。",
+    "hash_res": "91626154",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758031318838,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "330【水免】【高危】稻妻渊下宫大日御舆西（600_1，200_7）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 378.142333984375,
+      "y": 370.7635498046875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 368.4268798828125,
+      "y": 355.16845703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 285.2601318359375,
+      "y": 277.391357421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 301.4364013671875,
+      "y": 277.8603515625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 281.2237548828125,
+      "y": 276.62158203125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 281.2237548828125,
+      "y": 276.62158203125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 361.71875,
+      "y": 290.812699197714
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 351.125,
+      "y": 289.2494245399373
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 351.125,
+      "y": 289.2494245399373
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3),wait(3)",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 389.6138916015625,
+      "y": 298.322265625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 389.6138916015625,
+      "y": 298.322265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 372.91943359375,
+      "y": 107.244384765625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 362.1250079001659,
+      "y": 149.49890862663074
+    }
+  ]
+}

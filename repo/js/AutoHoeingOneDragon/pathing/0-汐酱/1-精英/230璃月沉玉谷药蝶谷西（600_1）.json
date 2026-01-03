@@ -1,0 +1,89 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时93.84秒，包含以下怪物：3只冲锋丘丘人、2只木盾丘丘人、1只雷箭丘丘人、1只丘丘雷兜王、1只水丘丘萨满。",
+    "hash_res": "53454948",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762458596254,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "230璃月沉玉谷药蝶谷西（600_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1863.6399999999994,
+      "y": 1591
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1901.8310546875,
+      "y": 1675.25
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;moveby(0,-2000)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1901.8310546875,
+      "y": 1675.25
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),click(middle),wait(2.3),keydown(VK_SPACE),wait(0.8),keyup(VK_SPACE),attack(1)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 1917.5615234375,
+      "y": 1691.38671875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1928.8896484375,
+      "y": 1661.55078125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1928.8896484375,
+      "y": 1661.55078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1928.8896484375,
+      "y": 1661.55078125
+    }
+  ]
+}

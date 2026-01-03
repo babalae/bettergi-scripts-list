@@ -1,0 +1,240 @@
+[
+    {
+        "name": "userName",
+        "type": "input-text",
+        "label": "账号名（用于区分不同账户的记录）",
+        "default": "默认账户"
+    },
+    {
+        "name": "ignoreRecords",
+        "type": "checkbox",
+        "label": "-----------------\n无视记录强制购买（不推荐）",
+        "default": false
+    },
+    {
+        "name": "recordDebug",
+        "type": "checkbox",
+        "label": "记录调试模式（显示详细日志）",
+        "default": false
+    },
+    {
+        "name": "disabledNpcs",
+        "type": "input-text",
+        "label": "禁用 NPC\n（多個NPC以空格隔）",
+        "default": "阿扎莱 皮托"
+    },
+    {
+        "name": "圣水",
+        "type": "checkbox",
+        "label": "每天刷新食材\n\n圣水",
+        "default": false
+    },
+    {
+        "name": "crab",
+        "type": "checkbox",
+        "label": "螃蟹",
+        "default": false
+    },
+    {
+        "name": "salt",
+        "type": "checkbox",
+        "label": "盐",
+        "default": false
+    },
+    {
+        "name": "pepper",
+        "type": "checkbox",
+        "label": "胡椒",
+        "default": false
+    },
+    {
+        "name": "onion",
+        "type": "checkbox",
+        "label": "洋葱",
+        "default": false
+    },
+    {
+        "name": "milk",
+        "type": "checkbox",
+        "label": "牛奶",
+        "default": false
+    },
+    {
+        "name": "tomato",
+        "type": "checkbox",
+        "label": "番茄",
+        "default": false
+    },
+    {
+        "name": "potato",
+        "type": "checkbox",
+        "label": "土豆",
+        "default": false
+    },
+    {
+        "name": "wheat",
+        "type": "checkbox",
+        "label": "小麦",
+        "default": false
+    },
+    {
+        "name": "rice",
+        "type": "checkbox",
+        "label": "稻米",
+        "default": false
+    },
+    {
+        "name": "shrimp",
+        "type": "checkbox",
+        "label": "虾仁",
+        "default": false
+    },
+    {
+        "name": "almond",
+        "type": "checkbox",
+        "label": "杏仁",
+        "default": false
+    },
+    {
+        "name": "cabbage",
+        "type": "checkbox",
+        "label": "卷心菜",
+        "default": false
+    },
+    {
+        "name": "tofu",
+        "type": "checkbox",
+        "label": "豆腐",
+        "default": false
+    },
+    {
+        "name": "fish",
+        "type": "checkbox",
+        "label": "鱼肉",
+        "default": false
+    },
+    {
+        "name": "coffeeBeans",
+        "type": "checkbox",
+        "label": "咖啡豆",
+        "default": false
+    },
+    {
+        "name": "glabrousBeans",
+        "type": "checkbox",
+        "label": "秃秃豆",
+        "default": false
+    },
+    {
+        "name": "rawMeat",
+        "type": "checkbox",
+        "label": "兽肉",
+        "default": false
+    },
+    {
+        "name": "fermentedJuice",
+        "type": "checkbox",
+        "label": "发酵果实汁",
+        "default": false
+    },
+    {
+        "name": "黑麦",
+        "type": "checkbox",
+        "label": "黑麦",
+        "default": false
+    },
+    {
+        "name": "松茸",
+        "type": "checkbox",
+        "label": "-----------------\n3天刷新食材\n\n松茸",
+        "default": false
+    },
+    {
+        "name": "huMengbu",
+        "type": "checkbox",
+        "label": "胡萝卜",
+        "default": false
+    },
+    {
+        "name": "沉玉仙茗",
+        "type": "checkbox",
+        "label": "沉玉仙茗",
+        "default": false
+    },
+    {
+        "name": "清心",
+        "type": "checkbox",
+        "label": "清心",
+        "default": false
+    },
+    {
+        "name": "琉璃袋",
+        "type": "checkbox",
+        "label": "琉璃袋",
+        "default": false
+    },
+    {
+        "name": "viola",
+        "type": "checkbox",
+        "label": "堇瓜",
+        "default": false
+    },
+    {
+        "name": "Padisarah",
+        "type": "checkbox",
+        "label": "帕蒂沙兰",
+        "default": false
+    },
+    {
+        "name": "romaritimeFlower",
+        "type": "checkbox",
+        "label": "海露花",
+        "default": false
+    },
+    {
+        "name": "tidalga",
+        "type": "checkbox",
+        "label": "汐藻",
+        "default": false
+    },
+    {
+        "name": "苦种",
+        "type": "checkbox",
+        "label": "苦种",
+        "default": false
+    },
+    {
+        "name": "青蜜梅",
+        "type": "checkbox",
+        "label": "青蜜梅",
+        "default": false
+    },
+    {
+        "name": "絶云椒椒",
+        "type": "checkbox",
+        "label": "絶云椒椒",
+        "default": false
+    },
+    {
+        "name": "AKF",
+        "type": "select",
+        "label": "-----------------\n每周刷新食材\n\n可选购买方式：\n0=跟随系统周期自动判定\n1-7=指定星期几购买(1=周一,7=周日)",
+        "options": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "default": "0"
+    },
+    {
+        "name": "蟹黃",
+        "type": "checkbox",
+        "label": "蟹黃",
+        "default": false
+    }
+]

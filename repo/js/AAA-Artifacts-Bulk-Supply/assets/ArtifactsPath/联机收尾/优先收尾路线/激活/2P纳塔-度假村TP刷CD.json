@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765647672930,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "2P纳塔-度假村TP刷CD",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10409.009765625,
+      "y": 1653.2197265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 13977.25390625,
+      "y": 468.34619140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13980.4013671875,
+      "y": 468.3759765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.4)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 13982.29296875,
+      "y": 463.09814453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(0.9),keyup(VK_SPACE),keydown(w),wait(0.2),keypress(e),wait(1.7),keypress(e),wait(1.2)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14034.53125,
+      "y": 459.5859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 14034.53125,
+      "y": 459.5859375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,3500),wait(0.1),keydown(w),wait(0.2),keypress(e),wait(1.3),keypress(e),wait(1.2),keyup(w),click(middle)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14077.080078125,
+      "y": 432.2109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14077.080078125,
+      "y": 432.2109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14151.96875,
+      "y": 422.8125
+    }
+  ]
+}
