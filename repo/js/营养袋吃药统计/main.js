@@ -481,7 +481,7 @@ const confirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("a
         inputText(recoveryFoodName);
         await findAndClick(confirmButtonRo);//确认按钮
         await sleep(1000);
-        var recoveryNumber=await recognizeNumberByOCR(ocrRegion,/\d+/) //识别回血药数量
+        let recoveryNumber=await recognizeNumberByOCR(ocrRegion,/\d+/) //识别回血药数量
         // 处理回血药识别结果
         if (recoveryNumber === null) {
             recoveryNumber = 0;
@@ -497,7 +497,7 @@ const confirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("a
         inputText(resurrectionFoodName);
         await findAndClick(confirmButtonRo);//确认按钮
         await sleep(1000); // 增加等待时间
-        var resurrectionNumber=await recognizeNumberByOCR(ocrRegion,/\d+/) //识别复活药数量
+        let resurrectionNumber=await recognizeNumberByOCR(ocrRegion,/\d+/) //识别复活药数量
         // 处理复活药识别结果
         if (resurrectionNumber === null) {
             resurrectionNumber = 0;
