@@ -1,57 +1,63 @@
 {
   "info": {
-    "name": "16-苦种-纳塔-花羽会-3个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "不瘦五十斤不改名",
-        "links": "https://github.com/PanZic"
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
       }
-    ]
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766545111609,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "16-苦种-纳塔-花羽会-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 9839.48,
       "y": -1290.0
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 9806.13,
-      "y": -1296.72,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -1296.72
     },
     {
+      "action": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 9812.98,
-      "y": -1307.95,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -1307.95
     },
     {
+      "action": "",
       "id": 4,
-      "x": 9921.91,
-      "y": -1367.8,
+      "move_mode": "dash",
       "type": "path",
-      "move_mode": "run",
-      "action": ""
+      "x": 9921.91,
+      "y": -1367.8
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 9952.68,
-      "y": -1368.81,
+      "move_mode": "run",
       "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "x": 9955.7129,
+      "y": -1368.5396
     }
   ]
 }

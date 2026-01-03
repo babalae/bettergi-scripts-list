@@ -1,7 +1,7 @@
 {
   "manifest_version": 1,
   "name": "自动购买每天&3天&每周刷新食材",
-  "version": "1.2",
+  "version": "2.0.0",
   "description": "自动购买每天&3天&每周刷新食材\n每天刷新食材：自动购买食材\n3天刷新食材：未到刷新日不购买该食材\n每周刷新食材：可指定每周购买食材",
   "authors": [
     {
@@ -10,8 +10,13 @@
     }
   ],
   "tags": [
-    "购买食材"
+    "购买食材",
+    "模拟点击"
+  ],
+  "saved_files": [
+    "record/"
   ],
   "settings_ui": "settings.json",
   "main": "main.js"
+
 }

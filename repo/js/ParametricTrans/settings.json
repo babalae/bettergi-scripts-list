@@ -1,4 +1,25 @@
 [
+{
+  "name": "toSafePoint",
+  "type": "checkbox",
+  "label": "传送到安全点",
+  "default": false
+},
+{
+  "name": "safePointName",
+  "type": "select",
+  "label": "安全点",
+  "options": [
+    "蒙德",
+    "璃月",
+    "稻妻",
+    "须弥",
+    "枫丹",
+    "纳塔",
+    "挪德卡莱",
+  ],
+  "default": "枫丹"
+},
   {
     "name": "TEAMname",
     "type": "input-text",
@@ -31,5 +52,5 @@
     "2食物",
     "3材料"
   ]
-}
+},
 ]

@@ -1,0 +1,209 @@
+{
+  "info": {
+    "name": "15-水晶块-璃月-庆云顶北(有战斗,精英600x2)-6个",
+    "type": "collect",
+    "version": "1.1",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1433.41,
+      "y": 837.11,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1434.74,
+      "y": 838.56,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1364.23,
+      "y": 925.3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "2000",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1363.9,
+      "y": 925.08,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 1364.94,
+      "y": 925.3,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1384.6,
+      "y": 938.43,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "500",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1383.69,
+      "y": 938.77,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 1430.97,
+      "y": 942.98,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 1442.08,
+      "y": 979.62,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 1435.41,
+      "y": 965.65,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "狂风之核x2",
+        "monster_tag": "elite"
+      }
+    },
+    {
+      "id": 11,
+      "x": 1424.55,
+      "y": 948.94,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 1418.4,
+      "y": 970.04,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 1449.65,
+      "y": 968.08,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 1463.5,
+      "y": 982.34,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 1462.09,
+      "y": 972.11,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 1499.19,
+      "y": 965.09,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 1500.55,
+      "y": 969.87,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 18,
+      "x": 1433.4,
+      "y": 837.1,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 19,
+      "x": 1358.43,
+      "y": 1019.26,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "4000",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 1358.53,
+      "y": 1019.35,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

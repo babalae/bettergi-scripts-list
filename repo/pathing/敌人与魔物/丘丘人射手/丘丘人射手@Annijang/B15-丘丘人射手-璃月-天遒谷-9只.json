@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1765297495451,
+    "last_modified_time": 1766466828561,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B15-丘丘人射手-璃月-天遒谷-9只",
@@ -37,8 +37,8 @@
       "y": 111.3643
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
@@ -49,7 +49,6 @@
       "action": "stop_flying",
       "action_params": "200",
       "id": 4,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 1241.3613,
@@ -110,8 +109,8 @@
       "y": 211.8516
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 11,
       "move_mode": "dash",
       "type": "path",
@@ -209,8 +208,8 @@
       "y": 338.5044
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 22,
       "move_mode": "dash",
       "type": "path",
@@ -236,8 +235,8 @@
       "y": 375.3628
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 25,
       "move_mode": "dash",
       "type": "path",
@@ -254,8 +253,8 @@
       "y": 443.1519
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 27,
       "move_mode": "dash",
       "type": "path",
@@ -273,7 +272,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(2)",
+      "action_params": "wait(2);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 29,
       "move_mode": "dash",
       "type": "path",
@@ -284,7 +283,6 @@
       "action": "stop_flying",
       "action_params": "200",
       "id": 30,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 1057.002,

@@ -1,0 +1,220 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760634852860,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "19-水晶块-层岩巨渊·地下矿区-荧光狭道-西-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 812.62,
+      "y": 339.51
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 835.57,
+      "y": 348.86
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 864.83,
+      "y": 370.11
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 902.63,
+      "y": 360.58
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 919.93,
+      "y": 362.14
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 928.3535,
+      "y": 362.9659
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 939.27,
+      "y": 358.34
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 963.01,
+      "y": 362.88
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 985.97,
+      "y": 380.43
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1020.79,
+      "y": 381.15
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(2.2),keypress(VK_SPACE)",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1034.43,
+      "y": 380.96
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1043.84,
+      "y": 369.09
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1038.68,
+      "y": 364.89
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1043.12,
+      "y": 358.22
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1042.11,
+      "y": 360.74
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1040.54,
+      "y": 364.62
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1039.83,
+      "y": 370.66
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1041.28,
+      "y": 376.69
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1086.33,
+      "y": 371.04
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 1109.38,
+      "y": 377.86
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1112.19,
+      "y": 374.22
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2.2)",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1112.19,
+      "y": 374.22
+    }
+  ]
+}

@@ -1,57 +1,67 @@
 {
   "info": {
-    "name": "未命名路径",
-    "type": "collect",
-    "author": "柒叶子",
-    "version": "1.0",
+    "authors": [
+      {
+        "links": "",
+        "name": "柒叶子"
+      }
+    ],
+    "bgi_version": "0.45.0",
     "description": "须弥购买狗粮",
-    "bgi_version": "0.35.1"
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766156030914,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "须弥购买狗粮",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 2694.060546875,
-      "y": -416.48193359375,
-      "action_params": ""
+      "y": -416.48193359375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 2708.060546875,
-      "y": -409.96875,
+      "move_mode": "dash",
       "type": "path",
-      "move_mode": "fly",
+      "x": 2703.25,
+      "y": -412.1879647946662
+    },
+    {
       "action": "stop_flying",
-      "action_params": ""
-    },
-    {
+      "action_params": "",
       "id": 3,
-      "x": 2724.205078125,
-      "y": -404.39892578125,
+      "move_mode": "fly",
       "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
+      "x": 2711.25390625,
+      "y": -408.43115234375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 2747.06640625,
-      "y": -409.5048828125,
+      "move_mode": "dash",
       "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 2750.25,
+      "y": -406.0810546875
     },
     {
-      "id": 5,
-      "x": 2765.72265625,
-      "y": -389.4873046875,
-      "type": "path",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 2766.1728515625,
+      "y": -389.298828125
     }
   ]
 }

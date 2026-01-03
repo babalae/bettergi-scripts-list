@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1765271370532,
+    "last_modified_time": 1766466538394,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B11-丘丘人射手-璃月-天衡山-11只",
@@ -55,8 +55,8 @@
       "y": -586.5967
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 5,
       "move_mode": "dash",
       "type": "path",
@@ -91,8 +91,8 @@
       "y": -284.3755
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 9,
       "move_mode": "dash",
       "type": "path",
@@ -139,7 +139,17 @@
       "action": "stop_flying",
       "action_params": "500",
       "id": 14,
+      "locked": false,
       "move_mode": "fly",
+      "type": "path",
+      "x": 573.2686,
+      "y": -403.3628
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 15,
+      "move_mode": "walk",
       "type": "path",
       "x": 573.2686,
       "y": -403.3628
@@ -147,16 +157,16 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 15,
+      "id": 16,
       "move_mode": "dash",
       "type": "path",
       "x": 577.0635,
       "y": -421.7695
     },
     {
-      "action": "",
-      "action_params": "",
-      "id": 16,
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 17,
       "move_mode": "dash",
       "type": "path",
       "x": 586.3135,
@@ -165,8 +175,7 @@
     {
       "action": "stop_flying",
       "action_params": "500",
-      "id": 17,
-      "locked": false,
+      "id": 18,
       "move_mode": "fly",
       "type": "path",
       "x": 648.707,
@@ -175,7 +184,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "walk",
       "type": "path",
       "x": 648.707,
@@ -184,7 +193,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
+      "id": 20,
       "move_mode": "dash",
       "type": "teleport",
       "x": 611.9619,
@@ -193,7 +202,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 20,
+      "id": 21,
       "move_mode": "dash",
       "type": "path",
       "x": 617.2305,
@@ -202,16 +211,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 21,
+      "id": 22,
       "move_mode": "dash",
       "type": "path",
       "x": 628.3145,
       "y": -238.1265
     },
     {
-      "action": "",
-      "action_params": "",
-      "id": 22,
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 23,
       "move_mode": "dash",
       "type": "path",
       "x": 633.752,
@@ -220,7 +229,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 23,
+      "id": 24,
       "move_mode": "dash",
       "type": "path",
       "x": 633.8633,
@@ -229,7 +238,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 24,
+      "id": 25,
       "move_mode": "dash",
       "type": "path",
       "x": 628.3809,
@@ -238,16 +247,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 25,
+      "id": 26,
       "move_mode": "dash",
       "type": "path",
       "x": 648.7471,
       "y": -135.1602
     },
     {
-      "action": "",
-      "action_params": "",
-      "id": 26,
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 27,
       "move_mode": "dash",
       "type": "path",
       "x": 689.6553,
@@ -256,8 +265,7 @@
     {
       "action": "stop_flying",
       "action_params": "500",
-      "id": 27,
-      "locked": false,
+      "id": 28,
       "move_mode": "fly",
       "type": "path",
       "x": 681.8486,
@@ -266,7 +274,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 28,
+      "id": 29,
       "move_mode": "dash",
       "type": "path",
       "x": 681.8486,

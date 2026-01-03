@@ -14,13 +14,11 @@
         targetDescription = step.data;
       } else if (typeof step.data === "object") {
         targetDescription = step.data.description || step.data.keyword || "";
-        if (!executeFile && step.data.executeFile) {
-          executeFile = step.data.executeFile;
-        }
+        executeFile = step.data.executeFile || "";
       }
 
-      if (!targetDescription) {
-        log.error("委托描述检测参数格式错误");
+      if (!targetDescription || !executeFile) {
+        log.error("描述文本 与 json文件 为必填项！");
         return;
       }
 
@@ -43,7 +41,6 @@
             // 没有延时13s的错误提示，继续检测
             log.debug("检测到委托名称或空文本，继续等待...");
           }
-          // 成功匹配，开始插入step
           else if (
             (!useKeyword && ocrResult === targetDescription) ||
             (useKeyword && ocrResult.includes(targetDescription))
@@ -97,8 +94,8 @@
 JSON使用示例:
 {
   "type": "委托描述检测",
-  "data": "目标描述文本",  // 字符串格式: 要检测的委托描述
-  "run": "后续执行文件.json",  // 可选: 检测成功后执行的文件
+  "data": "目标描述文本",  // 必填: 要检测的委托描述
+  "run": "后续执行文件.json",  // 必填: 检测成功后执行的流程文件
   "note": "检测特定委托描述"
 }
 
@@ -106,10 +103,10 @@ JSON使用示例:
 {
   "type": "委托描述检测", 
   "data": {
-    "description": "目标描述文本",  // 必需: 要检测的描述
-    "executeFile": "后续文件.json"   // 可选: 检测成功后执行的文件
+    "description": "目标描述文本",  // 必填: 要检测的描述
+    "executeFile": "后续文件.json"   // 必填: 检测成功后执行的文件
     "runType": "process"  // 可选: process | path  默认process, process表示执行流程文件, path表示执行路径文件
-    "useKeyword": false  // 可选: 是否使用关键字匹配, 默认false, true表示完全匹配description, false表示委托描述部分包含description即可
+    "useKeyword": false  // 可选: 是否使用关键字匹配, 默认false, true表示委托描述包含description即可, false表示完全匹配description
   },
   "note": "检测委托描述并执行后续步骤"
 }

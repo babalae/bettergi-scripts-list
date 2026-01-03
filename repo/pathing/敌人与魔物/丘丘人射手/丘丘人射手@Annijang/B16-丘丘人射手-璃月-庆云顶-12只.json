@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1765346876440,
+    "last_modified_time": 1766466919275,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B16-丘丘人射手-璃月-庆云顶-12只",
@@ -28,8 +28,8 @@
       "y": 386.8477
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 2,
       "move_mode": "dash",
       "type": "path",
@@ -100,8 +100,8 @@
       "y": 386.4053
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 10,
       "move_mode": "jump",
       "type": "path",
@@ -127,8 +127,8 @@
       "y": 403.5967
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 13,
       "move_mode": "jump",
       "type": "path",
@@ -146,7 +146,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(2)",
+      "action_params": "wait(2);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 15,
       "move_mode": "dash",
       "type": "path",
@@ -157,7 +157,6 @@
       "action": "stop_flying",
       "action_params": "200",
       "id": 16,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 1544.1172,
@@ -182,8 +181,8 @@
       "y": 592.6465
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 19,
       "move_mode": "walk",
       "type": "path",
@@ -254,8 +253,8 @@
       "y": 576.4365
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 27,
       "move_mode": "dash",
       "type": "path",
@@ -317,8 +316,8 @@
       "y": 645.7412
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 34,
       "move_mode": "walk",
       "type": "path",
@@ -362,8 +361,8 @@
       "y": 717.7319
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 39,
       "move_mode": "walk",
       "type": "path",
@@ -374,7 +373,6 @@
       "action": "stop_flying",
       "action_params": "500",
       "id": 40,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 1828.3008,
@@ -399,8 +397,8 @@
       "y": 1039.9961
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 43,
       "move_mode": "jump",
       "type": "path",
@@ -411,7 +409,6 @@
       "action": "stop_flying",
       "action_params": "1000",
       "id": 44,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 1753.9277,

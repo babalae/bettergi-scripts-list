@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760028347795,
+    "last_modified_time": 1766487922308,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "521枫丹-白松镇3",
@@ -28,8 +28,8 @@
       "y": 2703.986328125
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
       "id": 2,
       "move_mode": "walk",
       "type": "orientation",
@@ -92,7 +92,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 9,
       "move_mode": "climb",
       "type": "target",
@@ -119,35 +119,26 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.3)",
+      "action_params": "wait(0.2)",
       "id": 12,
-      "move_mode": "jump",
+      "move_mode": "fly",
       "type": "path",
       "x": 4146.3125,
       "y": 2767.375586526603
     },
     {
-      "action": "",
-      "action_params": "",
-      "id": 13,
-      "move_mode": "climb",
-      "type": "target",
-      "x": 4144.140625,
-      "y": 2764.85791015625
-    },
-    {
       "action": "combat_script",
-      "action_params": "keydown(w),wait(0.1),dash,wait(0.3),attack(0.22),j,wait(0.4),keyup(w),",
-      "id": 14,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 4140.17578125,
-      "y": 2763.536865234375
+      "action_params": "attack(0.2)",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4140.6904296875,
+      "y": 2763.43896484375
     },
     {
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "id": 15,
+      "id": 14,
       "move_mode": "climb",
       "type": "target",
       "x": 4140.6904296875,
@@ -156,16 +147,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 15,
       "move_mode": "dash",
       "type": "path",
-      "x": 4158.673828125,
-      "y": 2770.608642578125
+      "x": 4155.080078125,
+      "y": 2772.647216796875
     },
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 16,
       "move_mode": "dash",
       "type": "path",
       "x": 4147.20068359375,
@@ -174,7 +165,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 17,
       "move_mode": "climb",
       "type": "path",
       "x": 4142.8779296875,
@@ -182,8 +173,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "id": 19,
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 18,
       "move_mode": "climb",
       "type": "target",
       "x": 4143.54443359375,

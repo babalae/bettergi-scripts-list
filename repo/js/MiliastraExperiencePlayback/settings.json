@@ -3,18 +3,18 @@
     "type": "input-text",
     "name": "room",
     "label": "每周奇域关卡关键词或关卡GUID",
-    "default": "20134075027"
+    "default": "20031486040"
   },
   {
     "type": "input-text",
     "name": "playbacks",
     "label": "每周通关回放文件随机池（逗号分隔）",
-    "default": "通关回放1.json,通关回放2.json"
+    "default": "美景音乐播放器结算.json"
   },
   {
     "type": "input-text",
     "name": "expPerAttempt",
-    "label": "每次通关获取的经验值（如果勾选删除关卡存档，请自行增加）",
+    "label": "每次通关获取的经验值（如果勾选删除关卡存档，每个成就加额外50经验值）",
     "default": "20"
   },
   {
@@ -27,7 +27,7 @@
     "type": "input-text",
     "name": "deleteStageSaveKeyword",
     "label": "删除关卡存档查找关键字",
-    "default": "深渊100层"
+    "default": "音乐播放"
   },
   {
     "type": "input-text",
@@ -63,7 +63,7 @@
     "type": "input-text",
     "name": "dailyPlaybacks",
     "label": "每日通关回放文件随机池（同一关卡逗号分隔，不同关卡分号分隔）",
-    "default": "通关回放1.json,通关回放2.json;60秒按1通关.json"
+    "default": "通关回放1.json,通关回放2.json;40秒按1通关.json"
   },
   {
     "type": "input-text",
@@ -76,6 +76,12 @@
     "name": "dailyForce",
     "label": "忽略每日单个关卡通关上限",
     "default": false
+  },
+  {
+    "type": "checkbox",
+    "name": "closeStageDialog",
+    "label": "执行通关回放前关闭游戏说明对话框",
+    "default": true
   },
   {
     "type": "checkbox",

@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758720535216,
+    "last_modified_time": 1766676890620,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "639纳塔-浪浪湾西2",
@@ -83,9 +83,9 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),s(0.15);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),keydown(S),attack(0.2),keyup(s);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 8,
-      "move_mode": "climb",
+      "move_mode": "swim",
       "type": "target",
       "x": 14742.82421875,
       "y": 753.8916015625

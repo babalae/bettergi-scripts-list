@@ -21,6 +21,7 @@ let TMthreshold = +settings.TMthreshold || 0.9;
 let doRunExtra = false;
 let expGain;
 let skipRunning = false;
+let runnedEnding = false;
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
@@ -57,6 +58,9 @@ let skipRunning = false;
         let loopCnt = 0;
         // 按 runningOrder 依次进入世界并执行联机收尾
         for (const idx of enteringIndex) {
+            if (skipRunning) {
+                break;
+            }
             await genshin.clearPartyCache();
             if (settings.usingCharacter) { await sleep(1000); keyPress(`${settings.usingCharacter}`); }
             //构造加入idx号世界的autoEnter的settings
@@ -80,7 +84,7 @@ let skipRunning = false;
                 autoEnterSettings = {
                     enterMode: "等待他人进入",
                     permissionMode: "白名单",
-                    timeout: loopCnt++ === 0 ? 15 : 5,   // ← 第一次 15，之后 5
+                    timeout: loopCnt++ === 0 ? 10 : 5,   // ← 第一次 10，之后 5
                     maxEnterCount: Object.keys(permits).length
                 };
 
@@ -93,7 +97,7 @@ let skipRunning = false;
                 autoEnterSettings = {
                     enterMode: "进入他人世界",
                     enteringUID: settings[`p${idx}UID`],
-                    timeout: loopCnt++ === 0 ? 15 : 5,   // ← 第一次 15，之后 5
+                    timeout: loopCnt++ === 0 ? 10 : 5,   // ← 第一次 10，之后 5
                 };
                 log.info(`将要进入序号${idx}，uid为${settings[`p${idx}UID`]}的世界`);
                 notification.send(`将要进入序号${idx}，uid为${settings[`p${idx}UID`]}，名称为${settings[`p${idx}Name`]}的世界`);
@@ -140,11 +144,20 @@ let skipRunning = false;
     }
     await genshin.tpToStatueOfTheSeven();
 
-    if (skipRunning) {
-        log.info(`本次运行启用并触发了强迫症模式，需要重新上线`);
-        log.debug('ABGI启动联机上线：');
-        await sleep(2000);
-        log.debug('ABGI启动配置组：强迫症等待组');
+    if (skipRunning && !runnedEnding) {
+        log.info(`本次运行启用并触发了强迫症模式，且未完成收尾路线需要重新上线`);
+
+        // 按中文分号分割字符串
+        const segments = settings.onlyRunPerfectly.split('；');
+
+        // 逐段输出，每段间隔1秒
+        for (const segment of segments) {
+            if (segment.trim()) { // 跳过空段落
+                log.info(segment.trim());
+                await sleep(1000);
+            }
+        }
+        await sleep(10000);
         return;
     }
 
@@ -152,6 +165,22 @@ let skipRunning = false;
         expGain = await processArtifacts() - expGain;
         log.info(`${settings.logName}：联机狗粮分解获得经验${expGain}`);
         notification.send(`${settings.logName}：联机狗粮分解获得经验${expGain}`);
+    }
+
+    {
+        log.info(`本次运行未启用或未触发强迫症模式，正常结束`);
+        if (settings.normalEnding) {
+            // 按中文分号分割字符串
+            const segments = settings.normalEnding.split('；');
+
+            // 逐段输出，每段间隔1秒
+            for (const segment of segments) {
+                if (segment.trim()) { // 跳过空段落
+                    log.info(segment.trim());
+                    await sleep(1000);
+                }
+            }
+        }
     }
 }
 )();
@@ -210,9 +239,9 @@ async function checkP1Name(p1Name) {
 async function runGroupPurchasing(runExtra) {
     // ===== 1. 读取配置 =====
     const p1EndingRoute = settings.p1EndingRoute || "枫丹高塔";
-    const p2EndingRoute = settings.p2EndingRoute || "度假村";
-    const p3EndingRoute = settings.p3EndingRoute || "智障厅";
-    const p4EndingRoute = settings.p4EndingRoute || "踏鞴砂";
+    const p2EndingRoute = "度假村";
+    const p3EndingRoute = "智障厅";
+    const p4EndingRoute = "踏鞴砂";
     const forceGroupNumber = settings.forceGroupNumber || 0;
 
     // ===== 2. 图标模板 =====
@@ -239,7 +268,13 @@ async function runGroupPurchasing(runExtra) {
         log.info("是1p，检测当前总人数");
         const totalNumber = await findTotalNumber();
         await waitForReady(totalNumber);
-        for (let i = 1; i <= totalNumber; i++) await runEndingPath(i);
+        if (skipRunning) {
+            log.info(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
+            notification.send(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
+            await sleep(10000);
+        } else {
+            for (let i = 1; i <= totalNumber; i++) await runEndingPath(i);
+        }
         let kickAttempts = 0;
         while (kickAttempts < 10) {
             kickAttempts++;
@@ -288,6 +323,8 @@ async function runGroupPurchasing(runExtra) {
         if (runExtra) {
             log.info("请确保联机收尾已结束，将开始运行额外路线");
             await runExtraPath();
+        } else {
+            log.warn("处于单人模式，不执行任何路线");
         }
     } else {
         log.warn("角色编号识别异常")
@@ -338,7 +375,7 @@ async function runGroupPurchasing(runExtra) {
         }
 
         log.warn("等待队友就绪超时");
-        if (settings.onlyRunPerfectly === "确认启用强迫症模式") {
+        if (settings.onlyRunPerfectly) {
             skipRunning = true;
             doRunExtra = false;
         }
@@ -525,17 +562,11 @@ async function runGroupPurchasing(runExtra) {
             log.warn(`文件夹 ${folderPath} 下未找到任何 JSON 路线文件`);
             return;
         }
-        if (skipRunning) {
-            log.info(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
-            notification.send(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
-            await sleep(10000);
-            return;
-        }
+        runnedEnding = true;
         if (!settings.runDebug) {
             for (const { fullPath } of files) {
                 await runPath(fullPath, 1);
             }
-
             log.info(`${folderName} 的全部路线已完成`);
         } else {
             log.info("当前为调试模式，跳过执行路线");
@@ -770,7 +801,7 @@ async function autoEnter(autoEnterSettings) {
     if (new Date() - start >= timeout * 60 * 1000) {
         log.warn("超时未达到预定人数");
         notification.error(`超时未达到预定人数`);
-        if (settings.onlyRunPerfectly === "确认启用强迫症模式") {
+        if (settings.onlyRunPerfectly) {
             skipRunning = true;
             doRunExtra = false;
         }

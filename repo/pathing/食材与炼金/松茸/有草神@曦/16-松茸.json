@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "16-松茸",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "曦",
+        "links": "https://github.com/cx05121"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1629.43,
+      "y": 2834.38,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": -1611.84,
+      "y": 2874.6,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -1610.08,
+      "y": 2878.12,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -1597.75,
+      "y": 2900.28,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 5,
+      "x": -1576.57,
+      "y": 2920.67,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": -1574.93,
+      "y": 2921.89,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

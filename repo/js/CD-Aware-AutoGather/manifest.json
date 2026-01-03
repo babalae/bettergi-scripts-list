@@ -1,19 +1,18 @@
 {
   "manifest_version": 1,
-  "name": "带CD管理的自动采集",
-  "version": "1.7.9",
-  "bgi_version": "0.45.0",
-  "description": "自动同步你通过BetterGI订阅的地图追踪任务，执行采集任务，并管理材料刷新时间（支持多账号）。\n首次使用前请先简单阅读说明（可在`全自动`——`JS脚本`页面，点击本脚本名称查看）",
+  "name": "带CD管理和目标设定的自动采集",
+  "version": "2.0.2",
+  "bgi_version": "0.54.1-alpha.1",
+  "description": "自动同步你通过BetterGI订阅的地图追踪任务，执行采集任务，并管理材料采集目标和刷新时间。\n支持联机模式采集和多账号记录。\n首次使用前请先简单阅读说明",
   "authors": [
     {
       "name": "Ayaka-Main",
       "links": "https://github.com/Patrick-Ze"
-    },
-    {
-      "name": "蜜柑魚",
-      "links": "https://github.com/this-Fish"
     }
   ],
   "settings_ui": "settings.json",
-  "main": "main.js"
+  "main": "main.js",
+  "saved_files": [
+    "record/"
+  ]
 }

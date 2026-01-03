@@ -99,6 +99,8 @@ const mainUiRo = RecognitionObject.TemplateMatch(mainUITemplate, 0, 0, 150, 150)
 
 let underWater = false;
 
+let checkInterval = +settings.checkInterval || 50;
+
 (async function () {
     /* ===== 零基构建 settings.json（BEGIN） ===== */
     const SETTINGS_FILE = `settings.json`;
@@ -187,12 +189,18 @@ let underWater = false;
         {
             "name": "ingredientProcessingFood",
             "type": "input-text",
-            "label": "料理/食材名称\n建议料理和食材分开填写"
+            "label": "食材名称\n用中文逗号，分隔"
         },
         {
             "name": "foodCount",
             "type": "input-text",
-            "label": "料理/食材数量\n数量对应上方的食材"
+            "label": "食材数量\n数量对应上方的食材\n用中文逗号，分隔"
+        },
+        {
+            "name": "checkInterval",
+            "type": "input-text",
+            "label": "食材加工中的识别间隔(毫秒)，设备反应较慢出现识别错误时适当调大",
+            "default": "50"
         },
         {
             "name": "setTimeMode",
@@ -255,7 +263,7 @@ let underWater = false;
         newSettings.push({
             name: `pathGroup${g}FolderName`,
             type: "select",
-            label: `##############################################################################\n选择路径组${g}文件夹（pathing下第一层）`,
+            label: `#############################################\n选择路径组${g}文件夹（pathing下第一层）`,
             options: ["", ...uniqueDirs]
         });
 
@@ -438,7 +446,7 @@ let underWater = false;
                 .filter(word => word.length > 0);
         }
 
-        let cookInterval = 60 * 60 * 1000;
+        let cookInterval = 95 * 60 * 1000;
         let settimeInterval = 10 * 60 * 1000;
         // ==================== 优先级材料前置采集 ====================
 
@@ -832,7 +840,10 @@ let underWater = false;
 
                 /* 4-4 计算CD（掉落材料决定）*/
                 const timeDiff = new Date() - startTime;
-                if (timeDiff > 3000) {
+                let pathRes = isArrivedAtEndPoint(filePath);
+
+                // >>> 仅当 >3s 才更新 CD 并立即写回整条记录（含 history） <<<
+                if (timeDiff > 3000 && pathRes) {
                     /* 1) 如果runPickupLog中不含优先材料，则按其他材料查找，使用最晚刷新时间 */
                     let hasPriority = state.runPickupLog.some(name => priorityItemSet.has(name));
                     let hitMaterials;
@@ -901,15 +912,14 @@ let underWater = false;
 
                     await appendDailyPickup(state.runPickupLog);
                     state.runPickupLog = [];
-
                 }
 
             }
         }
-        let runnedAnyPath = true;
+        let loopattempts = 0;
         // ==================== 路径组循环 ====================
-        while (runnedAnyPath) {
-            runnedAnyPath = false;
+        while (loopattempts < 2) {
+            loopattempts++;
             if (await isTimeRestricted(settings.timeRule, 10)) break;
             for (let i = 1; i <= groupCount; i++) {
                 if (await isTimeRestricted(settings.timeRule, 10)) break;
@@ -931,8 +941,6 @@ let underWater = false;
                     await genshin.returnMainUi();
 
                     try {
-                        const filePaths = groupFiles.map(f => f.fullPath);
-
                         /* ================== 提前计算分均效率（所有模式通用） ================== */
                         // 0) 解析优先关键词
                         const priorityKeywords = settings.priorityTags
@@ -955,8 +963,8 @@ let underWater = false;
                         }
 
                         // 2) 先计算一次基础效率（未知路线先标 -1）
-                        filePaths.forEach(p => {
-                            const fullName = basename(p);
+                        groupFiles.forEach(p => {
+                            const fullName = basename(p.fullPath);
                             const obj = cdMap.get(fullName);
                             let avgEff = -1; // 先标记为“未知”
 
@@ -973,35 +981,40 @@ let underWater = false;
                             p._efficiency = avgEff; // 已知路线存真实效率，未知路线存 -1
                         });
 
-                        // 3) 计算默认效率（分位值）
-                        const knownEff = filePaths
+                        // 3) 计算默认效率（分位值 & 临界值 取最大）
+                        const knownEff = groupFiles
                             .map(p => p._efficiency)
-                            .filter(e => e >= 0) // 只保留已知路线
+                            .filter(e => e >= 0)          // 只保留已知路线
                             .sort((a, b) => a - b);
+
+                        const userThreshold = Number(settings[`pathGroup${i}thresholdEfficiency`]) || 0;
 
                         let defaultEff;
                         if (knownEff.length === 0) {
-                            // 一条已知路线都没有 → 回退到老逻辑
-                            defaultEff = Number(settings[`pathGroup${i}thresholdEfficiency`]) || 0;
+                            // 一条已知路线都没有 → 直接用临界值
+                            defaultEff = userThreshold;
                         } else {
-                            // 按配置的分位取默认效率
+                            // 按配置的分位取效率
                             const rawPct = settings.defaultEffPercentile;
                             const pct = Math.max(0, Math.min(1, rawPct === "" ? 0.5 : Number(rawPct)));
                             const idx = Math.ceil(pct * knownEff.length) - 1;
-                            defaultEff = knownEff[Math.max(0, idx)];
+                            const percentileEff = knownEff[Math.max(0, idx)];
+
+                            // 关键改动：与临界值取最大
+                            defaultEff = Math.max(percentileEff, userThreshold);
                         }
 
                         // 4) 把 -1 的未知路线替换成默认效率
-                        filePaths.forEach(p => {
+                        groupFiles.forEach(p => {
                             if (p._efficiency === -1) p._efficiency = defaultEff;
                         });
 
                         // 5) 计算全局最大效率值（已含默认效率）
-                        const maxEff = Math.max(...filePaths.map(p => p._efficiency), 0);
+                        const maxEff = Math.max(...groupFiles.map(p => p._efficiency), 0);
 
                         // 6) 优先关键词加分（逻辑不变）
-                        filePaths.forEach(p => {
-                            const fullName = basename(p);
+                        groupFiles.forEach(p => {
+                            const fullName = basename(p.fullPath);
                             const obj = cdMap.get(fullName);
 
                             const itemHit = obj?.history?.some(log =>
@@ -1009,7 +1022,7 @@ let underWater = false;
                                     priorityKeywords.some(key => item.includes(key))
                                 )
                             );
-                            const pathHit = priorityKeywords.some(key => p.includes(key));
+                            const pathHit = priorityKeywords.some(key => p.fullPath.includes(key));
                             const descHit = priorityKeywords.some(key => (p.description || '').includes(key));
 
                             if (itemHit || pathHit || descHit) {
@@ -1020,9 +1033,9 @@ let underWater = false;
                         /* ================== 排序分支 ================== */
                         switch (settings.sortMode) {
                             case "优先最早刷新，将优先执行最早刷新的路线":
-                                filePaths.sort((a, b) => {
-                                    const nameA = basename(a);
-                                    const nameB = basename(b);
+                                groupFiles.sort((a, b) => {
+                                    const nameA = basename(a.fullPath);
+                                    const nameB = basename(b.fullPath);
                                     const timeA = cdMap.has(nameA) ? new Date(cdMap.get(nameA).cdTime) : new Date(0);
                                     const timeB = cdMap.has(nameB) ? new Date(cdMap.get(nameB).cdTime) : new Date(0);
                                     return timeA - timeB;   // 越早刷新越靠前
@@ -1031,7 +1044,7 @@ let underWater = false;
 
                             case "优先最高效率，将优先执行最高分均拾取物的路线":
                                 // 直接复用提前算好的 _efficiency
-                                filePaths.sort((a, b) => (b._efficiency || 0) - (a._efficiency || 0));
+                                groupFiles.sort((a, b) => (b._efficiency || 0) - (a._efficiency || 0));
                                 break;
 
                             default:
@@ -1039,8 +1052,8 @@ let underWater = false;
                                 break;
                         }
 
-                        for (const filePath of filePaths) {
-                            const fileName = basename(filePath).replace('.json', '');
+                        for (const filePath of groupFiles) {
+                            const fileName = basename(filePath.fullPath).replace('.json', '');
                             const fullName = fileName + '.json';
                             const targetObj = cdMap.get(fullName);
                             const nextCD = targetObj ? new Date(targetObj.cdTime) : new Date(0);
@@ -1054,8 +1067,8 @@ let underWater = false;
 
                             let doSkip = false;
                             for (const kw of disableArray) {
-                                if (filePath.includes(kw)) {
-                                    log.info(`路径文件 ${filePath} 包含禁用关键词 "${kw}"，跳过任务 ${fileName}`);
+                                if (filePath.fullPath.includes(kw)) {
+                                    log.info(`路径文件 ${filePath.fullPath} 包含禁用关键词 "${kw}"，跳过任务 ${fileName}`);
                                     doSkip = true; break;
                                 }
                             }
@@ -1114,21 +1127,21 @@ let underWater = false;
 
                             state.running = true;
                             const pickupTask = recognizeAndInteract();
-                            runnedAnyPath = true;
 
-                            log.info(`当前进度：路径组${i} ${folder} ${fileName} 为第 ${filePaths.indexOf(filePath) + 1}/${filePaths.length} 个`);
-                            if (!underWater && filePath.includes('枫丹水下')) {
+                            log.info(`当前进度：路径组${i} ${folder} ${fileName} 为第 ${groupFiles.indexOf(filePath) + 1}/${groupFiles.length} 个`);
+                            log.info(`当前路线分均效率为 ${(filePath._efficiency ?? 0).toFixed(2)}`);
+                            if (!underWater && filePath.fullPath.includes('枫丹水下')) {
                                 await pathingScript.runFile("assets/A00-塞洛海原（学习螃蟹技能）.json");
                                 underWater = true;
                             }
-                            if (underWater && !filePath.includes('枫丹水下')) {
+                            if (underWater && !filePath.fullPath.includes('枫丹水下')) {
                                 underWater = false;
                             }
                             try {
                                 state.runPickupLog = [];          // 新路线开始前清空
-                                await pathingScript.runFile(filePath);
+                                await pathingScript.runFile(filePath.fullPath);
                             } catch (error) {
-                                log.error(`路径文件 ${filePath} 不存在或执行失败: ${error}`);
+                                log.error(`路径文件 ${filePath.fullPath} 不存在或执行失败: ${error}`);
                                 continue;
                             }
 
@@ -1142,8 +1155,10 @@ let underWater = false;
                             state.running = false;
                             await pickupTask;
 
+                            let pathRes = isArrivedAtEndPoint(filePath.fullPath);
+
                             // >>> 仅当 >3s 才更新 CD 并立即写回整条记录（含 history） <<<
-                            if (timeDiff > 3000) {
+                            if (timeDiff > 3000 && pathRes) {
                                 let newTimestamp = new Date(startTime);
 
                                 switch (currentCdType) {
@@ -1195,7 +1210,7 @@ let underWater = false;
                                 // 清空本次记录
                                 state.runPickupLog = [];
 
-                                log.info(`本任务执行大于3秒，cd信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
+                                log.info(`本任务cd信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
                             }
                         }
                         log.info(`路径组${groupNumber} 的所有任务运行完成`);
@@ -1204,6 +1219,7 @@ let underWater = false;
                     }
                 }
             }
+            await sleep(1000);
         }
 
     } catch (error) {
@@ -1429,9 +1445,9 @@ async function loadTargetItems() {
             /* ---------- 1. 解析小括号阈值 ---------- */
             const match = it.fullPath.match(/[（(](.*?)[)）]/);
             const itsThreshold = (match => {
-                if (!match) return 0.85;
+                if (!match) return 0.9;
                 const v = parseFloat(match[1]);
-                return !isNaN(v) && v >= 0 && v <= 1 ? v : 0.85;
+                return !isNaN(v) && v >= 0 && v <= 1 ? v : 0.9;
             })(match);
             it.roi.Threshold = itsThreshold;
             it.roi.InitTemplate();
@@ -1747,67 +1763,28 @@ async function isTimeRestricted(timeRule, threshold = 5) {
 }
 
 /**
-* 食材加工主函数，用于自动前往指定地点进行食材或料理的加工制作
-* 
-* 该函数会根据 Foods 和 foodCount 数组中的食材名称和数量，依次查找并制作对应的料理/食材
-* 支持两种类型：普通料理（需滚动查找）和调味品类食材（直接在“食材加工”界面查找）
-* 
+* 食材加工主函数，用于自动前往指定地点进行食材的加工
+*
+* 该函数会根据 Foods 和 foodCount 数组中的食材名称和数量，依次查找并制作对应的料食材
+* 支持调味品类食材（直接在“食材加工”界面查找）
+*
 * @returns {Promise<void>} 无返回值，执行完所有加工流程后退出
 */
 async function ingredientProcessing() {
-    /**
-* 文字OCR识别封装函数（测试中，未封装完成，后续会优化逻辑）
-* @param text 要识别的文字，默认为"空参数"
-* @param timeout 超时时间，单位为秒，默认为10秒
-* @param afterBehavior 点击模式，0表示不点击，1表示点击识别到文字的位置，2表示输出模式，默认为0
-* @param debugmodel 调试代码，0表示输入判断模式，1表示输出位置信息，2表示输出判断模式，默认为0
-* @param x OCR识别区域的起始X坐标，默认为0
-* @param y OCR识别区域的起始Y坐标，默认为0
-* @param w OCR识别区域的宽度，默认为1920
-* @param h OCR识别区域的高度，默认为1080
-* @returns 包含识别结果的对象，包括识别的文字、坐标和是否找到的结果
-*/
-    async function textOCR(text = "空参数", timeout = 10, afterBehavior = 0, debugmodel = 0, x = 0, y = 0, w = 1920, h = 1080) {
-        const startTime = new Date();
-        let Outcheak = 0
-        for (let ii = 0; ii < 10; ii++) {
-            // 获取一张截图
-            let captureRegion = captureGameRegion();
-            let res1
-            let res2
-            let conuntcottimecot = 1;
-            let conuntcottimecomp = 1;
-            // 对整个区域进行 OCR
-            let resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
-            //log.info("OCR 全区域识别结果数量 {len}", resList.count);
-            if (resList.count !== 0) {
-                for (let i = 0; i < resList.count; i++) { // 遍历的是 C# 的 List 对象，所以要用 count，而不是 length
-                    let res = resList[i];
-                    res1 = res.text
-                    conuntcottimecomp++;
-                    if (res.text.includes(text) && debugmodel == 3) { return result = { text: res.text, x: res.x, y: res.y, found: true }; }
-                    if (res.text.includes(text) && debugmodel !== 2) {
-                        conuntcottimecot++;
-                        if (debugmodel === 1 & x === 0 & y === 0) { log.info("全图代码位置：({x},{y},{h},{w})", res.x - 10, res.y - 10, res.width + 10, res.Height + 10); }
-                        if (afterBehavior === 1) { await sleep(1000); click(res.x, res.y); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("点击模式:关") } }
-                        if (afterBehavior === 2) { await sleep(100); keyPress("F"); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("F模式:关"); } }
-                        if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; }
-                    }
-                    if (debugmodel === 2) {
-                        if (res1 === res2) { conuntcottimecot++; res2 = res1; }
-                        //log.info("输出模式：全图代码位置：({x},{y},{h},{w},{string})", res.x-10, res.y-10, res.width+10, res.Height+10, res.text);
-                        if (Outcheak === 1) { if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; } }
-                    }
-                }
-            }
-            const NowTime = new Date();
-            if ((NowTime - startTime) > timeout * 1000) { if (debugmodel === 2) { if (resList.count === 0) { return result = { found: false }; } else { Outcheak = 1; ii = 2; } } else { Outcheak = 0; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`${timeout}秒超时退出，"${text}"未找到`) }; return result = { found: false }; } }
-            else { ii = 2; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`"${text}"识别中……`); } }
-            await sleep(100);
-        }
-    }
-    if (Foods.length == 0) { log.error("未选择要加工的料理/食材"); return; }
-    if (Foods.length != foodCount.length) { log.error("请检查料理与对应的数量是否一致！"); return; }
+    const targetFoods = [
+        "面粉", "兽肉", "鱼肉", "神秘的肉", "黑麦粉", "奶油", "熏禽肉",
+        "黄油", "火腿", "糖", "香辛料", "酸奶油", "蟹黄", "果酱",
+        "奶酪", "培根", "香肠"
+    ];
+    if (Foods.length == 0) { log.error("未选择要加工的食材"); return; }
+    if (Foods.length != foodCount.length) { log.error("请检查食材与对应的数量是否一致！"); return; }
+    const taskList = Foods.map((name, i) => `${name}*${foodCount[i]}`).join("，");
+    const tasks = Foods.map((name, idx) => ({
+        name,
+        count: Number(foodCount[idx]) || 0,
+        done: false
+    }));
+    log.info(`本次加工食材：${taskList}`);
     const stove = "蒙德炉子";
     log.info(`正在前往${stove}进行食材加工`);
 
@@ -1819,12 +1796,9 @@ async function ingredientProcessing() {
         return;
     }
 
-    const res1 = await textOCR("烹饪", 5, 0, 0, 1150, 460, 155, 155);
-    if (res1.found) {
-        await sleep(10);
-        keyDown("VK_MENU");
-        await sleep(500);
-        click(res1.x + 15, res1.y + 15);
+    const res1 = await findPNG("交互烹饪锅");
+    if (res1) {
+        keyPress("F");
     } else {
         log.warn("烹饪按钮未找到，正在寻找……");
         let attempts = 0;
@@ -1833,12 +1807,9 @@ async function ingredientProcessing() {
         while (attempts < maxAttempts) {
             log.info(`第${attempts + 1}次尝试寻找烹饪按钮`);
             keyPress("W");
-            const res2 = await textOCR("烹饪", 5, 0, 0, 1150, 460, 155, 155);
-            if (res2.found) {
-                await sleep(10);
-                keyDown("VK_MENU");
-                await sleep(500);
-                click(res2.x + 15, res2.y + 15);
+            const res2 = await findPNG("交互烹饪锅");
+            if (res2) {
+                keyPress("F");
                 foundInRetry = true;
                 break;
             } else {
@@ -1847,179 +1818,183 @@ async function ingredientProcessing() {
             }
         }
         if (!foundInRetry) {
-            log.error("多次未找到烹饪按钮，放弃寻找");
+            log.error("多次未找到烹饪按钮，放弃");
             return;
         }
     }
+    await clickPNG("食材加工");
 
-    await sleep(800);
-    keyUp("VK_MENU");
-    await sleep(1000);
+    /* ===== 1. 公共加工流程 ===== */
+    async function doCraft(i) {
+        await clickPNG("制作");
+        await sleep(300);
 
-    for (let i = 0; i < Foods.length; i++) {
-        const targetFoods = new Set([
-            "面粉", "兽肉", "鱼肉", "神秘的肉", "黑麦粉", "奶油", "熏禽肉",
-            "黄油", "火腿", "糖", "香辛料", "酸奶油", "蟹黄", "果酱",
-            "奶酪", "培根", "香肠"
-        ]);
-        if (targetFoods.has(Foods[i])) {//调味品就点到对应页面
-            const res3 = await textOCR("食材加工", 1, 0, 0, 140, 30, 115, 30);
-            if (!res3.found) {
-                await sleep(500);
-                click(1010, 55);
-                await sleep(500);
+        /* ---------- 1. 队列已满 ---------- */
+        if (await findPNG("队列已满", 1)) {
+            log.warn(`检测到${tasks[i].name}队列已满，等待图标消失`);
+            while (await findPNG("队列已满", 1)) {
+                log.warn(`检测到${tasks[i].name}队列已满，等待图标消失`);
+                await sleep(300);
             }
-
-            const res = await textOCR("全部领取", 1, 0, 0, 195, 1000, 120, 40);
-            if (res.found) {
-                click(res.x, res.y);
-                await sleep(800);
-                click(960, 750);
-                await sleep(500);
+            if (await clickPNG("全部领取", 3)) {
+                await clickPNG("点击空白区域继续");
+                await findPNG("食材加工2");
+                await sleep(100);
             }
+            return false;
+        }
 
-            const res1 = await textOCR(Foods[i], 1, 0, 3, 116, 116, 1165, 505);
-
-            if (res1.found) {
-                log.info(`${Foods[i]}已找到`);
-                await click(res1.x + 50, res1.y - 60);
-            } else {
-                await sleep(500);
-                let ra = captureGameRegion();
-
-                try {
-                    const ocrResult = ra.findMulti(RecognitionObject.ocr(115, 115, 1150, 502));
-                    const foodItems = []; // 存储找到的相关项目
-
-                    // 收集所有包含"分钟"或"秒"的项目
-                    for (let j = 0; j < ocrResult.count; ++j) {
-                        if (ocrResult[j].text.endsWith("分钟") || ocrResult[j].text.endsWith("秒")) {
-                            foodItems.push({
-                                index: j,
-                                x: ocrResult[j].x,
-                                y: ocrResult[j].y
-                            });
-                        }
-                    }
-
-                    log.debug("检查到的正在加工食材的数量：" + foodItems.length);
-
-                    // 依次筛选这些项目
-                    for (const item of foodItems) {
-                        // 点击该项目
-                        click(item.x, item.y);
-                        await sleep(150);
-                        click(item.x, item.y);
-                        await sleep(800);
-
-                        let res2 = await textOCR("", 0.5, 0, 2, 1320, 100, 150, 50);
-                        log.debug("当前项目：" + res2.text);
-                        log.debug(item.x + "," + item.y);
-                        await sleep(1000);
-
-                        if (res2.text === Foods[i]) {
-                            ra?.dispose();
-                            res1.found = true;
-                            log.info(`从正在加工的食材中找到了：${Foods[i]}`);
-                            break;
-                        }
-                    }
-                    if (!res1.found) {
-                        log.error(`未找到目标食材: ${Foods[i]}`);
-                        ra?.dispose();
-                        continue;
-                    }
-                } finally {
-                    ra?.dispose();
-                }
+        /* ---------- 2. 材料不足 ---------- */
+        if (await findPNG("材料不足", 1)) {
+            log.warn(`检测到${tasks[i].name}材料不足，等待图标消失`);
+            while (await findPNG("材料不足", 1)) {
+                log.warn(`检测到${tasks[i].name}材料不足，等待图标消失`);
+                await sleep(300);
             }
-
-            await sleep(1000);
-            click(1700, 1020);// 制作
-            await sleep(800);
-            click(960, 460);
-            await sleep(800);
-            inputText(foodCount[i]);
-            log.info(`尝试制作${Foods[i]} ${foodCount[i]}个`);
-            log.warn("由于受到队列和背包食材数量限制，实际制作数量与上述数量可能不一致！");
-            await sleep(800);
-            click(1190, 755);
-            await sleep(800);
-        } else {
-            const res3 = await textOCR("料理制作", 1, 0, 0, 140, 30, 115, 30);
-            if (!res3.found) {
-                await sleep(500);
-                click(910, 55);
-                await sleep(500);
+            if (await clickPNG("全部领取", 3)) {
+                await clickPNG("点击空白区域继续");
+                await findPNG("食材加工2");
+                await sleep(100);
             }
+            Foods.splice(i, 1);
+            foodCount.splice(i, 1);
 
-            click(145, 1015);// 筛选
-            await sleep(800);
+            return false;
+        }
 
-            click(195, 1015);// 重置
-            await sleep(800);
+        /* ---------- 3. 正常加工流程 ---------- */
+        await findPNG("选择加工数量");
+        click(960, 460);
+        await sleep(800);
+        inputText(String(tasks[i].count));
 
-            click(500, 1020);// 确认筛选
-            await sleep(800);
+        log.info(`尝试制作${tasks[i].name} ${tasks[i].count}个`);
+        await clickPNG("确认加工");
+        await sleep(500);
 
-            //滚轮预操作
-            await moveMouseTo(1287, 131);
+        /* ---------- 4. 已不能持有更多 ---------- */
+        if (await findPNG("已不能持有更多", 1)) {
+            log.warn(`检测到${tasks[i].name}已满，等待图标消失`);
+            while (await findPNG("已不能持有更多", 1)) {
+                log.warn(`检测到${tasks[i].name}已满，等待图标消失`);
+                await sleep(300);
+            }
+            if (await clickPNG("全部领取", 3)) {
+                await clickPNG("点击空白区域继续");
+                await findPNG("食材加工2");
+                await sleep(100);
+            }
+            Foods.splice(i, 1);
+            foodCount.splice(i, 1);
+
+            return false;
+        }
+
+        await sleep(200);
+        /* 正常完成：仅领取，不移除 */
+        if (await clickPNG("全部领取", 3)) {
+            await clickPNG("点击空白区域继续");
+            await findPNG("食材加工2");
             await sleep(100);
-            await leftButtonDown();
-            await sleep(100);
-            await moveMouseTo(1287, 161);
-
-            let YOffset = 0; // Y轴偏移量，根据需要调整
-            const maxRetries = 20; // 最大重试次数
-            let retries = 0; // 当前重试次数
-            while (retries < maxRetries) {
-                const res2 = await textOCR(Foods[i], 1, 0, 3, 116, 116, 1165, 880);
-                if (res2.found) {
-                    await leftButtonUp();
-                    await sleep(500);
-                    await click(res2.x + 50, res2.y - 60);
-                    await sleep(1000);
-
-                    await sleep(1000);
-                    click(1700, 1020);// 制作
-                    await sleep(1000);
-
-                    await textOCR("自动烹饪", 5, 1, 0, 725, 1000, 130, 45);
-                    await sleep(800);
-                    click(960, 460);
-                    await sleep(800);
-                    inputText(foodCount[i]);
-                    await sleep(800);
-                    click(1190, 755);
-                    await sleep(2500); // 等待烹饪完成
-
-                    keyPress("ESCAPE")
-                    await sleep(500);
-                    keyPress("ESCAPE")
-                    await sleep(1500);
-
-                    break;
-                } else {
-                    retries++; // 重试次数加1
-                    //滚轮操作
-                    YOffset += 50;
-                    await sleep(500);
-                    if (retries === maxRetries || 161 + YOffset > 1080) {
-                        await leftButtonUp();
-                        await sleep(100);
-                        await moveMouseTo(1287, 131);
-                        await sleep(800);
-                        leftButtonClick();
-                        log.error(`料理/食材：${Foods[i]} 未找到！请检查料理名称是否正确！`);
-                        continue;
-                    }
-                    await moveMouseTo(1287, 161 + YOffset);
-                    await sleep(300);
-                }
-            }
-
         }
     }
+
+    /* ===== 2. 两轮扫描 ===== */
+    // 进入界面先领取一次
+    if (await clickPNG("全部领取", 3)) {
+        await clickPNG("点击空白区域继续");
+        await findPNG("食材加工2");
+        await sleep(100);
+    }
+
+    let lastSuccess = true;
+    for (let i = 0; i < tasks.length; i++) {
+        if (!targetFoods.includes(tasks[i].name)) continue;
+
+        const retry = lastSuccess ? 5 : 1;
+        if (await clickPNG(`${tasks[i].name}1`, retry)) {
+            log.info(`${tasks[i].name}已找到`);
+            await doCraft(i);
+            tasks[i].done = true;
+            lastSuccess = true;   // 记录成功
+        } else {
+            lastSuccess = false;  // 记录失败
+        }
+    }
+
+    const remain1 = tasks.filter(t => !t.done).map(t => `${t.name}*${t.count}`).join("，") || "无";
+    log.info(`剩余待加工食材：${remain1}`);
+
+    if (remain1 === "无") {
+        log.info("所有食材均已加工完毕，跳过第二轮扫描");
+        await genshin.returnMainUi();
+        return;
+    }
+
+    const rg = captureGameRegion();
+    const foodItems = [];
+    try {
+        for (const flag of ['已加工0个', '已加工1个']) {
+            const mat = file.ReadImageMatSync(`assets/RecognitionObject/${flag}.png`);
+            const res = rg.findMulti(RecognitionObject.TemplateMatch(mat));
+            for (let k = 0; k < res.count; ++k) {
+                foodItems.push({ x: res[k].x, y: res[k].y });
+            }
+            mat.dispose();
+        }
+    } finally { rg.dispose(); }
+
+    log.info(`识别到${foodItems.length}个加工中食材`);
+
+    for (const item of foodItems) {
+        click(item.x, item.y); await sleep(1 * checkInterval);
+        click(item.x, item.y); await sleep(6 * checkInterval);
+
+        for (let round = 0; round < 5; round++) {
+            const rg = captureGameRegion();
+            try {
+                let hit = false;
+
+                /* 直接扫 tasks，模板已挂在 task.ro */
+                for (const task of tasks) {
+                    if (task.done) continue;
+                    if (!targetFoods.includes(task.name)) continue;
+
+                    /* 首次使用再加载，避免重复 IO */
+                    if (!task.ro) {
+                        task.ro = RecognitionObject.TemplateMatch(
+                            file.ReadImageMatSync(`assets/RecognitionObject/${task.name}2.png`)
+                        );
+                        task.ro.Threshold = 0.9;
+                        task.ro.InitTemplate();
+                    }
+
+                    if (!task.ro) {
+                        log.warn(`${task.name}2.png 不存在，跳过识别`);
+                        continue;
+                    }
+                    const res = rg.find(task.ro);
+                    if (res.isExist()) {
+                        log.info(`${task.name}已找到`);
+                        await doCraft(tasks.indexOf(task));
+                        task.done = true;
+                        hit = true;
+                        break;             // 一轮只处理一个
+                    }
+                }
+
+                if (hit) break;            // 本轮已命中，跳出 round
+            } finally {
+                rg.dispose();
+            }
+        }
+    }
+
+    const remain = tasks.filter(t => !t.done).map(t => `${t.name}*${t.count}`).join("，") || "无";
+    log.info(`剩余待加工食材：${remain}`);
+
+
+
     await genshin.returnMainUi();
 }
 
@@ -2062,5 +2037,72 @@ async function appendDailyPickup(pickupLog) {
         await file.writeText(pickupRecordFile, JSON.stringify(oldArr, null, 2), false);
     } catch (error) {
         log.error(`appendDailyPickup 写盘失败: ${error.message}`);
+    }
+}
+
+async function clickPNG(png, maxAttempts = 20) {
+    //log.info(`调试-点击目标${png},重试次数${maxAttempts}`);
+    const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
+    pngRo.Threshold = 0.95;
+    pngRo.InitTemplate();
+    return await findAndClick(pngRo, true, maxAttempts);
+}
+
+async function findPNG(png, maxAttempts = 20) {
+    //log.info(`调试-识别目标${png},重试次数${maxAttempts}`);
+    const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
+    pngRo.Threshold = 0.95;
+    pngRo.InitTemplate();
+    return await findAndClick(pngRo, false, maxAttempts);
+}
+
+async function findAndClick(target, doClick = true, maxAttempts = 60) {
+    for (let i = 0; i < maxAttempts; i++) {
+        const rg = captureGameRegion();
+        try {
+            const res = rg.find(target);
+            if (res.isExist()) { await sleep(checkInterval * 2 + 50); if (doClick) { res.click(); } return true; }
+        } finally { rg.dispose(); }
+        if (i < maxAttempts - 1) await sleep(checkInterval);
+    }
+    return false;
+}
+
+/**
+ * 判断当前人物是否已到达指定路线的终点
+ * @param {string} fullPath  路线文件完整路径（.json）
+ * @returns {boolean}        true = 已到达；false = 未到达/读文件失败/取坐标失败
+ */
+function isArrivedAtEndPoint(fullPath) {
+    try {
+        /* 1. 读路线文件，取终点坐标 */
+        const raw = file.readTextSync(fullPath);
+        const json = JSON.parse(raw);
+        if (!Array.isArray(json.positions)) return false;
+
+        let endX = 0, endY = 0;
+        for (let i = json.positions.length - 1; i >= 0; i--) {
+            const p = json.positions[i];
+            if (p.type !== 'orientation' &&
+                typeof p.x === 'number' &&
+                typeof p.y === 'number') {
+                endX = p.x;
+                endY = p.y;
+                break;
+            }
+        }
+        if (endX === 0 && endY === 0) return false;   // 没找到有效点
+
+        /* 2. 取当前人物坐标 */
+        const mapName = (json.info?.map_name && json.info.map_name.trim()) ? json.info.map_name : 'Teyvat';
+        const pos = genshin.getPositionFromMap(mapName);   // 同步 API
+        const curX = pos.X;
+        const curY = pos.Y;
+
+        /* 3. 曼哈顿距离 ≤30 视为到达 */
+        return Math.abs(endX - curX) + Math.abs(endY - curY) <= 30;
+    } catch (e) {
+        /* 任何异常（读盘失败、解析失败、API 异常）都算“未到达” */
+        return false;
     }
 }
