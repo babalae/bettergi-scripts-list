@@ -546,7 +546,7 @@ async function activityMain() {
                             // 遍历所有条件，检查是否满足黑名单条件
                             for (const blackActivityCondition of blackActivityConditions) {
                                 try {
-                                    let condition = await OcrKey(blackActivityCondition);
+                                    let condition = await OcrKey(activityName,blackActivityCondition);
                                     if (condition) {
                                         log.info(`满足黑名单条件==>{ac}->{ba}`, activityName, blackActivityCondition);
                                         matched = true;
