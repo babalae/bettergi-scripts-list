@@ -260,24 +260,34 @@ function parseRemainingTimeToHours(timeText) {
         return 0;
     }
 
-    // 提取数字和单位（支持中英文冒号、空格等）
-    const dayMatch = timeText.match(/(\d+)\s*天/);
-    const hourMatch = timeText.match(/(\d+)\s*小时/);
-
     let days = 0;
     let hours = 0;
+    let minutes = 0;
+
+    // 如果上面的复杂正则有问题，可以使用原来的简化版本
+    const dayMatch = timeText.match(/(\d+(?:\.\d+)?)\s*天/);
+    const hourMatch = timeText.match(/(\d+(?:\.\d+)?)\s*小时/);
+    const minuteMatch = timeText.match(/(\d+(?:\.\d+)?)\s*分钟/);
 
     if (dayMatch) {
-        days = parseInt(dayMatch[1], 10);
+        days = parseFloat(dayMatch[1]);
     }
     if (hourMatch) {
-        hours = parseInt(hourMatch[1], 10);
+        hours = parseFloat(hourMatch[1]);
+    }
+    if (minuteMatch) {
+        minutes = parseFloat(minuteMatch[1]);
     }
 
-    // 天数转小时 + 原有小时
-    const totalHours = days * 24 + hours;
+    // 确保数值非负
+    days = Math.max(0, days);
+    hours = Math.max(0, hours);
+    minutes = Math.max(0, minutes);
 
-    return totalHours;
+    // 将分钟转换为小时
+    const totalHours = days * 24 + hours + minutes / 60;
+
+    return Math.round(totalHours); // 四舍五入到整数
 }
 
 /**
@@ -470,6 +480,11 @@ async function activityMain() {
 
                     let remainingTimeText = await OcrKey(activityName);
                     if (remainingTimeText) {
+                        if (remainingTimeText.endsWith('小')) {
+                            remainingTimeText += '时'
+                        } else if (remainingTimeText.endsWith('分')) {
+                            remainingTimeText += '钟'
+                        }
                         const totalHours = parseRemainingTimeToHours(remainingTimeText);
                         if (totalHours <= 24 && totalHours > 0) {
                             remainingTimeText += '<即将结束>'
