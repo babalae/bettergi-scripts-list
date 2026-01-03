@@ -13,7 +13,7 @@
     "bgi_version": "0.45.0",
     "description": "地区: 须弥\n类型: 垂钓点\n详细位置: 千壑沙地「五绿洲」的孑遗\n鱼类: 真果角鲀、吹沙角鲀、暮云角鲀、青金斧枪鱼、翡玉斧枪鱼\n饵类: 甘露饵\n附加信息: 战斗",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766933035550,
+    "last_modified_time": 1767423151522,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "须弥-垂钓点-千壑沙地「五绿洲」的孑遗",
@@ -96,10 +96,10 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.2),keypress(t),keypress(t),keypress(t),keypress(t),wait(0.2)",
+      "action_params": "w(1),j,wait(0.1),j,wait(0.1),j,wait(0.1),j,w(2),wait(0.3),keypress(t),keypress(t),keypress(t),keypress(t),wait(0.2)",
       "id": 9,
       "move_mode": "fly",
-      "type": "path",
+      "type": "orientation",
       "x": 4768.6885,
       "y": -186.9961
     },
