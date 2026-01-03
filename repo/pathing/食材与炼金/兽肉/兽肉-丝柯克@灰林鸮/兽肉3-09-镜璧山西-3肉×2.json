@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766860204240,
+    "last_modified_time": 1767163646090,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "兽肉3-09-镜璧山西-3肉×2",
@@ -38,7 +38,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(4),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "action_params": "wait(0.5),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
@@ -64,9 +64,18 @@
       "y": -1849.4614
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9795.1357,
+      "y": -1851.4478
+    },
+    {
       "action": "combat_script",
       "action_params": "wait(0.5)",
-      "id": 6,
+      "id": 7,
       "move_mode": "walk",
       "type": "path",
       "x": 9798.1719,

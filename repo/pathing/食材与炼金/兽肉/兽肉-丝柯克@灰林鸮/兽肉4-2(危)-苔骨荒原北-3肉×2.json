@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766177440478,
+    "last_modified_time": 1767163544338,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "兽肉4-2(危)-苔骨荒原北-3肉×2",
@@ -82,11 +82,11 @@
       "y": 2156.7964
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.6),keypress(m)",
       "id": 8,
       "move_mode": "walk",
-      "type": "target",
+      "type": "path",
       "x": 9336.0146,
       "y": 2151.2356
     }

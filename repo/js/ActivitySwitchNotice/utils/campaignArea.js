@@ -111,7 +111,7 @@ async function campaignAreaMain() {
     // 如果有剩余次数，则记录日志并发送通知
     if (weekJson.count > 0) {
         log.info(`本周剩余消耗减半次数:${weekJson.count}`)
-        await noticeUtil.send(`>|本周剩余消耗减半次数:${weekJson.count}`, '秘境征讨')
+        await noticeUtil.sendText(`>|本周剩余消耗减半次数:${weekJson.count}`, '秘境征讨')
     }
 
 }

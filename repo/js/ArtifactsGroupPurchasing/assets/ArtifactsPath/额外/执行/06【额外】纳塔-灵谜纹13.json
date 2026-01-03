@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758894157436,
+    "last_modified_time": 1766579155652,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "06【额外】纳塔-灵谜纹13",
@@ -244,21 +244,13 @@
       "id": 26,
       "move_mode": "climb",
       "type": "path",
-      "x": 9351.0263671875,
-      "y": -1568.23193359375
-    },
-    {
-      "action": "",
-      "id": 27,
-      "move_mode": "climb",
-      "type": "path",
       "x": 9377.249725469235,
       "y": -1532.406522843342
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.2),mousedown,wait(0.5),moveby(0,-350),wait(0.5),mouseup,wait(0.5),s(1),keydown(VK_SPACE),wait(0.8),keyup(VK_SPACE)",
-      "id": 28,
+      "id": 27,
       "move_mode": "walk",
       "type": "orientation",
       "x": 9365.312519750414,
@@ -267,7 +259,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(VK_SPACE),click(middle)",
-      "id": 29,
+      "id": 28,
       "move_mode": "walk",
       "type": "path",
       "x": 9386.125,
@@ -275,7 +267,7 @@
     },
     {
       "action": "",
-      "id": 30,
+      "id": 29,
       "move_mode": "walk",
       "type": "path",
       "x": 9387.359319217927,
@@ -284,7 +276,7 @@
     {
       "action": "combat_script",
       "action_params": "mousedown,wait(0.5),moveby(0,-180),wait(0.5),mouseup",
-      "id": 31,
+      "id": 30,
       "move_mode": "walk",
       "type": "orientation",
       "x": 9396.500233054892,
@@ -292,7 +284,7 @@
     },
     {
       "action": "force_tp",
-      "id": 32,
+      "id": 31,
       "move_mode": "walk",
       "type": "teleport",
       "x": 10112.83203125,
@@ -300,7 +292,7 @@
     },
     {
       "action": "",
-      "id": 33,
+      "id": 32,
       "move_mode": "run",
       "type": "path",
       "x": 10114.3486328125,
@@ -308,7 +300,7 @@
     },
     {
       "action": "",
-      "id": 34,
+      "id": 33,
       "move_mode": "fly",
       "type": "path",
       "x": 10113.01171875,
@@ -317,7 +309,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(VK_SPACE),wait(0.5),click,wait(1),keypress(t),wait(1),keypress(t),wait(2.8),",
-      "id": 35,
+      "id": 34,
       "move_mode": "fly",
       "type": "path",
       "x": 10087.82421875,
@@ -326,7 +318,7 @@
     {
       "action": "combat_script",
       "action_params": "mousedown,wait(0.5),moveby(0,0),wait(0.5),mouseup",
-      "id": 36,
+      "id": 35,
       "move_mode": "walk",
       "type": "orientation",
       "x": 10065.249703743779,
@@ -335,7 +327,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 37,
+      "id": 36,
       "move_mode": "walk",
       "type": "path",
       "x": 10085.5625,
@@ -344,7 +336,7 @@
     {
       "action": "combat_script",
       "action_params": "keydown(VK_SPACE),wait(0.8),keyup(VK_SPACE)",
-      "id": 38,
+      "id": 37,
       "move_mode": "walk",
       "type": "path",
       "x": 10087.3232421875,
@@ -353,7 +345,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1.0),keypress(VK_SPACE),wait(3)",
-      "id": 39,
+      "id": 38,
       "move_mode": "fly",
       "type": "path",
       "x": 10100.80859375,
@@ -362,7 +354,7 @@
     {
       "action": "combat_script",
       "action_params": "mousedown,wait(0.5),mouseup",
-      "id": 40,
+      "id": 39,
       "move_mode": "walk",
       "type": "orientation",
       "x": 10093.937417048259,
@@ -370,7 +362,7 @@
     },
     {
       "action": "force_tp",
-      "id": 41,
+      "id": 40,
       "move_mode": "walk",
       "type": "teleport",
       "x": 10070.23828125,
@@ -379,7 +371,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(t),wait(0.2),keypress(t),moveby(-300,0)",
-      "id": 42,
+      "id": 41,
       "move_mode": "run",
       "type": "path",
       "x": 10071.25,
@@ -388,7 +380,7 @@
     {
       "action": "combat_script",
       "action_params": "keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE),w(3),mousedown,wait(0.5),moveby(0,-350),wait(0.5),mouseup",
-      "id": 43,
+      "id": 42,
       "move_mode": "walk",
       "type": "orientation",
       "x": 10084.78125,
@@ -396,7 +388,7 @@
     },
     {
       "action": "force_tp",
-      "id": 44,
+      "id": 43,
       "move_mode": "walk",
       "type": "teleport",
       "x": 10070.23828125,
@@ -404,7 +396,7 @@
     },
     {
       "action": "",
-      "id": 45,
+      "id": 44,
       "move_mode": "run",
       "type": "path",
       "x": 10061,
@@ -412,7 +404,7 @@
     },
     {
       "action": "",
-      "id": 46,
+      "id": 45,
       "move_mode": "run",
       "type": "path",
       "x": 10044.75,
@@ -421,7 +413,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 47,
+      "id": 46,
       "move_mode": "run",
       "type": "path",
       "x": 10035.4375,
@@ -430,7 +422,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(t),wait(0.2),keypress(t),moveby(1100,0)",
-      "id": 48,
+      "id": 47,
       "move_mode": "walk",
       "type": "orientation",
       "x": 10026.3955078125,
@@ -439,7 +431,7 @@
     {
       "action": "combat_script",
       "action_params": "keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE),wait(0.5),mousedown,wait(0.5),moveby(-300,720),wait(0.5),mouseup",
-      "id": 49,
+      "id": 48,
       "move_mode": "walk",
       "type": "orientation",
       "x": 10024.146484375,
@@ -447,7 +439,7 @@
     },
     {
       "action": "force_tp",
-      "id": 50,
+      "id": 49,
       "move_mode": "walk",
       "type": "teleport",
       "x": 9971.1162109375,
@@ -456,7 +448,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(t),wait(0.2),keypress(t)",
-      "id": 51,
+      "id": 50,
       "move_mode": "climb",
       "type": "path",
       "x": 9965.439453125,
@@ -465,7 +457,7 @@
     {
       "action": "combat_script",
       "action_params": "keydown(VK_SPACE),wait(0.5),keyup(VK_SPACE),wait(0.5),mousedown,wait(0.5),moveby(0,380),wait(0.5),mouseup",
-      "id": 52,
+      "id": 51,
       "move_mode": "walk",
       "type": "orientation",
       "x": 9952.833984375,

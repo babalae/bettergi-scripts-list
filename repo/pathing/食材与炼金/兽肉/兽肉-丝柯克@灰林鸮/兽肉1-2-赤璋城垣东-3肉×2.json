@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766175416292,
+    "last_modified_time": 1767110785301,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "兽肉1-2-赤璋城垣东-3肉×2",
@@ -113,9 +113,18 @@
       "action_params": "wait(0.5)",
       "id": 11,
       "move_mode": "walk",
-      "type": "target",
+      "type": "path",
       "x": 1927.9336,
       "y": 1486.1953
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1926.5586,
+      "y": 1485.1484
     }
   ]
 }
