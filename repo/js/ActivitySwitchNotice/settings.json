@@ -28,9 +28,9 @@
        "label": "白名单活动名称(使用|分割)<可不填 默认推送所有有剩余时间的活动>"
    },
    {
-       "name": "blackActivityNameList",
+       "name": "blackActivity",
        "type": "input-text",
-       "label": "黑名单活动名称(使用|分割)<可不填,默认没有不推送的活动>"
+       "label": "黑名单活动名称(使用|分割)<可不填,默认没有不推送的活动>(新增语法指定条件的黑名单：活动1-条件1,条件2|活动2-条件1)"
    },
    {
        "name": "notifyHoursThreshold",

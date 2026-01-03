@@ -14,7 +14,7 @@
 - ✅ 智能解析剩余时间（支持"22天14小时"等格式）
 - ✅ 可配置的通知阈值（默认8760小时内结束的活动）
 - ✅ 支持指定特定活动进行监控
-- ✅ 支持活动黑名单过滤功能
+- ✅ 支持活动黑名单过滤功能（0.0.5版本,新增支持为黑名单活动设置特定条件，只有满足条件时才过滤,注：特定条件为空默认没有条件）
 - ✅ 防重复检测机制
 - ✅ 异常处理和错误恢复
 - ✅ 自动提醒征讨领域减半剩余次数（默认`周日`提醒可配置）
@@ -43,7 +43,7 @@
 | `noticeType`              | 通知模式（默认BGI通知-使用独立通知需要开启JS HTTP权限）             |                    BGI通知                    | v  |
 | `relationship`            | 剩余时间与白名单启用`和`关系（默认`或`关系）                      |                    false                    | v  |
 | `whiteActivityNameList`   | 白名单活动名称（用\|分隔）                                |                  空（监控所有活动）                  | v  |
-| `blackActivityNameList`   | 黑名单活动名称（用\|分隔）                                |                  空（无黑名单活动）                  | v  |
+| `blackActivity`   | 黑名单活动名称（用|分隔）- 支持条件语法：活动名-条件1,条件2                               |                  空（无黑名单活动）                  | v  |
 | `notifyHoursThreshold`    | 通知时间阈值（小时）                                    |                 8760（365天）                  | v  |
 | `activityKey`             | 打开活动页面的快捷键                                    |                     F5                      | v  |
 | `toTopCount`              | 滑动到顶最大尝试次数                                    |                     10                      | x  |
@@ -83,7 +83,15 @@
 
 - **全部活动监控**：`whiteActivityNameList` 保持空值，监控所有有剩余时间的活动
 - **指定活动监控**：填写活动关键词，如 `海灯节\|盛典`，只监控包含这些关键词的活动
-- **黑名单过滤**：`blackActivityNameList` 可以设置不想接收提醒的活动名称，多个活动用`|`分隔
+- **黑名单过滤**：blackActivity 可以设置不想接收提醒的活动名称，多个活动用|分隔
+- **条件黑名单过滤**：支持条件语法 活动名-条件1,条件2，只有当活动满足指定条件时才过滤
+
+##### 使用示例
+```text
+普通黑名单: "活动A|活动B"
+条件黑名单: "活动A-已完成|活动B-条件1,条件2"
+混合使用: "活动A|活动C-已完成,已领取"
+```
 
 #### 时间通知机制
 
@@ -270,7 +278,7 @@ ActivitySwitchNotice/
 | `noticeType`              | String  | 通知模式（BGI通知/独立通知/两者都发送）                        |
 | `relationship`            | Boolean | 剩余时间与白名单启用`和`关系（默认`或`关系）                      |
 | `whiteActivityNameList`   | String  | 白名单活动名称（用\|分隔）                                |
-| `blackActivityNameList`   | String  | 黑名单活动名称（用\|分隔）                                |
+| `blackActivity`   | String  | 黑名单活动名称（用\|分隔）- 支持条件语法：活动名-条件1,条件2            |
 | `notifyHoursThreshold`    | Number  | 通知阈值（小时）                                      |
 | `activityKey`             | String  | 打开活动页面的快捷键                                    |
 | `toTopCount`              | Number  | 滑动到顶最大尝试次数                                    |
@@ -280,9 +288,9 @@ ActivitySwitchNotice/
 | `ws_proxy_url`            | String  | WebSocket代理URL（独立通知配置）                        |
 | `ws_url`                  | String  | WebSocket客户端 URL（独立通知配置）                      |
 | `ws_token`                | String  | WebSocket客户端 token（独立通知配置）                    |
-| `action`                  | String  | 发送类型（私聊/群聊）（独立通知配置）                                   |
-| `send_id`                 | String  | 发送ID（群号或QQ号，对应发送类型） （独立通知配置）                          |
-| `at_list`                 | String  | @某人列表使用,隔开（QQ号）      （独立通知配置）                        |
+| `action`                  | String  | 发送类型（私聊/群聊）（独立通知配置）                           |
+| `send_id`                 | String  | 发送ID（群号或QQ号，对应发送类型） （独立通知配置）                  |
+| `at_list`                 | String  | @某人列表使用,隔开（QQ号）      （独立通知配置）                 |
 
 ---
 
@@ -309,6 +317,15 @@ ActivitySwitchNotice/
 ---
 
 ## 版本历史
+
+### 0.0.5 (2026-01-03)
+- 新增 条件黑名单功能，支持为黑名单活动设置特定条件，只有满足条件时才过滤
+- 新增 parseBlackActivity 函数，支持解析新的黑名单格式：活动1-条件1,条件2|活动2-条件1
+- 改进 黑名单处理逻辑，实现条件匹配机制
+- 新增 配置项 blackActivityMap 存储解析后的条件黑名单映射
+- 改进 活动过滤逻辑，支持条件匹配检查
+- 优化 配置初始化流程，添加 init 函数处理黑名单配置
+- 改进 配置说明，更新 blackActivity 配置项标签说明
 
 ### 0.0.4 (2026-01-01)
 

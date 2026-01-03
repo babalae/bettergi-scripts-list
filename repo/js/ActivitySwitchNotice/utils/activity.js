@@ -7,21 +7,71 @@ function settingsParseInt(str, defaultValue) {
     }
 }
 
-const config = {
+/**
+ * 解析白名单活动文本，将其转换为活动列表
+ * @param {string} text - 包含活动信息的文本，多个活动用'|'分隔
+ * @param {Array} defaultList - 当text为空时的默认返回列表，默认为空数组
+ * @returns {Array} 解析后的活动列表，去除空字符串并过滤空白项
+ */
+function parseWhiteActivity(text, defaultList = []) {
+    return (text ? text.split('|').filter(s => s.trim()) : defaultList)
+}
+
+
+/**
+ * 解析黑名单活动文本
+ * @param {string} text - 包含活动信息的文本，使用'|'分隔多个活动，使用'-'分隔活动名称和条件，使用','分隔多个条件
+ * @param {Array<string>} excludeList - 需要排除的活动名称列表
+ * @returns {Map<string, Array<string>>|undefined} 解析后的活动映射，键为活动名称，值为条件数组；如果输入文本为空则返回undefined
+ */
+function parseBlackActivity(text, excludeList = []) {
+    if (!text) return undefined;
+
+    const result = new Map();
+
+    // 使用'|'分割文本为多个活动元素
+    const splitList = text.split('|');
+    for (let element of splitList) {
+        element = element.trim(); // 清理空白字符
+        if (!element) continue; // 跳过空元素
+
+        // 使用'-'分割活动元素的名称和条件
+        const elementList = element.split('-');
+        const activityName = elementList[0].trim();
+
+        if (!activityName) continue; // 跳过没有名称的活动
+
+        // 检查是否在排除列表中
+        if (excludeList.includes(activityName)) {
+            continue;
+        }
+
+        // 解析条件：如果有条件部分（length > 1），则分割条件；否则为空数组
+        const conditions = elementList.length > 1
+            ? Array.from(elementList[1].split(',').map(item => item.trim()))
+            : [];
+        log.debug(`parseBlackActivity: ${activityName} - ${conditions}`)
+        // 将解析后的活动对象添加到结果中
+        result.set(activityName, conditions);
+    }
+
+    return result.size > 0 ? result : undefined;
+}
+
+
+let config = {
     //剩余时间,白名单 启用`和`关系(默认`与`关系)
     relationship: settings.relationship,
-    whiteActivityNameList: (settings.whiteActivityNameList ? settings.whiteActivityNameList.split('|').filter(s => s.trim()) : []),
+    whiteActivityNameList: parseWhiteActivity(settings.whiteActivityNameList),
     activityKey: (settings.activityKey ? settings.activityKey : 'F5'),
     toTopCount: settingsParseInt(settings.toTopCount, 10),//滑动到顶最大尝试次数
     scrollPageCount: settingsParseInt(settings.scrollPageCount, 4),//滑动次数/页
     notifyHoursThreshold: settingsParseInt(settings.notifyHoursThreshold, 8760),//剩余时间阈值(默认 8760小时=365天)
     // 黑名单活动名称列表，这些活动将被排除在识别和处理之外
     // 通过 | 分隔多个活动名称，并过滤掉空白项
+    blackActivityMap: parseBlackActivity(settings.blackActivity, parseWhiteActivity(settings.whiteActivityNameList)),
     // 同时确保黑名单中的活动名称不包含在白名单（whiteActivityNameList）中
-    blackActivityNameList: (settings.blackActivityNameList ? settings.blackActivityNameList.split('|').filter(s => s.trim())
-        .filter(
-            item => !settings.whiteActivityNameList.split('|').filter(s => s.trim()).some(keyword => item.includes(keyword))
-        ) : []),
+    blackActivityNameList: [],
 }
 const ocrRegionConfig = {
     activity: {x: 267, y: 197, width: 226, height: 616},//活动识别区域坐标和尺寸
@@ -61,12 +111,17 @@ const genshinJson = {
  *
  * @param {Map} map - 要搜索的Map对象，默认为空Map
  * @param {string} key - 用于匹配的键名部分字符串
+ * @param {boolean} reverseMatch - 开启反向匹配
  * @returns {*} 匹配键对应的值，如果未找到匹配项则返回undefined
  */
-function getMapByKey(map = new Map(), key) {
+function getMapByKey(map = new Map(), key, reverseMatch = false) {
     // 遍历Map的所有键名，查找包含指定key的键
+    log.debug('Map=>size:{size}', map.size)
     for (let keyName of map.keys()) {
-        if (keyName.includes(key)) {
+        log.debug('Map=>key:{key},keyName:{keyName},value:{value},ok:{ok}', key, keyName, JSON.stringify(map.get(keyName)), keyName.includes(key))
+        if (keyName.includes(key) && !reverseMatch) {
+            return map.get(keyName)
+        } else if (key.includes(keyName) && reverseMatch) {
             return map.get(keyName)
         }
     }
@@ -131,21 +186,26 @@ async function scrollPage(totalDistance, isUp = false, waitCount = 6, stepDistan
     await sleep(ms);
 }
 
+
 /**
- * 根据活动状态         进行页面滚动
- * @param {boolean} isUp - 是否向上滚动，默认为false
+ * 根据活动页面进行滚动操作
+ * @param {boolean} isUp - 滚动方向，true表示向上滚动，false表示向下滚动
+ * @param {number} total - 滚动总量
+ * @param {number} waitCount - 等待次数
+ * @param {number} stepDistance - 每次滚动的步长距离
+ * @param {number} scrollPageCount - 滚动页面次数，默认从config中获取
  */
-async function scrollPagesByActivity(isUp = false, total = 90, waitCount = 6, stepDistance = 30) {
+async function scrollPagesByActivity(isUp = false, total = 90, waitCount = 6, stepDistance = 30, scrollPageCount = config.scrollPageCount) {
     // 根据滚动方向设置坐标位置
     // 如果是向上滚动，使用顶部坐标；否则使用底部坐标
-    let x = isUp ? xyConfig.top.x : xyConfig.bottom.x
-    let y = isUp ? xyConfig.top.y : xyConfig.bottom.y
+    let x = isUp ? xyConfig.top.x : xyConfig.bottom.x;  // 根据滚动方向获取x坐标
+    let y = isUp ? xyConfig.top.y : xyConfig.bottom.y;  // 根据滚动方向获取y坐标
     // 记录滑动方向
-    log.info(`活动页面-${isUp ? '向上' : '向下'}滑动`)
+    log.info(`活动页面-${isUp ? '向上' : '向下'}滑动`);
     // 注释：坐标信息已注释掉，避免日志过多
-    // log.info(`坐标:${x},${y}`)
+    // log.info(`坐标:${x},${y}`);
     // 根据配置的滑动次数执行循环
-    for (let i = 0; i < config.scrollPageCount; i++) {
+    for (let i = 0; i < scrollPageCount; i++) {
         // 移动到坐标位置
         await moveMouseTo(x, y)
         //80 18次滑动偏移量  46次测试未发现偏移
@@ -160,7 +220,7 @@ async function scrollPagesByActivity(isUp = false, total = 90, waitCount = 6, st
  * @throws {Error} 如果超过最大尝试次数仍未检测到稳定顶部，则抛出错误
  */
 async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) {
-    let ms = 800
+    let ms = 800;  // 等待时间，单位毫秒
     let topActivityName = null;         // 上一次检测到的顶部活动名称
     let sameTopCount = 0;               // 连续出现相同顶部名称的次数
     const requiredSameCount = 1;        // 需要连续几次相同才确认到顶（推荐 2~3）
@@ -197,7 +257,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
                 log.warn("顶部OCR未识别到任何活动条目，可能是页面为空或识别失败");
                 // 再尝试一次向上滚大距离
                 // await scrollPagesByActivity(true);  // true = 向上
-                await scrollPagesByActivity(true, 80 * 4, 6, 60);
+                await scrollPagesByActivity(true, 80 * 4, 6, 60, 1);
                 await sleep(ms);
                 continue;
             }
@@ -225,8 +285,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
             // 未达到稳定状态，继续向上滚动一页（可根据实际情况调整滚动距离）
             // 这里使用更大滚动距离确保能快速回顶
             // await scrollPagesByActivity(true);  // true = 向上
-            // 可选：加大单次滚动量（如果你发现默认一页不够）
-            await scrollPagesByActivity(true, 80 * 4, 6, 60);
+            await scrollPagesByActivity(true, 80 * 4, 6, 60, 1);
 
             await sleep(ms);  // 给页面滚动和渲染留时间
         } finally {
@@ -369,11 +428,20 @@ async function OcrKey(activityName, key = "剩余时间", ocrRegion = ocrRegionC
     }
 }
 
+async function init() {
+    log.debug(`[init-config]-[{config}]`, JSON.stringify(config));
+    let blackActivityMap = config.blackActivityMap
+    config.blackActivityNameList = blackActivityMap ? Array.from(blackActivityMap.keys()) : [];
+    config.blackActivityNameList.length > 0 && log.debug(`[init]-[{blackActivityNameList}]`, config.blackActivityNameList.join('|'));
+    log.debug(`[init]-[{ket}]`, 'activity');
+    log.debug(`[init-config-end]-[{config}]`, JSON.stringify(config));
+}
 
 /**
  * 活动主函数：扫描所有活动页面，识别剩余时间，最后统一发送通知
  */
 async function activityMain() {
+    await init();
     const ms = 1000;
     await sleep(ms);
 
@@ -464,12 +532,41 @@ async function activityMain() {
                     }
                 }
 
+                // 检查当前活动名称是否在黑名单中
                 if (config.blackActivityNameList.length > 0) {
-                    const matched = config.blackActivityNameList.some(keyword => activityName.includes(keyword));
+                    let matched = config.blackActivityNameList.some(keyword => activityName.includes(keyword));
                     if (matched) {
-                        continue;  // 不关心的活动，跳过不点击
+                        // 获取黑名单活动的条件配置
+                        let blackActivityConditions = getMapByKey(config.blackActivityMap, activityName,true);
+                        log.info(`[黑名单条件检测]blackActivityMap:{blackActivityMap},activityName:{activityName},blackActivityConditions:{blackActivityConditions}`,
+                            config.blackActivityMap, activityName, blackActivityConditions);
+                        if (blackActivityConditions && blackActivityConditions.length > 0) {
+                            log.debug('[黑名单条件检测开始]')
+                            matched = false;
+                            // 遍历所有条件，检查是否满足黑名单条件
+                            for (const blackActivityCondition of blackActivityConditions) {
+                                try {
+                                    let condition = await OcrKey(blackActivityCondition);
+                                    if (condition) {
+                                        log.info(`满足黑名单条件==>{ac}->{ba}`, activityName, blackActivityCondition);
+                                        matched = true;
+                                        break;
+                                    }
+                                } catch (error) {
+                                    log.error(`检查黑名单条件时发生错误: ${error.message}`, error);
+                                    // 继续检查下一个条件，不中断整个流程
+                                    continue;
+                                }
+                            }
+                        }
+
+                        // 如果匹配到黑名单活动，则跳过不点击
+                        if (matched) {
+                            continue;  // 不关心的活动，跳过不点击
+                        }
                     }
                 }
+
 
                 // 避免重复点击同一个活动（防止 OCR 误识别或页面抖动）
                 if (activityMap.has(activityName)) {
@@ -595,7 +692,15 @@ async function activityMain() {
 
         let blackText = "";
         if (config.blackActivityNameList.length > 0) {
-            blackText += `|==>已开启黑名单: ${config.blackActivityNameList.join(",")}<==|`
+            let blackAllText = []
+            for (let en of config.blackActivityNameList) {
+                let configTextList = config.blackActivityMap.get(en)
+                if (configTextList) {
+                    en += (configTextList.length > 0 ? "-" : "") + configTextList.join(',')
+                    blackAllText.push(en)
+                }
+            }
+            blackText += `==>{已开启黑名单: ${blackAllText.join("|")}}<==`
         }
 
         await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示 ${titleKey} 的活动)${blackText}`);
