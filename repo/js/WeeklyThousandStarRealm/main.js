@@ -3,9 +3,9 @@ const interval = 1000; // 每次间隔 ms
 const duration = 1000; // 默认点击等待延时
 
 const storePath = "data/store.json"
-const runJS = settings.runJS || false;
-const achievementMode = settings.achievementMode || true;
-const starMode = settings.starMode || false;
+const runJS = settings.runJS;
+const achievementMode = settings.achievementMode;
+const starMode = settings.starMode;
 const roomID = settings.room || "37135473336";
 const starRoomName = settings.starRoomName || "碰碰墙";
 const userAttempts = Number(settings.thisAttempts || "0");
@@ -306,9 +306,7 @@ async function playMap() {
     }
   }
 
-  if (achievementMode) {
-    await deleteSource();
-  }
+  await deleteSource();
 
   for (let i = 1; i < total; i++) {
     const inRoom = await findText("房间", 1500, 0, 420, 500);
@@ -357,9 +355,7 @@ async function playMap() {
           await sleep(interval);
         }
       }
-      if (achievementMode) {
-        await deleteSource();
-      }
+      await deleteSource();
     }
   }
 }

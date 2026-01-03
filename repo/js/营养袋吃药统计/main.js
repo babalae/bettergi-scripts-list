@@ -11,13 +11,14 @@ const ocrRegion = {
     // 检验账户名
     async function getUserName() {
         userName = userName.trim();
-    //数字，中英文，长度在20个字符以内
+    // 数字，中英文，长度在20个字符以内
         if (!userName || !/^[\u4e00-\u9fa5A-Za-z0-9]{1,20}$/.test(userName)) {
             log.error(`账户名${userName}违规，暂时使用默认账户名，请查看readme后修改`)
             userName = "默认账户";
         }
         return userName;
     }
+
      /**
      * 文字OCR识别封装函数（支持空文本匹配任意文字）
      * @param {string} text - 要识别的文字，默认为"空参数"，空字符串会匹配任意文字
@@ -149,125 +150,256 @@ const ocrRegion = {
           // 返回最后一个结果或未找到
           return lastResult || { found: false };
      }
-     /**
-     * 判断任务是否已刷新
-     * @param {string} filePath - 存储最后完成时间的文件路径
-     * @param {object} options - 配置选项
-     * @param {string} [options.refreshType] - 刷新类型: 'hourly'|'daily'|'weekly'|'monthly'|'custom'
-     * @param {number} [options.customHours] - 自定义小时数(用于'custom'类型)
-     * @param {number} [options.dailyHour=4] - 每日刷新的小时(0-23)
-     * @param {number} [options.weeklyDay=1] - 每周刷新的星期(0-6, 0是周日)
-     * @param {number} [options.weeklyHour=4] - 每周刷新的小时(0-23)
-     * @param {number} [options.monthlyDay=1] - 每月刷新的日期(1-31)
-     * @param {number} [options.monthlyHour=4] - 每月刷新的小时(0-23)
-     * @returns {Promise<boolean>} - 是否已刷新
-     */
-    async function checkRefreshStatus(filePath, options = {}) {
-        const {
-            refreshType = 'daily', // 默认每小时刷新
-            customHours = 24,       // 自定义刷新小时数默认24
-            dailyHour = 4,          // 每日刷新默认凌晨4点
-            weeklyDay = 1,          // 每周刷新默认周一(0是周日)
-            weeklyHour = 4,         // 每周刷新默认凌晨4点
-            monthlyDay = 1,         // 每月刷新默认第1天
-            monthlyHour = 4          // 每月刷新默认凌晨4点
-        } = options;
 
+    // 处理错误格式记录文件（检测时间格式：YYYY/MM/DD HH:mm:ss）
+    async function deleteOldFormatRecords(filePath) {
         try {
-            // 读取文件内容
-            let content = await file.readText(filePath);
-            const parts = content.split("|");
+            // 尝试读取文件，不存在则直接返回
+            const content = await file.readText(filePath);
+            const lines = content.split('\n').filter(line => line.trim());
 
-            if (parts.length < 3) {
-                return { refreshed: true, recovery: 0, resurrection: 0 };
-            }
-            const lastTime = new Date(parts[0]);
-            const savedRecovery = parseInt(parts[1]) || 0;
-            const savedResurrection = parseInt(parts[2]) || 0;
-            const nowTime = new Date();
+            if (lines.length === 0) return false; // 空文件无需处理
 
-            let shouldRefresh = false;
+            // 时间格式正则：匹配 "时间:YYYY/MM/DD HH:mm:ss" 完整格式
+            const timeFormatRegex = /时间:\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}/;
 
+            // 检查是否所有行都包含正确的时间格式
+            const allHasValidTime = lines.every(line => timeFormatRegex.test(line));
 
-            switch (refreshType) {
-                case 'hourly': // 每小时刷新
-                    shouldRefresh = (nowTime - lastTime) >= 3600 * 1000;
-                    break;
+            if (allHasValidTime) return false; // 所有行都有正确时间格式，无需处理
 
-                case 'daily': // 每天固定时间刷新
-                    // 检查是否已经过了当天的刷新时间
-                    const todayRefresh = new Date(nowTime);
-                    todayRefresh.setHours(dailyHour, 0, 0, 0);
-
-                    // 如果当前时间已经过了今天的刷新时间，检查上次完成时间是否在今天刷新之前
-                    if (nowTime >= todayRefresh) {
-                        shouldRefresh = lastTime < todayRefresh;
-                    } else {
-                        // 否则检查上次完成时间是否在昨天刷新之前
-                        const yesterdayRefresh = new Date(todayRefresh);
-                        yesterdayRefresh.setDate(yesterdayRefresh.getDate() - 1);
-                        shouldRefresh = lastTime < yesterdayRefresh;
-                    }
-                    break;
-
-                case 'weekly': // 每周固定时间刷新
-                    // 获取本周的刷新时间
-                    const thisWeekRefresh = new Date(nowTime);
-                    // 计算与本周指定星期几的差值
-                    const dayDiff = (thisWeekRefresh.getDay() - weeklyDay + 7) % 7;
-                    thisWeekRefresh.setDate(thisWeekRefresh.getDate() - dayDiff);
-                    thisWeekRefresh.setHours(weeklyHour, 0, 0, 0);
-
-                    // 如果当前时间已经过了本周的刷新时间
-                    if (nowTime >= thisWeekRefresh) {
-                        shouldRefresh = lastTime < thisWeekRefresh;
-                    } else {
-                        // 否则检查上次完成时间是否在上周刷新之前
-                        const lastWeekRefresh = new Date(thisWeekRefresh);
-                        lastWeekRefresh.setDate(lastWeekRefresh.getDate() - 7);
-                        shouldRefresh = lastTime < lastWeekRefresh;
-                    }
-                    break;
-
-                case 'monthly': // 每月固定时间刷新
-                    // 获取本月的刷新时间
-                    const thisMonthRefresh = new Date(nowTime);
-                    // 设置为本月指定日期的凌晨
-                    thisMonthRefresh.setDate(monthlyDay);
-                    thisMonthRefresh.setHours(monthlyHour, 0, 0, 0);
-
-                    // 如果当前时间已经过了本月的刷新时间
-                    if (nowTime >= thisMonthRefresh) {
-                        shouldRefresh = lastTime < thisMonthRefresh;
-                    } else {
-                        // 否则检查上次完成时间是否在上月刷新之前
-                        const lastMonthRefresh = new Date(thisMonthRefresh);
-                        lastMonthRefresh.setMonth(lastMonthRefresh.getMonth() - 1);
-                        shouldRefresh = lastTime < lastMonthRefresh;
-                    }
-                    break;
-
-                case 'custom': // 自定义小时数刷新
-                    shouldRefresh = (nowTime - lastTime) >= customHours * 3600 * 1000;
-                    break;
-
-                default:
-                    throw new Error(`未知的刷新类型: ${refreshType}`);
-            }
-
-            return {
-                refreshed: shouldRefresh,
-                recovery: savedRecovery,
-                resurrection: savedResurrection
-            };
-
+            // 存在任意行没有正确时间格式，清空文件
+            await file.writeText(filePath, '');
+            notification.send(`${settings.userName}: 检测到记录文件缺少有效时间格式，已重置记录文件`);
+            return true;
         } catch (error) {
-            // 文件不存在时视为需要刷新
-            return { refreshed: true, recovery: 0, resurrection: 0 };
+            // 文件不存在或其他错误时不处理
+            return false;
         }
     }
 
-//  背包过期物品识别，需要在背包界面，并且是1920x1080分辨率下使用
+    /**
+     * 获取本地记录中当天4点至次日4点间的最早记录
+     * @param {string} filePath - 记录文件路径
+     * @returns {Promise<object>} 包含药品数据的对象
+     * 格式: { recovery: { count }, resurrection: { count }, initialized: { recovery, resurrection } }
+     */
+    async function getLocalData(filePath) {
+        // 初始化返回结果
+        const result = {
+            recovery: null,
+            resurrection: null,
+            initialized: {
+                recovery: false,
+                resurrection: false
+            }
+        };
+
+        try {
+            // 尝试读取文件，不存在则直接返回空结果
+            const content = await file.readText(filePath);
+            const lines = content.split('\n').filter(line => line.trim());
+
+            if (lines.length === 0) return result;
+
+            // 获取当前时间范围（当天4点至次日4点）
+            const now = new Date();
+            let startTime, endTime;
+
+            if (now.getHours() < 4) {
+                // 当前时间在4点前，时间范围为昨天4点至今天4点
+                startTime = new Date(now);
+                startTime.setDate(now.getDate() - 1);
+                startTime.setHours(4, 0, 0, 0);
+
+                endTime = new Date(now);
+                endTime.setHours(4, 0, 0, 0);
+            } else {
+                // 当前时间在4点后，时间范围为今天4点至明天4点
+                startTime = new Date(now);
+                startTime.setHours(4, 0, 0, 0);
+
+                endTime = new Date(now);
+                endTime.setDate(now.getDate() + 1);
+                endTime.setHours(4, 0, 0, 0);
+            }
+
+            // 时间格式正则：匹配 "时间:YYYY/MM/DD HH:mm:ss"
+            const timeRegex = /时间:(\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2})/;
+            // 药品匹配正则
+            const recoveryRegex = new RegExp(`${recoveryFoodName}-(\\d+)`);
+            const resurrectionRegex = new RegExp(`${resurrectionFoodName}-(\\d+)`);
+
+            // 正向遍历：找到第一个小于startTime的行索引（边界）
+            let firstOutOfRangeIndex = -1; // 初始化为-1（表示所有行都在时间范围内）
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const timeMatch = line.match(timeRegex);
+                if (!timeMatch) continue;
+
+                const recordTime = new Date(timeMatch[1]);
+
+                // 找到第一个超出时间范围（小于startTime）的行，记录索引并终止正向遍历
+                if (recordTime < startTime) {
+                    // 如果第一条记录时间在今天4点之前，直接返回空结果
+                    if (i === 0) {
+                        return result;
+                    }
+                    firstOutOfRangeIndex = i;
+                    break;
+                }
+            }
+
+            // 反向遍历的起始索引：如果有超出范围的行，从边界上一行开始；否则从最后一行开始
+            const reverseStartIndex = firstOutOfRangeIndex === -1
+                ? lines.length - 1
+                : firstOutOfRangeIndex - 1;
+
+            // 反向遍历的终止索引：0（顶部）
+            const reverseEndIndex = 0;
+
+            // 反向遍历：找时间范围内最早的药品记录
+            // 遍历范围：[reverseStartIndex, reverseEndIndex]（从时间范围的最旧→最新）
+            for (let i = reverseStartIndex; i >= reverseEndIndex; i--) {
+                // 防止索引越界（比如边界上一行是-1时）
+                if (i < 0) break;
+
+                const line = lines[i];
+                const timeMatch = line.match(timeRegex);
+                if (!timeMatch) continue;
+
+                const recordTime = new Date(timeMatch[1]);
+                // 二次校验：确保记录在目标时间范围内（避免边界判断误差）
+                if (recordTime < startTime || recordTime >= endTime) {
+                    continue;
+                }
+
+                // 匹配回血药：未初始化时才赋值
+                if (!result.initialized.recovery) {
+                    const recoveryMatch = line.match(recoveryRegex);
+                    if (recoveryMatch) {
+                        result.recovery = { count: parseInt(recoveryMatch[1]) };
+                        result.initialized.recovery = true;
+                    }
+                }
+
+                // 匹配复活药：未初始化时才赋值
+                if (!result.initialized.resurrection) {
+                    const resurrectionMatch = line.match(resurrectionRegex);
+                    if (resurrectionMatch) {
+                        result.resurrection = { count: parseInt(resurrectionMatch[1]) };
+                        result.initialized.resurrection = true;
+                    }
+                }
+
+                // 两个药品都找到，提前终止遍历（已拿到最早记录）
+                if (result.initialized.recovery && result.initialized.resurrection) {
+                    break;
+                }
+            }
+            return result;
+        } catch (error) {
+            // 文件不存在或读取错误时返回空结果
+            return result;
+        }
+    }
+
+    async function updateRecord(filePath, currentRecovery, currentResurrection, deleteSameDayRecords = false) {
+        // 生成当前时间字符串
+        const now = new Date();
+        const timeStr = `${now.getFullYear()}/${
+            String(now.getMonth() + 1).padStart(2, '0')
+        }/${
+            String(now.getDate()).padStart(2, '0')
+        } ${
+            String(now.getHours()).padStart(2, '0')
+        }:${
+            String(now.getMinutes()).padStart(2, '0')
+        }:${
+            String(now.getSeconds()).padStart(2, '0')
+        }`;
+
+        // 生成两条新记录
+        const recoveryLine = `时间:${timeStr}-${recoveryFoodName}-${currentRecovery}`;
+        const resurrectionLine = `时间:${timeStr}-${resurrectionFoodName}-${currentResurrection}`;
+
+        try {
+            let content = await file.readText(filePath);
+            let lines = content.split('\n').filter(line => line.trim());
+
+            if (lines.length === 0) {
+                // 文件为空，直接写入新记录
+                await file.writeText(filePath, `${recoveryLine}\n${resurrectionLine}`);
+                return true;
+            }
+
+            // 如果需要删除当天同名记录
+            if (deleteSameDayRecords) {
+                // 获取当前时间范围（当天4点至次日4点）
+                let startTime, endTime;
+                if (now.getHours() < 4) {
+                    // 当前时间在4点前，时间范围为昨天4点至今天4点
+                    startTime = new Date(now);
+                    startTime.setDate(now.getDate() - 1);
+                    startTime.setHours(4, 0, 0, 0);
+                    endTime = new Date(now);
+                    endTime.setHours(4, 0, 0, 0);
+                } else {
+                    // 当前时间在4点后，时间范围为今天4点至明天4点
+                    startTime = new Date(now);
+                    startTime.setHours(4, 0, 0, 0);
+                    endTime = new Date(now);
+                    endTime.setDate(now.getDate() + 1);
+                    endTime.setHours(4, 0, 0, 0);
+                }
+
+                // 创建药品匹配正则
+                const recoveryRegex = new RegExp(`${recoveryFoodName}-\\d+$`);
+                const resurrectionRegex = new RegExp(`${resurrectionFoodName}-\\d+$`);
+
+                // 过滤掉当天时间范围内的同名记录
+                lines = lines.filter(line => {
+                    const timeMatch = line.match(/时间:(\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2})/);
+                    if (!timeMatch) return true;
+
+                    const recordTime = new Date(timeMatch[1]);
+                    // 检查是否在当天时间范围内
+                    if (recordTime >= startTime && recordTime < endTime) {
+                        // 检查是否为回血药或复活药记录
+                        if (recoveryRegex.test(line) || resurrectionRegex.test(line)) {
+                            return false; // 删除该记录
+                        }
+                    }
+                    return true; // 保留该记录
+                });
+            }
+
+            // 添加新记录到最前面
+            lines.unshift(resurrectionLine);
+            lines.unshift(recoveryLine);
+
+            // 只保留30天内的记录
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+            const recentLines = lines.filter(line => {
+                const timeMatch = line.match(/时间:(\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2})/);
+                if (!timeMatch) return false;
+                const lineTime = new Date(timeMatch[1]);
+                return lineTime >= thirtyDaysAgo;
+            });
+
+            // 写入文件
+            await file.writeText(filePath, recentLines.join('\n'));
+            return true;
+        } catch (error) {
+            // 文件不存在时创建新文件
+            await file.writeText(filePath, `${recoveryLine}\n${resurrectionLine}`);
+            return true;
+        }
+    }
+
+    //  背包过期物品识别，需要在背包界面，并且是1920x1080分辨率下使用
     async function handleExpiredItems() {
           const ifGuoqi = await textOCREnhanced("物品过期", 1.5, 0, 3, 870, 280, 170, 40);
           if (ifGuoqi.found) {
@@ -379,74 +511,91 @@ const ocrRegion = {
     // 主执行流程
     userName = await getUserName();
     const recordPath = `assets/${userName}.txt`;
-    // 检查刷新状态
-    const refreshStatus = await checkRefreshStatus(recordPath, { dailyHour: 4 });
     // 获取当前药物数量
     const { recoveryNumber, resurrectionNumber } = await main();
-    // initSelect处理逻辑
-    if (settings.initSelect) {
-        // 获取当前时间戳
-        const currentTime = new Date().toISOString();
-        // 构建保存内容：时间戳|回血药数量|复活药数量
-        const saveContent = `${currentTime}|${recoveryNumber}|${resurrectionNumber}`;
-        try {
-            // 写入本地文件
-            await file.writeText(recordPath, saveContent);
-            notification.send(`${userName}: 强制初始化完成！${recoveryFoodName}${recoveryNumber}个, ${resurrectionFoodName}${resurrectionNumber}个`);
-        } catch (error) {
-            notification.send(`${userName}: 药品保存失败！`);
-        }
-        return; // 终止后续流程
-    }
-    if (refreshStatus.refreshed) {
-        // 今日未初始化 - 写入初始数量
-        await file.writeText(recordPath, `${new Date().toISOString()}|${recoveryNumber}|${resurrectionNumber}`);
-        // 添加账户名称的通知
-        notification.send(`${userName}: 今日初始化完成！${recoveryFoodName}${recoveryNumber}个, ${resurrectionFoodName}${resurrectionNumber}个`);
+    // 处理旧的记录文件
+    await deleteOldFormatRecords(recordPath)
+    // 获取本地保存的数据
+    const localData = await getLocalData(recordPath);
+    // 确定初始化数据
+    let initRecovery, initResurrection;
+    let useLocalDataAsInit = false;
+    if (localData.initialized.recovery && localData.initialized.resurrection) {
+        // 情况1：两者都有
+        initRecovery = localData.recovery.count;
+        initResurrection = localData.resurrection.count;
+        useLocalDataAsInit = true;
+        log.info(`已读取到本地数据`)
+    } else if (localData.initialized.recovery || localData.initialized.resurrection) {
+        // 情况2：一有一无，用有的那个，缺的用当前数据
+        initRecovery = localData.initialized.recovery ? localData.recovery.count : recoveryNumber;
+        initResurrection = localData.initialized.resurrection ? localData.resurrection.count : resurrectionNumber;
+        log.info(`未读取到全部的本地数据，缺失部分使用当前数据作为初始数据`)
     } else {
-        // 使用初始数量进行对比
-        const initialRecovery = refreshStatus.recovery;
-        const initialResurrection = refreshStatus.resurrection;
+        // 情况3：两者都无，使用当前数据
+        initRecovery = recoveryNumber;
+        initResurrection = resurrectionNumber;
+        log.info(`未读取到本地数据，使用当前数据作为初始数据`)
+    }
+    // 判断是否需要写入（两个数据都不为0时才写入）
+    const shouldWriteRecord = recoveryNumber > 0 && resurrectionNumber > 0;
+    // initSelect处理逻辑
+    if (settings.initSelect && shouldWriteRecord) {
+        // 强制初始化：初始化数量和最后一次运行数量都设为当前值
+        await updateRecord(recordPath, recoveryNumber, resurrectionNumber,deleteSameDayRecords=true);
+        notification.send(`${userName}: 强制初始化完成！${recoveryFoodName}${recoveryNumber}个, ${resurrectionFoodName}${resurrectionNumber}个`);
+        return
+    }
+    if (shouldWriteRecord) {
+        // 使用当前的数据更新记录
+        await updateRecord(recordPath, recoveryNumber, resurrectionNumber);
+        // 本地有初始记录
+        if(useLocalDataAsInit){
+            // 计算消耗/增加数量
+            const diffRecovery = initRecovery - recoveryNumber;
+            const diffResurrection = initResurrection - resurrectionNumber;
 
-        // 计算消耗/增加数量
-        const diffRecovery = initialRecovery - recoveryNumber;
-        const diffResurrection = initialResurrection - resurrectionNumber;
+            let logMsg = "";
 
-        let logMsg = "";
+            // 处理回血药描述
+            let descRecovery = "";
+            if (diffRecovery > 0) {
+                descRecovery = `消耗${recoveryFoodName}${diffRecovery}个`;
+            } else if (diffRecovery < 0) {
+                descRecovery = `新增${recoveryFoodName}${-diffRecovery}个`;
+            } else {
+                descRecovery = `${recoveryFoodName}无变化`;
+            }
 
+            // 处理复活药描述
+            let descResurrection = "";
+            if (diffResurrection > 0) {
+                descResurrection = `消耗${resurrectionFoodName}${diffResurrection}个`;
+            } else if (diffResurrection < 0) {
+                descResurrection = `新增${resurrectionFoodName}${-diffResurrection}个`;
+            } else {
+                descResurrection = `${resurrectionFoodName}无变化`;
+            }
 
-        // 处理回血药描述
-        let descRecovery = "";
-        if (diffRecovery > 0) {
-            descRecovery = `消耗${recoveryFoodName}${diffRecovery}个`;
-        } else if (diffRecovery < 0) {
-            descRecovery = `新增${recoveryFoodName}${-diffRecovery}个`;
-        } else {
-            descRecovery = `${recoveryFoodName}无变化`;
+            // 根据变化组合日志消息
+            if (diffRecovery === 0 && diffResurrection === 0) {
+                // 两个值都等于0，输出无变化
+                logMsg = `${userName}: 今日药物数量无变化`;
+            } else {
+                // 其他情况
+                logMsg = `${userName}: 今日${descRecovery}，${descResurrection}`;
+            }
+
+            // 添加库存信息
+            logMsg += ` | 当前库存：${recoveryFoodName}${recoveryNumber}个, ${resurrectionFoodName}${resurrectionNumber}个`;
+            // 发送通知
+            notification.send(logMsg);
+        }else{
+            // 添加账户名称的通知
+            notification.send(`${userName}: 今日初始化完成！${recoveryFoodName}${initRecovery}个, ${resurrectionFoodName}${initResurrection}个`);
         }
-
-        // 处理复活药描述
-        let descResurrection = "";
-        if (diffResurrection > 0) {
-            descResurrection = `消耗${resurrectionFoodName}${diffResurrection}个`;
-        } else if (diffResurrection < 0) {
-            descResurrection = `新增${resurrectionFoodName}${-diffResurrection}个`;
-        } else {
-            descResurrection = `${resurrectionFoodName}无变化`;
-        }
-
-        // 根据变化组合日志消息
-        if (diffRecovery === 0 && diffResurrection === 0) {
-            // 两个值都等于0，输出无变化
-            logMsg = `${userName}: 今日药物数量无变化`;
-        }else {
-            // 其他情况
-            logMsg = `${userName}: 今日${descRecovery}，${descResurrection}`;
-        }
-
-        // 添加库存信息
-        logMsg += ` | 当前库存：${recoveryFoodName}${recoveryNumber}个, ${resurrectionFoodName}${resurrectionNumber}个`;
-        // 发送通知
-        notification.send(logMsg);
+    } else {
+        // 当前数据有任意一个为0，不写入记录，只发送通知
+        notification.send(`${userName}: 当前药品数量识别不全（${recoveryFoodName}${recoveryNumber}个, ${resurrectionFoodName}${resurrectionNumber}个），不更新记录`);
     }
 })();

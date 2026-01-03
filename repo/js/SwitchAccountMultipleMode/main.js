@@ -225,7 +225,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
 
     const targetUser = settings.username;
 
-    const assetLogoutIcon = u.loadTemplate("Assets/RecognitionObject/logout.png", 1750, 900);
+    const assetLogoutIcon = u.loadTemplate("Assets/RecognitionObject/logout.png", 1750, 900, 170, 180);
     const assetPaimonMenuIcon = u.loadTemplate("Assets/RecognitionObject/paimon_menu.png", 0, 0, 150, 150);
 
     // Check current state
@@ -340,7 +340,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         btnLogout.DrawSelf("LogoutBtn");
         btnLogout.Click();
 
-        const assetQuitTextButton = u.loadTemplate("Assets/RecognitionObject/quit.png", 680, 380, 1220, 720);
+        const assetQuitTextButton = u.loadTemplate("Assets/RecognitionObject/quit.png", 680, 380, 1220, 700);
         let btnQuit = await u.waitAndFindImage(assetQuitTextButton, 200);
         // u.logi("识别到退出按钮，点击");
         // btnQuit.DrawSelf("QuitBtn");
@@ -351,7 +351,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         u.logi("开始切换账号");
         await u.waitAndFindText(["进入游戏", "登录其他账号"], 680, 380, 540, 340, 200);
 
-        const assetSelectUserDropDownIcon = u.loadTemplate("Assets/RecognitionObject/caret.png", 680, 380, 1220, 720);
+        const assetSelectUserDropDownIcon = u.loadTemplate("Assets/RecognitionObject/caret.png", 680, 380, 1220, 700);
         let captureRegion = captureGameRegion();
         let res = captureRegion.Find(assetSelectUserDropDownIcon);
         captureRegion.dispose();
@@ -535,7 +535,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             await sleep(9000);
             await matchImgAndClick(login_out_account, "登录页的右下角退出按钮");
             await matchImgAndClick(out_account, "退出当前账号");
-            await matchImgAndClick(login_other_account, "登录其他账号");
+            await recognizeTextAndClick("登录其他账号", RecognitionObject.Ocr(300, 200, 1200, 800), 5000);
             await sleep(1000);
             await matchImgAndClick(input_phone_or_email, "填写邮箱/手机号");
             await inputText(settings.username);
@@ -565,7 +565,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
              * 如果发现卡在这一步，请适当延长sleep时间
              */
             await sleep(8000);
-            await recognizeTextAndClick("点击进入", RecognitionObject.Ocr(862, 966, 206, 104), 960, 540, 5000);
+            await recognizeTextAndClick("点击进入", RecognitionObject.Ocr(862, 966, 206, 104), 5000);
             await sleep(15000);
 
             //可能登录账号的时候出现月卡提醒，则先点击一次月卡。

@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760775404531,
+    "last_modified_time": 1765647672930,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "2P纳塔-度假村TP刷CD",
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 10274.9951171875,
-      "y": -201.341796875
+      "x": 10409.009765625,
+      "y": 1653.2197265625
     },
     {
       "action": "",
@@ -56,7 +56,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keydown(w),wait(0.2),keypress(e),wait(1.7),keypress(e),wait(2.4),j,keyup(w)",
+      "action_params": "keydown(VK_SPACE),wait(0.9),keyup(VK_SPACE),keydown(w),wait(0.2),keypress(e),wait(1.7),keypress(e),wait(1.2)",
       "id": 5,
       "move_mode": "walk",
       "type": "orientation",

@@ -196,6 +196,95 @@
     // 存储本次任务中的所有鱼类，作为调节时间的关键参考
     let list_fish = [];
 
+    // 偽造日志
+    async function fakeLog(name, isJs, isStart, duration) {
+        await sleep(10);
+        const currentTime = Date.now();
+        // 参数检查
+        if (typeof name !== 'string') {
+            log.error("参数 'name' 必须是字符串类型！");
+            return;
+        }
+        if (typeof isJs !== 'boolean') {
+            log.error("参数 'isJs' 必须是布尔型！");
+            return;
+        }
+        if (typeof isStart !== 'boolean') {
+            log.error("参数 'isStart' 必须是布尔型！");
+            return;
+        }
+        if (typeof currentTime !== 'number' || !Number.isInteger(currentTime)) {
+            log.error("参数 'currentTime' 必须是整数！");
+            return;
+        }
+        if (typeof duration !== 'number' || !Number.isInteger(duration)) {
+            log.error("参数 'duration' 必须是整数！");
+            return;
+        }
+
+        // 将 currentTime 转换为 Date 对象并格式化为 HH:mm:ss.sss
+        const date = new Date(currentTime);
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
+        const formattedTime = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+        // 将 duration 转换为分钟和秒，并保留三位小数
+        const durationInSeconds = duration / 1000; // 转换为秒
+        const durationMinutes = Math.floor(durationInSeconds / 60);
+        const durationSeconds = (durationInSeconds % 60).toFixed(3); // 保留三位小数
+
+        // 使用四个独立的 if 语句处理四种情况
+        if (isJs && isStart) {
+            // 处理 isJs = true 且 isStart = true 的情况
+            const logMessage = `正在伪造js开始的日志记录\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `------------------------------\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `→ 开始执行JS脚本: "${name}"`;
+            log.debug(logMessage);
+        }
+        if (isJs && !isStart) {
+            // 处理 isJs = true 且 isStart = false 的情况
+            const logMessage = `正在伪造js结束的日志记录\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `------------------------------`;
+            log.debug(logMessage);
+        }
+        if (!isJs && isStart) {
+            // 处理 isJs = false 且 isStart = true 的情况
+            const logMessage = `正在伪造地图追踪开始的日志记录\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `------------------------------\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `→ 开始执行地图追踪任务: "${name}"`;
+            log.debug(logMessage);
+        }
+        if (!isJs && !isStart) {
+            // 处理 isJs = false 且 isStart = false 的情况
+            const logMessage = `正在伪造地图追踪结束的日志记录\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+                `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+                `------------------------------`;
+            log.debug(logMessage);
+        }
+        // 交互或拾取："XXXX"
+        if (duration == 9527) {
+            // const logMessage = `正在 交互或拾取 的日志记录\n\n` +
+            //     `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            //     `------------------------------\n\n` +
+            //     `[${formattedTime}] [INF] BetterGenshinImpact.Service.AutoPick.AutoPickTrigger\n` +
+            //     `交互或拾取："${name}"`;
+            // log.debug(logMessage);
+            log.info(`交互或拾取："${name}"`);
+        }
+
+    }
+
     /**
      *
      * 向上/下滑动一或多个页面[主要物品选择页面](有误差)
@@ -652,6 +741,8 @@
             }
         }
 
+        // 偽造地图追踪开始
+        await fakeLog(file_name, false, true, 0);
         await pathingScript.runFile(base_path_pathing + file_name + ".json");
 
         if (file_name === "稻妻-垂钓点-鹤观逢岳之野西南") {
@@ -853,6 +944,8 @@
         } else if (fishing_cd && !flag) {
             log.warn(`本次钓鱼异常，不计算垂钓点CD`);
         }
+        // 偽造地图追踪结束
+        await fakeLog(file_name, false, false, 0);
     }
 
     async function main() {
@@ -968,6 +1061,8 @@
             // try {
                 let current_msg = `${path_msg["area"]}-${path_msg["detail"]}`
                 log.info(`当前钓鱼点: ${current_msg}(进度: ${i + 1}/${path_filter.length})`);
+                // For ABGI only
+                log.debug(`当前进度：${current_msg}(进度: ${i + 1}/${path_filter.length})`);
                 if (path_continue === current_msg) {
                     is_continue = false;
                 }

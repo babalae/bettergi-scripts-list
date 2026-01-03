@@ -1,29 +1,34 @@
 <!--
-1.0
-    由蜜柑魚(QQ 3450286580)制作
-    使用说明
-        使用电脑端打开网页，拖放latest_record至网页中，即可显示结果
-        请先至少扫瞄两次记录
-        功能
-            1.显示两次扫描记录中，背包材料各个物品的变更数量
-            2.点击表格中的标题"变更数量"，切换变更数量 由少至多 或 由多至少 排序
-            3.怪物掉落素材独有，依照稀有度排序，快速看到多了多少个不能分解的紫色、蓝色材料
-            4.当物品数量大于9000时会标记红色，提示用户作出处理
-        快捷键
-            Alt+f   =   进入或退出全屏模式
-            w       =   向上滚动
-            s       =   向下滚动
-            ~       =   切換淺色模式,深色模式
-            J       =   顯示無
-
-
+由蜜柑魚(QQ 3450286580)制作
+使用说明
+    使用电脑端打开网页，将 latest_record.txt 文件拖放至页面，即可显示扫描结果。
+    注意：请至少扫描 两次记录 以比对物品数量变化。
+    
+    主要功能
+        1.物品变更比对：
+            显示两次扫描记录中，背包内各物品的 数量增减。
+        2.排序功能：
+            点击表格中的 "变更数量" 标题，可切换 升序（少→多） 或 降序（多→少） 排序。
+            点击 "[较新日斯]" 标题，可切换按 背包当前数量 排序（升序/降序）。
+        3.怪物素材分类：
+            点击"稀有度排序" 后会按 稀有度（紫→蓝→綠→灰）排序，方便查看不可分解的高级材料。
+        4.若物品数量 超过 9000，会以 红色标记 提醒处理。
+    
+    快捷键
+        按键	    功能
+        Alt+f   =   进入或退出全屏模式
+        w       =   向上滚动
+        s       =   向下滚动
+        ~       =   切換淺色模式,深色模式（00:00~06:30 自动深色模式）
+        N       =   計算按本次差異還需多少天逹至預期數量
+-------------------------
 1.1
-    1.修好了只有一项扫描时 不显示的问题
-    2.更新了可多次拖放档案进行读取
+    1.修复单项扫描不显示的问题。
+    2.支持多次拖放文件读取。
 1.2
-    适配各种Windows系统时间格式，避免因时间格式不同而不显示的问题
+    适配不同 Windows 时间格式，确保兼容性。
 1.3
-    00:00~06:30 预设深色模式
+    新增 00:00~06:30 自动深色模式。
 1.4
     新增 依据背包材料数量排序
         点击表格中的标题[较新日斯]，切换依据背包材料数量 由少至多 或 由多至少 排序
@@ -35,6 +40,15 @@
         默认隐藏无变化材料
         显示无变化材料时，表格会变长，请耐心等待加载完成
     3.月之一版本材料列表更新
+1.6
+    1.月之四版本材料列表更新
+    2.当物品数量大于9900时会标记紅色背景白色字體，提示用户作出处理
+    3.当矿石数量超过99900时会标记紅色背景白色字體，提示用户作出处理
+    4.按N键計算按本次差異還有多少天逹至預期數量
+        礦石帶有天數自動計算
+            (白铁块、星银矿石)*2天
+            (水晶块、紫晶块、萃凝晶、虹滴晶)*3天
+            魔晶块不計算
 -->
 <!DOCTYPE html>
 <html lang="zh-TW">
@@ -388,6 +402,42 @@
             display: none;
         }
 
+        /* 新增样式：预期天数字段 */
+        .expected-days {
+            color: #6c757d;
+            font-size: 0.85rem;
+            font-weight: normal;
+            margin-left: 8px;
+            background-color: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+
+        body.dark-mode .expected-days {
+            color: #adb5bd;
+            background-color: #343a40;
+            border-color: #495057;
+        }
+
+        .expected-days-indicator {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 1000;
+            display: none;
+        }
+
+        body.dark-mode .expected-days-indicator {
+            background: rgba(255, 255, 255, 0.2);
+            color: #e0e0e0;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -401,6 +451,22 @@
             .material-table td {
                 padding: 10px 12px;
             }
+        }
+
+        /* 数量超过9900的红色背景白色文字标记 */
+        .critical-quantity {
+            background-color: #dc3545 !important;
+            /* 红色背景 */
+            color: white !important;
+            /* 白色文字 */
+            font-weight: bold;
+        }
+
+        /* 深色模式下的临界数量样式 */
+        body.dark-mode .critical-quantity {
+            background-color: #c82333 !important;
+            /* 深色模式下的红色背景 */
+            color: white !important;
         }
 
         /* 数量超过9000的橙色标记 */
@@ -625,6 +691,7 @@
 <body>
     <div class="theme-indicator" id="themeIndicator">深色模式已启用</div>
     <div class="status-indicator" id="statusIndicator">显示无变化材料</div>
+    <div class="expected-days-indicator" id="expectedDaysIndicator">目标数量: 9999</div>
     <div class="container">
         <div id="resultsSection">
             <div id="dropZone">
@@ -651,6 +718,9 @@
                     <p style="margin-top: 15px; font-weight: bold; color: #3498db;">
                         提示：点击"物品名"列标题可切换稀有度排序模式
                     </p>
+                    <p style="margin-top: 10px; font-weight: bold; color: #e74c3c;">
+                        新增功能：按N键输入目标数量，在正增长物品旁显示预计达標天数
+                    </p>
                 </div>
             </div>
         </div>
@@ -664,7 +734,7 @@
             '地脉的新芽', '雾虚灯芯', '漫游者的盛放之花', '黑晶号角', '混沌锚栓', '混沌炉心',
             '辉光棱晶', '隐兽鬼爪', '初生的浊水幻灵', '异界生命核', '役人的时时刻刻', '渊光鳍翅',
             '未熄的剑柄', '秘源真芯', '意志巡游的符像', '聚燃的游像眼', '迷光的蜷叶之心', '明燃的棱状壳',
-            '大英雄的经验', '幽雾兜盔', '霜夜的煌荣', '繁光躯外骸'
+            '大英雄的经验', '幽雾兜盔', '霜夜的煌荣', '繁光躯外骸', '深黯的钩喙'
         ];
 
         // 藍
@@ -675,7 +745,7 @@
             '密固的横脊', '地脉的枯叶', '混浊棱晶', '雾虚草囊', '特工祭刀', '黑铜号角', '混沌回路',
             '混沌模块', '何人所珍藏之花', '隐兽利爪', '浊水的一掬', '外世突触', '役人的制式怀表',
             '月色鳍翅', '裂断的剑柄', '秘源机鞘', '意志明晰的寄偶', '聚燃的命种', '惑光的阔叶', '蕴热的背壳',
-            '冒险家的经验', '霜镌的执凭', '精制机轴', '幽雾片甲', '霜夜的柔辉', '稀光遗骼'
+            '冒险家的经验', '霜镌的执凭', '精制机轴', '幽雾片甲', '霜夜的柔辉', '稀光遗骼', '深黯的怪核'
         ];
 
         // 綠
@@ -686,7 +756,7 @@
             '混沌装置', '雾虚花粉', '猎兵祭刀', '脆弱的骨片', '隐兽指爪', '残毁的横脊', '来自何处的待放之花',
             '破缺棱晶', '混沌容器', '浊水的一滴', '隙间之核', '老旧的役人怀表', '羽状鳍翅', '残毁的剑柄',
             '秘源轴', '意志破碎的残片', '聚燃的石块', '折光的胚芽', '冷裂壳块', '流浪者的经验', '精致的执凭',
-            '加固机轴', '幽雾化形', '霜夜的残照', '失光块骨'
+            '加固机轴', '幽雾化形', '霜夜的残照', '失光块骨', '深黯的裂眼'
         ];
 
         // 灰
@@ -704,6 +774,8 @@
 
         // 在脚本开头添加全局变量
         let showNoChangeItems = false;
+        let targetQuantity = 9999; // 默认目标数量
+        let showExpectedDays = false; // 是否显示预期天数
 
         window.onload = function () {
             const now = new Date();
@@ -714,6 +786,73 @@
             }
         };
 
+        // 更新預期天數顯示 - 修改版
+        function updateExpectedDays() {
+            const allChangeCells = document.querySelectorAll('.increase');
+
+            allChangeCells.forEach(cell => {
+                // 移除旧的預期天數元素
+                const oldSpan = cell.querySelector('.expected-days');
+                if (oldSpan) {
+                    cell.removeChild(oldSpan);
+                }
+
+                // 如果顯示預期天數功能開啟，則計算並顯示
+                if (showExpectedDays) {
+                    const row = cell.parentNode;
+                    const itemName = row.cells[0].textContent; // 獲取物品名
+                    const currentQuantity = parseInt(row.cells[2].textContent);
+                    const changeQuantity = parseInt(cell.textContent);
+
+                    // 傳遞物品名給計算函數
+                    const expectedDays = calculateExpectedDays(itemName, currentQuantity, changeQuantity);
+                    if (expectedDays !== null && expectedDays > 0) {
+                        const daysSpan = document.createElement('span');
+                        daysSpan.className = 'expected-days';
+                        daysSpan.textContent = `(${expectedDays}天)`;
+                        cell.appendChild(daysSpan);
+                    }
+                }
+            });
+
+            // 更新表格標題
+            updateColumnHeaders();
+        }
+
+        // 计算预期天数
+        function calculateExpectedDays(itemName, currentQuantity, changeQuantity) {
+            if (changeQuantity <= 0) return null;
+
+            const remaining = targetQuantity - currentQuantity;
+            if (remaining <= 0) return 0;
+
+            // 向上取整，确保天数是最小整数
+            let days = Math.ceil(remaining / changeQuantity);
+
+            // 特殊礦石倍數處理
+            if (SPECIAL_ORES.includes(itemName)) {
+                if (itemName === '铁块') {
+                    days *= 1;  // 保持原樣
+                } else if (itemName === '白铁块') {
+                    days *= 2;
+                } else if (itemName === '星银矿石') {
+                    days *= 2;
+                } else if (itemName === '水晶块') {
+                    days *= 3;
+                } else if (itemName === '紫晶块') {
+                    days *= 3;
+                } else if (itemName === '萃凝晶') {
+                    days *= 3;
+                } else if (itemName === '虹滴晶') {
+                    days *= 3;
+                } else if (itemName === '魔晶块') {
+                    return null; // 不顯示
+                }
+            }
+
+            return days;
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             const dropZone = document.getElementById('dropZone');
             const resultsSection = document.getElementById('resultsSection');
@@ -721,6 +860,7 @@
             const errorMessage = document.getElementById('errorMessage');
             const resultsContainer = document.getElementById('resultsContainer');
             const themeIndicator = document.getElementById('themeIndicator');
+            const expectedDaysIndicator = document.getElementById('expectedDaysIndicator');
             const body = document.body;
 
             // 监听~键切换主题
@@ -942,10 +1082,12 @@
             function getQuantityClass(itemName, quantity) {
                 if (SPECIAL_ORES.includes(itemName)) {
                     // 特殊矿石
+                    if (quantity >= 99900) return 'critical-quantity';
                     if (quantity >= 99500) return 'high-quantity';
                     if (quantity >= 99000) return 'medium-quantity';
                 } else {
                     // 普通材料
+                    if (quantity >= 9900) return 'critical-quantity';
                     if (quantity >= 9500) return 'high-quantity';
                     if (quantity >= 9000) return 'medium-quantity';
                 }
@@ -985,7 +1127,9 @@
                                         </th>
                                         <th>${previousScan.timestamp}</th>
                                         <th class="sortable inactive" data-sort-type="newQty" data-sort="none">${latestScan.timestamp}</th>
-                                        <th class="sortable" data-sort-type="change" data-sort="desc">变更数量</th>
+                                        <th class="sortable" data-sort-type="change" data-sort="desc">
+                                            變更數量${showExpectedDays ? `<br><span style="font-size: 0.8em; font-weight: normal;">(目標數量:${targetQuantity})</span>` : ''}
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1107,6 +1251,11 @@
                             row.classList.add('no-change-row');
                         }
 
+                        // 存储数据属性用于排序
+                        row.dataset.rarity = getRarityLevel(item);
+                        row.dataset.currentQuantity = latestQty;
+                        row.dataset.changeQuantity = change;
+
                         row.innerHTML = `
                             <td class="${rarityClass}">${item}</td>
                             <td class="${prevQuantityClass}">${previousQty}</td>
@@ -1139,6 +1288,11 @@
                 // 如果没有数据显示提示
                 if (resultsContainer.children.length === 0) {
                     resultsContainer.innerHTML = '<div class="no-data" style="padding: 20px; text-align: center;">没有检测到材料数量变化</div>';
+                }
+
+                // 如果显示预期天数功能开启，则更新显示
+                if (showExpectedDays) {
+                    updateExpectedDays();
                 }
             }
 
@@ -1187,6 +1341,11 @@
                 rows.forEach(row => {
                     tbody.appendChild(row);
                 });
+
+                // 排序后更新预期天数显示
+                if (showExpectedDays) {
+                    setTimeout(updateExpectedDays, 0);
+                }
             }
 
             // 显示错误信息
@@ -1221,6 +1380,160 @@
             }, 2000);
         }
 
+        // 处理目标数量输入
+        function handleTargetQuantityInput() {
+            // 如果目前是顯示狀態，直接切換為隱藏
+            if (showExpectedDays) {
+                showExpectedDays = false;
+
+                // 更新表格標題
+                updateColumnHeaders();
+
+                // 更新預期天數顯示
+                updateExpectedDays();
+
+                // 顯示提示
+                const expectedDaysIndicator = document.getElementById('expectedDaysIndicator');
+                expectedDaysIndicator.textContent = `預期天數顯示已關閉`;
+                expectedDaysIndicator.style.display = 'block';
+
+                setTimeout(() => {
+                    expectedDaysIndicator.style.display = 'none';
+                }, 2000);
+            }
+            // 如果目前是隱藏狀態，顯示輸入框
+            else {
+                const input = prompt(`請輸入目標數量（預設為 ${targetQuantity}）`, targetQuantity.toString());
+
+                // 如果用戶取消輸入，直接返回
+                if (input === null) {
+                    return;
+                }
+
+                const parsedInput = parseInt(input, 10);
+                if (isNaN(parsedInput) || parsedInput <= 0) {
+                    alert('請輸入有效的正整數！');
+                    return;
+                }
+
+                // 更新目標數量
+                targetQuantity = parsedInput;
+
+                // 切換為顯示狀態
+                showExpectedDays = true;
+
+                // 更新表格標題
+                updateColumnHeaders();
+
+                // 更新預期天數顯示
+                updateExpectedDays();
+
+                // 顯示提示
+                const expectedDaysIndicator = document.getElementById('expectedDaysIndicator');
+                expectedDaysIndicator.textContent = `目標數量: ${targetQuantity} (按N關閉)`;
+                expectedDaysIndicator.style.display = 'block';
+
+                // 3秒後隱藏提示
+                setTimeout(() => {
+                    expectedDaysIndicator.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+
+        // 新增函數：更新表格標題
+        function updateColumnHeaders() {
+            // 找到所有"變更數量"的列標題
+            const changeHeaders = document.querySelectorAll('th[data-sort-type="change"]');
+
+            changeHeaders.forEach(header => {
+                if (showExpectedDays) {
+                    // 顯示目標數量
+                    header.innerHTML = `變更數量<br><span style="font-size: 0.8em; font-weight: normal;">(目標數量:${targetQuantity})</span>`;
+                } else {
+                    // 恢復原始標題
+                    header.innerHTML = '變更數量';
+                }
+            });
+        }
+
+        // 計算爆倉率
+        function calculateMaterialPercentage() {
+            // 获取用户输入
+            const input = prompt("請輸入紫材和藍材數量（格式：紫材+藍材，例如：500+3000）");
+
+            // 验证输入是否为空
+            if (input === null || input.trim() === "") {
+                alert("輸入已取消或為空！");
+                return;
+            }
+
+            // 验证输入格式
+            const formatRegex = /^\d+\+\d+$/;
+            if (!formatRegex.test(input)) {
+                alert("格式錯誤！請使用 紫材+藍材 格式輸入（例如：500+3000）");
+                return;
+            }
+
+            // 解析原始材料数量（保存原始值）
+            const [originalPurpleStr, originalBlueStr] = input.split('+');
+            const originalPurple = parseInt(originalPurpleStr, 10);
+            const originalBlue = parseInt(originalBlueStr, 10);
+
+            // 验证数字有效性
+            if (isNaN(originalPurple) || isNaN(originalBlue) || originalPurple < 0 || originalBlue < 0) {
+                alert("請輸入有效的非負整數！");
+                return;
+            }
+
+            // 创建转换副本（用于计算爆仓率）
+            let convertedPurple = originalPurple;
+            let convertedBlue = originalBlue;
+
+            // 只有当紫材不为0且未满9999时才执行转换
+            if (convertedPurple > 0 && convertedPurple < 9999) {
+                // 计算最多可转换的次数
+                const maxConvert = Math.min(
+                    Math.floor(convertedBlue / 3),      // 基于蓝材可转换的次数
+                    9999 - convertedPurple             // 基于紫材剩余空间的次数
+                );
+
+                // 执行材料转换
+                if (maxConvert > 0) {
+                    convertedPurple += maxConvert;
+                    convertedBlue -= maxConvert * 3;
+                }
+            }
+
+            // 计算原始材料百分比
+            const originalPurplePercent = (originalPurple / 9999 * 100).toFixed(2);
+            const originalBluePercent = (originalBlue / 9999 * 100).toFixed(2);
+
+            // 计算转换后材料百分比（用于爆仓率计算）
+            const convertedPurplePercent = (convertedPurple / 9999 * 100);
+            const convertedBluePercent = (convertedBlue / 9999 * 100);
+
+            // 计算爆仓率（基于转换后的材料状态）
+            let totalPercent;
+            if (convertedPurple === 0) {
+                // 只有蓝材时，爆仓率=蓝材百分比
+                totalPercent = convertedBluePercent.toFixed(2);
+            } else if (convertedBlue === 0) {
+                // 只有紫材时，爆仓率=平均百分比
+                totalPercent = ((convertedPurplePercent + convertedBluePercent) / 2).toFixed(2);
+            } else {
+                // 混合材料时，爆仓率=平均百分比
+                totalPercent = ((convertedPurplePercent + convertedBluePercent) / 2).toFixed(2);
+            }
+
+            // 显示结果（始终显示原始输入值）
+            alert(
+                `爆倉率：${totalPercent}%\n\n` +
+                `紫材：${originalPurple} (${originalPurplePercent}%)\n` +
+                `藍材：${originalBlue} (${originalBluePercent}%)`
+            );
+        }
+
         window.addEventListener('keydown', function (e) {
             const scrollAmount = 150; // 滚动距离
             if (e.key.toLowerCase() === 'w') {
@@ -1235,9 +1548,28 @@
         // 監聽鍵盤按下
         document.onkeydown = function (e) {
             var keyNum = window.event;       //獲取被按下的鍵值 
-            if (keyNum.keyCode == 70 && keyNum.altKey) {
+            if (keyNum.keyCode == 97) {
+                // 右1 計算爆倉率
+                calculateMaterialPercentage();
+            } else if (keyNum.keyCode == 70 && keyNum.altKey) {
                 // alt +  f
                 changeFullScreen();
+            } else if (keyNum.keyCode == 78) {
+                // N
+                handleTargetQuantityInput();
+            } else if (keyNum.keyCode == 96) {
+                // 左0 幫助
+                var help_text = "";
+                help_text += "快捷键按键\n"
+                help_text += "Alt+F：进入或退出全屏模式\n"
+                help_text += "W：向上滚动\n"
+                help_text += "S：向下滚动\n"
+                help_text += "~：切換淺色模式,深色模式\n"
+                help_text += "（00:00~06:30 自动深色模式）\n"
+                help_text += "J：显示无变化材料 \n"
+                help_text += "N：計算按本次差異還需多少天逹至預期數量 \n"
+                alert(help_text);
+
             }
         }
 

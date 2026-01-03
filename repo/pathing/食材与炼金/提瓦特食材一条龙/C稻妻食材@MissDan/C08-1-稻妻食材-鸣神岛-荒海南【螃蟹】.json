@@ -9,13 +9,13 @@
     "bgi_version": "0.52.0",
     "description": "6个甜甜花；3个薄荷；3个螃蟹；3个堇瓜；5个海草；1个鬼兜虫；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1762339171983,
+    "last_modified_time": 1763316700429,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C08-1-稻妻食材-鸣神岛-荒海南【螃蟹】",
     "tags": [],
     "type": "collect",
-    "version": "2.0"
+    "version": "3.0"
   },
   "positions": [
     {
@@ -184,64 +184,64 @@
       "action": "",
       "action_params": "",
       "id": 19,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": -4157.4219,
-      "y": -2452.5117
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 20,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -4122.3652,
-      "y": -2450.9697
+      "x": -4137.3359,
+      "y": -2446.8613
     },
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 21,
+      "id": 20,
       "move_mode": "fly",
       "type": "path",
-      "x": -4103.6367,
-      "y": -2449.5254
+      "x": -4131.9492,
+      "y": -2440.8555
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4126.1367,
+      "y": -2438.6445
     },
     {
       "action": "",
       "action_params": "",
       "id": 22,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": -4107.3809,
-      "y": -2445.3154
+      "x": -4118.9805,
+      "y": -2428.5303
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "action_params": "",
       "id": 23,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
-      "x": -4107.5,
-      "y": -2435.8809
+      "x": -4125.207,
+      "y": -2424.3672
     },
     {
       "action": "",
       "action_params": "",
       "id": 24,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
-      "x": -4108.1328,
-      "y": -2419.4492
+      "x": -4123.2129,
+      "y": -2425.7266
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
+      "action": "",
+      "action_params": "",
       "id": 25,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": -4107.2266,
-      "y": -2412.207
+      "x": -4106.9375,
+      "y": -2412.3125
     },
     {
       "action": "",
@@ -249,17 +249,17 @@
       "id": 26,
       "move_mode": "walk",
       "type": "path",
-      "x": -4121.5566,
-      "y": -2421.1094
+      "x": -4108.1934,
+      "y": -2420.1328
     },
     {
       "action": "",
       "action_params": "",
       "id": 27,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": -4124.5723,
-      "y": -2420.5273
+      "x": -4107.3828,
+      "y": -2436.2891
     },
     {
       "action": "",
@@ -267,53 +267,17 @@
       "id": 28,
       "move_mode": "walk",
       "type": "path",
-      "x": -4119.3848,
-      "y": -2429.7109
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 29,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -4123.3457,
-      "y": -2427.0137
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 30,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -4126.8164,
-      "y": -2428.9629
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 31,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -4123.2227,
-      "y": -2432.1836
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 32,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -4127.4512,
-      "y": -2436.6309
+      "x": -4107.5352,
+      "y": -2444.5332
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 33,
+      "id": 29,
       "move_mode": "walk",
       "type": "path",
-      "x": -4125.8438,
-      "y": -2439.2793
+      "x": -4103.5391,
+      "y": -2449.6182
     }
   ]
 }

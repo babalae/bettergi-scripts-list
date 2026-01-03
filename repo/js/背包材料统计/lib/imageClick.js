@@ -104,17 +104,19 @@ async function preloadImageResources(specificNames) {
                 });
             }
 
-            const targetIcon = iconRecognitionObjects[0];
-            const manualRegion = new ImageRegion(targetIcon.mat, specialDetectRegion.x, specialDetectRegion.y);
-            manualRegion.width = specialDetectRegion.width;
-            manualRegion.height = specialDetectRegion.height;
-
-            const foundRegions = [{
-                pictureName: "特殊模块",
-                iconName: targetIcon.name,
-                region: manualRegion,
-                iconDir: iconDir
-            }];
+            // 关键修改：遍历所有图标，为每个图标生成识别信息
+            const foundRegions = []; // 存储所有图标的识别配置
+            for (const targetIcon of iconRecognitionObjects) { // 遍历每个图标
+                const manualRegion = new ImageRegion(targetIcon.mat, specialDetectRegion.x, specialDetectRegion.y);
+                manualRegion.width = specialDetectRegion.width;
+                manualRegion.height = specialDetectRegion.height;
+                foundRegions.push({
+                    pictureName: "特殊模块",
+                    iconName: targetIcon.name, // 当前图标的名称
+                    region: manualRegion, // 复用同一个detectRegion区域
+                    iconDir: iconDir
+                });
+            }
             // log.info(`【${dirName}】特殊模块生成识别区域：x=${manualRegion.x}, y=${manualRegion.y}, 宽=${manualRegion.width}, 高=${manualRegion.height}`);
 
             preloadedResources.push({
@@ -251,11 +253,12 @@ async function imageClickBackgroundTask() {
 
         // 遍历所有一级弹窗
         for (const currentFirstLevel of firstLevelDirs) {
+            log.info(`【${currentFirstLevel.dirName}】准备识别...`);
             // 检查当前一级弹窗是否被触发
             const levelResult = await imageClick([currentFirstLevel], null, [currentFirstLevel.dirName], true);
 
             if (levelResult.success) {
-                log.info(`【${currentFirstLevel.dirName}】触发成功，进入内部流程...`);
+                // log.info(`【${currentFirstLevel.dirName}】触发成功，进入内部流程...`);
                 const levelStack = [currentFirstLevel];
 
                 // 内循环处理内部流程
@@ -335,6 +338,7 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
                 detectRegion?.width ?? defaultWidth,
                 detectRegion?.height ?? defaultHeight
             );
+            // log.info(JSON.stringify(detectRegion, null, 2));
             recognitionObject.threshold = 0.85;
 
             const result = await recognizeImage(
@@ -356,12 +360,12 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
                 log.info(`识别到【${dirName}】弹窗，偏移后位置(${actualX}, ${actualY})`);
 
                 if (!popupConfig.isSpecial) {
-                    // log.info(`点击【${dirName}】弹窗：(${actualX}, ${actualY})`);
                     // 新增：普通点击加循环（默认1次，0间隔，与原逻辑一致）
                     const clickCount = popupConfig.loopCount;
                     const clickDelay = popupConfig.loopDelay;
                     for (let i = 0; i < clickCount; i++) {
                         await click(actualX, actualY); // 保留原始点击逻辑
+                        // log.info(`点击【${dirName}】弹窗：(${actualX}, ${actualY})${i+1}次`);
                         if (i < clickCount - 1) await sleep(clickDelay); // 非最后一次加间隔
                     }
                 } else {
@@ -370,9 +374,10 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
                             const targetKey = popupConfig.keyCode || "VK_SPACE";
                             // 新增：key_press用循环（默认3次，1000ms间隔，与原硬编码逻辑一致）
                             const pressCount = popupConfig.loopCount || 3;
-                            const pressDelay = popupConfig.loopDelay || 1000;
+                            const pressDelay = popupConfig.loopDelay || 500;
                             for (let i = 0; i < pressCount; i++) {
                                 keyPress(targetKey); // 保留原始按键逻辑
+                                log.info(`【${dirName}】弹窗触发按键【${targetKey}】${i+1}次`);
                                 if (i < pressCount - 1) await sleep(pressDelay); // 非最后一次加间隔
                             }
                             log.info(`【${dirName}】弹窗触发按键【${targetKey}】，共${pressCount}次，间隔${pressDelay}ms`);
@@ -438,6 +443,7 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
                             const defaultDelay = popupConfig.loopDelay;
                             for (let i = 0; i < defaultCount; i++) {
                                 await click(actualX, actualY); // 保留原始默认点击逻辑
+                                log.info(`点击【${dirName}】弹窗：(${actualX}, ${actualY})${i+1}次`);
                                 if (i < defaultCount - 1) await sleep(defaultDelay); // 非最后一次加间隔
                             }
                             isAnySuccess = true;

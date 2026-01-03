@@ -1,10 +1,10 @@
-
 /* ===== 强制模板匹配拾取（BEGIN） ===== */
 let targetItems = [];
 let blacklist = [];
 let blacklistSet = new Set();
 let gameRegion;
-let state = { running: true, currentPathing: null };
+let state = { running: true };
+state.runPickupLog = [];   // 本次路线运行中拾取/交互的物品明细
 const rollingDelay = 32;
 const pickupDelay = 100;
 const timeMoveUp = Math.round((settings.timeMove || 1000) * 0.45);
@@ -14,10 +14,13 @@ const mainUITemplate = file.ReadImageMatSync("assets/MainUI.png");
 const itemFullTemplate = file.ReadImageMatSync("assets/itemFull.png");
 const fIcontemplate = file.ReadImageMatSync("assets/F_Dialogue.png");
 const accountName = settings.infoFileName || "默认账户";
+let currentParty = '';
 
 // 定义目标文件夹路径和记录文件路径
 const recordFolder = "record"; // 存储记录文件的文件夹路径
 const defaultTimeStamp = "2023-10-13T00:00:00.000Z"; // 固定的时间戳
+let pickupRecordFile;
+const MAX_PICKUP_DAYS = 30;
 
 // 从 settings 中读取用户配置，并设置默认值
 const userSettings = {
@@ -31,6 +34,14 @@ const userSettings = {
     infoFileName: settings.infoFileName || "默认账户",
     disableJsons: settings.disableJsons || ""
 };
+
+let ingredientProcessingFood = settings.ingredientProcessingFood;
+let foodCounts = settings.foodCount;
+
+let firstCook = true;
+let firstsettime = true;
+let lastCookTime = new Date();
+let lastsettimeTime = new Date();
 
 // 解析禁用名单
 let disableArray = [];
@@ -77,6 +88,17 @@ if (findFInterval > 200) {
 let lastRoll = new Date();
 let checkDelay = Math.round(findFInterval / 2);
 
+let Foods = [];
+let foodCount = [];
+
+const FiconRo = RecognitionObject.TemplateMatch(fIcontemplate, 1102, 335, 34, 400);
+FiconRo.Threshold = 0.95;
+FiconRo.InitTemplate();
+
+const mainUiRo = RecognitionObject.TemplateMatch(mainUITemplate, 0, 0, 150, 150);
+
+let underWater = false;
+
 (async function () {
     /* ===== 零基构建 settings.json（BEGIN） ===== */
     const SETTINGS_FILE = `settings.json`;
@@ -120,6 +142,11 @@ let checkDelay = Math.round(findFInterval / 2);
             type: "input-text",
             label: "需要生成几个路径组配置（1-99）",
             default: "3"
+        },
+        {
+            name: "enableMoreSettings",
+            type: "checkbox",
+            label: "勾选后下次运行展开高级设置\n用于进行路线筛选和排序"
         }
     );
 
@@ -156,11 +183,82 @@ let checkDelay = Math.round(findFInterval / 2);
             "type": "input-text",
             "label": "识别间隔(毫秒)\n两次检测f图标之间等待时间",
             "default": "100"
+        },
+        {
+            "name": "ingredientProcessingFood",
+            "type": "input-text",
+            "label": "料理/食材名称\n建议料理和食材分开填写"
+        },
+        {
+            "name": "foodCount",
+            "type": "input-text",
+            "label": "料理/食材数量\n数量对应上方的食材"
+        },
+        {
+            "name": "setTimeMode",
+            "type": "select",
+            "label": "尝试调节时间来获得移速加成\n队伍中含迪希雅、嘉明或塔利雅时选择白天\n队伍中含罗莎莉亚时选择夜晚",
+            "options": [
+                "不调节时间",
+                "尽量调为白天",
+                "尽量调为夜晚"
+            ],
+            "default": "不调节时间"
         }
     );
 
+    if (settings.enableMoreSettings) {
+        newSettings.push(
+            {
+                "name": "priorityItems",
+                "type": "input-text",
+                "label": "优先采集材料，每天会尝试优先采集指定数量的目标物品，随后才执行路径组\n格式：材料名*数量，由加号+连接\n如萃凝晶*160+甜甜花*10"
+            },
+            {
+                "name": "priorityItemsPartyName",
+                "type": "input-text",
+                "label": "优先采集材料使用的配队名称"
+            },
+            {
+                "name": "priorityTags",
+                "type": "input-text",
+                "label": "优先关键词，文件名或拾取材料含关键词的路线会被视为最高效率\n不同关键词使用【中文逗号】分隔"
+            },
+            {
+                "name": "sortMode",
+                "type": "select",
+                "label": "选择同组路线排序模式",
+                "options": [
+                    "文件顺序，按在文件夹中位置顺序运行",
+                    "优先最早刷新，将优先执行最早刷新的路线",
+                    "优先最高效率，将优先执行最高分均拾取物的路线"
+                ],
+                "default": "文件顺序，按在文件夹中位置顺序运行"
+            },
+            {
+                "name": "defaultEffPercentile",
+                "type": "input-text",
+                "label": "默认效率指数，范围0-1\n数值越大时，未知效率的路线被视作的默认效率越高",
+                "default": "0.5"
+            },
+            {
+                "name": "weightedRule",
+                "type": "input-text",
+                "label": "加权规则，允许将特定物品视为多倍计算效率\n黑名单物品将自动视为0\n格式如下：\n物品名称*权重\n使用【中文逗号】分隔\n如：甜甜花*2，树莓*0"
+            }
+        );
+    }
+
     /* 5.4 路径组节点（整体移到最后） */
     for (let g = 1; g <= groupCount; g++) {
+        /* 文件夹 */
+        newSettings.push({
+            name: `pathGroup${g}FolderName`,
+            type: "select",
+            label: `##############################################################################\n选择路径组${g}文件夹（pathing下第一层）`,
+            options: ["", ...uniqueDirs]
+        });
+
         /* CD类型 */
         newSettings.push({
             name: `pathGroup${g}CdType`,
@@ -178,20 +276,21 @@ let checkDelay = Math.round(findFInterval / 2);
             ]
         });
 
-        /* 文件夹 */
-        newSettings.push({
-            name: `pathGroup${g}FolderName`,
-            type: "select",
-            label: `选择路径组${g}文件夹（pathing下第一层）`,
-            options: ["", ...uniqueDirs]
-        });
-
         /* 队伍名 */
         newSettings.push({
             name: `pathGroup${g}PartyName`,
             type: "input-text",
             label: `输入路径组${g}使用配队名称`
         });
+
+        if (settings.enableMoreSettings) {
+            newSettings.push({
+                "name": `pathGroup${g}thresholdEfficiency`,
+                "type": "input-text",
+                "label": `路径组${g}临界效率\n分均拾取个数效率低于临界效率的路线会被排除`,
+                "default": "0"
+            });
+        }
     }
 
     /* 6. 一次性写入 & 日志 */
@@ -217,19 +316,26 @@ let checkDelay = Math.round(findFInterval / 2);
         }
 
         // 获取子文件夹路径
-        const subFolderName = userSettings.infoFileName; // 使用设置后的 infoFileName
+        const subFolderName = userSettings.infoFileName;
         const subFolderPath = `${recordFolder}/${subFolderName}`;
+        pickupRecordFile = `${recordFolder}/${subFolderName}/拾取记录.json`;
 
         // 读取子文件夹中的所有文件路径
         const filesInSubFolder = file.ReadPathSync(subFolderPath);
 
-        // 检查record.txt文件是否存在
+        // 检查优先顺序：record.json > record.txt
         let indexDoExist = false;
+        let useJson = false;
         for (const filePath of filesInSubFolder) {
-            const fileName = basename(filePath); // 提取文件名
+            const fileName = basename(filePath);
+            if (fileName === "record.json") {
+                indexDoExist = true;
+                useJson = true;
+                break;
+            }
             if (fileName === "record.txt") {
                 indexDoExist = true;
-                break;
+                useJson = false;
             }
         }
 
@@ -237,266 +343,859 @@ let checkDelay = Math.round(findFInterval / 2);
             log.info("重新生成索引文件模式，将覆盖现有索引文件");
         }
         if (!indexDoExist) {
-            log.info("record.txt 文件不存在，将尝试生成索引文件");
+            log.info("文件不存在，将尝试生成索引文件");
         }
+
         /* 禁用BGI原生拾取，强制模板匹配 */
         targetItems = await loadTargetItems();
+        /* ===== 别名索引 ===== */
+        const name2Other = new Map();      // 本名 → 别名数组
+        const alias2Names = new Map();     // 别名 → 本名数组（支持多对一）
+        for (const it of targetItems) {
+            const aliases = it.otherName || [];
+            name2Other.set(it.itemName, aliases);
+            for (const a of aliases) {
+                if (!alias2Names.has(a)) alias2Names.set(a, []);
+                alias2Names.get(a).push(it.itemName);   // 一个别名可指向多个本名
+            }
+        }
+
         await loadBlacklist(true);
         state.running = true;
 
         await fakeLog("采集cd管理", true, false, 1000);
 
-        // 统一的 record.txt 文件路径
-        const recordFilePath = `${subFolderPath}/record.txt`;
+        // 统一的 record.json 文件路径
+        const recordFilePath = `${subFolderPath}/record.json`;
 
         // 读取 pathing 文件夹下的所有 .json 文件
         const pathingFolder = "pathing";
         const files = await readFolder(pathingFolder, true);
         const filePaths = files.map(file => file.fullPath);
 
-        // 用于存储符合条件的文件名的数组
-        const jsonFileNames = [];
-        const entryMap = {};
-
-        // 如果 record.txt 文件存在，则读取对应的原文件
-        if (indexDoExist) {
-            let pathGroupContent = await file.readText(recordFilePath);
-            let pathGroupEntries = pathGroupContent.trim().split('\n');
-
-            // 创建一个对象来存储 entryName 和 entryTimestamp 的映射
-            for (let j = 0; j < pathGroupEntries.length; j++) {
-                const entryWithTimestamp = pathGroupEntries[j].trim();
-                const [entryName, entryTimestamp] = entryWithTimestamp.split('::');
-                entryMap[entryName] = entryTimestamp;
-            }
+        // ① 先加载已有记录（整对象）
+        let recordArray = [];
+        if (indexDoExist && useJson) {
+            try { recordArray = JSON.parse(await file.readText(recordFilePath)); } catch (e) { }
+        } else if (indexDoExist && !useJson) {
+            try {
+                const txt = await file.readText(`${subFolderPath}/record.txt`);
+                txt.trim().split('\n').forEach(line => {
+                    const [n, t] = line.trim().split('::');
+                    if (n && t) recordArray.push({ fileName: n + '.json', cdTime: t });
+                });
+            } catch (e) { }
         }
 
-        // 遍历文件路径数组并提取文件名
+        // ② 建 Map<fileName, 原对象>  确保 history 存在
+        const existMap = new Map(recordArray.map(it => [it.fileName, {
+            ...it,
+            history: it.history || []   // 补空数组
+        }]));
+
+        // ③ 对 pathing 里存在的路线：只更新 cdTime，其余保留
+        const defaultTime = "1970/1/1 08:00:00";
         for (const filePath of filePaths) {
-            const fileName = basename(filePath); // 提取文件名
-            if (fileName.endsWith('.json')) { // 检查文件名是否以 .json 结尾
-                const fileNameWithoutSuffix = removeJsonSuffix(fileName); // 移除 .json 后缀
+            const fileName = basename(filePath);
+            if (!fileName.endsWith('.json')) continue;
 
-                // 给 routeTimeStamp 赋值为 defaultTimeStamp
-                let routeTimeStamp = defaultTimeStamp;
+            const old = existMap.get(fileName) || {};
+            const newCd = (indexDoExist &&
+                userSettings.operationMode !== "重新生成索引文件（用于强制刷新CD）" &&
+                old.cdTime)
+                ? old.cdTime
+                : defaultTime;
 
-                if (indexDoExist && userSettings.operationMode !== "重新生成索引文件（用于强制刷新CD）" && entryMap[fileNameWithoutSuffix]) {
-                    routeTimeStamp = entryMap[fileNameWithoutSuffix];
-                }
-
-                routeTimeStamp = `::${routeTimeStamp}`;
-                // 添加时间戳并存储
-                jsonFileNames.push(`${fileNameWithoutSuffix}${routeTimeStamp}`);
-            }
+            existMap.set(fileName, {
+                ...old,          // 保留所有旧字段
+                fileName,
+                cdTime: newCd,
+                history: old.history || []   // 确保有 history
+            });
         }
 
-        // 如果没有找到符合条件的文件，跳过当前路径组
-        if (jsonFileNames.length === 0) {
-            log.info(`未找到符合条件的 .json 文件，record.txt 将为空`);
-        }
-
-        // 将文件名数组转换为字符串，每个文件名占一行
-        const fileNamesContent = jsonFileNames.join("\n");
-
-        // 将文件名写入记录文件
-        const writeResult = file.writeTextSync(recordFilePath, fileNamesContent);
+        // ④ 写回（含已消失的路线）
+        const writeResult = file.writeTextSync(recordFilePath,
+            JSON.stringify(Array.from(existMap.values()), null, 2));
 
         if (writeResult) {
-            log.info(`文件名已成功写入: ${recordFilePath}`);
+            log.info(`信息已成功写入: ${recordFilePath}`);
         } else {
             log.error(`写入文件失败: ${recordFilePath}`);
         }
 
-        {
+        if (typeof ingredientProcessingFood === 'string' && ingredientProcessingFood.trim()) {
+            Foods = ingredientProcessingFood
+                .split(/[,，;；\s]+/)          // 支持中英文逗号、分号、空格
+                .map(word => word.trim())
+                .filter(word => word.length > 0);
+        }
 
-            // 循环处理多个路径组
-            for (let i = 1; i <= groupCount; i++) {
-                const currentCdType = settings[`pathGroup${i}CdType`] || "";
-                if (!currentCdType) continue; // 跳过本组
+        if (typeof foodCounts === 'string' && foodCounts.trim()) {
+            foodCount = foodCounts
+                .split(/[,，;；\s]+/)
+                .map(word => word.trim())
+                .filter(word => word.length > 0);
+        }
 
-                const folder = folderNames[i - 1] || `路径组${i}`;
-                const targetFolder = `pathing/${folder}`;
+        let cookInterval = 60 * 60 * 1000;
+        let settimeInterval = 10 * 60 * 1000;
+        // ==================== 优先级材料前置采集 ====================
 
-                // 读取统一的 record.txt 文件内容
-                let recordContent = await file.readText(recordFilePath);
-                let recordEntries = recordContent.trim().split('\n');
+        if (settings.priorityItems) {
+            /* ---------- 1. 解析 ---------- */
+            const priorityList = [];
+            const segments = settings.priorityItems.split('+').map(s => s.trim());
+            for (const seg of segments) {
+                const [itemName, countStr] = seg.split('*').map(s => s.trim());
+                if (itemName && countStr && !isNaN(Number(countStr))) {
+                    priorityList.push({ itemName, count: Number(countStr) });
+                }
+            }
+            log.info(`优先级材料解析完成: ${priorityList.map(e => `${e.itemName}*${e.count}`).join(', ')}`);
+            /* ===== 追加：扣除今日已拾取（UTC+8 0 点分界） ===== */
+            const utc8 = new Date(Date.now() + 8 * 3600_000);   // 手动+8小时
+            const today = utc8.toISOString().slice(0, 10);      // "YYYY-MM-DD"
+            let todayPicked = {};                                // 今日已拾取数量
+            try {
+                const txt = await file.readText(pickupRecordFile);
+                if (txt) {
+                    const arr = JSON.parse(txt);
+                    const todayItem = arr.find(it => it.date === today);
+                    if (todayItem) todayPicked = todayItem.items || {};
+                }
+            } catch (_) { /* 文件不存在或解析失败 */ }
 
-                // 创建一个对象来存储 entryName 和 entryTimestamp 的映射
-                const entryMap = {};
-                for (let j = 0; j < recordEntries.length; j++) {
-                    const entryWithTimestamp = recordEntries[j].trim();
-                    const [entryName, entryTimestamp] = entryWithTimestamp.split('::');
-                    entryMap[entryName] = entryTimestamp;
+            /* 扣除今日已拾取：双向扣除 */
+            for (let i = priorityList.length - 1; i >= 0; i--) {
+                const task = priorityList[i];
+                let got = 0;
+
+                /* 1. 字面名（可能是别名）直接扣 */
+                got += todayPicked[task.itemName] || 0;
+
+                /* 2. 如果字面名是别名，把对应本名也扣一遍 */
+                const realNames = alias2Names.get(task.itemName) || [];   // 现在是数组
+
+                for (const n of realNames) got += todayPicked[n] || 0;
+
+                /* 3. 如果字面名是本名，把所有别名再扣一遍 */
+                const others = name2Other.get(task.itemName) || [];
+                for (const a of others) got += todayPicked[a] || 0;
+
+                task.count -= got;
+                if (task.count <= 0) priorityList.splice(i, 1);
+            }
+
+            if (priorityList.length === 0) {
+                log.info("今日优先材料已达标，跳过优先采集阶段");
+            }
+            /* ================================= */
+
+            /* ---------- 2. 材料→CD类型 映射表（仅列出现过的，其余默认 1次0点刷新）---------- */
+            const materialCdMap = {
+                // 46h 特产
+                "小灯草": "46小时刷新",
+                "嘟嘟莲": "46小时刷新",
+                "落落莓": "46小时刷新",
+                "塞西莉亚花": "46小时刷新",
+                "慕风蘑菇": "46小时刷新",
+                "蒲公英籽": "46小时刷新",
+                "钩钩果": "46小时刷新",
+                "风车菊": "46小时刷新",
+                "霓裳花": "46小时刷新",
+                "清心": "46小时刷新",
+                "琉璃袋": "46小时刷新",
+                "琉璃百合": "46小时刷新",
+                "夜泊石": "46小时刷新",
+                "绝云椒椒": "46小时刷新",
+                "星螺": "46小时刷新",
+                "石珀": "46小时刷新",
+                "清水玉": "46小时刷新",
+                "海灵芝": "46小时刷新",
+                "鬼兜虫": "46小时刷新",
+                "绯樱绣球": "46小时刷新",
+                "鸣草": "46小时刷新",
+                "珊瑚真珠": "46小时刷新",
+                "晶化骨髓": "46小时刷新",
+                "血斛": "46小时刷新",
+                "天云草实": "46小时刷新",
+                "幽灯蕈": "46小时刷新",
+                "沙脂蛹": "46小时刷新",
+                "月莲": "46小时刷新",
+                "帕蒂沙兰": "46小时刷新",
+                "树王圣体菇": "46小时刷新",
+                "圣金虫": "46小时刷新",
+                "万相石": "46小时刷新",
+                "悼灵花": "46小时刷新",
+                "劫波莲": "46小时刷新",
+                "赤念果": "46小时刷新",
+                "苍晶螺": "46小时刷新",
+                "海露花": "46小时刷新",
+                "柔灯铃": "46小时刷新",
+                "子探测单元": "46小时刷新",
+                "湖光铃兰": "46小时刷新",
+                "幽光星星": "46小时刷新",
+                "虹彩蔷薇": "46小时刷新",
+                "初露之源": "46小时刷新",
+                "浪沫羽鳃": "46小时刷新",
+                "灼灼彩菊": "46小时刷新",
+                "肉龙掌": "46小时刷新",
+                "青蜜莓": "46小时刷新",
+                "枯叶紫英": "46小时刷新",
+                "微光角菌": "46小时刷新",
+                "云岩裂叶": "46小时刷新",
+                "琉鳞石": "46小时刷新",
+                "奇异的「牙齿」": "46小时刷新",
+
+                // 12h 素材
+                "兽肉": "12小时刷新",
+                "禽肉": "12小时刷新",
+                "神秘的肉": "12小时刷新",
+                "鱼肉": "12小时刷新",
+                "鳗肉": "12小时刷新",
+                "螃蟹": "12小时刷新",
+                "蝴蝶翅膀": "12小时刷新",
+                "青蛙": "12小时刷新",
+                "发光髓": "12小时刷新",
+                "蜥蜴尾巴": "12小时刷新",
+                "晶核": "12小时刷新",
+                "鳅鳅宝玉": "12小时刷新",
+
+                // 4点
+                "盐": "1次4点刷新",
+                "胡椒": "1次4点刷新",
+                "洋葱": "1次4点刷新",
+                "牛奶": "1次4点刷新",
+                "番茄": "1次4点刷新",
+                "卷心菜": "1次4点刷新",
+                "土豆": "1次4点刷新",
+                "小麦": "1次4点刷新",
+                "稻米": "1次4点刷新",
+                "虾仁": "1次4点刷新",
+                "豆腐": "1次4点刷新",
+                "杏仁": "1次4点刷新",
+                "发酵果实汁": "1次4点刷新",
+                "咖啡豆": "1次4点刷新",
+                "秃秃豆": "1次4点刷新",
+
+                // 0点
+                "甜甜花": "1次0点刷新",
+                "胡萝卜": "1次0点刷新",
+                "蘑菇": "1次0点刷新",
+                "松茸": "1次0点刷新",
+                "松果": "1次0点刷新",
+                "金鱼草": "1次0点刷新",
+                "莲蓬": "1次0点刷新",
+                "薄荷": "1次0点刷新",
+                "鸟蛋": "1次0点刷新",
+                "树莓": "1次0点刷新",
+                "白萝卜": "1次0点刷新",
+                "苹果": "1次0点刷新",
+                "日落果": "1次0点刷新",
+                "竹笋": "1次0点刷新",
+                "海草": "1次0点刷新",
+                "堇瓜": "1次0点刷新",
+                "星蕈": "1次0点刷新",
+                "墩墩桃": "1次0点刷新",
+                "须弥蔷薇": "1次0点刷新",
+                "香辛果": "1次0点刷新",
+                "枣椰": "1次0点刷新",
+                "泡泡桔": "1次0点刷新",
+                "汐藻": "1次0点刷新",
+                "茉洁草": "1次0点刷新",
+                "久雨莲": "1次0点刷新",
+                "沉玉仙茗": "24小时刷新",
+                "颗粒果": "1次0点刷新",
+                "烛伞蘑菇": "1次0点刷新",
+                "澄晶实": "1次0点刷新",
+                "红果果菇": "1次0点刷新",
+                "马尾": "1次0点刷新",
+                "烈焰花花蕊": "1次0点刷新",
+                "铁块": "1次0点刷新",
+                "白铁块": "2次0点刷新",
+                "星银矿石": "2次0点刷新",
+                "水晶块": "3次0点刷新",
+                "紫晶块": "3次0点刷新",
+                "萃凝晶": "3次0点刷新",
+                "虹滴晶": "3次0点刷新",
+                "苦种": "1次0点刷新",
+                "烬芯花": "1次0点刷新"
+            };
+
+            /* ---------- 3. 主循环 ---------- */
+            while (priorityList.length > 0) {
+
+                /* 1. 先把用户填的字面名（可能是别名）全部弄进来 */
+                const priorityItemSet = new Set(priorityList.map(p => p.itemName));
+
+                /* 2. 双向扩：本名↔别名 */
+                for (const a of [...priorityItemSet]) {          // 复制一份避免遍历过程中增长
+                    // 2.1 如果 a 是“本名”，把它的所有别名加进来（原来就有的逻辑）
+                    const others = name2Other.get(a) || [];
+                    for (const o of others) priorityItemSet.add(o);
+
+                    // 2.2 如果 a 是“别名”，把对应的本名加进来（新增反向）
+                    const realName = alias2Names.get(a) || [];
+                    for (const r of realName) priorityItemSet.add(r);
                 }
 
-                // 读取路径组文件夹中的任务文件
-                const files = await readFolder(targetFolder, true);
+                const pickedCounter = {};
+                priorityItemSet.forEach(n => pickedCounter[n] = 0);
+                /* ===== 每轮开始输出剩余物品 ===== */
+                log.info(`剩余目标材料 ${priorityList.map(t => `${t.itemName}*${t.count}`).join(', ')} `);
+                /* 4-1 扫描 + 读 record + 前置过滤（禁用/时间/材料相关）+ 计算效率 + CD后置排除 */
+                const allFiles = await readFolder('pathing', true);
+                const rawRecord = await file.readText(`${recordFolder}/${subFolderName}/record.json`);
+                let recordArray = [];
+                try { recordArray = JSON.parse(rawRecord); } catch { /* 空记录 */ }
+                const cdMap = new Map(recordArray.map(it => [it.fileName, it]));
+                const now = new Date();
+                /* 时间管制 */
+                if (await isTimeRestricted(settings.timeRule, 10)) { priorityList.length = 0; break; }
+
+                /* ---- 先算效率（不判CD）---- */
+                for (const file of allFiles) {
+                    const fullName = file.fileName;
+                    const rec = cdMap.get(fullName);
+
+                    /* 禁用关键词 */
+                    let skip = false;
+                    for (const kw of disableArray) { if (file.fullPath.includes(kw)) { skip = true; break; } }
+                    if (skip) { file._priorityEff = -1; continue; }
+
+                    /* 材料相关 */
+                    const pathHit = [...priorityItemSet].some(n => file.fullPath.includes(n));
+                    const histHit = rec?.history?.some(log =>
+                        Object.keys(log.items).some(name => priorityItemSet.has(name))
+                    ) ?? false;
+                    let descHit = false;
+                    if (file.description) {
+                        descHit = [...priorityItemSet].some(kw => file.description.includes(kw));
+                    }
+                    if (!pathHit && !histHit && !descHit) {
+                        file._priorityEff = -1;
+                        continue;
+                    }
+
+                    /* 计算仅看优先材料的分均效率 */
+                    let eff = -2; // 未知标记
+                    if (rec?.history && rec.history.length >= 3) {
+                        const effList = rec.history.map(log => {
+                            const total = Object.entries(log.items)
+                                .filter(([name]) => priorityItemSet.has(name))
+                                .reduce((sum, [, cnt]) => sum + cnt, 0);
+                            return (total / log.durationSec) * 60;
+                        });
+                        eff = effList.reduce((a, b) => a + b, 0) / effList.length;
+                    }
+                    file._priorityEff = eff;
+                }
+
+                /* ---- 用可运行路线算分位默认值 ---- */
+                const knownEff = allFiles
+                    .filter(f => {
+                        const rec = cdMap.get(f.fileName);
+                        const nextCD = rec ? new Date(rec.cdTime) : new Date(0);
+                        return f._priorityEff >= 0 && now > nextCD;
+                    })
+                    .map(f => f._priorityEff)
+                    .sort((a, b) => a - b);
+                let defaultEff;
+                if (knownEff.length === 0) {
+                    defaultEff = 1;
+                } else {
+                    const rawPct = settings.defaultEffPercentile;
+                    const pct = Math.max(0, Math.min(1, rawPct === "" ? 0.5 : Number(rawPct)));
+                    const idx = Math.ceil(pct * knownEff.length) - 1;
+                    defaultEff = knownEff[Math.max(0, idx)];
+                }
+                /* 回填未知 + 排除CD */
+                allFiles.forEach(f => {
+                    if (f._priorityEff === -2) f._priorityEff = defaultEff;
+                    const rec = cdMap.get(f.fileName);
+                    const nextCD = rec ? new Date(rec.cdTime) : new Date(0);
+                    if (now <= nextCD) f._priorityEff = -1;
+                });
+
+                if (priorityList.length === 0) break;
+
+                /* 4-2 只跑最高效率路线 */
+                const candidateRoutes = allFiles.filter(f => f._priorityEff >= 0)
+                    .sort((a, b) => b._priorityEff - a._priorityEff);
+                if (candidateRoutes.length === 0) {
+                    log.info('已无可用优先路线（可能全部在CD或已达标），退出优先采集阶段');
+                    break;
+                }
+                const bestRoute = candidateRoutes[0];
+                const filePath = bestRoute.fullPath;
+                const fileName = basename(filePath).replace('.json', '');
+                const fullName = fileName + '.json';
+                const targetObj = cdMap.get(fullName);
+                const startTime = new Date();
+
+                /* ---------- 智能选队：按路线所在文件夹反查路径组 ---------- */
+                {
+                    const fullPath = bestRoute.fullPath;                            // 例：pathing/须弥/xxx.json
+                    const folderName = fullPath.split(/\\|\//)[1];   // 索引 1 就是第二层
+                    let targetParty = '';                                           // 最终要用的队伍名
+
+                    const groupCount = Math.min(99, Math.max(1, parseInt(settings.groupCount || '3')));
+                    for (let g = 1; g <= groupCount; g++) {                         // 遍历路径组
+                        if (settings[`pathGroup${g}FolderName`] === folderName) {   // 找到归属组
+                            targetParty = settings[`pathGroup${g}PartyName`] || '';
+                            break;                                                  // 命中即停
+                        }
+                    }
+                    if (!targetParty) targetParty = settings.priorityItemsPartyName || ''; // 回退
+                    if (targetParty) {
+                        await switchPartyIfNeeded(targetParty);
+                        log.info(`优先采集阶段选用配队：${targetParty}（文件夹：${folderName}）`);
+                    }
+                }
+
+                let timeNow = new Date();
+                if (Foods.length != 0 && (((timeNow - lastCookTime) > cookInterval) || firstCook)) {
+                    firstCook = false;
+                    await ingredientProcessing();
+                    lastCookTime = new Date();
+                    underWater = false;
+                }
+
+                if (settings.setTimeMode && settings.setTimeMode != "不调节时间" && (((timeNow - lastsettimeTime) > settimeInterval) || firstsettime)) {
+                    firstsettime = false;
+                    if (settings.setTimeMode === "尽量调为白天") {
+                        await pathingScript.runFile("assets/调为白天.json");
+                    } else {
+                        await pathingScript.runFile("assets/调为夜晚.json");
+                    }
+                    lastsettimeTime = new Date();
+                }
+                await fakeLog(fileName, false, true, 0);
+
+                /* ================================= */
+                log.info(`当前进度：执行路线 ${fileName}`);
+                state.running = true;
+                const pickupTask = recognizeAndInteract();
+                if (!underWater && filePath.includes('枫丹水下')) {
+                    await pathingScript.runFile("assets/A00-塞洛海原（学习螃蟹技能）.json");
+                    underWater = true;
+                }
+                if (underWater && !filePath.includes('枫丹水下')) {
+                    underWater = false;
+                }
+                try {
+                    await pathingScript.runFile(filePath);
+                } catch (e) {
+                    log.error(`优先采集路线执行失败: ${filePath}`);
+                    state.running = false; await pickupTask; continue;
+                }
+                state.running = false; await pickupTask;
+                await fakeLog(fileName, false, false, 0);
+                state.runPickupLog.forEach(name => {
+                    /* 就地展开：别名→本名数组，再把所有相关名称都计数 */
+                    const realNames = alias2Names.get(name) || [name]; // 可能是多个本名
+                    for (const rn of realNames) {
+                        if (priorityItemSet.has(name) || priorityItemSet.has(rn)) {
+                            pickedCounter[rn] = (pickedCounter[rn] || 0) + 1;
+                        }
+                    }
+                });
+
+                /* ===== 追加：立即把 pickedCounter 回写到 priorityList（双向扣减）===== */
+                for (const task of priorityList) {
+                    let picked = 0;
+
+                    /* 1. 字面名（可能是别名）直接扣 */
+                    picked += pickedCounter[task.itemName] || 0;
+
+                    /* 2. 别名→本名反向扣（多对一） */
+                    const realNames = alias2Names.get(task.itemName) || [];
+                    for (const rn of realNames) picked += pickedCounter[rn] || 0;
+
+                    /* 3. 本名→别名顺向扣 */
+                    const others = name2Other.get(task.itemName) || [];
+                    for (const a of others) picked += pickedCounter[a] || 0;
+
+                    task.count = Math.max(0, task.count - picked);
+                }
+
+                /* 倒序删除已达标项 */
+                for (let i = priorityList.length - 1; i >= 0; i--) {
+                    if (priorityList[i].count <= 0) {
+                        log.info(`优先材料已达标: ${priorityList[i].itemName}`);
+                        priorityList.splice(i, 1);
+                    }
+                }
+
+                /* ================================================ */
+
+                /* 4-4 计算CD（掉落材料决定）*/
+                const timeDiff = new Date() - startTime;
+                if (timeDiff > 3000) {
+                    /* 1) 如果runPickupLog中不含优先材料，则按其他材料查找，使用最晚刷新时间 */
+                    let hasPriority = state.runPickupLog.some(name => priorityItemSet.has(name));
+                    let hitMaterials;
+                    if (hasPriority) {
+                        hitMaterials = [...new Set(state.runPickupLog.filter(n => priorityItemSet.has(n)))];
+                    } else {
+                        /* 非优先材料也按同一张表查CD */
+                        hitMaterials = [...new Set(state.runPickupLog)];
+                    }
+
+                    let latestCD = new Date(0);          // 初始极小值
+                    let foundAny = false;
+                    hitMaterials.forEach(name => {
+                        const cdType = materialCdMap[name] || "1次0点刷新";
+                        let tmpDate = new Date(startTime);
+                        switch (cdType) {
+                            case "1次0点刷新":
+                                tmpDate.setDate(tmpDate.getDate() + 1);
+                                tmpDate.setHours(0, 0, 0, 0);
+                                break;
+                            case "2次0点刷新":
+                                tmpDate.setDate(tmpDate.getDate() + 2);
+                                tmpDate.setHours(0, 0, 0, 0);
+                                break;
+                            case "3次0点刷新":
+                                tmpDate.setDate(tmpDate.getDate() + 3);
+                                tmpDate.setHours(0, 0, 0, 0);
+                                break;
+                            case "1次4点刷新":
+                                tmpDate.setHours(4, 0, 0, 0);
+                                if (tmpDate <= startTime) tmpDate.setDate(tmpDate.getDate() + 1);
+                                break;
+                            case "12小时刷新":
+                                tmpDate = new Date(startTime.getTime() + 12 * 60 * 60 * 1000);
+                                break;
+                            case "24小时刷新":
+                                tmpDate = new Date(startTime.getTime() + 24 * 60 * 60 * 1000);
+                                break;
+                            case "46小时刷新":
+                                tmpDate = new Date(startTime.getTime() + 46 * 60 * 60 * 1000);
+                                break;
+                            default:
+                                tmpDate.setDate(tmpDate.getDate() + 1);
+                                tmpDate.setHours(0, 0, 0, 0);
+                        }
+                        if (tmpDate > latestCD) latestCD = tmpDate;
+                        foundAny = true;
+                    });
+
+                    /* 兜底：没有任何材料被识别到，按1次0点刷新 */
+                    if (!foundAny) {
+                        latestCD = new Date(startTime);
+                        latestCD.setDate(latestCD.getDate() + 1);
+                        latestCD.setHours(0, 0, 0, 0);
+                    }
+
+                    const durationSec = Math.round(timeDiff / 1000);
+                    const itemCounter = {};
+                    state.runPickupLog.forEach(n => { itemCounter[n] = (itemCounter[n] || 0) + 1; });
+                    if (!targetObj.history) targetObj.history = [];
+                    targetObj.history.push({ items: itemCounter, durationSec });
+                    if (targetObj.history.length > 7) targetObj.history = targetObj.history.slice(-7);
+                    targetObj.cdTime = latestCD.toISOString();
+                    await file.writeText(recordFilePath,
+                        JSON.stringify(Array.from(cdMap.values()), null, 2));
+
+                    await appendDailyPickup(state.runPickupLog);
+                    state.runPickupLog = [];
+
+                }
+
+            }
+        }
+        let runnedAnyPath = true;
+        // ==================== 路径组循环 ====================
+        while (runnedAnyPath) {
+            runnedAnyPath = false;
+            if (await isTimeRestricted(settings.timeRule, 10)) break;
+            for (let i = 1; i <= groupCount; i++) {
+                if (await isTimeRestricted(settings.timeRule, 10)) break;
+                const currentCdType = settings[`pathGroup${i}CdType`] || "";
+                if (!currentCdType) continue;
+
+                const folder = folderNames[i - 1] || `路径组${i}`;
+                const targetFolder = `pathing/${folder} `;
+
+                /* 运行期同样用 Map<fileName, 原对象> 只改 cdTime */
+                const rawRecord = await file.readText(recordFilePath);
+                let recordArray = JSON.parse(rawRecord);
+                const cdMap = new Map(recordArray.map(it => [it.fileName, it]));
+
+                const groupFiles = await readFolder(targetFolder, true);
 
                 if (userSettings.operationMode === "执行任务（若不存在索引文件则自动创建）") {
-                    let groupNumber = i;
+                    const groupNumber = i;
                     await genshin.returnMainUi();
 
                     try {
-                        const filePaths = files.map(file => file.fullPath);
+                        const filePaths = groupFiles.map(f => f.fullPath);
 
-                        // 读取 record.txt 文件内容
-                        let recordContent = await file.readText(recordFilePath);
-                        let recordEntries = recordContent.trim().split('\n');
-                        let changedParty = false;
+                        /* ================== 提前计算分均效率（所有模式通用） ================== */
+                        // 0) 解析优先关键词
+                        const priorityKeywords = settings.priorityTags
+                            ? settings.priorityTags.split('，').map(s => s.trim()).filter(Boolean)
+                            : [];
+
+                        // 1) 解析加权规则
+                        const weightMap = new Map();
+                        if (settings.weightedRule) {
+                            settings.weightedRule
+                                .split('，')
+                                .map(s => s.trim())
+                                .forEach(rule => {
+                                    const [item, wStr] = rule.split('*');
+                                    if (item && wStr) {
+                                        const w = Number(wStr);
+                                        weightMap.set(item, isNaN(w) ? 1 : w);
+                                    }
+                                });
+                        }
+
+                        // 2) 先计算一次基础效率（未知路线先标 -1）
+                        filePaths.forEach(p => {
+                            const fullName = basename(p);
+                            const obj = cdMap.get(fullName);
+                            let avgEff = -1; // 先标记为“未知”
+
+                            if (obj && obj.history && obj.history.length >= 3) {
+                                const effList = obj.history.map(log => {
+                                    const total = Object.entries(log.items).reduce((sum, [name, cnt]) => {
+                                        const w = blacklistSet.has(name) ? 0 : (weightMap.get(name) ?? 1);
+                                        return sum + cnt * w;
+                                    }, 0);
+                                    return (total / log.durationSec) * 60;
+                                });
+                                avgEff = effList.reduce((a, b) => a + b, 0) / effList.length;
+                            }
+                            p._efficiency = avgEff; // 已知路线存真实效率，未知路线存 -1
+                        });
+
+                        // 3) 计算默认效率（分位值）
+                        const knownEff = filePaths
+                            .map(p => p._efficiency)
+                            .filter(e => e >= 0) // 只保留已知路线
+                            .sort((a, b) => a - b);
+
+                        let defaultEff;
+                        if (knownEff.length === 0) {
+                            // 一条已知路线都没有 → 回退到老逻辑
+                            defaultEff = Number(settings[`pathGroup${i}thresholdEfficiency`]) || 0;
+                        } else {
+                            // 按配置的分位取默认效率
+                            const rawPct = settings.defaultEffPercentile;
+                            const pct = Math.max(0, Math.min(1, rawPct === "" ? 0.5 : Number(rawPct)));
+                            const idx = Math.ceil(pct * knownEff.length) - 1;
+                            defaultEff = knownEff[Math.max(0, idx)];
+                        }
+
+                        // 4) 把 -1 的未知路线替换成默认效率
+                        filePaths.forEach(p => {
+                            if (p._efficiency === -1) p._efficiency = defaultEff;
+                        });
+
+                        // 5) 计算全局最大效率值（已含默认效率）
+                        const maxEff = Math.max(...filePaths.map(p => p._efficiency), 0);
+
+                        // 6) 优先关键词加分（逻辑不变）
+                        filePaths.forEach(p => {
+                            const fullName = basename(p);
+                            const obj = cdMap.get(fullName);
+
+                            const itemHit = obj?.history?.some(log =>
+                                Object.keys(log.items).some(item =>
+                                    priorityKeywords.some(key => item.includes(key))
+                                )
+                            );
+                            const pathHit = priorityKeywords.some(key => p.includes(key));
+                            const descHit = priorityKeywords.some(key => (p.description || '').includes(key));
+
+                            if (itemHit || pathHit || descHit) {
+                                p._efficiency += maxEff + 1;
+                            }
+                        });
+
+                        /* ================== 排序分支 ================== */
+                        switch (settings.sortMode) {
+                            case "优先最早刷新，将优先执行最早刷新的路线":
+                                filePaths.sort((a, b) => {
+                                    const nameA = basename(a);
+                                    const nameB = basename(b);
+                                    const timeA = cdMap.has(nameA) ? new Date(cdMap.get(nameA).cdTime) : new Date(0);
+                                    const timeB = cdMap.has(nameB) ? new Date(cdMap.get(nameB).cdTime) : new Date(0);
+                                    return timeA - timeB;   // 越早刷新越靠前
+                                });
+                                break;
+
+                            case "优先最高效率，将优先执行最高分均拾取物的路线":
+                                // 直接复用提前算好的 _efficiency
+                                filePaths.sort((a, b) => (b._efficiency || 0) - (a._efficiency || 0));
+                                break;
+
+                            default:
+                                // 保持原有顺序，不做任何排序
+                                break;
+                        }
 
                         for (const filePath of filePaths) {
                             const fileName = basename(filePath).replace('.json', '');
-                            const entry = recordEntries.find(e => e.startsWith(`${fileName}::`));
-                            const entryTimestamp = entry ? entry.split('::')[1] : null;
-                            const entryDate = entryTimestamp ? new Date(entryTimestamp) : new Date(0); // 未记录的任务视为已刷新
+                            const fullName = fileName + '.json';
+                            const targetObj = cdMap.get(fullName);
+                            const nextCD = targetObj ? new Date(targetObj.cdTime) : new Date(0);
 
                             const startTime = new Date();
-                            if (startTime <= entryDate) {
+                            if (startTime <= nextCD) {
                                 log.info(`当前任务 ${fileName} 未刷新，跳过任务`);
-                                continue; // 跳过当前任务
+                                continue;   // 跳过，不写回
                             }
-
-                            if (await isTimeRestricted(settings.timeRule, 10)) {
-                                break;
-                            }
+                            if (await isTimeRestricted(settings.timeRule, 10)) break;
 
                             let doSkip = false;
-                            for (const keyword of disableArray) {
-                                if (filePath.includes(keyword)) {
-                                    log.info(`路径文件 ${filePath} 包含禁用关键词 "${keyword}"，跳过任务 ${fileName}`);
-                                    doSkip = true;
-                                    break;
+                            for (const kw of disableArray) {
+                                if (filePath.includes(kw)) {
+                                    log.info(`路径文件 ${filePath} 包含禁用关键词 "${kw}"，跳过任务 ${fileName}`);
+                                    doSkip = true; break;
                                 }
                             }
                             if (doSkip) continue;
 
-                            // 切换到指定配队
-                            if (!changedParty) {
-                                await switchPartyIfNeeded(partyNames[groupNumber - 1]);
-                                changedParty = true;
+                            // ===== 临界效率过滤 =====
+                            const routeEff = filePath._efficiency ?? 0;          // 提前算好的分均效率
+                            const threshold = Number(settings[`pathGroup${i}thresholdEfficiency`]) || 0;
+                            if (routeEff < threshold) {
+                                log.info(`路线 ${fileName} 分均效率为 ${routeEff.toFixed(2)}，低于设定的临界值 ${threshold}，跳过`);
+                                continue;
                             }
-                            // 伪造地图追踪开始的日志
+
+                            let timeNow = new Date();
+                            if (Foods.length != 0 && (((timeNow - lastCookTime) > cookInterval) || firstCook)) {
+                                firstCook = false;
+                                await ingredientProcessing();
+                                lastCookTime = new Date();
+                                underWater = false;
+                            }
+
+                            if (settings.setTimeMode && settings.setTimeMode != "不调节时间" && (((timeNow - lastsettimeTime) > settimeInterval) || firstsettime)) {
+                                firstsettime = false;
+                                if (settings.setTimeMode === "尽量调为白天") {
+                                    await pathingScript.runFile("assets/调为白天.json");
+                                } else {
+                                    await pathingScript.runFile("assets/调为夜晚.json");
+                                }
+                                lastsettimeTime = new Date();
+                            }
+
+                            await switchPartyIfNeeded(partyNames[groupNumber - 1]);
+
                             await fakeLog(fileName, false, true, 0);
 
-                            /* 并发拾取：与路线任务同生命周期 */
-                            state.currentPathing = { items: [] };
+                            /* ========== 历史拾取物前置排序 ========== */
+                            // 0) 只有 history 里出现过的物品才需要前置
+                            const historyItemSet = new Set();
+                            const routeRec = cdMap.get(fullName);
+                            if (routeRec?.history) {
+                                routeRec.history.forEach(log => {
+                                    Object.keys(log.items).forEach(name => historyItemSet.add(name));
+                                });
+                            }
+
+                            // 1) 把 targetItems 拆成「历史出现」+「未出现」两部分
+                            const frontPart = [];
+                            const backPart = [];
+                            for (const it of targetItems) {
+                                (historyItemSet.has(it.itemName) ? frontPart : backPart).push(it);
+                            }
+
+                            // 2) 合并后重新赋值，完成前置
+                            targetItems = [...frontPart, ...backPart];
+                            /* ======================================= */
+
                             state.running = true;
-                            const pickupTask = recognizeAndInteract(); // 直接并发，无需包裹函数
+                            const pickupTask = recognizeAndInteract();
+                            runnedAnyPath = true;
 
-                            // 日志输出当前任务信息
                             log.info(`当前进度：路径组${i} ${folder} ${fileName} 为第 ${filePaths.indexOf(filePath) + 1}/${filePaths.length} 个`);
-
-                            // 执行路径文件
+                            if (!underWater && filePath.includes('枫丹水下')) {
+                                await pathingScript.runFile("assets/A00-塞洛海原（学习螃蟹技能）.json");
+                                underWater = true;
+                            }
+                            if (underWater && !filePath.includes('枫丹水下')) {
+                                underWater = false;
+                            }
                             try {
+                                state.runPickupLog = [];          // 新路线开始前清空
                                 await pathingScript.runFile(filePath);
-                                log.info(`执行任务: ${fileName}`);
                             } catch (error) {
                                 log.error(`路径文件 ${filePath} 不存在或执行失败: ${error}`);
-                                continue; // 跳过当前任务
+                                continue;
                             }
 
-                            // 捕获任务取消的信息并跳出循环
-                            try {
-                                await sleep(1);
-                            } catch (error) {
-                                log.error(`发生错误: ${error}`);
-                                break; // 终止循环
-                            }
+                            try { await sleep(1); }
+                            catch (error) { log.error(`发生错误: ${error}`); break; }
 
-                            // 获取结束时间
                             const endTime = new Date();
+                            const timeDiff = endTime.getTime() - startTime.getTime();
 
-                            // 比较开始时间与结束时间
-                            const timeDiff = endTime.getTime() - startTime.getTime(); // 时间差（毫秒）
-
-                            // 伪造地图追踪结束的日志
                             await fakeLog(fileName, false, false, timeDiff);
-                            state.running = false; // 停止拾取
-                            await pickupTask;      // 等待拾取线程结束
+                            state.running = false;
+                            await pickupTask;
 
-                            if (timeDiff > 3000) { // 时间差大于3秒
-                                // 获取当前路径组的 cdtype
-                                const currentCdType = pathGroupCdType[groupNumber - 1] || "未知类型";
+                            // >>> 仅当 >3s 才更新 CD 并立即写回整条记录（含 history） <<<
+                            if (timeDiff > 3000) {
+                                let newTimestamp = new Date(startTime);
 
-                                // 初始化 newTimestamp 和 nextAvailableTime
-                                let newTimestamp;
-                                let nextAvailableTime;
-
-                                // 根据 cdtype 执行不同的操作
                                 switch (currentCdType) {
                                     case "1次0点刷新":
-                                        // 将任务文件中对应的时间戳改为下一个0点
-                                        const tomorrow = new Date(startTime.getTime() + 24 * 60 * 60 * 1000);
-                                        tomorrow.setHours(0, 0, 0, 0); // 设置为下一个0点
-                                        newTimestamp = tomorrow.toISOString();
-                                        nextAvailableTime = new Date(newTimestamp).toLocaleString(); // 转换为本地时间格式
-                                        break;
-
+                                        newTimestamp.setDate(newTimestamp.getDate() + 1);
+                                        newTimestamp.setHours(0, 0, 0, 0); break;
                                     case "2次0点刷新":
-                                        // 将任务文件中对应的时间戳改为下下个0点
-                                        const dayAfterTomorrow = new Date(startTime.getTime() + 48 * 60 * 60 * 1000);
-                                        dayAfterTomorrow.setHours(0, 0, 0, 0); // 设置为下下个0点
-                                        newTimestamp = dayAfterTomorrow.toISOString();
-                                        nextAvailableTime = new Date(newTimestamp).toLocaleString(); // 转换为本地时间格式
-                                        break;
-
+                                        newTimestamp.setDate(newTimestamp.getDate() + 2);
+                                        newTimestamp.setHours(0, 0, 0, 0); break;
                                     case "3次0点刷新":
-                                        // 将任务文件中对应的时间戳改为下下下个0点
-                                        const twoDaysAfterTomorrow = new Date(startTime.getTime() + 72 * 60 * 60 * 1000);
-                                        twoDaysAfterTomorrow.setHours(0, 0, 0, 0); // 设置为下下下个0点
-                                        newTimestamp = twoDaysAfterTomorrow.toISOString();
-                                        nextAvailableTime = new Date(newTimestamp).toLocaleString(); // 转换为本地时间格式
-                                        break;
-
+                                        newTimestamp.setDate(newTimestamp.getDate() + 3);
+                                        newTimestamp.setHours(0, 0, 0, 0); break;
                                     case "4点刷新":
-                                        // 将任务文件中对应的时间戳改为下一个4点
-                                        const next4AM = new Date(startTime.getTime());
-                                        next4AM.setHours(4, 0, 0, 0); // 设置为当天的4点
-                                        if (next4AM <= startTime) {
-                                            next4AM.setDate(next4AM.getDate() + 1); // 如果当前时间已过4点，则设置为下一天的4点
-                                        }
-                                        newTimestamp = next4AM.toISOString();
-                                        nextAvailableTime = new Date(newTimestamp).toLocaleString(); // 转换为本地时间格式
-                                        break;
-
+                                        newTimestamp.setHours(4, 0, 0, 0);
+                                        if (newTimestamp <= startTime) newTimestamp.setDate(newTimestamp.getDate() + 1); break;
                                     case "12小时刷新":
-                                        // 将任务文件中对应的时间戳改为开始时间后12小时0分0秒
-                                        newTimestamp = new Date(startTime.getTime() + 12 * 60 * 60 * 1000).toISOString();
-                                        nextAvailableTime = new Date(newTimestamp).toLocaleString(); // 转换为本地时间格式
-                                        break;
-
+                                        newTimestamp = new Date(startTime.getTime() + 12 * 60 * 60 * 1000); break;
                                     case "24小时刷新":
-                                        // 将任务文件中对应的时间戳改为开始时间后24小时0分0秒
-                                        newTimestamp = new Date(startTime.getTime() + 24 * 60 * 60 * 1000).toISOString();
-                                        nextAvailableTime = new Date(newTimestamp).toLocaleString(); // 转换为本地时间格式
-                                        break;
-
+                                        newTimestamp = new Date(startTime.getTime() + 24 * 60 * 60 * 1000); break;
                                     case "46小时刷新":
-                                        // 将任务文件中对应的时间戳改为开始时间后46小时0分0秒
-                                        newTimestamp = new Date(startTime.getTime() + 46 * 60 * 60 * 1000).toISOString();
-                                        nextAvailableTime = new Date(newTimestamp).toLocaleString(); // 转换为本地时间格式
-                                        break;
-
+                                        newTimestamp = new Date(startTime.getTime() + 46 * 60 * 60 * 1000); break;
                                     default:
-                                        log.warn(`路径组${groupNumber} 的 cdtype 是 ${currentCdType}，执行默认操作`);
-                                        // 默认操作：将下一个可用时间设置为开始时间
-                                        newTimestamp = startTime.toISOString();
-                                        nextAvailableTime = startTime.toLocaleString(); // 转换为本地时间格式
-                                        break;
+                                        newTimestamp = startTime; break;
                                 }
 
-                                // 更新任务文件中的时间戳
-                                const updatedEntry = `${fileName}::${newTimestamp}`;
-                                if (entry) {
-                                    recordEntries[recordEntries.indexOf(entry)] = updatedEntry;
-                                } else {
-                                    recordEntries.push(updatedEntry);
+                                // ===== 把本次拾取明细写进 history =====
+                                const durationSec = Math.round(timeDiff / 1000);
+                                const itemCounter = {};
+                                for (const name of state.runPickupLog) {
+                                    itemCounter[name] = (itemCounter[name] || 0) + 1;
+                                }
+                                const logEntry = {
+                                    items: itemCounter,
+                                    durationSec: durationSec
+                                };
+                                if (!targetObj.history) targetObj.history = [];   // 兜底
+                                targetObj.history.push(logEntry);
+                                // 保留最多 7 条记录，超出的旧记录丢弃
+                                if (targetObj.history.length > 7) {
+                                    targetObj.history = targetObj.history.slice(-7);
                                 }
 
-                                // 写回 record.txt
-                                const updatedRecordContent = recordEntries.join('\n');
-                                await file.writeText(recordFilePath, updatedRecordContent);
-                                log.info(`本任务执行大于3秒，cd信息已更新，下一次可用时间为 ${nextAvailableTime}`);
+                                // 只改 cdTime，其余字段（含 history）保持
+                                targetObj.cdTime = newTimestamp.toISOString();
+                                await file.writeText(recordFilePath,
+                                    JSON.stringify(Array.from(cdMap.values()), null, 2));
+                                await appendDailyPickup(state.runPickupLog);
+
+                                // 清空本次记录
+                                state.runPickupLog = [];
+
+                                log.info(`本任务执行大于3秒，cd信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
                             }
                         }
                         log.info(`路径组${groupNumber} 的所有任务运行完成`);
@@ -511,7 +1210,6 @@ let checkDelay = Math.round(findFInterval / 2);
         log.error(`操作失败: ${error}`);
     }
 
-
     //伪造js开始的日志
     await fakeLog("采集cd管理", true, true, 0);
 })();
@@ -519,12 +1217,20 @@ let checkDelay = Math.round(findFInterval / 2);
 async function recognizeAndInteract() {
     let lastcenterYF = 0, lastItemName = "", thisMoveUpTime = 0, lastMoveDown = 0, blacklistCounter = 0;
     gameRegion = captureGameRegion();
+    let lastCheckItemFull = new Date();
+    let checkTask = null;
+
     while (state.running) {
+        let time1 = new Date();
         gameRegion.dispose();
         gameRegion = captureGameRegion();
-        if (++blacklistCounter % 33 === 0) {
-            await checkItemFullAndOCR();
+
+        if (new Date() - lastCheckItemFull > 2500 && !checkTask) {
+            lastCheckItemFull = new Date();
+            checkTask = checkItemFullAndOCR();
         }
+
+        let time2 = new Date();
         const centerYF = await findFIcon();
         if (!centerYF) {
             if (await isMainUI()) {
@@ -533,8 +1239,14 @@ async function recognizeAndInteract() {
                     lastRoll = new Date();
                 }
             }
+            if (checkTask) {
+                try { await checkTask; }
+                catch (e) { log.error('背包满检查异常:', e); }
+                finally { checkTask = null; }
+            }
             continue;
         }
+        let time3 = new Date();
         let itemName = null;
         itemName = await performTemplateMatch(centerYF);
         if (itemName) {
@@ -542,17 +1254,30 @@ async function recognizeAndInteract() {
                 await sleep(160);
                 lastcenterYF = -20;
                 lastItemName = null;
+                if (checkTask) {
+                    try { await checkTask; }
+                    catch (e) { log.error('背包满检查异常:', e); }
+                    finally { checkTask = null; }
+                }
                 continue;
             }
             if (!blacklistSet.has(itemName)) {
                 keyPress("F");
                 log.info(`交互或拾取："${itemName}"`);
-                if (state.currentPathing) {
-                    state.currentPathing.items.push(itemName);
-                    state.currentPathing.items = [...new Set(state.currentPathing.items)].slice(-20);
+                let time4 = new Date();
+                /* >>> 提到最前 begin >>> */
+                const idx = targetItems.findIndex(it => it.itemName === itemName);
+                if (idx > 0) {
+                    const [it] = targetItems.splice(idx, 1);
+                    targetItems.unshift(it);
                 }
+                /* <<< 提到最前 end <<< */
+                state.runPickupLog.push(itemName);
+
                 lastcenterYF = centerYF;
                 lastItemName = itemName;
+                let time5 = new Date();
+                //log.info(`调试-截图用时${time2 - time1},找f用时${time3 - time2}，匹配用时${time4 - time3}，后处理用时${time5 - time4}`);
                 await sleep(pickupDelay);
             }
         } else {
@@ -570,17 +1295,18 @@ async function recognizeAndInteract() {
             await keyMouseScript.runFile(`assets/滚轮上翻.json`);
         }
         await sleep(rollingDelay);
+        if (checkTask) {
+            try { await checkTask; }
+            catch (e) { log.error('背包满检查异常:', e); }
+            finally { checkTask = null; }
+        }
     }
 }
 
 async function findFIcon() {
-    const roi = RecognitionObject.TemplateMatch(fIcontemplate, 1102, 335, 34, 400);
-    roi.Threshold = 0.95;
-    roi.InitTemplate();
     try {
-        const r = gameRegion.find(roi);
+        const r = gameRegion.find(FiconRo);
         if (r.isExist()) return Math.round(r.y + r.height / 2);
-
     } catch (e) {
         log.error(`findFIcon:${e.message}`);
     }
@@ -589,28 +1315,37 @@ async function findFIcon() {
 }
 
 async function performTemplateMatch(centerYF) {
+    /* 一次性切 6 种宽度（0-5 汉字） */
+    const regions = [];
+    for (let cn = 0; cn <= 6; cn++) {   // 0~5 共 6 档
+        const w = 12 + 28 * Math.min(cn, 5) + 2;
+        regions[cn] = gameRegion.DeriveCrop(1219, centerYF - 15, w, 30);
+    }
+
     try {
         for (const it of targetItems) {
-            const cnLen = Math.min([...it.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length, 5);
-            const roi = RecognitionObject.TemplateMatch(it.template, 1219, centerYF - 15, 12 + 28 * cnLen + 2, 30);
-            roi.Threshold = it.Threshold;
-            roi.InitTemplate();
-            if (gameRegion.find(roi).isExist()) {
+            const cnLen = Math.min(
+                [...it.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length,
+                5
+            ); // 0-5
+
+            if (regions[cnLen].find(it.roi).isExist()) {
                 return it.itemName;
             }
         }
     } catch (e) {
-        log.error(`performTemplateMatch:${e.message}`);
+        log.error(`performTemplateMatch: ${e.message}`);
+    } finally {
+        regions.forEach(r => r.dispose());
     }
     return null;
 }
 
 async function isMainUI() {
-    const roi = RecognitionObject.TemplateMatch(mainUITemplate, 0, 0, 150, 150);
     for (let i = 0; i < 1 && state.running; i++) {
         if (!gameRegion) gameRegion = captureGameRegion();
         try {
-            if (gameRegion.find(roi).isExist()) {
+            if (gameRegion.find(mainUiRo).isExist()) {
                 return true;
             }
         } catch (e) {
@@ -657,9 +1392,15 @@ async function checkItemFullAndOCR() {
     }
     const ratioMap = new Map();
     for (const it of targetItems) {
-        const ratio = calcMatchRatio(it.itemName.replace(/[^\u4e00-\u9fa5]/g, ''), ocrText);
-        if (ratio > 0.75) {
-            ratioMap.set(it.itemName, ratio);
+        const candNames = [it.itemName, ...(it.otherName || [])];
+        let maxRatioThisItem = 0;
+        for (const name of candNames) {
+            const ratio = calcMatchRatio(name.replace(/[^\u4e00-\u9fa5]/g, ''), ocrText);
+            if (ratio > maxRatioThisItem) maxRatioThisItem = ratio;
+        }
+        if (maxRatioThisItem > 0.75) {
+            const oldMax = ratioMap.get(it.itemName) || 0;
+            if (maxRatioThisItem > oldMax) ratioMap.set(it.itemName, maxRatioThisItem);
         }
     }
     if (ratioMap.size === 0) return;
@@ -675,29 +1416,45 @@ async function checkItemFullAndOCR() {
 
 // 加载拾取物图片
 async function loadTargetItems() {
-    let targetItemPath;
-
-    targetItemPath = "assets/targetItems/";
+    const targetItemPath = "assets/targetItems/";
 
     const items = await readFolder(targetItemPath, false);
 
-    // 统一预加载模板
     for (const it of items) {
         try {
             it.template = file.ReadImageMatSync(it.fullPath);
             it.itemName = it.fileName.replace(/\.png$/i, '');
+            it.roi = RecognitionObject.TemplateMatch(it.template);
 
-            // 新增：解析括号中的阈值
-            const match = it.fullPath.match(/[（(](.*?)[)）]/); // 匹配英文或中文括号
-            if (match) {
-                const val = parseFloat(match[1]);
-                it.Threshold = (!isNaN(val) && val >= 0 && val <= 1) ? val : 0.85;
-            } else {
-                it.Threshold = 0.85;
+            /* ---------- 1. 解析小括号阈值 ---------- */
+            const match = it.fullPath.match(/[（(](.*?)[)）]/);
+            const itsThreshold = (match => {
+                if (!match) return 0.85;
+                const v = parseFloat(match[1]);
+                return !isNaN(v) && v >= 0 && v <= 1 ? v : 0.85;
+            })(match);
+            it.roi.Threshold = itsThreshold;
+            it.roi.InitTemplate();
+
+            /* ---------- 2. 解析中括号内容 + 纯中文过滤 ---------- */
+            const otherNames = new Set();
+
+            // 一次性扫描完整路径里的所有 []
+            for (const m of it.fullPath.matchAll(/\[(.*?)\]/g)) {
+                const pure = (m[1] || '').replace(/[^\u4e00-\u9fff]/g, '').trim();
+                if (pure) otherNames.add(pure);
             }
-        } catch (error) { }
-    }
 
+            // 若 itemName 本身含非中文，也生成纯中文别名
+            const namePure = it.itemName.replace(/[^\u4e00-\u9fff]/g, '').trim();
+            if (namePure && namePure !== it.itemName) otherNames.add(namePure);
+
+            it.otherName = Array.from(otherNames);
+
+        } catch (error) {
+            log.error(`[loadTargetItems] ${it.fullPath}: ${error.message}`);
+        }
+    }
     return items;
 }
 
@@ -828,78 +1585,95 @@ function removeJsonSuffix(fileName) {
 
 // 定义 readFolder 函数
 async function readFolder(folderPath, onlyJson) {
-    // 新增一个堆栈，初始时包含 folderPath
     const folderStack = [folderPath];
-
-    // 新增一个数组，用于存储文件信息对象
     const files = [];
 
-    // 当堆栈不为空时，继续处理
     while (folderStack.length > 0) {
-        // 从堆栈中弹出一个路径
         const currentPath = folderStack.pop();
-
-        // 读取当前路径下的所有文件和子文件夹路径
-        const filesInSubFolder = file.ReadPathSync(currentPath);
-
-        // 临时数组，用于存储子文件夹路径
+        const filesInSubFolder = file.ReadPathSync(currentPath); // 同步读取
         const subFolders = [];
+
         for (const filePath of filesInSubFolder) {
             if (file.IsFolder(filePath)) {
-                // 如果是文件夹，先存储到临时数组中
                 subFolders.push(filePath);
-            } else {
-                if (filePath.endsWith(".js")) {
-                    //跳过js结尾的文件
-                    continue;
-                }
-                // 如果是文件，根据 onlyJson 判断是否存储
-                if (onlyJson) {
-                    if (filePath.endsWith(".json")) {
-                        const fileName = filePath.split('\\').pop(); // 提取文件名
-                        const folderPathArray = filePath.split('\\').slice(0, -1); // 提取文件夹路径数组
-                        files.push({
-                            fullPath: filePath,
-                            fileName: fileName,
-                            folderPathArray: folderPathArray
-                        });
-                        //log.info(`找到 JSON 文件：${filePath}`);
-                    }
-                } else {
-                    const fileName = filePath.split('\\').pop(); // 提取文件名
-                    const folderPathArray = filePath.split('\\').slice(0, -1); // 提取文件夹路径数组
-                    files.push({
-                        fullPath: filePath,
-                        fileName: fileName,
-                        folderPathArray: folderPathArray
-                    });
-                    //log.info(`找到文件：${filePath}`);
-                }
+                continue;
             }
+
+            if (filePath.endsWith('.js')) continue; // 跳过 js
+
+            // 仅 json 模式
+            if (onlyJson) {
+                if (!filePath.endsWith('.json')) continue;
+
+                let description = '';
+                try {
+                    // 同步读文本，避免 async 传染
+                    const txt = file.readTextSync(filePath);
+                    const parsed = JSON.parse(txt);
+                    description = parsed?.info?.description ?? '';
+                } catch {
+                    /* 读盘或解析失败就留空串 */
+                }
+
+                const fileName = filePath.split('\\').pop();
+                const folderPathArray = filePath.split('\\').slice(0, -1);
+
+                files.push({
+                    fullPath: filePath,
+                    fileName,
+                    folderPathArray,
+                    description
+                });
+                continue;
+            }
+
+            const fileName = filePath.split('\\').pop();
+            const folderPathArray = filePath.split('\\').slice(0, -1);
+            files.push({ fullPath: filePath, fileName, folderPathArray });
         }
-        // 将临时数组中的子文件夹路径按原顺序压入堆栈
-        folderStack.push(...subFolders.reverse()); // 反转子文件夹路径
+
+        // 子文件夹按原顺序入栈（深度优先）
+        folderStack.push(...subFolders.reverse());
     }
 
     return files;
 }
 
-//切换队伍
+/**
+ * 带缓存的配队切换函数
+ * 如果目标配队与 currentParty 一致则跳过；否则真正切换并更新 currentParty。
+ * @param {string} partyName 期望切换到的配队名称
+ */
 async function switchPartyIfNeeded(partyName) {
-    if (!partyName) {
+    if (!partyName) {                       // 空名直接回主界面
         await genshin.returnMainUi();
         return;
     }
+
+    if (partyName === currentParty) {       // 缓存命中，跳过切换
+        await genshin.returnMainUi();
+        return;
+    }
+
+    /* 真正切换 */
     try {
-        log.info("正在尝试切换至" + partyName);
-        if (!await genshin.switchParty(partyName)) {
-            log.info("切换队伍失败，前往七天神像重试");
+        log.info(`正在尝试切换至配队「${partyName}」`);
+        let success = await genshin.switchParty(partyName);
+        if (!success) {                     // 第一次失败，去神像再试一次
+            log.info('切换失败，前往七天神像重试');
             await genshin.tpToStatueOfTheSeven();
-            await genshin.switchParty(partyName);
+            success = await genshin.switchParty(partyName);
         }
-    } catch {
-        log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
-        notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
+
+        if (success) {                      // 切换成功，更新缓存
+            currentParty = partyName;
+            log.info(`已切换至配队「${partyName}」并更新缓存`);
+        } else {
+            throw new Error('两次切换均失败');
+        }
+    } catch (e) {
+        log.error('队伍切换失败，可能处于联机模式或其他不可切换状态');
+        notification.error('队伍切换失败，可能处于联机模式或其他不可切换状态');
         await genshin.returnMainUi();
     }
 }
@@ -969,7 +1743,324 @@ async function isTimeRestricted(timeRule, threshold = 5) {
             return true;
         }
     }
-
-    log.info("不处于限制时间");
     return false;
+}
+
+/**
+* 食材加工主函数，用于自动前往指定地点进行食材或料理的加工制作
+* 
+* 该函数会根据 Foods 和 foodCount 数组中的食材名称和数量，依次查找并制作对应的料理/食材
+* 支持两种类型：普通料理（需滚动查找）和调味品类食材（直接在“食材加工”界面查找）
+* 
+* @returns {Promise<void>} 无返回值，执行完所有加工流程后退出
+*/
+async function ingredientProcessing() {
+    /**
+* 文字OCR识别封装函数（测试中，未封装完成，后续会优化逻辑）
+* @param text 要识别的文字，默认为"空参数"
+* @param timeout 超时时间，单位为秒，默认为10秒
+* @param afterBehavior 点击模式，0表示不点击，1表示点击识别到文字的位置，2表示输出模式，默认为0
+* @param debugmodel 调试代码，0表示输入判断模式，1表示输出位置信息，2表示输出判断模式，默认为0
+* @param x OCR识别区域的起始X坐标，默认为0
+* @param y OCR识别区域的起始Y坐标，默认为0
+* @param w OCR识别区域的宽度，默认为1920
+* @param h OCR识别区域的高度，默认为1080
+* @returns 包含识别结果的对象，包括识别的文字、坐标和是否找到的结果
+*/
+    async function textOCR(text = "空参数", timeout = 10, afterBehavior = 0, debugmodel = 0, x = 0, y = 0, w = 1920, h = 1080) {
+        const startTime = new Date();
+        let Outcheak = 0
+        for (let ii = 0; ii < 10; ii++) {
+            // 获取一张截图
+            let captureRegion = captureGameRegion();
+            let res1
+            let res2
+            let conuntcottimecot = 1;
+            let conuntcottimecomp = 1;
+            // 对整个区域进行 OCR
+            let resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
+            //log.info("OCR 全区域识别结果数量 {len}", resList.count);
+            if (resList.count !== 0) {
+                for (let i = 0; i < resList.count; i++) { // 遍历的是 C# 的 List 对象，所以要用 count，而不是 length
+                    let res = resList[i];
+                    res1 = res.text
+                    conuntcottimecomp++;
+                    if (res.text.includes(text) && debugmodel == 3) { return result = { text: res.text, x: res.x, y: res.y, found: true }; }
+                    if (res.text.includes(text) && debugmodel !== 2) {
+                        conuntcottimecot++;
+                        if (debugmodel === 1 & x === 0 & y === 0) { log.info("全图代码位置：({x},{y},{h},{w})", res.x - 10, res.y - 10, res.width + 10, res.Height + 10); }
+                        if (afterBehavior === 1) { await sleep(1000); click(res.x, res.y); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("点击模式:关") } }
+                        if (afterBehavior === 2) { await sleep(100); keyPress("F"); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("F模式:关"); } }
+                        if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; }
+                    }
+                    if (debugmodel === 2) {
+                        if (res1 === res2) { conuntcottimecot++; res2 = res1; }
+                        //log.info("输出模式：全图代码位置：({x},{y},{h},{w},{string})", res.x-10, res.y-10, res.width+10, res.Height+10, res.text);
+                        if (Outcheak === 1) { if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; } }
+                    }
+                }
+            }
+            const NowTime = new Date();
+            if ((NowTime - startTime) > timeout * 1000) { if (debugmodel === 2) { if (resList.count === 0) { return result = { found: false }; } else { Outcheak = 1; ii = 2; } } else { Outcheak = 0; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`${timeout}秒超时退出，"${text}"未找到`) }; return result = { found: false }; } }
+            else { ii = 2; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`"${text}"识别中……`); } }
+            await sleep(100);
+        }
+    }
+    if (Foods.length == 0) { log.error("未选择要加工的料理/食材"); return; }
+    if (Foods.length != foodCount.length) { log.error("请检查料理与对应的数量是否一致！"); return; }
+    const stove = "蒙德炉子";
+    log.info(`正在前往${stove}进行食材加工`);
+
+    try {
+        let filePath = `assets/${stove}.json`;
+        await pathingScript.runFile(filePath);
+    } catch (error) {
+        log.error(`执行 ${stove} 路径时发生错误`);
+        return;
+    }
+
+    const res1 = await textOCR("烹饪", 5, 0, 0, 1150, 460, 155, 155);
+    if (res1.found) {
+        await sleep(10);
+        keyDown("VK_MENU");
+        await sleep(500);
+        click(res1.x + 15, res1.y + 15);
+    } else {
+        log.warn("烹饪按钮未找到，正在寻找……");
+        let attempts = 0;
+        const maxAttempts = 3;
+        let foundInRetry = false;
+        while (attempts < maxAttempts) {
+            log.info(`第${attempts + 1}次尝试寻找烹饪按钮`);
+            keyPress("W");
+            const res2 = await textOCR("烹饪", 5, 0, 0, 1150, 460, 155, 155);
+            if (res2.found) {
+                await sleep(10);
+                keyDown("VK_MENU");
+                await sleep(500);
+                click(res2.x + 15, res2.y + 15);
+                foundInRetry = true;
+                break;
+            } else {
+                attempts++;
+                await sleep(500);
+            }
+        }
+        if (!foundInRetry) {
+            log.error("多次未找到烹饪按钮，放弃寻找");
+            return;
+        }
+    }
+
+    await sleep(800);
+    keyUp("VK_MENU");
+    await sleep(1000);
+
+    for (let i = 0; i < Foods.length; i++) {
+        const targetFoods = new Set([
+            "面粉", "兽肉", "鱼肉", "神秘的肉", "黑麦粉", "奶油", "熏禽肉",
+            "黄油", "火腿", "糖", "香辛料", "酸奶油", "蟹黄", "果酱",
+            "奶酪", "培根", "香肠"
+        ]);
+        if (targetFoods.has(Foods[i])) {//调味品就点到对应页面
+            const res3 = await textOCR("食材加工", 1, 0, 0, 140, 30, 115, 30);
+            if (!res3.found) {
+                await sleep(500);
+                click(1010, 55);
+                await sleep(500);
+            }
+
+            const res = await textOCR("全部领取", 1, 0, 0, 195, 1000, 120, 40);
+            if (res.found) {
+                click(res.x, res.y);
+                await sleep(800);
+                click(960, 750);
+                await sleep(500);
+            }
+
+            const res1 = await textOCR(Foods[i], 1, 0, 3, 116, 116, 1165, 505);
+
+            if (res1.found) {
+                log.info(`${Foods[i]}已找到`);
+                await click(res1.x + 50, res1.y - 60);
+            } else {
+                await sleep(500);
+                let ra = captureGameRegion();
+
+                try {
+                    const ocrResult = ra.findMulti(RecognitionObject.ocr(115, 115, 1150, 502));
+                    const foodItems = []; // 存储找到的相关项目
+
+                    // 收集所有包含"分钟"或"秒"的项目
+                    for (let j = 0; j < ocrResult.count; ++j) {
+                        if (ocrResult[j].text.endsWith("分钟") || ocrResult[j].text.endsWith("秒")) {
+                            foodItems.push({
+                                index: j,
+                                x: ocrResult[j].x,
+                                y: ocrResult[j].y
+                            });
+                        }
+                    }
+
+                    log.debug("检查到的正在加工食材的数量：" + foodItems.length);
+
+                    // 依次筛选这些项目
+                    for (const item of foodItems) {
+                        // 点击该项目
+                        click(item.x, item.y);
+                        await sleep(150);
+                        click(item.x, item.y);
+                        await sleep(800);
+
+                        let res2 = await textOCR("", 0.5, 0, 2, 1320, 100, 150, 50);
+                        log.debug("当前项目：" + res2.text);
+                        log.debug(item.x + "," + item.y);
+                        await sleep(1000);
+
+                        if (res2.text === Foods[i]) {
+                            ra?.dispose();
+                            res1.found = true;
+                            log.info(`从正在加工的食材中找到了：${Foods[i]}`);
+                            break;
+                        }
+                    }
+                    if (!res1.found) {
+                        log.error(`未找到目标食材: ${Foods[i]}`);
+                        ra?.dispose();
+                        continue;
+                    }
+                } finally {
+                    ra?.dispose();
+                }
+            }
+
+            await sleep(1000);
+            click(1700, 1020);// 制作
+            await sleep(800);
+            click(960, 460);
+            await sleep(800);
+            inputText(foodCount[i]);
+            log.info(`尝试制作${Foods[i]} ${foodCount[i]}个`);
+            log.warn("由于受到队列和背包食材数量限制，实际制作数量与上述数量可能不一致！");
+            await sleep(800);
+            click(1190, 755);
+            await sleep(800);
+        } else {
+            const res3 = await textOCR("料理制作", 1, 0, 0, 140, 30, 115, 30);
+            if (!res3.found) {
+                await sleep(500);
+                click(910, 55);
+                await sleep(500);
+            }
+
+            click(145, 1015);// 筛选
+            await sleep(800);
+
+            click(195, 1015);// 重置
+            await sleep(800);
+
+            click(500, 1020);// 确认筛选
+            await sleep(800);
+
+            //滚轮预操作
+            await moveMouseTo(1287, 131);
+            await sleep(100);
+            await leftButtonDown();
+            await sleep(100);
+            await moveMouseTo(1287, 161);
+
+            let YOffset = 0; // Y轴偏移量，根据需要调整
+            const maxRetries = 20; // 最大重试次数
+            let retries = 0; // 当前重试次数
+            while (retries < maxRetries) {
+                const res2 = await textOCR(Foods[i], 1, 0, 3, 116, 116, 1165, 880);
+                if (res2.found) {
+                    await leftButtonUp();
+                    await sleep(500);
+                    await click(res2.x + 50, res2.y - 60);
+                    await sleep(1000);
+
+                    await sleep(1000);
+                    click(1700, 1020);// 制作
+                    await sleep(1000);
+
+                    await textOCR("自动烹饪", 5, 1, 0, 725, 1000, 130, 45);
+                    await sleep(800);
+                    click(960, 460);
+                    await sleep(800);
+                    inputText(foodCount[i]);
+                    await sleep(800);
+                    click(1190, 755);
+                    await sleep(2500); // 等待烹饪完成
+
+                    keyPress("ESCAPE")
+                    await sleep(500);
+                    keyPress("ESCAPE")
+                    await sleep(1500);
+
+                    break;
+                } else {
+                    retries++; // 重试次数加1
+                    //滚轮操作
+                    YOffset += 50;
+                    await sleep(500);
+                    if (retries === maxRetries || 161 + YOffset > 1080) {
+                        await leftButtonUp();
+                        await sleep(100);
+                        await moveMouseTo(1287, 131);
+                        await sleep(800);
+                        leftButtonClick();
+                        log.error(`料理/食材：${Foods[i]} 未找到！请检查料理名称是否正确！`);
+                        continue;
+                    }
+                    await moveMouseTo(1287, 161 + YOffset);
+                    await sleep(300);
+                }
+            }
+
+        }
+    }
+    await genshin.returnMainUi();
+}
+
+/**
+ * 把本次路线的掉落合并到“拾取记录.json”中同一天条目（不含 durationSec）
+ * @param {string[]} pickupLog  本次路线的 state.runPickupLog
+ */
+async function appendDailyPickup(pickupLog) {
+    if (!pickupLog || !pickupLog.length) return;
+
+    let oldArr = [];
+    try {
+        const txt = await file.readText(pickupRecordFile);
+        if (txt) oldArr = JSON.parse(txt);
+    } catch (_) { /* 文件不存在或解析失败 */ }
+
+    // 统一按 UTC+8 的 0 点划分日期
+    const utc8 = new Date(Date.now() + 8 * 3600_000);
+    const today = utc8.toISOString().slice(0, 10); // "YYYY-MM-DD"
+
+    let todayItem = oldArr.find(e => e.date === today);
+    if (!todayItem) {
+        todayItem = { date: today, items: {} };
+        oldArr.push(todayItem);
+    }
+
+    const todayItems = todayItem.items;
+    pickupLog.forEach(name => {
+        todayItems[name] = (todayItems[name] || 0) + 1;
+    });
+
+    // 滑动窗口：只保留最近 MAX_PICKUP_DAYS 天
+    if (oldArr.length > MAX_PICKUP_DAYS) oldArr = oldArr.slice(-MAX_PICKUP_DAYS);
+
+    // 按日期倒序（最新在前）
+    oldArr.sort((a, b) => b.date.localeCompare(a.date));
+
+    // 写盘 + 异常捕获
+    try {
+        await file.writeText(pickupRecordFile, JSON.stringify(oldArr, null, 2), false);
+    } catch (error) {
+        log.error(`appendDailyPickup 写盘失败: ${error.message}`);
+    }
 }

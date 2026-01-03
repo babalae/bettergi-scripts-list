@@ -1,4 +1,4 @@
-//当前js版本1.12.0
+//当前js版本1.13.1
 
 let timeMoveUp;
 let timeMoveDown;
@@ -11,7 +11,7 @@ if (settings.activeDumperMode) { //处理泥头车信息
 }
 let gameRegion;
 let targetItemPath = "assets/targetItems";
-let mainUITemplate = file.ReadImageMatSync("assets/MainUI.png");
+
 let itemFullTemplate = file.ReadImageMatSync("assets/itemFull.png");
 let frozenTemplate = file.ReadImageMatSync("assets/解除冰冻.png");
 const frozenRo = RecognitionObject.TemplateMatch(frozenTemplate, 1379, 574, 1463 - 1379, 613 - 574);
@@ -23,6 +23,15 @@ let whiteFurinaTemplate = file.ReadImageMatSync("assets/白芙图标.png");
 let whiteFurinaRo = RecognitionObject.TemplateMatch(whiteFurinaTemplate, 1634, 967, 1750 - 1634, 1070 - 967);
 whiteFurinaRo.Threshold = 0.99;
 whiteFurinaRo.InitTemplate();
+
+let fIcontemplate = file.ReadImageMatSync('assets/F_Dialogue.png');
+let fIconRo = RecognitionObject.TemplateMatch(fIcontemplate, 1102, 335, 34, 400);
+fIconRo.Threshold = 0.95;
+fIconRo.InitTemplate();
+
+let mainUITemplate = file.ReadImageMatSync("assets/MainUI.png");
+const mainUIRo = RecognitionObject.TemplateMatch(mainUITemplate, 0, 0, 150, 150);
+
 
 let targetItems;
 let doFurinaSwitch = false;
@@ -54,8 +63,9 @@ let localeWorks;
 
     localeWorks = !isNaN(Date.parse(new Date().toLocaleString()));
     if (!localeWorks) {
-        log.warn('[WARN] 当前设备 toLocaleString 无法被 Date 解析');
+        log.warn('[WARN] 当前设备本地时间格式无法解析');
         log.warn('[WARN] 建议不要使用12小时时间制');
+        log.warn('[WARN] 已将记录改为使用utc时间');
         await sleep(5000);
     }
 
@@ -155,38 +165,38 @@ let localeWorks;
         await updateRecords(pathings, accountName);
     } else if (operationMode === "运行锄地路线") {
         await switchPartyIfNeeded(partyName);
-        // 检测四神队伍并输出当前角色
-        const avatars = getAvatars() || [];
-        const need = ['钟离', '芙宁娜', '纳西妲', '雷电将军'];
 
-        let improperTeam = true;
-        for (let i = 0; i < need.length; i++) {
-            let found = false;
-            for (let j = 0; j < avatars.length; j++) {
-                if (avatars[j] === need[i]) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                improperTeam = false;
-                break;
-            }
-        }
+        const avatars = Array.from(getAvatars?.() || []);
 
-        // 手动拼接角色名，避免 join 报错
+        // 拼接队伍字符串，放在 switch 之前
         let teamStr = '';
         for (let k = 0; k < avatars.length; k++) {
             teamStr += avatars[k];
-            if (k < avatars.length - 1) {
-                teamStr += '、';
-            }
+            if (k < avatars.length - 1) teamStr += '、';
         }
-
         log.info('当前队伍：' + teamStr);
-        if (improperTeam) {
-            log.warn("当前队伍不适合锄地，建议重新阅读readme相关部分");
-            await sleep(5000);
+
+        switch (true) {
+            case ['钟离', '芙宁娜', '纳西妲', '雷电将军'].every(n => avatars.includes(n)):
+                log.warn("四神队不适合锄地，建议重新阅读 readme 相关部分");
+                await sleep(10000);
+                return;
+
+            case avatars.includes('钟离'):
+                log.warn("当前队伍包含钟离，钟离不适合锄地，建议重新阅读 readme 相关部分");
+                await sleep(5000);
+                break;
+
+            case !['芙宁娜', '爱可菲', '玛薇卡'].some(n => avatars.includes(n)):
+                log.warn("未携带合适的输出角色（芙宁娜/爱可菲/玛薇卡），建议重新阅读 readme 相关部分");
+                await sleep(5000);
+                break;
+
+            case !['茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '白术', '琦良良', '迪希雅', '迪奥娜']
+                .some(n => avatars.includes(n)):
+                log.warn("未携带合适的抗打断角色（茜特菈莉/伊涅芙/莱依拉/蓝砚/白术/琦良良/迪希雅/迪奥娜）");
+                await sleep(5000);
+                break;
         }
 
         log.info("开始运行锄地路线");
@@ -799,7 +809,6 @@ async function recognizeAndInteract() {
     //log.info("调试-开始执行图像识别与拾取任务");
     let lastcenterYF = 0;
     let lastItemName = "";
-    let fIcontemplate = file.ReadImageMatSync('assets/F_Dialogue.png');
     let thisMoveUpTime = 0;
     let lastMoveDown = 0;
     gameRegion = captureGameRegion();
@@ -880,40 +889,35 @@ async function recognizeAndInteract() {
     }
 
     async function performTemplateMatch(centerYF) {
+        /* 一次性切 6 种宽度（0-5 汉字） */
+        const regions = [];
+        for (let cn = 0; cn <= 5; cn++) {   // 0~5 共 6 档
+            const w = 12 + 28 * Math.min(cn, 5) + 2;
+            regions[cn] = gameRegion.DeriveCrop(1219, centerYF - 15, w, 30);
+        }
+
         try {
-            let result;
-            let itemName = null;
-            for (const targetItem of targetItems) {
-                //log.info(`正在尝试匹配${targetItem.itemName}`);
-                const cnLen = Math.min([...targetItem.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length, 5);
-                const recognitionObject = RecognitionObject.TemplateMatch(
-                    targetItem.template,
-                    1219,
-                    centerYF - 15,
-                    12 + 28 * cnLen + 2,
-                    30
-                );
-                recognitionObject.Threshold = targetItem.Threshold;
-                recognitionObject.InitTemplate();
-                result = gameRegion.find(recognitionObject);
-                if (result.isExist()) {
-                    itemName = targetItem.itemName;
-                    break;
+            for (const it of targetItems) {
+                const cnLen = Math.min(
+                    [...it.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length,
+                    5
+                ); // 0-5
+
+                if (regions[cnLen].find(it.roi).isExist()) {
+                    return it.itemName;
                 }
             }
-            return itemName;
-        } catch (error) {
-            log.error(`模板匹配时发生异常: ${error.message}`);
-            return null;
+        } catch (e) {
+            log.error(`performTemplateMatch: ${e.message}`);
+        } finally {
+            regions.forEach(r => r.dispose());
         }
+        return null;
     }
 
     async function findFIcon() {
-        let recognitionObject = RecognitionObject.TemplateMatch(fIcontemplate, 1102, 335, 34, 400);
-        recognitionObject.Threshold = 0.95;
-        recognitionObject.InitTemplate();
         try {
-            let result = gameRegion.find(recognitionObject);
+            let result = gameRegion.find(fIconRo);
             if (result.isExist()) {
                 return Math.round(result.y + result.height / 2);
             }
@@ -950,7 +954,6 @@ async function loadBlacklist(merge = false) {
 }
 
 async function isMainUI() {
-    const recognitionObject = RecognitionObject.TemplateMatch(mainUITemplate, 0, 0, 150, 150);
     const maxAttempts = 1;
     let attempts = 0;
     let dodispose = false;
@@ -960,7 +963,7 @@ async function isMainUI() {
             dodispose = true;
         }
         try {
-            const result = gameRegion.find(recognitionObject);
+            const result = gameRegion.find(mainUIRo);
             if (result.isExist()) return true;
         } catch (error) {
             log.error(`识别图像时发生异常: ${error.message}`);
@@ -978,6 +981,7 @@ async function isMainUI() {
 
 // 加载拾取物图片
 async function loadTargetItems() {
+
     let targetItemPath;
     if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料") {
         targetItemPath = "assets/targetItems/";
@@ -986,7 +990,7 @@ async function loadTargetItems() {
     } else {
         return null;
     }
-
+    log.info("开始加载模板图片");
     const items = await readFolder(targetItemPath, false);
 
     // 统一预加载模板
@@ -994,18 +998,23 @@ async function loadTargetItems() {
         try {
             it.template = file.ReadImageMatSync(it.fullPath);
             it.itemName = it.fileName.replace(/\.png$/i, '');
+            it.roi = RecognitionObject.TemplateMatch(it.template);
 
             // 新增：解析括号中的阈值
             const match = it.fullPath.match(/[（(](.*?)[)）]/); // 匹配英文或中文括号
+            let itsThreshold;
             if (match) {
                 const val = parseFloat(match[1]);
-                it.Threshold = (!isNaN(val) && val >= 0 && val <= 1) ? val : 0.85;
+                itsThreshold = (!isNaN(val) && val >= 0 && val <= 1) ? val : 0.85;
             } else {
-                it.Threshold = 0.85;
+                itsThreshold = 0.85;
             }
+            it.roi.Threshold = itsThreshold;
+            it.roi.InitTemplate();
+
         } catch (error) { }
     }
-
+    log.info("模板图片加载完成");
     return items;
 }
 
