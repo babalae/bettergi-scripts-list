@@ -142,10 +142,16 @@
 }
 ```
 
-#### 部署 [WsProxy](https://github.com/Kirito520Asuna/WsProxy)
+### 部署 [WsProxy](https://github.com/Kirito520Asuna/WsProxy)
 
-提供docker镜像，方便用户快速搭建WebSocket代理服务
-
+#### 1.windows exe 直接运行
+前往 [release](https://github.com/Kirito520Asuna/WsProxy/releases) 下载 带windows的zip包解压运行.exe文件即可
+#### 2.java
+前往 [release](https://github.com/Kirito520Asuna/WsProxy/releases) 下载 jar包
+```shell
+java -jar xxxx.jar
+```
+#### 3.部署docker
 ```shell
 docker pull ghcr.io/kirito520asuna/wsproxy:latest
 docker run -d -p 8081:8081 -v /path/to/application-prod.yml:/app/application-prod.yml --name wsproxy ghcr.io/kirito520asuna/wsproxy:latest
