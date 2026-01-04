@@ -29,15 +29,35 @@ sequenceDiagram
     participant ActivityMgr as 活动管理
     participant OCRSvc as OCR 服务
     participant Filter as 过滤决策
+    participant Notification as 通知服务
 
+    Config->>Parser: 读取 settings.whiteActivityNameList
+    Parser->>Parser: parseWhiteActivity(text)
+    Parser-->>Config: 返回 whiteActivityNameList
+    
     Config->>Parser: 读取 settings.blackActivity
     Parser->>Parser: parseBlackActivity(text, excludeList)
     Parser-->>Config: 返回 blackActivityMap
 
     Note over ActivityMgr: 遍历所有候选活动
     loop 每个候选活动
-        ActivityMgr->>Filter: 是否匹配黑名单？
-        alt 匹配且有条件        
+        Note over ActivityMgr: 检查白名单匹配
+        alt 白名单不为空
+            ActivityMgr->>ActivityMgr: 检查活动名是否包含白名单关键词
+            alt 包含关键词
+                ActivityMgr-->>ActivityMgr: 标记为白名单活动
+            else 不包含关键词
+                alt relationship为false（或关系）
+                    ActivityMgr-->>ActivityMgr: 继续处理
+                else relationship为true（与关系）
+                    ActivityMgr-->>ActivityMgr: 跳过该活动
+                end
+            end
+        end
+        
+        Note over ActivityMgr: 检查黑名单匹配    
+        alt 黑名单不为空
+            ActivityMgr->>Filter: 是否匹配黑名单？
             Filter->>Parser: getMapByKey(blackActivityMap, 活动名, reverseMatch=true)
             Parser-->>Filter: 返回条件列表
             Filter->>OCRSvc: 用 OCR 校验条件（如剩余时间、文本等）
@@ -53,6 +73,17 @@ sequenceDiagram
             Filter-->>ActivityMgr: 保留该活动
         end
     end
+
+    Note over ActivityMgr: 活动筛选完成后
+    ActivityMgr->>ActivityMgr: 根据whiteActivityNameList和relationship进行二次筛选
+    alt relationship为true（与关系）
+        ActivityMgr->>ActivityMgr: 同时满足剩余时间阈值和白名单条件
+    else relationship为false（或关系）
+        ActivityMgr->>ActivityMgr: 满足剩余时间阈值或白名单任一条件
+    end
+    ActivityMgr->>ActivityMgr: 检查剩余时间阈值
+    ActivityMgr->>Notification: 发送符合条件的活动通知
+    Notification-->> ActivityMgr: 通知发送完成
 ```
 ---
 
