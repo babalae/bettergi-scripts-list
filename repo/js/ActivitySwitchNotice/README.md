@@ -37,7 +37,7 @@ sequenceDiagram
     Note over ActivityMgr: 遍历所有候选活动
     loop 每个候选活动
         ActivityMgr->>Filter: 是否匹配黑名单？
-        alt 匹配且有条件        
+        alt 匹配且有条件
             Filter->>Parser: getMapByKey(blackActivityMap, 活动名, reverseMatch=true)
             Parser-->>Filter: 返回条件列表
             Filter->>OCRSvc: 用 OCR 校验条件（如剩余时间、文本等）
