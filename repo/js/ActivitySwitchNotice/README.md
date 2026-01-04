@@ -20,7 +20,40 @@
 - ✅ 自动提醒征讨领域减半剩余次数（默认`周日`提醒可配置）
 - ✅ 支持独立通知功能（`0.0.4`版本新增 因BGI不支持WebSocket,需搭配WsProxy+开启JS HTTP
   权限使用）[前往WsProxy部署](https://github.com/Kirito520Asuna/WsProxy)
+## 逻辑流程
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Config as 配置初始化
+    participant Parser as 解析器
+    participant ActivityMgr as 活动管理
+    participant OCRSvc as OCR 服务
+    participant Filter as 过滤决策
 
+    Config->>Parser: 读取 settings.blackActivity
+    Parser->>Parser: parseBlackActivity(text, excludeList)
+    Parser-->>Config: 返回 blackActivityMap
+
+    Note over ActivityMgr: 遍历所有候选活动
+    loop 每个候选活动
+        ActivityMgr->>Filter: 是否匹配黑名单？
+        alt 匹配且有条件        
+            Filter->>Parser: getMapByKey(blackActivityMap, 活动名, reverseMatch=true)
+            Parser-->>Filter: 返回条件列表
+            Filter->>OCRSvc: 用 OCR 校验条件（如剩余时间、文本等）
+            OCRSvc-->>Filter: 返回条件满足情况
+            alt 任一条件满足
+                Filter-->>ActivityMgr: 跳过该活动
+            else 所有条件均不满足
+                Filter-->>ActivityMgr: 保留该活动
+            end
+        else 匹配但无条件
+            Filter-->>ActivityMgr: 直接跳过该活动
+        else 未匹配黑名单
+            Filter-->>ActivityMgr: 保留该活动
+        end
+    end
+```
 ---
 
 ## 用户使用指南
