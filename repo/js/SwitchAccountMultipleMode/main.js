@@ -35,16 +35,16 @@ const agree = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/agree.png")),
     name: "agree.png"
 };
-//人机验证识别图片
+// 人机验证识别图片
 const login_verification = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/verification.png")),
     name: "verification.png"
 };
-// 判断temporaryAccount字段是否为空，如果为空则赋值‘否’
+// 判断temporaryAccount是否为空，如果为空则赋值‘否’
 const Account = settings.temporaryAccount || "否";
 
 eval(file.readTextSync('utils/uid.js'))
-
+// 点击区域中心
 async function clickCenter(x, y, width, height) {
     let centerX = Math.round(x + width / 2);
     let centerY = Math.round(y + height / 2);
@@ -52,7 +52,7 @@ async function clickCenter(x, y, width, height) {
     await sleep(500); // 确保点击后有足够的时间等待
     return { success: true, x: centerX, y: centerY };
 }
-//匹配图像并点击
+// 匹配图像并点击
 async function matchImgAndClick(obj, desc, timeout = 8000) {
     const start = Date.now();
     let retryCount = 0; // 识别次数计数
@@ -81,7 +81,7 @@ async function matchImgAndClick(obj, desc, timeout = 8000) {
     }
     return { success: false };
 }
-//文字识别并点击
+// 文字识别并点击
 async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     let start = Date.now();
     let retryCount = 0; // 重试计数
@@ -441,7 +441,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     } else {
         log.info("尖尖哇嘎乃")
     }
-    //下拉列表模式
+    // 下拉列表模式
     async function DropDownMode() {
         const isInGame = await waitAndDetermineCurrentView();
         if (isInGame) {
@@ -492,7 +492,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         
         //点击退出大按钮
         click(1107, 684);
-        await sleep(1000);
+        await sleep(1500);
         
         //登录其他账号
         click(946, 703);
@@ -513,8 +513,6 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         // 输入文本
         await inputText(settings.password);
         await sleep(500);
-
-
         
         //回车弹出协议确定框（如果有的话）
         for (let i = 0; i < 3; i++) {
@@ -537,7 +535,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         //点击领月卡
         await genshin.blessingOfTheWelkinMoon();
     }
-    //OCR模式 对应：账号+密码+OCR
+    // OCR模式 对应：账号+密码+OCR
     async function OcrMode() {
         setGameMetrics(1920, 1080, 1);
         // 如果切换账号是第一个脚本，则有可能出现月卡选项
