@@ -759,7 +759,7 @@ async function validHitPreamble() {
         let tmEquipmentStatus = await templateMatchFindByJson(jsonEquipmentStatus)
         if (isExist(tmEquipmentStatus)) {
             equipmentStatusOk = true
-            await info(`验证成功==>装备状态-识别成功`,must)
+            await info(`验证成功==>装备状态-识别成功`, must)
             break
         }
         index++
@@ -2019,8 +2019,8 @@ const isInMainUI = () => {
 async function openAggrandizement() {
     let defaultEnhancedInterface = mana.get("defaultEnhancedInterfaceUp")
     if (config.defaultEnhancedInterface.includes(defaultEnhancedInterface)) {
-        log.info(`默认强化界面为{s}`,defaultEnhancedInterface)
-        return ;
+        log.info(`默认强化界面为{s}`, defaultEnhancedInterface)
+        return;
     }
     let ms = 600
     // 注释掉的代码：使用模板匹配方法查找强化按钮
@@ -2229,7 +2229,7 @@ async function templateMatchHolyRelicsUpFrequency(source = 'HolyRelicsUpFrequenc
         await wait(300)
         await infoLog(`{x:${x},y:${y},w:${w},h:${h}}`, source) // 记录OCR识别结果*/
     // 截取游戏画面并进行OCR识别
-    let ms = 600
+    let ms = 800
     //x=1172, y=134,width:124,height:41
     let all = {
         x: Math.floor(genshinJson.width * 1172 / 1920),
@@ -2346,7 +2346,16 @@ async function upOperate(operate, source = 'upOperate', log_off) {
     upJson.level = templateMatchHolyRelics.level
     upJson.sumLevel = templateMatchHolyRelics.sumLevel
     // 输出当前圣遗物等级的日志信息
-    await info(`当前圣遗物等级: ${templateMatchHolyRelics.level}`)
+    log.info(`===`)
+    log.info(`当前圣遗物等级: {templateMatchHolyRelics.level}`,templateMatchHolyRelics.level)
+    log.info(`当前圣遗物预估可提升至: {templateMatchHolyRelics.sumLevel}`,templateMatchHolyRelics.level)
+    if (templateMatchHolyRelics.sumLevel % 4 !== 0) {
+        upJson.errorMsg = '强化失败:狗粮不足'
+        upJson.ok = false;
+        throwError(upJson.errorMsg)
+        return upJson
+    }
+
     // 检查圣遗物是否已达到满级（20级）
     if (templateMatchHolyRelics.level === 20 || templateMatchHolyRelics.level >= config.upMax) {
         upJson.start = false
