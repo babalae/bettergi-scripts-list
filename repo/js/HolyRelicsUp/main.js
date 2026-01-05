@@ -1,7 +1,13 @@
-// 加载 utils 模块
-eval(file.readTextSync("./utils/holyRelicsUpUtils.js"));
-eval(file.readTextSync("./utils/languageUtils.js"));
-
+async function init() {
+    let utils=[
+        "holyRelicsUpUtils",
+        "languageUtils",
+    ]
+    for (let util of utils) {
+        eval(file.readTextSync(`utils/${util}.js`));
+    }
+    log.info("初始化完成");
+}
 /**
  * 主方法
  * @returns {Promise<void>}
@@ -3262,6 +3268,7 @@ async function toMainUi() {
 
 
 (async function () {
+    await init()
     await main()
 })();
 
