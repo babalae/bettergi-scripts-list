@@ -2,7 +2,7 @@
 // 切换账号(OCR)版本
 const author = "彩虹QQ人";
 const script_name = "切换账号(OCR)版本";
-
+// 图像识别资源
 const pm_out = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/pm_out.png")),
     name: "pm_out.png"
@@ -35,14 +35,16 @@ const agree = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/agree.png")),
     name: "agree.png"
 };
-//人机验证识别图片
+// 人机验证识别图片
 const login_verification = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/verification.png")),
     name: "verification.png"
 };
+// 判断temporaryAccount是否为空，如果为空则赋值‘否’
+const Account = settings.temporaryAccount || "否";
 
 eval(file.readTextSync('utils/uid.js'))
-
+// 点击区域中心
 async function clickCenter(x, y, width, height) {
     let centerX = Math.round(x + width / 2);
     let centerY = Math.round(y + height / 2);
@@ -50,7 +52,7 @@ async function clickCenter(x, y, width, height) {
     await sleep(500); // 确保点击后有足够的时间等待
     return { success: true, x: centerX, y: centerY };
 }
-
+// 匹配图像并点击
 async function matchImgAndClick(obj, desc, timeout = 8000) {
     const start = Date.now();
     let retryCount = 0; // 识别次数计数
@@ -79,6 +81,7 @@ async function matchImgAndClick(obj, desc, timeout = 8000) {
     }
     return { success: false };
 }
+// 文字识别并点击
 async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     let start = Date.now();
     let retryCount = 0; // 重试计数
@@ -438,7 +441,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     } else {
         log.info("尖尖哇嘎乃")
     }
-
+    // 下拉列表模式
     async function DropDownMode() {
         const isInGame = await waitAndDetermineCurrentView();
         if (isInGame) {
@@ -454,33 +457,47 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         await waitAndDetermineCurrentView();
 
     }
-
+    // 纯键鼠模式    对应：账号+密码（根据分辨率确定鼠标位置）
     async function KeyboardMouseMode() {
         setGameMetrics(1920, 1080, 2.0);
         //到达主页面
-        await genshin.returnMainUi();
+        await genshin.returnMainUi();//使用新号（无派蒙）测试，请注释掉这一行
         await sleep(1000);
+        
         //打开派蒙页面
         keyPress("VK_ESCAPE");
         await sleep(1000);
-        click(50, 1030);
+        
         //退出门图标
+        click(50, 1030);
         await sleep(1000);
+        
         //退出至登录页面
         click(978, 540);
         await sleep(15000);
+        
         //登录页面退出当前账号的小门图标
         click(1828, 985);
         await sleep(1000);
-        //勾选：退出并保留登录记录
-        click(701, 573);
+        
+        //点击退出当前账号
+        if(Account=="否"){
+            //长期账号->勾选：退出并保留登录记录
+            click(698, 568);
+        } else{
+            //临时账号->勾选：退出并清除登录记录
+            click(698, 476);
+        }
         await sleep(1000);
+        
         //点击退出大按钮
         click(1107, 684);
-        await sleep(1000);
+        await sleep(1500);
+        
         //登录其他账号
         click(946, 703);
         await sleep(1000);
+        
         //点击用户名输入框
         click(815, 400);
         //如果有文本，清除
@@ -488,6 +505,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         // 输入文本
         await inputText(settings.username);
         await sleep(500);
+        
         //点击密码输入框
         click(815, 480);
         //如果有文本，清除
@@ -495,23 +513,29 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         // 输入文本
         await inputText(settings.password);
         await sleep(500);
-        //登录
-        keyPress("VK_RETURN");
-        await sleep(500);
-        //用户协议弹窗，点击同意，等待8.5s，增加容错
-        click(1093, 593);
-        await sleep(8500);
+        
+        //回车弹出协议确定框（如果有的话）
+        for (let i = 0; i < 3; i++) {
+            //三次回车，规避强制点击进入游戏（如果开启了自动开门功能，这一步是必须的，后续维护者须知0.54.0版本对开门的“进入游戏”识别是和配置组同时进行的。多次回车+短时间点击，可以规避掉鼠标乱点的问题。彩虹QQ人于2026年1月5日留。）
+            keyPress("VK_RETURN");
+            await sleep(500);
+            //用户协议弹窗，点击同意，等待8.5s，增加容错
+            click(1093, 593);
+            await sleep(500);
+        }
+        await sleep(8000);//这一步根据各自网络环境和主机配置可以适当增减
+        
         //进入世界循环点击，增加容错
-        for (let i = 3; i > 0; i--) {
+        for (let i = 5; i > 0; i--) {
             click(960, 540);
-            await sleep(1500);
+            await sleep(1200);//增加容错（例如进入人机验证时）
         }
         //确保进入主页面
         await sleep(12000);
         //点击领月卡
         await genshin.blessingOfTheWelkinMoon();
     }
-
+    // OCR模式 对应：账号+密码+OCR
     async function OcrMode() {
         setGameMetrics(1920, 1080, 1);
         // 如果切换账号是第一个脚本，则有可能出现月卡选项
