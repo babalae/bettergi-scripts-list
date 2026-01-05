@@ -472,13 +472,17 @@ const confirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("a
     async function getFoodNum(){
         keyPress("B");//打开背包
         await handleExpiredItems(); //处理过期物品弹窗
-        await sleep(1000);
+        await sleep(500);
         click(863, 51);//选择食物
+        await sleep(1000);
         await findAndClick(filterButtonRo);//筛选
         await sleep(1000);
         await findAndClick(searchInterfaceRo,50,false);//搜索界面
+        await sleep(200);
         await findAndClick(resetButtonRo);//重置按钮
+        await sleep(200);
         await findAndClick(researchRo);//搜索输入框
+        await sleep(200);
         inputText(recoveryFoodName);
         await findAndClick(confirmButtonRo);//确认按钮
         await sleep(1000);
@@ -492,9 +496,13 @@ const confirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("a
             await sleep(1000);
         }
         await findAndClick(filterButtonRo);//筛选
+        await sleep(500);
         await findAndClick(searchInterfaceRo,50,false);//搜索界面
+        await sleep(200);
         await findAndClick(resetButtonRo);//重置按钮
+        await sleep(200);
         await findAndClick(researchRo);//搜索输入框
+        await sleep(200);
         inputText(resurrectionFoodName);
         await findAndClick(confirmButtonRo);//确认按钮
         await sleep(1000); // 增加等待时间
@@ -508,8 +516,11 @@ const confirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("a
             await sleep(1000);
         }
         await findAndClick(filterButtonRo);//筛选
+        await sleep(200);
         await findAndClick(searchInterfaceRo,50,false);//搜索界面
+        await sleep(200);
         await findAndClick(resetButtonRo);//重置
+        await sleep(200);
         await findAndClick(confirmButtonRo);//确认按钮
         await genshin.returnMainUi();
         return { recoveryNumber, resurrectionNumber };
