@@ -6,17 +6,32 @@
      */
     roleRecognition: async function (Role) {
         let currentPage = 0;
-        let found = false;
+        let allPaths = file.readPathSync('assets/characterimage');
+        allPaths = Array.from(allPaths);
+
+        // 提取allPaths中的所有文件名（不包含路径）
+        const allFileNames = allPaths.map(path => {
+            // 处理正斜杠或反斜杠分隔符，取最后一个部分作为文件名
+            const parts = path.split(/[\\\/]/);
+            return parts[parts.length - 1];
+        });
 
         while (currentPage < 5) {
             // 遍历该角色的所有模板
             for (let num = 1; ; num++) {
                 const paddedNum = num.toString().padStart(2, "0");
                 const characterFileName = `${Role}${paddedNum}`;
+                const templateFileName = `${characterFileName}.png`;  // 模板文件名
+                const templatePath = `assets/characterimage/${templateFileName}`;  // 完整模板路径
+
+                // 检查模板文件是否存在 - 通过比较文件名
+                if (!allFileNames.includes(templateFileName)) {
+                    break;  // 文件不存在，跳出循环
+                }
+
                 try {
-                    const templatePath = `assets/characterimage/${characterFileName}.png`;
-                    const template = RecognitionObject.TemplateMatch(file.readImageMatSync(templatePath),
-                        0, 0, 1920, 1080)
+                    const templateMat = file.readImageMatSync(templatePath);
+                    const template = RecognitionObject.TemplateMatch(templateMat, 0, 0, 1920, 1080);
 
                     // 捕获当前屏幕
                     const screenRO = captureGameRegion();
@@ -25,28 +40,28 @@
 
                     if (result.isExist()) {
                         log.info(`找到角色【${Role}】`);
-                        // 点击角色
+                        templateMat.dispose(); // 释放模板资源
                         result.click();
                         return true;
                     }
+
+                    templateMat.dispose(); // 释放模板资源
                 } catch (error) {
-                    // 模板文件不存在，跳出循环
+                    log.error(`处理模板 ${templatePath} 时出错: ${error}`);
                     break;
                 }
             }
-        }
-        // 如果没找到，滚动到下一页
-        if (currentPage < 5) {
-            log.info("当前页面没有目标角色，滚动页面");
-            await UI.scrollPageFlexible(200);
-            await sleep(800); // 等待页面稳定
-        }
-        currentPage++;
 
-        if (!found) {
-            log.error(`未找到角色【${Role}】`);
-            return false;
+            // 如果没找到，滚动到下一页
+            log.info("当前页面没有目标角色，滚动页面");
+            await UI.scrollPageFlexible(Math.ceil(genshin.height / 5));
+            await sleep(800); // 等待页面稳定
+
+            currentPage++;
         }
+
+        log.error(`未找到角色【${Role}】`);
+        return false;
     },
     
     /**
@@ -157,7 +172,6 @@
                 file.ReadImageMatSync('assets/RecognitionObject/SwipeBarIcon.png'),
                 1270, 900, 30, 100
             )
-            DownSwipeBarIcon.threshold = 0.7
             
             let ExpBookInformation = {};
 
@@ -232,17 +246,18 @@
                     }
                     
                     if (!found && currentPage < MAX_PAGE_TRIES) {
-                        log.info("当前页面未找到，尝试翻页");
-                        await UI.scrollPageFlexible(250);
-                        await sleep(800); // 等待页面稳定
-                        
                         // 识别到划动条停止划动（已划至最下）
                         const ro = captureGameRegion()
                         const res = ro.find(DownSwipeBarIcon);
                         if (res.isExist()) {
-                            await UI.scrollPageFlexible(250); // 以防过早识别
+                            await UI.scrollPageFlexible(Math.ceil(genshin.height / 5)); // 以防过早识别
                             currentPage = MAX_PAGE_TRIES
                         }
+                        
+                        log.info("当前页面未找到，尝试翻页");
+                        await UI.scrollPageFlexible(Math.ceil(genshin.height / 5));
+                        await sleep(800); // 等待页面稳定
+                        
                         currentPage++;
                     }
 
@@ -286,12 +301,12 @@
         await sleep(800);
         keyPress("VK_ESCAPE")
         await sleep(800);
-        click(720,65)
+        click(720,260)
         await sleep(800);
-        click(980,60)
+        click(980,830)
         await sleep(800);
 
-        let worldLevel = this.ocrRecognize(2000,{X:830, Y:485, Width:65, Height:45})
+        let worldLevel = this.ocrRecognize(2000,{X:680, Y:400, Width:150, Height:100})
         if (worldLevel){
             worldLevel = OcrNumberCorrector.correct(worldLevel);
             log.info(`识别到世界等级为：${worldLevel}`);
