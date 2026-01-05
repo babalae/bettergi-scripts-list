@@ -476,7 +476,7 @@ const confirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("a
         click(863, 51);//选择食物
         await sleep(1000);
         await findAndClick(filterButtonRo);//筛选
-        await sleep(200);
+        await sleep(1000);
         await findAndClick(searchInterfaceRo,50,false);//搜索界面
         await sleep(200);
         await findAndClick(resetButtonRo);//重置按钮
