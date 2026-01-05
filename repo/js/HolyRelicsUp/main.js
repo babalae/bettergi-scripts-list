@@ -1,4 +1,6 @@
 async function init() {
+    let manifest = JSON.parse(file.readTextSync("manifest.json"));
+    log.info(`版本:{version}`, manifest.version);
     let utils=[
         "holyRelicsUpUtils",
         "languageUtils",

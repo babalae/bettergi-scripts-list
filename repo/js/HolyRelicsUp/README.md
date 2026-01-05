@@ -302,6 +302,9 @@ sequenceDiagram
 
 ## 版本历史
 
+### 1.1.9 (2026-01-05)
+- **修复**
+  - 异常识别 问题
 ### 1.1.8 (2025-12-09)
 - **新增** **[1.1.8 新增]**：
     - 使用固定分辨率值替换动态获取(应 https://github.com/babalae/bettergi-scripts-list/pull/2464 修改)
