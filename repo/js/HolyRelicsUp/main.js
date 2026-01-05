@@ -1,14 +1,17 @@
+
+eval(file.readTextSync(`utils/languageUtils.js`));
+
 async function init() {
     let manifest = JSON.parse(file.readTextSync("manifest.json"));
     log.info(`版本:{version}`, manifest.version);
     let utils=[
         "holyRelicsUpUtils",
-        "languageUtils",
     ]
     for (let util of utils) {
         eval(file.readTextSync(`utils/${util}.js`));
     }
     log.info("初始化完成");
+    warn('holyRelicPartMapBySift==>' + JSON.stringify(Array.from(holyRelicPartMapBySift)), must)
 }
 /**
  * 主方法
@@ -286,7 +289,6 @@ const commonHolyRelicPartMapBySift = !config.enableAttributeHolyRelic ? [] : par
 const holyRelicPartMapBySift = !config.enableAttributeHolyRelic ? [] :
     (!config.coverSiftAttributeHolyRelic ? parseHolyRelicToMap(config.inputSiftAttributeHolyRelic) :
         takeDifferentHolyRelicToMap(parseHolyRelicToMap(config.inputSiftAttributeHolyRelic), commonHolyRelicPartMapBySift))
-warn('holyRelicPartMapBySift==>' + JSON.stringify(Array.from(holyRelicPartMapBySift)), must)
 
 /**
  * 属性值替换函数
