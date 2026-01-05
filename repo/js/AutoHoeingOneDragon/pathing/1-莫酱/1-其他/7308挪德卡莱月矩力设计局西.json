@@ -1,0 +1,87 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时83.24秒，包含以下怪物：1只愚人众特辖队·疗愈师、1只愚人众特辖队·火刃突击队、1只巡陆艇·强侦攻坚型、1只巡陆艇·尖端全能攻坚型。",
+    "enable_monster_loot_split": false,
+    "hash_res": "75306089",
+    "last_modified_time": 1767369555593,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "7308挪德卡莱月矩力设计局西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10103.197265625,
+      "y": 3142.159423828125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10119,
+      "y": 3172.24755859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10103.197265625,
+      "y": 3142.159423828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "芙宁娜 e",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10080.9228515625,
+      "y": 3122.03564453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10101.1904296875,
+      "y": 3104.951416015625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10088.96875,
+      "y": 3097.80810546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 10088.96875,
+      "y": 3097.80810546875
+    }
+  ]
+}
