@@ -1,0 +1,88 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时89.26秒，包含以下怪物：3只愚人众特辖队·线列军、2只愚人众特辖队·支援兵、1只愚人众特辖队·雷霰近卫军。",
+    "enable_monster_loot_split": false,
+    "hash_res": "75306089",
+    "last_modified_time": 1767365219188,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "7203挪德卡莱星砂滩",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9563.09765625,
+      "y": 2135.26513671875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9518.5048828125,
+      "y": 2198.207275390625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9514.935546875,
+      "y": 2203.751220703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9514.935546875,
+      "y": 2203.751220703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9492.4365234375,
+      "y": 2219.661376953125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9470.5078125,
+      "y": 2251.654541015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9470.5078125,
+      "y": 2251.654541015625
+    }
+  ]
+}

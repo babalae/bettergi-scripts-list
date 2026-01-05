@@ -1417,7 +1417,7 @@ async function processPathingsByGroup(pathings, accountName) {
     let skippedTime = 0;
     //移除不必要的属性
     {
-        const keysToDelete = ['monsterInfo', 'm', 'e', 'mora_m', 'mora_e', 'available', 'prioritized', 'G1', 'G2', 'index', 'folderPathArray', 'tags', 'E1', 'E2']; // 删除的字段列表
+        const keysToDelete = ['monsterInfo', 'mora_m', 'mora_e', 'available', 'prioritized', 'G1', 'G2', 'index', 'folderPathArray', 'tags', 'E1', 'E2']; // 删除的字段列表
         pathings.forEach(p => {
             keysToDelete.forEach(k => delete p[k]);
         });
@@ -1515,19 +1515,25 @@ async function processPathingsByGroup(pathings, accountName) {
             }
 
             // 计算下一个 UTC 时间的晚上 8 点（即北京时间凌晨四点）
-            const nextEightClock = new Date(now);
-            nextEightClock.setUTCHours(20, 0, 0, 0); // 设置为 UTC 时间的 20:00
-            if (nextEightClock <= now) {
+            let newCDTime = new Date(now);
+            newCDTime.setUTCHours(20, 0, 0, 0); // 设置为 UTC 时间的 20:00
+            if (newCDTime <= now) {
                 // 如果设置的时间小于等于当前时间，说明需要取下一个晚上 8 点
-                nextEightClock.setUTCHours(20 + 24, 0, 0, 0); // 设置为下一个 UTC 时间的 20:00
+                newCDTime.setUTCHours(20 + 24, 0, 0, 0); // 设置为下一个 UTC 时间的 20:00
             }
+            if (pathing.m !== 0) {
+                const nowPlus12h = new Date(now.getTime() + 12 * 3600 * 1000); // now + 12h
+                if (newCDTime < nowPlus12h) {
+                    newCDTime = nowPlus12h;
+                }
+            }
+
+            // 更新路径的 cdTime
+            pathing.cdTime = newCDTime.toLocaleString();
+            if (!localeWorks) pathing.cdTime = newCDTime.toISOString();
 
             const pathTime = new Date() - now;
             pathing.records = [...pathing.records, pathTime / 1000].slice(-7);
-
-            // 更新路径的 cdTime
-            pathing.cdTime = nextEightClock.toLocaleString();
-            if (!localeWorks) pathing.cdTime = nextEightClock.toISOString();
 
             remainingEstimatedTime -= pathing.t;
             const actualUsedTime = (new Date() - groupStartTime) / 1000;
