@@ -1,0 +1,16 @@
+// 作者:火山
+// 描述: 经典闲芙组合，火神当驾驶员。蓝砚可被替换为钟离、茜特菈莉等盾辅（娱乐玩法）
+// 版本: v1.1
+
+
+莱依拉 e,attack(0.2), keypress(q),wait(0.2),keypress(q)
+蓝砚 e,attack(0.4), moveby(1920,0),wait(0.3),w(0.3),dash(0.1), wait(0.3), keypress(q),wait(0.2), keypress(q)
+茜特菈莉 attack, e,click(middle),wait(0.8),keypress(q),click(middle),e,click(middle)
+钟离 s(0.2), e(hold), wait(0.2), w(0.2), wait(0.3),keypress(q), wait(0.3),keypress(q)
+芙宁娜 e,attack(0.2), keypress(q),wait(0.2),keypress(q),wait(0.2),keypress(q)
+闲云 e,attack(0.3),e,attack(0.3),e,attack(0.3), keypress(q),wait(0.2),keypress(q),wait(0.2),keypress(q),wait(0.5)
+莱依拉 e
+蓝砚 e,attack(0.4), moveby(1920,0), wait(0.3),w(0.3), dash(0.1), attack(0.1),wait(0.3),keypress(q),wait(0.2), keypress(q)
+茜特菈莉 attack, e,click(middle),wait(0.8),keypress(q),click(middle),e,click(middle)
+钟离 s(0.2), e(hold), wait(0.2), w(0.2), wait(0.3),keypress(q), wait(0.3),keypress(q)
+玛薇卡 attack(0.2), keydown(e), wait(0.08), keypress(x), wait(0.08), keypress(x), wait(0.08), keypress(x), wait(0.08),keyup(e), keypress(x), wait(0.08),keypress(x), s(0.5), click(middle),wait(0.08), keypress(x), click(middle), keypress(q), wait(0.3), keypress(q), keypress(q), s(0.4),wait(0.1), keypress(x), click(middle),charge(2), keydown(space), wait(0.1), keyup(space), attack(0.2), wait(0.5), charge(2), keydown(space), wait(0.1), keyup(space), attack(0.2),wait(0.55),charge(2), keydown(space), wait(0.1), keyup(space), attack(0.2), wait(0.5),keypress(4),wait(0.2),keypress(4),wait(0.2)
