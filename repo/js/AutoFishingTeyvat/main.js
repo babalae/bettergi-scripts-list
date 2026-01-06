@@ -559,7 +559,7 @@
         }
     }
 
-    async function run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid = "default_user") {
+    async function run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid = "default_user", is_time_kill, time_target, kill_hour, kill_minute) {
         const base_path_pathing = "assets/pathing/";
         const base_path_gcm = "assets/KeyMouseScript/";
         const base_path_statues = "assets/pathing_others/";
@@ -679,6 +679,13 @@
             }
         }
 
+        // 检查是否到达终止时间
+        if (is_time_kill && new Date() >= time_target) {
+            let time_now_str = `${new Date().getHours()}:${new Date().getMinutes()}`;
+            log.info(`预定时间(${kill_hour}:${kill_minute})已到(当前时间：${time_now_str})，终止运行...`);
+            return "time_kill"; // 返回特殊标记
+        }
+
         log.info(`该钓鱼点的时间: ${fishing_time}`);
 
         // 检查垂钓点CD(调式模式跳过)
@@ -695,6 +702,10 @@
                 if (fishing_time === "全天") {
                     let daytime = true;
                     if (current_cd["Daytime"] !== null) {
+                        let critical_time_date = new Date(current_cd["Daytime"]);
+                        critical_time_date.setHours(0, 0, 0, 0);
+                        critical_time_date.setDate(critical_time_date.getDate() + 3);
+                        let critical_time = critical_time_date.getTime();
                         if (now < critical_time) {
                             log.info(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
                             log.info(`${file_name}(白天) 已跳过...`);
@@ -704,7 +715,13 @@
                             log.info(`该垂钓点(白天)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
                         }
                     }
+                    
                     if (current_cd["Nighttime"] !== null) {
+                        let critical_time_date = new Date(current_cd["Nighttime"]);
+                        critical_time_date.setHours(0, 0, 0, 0);
+                        critical_time_date.setDate(critical_time_date.getDate() + 3);
+                        let critical_time = critical_time_date.getTime();
+
                         if (now < critical_time) {
                             log.info(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
                             log.info(`${file_name}(夜晚) 已跳过...`);
@@ -719,6 +736,11 @@
                     }
                 } else if (fishing_time === "白天") {
                     if (current_cd["Daytime"] !== null) {
+                        let critical_time_date = new Date(current_cd["Daytime"]);
+                        critical_time_date.setHours(0, 0, 0, 0);
+                        critical_time_date.setDate(critical_time_date.getDate() + 3);
+                        let critical_time = critical_time_date.getTime();
+
                         if (now < critical_time) {
                             log.info(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
                             log.info(`${file_name}(白天) 已跳过...`);
@@ -729,6 +751,11 @@
                     }
                 } else if (fishing_time === "夜晚") {
                     if (current_cd["Nighttime"] !== null) {
+                        let critical_time_date = new Date(current_cd["Nighttime"]);
+                        critical_time_date.setHours(0, 0, 0, 0);
+                        critical_time_date.setDate(critical_time_date.getDate() + 3);
+                        let critical_time = critical_time_date.getTime();
+
                         if (now < critical_time) {
                             log.info(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
                             log.info(`${file_name}(夜晚) 已跳过...`);
@@ -1073,7 +1100,12 @@
                     continue;
                 }
 
-                await run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid);
+                const run_result = await run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid, is_time_kill, time_target, kill_hour, kill_minute);
+
+                // 新增：检查 run_file 是否因为到达终止时间而返回特殊标记
+                if (run_result === "time_kill") {
+                    return null; // 直接退出整个任务
+                }
             // } catch (error) {
             //     const file_name = `${path_msg["area"]}-${path_msg["type"]}-${path_msg["detail"]}`;
             //     log.info(`路径: ${file_name} 执行时出错，已跳过...\n错误信息: ${error}`)

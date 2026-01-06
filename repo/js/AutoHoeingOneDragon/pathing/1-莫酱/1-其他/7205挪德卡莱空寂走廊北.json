@@ -1,0 +1,142 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时83.41秒，包含以下怪物：2只愚人众特辖队·线列军、2只愚人众特辖队·先锋士、2只巡陆艇·强侦斥候型、1只巡陆艇·尖端火力地效型。",
+    "enable_monster_loot_split": false,
+    "hash_res": "75306089",
+    "last_modified_time": 1767366916222,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "7205挪德卡莱空寂走廊北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9191.6689453125,
+      "y": 2852.09912109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9193.5908203125,
+      "y": 2864.62646484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9194.0546875,
+      "y": 2866.64501953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9200.73828125,
+      "y": 2881.1435546875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9200.1826171875,
+      "y": 2875.6728515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9200.1826171875,
+      "y": 2875.6728515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9206.515625,
+      "y": 2912.45166015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9205.919921875,
+      "y": 2938.598388671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9213.5625,
+      "y": 2938.315673828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9219.005859375,
+      "y": 2933.787109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9226.9501953125,
+      "y": 2932.26318359375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9254.935546875,
+      "y": 2930.1591796875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9254.935546875,
+      "y": 2930.1591796875
+    }
+  ]
+}

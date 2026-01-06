@@ -1,0 +1,24 @@
+// 作者:FEiiL
+// 描述:副本，采集（除矿物），锄地（虽然不是很好，神子和蓝砚会动来动去的容易落材料）通用，笔者满命神子基本一轮内清完
+// 建议高练度使用（蕾神6命血量充能++，蓝砚2命攻击++，蓝砚6命全循环），另外神子的q等作者添加满能量及cd判断再说
+
+//v2.0 插入草神e优化循环，使用中键优化了夏沃蕾脱靶的问题。注：非满命蓝砚第二轮会卡e
+八重神子 keydown(w),wait(0.1),e,keyup(w),wait(0.3),keydown(s),wait(0.1),e,wait(0.4),e,keyup(s),wait(0.3),keydown(w),wait(0.2),keyup(w),keydown(w),wait(0.2),keyup(w),attack(0.1),wait(0.1)
+夏沃蕾 e,wait(0.2)
+蓝砚 e,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click
+纳西妲 e(hold),q,attack(0.2)
+八重神子 keydown(w),wait(0.1),e,keyup(w),wait(0.3),keydown(s),wait(0.1),e,wait(0.4),e,keyup(s),wait(0.3),keydown(w),wait(0.2),keyup(w),keydown(w),wait(0.2),keyup(w),attack(0.1),wait(0.1)
+纳西妲 e(hold)
+夏沃蕾 q,click(middle),wait(0.2),click(middle),wait(0.1),e(hold)
+蓝砚 q,e,wait(0.2),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click,wait(0.05),click
+纳西妲 e(hold),q,attack(0.2)
+
+//v1.0 
+//八重神子 keydown(w),wait(0.1),e,keyup(w),wait(0.3),keydown(s),wait(0.1),e,wait(0.4),e,keyup(s),wait(0.3),keydown(w),wait(0.2),keyup(w),keydown(w),wait(0.2),keyup(w),attack(0.2),wait(0.2),attack(0.2),wait(0.3),attack(0.2)
+//夏沃蕾 e,wait(0.2)
+//蓝砚 e,wait(0.2)
+//纳西妲 e(hold),wait(0.5),q,attack(0.2)
+//八重神子 keydown(w),wait(0.1),e,keyup(w),wait(0.3),keydown(s),wait(0.1),e,wait(0.4),e,keyup(s),wait(0.3),keydown(w),wait(0.2),keyup(w),keydown(w),wait(0.2),keyup(w),attack(0.2),wait(0.2),attack(0.2),wait(0.3),attack(0.2)
+//夏沃蕾 attack(0.2),q,e(hold),wait(0.3),
+//蓝砚 q,e,wait(0.2)
+//纳西妲 e(hold),wait(0.5),q,wait(0.2)

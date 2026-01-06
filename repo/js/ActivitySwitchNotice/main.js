@@ -1,3 +1,4 @@
+let manifest = {};
 async function init() {
     let utils=[
         "ws",
@@ -8,7 +9,8 @@ async function init() {
     for (let util of utils) {
         eval(file.readTextSync(`utils/${util}.js`));
     }
-    log.info("main 初始化完成");
+    manifest = JSON.parse(file.readTextSync("manifest.json"));
+    log.debug("main 初始化完成");
 }
 // 判断是否在主界面的函数
 const isInMainUI = () => {
@@ -41,6 +43,7 @@ async function toMainUi() {
 
 (async function () {
     await init();
+    log.info(`版本:{version}`,manifest.version)
     if (settings.toMainUi){
         await toMainUi();
     }
