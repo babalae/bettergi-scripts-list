@@ -114,11 +114,14 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
 
             // 区分双倍好感
             if (settingsNotDoublePoints == true) {
-                
-                // await claimEncounterPointsRewards();
+                // 不使用好友尘歌壶领双倍好感的情况
+                // 如果有设置队伍名称，需要在切换队伍后单独领取历练点奖励
+                if (!!settings.partyName) {
+                    await claimEncounterPointsRewards();
+                }
                 await fontaineCatherineCommissionAward()
             } else if (settingsNotDoublePoints == false) {
-                // 进好友尘歌壶领历练点奖励后返回大世界
+                // 使用好友尘歌壶领双倍好感的情况
                 let request_times = settings.request_times * 2;
                 let total_clicks = request_times ? request_times : 14;
                 // 指定好友名称
@@ -537,8 +540,8 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
 
                 await sleep(2000);
                 log.info("可领取历练点奖励");
-                
-                if (settingsNotDoublePoints == true) {
+                // 檢查是否可以領取 且 沒有設置隊伍名稱
+                if (settingsNotDoublePoints == true && !settings.partyName) {
                     log.info(`不使用好友尘歌壶历练点领取双倍好感，直接使用历练点`);
                     const ro29 = captureGameRegion();
                     let EncounterPointsStageRewardsButton = ro29.find(EncounterPointsStageRewardsRo);
