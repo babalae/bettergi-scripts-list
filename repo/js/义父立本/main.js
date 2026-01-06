@@ -2,10 +2,18 @@ eval(file.readTextSync(`utils/uid.js`));
 let checkInterval = +settings.checkInterval || 50;
 let waitTime = 40;
 
-function getCurrentDate() {
+function getAdjustedDate() {
     const now = new Date();
-    return now.toLocaleDateString('en-CA'); // 'en-CA' 格式为 YYYY-MM-DD
+    // 减去4小时（4 * 60 * 60 * 1000 毫秒）
+    now.setHours(now.getHours() - 4);
+
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
 }
+
 
 // 更新json文件
 async function updateFile(settingsArray, path) {
@@ -35,7 +43,7 @@ async function updateFile(settingsArray, path) {
     let executeJson = "execute.json"
     let execute = JSON.parse(file.readTextSync(executeJson));
     let uid = await uidUtil.ocrUID();
-    let currentDate = getCurrentDate();
+    let currentDate = getAdjustedDate();
     for (const uidElement of execute) {
         if (uidElement.uid === uid && uidElement.date === currentDate) {
             log.info("UID:{uid} 今天已经立本过了", uid);
