@@ -1,0 +1,68 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时66秒，包含以下怪物：2只魔像禁卫。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767728638478,
+    "map_match_method": "",
+    "map_name": "SeaOfBygoneEras",
+    "name": "526枫丹切萨勒姆宫东（200_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4547.02490234375,
+      "y": 1477.1634521484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4564.86767578125,
+      "y": 1371.078857421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(2.4),dash",
+      "id": 3,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4541.044921875,
+      "y": 1351.780029296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4541.044921875,
+      "y": 1351.780029296875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4556.9306640625,
+      "y": 1311.4007568359375
+    }
+  ]
+}
