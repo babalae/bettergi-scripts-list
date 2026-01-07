@@ -22,5 +22,17 @@
     "type": "input-text",
     "label": "复活药名称",
     "default": ""
+  },
+  {
+    "name": "loadDelay",
+    "type": "input-text",
+    "label": "加载等待延迟\n用于OCR，界面切换和输入药名前的等待\n默认1000，单位毫秒",
+    "default": "1000"
+  },
+  {
+    "name": "stepDelay",
+    "type": "input-text",
+    "label": "操作间隔延迟\n用于筛选操作之间的短暂等待\n默认1000，单位毫秒",
+    "default": "1000"
   }
 ]
