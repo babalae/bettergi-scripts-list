@@ -168,7 +168,7 @@ async function ocrPhysical(opToMainUi = false,openMap=false) {
         // y: 32,
         y: button.y,
         // width: 61,
-        width: Math.abs(1920 - button.x - button.width),
+        width: Math.abs(genshinJson.width  - button.x - button.width),
         height: 26
     }
 
