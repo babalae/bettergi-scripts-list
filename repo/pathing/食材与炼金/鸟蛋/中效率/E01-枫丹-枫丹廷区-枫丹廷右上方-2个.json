@@ -1,0 +1,95 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.54.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766891283002,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E01-枫丹-枫丹廷区-枫丹廷右上方-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4319.2334,
+      "y": 3591.8918
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-800)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4319.2334,
+      "y": 3591.8918
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4345.2852,
+      "y": 3588.7017
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 4360.793,
+      "y": 3589.8181
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4365.4307,
+      "y": 3585.6431
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 4372.4375,
+      "y": 3585.8223
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4380.8789,
+      "y": 3622.8613
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4399.0098,
+      "y": 3644.9927
+    }
+  ]
+}
