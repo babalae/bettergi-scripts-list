@@ -356,6 +356,14 @@ async function processPathings(groupTags) {
                 } else if (monster.type === "精英") {
                     pathing.e += count; // 增加精英怪物数量
                     pathing.mora_e += count * 200 * monster.moraRate; // 增加精英怪物摩拉值
+
+                }
+
+                if (monster.moraRate > 1) {
+                    pathing.tags.push('高收益');
+                    if (monster.type === "精英") {
+                        pathing.tags.push('精英高收益');
+                    }
                 }
 
                 // 添加标签
@@ -547,7 +555,11 @@ async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonst
     /* ========== 3. 最小不可再减集合（贪心逆筛，不碰优先路线） ========== */
     // 1. 只留非优先的已选路线，按性价比升序排
     const selectedList = pathings
-        .filter(p => p.selected && !p.prioritized)
+        .filter(p =>
+            p.selected &&
+            !p.prioritized &&
+            !p.tags.includes('精英高收益')
+        )
         .sort((a, b) => {
             const score = p => {
                 const eliteGain = p.e === 0 ? 200 : (p.G1 - p.G2) / p.e;
@@ -578,12 +590,25 @@ async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonst
             p.tags.push("小怪");
         }
     });
-    if (settings.runByEfficiency) {
-        log.info("使用效率降序运行");
-        pathings.sort((a, b) => b.E1 - a.E1 || b.E2 - a.E2);
-    } else {
-        log.info("使用默认顺序运行");
-        pathings.sort((a, b) => a.index - b.index);
+
+    switch (settings.sortMode) {
+        case "效率降序":
+            log.info("使用效率降序运行");
+            pathings.sort((a, b) => b.E1 - a.E1 || b.E2 - a.E2);
+            break;
+
+        case "高收益优先":
+            log.info("使用高收益优先运行");
+            pathings.sort((a, b) => {
+                const aHigh = a.tags.includes("高收益") ? 1 : 0;
+                const bHigh = b.tags.includes("高收益") ? 1 : 0;
+                return bHigh - aHigh || a.index - b.index; // 有标签的在前，同标签按原顺序
+            });
+            break;
+
+        default:
+            log.info("使用原文件顺序运行");
+            pathings.sort((a, b) => a.index - b.index);
     }
 
     log.info(`总精英怪数量: ${totalSelectedElites.toFixed(0)}`);
