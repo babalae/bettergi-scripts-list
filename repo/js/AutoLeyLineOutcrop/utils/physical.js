@@ -128,8 +128,8 @@ async function ocrPhysical(opToMainUi = false,openMap=false) {
     }
     let templateMatchButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${tmJson.path}`), tmJson.x, tmJson.y, tmJson.width, tmJson.height);
     let region =captureGameRegion()
+    let button = region.find(templateMatchButtonRo);
     try {
-        let button = region.find(templateMatchButtonRo);
         await sleep(ms)
         if (!button.isExist()) {
             log.error(`${tmJson.path} 匹配异常`)
