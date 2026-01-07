@@ -134,7 +134,7 @@ async function ocrPhysical(opToMainUi = false,openMap=false) {
         throwError(`${tmJson.path} 匹配异常`)
     }
 
-    log.debug(`===[定位/200]===`)
+/*    log.debug(`===[定位/200]===`)
     //定位200
     let jsonPath2 = getJsonPath('200');
     let tmJson2 = {
@@ -153,18 +153,18 @@ async function ocrPhysical(opToMainUi = false,openMap=false) {
     if (!button2.isExist()) {
         log.error(`${tmJson2.path} 匹配异常`)
         throwError(`${tmJson2.path} 匹配异常`)
-    }
+    }*/
 
     log.debug(`===[识别原粹树脂]===`)
     //识别体力 x=1625,y=31,width=79,height=30 / x=1689,y=35,width=15,height=26
     let ocr_obj = {
         // x: 1623,
-        x: button.x + button.width-20,
+        x: button.x + button.width,
         // y: 32,
         y: button.y,
         // width: 61,
-        width: Math.abs(button2.x - button.x - button.width+20),
-        height: button2.height
+        width: Math.abs(1920 - button.x - button.width),
+        height: 26
     }
 
     log.debug(`ocr_obj: x={x},y={y},width={width},height={height}`, ocr_obj.x, ocr_obj.y, ocr_obj.width, ocr_obj.height)
@@ -176,7 +176,8 @@ async function ocrPhysical(opToMainUi = false,openMap=false) {
         region3.Dispose()
 
         log.info(`[OCR原粹树脂]识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
-        let remainder = await saveOnlyNumber(res.text)
+        let text=res.text.split('/')[0]
+        let remainder = await saveOnlyNumber(text)
         let execute = (remainder - minPhysical) >= 0
         log.info(`最小可执行原粹树脂:{min},原粹树脂:{key}`, minPhysical, remainder,)
 
