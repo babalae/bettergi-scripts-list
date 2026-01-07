@@ -205,17 +205,20 @@ async function recognizeNumberByOCR(ocrRegion, pattern) {
  * 统计原粹树脂数量
  * @returns {number} 原粹树脂数量
  */
-async function countOriginalResin(tryOriginalMode,opToMainUi,openMap) {
+async function countOriginalResin(tryOriginalMode, opToMainUi, openMap) {
     if (tryOriginalMode) {
         log.info("尝试使用原始模式");
         return await countOriginalResinBackup()
     } else {
         log.info('尝试使用优化模式');
-        let ocrPhysical = await physical.ocrPhysical(opToMainUi,openMap);
+        let ocrPhysical = await physical.ocrPhysical(opToMainUi, openMap);
         await sleep(600)
+        // ocrPhysical = false//模拟异常
         if (ocrPhysical && ocrPhysical.ok) {
             return ocrPhysical.remainder;
         } else {
+            //异常 退出至地图 尝试使用原始模式
+            await keyPress("VK_ESCAPE")
             log.error(`ocrPhysical error`);
             throw new Error("ocrPhysical error");
         }
@@ -468,7 +471,7 @@ this.countAllResin = async function () {
         let tryPass = true;
         try {
             log.info("[开始]统计补充树脂界面中的树脂");
-            resinCounts.original = await countOriginalResin(false,false);
+            resinCounts.original = await countOriginalResin(false, false);
             moveMouseTo(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y)
             await sleep(500);
             resinCounts.transient = await countTransientResin();
@@ -481,7 +484,7 @@ this.countAllResin = async function () {
         }
         await sleep(CONFIG.UI_DELAY);
         log.info("开始统计地图界面中的树脂");
-        if (!tryPass){
+        if (!tryPass) {
             // 如果第一次尝试失败，则切换到蒙德
             await switchtoCountrySelection(CONFIG.COORDINATES.MONDSTADT.x, CONFIG.COORDINATES.MONDSTADT.y)
             resinCounts.original = await countOriginalResin(!tryPass);
@@ -539,23 +542,23 @@ this.calCountByResin = async function () {
         // 1. 原粹树脂：优先消耗40/次，不满40消耗20/次，不满20不消耗
         let originalResinTimes = 0;
         let remainingOriginalResin = countResult.originalResinCount;
-        
+
         // 先计算40树脂的次数
         if (remainingOriginalResin >= 40) {
             const times40 = Math.floor(remainingOriginalResin / 40);
             originalResinTimes += times40;
             remainingOriginalResin = remainingOriginalResin - (times40 * 40);
         }
-        
+
         // 再计算20树脂的次数
         if (remainingOriginalResin >= 20) {
             const times20 = Math.floor(remainingOriginalResin / 20);
             originalResinTimes += times20;
             remainingOriginalResin = remainingOriginalResin - (times20 * 20);
         }
-        
+
         log.info(`原粹树脂可刷取次数: ${originalResinTimes}`);
-        
+
         // 2. 浓缩树脂：每个计算为1次
         let condensedResinTimes = countResult.condensedResinCount;
         log.info(`浓缩树脂可刷取次数: ${condensedResinTimes}`);
