@@ -7,11 +7,12 @@ const ocrRegion = {
         width: 220,
         height: 270
     };
-const filterButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/filterButton.png"));
-const resetButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/resetButton.png"));
-const researchRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/research.png"));
-const searchInterfaceRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/interface.png"));
-const confirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/confirmButton.png"), 350, 1000, 50, 50);
+const filterButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/filterButton.png"),154, 1003, 27, 27);
+const resetButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/resetButton.png"),66, 1006, 27, 27);
+const researchRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/research.png"),95, 101, 27, 27);
+const confirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/confirmButton.png"), 355, 999, 44, 44);
+const loadDelay = +settings.loadDelay || 1000;
+const stepDelay = +settings.stepDelay || 1000;
 (async function () {
     // 检验账户名
     async function getUserName() {
@@ -452,90 +453,97 @@ const confirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("a
         return null;
     }
 
-    async function findAndClick(target, maxAttempts = 50, clicks=true) {
+    async function findAndClick(target, maxAttempts = 50) {
         for (let i = 0; i < maxAttempts; i++) {
-            const rg = captureGameRegion();
-            try {
-                const res = rg.find(target);
-                if (res.isExist()) {
-                    if(clicks)
-                        {await sleep(50); res.click()}
-                    return true;
-                }
-            } finally { rg.dispose(); }
-            if (i < maxAttempts - 1) await sleep(50);
+            const result = await recognizeImage(target);
+            if (result.success) {
+                click(result.x, result.y);
+                await sleep(50);
+                return true;
+            } else {
+                log.warn(`未能识别到图标，尝试 ${i + 1}/${maxAttempts}`);
+            }
+            await sleep(50);
         }
         return false;
     }
-
-
-    async function getFoodNum(){
-        keyPress("B");//打开背包
-        await handleExpiredItems(); //处理过期物品弹窗
-        await sleep(500);
-        click(863, 51);//选择食物
-        await sleep(1000);
-        await findAndClick(filterButtonRo);//筛选
-        await sleep(1000);
-        await findAndClick(searchInterfaceRo,50,false);//搜索界面
-        await sleep(200);
-        await findAndClick(resetButtonRo);//重置按钮
-        await sleep(200);
-        await findAndClick(researchRo);//搜索输入框
-        await sleep(200);
-        inputText(recoveryFoodName);
-        await findAndClick(confirmButtonRo);//确认按钮
-        await sleep(1000);
-        let recoveryNumber=await recognizeNumberByOCR(ocrRegion,/\d+/) //识别回血药数量
-        // 处理回血药识别结果
-        if (recoveryNumber === null) {
-            recoveryNumber = 0;
-            notification.send(`未识别到回血药数量，设置数量为0，药品名：${recoveryFoodName}`)
-            await sleep(5000);
-            click(863, 51);//选择食物
-            await sleep(1000);
+    
+    // 定义一个函数用于识别图像
+    async function recognizeImage(recognitionObject, timeout = 5000) {
+        let startTime = Date.now();
+        while (Date.now() - startTime < timeout) {
+            try {
+                // 尝试识别图像
+                const ro = captureGameRegion();
+                let imageResult = ro.find(recognitionObject);
+                ro.dispose();
+                if (imageResult && imageResult.x !== 0 && imageResult.y !== 0 && imageResult.width !== 0 && imageResult.height !== 0) {
+//                    log.info(`成功识别图像，坐标: x=${imageResult.x}, y=${imageResult.y}, width=${imageResult.width}, height=${imageResult.height}`);
+                    return { success: true, x: imageResult.x, y: imageResult.y, width: imageResult.width, height: imageResult.height};
+                }
+            } catch (error) {
+                log.error(`识别图像时发生异常: ${error.message}`);
+            }
+            await sleep(10); // 短暂延迟，避免过快循环
         }
-        await findAndClick(filterButtonRo);//筛选
-        await sleep(500);
-        await findAndClick(searchInterfaceRo,50,false);//搜索界面
-        await sleep(200);
-        await findAndClick(resetButtonRo);//重置按钮
-        await sleep(200);
-        await findAndClick(researchRo);//搜索输入框
-        await sleep(200);
-        inputText(resurrectionFoodName);
-        await findAndClick(confirmButtonRo);//确认按钮
-        await sleep(1000); // 增加等待时间
-        let resurrectionNumber=await recognizeNumberByOCR(ocrRegion,/\d+/) //识别复活药数量
-        // 处理复活药识别结果
-        if (resurrectionNumber === null) {
-            resurrectionNumber = 0;
-            notification.send(`未识别到复活药数量，设置数量为0，药品名：${resurrectionFoodName}`)
-            await sleep(5000);
-            click(863, 51);//选择食物
-            await sleep(1000);
-        }
-        await findAndClick(filterButtonRo);//筛选
-        await sleep(200);
-        await findAndClick(searchInterfaceRo,50,false);//搜索界面
-        await sleep(200);
-        await findAndClick(resetButtonRo);//重置
-        await sleep(200);
-        await findAndClick(confirmButtonRo);//确认按钮
-        await genshin.returnMainUi();
-        return { recoveryNumber, resurrectionNumber };
+        log.warn(`经过多次尝试，仍然无法识别图像`);
+        return { success: false };
     }
 
     async function main() {
     // 设置分辨率和缩放
     setGameMetrics(1920, 1080, 1);
-    // 点击领月卡
-    await genshin.blessingOfTheWelkinMoon();
-    await sleep(500);
     await genshin.returnMainUi();
-    await sleep(500);
-    // 获取食物数量
-    return await getFoodNum();
+    keyPress("B");//打开背包
+    await handleExpiredItems(); //处理过期物品弹窗
+    await sleep(loadDelay);
+    click(863, 51);//选择食物
+    await sleep(loadDelay);
+    await findAndClick(filterButtonRo);//筛选 图标的坐标: x=155, y=1004, width=25, height=25，识图范围推荐: 154, 1003, 27, 27
+    await sleep(stepDelay);
+    await findAndClick(resetButtonRo);//重置按钮 图标的坐标: x=67, y=1007, width=25, height=25，识图范围推荐: 66, 1006, 27, 27
+    await sleep(stepDelay);
+    await findAndClick(researchRo);//搜索输入框 图标的坐标: x=96, y=102, width=25, height=25，识图范围推荐: 95, 101, 27, 27
+    await sleep(loadDelay);
+    inputText(recoveryFoodName);
+    await sleep(stepDelay);
+    await findAndClick(confirmButtonRo);//确认按钮 图标的坐标: x=356, y=1000, width=42, height=42，识图范围推荐: 355, 999, 44, 44
+    await sleep(loadDelay);
+    let recoveryNumber=await recognizeNumberByOCR(ocrRegion,/\d+/) //识别回血药数量
+    // 处理回血药识别结果
+    if (recoveryNumber === null) {
+        recoveryNumber = 0;
+        notification.send(`未识别到回血药数量，设置数量为0，药品名：${recoveryFoodName}`)
+        await sleep(5000);
+        click(863, 51);//选择食物
+        await sleep(1000);
+    }
+    await findAndClick(filterButtonRo);//筛选 图标的坐标: x=155, y=1004, width=25, height=25，识图范围推荐: 154, 1003, 27, 27
+    await sleep(stepDelay);
+    await findAndClick(resetButtonRo);//重置按钮
+    await sleep(stepDelay);
+    await findAndClick(researchRo);//搜索输入框
+    await sleep(loadDelay);
+    inputText(resurrectionFoodName);
+    await sleep(stepDelay);
+    await findAndClick(confirmButtonRo);//确认按钮
+    await sleep(loadDelay);
+    let resurrectionNumber=await recognizeNumberByOCR(ocrRegion,/\d+/) //识别复活药数量
+    // 处理复活药识别结果
+    if (resurrectionNumber === null) {
+        resurrectionNumber = 0;
+        notification.send(`未识别到复活药数量，设置数量为0，药品名：${resurrectionFoodName}`)
+        await sleep(5000);
+        click(863, 51);//选择食物
+        await sleep(1000);
+    }
+    await findAndClick(filterButtonRo);//筛选
+    await sleep(stepDelay);
+    await findAndClick(resetButtonRo);//重置
+    await sleep(stepDelay);
+    await findAndClick(confirmButtonRo);//确认按钮
+    await genshin.returnMainUi();
+    return { recoveryNumber, resurrectionNumber };
     }
 
     // 主执行流程
