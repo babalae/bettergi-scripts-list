@@ -96,16 +96,19 @@ async function ocrPhysical(opToMainUi = false,openMap=false) {
     }
     let templateMatchAddButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${add_objJson.path}`), add_objJson.x, add_objJson.y, add_objJson.width, add_objJson.height);
     let regionA = captureGameRegion()
-    // let buttonA = captureGameRegion().find(templateMatchAddButtonRo);
-    let buttonA = regionA.find(templateMatchAddButtonRo);
-    regionA.Dispose()
+    try {
+        let buttonA = regionA.find(templateMatchAddButtonRo);
 
-    await sleep(ms)
-    if (!buttonA.isExist()) {
-        log.error(`未找到${add_objJson.path}请检查路径是否正确`)
-        throwError(`未找到${add_objJson.path}请检查路径是否正确`)
+        await sleep(ms)
+        if (!buttonA.isExist()) {
+            log.error(`${add_objJson.path}匹配异常`)
+            throwError(`${add_objJson.path}匹配异常`)
+        }
+        await buttonA.click()
+    }finally {
+        regionA.Dispose()
     }
-    await buttonA.click()
+
     // let add_obj = {
     //     x: 1264,
     //     y: 39,
@@ -125,13 +128,15 @@ async function ocrPhysical(opToMainUi = false,openMap=false) {
     }
     let templateMatchButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${tmJson.path}`), tmJson.x, tmJson.y, tmJson.width, tmJson.height);
     let region =captureGameRegion()
-    // let button = captureGameRegion().find(templateMatchButtonRo);
-    let button = region.find(templateMatchButtonRo);
-    region.Dispose()
-    await sleep(ms)
-    if (!button.isExist()) {
-        log.error(`${tmJson.path} 匹配异常`)
-        throwError(`${tmJson.path} 匹配异常`)
+    try {
+        let button = region.find(templateMatchButtonRo);
+        await sleep(ms)
+        if (!button.isExist()) {
+            log.error(`${tmJson.path} 匹配异常`)
+            throwError(`${tmJson.path} 匹配异常`)
+        }
+    }finally {
+        region.Dispose()
     }
 
 /*    log.debug(`===[定位/200]===`)
@@ -168,12 +173,11 @@ async function ocrPhysical(opToMainUi = false,openMap=false) {
     }
 
     log.debug(`ocr_obj: x={x},y={y},width={width},height={height}`, ocr_obj.x, ocr_obj.y, ocr_obj.width, ocr_obj.height)
+    let region3 = captureGameRegion()
 
     try {
         let recognitionObjectOcr = RecognitionObject.Ocr(ocr_obj.x, ocr_obj.y, ocr_obj.width, ocr_obj.height);
-        let region3 = captureGameRegion()
         let res = region3.find(recognitionObjectOcr);
-        region3.Dispose()
 
         log.info(`[OCR原粹树脂]识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
         let text=res.text.split('/')[0]
@@ -190,6 +194,7 @@ async function ocrPhysical(opToMainUi = false,openMap=false) {
     } catch (e) {
         throwError(`识别失败,err:${e.message}`)
     } finally {
+        region3.Dispose()
         //返回地图操作
         if (opToMainUi) {
             await toMainUi();  // 切换到主界面
