@@ -261,6 +261,7 @@ let lastEatBuff = 0;
                 haveProblem = true;
             }
             if (haveProblem) {
+                log.warn("校验未通过，请按照以上提示修改，或者在自定义配置中勾选以跳过校验阶段");
                 return;
             }
         }
