@@ -230,35 +230,36 @@ let lastEatBuff = 0;
         }
         log.info('当前队伍：' + teamStr);
         let haveProblem = false;
-        if (targetEliteNum <= 350 && targetMonsterNum >= 100) {
-            log.warn("目标怪物数量配置不合理，请重新阅读 readme 相关部分");
-            await sleep(5000);
-            haveProblem = true;
-        }
-        if (genshin.width !== 1920 || genshin.height !== 1080) {
-            log.warn("游戏窗口非 1920×1080，可能导致图像识别失败，造成拾取等行为异常");
-            await sleep(5000);
-            haveProblem = true;
-        }
-        if (avatars.includes('钟离')) {
-            log.warn("当前队伍包含钟离，请重新阅读 readme 相关部分");
-            await sleep(5000);
-            haveProblem = true;
-        }
-        if (!['芙宁娜', '爱可菲'].some(n => avatars.includes(n))) {
-            log.warn("未携带合适的输出角色（芙宁娜/爱可菲），建议重新阅读 readme 相关部分");
-            await sleep(5000);
-            haveProblem = true;
-        }
-        if (!['茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '琦良良', '迪希雅', '迪奥娜']
-            .some(n => avatars.includes(n))) {
-            log.warn("未携带合适的抗打断角色（茜特菈莉/伊涅芙/莱依拉/蓝砚/白术/琦良良/迪希雅/迪奥娜）");
-            await sleep(5000);
-            haveProblem = true;
-        }
-        if (settings.skipCheck === "确认跳过校验阶段，任何包括但不限于漏怪、卡死、不拾取等问题均由自己配置与队伍等引起，与脚本和路线无关") {
+
+        if (settings.skipCheck) {
             log.warn("确认跳过校验阶段，任何包括但不限于漏怪、卡死、不拾取等问题均由自己配置与队伍等引起，与脚本和路线无关");
         } else {
+            if (targetEliteNum <= 350 && targetMonsterNum >= 100) {
+                log.warn("目标怪物数量配置不合理，请重新阅读 readme 相关部分");
+                await sleep(5000);
+                haveProblem = true;
+            }
+            if (genshin.width !== 1920 || genshin.height !== 1080) {
+                log.warn("游戏窗口非 1920×1080，可能导致图像识别失败，造成拾取等行为异常");
+                await sleep(5000);
+                haveProblem = true;
+            }
+            if (avatars.includes('钟离')) {
+                log.warn("当前队伍包含钟离，请重新阅读 readme 相关部分");
+                await sleep(5000);
+                haveProblem = true;
+            }
+            if (!['芙宁娜', '爱可菲'].some(n => avatars.includes(n))) {
+                log.warn("未携带合适的输出角色（芙宁娜/爱可菲），建议重新阅读 readme 相关部分");
+                await sleep(5000);
+                haveProblem = true;
+            }
+            if (!['茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '琦良良', '迪希雅', '迪奥娜']
+                .some(n => avatars.includes(n))) {
+                log.warn("未携带合适的抗打断角色（茜特菈莉/伊涅芙/莱依拉/蓝砚/白术/琦良良/迪希雅/迪奥娜）");
+                await sleep(5000);
+                haveProblem = true;
+            }
             if (haveProblem) {
                 return;
             }
