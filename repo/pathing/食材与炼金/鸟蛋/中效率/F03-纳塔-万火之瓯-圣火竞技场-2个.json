@@ -1,76 +1,85 @@
 {
   "info": {
-    "name": "F03-纳塔-万火之瓯-圣火竞技场-2个",
-    "type": "collect",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.54.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767848642963,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F03-纳塔-万火之瓯-圣火竞技场-2个",
     "tags": [],
-    "last_modified_time": 1752915948548,
-    "enable_monster_loot_split": false
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 8974.53,
-      "y": -1878.28,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
-    },
-    {
-      "id": 2,
-      "x": 8955.27,
-      "y": -1855.15,
-      "type": "path",
-      "move_mode": "run",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": 8900.33,
-      "y": -1833.19,
-      "type": "orientation",
+      "id": 1,
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "w(1.6)",
-      "locked": false
+      "type": "teleport",
+      "x": 8974.53,
+      "y": -1878.28
     },
     {
-      "id": 4,
-      "x": 8900.33,
-      "y": -1833.19,
-      "type": "path",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": 8898.81,
-      "y": -1831.32,
-      "type": "target",
-      "move_mode": "climb",
-      "action": "combat_script",
-      "action_params": "keypress(f);纳西妲 e;"
-    },
-    {
-      "id": 6,
-      "x": 8899.24,
-      "y": -1830.22,
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
       "type": "path",
-      "move_mode": "climb",
-      "action": "combat_script",
-      "action_params": "attack(0.3),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+      "x": 8944.626,
+      "y": -1849.7012
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8922.8398,
+      "y": -1839.9204
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8917.877,
+      "y": -1832.0
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8912.9131,
+      "y": -1831.2944
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8899.6113,
+      "y": -1830.0527
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8898.1543,
+      "y": -1829.6313
     }
   ]
 }
