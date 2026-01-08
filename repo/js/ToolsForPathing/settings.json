@@ -1,0 +1,21 @@
+[
+  {
+    "name": "selectValue", // 变量名，在js内使用 settings.变量名 获取对应的配置值
+    "type": "select", // 类型
+    "label": "选项框", // 显示标签
+    "options": [ //选项
+      "选项一",
+      "选项二"
+    ]
+  },
+  {
+    "name": "inputValue",
+    "type": "input-text",
+    "label": "文本框"
+  },
+  {
+    "name": "checkValue",
+    "type": "checkbox",
+    "label": "复选框"
+  }
+]

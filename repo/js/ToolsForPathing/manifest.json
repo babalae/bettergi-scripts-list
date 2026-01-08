@@ -1,0 +1,23 @@
+{
+  "manifest_version": 1,
+  "name": "地图追踪工具", // 名称
+  "version": "0.1", // 版本
+  "bgi_version": "0.54.2", // 适用于 BetterGI 的最低版本，BetterGI低于此版本会提示
+  "description": "主要用于地图追踪：记录坐标然后转译为录制编辑器可识别的文件", // 描述
+  // 作者信息ZJYC
+  "authors": [
+    {
+      "name": "ZJYC",
+      "link": "https://github.com/ZJYC"
+    }
+  ],
+  // 自定义配置
+  "settings_ui": "settings.json",
+  // 入口文件
+  "main": "main.js",
+  // 需要保留的文件路径（支持正则表达式与通配符）
+  "saved_files": [
+    "data/*.txt",
+    "user_data.txt"
+  ]
+}
