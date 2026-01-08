@@ -1,72 +1,67 @@
 {
   "info": {
-    "name": "B19-璃月-璃沙郊-灵矩关右上-4个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.54.0",
     "authors": [
       {
-        "name": "灰林鸮",
-        "links": "https://github.com/Strix-nivicolum"
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
       }
-    ]
+    ],
+    "bgi_version": "0.54.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767848066601,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B19-璃月-璃沙郊-灵矩关右上-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 978.76,
-      "y": -353.61,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -353.61
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 994.15,
-      "y": -347.37,
+      "move_mode": "run",
       "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": 995.7676,
+      "y": -345.1909
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 1001.7,
-      "y": -348.64,
-      "action": "nahida_collect",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "move_mode": "run",
+      "type": "path",
+      "x": 1004.9434,
+      "y": -350.5239
     },
     {
-      "id": 4,
-      "x": 1019.37,
-      "y": -341.78,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 1038.6826,
+      "y": -342.3794
     },
     {
-      "id": 5,
-      "x": 1033.86,
-      "y": -344.17,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 1040.07,
-      "y": -343.92,
-      "type": "target",
-      "move_mode": "walk",
       "action": "nahida_collect",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1039.5459,
+      "y": -342.5137
     }
   ]
 }

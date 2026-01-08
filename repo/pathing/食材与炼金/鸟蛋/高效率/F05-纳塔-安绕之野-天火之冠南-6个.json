@@ -1,85 +1,85 @@
 {
   "info": {
-    "name": "F05-纳塔-安绕之野-天火之冠南-6个",
-    "type": "collect",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.54.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767842016786,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F05-纳塔-安绕之野-天火之冠南-6个",
     "tags": [],
-    "last_modified_time": 1752217014275,
-    "enable_monster_loot_split": false
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 10278.06,
-      "y": -3110.49,
       "action": "force_tp",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
-    },
-    {
-      "id": 2,
-      "x": 10290.48,
-      "y": -3125.69,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 10294.31,
-      "y": -3136.14,
-      "action": "combat_script",
-      "move_mode": "climb",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);纳西妲 attack(0.08),e;",
-      "type": "target"
-    },
-    {
-      "id": 4,
-      "x": 10304.17,
-      "y": -3137.84,
-      "action": "combat_script",
-      "move_mode": "climb",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
-      "type": "target"
-    },
-    {
-      "id": 5,
-      "x": 10303.27,
-      "y": -3155.25,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
-      "type": "target",
-      "locked": false
-    },
-    {
-      "id": 6,
-      "x": 10303.27,
-      "y": -3155.25,
-      "action": "nahida_collect",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 7,
-      "x": 10170.76,
-      "y": -3021.48,
       "type": "teleport",
-      "move_mode": "walk",
+      "x": 10278.06,
+      "y": -3110.49
+    },
+    {
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10295.3037,
+      "y": -3125.0967
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10294.499,
+      "y": -3137.1299
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.8)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10304.7402,
+      "y": -3137.5947
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10291.4883,
+      "y": -3141.8789
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10300.9795,
+      "y": -3152.0332
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10303.6719,
+      "y": -3154.7061
     }
   ]
 }

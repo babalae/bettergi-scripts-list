@@ -1,48 +1,67 @@
 {
   "info": {
-    "name": "B05-璃月-碧水原-无妄坡-2个",
-    "type": "collect",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.54.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767847793165,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B05-璃月-碧水原-无妄坡-2个",
     "tags": [],
-    "last_modified_time": 1752161944027,
-    "enable_monster_loot_split": false
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 482.36,
-      "y": 1445.7,
-      "type": "teleport",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "teleport",
+      "x": 482.36,
+      "y": 1445.7
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 441.39,
-      "y": 1462.66,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 441.39,
+      "y": 1462.66
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 409.31,
-      "y": 1483.63,
-      "type": "path",
       "move_mode": "dash",
+      "type": "path",
+      "x": 409.31,
+      "y": 1483.63
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 412.9697,
+      "y": 1490.4336
+    },
+    {
       "action": "nahida_collect",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 408.1895,
+      "y": 1495.8896
     }
   ]
 }
