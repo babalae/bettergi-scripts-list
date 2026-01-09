@@ -1,5 +1,35 @@
+eval(file.readTextSync(`utils/uid.js`));
 let checkInterval = +settings.checkInterval || 50;
 let waitTime = 40;
+
+function getAdjustedDate() {
+    const now = new Date();
+    // 减去4小时（4 * 60 * 60 * 1000 毫秒）
+    now.setHours(now.getHours() - 4);
+
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+}
+
+
+// 更新json文件
+async function updateFile(settingsArray, path) {
+    let json = JSON.stringify(settingsArray, null, 2)
+        .replaceAll(']"', ']')
+        .replaceAll('"[', '[')
+        .replaceAll('\\"', '"')
+        .replaceAll('\\\\n', '\\n')
+    // warn("settings==>"+json, true)
+    // 写入更新后的设置
+    const success = file.writeTextSync(path, json);
+    if (!success) {
+        throw new Error("写入设置文件失败");
+    }
+}
+
 (async function () {
     //启用自动剧情
     //dispatcher.addTimer(new RealtimeTimer("AutoSkip"));
@@ -9,6 +39,18 @@ let waitTime = 40;
         log.warn("游戏窗口非 1920×1080，可能导致图像识别失败，如果执意使用可能造成异常，后果自负");
         await sleep(5000);
     }
+
+    let executeJson = "execute.json"
+    let execute = JSON.parse(file.readTextSync(executeJson));
+    let uid = await uidUtil.ocrUID();
+    let currentDate = getAdjustedDate();
+    for (const uidElement of execute) {
+        if (uidElement.uid === uid && uidElement.date === currentDate) {
+            log.info("UID:{uid} 今天已经立本过了", uid);
+            return
+        }
+    }
+    let executeList = execute ? execute : new Array()
     while (attempts < 3) {
         attempts++;
         await pathingScript.runFile(`assets/前往立本.json`);
@@ -36,6 +78,13 @@ let waitTime = 40;
         }
     }
 
+    executeList.push({
+        uid: uid,
+        success: success,//冗余
+        date: currentDate
+    })
+    await updateFile(executeList, executeJson)
+
     if (!success) {
         log.error("3次重试均失败");
     }
@@ -62,8 +111,16 @@ async function findAndClick(target, doClick = true, maxAttempts = 60) {
         const rg = captureGameRegion();
         try {
             const res = rg.find(target);
-            if (res.isExist()) { await sleep(checkInterval * 2 + 50); if (doClick) { res.click(); } return true; }
-        } finally { rg.dispose(); }
+            if (res.isExist()) {
+                await sleep(checkInterval * 2 + 50);
+                if (doClick) {
+                    res.click();
+                }
+                return true;
+            }
+        } finally {
+            rg.dispose();
+        }
         if (i < maxAttempts - 1) await sleep(checkInterval);
     }
     return false;

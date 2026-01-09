@@ -109,6 +109,12 @@ async function initialize() {
     } catch (error) {
         throw new Error(`JS文件缺失: ${error.message}`);
     }
+    try {
+        let manifest = JSON.parse(file.readTextSync("manifest.json"));
+        log.info(`脚本名称: {name},版本:{version}`, manifest.name, manifest.version);
+    } catch (e) {
+        log.warn(`error:{e}`, e.message);
+    }
     // 2. 加载配置文件
     try {
         config = JSON.parse(file.readTextSync("config.json"));
@@ -237,8 +243,8 @@ async function recheckResinAndContinue() {
     recheckCount++;
     if (physical.OpenModeCountMin) {
         physical.AlreadyRunsCount++;
-        if (physical.NeedRunsCount<=physical.AlreadyRunsCount){
-            log.info(`[已开启取小值]树脂耗尽模式：任务已完成，已经运行{count}次`,physical.AlreadyRunsCount);
+        if (physical.NeedRunsCount <= physical.AlreadyRunsCount) {
+            log.info(`[已开启取小值]树脂耗尽模式：任务已完成，已经运行{count}次`, physical.AlreadyRunsCount);
             return;
         }
     }

@@ -679,6 +679,7 @@ async function activityMain() {
     }
     // 7. 全部扫描完毕，统一发送通知（只发一次！）
     if (activityMapFilter.size > 0) {
+        let uid = await uidUtil.ocrUID()
         log.info(`扫描完成，共记录 {activityMap.size} 个活动，即将发送通知`, activityMapFilter.size);
         // 构建通知标题，根据配置显示剩余时间阈值和白名单活动信息
         let titleKey = `[ `;
@@ -703,7 +704,7 @@ async function activityMain() {
             blackText += `==>{已开启黑名单: ${blackAllText.join("|")}}<==`
         }
 
-        await noticeUtil.sendNotice(activityMapFilter, `原神活动剩余时间提醒(仅显示 ${titleKey} 的活动)${blackText}`);
+        await noticeUtil.sendNotice(activityMapFilter, `UID:${uid}\n原神活动剩余时间提醒(仅显示 ${titleKey} 的活动)${blackText}`);
     } else {
         log.warn("不存在符合条件的活动，未发送通知");
     }
