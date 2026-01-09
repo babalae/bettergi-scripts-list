@@ -1,0 +1,34 @@
+[
+  {
+    "name": "key",
+    "type": "input-text",
+    "label": "密钥",
+    "default": ""
+  },
+  {
+    "name": "isDebug",
+    "type": "checkbox",
+    "label": "开发者模式",
+    "default": false
+  },
+  {
+    "name": "debug",
+    "type": "input-text",
+    "label": "调试快捷键(开发者)"
+  },
+  {
+      "name": "mode",
+      "type": "select",
+      "label": "模式",
+      "options": [
+      "全自动","半自动"
+      ],
+      "default": "全自动"
+  },
+  {
+      "name": "autoStop",
+      "type": "input-text",
+      "label": "自动暂停快捷键(独立BGI的快捷键请勿冲突)"
+  }
+
+]
