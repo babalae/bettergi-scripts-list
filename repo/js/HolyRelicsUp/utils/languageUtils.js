@@ -133,7 +133,7 @@ function getLanguageALLConfigMap() {
                             "繁體中文",
                             "English",
                             "日本語",
-                            "한국어",
+                            "한국어"
                         ],
                         "default": "简体中文"
                     },
@@ -273,7 +273,7 @@ function getLanguageALLConfigMap() {
                         "label": "主排序",
                         "options": [
                             "升序",
-                            "降序",
+                            "降序"
                         ],
                         "default": "升序"
                     },
@@ -283,7 +283,7 @@ function getLanguageALLConfigMap() {
                         "label": "辅助排序",
                         "options": [
                             "等级顺序",
-                            "品质顺序",
+                            "品质顺序"
                         ],
                         "default": "等级顺序"
                     },
@@ -310,7 +310,7 @@ function getLanguageALLConfigMap() {
                             "已装备",
                             "未装备",
                             "祝圣之霜定义"
-                        ],
+                        ]
                     },
                     {
                         "name": "countMaxByHoly",
@@ -324,7 +324,7 @@ function getLanguageALLConfigMap() {
                             "5",
                             "6",
                             "7",
-                            "8",
+                            "8"
                         ],
                         "default": "4"
                     },
@@ -483,7 +483,7 @@ function getLanguageALLConfigMap() {
                         "繁體中文",
                         "English",
                         "日本語",
-                        "한국어",
+                        "한국어"
                     ],
                     "default": "简体中文"
                 },
@@ -639,7 +639,7 @@ function getLanguageALLConfigMap() {
                         "已裝備",
                         "未裝備",
                         "祝聖之霜定義"
-                    ],
+                    ]
                 },
                 {
                     "name": "countMaxByHoly",

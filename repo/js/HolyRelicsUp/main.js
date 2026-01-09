@@ -1,4 +1,4 @@
-eval(file.readTextSync(`utils/languageUtils.js`));
+// eval(file.readTextSync(`utils/languageUtils.js`));
 
 let manifest_json = "manifest.json";
 let configSettings = undefined
@@ -18,7 +18,7 @@ async function initSettings() {
         log.debug("manifest={key}", manifest);
         // 调试日志：输出manifest中的settings_ui配置
         log.debug("settings_ui={key}", manifest.settings_ui);
-        log.info(`\n|脚本名称:{name},版本:{version}`, manifest.name, manifest.version);
+        log.info(`|脚本名称:{name},版本:{version}`, manifest.name, manifest.version);
         if (manifest.bgi_version) {
             log.info(`|最小可执行BGI版本:{bgi_version}`, manifest.bgi_version);
         }
@@ -79,20 +79,102 @@ async function getMultiCheckboxMap() {
 async function getValueByMultiCheckboxName(name) {
     // 获取复选框映射表，这是一个异步操作
     let multiCheckboxMap = await getMultiCheckboxMap()
+    // log.debug("multiCheckboxMap={key}", JSON.stringify(multiCheckboxMap))
+    // multiCheckboxMap.entries().forEach(([name, options]) => {
+    //     log.debug("name={key1},options={key2}", name, JSON.stringify(options))
+    // })
     // 从映射表中获取并返回指定名称对应的值
-    return multiCheckboxMap.get(name)
+    let values = multiCheckboxMap.get(name);
+    log.debug("values={key}", JSON.stringify(values))
+    return values
 }
 
 async function init() {
     await initSettings();
     let utils = [
+        "languageUtils",
         "holyRelicsUpUtils",
     ]
     for (let util of utils) {
         eval(file.readTextSync(`utils/${util}.js`));
     }
+
+    if (true) {
+        //语言配置初始化
+        const languageALLConfigMap = languageUtils.getLanguageALLConfigMap()
+
+        const languageMap_let = languageUtils.getLanguageMap()
+        const languageMsgMap = languageUtils.getLanguageMsgMap()
+        const languageKey = languageMap_let.get(settings.language)
+        if (languageKey === null || !languageKey) {
+            let languageMsg = languageMsgMap.get(settings.language)
+                .replace('language-key', `${settings.language}`)
+                .replace('languageList-key', `${Array.from(LanguageMap.keys()).join(',')}`)
+            throwError(languageMsg)
+        }
+        const languageConfigJson = languageALLConfigMap.get(languageKey)
+        //魔法值
+        const mana_let = languageConfigJson.mana
+
+        LanguageALLConfigMap = languageALLConfigMap
+        languageMap = languageConfigJson.languageMap
+        LanguageMap = languageMap_let
+        LanguageKey = languageKey
+        mana = mana_let
+        path_base_main += `${LanguageKey}/`
+        //属性
+        const attributeMap_let = languageConfigJson.attributeMap
+        const attributeList_let = languageConfigJson.attributeList
+        const attributeFixedMap_let = languageConfigJson.attributeFixedMap
+        const AttributeHolyRelickeys_let = languageConfigJson.attributeHolyRelickeys
+        const HolyRelicPartsAsMap_let = languageConfigJson.holyRelicPartsAsMap
+        const HolyRelicParts_let = languageConfigJson.holyRelicParts
+
+        const commonHolyRelicPartMap_let = !config.enableAttributeHolyRelic ? [] : parseHolyRelicToMap(config.commonAttributeHolyRelic)
+        const holyRelicPartMap_let = !config.enableAttributeHolyRelic ? [] : (!config.coverAttributeHolyRelic ? parseHolyRelicToMap() : takeDifferentHolyRelicToMap(parseHolyRelicToMap(), commonHolyRelicPartMap_let))
+
+        const commonHolyRelicPartMapBySift_let = !config.enableAttributeHolyRelic ? [] : parseHolyRelicToMap(config.commonSiftAttributeHolyRelic)
+        const holyRelicPartMapBySift_let = !config.enableAttributeHolyRelic ? [] :
+            (!config.coverSiftAttributeHolyRelic ? parseHolyRelicToMap(config.inputSiftAttributeHolyRelic) :
+                takeDifferentHolyRelicToMap(parseHolyRelicToMap(config.inputSiftAttributeHolyRelic), commonHolyRelicPartMapBySift_let))
+
+        attributeMap = attributeMap_let
+        attributeList = attributeList_let
+        attributeFixedMap = attributeFixedMap_let
+        AttributeHolyRelickeys = AttributeHolyRelickeys_let
+        HolyRelicPartsAsMap = HolyRelicPartsAsMap_let
+        HolyRelicParts = HolyRelicParts_let
+        // @ -- 表示部件 # -- 表示主词条 * --表示副词条
+        // | -- 表示部件终止(多个部件不可忽略) & -- 表示主词条终止(主词条存在不可忽略) ! --表示副词条终止(可忽略)
+        //(全)==>(简)
+        //@花*生命%*攻击!|@杯#生命%#物伤&*生命%!|==>  @花*生命%*攻击|@杯#生命%#物伤&*生命%
+        // let jsonHolyRelicParts =[
+        //     {
+        //         name: '',//部件
+        //         main:[],//主词条
+        //         sub:[],//副词条
+        //     }
+        // ]
+        commonHolyRelicPartMap = commonHolyRelicPartMap_let
+        holyRelicPartMap = holyRelicPartMap_let
+        commonHolyRelicPartMapBySift = commonHolyRelicPartMapBySift_let
+        holyRelicPartMapBySift = holyRelicPartMapBySift_let
+    }
+
+    if (true) {
+        //基础配置初始化
+        if (!config.siftArray) {
+            config.siftArray = await siftAll()
+            log.debug("siftArray={key}", JSON.stringify(config.siftArray))
+        }
+        if (!config.sortArray) {
+            config.sortArray = await sortAll()
+        }
+    }
+
+
     log.info("初始化完成");
-    warn('holyRelicPartMapBySift==>' + JSON.stringify(Array.from(holyRelicPartMapBySift)), must)
+    // warn('holyRelicPartMapBySift==>' + JSON.stringify(Array.from(holyRelicPartMapBySift)), must)
 }
 
 /**
@@ -141,25 +223,7 @@ async function main(log_off = config.log_off) {
         }
 
         await wait(ms);
-        if (config.enableAttributeHolyRelic) {
-
-            if (config.sortMain.includes(mana.get('asc_order'))) {
-                throwError(`不支持在升序情况下使用`)
-            }
-            warn(`启用圣遗物强化命中功能(实验功能)`, must)
-            if (config.meetAllSiftAttributeHolyRelic && config.upMax === 20) {
-                await info(`开始验证...`, must)
-                let valid = await validHitPreamble()
-                //验证不属于 未选中满级 未选中未满级条件下
-                if (!valid) {
-                    throwError(`启用圣遗物强化命中功能(实验功能)时，不支持降序选中满级|未满级条件下强化+20操作`)
-                    return
-                }
-            }
-            await bathClickUpLv2(config.insertionMethod)
-        } else {
-            await bathClickUpLv1(config.insertionMethod)
-        }
+        await bathClickUp(config.insertionMethod)
     } else {
         throwError(`未启用批量强化请去浏览文档后开启！`)
     }
@@ -241,22 +305,32 @@ function isExist(res) {
     return holyRelicsUpUtils.isExist(res) // 调用资源对象的isExist方法获取存在状态
 }
 
+/**
+ * 属性值替换函数
+ * @param value
+ * @returns {string}
+ */
+function attributeReplacement(value) {
+    value = value.trim()
+    if (value.includes('%')) {
+        value = value.replace('%', '')
+        let s = attributeMap.get(value);
+        value = (s === null || !s ? value : s) + attributeMap.get('%')
+    } else {
+        let s = attributeMap.get(value);
+        value = (s === null || !s ? value : s)
+    }
+    return value
+}
+
 //========================以上为原有封装==============================
 //========================以下为基本配置==============================
-const LanguageALLConfigMap = languageUtils.getLanguageALLConfigMap()
-
-const LanguageMap = languageUtils.getLanguageMap()
-const LanguageMsgMap = languageUtils.getLanguageMsgMap()
-const LanguageKey = LanguageMap.get(settings.language)
-if (LanguageKey === null || !LanguageKey) {
-    let languageMsg = LanguageMsgMap.get(settings.language)
-        .replace('language-key', `${settings.language}`)
-        .replace('languageList-key', `${Array.from(LanguageMap.keys()).join(',')}`)
-    throwError(languageMsg)
-}
-const LanguageConfigJson = LanguageALLConfigMap.get(LanguageKey)
+let LanguageALLConfigMap = undefined
+let LanguageMap = undefined
+let LanguageKey = undefined
+let LanguageConfigJson = undefined
 //魔法值
-const mana = LanguageConfigJson.mana
+let mana = undefined
 
 //刷新设置列表
 async function refreshSettings() {
@@ -264,36 +338,37 @@ async function refreshSettings() {
     await holyRelicsUpUtils.updateSettingsFile(JSON.parse(LanguageConfigJson.settings))
 }
 
-function siftAll() {
+async function siftAll() {
     //筛选条件
     let baseSiftArray = new Array()
-    baseSiftArray.push(mana.get('holyRelicsNoMax'))
-/*    if (settings.holyRelicsLockMark) {
-        baseSiftArray.push(mana.get('holyRelicsLockMark'))
-    }
-    if (settings.holyRelicsLockY) {
-        baseSiftArray.push(mana.get('holyRelicsLockY'))
-    }
-    if (settings.holyRelicsLockN) {
-        baseSiftArray.push(mana.get('holyRelicsLockN'))
-    }
-    if (settings.holyRelicsEquipY) {
-        baseSiftArray.push(mana.get('holyRelicsEquipY'))
-    }
-    if (settings.holyRelicsEquipN) {
-        baseSiftArray.push(mana.get('holyRelicsEquipN'))
-    }
-    if (settings.holyRelicsSourceFrostSaint) {
-        baseSiftArray.push(mana.get('holyRelicsSourceFrostSaint'))
-    }*/
-    let selectSuit = settings.selectSuit
+    /*    if (settings.holyRelicsLockMark) {
+            baseSiftArray.push(mana.get('holyRelicsLockMark'))
+        }
+        if (settings.holyRelicsLockY) {
+            baseSiftArray.push(mana.get('holyRelicsLockY'))
+        }
+        if (settings.holyRelicsLockN) {
+            baseSiftArray.push(mana.get('holyRelicsLockN'))
+        }
+        if (settings.holyRelicsEquipY) {
+            baseSiftArray.push(mana.get('holyRelicsEquipY'))
+        }
+        if (settings.holyRelicsEquipN) {
+            baseSiftArray.push(mana.get('holyRelicsEquipN'))
+        }
+        if (settings.holyRelicsSourceFrostSaint) {
+            baseSiftArray.push(mana.get('holyRelicsSourceFrostSaint'))
+        }*/
+    let selectSuit = await getValueByMultiCheckboxName("selectSuit")
+    log.debug(`selectSuit==>${JSON.stringify(selectSuit)}`)
     if (selectSuit && selectSuit.length > 0) {
-        baseSiftArray = Array.of(selectSuit);
+        baseSiftArray = selectSuit
     }
+    baseSiftArray.push(mana.get('holyRelicsNoMax'))
     return baseSiftArray
 }
 
-function sortAll() {
+async function sortAll() {
     //筛选条件
     let baseSortArray = new Array()
     if (settings.sortMain === mana.get('desc_order')) {
@@ -329,9 +404,9 @@ const config = settings.refreshSettingsByLanguage ?
         sortAuxiliary: settings.sortAuxiliary,//辅助排序
         sortMain: settings.sortMain,//主排序
         sortAttribute: settings.sortAttribute,//属性条件
-        sortArray: (sortAll()),
+        sortArray: undefined,//(sortAll()),//排序条件
         toSift: settings.toSift,
-        siftArray: (siftAll()),//筛选条件
+        siftArray: undefined,//(siftAll()),//筛选条件
         enableAttributeHolyRelic: settings.enableAttributeHolyRelic,//启用圣遗物属性
         inputAttributeHolyRelic: settings.inputAttributeHolyRelic,//自定义圣遗物属性
         commonAttributeHolyRelic: settings.commonAttributeHolyRelic,//通用圣遗物属性
@@ -351,12 +426,12 @@ const genshinJson = {
 }
 
 
-const attributeMap = LanguageConfigJson.attributeMap
-const attributeList = LanguageConfigJson.attributeList
-const attributeFixedMap = LanguageConfigJson.attributeFixedMap
-const AttributeHolyRelickeys = LanguageConfigJson.attributeHolyRelickeys
-const HolyRelicPartsAsMap = LanguageConfigJson.holyRelicPartsAsMap
-const HolyRelicParts = LanguageConfigJson.holyRelicParts
+let attributeMap = undefined
+let attributeList = undefined
+let attributeFixedMap = undefined
+let AttributeHolyRelickeys = undefined
+let HolyRelicPartsAsMap = undefined
+let HolyRelicParts = undefined
 // @ -- 表示部件 # -- 表示主词条 * --表示副词条
 // | -- 表示部件终止(多个部件不可忽略) & -- 表示主词条终止(主词条存在不可忽略) ! --表示副词条终止(可忽略)
 //(全)==>(简)
@@ -368,34 +443,15 @@ const HolyRelicParts = LanguageConfigJson.holyRelicParts
 //         sub:[],//副词条
 //     }
 // ]
-const commonHolyRelicPartMap = !config.enableAttributeHolyRelic ? [] : parseHolyRelicToMap(config.commonAttributeHolyRelic)
-const holyRelicPartMap = !config.enableAttributeHolyRelic ? [] : (!config.coverAttributeHolyRelic ? parseHolyRelicToMap() : takeDifferentHolyRelicToMap(parseHolyRelicToMap(), commonHolyRelicPartMap))
+let commonHolyRelicPartMap = undefined
+let holyRelicPartMap = undefined
 
-const commonHolyRelicPartMapBySift = !config.enableAttributeHolyRelic ? [] : parseHolyRelicToMap(config.commonSiftAttributeHolyRelic)
-const holyRelicPartMapBySift = !config.enableAttributeHolyRelic ? [] :
-    (!config.coverSiftAttributeHolyRelic ? parseHolyRelicToMap(config.inputSiftAttributeHolyRelic) :
-        takeDifferentHolyRelicToMap(parseHolyRelicToMap(config.inputSiftAttributeHolyRelic), commonHolyRelicPartMapBySift))
+let commonHolyRelicPartMapBySift = undefined
+let holyRelicPartMapBySift = undefined
 
-/**
- * 属性值替换函数
- * @param value
- * @returns {string}
- */
-function attributeReplacement(value) {
-    value = value.trim()
-    if (value.includes('%')) {
-        value = value.replace('%', '')
-        let s = attributeMap.get(value);
-        value = (s === null || !s ? value : s) + attributeMap.get('%')
-    } else {
-        let s = attributeMap.get(value);
-        value = (s === null || !s ? value : s)
-    }
-    return value
-}
 
 //基础目录
-const path_base_main = `assets/language/${LanguageKey}/`
+let path_base_main = `assets/language/`
 // const path_base_sort = `${path_base_main}sort/`
 
 const commonPath = `assets/common/`
@@ -430,7 +486,7 @@ const commonMap = new Map([
     ['common_sort2', {name: '2', type: '.jpg', sub: 'sort'}],
     ['common_sort3', {name: '3', type: '.jpg', sub: 'sort'}],
 ]);
-const languageMap = LanguageConfigJson.languageMap;
+let languageMap = undefined;
 
 function getJsonPath(key, isCommon = true) {
     if (isCommon) {
@@ -3338,6 +3394,40 @@ async function bathClickUpLv2(operate, source = 'bathClickUpLv2', log_off = conf
     }
     info(`圣遗物强化+${config.upMax} 未命中属性数量：${countJson.missed},达到等级数量:${countJson.up},未实际强化数量:${countJson.noUp}, 设定数量：${actualCount}`, must)
 
+}
+
+/**
+ * 圣遗物强化点击升级函数
+ * 根据配置决定使用不同的强化方法
+ * @param {string} operate - 强化操作方法，默认为config.insertionMethod
+ * @returns {Promise<void>}
+ */
+async function bathClickUp(operate = config.insertionMethod) {
+    // 检查是否启用了圣遗物属性强化功能
+    if (config.enableAttributeHolyRelic) {
+
+        // 检查主属性排序是否包含升序
+        if (config.sortMain.includes(mana.get('asc_order'))) {
+            throwError(`不支持在升序情况下使用`)
+        }
+        // 输出启用圣遗物强化命中功能的提示信息
+        warn(`启用圣遗物强化命中功能(实验功能)`, must)
+        // 检查是否满足所有筛选条件且强化等级达到20级
+        if (config.meetAllSiftAttributeHolyRelic && config.upMax === 20) {
+            // 开始验证提示
+            await info(`开始验证...`, must)
+            // 执行前置验证
+            let valid = await validHitPreamble()
+            //验证不属于 未选中满级 未选中未满级条件下
+            if (!valid) {
+                throwError(`启用圣遗物强化命中功能(实验功能)时，不支持降序选中满级|未满级条件下强化+20操作`)
+                return
+            }
+        }
+        await bathClickUpLv2(operate)
+    } else {
+        await bathClickUpLv1(operate)
+    }
 }
 
 async function toMainUi() {
