@@ -4,15 +4,11 @@ const resurrectionFoodName = settings.resurrectionFoodName || "复活药名字�
 const ocrRegion = {
         x: 150,
         y: 250,
-        width: 220,
-        height: 270
+        width: 60,
+        height: 20
     };
-const filterButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/filterButton.png"),154, 1003, 27, 27);
-const resetButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/resetButton.png"),66, 1006, 27, 27);
-const researchRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/research.png"),95, 101, 27, 27);
-const confirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/confirmButton.png"), 355, 999, 44, 44);
-const loadDelay = +settings.loadDelay || 1000;
-const stepDelay = +settings.stepDelay || 1000;
+const loadDelay = +settings.loadDelay || 800;
+const stepDelay = +settings.stepDelay || 500;
 (async function () {
     // 检验账户名
     async function getUserName() {
@@ -25,163 +21,21 @@ const stepDelay = +settings.stepDelay || 1000;
         return userName;
     }
 
-     /**
-     * 文字OCR识别封装函数（支持空文本匹配任意文字）
-     * @param {string} text - 要识别的文字，默认为"空参数"，空字符串会匹配任意文字
-     * @param {number} timeout - 超时时间，单位为秒，默认为10秒
-     * @param {number} afterBehavior - 点击模式，0=不点击，1=点击文字位置，2=按F键，默认为0
-     * @param {number} debugmodel - 调试模式，0=无输出，1=基础日志，2=详细输出，3=立即返回，默认为0
-     * @param {number} x - OCR识别区域起始X坐标，默认为0
-     * @param {number} y - OCR识别区域起始Y坐标，默认为0
-     * @param {number} w - OCR识别区域宽度，默认为1920
-     * @param {number} h - OCR识别区域高度，默认为1080
-     * @param {number} matchMode - 匹配模式，0=包含匹配，1=精确匹配，默认为0
-     * @returns {object} 包含识别结果的对象 {text, x, y, found}
-     */
-    async function textOCREnhanced(
-          text = "空参数",
-          timeout = 10,
-          afterBehavior = 0,
-          debugmodel = 0,
-          x = 0,
-          y = 0,
-          w = 1920,
-          h = 1080,
-          matchMode = 0
-     ) {
-          const startTime = Date.now();
-          const timeoutMs = timeout * 1000;
-          let lastResult = null;
-          let captureRegion = null; // 用于存储截图对象
-
-          // 只在调试模式1下输出基本信息
-          if (debugmodel === 1) {
-               if (text === "") {
-                    log.info(`OCR: 空文本模式 - 匹配任意文字`);
-               } else if (text === "空参数") {
-                    log.warn(`OCR: 使用默认参数"空参数"`);
-               }
-          }
-
-          while (Date.now() - startTime < timeoutMs) {
-               try {
-                    // 获取截图并进行OCR识别
-                    captureRegion = captureGameRegion();
-                    const resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
-
-                    // 遍历识别结果
-                    for (let i = 0; i < resList.count; i++) {
-                         const res = resList[i];
-
-                         // 检查是否匹配
-                         let isMatched = false;
-                         if (text === "") {
-                              // 空文本匹配任意文字
-                              isMatched = true;
-                         } else if (matchMode === 1) {
-                              // 精确匹配
-                              isMatched = res.text === text;
-                         } else {
-                              // 包含匹配（默认）
-                              isMatched = res.text.includes(text);
-                         }
-
-                         if (isMatched) {
-                              // 只在调试模式1下输出匹配成功信息
-                              if (debugmodel === 1) {
-                                   log.info(`OCR成功: "${res.text}" 位置(${res.x},${res.y})`);
-                              }
-
-                              // 调试模式3: 立即返回
-                              if (debugmodel === 3) {
-                                   // 释放内存
-                                   if (captureRegion) {
-                                        captureRegion.dispose();
-                                   }
-                                   return { text: res.text, x: res.x, y: res.y, found: true };
-                              }
-
-                              // 执行后续行为
-                              switch (afterBehavior) {
-                                   case 1: // 点击文字位置
-                                        await sleep(1000);
-                                        click(res.x, res.y);
-                                        break;
-                                   case 2: // 按F键
-                                        await sleep(100);
-                                        keyPress("F");
-                                        break;
-                                   default:
-                                        // 不执行任何操作
-                                        break;
-                              }
-
-                              // 记录最后一个匹配结果但不立即返回
-                              lastResult = { text: res.text, x: res.x, y: res.y, found: true };
-                         }
-                    }
-
-                    // 释放截图对象内存
-                    if (captureRegion) {
-                         captureRegion.dispose();
-                    }
-
-                    // 如果找到匹配结果，根据调试模式决定是否立即返回
-                    if (lastResult && debugmodel !== 2) {
-                         return lastResult;
-                    }
-
-                    // 短暂延迟后继续下一轮识别
-                    await sleep(100);
-
-               } catch (error) {
-                    // 发生异常时释放内存
-                    if (captureRegion) {
-                         captureRegion.dispose();
-                    }
-                    log.error(`OCR异常: ${error.message}`);
-                    await sleep(100);
-               }
-          }
-
-          if (debugmodel === 1) {
-               // 超时处理
-               if (text === "") {
-                    log.info(`OCR超时: ${timeout}秒内未找到任何文字`);
-               } else {
-                    log.info(`OCR超时: ${timeout}秒内未找到"${text}"`);
-               }
-          }
-
-          // 返回最后一个结果或未找到
-          return lastResult || { found: false };
-     }
-
-    // 处理错误格式记录文件（检测时间格式：YYYY/MM/DD HH:mm:ss）
-    async function deleteOldFormatRecords(filePath) {
-        try {
-            // 尝试读取文件，不存在则直接返回
-            const content = await file.readText(filePath);
-            const lines = content.split('\n').filter(line => line.trim());
-
-            if (lines.length === 0) return false; // 空文件无需处理
-
-            // 时间格式正则：匹配 "时间:YYYY/MM/DD HH:mm:ss" 完整格式
-            const timeFormatRegex = /时间:\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}/;
-
-            // 检查是否所有行都包含正确的时间格式
-            const allHasValidTime = lines.every(line => timeFormatRegex.test(line));
-
-            if (allHasValidTime) return false; // 所有行都有正确时间格式，无需处理
-
-            // 存在任意行没有正确时间格式，清空文件
-            await file.writeText(filePath, '');
-            notification.send(`${settings.userName}: 检测到记录文件缺少有效时间格式，已重置记录文件`);
-            return true;
-        } catch (error) {
-            // 文件不存在或其他错误时不处理
-            return false;
+    async function close_expired_stuff_popup_window() {
+        const game_region = captureGameRegion();
+        const text_x = 850;
+        const text_y = 273;
+        const text_w = 225;
+        const text_h = 51;
+        const ocr_res = game_region.find(RecognitionObject.ocr(text_x, text_y, text_w, text_h));
+        if (ocr_res) {
+            if (ocr_res.text.includes("物品过期")) {
+                log.info("检测到物品过期");
+                click(1000, 750);
+                await sleep(1000);
+            }
         }
+        game_region.dispose();
     }
 
     /**
@@ -405,17 +259,6 @@ const stepDelay = +settings.stepDelay || 1000;
         }
     }
 
-    //  背包过期物品识别，需要在背包界面，并且是1920x1080分辨率下使用
-    async function handleExpiredItems() {
-          const ifGuoqi = await textOCREnhanced("物品过期", 1.5, 0, 3, 870, 280, 170, 40);
-          if (ifGuoqi.found) {
-               log.info("检测到过期物品，正在处理...");
-               await sleep(500);
-               await click(980, 750); // 点击确认按钮，关闭提示
-          }
-          else { log.info("未检测到过期物品"); }
-     }
-
     async function recognizeNumberByOCR(ocrRegion, pattern) {
         let captureRegion = null;
         try {
@@ -453,41 +296,24 @@ const stepDelay = +settings.stepDelay || 1000;
         return null;
     }
 
-    async function findAndClick(target, maxAttempts = 50) {
+    async function findAndClick(target, doClick = true, maxAttempts = 60) {
         for (let i = 0; i < maxAttempts; i++) {
-            const result = await recognizeImage(target);
-            if (result.success) {
-                click(result.x, result.y);
-                await sleep(50);
-                return true;
-            } else {
-                log.warn(`未能识别到图标，尝试 ${i + 1}/${maxAttempts}`);
-            }
-            await sleep(50);
+            const rg = captureGameRegion();
+            try {
+                const res = rg.find(target);
+                if (res.isExist()) { await sleep(50 * 2 + 50); if (doClick) { res.click(); } return true; }
+            } finally { rg.dispose(); }
+            if (i < maxAttempts - 1) await sleep(50);
         }
         return false;
     }
-    
-    // 定义一个函数用于识别图像
-    async function recognizeImage(recognitionObject, timeout = 5000) {
-        let startTime = Date.now();
-        while (Date.now() - startTime < timeout) {
-            try {
-                // 尝试识别图像
-                const ro = captureGameRegion();
-                let imageResult = ro.find(recognitionObject);
-                ro.dispose();
-                if (imageResult && imageResult.x !== 0 && imageResult.y !== 0 && imageResult.width !== 0 && imageResult.height !== 0) {
-//                    log.info(`成功识别图像，坐标: x=${imageResult.x}, y=${imageResult.y}, width=${imageResult.width}, height=${imageResult.height}`);
-                    return { success: true, x: imageResult.x, y: imageResult.y, width: imageResult.width, height: imageResult.height};
-                }
-            } catch (error) {
-                log.error(`识别图像时发生异常: ${error.message}`);
-            }
-            await sleep(10); // 短暂延迟，避免过快循环
-        }
-        log.warn(`经过多次尝试，仍然无法识别图像`);
-        return { success: false };
+
+    async function clickPNG(png, maxAttempts = 20) {
+//        log.info(`调试-点击目标${png},重试次数${maxAttempts}`);
+        const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${png}.png`));
+        pngRo.Threshold = 0.95;
+        pngRo.InitTemplate();
+        return await findAndClick(pngRo, true, maxAttempts);
     }
 
     async function main() {
@@ -495,20 +321,21 @@ const stepDelay = +settings.stepDelay || 1000;
     setGameMetrics(1920, 1080, 1);
     await genshin.returnMainUi();
     keyPress("B");//打开背包
-    await handleExpiredItems(); //处理过期物品弹窗
+    await sleep(1000);
+    await close_expired_stuff_popup_window()
     await sleep(loadDelay);
     click(863, 51);//选择食物
     await sleep(loadDelay);
-    await findAndClick(filterButtonRo);//筛选 图标的坐标: x=155, y=1004, width=25, height=25，识图范围推荐: 154, 1003, 27, 27
+    await clickPNG('筛选1', 1);
+    await clickPNG('筛选2', 1);
+    await clickPNG('重置');
     await sleep(stepDelay);
-    await findAndClick(resetButtonRo);//重置按钮 图标的坐标: x=67, y=1007, width=25, height=25，识图范围推荐: 66, 1006, 27, 27
-    await sleep(stepDelay);
-    await findAndClick(researchRo);//搜索输入框 图标的坐标: x=96, y=102, width=25, height=25，识图范围推荐: 95, 101, 27, 27
+    await clickPNG('搜索');
     await sleep(loadDelay);
+    log.info(`搜索${recoveryFoodName}`)
     inputText(recoveryFoodName);
+    await clickPNG('确认筛选');
     await sleep(stepDelay);
-    await findAndClick(confirmButtonRo);//确认按钮 图标的坐标: x=356, y=1000, width=42, height=42，识图范围推荐: 355, 999, 44, 44
-    await sleep(loadDelay);
     let recoveryNumber=await recognizeNumberByOCR(ocrRegion,/\d+/) //识别回血药数量
     // 处理回血药识别结果
     if (recoveryNumber === null) {
@@ -518,16 +345,17 @@ const stepDelay = +settings.stepDelay || 1000;
         click(863, 51);//选择食物
         await sleep(1000);
     }
-    await findAndClick(filterButtonRo);//筛选 图标的坐标: x=155, y=1004, width=25, height=25，识图范围推荐: 154, 1003, 27, 27
-    await sleep(stepDelay);
-    await findAndClick(resetButtonRo);//重置按钮
-    await sleep(stepDelay);
-    await findAndClick(researchRo);//搜索输入框
     await sleep(loadDelay);
+    await clickPNG('筛选1', 1);
+    await clickPNG('筛选2', 1);
+    await clickPNG('重置');
+    await sleep(stepDelay);
+    await clickPNG('搜索');
+    await sleep(loadDelay);
+    log.info(`搜索${resurrectionFoodName}`)
     inputText(resurrectionFoodName);
+    await clickPNG('确认筛选');
     await sleep(stepDelay);
-    await findAndClick(confirmButtonRo);//确认按钮
-    await sleep(loadDelay);
     let resurrectionNumber=await recognizeNumberByOCR(ocrRegion,/\d+/) //识别复活药数量
     // 处理复活药识别结果
     if (resurrectionNumber === null) {
@@ -537,11 +365,11 @@ const stepDelay = +settings.stepDelay || 1000;
         click(863, 51);//选择食物
         await sleep(1000);
     }
-    await findAndClick(filterButtonRo);//筛选
+    await clickPNG('筛选1', 1);
+    await clickPNG('筛选2', 1);
+    await clickPNG('重置');
     await sleep(stepDelay);
-    await findAndClick(resetButtonRo);//重置
-    await sleep(stepDelay);
-    await findAndClick(confirmButtonRo);//确认按钮
+    await clickPNG('确认筛选');
     await genshin.returnMainUi();
     return { recoveryNumber, resurrectionNumber };
     }
@@ -551,8 +379,6 @@ const stepDelay = +settings.stepDelay || 1000;
     const recordPath = `assets/${userName}.txt`;
     // 获取当前药物数量
     const { recoveryNumber, resurrectionNumber } = await main();
-    // 处理旧的记录文件
-    await deleteOldFormatRecords(recordPath)
     // 获取本地保存的数据
     const localData = await getLocalData(recordPath);
     // 确定初始化数据
