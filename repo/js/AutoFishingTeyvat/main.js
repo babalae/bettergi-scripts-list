@@ -1,6 +1,6 @@
-(async function () { // CD读写仍有优化空间
+(async function () { // CD计算仍有优化空间
 
-    const area_list = ['蒙德', '璃月', '稻妻', '须弥', '枫丹', '纳塔', '至冬', '挪德卡莱', '层岩巨渊·地下矿区', '渊下宫']
+    const area_list = ['蒙德', '璃月', '稻妻', '须弥', '枫丹', '纳塔', '至冬', '挪德卡莱', '层岩巨渊·地下矿区', '渊下宫', '远古圣山']
     const fish_list = ['花鳉', '波波心羽鲈', '烘烘心羽鲈', '维护机关·水域清理者', '维护机关·态势控制者', '维护机关·澄金领队型', '海涛斧枪鱼', '维护机关·初始能力型', '维护机关·白金典藏型', '吹沙角鲀', '甜甜花鳉', '擒霞客', '水晶宴', '斗棘鱼', '炮鲀', '流纹褐蝶鱼', '锖假龙', '金赤假龙', '玉玉心羽鲈', '赤魔王', '长生仙', '苦炮鲀', '肺棘鱼', '流纹京紫蝶鱼', '琉璃花鳉', '伪装鲨鲨独角鱼', '繁花斗士急流鱼', '深潜斗士急流鱼', '晚霞翻车鲀', '青浪翻车鲀', '拟似燃素独角鱼', '炽岩斗士急流鱼', '蓝染花鳉', '鸩棘鱼', '流纹茶蝶鱼', '雪中君', '真果角鲀', '青金斧枪鱼', '暮云角鲀', '翡玉斧枪鱼', '沉波蜜桃', '雷鸣仙', '佛玛洛鳐', '迪芙妲鳐', '秘源机关·巡戒使', '蓝昼明眼鱼', '冷冽巨斧鱼', '夜色明眼鱼', '炽铁巨斧鱼', '虹光凶凶鲨', '无奇巨斧鱼', '素素凶凶鲨']
     const bait_list = ['果酿饵', '酸桔饵', '维护机关频闪诱饵', '甘露饵', '赤糜饵', '飞蝇假饵', '蠕虫假饵', '澄晶果粒饵', '温火饵', '槲梭饵', '清白饵']
     const material_msg = {
@@ -23,76 +23,76 @@
         '夜晚': ['波波心羽鲈', '维护机关·态势控制者', '维护机关·白金典藏型', '擒霞客', '斗棘鱼', '肺棘鱼', '繁花斗士急流鱼', '晚霞翻车鲀', '鸩棘鱼', '雪中君', '暮云角鲀', '雷鸣仙', '夜色明眼鱼', '炽铁巨斧鱼', '虹光凶凶鲨'],
         '全天': ['花鳉', '维护机关·澄金领队型', '海涛斧枪鱼', '维护机关·初始能力型', '甜甜花鳉', '炮鲀', '锖假龙', '金赤假龙', '玉玉心羽鲈', '苦炮鲀', '琉璃花鳉', '伪装鲨鲨独角鱼', '拟似燃素独角鱼', '炽岩斗士急流鱼', '蓝染花鳉', '青金斧枪鱼', '翡玉斧枪鱼', '佛玛洛鳐', '迪芙妲鳐', '秘源机关·巡戒使', '无奇巨斧鱼', '素素凶凶鲨']
     }
-    const fish_msg = { // 可能有误，需要检查
-        '花鳉': {'bait': '果酿饵', 'time': '全天'},
-        '波波心羽鲈': {'bait': '酸桔饵', 'time': '夜晚'},
-        '烘烘心羽鲈': {'bait': '酸桔饵', 'time': '白天'},
-        '维护机关·水域清理者': {'bait': '维护机关频闪诱饵', 'time': '白天'},
-        '维护机关·态势控制者': {'bait': '维护机关频闪诱饵', 'time': '夜晚'},
-        '维护机关·澄金领队型': {'bait': '维护机关频闪诱饵', 'time': '全天'},
-        '海涛斧枪鱼': {'bait': '甘露饵', 'time': '全天'},
-        '维护机关·初始能力型': {'bait': '维护机关频闪诱饵', 'time': '全天'},
-        '维护机关·白金典藏型': {'bait': '维护机关频闪诱饵', 'time': '夜晚'},
-        '吹沙角鲀': {'bait': '甘露饵', 'time': '白天'},
-        '甜甜花鳉': {'bait': '果酿饵', 'time': '全天'},
-        '擒霞客': {'bait': '果酿饵', 'time': '夜晚'},
-        '水晶宴': {'bait': '果酿饵', 'time': '白天'},
-        '斗棘鱼': {'bait': '赤糜饵', 'time': '夜晚'},
-        '炮鲀': {'bait': '飞蝇假饵', 'time': '全天'},
-        '流纹褐蝶鱼': {'bait': '蠕虫假饵', 'time': '白天'},
-        '锖假龙': {'bait': '飞蝇假饵', 'time': '全天'},
-        '金赤假龙': {'bait': '飞蝇假饵', 'time': '全天'},
-        '玉玉心羽鲈': {'bait': '酸桔饵', 'time': '全天'},
-        '赤魔王': {'bait': '赤糜饵', 'time': '白天'},
-        '长生仙': {'bait': '蠕虫假饵', 'time': '白天'},
-        '苦炮鲀': {'bait': '飞蝇假饵', 'time': '全天'},
-        '肺棘鱼': {'bait': '赤糜饵', 'time': '夜晚'},
-        '流纹京紫蝶鱼': {'bait': '蠕虫假饵', 'time': '白天'},
-        '琉璃花鳉': {'bait': '果酿饵', 'time': '全天'},
-        '伪装鲨鲨独角鱼': {'bait': '澄晶果粒饵', 'time': '全天'},
-        '繁花斗士急流鱼': {'bait': '澄晶果粒饵', 'time': '夜晚'},
-        '深潜斗士急流鱼': {'bait': '澄晶果粒饵', 'time': '白天'},
-        '晚霞翻车鲀': {'bait': '澄晶果粒饵', 'time': '夜晚'},
-        '青浪翻车鲀': {'bait': '澄晶果粒饵', 'time': '白天'},
-        '拟似燃素独角鱼': {'bait': '温火饵', 'time': '全天'},
-        '炽岩斗士急流鱼': {'bait': '温火饵', 'time': '全天'},
-        '蓝染花鳉': {'bait': '果酿饵', 'time': '全天'},
-        '鸩棘鱼': {'bait': '赤糜饵', 'time': '夜晚'},
-        '流纹茶蝶鱼': {'bait': '蠕虫假饵', 'time': '白天'},
-        '雪中君': {'bait': '赤糜饵', 'time': '夜晚'},
-        '真果角鲀': {'bait': '甘露饵', 'time': '白天'},
-        '青金斧枪鱼': {'bait': '甘露饵', 'time': '全天'},
-        '暮云角鲀': {'bait': '甘露饵', 'time': '夜晚'},
-        '翡玉斧枪鱼': {'bait': '甘露饵', 'time': '全天'},
-        '沉波蜜桃': {'bait': '甘露饵', 'time': '白天'},
-        '雷鸣仙': {'bait': '蠕虫假饵', 'time': '夜晚'},
-        '佛玛洛鳐': {'bait': '飞蝇假饵', 'time': '全天'},
-        '迪芙妲鳐': {'bait': '飞蝇假饵', 'time': '全天'},
-        '秘源机关·巡戒使': {'bait': '温火饵', 'time': '全天'},
-        '蓝昼明眼鱼': {'bait': '清白饵', 'time': '白天'},
-        '夜色明眼鱼': {'bait': '清白饵', 'time': '夜晚'},
-        '无奇巨斧鱼': {'bait': '槲梭饵', 'time': '全天'},
-        '素素凶凶鲨': {'bait': '清白饵', 'time': '全天'},
-        '炽铁巨斧鱼': {'bait': '槲梭饵', 'time': '夜晚'},
-        '虹光凶凶鲨': {'bait': '清白饵', 'time': '夜晚'},
-        '冷冽巨斧鱼': {'bait': '槲梭饵', 'time': '白天'}
+    const fish_msg = {
+        '花鳉': {'bait': '果酿饵', 'time': '全天', 'BigFishType': 'medaka'},
+        '琉璃花鳉': {'bait': '果酿饵', 'time': '全天', 'BigFishType': 'medaka'},
+        '甜甜花鳉': {'bait': '果酿饵', 'time': '全天', 'BigFishType': 'medaka'},
+        '蓝染花鳉': {'bait': '果酿饵', 'time': '全天', 'BigFishType': 'medaka'},
+        '擒霞客': {'bait': '果酿饵', 'time': '夜晚', 'BigFishType': 'large_medaka'},
+        '水晶宴': {'bait': '果酿饵', 'time': '白天', 'BigFishType': 'large_medaka'},
+        '肺棘鱼': {'bait': '赤糜饵', 'time': '夜晚', 'BigFishType': 'stickleback'},
+        '斗棘鱼': {'bait': '赤糜饵', 'time': '夜晚', 'BigFishType': 'stickleback'},
+        '鸩棘鱼': {'bait': '赤糜饵', 'time': '夜晚', 'BigFishType': 'stickleback'},
+        '赤魔王': {'bait': '赤糜饵', 'time': '白天', 'BigFishType': 'stickleback'},
+        '雪中君': {'bait': '赤糜饵', 'time': '夜晚', 'BigFishType': 'stickleback'},
+        '金赤假龙': {'bait': '飞蝇假饵', 'time': '全天', 'BigFishType': 'koi'},
+        '锖假龙': {'bait': '飞蝇假饵', 'time': '全天', 'BigFishType': 'koi'},
+        '流纹褐蝶鱼': {'bait': '蠕虫假饵', 'time': '白天', 'BigFishType': 'butterflyfish'},
+        '流纹茶蝶鱼': {'bait': '蠕虫假饵', 'time': '白天', 'BigFishType': 'butterflyfish'},
+        '流纹京紫蝶鱼': {'bait': '蠕虫假饵', 'time': '白天', 'BigFishType': 'butterflyfish'},
+        '长生仙': {'bait': '蠕虫假饵', 'time': '白天', 'BigFishType': 'butterflyfish'},
+        '雷鸣仙': {'bait': '蠕虫假饵', 'time': '夜晚', 'BigFishType': 'butterflyfish'},
+        '炮鲀': {'bait': '飞蝇假饵', 'time': '全天', 'BigFishType': 'pufferfish'},
+        '苦炮鲀': {'bait': '飞蝇假饵', 'time': '全天', 'BigFishType': 'pufferfish'},
+        '佛玛洛鳐': {'bait': '飞蝇假饵', 'time': '全天', 'BigFishType': 'ray'},
+        '迪芙妲鳐': {'bait': '飞蝇假饵', 'time': '全天', 'BigFishType': 'ray'},
+        '吹沙角鲀': {'bait': '甘露饵', 'time': '白天', 'BigFishType': 'angler'},
+        '暮云角鲀': {'bait': '甘露饵', 'time': '夜晚', 'BigFishType': 'angler'},
+        '真果角鲀': {'bait': '甘露饵', 'time': '白天', 'BigFishType': 'angler'},
+        '沉波蜜桃': {'bait': '甘露饵', 'time': '白天', 'BigFishType': 'angler'},
+        '翡玉斧枪鱼': {'bait': '甘露饵', 'time': '全天', 'BigFishType': 'axe_marlin'},
+        '青金斧枪鱼': {'bait': '甘露饵', 'time': '全天', 'BigFishType': 'axe_marlin'},
+        '海涛斧枪鱼': {'bait': '甘露饵', 'time': '全天', 'BigFishType': 'axe_marlin'},
+        '烘烘心羽鲈': {'bait': '酸桔饵', 'time': '白天', 'BigFishType': 'heartfeather_bass'},
+        '波波心羽鲈': {'bait': '酸桔饵', 'time': '夜晚', 'BigFishType': 'heartfeather_bass'},
+        '玉玉心羽鲈': {'bait': '酸桔饵', 'time': '全天', 'BigFishType': 'heartfeather_bass'},
+        '维护机关·初始能力型': {'bait': '维护机关频闪诱饵', 'time': '全天', 'BigFishType': 'maintenance_mek'},
+        '维护机关·态势控制者': {'bait': '维护机关频闪诱饵', 'time': '夜晚', 'BigFishType': 'maintenance_mek'},
+        '维护机关·水域清理者': {'bait': '维护机关频闪诱饵', 'time': '白天', 'BigFishType': 'maintenance_mek'},
+        '维护机关·澄金领队型': {'bait': '维护机关频闪诱饵', 'time': '全天', 'BigFishType': 'maintenance_mek'},
+        '维护机关·白金典藏型': {'bait': '维护机关频闪诱饵', 'time': '夜晚', 'BigFishType': 'maintenance_mek'},
+        '伪装鲨鲨独角鱼': {'bait': '澄晶果粒饵', 'time': '全天', 'BigFishType': 'unihornfish'},
+        '青浪翻车鲀': {'bait': '澄晶果粒饵', 'time': '白天', 'BigFishType': 'sunfish'},
+        '晚霞翻车鲀': {'bait': '澄晶果粒饵', 'time': '夜晚', 'BigFishType': 'sunfish'},
+        '繁花斗士急流鱼': {'bait': '澄晶果粒饵', 'time': '夜晚', 'BigFishType': 'rapidfish'},
+        '深潜斗士急流鱼': {'bait': '澄晶果粒饵', 'time': '白天', 'BigFishType': 'rapidfish'},
+        '拟似燃素独角鱼': {'bait': '温火饵', 'time': '全天', 'BigFishType': 'phony_unihornfish'},
+        '炽岩斗士急流鱼': {'bait': '温火饵', 'time': '全天', 'BigFishType': 'magma_rapidfish'},
+        '秘源机关·巡戒使': {'bait': '温火饵', 'time': '全天', 'BigFishType': 'secret_source'},
+        '无奇巨斧鱼': {'bait': '槲梭饵', 'time': '全天', 'BigFishType': 'axehead'},
+        '冷冽巨斧鱼': {'bait': '槲梭饵', 'time': '白天', 'BigFishType': 'axehead'},
+        '炽铁巨斧鱼': {'bait': '槲梭饵', 'time': '夜晚', 'BigFishType': 'axehead'},
+        '素素凶凶鲨': {'bait': '清白饵', 'time': '全天', 'BigFishType': 'mauler_shark'},
+        '虹光凶凶鲨': {'bait': '清白饵', 'time': '夜晚', 'BigFishType': 'mauler_shark'},
+        '蓝昼明眼鱼': {'bait': '清白饵', 'time': '白天', 'BigFishType': 'crystal_eye'},
+        '夜色明眼鱼': {'bait': '清白饵', 'time': '夜晚', 'BigFishType': 'crystal_eye'}
     }
     const path_pathing = [
-        '枫丹-垂钓点-伊黎耶林区幽林雾道西南-花鳉_波波心羽鲈_烘烘心羽鲈_维护机关·水域清理者_维护机关·态势控制者_维护机关·澄金领队型-果酿饵_酸橘饵_维护机关频闪诱饵-普通',
-        '枫丹-垂钓点-伊黎耶林区柔灯港西北-海涛斧枪鱼_波波心羽鲈_维护机关·水域清理者_维护机关·澄金领队型-甘露饵_酸橘饵_维护机关频闪诱饵-普通',
+        '枫丹-垂钓点-伊黎耶林区幽林雾道西南-花鳉_波波心羽鲈_烘烘心羽鲈_维护机关·水域清理者_维护机关·态势控制者_维护机关·澄金领队型-果酿饵_酸桔饵_维护机关频闪诱饵-普通',
+        '枫丹-垂钓点-伊黎耶林区柔灯港西北-海涛斧枪鱼_波波心羽鲈_维护机关·水域清理者_维护机关·澄金领队型-甘露饵_酸桔饵_维护机关频闪诱饵-普通',
         '枫丹-垂钓点-枫丹动能工程科学研究院区中央实验室遗址南-花鳉_海涛斧枪鱼_波波心羽鲈_维护机关·初始能力型_维护机关·水域清理者-果酿饵_甘露饵_酸桔饵_维护机关频闪诱饵-普通',
-        '枫丹-垂钓点-枫丹廷区茉洁站西南-海涛斧枪鱼_烘烘心羽鲈_维护机关·初始能力型_维护机关·态势控制者-甘露饵_酸橘饵_维护机关频闪诱饵-普通',
-        '枫丹-垂钓点-枫丹廷区枫丹廷东北-海涛斧枪鱼_波波心羽鲈_烘烘心羽鲈_维护机关·水域清理者_维护机关·态势控制者-甘露饵_酸橘饵_维护机关频闪诱饵-GCM',
+        '枫丹-垂钓点-枫丹廷区茉洁站西南-海涛斧枪鱼_烘烘心羽鲈_维护机关·初始能力型_维护机关·态势控制者-甘露饵_酸桔饵_维护机关频闪诱饵-普通',
+        '枫丹-垂钓点-枫丹廷区枫丹廷东北-海涛斧枪鱼_波波心羽鲈_烘烘心羽鲈_维护机关·水域清理者_维护机关·态势控制者-甘露饵_酸桔饵_维护机关频闪诱饵-GCM',
         '枫丹-垂钓点-枫丹廷区枫丹廷南-花鳉_海涛斧枪鱼_维护机关·水域清理者_维护机关·态势控制者-果酿饵_甘露饵_维护机关频闪诱饵-普通',
-        '枫丹-垂钓点-白露区白淞镇西南-花鳉_波波心羽鲈_烘烘心羽鲈_维护机关·水域清理者_维护机关·白金典藏型-果酿饵_酸橘饵_维护机关频闪诱饵-普通',
+        '枫丹-垂钓点-白露区白淞镇西南-花鳉_波波心羽鲈_烘烘心羽鲈_维护机关·水域清理者_维护机关·白金典藏型-果酿饵_酸桔饵_维护机关频闪诱饵-普通',
         '枫丹-垂钓点-翡黎区芒索斯山东麓东-海涛斧枪鱼_烘烘心羽鲈_维护机关·初始能力型_维护机关·态势控制者-甘露饵_酸桔饵_维护机关频闪诱饵-普通',
-        '枫丹-垂钓点-苍晶区厄里那斯东-海涛斧枪鱼_波波心羽鲈_烘烘心羽鲈_维护机关·初始能力型-甘露饵_酸橘饵_维护机关频闪诱饵-普通',
-        '枫丹-垂钓点-苍晶区厄里那斯东北-吹沙角鲀_波波心羽鲈_维护机关·初始能力型_维护机关·水域清理者_维护机关·态势控制者-甘露饵_酸橘饵_维护机关频闪诱饵-普通',
-        '枫丹-垂钓点-苍晶区海露港北-海涛斧枪鱼_波波心羽鲈_烘烘心羽鲈_维护机关·水域清理者_维护机关·态势控制者-甘露饵_酸橘饵_维护机关频闪诱饵-普通',
-        '枫丹-垂钓点-莫尔泰区卡布狄斯堡遗迹南-花鳉_波波心羽鲈_烘烘心羽鲈_维护机关·态势控制者_维护机关·澄金领队型-果酿饵_酸橘饵_维护机关频闪诱饵-普通',
-        '枫丹-垂钓点-莫尔泰区欧庇克莱歌剧院南-海涛斧枪鱼_烘烘心羽鲈_维护机关·水域清理者_维护机关·态势控制者_维护机关·澄金领队型-甘露饵_酸橘饵_维护机关频闪诱饵-普通',
-        '枫丹-垂钓点-诺思托伊区佩特莉可镇南-海涛斧枪鱼_波波心羽鲈_烘烘心羽鲈_维护机关·初始能力型_维护机关·水域清理者_维护机关·态势控制者_维护机关·澄金领队型-甘露饵_酸橘饵_维护机关频闪诱饵-普通',
-        '枫丹-垂钓点-枫丹廷区欧庇克莱歌剧院西-海涛斧枪鱼_波波心羽鲈_烘烘心羽鲈_维护机关·初始能力型-甘露饵_酸橘饵_维护机关频闪诱饵-GCM',
+        '枫丹-垂钓点-苍晶区厄里那斯东-海涛斧枪鱼_波波心羽鲈_烘烘心羽鲈_维护机关·初始能力型-甘露饵_酸桔饵_维护机关频闪诱饵-普通',
+        '枫丹-垂钓点-苍晶区厄里那斯东北-吹沙角鲀_波波心羽鲈_维护机关·初始能力型_维护机关·水域清理者_维护机关·态势控制者-甘露饵_酸桔饵_维护机关频闪诱饵-普通',
+        '枫丹-垂钓点-苍晶区海露港北-海涛斧枪鱼_波波心羽鲈_烘烘心羽鲈_维护机关·水域清理者_维护机关·态势控制者-甘露饵_酸桔饵_维护机关频闪诱饵-普通',
+        '枫丹-垂钓点-莫尔泰区卡布狄斯堡遗迹南-花鳉_波波心羽鲈_烘烘心羽鲈_维护机关·态势控制者_维护机关·澄金领队型-果酿饵_酸桔饵_维护机关频闪诱饵-普通',
+        '枫丹-垂钓点-莫尔泰区欧庇克莱歌剧院南-海涛斧枪鱼_烘烘心羽鲈_维护机关·水域清理者_维护机关·态势控制者_维护机关·澄金领队型-甘露饵_酸桔饵_维护机关频闪诱饵-普通',
+        '枫丹-垂钓点-诺思托伊区佩特莉可镇南-海涛斧枪鱼_波波心羽鲈_烘烘心羽鲈_维护机关·初始能力型_维护机关·水域清理者_维护机关·态势控制者_维护机关·澄金领队型-甘露饵_酸桔饵_维护机关频闪诱饵-普通',
+        '枫丹-垂钓点-枫丹廷区欧庇克莱歌剧院西-海涛斧枪鱼_波波心羽鲈_烘烘心羽鲈_维护机关·初始能力型-甘露饵_酸桔饵_维护机关频闪诱饵-GCM',
         '璃月-垂钓点-云来海璃月港东南-甜甜花鳉_擒霞客_水晶宴_斗棘鱼_炮鲀-果酿饵_赤糜饵_飞蝇假饵-普通',
         '璃月-垂钓点-沉玉谷·上谷古树茶坡-花鳉_斗棘鱼_流纹褐蝶鱼_锖假龙_金赤假龙_玉玉心羽鲈-果酿饵_赤糜饵_蠕虫假饵_飞蝇假饵_酸桔饵-普通',
         '璃月-垂钓点-沉玉谷·上谷古树茶坡东-花鳉_擒霞客_水晶宴_斗棘鱼_锖假龙_玉玉心羽鲈-果酿饵_赤糜饵_飞蝇假饵_酸桔饵-普通',
@@ -139,10 +139,10 @@
         '纳塔-垂钓点-悠悠度假村彩彩崖北-花鳉_繁花斗士急流鱼_青浪翻车鲀_伪装鲨鲨独角鱼-果酿饵_澄晶果粒饵-普通',
         '纳塔-垂钓点-悠悠度假村呼呼丘西南-繁花斗士急流鱼_深潜斗士急流鱼_晚霞翻车鲀_伪装鲨鲨独角鱼-澄晶果粒饵-普通',
         '纳塔-垂钓点-悠悠度假村悠悠集市西南-花鳉_深潜斗士急流鱼_青浪翻车鲀_晚霞翻车鲀-果酿饵_澄晶果粒饵-普通',
-        // '远古圣山-垂钓点-分流识海-炽岩斗士急流鱼_秘源机关·巡戒使-温火饵-普通',
+        '远古圣山-垂钓点-分流识海-炽岩斗士急流鱼_秘源机关·巡戒使-温火饵-普通',
         '蒙德-垂钓点-龙脊雪山寒天之钉西-花鳉_鸩棘鱼_雪中君_流纹茶蝶鱼-果酿饵_赤糜饵_蠕虫假饵-普通',
         '蒙德-垂钓点-坠星山谷低语森林南-蓝染花鳉_水晶宴_鸩棘鱼_锖假龙_流纹茶蝶鱼-果酿饵_赤糜饵_蠕虫假饵_飞蝇假饵-普通',
-        '蒙德-垂钓点-坠星山谷望风山地-花鳉_蓝染花鳉_擒霞客_水晶宴_鸩棘鱼_金赤假龙_流纹茶蝶-果酿饵_赤糜饵_蠕虫假饵_飞蝇假饵-普通',
+        '蒙德-垂钓点-坠星山谷望风山地-花鳉_蓝染花鳉_擒霞客_水晶宴_鸩棘鱼_金赤假龙_流纹茶蝶鱼-果酿饵_赤糜饵_蠕虫假饵_飞蝇假饵-普通',
         '蒙德-垂钓点-明冠山地风龙废墟北-花鳉_蓝染花鳉_擒霞客_水晶宴-果酿饵-战斗',
         '蒙德-垂钓点-明冠山地风龙废墟南-花鳉_蓝染花鳉_擒霞客_流纹茶蝶鱼-果酿饵_蠕虫假饵-普通',
         '蒙德-垂钓点-苍风高地晨曦酒庄西南-蓝染花鳉_擒霞客_鸩棘鱼_赤魔王_流纹茶蝶鱼_炮鲀_苦炮鲀-果酿饵_赤糜饵_蠕虫假饵_飞蝇假饵-战斗',
@@ -196,8 +196,23 @@
     // 存储本次任务中的所有鱼类，作为调节时间的关键参考
     let list_fish = [];
 
+    /**
+     * 计算垂钓点再次可用的时间戳
+     * @param {String} status - Daytime或Nighttime
+     * @returns {number} 返回垂钓点再次可用的时间戳
+     * @description
+     * 当前采用的CD计算为基于当前冷却时间对象中的 status 属性，计算并返回三天后（从当天 0 点开始计算）的时间戳。
+     */
+    async function cdCal(status) {
+        // 计算垂钓点再次可用的时间戳
+        let critical_time_date = new Date(current_cd[status]);
+        critical_time_date.setHours(0, 0, 0, 0);
+        critical_time_date.setDate(critical_time_date.getDate() + 3);
+        return critical_time_date.getTime();
+    }
+
     // 偽造日志
-    async function fakeLog(name, isJs, isStart, duration) {
+    async function fakeLog(name, isJs, isStart, isPick, duration) {
         await sleep(10);
         const currentTime = Date.now();
         // 参数检查
@@ -273,7 +288,7 @@
             log.debug(logMessage);
         }
         // 交互或拾取："XXXX"
-        if (duration == 9527) {
+        if (isPick) {
             // const logMessage = `正在 交互或拾取 的日志记录\n\n` +
             //     `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             //     `------------------------------\n\n` +
@@ -456,11 +471,14 @@
             let regex_area, regex_fish, regex_bait;
 
             // 读取地区
-            let path_sort_area = typeof(settings.path_sort_area) === 'undefined' || settings.path_sort_area === "" ? [] : settings.path_sort_area.split(' ');
+            // let path_sort_area = typeof(settings.path_sort_area) === 'undefined' || settings.path_sort_area === "" ? [] : settings.path_sort_area.split(' ');
+            let path_sort_area = Array.from(settings.path_sort_area);
             // 读取鱼类
-            let path_sort_fish = typeof(settings.path_sort_fish) === 'undefined' || settings.path_sort_fish === "" ? [] : settings.path_sort_fish.split(' ');
+            // let path_sort_fish = typeof(settings.path_sort_fish) === 'undefined' || settings.path_sort_fish === "" ? [] : settings.path_sort_fish.split(' ');
+            let path_sort_fish = Array.from(settings.path_sort_fish);
             // 读取鱼饵
-            let path_sort_bait = typeof(settings.path_sort_bait) === 'undefined' || settings.path_sort_bait === "" ? [] : settings.path_sort_bait.split(' ');
+            // let path_sort_bait = typeof(settings.path_sort_bait) === 'undefined' || settings.path_sort_bait === "" ? [] : settings.path_sort_bait.split(' ');
+            let path_sort_bait = Array.from(settings.path_sort_bait);
             // 读取兑换材料
             let path_sort_material = typeof(settings.path_sort_material) === 'undefined' ? "无(默认)" : settings.path_sort_material;
             // 读取调试信息
@@ -559,7 +577,7 @@
         }
     }
 
-    async function run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid = "default_user", is_time_kill, time_target, kill_hour, kill_minute) {
+    async function run_file(path_msg, time_out_throw, time_out_whole, is_con, developer_log, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid = "default_user", is_time_kill, time_target, kill_hour, kill_minute) {
         const base_path_pathing = "assets/pathing/";
         const base_path_gcm = "assets/KeyMouseScript/";
         const base_path_statues = "assets/pathing_others/";
@@ -693,19 +711,12 @@
             let current_cd = read_archive(file_name, uid);
             if (current_cd !== null) {
                 const now = Date.now();
-                // 计算垂钓点再次可用的时间戳
-                let critical_time_date = new Date(current_cd["Daytime"]);
-                critical_time_date.setHours(0, 0, 0, 0);
-                critical_time_date.setDate(critical_time_date.getDate() + 3);
-                let critical_time = critical_time_date.getTime();
 
                 if (fishing_time === "全天") {
                     let daytime = true;
                     if (current_cd["Daytime"] !== null) {
-                        let critical_time_date = new Date(current_cd["Daytime"]);
-                        critical_time_date.setHours(0, 0, 0, 0);
-                        critical_time_date.setDate(critical_time_date.getDate() + 3);
-                        let critical_time = critical_time_date.getTime();
+                        let critical_time = cdCal("Daytime");
+
                         if (now < critical_time) {
                             log.info(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
                             log.info(`${file_name}(白天) 已跳过...`);
@@ -717,10 +728,7 @@
                     }
                     
                     if (current_cd["Nighttime"] !== null) {
-                        let critical_time_date = new Date(current_cd["Nighttime"]);
-                        critical_time_date.setHours(0, 0, 0, 0);
-                        critical_time_date.setDate(critical_time_date.getDate() + 3);
-                        let critical_time = critical_time_date.getTime();
+                        let critical_time = cdCal("Nighttime");
 
                         if (now < critical_time) {
                             log.info(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
@@ -736,10 +744,7 @@
                     }
                 } else if (fishing_time === "白天") {
                     if (current_cd["Daytime"] !== null) {
-                        let critical_time_date = new Date(current_cd["Daytime"]);
-                        critical_time_date.setHours(0, 0, 0, 0);
-                        critical_time_date.setDate(critical_time_date.getDate() + 3);
-                        let critical_time = critical_time_date.getTime();
+                        let critical_time = cdCal("Daytime");
 
                         if (now < critical_time) {
                             log.info(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
@@ -751,10 +756,7 @@
                     }
                 } else if (fishing_time === "夜晚") {
                     if (current_cd["Nighttime"] !== null) {
-                        let critical_time_date = new Date(current_cd["Nighttime"]);
-                        critical_time_date.setHours(0, 0, 0, 0);
-                        critical_time_date.setDate(critical_time_date.getDate() + 3);
-                        let critical_time = critical_time_date.getTime();
+                        let critical_time = cdCal("Nighttime");
 
                         if (now < critical_time) {
                             log.info(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
@@ -768,8 +770,13 @@
             }
         }
 
-        // 偽造地图追踪开始
-        await fakeLog(file_name, false, true, 0);
+        if (developer_log.length !== 0 && developer_log.includes("伪造地图追踪(跑图)")) {
+            // 偽造地图追踪开始
+            await fakeLog(`${file_name}-跑图`, false, true, false, 0);
+        }
+        // 记录地图追踪开始时间
+        const time_start_pathing = Date.now();
+
         await pathingScript.runFile(base_path_pathing + file_name + ".json");
 
         if (file_name === "稻妻-垂钓点-鹤观逢岳之野西南") {
@@ -950,8 +957,19 @@
             await keyMouseScript.runFile(base_path_gcm + file_name + ".json");
         }
 
+        // 记录地图追踪结束时间
+        const time_end_pathing = Date.now();
+        if (developer_log.length !== 0 && developer_log.includes("伪造地图追踪(跑图)")) {
+            // 偽造地图追踪结束
+            await fakeLog(`${file_name}-跑图`, false, false, false,  time_end_pathing - time_start_pathing);
+        }
+        if (developer_log.length !== 0 && developer_log.includes("伪造地图追踪(垂钓)")) {
+            // 偽造地图追踪开始
+            await fakeLog(`${file_name}-垂钓`, false, true, false, 0);
+        }
+
         // 记录钓鱼开始时间
-        const time_start = Date.now();
+        const time_start_fishing = Date.now();
 
         // 调用自动钓鱼
         await dispatcher.runTask(new SoloTask("AutoFishing", {
@@ -961,18 +979,21 @@
         }));
 
         // 记录钓鱼结束时间
-        const time_end = Date.now();
+        const time_end_fishing = Date.now();
+
+        if (developer_log.length !== 0 && developer_log.includes("伪造地图追踪(垂钓)")) {
+            // 偽造地图追踪结束
+            await fakeLog(`${file_name}-垂钓`, false, false, false,  time_end_fishing - time_start_fishing);
+        }
 
         // 钓鱼是否正常结束，间隔时间大于抛竿超时时间视为正常结束（防止CD跳过导致的混淆）
-        const flag = (time_end - time_start) >= time_out_throw * 1000;
+        const flag = (time_end_fishing - time_start_fishing) >= time_out_throw * 1000;
 
         if (fishing_cd && flag) {
             write_archive(file_name, fishing_time, Date.now(), uid);
         } else if (fishing_cd && !flag) {
             log.warn(`本次钓鱼异常，不计算垂钓点CD`);
         }
-        // 偽造地图追踪结束
-        await fakeLog(file_name, false, false, 0);
     }
 
     async function main() {
@@ -992,6 +1013,8 @@
         let is_continue = true;
         // 判断是否是调式模式
         const is_con = !(typeof(settings.path_select) === 'undefined' || settings.path_select === "无(默认)");
+        // 读取开发者日志设置
+        const developer_log = Array.from(settings.developer_log);
         // 键鼠设置读取
         const block_gcm = typeof(settings.block_gcm) === 'undefined' ? false : settings.block_gcm;
         // 战斗设置读取
@@ -1100,7 +1123,7 @@
                     continue;
                 }
 
-                const run_result = await run_file(path_msg, time_out_throw, time_out_whole, is_con, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid, is_time_kill, time_target, kill_hour, kill_minute);
+                const run_result = await run_file(path_msg, time_out_throw, time_out_whole, is_con, developer_log, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid, is_time_kill, time_target, kill_hour, kill_minute);
 
                 // 新增：检查 run_file 是否因为到达终止时间而返回特殊标记
                 if (run_result === "time_kill") {
