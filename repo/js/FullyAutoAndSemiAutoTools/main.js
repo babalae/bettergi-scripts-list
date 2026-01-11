@@ -2,6 +2,7 @@ let manifest_json = "manifest.json";
 let manifest = undefined
 let configSettings = undefined
 let AUTO_STOP = undefined
+let AUTO_SKIP = undefined
 let debug = undefined
 let isDebug = false
 let SEMI_AUTO = false
@@ -13,8 +14,9 @@ const PATHING_ALL = new Array({level: 0, name: `${pathingName}`, parent_name: ""
 let settingsNameList = new Array()
 const settingsNameAsList = new Array()
 let PATH_JSON_LIST = new Array()
+const config_root = 'config'
 // 定义记录文件的路径
-let RecordText = "Record\\record.json"
+let RecordText = `${config_root}\\record.json`
 let RecordList = new Array()
 let RecordLast = {
     name: "",
@@ -245,10 +247,24 @@ async function getMultiCheckboxMap() {
         // 记录调试信息，包含名称、标签、选项和选项数量
         log.debug("name={key1},label={key2},options={key3},length={key4}", name, label, JSON.stringify(options), options.length);
         // 将名称和对应的选项数组存入Map
-        multiCheckboxMap.set(name, options);
+        // multiCheckboxMap.set(name, options);
+        multiCheckboxMap.set(name, {label: label, options: options});
     })
     // 返回包含多复选框配置的Map
     return multiCheckboxMap
+}
+
+/**
+ * 根据多选框名称获取对应的JSON数据
+ * 该函数是一个异步函数，用于从复选框映射表中获取指定名称的值
+ * @param {string} name - 多选框的名称，用于在映射表中查找对应的值
+ * @returns {Promise<any>} 返回一个Promise，解析后为找到的值，如果未找到则返回undefined
+ */
+async function getJsonByMultiCheckboxName(name) {
+    // 获取复选框映射表，这是一个异步操作
+    let multiCheckboxMap = await getMultiCheckboxMap()
+    // 从映射表中获取并返回指定名称对应的值
+    return multiCheckboxMap.get(name)
 }
 
 /**
@@ -261,7 +277,7 @@ async function getValueByMultiCheckboxName(name) {
     // 获取复选框映射表，这是一个异步操作
     let multiCheckboxMap = await getMultiCheckboxMap()
     // 从映射表中获取并返回指定名称对应的值
-    return multiCheckboxMap.get(name)
+    return multiCheckboxMap.get(name).options
 }
 
 async function init() {
@@ -276,6 +292,7 @@ async function init() {
         throw new Error("密钥不匹配")
     }
     AUTO_STOP = (AUTO_STOP) ? AUTO_STOP : settings.autoStop
+    AUTO_SKIP = (AUTO_SKIP) ? AUTO_SKIP : settings.autoSkip
     debug = (debug) ? debug : settings.debug
     isDebug = settings.isDebug
     SEMI_AUTO = settings.mode === settings.mode
@@ -295,7 +312,7 @@ async function init() {
 
     // 读取现有配置并合并
     let uidSettingsMap = new Map()
-    const uidSettingsJson = "settings/uid.json";
+    const uidSettingsJson = `${config_root}/uid_settings.json`;
     try {
         const existingData = JSON.parse(file.readTextSync(uidSettingsJson))
         uidSettingsMap = new Map(existingData)
@@ -394,6 +411,7 @@ async function init() {
         // let parentNameNow = undefined
         const line = 30
         const br = `${"=".repeat(line)}\n`
+        let idx = 0
         groupLevel.filter(list => list.length > 0).forEach(
             (list) => {
                 let i = 0
@@ -406,7 +424,9 @@ async function init() {
                         const localLine = b ? ((line - item.parent_name.length) / 2) : (Math.ceil((line - item.parent_name.length) / 2))
                         prefix = br + `${"=".repeat(localLine)}${item.parent_name}${"=".repeat(localLine)}\n` + br
                     }
-                    const p = initLength === settingsList.length ? "【地图追踪】\n" : `${prefix}[${item.name}]\n`
+                    // const p = idx === 0 ? "【地图追踪】\n" : `${prefix}[${item.parent_name}-${item.name}]\n`
+                    const p = `${prefix}[${item.name}]\n`
+                    idx++
                     let leveJson = {
                         name: `${name}`,
                         type: "multi-checkbox",
@@ -464,7 +484,11 @@ async function init() {
         //直接从配置文件中加载对应账号的配置
         let uidSettings = uidSettingsMap.get(Record.uid);
         if (uidSettings) {
-            file.writeTextSync(manifest.settings_ui, JSON.stringify(uidSettings))
+            try {
+                file.writeTextSync(manifest.settings_ui, JSON.stringify(uidSettings))
+            } catch (e) {
+                log.error("加载用户配置失败: {error}", e.message)
+            }
         }
         configSettings = await initSettings()
         settingsNameList = settingsNameList.concat(await getMultiCheckboxMap().then(map => {
@@ -478,14 +502,16 @@ async function init() {
         //     needRunMap.set(key, multiCheckbox)
         // }
         for (const settingsName of settingsNameList) {
-            const multi = await getValueByMultiCheckboxName(settingsName);
-
+            // let multi = await getValueByMultiCheckboxName(settingsName);
+            const multiJson = await getJsonByMultiCheckboxName(settingsName)
+            const label = getBracketContent(multiJson.label)
+            let multi = multiJson.options
             const settingsAsName = settingsNameAsList.find(item => item.settings_name === settingsName)
             let list = PATH_JSON_LIST.filter(item =>
-                multi.some(element => item.path.includes(element))
+                multi.some(element => item.path.includes(`\\${element}\\`) && item.path.includes(`\\${label}\\`))
             ).map(item => {
                 // 找到匹配的元素并填充到 selected 字段
-                const matchedElement = multi.find(element => item.path.includes(element));
+                const matchedElement = multi.find(element => item.path.includes(`\\${element}\\`) && item.path.includes(`\\${label}\\`));
                 return {name: item.name, parent_name: item.parent_name, selected: matchedElement || "", path: item.path}
             });
             if (list.length <= 0) {
@@ -501,6 +527,18 @@ async function init() {
     // 启用自动拾取的实时任务，并配置成启用急速拾取模式
     dispatcher.addTrigger(new RealtimeTimer("AutoPick", {"forceInteraction": true}));
     return true
+}
+
+/**
+ * 获取字符串中第一个方括号内的内容
+ * @param {string} str - 输入的字符串
+ * @returns {string} 返回第一个方括号内的内容，如果没有找到则返回空字符串
+ */
+function getBracketContent(str) {
+    // 使用正则表达式匹配第一个方括号及其中的内容
+    const match = str.match(/\[(.*?)\]/);
+    // 如果找到匹配项，返回第一个捕获组（即方括号内的内容），否则返回空字符串
+    return match ? match[1] : '';  // 找不到就回空字串
 }
 
 /**
@@ -523,6 +561,41 @@ async function debugKey(path = "debug.json", json = "", key = debug) {
         // 等待用户按下指定按键
         await keyMousePress(key)
     }
+}
+
+/**
+ * 检测指定按键是否被按下并释放
+ * @param {string} key - 需要检测的按键代码
+ * @returns {Promise<boolean>} 返回一个Promise，解析为布尔值，表示按键是否被按下并释放
+ */
+async function keyMousePressSkip(key, ms = 5000) {
+    let press = false
+    // 需手动初始化 keyMouseHook
+    const keyMouseHook = new KeyMouseHook()
+    let keyDown = false  // 标记按键是否被按下
+    let keyUp = false    // 标记按键是否被释放
+    try {
+        // 注册按键按下事件处理函数
+        keyMouseHook.OnKeyDown(function (keyCode) {
+            log.debug("{keyCode}被按下", keyCode)
+            keyDown = (key === keyCode)  // 检查按下的键是否与目标键匹配
+        });
+        // 注册按键释放事件处理函数
+        keyMouseHook.OnKeyUp(function (keyCode) {
+            log.debug("{keyCode}被释放", keyCode)
+            keyUp = (key === keyCode)    // 检查释放的键是否与目标键匹配
+        });
+
+        // 循环检测按键状态，直到按键被按下并释放
+        press = keyDown && keyUp  // 只有当按键既被按下又被释放时，press才为true
+        await sleep(ms)  // 每次循环间隔200毫秒
+
+        return press
+    } finally {
+        //脚本结束前，记得释放资源！
+        keyMouseHook.dispose()
+    }  // 释放按键钩子资源
+
 }
 
 /**
@@ -617,7 +690,6 @@ async function runList(list = [], stopKey = AUTO_STOP) {
     }
 
     log.debug(`[{mode}] 开始执行路径列表，共{count}个路径`, settings.mode, list.length);
-
     // 遍历路径列表
     for (let i = 0; i < list.length; i++) {
         const onePath = list[i];
@@ -626,7 +698,10 @@ async function runList(list = [], stopKey = AUTO_STOP) {
             log.info(`[{mode}] 开始执行[{1}-{2}]列表`, settings.mode, onePath.selected, onePath.parent_name);
         }
         log.debug('正在执行第{index}/{total}个路径: {path}', i + 1, list.length, path);
-
+        // if (await keyMousePressSkip(AUTO_SKIP)) {
+        //     log.warn(`[{mode}] 按下{key}跳过{0}执行`, settings.mode, AUTO_SKIP, path);
+        //     continue
+        // }
         try {
             // 执行单个路径，并传入停止标识
             await runPath(path, stopKey);
@@ -916,6 +991,10 @@ async function main() {
     }
     if (lastRunMap.size > 0) {
         await runMap(lastRunMap)
+    }
+
+    if (needRunMap.size <= 0 && lastRunMap.size <= 0) {
+        log.info(`设置目录{0}完成`, "刷新")
     }
     // log.info(`[{mode}] path==>{path},请按下{key}以继续执行[${manifest.name} JS]`, settings.mode, "path", AUTO_STOP)
     // await keyMousePress(AUTO_STOP);
