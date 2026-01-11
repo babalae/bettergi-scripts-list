@@ -1,5 +1,26 @@
 [
   {
+      "name": "config_run",
+      "type": "select",
+      "label": "配置模式",
+      "options": [
+      "刷新","加载"
+      ],
+      "default": "刷新"
+  },
+  {
+      "name": "config_white_list",
+      "type": "input-text",
+      "label": "刷新白名单 以,分割",
+      "default": "晶蝶"
+  },
+  {
+      "name": "config_black_list",
+      "type": "input-text",
+      "label": "刷新黑名单 以,分割",
+      "default": "其他,锄地专区,食材与炼金"
+  },
+  {
     "name": "key",
     "type": "input-text",
     "label": "密钥",
@@ -24,6 +45,12 @@
       "全自动","半自动"
       ],
       "default": "全自动"
+  },
+  {
+    "name": "choose_best",
+    "type": "checkbox",
+    "label": "择优模式",
+    "default": false
   },
   {
       "name": "autoStop",

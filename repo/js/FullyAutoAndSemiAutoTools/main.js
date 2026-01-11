@@ -10,9 +10,11 @@ const pathingName = "pathing"
 // const pathRunMap = new Map([])
 const needRunMap = new Map([])
 const PATHING_ALL = new Array({level: 0, name: `${pathingName}`, parent_name: "", child_names: []})
-const settingsNameList = new Array()
+let settingsNameList = new Array()
 const settingsNameAsList = new Array()
 let PATH_JSON_LIST = new Array()
+// 定义记录文件的路径
+let RecordText = "Record\\record.json"
 let RecordList = new Array()
 let RecordLast = {
     name: "",
@@ -30,6 +32,38 @@ const Record = {
     errorPaths: new Set(), // 记录错误路径
     groupPaths: new Set(), // 记录分组路径
 }
+const config_list = {
+    black: [],
+    white: [],
+}
+
+/**
+ * 保存当前记录到记录列表并同步到文件
+ * 该函数在保存前会将Set类型的数据转换为数组格式，确保JSON序列化正常进行
+ */
+function saveRecord() {
+    // 保存前将 Set 转换为数组
+    // 创建一个新的记录对象，包含原始记录的所有属性
+    const recordToSave = {
+        // 使用展开运算符复制Record对象的所有属性
+        ...Record,
+        // 将paths Set转换为数组
+        paths: [...Record.paths],
+        // 将errorPaths Set转换为数组
+        errorPaths: [...Record.errorPaths],
+        // 将groupPaths Set转换为数组，并对每个元素进行特殊处理
+        groupPaths: [...Record.groupPaths].map(item => ({
+            // 保留name属性
+            name: item.name,
+            // 将item中的paths Set转换为数组
+            paths: [...item.paths]
+        }))
+    };
+    // 将处理后的记录添加到记录列表
+    RecordList.push(recordToSave)
+    // 将记录列表转换为JSON字符串并同步写入文件
+    file.writeTextSync(RecordText, JSON.stringify(RecordList))
+}
 
 /**
  * 初始化记录函数
@@ -43,6 +77,28 @@ async function initRecord() {
     Record.timestamp = Date.now()
     // 获取并设置调整后的日期数据
     Record.data = getAdjustedDate()
+
+    try {
+        // 尝试读取记录文件
+        // 读取后将数组转换回 Set，处理特殊的数据结构
+        RecordList = JSON.parse(file.readTextSync(RecordText), (key, value) => {
+            // 处理普通路径集合
+            if (key === 'paths' || key === 'errorPaths') {
+                return new Set(value);
+            }
+            // 处理分组路径集合，保持嵌套的Set结构
+            if (key === 'groupPaths') {
+                return new Set(value.map(item => ({
+                    name: item.name,
+                    paths: new Set(item.paths)
+                })));
+            }
+            return value;
+        });
+    } catch (e) {
+        // 如果读取文件出错，则忽略错误（可能是文件不存在或格式错误）
+    }
+
     // 如果记录列表不为空，则查找最新记录
     if (RecordList.length > 0) {
         // 最优解：一次遍历找到最新的记录
@@ -61,6 +117,15 @@ async function initRecord() {
         RecordLast = latestRecord ? latestRecord : RecordLast;
     }
     if (RecordLast.uid === Record.uid && Record.data === RecordLast.data) {
+        // 判断是否为同一天 合并跑过的数据
+        // 确保 RecordLast 的 Set 属性存在
+        if (!RecordLast.paths || !(RecordLast.paths instanceof Set)) {
+            RecordLast.paths = new Set();
+        }
+        if (!RecordLast.groupPaths || !(RecordLast.groupPaths instanceof Set)) {
+            RecordLast.groupPaths = new Set();
+        }
+
         // 判断是否为同一天 合并跑过的数据
         Record.paths = new Set([...Record.paths, ...RecordLast.paths])
         Record.groupPaths = new Set([...Record.groupPaths, ...RecordLast.groupPaths])
@@ -214,6 +279,8 @@ async function init() {
     debug = (debug) ? debug : settings.debug
     isDebug = settings.isDebug
     SEMI_AUTO = settings.mode === settings.mode
+    config_list.black = settings.config_black_list ? settings.config_black_list.split(",") : []
+    config_list.white = settings.config_white_list ? settings.config_white_list.split(",") : []
     if (SEMI_AUTO && !AUTO_STOP) {
         throw new Error("半自动模式下必须开启自动停止")
     }
@@ -223,10 +290,24 @@ async function init() {
         log.error("{0}文件夹不存在，请在BetterGI中右键点击本脚本，选择{1}。然后双击脚本目录下的{2}文件以创建文件夹链接", `${pathingName}`, "打开所在目录", batFile);
         return false;
     }
-    //刷新settings
-    if (true) {
+    //记录初始化
+    await initRecord();
+
+    // 读取现有配置并合并
+    let uidSettingsMap = new Map()
+    const uidSettingsJson = "settings/uid.json";
+    try {
+        const existingData = JSON.parse(file.readTextSync(uidSettingsJson))
+        uidSettingsMap = new Map(existingData)
+    } catch (e) {
+        // 文件不存在时使用空Map
+        log.debug("配置文件不存在，将创建新的");
+    }
+    let levelName = "treeLevel"
+
+    async function refreshALL() {
         let level = 0
-        let levelName = "treeLevel"
+
         // 获取当前路径下的所有文件/文件夹
         let pathSyncList = file.readPathSync(`${PATHING_ALL[level].name}`);
         log.debug("{0}文件夹下有{1}个文件/文件夹", `${pathingName}`, pathSyncList.length);
@@ -238,7 +319,7 @@ async function init() {
             options: []
         }
         for (const element of pathSyncList) {
-            log.warn("element={0}", element)
+            // log.warn("element={0}", element)
             parentJson.options.push(element.replace(`${pathingName}\\`, ""))
         }
         await addUniquePath({level: level, name: `${pathingName}`, parent_name: '', child_names: parentJson.options})
@@ -247,8 +328,28 @@ async function init() {
         await debugKey('log-treePathList.json', JSON.stringify(treePathList))
         let pathJsonList = await treeToList(treePathList)
         PATH_JSON_LIST = pathJsonList
+
+        // 预处理黑白名单数组，移除空字符串并trim
+        const processedBlackList = config_list.black
+            .map(item => item.trim())
+            .filter(item => item !== "");
+
+        const processedWhiteList = config_list.white
+            .map(item => item.trim())
+            .filter(item => item !== "");
+
         for (const element of pathJsonList) {
             const pathRun = element.path
+
+            // 检查路径是否被允许
+            const isBlacklisted = processedBlackList.some(item => pathRun.includes(item));
+            const isWhitelisted = processedWhiteList.some(item => pathRun.includes(item));
+
+            if (isBlacklisted && !isWhitelisted) {
+                continue;
+            }
+
+
             const level_parent_name = getChildFolderNameFromRoot(pathRun, level + 1);
             const level1_name = getChildFolderNameFromRoot(pathRun, level + 1 + 1);
             let level2_name = getChildFolderNameFromRoot(pathRun, level + 2 + 1);
@@ -290,7 +391,7 @@ async function init() {
         const groupLevel = groupByLevel(PATHING_ALL);
         const initLength = settingsList.length
         let parentNameLast = undefined
-        let parentNameNow = undefined
+        // let parentNameNow = undefined
         const line = 30
         const br = `${"=".repeat(line)}\n`
         groupLevel.filter(list => list.length > 0).forEach(
@@ -298,7 +399,7 @@ async function init() {
                 let i = 0
                 list.filter(item => item && item.child_names && item.child_names.length > 0).forEach(item => {
                     const name = `${levelName}_${item.level}_${i}`
-                    let prefix = "\n"
+                    let prefix = ''
                     if (item.parent_name !== parentNameLast) {
                         parentNameLast = item.parent_name;
                         let b = (line - item.parent_name.length) % 2 === 0;
@@ -320,7 +421,17 @@ async function init() {
                             settings_as_name: item.name
                         })
                         settingsNameList.push(name)
-                        settingsList.push(leveJson)
+                        const existingIndex = settingsList.findIndex(item => item.name === leveJson.name);
+                        if (existingIndex !== -1) {
+                            // 替换已存在的配置项
+                            settingsList[existingIndex] = leveJson;
+                        } else {
+                            if (item.parent_name !== parentNameLast) {
+                                settingsList.push({type: "separator"})
+                            }
+                            // 添加新的配置项
+                            settingsList.push(leveJson);
+                        }
                         i++
                     }
                 })
@@ -334,9 +445,32 @@ async function init() {
             // 刷新settings自动设置密钥
             item.default = manifest.key
         })
+        // 更新当前用户的配置
+        uidSettingsMap.set(Record.uid, settingsList)
+        // 安全写入配置文件
+        try {
+            file.writeTextSync(uidSettingsJson, JSON.stringify([...uidSettingsMap]))
+            log.debug("用户配置已保存: {uid}", Record.uid)
+        } catch (error) {
+            log.error("保存用户配置失败: {error}", error.message)
+        }
         file.writeTextSync(manifest.settings_ui, JSON.stringify(settingsList))
     }
 
+//刷新settings
+    if (settings.config_run === "刷新") {
+        await refreshALL();
+    } else if (true) {
+        //直接从配置文件中加载对应账号的配置
+        let uidSettings = uidSettingsMap.get(Record.uid);
+        if (uidSettings) {
+            file.writeTextSync(manifest.settings_ui, JSON.stringify(uidSettings))
+        }
+        configSettings = await initSettings()
+        settingsNameList = settingsNameList.concat(await getMultiCheckboxMap().then(map => {
+            return map.keys().filter(key => key.startsWith(levelName))
+        }))
+    }
     // 初始化needRunMap
     if (true) {
         // for (let key of pathAsMap.keys()) {
@@ -347,10 +481,18 @@ async function init() {
             const multi = await getValueByMultiCheckboxName(settingsName);
 
             const settingsAsName = settingsNameAsList.find(item => item.settings_name === settingsName)
+            let list = PATH_JSON_LIST.filter(item =>
+                multi.some(element => item.path.includes(element))
+            ).map(item => {
+                // 找到匹配的元素并填充到 selected 字段
+                const matchedElement = multi.find(element => item.path.includes(element));
+                return {name: item.name, parent_name: item.parent_name, selected: matchedElement || "", path: item.path}
+            });
+            if (list.length <= 0) {
+                continue
+            }
             needRunMap.set(settingsAsName.settings_as_name, {
-                paths: (PATH_JSON_LIST.filter(item =>
-                    multi.some(element => item.path.includes(element))
-                ).map(item => item.path)),
+                paths: list,
                 as_name: settingsAsName.settings_as_name,
                 name: settingsAsName.settings_name
             })
@@ -478,7 +620,11 @@ async function runList(list = [], stopKey = AUTO_STOP) {
 
     // 遍历路径列表
     for (let i = 0; i < list.length; i++) {
-        const path = list[i];
+        const onePath = list[i];
+        const path = onePath.path;
+        if (i === 0) {
+            log.info(`[{mode}] 开始执行[{1}-{2}]列表`, settings.mode, onePath.selected, onePath.parent_name);
+        }
         log.debug('正在执行第{index}/{total}个路径: {path}', i + 1, list.length, path);
 
         try {
@@ -516,10 +662,14 @@ async function runMap(map = new Map(), stopKey = AUTO_STOP) {
 
     // 遍历Map中的所有键
     for (const [key, one] of map.entries()) {
+        if (one.paths.size <= 0) {
+            continue
+        }
         try {
             // 记录开始执行任务的日志信息
             log.info(`[{0}] 开始执行[{1}]...`, settings.mode, one.as_name);
             // 执行当前任务关联的路径列表
+
             await runList(one.paths, stopKey);
             Record.groupPaths.add({
                 name: one.as_name,
@@ -722,52 +872,52 @@ async function treeToList(treeList = []) {
 }
 
 (async function () {
-    let RecordText = "Record\\record.json"
-    try {
-        RecordList = JSON.parse(file.readTextSync(RecordText))
-    } catch (e) {
-
-    }
-
     try {
         if (await init()) {
-            //记录初始化
-            await initRecord();
-
             await main()
         }
     } finally {
-        RecordList.push(Record)
-        file.writeTextSync(RecordText, JSON.stringify(RecordList))
+        saveRecord();
     }
 
 })()
 
 async function main() {
     let lastRunMap = new Map()
-    if (RecordLast.groupPaths.size > 0 && RecordLast.paths.size !== RecordLast.groupPaths.size) {
-        // 由于在迭代过程中删除元素会影响迭代，先收集要删除的键
-        const keysToDelete = [];
-        // 优先跑上次群组没跑过的
-        // 使用 Set 提高性能
-        const lastListSet = new Set([...RecordLast.groupPaths].map(item => item.name));
 
-        for (const [key, one] of needRunMap.entries()) {
-            if (!lastListSet.has(key)) {
-                lastRunMap.set(key, one);
-                keysToDelete.push(key);
+    function chooseBestRun() {
+        if (settings.choose_best && RecordLast.paths.size > 0) {
+            // 由于在迭代过程中删除元素会影响迭代，先收集要删除的键
+            const keysToDelete = [];
+            // 优先跑上次没跑过的路径
+            // 使用 Set 提高性能
+            const lastListSet = new Set([...RecordLast.paths]);
+
+            for (const [key, one] of needRunMap.entries()) {
+                // 检查当前任务的路径是否都不在上次执行的路径中
+                const allPathsInLast = one.paths.every(pathObj => lastListSet.has(pathObj.path));
+
+                if (!allPathsInLast) {
+                    lastRunMap.set(key, one);
+                    keysToDelete.push(key);
+                }
+            }
+            // 然后批量删除
+            for (const key of keysToDelete) {
+                needRunMap.delete(key);
             }
         }
-        // 然后批量删除
-        for (const key of keysToDelete) {
-            needRunMap.delete(key);
-        }
     }
-    await runMap(needRunMap)
+
+    chooseBestRun();
+
+    if (needRunMap.size > 0) {
+        await runMap(needRunMap)
+    }
     if (lastRunMap.size > 0) {
         await runMap(lastRunMap)
     }
-    log.info(`[{mode}] path==>{path},请按下{key}以继续执行[${manifest.name} JS]`, settings.mode, "path", AUTO_STOP)
-    await keyMousePress(AUTO_STOP);
-    log.info(`[{mode}] path==>{path},请按下{key}以继续执行[${manifest.name} JS]`, settings.mode, "path", AUTO_STOP)
+    // log.info(`[{mode}] path==>{path},请按下{key}以继续执行[${manifest.name} JS]`, settings.mode, "path", AUTO_STOP)
+    // await keyMousePress(AUTO_STOP);
+    // log.info(`[{mode}] path==>{path},请按下{key}以继续执行[${manifest.name} JS]`, settings.mode, "path", AUTO_STOP)
 }
