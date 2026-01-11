@@ -26,13 +26,13 @@
   {
     "name": "loadDelay",
     "type": "input-text",
-    "label": "加载等待延迟\n用于OCR，界面切换和输入药名前的等待\n默认1000，单位毫秒",
-    "default": "1000"
+    "label": "加载等待延迟\n用于界面打开和切换的等待\n默认800，单位毫秒",
+    "default": "800"
   },
   {
     "name": "stepDelay",
     "type": "input-text",
-    "label": "操作间隔延迟\n用于筛选操作之间的短暂等待\n默认1000，单位毫秒",
-    "default": "1000"
+    "label": "操作间隔延迟\n用于OCR前和输入药名前的短暂等待\n默认500，单位毫秒",
+    "default": "500"
   }
 ]
