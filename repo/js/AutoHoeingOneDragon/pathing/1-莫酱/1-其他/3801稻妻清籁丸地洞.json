@@ -1,138 +1,82 @@
 {
   "info": {
-    "name": "3801稻妻清籁丸地洞",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时181.45秒，包含以下怪物：1只愚人众先遣队·火统游击兵、1只野伏·阵刀番、1只野伏·火伏番、2只野伏·机巧番、1只海乱鬼·雷腾、0.5只愚人众先遣队·水铳重卫士。",
-    "hash_res": "00758208",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时59.89秒，包含以下怪物：1只野伏·阵刀番、1只野伏·火伏番、2只野伏·机巧番、1只海乱鬼·雷腾。",
+    "enable_monster_loot_split": false,
+    "hash_res": "00758208",
+    "last_modified_time": 1767963270758,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3801稻妻清籁丸地洞",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -3891.57,
-      "y": -4389.89,
-      "type": "teleport",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "teleport",
+      "x": -3891.57,
+      "y": -4389.89
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -3863.85,
-      "y": -4389.49,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -3831.80078125,
+      "y": -4372.02734375
     },
     {
-      "id": 3,
-      "x": -3856.42,
-      "y": -4394.52,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": -3822.26,
-      "y": -4381.95,
-      "type": "target",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": -3816.05,
-      "y": -4380.23,
-      "type": "path",
-      "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "wait(3)"
-    },
-    {
-      "id": 6,
-      "x": -3845.46,
-      "y": -4392.96,
-      "type": "path",
+      "action_params": "wait(0.3),j,wait(1.3),j",
+      "id": 3,
       "move_mode": "fly",
+      "type": "path",
+      "x": -3816.060546875,
+      "y": -4378.4453125
+    },
+    {
       "action": "stop_flying",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": -3842.34,
-      "y": -4410.92,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": -3836.21,
-      "y": -4422.41,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": -3821.9,
-      "y": -4436.18,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 10,
-      "x": -3823.03,
-      "y": -4437.97,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "fight",
-      "action_params": ""
-    },
-    {
-      "id": 11,
-      "x": -3799.38,
-      "y": -4416.5,
-      "type": "path",
+      "action_params": "",
+      "id": 4,
       "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
+      "type": "path",
+      "x": -3807.91796875,
+      "y": -4385.916015625
     },
     {
-      "id": 12,
-      "x": -3793.45,
-      "y": -4398.89,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
       "action_params": "",
-      "locked": false
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3793.0078125,
+      "y": -4394.076171875
     },
     {
-      "id": 13,
-      "x": -3793.45,
-      "y": -4398.89,
-      "type": "orientation",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3793.0078125,
+      "y": -4394.076171875
     }
   ]
 }

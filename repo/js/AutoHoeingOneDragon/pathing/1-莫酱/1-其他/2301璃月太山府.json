@@ -8,7 +8,7 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时60.84秒，包含以下怪物：6只雷史莱姆、1只变异雷史莱姆。",
+    "description": "  路线信息：该路线预计用时35.64秒，包含以下怪物：6只雷史莱姆、1只变异雷史莱姆。",
     "hash_res": "72411001",
     "enable_monster_loot_split": false,
     "last_modified_time": 1760726816881,
@@ -42,7 +42,6 @@
       "action": "fight",
       "action_params": "",
       "id": 3,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 1150.73828125,
@@ -50,7 +49,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.2)",
+      "action_params": "wait(1)",
       "id": 4,
       "move_mode": "dash",
       "type": "orientation",
