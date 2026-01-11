@@ -49,13 +49,13 @@
   {
     "name": "teamSevenElements",
     "type": "input-text",
-    "label": "7元素队伍配置 按 火,水,风,雷,草,冰,岩 该顺序填写",
+    "label": "队伍配置 按 `矿物,火,水,风,雷,草,冰,岩` 该顺序填写",
     "default": ""
   },
   {
     "name": "choose_best",
     "type": "checkbox",
-    "label": "择优模式",
+    "label": "择优模式(默认关闭 优先跑之前没跑过的)",
     "default": false
   },
   {
@@ -66,6 +66,6 @@
   {
       "name": "autoSkip",
       "type": "input-text",
-      "label": "自动跳过运行快捷键(独立BGI的快捷键请勿冲突)"
+      "label": "【测试功能-无效配置】自动跳过运行快捷键(独立BGI的快捷键请勿冲突)"
   }
 ]

@@ -40,8 +40,9 @@ const config_list = {
 }
 
 const SevenElement = {
-    SevenElements: ['火', '水', '风', '雷', '草', '冰', '岩'],
+    SevenElements: ['矿物', '火', '水', '风', '雷', '草', '冰', '岩'],
     SevenElementsMap: new Map([
+        ['矿物', []],
         ['火', []],
         ['水', ['海露花']],
         ['风', ['蒲公英籽']],
@@ -51,6 +52,8 @@ const SevenElement = {
         ['岩', []],
     ]),
 }
+
+
 const team = {
     current: undefined,
     currentElementName: undefined,
@@ -302,6 +305,7 @@ async function getValueByMultiCheckboxName(name) {
 async function init() {
     let settingsConfig = await initSettings();
     let utils = [
+        "SwitchTeam",
         "uid",
     ]
     for (let util of utils) {
@@ -671,6 +675,30 @@ async function runPath(path, stopKey = AUTO_STOP) {
         log.info(`[{mode}] 路径已执行: {path}，跳过执行`, settings.mode, path)
         return
     }
+
+    const entry = [...SevenElement.SevenElementsMap.entries()].find(([key, val]) => {
+        return val.some(item => path.includes(`\\${item}\\`));
+    });
+    if (entry) {
+        const [key, val] = entry;
+        const index = SevenElement.SevenElements.indexOf(key);
+        const teamName = team.SevenElements.length > index && index >= 0 ?
+            team.SevenElements[index] : undefined;
+
+        if (!teamName || teamName === "") {
+            log.debug(`[{mode}] 没有设置队伍: {teamName}，跳过切换`, settings.mode, teamName);
+        } else if (team.current === teamName) {
+            log.debug(`[{mode}] 当前队伍为: {teamName}，无需切换`, settings.mode, teamName);
+        } else {
+            log.info(`[{mode}] 检测到需要: {key}，切换至{val}`, settings.mode, key, teamName);
+            const teamSwitch = await switchUtil.SwitchPartyMain(teamName);
+            if (teamSwitch) {
+                team.current = teamSwitch;
+            }
+        }
+
+    }
+
     try {
         const one = JSON.parse(file.readTextSync(path))
         if (one.info && one.info.description.includes("请配置好战斗策略")) {
