@@ -647,7 +647,13 @@ async function assignGroups(pathings, groupTags) {
     });
 }
 
-async function runPath(fullPath, map_name) {
+async function runPath(fullPath, map_name, pm, pe) {
+    if (settings.logMonsterCount) {
+        const m = Math.floor(pm); // 取整
+        const e = Math.floor(pe); // 取整
+        for (let i = 0; i < m; i++) log.debug('交互或拾取："小怪"');
+        for (let i = 0; i < e; i++) log.debug('交互或拾取："精英"');
+    }
     //当需要切换芙宁娜形态时，执行一次强制黑芙
     if (doFurinaSwitch) {
         log.info("上条路线识别到白芙，开始强制切换黑芙")
@@ -1530,19 +1536,9 @@ async function processPathingsByGroup(pathings, accountName) {
                 log.error(`获取坐标时发生错误：${error.message}`);
                 runningFailCount++;
             }
-            if (settings.logMonsterCount) {
-                const m = Math.floor(pathing.m); // 取整
-                const e = Math.floor(pathing.e); // 取整
 
-                let monsterCountLog = '';        // 新建空字符串
-
-                for (let i = 0; i < m; i++) monsterCountLog += '交互或拾取："小怪"，';
-                for (let i = 0; i < e; i++) monsterCountLog += '交互或拾取："精英"，';
-
-                log.debug(monsterCountLog);
-            }
             // 调用 runPath 函数处理路径
-            await runPath(pathing.fullPath, pathing.map_name);
+            await runPath(pathing.fullPath, pathing.map_name, pathing.m, pathing.e);
             try {
                 await sleep(1);
             } catch (error) {
