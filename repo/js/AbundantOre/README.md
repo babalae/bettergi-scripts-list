@@ -29,6 +29,11 @@
 
 ## ChangeLog
 
+### 0.27
+
+- 增加旧日之海、远古圣山地区的路线
+- 重制自定义配置页面
+
 ### 0.25
 
 - 修复坐标监控逻辑中未指定地图的bug，special thanks to [@this-Fish](https://github.com/this-Fish)
