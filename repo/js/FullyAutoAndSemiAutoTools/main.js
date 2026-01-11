@@ -39,6 +39,25 @@ const config_list = {
     white: [],
 }
 
+const SevenElement = {
+    SevenElements: ['火', '水', '风', '雷', '草', '冰', '岩'],
+    SevenElementsMap: new Map([
+        ['火', []],
+        ['水', ['海露花']],
+        ['风', ['蒲公英籽']],
+        ['雷', ['琉鳞石', '绯樱绣球']],
+        ['草', []],
+        ['冰', []],
+        ['岩', []],
+    ]),
+}
+const team = {
+    current: undefined,
+    currentElementName: undefined,
+    fight: false,
+    SevenElements: settings.teamSevenElements.split(',').map(item => item.trim()),
+}
+
 /**
  * 保存当前记录到记录列表并同步到文件
  * 该函数在保存前会将Set类型的数据转换为数组格式，确保JSON序列化正常进行
@@ -652,6 +671,15 @@ async function runPath(path, stopKey = AUTO_STOP) {
         log.info(`[{mode}] 路径已执行: {path}，跳过执行`, settings.mode, path)
         return
     }
+    try {
+        const one = JSON.parse(file.readTextSync(path))
+        if (one.info && one.info.description.includes("请配置好战斗策略")) {
+            log.warn(`[{mode}] 路径需要配置好战斗策略: {path}，如已配置请忽略`, settings.mode, path)
+        }
+    } catch (error) {
+        // log.error("路径执行失败: {path}, 错误: {error}", path, error.message)
+        // return
+    }
 
     try {
         log.debug("开始执行路径: {path}", path)
@@ -688,7 +716,6 @@ async function runList(list = [], stopKey = AUTO_STOP) {
         log.debug('路径列表为空，跳过执行');
         return;
     }
-
     log.debug(`[{mode}] 开始执行路径列表，共{count}个路径`, settings.mode, list.length);
     // 遍历路径列表
     for (let i = 0; i < list.length; i++) {
