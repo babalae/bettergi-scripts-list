@@ -10,13 +10,13 @@
         "盘缘": ["花鳉", "真果角鲀", "暮云角鲀", "吹沙角鲀"],
         "穿浪斗枪": ["维护机关·初始能力型", "维护机关·水域清理者", "维护机关·态势控制者", "海涛斧枪鱼"],
         "长犀圆鸟和扁鱼": ["炽岩斗士急流鱼", "拟似燃素独角鱼", "青浪翻车鲀", "晚霞翻车鲀"],
+        "谧晖白枝": ["无奇巨斧鱼", "素素凶凶鲨", "蓝昼明眼鱼", "夜色明眼鱼"],
         "渔获": ["雷鸣仙", "金赤假龙", "锖假龙"],
         "赤穗酒枡": ["雷鸣仙", "炮鲀", "苦炮鲀"],
         "竭泽": ["沉波蜜桃", "青金斧枪鱼", "翡玉斧枪鱼"],
         "原海鱼油": ["沉波蜜桃", "青金斧枪鱼", "翡玉斧枪鱼"],
         "灰河渡手": ["维护机关·白金典藏型", "波波心羽鲈", "烘烘心羽鲈", "海涛斧枪鱼"],
-        "马腾斯万能护养剂": ["维护机关·白金典藏型", "波波心羽鲈", "烘烘心羽鲈", "海涛斧枪鱼"],
-        "谧晖白枝": ["无奇巨斧鱼", "素素凶凶鲨", "蓝昼明眼鱼", "夜色明眼鱼"]
+        "马腾斯万能护养剂": ["维护机关·白金典藏型", "波波心羽鲈", "烘烘心羽鲈", "海涛斧枪鱼"]
     }
     const time_msg = {
         '白天': ['烘烘心羽鲈', '维护机关·水域清理者', '吹沙角鲀', '水晶宴', '流纹褐蝶鱼', '赤魔王', '长生仙', '流纹京紫蝶鱼', '深潜斗士急流鱼', '青浪翻车鲀', '流纹茶蝶鱼', '真果角鲀', '沉波蜜桃', '蓝昼明眼鱼', '冷冽巨斧鱼'],
@@ -770,9 +770,15 @@
             }
         }
 
-        if (developer_log.length !== 0 && developer_log.includes("伪造地图追踪(跑图)")) {
-            // 偽造地图追踪开始
-            await fakeLog(`${file_name}-跑图`, false, true, false, 0);
+        if (developer_log.length !== 0) {
+            if (developer_log.includes("伪造地图追踪(跑图+垂钓)")) {
+                // 偽造地图追踪开始
+                await fakeLog(`${file_name}`, false, true, false, 0);
+            } else if (developer_log.includes("伪造地图追踪(跑图)")) {
+                // 偽造地图追踪开始
+                await fakeLog(`${file_name}-跑图`, false, true, false, 0);
+            }
+
         }
         // 记录地图追踪开始时间
         const time_start_pathing = Date.now();
@@ -959,13 +965,15 @@
 
         // 记录地图追踪结束时间
         const time_end_pathing = Date.now();
-        if (developer_log.length !== 0 && developer_log.includes("伪造地图追踪(跑图)")) {
-            // 偽造地图追踪结束
-            await fakeLog(`${file_name}-跑图`, false, false, false,  time_end_pathing - time_start_pathing);
-        }
-        if (developer_log.length !== 0 && developer_log.includes("伪造地图追踪(垂钓)")) {
-            // 偽造地图追踪开始
-            await fakeLog(`${file_name}-垂钓`, false, true, false, 0);
+        if (developer_log.length !== 0 && !(developer_log.includes("伪造地图追踪(跑图+垂钓)"))) {
+            if (developer_log.includes("伪造地图追踪(跑图)")) {
+                // 偽造地图追踪结束
+                await fakeLog(`${file_name}-跑图`, false, false, false,  time_end_pathing - time_start_pathing);
+            }
+            if (developer_log.includes("伪造地图追踪(垂钓)")) {
+                // 偽造地图追踪开始
+                await fakeLog(`${file_name}-垂钓`, false, true, false, 0);
+            }
         }
 
         // 记录钓鱼开始时间
@@ -981,9 +989,15 @@
         // 记录钓鱼结束时间
         const time_end_fishing = Date.now();
 
-        if (developer_log.length !== 0 && developer_log.includes("伪造地图追踪(垂钓)")) {
-            // 偽造地图追踪结束
-            await fakeLog(`${file_name}-垂钓`, false, false, false,  time_end_fishing - time_start_fishing);
+        if (developer_log.length !== 0) {
+            if (developer_log.includes("伪造地图追踪(跑图+垂钓)")) {
+                // 偽造地图追踪结束
+                await fakeLog(`${file_name}`, false, false, false,  time_end_fishing - time_start_pathing);
+            } else if (developer_log.includes("伪造地图追踪(垂钓)")) {
+                // 偽造地图追踪结束
+                await fakeLog(`${file_name}-垂钓`, false, false, false,  time_end_fishing - time_start_fishing);
+            }
+
         }
 
         // 钓鱼是否正常结束，间隔时间大于抛竿超时时间视为正常结束（防止CD跳过导致的混淆）
