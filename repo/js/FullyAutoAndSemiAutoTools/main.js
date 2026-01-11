@@ -744,12 +744,28 @@ async function treeToList(treeList = []) {
 })()
 
 async function main() {
-    // await runMap(needRunMap)
-    // for (let key of needRunMap.keys()) {
-    //     await runList(needRunMap.get(key))
-    // }
+    let lastRunMap = new Map()
     if (RecordLast.groupPaths.size > 0 && RecordLast.paths.size !== RecordLast.groupPaths.size) {
-        //优先跑上次群组没跑过的
+        // 由于在迭代过程中删除元素会影响迭代，先收集要删除的键
+        const keysToDelete = [];
+        // 优先跑上次群组没跑过的
+        // 使用 Set 提高性能
+        const lastListSet = new Set([...RecordLast.groupPaths].map(item => item.name));
+
+        for (const [key, one] of needRunMap.entries()) {
+            if (!lastListSet.has(key)) {
+                lastRunMap.set(key, one);
+                keysToDelete.push(key);
+            }
+        }
+        // 然后批量删除
+        for (const key of keysToDelete) {
+            needRunMap.delete(key);
+        }
+    }
+    await runMap(needRunMap)
+    if (lastRunMap.size > 0) {
+        await runMap(lastRunMap)
     }
     log.info(`[{mode}] path==>{path},请按下{key}以继续执行[${manifest.name} JS]`, settings.mode, "path", AUTO_STOP)
     await keyMousePress(AUTO_STOP);
