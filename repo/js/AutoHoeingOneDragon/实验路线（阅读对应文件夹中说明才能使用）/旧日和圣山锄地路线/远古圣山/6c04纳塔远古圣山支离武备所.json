@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时63.12秒，包含以下怪物：1只炉壳山鼬。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1767735799447,
+    "last_modified_time": 1767766342018,
     "map_match_method": "",
     "map_name": "AncientSacredMountain",
     "name": "6c04纳塔远古圣山支离武备所",
@@ -33,31 +33,22 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": -76.513427734375,
-      "y": 617.2735595703125
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "fly",
-      "type": "path",
-      "x": -109.604736328125,
-      "y": 572.9798583984375
+      "x": -79.3623046875,
+      "y": 616.1412353515625
     },
     {
       "action": "stop_flying",
       "action_params": "1500",
-      "id": 4,
+      "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": -82.289306640625,
-      "y": 566.1561279296875
+      "x": -76.222412109375,
+      "y": 575.5814208984375
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 5,
+      "id": 4,
       "move_mode": "dash",
       "type": "path",
       "x": -77.077880859375,
@@ -65,8 +56,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(1)",
-      "id": 6,
+      "action_params": "wait(0.1)",
+      "id": 5,
       "move_mode": "dash",
       "type": "orientation",
       "x": -77.077880859375,
