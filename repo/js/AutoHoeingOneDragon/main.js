@@ -82,7 +82,8 @@ let lastEatBuff = 0;
             targetEliteNum: settings.targetEliteNum ?? 400,
             targetMonsterNum: settings.targetMonsterNum ?? 2000,
             priorityTags: settings.priorityTags ?? "",
-            excludeTags: settings.excludeTags ?? ""
+            excludeTags: settings.excludeTags ?? "",
+            curiosityFactor: settings.curiosityFactor ?? "0"
         };
         const cfgStr = JSON.stringify(cfg, null, 2);
         if (cfgStr.includes("莫酱") || cfgStr.includes("汐酱")) {
@@ -121,6 +122,7 @@ let lastEatBuff = 0;
         settings.targetMonsterNum = cfg.targetMonsterNum ?? 2000;
         settings.priorityTags = cfg.priorityTags ?? "";
         settings.excludeTags = cfg.excludeTags ?? "";
+        settings.curiosityFactor = cfg.curiosityFactor ?? "0";
     }
 
     //自定义配置处理
