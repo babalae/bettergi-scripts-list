@@ -42,7 +42,7 @@ const config_list = {
 const SevenElement = {
     SevenElements: ['矿物', '火', '水', '风', '雷', '草', '冰', '岩'],
     SevenElementsMap: new Map([
-        ['矿物', []],
+        ['矿物', ['夜泊石', '石珀', '清水玉', '万相石', '矿物']],
         ['火', []],
         ['水', ['海露花']],
         ['风', ['蒲公英籽']],
@@ -56,9 +56,9 @@ const SevenElement = {
 
 const team = {
     current: undefined,
-    currentElementName: undefined,
     fight: false,
-    SevenElements: settings.teamSevenElements.split(',').map(item => item.trim()),
+    fightKeys: ['锄地专区', "敌人与魔物"],
+    SevenElements: settings.teamSevenElements ? settings.teamSevenElements.split(',').map(item => item.trim()) : [],
 }
 
 /**
@@ -582,37 +582,53 @@ async function debugKey(path = "debug.json", json = "", key = debug) {
         // 输出等待按键的提示信息
         log.warn("[{0}]请按下{1}继续执行", '开发者模式', key)
         // 等待用户按下指定按键
-        await keyMousePress(key)
+        await keyMousePressStart(key)
     }
 }
 
+
 /**
- * 检测指定按键是否被按下并释放
- * @param {string} key - 需要检测的按键代码
- * @returns {Promise<boolean>} 返回一个Promise，解析为布尔值，表示按键是否被按下并释放
+ * 监听指定按键的按下和释放事件
+ * @param {string} key - 需要监听的按键代码
+ * @param {boolean} enableSkip - 是否允许跳过监听，默认为false
+ * @returns {Promise<Object>} 返回一个Promise对象，解析为包含按键状态的对象
+ *   - ok: boolean - 按键是否被完整按下并释放
+ *   - skip: boolean - 是否跳过监听（仅在enableSkip为true时有效）
  */
-async function keyMousePressSkip(key, ms = 5000) {
-    let press = false
-    // 需手动初始化 keyMouseHook
-    const keyMouseHook = new KeyMouseHook()
-    let keyDown = false  // 标记按键是否被按下
-    let keyUp = false    // 标记按键是否被释放
+async function keyMousePress(key, enableSkip = false) {
+    let press = {ok: false, skip: false}  // 初始化返回对象，记录按键状态
+    const keyMouseHook = new KeyMouseHook()  // 创建按键鼠标钩子实例
+    let keyDown = false    // 记录按键是否被按下
+    let keyUp = false        // 记录按键是否被释放
+    let down = false  //  记录按键按下事件是否触发
+    let up = false    //  记录按键释放事件是否触发
     try {
         // 注册按键按下事件处理函数
         keyMouseHook.OnKeyDown(function (keyCode) {
             log.debug("{keyCode}被按下", keyCode)
-            keyDown = (key === keyCode)  // 检查按下的键是否与目标键匹配
+            keyDown = (key === keyCode)  //  检查是否是目标按键被按下
+            down = true  // 标记按键按下事件已触发
         });
         // 注册按键释放事件处理函数
         keyMouseHook.OnKeyUp(function (keyCode) {
             log.debug("{keyCode}被释放", keyCode)
-            keyUp = (key === keyCode)    // 检查释放的键是否与目标键匹配
+            keyUp = (key === keyCode)    //  检查是否是目标按键被释放
+            up = true  // 标记按键释放事件已触发
         });
 
-        // 循环检测按键状态，直到按键被按下并释放
-        press = keyDown && keyUp  // 只有当按键既被按下又被释放时，press才为true
-        await sleep(ms)  // 每次循环间隔200毫秒
-
+        // 循环等待直到按键被按下并释放，或者跳过条件满足
+        while (true) {
+            if (enableSkip) {
+                if (press.ok || press.skip) {
+                    break;
+                }
+            } else if (press.ok) {
+                break;
+            }
+            press.ok = keyDown && keyUp  // ，
+            press.skip = down && up  //
+            await sleep(200)  // 每次循环间隔200毫秒
+        }
         return press
     } finally {
         //脚本结束前，记得释放资源！
@@ -626,36 +642,8 @@ async function keyMousePressSkip(key, ms = 5000) {
  * @param {string|number} key - 需要检测的按键代码
  * @returns {Promise<boolean>} 返回一个Promise，解析为布尔值，表示是否检测到按键的完整按下和释放过程
  */
-async function keyMousePress(key) {
-    let press = false
-    // 需手动初始化 keyMouseHook
-    const keyMouseHook = new KeyMouseHook()
-    let keyDown = false  // 标记按键是否被按下
-    let keyUp = false    // 标记按键是否被释放
-    try {
-        // 注册按键按下事件处理函数
-        keyMouseHook.OnKeyDown(function (keyCode) {
-            log.debug("{keyCode}被按下", keyCode)
-            keyDown = (key === keyCode)  // 检查按下的键是否与目标键匹配
-        });
-        // 注册按键释放事件处理函数
-        keyMouseHook.OnKeyUp(function (keyCode) {
-            log.debug("{keyCode}被释放", keyCode)
-            keyUp = (key === keyCode)    // 检查释放的键是否与目标键匹配
-        });
-
-        // 循环检测按键状态，直到按键被按下并释放
-        while (!press) {
-            press = keyDown && keyUp  // 只有当按键既被按下又被释放时，press才为true
-            await sleep(200)  // 每次循环间隔200毫秒
-        }
-
-        return press
-    } finally {
-        //脚本结束前，记得释放资源！
-        keyMouseHook.dispose()
-    }  // 释放按键钩子资源
-
+async function keyMousePressStart(key) {
+    return (await keyMousePress(key)).ok
 }
 
 /**
@@ -700,9 +688,19 @@ async function runPath(path, stopKey = AUTO_STOP) {
     }
 
     try {
-        const one = JSON.parse(file.readTextSync(path))
-        if (one.info && one.info.description.includes("请配置好战斗策略")) {
-            log.warn(`[{mode}] 路径需要配置好战斗策略: {path}，如已配置请忽略`, settings.mode, path)
+        if (!team.fight){
+            // const entry = team.fightKeys.find(([key, val]) => {
+            //     return val.some(item => path.includes(`\\${item}\\`));
+            // });
+            // if (entry) {
+            //     dispatcher.addTrigger(new RealtimeTimer("AutoPick", {"forceInteraction": true}));
+            //     await dispatcher.runAutoFightTask(new AutoFightParam());
+            //     team.fight = true;
+            // }
+            const one = JSON.parse(file.readTextSync(path))
+            if (one.info && one.info.description.includes("请配置好战斗策略")) {
+                log.warn(`[{mode}] 路径需要配置好战斗策略: {path}，如已配置请忽略`, settings.mode, path)
+            }
         }
     } catch (error) {
         // log.error("路径执行失败: {path}, 错误: {error}", path, error.message)
@@ -722,7 +720,7 @@ async function runPath(path, stopKey = AUTO_STOP) {
 
     if (SEMI_AUTO) {
         log.warn(`[{mode}] 路径执行完成: {path}, 请按{key}继续`, settings.mode, path, stopKey)
-        await keyMousePress(stopKey)
+        await keyMousePressStart(stopKey)
     }
 }
 
@@ -753,10 +751,14 @@ async function runList(list = [], stopKey = AUTO_STOP) {
             log.info(`[{mode}] 开始执行[{1}-{2}]列表`, settings.mode, onePath.selected, onePath.parent_name);
         }
         log.debug('正在执行第{index}/{total}个路径: {path}', i + 1, list.length, path);
-        // if (await keyMousePressSkip(AUTO_SKIP)) {
-        //     log.warn(`[{mode}] 按下{key}跳过{0}执行`, settings.mode, AUTO_SKIP, path);
-        //     continue
-        // }
+        if (SEMI_AUTO) {
+            log.warn(`[{mode}] 按下{key}可跳过{0}执行，如不想跳过请按空格`, settings.mode, AUTO_SKIP, path);
+            const skip = await keyMousePress(AUTO_SKIP, true);
+            if (skip.skip) {
+                log.warn(`[{mode}] 按下{key}跳过{0}执行`, settings.mode, AUTO_SKIP, path);
+                continue
+            }
+        }
         try {
             // 执行单个路径，并传入停止标识
             await runPath(path, stopKey);
@@ -1052,6 +1054,6 @@ async function main() {
         log.info(`设置目录{0}完成`, "刷新")
     }
     // log.info(`[{mode}] path==>{path},请按下{key}以继续执行[${manifest.name} JS]`, settings.mode, "path", AUTO_STOP)
-    // await keyMousePress(AUTO_STOP);
+    // await keyMousePressStart(AUTO_STOP);
     // log.info(`[{mode}] path==>{path},请按下{key}以继续执行[${manifest.name} JS]`, settings.mode, "path", AUTO_STOP)
 }
