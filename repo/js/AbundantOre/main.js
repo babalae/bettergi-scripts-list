@@ -23,7 +23,7 @@ const country_name_tag_map = {
     "璃月": "liyue",
     "层岩巨渊地下矿区": "chasm underground",
     "稻妻": "inazuma",
-    "渊下宫": "nnkanomiya",
+    "渊下宫": "enkanomiya",
     "须弥": "sumeru",
     "枫丹地面": "fontaine terrestrial",
     "枫丹水下": "fontaine underwater",
