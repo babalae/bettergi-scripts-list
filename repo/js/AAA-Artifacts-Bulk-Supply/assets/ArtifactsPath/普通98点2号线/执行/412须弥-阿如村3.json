@@ -1,0 +1,158 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759134275378,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "412须弥-阿如村3",
+    "tags": [],
+    "type": "collect",
+    "version": "1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4096.0234375,
+      "y": -2025.943359375
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4098.26416015625,
+      "y": -2008.10498046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4093.556640625,
+      "y": -1985.05810546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),a(0.15);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 4092.91748046875,
+      "y": -1983.70556640625
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4095.37493284859,
+      "y": -1983.3750075789821
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4091.437523700497,
+      "y": -1985.6873938942554
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4096.03369140625,
+      "y": -2025.90576171875
+    },
+    {
+      "action": "stop_flying",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4054.5937025990042,
+      "y": -2036.7187348420366
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),w(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 9,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 4056.751953125,
+      "y": -2034.9052734375
+    },
+    {
+      "action": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4096.01708984375,
+      "y": -2025.9365234375
+    },
+    {
+      "action": "",
+      "id": 11,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4120.361328125,
+      "y": -2046.00537109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4149.219275361031,
+      "y": -2041.2823489523507
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4197.4619140625,
+      "y": -2046.7412109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 14,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 4200.10009765625,
+      "y": -2046.51953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4202.6923828125,
+      "y": -2045.80078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4200.78076171875,
+      "y": -2043.26171875
+    }
+  ]
+}

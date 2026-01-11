@@ -1,0 +1,30 @@
+{
+  "info": {
+    "name": "珊瑚宫心海-2",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -757.94921875,
+      "y": -3815.1552734375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -720.7705078125,
+      "y": -3805.912109375,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "info": {
+    "author": "Demo&汐&mno",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      },
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时143.68秒，包含以下怪物：2只结羽勇士·驭空客、4只幼绒翼龙、3只绒翼龙。",
+    "hash_res": "02291396",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760729293160,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6302--纳塔_翘枝崖_北海岸_(3-5)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9548.26,
+      "y": -1116.56
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(2.5),keydown(d),wait(2),keyup(d),keypress(VK_SPACE),wait(0.5),keypress(VK_SPACE)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9550.66,
+      "y": -1113.59
+    },
+    {
+      "action": "combat_script",
+      "action_params": "charge(4.5),keydown(Q),keypress(f),wait(0.8),keypress(f),keyup(Q),wait(0.1),j,",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9444.03,
+      "y": -1170.79
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9440.24,
+      "y": -1172.59
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9400.47,
+      "y": -1201.67
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.5)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9408.99,
+      "y": -1210.99
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9390.24,
+      "y": -1199.36
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9354.94,
+      "y": -1222.13
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9255.1,
+      "y": -1128.27
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.876)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9255.1,
+      "y": -1128.27
+    }
+  ]
+}

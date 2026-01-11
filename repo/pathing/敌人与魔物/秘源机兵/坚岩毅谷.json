@@ -1,0 +1,32 @@
+{
+  "info": {
+    "name": "坚岩毅谷",
+    "type": "collect",
+    "version": "1.0",
+    "description": "坚岩毅谷",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "jsp"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8400.68,
+      "y": -1221.37
+    },
+    {
+      "id": 2,
+      "x": 8455.32,
+      "y": -1228.88,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "6个鸟蛋；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762498722879,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E30-2-枫丹食材-诺斯托伊区-佩特莉可镇【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4322.5371,
+      "y": 1173.1245
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4304.6748,
+      "y": 1178.6855
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4297.4844,
+      "y": 1195.2471
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4331.7158,
+      "y": 1201.8242
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4339.1777,
+      "y": 1201.0396
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 4339.7783,
+      "y": 1201.0542
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 4341.0947,
+      "y": 1201.2598
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4343.0078,
+      "y": 1201.9351
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4344.75,
+      "y": 1202.3438
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4345.4687,
+      "y": 1200.3438
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4346.0146,
+      "y": 1198.6079
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4345.9453,
+      "y": 1198.3701
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4),j,wait(0.1),j",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4345.074,
+      "y": 1198.3354
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4351.25,
+      "y": 1195.0
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4395.0098,
+      "y": 1172.8027
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4395.0098,
+      "y": 1172.8027
+    }
+  ]
+}

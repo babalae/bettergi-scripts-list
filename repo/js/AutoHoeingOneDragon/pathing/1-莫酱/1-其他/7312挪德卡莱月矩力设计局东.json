@@ -1,0 +1,60 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时49.1秒，包含以下怪物：1只愚人众特辖队·冰雹重炮手、1只巡陆艇·近战攻坚型、2只巡陆艇·强侦地效型。",
+    "enable_monster_loot_split": false,
+    "hash_res": "75306089",
+    "last_modified_time": 1767370355535,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "7312挪德卡莱月矩力设计局东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9590.744140625,
+      "y": 3399.408935546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "芙宁娜 e",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9581.0986328125,
+      "y": 3356.0869140625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9605.796875,
+      "y": 3378.40478515625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9605.796875,
+      "y": 3378.40478515625
+    }
+  ]
+}

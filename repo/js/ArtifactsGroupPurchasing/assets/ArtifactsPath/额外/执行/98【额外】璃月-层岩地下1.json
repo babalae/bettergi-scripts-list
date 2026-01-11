@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766156653809,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "98【额外】璃月-层岩地下1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 333.7164306640625,
+      "y": 975.9010009765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 293.12629167712043,
+      "y": 972.0627501063971
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 271.49997629950235,
+      "y": 972.7187803159268
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 272.46872629950235,
+      "y": 972.5937954738904
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.01),wait(0.2),w(0.01),wait(0.2),attack(0.4),wait(1),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.2)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 276.78125,
+      "y": 960.65224391264
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.01),wait(0.2),w(0.01),wait(0.2),attack(0.08),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(1),s(0.2);万叶 s(0.1),attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 6,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 274.687255859375,
+      "y": 971.2099609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.01),wait(0.2),w(0.01),wait(0.2),attack(0.4),wait(1),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),s(0.1),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 7,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 272.3437598752073,
+      "y": 970.6874772630549
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 275.21875,
+      "y": 965.5621790703497
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 9,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 275.7218017578125,
+      "y": 964.794189453125
+    }
+  ]
+}

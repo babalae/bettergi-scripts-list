@@ -1,0 +1,114 @@
+{
+  "info": {
+    "name": "4301须弥铁穆山",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "mno",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时121.97秒，包含以下怪物：1只镀金旅团·机弩兵、2只镀金旅团·鸦喙戟手、3只镀金旅团·破阵者、2只镀金旅团·沙中净水、1只镀金旅团·白日鸣雷。",
+    "hash_res": "98829091",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752331584101,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6161.0068359375,
+      "y": 2.13330078125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 6144.16162109375,
+      "y": 15.99169921875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 6095.73095703125,
+      "y": 73.005859375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 6089.9560546875,
+      "y": 79.5771484375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 6089.9560546875,
+      "y": 79.5771484375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 6065.5068359375,
+      "y": 116.29833984375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 6065.85693359375,
+      "y": 196.60888671875,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 6070.4375,
+      "y": 211.93212890625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 6070.4375,
+      "y": 211.93212890625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 6080.71435546875,
+      "y": 204.435546875,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

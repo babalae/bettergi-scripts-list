@@ -1,0 +1,150 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时160.44秒，包含以下怪物：3只深邃拟覆叶。",
+    "hash_res": "02357534",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763017853891,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "603纳塔奥奇（600_3）次数盾",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9670.15,
+      "y": 171.36
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9674.12,
+      "y": 199.98
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9672.99,
+      "y": 225.23
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(5)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9692.74,
+      "y": 258.26
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9675.94,
+      "y": 230.13
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9675.94,
+      "y": 230.13
+    },
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9670.15,
+      "y": 171.36
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9665.13,
+      "y": 174.32
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9628.75,
+      "y": 158.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9616.5,
+      "y": 160.06
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9597.12,
+      "y": 167.37
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9580.17,
+      "y": 186.51
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9550.2685546875,
+      "y": 182.2685546875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9565.62,
+      "y": 183.46
+    }
+  ]
+}

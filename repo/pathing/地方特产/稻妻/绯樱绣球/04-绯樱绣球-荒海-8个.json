@@ -1,0 +1,230 @@
+{
+  "info": {
+    "name": "04-绯樱绣球-荒海-8个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "久歧忍可采集全，引战导致雷元素法师漏采集最后1~2个",
+    "bgi_version": "0.42.3",
+    "tags": [
+      "久岐忍"
+    ],
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4217.91,
+      "y": -2397.82,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4221.71,
+      "y": -2402.12,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4254.48,
+      "y": -2431.51,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -4261.97,
+      "y": -2438.45,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -4217.91,
+      "y": -2397.82,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": -4168.29,
+      "y": -2480.51,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -4162.05,
+      "y": -2483.9,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": -4178.68,
+      "y": -2506.46,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": -4217.63,
+      "y": -2397.2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 10,
+      "x": -4277.25,
+      "y": -2343.76,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -4283.62,
+      "y": -2338.46,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": -4285.75,
+      "y": -2309.25,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -4249.62,
+      "y": -2311.34,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": -4265.25,
+      "y": -2295.99,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -4269.0,
+      "y": -2242.23,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -4284.77,
+      "y": -2240.04,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 17,
+      "x": -4295.0,
+      "y": -2243.5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -4278.98,
+      "y": -2266.82,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 19,
+      "x": -4291.89,
+      "y": -2285.14,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 20,
+      "x": -4217.63,
+      "y": -2397.2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 21,
+      "x": -4236.0,
+      "y": -2353.0,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": -4237.95,
+      "y": -2346.99,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1);瓦雷莎 charge,wait(2);八重神子 charge",
+      "type": "target"
+    },
+    {
+      "id": 23,
+      "x": -4237.95,
+      "y": -2346.99,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 24,
+      "x": -4218.33,
+      "y": -2343.69,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1);瓦雷莎 charge,wait(2);八重神子 charge",
+      "type": "target"
+    },
+    {
+      "id": 25,
+      "x": -4218.33,
+      "y": -2343.69,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

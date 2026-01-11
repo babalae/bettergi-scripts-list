@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时100秒，预计收入1200摩拉，包含以下怪物：2只精英传奇倍率三。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767726586175,
+    "map_match_method": "",
+    "map_name": "SeaOfBygoneEras",
+    "name": "004枫丹旧日之海龙蜥 传奇",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3542.162841796875,
+      "y": 1377.1722412109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3550.346923828125,
+      "y": 1430.4874267578125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3544.763427734375,
+      "y": 1462.154052734375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 3544.763427734375,
+      "y": 1462.154052734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 3544.763427734375,
+      "y": 1462.154052734375
+    }
+  ]
+}

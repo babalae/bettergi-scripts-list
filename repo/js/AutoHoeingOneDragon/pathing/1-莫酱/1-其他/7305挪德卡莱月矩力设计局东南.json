@@ -1,0 +1,105 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时87.82秒，包含以下怪物：1只愚人众特辖队·先锋士、1只愚人众特辖队·疗愈师、1只愚人众特辖队·掷弹兵、1只巡陆艇·近战攻坚型、1只巡陆艇·尖端全能攻坚型、1只巡陆艇·尖端全能斥候型、1只巡陆艇·尖端火力地效型。",
+    "enable_monster_loot_split": false,
+    "hash_res": "75306089",
+    "last_modified_time": 1767368709631,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "7305挪德卡莱月矩力设计局东南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9701.7763671875,
+      "y": 3144.46240234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "芙宁娜 e",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9715.828125,
+      "y": 3116.19140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9729.6572265625,
+      "y": 3130.7548828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9735.580078125,
+      "y": 3106.866943359375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9732.6123046875,
+      "y": 3119.919921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9737.82421875,
+      "y": 3116.259765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9745.1064453125,
+      "y": 3108.36669921875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9751.5458984375,
+      "y": 3103.028076171875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9751.5458984375,
+      "y": 3103.028076171875
+    }
+  ]
+}

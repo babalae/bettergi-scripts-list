@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "13-蒲公英-清泉镇西-1个（路远，不建议）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "秋云",
+        "links": "https://github.com/physligl"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -578.77,
+      "y": 1858.76,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -595.86,
+      "y": 1896.71,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -608.87,
+      "y": 1933.47,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -663.58,
+      "y": 1932.0,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 5,
+      "x": -663.58,
+      "y": 1932.0,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "anemo_collect"
+    },
+    {
+      "id": 6,
+      "x": -666.72,
+      "y": 1931.95,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}

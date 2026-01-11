@@ -1,0 +1,114 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1761470992958,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "07-苔古荒原中间-12个",
+    "tags": [
+      "菈乌玛"
+    ],
+    "type": "collect",
+    "version": "1.3"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9370.3994,
+      "y": 1865.4717
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9342.5,
+      "y": 1890.5
+    },
+    {
+      "action": "combat_script",
+      "action_params": "枫原万叶 attack,wait(3),keypress(VK_F),wait(3),click,wait(10),keypress(VK_SPACE)",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": 9342.5,
+      "y": 1890.5
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_E),wait(0.5),attack",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 9469.9023,
+      "y": 1809.1797
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9470.2539,
+      "y": 1805.1245
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9466.5264,
+      "y": 1805.5381
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9466.5371,
+      "y": 1812.5723
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9473.0703,
+      "y": 1810.7129
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9474.6426,
+      "y": 1805.8882
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9370.3994,
+      "y": 1865.4717
+    }
+  ]
+}

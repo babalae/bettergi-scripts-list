@@ -1,0 +1,47 @@
+[
+  {
+    "name": "mode_pick",
+    "type": "select",
+    "label": "拾取模式(默认自动拾取)",
+    "options": [
+      "自动拾取",
+      "强制拾取",
+      "不拾取"
+    ]
+  },
+  {
+    "name": "check_upper_limit",
+    "type": "checkbox",
+    "label": "刷取禽肉上限(默认刷取全部路线)[测试]"
+  },
+  {
+  "name": "check_descend",
+  "type": "checkbox",
+  "label": "禁用下落路线"
+  },
+  {
+    "name": "check_fight",
+    "type": "checkbox",
+    "label": "禁用战斗路线"
+  },
+  {
+    "name": "check_one",
+    "type": "checkbox",
+    "label": "禁用小型鸟类(1禽肉)"
+  },
+  {
+    "name": "check_two",
+    "type": "checkbox",
+    "label": "禁用中型鸟类(2禽肉)"
+  },
+  {
+    "name": "check_three",
+    "type": "checkbox",
+    "label": "禁用大型鸟类(3禽肉)"
+  },
+  {
+    "name": "check_welkin_moon",
+    "type": "checkbox",
+    "label": "禁用4点领取空月祝福(默认启用)"
+  }
+]

@@ -1,0 +1,86 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时131.04秒，包含以下怪物：2只巡陆艇·尖端全能斥候型、2只巡陆艇·尖端火力地效型。",
+    "enable_monster_loot_split": false,
+    "hash_res": "75306089",
+    "last_modified_time": 1767444400744,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "7304挪德卡莱月矩力设计局东南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9551.0087890625,
+      "y": 3104.666015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 9570.078125,
+      "y": 3105.393798828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9579.7705078125,
+      "y": 3116.25439453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(3)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 9577.814453125,
+      "y": 3148.953125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9577.9033203125,
+      "y": 3138.46728515625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9593.1025390625,
+      "y": 3154.80029296875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9593.1025390625,
+      "y": 3154.80029296875
+    }
+  ]
+}

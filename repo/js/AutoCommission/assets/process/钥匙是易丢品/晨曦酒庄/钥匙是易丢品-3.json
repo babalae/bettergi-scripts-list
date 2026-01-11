@@ -1,0 +1,76 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "云闲vsv"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758272941822,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "钥匙是易丢品-3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -379.46484375,
+      "y": 1817.9736328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -372.97265625,
+      "y": 1802.0087890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -368.1328125,
+      "y": 1794.1640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -365.369140625,
+      "y": 1789.90625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.8),keypress(F)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -361.146484375,
+      "y": 1787.9990234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2),w(0.3),wait(0.2),keypress(F)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -361.380859375,
+      "y": 1787.9814453125
+    }
+  ]
+}

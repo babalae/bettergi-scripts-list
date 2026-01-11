@@ -1,0 +1,78 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时73.06秒，包含以下怪物：1只愚人众特辖队·线列军、1只愚人众特辖队·支援兵、1只愚人众特辖队·榴铳手、1只愚人众特辖队·雷霰近卫军、1只巡陆艇·近战斥候型、1只巡陆艇·强侦斥候型。",
+    "enable_monster_loot_split": false,
+    "hash_res": "75306089",
+    "last_modified_time": 1767367290083,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "7301挪德卡莱月矩力设计局东南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9426.4970703125,
+      "y": 3051.53125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9386.4228515625,
+      "y": 3059.638671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 9382.87109375,
+      "y": 3052.684814453125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9363.662109375,
+      "y": 3038.764404296875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9365.015625,
+      "y": 3030.185546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9365.015625,
+      "y": 3030.185546875
+    }
+  ]
+}

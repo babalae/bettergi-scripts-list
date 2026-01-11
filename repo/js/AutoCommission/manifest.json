@@ -1,0 +1,20 @@
+{
+  "manifest_version": 1,
+  "name": "(对话+成就)全自动蒙德地区每日委托",
+  "version": "0.98.14",
+  "tags": ["委托","对话","战斗","成就","历练点"],
+  "description": "自动完成每日委托、自动识别委托内容、自动追踪战斗委托、自动完成对话委托、自动获得到隐藏成就。使用前请阅读README.md获取详细说明和常见问题解答。目前项目急需人手,有意者可加群。感谢云闲vsv & 换苏伟u & 小鹰划船不用桨 & 塔台 & 未知_ 的共同开发",
+  "authors": [
+    {
+      "name": "星野",
+      "links": "https://github.com/LX666-666"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "http_allowed_urls": [
+    "https://cnb.cool/bettergi/bettergi-scripts-list/*",
+    "https://github.com/babalae/bettergi-scripts-list/*",
+    "https://github.com/1004452714/AutoCommission/*"
+  ]
+}

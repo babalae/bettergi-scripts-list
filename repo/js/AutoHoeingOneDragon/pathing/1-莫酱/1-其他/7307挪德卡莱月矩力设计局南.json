@@ -1,0 +1,78 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时57.74秒，包含以下怪物：1只愚人众特辖队·支援兵、2只愚人众特辖队·先锋士、1只愚人众特辖队·冰雹重炮手。",
+    "enable_monster_loot_split": false,
+    "hash_res": "75306089",
+    "last_modified_time": 1767369411577,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "7307挪德卡莱月矩力设计局南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9900.01953125,
+      "y": 2832.7138671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9903.97265625,
+      "y": 2886.14794921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9939.2587890625,
+      "y": 2886.4580078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "芙宁娜 e,keydown(w),dash(3.5),keyup(w)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9950.234375,
+      "y": 2873.972412109375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9969.490234375,
+      "y": 2847.7587890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "orientation",
+      "x": 9969.490234375,
+      "y": 2847.7587890625
+    }
+  ]
+}

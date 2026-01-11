@@ -1,0 +1,38 @@
+[
+  {
+    "name": "userName",
+    "type": "input-text",
+    "label": "账户名称\n用于多账户运行时区分不同账户",
+    "default": "默认账户"
+  },
+  {
+    "name": "initSelect",
+    "type": "checkbox",
+    "label": "重新初始化药品数量",
+    "default": false
+  },
+  {
+    "name": "recoveryFoodName",
+    "type": "input-text",
+    "label": "回血药名称",
+    "default": ""
+  },
+  {
+    "name": "resurrectionFoodName",
+    "type": "input-text",
+    "label": "复活药名称",
+    "default": ""
+  },
+  {
+    "name": "loadDelay",
+    "type": "input-text",
+    "label": "加载等待延迟\n用于界面打开和切换的等待\n默认800，单位毫秒",
+    "default": "800"
+  },
+  {
+    "name": "stepDelay",
+    "type": "input-text",
+    "label": "操作间隔延迟\n用于OCR前和输入药名前的短暂等待\n默认500，单位毫秒",
+    "default": "500"
+  }
+]

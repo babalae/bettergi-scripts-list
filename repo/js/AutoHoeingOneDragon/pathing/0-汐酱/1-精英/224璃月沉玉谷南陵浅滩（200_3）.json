@@ -1,0 +1,51 @@
+{
+  "info": {
+    "name": "224璃月沉玉谷南陵浅滩（200_3）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时64.52秒，包含以下怪物：3只玄文兽。",
+    "hash_res": "36259085",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2257.04,
+      "y": 934.98,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2227.89,
+      "y": 901.48,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2202.91,
+      "y": 866.52,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2136.23,
+      "y": 838.61,
+      "action": "fight",
+      "move_mode": "dash",
+      "type": "path"
+    }
+  ]
+}

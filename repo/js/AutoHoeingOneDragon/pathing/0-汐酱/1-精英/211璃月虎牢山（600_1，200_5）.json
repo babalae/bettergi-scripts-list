@@ -1,0 +1,179 @@
+{
+  "info": {
+    "name": "211璃月虎牢山（600_1，200_5）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时197.22秒，包含以下怪物：1只火箭丘丘人、1只冰箭丘丘人、2只火斧丘丘暴徒、1只丘丘岩盔王、1只草丘丘萨满、1只冰深渊法师、2只遗迹猎者。",
+    "hash_res": "64871388",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754763301424,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1793.55,
+      "y": 716.34,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1802.31,
+      "y": 710.75,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1820.88,
+      "y": 682.25,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1829,
+      "y": 652.75,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1842.62,
+      "y": 620.87,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1000",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1853.38,
+      "y": 596,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1838.94,
+      "y": 537.72,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 1827.45,
+      "y": 416.65,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f);玛薇卡 w(0.2),attack(0.3),e(hold),keydown(w),wait(0.1),keydown(LSHIFT),wait(3.2),keyup(LSHIFT),wait(0.1),dash,wait(0.8),dash,wait(0.8),keyup(w);",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 1827.45,
+      "y": 416.65,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 1831.59,
+      "y": 416.59,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 1940.13,
+      "y": 406.59,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f);玛薇卡 w(0.2),attack(0.3),e(hold),keydown(w),wait(0.1),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9);",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 1940.13,
+      "y": 406.59,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 1965,
+      "y": 404,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 1989.7,
+      "y": 405.54,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 1993.06,
+      "y": 393.25,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 1994.75,
+      "y": 416.08,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 2005.22,
+      "y": 411.84,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

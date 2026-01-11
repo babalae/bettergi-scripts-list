@@ -1,0 +1,69 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时60.12秒，包含以下怪物：2只雷史莱姆、1只辉电·霜夜灵嗣。",
+    "enable_monster_loot_split": false,
+    "hash_res": "75306089",
+    "last_modified_time": 1767364247790,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "7201挪德卡莱蛋卷工坊西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10018.3388671875,
+      "y": 1539.26123046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 10037.18359375,
+      "y": 1554.2490234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10072.8896484375,
+      "y": 1554.03125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10103.8798828125,
+      "y": 1570.22705078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10103.8798828125,
+      "y": 1570.22705078125
+    }
+  ]
+}

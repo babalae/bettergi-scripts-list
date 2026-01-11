@@ -1,0 +1,107 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时69.5秒，包含以下怪物：1只愚人众特辖队·支援兵、1只愚人众特辖队·榴铳手、2只愚人众特辖队·先锋士、1只愚人众特辖队·疗愈师、1只愚人众特辖队·掷弹兵、1只巡陆艇·尖端全能斥候型。",
+    "enable_monster_loot_split": false,
+    "hash_res": "75306089",
+    "last_modified_time": 1767368998227,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "7306挪德卡莱月矩力设计局南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9825.5869140625,
+      "y": 3032.5341796875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9845.734375,
+      "y": 3002.70947265625
+    },
+    {
+      "action": "log_output",
+      "action_params": "如果此处无怪需要先对话开怪，后续来会自动出怪",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9845.734375,
+      "y": 3002.70947265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9837.58203125,
+      "y": 3003.9765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9839.8251953125,
+      "y": 2952.51025390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9849.185546875,
+      "y": 2944.66015625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9845.8701171875,
+      "y": 2907.82373046875
+    },
+    {
+      "action": "log_output",
+      "action_params": "如果此处无怪需要先对话开怪，后续来会自动出怪",
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9845.8701171875,
+      "y": 2907.82373046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9845.8701171875,
+      "y": 2907.82373046875
+    }
+  ]
+}
