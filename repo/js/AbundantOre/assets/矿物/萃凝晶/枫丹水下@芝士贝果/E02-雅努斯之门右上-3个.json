@@ -1,0 +1,59 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.54.1-alpha.2",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765695192338,
+    "map_match_method": "",
+    "map_name": "SeaOfBygoneEras",
+    "name": "E02-雅努斯之门右上-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4381.418,
+      "y": 1565.7661
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,1000)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4381.418,
+      "y": 1565.7661
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4415.144,
+      "y": 1617.1536
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4409.9238,
+      "y": 1626.8086
+    }
+  ]
+}
