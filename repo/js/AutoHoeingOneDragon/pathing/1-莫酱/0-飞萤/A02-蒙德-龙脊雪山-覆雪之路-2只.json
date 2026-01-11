@@ -1,106 +1,86 @@
 {
   "info": {
-    "name": "A02-蒙德-龙脊雪山-覆雪之路-2只",
-    "type": "collect",
-    "author": "蜜柑魚",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时70.31秒，包含以下怪物：2只冰萤。",
-    "hash_res": "69915241",
-    "map_name": "Teyvat",
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
     "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时67.36秒，包含以下怪物：2只冰萤。",
+    "enable_monster_loot_split": false,
+    "hash_res": "69915241",
+    "last_modified_time": 1767791619730,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A02-蒙德-龙脊雪山-覆雪之路-2只",
     "tags": [],
-    "last_modified_time": 1752249599813
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -1130.76,
-      "y": 1597.92,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -1130.7599999999984,
+      "y": 1597.92
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -1099.31,
-      "y": 1603.76,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1098.400390625,
+      "y": 1602.5888671875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": -1078.65,
-      "y": 1597.65,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1080.0078125,
+      "y": 1579.11865234375
     },
     {
-      "id": 4,
-      "x": -1064.5,
-      "y": 1601.54,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": -1038.96,
-      "y": 1563.78,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": -1035.73,
-      "y": 1536.27,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "wait(1.5)",
-      "type": "path"
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1033.931640625,
+      "y": 1541.068359375
     },
     {
-      "id": 7,
-      "x": -1014.55,
-      "y": 1487.58,
-      "action": "",
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -1013.77734375,
+      "y": 1487.353515625
     },
     {
-      "id": 8,
-      "x": -1026.61,
-      "y": 1481.23,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": -1024.21,
-      "y": 1482.01,
       "action": "fight",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "path"
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1026.0703125,
+      "y": 1480.236328125
     },
     {
-      "id": 10,
-      "x": -1024.21,
-      "y": 1482.01,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.1)",
-      "type": "orientation"
+      "action_params": "wait(1)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -1026.0703125,
+      "y": 1480.236328125
     }
   ]
 }

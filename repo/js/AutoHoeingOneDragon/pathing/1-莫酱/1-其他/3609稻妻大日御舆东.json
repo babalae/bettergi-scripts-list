@@ -1,75 +1,73 @@
 {
   "info": {
-    "name": "3609稻妻大日御舆东",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时61.72秒，包含以下怪物：2只冰箭丘丘人、1只水丘丘萨满。",
-    "hash_res": "16724937",
-    "map_name": "Enkanomiya",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时58.68秒，包含以下怪物：2只冰箭丘丘人、1只水丘丘萨满。",
+    "enable_monster_loot_split": false,
+    "hash_res": "16724937",
+    "last_modified_time": 1767960689703,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "3609稻妻大日御舆东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 64.21,
-      "y": 252.45,
-      "action_params": ""
+      "y": 252.45
     },
     {
-      "id": 2,
-      "x": 107.11,
-      "y": 287.41,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 109.92626953125,
+      "y": 279.2109375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 125.62,
-      "y": 315.18,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 141.554931640625,
+      "y": 309.2882080078125
     },
     {
-      "id": 4,
-      "x": 162.92,
-      "y": 319.21,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": 182.02,
-      "y": 346.88,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
       "action_params": "",
-      "locked": false
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 191.066162109375,
+      "y": 351.9652099609375
     },
     {
-      "id": 6,
-      "x": 182.02,
-      "y": 346.88,
-      "type": "orientation",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 191.066162109375,
+      "y": 351.9652099609375
     }
   ]
 }

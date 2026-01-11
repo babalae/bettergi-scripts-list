@@ -1,130 +1,109 @@
 {
   "info": {
-    "name": "2609璃月巨渊主矿区南",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时128.82秒，包含以下怪物：1只愚人众先遣队·火统游击兵、1只愚人众先遣队·风拳前锋军、1只盗宝团·斥候、1只盗宝团·水之药剂师、1只盗宝团·拳术家、1只盗宝团·粉碎者、1只愚人众先遣队·雷锤前锋军。",
-    "hash_res": "52218457",
-    "map_name": "TheChasm",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时166.45秒，包含以下怪物：1只愚人众先遣队·火统游击兵、1只愚人众先遣队·风拳前锋军、1只盗宝团·斥候、1只盗宝团·水之药剂师、1只盗宝团·拳术家、1只盗宝团·粉碎者。",
+    "enable_monster_loot_split": false,
+    "hash_res": "52218457",
+    "last_modified_time": 1767865432340,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "2609璃月巨渊主矿区南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 278.46,
-      "y": 767.33,
-      "action_params": ""
+      "y": 767.33
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 271.06,
-      "y": 803.48,
+      "move_mode": "walk",
       "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "x": 278.377197265625,
+      "y": 762.7354736328125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 220.39,
-      "y": 764.76,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": "500"
-    },
-    {
-      "id": 4,
-      "x": 215.24,
-      "y": 762.16,
-      "type": "path",
       "move_mode": "dash",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 5,
-      "x": 215.24,
-      "y": 762.16,
       "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": 261.242919921875,
+      "y": 753.6695556640625
     },
     {
-      "id": 6,
-      "x": 208.19,
-      "y": 762.6,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": 203.48,
-      "y": 754.9,
-      "type": "target",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": 210.1,
-      "y": 748.08,
-      "type": "target",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": 202.53,
-      "y": 736.71,
-      "type": "path",
-      "move_mode": "jump",
-      "action": "fight",
-      "action_params": ""
-    },
-    {
-      "id": 10,
-      "x": 199.55,
-      "y": 724.98,
-      "type": "path",
-      "move_mode": "jump",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 11,
-      "x": 186.17,
-      "y": 732.01,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 12,
-      "x": 186.17,
-      "y": 732.01,
-      "type": "orientation",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "attack(0.3)",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 182.964599609375,
+      "y": 725.4085693359375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 183.3997802734375,
+      "y": 725.5352783203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 183.3997802734375,
+      "y": 725.5352783203125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 215.4033203125,
+      "y": 762.2464599609375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 215.4033203125,
+      "y": 762.2464599609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 215.4033203125,
+      "y": 762.2464599609375
     }
   ]
 }

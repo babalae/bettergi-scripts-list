@@ -42,7 +42,7 @@
       "效率降序",
       "高收益优先"
     ],
-    "default": "原文件顺序"
+    "default": "高收益优先"
   },
   {
     "name": "pickup_Mode",
@@ -96,6 +96,11 @@
     "default": "1000"
   },
   {
+    "name": "logMonsterCount",
+    "type": "checkbox",
+    "label": "运行路线时输出交互或拾取精英和小怪数量，便于在日志分析中比对"
+  },
+  {
     "name": "skipCheck",
     "type": "checkbox",
     "label": "跳过校验阶段，如果你执意想要使用错误的配置进行锄地，请在下面一字勾选以同意以下内容\n\n确认跳过校验阶段，任何包括但不限于漏怪、卡死、不拾取等问题均由自己配置引起，与脚本和路线无关"
@@ -143,6 +148,12 @@
     "type": "input-text",
     "label": "小怪计算权重，填0以上的数字\n越大越倾向于花费较多时间提高总收益",
     "default": "0.5"
+  },
+  {
+    "name": "curiosityFactor",
+    "type": "input-text",
+    "label": "好奇系数，缺少记录的路线预期用时将被削减对应比例以更多尝试未知路线，填0-1之间的数,会导致显示的预计时间出现偏差",
+    "default": "0"
   },
   {
     "name": "splitFactor",

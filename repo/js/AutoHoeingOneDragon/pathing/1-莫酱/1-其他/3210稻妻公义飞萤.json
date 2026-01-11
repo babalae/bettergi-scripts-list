@@ -1,100 +1,100 @@
 {
   "info": {
-    "name": "3210稻妻公义飞萤",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时71.73秒，包含以下怪物：3只雷萤。",
-    "hash_res": "56979139",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时68.94秒，包含以下怪物：4只雷萤。",
+    "enable_monster_loot_split": false,
+    "hash_res": "56979139",
+    "last_modified_time": 1767880293295,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3210稻妻公义飞萤",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -3156.62,
-      "y": -3886.01,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -3156.619999999999,
+      "y": -3886.01
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -3168.06,
-      "y": -3883.38,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -3167.25,
+      "y": -3881.7503921810603
     },
     {
+      "action": "stop_flying",
+      "action_params": "3000",
       "id": 3,
-      "x": -3204.63,
-      "y": -3876.54,
-      "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "2500",
-      "type": "path"
+      "type": "path",
+      "x": -3191.15234375,
+      "y": -3872.005859375
     },
     {
+      "action": "combat_script",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
       "id": 4,
-      "x": -3210.37,
-      "y": -3876.99,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -3217.796875,
+      "y": -3855.919921875
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 5,
-      "x": -3236.53,
-      "y": -3879.96,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3237.4000000000015,
+      "y": -3879.99
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": -3237.4,
-      "y": -3879.99,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3237.4000000000015,
+      "y": -3879.99
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 7,
-      "x": -3250.04,
-      "y": -3848.97,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3250.040000000001,
+      "y": -3848.9699999999993
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(1)",
       "id": 8,
-      "x": -3250.04,
-      "y": -3848.97,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": -3250.04,
-      "y": -3848.97,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "orientation"
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3250.040000000001,
+      "y": -3848.9699999999993
     }
   ]
 }
