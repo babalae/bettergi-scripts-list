@@ -1,0 +1,130 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时168.72秒，包含以下怪物：1只突角龙、1只炉壳山鼬、1只深邃拟覆叶_200、2只幼绒翼龙、1只绒翼龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767765401394,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "6a04纳塔远古圣山聚火祭验所东北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -546.25830078125,
+      "y": 7.285888671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -571.335693359375,
+      "y": 70.420654296875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -592.20166015625,
+      "y": 160.784423828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -592.20166015625,
+      "y": 160.784423828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -622.148681640625,
+      "y": 186.6226806640625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -641.77880859375,
+      "y": 190.7513427734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -631.021240234375,
+      "y": 194.3299560546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -618.7099609375,
+      "y": 215.59814453125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -585.486083984375,
+      "y": 281.3262939453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),dash(4.5),keyup(w)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -587.25,
+      "y": 309.25
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -585.486083984375,
+      "y": 281.3262939453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -585.486083984375,
+      "y": 281.3262939453125
+    }
+  ]
+}

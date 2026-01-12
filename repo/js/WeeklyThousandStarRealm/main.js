@@ -171,25 +171,68 @@ async function findImageAndClick(path, x, y, w, h, imgAttempts = attempts) {
   }
 }
 
+// 查找要删除的存档
+async function findSaveInList(keyword) {
+  const maxScroll = 15;
+
+  for (let i = 0; i < maxScroll; i++) {
+    const region = await findText(
+      keyword,
+      200, 250, 1500, 700,
+      1
+    );
+
+    if (region) {
+      return region;
+    }
+
+    // 向下滚动
+    moveMouseTo(1800, 500);
+    await sleep(100);
+    await mouseScrollDown(400);
+    await sleep(500);
+  }
+
+  return null;
+}
+
 // 清除游玩数据
 async function deleteSource() {
-  if (achievementMode) {
-    await sleep(duration);
+  if (!achievementMode) return;
+
+  await genshin.returnMainUi();
+  log.info("开始自动删除关卡存档");
+  await sleep(duration);
+
+  // 打开奇域收藏
+  keyPress("VK_B");
+  await sleep(duration);
+
+  await findTextAndClick("管理关卡", 960, 0, 960, 100);
+  await findTextAndClick("管理", 960, 980, 960, 100);
+
+  // 查找目标存档
+  const saveRegion = await findSaveInList(starRoomName);
+  if (!saveRegion) {
+    log.warn("未找到目标存档，跳过删除");
     await genshin.returnMainUi();
-    log.info("开始清除地图数据");
-    await sleep(duration);
-    keyPress("VK_B");
-    await sleep(duration);
-    await findTextAndClick("管理关卡", 960, 0, 960, 100);
-    await findTextAndClick("管理", 960, 980, 960, 100);
-    await findImageAndClick("check_box", 0, 0, 1480, 340);
-    await findTextAndClick("删除",960, 980, 960, 100);
-    await findTextAndClick("确认", 960, 600, 960, 400);
-    await findTextAndClick("确认", 960, 600, 960, 400);
-    log.info("数据清除完成");
-    await sleep(duration);
-    await genshin.returnMainUi();
+    return;
   }
+
+  // 计算复选框位置
+  const sy = saveRegion.y - 30;
+
+  await sleep(300);
+  await findImageAndClick("check_box", 0, sy, 1480, saveRegion.height + 70);
+  // 删除
+  await sleep(duration);
+  await findTextAndClick("删除", 960, 980, 960, 100);
+  await findTextAndClick("确认", 960, 600, 960, 400);
+  await findTextAndClick("确认", 960, 600, 960, 400);
+
+  log.info("关卡存档删除完成");
+  await sleep(duration);
+  await genshin.returnMainUi();
 }
 
 // 进入千星奇域的全部奇域页面
@@ -316,7 +359,7 @@ async function playMap() {
   }
   let firstOutputCount = 0;
   while (true) {
-    const whiteText = await findText("空白处", 610, 950, 700, 60, 1);
+    const whiteText = await findText("空白", 610, 900, 700, 100, 1);
     if (whiteText) {
       await sleep(duration);
       click(610, 950);

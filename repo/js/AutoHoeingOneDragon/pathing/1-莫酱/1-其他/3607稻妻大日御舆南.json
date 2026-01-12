@@ -8,7 +8,7 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时60.38秒，包含以下怪物：5只丘丘人、1只冰箭丘丘人、1只雷斧丘丘暴徒。",
+    "description": "  路线信息：该路线预计用时43.11秒，包含以下怪物：4只丘丘人。",
     "hash_res": "23096882",
     "enable_monster_loot_split": false,
     "last_modified_time": 1759774324425,
@@ -44,6 +44,15 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
+      "x": 318.07,
+      "y": 111.22
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": 318.07,
       "y": 111.22
     }

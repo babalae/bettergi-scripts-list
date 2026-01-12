@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时94.01秒，包含以下怪物：3只突角龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767765367089,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "6a03纳塔远古圣山聚火祭验所东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -245.3154296875,
+      "y": -291.366455078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -303.214599609375,
+      "y": -272.06201171875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -331.73291015625,
+      "y": -245.585205078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -331.733154296875,
+      "y": -245.590087890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -406.59912109375,
+      "y": -234.59765625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -409.73974609375,
+      "y": -234.423095703125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -409.73974609375,
+      "y": -234.423095703125
+    }
+  ]
+}

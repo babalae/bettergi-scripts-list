@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时72.13秒，包含以下怪物：1只炉壳山鼬。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767766148411,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "6c02纳塔远古圣山力向逆心西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 270.5377197265625,
+      "y": 346.8792724609375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3000",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 214.8193359375,
+      "y": 413.552490234375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 211.3577880859375,
+      "y": 410.176025390625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 211.3577880859375,
+      "y": 410.176025390625
+    }
+  ]
+}

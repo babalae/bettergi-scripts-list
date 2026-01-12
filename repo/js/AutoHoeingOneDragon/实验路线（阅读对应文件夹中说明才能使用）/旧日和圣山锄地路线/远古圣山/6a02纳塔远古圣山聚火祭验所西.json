@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时96秒，包含以下怪物：4只突角龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767765354282,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "6a02纳塔远古圣山聚火祭验所西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -81.189453125,
+      "y": -249.110595703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -73.280029296875,
+      "y": -226.4833984375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -116.86181640625,
+      "y": -226.253662109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -120.485107421875,
+      "y": -220.952880859375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -147.67919921875,
+      "y": -215.98095703125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -176.656494140625,
+      "y": -247.97412109375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -266.62939453125,
+      "y": -278.840576171875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -266.636962890625,
+      "y": -278.872802734375
+    }
+  ]
+}

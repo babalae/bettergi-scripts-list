@@ -1,0 +1,184 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时216.86秒，包含以下怪物：1只深邃拟覆叶_200、1只秘源机兵·寻捕械、2只幼匿叶龙、2只匿叶龙、2只绒翼龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767766083430,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "6b05纳塔远古圣山分流识海西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 387.545166015625,
+      "y": 35.2698974609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 391.1441650390625,
+      "y": 50.537109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 367.7987060546875,
+      "y": 100.82470703125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 361.61376953125,
+      "y": 99.7017822265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 361.2373046875,
+      "y": 100.6024169921875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 351.7164306640625,
+      "y": 134.3717041015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 351.7164306640625,
+      "y": 134.3717041015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 354.285888671875,
+      "y": 142.2803955078125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 312.4649658203125,
+      "y": 176.3822021484375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 312.4649658203125,
+      "y": 176.3822021484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 299.9208984375,
+      "y": 185.8914794921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 280.5816650390625,
+      "y": 191.3587646484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 277.4586181640625,
+      "y": 192.7681884765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(e),wait(1.5),keyup(e),wait(0.5),j,keypress(e)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 266.3702392578125,
+      "y": 196.78173828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 266.18896484375,
+      "y": 196.630126953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(Q),wait(1.5),keyup(Q),wait(0.1)",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 253.0037841796875,
+      "y": 200.71044921875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 248.2806396484375,
+      "y": 218.8236083984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 248.2806396484375,
+      "y": 218.8236083984375
+    }
+  ]
+}

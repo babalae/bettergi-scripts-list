@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时46.28秒，包含以下怪物：1只秘源机兵·寻捕械、1只幼突角龙、1只突角龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767765685310,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "6b01纳塔远古圣山分流识海东南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 185.332763671875,
+      "y": -43.50439453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 183.4168701171875,
+      "y": -36.19775390625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 182.517333984375,
+      "y": -59.42822265625
+    }
+  ]
+}

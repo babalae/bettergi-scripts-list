@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时74.92秒，包含以下怪物：1只幼突角龙、4只突角龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767765299704,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "6a01纳塔远古圣山聚火祭验所西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -80.9501953125,
+      "y": -248.4892578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -95.977294921875,
+      "y": -253.21923828125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -102.095703125,
+      "y": -269.39208984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -102.095703125,
+      "y": -269.39208984375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -146.060302734375,
+      "y": -264.712646484375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -146.060302734375,
+      "y": -264.712646484375
+    }
+  ]
+}
