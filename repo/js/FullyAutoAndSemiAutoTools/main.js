@@ -67,6 +67,15 @@ const team = {
     fightKeys: ['锄地专区', "敌人与魔物"],
     SevenElements: settings.teamSevenElements ? settings.teamSevenElements.split(',').map(item => item.trim()) : [],
 }
+const timeType = Object.freeze({
+    hours: 'hours',//小时
+    cron: 'cron',//cron表达式
+    // 添加反向映射（可选）
+    fromValue(value) {
+        return Object.keys(this).find(key => this[key] === value);
+    }
+});
+
 /**
  * 保存记录路径的函数
  * 该函数将RecordPath对象中的Set类型数据转换为数组后保存到文件
@@ -77,17 +86,41 @@ async function saveRecordPaths() {
     const recordToSave = {
         // 使用展开运算符复制Record对象的所有属性，保持其他数据不变
         ...RecordPath,
-        // 将paths Set转换为数组，以便能够序列化为JSON
-        paths: [...RecordPath.paths].map(item => ({
-            // 保留name属性
-            timestamp: item.timestamp,
-            // 将item中的paths Set转换为数组
-            path: item.path
-        }))
+        // 处理 paths 数组
+        paths: (() => {
+            // 1. 使用 Map 来辅助去重，Map 的 key 是 path，value 是完整的 item 对象
+            const pathMap = new Map();
+
+            // 假设 RecordPath.paths 是一个 Set，先转为数组进行遍历
+            [...RecordPath.paths].forEach(item => {
+                // 获取当前项的路径字符串
+                const currentPath = item.path;
+
+                // 检查 Map 中是否已经存在该路径
+                if (pathMap.has(currentPath)) {
+                    // 如果存在，比较时间戳
+                    const existingItem = pathMap.get(currentPath);
+                    // 如果当前项的时间戳比已存在的大，则更新 Map 中的值
+                    if (item.timestamp > existingItem.timestamp) {
+                        pathMap.set(currentPath, item);
+                    }
+                } else {
+                    // 如果不存在，直接存入 Map
+                    pathMap.set(currentPath, item);
+                }
+            });
+
+            // 2. 将 Map 中的值（去重后的对象数组）转换回我们需要的格式
+            return Array.from(pathMap.values()).map(item => ({
+                timestamp: item.timestamp,
+                path: item.path
+            }));
+        })()
     };
     // 将记录列表转换为JSON字符串并同步写入文件
     file.writeTextSync(RecordText, JSON.stringify(recordToSave))
 }
+
 /**
  * 保存当前记录到记录列表并同步到文件
  * 该函数在保存前会将Set类型的数据转换为数组格式，确保JSON序列化正常进行
@@ -162,51 +195,6 @@ function getTimeDifference(startTime, endTime) {
     return diff_json;
 }
 
-
-/**
- * 计算两个时间之间的差值，并返回指定格式的JSON
- * @param {number|Date} startTime - 开始时间（时间戳或Date对象）
- * @param {number|Date} endTime - 结束时间（时间戳或Date对象）
- * @returns {Object} diff_json - 包含info和total的对象
- */
-function getTimeDifference(startTime, endTime) {
-    // 确保输入是时间戳
-    const start = typeof startTime === 'object' ? startTime.getTime() : startTime;
-    const end = typeof endTime === 'object' ? endTime.getTime() : endTime;
-
-    // 计算总差值（毫秒）
-    const diffMs = Math.abs(end - start);
-
-    // 计算总小时、分钟、秒（允许小数）
-    const totalSeconds = diffMs / 1000;
-    const totalHours = totalSeconds / 3600;
-    const totalMinutes = totalSeconds / 60;
-    // 计算剩余小时、分钟、秒（即去掉完整天数后的部分）
-    const infoHours = totalHours % 24;
-    const infoMinutes = totalMinutes;
-    const infoSeconds = totalSecs;
-
-    const diff_json = {
-        info: {
-            hours: infoHours,
-            minutes: infoMinutes,
-            seconds: infoSeconds
-        },
-        total: {
-            hours: totalHours,
-            minutes: totalMinutes,
-            seconds: totalSecs
-        }
-    };
-
-    return diff_json;
-}
-
-// 输出类似：
-// {
-//     info: { hours: 整数, minutes: 小时后的整数, seconds: 分种后的整数 },
-//     total: {全是小数 hours: 1.1, minutes: 算出总分钟, seconds: 算出总秒 }
-// }
 
 /**
  * 初始化记录函数
@@ -445,6 +433,7 @@ async function getValueByMultiCheckboxName(name) {
 async function init() {
     let settingsConfig = await initSettings();
     let utils = [
+        "cron",
         "SwitchTeam",
         "uid",
     ]
@@ -658,6 +647,9 @@ async function init() {
             return map.keys().filter(key => key.startsWith(levelName))
         }))
     }
+    const timeJson = new Set(JSON.parse(file.readTextSync(`${pathingName}.json`)).sort(
+        (a, b) => b.level - a.level
+    ))
     // 初始化needRunMap
     if (true) {
         // for (let key of pathAsMap.keys()) {
@@ -669,6 +661,8 @@ async function init() {
             const multiJson = await getJsonByMultiCheckboxName(settingsName)
             const label = getBracketContent(multiJson.label)
             let multi = multiJson.options
+
+
             const settingsAsName = settingsNameAsList.find(item => item.settings_name === settingsName)
             let list = PATH_JSON_LIST.filter(item =>
                 multi.some(element => item.path.includes(`\\${element}\\`) && item.path.includes(`\\${label}\\`))
@@ -677,14 +671,60 @@ async function init() {
                 const matchedElement = multi.find(element => item.path.includes(`\\${element}\\`) && item.path.includes(`\\${label}\\`));
                 return {name: item.name, parent_name: item.parent_name, selected: matchedElement || "", path: item.path}
             });
-            if (list.length <= 0) {
-                continue
+            // 1. 预处理：将 Set/Map 转为数组，避免循环内重复转换
+            const recordPaths = Array.from(RecordPath.paths);
+            const timeConfigs = Array.from(timeJson);
+
+            const timeFilter = list.filter(item => {
+                // 2. 查找匹配的配置项 (假设这是必须的条件)
+                // 注意：这里保留了原有的 includes 逻辑，但在实际业务中建议评估是否需要精确匹配
+                const timeConfig = timeConfigs.find(e => item.path.includes(`\\${e.name}\\`));
+
+                if (!timeConfig) return false;
+
+                // 3. 查找匹配的历史记录
+                // 同样保留了 includes 逻辑
+                const matchedRecord = recordPaths.find(element => element.path.includes(item.path));
+
+                // 4. 如果没有记录，或者记录中没有时间戳，则跳过
+                if (!matchedRecord || !matchedRecord.timestamp) return false;
+
+                const {timestamp, value} = matchedRecord;
+                const now = Date.now();
+
+                // 5. 根据配置的类型进行时间判断
+                if (timeConfig.type) {
+                    switch (timeType.fromValue(timeConfig.type)) {
+                        case timeType.hours:
+                            const timeDifference = getTimeDifference(timestamp, now);
+                            return timeDifference.total.hours >= value;
+                        case timeType.cron:
+                            const nextCronTimestamp = cronUtil.getNextCronTimestamp(`${value}`, timestamp, now);
+                            if (!nextCronTimestamp) {
+                                log.error(`cron表达式解析失败: {value}`, value)
+                                throw new Error(`cron表达式解析失败: ${value}`)
+                            }
+                            return now >= nextCronTimestamp;
+                        default:
+                            return false;
+                    }
+                }
+
+                return false;
+            });
+
+            if (timeFilter?.length > 0) {
+                //移除CD
+                list = Array.from(new Set(list).difference(new Set(timeFilter)))
             }
-            needRunMap.set(settingsAsName.settings_as_name, {
-                paths: list,
-                as_name: settingsAsName.settings_as_name,
-                name: settingsAsName.settings_name
-            })
+
+            if (list?.length > 0) {
+                needRunMap.set(settingsAsName.settings_as_name, {
+                    paths: list,
+                    as_name: settingsAsName.settings_as_name,
+                    name: settingsAsName.settings_name
+                })
+            }
         }
     }
     // 启用自动拾取的实时任务，并配置成启用急速拾取模式
