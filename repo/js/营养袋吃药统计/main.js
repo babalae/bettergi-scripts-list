@@ -309,7 +309,7 @@ const stepDelay = +settings.stepDelay || 500;
     }
 
     async function clickPNG(png, maxAttempts = 20) {
-        log.info(`调试-点击目标${png},重试次数${maxAttempts}`);
+//        log.info(`调试-点击目标${png},重试次数${maxAttempts}`);
         const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${png}.png`));
         pngRo.Threshold = 0.95;
         pngRo.InitTemplate();
