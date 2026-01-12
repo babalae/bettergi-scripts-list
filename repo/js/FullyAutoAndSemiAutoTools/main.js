@@ -17,9 +17,10 @@ let PATH_JSON_LIST = new Array()
 const config_root = 'config'
 // 定义记录文件的路径
 let RecordText = `${config_root}\\record.json`
+let RecordPathText = `${config_root}\\PathRecord.json`
 let RecordList = new Array()
 let RecordLast = {
-    name: "",
+    uid: "",
     data: undefined,
     timestamp: 0,
     paths: new Set(), // 记录路径
@@ -33,6 +34,11 @@ const Record = {
     paths: new Set(), // 记录路径
     errorPaths: new Set(), // 记录错误路径
     groupPaths: new Set(), // 记录分组路径
+}
+let RecordPath = {
+    uid: "",
+    paths: new Set(), // 记录路径
+    //{timestamp,path}
 }
 const config_list = {
     black: [],
@@ -57,10 +63,31 @@ const SevenElement = {
 const team = {
     current: undefined,
     fight: false,
+    fightName: settings.teamFight,
     fightKeys: ['锄地专区', "敌人与魔物"],
     SevenElements: settings.teamSevenElements ? settings.teamSevenElements.split(',').map(item => item.trim()) : [],
 }
-
+/**
+ * 保存记录路径的函数
+ * 该函数将RecordPath对象中的Set类型数据转换为数组后保存到文件
+ */
+async function saveRecordPaths() {
+    // 保存前将 Set 转换为数组，因为JSON不支持Set类型
+    // 创建一个新的记录对象，包含原始记录的所有属性
+    const recordToSave = {
+        // 使用展开运算符复制Record对象的所有属性，保持其他数据不变
+        ...RecordPath,
+        // 将paths Set转换为数组，以便能够序列化为JSON
+        paths: [...RecordPath.paths].map(item => ({
+            // 保留name属性
+            timestamp: item.timestamp,
+            // 将item中的paths Set转换为数组
+            path: item.path
+        }))
+    };
+    // 将记录列表转换为JSON字符串并同步写入文件
+    file.writeTextSync(RecordText, JSON.stringify(recordToSave))
+}
 /**
  * 保存当前记录到记录列表并同步到文件
  * 该函数在保存前会将Set类型的数据转换为数组格式，确保JSON序列化正常进行
@@ -88,6 +115,98 @@ function saveRecord() {
     // 将记录列表转换为JSON字符串并同步写入文件
     file.writeTextSync(RecordText, JSON.stringify(RecordList))
 }
+
+/**
+ * 计算两个时间之间的差值，并返回指定格式的JSON
+ * @param {number|Date} startTime - 开始时间（时间戳或Date对象）
+ * @param {number|Date} endTime - 结束时间（时间戳或Date对象）
+ * @returns {Object} diff_json - 包含info和total的对象
+ */
+function getTimeDifference(startTime, endTime) {
+    // 确保输入是时间戳
+    const start = typeof startTime === 'object' ? startTime.getTime() : startTime;
+    const end = typeof endTime === 'object' ? endTime.getTime() : endTime;
+
+    // 计算总差值（毫秒）
+    const diffMs = Math.abs(end - start);
+
+    // 计算总时间（小数）
+    const totalSeconds = diffMs / 1000;
+    const totalMinutes = totalSeconds / 60;
+    const totalHours = totalSeconds / 3600;
+
+    // 计算info部分（整数）
+    const infoHours = Math.floor(totalHours % 24);
+    const remainingAfterHours = (totalHours % 24) - infoHours;
+    const infoMinutes = Math.floor(remainingAfterHours * 60);
+    const remainingAfterMinutes = (remainingAfterHours * 60) - infoMinutes;
+    const infoSeconds = Math.floor(remainingAfterMinutes * 60);
+// 输出类似：
+// {
+//     info: { hours: 1, minutes: 0, seconds: 0 },
+//     total: { hours: 1, minutes: 60, seconds: 3600 }
+// }
+    const diff_json = {
+        info: {
+            hours: infoHours,
+            minutes: infoMinutes,
+            seconds: infoSeconds
+        },
+        total: {
+            hours: parseFloat(totalHours.toFixed(6)),
+            minutes: parseFloat(totalMinutes.toFixed(6)),
+            seconds: parseFloat(totalSeconds.toFixed(6))
+        }
+    };
+
+    return diff_json;
+}
+
+
+/**
+ * 计算两个时间之间的差值，并返回指定格式的JSON
+ * @param {number|Date} startTime - 开始时间（时间戳或Date对象）
+ * @param {number|Date} endTime - 结束时间（时间戳或Date对象）
+ * @returns {Object} diff_json - 包含info和total的对象
+ */
+function getTimeDifference(startTime, endTime) {
+    // 确保输入是时间戳
+    const start = typeof startTime === 'object' ? startTime.getTime() : startTime;
+    const end = typeof endTime === 'object' ? endTime.getTime() : endTime;
+
+    // 计算总差值（毫秒）
+    const diffMs = Math.abs(end - start);
+
+    // 计算总小时、分钟、秒（允许小数）
+    const totalSeconds = diffMs / 1000;
+    const totalHours = totalSeconds / 3600;
+    const totalMinutes = totalSeconds / 60;
+    // 计算剩余小时、分钟、秒（即去掉完整天数后的部分）
+    const infoHours = totalHours % 24;
+    const infoMinutes = totalMinutes;
+    const infoSeconds = totalSecs;
+
+    const diff_json = {
+        info: {
+            hours: infoHours,
+            minutes: infoMinutes,
+            seconds: infoSeconds
+        },
+        total: {
+            hours: totalHours,
+            minutes: totalMinutes,
+            seconds: totalSecs
+        }
+    };
+
+    return diff_json;
+}
+
+// 输出类似：
+// {
+//     info: { hours: 整数, minutes: 小时后的整数, seconds: 分种后的整数 },
+//     total: {全是小数 hours: 1.1, minutes: 算出总分钟, seconds: 算出总秒 }
+// }
 
 /**
  * 初始化记录函数
@@ -122,7 +241,28 @@ async function initRecord() {
     } catch (e) {
         // 如果读取文件出错，则忽略错误（可能是文件不存在或格式错误）
     }
-
+    try {
+        // 尝试读取记录文件
+        // 读取后将数组转换回 Set，处理特殊的数据结构
+        RecordPath = JSON.parse(file.readTextSync(RecordPathText), (key, value) => {
+            // 处理分组路径集合，保持嵌套的Set结构
+            if (key === 'paths') {
+                return new Set(value.map(item => ({
+                    timestamp: item.timestamp,
+                    path: item.path
+                })));
+            }
+            return value;
+        }).find(item => item.uid === Record.uid)
+    } catch (e) {
+        // 如果读取文件出错，则忽略错误（可能是文件不存在或格式错误）
+    }
+    if (RecordPath?.uid) {
+        RecordPath.uid = Record.uid
+    }
+    if (RecordPath?.paths) {
+        RecordPath.paths = new Set()
+    }
     // 如果记录列表不为空，则查找最新记录
     if (RecordList.length > 0) {
         // 最优解：一次遍历找到最新的记录
@@ -663,59 +803,81 @@ async function runPath(path, stopKey = AUTO_STOP) {
         log.info(`[{mode}] 路径已执行: {path}，跳过执行`, settings.mode, path)
         return
     }
-
-    const entry = [...SevenElement.SevenElementsMap.entries()].find(([key, val]) => {
-        return val.some(item => path.includes(`\\${item}\\`));
-    });
-    if (entry) {
-        const [key, val] = entry;
-        const index = SevenElement.SevenElements.indexOf(key);
-        const teamName = team.SevenElements.length > index && index >= 0 ?
-            team.SevenElements[index] : undefined;
-
-        if (!teamName || teamName === "") {
-            log.debug(`[{mode}] 没有设置队伍: {teamName}，跳过切换`, settings.mode, teamName);
-        } else if (team.current === teamName) {
-            log.debug(`[{mode}] 当前队伍为: {teamName}，无需切换`, settings.mode, teamName);
-        } else {
-            log.info(`[{mode}] 检测到需要: {key}，切换至{val}`, settings.mode, key, teamName);
-            const teamSwitch = await switchUtil.SwitchPartyMain(teamName);
+    //检查战斗需求
+    try {
+        if (!team.fight) {
+            const one = JSON.parse(file.readTextSync(path))
+            if (one.info?.description?.includes("请配置好战斗策略")) {
+                log.warn(`[{mode}] 路径需要配置好战斗策略: {path}，如已配置请忽略`, settings.mode, path)
+                team.fight = true
+            } else if (team.fightKeys.some(item => path.includes(`\\${item}\\`))) {
+                team.fight = true
+            }
+        }
+    } catch (error) {
+        log.error("检查战斗需求失败: {error}", error.message);
+    }
+    //切换队伍
+    if (team.fight) {
+        if (!team.fightName) {
+            log.error(`[{mode}] 路径需要配置好战斗策略: {path}`, settings.mode, path)
+            throw new Error(`路径需要配置好战斗策略: ` + path)
+        } else if (team.current !== team.fightName) {
+            log.info(`[{mode}] 检测到需要战斗，切换至{teamName}`, team.fightName);
+            const teamSwitch = await switchUtil.SwitchPartyMain(team.fightName);
             if (teamSwitch) {
                 team.current = teamSwitch;
             }
         }
+    } else {
+        const entry = [...SevenElement.SevenElementsMap.entries()].find(([key, val]) => {
+            return val.some(item => path.includes(`\\${item}\\`));
+        });
+        if (entry) {
+            const [key, val] = entry;
+            const index = SevenElement.SevenElements.indexOf(key);
+            const teamName = team.SevenElements.length > index && index >= 0 ?
+                team.SevenElements[index] : undefined;
 
-    }
-
-    try {
-        if (!team.fight){
-            // const entry = team.fightKeys.find(([key, val]) => {
-            //     return val.some(item => path.includes(`\\${item}\\`));
-            // });
-            // if (entry) {
-            //     dispatcher.addTrigger(new RealtimeTimer("AutoPick", {"forceInteraction": true}));
-            //     await dispatcher.runAutoFightTask(new AutoFightParam());
-            //     team.fight = true;
-            // }
-            const one = JSON.parse(file.readTextSync(path))
-            if (one.info && one.info.description.includes("请配置好战斗策略")) {
-                log.warn(`[{mode}] 路径需要配置好战斗策略: {path}，如已配置请忽略`, settings.mode, path)
+            if (!teamName || teamName === "") {
+                log.debug(`[{mode}] 没有设置队伍: {teamName}，跳过切换`, settings.mode, teamName);
+            } else if (team.current === teamName) {
+                log.debug(`[{mode}] 当前队伍为: {teamName}，无需切换`, settings.mode, teamName);
+            } else {
+                log.info(`[{mode}] 检测到需要: {key}，切换至{val}`, settings.mode, key, teamName);
+                const teamSwitch = await switchUtil.SwitchPartyMain(teamName);
+                if (teamSwitch) {
+                    team.current = teamSwitch;
+                }
+            }
+        } else if (team.current !== team.fightName) {
+            const teamSwitch = await switchUtil.SwitchPartyMain(team.fightName);
+            if (teamSwitch) {
+                team.current = teamSwitch;
             }
         }
-    } catch (error) {
-        // log.error("路径执行失败: {path}, 错误: {error}", path, error.message)
-        // return
     }
-
+    //切换队伍-end
     try {
         log.debug("开始执行路径: {path}", path)
         await pathingScript.runFile(path)
+        if (team.fight) {
+            //启用战斗
+            await dispatcher.runAutoFightTask(new AutoFightParam());
+        }
         log.debug("路径执行完成: {path}", path)
+        RecordPath.paths.add({timestamp: Date.now(), path: path})
+        await saveRecordPaths()
         Record.paths.add(path)
         Record.errorPaths.delete(path)
     } catch (error) {
         Record.errorPaths.add(path)
         log.error("路径执行失败: {path}, 错误: {error}", path, error.message)
+    } finally {
+        if (team.fight) {
+            // 重置战斗状态
+            team.fight = false
+        }
     }
 
     if (SEMI_AUTO) {
