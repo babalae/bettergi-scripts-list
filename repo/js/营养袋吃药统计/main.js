@@ -2,10 +2,10 @@ let userName = settings.userName || "默认账户";
 const recoveryFoodName = settings.recoveryFoodName || "回血药名字没填";
 const resurrectionFoodName = settings.resurrectionFoodName || "复活药名字没填";
 const ocrRegion = {
-        x: 150,
-        y: 250,
-        width: 60,
-        height: 20
+        x: 110,
+        y: 242,
+        width: 124,
+        height: 32
     };
 const loadDelay = +settings.loadDelay || 800;
 const stepDelay = +settings.stepDelay || 500;
@@ -309,7 +309,7 @@ const stepDelay = +settings.stepDelay || 500;
     }
 
     async function clickPNG(png, maxAttempts = 20) {
-//        log.info(`调试-点击目标${png},重试次数${maxAttempts}`);
+        log.info(`调试-点击目标${png},重试次数${maxAttempts}`);
         const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${png}.png`));
         pngRo.Threshold = 0.95;
         pngRo.InitTemplate();
@@ -340,7 +340,7 @@ const stepDelay = +settings.stepDelay || 500;
     // 处理回血药识别结果
     if (recoveryNumber === null) {
         recoveryNumber = 0;
-        notification.send(`未识别到回血药数量，设置数量为0，药品名：${recoveryFoodName}`)
+        notification.send(`未识别到回血药数量(数量小于10识别不到)，设置数量为0，药品名：${recoveryFoodName}`)
         await sleep(5000);
         click(863, 51);//选择食物
         await sleep(1000);
@@ -360,7 +360,7 @@ const stepDelay = +settings.stepDelay || 500;
     // 处理复活药识别结果
     if (resurrectionNumber === null) {
         resurrectionNumber = 0;
-        notification.send(`未识别到复活药数量，设置数量为0，药品名：${resurrectionFoodName}`)
+        notification.send(`未识别到复活药数量(数量小于10识别不到)，设置数量为0，药品名：${resurrectionFoodName}`)
         await sleep(5000);
         click(863, 51);//选择食物
         await sleep(1000);
