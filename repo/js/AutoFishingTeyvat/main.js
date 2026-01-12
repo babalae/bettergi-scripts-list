@@ -1052,13 +1052,13 @@
         // 获取当前用户UID
         let uid = "default_user";
         if (fishing_cd && !is_con) {
-            const ocrRoUid = RecognitionObject.Ocr(166, 198, 120, 22);
+            const ocrRoUid = RecognitionObject.Ocr(1679, 1048, 200, 28);
             const ocrRoText = RecognitionObject.Ocr(1565, 997, 177, 39);
 
             genshin.returnMainUi();
             await sleep(1000);
-            keyPress("Escape");
-            await sleep(1000);
+            keyPress("G");
+            await sleep(1500);
 
             let ro1 = captureGameRegion();
             let ocrUid = ro1.Find(ocrRoUid); // 当前页面OCR
