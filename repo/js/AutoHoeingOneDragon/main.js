@@ -1,4 +1,4 @@
-//当前js版本1.18.0
+//当前js版本1.19.0
 
 let timeMoveUp;
 let timeMoveDown;
@@ -82,7 +82,8 @@ let lastEatBuff = 0;
             targetEliteNum: settings.targetEliteNum ?? 400,
             targetMonsterNum: settings.targetMonsterNum ?? 2000,
             priorityTags: settings.priorityTags ?? "",
-            excludeTags: settings.excludeTags ?? ""
+            excludeTags: settings.excludeTags ?? "",
+            curiosityFactor: settings.curiosityFactor ?? "0"
         };
         const cfgStr = JSON.stringify(cfg, null, 2);
         if (cfgStr.includes("莫酱") || cfgStr.includes("汐酱")) {
@@ -121,6 +122,7 @@ let lastEatBuff = 0;
         settings.targetMonsterNum = cfg.targetMonsterNum ?? 2000;
         settings.priorityTags = cfg.priorityTags ?? "";
         settings.excludeTags = cfg.excludeTags ?? "";
+        settings.curiosityFactor = cfg.curiosityFactor ?? "0";
     }
 
     //自定义配置处理
@@ -392,32 +394,31 @@ async function processPathings(groupTags) {
 
     for (const pathing of pathings) {
         if (!settings.disableSelfOptimization && pathing.records) {
-            //如果用户没有禁用自动优化，则参考运行记录更改预期用时
-            const history = pathing.records.filter(v => v > 0);
-            if (history.length) {
-                const max = Math.max(...history);
-                const min = Math.min(...history);
-
-                let maxRemoved = false;
-                let minRemoved = false;
-
-                // 就地修改 history：先去掉一个最大值，再去掉一个最小值
-                for (let i = history.length - 1; i >= 0; i--) {
-                    const v = history[i];
-                    if (!maxRemoved && v === max) {
-                        history.splice(i, 1);
-                        maxRemoved = true;
-                    } else if (!minRemoved && v === min) {
-                        history.splice(i, 1);
-                        minRemoved = true;
-                    }
-                    if (maxRemoved && minRemoved) break;
-                }
+            // 1. 安全解析 + 边界校验
+            let cf = 0; // 默认
+            if (settings?.curiosityFactor != null) {
+                const parsed = parseFloat(String(settings.curiosityFactor));
+                if (!Number.isNaN(parsed) && parsed >= 0 && parsed <= 1) cf = parsed;
             }
-            prevt = pathing.t;
-            //每一个有效的record占用0.2权重，剩余权重为原时间
-            pathing.t = pathing.t * (1 - history.length * 0.2) + history.reduce((a, b) => a + b, 0) * 0.2;
-            //log.info(`将路线${pathing.fileName}用时从${prevt}更新为${pathing.t}`)
+
+            // 2. 构造 7 条内部样本
+            const raw = Array.isArray(pathing.records) ? pathing.records.filter(v => v > 0) : [];
+            const pool = [];
+            for (let i = 0; i < 7; i++) {
+                pool.push(i < raw.length ? raw[i] : pathing.t * (1 - cf)); // 补齐时带好奇系数
+            }
+
+            // 3. 削峰填谷 → 均值
+            const copy = [...pool];
+            const max = Math.max(...copy);
+            const min = Math.min(...copy);
+            const maxIdx = copy.indexOf(max);
+            const minIdx = copy.indexOf(min);
+            if (maxIdx > -1) copy.splice(maxIdx, 1);
+            if (minIdx > -1 && copy.length) copy.splice(copy.indexOf(min), 1);
+
+            const avg = copy.reduce((a, b) => a + b, 0) / copy.length;
+            pathing.t = avg;
         }
     }
     return pathings; // 返回处理后的 pathings 数组
@@ -646,7 +647,13 @@ async function assignGroups(pathings, groupTags) {
     });
 }
 
-async function runPath(fullPath, map_name) {
+async function runPath(fullPath, map_name, pm, pe) {
+    if (settings.logMonsterCount) {
+        const m = Math.floor(pm); // 取整
+        const e = Math.floor(pe); // 取整
+        for (let i = 0; i < m; i++) log.debug('交互或拾取："小怪"');
+        for (let i = 0; i < e; i++) log.debug('交互或拾取："精英"');
+    }
     //当需要切换芙宁娜形态时，执行一次强制黑芙
     if (doFurinaSwitch) {
         log.info("上条路线识别到白芙，开始强制切换黑芙")
@@ -722,7 +729,11 @@ async function runPath(fullPath, map_name) {
     const pathingTask = (async () => {
         log.info(`开始执行路线: ${fullPath}`);
         await fakeLog(`${fullPath}`, false, true, 0);
-        await pathingScript.runFile(fullPath);
+        try {
+            await pathingScript.runFile(fullPath);
+        } catch (error) {
+            log.error(`执行地图追踪出现错误${error.message}`);
+        }
         await fakeLog(`${fullPath}`, false, false, 0);
         state.running = false;
     })();
@@ -1525,14 +1536,14 @@ async function processPathingsByGroup(pathings, accountName) {
                 log.error(`获取坐标时发生错误：${error.message}`);
                 runningFailCount++;
             }
+
             // 调用 runPath 函数处理路径
-            await runPath(pathing.fullPath, pathing.map_name);
+            await runPath(pathing.fullPath, pathing.map_name, pathing.m, pathing.e);
             try {
                 await sleep(1);
             } catch (error) {
                 break;
             }
-            await fakeLog(`${pathing.fileName}`, false, false, 0);
 
             let fileEndX = 0, fileEndY = 0;
             try {
