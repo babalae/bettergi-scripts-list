@@ -21,6 +21,12 @@
       "default": "其他,锄地专区,食材与炼金"
   },
   {
+      "name": "cron_http_url",
+      "type": "input-text",
+      "label": "cron解析Http 地址",
+      "default": "http://<ip:port>/bgi/cron/next-timestamp"
+  },
+  {
     "name": "key",
     "type": "input-text",
     "label": "密钥",

@@ -110,92 +110,116 @@ function parseCron(cron) {
             isValid: true
         };
     } catch (e) {
-        return { isValid: false, error: e.message, original: cron };
+        return {isValid: false, error: e.message, original: cron};
     }
 }
+
 
 /**
- * 根据 cron 表达式和当前时间，计算下一次执行的时间戳（毫秒）
- * 支持标准 5 段 cron： 分钟 时 日 月 星期
- * @param {string} cron - cron表达式，例如 "30 2 * * 1-5"
- * @param {number} [fromTime=Date.now()] - 从这个时间开始找下一个执行点
- * @returns {number|null} 下一次执行的时间戳（毫秒），找不到返回 null
+ * 获取下一个Cron时间戳
+ * @param {string} cronExpression - Cron表达式
+ * @param {number} [startTimestamp=Date.now()] - 开始时间戳，默认为当前时间
+ * @param {number} endTimestamp - 结束时间戳
+ * @returns {Promise} 返回一个Promise，解析为下一个Cron时间戳
  */
-function getNextCronTimestamp(cron, fromTime = Date.now(),endTime) {
-    const parts = cron.trim().split(/\s+/);
-    if (parts.length < 5 || parts.length > 6) {
-        throw new Error("不支持的 cron 格式，应为 5~6 段");
-    }
-
-    const [minStr, hourStr, dayStr, monthStr, dowStr] = parts;
-
-    // 解析每个字段
-    const minutes = parseField(minStr, 0, 59);
-    const hours = parseField(hourStr, 0, 23);
-    const days = parseField(dayStr, 1, 31);
-    const months = parseField(monthStr, 1, 12);
-    const dows = parseField(dowStr, 0, 7);
-
-    // 星期 7 → 0 (周日)
-    if (dows.has(7)) dows.add(0);
-
-    let current = new Date(fromTime);
-    // 如果没有指定 endTime，默认设置为明天 00:00:00
-    if (endTime === undefined) {
-        const tomorrow = new Date(current);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow.setHours(0, 0, 0, 0);
-        endTime = tomorrow.getTime();
-    }
-
-    // 动态计算最大迭代次数
-    // 将时间差（毫秒）转换为分钟，向上取整，确保覆盖所有可能的分钟点
-    const timeDiffMinutes = Math.ceil((endTime - fromTime) / 60000);
-
-    // 设置最大迭代次数，防止意外情况（如 endTime 极大）导致内存溢出或死循环
-    // 即使 endTime 是 10 年后，也限制在约 2 年内（避免极端情况）
-    // 2年 ≈ 365 * 2 * 24 * 60 = 1,051,200
-    const MAX_ITERATIONS_LIMIT = 1051200;
-    const MAX_ITERATIONS = Math.min(timeDiffMinutes, MAX_ITERATIONS_LIMIT);
-
-    let iteration = 0;
-    while (iteration++ < MAX_ITERATIONS) {
-        // 先推进到下一分钟，避免死循环在同一分钟
-        current.setMinutes(current.getMinutes() + 1);
-        current.setSeconds(0);
-        current.setMilliseconds(0);
-
-        const m = current.getMinutes();
-        const h = current.getHours();
-        const d = current.getDate();
-        const mon = current.getMonth() + 1; // JS 月份 0~11
-        const dow = current.getDay();       // 0=周日, 1=周一, ..., 6=周六
-
-        // 核心匹配条件（日期和星期是 OR 关系）
-        const minuteMatch = minutes.has(m) || minutes.size === 0;
-        const hourMatch = hours.has(h) || hours.size === 0;
-        const monthMatch = months.has(mon) || months.size === 0;
-        const dayMatch = days.has(d) || days.size === 0;
-        const dowMatch = dows.has(dow) || dows.size === 0;
-
-        const dateOrDowMatch = (days.size === 0 && dows.size === 0) ||  // 两者都是 *
-            (days.size > 0 && dows.size === 0) ||     // 只指定了日期
-            (days.size === 0 && dows.size > 0) ||     // 只指定了星期
-            (dayMatch && dowMatch);                   // 两者都满足才算（最严格）
-
-        if (minuteMatch && hourMatch && monthMatch && dateOrDowMatch) {
-            return current.getTime();
+async function getNextCronTimestamp(cronExpression, startTimestamp = Date.now(), endTimestamp, url = settings.cron_http_url) {
+    const result = await http.request("POST", url, JSON.stringify({
+        cronExpression: `${cronExpression}`,
+        startTimestamp: startTimestamp,
+        endTimestamp: endTimestamp
+    }), JSON.stringify({
+        "Content-Type": "application/json"
+    })).then(res => {
+        log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
+        if (res.status_code === 200 && res.body) {
+            let result_json = JSON.parse(res.body);
+            if (result_json?.code === 200) {
+                return result_json?.data
+            }
+            throw new Error("请求失败,error:" + result_json?.message)
         }
-    }
+        return undefined
+    })
 
-    // 如果是因为超过 MAX_ITERATIONS_LIMIT 而退出，说明时间跨度太大
-    if (timeDiffMinutes > MAX_ITERATIONS_LIMIT) {
-        log.warn("查找范围过大，已达到最大迭代次数限制");
-    } else {
-        log.warn("未找到合理下一次执行时间");
-    }
-    return null;
+    return result === null || !result ? undefined : result
 }
+
+//影响到性能 改http 第三方
+// function getNextCronTimestamp(cron, fromTime = Date.now(),endTime) {
+//     const parts = cron.trim().split(/\s+/);
+//     if (parts.length < 5 || parts.length > 6) {
+//         throw new Error("不支持的 cron 格式，应为 5~6 段");
+//     }
+//
+//     const [minStr, hourStr, dayStr, monthStr, dowStr] = parts;
+//
+//     // 解析每个字段
+//     const minutes = parseField(minStr, 0, 59);
+//     const hours = parseField(hourStr, 0, 23);
+//     const days = parseField(dayStr, 1, 31);
+//     const months = parseField(monthStr, 1, 12);
+//     const dows = parseField(dowStr, 0, 7);
+//
+//     // 星期 7 → 0 (周日)
+//     if (dows.has(7)) dows.add(0);
+//
+//     let current = new Date(fromTime);
+//     // 如果没有指定 endTime，默认设置为明天 00:00:00
+//     if (endTime === undefined) {
+//         const tomorrow = new Date(current);
+//         tomorrow.setDate(tomorrow.getDate() + 1);
+//         tomorrow.setHours(0, 0, 0, 0);
+//         endTime = tomorrow.getTime();
+//     }
+//
+//     // 动态计算最大迭代次数
+//     // 将时间差（毫秒）转换为分钟，向上取整，确保覆盖所有可能的分钟点
+//     const timeDiffMinutes = Math.ceil((endTime - fromTime) / 60000);
+//
+//     // 设置最大迭代次数，防止意外情况（如 endTime 极大）导致内存溢出或死循环
+//     // 即使 endTime 是 10 年后，也限制在约 2 年内（避免极端情况）
+//     // 2年 ≈ 365 * 2 * 24 * 60 = 1,051,200
+//     const MAX_ITERATIONS_LIMIT = 1051200;
+//     const MAX_ITERATIONS = Math.min(timeDiffMinutes, MAX_ITERATIONS_LIMIT);
+//
+//     let iteration = 0;
+//     while (iteration++ < MAX_ITERATIONS) {
+//         // 先推进到下一分钟，避免死循环在同一分钟
+//         current.setMinutes(current.getMinutes() + 1);
+//         current.setSeconds(0);
+//         current.setMilliseconds(0);
+//
+//         const m = current.getMinutes();
+//         const h = current.getHours();
+//         const d = current.getDate();
+//         const mon = current.getMonth() + 1; // JS 月份 0~11
+//         const dow = current.getDay();       // 0=周日, 1=周一, ..., 6=周六
+//
+//         // 核心匹配条件（日期和星期是 OR 关系）
+//         const minuteMatch = minutes.has(m) || minutes.size === 0;
+//         const hourMatch = hours.has(h) || hours.size === 0;
+//         const monthMatch = months.has(mon) || months.size === 0;
+//         const dayMatch = days.has(d) || days.size === 0;
+//         const dowMatch = dows.has(dow) || dows.size === 0;
+//
+//         const dateOrDowMatch = (days.size === 0 && dows.size === 0) ||  // 两者都是 *
+//             (days.size > 0 && dows.size === 0) ||     // 只指定了日期
+//             (days.size === 0 && dows.size > 0) ||     // 只指定了星期
+//             (dayMatch && dowMatch);                   // 两者都满足才算（最严格）
+//
+//         if (minuteMatch && hourMatch && monthMatch && dateOrDowMatch) {
+//             return current.getTime();
+//         }
+//     }
+//
+//     // 如果是因为超过 MAX_ITERATIONS_LIMIT 而退出，说明时间跨度太大
+//     if (timeDiffMinutes > MAX_ITERATIONS_LIMIT) {
+//         log.warn("查找范围过大，已达到最大迭代次数限制");
+//     } else {
+//         log.warn("未找到合理下一次执行时间");
+//     }
+//     return null;
+// }
 
 /**
  * 解析单个 cron 字段，返回匹配的数值 Set
@@ -264,13 +288,7 @@ function parseField(field, min, max) {
     return result;
 }
 
-function a(){
-   return true
-}
 
 this.cronUtil = {
     getNextCronTimestamp,
-    parseCron,
-    parseField,
-    parseCronField,
 }

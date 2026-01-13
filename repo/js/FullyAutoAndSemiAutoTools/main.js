@@ -700,10 +700,11 @@ async function init() {
                             return timeDifference.total.hours >= value;
                         case timeType.cron:
                             const nextCronTimestamp = cronUtil.getNextCronTimestamp(`${value}`, timestamp, now);
-                            if (!nextCronTimestamp) {
-                                log.error(`cron表达式解析失败: {value}`, value)
-                                throw new Error(`cron表达式解析失败: ${value}`)
-                            }
+                            // if (!nextCronTimestamp) {
+                            //     log.error(`cron表达式解析失败: {value}`, value)
+                            //     throw new Error(`cron表达式解析失败: ${value}`)
+                            // }
+                            if (!nextCronTimestamp) return false;
                             return now >= nextCronTimestamp;
                         default:
                             return false;
@@ -712,6 +713,7 @@ async function init() {
 
                 return false;
             });
+
 
             if (timeFilter?.length > 0) {
                 //移除CD
@@ -725,6 +727,8 @@ async function init() {
                     name: settingsAsName.settings_name
                 })
             }
+            log.debug(`[CD]{0}[CD]`,JSON.stringify([...timeFilter]))
+            log.debug(`[RUN]{0}[RUN]`,JSON.stringify([...list]))
         }
     }
     // 启用自动拾取的实时任务，并配置成启用急速拾取模式
