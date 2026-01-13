@@ -173,7 +173,7 @@
         "全天": {"name": "All", "param": 0},
         "白天": {"name": "Daytime", "param": 1},
         "夜晚": {"name": "Nighttime", "param": 2},
-        "不调": {"name": "DontChange", "param": 3}
+        "禁用": {"name": "DontChange", "param": 3}
     }
     // const positions = {
     //     "quick_change_state": [169, 1019],
@@ -195,6 +195,43 @@
     const statue_name = "蒙德-七天神像-苍风高地";
     // 存储本次任务中的所有鱼类，作为调节时间的关键参考
     let list_fish = [];
+
+    /**
+     * 简洁易用的OCR函数
+     * @param x
+     * @param y
+     * @param w
+     * @param h
+     * @param multi 是否使用FindMulti
+     * @returns {Promise<void>} 返回对应的OCR对象
+     */
+    async function Ocr(x, y, w, h, multi = false) {
+        let OcrRo = RecognitionObject.Ocr(x, y, w, h);
+        let gameRegion = captureGameRegion();
+        if (multi) {
+            let ocrResult = gameRegion.FindMulti(OcrRo);
+            gameRegion.dispose();
+            if (ocrResult.count !== 0) {
+                let resultList = [];
+                for (let i = 0; i < ocrResult.count; i++) {
+                    resultList.push(ocrResult[i]);
+                }
+                return resultList;
+            } else {
+                log.debug(`FindMulti为空: (${x}, ${y}, ${w}, ${h})`);
+                return false;
+            }
+        } else {
+            let ocrResult = gameRegion.Find(OcrRo);
+            gameRegion.dispose();
+            if (ocrResult.isExist()) {
+                return ocrResult;
+            } else {
+                log.debug(`Find为空: (${x}, ${y}, ${w}, ${h})`);
+                return false;
+            }
+        }
+    }
 
     /**
      * 计算垂钓点再次可用的时间戳
@@ -348,9 +385,6 @@
      */
     function formatTimeDifference(ms) {
         ms = Number(ms);
-        if (isNaN(ms) || ms < 0) {
-            return "时间格式错误";
-        }
         // 计算天、小时、分钟、秒
         const seconds = Math.floor(ms / 1000);
         const minutes = Math.floor(seconds / 60);
@@ -426,15 +460,10 @@
             if (Object.keys(content).includes(user_id)) {
                 if (Object.keys(content[user_id]).includes(pathing_name)) {
                     return content[user_id][pathing_name];
-                } else {
-                    return null;
                 }
-            } else {
-                return null;
             }
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**
@@ -580,7 +609,7 @@
         }
     }
 
-    async function run_file(path_msg, time_out_throw, time_out_whole, is_con, developer_log, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid = "default_user", is_time_kill, time_target, kill_hour, kill_minute) {
+    async function run_file(path_msg, time_out_throw, time_out_whole, is_con, developer_log, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid, is_time_kill, time_target, kill_hour, kill_minute) {
         const base_path_pathing = "assets/pathing/";
         const base_path_gcm = "assets/KeyMouseScript/";
         const base_path_statues = "assets/pathing_others/";
@@ -729,7 +758,7 @@
                             log.info(`该垂钓点(白天)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
                         }
                     }
-                    
+
                     if (current_cd["Nighttime"] !== null) {
                         let critical_time = cdCal("Nighttime");
 
@@ -770,6 +799,8 @@
                         }
                     }
                 }
+            } else {
+                log.info(`本地不存在该垂钓点的CD记录: ${file_name}(${uid})\n该垂钓点将不会跳过...`);
             }
         }
 
@@ -800,7 +831,6 @@
                 await sleep(1000);
 
                 let imageRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(image_path), 0, 95, 1278, 883);
-                let ocrRo = RecognitionObject.Ocr(1626, 990, 150, 52);
                 imageRo.threshold = 0.9;
 
                 // // 记录原有快捷更换的4个小道具及装备状态
@@ -840,11 +870,9 @@
                         gadget.Click();
                         await sleep(500);
                         moveMouseTo(1555, 860); // 移走鼠标，防止干扰识别
-                        let ocr_region = captureGameRegion();
-                        let ocrResult = ocr_region.Find(ocrRo);
-                        ocr_region.dispose();
+                        let ocrResult = await Ocr(1626, 990, 150, 52);
                         // 防止卸下奇特的羽毛
-                        if (ocrResult.isExist() && ocrResult.text === "装备") {
+                        if (ocrResult && ocrResult.text.includes("装备")) {
                             click(1685, 1018);
                         } else {
                             click(1843, 48);
@@ -987,7 +1015,7 @@
 
         // 调用自动钓鱼
         await dispatcher.runTask(new SoloTask("AutoFishing", {
-            "fishingTimePolicy": fishing_time_dic[fishing_time]["param"],
+            "fishingTimePolicy": fishing_time_dic[uid.includes("bgiMultiUser") ? "禁用": fishing_time]["param"],
             "throwRodTimeOutTimeoutSeconds": time_out_throw,
             "wholeProcessTimeoutSeconds": time_out_whole
         }));
@@ -1049,10 +1077,6 @@
         const auto_skip = typeof(settings.auto_skip) === 'undefined' ? false : settings.auto_skip;
         // 读取垂钓点CD统计
         let fishing_cd = typeof(settings.fishing_cd) === 'undefined' ? false: settings.fishing_cd;
-        // 读取自定義標識
-        const custom_identifier = typeof(settings.custom_cd_identifier) === 'undefined' ? "" : settings.custom_cd_identifier.trim();
-        // 读取是否在他人世界设置
-        const in_others_world = typeof(settings.in_others_world) === 'undefined' ? false : settings.in_others_world;
         // 读取终止时间
         const kill_hour = typeof(settings.time_kill_hour) === 'undefined' ? "无" : settings.time_kill_hour;
         const kill_minute = typeof(settings.time_kill_minute) === 'undefined' ? "无" : settings.time_kill_minute;
@@ -1062,54 +1086,73 @@
         // 获取当前用户UID
         let uid = "default_user";
         if (fishing_cd && !is_con) {
-            // 首先檢查是否有自定義標識
-            if (custom_identifier) {
-                // 使用自定義標識
-                uid = custom_identifier;
-                log.info(`使用自定义CD记录标识:${uid}`);
-            } else {
-                const ocrRoUid = RecognitionObject.Ocr(1679, 1048, 200, 28);
+            const singleRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/single.png"));
+            const player1Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/1P.png"));
+            let imageExitRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Exit.png"));
 
-                genshin.returnMainUi();
-                await sleep(1000);
-                keyPress("G");
-                await sleep(1500);
-
-                let ro1 = captureGameRegion();
-                let ocrUid = ro1.Find(ocrRoUid); // 当前页面OCR
-                if (ocrUid.isExist()) {
-                    uid = ocrUid.text;
-                    log.info(`使用游戏UID`);
-                } else {
-                    log.warn("无法获取游戏UID，使用默认标识");
-                }
-                ro1.dispose();
-
-                await genshin.returnMainUi();
-            }
-
-            // 檢測是否為多人模式（若存在自定义标识，则多人模式也可记录CD）
-            const ocrRoText = RecognitionObject.Ocr(1565, 997, 177, 39);
-            keyPress("F2"); // 按下F2打开多人模式界面
+            genshin.returnMainUi();
             await sleep(1000);
-            let ro2 = captureGameRegion();
-            let ocrText = ro2.Find(ocrRoText); // 当前页面OCR
-            if (ocrText.isExist() && (ocrText.text === "离开队伍" || ocrText.text === "回到单人模式")) {
-                // 检测到多人模式
-                if (custom_identifier) {
-                    // 有自定义标识，多人模式下仍可记录CD
-                    log.info("当前为多人模式，但因有自定义标识，CD记录功能仍有效");
-                } else {
-                    // 没有自定义标识，多人模式下无法记录CD
-                    log.info("当前为多人模式且未设置自定义标识，垂钓点CD统计已失效...");
-                    fishing_cd = false; // 多人模式下且无自定义标识时关闭CD记录功能
+            keyPress("G");
+            await sleep(1500);
+
+            let ocrUid = await Ocr(1679, 1048, 200, 28);
+            if (ocrUid && ocrUid.text !== "") uid = ocrUid.text;
+
+            await genshin.returnMainUi();
+
+            // keyPress("F2"); // 按下F2打开多人模式界面
+            // await sleep(1000);
+            // let ro2 = captureGameRegion();
+            // let ocrText = ro2.Find(ocrRoText); // 当前页面OCR
+            // if (ocrText.isExist() && ocrText.text === "回到单人模式") {
+            //     log.info("当前为多人模式，垂钓点CD统计已失效...");
+            //     fishing_cd = false; // 多人模式下关闭CD记录功能
+            // }
+            // ro2.dispose();
+            //
+            // await sleep(500);
+            // keyPress("Escape");
+
+            let mainUiCapture = captureGameRegion();
+            if (mainUiCapture.Find(singleRo).isExist()) { // 单人模式
+                log.info(`当前为单人模式，CD统计已启用\n记录标识: ${uid}`);
+            } else if (mainUiCapture.Find(player1Ro).isExist()) { // 多人模式1P
+                log.info(`当前为多人模式房主，CD统计已启用\n记录标识: ${uid}`);
+            } else { // 多人模式非房主
+                uid = "default_bgiMultiUser";
+
+                keyPress("F2"); // 按下F2打开多人模式界面
+                await sleep(500);
+                while (!(captureGameRegion().Find(imageExitRo).isExist())) { // [DEBUG] 可能陷入死循环？
+                    await sleep(500);
+                    log.debug("等待直到进入多人游戏界面");
                 }
+                await sleep(500);
+                click(333, 219); // 点击1P头像
+                await sleep(500);
+                for (let i = 0; i < 5; i++) { // [DEBUG] 如果卡顿超过1s还没弹出小菜单则会出错
+                    let ocrResult = await Ocr(502, 179, 220, 50);
+                    if (ocrResult && ocrResult.text.includes("查看资料")) {
+                        ocrResult.Click(); // 点击查看资料
+                        await sleep(500);
+                        break;
+                    }
+                    await sleep(200);
+                }
+                moveMouseTo(1260, 589); // 移走鼠标，防止干扰OCR
+                await sleep(800);
+                let ocrResult = await Ocr(573, 194, 172, 27);
+                if (ocrResult) {
+                    ocrResult = ocrResult.text.replace(/\D/g, '');
+                    if (ocrResult) uid = `bgiMultiUser_${ocrResult}`;
+                }
+
+                await genshin.returnMainUi;
+
+                log.info("当前为多人模式且并非房主，垂钓点CD统计将记录1P的CD(不影响单人模式的CD记录)");
+                // fishing_cd = false; // 多人模式下关闭CD统计功能
             }
-            ro2.dispose();
-
-            await sleep(500);
-            keyPress("Escape");
-
+            mainUiCapture.dispose();
         }
 
         if (is_time_kill) {
@@ -1166,7 +1209,7 @@
                     continue;
                 }
 
-                const run_result = await run_file(path_msg, time_out_throw, time_out_whole, is_con, developer_log, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid, is_time_kill, time_target, kill_hour, kill_minute, in_others_world);
+                const run_result = await run_file(path_msg, time_out_throw, time_out_whole, is_con, developer_log, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid, is_time_kill, time_target, kill_hour, kill_minute);
 
                 // 新增：检查 run_file 是否因为到达终止时间而返回特殊标记
                 if (run_result === "time_kill") {

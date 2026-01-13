@@ -217,20 +217,8 @@
     {
         "name": "fishing_cd",
         "type": "checkbox",
-        "label": "启用垂钓点CD统计(自动跳过冷却中的垂钓点)",
+        "label": "启用垂钓点CD统计(自动跳过冷却中的垂钓点)\n注: 多人模式且不为房主时自动禁用",
         "default": true
-    },
-    {
-        "name": "custom_cd_identifier",
-        "type": "input-text",
-        "label": "自定义CD记录标识\n（留空则使用游戏UID，联机时若未设置则无法记录CD)",
-        "default": ""
-    },
-    {
-        "name": "in_others_world",
-        "type": "checkbox",
-        "label": "是否在他人世界，勾选后钓鱼时不调时间",
-        "default": false
     },
     {
         "name": "time_kill_hour",
