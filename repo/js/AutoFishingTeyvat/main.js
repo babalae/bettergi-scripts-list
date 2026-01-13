@@ -173,6 +173,7 @@
         "全天": {"name": "All", "param": 0},
         "白天": {"name": "Daytime", "param": 1},
         "夜晚": {"name": "Nighttime", "param": 2},
+        "不调": {"name": "DontChange", "param": 3},
         "禁用": {"name": "Block", "param": ""},
     }
     // const positions = {
@@ -348,6 +349,9 @@
      */
     function formatTimeDifference(ms) {
         ms = Number(ms);
+        if (isNaN(ms) || ms < 0) {
+            return "时间格式错误";
+        }
         // 计算天、小时、分钟、秒
         const seconds = Math.floor(ms / 1000);
         const minutes = Math.floor(seconds / 60);
@@ -546,7 +550,7 @@
                     }
                 }
 
-                for  (const path of path_pathing) {
+                for (const path of path_pathing) {
                     if (regex_area.test(path) && regex_fish.test(path) && regex_bait_include.test(path)) { // 逻辑薄弱点，可能导致bug
                         path_list.push(path);
                     }
@@ -560,7 +564,7 @@
                         // 作为时间调节参照数组
                         list_fish = msg;
                         log.info(`目标材料: ${material_name}\n鱼类: ${msg}`);
-                        for  (const path of path_pathing) {
+                        for (const path of path_pathing) {
                             const fish_sort_regex = new RegExp(msg.join("|"));
                             if (fish_sort_regex.test(path)) {
                                 path_list.push(path);
@@ -626,7 +630,7 @@
             const is_daytime = fish_need.some(item => regex_daytime.test(item));
             const is_nighttime = fish_need.some(item => regex_nighttime.test(item));
 
-            // 调式模式不弹出未匹配钓鱼时间的报错
+            // 调试模式不弹出未匹配钓鱼时间的报错
             if (!is_daytime && !is_nighttime && (typeof(settings.path_select) === 'undefined' || settings.path_select === "无(默认)")) {
                 log.error("出错：未找到匹配的钓鱼时间")
                 return null;
@@ -636,7 +640,7 @@
                 fishing_time = "夜晚";
             }
             // 昼夜都有则还是 全天
-        } else if (is_con) { // 调式时间
+        } else if (is_con) { // 调试时间
             if (path_time === "全天(默认)") {
                 path_time = "全天";
             }
@@ -963,6 +967,9 @@
             await keyMouseScript.runFile(base_path_gcm + file_name + ".json");
         }
 
+        // 等待站穏
+        await sleep(750);
+
         // 记录地图追踪结束时间
         const time_end_pathing = Date.now();
         if (developer_log.length !== 0 && !(developer_log.includes("伪造地图追踪(跑图+垂钓)"))) {
@@ -1043,6 +1050,10 @@
         const auto_skip = typeof(settings.auto_skip) === 'undefined' ? false : settings.auto_skip;
         // 读取垂钓点CD统计
         let fishing_cd = typeof(settings.fishing_cd) === 'undefined' ? false: settings.fishing_cd;
+        // 读取自定義標識
+        const custom_identifier = typeof(settings.custom_cd_identifier) === 'undefined' ? "" : settings.custom_cd_identifier.trim();
+        // 读取是否在他人世界设置
+        const in_others_world = typeof(settings.in_others_world) === 'undefined' ? false : settings.in_others_world;
         // 读取终止时间
         const kill_hour = typeof(settings.time_kill_hour) === 'undefined' ? "无" : settings.time_kill_hour;
         const kill_minute = typeof(settings.time_kill_minute) === 'undefined' ? "无" : settings.time_kill_minute;
@@ -1052,35 +1063,54 @@
         // 获取当前用户UID
         let uid = "default_user";
         if (fishing_cd && !is_con) {
-            const ocrRoUid = RecognitionObject.Ocr(1679, 1048, 200, 28);
-            const ocrRoText = RecognitionObject.Ocr(1565, 997, 177, 39);
+            // 首先檢查是否有自定義標識
+            if (custom_identifier) {
+                // 使用自定義標識
+                uid = custom_identifier;
+                log.info(`使用自定义CD记录标识:${uid}`);
+            } else {
+                const ocrRoUid = RecognitionObject.Ocr(1679, 1048, 200, 28);
 
-            genshin.returnMainUi();
-            await sleep(1000);
-            keyPress("G");
-            await sleep(1500);
+                genshin.returnMainUi();
+                await sleep(1000);
+                keyPress("G");
+                await sleep(1500);
 
-            let ro1 = captureGameRegion();
-            let ocrUid = ro1.Find(ocrRoUid); // 当前页面OCR
-            if (ocrUid.isExist()) {
-                uid = ocrUid.text;
+                let ro1 = captureGameRegion();
+                let ocrUid = ro1.Find(ocrRoUid); // 当前页面OCR
+                if (ocrUid.isExist()) {
+                    uid = ocrUid.text;
+                    log.info(`使用游戏UID`);
+                } else {
+                    log.warn("无法获取游戏UID，使用默认标识");
+                }
+                ro1.dispose();
+
+                await genshin.returnMainUi();
             }
-            ro1.dispose();
 
-            await genshin.returnMainUi();
-
+            // 檢測是否為多人模式（若存在自定义标识，则多人模式也可记录CD）
+            const ocrRoText = RecognitionObject.Ocr(1565, 997, 177, 39);
             keyPress("F2"); // 按下F2打开多人模式界面
             await sleep(1000);
             let ro2 = captureGameRegion();
             let ocrText = ro2.Find(ocrRoText); // 当前页面OCR
-            if (ocrText.isExist() && ocrText.text === "回到单人模式") {
-                log.info("当前为多人模式，垂钓点CD统计已失效...");
-                fishing_cd = false; // 多人模式下关闭CD记录功能
+            if (ocrText.isExist() && (ocrText.text === "离开队伍" || ocrText.text === "回到单人模式")) {
+                // 检测到多人模式
+                if (custom_identifier) {
+                    // 有自定义标识，多人模式下仍可记录CD
+                    log.info("当前为多人模式，但因有自定义标识，CD记录功能仍有效");
+                } else {
+                    // 没有自定义标识，多人模式下无法记录CD
+                    log.info("当前为多人模式且未设置自定义标识，垂钓点CD统计已失效...");
+                    fishing_cd = false; // 多人模式下且无自定义标识时关闭CD记录功能
+                }
             }
             ro2.dispose();
 
             await sleep(500);
             keyPress("Escape");
+
         }
 
         if (is_time_kill) {
@@ -1137,7 +1167,7 @@
                     continue;
                 }
 
-                const run_result = await run_file(path_msg, time_out_throw, time_out_whole, is_con, developer_log, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid, is_time_kill, time_target, kill_hour, kill_minute);
+                const run_result = await run_file(path_msg, time_out_throw, time_out_whole, is_con, developer_log, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid, is_time_kill, time_target, kill_hour, kill_minute, in_others_world);
 
                 // 新增：检查 run_file 是否因为到达终止时间而返回特殊标记
                 if (run_result === "time_kill") {

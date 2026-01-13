@@ -221,6 +221,18 @@
         "default": true
     },
     {
+        "name": "custom_cd_identifier",
+        "type": "input-text",
+        "label": "自定义CD记录标识\n（留空则使用游戏UID，联机时若未设置则无法记录CD)",
+        "default": ""
+    },
+    {
+        "name": "in_others_world",
+        "type": "checkbox",
+        "label": "是否在他人世界，勾选后钓鱼时不调时间",
+        "default": false
+    },
+    {
         "name": "time_kill_hour",
         "type": "select",
         "label": "设置强制停止运行的时间(24小时制)[同时选择生效]\n小时",
