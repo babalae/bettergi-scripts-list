@@ -1,73 +1,82 @@
 {
   "info": {
-    "name": "5401枫丹秋分东南",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时59.93秒，包含以下怪物：1只雷史莱姆、1只变异雷史莱姆、1只冰史莱姆、1只泡泡雄海马、1只大天使海兔。",
-    "hash_res": "26480363",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时58.94秒，包含以下怪物：1只雷史莱姆、1只变异雷史莱姆、1只冰史莱姆、1只泡泡雄海马、1只大天使海兔。",
+    "enable_monster_loot_split": false,
+    "hash_res": "26480363",
+    "last_modified_time": 1768071371699,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "5401枫丹秋分东南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 3815.13,
-      "y": 2336.96,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 3815.130000000001,
+      "y": 2336.959999999999
     },
     {
-      "id": 2,
-      "x": 3825.51,
-      "y": 2318.21,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
       "move_mode": "fly",
-      "action_params": "300",
-      "type": "path"
+      "type": "path",
+      "x": 3818.6484375,
+      "y": 2327.166748046875
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 3,
-      "x": 3825.6,
-      "y": 2313.52,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 3826.08,
-      "y": 2312.73,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 3792.14,
-      "y": 2290.22,
-      "action": "fight",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 3823.4951171875,
+      "y": 2307.391357421875
     },
     {
-      "id": 6,
-      "x": 3792.14,
-      "y": 2290.22,
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3823.4951171875,
+      "y": 2307.391357421875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3791.341796875,
+      "y": 2293.2685546875
+    },
+    {
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.1)",
-      "type": "orientation"
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 3791.341796875,
+      "y": 2293.2685546875
     }
   ]
 }

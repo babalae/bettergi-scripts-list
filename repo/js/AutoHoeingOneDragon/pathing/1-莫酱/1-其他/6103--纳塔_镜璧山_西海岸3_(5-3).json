@@ -42,9 +42,18 @@
       "y": -1762.1
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9840.6,
+      "y": -1762.1
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
       "move_mode": "dash",
       "type": "path",
       "x": 9905.39,
@@ -53,7 +62,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 4,
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9905.39,
+      "y": -1759.54
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
       "move_mode": "dash",
       "type": "path",
       "x": 9908.15,
@@ -62,7 +80,7 @@
     {
       "action": "combat_script",
       "action_params": "attack(0.5)",
-      "id": 5,
+      "id": 7,
       "move_mode": "dash",
       "type": "path",
       "x": 9968.95,
@@ -71,7 +89,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 6,
+      "id": 8,
       "move_mode": "dash",
       "type": "path",
       "x": 9969.63,
@@ -79,8 +97,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1)",
-      "id": 7,
+      "action_params": "wait(1)",
+      "id": 9,
       "move_mode": "dash",
       "type": "orientation",
       "x": 9969.63,
