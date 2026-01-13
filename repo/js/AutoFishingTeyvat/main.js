@@ -173,8 +173,7 @@
         "全天": {"name": "All", "param": 0},
         "白天": {"name": "Daytime", "param": 1},
         "夜晚": {"name": "Nighttime", "param": 2},
-        "不调": {"name": "DontChange", "param": 3},
-        "禁用": {"name": "Block", "param": ""},
+        "不调": {"name": "DontChange", "param": 3}
     }
     // const positions = {
     //     "quick_change_state": [169, 1019],
