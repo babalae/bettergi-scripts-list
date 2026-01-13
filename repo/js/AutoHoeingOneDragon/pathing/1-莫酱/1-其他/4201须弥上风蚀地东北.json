@@ -1,87 +1,90 @@
 {
   "info": {
-    "name": "4201须弥上风蚀地东北",
-    "type": "collect",
     "authors": [
       {
-        "name": "mno",
-        "links": ""
+        "links": "",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
     ],
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时89.24秒，包含以下怪物：2只镀金旅团·机弩兵、3只镀金旅团·鸦喙戟手、1只镀金旅团·破阵者、1只镀金旅团·刀舞者、1只镀金旅团·沙中净水。",
-    "hash_res": "35314168",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时98.88秒，包含以下怪物：2只镀金旅团·机弩兵、3只镀金旅团·鸦喙戟手、1只镀金旅团·破阵者、1只镀金旅团·刀舞者、1只镀金旅团·沙中净水。",
+    "enable_monster_loot_split": false,
+    "hash_res": "35314168",
+    "last_modified_time": 1768157724576,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "4201须弥上风蚀地东北",
     "tags": [],
-    "last_modified_time": 1752328905599,
-    "enable_monster_loot_split": false
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 4210.0634765625,
-      "y": -2711.734375,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 4210.0634765625,
+      "y": -2711.734375
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 2,
-      "x": 4224.0947265625,
-      "y": -2652.341796875,
-      "type": "path",
       "move_mode": "dash",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
+      "type": "path",
+      "x": 4224.0947265625,
+      "y": -2652.341796875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4224.0947265625,
-      "y": -2652.341796875,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "y": -2652.341796875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 4261.1279296875,
-      "y": -2619.4501953125,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 4252.6572265625,
+      "y": -2629.0791015625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 4339.76025390625,
-      "y": -2593.375,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 4322.986328125,
+      "y": -2608.6640625
     },
     {
-      "id": 6,
-      "x": 4341.583984375,
-      "y": -2602.3681640625,
-      "type": "path",
-      "move_mode": "walk",
       "action": "fight",
       "action_params": "",
-      "locked": false
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4338.0400390625,
+      "y": -2609.171875
     },
     {
-      "id": 7,
-      "x": 4341.583984375,
-      "y": -2602.3681640625,
-      "type": "orientation",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "wait(1)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4338.0400390625,
+      "y": -2609.171875
     }
   ]
 }
