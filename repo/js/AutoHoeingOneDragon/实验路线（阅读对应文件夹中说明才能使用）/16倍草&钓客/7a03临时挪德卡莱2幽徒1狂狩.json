@@ -1,0 +1,49 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时60.32秒，包含以下怪物：1只荒野狂狩士、2只荒野幽徒。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768397275901,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "7a03临时挪德卡莱2幽徒1狂狩",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10101.630859375,
+      "y": 6343.751953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10120.771484375,
+      "y": 6369.34130859375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10139.98828125,
+      "y": 6369.68212890625
+    }
+  ]
+}
