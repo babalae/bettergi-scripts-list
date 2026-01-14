@@ -14,7 +14,7 @@
     "description": "  路线信息：该路线预计用时332.5秒，包含以下怪物：1只水史莱姆、1只大型水史莱姆、1只铸砂勇士·叩问人、1只铸砂勇士·碎盾者、1只铸砂勇士·投矛手、3只疾讯勇士·引索客、1只疾讯勇士·荡风斥候、1只疾讯勇士·重刃讯使、1只嵴锋龙武士·碎晶打者、1只匿叶龙武士·旋锯飞叶、4只幼嵴锋龙、6只嵴锋龙、3只幼匿叶龙、6只匿叶龙。",
     "enable_monster_loot_split": false,
     "hash_res": "20919146",
-    "last_modified_time": 1768332352627,
+    "last_modified_time": 1768387463034,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "6401--纳塔_万火之瓯_竞技场_(14-17)",
@@ -168,9 +168,19 @@
       "y": -1619.12939453125
     },
     {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.3),j,wait(0.7),j,wait(0.7),j,wait(1.2),j,",
+      "id": 17,
+      "locked": false,
+      "move_mode": "jump",
+      "type": "orientation",
+      "x": 9014.281739799715,
+      "y": -1628.7814491977142
+    },
+    {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "jump",
       "type": "path",
       "x": 9022.1728515625,
@@ -179,7 +189,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "fly",
       "type": "path",
       "x": 9050.1064453125,
@@ -188,7 +198,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 19,
+      "id": 20,
       "move_mode": "dash",
       "type": "path",
       "x": 9092.69,
@@ -197,7 +207,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 20,
+      "id": 21,
       "move_mode": "dash",
       "type": "path",
       "x": 9092.69,
@@ -206,7 +216,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 21,
+      "id": 22,
       "move_mode": "fly",
       "type": "path",
       "x": 9104.06,
@@ -214,15 +224,6 @@
     },
     {
       "action": "fight",
-      "action_params": "",
-      "id": 22,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 9105.09,
-      "y": -1645.8099999999995
-    },
-    {
-      "action": "",
       "action_params": "",
       "id": 23,
       "move_mode": "dash",
@@ -236,13 +237,22 @@
       "id": 24,
       "move_mode": "dash",
       "type": "path",
+      "x": 9105.09,
+      "y": -1645.8099999999995
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "dash",
+      "type": "path",
       "x": 9122.78,
       "y": -1658.1400000000003
     },
     {
       "action": "",
       "action_params": "",
-      "id": 25,
+      "id": 26,
       "move_mode": "fly",
       "type": "path",
       "x": 9116.97,
@@ -251,7 +261,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 26,
+      "id": 27,
       "move_mode": "fly",
       "type": "path",
       "x": 9109.37,
@@ -259,15 +269,6 @@
     },
     {
       "action": "fight",
-      "action_params": "",
-      "id": 27,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 9074.07,
-      "y": -1712.4099999999999
-    },
-    {
-      "action": "",
       "action_params": "",
       "id": 28,
       "move_mode": "dash",
@@ -281,13 +282,22 @@
       "id": 29,
       "move_mode": "dash",
       "type": "path",
+      "x": 9074.07,
+      "y": -1712.4099999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 30,
+      "move_mode": "dash",
+      "type": "path",
       "x": 9059.75,
       "y": -1720.75
     },
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 30,
+      "id": 31,
       "move_mode": "fly",
       "type": "path",
       "x": 9037.39,
@@ -296,7 +306,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 31,
+      "id": 32,
       "move_mode": "walk",
       "type": "path",
       "x": 9033.39,
@@ -305,7 +315,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 32,
+      "id": 33,
       "move_mode": "dash",
       "type": "path",
       "x": 9033.39,
@@ -314,7 +324,7 @@
     {
       "action": "combat_script",
       "action_params": "attack(0.3)",
-      "id": 33,
+      "id": 34,
       "move_mode": "dash",
       "type": "path",
       "x": 8996.86,
@@ -323,7 +333,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 34,
+      "id": 35,
       "move_mode": "dash",
       "type": "path",
       "x": 8975.29,
@@ -331,8 +341,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(1)",
-      "id": 35,
+      "action_params": "wait(0.1)",
+      "id": 36,
       "move_mode": "dash",
       "type": "orientation",
       "x": 8975.29,
@@ -341,7 +351,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 36,
+      "id": 37,
       "move_mode": "walk",
       "type": "teleport",
       "x": 8978.32,
@@ -350,7 +360,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 37,
+      "id": 38,
       "move_mode": "dash",
       "type": "path",
       "x": 8949.95,
@@ -359,7 +369,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 38,
+      "id": 39,
       "move_mode": "fly",
       "type": "path",
       "x": 8934.26,
@@ -368,7 +378,7 @@
     {
       "action": "combat_script",
       "action_params": "attack(0.3)",
-      "id": 39,
+      "id": 40,
       "move_mode": "dash",
       "type": "path",
       "x": 8907.06,
@@ -377,7 +387,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 40,
+      "id": 41,
       "move_mode": "dash",
       "type": "path",
       "x": 8901.88,
@@ -385,8 +395,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(1)",
-      "id": 41,
+      "action_params": "wait(0.1)",
+      "id": 42,
       "move_mode": "dash",
       "type": "orientation",
       "x": 8901.88,
