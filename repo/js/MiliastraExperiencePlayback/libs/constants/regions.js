@@ -37,6 +37,10 @@ const findCloseDialog = () => {
 const clickToContinue = () => {
   click(900, 1050);
 };
+//! 查找UID文本
+const findUidText = () => {
+  return findTextWithinBounds("UID", 1620, 1050, 300, 30, { contains: true });
+};
 //! 查找元素视野按钮（判断处于大世界条件一）
 const findElementViewBtn = () => {
   const iro = findImageWithinBounds("assets/UI_BtnIcon_ElementView.png", 0, 0, 500, 80, {
@@ -256,4 +260,5 @@ export {
   findSearchWonderlandThrottleMsg,
   findSkipLevelUpMsg,
   findStageEscBtn,
+  findUidText,
 };

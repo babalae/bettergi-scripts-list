@@ -1,6 +1,6 @@
 import { __name } from "./rolldown-runtime.js";
 
-//#region node_modules/.pnpm/@bettergi+utils@0.1.25/node_modules/@bettergi/utils/dist/workflow.js
+//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/workflow.js
 /** 默认最大重试次数 */
 const defaultMaxAttempts = 5;
 /** 默认重试间隔（毫秒） */
@@ -61,7 +61,7 @@ const waitForRegionDisappear = async (regionProvider, retryAction, options) => {
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.25/node_modules/@bettergi/utils/dist/asserts.js
+//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/asserts.js
 /**
  * 断言某个区域即将出现，否则抛出异常
  * @param regionProvider 返回区域的函数
@@ -85,7 +85,7 @@ const assertRegionDisappearing = async (regionProvider, message, retryAction, op
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.25/node_modules/@bettergi/utils/dist/exception.js
+//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/exception.js
 /**
  * 获取错误信息字符串
  * @param err 异常对象
@@ -104,7 +104,7 @@ const isHostException = (err) => {
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.25/node_modules/@bettergi/utils/dist/mouse.js
+//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/mouse.js
 /** 使用回放脚本模拟滚动 */
 const simulateScroll = async (wheelDelta, times) => {
   const script = {
@@ -144,7 +144,7 @@ const mouseScrollDownLines = (lines, lineHeight = 175) => {
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.25/node_modules/@bettergi/utils/dist/ocr.js
+//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/ocr.js
 /**
  * 在指定区域内搜索图片
  * @param image 图片路径 或 图片Mat
@@ -269,9 +269,14 @@ const findWithinListView = async (condition, listView, retryOptions, sampling, t
   );
   if (targetRegion?.isExist()) {
     const { item1, item2 } = targetRegion.convertPositionToGameCaptureRegion(0, 0);
+    const scale = genshin.width / 1920;
+    const [x$1, y$1] = [
+      Math.floor(scale <= 1 ? item1 : item1 / scale),
+      Math.floor(scale <= 1 ? item2 : item2 / scale),
+    ];
     Object.assign(targetRegion, {
-      x: item1,
-      y: item2,
+      x: x$1,
+      y: y$1,
     });
     return targetRegion;
   }
@@ -312,7 +317,7 @@ const findTextWithinListView = async (
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.25/node_modules/@bettergi/utils/dist/misc.js
+//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/misc.js
 /**
  * 深度合并多个对象
  * @param objects 多个对象
@@ -330,7 +335,7 @@ const deepMerge = (...objects) => {
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.25/node_modules/@bettergi/utils/dist/time.js
+//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/time.js
 /**
  * 获取下一个（含当日）凌晨4点的时间
  */
@@ -388,7 +393,7 @@ const formatDurationAsReadable = (duration) => {
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.25/node_modules/@bettergi/utils/dist/progress.js
+//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/progress.js
 /** 进度追踪器 */
 var ProgressTracker = class {
   total = 0;
@@ -461,7 +466,7 @@ var ProgressTracker = class {
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.25/node_modules/@bettergi/utils/dist/store.js
+//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/store.js
 /**
  * 创建一个持久化存储对象，用于管理应用状态数据
  * 该函数会创建一个代理对象，对该对象的所有属性的修改都会自动同步到相应的JSON文件（脚本的 `store` 目录下）中。

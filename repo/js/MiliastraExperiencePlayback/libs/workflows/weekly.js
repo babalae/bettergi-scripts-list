@@ -50,7 +50,7 @@ const execWeeklyTask = async () => {
   //! 迭代尝试
   for (let i = 0; i < attempts; i++)
     try {
-      tracker.print(`开始本周第 ${store.weekly.attempts + 1} 次奇域挑战...`);
+      tracker.print(`开始 ${store.uid} 本周第 ${store.weekly.attempts + 1} 次奇域挑战...`);
       //! 删除关卡存档
       await deleteStageSave();
       //! 进入房间
