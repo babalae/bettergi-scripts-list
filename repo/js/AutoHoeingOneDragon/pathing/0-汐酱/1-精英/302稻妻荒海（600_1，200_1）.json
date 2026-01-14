@@ -1,0 +1,88 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时90秒，包含以下怪物：1只遗迹猎者、1只遗迹重机。",
+    "enable_monster_loot_split": false,
+    "hash_res": "14919700",
+    "last_modified_time": 1768317004907,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "302稻妻荒海（600_1，200_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4217.89,
+      "y": -2397.87
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4192.31,
+      "y": -2368.06
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4184.75,
+      "y": -2324.87
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4192.92,
+      "y": -2319.88
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4202.63,
+      "y": -2314.31
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4247.29,
+      "y": -2287.2
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -4247.29,
+      "y": -2287.2
+    }
+  ]
+}

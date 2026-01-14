@@ -1,55 +1,60 @@
 {
   "info": {
-    "name": "611纳塔火山安饶之野东北边缘（200_1）",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时59.08秒，包含以下怪物：1只丘丘水行游侠、1.5只幼突角龙、2.5只突角龙。",
-    "hash_res": "17393383",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时59.08秒，包含以下怪物：1只丘丘水行游侠、1.5只幼突角龙、2.5只突角龙。",
+    "enable_monster_loot_split": false,
+    "hash_res": "17393383",
+    "last_modified_time": 1768318234756,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "611纳塔火山安饶之野东北边缘（200_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 9522.31,
-      "y": -2216.06,
       "action": "force_tp",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 9522.31,
+      "y": -2216.0599999999995
     },
     {
-      "id": 2,
-      "x": 9528.35,
-      "y": -2218.44,
       "action": "stop_flying",
-      "move_mode": "fly",
       "action_params": "",
-      "type": "path"
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9528.35,
+      "y": -2218.4400000000005
     },
     {
-      "id": 3,
-      "x": 9546.65,
-      "y": -2226.94,
-      "type": "path",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "attack(0.5)"
+      "action_params": ";伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;attack(0.3)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9566.8740234375,
+      "y": -2234.279296875
     },
     {
-      "id": 4,
-      "x": 9547.64,
-      "y": -2253.9,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9547.64,
+      "y": -2253.8999999999996
     }
   ]
 }
