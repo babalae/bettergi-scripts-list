@@ -630,7 +630,7 @@ let checkInterval = +settings.checkInterval || 50;
                 "苦种": "1次0点刷新",
                 "烬芯花": "1次0点刷新"
             };
-
+            const runOnce = [];
             /* ---------- 3. 主循环 ---------- */
             while (priorityList.length > 0) {
 
@@ -729,7 +729,11 @@ let checkInterval = +settings.checkInterval || 50;
                 if (priorityList.length === 0) break;
 
                 /* 4-2 只跑最高效率路线 */
-                const candidateRoutes = allFiles.filter(f => f._priorityEff >= 0)
+                const candidateRoutes = allFiles
+                    .filter(f => {
+                        return f._priorityEff >= 0 &&
+                            !runOnce.includes(f.fileName);     // 本轮没跑过
+                    })
                     .sort((a, b) => b._priorityEff - a._priorityEff);
                 if (candidateRoutes.length === 0) {
                     log.info('已无可用优先路线（可能全部在CD或已达标），退出优先采集阶段');
@@ -780,6 +784,7 @@ let checkInterval = +settings.checkInterval || 50;
                     lastsettimeTime = new Date();
                 }
                 await fakeLog(fileName, false, true, 0);
+                runOnce.push(fileName);
 
                 /* ================================= */
                 log.info(`当前进度：执行路线 ${fileName}`);
@@ -842,78 +847,85 @@ let checkInterval = +settings.checkInterval || 50;
                 const timeDiff = new Date() - startTime;
                 let pathRes = isArrivedAtEndPoint(filePath);
 
-                // >>> 仅当 >3s 才更新 CD 并立即写回整条记录（含 history） <<<
-                if (timeDiff > 3000 && pathRes) {
-                    /* 1) 如果runPickupLog中不含优先材料，则按其他材料查找，使用最晚刷新时间 */
-                    let hasPriority = state.runPickupLog.some(name => priorityItemSet.has(name));
-                    let hitMaterials;
-                    if (hasPriority) {
-                        hitMaterials = [...new Set(state.runPickupLog.filter(n => priorityItemSet.has(n)))];
-                    } else {
-                        /* 非优先材料也按同一张表查CD */
-                        hitMaterials = [...new Set(state.runPickupLog)];
-                    }
-
-                    let latestCD = new Date(0);          // 初始极小值
-                    let foundAny = false;
-                    hitMaterials.forEach(name => {
-                        const cdType = materialCdMap[name] || "1次0点刷新";
-                        let tmpDate = new Date(startTime);
-                        switch (cdType) {
-                            case "1次0点刷新":
-                                tmpDate.setDate(tmpDate.getDate() + 1);
-                                tmpDate.setHours(0, 0, 0, 0);
-                                break;
-                            case "2次0点刷新":
-                                tmpDate.setDate(tmpDate.getDate() + 2);
-                                tmpDate.setHours(0, 0, 0, 0);
-                                break;
-                            case "3次0点刷新":
-                                tmpDate.setDate(tmpDate.getDate() + 3);
-                                tmpDate.setHours(0, 0, 0, 0);
-                                break;
-                            case "1次4点刷新":
-                                tmpDate.setHours(4, 0, 0, 0);
-                                if (tmpDate <= startTime) tmpDate.setDate(tmpDate.getDate() + 1);
-                                break;
-                            case "12小时刷新":
-                                tmpDate = new Date(startTime.getTime() + 12 * 60 * 60 * 1000);
-                                break;
-                            case "24小时刷新":
-                                tmpDate = new Date(startTime.getTime() + 24 * 60 * 60 * 1000);
-                                break;
-                            case "46小时刷新":
-                                tmpDate = new Date(startTime.getTime() + 46 * 60 * 60 * 1000);
-                                break;
-                            default:
-                                tmpDate.setDate(tmpDate.getDate() + 1);
-                                tmpDate.setHours(0, 0, 0, 0);
-                        }
-                        if (tmpDate > latestCD) latestCD = tmpDate;
-                        foundAny = true;
-                    });
-
-                    /* 兜底：没有任何材料被识别到，按1次0点刷新 */
-                    if (!foundAny) {
-                        latestCD = new Date(startTime);
-                        latestCD.setDate(latestCD.getDate() + 1);
-                        latestCD.setHours(0, 0, 0, 0);
-                    }
-
+                // >>> 仅当 >10s 才记录 history；若同时 pathRes === true 再更新 CD <<<
+                if (timeDiff > 10000) {
+                    /* ---------- 1. 先写 history（无条件） ---------- */
                     const durationSec = Math.round(timeDiff / 1000);
                     const itemCounter = {};
                     state.runPickupLog.forEach(n => { itemCounter[n] = (itemCounter[n] || 0) + 1; });
                     if (!targetObj.history) targetObj.history = [];
                     targetObj.history.push({ items: itemCounter, durationSec });
                     if (targetObj.history.length > 7) targetObj.history = targetObj.history.slice(-7);
-                    targetObj.cdTime = latestCD.toISOString();
-                    await file.writeText(recordFilePath,
-                        JSON.stringify(Array.from(cdMap.values()), null, 2));
 
+                    /* ---------- 2. 仅当 pathRes === true 才计算并更新 CD ---------- */
+                    if (pathRes) {
+                        /* 2-1 判定本次有没有优先材料 */
+                        const hasPriority = state.runPickupLog.some(name => priorityItemSet.has(name));
+                        let hitMaterials;
+                        if (hasPriority) {
+                            hitMaterials = [...new Set(state.runPickupLog.filter(n => priorityItemSet.has(n)))];
+                        } else {
+                            hitMaterials = [...new Set(state.runPickupLog)];
+                        }
+
+                        /* 2-2 按材料表取最晚 CD */
+                        let latestCD = new Date(0);
+                        let foundAny = false;
+                        hitMaterials.forEach(name => {
+                            const cdType = materialCdMap[name] || "1次0点刷新";
+                            let tmpDate = new Date(startTime);
+                            switch (cdType) {
+                                case "1次0点刷新":
+                                    tmpDate.setDate(tmpDate.getDate() + 1);
+                                    tmpDate.setHours(0, 0, 0, 0);
+                                    break;
+                                case "2次0点刷新":
+                                    tmpDate.setDate(tmpDate.getDate() + 2);
+                                    tmpDate.setHours(0, 0, 0, 0);
+                                    break;
+                                case "3次0点刷新":
+                                    tmpDate.setDate(tmpDate.getDate() + 3);
+                                    tmpDate.setHours(0, 0, 0, 0);
+                                    break;
+                                case "1次4点刷新":
+                                    tmpDate.setHours(4, 0, 0, 0);
+                                    if (tmpDate <= startTime) tmpDate.setDate(tmpDate.getDate() + 1);
+                                    break;
+                                case "12小时刷新":
+                                    tmpDate = new Date(startTime.getTime() + 12 * 60 * 60 * 1000);
+                                    break;
+                                case "24小时刷新":
+                                    tmpDate = new Date(startTime.getTime() + 24 * 60 * 60 * 1000);
+                                    break;
+                                case "46小时刷新":
+                                    tmpDate = new Date(startTime.getTime() + 46 * 60 * 60 * 1000);
+                                    break;
+                                default:
+                                    tmpDate.setDate(tmpDate.getDate() + 1);
+                                    tmpDate.setHours(0, 0, 0, 0);
+                            }
+                            if (tmpDate > latestCD) latestCD = tmpDate;
+                            foundAny = true;
+                        });
+
+                        /* 兜底：没有任何材料被识别到，按1次0点刷新 */
+                        if (!foundAny) {
+                            latestCD = new Date(startTime);
+                            latestCD.setDate(latestCD.getDate() + 1);
+                            latestCD.setHours(0, 0, 0, 0);
+                        }
+
+                        targetObj.cdTime = latestCD.toISOString();
+                    }
+
+                    /* ---------- 3. 统一写文件 & 清空日志 ---------- */
+                    await file.writeText(
+                        recordFilePath,
+                        JSON.stringify(Array.from(cdMap.values()), null, 2)
+                    );
                     await appendDailyPickup(state.runPickupLog);
                     state.runPickupLog = [];
                 }
-
             }
         }
         let loopattempts = 0;
@@ -1157,60 +1169,63 @@ let checkInterval = +settings.checkInterval || 50;
 
                             let pathRes = isArrivedAtEndPoint(filePath.fullPath);
 
-                            // >>> 仅当 >3s 才更新 CD 并立即写回整条记录（含 history） <<<
-                            if (timeDiff > 3000 && pathRes) {
-                                let newTimestamp = new Date(startTime);
-
-                                switch (currentCdType) {
-                                    case "1次0点刷新":
-                                        newTimestamp.setDate(newTimestamp.getDate() + 1);
-                                        newTimestamp.setHours(0, 0, 0, 0); break;
-                                    case "2次0点刷新":
-                                        newTimestamp.setDate(newTimestamp.getDate() + 2);
-                                        newTimestamp.setHours(0, 0, 0, 0); break;
-                                    case "3次0点刷新":
-                                        newTimestamp.setDate(newTimestamp.getDate() + 3);
-                                        newTimestamp.setHours(0, 0, 0, 0); break;
-                                    case "4点刷新":
-                                        newTimestamp.setHours(4, 0, 0, 0);
-                                        if (newTimestamp <= startTime) newTimestamp.setDate(newTimestamp.getDate() + 1); break;
-                                    case "12小时刷新":
-                                        newTimestamp = new Date(startTime.getTime() + 12 * 60 * 60 * 1000); break;
-                                    case "24小时刷新":
-                                        newTimestamp = new Date(startTime.getTime() + 24 * 60 * 60 * 1000); break;
-                                    case "46小时刷新":
-                                        newTimestamp = new Date(startTime.getTime() + 46 * 60 * 60 * 1000); break;
-                                    default:
-                                        newTimestamp = startTime; break;
-                                }
-
-                                // ===== 把本次拾取明细写进 history =====
+                            // >>> 仅当 >10s 才记录 history；若同时 pathRes === true 再更新 CD <<<
+                            if (timeDiff > 10000) {
+                                /* ---------- 1. 先写 history（无条件） ---------- */
                                 const durationSec = Math.round(timeDiff / 1000);
                                 const itemCounter = {};
                                 for (const name of state.runPickupLog) {
                                     itemCounter[name] = (itemCounter[name] || 0) + 1;
                                 }
-                                const logEntry = {
-                                    items: itemCounter,
-                                    durationSec: durationSec
-                                };
-                                if (!targetObj.history) targetObj.history = [];   // 兜底
+                                const logEntry = { items: itemCounter, durationSec };
+                                if (!targetObj.history) targetObj.history = [];
                                 targetObj.history.push(logEntry);
-                                // 保留最多 7 条记录，超出的旧记录丢弃
-                                if (targetObj.history.length > 7) {
-                                    targetObj.history = targetObj.history.slice(-7);
+                                if (targetObj.history.length > 7) targetObj.history = targetObj.history.slice(-7);
+
+                                /* ---------- 2. 仅当 pathRes === true 才计算并更新 CD ---------- */
+                                if (pathRes) {
+                                    let newTimestamp = new Date(startTime);
+                                    switch (currentCdType) {
+                                        case "1次0点刷新":
+                                            newTimestamp.setDate(newTimestamp.getDate() + 1);
+                                            newTimestamp.setHours(0, 0, 0, 0);
+                                            break;
+                                        case "2次0点刷新":
+                                            newTimestamp.setDate(newTimestamp.getDate() + 2);
+                                            newTimestamp.setHours(0, 0, 0, 0);
+                                            break;
+                                        case "3次0点刷新":
+                                            newTimestamp.setDate(newTimestamp.getDate() + 3);
+                                            newTimestamp.setHours(0, 0, 0, 0);
+                                            break;
+                                        case "4点刷新":
+                                            newTimestamp.setHours(4, 0, 0, 0);
+                                            if (newTimestamp <= startTime) newTimestamp.setDate(newTimestamp.getDate() + 1);
+                                            break;
+                                        case "12小时刷新":
+                                            newTimestamp = new Date(startTime.getTime() + 12 * 60 * 60 * 1000);
+                                            break;
+                                        case "24小时刷新":
+                                            newTimestamp = new Date(startTime.getTime() + 24 * 60 * 60 * 1000);
+                                            break;
+                                        case "46小时刷新":
+                                            newTimestamp = new Date(startTime.getTime() + 46 * 60 * 60 * 1000);
+                                            break;
+                                        default:
+                                            newTimestamp = startTime;
+                                            break;
+                                    }
+                                    targetObj.cdTime = newTimestamp.toISOString();
+                                    log.info(`本任务cd信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
                                 }
 
-                                // 只改 cdTime，其余字段（含 history）保持
-                                targetObj.cdTime = newTimestamp.toISOString();
-                                await file.writeText(recordFilePath,
-                                    JSON.stringify(Array.from(cdMap.values()), null, 2));
+                                /* ---------- 3. 统一写文件 & 清空日志 ---------- */
+                                await file.writeText(
+                                    recordFilePath,
+                                    JSON.stringify(Array.from(cdMap.values()), null, 2)
+                                );
                                 await appendDailyPickup(state.runPickupLog);
-
-                                // 清空本次记录
                                 state.runPickupLog = [];
-
-                                log.info(`本任务cd信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
                             }
                         }
                         log.info(`路径组${groupNumber} 的所有任务运行完成`);
@@ -2011,9 +2026,9 @@ async function appendDailyPickup(pickupLog) {
         if (txt) oldArr = JSON.parse(txt);
     } catch (_) { /* 文件不存在或解析失败 */ }
 
-    // 统一按 UTC+8 的 0 点划分日期
-    const utc8 = new Date(Date.now() + 8 * 3600_000);
-    const today = utc8.toISOString().slice(0, 10); // "YYYY-MM-DD"
+    // 统一按 UTC+8 的 4 点划分日期
+    const utc8_4am = new Date(Date.now() + 8 * 3600_000 - 4 * 3600_000);
+    const today = utc8_4am.toISOString().slice(0, 10); // "YYYY-MM-DD"
 
     let todayItem = oldArr.find(e => e.date === today);
     if (!todayItem) {
@@ -2026,8 +2041,8 @@ async function appendDailyPickup(pickupLog) {
         todayItems[name] = (todayItems[name] || 0) + 1;
     });
 
-    // 滑动窗口：只保留最近 MAX_PICKUP_DAYS 天
-    if (oldArr.length > MAX_PICKUP_DAYS) oldArr = oldArr.slice(-MAX_PICKUP_DAYS);
+    // 滑动窗口：只保留最新 MAX_PICKUP_DAYS 条
+    if (oldArr.length > MAX_PICKUP_DAYS) oldArr = oldArr.slice(0, MAX_PICKUP_DAYS);
 
     // 按日期倒序（最新在前）
     oldArr.sort((a, b) => b.date.localeCompare(a.date));
