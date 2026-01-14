@@ -171,7 +171,6 @@
       "action": "combat_script",
       "action_params": "keydown(w),wait(0.3),j,wait(0.7),j,wait(0.7),j,wait(1.2),j,",
       "id": 17,
-      "locked": false,
       "move_mode": "jump",
       "type": "orientation",
       "x": 9014.281739799715,
@@ -341,7 +340,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1)",
+      "action_params": "wait(1)",
       "id": 36,
       "move_mode": "dash",
       "type": "orientation",
@@ -395,7 +394,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1)",
+      "action_params": "wait(1)",
       "id": 42,
       "move_mode": "dash",
       "type": "orientation",

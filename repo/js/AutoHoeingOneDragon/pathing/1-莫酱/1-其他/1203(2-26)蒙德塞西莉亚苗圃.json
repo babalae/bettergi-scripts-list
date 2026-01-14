@@ -169,9 +169,18 @@
       "y": 2497.16943359375
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -346.146484375,
+      "y": 2497.16943359375
+    },
+    {
       "action": "stop_flying",
       "action_params": "1800",
-      "id": 17,
+      "id": 18,
       "move_mode": "fly",
       "type": "path",
       "x": -387.451171875,
@@ -180,17 +189,8 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 18,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -387.451171875,
-      "y": 2498.181640625
-    },
-    {
-      "action": "",
-      "action_params": "",
       "id": 19,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
       "x": -387.451171875,
       "y": 2498.181640625
@@ -201,20 +201,20 @@
       "id": 20,
       "move_mode": "dash",
       "type": "path",
+      "x": -387.451171875,
+      "y": 2498.181640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "dash",
+      "type": "path",
       "x": -411.302734375,
       "y": 2447.30859375
     },
     {
       "action": "fight",
-      "action_params": "",
-      "id": 21,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -406.892578125,
-      "y": 2421.5751953125
-    },
-    {
-      "action": "",
       "action_params": "",
       "id": 22,
       "move_mode": "dash",
@@ -228,13 +228,22 @@
       "id": 23,
       "move_mode": "dash",
       "type": "path",
+      "x": -406.892578125,
+      "y": 2421.5751953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "dash",
+      "type": "path",
       "x": -424.751953125,
       "y": 2444.62841796875
     },
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 24,
+      "id": 25,
       "move_mode": "fly",
       "type": "path",
       "x": -427.6796875,
@@ -243,7 +252,7 @@
     {
       "action": "combat_script",
       "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
-      "id": 25,
+      "id": 26,
       "move_mode": "dash",
       "type": "path",
       "x": -410.6875,
@@ -252,8 +261,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 26,
-      "locked": false,
+      "id": 27,
       "move_mode": "dash",
       "type": "path",
       "x": -426.09375,
@@ -262,7 +270,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 27,
+      "id": 28,
       "move_mode": "dash",
       "type": "orientation",
       "x": -426.09375,

@@ -1,152 +1,106 @@
 // 主逻辑
 (async function () {
     const name1 = "锄地路线测试";
-    // 调用 fakeLog 函数，输出 JavaScript 的结尾日志，耗时 1.234 秒
     const duration1 = 1234; // 1.234 秒
     await fakeLog(name1, true, false, duration1);
-    // 启用自动拾取的实时任务
-    log.info("启用自动拾取的实时任务");
-    dispatcher.addTimer(new RealtimeTimer("AutoPick"));
 
-    // 从自定义配置中获取 startRouteNumber，默认值为 1
-    const startRouteNumber = settings.startRouteNumber || 1;
+    if (settings.activatePickup) {
+        dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+    }
 
-    // 定义 pathing 文件夹路径
+    const startRouteNumber = +settings.startRouteNumber || 1;
     const pathingFolderPath = "pathing";
-
-    // 定义 result 文件夹路径
     const resultFolderPath = "records";
-
-    // 读取文件内容并解析为对象
     const fileInfo = file.readTextSync("assets/info.json");
     const infoData = JSON.parse(fileInfo);
 
     if (!settings.doTest) {
-        // 在 for 循环之前获取一次时间,用于命名记录文件
         const startTime = new Date();
-        const formattedStartTime = startTime.toISOString().replace(/[^0-9]/g, ''); // 去掉所有非数字的字符
-
+        const formattedStartTime = startTime.toISOString().replace(/[^0-9]/g, '');
         const recordFileName = `${formattedStartTime}.json`;
+        const recordFilePath = resultFolderPath + '/' + recordFileName;
 
-        const recordFilePath = resultFolderPath + '/' + recordFileName; // 使用字符串拼接
-
-        // 读取 pathing 文件夹中的所有文件路径
         const routes = await readFolder(pathingFolderPath, true);
-
-        let Mora = -1; // 初始化为 -1，表示失败
-        let attempts = 0; // 初始化尝试次数
-
+        let i = startRouteNumber - 2;
+        let Mora = -1;
+        let attempts = 0;
         while (attempts < 5) {
-            const result = await mora(); // 调用 mora() 获取结果
+            const result = await mora();
             if (result !== null) {
-                Mora = parseInt(result.match(/\d+/g).join(''), 10); // 处理结果并赋值
-                break; // 成功获取后退出循环
+                Mora = parseInt(result.match(/\d+/g).join(''), 10);
+                break;
             }
-            attempts++; // 增加尝试次数
+            attempts++;
             log.warn(`获取的 mora 值为 null，尝试次数 ${attempts}/5，重新获取...`);
         }
+        if (Mora === -1) log.warn('尝试 5 次后仍未获取到有效的 mora 值，记为 -1');
 
-        if (Mora === -1) {
-            log.warn('尝试 5 次后仍未获取到有效的 mora 值，记为 -1');
-        }
-
-
-        // 在循环前获取初始的怪物数量信息
         let MonsterInfo = await getMonsterCounts();
-
         let routeTime = new Date();
 
 
-
-        // 遍历 routes 数组，处理每个文件的 fullPath
-        for (let i = startRouteNumber - 1; i < routes.length; i++) {
+        for (let k = 1; k < routes.length + 1; k++) {
+            i++;
+            if ((i + 1) === (+settings.endRouteNumber)) {
+                break;
+            }
             await genshin.tpToStatueOfTheSeven();
-            const route = routes[i];
+            if (settings.underwater) {
+                await pathingScript.runFile("assets/学习螃蟹技能.json");
+            }
+            const route = routes[i % routes.length];
             log.info(`完整路径：${route.fullPath}`);
 
-            // 初始化 expectMora, eliteNum 和 normalNum
             route.expectMora = 0;
             route.eliteNum = 0;
             route.normalNum = 0;
 
-            // 输出地图追踪开始的日志
-            const duration2 = 0; // 地图追踪开始时，耗时为 0
+            const duration2 = 0;
             await fakeLog(route.fullPath, false, true, duration2);
-
             routeTime = new Date();
+            log.info(`这是第 ${(i % routes.length) + 1}条路线：${route.fullPath}`);
+            settings.startRouteNumber = (i % routes.length) + 2
 
-            log.info(`这是第 ${i + 1}条路线：${route.fullPath}`)
-
-            // 执行路线文件
             await pathingScript.runFile(route.fullPath);
 
-            // 再次获取当前时间
-            let newDate = new Date();
-
-            // 计算时间差（以秒为单位）
+            const newDate = new Date();
             const timeDiffInSeconds = (newDate - routeTime) / 1000;
-
-            // 将时间差添加到对应 routes 中的 routeTime 子项
             route.routeTime = timeDiffInSeconds;
 
-            // 调用 fakeLog 函数，输出地图追踪结束的日志，耗时 5.000 秒
-            const duration3 = 5000; // 5.000 秒
+            const duration3 = 5000;
             await fakeLog(route.fullPath, false, false, duration3);
 
-            try {
-                await sleep(10);
-            } catch (error) {
-                log.error(`运行中断: ${error}`);
-                break;
-            }
+            try { await sleep(10); } catch (error) { log.error(`运行中断: ${error}`); break; }
 
-            // 再次获取怪物数量信息
-            let currentMonsterInfo = await getMonsterCounts();
-
+            const currentMonsterInfo = await getMonsterCounts();
             const monsterDifferences = {};
             for (const monster in currentMonsterInfo) {
-                // 检查当前怪物数量或初始怪物数量是否为 -1
                 if (currentMonsterInfo[monster] !== MonsterInfo[monster] &&
                     currentMonsterInfo[monster] !== -1 &&
                     MonsterInfo[monster] !== -1) {
                     monsterDifferences[monster] = currentMonsterInfo[monster] - MonsterInfo[monster];
                 }
             }
-
-            // 将不为 0 且不涉及 -1 的怪物及其数量添加到对应 routes 中的 monsterNum 子项
             route.monsterNum = monsterDifferences;
-
-
-            // 更新 MonsterInfo 为当前的怪物数量信息，以便下一次循环使用
             MonsterInfo = currentMonsterInfo;
 
-            let currentMora = -1; // 初始化为 -1，表示失败
-            attempts = 0; // 初始化尝试次数
-
+            let currentMora = -1;
+            attempts = 0;
             while (attempts < 5) {
-                const result = await mora(); // 调用 mora() 获取结果
+                const result = await mora();
                 if (result !== null) {
-                    currentMora = parseInt(result.match(/\d+/g).join(''), 10); // 处理结果并赋值
-                    break; // 成功获取后退出循环
+                    currentMora = parseInt(result.match(/\d+/g).join(''), 10);
+                    break;
                 }
-                attempts++; // 增加尝试次数
+                attempts++;
                 log.warn(`获取的 mora 值为 null，尝试次数 ${attempts}/5，重新获取...`);
             }
+            if (Mora === -1) log.warn('尝试 5 次后仍未获取到有效的 mora 值，记为 -1');
 
-            if (Mora === -1) {
-                log.warn('尝试 5 次后仍未获取到有效的 mora 值，记为 -1');
-            }
-
-            // 计算摩拉数量的差值
             const moraDiff = currentMora - Mora;
-
-            // 将摩拉数量的差值添加到对应 routes 中的 moraDiff 子项
             route.moraDiff = moraDiff;
-
-            // 更新 Mora 为当前的摩拉数量，以便下一次循环使用
             Mora = currentMora;
 
-            // 处理怪物数量信息
             for (const [monsterName, count] of Object.entries(route.monsterNum)) {
                 const monsterInfo = infoData.find(item => item.name === monsterName);
                 if (monsterInfo) {
@@ -160,10 +114,7 @@
                 }
             }
 
-            // 将已经运行过的 routes 写入记录文件
-            let recordContent = JSON.stringify(routes.slice(startRouteNumber - 1, i + 1), null, 2);
-            log.debug(recordContent);
-            // 将文件名写入记录文件
+            const recordContent = JSON.stringify(routes.slice(startRouteNumber - 1, i + 1), null, 2);
             try {
                 await file.writeText(recordFilePath, recordContent);
                 log.info(`记录文件已写入 ${recordFilePath}`);
@@ -173,72 +124,60 @@
             await sleep(1000);
         }
     } else {
-        // 在 else 分支中读取 records 文件夹中的文件
         log.info("doTest 设置为 false，读取 records 文件夹中的文件");
 
-        // 读取 pathing 文件夹中的所有文件路径
-        const pathingFolderPath = "pathing";
         const routes = await readFolder(pathingFolderPath, true);
         log.info(`找到 ${routes.length} 个路径文件`);
-
-        // 读取 records 文件夹中的所有文件路径
-        const recordsFolderPath = "records";
-        const records = await readFolder(recordsFolderPath, true);
+        const records = await readFolder("records", true);
         log.info(`找到 ${records.length} 个记录文件`);
 
-        // 创建一个对象来存储每个 fullPath 的最近五次记录
-        const recordMap = {};
+        const recordMap = {}; // 🔥 文件名匹配
 
-        // 遍历读取到的记录文件路径
         for (const record of records) {
             log.info(`处理文件：${record.fullPath}`);
-
             try {
-                // 读取文件内容
                 const fileContent = file.readTextSync(record.fullPath);
-                log.info(`文件内容：${fileContent}`);
-
-                // 解析文件内容
                 const jsonData = JSON.parse(fileContent);
+                const filtered = jsonData.filter(r => {
+                    if (r.routeTime < 10) {
+                        log.warn(`过滤异常记录: ${r.fullPath} | 用时=${r.routeTime}s（<10s）`);
+                        return false;
+                    }
+                    if (r.monsterNum && typeof r.monsterNum === 'object') {
+                        for (const [k, v] of Object.entries(r.monsterNum)) {
+                            if (typeof v !== 'number' || v < 0 || v > 50) {
+                                log.warn(`修正异常数量: ${r.fullPath} | ${k}: ${v} → 0`);
+                                r.monsterNum[k] = 0;
+                            }
+                        }
+                        const nums = Object.values(r.monsterNum);
+                        if (nums.length && nums.every(c => c === 0)) {
+                            log.warn(`过滤全零记录: ${r.fullPath}`);
+                            return false;
+                        }
+                    }
+                    return true;
+                });
 
-                // 如果 jsonData 是一个数组，遍历数组中的每一项
-                if (Array.isArray(jsonData)) {
-                    for (const entry of jsonData) {
-                        // 提取需要的信息
-                        // 逐项解析
-                        const fullPath = entry.fullPath;
-                        const monsterNum = entry.monsterNum;
-                        const moraDiff = entry.moraDiff;
-                        const routeTime = entry.routeTime;
-                        const expectMora = entry.expectMora;
-                        const normalNum = entry.normalNum;
-                        const eliteNum = entry.eliteNum;
-                        // 如果 fullPath 不存在或为空，跳过该记录
-                        if (!fullPath) {
-                            log.warn(`文件 ${record.fileName} 中的 fullPath 不存在或为空，跳过该记录`);
+                if (Array.isArray(filtered)) {
+                    for (const entry of filtered) {
+                        const fileName = entry.fullPath.split('\\').pop(); // 🔥 文件名匹配
+                        if (!fileName) {
+                            log.warn(`fileName 为空，跳过该记录`);
                             continue;
                         }
-
-                        // 如果 recordMap 中没有这个 fullPath，初始化一个数组
-                        if (!recordMap[fullPath]) {
-                            recordMap[fullPath] = [];
-                        }
-
-                        // 将当前记录添加到数组中
-                        recordMap[fullPath].push({
-                            fullPath,
-                            monsterNum,
-                            moraDiff,
-                            routeTime,
-                            expectMora,
-                            normalNum,
-                            eliteNum
+                        if (!recordMap[fileName]) recordMap[fileName] = []; // 🔥 文件名匹配
+                        recordMap[fileName].push({
+                            fullPath: entry.fullPath,
+                            fileName, // 🔥 文件名匹配
+                            monsterNum: entry.monsterNum,
+                            moraDiff: entry.moraDiff,
+                            routeTime: entry.routeTime,
+                            expectMora: entry.expectMora,
+                            normalNum: entry.normalNum,
+                            eliteNum: entry.eliteNum
                         });
-
-                        // 确保每个 fullPath 的记录不超过七次
-                        if (recordMap[fullPath].length > 7) {
-                            recordMap[fullPath].shift(); // 移除最早的记录
-                        }
+                        if (recordMap[fileName].length > 7) recordMap[fileName].shift(); // 🔥 文件名匹配
                     }
                 } else {
                     log.warn(`文件 ${record.fileName} 的内容不是数组，跳过该文件`);
@@ -248,104 +187,62 @@
             }
         }
 
-        // 对 recordMap 中的每个 fullPath 进行处理
         const finalRecords = [];
-        for (const fullPath in recordMap) {
-            const records = recordMap[fullPath];
-
-            // 对每个字段分别处理
+        for (const fileName in recordMap) { // 🔥 文件名匹配
+            const records = recordMap[fileName]; // 🔥 文件名匹配
             const fields = ["routeTime"];
-            const processedRecord = { fullPath, records: {} };
+            const processedRecord = { fileName, records: {} }; // 🔥 文件名匹配
 
-            // 处理数值字段
-            fields.forEach(field => {
-                // 提取每个记录的字段值
-                const values = records.map(record => record[field]);
-
-                // 剔除小于等于 0 的项
-                const positiveValues = values.filter(val => val > 0);
-
-                // 如果过滤后的数组长度为 0，设置结果为 0
-                if (positiveValues.length === 0) {
-                    processedRecord.records[field] = 0;
-                } else if (positiveValues.length < 5) {
-                    // 如果记录数量小于五个，直接取平均值并保留两位小数
-                    processedRecord.records[field] = parseFloat((positiveValues.reduce((sum, val) => sum + val, 0) / positiveValues.length).toFixed(2));
+            // =================  1. routeTime：只认 >10 秒  =================
+            {
+                const values = records
+                    .map(r => r.routeTime)
+                    .filter(v => typeof v === 'number' && v > 10);   // 🔥 只要 >10 秒
+                if (values.length === 0) {
+                    processedRecord.records.routeTime = 0;
                 } else {
-                    // 如果记录数量大于等于五个，去除一个最大值和一个最小值，取平均值并保留两位小数
-                    let maxVal = Math.max(...positiveValues);
-                    let minVal = Math.min(...positiveValues);
-
-                    // 去掉一个最大值和一个最小值
-                    const filteredValues = positiveValues.filter(val => {
-                        if (val === maxVal) {
-                            maxVal = null; // 确保只去掉一个最大值
-                            return false;
-                        }
-                        if (val === minVal) {
-                            minVal = null; // 确保只去掉一个最小值
-                            return false;
-                        }
-                        return true;
-                    });
-
-                    // 计算平均值并保留两位小数
-                    processedRecord.records[field] = parseFloat((filteredValues.reduce((sum, val) => sum + val, 0) / filteredValues.length).toFixed(2));
+                    values.sort((a, b) => a - b);
+                    const mid = Math.floor(values.length / 2);
+                    processedRecord.records.routeTime = parseFloat(
+                        (values.length % 2 === 0
+                            ? (values[mid - 1] + values[mid]) / 2
+                            : values[mid]).toFixed(2)
+                    );
                 }
-            });
+            }
 
-            // 处理 monsterNum 字段
-            const allMonsters = records.flatMap(record => Object.keys(record.monsterNum));
-            const uniqueMonsters = [...new Set(allMonsters)];
+            // =================  2. monsterNum：0-40 只，缺项当 0  =================
             processedRecord.records.monsterNum = {};
 
-            uniqueMonsters.forEach(monster => {
-                // 提取每个怪物的数量，并将缺失或小于 0 的值视为 0
-                const counts = records.map(record => {
-                    const count = record.monsterNum[monster];
-                    return count > 0 ? count : 0; // 如果小于或等于 0，视为 0
-                });
+            // 所有出现过的怪物名
+            const allMonsters = [...new Set(records.flatMap(r => Object.keys(r.monsterNum || {})))];
 
-                // 如果所有记录中的数量都是 0，跳过该怪物
-                if (counts.every(count => count === 0)) {
-                    return;
-                }
+            allMonsters.forEach(monster => {
+                // 逐条采样：没写就按 0 算
+                const values = records
+                    .map(r => {
+                        const v = r.monsterNum?.[monster];   // 可能为 undefined
+                        const num = typeof v === 'number' ? v : 0; // 没写→0
+                        return num >= 0 && num <= 40 ? num : NaN;  // 超界当 NaN 扔
+                    })
+                    .filter(v => !isNaN(v))                 // 只保留 0-40 的采样
+                    .sort((a, b) => a - b);
 
-                // 如果记录总数大于等于 5，依次去除最大值和最小值，直到记录总数小于 5
-                let removeMax = true; // 控制去除最大值或最小值
-                while (counts.length >= 5) {
-                    if (removeMax) {
-                        // 去掉一个最大值
-                        const maxCount = Math.max(...counts);
-                        counts.splice(counts.indexOf(maxCount), 1);
-                    } else {
-                        // 去掉一个最小值
-                        const minCount = Math.min(...counts);
-                        counts.splice(counts.indexOf(minCount), 1);
-                    }
-                    // 切换去除最大值或最小值的标志
-                    removeMax = !removeMax;
-                }
+                if (values.length === 0) return;          // 全部超界才真的跳过
+                const mid = Math.floor(values.length / 2);
+                const median = parseFloat(
+                    (values.length % 2 === 0
+                        ? (values[mid - 1] + values[mid]) / 2
+                        : values[mid]).toFixed(2)
+                );
 
-                // 计算平均值并保留两位小数
-                const average = parseFloat((counts.reduce((sum, val) => sum + val, 0) / counts.length).toFixed(2));
-
-                // 如果平均值小于等于 0 或无意义，跳过该怪物
-                if (average <= 0) {
-                    return;
-                }
-
-                // 记录平均值
-                processedRecord.records.monsterNum[monster] = average;
+                // 中位数>0 才写，避免全是 0 还占字段
+                if (median > 0) processedRecord.records.monsterNum[monster] = median;
             });
 
-
-
-            // 使用处理后的 monsterNum 数据计算其他相关数值字段
             processedRecord.records.normalNum = 0;
             processedRecord.records.eliteNum = 0;
             processedRecord.records.expectMora = 0;
-
             for (const [monsterName, count] of Object.entries(processedRecord.records.monsterNum)) {
                 const monsterInfo = infoData.find(item => item.name === monsterName);
                 if (monsterInfo) {
@@ -358,79 +255,69 @@
                     }
                 }
             }
-
-            // 将处理后的记录添加到最终结果中
             finalRecords.push(processedRecord);
         }
 
-        // 初始化计数器
-        let totalRoutes = routes.length;
         let matchedCount = 0;
         let unmatchedCount = 0;
-
-        // 遍历 finalRecords，更新 description 字段
-        for (const record of finalRecords) {
-            const { fullPath, records } = record;
-
-            // 检查 fullPath 是否在 routes 中
-            const route = routes.find(route => route.fullPath === fullPath);
-
+        for (const { fileName, records } of finalRecords) { // 🔥 文件名匹配
+            const route = routes.find(r => r.fileName === fileName); // 🔥 文件名匹配
             if (!route) {
-                log.warn(`文件 ${fullPath} 不在 routes 中，跳过处理`);
+                log.warn(`未找到文件名对应的路线: ${fileName}`); // 🔥 文件名匹配
                 unmatchedCount++;
                 continue;
             }
-
-            // 读取文件内容
-            const fileContent = file.readTextSync(fullPath);
+            const fileContent = file.readTextSync(route.fullPath);
             const jsonData = JSON.parse(fileContent);
-
-            // 构建新的 description 内容
-            const {
-                routeTime,
-                expectMora,
-                normalNum,
-                eliteNum,
-                monsterNum
-            } = records;
-
-            // 生成怪物描述
-            let monsterDescription = Object.entries(monsterNum)
-                .map(([monster, count]) => `${count}只${monster}`)
+            const { routeTime, expectMora, normalNum, eliteNum, monsterNum } = records;
+            const refCount = recordMap[fileName] ? recordMap[fileName].length : 0; // 🔥 文件名匹配
+            const monsterDescription = Object.entries(monsterNum)
+                .map(([m, c]) => `${c}只${m}`)
                 .join('、');
-
             let newDescription;
-
             if (eliteNum === 0 && normalNum === 0) {
-                // 如果精英和小怪数量都为 0
                 newDescription = `  路线信息：该路线预计用时${routeTime}秒，该路线不含任何精英或小怪。`;
             } else {
                 newDescription = `  路线信息：该路线预计用时${routeTime}秒，包含以下怪物：${monsterDescription}。`;
             }
-
             jsonData.info.description = `${newDescription}`;
-
-            // 将更新后的内容写回文件
-            // 替换第一个出现的 pathing 为 pathingOut
-            const modifiedFullPath = fullPath.replace("pathing", "pathingOut");
-            log.info(modifiedFullPath);
-            // 写入文件
+            const targetFolder = refCount > 3 ? 'pathingOut' : 'pathingToCheck';
+            const modifiedFullPath = route.fullPath.replace('pathing', targetFolder);
             await file.writeTextSync(modifiedFullPath, JSON.stringify(jsonData, null, 2));
-            log.info(`文件 ${fullPath} 的 description 已更新`);
-
+            log.info(`文件 ${route.fullPath} 的 description 已更新，本次共参考 ${refCount} 份历史记录`);
+            if (refCount <= 3) log.warn('参考记录少于等于 3 份，可信度较低，输出到 pathingToCheck 目录');
             matchedCount++;
         }
-
-        // 输出最终统计信息
-        log.info(`总路径文件数：${totalRoutes}`);
+        log.info(`总路径文件数：${routes.length}`);
         log.info(`成功匹配并修改的文件数：${matchedCount}`);
         log.info(`未匹配的记录数：${unmatchedCount}`);
     }
 
-    // 调用 fakeLog 函数，输出 JavaScript 开始的日志
-    const duration4 = 0; // JS 开始时，耗时为 0
+    const duration4 = 0;
     await fakeLog(name1, true, true, duration4);
 })();
+
+async function readFolder(folderPath, onlyJson) {
+    const folderStack = [folderPath];
+    const files = [];
+    while (folderStack.length > 0) {
+        const currentPath = folderStack.pop();
+        const filesInSubFolder = file.ReadPathSync(currentPath);
+        const subFolders = [];
+        for (const filePath of filesInSubFolder) {
+            if (file.IsFolder(filePath)) {
+                subFolders.push(filePath);
+            } else {
+                if (onlyJson && !filePath.endsWith('.json')) continue;
+                const fileName = filePath.split('\\').pop();
+                const folderPathArray = filePath.split('\\').slice(0, -1);
+                files.push({ fullPath: filePath, fileName, folderPathArray });
+            }
+        }
+        folderStack.push(...subFolders.reverse());
+    }
+    return files;
+}
 
 async function readFolder(folderPath, onlyJson) {
     log.info(`开始读取文件夹：${folderPath}`);
@@ -488,174 +375,211 @@ async function readFolder(folderPath, onlyJson) {
 }
 
 async function getMonsterCounts() {
+    let failcount = 0;
     /* 0. 读取怪物列表 */
     const raw = file.readTextSync('assets/info.json');
     const monsterList = JSON.parse(raw).map(it => it.name);
     const monsterCounts = {};
 
-    /* 1. 外层循环：最多 3 次进入生物志 */
-    let attempt = 0;
-    while (attempt < 3) {
-        attempt++;
-        log.info(`第 ${attempt} 次尝试进入生物志`);
-        await genshin.returnMainUi();
-        keyPress('VK_ESCAPE');
-        await sleep(1500);
+    /* 外层重试：最多 3 轮 */
+    for (let round = 1; round <= 3; round++) {
+        log.info(`===== 第 ${round} 轮获取怪物数量 =====`);
 
-        const archiveTpl = RecognitionObject.TemplateMatch(
-            file.readImageMatSync('assets/RecognitionObject/图鉴.png'), 0, 0, 1920, 1080);
-        if (!(await findAndClick(archiveTpl))) continue;
+        /* 1. 外层循环：最多 3 次进入生物志 */
+        let attempt = 0;
+        while (attempt < 3) {
+            attempt++;
+            log.info(`第 ${attempt} 次尝试进入生物志`);
+            await genshin.returnMainUi();
+            keyPress('VK_ESCAPE');
+            await sleep(1500);
 
-        const faunaTpl = RecognitionObject.TemplateMatch(
-            file.readImageMatSync('assets/RecognitionObject/生物志.png'), 0, 0, 1920, 1080);
-        if (!(await findAndClick(faunaTpl))) continue;
+            const archiveTpl = RecognitionObject.TemplateMatch(
+                file.readImageMatSync('assets/RecognitionObject/图鉴.png'), 0, 0, 1920, 1080);
+            if (!(await findAndClick(archiveTpl))) continue;
 
-        click(1355, 532);
-        await sleep(2000);
-        break;
-    }
-    if (attempt >= 3) {
-        log.error('连续 3 次无法进入生物志，脚本终止');
-        await genshin.returnMainUi();
-        return {};
-    }
+            const faunaTpl = RecognitionObject.TemplateMatch(
+                file.readImageMatSync('assets/RecognitionObject/生物志.png'), 0, 0, 1920, 1080);
+            if (!(await findAndClick(faunaTpl))) continue;
 
-    /* ===== 工具函数 ===== */
-    async function findAndClick(target, maxAttempts = 20) {
-        for (let attempts = 0; attempts < maxAttempts; attempts++) {
-            const gameRegion = captureGameRegion();
-            try {
-                const result = gameRegion.find(target);
-                if (result.isExist()) {
-                    result.click();
-                    return true;                 // 成功立刻返回
+            click(1355, 532);
+            await sleep(2000);
+            break;
+        }
+        if (attempt >= 3) {
+            log.error('连续 3 次无法进入生物志，脚本终止');
+            await genshin.returnMainUi();
+            return {};
+        }
+
+        /* ===== 工具函数 ===== */
+        async function findAndClick(target, maxAttempts = 100) {
+            for (let attempts = 0; attempts < maxAttempts; attempts++) {
+                const gameRegion = captureGameRegion();
+                try {
+                    const result = gameRegion.find(target);
+                    if (result.isExist()) {
+                        result.click();
+                        return true;                 // 成功立刻返回
+                    }
+                } catch (err) {
+                } finally {
+                    gameRegion.dispose();
                 }
-            } catch (err) {
-            } finally {
-                gameRegion.dispose();
-            }
-            if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
-                await sleep(50);
-            }
-        }
-        //log.error("已达到重试次数上限，仍未找到目标");
-        return false;
-    }
-
-    async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
-        moveMouseTo(400, 750); // 移动到屏幕水平中心，垂直750坐标
-        await sleep(50);
-        leftButtonDown();
-
-        // 计算滚动方向和总步数
-        const isDownward = totalDistance < 0; // 如果totalDistance为负数，则向下滑动
-        const steps = Math.ceil(Math.abs(totalDistance) / stepDistance); // 使用绝对值计算步数
-
-        for (let j = 0; j < steps; j++) {
-            const remainingDistance = Math.abs(totalDistance) - j * stepDistance;
-            const moveDistance = remainingDistance < stepDistance ? remainingDistance : stepDistance;
-
-            // 根据滚动方向调整移动方向
-            const direction = isDownward ? 1 : -1; // 向下滑动为正方向，向上滑动为负方向
-            moveMouseBy(0, 1.2 * direction * moveDistance); // 根据方向调整滚动方向
-            await sleep(delayMs);
-        }
-
-        await sleep(200);
-        leftButtonUp();
-        await sleep(500);
-    }
-
-    async function readKillCount(maxTry = 5) {
-        const ocrObj = RecognitionObject.Ocr(865, 980, 150, 50);
-        for (let t = 0; t < maxTry; t++) {
-            const region = captureGameRegion();
-            const results = region.findMulti(ocrObj);
-            region.dispose();
-
-            for (let i = 0; i < results.count; i++) {
-                const str = results[i].text.trim();
-                // 必须是纯数字
-                if (/^\d+$/.test(str)) {
-                    return { success: true, count: parseInt(str, 10) };
+                if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
+                    await sleep(50);
                 }
             }
-            if (t < maxTry - 1) await sleep(200); // 最后一次不重试
+            //log.error("已达到重试次数上限，仍未找到目标");
+            return false;
         }
-        return { success: false, count: -1 };
-    }
 
-    async function readKillCountStable(prevCount, sameTolerance = 5) {
-        let lastCount = -1;
-        for (let r = 0; r < sameTolerance; r++) {
-            await sleep(50 * r);
-            //log.info(`执行第${r}次ocr`)
-            const ocrRet = await readKillCount(5);
-            if (!ocrRet.success) break;              // 真的读不到数字就放弃
-            lastCount = ocrRet.count;
+        async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
+            moveMouseTo(400, 750); // 移动到屏幕水平中心，垂直750坐标
+            await sleep(50);
+            leftButtonDown();
 
-            if (lastCount !== prevCount) return { success: true, count: lastCount }; // 变了→成功
-        }
-        // 3 次仍相同→返回最后一次相同值
-        return { success: true, count: lastCount };
-    }
+            // 计算滚动方向和总步数
+            const isDownward = totalDistance < 0; // 如果totalDistance为负数，则向下滑动
+            const steps = Math.ceil(Math.abs(totalDistance) / stepDistance); // 使用绝对值计算步数
 
+            for (let j = 0; j < steps; j++) {
+                const remainingDistance = Math.abs(totalDistance) - j * stepDistance;
+                const moveDistance = remainingDistance < stepDistance ? remainingDistance : stepDistance;
 
-    async function findMonsterIcon(monsterId, iconRetry = 3) {
-        const tpl = RecognitionObject.TemplateMatch(
-            file.readImageMatSync(`assets/monster/${monsterId.trim()}.png`), 130, 80, 670, 970);
-        let pageTurnsUp = 0;
-        while (pageTurnsUp < 1) {
-            let pageTurns = 0;
-            while (pageTurns < 2) {
-                //log.info("执行一次模板识别");
-                if (await findAndClick(tpl, iconRetry)) return true;
-                await scrollPage(300);
-                pageTurns++;
+                // 根据滚动方向调整移动方向
+                const direction = isDownward ? 1 : -1; // 向下滑动为正方向，向上滑动为负方向
+                moveMouseBy(0, 1.2 * direction * moveDistance); // 根据方向调整滚动方向
+                await sleep(delayMs);
             }
-            for (let j = 0; j < 2; j++) {
-                await scrollPage(-300);
+
+            await sleep(300);
+            leftButtonUp();
+            await sleep(1000);
+        }
+
+        async function readKillCount(maxTry = 10) {
+            const ocrObj = RecognitionObject.Ocr(865, 980, 150, 50);
+            for (let t = 0; t < maxTry; t++) {
+                const region = captureGameRegion();
+                const results = region.findMulti(ocrObj);
+                region.dispose();
+
+                for (let i = 0; i < results.count; i++) {
+                    const str = results[i].text.trim();
+                    // 必须是纯数字
+                    if (/^\d+$/.test(str)) {
+                        return { success: true, count: parseInt(str, 10) };
+                    }
+                }
+                if (t < maxTry - 1) await sleep(25); // 最后一次不重试
             }
-            pageTurnsUp++;
+            return { success: false, count: -1 };
         }
-        return false;
+
+        async function readKillCountStable(prevCount, sameTolerance = 5) {
+            let lastCount = -1;
+            for (let r = 0; r < sameTolerance; r++) {
+                await sleep(50 * r);
+                //log.info(`执行第${r}次ocr`)
+                const ocrRet = await readKillCount();
+                if (!ocrRet.success) break;              // 真的读不到数字就放弃
+                lastCount = ocrRet.count;
+
+                if (lastCount !== prevCount) return { success: true, count: lastCount }; // 变了→成功
+            }
+            // 3 次仍相同→返回最后一次相同值
+            return { success: true, count: lastCount };
+        }
+
+
+        async function findMonsterIcon(monsterId, iconRetry = 3) {
+            const tpl = RecognitionObject.TemplateMatch(
+                file.readImageMatSync(`assets/monster/${monsterId.trim()}.png`), 130, 80, 670, 970);
+            let pageTurnsUp = 0;
+            while (pageTurnsUp < 1) {
+                let pageTurns = 0;
+                while (pageTurns < 2) {
+                    //log.info("执行一次模板识别");
+                    if (await findAndClick(tpl, iconRetry)) return true;
+                    await scrollPage(400);
+                    pageTurns++;
+                }
+                for (let j = 0; j < 2; j++) {
+                    await scrollPage(-370);
+                }
+                pageTurnsUp++;
+            }
+            return false;
+        }
+
+        /* ===== 主循环 ===== */
+        let prevCount = -1;          // 上一轮 OCR 结果
+        let retryMask = 0;           // 位掩码：第 i 位为 1 表示已回退过
+        let prevFinalCount = -1;   // 上一只怪物的最终击杀数
+        let continuousFail = 0;    // 连续 -1 计数器（新增）
+
+        for (let i = 0; i < monsterList.length; i++) {
+            const monsterId = monsterList[i];
+            let time0 = new Date();
+            /* 1. 找怪 + OCR */
+            if (!(await findMonsterIcon(monsterId, 3))) {
+                log.info(`怪物: ${monsterId.trim()}, 未找到图标`);
+                failcount++;
+                if (failcount >= 10) {
+                    break;
+                }
+                monsterCounts[monsterId.trim()] = -1;
+                prevCount = -1;                 // 重置
+                continuousFail++;               // 新增
+                if (continuousFail >= 7) {      // 新增
+                    log.warn('连续 7 个怪物获取失败，中断本轮');
+                    break;                      // 新增：中断本轮
+                }
+                continue;
+            }
+            let time1 = new Date();
+            //log.info(`寻找图标用时${time1 - time0}`);
+            /* 2. OCR：与上一只结果比较，原地重试 3 次 */
+            const ocr = await readKillCountStable(prevFinalCount, 3);
+            const count = ocr.success ? ocr.count : -1;
+            let time2 = new Date();
+            //log.info(`ocr用时${time2 - time1}`);
+            /* 2. 结果相同且本行还没回退过 → 回退一次 */
+            if (count === prevCount && !(retryMask & (1 << i))) {
+                retryMask |= (1 << i);          // 标记已回退
+                i--;                            // 回退同一 i 一次
+                continue;
+            }
+
+            /* 3. 正常记录 */
+            monsterCounts[monsterId.trim()] = count;
+            log.info(`怪物: ${monsterId.trim()}, 数量: ${count}`);
+            prevCount = count;
+            prevFinalCount = count;   // 记录本次最终值，供下一只比对
+
+            /* 新增：连续失败计数更新 */
+            if (count === -1) {
+                continuousFail++;
+                if (continuousFail >= 7) {
+                    log.warn('连续 7 个怪物获取失败，中断本轮');
+                    break;
+                }
+            } else {
+                continuousFail = 0;   // 成功就清零
+            }
+        }
+
+        /* 本轮结束判定：如果中途没有因“7连失败”跳出，则认为成功 */
+        if (continuousFail < 7) {
+            log.info('所有怪物数量获取完成');
+            return monsterCounts;
+        }
+        /* 否则 continuousFail >=7，自动进入下一轮重试 */
     }
 
-    /* ===== 主循环 ===== */
-    let prevCount = -1;          // 上一轮 OCR 结果
-    let retryMask = 0;           // 位掩码：第 i 位为 1 表示已回退过
-    let prevFinalCount = -1;   // 上一只怪物的最终击杀数
-
-    for (let i = 0; i < monsterList.length; i++) {
-        const monsterId = monsterList[i];
-        let time0 = new Date();
-        /* 1. 找怪 + OCR */
-        if (!(await findMonsterIcon(monsterId, 3))) {
-            log.info(`怪物: ${monsterId.trim()}, 未找到图标`);
-            monsterCounts[monsterId.trim()] = -1;
-            prevCount = -1;                 // 重置
-            continue;
-        }
-        let time1 = new Date();
-        //log.info(`寻找图标用时${time1 - time0}`);
-        /* 2. OCR：与上一只结果比较，原地重试 3 次 */
-        const ocr = await readKillCountStable(prevFinalCount, 3);
-        const count = ocr.success ? ocr.count : -1;
-        let time2 = new Date();
-        //log.info(`ocr用时${time2 - time1}`);
-        /* 2. 结果相同且本行还没回退过 → 回退一次 */
-        if (count === prevCount && !(retryMask & (1 << i))) {
-            retryMask |= (1 << i);          // 标记已回退
-            i--;                            // 回退同一 i 一次
-            continue;
-        }
-
-        /* 3. 正常记录 */
-        monsterCounts[monsterId.trim()] = count;
-        log.info(`怪物: ${monsterId.trim()}, 数量: ${count}`);
-        prevCount = count;
-        prevFinalCount = count;   // 记录本次最终值，供下一只比对
-    }
+    /* 3 轮都失败 */
+    log.error('3 轮重试后仍连续 7 次失败，放弃获取');
     return monsterCounts;
 }
 

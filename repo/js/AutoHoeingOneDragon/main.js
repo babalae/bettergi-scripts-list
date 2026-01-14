@@ -1,4 +1,4 @@
-//当前js版本1.19.0
+//当前js版本1.20.0
 
 let timeMoveUp;
 let timeMoveDown;
