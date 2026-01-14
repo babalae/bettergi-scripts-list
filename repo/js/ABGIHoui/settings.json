@@ -19,8 +19,9 @@
       "结束obs录制",
       "米游社签到",
       "bat脚本",
-      "联机更换ABGI的账号信息"
-      // "关闭原神"
+      "联机更换ABGI的账号信息",
+      "更换联机房间",
+      "等待时间(单位为ms)"
     ],
     "default": ""
   },
@@ -35,5 +36,11 @@
         "type": "input-text",
         "label": "                            结束延时(可改)           \n       默认一秒，可以设置延时时间，单位毫秒",
         "default": "1000"
+  },
+  {
+        "name": "versionABGI",
+        "type": "input-text",
+        "label": "                         本地ABGI版本(别改)          \n              本地ABGI自动修改版本号，不用改",
+        "default": "3.4.12"
   }
 ]

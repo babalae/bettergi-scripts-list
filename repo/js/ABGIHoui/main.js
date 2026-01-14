@@ -1,5 +1,27 @@
+// 延时时间
+const outTime= ~~settings.outTime;
+
+// 比较结果
+let result = 0
+// 比较ABGI版本号
+async function compareVersion(version1, version2) {
+  const v1Segments = version1.split('.');
+  const v2Segments = version2.split('.');
+  const maxLength = Math.max(v1Segments.length, v2Segments.length);
+  for (let i = 0; i < maxLength; i++) {
+    const v1Num = Number(v1Segments[i] || 0);
+    const v2Num = Number(v2Segments[i] || 0);
+    if (v1Num > v2Num) {
+      return 1;
+    } else if (v1Num < v2Num) {
+      return -1;
+    }
+  };
+  return 0;
+};
+
+// 主函数
 (async function () {
-    const outTime= ~~settings.outTime;
     switch (settings.selectTask) {
         case "一条龙":
             await sleep(500);
@@ -77,13 +99,34 @@
             await sleep(outTime);
             return;
         case "联机更换ABGI的账号信息":
+            result = await compareVersion(settings.versionABGI, "3.4.12");
+            if (result == -1) {
+                log.error("无法调用该任务，请更新ABGI至3.4.12版本或更高版本");
+                await sleep(outTime);
+                return;
+            };
             await sleep(500);
             log.info("ABGI启动联机换号："+`${settings.inputText}`);
             await sleep(outTime);
             return;
-        case "关闭原神":
+        // case "关闭原神":
+        //     await sleep(500);
+        //     log.info(`ABGI启动${settings.selectTask}`+"：");
+        //     await sleep(outTime);
+        //     return;
+        case "更换联机房间":
+            result = await compareVersion(settings.versionABGI, "3.5.25");
+            if (result == -1) {
+                log.error("无法调用该任务，请更新ABGI至3.5.25版本或更高版本");
+                await sleep(outTime);
+                return;
+            };
             await sleep(500);
-            log.info(`ABGI启动${settings.selectTask}`+"：");
+            log.info(`ABGI启动更换房间：`+`${settings.inputText}`);
+            await sleep(outTime);
+            return;
+        case "等待时间(单位为ms)":
+            await sleep(500);
             await sleep(outTime);
             return;
         default:
