@@ -1,0 +1,69 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Kirito520Asuna",
+        "name": "云端客"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768438172670,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "深黯钓客-噩影泽地-01",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9351.374,
+      "y": 5442.2344
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9403.2588,
+      "y": 5459.3447
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9420.6777,
+      "y": 5483.4712
+    },
+    {
+      "action": "pick_up_collect",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9420.6777,
+      "y": 5483.4712
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9420.6777,
+      "y": 5483.4712
+    }
+  ]
+}

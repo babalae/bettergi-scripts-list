@@ -1,0 +1,82 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Kirito520Asuna",
+        "name": "云端客"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768436838308,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "深黯钓客-苦壑崖-01",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10286.666,
+      "y": 6356.355
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "200",
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10259.0176,
+      "y": 6333.9619
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10259.0176,
+      "y": 6333.9619
+    },
+    {
+      "action": "pick_up_collect",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10259.0176,
+      "y": 6333.9619
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10259.0176,
+      "y": 6333.9619
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10273.3965,
+      "y": 6315.8223
+    }
+  ]
+}

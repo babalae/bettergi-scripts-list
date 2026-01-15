@@ -1,0 +1,102 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Kirito520Asuna",
+        "name": "云端客"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768436880277,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "深黯钓客-苦壑崖-04",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9780.4004,
+      "y": 6212.5244
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9748.9609,
+      "y": 6258.5625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9697.4307,
+      "y": 6256.9932
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "200",
+      "id": 4,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9638.3711,
+      "y": 6303.0654
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9610.0898,
+      "y": 6348.5366
+    },
+    {
+      "action": "pick_up_collect",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9610.0898,
+      "y": 6348.5366
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9610.0898,
+      "y": 6348.5366
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9598.2256,
+      "y": 6360.7041
+    }
+  ]
+}
