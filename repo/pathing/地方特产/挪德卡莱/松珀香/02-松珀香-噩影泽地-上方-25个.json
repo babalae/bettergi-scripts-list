@@ -6,13 +6,13 @@
         "name": "云端客"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.55.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1768469717705,
-    "map_match_method": "",
+    "last_modified_time": 1768470638322,
+    "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "松珀香-噩影泽地-下方-15个",
+    "name": "松珀香-噩影泽地-上方-25个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -22,10 +22,11 @@
       "action": "force_tp",
       "action_params": "",
       "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9546.8086,
-      "y": 5416.8662
+      "x": 9515.4336,
+      "y": 5728.6284
     },
     {
       "action": "",
@@ -33,17 +34,17 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 9540.8652,
-      "y": 5412.8604
+      "x": 9520.1035,
+      "y": 5706.6528
     },
     {
-      "action": "",
+      "action": "force_tp",
       "action_params": "",
       "id": 3,
       "move_mode": "walk",
-      "type": "path",
-      "x": 9537.166,
-      "y": 5412.168
+      "type": "teleport",
+      "x": 9515.4336,
+      "y": 5728.6284
     },
     {
       "action": "",
@@ -51,8 +52,8 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 9532.6133,
-      "y": 5406.6367
+      "x": 9541.5879,
+      "y": 5751.1914
     },
     {
       "action": "",
@@ -60,8 +61,8 @@
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": 9529.4541,
-      "y": 5414.2881
+      "x": 9541.002,
+      "y": 5756.2549
     },
     {
       "action": "",
@@ -69,8 +70,8 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 9536.7041,
-      "y": 5405.3315
+      "x": 9503.0049,
+      "y": 5764.4639
     },
     {
       "action": "",
@@ -78,26 +79,27 @@
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": 9530.8916,
-      "y": 5396.4199
-    },
-    {
-      "action": "force_tp",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 9546.7363,
-      "y": 5416.9131
+      "x": 9498.1826,
+      "y": 5763.2812
     },
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 9582.8105,
-      "y": 5429.5029
+      "x": 9495.2939,
+      "y": 5761.9834
+    },
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9515.4336,
+      "y": 5728.6284
     },
     {
       "action": "",
@@ -105,8 +107,8 @@
       "id": 10,
       "move_mode": "walk",
       "type": "path",
-      "x": 9599.4541,
-      "y": 5443.6719
+      "x": 9499.2979,
+      "y": 5731.9521
     },
     {
       "action": "",
@@ -114,8 +116,8 @@
       "id": 11,
       "move_mode": "walk",
       "type": "path",
-      "x": 9600.1992,
-      "y": 5451.9209
+      "x": 9478.5352,
+      "y": 5732.6934
     },
     {
       "action": "",
@@ -123,8 +125,8 @@
       "id": 12,
       "move_mode": "walk",
       "type": "path",
-      "x": 9596.0557,
-      "y": 5461.6162
+      "x": 9431.333,
+      "y": 5731.8701
     },
     {
       "action": "",
@@ -132,17 +134,17 @@
       "id": 13,
       "move_mode": "walk",
       "type": "path",
-      "x": 9594.8857,
-      "y": 5461.3232
+      "x": 9421.9102,
+      "y": 5739.8223
     },
     {
-      "action": "force_tp",
+      "action": "",
       "action_params": "",
       "id": 14,
       "move_mode": "walk",
-      "type": "teleport",
-      "x": 9491.9287,
-      "y": 5526.0498
+      "type": "path",
+      "x": 9418.3965,
+      "y": 5740.3057
     },
     {
       "action": "",
@@ -150,8 +152,8 @@
       "id": 15,
       "move_mode": "walk",
       "type": "path",
-      "x": 9513.9473,
-      "y": 5527.2422
+      "x": 9388.6133,
+      "y": 5718.541
     },
     {
       "action": "",
@@ -159,8 +161,8 @@
       "id": 16,
       "move_mode": "walk",
       "type": "path",
-      "x": 9525.2969,
-      "y": 5514.7998
+      "x": 9381.5098,
+      "y": 5714.3984
     },
     {
       "action": "",
@@ -168,8 +170,8 @@
       "id": 17,
       "move_mode": "walk",
       "type": "path",
-      "x": 9534.5996,
-      "y": 5514.9507
+      "x": 9375.7559,
+      "y": 5712.0684
     },
     {
       "action": "",
@@ -177,8 +179,8 @@
       "id": 18,
       "move_mode": "walk",
       "type": "path",
-      "x": 9536.2148,
-      "y": 5514.1191
+      "x": 9360.5254,
+      "y": 5705.9639
     },
     {
       "action": "",
@@ -186,8 +188,8 @@
       "id": 19,
       "move_mode": "walk",
       "type": "path",
-      "x": 9547.6465,
-      "y": 5500.9648
+      "x": 9360.1738,
+      "y": 5710.1777
     },
     {
       "action": "",
@@ -195,8 +197,8 @@
       "id": 20,
       "move_mode": "walk",
       "type": "path",
-      "x": 9540.1152,
-      "y": 5501.3613
+      "x": 9360.0977,
+      "y": 5713.3379
     },
     {
       "action": "",
@@ -204,8 +206,8 @@
       "id": 21,
       "move_mode": "walk",
       "type": "path",
-      "x": 9538.8926,
-      "y": 5499.8975
+      "x": 9355.4082,
+      "y": 5699.7334
     },
     {
       "action": "",
@@ -213,8 +215,8 @@
       "id": 22,
       "move_mode": "walk",
       "type": "path",
-      "x": 9555.2061,
-      "y": 5511.2388
+      "x": 9343.2861,
+      "y": 5712.6294
     },
     {
       "action": "",
@@ -222,8 +224,8 @@
       "id": 23,
       "move_mode": "walk",
       "type": "path",
-      "x": 9574.498,
-      "y": 5512.1377
+      "x": 9336.8398,
+      "y": 5687.0068
     },
     {
       "action": "",
@@ -231,8 +233,8 @@
       "id": 24,
       "move_mode": "walk",
       "type": "path",
-      "x": 9578.3652,
-      "y": 5512.3193
+      "x": 9344.0488,
+      "y": 5676.9355
     },
     {
       "action": "",
@@ -240,8 +242,8 @@
       "id": 25,
       "move_mode": "walk",
       "type": "path",
-      "x": 9579.25,
-      "y": 5514.8564
+      "x": 9362.3516,
+      "y": 5665.5952
     },
     {
       "action": "",
@@ -249,8 +251,8 @@
       "id": 26,
       "move_mode": "walk",
       "type": "path",
-      "x": 9578.3086,
-      "y": 5517.814
+      "x": 9366.8047,
+      "y": 5675.0771
     },
     {
       "action": "",
@@ -258,8 +260,17 @@
       "id": 27,
       "move_mode": "walk",
       "type": "path",
-      "x": 9575.6426,
-      "y": 5519.2612
+      "x": 9369.9092,
+      "y": 5674.71
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9371.9033,
+      "y": 5675.0596
     }
   ]
 }
