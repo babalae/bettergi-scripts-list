@@ -1,4 +1,4 @@
-//当前js版本1.19.0
+//当前js版本1.20.0
 
 let timeMoveUp;
 let timeMoveDown;
@@ -587,9 +587,13 @@ async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonst
 
     /* ========== 4. 小怪标签 & 排序 & 日志，保持原样 ========== */
     pathings.forEach(p => {
+        // 1. 统一先删掉旧的小怪标签（不管之前有没有）
+        p.tags = p.tags.filter(t => t !== '小怪');
+
+        // 2. 按最新条件重新判断
         if (p.selected && p.e === 0 &&
-            !p.tags.includes("传奇") && !p.tags.includes("高危")) {
-            p.tags.push("小怪");
+            !p.tags.includes('传奇') && !p.tags.includes('高危')) {
+            p.tags.push('小怪');
         }
     });
 
@@ -648,12 +652,6 @@ async function assignGroups(pathings, groupTags) {
 }
 
 async function runPath(fullPath, map_name, pm, pe) {
-    if (settings.logMonsterCount) {
-        const m = Math.floor(pm); // 取整
-        const e = Math.floor(pe); // 取整
-        for (let i = 0; i < m; i++) log.debug('交互或拾取："小怪"');
-        for (let i = 0; i < e; i++) log.debug('交互或拾取："精英"');
-    }
     //当需要切换芙宁娜形态时，执行一次强制黑芙
     if (doFurinaSwitch) {
         log.info("上条路线识别到白芙，开始强制切换黑芙")
@@ -729,6 +727,17 @@ async function runPath(fullPath, map_name, pm, pe) {
     const pathingTask = (async () => {
         log.info(`开始执行路线: ${fullPath}`);
         await fakeLog(`${fullPath}`, false, true, 0);
+        if (settings.logMonsterCount) {
+            const m = Math.floor(pm);
+            const e = Math.floor(pe);
+            const lines = [];
+
+            for (let i = 0; i < m; i++) lines.push('交互或拾取："小怪"');
+            for (let i = 0; i < e; i++) lines.push('交互或拾取："精英"');
+
+            if (lines.length) log.debug(lines.join('\n'));
+        }
+
         try {
             await pathingScript.runFile(fullPath);
         } catch (error) {

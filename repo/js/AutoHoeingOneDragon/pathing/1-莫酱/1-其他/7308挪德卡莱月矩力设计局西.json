@@ -38,9 +38,18 @@
       "y": 3172.24755859375
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 10119,
+      "y": 3172.24755859375
+    },
+    {
       "action": "",
       "action_params": "",
-      "id": 3,
+      "id": 4,
       "move_mode": "walk",
       "type": "teleport",
       "x": 10103.197265625,
@@ -49,7 +58,7 @@
     {
       "action": "combat_script",
       "action_params": "芙宁娜 e",
-      "id": 4,
+      "id": 5,
       "move_mode": "dash",
       "type": "path",
       "x": 10080.9228515625,
@@ -58,7 +67,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "dash",
       "type": "path",
       "x": 10101.1904296875,
@@ -67,8 +76,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 6,
-      "locked": false,
+      "id": 7,
       "move_mode": "dash",
       "type": "path",
       "x": 10088.96875,
@@ -77,7 +85,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 7,
+      "id": 8,
       "move_mode": "dash",
       "type": "orientation",
       "x": 10088.96875,

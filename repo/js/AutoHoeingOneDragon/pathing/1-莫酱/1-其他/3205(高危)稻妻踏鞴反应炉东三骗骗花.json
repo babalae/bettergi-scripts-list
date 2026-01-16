@@ -15,7 +15,7 @@
     "description": "  路线信息：该路线预计用时121.04秒，包含以下怪物：2只火史莱姆、1只大型火史莱姆、1只雷史莱姆、1只冰史莱姆、1只大型冰史莱姆、1只炽热骗骗花、1只电气骗骗花、1只冰霜骗骗花。",
     "enable_monster_loot_split": false,
     "hash_res": "77254531",
-    "last_modified_time": 1767878057124,
+    "last_modified_time": 1768313402076,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "3205(高危)稻妻踏鞴反应炉东三骗骗花",
@@ -129,17 +129,17 @@
       "id": 12,
       "move_mode": "dash",
       "type": "path",
-      "x": -3165.260000000002,
-      "y": -3670.0200000000004
+      "x": -3164.46875,
+      "y": -3667.51171875
     },
     {
       "action": "",
       "action_params": "",
       "id": 13,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": -3165.260000000002,
-      "y": -3670.0200000000004
+      "x": -3164.46875,
+      "y": -3667.51171875
     },
     {
       "action": "fight",
@@ -147,17 +147,26 @@
       "id": 14,
       "move_mode": "dash",
       "type": "path",
-      "x": -3157.3100000000013,
-      "y": -3634.66
+      "x": -3157.326171875,
+      "y": -3628.98046875
     },
     {
       "action": "combat_script",
       "action_params": "wait(1)",
       "id": 15,
-      "move_mode": "walk",
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3157.326171875,
+      "y": -3628.98046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 16,
+      "move_mode": "dash",
       "type": "orientation",
-      "x": -3157.3100000000013,
-      "y": -3634.66
+      "x": -3157.326171875,
+      "y": -3628.98046875
     }
   ]
 }
