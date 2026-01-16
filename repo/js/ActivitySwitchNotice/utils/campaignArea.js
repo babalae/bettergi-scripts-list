@@ -88,7 +88,7 @@ async function campaignAreaMain() {
     // 如果不是周日(0代表周日)，则直接返回
     const bool = dayOfWeek.day != config.campaignAreaReminderDay;
     // 记录开始执行秘境征讨提醒的日志
-    log.info(`[{dayOfWeek.dayOfWeek}]，${bool?"跳过":"开始"}执行秘境征讨剩余次数提醒`, dayOfWeek.dayOfWeek)
+    log.info(`[{dayOfWeek.dayOfWeek}]，${bool ? "跳过" : "开始"}执行秘境征讨剩余次数提醒`, dayOfWeek.dayOfWeek)
     if (bool) {
         return
     }
@@ -110,8 +110,9 @@ async function campaignAreaMain() {
 
     // 如果有剩余次数，则记录日志并发送通知
     if (weekJson.count > 0) {
+        let uid = await uidUtil.ocrUID()
         log.info(`本周剩余消耗减半次数:${weekJson.count}`)
-        await noticeUtil.sendText(`>|本周剩余消耗减半次数:${weekJson.count}`, '秘境征讨')
+        await noticeUtil.sendText(`>|本周剩余消耗减半次数:${weekJson.count}`, `UID:${uid}\n秘境征讨`)
     }
 
 }

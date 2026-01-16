@@ -1,130 +1,82 @@
 {
   "info": {
-    "name": "2601地下水泽西南三飞萤",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时70.53秒，包含以下怪物：3只水萤。",
-    "hash_res": "53430333",
-    "map_name": "TheChasm",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时53.84秒，包含以下怪物：3只水萤。",
+    "enable_monster_loot_split": false,
+    "hash_res": "53430333",
+    "last_modified_time": 1767857257842,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "2601地下水泽西南三飞萤",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 663.81,
-      "y": 710.26,
-      "action_params": ""
+      "x": 659.6536865234375,
+      "y": 704.72998046875
     },
     {
-      "id": 2,
-      "x": 652.85,
-      "y": 716.14,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": 650.48,
-      "y": 716.08,
-      "type": "target",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": 631.91,
-      "y": 715.02,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": 621.87,
-      "y": 709.27,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "x": 624.83,
-      "y": 702.02,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 7,
-      "x": 632.07,
-      "y": 702.25,
-      "type": "target",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": 647.4,
-      "y": 702.95,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": 650.27,
-      "y": 714.73,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 10,
-      "x": 655.6,
-      "y": 713.06,
-      "type": "target",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.1)",
-      "locked": false
+      "action_params": "wait(0.3)",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 677.1844482421875,
+      "y": 691.1380615234375
     },
     {
-      "id": 11,
-      "x": 655.6,
-      "y": 713.06,
-      "type": "target",
-      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 667.2301025390625,
+      "y": 693.3182373046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 661.5174560546875,
+      "y": 698.224365234375
+    },
+    {
       "action": "fight",
       "action_params": "",
-      "locked": false
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 652.8031005859375,
+      "y": 718.1026611328125
     },
     {
-      "id": 12,
-      "x": 655.6,
-      "y": 713.06,
-      "type": "orientation",
-      "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 652.8031005859375,
+      "y": 718.1026611328125
     }
   ]
 }

@@ -1,6 +1,7 @@
 let manifest = {};
 async function init() {
     let utils=[
+        "uid",
         "ws",
         "notice",
         "campaignArea",

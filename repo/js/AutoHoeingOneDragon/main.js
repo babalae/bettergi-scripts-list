@@ -1,4 +1,4 @@
-//当前js版本1.15.0
+//当前js版本1.20.0
 
 let timeMoveUp;
 let timeMoveDown;
@@ -60,6 +60,8 @@ let excludeTags;
 
 let runningFailCount = 0;
 
+let lastEatBuff = 0;
+
 (async function () {
     if (settings.groupIndex === "路径组一") {
         const cfg = {
@@ -80,7 +82,8 @@ let runningFailCount = 0;
             targetEliteNum: settings.targetEliteNum ?? 400,
             targetMonsterNum: settings.targetMonsterNum ?? 2000,
             priorityTags: settings.priorityTags ?? "",
-            excludeTags: settings.excludeTags ?? ""
+            excludeTags: settings.excludeTags ?? "",
+            curiosityFactor: settings.curiosityFactor ?? "0"
         };
         const cfgStr = JSON.stringify(cfg, null, 2);
         if (cfgStr.includes("莫酱") || cfgStr.includes("汐酱")) {
@@ -119,6 +122,7 @@ let runningFailCount = 0;
         settings.targetMonsterNum = cfg.targetMonsterNum ?? 2000;
         settings.priorityTags = cfg.priorityTags ?? "";
         settings.excludeTags = cfg.excludeTags ?? "";
+        settings.curiosityFactor = cfg.curiosityFactor ?? "0";
     }
 
     //自定义配置处理
@@ -221,59 +225,58 @@ let runningFailCount = 0;
 
         const avatars = Array.from(getAvatars?.() || []);
 
-        // 拼接队伍字符串，放在 switch 之前
         let teamStr = '';
         for (let k = 0; k < avatars.length; k++) {
             teamStr += avatars[k];
             if (k < avatars.length - 1) teamStr += '、';
         }
         log.info('当前队伍：' + teamStr);
+        let haveProblem = false;
 
-        switch (true) {
-            case targetEliteNum <= 350 && targetMonsterNum >= 100:
-                log.warn("目标怪物数量配置不合理，建议重新阅读 readme 相关部分");
+        if (settings.skipCheck) {
+            log.warn("确认跳过校验阶段，任何包括但不限于漏怪、卡死、不拾取等问题均由自己配置与队伍等引起，与脚本和路线无关");
+        } else {
+            if (targetEliteNum <= 350 && targetMonsterNum >= 100) {
+                log.warn("目标怪物数量配置不合理，请重新阅读 readme 相关部分");
                 await sleep(5000);
-                log.warn("目标怪物数量配置不合理，建议重新阅读 readme 相关部分");
+                haveProblem = true;
+            }
+            if (genshin.width !== 1920 || genshin.height !== 1080) {
+                log.warn("游戏窗口非 1920×1080，可能导致图像识别失败，造成拾取等行为异常");
                 await sleep(5000);
-                log.warn("目标怪物数量配置不合理，建议重新阅读 readme 相关部分");
+                haveProblem = true;
+            }
+            if (avatars.includes('钟离')) {
+                log.warn("当前队伍包含钟离，请重新阅读 readme 相关部分");
                 await sleep(5000);
-                log.warn("目标怪物数量配置不合理，建议重新阅读 readme 相关部分");
+                haveProblem = true;
+            }
+            if (!['芙宁娜', '爱可菲'].some(n => avatars.includes(n))) {
+                log.warn("未携带合适的输出角色（芙宁娜/爱可菲），建议重新阅读 readme 相关部分");
                 await sleep(5000);
-                break;
-
-            case genshin.width !== 1920 || genshin.height !== 1080:
-                log.warn("游戏窗口非 1920×1080，可能导致图像识别失败，如果执意使用可能造成拾取等行为异常，后果自负");
-                await sleep(5000);
-                log.warn("游戏窗口非 1920×1080，可能导致图像识别失败，如果执意使用可能造成拾取等行为异常，后果自负");
-                await sleep(5000);
-                log.warn("游戏窗口非 1920×1080，可能导致图像识别失败，如果执意使用可能造成拾取等行为异常，后果自负");
-                await sleep(5000);
-                log.warn("游戏窗口非 1920×1080，可能导致图像识别失败，如果执意使用可能造成拾取等行为异常，后果自负");
-                await sleep(5000);
-                break;
-
-            case ['钟离', '芙宁娜', '纳西妲', '雷电将军'].every(n => avatars.includes(n)):
-                log.warn("四神队不适合锄地，建议重新阅读 readme 相关部分");
-                await sleep(10000);
-                return;
-
-            case avatars.includes('钟离'):
-                log.warn("当前队伍包含钟离，不适合锄地，建议重新阅读 readme 相关部分");
-                await sleep(5000);
-                break;
-
-            case !['芙宁娜', '爱可菲', '玛薇卡'].some(n => avatars.includes(n)):
-                log.warn("未携带合适的输出角色（芙宁娜/爱可菲/玛薇卡），建议重新阅读 readme 相关部分");
-                await sleep(5000);
-                break;
-
-            case !['茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '白术', '琦良良', '迪希雅', '迪奥娜']
-                .some(n => avatars.includes(n)):
+                haveProblem = true;
+            }
+            if (!['茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '琦良良', '迪希雅', '迪奥娜']
+                .some(n => avatars.includes(n))) {
                 log.warn("未携带合适的抗打断角色（茜特菈莉/伊涅芙/莱依拉/蓝砚/白术/琦良良/迪希雅/迪奥娜）");
                 await sleep(5000);
-                break;
+                haveProblem = true;
+            }
+            if (haveProblem) {
+                log.warn("校验未通过，请按照以上提示修改，或者在自定义配置中勾选以跳过校验阶段");
+                await sleep(5000);
+                log.warn("校验未通过，请按照以上提示修改，或者在自定义配置中勾选以跳过校验阶段");
+                await sleep(5000);
+                log.warn("校验未通过，请按照以上提示修改，或者在自定义配置中勾选以跳过校验阶段");
+                await sleep(5000);
+                log.warn("继续运行视为同意以下免责声明：任何包括但不限于漏怪、卡死、不拾取等问题均由自己配置与队伍等引起，与脚本和路线无关");
+            }
         }
-
+        if (['钟离', '芙宁娜', '纳西妲', '雷电将军'].every(n => avatars.includes(n))) {
+            log.warn("禁止使用四神队，请重新阅读 readme 相关部分");
+            await sleep(5000);
+            return;
+        }
         log.info("开始运行锄地路线");
         await updateRecords(pathings, accountName);
         await processPathingsByGroup(pathings, accountName);
@@ -356,6 +359,14 @@ async function processPathings(groupTags) {
                 } else if (monster.type === "精英") {
                     pathing.e += count; // 增加精英怪物数量
                     pathing.mora_e += count * 200 * monster.moraRate; // 增加精英怪物摩拉值
+
+                }
+
+                if (monster.moraRate > 1) {
+                    pathing.tags.push('高收益');
+                    if (monster.type === "精英") {
+                        pathing.tags.push('精英高收益');
+                    }
                 }
 
                 // 添加标签
@@ -383,32 +394,31 @@ async function processPathings(groupTags) {
 
     for (const pathing of pathings) {
         if (!settings.disableSelfOptimization && pathing.records) {
-            //如果用户没有禁用自动优化，则参考运行记录更改预期用时
-            const history = pathing.records.filter(v => v > 0);
-            if (history.length) {
-                const max = Math.max(...history);
-                const min = Math.min(...history);
-
-                let maxRemoved = false;
-                let minRemoved = false;
-
-                // 就地修改 history：先去掉一个最大值，再去掉一个最小值
-                for (let i = history.length - 1; i >= 0; i--) {
-                    const v = history[i];
-                    if (!maxRemoved && v === max) {
-                        history.splice(i, 1);
-                        maxRemoved = true;
-                    } else if (!minRemoved && v === min) {
-                        history.splice(i, 1);
-                        minRemoved = true;
-                    }
-                    if (maxRemoved && minRemoved) break;
-                }
+            // 1. 安全解析 + 边界校验
+            let cf = 0; // 默认
+            if (settings?.curiosityFactor != null) {
+                const parsed = parseFloat(String(settings.curiosityFactor));
+                if (!Number.isNaN(parsed) && parsed >= 0 && parsed <= 1) cf = parsed;
             }
-            prevt = pathing.t;
-            //每一个有效的record占用0.2权重，剩余权重为原时间
-            pathing.t = pathing.t * (1 - history.length * 0.2) + history.reduce((a, b) => a + b, 0) * 0.2;
-            //log.info(`将路线${pathing.fileName}用时从${prevt}更新为${pathing.t}`)
+
+            // 2. 构造 7 条内部样本
+            const raw = Array.isArray(pathing.records) ? pathing.records.filter(v => v > 0) : [];
+            const pool = [];
+            for (let i = 0; i < 7; i++) {
+                pool.push(i < raw.length ? raw[i] : pathing.t * (1 - cf)); // 补齐时带好奇系数
+            }
+
+            // 3. 削峰填谷 → 均值
+            const copy = [...pool];
+            const max = Math.max(...copy);
+            const min = Math.min(...copy);
+            const maxIdx = copy.indexOf(max);
+            const minIdx = copy.indexOf(min);
+            if (maxIdx > -1) copy.splice(maxIdx, 1);
+            if (minIdx > -1 && copy.length) copy.splice(copy.indexOf(min), 1);
+
+            const avg = copy.reduce((a, b) => a + b, 0) / copy.length;
+            pathing.t = avg;
         }
     }
     return pathings; // 返回处理后的 pathings 数组
@@ -547,7 +557,11 @@ async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonst
     /* ========== 3. 最小不可再减集合（贪心逆筛，不碰优先路线） ========== */
     // 1. 只留非优先的已选路线，按性价比升序排
     const selectedList = pathings
-        .filter(p => p.selected && !p.prioritized)
+        .filter(p =>
+            p.selected &&
+            !p.prioritized &&
+            !p.tags.includes('精英高收益')
+        )
         .sort((a, b) => {
             const score = p => {
                 const eliteGain = p.e === 0 ? 200 : (p.G1 - p.G2) / p.e;
@@ -573,17 +587,34 @@ async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonst
 
     /* ========== 4. 小怪标签 & 排序 & 日志，保持原样 ========== */
     pathings.forEach(p => {
+        // 1. 统一先删掉旧的小怪标签（不管之前有没有）
+        p.tags = p.tags.filter(t => t !== '小怪');
+
+        // 2. 按最新条件重新判断
         if (p.selected && p.e === 0 &&
-            !p.tags.includes("传奇") && !p.tags.includes("高危")) {
-            p.tags.push("小怪");
+            !p.tags.includes('传奇') && !p.tags.includes('高危')) {
+            p.tags.push('小怪');
         }
     });
-    if (settings.runByEfficiency) {
-        log.info("使用效率降序运行");
-        pathings.sort((a, b) => b.E1 - a.E1 || b.E2 - a.E2);
-    } else {
-        log.info("使用默认顺序运行");
-        pathings.sort((a, b) => a.index - b.index);
+
+    switch (settings.sortMode) {
+        case "效率降序":
+            log.info("使用效率降序运行");
+            pathings.sort((a, b) => b.E1 - a.E1 || b.E2 - a.E2);
+            break;
+
+        case "高收益优先":
+            log.info("使用高收益优先运行");
+            pathings.sort((a, b) => {
+                const aHigh = a.tags.includes("高收益") ? 1 : 0;
+                const bHigh = b.tags.includes("高收益") ? 1 : 0;
+                return bHigh - aHigh || a.index - b.index; // 有标签的在前，同标签按原顺序
+            });
+            break;
+
+        default:
+            log.info("使用原文件顺序运行");
+            pathings.sort((a, b) => a.index - b.index);
     }
 
     log.info(`总精英怪数量: ${totalSelectedElites.toFixed(0)}`);
@@ -620,12 +651,40 @@ async function assignGroups(pathings, groupTags) {
     });
 }
 
-async function runPath(fullPath, map_name) {
+async function runPath(fullPath, map_name, pm, pe) {
     //当需要切换芙宁娜形态时，执行一次强制黑芙
     if (doFurinaSwitch) {
         log.info("上条路线识别到白芙，开始强制切换黑芙")
         doFurinaSwitch = false;
         await pathingScript.runFile("assets/强制黑芙.json");
+    }
+    if (settings.eatBuff) {
+        const res = settings.eatBuff.split('，');
+        if (new Date() - lastEatBuff > 300 * 1000) {
+            lastEatBuff = new Date();
+            await genshin.returnMainUi();
+            keyPress("B");
+            await clickPNG("料理界面");
+            // 2. 遍历数组，逐项执行
+            for (const item of res) {
+                await sleep(800);
+                await clickPNG('筛选1', 1);
+                await clickPNG('筛选2', 1);
+                await clickPNG('重置');
+                await sleep(500);
+                await clickPNG('搜索');
+                await sleep(800);
+                // 真正输入当前这一项
+                log.info(`搜索${item}`)
+                inputText(item);
+
+                await clickPNG('确认筛选');
+                await sleep(500);
+                await clickPNG('使用');
+            }
+            await genshin.returnMainUi();
+        }
+
     }
     /* ===== 1. 取得当前路线对象 ===== */
     let currentPathing = null;
@@ -633,6 +692,16 @@ async function runPath(fullPath, map_name) {
         if (pathings[i].fullPath === fullPath) {
             currentPathing = pathings[i];
             break;
+        }
+    }
+    if (currentPathing.tags) {
+        if (currentPathing.tags.includes("水下")) {
+            log.info("当前路线为水下路线，检查螃蟹技能");
+            let skillRes = await findPNG("螃蟹技能图标");
+            if (!skillRes) {
+                log.info("识别到没有螃蟹技能，前往获取");
+                await pathingScript.runFile("assets/学习螃蟹技能.json");
+            }
         }
     }
 
@@ -658,7 +727,22 @@ async function runPath(fullPath, map_name) {
     const pathingTask = (async () => {
         log.info(`开始执行路线: ${fullPath}`);
         await fakeLog(`${fullPath}`, false, true, 0);
-        await pathingScript.runFile(fullPath);
+        if (settings.logMonsterCount) {
+            const m = Math.floor(pm);
+            const e = Math.floor(pe);
+            const lines = [];
+
+            for (let i = 0; i < m; i++) lines.push('交互或拾取："小怪"');
+            for (let i = 0; i < e; i++) lines.push('交互或拾取："精英"');
+
+            if (lines.length) log.debug(lines.join('\n'));
+        }
+
+        try {
+            await pathingScript.runFile(fullPath);
+        } catch (error) {
+            log.error(`执行地图追踪出现错误${error.message}`);
+        }
         await fakeLog(`${fullPath}`, false, false, 0);
         state.running = false;
     })();
@@ -1417,7 +1501,7 @@ async function processPathingsByGroup(pathings, accountName) {
     let skippedTime = 0;
     //移除不必要的属性
     {
-        const keysToDelete = ['monsterInfo', 'mora_m', 'mora_e', 'available', 'prioritized', 'G1', 'G2', 'index', 'folderPathArray', 'tags', 'E1', 'E2']; // 删除的字段列表
+        const keysToDelete = ['monsterInfo', 'mora_m', 'mora_e', 'available', 'prioritized', 'G1', 'G2', 'index', 'folderPathArray', 'E1', 'E2']; // 删除的字段列表
         pathings.forEach(p => {
             keysToDelete.forEach(k => delete p[k]);
         });
@@ -1461,14 +1545,14 @@ async function processPathingsByGroup(pathings, accountName) {
                 log.error(`获取坐标时发生错误：${error.message}`);
                 runningFailCount++;
             }
+
             // 调用 runPath 函数处理路径
-            await runPath(pathing.fullPath, pathing.map_name);
+            await runPath(pathing.fullPath, pathing.map_name, pathing.m, pathing.e);
             try {
                 await sleep(1);
             } catch (error) {
                 break;
             }
-            await fakeLog(`${pathing.fileName}`, false, false, 0);
 
             let fileEndX = 0, fileEndY = 0;
             try {
@@ -1790,5 +1874,33 @@ async function isTimeRestricted(timeRule, threshold = 5) {
     }
 
     log.info("不处于限制时间");
+    return false;
+}
+
+async function clickPNG(png, maxAttempts = 20) {
+    //log.info(`调试-点击目标${png},重试次数${maxAttempts}`);
+    const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${png}.png`));
+    pngRo.Threshold = 0.95;
+    pngRo.InitTemplate();
+    return await findAndClick(pngRo, true, maxAttempts);
+}
+
+async function findPNG(png, maxAttempts = 20) {
+    //log.info(`调试-识别目标${png},重试次数${maxAttempts}`);
+    const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${png}.png`));
+    pngRo.Threshold = 0.95;
+    pngRo.InitTemplate();
+    return await findAndClick(pngRo, false, maxAttempts);
+}
+
+async function findAndClick(target, doClick = true, maxAttempts = 60) {
+    for (let i = 0; i < maxAttempts; i++) {
+        const rg = captureGameRegion();
+        try {
+            const res = rg.find(target);
+            if (res.isExist()) { await sleep(50 * 2 + 50); if (doClick) { res.click(); } return true; }
+        } finally { rg.dispose(); }
+        if (i < maxAttempts - 1) await sleep(50);
+    }
     return false;
 }

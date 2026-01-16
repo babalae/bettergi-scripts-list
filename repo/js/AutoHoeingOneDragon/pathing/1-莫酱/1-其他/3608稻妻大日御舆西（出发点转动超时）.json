@@ -1,84 +1,64 @@
 {
   "info": {
-    "name": "3608稻妻大日御舆西（出发点转动超时）",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时67.49秒，包含以下怪物：3只冰箭丘丘人、1只水丘丘萨满。",
-    "hash_res": "57219743",
-    "map_name": "Enkanomiya",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时43.6秒，包含以下怪物：3只水丘丘萨满、1只水深渊法师。",
+    "enable_monster_loot_split": false,
+    "hash_res": "57219743",
+    "last_modified_time": 1767960492112,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "3608稻妻大日御舆西（出发点转动超时）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 285.16,
-      "y": 277.25,
-      "action_params": ""
+      "x": 290.551025390625,
+      "y": 277.9052734375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 281.77,
-      "y": 267.94,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 286.455322265625,
+      "y": 243.181640625
     },
     {
-      "id": 3,
-      "x": 293.42,
-      "y": 228.66,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": 304.71,
-      "y": 195.31,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": 307.19,
-      "y": 180.68,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "x": 303.62,
-      "y": 150.8,
-      "type": "path",
-      "move_mode": "jump",
       "action": "fight",
       "action_params": "",
-      "locked": false
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 267.905517578125,
+      "y": 229.279296875
     },
     {
-      "id": 7,
-      "x": 303.62,
-      "y": 150.8,
-      "type": "orientation",
-      "move_mode": "jump",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 267.905517578125,
+      "y": 229.279296875
     }
   ]
 }

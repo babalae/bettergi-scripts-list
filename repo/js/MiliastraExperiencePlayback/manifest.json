@@ -1,19 +1,30 @@
 {
   "manifest_version": 1,
   "name": "千星奇域·每周经验刷取(回放通关版)",
-  "version": "0.1.7",
-  "bgi_version": "0.53.0",
+  "version": "0.1.9",
+  "bgi_version": "0.54.0",
   "description": "千星奇域·每周经验刷取(回放通关版)",
   "authors": [
     {
       "name": "breadgrocery",
-      "links": "https://github.com/breadgrocery/miliastra-experience-playback"
+      "link": "https://github.com/breadgrocery/miliastra-experience-playback"
+    },
+    {
+      "name": "躁动的氨气",
+      "link": "https://github.com/A-Little-AnQi"
     }
   ],
   "main": "main.js",
   "settings_ui": "settings.json",
+  "library": [
+    "./",
+    "./libs/"
+  ],
   "saved_files": [
     "store/*.json",
     "assets/playbacks/*.json"
+  ],
+  "tags": [
+    "千星奇域"
   ]
 }

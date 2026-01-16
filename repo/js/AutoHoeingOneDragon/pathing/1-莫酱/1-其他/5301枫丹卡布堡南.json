@@ -1,163 +1,127 @@
 {
   "info": {
-    "name": "5301枫丹卡布堡南",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时167.71秒，包含以下怪物：3只丘丘人、2只射手丘丘人、5只火箭丘丘人。",
-    "hash_res": "35918445",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时114秒，包含以下怪物：3只丘丘人、2只射手丘丘人、5只火箭丘丘人。",
+    "enable_monster_loot_split": false,
+    "hash_res": "35918445",
+    "last_modified_time": 1768160023087,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "5301枫丹卡布堡南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 3380.4,
-      "y": 2690.1,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 3380.3999999999996,
+      "y": 2690.1000000000004
     },
     {
+      "action": "stop_flying",
+      "action_params": "2500",
       "id": 2,
-      "x": 3364,
-      "y": 2668.19,
-      "action": "stop_flying",
       "move_mode": "fly",
-      "action_params": "2200",
-      "type": "path"
+      "type": "path",
+      "x": 3365.01171875,
+      "y": 2676.9765625
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 3,
-      "x": 3362.61,
-      "y": 2665.67,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3357.427734375,
+      "y": 2666.58642578125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 3362.61,
-      "y": 2665.67,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3357.427734375,
+      "y": 2666.58642578125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 3344.35,
-      "y": 2673.16,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 3309.15234375,
+      "y": 2680.884765625
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 6,
-      "x": 3320.47,
-      "y": 2683.34,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 3289.052734375,
+      "y": 2693.683349609375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": 3310.5,
-      "y": 2686.88,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3289.052734375,
+      "y": 2693.683349609375
     },
     {
-      "id": 8,
-      "x": 3307.96,
-      "y": 2686.97,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": 3298.98,
-      "y": 2677.2,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 10,
-      "x": 3290.78,
-      "y": 2695.35,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 11,
-      "x": 3284.23,
-      "y": 2693.67,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 12,
-      "x": 3284.23,
-      "y": 2693.67,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 13,
-      "x": 3275.74,
-      "y": 2674.62,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 14,
-      "x": 3255.52,
-      "y": 2664.59,
       "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 3260.0625,
+      "y": 2667.1246379867134
     },
     {
-      "id": 15,
-      "x": 3243.89,
-      "y": 2683.62,
-      "action": "fight",
-      "move_mode": "swim",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 16,
-      "x": 3254.52,
-      "y": 2664.59,
       "action": "combat_script",
+      "action_params": "attack(0.3);钟离 d(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "id": 9,
       "move_mode": "walk",
-      "action_params": "wait(0.1)",
-      "type": "path"
+      "type": "path",
+      "x": 3257.080078125,
+      "y": 2664.916015625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3247.060546875,
+      "y": 2681.484130859375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 3247.060546875,
+      "y": 2681.484130859375
     }
   ]
 }

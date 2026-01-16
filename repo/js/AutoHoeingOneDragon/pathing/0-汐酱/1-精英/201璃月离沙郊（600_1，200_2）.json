@@ -9,9 +9,8 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时112.68秒，包含以下怪物：1只丘丘人、1只冲锋丘丘人、2只射手丘丘人、1只火箭丘丘人、1只爆弹丘丘人、1只火斧丘丘暴徒、1只丘丘岩盔王、1只火深渊法师。",
-    "hash_res": "00036431",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1762455521291,
+    "last_modified_time": 1768385971525,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "201璃月离沙郊（600_1，200_2）",
@@ -71,13 +70,22 @@
       "id": 6,
       "move_mode": "fly",
       "type": "path",
-      "x": 881.12890625,
-      "y": -501.94384765625
+      "x": 882.150390625,
+      "y": -506.0859375
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;wait(0.5)",
+      "action_params": ";钟离 d(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;attack(0.3)",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 884.9033203125,
+      "y": -500.1171875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1.5)",
+      "id": 8,
       "move_mode": "walk",
       "type": "path",
       "x": 903.9400000000005,
@@ -86,20 +94,21 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 8,
+      "id": 9,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 933.0799999999999,
-      "y": -500.8900000000003
+      "x": 931.9580078125,
+      "y": -495.66845703125
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 9,
+      "id": 10,
       "move_mode": "dash",
       "type": "orientation",
-      "x": 933.0799999999999,
-      "y": -500.8900000000003
+      "x": 931.9580078125,
+      "y": -495.66845703125
     }
   ]
 }

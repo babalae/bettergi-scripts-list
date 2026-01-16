@@ -686,12 +686,21 @@ async function forgeOre(smithyName, maxOre = null) {
     let dialogFound = false;
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
         if (await findAndInteract(ForgeRo, {
-            useClick: true,
             timeout: 2000,
             interval: 500,
             postClickDelay: 1000,
             singleAttempt: true
-        })) {
+        })) {            
+            await sleep(1000);
+            await click(960, 1042);
+            await findAndInteract(ForgeRo, {
+                useClick: true,
+                timeout: 2000,
+                interval: 500,
+                postClickDelay: 1000,
+                singleAttempt: true
+            });
+
             log.info("已找到对话界面锻造图标并点击");
             await sleep(1000);
             await click(960, 1042);
