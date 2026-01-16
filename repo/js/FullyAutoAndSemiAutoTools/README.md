@@ -4,12 +4,12 @@ BetterGI 平台下功能最全面的路径批量执行解决方案之一
 
 ## 项目概述
 
-FullyAutoAndSemiAutoTools 是一套高度模块化、可高度自定义的自动化路径执行工具箱，主要用于原神（BetterGI平台）的日常、周常、素材收集等重复性任务自动化。
+FullyAutoAndSemiAutoTools 是一套高度模块化、可高度自定义的自动化路径执行工具箱。
 
 支持**全自动**与**半自动**两种运行模式，核心目标包括：
 
 - 智能扫描 & 多层级管理大量路径文件
-- 精细的冷却时间控制（小时制 + Cron）
+- 精细的冷却时间控制（小时制 + Cron）因BGI不支持Cron解析,需搭配bettergi-scripts-tools+开启JS HTTP[前往bettergi-scripts-tools部署](https://github.com/Kirito520Asuna/bettergi-scripts-tools)
 - 根据路径特性自动切换战斗/元素队伍
 - 集成丰富的实时辅助功能
 - 执行记录防重复 + 择优优先未完成路径
@@ -18,7 +18,7 @@ FullyAutoAndSemiAutoTools 是一套高度模块化、可高度自定义的自动
 ### 核心亮点
 
 - 路径树状扫描 + 多级加载（默认2级，可调）
-- 小时制 & Cron 双冷却系统（支持外部 HTTP API）
+- 小时制 & Cron 双冷却系统（需要支持外部 HTTP API）
 - 智能队伍切换（战斗/七元素）
 - 实时任务：自动对话跳过、自动拾取、自动战斗
 - 择优执行 + 执行记录 + 错误路径追踪
@@ -234,6 +234,55 @@ sequenceDiagram
   }
 ]
 ```
+
+### 部署 [bettergi-scripts-tools](https://github.com/Kirito520Asuna/bettergi-scripts-tools)开启Cron解析
+
+#### 1.windows exe 直接运行
+前往 [release](https://github.com/Kirito520Asuna/bettergi-scripts-tools/releases) 下载 带windows的zip包解压运行.exe文件即可
+#### 2.java
+前往 [release](https://github.com/Kirito520Asuna/bettergi-scripts-tools/releases) 下载 jar包
+```shell
+java -jar xxxx.jar
+```
+#### 3.部署docker
+```shell
+docker pull ghcr.io/kirito520asuna/bettergi-scripts-tools:latest
+docker run -d -p 8081:8081 -v /path/to/application-prod.yml:/app/application-prod.yml --name bettergi-scripts-tools ghcr.io/kirito520asuna/bettergi-scripts-tools:latest
+```
+### Cron Api
+```http request
+###
+POST http://localhost:8081/bgi/cron/next-timestamp
+Content-Type: application/json
+
+{
+  "cronExpression": "",
+  "startTimestamp": 1,
+  "endTimestamp": 1
+}
+
+###
+POST http://localhost:8081/bgi/api/cron/next-timestamp
+Content-Type: application/json
+
+{
+  "cronExpression": "",
+  "startTimestamp": 1,
+  "endTimestamp": 1
+}
+
+###
+POST http://localhost:8081/bgi/jwt/cron/next-timestamp
+Content-Type: application/json
+
+{
+  "cronExpression": "",
+  "startTimestamp": 1,
+  "endTimestamp": 1
+}
+```
+---
+
 
 ## 推荐使用流程
 
