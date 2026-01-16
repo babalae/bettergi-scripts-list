@@ -246,6 +246,9 @@ async function init() {
                 loadingLevel = parseInt(settings.loading_level)
             } catch (e) {
                 log.warn("配置 {0} 错误，将使用默认值{0}", "加载路径层级", loadingLevel)
+            } finally {
+                //
+                loadingLevel = loadingLevel < 1 ? 2 : loadingLevel
             }
             // 优化版本
             for (let i = 0; i < loadingLevel; i++) {
