@@ -100,6 +100,9 @@ const timeType = Object.freeze({
  */
 async function realTimeMissions(is_common = true) {
     let real_time_missions = settings.real_time_missions  // 从设置中获取实时任务列表
+    if (!Array.isArray(real_time_missions)) {
+        real_time_missions = [...real_time_missions]
+    }
     if (!is_common) {  // 处理非通用任务
         if (real_time_missions.includes("自动战斗")) {
             // await dispatcher.runAutoFightTask(new AutoFightParam());
@@ -409,6 +412,7 @@ async function init() {
 
 //总控
 //刷新settings
+    log.info("开始执行配置: {config_run}", settings.config_run)
     if (settings.config_run === "刷新") {
         await refreshALL();
     } else if (settings.config_run === "加载") {
@@ -422,23 +426,31 @@ async function init() {
             }
         }
         configSettings = await initSettings()
-        settingsNameList = settingsNameList.concat(await getMultiCheckboxMap().then(map => {
-            return map.keys().filter(key => key.startsWith(levelName))
-        }))
     } else
         // 初始化needRunMap
     if (settings.config_run === "执行") {
+        log.info(`初始{0}配置`, settings.config_run)
         const cdPath = json_path_name.cdPath;
         const timeJson = (!cd.open) ? new Set() : new Set(JSON.parse(file.readTextSync(cdPath)).sort(
             (a, b) => b.level - a.level
         ))
+        settingsNameList = settingsNameList.concat(Array.from(await getMultiCheckboxMap().then(map => {
+            return map.keys().filter(key => !key.startsWith(levelName))
+        })))
+        log.debug(`settingsNameList:{0}`, JSON.stringify(settingsNameList))
+        settingsNameList.filter(key => {
+            log.debug(`fil:{0}`, JSON.stringify(key))
+            return key.trim() !== ""
+        })
         // for (let key of pathAsMap.keys()) {
         //     const multiCheckbox = await getValueByMultiCheckboxName(pathAsMap.get(key));
         //     needRunMap.set(key, multiCheckbox)
         // }
         for (const settingsName of settingsNameList) {
+            log.debug(`settingsName:{0}`, settingsName)
             // let multi = await getValueByMultiCheckboxName(settingsName);
             const multiJson = await getJsonByMultiCheckboxName(settingsName)
+            log.debug(`multiJson:{0}`, JSON.stringify(multiJson))
             const label = getBracketContent(multiJson.label)
             let multi = multiJson.options
 
@@ -452,9 +464,14 @@ async function init() {
                 return {name: item.name, parent_name: item.parent_name, selected: matchedElement || "", path: item.path}
             });
             // 1. 预处理：将 Set/Map 转为数组，避免循环内重复转换
-            const recordPaths = Array.from(RecordPath.paths);
+            let recordPaths ;
+            try {
+                recordPaths=Array.from(RecordPath.paths)
+            }catch (e) {
+                recordPaths =[]
+            }
             const timeConfigs = Array.from(timeJson);
-
+            log.info(`list:{0}`, JSON.stringify(...list))
             const timeFilter = list.filter(item => {
                 // 2. 查找匹配的配置项 (假设这是必须的条件)
                 // 注意：这里保留了原有的 includes 逻辑，但在实际业务中建议评估是否需要精确匹配
@@ -510,6 +527,7 @@ async function init() {
             log.debug(`[CD]{0}[CD]`, JSON.stringify([...timeFilter]))
             log.debug(`[RUN]{0}[RUN]`, JSON.stringify([...list]))
         }
+        log.info(`NEED-RUN:{0}`, JSON.stringify(...needRunMap))
         // 启用自动拾取的实时任务，并配置成启用急速拾取模式
         // dispatcher.addTrigger(new RealtimeTimer("AutoPick"));
         await realTimeMissions()
@@ -564,9 +582,9 @@ async function main() {
         await runMap(lastRunMap)
     }
 
-    if (needRunMap.size <= 0 && lastRunMap.size <= 0) {
-        log.info(`设置目录{0}完成`, "刷新")
-    }
+    // if (needRunMap.size <= 0 && lastRunMap.size <= 0) {
+    //     log.info(`设置目录{0}完成`, "刷新")
+    // }
     // log.info(`[{mode}] path==>{path},请按下{key}以继续执行[${manifest.name} JS]`, settings.mode, "path", AUTO_STOP)
     // await keyMousePressStart(AUTO_STOP);
     // log.info(`[{mode}] path==>{path},请按下{key}以继续执行[${manifest.name} JS]`, settings.mode, "path", AUTO_STOP)
@@ -837,7 +855,7 @@ function addUniquePath(obj, list = PATHING_ALL) {
  * 从配置文件中读取设置信息并返回
  * @returns {Object} 返回解析后的JSON设置对象
  */
-async function initSettings(prefix="") {
+async function initSettings(prefix = undefined) {
     // 默认设置文件路径
     let settings_ui = "settings.json";
     try {
@@ -854,12 +872,13 @@ async function initSettings(prefix="") {
         log.info(`|脚本作者:{authors}\n`, manifest.authors.map(a => a.name).join(","));
         // 更新settings_ui变量为manifest中指定的路径
         settings_ui = manifest.settings_ui
+        settings_ui = prefix ? prefix + settings_ui : settings_ui
     } catch (error) {
         // 捕获并记录可能的错误
         log.warn("{error}", error.message);
     }
     // 读取并解析设置文件
-    const settingsJson = JSON.parse(file.readTextSync(`${prefix}${settings_ui}`));
+    const settingsJson = JSON.parse(file.readTextSync(settings_ui));
     // 如果configSettings未定义，则将其设置为解析后的设置对象
     if (!configSettings) {
         configSettings = settingsJson
@@ -878,10 +897,10 @@ async function initSettings(prefix="") {
  */
 async function getMultiCheckboxMap() {
     // 如果configSettings存在则使用它，否则调用initSettings()函数获取
-    const settingsJson = configSettings ? configSettings : await initSettings();
+    const settingsJson =await initSettings();
     // 创建一个新的Map对象用于存储多复选框的配置
     // Map结构为: {名称: 选项数组}
-    let multiCheckboxMap = new Map();
+    let multiCheckboxMap = new Map([]);
     // 遍历设置JSON中的每个条目
     settingsJson.forEach((entry) => {
         // 如果条目没有name属性或者类型不是"multi-checkbox"，则跳过该条目
@@ -894,8 +913,9 @@ async function getMultiCheckboxMap() {
         log.debug("name={key1},label={key2},options={key3},length={key4}", name, label, JSON.stringify(options), options.length);
         // 将名称和对应的选项数组存入Map
         // multiCheckboxMap.set(name, options);
-        multiCheckboxMap.set(name, {label: label, options: options});
+        multiCheckboxMap.set(name, {label: `${label}`, options: [...options]});
     })
+    log.debug("multiCheckboxMap={key}",   JSON.stringify(Array.from(multiCheckboxMap)))
     // 返回包含多复选框配置的Map
     return multiCheckboxMap
 }
