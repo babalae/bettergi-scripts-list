@@ -125,8 +125,8 @@ async function compareVersion(version1, version2) {
             log.info(`ABGI启动更换房间：`+`${settings.inputText}`);
             await sleep(outTime);
             return;
-        case "等待时间(单位为ms)":
-            await sleep(500);
+        case "等待时间(单位为s)":
+            await sleep(`${settings.inputText}`);
             await sleep(outTime);
             return;
         default:
