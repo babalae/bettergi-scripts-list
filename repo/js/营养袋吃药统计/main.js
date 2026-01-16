@@ -1,14 +1,36 @@
 let userName = settings.userName || "默认账户";
-const recoveryFoodName = settings.recoveryFoodName || "回血药名字没填";
-const resurrectionFoodName = settings.resurrectionFoodName || "复活药名字没填";
+const mode = settings.runMode || "营养袋模式"
+let recoveryFoodName = settings.recoveryFoodName || "回血药名字没填";
+let resurrectionFoodName = settings.resurrectionFoodName || "复活药名字没填";
 const ocrRegion = {
-        x: 110,
+        x: 1422,
+        y: 586,
+        width: 300,
+        height: 40
+    };
+const ocrRegion1 = {
+        x: 1420,
+        y: 687,
+        width: 300,
+        height: 40
+    };
+const ocrRegion2 = {
+        x: 105,
         y: 242,
-        width: 124,
-        height: 32
+        width: 140,
+        height: 40
     };
 const loadDelay = +settings.loadDelay || 800;
 const stepDelay = +settings.stepDelay || 500;
+let refreshTime = parseFloat(settings.refreshTime) || 4.0;
+if (isNaN(refreshTime) || refreshTime < 0 || refreshTime >= 24) {
+    refreshTime = 4.0;
+    log.warn(`刷新时间设置错误，使用默认值4.0`);
+}
+// 计算刷新时间的小时和分钟
+const refreshHour = Math.floor(refreshTime);
+const refreshMinute = Math.floor((refreshTime - refreshHour) * 60);
+log.info(`刷新时间为: ${refreshHour}:${String(refreshMinute).padStart(2, '0')}`);
 (async function () {
     // 检验账户名
     async function getUserName() {
@@ -19,6 +41,23 @@ const stepDelay = +settings.stepDelay || 500;
             userName = "默认账户";
         }
         return userName;
+    }
+
+    async function close_join_world_popup_window() {
+        const game_region = captureGameRegion();
+        const text_x = 762;
+        const text_y = 29;
+        const text_w = 210;
+        const text_h = 40;
+        const ocr_res = game_region.find(RecognitionObject.ocr(text_x, text_y, text_w, text_h));
+        if (ocr_res) {
+            if (ocr_res.text.includes("进入世界申请")) {
+                log.info("检测到有人申请进入世界，拒绝申请");
+                click(1051, 51);//选择珍贵物品
+                await clickPNG('拒绝', 10);
+            }
+        }
+        game_region.dispose();
     }
 
     async function close_expired_stuff_popup_window() {
@@ -62,26 +101,24 @@ const stepDelay = +settings.stepDelay || 500;
 
             if (lines.length === 0) return result;
 
-            // 获取当前时间范围（当天4点至次日4点）
+            // 获取当前时间范围（根据自定义刷新时间）
             const now = new Date();
             let startTime, endTime;
 
-            if (now.getHours() < 4) {
-                // 当前时间在4点前，时间范围为昨天4点至今天4点
-                startTime = new Date(now);
-                startTime.setDate(now.getDate() - 1);
-                startTime.setHours(4, 0, 0, 0);
+            // 创建今天的刷新时间点
+            const todayRefresh = new Date(now);
+            todayRefresh.setHours(refreshHour, refreshMinute, 0, 0);
 
-                endTime = new Date(now);
-                endTime.setHours(4, 0, 0, 0);
+            if (now < todayRefresh) {
+                // 当前时间在刷新时间前，时间范围为昨天刷新时间至今天刷新时间
+                startTime = new Date(todayRefresh);
+                startTime.setDate(startTime.getDate() - 1);
+                endTime = new Date(todayRefresh);
             } else {
-                // 当前时间在4点后，时间范围为今天4点至明天4点
-                startTime = new Date(now);
-                startTime.setHours(4, 0, 0, 0);
-
-                endTime = new Date(now);
-                endTime.setDate(now.getDate() + 1);
-                endTime.setHours(4, 0, 0, 0);
+                // 当前时间在刷新时间后，时间范围为今天刷新时间至明天刷新时间
+                startTime = new Date(todayRefresh);
+                endTime = new Date(todayRefresh);
+                endTime.setDate(endTime.getDate() + 1);
             }
 
             // 时间格式正则：匹配 "时间:YYYY/MM/DD HH:mm:ss"
@@ -195,22 +232,23 @@ const stepDelay = +settings.stepDelay || 500;
 
             // 如果需要删除当天同名记录
             if (deleteSameDayRecords) {
-                // 获取当前时间范围（当天4点至次日4点）
+                // 获取当前时间范围（根据自定义刷新时间）
                 let startTime, endTime;
-                if (now.getHours() < 4) {
-                    // 当前时间在4点前，时间范围为昨天4点至今天4点
-                    startTime = new Date(now);
-                    startTime.setDate(now.getDate() - 1);
-                    startTime.setHours(4, 0, 0, 0);
-                    endTime = new Date(now);
-                    endTime.setHours(4, 0, 0, 0);
+
+                // 创建今天的刷新时间点
+                const todayRefresh = new Date(now);
+                todayRefresh.setHours(refreshHour, refreshMinute, 0, 0);
+
+                if (now < todayRefresh) {
+                    // 当前时间在刷新时间前，时间范围为昨天刷新时间至今天刷新时间
+                    startTime = new Date(todayRefresh);
+                    startTime.setDate(startTime.getDate() - 1);
+                    endTime = new Date(todayRefresh);
                 } else {
-                    // 当前时间在4点后，时间范围为今天4点至明天4点
-                    startTime = new Date(now);
-                    startTime.setHours(4, 0, 0, 0);
-                    endTime = new Date(now);
-                    endTime.setDate(now.getDate() + 1);
-                    endTime.setHours(4, 0, 0, 0);
+                    // 当前时间在刷新时间后，时间范围为今天刷新时间至明天刷新时间
+                    startTime = new Date(todayRefresh);
+                    endTime = new Date(todayRefresh);
+                    endTime.setDate(endTime.getDate() + 1);
                 }
 
                 // 创建药品匹配正则
@@ -275,7 +313,6 @@ const stepDelay = +settings.stepDelay || 500;
                 if (!res || !res.text) {
                     continue;
                 }
-
                 const numberMatch = res.text.match(pattern);
                 if (numberMatch) {
                     const number = parseInt(numberMatch[1] || numberMatch[0]);
@@ -296,6 +333,55 @@ const stepDelay = +settings.stepDelay || 500;
         return null;
     }
 
+    async function recognizeFoodItemByOCR(ocrRegion, pattern) {
+        let captureRegion = null;
+        try {
+            const ocrRo = RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
+            captureRegion = captureGameRegion();
+            const resList = captureRegion.findMulti(ocrRo);
+
+            if (!resList || resList.length === 0) {
+                log.warn("OCR未识别到任何文本");
+                return { name: null, count: null };
+            }
+
+            for (const res of resList) {
+                if (!res || !res.text) {
+                    continue;
+                }
+                const match = res.text.match(pattern);
+                if (match) {
+                    let name = null;
+                    let count = null;
+
+                    if (match[1]) {
+                        name = match[1].trim();
+                    }
+
+                    if (match[2]) {
+                        count = parseInt(match[2]);
+                        if (isNaN(count)) {
+                            count = null;
+                        }
+                    }
+
+                    if (name || count) {
+                        return { name, count };
+                    }
+                }
+            }
+        }
+        catch (error) {
+            log.error(`OCR识别时发生异常: ${error.message}`);
+        }
+        finally {
+            if (captureRegion) {
+                captureRegion.dispose();
+            }
+        }
+        return { name: null, count: null };
+}
+
     async function findAndClick(target, doClick = true, maxAttempts = 60) {
         for (let i = 0; i < maxAttempts; i++) {
             const rg = captureGameRegion();
@@ -308,72 +394,155 @@ const stepDelay = +settings.stepDelay || 500;
         return false;
     }
 
-    async function clickPNG(png, maxAttempts = 20) {
+    async function clickPNG(png, maxAttempts = 20, doClick=true) {
 //        log.info(`调试-点击目标${png},重试次数${maxAttempts}`);
         const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${png}.png`));
         pngRo.Threshold = 0.95;
         pngRo.InitTemplate();
-        return await findAndClick(pngRo, true, maxAttempts);
+        return await findAndClick(pngRo, doClick, maxAttempts);
     }
 
     async function main() {
-    // 设置分辨率和缩放
-    setGameMetrics(1920, 1080, 1);
-    await genshin.returnMainUi();
-    keyPress("B");//打开背包
-    await sleep(1000);
-    await close_expired_stuff_popup_window()
-    await sleep(loadDelay);
-    click(863, 51);//选择食物
-    await sleep(loadDelay);
-    await clickPNG('筛选1', 1);
-    await clickPNG('筛选2', 1);
-    await clickPNG('重置');
-    await sleep(stepDelay);
-    await clickPNG('搜索');
-    await sleep(loadDelay);
-    log.info(`搜索${recoveryFoodName}`)
-    inputText(recoveryFoodName);
-    await clickPNG('确认筛选');
-    await sleep(stepDelay);
-    let recoveryNumber=await recognizeNumberByOCR(ocrRegion,/\d+/) //识别回血药数量
-    // 处理回血药识别结果
-    if (recoveryNumber === null) {
-        recoveryNumber = 0;
-        notification.send(`未识别到回血药数量(数量小于10识别不到)，设置数量为0，药品名：${recoveryFoodName}`)
-        await sleep(5000);
-        click(863, 51);//选择食物
+        let recoveryNumber = 0;
+        let resurrectionNumber = 0;
+        // 设置分辨率和缩放
+        setGameMetrics(1920, 1080, 1);
+        await genshin.returnMainUi();
+        keyPress("B");//打开背包
         await sleep(1000);
+        // 关闭弹窗
+        await close_expired_stuff_popup_window();
+        await close_join_world_popup_window();
+        await sleep(loadDelay);
+        // 打开界面
+        let maxRetries = 5; // 最大重试次数
+        let retryCount = 0;
+        let successClick = false;
+        // 根据模式选择点击的位置
+        let clickX, clickY;
+        if (mode === "营养袋模式") {
+            clickX = 1051; // 选择小道具
+            clickY = 51;
+        } else if (mode === "筛选模式") {
+            clickX = 863; // 选择食物
+            clickY = 51;
+        }
+        while (retryCount < maxRetries && !successClick) {
+            retryCount++;
+            await close_join_world_popup_window();
+            click(clickX, clickY);
+            await sleep(loadDelay);
+            // 检查是否进入了申请界面（通过查找"拒绝"按钮）
+            if (await clickPNG('拒绝', 3)) { // 找到拒绝按钮，说明在申请界面
+                log.info("检测到进入世界申请，已拒绝，重新尝试点击分类标签");
+                await sleep(stepDelay);
+                continue; // 继续下一次循环
+            }
+            if (mode === "营养袋模式") {
+                if (await clickPNG('营养袋', 1, false)) { // 只检查不点击
+                    successClick = true;
+                    log.info("成功进入小道具界面");
+                    break;
+                }
+            } else if (mode === "筛选模式") {
+                if (await clickPNG('筛选1', 1, false)||await clickPNG('筛选2', 1, false)) { // 只检查不点击
+                    successClick = true;
+                    log.info("成功进入食物界面");
+                    break;
+                }
+            }
+            log.warn(`尝试点击分类标签失败，第${retryCount}次重试`);
+            await sleep(stepDelay);
+        }
+        if (!successClick) {
+            log.error("多次尝试点击分类标签失败，脚本终止");
+            return { recoveryNumber, resurrectionNumber};
+        }
+        if (mode === "营养袋模式") {
+            // 营养袋模式
+            await clickPNG('营养袋', 1);
+            await sleep(loadDelay);
+            const pattern = /(.+?)\s*[（\(](\d+)[份\s]*[）\)]/;
+            // 识别回血药
+            let result = await recognizeFoodItemByOCR(ocrRegion, pattern);
+            if (result.name && result.count !== null) {
+                log.info(`识别到: ${result.name}, 份数: ${result.count}`);
+            } else {
+                log.warn("未识别到有效的回血药信息");
+            }
+            recoveryNumber = result.count; // 识别回血药数量
+            recoveryFoodName = result.name || '未识别到回血药名称'; // 如果识别失败，使用settings中的名字
+            // 处理回血药识别结果
+            if (recoveryNumber === null) {
+                recoveryNumber = 0;
+                notification.send(`未识别到回血药数量，设置数量为0，药品名：${recoveryFoodName}`);
+            }
+            // 识别复活药
+            result = await recognizeFoodItemByOCR(ocrRegion1, pattern);
+            if (result.name && result.count !== null) {
+                log.info(`识别到: ${result.name}, 份数: ${result.count}`);
+            } else {
+                log.warn("未识别到有效的复活药信息");
+            }
+            resurrectionNumber = result.count; // 识别复活药数量
+            resurrectionFoodName = result.name || '未识别到复活药名称'; // 如果识别失败，使用settings中的名字
+            // 处理复活药识别结果
+            if (resurrectionNumber === null) {
+                resurrectionNumber = 0;
+                notification.send(`未识别到复活药数量，设置数量为0，药品名：${resurrectionFoodName}`);
+            }
+        } else if (mode === "筛选模式") {
+            // 食物筛选模式
+            // 先识别回血药
+            await clickPNG('筛选1', 1);
+            await clickPNG('筛选2', 1);
+            await clickPNG('重置');
+            await sleep(stepDelay);
+            await clickPNG('搜索');
+            await sleep(loadDelay);
+            log.info(`搜索${recoveryFoodName}`);
+            inputText(recoveryFoodName);
+            await clickPNG('确认筛选');
+            await sleep(loadDelay);
+            recoveryNumber = await recognizeNumberByOCR(ocrRegion2, /\d+/); // 识别回血药数量
+            // 处理回血药识别结果
+            if (recoveryNumber === null) {
+                recoveryNumber = 0;
+                notification.send(`未识别到回血药数量，设置数量为0，药品名：${recoveryFoodName}`);
+                await sleep(5000);
+                click(863, 51); // 选择食物
+                await sleep(1000);
+            }
+            // 重置筛选，识别复活药
+            await clickPNG('筛选1', 1);
+            await clickPNG('筛选2', 1);
+            await clickPNG('重置');
+            await sleep(stepDelay);
+            await clickPNG('搜索');
+            await sleep(loadDelay);
+            log.info(`搜索${resurrectionFoodName}`);
+            inputText(resurrectionFoodName);
+            await clickPNG('确认筛选');
+            await sleep(loadDelay);
+            resurrectionNumber = await recognizeNumberByOCR(ocrRegion2, /\d+/); // 识别复活药数量
+            // 处理复活药识别结果
+            if (resurrectionNumber === null) {
+                resurrectionNumber = 0;
+                notification.send(`未识别到复活药数量，设置数量为0，药品名：${resurrectionFoodName}`);
+                await sleep(5000);
+                click(863, 51); // 选择食物
+                await sleep(1000);
+            }
+            // 重置筛选
+            await clickPNG('筛选1', 1);
+            await clickPNG('筛选2', 1);
+            await clickPNG('重置');
+            await sleep(stepDelay);
+            await clickPNG('确认筛选');
+        }
+        await genshin.returnMainUi();
+        return { recoveryNumber, resurrectionNumber };
     }
-    await sleep(loadDelay);
-    await clickPNG('筛选1', 1);
-    await clickPNG('筛选2', 1);
-    await clickPNG('重置');
-    await sleep(stepDelay);
-    await clickPNG('搜索');
-    await sleep(loadDelay);
-    log.info(`搜索${resurrectionFoodName}`)
-    inputText(resurrectionFoodName);
-    await clickPNG('确认筛选');
-    await sleep(stepDelay);
-    let resurrectionNumber=await recognizeNumberByOCR(ocrRegion,/\d+/) //识别复活药数量
-    // 处理复活药识别结果
-    if (resurrectionNumber === null) {
-        resurrectionNumber = 0;
-        notification.send(`未识别到复活药数量(数量小于10识别不到)，设置数量为0，药品名：${resurrectionFoodName}`)
-        await sleep(5000);
-        click(863, 51);//选择食物
-        await sleep(1000);
-    }
-    await clickPNG('筛选1', 1);
-    await clickPNG('筛选2', 1);
-    await clickPNG('重置');
-    await sleep(stepDelay);
-    await clickPNG('确认筛选');
-    await genshin.returnMainUi();
-    return { recoveryNumber, resurrectionNumber };
-    }
-
     // 主执行流程
     userName = await getUserName();
     const recordPath = `assets/${userName}.txt`;
