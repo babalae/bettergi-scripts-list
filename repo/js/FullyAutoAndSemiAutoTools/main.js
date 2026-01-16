@@ -16,6 +16,7 @@ const cd = {
     http_api: undefined,
 }
 const pathingName = "pathing"
+let loadingLevel = 2
 // const pathAsMap = new Map([])
 // const pathRunMap = new Map([])
 const needRunMap = new Map([])
@@ -32,8 +33,8 @@ const json_path_name = {
     SevenElement: `${config_root}\\SevenElement.json`,
 }
 // 定义记录文件的路径
-let RecordText = `${config_root}\\record.json`
-let RecordPathText = `${config_root}\\PathRecord.json`
+// let RecordText = `${config_root}\\record.json`
+// let RecordPathText = `${config_root}\\PathRecord.json`
 let RecordList = new Array()
 let RecordLast = {
     uid: "",
@@ -145,16 +146,16 @@ async function init() {
             parse?.sort((a, b) => a.level - b.level)
             SevenElement.SevenElements = Array.from(new Set(SevenElement.SevenElements.concat(parse.map(item => item.name))))
             parse.forEach(item => {
-                const name= item.name
-                let value= item.value
+                const name = item.name
+                let value = item.value
                 if (SevenElement.SevenElementsMap.has(name)) {
-                    value=Array.from(new Set(SevenElement.SevenElementsMap.get(name).concat(value)))
+                    value = Array.from(new Set(SevenElement.SevenElementsMap.get(name).concat(value)))
                 }
                 SevenElement.SevenElementsMap.set(name, value)
             })
         }
     } catch (e) {
-        log.warn("[SevenElement]初始化失败error:{0}",e.message)
+        log.warn("[SevenElement]初始化失败error:{0}", e.message)
 
     }
     //记录初始化
@@ -174,7 +175,7 @@ async function init() {
 
     async function refreshALL() {
         let level = 0
-
+        const parent_level = level + 1
         // 获取当前路径下的所有文件/文件夹
         let pathSyncList = file.readPathSync(`${PATHING_ALL[level].name}`);
         log.debug("{0}文件夹下有{1}个文件/文件夹", `${pathingName}`, pathSyncList.length);
@@ -182,7 +183,7 @@ async function init() {
         let parentJson = {
             name: `${levelName}_${level}_${level}`,
             type: "multi-checkbox",
-            label: `选择要执行的${level + 1}级路径`,
+            label: `选择要执行的${parent_level}级路径`,
             options: []
         }
         for (const element of pathSyncList) {
@@ -215,31 +216,65 @@ async function init() {
             if (isBlacklisted && !isWhitelisted) {
                 continue;
             }
-
-
-            const level_parent_name = getChildFolderNameFromRoot(pathRun, level + 1);
-            const level1_name = getChildFolderNameFromRoot(pathRun, level + 1 + 1);
-            let level2_name = getChildFolderNameFromRoot(pathRun, level + 2 + 1);
-            let level3_name = getChildFolderNameFromRoot(pathRun, level + 3 + 1);
-            if (level2_name.endsWith(".json")) {
-                level2_name = undefined
+            //方案1
+            try {
+                loadingLevel = parseInt(settings.loading_level)
+            } catch (e) {
+                log.warn("配置 {0} 错误，将使用默认值{0}", "加载路径层级", loadingLevel)
             }
-            if (level3_name.endsWith(".json")) {
-                level3_name = undefined
+            // 优化版本
+            for (let i = 0; i < loadingLevel; i++) {
+                const currentLevel = parent_level + 1 + i;
+                const parentLevel = parent_level;
+
+                const currentName = getChildFolderNameFromRoot(pathRun, currentLevel);
+                const childName = getChildFolderNameFromRoot(pathRun, currentLevel + 1);
+
+                // 检查当前层级是否存在
+                if (!currentName) {
+                    break; // 没有当前层级，停止处理
+                }
+
+                // 过滤JSON文件
+                const filteredChildName = childName?.endsWith(".json") ? undefined : childName;
+
+                // 获取父级名称用于建立层级关系
+                const parentName = getChildFolderNameFromRoot(pathRun, parentLevel);
+
+                await addUniquePath({
+                    level: parent_level + i,        // 存储到目标层级
+                    name: currentName,              // 当前层级名称
+                    parent_name: parentName,        // 父级名称
+                    child_names: filteredChildName ? [filteredChildName] : []
+                });
             }
-            //存储 2 级
-            await addUniquePath({
-                level: level + 1,
-                name: level1_name,
-                parent_name: level_parent_name,
-                child_names: level2_name ? [level2_name] : []
-            })
-            await addUniquePath({
-                level: level + 2,
-                name: level2_name,
-                parent_name: level1_name,
-                child_names: level3_name ? [level3_name] : []
-            })
+
+            //方案2
+            /*           const level_parent_name = getChildFolderNameFromRoot(pathRun, parent_level);
+                       const level1_name = getChildFolderNameFromRoot(pathRun, parent_level + 1);
+
+                       let level2_name = getChildFolderNameFromRoot(pathRun, parent_level + 1 + 1);
+                       let level3_name = getChildFolderNameFromRoot(pathRun, parent_level + 1 + 2);
+
+                       if (level2_name.endsWith(".json")) {
+                           level2_name = undefined
+                       }
+                       if (level3_name.endsWith(".json")) {
+                           level3_name = undefined
+                       }
+                       //存储 2 级
+                       await addUniquePath({
+                           level: parent_level,
+                           name: level1_name,
+                           parent_name: level_parent_name,
+                           child_names: level2_name ? [level2_name] : []
+                       })
+                       await addUniquePath({
+                           level: parent_level + 1,
+                           name: level2_name,
+                           parent_name: level1_name,
+                           child_names: level3_name ? [level3_name] : []
+                       })*/
         }
         // 正确的排序方式
         PATHING_ALL.sort((a, b) => {
@@ -256,7 +291,7 @@ async function init() {
 
         await debugKey('log-PATHING_ALL.json', JSON.stringify(PATHING_ALL))
         const groupLevel = groupByLevel(PATHING_ALL);
-        const initLength = settingsList.length
+        // const initLength = settingsList.length
         let parentNameLast = undefined
         // let parentNameNow = undefined
         const line = 30
@@ -533,7 +568,7 @@ async function saveRecordPaths() {
         })()
     };
     // 将记录列表转换为JSON字符串并同步写入文件
-    file.writeTextSync(RecordText, JSON.stringify(recordToSave))
+    file.writeTextSync(json_path_name.RecordText, JSON.stringify(recordToSave))
 }
 
 /**
@@ -561,7 +596,7 @@ function saveRecord() {
     // 将处理后的记录添加到记录列表
     RecordList.push(recordToSave)
     // 将记录列表转换为JSON字符串并同步写入文件
-    file.writeTextSync(RecordText, JSON.stringify(RecordList))
+    file.writeTextSync(json_path_name.RecordText, JSON.stringify(RecordList))
 }
 
 /**
@@ -627,7 +662,7 @@ async function initRecord() {
     try {
         // 尝试读取记录文件
         // 读取后将数组转换回 Set，处理特殊的数据结构
-        RecordList = JSON.parse(file.readTextSync(RecordText), (key, value) => {
+        RecordList = JSON.parse(file.readTextSync(json_path_name.RecordText), (key, value) => {
             // 处理普通路径集合
             if (key === 'paths' || key === 'errorPaths') {
                 return new Set(value);
@@ -647,7 +682,7 @@ async function initRecord() {
     try {
         // 尝试读取记录文件
         // 读取后将数组转换回 Set，处理特殊的数据结构
-        RecordPath = JSON.parse(file.readTextSync(RecordPathText), (key, value) => {
+        RecordPath = JSON.parse(file.readTextSync(json_path_name.RecordPathText), (key, value) => {
             // 处理分组路径集合，保持嵌套的Set结构
             if (key === 'paths') {
                 return new Set(value.map(item => ({
