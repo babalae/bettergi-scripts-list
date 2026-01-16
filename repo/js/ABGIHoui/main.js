@@ -1,5 +1,5 @@
 // 延时时间
-const outTime= ~~settings.outTime;
+const outTime= ~~String(settings.outTime).replace(/\D/g, "");
 
 // 比较结果
 let result = 0
@@ -125,8 +125,9 @@ async function compareVersion(version1, version2) {
             log.info(`ABGI启动更换房间：`+`${settings.inputText}`);
             await sleep(outTime);
             return;
-        case "等待时间(单位为s)":
-            await sleep(`${settings.inputText}`);
+        case "等待时间(单位为秒)":
+            const pureDigitStr = String(settings.inputText).replace(/\D/g, "");
+            await sleep(pureDigitStr*1000);
             await sleep(outTime);
             return;
         default:
