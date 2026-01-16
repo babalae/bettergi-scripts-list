@@ -122,7 +122,7 @@ function parseCron(cron) {
  * @param {number} endTimestamp - 结束时间戳
  * @returns {Promise} 返回一个Promise，解析为下一个Cron时间戳
  */
-async function getNextCronTimestamp(cronExpression, startTimestamp = Date.now(), endTimestamp, url = settings.cron_http_url) {
+async function getNextCronTimestamp(cronExpression, startTimestamp = Date.now(), endTimestamp, url) {
     const result = await http.request("POST", url, JSON.stringify({
         cronExpression: `${cronExpression}`,
         startTimestamp: startTimestamp,

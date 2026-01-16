@@ -1,12 +1,21 @@
 [
   {
+    "name": "key",
+    "type": "input-text",
+    "label": "密钥",
+    "default": ""
+  },
+  {
       "name": "config_run",
       "type": "select",
       "label": "配置模式",
       "options": [
-      "刷新","加载"
+      "刷新","加载","执行"
       ],
       "default": "刷新"
+  },
+  {
+      "type": "separator"
   },
   {
       "name": "config_white_list",
@@ -21,27 +30,28 @@
       "default": "其他,锄地专区,食材与炼金"
   },
   {
-      "name": "cron_http_url",
-      "type": "input-text",
-      "label": "cron解析Http 地址",
-      "default": "http://<ip:port>/bgi/cron/next-timestamp"
+      "type": "separator"
   },
   {
-    "name": "key",
-    "type": "input-text",
-    "label": "密钥",
-    "default": ""
-  },
-  {
-    "name": "isDebug",
+    "name": "open_cd",
     "type": "checkbox",
-    "label": "开发者模式",
+    "label": "启用CD算法",
     "default": false
   },
   {
-    "name": "debug",
-    "type": "input-text",
-    "label": "调试快捷键(开发者)"
+      "name": "http_api",
+      "type": "input-text",
+      "label": "[默认CD算法api]\ncron解析Http地址\n[请部署bettergi-scripts-tools可支持]",
+      "default": "http://<ip:port>/bgi/cron/next-timestamp"
+  },
+  {
+      "type": "separator"
+  },
+  {
+    "name": "choose_best",
+    "type": "checkbox",
+    "label": "择优模式(默认关闭 优先跑之前没跑过的)",
+    "default": false
   },
   {
       "name": "mode",
@@ -53,30 +63,45 @@
       "default": "全自动"
   },
   {
-    "name": "teamFight",
+      "name": "auto_semi_key_mode",
+      "type": "select",
+      "label": "[半自动]快捷键模式",
+      "options": [
+      "继续运行","跳过"
+      ],
+      "default": "继续运行"
+  },
+  {
+      "name": "auto_key",
+      "type": "input-text",
+      "label": "<继续运行|跳过>本次路线快捷键 (独立BGI的快捷键请勿冲突)"
+  },
+  {
+      "type": "separator"
+  },
+  {
+    "name": "team_fight",
     "type": "input-text",
     "label": "战斗队伍配置(同时也是行走队伍配置)"
   },
   {
-    "name": "teamSevenElements",
+    "name": "team_seven_elements",
     "type": "input-text",
     "label": "队伍配置 按 `矿物,火,水,风,雷,草,冰,岩` 该顺序填写",
     "default": ""
   },
   {
-    "name": "choose_best",
+      "type": "separator"
+  },
+  {
+    "name": "is_debug",
     "type": "checkbox",
-    "label": "择优模式(默认关闭 优先跑之前没跑过的)",
+    "label": "开发者模式",
     "default": false
   },
   {
-      "name": "autoStop",
-      "type": "input-text",
-      "label": "自动暂停快捷键(独立BGI的快捷键请勿冲突)"
-  },
-  {
-      "name": "autoSkip",
-      "type": "input-text",
-      "label": "【测试功能-无效配置】自动跳过运行快捷键(独立BGI的快捷键请勿冲突)"
+    "name": "debug",
+    "type": "input-text",
+    "label": "调试快捷键(开发者)"
   }
 ]
