@@ -1,5 +1,3 @@
-**由于使用了尚处于测试版BetterGI中的API，使用稳定版BetterGI的用户请等待`0.54.1`或更高的版本发布后再订阅此脚本**
-
 （在脚本仓库页面阅读此文档，会比在BGI的已订阅脚本界面获得更好的渲染效果）
 
 # 功能特点
@@ -10,6 +8,8 @@
 - 方便的材料选择界面，并支持按地区、按类别批量选择
 - 可设置一个或多个不运行的时间段
 - 采集过程自动切换合适的队伍
+
+**若脚本有问题，可[点击此处进行反馈](https://github.com/babalae/bettergi-scripts-list/issues/new?template=bug_report.yml&script-name=CD-Aware-AutoGather:2.1.0&additional-info=保留此行以便通知作者:%20@Patrick-Ze%0A---%0A)**
 
 # 使用前准备
 

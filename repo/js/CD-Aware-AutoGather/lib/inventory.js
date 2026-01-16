@@ -7,7 +7,7 @@
  */
 
 let scriptContext = {
-    version: "1.0",
+    version: "1.1",
 };
 
 // 原本是csv格式，但是为了方便js重用，还是内置在代码中
@@ -81,6 +81,8 @@ const csvText = `物品,刷新机制,背包分类
 幽光星星,46小时,材料
 月莲,46小时,材料
 月落银,46小时,材料
+冬凌草,46小时,材料
+松珀香,46小时,材料
 云岩裂叶,46小时,材料
 灼灼彩菊,46小时,材料
 子探测单元,46小时,材料
@@ -182,9 +184,9 @@ function parseCsvTextToDict() {
  * 获取背包中物品的数量。
  * 如果没有找到，则为-1；如果找到了但数字识别失败，则为-2
  *
- * 暂不支持 冷鲜肉, 红果果菇, 奇异的「牙齿」
+ * 暂不支持 冷鲜肉, 红果果菇, 奇异的「牙齿」, 冬凌草, 松珀香
  */
-async function getItemCount(itemList=null, retry=true) {
+async function getItemCount(itemList=null) {
     if (Object.keys(materialMetadata).length === 0) {
         Object.assign(materialMetadata, parseCsvTextToDict());
     }
@@ -216,18 +218,33 @@ async function getItemCount(itemList=null, retry=true) {
         }));
         Object.assign(results, countResult);
     }
-    if (retry && itemList.some(item => !(item in results))) {
+
+    const missingItems = itemList.filter(name => !(name in results));
+    if (missingItems.length > 0) {
         // 即使在白天，大多数情况也能识别成功，因此不作为常态机制，仅在失败时使用
-        log.info("部分物品识别失败，调整时间和视角后重试");
+        log.info(`${missingItems.length}个物品识别失败，调整时间和视角后重试`);
         await genshin.returnMainUi();
         await genshin.setTime(0, 0);
         await sleep(300);
         moveMouseBy(0, 9280);
         await sleep(300);
-        const retryResults = await getItemCount(itemList, false);
+
+        // 只针对缺失的物品进行重试
+        for (const type in groupByType) {
+            const namesToRetry = groupByType[type].filter(name => missingItems.includes(name));
+            if (namesToRetry.length > 0) {
+                const retryCountResult = await dispatcher.runTask(new SoloTask("CountInventoryItem", {
+                    "gridScreenName": type,
+                    "itemNames": namesToRetry,
+                }));
+                // 将重试结果合并到原始 results 中
+                Object.assign(results, retryCountResult);
+            }
+        }
+
+        // 恢复视角
         await genshin.returnMainUi();
         keyPress("MBUTTON");
-        return retryResults;
     }
     const finalResults = {};
     for (const itemName of itemList) {
