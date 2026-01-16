@@ -273,18 +273,23 @@ async function init() {
                 if (!currentName) {
                     break; // 没有当前层级，停止处理
                 }
-
+                const isBlacklisted = processedBlackList.some(item => childName?.includes(item));
+                const isWhitelisted = processedWhiteList.some(item => childName?.includes(item));
                 // 过滤JSON文件
                 const filteredChildName = childName?.endsWith(".json") ? undefined : childName;
-
-                // 获取父级名称用于建立层级关系
+                let child_names=[...filteredChildName]
+                if (isBlacklisted && !isWhitelisted) {
+                    child_names=[]
+                }
+       
+                         // 获取父级名称用于建立层级关系
                 const parentName = getChildFolderNameFromRoot(pathRun, parentLevel);
 
                 await addUniquePath({
                     level: parentLevel,        // 存储到目标层级 属于目标层级
                     name: currentName,              // 当前层级名称
                     parent_name: parentName,        // 父级名称
-                    child_names: filteredChildName ? [filteredChildName] : []
+                    child_names: [...child_names]
                 });
             }
 
