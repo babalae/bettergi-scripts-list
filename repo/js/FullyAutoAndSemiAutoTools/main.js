@@ -93,6 +93,31 @@ const timeType = Object.freeze({
     }
 });
 
+/**
+ * 实时任务处理函数
+ * @param {boolean} is_common - 是否为通用任务标志
+ * @returns {void} 无返回值
+ */
+async function realTimeMissions(is_common = true) {
+    let real_time_missions = settings.real_time_missions  // 从设置中获取实时任务列表
+    if (!is_common) {  // 处理非通用任务
+        if (real_time_missions.includes("自动战斗")) {
+            // await dispatcher.runAutoFightTask(new AutoFightParam());
+            await dispatcher.runTask(new SoloTask("AutoFight"));  // 执行自动战斗任务
+        }
+        return  // 非通用任务处理完毕后直接返回
+    }
+    // 处理通用任务
+    if (real_time_missions.includes("自动对话")) {
+        dispatcher.addTrigger(new RealtimeTimer("AutoSkip"));  // 添加自动对话触发器
+    }
+    if (real_time_missions.includes("自动拾取")) {
+        // 启用自动拾取的实时任务
+        dispatcher.addTrigger(new RealtimeTimer("AutoPick"));  // 添加自动拾取触发器
+    }
+
+}
+
 async function init() {
     let settingsConfig = await initSettings();
     let utils = [
@@ -466,7 +491,8 @@ async function init() {
             log.debug(`[RUN]{0}[RUN]`, JSON.stringify([...list]))
         }
         // 启用自动拾取的实时任务，并配置成启用急速拾取模式
-        dispatcher.addTrigger(new RealtimeTimer("AutoPick", {"forceInteraction": true}));
+        // dispatcher.addTrigger(new RealtimeTimer("AutoPick"));
+        await realTimeMissions()
     }
     return true
 }
@@ -1051,7 +1077,8 @@ async function runPath(path) {
         await pathingScript.runFile(path)
         if (team.fight) {
             //启用战斗
-            await dispatcher.runAutoFightTask(new AutoFightParam());
+            // await dispatcher.runAutoFightTask(new AutoFightParam());
+            await realTimeMissions(false)
         }
         log.debug("路径执行完成: {path}", path)
         RecordPath.paths.add({timestamp: Date.now(), path: path})

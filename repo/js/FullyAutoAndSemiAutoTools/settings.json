@@ -46,9 +46,16 @@
   },
   {
       "name": "http_api",
-      "type": "input-text",
-      "label": "[默认CD算法api]\ncron解析Http地址\n[请部署bettergi-scripts-tools可支持]",
-      "default": "http://<ip:port>/bgi/cron/next-timestamp"
+     "type": "input-text",
+     "label": "[默认CD算法api]\ncron解析Http地址\n[请部署bettergi-scripts-tools可支持]",
+     "default": "http://<ip:port>/bgi/cron/next-timestamp"
+  },
+  {
+     "name": "real_time_missions",
+     "type": "multi-checkbox",
+     "label": "实时任务",
+     "options": ["自动对话","自动战斗","自动拾取"],
+     "default": ["自动拾取"]
   },
   {
       "type": "separator"
