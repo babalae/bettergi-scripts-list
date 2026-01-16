@@ -435,7 +435,7 @@ async function init() {
             (a, b) => b.level - a.level
         ))
         settingsNameList = settingsNameList.concat(Array.from(await getMultiCheckboxMap().then(map => {
-            return map.keys().filter(key => !key.startsWith(levelName))
+            return map.keys().filter(key => key.startsWith(levelName))
         })))
         log.debug(`settingsNameList:{0}`, JSON.stringify(settingsNameList))
         settingsNameList.filter(key => {
@@ -464,11 +464,11 @@ async function init() {
                 return {name: item.name, parent_name: item.parent_name, selected: matchedElement || "", path: item.path}
             });
             // 1. 预处理：将 Set/Map 转为数组，避免循环内重复转换
-            let recordPaths ;
+            let recordPaths;
             try {
-                recordPaths=Array.from(RecordPath.paths)
-            }catch (e) {
-                recordPaths =[]
+                recordPaths = Array.from(RecordPath.paths)
+            } catch (e) {
+                recordPaths = []
             }
             const timeConfigs = Array.from(timeJson);
             log.info(`list:{0}`, JSON.stringify(...list))
@@ -527,7 +527,7 @@ async function init() {
             log.debug(`[CD]{0}[CD]`, JSON.stringify([...timeFilter]))
             log.debug(`[RUN]{0}[RUN]`, JSON.stringify([...list]))
         }
-        log.info(`NEED-RUN:{0}`, JSON.stringify(...needRunMap))
+        log.info(`NEED-RUN:{0}`, JSON.stringify([...needRunMap]))
         // 启用自动拾取的实时任务，并配置成启用急速拾取模式
         // dispatcher.addTrigger(new RealtimeTimer("AutoPick"));
         await realTimeMissions()
@@ -858,24 +858,26 @@ function addUniquePath(obj, list = PATHING_ALL) {
 async function initSettings(prefix = undefined) {
     // 默认设置文件路径
     let settings_ui = "settings.json";
-    try {
-        // 读取并解析manifest.json文件
-        manifest = manifest ? manifest : JSON.parse(file.readTextSync(manifest_json));
-        // 调试日志：输出manifest内容
-        // log.debug("manifest={key}", manifest);
-        // 调试日志：输出manifest中的settings_ui配置
-        log.debug("settings_ui={key}", manifest.settings_ui);
-        log.info(`|脚本名称:{name},版本:{version}`, manifest.name, manifest.version);
-        if (manifest.bgi_version) {
-            log.info(`|最小可执行BGI版本:{bgi_version}`, manifest.bgi_version);
+    if (!configSettings) {
+        try {
+            // 读取并解析manifest.json文件
+            manifest = manifest ? manifest : JSON.parse(file.readTextSync(manifest_json));
+            // 调试日志：输出manifest内容
+            // log.debug("manifest={key}", manifest);
+            // 调试日志：输出manifest中的settings_ui配置
+            log.debug("settings_ui={key}", manifest.settings_ui);
+            log.info(`|脚本名称:{name},版本:{version}`, manifest.name, manifest.version);
+            if (manifest.bgi_version) {
+                log.info(`|最小可执行BGI版本:{bgi_version}`, manifest.bgi_version);
+            }
+            log.info(`|脚本作者:{authors}\n`, manifest.authors.map(a => a.name).join(","));
+            // 更新settings_ui变量为manifest中指定的路径
+            settings_ui = manifest.settings_ui
+            settings_ui = prefix ? prefix + settings_ui : settings_ui
+        } catch (error) {
+            // 捕获并记录可能的错误
+            log.warn("{error}", error.message);
         }
-        log.info(`|脚本作者:{authors}\n`, manifest.authors.map(a => a.name).join(","));
-        // 更新settings_ui变量为manifest中指定的路径
-        settings_ui = manifest.settings_ui
-        settings_ui = prefix ? prefix + settings_ui : settings_ui
-    } catch (error) {
-        // 捕获并记录可能的错误
-        log.warn("{error}", error.message);
     }
     // 读取并解析设置文件
     const settingsJson = JSON.parse(file.readTextSync(settings_ui));
@@ -897,7 +899,7 @@ async function initSettings(prefix = undefined) {
  */
 async function getMultiCheckboxMap() {
     // 如果configSettings存在则使用它，否则调用initSettings()函数获取
-    const settingsJson =await initSettings();
+    const settingsJson = await initSettings();
     // 创建一个新的Map对象用于存储多复选框的配置
     // Map结构为: {名称: 选项数组}
     let multiCheckboxMap = new Map([]);
@@ -915,7 +917,7 @@ async function getMultiCheckboxMap() {
         // multiCheckboxMap.set(name, options);
         multiCheckboxMap.set(name, {label: `${label}`, options: [...options]});
     })
-    log.debug("multiCheckboxMap={key}",   JSON.stringify(Array.from(multiCheckboxMap)))
+    log.debug("multiCheckboxMap={key}", JSON.stringify(Array.from(multiCheckboxMap)))
     // 返回包含多复选框配置的Map
     return multiCheckboxMap
 }
