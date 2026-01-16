@@ -119,7 +119,7 @@ async function realTimeMissions(is_common = true) {
 }
 
 async function init() {
-    let settingsConfig = await initSettings();
+    let settingsConfig = await initSettings(`${config_root}\\`);
     let utils = [
         "cron",
         "SwitchTeam",
@@ -837,7 +837,7 @@ function addUniquePath(obj, list = PATHING_ALL) {
  * 从配置文件中读取设置信息并返回
  * @returns {Object} 返回解析后的JSON设置对象
  */
-async function initSettings() {
+async function initSettings(prefix="") {
     // 默认设置文件路径
     let settings_ui = "settings.json";
     try {
@@ -859,7 +859,7 @@ async function initSettings() {
         log.warn("{error}", error.message);
     }
     // 读取并解析设置文件
-    const settingsJson = JSON.parse(file.readTextSync(settings_ui));
+    const settingsJson = JSON.parse(file.readTextSync(`${prefix}${settings_ui}`));
     // 如果configSettings未定义，则将其设置为解析后的设置对象
     if (!configSettings) {
         configSettings = settingsJson
