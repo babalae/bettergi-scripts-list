@@ -25,6 +25,7 @@ let settingsNameList = new Array()
 const settingsNameAsList = new Array()
 let PATH_JSON_LIST = new Array()
 const config_root = 'config'
+const levelName = "treeLevel"
 const json_path_name = {
     RecordText: `${config_root}\\record.json`,
     RecordPathText: `${config_root}\\PathRecord.json`,
@@ -32,6 +33,7 @@ const json_path_name = {
     cdPath: `${config_root}\\cd-${pathingName}.json`,
     SevenElement: `${config_root}\\SevenElement.json`,
     RefreshSettings: `${config_root}\\RefreshSettings.json`,
+    pathJsonByUid: `${config_root}\\path-json-by-uid.json`,
 }
 // 定义记录文件的路径
 // let RecordText = `${config_root}\\record.json`
@@ -121,6 +123,486 @@ async function realTimeMissions(is_common = true) {
     }
 
 }
+/**
+ * 根据用户ID加载路径JSON列表
+ * 该函数尝试从指定路径读取并解析JSON文件，将解析后的数据转换为Map对象，
+ * 然后根据当前用户ID获取对应的路径列表
+ *
+ * @returns {boolean} 加载成功返回true，失败返回false
+ */
+function loadPathJsonListByUid() {
+    try {
+        // 读取并解析JSON文件内容
+        const raw = JSON.parse(file.readTextSync(json_path_name.pathJsonByUid));
+        // 将解析后的数组转换为Map对象
+        const map = new Map(raw);
+
+        // 获取当前用户ID对应的路径列表
+        const list = map.get(Record.uid);
+        // 检查获取的列表是否为有效数组且不为空
+        if (Array.isArray(list) && list.length > 0) {
+            // 更新全局PATH_JSON_LIST变量
+            PATH_JSON_LIST = list;
+            // 记录成功日志，包含用户ID和路径数量
+            log.info(
+                "[PATH] 已加载 PATH_JSON_LIST，uid={0}，count={1}",
+                Record.uid,
+                PATH_JSON_LIST.length
+            );
+            return true;
+        }
+    } catch (e) {
+        // 捕获并记录异常信息
+        log.warn("[PATH] 加载 PATH_JSON_LIST 失败: {0}", e.message);
+    }
+    return false;
+}
+async function initRefresh(settingsConfig) {
+    let level = 0
+    const parent_level = level + 1
+    // 获取当前路径下的所有文件/文件夹
+    let pathSyncList = file.readPathSync(`${PATHING_ALL[level].name}`);
+    log.debug("{0}文件夹下有{1}个文件/文件夹", `${pathingName}`, pathSyncList.length);
+    // 预处理黑白名单数组，移除空字符串并trim
+    const processedBlackList = config_list.black
+        .map(item => item.trim())
+        .filter(item => item !== "");
+
+    const processedWhiteList = config_list.white
+        .map(item => item.trim())
+        .filter(item => item !== "");
+    let blacklistSet = new Set(processedBlackList)
+    processedWhiteList.forEach(item => {
+        blacklistSet.delete(item)
+    })
+    const blacklist = Array.from(blacklistSet)
+
+    let settingsList = settingsConfig
+    let settingsRefreshList = []
+    let parentJson = {
+        name: `${levelName}_${level}_${level}`,
+        type: "multi-checkbox",
+        label: `选择要执行的${parent_level}级路径`,
+        options: []
+    }
+    for (const element of pathSyncList) {
+        // log.warn("element={0}", element)
+        const item = element.replace(`${pathingName}\\`, "");
+        if (!blacklist.find(black => item === black)) {
+            parentJson.options.push(item)
+        }
+    }
+    // settingsRefreshList.push({type: "separator"})
+
+    let treePathList = await readPaths(`${pathingName}`)
+    await debugKey('log-treePathList.json', JSON.stringify(treePathList))
+    let pathJsonList = await treeToList(treePathList)
+
+    await addUniquePath({
+        level: level,
+        name: `${pathingName}`,
+        parentName: '',
+        child_names: parentJson.options
+    }, pathJsonList)
+
+    PATH_JSON_LIST = pathJsonList
+
+
+    for (const element of pathJsonList) {
+        const pathRun = element.path
+
+        // 检查路径是否被允许
+        const isBlacklisted = processedBlackList.some(item => pathRun?.includes(item));
+        const isWhitelisted = processedWhiteList.some(item => pathRun?.includes(item));
+
+        if (isBlacklisted && !isWhitelisted) {
+            continue;
+        }
+        //方案1
+        try {
+            loadingLevel = parseInt(settings.loading_level)
+        } catch (e) {
+            log.warn("配置 {0} 错误，将使用默认值{0}", "加载路径层级", loadingLevel)
+        } finally {
+            //
+            loadingLevel = loadingLevel < 1 ? 2 : loadingLevel
+        }
+        // 优化版本
+        for (let i = 0; i < loadingLevel; i++) {
+            const currentLevel = parent_level + 1 + i;
+            const parentLevel = parent_level + i;
+
+            const currentName = getChildFolderNameFromRoot(pathRun, currentLevel);
+            const childName = getChildFolderNameFromRoot(pathRun, currentLevel + 1);
+
+            // 检查当前层级是否存在
+            if (!currentName) {
+                break; // 没有当前层级，停止处理
+            }
+
+            // 过滤JSON文件
+            const filteredChildName = childName?.endsWith(".json") ? undefined : childName;
+            let child_names = Array.from(new Set(filteredChildName ? [filteredChildName] : []).difference(new Set(blacklist)))
+            // 获取父级名称用于建立层级关系
+            const parentName = getChildFolderNameFromRoot(pathRun, parentLevel);
+
+            await addUniquePath({
+                level: parentLevel,        // 存储到目标层级 属于目标层级
+                name: currentName,              // 当前层级名称
+                parentName: parentName,        // 父级名称
+                child_names: [...child_names]
+            });
+        }
+
+        //方案2
+        /*           const level_parent_name = getChildFolderNameFromRoot(pathRun, parent_level);
+                   const level1_name = getChildFolderNameFromRoot(pathRun, parent_level + 1);
+
+                   let level2_name = getChildFolderNameFromRoot(pathRun, parent_level + 1 + 1);
+                   let level3_name = getChildFolderNameFromRoot(pathRun, parent_level + 1 + 2);
+
+                   if (level2_name.endsWith(".json")) {
+                       level2_name = undefined
+                   }
+                   if (level3_name.endsWith(".json")) {
+                       level3_name = undefined
+                   }
+                   //存储 2 级
+                   await addUniquePath({
+                       level: parent_level,
+                       name: level1_name,
+                       parent_name: level_parent_name,
+                       child_names: level2_name ? [level2_name] : []
+                   })
+                   await addUniquePath({
+                       level: parent_level + 1,
+                       name: level2_name,
+                       parent_name: level1_name,
+                       child_names: level3_name ? [level3_name] : []
+                   })*/
+    }
+    // 正确的排序方式
+    PATHING_ALL.sort((a, b) => {
+        // 首先按 level 排序
+        if (a.level !== b.level) {
+            return a.level - b.level;
+        }
+        const pathA = a?.path || '';
+        const pathB = b?.path || '';
+        // if (a.parent_name !== b.parent_name) {
+        //     return a.parent_name.localeCompare(b.parent_name);
+        // }
+        // level 相同时按 path 排序
+        return pathA.localeCompare(pathB);
+    });
+
+    await debugKey('log-PATHING_ALL.json', JSON.stringify(PATHING_ALL))
+    const groupLevel = groupByLevel(PATHING_ALL);
+    await debugKey('log-groupLevel.json', JSON.stringify(groupLevel))
+    // const initLength = settingsList.length
+    let parentNameLast = undefined
+    // let parentNameNow = undefined
+    const line = 30
+    const br = `${"=".repeat(line)}\n`
+    let idx = 0
+    const settingsSortMap = new Map([])
+    groupLevel.filter(list => list.length > 0).forEach(
+        (list) => {
+            let i = 0
+            list.filter(item => item && item.child_names && item.child_names.length > 0).forEach(item => {
+                const name = `${levelName}_${item.level}_${i}`
+                let prefix = ''
+                log.debug(`[{2}]Last{0},Current{1},Name{5}`, "比对", parentNameLast, item.parentName, item.name)
+                const isCommonLastAndCurrent = item.parentName !== parentNameLast;
+                if (isCommonLastAndCurrent) {
+                    parentNameLast = item.parentName;
+                    let b = (line - item.parentName.length) % 2 === 0;
+                    const localLine = b ? ((line - item.parentName.length) / 2) : (Math.ceil((line - item.parentName.length) / 2))
+                    prefix = br + `${"=".repeat(localLine)}${item.parentName}${"=".repeat(localLine)}\n` + br
+                }
+                // const p = idx === 0 ? "【地图追踪】\n" : `${prefix}[${item.parent_name}-${item.name}]\n`
+                const p = `${prefix}[${item.name}]\n`
+                idx++
+                let leveJson = {
+                    name: `${name}`,
+                    type: "multi-checkbox",
+                    label: `${p}选择要执行的${item.level + 1}级路径`,
+                    options: []
+                }
+                // leveJson.options = leveJson.options.concat(item.child_names)
+                leveJson.options = [...item.child_names]
+                if (leveJson.options && leveJson.options.length > 0) {
+                    settingsNameAsList.push({
+                        settings_name: name,
+                        settings_as_name: item.name
+                    })
+                    settingsNameList.push(name)
+                    const existingIndex = settingsRefreshList.findIndex(item => item.name === leveJson.name);
+                    if (existingIndex !== -1) {
+                        // 替换已存在的配置项
+                        settingsRefreshList[existingIndex] = leveJson;
+                    } else {
+                        if (isCommonLastAndCurrent) {
+                            settingsRefreshList.push({type: "separator"})
+                        }
+                        parentNameLast = item.parentName;
+
+                        // 添加新的配置项
+                        settingsRefreshList.push(leveJson);
+                    }
+                    i++
+                }
+            })
+        }
+    )
+    await debugKey('log-settingsRefreshList.json', JSON.stringify(settingsRefreshList))
+    //settingsRefreshList 二级排序 todo:
+    level++
+    settingsList = Array.from(new Set(settingsList.concat(settingsRefreshList)))
+
+    settingsList.filter(
+        item => item.name === 'key'
+    ).forEach(item => {
+        // 刷新settings自动设置密钥
+        item.default = manifest.key
+    })
+    settingsList.filter(
+        item => item.name === 'config_run'
+    ).forEach(item => {
+        // 刷新settings自动设置执行
+        item.default = "执行"
+    })
+    const uidSettingsMap= new Map([])
+    // 更新当前用户的配置
+    uidSettingsMap.set(Record.uid, settingsList)
+    // 安全写入配置文件
+    try {
+        file.writeTextSync(json_path_name.uidSettingsJson, JSON.stringify([...uidSettingsMap]))
+        log.debug("用户配置已保存: {uid}", Record.uid)
+    } catch (error) {
+        log.error("保存用户配置失败: {error}", error.message)
+    }
+    file.writeTextSync(manifest.settings_ui, JSON.stringify(settingsList))
+
+    // ===== 保存 PATH_JSON_LIST（按 uid）=====
+    try {
+        let pathJsonMap = new Map();
+
+        try {
+            const raw = JSON.parse(file.readTextSync(json_path_name.pathJsonByUid));
+            pathJsonMap = new Map(raw);
+        } catch (e) {
+            log.debug("PATH_JSON_LIST 映射文件不存在，将新建");
+        }
+
+        pathJsonMap.set(Record.uid, PATH_JSON_LIST);
+
+        file.writeTextSync(
+            json_path_name.pathJsonByUid,
+            JSON.stringify([...pathJsonMap])
+        );
+
+        log.info(
+            "[PATH] 已保存 PATH_JSON_LIST，uid={0}，count={1}",
+            Record.uid,
+            PATH_JSON_LIST.length
+        );
+    } catch (e) {
+        log.error("[PATH] 保存 PATH_JSON_LIST 失败: {0}", e.message);
+    }
+
+}
+
+
+/**
+ * 初始化用户ID设置映射表
+ * @param {Map} uidSettingsMap - 用于存储用户ID设置的Map对象
+ * @returns {Map} 返回初始化后的用户ID设置映射表
+ */
+async function initUidSettingsMap(uidSettingsMap) {
+    // 获取用户设置JSON文件的路径
+    const uidSettingsJson = json_path_name.uidSettingsJson;
+    try {
+        // 读取并解析JSON文件内容，转换为Map对象
+        const existingData = JSON.parse(file.readTextSync(uidSettingsJson))
+        uidSettingsMap = new Map(existingData)
+    } catch (e) {
+        // 文件不存在时使用空Map
+        log.debug("配置文件不存在，将创建新的");
+    }
+    return uidSettingsMap;
+}
+
+/**
+ * 加载用户ID设置映射表
+ * @param {Map} uidSettingsMap - 用户ID到设置项的映射表
+ */
+async function loadUidSettingsMap(uidSettingsMap) {
+    // 从映射表中获取当前用户的设置
+    let uidSettings = uidSettingsMap.get(Record.uid);
+    // 如果存在用户设置
+    if (uidSettings) {
+        try {
+            // 筛选出名称为'config_run'的设置项
+            uidSettings.filter(
+                item => item.name === 'config_run'
+            ).forEach(item => {
+                // 刷新settings自动设置执行
+                item.default = "执行"
+            })
+            // 将更新后的设置写入配置文件
+            file.writeTextSync(manifest.settings_ui, JSON.stringify(uidSettings))
+        } catch (e) {
+            // 记录错误日志
+            log.error("加载用户配置失败: {error}", e.message)
+        }
+    }
+    // 初始化配置设置
+    configSettings = await initSettings()
+}
+
+async function initRun(config_run) {
+    if (!loadPathJsonListByUid()) {
+        throw new Error(
+            "未找到 PATH_JSON_LIST，请先执行一次【刷新配置】"
+        );
+    }
+    log.info(`初始{0}配置`, config_run)
+    const cdPath = json_path_name.cdPath;
+    const timeJson = (!cd.open) ? new Set() : new Set(JSON.parse(file.readTextSync(cdPath)).sort(
+        (a, b) => b.level - a.level
+    ))
+
+    const multiCheckboxMap = await getMultiCheckboxMap();
+    if (dev.isDebug) {
+        await debugKey('log-multiCheckboxMap.json', JSON.stringify(Array.from(multiCheckboxMap)))
+        const keysList = Array.from(multiCheckboxMap.keys());
+        await debugKey('log-keysList.json', JSON.stringify(keysList))
+    }
+
+    settingsNameList = settingsNameList.concat(
+        Array.from(multiCheckboxMap.keys().filter(key =>
+            typeof key === "string" &&
+            key.startsWith(levelName) &&
+            multiCheckboxMap.get(key)?.options?.length > 0
+        ))
+    )
+
+
+    settingsNameList = settingsNameList
+        .filter(key => typeof key === "string" && key.trim() !== "")
+
+    log.debug(`settingsNameList:{0}`, JSON.stringify(settingsNameList))
+
+
+    // todo:补齐执行前配置
+    // ================= 执行前配置（补齐 needRunMap） =================
+    await debugKey(
+        'log-PATH_JSON_LIST.json',
+        JSON.stringify(PATH_JSON_LIST)
+    );
+
+    for (const settingsName of settingsNameList) {
+
+        // 1. 读取 multi-checkbox 的 JSON 描述
+        const multiJson = await getJsonByMultiCheckboxName(settingsName);
+        if (!multiJson || !multiJson.options || multiJson.options.length === 0) continue;
+
+        const labelParentName = getBracketContent(multiJson.label); // [xxx]
+        const selectedOptions = multiJson.options;
+
+        // 2. 从 PATH_JSON_LIST 中筛选命中的路径
+        let matchedPaths = PATH_JSON_LIST.filter(item => {
+            const hitParent = item.fullPathNames.includes(labelParentName);
+            const hitOption = selectedOptions.some(opt =>
+                item.fullPathNames.some(name => name.includes(opt))
+            );
+
+            return hitParent && hitOption;
+        }).map(item => {
+            const selected = selectedOptions.find(opt =>
+                item.fullPathNames.some(name => name.includes(opt))
+            );
+
+            return {
+                level: item.level,
+                name: item.name,
+                parentId: item.parentId,
+                parentName: item.parentName,
+                selected,
+                path: item.path,
+                fullPathNames: item.fullPathNames
+            };
+        });
+
+
+        // 3. CD 过滤（可选）
+        if (cd.open && matchedPaths.length > 0) {
+            let recordPaths = [];
+            try {
+                recordPaths = Array.from(RecordPath.paths);
+            } catch (e) {
+            }
+
+            const timeConfigs = Array.from(timeJson);
+
+            const cdFiltered = matchedPaths.filter(item => {
+                const timeConfig = timeConfigs.find(cfg =>
+                    item.fullPathNames.includes(cfg.name)
+                );
+                if (!timeConfig) return false;
+
+                const record = recordPaths.find(r =>
+                    r.path.includes(item.path)
+                );
+                if (!record || !record.timestamp) return false;
+
+                const now = Date.now();
+
+                switch (timeType.fromValue(timeConfig.type)) {
+                    case timeType.hours: {
+                        const diff = getTimeDifference(record.timestamp, now);
+                        return diff.total.hours >= timeConfig.value;
+                    }
+                    case timeType.cron: {
+                        const next = cronUtil.getNextCronTimestamp(
+                            `${timeConfig.value}`,
+                            record.timestamp,
+                            now,
+                            cd.http_api
+                        );
+                        return next && now >= next;
+                    }
+                    default:
+                        return false;
+                }
+            });
+
+            // 移除 CD 未到的路径
+            if (cdFiltered.length > 0) {
+                matchedPaths = Array.from(
+                    new Set(matchedPaths).difference(new Set(cdFiltered))
+                );
+            }
+        }
+
+        // 4. 写入 needRunMap
+        if (matchedPaths.length > 0) {
+            // const settingsAsName = settingsNameAsList.find(
+            //     item => item.settings_name === settingsName
+            // );
+
+            const {label} = multiCheckboxMap.get(settingsName);
+            const as_name=getBracketContent(label)//父名称 如：晶蝶
+            needRunMap.set(as_name, {
+                paths: matchedPaths,
+                as_name: as_name,
+                name: settingsName //多选项 名称 如 treeLevel_0_0
+            });
+        }
+        log.info("[执行前配置完成] needRunMap.size={0}", needRunMap.size);
+    }
+}
 
 async function init() {
     let settingsConfig = await initSettings(`${config_root}\\`);
@@ -192,384 +674,123 @@ async function init() {
 
     // 读取现有配置并合并
     let uidSettingsMap = new Map()
-    const uidSettingsJson = json_path_name.uidSettingsJson;
-    try {
-        const existingData = JSON.parse(file.readTextSync(uidSettingsJson))
-        uidSettingsMap = new Map(existingData)
-    } catch (e) {
-        // 文件不存在时使用空Map
-        log.debug("配置文件不存在，将创建新的");
-    }
-    let levelName = "treeLevel"
-
-    async function refreshALL() {
-        let level = 0
-        const parent_level = level + 1
-        // 获取当前路径下的所有文件/文件夹
-        let pathSyncList = file.readPathSync(`${PATHING_ALL[level].name}`);
-        log.debug("{0}文件夹下有{1}个文件/文件夹", `${pathingName}`, pathSyncList.length);
-        // 预处理黑白名单数组，移除空字符串并trim
-        const processedBlackList = config_list.black
-            .map(item => item.trim())
-            .filter(item => item !== "");
-
-        const processedWhiteList = config_list.white
-            .map(item => item.trim())
-            .filter(item => item !== "");
-        let blacklistSet = new Set(processedBlackList)
-        processedWhiteList.forEach(item => {
-            blacklistSet.delete(item)
-        })
-        const blacklist = Array.from(blacklistSet)
-
-        let settingsList = settingsConfig
-        let settingsRefreshList = []
-        let parentJson = {
-            name: `${levelName}_${level}_${level}`,
-            type: "multi-checkbox",
-            label: `选择要执行的${parent_level}级路径`,
-            options: []
-        }
-        for (const element of pathSyncList) {
-            // log.warn("element={0}", element)
-            const item = element.replace(`${pathingName}\\`, "");
-            if (!blacklist.find(black => item === black)) {
-                parentJson.options.push(item)
-            }
-        }
-        // settingsRefreshList.push({type: "separator"})
-
-        let treePathList = await readPaths(`${pathingName}`)
-        await debugKey('log-treePathList.json', JSON.stringify(treePathList))
-        let pathJsonList = await treeToList(treePathList)
-
-        await addUniquePath({
-            level: level,
-            name: `${pathingName}`,
-            parentName: '',
-            child_names: parentJson.options
-        }, pathJsonList)
-
-        PATH_JSON_LIST = pathJsonList
-
-
-        for (const element of pathJsonList) {
-            const pathRun = element.path
-
-            // 检查路径是否被允许
-            const isBlacklisted = processedBlackList.some(item => pathRun?.includes(item));
-            const isWhitelisted = processedWhiteList.some(item => pathRun?.includes(item));
-
-            if (isBlacklisted && !isWhitelisted) {
-                continue;
-            }
-            //方案1
-            try {
-                loadingLevel = parseInt(settings.loading_level)
-            } catch (e) {
-                log.warn("配置 {0} 错误，将使用默认值{0}", "加载路径层级", loadingLevel)
-            } finally {
-                //
-                loadingLevel = loadingLevel < 1 ? 2 : loadingLevel
-            }
-            // 优化版本
-            for (let i = 0; i < loadingLevel; i++) {
-                const currentLevel = parent_level + 1 + i;
-                const parentLevel = parent_level + i;
-
-                const currentName = getChildFolderNameFromRoot(pathRun, currentLevel);
-                const childName = getChildFolderNameFromRoot(pathRun, currentLevel + 1);
-
-                // 检查当前层级是否存在
-                if (!currentName) {
-                    break; // 没有当前层级，停止处理
-                }
-
-                // 过滤JSON文件
-                const filteredChildName = childName?.endsWith(".json") ? undefined : childName;
-                let child_names = Array.from(new Set(filteredChildName ? [filteredChildName] : []).difference(new Set(blacklist)))
-                // 获取父级名称用于建立层级关系
-                const parentName = getChildFolderNameFromRoot(pathRun, parentLevel);
-
-                await addUniquePath({
-                    level: parentLevel,        // 存储到目标层级 属于目标层级
-                    name: currentName,              // 当前层级名称
-                    parentName: parentName,        // 父级名称
-                    child_names: [...child_names]
-                });
-            }
-
-            //方案2
-            /*           const level_parent_name = getChildFolderNameFromRoot(pathRun, parent_level);
-                       const level1_name = getChildFolderNameFromRoot(pathRun, parent_level + 1);
-
-                       let level2_name = getChildFolderNameFromRoot(pathRun, parent_level + 1 + 1);
-                       let level3_name = getChildFolderNameFromRoot(pathRun, parent_level + 1 + 2);
-
-                       if (level2_name.endsWith(".json")) {
-                           level2_name = undefined
-                       }
-                       if (level3_name.endsWith(".json")) {
-                           level3_name = undefined
-                       }
-                       //存储 2 级
-                       await addUniquePath({
-                           level: parent_level,
-                           name: level1_name,
-                           parent_name: level_parent_name,
-                           child_names: level2_name ? [level2_name] : []
-                       })
-                       await addUniquePath({
-                           level: parent_level + 1,
-                           name: level2_name,
-                           parent_name: level1_name,
-                           child_names: level3_name ? [level3_name] : []
-                       })*/
-        }
-        // 正确的排序方式
-        PATHING_ALL.sort((a, b) => {
-            // 首先按 level 排序
-            if (a.level !== b.level) {
-                return a.level - b.level;
-            }
-            const pathA = a?.path || '';
-            const pathB = b?.path || '';
-            // if (a.parent_name !== b.parent_name) {
-            //     return a.parent_name.localeCompare(b.parent_name);
-            // }
-            // level 相同时按 path 排序
-            return pathA.localeCompare(pathB);
-        });
-
-        await debugKey('log-PATHING_ALL.json', JSON.stringify(PATHING_ALL))
-        const groupLevel = groupByLevel(PATHING_ALL);
-        await debugKey('log-groupLevel.json', JSON.stringify(groupLevel))
-        // const initLength = settingsList.length
-        let parentNameLast = undefined
-        // let parentNameNow = undefined
-        const line = 30
-        const br = `${"=".repeat(line)}\n`
-        let idx = 0
-        const settingsSortMap = new Map([])
-        groupLevel.filter(list => list.length > 0).forEach(
-            (list) => {
-                let i = 0
-                list.filter(item => item && item.child_names && item.child_names.length > 0).forEach(item => {
-                    const name = `${levelName}_${item.level}_${i}`
-                    let prefix = ''
-                    log.debug(`[{2}]Last{0},Current{1},Name{5}`, "比对", parentNameLast, item.parentName, item.name)
-                    const isCommonLastAndCurrent = item.parentName !== parentNameLast;
-                    if (isCommonLastAndCurrent) {
-                        parentNameLast = item.parentName;
-                        let b = (line - item.parentName.length) % 2 === 0;
-                        const localLine = b ? ((line - item.parentName.length) / 2) : (Math.ceil((line - item.parentName.length) / 2))
-                        prefix = br + `${"=".repeat(localLine)}${item.parentName}${"=".repeat(localLine)}\n` + br
-                    }
-                    // const p = idx === 0 ? "【地图追踪】\n" : `${prefix}[${item.parent_name}-${item.name}]\n`
-                    const p = `${prefix}[${item.name}]\n`
-                    idx++
-                    let leveJson = {
-                        name: `${name}`,
-                        type: "multi-checkbox",
-                        label: `${p}选择要执行的${item.level + 1}级路径`,
-                        options: []
-                    }
-                    // leveJson.options = leveJson.options.concat(item.child_names)
-                    leveJson.options = [...item.child_names]
-                    if (leveJson.options && leveJson.options.length > 0) {
-                        settingsNameAsList.push({
-                            settings_name: name,
-                            settings_as_name: item.name
-                        })
-                        settingsNameList.push(name)
-                        const existingIndex = settingsRefreshList.findIndex(item => item.name === leveJson.name);
-                        if (existingIndex !== -1) {
-                            // 替换已存在的配置项
-                            settingsRefreshList[existingIndex] = leveJson;
-                        } else {
-                            if (isCommonLastAndCurrent) {
-                                settingsRefreshList.push({type: "separator"})
-                            }
-                            parentNameLast = item.parentName;
-
-                            // 添加新的配置项
-                            settingsRefreshList.push(leveJson);
-                        }
-                        i++
-                    }
-                })
-            }
-        )
-        await debugKey('log-settingsRefreshList.json', JSON.stringify(settingsRefreshList))
-        //settingsRefreshList 二级排序 todo:
-        level++
-        settingsList = Array.from(new Set(settingsList.concat(settingsRefreshList)))
-
-        settingsList.filter(
-            item => item.name === 'key'
-        ).forEach(item => {
-            // 刷新settings自动设置密钥
-            item.default = manifest.key
-        })
-        settingsList.filter(
-            item => item.name === 'config_run'
-        ).forEach(item => {
-            // 刷新settings自动设置执行
-            item.default = "执行"
-        })
-        // 更新当前用户的配置
-        uidSettingsMap.set(Record.uid, settingsList)
-        // 安全写入配置文件
-        try {
-            file.writeTextSync(uidSettingsJson, JSON.stringify([...uidSettingsMap]))
-            log.debug("用户配置已保存: {uid}", Record.uid)
-        } catch (error) {
-            log.error("保存用户配置失败: {error}", error.message)
-        }
-        file.writeTextSync(manifest.settings_ui, JSON.stringify(settingsList))
-    }
+    uidSettingsMap = await initUidSettingsMap(uidSettingsMap);
 
 //总控
 //刷新settings
-    log.info("开始执行配置: {config_run}", settings.config_run)
-    if (settings.config_run === "刷新") {
-        await refreshALL();
-    } else if (settings.config_run === "加载") {
+    const config_run = settings.config_run;
+    log.info("开始执行配置: {config_run}", config_run)
+    if (config_run === "刷新") {
+        await initRefresh(settingsConfig);
+        log.info("配置{0}完成",config_run)
+    } else if (config_run === "加载") {
         //直接从配置文件中加载对应账号的配置
-        let uidSettings = uidSettingsMap.get(Record.uid);
-        if (uidSettings) {
-            try {
-                uidSettings.filter(
-                    item => item.name === 'config_run'
-                ).forEach(item => {
-                    // 刷新settings自动设置执行
-                    item.default = "执行"
-                })
-                file.writeTextSync(manifest.settings_ui, JSON.stringify(uidSettings))
-            } catch (e) {
-                log.error("加载用户配置失败: {error}", e.message)
-            }
-        }
-        configSettings = await initSettings()
+        await loadUidSettingsMap(uidSettingsMap);
+        log.info("配置{0}完成",config_run)
     } else
         // 初始化needRunMap
-    if (settings.config_run === "执行") {
-        log.info(`初始{0}配置`, settings.config_run)
-        const cdPath = json_path_name.cdPath;
-        const timeJson = (!cd.open) ? new Set() : new Set(JSON.parse(file.readTextSync(cdPath)).sort(
-            (a, b) => b.level - a.level
-        ))
-
-        if (dev.isDebug) {
-            const multiCheckboxMap = await getMultiCheckboxMap();
-            await debugKey('log-multiCheckboxMap.json', JSON.stringify(Array.from(multiCheckboxMap)))
-            const keysList = Array.from(multiCheckboxMap.keys());
-            await debugKey('log-keysList.json', JSON.stringify(keysList))
-        }
-
-        settingsNameList = settingsNameList.concat(Array.from(await getMultiCheckboxMap().then(map => {
-            return map?.keys()
-                .filter(key => key?.startsWith(levelName) && map?.get(key)?.options?.length > 0)
-        })))
-        settingsNameList.filter(key => key.trim() !== "")
-        log.debug(`settingsNameList:{0}`, JSON.stringify(settingsNameList))
-
-        // for (let key of pathAsMap.keys()) {
-        //     const multiCheckbox = await getValueByMultiCheckboxName(pathAsMap.get(key));
-        //     needRunMap.set(key, multiCheckbox)
-        // }
-        await debugKey('log-settingsNameList.json', JSON.stringify(settingsNameList))
-        for (const settingsName of settingsNameList) {
-            log.debug(`settingsName:{0}`, settingsName)
-            // let multi = await getValueByMultiCheckboxName(settingsName);
-            const multiJson = await getJsonByMultiCheckboxName(settingsName)
-            log.debug(`multiJson:{0}`, JSON.stringify(multiJson))
-            const label = getBracketContent(multiJson.label)
-            let multi = multiJson.options
+    if (config_run === "执行") {
+        await initRun(config_run);
 
 
-            let list = PATH_JSON_LIST.filter(item =>
-                multi.some(element => item.fullPathNames.includes(element) && item.fullPathNames.includes(label))
-            ).map(item => {
-                // 找到匹配的元素并填充到 selected 字段
-                const matchedElement = multi.find(element => item.fullPathNames.includes(element) && item.fullPathNames.includes(label));
-                return {
-                    level: item.level,
-                    name: item.name,
-                    parentId: item.parentId,
-                    parentName: item.parentName,
-                    selected: matchedElement || "",
-                    path: item.path,
-                    fullPathNames: item.fullPathNames
-                };
-            });
-            // 1. 预处理：将 Set/Map 转为数组，避免循环内重复转换
-            let recordPaths;
-            try {
-                recordPaths = Array.from(RecordPath.paths)
-            } catch (e) {
-                recordPaths = []
-            }
-            const timeConfigs = Array.from(timeJson);
-            log.debug(`list:{0}`, JSON.stringify(list))
-            const timeFilter = list.filter(item => {
-                // 2. 查找匹配的配置项 (假设这是必须的条件)
-                // 注意：这里保留了原有的 includes 逻辑，但在实际业务中建议评估是否需要精确匹配
-                const timeConfig = timeConfigs.find(e => item.fullPathNames.includes(e.name));
+// ================================================================
 
-                if (!timeConfig) return false;
+        /*
+                for (const settingsName of settingsNameList) {
+                    log.debug(`settingsName:{0}`, settingsName)
+                    // let multi = await getValueByMultiCheckboxName(settingsName);
+                    const multiJson = await getJsonByMultiCheckboxName(settingsName)
+                    log.debug(`multiJson:{0}`, JSON.stringify(multiJson))
+                    const label = getBracketContent(multiJson.label)
+                    let multi = multiJson.options
 
-                // 3. 查找匹配的历史记录
-                // 同样保留了 includes 逻辑
-                const matchedRecord = recordPaths.find(element => element.path.includes(item.path));
 
-                // 4. 如果没有记录，或者记录中没有时间戳，则跳过
-                if (!matchedRecord || !matchedRecord.timestamp) return false;
-
-                const {timestamp, value} = matchedRecord;
-                const now = Date.now();
-
-                // 5. 根据配置的类型进行时间判断
-                if (timeConfig.type) {
-                    switch (timeType.fromValue(timeConfig.type)) {
-                        case timeType.hours:
-                            const timeDifference = getTimeDifference(timestamp, now);
-                            return timeDifference.total.hours >= value;
-                        case timeType.cron:
-                            const nextCronTimestamp = cronUtil.getNextCronTimestamp(`${value}`, timestamp, now, cd.http_api);
-                            // if (!nextCronTimestamp) {
-                            //     log.error(`cron表达式解析失败: {value}`, value)
-                            //     throw new Error(`cron表达式解析失败: ${value}`)
-                            // }
-                            if (!nextCronTimestamp) return false;
-                            return now >= nextCronTimestamp;
-                        default:
-                            return false;
+                    let list = PATH_JSON_LIST.filter(item => {
+                        if (dev.isDebug) {
+                            log.info(`label:{1},item:{0}`, label, JSON.stringify(item))
+                            log.info(`multi:{1}`, label, JSON.stringify(multi))
+                        }
+                        return multi.some(element => item.fullPathNames.includes(element) && item.fullPathNames.includes(label))
+                    }).map(item => {
+                        // 找到匹配的元素并填充到 selected 字段
+                        const matchedElement = multi.find(element => item.fullPathNames.includes(element) && item.fullPathNames.includes(label));
+                        return {
+                            level: item.level,
+                            name: item.name,
+                            parentId: item.parentId,
+                            parentName: item.parentName,
+                            selected: matchedElement || "",
+                            path: item.path,
+                            fullPathNames: item.fullPathNames
+                        };
+                    });
+                    // 1. 预处理：将 Set/Map 转为数组，避免循环内重复转换
+                    let recordPaths;
+                    try {
+                        recordPaths = Array.from(RecordPath.paths)
+                    } catch (e) {
+                        recordPaths = []
                     }
-                }
+                    const timeConfigs = Array.from(timeJson);
+                    log.debug(`list:{0}`, JSON.stringify(list))
+                    const timeFilter = [...list].filter(item => {
+                        // 2. 查找匹配的配置项 (假设这是必须的条件)
+                        // 注意：这里保留了原有的 includes 逻辑，但在实际业务中建议评估是否需要精确匹配
+                        const timeConfig = timeConfigs.find(e => item.fullPathNames.includes(e.name));
 
-                return false;
-            });
+                        if (!timeConfig) return false;
+
+                        // 3. 查找匹配的历史记录
+                        // 同样保留了 includes 逻辑
+                        const matchedRecord = recordPaths.find(element => element.path.includes(item.path));
+
+                        // 4. 如果没有记录，或者记录中没有时间戳，则跳过
+                        if (!matchedRecord || !matchedRecord.timestamp) return false;
+
+                        const {timestamp, value} = matchedRecord;
+                        const now = Date.now();
+
+                        // 5. 根据配置的类型进行时间判断
+                        if (timeConfig.type) {
+                            switch (timeType.fromValue(timeConfig.type)) {
+                                case timeType.hours:
+                                    const timeDifference = getTimeDifference(timestamp, now);
+                                    return timeDifference.total.hours >= value;
+                                case timeType.cron:
+                                    const nextCronTimestamp = cronUtil.getNextCronTimestamp(`${value}`, timestamp, now, cd.http_api);
+                                    // if (!nextCronTimestamp) {
+                                    //     log.error(`cron表达式解析失败: {value}`, value)
+                                    //     throw new Error(`cron表达式解析失败: ${value}`)
+                                    // }
+                                    if (!nextCronTimestamp) return false;
+                                    return now >= nextCronTimestamp;
+                                default:
+                                    return false;
+                            }
+                        }
+
+                        return false;
+                    });
 
 
-            if (timeFilter?.length > 0) {
-                //移除CD
-                list = Array.from(new Set(list).difference(new Set(timeFilter)))
-            }
+                    if (timeFilter?.length > 0) {
+                        //移除CD
+                        list = Array.from(new Set(list).difference(new Set(timeFilter)))
+                    }
 
-            if (list?.length > 0) {
-                log.debug(`[SetNeed]{0}`, JSON.stringify([...list]))
-                const settingsAsName = settingsNameAsList.find(item => item.settings_name === settingsName)
-                needRunMap.set(settingsAsName.settings_as_name, {
-                    paths: list,
-                    as_name: settingsAsName.settings_as_name,
-                    name: settingsAsName.settings_name
-                })
-            }
-            log.debug(`[CD]{0}[CD]`, JSON.stringify([...timeFilter]))
-            log.debug(`[RUN]{0}[RUN]`, JSON.stringify([...list]))
-        }
-        log.info(`NEED-RUN:{0}`, JSON.stringify([...needRunMap]))
+                    if (list?.length > 0) {
+                        log.debug(`[SetNeed]{0}`, JSON.stringify([...list]))
+                        const settingsAsName = settingsNameAsList.find(item => item.settings_name === settingsName)
+                        needRunMap.set(settingsAsName.settings_as_name, {
+                            paths: list,
+                            as_name: settingsAsName.settings_as_name,
+                            name: settingsAsName.settings_name
+                        })
+                    }
+                    log.debug(`[CD]{0}[CD]`, JSON.stringify([...timeFilter]))
+                    log.debug(`[RUN]{0}[RUN]`, JSON.stringify([...list]))
+                }*/
+        // log.info(`NEED-RUN:{0}`, JSON.stringify([...needRunMap]))
         // 启用自动拾取的实时任务，并配置成启用急速拾取模式
         // dispatcher.addTrigger(new RealtimeTimer("AutoPick"));
         await realTimeMissions()
@@ -1160,7 +1381,7 @@ async function runPath(path) {
     }
     //切换队伍-end
     try {
-        log.debug("开始执行路径: {path}", path)
+        log.info("开始执行路径: {path}", path)
         await pathingScript.runFile(path)
         if (team.fight) {
             //启用战斗
@@ -1194,7 +1415,7 @@ async function runPath(path) {
  * @param {Array} list - 要执行的路径列表，默认为空数组
  * @returns {Promise<void>}
  */
-async function runList(list = []) {
+async function runList(list = [],key="") {
     // 参数验证
     if (!Array.isArray(list)) {
         log.warn('无效的路径列表参数: {list}', list);
@@ -1205,7 +1426,7 @@ async function runList(list = []) {
         log.debug('路径列表为空，跳过执行');
         return;
     }
-    log.debug(`[{mode}] 开始执行路径列表，共{count}个路径`, settings.mode, list.length);
+    log.info(`[{mode}] 开始执行 [{0}]组 路径列表，共{count}个路径`, settings.mode, list.length);
     // 遍历路径列表
     for (let i = 0; i < list.length; i++) {
         const onePath = list[i];
@@ -1213,7 +1434,7 @@ async function runList(list = []) {
         if (i === 0) {
             log.info(`[{mode}] 开始执行[{1}-{2}]列表`, settings.mode, onePath.selected, onePath.parent_name);
         }
-        log.debug('正在执行第{index}/{total}个路径: {path}', i + 1, list.length, path);
+        log.info('正在执行第{index}/{total}个路径: {path}', i + 1, list.length, path);
         if (auto.semi && auto.skip) {
             log.warn(`[{mode}] 按下{key}可跳过{0}执行，如不想跳过请按 空格 或 其他非功能键`, settings.mode, auto.key, path);
             const skip = await keyMousePress(auto.key, auto.skip);
@@ -1252,7 +1473,7 @@ async function runMap(map = new Map()) {
         return;
     }
 
-    log.info(`[{mode}] 开始执行任务Map，共{count}个任务`, settings.mode, map.size);
+    log.info(`[{mode}] 开始执行任务，共{count}组任务`, settings.mode, map.size);
 
     // 遍历Map中的所有键
     for (const [key, one] of map.entries()) {
@@ -1264,7 +1485,7 @@ async function runMap(map = new Map()) {
             log.info(`[{0}] 开始执行[{1}]...`, settings.mode, one.as_name);
             // 执行当前任务关联的路径列表
 
-            await runList(one.paths);
+            await runList(one.paths,one.as_name);
             Record.groupPaths.add({
                 name: one.as_name,
                 paths: new Set(one.paths)
