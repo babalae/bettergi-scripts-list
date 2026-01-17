@@ -123,6 +123,7 @@ async function realTimeMissions(is_common = true) {
     }
 
 }
+
 /**
  * 根据用户ID加载路径JSON列表
  * 该函数尝试从指定路径读取并解析JSON文件，将解析后的数据转换为Map对象，
@@ -157,6 +158,7 @@ function loadPathJsonListByUid() {
     }
     return false;
 }
+
 async function initRefresh(settingsConfig) {
     let level = 0
     const parent_level = level + 1
@@ -372,7 +374,7 @@ async function initRefresh(settingsConfig) {
         // 刷新settings自动设置执行
         item.default = "执行"
     })
-    const uidSettingsMap= new Map([])
+    const uidSettingsMap = new Map([])
     // 更新当前用户的配置
     uidSettingsMap.set(Record.uid, settingsList)
     // 安全写入配置文件
@@ -593,12 +595,50 @@ async function initRun(config_run) {
             // );
 
             const {label} = multiCheckboxMap.get(settingsName);
-            const as_name=getBracketContent(label)//父名称 如：晶蝶
-            needRunMap.set(as_name, {
-                paths: matchedPaths,
-                as_name: as_name,
-                name: settingsName //多选项 名称 如 treeLevel_0_0
-            });
+            const as_name = getBracketContent(label)//父名称 如：晶蝶
+            function groupByParentAndName(list) {
+                const map = new Map();
+
+                list.forEach(item => {
+                    const key = `${item.parentName}->${item.name}`;
+                    if (!map.has(key)) map.set(key, []);
+                    map.get(key).push(item);
+                });
+
+                return Array.from(map.values()); // 转成二维数组 [[], []]
+            }
+
+            let groups = groupByParentAndName(matchedPaths);
+            //  todo: 排序
+            const orderMap = new Map()
+            groups.sort((a, b) => {
+                const a_key = `${a.parentName}->${a.name}`;
+                const orderA = orderMap.get(a_key) ?? 9999; // 没在 JSON 中的排到最后
+                const b_key = `${b.parentName}->${b.name}`;
+                const orderB = orderMap.get(b_key) ?? 9999;
+                if (orderA === orderB) {
+                    return a_key.localeCompare(b_key);
+                }
+                return orderA - orderB;
+            })
+
+            groups.forEach(group => {
+                const groupOne= group[0]
+                needRunMap.set(`${groupOne.parentName}->${groupOne.name}`, {
+                    paths: group,
+                    parent_name: groupOne.parentName,
+                    key: `${groupOne.parentName}->${groupOne.name}`,
+                    current_name: groupOne.name,
+                    name: settingsName //多选项 名称 如 treeLevel_0_0
+                });
+            })
+
+
+            // needRunMap.set(as_name, {
+            //     paths: matchedPaths,
+            //     as_name: as_name,
+            //     name: settingsName //多选项 名称 如 treeLevel_0_0
+            // });
         }
         log.info("[执行前配置完成] needRunMap.size={0}", needRunMap.size);
     }
@@ -682,11 +722,11 @@ async function init() {
     log.info("开始执行配置: {config_run}", config_run)
     if (config_run === "刷新") {
         await initRefresh(settingsConfig);
-        log.info("配置{0}完成",config_run)
+        log.info("配置{0}完成", config_run)
     } else if (config_run === "加载") {
         //直接从配置文件中加载对应账号的配置
         await loadUidSettingsMap(uidSettingsMap);
-        log.info("配置{0}完成",config_run)
+        log.info("配置{0}完成", config_run)
     } else
         // 初始化needRunMap
     if (config_run === "执行") {
@@ -1002,7 +1042,7 @@ async function initRecord() {
                 })));
             }
             return value;
-        })??RecordList;
+        }) ?? RecordList;
     } catch (e) {
         // 如果读取文件出错，则忽略错误（可能是文件不存在或格式错误）
     }
@@ -1018,7 +1058,7 @@ async function initRecord() {
                 })));
             }
             return value;
-        }).find(item => item.uid === Record.uid)?? RecordPath
+        }).find(item => item.uid === Record.uid) ?? RecordPath
 
     } catch (e) {
         // 如果读取文件出错，则忽略错误（可能是文件不存在或格式错误）
@@ -1412,7 +1452,7 @@ async function runPath(path) {
  * @param {Array} list - 要执行的路径列表，默认为空数组
  * @returns {Promise<void>}
  */
-async function runList(list = [],key="") {
+async function runList(list = [], key = "") {
     // 参数验证
     if (!Array.isArray(list)) {
         log.warn('无效的路径列表参数: {list}', list);
@@ -1423,13 +1463,13 @@ async function runList(list = [],key="") {
         log.debug('路径列表为空，跳过执行');
         return;
     }
-    log.info(`[{mode}] 开始执行 [{0}]组 路径列表，共{count}个路径`, settings.mode, list.length);
+    log.info(`[{mode}] 开始执行 [{0}]组 路径列表，共{count}个路径`, settings.mode,key, list.length);
     // 遍历路径列表
     for (let i = 0; i < list.length; i++) {
         const onePath = list[i];
         const path = onePath.path;
         if (i === 0) {
-            log.info(`[{mode}] 开始执行[{1}-{2}]列表`, settings.mode, onePath.selected, onePath.parent_name);
+            log.info(`[{mode}] 开始执行[{1}-{2}]列表`, settings.mode, onePath.parent_name, onePath.current_name);
         }
         log.info('正在执行第{index}/{total}个路径: {path}', i + 1, list.length, path);
         if (auto.semi && auto.skip) {
@@ -1479,17 +1519,17 @@ async function runMap(map = new Map()) {
         }
         try {
             // 记录开始执行任务的日志信息
-            log.info(`[{0}] 开始执行[{1}]...`, settings.mode, one.as_name);
+            log.debug(`[{0}] {1}组 开始执行...`, settings.mode, key);
             // 执行当前任务关联的路径列表
 
-            await runList(one.paths,one.as_name);
+            await runList(one.paths, key);
             Record.groupPaths.add({
-                name: one.as_name,
+                name: key,
                 paths: new Set(one.paths)
             })
-            log.debug(`[{0}] 任务[{1}]执行完成`, settings.mode, one.as_name);
+            log.debug(`[{0}] 任务[{1}]执行完成`, settings.mode, key);
         } catch (error) {
-            log.error(`[{0}] 任务[{1}]执行失败: {error}`, settings.mode, one.as_name, error.message);
+            log.error(`[{0}] 任务[{1}]执行失败: {error}`, settings.mode, key, error.message);
             continue; // 继续执行下一个任务
         }
     }
