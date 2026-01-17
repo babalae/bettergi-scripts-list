@@ -1,0 +1,187 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.55.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768647705856,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "20-烬芯花-聚火祭验所1-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -81.1646,
+      "y": -248.4246
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -102.1116,
+      "y": -263.7695
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -102.1116,
+      "y": -263.7695
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -93.5449,
+      "y": -249.9885
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -108.4407,
+      "y": -272.7473
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -127.6521,
+      "y": -268.6174
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -142.5442,
+      "y": -261.7717
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -142.5442,
+      "y": -261.7717
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -130.5823,
+      "y": -262.5161
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -157.4731,
+      "y": -256.875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -156.1313,
+      "y": -247.7007
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -176.083,
+      "y": -244.4556
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -184.0986,
+      "y": -244.1248
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -184.0986,
+      "y": -244.1248
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -191.3367,
+      "y": -237.918
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -202.9041,
+      "y": -251.0576
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -209.6096,
+      "y": -258.6963
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -210.9031,
+      "y": -264.2695
+    }
+  ]
+}
