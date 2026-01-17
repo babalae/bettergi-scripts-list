@@ -14,7 +14,7 @@
          "繁體中文",
          "English",
          "日本語",
-         "한국어",
+         "한국어"
        ],
        "default": "简体中文"
    },
@@ -154,7 +154,7 @@
        "label": "主排序",
        "options": [
          "升序",
-         "降序",
+         "降序"
        ],
        "default": "升序"
    },
@@ -164,7 +164,7 @@
        "label": "辅助排序",
        "options": [
          "等级顺序",
-         "品质顺序",
+         "品质顺序"
        ],
        "default": "等级顺序"
    },
@@ -181,6 +181,19 @@
       "default": ""
    },
    {
+      "label": "圣遗物筛选",
+      "type": "multi-checkbox",
+      "name": "selectSuit",
+      "options": [
+              "标记",
+              "仅锁定",
+              "未锁定",
+              "已装备",
+              "未装备",
+              "祝圣之霜定义"
+      ]
+   },
+   {
        "name": "countMaxByHoly",
        "type": "select",
        "label": "筛选圣遗物界面最大翻页次数 (默认4)",
@@ -192,46 +205,11 @@
          "5",
          "6",
          "7",
-         "8",
+         "8"
        ],
        "default": "4"
    },
-   {
-     "name": "holyRelicsLockMark",
-     "type": "checkbox",
-     "label": "圣遗物筛选:(锁定状态)|标记",
-     "default": false
-   },
-   {
-     "name": "holyRelicsLockY",
-     "type": "checkbox",
-     "label": "圣遗物筛选:(锁定状态)|仅锁定",
-     "default": false
-   },
-   {
-     "name": "holyRelicsLockN",
-     "type": "checkbox",
-     "label": "圣遗物筛选:(锁定状态)|未锁定",
-     "default": false
-   },
-   {
-     "name": "holyRelicsEquipY",
-     "type": "checkbox",
-     "label": "圣遗物筛选:(装备状态)|已装备",
-     "default": false
-   },
-   {
-     "name": "holyRelicsEquipN",
-     "type": "checkbox",
-     "label": "圣遗物筛选:(装备状态)|未装备",
-     "default": false
-   },
-   {
-     "name": "holyRelicsSourceFrostSaint",
-     "type": "checkbox",
-     "label": "圣遗物筛选:(来源)|祝圣之霜定义",
-     "default": false
-   },
+
    {
       "name": "knapsackKey",
       "type": "input-text",
