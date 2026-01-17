@@ -1002,7 +1002,7 @@ async function initRecord() {
                 })));
             }
             return value;
-        });
+        })??RecordList;
     } catch (e) {
         // 如果读取文件出错，则忽略错误（可能是文件不存在或格式错误）
     }
@@ -1018,16 +1018,13 @@ async function initRecord() {
                 })));
             }
             return value;
-        }).find(item => item.uid === Record.uid)
+        }).find(item => item.uid === Record.uid)?? RecordPath
+
     } catch (e) {
         // 如果读取文件出错，则忽略错误（可能是文件不存在或格式错误）
     }
-    if (RecordPath?.uid) {
-        RecordPath.uid = Record.uid
-    }
-    if (RecordPath?.paths) {
-        RecordPath.paths = new Set()
-    }
+    RecordPath.uid ||= Record.uid
+    RecordPath.paths ||= new Set()
     // 如果记录列表不为空，则查找最新记录
     if (RecordList.length > 0) {
         // 最优解：一次遍历找到最新的记录
