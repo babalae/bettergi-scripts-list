@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1767802865064,
+    "last_modified_time": 1768638159856,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "620纳塔-悠悠集市南8",
@@ -130,6 +130,16 @@
       "action": "",
       "action_params": "",
       "id": 13,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 13833.2890625,
+      "y": 231.04736328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
       "move_mode": "dash",
       "type": "path",
       "x": 13833.2890625,
@@ -138,7 +148,7 @@
     {
       "action": "combat_script",
       "action_params": "keydown(w),keypress(t),wait(0.1),keypress(t),wait(1.5),keypress(e),keyup(w)",
-      "id": 14,
+      "id": 15,
       "move_mode": "dash",
       "type": "orientation",
       "x": 13862.562685653898,
@@ -147,7 +157,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 15,
+      "id": 16,
       "move_mode": "dash",
       "type": "path",
       "x": 13862.6201171875,
@@ -156,7 +166,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 17,
       "move_mode": "climb",
       "type": "orientation",
       "x": 13866,
@@ -165,7 +175,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "swim",
       "type": "target",
       "x": 13866,
@@ -174,7 +184,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "dash",
       "type": "path",
       "x": 13870.18739812166,
@@ -183,7 +193,7 @@
     {
       "action": "combat_script",
       "action_params": "keydown(w),wait(0.3),keydown(VK_SPACE),wait(0.7),keyup(VK_SPACE),keypress(e),wait(1.4),keypress(e),moveby(0,-1000),wait(1.4),keypress(e),wait(0.3),moveby(-200,4000),keyup(w)",
-      "id": 19,
+      "id": 20,
       "move_mode": "walk",
       "type": "orientation",
       "x": 13821.5419921875,
@@ -192,7 +202,7 @@
     {
       "action": "combat_script",
       "action_params": "keydown(w),wait(0.1),keypress(e),wait(1.4),keypress(e),keyup(w),click(middle)",
-      "id": 20,
+      "id": 21,
       "move_mode": "dash",
       "type": "orientation",
       "x": 13782.162109375,
@@ -201,7 +211,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 21,
+      "id": 22,
       "move_mode": "dash",
       "type": "path",
       "x": 13782.162109375,
@@ -210,7 +220,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.2),keypress(f)",
-      "id": 22,
+      "id": 23,
       "move_mode": "climb",
       "type": "target",
       "x": 13778.0009765625,
@@ -219,7 +229,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 23,
+      "id": 24,
       "move_mode": "dash",
       "type": "target",
       "x": 13783.759765625,
@@ -228,7 +238,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(x)",
-      "id": 24,
+      "id": 25,
       "move_mode": "climb",
       "type": "target",
       "x": 13781.828125,
@@ -237,7 +247,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 25,
+      "id": 26,
       "move_mode": "dash",
       "type": "path",
       "x": 13779.8681640625,
@@ -246,7 +256,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 26,
+      "id": 27,
       "move_mode": "dash",
       "type": "path",
       "x": 13814.84765625,
@@ -255,7 +265,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.2),keypress(f)",
-      "id": 27,
+      "id": 28,
       "move_mode": "dash",
       "type": "target",
       "x": 13822.240234375,

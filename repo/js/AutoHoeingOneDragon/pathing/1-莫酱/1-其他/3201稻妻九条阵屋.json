@@ -15,7 +15,7 @@
     "description": "  路线信息：该路线预计用时209.49秒，包含以下怪物：3只丘丘人、1只冲锋丘丘人、1只射手丘丘人、1只火箭丘丘人、1只冰箭丘丘人、1只木盾丘丘暴徒、1只雷斧丘丘暴徒、1只水丘丘萨满、2只盗宝团·水之药剂师、2只盗宝团·雷之药剂师、1只盗宝团·掘墓者、1只盗宝团·海上男儿、3只野伏·阵刀番、1只野伏·火伏番、2只野伏·机巧番、1只海乱鬼·炎威、1只海乱鬼·雷腾。",
     "enable_monster_loot_split": false,
     "hash_res": "15496424",
-    "last_modified_time": 1767877589258,
+    "last_modified_time": 1768399552344,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "3201稻妻九条阵屋",
@@ -160,7 +160,7 @@
       "y": -3242.498046875
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 16,
       "move_mode": "dash",
@@ -206,7 +206,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "id": 21,
       "move_mode": "dash",
       "type": "orientation",
