@@ -174,7 +174,6 @@ let userName = settings.userName || "默认账户";
             let captureRegion = captureGameRegion();  // 获取一张截图
             let res = captureRegion.Find(shopDialogueRo2);
             captureRegion.dispose();
-            captureRegion.dispose();
             if (res.isEmpty()) {
               keyPress("F");
               await sleep(1000);
