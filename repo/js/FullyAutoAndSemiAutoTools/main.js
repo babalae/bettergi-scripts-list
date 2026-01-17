@@ -594,8 +594,8 @@ async function initRun(config_run) {
             //     item => item.settings_name === settingsName
             // );
 
-            const {label} = multiCheckboxMap.get(settingsName);
-            const as_name = getBracketContent(label)//父名称 如：晶蝶
+            // const {label} = multiCheckboxMap.get(settingsName);
+            // const as_name = getBracketContent(label)//父名称 如：晶蝶
             function groupByParentAndName(list) {
                 const map = new Map();
 
