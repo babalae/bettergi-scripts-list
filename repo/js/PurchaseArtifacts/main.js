@@ -94,6 +94,7 @@ let userName = settings.userName || "默认账户";
         let shopDialogueRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Picture/Shopping.png"), 1259, 540, 100, 400);
         let shopDialogueRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Picture/Shopping2.png"), 0, 0, 150, 100);
         let conFirmRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Picture/Confirm.png"), 1585, 1005, 31, 31);
+        let guDong = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Picture/古董.png"));
 
         // 定义一个函数识别并交互 NPC
         async function checkFAlignment(fDialogueRo) {
@@ -167,7 +168,12 @@ let userName = settings.userName || "默认账户";
         for (let i = 0; i < 5; i++) {
             // 最多 F 5次
             let captureRegion = captureGameRegion();  // 获取一张截图
-            let res = captureRegion.Find(shopDialogueRo2);
+            let res;
+            if (locationName=='璃月购买狗粮2'){
+                res = captureRegion.Find(guDong);
+            }else{
+                res = captureRegion.Find(shopDialogueRo);
+            }
             captureRegion.dispose();
             if (res.isEmpty()) {
               keyPress("F");
