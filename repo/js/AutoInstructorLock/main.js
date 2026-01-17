@@ -15,6 +15,7 @@
     await ClickPNG("reset");
     //筛选套装
     await ClickPNG("filterSet");
+    await sleep(200);
     moveMouseTo(400, 750);
     //开始寻找教官
     let attempts = 0;
