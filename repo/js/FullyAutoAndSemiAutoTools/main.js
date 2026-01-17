@@ -31,6 +31,7 @@ const json_path_name = {
     uidSettingsJson: `${config_root}\\uidSettings.json`,
     cdPath: `${config_root}\\cd-${pathingName}.json`,
     SevenElement: `${config_root}\\SevenElement.json`,
+    RefreshSettings: `${config_root}\\RefreshSettings.json`,
 }
 // 定义记录文件的路径
 // let RecordText = `${config_root}\\record.json`
@@ -207,6 +208,20 @@ async function init() {
         // 获取当前路径下的所有文件/文件夹
         let pathSyncList = file.readPathSync(`${PATHING_ALL[level].name}`);
         log.debug("{0}文件夹下有{1}个文件/文件夹", `${pathingName}`, pathSyncList.length);
+        // 预处理黑白名单数组，移除空字符串并trim
+        const processedBlackList = config_list.black
+            .map(item => item.trim())
+            .filter(item => item !== "");
+
+        const processedWhiteList = config_list.white
+            .map(item => item.trim())
+            .filter(item => item !== "");
+        let blacklistSet = new Set(processedBlackList)
+        processedWhiteList.forEach(item => {
+            blacklistSet.delete(item)
+        })
+        const blacklist = Array.from(blacklistSet)
+
         let settingsList = settingsConfig
         let settingsRefreshList = []
         let parentJson = {
@@ -217,37 +232,33 @@ async function init() {
         }
         for (const element of pathSyncList) {
             // log.warn("element={0}", element)
-            parentJson.options.push(element.replace(`${pathingName}\\`, ""))
+            const item = element.replace(`${pathingName}\\`, "");
+            if (!blacklist.find(black => item === black)) {
+                parentJson.options.push(item)
+            }
         }
-        settingsRefreshList.push({type: "separator"})
-        await addUniquePath({
-            level: level,
-            name: `${pathingName}`,
-            parent_name: '',
-            child_names: parentJson.options
-        }, settingsRefreshList)
+        // settingsRefreshList.push({type: "separator"})
 
         let treePathList = await readPaths(`${pathingName}`)
         await debugKey('log-treePathList.json', JSON.stringify(treePathList))
         let pathJsonList = await treeToList(treePathList)
 
+        await addUniquePath({
+            level: level,
+            name: `${pathingName}`,
+            parentName: '',
+            child_names: parentJson.options
+        }, pathJsonList)
+
         PATH_JSON_LIST = pathJsonList
 
-        // 预处理黑白名单数组，移除空字符串并trim
-        const processedBlackList = config_list.black
-            .map(item => item.trim())
-            .filter(item => item !== "");
-
-        const processedWhiteList = config_list.white
-            .map(item => item.trim())
-            .filter(item => item !== "");
 
         for (const element of pathJsonList) {
             const pathRun = element.path
 
             // 检查路径是否被允许
-            const isBlacklisted = processedBlackList.some(item => pathRun.includes(item));
-            const isWhitelisted = processedWhiteList.some(item => pathRun.includes(item));
+            const isBlacklisted = processedBlackList.some(item => pathRun?.includes(item));
+            const isWhitelisted = processedWhiteList.some(item => pathRun?.includes(item));
 
             if (isBlacklisted && !isWhitelisted) {
                 continue;
@@ -273,22 +284,17 @@ async function init() {
                 if (!currentName) {
                     break; // 没有当前层级，停止处理
                 }
-                const isBlacklisted = processedBlackList.some(item => childName?.includes(item));
-                const isWhitelisted = processedWhiteList.some(item => childName?.includes(item));
+
                 // 过滤JSON文件
                 const filteredChildName = childName?.endsWith(".json") ? undefined : childName;
-                let child_names=[...filteredChildName]
-                if (isBlacklisted && !isWhitelisted) {
-                    child_names=[]
-                }
-       
-                         // 获取父级名称用于建立层级关系
+                let child_names = Array.from(new Set(filteredChildName ? [filteredChildName] : []).difference(new Set(blacklist)))
+                // 获取父级名称用于建立层级关系
                 const parentName = getChildFolderNameFromRoot(pathRun, parentLevel);
 
                 await addUniquePath({
                     level: parentLevel,        // 存储到目标层级 属于目标层级
                     name: currentName,              // 当前层级名称
-                    parent_name: parentName,        // 父级名称
+                    parentName: parentName,        // 父级名称
                     child_names: [...child_names]
                 });
             }
@@ -331,12 +337,13 @@ async function init() {
             // if (a.parent_name !== b.parent_name) {
             //     return a.parent_name.localeCompare(b.parent_name);
             // }
-            // level 相同时按 name 排序
+            // level 相同时按 path 排序
             return pathA.localeCompare(pathB);
         });
 
         await debugKey('log-PATHING_ALL.json', JSON.stringify(PATHING_ALL))
         const groupLevel = groupByLevel(PATHING_ALL);
+        await debugKey('log-groupLevel.json', JSON.stringify(groupLevel))
         // const initLength = settingsList.length
         let parentNameLast = undefined
         // let parentNameNow = undefined
@@ -350,13 +357,13 @@ async function init() {
                 list.filter(item => item && item.child_names && item.child_names.length > 0).forEach(item => {
                     const name = `${levelName}_${item.level}_${i}`
                     let prefix = ''
-                    log.debug(`[{2}]Last{0},Current{1},Name{5}`, "比对", parentNameLast, item.parent_name, item.name)
-                    const isCommonLastAndCurrent = item.parent_name !== parentNameLast;
+                    log.debug(`[{2}]Last{0},Current{1},Name{5}`, "比对", parentNameLast, item.parentName, item.name)
+                    const isCommonLastAndCurrent = item.parentName !== parentNameLast;
                     if (isCommonLastAndCurrent) {
-                        parentNameLast = item.parent_name;
-                        let b = (line - item.parent_name.length) % 2 === 0;
-                        const localLine = b ? ((line - item.parent_name.length) / 2) : (Math.ceil((line - item.parent_name.length) / 2))
-                        prefix = br + `${"=".repeat(localLine)}${item.parent_name}${"=".repeat(localLine)}\n` + br
+                        parentNameLast = item.parentName;
+                        let b = (line - item.parentName.length) % 2 === 0;
+                        const localLine = b ? ((line - item.parentName.length) / 2) : (Math.ceil((line - item.parentName.length) / 2))
+                        prefix = br + `${"=".repeat(localLine)}${item.parentName}${"=".repeat(localLine)}\n` + br
                     }
                     // const p = idx === 0 ? "【地图追踪】\n" : `${prefix}[${item.parent_name}-${item.name}]\n`
                     const p = `${prefix}[${item.name}]\n`
@@ -383,7 +390,7 @@ async function init() {
                             if (isCommonLastAndCurrent) {
                                 settingsRefreshList.push({type: "separator"})
                             }
-                            parentNameLast = item.parent_name;
+                            parentNameLast = item.parentName;
 
                             // 添加新的配置项
                             settingsRefreshList.push(leveJson);
@@ -393,6 +400,7 @@ async function init() {
                 })
             }
         )
+        await debugKey('log-settingsRefreshList.json', JSON.stringify(settingsRefreshList))
         //settingsRefreshList 二级排序 todo:
         level++
         settingsList = Array.from(new Set(settingsList.concat(settingsRefreshList)))
@@ -402,6 +410,12 @@ async function init() {
         ).forEach(item => {
             // 刷新settings自动设置密钥
             item.default = manifest.key
+        })
+        settingsList.filter(
+            item => item.name === 'config_run'
+        ).forEach(item => {
+            // 刷新settings自动设置执行
+            item.default = "执行"
         })
         // 更新当前用户的配置
         uidSettingsMap.set(Record.uid, settingsList)
@@ -425,6 +439,12 @@ async function init() {
         let uidSettings = uidSettingsMap.get(Record.uid);
         if (uidSettings) {
             try {
+                uidSettings.filter(
+                    item => item.name === 'config_run'
+                ).forEach(item => {
+                    // 刷新settings自动设置执行
+                    item.default = "执行"
+                })
                 file.writeTextSync(manifest.settings_ui, JSON.stringify(uidSettings))
             } catch (e) {
                 log.error("加载用户配置失败: {error}", e.message)
@@ -439,18 +459,26 @@ async function init() {
         const timeJson = (!cd.open) ? new Set() : new Set(JSON.parse(file.readTextSync(cdPath)).sort(
             (a, b) => b.level - a.level
         ))
+
+        if (dev.isDebug) {
+            const multiCheckboxMap = await getMultiCheckboxMap();
+            await debugKey('log-multiCheckboxMap.json', JSON.stringify(Array.from(multiCheckboxMap)))
+            const keysList = Array.from(multiCheckboxMap.keys());
+            await debugKey('log-keysList.json', JSON.stringify(keysList))
+        }
+
         settingsNameList = settingsNameList.concat(Array.from(await getMultiCheckboxMap().then(map => {
-            return map.keys().filter(key => key.startsWith(levelName))
+            return map?.keys()
+                .filter(key => key?.startsWith(levelName) && map?.get(key)?.options?.length > 0)
         })))
+        settingsNameList.filter(key => key.trim() !== "")
         log.debug(`settingsNameList:{0}`, JSON.stringify(settingsNameList))
-        settingsNameList.filter(key => {
-            log.debug(`fil:{0}`, JSON.stringify(key))
-            return key.trim() !== ""
-        })
+
         // for (let key of pathAsMap.keys()) {
         //     const multiCheckbox = await getValueByMultiCheckboxName(pathAsMap.get(key));
         //     needRunMap.set(key, multiCheckbox)
         // }
+        await debugKey('log-settingsNameList.json', JSON.stringify(settingsNameList))
         for (const settingsName of settingsNameList) {
             log.debug(`settingsName:{0}`, settingsName)
             // let multi = await getValueByMultiCheckboxName(settingsName);
@@ -460,13 +488,20 @@ async function init() {
             let multi = multiJson.options
 
 
-            const settingsAsName = settingsNameAsList.find(item => item.settings_name === settingsName)
             let list = PATH_JSON_LIST.filter(item =>
-                multi.some(element => item.path.includes(`\\${element}\\`) && item.path.includes(`\\${label}\\`))
+                multi.some(element => item.fullPathNames.includes(element) && item.fullPathNames.includes(label))
             ).map(item => {
                 // 找到匹配的元素并填充到 selected 字段
-                const matchedElement = multi.find(element => item.path.includes(`\\${element}\\`) && item.path.includes(`\\${label}\\`));
-                return {name: item.name, parent_name: item.parent_name, selected: matchedElement || "", path: item.path}
+                const matchedElement = multi.find(element => item.fullPathNames.includes(element) && item.fullPathNames.includes(label));
+                return {
+                    level: item.level,
+                    name: item.name,
+                    parentId: item.parentId,
+                    parentName: item.parentName,
+                    selected: matchedElement || "",
+                    path: item.path,
+                    fullPathNames: item.fullPathNames
+                };
             });
             // 1. 预处理：将 Set/Map 转为数组，避免循环内重复转换
             let recordPaths;
@@ -476,11 +511,11 @@ async function init() {
                 recordPaths = []
             }
             const timeConfigs = Array.from(timeJson);
-            log.info(`list:{0}`, JSON.stringify(...list))
+            log.debug(`list:{0}`, JSON.stringify(list))
             const timeFilter = list.filter(item => {
                 // 2. 查找匹配的配置项 (假设这是必须的条件)
                 // 注意：这里保留了原有的 includes 逻辑，但在实际业务中建议评估是否需要精确匹配
-                const timeConfig = timeConfigs.find(e => item.path.includes(`\\${e.name}\\`));
+                const timeConfig = timeConfigs.find(e => item.fullPathNames.includes(e.name));
 
                 if (!timeConfig) return false;
 
@@ -523,6 +558,8 @@ async function init() {
             }
 
             if (list?.length > 0) {
+                log.debug(`[SetNeed]{0}`, JSON.stringify([...list]))
+                const settingsAsName = settingsNameAsList.find(item => item.settings_name === settingsName)
                 needRunMap.set(settingsAsName.settings_as_name, {
                     paths: list,
                     as_name: settingsAsName.settings_as_name,
@@ -908,6 +945,7 @@ async function getMultiCheckboxMap() {
     // 创建一个新的Map对象用于存储多复选框的配置
     // Map结构为: {名称: 选项数组}
     let multiCheckboxMap = new Map([]);
+    // await debugKey("log-MultiCheckbox-settings.json",JSON.stringify(settingsJson))
     // 遍历设置JSON中的每个条目
     settingsJson.forEach((entry) => {
         // 如果条目没有name属性或者类型不是"multi-checkbox"，则跳过该条目
@@ -916,11 +954,13 @@ async function getMultiCheckboxMap() {
         const {name, label} = entry;
         // 获取当前name对应的设置值，如果存在则转换为数组，否则使用空数组
         const options = settings[name] ? Array.from(settings[name]) : [];
-        // 记录调试信息，包含名称、标签、选项和选项数量
-        log.debug("name={key1},label={key2},options={key3},length={key4}", name, label, JSON.stringify(options), options.length);
-        // 将名称和对应的选项数组存入Map
-        // multiCheckboxMap.set(name, options);
-        multiCheckboxMap.set(name, {label: `${label}`, options: [...options]});
+        if (options.length > 0) {
+            // 记录调试信息，包含名称、标签、选项和选项数量
+            log.debug("name={key1},label={key2},options={key3},length={key4}", name, label, JSON.stringify(options), options.length);
+            // 将名称和对应的选项数组存入Map
+            // multiCheckboxMap.set(name, options);
+            multiCheckboxMap.set(name, {label: `${label}`, options: options});
+        }
     })
     log.debug("multiCheckboxMap={key}", JSON.stringify(Array.from(multiCheckboxMap)))
     // 返回包含多复选框配置的Map
@@ -1536,12 +1576,12 @@ async function treeToList(treeList = []) {
     let list = []
     for (const element of treeList) {
         const child = element.children
-        if (child && child.length > 0) {
-            list = list.concat(await treeToList(child))
-        }
         // 如果是文件，添加到结果列表
         if (element.isFile) {
             list.push(element);
+        }
+        if (child && child.length > 0) {
+            list = [...list, ...await treeToList(child)]
         }
     }
     return list
