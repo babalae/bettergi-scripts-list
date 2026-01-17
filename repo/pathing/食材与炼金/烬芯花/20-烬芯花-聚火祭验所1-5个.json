@@ -1,0 +1,187 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768647705856,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "20-烬芯花-聚火祭验所1-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -81.16455078125,
+      "y": -248.424560546875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -102.111572265625,
+      "y": -263.76953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -102.111572265625,
+      "y": -263.76953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -93.544921875,
+      "y": -249.988525390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -108.440673828125,
+      "y": -272.747314453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -127.652099609375,
+      "y": -268.617431640625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -142.544189453125,
+      "y": -261.771728515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -142.544189453125,
+      "y": -261.771728515625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -130.582275390625,
+      "y": -262.51611328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -157.47314453125,
+      "y": -256.875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -156.13134765625,
+      "y": -247.70068359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -176.0830078125,
+      "y": -244.45556640625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -184.0986328125,
+      "y": -244.124755859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -184.0986328125,
+      "y": -244.124755859375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -191.336669921875,
+      "y": -237.91796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -202.904052734375,
+      "y": -251.0576171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -209.609619140625,
+      "y": -258.6962890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -210.903076171875,
+      "y": -264.26953125
+    }
+  ]
+}
