@@ -110,16 +110,14 @@ let userName = settings.userName || "默认账户";
                         // 第 1-3 次尝试
                         await simulateKeyOperations("S", 200); // 后退 200 毫秒
                         await sleep(200);
-                        await simulateKeyOperations("W", 400); // 前进 400 毫秒
-                        await sleep(500);
                     } else if (f_attempts <= 5) {
                         // 第 4-5 次尝试
-                        log.warn("无法找到NPC，退出购买流程");
-                        return { success: false, reason: "npc_not_found" };
+                        await simulateKeyOperations("W", 400); // 前进 400 毫秒
+                        await sleep(500);
                     } else {
                         // 第 6 次尝试，尝试次数已达上限
-                        log.warn("尝试次数已达上限");
-                        break; // 找到后退出循环
+                        log.warn("无法找到NPC，退出购买流程");
+                        break;
                     }
 
                     // 检查是否找到 F 图标
