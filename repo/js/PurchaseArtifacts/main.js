@@ -152,8 +152,12 @@ let userName = settings.userName || "默认账户";
         for (let i = 0; i < 5; i++) {
             // 最多 F 5次
             let captureRegion = captureGameRegion();  // 获取一张截图
-            let res = captureRegion.Find(shopDialogueRo);
-            captureRegion.dispose();
+            let res;
+            if (locationName=='璃月购买狗粮2'){
+                res = captureRegion.Find(guDong);
+            }else{
+                res = captureRegion.Find(shopDialogueRo);
+            }
             if (res.isEmpty()) {
               keyPress("F");
               await sleep(1000);
@@ -168,12 +172,8 @@ let userName = settings.userName || "默认账户";
         for (let i = 0; i < 5; i++) {
             // 最多 F 5次
             let captureRegion = captureGameRegion();  // 获取一张截图
-            let res;
-            if (locationName=='璃月购买狗粮2'){
-                res = captureRegion.Find(guDong);
-            }else{
-                res = captureRegion.Find(shopDialogueRo);
-            }
+            let res = captureRegion.Find(shopDialogueRo2);
+            captureRegion.dispose();
             captureRegion.dispose();
             if (res.isEmpty()) {
               keyPress("F");
