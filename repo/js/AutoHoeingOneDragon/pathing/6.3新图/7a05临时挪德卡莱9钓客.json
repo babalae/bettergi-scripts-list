@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -6,35 +6,35 @@
         "name": "mno"
       }
     ],
-    "bgi_version": "0.54.0",
-    "description": "  路线信息：该路线预计用时177.41秒，包含以下怪物：3只精英传奇倍率五。",
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时130.22秒，包含以下怪物：9只深黯钓客。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1768393025741,
+    "last_modified_time": 1768397751097,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "005挪德卡莱虚海望十六倍曼陀草 传奇",
+    "name": "7a05临时挪德卡莱9钓客",
     "tags": [],
     "type": "collect",
     "version": "1.0"
   },
   "positions": [
     {
-      "action": "force_tp",
+      "action": "",
       "action_params": "",
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9563.0634765625,
-      "y": 5322.80712890625
+      "x": 10101.67578125,
+      "y": 6343.787109375
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 9582.533203125,
-      "y": 5339.91455078125
+      "x": 10141.259765625,
+      "y": 6318.3359375
     },
     {
       "action": "",
@@ -42,46 +42,53 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 9618.05078125,
-      "y": 5337.6474609375
+      "x": 10141.259765625,
+      "y": 6318.3359375
     },
     {
-      "action": "stop_flying",
+      "action": "fight",
       "action_params": "",
       "id": 4,
-      "move_mode": "fly",
+      "move_mode": "dash",
       "type": "path",
-      "x": 9655.6142578125,
-      "y": 5336.1904296875
+      "x": 10131.9169921875,
+      "y": 6303.56787109375
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 5,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 9666.83203125,
-      "y": 5347.07421875
+      "x": 10131.9169921875,
+      "y": 6303.56787109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10119.0751953125,
+      "y": 6286.79638671875
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 6,
-      "locked": false,
-      "move_mode": "dash",
+      "id": 7,
+      "move_mode": "jump",
       "type": "path",
-      "x": 9666.83203125,
-      "y": 5347.07421875
+      "x": 10092.439453125,
+      "y": 6282.8681640625
     },
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 7,
-      "move_mode": "dash",
+      "id": 8,
+      "move_mode": "jump",
       "type": "orientation",
-      "x": 9666.83203125,
-      "y": 5347.07421875
+      "x": 10092.439453125,
+      "y": 6282.8681640625
     }
   ]
 }

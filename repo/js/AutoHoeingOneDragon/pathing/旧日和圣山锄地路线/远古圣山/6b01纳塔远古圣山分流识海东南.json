@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -7,12 +7,12 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时31.68秒，包含以下怪物：1只暝视龙。",
+    "description": "  路线信息：该路线预计用时46.28秒，包含以下怪物：1只秘源机兵·寻捕械、1只幼突角龙、1只突角龙。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1767735807306,
+    "last_modified_time": 1767735776178,
     "map_match_method": "",
     "map_name": "AncientSacredMountain",
-    "name": "6c07纳塔远古圣山拟星的台座",
+    "name": "6b01纳塔远古圣山分流识海东南",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,26 +24,35 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -432.421875,
-      "y": 253.5699462890625
+      "x": 185.332763671875,
+      "y": -43.50439453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack;芙宁娜 e",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 183.4168701171875,
+      "y": -36.19775390625
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 2,
+      "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": -436.149169921875,
-      "y": 257.107666015625
+      "x": 182.517333984375,
+      "y": -59.42822265625
     },
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 3,
+      "id": 4,
       "move_mode": "dash",
       "type": "orientation",
-      "x": -436.149169921875,
-      "y": 257.107666015625
+      "x": 182.517333984375,
+      "y": -59.42822265625
     }
   ]
 }

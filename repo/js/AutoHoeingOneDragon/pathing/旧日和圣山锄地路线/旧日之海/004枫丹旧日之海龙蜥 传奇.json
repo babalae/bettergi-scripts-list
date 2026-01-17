@@ -7,12 +7,12 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时66秒，包含以下怪物：2只魔像禁卫。",
+    "description": "  路线信息：该路线预计用时100秒，预计收入1200摩拉，包含以下怪物：2只精英传奇倍率三。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1767728638478,
+    "last_modified_time": 1767726586175,
     "map_match_method": "",
     "map_name": "SeaOfBygoneEras",
-    "name": "526枫丹切萨勒姆宫东（200_2）",
+    "name": "004枫丹旧日之海龙蜥 传奇",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4547.02490234375,
-      "y": 1477.1634521484375
+      "x": 3542.162841796875,
+      "y": 1377.1722412109375
     },
     {
       "action": "",
@@ -33,36 +33,35 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 4564.86767578125,
-      "y": 1371.078857421875
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keydown(w),wait(2.4),dash",
-      "id": 3,
-      "locked": false,
-      "move_mode": "dash",
-      "type": "orientation",
-      "x": 4541.044921875,
-      "y": 1351.780029296875
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 4541.044921875,
-      "y": 1351.780029296875
+      "x": 3550.346923828125,
+      "y": 1430.4874267578125
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 5,
+      "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 4556.9306640625,
-      "y": 1311.4007568359375
+      "x": 3544.763427734375,
+      "y": 1462.154052734375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 3544.763427734375,
+      "y": 1462.154052734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 3544.763427734375,
+      "y": 1462.154052734375
     }
   ]
 }
