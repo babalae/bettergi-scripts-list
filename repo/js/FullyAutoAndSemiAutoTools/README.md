@@ -206,7 +206,7 @@ sequenceDiagram
 | team_seven_elements | 文本  | 七元素队伍（矿物,火,水,风,雷,草,冰,岩）                                     | 按顺序填写                                      |
 | is_debug            | 复选框 | 开发者模式（详细日志）                                                 | 调试时开启                                      |
 
-## 额外json配置
+## (可选)额外json配置
 
 ### 配置项order_rules
 
