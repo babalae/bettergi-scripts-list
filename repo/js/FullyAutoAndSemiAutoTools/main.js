@@ -609,8 +609,14 @@ async function initRun(config_run) {
             }
 
             let groups = groupByParentAndName(matchedPaths);
+            // 支持多条规则，例如: "parentName->name1=1,parentName->name2=2"
+            const orderStr = settings.order_rules ||"parentName->name=1"
             //  todo: 排序
             const orderMap = new Map()
+            orderStr.split(",").forEach(item => {
+                const [key, order] = item.split("=");
+                orderMap.set(key, parseInt(order))
+            })
             groups.sort((a, b) => {
                 const a_key = `${a.parentName}->${a.name}`;
                 const orderA = orderMap.get(a_key) ?? 9999; // 没在 JSON 中的排到最后
@@ -623,7 +629,7 @@ async function initRun(config_run) {
             })
 
             groups.forEach(group => {
-                const groupOne= group[0]
+                const groupOne = group[0]
                 needRunMap.set(`${groupOne.parentName}->${groupOne.name}`, {
                     paths: group,
                     parent_name: groupOne.parentName,
@@ -1463,7 +1469,7 @@ async function runList(list = [], key = "") {
         log.debug('路径列表为空，跳过执行');
         return;
     }
-    log.info(`[{mode}] 开始执行 [{0}]组 路径列表，共{count}个路径`, settings.mode,key, list.length);
+    log.info(`[{mode}] 开始执行 [{0}]组 路径列表，共{count}个路径`, settings.mode, key, list.length);
     // 遍历路径列表
     for (let i = 0; i < list.length; i++) {
         const onePath = list[i];

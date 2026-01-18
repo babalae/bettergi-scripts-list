@@ -21,6 +21,12 @@
       "default": "2"
   },
   {
+      "name": "order_rules",
+      "type": "input-text",
+      "label": "执行顺序规则(可留空){语法:父文件夹名称->文件夹名称=顺序请填整数,.....}",
+      "default": ""
+  },
+  {
       "type": "separator"
   },
   {
