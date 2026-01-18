@@ -546,6 +546,7 @@ async function initRun(config_run) {
                 recordPaths = Array.from(RecordPath.paths);
             } catch (e) {
             }
+            recordPaths.sort((a, b) => b.timestamp - a.timestamp)
 
             const timeConfigs = Array.from(timeJson);
 
