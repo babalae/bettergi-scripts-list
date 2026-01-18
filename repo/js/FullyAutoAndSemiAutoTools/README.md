@@ -1,4 +1,5 @@
-# FullyAutoAndSemiAutoTools  
+# FullyAutoAndSemiAutoTools
+
 **全自动 + 半自动路径任务工具箱**  
 BetterGI 平台下功能最全面的路径批量执行解决方案之一
 
@@ -56,63 +57,51 @@ FullyAutoAndSemiAutoTools/
 ```mermaid
 graph TD
     A[启动脚本] --> B[初始化<br>配置/工具/记录/密钥检查]
-
     B --> C{运行模式?}
-
     C -->|刷新配置| D[扫描 pathing 目录<br>构建树状结构<br>生成多选配置项<br>应用黑白名单]
     D --> E[保存用户配置<br>到 uidSettings.json + path-json-by-uid.json]
-
     C -->|加载配置| F[读取 uidSettings.json & path-json-by-uid.json<br>快速恢复上次选择 & 路径缓存]
-
     C -->|开始执行| G[核心执行流程]
 
     subgraph 核心执行流程
-    G --> H[读取 CD 配置<br>加载执行记录 & UID路径缓存]
-    H --> I[构建 needRunMap<br>遍历路径组 & 过滤]
-    I --> J{CD 检查<br>hours/cron}
-    J -->|仍在CD| K[移除该路径]
-    J -->|可执行| L[加入执行队列]
-
-    L --> M[启动实时任务<br>自动对话/拾取/战斗]
-
-    M --> N{择优模式?}
-    N -->|开启| O[优先从未跑过/最久未跑的路径]
-    N -->|关闭| P[按顺序执行]
-
-    O --> P
-
-    P --> Q[遍历路径组]
-    Q --> R[遍历单条路径]
-
-    R --> S{已跑过?}
-    S -->|是| T[跳过 & 记录日志]
-    S -->|否| U{需要战斗?}
-    U -->|是| V[切换战斗队伍]
-    U -->|否| W{需要特定元素?}
-    W -->|是| X[切换七元素队伍]
-    W -->|否| Y[直接执行路径]
-
-    V --> Y
-    X --> Y
-
-    Y --> Z{半自动模式?}
-    Z -->|是| AA[等待快捷键<br>继续/跳过]
-    Z -->|否| AB[正常完成]
-
-    AA --> AB
-
-    AB --> AC[记录执行结果<br>成功/失败/时间戳]
-
-    AC --> AD{还有剩余路径?}
-    AD -->|是| R
-    AD -->|否| AE[保存最终记录<br>结束本次执行]
+        G --> H[读取 CD 配置<br>加载执行记录 & UID路径缓存]
+        H --> I[构建 needRunMap<br>遍历路径组 & 过滤]
+        I --> J{CD 检查<br>hours/cron}
+        J -->|仍在CD| K[移除该路径]
+        J -->|可执行| L[加入执行队列]
+        L --> M[启动实时任务<br>自动对话/拾取/战斗]
+        M --> N{择优模式?}
+        N -->|开启| O[优先从未跑过/最久未跑的路径]
+        N -->|关闭| P[按顺序执行]
+        O --> P
+        P --> Q[遍历路径组]
+        Q --> R[遍历单条路径]
+        R --> S{已跑过?}
+        S -->|是| T[跳过 & 记录日志]
+        S -->|否| U{需要战斗?}
+        U -->|是| V[切换战斗队伍]
+        U -->|否| W{需要特定元素?}
+        W -->|是| X[切换七元素队伍]
+        W -->|否| Y[直接执行路径]
+        V --> Y
+        X --> Y
+        Y --> Z{半自动模式?}
+        Z -->|是| AA[等待快捷键<br>继续/跳过]
+        Z -->|否| AB[正常完成]
+        AA --> AB
+        AB --> AC[记录执行结果<br>成功/失败/时间戳]
+        AC --> AD{还有剩余路径?}
+        AD -->|是| R
+        AD -->|否| AE[保存最终记录<br>结束本次执行]
     end
 
-    style A fill:#e3f2fd,stroke:#1976d2
-    style G fill:#f3e5f5,stroke:#7b1fa2
-    style AE fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px
+    style A fill: #e3f2fd, stroke: #1976d2
+    style G fill: #f3e5f5, stroke: #7b1fa2
+    style AE fill: #c8e6c9, stroke: #2e7d32, stroke-width: 3px
 ```
+
 ### 2. 执行时序图（sequenceDiagram 风格，适合看交互顺序）
+
 ```mermaid
 sequenceDiagram
     participant U as 用户
@@ -125,119 +114,152 @@ sequenceDiagram
     participant Team as 队伍切换
     participant Path as 路径执行
     participant Record as 记录系统
-
-    U->>S: 启动脚本 → 选择模式
+    U ->> S: 启动脚本 → 选择模式
 
     alt 模式 = 刷新配置
-        S->>Scan: 扫描 pathing 目录（支持任意深度）
-        Scan-->>S: 返回完整树状结构 & 文件列表
-        S->>S: 生成多选配置项<br>应用黑白名单精确过滤（Set优化）
-        S-->>U: 显示配置界面供勾选
-        U->>S: 保存配置
-        S->>Record: 写入 uidSettings.json + path-json-by-uid.json
+        S ->> Scan: 扫描 pathing 目录（支持任意深度）
+        Scan -->> S: 返回完整树状结构 & 文件列表
+        S ->> S: 生成多选配置项<br>应用黑白名单精确过滤（Set优化）
+        S -->> U: 显示配置界面供勾选
+        U ->> S: 保存配置
+        S ->> Record: 写入 uidSettings.json + path-json-by-uid.json
     else 模式 = 加载配置
-        S->>Record: 读取 uidSettings.json & path-json-by-uid.json
-        Record-->>S: 返回上次配置 & 缓存路径列表
-        S-->>U: 快速恢复配置界面
+        S ->> Record: 读取 uidSettings.json & path-json-by-uid.json
+        Record -->> S: 返回上次配置 & 缓存路径列表
+        S -->> U: 快速恢复配置界面
     else 模式 = 执行
-        S->>Init: 开始执行
-        Init->>Record: 加载历史记录 & UID路径缓存
-        Init->>CD: 读取 cd-pathing.json
-        CD-->>Init: 返回冷却状态
+        S ->> Init: 开始执行
+        Init ->> Record: 加载历史记录 & UID路径缓存
+        Init ->> CD: 读取 cd-pathing.json
+        CD -->> Init: 返回冷却状态
 
         loop 遍历所有勾选路径组
-            Init->>CD: 检查当前组是否在CD中
+            Init ->> CD: 检查当前组是否在CD中
             alt 仍在CD
-                CD-->>Init: 跳过该组
+                CD -->> Init: 跳过该组
             else 可执行
-                CD-->>Init: 允许执行
-                Init->>RT: 启动实时任务<br>(自动对话/拾取/战斗)
-                RT-->>Init: 实时任务就绪
+                CD -->> Init: 允许执行
+                Init ->> RT: 启动实时任务<br>(自动对话/拾取/战斗)
+                RT -->> Init: 实时任务就绪
 
                 alt 择优模式开启
-                    Init->>Record: 查询未跑/最久未跑路径
-                    Record-->>Init: 返回优先队列
+                    Init ->> Record: 查询未跑/最久未跑路径
+                    Record -->> Init: 返回优先队列
                 end
 
                 loop 遍历路径组内的单条路径
-                    Init->>Exec: 准备执行单条路径
-                    Exec->>Record: 检查是否已跑过
+                    Init ->> Exec: 准备执行单条路径
+                    Exec ->> Record: 检查是否已跑过
                     alt 已跑过
-                        Record-->>Exec: 跳过
+                        Record -->> Exec: 跳过
                     else 未跑过
-                        Exec->>Team: 检查战斗/元素需求
+                        Exec ->> Team: 检查战斗/元素需求
                         alt 需要战斗
-                            Team->>Team: 切换战斗队伍(team_fight)
+                            Team ->> Team: 切换战斗队伍(team_fight)
                         else 需要特定元素
-                            Team->>Team: 切换七元素队伍
+                            Team ->> Team: 切换七元素队伍
                         else 无特殊需求
-                            Team-->>Exec: 使用当前队伍
+                            Team -->> Exec: 使用当前队伍
                         end
 
-                        Team-->>Exec: 队伍已就位
-                        Exec->>Path: 执行路径脚本<br>pathingScript.runFile()
-                        Path-->>Exec: 路径执行完成/异常
+                        Team -->> Exec: 队伍已就位
+                        Exec ->> Path: 执行路径脚本<br>pathingScript.runFile()
+                        Path -->> Exec: 路径执行完成/异常
 
                         alt 半自动模式
-                            Exec->>U: 暂停等待快捷键(继续/跳过)
-                            U-->>Exec: 按键响应
+                            Exec ->> U: 暂停等待快捷键(继续/跳过)
+                            U -->> Exec: 按键响应
                         end
 
-                        Exec->>Record: 记录执行结果<br>(成功/失败/时间戳)
+                        Exec ->> Record: 记录执行结果<br>(成功/失败/时间戳)
                     end
                 end
             end
         end
 
-        Exec->>Record: 保存最终记录
-        Record-->>S: 执行完成
-        S-->>U: 显示执行完毕
+        Exec ->> Record: 保存最终记录
+        Record -->> S: 执行完成
+        S -->> U: 显示执行完毕
     end
 ```
 
 ## 重要配置项一览（settings.json）
 
-| 配置项             | 类型   | 主要作用                                                     | 推荐默认/示例                                 |
-| --------------- | ------ |----------------------------------------------------------|-----------------------------------------|
-| config_run      | 下拉   | 运行模式：刷新 / 加载 / 执行                                        | 刷新 → 首次，加载 → 日常                         |
-| refresh_record      | 复选框   | 配置模式-刷新-清空运行记录                                       |                       |
-| loading_level   | 文本   | 路径层级深度（≥1，实际支持更高深度）                                      | 2 或 3                                   |
-| order_rules     | 文本   | 执行顺序规则（可留空）<br>语法：父文件夹名称->文件夹名称=顺序整数,...<br>示例：食材与炼金->晶蝶=1, | ""（默认按扫描顺序）或 "食材与炼金->晶蝶=1,pathing->地方特产=2" |
-| config_white_list | 文本   | 白名单（逗号分隔）                                                | 晶蝶,特产                                   |
-| config_black_list | 文本   | 黑名单（优先级更高）                                               | 其他,锄地专区,周本                              |
-| open_cd         | 复选框 | 启用冷却控制                                                   | 建议开启                                    |
-| http_api        | 文本   | Cron 解析服务地址                                              | http://127.0.0.1:8081/...               |
-| real_time_missions | 多选   | 实时辅助（对话/战斗/拾取）                                           | 至少开「自动拾取」                               |
-| choose_best     | 复选框 | 择优模式（优先未跑/最久未跑路径）                                        | 推荐开启                                    |
-| mode            | 下拉   | 全自动 / 半自动                                                | 全自动（日常）                                 |
-| auto_semi_key_mode | 下拉   | 半自动快捷键行为（继续/跳过）                                          | 继续运行                                    |
-| auto_key        | 文本   | 半自动干预快捷键                                                 | F10 / F11（避免冲突）                         |
-| team_fight      | 文本   | 战斗/通用行走队伍名称                                              | 必须填写                                    |
-| team_seven_elements | 文本   | 七元素队伍（矿物,火,水,风,雷,草,冰,岩）                                  | 按顺序填写                                   |
-| is_debug        | 复选框 | 开发者模式（详细日志）                                              | 调试时开启                                   |
+| 配置项                 | 类型  | 主要作用                                                        | 推荐默认/示例                                    |
+|---------------------|-----|-------------------------------------------------------------|--------------------------------------------|
+| key                 | 文本  | 脚本密钥                                                        | xxx                                        |
+| config_run          | 下拉  | 运行模式：刷新 / 加载 / 执行                                           | 刷新 → 首次，加载 → 日常                            |
+| refresh_record      | 复选框 | 配置模式-刷新-清空运行记录                                              |                                            |
+| loading_level       | 文本  | 路径层级深度（≥1，实际支持更高深度）                                         | 2 或 3                                      |
+| order_rules         | 文本  | 执行顺序规则（可留空）<br>语法：父文件夹名称->文件夹名称=顺序整数,...<br>示例：食材与炼金->晶蝶=1, | ""（默认按扫描顺序）或 "食材与炼金->晶蝶=1,pathing->地方特产=2" |
+| config_white_list   | 文本  | 白名单（逗号分隔）                                                   | 晶蝶,特产                                      |
+| config_black_list   | 文本  | 黑名单（优先级更高）                                                  | 其他,锄地专区,周本                                 |
+| open_cd             | 复选框 | 启用冷却控制                                                      | 建议开启                                       |
+| http_api            | 文本  | Cron 解析服务地址                                                 | http://127.0.0.1:8081/...                  |
+| real_time_missions  | 多选  | 实时辅助（对话/战斗/拾取）                                              | 至少开「自动拾取」                                  |
+| choose_best         | 复选框 | 择优模式（优先未跑/最久未跑路径）                                           | 推荐开启                                       |
+| mode                | 下拉  | 全自动 / 半自动                                                   | 全自动（日常）                                    |
+| auto_semi_key_mode  | 下拉  | 半自动快捷键行为（继续/跳过）                                             | 继续运行                                       |
+| auto_key            | 文本  | 半自动干预快捷键                                                    | F10 / F11（避免冲突）                            |
+| team_fight          | 文本  | 战斗/通用行走队伍名称                                                 | 必须填写                                       |
+| team_hoe_ground     | 文本  | 锄地特化队伍配置（语法：父文件夹->子文件夹=队伍名,...）                             | 敌人与魔物->蕈兽=蕈兽队                              |
+| team_seven_elements | 文本  | 七元素队伍（矿物,火,水,风,雷,草,冰,岩）                                     | 按顺序填写                                      |
+| is_debug            | 复选框 | 开发者模式（详细日志）                                                 | 调试时开启                                      |
+
+## 额外json配置
+
+### 配置项order_rules
+
+路径:config/PathOrder.json
+
+```json
+[
+  {
+    "uid": "", //账号UID
+    "parent_name": "", //父文件夹名称
+    "name": "", //文件夹名称
+    "order": 0 //顺序
+  }
+]
+```
+
+### 配置项team_hoe_ground
+
+路径:config/HoeGround.json
+
+```json
+[
+  {
+    "uid": "",//账号UID
+    "parent_name": "",//父文件夹名称
+    "name": "",//文件夹名称
+    "team_name": ""//队伍名称
+  }
+]
+```
 
 ## CD 规则示例（cd-pathing.json）
 
 ```json
 [
-   {
-      "name": "晶蝶",
-      "type": "hours",
-      "level": 2,
-      "value": 12
-   },
-   {
-      "name": "地方特产",
-      "type": "hours",
-      "level": 1,
-      "value": 46
-   },
-   {
-      "name": "矿物",
-      "type": "cron",
-      "level": 1,
-      "value": "0 0 0 1/3 * ?"
-   }
+  {
+    "name": "晶蝶",
+    "type": "hours",
+    "level": 2,
+    "value": 12
+  },
+  {
+    "name": "地方特产",
+    "type": "hours",
+    "level": 1,
+    "value": 46
+  },
+  {
+    "name": "矿物",
+    "type": "cron",
+    "level": 1,
+    "value": "0 0 0 1/3 * ?"
+  }
 ]
 ```
 
@@ -246,15 +268,20 @@ sequenceDiagram
 **bettergi-scripts-tools** 是 Cron 解析的必要依赖，请至少选择一种方式部署：
 
 ### 1. Windows 一键运行
-下载 [release](https://github.com/Kirito520Asuna/bettergi-scripts-tools/releases) 中的 windows zip 包 → 解压 → 双击 .exe 运行
+
+下载 [release](https://github.com/Kirito520Asuna/bettergi-scripts-tools/releases) 中的 windows zip 包 → 解压 → 双击 .exe
+运行
 
 ### 2. Java 运行
+
 下载 jar 包 → 执行：
+
 ```bash
 java -jar bettergi-scripts-tools-xxxx.jar
 ```
 
 ### 3. Docker 部署
+
 ```bash
 docker pull ghcr.io/kirito520asuna/bettergi-scripts-tools:latest
 docker run -d -p 8081:8081 --name bettergi-scripts-tools ghcr.io/kirito520asuna/bettergi-scripts-tools:latest
@@ -288,13 +315,14 @@ docker run -d -p 8081:8081 --name bettergi-scripts-tools ghcr.io/kirito520asuna/
 
 ## 版本密钥
 
-| 版本           | 密钥                                      |
-|----------------|-------------------------------------------|
-| 0.0.1          | PGCSBY37NJ                                |
+| 版本    | 密钥         |
+|-------|------------|
+| 0.0.1 | PGCSBY37NJ |
 
 ## 版本历史（简要）
 
 ### 0.0.1 2026.01.18
+
 基本功能完成
 
 **作者**：云端客 (Kirito520Asuna)
