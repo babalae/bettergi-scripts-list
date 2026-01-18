@@ -35,6 +35,8 @@ const json_path_name = {
     RefreshSettings: `${config_root}\\RefreshSettings.json`,
     pathJsonByUid: `${config_root}\\path-json-by-uid.json`,
     PathOrder: `${config_root}\\PathOrder.json`,
+    HoeGround: `${config_root}\\HoeGround.json`,
+
 }
 // 定义记录文件的路径
 // let RecordText = `${config_root}\\record.json`
@@ -591,17 +593,27 @@ async function initRun(config_run) {
             }
 
             let groups = groupByParentAndName(matchedPaths);
-
+            //锄地队对应
             try {
                 const teamHoeGroundStr = settings.team_hoe_ground || "parentName->name=key"
                 teamHoeGroundStr.split(",").forEach(item => {
-                    const [key, order] = item.split("=");
-                    team.HoeGroundMap.set(key, parseInt(order))
+                    const [key, team_name] = item.split("=");
+                    team.HoeGroundMap.set(key, team_name)
                 })
             } catch (e) {
-
             }
-
+            try{
+                // {
+                //   uid:"",
+                //   parent_name:"",
+                //   name:"",
+                //   team_name:""
+                // } json支持
+                const teamHoeGroundList = JSON.parse(file.readTextSync(json_path_name.HoeGround)) ?? [{ uid: "", parent_name: "", name: "", team_name: ""}]
+                teamHoeGroundList.filter(item => item.uid === Record.uid).forEach(item => team.HoeGroundMap.set(`${item.parent_name}->${item.name}`, item.team_name))
+                log.info(`{0}加载完成`, json_path_name.HoeGround)
+            } catch (e) {
+            }
             //   排序
             const orderMap = new Map()
             try {
@@ -612,7 +624,6 @@ async function initRun(config_run) {
                     orderMap.set(key, parseInt(order))
                 })
             } catch (e) {
-
             }
 
             try {
@@ -622,11 +633,10 @@ async function initRun(config_run) {
                 //   name:"",
                 //   order:0
                 // } json支持
-                const orderList = JSON.parse(file.readTextSync(json_path_name.PathOrder)) ?? []
+                const orderList = JSON.parse(file.readTextSync(json_path_name.PathOrder)) ?? [{ uid: "", parent_name: "", name: "", order: 0 }]
                 orderList.filter(item => item.uid === Record.uid).forEach(item => orderMap.set(`${item.parent_name}->${item.name}`, item.order))
                 log.info(`{0}加载完成`, json_path_name.PathOrder)
             } catch (e) {
-
             }
 
             groups.sort((a, b) => {
@@ -655,11 +665,6 @@ async function initRun(config_run) {
                 'log-needRunMap.json',
                 JSON.stringify([...needRunMap])
             );
-            // needRunMap.set(as_name, {
-            //     paths: matchedPaths,
-            //     as_name: as_name,
-            //     name: settingsName //多选项 名称 如 treeLevel_0_0
-            // });
         }
         log.info("[执行前配置完成] needRunMap.size={0}", needRunMap.size);
     }
