@@ -542,7 +542,7 @@ async function initRun(config_run) {
         if (cd.open && matchedPaths.length > 0) {
             let recordPaths = [];
             try {
-                recordPaths = Array.from(RecordPath.paths);
+                recordPaths = Array.from(Record.paths);
             } catch (e) {
             }
 
@@ -740,108 +740,6 @@ async function init() {
         // 初始化needRunMap
     if (config_run === "执行") {
         await initRun(config_run);
-
-
-// ================================================================
-
-        /*
-                for (const settingsName of settingsNameList) {
-                    log.debug(`settingsName:{0}`, settingsName)
-                    // let multi = await getValueByMultiCheckboxName(settingsName);
-                    const multiJson = await getJsonByMultiCheckboxName(settingsName)
-                    log.debug(`multiJson:{0}`, JSON.stringify(multiJson))
-                    const label = getBracketContent(multiJson.label)
-                    let multi = multiJson.options
-
-
-                    let list = PATH_JSON_LIST.filter(item => {
-                        if (dev.isDebug) {
-                            log.info(`label:{1},item:{0}`, label, JSON.stringify(item))
-                            log.info(`multi:{1}`, label, JSON.stringify(multi))
-                        }
-                        return multi.some(element => item.fullPathNames.includes(element) && item.fullPathNames.includes(label))
-                    }).map(item => {
-                        // 找到匹配的元素并填充到 selected 字段
-                        const matchedElement = multi.find(element => item.fullPathNames.includes(element) && item.fullPathNames.includes(label));
-                        return {
-                            level: item.level,
-                            name: item.name,
-                            parentId: item.parentId,
-                            parentName: item.parentName,
-                            selected: matchedElement || "",
-                            path: item.path,
-                            fullPathNames: item.fullPathNames
-                        };
-                    });
-                    // 1. 预处理：将 Set/Map 转为数组，避免循环内重复转换
-                    let recordPaths;
-                    try {
-                        recordPaths = Array.from(RecordPath.paths)
-                    } catch (e) {
-                        recordPaths = []
-                    }
-                    const timeConfigs = Array.from(timeJson);
-                    log.debug(`list:{0}`, JSON.stringify(list))
-                    const timeFilter = [...list].filter(item => {
-                        // 2. 查找匹配的配置项 (假设这是必须的条件)
-                        // 注意：这里保留了原有的 includes 逻辑，但在实际业务中建议评估是否需要精确匹配
-                        const timeConfig = timeConfigs.find(e => item.fullPathNames.includes(e.name));
-
-                        if (!timeConfig) return false;
-
-                        // 3. 查找匹配的历史记录
-                        // 同样保留了 includes 逻辑
-                        const matchedRecord = recordPaths.find(element => element.path.includes(item.path));
-
-                        // 4. 如果没有记录，或者记录中没有时间戳，则跳过
-                        if (!matchedRecord || !matchedRecord.timestamp) return false;
-
-                        const {timestamp, value} = matchedRecord;
-                        const now = Date.now();
-
-                        // 5. 根据配置的类型进行时间判断
-                        if (timeConfig.type) {
-                            switch (timeType.fromValue(timeConfig.type)) {
-                                case timeType.hours:
-                                    const timeDifference = getTimeDifference(timestamp, now);
-                                    return timeDifference.total.hours >= value;
-                                case timeType.cron:
-                                    const nextCronTimestamp = cronUtil.getNextCronTimestamp(`${value}`, timestamp, now, cd.http_api);
-                                    // if (!nextCronTimestamp) {
-                                    //     log.error(`cron表达式解析失败: {value}`, value)
-                                    //     throw new Error(`cron表达式解析失败: ${value}`)
-                                    // }
-                                    if (!nextCronTimestamp) return false;
-                                    return now >= nextCronTimestamp;
-                                default:
-                                    return false;
-                            }
-                        }
-
-                        return false;
-                    });
-
-
-                    if (timeFilter?.length > 0) {
-                        //移除CD
-                        list = Array.from(new Set(list).difference(new Set(timeFilter)))
-                    }
-
-                    if (list?.length > 0) {
-                        log.debug(`[SetNeed]{0}`, JSON.stringify([...list]))
-                        const settingsAsName = settingsNameAsList.find(item => item.settings_name === settingsName)
-                        needRunMap.set(settingsAsName.settings_as_name, {
-                            paths: list,
-                            as_name: settingsAsName.settings_as_name,
-                            name: settingsAsName.settings_name
-                        })
-                    }
-                    log.debug(`[CD]{0}[CD]`, JSON.stringify([...timeFilter]))
-                    log.debug(`[RUN]{0}[RUN]`, JSON.stringify([...list]))
-                }*/
-        // log.info(`NEED-RUN:{0}`, JSON.stringify([...needRunMap]))
-        // 启用自动拾取的实时任务，并配置成启用急速拾取模式
-        // dispatcher.addTrigger(new RealtimeTimer("AutoPick"));
         await realTimeMissions()
     }
     return true
@@ -1443,7 +1341,8 @@ async function runPath(path) {
 
 
     //切换队伍-end
-    const now = Date.now();
+
+
     try {
         log.info("开始执行路径: {path}", path)
         await pathingScript.runFile(path)
@@ -1453,15 +1352,8 @@ async function runPath(path) {
             await realTimeMissions(false)
         }
         log.debug("路径执行完成: {path}", path)
-        RecordPath.paths.add({timestamp: now, path: path})
-        await saveRecordPaths()
-        Record.paths.add(path)
-        Record.errorPaths.delete(path)
+
     } catch (error) {
-        RecordPath.paths.delete({timestamp: now, path: path})
-        await saveRecordPaths()
-        Record.paths.delete(path)
-        Record.errorPaths.add(path)
         log.error("路径执行失败: {path}, 错误: {error}", path, error.message)
     } finally {
         if (team.fight) {
@@ -1510,11 +1402,21 @@ async function runList(list = [], key = "", current_name = "", parent_name = "")
                 continue
             }
         }
+        const now = Date.now();
+        const value = {timestamp: now, path: path};
         try {
             // 执行单个路径，并传入停止标识
             await runPath(path);
+            RecordPath.paths.add(value)
+            await saveRecordPaths()
+            Record.paths.add(path)
+            Record.errorPaths.delete(path)
         } catch (error) {
             log.error('执行路径列表中的路径失败: {path}, 错误: {error}', path, error.message);
+            RecordPath.paths.delete(value)
+            await saveRecordPaths()
+            Record.paths.delete(path)
+            Record.errorPaths.add(path)
             continue; // 继续执行列表中的下一个路径
         }
     }
@@ -1547,22 +1449,21 @@ async function runMap(map = new Map()) {
         if (one.paths.size <= 0) {
             continue
         }
+        const group = {
+            name: key,
+            paths: new Set(one.paths)
+        };
         try {
             // 记录开始执行任务的日志信息
             log.debug(`[{0}] {1}组 开始执行...`, settings.mode, key);
             // 执行当前任务关联的路径列表
 
             await runList(one.paths, key, one.current_name, one.parent_name);
-            Record.groupPaths.add({
-                name: key,
-                paths: new Set(one.paths)
-            })
+
+            Record.groupPaths.add(group)
             log.debug(`[{0}] 任务[{1}]执行完成`, settings.mode, key);
         } catch (error) {
-            Record.groupPaths.delete({
-                name: key,
-                paths: new Set(one.paths)
-            })
+            Record.groupPaths.delete(group)
             log.error(`[{0}] 任务[{1}]执行失败: {error}`, settings.mode, key, error.message);
             continue; // 继续执行下一个任务
         }
