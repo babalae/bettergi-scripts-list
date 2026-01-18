@@ -639,7 +639,10 @@ async function initRun(config_run) {
                 });
             })
 
-
+            await debugKey(
+                'log-needRunMap.json',
+                JSON.stringify([...needRunMap])
+            );
             // needRunMap.set(as_name, {
             //     paths: matchedPaths,
             //     as_name: as_name,
@@ -1389,7 +1392,7 @@ async function runPath(path) {
  * @param {number} index - 要切换的队伍在SevenElements数组中的索引
  * @returns {Promise<void>}
  */
-    async function switchTeamByIndex(index) {
+    async function switchTeamByIndex(index,key) {
     // 获取指定索引的队伍名称，如果索引超出范围或小于0则返回undefined
         const teamName = team.SevenElements.length > index && index >= 0 ? team.SevenElements[index] : undefined;
     // 检查队伍名称是否有效
@@ -1426,7 +1429,7 @@ async function runPath(path) {
     }
     else if(path.includes("有草神")){
         const idx = SevenElement.SevenElements.indexOf('草');
-        await switchTeamByIndex(idx);
+        await switchTeamByIndex(idx,"路线需要草神");
     }
     else {
         const entry = [...SevenElement.SevenElementsMap.entries()].find(([key, val]) => {
@@ -1435,7 +1438,7 @@ async function runPath(path) {
         if (entry) {
             const [key, val] = entry;
             const index = SevenElement.SevenElements.indexOf(key);
-            await switchTeamByIndex(index);
+            await switchTeamByIndex(index,key);
             // const teamName = team.SevenElements.length > index && index >= 0 ?
             //     team.SevenElements[index] : undefined;
             //
