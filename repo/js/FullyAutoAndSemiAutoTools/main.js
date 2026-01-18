@@ -1356,7 +1356,7 @@ async function keyMousePressStart(key) {
  * 执行指定路径的脚本文件
  * @param {string} path - 要执行的脚本路径
  */
-async function runPath(path, current_name="", parent_name="") {
+async function runPath(path) {
     // 参数验证
     if (!path || typeof path !== 'string') {
         log.warn('无效的路径参数: {path}', path)
@@ -1369,7 +1369,7 @@ async function runPath(path, current_name="", parent_name="") {
         return
     }
     //检查战斗需求
-/*    try {
+    try {
         if (!team.fight) {
             const one = JSON.parse(file.readTextSync(path))
             if (one.info?.description?.includes("请配置好战斗策略")) {
@@ -1381,7 +1381,7 @@ async function runPath(path, current_name="", parent_name="") {
         }
     } catch (error) {
         log.error("检查战斗需求失败: {error}", error.message);
-    }*/
+    }
     //切换队伍
     if (team.fight) {
         if (!team.fightName) {
@@ -1488,7 +1488,7 @@ async function runList(list = [], key = "") {
         }
         try {
             // 执行单个路径，并传入停止标识
-            await runPath(path, onePath.current_name,onePath.parent_name);
+            await runPath(path);
         } catch (error) {
             log.error('执行路径列表中的路径失败: {path}, 错误: {error}', path, error.message);
             continue; // 继续执行列表中的下一个路径
