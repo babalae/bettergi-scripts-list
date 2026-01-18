@@ -463,6 +463,10 @@ async function main() {
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     // Run an empty pathing script to give BGI a chance to switch team if the user specifies one.
     await pathingScript.runFile("assets/empty_pathing.json");
+    if (!Object.keys(settings).includes("exclude_ore_types")) {
+        log.error("首次运行前请编辑JS脚本自定义配置");
+        return;
+    }
     log.debug("Fight options: {a}", settings.fight_option);
     log.debug("Exclude regions: {a}, exclude types: {b}", settings.exclude_regions, settings.exclude_ore_types);
     log.debug("Exclude tags: {a}", get_exclude_tags());
