@@ -28,7 +28,7 @@ const findBottomBtnText = (text, contains) => {
 const findCloseDialog = () => {
   const iro = findImageWithinBounds("assets/UI_BtnIcon_Close.png", 410, 160, 1100, 660, {
     useMask: true,
-    threshold: 0.7,
+    threshold: 0.8,
   });
   iro?.drawSelf("group_img");
   return iro;
@@ -41,20 +41,11 @@ const clickToContinue = () => {
 const findUidText = () => {
   return findTextWithinBounds("UID", 1620, 1050, 300, 30, { contains: true });
 };
-//! 查找元素视野按钮（判断处于大世界条件一）
+//! 查找元素视野按钮（判断处于大世界）
 const findElementViewBtn = () => {
   const iro = findImageWithinBounds("assets/UI_BtnIcon_ElementView.png", 0, 0, 500, 80, {
     useMask: true,
-    threshold: 0.85,
-  });
-  iro?.drawSelf("group_img");
-  return iro;
-};
-//! 查找推荐奇域按钮（判断处于大世界条件二）
-const findBeyondRecommendBtn = () => {
-  const iro = findImageWithinBounds("assets/UI_BtnIcon_Beyond_Recommend.png", 960, 0, 960, 80, {
-    useMask: true,
-    threshold: 0.75,
+    threshold: 0.8,
   });
   iro?.drawSelf("group_img");
   return iro;
@@ -63,7 +54,7 @@ const findBeyondRecommendBtn = () => {
 const findBeyondHallBtn = () => {
   const iro = findImageWithinBounds("assets/UI_BtnIcon_Beyond_Hall.png", 200, 0, 150, 100, {
     useMask: true,
-    threshold: 0.75,
+    threshold: 0.8,
   });
   iro?.drawSelf("group_img");
   return iro;
@@ -175,7 +166,8 @@ const findDeleteStageSaveBtn = () => {
 //! 关卡：查找关卡退出按钮
 const findStageEscBtn = () => {
   const iro = findImageWithinBounds("assets/UI_Icon_Leave.png", 0, 0, 100, 100, {
-    threshold: 0.75,
+    useMask: true,
+    threshold: 0.8,
   });
   iro?.drawSelf("group_img");
   return iro;
@@ -216,7 +208,7 @@ const findFetchRewardBtn = () => {
     {
       useMask: true,
       use3Channels: true,
-      threshold: 0.9,
+      threshold: 0.8,
     },
   );
   iro?.drawSelf("group_img");
@@ -233,7 +225,6 @@ export {
   findBeyondBattlepassPopup,
   findBeyondFavoritesBtn,
   findBeyondHallBtn,
-  findBeyondRecommendBtn,
   findBottomBtnText,
   findClearInputBtn,
   findCloseDialog,

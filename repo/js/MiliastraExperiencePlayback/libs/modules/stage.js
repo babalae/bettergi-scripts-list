@@ -67,9 +67,9 @@ const playStage = async (playbacks) => {
 };
 //! 执行通关回放文件（随机抽取）
 const execStagePlayback = async (playbacks) => {
-  const file$1 = playbacks[Math.floor(Math.random() * playbacks.length)];
-  log.info("执行通关回放文件: {file}", file$1);
-  await keyMouseScript.runFile(file$1);
+  const file = playbacks[Math.floor(Math.random() * playbacks.length)];
+  log.info("执行通关回放文件: {file}", file);
+  await keyMouseScript.runFile(file);
 };
 //! 退出关卡
 const exitStage = async () => {
