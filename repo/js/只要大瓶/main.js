@@ -289,7 +289,7 @@ async function findAndClick(target, maxAttempts = 20) {
         const rg = captureGameRegion();
         try {
             const res = rg.find(target);
-            if (res.isExist()) { await sleep(16); res.click(); return true; }
+            if (res.isExist()) { await sleep(16); res.click(); await sleep(50); return true; }
         } finally { rg.dispose(); }
         if (i < maxAttempts - 1) await sleep(50);
     }
