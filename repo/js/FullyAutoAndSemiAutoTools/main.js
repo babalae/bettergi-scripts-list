@@ -536,7 +536,7 @@ async function initRun(config_run) {
                 name: item.name,
                 parentId: item.parentId,
                 parentName: item.parentName,
-                selected,
+                selected: selected,
                 path: item.path,
                 fullPathNames: item.fullPathNames
             };
