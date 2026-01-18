@@ -1383,7 +1383,35 @@ async function runPath(path) {
     } catch (error) {
         log.error("检查战斗需求失败: {error}", error.message);
     }
-    //切换队伍
+
+/**
+ * 根据索引切换队伍
+ * @param {number} index - 要切换的队伍在SevenElements数组中的索引
+ * @returns {Promise<void>}
+ */
+    async function switchTeamByIndex(index) {
+    // 获取指定索引的队伍名称，如果索引超出范围或小于0则返回undefined
+        const teamName = team.SevenElements.length > index && index >= 0 ? team.SevenElements[index] : undefined;
+    // 检查队伍名称是否有效
+        if (!teamName || teamName === "") {
+        // 如果没有设置队伍，记录调试日志并跳过切换
+            log.debug(`[{mode}] 没有设置队伍: {teamName}，跳过切换`, settings.mode, teamName);
+        } else if (team.current === teamName) {
+        // 如果当前已经是目标队伍，记录调试日志并跳过切换
+            log.debug(`[{mode}] 当前队伍为: {teamName}，无需切换`, settings.mode, teamName);
+        } else {
+        // 如果需要切换队伍，记录信息日志
+            log.info(`[{mode}] 检测到需要: {key}，切换至{val}`, settings.mode, key, teamName);
+        // 调用切换队伍的工具函数
+            const teamSwitch = await switchUtil.SwitchPartyMain(teamName);
+        // 如果切换成功，更新当前队伍
+            if (teamSwitch) {
+                team.current = teamSwitch;
+            }
+        }
+    }
+
+//切换队伍
     if (team.fight) {
         if (!team.fightName) {
             log.error(`[{mode}] 路径需要配置好战斗策略: {path}`, settings.mode, path)
@@ -1395,27 +1423,33 @@ async function runPath(path) {
                 team.current = teamSwitch;
             }
         }
-    } else {
+    }
+    else if(path.includes("有草神")){
+        const idx = SevenElement.SevenElements.indexOf('草');
+        await switchTeamByIndex(idx);
+    }
+    else {
         const entry = [...SevenElement.SevenElementsMap.entries()].find(([key, val]) => {
             return val.some(item => path.includes(`\\${item}\\`));
         });
         if (entry) {
             const [key, val] = entry;
             const index = SevenElement.SevenElements.indexOf(key);
-            const teamName = team.SevenElements.length > index && index >= 0 ?
-                team.SevenElements[index] : undefined;
-
-            if (!teamName || teamName === "") {
-                log.debug(`[{mode}] 没有设置队伍: {teamName}，跳过切换`, settings.mode, teamName);
-            } else if (team.current === teamName) {
-                log.debug(`[{mode}] 当前队伍为: {teamName}，无需切换`, settings.mode, teamName);
-            } else {
-                log.info(`[{mode}] 检测到需要: {key}，切换至{val}`, settings.mode, key, teamName);
-                const teamSwitch = await switchUtil.SwitchPartyMain(teamName);
-                if (teamSwitch) {
-                    team.current = teamSwitch;
-                }
-            }
+            await switchTeamByIndex(index);
+            // const teamName = team.SevenElements.length > index && index >= 0 ?
+            //     team.SevenElements[index] : undefined;
+            //
+            // if (!teamName || teamName === "") {
+            //     log.debug(`[{mode}] 没有设置队伍: {teamName}，跳过切换`, settings.mode, teamName);
+            // } else if (team.current === teamName) {
+            //     log.debug(`[{mode}] 当前队伍为: {teamName}，无需切换`, settings.mode, teamName);
+            // } else {
+            //     log.info(`[{mode}] 检测到需要: {key}，切换至{val}`, settings.mode, key, teamName);
+            //     const teamSwitch = await switchUtil.SwitchPartyMain(teamName);
+            //     if (teamSwitch) {
+            //         team.current = teamSwitch;
+            //     }
+            // }
         } else if (team.current !== team.fightName) {
             const teamSwitch = await switchUtil.SwitchPartyMain(team.fightName);
             if (teamSwitch) {
