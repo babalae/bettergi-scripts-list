@@ -611,7 +611,7 @@ async function initRun(config_run) {
             let groups = groupByParentAndName(matchedPaths);
             // 支持多条规则，例如: "parentName->name1=1,parentName->name2=2"
             const orderStr = settings.order_rules ||"parentName->name=1"
-            //  todo: 排序
+            //   排序
             const orderMap = new Map()
             orderStr.split(",").forEach(item => {
                 const [key, order] = item.split("=");
@@ -1459,7 +1459,7 @@ async function runPath(path) {
  * @param {Array} list - 要执行的路径列表，默认为空数组
  * @returns {Promise<void>}
  */
-async function runList(list = [], key = "") {
+async function runList(list = [], key = "", current_name="", parent_name="") {
     // 参数验证
     if (!Array.isArray(list)) {
         log.warn('无效的路径列表参数: {list}', list);
@@ -1476,7 +1476,7 @@ async function runList(list = [], key = "") {
         const onePath = list[i];
         const path = onePath.path;
         if (i === 0) {
-            log.info(`[{mode}] 开始执行[{1}-{2}]列表`, settings.mode, onePath.parent_name, onePath.current_name);
+            log.info(`[{mode}] 开始执行[{1}-{2}]列表`, settings.mode, parent_name, current_name);
         }
         log.info('正在执行第{index}/{total}个路径: {path}', i + 1, list.length, path);
         if (auto.semi && auto.skip) {
@@ -1529,7 +1529,7 @@ async function runMap(map = new Map()) {
             log.debug(`[{0}] {1}组 开始执行...`, settings.mode, key);
             // 执行当前任务关联的路径列表
 
-            await runList(one.paths, key);
+            await runList(one.paths, key,one.current_name,one.parent_name);
             Record.groupPaths.add({
                 name: key,
                 paths: new Set(one.paths)
