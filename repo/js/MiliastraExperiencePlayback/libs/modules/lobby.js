@@ -3,7 +3,6 @@ import { assertRegionAppearing, waitForAction } from "../@bettergi+utils.js";
 import { userConfig } from "../constants/config.js";
 import {
   findBeyondHallBtn,
-  findBeyondRecommendBtn,
   findConfirmBtn,
   findElementViewBtn,
   findGotTeyvatBtn,
@@ -14,9 +13,7 @@ import {
 //! 判断是否处于奇域大厅
 const isInLobby = () => findBeyondHallBtn() !== void 0;
 //! 判断是否处于提瓦特大陆
-const isInTeyvat = () => {
-  return findBeyondRecommendBtn() !== void 0 && findElementViewBtn() !== void 0;
-};
+const isInTeyvat = () => findElementViewBtn() !== void 0;
 //! 退出大厅返回提瓦特大陆
 const exitLobbyToTeyvat = async () => {
   if (!userConfig.goToTeyvat) return;
