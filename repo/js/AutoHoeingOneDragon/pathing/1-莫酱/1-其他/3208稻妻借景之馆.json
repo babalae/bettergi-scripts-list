@@ -1,0 +1,64 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时49.55秒，包含以下怪物：1只盗宝团·水之药剂师、1只野伏·机巧番、1只海乱鬼·炎威、1只盗宝团·冰之药剂师。",
+    "enable_monster_loot_split": false,
+    "hash_res": "32775349",
+    "last_modified_time": 1767879250602,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3208稻妻借景之馆",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3242.49,
+      "y": -3868.84
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;wait(2)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3252.416015625,
+      "y": -3866.8544921875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3284.509765625,
+      "y": -3839.6103515625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3284.509765625,
+      "y": -3839.6103515625
+    }
+  ]
+}

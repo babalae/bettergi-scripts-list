@@ -1,0 +1,56 @@
+{
+  "info": {
+    "name": "3610稻妻大日御舆东",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时56.84秒，包含以下怪物：3只打手丘丘人、2只火箭丘丘人、1只雷丘丘萨满。",
+    "hash_res": "60666868",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 64.34,
+      "y": 252.59
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "5000",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 60.43,
+      "y": 353.6
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 58.77,
+      "y": 365.57
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 58.77,
+      "y": 365.57
+    }
+  ]
+}

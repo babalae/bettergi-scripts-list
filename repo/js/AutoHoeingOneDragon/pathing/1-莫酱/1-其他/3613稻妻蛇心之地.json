@@ -1,0 +1,73 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时44.24秒，包含以下怪物：1只丘丘人、1只木盾丘丘人、2只水丘丘萨满、1只雷深渊法师。",
+    "enable_monster_loot_split": false,
+    "hash_res": "66853984",
+    "last_modified_time": 1767962441158,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "3613稻妻蛇心之地",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 198.88999999999987,
+      "y": -182.9699999999998
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 174.2032470703125,
+      "y": -170.58837890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 155.6873779296875,
+      "y": -137.046630859375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 159.816650390625,
+      "y": -112.574462890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 159.816650390625,
+      "y": -112.574462890625
+    }
+  ]
+}

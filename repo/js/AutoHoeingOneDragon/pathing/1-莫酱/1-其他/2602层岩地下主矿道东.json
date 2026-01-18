@@ -1,0 +1,127 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时108.69秒，包含以下怪物：1只盗宝团·斥候、1只盗宝团·火之药剂师、2只盗宝团·水之药剂师、3只盗宝团·雷之药剂师、3只盗宝团·拳术家、1只盗宝团·粉碎者。",
+    "enable_monster_loot_split": false,
+    "hash_res": "19518805",
+    "last_modified_time": 1767959067937,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "2602层岩地下主矿道东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 663.8299999999999,
+      "y": 1058.85
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 651.462890625,
+      "y": 1071.8779296875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 595.0499267578125,
+      "y": 1095.673583984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 586.39892578125,
+      "y": 1098.05078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 575.7373046875,
+      "y": 1108.1328125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 551.8848876953125,
+      "y": 1138.0869140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 551.8848876953125,
+      "y": 1138.0869140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 547.262451171875,
+      "y": 1147.25634765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 543.2012939453125,
+      "y": 1167.0823974609375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 521.07958984375,
+      "y": 1160.584716796875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 521.07958984375,
+      "y": 1160.584716796875
+    }
+  ]
+}

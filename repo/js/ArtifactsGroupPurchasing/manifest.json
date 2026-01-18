@@ -1,0 +1,25 @@
+{
+  "manifest_version": 1,
+  "name": "AAA狗粮联机团购",
+  "version": "1.11.3",
+  "tags": [
+    "狗粮"
+  ],
+  "description": "配合AAA狗粮批发使用，联机运行多条收尾路线",
+  "saved_files": [
+    "records/*.txt",
+    "targets/*.png"
+  ],
+  "authors": [
+    {
+      "name": "mno",
+      "links": "https://github.com/Bedrockx"
+    },
+    {
+      "name": "汐",
+      "links": "https://github.com/jiegedabaobei"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}

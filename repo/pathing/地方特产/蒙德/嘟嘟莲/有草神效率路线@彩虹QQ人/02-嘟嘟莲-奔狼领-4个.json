@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "02-嘟嘟莲-奔狼领-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "性价比路线，要求队伍：必须带小草神",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "彩虹QQ人",
+        "links": "https://github.com/KRdingsan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -521.56,
+      "y": 2181.32,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -503.75,
+      "y": 2171.13,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -490.07,
+      "y": 2169.81,
+      "type": "path",
+      "move_mode": "swim",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -480.67,
+      "y": 2163.87,
+      "type": "path",
+      "move_mode": "swim",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -477.31,
+      "y": 2152.48,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

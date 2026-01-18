@@ -1,0 +1,231 @@
+{
+  "info": {
+    "name": "6812--纳塔_安饶之野_孑遗的留迹东南_(20)",
+    "type": "collect",
+    "author": "汐&mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时256.74秒，包含以下怪物：3.5只丘丘人、3只愚人众先遣队·火统游击兵、3只愚人众先遣队·风拳前锋军、1只愚人众先遣队·雷锤前锋军、1只愚人众先遣队·岩使游击兵、5只横蛮勇士·冲撞手、2只横蛮勇士·抓扑人、1只突角龙武士·破空轰动、1只突角龙武士·追缉灵光。",
+    "hash_res": "81447898",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10171.79,
+      "y": -3021.79
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10175.91,
+      "y": -3039.59
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10233.59,
+      "y": -3083.97
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10271.07,
+      "y": -3124.52
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10287.8,
+      "y": -3136.69
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10287.8,
+      "y": -3136.69
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10311.61,
+      "y": -3162.93
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10335.76,
+      "y": -3175.65
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10337.76,
+      "y": -3176.65
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10337.76,
+      "y": -3176.65
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10363.13,
+      "y": -3192.81
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10391.49,
+      "y": -3199.92
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 10391.49,
+      "y": -3199.92
+    },
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10171.79,
+      "y": -3021.79
+    },
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9917.96,
+      "y": -3275.83
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9956.34,
+      "y": -3264.09
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9957.61,
+      "y": -3210.78
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9957.61,
+      "y": -3210.78
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9958.61,
+      "y": -3210.78
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10018.42,
+      "y": -3213.66
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10018.42,
+      "y": -3213.66
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10002.19,
+      "y": -3163.18
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 23,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 10002.19,
+      "y": -3163.18
+    }
+  ]
+}

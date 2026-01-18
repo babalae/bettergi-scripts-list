@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时79.8秒，包含以下怪物：1只秘源机兵·寻捕械、1只绒翼龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767765827054,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "6b03纳塔远古圣山分流识海中",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 185.427490234375,
+      "y": -43.43359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 251.4033203125,
+      "y": -15.380126953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3),keypress(VK_SPACE),wait(2),keypress(VK_SPACE)",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 262.220703125,
+      "y": 2.7366943359375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 282.2860107421875,
+      "y": -16.11474609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 290.5225830078125,
+      "y": -18.52392578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 307.2587890625,
+      "y": -24.089111328125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 309.6695556640625,
+      "y": -19.3876953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 309.6695556640625,
+      "y": -19.3876953125
+    }
+  ]
+}

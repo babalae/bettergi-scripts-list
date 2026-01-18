@@ -1,0 +1,100 @@
+{
+  "info": {
+    "name": "506枫丹湖中垂柳 浊水幻灵（200_2）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时87.35秒，包含以下怪物：1只浊水粉碎幻灵、1只浊水喷吐幻灵。",
+    "hash_res": "32586578",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3258.08,
+      "y": 3672.92,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3248.78,
+      "y": 3694.78,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3217.73,
+      "y": 3708.13,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3223.64,
+      "y": 3731.88,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3225.58,
+      "y": 3734.75,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "click,wait(0.5),click",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3219.39,
+      "y": 3720.31,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3216.23,
+      "y": 3688.46,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(4.5)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3204.57,
+      "y": 3692.79,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3219.17,
+      "y": 3709,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时60.78秒，包含以下怪物：3只冰萤。",
+    "enable_monster_loot_split": false,
+    "hash_res": "05340204",
+    "last_modified_time": 1767791659137,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A03-蒙德-龙脊雪山-寒天之钉-下方-3只",
+    "tags": [
+      "高危"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1013.4,
+      "y": 1028.42
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -987.79,
+      "y": 1014.58
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -949.47,
+      "y": 1001.77
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -936.37,
+      "y": 1010.43
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -921.28,
+      "y": 996.07
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -921.28,
+      "y": 996.07
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时68.94秒，包含以下怪物：4只雷萤。",
+    "enable_monster_loot_split": false,
+    "hash_res": "56979139",
+    "last_modified_time": 1767880293295,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3210稻妻公义飞萤",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3156.619999999999,
+      "y": -3886.01
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3167.25,
+      "y": -3881.7503921810603
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3191.15234375,
+      "y": -3872.005859375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3217.796875,
+      "y": -3855.919921875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3237.4000000000015,
+      "y": -3879.99
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3237.4000000000015,
+      "y": -3879.99
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3250.040000000001,
+      "y": -3848.9699999999993
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3250.040000000001,
+      "y": -3848.9699999999993
+    }
+  ]
+}

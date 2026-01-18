@@ -1,0 +1,216 @@
+[
+  {
+    "name": "operationMode",
+    "type": "select",
+    "label": "第一部分：路径组执行配置\n根据每个配置组的具体需求填写\n#############################################\n\n执行模式",
+    "options": [
+      "运行锄地路线",
+      "调试路线分配",
+      "强制刷新所有运行记录"
+    ],
+    "default": "运行锄地路线"
+  },
+  {
+    "name": "groupIndex",
+    "type": "select",
+    "label": "选择执行第几个路径组",
+    "options": [
+      "路径组一",
+      "路径组二",
+      "路径组三",
+      "路径组四",
+      "路径组五",
+      "路径组六",
+      "路径组七",
+      "路径组八",
+      "路径组九",
+      "路径组十"
+    ],
+    "default": "路径组一"
+  },
+  {
+    "name": "partyName",
+    "type": "input-text",
+    "label": "本路径组使用配队名称"
+  },
+  {
+    "name": "sortMode",
+    "type": "select",
+    "label": "组内路线排序模式",
+    "options": [
+      "原文件顺序",
+      "效率降序",
+      "高收益优先"
+    ],
+    "default": "高收益优先"
+  },
+  {
+    "name": "pickup_Mode",
+    "type": "select",
+    "label": "拾取模式",
+    "options": [
+      "模板匹配拾取，拾取狗粮和怪物材料",
+      "模板匹配拾取，只拾取狗粮",
+      "bgi原版拾取",
+      "不拾取任何物品"
+    ],
+    "default": "模板匹配拾取，拾取狗粮和怪物材料"
+  },
+  {
+    "name": "activeDumperMode",
+    "type": "input-text",
+    "label": "泥头车模式,将在接近战斗点前提前释放部分角色e技能\n需要启用时填写这些角色在队伍中的编号\n有多个角色需要释放时用【中文逗号】分隔"
+  },
+  {
+    "name": "eatBuff",
+    "type": "input-text",
+    "label": "使用料理名称，将在路线之间尝试使用对应名称的料理，如果使用特殊料理，请提前勾选不再提示，多个料理名称之间使用中文逗号分隔，使用间隔为300秒"
+  },
+  {
+    "name": "timeRule",
+    "type": "input-text",
+    "label": "本地时间-不运行时段\n示例写法：\n  单个小时：8\n  连续区间：8-11 或 23:11-23:55（可省略分钟）\n  多项分隔：用中文逗号【，】\n规则：\n  只写小时：开始=整点，结束=59分；跨天自动识别\n  含分钟：按实际时分计算\n  提前10分钟结束并等待到限制时段开始\n留空=全天可运行"
+  },
+  {
+    "name": "findFInterval",
+    "type": "input-text",
+    "label": "识别间隔(毫秒)\n两次检测f图标之间等待时间",
+    "default": "100"
+  },
+  {
+    "name": "pickupDelay",
+    "type": "input-text",
+    "label": "拾取后延时(毫秒)\n观察到日志显示连续拾取相同物品时建议调大",
+    "default": "50"
+  },
+  {
+    "name": "rollingDelay",
+    "type": "input-text",
+    "label": "滚动后延时(毫秒)\n观察到拾取错误时建议调大",
+    "default": "32"
+  },
+  {
+    "name": "timeMove",
+    "type": "input-text",
+    "label": "单次滚动周期(毫秒)\n观察到上下滚动不全时建议调大",
+    "default": "1000"
+  },
+  {
+    "name": "logMonsterCount",
+    "type": "checkbox",
+    "label": "运行路线时输出交互或拾取精英和小怪数量，便于在日志分析中比对"
+  },
+  {
+    "name": "skipCheck",
+    "type": "checkbox",
+    "label": "跳过校验阶段，如果你执意想要使用错误的配置进行锄地，请在下面一字勾选以同意以下内容\n\n确认跳过校验阶段，任何包括但不限于漏怪、卡死、不拾取等问题均由自己配置引起，与脚本和路线无关"
+  },
+  {
+    "name": "accountName",
+    "type": "input-text",
+    "label": "#############################################\n\n第二部分：路线选择与分组配置\n仅对于选择路径组一的配置组生效，其他配置组将读取同账户名路径组一的配置组的相关配置，其他路径组的以下配置无效\n#############################################\n\n账户名称\n用于多用户运行时区分不同账户的记录\n单用户请勿修改",
+    "default": "默认账户"
+  },
+  {
+    "name": "tagsForGroup1",
+    "type": "input-text",
+    "label": "允许使用的标签：\n水免，次数盾，高危，传奇，蕈兽，小怪，沙暴，狭窄地形]\n允许使用自定义标签，文件路径或描述包含时将会视为路线含有该标签\n多个标签使用【中文逗号】分隔\n\n路径组一要【排除】的标签",
+    "default": "蕈兽，传奇，狭窄地形"
+  },
+  {
+    "name": "tagsForGroup2",
+    "type": "input-text",
+    "label": "路径组二要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup3",
+    "type": "input-text",
+    "label": "路径组三要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup4",
+    "type": "input-text",
+    "label": "路径组四要【选择】的标签"
+  },
+  {
+    "name": "disableSelfOptimization",
+    "type": "checkbox",
+    "label": "勾选后禁用根据运行记录优化路线选择的功能\n完全使用路线原有信息"
+  },
+  {
+    "name": "eEfficiencyIndex",
+    "type": "input-text",
+    "label": "精英计算权重，填0以上的数字\n越大越倾向于花费较多时间提高总收益",
+    "default": "2.5"
+  },
+  {
+    "name": "mEfficiencyIndex",
+    "type": "input-text",
+    "label": "小怪计算权重，填0以上的数字\n越大越倾向于花费较多时间提高总收益",
+    "default": "0.5"
+  },
+  {
+    "name": "curiosityFactor",
+    "type": "input-text",
+    "label": "好奇系数，缺少记录的路线预期用时将被削减对应比例以更多尝试未知路线，填0-1之间的数,会导致显示的预计时间出现偏差",
+    "default": "0"
+  },
+  {
+    "name": "splitFactor",
+    "type": "input-text",
+    "label": "精英小怪分离系数，填0-1数字\n越大越倾向于分离出更多的纯小怪路线\n总耗时大幅增加，但是有利于小怪路线蹭更多经验\n建议保持默认即可",
+    "default": "0"
+  },
+  {
+    "name": "targetEliteNum",
+    "type": "input-text",
+    "label": "目标精英数量",
+    "default": "400"
+  },
+  {
+    "name": "targetMonsterNum",
+    "type": "input-text",
+    "label": "目标小怪数量",
+    "default": "2000"
+  },
+  {
+    "name": "priorityTags",
+    "type": "input-text",
+    "label": "优先关键词，含关键词的路线会被视为最高效率\n不同关键词使用【中文逗号】分隔\n例如填骗骗花，可以优先选择含有骗骗花的路线\n建议使用怪物图鉴中的名字\n仅优先选择，不影响路线排序"
+  },
+  {
+    "name": "excludeTags",
+    "type": "input-text",
+    "label": "排除关键词，含关键词的路线会被完全排除\n不同关键词使用【中文逗号】分隔\n例如填火斧丘丘暴徒，可以排除所有含有火斧丘丘暴徒的路线\n建议使用怪物图鉴中的名字"
+  },
+  {
+    "name": "tagsForGroup5",
+    "type": "input-text",
+    "label": "路径组五要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup6",
+    "type": "input-text",
+    "label": "路径组六要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup7",
+    "type": "input-text",
+    "label": "路径组七要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup8",
+    "type": "input-text",
+    "label": "路径组八要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup9",
+    "type": "input-text",
+    "label": "路径组九要【选择】的标签"
+  },
+  {
+    "name": "tagsForGroup10",
+    "type": "input-text",
+    "label": "路径组十要【选择】的标签"
+  }
+]

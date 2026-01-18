@@ -1,0 +1,138 @@
+{
+  "info": {
+    "name": "纳塔-奥奇卡纳塔-灰灰楼林木-42个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "Tim",
+        "links": "https://github.com/Limint"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10112.8438,
+      "y": -140.3965
+    },
+    {
+      "id": 2,
+      "x": 10103.2021,
+      "y": -153.8213,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "use_gadget",
+      "action_params": "5"
+    },
+    {
+      "id": 3,
+      "x": 10089.7061,
+      "y": -164.4854,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(VK_D),wait(0.2),click(right)"
+    },
+    {
+      "id": 4,
+      "x": 10089.7061,
+      "y": -164.4854,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "use_gadget",
+      "action_params": "5"
+    },
+    {
+      "id": 5,
+      "x": 10071.0635,
+      "y": -161.7329,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "use_gadget",
+      "action_params": "5"
+    },
+    {
+      "id": 6,
+      "x": 10079.7754,
+      "y": -138.1982,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 10066.123,
+      "y": -114.4136,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "use_gadget",
+      "action_params": "5"
+    },
+    {
+      "id": 8,
+      "x": 10028.5508,
+      "y": -108.5845,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "use_gadget",
+      "action_params": "5"
+    },
+    {
+      "id": 9,
+      "x": 10016.9004,
+      "y": -96.9731,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "use_gadget",
+      "action_params": "5"
+    },
+    {
+      "id": 10,
+      "x": 10001.5605,
+      "y": -122.6499,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "use_gadget",
+      "action_params": "5"
+    },
+    {
+      "id": 11,
+      "x": 9987.5332,
+      "y": -131.4619,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 12,
+      "x": 9989.7852,
+      "y": -139.1543,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 13,
+      "x": 10011.7441,
+      "y": -143.8223,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 14,
+      "x": 10010.3535,
+      "y": -166.6484,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "use_gadget",
+      "action_params": "5"
+    }
+  ]
+}

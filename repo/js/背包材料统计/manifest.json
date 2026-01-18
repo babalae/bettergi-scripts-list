@@ -1,0 +1,22 @@
+{
+  "manifest_version": 1,
+  "name": "背包统计采集系统",
+  "version": "2.55",
+  "bgi_version": "0.44.8",
+  "description": "可统计背包养成道具、部分食物、素材的数量；根据设定数量、根据材料刷新CD执行挖矿、采集、刷怪等的路径。优势：\n+ 1. 自动判断材料CD，不需要管材料CD有没有好；\n+ 2. 可以随意添加路径，能自动排除低效、无效路径；\n+ 3. 有独立名单识别，不会交互路边的npc或是神像；可自定义识别名单，具体方法看【问题解答】增减识别名单\n+ 4. 有实时的弹窗模块，提供了常见的几种:路边信件、过期物品、月卡、调查;\n+ 5. 可识别爆满的路径材料，自动屏蔽；更多详细内容查看readme.md",
+  "saved_files": [
+    "pathing/",
+    "history_record/",
+    "overwrite_record/",
+    "latest_record.txt",
+    "pathing_record/"
+  ],
+  "authors": [
+    {
+      "name": "吉吉喵",
+      "links": "https://github.com/JJMdzh"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}

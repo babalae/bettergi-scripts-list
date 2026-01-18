@@ -1,0 +1,109 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时166.45秒，包含以下怪物：1只愚人众先遣队·火统游击兵、1只愚人众先遣队·风拳前锋军、1只盗宝团·斥候、1只盗宝团·水之药剂师、1只盗宝团·拳术家、1只盗宝团·粉碎者。",
+    "enable_monster_loot_split": false,
+    "hash_res": "52218457",
+    "last_modified_time": 1767865432340,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "2609璃月巨渊主矿区南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 278.46,
+      "y": 767.33
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 278.377197265625,
+      "y": 762.7354736328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 261.242919921875,
+      "y": 753.6695556640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 182.964599609375,
+      "y": 725.4085693359375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 183.3997802734375,
+      "y": 725.5352783203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 183.3997802734375,
+      "y": 725.5352783203125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 215.4033203125,
+      "y": 762.2464599609375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 215.4033203125,
+      "y": 762.2464599609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 215.4033203125,
+      "y": 762.2464599609375
+    }
+  ]
+}

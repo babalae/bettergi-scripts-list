@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时102.29秒，包含以下怪物：2只幼鳍游龙、1只鳍游龙、2只绒翼龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767735784877,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "6b04纳塔远古圣山分流识海北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 202.531494140625,
+      "y": 209.22607421875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 209.1436767578125,
+      "y": 174.8350830078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 209.1436767578125,
+      "y": 174.8350830078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 216.28955078125,
+      "y": 144.8721923828125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 229.2037353515625,
+      "y": 117.4962158203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 229.2037353515625,
+      "y": 117.4962158203125
+    }
+  ]
+}

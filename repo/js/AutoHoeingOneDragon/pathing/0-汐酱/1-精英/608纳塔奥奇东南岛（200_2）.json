@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "608纳塔奥奇东南岛（200_2）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时56.21秒，包含以下怪物：2只遗迹守卫。",
+    "hash_res": "45190780",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9196.19,
+      "y": -574.31,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9188.69,
+      "y": -574.31,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9180.13,
+      "y": -572.94,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.5),keypress(VK_SPACE),wait(1.5),click,wait(5)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9180.13,
+      "y": -572.94,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 9180.13,
+      "y": -572.94,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

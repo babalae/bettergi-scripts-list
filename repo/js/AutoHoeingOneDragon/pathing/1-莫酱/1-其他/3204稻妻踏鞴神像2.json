@@ -1,0 +1,136 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时102.31秒，包含以下怪物：2只野伏·阵刀番、2只野伏·机巧番、2只海乱鬼·炎威、1只海乱鬼·雷腾。",
+    "enable_monster_loot_split": false,
+    "hash_res": "36126454",
+    "last_modified_time": 1767877933587,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3204稻妻踏鞴神像2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3233.220000000001,
+      "y": -3534.1499999999996
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3234.587890625,
+      "y": -3564.5400390625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3232.9765625,
+      "y": -3583.0419921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3232.9765625,
+      "y": -3583.0419921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3233.220000000001,
+      "y": -3534.1499999999996
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3247.380859375,
+      "y": -3541.93359375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3263.7000000000007,
+      "y": -3556.99
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3266.7000000000007,
+      "y": -3556.99
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3266.7000000000007,
+      "y": -3556.99
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3284.171875,
+      "y": -3574.451171875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3316.66,
+      "y": -3562.6499999999996
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3316.66,
+      "y": -3562.6499999999996
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "info": {
+    "name": "6702--纳塔_踞石山_庙宇北侧_(1-11)",
+    "type": "collect",
+    "author": "Demo&汐&mno",
+    "version": "1.1",
+    "description": "  路线信息：该路线预计用时202.13秒，包含以下怪物：3只愚人众先遣队·火统游击兵、1只愚人众先遣队·水铳重卫士、3只愚人众先遣队·风拳前锋军、1只愚人众先遣队·雷锤前锋军、1只愚人众先遣队·岩使游击兵、1只疾讯勇士·引索客、1只疾讯勇士·荡风斥候、2只幼匿叶龙、1只匿叶龙。",
+    "hash_res": "89149362",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7845.05,
+      "y": -2047.36
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7824.87,
+      "y": -2101.78
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7814.79,
+      "y": -2105.67
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7773.69,
+      "y": -2091.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7773.69,
+      "y": -2091.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7780.75,
+      "y": -2072.88
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7724.88,
+      "y": -2035.82
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7724.88,
+      "y": -2035.82
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7785,
+      "y": -2005.38
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7807.53,
+      "y": -1971.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7807.53,
+      "y": -1971.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7771.31,
+      "y": -1942.32
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7751.03,
+      "y": -1943.99
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7748.47,
+      "y": -1957.93
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7748.47,
+      "y": -1957.93
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7738.98,
+      "y": -1994.02
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 7738.98,
+      "y": -1994.02
+    }
+  ]
+}

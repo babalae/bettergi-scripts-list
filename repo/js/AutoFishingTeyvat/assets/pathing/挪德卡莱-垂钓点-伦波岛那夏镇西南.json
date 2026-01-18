@@ -1,0 +1,107 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 挪德卡莱\n类型: 垂钓点\n详细位置: 伦波岛那夏镇西南\n鱼类: 花鳉、无奇巨斧鱼、冷冽巨斧鱼、夜色明眼鱼\n饵类: 果酿饵、槲梭饵、清白饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764485498021,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "挪德卡莱-垂钓点-伦波岛那夏镇西南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9367.15,
+      "y": 1435.65
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9381.03,
+      "y": 1420.52
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9403.08,
+      "y": 1441.62
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9406.61,
+      "y": 1452.11
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9490.53,
+      "y": 1452.94
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9532.56,
+      "y": 1443.05
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9536.67,
+      "y": 1416.01
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9536.54,
+      "y": 1415.53
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9534.29,
+      "y": 1412.47
+    }
+  ]
+}

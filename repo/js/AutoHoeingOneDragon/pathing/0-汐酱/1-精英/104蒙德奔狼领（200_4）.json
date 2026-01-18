@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "104蒙德奔狼领（200_4）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时82.07秒，包含以下怪物：1只冰深渊法师、3只嗜岩·兽境幼兽、1只冰霜骗骗花。",
+    "hash_res": "81889919",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -247.5,
+      "y": 2256.41,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -228.08,
+      "y": 2225.91,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -223.03,
+      "y": 2219.34,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -213.7,
+      "y": 2196.72,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -200.51,
+      "y": 2161.57,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -216.71,
+      "y": 2125.78,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -222.4,
+      "y": 2095,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时91.71秒，包含以下怪物：1只打手丘丘人、2只射手丘丘人、2只木盾丘丘暴徒、3只遗迹守卫。",
+    "hash_res": "33916560",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1761996055880,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "324稻妻渊下宫狭间之街西南（200_5）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 851.06,
+      "y": 340.24
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 837.0599365234375,
+      "y": 280.37646484375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 844.06,
+      "y": 302.81
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 851.06,
+      "y": 340.24
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 903.750244140625,
+      "y": 359.3326416015625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 920.02099609375,
+      "y": 366.0086669921875
+    }
+  ]
+}

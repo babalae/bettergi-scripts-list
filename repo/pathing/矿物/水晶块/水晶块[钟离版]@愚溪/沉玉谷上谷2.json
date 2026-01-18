@@ -1,0 +1,138 @@
+{
+  "info": {
+    "name": "沉玉谷上谷2",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "mfkvfhpdx",
+        "links": "https://github.com/mfkvfhpdx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2145.66,
+      "y": 2412.95
+    },
+    {
+      "id": 2,
+      "x": 2182.17,
+      "y": 2391.73,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 2176.86,
+      "y": 2395.16,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 4,
+      "x": 2178.85,
+      "y": 2395.33,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 2179.74,
+      "y": 2396.45,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 2177.12,
+      "y": 2400.52,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 2181.11,
+      "y": 2396.33,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": 2180.69,
+      "y": 2395.6,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": 2178.14,
+      "y": 2392.45,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 10,
+      "x": 2175.38,
+      "y": 2393.02,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 11,
+      "x": 2175.41,
+      "y": 2393.84,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 12,
+      "x": 2173.94,
+      "y": 2395.16,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 13,
+      "x": 2174.69,
+      "y": 2396.97,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 14,
+      "x": 2173.7,
+      "y": 2398.02,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 15,
+      "x": 2171.88,
+      "y": 2400.22,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

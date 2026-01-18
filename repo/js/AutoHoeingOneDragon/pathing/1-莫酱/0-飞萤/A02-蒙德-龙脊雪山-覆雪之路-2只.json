@@ -1,0 +1,86 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时67.36秒，包含以下怪物：2只冰萤。",
+    "enable_monster_loot_split": false,
+    "hash_res": "69915241",
+    "last_modified_time": 1767791619730,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A02-蒙德-龙脊雪山-覆雪之路-2只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1130.7599999999984,
+      "y": 1597.92
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1098.400390625,
+      "y": 1602.5888671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1080.0078125,
+      "y": 1579.11865234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1.5)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1033.931640625,
+      "y": 1541.068359375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1013.77734375,
+      "y": 1487.353515625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1026.0703125,
+      "y": 1480.236328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -1026.0703125,
+      "y": 1480.236328125
+    }
+  ]
+}

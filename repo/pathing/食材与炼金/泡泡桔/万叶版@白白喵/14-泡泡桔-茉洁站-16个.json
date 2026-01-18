@@ -1,0 +1,210 @@
+{
+  "info": {
+    "name": "14-泡泡桔-茉洁站-16个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ],
+    "version": "2.0",
+    "description": "带万叶摘泡泡桔",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754665665577,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3774.3047,
+      "y": 3784.2217,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3787.9629,
+      "y": 3797.0674,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3785.9219,
+      "y": 3808.7542,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3828.5986,
+      "y": 3821.8865,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(0.4)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3849.543,
+      "y": 3844.8975,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3860.5371,
+      "y": 3835.3267,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3881.813,
+      "y": 3855.3745,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3908.9658,
+      "y": 3836.3091,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3912.8711,
+      "y": 3830.3389,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3966.1309,
+      "y": 3821.9238,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3964.7676,
+      "y": 3813.8323,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 wait(0.1),e(hold),attack,wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 3774.3066,
+      "y": 3784.2258,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 13,
+      "x": 3795.3828,
+      "y": 3781.1057,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 3799.9199,
+      "y": 3776.5237,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 3809.9785,
+      "y": 3765.8982,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 wait(0.1),e(hold),attack,wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 3811.5234,
+      "y": 3762.1069,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 3844.3828,
+      "y": 3755.6182,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 3866.8203,
+      "y": 3736.8127,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 3863.6133,
+      "y": 3726.8972,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 wait(0.1),e(hold),attack,wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 3894.624,
+      "y": 3711.377,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 3899.5215,
+      "y": 3720.2737,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 wait(0.1),e(hold),attack,wait(3)",
+      "type": "path"
+    }
+  ]
+}

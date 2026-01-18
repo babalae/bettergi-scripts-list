@@ -1,0 +1,95 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "汐",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时84.33秒，包含以下怪物：3只冰萤。",
+    "enable_monster_loot_split": false,
+    "hash_res": "11076635",
+    "last_modified_time": 1767793181443,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A05-蒙德-龙脊雪山-七天神像-东-3只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1013.078125,
+      "y": 1028.6611328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1037.5390625,
+      "y": 1040.546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1068.9453125,
+      "y": 1077.474609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1092.3203125,
+      "y": 1077.21484375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3),keypress(VK_SPACE),wait(3),keypress(VK_SPACE),attack(0.2)",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1260.4199999999983,
+      "y": 1056.5900000000001
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1260.4099999999999,
+      "y": 1056.58
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1260.4099999999999,
+      "y": 1056.58
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -1260.4099999999999,
+      "y": 1056.58
+    }
+  ]
+}

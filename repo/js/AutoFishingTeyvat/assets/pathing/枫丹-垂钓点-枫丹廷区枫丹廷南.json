@@ -1,0 +1,99 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 枫丹\n类型: 垂钓点\n详细位置: 枫丹廷区枫丹廷南\n鱼类: 花鳉、海涛斧枪鱼、维护机关·水域清理者、维护机关·态势控制者\n饵类: 果酿饵、甘露饵、维护机关频闪诱饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764495847314,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "枫丹-垂钓点-枫丹廷区枫丹廷南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4577.12,
+      "y": 3288.78
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(2.5),keyup(VK_SPACE),wait(0.5),keypress(VK_MBUTTON),wait(0.5)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4577.12,
+      "y": 3288.78
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(1),keyup(VK_SPACE),wait(1)",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4544.23,
+      "y": 3230.82
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4540.03,
+      "y": 3225.13
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4513.98,
+      "y": 3246.34
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4496.08,
+      "y": 3245.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 4461.72,
+      "y": 3236.5
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4463.02,
+      "y": 3233.76
+    }
+  ]
+}

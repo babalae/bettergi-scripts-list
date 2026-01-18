@@ -1,0 +1,70 @@
+{
+  "info": {
+    "name": "A04-蒙德-龙脊雪山-七天神像-东北-3只",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时79.44秒，包含以下怪物：3只冰萤。",
+    "hash_res": "75441803",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752249603177
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1023.3,
+      "y": 1174.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1025.98,
+      "y": 1196.74
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(4.5),keypress(VK_SPACE),attack(0.2)",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1209.16,
+      "y": 1198.12
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1209.16,
+      "y": 1198.12
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1209.16,
+      "y": 1198.12
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -1209.16,
+      "y": 1198.12
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "汐",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时79.28秒，包含以下怪物：2只冰萤。",
+    "enable_monster_loot_split": false,
+    "hash_res": "26420463",
+    "last_modified_time": 1767795932902,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A06-蒙德-龙脊雪山-七天神像-西南-2只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1023.1599999999999,
+      "y": 1174.619999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1005.9500000000007,
+      "y": 1155.5200000000004
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1003.861328125,
+      "y": 1122.25048828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "target",
+      "x": -1004.3984375,
+      "y": 1106.1669921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(w);希诺宁 attack(0.3),e,keydown(w);玛薇卡 attack(0.3),e(hold),keydown(w);wait(2.5)",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "orientation",
+      "x": -992.5,
+      "y": 1096.73193359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -992.5,
+      "y": 1096.73193359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -977.8100000000013,
+      "y": 1098.33
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -966.9000000000015,
+      "y": 1107.8899999999994
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -966.8899999999994,
+      "y": 1107.9099999999999
+    }
+  ]
+}

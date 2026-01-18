@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "枫丹-垂钓点-苍晶区厄里那斯东",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.3",
+    "description": "地区: 枫丹\n类型: 垂钓点\n详细位置: 苍晶区厄里那斯东\n鱼类: 海涛斧枪鱼、波波心羽鲈、烘烘心羽鲈、维护机关·初始能力型\n饵类: 甘露饵、酸橘饵、维护机关频闪诱饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4751.99,
+      "y": 2643.99,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4737.37,
+      "y": 2676.7,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4658.31,
+      "y": 2709.61,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4632.82,
+      "y": 2747.59,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4623.89,
+      "y": 2741.54,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

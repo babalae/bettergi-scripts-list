@@ -1,0 +1,49 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760361319748,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "雅珂达-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9375.392578125,
+      "y": 3150.53125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1),keypress(f),wait(5),keypress(VK_ESCAPE),wait(2)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9378.9501953125,
+      "y": 3152.180419921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9372.24609375,
+      "y": 3145.97021484375
+    }
+  ]
+}

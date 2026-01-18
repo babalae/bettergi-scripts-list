@@ -1,0 +1,132 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时99.45秒，包含以下怪物：1只黯色空壳·近卫、1只岩龙蜥。",
+    "enable_monster_loot_split": false,
+    "hash_res": "87243908",
+    "last_modified_time": 1768135618196,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "236璃月层岩地下临时矿道（600_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 898.22,
+      "y": 1019.23
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 906.97,
+      "y": 1020.3800000000001
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 933.04,
+      "y": 1009.3800000000001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 951.9000000000001,
+      "y": 1013.1399999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 953.8600000000001,
+      "y": 1019.9200000000001
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 957.53,
+      "y": 1050.34
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 957.53,
+      "y": 1050.37
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 927.04,
+      "y": 1057.34
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 892.3067626953125,
+      "y": 1068.50146484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 875.5009765625,
+      "y": 1071.143310546875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "run",
+      "type": "path",
+      "x": 849.6700000000001,
+      "y": 1064.23
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 12,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 849.6700000000001,
+      "y": 1064.23
+    }
+  ]
+}

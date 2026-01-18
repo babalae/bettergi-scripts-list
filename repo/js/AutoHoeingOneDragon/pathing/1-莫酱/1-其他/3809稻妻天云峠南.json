@@ -1,0 +1,126 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时140.48秒，包含以下怪物：3只水飘浮灵、4只丘丘人、1只打手丘丘人、3只火箭丘丘人、1只雷斧丘丘暴徒。",
+    "enable_monster_loot_split": false,
+    "hash_res": "33712328",
+    "last_modified_time": 1767982185403,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3809稻妻天云峠南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4251.889999999999,
+      "y": -4785.470000000001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "swim",
+      "type": "path",
+      "x": -4255.359375,
+      "y": -4798.9609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.1),keydown(VK_LSHIFT),wait(8),j,keyup(VK_LSHIFT),keyup(w),",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": -4254.578125,
+      "y": -4980.6943359375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4254.578125,
+      "y": -4980.6943359375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4218.58203125,
+      "y": -5002.7021484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4218.58203125,
+      "y": -5002.7021484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4200.388671875,
+      "y": -5013.3271484375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4244.583984375,
+      "y": -5112.1787109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4258.87890625,
+      "y": -5091.203125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4271.07421875,
+      "y": -5087.5478515625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -4271.07421875,
+      "y": -5087.5478515625
+    }
+  ]
+}

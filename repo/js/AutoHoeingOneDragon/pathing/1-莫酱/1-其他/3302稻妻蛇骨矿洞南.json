@@ -1,0 +1,55 @@
+{
+  "info": {
+    "name": "3302稻妻蛇骨矿洞南",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时49.54秒，包含以下怪物：4只野伏·火伏番。",
+    "hash_res": "68432125",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": -2399.67,
+      "y": -4123.21
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2381.05,
+      "y": -4130.36
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2358.23,
+      "y": -4130.31
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -2358.23,
+      "y": -4130.31
+    }
+  ]
+}

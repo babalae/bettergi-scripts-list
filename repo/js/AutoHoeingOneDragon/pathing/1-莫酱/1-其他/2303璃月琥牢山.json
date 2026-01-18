@@ -1,0 +1,105 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时105.14秒，包含以下怪物：6只草史莱姆、1只大型草史莱姆、2只打手丘丘人、1只火深渊法师、1只盗宝团·神射手、1只盗宝团·掘墓者。",
+    "enable_monster_loot_split": false,
+    "hash_res": "69557052",
+    "last_modified_time": 1767810851578,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "2303璃月琥牢山",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1793.53,
+      "y": 717.65
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3000",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1761.98,
+      "y": 692.56
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1761.98,
+      "y": 692.56
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1761.98,
+      "y": 692.56
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1752.8662109375,
+      "y": 729.3125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1752.8662109375,
+      "y": 729.3125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1710.81,
+      "y": 683.24
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1710.81,
+      "y": 683.24
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 1710.81,
+      "y": 683.24
+    }
+  ]
+}

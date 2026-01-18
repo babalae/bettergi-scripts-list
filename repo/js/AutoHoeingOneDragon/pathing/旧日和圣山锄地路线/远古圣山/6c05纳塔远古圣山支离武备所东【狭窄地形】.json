@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时92.59秒，包含以下怪物：2只幼鳍游龙、2只鳍游龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767735803080,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "6c05纳塔远古圣山支离武备所东【狭窄地形】",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -293.474853515625,
+      "y": 535.0426025390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -313.361328125,
+      "y": 540.705810546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -314.877197265625,
+      "y": 558.22900390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -313.11376953125,
+      "y": 565.9464111328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -309.669921875,
+      "y": 573.88525390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -330.5771484375,
+      "y": 586.2391357421875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2500",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -356.123046875,
+      "y": 616.505859375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -356.123046875,
+      "y": 616.505859375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -352.1904296875,
+      "y": 609.6064453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -356.123046875,
+      "y": 616.505859375
+    }
+  ]
+}

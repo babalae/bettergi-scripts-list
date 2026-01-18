@@ -1,0 +1,154 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时150.73秒，包含以下怪物：2只盗宝团·斥候、3只盗宝团·火之药剂师、1只盗宝团·水之药剂师、1只盗宝团·雷之药剂师、2只盗宝团·海上男儿、1只盗宝团·拳术家、3只盗宝团·粉碎者、3只炽热骗骗花。",
+    "enable_monster_loot_split": false,
+    "hash_res": "91331392",
+    "last_modified_time": 1767811794489,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "2401(高危)璃月地面矿区",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1701.4899999999998,
+      "y": -582.3699999999999
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1653.0576171875,
+      "y": -586.86083984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1653.0576171875,
+      "y": -586.86083984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1651.8779296875,
+      "y": -601.10791015625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1676.001953125,
+      "y": -619.318359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1676.001953125,
+      "y": -619.318359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1655.6826171875,
+      "y": -636.234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1640.400390625,
+      "y": -671.56494140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(F),wait(0.1),keypress(F),dash",
+      "id": 9,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 1639.869999999999,
+      "y": -675.7399999999998
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1638.869999999999,
+      "y": -679.7399999999998
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1638.869999999999,
+      "y": -679.7399999999998
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1637.49609375,
+      "y": -707.7119140625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1613.2353515625,
+      "y": -741.30810546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1613.2353515625,
+      "y": -741.30810546875
+    }
+  ]
+}

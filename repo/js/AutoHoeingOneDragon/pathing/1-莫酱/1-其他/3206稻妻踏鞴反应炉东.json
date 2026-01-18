@@ -1,0 +1,100 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时95秒，包含以下怪物：1只愚人众先遣队·风拳前锋军、1只愚人众先遣队·冰铳重卫士、1只愚人众·火之债务处理人、1只愚人众·藏镜仕女、1只海乱鬼·炎威、1只海乱鬼·雷腾。",
+    "enable_monster_loot_split": false,
+    "hash_res": "75764169",
+    "last_modified_time": 1767878828117,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3206稻妻踏鞴反应炉东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3288.19,
+      "y": -3652.53
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3258.294921875,
+      "y": -3651.74609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3234.77734375,
+      "y": -3639.2021484375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3204.958984375,
+      "y": -3633.3701171875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3189.771484375,
+      "y": -3663.919921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3189.771484375,
+      "y": -3663.919921875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3244.82421875,
+      "y": -3692.5048828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3244.82421875,
+      "y": -3692.5048828125
+    }
+  ]
+}

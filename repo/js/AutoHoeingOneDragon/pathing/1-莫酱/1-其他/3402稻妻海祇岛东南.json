@@ -1,0 +1,145 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时142.01秒，包含以下怪物：1只大型雷史莱姆、1只变异雷史莱姆、4只水飘浮灵、1只风飘浮灵。",
+    "enable_monster_loot_split": false,
+    "hash_res": "61335650",
+    "last_modified_time": 1767902082909,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3402稻妻海祇岛东南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1062.119999999999,
+      "y": -3943.51
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1069.294921875,
+      "y": -3986.6748046875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1060.962890625,
+      "y": -3998.9736328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1060.962890625,
+      "y": -3998.9736328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -1074.140625,
+      "y": -3989.66015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1120.904296875,
+      "y": -3966.818359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1141.619999999999,
+      "y": -3967.33
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1164.625,
+      "y": -4005.00390625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1149.435546875,
+      "y": -3981.486328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1149.435546875,
+      "y": -3981.486328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1149.38671875,
+      "y": -4084.93359375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -1127.38671875,
+      "y": -4082.458984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 13,
+      "move_mode": "jump",
+      "type": "orientation",
+      "x": -1127.38671875,
+      "y": -4082.458984375
+    }
+  ]
+}

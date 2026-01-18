@@ -1,0 +1,36 @@
+[
+  {
+    "name": "operationType",
+    "type": "select",
+    "label": "操作类型（默认：分解）",
+    "options": [
+      "分解（经验瓶）",
+      "摧毁（摩拉）"
+    ]
+  },
+  {
+    "name": "times",
+    "type": "input-text",
+    "label": "操作次数,默认为1，仅限摧毁，一次摧毁最大数量为100个圣遗物"
+  },
+  {
+    "name": "includeOneStar",
+    "type": "checkbox",
+    "label": "包含一星圣遗物"
+  },
+  {
+    "name": "includeTwoStar",
+    "type": "checkbox",
+    "label": "包含二星圣遗物"
+  },
+  {
+    "name": "includeThreeStar",
+    "type": "checkbox",
+    "label": "包含三星圣遗物"
+  },
+  {
+    "name": "includeFourStar",
+    "type": "checkbox",
+    "label": "包含四星圣遗物"
+  }
+]

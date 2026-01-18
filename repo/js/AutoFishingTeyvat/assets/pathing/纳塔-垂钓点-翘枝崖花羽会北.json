@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 翘枝崖花羽会北\n鱼类: 晚霞翻车鲀、深潜斗士急流鱼、伪装鲨鲨独角鱼\n饵类: 澄晶果粒饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765876700500,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔-垂钓点-翘枝崖花羽会北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9548.26,
+      "y": -1116.55
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9556.78,
+      "y": -1105.44
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(3.5),attack(0.1)",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9570.33,
+      "y": -1059.8
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9580.4922,
+      "y": -1058.7153
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9579.4033,
+      "y": -1054.0005
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9578.9414,
+      "y": -1050.4634
+    }
+  ]
+}

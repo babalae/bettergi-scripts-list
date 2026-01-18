@@ -1,0 +1,127 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时68.34秒，包含以下怪物：3只雷史莱姆、1只盗宝团·斥候、1只盗宝团·火之药剂师、1只盗宝团·雷之药剂师。",
+    "enable_monster_loot_split": false,
+    "hash_res": "36060684",
+    "last_modified_time": 1767961038294,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3103稻妻绀田村南3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4124.54,
+      "y": -2759.89
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -4110.59375,
+      "y": -2765.740234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4110.59375,
+      "y": -2765.740234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4100.30078125,
+      "y": -2782.501953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),keypress(f),keypress(f)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -4054.771484375,
+      "y": -2787.2490234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4056.88671875,
+      "y": -2806.740234375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4045.5703125,
+      "y": -2819.6064453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4045.5703125,
+      "y": -2819.6064453125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4023.2,
+      "y": -2836.04
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4023.2,
+      "y": -2836.04
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -4023.2,
+      "y": -2836.04
+    }
+  ]
+}
