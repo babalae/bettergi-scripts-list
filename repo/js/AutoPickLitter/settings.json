@@ -56,6 +56,12 @@
     "default": "随机模式"
   },
   {
+    "name": "dragonEggsNum",
+    "type": "input-text",
+    "label": "平均模式：自行输入自己背包各龙蛋数目\n顺序为【山-飞-圣-太-献-菲 】\n各龙蛋数目用【-】相连",
+    "default": "0-0-0-0-0-0" 
+  },
+  {
     "name": "pickupDragonEgg",
     "type": "select",
     "label": "指定模式：选择你喜欢的龙蛋",
@@ -68,16 +74,39 @@
       "闪闪礼蛋·飞澜鲨鲨"
     ]
   },
-  {
-    "name": "updateEggs",
-    "type": "checkbox",
-    "label": "是否更新背包各龙蛋数目(默认否)",
-    "default": "false"
-  },
+  // {
+  //   "name": "updateEggs",
+  //   "type": "checkbox",
+  //   "label": "是否更新背包各龙蛋数目(默认否)",
+  //   "default": "false"
+  // },
   {
     "name": "turntable",
     "type": "checkbox",
     "label": "\n-------------挪德卡莱那夏镇好运转盘------------\n注意:开图啊，喂！！！"
+  },
+  {
+    "name": "selectLuckTendency",
+    "type": "select",
+    "label": "想要的运势(默认只运行一次)",
+    "options": [
+      "运行一次，随机运气",
+      "林狼啸月，魔物环伺",
+      "雷鸣风骤，摧枯拉朽",
+      "旭日曈曈，驱散迷雾",
+      "海蛇翻腾，风暴肆虐",
+      "牝鹿引鹿，旅途顺利",
+      "晨露凝珠，浆果丰盛",
+      "层云蔽月，大地沉睡",
+      "灯火长明，指引前路"
+    ],
+    "default": "运行一次，随机运气"
+  },
+  {
+    "name": "maxNum",
+    "type": "input-text",
+    "label": "最大转次数(默认是10次)",
+    "default": "10"
   },
   {
     "name": "todayLuck",
@@ -92,7 +121,8 @@
   {
         "name": "partyName",
         "type": "input-text",
-        "label": "切换队伍名称\n如果你想领取专属糖雕请正确输入包含专属角色的队伍名称\n未输入队伍名称则领取普通糖雕" 
+        "label": "切换队伍名称\n如果你想领取专属糖雕请正确输入包含专属角色的队伍名称\n未输入队伍名称则领取普通糖雕" ,
+        "default": ""
   },
   {
     "name": "selectGiveWho",
@@ -104,8 +134,8 @@
       "拉乌玛",
       "菲林斯",
       "奈芙尔",
-      ""
-      // "雅珂达（别选择我！！！）"
+      "雅珂达",
+      "哥伦比娅"
     ],
     "default": ""
   },
