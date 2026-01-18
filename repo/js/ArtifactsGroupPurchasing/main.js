@@ -880,6 +880,7 @@ async function findAndClick(target, maxAttempts = 20) {
             if (result.isExist()) {
                 await sleep(250);
                 result.click();
+                await sleep(50);
                 return true;                 // 成功立刻返回
             }
         } catch (err) {
@@ -1568,6 +1569,7 @@ async function processArtifacts() {
                 if (result.isExist()) {
                     await sleep(250);
                     result.click();
+                    await sleep(50);
                     return true;                 // 成功立刻返回
                 }
             } catch (err) {
