@@ -39,6 +39,7 @@ const json_path_name = {
 // let RecordText = `${config_root}\\record.json`
 // let RecordPathText = `${config_root}\\PathRecord.json`
 let RecordList = new Array()
+let RecordPathList = new Array()
 let RecordLast = {
     uid: "",
     data: undefined,
@@ -542,7 +543,7 @@ async function initRun(config_run) {
         if (cd.open && matchedPaths.length > 0) {
             let recordPaths = [];
             try {
-                recordPaths = Array.from(Record.paths);
+                recordPaths = Array.from(RecordPath.paths);
             } catch (e) {
             }
 
@@ -552,12 +553,12 @@ async function initRun(config_run) {
                 const timeConfig = timeConfigs.find(cfg =>
                     item.fullPathNames.includes(cfg.name)
                 );
-                if (!timeConfig) return false;
+                if (!timeConfig) return true;
 
                 const record = recordPaths.find(r =>
                     r.path.includes(item.path)
                 );
-                if (!record || !record.timestamp) return false;
+                if (!record || !record.timestamp) return true;
 
                 const now = Date.now();
 
@@ -576,7 +577,7 @@ async function initRun(config_run) {
                         return next && now >= next;
                     }
                     default:
-                        return false;
+                        return true;
                 }
             });
 
@@ -751,7 +752,8 @@ async function init() {
             await main()
         }
     } finally {
-        saveRecord();
+        await saveRecordPaths();
+        await saveRecord();
     }
 
 })()
@@ -841,15 +843,23 @@ async function saveRecordPaths() {
             }));
         })()
     };
+
+    // 确保 RecordPathList 是数组
+    if (!Array.isArray(RecordPathList)) {
+        RecordPathList = [];
+    }
+
+    RecordPathList.push(recordToSave)
     // 将记录列表转换为JSON字符串并同步写入文件
-    file.writeTextSync(json_path_name.RecordText, JSON.stringify(recordToSave))
+    file.writeTextSync(json_path_name.RecordPathText, JSON.stringify(RecordPathList))
+    log.info("saveRecordPath保存记录文件成功")
 }
 
 /**
  * 保存当前记录到记录列表并同步到文件
  * 该函数在保存前会将Set类型的数据转换为数组格式，确保JSON序列化正常进行
  */
-function saveRecord() {
+async function saveRecord() {
     // 保存前将 Set 转换为数组
     // 创建一个新的记录对象，包含原始记录的所有属性
     const recordToSave = {
@@ -871,6 +881,7 @@ function saveRecord() {
     RecordList.push(recordToSave)
     // 将记录列表转换为JSON字符串并同步写入文件
     file.writeTextSync(json_path_name.RecordText, JSON.stringify(RecordList))
+    log.info("saveRecord保存记录文件成功")
 }
 
 /**
@@ -956,7 +967,7 @@ async function initRecord() {
     try {
         // 尝试读取记录文件
         // 读取后将数组转换回 Set，处理特殊的数据结构
-        RecordPath = JSON.parse(file.readTextSync(json_path_name.RecordPathText), (key, value) => {
+        RecordPathList = JSON.parse(file.readTextSync(json_path_name.RecordPathText), (key, value) => {
             // 处理分组路径集合，保持嵌套的Set结构
             if (key === 'paths') {
                 return new Set(value.map(item => ({
@@ -965,8 +976,8 @@ async function initRecord() {
                 })));
             }
             return value;
-        }).find(item => item.uid === Record.uid) ?? RecordPath
-
+        }) ?? RecordPathList
+        RecordPath = RecordPathList.find(item => item.uid === Record.uid) ?? RecordPath
     } catch (e) {
         // 如果读取文件出错，则忽略错误（可能是文件不存在或格式错误）
     }
@@ -1338,29 +1349,24 @@ async function runPath(path) {
             }
         }
     }
-
-
     //切换队伍-end
 
 
+    log.info("开始执行路径: {path}", path)
+    await pathingScript.runFile(path)
     try {
-        log.info("开始执行路径: {path}", path)
-        await pathingScript.runFile(path)
-        if (team.fight) {
-            //启用战斗
-            // await dispatcher.runAutoFightTask(new AutoFightParam());
-            await realTimeMissions(false)
-        }
-        log.debug("路径执行完成: {path}", path)
-
-    } catch (error) {
-        log.error("路径执行失败: {path}, 错误: {error}", path, error.message)
-    } finally {
-        if (team.fight) {
-            // 重置战斗状态
-            team.fight = false
-        }
+        await sleep(1)
+    } catch (e) {
+        throw new Error(e.message)
     }
+    if (team.fight) {
+        //启用战斗
+        // await dispatcher.runAutoFightTask(new AutoFightParam());
+        await realTimeMissions(false)
+        // 重置战斗状态
+        team.fight = false
+    }
+    log.debug("路径执行完成: {path}", path)
 
     if (auto.semi && auto.run) {
         log.warn(`[{mode}] 路径执行完成: {path}, 请按{key}继续`, settings.mode, path, auto.key)
@@ -1407,18 +1413,14 @@ async function runList(list = [], key = "", current_name = "", parent_name = "")
         try {
             // 执行单个路径，并传入停止标识
             await runPath(path);
-            RecordPath.paths.add(value)
-            await saveRecordPaths()
-            Record.paths.add(path)
-            Record.errorPaths.delete(path)
         } catch (error) {
             log.error('执行路径列表中的路径失败: {path}, 错误: {error}', path, error.message);
-            RecordPath.paths.delete(value)
-            await saveRecordPaths()
-            Record.paths.delete(path)
             Record.errorPaths.add(path)
-            continue; // 继续执行列表中的下一个路径
+            throw new Error(error.message)
+            // continue; // 继续执行列表中的下一个路径
         }
+        Record.paths.add(path)
+        RecordPath.paths.add(value)
     }
 
     log.debug(`[{mode}] 路径列表执行完成`, settings.mode);
@@ -1460,13 +1462,13 @@ async function runMap(map = new Map()) {
 
             await runList(one.paths, key, one.current_name, one.parent_name);
 
-            Record.groupPaths.add(group)
             log.debug(`[{0}] 任务[{1}]执行完成`, settings.mode, key);
         } catch (error) {
-            Record.groupPaths.delete(group)
             log.error(`[{0}] 任务[{1}]执行失败: {error}`, settings.mode, key, error.message);
-            continue; // 继续执行下一个任务
+            // continue; // 继续执行下一个任务
+            throw new Error(error.message)
         }
+        Record.groupPaths.add(group)
     }
 
     log.debug(`[{mode}] 任务Map执行完成`, settings.mode);
