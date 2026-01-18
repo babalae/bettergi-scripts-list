@@ -610,7 +610,7 @@ async function initRun(config_run) {
 
             let groups = groupByParentAndName(matchedPaths);
             // 支持多条规则，例如: "parentName->name1=1,parentName->name2=2"
-            const orderStr = settings.order_rules ||"parentName->name=1"
+            const orderStr = settings.order_rules || "parentName->name=1"
             //   排序
             const orderMap = new Map()
             orderStr.split(",").forEach(item => {
@@ -1387,27 +1387,27 @@ async function runPath(path) {
         log.error("检查战斗需求失败: {error}", error.message);
     }
 
-/**
- * 根据索引切换队伍
- * @param {number} index - 要切换的队伍在SevenElements数组中的索引
- * @returns {Promise<void>}
- */
-    async function switchTeamByIndex(index,key) {
-    // 获取指定索引的队伍名称，如果索引超出范围或小于0则返回undefined
+    /**
+     * 根据索引切换队伍
+     * @param {number} index - 要切换的队伍在SevenElements数组中的索引
+     * @returns {Promise<void>}
+     */
+    async function switchTeamByIndex(index, key) {
+        // 获取指定索引的队伍名称，如果索引超出范围或小于0则返回undefined
         const teamName = team.SevenElements.length > index && index >= 0 ? team.SevenElements[index] : undefined;
-    // 检查队伍名称是否有效
+        // 检查队伍名称是否有效
         if (!teamName || teamName === "") {
-        // 如果没有设置队伍，记录调试日志并跳过切换
+            // 如果没有设置队伍，记录调试日志并跳过切换
             log.debug(`[{mode}] 没有设置队伍: {teamName}，跳过切换`, settings.mode, teamName);
         } else if (team.current === teamName) {
-        // 如果当前已经是目标队伍，记录调试日志并跳过切换
+            // 如果当前已经是目标队伍，记录调试日志并跳过切换
             log.debug(`[{mode}] 当前队伍为: {teamName}，无需切换`, settings.mode, teamName);
         } else {
-        // 如果需要切换队伍，记录信息日志
+            // 如果需要切换队伍，记录信息日志
             log.info(`[{mode}] 检测到需要: {key}，切换至{val}`, settings.mode, key, teamName);
-        // 调用切换队伍的工具函数
+            // 调用切换队伍的工具函数
             const teamSwitch = await switchUtil.SwitchPartyMain(teamName);
-        // 如果切换成功，更新当前队伍
+            // 如果切换成功，更新当前队伍
             if (teamSwitch) {
                 team.current = teamSwitch;
             }
@@ -1415,51 +1415,33 @@ async function runPath(path) {
     }
 
 //切换队伍
-    if (team.fight) {
-        if (!team.fightName) {
-            log.error(`[{mode}] 路径需要配置好战斗策略: {path}`, settings.mode, path)
-            throw new Error(`路径需要配置好战斗策略: ` + path)
-        } else if (team.current !== team.fightName) {
-            log.info(`[{mode}] 检测到需要战斗，切换至{teamName}`, team.fightName);
-            const teamSwitch = await switchUtil.SwitchPartyMain(team.fightName);
-            if (teamSwitch) {
-                team.current = teamSwitch;
+
+    const entry = [...SevenElement.SevenElementsMap.entries()].find(([key, val]) => {
+        return val.some(item => path.includes(`\\${item}\\`));
+    });
+    if (entry) {
+        const [key, val] = entry;
+        const index = SevenElement.SevenElements.indexOf(key);
+        await switchTeamByIndex(index, `路线需要${key}元素`);
+    } else {
+        if (path.includes("有草神")) {
+            const idx = SevenElement.SevenElements.indexOf('草');
+            await switchTeamByIndex(idx, "路线需要草神");
+        } else if (team.fight) {
+            if (!team.fightName) {
+                log.error(`[{mode}] 路径需要配置好战斗策略: {path}`, settings.mode, path)
+                throw new Error(`路径需要配置好战斗策略: ` + path)
+            } else if (team.current !== team.fightName) {
+                log.info(`[{mode}] 检测到需要战斗，切换至{teamName}`, team.fightName);
+                const teamSwitch = await switchUtil.SwitchPartyMain(team.fightName);
+                if (teamSwitch) {
+                    team.current = teamSwitch;
+                }
             }
         }
     }
-    else if(path.includes("有草神")){
-        const idx = SevenElement.SevenElements.indexOf('草');
-        await switchTeamByIndex(idx,"路线需要草神");
-    }
-    else {
-        const entry = [...SevenElement.SevenElementsMap.entries()].find(([key, val]) => {
-            return val.some(item => path.includes(`\\${item}\\`));
-        });
-        if (entry) {
-            const [key, val] = entry;
-            const index = SevenElement.SevenElements.indexOf(key);
-            await switchTeamByIndex(index,key);
-            // const teamName = team.SevenElements.length > index && index >= 0 ?
-            //     team.SevenElements[index] : undefined;
-            //
-            // if (!teamName || teamName === "") {
-            //     log.debug(`[{mode}] 没有设置队伍: {teamName}，跳过切换`, settings.mode, teamName);
-            // } else if (team.current === teamName) {
-            //     log.debug(`[{mode}] 当前队伍为: {teamName}，无需切换`, settings.mode, teamName);
-            // } else {
-            //     log.info(`[{mode}] 检测到需要: {key}，切换至{val}`, settings.mode, key, teamName);
-            //     const teamSwitch = await switchUtil.SwitchPartyMain(teamName);
-            //     if (teamSwitch) {
-            //         team.current = teamSwitch;
-            //     }
-            // }
-        } else if (team.current !== team.fightName) {
-            const teamSwitch = await switchUtil.SwitchPartyMain(team.fightName);
-            if (teamSwitch) {
-                team.current = teamSwitch;
-            }
-        }
-    }
+
+
     //切换队伍-end
     try {
         log.info("开始执行路径: {path}", path)
@@ -1496,7 +1478,7 @@ async function runPath(path) {
  * @param {Array} list - 要执行的路径列表，默认为空数组
  * @returns {Promise<void>}
  */
-async function runList(list = [], key = "", current_name="", parent_name="") {
+async function runList(list = [], key = "", current_name = "", parent_name = "") {
     // 参数验证
     if (!Array.isArray(list)) {
         log.warn('无效的路径列表参数: {list}', list);
@@ -1566,7 +1548,7 @@ async function runMap(map = new Map()) {
             log.debug(`[{0}] {1}组 开始执行...`, settings.mode, key);
             // 执行当前任务关联的路径列表
 
-            await runList(one.paths, key,one.current_name,one.parent_name);
+            await runList(one.paths, key, one.current_name, one.parent_name);
             Record.groupPaths.add({
                 name: key,
                 paths: new Set(one.paths)
