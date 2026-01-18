@@ -413,7 +413,11 @@ async function initRefresh(settingsConfig) {
     } catch (e) {
         log.error("[PATH] 保存 PATH_JSON_LIST 失败: {0}", e.message);
     }
-
+    if (settings.refresh_record) {
+        file.writeTextSync(json_path_name.RecordPathText, JSON.stringify([]))
+        file.writeTextSync(json_path_name.RecordText, JSON.stringify([]))
+        log.info("已清空记录文件")
+    }
 }
 
 
