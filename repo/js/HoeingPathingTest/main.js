@@ -420,6 +420,7 @@ async function getMonsterCounts() {
                     const result = gameRegion.find(target);
                     if (result.isExist()) {
                         result.click();
+                        await sleep(50);
                         return true;                 // 成功立刻返回
                     }
                 } catch (err) {
