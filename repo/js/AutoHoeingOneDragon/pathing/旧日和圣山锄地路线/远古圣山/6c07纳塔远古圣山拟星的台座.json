@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -7,12 +7,12 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时80.22秒，包含以下怪物：4只深黯钓客、1只蕴光凛狼。",
+    "description": "  路线信息：该路线预计用时31.68秒，包含以下怪物：1只暝视龙。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1768397136170,
-    "map_match_method": "SIFT",
-    "map_name": "Teyvat",
-    "name": "7a04临时挪德卡莱1狼兽4钓客",
+    "last_modified_time": 1767735807306,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "6c07纳塔远古圣山拟星的台座",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9491.9794921875,
-      "y": 5526.0478515625
+      "x": -432.421875,
+      "y": 253.5699462890625
     },
     {
       "action": "fight",
@@ -33,17 +33,17 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 9463.150390625,
-      "y": 5511.2998046875
+      "x": -436.149169921875,
+      "y": 257.107666015625
     },
     {
-      "action": "fight",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(1)",
       "id": 3,
       "move_mode": "dash",
-      "type": "path",
-      "x": 9416.267578125,
-      "y": 5467.5263671875
+      "type": "orientation",
+      "x": -436.149169921875,
+      "y": 257.107666015625
     }
   ]
 }

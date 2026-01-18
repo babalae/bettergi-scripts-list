@@ -181,6 +181,11 @@ let checkInterval = +settings.checkInterval || 50;
             "label": "填写需要禁用的路线的关键词，使用中文分号分隔\n文件路径含有相关关键词的路线会被禁用"
         },
         {
+            "name": "disableXYCheck",
+            "type": "checkbox",
+            "label": "勾选后跳过路线完成后的坐标校验\n【警告】运行卡死等未成功到达终点的路线也将进入cd"
+        },
+        {
             "name": "findFInterval",
             "type": "input-text",
             "label": "识别间隔(毫秒)\n两次检测f图标之间等待时间",
@@ -555,6 +560,7 @@ let checkInterval = +settings.checkInterval || 50;
                 "云岩裂叶": "46小时刷新",
                 "琉鳞石": "46小时刷新",
                 "奇异的「牙齿」": "46小时刷新",
+                "冬凌草": "46小时刷新",
 
                 // 12h 素材
                 "兽肉": "12小时刷新",
@@ -2042,10 +2048,8 @@ async function appendDailyPickup(pickupLog) {
     });
 
     // 滑动窗口：只保留最新 MAX_PICKUP_DAYS 条
-    if (oldArr.length > MAX_PICKUP_DAYS) oldArr = oldArr.slice(0, MAX_PICKUP_DAYS);
-
-    // 按日期倒序（最新在前）
-    oldArr.sort((a, b) => b.date.localeCompare(a.date));
+    oldArr.sort((a, b) => b.date.localeCompare(a.date)); // 先排序
+    if (oldArr.length > MAX_PICKUP_DAYS) oldArr = oldArr.slice(0, MAX_PICKUP_DAYS); // 再截断
 
     // 写盘 + 异常捕获
     try {
@@ -2090,6 +2094,10 @@ async function findAndClick(target, doClick = true, maxAttempts = 60) {
  */
 function isArrivedAtEndPoint(fullPath) {
     try {
+        if (settings.disableXYCheck) {
+            log.info("当前禁用了坐标校验，跳过坐标检查")
+            return true;
+        }
         /* 1. 读路线文件，取终点坐标 */
         const raw = file.readTextSync(fullPath);
         const json = JSON.parse(raw);
@@ -2110,14 +2118,20 @@ function isArrivedAtEndPoint(fullPath) {
 
         /* 2. 取当前人物坐标 */
         const mapName = (json.info?.map_name && json.info.map_name.trim()) ? json.info.map_name : 'Teyvat';
-        const pos = genshin.getPositionFromMap(mapName);   // 同步 API
+        const pos = genshin.getPositionFromMap(mapName, 3000);
         const curX = pos.X;
         const curY = pos.Y;
 
+        let pathres = Math.abs(endX - curX) + Math.abs(endY - curY) <= 30;
+        if (!pathres) {
+            log.warn(`距离预定终点${Math.abs(endX - curX) + Math.abs(endY - curY)}`);
+            log.warn(`距离异常，不记录数据`);
+        }
         /* 3. 曼哈顿距离 ≤30 视为到达 */
-        return Math.abs(endX - curX) + Math.abs(endY - curY) <= 30;
+        return pathres;
     } catch (e) {
         /* 任何异常（读盘失败、解析失败、API 异常）都算“未到达” */
+        log.warn(`出现异常${error.message},不记录cd`);
         return false;
     }
 }
