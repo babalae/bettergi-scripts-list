@@ -34,6 +34,7 @@ const json_path_name = {
     SevenElement: `${config_root}\\SevenElement.json`,
     RefreshSettings: `${config_root}\\RefreshSettings.json`,
     pathJsonByUid: `${config_root}\\path-json-by-uid.json`,
+    PathOrder: `${config_root}\\PathOrder.json`,
 }
 // 定义记录文件的路径
 // let RecordText = `${config_root}\\record.json`
@@ -615,14 +616,34 @@ async function initRun(config_run) {
             }
 
             let groups = groupByParentAndName(matchedPaths);
-            // 支持多条规则，例如: "parentName->name1=1,parentName->name2=2"
-            const orderStr = settings.order_rules || "parentName->name=1"
+
             //   排序
             const orderMap = new Map()
-            orderStr.split(",").forEach(item => {
-                const [key, order] = item.split("=");
-                orderMap.set(key, parseInt(order))
-            })
+            try {
+                // 支持多条规则，例如: "parentName->name1=1,parentName->name2=2"
+                const orderStr = settings.order_rules || "parentName->name=1"
+                orderStr.split(",").forEach(item => {
+                    const [key, order] = item.split("=");
+                    orderMap.set(key, parseInt(order))
+                })
+            }catch (e) {
+
+            }
+
+            try {
+                // {
+                //   uid:"",
+                //   parent_name:"",
+                //   name:"",
+                //   order:0
+                // } json支持
+                const orderList = JSON.parse(file.readTextSync(json_path_name.PathOrder)) ?? []
+                orderList.filter(item => item.uid === Record.uid).forEach(item => orderMap.set(`${item.parent_name}->${item.name}`, item.order))
+                log.info(`{0}加载完成`,json_path_name.PathOrder)
+            }catch (e) {
+
+            }
+
             groups.sort((a, b) => {
                 const a_key = `${a.parentName}->${a.name}`;
                 const orderA = orderMap.get(a_key) ?? 9999; // 没在 JSON 中的排到最后
@@ -1558,96 +1579,6 @@ function groupByLevel(list) {
     return result;
 }
 
-
-/**
- * 递归读取指定路径下的文件和文件夹，构建树形结构
- * @param {string} path - 要读取的初始路径
- * @param {number} index - 当前层级的索引，默认为0
- * @param {string} isFileKey - 目标文件类型的后缀名，默认为".json"
- * @param {boolean} treeStructure - 是否使用树状结构返回，默认为true
- * @returns {Promise<Array>} 返回包含文件和文件夹结构的数组
- */
-// async function readPaths(path, index = 0, isFileKey = ".json", treeStructure = true) {
-//     let treeList = []; // 用于存储当前层级的文件和文件夹结构
-//
-//     // 获取当前路径下的所有文件/文件夹
-//     let pathSyncList = file.readPathSync(path);
-//
-//     // 遍历当前路径下的所有文件和文件夹
-//     for (const pathSync of pathSyncList) {
-//         // 如果是目标文件类型（默认为.json）
-//         if (pathSync.endsWith(isFileKey)) {
-//             // 如果是目标文件类型，添加到列表
-//             let name = undefined;
-//             let parentName = undefined;
-//             // let path_let = pathSync;
-//             let parentFolder = getParentFolderName(pathSync)
-//             if (!parentFolder) {
-//                 throw new Error(`${pathSync}没有上级目录`)
-//             }
-//             // 获取父级目录路径（去除文件名）
-//             if (parentFolder.includes("@")) {
-//                 // 包含@符号的情况：取@符号前的上级目录名
-//                 // let first = path_let.split("@")[0];
-//                 // first = first.substring(0, first.lastIndexOf("\\"));
-//                 name = getParentFolderName(pathSync, 2);
-//                 parentName = getParentFolderName(pathSync, 3);
-//             }
-//                 // else if (pathSync.includes("挪德卡莱锄地小怪")) {
-//                 //     // 特殊处理
-//                 //     let first_te = path_let.split("挪德卡莱锄地小怪")[0];
-//                 //     first_te = first_te.substring(0, first_te.lastIndexOf("\\"));
-//                 //     name = first_te.substring(first_te.lastIndexOf("\\"), first_te.length);
-//             // }
-//             else {
-//                 name = parentFolder;
-//                 parentName = getParentFolderName(pathSync, 2);
-//             }
-//
-//             // 根据 treeStructure 参数决定是否创建完整对象
-//             if (treeStructure) {
-//                 treeList.push({
-//                     name: name,
-//                     parentName: parentName,
-//                     path: pathSync,
-//                     index: index + 1,
-//                     isRoot: false,
-//                     isFile: true,
-//                     children: []
-//                 });
-//             } else {
-//                 // 如果不需要树状结构，只添加基本文件信息
-//                 treeList.push({
-//                     name: name,
-//                     path: pathSync,
-//                     isFile: true
-//                 });
-//             }
-//         } else if (file.IsFolder(pathSync)) {
-//             // 如果是文件夹，根据 treeStructure 参数决定如何处理
-//             if (treeStructure) {
-//                 // 如果需要树状结构，递归处理并保留文件夹信息
-//                 const childTreeList = await readPaths(pathSync, index + 1, isFileKey, treeStructure);
-//
-//                 treeList.push({
-//                     name: undefined,
-//                     parentName: undefined,
-//                     path: pathSync,
-//                     index: index + 1,
-//                     isRoot: false,
-//                     isFile: false,
-//                     children: childTreeList
-//                 });
-//             } else {
-//                 // 如果不需要树状结构，直接递归遍历子文件夹，只收集文件
-//                 const childTreeList = await readPaths(pathSync, index + 1, isFileKey, treeStructure);
-//                 treeList = treeList.concat(childTreeList); // 将子文件夹中的文件直接合并到当前列表
-//             }
-//         }
-//     }
-//
-//     return treeList;
-// }
 
 /**
  * 递归读取指定路径下的文件和文件夹，构建树形结构
