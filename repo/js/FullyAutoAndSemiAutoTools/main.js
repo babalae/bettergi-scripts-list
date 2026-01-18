@@ -553,24 +553,24 @@ async function initRun(config_run) {
             recordPaths.sort((a, b) => b.timestamp - a.timestamp)
 
             const timeConfigs = Array.from(timeJson);
-
-            const cdFiltered = matchedPaths.filter(item => {
+            //还在cd中的path
+            const in_cd_paths = matchedPaths.filter(item => {
                 const timeConfig = timeConfigs.find(cfg =>
                     item.fullPathNames.includes(cfg.name)
                 );
-                if (!timeConfig) return true;
+                if (!timeConfig) return false;
 
                 const record = recordPaths.find(r =>
                     r.path.includes(item.path)
                 );
-                if (!record || !record.timestamp) return true;
+                if (!record || !record.timestamp) return false;
 
                 const now = Date.now();
 
                 switch (timeType.fromValue(timeConfig.type)) {
                     case timeType.hours: {
                         const diff = getTimeDifference(record.timestamp, now);
-                        return diff.total.hours >= timeConfig.value;
+                        return !(diff.total.hours >= timeConfig.value);
                     }
                     case timeType.cron: {
                         const next = cronUtil.getNextCronTimestamp(
@@ -579,17 +579,17 @@ async function initRun(config_run) {
                             now,
                             cd.http_api
                         );
-                        return next && now >= next;
+                        return !(next && now >= next);
                     }
                     default:
-                        return true;
+                        return false;
                 }
             });
 
             // 移除 CD 未到的路径
-            if (cdFiltered.length > 0) {
+            if (in_cd_paths.length > 0) {
                 matchedPaths = Array.from(
-                    new Set(matchedPaths).difference(new Set(cdFiltered))
+                    new Set(matchedPaths).difference(new Set(in_cd_paths))
                 );
             }
         }
