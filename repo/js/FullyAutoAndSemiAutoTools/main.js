@@ -1371,11 +1371,12 @@ async function runPath(path) {
     //检查战斗需求
     try {
         if (!team.fight) {
-            const one = JSON.parse(file.readTextSync(path))
-            if (one.info?.description?.includes("请配置好战斗策略")) {
-                log.warn(`[{mode}] 路径需要配置好战斗策略: {path}，如已配置请忽略`, settings.mode, path)
-                team.fight = true
-            } else if (team.fightKeys.some(item => path.includes(`\\${item}\\`))) {
+            // const one = JSON.parse(file.readTextSync(path))
+            // if (one.info?.description?.includes("请配置好战斗策略")) {
+            //     log.warn(`[{mode}] 路径需要配置好战斗策略: {path}，如已配置请忽略`, settings.mode, path)
+            //     team.fight = true
+            // } else
+            if (team.fightKeys.some(item => path.includes(`\\${item}\\`))) {
                 team.fight = true
             }
         }
