@@ -6,6 +6,9 @@
     "default": ""
   },
   {
+      "type": "separator"
+  },
+  {
       "name": "config_run",
       "type": "select",
       "label": "配置模式",
@@ -29,7 +32,7 @@
   {
       "name": "order_rules",
       "type": "input-text",
-      "label": "执行顺序规则(可留空){语法:父文件夹名称->文件夹名称=顺序请填整数,.....}",
+      "label": "执行顺序规则(可留空)\n{语法:父文件夹名称->文件夹名称=顺序请填整数,.....}",
       "default": ""
   },
   {
@@ -57,10 +60,13 @@
     "default": false
   },
   {
-      "name": "http_api",
+     "name": "http_api",
      "type": "input-text",
      "label": "[默认CD算法api]\ncron解析Http地址\n[请部署bettergi-scripts-tools可支持]",
      "default": "http://<ip:port>/bgi/cron/next-timestamp"
+  },
+  {
+      "type": "separator"
   },
   {
      "name": "real_time_missions",
@@ -108,6 +114,12 @@
     "name": "team_fight",
     "type": "input-text",
     "label": "战斗队伍配置(同时也是行走队伍配置)"
+  },
+  {
+    "name": "team_hoe_ground",
+    "type": "input-text",
+    "label": "锄地队伍配置\n{语法:父文件夹名称->文件夹名称=队伍名称,.....}\n如:敌人与魔物->蕈兽=队伍名称",
+    "default": ""
   },
   {
     "name": "team_seven_elements",
