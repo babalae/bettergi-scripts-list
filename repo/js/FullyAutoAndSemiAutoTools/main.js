@@ -1443,6 +1443,7 @@ async function runPath(path) {
 
 
     //切换队伍-end
+    const now = Date.now();
     try {
         log.info("开始执行路径: {path}", path)
         await pathingScript.runFile(path)
@@ -1452,11 +1453,14 @@ async function runPath(path) {
             await realTimeMissions(false)
         }
         log.debug("路径执行完成: {path}", path)
-        RecordPath.paths.add({timestamp: Date.now(), path: path})
+        RecordPath.paths.add({timestamp: now, path: path})
         await saveRecordPaths()
         Record.paths.add(path)
         Record.errorPaths.delete(path)
     } catch (error) {
+        RecordPath.paths.delete({timestamp: now, path: path})
+        await saveRecordPaths()
+        Record.paths.delete(path)
         Record.errorPaths.add(path)
         log.error("路径执行失败: {path}, 错误: {error}", path, error.message)
     } finally {
@@ -1555,6 +1559,10 @@ async function runMap(map = new Map()) {
             })
             log.debug(`[{0}] 任务[{1}]执行完成`, settings.mode, key);
         } catch (error) {
+            Record.groupPaths.delete({
+                name: key,
+                paths: new Set(one.paths)
+            })
             log.error(`[{0}] 任务[{1}]执行失败: {error}`, settings.mode, key, error.message);
             continue; // 继续执行下一个任务
         }
