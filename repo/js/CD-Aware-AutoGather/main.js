@@ -229,7 +229,13 @@ async function runGatherMode() {
     const sortedTasksToRun = sortTasksByGap(groupedTasksToRun);
     // file.writeTextSync("sortedTasksToRun.json", JSON.stringify(sortedTasksToRun, null, 2));
 
-    log.info("共{0}种材料需要采集，将从缺失数量最多的材料开始", Object.keys(sortedTasksToRun).length);
+    const taskCount = Object.keys(sortedTasksToRun).length;
+    if (taskCount === 0) {
+        log.info("所有材料的数量均已达标");
+        return;
+    }
+
+    log.info("共{0}种材料需要采集，将从缺失数量最多的材料开始", taskCount);
     for (const [name, { target, current, tasks }] of Object.entries(sortedTasksToRun)) {
         const coolType = tasks[0].coolType;
         const targetTxt = target === null ? "∞" : target;
