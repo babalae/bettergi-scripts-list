@@ -18,8 +18,8 @@
 - ✅ 防重复检测机制
 - ✅ 异常处理和错误恢复
 - ✅ 自动提醒征讨领域减半剩余次数（默认`周日`提醒可配置）
-- ✅ 支持独立通知功能（`0.0.4`版本新增 因BGI不支持WebSocket,需搭配WsProxy+开启JS HTTP
-  权限使用）[前往WsProxy部署](https://github.com/Kirito520Asuna/WsProxy)
+- ✅ 支持独立通知功能（`0.0.4`版本新增 因BGI不支持WebSocket,需搭配bettergi-scripts-tools+开启JS HTTP
+  权限使用）[前往bettergi-scripts-tools部署](https://github.com/Kirito520Asuna/bettergi-scripts-tools)
 ## 逻辑流程
 ```mermaid
 sequenceDiagram
@@ -206,7 +206,7 @@ sequenceDiagram
 ```json
 {
   "noticeType": "独立通知",
-  "ws_proxy_url": "http://127.0.0.1:8081/ws-proxy/message/send",
+  "ws_proxy_url": "http://127.0.0.1:8081/bgi/ws-proxy/message/send",
   "ws_url": "ws://127.0.0.1:8080/",
   "action": "群聊",
   "send_id": "123456789",
@@ -214,19 +214,19 @@ sequenceDiagram
 }
 ```
 
-### 部署 [WsProxy](https://github.com/Kirito520Asuna/WsProxy)
+### 部署 [bettergi-scripts-tools](https://github.com/Kirito520Asuna/bettergi-scripts-tools)
 
 #### 1.windows exe 直接运行
-前往 [release](https://github.com/Kirito520Asuna/WsProxy/releases) 下载 带windows的zip包解压运行.exe文件即可
+前往 [release](https://github.com/Kirito520Asuna/bettergi-scripts-tools/releases) 下载 带windows的zip包解压运行.exe文件即可
 #### 2.java
-前往 [release](https://github.com/Kirito520Asuna/WsProxy/releases) 下载 jar包
+前往 [release](https://github.com/Kirito520Asuna/bettergi-scripts-tools/releases) 下载 jar包
 ```shell
 java -jar xxxx.jar
 ```
 #### 3.部署docker
 ```shell
-docker pull ghcr.io/kirito520asuna/wsproxy:latest
-docker run -d -p 8081:8081 -v /path/to/application-prod.yml:/app/application-prod.yml --name wsproxy ghcr.io/kirito520asuna/wsproxy:latest
+docker pull ghcr.io/kirito520asuna/bettergi-scripts-tools:latest
+docker run -d -p 8081:8081 -v /path/to/application-prod.yml:/app/application-prod.yml --name bettergi-scripts-tools ghcr.io/kirito520asuna/bettergi-scripts-tools:latest
 ```
 
 ---

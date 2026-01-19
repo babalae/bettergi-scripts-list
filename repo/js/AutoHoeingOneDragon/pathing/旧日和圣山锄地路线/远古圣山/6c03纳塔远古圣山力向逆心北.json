@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时36.71秒，包含以下怪物：2只突角龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767735797469,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "6c03纳塔远古圣山力向逆心北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 20.2198486328125,
+      "y": 509.046875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1.85107421875,
+      "y": 539.71826171875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1.85107421875,
+      "y": 539.71826171875
+    }
+  ]
+}

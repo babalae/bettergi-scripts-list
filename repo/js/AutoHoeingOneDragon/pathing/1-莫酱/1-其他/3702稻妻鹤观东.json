@@ -1,112 +1,109 @@
 {
   "info": {
-    "name": "3702稻妻鹤观东",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时110.44秒，包含以下怪物：1.5只大型水史莱姆、2只雷箭丘丘人、2只水丘丘萨满、1只水史莱姆、2只丘丘人。",
-    "hash_res": "79897743",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时106.43秒，包含以下怪物：1.5只水史莱姆、2只丘丘人、2只雷箭丘丘人、2只水丘丘萨满。",
+    "enable_monster_loot_split": false,
+    "hash_res": "79897743",
+    "last_modified_time": 1768122734694,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3702稻妻鹤观东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": -3103.68,
-      "y": -6268.6,
-      "action_params": ""
+      "x": -3103.6800000000003,
+      "y": -6268.6
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -3106.66,
-      "y": -6263.25,
-      "type": "path",
       "move_mode": "dash",
-      "action": "fight",
-      "action_params": ""
+      "type": "path",
+      "x": -3143.470703125,
+      "y": -6245.2041015625
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 3,
-      "x": -3137.3,
-      "y": -6262.95,
+      "move_mode": "dash",
       "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": -3152.466796875,
+      "y": -6264.0234375
     },
     {
-      "id": 4,
-      "x": -3146.08,
-      "y": -6277.38,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "fight",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": -3269.39,
-      "y": -6136.14,
-      "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "x": -3248.42,
-      "y": -6192.49,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 7,
-      "x": -3248.42,
-      "y": -6192.49,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 8,
-      "x": -3261.14,
-      "y": -6200.09,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 9,
-      "x": -3215.66,
-      "y": -6219.63,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "fight",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 10,
-      "x": -3215.66,
-      "y": -6219.63,
-      "type": "orientation",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3152.466796875,
+      "y": -6264.0234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3269.3899999999994,
+      "y": -6136.139999999999
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3249.11328125,
+      "y": -6199.986328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3249.11328125,
+      "y": -6199.986328125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3206.125,
+      "y": -6222.552734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3206.125,
+      "y": -6222.552734375
     }
   ]
 }

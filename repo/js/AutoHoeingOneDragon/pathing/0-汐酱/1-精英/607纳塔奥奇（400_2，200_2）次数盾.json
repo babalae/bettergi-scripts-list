@@ -8,10 +8,10 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时192.66秒，包含以下怪物：1只木盾丘丘人、4只深邃拟覆叶_400。",
+    "description": "  路线信息：该路线预计用时192.66秒，包含以下怪物：1只木盾丘丘人、2只深邃拟覆叶_400、2只深邃拟覆叶_200。",
     "enable_monster_loot_split": false,
     "hash_res": "80496580",
-    "last_modified_time": 1764704772400,
+    "last_modified_time": 1768032939584,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "607纳塔奥奇（400_2，200_2）次数盾",
@@ -33,7 +33,7 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
       "x": 10032.39,
       "y": -630.1999999999998
@@ -42,19 +42,20 @@
       "action": "stop_flying",
       "action_params": "1800",
       "id": 3,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
-      "x": 10016.837890625,
-      "y": -579.46923828125
+      "x": 10013.9052734375,
+      "y": -569.0234375
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 4,
       "move_mode": "walk",
-      "type": "orientation",
-      "x": 10016.6728515625,
-      "y": -576.01171875
+      "type": "path",
+      "x": 10013.9052734375,
+      "y": -569.0234375
     },
     {
       "action": "force_tp",
@@ -141,7 +142,7 @@
       "action": "fight",
       "action_params": "",
       "id": 14,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
       "x": 10132.3,
       "y": -730.4300000000003

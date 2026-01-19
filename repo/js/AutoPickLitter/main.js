@@ -538,14 +538,8 @@ async function checkExpire() {
     if (settings.water) {
         await fakeLog("蒙德清泉镇圣水", false, true, 0);
         await genshin.returnMainUi();
-        await pathingScript.runFile("assets/霍普金斯.json");
-        await genshin.returnMainUi();
-        await genshin.returnMainUi();
         await pathingScript.runFile("assets/蒙德清泉镇路线.json");
-
-        // await genshin.setTime(8,0); // 等下个BGI版本再用
-
-
+        await genshin.setTime(8,0);
         //识别对话位置，并点击
         let ocrResults = await performOcr("神奇的", dialogZone.x, dialogZone.y, false);
         if (ocrResults.success) {
@@ -906,13 +900,15 @@ async function checkExpire() {
 
     // 纳塔悠悠集市龙蛋
     if(settings.eggs){
-        let nowDragonEggsNum = record.lastDragonEggsNum;
-        if (record.lastDragonEggsNum == "【山之血：0，飞澜鲨鲨：0，圣龙君临：0，太阳的轰鸣：0，献给小酒杯：0，菲耶蒂娜：0】" || settings.updateEggs) {
-            nowDragonEggsNum = await chcekDragonEggs();
-            settings.updateEggs = "false";
-        };
-        let nowDragonEggs = nowDragonEggsNum.match(/\d+/g).map(Number);
         await fakeLog("纳塔悠悠集市龙蛋", false, true, 0)
+        // 保留打开背包识别龙蛋信息
+        // let nowDragonEggsNum = record.lastDragonEggsNum;
+        // if (record.lastDragonEggsNum == "【山之血：0，飞澜鲨鲨：0，圣龙君临：0，太阳的轰鸣：0，献给小酒杯：0，菲耶蒂娜：0】" || settings.updateEggs) {
+        //     nowDragonEggsNum = await chcekDragonEggs();
+        //     settings.updateEggs = "false";
+        // };
+        let nowDragonEggsNum = settings.dragonEggsNum;
+        let nowDragonEggs = nowDragonEggsNum.match(/\d+/g).map(Number);
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/纳塔悠悠集市路线.json");
         let ocrResults = await performOcr("察尔瓦", dialogZone.x, dialogZone.y, false);
@@ -925,7 +921,7 @@ async function checkExpire() {
                 await sleep(5000);
                 let figure = 0;
                 if (settings.selectDragonEggModel == "随机模式") {
-                    figure = Math.floor((Math.random() + Date.now() % 1) * 6);
+                    figure = Math.floor(Math.random() * 6);
                     nowDragonEggs[figure]++;
                 } else if (settings.selectDragonEggModel == "指定模式") {
                     switch (settings.pickupDragonEgg) {
@@ -1011,6 +1007,7 @@ async function checkExpire() {
                     notification.Send(`背包龙蛋数目: 【山之血：${nowDragonEggs[0]}，飞澜鲨鲨：${nowDragonEggs[1]}，圣龙君临：${nowDragonEggs[2]}，太阳的轰鸣：${nowDragonEggs[3]}，献给小酒杯：${nowDragonEggs[4]}，菲耶蒂娜：${nowDragonEggs[5]}】`);
                 };
                 // 更新记录
+                settings.dragonEggsNum = `${nowDragonEggs[0]}-${nowDragonEggs[1]}-${nowDragonEggs[2]}-${nowDragonEggs[3]}-${nowDragonEggs[4]}-${nowDragonEggs[5]}`;
                 record.lastDragonEggsNum = `【山之血：${nowDragonEggs[0]}，飞澜鲨鲨：${nowDragonEggs[1]}，圣龙君临：${nowDragonEggs[2]}，太阳的轰鸣：${nowDragonEggs[3]}，献给小酒杯：${nowDragonEggs[4]}，菲耶蒂娜：${nowDragonEggs[5]}】`;
                 await recordForFile(false);
                 moveMouseTo(coordinates[figure][0],coordinates[figure][1]);
@@ -1033,43 +1030,133 @@ async function checkExpire() {
         await fakeLog("挪德卡莱那夏镇好运转盘", false, true, 0)
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/挪德卡莱那夏镇好运转盘路线.json");
-        await sleep(1000);
-        let ocrResults = await performOcr("好运速转", dialogZone.x, dialogZone.y, false);
-        if (ocrResults.success) {
-            await sleep(3000);
-            leftButtonClick();
-            await sleep(1000);
-            let ocrResults1 = await performOcr("拨动转盘", dialogZone.x, dialogZone.y, false);
-            if (ocrResults1.success) {
-                await sleep(6000);
-                let ocrText = await performOcr("", { min: 555, max: 1365 }, { min: 902, max: 1000 }, true);
-                if (ocrText.text == "") {
-                    await sleep(700);
-                    ocrText = await performOcr("", { min: 555, max: 1365 }, { min: 902, max: 1000 }, true);
-                };
-                log.info(`转盘运势:${ocrText.text}`);
-                // writeContentToFile(`转盘的运势:${recognizedText}\n`, false);
-                let text = ocrText.text.replace(/\r\n|\n|\r/g, "");
+        await sleep(1500);
 
-
-                for (let i = record.records.length - 1; i > 0; i--) {
-                    record.records[i] = record.records[i - 1];
-                }
-                record.records[0] = `转盘的运势: ${text}`;
-                if (settings.notify) {
-                    notification.Send(`转盘的运势: ${text}`);
-                }
-                await recordForFile(false);// 修改记录文件
-
-                await sleep(2000);
+        let text = "";
+        let judgeTendency = true;
+        let num = 0;
+        do {
+            let ocrResults = await performOcr("好运速转", dialogZone.x, dialogZone.y, false);
+            if (ocrResults.success) {
+                await sleep(3000);
                 leftButtonClick();
-                await sleep(700);
+                await sleep(1000);
+                let ocrResults1 = await performOcr("拨动转盘", dialogZone.x, dialogZone.y, false);
+                if (ocrResults1.success) {
+                    await sleep(6000);
+                    let ocrText = await performOcr("", { min: 555, max: 1365 }, { min: 902, max: 1000 }, true);
+                    if (ocrText.text == "") {
+                        await sleep(700);
+                        ocrText = await performOcr("", { min: 555, max: 1365 }, { min: 902, max: 1000 }, true);
+                    };
+                    log.info(`转盘运势:${ocrText.text}`);
+                    // writeContentToFile(`转盘的运势:${recognizedText}\n`, false);
+                    text = ocrText.text.replace(/\r\n|\n|\r/g, "");
+                    switch (settings.selectLuckTendency) {
+                        case "林狼啸月，魔物环伺":
+                            judgeTendency = text.includes("狼啸");
+                            num++;
+                            await sleep(2000);
+                            leftButtonClick();
+                            await sleep(3500);
+                            if (num >= Number(settings.maxNum)) {
+                                judgeTendency = true;
+                            };
+                            break;
+                        case "雷鸣风骤，摧枯拉朽":
+                            judgeTendency = text.includes("鸣风");
+                            num++;
+                            await sleep(2000);
+                            leftButtonClick();
+                            await sleep(3500);
+                            if (num >= Number(settings.maxNum)) {
+                                judgeTendency = true;
+                            };
+                            break;
+                        case "旭日曈曈，驱散迷雾":
+                            judgeTendency = text.includes("旭日");
+                            num++;
+                            await sleep(2000);
+                            leftButtonClick();
+                            await sleep(3500);
+                            if (num >= Number(settings.maxNum)) {
+                                judgeTendency = true;
+                            };
+                            break;
+                        case "海蛇翻腾，风暴肆虐":
+                            judgeTendency = text.includes("海蛇");
+                            num++;
+                            await sleep(2000);
+                            leftButtonClick();
+                            await sleep(3500);
+                            if (num >= Number(settings.maxNum)){
+                                judgeTendency = true;
+                            };
+                            break;
+                        case "牝鹿引鹿，旅途顺利":
+                            judgeTendency = text.includes("鹿引");
+                            num++;
+                            await sleep(2000);
+                            leftButtonClick();
+                            await sleep(3500);
+                            if (num >= Number(settings.maxNum)) {
+                                judgeTendency = true;
+                            };
+                            break;
+                        case "晨露凝珠，浆果丰盛":
+                            judgeTendency = text.includes("晨露");
+                            num++;
+                            await sleep(2000);
+                            leftButtonClick();
+                            await sleep(3500);
+                            if (num >= Number(settings.maxNum)) {
+                                judgeTendency = true;
+                            };
+                            break;
+                        case "层云蔽月，大地沉睡":
+                            judgeTendency = text.includes("层云");
+                            num++;
+                            await sleep(2000);
+                            leftButtonClick();
+                            await sleep(3500);
+                            if (num >= Number(settings.maxNum)) {
+                                judgeTendency = true;
+                            };
+                            break;
+                        case "灯火长明，指引前路":
+                            judgeTendency = text.includes("灯火");
+                            num++;
+                            await sleep(2000);
+                            leftButtonClick();
+                            await sleep(3500);
+                            if (num >= Number(settings.maxNum)) {
+                                judgeTendency = true;
+                            };
+                            break;
+                        default:
+                            num++;
+                            await sleep(2000);
+                            leftButtonClick();
+                            await sleep(3500);
+                            break;
+                    };
+                } else {
+                    log.error(`识别图像时发生异常: ${error.message}`);
+                };
             } else {
                 log.error(`识别图像时发生异常: ${error.message}`);
             };
-        } else {
-            log.error(`识别图像时发生异常: ${error.message}`);
-        };  
+        } while (!judgeTendency);
+        log.info(`转了${num}次`);   
+
+        for (let i = record.records.length - 1; i > 0; i--) {
+            record.records[i] = record.records[i - 1];
+        }
+        record.records[0] = `转盘的运势: ${text}`;
+        if (settings.notify) {
+            notification.Send(`转盘的运势: ${text}`);
+        };
+        await recordForFile(false);// 修改记录文件
         await genshin.returnMainUi();
         await fakeLog("挪德卡莱那夏镇好运转盘", false, false, 0)
     };
@@ -1163,6 +1250,11 @@ async function checkExpire() {
                 await sleep(700);
                 await performOcr(settings.selectGiveWho, dialogZone.x, dialogZone.y, false);
                 await clickLongTalk();
+                // 向后走两步，避免误触调查点
+                keyDown("s");
+                await sleep(1000);
+                keyUp("s");
+                await sleep(800);
                 // 打开背包找糖
                 await keyPress("B");
                 await checkExpire();

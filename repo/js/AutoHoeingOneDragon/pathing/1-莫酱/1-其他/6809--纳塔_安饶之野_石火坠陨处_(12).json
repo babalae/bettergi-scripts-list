@@ -1,104 +1,127 @@
 {
   "info": {
-    "name": "6809--纳塔_安饶之野_石火坠陨处_(12)",
-    "type": "collect",
     "author": "汐&mno",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时110.34秒，包含以下怪物：5只横蛮勇士·冲撞手、2只横蛮勇士·抓扑人、1只突角龙武士·破空轰动、2只幼突角龙、1只突角龙。",
-    "hash_res": "12230600",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       },
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时110.34秒，包含以下怪物：5只横蛮勇士·冲撞手、2只横蛮勇士·抓扑人、1只突角龙武士·破空轰动、2只幼突角龙、1只突角龙。",
+    "enable_monster_loot_split": false,
+    "hash_res": "12230600",
+    "last_modified_time": 1768311941688,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6809--纳塔_安饶之野_石火坠陨处_(12)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 10595.94,
-      "y": -2665.25,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -2665.25
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 10581.96,
-      "y": -2589.31,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2589.31
     },
     {
-      "id": 3,
-      "x": 10532.12,
-      "y": -2554.57,
       "action": "combat_script",
-      "move_mode": "dash",
       "action_params": "attack(0.3)",
-      "type": "path"
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10532.12,
+      "y": -2554.57
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 10510.45,
-      "y": -2571.88,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 10510.45,
+      "y": -2571.88
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 10503.86,
-      "y": -2584.24,
-      "action": "",
       "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 10503.86,
+      "y": -2584.24
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 6,
+      "move_mode": "dash",
+      "type": "path",
       "x": 10514.25,
-      "y": -2568.81,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2568.81
     },
     {
-      "id": 7,
-      "x": 10489.26,
-      "y": -2553.07,
       "action": "",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10514.25,
+      "y": -2568.81
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": 10431.52,
-      "y": -2524.95,
-      "action": "fight",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 10489.26,
+      "y": -2553.07
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 9,
-      "x": 10431.52,
-      "y": -2524.95,
-      "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(0.1)",
-      "type": "orientation"
+      "type": "path",
+      "x": 10436.740234375,
+      "y": -2520.4833984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10436.740234375,
+      "y": -2520.4833984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 10436.740234375,
+      "y": -2520.4833984375
     }
   ]
 }

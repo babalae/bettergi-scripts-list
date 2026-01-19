@@ -18,53 +18,54 @@ function forge_pathing_end_log(name, elapsed_time) {
     log.debug(c);
 }
 
+const country_name_tag_map = {
+    "蒙德": "mondstadt",
+    "璃月": "liyue",
+    "层岩巨渊地下矿区": "chasm underground",
+    "稻妻": "inazuma",
+    "渊下宫": "enkanomiya",
+    "须弥": "sumeru",
+    "枫丹地面": "fontaine terrestrial",
+    "枫丹水下": "fontaine underwater",
+    "旧日之海水下": "sea of bygone eras underwater",
+    "纳塔": "natlan",
+    "远古圣山": "ancient sacred mountain",
+    "挪德卡莱": "nod-krai",
+};
+
 function get_exclude_tags() {
+    const ore_name_tag_map = {
+        "水晶块": "crystal chunk",
+        "紫晶块": "amethyst lump",
+        "萃凝晶": "condessence crystal",
+        "虹滴晶": "rainbowdrop crystal",
+    };
     let tags = [];
     if (settings.fight_option === "全跳过") {
         tags.push("fight");
     } else if (settings.fight_option === "只跳过与精英怪战斗的路线") {
         tags.push("elite enemy");
     }
-    if (settings.exclude_nod_krai) {
-        tags.push("nod-krai");
+    for (const [i, j] of Object.entries(country_name_tag_map)) {
+        if (Array.from(settings.exclude_regions).includes(i)) {
+            tags.push(j);
+        }
     }
-    if (settings.exclude_natlan) {
-        tags.push("natlan");
-    }
-    if (settings.exclude_fontaine_underwater) {
-        tags.push("fontaine underwater");
-    }
-    if (settings.exclude_fontaine_terrestrial) {
-        tags.push("fontaine terrestrial");
-    }
-    if (settings.exclude_sumeru) {
-        tags.push("sumeru");
-    }
-    if (settings.exclude_inazuma) {
-        tags.push("inazuma");
-    }
-    if (settings.exclude_liyue) {
-        tags.push("liyue");
-    }
-    if (settings.exclude_chasm_underground) {
-        tags.push("chasm underground");
-    }
-    if (settings.exclude_mondstadt) {
-        tags.push("mondstadt");
-    }
-    if (settings.exclude_crystal_chunks) {
-        tags.push("crystal chunk");
-    }
-    if (settings.exclude_condessence_crystals) {
-        tags.push("condessence crystal");
-    }
-    if (settings.exclude_amethyst_lumps) {
-        tags.push("amethyst lump");
-    }
-    if (settings.exclude_rainbowdrop_crystals) {
-        tags.push("rainbowdrop crystal");
+    for (const [i, j] of Object.entries(ore_name_tag_map)) {
+        if (Array.from(settings.exclude_ore_types).includes(i)) {
+            tags.push(j);
+        }
     }
     return tags;
+}
+
+function underwater_only() {
+    const all_regions = new Set(Object.keys(country_name_tag_map));
+    const skipped_regions = new Set(settings.exclude_regions);
+    const not_skipped_regions = all_regions.difference(skipped_regions);
+    not_skipped_regions.delete("枫丹水下");
+    not_skipped_regions.delete("旧日之海水下");
+    return not_skipped_regions.size === 0;
 }
 
 function get_profile_name() {
@@ -462,7 +463,15 @@ async function main() {
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     // Run an empty pathing script to give BGI a chance to switch team if the user specifies one.
     await pathingScript.runFile("assets/empty_pathing.json");
-    if (["natlan", "fontaine terrestrial", "sumeru", "inazuma", "liyue", "chasm underground", "mondstadt"].filter(i => !get_exclude_tags().includes(i)).length > 0) {
+    if (!Object.keys(settings).includes("exclude_ore_types")) {
+        log.error("首次运行前请编辑JS脚本自定义配置");
+        return;
+    }
+    log.debug("Fight options: {a}", settings.fight_option);
+    log.debug("Exclude regions: {a}, exclude types: {b}", settings.exclude_regions, settings.exclude_ore_types);
+    log.debug("Exclude tags: {a}", get_exclude_tags());
+    log.debug("Underwater only: {a}", underwater_only());
+    if (!underwater_only()) {
         if (!Array.from(getAvatars()).includes("诺艾尔") && !settings.custom_mining_action) {
             log.error("地面挖矿请带诺艾尔");
             return;

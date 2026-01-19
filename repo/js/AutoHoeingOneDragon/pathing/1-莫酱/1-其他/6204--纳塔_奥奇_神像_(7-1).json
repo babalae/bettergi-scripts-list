@@ -23,104 +23,121 @@
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 9757.95,
-      "y": -613.65,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": -613.65
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 9766.56,
-      "y": -604.68,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 9761.09,
-      "y": -577.16,
-      "action": "stop_flying",
-      "move_mode": "fly",
-      "action_params": "2000",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 9752.44,
-      "y": -572.77,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": 9756.12,
-      "y": -542.12,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": 9750.28,
-      "y": -513.38,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": 9734.87,
-      "y": -520.13,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 9745.84,
-      "y": -490.91,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 9,
-      "x": 9751.5,
-      "y": -444,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 10,
-      "x": 9743.79,
-      "y": -433.17,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
       "type": "path",
-      "locked": false
+      "x": 9766.56,
+      "y": -604.68
     },
     {
-      "id": 11,
-      "x": 9743.79,
-      "y": -433.17,
-      "action": "combat_script",
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9761.09,
+      "y": -577.16
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
       "move_mode": "walk",
-      "action_params": "wait(0.1)",
-      "type": "orientation"
+      "type": "path",
+      "x": 9752.44,
+      "y": -572.77
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9752.44,
+      "y": -572.77
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9756.12,
+      "y": -542.12
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9750.28,
+      "y": -513.38
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9750.28,
+      "y": -513.38
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9734.87,
+      "y": -520.13
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9745.84,
+      "y": -490.91
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9751.5,
+      "y": -444
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9743.79,
+      "y": -433.17
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9743.79,
+      "y": -433.17
     }
   ]
 }

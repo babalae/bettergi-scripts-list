@@ -1,154 +1,163 @@
 {
   "info": {
-    "name": "3106(水免)稻妻神里屋敷",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时154.5秒，包含以下怪物：1只水史莱姆、5只大型水史莱姆、1只野伏·阵刀番、2只野伏·火伏番、1只野伏·机巧番。",
-    "hash_res": "96560437",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时172.16秒，包含以下怪物：1只水史莱姆、5只大型水史莱姆、1只野伏·阵刀番、1只野伏·火伏番、1只野伏·机巧番。",
+    "enable_monster_loot_split": false,
+    "hash_res": "96560437",
+    "last_modified_time": 1768384215700,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3106(水免)稻妻神里屋敷",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -4578.79,
-      "y": -2577.68,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -4578.790000000001,
+      "y": -2577.6800000000003
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -4571.71,
-      "y": -2547.66,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -4579.068359375,
+      "y": -2551.8212890625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": -4578.13,
-      "y": -2519.33,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -4585.89453125,
+      "y": -2532.265625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": -4594.17,
-      "y": -2484.81,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -4611.796875,
+      "y": -2505.9794921875
     },
     {
-      "id": 5,
-      "x": -4689,
-      "y": -2468.45,
       "action": "stop_flying",
+      "action_params": "1300",
+      "id": 5,
       "move_mode": "fly",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -4690.400390625,
+      "y": -2471.517578125
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 6,
-      "x": -4690.66,
-      "y": -2469.41,
-      "action": "fight",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -4690.400390625,
+      "y": -2471.517578125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": -4683.07,
-      "y": -2467.31,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4690.400390625,
+      "y": -2471.517578125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": -4667.87,
-      "y": -2459.88,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4684.591796875,
+      "y": -2463.1201171875
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 9,
-      "x": -4589.64,
-      "y": -2451.54,
-      "action": "fight",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -4589.639999999999,
+      "y": -2451.540000000001
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": -4559.59,
-      "y": -2418.51,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -4589.639999999999,
+      "y": -2451.540000000001
     },
     {
-      "id": 11,
-      "x": -4557.04,
-      "y": -2402.8,
-      "action": "fight",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 12,
-      "x": -4557.04,
-      "y": -2402.8,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 13,
-      "x": -4547.35,
-      "y": -2392,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 14,
-      "x": -4515,
-      "y": -2338.31,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 15,
-      "x": -4515,
-      "y": -2338.31,
       "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.1)",
-      "type": "orientation"
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4552.21484375,
+      "y": -2411.572265625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4528.203125,
+      "y": -2367.10546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4528.203125,
+      "y": -2367.10546875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4509.74609375,
+      "y": -2331.998046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -4509.74609375,
+      "y": -2331.998046875
     }
   ]
 }

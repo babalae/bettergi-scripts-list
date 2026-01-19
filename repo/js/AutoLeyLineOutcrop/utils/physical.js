@@ -89,10 +89,10 @@ async function ocrPhysical(opToMainUi = false,openMap=false) {
     let add_buttonJSON = getJsonPath('add_button');
     let add_objJson = {
         path: `${add_buttonJSON.path}${add_buttonJSON.name}${add_buttonJSON.type}`,
-        x: 1264,
-        y: 39,
-        width: genshinJson.width - 1264,
-        height: 60,
+        x: 1242,
+        y: 21,
+        width: 54,
+        height: 51,
     }
     let templateMatchAddButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${add_objJson.path}`), add_objJson.x, add_objJson.y, add_objJson.width, add_objJson.height);
     let regionA = captureGameRegion()

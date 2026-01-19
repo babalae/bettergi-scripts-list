@@ -44,7 +44,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1)",
+      "action_params": "wait(1)",
       "id": 3,
       "move_mode": "dash",
       "type": "orientation",
@@ -84,13 +84,22 @@
       "id": 7,
       "move_mode": "dash",
       "type": "path",
+      "x": 9626.32,
+      "y": -2398.63
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
       "x": 9622.32,
       "y": -2399.63
     },
     {
       "action": "",
       "action_params": "",
-      "id": 8,
+      "id": 9,
       "move_mode": "dash",
       "type": "path",
       "x": 9512.43,
@@ -99,7 +108,16 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 9,
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9513.69,
+      "y": -2433.97
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
       "move_mode": "dash",
       "type": "path",
       "x": 9513.69,
@@ -108,7 +126,7 @@
     {
       "action": "combat_script",
       "action_params": "click(middle),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),",
-      "id": 10,
+      "id": 12,
       "move_mode": "dash",
       "type": "orientation",
       "x": 9513.69,
@@ -117,7 +135,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 11,
+      "id": 13,
       "move_mode": "climb",
       "type": "path",
       "x": 9510.1748046875,
@@ -126,7 +144,7 @@
     {
       "action": "combat_script",
       "action_params": "keyup(w),wait(0.3),keydown(w),keydown(Q),keypress(f),wait(0.8),keypress(f),keyup(Q),",
-      "id": 12,
+      "id": 14,
       "move_mode": "climb",
       "type": "path",
       "x": 9538.681640625,
@@ -135,7 +153,7 @@
     {
       "action": "combat_script",
       "action_params": "attack(0.3);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
-      "id": 13,
+      "id": 15,
       "move_mode": "dash",
       "type": "path",
       "x": 9545.88671875,
@@ -144,7 +162,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 14,
+      "id": 16,
       "move_mode": "dash",
       "type": "path",
       "x": 9534.07,
@@ -152,8 +170,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 15,
+      "action_params": "wait(1)",
+      "id": 17,
       "move_mode": "dash",
       "type": "orientation",
       "x": 9534.07,

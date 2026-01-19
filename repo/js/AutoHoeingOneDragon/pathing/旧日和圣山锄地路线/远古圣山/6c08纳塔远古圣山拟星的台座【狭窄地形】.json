@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时68.4秒，包含以下怪物：2只丘丘人、1只打手丘丘人、1只冲锋丘丘人、1只木盾丘丘暴徒、1只岩丘丘萨满。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767735810001,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "6c08纳塔远古圣山拟星的台座【狭窄地形】",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -432.410400390625,
+      "y": 253.5457763671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -408.0224609375,
+      "y": 267.77587890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(10)",
+      "id": 3,
+      "move_mode": "jump",
+      "type": "target",
+      "x": -400.306396484375,
+      "y": 268.400341796875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -442.883544921875,
+      "y": 259.5577392578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -442.883544921875,
+      "y": 259.5577392578125
+    }
+  ]
+}

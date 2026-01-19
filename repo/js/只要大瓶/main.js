@@ -95,22 +95,22 @@ let rg;
 
     if (settings.bottleType != "只要小瓶") {
         pngRo1 = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/大瓶.png`), 1670, 900, 1890 - 1670, 980 - 900);
-        pngRo1.Threshold = 0.995;
+        pngRo1.Threshold = +settings.Threshold2 || 0.99;
         pngRo1.Use3Channels = true;
         pngRo1.InitTemplate();
 
         pngRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/大瓶和小瓶.png`), 1670, 900, 1890 - 1670, 980 - 900);
-        pngRo2.Threshold = 0.995;
+        pngRo2.Threshold = +settings.Threshold2 || 0.99;
         pngRo2.Use3Channels = true;
         pngRo2.InitTemplate();
     } else {
         pngRo1 = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/三个小瓶.png`), 1670, 900, 1890 - 1670, 980 - 900);
-        pngRo1.Threshold = 0.995;
+        pngRo1.Threshold = +settings.Threshold2 || 0.99;
         pngRo1.Use3Channels = true;
         pngRo1.InitTemplate();
 
         pngRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/大瓶.png`), 1670, 900, 1890 - 1670, 980 - 900);
-        pngRo2.Threshold = 0.995;
+        pngRo2.Threshold = +settings.Threshold2 || 0.99;
         pngRo2.Use3Channels = true;
         pngRo2.InitTemplate();
     }
@@ -164,7 +164,7 @@ let rg;
             }
             let time1 = new Date();
             if (!await selectOneAritfact()) {
-                log.info("所有指定星级选择后不足以分解出大瓶");
+                log.info("所有指定星级选择后不足以分解出目标");
                 break;
             }
             //log.info(`调试-用时${new Date() - time1}`);
@@ -289,7 +289,7 @@ async function findAndClick(target, maxAttempts = 20) {
         const rg = captureGameRegion();
         try {
             const res = rg.find(target);
-            if (res.isExist()) { await sleep(16); res.click(); return true; }
+            if (res.isExist()) { await sleep(16); res.click(); await sleep(50); return true; }
         } finally { rg.dispose(); }
         if (i < maxAttempts - 1) await sleep(50);
     }

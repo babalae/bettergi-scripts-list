@@ -9,9 +9,9 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时282.38秒，包含以下怪物：4只丘丘人、1只打手丘丘人、3只冲锋丘丘人、1只木盾丘丘人、1只射手丘丘人、2只火斧丘丘暴徒、3只深邃拟覆叶_400、5只深邃拟覆叶_200。",
-    "hash_res": "15821678",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1763213887779,
+    "hash_res": "15821678",
+    "last_modified_time": 1768120697141,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "605纳塔奥奇（400_3，200_7）次数盾",
@@ -42,14 +42,14 @@
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
       "x": 9879.126953125,
       "y": -415.9365234375
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "action_params": "attack(0.3);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
       "id": 4,
       "move_mode": "dash",
       "type": "path",
@@ -71,8 +71,8 @@
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 9823.6494140625,
-      "y": -459.7802734375
+      "x": 9832.41796875,
+      "y": -464.20703125
     },
     {
       "action": "",
@@ -114,7 +114,7 @@
       "action": "",
       "action_params": "",
       "id": 11,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
       "x": 9879.126953125,
       "y": -415.9365234375
@@ -123,10 +123,10 @@
       "action": "",
       "action_params": "",
       "id": 12,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
-      "x": 9837.3427734375,
-      "y": -421.59912109375
+      "x": 9833.9716796875,
+      "y": -423.76953125
     },
     {
       "action": "",
@@ -195,7 +195,7 @@
       "action": "",
       "action_params": "",
       "id": 20,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
       "x": 9779.501953125,
       "y": -377.34765625

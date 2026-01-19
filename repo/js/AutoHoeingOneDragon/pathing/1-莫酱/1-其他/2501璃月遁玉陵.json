@@ -5,13 +5,17 @@
       {
         "links": "https://github.com/Bedrockx",
         "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时237.98秒，包含以下怪物：3只火史莱姆、1只草史莱姆、1只愚人众先遣队·雷锤前锋军、1只盗宝团·神射手、1只盗宝团·掘墓者、1只盗宝团·粉碎者、2只水萤、2.5只雷萤、0.5只大型草史莱姆、0.5只愚人众先遣队·火统游击兵。",
+    "description": "  路线信息：该路线预计用时178.71秒，包含以下怪物：3只火史莱姆、1只草史莱姆、1只大型草史莱姆、1只愚人众先遣队·火统游击兵、1只愚人众先遣队·雷锤前锋军、1只盗宝团·神射手、1只盗宝团·掘墓者、1只盗宝团·粉碎者、1只水萤、2只雷萤。",
     "enable_monster_loot_split": false,
     "hash_res": "32590944",
-    "last_modified_time": 1767458942277,
+    "last_modified_time": 1768318340139,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "2501璃月遁玉陵",
@@ -60,15 +64,24 @@
       "action": "",
       "action_params": "",
       "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 858.376953125,
+      "y": -361.20068359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
       "move_mode": "walk",
       "type": "path",
       "x": 858.9999373056362,
       "y": -359.43889438399856
     },
     {
-      "action": "combat_script",
-      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
-      "id": 6,
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
       "move_mode": "dash",
       "type": "path",
       "x": 868.1669921875,
@@ -77,7 +90,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 7,
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 868.1669921875,
+      "y": -306.0517578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
       "move_mode": "dash",
       "type": "path",
       "x": 876.50390625,
@@ -86,8 +108,16 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 8,
-      "locked": false,
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 856.1689453125,
+      "y": -272.13330078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
       "move_mode": "dash",
       "type": "path",
       "x": 856.1689453125,
@@ -96,7 +126,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;万叶 q;",
-      "id": 9,
+      "id": 12,
       "move_mode": "dash",
       "type": "path",
       "x": 852.451171875,
@@ -105,7 +135,16 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 10,
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 827.2880859375,
+      "y": -251.4931640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
       "move_mode": "dash",
       "type": "path",
       "x": 827.2880859375,
@@ -114,8 +153,8 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
-      "id": 11,
-      "move_mode": "walk",
+      "id": 15,
+      "move_mode": "dash",
       "type": "path",
       "x": 819.8046875,
       "y": -217.83935546875
@@ -123,7 +162,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 12,
+      "id": 16,
       "move_mode": "dash",
       "type": "path",
       "x": 865.1299999999992,
@@ -132,17 +171,25 @@
     {
       "action": "",
       "action_params": "",
-      "id": 13,
+      "id": 17,
       "move_mode": "dash",
       "type": "path",
-      "x": 887.1299999999992,
-      "y": -227.14000000000033
+      "x": 865.1299999999992,
+      "y": -215.14000000000033
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 893.255859375,
+      "y": -230.59033203125
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 14,
-      "locked": false,
+      "id": 19,
       "move_mode": "dash",
       "type": "path",
       "x": 919.8828125,
@@ -150,8 +197,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1)",
-      "id": 15,
+      "action_params": "wait(1)",
+      "id": 20,
       "move_mode": "dash",
       "type": "orientation",
       "x": 919.8828125,
