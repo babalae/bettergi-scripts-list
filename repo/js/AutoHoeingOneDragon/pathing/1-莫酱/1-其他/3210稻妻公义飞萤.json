@@ -18,7 +18,7 @@
     "last_modified_time": 1767880293295,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "C01-稻妻-踏鞴砂-炉心-东南-4只",
+    "name": "3210稻妻公义飞萤",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -70,6 +70,15 @@
       "y": -3879.99
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3237.4000000000015,
+      "y": -3879.99
+    },
+    {
       "action": "fight",
       "action_params": "",
       "id": 7,
@@ -80,7 +89,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1)",
+      "action_params": "wait(1)",
       "id": 8,
       "move_mode": "dash",
       "type": "orientation",
