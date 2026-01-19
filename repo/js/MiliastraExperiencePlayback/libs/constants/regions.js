@@ -54,7 +54,7 @@ const findElementViewBtn = () => {
 const findBeyondHallBtn = () => {
   const iro = findImageWithinBounds("assets/UI_BtnIcon_Beyond_Hall.png", 200, 0, 150, 100, {
     useMask: true,
-    threshold: 0.8,
+    threshold: 0.75,
   });
   iro?.drawSelf("group_img");
   return iro;
@@ -188,7 +188,7 @@ const findGotTeyvatBtn = () => {
 const findBeyondBattlepassBtn = () => {
   const iro = findImageWithinBounds("assets/UI_BtnIcon_Beyond_Battlepass.png", 960, 0, 960, 80, {
     useMask: true,
-    threshold: 0.8,
+    threshold: 0.75,
   });
   iro?.drawSelf("group_img");
   return iro;
