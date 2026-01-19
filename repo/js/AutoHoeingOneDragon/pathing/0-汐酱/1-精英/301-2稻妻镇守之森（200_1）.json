@@ -1,0 +1,60 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时55秒，包含以下怪物：2只火箭丘丘人、1只雷斧丘丘暴徒、2只雷丘丘萨满。",
+    "enable_monster_loot_split": false,
+    "hash_res": "58290120",
+    "last_modified_time": 1768808835070,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "301-2稻妻镇守之森（200_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4429.9,
+      "y": -2798.51
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4404.69,
+      "y": -2794.31
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4371.18,
+      "y": -2820.31
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4391.32,
+      "y": -2820.65
+    }
+  ]
+}
