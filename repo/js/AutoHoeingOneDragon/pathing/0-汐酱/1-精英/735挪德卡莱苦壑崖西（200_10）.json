@@ -1,20 +1,18 @@
 {
   "info": {
-    "author": "汐",
     "authors": [
       {
-        "links": "https://github.com/jiegedabaobei",
+        "links": "",
         "name": "汐"
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时76.38秒，包含以下怪物：1只遗迹巡弋者、2只遗迹防卫者。",
+    "description": "  路线信息：该路线预计用时102.36秒，包含以下怪物：10只深黯钓客。",
     "enable_monster_loot_split": false,
-    "hash_res": "93649028",
-    "last_modified_time": 1768830672217,
-    "map_match_method": "",
+    "last_modified_time": 1768631035861,
+    "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "312-2稻妻清赖丸（200_3）",
+    "name": "735挪德卡莱苦壑崖西（200_10）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -26,26 +24,26 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -3684.81,
-      "y": -4278.52
+      "x": 10101.673828125,
+      "y": 6343.751953125
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": -3727.96,
-      "y": -4306.87
+      "x": 10139.02734375,
+      "y": 6309.5830078125
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 3,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": -3757.29,
-      "y": -4324.82
+      "x": 10139.02734375,
+      "y": 6309.5830078125
     },
     {
       "action": "",
@@ -53,26 +51,17 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": -3796.32,
-      "y": -4301.01
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -3776.73,
-      "y": -4240.8
+      "x": 10151.478515625,
+      "y": 6318.94140625
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 6,
+      "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": -3764.18,
-      "y": -4254.63
+      "x": 10201.2265625,
+      "y": 6325.0869140625
     }
   ]
 }

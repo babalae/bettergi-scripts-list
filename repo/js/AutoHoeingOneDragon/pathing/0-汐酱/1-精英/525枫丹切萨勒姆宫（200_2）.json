@@ -1,20 +1,18 @@
 {
   "info": {
-    "author": "汐",
     "authors": [
       {
-        "links": "https://github.com/jiegedabaobei",
+        "links": "",
         "name": "汐"
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时47.15秒，包含以下怪物：1只丘丘岩盔王。",
+    "description": "  路线信息：该路线预计用时51秒，包含以下怪物：2只魔像禁卫。",
     "enable_monster_loot_split": false,
-    "hash_res": "01480954",
-    "last_modified_time": 1768831161039,
+    "last_modified_time": 1767728650378,
     "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "232-1璃月沉玉谷灵濛山南（600_1）",
+    "map_name": "SeaOfBygoneEras",
+    "name": "525枫丹切萨勒姆宫（200_2）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -26,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 2002.369999999999,
-      "y": 2081.0300000000007
+      "x": 4739.18896484375,
+      "y": 1354.5679931640625
     },
     {
       "action": "",
@@ -35,26 +33,26 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 1979.2900000000009,
-      "y": 2074.01
+      "x": 4730.55078125,
+      "y": 1374.54443359375
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 3,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 1969.369999999999,
-      "y": 2066.49
+      "x": 4713.1474609375,
+      "y": 1388.3568115234375
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1)",
+      "action_params": "wait(1)",
       "id": 4,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "orientation",
-      "x": 1969.369999999999,
-      "y": 2066.49
+      "x": 4713.1474609375,
+      "y": 1388.3568115234375
     }
   ]
 }
