@@ -133,6 +133,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 							if (DeployButton.isExist()) {
 								log.info("识别到部署按钮:({x},{y},{w},{h})", DeployButton.x, DeployButton.y, DeployButton.Width, DeployButton.Height);
 								DeployButton.click();
+								await sleep(100);
 								notification.send(`寻找到目标队伍：${partyName}`);
 								ConfigureStatue = true;
 								break;
