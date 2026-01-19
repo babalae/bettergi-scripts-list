@@ -104,7 +104,7 @@
         await genshin.returnMainUi(); // 保证在主界面
         await sleep(500);
         await keyPress("VK_RETURN"); // 按Enter进入聊天界面
-        await sleep(500);
+        await sleep(1500);
         const ocrRo = RecognitionObject.Ocr(0, 0, 257, 173);
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(300);
@@ -116,10 +116,10 @@
                 ocr.Click(); // 点击 当前队伍
                 await sleep(500);
                 click(445, 1010); // 点击聊天框
-                await sleep(200);
+                await sleep(800);
                 inputText(msg); // 输入文本
                 keyPress("VK_RETURN"); // 发送
-                await sleep(200);
+                await sleep(800);
                 await genshin.returnMainUi(); // 返回主界面
                 return true;
             } else {
@@ -130,10 +130,10 @@
         }
         log.error(`未检测到 当前队伍 ,尝试发送信息...`);
         click(445, 1010); // 点击聊天框
-        await sleep(200);
+        await sleep(880);
         inputText(msg); // 输入文本
         keyPress("VK_RETURN"); // 发送
-        await sleep(200);
+        await sleep(800);
         await genshin.returnMainUi(); // 返回主界面
         return false;
     }
@@ -148,7 +148,7 @@
     async function numberToChinese(num) {
         // 定义数字到中文的映射
         // const chineseDigits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
-        const chineseDigits = ['癸', '甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬'];
+        const chineseDigits = ['癸', '甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '王'];
         // 将数字转换为字符串，以便逐个处理
         const numStr = num.toString();
         let result = '';
