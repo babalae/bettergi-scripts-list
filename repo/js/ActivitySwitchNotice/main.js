@@ -56,7 +56,11 @@ async function toMainUi() {
  * @returns {Promise<void>}
  */
 async function main() {
-    await campaignAreaUtil.campaignAreaMain()
+    let ms = 600
+    await campaignAreaUtil.dailyCommissionMain()
+    await sleep(ms*2);
+    await campaignAreaUtil.campaignAreaMain(false)
+    await sleep(ms*2);
     await toMainUi()
     await activityUtil.activityMain()
 }
