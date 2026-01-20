@@ -20,7 +20,13 @@ let loadingLevel = 2
 // const pathAsMap = new Map([])
 // const pathRunMap = new Map([])
 const needRunMap = new Map([])
-const PATHING_ALL = new Array({level: 0, name: `${pathingName}`, parent_name: "", child_names: []})
+const PATHING_ALL = new Array({
+    id: `${pathingName}`,
+    level: 0,
+    name: `${pathingName}`,
+    parent_name: "",
+    child_names: []
+})
 let settingsNameList = new Array()
 const settingsNameAsList = new Array()
 let PATH_JSON_LIST = new Array()
@@ -209,13 +215,14 @@ async function initRefresh(settingsConfig) {
     await addUniquePath({
         level: level,
         name: `${pathingName}`,
-        parentName: '',
+        parentName: undefined,
+        rootName: undefined,        // 最父级下一级名称
         child_names: parentJson.options
-    }, pathJsonList)
+    })
 
     PATH_JSON_LIST = pathJsonList
 
-    const forList=pathJsonList.filter(item=>item.child_names.length>0)
+    const forList = pathJsonList
     for (const element of forList) {
         const pathRun = element.path
 
@@ -253,11 +260,13 @@ async function initRefresh(settingsConfig) {
             let child_names = Array.from(new Set(filteredChildName ? [filteredChildName] : []).difference(new Set(blacklist)))
             // 获取父级名称用于建立层级关系
             const parentName = getChildFolderNameFromRoot(pathRun, parentLevel);
+            const rootName = getChildFolderNameFromRoot(pathRun, parent_level + 1);
 
             await addUniquePath({
                 level: parentLevel,        // 存储到目标层级 属于目标层级
                 name: currentName,              // 当前层级名称
                 parentName: parentName,        // 父级名称
+                rootName: rootName,        // 最父级下一级名称
                 child_names: [...child_names]
             });
         }
@@ -287,6 +296,8 @@ async function initRefresh(settingsConfig) {
     const br = `${"=".repeat(line)}\n`
     let idx = 0
     const settingsSortMap = new Map([])
+    settingsRefreshList.push({type: "separator"})
+    settingsRefreshList.push({type: "separator"})
     groupLevel.filter(list => list.length > 0).forEach(
         (list) => {
             let i = 0
@@ -297,12 +308,12 @@ async function initRefresh(settingsConfig) {
                 const isCommonLastAndCurrent = item.parentName !== parentNameLast;
                 if (isCommonLastAndCurrent) {
                     parentNameLast = item.parentName;
-                    let b = (line - item.parentName.length) % 2 === 0;
-                    const localLine = b ? ((line - item.parentName.length) / 2) : (Math.ceil((line - item.parentName.length) / 2))
-                    prefix = br + `${"=".repeat(localLine)}${item.parentName}${"=".repeat(localLine)}\n` + br
+                    // let b = (line - item.parentName.length) % 2 === 0;
+                    // const localLine = b ? ((line - item.parentName.length) / 2) : (Math.ceil((line - item.parentName.length) / 2))
+                    // prefix = br + `${"=".repeat(localLine)}${item.parentName}${"=".repeat(localLine)}\n` + br
                 }
                 // const p = idx === 0 ? "【地图追踪】\n" : `${prefix}[${item.parent_name}-${item.name}]\n`
-                const p = `${prefix}[${item.name}]\n`
+                const p = `${prefix}${(item.rootName&&item.name!==item.rootName)?"《"+item.rootName+"》->":""}[${item.name}]\n`
                 idx++
                 let leveJson = {
                     name: `${name}`,
@@ -310,10 +321,10 @@ async function initRefresh(settingsConfig) {
                     label: `${p}选择要执行的${item.level + 1}级路径`,
                     options: []
                 }
-                let filter = PATH_JSON_LIST.filter(list_item => list_item.id === item.parentId).find();
-                if (filter) {
-                    filter.levelName = name || undefined
-                }
+                // let filter = PATH_JSON_LIST.filter(list_item => list_item.id === item.parentId).find();
+                // if (filter) {
+                    // filter.levelName = name || undefined
+                // }
                 // leveJson.options = leveJson.options.concat(item.child_names)
                 leveJson.options = [...item.child_names]
                 if (leveJson.options && leveJson.options.length > 0) {
@@ -331,7 +342,7 @@ async function initRefresh(settingsConfig) {
                             settingsRefreshList.push({type: "separator"})
                         }
                         parentNameLast = item.parentName;
-
+                        settingsRefreshList.push({type: "separator"})
                         // 添加新的配置项
                         settingsRefreshList.push(leveJson);
                     }
@@ -487,30 +498,21 @@ async function loadUidSettingsMap(uidSettingsMap) {
              * 实例：pathing\地方特产\枫丹\幽光星星\幽光星星@jbcaaa\
              * 地方特产->枫丹->幽光星星->幽光星星@jbcaaa
              */
-            // const keys = new Set([])
-            //
-            // function countMatchingElements(mainSet, subset) {
-            //     const mainSetObj = new Set(mainSet);
-            //     return subset.filter(item => mainSetObj.has(item)).length;
-            // }
-            //
-            // const key = keys[keys.size - 1]
-            // // PATH_JSON_LIST.filter(item => item.level > 0)
-            // filterUidSettings.filter(item => {
-            //     const bracketContent = getBracketContent(item.label);
-            //     if (key.includes(bracketContent)) {
-            //         const fullPathNamesList = Array.from(new Set(PATH_JSON_LIST.filter(item => bracketContent.includes(item.name)).map(item => {
-            //             const fileName = item.fullPathNames[item.fullPathNames.length - 1]
-            //             if (fileName.endsWith(".json")) {
-            //                 const set = new Set(item.fullPathNames);
-            //                 set.delete(fileName)
-            //                 return Array.from(set)
-            //             }
-            //             return item.fullPathNames
-            //         })));
-            //
-            //     }
-            // })
+            const keys = new Set([])
+
+            function countMatchingElements(mainSet, subset) {
+                const mainSetObj = new Set(mainSet);
+                return subset.filter(item => mainSetObj.has(item)).length;
+            }
+
+            const key = keys[keys.size - 1]
+            // PATH_JSON_LIST.filter(item => item.level > 0)
+            filterUidSettings.filter(item => {
+                const settings_level = PATH_JSON_LIST.filter(list_item => list_item.levelName === item.name).find();
+                if (settings_level) {
+
+                }
+            })
             const levelSettings = filterSettings.filter(item => {
                 const level_all = item.name.replaceAll(levelName, "");
                 // 获取级别
@@ -585,7 +587,9 @@ async function initRun(config_run) {
         const selectedOptions = multiJson.options;
 
         // 2. 从 PATH_JSON_LIST 中筛选命中的路径
-        let matchedPaths = PATH_JSON_LIST.filter(item => item.child_names.length > 0).filter(item => {
+        const filter = PATH_JSON_LIST.filter(item => item.children.length === 0);
+        await debugKey(`log-filtermatchedPaths.json`, JSON.stringify(filter))
+        let matchedPaths = filter.filter(item => {
             const hitParent = item.fullPathNames.includes(labelParentName);
             const hitOption = selectedOptions.some(opt =>
                 item.fullPathNames.some(name => name.includes(opt))
@@ -600,14 +604,16 @@ async function initRun(config_run) {
             return {
                 level: item.level,
                 name: item.name,
+                id: item.id,
                 parentId: item.parentId,
                 parentName: item.parentName,
+                rootName: item.rootName,
                 selected: selected,
                 path: item.path,
                 fullPathNames: item.fullPathNames
             };
         });
-
+        await debugKey(`log-matchedPaths.json`, JSON.stringify(matchedPaths))
 
         // 3. CD 过滤（可选）
         if (cd.open && matchedPaths.length > 0) {
@@ -668,6 +674,7 @@ async function initRun(config_run) {
 
             // const {label} = multiCheckboxMap.get(settingsName);
             // const as_name = getBracketContent(label)//父名称 如：晶蝶
+
             function groupByParentAndName(list) {
                 const map = new Map();
 
@@ -1162,23 +1169,36 @@ function parseDate(dateString) {
 // 优化后的函数
 function addUniquePath(obj, list = PATHING_ALL) {
     const existingIndex = list.findIndex(item =>
-        item.level === obj.level && item.name === obj.name
+        item.level === obj.level && item.name === obj.name && item.parentName === obj.parentName&& item.rootName === obj.rootName
     );
 
     if (existingIndex === -1) {
-        PATHING_ALL.push(obj);
+        list.push(obj);
     } else {
         // 合并 child_names 数组，避免重复元素
-        const existingItem = PATHING_ALL[existingIndex];
-        const newChildren = obj.child_names || [];
+        const existingItem = list[existingIndex];
+        if (obj.child_names) {
+            const newChildren = obj.child_names || [];
 
-        // 使用 Set 去重并合并数组
-        const combinedChildren = [...new Set([
-            ...(existingItem.child_names || []),
-            ...newChildren
-        ])];
+            // 使用 Set 去重并合并数组
+            const combinedChildren = [...new Set([
+                ...(existingItem.child_names || []),
+                ...newChildren
+            ])];
 
-        existingItem.child_names = combinedChildren;
+            existingItem.child_names = combinedChildren;
+        } else {
+            const newChildren = obj.children || [];
+
+            // 使用 Set 去重并合并数组
+            const combinedChildren = [...new Set([
+                ...(existingItem.children || []),
+                ...newChildren
+            ])];
+
+            existingItem.children = combinedChildren;
+        }
+
     }
 }
 
