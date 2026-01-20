@@ -367,7 +367,7 @@ async function initRefresh(settingsConfig) {
         item => item.name === 'config_uid'
     ).forEach(item => {
         // 刷新settings自动设置执行
-        item.label = "当前配置uid:\{" + Record.uid + "\}(仅仅显示配置uid无其他作用)"
+        item.label = "当前配置uid:\{" + Record.uid + "\}\n(仅仅显示配置uid无其他作用)"
     })
     file.writeTextSync(manifest.settings_ui, JSON.stringify(settingsList))
 
@@ -399,11 +399,11 @@ async function initRefresh(settingsConfig) {
     }
     if (settings.refresh_record) {
         if (settings.refresh_record_mode === "UID") {
-            RecordList=RecordList.filter(item => item.uid !== Record.uid)
-            RecordPathList=RecordPathList.filter(item => item.uid !== Record.uid)
+            RecordList = RecordList.filter(item => item.uid !== Record.uid)
+            RecordPathList = RecordPathList.filter(item => item.uid !== Record.uid)
             file.writeTextSync(json_path_name.RecordPathText, JSON.stringify(RecordPathList))
             file.writeTextSync(json_path_name.RecordText, JSON.stringify(RecordList))
-            log.info("已清空UID:{0}记录文件",Record.uid)
+            log.info("已清空UID:{0}记录文件", Record.uid)
             return
         }
         file.writeTextSync(json_path_name.RecordPathText, JSON.stringify([]))
@@ -453,8 +453,29 @@ async function loadUidSettingsMap(uidSettingsMap) {
                 item => item.name === 'config_uid'
             ).forEach(item => {
                 // 刷新settings自动设置执行
-                item.label = "当前配置uid:\{" + Record.uid + "\}(仅仅显示配置uid无其他作用)"
+                item.label = "当前配置uid:\{" + Record.uid + "\}\n(仅仅显示配置uid无其他作用)"
             })
+            const filterUidSettings = uidSettings.filter(item => item.name.startsWith(levelName))
+            uidSettings = Array.from(new Set(uidSettings).difference(new Set(filterUidSettings)))
+            try {
+                loadingLevel = parseInt(settings.loading_level)
+            } catch (e) {
+                log.warn("配置 {0} 错误，将使用默认值{0}", "加载路径层级", loadingLevel)
+            } finally {
+                //
+                loadingLevel = loadingLevel < 1 ? 2 : loadingLevel
+            }
+            const levelSettings = filterUidSettings.filter(item => {
+                const level_all = item.name.replaceAll(levelName, "");
+                // 获取级别
+                const level = level_all.split("_").filter(item => item?.trim() !== "").map(parseInt)[0]
+                if (false && loadingLevel === level + 1) {
+                   //只加载对应级别的设置
+                }
+                // 检查级别是否大于等于加载层级
+                return loadingLevel > level
+            })
+            uidSettings.push(levelSettings)
             // 将更新后的设置写入配置文件
             file.writeTextSync(manifest.settings_ui, JSON.stringify(uidSettings))
         } catch (e) {
@@ -1216,17 +1237,27 @@ async function getValueByMultiCheckboxName(name) {
 }
 
 
+
 /**
- * 获取字符串中第一个方括号内的内容
+ * 获取字符串中第一个方括号对之间的内容
  * @param {string} str - 输入的字符串
- * @returns {string} 返回第一个方括号内的内容，如果没有找到则返回空字符串
+ * @returns {string} 返回第一个方括号对之间的内容，如果没有找到则返回空字符串
  */
 function getBracketContent(str) {
-    // 使用正则表达式匹配第一个方括号及其中的内容
-    const match = str.match(/\[(.*?)\]/);
-    // 如果找到匹配项，返回第一个捕获组（即方括号内的内容），否则返回空字符串
-    return match ? match[1] : '';  // 找不到就回空字串
+    // 查找第一个 [ 和最后一个 ] 的位置
+    const firstBracketIndex = str.indexOf('[');
+    const lastBracketIndex = str.lastIndexOf(']');
+
+    // 检查是否找到了有效的括号对
+    if (firstBracketIndex !== -1 && lastBracketIndex !== -1 && firstBracketIndex < lastBracketIndex) {
+        // 提取第一个 [ 和最后一个 ] 之间的内容
+        return str.substring(firstBracketIndex + 1, lastBracketIndex);
+    }
+
+    // 如果没有找到有效的括号对，返回空字符串
+    return '';
 }
+
 
 /**
  * 调试按键函数，用于在开发者模式下暂停程序执行并等待特定按键
