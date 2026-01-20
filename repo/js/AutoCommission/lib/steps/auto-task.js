@@ -21,7 +21,12 @@
             return false;
           }
           
-          if (config && typeof config === "object") {
+          // 如果taskType是AutoSkip，只使用无配置的构造函数
+          // 然后再根据config判断调用AutoPick时是否传参
+          if (taskType === "AutoSkip") {
+            log.info("启用自动剧情", taskType);
+            dispatcher.addTimer(new RealtimeTimer(taskType));
+          } else if (config && typeof config === "object") {
             log.info("启用自动任务: {type}，配置: {config}", taskType, JSON.stringify(config));
             dispatcher.addTimer(new RealtimeTimer(taskType, config));
           } else {
