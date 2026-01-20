@@ -316,6 +316,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
                                 log.info("申请造访尘歌壶位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
                             }
                             res.click();
+                            await sleep(200);
                         }
                     }
                 }
@@ -471,12 +472,13 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
                         log.info("识别到委托选项卡位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
                     }
                     res.click();
+                    await sleep(200);
                 } else {
                     log.info("未识别到识别到委托选项卡");
                 }
             }
 
-            await sleep(2000)
+            await sleep(1800)
             const ro23 = captureGameRegion();
             let EncounterPointsStageRewardsButton = ro23.find(EncounterPointsStageRewardsRo);
             ro23.dispose();
@@ -523,18 +525,19 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
                         log.info("识别到委托选项卡位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
                     }
                     res.click();
+                    await sleep(200);
+
                 } else {
                     log.info("未识别到识别到委托选项卡");
                 }
             }
 
-            await sleep(2000)
+            await sleep(1800)
             const ro28 = captureGameRegion();
             let EncounterPointsStageRewardsButton = ro28.find(Cannot_receive);
             ro28.dispose();
             if (EncounterPointsStageRewardsButton.isExist()) {
                 log.info("识别到 完成所有任務");
-                // EncounterPointsStageRewardsButton.click();
                 returnValue = true;
 
                 await sleep(500);
