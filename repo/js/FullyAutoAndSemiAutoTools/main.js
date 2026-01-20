@@ -508,7 +508,7 @@ async function loadUidSettingsMap(uidSettingsMap) {
             const key = keys[keys.size - 1]
             // PATH_JSON_LIST.filter(item => item.level > 0)
             filterUidSettings.filter(item => {
-                const settings_level = PATH_JSON_LIST.filter(list_item => list_item.levelName === item.name).find();
+                const settings_level = PATH_JSON_LIST.filter(list_item => list_item.levelName !== item.name).find();
                 if (settings_level) {
 
                 }
@@ -519,10 +519,10 @@ async function loadUidSettingsMap(uidSettingsMap) {
                 const level = level_all.split("_").filter(item => item?.trim() !== "").map(parseInt)[0]
                 if (false && loadingLevel === level + 1) {
                     //只加载对应级别的设置
-                    return loadingLevel === level + 1
+                    return !(loadingLevel === level + 1)
                 }
                 // 检查级别是否大于等于加载层级
-                return loadingLevel > level
+                return !(loadingLevel > level)
             })
             uidSettings.push(levelSettings)
             // 将更新后的设置写入配置文件
