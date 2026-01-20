@@ -35,6 +35,16 @@
         "default": false
     },
     {
+        "name": "refresh_record_mode",
+        "type": "select",
+        "label": "清空运行记录模式",
+        "options": [
+            "全部",
+            "UID"
+        ],
+        "default": "UID"
+    },
+    {
         "name": "loading_level",
         "type": "input-text",
         "label": "加载路径层级(不可小于1)<配置模式 刷新 生效>",

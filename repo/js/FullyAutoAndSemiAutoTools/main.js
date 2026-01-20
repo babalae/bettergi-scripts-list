@@ -398,9 +398,17 @@ async function initRefresh(settingsConfig) {
         log.error("[PATH] 保存 PATH_JSON_LIST 失败: {0}", e.message);
     }
     if (settings.refresh_record) {
+        if (settings.refresh_record_mode === "UID") {
+            RecordList=RecordList.filter(item => item.uid !== Record.uid)
+            RecordPathList=RecordPathList.filter(item => item.uid !== Record.uid)
+            file.writeTextSync(json_path_name.RecordPathText, JSON.stringify(RecordPathList))
+            file.writeTextSync(json_path_name.RecordText, JSON.stringify(RecordList))
+            log.info("已清空UID:{0}记录文件",Record.uid)
+            return
+        }
         file.writeTextSync(json_path_name.RecordPathText, JSON.stringify([]))
         file.writeTextSync(json_path_name.RecordText, JSON.stringify([]))
-        log.info("已清空记录文件")
+        log.info("已清空全部记录文件")
     }
 }
 
