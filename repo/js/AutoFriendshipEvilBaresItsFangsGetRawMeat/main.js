@@ -147,6 +147,43 @@
 		}
 	}
 
+	// 获取下一个凌晨 4 点 (UTC+8) 的时间戳
+	function getNextRefreshTimestamp() {
+		const OFFSET = 8 * 60 * 60 * 1000; // UTC+8 偏移量
+		let now = new Date();
+
+		// 计算当前的 UTC+8 时间
+		let utc8Now = new Date(now.getTime() + OFFSET);
+
+		// 构造今日 UTC+8 的凌晨 4 点
+		let refresh = new Date(utc8Now);
+		refresh.setUTCHours(REFRESH_HOUR, 0, 0, 0);
+
+		// 如果当前时间已经过了今天的 4 点，则刷新时间定在明天 4 点
+		if (utc8Now.getTime() >= refresh.getTime()) {
+			refresh.setUTCDate(refresh.getUTCDate() + 1);
+		}
+
+		// 转回标准时间戳存储
+		return refresh.getTime() - OFFSET;
+	}
+
+	// 读取运行记录
+	function readRecord() {
+		try {
+			let content = file.readTextSync(RECORD_PATH);
+			return JSON.parse(content);
+		} catch (e) {
+			// 防止文件损坏导致报错
+			return { alreadyRunCount: 0, nextRefreshTime: getNextRefreshTimestamp() };
+		}
+	}
+
+	// 写入运行记录
+	function saveRecord(record) {
+		file.writeText(RECORD_PATH, JSON.stringify(record, null, 2));
+	}
+
 	// 好感核心函数
 	async function AutoFriendship(runTimes, statueTimes, getMeatMode, delayTime, startTime, ocrTimeout) {
 		for (let i = 0; i < runTimes; i++) {
@@ -184,6 +221,8 @@
 
 				if (ocrStatus) {
 					log.info(`当前次数：${i + 1}/${runTimes}`);
+					record.alreadyRunCount++;
+					saveRecord(record);
 
 					// 开启急速拾取
 					dispatcher.addTimer(new RealtimeTimer("AutoPick", {
@@ -285,7 +324,6 @@
 		log.info(message);
 		await sleep(500);
 	}
-	log.info('兽肉好感开始...');
 
 	//  切换队伍
 	if (!!settings.partyName) {
@@ -306,6 +344,30 @@
 	}
 
 	const startTime = Date.now();
-	await AutoFriendship(runTimes, statueTimes, getMeatMode, delayTime, startTime, ocrTimeout);
+	// 运行记录相关参数，时区为UTC+8
+	const RECORD_PATH = "assets/run_record.json";
+	const REFRESH_HOUR = 4;
+	let record = readRecord();
+	// 1. 检查是否超过刷新时间
+	if (startTime >= record.nextRefreshTime) {
+		log.info(">> 检测到已过刷新时间，重置运行次数...");
+		record.alreadyRunCount = 0;
+		record.nextRefreshTime = getNextRefreshTimestamp();
+	}
+
+	// 2. 计算需要运行的次数
+	// 逻辑：如果没过刷新时间且 >= runTimes 则跳过；如果 < 则运行差值；如果超过了（上面已重置）则运行目标次数
+	let timesToRun = runTimes - record.alreadyRunCount;
+
+	if (timesToRun <= 0) {
+		log.info(`>> 今日已完成 ${record.alreadyRunCount} 次，无需运行。`);
+		saveRecord(record); // 更新一下可能的刷新时间戳
+		return;
+	} else {
+		log.info(`>> 今日已完成 ${record.alreadyRunCount} 次，还需运行 ${timesToRun} 次`);
+	}
+	
+	log.info('兽肉好感开始...');
+	await AutoFriendship(timesToRun, statueTimes, getMeatMode, delayTime, startTime, ocrTimeout);
 
 })();
