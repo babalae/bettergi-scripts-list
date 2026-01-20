@@ -1,5 +1,14 @@
 [
     {
+        "name": "config_uid",
+        "type": "checkbox",
+        "label": "当前配置uid:{无}(仅仅显示配置uid无其他作用)",
+        "default": false
+    },
+    {
+        "type": "separator"
+    },
+    {
         "name": "key",
         "type": "input-text",
         "label": "密钥",

@@ -363,6 +363,12 @@ async function initRefresh(settingsConfig) {
     } catch (error) {
         log.error("保存用户配置失败: {error}", error.message)
     }
+    settingsList.filter(
+        item => item.name === 'config_uid'
+    ).forEach(item => {
+        // 刷新settings自动设置执行
+        item.label = "当前配置uid:\{" + Record.uid + "\}(仅仅显示配置uid无其他作用)"
+    })
     file.writeTextSync(manifest.settings_ui, JSON.stringify(settingsList))
 
     // ===== 保存 PATH_JSON_LIST（按 uid）=====
@@ -434,6 +440,12 @@ async function loadUidSettingsMap(uidSettingsMap) {
             ).forEach(item => {
                 // 刷新settings自动设置执行
                 item.default = "执行"
+            })
+            uidSettings.filter(
+                item => item.name === 'config_uid'
+            ).forEach(item => {
+                // 刷新settings自动设置执行
+                item.label = "当前配置uid:\{" + Record.uid + "\}(仅仅显示配置uid无其他作用)"
             })
             // 将更新后的设置写入配置文件
             file.writeTextSync(manifest.settings_ui, JSON.stringify(uidSettings))
@@ -602,14 +614,19 @@ async function initRun(config_run) {
                 })
             } catch (e) {
             }
-            try{
+            try {
                 // {
                 //   uid:"",
                 //   parent_name:"",
                 //   name:"",
                 //   team_name:""
                 // } json支持
-                const teamHoeGroundList = JSON.parse(file.readTextSync(json_path_name.HoeGround)) ?? [{ uid: "", parent_name: "", name: "", team_name: ""}]
+                const teamHoeGroundList = JSON.parse(file.readTextSync(json_path_name.HoeGround)) ?? [{
+                    uid: "",
+                    parent_name: "",
+                    name: "",
+                    team_name: ""
+                }]
                 teamHoeGroundList.filter(item => item.uid === Record.uid).forEach(item => team.HoeGroundMap.set(`${item.parent_name}->${item.name}`, item.team_name))
                 log.info(`{0}加载完成`, json_path_name.HoeGround)
             } catch (e) {
@@ -633,7 +650,12 @@ async function initRun(config_run) {
                 //   name:"",
                 //   order:0
                 // } json支持
-                const orderList = JSON.parse(file.readTextSync(json_path_name.PathOrder)) ?? [{ uid: "", parent_name: "", name: "", order: 0 }]
+                const orderList = JSON.parse(file.readTextSync(json_path_name.PathOrder)) ?? [{
+                    uid: "",
+                    parent_name: "",
+                    name: "",
+                    order: 0
+                }]
                 orderList.filter(item => item.uid === Record.uid).forEach(item => orderMap.set(`${item.parent_name}->${item.name}`, item.order))
                 log.info(`{0}加载完成`, json_path_name.PathOrder)
             } catch (e) {
