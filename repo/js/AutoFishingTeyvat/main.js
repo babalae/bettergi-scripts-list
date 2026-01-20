@@ -243,7 +243,7 @@
      * @description
      * 当前采用的CD计算为基于当前冷却时间对象中的 status 属性，计算并返回三天后（从当天 0 点开始计算）的时间戳。
      */
-    async function cdCal(status) {
+    function cdCal(status, current_cd) {
         // 计算垂钓点再次可用的时间戳
         let critical_time_date = new Date(current_cd[status]);
         critical_time_date.setHours(0, 0, 0, 0);
@@ -750,7 +750,7 @@
                 if (fishing_time === "全天") {
                     let daytime = true;
                     if (current_cd["Daytime"] !== null) {
-                        let critical_time = cdCal("Daytime");
+                        let critical_time = cdCal("Daytime", current_cd);
 
                         if (now < critical_time) {
                             log.info(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
@@ -763,7 +763,7 @@
                     }
 
                     if (current_cd["Nighttime"] !== null) {
-                        let critical_time = cdCal("Nighttime");
+                        let critical_time = cdCal("Nighttime", current_cd);
 
                         if (now < critical_time) {
                             log.info(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
@@ -779,7 +779,7 @@
                     }
                 } else if (fishing_time === "白天") {
                     if (current_cd["Daytime"] !== null) {
-                        let critical_time = cdCal("Daytime");
+                        let critical_time = cdCal("Daytime", current_cd);
 
                         if (now < critical_time) {
                             log.info(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
@@ -791,7 +791,7 @@
                     }
                 } else if (fishing_time === "夜晚") {
                     if (current_cd["Nighttime"] !== null) {
-                        let critical_time = cdCal("Nighttime");
+                        let critical_time = cdCal("Nighttime", current_cd);
 
                         if (now < critical_time) {
                             log.info(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
