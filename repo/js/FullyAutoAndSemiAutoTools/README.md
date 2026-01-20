@@ -207,7 +207,19 @@ sequenceDiagram
 | team_hoe_ground     | 文本  | 锄地特化队伍配置（语法：父文件夹->子文件夹=队伍名,...）                             | 敌人与魔物->蕈兽=蕈兽队                              |
 | team_seven_elements | 文本  | 七元素队伍（矿物,火,水,风,雷,草,冰,岩）                                     | 按顺序填写                                      |
 | is_debug            | 复选框 | 开发者模式（详细日志）                                                 | 调试时开启                                      |
-
+## 语法说明
+- order_rules 执行顺序规则
+    1. `rootName` 根目录下层文件夹名称，`parentName` 父目录名称，`name` 文件夹名称
+    2. 建议语法：`rootName->parentName->name=1,rootName->parentName->name2=2`
+    3. `rootName=parentName`时 语法`rootName->parentName->name=1`不可用， 请使用 `parentName->name=1` 语法
+    4. `rootName->name=1` 语法不支持, `name=1`语法支持
+    5. 匹配精度：`rootName->parentName->name` > `parentName->name`>  `name` > 默认顺序 
+- team_hoe_ground 锄地特化队伍配置
+    1. `rootName` 根目录下层文件夹名称，`parentName` 父目录名称，`name` 文件夹名称
+    2. 建议语法：`rootName->parentName->name=队伍名,rootName->parentName->name2=队伍名`
+    3. `rootName=parentName`时 语法`rootName->parentName->name=队伍名`不可用， 请使用 `parentName->name=队伍名` 语法
+    4. `rootName->name=队伍名` 语法不支持, `name=队伍名`语法支持
+    5. 匹配精度：`rootName->parentName->name` > `parentName->name`>  `name` > 默认顺序
 ## (可选)额外json配置
 
 ### 配置项order_rules
@@ -219,6 +231,8 @@ sequenceDiagram
   {
     "uid": "",
     //账号UID
+    "root_name": "",
+    //根文件夹下对应的文件夹名称
     "parent_name": "",
     //父文件夹名称
     "name": "",
@@ -238,6 +252,8 @@ sequenceDiagram
   {
     "uid": "",
     //账号UID
+    "root_name": "",
+    //根文件夹下对应的文件夹名称
     "parent_name": "",
     //父文件夹名称
     "name": "",

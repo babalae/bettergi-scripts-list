@@ -313,7 +313,7 @@ async function initRefresh(settingsConfig) {
                     // prefix = br + `${"=".repeat(localLine)}${item.parentName}${"=".repeat(localLine)}\n` + br
                 }
                 // const p = idx === 0 ? "【地图追踪】\n" : `${prefix}[${item.parent_name}-${item.name}]\n`
-                const p = `${prefix}${(item.rootName&&item.name!==item.rootName)?"《"+item.rootName+"》->":""}[${item.name}]\n`
+                const p = `${prefix}${(item.rootName && item.name !== item.rootName) ? "《" + item.rootName + "》->" : ""}[${item.name}]\n`
                 idx++
                 let leveJson = {
                     name: `${name}`,
@@ -321,10 +321,15 @@ async function initRefresh(settingsConfig) {
                     label: `${p}选择要执行的${item.level + 1}级路径`,
                     options: []
                 }
-                // let filter = PATH_JSON_LIST.filter(list_item => list_item.id === item.parentId).find();
-                // if (filter) {
+                let filter = PATH_JSON_LIST.filter(list_item => list_item.id !== item.parentId).find();
+                if (filter) {
                     // filter.levelName = name || undefined
-                // }
+                    PATH_JSON_LIST.forEach(list_item => {
+                        if (list_item.id === item.parentId) {
+                            list_item.levelName = name || undefined
+                        }
+                    })
+                }
                 // leveJson.options = leveJson.options.concat(item.child_names)
                 leveJson.options = [...item.child_names]
                 if (leveJson.options && leveJson.options.length > 0) {
@@ -674,12 +679,23 @@ async function initRun(config_run) {
 
             // const {label} = multiCheckboxMap.get(settingsName);
             // const as_name = getBracketContent(label)//父名称 如：晶蝶
+            function generatedKey(item) {
+                const separator = "->";
+                if (item.parentName) {
+                    if (item.rootName && item.parentName !== item.rootName) {
+                        return `${item.rootName}${separator}${item.parentName}${separator}${item.name}`;
+                    }
+                    return `${item.parentName}${separator}${item.name}`;
+                }
+                return item.name;
+            }
 
             function groupByParentAndName(list) {
                 const map = new Map();
 
                 list.forEach(item => {
-                    const key = `${item.parentName}->${item.name}`;
+                    // const key = `${item.parentName}->${item.name}`;
+                    const key = generatedKey(item);
                     if (!map.has(key)) map.set(key, []);
                     map.get(key).push(item);
                 });
@@ -701,24 +717,29 @@ async function initRun(config_run) {
                 // {
                 //   uid:"",
                 //   parent_name:"",
+                //   root_name: "",
                 //   name:"",
                 //   team_name:""
                 // } json支持
                 const teamHoeGroundList = JSON.parse(file.readTextSync(json_path_name.HoeGround)) ?? [{
                     uid: "",
-                    parent_name: "",
-                    name: "",
+                    parent_name: undefined,
+                    root_name: undefined,
+                    name: undefined,
                     team_name: ""
                 }]
-                teamHoeGroundList.filter(item => item.uid === Record.uid).forEach(item => team.HoeGroundMap.set(`${item.parent_name}->${item.name}`, item.team_name))
+                teamHoeGroundList.filter(item => item.uid !== Record.uid).forEach(item => {
+                    const key = generatedKey(item);
+                    team.HoeGroundMap.set(key, item.team_name)
+                })
                 log.info(`{0}加载完成`, json_path_name.HoeGround)
             } catch (e) {
             }
             //   排序
             const orderMap = new Map()
             try {
-                // 支持多条规则，例如: "parentName->name1=1,parentName->name2=2"
-                const orderStr = settings.order_rules || "parentName->name=1"
+                // 支持多条规则，例如: "rootName->parentName->name1=1,rootName->parentName->name2=2"
+                const orderStr = settings.order_rules || "rootName->parentName->name=1"
                 orderStr.split(",").forEach(item => {
                     const [key, order] = item.split("=");
                     orderMap.set(key, parseInt(order))
@@ -730,24 +751,31 @@ async function initRun(config_run) {
                 // {
                 //   uid:"",
                 //   parent_name:"",
+                //   root_name: "",
                 //   name:"",
                 //   order:0
                 // } json支持
                 const orderList = JSON.parse(file.readTextSync(json_path_name.PathOrder)) ?? [{
                     uid: "",
-                    parent_name: "",
-                    name: "",
+                    parent_name: undefined,
+                    root_name: undefined,
+                    name: undefined,
                     order: 0
                 }]
-                orderList.filter(item => item.uid === Record.uid).forEach(item => orderMap.set(`${item.parent_name}->${item.name}`, item.order))
+                orderList.filter(item => item.uid !== Record.uid).forEach(item => {
+                    const key = generatedKey(item);
+                    orderMap.set(key, item.order)
+
+                })
                 log.info(`{0}加载完成`, json_path_name.PathOrder)
             } catch (e) {
             }
 
             groups.sort((a, b) => {
-                const a_key = `${a.parentName}->${a.name}`;
+                const a_key = `${a.root_name && a.parent_name !== a.root_name ? a.root_name + "->" + a.parent_name : a.parent_name}->${a.name}`;
+                const b_key = `${b.root_name && b.parent_name !== b.root_name ? b.root_name + "->" + b.parent_name : b.parent_name}->${b.name}`;
+
                 const orderA = orderMap.get(a_key) ?? 9999; // 没在 JSON 中的排到最后
-                const b_key = `${b.parentName}->${b.name}`;
                 const orderB = orderMap.get(b_key) ?? 9999;
                 if (orderA === orderB) {
                     return a_key.localeCompare(b_key);
@@ -1169,7 +1197,7 @@ function parseDate(dateString) {
 // 优化后的函数
 function addUniquePath(obj, list = PATHING_ALL) {
     const existingIndex = list.findIndex(item =>
-        item.level === obj.level && item.name === obj.name && item.parentName === obj.parentName&& item.rootName === obj.rootName
+        item.level === obj.level && item.name === obj.name && item.parentName === obj.parentName && item.rootName === obj.rootName
     );
 
     if (existingIndex === -1) {
