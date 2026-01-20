@@ -408,6 +408,9 @@ async function run_pathing_script(name, path_state_change, current_states) {
         const curr_pos = (() => {
             try {
                 const p = genshin.getPositionFromMap(JSON.parse(json_content).info.map_name);
+                if (p === null) {
+                    return [null, null];
+                }
                 return [p.X, p.Y];
             } catch (e) {}
             return [null, null];

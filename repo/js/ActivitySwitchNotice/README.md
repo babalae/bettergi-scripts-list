@@ -20,7 +20,136 @@
 - ✅ 自动提醒征讨领域减半剩余次数（默认`周日`提醒可配置）
 - ✅ 支持独立通知功能（`0.0.4`版本新增 因BGI不支持WebSocket,需搭配bettergi-scripts-tools+开启JS HTTP
   权限使用）[前往bettergi-scripts-tools部署](https://github.com/Kirito520Asuna/bettergi-scripts-tools)
-## 逻辑流程
+## 核心思维导图
+### 整体架构流程图
+```mermaid
+graph TD
+    A[主程序入口 main.js] --> B[初始化 init]
+    B --> C[加载工具模块]
+    C --> D[uid.js, ws.js, notice.js, campaignArea.js, activity.js]
+    D --> E[读取 manifest.json]
+    E --> F[检查是否返回主界面]
+    F --> G[toMainUi]
+    G --> H[执行主功能 main]
+    H --> I[每日委托检查]
+    I --> J[征讨领域检查]
+    J --> K[活动页面扫描]
+    K --> L[返回主界面]
+    L --> M[程序结束]
+
+```
+### 活动扫描核心流程
+```mermaid
+graph TD
+    A[activityMain函数] --> B[初始化配置]
+    B --> C[打开活动页面 F5]
+    C --> D[滚动到页面顶部]
+    D --> E[开始逐页扫描]
+    E --> F[OCR识别活动列表]
+    F --> G{是否有活动?}
+    G -->|否| H[结束扫描]
+    G -->|是| I[遍历当前页活动]
+    I --> J[白名单过滤]
+    J --> K{是否在白名单?}
+    K -->|是| L[继续处理]
+    K -->|否| M[根据关系模式判断]
+    M --> N{relationship=true?}
+    N -->|是| O[跳过]
+    N -->|否| L[继续处理]
+    L --> P[黑名单过滤]
+    P --> Q{是否在黑名单?}
+    Q -->|是| R[条件检测]
+    Q -->|否| S[点击活动]
+    R --> T{条件满足?}
+    T -->|是| U[跳过]
+    T -->|否| S[点击活动]
+    S --> V[OCR识别剩余时间]
+    V --> W[解析时间转小时]
+    W --> X[应用阈值过滤]
+    X --> Y[存储活动信息]
+    Y --> Z[向下滚动一页]
+    Z --> E
+    H --> AA[过滤符合条件活动]
+    AA --> BB[按剩余时间排序]
+    BB --> CC[发送通知]
+    CC --> DD[流程结束]
+```
+### 征讨领域提醒流程
+```mermaid
+graph TD
+    A[campaignAreaMain函数] --> B[获取当前星期]
+    B --> C{是否为提醒日?}
+    C -->|否| D[结束函数]
+    C -->|是| E[打开冒险之书 F1]
+    E --> F[点击秘境坐标]
+    F --> G[点击征讨领域坐标]
+    G --> H[OCR识别周次数]
+    H --> I{剩余次数>0?}
+    I -->|否| J[结束函数]
+    I -->|是| K[发送通知]
+    K --> L[流程结束]
+
+```
+### 通知发送机制
+```mermaid
+graph TD
+    A[sendNotice函数] --> B[检查通知类型配置]
+    B --> C[获取通知模式]
+    C --> D{BGI通知?}
+    D -->|是| E[notification.send]
+    C --> F{独立通知?}
+    F -->|是| G[wsUtil.sendText]
+    C --> H{两者都发送?}
+    H -->|是| E
+    H -->|是| G
+    E --> I[发送完成]
+    G --> I
+    I --> J[流程结束]
+```
+### 配置解析流程
+```mermaid
+graph TD
+    A[配置初始化] --> B[parseWhiteActivity]
+    A --> C[parseBlackActivity]
+    B --> D[白名单列表解析]
+    C --> E[黑名单条件解析]
+    D --> F[建立whiteActivityNameList]
+    E --> G[建立blackActivityMap]
+    F --> H[设置relationship逻辑]
+    G --> H
+    H --> I[配置完成]
+```
+### 核心组件依赖关系
+```mermaid
+graph LR
+    subgraph "工具模块"
+        A[activity.js - 活动处理]
+        B[notice.js - 通知发送]
+        C[campaignArea.js - 征讨领域]
+        D[ws.js - WebSocket通信]
+        E[uid.js - UID识别]
+    end
+    
+    subgraph "主控模块"
+        F[main.js - 主入口]
+        G[settings.json - 配置]
+    end
+    
+    F --> A
+    F --> B
+    F --> C
+    A --> B
+    A --> D
+    A --> E
+    C --> B
+    C --> E
+    G -.-> A
+    G -.-> B
+    G -.-> C
+    G -.-> D
+
+```
+### 逻辑流程
 ```mermaid
 sequenceDiagram
     autonumber
@@ -382,6 +511,8 @@ ActivitySwitchNotice/
 
 ## 版本历史
 
+### 0.0.7 (2026-01-19)
+- 新增每日委托提醒
 ### 0.0.6 (2026-01-06)
 - **功能优化**：新增识别uid通知提醒
 实例:
