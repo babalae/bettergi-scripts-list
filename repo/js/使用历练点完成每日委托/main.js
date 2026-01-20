@@ -108,7 +108,6 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
                     await genshin.returnMainUi();
                 }
             } else {
-                log.warn("没有设置切换队伍，使用当前队伍使用历练點");
                 await genshin.returnMainUi();
             }
 
@@ -248,6 +247,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
                                         log.info("识别到部署按钮:({x},{y},{w},{h})", DeployButton.x, DeployButton.y, DeployButton.Width, DeployButton.Height);
                                     }
                                     DeployButton.click();
+                                    await sleep(200);
                                     ConfigureStatue = true;
                                     break;
                                 }
@@ -460,7 +460,6 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
         if (AdventurerHandbookButton.isExist()) {
             log.info("识别到冒险之证按钮");
             AdventurerHandbookButton.click();
-
             await sleep(2000)
             const ro22 = captureGameRegion();
             let resList = ro22.findMulti(RecognitionObject.ocr(200, 300, 200, 100));
@@ -538,10 +537,11 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
                 // EncounterPointsStageRewardsButton.click();
                 returnValue = true;
 
-                await sleep(2000);
+                await sleep(500);
                 log.info("可领取历练点奖励");
                 // 檢查是否可以領取 且 沒有設置隊伍名稱
                 if (settingsNotDoublePoints == true && !settings.partyName) {
+                    log.info("没有设置切换队伍，使用当前队伍使用历练點");
                     log.info(`不使用好友尘歌壶历练点领取双倍好感，直接使用历练点`);
                     const ro29 = captureGameRegion();
                     let EncounterPointsStageRewardsButton = ro29.find(EncounterPointsStageRewardsRo);
