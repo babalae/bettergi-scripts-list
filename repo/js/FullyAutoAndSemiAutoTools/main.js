@@ -215,8 +215,8 @@ async function initRefresh(settingsConfig) {
 
     PATH_JSON_LIST = pathJsonList
 
-
-    for (const element of pathJsonList) {
+    const forList=pathJsonList.filter(item=>item.child_names.length>0)
+    for (const element of forList) {
         const pathRun = element.path
 
         // 检查路径是否被允许
@@ -309,6 +309,10 @@ async function initRefresh(settingsConfig) {
                     type: "multi-checkbox",
                     label: `${p}选择要执行的${item.level + 1}级路径`,
                     options: []
+                }
+                let filter = PATH_JSON_LIST.filter(list_item => list_item.id === item.parentId).find();
+                if (filter) {
+                    filter.levelName = name || undefined
                 }
                 // leveJson.options = leveJson.options.concat(item.child_names)
                 leveJson.options = [...item.child_names]
@@ -441,6 +445,11 @@ async function loadUidSettingsMap(uidSettingsMap) {
     let uidSettings = uidSettingsMap.get(Record.uid);
     // 如果存在用户设置
     if (uidSettings) {
+        if (!loadPathJsonListByUid()) {
+            throw new Error(
+                "未找到 PATH_JSON_LIST，请先执行一次【刷新配置】"
+            );
+        }
         try {
             // 筛选出名称为'config_run'的设置项
             uidSettings.filter(
@@ -455,7 +464,9 @@ async function loadUidSettingsMap(uidSettingsMap) {
                 // 刷新settings自动设置执行
                 item.label = "当前配置uid:\{" + Record.uid + "\}\n(仅仅显示配置uid无其他作用)"
             })
+            let filterSettings = []
             const filterUidSettings = uidSettings.filter(item => item.name.startsWith(levelName))
+            filterSettings = filterUidSettings
             uidSettings = Array.from(new Set(uidSettings).difference(new Set(filterUidSettings)))
             try {
                 loadingLevel = parseInt(settings.loading_level)
@@ -465,12 +476,48 @@ async function loadUidSettingsMap(uidSettingsMap) {
                 //
                 loadingLevel = loadingLevel < 1 ? 2 : loadingLevel
             }
-            const levelSettings = filterUidSettings.filter(item => {
+            //todo: 高阶层级过滤
+            /**
+             * 实例：pathing\地方特产\
+             * 地方特产
+             * 实例：pathing\地方特产\枫丹\
+             * 地方特产->枫丹
+             * 实例：pathing\地方特产\枫丹\幽光星星\
+             * 地方特产->枫丹->幽光星星
+             * 实例：pathing\地方特产\枫丹\幽光星星\幽光星星@jbcaaa\
+             * 地方特产->枫丹->幽光星星->幽光星星@jbcaaa
+             */
+            // const keys = new Set([])
+            //
+            // function countMatchingElements(mainSet, subset) {
+            //     const mainSetObj = new Set(mainSet);
+            //     return subset.filter(item => mainSetObj.has(item)).length;
+            // }
+            //
+            // const key = keys[keys.size - 1]
+            // // PATH_JSON_LIST.filter(item => item.level > 0)
+            // filterUidSettings.filter(item => {
+            //     const bracketContent = getBracketContent(item.label);
+            //     if (key.includes(bracketContent)) {
+            //         const fullPathNamesList = Array.from(new Set(PATH_JSON_LIST.filter(item => bracketContent.includes(item.name)).map(item => {
+            //             const fileName = item.fullPathNames[item.fullPathNames.length - 1]
+            //             if (fileName.endsWith(".json")) {
+            //                 const set = new Set(item.fullPathNames);
+            //                 set.delete(fileName)
+            //                 return Array.from(set)
+            //             }
+            //             return item.fullPathNames
+            //         })));
+            //
+            //     }
+            // })
+            const levelSettings = filterSettings.filter(item => {
                 const level_all = item.name.replaceAll(levelName, "");
                 // 获取级别
                 const level = level_all.split("_").filter(item => item?.trim() !== "").map(parseInt)[0]
                 if (false && loadingLevel === level + 1) {
-                   //只加载对应级别的设置
+                    //只加载对应级别的设置
+                    return loadingLevel === level + 1
                 }
                 // 检查级别是否大于等于加载层级
                 return loadingLevel > level
@@ -538,7 +585,7 @@ async function initRun(config_run) {
         const selectedOptions = multiJson.options;
 
         // 2. 从 PATH_JSON_LIST 中筛选命中的路径
-        let matchedPaths = PATH_JSON_LIST.filter(item => {
+        let matchedPaths = PATH_JSON_LIST.filter(item => item.child_names.length > 0).filter(item => {
             const hitParent = item.fullPathNames.includes(labelParentName);
             const hitOption = selectedOptions.some(opt =>
                 item.fullPathNames.some(name => name.includes(opt))
@@ -1237,7 +1284,6 @@ async function getValueByMultiCheckboxName(name) {
 }
 
 
-
 /**
  * 获取字符串中第一个方括号对之间的内容
  * @param {string} str - 输入的字符串
@@ -1786,9 +1832,7 @@ async function treeToList(treeList = []) {
         if (element.isFile) {
             list.push(element);
         }
-        if (child && child.length > 0) {
-            list = [...list, ...await treeToList(child)]
-        }
+        list = [...list, ...await treeToList(child)]
     }
     return list
 }
