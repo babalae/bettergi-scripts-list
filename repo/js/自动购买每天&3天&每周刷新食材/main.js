@@ -116,23 +116,81 @@ function logConditional(message) {
 let foodsData = {};
 let npcData = {};
 
+// 存储用户要购买的商品ID集合
+let userFoodsToBuy = new Set();
+
 async function loadExternalData() {
     try {
-        // 加载食材数据
+        // 加载商品数据
         const foodsContent = await file.readText("assets/data/foods.json");
         foodsData = JSON.parse(foodsContent);
-        logConditional(`已加载食材数据: ${Object.keys(foodsData).length} 种食材`);
-        
+        logConditional(`已加载商品数据: ${Object.keys(foodsData).length} 种商品`);
+
         // 加载NPC数据
         const npcsContent = await file.readText("assets/data/npcs.json");
         npcData = JSON.parse(npcsContent);
         logConditional(`已加载NPC数据: ${Object.keys(npcData).length} 个NPC`);
-        
+
+        // 解析用户要购买的商品列表
+        const foodsInput = (settings.foodsToBuy || "").trim();
+        if (foodsInput) {
+            const foodNames = foodsInput.split(/\s+/);
+            const enabledFoodsList = [];
+            for (const foodName of foodNames) {
+                // 查找商品对应的ID
+                const foodEntry = Object.values(foodsData).find(
+                    food => food.name === foodName || food.id === foodName
+                );
+                if (foodEntry) {
+                    userFoodsToBuy.add(foodEntry.id);
+                    enabledFoodsList.push(foodEntry.name);  // 保存商品名称用于显示
+                } else {
+                    log.warn(`未找到商品: ${foodName}`);
+                }
+            }
+            // 输出用户启用的商品列表
+            if (enabledFoodsList.length > 0) {
+                log.info(`用户启用了下列商品:${enabledFoodsList.join(", ")}`);
+            } else {
+                log.warn("用户未启用任何商品");
+            }
+        } else {
+            log.warn("用户未指定要购买的商品");
+        }
+
         return true;
     } catch (error) {
         log.error(`加载外部数据失败: ${error.message}`);
         return false;
     }
+}
+
+// ==================== 辅助函数：过滤用户要购买的商品 ====================
+function filterUserFoods(foodList) {
+    if (!foodList || !Array.isArray(foodList)) {
+        return [];
+    }
+
+    return foodList.filter(food => {
+        // 查找商品对应的ID
+        const foodEntry = Object.values(foodsData).find(
+            f => f.name === food || f.id === food
+        );
+
+        if (!foodEntry) {
+            if (recordDebug) {
+                log.info(`[调试] 商品列表中未找到: ${food}`);
+            }
+            return false;
+        }
+
+        // 检查是否在用户要购买的商品集合中
+        const shouldBuy = userFoodsToBuy.has(foodEntry.id);
+        if (recordDebug && shouldBuy) {
+            log.info(`[调试] 用户选择购买: ${foodEntry.name} (ID: ${foodEntry.id})`);
+        }
+        return shouldBuy;
+    });
 }
 
 // ==================== 辅助函数：获取调整后的星期几（1-7，周一为1） ====================
@@ -190,10 +248,10 @@ let followSystem = false;
 if (AKFValue === 0) {
     // 0 表示跟随系统判定
     followSystem = true;
-    log.info("7天食材购买: 跟随系统判定");
+    log.info("7天商品购买: 跟随系统判定");
 } else {
     AFKDay = AKFValue === 7 ? 0 : AKFValue;
-    log.info(`7天食材购买: 每周${AFKDay === 0 ? "日" : AFKDay}购买`);
+    log.info(`7天商品购买: 每周${AFKDay === 0 ? "日" : AFKDay}购买`);
 }
 
 // 获取账号记录路径
@@ -294,26 +352,26 @@ function updateNpcRecord(records, npcName, refreshType, purchasedItems) {
         // 3天商品：基于基准日的3天周期计算
         // 基准时间：2025-08-09 04:00 GMT+8 (转换为本地时间)
         const baseTime = new Date(2025, 7, 9, 4, 0, 0); // 2025-08-09 04:00
-        
+
         // 调整当前时间到4点基准
         const adjustedNow = new Date(now);
         if (adjustedNow.getHours() < 4) {
             adjustedNow.setDate(adjustedNow.getDate() - 1);
         }
         adjustedNow.setHours(4, 0, 0, 0);
-        
+
         // 计算距离基准日的天数
         const timeDiff = adjustedNow.getTime() - baseTime.getTime();
         const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-        
+
         // 计算当前3天周期
         const currentPeriod = Math.floor(daysDiff / 3);
-        
+
         // 下一个3天周期的开始时间
         const nextPeriod = currentPeriod + 1;
         refreshTime = new Date(baseTime);
         refreshTime.setDate(baseTime.getDate() + (nextPeriod * 3));
-        
+
         // 确保刷新时间是04:00
         refreshTime.setHours(4, 0, 0, 0);
     } else if (refreshType === "7d") {
@@ -372,15 +430,15 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
 
     if (forceRefresh) {
         // 强制刷新，但只购买已启用的商品
-        if (npc._1d_foods) foodsToBuy["1d"] = filterEnabledFoods(npc._1d_foods);
-        if (npc._3d_foods) foodsToBuy["3d"] = filterEnabledFoods(npc._3d_foods);
-        if (npc._7d_foods) foodsToBuy["7d"] = filterEnabledFoods(npc._7d_foods);
+        if (npc._1d_foods) foodsToBuy["1d"] = filterUserFoods(npc._1d_foods);
+        if (npc._3d_foods) foodsToBuy["3d"] = filterUserFoods(npc._3d_foods);
+        if (npc._7d_foods) foodsToBuy["7d"] = filterUserFoods(npc._7d_foods);
         return foodsToBuy;
     }
 
     // 1天商品逻辑
     if (npc._1d_foods) {
-        const enabledFoods = filterEnabledFoods(npc._1d_foods);
+        const enabledFoods = filterUserFoods(npc._1d_foods);
         if (enabledFoods.length > 0) {
             if (!npcRecord || !npcRecord["1d_time"]) {
                 // 没有记录，需要购买已启用的商品
@@ -401,7 +459,7 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
 
     // 3天商品逻辑
     if (npc._3d_foods) {
-        const enabledFoods = filterEnabledFoods(npc._3d_foods);
+        const enabledFoods = filterUserFoods(npc._3d_foods);
         if (enabledFoods.length > 0) {
             if (!npcRecord || !npcRecord["3d_time"]) {
                 // 没有记录，直接购买
@@ -428,7 +486,7 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
 
     // 7天商品逻辑
     if (npc._7d_foods) {
-        const enabledFoods = filterEnabledFoods(npc._7d_foods);
+        const enabledFoods = filterUserFoods(npc._7d_foods);
         if (enabledFoods.length > 0) {
             if (!npcRecord || !npcRecord["7d_time"]) {
                 // 没有记录，直接购买
@@ -471,22 +529,6 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
 
     return foodsToBuy;
 }
-
-// ==================== 新增函数：过滤已启用的食材 ====================
-function filterEnabledFoods(foodList) {
-    if (!foodList || !Array.isArray(foodList)) {
-        return [];
-    }
-
-    return foodList.filter(food => {
-        // 检查食材是否在 settings 中被启用
-        const foodId = translationList[food] || food;
-        return settings[foodId] === true;
-    });
-}
-
-const translationList = {};
-const enableFoods = new Set([]);
 
 const othrtRo = {
     "buy": {
@@ -831,27 +873,27 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
             if (recordDebug) {
                 log.info(`[调试] 尝试购买: ${item}`);
             }
-            
-            // 将中文食材名转换为对应的英文ID
+
+            // 查找商品对应的ID（支持中文名和英文ID）
             let foodId = null;
-            
-            // 首先在translationList中查找（中文名->英文ID）
-            if (translationList[item]) {
-                foodId = translationList[item];
-            } else {
-                // 如果没有找到，直接在foodsData中查找是否有中文键
-                foodId = Object.keys(foodsData).find(key => 
-                    foodsData[key].name === item || foodsData[key].id === item
-                );
+            let foodName = item;
+
+            // 直接在foodsData中查找
+            for (const [id, food] of Object.entries(foodsData)) {
+                if (food.name === item || food.id === item) {
+                    foodId = id;
+                    foodName = food.name;
+                    break;
+                }
             }
-            
+
             if (!foodId) {
-                log.warn(`未找到食材 "${item}" 的识别数据，跳过`);
+                log.warn(`未找到商品 "${item}" 的识别数据，跳过`);
                 continue;
             }
-            
+
             if (!foodsData[foodId] || !foodsData[foodId].ro) {
-                log.warn(`食材 "${item}" (ID: ${foodId}) 未启用或没有识别对象，跳过`);
+                log.warn(`商品 "${foodName}" (ID: ${foodId}) 未启用或没有识别对象，跳过`);
                 continue;
             }
 
@@ -907,7 +949,7 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
             }
         }
     }
-    
+
     if (purchasedFoods.length > 0) {
         log.info(`${npc.name} 购买完成，成功购买: ${purchasedFoods.join(", ")}`);
     } else {
@@ -959,17 +1001,14 @@ async function initNpcData(records) {
 // 加载识别对象
 async function initRo() {
     try {
-        // 加载识别对象
+        // 加载识别对象 - 只加载用户选择的商品
         for (let [key, item] of Object.entries(foodsData)) {
-            // 填充中英文对照表
-            translationList[item.name] = item.id;
-            // 判断启动商品、加载识别对象
-            if (settings[item.id]) {
-                enableFoods.add(item.id);
+            // 判断是否在用户选择的商品中
+            if (userFoodsToBuy.has(item.id)) {
                 item.ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(item.file));
                 item.ro.Threshold = 0.75;
                 item.ro.Use3Channels = true;
-                logConditional(`已启用食材: ${item.name} (${item.id})`);
+                logConditional(`已启用商品: ${item.name} (${item.id})`);
             }
         }
         // 加载其他识别对象
@@ -978,7 +1017,7 @@ async function initRo() {
             item.ro.Threshold = 0.85;
         }
 
-        logConditional(`总共启用了 ${enableFoods.size} 种食材`);
+        logConditional(`总共启用了 ${userFoodsToBuy.size} 种商品`);
         return true;
     }
     catch (error) {
@@ -992,22 +1031,22 @@ async function initRo() {
         // ==================== 初始化账号 ====================
         log.info(`当前账户: ${userName}`);
 
-         // ==================== 加载外部数据 ====================
+        // ==================== 加载外部数据 ====================
         if (!await loadExternalData()) {
-            log.error("食材或NPC数据加载失败，脚本终止");
+            log.error("商品或NPC数据加载失败，脚本终止");
             return;
         }
 
         // ==================== 初始化识别对象 ====================
         await initRo();
-        
+
         logConditional("识别对象初始化完成");
 
         // ==================== 加载NPC购买记录 ====================
         let npcRecords = await loadNpcRecords();
-        
+
         logConditional(`已加载 ${npcRecords.length} 个NPC的购买记录`);
-        
+
         if (recordDebug && npcRecords.length > 0) {
             log.info("[调试] 当前NPC记录:");
             npcRecords.forEach(record => {
@@ -1083,7 +1122,7 @@ async function initRo() {
             }
         }
 
-        log.info("=== 食材购买脚本执行完成 ===");
+        log.info("=== 商品购买脚本执行完成 ===");
 
     } catch (error) {
         log.error(`执行时发生错误: ${error.message}`);
