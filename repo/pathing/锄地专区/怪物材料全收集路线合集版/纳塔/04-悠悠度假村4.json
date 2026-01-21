@@ -1,0 +1,193 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "径一"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759161715912,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "04-悠悠度假村",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14166.75,
+      "y": 627.38720703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14122.9443359375,
+      "y": 557.24951171875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "200",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 14131.4111328125,
+      "y": 543.01953125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14134.5205078125,
+      "y": 539.06494140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14170.810546875,
+      "y": 510.32275390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14220.7421875,
+      "y": 470.7412109375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14212.64453125,
+      "y": 455.087890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14166.798828125,
+      "y": 627.35888671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14262.0185546875,
+      "y": 545.3056640625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14251.8203125,
+      "y": 483.72021484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14281.33984375,
+      "y": 556.5185546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14379.10546875,
+      "y": 552.09423828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14392.17578125,
+      "y": 549.15576171875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14392.072265625,
+      "y": 543.166015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14421.9150390625,
+      "y": 550.03564453125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14419.5,
+      "y": 549.375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14469.998046875,
+      "y": 474.794921875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "200",
+      "id": 18,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 14467.5224609375,
+      "y": 453.24853515625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14458.861328125,
+      "y": 442.93408203125
+    }
+  ]
+}

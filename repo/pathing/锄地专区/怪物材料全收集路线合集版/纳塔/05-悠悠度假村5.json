@@ -1,0 +1,103 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "径一"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759157737049,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "05-悠悠度假村",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14653.97265625,
+      "y": 558.12060546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14661.123046875,
+      "y": 564.11279296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14677.3837890625,
+      "y": 576.72412109375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14687.3154296875,
+      "y": 578.5693359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14703.65234375,
+      "y": 587.83056640625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 14765.841796875,
+      "y": 563.55078125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14789.4521484375,
+      "y": 536.04150390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14848.2509765625,
+      "y": 572.47900390625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14874.951171875,
+      "y": 689.7216796875
+    }
+  ]
+}
