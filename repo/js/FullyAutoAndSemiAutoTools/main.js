@@ -527,11 +527,12 @@ async function loadUidSettingsMap(uidSettingsMap) {
                     return (settings_level.path.includes(dir_key))
                 }
             })
+            const theLayer = settings.the_layer || false
             const levelSettings = filterSettings.filter(item => {
                 const level_all = item.name.replaceAll(levelName, "");
                 // 获取级别
                 const level = level_all.split("_").filter(item => item?.trim() !== "").map(parseInt)[0]
-                if (false && loadingLevel === level + 1) {
+                if (theLayer && loadingLevel === level + 1) {
                     //只加载指定级别的设置
                     return (loadingLevel === level + 1)
                 }
