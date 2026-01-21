@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时49.03秒，包含以下怪物：4只深黯钓客。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768465671121,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "736挪德卡莱苦壑崖西岸（200_4）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10288.16796875,
+      "y": 6352.5576171875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10276.408203125,
+      "y": 6338.720703125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10268.8125,
+      "y": 6329.936346082648
+    }
+  ]
+}

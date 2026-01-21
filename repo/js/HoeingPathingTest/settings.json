@@ -6,8 +6,23 @@
         "default": "1"
     },
     {
+        "name": "endRouteNumber",
+        "type": "input-text",
+        "label": "在第几条结束"
+    },
+    {
         "name": "doTest",
         "type": "checkbox",
         "label": "修改路线描述信息，将会取最近至多5次记录进行平均\n不勾选则运行路线并存储数据"
+    },
+    {
+        "name": "activatePickup",
+        "type": "checkbox",
+        "label": "启用自动拾取"
+    },
+    {
+        "name": "underwater",
+        "type": "checkbox",
+        "label": "水下路线，尝试获取螃蟹技能"
     }
 ]

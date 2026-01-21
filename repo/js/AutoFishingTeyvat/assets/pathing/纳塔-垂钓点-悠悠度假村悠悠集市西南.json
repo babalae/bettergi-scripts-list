@@ -13,7 +13,7 @@
     "bgi_version": "0.45.0",
     "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 悠悠度假村悠悠集市西南\n鱼类: 花鳉、深潜斗士急流鱼、青浪翻车鲀、晚霞翻车鲀\n饵类: 果酿饵、澄晶果粒饵\n附加信息: 普通",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1764514464269,
+    "last_modified_time": 1766919981718,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "纳塔-垂钓点-悠悠度假村悠悠集市西南",
@@ -28,8 +28,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 14154.24,
-      "y": 420.91
+      "x": 14154.235,
+      "y": 420.912
     },
     {
       "action": "",
@@ -37,8 +37,8 @@
       "id": 2,
       "move_mode": "run",
       "type": "path",
-      "x": 14142.05,
-      "y": 406.66
+      "x": 14142.051,
+      "y": 406.663
     },
     {
       "action": "",
@@ -46,8 +46,8 @@
       "id": 3,
       "move_mode": "run",
       "type": "path",
-      "x": 14145.66,
-      "y": 400.79
+      "x": 14145.659,
+      "y": 400.785
     },
     {
       "action": "",
@@ -55,7 +55,7 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 14154.31,
+      "x": 14154.312,
       "y": 391.37
     },
     {
@@ -65,7 +65,7 @@
       "move_mode": "dash",
       "type": "path",
       "x": 14161.02,
-      "y": 323.28
+      "y": 323.276
     },
     {
       "action": "",
@@ -73,8 +73,8 @@
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 14208.05,
-      "y": 288.46
+      "x": 14208.051,
+      "y": 288.458
     },
     {
       "action": "",
@@ -82,8 +82,8 @@
       "id": 7,
       "move_mode": "dash",
       "type": "path",
-      "x": 14211.55,
-      "y": 280.87
+      "x": 14211.5508,
+      "y": 280.8745
     },
     {
       "action": "",
@@ -91,17 +91,17 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 14219.14,
-      "y": 282.57
+      "x": 14219.1377,
+      "y": 282.5654
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
       "id": 9,
       "move_mode": "walk",
-      "type": "target",
-      "x": 14216.31,
-      "y": 275.36
+      "type": "path",
+      "x": 14216.3066,
+      "y": 275.356
     }
   ]
 }

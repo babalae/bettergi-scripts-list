@@ -1,66 +1,55 @@
 {
   "info": {
-    "name": "3803稻妻平海砦",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时51.08秒，包含以下怪物：4只岩飘浮灵。",
-    "hash_res": "74762436",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时41.3秒，包含以下怪物：4只岩飘浮灵。",
+    "enable_monster_loot_split": false,
+    "hash_res": "74762436",
+    "last_modified_time": 1767966458635,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3803稻妻平海砦",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -4184.81,
-      "y": -4244.52,
-      "action_params": ""
+      "y": -4244.52
     },
     {
-      "id": 2,
-      "x": -4173.14,
-      "y": -4250.67,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 3,
-      "x": -4171.23,
-      "y": -4273.76,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": -4160.46,
-      "y": -4280.37,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
       "action_params": "",
-      "locked": false
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4163.44140625,
+      "y": -4283.18359375
     },
     {
-      "id": 5,
-      "x": -4160.46,
-      "y": -4280.37,
-      "type": "orientation",
-      "move_mode": "dash",
       "action": "combat_script",
-      "action_params": "wait(1)"
+      "action_params": "wait(1)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -4163.44140625,
+      "y": -4283.18359375
     }
   ]
 }

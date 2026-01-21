@@ -1,5 +1,3 @@
-**由于使用了尚处于测试版BetterGI中的API，使用稳定版BetterGI的用户请等待`0.54.1`或更高的版本发布后再订阅此脚本**
-
 （在脚本仓库页面阅读此文档，会比在BGI的已订阅脚本界面获得更好的渲染效果）
 
 # 功能特点
@@ -10,6 +8,8 @@
 - 方便的材料选择界面，并支持按地区、按类别批量选择
 - 可设置一个或多个不运行的时间段
 - 采集过程自动切换合适的队伍
+
+**若脚本有问题，可[点击此处进行反馈](https://github.com/babalae/bettergi-scripts-list/issues/new?template=bug_report.yml&script-name=CD-Aware-AutoGather:2.1.0&additional-info=保留此行以便通知作者:%20@Patrick-Ze%0A%0A---%0A)**
 
 # 使用前准备
 
@@ -170,6 +170,8 @@
 - 受惠于[JamisHoo](https://github.com/JamisHoo)的配置界面优化，使得更便捷的材料选择成为可能
 
 - 感谢[this-Fish](https://github.com/this-Fish)的改进，基于坐标判断是否更新记录、将材料是否刷新的检查提前都是沿袭的TA的思路
+
+- 参考了[吉吉喵](https://github.com/JJMdzh)的背包扫描，增加了使用补充OCR的方式识别物品数量的机制
 
 最后，要特别感谢绫华，是她陪伴了我的提瓦特之旅。在弃坑之后，唯有这份牵挂，支撑着我重新回到这里。
 

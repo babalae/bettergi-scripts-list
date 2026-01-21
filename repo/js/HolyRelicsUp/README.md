@@ -6,7 +6,58 @@
 
 1. **分辨率建议**：请尽量确保原神游戏分辨率为1920x1080(尽量在1K下运行)。虽然脚本已兼容其他分辨率，但其他分辨率未经过充分测试。
 2. **筛选问题**：圣遗物筛选时选择“全选”可能导致失败，此问题暂时无法解决。
+## 核心逻辑流程
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Config as 配置初始化
+    participant Utils as 工具函数
+    participant RelicMgr as 圣遗物管理
+    participant OCRSvc as OCR 服务
+    participant Filter as 过滤决策
+    participant Upgrade as 升级执行
 
+    Config->>Utils: 加载 holyRelicsUpUtils.js
+    Config->>Utils: 加载 languageUtils.js
+    Utils-->>Config: 返回工具函数
+    
+    Note over RelicMgr: 初始化圣遗物检测
+    RelicMgr->>OCRSvc: 识别圣遗物信息
+    OCRSvc-->>RelicMgr: 返回圣遗物数据
+    
+    Note over RelicMgr: 圣遗物筛选流程
+    loop 每个候选圣遗物
+        Note over RelicMgr: 检查圣遗物类型过滤
+        alt 配置了类型过滤
+            RelicMgr->>Filter: 验证圣遗物类型
+            Filter-->>RelicMgr: 返回类型匹配结果
+            alt 类型不匹配
+                RelicMgr-->>RelicMgr: 跳过该圣遗物
+            end
+        end
+        
+        Note over RelicMgr: 检查属性过滤
+        alt 配置了属性条件
+            RelicMgr->>Filter: 验证主词条/副词条
+            Filter->>OCRSvc: OCR校验属性值
+            OCRSvc-->>Filter: 返回属性满足情况
+            alt 属性不满足条件
+                Filter-->>RelicMgr: 跳过该圣遗物
+            else 属性满足条件
+                Filter-->>RelicMgr: 保留该圣遗物
+            end
+        end
+    end
+
+    Note over RelicMgr: 圣遗物筛选完成后
+    RelicMgr->>RelicMgr: 根据配置进行二次筛选
+    alt 满足升级条件
+        RelicMgr->>Upgrade: 执行圣遗物升级
+    else 不满足升级条件
+        RelicMgr-->>RelicMgr: 保留该圣遗物不升级
+    end
+    Upgrade-->> RelicMgr: 升级完成反馈
+```
 ## 核心功能
 
 1. **批量强化圣遗物**：支持对圣遗物进行批量强化，自动循环强化直到达到指定等级。
@@ -208,49 +259,53 @@
     - 描述：设置筛选圣遗物时的最大翻页次数。
     - 选项：`1`、`2`、`3`、`4`、`5`、`6`、`7`、`8`
     - 默认：`4`
-
-26. **圣遗物筛选：锁定状态（标记）** (`holyRelicsLockMark`)
-    - 类型：复选框
-    - 描述：筛选带有标记的圣遗物。
-    - 默认：禁用
-
-27. **圣遗物筛选：仅锁定** (`holyRelicsLockY`)
-    - 类型：复选框
-    - 描述：筛选已锁定的圣遗物。
-    - 默认：禁用
-
-28. **圣遗物筛选：未锁定** (`holyRelicsLockN`)
-    - 类型：复选框
-    - 描述：筛选未锁定的圣遗物。
-    - 默认：禁用
-
-29. **圣遗物筛选：已装备** (`holyRelicsEquipY`)
-    - 类型：复选框
-    - 描述：筛选已装备的圣遗物。
-    - 默认：禁用
-
-30. **圣遗物筛选：未装备** (`holyRelicsEquipN`)
+26. **圣遗物筛选** (`selectSuit`)
+     - 类型：多选框
+    - 描述：圣遗物筛选。
+    - 选项：`标记`,`仅锁定`,`未锁定`,`已装备`,`未装备`,`祝圣之霜定义`
+    - 默认：空
+27. ~~**圣遗物筛选：锁定状态（标记）** (`holyRelicsLockMark`)~~ **[1.2.0 删除]**
+     - 类型：复选框
+     - 描述：筛选带有标记的圣遗物。
+     - 默认：禁用
+28.  ~~**圣遗物筛选：仅锁定** (`holyRelicsLockY`)~~ **[1.2.0 删除]**
+     - 类型：复选框
+     - 描述：筛选已锁定的圣遗物。
+     - 默认：禁用
+29. ~~**圣遗物筛选：未锁定** (`holyRelicsLockN`)~~ **[1.2.0 删除]**
+     - 类型：复选框
+     - 描述：筛选未锁定的圣遗物。
+     - 默认：禁用
+30. ~~**圣遗物筛选：已装备** (`holyRelicsEquipY`)~~ **[1.2.0 删除]**
+     - 类型：复选框
+     - 描述：筛选已装备的圣遗物。
+     - 默认：禁用
+31. ~~**圣遗物筛选：未装备** (`holyRelicsEquipN`)~~ **[1.2.0 删除]**
     - 类型：复选框
     - 描述：筛选未装备的圣遗物。
     - 默认：禁用
-
-31. **圣遗物筛选：来源（祝圣之霜定义）** (`holyRelicsSourceFrostSaint`)
+32. ~~**圣遗物筛选：来源（祝圣之霜定义）** (`holyRelicsSourceFrostSaint`)~~ **[1.2.0 删除]**
     - 类型：复选框
     - 描述：筛选来源为“祝圣之霜定义”的圣遗物。
     - 默认：禁用
 
-32. **打开背包按键** (`knapsackKey`)
+33. **打开背包按键** (`knapsackKey`)
     - 类型：文本输入
     - 描述：设置打开背包的快捷键。
     - 默认：`B`
 
-33. **日志开关** (`log_off`)
+34. **日志开关** (`log_off`)
     - 类型：复选框
     - 描述：启用日志记录，用于开发者调试。
     - 默认：禁用
 
 ## 版本历史
 
+### 1.2.0 (2026-01-09)
+ - 适配 bgi 多选项
+### 1.1.9 (2026-01-05)
+- **修复**
+  - 异常识别 问题
 ### 1.1.8 (2025-12-09)
 - **新增** **[1.1.8 新增]**：
     - 使用固定分辨率值替换动态获取(应 https://github.com/babalae/bettergi-scripts-list/pull/2464 修改)

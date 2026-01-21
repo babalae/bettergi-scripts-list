@@ -13,7 +13,7 @@
     "bgi_version": "0.45.0",
     "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 距石山祖遗庙宇东\n鱼类: 炽岩斗士急流鱼、拟似燃素独角鱼\n饵类: 温火饵\n附加信息:  普通",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1764492966885,
+    "last_modified_time": 1767423480284,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "纳塔-垂钓点-距石山祖遗庙宇东",
@@ -24,7 +24,7 @@
   "positions": [
     {
       "action": "",
-      "action_params": "",
+      "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
@@ -35,11 +35,10 @@
       "action": "combat_script",
       "action_params": "w(0.2).wait(1)",
       "id": 2,
-      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 7654.04,
-      "y": -2107.27
+      "x": 7654.0371,
+      "y": -2107.2715
     },
     {
       "action": "",
@@ -47,8 +46,8 @@
       "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": 7654.04,
-      "y": -2107.27
+      "x": 7654.0371,
+      "y": -2107.2715
     },
     {
       "action": "",
@@ -56,8 +55,8 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 7651.61,
-      "y": -2092.98
+      "x": 7651.6133,
+      "y": -2092.9824
     },
     {
       "action": "",
@@ -72,30 +71,28 @@
       "action": "stop_flying",
       "action_params": "",
       "id": 6,
-      "locked": false,
       "move_mode": "fly",
       "type": "target",
-      "x": 7672.83,
-      "y": -2071.11
+      "x": 7672.832,
+      "y": -2071.1084
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
-      "locked": false,
       "move_mode": "walk",
       "type": "target",
-      "x": 7672.83,
-      "y": -2071.11
+      "x": 7672.832,
+      "y": -2071.1084
     },
     {
       "action": "combat_script",
-      "action_params": "w(0.15)wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "action_params": "s(0.2),wait(0.3),w(0.17),wait(0.75),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
       "id": 8,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 7674.23,
-      "y": -2079.11
+      "x": 7674.2305,
+      "y": -2079.1094
     }
   ]
 }

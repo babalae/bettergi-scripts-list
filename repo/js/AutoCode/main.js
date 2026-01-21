@@ -44,7 +44,11 @@ async function* getCodeFromBGI() {
         log.error(`获取BGI兑换码列表失败: 服务器返回状态${listResp.status} ${listResp.statusText}`);
         return;
     }
-    const listJson = JSON.parse(listResp.body);
+    const fixed = listResp.body
+        .replace(/,\s*]/g, ']')
+        .replace(/,\s*}/g, '}');
+
+    const listJson = JSON.parse(fixed);
     if (!Array.isArray(listJson)) {
         log.error(`BGI兑换码列表格式错误`);
         return;

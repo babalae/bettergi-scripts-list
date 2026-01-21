@@ -1,118 +1,100 @@
 {
   "info": {
-    "name": "5605枫丹中央遗址北(高危)",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时120.99秒，包含以下怪物：2只愚人众先遣队·火统游击兵、1只愚人众先遣队·雷锤前锋军、1只愚人众先遣队·岩使游击兵、1只愚人众·霜役人、1只机关·地质勘探型、1只攻坚特化型机关。",
-    "hash_res": "52115566",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时96.99秒，包含以下怪物：2只愚人众先遣队·火统游击兵、1只愚人众先遣队·雷锤前锋军、1只愚人众先遣队·岩使游击兵、1只愚人众·霜役人、1只机关·地质勘探型、1只攻坚特化型机关。",
+    "enable_monster_loot_split": false,
+    "hash_res": "52115566",
+    "last_modified_time": 1768143475089,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "5605枫丹中央遗址北(高危)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 3811.69,
-      "y": 4952.58,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "y": 4952.58
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 2,
-      "x": 3814.94,
-      "y": 4948.73,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3864.1015625,
+      "y": 4940.3876953125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 3860.69,
-      "y": 4940.63,
-      "action": "fight",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 3864.1015625,
+      "y": 4940.3876953125
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 4,
-      "x": 3860.69,
-      "y": 4940.63,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3812.373046875,
+      "y": 4874.0224609375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 3830.42,
-      "y": 4912.06,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 3812.373046875,
+      "y": 4874.0224609375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": 3813.08,
-      "y": 4874.84,
-      "action": "fight",
-      "move_mode": "jump",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3852.341796875,
+      "y": 4877.0625
     },
     {
+      "action": "fight",
+      "action_params": "",
       "id": 7,
-      "x": 3813.08,
-      "y": 4874.84,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 8,
-      "x": 3825.52,
-      "y": 4870.54,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 3884.283203125,
+      "y": 4867.7265625
     },
     {
-      "id": 9,
-      "x": 3853.41,
-      "y": 4875.58,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 10,
-      "x": 3882.14,
-      "y": 4865.38,
-      "action": "fight",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 11,
-      "x": 3882.14,
-      "y": 4865.38,
       "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
       "move_mode": "dash",
-      "action_params": "wait(0.1)",
-      "type": "orientation"
+      "type": "orientation",
+      "x": 3884.283203125,
+      "y": 4867.7265625
     }
   ]
 }

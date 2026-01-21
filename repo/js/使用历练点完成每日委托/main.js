@@ -68,6 +68,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
             log.info(`今天是星期 ${dayOfWeek}，开始使用历练点完成每日委托`);
         } else {
             log.info(`今天是星期 ${dayOfWeek}，不使用历练点`);
+            log.info(`交互或拾取："不运行"`);
             return;
         }
     } else {
@@ -77,13 +78,15 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
     }
 
     // 检查是否可以领取历练点奖励
-    if (settingsNotDoublePoints == false) {
-        if (await checkEncounterPointsRewards() == true) {
-            log.info("可以领取历练点奖励，开始执行");
-        } else {
-            log.warn("无法领取历练点奖励，可能是未完成委托或已领取\n或 未识别到 完成所有任務，而不领取历练点奖励");
-            return;
-        }
+    //好友尘歌壶历時檢查
+    // 直接領取時檢查&領取
+    log.info("检查是否可以领取历练点奖励");
+    if (await checkEncounterPointsRewards() == true) {
+        log.info("可以领取历练点奖励，开始执行");
+    } else {
+        log.warn("无法领取历练点奖励，可能是未完成委托或已领取\n或 未识别到 完成所有任務，而不领取历练点奖励");
+        log.info(`交互或拾取："未满足领取条件"`);
+        return;
     }
 
     if (shouldRun) {
@@ -105,17 +108,19 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
                     await genshin.returnMainUi();
                 }
             } else {
-                log.warn("没有设置切换队伍，使用当前队伍使用历练點");
                 await genshin.returnMainUi();
             }
 
             // 区分双倍好感
             if (settingsNotDoublePoints == true) {
-                log.info(`不使用好友尘歌壶历练点领取双倍好感，直接使用历练点`);
-                await claimEncounterPointsRewards();
+                // 不使用好友尘歌壶领双倍好感的情况
+                // 如果有设置队伍名称，需要在切换队伍后单独领取历练点奖励
+                if (!!settings.partyName) {
+                    await claimEncounterPointsRewards();
+                }
                 await fontaineCatherineCommissionAward()
             } else if (settingsNotDoublePoints == false) {
-                // 进好友尘歌壶领历练点奖励后返回大世界
+                // 使用好友尘歌壶领双倍好感的情况
                 let request_times = settings.request_times * 2;
                 let total_clicks = request_times ? request_times : 14;
                 // 指定好友名称
@@ -163,7 +168,6 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
             return;
         }
     }
-
 
     // 以下为可供调用的函数部分
 
@@ -243,6 +247,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
                                         log.info("识别到部署按钮:({x},{y},{w},{h})", DeployButton.x, DeployButton.y, DeployButton.Width, DeployButton.Height);
                                     }
                                     DeployButton.click();
+                                    await sleep(200);
                                     ConfigureStatue = true;
                                     break;
                                 }
@@ -311,6 +316,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
                                 log.info("申请造访尘歌壶位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
                             }
                             res.click();
+                            await sleep(200);
                         }
                     }
                 }
@@ -443,9 +449,9 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
     // 模板匹配领取历练点奖励
     async function claimEncounterPointsRewards() {
 
-        await sleep(2000);
+        await sleep(1300);
         log.info("正在打开冒险之证领取历练点奖励");
-        await sleep(2000);
+        await sleep(1300);
         keyPress("VK_ESCAPE");
 
         await sleep(2000);
@@ -455,7 +461,6 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
         if (AdventurerHandbookButton.isExist()) {
             log.info("识别到冒险之证按钮");
             AdventurerHandbookButton.click();
-
             await sleep(2000)
             const ro22 = captureGameRegion();
             let resList = ro22.findMulti(RecognitionObject.ocr(200, 300, 200, 100));
@@ -467,12 +472,13 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
                         log.info("识别到委托选项卡位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
                     }
                     res.click();
+                    await sleep(200);
                 } else {
                     log.info("未识别到识别到委托选项卡");
                 }
             }
 
-            await sleep(2000)
+            await sleep(1800)
             const ro23 = captureGameRegion();
             let EncounterPointsStageRewardsButton = ro23.find(EncounterPointsStageRewardsRo);
             ro23.dispose();
@@ -495,9 +501,9 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
 
         let returnValue = false;
 
-        await sleep(1000);
+        await sleep(1300);
         log.info("正在打开冒险之证檢查历练点完成度");
-        await sleep(1000);
+        await sleep(1300);
         keyPress("VK_ESCAPE");
 
         await sleep(2000);
@@ -519,22 +525,41 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
                         log.info("识别到委托选项卡位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
                     }
                     res.click();
+                    await sleep(200);
+
                 } else {
                     log.info("未识别到识别到委托选项卡");
                 }
             }
 
-            await sleep(2000)
+            await sleep(1800)
             const ro28 = captureGameRegion();
             let EncounterPointsStageRewardsButton = ro28.find(Cannot_receive);
             ro28.dispose();
             if (EncounterPointsStageRewardsButton.isExist()) {
                 log.info("识别到 完成所有任務");
-                // EncounterPointsStageRewardsButton.click();
                 returnValue = true;
 
-                await sleep(2000);
+                await sleep(500);
                 log.info("可领取历练点奖励");
+                // 檢查是否可以領取 且 沒有設置隊伍名稱
+                if (settingsNotDoublePoints == true && !settings.partyName) {
+                    log.info("没有设置切换队伍，使用当前队伍使用历练點");
+                    log.info(`不使用好友尘歌壶历练点领取双倍好感，直接使用历练点`);
+                    const ro29 = captureGameRegion();
+                    let EncounterPointsStageRewardsButton = ro29.find(EncounterPointsStageRewardsRo);
+                    ro29.dispose();
+                    if (EncounterPointsStageRewardsButton.isExist()) {
+                        log.info("识别到历练点领取按钮");
+                        EncounterPointsStageRewardsButton.click();
+                        await sleep(2000);
+                        log.info("已领取历练点奖励");
+                        keyPress("VK_ESCAPE");
+                    } else if (EncounterPointsStageRewardsButton.isEmpty()) {
+                        log.warn("未识别到历练点领取奖励按钮，可能是已领取或未完成");
+                    }
+                }
+
                 keyPress("VK_ESCAPE");
             } else if (EncounterPointsStageRewardsButton.isEmpty()) {
                 log.info("未识别到 完成所有任務");
@@ -724,8 +749,19 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
     // 自動凱瑟琳領奬
     async function fontaineCatherineCommissionAward() {
         await sleep(1000);
+        try {
+            const avatars = Array.from(getAvatars?.() || []);
+            if (avatars.length < 4) {
+                log.warn(`非4人隊伍 或 识别角色失败，不前往冒险家协会領奬`);
+                log.info(`交互或拾取："领取失败"`);
+                return;
+            }
+        } catch (e) {
+            return;
+        }
+
         //到指定冒险家协会領奬
-        log.info(`开始到${adventurePath}冒险家协会領奬`);
+        log.info(`开始前往${adventurePath}冒险家协会領奬`);
         let Catherine_Egeria = `Assets/AutoPath/冒险家协会_${adventurePath}.json`;
         await pathingScript.runFile(Catherine_Egeria);
         log.info('开始每日委托或探索派遣，若无退出对话，则说明重复领取或未完成派遣');
@@ -733,10 +769,11 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
         await keyPress("f");
         await sleep(1000);
         // 利用自動劇情領奬
-        dispatcher.addTimer(new RealtimeTimer("AutoSkip", { "forceInteraction": true }));
+        dispatcher.addTimer(new RealtimeTimer("AutoSkip"));
         await sleep(10000);
         await genshin.returnMainUi();
         await sleep(1000);
+        log.info(`交互或拾取："领取完成"`);
     }
 
 })();

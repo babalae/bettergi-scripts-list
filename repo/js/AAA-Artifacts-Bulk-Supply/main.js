@@ -19,7 +19,6 @@ const AutoAddButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("a
 const ConfirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/ConfirmButton.png"));
 const DestoryButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/DestoryButton.png"));
 const MidDestoryButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/DestoryButton.png"), 900, 600, 500, 300);
-const CharacterMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/CharacterMenu.png"), 60, 991, 38, 38);
 
 const decomposeRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/decompose.png"));
 const quickChooseRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/quickChoose.png"));
@@ -388,7 +387,7 @@ async function processArtifacts(times = 1) {
 
     async function decomposeArtifacts() {
         keyPress("B");
-        if (await findAndClick(outDatedRo)) {
+        if (await findAndClick(outDatedRo, 5)) {
             log.info("检测到过期物品弹窗，处理");
             await sleep(1000);
         }
@@ -402,22 +401,16 @@ async function processArtifacts(times = 1) {
         await sleep(1000);
 
         // 识别已储存经验（1570-880-1650-930）
-        const regionToCheck1 = { x: 1570, y: 880, width: 80, height: 50 };
-        const raw = await recognizeTextInRegion(regionToCheck1);
-
-        // 把识别到的文字里所有非数字字符去掉，只保留数字
-        const digits = (raw || '').replace(/\D/g, '');
+        let digits = await numberTemplateMatch("assets/已储存经验数字", 1573, 885, 74, 36);
 
         let initialValue = 0;
-        if (digits) {
-            initialValue = parseInt(digits, 10);
+        if (digits >= 0) {
+            initialValue = digits;
             log.info(`已储存经验识别成功: ${initialValue}`);
         } else {
             log.warn(`在指定区域未识别到有效数字: ${initialValue}`);
         }
 
-        let regionToCheck3 = { x: 100, y: 885, width: 170, height: 50 };
-        let decomposedNum = 0;
         let firstNumber = 0;
         let firstNumber2 = 0;
 
@@ -436,15 +429,11 @@ async function processArtifacts(times = 1) {
             }
             await sleep(1000);
 
-            decomposedNum = await recognizeTextInRegion(regionToCheck3);
+            let match = await numberTemplateMatch("assets/分解数量数字", 100, 885, 200, 50);
+            match = (match - 1000) / 10000;
 
-            // 使用正则表达式提取第一个数字
-            const match = decomposedNum.match(/已选(\d+)/);
-
-            // 检查是否匹配成功
-            if (match) {
-                // 将匹配到的第一个数字转换为数字类型并存储在变量中
-                firstNumber = Number(match[1]);
+            if (match >= 0) {
+                firstNumber = match;
                 log.info(`1-4星总数量: ${firstNumber}`);
             } else {
                 log.info("识别失败");
@@ -474,17 +463,12 @@ async function processArtifacts(times = 1) {
             await genshin.returnMainUi();
             return 0;
         }
-        await sleep(1500);
+        await sleep(2000);
 
-        let decomposedNum2 = await recognizeTextInRegion(regionToCheck3);
-
-        // 使用正则表达式提取第一个数字
-        const match2 = decomposedNum2.match(/已选(\d+)/);
-
-        // 检查是否匹配成功
-        if (match2) {
-            // 将匹配到的第一个数字转换为数字类型并存储在变量中
-            firstNumber2 = Number(match2[1]);
+        let match2 = await numberTemplateMatch("assets/分解数量数字", 100, 885, 200, 50);
+        match2 = (match2 - 1000) / 10000;
+        if (match2 >= 0) {
+            firstNumber2 = match2
             log.info(`分解总数是: ${firstNumber2}`);
         } else {
             log.info("识别失败");
@@ -494,15 +478,12 @@ async function processArtifacts(times = 1) {
             notification.Send(`当前经验如图`);
         }
         // 当前总经验（1470-880-205-70）
-        const regionToCheck2 = { x: 1470, y: 880, width: 205, height: 70 };
-        const raw2 = await recognizeTextInRegion(regionToCheck2);
 
-        // 只保留数字
-        const digits2 = (raw2 || '').replace(/\D/g, '');
+        let digits2 = await numberTemplateMatch("assets/分解可获得经验数字", 1469, 899, 180, 37, 0.95, 0.85, 5, 1);
 
         let newValue = 0;
-        if (digits2) {
-            newValue = parseInt(digits2, 10);
+        if (digits2 >= 0) {
+            newValue = digits2
             log.info(`当前总经验识别成功: ${newValue}`);
         } else {
             log.warn(`在指定区域未识别到有效数字: ${newValue}`);
@@ -535,7 +516,7 @@ async function processArtifacts(times = 1) {
         }
 
         // 7. 计算分解获得经验=总经验-上次剩余
-        const resinExperience = Math.max(newValue - initialValue, 0);
+        let resinExperience = Math.max(newValue - initialValue, 0);
         log.info(`分解可获得经验: ${resinExperience}`);
         let fourStarNum = firstNumber - firstNumber2;
         if (settings.keep4Star) {
@@ -545,30 +526,9 @@ async function processArtifacts(times = 1) {
         if (resultExperience === 0) {
             resultExperience = initialValue;
         }
-        const result = resultExperience;
+        let result = resultExperience;
         await genshin.returnMainUi();
         return result;
-    }
-
-    async function findAndClick(target, maxAttempts = 20) {
-        for (let attempts = 0; attempts < maxAttempts; attempts++) {
-            const gameRegion = captureGameRegion();
-            try {
-                const result = gameRegion.find(target);
-                if (result.isExist) {
-                    result.click();
-                    return true;                 // 成功立刻返回
-                }
-                log.warn(`识别失败，第 ${attempts + 1} 次重试`);
-            } catch (err) {
-            } finally {
-                gameRegion.dispose();
-            }
-            if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
-                await sleep(250);
-            }
-        }
-        return false;
     }
 
     async function destroyArtifacts(times = 1) {
@@ -635,149 +595,72 @@ async function processArtifacts(times = 1) {
 }
 
 async function mora() {
-    // 定义一个函数用于识别图像
-    async function recognizeImage(recognitionObject, timeout = 5000) {
-        let startTime = Date.now();
-        while (Date.now() - startTime < timeout) {
-            try {
-                // 尝试识别图像
-                const gameRegion = captureGameRegion();
-                let imageResult = gameRegion.find(recognitionObject);
-                gameRegion.dispose();
-                if (imageResult) {
-                    // log.info(`成功识别图像，坐标: x=${imageResult.x}, y=${imageResult.y}`);
-                    // log.info(`图像尺寸: width=${imageResult.width}, height=${imageResult.height}`);
-                    return { success: true, x: imageResult.x, y: imageResult.y };
-                }
-            } catch (error) {
-                log.error(`识别图像时发生异常: ${error.message}`);
-            }
-            await sleep(500); // 短暂延迟，避免过快循环
-        }
-        log.warn(`经过多次尝试，仍然无法识别图像`);
-        return { success: false };
-    }
+
     let result = 0;
     let tryTimes = 0;
     while (result === 0 && tryTimes < 3) {
         await genshin.returnMainUi();
         await sleep(100);
         log.info("开始尝试识别摩拉");
-        // 按下 C 键
-        keyPress("C");
+        keyPress("B");
         await sleep(1500);
-        let recognized = false;
-        // 识别“角色菜单”图标或“天赋”文字
+        //切换到任务或养成道具
         let startTime = Date.now();
         while (Date.now() - startTime < 5000) {
-            // 尝试识别“角色菜单”图标
-            let characterMenuResult = await recognizeImage(CharacterMenuRo, 5000);
-            if (characterMenuResult.success) {
-                await click(177, 433);
-                await sleep(500);
+            // 尝试识别“任务”图标
+            const renwuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/renwu.png"));
+            let res = await findAndClick(renwuRo);
+            if (res) {
                 recognized = true;
                 break;
             }
 
-            // 尝试识别“天赋”文字
-            let targetText = "天赋";
-            let ocrRegion = { x: 133, y: 395, width: 115, height: 70 }; // 设置对应的识别区域
-            let talentResult = await recognizeTextAndClick(targetText, ocrRegion);
-            if (talentResult.success) {
-                log.info(`点击天赋文字，坐标: x=${talentResult.x}, y=${talentResult.y}`);
+            // 尝试识别“养成道具”文字
+            const yangchengdaojuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/yangchengdaoju.png"));
+            res = await findAndClick(yangchengdaojuRo);
+            if (res) {
                 recognized = true;
                 break;
             }
 
-            await sleep(1000); // 短暂延迟，避免过快循环
+            await sleep(500); // 短暂延迟，避免过快循环
         }
 
-        let recognizedText = "";
+        let moraRes = 0;
+        await sleep(1000);
+        if (settings.notify) {
+            notification.Send(`当前摩拉如图`);
+        }
 
-        // 如果识别到了“角色菜单”或“天赋”，则识别“摩拉数值”
-        if (recognized) {
-            if (settings.notify) {
-                notification.Send(`当前摩拉如图`);
+        const moraRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/mora.png"));
+        const gameRegion = captureGameRegion();
+        let moraX = 336;
+        let moraY = 1004;
+        try {
+            const result = gameRegion.find(moraRo);
+            if (result.isExist()) {
+                moraX = result.x;
+                moraY = result.y;
             }
-            let ocrRegionMora = { x: 1620, y: 25, width: 152, height: 46 }; // 设置对应的识别区域
-            recognizedText = await recognizeTextInRegion(ocrRegionMora);
-            if (recognizedText) {
-                log.info(`成功识别到摩拉数值: ${recognizedText}`);
-                result = recognizedText;
-            } else {
-                log.warn("未能识别到摩拉数值。");
-            }
+        } catch (err) {
+        } finally {
+            gameRegion.dispose();
+        }
+
+        moraRes = await numberTemplateMatch("assets/背包摩拉数字", moraX, moraY, 300, 40);
+
+        if (moraRes >= 0) {
+            log.info(`成功识别到摩拉数值: ${moraRes}`);
+            result = moraRes;
         } else {
-            log.warn("未能识别到角色菜单或天赋");
+            log.warn("未能识别到摩拉数值。");
         }
+
         await sleep(500);
         tryTimes++;
         await genshin.returnMainUi();
     }
-    return Number(result);
-}
-
-// 定义一个独立的函数用于在指定区域进行 OCR 识别并输出识别内容
-async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
-    let startTime = Date.now();
-    let retryCount = 0; // 重试计数
-    while (Date.now() - startTime < timeout) {
-        try {
-            // 在指定区域进行 OCR 识别
-            const gameRegion = captureGameRegion();
-            let ocrResult = gameRegion.find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
-            gameRegion.dispose();
-            if (ocrResult) {
-                let correctedText = ocrResult.text;
-                return correctedText; // 返回识别到的内容
-            } else {
-                log.warn(`OCR 识别区域未找到内容`);
-                return null; // 如果 OCR 未识别到内容，返回 null
-            }
-        } catch (error) {
-            retryCount++; // 增加重试计数
-            log.warn(`OCR 识别失败，正在进行第 ${retryCount} 次重试...`);
-        }
-        await sleep(500); // 短暂延迟，避免过快循环
-    }
-    log.warn(`经过多次尝试，仍然无法在指定区域识别到文字`);
-    return null; // 如果未识别到文字，返回 null
-}
-
-// 定义一个函数用于识别文字并点击
-async function recognizeTextAndClick(targetText, ocrRegion, timeout = 3000) {
-    let startTime = Date.now();
-    let retryCount = 0; // 重试计数
-    while (Date.now() - startTime < timeout) {
-        try {
-            // 尝试 OCR 识别
-            const gameRegion = captureGameRegion();
-            let resList = gameRegion.findMulti(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height)); // 指定识别区域
-            gameRegion.dispose();
-            // 遍历识别结果，检查是否找到目标文本
-            for (let res of resList) {
-                let correctedText = res.text;
-                if (correctedText.includes(targetText)) {
-                    // 如果找到目标文本，计算并点击文字的中心坐标
-                    let centerX = Math.round(res.x + res.width / 2);
-                    let centerY = Math.round(res.y + res.height / 2);
-                    await click(centerX, centerY);
-                    await sleep(500); // 确保点击后有足够的时间等待
-                    return { success: true, x: centerX, y: centerY };
-                }
-            }
-        } catch (error) {
-            retryCount++; // 增加重试计数
-            log.warn(`页面标志识别失败，正在进行第 ${retryCount} 次重试...`);
-        }
-        await sleep(1000); // 短暂延迟，避免过快循环
-    }
-    log.warn(`经过多次尝试，仍然无法识别文字: ${targetText},尝试点击默认中心位置`);
-    let centerX = Math.round(ocrRegion.x + ocrRegion.width / 2);
-    let centerY = Math.round(ocrRegion.y + ocrRegion.height / 2);
-    await click(centerX, centerY);
-    await sleep(1000);
-    return { success: false };
+    return result;
 }
 
 //切换队伍
@@ -1442,4 +1325,127 @@ async function recognizeAndInteract() {
         }
         return false;
     }
+}
+
+/**
+ * 在指定区域内，用 0-9 的 PNG 模板做「多阈值 + 非极大抑制」数字识别，
+ * 最终把检测到的数字按左右顺序拼成一个整数返回。
+ *
+ * @param {string}  numberPngFilePath - 存放 0.png ~ 9.png 的文件夹路径（不含文件名）
+ * @param {number}  x                 - 待识别区域的左上角 x 坐标，默认 0
+ * @param {number}  y                 - 待识别区域的左上角 y 坐标，默认 0
+ * @param {number}  w                 - 待识别区域的宽度，默认 1920
+ * @param {number}  h                 - 待识别区域的高度，默认 1080
+ * @param {number}  maxThreshold      - 模板匹配起始阈值，默认 0.95（最高可信度）
+ * @param {number}  minThreshold      - 模板匹配最低阈值，默认 0.8（最低可信度）
+ * @param {number}  splitCount        - 在 maxThreshold 与 minThreshold 之间做几次等间隔阈值递减，默认 3
+ * @param {number}  maxOverlap        - 非极大抑制时允许的最大重叠像素，默认 2；只要 x 或 y 方向重叠大于该值即视为重复框
+ *
+ * @returns {number} 识别出的整数；若没有任何有效数字框则返回 -1
+ *
+ * @example
+ * const mora = await numberTemplateMatch('摩拉数字', 860, 70, 200, 40);
+ * if (mora >= 0) console.log(`当前摩拉：${mora}`);
+ */
+async function numberTemplateMatch(
+    numberPngFilePath,
+    x = 0, y = 0, w = 1920, h = 1080,
+    maxThreshold = 0.95,
+    minThreshold = 0.8,
+    splitCount = 3,
+    maxOverlap = 2
+) {
+    let ros = [];
+    for (let i = 0; i <= 9; i++) {
+        ros[i] = RecognitionObject.TemplateMatch(
+            file.ReadImageMatSync(`${numberPngFilePath}/${i}.png`), x, y, w, h);
+    }
+
+    function setThreshold(roArr, newThreshold) {
+        for (let i = 0; i < roArr.length; i++) {
+            roArr[i].Threshold = newThreshold;
+            roArr[i].InitTemplate();
+        }
+    }
+
+    const gameRegion = captureGameRegion();
+    const allCandidates = [];
+
+    /* 1. splitCount 次等间隔阈值递减 */
+    for (let k = 0; k < splitCount; k++) {
+        const curThr = maxThreshold - (maxThreshold - minThreshold) * k / Math.max(splitCount - 1, 1);
+        setThreshold(ros, curThr);
+
+        /* 2. 0-9 每个模板跑一遍，所有框都收 */
+        for (let digit = 0; digit <= 9; digit++) {
+            const res = gameRegion.findMulti(ros[digit]);
+            if (res.count === 0) continue;
+
+            for (let i = 0; i < res.count; i++) {
+                const box = res[i];
+                allCandidates.push({
+                    digit: digit,
+                    x: box.x,
+                    y: box.y,
+                    w: box.width,
+                    h: box.height,
+                    thr: curThr
+                });
+            }
+        }
+
+    }
+    gameRegion.dispose();
+
+    /* 3. 无结果提前返回 -1 */
+    if (allCandidates.length === 0) {
+        return -1;
+    }
+
+    /* 4. 非极大抑制（必须 x、y 两个方向重叠都 > maxOverlap 才视为重复） */
+    const adopted = [];
+    for (const c of allCandidates) {
+        let overlap = false;
+        for (const a of adopted) {
+            const xOverlap = Math.max(0, Math.min(c.x + c.w, a.x + a.w) - Math.max(c.x, a.x));
+            const yOverlap = Math.max(0, Math.min(c.y + c.h, a.y + a.h) - Math.max(c.y, a.y));
+            if (xOverlap > maxOverlap && yOverlap > maxOverlap) {
+                overlap = true;
+                break;
+            }
+        }
+        if (!overlap) {
+            adopted.push(c);
+            //log.info(`在 [${c.x},${c.y},${c.w},${c.h}] 找到数字 ${c.digit}，匹配阈值=${c.thr}`);
+        }
+    }
+
+    /* 5. 按 x 排序，拼整数；仍无有效框时返回 -1 */
+    if (adopted.length === 0) return -1;
+    adopted.sort((a, b) => a.x - b.x);
+
+    return adopted.reduce((num, item) => num * 10 + item.digit, 0);
+}
+
+async function findAndClick(target, maxAttempts = 20) {
+    for (let attempts = 0; attempts < maxAttempts; attempts++) {
+        const gameRegion = captureGameRegion();
+        try {
+            const result = gameRegion.find(target);
+            if (result.isExist) {
+                await sleep(50);
+                result.click();
+                await sleep(50);
+                return true;                 // 成功立刻返回
+            }
+            log.warn(`识别失败，第 ${attempts + 1} 次重试`);
+        } catch (err) {
+        } finally {
+            gameRegion.dispose();
+        }
+        if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
+            await sleep(250);
+        }
+    }
+    return false;
 }

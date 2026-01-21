@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758799657832,
+    "last_modified_time": 1767009814973,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "304【激活程序】稻妻-神无卓狸猫火炬",
@@ -37,8 +37,8 @@
       "y": -3552.6787109375
     },
     {
-      "action": "combat_script",
-      "action_params": "attack(0.3),wait(4)",
+      "action": "stop_flying",
+      "action_params": "",
       "id": 3,
       "move_mode": "fly",
       "type": "path",
@@ -47,8 +47,18 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.8)",
+      "action_params": "wait(3.5)",
       "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3465.841796875,
+      "y": -3558.349609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.8)",
+      "id": 5,
       "move_mode": "dash",
       "type": "path",
       "x": -3465.841796875,
@@ -57,7 +67,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "dash",
       "type": "path",
       "x": -3462.78125,
@@ -66,7 +76,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 6,
+      "id": 7,
       "move_mode": "dash",
       "type": "path",
       "x": -3473.24609375,
@@ -75,7 +85,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(x),;迪希雅 e,wait(0.3),e;玛薇卡 e;",
-      "id": 7,
+      "id": 8,
       "move_mode": "dash",
       "type": "path",
       "x": -3474.28515625,
