@@ -1,4 +1,4 @@
-//当前js版本1.20.0
+//当前js版本1.21.0
 
 let timeMoveUp;
 let timeMoveDown;
@@ -78,7 +78,7 @@ let lastEatBuff = 0;
             disableSelfOptimization: settings.disableSelfOptimization ?? false,
             eEfficiencyIndex: settings.eEfficiencyIndex ?? 2.5,
             mEfficiencyIndex: settings.mEfficiencyIndex ?? 0.5,
-            splitFactor: settings.splitFactor ?? 0,
+            ignoreFactor: settings.ignoreFactor ?? 0,
             targetEliteNum: settings.targetEliteNum ?? 400,
             targetMonsterNum: settings.targetMonsterNum ?? 2000,
             priorityTags: settings.priorityTags ?? "",
@@ -117,7 +117,7 @@ let lastEatBuff = 0;
         settings.disableSelfOptimization = cfg.disableSelfOptimization ?? false;
         settings.eEfficiencyIndex = cfg.eEfficiencyIndex ?? 2.5;
         settings.mEfficiencyIndex = cfg.mEfficiencyIndex ?? 0.5;
-        settings.splitFactor = cfg.splitFactor ?? 0;
+        settings.ignoreFactor = cfg.ignoreFactor ?? 0;
         settings.targetEliteNum = cfg.targetEliteNum ?? 400;
         settings.targetMonsterNum = cfg.targetMonsterNum ?? 2000;
         settings.priorityTags = cfg.priorityTags ?? "";
@@ -294,9 +294,11 @@ async function processPathings(groupTags) {
     const monsterInfoObject = JSON.parse(monsterInfoContent);
 
     // 读取路径文件夹中的所有文件
+    log.info("开始读取路径文件");
     let pathings = await readFolder("pathing", true);
 
     //加载路线cd信息
+    log.info("路径文件读取完成，开始加载cd信息");
     await initializeCdTime(pathings, accountName);
 
     // 定义解析 description 的函数
@@ -326,7 +328,7 @@ async function processPathings(groupTags) {
         return routeInfo;
     }
     let index = 0
-
+    log.info("cd信息加载完成，开始处理路线详细信息");
     // 遍历每个路径文件并处理
     for (const pathing of pathings) {
         index++;
@@ -376,6 +378,22 @@ async function processPathings(groupTags) {
             }
         }
 
+        // ===== 根据 settings.ignoreFactor 过滤 =====
+        const ignoreFactor = Number(settings.ignoreFactor);
+        if (Number.isInteger(ignoreFactor) && ignoreFactor > 0) {
+            // 新增保护标签
+            const protectTags = ['精英高收益', '高危', '传奇'];
+            const hasProtectTag = protectTags.some(tag => pathing.tags.includes(tag));
+
+            if (!hasProtectTag &&               // 不含保护标签
+                pathing.e <= ignoreFactor &&    // 精英数达标
+                pathing.m >= 5 * pathing.e) {   // 普通数足够
+                // 清零
+                pathing.e = 0;
+                pathing.mora_e = 0;
+            }
+        }
+
         const allTags = groupTags[0];          // 已经是 [...new Set(...)] 的结果
         // 2. 待匹配文本：路径名 + 描述
         const textToMatch = (pathing.fullPath + " " + (description || ""));
@@ -421,6 +439,7 @@ async function processPathings(groupTags) {
             pathing.t = avg;
         }
     }
+    log.info("预处理阶段完成");
     return pathings; // 返回处理后的 pathings 数组
 }
 
@@ -457,6 +476,7 @@ async function markPathings(pathings, groupTags, priorityTags, excludeTags) {
 }
 
 async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonsterNum) {
+    log.info("开始根据配置寻找路线组合");
     /* ========== 0. 原初始化不动 ========== */
     let nextTargetEliteNum = targetEliteNum;
     let iterationCount = 0;
@@ -476,25 +496,14 @@ async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonst
         const G1 = p.mora_e + p.mora_m, G2 = p.mora_m;
         p.G1 = G1; p.G2 = G2;
 
-        /* 分离系数 0-1：0 无惩罚，1 最大惩罚 95 % */
-        const splitFactor = +(settings.splitFactor ?? 0);
-
-        /* 混合度：纯血 λ=0，最混合 λ=1 */
-        const λ = (p.e === 0 || p.m === 0) ? 0
-            : 1 - Math.min(p.e, p.m) / Math.max(p.e, p.m);
-
-        /* 仅 E2 惩罚，上限 95 %，线性 */
-        const penalty = 1 - 0.95 * splitFactor * λ;
-
         /* 收益 */
         const eliteGain = p.e === 0 ? 200 : (G1 - G2) / p.e;
         const normalGain = p.m === 0 ? 40.5 : G2 / p.m;
 
-        /* 打分：E1 不惩罚，E2 带惩罚 */
         p.E1 = (eliteGain ** k1) * (G1 / p.t);
         if (p.e === 0) p.E1 = 0;
 
-        p.E2 = (normalGain ** k2) * (G2 / p.t) * penalty;
+        p.E2 = (normalGain ** k2) * (G2 / p.t);
 
         maxE1 = Math.max(maxE1, p.E1);
         maxE2 = Math.max(maxE2, p.E2);
@@ -539,18 +548,22 @@ async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonst
     }
 
     /* ========== 2. 迭代：直到“双达标”才停 ========== */
+
     while (iterationCount < 100) {
         selectRoutesByEliteTarget(nextTargetEliteNum);
         selectRoutesByMonsterTarget(targetMonsterNum);
 
-        // 新收敛条件：必须同时大于等于双目标
+        // 新条件：总量必须落在区间里
         if (totalSelectedElites >= targetEliteNum &&
-            totalSelectedMonsters >= targetMonsterNum) {
+            totalSelectedElites <= iterationCount / 20 &&
+            totalSelectedMonsters >= targetMonsterNum &&
+            totalSelectedMonsters <= iterationCount / 4) {
             break;
         }
-        // 只要没达标，就加压：把精英目标向上推
-        const eliteShort = targetEliteNum - totalSelectedElites;
-        nextTargetEliteNum += Math.max(1, Math.round(0.1 * eliteShort));
+
+        // 只调精英目标：若当前选多了就降门槛，选少了就抬门槛
+        const eliteGap = targetEliteNum - totalSelectedElites;
+        nextTargetEliteNum += Math.round(0.7 * eliteGap);   // 可正可负，自动收敛
         iterationCount++;
     }
 
@@ -577,6 +590,7 @@ async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonst
         const newE = totalSelectedElites - p.e;
         const newM = totalSelectedMonsters - p.m;
         if (newE >= targetEliteNum && newM >= targetMonsterNum) {
+            //log.info("调试-删掉了一条路线")
             p.selected = false;
             totalSelectedElites = newE;
             totalSelectedMonsters = newM;
@@ -616,7 +630,7 @@ async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonst
             log.info("使用原文件顺序运行");
             pathings.sort((a, b) => a.index - b.index);
     }
-
+    log.info("路线组合结果如下：");
     log.info(`总精英怪数量: ${totalSelectedElites.toFixed(0)}`);
     log.info(`总普通怪数量: ${totalSelectedMonsters.toFixed(0)}`);
     log.info(`总收益: ${totalGainCombined.toFixed(0)} 摩拉`);
@@ -725,9 +739,20 @@ async function runPath(fullPath, map_name, pm, pe) {
 
     /* ---------- 主任务 ---------- */
     const pathingTask = (async () => {
+        let doLogMonsterCount = true;
         log.info(`开始执行路线: ${fullPath}`);
         await fakeLog(`${fullPath}`, false, true, 0);
-        if (settings.logMonsterCount) {
+        try {
+            await pathingScript.runFile(fullPath);
+        } catch (error) {
+            log.error(`执行地图追踪出现错误${error.message}`);
+        }
+        try {
+            await sleep(1);
+        } catch (e) {
+            doLogMonsterCount = false;
+        }
+        if (settings.logMonsterCount && doLogMonsterCount) {
             const m = Math.floor(pm);
             const e = Math.floor(pe);
             const lines = [];
@@ -736,12 +761,6 @@ async function runPath(fullPath, map_name, pm, pe) {
             for (let i = 0; i < e; i++) lines.push('交互或拾取："精英"');
 
             if (lines.length) log.debug(lines.join('\n'));
-        }
-
-        try {
-            await pathingScript.runFile(fullPath);
-        } catch (error) {
-            log.error(`执行地图追踪出现错误${error.message}`);
         }
         await fakeLog(`${fullPath}`, false, false, 0);
         state.running = false;
