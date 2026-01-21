@@ -401,7 +401,7 @@ async function processArtifacts(times = 1) {
         await sleep(1000);
 
         // 识别已储存经验（1570-880-1650-930）
-        const digits = await numberTemplateMatch("assets/已储存经验数字", 1573, 885, 74, 36);
+        let digits = await numberTemplateMatch("assets/已储存经验数字", 1573, 885, 74, 36);
 
         let initialValue = 0;
         if (digits >= 0) {
@@ -429,7 +429,7 @@ async function processArtifacts(times = 1) {
             }
             await sleep(1000);
 
-            const match = await numberTemplateMatch("assets/分解数量数字", 100, 885, 200, 50);
+            let match = await numberTemplateMatch("assets/分解数量数字", 100, 885, 200, 50);
             match = (match - 1000) / 10000;
 
             if (match >= 0) {
@@ -479,7 +479,7 @@ async function processArtifacts(times = 1) {
         }
         // 当前总经验（1470-880-205-70）
 
-        const digits2 = await numberTemplateMatch("assets/分解可获得经验数字", 1469, 899, 180, 37, 0.95, 0.85, 5, 1);
+        let digits2 = await numberTemplateMatch("assets/分解可获得经验数字", 1469, 899, 180, 37, 0.95, 0.85, 5, 1);
 
         let newValue = 0;
         if (digits2 >= 0) {
@@ -516,7 +516,7 @@ async function processArtifacts(times = 1) {
         }
 
         // 7. 计算分解获得经验=总经验-上次剩余
-        const resinExperience = Math.max(newValue - initialValue, 0);
+        let resinExperience = Math.max(newValue - initialValue, 0);
         log.info(`分解可获得经验: ${resinExperience}`);
         let fourStarNum = firstNumber - firstNumber2;
         if (settings.keep4Star) {
@@ -526,7 +526,7 @@ async function processArtifacts(times = 1) {
         if (resultExperience === 0) {
             resultExperience = initialValue;
         }
-        const result = resultExperience;
+        let result = resultExperience;
         await genshin.returnMainUi();
         return result;
     }
