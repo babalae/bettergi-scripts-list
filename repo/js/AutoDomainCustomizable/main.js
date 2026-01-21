@@ -1,95 +1,66 @@
 (async function () {
     // =========================================================================
-    // 0. 数据定义 (源自 Genshin_Domains_SC_Live_Source.json)
+    // 0. 动态加载数据 (基于 Genshin_Domains_SC_Live_Source.json)
     // =========================================================================
-    const MATERIAL_DB = {
-        // ====== 角色天赋素材 ======
-        // 蒙德
-        "「自由」的哲学": { domain: "忘却之峡", idx: 1 },
-        "「抗争」的哲学": { domain: "忘却之峡", idx: 2 },
-        "「诗文」的哲学": { domain: "忘却之峡", idx: 3 },
-        // 璃月
-        "「繁荣」的哲学": { domain: "太山府", idx: 1 },
-        "「勤劳」的哲学": { domain: "太山府", idx: 2 },
-        "「黄金」的哲学": { domain: "太山府", idx: 3 },
-        // 稻妻
-        "「浮世」的哲学": { domain: "堇色之庭", idx: 1 },
-        "「风雅」的哲学": { domain: "堇色之庭", idx: 2 },
-        "「天光」的哲学": { domain: "堇色之庭", idx: 3 },
-        // 须弥
-        "「诤言」的哲学": { domain: "昏识塔", idx: 1 },
-        "「巧思」的哲学": { domain: "昏识塔", idx: 2 },
-        "「笃行」的哲学": { domain: "昏识塔", idx: 3 },
-        // 枫丹
-        "「公平」的哲学": { domain: "苍白的遗荣", idx: 1 },
-        "「正义」的哲学": { domain: "苍白的遗荣", idx: 2 },
-        "「秩序」的哲学": { domain: "苍白的遗荣", idx: 3 },
-        // 纳塔
-        "「角逐」的哲学": { domain: "蕴火的幽墟", idx: 1 },
-        "「焚燔」的哲学": { domain: "蕴火的幽墟", idx: 2 },
-        "「纷争」的哲学": { domain: "蕴火的幽墟", idx: 3 },
-        // 挪德卡莱
-        "「月光」的哲学": { domain: "无光的深都", idx: 1 },
-        "「乐园」的哲学": { domain: "无光的深都", idx: 2 },
-        "「浪迹」的哲学": { domain: "无光的深都", idx: 3 },
+    let MATERIAL_DB = {};
+    const DB_FILENAME = "Genshin_Domains_SC_Live_Source.json";
 
-        // ====== 武器升级素材 ======
-        // 蒙德
-        "高塔孤王的碎梦": { domain: "塞西莉亚苗圃", idx: 1 },
-        "凛风奔狼的怀乡": { domain: "塞西莉亚苗圃", idx: 2 },
-        "狮牙斗士的理想": { domain: "塞西莉亚苗圃", idx: 3 },
-        // 璃月
-        "孤云寒林的神体": { domain: "震雷连山密宫", idx: 1 },
-        "雾海云间的转还": { domain: "震雷连山密宫", idx: 2 },
-        "漆黑陨铁的一块": { domain: "震雷连山密宫", idx: 3 },
-        // 稻妻
-        "远海夷地的金枝": { domain: "砂流之庭", idx: 1 },
-        "鸣神御灵的勇武": { domain: "砂流之庭", idx: 2 },
-        "今昔剧画之鬼人": { domain: "砂流之庭", idx: 3 },
-        // 须弥
-        "谧林涓露的金符": { domain: "有顶塔", idx: 1 },
-        "绿洲花园的真谛": { domain: "有顶塔", idx: 2 },
-        "烈日威权的旧日": { domain: "有顶塔", idx: 3 },
-        // 枫丹
-        "悠古弦音的回响": { domain: "深潮的余响", idx: 1 },
-        "纯圣露滴的真粹": { domain: "深潮的余响", idx: 2 },
-        "无垢之海的金杯": { domain: "深潮的余响", idx: 3 },
-        // 纳塔
-        "贡祭炽心的荣膺": { domain: "深古瞭望所", idx: 1 },
-        "谵妄圣主的神面": { domain: "深古瞭望所", idx: 2 },
-        "神合秘烟的启示": { domain: "深古瞭望所", idx: 3 },
-        // 挪德卡莱
-        "奇巧秘器的真愿": { domain: "失落的月庭", idx: 1 },
-        "长夜燧火的烈辉": { domain: "失落的月庭", idx: 2 },
-        "终北遗嗣的煌熠": { domain: "失落的月庭", idx: 3 },
+    try {
+        // [修正] 使用正确的方法名 ReadTextSync 读取文件
+        let rawContent = file.ReadTextSync(DB_FILENAME);
+        
+        // 检查读取结果是否为空
+        if (!rawContent) {
+            throw new Error("读取文件返回空内容");
+        }
 
-        // ====== 圣遗物 (type: 'artifact') ======
-        // 蒙德
-        "如雷的盛怒 / 平息雷鸣的尊者": { domain: "仲夏庭园", type: "artifact" },
-        "翠绿之影 / 被怜爱的少女": { domain: "铭记之谷", type: "artifact" },
-        "沉沦之心 / 冰风迷途的勇士": { domain: "芬德尼尔之顶", type: "artifact" },
-        // 璃月
-        "炽烈的炎之魔女 / 渡过烈火的贤人": { domain: "无妄引咎密宫", type: "artifact" },
-        "昔日宗室之仪 / 染血的骑士道": { domain: "华池岩岫", type: "artifact" },
-        "悠古的磐岩 / 逆飞的流星": { domain: "孤云凌霄之处", type: "artifact" },
-        "辰砂往生录 / 来歆余响": { domain: "岩中幽谷", type: "artifact" },
-        // 稻妻
-        "绝缘之旗印 / 追忆之注连": { domain: "椛染之庭", type: "artifact" },
-        "海染砗磲 / 华馆梦醒形骸记": { domain: "沉眠之庭", type: "artifact" },
-        // 须弥
-        "深林的记忆 / 饰金之梦": { domain: "缘觉塔", type: "artifact" },
-        "沙上楼阁史话 / 乐园遗落之花": { domain: "赤金的城墟", type: "artifact" },
-        "水仙之梦 / 花海甘露之光": { domain: "熔铁的孤塞", type: "artifact" },
-        // 枫丹
-        "逐影猎人 / 黄金剧团": { domain: "罪祸的终末", type: "artifact" },
-        "昔时之歌 / 回声之林夜话": { domain: "临瀑之城", type: "artifact" },
-        "谐律异想断章 / 未竟的遐思": { domain: "剧变丛林", type: "artifact" },
-        // 纳塔
-        "黑曜秘典 / 烬城勇者绘卷": { domain: "虹灵的净土", type: "artifact" },
-        "深廊终曲 / 长夜之誓": { domain: "荒废砌造坞", type: "artifact" },
-        // 挪德卡莱
-        "纺月的夜歌 / 穹境示现之夜": { domain: "霜凝的机枢", type: "artifact" }
-    };
+        let sourceData = JSON.parse(rawContent);
+        
+        if (!sourceData || !sourceData.domains) {
+            throw new Error("JSON文件格式不正确，缺少 domains 字段");
+        }
+
+        // --- 1. 转换角色天赋素材 ---
+        if (sourceData.domains.talent_books) {
+            sourceData.domains.talent_books.forEach(item => {
+                let domain = item.domain_name_sc;
+                let schedule = item.schedule;
+                // 映射规则: Mon_Thu -> 1, Tue_Fri -> 2, Wed_Sat -> 3
+                if (schedule.Mon_Thu) MATERIAL_DB[schedule.Mon_Thu] = { domain: domain, idx: 1 };
+                if (schedule.Tue_Fri) MATERIAL_DB[schedule.Tue_Fri] = { domain: domain, idx: 2 };
+                if (schedule.Wed_Sat) MATERIAL_DB[schedule.Wed_Sat] = { domain: domain, idx: 3 };
+            });
+        }
+
+        // --- 2. 转换武器升级素材 ---
+        if (sourceData.domains.weapon_materials) {
+            sourceData.domains.weapon_materials.forEach(item => {
+                let domain = item.domain_name_sc;
+                let schedule = item.schedule;
+                if (schedule.Mon_Thu) MATERIAL_DB[schedule.Mon_Thu] = { domain: domain, idx: 1 };
+                if (schedule.Tue_Fri) MATERIAL_DB[schedule.Tue_Fri] = { domain: domain, idx: 2 };
+                if (schedule.Wed_Sat) MATERIAL_DB[schedule.Wed_Sat] = { domain: domain, idx: 3 };
+            });
+        }
+
+        // --- 3. 转换圣遗物 (type: 'artifact') ---
+        if (sourceData.domains.artifacts) {
+            sourceData.domains.artifacts.forEach(item => {
+                let domain = item.domain_name_sc;
+                // 将 drops 数组组合成 key，格式为 "Drop1 / Drop2"
+                let key = item.drops.join(" / ");
+                MATERIAL_DB[key] = { domain: domain, type: "artifact" };
+            });
+        }
+
+        log.info(`【系统】成功加载外部数据文件: ${DB_FILENAME}，包含 ${Object.keys(MATERIAL_DB).length} 条记录`);
+
+    } catch (e) {
+        log.error(`【致命错误】无法读取或解析 ${DB_FILENAME}`);
+        log.error(`错误详情: ${e.message}`);
+        log.error("请确保 JSON 文件存在于脚本目录中且格式正确。脚本已停止。");
+        return;
+    }
 
     // =========================================================================
     // 1. 读取用户设置
@@ -152,6 +123,7 @@
     let materialInfo = MATERIAL_DB[pTargetMaterial];
     if (!materialInfo) {
         log.error(`【数据错误】无法在数据库中找到项目：${pTargetMaterial}`);
+        log.error("请检查 JSON 数据文件是否包含此素材，或 settings.json 中的名称是否一致。");
         return;
     }
 
@@ -204,11 +176,11 @@
         if (isDateOpen) {
             log.info(`【日期检查】通过，今日为常规开放日。`);
         } else {
-            log.warn(`【日期检查】警告：今日 (游戏内星期${dayStr}) 非該素材常規開放日！`);
+            log.warn(`【日期检查】警告：今日 (游戏内星期${dayStr}) 非该素材常规开放日！`);
             
             if (pForceRunMode) {
                 log.warn(`【强制运行】检测到"强制运行"已勾选。脚本将继续执行。`);
-                log.warn(`【风险提示】若游戏内并无"限时全开"活动，底层的 OCR 将无法识别活动，BetterGI 將會直接進入今日預設副本，導致刷錯素材！`);
+                log.warn(`【风险提示】若游戏内并无"限时全开"活动，底层的 OCR 将无法识别活动，BetterGI 将会直接进入今日预设副本，导致刷错素材！`);
             } else {
                 log.error(`【停止运行】为防止刷错素材，脚本已停止。`);
                 log.error(`  -> 若您确认当前游戏有"限时全开/精通移涌"活动，请在设置中勾选"强制运行"以忽略此警告。`);
@@ -261,6 +233,10 @@
                 break;
             } else {
                 log.error(`[脚本] 错误: ${msg}`);
+                // [修改] 新增针对未找到传送点的错误提示
+                if (msg.includes("未找到对应的秘境")) {
+                    log.error("请等待BetterGI本体更新支援新秘境");
+                }
                 throw ex; 
             }
         }
