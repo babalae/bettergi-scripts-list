@@ -739,9 +739,20 @@ async function runPath(fullPath, map_name, pm, pe) {
 
     /* ---------- 主任务 ---------- */
     const pathingTask = (async () => {
+        let doLogMonsterCount = true;
         log.info(`开始执行路线: ${fullPath}`);
         await fakeLog(`${fullPath}`, false, true, 0);
-        if (settings.logMonsterCount) {
+        try {
+            await pathingScript.runFile(fullPath);
+        } catch (error) {
+            log.error(`执行地图追踪出现错误${error.message}`);
+        }
+        try {
+            await sleep(1);
+        } catch (e) {
+            doLogMonsterCount = false;
+        }
+        if (settings.logMonsterCount && doLogMonsterCount) {
             const m = Math.floor(pm);
             const e = Math.floor(pe);
             const lines = [];
@@ -750,12 +761,6 @@ async function runPath(fullPath, map_name, pm, pe) {
             for (let i = 0; i < e; i++) lines.push('交互或拾取："精英"');
 
             if (lines.length) log.debug(lines.join('\n'));
-        }
-
-        try {
-            await pathingScript.runFile(fullPath);
-        } catch (error) {
-            log.error(`执行地图追踪出现错误${error.message}`);
         }
         await fakeLog(`${fullPath}`, false, false, 0);
         state.running = false;
