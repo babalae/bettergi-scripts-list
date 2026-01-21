@@ -1,0 +1,50 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时55.42秒，包含以下怪物：1只愚人众·雷莹术士、2只幼岩龙蜥。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768831149957,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "209-2璃月天遒谷（200_3）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1152.880000000001,
+      "y": 141.6300000000001
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1139.0263671875,
+      "y": 113.17578125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1078.4599999999991,
+      "y": 132.3199999999997
+    }
+  ]
+}

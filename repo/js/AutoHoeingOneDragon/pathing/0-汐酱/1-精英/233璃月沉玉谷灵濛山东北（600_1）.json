@@ -8,13 +8,13 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时88.01秒，包含以下怪物：2只射手丘丘人、2只雷箭丘丘人、1只丘丘岩盔王、1只丘丘水行游侠。",
-    "hash_res": "83034565",
+    "description": "  路线信息：该路线预计用时70.35秒，包含以下怪物：2只射手丘丘人、1只丘丘岩盔王。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1763450489390,
+    "hash_res": "83034565",
+    "last_modified_time": 1768806551596,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "233璃月沉玉谷灵濛山东北（600_1，200_1）",
+    "name": "233璃月沉玉谷灵濛山东北（600_1）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -51,37 +51,20 @@
       "action": "fight",
       "action_params": "",
       "id": 4,
-      "move_mode": "dash",
+      "locked": false,
+      "move_mode": "run",
       "type": "path",
       "x": 1913.48828125,
       "y": 2310.720703125
     },
     {
-      "action": "",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 1900.5556640625,
-      "y": 2311.19921875
-    },
-    {
       "action": "combat_script",
-      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;",
-      "id": 6,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 1871.6100000000006,
-      "y": 2301.4699999999993
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 1850.3999999999996,
-      "y": 2297.58
+      "action_params": "wait(0.1)",
+      "id": 5,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 1913.48828125,
+      "y": 2310.720703125
     }
   ]
 }
