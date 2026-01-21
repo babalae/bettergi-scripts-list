@@ -1,0 +1,76 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "思"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时139.76秒，包含以下怪物：3只精英传奇倍率二。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768044083724,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "006挪德卡莱苔骨荒原西格德 传奇",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9222.552735170353,
+      "y": 1894.3904553088596
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9175.597393783086,
+      "y": 1930.4038689445097
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9080.405748201347,
+      "y": 1950.8751155765822
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9080.437011763472,
+      "y": 1951.1251386918993
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 9079.688910461078,
+      "y": 1957.747457315174
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 9079.688910461078,
+      "y": 1957.747457315174
+    }
+  ]
+}
