@@ -505,17 +505,20 @@ async function loadUidSettingsMap(uidSettingsMap) {
              */
             const keys = new Set([])
 
-            function countMatchingElements(mainSet, subset) {
-                const mainSetObj = new Set(mainSet);
-                return subset.filter(item => mainSetObj.has(item)).length;
-            }
+            // function countMatchingElements(mainSet, subset) {
+            //     const mainSetObj = new Set(mainSet);
+            //     return subset.filter(item => mainSetObj.has(item)).length;
+            // }
 
-            const key = keys[keys.size - 1]
+            // const key = keys[keys.size - 1]
             // PATH_JSON_LIST.filter(item => item.level > 0)
-            filterUidSettings.filter(item => {
+            //中间一段路径名称
+            const dir_key = keys.join("\\")
+            filterSettings=filterUidSettings.filter(item => {
                 const settings_level = PATH_JSON_LIST.filter(list_item => list_item.levelName !== item.name).find();
                 if (settings_level) {
-
+                    //只加载指定目录
+                    return !(settings_level.path.includes(dir_key))
                 }
             })
             const levelSettings = filterSettings.filter(item => {
@@ -523,7 +526,7 @@ async function loadUidSettingsMap(uidSettingsMap) {
                 // 获取级别
                 const level = level_all.split("_").filter(item => item?.trim() !== "").map(parseInt)[0]
                 if (false && loadingLevel === level + 1) {
-                    //只加载对应级别的设置
+                    //只加载指定级别的设置
                     return !(loadingLevel === level + 1)
                 }
                 // 检查级别是否大于等于加载层级
