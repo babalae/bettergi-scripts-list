@@ -126,10 +126,10 @@ async function loadExternalData() {
         foodsData = JSON.parse(foodsContent);
         logConditional(`已加载商品数据: ${Object.keys(foodsData).length} 种商品`);
 
-        // 加载NPC数据
+        // 加载商人数据
         const npcsContent = await file.readText("assets/data/npcs.json");
         npcData = JSON.parse(npcsContent);
-        logConditional(`已加载NPC数据: ${Object.keys(npcData).length} 个NPC`);
+        logConditional(`已加载商人数据: ${Object.keys(npcData).length} 个商人`);
 
         // 解析用户要购买的商品列表
         const foodsInput = (settings.foodsToBuy || "").trim();
@@ -234,10 +234,16 @@ let userName = settings.userName || "默认账户";
 const ignoreRecords = settings.ignoreRecords || false;
 const recordDebug = settings.recordDebug || false;
 
-// 解析禁用的NPC列表
+// 解析禁用的商人列表
 const disabledNpcs = (settings.disabledNpcs || "").split(/\s+/).filter(npc => npc.trim() !== "");
 if (disabledNpcs.length > 0) {
-    log.info(`已禁用NPC: ${disabledNpcs.join(", ")}`);
+    log.info(`已禁用商人: ${disabledNpcs.join(", ")}`);
+}
+
+// 解析禁用的标签列表
+const disabledTags = (settings.disabledTags || "").split(/\s+/).filter(tag => tag.trim() !== "");
+if (disabledTags.length > 0) {
+    log.info(`已禁用标签: ${disabledTags.join(", ")}`);
 }
 
 // 修改AKF设置处理
@@ -283,7 +289,7 @@ async function ensureAccountDirectory(accountName) {
     }
 }
 
-// ==================== 新增函数：读取NPC记录文件 ====================
+// ==================== 新增函数：读取商人记录文件 ====================
 async function loadNpcRecords() {
     const recordPath = getRecordPath(userName);
     try {
@@ -297,7 +303,20 @@ async function loadNpcRecords() {
     return [];
 }
 
-// ==================== 保存NPC记录 ====================
+// ==================== 辅助函数：从路径中提取显示名称 ====================
+function getDisplayNameFromPath(path) {
+    try {
+        // 从路径中提取文件名（不带.json扩展名）
+        // 例如：assets/path/璃月-璃月港-阿桂.json → 璃月-璃月港-阿桂
+        const fileName = path.split('/').pop(); // 获取最后一部分
+        return fileName.replace('.json', ''); // 移除.json扩展名
+    } catch (error) {
+        // 如果解析失败，返回原始路径或默认值
+        return path || "未知位置";
+    }
+}
+
+// ==================== 保存商人记录 ====================
 async function saveNpcRecords(records) {
     const recordPath = getRecordPath(userName);
     try {
@@ -309,12 +328,12 @@ async function saveNpcRecords(records) {
     }
 }
 
-// ==================== 获取NPC记录 ====================
+// ==================== 获取商人记录 ====================
 function getNpcRecord(records, npcName) {
     return records.find(record => record.npcname === npcName);
 }
 
-// ==================== 更新NPC记录 ====================
+// ==================== 更新商人记录 ====================
 function updateNpcRecord(records, npcName, refreshType, purchasedItems) {
     // 如果没有购买任何商品，不更新记录
     if (!purchasedItems || purchasedItems.length === 0) {
@@ -393,7 +412,7 @@ function updateNpcRecord(records, npcName, refreshType, purchasedItems) {
     return records;
 }
 
-// ==================== 新增函数：计算基准日周期 ====================
+// ==================== 计算3天刷新商品基准日周期 ====================
 function getBasePeriod(currentDate) {
     // 基准时间：2025-08-08 20:00 UTC (对应2025-08-09 04:00 GMT+8)
     const baseTime = Date.UTC(2025, 7, 8, 20, 0, 0);
@@ -797,19 +816,22 @@ async function spikChat(npcName) {
     }
 }
 
-// 修改后的购买逻辑
+// 主要购买逻辑
 async function buyFoods(npcName, npcRecords, currentPeriod) {
     // 设置脚本环境的游戏分辨率和DPI缩放
     setGameMetrics(3840, 2160, 1.5);
 
-    // 获取NPC数据
+    // 获取商人数据
     const npc = npcData[npcName];
     const npcRecord = getNpcRecord(npcRecords, npc.name);
 
+    // 获取显示名称
+    const displayName = getDisplayNameFromPath(npc.path);
+
     if (recordDebug) {
-        log.info(`[调试] 开始处理NPC: ${npc.name}`);
+        log.info(`[调试] 开始处理: ${displayName}`);
         if (npcRecord) {
-            log.info(`[调试] NPC当前记录: 1d=${npcRecord["1d_time"] || "无"}, 3d=${npcRecord["3d_time"] || "无"}, 7d=${npcRecord["7d_time"] || "无"}`);
+            log.info(`[调试] 当前记录: 1d=${npcRecord["1d_time"] || "无"}, 3d=${npcRecord["3d_time"] || "无"}, 7d=${npcRecord["7d_time"] || "无"}`);
         }
     }
 
@@ -817,7 +839,7 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
     const foodsToBuy = shouldBuyFoods(npc, npcRecord, currentPeriod, ignoreRecords);
 
     if (recordDebug) {
-        log.info(`[调试] ${npc.name} 购买判断结果:`);
+        log.info(`[调试] ${displayName} 购买判断结果:`);
         log.info(`[调试]   1天商品: ${foodsToBuy["1d"].join(", ")}`);
         log.info(`[调试]   3天商品: ${foodsToBuy["3d"].join(", ")}`);
         log.info(`[调试]   7天商品: ${foodsToBuy["7d"].join(", ")}`);
@@ -830,7 +852,7 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
     if (foodsToBuy["7d"]) allFoodsToBuy.push(...foodsToBuy["7d"]);
 
     if (allFoodsToBuy.length === 0) {
-        logConditional(`${npc.name} 没有需要购买的商品`);
+        logConditional(`${displayName} 没有需要购买的商品`);
         return {
             purchased: [],
             "1d": [],
@@ -839,7 +861,7 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
         };
     }
 
-    logConditional(`${npc.name} 购买列表: ${allFoodsToBuy.join(", ")}`);
+    logConditional(`${displayName} 购买列表: ${allFoodsToBuy.join(", ")}`);
 
     let tempFoods = [...allFoodsToBuy];
     const purchasedFoods = [];
@@ -951,9 +973,9 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
     }
 
     if (purchasedFoods.length > 0) {
-        log.info(`${npc.name} 购买完成，成功购买: ${purchasedFoods.join(", ")}`);
+        log.info(`${displayName} 购买完成，成功购买: ${purchasedFoods.join(", ")}`);
     } else {
-        logConditional(`${npc.name} 没有成功购买任何商品`);
+        logConditional(`${displayName} 没有成功购买任何商品`);
     }
 
     // 返回购买结果
@@ -965,14 +987,25 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
     };
 }
 
-// 修改后的初始化NPC商品
+// 初始化商人商品
 async function initNpcData(records) {
     for (let [key, npc] of Object.entries(npcData)) {
         // 检查是否在禁用列表中
         if (disabledNpcs.includes(npc.name)) {
             npc.enable = false;
-            logConditional(`已禁用NPC: ${npc.name}`);
+            const displayName = getDisplayNameFromPath(npc.path);
+            logConditional(`已禁用: ${displayName}`);
             continue;
+        }
+
+        // 检查是否通过标签禁用
+        if (npc.tags && Array.isArray(npc.tags)) {
+            const hasDisabledTag = npc.tags.some(tag => disabledTags.includes(tag));
+            if (hasDisabledTag) {
+                npc.enable = false;
+                logConditional(`按标签禁用NPC: ${npc.name} (标签: ${npc.tags.join(", ")})`);
+                continue;
+            }
         }
 
         const npcRecord = getNpcRecord(records, npc.name);
@@ -993,7 +1026,8 @@ async function initNpcData(records) {
         npc.enable = npc.enable && hasFoodsToBuy;
 
         if (recordDebug && !npc.enable && hasFoodsToBuy) {
-            log.info(`${npc.name} 有商品需要购买但NPC被禁用`);
+            const displayName = getDisplayNameFromPath(npc.path);
+            log.info(`${displayName} 有商品需要购买但商人被禁用`);
         }
     }
 }
@@ -1033,7 +1067,7 @@ async function initRo() {
 
         // ==================== 加载外部数据 ====================
         if (!await loadExternalData()) {
-            log.error("商品或NPC数据加载失败，脚本终止");
+            log.error("商品或商人数据加载失败，脚本终止");
             return;
         }
 
@@ -1042,13 +1076,13 @@ async function initRo() {
 
         logConditional("识别对象初始化完成");
 
-        // ==================== 加载NPC购买记录 ====================
+        // ==================== 加载商人购买记录 ====================
         let npcRecords = await loadNpcRecords();
 
-        logConditional(`已加载 ${npcRecords.length} 个NPC的购买记录`);
+        logConditional(`已加载 ${npcRecords.length} 个商人的购买记录`);
 
         if (recordDebug && npcRecords.length > 0) {
-            log.info("[调试] 当前NPC记录:");
+            log.info("[调试] 当前商人记录:");
             npcRecords.forEach(record => {
                 log.info(`[调试]   ${record.npcname}:`);
                 if (record["1d_time"]) log.info(`[调试]     1天刷新: ${record["1d_time"]}`);
@@ -1057,14 +1091,14 @@ async function initRo() {
             });
         }
 
-        // ==================== 初始化NPC数据 ====================
+        // ==================== 初始化商人数据 ====================
         await initNpcData(npcRecords);
 
-        logConditional("NPC数据初始化完成");
+        logConditional("商人数据初始化完成");
 
-        // 统计启用的NPC数量
+        // 统计启用的商人数量
         const enabledNpcs = Object.values(npcData).filter(npc => npc.enable);
-        log.info(`本次执行将处理 ${enabledNpcs.length} 个NPC`);
+        log.info(`本次执行将处理 ${enabledNpcs.length} 个商人`);
 
         // ==================== 自动购买 ====================
         // 获取当前时间和周期
@@ -1080,13 +1114,15 @@ async function initRo() {
         for (let [key, npc] of Object.entries(npcData)) {
             if (npc.enable) {
                 npcIndex++;
+                // 获取显示名称（从路径中提取）
+                const displayName = getDisplayNameFromPath(npc.path);
                 log.info(`当前进度：${npcIndex}/${enabledNpcs.length}`);
-                log.info(`开始前往NPC ${npc.name} 购买`);
+                log.info(`开始前往: ${displayName}`); // 修改这里
 
                 await genshin.returnMainUi();
 
                 // 地图追踪开始
-                await fakeLog(npc.name, false, true, 0);
+                await fakeLog(displayName, false, true, 0);
 
                 // 设置游戏时间
                 if (npc.time === "night") {
@@ -1104,20 +1140,20 @@ async function initRo() {
 
                 // 返回主界面
                 await genshin.returnMainUi();
-                log.info(`完成购买NPC: ${npc.name}`);
+                log.info(`完成: ${displayName}`);
 
                 // 伪造日志任务结束
-                await fakeLog(npc.name, false, false, 0);
+                await fakeLog(displayName, false, false, 0);
 
-                // NPC之间等待
+                // 商人之间等待
                 if (npcIndex < enabledNpcs.length) {
-                    logConditional("等待2秒后处理下一个NPC");
-                    await sleep(2000);
+                    logConditional("等待1.5秒后处理下一个商人");
+                    await sleep(1500);
                 }
             }
             else {
                 if (recordDebug) {
-                    log.info(`[调试] 跳过未启用的NPC: ${npc.name}`);
+                    log.info(`[调试] 跳过未启用的商人: ${npc.name}`);
                 }
             }
         }
