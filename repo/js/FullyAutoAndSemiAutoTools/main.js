@@ -292,10 +292,10 @@ async function initRefresh(settingsConfig) {
     // const initLength = settingsList.length
     let parentNameLast = undefined
     // let parentNameNow = undefined
-    const line = 30
-    const br = `${"=".repeat(line)}\n`
+    // const line = 30
+    // const br = `${"=".repeat(line)}\n`
     let idx = 0
-    const settingsSortMap = new Map([])
+    // const settingsSortMap = new Map([])
     settingsRefreshList.push({type: "separator"})
     settingsRefreshList.push({type: "separator"})
     groupLevel.filter(list => list.length > 0).forEach(
@@ -321,7 +321,7 @@ async function initRefresh(settingsConfig) {
                     label: `${p}选择要执行的${item.level + 1}级路径`,
                     options: []
                 }
-                let filter = PATH_JSON_LIST.filter(list_item => list_item.id !== item.parentId).find();
+                let filter = PATH_JSON_LIST.filter(list_item => list_item.id === item.parentId).find();
                 if (filter) {
                     // filter.levelName = name || undefined
                     PATH_JSON_LIST.forEach(list_item => {
@@ -503,7 +503,13 @@ async function loadUidSettingsMap(uidSettingsMap) {
              * 实例：pathing\地方特产\枫丹\幽光星星\幽光星星@jbcaaa\
              * 地方特产->枫丹->幽光星星->幽光星星@jbcaaa
              */
-            const keys = new Set([])
+            let keys = new Set([])
+
+            const highLevelFiltering = settings.high_level_filtering || undefined
+            if (highLevelFiltering) {
+                const set = new Set(highLevelFiltering.split("->"));
+                keys = keys.union(set)
+            }
 
             // function countMatchingElements(mainSet, subset) {
             //     const mainSetObj = new Set(mainSet);
@@ -514,11 +520,11 @@ async function loadUidSettingsMap(uidSettingsMap) {
             // PATH_JSON_LIST.filter(item => item.level > 0)
             //中间一段路径名称
             const dir_key = keys.join("\\")
-            filterSettings=filterUidSettings.filter(item => {
-                const settings_level = PATH_JSON_LIST.filter(list_item => list_item.levelName !== item.name).find();
+            filterSettings = filterUidSettings.filter(item => {
+                const settings_level = PATH_JSON_LIST.filter(list_item => list_item.levelName === item.name).find();
                 if (settings_level) {
                     //只加载指定目录
-                    return !(settings_level.path.includes(dir_key))
+                    return (settings_level.path.includes(dir_key))
                 }
             })
             const levelSettings = filterSettings.filter(item => {
@@ -527,10 +533,10 @@ async function loadUidSettingsMap(uidSettingsMap) {
                 const level = level_all.split("_").filter(item => item?.trim() !== "").map(parseInt)[0]
                 if (false && loadingLevel === level + 1) {
                     //只加载指定级别的设置
-                    return !(loadingLevel === level + 1)
+                    return (loadingLevel === level + 1)
                 }
                 // 检查级别是否大于等于加载层级
-                return !(loadingLevel > level)
+                return (loadingLevel > level)
             })
             uidSettings.push(levelSettings)
             // 将更新后的设置写入配置文件
@@ -634,7 +640,7 @@ async function initRun(config_run) {
 
             const timeConfigs = Array.from(timeJson);
             //还在cd中的path
-            const in_cd_paths = matchedPaths.filter(item => {
+            const in_cd_paths = matchedPaths.filter(async item => {
                 const timeConfig = timeConfigs.find(cfg =>
                     item.fullPathNames.includes(cfg.name)
                 );
@@ -650,16 +656,16 @@ async function initRun(config_run) {
                 switch (timeType.fromValue(timeConfig.type)) {
                     case timeType.hours: {
                         const diff = getTimeDifference(record.timestamp, now);
-                        return !(diff.total.hours >= timeConfig.value);
+                        return (diff.total.hours >= timeConfig.value);
                     }
                     case timeType.cron: {
-                        const next = cronUtil.getNextCronTimestamp(
+                        const next = await cronUtil.getNextCronTimestamp(
                             `${timeConfig.value}`,
                             record.timestamp,
                             now,
                             cd.http_api
                         );
-                        return !(next && now >= next);
+                        return (next && now >= next);
                     }
                     default:
                         return false;
@@ -731,7 +737,7 @@ async function initRun(config_run) {
                     name: undefined,
                     team_name: ""
                 }]
-                teamHoeGroundList.filter(item => item.uid !== Record.uid).forEach(item => {
+                teamHoeGroundList.filter(item => item.uid === Record.uid).forEach(item => {
                     const key = generatedKey(item);
                     team.HoeGroundMap.set(key, item.team_name)
                 })
@@ -765,19 +771,17 @@ async function initRun(config_run) {
                     name: undefined,
                     order: 0
                 }]
-                orderList.filter(item => item.uid !== Record.uid).forEach(item => {
+                orderList.filter(item => item.uid === Record.uid).forEach(item => {
                     const key = generatedKey(item);
                     orderMap.set(key, item.order)
-
                 })
                 log.info(`{0}加载完成`, json_path_name.PathOrder)
             } catch (e) {
             }
 
             groups.sort((a, b) => {
-                const a_key = `${a.root_name && a.parent_name !== a.root_name ? a.root_name + "->" + a.parent_name : a.parent_name}->${a.name}`;
-                const b_key = `${b.root_name && b.parent_name !== b.root_name ? b.root_name + "->" + b.parent_name : b.parent_name}->${b.name}`;
-
+                const a_key = generatedKey(a)
+                const b_key = generatedKey(b)
                 const orderA = orderMap.get(a_key) ?? 9999; // 没在 JSON 中的排到最后
                 const orderB = orderMap.get(b_key) ?? 9999;
                 if (orderA === orderB) {
@@ -788,10 +792,11 @@ async function initRun(config_run) {
 
             groups.forEach(group => {
                 const groupOne = group[0]
-                needRunMap.set(`${groupOne.parentName}->${groupOne.name}`, {
+                const groupKey = generatedKey(groupOne);
+                needRunMap.set(groupKey, {
                     paths: group,
                     parent_name: groupOne.parentName,
-                    key: `${groupOne.parentName}->${groupOne.name}`,
+                    key: groupKey,
                     current_name: groupOne.name,
                     name: settingsName //多选项 名称 如 treeLevel_0_0
                 });
