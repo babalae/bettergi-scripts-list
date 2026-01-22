@@ -60,7 +60,7 @@ async function sendNotice(map = new Map(), title, noNotice = false) {
  * @param {string} noticeText - 通知内容文本
  * @param {string} title - 通知标题
  */
-async function sendText(noticeText, title) {
+async function sendText(noticeText, title, noNotice = false) {
     // 检查是否有通知内容且设置了不发送通知的标志
     if ((!noticeText) || noNotice) {
         log.info(`sendText 无通知内容`)  // 记录日志信息
