@@ -1,11 +1,13 @@
 let manifest = {};
+
 async function init() {
-    let utils=[
+    let utils = [
         "uid",
         "ws",
         "notice",
         "campaignArea",
         "activity",
+        "mapMission",
     ]
     for (let util of utils) {
         eval(file.readTextSync(`utils/${util}.js`));
@@ -13,6 +15,7 @@ async function init() {
     manifest = JSON.parse(file.readTextSync("manifest.json"));
     log.debug("main 初始化完成");
 }
+
 // 判断是否在主界面的函数
 const isInMainUI = () => {
     let captureRegion = captureGameRegion();
@@ -44,8 +47,8 @@ async function toMainUi() {
 
 (async function () {
     await init();
-    log.info(`版本:{version}`,manifest.version)
-    if (settings.toMainUi){
+    log.info(`版本:{version}`, manifest.version)
+    if (settings.toMainUi) {
         await toMainUi();
     }
     await main();
@@ -57,10 +60,18 @@ async function toMainUi() {
  */
 async function main() {
     let ms = 600
-    await campaignAreaUtil.dailyCommissionMain()
-    await sleep(ms*2);
-    await campaignAreaUtil.campaignAreaMain(false)
-    await sleep(ms*2);
+    let openKey = true
+
+    try {
+        await campaignAreaUtil.dailyCommissionMain(openKey)
+        await sleep(ms * 2);
+        openKey = false
+    } catch (e) {
+        await toMainUi()
+        throw e
+    }
+    await campaignAreaUtil.campaignAreaMain(openKey)
+    await sleep(ms * 2);
     await toMainUi()
     await activityUtil.activityMain()
 }
