@@ -1,0 +1,113 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时60秒，包含3只精英，预计收入600摩拉，包含以下怪物：3只遗迹歼击者。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759759517073,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "307稻妻绝缘本后山洞（200_3）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2365.96,
+      "y": -3769.54
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2362.24,
+      "y": -3758.32
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -2377.21,
+      "y": -3757.03
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2384.97,
+      "y": -3783.97
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -2385.97,
+      "y": -3789
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2389.28,
+      "y": -3806.91
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3),keypress(x),w(0.5)",
+      "id": 7,
+      "move_mode": "climb",
+      "type": "path",
+      "x": -2384.34,
+      "y": -3807.09
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3),keypress(x),w(0.4),attack(0.3),w(0.4),keypress(x)",
+      "id": 8,
+      "move_mode": "climb",
+      "type": "path",
+      "x": -2381.69,
+      "y": -3807.19
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2365.53,
+      "y": -3819.34
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2347.38,
+      "y": -3822.33
+    }
+  ]
+}

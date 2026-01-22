@@ -1,0 +1,60 @@
+{
+  "info": {
+    "name": "酒庄大扫除之二-2",
+    "type": "collect",
+    "author": "云闲vsv",
+    "version": "1.0",
+    "description": "酒庄大扫除之二-2",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753939452518
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -395.5947265625,
+      "y": 1771.65966796875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -399.7666015625,
+      "y": 1784.73046875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -400.041015625,
+      "y": 1788.7158203125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -394.6708984375,
+      "y": 1769.794921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -393.1474609375,
+      "y": 1765.69384765625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "info": {
+    "name": "426须弥童梦的切片（200_3）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时44.18秒，包含以下怪物：1只遗迹巡弋者、1只遗迹歼击者、1只遗迹防卫者。",
+    "hash_res": "00659757",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754765412051,
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3349.1943359375,
+      "y": -824.44384765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3341.642578125,
+      "y": -836.873046875,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.3),j,wait(1.5),attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3331.478515625,
+      "y": -829.3427734375,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3331.478515625,
+      "y": -829.3427734375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

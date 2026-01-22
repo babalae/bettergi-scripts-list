@@ -1,0 +1,32 @@
+[
+  {
+  "type": "自动任务",
+  "data": {
+    "action": "enable",
+    "taskType": "AutoPick"
+  },
+  "note": "启用自动拾取"
+},
+  {
+    "type": "地图追踪",
+    "data": "奇药庐中来-3.json",
+    "note": "执行第三个地图追踪步骤"
+  },
+  {
+  "type": "自动任务",
+  "data": {
+    "action": "disable"
+  },
+  "note": "取消所有自动任务"
+},
+   {
+    "type": "自动任务",
+    "data": {
+      "action": "enable",
+      "taskType": "AutoSkip"
+    },
+    "note": "开启自动剧情"
+  }
+
+]
+ 

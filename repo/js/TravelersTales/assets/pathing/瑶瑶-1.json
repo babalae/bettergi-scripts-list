@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "瑶瑶-1",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 508.0068359375,
+      "y": -630.4453125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 447.48046875,
+      "y": -536.90234375,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "j,wait(3),attack"
+    },
+    {
+      "id": 3,
+      "x": 447.24609375,
+      "y": -536.6298828125,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

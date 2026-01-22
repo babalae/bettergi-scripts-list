@@ -1,0 +1,11 @@
+// 作者:苍夏
+// 描述: 生存(钟离，茜特菈莉至少有一个),记得编写<战斗配置>里的，<根据技能cd优化出招>。 格式为 人名,cd;
+
+钟离 s(0.2),e(hold),w(0.4),keypress(q)
+茜特菈莉 e,click(middle) ,q,click(middle) ,e
+
+千织 attack(0.1),keydown(e),wait(0.2),moveby(0,2000),wait(0.2),keyup(e),attack(1),e,keypress(q)
+八重神子 e,wait(0.5),keydown(w),e,keyup(w),wait(0.6),keydown(a),keydown(s),e,keyup(a),keyup(s)
+芙宁娜 e,wait(0.5),keypress(q)
+爱可菲 e,wait(0.4),keypress(q)
+玛薇卡 e,wait(0.2),keypress(q),keypress(1)

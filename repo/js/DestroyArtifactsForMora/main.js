@@ -14,7 +14,9 @@ const MidDestoryButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync
 	keyPress("B");
 	await sleep(1500);
 
-	let ArtifactsButton = captureGameRegion().find(ArtifactsButtonRo);
+	const ro1 = captureGameRegion();
+	let ArtifactsButton = ro1.find(ArtifactsButtonRo);
+	ro1.dispose();
 	if (ArtifactsButton.isExist()) {
 		log.info("识别到圣遗物按钮");
 		ArtifactsButton.click();
@@ -31,9 +33,13 @@ const MidDestoryButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync
 	}
 	try {
 		for (let i = 0; i < times; i++) {
-			captureGameRegion().find(DeleteButtonRo).click();// 点击摧毁
+			const ro2 = captureGameRegion();
+			ro2.find(DeleteButtonRo).click();// 点击摧毁
+			ro2.dispose();
 			await sleep(600);
-			captureGameRegion().find(AutoAddButtonRo).click();// 点击自动添加
+			const ro3 = captureGameRegion();
+			ro3.find(AutoAddButtonRo).click();// 点击自动添加
+			ro3.dispose();
 			await sleep(600);
 
 			if (settings.oneStar) {
@@ -53,11 +59,17 @@ const MidDestoryButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync
 				click(150, 370);
 			}
 
-			captureGameRegion().find(ConfirmButtonRo).click();// 点击快捷放入
+			const ro4 = captureGameRegion();
+			ro4.find(ConfirmButtonRo).click();// 点击快捷放入
+			ro4.dispose();
 			await sleep(600);
-			captureGameRegion().find(DestoryButtonRo).click();// 点击摧毁
+			const ro5 = captureGameRegion();
+			ro5.find(DestoryButtonRo).click();// 点击摧毁
+			ro5.dispose();
 			await sleep(600);
-			captureGameRegion().find(MidDestoryButtonRo).click();// 弹出页面点击摧毁
+			const ro6 = captureGameRegion();
+			ro6.find(MidDestoryButtonRo).click();// 弹出页面点击摧毁
+			ro6.dispose();
 			await sleep(600);
 			click(960, 1000);// 点击空白处
 			await sleep(1000);

@@ -1,0 +1,123 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时106.88秒，包含以下怪物：1只冲锋丘丘人、1只丘丘雷兜王、1只雷丘丘萨满、3只遗迹歼击者。",
+    "hash_res": "05451261",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762172706815,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "334稻妻渊下宫常夜灵庙南（600_1，200_3）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -367.5100000000002,
+      "y": 235.6300000000001
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -332.77999999999975,
+      "y": 238.02999999999997
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -337.97000000000025,
+      "y": 237.52999999999997
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -320.1700000000001,
+      "y": 255.8699999999999
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -278.2498380465995,
+      "y": 285.62448462924226
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -265.5625869018245,
+      "y": 299.78096199869424
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -257.00390625,
+      "y": 292.122314453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.1);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": -267.100830078125,
+      "y": 313.841796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -267.100830078125,
+      "y": 313.841796875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -280.113037109375,
+      "y": 329.3707275390625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -280.113037109375,
+      "y": 329.3707275390625
+    }
+  ]
+}

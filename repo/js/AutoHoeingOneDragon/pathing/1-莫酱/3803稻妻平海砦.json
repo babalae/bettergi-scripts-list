@@ -1,0 +1,55 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时41.3秒，包含以下怪物：4只岩飘浮灵。",
+    "enable_monster_loot_split": false,
+    "hash_res": "74762436",
+    "last_modified_time": 1767966458635,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3803稻妻平海砦",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4184.81,
+      "y": -4244.52
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4163.44140625,
+      "y": -4283.18359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -4163.44140625,
+      "y": -4283.18359375
+    }
+  ]
+}

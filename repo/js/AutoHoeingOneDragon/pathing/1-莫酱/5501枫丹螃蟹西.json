@@ -1,0 +1,181 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时197.55秒，包含以下怪物：1只冲锋丘丘人、2只机关·侦察记录型、1只机关·算力增幅器、1只机关·灵活采集型、1只攻坚特化型机关、1只压制特化型机关、1只歼灭特化型机关、3只盗宝团·水之药剂师、1只盗宝团·杂工、4只盗宝团·神射手、1只盗宝团·海上男儿、1只坚盾重甲蟹。",
+    "enable_monster_loot_split": false,
+    "hash_res": "36943212",
+    "last_modified_time": 1768123592587,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "5501枫丹螃蟹西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4625.880000000001,
+      "y": 2182.540000000001
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4651.541015625,
+      "y": 2175.940185546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4651.541015625,
+      "y": 2175.940185546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4599.40234375,
+      "y": 2221.744140625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4566.125,
+      "y": 2267.1879525166096
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4566.125,
+      "y": 2267.1879525166096
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4544.6650390625,
+      "y": 2183.062255859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4544.6650390625,
+      "y": 2183.062255859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4493.26953125,
+      "y": 2218.424560546875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4495.2353515625,
+      "y": 2246.75634765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4495.2353515625,
+      "y": 2246.75634765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4496.4130859375,
+      "y": 2265.179931640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4488.001953125,
+      "y": 2320.2294921875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4514.5087890625,
+      "y": 2337.103515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4514.5087890625,
+      "y": 2337.103515625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4544.4140625,
+      "y": 2402.9208984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4544.4140625,
+      "y": 2402.9208984375
+    }
+  ]
+}

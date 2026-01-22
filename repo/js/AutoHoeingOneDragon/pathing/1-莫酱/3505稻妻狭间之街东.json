@@ -1,0 +1,154 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时110.22秒，包含以下怪物：3只草史莱姆、1只大型岩史莱姆、2只丘丘人、1只冰霜骗骗花。",
+    "enable_monster_loot_split": false,
+    "hash_res": "24525095",
+    "last_modified_time": 1767957568032,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "3505稻妻狭间之街东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 625.8800000000001,
+      "y": 622.06
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 614.14306640625,
+      "y": 636.46337890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 603.025146484375,
+      "y": 653.2064208984375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 607.133544921875,
+      "y": 680.21728515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 607.133544921875,
+      "y": 680.21728515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 590.56,
+      "y": 728.0900000000001
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.05),keypress(f),keydown(w),dash,",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 556.4532470703125,
+      "y": 764.60302734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 556.4532470703125,
+      "y": 764.60302734375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 570.218505859375,
+      "y": 747.4031982421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 570.218505859375,
+      "y": 747.4031982421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 545.9442138671875,
+      "y": 760.0203857421875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 534.5216064453125,
+      "y": 764.6922607421875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 519.7724609375,
+      "y": 748.690673828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 519.7724609375,
+      "y": 748.690673828125
+    }
+  ]
+}

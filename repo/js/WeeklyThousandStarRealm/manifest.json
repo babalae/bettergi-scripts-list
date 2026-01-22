@@ -1,0 +1,18 @@
+{
+  "manifest_version": 1,
+  "name": "千星奇域每周成就经验刷取",
+  "version": "2.5",
+  "bgi_version": "0.54.0",
+  "description": "无需自己找图，可用于利用成就高经验值刷取经验，默认配置每周刷满需要24分钟",
+  "authors": [
+    {
+      "name": "躁动的氨气",
+      "links": "https://github.com/zaodonganqi"
+    }
+  ],
+  "main": "main.js",
+  "settings_ui": "settings.json",
+  "saved_files": [
+    "data/*.json"
+  ]
+}

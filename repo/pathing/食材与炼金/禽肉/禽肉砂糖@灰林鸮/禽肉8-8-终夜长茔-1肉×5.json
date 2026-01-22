@@ -1,0 +1,175 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766857802749,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "禽肉8-8-终夜长茔-1肉×5",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9187.9258,
+      "y": 3715.8542
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9187.9268,
+      "y": 3715.8518
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9186.7451,
+      "y": 3769.3657
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9205.6709,
+      "y": 3785.0581
+    },
+    {
+      "action": "combat_script",
+      "action_params": "砂糖 e",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9210.1484,
+      "y": 3792.3923
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9210.4082,
+      "y": 3800.9675
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9217.0146,
+      "y": 3799.5276
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9215.6855,
+      "y": 3795.9709
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9212.4893,
+      "y": 3796.3896
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9187.9277,
+      "y": 3715.8428
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9268.3906,
+      "y": 3706.6597
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9297.9004,
+      "y": 3713.7012
+    },
+    {
+      "action": "combat_script",
+      "action_params": "砂糖 e",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9295.5205,
+      "y": 3701.1794
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9297.9629,
+      "y": 3693.8054
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9300.5615,
+      "y": 3696.623
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9295.7451,
+      "y": 3696.9246
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9294.2988,
+      "y": 3697.6528
+    }
+  ]
+}

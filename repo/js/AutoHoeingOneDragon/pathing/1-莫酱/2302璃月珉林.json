@@ -1,0 +1,82 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时52.13秒，包含以下怪物：6只火史莱姆、1只大型火史莱姆。",
+    "enable_monster_loot_split": false,
+    "hash_res": "85943074",
+    "last_modified_time": 1767810689558,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "2302璃月珉林",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1389.0100000000002,
+      "y": 516.4700000000003
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1372.9404296875,
+      "y": 530.8212890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1366.744140625,
+      "y": 563.798828125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "500",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1370.4921875,
+      "y": 600.0517578125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1370.4921875,
+      "y": 600.0517578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 1370.4921875,
+      "y": 600.0517578125
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "info": {
+    "name": "423须弥沙漠赤王陵东岩窟（600_1，200_1）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时106.17秒，包含以下怪物：1只丘丘岩盔王、1只元能构装体·勘探机、1只旋转火蕈兽。",
+    "hash_res": "80824249",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754765220654,
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5383.056640625,
+      "y": -2456.3984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5382.50048828125,
+      "y": -2495.154296875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 5411.2470703125,
+      "y": -2523.923828125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 5398.5205078125,
+      "y": -2556.9306640625,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 5381.80078125,
+      "y": -2589.697265625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 5351.478515625,
+      "y": -2606.2021484375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(t),wait(0.3),keypress(t),wait(0.3),keypress(t)",
+      "type": "orientation"
+    },
+    {
+      "id": 7,
+      "x": 5344.31005859375,
+      "y": -2609.97265625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 5317.9248046875,
+      "y": -2631.1796875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(t),wait(0.3),keypress(t),wait(0.3),keypress(t)",
+      "type": "orientation"
+    },
+    {
+      "id": 9,
+      "x": 5316.37451171875,
+      "y": -2637.859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 5308.79296875,
+      "y": -2666.734375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(t),wait(0.3),keypress(t),wait(0.3),keypress(t)",
+      "type": "orientation"
+    },
+    {
+      "id": 11,
+      "x": 5299.78369140625,
+      "y": -2724.634765625,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 5299.78369140625,
+      "y": -2724.634765625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时121.04秒，包含以下怪物：2只火史莱姆、1只大型火史莱姆、1只雷史莱姆、1只冰史莱姆、1只大型冰史莱姆、1只炽热骗骗花、1只电气骗骗花、1只冰霜骗骗花。",
+    "enable_monster_loot_split": false,
+    "hash_res": "77254531",
+    "last_modified_time": 1768313402076,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3205(高危)稻妻踏鞴反应炉东三骗骗花",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3288.1399999999994,
+      "y": -3652.51
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3269.572265625,
+      "y": -3647.236328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.5);钟离 a(0.15),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3253.76171875,
+      "y": -3625.7236328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.05),keypress(f),dash",
+      "id": 4,
+      "move_mode": "swim",
+      "type": "target",
+      "x": -3246.279999999999,
+      "y": -3622.7000000000007
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.05),keypress(f),dash",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -3234.529999999999,
+      "y": -3617.4799999999996
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.05),keypress(f),dash",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -3231.0600000000013,
+      "y": -3633.4400000000005
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3231.0600000000013,
+      "y": -3633.4400000000005
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3231.0600000000013,
+      "y": -3633.4400000000005
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3224.2999999999993,
+      "y": -3634.99
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3209.8100000000013,
+      "y": -3656.5499999999993
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "350",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3170.9000000000015,
+      "y": -3690.1900000000005
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3164.46875,
+      "y": -3667.51171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3164.46875,
+      "y": -3667.51171875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3157.326171875,
+      "y": -3628.98046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3157.326171875,
+      "y": -3628.98046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3157.326171875,
+      "y": -3628.98046875
+    }
+  ]
+}

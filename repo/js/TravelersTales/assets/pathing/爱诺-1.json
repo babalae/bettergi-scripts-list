@@ -1,0 +1,44 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757823331095,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "爱诺-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9885.54296875,
+      "y": 1718.5849609375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9913.2763671875,
+      "y": 1662.19580078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9914.529296875,
+      "y": 1656.2392578125
+    }
+  ]
+}

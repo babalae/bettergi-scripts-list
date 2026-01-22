@@ -1,0 +1,125 @@
+{
+  "info": {
+    "name": "6704--纳塔_踞石山_东侧海边_(3-7)",
+    "type": "collect",
+    "author": "Demo&汐&mno",
+    "version": "1.1",
+    "description": "  路线信息：该路线预计用时93.66秒，包含以下怪物：3只疾讯勇士·引索客、1只疾讯勇士·荡风斥候、1只匿叶龙武士·旋锯飞叶、3只幼匿叶龙、2只匿叶龙。",
+    "hash_res": "24232381",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7746.55,
+      "y": -2250.61
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7661.03,
+      "y": -2306.72
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7668.03,
+      "y": -2297.16
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7675.02,
+      "y": -2287.59
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7678.15,
+      "y": -2291.57
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7689.97,
+      "y": -2278.28
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7681.8,
+      "y": -2285.98
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7681.8,
+      "y": -2285.98
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7679.34,
+      "y": -2270.37
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7658.64,
+      "y": -2260.83
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 7658.64,
+      "y": -2260.83
+    }
+  ]
+}

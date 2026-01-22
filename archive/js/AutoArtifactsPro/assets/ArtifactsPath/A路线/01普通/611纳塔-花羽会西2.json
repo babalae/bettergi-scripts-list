@@ -1,0 +1,76 @@
+﻿{
+  "info": {
+    "name": "611纳塔-花羽会西2",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755371062589,
+    "enable_monster_loot_split": false,
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9588.93359375,
+      "y": -1285.45947265625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9606.312448648921,
+      "y": -1278.5620149451688,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9641.564453125,
+      "y": -1265.09130859375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9673.9677734375,
+      "y": -1255.416015625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9681.312539500828,
+      "y": -1246.250121263708,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),w(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 9700.375047400996,
+      "y": -1267.812302946475,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),a(0.2),keypress(f),s(0.4),keypress(f);芙宁娜 e;万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "type": "target"
+    }
+  ]
+}

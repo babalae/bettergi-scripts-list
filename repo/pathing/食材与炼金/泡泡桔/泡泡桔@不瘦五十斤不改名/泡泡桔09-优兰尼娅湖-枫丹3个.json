@@ -1,0 +1,33 @@
+{
+  "info": {
+    "name": "泡泡桔09-优兰尼娅湖-枫丹3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3618.27,
+      "y": 4057.9
+    },
+    {
+      "id": 2,
+      "x": 3589.73,
+      "y": 4073.53,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}

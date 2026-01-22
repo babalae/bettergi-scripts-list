@@ -1,6 +1,74 @@
+const COMPLETED_TASKS_FILE = "./completed_tasks.json";
+let skipCheckStamina = 1;//为0时跳过检查体力
+let messageBuffer = '';
+// 累积消息函数
+function addNotification(message) {
+    messageBuffer += message + '\n';
+}
 
+// 发送累积的消息
+function sendBufferedNotifications() {
+    if (messageBuffer.trim()) {
+        notification.send(messageBuffer.trim());
+        messageBuffer = ''; // 清空缓冲区
+    }
+}
 
-(async function () {
+// 添加函数来读写已完成任务记录
+async function loadCompletedTasks() {
+    try {
+        if (file.isFolder(COMPLETED_TASKS_FILE)) {
+            return {};
+        }
+        const content = await file.readText(COMPLETED_TASKS_FILE);
+        return JSON.parse(content);
+    } catch (error) {
+        // 如果文件不存在或其他错误，返回空对象
+        return {};
+    }
+}
+
+async function saveCompletedTasks(tasks) {
+    try {
+        await file.writeText(COMPLETED_TASKS_FILE, JSON.stringify(tasks, null, 2));
+        log.info("已保存完成任务记录");
+    } catch (error) {
+        log.error(`保存任务记录失败: ${error}`);
+    }
+}
+
+async function addCompletedTask(materialType, materialName, requireCounts) {
+    const tasks = await loadCompletedTasks();
+    const taskKey = `${materialType}_${materialName}`;
+    
+    tasks[taskKey] = {
+        materialType,
+        materialName,
+        requireCounts,
+        completedAt: new Date().toISOString()
+    };
+    
+    await saveCompletedTasks(tasks);
+    log.info(`已标记 ${materialName} 为完成`);
+}
+
+async function isTaskCompleted(materialType, materialName, currentRequireCounts) {
+    const tasks = await loadCompletedTasks();
+    const taskKey = `${materialType}_${materialName}`;
+    
+    if (!tasks[taskKey]) {
+        return false;
+    }
+    
+    // 检查需求数量是否相同
+    const previousRequireCounts = tasks[taskKey].requireCounts;
+    if (Array.isArray(previousRequireCounts) && Array.isArray(currentRequireCounts)) {
+        return previousRequireCounts.join(',') === currentRequireCounts.join(',');
+    } else {
+        return previousRequireCounts === currentRequireCounts;
+    }
+}
+
 //获取BOSS材料数量
 async function getBossMaterialCount(bossName) {
 await genshin.returnMainUi();
@@ -26,8 +94,8 @@ log.info(`正在查询数量`);
             const stopImageRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/boss/无相之风.png"), 0, 0, 1920,1080);
             stopImageRo.Threshold = 0.95;
             await findAndClickWithScroll(targetImageRo, stopImageRo, {maxAttempts: 30,scrollNum: 9});
-            if(bossName == '科培琉司的劫罚') click(1320,680);
-            else click(1236,680);
+            if(bossName == '冰风组曲-科培琉司的劫罚') await waitAndClickImage("好感图标", 160, 30);
+            else await waitAndClickImage("好感图标", 80, 30);
             await sleep(800);
             const result = await findImageAndOCR("assets/itemQuantityDetection.png", 200, 50, 0, 0);
             if (result !== false) {
@@ -71,18 +139,20 @@ async function findAndClickWithScroll(targetRo, stopRo, options = {}) {
             // 找到目标，点击并返回
             log.info(`找到目标图片，位置: (${targetResult.x}, ${targetResult.y})`);
             targetResult.click();
+            captureRegion.dispose();
             await sleep(clickDelay);
             return;
         }
-        
+
         // 4. 未找到目标，滚动画面
         log.info(`第 ${attempt + 1} 次尝试未找到目标图片，将滚动画面...`);
         for (let i = 0; i < scrollNum; i++) {
-        await keyMouseScript.runFile("assets/滚轮下滑.json");
+            await keyMouseScript.runFile("assets/滚轮下滑.json");
         }
 
         // 2. 检查是否遇到终止图片
         const stopResult = captureRegion.find(stopRo);
+        captureRegion.dispose();
         if (!stopResult.isEmpty()) {
             throw new Error(`遇到终止图片，停止寻找目标图片。终止位置: (${stopResult.x}, ${stopResult.y})`);
         }
@@ -132,9 +202,11 @@ let challengeTime = 0;
             await sleep(500);
             leftButtonClick();
             await sleep(100);
-            let res = captureGameRegion().find(RecognitionObject.ocr(840, 935, 230, 40));
+            let ro = captureGameRegion();
+            let res = ro.find(RecognitionObject.ocr(840, 935, 230, 40));
+            ro.dispose();
             if (res.text.includes("自动退出")) {
-                     log.info("检测到挑战成功");           
+                     log.info("检测到挑战成功");
                      return;
                 }
             }
@@ -176,44 +248,50 @@ const autoNavigateToReward = async () => {
         if (rewardResult.text == "接触征讨之花") {
             log.info(`总计前进第${advanceNum}次`);
             log.info("已到达领奖点，检测到文字: " + rewardResult.text);
+            captureRegion.dispose();
             return;
         }
         else if(advanceNum > 150){
-        log.info(`总计前进第${advanceNum}次`);
-        throw new Error('前进时间超时');
+            log.info(`总计前进第${advanceNum}次`);
+            captureRegion.dispose();
+            throw new Error('前进时间超时');
         }
         // 2. 未到达领奖点，则调整视野
         for(let i = 0; i < 100; i++){
-        captureRegion = captureGameRegion();
-        let iconRes = captureRegion.Find(boxIconRo);
-        let climbTextArea = captureRegion.DeriveCrop(1685, 1030, 65, 25);
-        let climbResult = climbTextArea.find(RecognitionObject.ocrThis);
-        // 检查是否处于攀爬状态
-        if (climbResult.text == "Space"){
-        log.info("检侧进入攀爬状态，尝试脱离");
-        keyPress("x");
-        await sleep(1000);
-        keyDown("a");
-        await sleep(800);
-        keyUp("a");
-        keyDown("w");
-        await sleep(800);
-        keyUp("w");
-        }
-        if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {    
-            advanceNum++;
-            break;
-        } else {
-            // 小幅度调整
-            if(iconRes.y >= 520)  moveMouseBy(0, 920);
-            let adjustAmount = iconRes.x < 920 ? -20 : 20;
-            let distanceToCenter = Math.abs(iconRes.x - 920); // 计算与920的距离
-            let scaleFactor = Math.max(1, Math.floor(distanceToCenter / 50)); // 根据距离缩放，最小为1
-            let adjustAmount2 = iconRes.y < 540 ? scaleFactor : 10;
-            moveMouseBy(adjustAmount * adjustAmount2, 0);
-            await sleep(100);
-        }     
-  if(i > 20) throw new Error('视野调整超时');
+            captureRegion = captureGameRegion();
+            let iconRes = captureRegion.Find(boxIconRo);
+            let climbTextArea = captureRegion.DeriveCrop(1685, 1030, 65, 25);
+            let climbResult = climbTextArea.find(RecognitionObject.ocrThis);
+            captureRegion.dispose();
+            climbTextArea.dispose();
+            // 检查是否处于攀爬状态
+            if (climbResult.text == "Space"){
+            log.info("检侧进入攀爬状态，尝试脱离");
+            keyPress("x");
+            await sleep(1000);
+            keyDown("a");
+            await sleep(800);
+            keyUp("a");
+            keyDown("w");
+            await sleep(800);
+            keyUp("w");
+            }
+            if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
+                advanceNum++;
+                break;
+            } else {
+                // 小幅度调整
+                if(iconRes.y >= 520)  moveMouseBy(0, 920);
+                let adjustAmount = iconRes.x < 920 ? -20 : 20;
+                let distanceToCenter = Math.abs(iconRes.x - 920); // 计算与920的距离
+                let scaleFactor = Math.max(1, Math.floor(distanceToCenter / 50)); // 根据距离缩放，最小为1
+                let adjustAmount2 = iconRes.y < 540 ? scaleFactor : 10;
+                moveMouseBy(adjustAmount * adjustAmount2, 0);
+                await sleep(100);
+            }
+            if(i > 20) {
+                throw new Error('视野调整超时');
+            }
     }
         // 3. 前进一小步
         keyDown("w");
@@ -245,36 +323,31 @@ function positiveIntegerJudgment(testNumber) {
     return testNumber;
 }
 
-//返回当前体力值await queryStaminaValue();
 async function queryStaminaValue() {
     try {
         await genshin.returnMainUi();
-        await sleep(1000);
+        await sleep(2500);
         keyPress("F1"); 
-        await sleep(2000);
+        await sleep(1800);
         click(300, 540);
-        await sleep(1000);
+        await sleep(500);
         click(1570, 203);
-        await sleep(1000);
+        await sleep(800);
         let captureRegion = captureGameRegion();
         let stamina = captureRegion.find(RecognitionObject.ocr(1580, 20, 210, 55));
-        
-        // 改进的分割方法
+        captureRegion.dispose();
+        log.info(`OCR原始文本：${stamina.text}`);
         const staminaText = stamina.text.replace(/\s/g, ''); // 移除所有空格
-        // 使用正则表达式匹配数字部分（包括/或可能被误识别为其他字符的情况）
-        const matches = staminaText.match(/(\d+)[^\d]+(\d+)/);
-        
-        if (!matches || matches.length < 3) {
-            throw new Error("无法解析体力值格式");
-        }
-        const currentValue = matches[1]; // 第一个数字是当前体力值
-        let validatedStamina = positiveIntegerJudgment(currentValue);
-        log.info(`剩余体力为：${validatedStamina}`);
-        await genshin.returnMainUi();
-        return validatedStamina;
-        
+         const standardMatch = staminaText.match(/(\d+)/);
+            if (standardMatch) {
+                const currentValue = standardMatch[1];
+                let validatedStamina = positiveIntegerJudgment(currentValue);
+                if (validatedStamina > 11200) validatedStamina = (validatedStamina-1200)/10000;
+           log.info(`返回体力值：${validatedStamina}`);
+           return validatedStamina;
+            }
     } catch (error) {
-        log.error(`体力识别失败，默认为零`);
+        log.error(`体力识别失败：${error.message}，默认为零`);
         await genshin.returnMainUi();
         return 0;
     }      
@@ -292,13 +365,14 @@ async function tpEndDetection() {
         let capture = captureGameRegion();
         let res1 = capture.find(region1);
         let res2 = capture.find(region2);
+        capture.dispose();
         if (!res1.isEmpty()|| !res2.isEmpty()){
             log.info("传送完成");
             await sleep(1000);//传送结束后有僵直
             click(960, 810);//点击任意处
             await sleep(500);
             return;
-        } 
+        }
         tpTime++;
         await sleep(100);
     }
@@ -359,6 +433,8 @@ const repeatOperationUntilTextFound = async ({
         
         // 2. 执行OCR识别
         const ocrResult = textArea.find(RecognitionObject.ocrThis);
+        captureRegion.dispose();
+        textArea.dispose();
         
         const hasAnyText = ocrResult.text.trim().length > 0;
         const matchesTarget = targetText === null 
@@ -371,7 +447,7 @@ const repeatOperationUntilTextFound = async ({
             if (ifClick) click(Math.round(x + width / 2), Math.round(y + height / 2));
             return true;
         }
-        
+
         // 4. 检查步数限制
         if (stepsTaken >= maxSteps) {
             throw new Error(`检查次数超过最大限制: ${maxSteps}，未查询到文字"${targetText}"`);
@@ -423,6 +499,7 @@ threshold = 0.8 // 新增阈值参数，默认值0.8
         const captureRegion = captureGameRegion();
         // 查找图片
         const result = captureRegion.Find(recognitionObj);
+        captureRegion.dispose();
         
         if (!result.isEmpty()) {
             log.info(`找到图片 ${imageName}，位置(${result.x}, ${result.y})，正在点击...`);
@@ -430,7 +507,7 @@ threshold = 0.8 // 新增阈值参数，默认值0.8
             await sleep(300); // 点击后稍作等待
             return true;
         }
-        
+
         await sleep(checkInterval);
     }
     
@@ -458,6 +535,7 @@ async function findImageAndOCR(imagePath, ocrWidth, ocrHeight, offsetX, offsetY)
         
         if (foundRegion.isEmpty()) {
             log.info(`未找到模板图片: ${imagePath}`);
+            captureRegion.dispose();
             return false;
         }
         
@@ -470,6 +548,7 @@ async function findImageAndOCR(imagePath, ocrWidth, ocrHeight, offsetX, offsetY)
         // 4. 创建OCR识别对象并识别
         const ocrRo = RecognitionObject.Ocr(ocrX, ocrY, ocrWidth, ocrHeight);
         const ocrResult = captureRegion.Find(ocrRo);
+        captureRegion.dispose();
         
         if (ocrResult.isEmpty() || !ocrResult.text || ocrResult.text.trim() === "") {
             log.info("OCR未识别到内容");
@@ -489,6 +568,20 @@ async function findImageAndOCR(imagePath, ocrWidth, ocrHeight, offsetX, offsetY)
 //前往刷天赋书或者武器(必须保证在材料介绍页面)await gotoAutoDomain(imageName = "weaponDomain");
 async function gotoAutoDomain(imageName = "bookDomain") {
 await sleep(1000);
+
+ //拖动操作，避免文本描述太长，导致副本传送图标消失
+moveMouseTo(960, 580);//重置鼠标位置,居中
+leftButtonDown();
+await sleep(500);
+moveMouseTo(965, 700);
+await sleep(500);
+moveMouseTo(961, 300);
+await sleep(500);
+leftButtonUp();
+await sleep(500);
+moveMouseTo(50, 50);//移动鼠标到左上角，避免检测失败
+await sleep(400);
+    
 await waitAndClickImage(imageName);
     try {
  await repeatOperationUntilTextFound({x: 1640,y: 960,width: 200,height: 100,targetText: "传送",stepDuration: 0, maxSteps:25, waitTime:100,ifClick: true});//用来等待点击文字,10s等待
@@ -504,7 +597,16 @@ await sleep(3000);//枫丹天赋材料本门口有水晶碟，可能影响
 await repeatOperationUntilTextFound();
 keyPress("F");
 await repeatOperationUntilTextFound({x: 1650,y: 1000,width: 160,height: 45,targetText: "单人挑战",stepDuration: 0,waitTime: 100});//等待点击单人挑战
-await dispatcher.runTask(new SoloTask("AutoDomain"));
+await dispatcher.runTask(new SoloTask("AutoDomain", {  SpecifyResinUse: true,  
+// 原粹树脂刷取次数  
+OriginalResinUseCount: 1,   
+// 浓缩树脂刷取次数    
+CondensedResinUseCount: 0,  
+// 须臾树脂刷取次数  
+TransientResinUseCount: 0,   
+// 脆弱树脂刷取次数  
+FragileResinUseCount: 0  
+}));
 }
 // 技能书与国家、行列位置的映射
 const bookToPosition = {
@@ -531,7 +633,12 @@ const bookToPosition = {
     // 纳塔
     "角逐": {country: "纳塔天赋", row: 0},
     "焚燔": {country: "纳塔天赋", row: 1},
-    "纷争": {country: "纳塔天赋", row: 2}
+    "纷争": {country: "纳塔天赋", row: 2},
+    //挪德卡莱
+    "浪迹": {country: "挪德卡莱天赋", row: 2},
+    "乐园": {country: "挪德卡莱天赋", row: 1},
+    "月光": {country: "挪德卡莱天赋", row: 0}
+
 };
 
 // 品质对应的列位置
@@ -566,7 +673,11 @@ const weaponMaterialToPosition = {
     // 纳塔
     "贡祭炽心": {country: "纳塔武器", row: 0},
     "谵妄圣主": {country: "纳塔武器", row: 1},
-    "神合秘烟": {country: "纳塔武器", row: 2}
+    "神合秘烟": {country: "纳塔武器", row: 2},
+    //挪德卡莱
+    "终北遗嗣": {country: "挪德卡莱武器", row: 2},
+    "长夜燧火": {country: "挪德卡莱武器", row: 1},
+    "奇巧秘器": {country: "挪德卡莱武器", row: 0}
 };
 
 // 武器材料品质对应的列位置和品质名称（4种品质）
@@ -617,7 +728,7 @@ async function getMaterialCount(bookName) {
         await waitAndClickImage(country, 700, 35, true, 3000);
         }
         // 等待加载
-        await sleep(1000);
+        await sleep(500);
         
         // 2. 遍历三种品质的材料
         for (let col = 0; col < 3; col++) {
@@ -630,7 +741,7 @@ async function getMaterialCount(bookName) {
             click(clickX, clickY);
             
             // 等待材料详情界面加载
-            await sleep(1500);
+            await sleep(400);
             
             // 3. OCR识别数量
             const result = await findImageAndOCR("assets/itemQuantityDetection.png", 200, 50, 0, 0);
@@ -656,8 +767,6 @@ async function getMaterialCount(bookName) {
     } catch (error) {
         log.error("获取材料数量时出错: " + error);
         // 出错时尝试返回
-        click(800, 10);
-        await sleep(1000);
         return results;
     }
 }
@@ -703,7 +812,7 @@ async function getWeaponMaterialCount(materialName) {
         await waitAndClickImage(country, 700, 35, true, 3000);
         }
         // 等待加载
-        await sleep(1000);
+        await sleep(500);
         
         // 2. 遍历四种品质的材料
         for (let col = 0; col < 4; col++) {
@@ -716,7 +825,7 @@ async function getWeaponMaterialCount(materialName) {
             click(clickX, clickY);
             
             // 等待材料详情界面加载
-            await sleep(1500);
+            await sleep(400);
             
             // 3. OCR识别数量
             const result = await findImageAndOCR("assets/itemQuantityDetection.png", 200, 50, 0, 0);
@@ -746,8 +855,6 @@ async function getWeaponMaterialCount(materialName) {
         };
     } catch (error) {
         log.error("获取武器材料数量时出错: " + error);
-        // 出错时尝试返回
-        click(800, 10);
         await sleep(1000);
         return {
             green: 0,
@@ -759,79 +866,114 @@ async function getWeaponMaterialCount(materialName) {
 }
 
 //去刷天赋书
-async function getTalentBook(materialName) {
+async function getTalentBook(materialName,bookRequireCounts) {
 while(1){
 log.info(`准备刷取天赋书，开始检查体力`);
-let afterStamina = await queryStaminaValue();
+let afterStamina = 0;
+let res = 9999999;
+if(skipCheckStamina)afterStamina = await queryStaminaValue();
+if(afterStamina< 20) skipCheckStamina = 0;
     if ( afterStamina >= 20 ){       
              try {
              log.info(`体力充足，开始检测物品数量`);
-
-             const bookCounts = await getMaterialCount(materialName);
+             let bookCounts = await getMaterialCount(materialName);
              res = 0.12*(bookRequireCounts[0]-bookCounts[0])+0.36*(bookRequireCounts[1]-bookCounts[1])+(bookRequireCounts[2]-bookCounts[2]);
-
              if(res>0){
               log.info(`${materialName}天赋书大约还差${res.toFixed(2)}本紫色品质没有刷取`);
               await gotoAutoDomain();
              } 
              else {
-             notification.send(`${materialName}天赋书数量已经满足要求！！！`);
+             addNotification(`${materialName}天赋书数量已经满足要求！！！`);
+             await addCompletedTask("talent", materialName, bookRequireCounts);
              return;
-             }
-
+              }
              }
              catch (error) {  
              notification.send(`${materialName}天赋书刷取失败，错误信息: ${error}`);
              await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
+             if (error.message != '秘境未在开启时间，跳过执行'){
+             let bookCounts = await getMaterialCount(materialName);
+             res = 0.12*(bookRequireCounts[0]-bookCounts[0])+0.36*(bookRequireCounts[1]-bookCounts[1])+(bookRequireCounts[2]-bookCounts[2]);
              }
+              addNotification(`${materialName}天赋书大约还差${res.toFixed(2)}本紫色品质没有刷取`);
+             return;
        }
+     }
        else{
-             notification.send(`体力值为${afterStamina},可能无法刷取${materialName}天赋书`);
+             log.info(`体力值为${afterStamina},可能无法刷取${materialName}天赋书`);
+             const bookCounts = await getMaterialCount(materialName);
+             let res = 0.12*(bookRequireCounts[0]-bookCounts[0])+0.36*(bookRequireCounts[1]-bookCounts[1])+(bookRequireCounts[2]-bookCounts[2]);
+             if(res <= 0){
+             await addCompletedTask("talent", materialName, bookRequireCounts);
+             addNotification(`${materialName}天赋书数量已经满足要求！！！`);
+             } 
+             else addNotification(`${materialName}天赋书大约还差${res.toFixed(2)}本紫色品质没有刷取`);
              return;
          }
 }
 }
 
 //去刷武器材料
-async function getWeaponMaterial(materialName) {
+async function getWeaponMaterial(materialName,weaponRequireCounts) {
 while(1){
 log.info(`准备刷取武器材料，开始检查体力`);
-let afterStamina = await queryStaminaValue();
+let afterStamina = 0;
+let res = 99999999;
+if(skipCheckStamina)afterStamina = await queryStaminaValue();
+if(afterStamina< 20) skipCheckStamina = 0;
     if ( afterStamina >= 20 ){       
              try {
              log.info(`体力充足，开始检测物品数量`);
-             const weaponCounts = await getWeaponMaterialCount(materialName);
+             let weaponCounts = await getWeaponMaterialCount(materialName);
              res = 0.12*(weaponRequireCounts[0]-weaponCounts.green)+0.36*(weaponRequireCounts[1]-weaponCounts.blue)+(weaponRequireCounts[2]-weaponCounts.purple)+3*(weaponRequireCounts[3]-weaponCounts.gold);
              if(res>0){
               log.info(`武器材料${materialName}大约还差${res.toFixed(2)}个紫色品质没有刷取`);
               await gotoAutoDomain("weaponDomain");
              } 
-             else notification.send(`武器材料${materialName}数量已经满足要求！！！`);
+             else {
+             addNotification(`武器材料${materialName}数量已经满足要求！！！`);
+             await addCompletedTask("wepon", materialName, weaponRequireCounts);
+             return;
+             }
              }
              catch (error) {  
-             notification.send(`武器材料${materialName}刷取失败，错误信息: ${error}`);
+             addNotification(`武器材料${materialName}刷取失败，错误信息: ${error}`);
              await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
+             if (error.message != '秘境未在开启时间，跳过执行'){
+             const weaponCounts = await getWeaponMaterialCount(materialName);
+             res = 0.12*(weaponRequireCounts[0]-weaponCounts.green)+0.36*(weaponRequireCounts[1]-weaponCounts.blue)+(weaponRequireCounts[2]-weaponCounts.purple)+3*(weaponRequireCounts[3]-weaponCounts.gold);
+             }
+             addNotification(`武器材料${materialName}大约还差${res.toFixed(2)}个紫色品质没有刷取`);
              return;
              }
        }
        else{
-             notification.send(`体力值为${afterStamina},可能无法刷取武器材料${materialName}`);
+             log.info(`体力值为${afterStamina},可能无法刷取武器材料${materialName}`);
+             const weaponCounts = await getWeaponMaterialCount(materialName);
+             let res = 0.12*(weaponRequireCounts[0]-weaponCounts.green)+0.36*(weaponRequireCounts[1]-weaponCounts.blue)+(weaponRequireCounts[2]-weaponCounts.purple)+3*(weaponRequireCounts[3]-weaponCounts.gold);
+             if(res <= 0){
+             await addCompletedTask("wepon", materialName, weaponRequireCounts);
+             addNotification(`武器材料${materialName}数量已经满足要求！！！`);
+             } 
+             else addNotification(`武器材料${materialName}大约还差${res.toFixed(2)}个紫色品质没有刷取`);
              return;
          }
 }
 }
+
 //去刷boss材料
-async function getBossMaterial(bossName) {
+async function getBossMaterial(bossName,bossRequireCounts) {
 while(1){
 log.info(`准备刷取 boss 材料，开始检查体力`);
-let afterStamina = await queryStaminaValue();
+let afterStamina = 0;
+let res = 99999999;
+if(skipCheckStamina)afterStamina = await queryStaminaValue();
+if(afterStamina< 20) skipCheckStamina = 0;
     if ( afterStamina >= 40 ){       
              try {
              log.info(`体力充足，开始检测物品数量`);
-             const bossCounts = await getBossMaterialCount(bossName);
-             
-             let res = settings.bossRequireCounts-bossCounts;
-             
+             let bossCounts = await getBossMaterialCount(bossName);
+             res = bossRequireCounts-bossCounts;
              if(res>0){
                      log.info(`${bossName}还差${res}个材料没有刷取`);
                      if(!settings.teamName) throw new Error('未输入队伍名称');
@@ -841,8 +983,21 @@ let afterStamina = await queryStaminaValue();
                      else await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
                      log.info(`前往讨伐${bossName}`);
                      await pathingScript.runFile(`assets/goToBoss/${bossName}前往.json`);
-                     await keyMouseScript.runFile(`assets/goToBoss/${bossName}前往键鼠.json`);
-                     await sleep(1000);
+                 	 if(bossName=="超重型陆巡舰·机动战垒"){
+					 keyDown("w");
+					 await sleep(13000);
+					 keyUp("w");
+					 }
+					 else if(bossName=="深黯魇语之主"){
+					 keyDown("w");
+					 await sleep(2000);
+					 keyPress("VK_SPACE");
+					 await sleep(500);
+					 keyPress("VK_SPACE");
+					 await sleep(13000);
+					 keyUp("w");
+					 }
+                     await sleep(500);
                      log.info(`开始战斗`);
                      try {
                          await dispatcher.runTask(new SoloTask("AutoFight"));
@@ -851,7 +1006,20 @@ let afterStamina = await queryStaminaValue();
                          log.info(`挑战失败，再来一次`);
                          await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
                          await pathingScript.runFile(`assets/goToBoss/${bossName}前往.json`);
-                         await keyMouseScript.runFile(`assets/goToBoss/${bossName}前往键鼠.json`);
+                         if(bossName=="超重型陆巡舰·机动战垒"){
+					     keyDown("w");
+					     await sleep(13000);
+					     keyUp("w");
+					     }
+					     else if(bossName=="深黯魇语之主"){
+					     keyDown("w");
+					     await sleep(2000);
+					     keyPress("VK_SPACE");
+					     await sleep(500);
+					     keyPress("VK_SPACE");
+					     await sleep(13000);
+					     keyUp("w");
+					     }
                          await dispatcher.runTask(new SoloTask("AutoFight"));
                      }
                      await sleep(1000);
@@ -868,18 +1036,26 @@ let afterStamina = await queryStaminaValue();
                      log.info(`首领讨伐结束`);
              }
              else {
-                     notification.send(`${bossName}材料数量已经满足要求！！！`);
+                     addNotification(`${bossName}材料数量已经满足要求！！！`);
+                     await addCompletedTask("boss", bossName, bossRequireCounts);
                      return;
                      }
              }
              catch (error) {  
-             notification.send(`${bossName}刷取失败，错误信息: ${error}`);
+             addNotification(`${bossName}刷取失败，错误信息: ${error}`);
              await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
              return;
              }
        }
        else{
-             notification.send(`体力值为${afterStamina},可能无法刷取武器材料${bossName}`);
+             log.info(`体力值为${afterStamina},可能无法刷取首领材料${bossName}`);
+             const bossCounts = await getBossMaterialCount(bossName);
+             let res = bossRequireCounts-bossCounts;
+             if(res>0) addNotification(`${bossName}还差${res}个材料没有刷取`);
+             else {
+                     addNotification(`${bossName}材料数量已经满足要求！！！`);
+                     await addCompletedTask("boss", bossName, bossRequireCounts);
+             }
              return;
          }
 }
@@ -917,33 +1093,64 @@ function parseAndValidateCounts(input, expectedCount) {
     return result;
 }
 
-let weaponRequireCounts; 
-let bookRequireCounts; 
+
+(async function () {
 
 if(!settings.unfairContractTerms) throw new Error('未签署霸王条款，无法使用');
-if(settings.talentBookName != "无" && settings.talentBookName){
+const completedTasks = await loadCompletedTasks();
+log.info(`已加载 ${Object.keys(completedTasks).length} 个已完成任务记录`);
+
+for (let i = 0; i < 3; i++) {
+
+const talentBookName = eval(`settings.talentBookName${i}`);
+if(talentBookName != "无" && talentBookName){
 try{
-bookRequireCounts = parseAndValidateCounts(settings.talentBookRequireCounts, 3);
-log.info(`天赋书方案解析成功: ${bookRequireCounts.join(', ')}`);
-await getTalentBook(settings.talentBookName)}
-catch (error) {  notification.send(`${settings.talentBookName}刷取失败，错误信息: ${error}`);}
+let bookRequireCounts = parseAndValidateCounts(eval(`settings.talentBookRequireCounts${i}`), 3);
+log.info(`天赋书${i+1}方案解析成功: ${bookRequireCounts.join(', ')}`);
+const isCompleted = await isTaskCompleted("talent", talentBookName, bookRequireCounts);
+if (isCompleted){addNotification(`天赋书${talentBookName} 已刷取至目标数量，跳过执行`);} 
+else await getTalentBook(talentBookName,bookRequireCounts);
+// 刷取完成后标记为完成
+//await addCompletedTask("talent", talentBookName, bookRequireCounts);
 }
-else log.info(`没有选择刷取天赋书，跳过执行`);
+catch (error) {  notification.send(`天赋书${talentBookName}刷取失败，错误信息: ${error}`);}
+}
+else log.info(`没有选择刷取天赋书${i+1}，跳过执行`);
+}
 
-if(settings.weaponName != "无" && settings.weaponName){
+
+for (let i = 0; i < 3; i++) {
+const weaponName = eval(`settings.weaponName${i}`);
+if(weaponName != "无" && weaponName){
 try{
-weaponRequireCounts = parseAndValidateCounts(settings.weaponMaterialRequireCounts, 4);
-log.info(`武器材料方案解析成功: ${weaponRequireCounts.join(', ')}`);
-await getWeaponMaterial(settings.weaponName)}
-catch (error) {  notification.send(`${settings.weaponName}刷取失败，错误信息: ${error}`);}
+weaponRequireCounts = parseAndValidateCounts(eval(`settings.weaponMaterialRequireCounts${i}`), 4);
+log.info(`武器材料${i+1}方案解析成功: ${weaponRequireCounts.join(', ')}`);
+const isCompleted = await isTaskCompleted("wepon", weaponName, weaponRequireCounts);
+if (isCompleted){addNotification(`武器材料${weaponName} 已刷取至目标数量，跳过执行`);} 
+else await getWeaponMaterial(weaponName,weaponRequireCounts);
 }
-else log.info(`没有选择刷取武器材料，跳过执行`);
-
-if(settings.bossName != "无" && settings.bossName){
-try{await getBossMaterial(settings.bossName)}
-catch (error) {  notification.send(`${settings.bossName}刷取失败，错误信息: ${error}`);}
+catch (error) {  notification.send(`武器材料${weaponName}刷取失败，错误信息: ${error}`);}
 }
-else log.info(`没有选择挑战首领，跳过执行`);
+else log.info(`没有选择刷取武器材料${i+1}，跳过执行`);
+}
 
+for (let i = 0; i < 3; i++) {
+const bossName = eval(`settings.bossName${i}`);
+if(bossName != "无" && bossName){
+try{
+bossRequireCounts = eval(`settings.bossRequireCounts${i}`);
+const isCompleted = await isTaskCompleted("boss", bossName, bossRequireCounts);
+if (isCompleted){addNotification(`首领材料${bossName} 已刷取至目标数量，跳过执行`);} 
+else await getBossMaterial(bossName,bossRequireCounts);
+}
+catch (error) {  notification.send(`首领材料${bossName}刷取失败，错误信息: ${error}`);}
+}
+else log.info(`没有选择挑战首领${i+1}，跳过执行`);
+}
+
+sendBufferedNotifications();//发送累积的完成信息
 
 })();
+
+
+

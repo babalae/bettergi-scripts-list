@@ -1,0 +1,79 @@
+{
+  "info": {
+    "name": "16-海露花-枫丹-塞洛海原1-水下-2个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "水下地图"
+    ],
+    "last_modified_time": 1755375233246,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3965.6289,
+      "y": 3235.8452,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "click(middle);"
+    },
+    {
+      "id": 2,
+      "x": 3899.8438,
+      "y": 3251.0859,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL),click(middle);"
+    },
+    {
+      "id": 3,
+      "x": 3850.4727,
+      "y": 3214.377,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL),click(middle);"
+    },
+    {
+      "id": 4,
+      "x": 3850.4727,
+      "y": 3214.377,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.4),click(middle);"
+    },
+    {
+      "id": 5,
+      "x": 3837.4717,
+      "y": 3181.1235,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL),click(middle);",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 3837.4717,
+      "y": 3181.1235,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1),click(middle);"
+    }
+  ]
+}

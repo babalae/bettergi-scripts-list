@@ -1,0 +1,100 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时91.19秒，包含以下怪物：2只水史莱姆、2只岩史莱姆、1只大型岩史莱姆、1.5只丘丘人、1只水丘丘萨满。",
+    "enable_monster_loot_split": false,
+    "hash_res": "09333702",
+    "last_modified_time": 1768159476563,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "5202枫丹垂柳西北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3344.12,
+      "y": 3903.33
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3309.0625,
+      "y": 3860.841796875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;wait(3)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3281.900390625,
+      "y": 3835.763427734375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3262.0810546875,
+      "y": 3821.4306640625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 3267.30078125,
+      "y": 3808.93701171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3267.30078125,
+      "y": 3808.93701171875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3245.4453125,
+      "y": 3766.32568359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 3245.4453125,
+      "y": 3766.32568359375
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时80.14秒，包含以下怪物：2只荒野幽徒、1只荒野狂狩士。",
+    "hash_res": "75306089",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758032685107,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "701挪德卡莱蛋卷工坊西（400_1，200_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10408.8544921875,
+      "y": 1653.43408203125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10395.228515625,
+      "y": 1662.25537109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10335.4423828125,
+      "y": 1666.40234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10257.2216796875,
+      "y": 1653.951171875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10193.5078125,
+      "y": 1651.04296875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 10193.5078125,
+      "y": 1651.04296875
+    }
+  ]
+}

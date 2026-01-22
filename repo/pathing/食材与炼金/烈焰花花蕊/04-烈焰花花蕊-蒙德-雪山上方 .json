@@ -1,0 +1,34 @@
+{
+  "info": {
+    "name": "04-烈焰花花蕊-蒙德-雪山上方 ",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "ran"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -663.63,
+      "y": 1709.66,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -675.04,
+      "y": 1698.01,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    }
+  ]
+}

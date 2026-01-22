@@ -1,0 +1,163 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时138.46秒，包含以下怪物：1只雷史莱姆、3只风飘浮灵、2只岩飘浮灵、3只盗宝团·火之药剂师、1只盗宝团·掘墓者、2只野伏·火伏番。",
+    "enable_monster_loot_split": false,
+    "hash_res": "36366297",
+    "last_modified_time": 1767968286529,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3806稻妻平海砦南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4185.869999999999,
+      "y": -4383.720000000001
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4177.450000000001,
+      "y": -4369.58
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4177.450000000001,
+      "y": -4369.58
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4149.040000000001,
+      "y": -4371.58
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4158.369999999999,
+      "y": -4385.32
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -4158.369999999999,
+      "y": -4385.32
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4185.880000000001,
+      "y": -4383.689999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4213.139999999999,
+      "y": -4383.76
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4224.779999999999,
+      "y": -4398.970000000001
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4217.23046875,
+      "y": -4408.470703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4217.23046875,
+      "y": -4408.470703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4235.43359375,
+      "y": -4395.501953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);钟离 d(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4264.869140625,
+      "y": -4347.224609375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4247.78515625,
+      "y": -4332.134765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -4247.78515625,
+      "y": -4332.134765625
+    }
+  ]
+}

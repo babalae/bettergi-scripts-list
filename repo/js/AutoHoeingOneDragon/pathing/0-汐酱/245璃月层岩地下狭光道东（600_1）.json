@@ -1,0 +1,93 @@
+{
+  "info": {
+    "name": "245璃月层岩地下狭光道东（600_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时79.17秒，包含以下怪物：1只黯色空壳·近卫。",
+    "hash_res": "39583937",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 594.85,
+      "y": 211.84,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 610.36,
+      "y": 159.21,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 624.53,
+      "y": 140.26,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 639.05,
+      "y": 138.98,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(0.3),keypress(VK_SPACE),wait(2.3),click"
+    },
+    {
+      "id": 5,
+      "x": 624.68,
+      "y": 141.84,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(0.3),keypress(VK_SPACE),wait(3.6),click"
+    },
+    {
+      "id": 6,
+      "x": 607.16,
+      "y": 140.11,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2500"
+    },
+    {
+      "id": 7,
+      "x": 604.94,
+      "y": 125.56,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 604.94,
+      "y": 125.53,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    }
+  ]
+}

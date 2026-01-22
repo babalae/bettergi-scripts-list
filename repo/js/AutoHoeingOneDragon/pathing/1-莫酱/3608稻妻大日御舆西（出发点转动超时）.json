@@ -1,0 +1,64 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时43.6秒，包含以下怪物：3只水丘丘萨满、1只水深渊法师。",
+    "enable_monster_loot_split": false,
+    "hash_res": "57219743",
+    "last_modified_time": 1767960492112,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "3608稻妻大日御舆西（出发点转动超时）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 290.551025390625,
+      "y": 277.9052734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 286.455322265625,
+      "y": 243.181640625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 267.905517578125,
+      "y": 229.279296875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 267.905517578125,
+      "y": 229.279296875
+    }
+  ]
+}

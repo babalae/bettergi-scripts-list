@@ -1,0 +1,208 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时205.13秒，包含以下怪物：3只丘丘人、2只打手丘丘人、1只冲锋丘丘人、2只火箭丘丘人、1只雷斧丘丘暴徒、3只盗宝团·斥候、1只盗宝团·火之药剂师、1只盗宝团·冰之药剂师、1只盗宝团·杂工、2只野伏·阵刀番、3只海乱鬼·雷腾。",
+    "enable_monster_loot_split": false,
+    "hash_res": "82407474",
+    "last_modified_time": 1767895703709,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3306稻妻藤兜砦西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1964.13,
+      "y": -3576.46
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2033.4140625,
+      "y": -3537.625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2045.396484375,
+      "y": -3546.369140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2045.396484375,
+      "y": -3546.369140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2107.064453125,
+      "y": -3511.7412109375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2095.68359375,
+      "y": -3482.56640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2095.68359375,
+      "y": -3482.56640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2130.673828125,
+      "y": -3442.45703125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2160.671875,
+      "y": -3458.490234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -2160.671875,
+      "y": -3458.490234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2195.6796875,
+      "y": -3484.5771484375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2231.916015625,
+      "y": -3458.69921875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2252.37109375,
+      "y": -3480.5634765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2252.37109375,
+      "y": -3480.5634765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2313.125,
+      "y": -3508.1435546875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2337.2421875,
+      "y": -3513.1474609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2337.2421875,
+      "y": -3513.1474609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2387.5625,
+      "y": -3514.60546875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2404.6015625,
+      "y": -3475.755859375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -2404.6015625,
+      "y": -3475.755859375
+    }
+  ]
+}

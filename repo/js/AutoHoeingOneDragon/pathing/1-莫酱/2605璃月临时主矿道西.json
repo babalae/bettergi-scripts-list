@@ -1,0 +1,100 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时105.51秒，包含以下怪物：5只水史莱姆、2只大型水史莱姆、1只大型岩史莱姆。",
+    "enable_monster_loot_split": false,
+    "hash_res": "35008477",
+    "last_modified_time": 1767859165177,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "2605璃月临时主矿道西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 663.703857421875,
+      "y": 1057.9755859375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 654.4508056640625,
+      "y": 1038.201904296875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 700.5443115234375,
+      "y": 1050.4593505859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 700.5443115234375,
+      "y": 1050.4593505859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 715.50244140625,
+      "y": 1041.658935546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;钟离 a(0.1),e(hold);",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 741.4595947265625,
+      "y": 1016.6617431640625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 772.49951171875,
+      "y": 1018.2490234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 772.49951171875,
+      "y": 1018.2490234375
+    }
+  ]
+}

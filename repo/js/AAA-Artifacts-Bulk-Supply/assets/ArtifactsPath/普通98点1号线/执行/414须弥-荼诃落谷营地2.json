@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766950593366,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "414须弥-荼诃落谷营地2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4211.0703125,
+      "y": -2715.4990234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4175.13818359375,
+      "y": -2726.234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4136.187539500829,
+      "y": -2738.9061059993473
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),w(0.1),keypress(f),w(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);迪希雅 e;",
+      "id": 4,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 4135.937523700498,
+      "y": -2742.9063182108366
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4138.531265800331,
+      "y": -2744.156735054832
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 4118.843785550746,
+      "y": -2702.406295473891
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),w(0.3),keypress(f),w(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4124.478515625,
+      "y": -2696.298828125
+    }
+  ]
+}

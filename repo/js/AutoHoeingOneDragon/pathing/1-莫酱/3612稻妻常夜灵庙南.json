@@ -1,0 +1,73 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时48.76秒，包含以下怪物：3只冰箭丘丘人、1只火斧丘丘暴徒。",
+    "enable_monster_loot_split": false,
+    "hash_res": "34952315",
+    "last_modified_time": 1767962304475,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "3612稻妻常夜灵庙南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -362.45,
+      "y": 238.33
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -398.13,
+      "y": 254.27
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1200",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -440.53,
+      "y": 260.02
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -451.58203125,
+      "y": 260.5123291015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -451.58203125,
+      "y": 260.5123291015625
+    }
+  ]
+}

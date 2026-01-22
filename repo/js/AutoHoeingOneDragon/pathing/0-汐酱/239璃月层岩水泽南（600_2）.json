@@ -1,0 +1,168 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时126.95秒，包含以下怪物：1只黯色空壳·破阵、1只遗迹重机。",
+    "hash_res": "38513255",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763188656551,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "239璃月层岩水泽南（600_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 659.74,
+      "y": 705.75
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 721.296142578125,
+      "y": 678.4124755859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 725.03,
+      "y": 647.24
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 734.79,
+      "y": 638.3899999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 737.50146484375,
+      "y": 618.51806640625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 753.9200000000001,
+      "y": 603.8899999999999
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 753.9200000000001,
+      "y": 603.8899999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 659.74,
+      "y": 705.75
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 653.5,
+      "y": 716.62
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 647.24,
+      "y": 716.47
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 605.05,
+      "y": 713.39
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 587.41,
+      "y": 709.56
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 586.56,
+      "y": 709.03
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.5),keypress(x),wait(0.2),keypress(x),wait(0.2),keypress(x),attack(0.1);钟离 d(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;",
+      "id": 14,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 598.78,
+      "y": 693.25
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 591.38,
+      "y": 669.12
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 591.38,
+      "y": 669.12
+    }
+  ]
+}

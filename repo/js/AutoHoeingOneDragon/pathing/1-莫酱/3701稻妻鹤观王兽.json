@@ -1,0 +1,64 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时44.07秒，包含以下怪物：3只岩飘浮灵。",
+    "enable_monster_loot_split": false,
+    "hash_res": "42568943",
+    "last_modified_time": 1767987776559,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3701稻妻鹤观王兽",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2598.39,
+      "y": -6690.45
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2655.998046875,
+      "y": -6713.3017578125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2652.609375,
+      "y": -6723.28125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -2652.609375,
+      "y": -6723.28125
+    }
+  ]
+}

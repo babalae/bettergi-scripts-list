@@ -15,8 +15,9 @@ async function (timeout) {
 
                 // 循环检测直到超时
                 while (Date.now() - startTime < timeout) {
+                    let captureRegion = null;
                     try {
-                        let captureRegion = captureGameRegion();
+                        captureRegion = captureGameRegion();
                         let result = captureRegion.find(ocrRo1);
                         let text = result.text;
 
@@ -24,6 +25,7 @@ async function (timeout) {
                         for (let keyword of successKeywords) {
                             if (text.includes(keyword)) {
                                 log.debug("检测到战斗成功关键词: {0}", keyword);
+                                captureRegion.dispose();
                                 resolve(true);
                                 return;
                             }
@@ -33,6 +35,7 @@ async function (timeout) {
                         for (let keyword of failureKeywords) {
                             if (text.includes(keyword)) {
                                 log.debug("检测到战斗失败关键词: {0}", keyword);
+                                captureRegion.dispose();
                                 resolve(false);
                                 return;
                             }
@@ -56,7 +59,11 @@ async function (timeout) {
                     catch (error) {
                         log.error("OCR过程中出错: {0}", error);
                     }
-
+                    finally {
+                        if (captureRegion) {
+                            captureRegion.dispose();
+                        }
+                    }
                     await sleep(1000); // 检查间隔
                 }
 

@@ -1,0 +1,118 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时84.76秒，包含以下怪物：1只丘丘人、4只打手丘丘人、1只冲锋丘丘人、1只水丘丘萨满、1只火深渊法师。",
+    "enable_monster_loot_split": false,
+    "hash_res": "08071974",
+    "last_modified_time": 1767960135581,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "3506稻妻大日御舆西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 285.15,
+      "y": 277.24
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 268.1248779296875,
+      "y": 320.9552001953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 268.1248779296875,
+      "y": 320.9552001953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 273.3873291015625,
+      "y": 322.55517578125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 263.4,
+      "y": 369.28
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 263.4,
+      "y": 369.28
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 274.6719970703125,
+      "y": 374.13623046875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 277.239990234375,
+      "y": 403.3726806640625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 277.239990234375,
+      "y": 403.3726806640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 277.239990234375,
+      "y": 403.3726806640625
+    }
+  ]
+}

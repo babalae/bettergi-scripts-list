@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766653459923,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "640纳塔-浪浪湾北2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14641.3232421875,
+      "y": 996.869140625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 14643.361328125,
+      "y": 1021.77392578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14622.1875,
+      "y": 1069.1255533269832
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14627.65625,
+      "y": 1072.406355587209
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),w(0.2),keypress(f),dash;万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.6);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 14628.9326171875,
+      "y": 1073.11962890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14600.78125,
+      "y": 1053.1250301677737
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.2),dash,keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(1);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);wait(1.5)",
+      "id": 7,
+      "move_mode": "climb",
+      "type": "orientation",
+      "x": 14599.71875,
+      "y": 1052.4688103355475
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 14595.90234375,
+      "y": 1051.41357421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 9,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 14597.5224609375,
+      "y": 1047.578125
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 挪德卡莱\n类型: 垂钓点\n详细位置: 帕哈岛月矩力实验设计局东南\n鱼类: 花鳉、无奇巨斧鱼、冷冽巨斧鱼、夜色明眼鱼\n饵类: 花鳉、蓝昼明眼鱼、夜色明眼鱼\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764485988573,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "挪德卡莱-垂钓点-帕哈岛月矩力实验设计局东南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9701.78,
+      "y": 3144.46
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9699.9,
+      "y": 3132.13
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9683.13,
+      "y": 3127.01
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9681.4,
+      "y": 3107.52
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9683.75,
+      "y": 3084.73
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9678.17,
+      "y": 3084.62
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9677.36,
+      "y": 3083.28
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9676.05,
+      "y": 3081.71
+    }
+  ]
+}

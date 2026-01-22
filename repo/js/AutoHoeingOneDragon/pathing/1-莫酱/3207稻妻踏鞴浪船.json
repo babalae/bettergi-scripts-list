@@ -1,0 +1,78 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时74.91秒，包含以下怪物：1只野伏·火伏番、2只野伏·机巧番、2只海乱鬼·雷腾。",
+    "enable_monster_loot_split": false,
+    "hash_res": "70783871",
+    "last_modified_time": 1767986998928,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3207稻妻踏鞴浪船",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3473.22,
+      "y": -3755.13
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3439.57,
+      "y": -3754.05
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3419.03,
+      "y": -3744.44
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3419.03,
+      "y": -3744.44
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3368.88,
+      "y": -3748.4
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3368.88,
+      "y": -3748.4
+    }
+  ]
+}

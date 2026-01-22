@@ -1,0 +1,87 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时83.32秒，包含以下怪物：1只丘丘人、2只打手丘丘人、1只射手丘丘人、1只深邃拟覆叶_400。",
+    "hash_res": "20871746",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763193840807,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "602纳塔奥奇（400_1）次数盾",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10070.24,
+      "y": 25.659999999999854
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10062.193359375,
+      "y": 2.2744140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10006.5283203125,
+      "y": -18.9072265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9950.515625,
+      "y": -29.8740234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9927.8232421875,
+      "y": -28.826171875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9937.1611328125,
+      "y": -51.95166015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9937.1611328125,
+      "y": -51.95166015625
+    }
+  ]
+}

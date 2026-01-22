@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "蕈兽-01无郁稠林02",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "C-01-11011",
+        "links": "https://github.com/C-01-11011"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "fly",
+      "type": "teleport",
+      "x": 2412.48,
+      "y": 358.0,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2354.97,
+      "y": 341.5,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": 2370.47,
+      "y": 401.0,
+      "action_params": ""
+    }
+  ]
+}

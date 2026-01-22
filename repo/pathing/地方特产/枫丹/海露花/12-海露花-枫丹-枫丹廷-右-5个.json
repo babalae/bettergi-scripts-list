@@ -1,0 +1,177 @@
+{
+  "info": {
+    "name": "12-海露花-枫丹-枫丹廷-右-5个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芭芭拉"
+    ],
+    "last_modified_time": 1755412369998,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4577.95,
+      "y": 4001.72,
+      "action": "hydro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4508.12,
+      "y": 3942.41,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4503.61,
+      "y": 3877.52,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4466.65,
+      "y": 3856.94,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 charge(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4464.76,
+      "y": 3855.1,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4429.2646,
+      "y": 3814.4355,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4397.7383,
+      "y": 3823.1978,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 e",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4393.5059,
+      "y": 3824.5559,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4394.6211,
+      "y": 3794.9158,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4309.5615,
+      "y": 3746.6948,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 4301.3857,
+      "y": 3746.2,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 charge(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 4297.5254,
+      "y": 3746.335,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 4326.9473,
+      "y": 3712.8049,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 e",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 4330.7949,
+      "y": 3708.3623,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 4358.209,
+      "y": 3679.2725,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 4357.2549,
+      "y": 3669.2842,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 charge(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 4356.3154,
+      "y": 3665.8867,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1);",
+      "type": "path"
+    }
+  ]
+}

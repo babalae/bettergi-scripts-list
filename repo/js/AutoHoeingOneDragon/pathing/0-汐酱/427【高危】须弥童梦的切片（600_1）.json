@@ -1,0 +1,212 @@
+{
+  "info": {
+    "name": "427【高危】须弥童梦的切片（600_1）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时224.24秒，包含以下怪物：1只丘丘雷兜王、1只旋转雷蕈兽。",
+    "hash_res": "67000516",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754765487889,
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3202.12890625,
+      "y": -911.72509765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3259.708984375,
+      "y": -895.095703125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3290.8046875,
+      "y": -894.0927734375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1000",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3299.16015625,
+      "y": -903.21728515625,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3299.16015625,
+      "y": -903.21728515625,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 3295.9267578125,
+      "y": -907.69873046875,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 3295.9267578125,
+      "y": -907.69873046875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(x),wait(0.2),keypress(x),wait(0.2),keypress(x)",
+      "type": "orientation"
+    },
+    {
+      "id": 8,
+      "x": 3292.53515625,
+      "y": -913.4716796875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3275.6669921875,
+      "y": -920.248046875,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "w(2.5)",
+      "type": "orientation"
+    },
+    {
+      "id": 10,
+      "x": 3275.6669921875,
+      "y": -920.248046875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3261.5341796875,
+      "y": -903.16552734375,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.3),j,wait(1.8),j",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 3227.9873046875,
+      "y": -906.3935546875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 3214.9580078125,
+      "y": -896.2138671875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 3208.2119140625,
+      "y": -873.46484375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 3205.244140625,
+      "y": -850.14697265625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e,q;莱依拉 e;芙宁娜 e;爱可菲 e;恰斯卡 q;艾梅莉埃 e;流浪者 q;纳西妲 e;夜兰 e,q,attack(2);申鹤 e,q;万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);行秋 attack(0.2),e,q,attack(2);那维莱特 e,charge(3),j;莱欧斯利 e,q;attack(4.5)",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 3199.4248046875,
+      "y": -855.6103515625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 3195.1904296875,
+      "y": -827.47265625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 3199.4248046875,
+      "y": -855.6103515625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 19,
+      "x": 3199.4248046875,
+      "y": -855.6103515625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 3212.0771484375,
+      "y": -851.87890625,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 3212.0771484375,
+      "y": -851.87890625,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

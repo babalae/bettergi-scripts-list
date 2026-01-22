@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "424须弥鸡哥（600_1，200_3）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时94.32秒，包含以下怪物：1只遗迹重机、2只遗迹歼击者、1只遗迹侦察者、2只旋转雷蕈兽。",
+    "hash_res": "08827396",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754765370716,
+    "authors": [
+      {
+        "name": "汐",
+        "links": ""
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3932.162109375,
+      "y": -161.62353515625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3932.2109375,
+      "y": -192.3134765625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3923.1650390625,
+      "y": -225.3037109375,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f);芙宁娜 e;爱可菲 e;钟离 a(0.1),e(hold),q;茜特菈莉 e,q;莱依拉 e;attack(4.5)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3936.3896484375,
+      "y": -237.6181640625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3946.9375,
+      "y": -276.9072265625,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3942.4580078125,
+      "y": -262.28076171875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3945.248046875,
+      "y": -250.9130859375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3958.0576171875,
+      "y": -243.4267578125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3974.890625,
+      "y": -249.2548828125,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3974.890625,
+      "y": -249.2548828125,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

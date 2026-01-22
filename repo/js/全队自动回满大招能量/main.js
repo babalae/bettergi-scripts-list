@@ -12,6 +12,7 @@ async function tpEndDetection() {
         let capture = captureGameRegion();
         let res1 = capture.find(region1);
         let res2 = capture.find(region2);
+        capture.dispose();
         if (!res1.isEmpty() || !res2.isEmpty()){
             log.info("传送完成");
             await sleep(1000);//传送结束后有僵直
@@ -79,6 +80,8 @@ const repeatOperationUntilTextFound = async ({
         
         // 2. 执行OCR识别
         const ocrResult = textArea.find(RecognitionObject.ocrThis);
+        captureRegion.dispose();
+        textArea.dispose();
         
         const hasAnyText = ocrResult.text.trim().length > 0;
         const matchesTarget = targetText === null 
@@ -91,7 +94,7 @@ const repeatOperationUntilTextFound = async ({
             if (ifClick) click(Math.round(x + width / 2), Math.round(y + height / 2));
             return true;
         }
-        
+
         // 4. 检查步数限制
         if (stepsTaken >= maxSteps) {
             throw new Error(`检查次数超过最大限制: ${maxSteps}，未查询到文字"${targetText}"`);
@@ -148,7 +151,9 @@ let challengeTime = 0;
             await sleep(500);
             leftButtonClick();
             await sleep(100);
-            let res = captureGameRegion().find(RecognitionObject.ocr(840, 935, 230, 40));
+            const ro = captureGameRegion();
+            let res = ro.find(RecognitionObject.ocr(840, 935, 230, 40));
+            ro.dispose();
             if (res.text.includes("自动退出")) {
                      log.info("检测到挑战成功");           
                      return;

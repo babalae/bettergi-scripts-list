@@ -1,0 +1,19 @@
+{
+  "manifest_version": 1,
+  "name": "自动锻造魔矿",
+  "version": "1.1",
+  "description": "自动选择铁匠铺去锻造魔矿，默认选择蒙德铁匠铺；可选择其他地区铁匠铺。由于地图追踪功能不支持室内定位，所以不支持纳塔铁匠铺。",
+  "authors": [
+    {
+      "name": "寒露",
+      "links": "https://github.com/lwwens"
+    }
+  ],
+  "tags": [
+    "锻造",
+    "精锻用魔矿",
+    "坐标点击"
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}

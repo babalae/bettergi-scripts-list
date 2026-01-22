@@ -1,0 +1,157 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762613839647,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "4须弥额外激活CD",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3133.732421875,
+      "y": -1733.98486328125
+    },
+    {
+      "action": "log_output",
+      "action_params": "\n[激活路径]现在开始神秘の召唤小仪式!!!\n[激活路径]菜就多看readme,别打断别狗叫!!!",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": 3226.310546875,
+      "y": -1740.38720703125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3800",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3226.310546875,
+      "y": -1740.38720703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4403.0673828125,
+      "y": -1870.4541015625
+    },
+    {
+      "action": "log_output",
+      "action_params": "\n[激活路径]现在开始神秘の召唤小仪式!!!\n[激活路径]菜就多看readme,别打断别狗叫!!!",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4390.72265625,
+      "y": -1875.52783203125
+    },
+    {
+      "action": "set_time",
+      "action_params": "06:00",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4390.72265625,
+      "y": -1875.52783203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4390.72265625,
+      "y": -1875.52783203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(2.5),keypress(t),wait(0.5),keypress(t),wait(1.6),keypress(t),wait(0.5),keypress(t),wait(0.5),keypress(t)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4302.42431640625,
+      "y": -1889.50146484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4240.0224609375,
+      "y": -1850.310546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4215.19921875,
+      "y": -1831.75830078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4157.42041015625,
+      "y": -1827.27734375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4118.218726299502,
+      "y": -1832.15625
+    },
+    {
+      "action": "log_output",
+      "action_params": "\n[激活路径]激活\"超限点\"不是不捡。\n[激活路径]是缓捡，慢捡，优捡，有次序的捡，让有条件的先捡，让有需求的先捡，才能先捡带动后捡，也要具体情况具体捡，不管早捡晚捡，能捡的都是好捡。",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4116.48876953125,
+      "y": -1832.42333984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(x);迪希雅 e;万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);玛薇卡 e;砂糖 e;早柚 charge(2);珐露珊 q;琳妮特 q;蓝砚 charge;流浪者 e,attack(0.2);爱可菲 e;卡齐娜 attack(0.08),keydown(E),wait(1),keyup(E),attack(0.35);瑶瑶 e;申鹤 q;云堇 e;雷电将军 e;罗莎莉亚 e,q;钟离 e(hold);香菱 e,q;丝柯克 charge(1);千织 e,q;芙宁娜 e,q;久岐忍 e;神里绫华 e;阿贝多 e;琴 q;班尼特 q;多莉 e;诺艾尔 e,charge(1.5);雷泽 e(hold);",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4116.48876953125,
+      "y": -1832.42333984375
+    },
+    {
+      "action": "log_output",
+      "action_params": "\n[激活路径]激活\"超限点\"不是不捡。\n[激活路径]是缓捡，慢捡，优捡，有次序的捡，让有条件的先捡，让有需求的先捡，才能先捡带动后捡，也要具体情况具体捡，不管早捡晚捡，能捡的都是好捡。",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4116.48876953125,
+      "y": -1832.42333984375
+    }
+  ]
+}

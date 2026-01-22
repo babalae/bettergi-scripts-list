@@ -1,0 +1,44 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 稻妻\n类型: 垂钓点\n详细位置: 鹤观逢岳之野西南\n鱼类: 花鳉、肺棘鱼、赤魔王、流纹京紫蝶鱼\n饵类: 果酿饵、赤糜饵、蠕虫假饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764523145048,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "稻妻-垂钓点-鹤观逢岳之野西南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2376.39,
+      "y": -6423.84
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2378.47,
+      "y": -6425.81
+    }
+  ]
+}

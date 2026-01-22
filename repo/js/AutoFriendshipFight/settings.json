@@ -1,5 +1,11 @@
 [
   {
+    "name": "pickupMode",
+    "type": "checkbox",
+    "label": "是否启用自动拾取实时任务",
+    "default": true
+  },
+  {
     "name": "enemyType",
     "type": "select",
     "label": "选择敌人类型",

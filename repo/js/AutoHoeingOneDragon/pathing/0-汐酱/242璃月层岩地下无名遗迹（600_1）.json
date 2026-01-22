@@ -1,0 +1,69 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时64.54秒，包含以下怪物：1只黯色空壳·近卫。",
+    "hash_res": "69198587",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763016491102,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "242璃月层岩地下无名遗迹（600_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 522.56,
+      "y": 528.8499999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 538.532470703125,
+      "y": 502.444091796875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 590.5135498046875,
+      "y": 419.4241943359375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 598.1407470703125,
+      "y": 406.8447265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 598.1407470703125,
+      "y": 406.8447265625
+    }
+  ]
+}

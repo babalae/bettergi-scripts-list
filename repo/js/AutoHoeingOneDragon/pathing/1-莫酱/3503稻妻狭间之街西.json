@@ -1,0 +1,145 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时107.64秒，包含以下怪物：2只丘丘人、4只打手丘丘人、2只木盾丘丘人、2只火箭丘丘人。",
+    "enable_monster_loot_split": false,
+    "hash_res": "52428574",
+    "last_modified_time": 1767955993515,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "3503稻妻狭间之街西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 852.4099999999999,
+      "y": 550.47
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 841.94775390625,
+      "y": 549.33251953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 807.375,
+      "y": 542.6877715099652
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 816.5968017578125,
+      "y": 556.2432861328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 816.5968017578125,
+      "y": 556.2432861328125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 774.34375,
+      "y": 514.9549560546875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 774.34375,
+      "y": 514.9549560546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 774.34375,
+      "y": 514.9549560546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 852.4099999999999,
+      "y": 550.46
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3),j,wait(1.2),j",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 876.25,
+      "y": 519.2491251345564
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 882.1063232421875,
+      "y": 526.7142333984375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 882.1063232421875,
+      "y": 526.7142333984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 882.1063232421875,
+      "y": 526.7142333984375
+    }
+  ]
+}

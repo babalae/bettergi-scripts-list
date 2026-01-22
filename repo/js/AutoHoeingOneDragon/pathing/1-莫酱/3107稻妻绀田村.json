@@ -1,0 +1,100 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时71.52秒，包含以下怪物：1只丘丘人、3只雷弹丘丘人、1只雷斧丘丘暴徒、2只雷丘丘萨满、1只野伏·阵刀番、2只野伏·火伏番。",
+    "enable_monster_loot_split": false,
+    "hash_res": "83851465",
+    "last_modified_time": 1767871360966,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3107稻妻绀田村",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4050.0800000000017,
+      "y": -2657.3899999999994
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4045.662109375,
+      "y": -2706.06640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4045.662109375,
+      "y": -2706.06640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4028.40234375,
+      "y": -2695.626953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4010.259765625,
+      "y": -2692.1298828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3993.06640625,
+      "y": -2698.513671875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3958.88671875,
+      "y": -2710.494140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3958.88671875,
+      "y": -2710.494140625
+    }
+  ]
+}

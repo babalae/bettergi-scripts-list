@@ -1,0 +1,188 @@
+{
+  "info": {
+    "name": "6304--纳塔_翘枝崖_花语会南2_(3-9)",
+    "type": "collect",
+    "author": "Demo&汐&mno",
+    "version": "1.2",
+    "description": "  路线信息：该路线预计用时156.16秒，包含以下怪物：1只疾讯勇士·引索客、1只结羽勇士·削羽人、1只结羽勇士·驭空客、2只灵觉勇士·控念师、1只匿叶龙武士·旋锯飞叶、2只暝视龙武士·冰晶炮手、2.5只幼绒翼龙、1只绒翼龙。",
+    "hash_res": "69491476",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9310.86,
+      "y": -1423.19
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9327.15,
+      "y": -1468.56
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9327.15,
+      "y": -1468.56
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9352.51,
+      "y": -1488.01
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "500",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9385.2,
+      "y": -1485.5
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9388.69,
+      "y": -1483.83
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9388.69,
+      "y": -1483.83
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9431.12,
+      "y": -1448.42
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9464.09,
+      "y": -1444.02
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.5)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9465.21,
+      "y": -1447.04
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9464.09,
+      "y": -1444.02
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9490.1,
+      "y": -1442.76
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9490.1,
+      "y": -1442.76
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9542.84,
+      "y": -1434.98
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9542.84,
+      "y": -1434.98
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9518.44,
+      "y": -1441.39
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9500.39,
+      "y": -1477.95
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9500.39,
+      "y": -1477.95
+    }
+  ]
+}

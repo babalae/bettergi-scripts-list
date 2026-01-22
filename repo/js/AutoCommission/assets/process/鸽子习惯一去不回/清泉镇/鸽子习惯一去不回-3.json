@@ -2,95 +2,104 @@
   "info": {
     "name": "鸽子习惯一去不回-3",
     "type": "collect",
-    "author": "星野",
+    "author": "云闲vsv",
     "version": "1.0",
-    "description": "",
+    "description": "鸽子习惯一去不回-3",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "tags": [],
-    "last_modified_time": 1753091890935
+    "last_modified_time": 1751448799645
   },
   "positions": [
     {
       "id": 1,
+      "x": -753.671875,
+      "y": 1972.5615234375,
       "action": "",
       "move_mode": "walk",
-      "type": "teleport",
-      "x": -867.5166015625,
-      "y": 1992.19140625,
-      "action_params": ""
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 2,
-      "x": -824.0859375,
-      "y": 1980.37890625,
-      "type": "path",
-      "move_mode": "dash",
+      "x": -742.642578125,
+      "y": 1965.35302734375,
       "action": "",
-      "action_params": ""
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 3,
-      "x": -803.9501953125,
-      "y": 1975.4482421875,
-      "type": "path",
-      "move_mode": "walk",
+      "x": -737.97265625,
+      "y": 1966.51953125,
       "action": "",
-      "action_params": ""
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 4,
-      "x": -779.7744140625,
-      "y": 1977.1767578125,
-      "type": "path",
-      "move_mode": "dash",
+      "x": -711.5361328125,
+      "y": 1996.93310546875,
       "action": "",
-      "action_params": ""
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 5,
-      "x": -748.525390625,
-      "y": 1972.9638671875,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": -705.609375,
+      "y": 1996.52099609375,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 6,
-      "x": -736.8916015625,
-      "y": 1981.36572265625,
-      "type": "path",
-      "move_mode": "jump",
-      "action": "",
-      "action_params": ""
+      "x": -693.439453125,
+      "y": 1999.90283203125,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 7,
-      "x": -700.64453125,
-      "y": 2003.47509765625,
-      "type": "path",
-      "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "x": -686.5009765625,
+      "y": 2004.96240234375,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
     },
     {
       "id": 8,
-      "x": -697.267578125,
-      "y": 2004.078125,
-      "type": "path",
+      "x": -686.5654296875,
+      "y": 2008.693359375,
+      "action": "",
       "move_mode": "walk",
-      "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "type": "path"
     },
     {
-      "id": 7,
-      "x": -693.5458984375,
-      "y": 2011.5703125,
-      "type": "target",
+      "id": 9,
+      "x": -699.1640625,
+      "y": 2011.0419921875,
+      "action": "",
       "move_mode": "walk",
-      "action": "pick_around",
-      "action_params": ""
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -696.1337890625,
+      "y": 2009.7587890625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
     }
   ]
 }

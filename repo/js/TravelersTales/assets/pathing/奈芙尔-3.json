@@ -1,0 +1,94 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760280206114,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "奈芙尔-3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9537.439453125,
+      "y": 1637.3505859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9536.572265625,
+      "y": 1626.60888671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9528.9091796875,
+      "y": 1610.28125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9510.8447265625,
+      "y": 1604.46630859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9517.2255859375,
+      "y": 1607.82373046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9513.28125,
+      "y": 1617.34716796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9527.7900390625,
+      "y": 1631.005859375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3),keypress(F),wait(10)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9532.03515625,
+      "y": 1630.9345703125
+    }
+  ]
+}

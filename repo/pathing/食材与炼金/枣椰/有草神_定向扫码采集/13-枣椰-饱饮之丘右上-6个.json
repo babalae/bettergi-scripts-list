@@ -1,0 +1,79 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "约31秒/6个",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763849843583,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "13-枣椰-饱饮之丘右上-6个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "nahida_collect",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5047.9634,
+      "y": -1794.5273
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5063.6138,
+      "y": -1766.9175
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5060.2871,
+      "y": -1766.9268
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 w(0.2),click(middle),wait(0.5),keydown(e),wait(0.75),moveby(50,-850),wait(0.3),moveby(150,-150),wait(0.3),moveby(350,400),wait(0.5),keyup(e);",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 5073.7988,
+      "y": -1776.0435
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 5075.6641,
+      "y": -1739.6123
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 w(0.2),click(middle),wait(0.5),keydown(e),wait(0.75),moveby(0,-400),wait(0.3),moveby(600,450),wait(0.3),keyup(e);",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 5083.0371,
+      "y": -1735.665
+    }
+  ]
+}

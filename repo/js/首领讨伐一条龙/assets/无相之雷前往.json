@@ -1,26 +1,35 @@
-{
+﻿{
   "info": {
-    "name": "未命名路径",
+    "name": "无相之雷前往",
     "type": "collect",
-    "author": "柒叶子",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": ""
+      }
+    ],
     "version": "1.0",
-    "description": "前往无相雷",
-    "bgi_version": "0.42.3"
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753708525378,
+    "enable_monster_loot_split": false
   },
   "positions": [
     {
       "id": 1,
-      "action": "",
-      "move_mode": "walk",
+      "x": -1867.1708984375,
+      "y": 1331.25390625,
       "type": "teleport",
-      "x": -1867.2705078125,
-      "y": 1331.20263671875,
+      "move_mode": "walk",
+      "action": "",
       "action_params": ""
     },
     {
       "id": 2,
-      "x": -1891.6884765625,
-      "y": 1332.6962890625,
+      "x": -1880.634765625,
+      "y": 1332.6240234375,
       "type": "path",
       "move_mode": "walk",
       "action": "",
@@ -28,28 +37,46 @@
     },
     {
       "id": 3,
-      "x": -1897.3974609375,
-      "y": 1327.93408203125,
+      "x": -1886.341796875,
+      "y": 1315.49609375,
       "type": "path",
-      "move_mode": "climb",
+      "move_mode": "jump",
       "action": "",
       "action_params": ""
     },
     {
       "id": 4,
-      "x": -1901.708984375,
-      "y": 1330.705078125,
+      "x": -1897.9521484375,
+      "y": 1312.71728515625,
       "type": "path",
-      "move_mode": "climb",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     },
     {
       "id": 5,
-      "x": -1939.1865234375,
-      "y": 1309.36376953125,
+      "x": -1906.6083984375,
+      "y": 1310.859375,
       "type": "path",
-      "move_mode": "dash",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1925.8857421875,
+      "y": 1309.81689453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1939.40234375,
+      "y": 1308.43408203125,
+      "type": "path",
+      "move_mode": "walk",
       "action": "",
       "action_params": ""
     }

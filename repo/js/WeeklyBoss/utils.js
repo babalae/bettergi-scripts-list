@@ -52,6 +52,8 @@ const repeatOperationUntilTextFound = async ({
         
         // 2. 执行OCR识别
         const ocrResult = textArea.find(RecognitionObject.ocrThis);
+        captureRegion.dispose();
+        textArea.dispose();
         
         const hasAnyText = ocrResult.text.trim().length > 0;
         const matchesTarget = targetText === null 
@@ -64,7 +66,7 @@ const repeatOperationUntilTextFound = async ({
             if (ifClick) click(Math.round(x + width / 2), Math.round(y + height / 2));
             return true;
         }
-        
+
         // 4. 检查步数限制
         if (stepsTaken >= maxSteps) {
             throw new Error(`检查次数超过最大限制: ${maxSteps}，未查询到文字"${targetText}"`);
@@ -121,7 +123,9 @@ let challengeTime = 0;
             await sleep(500);
             leftButtonClick();
             await sleep(100);
-            let res = captureGameRegion().find(RecognitionObject.ocr(840, 935, 230, 40));
+            const ro = captureGameRegion();
+            let res = ro.find(RecognitionObject.ocr(840, 935, 230, 40));
+            ro.dispose();
             if (res.text.includes("自动退出")) {
                      log.info("检测到挑战成功");           
                      return;
@@ -154,13 +158,14 @@ async function tpEndDetection() {
         let capture = captureGameRegion();
         let res1 = capture.find(region1);
         let res2 = capture.find(region2);
+        capture.dispose();
         if (!res1.isEmpty()|| !res2.isEmpty()){
             log.info("传送完成");
             await sleep(1000);//传送结束后有僵直
             click(960, 810);//点击任意处
             await sleep(500);
             return;
-        } 
+        }
         tpTime++;
         await sleep(100);
     }
@@ -331,7 +336,6 @@ async function autoFightAsync() {
     }
 }
 
-//返回当前体力值
 async function queryStaminaValue() {
     try {
         await genshin.returnMainUi();
@@ -341,26 +345,20 @@ async function queryStaminaValue() {
         click(300, 540);
         await sleep(1000);
         click(1570, 203);
-        await sleep(1000);
+        await sleep(1500);
         let captureRegion = captureGameRegion();
         let stamina = captureRegion.find(RecognitionObject.ocr(1580, 20, 210, 55));
-        
-        // 改进的分割方法
+        log.info(`OCR原始文本：${stamina.text}`);
         const staminaText = stamina.text.replace(/\s/g, ''); // 移除所有空格
-        // 使用正则表达式匹配数字部分（包括/或可能被误识别为其他字符的情况）
-        const matches = staminaText.match(/(\d+)[^\d]+(\d+)/);
-        
-        if (!matches || matches.length < 3) {
-            throw new Error("无法解析体力值格式");
-        }
-        const currentValue = matches[1]; // 第一个数字是当前体力值
-        let validatedStamina = positiveIntegerJudgment(currentValue);
-        log.info(`剩余体力为：${validatedStamina}`);
-        await genshin.returnMainUi();
-        return validatedStamina;
-        
+         const standardMatch = staminaText.match(/(\d+)/);
+            if (standardMatch) {
+                const currentValue = standardMatch[1];
+                let validatedStamina = positiveIntegerJudgment(currentValue);
+                if (validatedStamina > 11200) validatedStamina = (validatedStamina-1200)/10000;
+           return validatedStamina;
+            }       
     } catch (error) {
-        log.error(`体力识别失败，默认为零`);
+        log.error(`体力识别失败：${error.message}，默认为零`);
         await genshin.returnMainUi();
         return 0;
     }      
@@ -627,7 +625,7 @@ async function autoFightAndEndDetection(extraFightAction) {
     // 定义两个检测区域
     const region1 = RecognitionObject.ocr(700, 0, 450, 100);//区域一 BOSS名称
     const region2 = RecognitionObject.ocr(820, 935, 280, 50);//区域二 成功倒计时
-    const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/paimon_menu.png"), 0, 0, genshin.width / 3.0, genshin.width / 5.0);
+    const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/paimon_menu.png"), 0, 0, 640, 216);
     const teamRo1 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/team1.png"), 1820, 240, 80, 400);
     const teamRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/team2.png"), 1820, 240, 80, 400);
     let challengeTime = 0;

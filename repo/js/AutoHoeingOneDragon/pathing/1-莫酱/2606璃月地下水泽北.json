@@ -1,0 +1,181 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时181.94秒，包含以下怪物：7只盗宝团·斥候、1只盗宝团·雷之药剂师、1只盗宝团·拳术家、3只盗宝团·粉碎者、1只冰霜骗骗花。",
+    "enable_monster_loot_split": false,
+    "hash_res": "27943190",
+    "last_modified_time": 1767860823840,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "2606璃月地下水泽北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 551.1199999999999,
+      "y": 950.9099999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 542.1599999999999,
+      "y": 955.5900000000001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 535.4580078125,
+      "y": 972.803466796875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 505.3466796875,
+      "y": 987.810791015625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 505.3466796875,
+      "y": 987.810791015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 505.3466796875,
+      "y": 987.810791015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 507.714599609375,
+      "y": 1007.60791015625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 521.5501708984375,
+      "y": 1065.60107421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 521.5501708984375,
+      "y": 1065.60107421875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 554.3600000000001,
+      "y": 1051.86
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 562.8773193359375,
+      "y": 1019.7237548828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.1),keypress(f),keydown(w),dash",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 552.97,
+      "y": 1047.68
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 552.97,
+      "y": 1047.68
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 552.97,
+      "y": 1047.68
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 541.1817626953125,
+      "y": 1051.693359375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 511.2275390625,
+      "y": 1026.937744140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 511.2275390625,
+      "y": 1026.937744140625
+    }
+  ]
+}

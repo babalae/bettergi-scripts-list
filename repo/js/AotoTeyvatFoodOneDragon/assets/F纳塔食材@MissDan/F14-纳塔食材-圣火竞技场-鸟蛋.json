@@ -1,0 +1,134 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "芝麻糊"
+      },
+      {
+        "links": "",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759830885886,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F14-纳塔食材-圣火竞技场-鸟蛋",
+    "tags": [],
+    "type": "collect",
+    "version": "2.11"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9394.8125,
+      "y": -1808.0244140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9396.033203125,
+      "y": -1833.373046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9388.951171875,
+      "y": -1849.501953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 9387.482421875,
+      "y": -1854.4296875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 9381.412109375,
+      "y": -1854.2880859375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 6,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 9378.5478515625,
+      "y": -1853.615234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9229.76953125,
+      "y": -1729.25830078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9167.3173828125,
+      "y": -1724.5625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9128.9716796875,
+      "y": -1745.1318359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9073.748046875,
+      "y": -1759.83544921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9060.2216796875,
+      "y": -1772.8681640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 9043.533203125,
+      "y": -1788.927734375
+    }
+  ]
+}

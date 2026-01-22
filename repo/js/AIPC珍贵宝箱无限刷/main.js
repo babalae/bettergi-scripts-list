@@ -121,7 +121,9 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 		let keyStatus = false;
 		for (let i = 0; i < 2; i++) {
 			await TryOpenQuestMenu(0);
-			let StoryQuestsButton = captureGameRegion().find(StoryQuestsButtonRo);
+			const ro1 = captureGameRegion();
+			let StoryQuestsButton = ro1.find(StoryQuestsButtonRo);
+			ro1.dispose();
 			if (StoryQuestsButton.isExist()) {
 				log.info("检测到任务菜单已开启，按键正常");
 				await sleep(1000);
@@ -130,7 +132,9 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 				log.info("检测到任务菜单没有开启，推测快捷键不是默认值，尝试恢复");
 				await KeyBindlings(); // 恢复默认键位
 				await TryOpenQuestMenu(0);
-				let StoryQuestsButton = captureGameRegion().find(StoryQuestsButtonRo);
+				const ro2 = captureGameRegion();
+				let StoryQuestsButton = ro2.find(StoryQuestsButtonRo);
+				ro2.dispose();
 				if (StoryQuestsButton.isExist()) {
 					log.info("识别到传说任务按钮，按键正常");
 					await sleep(1000);
@@ -158,7 +162,9 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 		keyPress("ESCAPE");
 		await sleep(2000);
 
-		let SettingsButton = captureGameRegion().find(SettingsButtonRo);
+		const ro3 = captureGameRegion();
+		let SettingsButton = ro3.find(SettingsButtonRo);
+		ro3.dispose();
 		if (SettingsButton.isExist()) {
 			log.info("识别到设置按钮");
 			SettingsButton.click();
@@ -166,6 +172,7 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 
 			let captureRegion = captureGameRegion();
 			let resList = captureRegion.findMulti(RecognitionObject.ocr(100, 100, 300, 300));
+			captureRegion.dispose();
 			for (let i = 0; i < resList.count; i++) {
 				let res = resList[i];
 				if (res.text.includes("Key") || res.text.includes("Bindings") || res.text.includes("按键") || res.text.includes("按鍵")) {
@@ -173,13 +180,17 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 					res.click();
 					await sleep(2000);
 
-					let RestoreButton = captureGameRegion().find(RestoreButtonRo);
+					const ro4 = captureGameRegion();
+					let RestoreButton = ro4.find(RestoreButtonRo);
+					ro4.dispose();
 					if (RestoreButton.isExist()) {
 						log.info("识别到恢复默认按钮");
 						RestoreButton.click();
 						await sleep(1500);
 
-						let ConfirmButton = captureGameRegion().find(ConfirmButtonRo);
+						const ro5 = captureGameRegion();
+						let ConfirmButton = ro5.find(ConfirmButtonRo);
+						ro5.dispose();
 						if (ConfirmButton.isExist()) {
 							log.info("识别到确认按钮");
 							ConfirmButton.click();
@@ -201,8 +212,10 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 		let RadishNum = 0
 		let CabbageNum = 0
 
-		let Materials = captureGameRegion().find(MaterialsRo);
-		let MaterialsSelected = captureGameRegion().find(MaterialsSelectedRo);
+		const ro6 = captureGameRegion();
+		let Materials = ro6.find(MaterialsRo);
+		let MaterialsSelected = ro6.find(MaterialsSelectedRo);
+		ro6.dispose();
 		if (Materials.isExist()) {
 			log.info("识别到材料按钮");
 			Materials.click();
@@ -214,10 +227,14 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 		}
 
 		for (let i = 0; i < 10; i++) {
-			let Radish = captureGameRegion().find(RadishRo);
+			const ro7 = captureGameRegion();
+			let Radish = ro7.find(RadishRo);
+			ro7.dispose();
 			if (Radish.isExist()) {
 				// log.info("识别到白萝卜,进行OCR获取数量");
-				let resList = captureGameRegion().findMulti(RecognitionObject.ocr(Radish.x, Radish.y + Radish.width, Radish.Width, Radish.Height));
+				const ro8 = captureGameRegion();
+				let resList = ro8.findMulti(RecognitionObject.ocr(Radish.x, Radish.y + Radish.width, Radish.Width, Radish.Height));
+				ro8.dispose();
 				for (let i = 0; i < resList.count; i++) {
 					let Radish = resList[i];
 					log.info("白萝卜识别结果:({x},{y},{h},{w}), 数量：{text}", Radish.x, Radish.y, Radish.Width, Radish.Height, Radish.text);
@@ -225,10 +242,14 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 					break;
 				}
 			}
-			let Cabbage = captureGameRegion().find(CabbageRo);
+			const ro9 = captureGameRegion();
+			let Cabbage = ro9.find(CabbageRo);
+			ro9.dispose();
 			if (Cabbage.isExist()) {
 				// log.info("识别到卷心菜,进行OCR获取数量");
-				let resList = captureGameRegion().findMulti(RecognitionObject.ocr(Cabbage.x, Cabbage.y + Cabbage.width, Cabbage.Width, Cabbage.Height));
+				const ro10 = captureGameRegion();
+				let resList = ro10.findMulti(RecognitionObject.ocr(Cabbage.x, Cabbage.y + Cabbage.width, Cabbage.Width, Cabbage.Height));
+				ro10.dispose();
 				for (let i = 0; i < resList.count; i++) {
 					let Cabbage = resList[i];
 					log.info("卷心菜识别结果:({x},{y},{h},{w}), 数量：{text}", Cabbage.x, Cabbage.y, Cabbage.Width, Cabbage.Height, Cabbage.text);
@@ -237,7 +258,9 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 				}
 				break;
 			}
-			let SliderBottom = captureGameRegion().find(SliderBottomRo);
+			const ro11 = captureGameRegion();
+			let SliderBottom = ro11.find(SliderBottomRo);
+			ro11.dispose();
 			if (SliderBottom.isExist()) {
 				log.info("识别到滑块，当前页面没有目标物品，向下滑动");
 				// log.info("滑块当前位置:({x},{y},{h},{w})", SliderBottom.x, SliderBottom.y, SliderBottom.Width, SliderBottom.Height);
@@ -272,6 +295,7 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 			for (let p = 0; p < 40; p++) {
 				let captureRegion = captureGameRegion();
 				let MaxStatus = captureRegion.Find(MaxRo);
+				captureRegion.dispose();
 				if (MaxStatus.isEmpty()) {
 					click(105, 787); // 调整缩放到最大
 				} else if (MaxStatus.isExist()) {
@@ -283,7 +307,9 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 		}
 
 		if (times == 0) {
-			let LocationButton = captureGameRegion().find(LocationButtonRo);
+			const ro12 = captureGameRegion();
+			let LocationButton = ro12.find(LocationButtonRo);
+			ro12.dispose();
 			if (LocationButton.isExist()) {
 				log.info("识别到定位当前节点按钮");
 				LocationButton.click();
@@ -303,7 +329,9 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 		await sleep(1500);
 
 		if (times == 0) {
-			let InProgressButton = captureGameRegion().find(InProgressButtonRo);
+			const ro13 = captureGameRegion();
+			let InProgressButton = ro13.find(InProgressButtonRo);
+			ro13.dispose();
 			if (InProgressButton.isExist()) {
 				log.info("识别到进行中任务按钮");
 				InProgressButton.click();
@@ -311,21 +339,27 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 			}
 		}
 
-		let AbandonCurrentHangoutEventButton = captureGameRegion().find(AbandonCurrentHangoutEventButtonRo);
+		const ro14 = captureGameRegion();
+		let AbandonCurrentHangoutEventButton = ro14.find(AbandonCurrentHangoutEventButtonRo);
+		ro14.dispose();
 		if (AbandonCurrentHangoutEventButton.isExist()) {
 			log.info("识别到放弃按钮");
 			AbandonCurrentHangoutEventButton.click();
 			await sleep(1500);
 		}
 
-		let ConfirmButton = captureGameRegion().find(ConfirmButtonRo);
+		const ro15 = captureGameRegion();
+		let ConfirmButton = ro15.find(ConfirmButtonRo);
+		ro15.dispose();
 		if (ConfirmButton.isExist()) {
 			log.info("识别到确认按钮");
 			ConfirmButton.click();
 			await sleep(1500);
 		}
 
-		let StoryQuestsButton = captureGameRegion().find(StoryQuestsButtonRo);
+		const ro16 = captureGameRegion();
+		let StoryQuestsButton = ro16.find(StoryQuestsButtonRo);
+		ro16.dispose();
 		if (StoryQuestsButton.isExist()) {
 			log.info("识别到传说任务按钮");
 			StoryQuestsButton.click();
@@ -337,6 +371,7 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 			let HangoutEventButtonSelected1 = captureRegion.find(HangoutEventButtonSelected1Ro);
 			let HangoutEventButtonSelected2 = captureRegion.find(HangoutEventButtonSelected2Ro);
 			let HangoutEventButtonSelected3 = captureRegion.find(HangoutEventButtonSelected3Ro);
+			captureRegion.dispose();
 			if (HangoutEventButtonSelected1.isExist()) {
 				log.info("识别到邀约事件选项卡按钮");
 				HangoutEventButtonSelected1.click();
@@ -359,6 +394,7 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 		for (let p = 0; p < 5; p++) {
 			let captureRegion = captureGameRegion();
 			let resList = captureRegion.findMulti(RecognitionObject.ocr(960, 0, 650, 1080));
+			captureRegion.dispose();
 			for (let i = 0; i < resList.count; i++) {
 				let res = resList[i];
 				if (res.text.includes("Precious") || res.text.includes("Chest") || res.text.includes("箱") || res.text.includes("珍貴") || res.text.includes("珍贵")) {

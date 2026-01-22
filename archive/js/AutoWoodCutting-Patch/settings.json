@@ -1,0 +1,17 @@
+[
+    {
+        "name": "wood_list",
+        "type": "select",
+        "label": "伐木种类",
+        "options": [
+            "全选",
+            "炬木",
+			"桃椰子木"
+        ]
+    },
+	{
+        "name": "wood_num",
+        "type": "input-text",
+        "label": "砍伐数目：不填默认2000(只能填0-2000)"
+    }
+]

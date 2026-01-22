@@ -1,0 +1,142 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "约1分钟12秒/5个",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763856525802,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "09-枣椰-吞羊岩-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4810.6211,
+      "y": -2732.6572
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4819.9824,
+      "y": -2778.9238
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4847.4766,
+      "y": -2806.7148
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4872.293,
+      "y": -2848.4355
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4871.0,
+      "y": -2849.0
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 w(0.2),click(middle),wait(0.5),keydown(e),wait(0.75),moveby(-25,-1000),wait(0.3),keyup(e),click(middle);",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4858.8135,
+      "y": -2842.6787
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_X);迪希雅 wait(0.3),keypress(VK_E),wait(0.4),keypress(VK_E),wait(0.2);",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4902.2373,
+      "y": -2893.3232
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4902.2373,
+      "y": -2893.3232
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 w(0.25),click(middle),wait(0.5),keydown(e),wait(0.75),moveby(50,-400),wait(0.3),moveby(-225,150),wait(0.3),moveby(-530,100),wait(0.3),,keyup(e),click(middle);",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4903.5723,
+      "y": -2885.4727
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4915.751,
+      "y": -2887.6387
+    },
+    {
+      "action": "combat_script",
+      "action_params": "j,wait(0.8);纳西妲 e;",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4929.5449,
+      "y": -2885.417
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4939.5684,
+      "y": -2891.3281
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),j;纳西妲 e;",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4956.1006,
+      "y": -2922.1289
+    }
+  ]
+}

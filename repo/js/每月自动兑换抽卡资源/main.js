@@ -152,45 +152,50 @@ function positiveIntegerJudgment(testNumber) {
 
 async function exchangeGoods() {
 
-await genshin.returnMainUi();await sleep(1000);
-keyPress("ESCAPE"); await sleep(2000);//呼叫派蒙
-click(198,416);await sleep(2000);//点击商城
-click(127,434);await sleep(1000);//尘辉兑换
-click(998,125);await sleep(1000);//星辰兑换
-//检查星辰的数量
-const region = RecognitionObject.ocr(1400, 31, 150, 50); // 星辰数量区域
-let capture = captureGameRegion();
-let res = capture.find(region);
-let materialQuantity = res.text;
-let validatedMaterialQuantity = positiveIntegerJudgment(materialQuantity);
-if(validatedMaterialQuantity < 750){
-notification.send(`星尘数量为：${validatedMaterialQuantity}，无法全部兑换`);
-throw new Error(`星尘数量为：${validatedMaterialQuantity}，不能完全兑换`);
-} 
-log.info(`星尘数量为：${validatedMaterialQuantity}，数量充足，可以全部兑换`);
-const pinkBallRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/pinkBall.png"));
-let pinkBall = captureGameRegion().find(pinkBallRo);
-    if (pinkBall.isExist()) {
-        pinkBall.click();await sleep(1000);
-        click(1290,604);await sleep(500);//增加
-        click(1290,604);await sleep(500);//增加
-        click(1290,604);await sleep(500);//增加
-        click(1290,604);await sleep(500);//增加
-        click(1164,782);await sleep(500);//确认兑换
-        click(960,754);await sleep(1000);//点击空白处继续
-}
-const blueBallRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/blueBall.png"));
-let blueBall = captureGameRegion().find(blueBallRo);
-    if (blueBall.isExist()) {
-        blueBall.click();await sleep(1000);
-        click(1290,604);await sleep(500);//增加
-        click(1290,604);await sleep(500);//增加
-        click(1290,604);await sleep(500);//增加
-        click(1290,604);await sleep(500);//增加
-        click(1164,782);await sleep(500);//确认兑换
-        click(960,754);await sleep(1000);//点击空白处继续
-}
-notification.send(`商城抽卡资源兑换完成`);
+    await genshin.returnMainUi();await sleep(1000);
+    keyPress("ESCAPE"); await sleep(2000);//呼叫派蒙
+    click(198,416);await sleep(2000);//点击商城
+    click(127,434);await sleep(1000);//尘辉兑换
+    click(998,125);await sleep(1000);//星辰兑换
+    //检查星辰的数量
+    const region = RecognitionObject.ocr(1400, 31, 150, 50); // 星辰数量区域
+    let capture = captureGameRegion();
+    let res = capture.find(region);
+    capture.dispose();
+    let materialQuantity = res.text;
+    let validatedMaterialQuantity = positiveIntegerJudgment(materialQuantity);
+    if(validatedMaterialQuantity < 750){
+        notification.send(`星尘数量为：${validatedMaterialQuantity}，无法全部兑换`);
+        throw new Error(`星尘数量为：${validatedMaterialQuantity}，不能完全兑换`);
+    }
+    log.info(`星尘数量为：${validatedMaterialQuantity}，数量充足，可以全部兑换`);
+    const pinkBallRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/pinkBall.png"));
+    let ro1 = captureGameRegion();
+    let pinkBall = ro1.find(pinkBallRo);
+    ro1.dispose();
+        if (pinkBall.isExist()) {
+            pinkBall.click();await sleep(1000);
+            click(1290,604);await sleep(500);//增加
+            click(1290,604);await sleep(500);//增加
+            click(1290,604);await sleep(500);//增加
+            click(1290,604);await sleep(500);//增加
+            click(1164,782);await sleep(500);//确认兑换
+            click(960,754);await sleep(1000);//点击空白处继续
+    }
+    const blueBallRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/blueBall.png"));
+    let ro2 = captureGameRegion();
+    let blueBall = ro2.find(blueBallRo);
+    ro2.dispose();
+        if (blueBall.isExist()) {
+            blueBall.click();await sleep(1000);
+            click(1290,604);await sleep(500);//增加
+            click(1290,604);await sleep(500);//增加
+            click(1290,604);await sleep(500);//增加
+            click(1290,604);await sleep(500);//增加
+            click(1164,782);await sleep(500);//确认兑换
+            click(960,754);await sleep(1000);//点击空白处继续
+    }
+    notification.send(`商城抽卡资源兑换完成`);
 }
 
 

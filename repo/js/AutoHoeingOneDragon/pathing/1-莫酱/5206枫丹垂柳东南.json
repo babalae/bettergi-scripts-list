@@ -1,0 +1,145 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时95.65秒，包含以下怪物：3只盗宝团·神射手、1只盗宝团·粉碎者、3只火史莱姆。",
+    "enable_monster_loot_split": false,
+    "hash_res": "71434707",
+    "last_modified_time": 1768316877231,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "5206枫丹垂柳东南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3032.4013671875,
+      "y": 3728.325927734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3011.595703125,
+      "y": 3735.333251953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3004.2021484375,
+      "y": 3744.526611328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2978.44140625,
+      "y": 3751.40478515625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2946.521484375,
+      "y": 3759.21875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2946.521484375,
+      "y": 3759.21875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2962.650390625,
+      "y": 3766.026123046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2973.7353515625,
+      "y": 3821.852294921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2942.943359375,
+      "y": 3821.995849609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2941.5791015625,
+      "y": 3819.2353515625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.05),keypress(f),keydown(w),dash,keyup(w)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 2946.265625,
+      "y": 3823.696044921875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 2946.265625,
+      "y": 3823.696044921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 2946.265625,
+      "y": 3823.696044921875
+    }
+  ]
+}

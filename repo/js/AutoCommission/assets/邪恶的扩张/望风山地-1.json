@@ -1,69 +1,89 @@
-{
+﻿{
   "info": {
-    "name": "望风山地-1",
-    "type": "collect",
-    "author": "星野",
-    "version": "1.0",
+    "authors": [],
+    "bgi_version": "0.45.0",
     "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758349064943,
+    "map_match_method": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "name": "望风山地-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -1281,
-      "y": 2714.75,
-      "action": "",
-      "move_mode": "dash",
-      "type": "teleport"
-    },
-    {
-      "id": 2,
-      "x": -1339.25,
-      "y": 2732.75,
-      "action": "",
-      "move_mode": "dash",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": -1373.75,
-      "y": 2734.75,
-      "action": "",
-      "move_mode": "dash",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": -1402.4899999999998,
-      "y": 2739.5,
-      "action": "",
-      "move_mode": "dash",
-      "type": "path"
-    },
-    {
-      "id": 5,
-      "x": -1463.4899999999998,
-      "y": 2748,
-      "action": "",
-      "move_mode": "dash",
-      "type": "path"
-    },
-    {
-      "id": 6,
-      "x": -1473.25,
-      "y": 2780.5,
-      "action": "",
-      "move_mode": "dash",
-      "type": "path"
-    },
-    {
-      "id": 7,
-      "x": -1487,
-      "y": 2802,
-      "action": "fight",
       "move_mode": "walk",
-      "type": "path"
+      "type": "teleport",
+      "x": -1629.0390625,
+      "y": 2834.692138671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1582.8751627455094,
+      "y": 2857.0004589120126
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1576.173828125,
+      "y": 2857.3115234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1560.771484375,
+      "y": 2855.925048828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1513.703125,
+      "y": 2818.098876953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1498.392578125,
+      "y": 2807.054443359375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -1487.291015625,
+      "y": 2800.09765625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1487.66015625,
+      "y": 2807.591064453125
     }
   ]
 }

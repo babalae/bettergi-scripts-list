@@ -3,14 +3,15 @@ const paimonMenuRo = RecognitionObject.TemplateMatch(
   file.ReadImageMatSync("assets/RecognitionObject/paimon_menu.png"),
   0,
   0,
-  genshin.width / 3.0,
-  genshin.width / 5.0
+  640,
+  216
 );
 
 // 判断是否在主界面的函数
 const isInMainUI = () => {
   let captureRegion = captureGameRegion();
   let res = captureRegion.Find(paimonMenuRo);
+  captureRegion.dispose();
   return !res.isEmpty();
 };
 

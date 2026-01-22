@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765817751671,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "1P枫丹-科学院工坊TP刷CD",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4429.1826171875,
+      "y": 5097.20703125
+    },
+    {
+      "action": "set_time",
+      "action_params": "06:00",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4437.81640625,
+      "y": 5082.35791015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4429.931640625,
+      "y": 5013.0234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1.5)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4428.125,
+      "y": 4938.6171875
+    }
+  ]
+}

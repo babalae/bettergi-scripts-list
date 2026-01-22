@@ -21,6 +21,7 @@ async function() {
 
 	let captureRegion = captureGameRegion();
 	let resList = captureRegion.findMulti(RecognitionObject.ocr(1043, 5, 300, 100));
+	captureRegion.dispose();
 	let IsOver = false
 
 	for (let i = 0; i < resList.count; i++) {
@@ -58,7 +59,9 @@ async function() {
 		await sleep(2000);
 
 		// 浓缩树脂识别
-		let Condensed = captureGameRegion().find(CondensedRo);
+		let condensedCaptureRegion = captureGameRegion();
+		let Condensed = condensedCaptureRegion.find(CondensedRo);
+		condensedCaptureRegion.dispose();
 		let Isfive = false;
 		if (Condensed.isExist()) {
 			log.info("识别到浓缩树脂");
@@ -68,6 +71,7 @@ async function() {
 
 			let captureRegion = captureGameRegion();
 			let Condensedres = captureRegion.findMulti(RecognitionObject.ocr(CondensedX, Condensedy, 50, 50));
+			captureRegion.dispose();
 			for (let i = 0; i < Condensedres.count; i++) {
 				let resCondensed = Condensedres[i];
 				log.info(`浓缩树脂: ${resCondensed.text}`);
@@ -81,7 +85,9 @@ async function() {
 			}
 		}
 		// 脆弱树脂识别
-		let Fragile = captureGameRegion().find(FragileRo);
+		let FragileCapture = captureGameRegion();
+		let Fragile = FragileCapture.find(FragileRo);
+		FragileCapture.dispose();
 		if (Fragile.isExist()) {
 			log.info("识别到脆弱树脂");
 
@@ -90,6 +96,7 @@ async function() {
 
 			let captureRegion = captureGameRegion();
 			let Fragileres = captureRegion.findMulti(RecognitionObject.ocr(FragileX, Fragiley, 50, 50));
+			captureRegion.dispose();
 
 			if (Fragileres.count === 0) {
 				log.error("OCR识别失败：未能识别到脆弱树脂数量");
@@ -108,7 +115,10 @@ async function() {
 			await sleep(2000);
 		}
 		// 须臾树脂识别
-		let Temporary = captureGameRegion().find(TemporaryRo);
+		let TemporaryCapture = captureGameRegion();
+		let Temporary = TemporaryCapture.find(TemporaryRo);
+		TemporaryCapture.dispose();
+		let Temporaryres = null;
 		if (Temporary.isExist()) {
 			log.info("识别到须臾树脂");
 
@@ -117,12 +127,13 @@ async function() {
 			log.info(`点击坐标: (${TemporaryX}, ${Temporaryy})`);
 
 			let captureRegion = captureGameRegion();
-			let Temporaryres = captureRegion.findMulti(RecognitionObject.ocr(TemporaryX, Temporaryy, 50, 50));
+			Temporaryres = captureRegion.findMulti(RecognitionObject.ocr(TemporaryX, Temporaryy, 50, 50));
+			captureRegion.dispose();
 		} else {
-			log.info("未识别到脆弱树脂");
+			log.info("未识别到须臾树脂");
 		}
 
-		if (Temporaryres.count === 0) {
+		if (Temporaryres && Temporaryres.count === 0) {
 			log.error("OCR识别失败：未能识别到须臾树脂数量");
 		} else {
 			for (let i = 0; i < Temporaryres.count; i++) {

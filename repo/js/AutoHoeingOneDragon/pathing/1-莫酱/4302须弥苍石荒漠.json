@@ -1,0 +1,90 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时96.97秒，包含以下怪物：2只镀金旅团·鸦喙戟手、1只镀金旅团·破阵者、1只镀金旅团·刀舞者、1只镀金旅团·沙中净水、1只镀金旅团·魔岩役使。",
+    "enable_monster_loot_split": false,
+    "hash_res": "28507053",
+    "last_modified_time": 1768056045338,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "4302须弥苍石荒漠",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6615.40771484375,
+      "y": 725.23583984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6636.9375,
+      "y": 714.5622284900346
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 6653.44921875,
+      "y": 707.05029296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6756.087890625,
+      "y": 655.97705078125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6772.1796875,
+      "y": 653.28125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 6772.1796875,
+      "y": 653.28125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "orientation",
+      "x": 6772.1796875,
+      "y": 653.28125
+    }
+  ]
+}

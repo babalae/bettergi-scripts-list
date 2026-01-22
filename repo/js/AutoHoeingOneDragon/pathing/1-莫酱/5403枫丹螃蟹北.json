@@ -1,0 +1,154 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时153.48秒，包含以下怪物：2只机关·地质勘探型、2只机关·区域警戒型、1只压制特化型机关、1只盗宝团·火之药剂师、2只盗宝团·水之药剂师、1只盗宝团·雷之药剂师、3只盗宝团·神射手、2只盗宝团·海上男儿。",
+    "enable_monster_loot_split": false,
+    "hash_res": "28629089",
+    "last_modified_time": 1768160570431,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "5403枫丹螃蟹北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4375.49,
+      "y": 2280.5200000000004
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4381.610000000001,
+      "y": 2245.24
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4381.610000000001,
+      "y": 2245.24
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4375.27,
+      "y": 2280.7999999999993
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4382.05078125,
+      "y": 2348.478759765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4382.05078125,
+      "y": 2348.478759765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 4383.55078125,
+      "y": 2355.892822265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4394.546875,
+      "y": 2372.674072265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4387.9814453125,
+      "y": 2404.108642578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4350.08984375,
+      "y": 2408.6474609375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4301.9267578125,
+      "y": 2404.089599609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4301.9267578125,
+      "y": 2404.089599609375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4265.669921875,
+      "y": 2466.904296875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4265.669921875,
+      "y": 2466.904296875
+    }
+  ]
+}

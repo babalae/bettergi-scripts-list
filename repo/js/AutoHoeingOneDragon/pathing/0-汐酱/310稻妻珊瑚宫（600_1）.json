@@ -1,0 +1,70 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时62.44秒，包含以下怪物：1只丘丘雷兜王、1只雷丘丘萨满。",
+    "enable_monster_loot_split": false,
+    "hash_res": "86761051",
+    "last_modified_time": 1764705561625,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "310稻妻珊瑚宫（600_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -757.92,
+      "y": -3815.16
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": -870.56,
+      "y": -3884.7
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -870.56,
+      "y": -3884.7
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -877.62,
+      "y": -3892.48
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -877.62,
+      "y": -3892.48
+    }
+  ]
+}

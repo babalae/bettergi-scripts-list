@@ -1,0 +1,102 @@
+[
+   {
+     "name": "toMainUi",
+     "type": "checkbox",
+     "label": "启用先返回主界面后执行切换",
+     "default": true
+   },
+   {
+     "name": "noticeType",
+     "type": "select",
+     "label": "通知模式(默认BGI通知-使用独立通知需要开启JS HTTP权限)",
+     "options": [
+     "BGI通知",
+     "独立通知",
+     "独立通知和BGI通知",
+     ],
+     "default": "BGI通知"
+   },
+   {
+     "name": "relationship",
+     "type": "checkbox",
+     "label": "剩余时间,白名单 启用`和`关系(默认`或`关系)",
+     "default": false
+   },
+   {
+       "name": "whiteActivityNameList",
+       "type": "input-text",
+       "label": "白名单活动名称(使用|分割)<可不填 默认推送所有有剩余时间的活动>"
+   },
+   {
+       "name": "blackActivity",
+       "type": "input-text",
+       "label": "黑名单活动名称(使用|分割)<可不填,默认没有不推送的活动>(新增语法指定条件的黑名单：活动1-条件1,条件2|活动2-条件1)"
+   },
+   {
+       "name": "notifyHoursThreshold",
+       "type": "input-text",
+       "label": "通知剩余时间阈值<单位:小时>(默认 8760小时=365天)",
+       "default": "8760"
+   },
+   {
+      "name": "activityKey",
+      "type": "input-text",
+      "label": "打开活动页面按键(不填，默认：F5)",
+      "default": "F5"
+   },
+   {
+      "name": "campaignAreaReminderDay",
+      "type": "select",
+      "label": "周本提醒日(0-6,0=周日,1=周一,2=周二,3=周三,4=周四,5=周五,6=周六)",
+      "options": [
+      "0","1","2","3","4","5","6"
+      ],
+      "default": "0"
+   },
+   {
+      "name": "campaignAreaKey",
+      "type": "input-text",
+      "label": "打开冒险之证按键(不填，默认：F1)",
+      "default": "F1"
+   },
+   {
+     "name": "ws_proxy_url",
+     "type": "input-text",
+     "label": "独立通知配置:\n==============================\nWebSocketProxyUrl(列:http://127.0.0.1:8081/ws-proxy/message/send)",
+     "default": "http://127.0.0.1:8081/ws-proxy/message/send"
+   },
+   {
+     "name": "ws_url",
+     "type": "input-text",
+     "label": "WebSocket客户端 Url(列:ws://127.0.0.1:8080)",
+     "default": "ws://127.0.0.1:8080/"
+   },
+   {
+     "name": "ws_token",
+     "type": "input-text",
+     "label": "WebSocket客户端 token(没有可不填)",
+     "default": ""
+   },
+   {
+     "name": "action",
+     "type": "select",
+     "label": "发送类型",
+     "options": [
+     "私聊",
+     "群聊"
+     ],
+     "default": "私聊",
+   },
+   {
+     "name": "send_id",
+     "type": "input-text",
+     "label": "(发送id 群号|QQ号 对应发送类型)",
+     "default": ""
+   },
+   {
+     "name": "at_list",
+     "type": "input-text",
+     "label": "@某人列表使用,隔开(QQ号)",
+     "default": ""
+   },
+]

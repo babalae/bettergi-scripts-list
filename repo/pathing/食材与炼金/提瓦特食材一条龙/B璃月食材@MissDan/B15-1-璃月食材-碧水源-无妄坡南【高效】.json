@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个甜甜花；4个鸟蛋；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763413588421,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B15-1-璃月食材-碧水源-无妄坡南【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 490.0645,
+      "y": 1435.4014
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 465.3584,
+      "y": 1455.7783
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 463.8291,
+      "y": 1457.0234
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 436.8857,
+      "y": 1461.5557
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 409.6562,
+      "y": 1486.4512
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),wait(0.4)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 407.5225,
+      "y": 1488.6304
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 389.7314,
+      "y": 1461.1787
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 367.1436,
+      "y": 1481.2275
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(7),keyup(w)",
+      "id": 9,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 366.7881,
+      "y": 1488.1025
+    }
+  ]
+}

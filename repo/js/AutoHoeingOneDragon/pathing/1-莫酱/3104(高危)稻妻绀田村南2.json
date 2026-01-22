@@ -1,0 +1,100 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时95.92秒，包含以下怪物：3只大型冰史莱姆、1只冰深渊法师、1只野伏·阵刀番、1只野伏·火伏番、1只野伏·机巧番。",
+    "enable_monster_loot_split": false,
+    "hash_res": "46922825",
+    "last_modified_time": 1767870239300,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3104(高危)稻妻绀田村南2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4429.5625,
+      "y": -2798.2890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4403.5703125,
+      "y": -2788.79296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4368.0625,
+      "y": -2776.126953125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4350.71875,
+      "y": -2750.08984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4350.71875,
+      "y": -2750.08984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4282.82421875,
+      "y": -2771.2041015625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4234.31640625,
+      "y": -2763.53515625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -4234.31640625,
+      "y": -2763.53515625
+    }
+  ]
+}
