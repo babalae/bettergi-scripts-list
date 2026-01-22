@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时111.64秒，包含以下怪物：1只深邃拟覆叶、1只秘源机兵·寻捕械。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1768639964794,
+    "last_modified_time": 1769077606427,
     "map_match_method": "",
     "map_name": "AncientSacredMountain",
     "name": "6996纳塔远古圣山支离武备所东【高危】",
@@ -42,8 +42,8 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": -233.84228515625,
-      "y": 581.1790771484375
+      "x": -246.627197265625,
+      "y": 547.2359619140625
     },
     {
       "action": "",
@@ -51,8 +51,8 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": -236.2490234375,
-      "y": 603.3641357421875
+      "x": -227.35546875,
+      "y": 596.9317626953125
     },
     {
       "action": "",
@@ -60,35 +60,37 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": -226.372314453125,
-      "y": 619.7916259765625
+      "x": -237.962158203125,
+      "y": 604.8448486328125
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 6,
-      "move_mode": "run",
+      "locked": false,
+      "move_mode": "dash",
       "type": "path",
-      "x": -232.30322265625,
-      "y": 612.4769287109375
+      "x": -228.539794921875,
+      "y": 618.9637451171875
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 7,
-      "move_mode": "run",
+      "locked": false,
+      "move_mode": "dash",
       "type": "path",
-      "x": -232.30322265625,
-      "y": 612.4769287109375
+      "x": -228.539794921875,
+      "y": 618.9637451171875
     },
     {
       "action": "combat_script",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "id": 8,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "orientation",
-      "x": -232.30322265625,
-      "y": 612.4769287109375
+      "x": -228.539794921875,
+      "y": 618.9637451171875
     }
   ]
 }
