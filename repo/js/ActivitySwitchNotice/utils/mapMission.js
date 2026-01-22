@@ -3,31 +3,67 @@ const ocrRegionConfig = {
 }
 
 
-async function ocrMapMission(missionNameList = [], recognitionObject = ocrRegionConfig.mapMission) {
-    let jsonList = []
-    let region = captureGameRegion()
+/**
+ * OCR地图任务识别函数
+ * 通过OCR技术识别游戏界面中的任务名称，并与预设的任务名称列表进行匹配
+ * @param {Array<string>} [missionNameList=[]] - 需要识别的任务名称列表
+ * @param {Object} [regionConfig=ocrRegionConfig.mapMission] - OCR识别区域配置对象，包含x、y、width、height属性
+ * @returns {Promise<Array<Object>>} 返回识别结果数组，每个元素包含ok(boolean)和text(string)属性
+ */
+async function ocrMapMission(missionNameList = [], regionConfig = ocrRegionConfig.mapMission) {
+    let jsonList = [];
+    let region = null;
+
     try {
+        // 捕获游戏区域并创建OCR识别对象
+        region = captureGameRegion();
+        let recognitionObject = RecognitionObject.Ocr(regionConfig.x, regionConfig.y, regionConfig.width, regionConfig.height);
         // 执行多目标OCR识别
         let resList = region.findMulti(recognitionObject);
+        // if (!resList || !resList.length) {
+        //     return jsonList;
+        // }
+
+        // 遍历识别结果并匹配任务名称
         for (let i = 0; i < resList.count; i++) {
             let res = resList[i];
             log.debug(`[-]识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
+
             let json = {
                 ok: false,
                 text: undefined
+            };
+
+            // 检查当前识别文本是否包含任一任务名称
+            let matchedMission = null;
+            for (const missionName of missionNameList) {
+                if (res.text.trim().includes(missionName)) {
+                    matchedMission = missionName;
+                    break;
+                }
             }
-            if (missionNameList.some(missionName => res.text.trim().includes(missionName))) {
-                const missionName = missionNameList.find(missionName => res.text.trim().includes(missionName));
-                log.debug(`识别成功=>{0}->{1}`, missionName, res.text);
-                json.ok = true
-                json.text = res.text.trim()
+
+            if (matchedMission) {
+                log.debug(`识别成功=>${matchedMission}->${res.text}`);
+                json.ok = true;
+                json.text = res.text.trim();
             }
+
+            jsonList.push(json);
         }
     } catch (e) {
-        region.Dispose()
+        log.error('OCR识别过程出错:', e.message);
+        throw e;
+    } finally {
+        // 确保资源始终被释放
+        if (region) {
+            region.Dispose();
+        }
     }
-    return jsonList
+
+    return jsonList;
 }
+
 
 //伴月纪闻任务待完成
 // 通过地图识别任务
@@ -43,14 +79,18 @@ async function mapMission(list = [], toOpenMap = true) {
         await openMap();
         await sleep(ms);
     }
-    const keyJsonList = (await ocrMapMission(list))?.filter(item => item.ok);
-    if (keyJsonList.length == 0) {
+    await sleep(ms * 2);
+    let keyJsonList = await ocrMapMission(list);
+    keyJsonList = keyJsonList.filter(item => item.ok)
+    log.info(`识别到地图任务数量:${keyJsonList.length}`)
+    if (keyJsonList.length <= 0) {
         log.warn(`未识别到地图任务`)
         return
     }
+    const uid = await uidUtil.ocrUID()
     let text = ""
-    keyJsonList.forEach(item => text += "\n|< " + item.text + " >")
-    await noticeUtil.sendText(text, "地图任务")
+    keyJsonList.forEach(item => text += "|< " + item.text + " >\n")
+    await noticeUtil.sendText(text, `UID:${uid}\n地图任务`)
 }
 
 this.mapUtil = {
