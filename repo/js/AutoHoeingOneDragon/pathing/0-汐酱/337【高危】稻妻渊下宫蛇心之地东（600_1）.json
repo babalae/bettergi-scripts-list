@@ -1,0 +1,60 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时58.02秒，包含以下怪物：1只深渊咏者·紫电。",
+    "enable_monster_loot_split": false,
+    "hash_res": "03787299",
+    "last_modified_time": 1768831053947,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "337【高危】稻妻渊下宫蛇心之地东（600_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 198.79999999999995,
+      "y": -182.98000000000002
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 170.71875,
+      "y": -200.5959079752356
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 155.991943359375,
+      "y": -226.81640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 4,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 155.991943359375,
+      "y": -226.81640625
+    }
+  ]
+}

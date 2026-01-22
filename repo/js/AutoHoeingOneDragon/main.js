@@ -78,7 +78,7 @@ let lastEatBuff = 0;
             disableSelfOptimization: settings.disableSelfOptimization ?? false,
             eEfficiencyIndex: settings.eEfficiencyIndex ?? 2.5,
             mEfficiencyIndex: settings.mEfficiencyIndex ?? 0.5,
-            ignoreFactor: settings.ignoreFactor ?? 0,
+            ignoreRate: settings.ignoreRate ?? 0,
             targetEliteNum: settings.targetEliteNum ?? 400,
             targetMonsterNum: settings.targetMonsterNum ?? 2000,
             priorityTags: settings.priorityTags ?? "",
@@ -117,7 +117,7 @@ let lastEatBuff = 0;
         settings.disableSelfOptimization = cfg.disableSelfOptimization ?? false;
         settings.eEfficiencyIndex = cfg.eEfficiencyIndex ?? 2.5;
         settings.mEfficiencyIndex = cfg.mEfficiencyIndex ?? 0.5;
-        settings.ignoreFactor = cfg.ignoreFactor ?? 0;
+        settings.ignoreRate = cfg.ignoreRate ?? 0;
         settings.targetEliteNum = cfg.targetEliteNum ?? 400;
         settings.targetMonsterNum = cfg.targetMonsterNum ?? 2000;
         settings.priorityTags = cfg.priorityTags ?? "";
@@ -217,6 +217,35 @@ let lastEatBuff = 0;
 
     //根据操作模式选择不同的处理方式
     if (operationMode === "调试路线分配") {
+
+        /* ===== 新增：各组信息一览（只列有路线的组） ===== */
+        const groupNames = ['路径组一', '路径组二', '路径组三', '路径组四', '路径组五',
+            '路径组六', '路径组七', '路径组八', '路径组九', '路径组十'];
+        for (let g = 1; g <= 10; g++) {
+            const groupPath = pathings.filter(p => p.group === g && p.selected);
+            if (groupPath.length === 0) continue;          // 跳过空组
+            let elites = 0,
+                monsters = 0,
+                gain = 0,
+                time = 0;
+            for (const p of groupPath) {
+                elites += p.e || 0;
+                monsters += p.m || 0;
+                gain += p.G1 || 0;
+                time += p.t || 0;
+            }
+            const h = Math.floor(time / 3600);
+            const m = Math.floor((time % 3600) / 60);
+            const s = time % 60;
+            log.info(`${groupNames[g - 1]} 总计：`);
+            log.info(`  路线条数: ${groupPath.length}`);
+            log.info(`  精英怪数: ${elites.toFixed(0)}`);
+            log.info(`  小怪数  : ${monsters.toFixed(0)}`);
+            log.info(`  预计收益: ${gain.toFixed(0)} 摩拉`);
+            log.info(`  预计用时: ${h} 时 ${m} 分 ${s.toFixed(0)} 秒`);
+        }
+        /* =================================================== */
+
         log.info("开始复制并输出地图追踪文件\n请前往js文件夹查看");
         await copyPathingsByGroup(pathings);
         await updateRecords(pathings, accountName);
@@ -378,19 +407,18 @@ async function processPathings(groupTags) {
             }
         }
 
-        // ===== 根据 settings.ignoreFactor 过滤 =====
-        const ignoreFactor = Number(settings.ignoreFactor);
-        if (Number.isInteger(ignoreFactor) && ignoreFactor > 0) {
-            // 新增保护标签
+        // ===== 根据 settings.ignoreRate 过滤 =====
+        const ignoreRate = Number(settings.ignoreRate) || 100;
+        if (Number.isInteger(ignoreRate) && ignoreRate > 0) {
             const protectTags = ['精英高收益', '高危', '传奇'];
             const hasProtectTag = protectTags.some(tag => pathing.tags.includes(tag));
 
-            if (!hasProtectTag &&               // 不含保护标签
-                pathing.e <= ignoreFactor &&    // 精英数达标
-                pathing.m >= 5 * pathing.e) {   // 普通数足够
-                // 清零
-                pathing.e = 0;
-                pathing.mora_e = 0;
+            if (!hasProtectTag && pathing.e > 0) {          // ① 先保证有精英
+                const ratio = pathing.m / pathing.e;        // ② 再计算比例（e 已 > 0）
+                if (ratio >= ignoreRate) {                  // ③ 比例达标才清零
+                    pathing.e = 0;
+                    pathing.mora_e = 0;
+                }
             }
         }
 
@@ -1572,6 +1600,17 @@ async function processPathingsByGroup(pathings, accountName) {
             } catch (error) {
                 break;
             }
+            const pathTime = new Date() - now;
+            pathing.records = [...pathing.records, pathTime / 1000].slice(-7);
+
+            remainingEstimatedTime -= pathing.t;
+            const actualUsedTime = (new Date() - groupStartTime) / 1000;
+            const predictRemainingTime = remainingEstimatedTime * actualUsedTime / (totalEstimatedTime - remainingEstimatedTime - skippedTime);
+            // 将预计剩余时间转换为时、分、秒表示
+            const remaininghours = Math.floor(predictRemainingTime / 3600);
+            const remainingminutes = Math.floor((predictRemainingTime % 3600) / 60);
+            const remainingseconds = predictRemainingTime % 60;
+            log.info(`当前进度：第 ${targetGroup} 组第 ${groupPathCount}/${totalPathsInGroup} 个  ${pathing.fileName}已完成，该组预计剩余: ${remaininghours} 时 ${remainingminutes} 分 ${remainingseconds.toFixed(0)} 秒`);
 
             let fileEndX = 0, fileEndY = 0;
             try {
@@ -1634,18 +1673,6 @@ async function processPathingsByGroup(pathings, accountName) {
             // 更新路径的 cdTime
             pathing.cdTime = newCDTime.toLocaleString();
             if (!localeWorks) pathing.cdTime = newCDTime.toISOString();
-
-            const pathTime = new Date() - now;
-            pathing.records = [...pathing.records, pathTime / 1000].slice(-7);
-
-            remainingEstimatedTime -= pathing.t;
-            const actualUsedTime = (new Date() - groupStartTime) / 1000;
-            const predictRemainingTime = remainingEstimatedTime * actualUsedTime / (totalEstimatedTime - remainingEstimatedTime - skippedTime);
-            // 将预计剩余时间转换为时、分、秒表示
-            const remaininghours = Math.floor(predictRemainingTime / 3600);
-            const remainingminutes = Math.floor((predictRemainingTime % 3600) / 60);
-            const remainingseconds = predictRemainingTime % 60;
-            log.info(`当前进度：第 ${targetGroup} 组第 ${groupPathCount}/${totalPathsInGroup} 个  ${pathing.fileName}已完成，该组预计剩余: ${remaininghours} 时 ${remainingminutes} 分 ${remainingseconds.toFixed(0)} 秒`);
 
             await updateRecords(pathings, accountName);
         }

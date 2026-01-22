@@ -1,0 +1,203 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时209.36秒，包含以下怪物：1只打手丘丘人、2只射手丘丘人、1只冰弹丘丘人、1只火斧丘丘暴徒、1只水丘丘萨满、1只风丘丘萨满、1只雷深渊法师、1只冰深渊法师、2只愚人众·火之债务处理人、1只愚人众·雷莹术士、1只愚人众·冰萤术士。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768812667954,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "306-2稻妻踏鞴砂（200_7）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3156.5999999999985,
+      "y": -3886.1000000000004
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3126.5800000000017,
+      "y": -3872.5200000000004
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "4500",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3105.260000000002,
+      "y": -3894.4699999999993
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3122.91,
+      "y": -3858.7199999999993
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -3125.279999999999,
+      "y": -3873.66
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3121.1899999999987,
+      "y": -3876.8099999999995
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3120.201171875,
+      "y": -3872.0234375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3109.529999999999,
+      "y": -3833.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3122.91,
+      "y": -3858.7199999999993
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3102.040000000001,
+      "y": -3891.4699999999993
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3086.6899999999987,
+      "y": -3923.7800000000007
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3096.8100000000013,
+      "y": -3918.5599999999995
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3016.8600000000006,
+      "y": -3623.6100000000006
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2986.09,
+      "y": -3624.91
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(x);茜特菈莉 e;伊涅芙 e;wait(0.5);",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2984.470000000001,
+      "y": -3624.9400000000005
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2984.470000000001,
+      "y": -3624.9400000000005
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3233.25,
+      "y": -3534.1399999999994
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3214.540000000001,
+      "y": -3525.42
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(x);茜特菈莉 e;伊涅芙 e;wait(0.5);",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3198.5499999999993,
+      "y": -3517.1000000000004
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3198.5499999999993,
+      "y": -3517.1000000000004
+    }
+  ]
+}
