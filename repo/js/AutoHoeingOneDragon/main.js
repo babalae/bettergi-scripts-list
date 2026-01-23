@@ -124,7 +124,7 @@ let lastEatBuff = 0;
  * 4. 若配置里出现"莫酱""汐酱"关键词，直接终止脚本。
  */
 async function loadOrCreateConfig() {
-    if (operationMode !== '启用仅指定怪物模式') {
+    if (operationMode == '启用仅指定怪物模式') {
         return;
     }
 
