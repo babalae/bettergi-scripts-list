@@ -793,7 +793,9 @@ async function initRun(config_run) {
                 }]
                 orderList.filter(item => item.uid === Record.uid).forEach(item => {
                     const key = generatedKey(item);
+                    const key_parent = generatedKey(item, true);
                     orderMap.set(key, item.order)
+                    orderMap.set(key_parent, item.order)
                 })
                 log.info(`{0}加载完成`, json_path_name.PathOrder)
             } catch (e) {
