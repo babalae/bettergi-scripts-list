@@ -1,0 +1,138 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766409462492,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "520枫丹-自身之塔南3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3656.1953125,
+      "y": 2433.50244140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,380)",
+      "id": 2,
+      "move_mode": "climb",
+      "type": "orientation",
+      "x": 3617.5,
+      "y": 2437.25035412927
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3612.938072086068,
+      "y": 2437.750177064634
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 3604.1875,
+      "y": 2438.625243463872
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,680)",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "orientation",
+      "x": 3598.34375,
+      "y": 2426.249701203429
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 3598.34375,
+      "y": 2426.249701203429
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,600),wait(0.5),keydown(w),dash,wait(1),dash,wait(1),dash,keyup(w)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3589.0771484375,
+      "y": 2406.619384765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 3589.0771484375,
+      "y": 2406.619384765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(1);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 9,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 3589.923828125,
+      "y": 2402.342529296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3577.873046875,
+      "y": 2396.091552734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 3577.873046875,
+      "y": 2396.091552734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3550.533203125,
+      "y": 2393.361328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),d(0.1);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 13,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 3548.30078125,
+      "y": 2393.09521484375
+    }
+  ]
+}
