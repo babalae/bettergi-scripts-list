@@ -984,7 +984,7 @@ async function runPath(fullPath, map_name, pm, pe) {
     /* ---------- 主任务 ---------- */
     const pathingTask = (async () => {
         // 从 fullPath 中提取纯文件名（去掉路径和扩展名）
-        const fileName = fullPath.split(/[\\/]/).pop().replace(/\.json$/i, '');
+        const fileName = fullPath.split(/[\\/]/).pop();
 
         let doLogMonsterCount = true;
         log.info(`开始执行路线: ${fileName}`);
@@ -2016,38 +2016,55 @@ async function readFolder(folderPath, ext = '') {
  *   await fakeLog('自动钓鱼', false, 12500, true);
  */
 async function fakeLog(name, isStart, duration = 0, isJs = false) {
-    // ---------- 公共数据 ----------
-    const now = Date.now();
-    const time = new Date(now);
-    const fmtTime = String(time.getHours()).padStart(2, '0') + ':' +
-        String(time.getMinutes()).padStart(2, '0') + ':' +
-        String(time.getSeconds()).padStart(2, '0') + '.' +
-        String(time.getMilliseconds()).padStart(3, '0');
+    await sleep(1);
+    const currentTime = Date.now();
 
-    const taskType = isJs ? 'JS脚本' : '地图追踪任务';
-    const actionText = isStart ? '开始执行' : '执行结束';
-    // 仅结束时拼耗时
-    let costText = '';
-    if (!isStart) {
-        const sec = (duration / 1000).toFixed(3); // 毫秒转换为秒，并保留三位小数
-        const min = Math.floor(sec / 60);         // 计算分钟数
-        const secPart = (sec % 60).toFixed(3);    // 计算剩余秒数，并保留三位小数
-        // 格式化秒数，确保显示两位数字
-        const formattedSec = secPart.padStart(6, '0').slice(-6); // 确保秒数显示为两位数字
-        costText = `, 耗时: ${min}分${formattedSec}秒`;
+    /* ---------------- 时间格式化 ---------------- */
+    const t = new Date(currentTime);
+    const hh   = String(t.getHours()).padStart(2, '0');
+    const mm   = String(t.getMinutes()).padStart(2, '0');
+    const ss   = String(t.getSeconds()).padStart(2, '0');
+    const msec = String(t.getMilliseconds()).padStart(3, '0');
+    const formattedTime = `${hh}:${mm}:${ss}.${msec}`;
+
+    /* ---------------- 耗时格式化（仅结束用） ---------------- */
+    const totalSec = duration / 1000;
+    const durationMinutes = Math.floor(totalSec / 60);
+    const durationSeconds = (totalSec % 60).toFixed(3);
+
+    /* ---------------- 四分支，输出与旧版完全一致 ---------------- */
+    if (isJs && isStart) {
+        const logMessage = `正在伪造js开始的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 开始执行JS脚本: "${name}"`;
+        log.debug(logMessage);
     }
-    // ---------- 日志内容 ----------
-    const head = isStart
-        ? `------------------------------\n\n`
-        : `\n\n------------------------------`;
-
-    const logMessage =
-        `正在伪造${taskType}${isStart ? '开始' : '结束'}的日志记录\n\n` +
-        `[${fmtTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
-        head +
-        `[${fmtTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
-        `→ ${actionText}${taskType}: "${name}"${costText}`;
-    log.debug(logMessage);
+    if (isJs && !isStart) {
+        const logMessage = `正在伪造js结束的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------`;
+        log.debug(logMessage);
+    }
+    if (!isJs && isStart) {
+        const logMessage = `正在伪造地图追踪开始的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 开始执行地图追踪任务: "${name}"`;
+        log.debug(logMessage);
+    }
+    if (!isJs && !isStart) {
+        const logMessage = `正在伪造地图追踪结束的日志记录\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `→ 脚本执行结束: "${name}", 耗时: ${durationMinutes}分${durationSeconds}秒\n\n` +
+            `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
+            `------------------------------`;
+        log.debug(logMessage);
+    }
 }
 
 /**
