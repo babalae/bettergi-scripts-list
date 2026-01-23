@@ -518,21 +518,31 @@ async function loadUidSettingsMap(uidSettingsMap) {
 
             // const key = keys[keys.size - 1]
             // PATH_JSON_LIST.filter(item => item.level > 0)
+            // 预先建立 levelName 到路径信息的映射
+            const levelNameMap = new Map();
+            PATH_JSON_LIST.forEach(item => {
+                if (item.levelName) {
+                    levelNameMap.set(item.levelName, item);
+                }
+            });
+
             //中间一段路径名称
             const dir_key = keys.join("\\")
             filterSettings = filterUidSettings.filter(item => {
-                const settings_level = PATH_JSON_LIST.filter(list_item => list_item.levelName === item.name).find();
+                // const settings_level = PATH_JSON_LIST.filter(list_item => list_item.levelName === item.name).find();
+                const settings_level = levelNameMap.get(item.name);
                 if (settings_level) {
                     //只加载指定目录
                     return (settings_level.path.includes(dir_key))
                 }
+                return false
             })
             const theLayer = settings.the_layer || false
             const levelSettings = filterSettings.filter(item => {
                 const level_all = item.name.replaceAll(levelName, "");
                 // 获取级别
                 const level = level_all.split("_").filter(item => item?.trim() !== "").map(parseInt)[0]
-                if (theLayer && loadingLevel === level + 1) {
+                if (theLayer) {
                     //只加载指定级别的设置
                     return (loadingLevel === level + 1)
                 }
