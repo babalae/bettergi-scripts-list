@@ -41,6 +41,15 @@ const clickToContinue = () => {
 const findUidText = () => {
   return findTextWithinBounds("UID", 1620, 1050, 300, 30, { contains: true });
 };
+//! 查找派蒙图标（判断处于奇域大世界/大厅）
+const findPaimon = () => {
+  const iro = findImageWithinBounds("assets/UI_Icon_Paimon.png", 0, 0, 100, 100, {
+    useMask: true,
+    threshold: 0.8,
+  });
+  iro?.drawSelf("group_img");
+  return iro;
+};
 //! 查找元素视野按钮（判断处于大世界）
 const findElementViewBtn = () => {
   const iro = findImageWithinBounds("assets/UI_BtnIcon_ElementView.png", 0, 0, 500, 80, {
@@ -244,6 +253,7 @@ export {
   findHeaderTitle,
   findLeaveRoomBtn,
   findManageStagesBtn,
+  findPaimon,
   findPrepareMsg,
   findSaveToDeletePos,
   findSearchWonderlandBtn,
