@@ -208,6 +208,7 @@ sequenceDiagram
 | team_seven_elements | 文本  | 七元素队伍（矿物,火,水,风,雷,草,冰,岩）                                     | 按顺序填写                                      |
 | is_debug            | 复选框 | 开发者模式（详细日志）                                                 | 调试时开启                                      |
 ## 语法说明
+- 语法风格请保持一致 ，否则会导致路径会出现异常运行 如使用 地产->nam=1 同时保持 地产->nam=队伍名1 则路径会出现异常运行
 - order_rules 执行顺序规则
     1. `rootName` 根目录下层文件夹名称，`parentName` 父目录名称，`name` 文件夹名称
     2. 建议语法：`rootName->parentName->name=1,rootName->parentName->name2=2`

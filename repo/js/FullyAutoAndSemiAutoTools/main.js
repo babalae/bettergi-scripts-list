@@ -714,23 +714,6 @@ async function initRun(config_run) {
             }
 
 
-            function groupByParentAndName(list) {
-                const map = new Map();
-
-                list.forEach(item => {
-                    // const key = `${item.parentName}->${item.name}`;
-                    const key = generatedKey(item);
-                    const key_parent = generatedKey(item, true);
-                    if (!map.has(key)) map.set(key, []);
-                    map.get(key).push(item);
-                    if (!map.has(key_parent)) map.set(key_parent, []);
-                    map.get(key_parent).push(item);
-                });
-
-                return Array.from(map.values()); // 转成二维数组 [[], []]
-            }
-
-            let groups = groupByParentAndName(matchedPaths);
             //锄地队对应
             try {
                 const teamHoeGroundStr = settings.team_hoe_ground || "parentName->name=key"
@@ -756,10 +739,15 @@ async function initRun(config_run) {
                     team_name: ""
                 }]
                 teamHoeGroundList.filter(item => item.uid === Record.uid).forEach(item => {
-                    const key = generatedKey(item);
-                    const key_parent = generatedKey(item, true);
-                    team.HoeGroundMap.set(key,item.team_name);
-                    team.HoeGroundMap.set(key_parent,item.team_name);
+                    if (item.root_name) {
+                        const key = generatedKey(item);
+                        team.HoeGroundMap.set(key, item.team_name);
+
+                    } else {
+                        const key_parent = generatedKey(item, true);
+                        team.HoeGroundMap.set(key_parent, item.team_name);
+                    }
+
                 })
                 log.info(`{0}加载完成`, json_path_name.HoeGround)
             } catch (e) {
@@ -792,15 +780,35 @@ async function initRun(config_run) {
                     order: 0
                 }]
                 orderList.filter(item => item.uid === Record.uid).forEach(item => {
-                    const key = generatedKey(item);
-                    const key_parent = generatedKey(item, true);
-                    orderMap.set(key, item.order)
-                    orderMap.set(key_parent, item.order)
+                    if (item.root_name) {
+                        const key = generatedKey(item);
+                        orderMap.set(key, item.order)
+                    } else {
+                        const key_parent = generatedKey(item, true);
+                        orderMap.set(key_parent, item.order)
+                    }
                 })
                 log.info(`{0}加载完成`, json_path_name.PathOrder)
             } catch (e) {
             }
 
+            function groupByParentAndName(list) {
+                const map = new Map();
+
+                list.forEach(item => {
+                    // const key = `${item.parentName}->${item.name}`;
+                    const key = generatedKey(item);
+                    // const key_parent = generatedKey(item, true);
+                    if (!map.has(key)) map.set(key, []);
+                    map.get(key).push(item);
+                    // if (!map.has(key_parent)) map.set(key_parent, []);
+                    // map.get(key_parent).push(item);
+                });
+
+                return Array.from(map.values()); // 转成二维数组 [[], []]
+            }
+
+            let groups = groupByParentAndName(matchedPaths);
             groups.sort((a, b) => {
                 const a_key = generatedKey(a)
                 const b_key = generatedKey(b)
@@ -811,10 +819,21 @@ async function initRun(config_run) {
                 }
                 return orderA - orderB;
             })
-
+            const asMap = new Map()
             groups.forEach(group => {
                 const groupOne = group[0]
-                const groupKey = generatedKey(groupOne);
+                let groupKey_parent = generatedKey(groupOne, true);
+                if (orderMap.has(groupKey_parent) || team.HoeGroundMap.has(groupKey_parent)) {
+                    let groupKey = generatedKey(groupOne);
+                    asMap.set(groupKey, groupKey_parent)
+                }
+            })
+            groups.forEach(group => {
+                const groupOne = group[0]
+                let groupKey = generatedKey(groupOne);
+                if (asMap.has(groupKey)) {
+                    groupKey = asMap.get(groupKey)
+                }
                 needRunMap.set(groupKey, {
                     paths: group,
                     parent_name: groupOne.parentName,
