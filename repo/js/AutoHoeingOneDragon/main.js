@@ -124,7 +124,7 @@ let lastEatBuff = 0;
  * 4. 若配置里出现"莫酱""汐酱"关键词，直接终止脚本。
  */
 async function loadOrCreateConfig() {
-    if (operationMode == '启用仅指定怪物模式') {
+    if (operationMode === '启用仅指定怪物模式') {
         return;
     }
 
@@ -201,7 +201,7 @@ async function checkLocaleTimeSupport() {
     if (!ok) {
         ['当前设备本地时间格式无法解析',
             '建议不要使用12小时时间制',
-            '已将记录改为使用 utc 时间'].forEach(t => log.warn(`[WARN] ${t}`));
+            '已将记录改为使用 utc 时间'].forEach(t => log.warn(`${t}`));
         await sleep(5000);
     }
     return ok;
@@ -767,6 +767,7 @@ async function validateTeamAndConfig() {
  * 仅统计 group=1..10 且 selected 的路线，累加精英数、小怪数、总收益(G1)与总时长
  * 输出每组的路线条数、精英/小怪数量、预计收益（摩拉）与预计用时（时:分:秒）
  * 用于“调试路线分配”模式快速核对各组工作量
+ * 将汇总结果写入 pathingOut/路线分配结果.txt 文件
  * 依赖全局：pathings
  */
 async function printGroupSummary() {
@@ -774,6 +775,16 @@ async function printGroupSummary() {
         '路径组一', '路径组二', '路径组三', '路径组四', '路径组五',
         '路径组六', '路径组七', '路径组八', '路径组九', '路径组十'
     ];
+
+    // 创建结果字符串
+    let resultText = "路线分配结果汇总\n";
+    resultText += "=".repeat(50) + "\n\n";
+
+    // 统计所有选中的路线
+    const selectedPathings = pathings.filter(p => p.selected);
+    resultText += `总选中路线数: ${selectedPathings.length} 条\n\n`;
+
+    let totalElites = 0, totalMonsters = 0, totalGain = 0, totalTime = 0;
 
     for (let g = 1; g <= 10; g++) {
         const groupPath = pathings.filter(p => p.group === g && p.selected);
@@ -787,16 +798,76 @@ async function printGroupSummary() {
             time += p.t || 0;
         }
 
+        // 累加到总计
+        totalElites += elites;
+        totalMonsters += monsters;
+        totalGain += gain;
+        totalTime += time;
+
         const h = Math.floor(time / 3600);
         const m = Math.floor((time % 3600) / 60);
         const s = time % 60;
 
-        log.info(`${groupNames[g - 1]} 总计：`);
-        log.info(`  路线条数: ${groupPath.length}`);
-        log.info(`  精英怪数: ${elites.toFixed(0)}`);
-        log.info(`  小怪数  : ${monsters.toFixed(0)}`);
-        log.info(`  预计收益: ${gain.toFixed(0)} 摩拉`);
-        log.info(`  预计用时: ${h} 时 ${m} 分 ${s.toFixed(0)} 秒`);
+        // 获取该组的标签配置
+        const tagsKey = `tagsForGroup${g}`;
+        const groupTags = settings[tagsKey] || '';
+        const tagType = g === 1 ? "排除的标签" : "选择的标签";
+
+        // 构建输出内容
+        const outputLines = [
+            `${groupNames[g - 1]} 总计：`,
+            `  ${tagType}:【${groupTags}】`,
+            `  路线条数: ${groupPath.length}`,
+            `  精英怪数: ${elites.toFixed(0)}`,
+            `  小怪数  : ${monsters.toFixed(0)}`,
+            `  预计收益: ${gain.toFixed(0)} 摩拉`,
+            `  预计用时: ${h} 时 ${m} 分 ${s.toFixed(0)} 秒`,
+            "" // 空行
+        ];
+
+        // 输出到控制台和结果文本
+        outputLines.forEach(line => {
+            if (line === "") {
+                // 空行不输出到控制台，但保留在结果文本中
+                resultText += "\n";
+            } else {
+                log.info(line);
+                resultText += line + "\n";
+            }
+        });
+    }
+
+    // 添加总计信息
+    const totalH = Math.floor(totalTime / 3600);
+    const totalM = Math.floor((totalTime % 3600) / 60);
+    const totalS = totalTime % 60;
+
+    resultText += "=".repeat(50) + "\n";
+    resultText += "总体统计：\n";
+    resultText += `  总路线数: ${selectedPathings.length} 条\n`;
+    resultText += `  总精英怪: ${totalElites.toFixed(0)}\n`;
+    resultText += `  总小怪数: ${totalMonsters.toFixed(0)}\n`;
+    resultText += `  总收益  : ${totalGain.toFixed(0)} 摩拉\n`;
+    resultText += `  总用时  : ${totalH} 时 ${totalM} 分 ${totalS.toFixed(0)} 秒\n`;
+    resultText += "=".repeat(50) + "\n\n";
+
+    // 其他配置信息
+    resultText += "配置参数：\n";
+    resultText += `  精英效率指数: ${settings.eEfficiencyIndex || 2.5}\n`;
+    resultText += `  小怪效率指数: ${settings.mEfficiencyIndex || 0.5}\n`;
+    resultText += `  忽略比例: ${settings.ignoreRate || 0}\n`;
+    resultText += `  目标精英数: ${settings.targetEliteNum || 400}\n`;
+    resultText += `  目标小怪数: ${settings.targetMonsterNum || 2000}\n`;
+    resultText += `  优先级标签: ${settings.priorityTags || ''}\n`;
+    resultText += `  排除标签: ${settings.excludeTags || ''}\n\n`;
+
+    // 写入文件
+    const filePath = "pathingOut/路线分配结果.txt";
+    try {
+        await file.writeText(filePath, resultText, false);
+        log.info(`路线分配结果已保存至: ${filePath}`);
+    } catch (error) {
+        log.error(`保存路线分配结果文件失败: ${error.message}`);
     }
 }
 
@@ -912,9 +983,12 @@ async function runPath(fullPath, map_name, pm, pe) {
 
     /* ---------- 主任务 ---------- */
     const pathingTask = (async () => {
+        // 从 fullPath 中提取纯文件名（去掉路径和扩展名）
+        const fileName = fullPath.split(/[\\/]/).pop().replace(/\.json$/i, '');
+
         let doLogMonsterCount = true;
-        log.info(`开始执行路线: ${fullPath}`);
-        await fakeLog(`${fullPath}`, true);
+        log.info(`开始执行路线: ${fileName}`);
+        await fakeLog(`${fileName}`, true);
         try {
             await pathingScript.runFile(fullPath);
         } catch (error) {
@@ -933,7 +1007,7 @@ async function runPath(fullPath, map_name, pm, pe) {
             for (let i = 0; i < e; i++) lines.push('交互或拾取："精英"');
             if (lines.length) log.debug(lines.join('\n'));
         }
-        await fakeLog(`${fullPath}`, false);
+        await fakeLog(`${fileName}`, false);
         state.running = false;
     })();
 
