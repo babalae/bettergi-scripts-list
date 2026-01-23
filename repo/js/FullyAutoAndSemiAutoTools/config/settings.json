@@ -51,6 +51,12 @@
         "default": "2"
     },
     {
+        "name": "the_layer",
+        "type": "checkbox",
+        "label": "只加载指定层级<配置模式 加载 生效>",
+        "default": false
+    },
+    {
         "name": "order_rules",
         "type": "input-text",
         "label": "执行顺序规则(可留空)\n{语法:父文件夹名称->文件夹名称=顺序请填整数,.....}",

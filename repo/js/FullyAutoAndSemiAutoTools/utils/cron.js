@@ -123,6 +123,7 @@ function parseCron(cron) {
  * @returns {Promise} 返回一个Promise，解析为下一个Cron时间戳
  */
 async function getNextCronTimestamp(cronExpression, startTimestamp = Date.now(), endTimestamp, url) {
+    log.warn("使用cron CD算法 请开启JS HTTP 权限 如已开启请忽略")
     const result = await http.request("POST", url, JSON.stringify({
         cronExpression: `${cronExpression}`,
         startTimestamp: startTimestamp,
