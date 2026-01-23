@@ -757,7 +757,9 @@ async function initRun(config_run) {
                 }]
                 teamHoeGroundList.filter(item => item.uid === Record.uid).forEach(item => {
                     const key = generatedKey(item);
-                    team.HoeGroundMap.set(key, item.team_name)
+                    const key_parent = generatedKey(item, true);
+                    team.HoeGroundMap.set(key,item.team_name);
+                    team.HoeGroundMap.set(key_parent,item.team_name);
                 })
                 log.info(`{0}加载完成`, json_path_name.HoeGround)
             } catch (e) {
