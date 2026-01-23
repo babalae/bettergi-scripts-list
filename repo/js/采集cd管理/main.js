@@ -186,6 +186,12 @@ let checkInterval = +settings.checkInterval || 50;
             "label": "勾选后跳过路线完成后的坐标校验\n【警告】运行卡死等未成功到达终点的路线也将进入cd"
         },
         {
+            "name": "isSeedDispensary",
+            "type": "checkbox",
+            "label": "是否装备化种匣采集化种匣支援的采集物种子\n【警告】启用后非化种匣种子类采集物不能采集",
+            "default": "false"
+        },
+        {
             "name": "findFInterval",
             "type": "input-text",
             "label": "识别间隔(毫秒)\n两次检测f图标之间等待时间",
@@ -561,6 +567,7 @@ let checkInterval = +settings.checkInterval || 50;
                 "琉鳞石": "46小时刷新",
                 "奇异的「牙齿」": "46小时刷新",
                 "冬凌草": "46小时刷新",
+                "松珀香": "46小时刷新",
 
                 // 12h 素材
                 "兽肉": "12小时刷新",
@@ -1355,7 +1362,7 @@ async function performTemplateMatch(centerYF) {
     /* 一次性切 6 种宽度（0-5 汉字） */
     const regions = [];
     for (let cn = 0; cn <= 6; cn++) {   // 0~5 共 6 档
-        const w = 12 + 28 * Math.min(cn, 5) + 2;
+        const w = 12 + 28 * Math.min(cn, 5) + 2 + (settings.isSeedDispensary == true ? 20 : 0); //+20適配種子
         regions[cn] = gameRegion.DeriveCrop(1219, centerYF - 15, w, 30);
     }
 
@@ -2080,7 +2087,7 @@ async function findAndClick(target, doClick = true, maxAttempts = 60) {
         const rg = captureGameRegion();
         try {
             const res = rg.find(target);
-            if (res.isExist()) { await sleep(checkInterval * 2 + 50); if (doClick) { res.click(); }await sleep(50); return true; }
+            if (res.isExist()) { await sleep(checkInterval * 2 + 50); if (doClick) { res.click(); } await sleep(50); return true; }
         } finally { rg.dispose(); }
         if (i < maxAttempts - 1) await sleep(checkInterval);
     }
