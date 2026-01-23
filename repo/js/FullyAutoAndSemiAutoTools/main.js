@@ -699,16 +699,20 @@ async function initRun(config_run) {
 
             // const {label} = multiCheckboxMap.get(settingsName);
             // const as_name = getBracketContent(label)//父名称 如：晶蝶
-            function generatedKey(item) {
+            function generatedKey(item, useParent = false) {
                 const separator = "->";
-                if (item.parentName) {
-                    if (item.rootName && item.parentName !== item.rootName) {
-                        return `${item.rootName}${separator}${item.parentName}${separator}${item.name}`;
-                    }
+                // 优先处理 rootName->parentName->name 格式的情况
+                if (!useParent && item.rootName && item.parentName && item.parentName !== item.rootName && item.rootName !== "") {
+                    return `${item.rootName}${separator}${item.parentName}${separator}${item.name}`;
+                }
+                // 然后处理 useParent 或 parentName 存在的情况
+                if (useParent || item.parentName) {
                     return `${item.parentName}${separator}${item.name}`;
                 }
+                // 默认返回 name
                 return item.name;
             }
+
 
             function groupByParentAndName(list) {
                 const map = new Map();
@@ -716,8 +720,11 @@ async function initRun(config_run) {
                 list.forEach(item => {
                     // const key = `${item.parentName}->${item.name}`;
                     const key = generatedKey(item);
+                    const key_parent = generatedKey(item, true);
                     if (!map.has(key)) map.set(key, []);
                     map.get(key).push(item);
+                    if (!map.has(key_parent)) map.set(key_parent, []);
+                    map.get(key_parent).push(item);
                 });
 
                 return Array.from(map.values()); // 转成二维数组 [[], []]
