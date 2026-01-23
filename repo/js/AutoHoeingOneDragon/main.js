@@ -32,10 +32,11 @@ let targetEliteNum = Math.max(0, +settings.targetEliteNum || 400) + 5; // 预留
 let targetMonsterNum = Math.max(0, +settings.targetMonsterNum || 2000) + 25; // 预留漏怪
 
 const partyName = settings.partyName || "";
-const groupTags = Array.from({ length: 10 }, (_, i) => {
-    const tags = (settings[`tagsForGroup${i + 1}`] || (i === 0 ? '蕈兽' : '')).split('，').filter(Boolean);
-    return i === 0 ? [...new Set(tags)] : tags;
-});
+const groupSettings = Array.from({ length: 10 }, (_, i) =>
+    settings[`tagsForGroup${i + 1}`] || (i === 0 ? '蕈兽' : '')
+);
+const groupTags = groupSettings.map(str => str.split('，').filter(Boolean));
+groupTags[0] = [...new Set(groupTags.flat())];
 
 //模板与识别对象预加载
 const itemFullRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/itemFull.png"), 0, 0, 1920, 1080);
