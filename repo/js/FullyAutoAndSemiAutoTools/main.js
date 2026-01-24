@@ -321,7 +321,7 @@ async function initRefresh(settingsConfig) {
                     label: `${p}选择要执行的${item.level + 1}级路径`,
                     options: []
                 }
-                let filter = PATH_JSON_LIST.filter(list_item => list_item.id === item.parentId).find();
+                let filter = PATH_JSON_LIST.filter(list_item => list_item.id === item.parentId).find(item => item);
                 if (filter) {
                     // filter.levelName = name || undefined
                     PATH_JSON_LIST.forEach(list_item => {
