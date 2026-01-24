@@ -581,7 +581,7 @@ async function loadUidSettingsMap(uidSettingsMap) {
                     return (loadingLevel === level + 1)
                 }
                 // 检查级别是否小于等于加载层级
-                return (loadingLevel > level)
+                return (loadingLevel > level-1)
             })
             templateMatchSettings = [...templateMatchSettings, ...levelSettings]
             while (templateMatchSettings.length > 0 &&
