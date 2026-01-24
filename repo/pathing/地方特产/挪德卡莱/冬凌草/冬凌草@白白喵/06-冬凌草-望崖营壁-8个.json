@@ -1,0 +1,142 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "白白喵"
+      },{
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.55.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769265578016,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "06-冬凌草-望崖营壁-8个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9870.2900390625,
+      "y": 6076.03515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9841.169921875,
+      "y": 6069.4765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9809.3984375,
+      "y": 6076.0048828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9798.423828125,
+      "y": 6084.08984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.01)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9795.029296875,
+      "y": 6083.7265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9789.568359375,
+      "y": 6081.783203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9765.91015625,
+      "y": 6078.61328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9743.615234375,
+      "y": 6087.00634765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9740.966796875,
+      "y": 6088.490234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.01)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9723.07421875,
+      "y": 6092.4287109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9721.3701171875,
+      "y": 6092.392578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9708.6650390625,
+      "y": 6120.96826171875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9707.791015625,
+      "y": 6123.77783203125
+    }
+  ]
+}
