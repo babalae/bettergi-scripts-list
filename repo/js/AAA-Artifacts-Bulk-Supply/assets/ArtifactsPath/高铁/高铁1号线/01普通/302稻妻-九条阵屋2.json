@@ -1,0 +1,93 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766671183306,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "302稻妻-九条阵屋2",
+    "tags": [],
+    "type": "collect",
+    "version": ""
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3437.0322265625,
+      "y": -3319.720703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3456.57421875,
+      "y": -3323.9150390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3487.28125,
+      "y": -3324.343484403049
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3499.771484375,
+      "y": -3331.505859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3536.0625,
+      "y": -3344.5006639923795
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "swim",
+      "type": "target",
+      "x": -3539.46875,
+      "y": -3345.5000442661585
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 7,
+      "move_mode": "swim",
+      "type": "target",
+      "x": -3537.6416015625,
+      "y": -3343.54296875
+    },
+    {
+      "action": "set_time",
+      "action_params": "06:00",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3541.4541015625,
+      "y": -3343.9228515625
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时139.76秒，包含以下怪物：3只精英传奇倍率二。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1768044083724,
+    "last_modified_time": 1769103475370,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "006挪德卡莱苔骨荒原西格德 传奇",
@@ -33,42 +33,61 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 9175.597393783086,
-      "y": 1930.4038689445097
+      "x": 9178.999796243319,
+      "y": 1919.8147133079328
     },
     {
       "action": "stop_flying",
-      "action_params": "1000",
+      "action_params": "1300",
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 9080.405748201347,
-      "y": 1950.8751155765822
+      "x": 9129.124874611272,
+      "y": 1943.3760845208872
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9089.830078125,
+      "y": 1962.0771484375
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f)",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 9080.437011763472,
-      "y": 1951.1251386918993
-    },
-    {
-      "action": "fight",
-      "action_params": "",
+      "action_params": "keypress(f),wait(0.1),keypress(f)",
       "id": 5,
       "move_mode": "dash",
       "type": "target",
-      "x": 9079.688910461078,
-      "y": 1957.747457315174
+      "x": 9080.4384765625,
+      "y": 1950.4921875
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 6,
       "move_mode": "dash",
-      "type": "target",
+      "type": "path",
+      "x": 9079.688910461078,
+      "y": 1957.747457315174
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9079.688910461078,
+      "y": 1957.747457315174
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": 9079.688910461078,
       "y": 1957.747457315174
     }

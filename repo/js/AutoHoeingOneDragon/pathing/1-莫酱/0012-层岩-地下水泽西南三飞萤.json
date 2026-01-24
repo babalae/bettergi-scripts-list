@@ -15,7 +15,7 @@
     "description": "  路线信息：该路线预计用时53.84秒，包含以下怪物：3只水萤。",
     "enable_monster_loot_split": false,
     "hash_res": "53430333",
-    "last_modified_time": 1767857257842,
+    "last_modified_time": 1769235315053,
     "map_match_method": "",
     "map_name": "TheChasm",
     "name": "0012-层岩-地下水泽西南三飞萤",
@@ -34,36 +34,27 @@
       "y": 704.72998046875
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.3)",
+      "action": "",
+      "action_params": "",
       "id": 2,
       "move_mode": "fly",
       "type": "path",
-      "x": 677.1844482421875,
-      "y": 691.1380615234375
+      "x": 676.4372727329321,
+      "y": 700.624933600762
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 667.2301025390625,
-      "y": 693.3182373046875
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "jump",
-      "type": "path",
-      "x": 661.5174560546875,
-      "y": 698.224365234375
+      "x": 658.2501488991136,
+      "y": 698.0624557338415
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 5,
+      "id": 4,
       "move_mode": "dash",
       "type": "path",
       "x": 652.8031005859375,
@@ -72,7 +63,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 6,
+      "id": 5,
       "move_mode": "dash",
       "type": "orientation",
       "x": 652.8031005859375,
