@@ -102,9 +102,9 @@
     "label": "运行路线时输出交互或拾取精英和小怪数量，便于在日志分析中比对"
   },
   {
-    "name": "disableXYCheck",
+    "name": "enableCoordCheck",
     "type": "checkbox",
-    "label": "路线结尾时不再进行坐标检查\n用于某些路线稳定获取不到坐标时也正常记录cd\n【注意】可能导致部分路线卡死后无法重跑"
+    "label": "路线结尾时进行坐标检查\n用于在路线出现卡死等放弃时不记录cd信息"
   },
   {
     "name": "skipCheck",
