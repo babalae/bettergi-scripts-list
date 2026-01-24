@@ -36,6 +36,7 @@ const json_path_name = {
     RecordText: `${config_root}\\record.json`,
     RecordPathText: `${config_root}\\PathRecord.json`,
     uidSettingsJson: `${config_root}\\uidSettings.json`,
+    templateMatchSettingsJson: `${config_root}\\settings.json`,
     cdPath: `${config_root}\\cd-${pathingName}.json`,
     SevenElement: `${config_root}\\SevenElement.json`,
     RefreshSettings: `${config_root}\\RefreshSettings.json`,
@@ -467,23 +468,48 @@ async function loadUidSettingsMap(uidSettingsMap) {
             );
         }
         try {
+            let templateMatchSettings = JSON.parse(file.readTextSync(json_path_name.templateMatchSettingsJson));
             // 筛选出名称为'config_run'的设置项
-            uidSettings.filter(
+            templateMatchSettings.filter(
                 item => item.name === 'config_run'
             ).forEach(item => {
                 // 刷新settings自动设置执行
                 item.default = "执行"
             })
-            uidSettings.filter(
+            templateMatchSettings.filter(
                 item => item.name === 'config_uid'
             ).forEach(item => {
                 // 刷新settings自动设置执行
                 item.label = "当前配置uid:\{" + Record.uid + "\}\n(仅仅显示配置uid无其他作用)"
             })
             let filterSettings = []
-            const filterUidSettings = uidSettings.filter(item => item.name.startsWith(levelName))
-            filterSettings = filterUidSettings
-            uidSettings = Array.from(new Set(uidSettings).difference(new Set(filterUidSettings)))
+            const filterUidSettings = uidSettings.filter(item => item?.name?.startsWith(levelName))
+            let tempFilterUidSettings = []
+
+            let last_parent_level = undefined
+            for (let i = 0; i < filterUidSettings.length; i++) {
+                let item = filterUidSettings[i]
+                // log.warn(`item:{0}`,item)
+                if (item?.name?.startsWith(levelName)) {
+                    if (i === 0) {
+                        tempFilterUidSettings.push({type: "separator"})
+                        tempFilterUidSettings.push({type: "separator"})
+                    }
+
+                    tempFilterUidSettings.push({type: "separator"})
+
+                    let parent_level = item?.name?.replace(levelName + "_", "")?.split("_")[0] || undefined
+                    if (i !== 0 && parent_level && parent_level !== last_parent_level) {
+                        tempFilterUidSettings.push({type: "separator"})
+                    }
+                    tempFilterUidSettings.push(item)
+                    last_parent_level = parent_level
+                }
+            }
+            // log.debug("用户配置: {0}", tempFilterUidSettings)
+            filterSettings = tempFilterUidSettings
+            // filterSettings = filterUidSettings
+            // templateMatchSettings = Array.from(new Set(templateMatchSettings).difference(new Set(filterUidSettings)))
             try {
                 loadingLevel = parseInt(settings.loading_level)
             } catch (e) {
@@ -493,65 +519,79 @@ async function loadUidSettingsMap(uidSettingsMap) {
                 loadingLevel = loadingLevel < 1 ? 2 : loadingLevel
             }
             //todo: 高阶层级过滤
-            /**
-             * 实例：pathing\地方特产\
-             * 地方特产
-             * 实例：pathing\地方特产\枫丹\
-             * 地方特产->枫丹
-             * 实例：pathing\地方特产\枫丹\幽光星星\
-             * 地方特产->枫丹->幽光星星
-             * 实例：pathing\地方特产\枫丹\幽光星星\幽光星星@jbcaaa\
-             * 地方特产->枫丹->幽光星星->幽光星星@jbcaaa
-             */
-            let keys = new Set([])
+            if (false) {
+                /**
+                 * 实例：pathing\地方特产\
+                 * 地方特产
+                 * 实例：pathing\地方特产\枫丹\
+                 * 地方特产->枫丹
+                 * 实例：pathing\地方特产\枫丹\幽光星星\
+                 * 地方特产->枫丹->幽光星星
+                 * 实例：pathing\地方特产\枫丹\幽光星星\幽光星星@jbcaaa\
+                 * 地方特产->枫丹->幽光星星->幽光星星@jbcaaa
+                 */
+                let keys = new Set([])
 
-            const highLevelFiltering = settings.high_level_filtering || undefined
-            if (highLevelFiltering) {
-                const set = new Set(highLevelFiltering.split("->"));
-                keys = keys.union(set)
+                const highLevelFiltering = settings.high_level_filtering || undefined
+                if (highLevelFiltering) {
+                    const set = new Set(highLevelFiltering.split("->"));
+                    keys = keys.union(set)
+                }
+
+                // function countMatchingElements(mainSet, subset) {
+                //     const mainSetObj = new Set(mainSet);
+                //     return subset.filter(item => mainSetObj.has(item)).length;
+                // }
+
+                // const key = keys[keys.size - 1]
+                // PATH_JSON_LIST.filter(item => item.level > 0)
+                // 预先建立 levelName 到路径信息的映射
+                const levelNameMap = new Map();
+                PATH_JSON_LIST.forEach(item => {
+                    if (item.levelName) {
+                        levelNameMap.set(item.levelName, item);
+                    }
+                });
+
+                //中间一段路径名称
+                const dir_key = Array.from(keys).join("\\")
+                filterSettings = filterSettings.filter(item => {
+                    if (!item?.name?.startsWith(levelName)) {
+                        return true
+                    }
+                    // const settings_level = PATH_JSON_LIST.filter(list_item => list_item.levelName === item.name).find();
+                    const settings_level = levelNameMap.get(item.name);
+                    if (settings_level) {
+                        //只加载指定目录
+                        return (settings_level.path.includes(dir_key))
+                    }
+                    return false
+                })
             }
-
-            // function countMatchingElements(mainSet, subset) {
-            //     const mainSetObj = new Set(mainSet);
-            //     return subset.filter(item => mainSetObj.has(item)).length;
-            // }
-
-            // const key = keys[keys.size - 1]
-            // PATH_JSON_LIST.filter(item => item.level > 0)
-            // 预先建立 levelName 到路径信息的映射
-            const levelNameMap = new Map();
-            PATH_JSON_LIST.forEach(item => {
-                if (item.levelName) {
-                    levelNameMap.set(item.levelName, item);
-                }
-            });
-
-            //中间一段路径名称
-            const dir_key = keys.join("\\")
-            filterSettings = filterUidSettings.filter(item => {
-                // const settings_level = PATH_JSON_LIST.filter(list_item => list_item.levelName === item.name).find();
-                const settings_level = levelNameMap.get(item.name);
-                if (settings_level) {
-                    //只加载指定目录
-                    return (settings_level.path.includes(dir_key))
-                }
-                return false
-            })
             const theLayer = settings.the_layer || false
             const levelSettings = filterSettings.filter(item => {
-                const level_all = item.name.replaceAll(levelName, "");
+                if (!item?.name?.startsWith(levelName)) {
+                    return true
+                }
+                const level_all = item.name.replaceAll(levelName + "_", "");
                 // 获取级别
-                const level = level_all.split("_").filter(item => item?.trim() !== "").map(parseInt)[0]
+                const level = level_all.split("_").map(parseInt)[0]
                 if (theLayer) {
                     //只加载指定级别的设置
                     return (loadingLevel === level + 1)
                 }
-                // 检查级别是否大于等于加载层级
+                // 检查级别是否小于等于加载层级
                 return (loadingLevel > level)
             })
-            uidSettings.push(levelSettings)
+            templateMatchSettings = [...templateMatchSettings, ...levelSettings]
+            while (templateMatchSettings.length > 0 &&
+            templateMatchSettings[templateMatchSettings.length - 1]?.type === "separator") {
+                templateMatchSettings.pop();
+            }
+
+            // uidSettings.push(levelSettings)
             // 将更新后的设置写入配置文件
-            file.writeTextSync(manifest.settings_ui, JSON.stringify(uidSettings))
+            file.writeTextSync(manifest.settings_ui, JSON.stringify(templateMatchSettings))
         } catch (e) {
             // 记录错误日志
             log.error("加载用户配置失败: {error}", e.message)
