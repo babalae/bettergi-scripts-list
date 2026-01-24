@@ -1,52 +1,42 @@
-//当前js版本2.0.0
+//当前js版本2.0.3
 
-//自定义配置解析
-const accountName = settings.accountName || "默认账户";
-let pickup_Mode = settings.pickup_Mode || "模板匹配拾取，拾取狗粮和怪物材料";
-let dumpers = settings.activeDumperMode
-    ? settings.activeDumperMode.split('，').map(Number).filter(num => [1, 2, 3, 4].includes(num))
-    : [];
-
-let findFInterval = Math.max(16, Math.min(200, +settings.findFInterval || 100));
-let checkDelay = Math.round(findFInterval / 2);
-let rollingDelay = (+settings.rollingDelay || 32);
-const pickupDelay = (+settings.pickupDelay || 100);
-const timeMove = (+settings.timeMove || 1000);
-let timeMoveUp = Math.round(timeMove * 0.45);
-let timeMoveDown = Math.round(timeMove * 0.55);
-
-let priorityTags = (settings.priorityTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
-let excludeTags = (settings.excludeTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
-if (!pickup_Mode.includes("模板匹配")) {
-    excludeTags.push("沙暴");
-    log.warn("拾取模式不是模板匹配，无法处理沙暴路线，自动排除所有沙暴路线");
-}
-const operationMode = settings.operationMode || "运行锄地路线";
-let k1 = +settings.eEfficiencyIndex || 2.5;
-k1 = Math.max(0, Math.min(10, Number.isNaN(k1) ? 2.5 : k1));
-
-let k2 = +settings.mEfficiencyIndex || 0.5;
-k2 = Math.max(0, Math.min(4, Number.isNaN(k2) ? 0.5 : k2));
-
-let targetEliteNum = Math.max(0, +settings.targetEliteNum || 400) + 5; // 预留漏怪
-let targetMonsterNum = Math.max(0, +settings.targetMonsterNum || 2000) + 25; // 预留漏怪
-
-const partyName = settings.partyName || "";
-const groupSettings = Array.from({ length: 10 }, (_, i) =>
-    settings[`tagsForGroup${i + 1}`] || (i === 0 ? '蕈兽' : '')
-);
-const groupTags = groupSettings.map(str => str.split('，').filter(Boolean));
-groupTags[0] = [...new Set(groupTags.flat())];
+//自定义配置变量预声明
+let accountName;
+let pickup_Mode;
+let dumpers;
+let findFInterval;
+let checkDelay;
+let rollingDelay;
+let pickupDelay;
+let timeMove;
+let timeMoveUp;
+let timeMoveDown;
+let priorityTags;
+let excludeTags;
+let operationMode;
+let k1;
+let k2;
+let targetEliteNum;
+let targetMonsterNum;
+let partyName;
+let groupSettings;
+let groupTags;
 
 //模板与识别对象预加载
 const itemFullRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/itemFull.png"), 0, 0, 1920, 1080);
 const frozenRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/解除冰冻.png"), 1379, 574, 1463 - 1379, 613 - 574);
+const revivalRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/复苏.png"), 755, 915, 1117 - 755, 1037 - 915);
+revivalRo.Threshold = 0.95;
+revivalRo.InitTemplate();
 const cookingRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/烹饪界面.png"), 1547, 965, 1815 - 1547, 1059 - 965);
 cookingRo.Threshold = 0.95;
 cookingRo.InitTemplate();
 const whiteFurinaRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/白芙图标.png"), 1634, 967, 1750 - 1634, 1070 - 967);
-whiteFurinaRo.Threshold = 0.99;
+whiteFurinaRo.Threshold = 0.97;
 whiteFurinaRo.InitTemplate();
+const flyingRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/飞行状态.png"), 1657, 945, 1758 - 1657, 1029 - 945);
+flyingRo.Threshold = 0.97;
+flyingRo.InitTemplate();
 const fIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync('assets/F_Dialogue.png'), 1102, 335, 34, 400);
 fIconRo.Threshold = 0.95;
 fIconRo.InitTemplate();
@@ -62,12 +52,11 @@ let blacklistSet = new Set();
 let state;
 let pathings;
 let localeWorks;
-let runningFailCount = 0;
 let lastEatBuff = 0;
 
 (async function () {
     //通用预处理
-    await loadOrCreateConfig();
+    await loadConfig();
     targetItems = await loadTargetItems();
     localeWorks = await checkLocaleTimeSupport();
     await loadBlacklist(true);
@@ -123,70 +112,104 @@ let lastEatBuff = 0;
  * 3. 无论读写，最终都把结果同步回全局 settings；
  * 4. 若配置里出现"莫酱""汐酱"关键词，直接终止脚本。
  */
-async function loadOrCreateConfig() {
-    if (operationMode === '启用仅指定怪物模式') {
-        return;
-    }
+async function loadConfig() {
+    operationMode = settings.operationMode || "运行锄地路线";
+    accountName = settings.accountName || "默认账户";
+    if (operationMode !== '启用仅指定怪物模式') {
+        const FORBIDDEN = ['莫酱', '汐酱'];
 
-    const FORBIDDEN = ['莫酱', '汐酱'];
-
-    /* -------- 1. 构造 10 个分组标签 + 其它字段的默认值 -------- */
-    const buildCfgObj = () => ({
-        tagsForGroup1: settings.tagsForGroup1 || '',
-        tagsForGroup2: settings.tagsForGroup2 || '',
-        tagsForGroup3: settings.tagsForGroup3 || '',
-        tagsForGroup4: settings.tagsForGroup4 || '',
-        tagsForGroup5: settings.tagsForGroup5 || '',
-        tagsForGroup6: settings.tagsForGroup6 || '',
-        tagsForGroup7: settings.tagsForGroup7 || '',
-        tagsForGroup8: settings.tagsForGroup8 || '',
-        tagsForGroup9: settings.tagsForGroup9 || '',
-        tagsForGroup10: settings.tagsForGroup10 || '',
-        disableSelfOptimization: settings.disableSelfOptimization ?? false,
-        eEfficiencyIndex: settings.eEfficiencyIndex ?? 2.5,
-        mEfficiencyIndex: settings.mEfficiencyIndex ?? 0.5,
-        ignoreRate: settings.ignoreRate ?? 0,
-        targetEliteNum: settings.targetEliteNum ?? 400,
-        targetMonsterNum: settings.targetMonsterNum ?? 2000,
-        priorityTags: settings.priorityTags ?? '',
-        excludeTags: settings.excludeTags ?? '',
-        curiosityFactor: settings.curiosityFactor ?? '0'
-    });
-
-    /* -------- 2. 关键词黑名单检查 -------- */
-    const checkForbidden = (cfgStr) => {
-        FORBIDDEN.forEach(word => {
-            if (cfgStr.includes(word)) {
-                log.error(`路线选择与分组配置中包含关键词（${word}），强制终止！`);
-                throw new Error('ForbiddenWord');
-            }
+        /* -------- 1. 构造 10 个分组标签 + 其它字段的默认值 -------- */
+        const buildCfgObj = () => ({
+            tagsForGroup1: settings.tagsForGroup1 || '',
+            tagsForGroup2: settings.tagsForGroup2 || '',
+            tagsForGroup3: settings.tagsForGroup3 || '',
+            tagsForGroup4: settings.tagsForGroup4 || '',
+            tagsForGroup5: settings.tagsForGroup5 || '',
+            tagsForGroup6: settings.tagsForGroup6 || '',
+            tagsForGroup7: settings.tagsForGroup7 || '',
+            tagsForGroup8: settings.tagsForGroup8 || '',
+            tagsForGroup9: settings.tagsForGroup9 || '',
+            tagsForGroup10: settings.tagsForGroup10 || '',
+            disableSelfOptimization: settings.disableSelfOptimization ?? false,
+            eEfficiencyIndex: settings.eEfficiencyIndex ?? 2.5,
+            mEfficiencyIndex: settings.mEfficiencyIndex ?? 0.5,
+            curiosityFactor: settings.curiosityFactor ?? '0',
+            ignoreRate: settings.ignoreRate ?? 0,
+            targetEliteNum: settings.targetEliteNum ?? 400,
+            targetMonsterNum: settings.targetMonsterNum ?? 2000,
+            priorityTags: settings.priorityTags ?? '',
+            excludeTags: settings.excludeTags ?? ''
         });
-    };
 
-    /* -------- 3. 主逻辑 -------- */
-    if (settings.groupIndex === '路径组一') {
-        const cfg = buildCfgObj();
-        const cfgStr = JSON.stringify(cfg, null, 2);
-        checkForbidden(cfgStr);
+        /* -------- 2. 关键词黑名单检查 -------- */
+        const checkForbidden = (cfgStr) => {
+            FORBIDDEN.forEach(word => {
+                if (cfgStr.includes(word)) {
+                    log.error(`路线选择与分组配置中包含关键词（${word}），强制终止！`);
+                    throw new Error('禁止以汐酱或莫酱作为关键词');
+                }
+            });
+        };
 
-        const filePath = `settings/${accountName}.json`;
-        file.writeText(filePath, cfgStr, false);
-        // 此时 UI 上字段已经在 settings 里，无需再回写
-    } else {
-        let cfg;
-        try {
-            const raw = await file.readText(`settings/${accountName}.json`);
-            cfg = JSON.parse(raw);
-        } catch (e) {
-            log.error(`配置文件 settings/${accountName}.json 不存在，请先在"路径组一"运行一次！`);
-            await sleep(10000);
-            throw e;          // 让外层决定是否需要 return / exit
-        }
-        /* 把读到的字段同步回全局 settings */
-        for (const key in cfg) {
-            settings[key] = cfg[key];
+        /* -------- 3. 主逻辑 -------- */
+        if (settings.groupIndex === '路径组一') {
+            const cfg = buildCfgObj();
+            const cfgStr = JSON.stringify(cfg, null, 2);
+            checkForbidden(cfgStr);
+
+            const filePath = `settings/${accountName}.json`;
+            file.writeText(filePath, cfgStr, false);
+        } else {
+            let cfg;
+            try {
+                const raw = await file.readText(`settings/${accountName}.json`);
+                cfg = JSON.parse(raw);
+            } catch (e) {
+                log.error(`配置文件 settings/${accountName}.json 不存在或格式错误，请先在"路径组一"运行一次！`);
+                throw new Error('无可用的配置文件');
+            }
+            /* 把读到的字段同步回全局 settings */
+            for (const key in cfg) {
+                settings[key] = cfg[key];
+            }
         }
     }
+    //加载自定义配置
+    pickup_Mode = settings.pickup_Mode || "模板匹配拾取，拾取狗粮和怪物材料";
+    dumpers = settings.activeDumperMode
+        ? settings.activeDumperMode.split('，').map(Number).filter(num => [1, 2, 3, 4].includes(num))
+        : [];
+
+    findFInterval = Math.max(16, Math.min(200, +settings.findFInterval || 100));
+    checkDelay = Math.round(findFInterval / 2);
+    rollingDelay = (+settings.rollingDelay || 32);
+    pickupDelay = (+settings.pickupDelay || 100);
+    timeMove = (+settings.timeMove || 1000);
+    timeMoveUp = Math.round(timeMove * 0.45);
+    timeMoveDown = Math.round(timeMove * 0.55);
+
+    priorityTags = (settings.priorityTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
+    excludeTags = (settings.excludeTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
+    if (!pickup_Mode.includes("模板匹配")) {
+        excludeTags.push("沙暴");
+        log.warn("拾取模式不是模板匹配，无法处理沙暴路线，自动排除所有沙暴路线");
+    }
+
+    k1 = +settings.eEfficiencyIndex || 2.5;
+    k1 = Math.max(0, Math.min(10, Number.isNaN(k1) ? 2.5 : k1));
+
+    k2 = +settings.mEfficiencyIndex || 0.5;
+    k2 = Math.max(0, Math.min(4, Number.isNaN(k2) ? 0.5 : k2));
+
+    targetEliteNum = Math.max(0, +settings.targetEliteNum || 400) + 5; // 预留漏怪
+    targetMonsterNum = Math.max(0, +settings.targetMonsterNum || 2000) + 25; // 预留漏怪
+
+    partyName = settings.partyName || "";
+    groupSettings = Array.from({ length: 10 }, (_, i) =>
+        settings[`tagsForGroup${i + 1}`] || (i === 0 ? '蕈兽' : '')
+    );
+    groupTags = groupSettings.map(str => str.split('，').filter(Boolean));
+    groupTags[0] = [...new Set(groupTags.flat())];
 }
 
 /**
@@ -299,6 +322,7 @@ async function processPathings(groupTags) {
 
         pathing.m = 0; // 普通怪物数量
         pathing.e = 0; // 精英怪物数量
+        pathing.original_e = 0; // 原始精英数量（用于统计被忽略的）
         pathing.mora_m = 0; // 普通怪物摩拉值
         pathing.mora_e = 0; // 精英怪物摩拉值
 
@@ -313,7 +337,7 @@ async function processPathings(groupTags) {
                 } else if (monster.type === "精英") {
                     pathing.e += count; // 增加精英怪物数量
                     pathing.mora_e += count * 200 * monster.moraRate; // 增加精英怪物摩拉值
-
+                    pathing.original_e += count; // 记录原始精英数量
                 }
 
                 if (monster.moraRate > 1) {
@@ -767,7 +791,7 @@ async function validateTeamAndConfig() {
  * 仅统计 group=1..10 且 selected 的路线，累加精英数、小怪数、总收益(G1)与总时长
  * 输出每组的路线条数、精英/小怪数量、预计收益（摩拉）与预计用时（时:分:秒）
  * 用于“调试路线分配”模式快速核对各组工作量
- * 将汇总结果写入 pathingOut/路线分配结果.txt 文件
+ * 将汇总结果写入 调试结果/路线分配结果.txt 文件
  * 依赖全局：pathings
  */
 async function printGroupSummary() {
@@ -784,18 +808,20 @@ async function printGroupSummary() {
     const selectedPathings = pathings.filter(p => p.selected);
     resultText += `总选中路线数: ${selectedPathings.length} 条\n\n`;
 
-    let totalElites = 0, totalMonsters = 0, totalGain = 0, totalTime = 0;
+    let totalElites = 0, totalMonsters = 0, totalGain = 0, totalTime = 0, totalIgnoredElites = 0;
 
     for (let g = 1; g <= 10; g++) {
         const groupPath = pathings.filter(p => p.group === g && p.selected);
         if (groupPath.length === 0) continue;   // 跳过空组
 
-        let elites = 0, monsters = 0, gain = 0, time = 0;
+        let elites = 0, monsters = 0, gain = 0, time = 0, ignoredElites = 0;
+
         for (const p of groupPath) {
             elites += p.e || 0;
             monsters += p.m || 0;
             gain += p.G1 || 0;
             time += p.t || 0;
+            ignoredElites += (p.original_e || 0) - (p.e || 0);
         }
 
         // 累加到总计
@@ -803,6 +829,7 @@ async function printGroupSummary() {
         totalMonsters += monsters;
         totalGain += gain;
         totalTime += time;
+        totalIgnoredElites += ignoredElites;
 
         const h = Math.floor(time / 3600);
         const m = Math.floor((time % 3600) / 60);
@@ -819,6 +846,7 @@ async function printGroupSummary() {
             `  ${tagType}:【${groupTags}】`,
             `  路线条数: ${groupPath.length}`,
             `  精英怪数: ${elites.toFixed(0)}`,
+            `  被忽视精英数: ${ignoredElites.toFixed(0)}`,
             `  小怪数  : ${monsters.toFixed(0)}`,
             `  预计收益: ${gain.toFixed(0)} 摩拉`,
             `  预计用时: ${h} 时 ${m} 分 ${s.toFixed(0)} 秒`,
@@ -846,6 +874,7 @@ async function printGroupSummary() {
     resultText += "总体统计：\n";
     resultText += `  总路线数: ${selectedPathings.length} 条\n`;
     resultText += `  总精英怪: ${totalElites.toFixed(0)}\n`;
+    resultText += `  被忽视精英怪数: ${totalIgnoredElites.toFixed(0)}\n`;
     resultText += `  总小怪数: ${totalMonsters.toFixed(0)}\n`;
     resultText += `  总收益  : ${totalGain.toFixed(0)} 摩拉\n`;
     resultText += `  总用时  : ${totalH} 时 ${totalM} 分 ${totalS.toFixed(0)} 秒\n`;
@@ -855,6 +884,7 @@ async function printGroupSummary() {
     resultText += "配置参数：\n";
     resultText += `  精英效率指数: ${settings.eEfficiencyIndex || 2.5}\n`;
     resultText += `  小怪效率指数: ${settings.mEfficiencyIndex || 0.5}\n`;
+    resultText += `  好奇系数: ${settings.curiosityFactor || 0}\n`;
     resultText += `  忽略比例: ${settings.ignoreRate || 0}\n`;
     resultText += `  目标精英数: ${settings.targetEliteNum || 400}\n`;
     resultText += `  目标小怪数: ${settings.targetMonsterNum || 2000}\n`;
@@ -862,7 +892,7 @@ async function printGroupSummary() {
     resultText += `  排除标签: ${settings.excludeTags || ''}\n\n`;
 
     // 写入文件
-    const filePath = "pathingOut/路线分配结果.txt";
+    const filePath = "调试结果/路线分配结果.txt";
     try {
         await file.writeText(filePath, resultText, false);
         log.info(`路线分配结果已保存至: ${filePath}`);
@@ -874,7 +904,7 @@ async function printGroupSummary() {
 /**
  * 调试-按组导出路线文件
  * 仅复制被选中的路线（selected===true）到本地调试目录
- * 输出结构：pathingOut/group{1..10}/原相对路径/文件名.json
+ * 输出结构：调试结果/group{1..10}/原相对路径/文件名.json
  * 用于“调试路线分配”模式，人工核对各组最终路线清单
  * 依赖：file 读写接口、pathings（已有 selected & group）
  */
@@ -886,7 +916,7 @@ async function copyPathingsByGroup(pathings) {
             // 读取文件内容
             const content = await file.readText(pathing.fullPath);
             // 构造目标路径
-            const groupFolder = `pathingOut/group${pathing.group}`;
+            const groupFolder = `调试结果/group${pathing.group}`;
             const targetPath = `${groupFolder}/${pathing.fullPath}`;
             // 写入文件内容
             await file.writeText(targetPath, content, false);
@@ -1020,31 +1050,10 @@ async function runPath(fullPath, map_name, pm, pe) {
 
     const errorProcessTask = (async () => {
         let errorProcessCount = 0;
-        async function checkRo(recognitionObject) {
-            const maxAttempts = 1;
-            let attempts = 0;
-            let errorProcessGameRegion;
-            while (attempts < maxAttempts && state.running) {
-                try {
-                    errorProcessGameRegion = captureGameRegion();
-                    const result = errorProcessGameRegion.find(recognitionObject);
-                    errorProcessGameRegion.dispose();
-                    if (result.isExist()) {
-                        return true;
-                    }
-                } catch (error) {
-                    log.error(`识别图像时发生异常: ${error.message}`);
-                    if (!state.running) break;
-                    return false;
-                }
-                attempts++;
-            }
-            return false;
-        }
         while (state.running) {
             if (errorProcessCount % 5 === 0) {
                 //每约250毫秒进行一次冻结检测和白芙检测
-                if (await checkRo(frozenRo)) {
+                if (await findAndClick(frozenRo, false, 2, 3)) {
                     log.info("检测到冻结，尝试挣脱");
                     for (let m = 0; m < 3; m++) {
                         keyPress("VK_SPACE");
@@ -1053,16 +1062,21 @@ async function runPath(fullPath, map_name, pm, pe) {
                     continue;
                 }
                 if (!doFurinaSwitch) {
-                    if (await checkRo(whiteFurinaRo)) {
+                    if (await findAndClick(whiteFurinaRo, false, 2, 3)) {
                         log.info("检测到白芙，本路线运行结束后切换芙宁娜形态");
                         doFurinaSwitch = true;
                         continue;
                     }
                 }
+                if (await findAndClick(revivalRo, true, 2, 3)) {
+                    log.info("识别到复苏按钮，点击");
+                    await sleep(500);
+                    continue;
+                }
             }
             if (errorProcessCount % 100 === 0) {
                 //每约5000毫秒进行一次烹饪检测
-                if (await checkRo(cookingRo)) {
+                if (await findAndClick(cookingRo, false, 2, 3)) {
                     log.info("检测到烹饪界面，尝试脱离");
                     keyPress("VK_ESCAPE");
                     await sleep(500);
@@ -1070,7 +1084,7 @@ async function runPath(fullPath, map_name, pm, pe) {
                 }
             }
             errorProcessCount++;
-            await sleep(45);
+            await sleep(50);
         }
     })();
 
@@ -1361,7 +1375,7 @@ async function dumper(pathFilePath, map_name) {
             while (state.running) {
                 //log.info("调试-泥头车循环");
                 await sleep(501);
-                if (await isMainUI()) {
+                if (await isMainUI() && !await findAndClick(flyingRo, false, 2, 3)) {
                     //log.info("调试-获取坐标");
                     //在主界面才尝试获取坐标
                     let dumperDistance = 0;
@@ -1596,7 +1610,6 @@ async function processPathingsByGroup(pathings, accountName) {
                 //log.info(`当前位于${pathing.map_name}地图的（${miniMapPosition.X}，${miniMapPosition.Y}，距离上次距离${(diffX + diffY)}`);
             } catch (error) {
                 log.error(`获取坐标时发生错误：${error.message}`);
-                runningFailCount++;
             }
 
             // 调用 runPath 函数处理路径
@@ -1635,7 +1648,7 @@ async function processPathingsByGroup(pathings, accountName) {
                     }
                 }
             } catch (e) { /* 读文件失败就留 0,0 继续走后面逻辑 */ }
-
+            let coordAbnormal = false;
             try {
                 await genshin.returnMainUi();
                 const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name);
@@ -1648,17 +1661,17 @@ async function processPathingsByGroup(pathings, accountName) {
                 lastY = miniMapPosition.Y;
 
                 if ((diffX + diffY) < 5 || (endDiffX + endDiffY) > 30) {
-                    runningFailCount++;
-                } else {
-                    runningFailCount = 0;
+                    coordAbnormal = true;
                 }
             } catch (error) {
                 log.error(`获取坐标时发生错误：${error.message}`);
-                runningFailCount++;
+                coordAbnormal = true;
             }
-
-            if (runningFailCount >= 1 && !settings.disableXYCheck) {
-                log.error("出发点与终点过于接近，终点偏差大于30，或坐标获取异常，不记录运行数据");
+            await genshin.returnMainUi();
+            let mainUiRes = await isMainUI(2000);
+            if ((coordAbnormal && settings.enableCoordCheck) && !mainUiRes) {
+                log.error("路线未正常完成、坐标获取异常或不处于主界面，不记录运行数据");
+                notification.send(`路线${pathing.fileName}:路线未正常完成、坐标获取异常或不处于主界面，不记录运行数据`);
                 continue;
             }
 
@@ -1818,11 +1831,14 @@ async function switchPartyIfNeeded(partyName) {
     }
 }
 
-async function isMainUI() {
-    const maxAttempts = 1;
-    let attempts = 0;
+/**
+ * 判断当前是否位于主界面
+ * @param {number} maxDuration 最大允许耗时（毫秒）
+ */
+async function isMainUI(maxDuration = 10) {
+    const start = Date.now();
     let dodispose = false;
-    while (attempts < maxAttempts && state.running) {
+    while (Date.now() - start < maxDuration) {
         if (!gameRegion) {
             gameRegion = captureGameRegion();
             dodispose = true;
@@ -1832,15 +1848,15 @@ async function isMainUI() {
             if (result.isExist()) return true;
         } catch (error) {
             log.error(`识别图像时发生异常: ${error.message}`);
-            if (!state.running) break;
-            return false;
+            return false;          // 一旦出现异常直接退出，不再重试
         }
-        attempts++;
-        await sleep(checkDelay);
+        await sleep(checkDelay);   // 识别间隔
         if (dodispose) {
             gameRegion.dispose();
+            dodispose = false;     // 已经释放，标记避免重复 dispose
         }
     }
+    /* 超时仍未识别到，返回失败 */
     return false;
 }
 
@@ -2021,9 +2037,9 @@ async function fakeLog(name, isStart, duration = 0, isJs = false) {
 
     /* ---------------- 时间格式化 ---------------- */
     const t = new Date(currentTime);
-    const hh   = String(t.getHours()).padStart(2, '0');
-    const mm   = String(t.getMinutes()).padStart(2, '0');
-    const ss   = String(t.getSeconds()).padStart(2, '0');
+    const hh = String(t.getHours()).padStart(2, '0');
+    const mm = String(t.getMinutes()).padStart(2, '0');
+    const ss = String(t.getSeconds()).padStart(2, '0');
     const msec = String(t.getMilliseconds()).padStart(3, '0');
     const formattedTime = `${hh}:${mm}:${ss}.${msec}`;
 
