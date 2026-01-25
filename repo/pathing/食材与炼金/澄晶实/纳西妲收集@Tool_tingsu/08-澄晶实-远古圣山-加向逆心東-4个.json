@@ -1,0 +1,94 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769360189555,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "08-澄晶实-远古圣山-加向逆心東-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 108.2364501953125,
+      "y": 307.911865234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 80.4989013671875,
+      "y": 313.1572265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 46.06884765625,
+      "y": 283.7174072265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -0.49978919162003876,
+      "y": 277.875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -16.043701171875,
+      "y": 300.658447265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -24.036865234375,
+      "y": 289.7373046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";纳西妲 e;wait(0.3);",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -19.1689453125,
+      "y": 287.6436767578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -27.023193359375,
+      "y": 290.56787109375
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769359130207,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "06-澄晶实-远古圣山-分流识海-6个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 196.307373046875,
+      "y": 207.7584228515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 210.5433349609375,
+      "y": 170.1947021484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 215.3421630859375,
+      "y": 138.1656494140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.02);纳西妲 e;",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 215.70849609375,
+      "y": 132.429931640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 217.273193359375,
+      "y": 132.37841796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 226.65966796875,
+      "y": 127.2855224609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.17),moveby(0,500),wait(0.75),keypress(t),wait(0.2),keypress(t),wait(0.2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 230.81494140625,
+      "y": 124.8084716796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 240.5758056640625,
+      "y": 128.3011474609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 306.71533203125,
+      "y": 156.498046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(Q),wait(1),keyup(Q),wait(0.1),attack,wait(1)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 309.8480224609375,
+      "y": 161.7828369140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 313.5343017578125,
+      "y": 170.0439453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);纳西妲 e;",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 309.7823486328125,
+      "y": 174.3359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4);",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 309.1409912109375,
+      "y": 176.2900390625
+    }
+  ]
+}
