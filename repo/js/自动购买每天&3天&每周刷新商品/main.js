@@ -1003,7 +1003,7 @@ async function initNpcData(records) {
             const hasDisabledTag = npc.tags.some(tag => disabledTags.includes(tag));
             if (hasDisabledTag) {
                 npc.enable = false;
-                logConditional(`按标签禁用NPC: ${npc.name} (标签: ${npc.tags.join(", ")})`);
+                logConditional(`按标签禁用商人: ${npc.name} (标签: ${npc.tags.join(", ")})`);
                 continue;
             }
         }
@@ -1163,4 +1163,5 @@ async function initRo() {
     } catch (error) {
         log.error(`执行时发生错误: ${error.message}`);
     }
+
 })();
