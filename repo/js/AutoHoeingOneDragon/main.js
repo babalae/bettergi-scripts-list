@@ -202,7 +202,7 @@ async function loadConfig() {
     k2 = Math.max(0, Math.min(4, Number.isNaN(k2) ? 0.5 : k2));
 
     targetEliteNum = Math.max(0, +settings.targetEliteNum || 400) + 5; // 预留漏怪
-    targetMonsterNum = Math.max(0, +settings.targetMonsterNum || 2000) + 25; // 预留漏怪
+    targetMonsterNum = Math.max(0, +(settings.targetMonsterNum ?? 2000)) + 25; // 预留漏怪
 
     partyName = settings.partyName || "";
     groupSettings = Array.from({ length: 10 }, (_, i) =>
@@ -887,7 +887,7 @@ async function printGroupSummary() {
     resultText += `  好奇系数: ${settings.curiosityFactor || 0}\n`;
     resultText += `  忽略比例: ${settings.ignoreRate || 0}\n`;
     resultText += `  目标精英数: ${settings.targetEliteNum || 400}\n`;
-    resultText += `  目标小怪数: ${settings.targetMonsterNum || 2000}\n`;
+    resultText += `  目标小怪数: ${settings.targetMonsterNum ?? 2000}\n`;
     resultText += `  优先级标签: ${settings.priorityTags || ''}\n`;
     resultText += `  排除标签: ${settings.excludeTags || ''}\n\n`;
 
