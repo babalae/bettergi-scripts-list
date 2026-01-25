@@ -57,6 +57,12 @@
         "default": false
     },
     {
+        "name": "high_level_filtering",
+        "type": "input-text",
+        "label": "高阶过滤<配置模式 加载 生效>",
+        "default": ""
+    },
+    {
         "name": "order_rules",
         "type": "input-text",
         "label": "执行顺序规则(可留空)\n{语法:父文件夹名称->文件夹名称=顺序请填整数,.....}",

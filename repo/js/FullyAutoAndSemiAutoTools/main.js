@@ -322,6 +322,7 @@ async function initRefresh(settingsConfig) {
                     label: `${p}选择要执行的${item.level + 1}级路径`,
                     options: []
                 }
+                // todo: 待优化
                 let filter = PATH_JSON_LIST.filter(list_item => list_item.id === item.parentId).find(item => item);
                 if (filter) {
                     // filter.levelName = name || undefined
@@ -519,7 +520,8 @@ async function loadUidSettingsMap(uidSettingsMap) {
                 loadingLevel = loadingLevel < 1 ? 2 : loadingLevel
             }
             //todo: 高阶层级过滤
-            if (false) {
+            const highLevelFiltering = settings.high_level_filtering || undefined
+            if (highLevelFiltering && highLevelFiltering?.trim() !== "") {
                 /**
                  * 实例：pathing\地方特产\
                  * 地方特产
@@ -532,7 +534,6 @@ async function loadUidSettingsMap(uidSettingsMap) {
                  */
                 let keys = new Set([])
 
-                const highLevelFiltering = settings.high_level_filtering || undefined
                 if (highLevelFiltering) {
                     const set = new Set(highLevelFiltering.split("->"));
                     keys = keys.union(set)
@@ -552,7 +553,7 @@ async function loadUidSettingsMap(uidSettingsMap) {
                         levelNameMap.set(item.levelName, item);
                     }
                 });
-
+                log.warn("levelNameMap:{0}", JSON.stringify([...levelNameMap]))
                 //中间一段路径名称
                 const dir_key = Array.from(keys).join("\\")
                 filterSettings = filterSettings.filter(item => {
@@ -581,7 +582,7 @@ async function loadUidSettingsMap(uidSettingsMap) {
                     return (loadingLevel === level + 1)
                 }
                 // 检查级别是否小于等于加载层级
-                return (loadingLevel > level-1)
+                return (loadingLevel > level - 1)
             })
             templateMatchSettings = [...templateMatchSettings, ...levelSettings]
             while (templateMatchSettings.length > 0 &&
@@ -1903,6 +1904,7 @@ async function readPaths(
                 path: itemPath,
                 level: level + 1,
                 fullPathNames: currentFullPathNames,
+                levelName: undefined,
                 isRoot: false,
                 isFile: true,
                 children: [] // 文件没有子节点
@@ -1930,6 +1932,7 @@ async function readPaths(
                     path: itemPath,
                     level: level + 1,
                     fullPathNames: currentFullPathNames,
+                    levelName: undefined,
                     isRoot: level === 0,
                     isFile: false,
                     children: childNodes
