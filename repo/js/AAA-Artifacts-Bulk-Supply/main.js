@@ -780,7 +780,7 @@ async function writeCDInfo(accountName) {
 async function runNormalPath(doStop) {
     furinaState = "unknown";
     if (state.cancel) return;
-    const routeMap = { A: normalPathA, B: normalPathB, C: normalPathC };
+    const routeMap = { A: normalPathA, B: normalPathB };
     const normalPath = routeMap[state.runningRoute];
     const normalCombatPath = normalPath + "/清怪";
     const normalExecutePath = normalPath + "/执行";
