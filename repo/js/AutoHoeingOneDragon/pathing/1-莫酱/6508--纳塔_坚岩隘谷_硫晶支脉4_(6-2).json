@@ -17,7 +17,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时186.82秒，包含8只小怪，预计收入567摩拉，包含以下怪物：2只幼嵴锋龙、6只嵴锋龙。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1764703207342,
+    "last_modified_time": 1769414218739,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "6508--纳塔_坚岩隘谷_硫晶支脉4_(6-2)",
@@ -36,18 +36,27 @@
       "y": -1477.2600000000002
     },
     {
-      "action": "combat_script",
-      "action_params": "attack(0.2)",
+      "action": "",
+      "action_params": "",
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 8520.79,
-      "y": -1489.0200000000004
+      "x": 8515.2880859375,
+      "y": -1485.3447265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8520.193359375,
+      "y": -1490.96484375
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 3,
+      "id": 4,
       "move_mode": "dash",
       "type": "path",
       "x": 8546.9404296875,
@@ -55,8 +64,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(1)",
-      "id": 4,
+      "action_params": "wait(0.1)",
+      "id": 5,
       "move_mode": "dash",
       "type": "orientation",
       "x": 8546.9404296875,
@@ -65,7 +74,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "walk",
       "type": "teleport",
       "x": 8452.52,
@@ -74,20 +83,11 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 6,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 8445.68,
-      "y": -1518.63
-    },
-    {
-      "action": "",
-      "action_params": "",
       "id": 7,
       "move_mode": "dash",
       "type": "path",
       "x": 8445.68,
-      "y": -1518.63
+      "y": -1518.630000000001
     },
     {
       "action": "",
@@ -145,7 +145,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "id": 14,
       "move_mode": "dash",
       "type": "orientation",
