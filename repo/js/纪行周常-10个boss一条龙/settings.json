@@ -1,5 +1,10 @@
 [
     {
+        "name": "week",
+        "type": "input-text",
+        "label": "指定星期几执行\n(使用\",\"分割多个星期几)\n例：输入\"2,3,4,5,6,7\"\n⠀⠀⠀会在星期2,3,4,5,6,日才执行\n输入\"0\"则为每天执行",
+        "default": "0"
+    },{
         "name": "switchPartyName",
         "type": "input-text",
         "label": "切换队伍（默认不切换）",
