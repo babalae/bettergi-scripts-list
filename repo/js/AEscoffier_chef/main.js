@@ -1,4 +1,4 @@
-(async function () { // 超2000上限未适配，template的dispose需要完善
+(async function () { // 超2000上限条件未适配，应当跳过数量为0的料理，OCR特殊字符可能失效，滑块底部时左下角料理文本无法识别
     const food_msg = JSON.parse(file.readTextSync("assets/foodMsg.json"));
     const material_list = ['蘑菇', '黑麦粉', '洋葱', '夏槲果', '卷心菜', '胡萝卜', '土豆', '酸奶油', '兽肉', '火腿', '香肠', '胡椒', '宿影花', '冬凌草', '白灵果', '禽肉', '面粉', '香辛料', '薄荷', '苹果', '黄油', '糖', '鱼肉', '奶油', '秃秃豆', '鸟蛋', '盐', '番茄', '寒涌石', '奶酪', '青蜜莓', '苦种', '虾仁', '颗粒果', '咖啡豆', '墩墩桃', '日落果', '树莓', '牛奶', '汐藻', '泡泡桔', '海露花', '螃蟹', '绯樱绣球', '红果果菇', '堇瓜', '蟹黄', '清心', '烬芯花', '果酱', '澄晶实', '培根', '烛伞蘑菇', '肉龙掌', '发酵果实汁', '茉洁草', '稻米', '白萝卜', '松茸', '沉玉仙茗', '豆腐', '绝云椒椒', '竹笋', '金鱼草', '杏仁', '小麦', '松果', '海草', '琉璃袋', '帕蒂沙兰', '神秘的肉', '莲蓬', '枣椰', '鳗肉', '须弥蔷薇', '钩钩果', '树王圣体菇', '星蕈', '嘟嘟莲', '马尾', '甜甜花', '小灯草', '「冷鲜肉」', '熏禽肉'];
     const food_category = {
@@ -9,11 +9,12 @@
         "其他": ["其他", "不可制作"],
     }
     // const food_type = ["特殊料理", "正常料理", "活动料理", "饮品", "视觉效果", "购买料理", "探索获取", "角色技能获取", "限时"]
-    const special_food = { // 各星级下，奇怪，普通，美味的特殊料理爆率（优菈美味10%，爱可菲15%）[特殊料理用]
+    const special_food = { // 5星仅作占位用，无实际作用 [特殊料理用]
         "1": [0.1, 0.15, 0.2],
         "2": [0.1, 0.1, 0.15],
         "3": [0.05, 0.1, 0.15],
-        "4": [0.05, 0.05, 0.1]
+        "4": [0.05, 0.05, 0.1],
+        "5": [0.05, 0.05, 0.1]
     }
 
     /**
@@ -139,7 +140,7 @@
      *
      * @param target 目标字符串
      * @param candidates 字符串数组
-     * @returns {null}
+     * @returns {Promise<String>}
      * @see levenshteinDistance
      */
     async function findClosestMatch(target, candidates) {
@@ -597,6 +598,7 @@
         // 确保滑动到顶部
         await scroll_bar_to_side(1282, 112, 13, 838, 131, 930, 124, 936, 1288, "Up"); // 料理制作界面
 
+        log.info(`在当前界面寻找 ${food_name} `);
         let select_food_category = food_msg[food_name]["category"];
         let search_keys = []; // 大类
         for (const [c_name, c_detail] of Object.entries(food_category)) {
@@ -630,8 +632,9 @@
         let ocrResult = await ocr_find_area(104, 108, 1172, 857, await deal_string(food_name));
         if (!ocrResult) {
             while (await scroll_page(1282, 112, 13, 838, 131, 930, 1288, "Down")) {
-                let ocrResult = await ocr_find_area(104, 108, 1172, 857, await deal_string(food_name));
+                ocrResult = await ocr_find_area(104, 108, 1172, 857, await deal_string(food_name));
                 if (ocrResult) break;
+                await sleep(300);
             }
         }
         if (ocrResult) {
@@ -666,6 +669,8 @@
 
         log.info(`开始获取 ${food_name} 的食材余量...`);
 
+        let materialList = Object.keys(food_msg[food_name]["formula"]); // OCR纠错用
+
         for (let i = 0; i < m_count; i++) {
             let flag = false;
             // 点击食材（上）
@@ -687,12 +692,19 @@
                 }
             }
             if (flag) {
-                let ocrName = await Ocr(736, 254, 280, 73);
+                let ocrName = await Ocr(736, 254, 280, 73); // 文本较少
                 if (ocrName) {
-                    ocrName = await findClosestMatch(ocrName.text, material_list); // [DEBUG] material_list 或许应该换成 Object.keys(food_msg[food_name]["formula"])
+                    ocrName = await findClosestMatch(ocrName.text, materialList); // 最大限度避免OCR误差（结合动态调整的materialList[当前料理的食材列表]）
+                    materialList = materialList.filter(item => item !== ocrName);
                 } else {
-                    log.error("OCR错误");
-                    return false;
+                    ocrName = await Ocr(736, 174, 280, 153); // 文本较多
+                    if (ocrName) {
+                        ocrName = await findClosestMatch(ocrName.text, Object.keys(food_msg[food_name]["formula"]));
+                        materialList = materialList.filter(item => item !== ocrName);
+                    } else {
+                        log.error("OCR错误");
+                        return false;
+                    }
                 }
                 let item_num = await get_current_item_num();
                 if (item_num) {
@@ -715,9 +727,10 @@
 
     /**
      * 根据JS脚本配置的全局设置，在烹饪界面选择角色加成
-     * @returns {Promise<void>}
+     * @param spl 设定为选择特殊料理
+     * @returns {Promise<boolean>}
      */
-    async function check_character_bonus() {
+    async function check_character_bonus(spl = false) {
         await sleep(200);
         click(1779, 254);
         while (true) {
@@ -728,10 +741,12 @@
         await sleep(200);
         let ocrResult = await ocr_find_area(148, 95, 773, 937, "产出");
         let flag = false;
-        if (settings.characterBonus === "12%概率双倍") {
-            if (ocrResult) ocrResult.Click();
-            log.info("选择角色加成: 12%概率双倍");
-        } else if (settings.characterBonus === "特殊料理") {
+        if (settings.characterBonus === "12%概率双倍" && !spl) {
+            if (ocrResult) {
+                ocrResult.Click();
+                log.info("选择角色加成: 12%概率双倍");
+            }
+        } else if (settings.characterBonus === "特殊料理" || spl) {
             let checkOcr = await ocr_find_area(148, 95, 773, 937, "特殊");
             if (checkOcr) {
                 checkOcr.Click();
@@ -756,7 +771,7 @@
                 flag = true;
             }
         }
-        if (flag) {
+        if (flag && !spl) {
             if (ocrResult) {
                 ocrResult.Click();
                 log.info("选择角色加成: 12%概率双倍");
@@ -767,6 +782,7 @@
         await sleep(500);
         click(1893, 889);
         await sleep(500);
+        return !flag;
     }
 
     /**
@@ -778,9 +794,10 @@
      * 角色加成选择，特殊料理 [DEBUG]左侧角色选择8人，最多有6条加成，先不加滑块逻辑了
      * @param food_name 料理名
      * @param food_num 料理数量
+     * @param spl 特殊料理
      * @returns {Promise<void>}
      */
-    async function escoffier_cook_for_u(food_name, food_num) {
+    async function escoffier_cook_for_u(food_name, food_num, spl = false) {
         if (settings.dealInsufficient !== "禁用") {
             // 食材数量检测
             let material_quantity = await get_material_num(food_name);
@@ -823,9 +840,23 @@
         click(1681, 1019); // 点击 制作
         await sleep(800);
         // 检测角色加成
-        await check_character_bonus();
+        let resultFlag = await check_character_bonus(spl);
+        if (!resultFlag) {
+            let characterName = "未知";
+            for (const f_msg of Object.values(food_msg)) {
+                if (f_msg["belonging"] === food_name) {
+                    characterName = f_msg["character"];
+                    break;
+                }
+            }
+            log.error(`未找到 ${food_name} 对应的特殊料理角色(${characterName})...`);
+            return false;
+        }
 
-        let checkOcr = await Ocr(730, 993, 124, 40);
+        await sleep(200);
+        click(1893, 889);
+        await sleep(500);
+        let checkOcr = await Ocr(730, 993, 524, 40);
         if (checkOcr) {
             if (!(checkOcr.text.includes("自动"))) { // 未解锁自动烹饪
                 // 手动烹饪默认次数
@@ -892,32 +923,60 @@
 
     /**
      * 根据settings的选择，确定料理名和对应的数量
+     * @param spl 特殊料理
      * @returns {Promise<void>} 如果成功读取，返回料理名称和料理数量的字典
      */
-    async function calculate_food() {
-        let arrays = [
-            Array.from(settings.selectRecovery),
-            Array.from(settings.selectATKBoosting),
-            Array.from(settings.selectAdventure),
-            Array.from(settings.selectDEFBoosting),
-            Array.from(settings.selectOthers)
-        ]
-        const uniqueArray = [...new Set(arrays.flat())]; // 合并去重
-
-        let foodNum = settings.foodNum.trim().split(" ");
-
+    async function calculate_food(spl = false) {
         let foodDic = {};
+        let foodNum, foodList;
+
+        // 读取设置项
+        if (spl) {
+            foodList = Array.from(settings.selectCharacter);
+            foodNum = settings.characterFoodNum.trim().split(" ");
+            log.debug(`解析料理数据(spl)\n${foodList.join("|")}\n${foodNum.join("|")}`);
+            // 将特殊料理名转换为普通料理名 [DEBUG] 未测试
+            let tempList = [];
+            for (let i = 0; i < foodList.length; i++) {
+                let spl_name = foodList[i].split("(")[0];
+                tempList.push(food_msg[spl_name]["belonging"]);
+            }
+            foodList = tempList;
+        } else {
+            let arrays = [
+                Array.from(settings.selectRecovery),
+                Array.from(settings.selectATKBoosting),
+                Array.from(settings.selectAdventure),
+                Array.from(settings.selectDEFBoosting),
+                Array.from(settings.selectOthers)
+            ]
+            foodList = [...new Set(arrays.flat())]; // 合并去重
+            foodNum = settings.foodNum.trim().split(" ");
+            log.debug(`解析料理数据\n${foodList.join("|")}\n${foodNum.join("|")}`);
+        }
+
+        // 检测并合并数量
         if (foodNum.length === 1) {
-            for (let i = 0; i < uniqueArray.length; i++) {
-                foodDic[uniqueArray[i]] = parseInt(foodNum[0], 10);
+            for (let i = 0; i < foodList.length; i++) {
+                foodDic[foodList[i]] = parseInt(foodNum[0], 10);
             }
         } else {
-            if (uniqueArray.length !== foodNum.length) {
+            if (foodList.length !== foodNum.length) {
                 log.error("输入的料理数与选择的料理数不一致！");
                 return false;
             }
-            for (let i = 0; i < uniqueArray.length; i++) {
-                foodDic[uniqueArray[i]] = parseInt(foodNum[i], 10);
+            for (let i = 0; i < foodList.length; i++) {
+                foodDic[foodList[i]] = parseInt(foodNum[i], 10);
+            }
+        }
+
+        // 根据概率计算大致次数（向上取整）(spl)
+        if (spl && settings.characterMode === "预期的特殊料理数") {
+            for (const[f_name, f_num] of Object.entries(foodDic)) {
+                let probability = special_food[food_msg[f_name]["price"]][2];
+                let base = Math.ceil(1 / probability);
+                foodDic[f_name] = base * f_num;
+                log.info(`料理(${f_name})的预期烹饪次数发生更改: ${f_num} -> ${base * f_num}`)
             }
         }
         return foodDic;
@@ -929,6 +988,9 @@
             log.error("请阅读README后，在JS脚本配置启用脚本...");
             return null;
         }
+
+        // 返回主界面
+        await genshin.returnMainUi();
 
         // 刷满熟练度
         if (settings.unlockAutoCooking) {
@@ -947,24 +1009,31 @@
                 log.debug("料理熟练度循环...");
             }
             log.info("刷满熟练度 任务结束...");
+            // 返回主界面
+            await genshin.returnMainUi();
             return null;
         }
 
-        // 制作料理
-        let food_dic = await calculate_food();
-        if (food_dic) {
-            // 前往锅
-            let flag = await go_and_interact("锅");
-            if (!flag) {
-                log.error("未找到锅...");
-                return null;
-            }
-            for (const [f_name, f_num] of Object.entries(food_dic)) {
-                // 找到料理
-                let findResult = await find_and_click_food(f_name);
-                if (findResult) {
-                    await escoffier_cook_for_u(f_name, f_num);
+        // 制作料理和特殊料理
+        for (let i = 0; i < 2; i++) {
+            let food_dic = await calculate_food(i !== 0);
+            if (Object.keys(food_dic).length !== 0) {
+                // 前往锅
+                let flag = await go_and_interact("锅");
+                if (!flag) {
+                    log.error("未找到锅...");
+                    return null;
                 }
+                for (const [f_name, f_num] of Object.entries(food_dic)) {
+                    // 找到料理
+                    let findResult = await find_and_click_food(f_name);
+                    if (findResult) {
+                        await escoffier_cook_for_u(f_name, f_num, i !== 0);
+                    }
+                }
+                log.info("全部料理制作完毕...");
+                // 返回主界面
+                await genshin.returnMainUi();
             }
         }
     }
