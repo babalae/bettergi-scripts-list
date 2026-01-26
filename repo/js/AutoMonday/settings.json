@@ -74,7 +74,8 @@
   {
     "name": "cookCount",
     "type": "input-text",
-    "label": "要制作的数量\n请确保材料足够！"
+    "label": "要制作的数量\n请确保材料足够！",
+    "default": "20"
   },
   {
     "name": "ifduanZao",
@@ -116,5 +117,15 @@
     "name": "ifbuyTzq",
     "type": "checkbox",
     "label": "+++++++++++++++++++++++++++++++++++++++\n\n是否购买（提交）投资券"
+  },
+  {
+    "name": "ifPink",
+    "type": "checkbox",
+    "label": "+++++++++++++++++++++++++++++++++++++++\n\n每月兑换粉球"
+  },
+  {
+    "name": "ifBlue",
+    "type": "checkbox",
+    "label": "每月兑换蓝球"
   }
 ]
