@@ -56,131 +56,120 @@ FullyAutoAndSemiAutoTools/
 
 ```mermaid
 graph TD
-    A[启动脚本] --> B[初始化<br>配置/工具/记录/密钥检查]
-    B --> C{运行模式?}
-    C -->|刷新配置| D[扫描 pathing 目录<br>构建树状结构<br>生成多选配置项<br>应用黑白名单]
-    D --> E[保存用户配置<br>到 uidSettings.json + path-json-by-uid.json]
-    C -->|加载配置| F[读取 uidSettings.json & path-json-by-uid.json<br>快速恢复上次选择 & 路径缓存]
-    C -->|开始执行| G[核心执行流程]
+  A[启动脚本] --> B[读取 config_run]
 
-    subgraph 核心执行流程
-        G --> H[读取 CD 配置<br>加载执行记录 & UID路径缓存]
-        H --> I[构建 needRunMap<br>遍历路径组 & 过滤]
-        I --> J{CD 检查<br>hours/cron}
-        J -->|仍在CD| K[移除该路径]
-        J -->|可执行| L[加入执行队列]
-        L --> M[启动实时任务<br>自动对话/拾取/战斗]
-        M --> N{择优模式?}
-        N -->|开启| O[优先从未跑过/最久未跑的路径]
-        N -->|关闭| P[按顺序执行]
-        O --> P
-        P --> Q[遍历路径组]
-        Q --> R[遍历单条路径]
-        R --> S{已跑过?}
-        S -->|是| T[跳过 & 记录日志]
-        S -->|否| U{需要战斗?}
-        U -->|是| V[切换战斗队伍]
-        U -->|否| W{需要特定元素?}
-        W -->|是| X[切换七元素队伍]
-        W -->|否| Y[直接执行路径]
-        V --> Y
-        X --> Y
-        Y --> Z{半自动模式?}
-        Z -->|是| AA[等待快捷键<br>继续/跳过]
-        Z -->|否| AB[正常完成]
-        AA --> AB
-        AB --> AC[记录执行结果<br>成功/失败/时间戳]
-        AC --> AD{还有剩余路径?}
-        AD -->|是| R
-        AD -->|否| AE[保存最终记录<br>结束本次执行]
-    end
+  B --> C{config_run ?}
 
-    style A fill: #e3f2fd, stroke: #1976d2
-    style G fill: #f3e5f5, stroke: #7b1fa2
-    style AE fill: #c8e6c9, stroke: #2e7d32, stroke-width: 3px
+%% ────────────── 刷新模式 ──────────────
+  C -->|刷新| Refresh[刷新模式]
+
+  Refresh --> Scan[扫描 pathing 目录<br>readPaths 递归读取所有文件/文件夹]
+
+  Scan --> Depth[应用 loading_level<br>限制最大递归深度]
+
+  Depth --> BlackWhite[应用黑白名单过滤<br>config_white_list / config_black_list<br>（优先级高于其他过滤）]
+
+BlackWhite --> Generate[生成 multi-checkbox 配置项<br>写入 uidSettings.json<br>写入 path-json-by-uid.json<br>（此时黑白名单已生效）]
+
+Generate --> RefreshEnd[刷新结束<br>黑白名单已固化到缓存中]
+
+%% ────────────── 加载模式 ──────────────
+C -->|加载| Load[加载模式]
+
+Load --> ReadCache[读取上次缓存<br>path-json-by-uid.json + uidSettings.json<br>（已包含刷新时的黑白名单过滤结果）]
+
+ReadCache --> LoadFilter{二次过滤项}
+
+LoadFilter --> TheLayer[the_layer = true ?<br>只保留指定层级]
+
+LoadFilter --> HighFilter[high_level_filtering 有值 ?<br>路径字符串匹配过滤]
+
+LoadFilter --> BlackWhiteLoad[黑白名单输入框显示<br>但修改无效<br>（不重新过滤缓存）]
+
+TheLayer & HighFilter --> ShowOptions[显示最终过滤后的选项列表<br>供用户勾选]
+
+BlackWhiteLoad -.-> ShowOptions[黑白名单修改不生效]
+
+ShowOptions --> LoadEnd[加载结束<br>黑白名单不参与二次过滤]
+
+%% ────────────── 执行模式 ──────────────
+C -->|执行| Exec[执行模式<br>不显示黑白名单 / 层级 / 高阶过滤项<br>直接使用已勾选路径]
+
+Exec --> Run[读取 CD + 记录<br>构建 needRunMap → 执行]
+
+%% 样式
+classDef refresh fill:#e8f5e9,stroke:#2e7d32
+classDef load    fill:#e3f2fd,stroke:#1976d2
+classDef exec    fill:#f3e5f5,stroke:#7b1fa2
+classDef filter  fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
+
+class Refresh,Scan,Depth,BlackWhite,Generate refresh
+class Load,ReadCache,TheLayer,HighFilter,BlackWhiteLoad,ShowOptions load
+class Exec,Run exec
+class BlackWhite,TheLayer,HighFilter filter
 ```
 
 ### 2. 执行时序图（sequenceDiagram 风格，适合看交互顺序）
 
 ```mermaid
 sequenceDiagram
-    participant U as 用户
-    participant S as 脚本设置界面
-    participant Init as 初始化模块
-    participant Scan as 路径扫描（重构版）
-    participant CD as 冷却检查
-    participant Exec as 执行引擎
-    participant RT as 实时任务
-    participant Team as 队伍切换
-    participant Path as 路径执行
-    participant Record as 记录系统
-    U ->> S: 启动脚本 → 选择模式
+  participant U as 用户
+  participant UI as 设置界面
+  participant S as 扫描 & 缓存模块
+  participant F as 过滤逻辑
+  participant R as 记录/缓存文件<br>(uidSettings.json + path-json-by-uid.json)
+  participant CD as 冷却检查
+  participant E as 执行引擎
+  participant T as 队伍切换
+  participant P as 路径执行
 
-    alt 模式 = 刷新配置
-        S ->> Scan: 扫描 pathing 目录（支持任意深度）
-        Scan -->> S: 返回完整树状结构 & 文件列表
-        S ->> S: 生成多选配置项<br>应用黑白名单精确过滤（Set优化）
-        S -->> U: 显示配置界面供勾选
-        U ->> S: 保存配置
-        S ->> Record: 写入 uidSettings.json + path-json-by-uid.json
-    else 模式 = 加载配置
-        S ->> Record: 读取 uidSettings.json & path-json-by-uid.json
-        Record -->> S: 返回上次配置 & 缓存路径列表
-        S -->> U: 快速恢复配置界面
-    else 模式 = 执行
-        S ->> Init: 开始执行
-        Init ->> Record: 加载历史记录 & UID路径缓存
-        Init ->> CD: 读取 cd-pathing.json
-        CD -->> Init: 返回冷却状态
+  U->>UI: 选择 config_run 并保存
 
-        loop 遍历所有勾选路径组
-            Init ->> CD: 检查当前组是否在CD中
-            alt 仍在CD
-                CD -->> Init: 跳过该组
-            else 可执行
-                CD -->> Init: 允许执行
-                Init ->> RT: 启动实时任务<br>(自动对话/拾取/战斗)
-                RT -->> Init: 实时任务就绪
-
-                alt 择优模式开启
-                    Init ->> Record: 查询未跑/最久未跑路径
-                    Record -->> Init: 返回优先队列
-                end
-
-                loop 遍历路径组内的单条路径
-                    Init ->> Exec: 准备执行单条路径
-                    Exec ->> Record: 检查是否已跑过
-                    alt 已跑过
-                        Record -->> Exec: 跳过
-                    else 未跑过
-                        Exec ->> Team: 检查战斗/元素需求
-                        alt 需要战斗
-                            Team ->> Team: 切换战斗队伍(team_fight)
-                        else 需要特定元素
-                            Team ->> Team: 切换七元素队伍
-                        else 无特殊需求
-                            Team -->> Exec: 使用当前队伍
-                        end
-
-                        Team -->> Exec: 队伍已就位
-                        Exec ->> Path: 执行路径脚本<br>pathingScript.runFile()
-                        Path -->> Exec: 路径执行完成/异常
-
-                        alt 半自动模式
-                            Exec ->> U: 暂停等待快捷键(继续/跳过)
-                            U -->> Exec: 按键响应
-                        end
-
-                        Exec ->> Record: 记录执行结果<br>(成功/失败/时间戳)
-                    end
-                end
-            end
-        end
-
-        Exec ->> Record: 保存最终记录
-        Record -->> S: 执行完成
-        S -->> U: 显示执行完毕
+  alt config_run = 刷新
+    UI->>S: 开始刷新（重新扫描 pathing 目录）
+    S->>F: 读取 loading_level
+    F-->>S: 限制递归深度
+    S->>F: 读取黑白名单
+    F-->>S: 过滤掉黑名单文件夹，保留白名单优先
+    Note over S,F: the_layer 与 high_level_filtering<br>在本模式不参与过滤
+    S->>R: 写入完整过滤后的路径列表 & 配置快照
+    R-->>UI: 刷新完成，显示新生成的选项列表
+  else config_run = 加载
+    UI->>R: 请求读取上次缓存
+    R-->>UI: 返回已缓存的路径列表<br>（已包含刷新时的黑白名单结果）
+    UI->>F: 显示 the_layer / high_level_filtering / loading_level 输入框
+    Note over UI,F: 黑白名单输入框显示，但修改无效
+    alt 用户修改了 the_layer 或 high_level_filtering
+      F->>F: 对缓存列表进行二次过滤
+      F-->>UI: 显示过滤后的选项列表
+    else 未修改或修改了黑白名单
+      F-->>UI: 沿用原缓存列表<br>（黑白名单修改被忽略）
     end
+    UI-->>U: 显示可勾选的路径组
+  else config_run = 执行
+    UI->>R: 读取用户已勾选的路径组 & 配置
+    R-->>UI: 返回最终待执行列表
+    Note over UI,R: 此时所有层级/过滤/黑白名单配置已固化<br>不再受任何影响
+    UI->>CD: 检查冷却规则（hours / cron）
+    CD-->>UI: 过滤掉仍在CD的路径组
+    UI->>E: 开始执行（needRunMap）
+    loop 遍历每个路径组
+      E->>T: 根据路径特性决定队伍
+      alt 需要战斗 / 元素 / 锄地特化
+        T->>T: switchTeamByName / switchTeamByIndex
+      end
+      T-->>E: 队伍就位
+      alt 半自动模式
+        E->>U: 等待快捷键（继续/跳过）
+        U-->>E: 按键响应
+      end
+      E->>P: pathingScript.runFile(路径)
+      P-->>E: 执行完成 / 异常
+      E->>R: 记录执行结果（成功/失败/时间戳）
+    end
+    R-->>UI: 保存最终记录
+    UI-->>U: 执行完成
+  end
 ```
 
 ## 重要配置项一览（settings.json）
