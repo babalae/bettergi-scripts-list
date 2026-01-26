@@ -335,9 +335,37 @@
     ]
   },
   {
+    "type": "separator"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "title_2",
+    "type": "input-text",
+    "label": "----------------------------特殊料理----------------------------",
+    "default": "⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬"
+  },
+  {
+    "name": "characterMode",
+    "type": "select",
+    "label": "选择烹饪数量的应用对象\n注：详见README",
+    "options": [
+      "烹饪次数",
+      "预期的特殊料理数"
+    ],
+    "default": "烹饪次数"
+  },
+  {
+    "name": "characterFoodNum",
+    "type": "input-text",
+    "label": "烹饪数量(1-999)[仅用于特殊料理]\n注：单数字应用到全部，或用单个空格隔开设置每个的数量",
+    "default": "0"
+  },
+  {
     "name": "selectCharacter",
     "type": "multi-checkbox",
-    "label": "【暂不可用】>>>  特色料理  ✨✨✨✨✨✨✨✨✨✨",
+    "label": "【选择料理】>>>  特殊料理  ✨✨✨✨✨✨✨✨✨✨",
     "options": [
       "果香串烤(凯亚)",
       "绝境求生烤鱼(刻晴)",
@@ -455,7 +483,7 @@
     "type": "separator"
   },
   {
-    "name": "title_2",
+    "name": "title_3",
     "type": "input-text",
     "label": "----------------------------食材加工----------------------------",
     "default": "⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬"
@@ -467,7 +495,7 @@
     "type": "separator"
   },
   {
-    "name": "title_3",
+    "name": "title_4",
     "type": "input-text",
     "label": "-----------------------料理获取(不可制作)-----------------------",
     "default": "⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬"
@@ -479,7 +507,7 @@
     "type": "separator"
   },
   {
-    "name": "title_4",
+    "name": "title_5",
     "type": "input-text",
     "label": "----------------------------全局设置----------------------------",
     "default": "⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬"
@@ -487,7 +515,7 @@
   {
     "name": "dealInsufficient",
     "type": "select",
-    "label": "检测到食材不足时\n注:：禁用则不检测食材",
+    "label": "检测到食材不足时\n注：禁用则不检测食材数量",
     "options": [
       "跳过此料理",
       "用尽食材",
