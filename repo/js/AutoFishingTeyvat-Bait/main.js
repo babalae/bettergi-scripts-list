@@ -1,4 +1,4 @@
-(async function () { // 鱼饵合成上限[]、鱼饵原料数不为2时可能出错[]、NPC的CD记录[]
+(async function () { // 鱼饵合成上限[]、鱼饵原料数不为2时可能出错[]、NPC的CD记录[]，OCR仍有识别错误的可能性，例如1111识别成11
 
     const bait_list = ["果酿饵", "赤糜饵", "蠕虫假饵", "飞蝇假饵", "甘露饵", "酸桔饵", "维护机关频闪诱饵", "澄晶果粒饵", "温火饵", "槲梭饵", "清白饵"]
     const material_msg = {
@@ -100,7 +100,7 @@
         "培根": {"material": {"兽肉": 2, "盐": 2}, "time": 15},
         "香肠": {"material": {"兽肉": 3}, "time": 20}
     }
-    const accelerator_msg = {
+    const accelerator_msg = { // s
         "铁块": 20,
         "白铁块": 40,
         "水晶块": 60,
@@ -146,7 +146,6 @@
                 return false;
             }
         }
-
     }
 
     /**
@@ -206,7 +205,7 @@
         while (true) {
             let gameRegion = captureGameRegion();
             let barUpSite = gameRegion.Find(barUpRo);
-            if (barUpSite) {
+            if (barUpSite.isExist()) {
                 if (barUpSite.y >= 125) {
                     click(1276, 125);
                     await sleep(200);
@@ -376,6 +375,7 @@
      * @param target 目标字符串
      * @param candidates 字符串数组
      * @returns {null}
+     * @see levenshteinDistance
      */
     async function findClosestMatch(target, candidates) {
         let closest = null;
@@ -484,7 +484,7 @@
             click(k === 0 ? 1080: 1216, 874); // 点击原料1、2
             await sleep(500);
             let ocr_area = await Ocr(881, 763, 158, 267, true); // 中间 "当前拥有xxx" 部分区域
-            if (ocr_area.length !== 0) {
+            if (ocr_area) {
                 let refer_y;
                 for (let i = 0; i < ocr_area.length; i++) {
                     if (ocr_area[i].text.includes("当前拥有")) {
@@ -829,10 +829,11 @@
      * @param type 类型
      * @param area 国家
      * @returns {Promise<boolean>} 是否成功进入
+     * @see enter_store 对话并进入NPC商店，需要确保与NPC对话的F图标存在
      */
     async function go_and_interact(type, area = "蒙德") {
         // 返回主界面
-        genshin.returnMainUi();
+        await genshin.returnMainUi();
 
         if (type === "合成台") {
             await sleep(500);
@@ -845,7 +846,7 @@
             await sleep(500);
             if (path_json["info"]["description"].includes("GCM")) {
                 // 等待到返回主界面
-                genshin.returnMainUi();
+                await genshin.returnMainUi();
                 await sleep(500);
                 await keyMouseScript.runFile(`assets/npc/${area}-${type}-GCM.json`);
                 await sleep(500);
