@@ -35,7 +35,7 @@ const findCloseDialog = () => {
 };
 //! 通用：点击空白处区域继续位置
 const clickToContinue = () => {
-  click(900, 1050);
+  click(960, 1070);
 };
 //! 查找UID文本
 const findUidText = () => {
@@ -185,10 +185,6 @@ const findStageEscBtn = () => {
 const findExitStageBtn = () => {
   return findTextWithinBounds("中断挑战", 576, 324, 768, 432);
 };
-//! 关卡：查找奇域等级提升页面
-const findSkipLevelUpMsg = () => {
-  return findTextWithinBounds("空白处", 610, 950, 700, 60, { contains: true });
-};
 //! 退出：查找返回提瓦特按钮
 const findGotTeyvatBtn = () => {
   return findTextWithinBounds("返回", 1500, 0, 300, 95, { contains: true });
@@ -259,7 +255,6 @@ export {
   findSearchWonderlandBtn,
   findSearchWonderlandInput,
   findSearchWonderlandThrottleMsg,
-  findSkipLevelUpMsg,
   findStageEscBtn,
   findUidText,
 };

@@ -13,7 +13,6 @@ import {
   findCloseDialog,
   findExitStageBtn,
   findPrepareMsg,
-  findSkipLevelUpMsg,
   findStageEscBtn,
 } from "../constants/regions.js";
 import { isInLobby } from "./lobby.js";
@@ -111,7 +110,7 @@ const exitStageToLobby = async () => {
       isInLobby,
       async () => {
         //! 跳过奇域等级提升页面（奇域等级每逢11、21、31、41级时出现加星页面）
-        if (findSkipLevelUpMsg()) clickToContinue();
+        clickToContinue();
         //! 点击底部 “返回大厅” 按钮
         findBottomBtnText("返回大厅")?.click();
       },

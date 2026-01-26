@@ -30,7 +30,6 @@ const outDatedRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets
 
 const normalPathA = "assets/ArtifactsPath/普通98点1号线";
 const normalPathB = "assets/ArtifactsPath/普通98点2号线";
-const normalPathC = "assets/ArtifactsPath/普通C";
 const extraPath = "assets/ArtifactsPath/额外";
 
 //初始化变量
@@ -104,22 +103,22 @@ let gameRegion;
     }
 
     moraDiff -= await mora();
+    if (!settings.fastMode) {
+        //执行普通路线，直到预定激活开始时间
+        log.info("开始执行普通路线");
+        await runNormalPath(true);
+        if (state.cancel) return;
 
-    //执行普通路线，直到预定激活开始时间
-    log.info("开始执行普通路线");
-    await runNormalPath(true);
-    if (state.cancel) return;
+        //执行激活路线
+        log.info("开始执行激活路线");
+        await runActivatePath();
+        if (state.cancel) return;
 
-    //执行激活路线
-    log.info("开始执行激活路线");
-    await runActivatePath();
-    if (state.cancel) return;
-
-    //执行剩余普通路线
-    log.info("开始执行剩余普通路线");
-    await runNormalPath(false);
-    if (state.cancel) return;
-
+        //执行剩余普通路线
+        log.info("开始执行剩余普通路线");
+        await runNormalPath(false);
+        if (state.cancel) return;
+    }
 
     if (!onlyActivate || state.runningEndingAndExtraRoute != "收尾额外A") {
         //执行收尾和额外路线
@@ -872,26 +871,35 @@ async function runEndingAndExtraPath() {
         endingPath = state.runningEndingAndExtraRoute === "收尾额外A"
             ? "assets/ArtifactsPath/联机收尾/优先收尾路线"
             : "assets/ArtifactsPath/联机收尾/替补收尾路线";
-        if (forceAlternate) {
-            endingPath = state.runningRoute === "A"
-                ? "assets/ArtifactsPath/优先收尾路线"
-                : "assets/ArtifactsPath/替补收尾路线";
-        }
-
     }
     let extraPath = state.runningEndingAndExtraRoute === "收尾额外A"
         ? "assets/ArtifactsPath/额外/所有额外"
         : "assets/ArtifactsPath/额外/仅12h额外";
     endingPath = endingPath + "/执行";
+    extraPath = extraPath + "/执行";
+    if (settings.fastMode) {
+        log.info("启用了急速模式，直接运行高铁路线");
+        endingPath = state.runningEndingAndExtraRoute === "收尾额外A"
+            ? "assets/ArtifactsPath/高铁/高铁1号线"
+            : "assets/ArtifactsPath/高铁/高铁2号线";
+        if (forceAlternate) {
+            endingPath = state.runningRoute === "A"
+                ? "assets/ArtifactsPath/高铁/高铁1号线"
+                : "assets/ArtifactsPath/高铁/高铁2号线";
+        }
+        extraPath = "";
+    }
     state.activatePickUp = true;
     await runPaths(endingPath, artifactPartyName, false, "white");
-    extraPath = extraPath + "/执行";
     await runPaths(extraPath, artifactPartyName, false, "white");
     state.activatePickUp = false;
 }
 
 async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "") {
     if (state.cancel) return;
+    if (folderFilePath === "") {
+        return;
+    }
     let Paths = await readFolder(folderFilePath, true);
     let furinaChecked = false;
     for (let i = 0; i < Paths.length; i++) {
