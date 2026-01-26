@@ -212,18 +212,21 @@ async function initRefresh(settingsConfig) {
     let treePathList = await readPaths(`${pathingName}`)
     await debugKey('log-treePathList.json', JSON.stringify(treePathList))
     let pathJsonList = await treeToList(treePathList)
-
-    await addUniquePath({
+    await debugKey('log-pathJsonList.json', JSON.stringify(pathJsonList))
+    let obj = {
+        id: `${pathingName}`,
         level: level,
         name: `${pathingName}`,
+        parentId: undefined,
         parentName: undefined,
         rootName: undefined,        // 最父级下一级名称
         child_names: parentJson.options
-    })
+    };
+    await addUniquePath(obj)
 
     PATH_JSON_LIST = pathJsonList
 
-    const forList = pathJsonList
+    const forList = pathJsonList.filter(item => item.isFile)
     for (const element of forList) {
         const pathRun = element.path
 
@@ -263,13 +266,16 @@ async function initRefresh(settingsConfig) {
             const parentName = getChildFolderNameFromRoot(pathRun, parentLevel);
             const rootName = getChildFolderNameFromRoot(pathRun, parent_level + 1);
 
-            await addUniquePath({
+            let obj1 = {
+                id: undefined,
+                parentId: element.parentId,
                 level: parentLevel,        // 存储到目标层级 属于目标层级
                 name: currentName,              // 当前层级名称
                 parentName: parentName,        // 父级名称
                 rootName: rootName,        // 最父级下一级名称
                 child_names: [...child_names]
-            });
+            };
+            await addUniquePath(obj1);
         }
     }
     // 正确的排序方式
@@ -314,24 +320,21 @@ async function initRefresh(settingsConfig) {
                     // prefix = br + `${"=".repeat(localLine)}${item.parentName}${"=".repeat(localLine)}\n` + br
                 }
                 // const p = idx === 0 ? "【地图追踪】\n" : `${prefix}[${item.parent_name}-${item.name}]\n`
-                const p = `${prefix}${(item.rootName && item.name !== item.rootName) ? "《" + item.rootName + "》->" : ""}[${item.name}]\n`
+                const p = `\n${prefix}${(item.rootName && item.name !== item.rootName) ? "《" + item.rootName + "》->" : ""}[${item.name}]`
                 idx++
                 let leveJson = {
                     name: `${name}`,
                     type: "multi-checkbox",
-                    label: `${p}选择要执行的${item.level + 1}级路径`,
+                    label: `选择要执行的${item.level + 1}级路径${p}`,
                     options: []
                 }
                 // todo: 待优化
-                let filter = PATH_JSON_LIST.filter(list_item => list_item.id === item.parentId).find(item => item);
-                if (filter) {
-                    // filter.levelName = name || undefined
-                    PATH_JSON_LIST.forEach(list_item => {
-                        if (list_item.id === item.parentId) {
-                            list_item.levelName = name || undefined
-                        }
-                    })
+                const targetItem = PATH_JSON_LIST.filter(list_item => !list_item.levelName)
+                    .find(list_item => list_item.id === item.parentId);
+                if (targetItem) {
+                    targetItem.levelName = name || undefined;
                 }
+
                 // leveJson.options = leveJson.options.concat(item.child_names)
                 leveJson.options = [...item.child_names]
                 if (leveJson.options && leveJson.options.length > 0) {
@@ -549,6 +552,7 @@ async function loadUidSettingsMap(uidSettingsMap) {
                 // 预先建立 levelName 到路径信息的映射
                 const levelNameMap = new Map();
                 PATH_JSON_LIST.forEach(item => {
+                    log.debug(`item:{0}`, JSON.stringify(item))
                     if (item.levelName) {
                         levelNameMap.set(item.levelName, item);
                     }
@@ -1904,7 +1908,7 @@ async function readPaths(
                 path: itemPath,
                 level: level + 1,
                 fullPathNames: currentFullPathNames,
-                levelName: undefined,
+                levelName: "",
                 isRoot: false,
                 isFile: true,
                 children: [] // 文件没有子节点
@@ -1932,7 +1936,7 @@ async function readPaths(
                     path: itemPath,
                     level: level + 1,
                     fullPathNames: currentFullPathNames,
-                    levelName: undefined,
+                    levelName: "",
                     isRoot: level === 0,
                     isFile: false,
                     children: childNodes
@@ -1967,12 +1971,15 @@ function getParentFolderName(fullPath, upLevels = 1) {
 async function treeToList(treeList = []) {
     let list = []
     for (const element of treeList) {
-        const child = element.children
         // 如果是文件，添加到结果列表
-        if (element.isFile) {
-            list.push(element);
+        // if (element.isFile) {
+        list.push(element);
+        // }
+        const child = element.children
+        if (child && child.length > 0) {
+            list.push(...await treeToList(child))
+            // list = [...list, ...await treeToList(child)]
         }
-        list = [...list, ...await treeToList(child)]
     }
     return list
 }
