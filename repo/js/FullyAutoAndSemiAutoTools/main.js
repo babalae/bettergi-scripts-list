@@ -593,7 +593,37 @@ async function loadUidSettingsMap(uidSettingsMap) {
             templateMatchSettings[templateMatchSettings.length - 1]?.type === "separator") {
                 templateMatchSettings.pop();
             }
+            /**
+             * 限制连续的分隔符数量不超过3个
+             * @param {Array} settings - 设置项数组
+             * @returns {Array} 处理后的设置项数组
+             */
+            function limitConsecutiveSeparators(settings) {
+                if (!Array.isArray(settings) || settings.length === 0) {
+                    return settings;
+                }
 
+                const result = [];
+                let consecutiveSeparatorCount = 0;
+
+                for (const item of settings) {
+                    if (item?.type === "separator") {
+                        consecutiveSeparatorCount++;
+
+                        // 只有当连续分隔符数量不超过3个时才添加
+                        if (consecutiveSeparatorCount <= 3) {
+                            result.push(item);
+                        }
+                    } else {
+                        // 遇到非分隔符时重置计数
+                        consecutiveSeparatorCount = 0;
+                        result.push(item);
+                    }
+                }
+
+                return result;
+            }
+            templateMatchSettings = limitConsecutiveSeparators(templateMatchSettings)
             // uidSettings.push(levelSettings)
             // 将更新后的设置写入配置文件
             file.writeTextSync(manifest.settings_ui, JSON.stringify(templateMatchSettings))
