@@ -46,7 +46,7 @@ let newCount = 0;
             await sleep(300);
         }
         let scrolls = 0;
-        while (scrolls < 145) {
+        while (scrolls < 200) {
             scrolls++
             try { await sleep(1) } catch (e) { break; }
             while (true) {
