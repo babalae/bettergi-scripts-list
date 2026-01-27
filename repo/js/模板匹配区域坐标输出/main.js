@@ -86,7 +86,7 @@ async function drawAndClearRedBox(result, delay) {
         ro2.dispose();
         drawRegion2.dispose(); // 释放对象
     }
-    drawRegion.dispose();
+    drawRegion = null; // 释放对象
 }
 // 主函数
 (async function () {
