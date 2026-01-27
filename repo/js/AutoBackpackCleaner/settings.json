@@ -1,0 +1,26 @@
+[
+    {
+        "name": "targetNumber",
+        "type": "input-text",
+        "label": "删除后的目标数量",
+        "default": "9000"
+    },
+    {
+        "name": "startNumber",
+        "type": "input-text",
+        "label": "起删数量，大于这个数量的材料才删",
+        "default": "9900"
+    },
+    {
+        "name": "delayScale",
+        "type": "input-text",
+        "label": "延迟系数，设备较差反应不过来时适当调大",
+        "default": "1"
+    },
+    {
+        "name": "scrollScale",
+        "type": "input-text",
+        "label": "翻页距离，调整为一次滑动约三行最佳",
+        "default": "10"
+    }
+]
