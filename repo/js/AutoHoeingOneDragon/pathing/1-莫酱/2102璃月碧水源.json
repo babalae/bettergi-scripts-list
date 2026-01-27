@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时97秒，包含以下怪物：1只岩史莱姆、1只炽热骗骗花、1只火箭丘丘人、1只冰箭丘丘人、1只雷箭丘丘人、1只岩丘丘萨满、1只大型水史莱姆、1只岩史莱姆、1只大型草史莱姆。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769529198610,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "2102璃月碧水源",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1272.611328125,
+      "y": 1562.6650390625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.1),keypress(f),keydown(w),wait(0.1),dash,",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 1234.541015625,
+      "y": 1536.6943359375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1234.541015625,
+      "y": 1536.6943359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1228.9326171875,
+      "y": 1563.7744140625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1145.259765625,
+      "y": 1591.03466796875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1081.6787109375,
+      "y": 1601.60205078125
+    }
+  ]
+}
