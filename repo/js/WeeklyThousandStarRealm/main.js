@@ -129,6 +129,25 @@ async function findText(text, x, y, w, h, textAttempts = attempts) {
   return null;
 }
 
+// 升级特殊界面点击
+async function findAndClickWhiteSpaceNext() {
+  const captureRegion = captureGameRegion();
+  const ro = RecognitionObject.ocr(610, 950, 700, 60);
+  const results = captureRegion.findMulti(ro);
+  captureRegion.dispose();
+
+  for (let j = 0; j < results.count; j++) {
+    const region = results[j];
+    if (region.isExist()) {
+      const text = region.text.toLowerCase();
+      if (text.includes("点击") && text.includes("继续")) {
+        await sleep(duration);
+        click(610, 950);
+      }
+    }
+  }
+}
+
 // 查找图片
 async function findImage(imgMat, x, y, w, h, imgAttempts = attempts) {
   const searchImg = RecognitionObject.TemplateMatch(imgMat, x, y, w, h);
@@ -410,11 +429,7 @@ async function playMap() {
       }
       let outputCount = 0;
       while (true) {
-        const whiteText = await findText("空白处", 610, 950, 700, 60, 1);
-        if (whiteText) {
-          await sleep(duration);
-          click(610, 950);
-        }
+        await findAndClickWhiteSpaceNext();
         const result = await findText("返回大厅", 960, 540, 960, 540, 1);
         if (result) {
           await sleep(duration);
