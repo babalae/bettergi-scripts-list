@@ -11,9 +11,7 @@
     const BH = `assets/RecognitionObject/${Material}.png`;
     const ZHIBIANYI = "assets/RecognitionObject/zhibian.png";
     const CHA = "assets/RecognitionObject/cha.png";
-    const jiuChan = "assets/RecognitionObject/纠缠之缘.png";
-    const xiangYu = "assets/RecognitionObject/相遇之缘.png";
-    const xingChen = "assets/RecognitionObject/星尘.png"
+    const xingChen = "assets/RecognitionObject/星尘.png";
     const ifAkf = settings.ifAkf;
     const chargingMethod = settings.chargingMethod;
     const ifCooking = settings.ifCooking;
@@ -48,13 +46,13 @@
     // 直接通过映射获取ITEM值（未匹配时默认0）
     const ITEM = materialToItemMap[Material] || 0;
 
-    if (ifZBY && chargingMethod == "法器角色充能" && settings.TEAMname === undefined) {
+    if (ifZBY && chargingMethod == "法器角色充能" && (!settings.TEAMname || settings.TEAMname.trim() === "")) {
         log.error("您选择了法器角色充能，请在配置页面填写包含法器角色的队伍名称！！！");
         return;// 没选就报错后停止
     }
 
     //检查用户是否配置队伍
-    if (ifZBY && ifAkf && settings.TEAMname === undefined) {
+    if (ifZBY && ifAkf && (!settings.TEAMname || settings.TEAMname.trim() === "")) {
         log.error("您选择了拥有爱可菲，请在配置页面填写包含爱可菲的队伍名称！！！");
         return;// 没选就报错后停止
     }
@@ -74,7 +72,7 @@
         { condition: ifMijing, func: AutoDomain, name: "秘境" },
         { condition: ifbuyNet, func: buyNet, name: "购买四方八方之网" },
         { condition: ifbuyTzq, func: buyTzq, name: "购买投资券" },
-        { condition: ifChange, func: stardustExchange, name: "粉球篮球兑换" }
+        { condition: ifChange, func: getPinkandBlue, name: "粉球篮球兑换" }
     ];
 
     // ===== 2. 子函数定义部分 =====
@@ -353,35 +351,65 @@
         return false;
     }
 
-    //粉蓝兑换实现部分
-    async function Exchange(exchangeObject) {
-        const objName = exchangeObject.match(/[\u4e00-\u9fa5]+/)[0];
-        await sleep(1000);
-        let object = await imageRecognitionEnhanced(exchangeObject, 5, 1, 0, 496, 224, 556, 221, true);
-        if (!object.found) {
-            log.info("未找到物品：{objName}，可能本月已兑换", objName);
-            return;
-        }
-        await sleep(1000);
-
-        // 识别"兑换"文字按钮的位置
-        let duiHuan = await textOCREnhanced("兑换", 5, 0, 0, 1123, 762, 115, 40, 1);
-
-        // 如果找到"兑换"按钮，则执行点击操作
-        if (duiHuan.found) {
-            // 连续点击指定位置4次，每次间隔150毫秒
-            for (let i = 0; i < 4; i++) {
-                await click(1290, 600);
-                await sleep(150);
-            }
-
-            // 最后点击"兑换"按钮
-            await click(duiHuan.x, duiHuan.y);
-
-            log.info("已完成兑换：{objName}", objName);
-
+    //兑换功能函数，用于自动完成兑换操作
+    async function Exchange(exchangeObject, objName) {
+        try {
             await sleep(1000);
+            moveMouseTo(1900, 205);
+            await leftButtonDown();
+            await sleep(1500);
+            await leftButtonUp();
+            let object = await imageRecognitionEnhanced(exchangeObject, 5, 1, 0, 496, 224, 556, 221, true);
+            if (!object.found) {
+                log.warn("未找到物品：{objName}，可能本月已兑换", objName);
+                moveMouseTo(1900, 210);
+                await sleep(800);
+                await leftButtonDown();
+                await sleep(800);
+                moveMouseTo(1900, 960);
+                await sleep(800);
+                await leftButtonUp();
+                let waitObj = await imageRecognitionEnhanced(`assets/RecognitionObject/待刷新${objName}.png`, 5, 0, 0, 441, 163, 1350, 829, true);
+                if (waitObj.found) {
+                    log.info("在已兑换的物品中找到了{objName}", objName);
+                    return true;
+                } else {
+                    log.error("经过查找仍未找到物品：{objName}", objName);
+                    return false;
+                }
+            }
+            await sleep(1000);
+
+            // 识别"兑换"文字按钮的位置
+            let duiHuan = await textOCREnhanced("兑换", 5, 0, 0, 1123, 762, 115, 40, 1);
+
+            // 如果找到"兑换"按钮，则执行点击操作
+            if (duiHuan.found) {
+                // 连续点击指定位置4次，每次间隔150毫秒
+                for (let i = 0; i < 4; i++) {
+                    await click(1290, 600);
+                    await sleep(150);
+                }
+
+                // 最后点击"兑换"按钮
+                await click(duiHuan.x, duiHuan.y);
+
+                log.info("本月{objName}已完成兑换", objName);
+
+                await sleep(1000);
+
+                await keyPress("VK_ESCAPE");
+
+                return true;
+            } else {
+                log.warn("未找到兑换按钮，请重试");
+                return false;
+            }
+        } catch (error) {
+            if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
+            log.error("执行粉球篮球兑换过程中出现错误: {error}", error.message);
         }
+
     }
 
     // 等待质变仪完成提示出现。 若超时则强制结束流程。
@@ -822,8 +850,6 @@
                 return;
             }
 
-            log.info("正在执行本周晶蝶诱捕装置收取任务……");
-
             keyPress("M");
             await sleep(1000);
 
@@ -883,9 +909,6 @@
                 return;
             }
 
-            log.info("正在执行本周质变仪&爱可菲任务……");
-
-            // 检查质变仪cd是否已刷新
             await sleep(500);
             await keyPress("B");
             await sleep(1000);
@@ -950,7 +973,6 @@
                 return;
             }
 
-            log.info("正在执行本周烹饪任务……");
             await AutoPath("每周做菜");
             await sleep(10);
             keyDown("VK_MENU");
@@ -1049,7 +1071,6 @@
                 return;
             }
 
-            log.info("正在执行本周锻造任务……");
             await AutoPath("瓦格纳");
             keyDown("VK_MENU");
             await textOCREnhanced("瓦格纳", 5, 1, 0, 1150, 460, 155, 155);
@@ -1117,8 +1138,6 @@
                 return;
             }
 
-            log.info("正在执行本周首领击败任务……");
-
             await genshin.tpToStatueOfTheSeven();// 先去神像确保状态和队伍切换
             await switchPartyIfNeeded(BossPartyName);
             await sleep(5000);
@@ -1155,8 +1174,6 @@
                 log.info(routeName + "CD未刷新，跳过本次执行");
                 return;
             }
-
-            log.info("正在执行本周秘境任务……");
 
             await genshin.tpToStatueOfTheSeven();// 先去神像确保状态和队伍切换
             await switchPartyIfNeeded(BossPartyName);
@@ -1206,8 +1223,6 @@
                 log.info(routeName + "CD未刷新，跳过本次执行");
                 return;
             }
-
-            log.info("正在执行本周四方网购买任务……");
 
             await AutoPath("四方八方之网");
             await sleep(800);
@@ -1263,8 +1278,6 @@
                 log.info(routeName + "CD未刷新，跳过本次执行");
                 return;
             }
-
-            log.info("正在提交本周投资券……");
 
             await AutoPath("投资券");
 
@@ -1335,14 +1348,19 @@
         }
     }
 
-    // 粉球篮球兑换
-    async function stardustExchange() {
+    // 粉球蓝球入口
+    async function getPinkandBlue() {
+        if (ifPink) { await stardustExchange("纠缠之缘"); }
+        if (ifBlue) { await stardustExchange("相遇之缘"); }
+        await genshin.returnMainUi();
+    }
+
+    // 粉球蓝球兑换
+    async function stardustExchange(routeName) {
         try {
             // 读取CD记录
             const cdRecords = await readCDRecords();
             let updatedRecords = { ...cdRecords };
-
-            const routeName = "粉球篮球兑换";
 
             // 检查CD
             if (!isRouteAvailable(routeName, cdRecords)) {
@@ -1350,28 +1368,30 @@
                 return;
             }
 
-            log.info("正在进行本月粉球篮球兑换……");
-            await genshin.returnMainUi();
-            await sleep(1000);
-            await keyPress("VK_ESCAPE");
-            await sleep(1000);
-            await textOCREnhanced("祈愿", 10, 1, 0, 318, 863, 65, 30, 1);
-            await textOCREnhanced("尘辉兑换", 10, 1, 0, 100, 1005, 110, 35, 1);
-            await textOCREnhanced("星尘兑换", 10, 1, 0, 768, 104, 260, 46, 1);
-            let ifXingChen = await imageRecognitionEnhanced(xingChen, 5, 0, 0, 1226, 451, 100, 60);
+            log.info("正在进行本月{routeName}兑换……", routeName);
+            let ifXingChen = await imageRecognitionEnhanced(xingChen, 5, 0, 0, 1130, 355, 315, 300);
             if (!ifXingChen.found) {
+                await genshin.returnMainUi();
+                await sleep(1000);
+                await keyPress("VK_ESCAPE");
+                await sleep(1000);
+                await textOCREnhanced("祈愿", 10, 1, 0, 318, 863, 65, 30, 1);
+                await textOCREnhanced("尘辉兑换", 10, 1, 0, 100, 1005, 110, 35, 1);
                 await textOCREnhanced("星尘兑换", 10, 1, 0, 768, 104, 260, 46, 1);
+                ifXingChen = await imageRecognitionEnhanced(xingChen, 5, 0, 0, 1226, 451, 100, 60);
+                if (!ifXingChen.found) {
+                    await textOCREnhanced("星尘兑换", 10, 1, 0, 768, 104, 260, 46, 1);
+                }
+                await sleep(1000);
             }
-            await sleep(1000);
 
-            if (ifPink) { await Exchange(jiuChan); }
-            if (ifBlue) { await Exchange(xiangYu); }
+            let getIt = await Exchange(`assets/RecognitionObject/${routeName}.png`, routeName);
 
-            await genshin.returnMainUi();
-
-            // 更新CD记录
-            updatedRecords[routeName] = getNextMonthFirst4AMISO();
-            await writeCDRecords(updatedRecords);
+            if (getIt) {
+                // 更新CD记录
+                updatedRecords[routeName] = getNextMonthFirst4AMISO();
+                await writeCDRecords(updatedRecords);
+            }
         } catch (error) {
             if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
             log.error("执行粉球篮球兑换过程中出现错误: {error}", error.message);
@@ -1401,6 +1421,7 @@
         // 执行所有启用的任务
         for (const task of tasks) {
             if (task.condition) {
+                log.info("开始执行任务：{name}", task.name);
                 await task.func();
                 await sleep(10);
             }
