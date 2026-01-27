@@ -1,0 +1,93 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769498466602,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-马尾-荻花洲西-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 252.556640625,
+      "y": 1283.51171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 282.134765625,
+      "y": 1296.83203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.01)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 285.4443359375,
+      "y": 1300.69140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 320.20703125,
+      "y": 1299.54150390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 341.09765625,
+      "y": 1296.0166015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 356.6640625,
+      "y": 1311.48828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.01)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 359.0654296875,
+      "y": 1313.6318359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 358.9853515625,
+      "y": 1331.82421875
+    }
+  ]
+}

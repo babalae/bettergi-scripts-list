@@ -1,0 +1,112 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769500536529,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-马尾-归离原-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 341.5126953125,
+      "y": 548.48828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 335.068359375,
+      "y": 561.6162109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 328.41015625,
+      "y": 609.83935546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 315.9609375,
+      "y": 631.0986328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 309.634765625,
+      "y": 628.09130859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 307.7646484375,
+      "y": 625.48046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 313.0869140625,
+      "y": 625.708984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.35)",
+      "id": 8,
+      "locked": false,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 323.078125,
+      "y": 630.568359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 323.078125,
+      "y": 630.568359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 322.3427734375,
+      "y": 633.2802734375
+    }
+  ]
+}
