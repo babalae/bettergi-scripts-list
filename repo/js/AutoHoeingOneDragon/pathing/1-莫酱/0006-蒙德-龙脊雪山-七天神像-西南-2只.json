@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -10,7 +10,7 @@
     "description": "  路线信息：该路线预计用时79.28秒，包含以下怪物：2只冰萤。",
     "enable_monster_loot_split": false,
     "hash_res": "26420463",
-    "last_modified_time": 1767795932902,
+    "last_modified_time": 1769453868704,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "0006-蒙德-龙脊雪山-七天神像-西南-2只",
@@ -31,27 +31,36 @@
       "y": 1174.619999999999
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.01)",
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": -1005.9500000000007,
-      "y": 1155.5200000000004
+      "x": -1008.310546875,
+      "y": 1157.47998046875
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.01)",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": -1003.861328125,
-      "y": 1122.25048828125
+      "x": -1005.822265625,
+      "y": 1147.86767578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.01)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1001.783203125,
+      "y": 1138.103515625
     },
     {
       "action": "",
       "action_params": "",
-      "id": 4,
+      "id": 5,
       "move_mode": "jump",
       "type": "target",
       "x": -1004.3984375,
@@ -60,7 +69,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(w);希诺宁 attack(0.3),e,keydown(w);玛薇卡 attack(0.3),e(hold),keydown(w);wait(2.5)",
-      "id": 5,
+      "id": 6,
       "move_mode": "jump",
       "type": "orientation",
       "x": -992.5,
@@ -69,7 +78,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
-      "id": 6,
+      "id": 7,
       "move_mode": "jump",
       "type": "path",
       "x": -992.5,
@@ -78,7 +87,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 7,
+      "id": 8,
       "move_mode": "jump",
       "type": "path",
       "x": -977.8100000000013,
@@ -87,7 +96,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 8,
+      "id": 9,
       "move_mode": "dash",
       "type": "path",
       "x": -966.9000000000015,
@@ -96,7 +105,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 9,
+      "id": 10,
       "move_mode": "walk",
       "type": "orientation",
       "x": -966.8899999999994,
