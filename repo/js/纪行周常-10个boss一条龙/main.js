@@ -1,4 +1,56 @@
+/**
+ * 根据星期配置判断是否运行脚本
+ * @param {Array} weekSelection - 用户选择的星期数组
+ * @returns {boolean} 是否符合运行条件
+ */
+function shouldRunByWeekConfig(weekSelection) {
+    const weekDays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+
+    // 检查配置是否为空
+    if (!Array.isArray(weekSelection) || weekSelection.length === 0) {
+        return false;
+    }
+
+    // 取得调整后的星期（0-6，0=星期日）
+    const getAdjustedDayOfWeek = () => {
+        const now = new Date();
+        let dayOfWeek = now.getDay(); // 0-6
+        const hours = now.getHours();
+
+        // 凌晨 00:00~04:00 视为前一天
+        if (hours < 4) {
+            dayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+            log.info(`当前时间 ${now.getHours()}:${now.getMinutes()}，视为前一天（${weekDays[dayOfWeek]}）`);
+        } else {
+            log.info(`当前时间 ${now.getHours()}:${now.getMinutes()}，使用当天（${weekDays[dayOfWeek]}）`);
+        }
+
+        return dayOfWeek;
+    };
+
+    const adjustedDayOfWeek = getAdjustedDayOfWeek();
+    const currentChineseDay = weekDays[adjustedDayOfWeek];
+
+    // 检查是否在允许的星期范围内
+    const shouldRun = weekSelection.includes(currentChineseDay);
+    return shouldRun;
+}
+
 (async function () {
+    // 检查配置是否存在
+    if (!Object.keys(settings).includes("execute_Week")) {
+        log.error("首次运行前请编辑JS脚本自定义配置");
+        return;
+    }
+
+    // 检查是否应该运行
+    const executeWeek = Array.from(settings.execute_Week || []);
+    if (!shouldRunByWeekConfig(executeWeek)) {
+        log.info(`交互或拾取："不运行"`);
+        return;
+    }
+    // ------------------------------------
+
     try {
         log.info(`请设置较长的战斗超时时间，否则超时后判定为战斗结束`);
         await sleep(1000);
