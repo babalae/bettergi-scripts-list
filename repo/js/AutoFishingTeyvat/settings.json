@@ -200,6 +200,9 @@
         "type":"separator"
     },
     {
+        "type":"separator"
+    },
+    {
         "name": "show_info_title_3",
         "type": "input-text",
         "label": "[高级配置]---------------------满足特殊需求---------------------",
@@ -222,6 +225,12 @@
         "type": "checkbox",
         "label": "启用垂钓点CD统计(自动跳过冷却中的垂钓点)\n注: 多人模式且不为房主时自动禁用",
         "default": true
+    },
+    {
+        "name": "archive_force",
+        "type": "input-text",
+        "label": "自定义CD记录标识(默认读取uid)\n注：仅在自己世界生效",
+        "default": ""
     },
     {
         "name": "time_kill_hour",
@@ -324,6 +333,9 @@
             "59"
         ],
         "default": "无"
+    },
+    {
+        "type":"separator"
     },
     {
         "type":"separator"

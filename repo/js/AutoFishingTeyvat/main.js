@@ -1014,8 +1014,13 @@
                 log.debug("等待直到进入教程界面");
             }
 
-            let ocrUid = await Ocr(1679, 1048, 200, 28);
-            if (ocrUid && ocrUid.text !== "") uid = ocrUid.text.replace(/\D/g, '');
+            if (settings.archive_force === "") {
+                let ocrUid = await Ocr(1679, 1048, 200, 28);
+                if (ocrUid && ocrUid.text !== "") uid = ocrUid.text.replace(/\D/g, '');
+            } else {
+                uid = settings.archive_force;
+            }
+
 
             await genshin.returnMainUi();
 

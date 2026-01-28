@@ -1,6 +1,6 @@
-(async function () { // 超2000上限条件未适配，OCR特殊字符可能失效，滑块底部时左下角料理文本无法识别
+(async function () { // 超2000上限条件未适配，OCR特殊字符可能失效，滑块底部时左下角料理文本无法识别，爱可菲的15%爆率
     const food_msg = JSON.parse(file.readTextSync("assets/foodMsg.json"));
-    const material_list = ['蘑菇', '黑麦粉', '洋葱', '夏槲果', '卷心菜', '胡萝卜', '土豆', '酸奶油', '兽肉', '火腿', '香肠', '胡椒', '宿影花', '冬凌草', '白灵果', '禽肉', '面粉', '香辛料', '薄荷', '苹果', '黄油', '糖', '鱼肉', '奶油', '秃秃豆', '鸟蛋', '盐', '番茄', '寒涌石', '奶酪', '青蜜莓', '苦种', '虾仁', '颗粒果', '咖啡豆', '墩墩桃', '日落果', '树莓', '牛奶', '汐藻', '泡泡桔', '海露花', '螃蟹', '绯樱绣球', '红果果菇', '堇瓜', '蟹黄', '清心', '烬芯花', '果酱', '澄晶实', '培根', '烛伞蘑菇', '肉龙掌', '发酵果实汁', '茉洁草', '稻米', '白萝卜', '松茸', '沉玉仙茗', '豆腐', '绝云椒椒', '竹笋', '金鱼草', '杏仁', '小麦', '松果', '海草', '琉璃袋', '帕蒂沙兰', '神秘的肉', '莲蓬', '枣椰', '鳗肉', '须弥蔷薇', '钩钩果', '树王圣体菇', '星蕈', '嘟嘟莲', '马尾', '甜甜花', '小灯草', '「冷鲜肉」', '熏禽肉'];
+    // const material_list = ['蘑菇', '黑麦粉', '洋葱', '夏槲果', '卷心菜', '胡萝卜', '土豆', '酸奶油', '兽肉', '火腿', '香肠', '胡椒', '宿影花', '冬凌草', '白灵果', '禽肉', '面粉', '香辛料', '薄荷', '苹果', '黄油', '糖', '鱼肉', '奶油', '秃秃豆', '鸟蛋', '盐', '番茄', '寒涌石', '奶酪', '青蜜莓', '苦种', '虾仁', '颗粒果', '咖啡豆', '墩墩桃', '日落果', '树莓', '牛奶', '汐藻', '泡泡桔', '海露花', '螃蟹', '绯樱绣球', '红果果菇', '堇瓜', '蟹黄', '清心', '烬芯花', '果酱', '澄晶实', '培根', '烛伞蘑菇', '肉龙掌', '发酵果实汁', '茉洁草', '稻米', '白萝卜', '松茸', '沉玉仙茗', '豆腐', '绝云椒椒', '竹笋', '金鱼草', '杏仁', '小麦', '松果', '海草', '琉璃袋', '帕蒂沙兰', '神秘的肉', '莲蓬', '枣椰', '鳗肉', '须弥蔷薇', '钩钩果', '树王圣体菇', '星蕈', '嘟嘟莲', '马尾', '甜甜花', '小灯草', '「冷鲜肉」', '熏禽肉'];
     const food_category = {
         "恢复类": ["恢复血量", "持续恢复", "复活"],
         "攻击类": ["提升伤害", "提升攻击", "提升暴击", "提升暴击伤害"],
@@ -15,6 +15,71 @@
         "3": [0.05, 0.1, 0.15],
         "4": [0.05, 0.05, 0.1],
         "5": [0.05, 0.05, 0.1]
+    }
+    const fish_msg = {
+        "花鳉": {"bait": "果酿饵", "num": 1},
+        "琉璃花鳉": {"bait": "果酿饵", "num": 1},
+        "甜甜花鳉": {"bait": "果酿饵", "num": 1},
+        "蓝染花鳉": {"bait": "果酿饵", "num": 1},
+        "擒霞客": {"bait": "果酿饵", "num": 1},
+        "水晶宴": {"bait": "果酿饵", "num": 1},
+        "肺棘鱼": {"bait": "赤糜饵", "num": 2},
+        "斗棘鱼": {"bait": "赤糜饵", "num": 2},
+        "鸩棘鱼": {"bait": "赤糜饵", "num": 2},
+        "赤魔王": {"bait": "赤糜饵", "num": 2},
+        "雪中君": {"bait": "赤糜饵", "num": 2},
+        "金赤假龙": {"bait": "飞蝇假饵", "num": 3},
+        "锖假龙": {"bait": "飞蝇假饵", "num": 3},
+        "流纹褐蝶鱼": {"bait": "蠕虫假饵", "num": 2},
+        "流纹茶蝶鱼": {"bait": "蠕虫假饵", "num": 2},
+        "流纹京紫蝶鱼": {"bait": "蠕虫假饵", "num": 2},
+        "长生仙": {"bait": "蠕虫假饵", "num": 2},
+        "雷鸣仙": {"bait": "蠕虫假饵", "num": 2},
+        "炮鲀": {"bait": "飞蝇假饵", "num": 3},
+        "苦炮鲀": {"bait": "飞蝇假饵", "num": 3},
+        "佛玛洛鳐": {"bait": "飞蝇假饵", "num": 3},
+        "迪芙妲鳐": {"bait": "飞蝇假饵", "num": 3},
+        "吹沙角鲀": {"bait": "甘露饵", "num": 2},
+        "暮云角鲀": {"bait": "甘露饵", "num": 2},
+        "真果角鲀": {"bait": "甘露饵", "num": 2},
+        "沉波蜜桃": {"bait": "甘露饵", "num": 2},
+        "翡玉斧枪鱼": {"bait": "甘露饵", "num": 2},
+        "青金斧枪鱼": {"bait": "甘露饵", "num": 2},
+        "海涛斧枪鱼": {"bait": "甘露饵", "num": 2},
+        "烘烘心羽鲈": {"bait": "酸桔饵", "num": 2},
+        "波波心羽鲈": {"bait": "酸桔饵", "num": 2},
+        "玉玉心羽鲈": {"bait": "酸桔饵", "num": 2},
+        "伪装鲨鲨独角鱼": {"bait": "澄晶果粒饵", "num": 2},
+        "青浪翻车鲀": {"bait": "澄晶果粒饵", "num": 2},
+        "晚霞翻车鲀": {"bait": "澄晶果粒饵", "num": 2},
+        "繁花斗士急流鱼": {"bait": "澄晶果粒饵", "num": 3},
+        "深潜斗士急流鱼": {"bait": "澄晶果粒饵", "num": 3},
+        "拟似燃素独角鱼": {"bait": "温火饵", "num": 2},
+        "炽岩斗士急流鱼": {"bait": "温火饵", "num": 3},
+        "无奇巨斧鱼": {"bait": "槲梭饵", "num": 1},
+        "冷冽巨斧鱼": {"bait": "槲梭饵", "num": 1},
+        "炽铁巨斧鱼": {"bait": "槲梭饵", "num": 1},
+        "素素凶凶鲨": {"bait": "清白饵", "num": 3},
+        "虹光凶凶鲨": {"bait": "清白饵", "num": 3},
+        "蓝昼明眼鱼": {"bait": "清白饵", "num": 2},
+        "夜色明眼鱼": {"bait": "清白饵", "num": 2}
+    }
+    const ingredient_msg = { // 加工产品
+        "面粉": {"material": {"小麦": 1}, "time": 1},
+        "兽肉": {"material": {"冷鲜肉": 1}, "time": 2},
+        "鱼肉": {"material": fish_msg, "time": fish_msg}, // 暂不考虑加工鱼肉，有点复杂
+        "神秘的肉加工产物": {"material": {"神秘的肉": 1}, "time": 1},
+        "奶油": {"material": {"牛奶": 1}, "time": 3},
+        "熏禽肉": {"material": {"禽肉": 3, "盐": 1}, "time": 5},
+        "黄油": {"material": {"牛奶": 2}, "time": 5},
+        "火腿": {"material": {"兽肉": 2, "盐": 1}, "time": 5},
+        "糖": {"material": {"甜甜花": 2}, "time": 3},
+        "香辛料": {"material": {"香辛果": 2}, "time": 1},
+        "蟹黄": {"material": {"螃蟹": 4}, "time": 20},
+        "果酱": {"material": {"日落果": 3, "树莓": 2, "糖": 1}, "time": 10},
+        "奶酪": {"material": {"牛奶": 3}, "time": 10},
+        "培根": {"material": {"兽肉": 2, "盐": 2}, "time": 15},
+        "香肠": {"material": {"兽肉": 3}, "time": 20}
     }
 
     /**
@@ -865,8 +930,13 @@
                 for (let i = 0; i < cook_num; i++) {
                     await auto_cooking_bgi(); // 调用手动烹饪
                     cook_count++; // 手动烹饪计数
-                    log.info(`进度: ${i + 1}/${cook_num}`);
+                    log.info(`进度: ${i + 1}/${cook_num >= food_num ? food_num: cook_num}`);
                     await sleep(1000);
+                    // 计数检测
+                    if (cook_count >= food_num) {
+                        food_num -= cook_count;
+                        break;
+                    }
                     // 检测自动烹饪解锁
                     checkOcr = await Ocr(730, 993, 124, 40);
                     if (checkOcr && checkOcr.text.includes("自动烹饪")) {
@@ -982,6 +1052,195 @@
         return foodDic;
     }
 
+    /**
+     * 在当前页面选购商品（餐馆、杂货店等商人NPC），购买完成后停留在商店界面
+     * @param {string} name - 名称
+     * @param {number} num - 数量
+     * @param {boolean} detect - 启用摩拉检测
+     * @returns {Promise<number|boolean>}
+     *   - 成功时返回实际购买成功的商品数量（可能与实际数目不符[如果OCR兜底失败]）
+     *   - 失败时返回 false（如不存在、售罄、资金不足[还没做]或其他错误）
+     */
+    async function select_goods(name, num, detect = false) { // [DEBUG] 暂未设置摩拉不足的情况
+        // 确保滑块位于顶端
+        await scroll_bar_to_side(1271, 113, 12, 830, 130, 923, 123, 931, 1276, "Up");
+
+        let flag = true;
+        let c_flag = false;
+        while (flag) {
+            if (c_flag) flag = false; // 确保页末也能识别
+            let ocrList = await Ocr(115, 89, 1142, 856, true); // 左侧列表区域
+            if (ocrList) {
+                for (let i = 0; i < ocrList.length; i++) {
+                    if (ocrList[i].text.includes(name)) { // 找到name
+                        let real_num = 0;
+                        ocrList[i].Click();
+                        await sleep(500);
+                        let buy_btn = await Ocr(1631, 993, 150, 50); // 右下购买按钮
+
+                        if (buy_btn) {
+                            buy_btn.Click();
+                            await sleep(500);
+                            let available_num = await Ocr(1190, 588, 81, 27); // 最大可选数量
+                            if (available_num) {
+                                let max_num = parseInt(available_num.text, 10);
+
+                                if (max_num < num) { // 拉满
+                                    click(1185, 601); // 点击滑条最大值(736-1186)
+                                    await sleep(500);
+                                    if (detect) { // 检测摩拉是否充足
+                                        let mora_ocr = Ocr(1609, 28, 162, 40);
+                                        let cost_ocr = Ocr(961,682, 95, 32);
+                                        if (cost_ocr && mora_ocr) {
+                                            let cost = parseInt(cost_ocr, 10);
+                                            let mora = parseInt(mora_ocr, 10);
+                                            if (cost > mora) {
+                                                log.error(`剩余摩拉不足: 需求(${cost})拥有(${mora})`);
+                                                return false;
+                                            } else {
+                                                log.debug(`摩拉充足: 需求(${cost})拥有(${mora})`);
+                                            }
+                                        } else {
+                                            log.warn("总摩拉数或消耗摩拉数未识别...");
+                                        }
+                                    }
+                                    click(1181, 780); // 点击购买
+                                    await sleep(500);
+                                    click(1555, 827); // 点击空白区域
+                                    await sleep(500);
+                                    real_num = max_num;
+                                } else { // 百分比选择数量(有误差，使用OCR修正)
+                                    click(736 + Math.floor(450 * num / max_num), 601);
+                                    await sleep(100);
+                                    let current_num = await Ocr(904, 527, 115, 54); // 已选的数量
+                                    if (current_num) { // [DEBUG]若false则可能有些许误差
+                                        current_num = parseInt(current_num.text, 10);
+                                        log.debug(`OCR识别的当前已选数量(需求: ${num}): ${current_num}`);
+                                        if (current_num > num) {
+                                            for (let k = 0; k < current_num - num; k++) { // -
+                                                log.debug("-1");
+                                                click(628, 602);
+                                                await sleep(50);
+                                            }
+
+                                        } else if (current_num < num) {
+                                            for (let k = 0; k < num - current_num; k++) { // +
+                                                log.debug("+1");
+                                                click(1292, 602);
+                                                await sleep(50);
+                                            }
+                                        }
+                                    }
+                                    await sleep(500);
+                                    if (detect) { // 检测摩拉是否充足
+                                        let mora_ocr = Ocr(1609, 28, 162, 40);
+                                        let cost_ocr = Ocr(961,682, 95, 32);
+                                        if (cost_ocr && mora_ocr) {
+                                            let cost = parseInt(cost_ocr, 10);
+                                            let mora = parseInt(mora_ocr, 10);
+                                            if (cost > mora) {
+                                                log.error(`剩余摩拉不足: 需求(${cost})拥有(${mora})`);
+                                                return false;
+                                            }
+                                        }
+                                    }
+                                    click(1181, 780); // 点击购买
+                                    await sleep(500);
+                                    click(1555, 827); // 点击空白区域
+                                    await sleep(500);
+                                    real_num = num;
+                                }
+                                log.info(`购买成功: ${name}(${real_num})`);
+                                return real_num;
+                            } else {
+                                log.error(`未识别到 ${name} 的剩余数量`);
+                                keyPress("Escape");
+                                await sleep(500);
+                            }
+                        } else {
+                            log.info(`${name} 已售罄`);
+                        }
+                        return false
+                    }
+                }
+            }
+            let scrollResult = await scroll_page(1271, 113, 12, 830, 130, 923, 1276, "Down");
+            if (!scrollResult) {
+                c_flag = true; // 确保页末也能识别
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 在烹饪/食材加工界面开始，自动收集并实现单个食材加工
+     * @param name 要加工的物品名称
+     * @param num 要加工的食材数量，为0时仅收集
+     * @param accelerator 使用矿石加速
+     * @returns {Promise<number|boolean>} 实际加工的数量
+     */
+    async function ingredient_process(name, num, accelerator = []) {
+        await sleep(500);
+        click(1008, 48); // 点击食材加工图标
+        await sleep(500);
+
+        let claim_all = await Ocr(198, 1003, 118, 31);
+        if (claim_all && claim_all.text === "全部领取") {
+            claim_all.Click(); // 全部领取
+            await sleep(500);
+            click(1569, 864); // 点击空白处
+            await sleep(500);
+        }
+
+        // 找到 name (制作中也能找到)
+        let flag = false;
+        for (let y = 0; y < 3; y++) {
+            for (let x = 0; x < 8; x++) {
+                click(178 + 147 * x, 197 + 175 * y);
+                await sleep(300);
+
+                let item_name = await Ocr(1334, 129, 440, 40);
+                if (item_name && item_name.text.includes(name)) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) break;
+        }
+
+        // 点击 制作
+        click(1687, 1016);
+        await sleep(500);
+        let check_ocr = await Ocr(901, 524, 118, 31);
+        if (check_ocr && check_ocr.text === "队列已满") {
+            log.info(`食材加工(${name}): 队列已满...`);
+            return 0;
+        }
+
+        let max_num_ocr = await Ocr(1226, 578, 44, 24);
+        let max_num = -1;
+        if (max_num_ocr) {
+            let string = max_num_ocr.text.replace(/\D/g, '');
+            if (string) {
+                max_num = parseInt(string, 10);
+            }
+        }
+        if (max_num === -1) {
+            log.warn(`食材加工(${name})制作界面未检测到最大值文本，可能是数字过小`);
+            keyPress("Escape");
+            await sleep(500);
+            return 0;
+        }
+
+        if (num < max_num) {
+            await set_ingredient_num(num);
+            return num;
+        } else {
+            await set_ingredient_num(max_num);
+            return max_num;
+        }
+    }
+
     async function main() {
         // EULA检测
         if (!(settings.EULA)) {
@@ -1014,7 +1273,7 @@
             return null;
         }
 
-        // 制作料理和特殊料理
+        // 制作料理0和特殊料理1
         for (let i = 0; i < 2; i++) {
             let food_dic = await calculate_food(i !== 0);
             if (Object.keys(food_dic).length !== 0) {
