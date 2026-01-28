@@ -8,10 +8,9 @@ function basename(filePath) {
 // 检查路径是否存在
 function pathExists(path) {
     try {
-        const entries = file.readPathSync(path); // 尝试读取路径内容
-        return entries !== undefined && entries.length >= 0;
-    } catch (error) {
-        return false; // 如果读取失败，返回 false
+        return file.isFolder(path);
+    } catch {
+        return false;
     }
 }
 
