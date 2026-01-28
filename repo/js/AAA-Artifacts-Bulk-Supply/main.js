@@ -1,7 +1,9 @@
 // 初始化自定义配置并赋予默认值
 let artifactPartyName = settings.artifactPartyName || "狗粮";//狗粮队伍名称
 let combatPartyName = settings.combatPartyName;//清怪队伍名称
-let minIntervalTime = settings.minIntervalTime || 1;//最短间隔时间（分钟）
+let minIntervalTime = settings.fastMode
+    ? 10
+    : Number(settings.minIntervalTime || 1);
 let maxWaitingTime = settings.maxWaitingTime || 0;//最大额外等待时间（分钟）
 let forceAlternate = settings.forceAlternate;//强制交替
 let onlyActivate = settings.onlyActivate;//只运行激活额外和收尾
@@ -28,9 +30,9 @@ const doDecompose2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("as
 
 const outDatedRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/ConfirmButton.png"), 760, 700, 100, 100);
 
-const normalPathA = "assets/ArtifactsPath/普通98点1号线";
-const normalPathB = "assets/ArtifactsPath/普通98点2号线";
-const extraPath = "assets/ArtifactsPath/额外";
+const normalPathA = settings.fastMode ? "" : "assets/ArtifactsPath/普通98点1号线";
+const normalPathB = settings.fastMode ? "" : "assets/ArtifactsPath/普通98点2号线";
+const extraPath = settings.fastMode ? "" : "assets/ArtifactsPath/额外";
 
 //初始化变量
 let artifactExperienceDiff = 0;
@@ -103,22 +105,21 @@ let gameRegion;
     }
 
     moraDiff -= await mora();
-    if (!settings.fastMode) {
-        //执行普通路线，直到预定激活开始时间
-        log.info("开始执行普通路线");
-        await runNormalPath(true);
-        if (state.cancel) return;
 
-        //执行激活路线
-        log.info("开始执行激活路线");
-        await runActivatePath();
-        if (state.cancel) return;
+    //执行普通路线，直到预定激活开始时间
+    log.info("开始执行普通路线");
+    await runNormalPath(true);
+    if (state.cancel) return;
 
-        //执行剩余普通路线
-        log.info("开始执行剩余普通路线");
-        await runNormalPath(false);
-        if (state.cancel) return;
-    }
+    //执行激活路线
+    log.info("开始执行激活路线");
+    await runActivatePath();
+    if (state.cancel) return;
+
+    //执行剩余普通路线
+    log.info("开始执行剩余普通路线");
+    await runNormalPath(false);
+    if (state.cancel) return;
 
     if (!onlyActivate || state.runningEndingAndExtraRoute != "收尾额外A") {
         //执行收尾和额外路线
@@ -646,7 +647,7 @@ async function mora() {
             gameRegion.dispose();
         }
 
-        moraRes = await numberTemplateMatch("assets/背包摩拉数字", moraX, moraY, 300, 40);
+        moraRes = await numberTemplateMatch("assets/背包摩拉数字", moraX, moraY, 300, 40, 0.95, 0.85, 10);
 
         if (moraRes >= 0) {
             log.info(`成功识别到摩拉数值: ${moraRes}`);
@@ -791,7 +792,6 @@ async function runNormalPath(doStop) {
     state.activatePickUp = true;
     await runPaths(normalExecutePath, artifactPartyName, doStop, "white");
     state.activatePickUp = false;
-
 }
 
 async function runActivatePath() {
@@ -841,18 +841,20 @@ async function runActivatePath() {
     const extraActivatePath = extraPath + "/激活";
     const extraCombatPath = extraPath + "/清怪";
     const extraPreparePath = extraPath + "/准备";
-    if (!forceAlternate && state.runningEndingAndExtraRoute === "收尾额外A") {
-        await runPaths(endingActivatePath, "", false);
-    }
-    await runPaths(extraActivatePath, "", false);
+    if (!settings.fastMode) {
+        if (!forceAlternate && state.runningEndingAndExtraRoute === "收尾额外A") {
+            await runPaths(endingActivatePath, "", false);
+        }
+        await runPaths(extraActivatePath, "", false);
 
-    await runPaths(endingPreparePath, "", false);
-    await runPaths(extraPreparePath, "", false);
+        await runPaths(endingPreparePath, "", false);
+        await runPaths(extraPreparePath, "", false);
 
-    if (combatPartyName) {
-        log.info("填写了清怪队伍，执行清怪路线");
-        await runPaths(extraCombatPath, combatPartyName, false, "black");
-        await runPaths(endingCombatPath, combatPartyName, false, "black");
+        if (combatPartyName) {
+            log.info("填写了清怪队伍，执行清怪路线");
+            await runPaths(extraCombatPath, combatPartyName, false, "black");
+            await runPaths(endingCombatPath, combatPartyName, false, "black");
+        }
     }
 }
 

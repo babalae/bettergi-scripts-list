@@ -1530,7 +1530,7 @@ async function mora() {
             gameRegion.dispose();
         }
 
-        moraRes = await numberTemplateMatch("assets/背包摩拉数字", moraX, moraY, 300, 40);
+        moraRes = await numberTemplateMatch("assets/背包摩拉数字", moraX, moraY, 300, 40, 0.95, 0.85, 10);
 
         if (moraRes >= 0) {
             log.info(`成功识别到摩拉数值: ${moraRes}`);
