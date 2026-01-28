@@ -657,7 +657,6 @@ async function autoEnter(autoEnterSettings) {
     // 加载目标 PNG
     const targetPngs = await readFolder(targetsPath, ".png");
     for (const f of targetPngs) {
-        if (!f.fullPath.endsWith('.png')) continue;
         const mat = file.ReadImageMatSync(f.fullPath);
         const ro = RecognitionObject.TemplateMatch(mat, 664, 481, 1355 - 668, 588 - 484);
         const baseName = f.fileName.replace(/\.png$/i, '');
@@ -1140,55 +1139,42 @@ async function fakeLog(name, isJs, isStart, duration) {
     }
 }
 
-// 定义 readFolder 函数
-async function readFolder(folderPath, onlyJson) {
-    // 新增一个堆栈，初始时包含 folderPath
-    const folderStack = [folderPath];
+/**
+ * 递归读取目录下所有文件
+ * @param {string} folderPath 起始目录
+ * @param {string} [ext='']   需要的文件后缀，空字符串表示不限制；例如 'json' 或 '.json' 均可
+ * @returns {Array<{fullPath:string, fileName:string, folderPathArray:string[]}>}
+ */
+async function readFolder(folderPath, ext = '') {
+    // 统一后缀格式：确保前面有一个点，且全小写
+    const targetExt = ext ? (ext.startsWith('.') ? ext : `.${ext}`).toLowerCase() : '';
 
-    // 新增一个数组，用于存储文件信息对象
+    const folderStack = [folderPath];
     const files = [];
 
-    // 当堆栈不为空时，继续处理
     while (folderStack.length > 0) {
-        // 从堆栈中弹出一个路径
         const currentPath = folderStack.pop();
-
-        // 读取当前路径下的所有文件和子文件夹路径
-        const filesInSubFolder = file.ReadPathSync(currentPath);
-
-        // 临时数组，用于存储子文件夹路径
+        const filesInSubFolder = file.ReadPathSync(currentPath); // 同步读取当前目录
         const subFolders = [];
+
         for (const filePath of filesInSubFolder) {
             if (file.IsFolder(filePath)) {
-                // 如果是文件夹，先存储到临时数组中
-                subFolders.push(filePath);
+                subFolders.push(filePath);          // 子目录稍后处理
             } else {
-                // 如果是文件，根据 onlyJson 判断是否存储
-                if (onlyJson) {
-                    if (filePath.endsWith(".json")) {
-                        const fileName = filePath.split('\\').pop(); // 提取文件名
-                        const folderPathArray = filePath.split('\\').slice(0, -1); // 提取文件夹路径数组
-                        files.push({
-                            fullPath: filePath,
-                            fileName: fileName,
-                            folderPathArray: folderPathArray
-                        });
-                        //log.info(`找到 JSON 文件：${filePath}`);
-                    }
-                } else {
-                    const fileName = filePath.split('\\').pop(); // 提取文件名
-                    const folderPathArray = filePath.split('\\').slice(0, -1); // 提取文件夹路径数组
-                    files.push({
-                        fullPath: filePath,
-                        fileName: fileName,
-                        folderPathArray: folderPathArray
-                    });
-                    //log.info(`找到文件：${filePath}`);
+                // 后缀过滤
+                if (targetExt) {
+                    const fileExt = filePath.toLowerCase().slice(filePath.lastIndexOf('.'));
+                    if (fileExt !== targetExt) continue;
                 }
+
+                const fileName = filePath.split('\\').pop();
+                const folderPathArray = filePath.split('\\').slice(0, -1);
+                files.push({ fullPath: filePath, fileName, folderPathArray });
             }
         }
-        // 将临时数组中的子文件夹路径按原顺序压入堆栈
-        folderStack.push(...subFolders.reverse()); // 反转子文件夹路径
+
+        // 保持同层顺序，reverse 后仍按原顺序入栈
+        folderStack.push(...subFolders.reverse());
     }
 
     return files;
