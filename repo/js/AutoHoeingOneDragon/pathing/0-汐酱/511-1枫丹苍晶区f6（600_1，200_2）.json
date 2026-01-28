@@ -1,0 +1,60 @@
+﻿{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时79.65秒，包含以下怪物：1只木盾丘丘暴徒、1只火斧丘丘暴徒、1只丘丘岩盔王。",
+    "enable_monster_loot_split": false,
+    "hash_res": "68502223",
+    "last_modified_time": 1769540065629,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "511-1枫丹苍晶区f6（600_1，200_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5117.59,
+      "y": 2543.3999999999996
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5006.468659876853,
+      "y": 2449.6561725342217
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4956.049999999999,
+      "y": 2467.7700000000004
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4956.049999999999,
+      "y": 2467.7700000000004
+    }
+  ]
+}

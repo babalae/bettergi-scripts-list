@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时65.35秒，包含以下怪物：1只蕴光刃犀。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768465295312,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "719挪德卡莱皮拉米达城（200_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9452.357421875,
+      "y": 5233.5908203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9407.6669921875,
+      "y": 5238.203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9390.318359375,
+      "y": 5245.6611328125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3600",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9370.375,
+      "y": 5231.7487932890435
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9343.810546875,
+      "y": 5213.45751953125
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时43.81秒，包含以下怪物：1只涌流·霜夜灵嗣。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768420129468,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "729挪德卡莱西风戍垒东岸（200_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9513.978515625,
+      "y": 5731.3935546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9537.798828125,
+      "y": 5766.25439453125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9546.2861328125,
+      "y": 5785.939453125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9546.33984375,
+      "y": 5785.4111328125
+    }
+  ]
+}

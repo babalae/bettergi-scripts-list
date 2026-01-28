@@ -1,0 +1,100 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时124.54秒，包含以下怪物：4只盗宝团·斥候、1只盗宝团·杂工、1只盗宝团·拳术家、1只盗宝团·粉碎者、1只盗宝团·雷之药剂师。",
+    "enable_monster_loot_split": false,
+    "hash_res": "11148260",
+    "last_modified_time": 1767958115264,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "2603璃月临时主矿道东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 663.85,
+      "y": 1058.84
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 651.909423828125,
+      "y": 1014.477783203125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 651.909423828125,
+      "y": 1014.477783203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 651.909423828125,
+      "y": 1014.477783203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 647.126220703125,
+      "y": 1009.836181640625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 685.17626953125,
+      "y": 960.12060546875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 685.17626953125,
+      "y": 960.12060546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 685.17626953125,
+      "y": 960.12060546875
+    }
+  ]
+}

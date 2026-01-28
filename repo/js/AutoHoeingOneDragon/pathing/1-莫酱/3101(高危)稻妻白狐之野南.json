@@ -1,0 +1,163 @@
+{
+  "info": {
+    "name": "3101(高危)稻妻白狐之野南",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时124.99秒，包含以下怪物：1只丘丘人、2只打手丘丘人、3只雷弹丘丘人、1只雷斧丘丘暴徒、1只盗宝团·斥候、1只盗宝团·神射手、1只盗宝团·海上男儿、1只野伏·阵刀番、2只电气骗骗花。",
+    "hash_res": "17736706",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4232.14,
+      "y": -3001.98
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4225.16,
+      "y": -2975.64
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4229.89,
+      "y": -2952.35
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4215.85,
+      "y": -2931.11
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.1),dash",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4214.44,
+      "y": -2931.09
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.1),dash",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4215.21,
+      "y": -2930.44
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.1),dash",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4214.69,
+      "y": -2929.59
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -4209.39,
+      "y": -2922.88
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4209.39,
+      "y": -2922.88
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4214.69,
+      "y": -2929.59
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4223.71,
+      "y": -2885.6
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4204.79,
+      "y": -2876.48
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4204.79,
+      "y": -2876.48
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4124.68,
+      "y": -2948.2
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4120.25,
+      "y": -2978.13
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -4120.25,
+      "y": -2978.13
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "info": {
+    "name": "纳塔-安饶之野-路线16-17",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750840318726
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10548.1015625,
+      "y": -3373.0888671875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 10600.4453125,
+      "y": -3361.03515625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 10627.861328125,
+      "y": -3380.3251953125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 10619.3203125,
+      "y": -3373.1708984375,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

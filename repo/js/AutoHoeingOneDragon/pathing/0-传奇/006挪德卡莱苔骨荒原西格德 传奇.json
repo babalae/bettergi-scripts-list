@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "思"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时139.76秒，包含以下怪物：3只精英传奇倍率二。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769415660410,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "006挪德卡莱苔骨荒原西格德 传奇",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9222.552735170353,
+      "y": 1894.3904553088596
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9178.999796243319,
+      "y": 1919.8147133079328
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1300",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9129.124874611272,
+      "y": 1943.3760845208872
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9089.830078125,
+      "y": 1962.0771484375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.1),keypress(f)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9080.4384765625,
+      "y": 1950.4921875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9079.688910461078,
+      "y": 1957.747457315174
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9079.688910461078,
+      "y": 1957.747457315174
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9079.688910461078,
+      "y": 1957.747457315174
+    }
+  ]
+}

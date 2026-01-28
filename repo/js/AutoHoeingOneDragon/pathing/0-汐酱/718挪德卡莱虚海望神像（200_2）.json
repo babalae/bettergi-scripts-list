@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时74.2秒，包含以下怪物：3只岩史莱姆、1只大型岩史莱姆、1只涌流·霜夜灵嗣、1只金礞·霜夜灵嗣。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768549777291,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "718挪德卡莱虚海望神像（200_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9634.921875,
+      "y": 4974.291015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9609.150390625,
+      "y": 5053.99609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9598.693359375,
+      "y": 5058.74755859375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9599.892578125,
+      "y": 5064.236328125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9599.892578125,
+      "y": 5064.236328125
+    }
+  ]
+}

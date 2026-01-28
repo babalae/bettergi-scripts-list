@@ -1,0 +1,130 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755959928307,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "003【激活程序】纳塔-鸡鸡",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7974.4345703125,
+      "y": -1564.3994140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 7973.87353515625,
+      "y": -1564.46728515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 7977.0908203125,
+      "y": -1569.8955078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7978.34375,
+      "y": -1573.4377102642538
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 7986.30126953125,
+      "y": -1588.294921875
+    },
+    {
+      "action": "set_time",
+      "action_params": "06:00",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7998.83056640625,
+      "y": -1611.9853515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8031.78125,
+      "y": -1646.9997454695877
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8054.437575051576,
+      "y": -1708.4374545261098
+    },
+    {
+      "action": "log_output",
+      "action_params": "\n[激活路径]激活\"超限点\"不是不捡。\n[激活路径]是缓捡，慢捡，优捡，有次序的捡，让有条件的先捡，让有需求的先捡，才能先捡带动后捡，也要具体情况具体捡，不管早捡晚捡，能捡的都是好捡。",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8057.00244140625,
+      "y": -1714.8203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 8057.1123046875,
+      "y": -1713.572265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.01),wait(0.35),keypress(f);爱可菲 j,wait(0.5);伊安珊 j,wait(0.5);卡齐娜 j,wait(0.5);阿蕾奇诺 j,wait(0.5);夏沃蕾 j,wait(0.5);米卡 j,wait(0.5);瑶瑶 j,wait(0.5);赛诺 j,wait(0.5);申鹤 j,wait(0.5);云堇 j,wait(0.5);托马 j,wait(0.5);雷电将军 j,wait(0.5);罗莎莉亚 j,wait(0.5);胡桃 j,wait(0.5);魈 j,wait(0.5);钟离 j,wait(0.5);香菱 j,wait(0.5);丝柯克 j,wait(0.5);希诺宁 j,wait(0.5);千织 j,wait(0.5);芙宁娜 j,wait(0.5);琳妮特 j,wait(0.5);绮良良 j,wait(0.5);艾尔海森 j,wait(0.5);莱依拉 j,wait(0.5);妮露 j,wait(0.5);久岐忍 j,wait(0.5);神里绫人 j,wait(0.5);神里绫华 j,wait(0.5);万叶 j,wait(0.5);阿贝多 j,wait(0.5);刻晴 j,wait(0.5);七七 j,wait(0.5);琴 j,wait(0.5);班尼特 j,wait(0.5);行秋 j,wait(0.5);凯亚 j,wait(0.5);玛薇卡 j,wait(0.5);基尼奇 j,wait(0.5);嘉明 j,wait(0.5);娜维娅 j,wait(0.5);多莉 j,wait(0.5);荒泷一斗 j,wait(0.5);早柚 j,wait(0.5);迪卢克 j,wait(0.5);重云 j,wait(0.5);诺艾尔 j,wait(0.5);北斗 j,wait(0.5);雷泽 j,wait(0.5);迪希雅 j,wait(0.5);wait(0.5),attack(0.22),j,wait(0.8),keypress(f),attack(0.22),j,wait(0.8),attack(0.22),j,wait(1.5),keypress(f),wait(0.2),keypress(f),wait(0.15),keypress(f),keydown(s),wait(0.01),dash,wait(0.5),keypress(f),keyup(s),keyup(s),s(0.2)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8057.00244140625,
+      "y": -1714.8203125
+    },
+    {
+      "action": "log_output",
+      "action_params": "\n[激活路径]激活\"超限点\"不是不捡。\n[激活路径]是缓捡，慢捡，优捡，有次序的捡，让有条件的先捡，让有需求的先捡，才能先捡带动后捡，也要具体情况具体捡，不管早捡晚捡，能捡的都是好捡。",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8057.00244140625,
+      "y": -1714.8203125
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+[
+    {
+        "name": "partyName",
+        "type": "input-text",
+        "label": "(选填)需要领取双倍好感的队伍名称"
+    },
+    {
+        "name": "appointFriendName",
+        "type": "input-text",
+        "label": "(选填)指定好友名称"
+    },
+    {
+        "name": "request_times",
+        "type": "input-text",
+        "label": "(选填)申请好友数，需小于等于7，不支持翻页"
+    },{
+        "name": "removedCharacters4",
+        "type": "checkbox",
+        "label": "让4号位角色离队"
+    },
+    {
+        "name": "removedCharacters3",
+        "type": "checkbox",
+        "label": "让3号位角色离队"
+    },
+    {
+        "name": "removedCharacters2",
+        "type": "checkbox",
+        "label": "让2号位角色离队"
+    },
+    {
+        "name": "removedCharacters1",
+        "type": "checkbox",
+        "label": "让1号位角色离队"
+    },
+    {
+        "name": "disableGoStatue",
+        "type": "checkbox",
+        "label": "关闭前往七天神像"
+    },
+    {
+        "name": "disableNotice",
+        "type": "checkbox",
+        "label": "关闭双人队伍提醒"
+    },
+    {
+        "name": "enableDebug",
+        "type": "checkbox",
+        "label": "开启Debug模式(队伍识别输出所有内容)"
+    }
+]

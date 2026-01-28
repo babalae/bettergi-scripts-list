@@ -1,0 +1,105 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时85.72秒，包含以下怪物：1只黑蛇骑士·斩风之剑。",
+    "enable_monster_loot_split": false,
+    "hash_res": "58938884",
+    "last_modified_time": 1769079218577,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "246璃月层岩地下狭光道西（600_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1207.14,
+      "y": 508.6399999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1201.25,
+      "y": 523.3699999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1161.591064453125,
+      "y": 510.2294921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1150.7880859375,
+      "y": 453.1937255859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1141.8287353515625,
+      "y": 425.6412353515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1133.6722412109375,
+      "y": 375.852783203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1115.956787109375,
+      "y": 368.720458984375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1068.55,
+      "y": 377.52
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 1068.55,
+      "y": 377.52
+    }
+  ]
+}

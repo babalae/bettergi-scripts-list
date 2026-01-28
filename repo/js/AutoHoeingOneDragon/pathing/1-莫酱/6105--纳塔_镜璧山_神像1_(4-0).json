@@ -1,0 +1,76 @@
+{
+  "info": {
+    "author": "Demo&汐&mno",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      },
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时50.95秒，包含以下怪物：1只暝视龙武士·寒涌持者、2只暝视龙。",
+    "enable_monster_loot_split": false,
+    "hash_res": "46732993",
+    "last_modified_time": 1768311854452,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6105--纳塔_镜璧山_神像1_(4-0)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.4"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9481.56,
+      "y": -1931.47
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9461.388671875,
+      "y": -1947.333984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9403.63,
+      "y": -1958.12
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9379.8,
+      "y": -1970.64
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9379.8,
+      "y": -1970.64
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时56.1秒，包含以下怪物：1只幼岩龙蜥、1只岩龙蜥。",
+    "hash_res": "01936902",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763153254528,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "215璃月奥藏山下（600_1，200_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1602.04,
+      "y": 1039.77
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1629.5,
+      "y": 1042.5
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "4300",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1647,
+      "y": 1055.25
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1649,
+      "y": 1065.75
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1641.13,
+      "y": 1097.81
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1641.13,
+      "y": 1097.81
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时124.32秒，包含以下怪物：0.5只镀金旅团·机弩兵、1.5只镀金旅团·鸦喙戟手、2只镀金旅团·破阵者、1只镀金旅团·沙中净水、0.5只镀金旅团·白日鸣雷。",
+    "enable_monster_loot_split": false,
+    "hash_res": "98829091",
+    "last_modified_time": 1768055616521,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "4301须弥铁穆山",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6161.0068359375,
+      "y": 2.13330078125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6077.802734375,
+      "y": 90.20263671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6077.802734375,
+      "y": 90.20263671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6075.087890625,
+      "y": 101.52587890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6065.85693359375,
+      "y": 196.60888671875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6083.55859375,
+      "y": 201.73681640625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6083.55859375,
+      "y": 201.73681640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 6083.55859375,
+      "y": 201.73681640625
+    }
+  ]
+}

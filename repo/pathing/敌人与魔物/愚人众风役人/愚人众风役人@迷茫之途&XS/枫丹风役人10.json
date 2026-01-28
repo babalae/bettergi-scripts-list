@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "枫丹风役人10",
+    "type": "collect",
+    "version": "1.0",
+    "description": "第一个点位高危",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "XS",
+        "links": "https://github.com/xwsqy6"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3919.09,
+      "y": 2570.76,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3905.05,
+      "y": 2530.5,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3891.56,
+      "y": 2526.5,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3872.32,
+      "y": 2492.75,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3936.29,
+      "y": 2399.0,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3944.21,
+      "y": 2395.29,
+      "action": "fight",
+      "move_mode": "climb",
+      "type": "target"
+    }
+  ]
+}

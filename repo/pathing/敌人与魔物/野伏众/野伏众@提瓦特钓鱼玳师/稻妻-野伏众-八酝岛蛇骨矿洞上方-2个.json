@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-八酝岛蛇骨矿洞上方-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "野伏众-2个\n稻妻-八酝岛蛇骨矿洞上方",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2404.62,
+      "y": -3921.96,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2401.78,
+      "y": -3927.29,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2369.76,
+      "y": -3982.82,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -2369.51,
+      "y": -3983.0,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2325.98,
+      "y": -4000.32,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2301.25,
+      "y": -3979.25,
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "诺艾尔-2",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "做完后去琴的办公室有彩蛋",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -749.4111328125,
+      "y": 2263.08544921875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -744.416015625,
+      "y": 2261.203857421875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -738.1484375,
+      "y": 2265.43408203125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -737.5205078125,
+      "y": 2265.90185546875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": ""
+    }
+  ]
+}

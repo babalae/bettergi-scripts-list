@@ -1,0 +1,96 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时77.08秒，包含以下怪物：2只打手丘丘人、1只木盾丘丘人、2只雷箭丘丘人、1只丘丘雷兜王、1只愚人众·冰萤术士。",
+    "enable_monster_loot_split": false,
+    "hash_res": "93649028",
+    "last_modified_time": 1768830630025,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "312-1稻妻清赖丸（600_1，200_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3684.81,
+      "y": -4278.52
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3689.65,
+      "y": -4290.01
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3697.88,
+      "y": -4328.07
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3686.68,
+      "y": -4360.99
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -3697.25,
+      "y": -4353.51
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3697.25,
+      "y": -4353.51
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3661.41,
+      "y": -4391.4
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 8,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": -3661.41,
+      "y": -4391.4
+    }
+  ]
+}

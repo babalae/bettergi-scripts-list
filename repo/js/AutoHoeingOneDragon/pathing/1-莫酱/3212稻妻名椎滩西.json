@@ -1,0 +1,82 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时74.4秒，包含以下怪物：3只水史莱姆、1只大型水史莱姆、1只野伏·阵刀番、3只野伏·火伏番、2只野伏·机巧番。",
+    "enable_monster_loot_split": false,
+    "hash_res": "12804434",
+    "last_modified_time": 1767881216966,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3212稻妻名椎滩西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2533.37,
+      "y": -3539.67
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2525.54,
+      "y": -3577.18
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2499.12109375,
+      "y": -3562.130859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2499.12109375,
+      "y": -3562.130859375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2424.517578125,
+      "y": -3586.0126953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -2424.517578125,
+      "y": -3586.0126953125
+    }
+  ]
+}

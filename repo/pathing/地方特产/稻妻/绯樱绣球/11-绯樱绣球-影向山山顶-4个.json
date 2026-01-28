@@ -1,0 +1,116 @@
+{
+  "info": {
+    "name": "11-绯樱绣球-影向山山顶-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4375.73,
+      "y": -2498.13,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4395.45,
+      "y": -2504.42,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4450.85,
+      "y": -2586.64,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -4454.95,
+      "y": -2586.98,
+      "action": "",
+      "move_mode": "climb",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -4455.75,
+      "y": -2587.43,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -4463.11,
+      "y": -2585.75,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -4468.08,
+      "y": -2586.83,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": -4466.47,
+      "y": -2594.66,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -4465.27,
+      "y": -2597.38,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": -4501.61,
+      "y": -2606.11,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "3200"
+    },
+    {
+      "id": 11,
+      "x": -4494.74,
+      "y": -2627.58,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1200"
+    },
+    {
+      "id": 12,
+      "x": -4487.48,
+      "y": -2628.9,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "electro_collect",
+      "action_params": ""
+    }
+  ]
+}

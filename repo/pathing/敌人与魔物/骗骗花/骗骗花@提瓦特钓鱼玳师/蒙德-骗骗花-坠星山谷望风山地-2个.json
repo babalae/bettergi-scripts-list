@@ -1,0 +1,121 @@
+{
+  "info": {
+    "name": "蒙德-骗骗花-坠星山谷望风山地-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-2个\n蒙德-坠星山谷望风山地\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1273.47,
+      "y": 2722.32,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1260.5,
+      "y": 2806.0,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1191.0,
+      "y": 2805.47,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": ",wait(0.1),keypress(f),dash",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -1191.0,
+      "y": 2805.47,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": ",wait(0.1),keypress(f),dash",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": -1191.0,
+      "y": 2805.47,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": ",wait(0.1),keypress(f),dash",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": -1193.5,
+      "y": 2808.13,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": ",wait(0.1),keypress(f),dash",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": -1189.0,
+      "y": 2808.13,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": -1212.98,
+      "y": 2844.01,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -1316.5,
+      "y": 2824.91,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -1350.5,
+      "y": 2928.96,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -1405.0,
+      "y": 2914.5,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

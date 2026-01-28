@@ -1,0 +1,175 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766944259759,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "229璃月-沉玉谷灵濛山书洞3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2025.10546875,
+      "y": 2183.382568359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2040.6025390625,
+      "y": 2169.505859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2060.2666015625,
+      "y": 2148.042236328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.3),dash,wait(1),dash,keyup(w),wait(0.8)",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2075.90234375,
+      "y": 2155.22314453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2100.7666015625,
+      "y": 2166.894287109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2100.7666015625,
+      "y": 2166.894287109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2097.181640625,
+      "y": 2196.9970703125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 8,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 2097.181640625,
+      "y": 2196.9970703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2119.8115234375,
+      "y": 2169.616455078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 2124.62890625,
+      "y": 2160.67041015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2119.4296875,
+      "y": 2158.104248046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),s(0.25);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 12,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 2116.7509765625,
+      "y": 2160.477783203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2106.375082951741,
+      "y": 2149.5627576853785
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2103.498046875,
+      "y": 2133.800537109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 2095.51953125,
+      "y": 2130.031005859375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),s(0.15);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 16,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 2090.8876953125,
+      "y": 2131.40478515625
+    },
+    {
+      "action": "set_time",
+      "action_params": "06:00",
+      "id": 17,
+      "move_mode": "climb",
+      "type": "orientation",
+      "x": 2090.8876953125,
+      "y": 2131.40478515625
+    }
+  ]
+}

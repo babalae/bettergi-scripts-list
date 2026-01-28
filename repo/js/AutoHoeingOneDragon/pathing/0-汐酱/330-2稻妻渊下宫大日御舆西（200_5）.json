@@ -1,0 +1,86 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时114.89秒，包含以下怪物：2只丘丘人、3只冲锋丘丘人、1只火箭丘丘人、2只冰箭丘丘人、1只火斧丘丘暴徒、1只雷斧丘丘暴徒、3只遗迹守卫。",
+    "enable_monster_loot_split": false,
+    "hash_res": "91626154",
+    "last_modified_time": 1768836694984,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "330-2稻妻渊下宫大日御舆西（200_5）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 378.142333984375,
+      "y": 370.7635498046875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 368.4268798828125,
+      "y": 355.16845703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 379.9849853515625,
+      "y": 335.6297607421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3),wait(3)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 389.6138916015625,
+      "y": 298.322265625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 389.6138916015625,
+      "y": 298.322265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 372.91943359375,
+      "y": 107.244384765625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 362.1250079001659,
+      "y": 149.49890862663074
+    }
+  ]
+}

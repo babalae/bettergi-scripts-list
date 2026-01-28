@@ -1,0 +1,223 @@
+{
+  "info": {
+    "name": "308稻妻水月池（200_8）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时281.79秒，包含以下怪物：1只愚人众·藏镜仕女、2只遗迹巡弋者、2只遗迹歼击者、2只遗迹防卫者、1只遗迹侦察者、1.5只野伏·火伏番。",
+    "hash_res": "47479348",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1133.87,
+      "y": -3605.18,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1138.82,
+      "y": -3596.62,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),w(0.4),keypress(f),wait(1),keypress(t),wait(0.5),keypress(t),wait(0.5),keypress(t),wait(0.5)",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": -1156.88,
+      "y": -3588.75,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1169.24,
+      "y": -3576.28,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1182.75,
+      "y": -3562.38,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1191.74,
+      "y": -3575.15,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(7)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1188.77,
+      "y": -3595.39,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": -1188.77,
+      "y": -3595.39,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -1180.56,
+      "y": -3573.06,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -1176.25,
+      "y": -3568.88,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -1154.41,
+      "y": -3556.72,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -1140.71,
+      "y": -3545.89,
+      "action": "fight",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -1143.71,
+      "y": -3547.89,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -1129.75,
+      "y": -3530.63,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -1108.5,
+      "y": -3500.25,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -1106.5,
+      "y": -3528.87,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -1101.34,
+      "y": -3520.62,
+      "action": "fight",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -1095.84,
+      "y": -3577.13,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": -1097,
+      "y": -3637,
+      "action": "fight",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": -1056.12,
+      "y": -3657.63,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": -1011.44,
+      "y": -3662.69,
+      "action": "fight",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": -1314.36,
+      "y": -3774.54,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 23,
+      "x": -1340,
+      "y": -3783.63,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

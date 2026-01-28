@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时103.55秒，包含以下怪物：4只深黯钓客、1只金礞·霜夜灵嗣。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768549941728,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "731挪德卡莱特辖地研究所（200_5）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9546.841796875,
+      "y": 6261.09375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9594.4599609375,
+      "y": 6229.8349609375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9589.8134765625,
+      "y": 6223.6494140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9611.1318359375,
+      "y": 6245.7431640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-800),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9628.5908203125,
+      "y": 6257.1748046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9645.3115234375,
+      "y": 6278.91796875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9604.349609375,
+      "y": 6353.9892578125
+    }
+  ]
+}

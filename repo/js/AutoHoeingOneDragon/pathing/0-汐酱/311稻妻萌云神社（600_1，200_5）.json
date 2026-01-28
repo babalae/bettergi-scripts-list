@@ -1,0 +1,150 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时144.55秒，包含以下怪物：2只木盾丘丘人、2只雷斧丘丘暴徒、1只丘丘雷兜王、1只水丘丘萨满、2只雷深渊法师、1只遗迹侦察者。",
+    "hash_res": "62061409",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763193030159,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "311稻妻萌云神社（600_1，200_5）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -575.2099999999991,
+      "y": -3832.1800000000003
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -562.9900000000016,
+      "y": -3820.880000000001
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -528.2099999999991,
+      "y": -3785.1900000000005
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -520,
+      "y": -3774.5599999999995
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -502.15999999999985,
+      "y": -3770.74
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -488.33000000000175,
+      "y": -3780.08
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -465.08000000000175,
+      "y": -3803.619999999999
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -467.0400000000009,
+      "y": -3797.24
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -453.47999999999956,
+      "y": -3814.34
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -430.1899999999987,
+      "y": -3866.4799999999996
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -429.630000000001,
+      "y": -3873.84
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -456.6328125,
+      "y": -3981.3984375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -441.908203125,
+      "y": -3984.443359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -441.908203125,
+      "y": -3984.443359375
+    }
+  ]
+}

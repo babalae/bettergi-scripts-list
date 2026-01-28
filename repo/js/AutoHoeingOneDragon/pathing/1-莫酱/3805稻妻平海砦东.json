@@ -1,0 +1,109 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时90.79秒，包含以下怪物：1只盗宝团·火之药剂师、1只盗宝团·雷之药剂师、2只野伏·阵刀番、3只野伏·火伏番、1只野伏·机巧番、1只海乱鬼·雷腾。",
+    "enable_monster_loot_split": false,
+    "hash_res": "52724455",
+    "last_modified_time": 1767967822175,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3805稻妻平海砦东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4443.84,
+      "y": -4290.4
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4429.6640625,
+      "y": -4285.833984375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4431.064453125,
+      "y": -4260.091796875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -4431.064453125,
+      "y": -4260.091796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4443.830000000002,
+      "y": -4290.380000000001
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4465.96484375,
+      "y": -4285.30078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4500.810546875,
+      "y": -4253.0673828125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4502.369140625,
+      "y": -4274.9599609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -4502.369140625,
+      "y": -4274.9599609375
+    }
+  ]
+}

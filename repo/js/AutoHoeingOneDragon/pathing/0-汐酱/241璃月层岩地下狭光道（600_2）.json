@@ -1,0 +1,114 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时101.96秒，包含以下怪物：1只黯色空壳·破阵、1只岩龙蜥。",
+    "enable_monster_loot_split": false,
+    "hash_res": "81632740",
+    "last_modified_time": 1768135478391,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "241璃月层岩地下狭光道（600_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 808.73,
+      "y": 339.3899999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 814.0700000000002,
+      "y": 294.6399999999999
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 818.71,
+      "y": 293.3899999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 808.73,
+      "y": 339.3899999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 783.7510288065844,
+      "y": 314
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 772.9896501454796,
+      "y": 302.5780029296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 762.228271484375,
+      "y": 291.156005859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 726.5004115226338,
+      "y": 321.25
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 733.870849609375,
+      "y": 352.2474365234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 733.870849609375,
+      "y": 352.2474365234375
+    }
+  ]
+}

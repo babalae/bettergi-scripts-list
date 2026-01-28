@@ -1,0 +1,85 @@
+﻿{
+  "info": {
+    "name": "冒险家，安娜！-蒙德城-3",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755183821339,
+    "authors": [
+      {
+        "name": "11",
+        "links": ""
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1345.2544483772472,
+      "y": 2291.002019212854,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 2,
+      "x": -1364.53125,
+      "y": 2306.401611328125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1366.7783203125,
+      "y": 2332.82421875,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1367.0439453125,
+      "y": 2342.846435546875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack,wait(0.52),attack(4.5),",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1367.0439453125,
+      "y": 2342.846435546875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack,wait(0.52),attack(4.5),",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1388.044921875,
+      "y": 2346.076171875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1388.52734375,
+      "y": 2352.74365234375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

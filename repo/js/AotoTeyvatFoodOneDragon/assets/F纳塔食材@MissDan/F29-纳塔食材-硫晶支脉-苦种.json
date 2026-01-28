@@ -1,0 +1,54 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759831010070,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F29-纳塔食材-硫晶支脉-苦种",
+    "tags": [],
+    "type": "collect",
+    "version": "2.11"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 8258.41,
+      "y": -1744.65
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8261.42,
+      "y": -1746.67
+    },
+    {
+      "action": "stop_flying",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8285.82,
+      "y": -1757.35
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 8292.56,
+      "y": -1763.97
+    }
+  ]
+}

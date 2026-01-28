@@ -1,0 +1,60 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时81.81秒，包含以下怪物：4只荒野幽徒、3只深黯钓客。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768461642166,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "734挪德卡莱苦壑崖西南（200_7）",
+    "tags": [
+      "环境伤害"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10101.953125,
+      "y": 6343.52734375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10085.86328125,
+      "y": 6323.455078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10085.86328125,
+      "y": 6323.455078125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10096.265625,
+      "y": 6282.3603515625
+    }
+  ]
+}

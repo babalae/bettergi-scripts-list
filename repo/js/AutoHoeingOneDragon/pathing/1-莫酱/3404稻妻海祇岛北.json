@@ -1,0 +1,181 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时138.85秒，包含以下怪物：1只愚人众先遣队·火统游击兵、1只愚人众先遣队·雷锤前锋军、1只愚人众先遣队·岩使游击兵、2只野伏·火伏番、1只炽热骗骗花、1只电气骗骗花、1只冰霜骗骗花。",
+    "enable_monster_loot_split": false,
+    "hash_res": "32378526",
+    "last_modified_time": 1767959155728,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "3404稻妻海祇岛北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -765.3899999999994,
+      "y": -3557.8899999999994
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -724.232421875,
+      "y": -3559.9453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -679.337890625,
+      "y": -3570.259765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -658.4300000000003,
+      "y": -3560.9699999999993
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.05),keypress(f),keydown(w),dash",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "orientation",
+      "x": -642.609375,
+      "y": -3590.6865234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -642.609375,
+      "y": -3590.6865234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -632.75390625,
+      "y": -3595.728515625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -652.2000000000007,
+      "y": -3581.4400000000005
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -652.2000000000007,
+      "y": -3581.4400000000005
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -609.72265625,
+      "y": -3574.0498046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.05),keypress(f),keydown(w),dash,keypress(f),wait(0.05),keypress(f),wait(0.05),keypress(f),keyup(w),wait(0.05),keypress(f)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -604.908203125,
+      "y": -3574.5341796875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.05),keypress(f),wait(0.05),keypress(f),dash",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -606.9609375,
+      "y": -3569.87109375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -610.14453125,
+      "y": -3563.56640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -610.14453125,
+      "y": -3563.56640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -620.4700000000012,
+      "y": -3534.119999999999
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -638.9199999999983,
+      "y": -3531.630000000001
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -638.9199999999983,
+      "y": -3531.630000000001
+    }
+  ]
+}

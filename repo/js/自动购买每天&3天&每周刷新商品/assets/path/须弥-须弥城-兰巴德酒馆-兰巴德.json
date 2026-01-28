@@ -1,0 +1,44 @@
+﻿{
+  "info": {
+    "name": "兰巴德",
+    "type": "collect",
+    "authors": [],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755878101790,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2786.9990234375,
+      "y": -503.1044921875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2792.552734375,
+      "y": -494.91552734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2807.626953125,
+      "y": -485.35498046875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(F),wait(7.5),a(3),keydown(W),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keyup(W),wait(0.5),keydown(D),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keyup(D),wait(1.5)"
+    }
+  ]
+}
