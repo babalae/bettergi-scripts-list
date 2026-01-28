@@ -1047,7 +1047,7 @@ async function runPath(fullPath, map_name, pm, pe) {
 
     /* ---------- 伴随任务 ---------- */
     const pickupTask = (async () => {
-        if (pickup_Mode != "不拾取任何物品") {
+        if (pickup_Mode.includes("模板匹配")) {
             await recognizeAndInteract();
         }
     })();
@@ -1135,7 +1135,7 @@ async function runPath(fullPath, map_name, pm, pe) {
             return maxMatch / len;
         }
 
-        if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料" || pickup_Mode === "模板匹配拾取，只拾取狗粮") {
+        if (pickup_Mode.includes("模板匹配")) {
             while (state.running) {
                 await sleep(1500);
                 if (await checkItemFull()) {
@@ -1241,7 +1241,7 @@ async function recognizeAndInteract() {
         }
 
         let foundTarget = false;
-        if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料" || pickup_Mode === "模板匹配拾取，只拾取狗粮") {
+        if (pickup_Mode.includes("模板匹配")) {
             let time1 = new Date();
             itemName = await performTemplateMatch(centerYF);
             let time2 = new Date();
