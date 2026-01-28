@@ -2080,7 +2080,7 @@ async function findAndClick(target, doClick = true, maxAttempts = 60) {
         const rg = captureGameRegion();
         try {
             const res = rg.find(target);
-            if (res.isExist()) { await sleep(checkInterval * 2 + 50); if (doClick) { res.click(); }await sleep(50); return true; }
+            if (res.isExist()) { await sleep(checkInterval * 2 + 50); if (doClick) { res.click(); } await sleep(50); return true; }
         } finally { rg.dispose(); }
         if (i < maxAttempts - 1) await sleep(checkInterval);
     }
@@ -2129,7 +2129,7 @@ function isArrivedAtEndPoint(fullPath) {
         }
         /* 3. 曼哈顿距离 ≤30 视为到达 */
         return pathres;
-    } catch (e) {
+    } catch (error) {
         /* 任何异常（读盘失败、解析失败、API 异常）都算“未到达” */
         log.warn(`出现异常${error.message},不记录cd`);
         return false;
