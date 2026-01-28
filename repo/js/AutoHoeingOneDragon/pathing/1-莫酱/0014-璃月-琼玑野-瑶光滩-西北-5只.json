@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -50,9 +50,18 @@
       "y": 497.1870301031331
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -120.62494469884041,
+      "y": 497.1870301031331
+    },
+    {
       "action": "combat_script",
       "action_params": "keypress(f);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
-      "id": 4,
+      "id": 5,
       "move_mode": "dash",
       "type": "path",
       "x": -116.6953125,
@@ -61,7 +70,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "dash",
       "type": "path",
       "x": -142.755859375,
@@ -70,9 +79,18 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 6,
+      "id": 7,
       "move_mode": "dash",
       "type": "path",
+      "x": -130.66796875,
+      "y": 396.58203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": -130.66796875,
       "y": 396.58203125
     }

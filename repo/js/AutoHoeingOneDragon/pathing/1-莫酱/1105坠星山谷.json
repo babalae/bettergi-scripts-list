@@ -7,7 +7,7 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时20秒，包含以下怪物：1只火史莱姆、2只大型雷史莱姆、",
+    "description": "  路线信息：该路线预计用时20秒，包含以下怪物：1只火史莱姆、2只大型雷史莱姆。",
     "enable_monster_loot_split": false,
     "last_modified_time": 1769527364506,
     "map_match_method": "",
@@ -42,6 +42,15 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
+      "x": -1573.69140625,
+      "y": 1984.974609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": -1573.69140625,
       "y": 1984.974609375
     }

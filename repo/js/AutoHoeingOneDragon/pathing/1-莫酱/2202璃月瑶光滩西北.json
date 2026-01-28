@@ -53,6 +53,15 @@
       "action": "",
       "action_params": "",
       "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -37.076171875,
+      "y": 472.9541015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
       "move_mode": "jump",
       "type": "path",
       "x": -33.109375,
@@ -61,7 +70,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "dash",
       "type": "path",
       "x": -26.060546875,
@@ -70,7 +79,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 6,
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -26.060546875,
+      "y": 430.9765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
       "move_mode": "dash",
       "type": "path",
       "x": -37.29296875,
@@ -79,8 +97,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 7,
-      "locked": false,
+      "id": 9,
       "move_mode": "dash",
       "type": "path",
       "x": -72.193359375,
@@ -89,7 +106,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 8,
+      "id": 10,
       "move_mode": "dash",
       "type": "path",
       "x": -72.193359375,
@@ -98,7 +115,16 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 9,
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -70.466796875,
+      "y": 402.421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
       "move_mode": "dash",
       "type": "path",
       "x": -70.466796875,
@@ -107,7 +133,7 @@
     {
       "action": "combat_script",
       "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
-      "id": 10,
+      "id": 13,
       "move_mode": "dash",
       "type": "path",
       "x": -83.36328125,
@@ -116,9 +142,18 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 11,
+      "id": 14,
       "move_mode": "dash",
       "type": "path",
+      "x": -126.033203125,
+      "y": 362.34912109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": -126.033203125,
       "y": 362.34912109375
     }

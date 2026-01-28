@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -67,7 +67,6 @@
       "action": "fight",
       "action_params": "",
       "id": 6,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": -228.539794921875,
@@ -77,7 +76,6 @@
       "action": "fight",
       "action_params": "",
       "id": 7,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": -228.539794921875,
@@ -85,7 +83,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1)",
+      "action_params": "wait(1)",
       "id": 8,
       "move_mode": "dash",
       "type": "orientation",
