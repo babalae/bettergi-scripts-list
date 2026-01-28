@@ -228,7 +228,6 @@ async function runGroupPurchasing(runExtra) {
         groupNumBer = forceGroupNumber;
         log.info(`将自己在队伍中的编号强制指定为${groupNumBer}`);
     }
-
     if (groupNumBer === 1) {
         log.info("是1p，检测当前总人数");
         const totalNumber = await findTotalNumber();
@@ -365,8 +364,8 @@ async function runGroupPurchasing(runExtra) {
             }
 
             const template = file.ReadImageMatSync(tplPath);
-            const recognitionObj = RecognitionObject.TemplateMatch(template, 0, 0, 1920, 1080); // 全屏查找，可自行改区域
-            if (await findAndClick(recognitionObj, 5)) await sleep(1000);
+            const recognitionObj = RecognitionObject.TemplateMatch(template, 0, 0, 1920, 1080);
+            if (await findAndClick(recognitionObj, false, 2000)) await sleep(1000);
 
             await genshin.moveMapTo(Math.round(point.x), Math.round(point.y));
 
@@ -521,7 +520,7 @@ async function runGroupPurchasing(runExtra) {
         }
 
         const folderPath = `assets/ArtifactsPath/${folderName}/执行`;
-        const files = await readFolder(folderPath, true);
+        const files = await readFolder(folderPath, ".json");
 
         if (files.length === 0) {
             log.warn(`文件夹 ${folderPath} 下未找到任何 JSON 路线文件`);
@@ -544,7 +543,7 @@ async function runGroupPurchasing(runExtra) {
     async function runExtraPath() {
 
         const folderPath = `assets/ArtifactsPath/额外/执行`;
-        const files = await readFolder(folderPath, true);
+        const files = await readFolder(folderPath, ".json");
 
         if (files.length === 0) {
             log.warn(`文件夹 ${folderPath} 下未找到任何 JSON 路线文件`);
@@ -588,7 +587,7 @@ async function runGroupPurchasing(runExtra) {
         }
 
         const folderPath = `assets/ArtifactsPath/${folderName}/占位`;
-        const files = await readFolder(folderPath, true);
+        const files = await readFolder(folderPath, ".json");
 
         if (files.length === 0) {
             log.warn(`文件夹 ${folderPath} 下未找到任何 JSON 路线文件`);
@@ -656,7 +655,7 @@ async function autoEnter(autoEnterSettings) {
     log.info(`当前模式为：${enterMode}`);
 
     // 加载目标 PNG
-    const targetPngs = await readFolder(targetsPath, false);
+    const targetPngs = await readFolder(targetsPath, ".png");
     for (const f of targetPngs) {
         if (!f.fullPath.endsWith('.png')) continue;
         const mat = file.ReadImageMatSync(f.fullPath);
@@ -837,27 +836,72 @@ async function switchPartyIfNeeded(partyName) {
     }
 }
 
-async function findAndClick(target, maxAttempts = 20) {
-    for (let attempts = 0; attempts < maxAttempts; attempts++) {
-        const gameRegion = captureGameRegion();
-        try {
-            const result = gameRegion.find(target);
-            if (result.isExist()) {
-                await sleep(250);
-                result.click();
-                await sleep(50);
-                return true;                 // 成功立刻返回
+/**
+ * 通用找图/找RO并可选点击（支持单图片文件路径、单RO、图片文件路径数组、RO数组）
+ * @param {string|string[]|RecognitionObject|RecognitionObject[]} target
+ * @param {boolean}  [doClick=true]                是否点击
+ * @param {number}   [timeout=3000]                识别时间上限（ms）
+ * @param {number}   [interval=50]                 识别间隔（ms）
+ * @param {number}   [retType=0]                   0-返回布尔；1-返回 Region 结果
+ * @param {number}   [preClickDelay=50]            点击前等待
+ * @param {number}   [postClickDelay=50]           点击后等待
+ * @returns {boolean|Region}  根据 retType 返回是否成功或最终 Region
+ */
+async function findAndClick(target,
+    doClick = true,
+    timeout = 3000,
+    interval = 50,
+    retType = 0,
+    preClickDelay = 50,
+    postClickDelay = 50) {
+    try {
+        // 1. 统一转成 RecognitionObject 数组
+        let ros = [];
+        if (Array.isArray(target)) {
+            ros = target.map(t =>
+                (typeof t === 'string')
+                    ? RecognitionObject.TemplateMatch(file.ReadImageMatSync(t))
+                    : t
+            );
+        } else {
+            ros = [(typeof target === 'string')
+                ? RecognitionObject.TemplateMatch(file.ReadImageMatSync(target))
+                : target];
+        }
+
+        const start = Date.now();
+        let found = null;
+
+        while (Date.now() - start <= timeout) {
+            const gameRegion = captureGameRegion();
+            try {
+                // 依次尝试每一个 ro
+                for (const ro of ros) {
+                    const res = gameRegion.find(ro);
+                    if (!res.isEmpty()) {          // 找到
+                        found = res;
+                        if (doClick) {
+                            await sleep(preClickDelay);
+                            res.click();
+                            await sleep(postClickDelay);
+                        }
+                        break;                     // 成功即跳出 for
+                    }
+                }
+                if (found) break;                  // 成功即跳出 while
+            } finally {
+                gameRegion.dispose();
             }
-        } catch (err) {
-        } finally {
-            gameRegion.dispose();
+            await sleep(interval);                 // 没找到时等待
         }
-        if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
-            await sleep(250);
-        }
+
+        // 3. 按需返回
+        return retType === 0 ? !!found : (found || null);
+
+    } catch (error) {
+        log.error(`执行通用识图时出现错误：${error.message}`);
+        return retType === 0 ? false : null;
     }
-    //log.error("已达到重试次数上限，仍未找到目标");
-    return false;
 }
 
 //等待主界面状态
@@ -1180,42 +1224,21 @@ async function runPath(fullPath, targetItemPath) {
             if (errorCheckCount > 50) {
                 errorCheckCount = 0;
 
-                if (await findAndClick(revivalRo, 1)) {
+                if (await findAndClick(revivalRo, true, 2, 3)) {
                     log.info("识别到复苏按钮，点击复苏");
                     errorCheckCount = 50;
                 }
 
-                if (await findRo(readingRo, 1)) {
+                if (await findAndClick(readingRo, false, 2, 3)) {
                     log.info("识别到阅读界面，esc脱离");
                     await genshin.returnMainUi();
                     errorCheckCount = 50;
                 }
 
-                if (await findRo(dialogueRo, 1)) {
+                if (await findAndClick(dialogueRo, false, 2, 3)) {
                     log.info("识别到对话界面，点击进行对话");
                     click(960, 540);
                     errorCheckCount = 50;
-                }
-
-                async function findRo(target, maxAttempts = 20) {
-                    for (let attempts = 0; attempts < maxAttempts; attempts++) {
-                        const gameRegion = captureGameRegion();
-                        try {
-                            const result = gameRegion.find(target);
-                            if (result.isExist()) {
-                                await sleep(250);
-                                log.info("找到图标");
-                                return true;
-                            }
-                        } catch (err) {
-                        } finally {
-                            gameRegion.dispose();
-                        }
-                        if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
-                            await sleep(250);
-                        }
-                    }
-                    return false;
                 }
             }
         }
@@ -1228,7 +1251,7 @@ async function runPath(fullPath, targetItemPath) {
 //加载拾取物图片
 async function loadTargetItems() {
     const targetItemPath = 'assets/targetItems';   // 固定目录
-    const items = await readFolder(targetItemPath, false);
+    const items = await readFolder(targetItemPath, ".png");
     // 统一预加载模板
     for (const it of items) {
         it.template = file.ReadImageMatSync(it.fullPath);
@@ -1392,13 +1415,31 @@ async function processArtifacts() {
 
     async function decomposeArtifacts() {
         keyPress("B");
-        if (await findAndClick(outDatedRo, 5)) {
+        if (await findAndClick(outDatedRo, true, 1500)) {
             log.info("检测到过期物品弹窗，处理");
             await sleep(1000);
         }
-        await sleep(1000);
-        await click(670, 45);
+        let enterAttempts = 0;
         await sleep(500);
+        while (enterAttempts < 10) {
+            const type = "圣遗物";
+            const clicked = await findAndClick([
+                `assets/RecognitionObject/背包界面/${type}1.png`,
+                `assets/RecognitionObject/背包界面/${type}2.png`
+            ]);
+            if (clicked) break; // 找到并点击成功就退出循环
+            await sleep(750);
+            enterAttempts++;
+            await genshin.returnMainUi();
+            await sleep(100);
+            keyPress("B");
+        }
+        if (enterAttempts >= 10) {
+            log.warn("尝试十次未能成功进入背包界面");
+            notification.Send("尝试十次未能成功进入背包界面");
+            await genshin.returnMainUi();
+            return 0;
+        }
         if (!await findAndClick(decomposeRo)) {
             await genshin.returnMainUi();
             return 0;
@@ -1453,28 +1494,6 @@ async function processArtifacts() {
         await genshin.returnMainUi();
         return result;
     }
-
-    async function findAndClick(target, maxAttempts = 20) {
-        for (let attempts = 0; attempts < maxAttempts; attempts++) {
-            const gameRegion = captureGameRegion();
-            try {
-                const result = gameRegion.find(target);
-                if (result.isExist()) {
-                    await sleep(250);
-                    result.click();
-                    await sleep(50);
-                    return true;                 // 成功立刻返回
-                }
-            } catch (err) {
-            } finally {
-                gameRegion.dispose();
-            }
-            if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
-                await sleep(250);
-            }
-        }
-        return false;
-    }
 }
 
 async function mora() {
@@ -1482,31 +1501,30 @@ async function mora() {
     let result = 0;
     let tryTimes = 0;
     while (result === 0 && tryTimes < 3) {
+        log.info("开始尝试识别摩拉");
+        let enterAttempts = 0;
         await genshin.returnMainUi();
         await sleep(100);
-        log.info("开始尝试识别摩拉");
         keyPress("B");
-        await sleep(1500);
-        //切换到任务或养成道具
-        let startTime = Date.now();
-        while (Date.now() - startTime < 5000) {
-            // 尝试识别“任务”图标
-            const renwuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/renwu.png"));
-            let res = await findAndClick(renwuRo);
-            if (res) {
-                recognized = true;
-                break;
-            }
-
-            // 尝试识别“养成道具”文字
-            const yangchengdaojuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/yangchengdaoju.png"));
-            res = await findAndClick(yangchengdaojuRo);
-            if (res) {
-                recognized = true;
-                break;
-            }
-
-            await sleep(500); // 短暂延迟，避免过快循环
+        await sleep(500);
+        while (enterAttempts < 10) {
+            const type = "养成道具";
+            const clicked = await findAndClick([
+                `assets/RecognitionObject/背包界面/${type}1.png`,
+                `assets/RecognitionObject/背包界面/${type}2.png`
+            ]);
+            if (clicked) break; // 找到并点击成功就退出循环
+            await sleep(750);
+            enterAttempts++;
+            await genshin.returnMainUi();
+            await sleep(100);
+            keyPress("B");
+        }
+        if (enterAttempts >= 10) {
+            log.warn("尝试十次未能成功进入背包界面");
+            notification.Send("尝试十次未能成功进入背包界面");
+            await genshin.returnMainUi();
+            return 0;
         }
 
         let moraRes = 0;
@@ -1530,7 +1548,7 @@ async function mora() {
             gameRegion.dispose();
         }
 
-        moraRes = await numberTemplateMatch("assets/背包摩拉数字", moraX, moraY, 300, 40);
+        moraRes = await numberTemplateMatch("assets/背包摩拉数字", moraX, moraY, 300, 40, 0.95, 0.85, 10);
 
         if (moraRes >= 0) {
             log.info(`成功识别到摩拉数值: ${moraRes}`);

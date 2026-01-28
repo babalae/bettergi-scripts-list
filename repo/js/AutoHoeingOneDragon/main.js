@@ -954,9 +954,13 @@ async function runPath(fullPath, map_name, pm, pe) {
             lastEatBuff = new Date();
             await genshin.returnMainUi();
             keyPress("B");
-            await findAndClick("assets/料理界面.png");
+            await sleep(300);
+            let type = "食物"
+            await findAndClick([`assets/RecognitionObject/背包界面/${type}1.png`, `assets/RecognitionObject/背包界面/${type}2.png`]);
+            await sleep(300);
             // 2. 遍历数组，逐项执行
             for (const item of res) {
+                await sleep(300);
                 await findAndClick(['assets/筛选1.png', 'assets/筛选2.png']);
                 await findAndClick("assets/重置.png");
                 await sleep(500);
@@ -1043,7 +1047,7 @@ async function runPath(fullPath, map_name, pm, pe) {
 
     /* ---------- 伴随任务 ---------- */
     const pickupTask = (async () => {
-        if (pickup_Mode != "不拾取任何物品") {
+        if (pickup_Mode.includes("模板匹配")) {
             await recognizeAndInteract();
         }
     })();
@@ -1131,7 +1135,7 @@ async function runPath(fullPath, map_name, pm, pe) {
             return maxMatch / len;
         }
 
-        if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料" || pickup_Mode === "模板匹配拾取，只拾取狗粮") {
+        if (pickup_Mode.includes("模板匹配")) {
             while (state.running) {
                 await sleep(1500);
                 if (await checkItemFull()) {
@@ -1237,7 +1241,7 @@ async function recognizeAndInteract() {
         }
 
         let foundTarget = false;
-        if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料" || pickup_Mode === "模板匹配拾取，只拾取狗粮") {
+        if (pickup_Mode.includes("模板匹配")) {
             let time1 = new Date();
             itemName = await performTemplateMatch(centerYF);
             let time2 = new Date();
@@ -1607,7 +1611,6 @@ async function processPathingsByGroup(pathings, accountName) {
                 // 更新坐标
                 lastX = miniMapPosition.X;
                 lastY = miniMapPosition.Y;
-                //log.info(`当前位于${pathing.map_name}地图的（${miniMapPosition.X}，${miniMapPosition.Y}，距离上次距离${(diffX + diffY)}`);
             } catch (error) {
                 log.error(`获取坐标时发生错误：${error.message}`);
             }
