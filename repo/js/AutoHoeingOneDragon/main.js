@@ -1680,7 +1680,7 @@ async function processPathingsByGroup(pathings, accountName) {
             }
             await genshin.returnMainUi();
             let mainUiRes = await isMainUI(2000);
-            let reconnectRes = await findAndClick(["assets/确认", "assets/重新连接服务器"], true, 300);
+            let reconnectRes = await findAndClick(["assets/确认.png", "assets/重新连接服务器.png"], true, 300);
             if ((coordAbnormal && settings.enableCoordCheck) || !mainUiRes || reconnectRes) {
                 log.error("路线未正常完成、坐标获取异常或不处于主界面，不记录运行数据");
                 notification.send(`路线${pathing.fileName}:路线未正常完成、坐标获取异常或不处于主界面，不记录运行数据`);
