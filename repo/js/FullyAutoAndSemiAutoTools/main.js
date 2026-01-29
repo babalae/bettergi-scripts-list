@@ -890,7 +890,7 @@ async function initRun(config_run) {
                 const orderA = orderMap.get(a_key) ?? 0; // 没在 JSON 中的排到最后
                 const orderB = orderMap.get(b_key) ?? 0;
                 if (orderA === orderB) {
-                    return a_key.localeCompare(b_key);
+                    return a_key?.localeCompare(b_key);
                 }
                 return orderB - orderA; // 修改为倒序数字比较
             })
