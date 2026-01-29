@@ -1,0 +1,59 @@
+[
+  {
+    "name": "selectRoom",
+    "type": "select",
+    "label": "请选择匹配的秘境（默认为黄金屋） ",
+    "options": [
+      "黄金屋",
+      "塞西莉亚苗圃"
+    ],
+    "default": "黄金屋"
+  },
+  {
+    "name": "time",
+    "type": "input-text",
+    "label": "输入最长匹配时间（min）",
+    "default": "5"
+  },
+  {
+    "name": "enableLevel",
+    "type": "checkbox",
+    "label": "是否进行等级筛选",
+    "default": false
+  },
+  {
+    "name": "matchLevel",
+    "type": "input-text",
+    "label": "请输入想要的匹配的房主等级范围，例如55-60（包括55和60），也可以单独输入一个等级如60就是只匹配60级",
+    "default": "60"
+  },
+  {
+    "name": "enableTargetMatching",
+    "type": "checkbox",
+    "label": "启用目标匹配，不勾选则只匹配一次\n注：不能与 “是否进行等级筛选” 同时勾选 ！！！",
+    "default": false
+  },
+  {
+    "name": "targetUid",
+    "type": "input-text",
+    "label": "输入目标uid，不断进行匹配直到检测到房主UID为目标UID",
+  },
+  {
+    "name": "enableChat",
+    "type": "checkbox",
+    "label": "是否打招呼（包括进入和离开）",
+    "default": false
+  },
+  {
+    "name": "randomTexts",
+    "type": "input-text",
+    "label": "请输入离开时要说的话，可通过符号 |(竖杆) 分割语句实现随机输入",
+    "default": "再见！|有缘见|打扰了"
+  },
+  {
+    "name": "randomTexts02",
+    "type": "input-text",
+    "label": "请输入成功进入后要说的话，可通过符号 |(竖杆) 分割语句实现随机输入",
+    "default": "你好！|各位好！|早上好！"
+  }
+]
