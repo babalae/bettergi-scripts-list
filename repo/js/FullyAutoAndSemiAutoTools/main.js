@@ -931,6 +931,7 @@ async function initRun(config_run) {
                     groupKey = asMap.get(groupKey)
                 }
                 needRunMap.set(groupKey, {
+                    order: orderMap.get(groupKey) ?? 0,
                     paths: group,
                     parent_name: groupOne.parentName,
                     key: groupKey,
