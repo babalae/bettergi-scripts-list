@@ -945,6 +945,25 @@ async function initRun(config_run) {
                     name: settingsName //多选项 名称 如 treeLevel_0_0
                 });
             })
+            // todo 对 needRunMap 进行排序
+            // 对 needRunMap 进行整体排序
+            const sortedNeedRunMap = new Map(
+                [...needRunMap.entries()].sort((a, b) => {
+                    // 使用值中的 order 字段进行排序
+                    const orderA = a[1].order ?? 0;
+                    const orderB = b[1].order ?? 0;
+
+                    // 按降序排序（数值大的优先）
+                    return orderB - orderA;
+                })
+            );
+
+            // 替换原来的 needRunMap
+            needRunMap.clear();
+            for (const [key, value] of sortedNeedRunMap) {
+                needRunMap.set(key, value);
+            }
+
 
             await debugKey(
                 '[init-run]_log-needRunMap.json',
