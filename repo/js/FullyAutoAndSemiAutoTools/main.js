@@ -781,7 +781,7 @@ async function initRun(config_run) {
                     return `${item.rootName}${separator}${item.parentName}${separator}${item.name}`;
                 }
                 // 然后处理 useParent 或 parentName 存在的情况
-                if (useParent || (item.parentName && item.parentName !== item.rootName)) {
+                if (useParent || item.parentName) {
                     return `${item.parentName}${separator}${item.name}`;
                 }
                 // 默认返回 name
