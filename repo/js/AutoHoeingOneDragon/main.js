@@ -1,4 +1,4 @@
-//当前js版本2.0.3
+//当前js版本2.1.1
 
 //自定义配置变量预声明
 let accountName;
@@ -59,6 +59,7 @@ let lastEatBuff = 0;
     await loadConfig();
     targetItems = await loadTargetItems();
     localeWorks = await checkLocaleTimeSupport();
+    dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
     await loadBlacklist(true);
     await rotateWarnIfAccountEmpty();
 
@@ -956,7 +957,7 @@ async function runPath(fullPath, map_name, pm, pe) {
             keyPress("B");
             await sleep(300);
             let type = "食物"
-            await findAndClick([`assets/RecognitionObject/背包界面/${type}1.png`, `assets/RecognitionObject/背包界面/${type}2.png`]);
+            await findAndClick([`assets/背包界面/${type}1.png`, `assets/背包界面/${type}2.png`]);
             await sleep(300);
             // 2. 遍历数组，逐项执行
             for (const item of res) {
@@ -1386,6 +1387,9 @@ async function dumper(pathFilePath, map_name) {
                     try {
                         let shouldPressKeys = false;
                         const currentPosition = await genshin.getPositionFromMap(map_name);
+                        if (!currentPosition) {
+                            continue;
+                        }
                         for (let i = 0; i < fightPositions.length; i++) {
                             const fightPos = fightPositions[i];
 
@@ -1608,9 +1612,11 @@ async function processPathingsByGroup(pathings, accountName) {
             try {
                 await genshin.returnMainUi();
                 const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name);
-                // 更新坐标
-                lastX = miniMapPosition.X;
-                lastY = miniMapPosition.Y;
+                if (miniMapPosition) {
+                    // 更新坐标
+                    lastX = miniMapPosition.X;
+                    lastY = miniMapPosition.Y;
+                }
             } catch (error) {
                 log.error(`获取坐标时发生错误：${error.message}`);
             }
@@ -1655,16 +1661,18 @@ async function processPathingsByGroup(pathings, accountName) {
             try {
                 await genshin.returnMainUi();
                 const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name);
-                const diffX = Math.abs(lastX - miniMapPosition.X);
-                const diffY = Math.abs(lastY - miniMapPosition.Y);
-                const endDiffX = Math.abs(fileEndX - miniMapPosition.X);
-                const endDiffY = Math.abs(fileEndY - miniMapPosition.Y);
+                if (miniMapPosition) {
+                    const diffX = Math.abs(lastX - miniMapPosition.X);
+                    const diffY = Math.abs(lastY - miniMapPosition.Y);
+                    const endDiffX = Math.abs(fileEndX - miniMapPosition.X);
+                    const endDiffY = Math.abs(fileEndY - miniMapPosition.Y);
 
-                lastX = miniMapPosition.X;
-                lastY = miniMapPosition.Y;
+                    lastX = miniMapPosition.X;
+                    lastY = miniMapPosition.Y;
 
-                if ((diffX + diffY) < 5 || (endDiffX + endDiffY) > 30) {
-                    coordAbnormal = true;
+                    if ((diffX + diffY) < 5 || (endDiffX + endDiffY) > 30) {
+                        coordAbnormal = true;
+                    }
                 }
             } catch (error) {
                 log.error(`获取坐标时发生错误：${error.message}`);
@@ -1672,7 +1680,8 @@ async function processPathingsByGroup(pathings, accountName) {
             }
             await genshin.returnMainUi();
             let mainUiRes = await isMainUI(2000);
-            if ((coordAbnormal && settings.enableCoordCheck) && !mainUiRes) {
+            let reconnectRes = await findAndClick(["assets/确认.png", "assets/重新连接服务器.png"], true, 300);
+            if ((coordAbnormal && settings.enableCoordCheck) || !mainUiRes || reconnectRes) {
                 log.error("路线未正常完成、坐标获取异常或不处于主界面，不记录运行数据");
                 notification.send(`路线${pathing.fileName}:路线未正常完成、坐标获取异常或不处于主界面，不记录运行数据`);
                 continue;
