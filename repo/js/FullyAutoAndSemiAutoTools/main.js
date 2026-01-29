@@ -12,8 +12,8 @@ const dev = {
     debug: undefined,
 }
 const cd = {
-    open: false,
-    http_api: undefined,
+    open: settings.open_cd || false,
+    http_api: settings.http_api || undefined,
 }
 const pathingName = "pathing"
 let loadingLevel = 2
@@ -727,6 +727,8 @@ async function initRun(config_run) {
             recordPaths.sort((a, b) => b.timestamp - a.timestamp)
 
             const timeConfigs = Array.from(timeJson);
+            await debugKey(`[init-run]_log-timeConfigs.json`, JSON.stringify(timeConfigs))
+            await debugKey(`[init-run]_log-recordPaths.json`, JSON.stringify(recordPaths))
             //还在cd中的path
             const in_cd_paths = matchedPaths.filter(async item => {
                 const timeConfig = timeConfigs.find(cfg =>
@@ -759,7 +761,7 @@ async function initRun(config_run) {
                         return false;
                 }
             });
-
+            await debugKey(`[init-run]_log-in_cd_paths.json`, JSON.stringify(in_cd_paths))
             // 移除 CD 未到的路径
             if (in_cd_paths.length > 0) {
                 matchedPaths = Array.from(
@@ -1011,7 +1013,7 @@ async function init() {
 
     cd.open = (cd.open) ? cd.open : settings.cd_open
     cd.http_api = (cd.http_api) ? cd.http_api : settings.http_api
-
+    await debugKey("[init]_log-cd-settings.json", JSON.stringify(cd))
     config_list.black = settings.config_black_list ? settings.config_black_list.split(",") : []
     config_list.white = settings.config_white_list ? settings.config_white_list.split(",") : []
 
