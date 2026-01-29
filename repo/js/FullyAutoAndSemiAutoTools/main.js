@@ -690,7 +690,7 @@ async function initRun(config_run) {
         const filter = PATH_JSON_LIST.filter(item => item.children.length === 0);
         await debugKey(`log-filtermatchedPaths.json`, JSON.stringify(filter))
         let matchedPaths = filter.filter(item => {
-            const hitParent = item.fullPathNames.includes(labelParentName);
+            const hitParent = item.fullPathNames.includes(labelParentName)||labelParentName===`${pathingName}`;
             const hitOption = selectedOptions.some(opt =>
                 item.fullPathNames.some(name => name.includes(opt))
             );
