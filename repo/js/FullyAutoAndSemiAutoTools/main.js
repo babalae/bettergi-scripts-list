@@ -781,10 +781,14 @@ async function initRun(config_run) {
                 // 优先处理 rootName->parentName->name 格式的情况
                 if (!useParent && item.rootName && item.parentName && item.parentName !== item.rootName && item.rootName !== "") {
                     return `${item.rootName}${separator}${item.parentName}${separator}${item.name}`;
+                } else if (!useParent && item.root_name && item.parent_name !== item.root_name && item.root_name !== "") {
+                    return `${item.root_name}${separator}${item.parent_name}${separator}${item.name}`;
                 }
                 // 然后处理 useParent 或 parentName 存在的情况
-                if (useParent || item.parentName) {
+                if (useParent || item?.parentName) {
                     return `${item.parentName}${separator}${item.name}`;
+                } else if (useParent || item?.parent_name) {
+                    return `${item.parent_name}${separator}${item.name}`;
                 }
                 // 默认返回 name
                 return item.name;
@@ -876,6 +880,7 @@ async function initRun(config_run) {
                 log.info(`{0}加载完成`, json_path_name.PathOrder)
             } catch (e) {
             }
+            await debugKey("[init-run]_log-orderMap-By-json.json", JSON.stringify([...orderMap]))
             //输入值优先覆盖
             try {
                 // 支持多条规则，例如: "rootName->parentName->name1=1,rootName->parentName->name2=2"
@@ -886,7 +891,7 @@ async function initRun(config_run) {
                 })
             } catch (e) {
             }
-            await debugKey("[init-run]_log-orderMap.json", JSON.stringify([...orderMap]))
+            await debugKey("[init-run]_log-orderMap-All.json", JSON.stringify([...orderMap]))
 
 
             function groupByParentAndName(list) {
