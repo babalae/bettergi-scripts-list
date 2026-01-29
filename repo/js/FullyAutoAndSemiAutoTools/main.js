@@ -210,9 +210,9 @@ async function initRefresh(settingsConfig) {
     // settingsRefreshList.push({type: "separator"})
 
     let treePathList = await readPaths(`${pathingName}`)
-    await debugKey('log-treePathList.json', JSON.stringify(treePathList))
+    await debugKey('[init-refresh]_log-treePathList.json', JSON.stringify(treePathList))
     let pathJsonList = await treeToList(treePathList)
-    await debugKey('log-pathJsonList.json', JSON.stringify(pathJsonList))
+    await debugKey('[init-refresh]_log-pathJsonList.json', JSON.stringify(pathJsonList))
     let obj = {
         id: `${pathingName}`,
         level: level,
@@ -293,9 +293,9 @@ async function initRefresh(settingsConfig) {
         return pathA.localeCompare(pathB);
     });
 
-    await debugKey('log-PATHING_ALL.json', JSON.stringify(PATHING_ALL))
+    await debugKey('[init-refresh]_log-PATHING_ALL.json', JSON.stringify(PATHING_ALL))
     const groupLevel = groupByLevel(PATHING_ALL);
-    await debugKey('log-groupLevel.json', JSON.stringify(groupLevel))
+    await debugKey('[init-refresh]_log-groupLevel.json', JSON.stringify(groupLevel))
     // const initLength = settingsList.length
     let parentNameLast = undefined
     // let parentNameNow = undefined
@@ -361,7 +361,7 @@ async function initRefresh(settingsConfig) {
             })
         }
     )
-    await debugKey('log-settingsRefreshList.json', JSON.stringify(settingsRefreshList))
+    await debugKey('[init-refresh]_log-settingsRefreshList.json', JSON.stringify(settingsRefreshList))
     //settingsRefreshList 二级排序 todo:
     level++
     settingsList = Array.from(new Set(settingsList.concat(settingsRefreshList)))
@@ -652,9 +652,9 @@ async function initRun(config_run) {
 
     const multiCheckboxMap = await getMultiCheckboxMap();
     if (dev.isDebug) {
-        await debugKey('log-multiCheckboxMap.json', JSON.stringify(Array.from(multiCheckboxMap)))
+        await debugKey('[init-run]_log-multiCheckboxMap.json', JSON.stringify(Array.from(multiCheckboxMap)))
         const keysList = Array.from(multiCheckboxMap.keys());
-        await debugKey('log-keysList.json', JSON.stringify(keysList))
+        await debugKey('[init-run]_log-keysList.json', JSON.stringify(keysList))
     }
 
     settingsNameList = settingsNameList.concat(
@@ -675,7 +675,7 @@ async function initRun(config_run) {
     // todo:补齐执行前配置
     // ================= 执行前配置（补齐 needRunMap） =================
     await debugKey(
-        'log-PATH_JSON_LIST.json',
+        '[init-run]_log-PATH_JSON_LIST.json',
         JSON.stringify(PATH_JSON_LIST)
     );
 
@@ -690,7 +690,7 @@ async function initRun(config_run) {
 
         // 2. 从 PATH_JSON_LIST 中筛选命中的路径
         const filter = PATH_JSON_LIST.filter(item => item.children.length === 0);
-        await debugKey(`log-filtermatchedPaths.json`, JSON.stringify(filter))
+        await debugKey(`[init-run]_log-filtermatchedPaths.json`, JSON.stringify(filter))
         let matchedPaths = filter.filter(item => {
             const hitParent = item.fullPathNames.includes(labelParentName) || labelParentName === `${pathingName}`;
             const hitOption = selectedOptions.some(opt =>
@@ -715,7 +715,7 @@ async function initRun(config_run) {
                 fullPathNames: item.fullPathNames
             };
         });
-        await debugKey(`log-matchedPaths.json`, JSON.stringify(matchedPaths))
+        await debugKey(`[init-run]_log-matchedPaths.json`, JSON.stringify(matchedPaths))
 
         // 3. CD 过滤（可选）
         if (cd.open && matchedPaths.length > 0) {
@@ -886,6 +886,7 @@ async function initRun(config_run) {
                 })
             } catch (e) {
             }
+            await debugKey("[init-run]_log-orderMap.json", JSON.stringify([...orderMap]))
 
 
             function groupByParentAndName(list) {
@@ -941,7 +942,7 @@ async function initRun(config_run) {
             })
 
             await debugKey(
-                'log-needRunMap.json',
+                '[init-run]_log-needRunMap.json',
                 JSON.stringify([...needRunMap])
             );
         }
