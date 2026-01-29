@@ -791,14 +791,6 @@ async function initRun(config_run) {
 
             //锄地队对应
             try {
-                const teamHoeGroundStr = settings.team_hoe_ground || "parentName->name=key"
-                teamHoeGroundStr.split(",").forEach(item => {
-                    const [key, team_name] = item.split("=");
-                    team.HoeGroundMap.set(key, team_name)
-                })
-            } catch (e) {
-            }
-            try {
                 // {
                 //   uid:"",
                 //   parent_name:"",
@@ -827,18 +819,18 @@ async function initRun(config_run) {
                 log.info(`{0}加载完成`, json_path_name.HoeGround)
             } catch (e) {
             }
-            //   排序
-            const orderMap = new Map()
+            //输入值优先覆盖
             try {
-                // 支持多条规则，例如: "rootName->parentName->name1=1,rootName->parentName->name2=2"
-                const orderStr = settings.order_rules || "rootName->parentName->name=1"
-                orderStr.split(",").forEach(item => {
-                    const [key, order] = item.split("=");
-                    orderMap.set(key, parseInt(order))
+                const teamHoeGroundStr = settings.team_hoe_ground || "parentName->name=key"
+                teamHoeGroundStr.split(",").forEach(item => {
+                    const [key, team_name] = item.split("=");
+                    team.HoeGroundMap.set(key, team_name)
                 })
             } catch (e) {
             }
 
+            //   排序
+            const orderMap = new Map()
             try {
                 // {
                 //   uid:"",
@@ -866,6 +858,17 @@ async function initRun(config_run) {
                 log.info(`{0}加载完成`, json_path_name.PathOrder)
             } catch (e) {
             }
+            //输入值优先覆盖
+            try {
+                // 支持多条规则，例如: "rootName->parentName->name1=1,rootName->parentName->name2=2"
+                const orderStr = settings.order_rules || "rootName->parentName->name=1"
+                orderStr.split(",").forEach(item => {
+                    const [key, order] = item.split("=");
+                    orderMap.set(key, parseInt(order))
+                })
+            } catch (e) {
+            }
+
 
             function groupByParentAndName(list) {
                 const map = new Map();
