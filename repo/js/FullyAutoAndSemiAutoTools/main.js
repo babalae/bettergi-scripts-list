@@ -800,14 +800,22 @@ async function initRun(config_run) {
                 //   name:"",
                 //   team_name:""
                 // } json支持
-                const teamHoeGroundList = JSON.parse(file.readTextSync(json_path_name.HoeGround)) ?? [{
+                let teamHoeGroundList = JSON.parse(file.readTextSync(json_path_name.HoeGround)) ?? [{
                     uid: "",
+                    is_common: false,
                     parent_name: undefined,
                     root_name: undefined,
                     name: undefined,
                     team_name: ""
                 }]
-                teamHoeGroundList.filter(item => item.uid === Record.uid).forEach(item => {
+                teamHoeGroundList = teamHoeGroundList.filter(item => item?.uid === Record.uid || item?.is_common)
+                teamHoeGroundList.sort((a, b) => {
+                    const orderA = a?.is_common ? 1 : 0;
+                    const orderB = b?.is_common ? 1 : 0;
+                    return orderB - orderA; // 这样 is_common 为 true 的会排在前面
+                });
+                // 自定义锄地队对应可覆盖公共锄地队对应
+                teamHoeGroundList.forEach(item => {
                     if (item.root_name) {
                         const key = generatedKey(item);
                         team.HoeGroundMap.set(key, item.team_name);
