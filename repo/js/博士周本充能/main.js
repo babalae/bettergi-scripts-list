@@ -66,6 +66,7 @@ const repeatOperationUntilTextFound = async ({
 }
 
 // Party Setup
+const PanduanRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/panduan.png"),0, 0, 1920, 1080);
 const QuickSetupButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Quick Setup Button.png"), 1100, 900, 400, 180);
 const ConfigureTeamButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Configure Team Button.png"), 0, 900, 200, 180);
 const ConfirmDeployButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Confirm Deploy Button.png"), 0, 900, 1920, 180);
@@ -107,6 +108,27 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			await sleep(100);
 		}
 	}
+
+	async function waitUntilTemplateFound({
+        ro,
+        maxRetry = 50,
+        interval = 200
+    }) {
+        for (let i = 0; i < maxRetry; i++) {
+            let captureRegion = captureGameRegion();
+            let res = captureRegion.find(ro);
+            captureRegion.dispose();
+
+            if (res.isExist()) {
+                log.info("检测到进入周本，继续执行后续逻辑");
+                return true;
+            }
+
+            await sleep(interval);
+        }
+
+        throw new Error("等待判定模板超时，未识别到进入周本");
+    }
 
 	async function goToWeeklyBossAndEnter() {
         // 确保主界面
@@ -158,9 +180,19 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
             ifClick: true
         });
         log.info(`已进入周本`);
-		await sleep(3000);
+		await sleep(500);
+
+        await waitUntilTemplateFound({
+            ro: PanduanRo,
+            maxRetry: 60,      // 最多等 60 次
+            interval: 200      // 每 200ms 检查一次
+        });
+
+		await sleep(2000);
 		log.info("开始充能");
+
         await keyMouseScript.runFile("222.json");
+
         log.info("充能完成");
     }
 
@@ -185,8 +217,6 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 				}
 			}
 			if (foundQuickSetup) {
-				await goToWeeklyBossAndEnter();
-			    await genshin.TpToStatueOfTheSeven();
 				break;  // 第一次找到就退出循环
 			}
 		}
@@ -286,12 +316,13 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 	// Main
 	if (!!settings.partyName) {
 		try {
-			log.info("强制传送到七天神像切换队伍");
+			log.info("传送到七天神像切换队伍");
 			await genshin.TpToStatueOfTheSeven();
 				
 			log.info("正在尝试切换至" + settings.partyName);
 			await SwitchParty(settings.partyName);
-
+			await goToWeeklyBossAndEnter();
+			await genshin.TpToStatueOfTheSeven();
 			genshin.clearPartyCache();
 
 		} catch (error) {
