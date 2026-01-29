@@ -233,12 +233,14 @@ sequenceDiagram
 ### 配置项order_rules
 
 路径:config/PathOrder.json
-
+order值越大优先级越高 `公共配置 锄地模块排序未配置 希望好心人完善  预留order 900~700`
 ```json
 [
   {
     "uid": "",
     //账号UID
+    "is_common": false,
+    //是否为公共配置
     "root_name": "",
     //根文件夹下对应的文件夹名称
     "parent_name": "",
@@ -260,6 +262,8 @@ sequenceDiagram
   {
     "uid": "",
     //账号UID
+    "is_common": false,
+    //是否为公共配置
     "root_name": "",
     //根文件夹下对应的文件夹名称
     "parent_name": "",
@@ -273,7 +277,7 @@ sequenceDiagram
 ```
 
 ## CD 规则示例（cd-pathing.json）
-
+level值越大优先级越高
 ```json
 [
   {
