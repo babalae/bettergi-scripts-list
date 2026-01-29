@@ -1681,7 +1681,7 @@ async function runPath(path, parent_name = "", current_name = "") {
     if (team.fight) {
         //启用战斗
         // await dispatcher.runAutoFightTask(new AutoFightParam());
-        await realTimeMissions(false)
+        // await realTimeMissions(false)
         // 重置战斗状态
         team.fight = false
     }
