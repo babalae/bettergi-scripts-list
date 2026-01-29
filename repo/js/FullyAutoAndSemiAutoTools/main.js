@@ -887,12 +887,12 @@ async function initRun(config_run) {
             groups.sort((a, b) => {
                 const a_key = generatedKey(a)
                 const b_key = generatedKey(b)
-                const orderA = orderMap.get(a_key) ?? 9999; // 没在 JSON 中的排到最后
-                const orderB = orderMap.get(b_key) ?? 9999;
+                const orderA = orderMap.get(a_key) ?? 0; // 没在 JSON 中的排到最后
+                const orderB = orderMap.get(b_key) ?? 0;
                 if (orderA === orderB) {
                     return a_key.localeCompare(b_key);
                 }
-                return orderA - orderB;
+                return orderB - orderA; // 修改为倒序数字比较
             })
             const asMap = new Map()
             groups.forEach(group => {
