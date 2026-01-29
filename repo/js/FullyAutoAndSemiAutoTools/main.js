@@ -1106,6 +1106,8 @@ async function main() {
     }
 
     chooseBestRun();
+    await debugKey("[run]_log-lastRunMap.json", JSON.stringify([...lastRunMap]))
+    await debugKey("[run]_log-needRunMap.json", JSON.stringify([...needRunMap]))
 
     if (needRunMap.size > 0) {
         await runMap(needRunMap)
