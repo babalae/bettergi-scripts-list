@@ -593,6 +593,7 @@ async function loadUidSettingsMap(uidSettingsMap) {
             templateMatchSettings[templateMatchSettings.length - 1]?.type === "separator") {
                 templateMatchSettings.pop();
             }
+
             /**
              * 限制连续的分隔符数量不超过3个
              * @param {Array} settings - 设置项数组
@@ -623,6 +624,7 @@ async function loadUidSettingsMap(uidSettingsMap) {
 
                 return result;
             }
+
             templateMatchSettings = limitConsecutiveSeparators(templateMatchSettings)
             // uidSettings.push(levelSettings)
             // 将更新后的设置写入配置文件
@@ -690,7 +692,7 @@ async function initRun(config_run) {
         const filter = PATH_JSON_LIST.filter(item => item.children.length === 0);
         await debugKey(`log-filtermatchedPaths.json`, JSON.stringify(filter))
         let matchedPaths = filter.filter(item => {
-            const hitParent = item.fullPathNames.includes(labelParentName)||labelParentName===`${pathingName}`;
+            const hitParent = item.fullPathNames.includes(labelParentName) || labelParentName === `${pathingName}`;
             const hitOption = selectedOptions.some(opt =>
                 item.fullPathNames.some(name => name.includes(opt))
             );
@@ -839,14 +841,22 @@ async function initRun(config_run) {
                 //   name:"",
                 //   order:0
                 // } json支持
-                const orderList = JSON.parse(file.readTextSync(json_path_name.PathOrder)) ?? [{
+                let orderList = JSON.parse(file.readTextSync(json_path_name.PathOrder)) ?? [{
                     uid: "",
+                    is_common: false,
                     parent_name: undefined,
                     root_name: undefined,
                     name: undefined,
                     order: 0
                 }]
-                orderList.filter(item => item.uid === Record.uid).forEach(item => {
+                orderList = orderList.filter(item => item?.uid === Record.uid || item?.is_common)
+                orderList.sort((a, b) => {
+                    const orderA = a?.is_common ? 1 : 0;
+                    const orderB = b?.is_common ? 1 : 0;
+                    return orderB - orderA; // 这样 is_common 为 true 的会排在前面
+                });
+                // 自定义排序可覆盖公共排序
+                orderList.forEach(item => {
                     if (item.root_name) {
                         const key = generatedKey(item);
                         orderMap.set(key, item.order)
