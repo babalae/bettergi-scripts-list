@@ -918,7 +918,7 @@
             return 0;
         }
 
-        let max_num_ocr = await Ocr(1226, 578, 44, 24);
+        let max_num_ocr = await Ocr(1215, 573, 76, 34);
         let max_num = -1;
         if (max_num_ocr) {
             let string = max_num_ocr.text.replace(/\D/g, '');
