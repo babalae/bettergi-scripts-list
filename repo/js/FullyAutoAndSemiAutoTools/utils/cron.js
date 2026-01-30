@@ -145,6 +145,53 @@ async function getNextCronTimestamp(cronExpression, startTimestamp = Date.now(),
     return result === null || !result ? undefined : result
 }
 
+/**
+ * 获取所有cron表达式的时间戳
+ * @param {Array} bodyJson - 包含cron表达式和相关参数的对象数组，默认值为空数组
+ * @param {string} url - 请求的目标URL
+ * @returns {Map} 返回一个Map对象，其中key为输入参数中的key，value为对应的ok状态
+ */
+async function getNextCronTimestampAll(bodyJson = [{
+    key: '',           // 标识符
+    cronExpression: "", // cron表达式
+    startTimestamp: Date.now(), // 开始时间戳
+    endTimestamp: 0   // 结束时间戳
+}], url) {
+    // 打印警告日志，提示用户需要开启JS HTTP权限
+    log.warn("使用cron CD算法 请开启JS HTTP 权限 如已开启请忽略")
+    // 初始化结果列表，默认包含一个成功的空key项
+    let resultList = [{key: '', ok: true,next:0}]
+    // 发送HTTP POST请求并处理响应
+    resultList = (
+        await http.request("POST", url, JSON.stringify(bodyJson), JSON.stringify({
+            "Content-Type": "application/json"
+        })).then(res => {
+            // 打印调试日志，记录响应内容
+            log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
+            // 检查响应状态码和响应体
+            if (res.status_code === 200 && res.body) {
+                let result_json = JSON.parse(res.body);
+                // 检查响应代码是否为200
+                if (result_json?.code === 200) {
+                    return result_json?.data
+                }
+                // 如果响应代码不为200，抛出错误
+                throw new Error("请求失败,error:" + result_json?.message)
+            }
+            return undefined
+        })
+    )
+    // 创建一个Map对象，用于存储结果
+    let map = new Map()
+    // 遍历结果列表，将每个项的key和ok状态存入Map
+    resultList.forEach(item => {
+        map.set(item.key, item.ok)
+    })
+
+    // 返回包含结果的Map对象
+    return map
+}
+
 //影响到性能 改http 第三方
 // function getNextCronTimestamp(cron, fromTime = Date.now(),endTime) {
 //     const parts = cron.trim().split(/\s+/);
@@ -292,4 +339,5 @@ function parseField(field, min, max) {
 
 this.cronUtil = {
     getNextCronTimestamp,
+    getNextCronTimestampAll
 }

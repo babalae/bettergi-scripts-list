@@ -716,6 +716,24 @@ async function initRun(config_run) {
             };
         });
         await debugKey(`[init-run]_log-matchedPaths.json`, JSON.stringify(matchedPaths))
+        function generatedKey(item, useParent = false) {
+            const separator = "->";
+            // 优先处理 rootName->parentName->name 格式的情况
+            if (!useParent && item.rootName && item.parentName && item.parentName !== item.rootName && item.rootName !== "") {
+                return `${item.rootName}${separator}${item.parentName}${separator}${item.name}`;
+            } else if (!useParent && item.root_name && item.parent_name !== item.root_name && item.root_name !== "") {
+                return `${item.root_name}${separator}${item.parent_name}${separator}${item.name}`;
+            }
+            // 然后处理 useParent 或 parentName 存在的情况
+            if (useParent || item?.parentName) {
+                return `${item.parentName}${separator}${item.name}`;
+            } else if (useParent || item?.parent_name) {
+                return `${item.parent_name}${separator}${item.name}`;
+            }
+            // 默认返回 name
+            return item.name;
+        }
+
 
         // 3. CD 过滤（可选）
         if (cd.open && matchedPaths.length > 0) {
@@ -729,8 +747,10 @@ async function initRun(config_run) {
             const timeConfigs = Array.from(timeJson);
             await debugKey(`[init-run]_log-timeConfigs.json`, JSON.stringify(timeConfigs))
             await debugKey(`[init-run]_log-recordPaths.json`, JSON.stringify(recordPaths))
-            //还在cd中的path
-            const in_cd_paths = matchedPaths.filter(async item => {
+            let bodyList = []
+            const now = Date.now();
+            //首次过滤
+            let cdFilterMatchedPaths = matchedPaths.filter(item => {
                 const timeConfig = timeConfigs.find(cfg =>
                     item.fullPathNames.includes(cfg.name)
                 );
@@ -740,8 +760,36 @@ async function initRun(config_run) {
                     r.path.includes(item.path)
                 );
                 if (!record || !record.timestamp) return false;
+                switch (timeType.fromValue(timeConfig.type)) {
+                    case timeType.cron:
+                        // timeConfig.name
+                        const key = generatedKey(item);
+                        const item_key=bodyList.find(cfg => cfg.key === key)
+                        if(!item_key){
+                            bodyList.push({
+                                key: key,
+                                cronExpression: timeConfig.value,
+                                startTimestamp: record.timestamp,
+                                endTimestamp: now
+                            })
+                        }else if(item_key.startTimestamp < record.timestamp){
+                            item_key.startTimestamp=record.timestamp
+                            item_key.cronExpression=timeConfig.value
+                        }
 
-                const now = Date.now();
+                        return true;
+                    default:
+                        return true;
+                }
+                return true
+            })
+            //多次请求改一次请求
+            const nextMap = await cronUtil.getNextCronTimestampAll(bodyList, cd.http_api) ?? new Map();
+            //还在cd中的path
+            const in_cd_paths = cdFilterMatchedPaths.filter(async item => {
+                const timeConfig = timeConfigs.find(cfg =>
+                    item.fullPathNames.includes(cfg.name)
+                );
 
                 switch (timeType.fromValue(timeConfig.type)) {
                     case timeType.hours: {
@@ -749,13 +797,16 @@ async function initRun(config_run) {
                         return (diff.total.hours >= timeConfig.value);
                     }
                     case timeType.cron: {
-                        const next = await cronUtil.getNextCronTimestamp(
-                            `${timeConfig.value}`,
-                            record.timestamp,
-                            now,
-                            cd.http_api
-                        );
-                        return (next && now >= next);
+                        // const next = await cronUtil.getNextCronTimestamp(
+                        //     `${timeConfig.value}`,
+                        //     record.timestamp,
+                        //     now,
+                        //     cd.http_api
+                        // );
+                        // return (next && now >= next);
+                        const key = generatedKey(item);
+                        const cron_ok = nextMap.get(key)
+                        return cron_ok?.ok
                     }
                     default:
                         return false;
@@ -778,24 +829,6 @@ async function initRun(config_run) {
 
             // const {label} = multiCheckboxMap.get(settingsName);
             // const as_name = getBracketContent(label)//父名称 如：晶蝶
-            function generatedKey(item, useParent = false) {
-                const separator = "->";
-                // 优先处理 rootName->parentName->name 格式的情况
-                if (!useParent && item.rootName && item.parentName && item.parentName !== item.rootName && item.rootName !== "") {
-                    return `${item.rootName}${separator}${item.parentName}${separator}${item.name}`;
-                } else if (!useParent && item.root_name && item.parent_name !== item.root_name && item.root_name !== "") {
-                    return `${item.root_name}${separator}${item.parent_name}${separator}${item.name}`;
-                }
-                // 然后处理 useParent 或 parentName 存在的情况
-                if (useParent || item?.parentName) {
-                    return `${item.parentName}${separator}${item.name}`;
-                } else if (useParent || item?.parent_name) {
-                    return `${item.parent_name}${separator}${item.name}`;
-                }
-                // 默认返回 name
-                return item.name;
-            }
-
 
             //锄地队对应
             try {
