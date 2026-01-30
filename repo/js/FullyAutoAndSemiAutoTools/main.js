@@ -764,11 +764,11 @@ async function initRun(config_run) {
                 switch (timeType.fromValue(timeConfig.type)) {
                     case timeType.cron:
                         // timeConfig.name
-                        const key = generatedKey(item);
-                        const item_key = bodyList.find(cfg => cfg.key === key)
+                        // const key = generatedKey(item);
+                        const item_key = bodyList.find(cfg => cfg.key === item.path)
                         if (!item_key) {
                             bodyList.push({
-                                key: key,
+                                key: item.path,
                                 cronExpression: timeConfig.value,
                                 startTimestamp: record.timestamp,
                                 endTimestamp: now
@@ -807,8 +807,8 @@ async function initRun(config_run) {
                         //     cd.http_api
                         // );
                         // return (next && now >= next);
-                        const key = generatedKey(item);
-                        const cron_ok = nextMap.get(key)
+                        // const key = generatedKey(item);
+                        const cron_ok = nextMap.get(item.path)
                         return cron_ok?.ok
                     }
                     default:
@@ -1208,8 +1208,16 @@ async function saveRecordPaths() {
     if (!Array.isArray(RecordPathList)) {
         RecordPathList = [];
     }
-
-    RecordPathList.push(recordToSave)
+    let temp=RecordPathList.find(item => item.uid === Record.uid)
+    if(temp) {
+        // RecordList.splice(RecordList.indexOf(temp),1)
+        temp.paths = [...recordToSave.paths, ...temp.paths]
+        temp.errorPaths = [...recordToSave.errorPaths, ...temp.errorPaths]
+        temp.groupPaths = [...recordToSave.groupPaths, ...temp.groupPaths]
+    }else{
+        // 将记录对象添加到记录列表中
+        RecordPathList.push(recordToSave)
+    }
     // 将记录列表转换为JSON字符串并同步写入文件
     file.writeTextSync(json_path_name.RecordPathText, JSON.stringify(RecordPathList))
     log.info("saveRecordPath保存记录文件成功")
@@ -1237,8 +1245,16 @@ async function saveRecord() {
             paths: [...item.paths]
         }))
     };
-    // 将处理后的记录添加到记录列表
-    RecordList.push(recordToSave)
+   let temp=RecordList.find(item => item.uid === Record.uid)
+    if(temp) {
+        // RecordList.splice(RecordList.indexOf(temp),1)
+        temp.paths = [...recordToSave.paths, ...temp.paths]
+        temp.errorPaths = [...recordToSave.errorPaths, ...temp.errorPaths]
+        temp.groupPaths = [...recordToSave.groupPaths, ...temp.groupPaths]
+    }else{
+        // 将记录对象添加到记录列表中
+        RecordList.push(recordToSave)
+    }
     // 将记录列表转换为JSON字符串并同步写入文件
     file.writeTextSync(json_path_name.RecordText, JSON.stringify(RecordList))
     log.info("saveRecord保存记录文件成功")
