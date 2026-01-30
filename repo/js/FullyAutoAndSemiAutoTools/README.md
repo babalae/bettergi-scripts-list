@@ -300,11 +300,13 @@ level值越大优先级越高
   }
 ]
 ```
-
+## 运行实例部分日志
+实例==>运行矿物 大类 虹滴晶 运行完成 再次运行 日志截图展示：
+![bettergi-scripts-tools](md/F-md.jpg)
 ## Cron 解析服务部署（必须）
 
 **bettergi-scripts-tools** 是 Cron 解析的必要依赖，请至少选择一种方式部署：
-
+> bettergi-scripts-tools 版本需要 v0.0.3
 ### 1. Windows 一键运行
 
 下载 [release](https://github.com/Kirito520Asuna/bettergi-scripts-tools/releases) 中的 windows zip 包 → 解压 → 双击 .exe
@@ -325,7 +327,7 @@ docker pull ghcr.io/kirito520asuna/bettergi-scripts-tools:latest
 docker run -d -p 8081:8081 --name bettergi-scripts-tools ghcr.io/kirito520asuna/bettergi-scripts-tools:latest
 ```
 
-**默认 API 地址**：`http://127.0.0.1:8081/bgi/cron/next-timestamp`
+**默认 API 地址**：`http://127.0.0.1:8081/bgi/cron/next-timestamp/all`
 
 ## 推荐使用流程
 
@@ -353,13 +355,13 @@ docker run -d -p 8081:8081 --name bettergi-scripts-tools ghcr.io/kirito520asuna/
 
 ## 版本密钥
 
-| 版本    | 密钥         |
-|-------|------------|
-| 0.0.1 | PGCSBY37NJ |
+| 版本    | 密钥          |
+|-------|-------------|
+| 0.0.1 | PGCSBY37NJA |
 
 ## 版本历史（简要）
 
-### 0.0.1 2026.01.18
+### 0.0.1 2026.01.30
 
 基本功能完成
 
