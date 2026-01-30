@@ -491,7 +491,7 @@
   {
     "name": "acceleratorSelect",
     "type": "multi-checkbox",
-    "label": "使用矿石加速[暂不可用]\n选择用于加速食材加工的矿石(不选或用尽则等待)",
+    "label": "使用矿石加速\n选择用于加速食材加工的矿石(不选或用尽则等待)",
     "options": [
       "铁块: -20s",
       "白铁块: -40s",
@@ -502,6 +502,12 @@
       "萃凝晶: -60s",
       "虹滴晶: -60s"
     ]
+  },
+  {
+    "name": "oreRetain",
+    "type": "input-text",
+    "label": "矿石保留数量(确保持有的矿石不会低于此数)\n注：单数字应用到全部，或用单个空格隔开设置每个的数量",
+    "default": "1000"
   },
   {
     "name": "ingredientMode",
