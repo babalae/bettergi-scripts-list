@@ -1136,9 +1136,30 @@ async function main() {
                     keysToDelete.push(key);
                 }
             }
+
+
+
             // 然后批量删除
             for (const key of keysToDelete) {
                 needRunMap.delete(key);
+            }
+            //保持排序
+            // 对 lastRunMap 进行整体排序
+            const sortedNeedRunMap = new Map(
+                [...lastRunMap.entries()].sort((a, b) => {
+                    // 使用值中的 order 字段进行排序
+                    const orderA = a[1].order ?? 0;
+                    const orderB = b[1].order ?? 0;
+
+                    // 按降序排序（数值大的优先）
+                    return orderB - orderA;
+                })
+            );
+
+            // 替换原来的 lastRunMap
+            lastRunMap.clear();
+            for (const [key, value] of sortedNeedRunMap) {
+                lastRunMap.set(key, value);
             }
         }
     }
@@ -1148,9 +1169,13 @@ async function main() {
     await debugKey("[run]_log-needRunMap.json", JSON.stringify([...needRunMap]))
 
     if (needRunMap.size > 0) {
+        if (settings.choose_best) {
+            log.info(`[{0}] [{1}]`, settings.mode, "择优模式-启动" )
+        }
         await runMap(needRunMap)
     }
     if (lastRunMap.size > 0) {
+        log.info(`[{0}] [{1}]`, settings.mode, "择优模式-收尾" )
         await runMap(lastRunMap)
     }
 
@@ -1862,9 +1887,15 @@ async function runMap(map = new Map()) {
         log.debug('任务Map为空，跳过执行');
         return;
     }
-
+    log.info(`========================================================`)
     log.info(`[{mode}] 开始执行任务，共{count}组任务`, settings.mode, map.size);
-
+    //打印组执行顺序
+    let index=1
+    for (const [key, one] of map.entries()) {
+        log.info(`[{mode}] 任务组[{0}] 执行顺序[{1}]`, settings.mode, key,index);
+        index++
+    }
+    log.info(`========================================================`)
     // 遍历Map中的所有键
     for (const [key, one] of map.entries()) {
         if (one.paths.size <= 0) {
