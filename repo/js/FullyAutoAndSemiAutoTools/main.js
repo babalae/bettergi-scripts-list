@@ -1206,7 +1206,7 @@ async function saveRecordPaths() {
 
     // 确保 RecordPathList 是数组
     if (!Array.isArray(RecordPathList)) {
-        RecordPathList = [];
+        RecordPathList = Array.from(RecordPathList);
     }
     let temp = RecordPathList.find(item => item.uid === Record.uid)
     if (temp) {
