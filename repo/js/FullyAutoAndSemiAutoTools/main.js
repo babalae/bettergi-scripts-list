@@ -1208,13 +1208,13 @@ async function saveRecordPaths() {
     if (!Array.isArray(RecordPathList)) {
         RecordPathList = [];
     }
-    let temp=RecordPathList.find(item => item.uid === Record.uid)
-    if(temp) {
+    let temp = RecordPathList.find(item => item.uid === Record.uid)
+    if (temp) {
         // RecordList.splice(RecordList.indexOf(temp),1)
         temp.paths = [...recordToSave.paths, ...temp.paths]
-        temp.errorPaths = [...recordToSave.errorPaths, ...temp.errorPaths]
-        temp.groupPaths = [...recordToSave.groupPaths, ...temp.groupPaths]
-    }else{
+        // temp.errorPaths = [...recordToSave.errorPaths, ...temp.errorPaths]
+        // temp.groupPaths = [...recordToSave.groupPaths, ...temp.groupPaths]
+    } else {
         // 将记录对象添加到记录列表中
         RecordPathList.push(recordToSave)
     }
@@ -1245,16 +1245,9 @@ async function saveRecord() {
             paths: [...item.paths]
         }))
     };
-   let temp=RecordList.find(item => item.uid === Record.uid)
-    if(temp) {
-        // RecordList.splice(RecordList.indexOf(temp),1)
-        temp.paths = [...recordToSave.paths, ...temp.paths]
-        temp.errorPaths = [...recordToSave.errorPaths, ...temp.errorPaths]
-        temp.groupPaths = [...recordToSave.groupPaths, ...temp.groupPaths]
-    }else{
-        // 将记录对象添加到记录列表中
-        RecordList.push(recordToSave)
-    }
+
+    // 将记录对象添加到记录列表中
+    RecordList.push(recordToSave)
     // 将记录列表转换为JSON字符串并同步写入文件
     file.writeTextSync(json_path_name.RecordText, JSON.stringify(RecordList))
     log.info("saveRecord保存记录文件成功")
