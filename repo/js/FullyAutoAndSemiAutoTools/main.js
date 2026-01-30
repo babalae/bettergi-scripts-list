@@ -783,8 +783,10 @@ async function initRun(config_run) {
                 }
                 return true
             })
+            await debugKey(`[init-run]_log-cdFilterMatchedPaths.json`, JSON.stringify(cdFilterMatchedPaths))
             //多次请求改一次请求
             const nextMap = await cronUtil.getNextCronTimestampAll(bodyList, cd.http_api) ?? new Map();
+            await debugKey(``, JSON.stringify({nextMap:[...nextMap]}),true)
             //还在cd中的path
             const in_cd_paths = cdFilterMatchedPaths.filter(async item => {
                 const timeConfig = timeConfigs.find(cfg =>
@@ -1568,14 +1570,18 @@ function getBracketContent(str) {
  * @param {string} json - 需要写入调试文件的内容，默认为空数组
  * @returns {Promise<void>} - 异步函数，没有返回值
  */
-async function debugKey(path = "debug.json", json = "", key = dev.debug) {
+async function debugKey(path = "debug.json", json = "",isText = false, key = dev.debug) {
     const p = "debug\\"
     // 检查是否处于调试模式
     if (dev.isDebug) {
-        log.warn("[{0}]正在写出{1}日志", '开发者模式', path)
-        // 将调试信息同步写入指定文件
-        file.writeTextSync(`${p}${path}`, json)
-        log.warn("[{0}]写出完成", '开发者模式')
+        if (!isText) {
+            log.warn("[{0}]正在写出{1}日志", '开发者模式', path)
+            // 将调试信息同步写入指定文件
+            file.writeTextSync(`${p}${path}`, json)
+            log.warn("[{0}]写出完成", '开发者模式')
+        }else{
+            log.warn("[{0}]==>{1}", '开发者模式', json)
+        }
         // 输出等待按键的提示信息
         log.warn("[{0}]请按下{1}继续执行", '开发者模式', key)
         // 等待用户按下指定按键

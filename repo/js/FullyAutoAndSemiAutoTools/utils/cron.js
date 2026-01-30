@@ -163,7 +163,7 @@ async function getNextCronTimestampAll(bodyJson = [{
     let resultList = [{key: '', ok: true,next:0}]
     // 发送HTTP POST请求并处理响应
     resultList = (
-        await http.request("POST", url, JSON.stringify(bodyJson), JSON.stringify({
+        await http.request("POST", url, JSON.stringify({CronList:bodyJson}), JSON.stringify({
             "Content-Type": "application/json"
         })).then(res => {
             // 打印调试日志，记录响应内容
