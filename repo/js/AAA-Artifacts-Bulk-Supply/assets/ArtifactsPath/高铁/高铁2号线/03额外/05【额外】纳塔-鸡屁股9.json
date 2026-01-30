@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1768834537286,
+    "last_modified_time": 1769758334300,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "05【额外】纳塔-鸡屁股9",
@@ -157,8 +157,8 @@
       "y": -1744.93603515625
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.8)",
       "id": 17,
       "move_mode": "run",
       "type": "path",

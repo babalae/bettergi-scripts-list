@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766863649335,
+    "last_modified_time": 1769759112552,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "619纳塔-悠悠神像5",
@@ -38,12 +38,12 @@
     },
     {
       "action": "combat_script",
-      "action_params": "moveby(0,4000),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.3)",
+      "action_params": "moveby(0,4000),wait(0.3),keypress(t),wait(0.2),keypress(t),wait(0.3)",
       "id": 3,
       "move_mode": "climb",
       "type": "path",
-      "x": 13613.28131912645,
-      "y": -199.18716652480362
+      "x": 13613.689453125,
+      "y": -198.7373046875
     },
     {
       "action": "combat_script",
@@ -51,26 +51,26 @@
       "id": 4,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 13661.7529296875,
-      "y": -111.0224609375
+      "x": 13668.6875,
+      "y": -104.7294921875
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 13661.7529296875,
-      "y": -111.0224609375
+      "x": 13668.6875,
+      "y": -104.7294921875
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "swim",
+      "move_mode": "walk",
       "type": "target",
-      "x": 13668.318359375,
-      "y": -97.94140625
+      "x": 13668.6689453125,
+      "y": -99.31640625
     },
     {
       "action": "combat_script",
@@ -103,7 +103,7 @@
       "action": "combat_script",
       "action_params": "keydown(VK_SPACE),wait(0.7),keyup(VK_SPACE),keydown(w),wait(0.1),keypress(e),wait(1.1),keypress(e)",
       "id": 10,
-      "move_mode": "jump",
+      "move_mode": "walk",
       "type": "orientation",
       "x": 13602.150390625,
       "y": -76.396484375
@@ -146,7 +146,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.47),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 15,
       "move_mode": "climb",
       "type": "target",
