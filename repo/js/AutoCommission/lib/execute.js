@@ -444,8 +444,6 @@ var Execute = {
       // 按F键并执行优化的自动剧情
       log.info("执行自动剧情");
       await DialogProcessor.executeOptimizedAutoTalk(
-        null,
-        5,
         context.priorityOptions,
         context.npcWhiteList,
         context.isInMainUI
@@ -484,8 +482,6 @@ var Execute = {
 
     // 执行对话，使用当前步骤的优先选项和NPC白名单
     await DialogProcessor.executeOptimizedAutoTalk(
-      null,
-      skipCount,
       priorityOptions,
       npcWhiteList,
       isInMainUI
