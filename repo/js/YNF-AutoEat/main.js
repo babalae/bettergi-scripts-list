@@ -305,6 +305,7 @@
                          throw new Error("未找到指定队伍");
                     } // 在神像切换两次都失败，大概率是没有找到哦队伍
                }
+               await genshin.returnMainUi();
                return true;
           } catch (e) {
                log.error("队伍切换失败，可能处于联机模式或其他不可切换状态：" + e.message);
@@ -354,7 +355,7 @@
      }
 
      // 伊涅芙跳楼机
-     async function doit() {
+     async function doit(dieCount) {
           const randomNumber = Math.floor(Math.random() * 3) + 1;
           if (randomNumber == 1) { log.info("即使分离，我们的心始终相连"); }
           if (randomNumber == 2) { log.info("再见了伊涅芙，希望你喜欢这几分钟的戏份"); }
@@ -411,6 +412,19 @@
                }
           }
 
+          let YOffset = 0; // Y轴偏移量，根据需要调整
+          const maxRetries = 20; // 最大重试次数
+          let retries = 0; // 当前重试次数
+
+          if (dieCount == 0) {
+               await click(165, 1015);
+               await sleep(800);
+               await click(165, 1015);
+               await sleep(800);
+               await click(495, 1015);
+               await sleep(800);
+          }
+
           //滚轮预操作
           await moveMouseTo(1287, 131);
           await sleep(100);
@@ -418,9 +432,6 @@
           await sleep(100);
           await moveMouseTo(1287, 161);
 
-          let YOffset = 0; // Y轴偏移量，根据需要调整
-          const maxRetries = 20; // 最大重试次数
-          let retries = 0; // 当前重试次数
           while (retries < maxRetries) {
                const ifpingguo = await imageRecognitionEnhanced(pingguo, 1, 0, 0, 115, 120, 1150, 880);//识别"苹果"图片
                if (ifpingguo.found) {
@@ -516,7 +527,7 @@
           let dieCount = 0;
           // 循环控制运行次数
           for (let i = 0; i < n; i++) {
-               await doit();
+               await doit(dieCount);
                dieCount++;
                if (dieCount % 8 === 0 && dieCount != n) { //每8次回一次神像
                     log.info("队友们的血量好像有点不太健康欸……先回去补一补！");
