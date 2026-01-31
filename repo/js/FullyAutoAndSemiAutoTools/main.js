@@ -1891,7 +1891,7 @@ async function runMap(map = new Map()) {
     //打印组执行顺序
     let index = 1
     for (const [key, one] of map.entries()) {
-        log.info(`[{mode}] 任务组[{0}] 执行顺序[{1}]`, settings.mode, key, index);
+        log.info(`[{mode}] 任务组[{0}] 执行顺序[{1}] 执行路径数[{2}]`, settings.mode, key, index,one?.paths?.size||0);
         index++
     }
     log.info(`========================================================`)
