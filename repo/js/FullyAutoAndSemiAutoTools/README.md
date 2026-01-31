@@ -15,7 +15,7 @@ FullyAutoAndSemiAutoTools 是一套高度模块化、可高度自定义的自动
 - 执行记录防重复 + 择优优先未完成路径
 - 支持黑白名单、多 UID 隔离记录与路径缓存
 ## 快捷使用
-- 1.(首次/刷新存储)账号刷新 设置刷新层级 运行一次 (自动识别uid存储)
+- 1.(首次/刷新存储)账号刷新 设置刷新层级 运行一次 (自动识别uid存储) 先获取版本密钥
   </br>
   ![init-re](md/init-re.jpg)</br>
 - 2.执行
@@ -44,7 +44,7 @@ FullyAutoAndSemiAutoTools 是一套高度模块化、可高度自定义的自动
    如图选中下3级路径时不要选中对应的2级路径</br>
   ![init-run-pathing](md/init-run-pathing.jpg)</br>
   ![init-run-pathing-01](md/init-run-pathing-01.jpg)</br>
-
+- 3.高级配置请继续查看文档后续
 ### 核心亮点（最新版）
 
 - **路径扫描全面重构**：支持任意层级目录，父子关系清晰，性能稳定
