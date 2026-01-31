@@ -1,7 +1,6 @@
 # FullyAutoAndSemiAutoTools
 
 **全自动 + 半自动路径任务工具箱**  
-BetterGI 平台下功能最全面的路径批量执行解决方案之一
 
 ## 项目概述
 
