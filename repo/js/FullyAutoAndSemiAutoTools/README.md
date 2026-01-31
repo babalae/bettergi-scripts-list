@@ -15,6 +15,36 @@ FullyAutoAndSemiAutoTools 是一套高度模块化、可高度自定义的自动
 - 集成丰富的实时辅助功能
 - 执行记录防重复 + 择优优先未完成路径
 - 支持黑白名单、多 UID 隔离记录与路径缓存
+## 快捷使用
+- 1.(首次/刷新存储)账号刷新 设置刷新层级 运行一次 (自动识别uid存储)
+  </br>
+  ![init-re](md/init-re.jpg)</br>
+- 2.执行
+  **选择 全自动**</br>
+  ![run-init-01](md/run-init-01.jpg)</br>
+  **CD算法需要部署 [bettergi-scripts-tools](https://github.com/Kirito520Asuna/bettergi-scripts-tools/releases) 并启用http</br>
+   也可以开启择优模式(择优模式不依赖bettergi-scripts-tools)**</br>
+  ![run-init-01](md/run-init-cd-01.jpg)</br>
+  ![init-http](md/init-http.jpg)</br>
+  **日常选择 全自动**</br>
+  ![init-auto](md/init-auto.jpg)</br>
+  **配置队伍**</br>
+   配置默认 行走队</br>
+   队伍配置 实例语法对应映射: 矿物,火,水,风,雷,草,冰,岩 </br>
+   队伍配置 实例语法: 矿采集,水火风雷,水火风雷,水火风雷,元素,矿采集 </br>
+   没有可留空 如 矿采集,,,,,矿采集</br>
+  **锄地队伍配置**</br>
+  实例语法: 敌人与魔物->发条机关=速通,..... (还不清楚的看`锄地队伍配置图映射`)</br>
+  ![init-team](md/init-team.jpg)</br>
+  **`锄地队伍配置图映射`**</br>
+  ![init-team-map](md/init-team-map.jpg)</br>
+  **`选中执行组`**</br>
+   多选项 为或关系 </br>
+   如选中 地方特产的璃月 和 璃月的石珀 会执行 地方特产的璃月下所有的路径</br>
+   如需要指定 请勿选中上级目录 璃月的石珀(3级路径)->地方特产的璃月(2级路径) </br>
+   如图选中下3级路径时不要选中对应的2级路径</br>
+  ![init-run-pathing](md/init-run-pathing.jpg)</br>
+  ![init-run-pathing-01](md/init-run-pathing-01.jpg)</br>
 
 ### 核心亮点（最新版）
 
