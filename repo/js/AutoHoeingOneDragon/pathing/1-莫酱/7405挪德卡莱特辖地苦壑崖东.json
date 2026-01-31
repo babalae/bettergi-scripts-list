@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时80.41秒，包含以下怪物：4只深黯钓客。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769882093124,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "7405挪德卡莱特辖地苦壑崖东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9780.390625,
+      "y": 6212.56298828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9693.3662109375,
+      "y": 6265.97021484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9670.3046875,
+      "y": 6285.40478515625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1300",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9661.1103515625,
+      "y": 6287.81689453125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9619.814453125,
+      "y": 6349.86669921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9619.814453125,
+      "y": 6349.86669921875
+    }
+  ]
+}
