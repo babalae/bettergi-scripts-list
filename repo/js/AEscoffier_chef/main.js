@@ -612,9 +612,9 @@
         const templateMat2 = file.readImageMatSync("assets/best2.png");
 
         // 创建模板匹配识别对象
-        const templateRo0 = RecognitionObject.templateMatch(templateMat0);
-        const templateRo1 = RecognitionObject.templateMatch(templateMat1);
-        const templateRo2 = RecognitionObject.templateMatch(templateMat2);
+        const templateRo0 = RecognitionObject.TemplateMatch(templateMat0);
+        const templateRo1 = RecognitionObject.TemplateMatch(templateMat1);
+        const templateRo2 = RecognitionObject.TemplateMatch(templateMat2);
         templateRo0.threshold = 0.9;
         templateRo0.Use3Channels = true;
         templateRo1.threshold = 0.9;
@@ -1201,8 +1201,8 @@
                                     click(1185, 601); // 点击滑条最大值(736-1186)
                                     await sleep(500);
                                     if (detect) { // 检测摩拉是否充足
-                                        let mora_ocr = Ocr(1609, 28, 162, 40);
-                                        let cost_ocr = Ocr(961,682, 95, 32);
+                                        let mora_ocr = await Ocr(1609, 28, 162, 40);
+                                        let cost_ocr = await Ocr(961,682, 95, 32);
                                         if (cost_ocr && mora_ocr) {
                                             let cost = parseInt(cost_ocr, 10);
                                             let mora = parseInt(mora_ocr, 10);
@@ -1245,8 +1245,8 @@
                                     }
                                     await sleep(500);
                                     if (detect) { // 检测摩拉是否充足
-                                        let mora_ocr = Ocr(1609, 28, 162, 40);
-                                        let cost_ocr = Ocr(961,682, 95, 32);
+                                        let mora_ocr = await Ocr(1609, 28, 162, 40);
+                                        let cost_ocr = await Ocr(961,682, 95, 32);
                                         if (cost_ocr && mora_ocr) {
                                             let cost = parseInt(cost_ocr, 10);
                                             let mora = parseInt(mora_ocr, 10);
@@ -1376,7 +1376,7 @@
                             let ocrNum = await get_current_item_num();
                             if (!(ocrNum && ocrNum !== 0)) {
                                 log.info(`鱼类(${fishSelect[i]})数量不足...`);
-                                fishSelect.slice(i, 1); // 删去该鱼类
+                                fishSelect.splice(i, 1); // 删去该鱼类
                                 await sleep(200);
                                 click(23, 516); // 点击左侧空白处
                                 await sleep(300);
@@ -1771,7 +1771,7 @@
                             if (clickCount > oreNumOcr - o_count) {
                                 log.info(`设置的矿石保留数为${o_count}，此次加速使用矿石数由${clickCount + 1}改为${oreNumOcr - o_count}`);
                                 clickCount = oreNumOcr - o_count - 1;
-                                timeRemain = Match.ceil((ingredientTime * 60 - clickCount * accelerator_msg[o_name]) / 60); // 已留冗余时间
+                                timeRemain = Math.ceil((ingredientTime * 60 - clickCount * accelerator_msg[o_name]) / 60); // 已留冗余时间
                             } else {
                                 log.info(`此次加速使用矿石(${o_name})数: ${clickCount + 1}个`);
                                 timeRemain = 0;
@@ -1810,7 +1810,7 @@
                     await sleep(200);
                     click(1199, 805); // 获取
                     await sleep(200);
-                    click(1853, 850, 48, 4); // 点击空白处
+                    click(1853, 850); // 点击空白处
                     await sleep(300);
 
                     return timeRemain;
