@@ -797,7 +797,7 @@ async function initRun(config_run) {
                 switch (timeType.fromValue(timeConfig.type)) {
                     case timeType.hours: {
                         const diff = getTimeDifference(record.timestamp, now);
-                        return (diff.total.hours >= timeConfig.value);
+                        return (diff.total.hours < timeConfig.value);
                     }
                     case timeType.cron: {
                         // const next = await cronUtil.getNextCronTimestamp(
@@ -809,7 +809,7 @@ async function initRun(config_run) {
                         // return (next && now >= next);
                         // const key = generatedKey(item);
                         const cron_ok = nextMap.get(item.path)
-                        return cron_ok?.ok
+                        return !(cron_ok?.ok); // 不应该在CD中时返回true
                     }
                     default:
                         return false;
@@ -818,10 +818,10 @@ async function initRun(config_run) {
             await debugKey(`[init-run]_log-in_cd_paths.json`, JSON.stringify(in_cd_paths))
             // 移除 CD 未到的路径
             if (in_cd_paths.length > 0) {
-                matchedPaths = Array.from(
-                    new Set(matchedPaths).difference(new Set(in_cd_paths))
-                );
+                const cdPathSet = new Set(in_cd_paths.map(item => item.path));
+                matchedPaths = matchedPaths.filter(item => !cdPathSet.has(item.path));
             }
+
         }
 
         // 4. 写入 needRunMap
@@ -1138,7 +1138,6 @@ async function main() {
             }
 
 
-
             // 然后批量删除
             for (const key of keysToDelete) {
                 needRunMap.delete(key);
@@ -1170,12 +1169,12 @@ async function main() {
 
     if (needRunMap.size > 0) {
         if (settings.choose_best) {
-            log.info(`[{0}] [{1}]`, settings.mode, "择优模式-启动" )
+            log.info(`[{0}] [{1}]`, settings.mode, "择优模式-启动")
         }
         await runMap(needRunMap)
     }
     if (lastRunMap.size > 0) {
-        log.info(`[{0}] [{1}]`, settings.mode, "择优模式-收尾" )
+        log.info(`[{0}] [{1}]`, settings.mode, "择优模式-收尾")
         await runMap(lastRunMap)
     }
 
@@ -1890,9 +1889,9 @@ async function runMap(map = new Map()) {
     log.info(`========================================================`)
     log.info(`[{mode}] 开始执行任务，共{count}组任务`, settings.mode, map.size);
     //打印组执行顺序
-    let index=1
+    let index = 1
     for (const [key, one] of map.entries()) {
-        log.info(`[{mode}] 任务组[{0}] 执行顺序[{1}]`, settings.mode, key,index);
+        log.info(`[{mode}] 任务组[{0}] 执行顺序[{1}]`, settings.mode, key, index);
         index++
     }
     log.info(`========================================================`)
