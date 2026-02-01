@@ -1,0 +1,248 @@
+{
+  "info": {
+    "name": "11-神秘的肉-亡者之城地下-15个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Sabersunny",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753602969081,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4408.285129575757,
+      "y": -732.9583569709366,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 4438.325777665888,
+      "y": -762.3229840311742,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 4441.444138832944,
+      "y": -765.1921907519973,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 4454.694702805515,
+      "y": -756.1902731428745,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 s(0.2),e(hold),wait(0.3),w(0.2)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 4454.694702805515,
+      "y": -756.1902731428745,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "雷电将军 e",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 4454.694702805515,
+      "y": -756.1902731428745,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 4465.269769562892,
+      "y": -730.1390321640956,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 s(0.2),e(hold),wait(0.3),w(0.2)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 4465.269769562892,
+      "y": -730.1390321640956,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "雷电将军 e",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 4465.269769562892,
+      "y": -730.1390321640956,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 4467.299691063486,
+      "y": -708.7833564586499,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 s(0.2),e(hold),wait(0.3),w(0.2)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 4467.299691063486,
+      "y": -708.7833564586499,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "雷电将军 e",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 4467.299691063486,
+      "y": -708.7833564586499,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 4467.848553575553,
+      "y": -697.2193175372659,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": 4468.0322265625,
+      "y": -698.189453125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 attack",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 15,
+      "x": 4468.0322265625,
+      "y": -698.189453125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 16,
+      "x": 4467.15234375,
+      "y": -716.5498046875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 17,
+      "x": 4462.4990234375,
+      "y": -713.8115234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 18,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4462.760151769002,
+      "y": -728.5,
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": 4460.46044921875,
+      "y": -726.99462890625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 20,
+      "x": 4458.900390625,
+      "y": -738.875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 21,
+      "x": 4452.11474609375,
+      "y": -752.208984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 22,
+      "x": 4454.00048828125,
+      "y": -752.12451171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 23,
+      "x": 4458.41162109375,
+      "y": -753.22265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

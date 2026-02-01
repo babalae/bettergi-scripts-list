@@ -1,0 +1,130 @@
+{
+  "info": {
+    "name": "01-神秘的肉-三运河之地左-6个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Sabersunny",
+        "links": "QQ:228844942"
+      }
+    ],
+    "version": "1.0",
+    "description": "运行前需镇压风暴（装备魔瓶镇灵·利露帕尔）前往愚妄行宫左传送锚点找到枯树枝点击F镇压风暴.队伍要求万叶影钟离+任意风属性角色",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753511931634,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5583.82275390625,
+      "y": -404.7548828125,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5594.17529296875,
+      "y": -399.24658203125,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 3,
+      "x": 5671.2685546875,
+      "y": -353.681640625,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 5689.0166015625,
+      "y": -343.45263671875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1500",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 5704.93212890625,
+      "y": -339.10400390625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 5733.48828125,
+      "y": -359.14013671875,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "雷电将军 e",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 5748.08251953125,
+      "y": -369.90966796875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 5756.54931640625,
+      "y": -379.0537109375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 5753.12451171875,
+      "y": -380.42529296875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 5761.5439453125,
+      "y": -380.1865234375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 5755.86181640625,
+      "y": -376.92919921875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 5752.72216796875,
+      "y": -383.83251953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
