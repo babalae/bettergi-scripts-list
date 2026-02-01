@@ -449,11 +449,14 @@ async function activityMain(newActivityNotice = true) {
     await init();
     const ms = 1000;
     await sleep(ms);
+    let uid = await uidUtil.ocrUID()
+    let activityData=[]
     let activitySetLast = new Set()
     try {
         // 读取活动配置文件并转换为Set
-        const activityData = JSON.parse(file.readTextSync(json_path.activity));
-        activitySetLast = new Set(Array.isArray(activityData) ? activityData : []);
+        activityData = JSON.parse(file.readTextSync(json_path.activity));
+        const uidActivity = (Array.isArray(activityData) ? activityData : []).filter(item => item?.uid === uid).find(item => item)
+        activitySetLast = new Set(uidActivity.activityNames);
     } catch (e) {
         log.warn(`error:{1}`, e.message)
     }
@@ -469,7 +472,7 @@ async function activityMain(newActivityNotice = true) {
     } catch (e) {
         log.warn("回到顶部失败，但继续尝试执行");
     }
-    let activityNameSet = new Set()
+    // let activityNameSet = new Set()
     // 3. 初始化存储所有活动的 Map
     let activityMap = new Map();  // key: 活动名称, value: 剩余时间文本
     let previousPageActivities = new Set();  // 新增：记录上一页识别到的所有活动名称（用于重复页判断）
@@ -479,7 +482,7 @@ async function activityMain(newActivityNotice = true) {
     let scannedPages = 0;
     const maxPages = 25;               // 防止意外死循环的安全上限
     let sameBottomCountMax = 1;         // 连续相同底部活动名的最大次数
-
+    let currentActivityJson = {uid: uid, activityNames: new Set()}
     // 4. 主循环：逐页向下扫描
     while (scannedPages < maxPages) {
         scannedPages++;
@@ -507,9 +510,10 @@ async function activityMain(newActivityNotice = true) {
             }
             // ============ 新增：提前判断是否为重复页 ============
             const currentPageNames = new Set();
+
             for (let res of resList) {
                 currentPageNames.add(res.text.trim());
-                activityNameSet.add(res.text.trim());
+                currentActivityJson?.activityNames?.add(res.text.trim());
             }
 
             // 计算与上一页的重合率
@@ -694,7 +698,6 @@ async function activityMain(newActivityNotice = true) {
         log.info(`[模式]==>(剩余时间,白名单)已开启{key}模式`, config.relationship ? `和` : `或`)
 
     }
-    let uid = await uidUtil.ocrUID()
     // 7. 全部扫描完毕，统一发送通知（只发一次！）
     if (activityMapFilter.size > 0) {
         log.info(`扫描完成，共记录 {activityMap.size} 个活动，即将发送通知`, activityMapFilter.size);
@@ -728,16 +731,25 @@ async function activityMain(newActivityNotice = true) {
     //新活动通知
     if (newActivityNotice) {
         // 计算新增活动
-        const newActivities = [...activityNameSet].filter(activity => !activitySetLast.has(activity));
+        const newActivities = [...currentActivityJson.activityNames].filter(activity => !activitySetLast.has(activity));
 
-        if (newActivities.length > 0 && activitySetLast.size > 0) {
-            log.info("新增活动: {newActivities}", newActivities);
-
+        if (newActivities.length > 0 ) {
             try {
-                await noticeUtil.sendText(newActivities.join("\n"), `UID:${uid}\n新增活动`);
-
+                if(activitySetLast.size > 0){
+                    log.info("新增活动: {newActivities}", newActivities);
+                    await noticeUtil.sendText(newActivities.join("\n"), `UID:${uid}\n新增活动`);
+                }
+                activityData=activityData.filter(item => item.uid !== uid)
+                activityData.push(currentActivityJson)
+                // 确保所有数据都转换为可序列化格式
+                const finalSerializableData = activityData.map(item => ({
+                    ...item,
+                    activityNames: Array.isArray(item.activityNames) ?
+                        item.activityNames :
+                        [...(item.activityNames || [])]
+                }));
                 // 发送成功后更新配置文件
-                file.writeTextSync(json_path.activity, JSON.stringify(Array.from(activityNameSet)));
+                file.writeTextSync(json_path.activity, JSON.stringify(finalSerializableData));
                 log.debug("活动配置文件已更新");
 
             } catch (e) {
