@@ -152,6 +152,20 @@
         "type": "separator"
     },
     {
+        "name": "open_limit_max",
+        "type": "checkbox",
+        "label": "开启执行组最大路径设置"
+    },
+    {
+        "name": "limit_max_group",
+        "type": "input-text",
+        "label": "配置执行组最大路径数\n{语法:父文件夹名称->文件夹名称=最大路径数,.....}\n如:敌人与魔物->蕈兽=50",
+        "default": ""
+    },
+    {
+        "type": "separator"
+    },
+    {
         "name": "team_fight",
         "type": "input-text",
         "label": "战斗队伍配置(同时也是行走队伍配置)"

@@ -43,7 +43,7 @@ const json_path_name = {
     pathJsonByUid: `${config_root}\\path-json-by-uid.json`,
     PathOrder: `${config_root}\\PathOrder.json`,
     HoeGround: `${config_root}\\HoeGround.json`,
-
+    LimitMax: `${config_root}\\LimitMax.json`,
 }
 // 定义记录文件的路径
 // let RecordText = `${config_root}\\record.json`
@@ -930,6 +930,50 @@ async function initRun(config_run) {
             } catch (e) {
             }
             await debugKey("[init-run]_log-orderMap-All.json", JSON.stringify([...orderMap]))
+            //限制组最大执行数
+            const openLimitMax=settings.open_limit_max
+            let limitMaxByGroup = new Map()
+            if (openLimitMax){
+                try {
+                    let limitMaxList = JSON.parse(file.readTextSync(json_path_name.PathOrder)) ?? [{
+                        uid: "",
+                        is_common: false,
+                        parent_name: undefined,
+                        root_name: undefined,
+                        name: undefined,
+                        max: 0
+                    }]
+                    limitMaxList = limitMaxList.filter(item => item?.uid === Record.uid || item?.is_common)
+                    limitMaxList.sort((a, b) => {
+                        const orderA = a?.is_common ? 1 : 0;
+                        const orderB = b?.is_common ? 1 : 0;
+                        return orderB - orderA; // 这样 is_common 为 true 的会排在前面
+                    });
+                    // 自定义排序可覆盖公共排序
+                    limitMaxList.forEach(item => {
+                        if (item.root_name) {
+                            const key = generatedKey(item);
+                            limitMaxByGroup.set(key, item.max)
+                        } else {
+                            const key_parent = generatedKey(item, true);
+                            limitMaxByGroup.set(key_parent, item.max)
+                        }
+                    })
+
+                    //输入值优先覆盖
+                    try {
+                        // 支持多条规则，例如: "rootName->parentName->name1=1,rootName->parentName->name2=2"
+                        const limitMaxStr = settings.limit_max_group || "rootName->parentName->name=1"
+                        limitMaxStr.split(",").forEach(item => {
+                            const [key, max] = item.split("=");
+                            limitMaxByGroup.set(key, parseInt(max))
+                        })
+                    } catch (e) {
+                    }
+                } catch (e) {
+
+                }
+            }
 
 
             function groupByParentAndName(list) {
@@ -973,6 +1017,11 @@ async function initRun(config_run) {
                 let groupKey = generatedKey(groupOne);
                 if (asMap.has(groupKey)) {
                     groupKey = asMap.get(groupKey)
+                }
+                //限制组最大执行数
+                if(openLimitMax&&limitMaxByGroup.has(groupKey)){
+                   const max = Math.min(group.length, limitMaxByGroup.get(groupKey))
+                   group = group.slice(0, max)
                 }
                 needRunMap.set(groupKey, {
                     order: orderMap.get(groupKey) ?? 0,
@@ -1891,7 +1940,7 @@ async function runMap(map = new Map()) {
     //打印组执行顺序
     let index = 1
     for (const [key, one] of map.entries()) {
-        log.info(`[{mode}] 任务组[{0}] 执行顺序[{1}] 执行路径数[{2}]`, settings.mode, key, index,one?.paths?.size||0);
+        log.info(`[{mode}] 任务组[{0}] 执行顺序[{1}] 执行路径数[{2}]`, settings.mode, key, index, one?.paths?.size || 0);
         index++
     }
     log.info(`========================================================`)
