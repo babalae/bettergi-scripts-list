@@ -934,6 +934,7 @@ async function initRun(config_run) {
             const openLimitMax=settings.open_limit_max
             let limitMaxByGroup = new Map()
             if (openLimitMax){
+                log.info(`{0}`,'已开启限制组最大执行数')
                 try {
                     let limitMaxList = JSON.parse(file.readTextSync(json_path_name.PathOrder)) ?? [{
                         uid: "",
