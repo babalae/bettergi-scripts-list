@@ -1028,13 +1028,13 @@ async function initRun(config_run) {
                 let runGroup = group
                 //限制组最大执行数
                 if (openLimitMax && (limitMaxByGroup.has(key) || limitMaxByGroup.has(groupKey))) {
-                    const limitMax = limitMaxByGroup.get(key) || limitMaxByGroup.get(groupKey) ?? 99999
+                    const limitMax = (limitMaxByGroup.get(key) || limitMaxByGroup.get(groupKey)) ?? 99999
                     const max = Math.min(group.length, limitMax)
                     runGroup = group.slice(0, max)
                     log.debug("[限制组最大执行数] groupKey={0},max={1},limitMax={2},group.length={3}", key, max, limitMax, group.length)
                 }
                 needRunMap.set(key, {
-                    order: orderMap.get(key) || orderMap.get(groupKey) ?? 0,
+                    order: (orderMap.get(key) || orderMap.get(groupKey)) ?? 0,
                     paths: runGroup,
                     parent_name: groupOne.parentName,
                     key: key,
