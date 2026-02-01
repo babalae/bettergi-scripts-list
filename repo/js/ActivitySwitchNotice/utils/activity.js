@@ -509,6 +509,7 @@ async function activityMain(newActivityNotice = true) {
             const currentPageNames = new Set();
             for (let res of resList) {
                 currentPageNames.add(res.text.trim());
+                activityNameSet.add(res.text.trim());
             }
 
             // 计算与上一页的重合率
@@ -533,8 +534,8 @@ async function activityMain(newActivityNotice = true) {
             let currentPageBottomName = null;  // 本页最下面的活动名
             let newActivityCountThisPage = 0;
 
-            const newActivityNames = new Set(resList.map(item => item.text.trim()));
-            activityNameSet = [...activityNameSet, ...newActivityNames];
+            // const newActivityNames = new Set(Array.from(resList).map(item => item.text.trim()));
+            // activityNameSet = [...activityNameSet, ...currentPageNames];
 
             // 遍历当前页所有识别到的活动条目
             for (let res of resList) {
@@ -725,17 +726,26 @@ async function activityMain(newActivityNotice = true) {
         log.warn("不存在符合条件的活动，未发送通知");
     }
     //新活动通知
-    if (newActivityNotice && activitySetLast.size > 0 && activityNameSet.size > 0) {
-        let diff = [...activityNameSet].filter(x => !activitySetLast.has(x));
-        log.info("新增活动: {diff}", diff)
-        try {
-            await noticeUtil.sendText(`${diff.join("\n")}`, `UID:${uid}\n新增活动`)
-        } catch (e) {
-            log.error(`发送新增活动通知失败: {e}`, e.message)
-        } finally {
-            if (diff.size > 0) {
-                file.writeTextSync(json_path.activity, JSON.stringify(Array.from(activityNameSet)))
+    if (newActivityNotice) {
+        // 计算新增活动
+        const newActivities = [...activityNameSet].filter(activity => !activitySetLast.has(activity));
+
+        if (newActivities.length > 0 && activitySetLast.size > 0) {
+            log.info("新增活动: {newActivities}", newActivities);
+
+            try {
+                await noticeUtil.sendText(newActivities.join("\n"), `UID:${uid}\n新增活动`);
+
+                // 发送成功后更新配置文件
+                file.writeTextSync(json_path.activity, JSON.stringify(Array.from(activityNameSet)));
+                log.debug("活动配置文件已更新");
+
+            } catch (e) {
+                log.error(`发送新增活动通知失败: {message}`, {message: e.message});
+                // 即使发送失败也记录错误，但不更新配置文件以保持一致性
             }
+        } else {
+            log.debug("无新增活动");
         }
     }
 }
