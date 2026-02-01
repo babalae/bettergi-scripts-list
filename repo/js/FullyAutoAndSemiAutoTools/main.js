@@ -719,22 +719,32 @@ async function initRun(config_run) {
 
         function generatedKey(item, useParent = false) {
             const separator = "->";
-            // 优先处理 rootName->parentName->name 格式的情况
-            if (!useParent && item.rootName && item.parentName && item.parentName !== item.rootName && item.rootName !== "") {
-                return `${item.rootName}${separator}${item.parentName}${separator}${item.name}`;
-            } else if (!useParent && item.root_name && item.parent_name !== item.root_name && item.root_name !== "") {
-                return `${item.root_name}${separator}${item.parent_name}${separator}${item.name}`;
+
+            if (useParent) {
+                // 使用父级名称的逻辑
+                if (item?.parent_name && !item?.parentName) {
+                    return `${item.parent_name}${separator}${item.name}`;
+                } else if (item?.parentName) {
+                    return `${item.parentName}${separator}${item.name}`;
+                }
+            } else {
+                // 三层结构的逻辑
+                if (item?.rootName && item?.parentName && item?.rootName !== "" && item?.parentName !== item?.rootName) {
+                    return `${item.rootName}${separator}${item.parentName}${separator}${item.name}`;
+                } else if (item?.root_name && item?.parent_name && item?.root_name !== "" && item?.parent_name !== item?.root_name) {
+                    return `${item.root_name}${separator}${item.parent_name}${separator}${item.name}`;
+                }
+                // 二层结构的逻辑
+                if (item?.parent_name && !item?.parentName) {
+                    return `${item.parent_name}${separator}${item.name}`;
+                } else if (item?.parentName) {
+                    return `${item.parentName}${separator}${item.name}`;
+                }
             }
-            // 然后处理 useParent 或 parentName 存在的情况
-            if (useParent || item?.parentName) {
-                return `${item.parentName}${separator}${item.name}`;
-            } else if (useParent || item?.parent_name) {
-                return `${item.parent_name}${separator}${item.name}`;
-            }
-            // 默认返回 name
+
+            // 默认返回名称
             return item.name;
         }
-
 
         // 3. CD 过滤（可选）
         if (cd.open && matchedPaths.length > 0) {
@@ -826,13 +836,6 @@ async function initRun(config_run) {
 
         // 4. 写入 needRunMap
         if (matchedPaths.length > 0) {
-            // const settingsAsName = settingsNameAsList.find(
-            //     item => item.settings_name === settingsName
-            // );
-
-            // const {label} = multiCheckboxMap.get(settingsName);
-            // const as_name = getBracketContent(label)//父名称 如：晶蝶
-
             //锄地队对应
             try {
                 // {
@@ -858,7 +861,7 @@ async function initRun(config_run) {
                 });
                 // 自定义锄地队对应可覆盖公共锄地队对应
                 teamHoeGroundList.forEach(item => {
-                    if (item.root_name) {
+                    if (item?.root_name?.trim() !== "") {
                         const key = generatedKey(item);
                         team.HoeGroundMap.set(key, item.team_name);
 
@@ -931,12 +934,12 @@ async function initRun(config_run) {
             }
             await debugKey("[init-run]_log-orderMap-All.json", JSON.stringify([...orderMap]))
             //限制组最大执行数
-            const openLimitMax=settings.open_limit_max
+            const openLimitMax = settings.open_limit_max
             let limitMaxByGroup = new Map()
-            if (openLimitMax){
-                log.info(`{0}`,'已开启限制组最大执行数')
+            if (openLimitMax) {
+                log.info(`{0}`, '已开启限制组最大执行数')
                 try {
-                    let limitMaxList = JSON.parse(file.readTextSync(json_path_name.PathOrder)) ?? [{
+                    let limitMaxList = JSON.parse(file.readTextSync(json_path_name.LimitMax)) ?? [{
                         uid: "",
                         is_common: false,
                         parent_name: undefined,
@@ -952,12 +955,14 @@ async function initRun(config_run) {
                     });
                     // 自定义排序可覆盖公共排序
                     limitMaxList.forEach(item => {
-                        if (item.root_name) {
+                        if (item?.root_name?.trim() !== "") {
                             const key = generatedKey(item);
-                            limitMaxByGroup.set(key, item.max)
+                            limitMaxByGroup.set(key, parseInt(item.max))
+                            log.debug(`limitMaxList=>{0}->{1}`, key, item.max)
                         } else {
                             const key_parent = generatedKey(item, true);
-                            limitMaxByGroup.set(key_parent, item.max)
+                            limitMaxByGroup.set(key_parent, parseInt(item.max))
+                            log.debug(`limitMaxList=>{0}->{1}`, key_parent, item.max)
                         }
                     })
 
@@ -1019,14 +1024,16 @@ async function initRun(config_run) {
                 if (asMap.has(groupKey)) {
                     groupKey = asMap.get(groupKey)
                 }
+                let runGroup = group
                 //限制组最大执行数
-                if(openLimitMax&&limitMaxByGroup.has(groupKey)){
-                   const max = Math.min(group.length, limitMaxByGroup.get(groupKey))
-                   group = group.slice(0, max)
+                if (openLimitMax && limitMaxByGroup.has(groupKey)) {
+                    const max = Math.min(group.length, limitMaxByGroup.get(groupKey) ?? 99999)
+                    runGroup = group.slice(0, max)
+                    log.debug("[限制组最大执行数] groupKey={0},max={1},group.length={2}", groupKey, max, group.length)
                 }
                 needRunMap.set(groupKey, {
                     order: orderMap.get(groupKey) ?? 0,
-                    paths: group,
+                    paths: runGroup,
                     parent_name: groupOne.parentName,
                     key: groupKey,
                     current_name: groupOne.name,
@@ -1084,11 +1091,6 @@ async function init() {
         auto.run = settings.auto_semi_key_mode === "继续运行"
         auto.skip = settings.auto_semi_key_mode === "跳过"
         auto.key = settings.auto_key
-        // AUTO_STOP = (AUTO_STOP) ? AUTO_STOP : settings.autoStop
-        // AUTO_SKIP = (AUTO_SKIP) ? AUTO_SKIP : settings.autoSkip
-        //
-        // auto.run = (auto.run) ? auto.run : settings.autoStop
-        // auto.skip = (auto.skip) ? auto.skip : settings.autoSkip
         if (!auto.key) {
             throw new Error(settings.mode + "模式下必须开启快捷键设置")
         }
@@ -1873,7 +1875,7 @@ async function runPath(path, parent_name = "", current_name = "") {
  * @param {Array} list - 要执行的路径列表，默认为空数组
  * @returns {Promise<void>}
  */
-async function runList(list = [], key = "", current_name = "", parent_name = "") {
+async function runList(list = [], key = "", current_name = "", parent_name = "", group_key = "", group_value = "") {
     // 参数验证
     if (!Array.isArray(list)) {
         log.warn('无效的路径列表参数: {list}', list);
@@ -1892,7 +1894,7 @@ async function runList(list = [], key = "", current_name = "", parent_name = "")
         if (i === 0) {
             log.info(`[{mode}] 开始执行[{1}-{2}]列表`, settings.mode, parent_name, current_name);
         }
-        log.info('正在执行第{index}/{total}个路径: {path}', i + 1, list.length, path);
+        log.info('任务组[{0}] ' + group_key + ',正在执行第{index}/{total}个路径: {path}', key, group_value, i + 1, list.length, path);
         if (auto.semi && auto.skip) {
             log.warn(`[{mode}] 按下{key}可跳过{0}执行，如不想跳过请按 空格 或 其他非功能键`, settings.mode, auto.key, path);
             const skip = await keyMousePress(auto.key, auto.skip);
@@ -1941,12 +1943,15 @@ async function runMap(map = new Map()) {
     //打印组执行顺序
     let index = 1
     for (const [key, one] of map.entries()) {
-        log.info(`[{mode}] 任务组[{0}] 执行顺序[{1}] 执行路径数[{2}]`, settings.mode, key, index, one?.paths?.size || 0);
+        log.info(`[{mode}] 任务组[{0}] 执行顺序[{1}] 执行路径数[{2}]`, settings.mode, key, index + "/" + map.size, one?.paths?.length || 0);
         index++
     }
+    const group_prefix = "任务组执行顺序[{group_key}]"
     log.info(`========================================================`)
     // 遍历Map中的所有键
+    index = 0
     for (const [key, one] of map.entries()) {
+        index++
         if (one.paths.size <= 0) {
             continue
         }
@@ -1959,7 +1964,7 @@ async function runMap(map = new Map()) {
             log.debug(`[{0}] {1}组 开始执行...`, settings.mode, key);
             // 执行当前任务关联的路径列表
 
-            await runList(one.paths, key, one.current_name, one.parent_name);
+            await runList(one.paths, key, one.current_name, one.parent_name, group_prefix, (index + "/" + map.size));
 
             log.debug(`[{0}] 任务[{1}]执行完成`, settings.mode, key);
         } catch (error) {

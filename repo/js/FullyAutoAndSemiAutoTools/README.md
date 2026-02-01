@@ -259,7 +259,10 @@ sequenceDiagram
     3. `rootName=parentName`时 语法`rootName->parentName->name=队伍名`不可用， 请使用 `parentName->name=队伍名` 语法
     4. `rootName->name=队伍名` 语法不支持
     5. 匹配精度：`rootName->parentName->name` > `parentName->name` > 默认顺序
-- limit_max_group 配置执行组最大路径数(参考 执行顺序规则 即可)
+- limit_max_group 配置执行组最大路径数
+    1. `parentName` 父目录名称，`name` 文件夹名称
+    2. 建议语法：`parentName->name=50,parentName->name2=50`
+    3. 匹配精度： `parentName->name` > 默认顺序
 ## (可选)额外json配置
 
 ### 配置项order_rules
