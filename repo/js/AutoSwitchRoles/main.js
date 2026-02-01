@@ -220,7 +220,7 @@ function readAliases() {
                     ro4.dispose();
                     if (confirmFilterBtn.isExist()) {
                         confirmFilterBtn.click();
-                        await sleep(50); // 等待筛选结果显示
+                        await sleep(200); // 等待筛选结果显示
                         
                         // 识别是否有"暂无筛选结果"提示
                         const noResultRo = RecognitionObject.TemplateMatch(noResultTemplate, 0, 0, 1920, 1080);
