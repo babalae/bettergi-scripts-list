@@ -1027,9 +1027,10 @@ async function initRun(config_run) {
                 let runGroup = group
                 //限制组最大执行数
                 if (openLimitMax && limitMaxByGroup.has(groupKey)) {
-                    const max = Math.min(group.length, limitMaxByGroup.get(groupKey) ?? 99999)
+                    const limitMax= limitMaxByGroup.get(groupKey)??99999
+                    const max = Math.min(group.length, limitMax)
                     runGroup = group.slice(0, max)
-                    log.debug("[限制组最大执行数] groupKey={0},max={1},group.length={2}", groupKey, max, group.length)
+                    log.debug("[限制组最大执行数] groupKey={0},max={1},limitMax={2},group.length={3}", groupKey, max, limitMax, group.length)
                 }
                 needRunMap.set(groupKey, {
                     order: orderMap.get(groupKey) ?? 0,
