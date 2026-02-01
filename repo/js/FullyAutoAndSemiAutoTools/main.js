@@ -752,6 +752,7 @@ async function initRun(config_run) {
             try {
                 recordPaths = Array.from(RecordPath.paths);
             } catch (e) {
+                log.error("读取记录路径失败: {error}", e.message)
             }
             recordPaths.sort((a, b) => b.timestamp - a.timestamp)
 
@@ -873,6 +874,7 @@ async function initRun(config_run) {
                 })
                 log.info(`{0}加载完成`, json_path_name.HoeGround)
             } catch (e) {
+                log.error(`加载失败:{0}`, e.message)
             }
             //输入值优先覆盖
             try {
@@ -882,6 +884,7 @@ async function initRun(config_run) {
                     team.HoeGroundMap.set(key, team_name)
                 })
             } catch (e) {
+                log.error(`加载失败:{0}`, e.message)
             }
 
             //   排序
@@ -920,6 +923,7 @@ async function initRun(config_run) {
                 })
                 log.info(`{0}加载完成`, json_path_name.PathOrder)
             } catch (e) {
+                log.error(`加载失败:{0}`, e.message)
             }
             await debugKey("[init-run]_log-orderMap-By-json.json", JSON.stringify([...orderMap]))
             //输入值优先覆盖
@@ -931,6 +935,7 @@ async function initRun(config_run) {
                     orderMap.set(key, parseInt(order))
                 })
             } catch (e) {
+                log.error(`加载失败:{0}`, e.message)
             }
             await debugKey("[init-run]_log-orderMap-All.json", JSON.stringify([...orderMap]))
             //限制组最大执行数
@@ -975,8 +980,10 @@ async function initRun(config_run) {
                             limitMaxByGroup.set(key, parseInt(max))
                         })
                     } catch (e) {
+                        log.error(`加载失败:{0}`, e.message)
                     }
                 } catch (e) {
+                    log.error(`加载失败:{0}`, e.message)
 
                 }
             }
