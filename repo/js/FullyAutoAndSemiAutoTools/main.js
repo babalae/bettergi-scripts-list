@@ -1839,7 +1839,7 @@ async function runPath(path, root_name = "", parent_name = "", current_name = ""
                     log.error(`[{mode}] 路径需要配置好战斗策略: {path}`, settings.mode, path)
                     throw new Error(`路径需要配置好战斗策略: ` + path)
                 } else if (team.current !== team.fightName) {
-                    log.info(`[{mode}] 检测到需要战斗，切换至{teamName}`, team.fightName);
+                    log.info(`[{mode}] 检测到需要战斗，切换至{teamName}`,settings.mode, team.fightName);
                     const teamSwitch = await switchUtil.SwitchPartyMain(team.fightName);
                     if (teamSwitch) {
                         team.current = teamSwitch;
