@@ -756,7 +756,7 @@ async function qucikBuy() {
 
         // 确保最终数量至最大
         await sleep(200);
-        click(2370, 1208;
+        click(2370, 1208);
         await sleep(200);
 
         // 点击确认按钮
@@ -1165,4 +1165,5 @@ async function initRo() {
     }
 
 })();
+
 
