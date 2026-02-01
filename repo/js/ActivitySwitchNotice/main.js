@@ -170,5 +170,5 @@ async function main() {
     await campaignAreaUtil.campaignAreaMain(openKey)
     await sleep(ms * 2);
     await toMainUi()
-    await activityUtil.activityMain()
+    await activityUtil.activityMain(settings.newActivityNotice)
 }
