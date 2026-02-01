@@ -1803,14 +1803,10 @@ async function runPath(path, root_name = "", parent_name = "", current_name = ""
     //检查战斗需求
     try {
         if (!team.fight) {
-            // const one = JSON.parse(file.readTextSync(path))
-            // if (one.info?.description?.includes("请配置好战斗策略")) {
-            //     log.warn(`[{mode}] 路径需要配置好战斗策略: {path}，如已配置请忽略`, settings.mode, path)
+            //自动检测禁用
+            // if (team.fightKeys.some(item => path.includes(`\\${item}\\`))) {
             //     team.fight = true
-            // } else
-            if (team.fightKeys.some(item => path.includes(`\\${item}\\`))) {
-                team.fight = true
-            }
+            // }
         }
     } catch (error) {
         log.error("检查战斗需求失败: {error}", error.message);
@@ -1834,7 +1830,15 @@ async function runPath(path, root_name = "", parent_name = "", current_name = ""
             if (path.includes("有草神")) {
                 const idx = SevenElement.SevenElements.indexOf('草');
                 await switchTeamByIndex(idx, "路线需要草神");
-            } else if (team.fight) {
+            }else if (team.current !== team.fightName) {
+                log.info(`[{mode}] 未检测到队伍配置切换至行走位，切换至{teamName}`,settings.mode, team.fightName);
+                const teamSwitch = await switchUtil.SwitchPartyMain(team.fightName);
+                if (teamSwitch) {
+                    team.current = teamSwitch;
+                }
+            }
+            //自动检测已禁用
+            else if (team.fight) {
                 if (!team.fightName) {
                     log.error(`[{mode}] 路径需要配置好战斗策略: {path}`, settings.mode, path)
                     throw new Error(`路径需要配置好战斗策略: ` + path)
