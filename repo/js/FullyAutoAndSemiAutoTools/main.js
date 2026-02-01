@@ -1021,22 +1021,23 @@ async function initRun(config_run) {
             groups.forEach(group => {
                 const groupOne = group[0]
                 let groupKey = generatedKey(groupOne);
-                if (asMap.has(groupKey)) {
-                    groupKey = asMap.get(groupKey)
+                let key = groupKey
+                if (asMap.has(key)) {
+                    key = asMap.get(key)
                 }
                 let runGroup = group
                 //限制组最大执行数
-                if (openLimitMax && limitMaxByGroup.has(groupKey)) {
-                    const limitMax= limitMaxByGroup.get(groupKey)??99999
+                if (openLimitMax && (limitMaxByGroup.has(key) || limitMaxByGroup.has(groupKey))) {
+                    const limitMax = limitMaxByGroup.get(key) || limitMaxByGroup.get(groupKey) ?? 99999
                     const max = Math.min(group.length, limitMax)
                     runGroup = group.slice(0, max)
-                    log.debug("[限制组最大执行数] groupKey={0},max={1},limitMax={2},group.length={3}", groupKey, max, limitMax, group.length)
+                    log.debug("[限制组最大执行数] groupKey={0},max={1},limitMax={2},group.length={3}", key, max, limitMax, group.length)
                 }
-                needRunMap.set(groupKey, {
-                    order: orderMap.get(groupKey) ?? 0,
+                needRunMap.set(key, {
+                    order: orderMap.get(key) || orderMap.get(groupKey) ?? 0,
                     paths: runGroup,
                     parent_name: groupOne.parentName,
-                    key: groupKey,
+                    key: key,
                     current_name: groupOne.name,
                     name: settingsName //多选项 名称 如 treeLevel_0_0
                 });
@@ -1787,7 +1788,7 @@ async function switchTeamByName(teamName) {
  * 执行指定路径的脚本文件
  * @param {string} path - 要执行的脚本路径
  */
-async function runPath(path, parent_name = "", current_name = "") {
+async function runPath(path, root_name = "", parent_name = "", current_name = "") {
     // 参数验证
     if (!path || typeof path !== 'string') {
         log.warn('无效的路径参数: {path}', path)
@@ -1817,8 +1818,9 @@ async function runPath(path, parent_name = "", current_name = "") {
 
     //切换队伍
     const hoeGroundKey = `${parent_name}->${current_name}`;
-    if (team.HoeGroundMap.has(hoeGroundKey)) {
-        const hoeGroundName = team.HoeGroundMap.get(hoeGroundKey);
+    const hoeGroundRootKey = `${root_name}->${parent_name}->${current_name}`;
+    if (team.HoeGroundMap.has(hoeGroundRootKey) || team.HoeGroundMap.has(hoeGroundKey)) {
+        const hoeGroundName = team.HoeGroundMap.get(hoeGroundKey) || team.HoeGroundMap.get(hoeGroundKey);
         await switchTeamByName(hoeGroundName);
     } else {
         const entry = [...SevenElement.SevenElementsMap.entries()].find(([key, val]) => {
@@ -1908,7 +1910,7 @@ async function runList(list = [], key = "", current_name = "", parent_name = "",
         const value = {timestamp: now, path: path};
         try {
             // 执行单个路径，并传入停止标识
-            await runPath(path);
+            await runPath(path, onePath.rootName, parent_name, current_name);
         } catch (error) {
             log.error('执行路径列表中的路径失败: {path}, 错误: {error}', path, error.message);
             Record.errorPaths.add(path)
