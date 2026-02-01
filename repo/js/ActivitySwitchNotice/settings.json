@@ -20,6 +20,12 @@
         "type": "separator"
     },
     {
+        "name": "newActivityNotice",
+        "type": "checkbox",
+        "label": "启用新活动通知",
+        "default": true
+    },
+    {
         "label": "地图识别任务提醒",
         "type": "multi-checkbox",
         "name": "mapMissionKeys",

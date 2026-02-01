@@ -1,3 +1,8 @@
+const config_name = "config"
+const json_path = {
+    activity: `${config_name}/activity.json`
+}
+
 function settingsParseInt(str, defaultValue) {
     try {
         return str ? parseInt('' + str) : defaultValue;
@@ -440,10 +445,18 @@ async function init() {
 /**
  * 活动主函数：扫描所有活动页面，识别剩余时间，最后统一发送通知
  */
-async function activityMain() {
+async function activityMain(newActivityNotice = true) {
     await init();
     const ms = 1000;
     await sleep(ms);
+    let activitySetLast = new Set()
+    try {
+        // 读取活动配置文件并转换为Set
+        const activityData = JSON.parse(file.readTextSync(json_path.activity));
+        activitySetLast = new Set(Array.isArray(activityData) ? activityData : []);
+    } catch (e) {
+        log.warn(`error:{1}`, e.message)
+    }
 
     // 1. 打开活动页面（默认 F5）
     await keyPress(config.activityKey);
@@ -456,7 +469,7 @@ async function activityMain() {
     } catch (e) {
         log.warn("回到顶部失败，但继续尝试执行");
     }
-
+    let activityNameSet = new Set()
     // 3. 初始化存储所有活动的 Map
     let activityMap = new Map();  // key: 活动名称, value: 剩余时间文本
     let previousPageActivities = new Set();  // 新增：记录上一页识别到的所有活动名称（用于重复页判断）
@@ -520,6 +533,9 @@ async function activityMain() {
             let currentPageBottomName = null;  // 本页最下面的活动名
             let newActivityCountThisPage = 0;
 
+            const newActivityNames = new Set(resList.map(item => item.text.trim()));
+            activityNameSet = [...activityNameSet, ...newActivityNames];
+
             // 遍历当前页所有识别到的活动条目
             for (let res of resList) {
                 const activityName = res.text.trim();
@@ -537,7 +553,7 @@ async function activityMain() {
                     let matched = config.blackActivityNameList.some(keyword => activityName.includes(keyword));
                     if (matched) {
                         // 获取黑名单活动的条件配置
-                        let blackActivityConditions = getMapByKey(config.blackActivityMap, activityName,true);
+                        let blackActivityConditions = getMapByKey(config.blackActivityMap, activityName, true);
                         log.info(`[黑名单条件检测]blackActivityMap:{blackActivityMap},activityName:{activityName},blackActivityConditions:{blackActivityConditions}`,
                             config.blackActivityMap, activityName, blackActivityConditions);
                         if (blackActivityConditions && blackActivityConditions.length > 0) {
@@ -546,7 +562,7 @@ async function activityMain() {
                             // 遍历所有条件，检查是否满足黑名单条件
                             for (const blackActivityCondition of blackActivityConditions) {
                                 try {
-                                    let condition = await OcrKey(activityName,blackActivityCondition);
+                                    let condition = await OcrKey(activityName, blackActivityCondition);
                                     if (condition) {
                                         log.info(`满足黑名单条件==>{ac}->{ba}`, activityName, blackActivityCondition);
                                         matched = true;
@@ -677,9 +693,9 @@ async function activityMain() {
         log.info(`[模式]==>(剩余时间,白名单)已开启{key}模式`, config.relationship ? `和` : `或`)
 
     }
+    let uid = await uidUtil.ocrUID()
     // 7. 全部扫描完毕，统一发送通知（只发一次！）
     if (activityMapFilter.size > 0) {
-        let uid = await uidUtil.ocrUID()
         log.info(`扫描完成，共记录 {activityMap.size} 个活动，即将发送通知`, activityMapFilter.size);
         // 构建通知标题，根据配置显示剩余时间阈值和白名单活动信息
         let titleKey = `[ `;
@@ -707,6 +723,20 @@ async function activityMain() {
         await noticeUtil.sendNotice(activityMapFilter, `UID:${uid}\n原神活动剩余时间提醒(仅显示 ${titleKey} 的活动)${blackText}`);
     } else {
         log.warn("不存在符合条件的活动，未发送通知");
+    }
+    //新活动通知
+    if (newActivityNotice && activitySetLast.size > 0 && activityNameSet.size > 0) {
+        let diff = [...activityNameSet].filter(x => !activitySetLast.has(x));
+        log.info("新增活动: {diff}", diff)
+        try {
+            await noticeUtil.sendText(`${diff.join("\n")}`, `UID:${uid}\n新增活动`)
+        } catch (e) {
+            log.error(`发送新增活动通知失败: {e}`, e.message)
+        } finally {
+            if (diff.size > 0) {
+                file.writeTextSync(json_path.activity, JSON.stringify(Array.from(activityNameSet)))
+            }
+        }
     }
 }
 
