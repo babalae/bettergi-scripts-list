@@ -1,0 +1,55 @@
+[
+    {
+        "name": "userName",
+        "type": "input-text",
+        "label": "账号名（用于区分不同账户的记录）",
+        "default": "默认账户"
+    },
+    {
+        "name": "foodsToBuy",
+        "type": "input-text",
+        "label": "要购买的商品（多个商品用空格分隔）\n示例：\"小麦 黑麦\"\n\n支援的 商人与商品详细 请前往 README.md 查看\n建议直接复制商品名称贴上输入栏",
+        "default": "小麦 黑麦"
+    },
+    {
+        "name": "AKF",
+        "type": "select",
+        "label": "每周商品购买方式\n0=跟随系统周期自动判定\n1-7=指定星期几购买(1=周一,7=周日)",
+        "options": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "default": "0"
+    },
+    {
+        "name": "disabledNpcs",
+        "type": "input-text",
+        "label": "要禁用的商人\n（多个商人用空格分隔）\n示例：阿扎莱 皮托",
+        "default": "阿扎莱 皮托"
+    },
+    {
+        "name": "disabledTags",
+        "type": "input-text",
+        "label": "禁用标签\n（多个标签以空格分隔，如：黑心商人 挪德卡莱）",
+        "default": ""
+    },
+    {
+        "name": "ignoreRecords",
+        "type": "checkbox",
+        "label": "-----------------\n无视记录强制购买（不推荐）",
+        "default": false
+    },
+    {
+        "name": "recordDebug",
+        "type": "checkbox",
+        "label": "记录调试模式（显示详细日志）",
+        "default": false
+    }
+
+]

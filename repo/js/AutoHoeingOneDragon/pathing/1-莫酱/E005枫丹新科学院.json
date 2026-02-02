@@ -1,0 +1,172 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时172.82秒，包含以下怪物：1只机关·侦察记录型、1只机关·地质勘探型、5只机关·区域警戒型、1只压制特化型机关、1只歼灭特化型机关。",
+    "enable_monster_loot_split": false,
+    "hash_res": "39342545",
+    "last_modified_time": 1768161369167,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E005枫丹新科学院",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4301.279999999999,
+      "y": 4765.049999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4305.2529296875,
+      "y": 4767.9375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4297.037109375,
+      "y": 4780.58251953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4258.1796875,
+      "y": 4804.017578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4208,
+      "y": 4854.005859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4254.232421875,
+      "y": 4895.4150390625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4263.142578125,
+      "y": 4890.162109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4263.142578125,
+      "y": 4890.162109375
+    },
+    {
+      "action": "log_output",
+      "action_params": "有个JJ怪长在墙上,没芙芙/爱可菲/火神这种远距离索敌的都会超时",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4254.232421875,
+      "y": 4895.4150390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4215.9609375,
+      "y": 4863.8759765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4150.751953125,
+      "y": 4804.36376953125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4116.90625,
+      "y": 4803.63818359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4116.90625,
+      "y": 4803.63818359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 14,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4127.7666015625,
+      "y": 4772.3134765625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4106.626953125,
+      "y": 4780.7578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4106.626953125,
+      "y": 4780.7578125
+    }
+  ]
+}

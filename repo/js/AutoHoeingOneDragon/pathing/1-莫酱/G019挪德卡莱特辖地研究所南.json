@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时56.81秒，包含以下怪物：2只愚人众特辖队·线列军、1只愚人众特辖队·疗愈师、1只愚人众特辖队·火刃突击队。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769881697940,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "G019挪德卡莱特辖地研究所南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9545.1806640625,
+      "y": 6260.0107421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9521.580078125,
+      "y": 6202.8876953125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9485.080078125,
+      "y": 6153.8193359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9485.080078125,
+      "y": 6153.8193359375
+    }
+  ]
+}

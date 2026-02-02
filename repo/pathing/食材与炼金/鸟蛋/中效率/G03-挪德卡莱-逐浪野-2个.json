@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.55.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768879866970,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "G03-挪德卡莱-逐浪野-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9775.1191,
+      "y": 5817.1494
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9732.6504,
+      "y": 5765.2432
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9721.0645,
+      "y": 5761.209
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1);keypress(VK_SPACE)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9723.4775,
+      "y": 5767.6963
+    }
+  ]
+}

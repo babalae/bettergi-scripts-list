@@ -1,55 +1,191 @@
-(async function () { // 若料理选择重复，以最后一个的数量为准，后续改进【根据food_dic.json自动生成头部的预生成数组，使更新更加便捷】
-    const base_path = "saves/"
-    let data_dic = {} // 存储进度和周期设置-食谱解锁情况(food)和食材刷新周期(material)食材加工周期(ingredient)和部分购买周期(buy)
-    // 预生成数组（数据来源为food_dic，均使用read_json_file.py更新，更新JS脚本时需要手动更新sort_dic的键）
-    // type数组无用，仅作参考
-    const type = ['正常料理', '部族惊喜', '特殊料理', '活动料理', '饮品', '探索获取', '购买料理'];
-    const category_dic = {
-        "生命上限提升": "Max_HP_Boost",
-        "元素充能效率提升": "Elemental_Recharge_Boost",
-        "其他": "Others",
-        "持续恢复": "Continuous_Heal",
-        "复活": "Revive",
-        "恢复血量": "HP_Heal",
-        "提升暴击": "Crit_Rate_Boost",
-        "恢复体力": "Stamina_Regen",
-        "提升防御": "Defense_Boost",
-        "提升治疗效果": "Healing_Boost",
-        "减少体力消耗": "Stamina_Cost_Reduction",
-        "提升攻击": "Attack_Boost",
-        "提升护盾": "Shield_Boost",
-        "提升伤害": "Damage_Boost",
-        "环境交互恢复": "Env_Interaction_Heal",
-        "不可制作": "Cant_Make",
-        "减少严寒消耗": "Chill_Cost_Reduction",
-        "提升暴击伤害": "Crit_Damage_Boost"
-    };
-    // 英文版本（不含不可制作）,该数组无用，仅作参考
-    const category_en = ['Max HP Boost', 'Elemental Recharge Boost', 'Others', 'Continuous Heal', 'Revive', 'HP Heal', 'Crit Rate Boost', 'Stamina Regen', 'Defense Boost', 'Healing Boost', 'Stamina Cost Reduction', 'Attack Boost', 'Shield Boost', 'Damage Boost', 'Env. Interaction Heal', 'Chill Cost Reduction', 'Crit Damage Boost']
+(async function () { // 超2000上限条件未适配，OCR特殊字符可能失效，滑块底部时左下角料理文本无法识别，爱可菲的15%爆率
+    const food_msg = JSON.parse(file.readTextSync("assets/foodMsg.json"));
+    // const material_list = ['蘑菇', '黑麦粉', '洋葱', '夏槲果', '卷心菜', '胡萝卜', '土豆', '酸奶油', '兽肉', '火腿', '香肠', '胡椒', '宿影花', '冬凌草', '白灵果', '禽肉', '面粉', '香辛料', '薄荷', '苹果', '黄油', '糖', '鱼肉', '奶油', '秃秃豆', '鸟蛋', '盐', '番茄', '寒涌石', '奶酪', '青蜜莓', '苦种', '虾仁', '颗粒果', '咖啡豆', '墩墩桃', '日落果', '树莓', '牛奶', '汐藻', '泡泡桔', '海露花', '螃蟹', '绯樱绣球', '红果果菇', '堇瓜', '蟹黄', '清心', '烬芯花', '果酱', '澄晶实', '培根', '烛伞蘑菇', '肉龙掌', '发酵果实汁', '茉洁草', '稻米', '白萝卜', '松茸', '沉玉仙茗', '豆腐', '绝云椒椒', '竹笋', '金鱼草', '杏仁', '小麦', '松果', '海草', '琉璃袋', '帕蒂沙兰', '神秘的肉', '莲蓬', '枣椰', '鳗肉', '须弥蔷薇', '钩钩果', '树王圣体菇', '星蕈', '嘟嘟莲', '马尾', '甜甜花', '小灯草', '「冷鲜肉」', '熏禽肉'];
+    const food_category = {
+        "恢复类": ["恢复血量", "持续恢复", "复活"],
+        "攻击类": ["提升伤害", "提升攻击", "提升暴击", "提升暴击伤害"],
+        "冒险类": ["恢复体力", "减少体力消耗", "减少严寒消耗", "环境交互恢复"],
+        "防御类": ["提升防御", "提升护盾", "生命上限提升", "提升治疗效果", "元素充能效率提升"],
+        "其他": ["其他", "不可制作"],
+    }
+    // const food_type = ["特殊料理", "正常料理", "活动料理", "饮品", "视觉效果", "购买料理", "探索获取", "角色技能获取", "限时"]
+    const special_food = { // 5星仅作占位用，无实际作用 [特殊料理用]
+        "1": [0.1, 0.15, 0.2],
+        "2": [0.1, 0.1, 0.15],
+        "3": [0.05, 0.1, 0.15],
+        "4": [0.05, 0.05, 0.1],
+        "5": [0.05, 0.05, 0.1]
+    }
+    const fish_msg = {
+        "花鳉": {"bait": "果酿饵", "num": 1},
+        "琉璃花鳉": {"bait": "果酿饵", "num": 1},
+        "甜甜花鳉": {"bait": "果酿饵", "num": 1},
+        "蓝染花鳉": {"bait": "果酿饵", "num": 1},
+        "擒霞客": {"bait": "果酿饵", "num": 1},
+        "水晶宴": {"bait": "果酿饵", "num": 1},
+        "肺棘鱼": {"bait": "赤糜饵", "num": 2},
+        "斗棘鱼": {"bait": "赤糜饵", "num": 2},
+        "鸩棘鱼": {"bait": "赤糜饵", "num": 2},
+        "赤魔王": {"bait": "赤糜饵", "num": 2},
+        "雪中君": {"bait": "赤糜饵", "num": 2},
+        "金赤假龙": {"bait": "飞蝇假饵", "num": 3},
+        "锖假龙": {"bait": "飞蝇假饵", "num": 3},
+        "流纹褐蝶鱼": {"bait": "蠕虫假饵", "num": 2},
+        "流纹茶蝶鱼": {"bait": "蠕虫假饵", "num": 2},
+        "流纹京紫蝶鱼": {"bait": "蠕虫假饵", "num": 2},
+        "长生仙": {"bait": "蠕虫假饵", "num": 2},
+        "雷鸣仙": {"bait": "蠕虫假饵", "num": 2},
+        "炮鲀": {"bait": "飞蝇假饵", "num": 3},
+        "苦炮鲀": {"bait": "飞蝇假饵", "num": 3},
+        "佛玛洛鳐": {"bait": "飞蝇假饵", "num": 3},
+        "迪芙妲鳐": {"bait": "飞蝇假饵", "num": 3},
+        "吹沙角鲀": {"bait": "甘露饵", "num": 2},
+        "暮云角鲀": {"bait": "甘露饵", "num": 2},
+        "真果角鲀": {"bait": "甘露饵", "num": 2},
+        "沉波蜜桃": {"bait": "甘露饵", "num": 2},
+        "翡玉斧枪鱼": {"bait": "甘露饵", "num": 2},
+        "青金斧枪鱼": {"bait": "甘露饵", "num": 2},
+        "海涛斧枪鱼": {"bait": "甘露饵", "num": 2},
+        "烘烘心羽鲈": {"bait": "酸桔饵", "num": 2},
+        "波波心羽鲈": {"bait": "酸桔饵", "num": 2},
+        "玉玉心羽鲈": {"bait": "酸桔饵", "num": 2},
+        "伪装鲨鲨独角鱼": {"bait": "澄晶果粒饵", "num": 2},
+        "青浪翻车鲀": {"bait": "澄晶果粒饵", "num": 2},
+        "晚霞翻车鲀": {"bait": "澄晶果粒饵", "num": 2},
+        "繁花斗士急流鱼": {"bait": "澄晶果粒饵", "num": 3},
+        "深潜斗士急流鱼": {"bait": "澄晶果粒饵", "num": 3},
+        "拟似燃素独角鱼": {"bait": "温火饵", "num": 2},
+        "炽岩斗士急流鱼": {"bait": "温火饵", "num": 3},
+        "无奇巨斧鱼": {"bait": "槲梭饵", "num": 1},
+        "冷冽巨斧鱼": {"bait": "槲梭饵", "num": 1},
+        "炽铁巨斧鱼": {"bait": "槲梭饵", "num": 1},
+        "素素凶凶鲨": {"bait": "清白饵", "num": 3},
+        "虹光凶凶鲨": {"bait": "清白饵", "num": 3},
+        "蓝昼明眼鱼": {"bait": "清白饵", "num": 2},
+        "夜色明眼鱼": {"bait": "清白饵", "num": 2}
+    }
+    const ingredient_msg = { // 加工产品
+        "面粉": {"material": {"小麦": 1}, "time": 1},
+        "兽肉": {"material": {"冷鲜肉": 1}, "time": 1},
+        "鱼肉": {"material": fish_msg, "time": 1}, // 暂不考虑加工鱼肉，有点复杂
+        "神秘的肉加工产物": {"material": {"神秘的肉": 1}, "time": 1},
+        "奶油": {"material": {"牛奶": 1}, "time": 3},
+        "熏禽肉": {"material": {"禽肉": 3, "盐": 1}, "time": 5},
+        "黄油": {"material": {"牛奶": 2}, "time": 5},
+        "火腿": {"material": {"兽肉": 2, "盐": 1}, "time": 5},
+        "糖": {"material": {"甜甜花": 2}, "time": 3},
+        "香辛料": {"material": {"香辛果": 2}, "time": 1},
+        "蟹黄": {"material": {"螃蟹": 4}, "time": 20},
+        "果酱": {"material": {"日落果": 3, "树莓": 2, "糖": 1}, "time": 10},
+        "奶酪": {"material": {"牛奶": 3}, "time": 10},
+        "培根": {"material": {"兽肉": 2, "盐": 2}, "time": 15},
+        "香肠": {"material": {"兽肉": 3}, "time": 20}
+    }
+    const accelerator_msg = { // s
+        "铁块": 20,
+        "白铁块": 40,
+        "水晶块": 60,
+        "魔晶块": 60,
+        "星银矿石": 40,
+        "紫晶块": 60,
+        "萃凝晶": 60,
+        "虹滴晶": 60
+    }
 
-    let name_character_food = [];
-    let name_can_make = [];
-    // 模板匹配图片路径
-    const pic_path = {
-        "slide_bar_main_up": "assets\\others\\slide_bar_main_up.png",
-        "slide_bar_main_down": "assets\\others\\slide_bar_main_down.png",
-        "slide_bar_cooking": "assets\\others\\slide_bar_cooking.png",
-        "claim": "assets\\others\\claim.png",
-        "auto_cooking": {
-            "best0": "assets\\others\\best0.png",
-            "best1": "assets\\others\\best1.png",
-            "best2": "assets\\others\\best2.png"
+    /**
+     * 简洁易用的OCR函数
+     * @param x
+     * @param y
+     * @param w
+     * @param h
+     * @param multi 是否使用FindMulti
+     * @returns {Promise<void>} 返回对应的OCR对象
+     */
+    async function Ocr(x, y, w, h, multi = false) {
+        let OcrRo = RecognitionObject.Ocr(x, y, w, h);
+        let gameRegion = captureGameRegion();
+        if (multi) {
+            let ocrResult = gameRegion.FindMulti(OcrRo);
+            gameRegion.dispose();
+            if (ocrResult.count !== 0) {
+                let resultList = [];
+                for (let i = 0; i < ocrResult.count; i++) {
+                    resultList.push(ocrResult[i]);
+                }
+                return resultList;
+            } else {
+                log.debug(`FindMulti为空: (${x}, ${y}, ${w}, ${h})`);
+                return false;
+            }
+        } else {
+            let ocrResult = gameRegion.Find(OcrRo);
+            gameRegion.dispose();
+            if (ocrResult.isExist()) {
+                return ocrResult;
+            } else {
+                log.debug(`Find为空: (${x}, ${y}, ${w}, ${h})`);
+                return false;
+            }
         }
     }
-    // category和food_name对照字典
-    const sort_dic = {};
-    // 食物数据
-    const food_dic = JSON.parse(file.readTextSync("assets/food_dic.json"));
+
+    /**
+     * 调整烹饪料理到指定数量(1-999)后点击确定
+     * @param num 烹饪数量
+     * @returns {Promise<void>}
+     */
+    async function set_ingredient_num(num) { // 后续改成inputText
+        click(961, 454); // 选中输入框
+        await sleep(100);
+        inputText(`${num}`);
+
+        await sleep(500);
+        await click(1190, 760); // 确认
+        await sleep(200);
+    }
+
+    /**
+     * 对话并进入NPC商店，需要确保与NPC对话的F图标存在
+     * 餐馆NPC、杂货店NPC、合成台、合成台NPC均可使用(适用于按F进入对话后一直按F进入界面的所有可交互对象)
+     * @returns {Promise<boolean>}
+     */
+    async function enter_store() {
+        let imageFRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/F.png"));
+        let imageExitRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Exit.png"));
+        let location_flag = false;
+
+        for (let i = 0; i < 3; i++) {
+            await sleep(500);
+            let gameRegion = captureGameRegion();
+            if (gameRegion.Find(imageFRo).isExist()) {
+                gameRegion.dispose();
+                keyPress("F");
+                log.debug("找到并按下F");
+                await sleep(1000);
+                location_flag = true;
+                break;
+            }
+            gameRegion.dispose();
+        }
+        if (location_flag) {
+            while (!(captureGameRegion().Find(imageExitRo).isExist())) { // [DEBUG] 可能陷入死循环？
+                await sleep(500);
+                keyPress("F");
+                log.debug("按F直到进入商店界面");
+            }
+            log.info("已进入商店界面");
+            await sleep(500);
+            return true;
+        } else {
+            log.error("未找到对话按钮");
+            return false;
+        }
+    }
 
     /**
      * 供 findClosestMatch 调用
      */
-    function levenshteinDistance(a, b) {
+    async function levenshteinDistance(a, b) {
         const matrix = [];
         for (let i = 0; i <= b.length; i++) {
             matrix[i] = [i];
@@ -75,51 +211,24 @@
 
     /**
      *
-     * 查找最相似的字符串（用于查找料理，最大限度避免OCR偏差导致的异常）
+     * 查找最相似的字符串（用于查找鱼饵，最大限度避免OCR偏差导致的异常）
      *
      * @param target 目标字符串
      * @param candidates 字符串数组
-     * @returns {null}
+     * @returns {Promise<String>}
+     * @see levenshteinDistance
      */
-    function findClosestMatch(target, candidates) {
+    async function findClosestMatch(target, candidates) {
         let closest = null;
         let minDistance = Infinity;
         for (const candidate of candidates) {
-            const distance = levenshteinDistance(target, candidate);
+            const distance = await levenshteinDistance(target, candidate);
             if (distance < minDistance) {
                 minDistance = distance;
                 closest = candidate;
             }
         }
         return closest;
-    }
-
-    /**
-     *
-     * 解析food_dic的食物数据
-     *
-     * @returns {Promise<void>}
-     */
-    async function parse_food_data() {
-        for (const [name, detail] of Object.entries(food_dic)) {
-            // 生成sort_dic
-            for (let i = 0; i < detail["category"].length; i++) {
-                if (Object.keys(category_dic).includes(category_dic[detail["category"][i]])) {
-                    sort_dic[category_dic[detail["category"][i]]].push(name);
-                } else {
-                    sort_dic[category_dic[detail["category"][i]]] = [];
-                    sort_dic[category_dic[detail["category"][i]]].push(name);
-                }
-            }
-            // 生成name_character_food
-            if (detail["character"] !== "无") {
-                name_character_food.push(name);
-            }
-            // 生成name_can_make
-            if (!detail["category"].includes("不可制作") && detail["character"] === "无") {
-                name_can_make.push(name);
-            }
-        }
     }
 
     /**
@@ -138,998 +247,332 @@
     }
 
     /**
-     *
-     * 检测当前页面是否是烹饪界面
-     *
-     * @returns {Promise<boolean>} 烹饪界面返回true，否则返回false
+     * 跑到指定位置并交互进入界面
+     * @param type 类型
+     * @param area 国家
+     * @returns {Promise<boolean>} 是否成功进入
+     * @see enter_store
      */
-    async function is_cooking_page() {
-        const ocrleftupperRo = RecognitionObject.Ocr(142, 32, 52, 31);
+    async function go_and_interact(type, area = "蒙德") {
+        // 返回主界面
+        await genshin.returnMainUi();
 
-        moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
-        await sleep(200);
-        const ro1 = captureGameRegion();
-        let ocrleftupper = ro1.Find(ocrleftupperRo); // 当前页面OCR
-        ro1.dispose();
-        return ocrleftupper.isExist() && ocrleftupper.text === "烹饪" ? true: false;
-    }
-
-    /**
-     *
-     * 检测当前页面是否是料理制作界面
-     *
-     * @returns {Promise<boolean>} 料理制作界面返回true，否则返回false
-     */
-    async function is_food_page() {
-        const ocrleftupperRo = RecognitionObject.Ocr(137, 34, 107, 29);
-
-        moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
-        await sleep(200);
-        const ro2 = captureGameRegion();
-        let ocrleftupper = ro2.Find(ocrleftupperRo); // 当前页面OCR
-        ro2.dispose();
-        return ocrleftupper.isExist() && ocrleftupper.text === "料理制作" ? true: false;
-    }
-
-    /**
-     *
-     * 检测当前页面是否是食材加工界面
-     *
-     * @returns {Promise<boolean>} 食材加工界面返回true，否则返回false
-     */
-    async function is_ingredient_page() {
-        const ocrleftupperRo = RecognitionObject.Ocr(137, 34, 107, 29);
-
-        moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
-        await sleep(200);
-        const ro3 = captureGameRegion();
-        let ocrleftupper = ro3.Find(ocrleftupperRo); // 当前页面OCR
-        ro3.dispose();
-        return ocrleftupper.isExist() && ocrleftupper.text === "食材加工" ? true: false;
-    }
-
-    /**
-     *
-     * 点击料理制作页面按钮或者食材加工界面按钮
-     *
-     * @param option food或ingredient对应点击料理制作页面按钮和食材加工界面按钮
-     * @returns {Promise<void>}
-     */
-    async function click_food_or_ingredient(option) {
-        let food_page_btn = [913, 49];
-        let ingredient_page_btn = [1009, 49];
-
-        if (option === "food") {
-            click(food_page_btn[0], food_page_btn[1]);
-        } else {
-            click(ingredient_page_btn[0], ingredient_page_btn[1]);
-        }
-    }
-
-    /**
-     *
-     * 检测是否解锁自动烹饪(二次验证，仅在烹饪界面可用)
-     *
-     * @returns {Promise<void>}
-     */
-    async function is_unlock() {
-        const ocrRo = RecognitionObject.Ocr(736, 999, 114, 30);
-
-        moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
-        await sleep(200);
-        const ro4 = captureGameRegion();
-        let ocr = ro4.Find(ocrRo); // 当前页面OCR
-        ro4.dispose();
-        return ocr.isExist() && ocr.text === "自动烹饪" ? true: false;
-    }
-
-    /**
-     *
-     * 查找并点击烹饪角色(烹饪界面角色选择界面弹出状态下可用)
-     *
-     * @param name 角色名
-     * @returns {Promise<string|boolean>} 成功返回true否则返回false, "error"表示未返回任何匹配结果
-     */
-    async function recognize_cooking_character(name) {
-        const ocrRo = RecognitionObject.Ocr(148, 95, 764, 936);
-
-        moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
-        await sleep(200);
-        let ocr = captureGameRegion().FindMulti(ocrRo); // 当前页面OCR
-        if (ocr.count !== 0) {
-            for (let i = 0; i < ocr.count; i++) {
-                if (ocr[i].text.includes(name)) {
-                    log.info(`找到了 ${name} ！`);
-                    ocr[i].Click();
-                    await sleep(100);
-                    return true;
-                }
-            }
-            log.info(`当前页面未找到 ${name} ...`)
-            return false;
-        } else {
-            log.error(`当前页面未能识别到任何文本（烹饪角色匹配)`);
-            return "error";
-        }
-    }
-
-    /**
-     *
-     * 调整加工食材到指定数量(1-999)后点击确定
-     *
-     * @param num 加工食材数量
-     * @returns {Promise<void>}
-     */
-    async function set_ingredient_num(num, mode="input") { // 后续改成inputText
-        const left_btn = [606, 591];
-        const right_btn = [1316, 591];
-        if (mode === "input") {
-            click(961, 454); // 选中输入框
-            await sleep(100);
-            inputText(`${num}`);
-        } else { // 参数为 click 时使用点击
-            for (let i = 0; i < num - 1; i++) {
-                await click(right_btn[0], right_btn[1]);
-                await sleep(25);
+        if (type === "餐馆" || type === "杂货店" || type === "锅") {
+            const path_json = JSON.parse((file.readTextSync(`assets/npc/${area}-${type}.json`)));
+            await sleep(500);
+            await pathingScript.run(JSON.stringify(path_json));
+            await sleep(500);
+            if (path_json["info"]["description"].includes("GCM")) {
+                // 等待到返回主界面
+                await genshin.returnMainUi();
+                await sleep(500);
+                await keyMouseScript.runFile(`assets/npc/${area}-${type}-GCM.json`);
+                await sleep(500);
             }
         }
-        await sleep(500);
-        await click(1190, 760); // 确认
-        await sleep(200);
+
+        return await enter_store();
     }
 
     /**
-     *
-     * 识别烹饪完成后显示的品质
-     *
-     * @returns {string} 完成、成功、完美、无(没匹配到)
+     * 获取当前物品的数量（确保物品已经点开[物品位于屏幕中心单独显示]）
+     * @param x 点击空白处x
+     * @param y 点击空白处y
+     * @returns {Promise<number|boolean>}
      */
-    async function check_quality() {
-        const ocrRo = RecognitionObject.Ocr(930, 263, 59, 32);
+    async function get_current_item_num(x = 1480, y = 974) {
+        let ocr_area = await Ocr(881, 763, 158, 267, true); // 中间 "当前拥有xxx" 部分区域
+        let item_num = -1;
 
-        moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
-        await sleep(200);
-        const ro6 = captureGameRegion();
-        let ocr = ro6.Find(ocrRo); // 当前页面OCR
-        ro6.dispose();
-        if (ocr.isExist()) {
-            log.info(`烹饪品质: ${ocr.text}`);
-            if (ocr.text === "") {
-                return "无";
-            } else {
-                return ocr.text;
-            }
-        } else {
-            log.info("未匹配到烹饪完成后的品质");
-            return "无";
-        }
-    }
+        if (ocr_area) {
+            let refer_y;
+            for (let i = 0; i < ocr_area.length; i++) {
+                if (ocr_area[i].text.includes("当前拥有")) { // 寻找“当前拥有”
+                    refer_y = ocr_area[i].y;
 
-    /**
-     *
-     * 获取当前食材的熟练度
-     *
-     * @param ui main主要物品选择界面，finish烹饪结束后弹出的界面
-     * @returns {Promise<number[]>} 返回熟练度数组 [当前熟练度, 总熟练度]
-     */
-    async function check_proficiency(ui="main") {
-        let ocrRo = RecognitionObject.Ocr(0, 0, 1920, 1080);
-        if (ui === "main") {
-            ocrRo = RecognitionObject.Ocr(1424, 422, 82, 37);
-        } else if (ui === "finish") {
-            ocrRo = RecognitionObject.Ocr(953, 300, 92, 26);
-        }
-
-        moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
-        await sleep(200);
-        const ro7 = captureGameRegion();
-        let ocr = ro7.Find(ocrRo); // 当前页面OCR
-        ro7.dispose();
-        if (ocr.isExist()) {
-            log.info(`当前熟练度: ${ocr.text}`);
-            let ocr_nums = ocr.text.split("/").map(Number);
-            if (ocr_nums.count < 2) {
-                log.error(`熟练度OCR异常: ${ocr_nums.join(" - ")}`);
-                return [0, 0];
-            }
-            return ocr.text.split("/").map(Number);
-        } else {
-            log.info("未匹配到熟练度");
-            return [0, 0];
-        }
-
-    }
-
-    /**
-     *
-     * 识别当前物品名称(界面右侧标签)
-     *
-     * @returns {Promise<*|boolean>} 物品名称, 未识别到返回false
-     */
-    async function recognize_item_name() {
-        const ocrRo = RecognitionObject.Ocr(1332, 125, 444, 48);
-
-        moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
-        await sleep(200);
-        const ro8 = captureGameRegion();
-        let ocr = ro8.Find(ocrRo); // 当前页面OCR
-        ro8.dispose();
-        if (ocr.isExist()) {
-            return ocr.text;
-        } else {
-            log.error("未匹配到当前物品名称");
-            return false;
-        }
-    }
-
-    /**
-     *
-     * 根据食物名选择食物（主要物品选择页面）
-     *
-     * @param food_name 食物全名
-     * @returns {Promise<string|boolean>} 布尔值代表当前页面找到/未找到指定菜品，"error"表示没有任何OCR结果(视为异常)
-     */
-    async function select_food_by_fullname(food_name) {
-        log.info(`在当前页面寻找 ${food_name} ...`);
-        const ocrRo = RecognitionObject.Ocr(0, 0, 1920, 1080);
-
-        moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
-        await sleep(200);
-        const ro9 = captureGameRegion();
-        let ocr = ro9.FindMulti(ocrRo); // 当前页面OCR
-        ro9.dispose();
-        if (ocr.count !== 0) {
-            for (let i = 0; i < ocr.count; i++) {
-                let food_name_deal = await Promise.all(
-                    Object.keys(food_dic).map(async (x) => await deal_string(x))
-                );
-                if (findClosestMatch(ocr[i].text, food_name_deal) === food_name) { // 【DEBUG】
-                    log.info(`找到了 ${food_name} ！`);
-                    ocr[i].Click();
-                    return true;
-                }
-            }
-            log.info(`当前页面未找到 ${food_name} ...`)
-            return false;
-        } else {
-            log.error(`当前页面未能识别到任何文本`);
-            return "error";
-        }
-    }
-
-    /**
-     *
-     * 根据角色名选择角色（烹饪角色选择页面）
-     *
-     * @param name 角色全名
-     * @returns {Promise<string|boolean>} 布尔值代表当前页面找到/未找到指定角色，"error"表示没有任何OCR结果(视为异常)
-     */
-    async function select_character_by_fullname(name) {
-        log.info(`在当前页面寻找 ${name} ...`);
-        const ocrRo = RecognitionObject.Ocr(141, 111, 785, 915);
-
-        moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
-        await sleep(200);
-        const ro10 = captureGameRegion();
-        let ocr = ro10.FindMulti(ocrRo); // 当前页面OCR
-        ro10.dispose();
-        if (ocr.count !== 0) {
-            for (let i = 0; i < ocr.count; i++) {
-                if (ocr[i].text === name) {
-                    log.info(`找到了 ${name} ！`);
-                    ocr[i].Click();
-                    return true;
-                }
-            }
-            log.info(`当前页面未找到 ${name} ...`)
-            return false;
-        } else {
-            log.error(`当前页面未能识别到任何文本`);
-            return "error";
-        }
-    }
-
-    /**
-     *
-     * 向上/下滑动一或多个页面[主要物品选择页面](有误差)
-     *
-     * @param {string} direction: 滑动方向
-     * @param {bigint} pages: 页数
-     * @returns {Promise<void>}
-     */
-    async function scroll_pages_main(direction = "down", pages = 1) {
-        const slide_bar_upRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(pic_path["slide_bar_main_up"]), 1282, 112, 13, 840);
-        const slide_bar_downRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(pic_path["slide_bar_main_down"]), 1282, 112, 13, 840);
-        slide_bar_upRo.threshold = 0.6;
-        slide_bar_downRo.threshold = 0.6;
-        for (let i = 0; i < pages; i++) {
-            moveMouseTo(1555, 860); // 移走鼠标，防止干扰识别
-            await sleep(200);
-            const ro11 = captureGameRegion();
-            let slide_bar_up = ro11.Find(slide_bar_upRo); // 当前页面模板匹配
-            let slide_bar_down = ro11.Find(slide_bar_downRo); // 当前页面模板匹配
-            ro11.dispose();
-            if (slide_bar_up.isExist() && slide_bar_down.isExist()) {
-                log.info(`定位到滑块...(${slide_bar_up.x}, ${slide_bar_up.y})-滑动方向: ${direction}`);
-                if (slide_bar_down.y > 920 && direction === "down") {
-                    log.info(`滑块已经滑动到底部...`);
-                    if (i != 0) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else if (slide_bar_up.y < 125 && direction === "up") {
-                    log.info(`滑块已经滑动到顶部...`);
-                    if (i != 0) {
-                        return true;
-                    } else {
-                        return false;
+                    for (let j = 0; j < ocr_area.length; j++) {
+                        let string = ocr_area[j].text.replace(/\D/g, ''); // 保留字符串为纯数字
+                        if (string && ocr_area[j].y > refer_y - 12 && ocr_area[j].y < refer_y + 12) { // 纯数字且y坐标范围合理
+                            item_num = parseInt(string, 10);
+                            log.debug(`识别到物品数量: ${item_num}`);
+                            click(x, y); // 点击空白处返回
+                            await sleep(500);
+                            return item_num;
+                        }
                     }
                 }
-                click(1289, direction === "down" ? slide_bar_down.y + 15 : slide_bar_up.y - 15); // 向上下滑动（点击）
-                await sleep(100);
-            } else {
-                log.error("未找到滑块，无法执行页面滑动操作！");
+                if (item_num !== -1) break;
+            }
+            if (item_num === -1) {
+                log.error(`OCR错误，未定位到物品数量`);
+                click(x, y); // 点击空白处返回
+                await sleep(500);
                 return false;
             }
+        } else {
+            log.error(`OCR错误，未识别到任何文本`);
+            click(x, y); // 点击空白处返回
+            await sleep(500);
+            return false;
         }
+    }
+
+    /**
+     *
+     * 模拟鼠标拖动操作
+     *
+     * @param startX
+     * @param startY
+     * @param endX
+     * @param endY
+     * @param extraWaitTime 额外等待时间
+     * @returns {Promise<boolean>}
+     */
+    async function mouseDrag(startX, startY, endX, endY, extraWaitTime = 0) {
+        const durationMs = 500 + extraWaitTime;
+        const events = [];
+        const totalDeltaX = endX - startX;
+        const totalDeltaY = endY - startY;
+
+        // 计算总移动距离（曼哈顿距离）
+        const totalDistance = Math.abs(totalDeltaX) + Math.abs(totalDeltaY);
+
+        // 按每步最大合位移10计算步数（至少1步）
+        const steps = Math.max(1, Math.ceil(totalDistance / 10));
+
+        // 生成移动事件
+        for (let i = 1; i <= steps; i++) {
+            const progress = i / steps;
+            const currentX = startX + totalDeltaX * progress;
+            const currentY = startY + totalDeltaY * progress;
+
+            // 计算时间戳（均匀分布）
+            const timestamp = Math.round((durationMs * i) / (steps + 1));
+
+            events.push({
+                type: 2,
+                mouseX: Math.round(currentX),
+                mouseY: Math.round(currentY),
+                time: timestamp
+            });
+        }
+
+        // 添加起始事件（按下）
+        events.unshift({
+            type: 4,
+            mouseX: startX,
+            mouseY: startY,
+            mouseButton: "Left",
+            time: 0
+        });
+
+        // 添加结束事件（抬起）
+        events.push({
+            type: 5,
+            mouseX: endX,
+            mouseY: endY,
+            mouseButton: "Left",
+            time: durationMs
+        });
+
+        let jsonObject = {
+            macroEvents: events,
+            info: {
+                name: "",
+                description: "",
+                x: 0,
+                y: 0,
+                width: 1920,
+                height: 1080,
+                recordDpi: 1.25
+            }
+        };
+        await keyMouseScript.run(JSON.stringify(jsonObject));
         return true;
     }
 
     /**
-     *
-     * 向上/下滑动一或多个页面[烹饪角色选择界面](有误差)
-     *
-     * @param {string} direction: 滑动方向
-     * @param {bigint} pages: 页数
-     * @returns {Promise<void>}
+     * 向上/下滑动滑块一次（原理，点击紧贴滑块的上/下方）[以下，高/顶表示屏幕上方，低/底表示屏幕下方]
+     * @param x 滑块移动区域
+     * @param y 滑块移动区域
+     * @param w 滑块移动区域
+     * @param h 滑块移动区域
+     * @param max 滑块最高临界y值，若滑块y值小于此值则认为已经到顶
+     * @param min 滑块最低临界y值，若滑块y值大于此值则认为已经到底
+     * @param m_x 滑块区域的滑条中心x值
+     * @param direction 滑动方向(Up/Down)
+     * @param bg 背景颜色(白white/黑black)，black时滑块只能拖动
+     * @param distance 滑动一页滑块需要滑动的y方向的距离（适用于bg为black），必须大于4
+     * @returns {Promise<boolean>}
      */
-    async function scroll_pages_cooking(direction = "down", pages = 1) {
-        const slide_barRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(pic_path["slide_bar_cooking"]), 929, 107, 13, 913);
-        slide_barRo.threshold = 0.6;
-        for (let i = 0; i < pages; i++) {
-            moveMouseTo(1555, 860); // 移走鼠标，防止干扰识别
-            await sleep(200);
-            const ro12 = captureGameRegion();
-            let slide_bar = ro12.Find(slide_barRo); // 当前页面模板匹配
-            ro12.dispose();
-            if (slide_bar.isExist()) {
-                log.info(`定位到滑块...(${slide_bar.x}, ${slide_bar.y})-滑动方向: ${direction}`);
-                if (slide_bar.y > 880 && direction === "down") {
-                    log.info(`滑块已经滑动到底部...`);
-                    if (i != 0) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else if (slide_bar.y < 120 && direction === "up") {
-                    log.info(`滑块已经滑动到顶部...`);
-                    if (i != 0) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-                click(936, direction === "down" ? slide_bar.y + 137 : slide_bar.y - 10); // 88 + 175 = 263
-                await sleep(10);
+    async function scroll_page(x, y, w, h, max, min, m_x, direction, bg = "white", distance = 140) {
+        let barUpRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${bg === "white" ? "slide_bar_main_up": "slide_bar_left_up"}.png`), x, y, w, h);
+        let barDownRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${bg === "white" ? "slide_bar_main_down": "slide_bar_left_down"}.png`), x, y, w, h);
+        barUpRo.threshold = 0.7;
+        barDownRo.threshold = 0.7;
+
+        let gameRegion = captureGameRegion();
+        if (direction.toLowerCase() === "up") {
+            let barUpper = gameRegion.Find(barUpRo);
+            gameRegion.dispose();
+            if (barUpper.isExist()) {
+               if (barUpper.y < max) { // 到顶了
+                   log.info(`滑块已经滑动到顶部(${barUpper.y})...`);
+                   return false;
+               } else {
+                   if (bg === "white") {
+                       click(m_x, barUpper.y - 15);
+                   } else {
+                       await mouseDrag(m_x, barUpper.y + 4, m_x, barUpper.y - (distance - 4));
+                   }
+
+                   log.debug(`将滑块向上调一格，当前位置: ${barUpper.y}`);
+               }
             } else {
-                log.error("未找到滑块，无法执行页面滑动操作！");
+                log.error("未找到滑块: Up");
+                return false;
+            }
+        } else {
+            let barLower = gameRegion.Find(barDownRo);
+            gameRegion.dispose();
+            if (barLower.isExist()) {
+                if (barLower.y > min) { // 到底了
+                    log.info(`滑块已经滑动到底部(${barLower.y})...`);
+                    return false;
+                } else {
+                    if (bg === "white") {
+                        click(m_x, barLower.y + 15);
+                    } else {
+                        await mouseDrag(m_x, barLower.y + 4, m_x, barLower.y + (distance + 4));
+                    }
+
+                    log.debug(`将滑块向下调一格，当前位置: ${barLower.y}`);
+                }
+            } else {
+                log.error("未找到滑块: Down");
                 return false;
             }
         }
+        await sleep(200);
         return true;
     }
 
     /**
-     *
-     * 读取JS脚本配置
-     *
-     * @returns {{food_choice_single_select: (string|*), food_choice_multi_input: (*[]|*), food_num: (number|number), cook_character_choice: (string|*), food_character_select: (string|*), food_character_multi_name_input: (*[]|*), food_character_multi_cname_input: (*[]|*), food_character_num: (number|number), extra_time: (number|number)}|boolean}
+     * 向上/下滑动滑块至顶部/底部（原理，点击紧贴滑块的上/下方）[以下，高/顶表示屏幕上方，低/底表示屏幕下方]
+     * @param x 滑块移动区域
+     * @param y 滑块移动区域
+     * @param w 滑块移动区域
+     * @param h 滑块移动区域
+     * @param max 滑块最高临界y值，若滑块y值小于此值则认为已经到顶
+     * @param min 滑块最低临界y值，若滑块y值大于此值则认为已经到底
+     * @param max_y 滑块移动区域的最高点y值
+     * @param min_y 滑块移动区域的最低点y值
+     * @param m_x 滑块区域的滑条中心x值
+     * @param side 滑动顶部或底部(Up/Down)
+     * @param bg 背景颜色(白white/黑black)
+     * @param distance 滑动一页滑块需要滑动的y方向的距离（适用于bg为black），必须大于4
+     * @returns {Promise<boolean>}
+     * @see scroll_page
      */
-    function get_js_settings() {
-        let food_choice_single_select;
-        let food_Max_HP_Boost;
-        let food_num_Max_HP_Boost;
-        let food_Elemental_Recharge_Boost;
-        let food_num_Elemental_Recharge_Boost;
-        let food_Others;
-        let food_num_Others;
-        let food_Continuous_Heal;
-        let food_num_Continuous_Heal;
-        let food_Revive;
-        let food_num_Revive;
-        let food_HP_Heal;
-        let food_num_HP_Heal;
-        let food_Crit_Rate_Boost;
-        let food_num_Crit_Rate_Boost;
-        let food_Stamina_Regen;
-        let food_num_Stamina_Regen;
-        let food_Defense_Boost;
-        let food_num_Defense_Boost;
-        let food_Healing_Boost;
-        let food_num_Healing_Boost;
-        let food_Stamina_Cost_Reduction;
-        let food_num_Stamina_Cost_Reduction;
-        let food_Attack_Boost;
-        let food_num_Attack_Boost;
-        let food_Shield_Boost;
-        let food_num_Shield_Boost;
-        let food_Damage_Boost;
-        let food_num_Damage_Boost;
-        let food_Env_Interaction_Heal;
-        let food_num_Env_Interaction_Heal;
-        let food_Chill_Cost_Reduction;
-        let food_num_Chill_Cost_Reduction;
-        let food_Crit_Damage_Boost;
-        let food_num_Crit_Damage_Boost;
-        let food_choice_multi_input;
-        let food_num;
-        let cook_character_choice;
-        let food_character_select;
-        let food_character_multi_name_input;
-        let food_character_multi_cname_input;
-        let food_character_num;
-        let select_cooking_mode;
-        let extraTime;
-        let check_quality;
-        let prime_cooking;
-        try {
-            food_choice_single_select = typeof(settings.food_choice_single_select) === "undefined" ? "无(默认)": settings.food_choice_single_select;
-        } catch(error) {
-            log.error(`food_choice_single_select 读取错误: ${error}`);
-            return false;
+    async function scroll_bar_to_side(x, y, w, h, max, min, max_y, min_y, m_x, side, bg = "white", distance = 140) {
+        let barUpRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${bg === "white" ? "slide_bar_main_up": "slide_bar_left_up"}.png`), x, y, w, h);
+        let barDownRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${bg === "white" ? "slide_bar_main_down": "slide_bar_left_down"}.png`), x, y, w, h);
+        barUpRo.threshold = 0.7;
+        barDownRo.threshold = 0.7;
+
+        while (true) {
+            await sleep(200);
+            log.debug(`将滑块滑动至 ${side} `);
+            let gameRegion = captureGameRegion();
+            if (side.toLowerCase() === "up") {
+                let barUpper = gameRegion.Find(barUpRo);
+                gameRegion.dispose();
+                if (barUpper.isExist()) {
+                    if (barUpper.y < max) { // 到顶了
+                        log.info(`滑块已经滑动到顶部(${barUpper.y})...`);
+                        break;
+                    } else {
+                        if (bg === "white") {
+                            click(m_x, barUpper.y - 15);
+                        } else {
+                            await mouseDrag(m_x, barUpper.y + 4, m_x, barUpper.y - (distance - 4));
+                        }
+                        log.debug(`将滑块向上调一格，当前位置: ${barUpper.y}`);
+                    }
+                } else {
+                    log.error("未找到滑块: Up");
+                    return false;
+                }
+            } else {
+                let barLower = gameRegion.Find(barDownRo);
+                gameRegion.dispose();
+                if (barLower.isExist()) {
+                    if (barLower.y > min) { // 到底了
+                        log.info(`滑块已经滑动到底部(${barLower.y})...`);
+                        break;
+                    } else {
+                        if (bg === "white") {
+                            click(m_x, barLower.y + 15);
+                        } else {
+                            await mouseDrag(m_x, barLower.y + 4, m_x, barLower.y + (distance + 4));
+                        }
+                        log.debug(`将滑块向下调一格，当前位置: ${barLower.y}`);
+                    }
+                } else {
+                    log.error("未找到滑块: Down");
+                    return false;
+                }
+            }
         }
-        try {
-            food_Max_HP_Boost = typeof(settings.food_Max_HP_Boost) === "undefined" ? "无(默认)": settings.food_Max_HP_Boost;
-        } catch(error) {
-            log.error(`food_Max_HP_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Max_HP_Boost = typeof(settings.food_num_Max_HP_Boost) === "undefined" || settings.food_num_Max_HP_Boost === "" ? 1: parseInt(settings.food_num_Max_HP_Boost, 10);
-        } catch(error) {
-            log.error(`food_num_Max_HP_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_Elemental_Recharge_Boost = typeof(settings.food_Elemental_Recharge_Boost) === "undefined" ? "无(默认)": settings.food_Elemental_Recharge_Boost;
-        } catch(error) {
-            log.error(`food_Elemental_Recharge_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Elemental_Recharge_Boost = typeof(settings.food_num_Elemental_Recharge_Boost) === "undefined" || settings.food_num_Elemental_Recharge_Boost === "" ? 1: parseInt(settings.food_num_Elemental_Recharge_Boost, 10);
-        } catch(error) {
-            log.error(`food_num_Elemental_Recharge_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_Others = typeof(settings.food_Others) === "undefined" ? "无(默认)": settings.food_Others;
-        } catch(error) {
-            log.error(`food_Others 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Others = typeof(settings.food_num_Others) === "undefined" || settings.food_num_Others === "" ? 1: parseInt(settings.food_num_Others, 10);
-        } catch(error) {
-            log.error(`food_num_Others 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_Continuous_Heal = typeof(settings.food_Continuous_Heal) === "undefined" ? "无(默认)": settings.food_Continuous_Heal;
-        } catch(error) {
-            log.error(`food_Continuous_Heal 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Continuous_Heal = typeof(settings.food_num_Continuous_Heal) === "undefined" || settings.food_num_Continuous_Heal === "" ? 1: parseInt(settings.food_num_Continuous_Heal, 10);
-        } catch(error) {
-            log.error(`food_num_Continuous_Heal 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_Revive = typeof(settings.food_Revive) === "undefined" ? "无(默认)": settings.food_Revive;
-        } catch(error) {
-            log.error(`food_Revive 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Revive = typeof(settings.food_num_Revive) === "undefined" || settings.food_num_Revive === "" ? 1: parseInt(settings.food_num_Revive, 10);
-        } catch(error) {
-            log.error(`food_num_Revive 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_HP_Heal = typeof(settings.food_HP_Heal) === "undefined" ? "无(默认)": settings.food_HP_Heal;
-        } catch(error) {
-            log.error(`food_HP_Heal 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_HP_Heal = typeof(settings.food_num_HP_Heal) === "undefined" || settings.food_num_HP_Heal === "" ? 1: parseInt(settings.food_num_HP_Heal, 10);
-        } catch(error) {
-            log.error(`food_num_HP_Heal 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_Crit_Rate_Boost = typeof(settings.food_Crit_Rate_Boost) === "undefined" ? "无(默认)": settings.food_Crit_Rate_Boost;
-        } catch(error) {
-            log.error(`food_Crit_Rate_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Crit_Rate_Boost = typeof(settings.food_num_Crit_Rate_Boost) === "undefined" || settings.food_num_Crit_Rate_Boost === "" ? 1: parseInt(settings.food_num_Crit_Rate_Boost, 10);
-        } catch(error) {
-            log.error(`food_num_Crit_Rate_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_Stamina_Regen = typeof(settings.food_Stamina_Regen) === "undefined" ? "无(默认)": settings.food_Stamina_Regen;
-        } catch(error) {
-            log.error(`food_Stamina_Regen 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Stamina_Regen = typeof(settings.food_num_Stamina_Regen) === "undefined" || settings.food_num_Stamina_Regen === "" ? 1: parseInt(settings.food_num_Stamina_Regen, 10);
-        } catch(error) {
-            log.error(`food_num_Stamina_Regen 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_Defense_Boost = typeof(settings.food_Defense_Boost) === "undefined" ? "无(默认)": settings.food_Defense_Boost;
-        } catch(error) {
-            log.error(`food_Defense_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Defense_Boost = typeof(settings.food_num_Defense_Boost) === "undefined" || settings.food_num_Defense_Boost === "" ? 1: parseInt(settings.food_num_Defense_Boost, 10);
-        } catch(error) {
-            log.error(`food_num_Defense_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_Healing_Boost = typeof(settings.food_Healing_Boost) === "undefined" ? "无(默认)": settings.food_Healing_Boost;
-        } catch(error) {
-            log.error(`food_Healing_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Healing_Boost = typeof(settings.food_num_Healing_Boost) === "undefined" || settings.food_num_Healing_Boost === "" ? 1: parseInt(settings.food_num_Healing_Boost, 10);
-        } catch(error) {
-            log.error(`food_num_Healing_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_Stamina_Cost_Reduction = typeof(settings.food_Stamina_Cost_Reduction) === "undefined" ? "无(默认)": settings.food_Stamina_Cost_Reduction;
-        } catch(error) {
-            log.error(`food_Stamina_Cost_Reduction 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Stamina_Cost_Reduction = typeof(settings.food_num_Stamina_Cost_Reduction) === "undefined" || settings.food_num_Stamina_Cost_Reduction === "" ? 1: parseInt(settings.food_num_Stamina_Cost_Reduction, 10);
-        } catch(error) {
-            log.error(`food_num_Stamina_Cost_Reduction 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_Attack_Boost = typeof(settings.food_Attack_Boost) === "undefined" ? "无(默认)": settings.food_Attack_Boost;
-        } catch(error) {
-            log.error(`food_Attack_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Attack_Boost = typeof(settings.food_num_Attack_Boost) === "undefined" || settings.food_num_Attack_Boost === "" ? 1: parseInt(settings.food_num_Attack_Boost, 10);
-        } catch(error) {
-            log.error(`food_num_Attack_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_Shield_Boost = typeof(settings.food_Shield_Boost) === "undefined" ? "无(默认)": settings.food_Shield_Boost;
-        } catch(error) {
-            log.error(`food_Shield_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Shield_Boost = typeof(settings.food_num_Shield_Boost) === "undefined" || settings.food_num_Shield_Boost === "" ? 1: parseInt(settings.food_num_Shield_Boost, 10);
-        } catch(error) {
-            log.error(`food_num_Shield_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_Damage_Boost = typeof(settings.food_Damage_Boost) === "undefined" ? "无(默认)": settings.food_Damage_Boost;
-        } catch(error) {
-            log.error(`food_Damage_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Damage_Boost = typeof(settings.food_num_Damage_Boost) === "undefined" || settings.food_num_Damage_Boost === "" ? 1: parseInt(settings.food_num_Damage_Boost, 10);
-        } catch(error) {
-            log.error(`food_num_Damage_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_Env_Interaction_Heal = typeof(settings.food_Env_Interaction_Heal) === "undefined" ? "无(默认)": settings.food_Env_Interaction_Heal;
-        } catch(error) {
-            log.error(`food_Env_Interaction_Heal 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Env_Interaction_Heal = typeof(settings.food_num_Env_Interaction_Heal) === "undefined" || settings.food_num_Env_Interaction_Heal === "" ? 1: parseInt(settings.food_num_Env_Interaction_Heal, 10);
-        } catch(error) {
-            log.error(`food_num_Env_Interaction_Heal 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_Chill_Cost_Reduction = typeof(settings.food_Chill_Cost_Reduction) === "undefined" ? "无(默认)": settings.food_Chill_Cost_Reduction;
-        } catch(error) {
-            log.error(`food_Chill_Cost_Reduction 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Chill_Cost_Reduction = typeof(settings.food_num_Chill_Cost_Reduction) === "undefined" || settings.food_num_Chill_Cost_Reduction === "" ? 1: parseInt(settings.food_num_Chill_Cost_Reduction, 10);
-        } catch(error) {
-            log.error(`food_num_Chill_Cost_Reduction 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_Crit_Damage_Boost = typeof(settings.food_Crit_Damage_Boost) === "undefined" ? "无(默认)": settings.food_Crit_Damage_Boost;
-        } catch(error) {
-            log.error(`food_Crit_Damage_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num_Crit_Damage_Boost = typeof(settings.food_num_Crit_Damage_Boost) === "undefined" || settings.food_num_Crit_Damage_Boost === "" ? 1: parseInt(settings.food_num_Crit_Damage_Boost, 10);
-        } catch(error) {
-            log.error(`food_num_Crit_Damage_Boost 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_choice_multi_input = typeof(settings.food_choice_multi_input) === "undefined" || settings.food_choice_multi_input === "" ? []: settings.food_choice_multi_input.split(" ");
-        } catch(error) {
-            log.error(`food_choice_multi_input 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_num = typeof(settings.food_num) === "undefined" || settings.food_num === "" ? 1: parseInt(settings.food_num, 10);
-        } catch(error) {
-            log.error(`food_num 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            cook_character_choice = typeof(settings.cook_character_choice) === "undefined" ? "角色列表第一个角色(默认)": settings.cook_character_choice;
-        } catch(error) {
-            log.error(`cook_character_choice 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_character_select = typeof(settings.food_character_select) === "undefined" ? "无(默认)": settings.food_character_select;
-        } catch(error) {
-            log.error(`food_character_select 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_character_multi_name_input = typeof(settings.food_character_multi_name_input) === "undefined" || settings.food_character_multi_name_input === "" ? []: settings.food_character_multi_name_input.split(" ");
-        } catch(error) {
-            log.error(`food_character_multi_name_input 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_character_multi_cname_input = typeof(settings.food_character_multi_cname_input) === "undefined" || settings.food_character_multi_cname_input === "" ? []: settings.food_character_multi_cname_input.split(" ");
-        } catch(error) {
-            log.error(`food_character_multi_cname_input 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            food_character_num = typeof(settings.food_character_num) === "undefined" || settings.food_character_num === "" ? 1: parseInt(settings.food_character_num, 10);
-        } catch(error) {
-            log.error(`food_character_num 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            select_cooking_mode = typeof(settings.select_cooking_mode) === "undefined" ? "优先自动烹饪(默认)": settings.select_cooking_mode;
-        } catch(error) {
-            log.error(`select_cooking_mode读取错误: ${error}`);
-            return false;
-        }
-        try {
-            extraTime = typeof(settings.extraTime) === "undefined" || settings.extraTime === "" ? 0: parseInt(settings.extraTime, 10);
-        } catch(error) {
-            log.error(`extraTime 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            check_quality = typeof(settings.check_quality) === "undefined" ? false: settings.check_quality;
-        } catch(error) {
-            log.error(`check_quality 读取错误: ${error}`);
-            return false;
-        }
-        try {
-            prime_cooking = typeof(settings.prime_cooking) === "undefined" ? false: settings.prime_cooking;
-        } catch(error) {
-            log.error(`prime_cooking 读取错误: ${error}`);
-            return false;
-        }
-        return {
-            "food_choice_single_select": food_choice_single_select,
-            "food_Max_HP_Boost": food_Max_HP_Boost,
-            "food_num_Max_HP_Boost": food_num_Max_HP_Boost,
-            "food_Elemental_Recharge_Boost": food_Elemental_Recharge_Boost,
-            "food_num_Elemental_Recharge_Boost": food_num_Elemental_Recharge_Boost,
-            "food_Others": food_Others,
-            "food_num_Others": food_num_Others,
-            "food_Continuous_Heal": food_Continuous_Heal,
-            "food_num_Continuous_Heal": food_num_Continuous_Heal,
-            "food_Revive": food_Revive,
-            "food_num_Revive": food_num_Revive,
-            "food_HP_Heal": food_HP_Heal,
-            "food_num_HP_Heal": food_num_HP_Heal,
-            "food_Crit_Rate_Boost": food_Crit_Rate_Boost,
-            "food_num_Crit_Rate_Boost": food_num_Crit_Rate_Boost,
-            "food_Stamina_Regen": food_Stamina_Regen,
-            "food_num_Stamina_Regen": food_num_Stamina_Regen,
-            "food_Defense_Boost": food_Defense_Boost,
-            "food_num_Defense_Boost": food_num_Defense_Boost,
-            "food_Healing_Boost": food_Healing_Boost,
-            "food_num_Healing_Boost": food_num_Healing_Boost,
-            "food_Stamina_Cost_Reduction": food_Stamina_Cost_Reduction,
-            "food_num_Stamina_Cost_Reduction": food_num_Stamina_Cost_Reduction,
-            "food_Attack_Boost": food_Attack_Boost,
-            "food_num_Attack_Boost": food_num_Attack_Boost,
-            "food_Shield_Boost": food_Shield_Boost,
-            "food_num_Shield_Boost": food_num_Shield_Boost,
-            "food_Damage_Boost": food_Damage_Boost,
-            "food_num_Damage_Boost": food_num_Damage_Boost,
-            "food_Env_Interaction_Heal": food_Env_Interaction_Heal,
-            "food_num_Env_Interaction_Heal": food_num_Env_Interaction_Heal,
-            "food_Chill_Cost_Reduction": food_Chill_Cost_Reduction,
-            "food_num_Chill_Cost_Reduction": food_num_Chill_Cost_Reduction,
-            "food_Crit_Damage_Boost": food_Crit_Damage_Boost,
-            "food_num_Crit_Damage_Boost": food_num_Crit_Damage_Boost,
-            "food_choice_multi_input": food_choice_multi_input,
-            "food_num": food_num,
-            "cook_character_choice": cook_character_choice,
-            "food_character_select": food_character_select,
-            "food_character_multi_name_input": food_character_multi_name_input,
-            "food_character_multi_cname_input": food_character_multi_cname_input,
-            "food_character_num": food_character_num,
-            "select_cooking_mode": select_cooking_mode,
-            "extra_time": extraTime,
-            "check_quality": false, // 【DEBUG】禁用料理结果识别
-            "prime_cooking": prime_cooking
-        }
+        await sleep(200);
+        return true;
     }
 
     /**
-     *
-     * 解析JS脚本配置为任务列表字典
-     *
-     * @param setting_dic JS脚本配置字典
-     * @returns {{cooking: {}, character: {}, buff: string, other_settings: {}}}
+     * 在指定区域内OCR文本并返回OCR对象
+     * @param x
+     * @param y
+     * @param w
+     * @param h
+     * @param text 文本
+     * @returns {Promise<*>} 找到返回OCR对象，未找到返回false
+     * @see Ocr
      */
-    function parse_js_settings(setting_dic) {
-        let task_dic = {
-            "cooking": {},
-            "character": {},
-            "buff": "",
-            "other_settings": {}
-        }
-        // 烹饪
-        // 普通料理
-        if (setting_dic["food_choice_single_select"] === "全部料理") {
-            for (let i = 0; i < name_can_make.length; i++) {
-                task_dic["cooking"][name_can_make[i]] = setting_dic["food_num"];
-            }
-        } else if (setting_dic["food_choice_single_select"] === "无(默认)") {
-            task_dic["cooking"] = {};
-        } else {
-            task_dic["cooking"][setting_dic["food_choice_single_select"]] = setting_dic["food_num"];
-        }
-        if (setting_dic["food_Max_HP_Boost"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Max_HP_Boost"].length; i++) {
-                task_dic["cooking"][sort_dic["Max_HP_Boost"][i]] = setting_dic["food_num_Max_HP_Boost"];
-            }
-        } else if (setting_dic["food_Max_HP_Boost"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Max_HP_Boost"]] = setting_dic["food_num_Max_HP_Boost"];
-        }
-        if (setting_dic["food_Elemental_Recharge_Boost"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Elemental_Recharge_Boost"].length; i++) {
-                task_dic["cooking"][sort_dic["Elemental_Recharge_Boost"][i]] = setting_dic["food_num_Elemental_Recharge_Boost"];
-            }
-        } else if (setting_dic["food_Elemental_Recharge_Boost"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Elemental_Recharge_Boost"]] = setting_dic["food_num_Elemental_Recharge_Boost"];
-        }
-        if (setting_dic["food_Others"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Others"].length; i++) {
-                task_dic["cooking"][sort_dic["Others"][i]] = setting_dic["food_num_Others"];
-            }
-        } else if (setting_dic["food_Others"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Others"]] = setting_dic["food_num_Others"];
-        }
-        if (setting_dic["food_Continuous_Heal"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Continuous_Heal"].length; i++) {
-                task_dic["cooking"][sort_dic["Continuous_Heal"][i]] = setting_dic["food_num_Continuous_Heal"];
-            }
-        } else if (setting_dic["food_Continuous_Heal"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Continuous_Heal"]] = setting_dic["food_num_Continuous_Heal"];
-        }
-        if (setting_dic["food_Revive"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Revive"].length; i++) {
-                task_dic["cooking"][sort_dic["Revive"][i]] = setting_dic["food_num_Revive"];
-            }
-        } else if (setting_dic["food_Revive"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Revive"]] = setting_dic["food_num_Revive"];
-        }
-        if (setting_dic["food_HP_Heal"] == "全部料理") {
-            for (let i = 0; i < sort_dic["HP_Heal"].length; i++) {
-                task_dic["cooking"][sort_dic["HP_Heal"][i]] = setting_dic["food_num_HP_Heal"];
-            }
-        } else if (setting_dic["food_HP_Heal"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_HP_Heal"]] = setting_dic["food_num_HP_Heal"];
-        }
-        if (setting_dic["food_Crit_Rate_Boost"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Crit_Rate_Boost"].length; i++) {
-                task_dic["cooking"][sort_dic["Crit_Rate_Boost"][i]] = setting_dic["food_num_Crit_Rate_Boost"];
-            }
-        } else if (setting_dic["food_Crit_Rate_Boost"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Crit_Rate_Boost"]] = setting_dic["food_num_Crit_Rate_Boost"];
-        }
-        if (setting_dic["food_Stamina_Regen"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Stamina_Regen"].length; i++) {
-                task_dic["cooking"][sort_dic["Stamina_Regen"][i]] = setting_dic["food_num_Stamina_Regen"];
-            }
-        } else if (setting_dic["food_Stamina_Regen"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Stamina_Regen"]] = setting_dic["food_num_Stamina_Regen"];
-        }
-        if (setting_dic["food_Defense_Boost"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Defense_Boost"].length; i++) {
-                task_dic["cooking"][sort_dic["Defense_Boost"][i]] = setting_dic["food_num_Defense_Boost"];
-            }
-        } else if (setting_dic["food_Defense_Boost"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Defense_Boost"]] = setting_dic["food_num_Defense_Boost"];
-        }
-        if (setting_dic["food_Healing_Boost"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Healing_Boost"].length; i++) {
-                task_dic["cooking"][sort_dic["Healing_Boost"][i]] = setting_dic["food_num_Healing_Boost"];
-            }
-        } else if (setting_dic["food_Healing_Boost"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Healing_Boost"]] = setting_dic["food_num_Healing_Boost"];
-        }
-        if (setting_dic["food_Stamina_Cost_Reduction"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Stamina_Cost_Reduction"].length; i++) {
-                task_dic["cooking"][sort_dic["Stamina_Cost_Reduction"][i]] = setting_dic["food_num_Stamina_Cost_Reduction"];
-            }
-        } else if (setting_dic["food_Stamina_Cost_Reduction"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Stamina_Cost_Reduction"]] = setting_dic["food_num_Stamina_Cost_Reduction"];
-        }
-        if (setting_dic["food_Attack_Boost"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Attack_Boost"].length; i++) {
-                task_dic["cooking"][sort_dic["Attack_Boost"][i]] = setting_dic["food_num_Attack_Boost"];
-            }
-        } else if (setting_dic["food_Attack_Boost"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Attack_Boost"]] = setting_dic["food_num_Attack_Boost"];
-        }
-        if (setting_dic["food_Shield_Boost"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Shield_Boost"].length; i++) {
-                task_dic["cooking"][sort_dic["Shield_Boost"][i]] = setting_dic["food_num_Shield_Boost"];
-            }
-        } else if (setting_dic["food_Shield_Boost"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Shield_Boost"]] = setting_dic["food_num_Shield_Boost"];
-        }
-        if (setting_dic["food_Damage_Boost"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Damage_Boost"].length; i++) {
-                task_dic["cooking"][sort_dic["Damage_Boost"][i]] = setting_dic["food_num_Damage_Boost"];
-            }
-        } else if (setting_dic["food_Damage_Boost"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Damage_Boost"]] = setting_dic["food_num_Damage_Boost"];
-        }
-        if (setting_dic["food_Env_Interaction_Heal"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Env_Interaction_Heal"].length; i++) {
-                task_dic["cooking"][sort_dic["Env_Interaction_Heal"][i]] = setting_dic["food_num_Env_Interaction_Heal"];
-            }
-        } else if (setting_dic["food_Env_Interaction_Heal"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Env_Interaction_Heal"]] = setting_dic["food_num_Env_Interaction_Heal"];
-        }
-        if (setting_dic["food_Chill_Cost_Reduction"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Chill_Cost_Reduction"].length; i++) {
-                task_dic["cooking"][sort_dic["Chill_Cost_Reduction"][i]] = setting_dic["food_num_Chill_Cost_Reduction"];
-            }
-        } else if (setting_dic["food_Chill_Cost_Reduction"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Chill_Cost_Reduction"]] = setting_dic["food_num_Chill_Cost_Reduction"];
-        }
-        if (setting_dic["food_Crit_Damage_Boost"] == "全部料理") {
-            for (let i = 0; i < sort_dic["Crit_Damage_Boost"].length; i++) {
-                task_dic["cooking"][sort_dic["Crit_Damage_Boost"][i]] = setting_dic["food_num_Crit_Damage_Boost"];
-            }
-        } else if (setting_dic["food_Crit_Damage_Boost"] !== "无(默认)") {
-            task_dic["cooking"][setting_dic["food_Crit_Damage_Boost"]] = setting_dic["food_num_Crit_Damage_Boost"];
-        }
-        // 多选
-        for (let i = 0; i < setting_dic["food_choice_multi_input"].length; i++) {
-            let current_food = setting_dic["food_choice_multi_input"][i].split("-");
-            if (current_food.length === 1) {
-                task_dic["cooking"][current_food[0]] = setting_dic["food_num"];
-            } else if (current_food.length === 2) {
-                task_dic["cooking"][current_food[0]] = parseInt(current_food[1], 10);
-            }
-        }
-        // 特色料理
-        if (setting_dic["food_character_multi_name_input"].length === 0 && setting_dic["food_character_multi_cname_input"].length === 0) {
-            if (setting_dic["food_character_select"] === "无(默认)") {
-                task_dic["character"] = {};
-            } else if (setting_dic["food_character_select"] === "全部角色") {
-                for (let i = 0; i < name_character_food.length; i++) {
-                    task_dic["cooking"][name_character_food[i]] = setting_dic["food_character_num"];
+    async function ocr_find_area(x, y, w, h, text) {
+        const OcrResult = await Ocr(x, y, w, h, true);
+
+        if (OcrResult) {
+            let flag = true;
+            for (let i = 0; i < OcrResult.length; i++) {
+                if (OcrResult[i].text.includes(text)) {
+                    flag = false;
+                    await sleep(200);
+                    return OcrResult[i];
                 }
-            } else {
-                for (const [name, detail] of Object.entries(food_dic)) {
-                    if (detail["character"] === setting_dic["food_character_select"]) {
-                        task_dic["cooking"][name] = setting_dic["food_character_num"];
-                    }
-                }
+            }
+            if (flag) {
+                log.debug(`区域(${x}, ${y}, ${w}, ${h})内未找到文本：${text}`);
+                return false;
             }
         } else {
-            if (setting_dic["food_character_multi_name_input"].length !== 0) {
-                // 角色名：数量
-                let character_detail_dic = {};
-                // 生成 角色名：数量 字典
-                for (let i = 0; i < setting_dic["food_character_multi_name_input"].length; i++) {
-                    let current_character = setting_dic["food_character_multi_name_input"][i].split("-");
-                    if (current_character.length === 1) {
-                        character_detail_dic[current_character[0]] = setting_dic["food_character_num"];
-                    } else if (current_character.length === 2) {
-                        character_detail_dic[current_character[0]] = parseInt(current_character[1], 10);
-                    }
-                }
-                // 所有需求的角色字符串数组
-                let all_character = Object.keys(character_detail_dic);
-                for (const [name, detail] of Object.entries(food_dic)) {
-                    if (all_character.includes(detail["character"])) {
-                        task_dic["cooking"][name] = character_detail_dic[detail["character"]];
-                    }
-                }
-            }
-            if (setting_dic["food_character_multi_cname_input"].length !== 0) {
-                // 临时存储 料理名：数量 对照字典
-                let temp_character_food_dic = {}
-                for (let i = 0; i < setting_dic["food_character_multi_cname_input"].length; i++) {
-                    let current_food = setting_dic["food_character_multi_cname_input"][i].split("-");
-                    if (current_food.length === 1) {
-                        temp_character_food_dic[current_food[0]] = setting_dic["food_character_num"];
-                    } else if (current_food.length === 2) {
-                        temp_character_food_dic[current_food[0]] = parseInt(current_food[1], 10);
-
-                    }
-                }
-                for (const [name, num] of Object.entries(temp_character_food_dic)) {
-                    if (!Object.keys(task_dic["character"]).includes(name)) {
-                        task_dic["character"][name] = num;
-                    }
-                }
-            }
+            log.error(`OCR错误，区域内未识别到文本: (${x}, ${y}, ${w}, ${h})`);
+            return false;
         }
-        // 增益
-        task_dic["buff"] = setting_dic["cook_character_choice"];
-        // 其它设置
-        task_dic["other_settings"]["cooking_mode"] = setting_dic["select_cooking_mode"];
-        task_dic["other_settings"]["extra_time"] = setting_dic["extra_time"];
-        task_dic["other_settings"]["check_quality"] = setting_dic["check_quality"];
-        task_dic["other_settings"]["prime_cooking"] = setting_dic["prime_cooking"];
-
-        return task_dic;
     }
 
     /**
      *
      * 自动执行手动烹饪(源于JS脚本: 烹饪熟练度一键拉满-(柒叶子-https://github.com/511760049))
-     *
-     * @param setting_dic 解析后的JS配置字典
+     * @param segmentTime
      * @returns {Promise<number>}
      */
-    async function auto_cooking_bgi(setting_dic) {
+    async function auto_cooking_bgi(segmentTime = 66) {
+        if (settings.segmentTime !== "" && parseInt(settings.segmentTime, 10) !== 0) {
+            segmentTime = parseInt(settings.segmentTime, 10);
+        }
         await sleep(350);
         await click(1005, 1011); // 点击手动烹饪
         await sleep(1000); // 等待画面稳定
-        const extraTime = setting_dic["other_settings"]["extra_time"] + 300;
         const checkPoints = [
             {x: 741, y: 772}, // 原始点1
             {x: 758, y: 766}, // 中间点1-2
@@ -1164,14 +607,14 @@
         const regionSize = 60;
 
         // 加载模板图片
-        const templateMat0 = file.readImageMatSync(pic_path["auto_cooking"]["best0"]);
-        const templateMat1 = file.readImageMatSync(pic_path["auto_cooking"]["best1"]);
-        const templateMat2 = file.readImageMatSync(pic_path["auto_cooking"]["best2"]);
+        const templateMat0 = file.readImageMatSync("assets/best0.png");
+        const templateMat1 = file.readImageMatSync("assets/best1.png");
+        const templateMat2 = file.readImageMatSync("assets/best2.png");
 
         // 创建模板匹配识别对象
-        const templateRo0 = RecognitionObject.templateMatch(templateMat0);
-        const templateRo1 = RecognitionObject.templateMatch(templateMat1);
-        const templateRo2 = RecognitionObject.templateMatch(templateMat2);
+        const templateRo0 = RecognitionObject.TemplateMatch(templateMat0);
+        const templateRo1 = RecognitionObject.TemplateMatch(templateMat1);
+        const templateRo2 = RecognitionObject.TemplateMatch(templateMat2);
         templateRo0.threshold = 0.9;
         templateRo0.Use3Channels = true;
         templateRo1.threshold = 0.9;
@@ -1204,11 +647,13 @@
             region.dispose();
 
             if (!result.isEmpty()) {
-                const segmentTime = 66;
-                const waitTime = Math.round(i * segmentTime+extraTime);
+                // const segmentTime = 66;
+                const waitTime = Math.round(i * segmentTime);
                 log.info(`找到点位${i}号区域`);
                 await sleep(waitTime);
                 keyPress("VK_SPACE");
+                await sleep(500);
+                keyPress("Escape");
                 gameRegion.dispose();
                 return 0;
             }
@@ -1222,620 +667,1245 @@
     }
 
     /**
-     *
-     * 自动烹饪（位于物品主选择界面使用[需要确保已经选择选择当前料理，结合select_food_from_food_page使用]）
-     *
-     * @param food_name 料理名[全名] 普通料理和特色料理
-     * @param setting_dic 解析的JS脚本配置字典
-     * @returns {Promise<boolean>} 成功返回true否则false
+     * 刷满熟练度(确保已经与烹饪锅交互进入界面) [DEBUG] 材料不足时仍尝试其他料理（若某材料有但不足，对应的料理可能会排在可制作料理之前）
+     * 完成后按Escape退出到“料理制作”界面
+     * @returns {Promise<boolean>} 成功运行指定次数手动烹饪返回true
+     * @see findClosestMatch
+     * @see deal_string
      */
-    async function auto_cooking(food_name, setting_dic) {
-        food_name = findClosestMatch(food_name, Object.keys(food_dic)); // 【DEBUG】
-        let current_item_name = findClosestMatch(await recognize_item_name(), Object.keys(food_dic));
-        if (typeof(setting_dic["cooking"][food_name]) === "undefined") {
-            log.error(`请确保JS脚本配置中输入了正确的料理名称: ${food_name} 匹配错误`);
-            log.info(`${Object.keys(setting_dic["cooking"]).join("|")}`);
-            return false;
-        }
-        // 检测界面
-        if (!is_food_page()) return false;
-        // 二次验证料理名【DEBUG】经过先前的字符串距离筛选，此处理应不可能找不到
-        if (!Object.keys(food_dic).includes(food_name)) {
-            log.warn(`food_dic内未找到名为-${food_name}-的料理，料理名称传入错误或料理数据需要更新`);
-            return false;
-        } else if (food_dic[food_name]["belonging"] === "无") { // 普通料理
-            if (current_item_name === food_name) {
-                log.info(`二次验证成功: ${food_name}`);
-            } else {
-                log.error(`二次验证失败: ${food_name}\n可能原因: OCR识别错误 或 食谱不匹配`);
-                return false;
-            }
-        } else { // 特色料理
-            if (current_item_name !== food_dic[food_name]["belonging"]) {
-                log.error(`二次验证失败: ${food_dic[food_name]["belonging"]}\n可能原因: OCR识别错误 或 食谱不匹配`);
-                return false;
-            }
-        }
-        // 识别熟练度
-        let proficiency = await check_proficiency();
-        if (proficiency[1] === 0) {
-            log.error(`熟练度识别失败: ${proficiency[0]}/${proficiency[1]}`);
-        } else {
-            log.info(`熟练度识别成功: ${proficiency[0]}/${proficiency[1]}`);
-        }
-        for (let i = 0; i < 3; i++) {
-            await click(1688, 1014); // 点击按钮进入烹饪界面
-            await sleep(1000);
-            if (is_cooking_page()) break;
-        }
-        if (is_cooking_page()) {
-            await click(1841, 179); // 点击角色选择按钮
+    async function unlock_auto_cooking() {
+
+        // 消除食材不足的料理
+        await sleep(200);
+        click(1009, 53); // 食材加工
+        await sleep(200);
+        click(911, 46); // 料理制作
+        await sleep(200);
+
+        click(143, 1018); // 筛选
+        await sleep(500);
+        click(143, 1018); // 重置
+        await sleep(500);
+        click(125, 684); // 未满
+        await sleep(500);
+        click(493, 1025); // 确认筛选
+        await sleep(500)
+
+        let food_name = await Ocr(116, 243, 125, 30);
+        if (food_name) {
+            food_name.Click();
             await sleep(500);
-            if (food_dic[food_name]["belonging"] === "无"){ // 普通
-                if (setting_dic["buff"] === "角色列表第一个角色(默认)") {
-                    await click(98, 168); // 点击列表第一个角色(可能没有必要)
-                    await sleep(100);
-                    await click(1555, 860);
-                } else if (setting_dic["buff"] === "完美烹饪对应类型12%概率2倍产出") {
-                    let flag = await select_character_by_fullname("2倍");
-                    if (!flag) {
-                        await click(98, 168); // 点击列表第一个角色
-                    } else {
-                        await recognize_cooking_character("2倍");
-                    }
-                    await sleep(100);
-                    await click(1555, 860);
-                } else if (setting_dic["buff"] === "完美烹饪18%概率额外产出产出「奇怪的」同种料理") {
-                    let flag = await select_character_by_fullname("奇怪");
-                    if (!flag) {
-                        await click(98, 168); // 点击列表第一个角色
-                    } else {
-                        await recognize_cooking_character("奇怪");
-                    }
-                    await sleep(100);
-                    await click(1555, 860);
-                }
+            // 寻找对应的料理
+            let matchList = [];
+            for (let i = 0; i < Object.keys(food_msg).length; i++) {
+                matchList.push(await deal_string(Object.keys(food_msg)[i]));
+            }
+            food_name = await findClosestMatch(food_name.text, matchList);
+            log.info(`当前料理: ${food_name}`);
+            // let formula_num = Object.keys(food_msg["formula"]).length;
+            click(1686, 1018); // 制作
+            await sleep(800);
+            let checkOcr = await Ocr(710, 523, 115, 31);
+            if (checkOcr && checkOcr.text.includes("材料不足")) {
+                log.error(`制作 ${food_name} 过程中，材料不足...`);
+                return false;
+            }
+            await sleep(1000); // 等待进入烹饪界面
+            checkOcr = await Ocr(132, 33, 69, 29);
+            if (checkOcr && checkOcr.text.includes("烹饪")) {
+                // 检测角色加成
+                await check_character_bonus();
                 await sleep(500);
-            } else { // 特色
-                let select_character = await select_character_from_cooking_page(food_dic[food_name]["character"]);
-                if (select_character) {
-                    log.info(`角色选择成功: ${food_dic[food_name]["character"]}`);
-                } else {
-                    log.error(`角色选择失败: ${food_dic[food_name]["character"]}`);
-                    // 退回主选择界面
-                    await click(1724, 49); // 关闭角色选择界面
-                    await sleep(500);
-                    if (is_cooking_page()) await keyPress("VK_ESCAPE");
-                    await sleep(200);
-                    return false;
-                }
-            }
-            let unlock = await is_unlock(); // 二次检测自动烹饪是否解锁
-            log.info(`自动烹饪模式: ${setting_dic["other_settings"]["cooking_mode"]}`);
-            if (setting_dic["other_settings"]["food_detail"]) { // 显示料理详情
-                log.info(`${food_name} 的详情如下:\n${food_dic[food_name]["detail"]}`);
-            }
-            // JS脚本配置关于烹饪方式的配置
-            if (setting_dic["other_settings"]["cooking_mode"] === "优先自动烹饪(默认)") {
-                // 识别当前buff(判断烹饪产物)
-                let current_buff = get_current_buff();
-                if (unlock || (proficiency[0] === proficiency[1] && proficiency[1] !== 0)) { // 解锁了自动烹饪
-                    const loop_time = Math.floor(setting_dic["cooking"][food_name] / 99) + 1; // 总计循环数，一次最大99
-                    let cook_num = setting_dic["cooking"][food_name] + 0; // 设定的数量
-                    for (let i = 0; i < loop_time; i++) {
-                        let cook_time = i !== loop_time - 1 ? 99: cook_num - i * 99; // 本次烹饪数
-                        await click(890, 1016); // 点击自动烹饪
-                        await sleep(500);
-                        if (food_dic[food_name]["belonging"] === "无") { // 普通
-                            await set_ingredient_num(cook_time);
-                        } else { // 特色(需要结合检测产物)
-                            await set_ingredient_num(cook_time);
-                        }
-                        await sleep(500);
-                        await click(1186, 756); // 点击确认
-                        await sleep(2500); // 等待自动烹饪
-                        if (setting_dic["other_settings"]["check_quality"]) {
-                            let result_dic = await check_cooking_result(); // OCR识别烹饪结果
-                            if (result_dic["quality"] !== "无" && result_dic["num"] !== 0) { // 结果正常
-                                let temp_result_string = "";
-                                for (let i = 0; i < result_dic["detail"]; i++) {
-                                    temp_result_string += `${result_dic["detail"][0]}(${result_dic["detail"][1]})`;
-                                }
-                                log.info(`自动烹饪成功: 烹饪次数(${cook_time})\n详情: ${temp_result_string}`);
-                            } else {
-                                log.warn(`烹饪结果识别异常: ${result_dic["quality"] === "无" ? "品质未识别": ""} ${result_dic["num"] === 0 ? "数量未识别": ""}\n详情: ${result_dic["quality"]}-${result_dic["num"]}`);
-                                for (const [result_name, result_num] of Object.entries(result_dic["detail"])) {
-                                    log.info(`${result_name}(${result_num})`);
-                                }
-                            }
-                        }
-                        await sleep(100);
-                        click(1555, 860);
-                        if (await is_cooking_page()) {
-                            click(1555, 860); // 退出烹饪结果界面，返回烹饪界面
-                        }
-                        await sleep(200);
-                    }
-                } else { // 未解锁自动烹饪
-                    const max_loop_time = food_dic[food_name]["lvl"] * 5;
-                    let cook_num = setting_dic["cooking"][food_name] + 0; // 设定的数量
-                    let unlock_flag = false
-                    for (let i = 0; i < max_loop_time; i++) {
-                        if (!unlock) {
-                            await auto_cooking_bgi(setting_dic); // 调用手动烹饪
-                            if (setting_dic["other_settings"]["check_quality"]) {
-                                let result_dic = await check_cooking_result(); // OCR识别烹饪结果
-                                if (result_dic["quality"] !== "无" && result_dic["num"] !== 0) { // 结果正常
-                                    let temp_result_string = "";
-                                    for (let i = 0; i < result_dic["detail"]; i++) {
-                                        temp_result_string += `${result_dic["detail"][0]}(${result_dic["detail"][1]})`;
-                                    }
-                                    log.info(`自动烹饪成功: 烹饪次数(${cook_time})\n详情: ${temp_result_string}`);
-                                } else {
-                                    log.warn(`烹饪结果识别异常: ${result_dic["quality"] === "无" ? "品质未识别": ""} ${result_dic["num"] === 0 ? "数量未识别": ""}\n详情: ${result_dic["quality"]}-${result_dic["num"]}`);
-                                    for (const [result_name, result_num] of Object.entries(result_dic["detail"])) {
-                                        log.info(`${result_name}(${result_num})`);
-                                    }
-                                }
-                            }
-                            await sleep(100);
-                            click(1555, 860);
-                            if (await is_cooking_page()) {
-                                click(1555, 860); // 退出烹饪结果界面，返回烹饪界面
-                            }
-                            await sleep(200);
-                        } else {
-                            unlock_flag = true;
-                            break;
-                        }
-                        cook_num--; // 剩余烹饪次数-1
-                        unlock = await is_unlock(); // 检测当前食材是否已经解锁
-                    }
-                    if (unlock_flag) {
-                        let cook_num = setting_dic["cooking"][food_name] + 0; // 设定的数量
-                        const loop_time = Math.floor(cook_num / 99) + 1; // 总计循环数，一次最大99
-                        for (let i = 0; i < loop_time; i++) {
-                            let cook_time = i !== loop_time - 1 ? 99: cook_num - i * 99; // 本次烹饪数
-                            await click(890, 1016); // 点击自动烹饪
-                            await sleep(500);
-                            if (food_dic[food_name]["belonging"] === "无") { // 普通
-                                await set_ingredient_num(cook_time);
-                            } else { // 特色(需要结合检测产物)
-                                await set_ingredient_num(cook_time);
-                            }
-                            await sleep(500);
-                            await click(1186, 756); // 点击确认
-                            await sleep(2500); // 等待自动烹饪
-                            if (setting_dic["other_settings"]["check_quality"]) {
-                                let result_dic = await check_cooking_result(); // OCR识别烹饪结果
-                                if (result_dic["quality"] !== "无" && result_dic["num"] !== 0) { // 结果正常
-                                    let temp_result_string = "";
-                                    for (let i = 0; i < result_dic["detail"]; i++) {
-                                        temp_result_string += `${result_dic["detail"][0]}(${result_dic["detail"][1]})`;
-                                    }
-                                    log.info(`自动烹饪成功: 烹饪次数(${cook_time})\n详情: ${temp_result_string}`);
-                                } else {
-                                    log.warn(`烹饪结果识别异常: ${result_dic["quality"] === "无" ? "品质未识别": ""} ${result_dic["num"] === 0 ? "数量未识别": ""}\n详情: ${result_dic["quality"]}-${result_dic["num"]}`);
-                                    for (const [result_name, result_num] of Object.entries(result_dic["detail"])) {
-                                        log.info(`${result_name}(${result_num})`);
-                                    }
-                                }
-                            }
-                            await sleep(100);
-                            click(1555, 860);
-                            if (await is_cooking_page()) {
-                                click(1555, 860); // 退出烹饪结果界面，返回烹饪界面
-                            }
-                            await sleep(200);
-                        }
-                    } else {
-                        log.error(`当前料理烹饪失败(手动烹饪异常): ${food_name}`);
-                    }
-                }
-            } else if (setting_dic["other_settings"]["cooking_mode"].startsWith("优先手动烹饪")) {
-                let cook_num = setting_dic["cooking"][food_name];
+                let cook_num = parseInt(food_msg[food_name]["price"], 10) * 5;
                 for (let i = 0; i < cook_num; i++) {
-                    if (await is_cooking_page()) {
-                        await auto_cooking_bgi(setting_dic);
-                        if (setting_dic["other_settings"]["check_quality"]) {
-                            let result_dic = await check_cooking_result(); // OCR识别烹饪结果
-                            if (result_dic["quality"] !== "无" && result_dic["num"] !== 0) { // 结果正常
-                                let temp_result_string = "";
-                                for (let i = 0; i < result_dic["detail"]; i++) {
-                                    temp_result_string += `${result_dic["detail"][0]}(${result_dic["detail"][1]})`;
-                                }
-                                log.info(`自动烹饪成功: 烹饪次数(${cook_time})\n详情: ${temp_result_string}`);
-                            } else {
-                                log.warn(`烹饪结果识别异常: ${result_dic["quality"] === "无" ? "品质未识别": ""} ${result_dic["num"] === 0 ? "数量未识别": ""}\n详情: ${result_dic["quality"]}-${result_dic["num"]}`);
-                                for (const [result_name, result_num] of Object.entries(result_dic["detail"])) {
-                                    log.info(`${result_name}(${result_num})`);
-                                }
-                            }
+                    await auto_cooking_bgi();
+                    log.info(`进度: ${i + 1}/${cook_num}`);
+                    await sleep(1000);
+                    // 检测自动烹饪解锁
+                    checkOcr = await Ocr(730, 993, 124, 40);
+                    if (checkOcr && checkOcr.text.includes("自动烹饪")) {
+                        log.info(`检测到自动烹饪已解锁，${food_name} 已完成...`);
+                        break;
+                    }
+                    // 检测材料耗尽
+                    checkOcr = await Ocr(121, 22, 158, 55);
+                    if (!(checkOcr && checkOcr.text.includes("烹饪"))) {
+                        if (checkOcr.text.includes("料理制作")) {
+                            log.warn(`料理 ${food_name} ，制作过程中食材耗尽，已跳过...`);
                         }
-                        await sleep(100);
-                        click(1555, 860);
-                    } else {
-                        log.warn(`食材不够: ${food_name}`);
+                        log.error("OCR错误, 未识别到文本： 烹饪");
                         return false;
                     }
                 }
-
-            } else if (setting_dic["other_settings"]["cooking_mode"].startsWith("刷满熟练度")) {
-                const max_loop_time = food_dic[food_name]["lvl"] * 5 + 5; // 加5次冗余
-                for (let i = 0; i < max_loop_time; i++) {
-                    if (!unlock) {
-                        await auto_cooking_bgi(setting_dic); // 调用手动烹饪
-                        if (setting_dic["other_settings"]["check_quality"]) {
-                            let result_dic = await check_cooking_result(); // OCR识别烹饪结果
-                            if (result_dic["quality"] !== "无" && result_dic["num"] !== 0) { // 结果正常
-                                let temp_result_string = "";
-                                for (let i = 0; i < result_dic["detail"]; i++) {
-                                    temp_result_string += `${result_dic["detail"][0]}(${result_dic["detail"][1]})`;
-                                }
-                                log.info(`自动烹饪成功: 烹饪次数(${cook_time})\n详情: ${temp_result_string}`);
-                            } else {
-                                log.warn(`烹饪结果识别异常: ${result_dic["quality"] === "无" ? "品质未识别": ""} ${result_dic["num"] === 0 ? "数量未识别": ""}\n详情: ${result_dic["quality"]}-${result_dic["num"]}`);
-                                for (const [result_name, result_num] of Object.entries(result_dic["detail"])) {
-                                    log.info(`${result_name}(${result_num})`);
-                                }
-                            }
-                        }
-                        await sleep(100);
-                        click(1555, 860);
-                    } else {
-                        log.info(`${food_name} 已解锁!`)
-                        await sleep(100);
-                        if (await is_cooking_page()) {
-                            click(1555, 860); // 退出烹饪结果界面，返回烹饪界面
-                        }
-                        await sleep(200);
-                        return true;
-                    }
-                    unlock = await is_unlock(); // 检测当前食材是否已经解锁
+                // 检测是否处于“烹饪界面”，并退出
+                checkOcr = await Ocr(132, 33, 69, 29);
+                if (checkOcr && checkOcr.text.includes("烹饪")) {
+                    await sleep(500);
+                    keyPress("Escape");
+                    await sleep(500);
                 }
+                return true;
             } else {
-                log.error(`cooking_mode值异常: ${setting_dic["other_settings"]["cooking_mode"]}`);
+                log.error("OCR错误, 未识别到文本： 烹饪");
                 return false;
             }
         } else {
-            log.error("未能成功进入烹饪界面");
+            let flag = await Ocr(137, 31, 111, 34);
+            if (flag && flag.text.includes("料理制作")) {
+                log.info("已经刷满全部料理熟练度...");
+                return false;
+            }
+            log.error("OCR错误, 未识别到文本");
             return false;
         }
-        if (await is_cooking_page()) { // 检测并退出烹饪界面
-            keyPress("VK_ESCAPE");
-            await sleep(200);
-        }
-        return true;
     }
 
     /**
-     *
-     * 在料理制作界面自动寻找指定料理（自动滑动页面）
-     *
-     * @param food_name 食物全名
+     * 在料理制作界面，寻找并选中料理
+     * @param food_name 必须为正确的料理名
+     * @returns {Promise<void>}
+     * @see scroll_bar_to_side
+     * @see ocr_find_area
+     * @see deal_string
+     */
+    async function find_and_click_food(food_name) {
+        // 确保滑动到顶部
+        await scroll_bar_to_side(1282, 112, 13, 838, 131, 930, 124, 936, 1288, "Up"); // 料理制作界面
+
+        log.info(`在当前界面寻找 ${food_name} `);
+        let select_food_category = food_msg[food_name]["category"];
+        let search_keys = []; // 大类
+        for (const [c_name, c_detail] of Object.entries(food_category)) {
+            if (c_name === "其他") break;
+            for (let i = 0; i < select_food_category.length; i++) {
+                if (c_detail.includes(select_food_category[i])) {
+                    if (!(search_keys.includes(c_name))) {
+                        search_keys.push(c_name);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // 筛选
+        await sleep(200);
+        click(143, 1018); // 筛选
+        await sleep(500);
+        click(143, 1018); // 重置
+        await sleep(500);
+        for (let i = 0; i < search_keys.length; i++) {
+            let ocrResult = await ocr_find_area(94, 229, 136, 326, search_keys[i]);
+            if (ocrResult) ocrResult.Click();
+            await sleep(300);
+        }
+        await sleep(200)
+        click(493, 1025); // 确认筛选
+        await sleep(800)
+
+        // OCR料理名称
+        let ocrResult = await ocr_find_area(104, 108, 1172, 857, await deal_string(food_name));
+        if (!ocrResult) {
+            while (await scroll_page(1282, 112, 13, 838, 131, 930, 1288, "Down")) {
+                ocrResult = await ocr_find_area(104, 108, 1172, 857, await deal_string(food_name));
+                if (ocrResult) break;
+                await sleep(300);
+            }
+        }
+        if (ocrResult) {
+            log.info(`找到料理: ${food_name}`);
+            await sleep(500);
+            ocrResult.Click();
+            await sleep(500);
+            return true;
+        } else {
+            log.error(`未找到料理: ${food_name}，可能未拥有该食谱或OCR错误...\n获得方式: ${food_msg[food_name]["obtain"]}`);
+            return false;
+        }
+
+    }
+
+    /**
+     * 在料理制作界面，获取food_name的各个食材的数量并返回object [DEBUG]待测试
+     * @param food_name
+     * @returns {Promise<Object|boolean>}
+     */
+    async function get_material_num(food_name) {
+        const material_site = { // 食材图标位置
+            "0": {"x": 1383, "y1": 601, "y2": 695},
+            "1": {"x": 1491, "y1": 601, "y2": 695},
+            "2": {"x": 1599, "y1": 601, "y2": 695},
+            "3": {"x": 1707, "y1": 601, "y2": 695}
+        }
+        let m_count = Object.keys(food_msg[food_name]["formula"]).length;
+        if (!m_count) return false;
+
+        let material_dic = {};
+
+        log.info(`开始获取 ${food_name} 的食材余量...`);
+
+        let materialList = Object.keys(food_msg[food_name]["formula"]); // OCR纠错用
+
+        for (let i = 0; i < m_count; i++) {
+            let flag = false;
+            // 点击食材（上）
+            await sleep(300);
+            click(material_site[i]["x"], material_site[i]["y1"]);
+            await sleep(500);
+            let ocrResult = await Ocr(881, 763, 158, 267);
+            if (ocrResult && ocrResult.text.includes("当前拥有")) {
+                flag = true;
+            } else {
+                // 点击食材（下）
+                click(1855, 785); // 点击空白处
+                await sleep(300);
+                click(material_site[i]["x"], material_site[i]["y2"]);
+                await sleep(500);
+                let ocrResult = await Ocr(881, 763, 158, 267);
+                if (ocrResult && ocrResult.text.includes("当前拥有")) {
+                    flag = true;
+                }
+            }
+            if (flag) {
+                let ocrName = await Ocr(736, 254, 280, 73); // 文本较少
+                if (ocrName) {
+                    ocrName = await findClosestMatch(ocrName.text, materialList); // 最大限度避免OCR误差（结合动态调整的materialList[当前料理的食材列表]）
+                    materialList = materialList.filter(item => item !== ocrName);
+                } else {
+                    ocrName = await Ocr(736, 174, 280, 153); // 文本较多
+                    if (ocrName) {
+                        ocrName = await findClosestMatch(ocrName.text, Object.keys(food_msg[food_name]["formula"]));
+                        materialList = materialList.filter(item => item !== ocrName);
+                    } else {
+                        log.error("OCR错误");
+                        return false;
+                    }
+                }
+                let item_num = await get_current_item_num();
+                if (item_num) {
+                    material_dic[ocrName] = item_num; // 计入食材字典
+                    log.info(`${ocrName}(${item_num})`);
+                } else {
+                    log.warn(`OCR错误：未识别到食材(${ocrName})的数量，本次计为0`);
+                    material_dic[ocrName] = 0; // 计入食材字典
+                }
+            } else {
+                log.error(`OCR错误，未识别到 ${food_name}-食材${i + 1} 的独立物品界面`);
+                return false;
+            }
+        }
+        click(1855, 785); // 点击空白处
+        await sleep(500);
+        return material_dic;
+
+    }
+
+    /**
+     * 根据JS脚本配置的全局设置，在烹饪界面选择角色加成
+     * @param spl 设定为选择特殊料理
      * @returns {Promise<boolean>}
      */
-    async function select_food_from_food_page(food_name, setting_dic) {
-        // 检测是否位于料理制作界面
-        let judge_food = is_food_page();
-        if (judge_food) {
-            log.info("当前处于料理制作界面");
-        } else {
-            log.error("当前不处于料理制作界面...");
-            return false;
-        }
-        // 滑动到顶部
-        await scroll_pages_main("up", 10);
-        for (let i = 0; i < 30; i++) {
-            let food_choice = await select_food_by_fullname(await deal_string(food_name));
-            if (food_choice) {
-                return true;
-            } else {
-                let scroll_result = await scroll_pages_main("down", 1);
-                if (!scroll_result) {
-                    break;
-                }
-            }
-        }
-        log.error(`未找到指定料理，可能原因如下:\n1.没有该食谱: ${food_name}\n2.OCR识别存在误差或者识别错误\n`);
-        if (setting_dic["other_settings"]["food_detail"]) {
-            log.error(`该料理的获取方式: ${food_dic[food_name]["means"]}`);
-        }
-        await sleep(2000);
-        return false;
-
-    }
-
-    /**
-     *
-     * 在烹饪角色选择界面自动寻找指定角色（自动滑动页面）
-     *
-     * @param name 角色名
-     * @returns {Promise<boolean>}
-     */
-    async function select_character_from_cooking_page(name) {
-        // 检测是否位于烹饪界面
-        let judge_cooking = await is_cooking_page();
-        if (judge_cooking) {
-            log.info("当前处于烹饪界面");
-        } else {
-            log.error("当前不处于烹饪界面...");
-            return false;
-        }
-        // 滑动到顶部
-        await scroll_pages_cooking("up", 15);
-        for (let i = 0; i < 10; i++) {
-            let character_choice = await select_character_by_fullname(name);
-            if (character_choice) {
-                return true;
-            } else {
-                let scroll_result = await scroll_pages_main("down", 1);
-                if (!scroll_result) {
-                    break;
-                }
-            }
-        }
-        log.info(`未找到指定角色，可能原因如下:\n1.没有该角色: ${name}\n2.OCR识别存在误差`);
-        await sleep(2000);
-        return false;
-
-    }
-
-    /**
-     *
-     * 识别烹饪结果(品质+料理名:数量)[存在问题，数字识别不精确，可能无效]
-     *
-     * @returns {Promise<{quality: Promise<string>, num: number, quantity: number[]}>}
-     */
-    async function check_cooking_result() {
-        let msg_dic = {
-            "quality": "",
-            "num": 0,
-            "detail": []
-        }
-        let ocrRo = RecognitionObject.Ocr(826, 577, 268, 31);
-
-        moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
+    async function check_character_bonus(spl = false) {
         await sleep(200);
-        const ro13 = captureGameRegion();
-        let ocr = ro13.FindMulti(ocrRo); // 当前页面OCR
-        ro13.dispose();
-        await sleep(200);
-        try {
-            msg_dic["quality"] = await check_quality();
-            click(927, 525); // 点击左侧料理/中间料理
+        click(1779, 254);
+        while (true) {
             await sleep(200);
-            let food_name_finish1 = await get_food_name_cooking_finished();
-            click(1555, 860); // 退出当前料理详情
-            await sleep(200);
-            click(991, 525); // 点击右侧料理/中间料理
-            await sleep(200);
-            let food_name_finish2 = await get_food_name_cooking_finished();
-            click(1555, 860); // 退出当前料理详情
-            if (food_name_finish1 === food_name_finish2) { // 仅有一个结果
-                msg_dic["num"] = 1;
-                if (ocr.count == 1) { // OCR结果未转换为整型[此处有待完善]
-                    msg_dic["detail"] = {food_name_finish1: ocr[0].text};
-                } else {
-                    msg_dic["detail"] = {food_name_finish1: 0};
-                }
-            } else { // 有两个结果
-                msg_dic["num"] = 2;
-                if (ocr.count == 2) { // OCR结果未转换为整型[此处有待完善]
-                    msg_dic["detail"] = {food_name_finish1: ocr[0].text, food_name_finish2: ocr[1].text};
-                } else {
-                    msg_dic["detail"] = {food_name_finish1: 0, food_name_finish2: 0};
-                }
-            }
-        } catch (error) {
-            log.error(`OCR识别料理数出错: ${error}`);
-            return {
-                "quality": check_quality(),
-                "num": 0,
-                "detail": {"": 0, "": 0}
-            };
+            let ocrResult = await Ocr(119, 29, 130, 37);
+            if (ocrResult && ocrResult.text.includes("角色选择")) break;
         }
-        for (let i = 0; i < 3; i++) {
-            if (!(await is_cooking_page() && !(await is_food_page()))) {
-                await sleep(200);
-                keyPress("VK_ESCAPE");
-                await sleep(200);
-            } else if (await is_cooking_page()) {
-                break;
-            }
-        }
-        return msg_dic;
-    }
-
-    /**
-     *
-     * 获取烹饪结束后的料理名(需要点击烹饪完成后的料理图标)
-     *
-     * @returns {Promise<*|string>} 料理名字符串(附带前缀)
-     */
-    async function get_food_name_cooking_finished() {
-        let ocrRo = RecognitionObject.Ocr(739, 231, 441, 47);
-
-        moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
         await sleep(200);
-        const ro14 = captureGameRegion();
-        let ocr = ro14.Find(ocrRo); // 当前页面OCR
-        ro14.dispose();
-        if (ocr.isExist()) {
-            return ocr.text;
-        } else {
-            return "";
-        }
-    }
-
-    /**
-     *
-     * 识别当前角色烹饪加成(烹饪界面)
-     *
-     * @returns {string>} 字符串返回对应的加成
-     */
-    async function get_current_buff() {
-        let ocrRo = RecognitionObject.Ocr(1511, 389, 337, 85);
-
-        moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
-        await sleep(200);
-        const ro15 = captureGameRegion();
-        let ocr = ro15.FindMulti(ocrRo); // 当前页面OCR
-        ro15.dispose();
-        if (ocr.isExist()) {
-            if (ocr.text.includes("2倍产出")) {
-                return "2倍产出";
-            } else if (ocr.text.includes("奇怪的")) {
-                return "奇怪的";
-            } else if (ocr.text.includes("特殊料理")) {
-                return "特殊料理";
+        let ocrResult = await ocr_find_area(148, 95, 773, 937, "产出");
+        let flag = false;
+        if (settings.characterBonus === "12%概率双倍" && !spl) {
+            if (ocrResult) {
+                ocrResult.Click();
+                log.info("选择角色加成: 12%概率双倍");
+            }
+        } else if (settings.characterBonus === "特殊料理" || spl) {
+            let checkOcr = await ocr_find_area(148, 95, 773, 937, "特殊");
+            if (checkOcr) {
+                checkOcr.Click();
+                log.info("选择角色加成: 特殊料理");
             } else {
-                return "无";
+                flag = true;
             }
-        } else {
-            return "无";
+        } else if (settings.characterBonus === "无加成") {
+            let checkOcr = await ocr_find_area(148, 95, 773, 937, "暂无");
+            if (checkOcr) {
+                checkOcr.Click();
+                log.info("选择角色加成: 无加成");
+            } else {
+                flag = true;
+            }
+        } else if (settings.characterBonus === "「奇怪的」") {
+            let checkOcr = await ocr_find_area(148, 95, 773, 937, "奇怪");
+            if (checkOcr) {
+                checkOcr.Click();
+                log.info("选择角色加成: 「奇怪的」");
+            } else {
+                flag = true;
+            }
         }
+        if (flag && !spl) {
+            if (ocrResult) {
+                ocrResult.Click();
+                log.info("选择角色加成: 12%概率双倍");
+            } else {
+                log.error("角色加成选择错误，保留默认...");
+            }
+        }
+        await sleep(500);
+        click(1893, 889);
+        await sleep(500);
+        return !flag;
     }
 
     /**
+     * 实力派「技术料理」大师，芙宁娜亲封「甜点大校」，[前]德波大饭店主厨 爱可菲，向你致以问候。
+     * 贵为神明座上宾的你，也应享用提瓦特最顶尖的美食，希望我的作品能让你满意。
+     * 	“	「司掌甜蜜的精灵」、「统御味蕾的暴君」？也没报纸上传得那么夸张哦，爱可菲只是个喜欢烹饪的…有一点点严格的女孩啦。那些不认真对待料理的家伙，当然也得不到她的尊重！总之，你们两个的「风味」一定能搭配得好，我保证！	” ——娜维娅
      *
-     * 检测时长提醒并等待
-     *
+     * 需要位于料理制作界面，并已经选中了对应料理
+     * 角色加成选择，特殊料理 [DEBUG]左侧角色选择8人，最多有6条加成，先不加滑块逻辑了
+     * @param food_name 料理名
+     * @param food_num 料理数量
+     * @param spl 特殊料理
      * @returns {Promise<void>}
      */
-    async function wait_time_remind(wait_time=5) {
-        let ocrRo = RecognitionObject.Ocr(689, 13, 537, 30);
+    async function escoffier_cook_for_u(food_name, food_num, spl = false) {
+        if (settings.dealInsufficient !== "禁用") {
+            // 食材数量检测
+            let material_quantity = await get_material_num(food_name);
+            if (!material_quantity) {
+                return false;
+            }
+            for (const [m_name, m_num] of Object.entries(material_quantity)) { // [DEBUG] 此处可以结合settings加入额外逻辑
+                let demand = parseInt(food_msg[food_name]["formula"][m_name], 10)
+                let total = demand * food_num;
+                if (total > m_num) { // 需求大于已有
+                    log.warn(`食材(${m_num})不足: 需求(${total}), 拥有(${m_num}), 单次烹饪需求(${demand})`);
+                    if (settings.dealInsufficient === "跳过此料理") {
+                        log.info(`全局设置已启用，料理 ${food_name} 已跳过...`);
+                        return true; // [DEBUG] 或许应该为false
+                    } else {
+                        let deal_num = Math.floor(m_num / demand) - 1;
+                        if (deal_num < food_num) food_num = deal_num;
+                        log.info(`全局设置已启用，料理(${food_name})的烹饪数量已被重新设置为${food_num}`);
+                        await sleep(10);
+                    }
+                }
+            }
+        }
 
-        moveMouseTo(1555, 860); // 移走鼠标，防止干扰OCR
+        // 料理数量检测
+        let food_quantity = await Ocr(1333, 185, 197, 33);
+        if (food_quantity) {
+            food_quantity = parseInt(food_quantity.text.replace(/\D/g, ''), 10);
+        } else {
+            log.warn("未获取到当前持有的料理数量，本次视为0...");
+            food_quantity = 0;
+        }
+        if (food_quantity + food_num > 2000) {
+            food_num = food_quantity < 2000 ? 2000 - food_quantity: 0;
+            log.warn(`制作的料理数超过上限，已调整为: ${food_num}`);
+        }
+
+        // 烹饪步骤
         await sleep(200);
-        const ro16 = captureGameRegion();
-        let ocr = ro16.Find(ocrRo); // 当前页面OCR
-        ro16.dispose();
-        // 等待以防止时长提醒影响操作
-        const regex = new RegExp(/(?<=旅行者)[\s\S]*?(?=休息)/);
-        if (regex.test(ocr)) {
-            await sleep(wait_time * 1000);
+        click(1681, 1019); // 点击 制作
+        await sleep(800);
+        // 检测角色加成
+        let resultFlag = await check_character_bonus(spl);
+        if (!resultFlag) {
+            let characterName = "未知";
+            for (const f_msg of Object.values(food_msg)) {
+                if (f_msg["belonging"] === food_name) {
+                    characterName = f_msg["character"];
+                    break;
+                }
+            }
+            log.error(`未找到 ${food_name} 对应的特殊料理角色(${characterName})...`);
+            return false;
+        }
+
+        await sleep(200);
+        click(1893, 889);
+        await sleep(500);
+        let checkOcr = await Ocr(730, 993, 524, 40);
+        if (checkOcr) {
+            if (!(checkOcr.text.includes("自动"))) { // 未解锁自动烹饪
+                // 手动烹饪默认次数
+                let cook_num = parseInt(food_msg[food_name]["price"], 10) * 5;
+                let cook_count = 0;
+                for (let i = 0; i < cook_num; i++) {
+                    await auto_cooking_bgi(); // 调用手动烹饪
+                    cook_count++; // 手动烹饪计数
+                    log.info(`进度: ${i + 1}/${cook_num >= food_num ? food_num: cook_num}`);
+                    await sleep(1000);
+                    // 计数检测
+                    if (cook_count >= food_num) {
+                        food_num -= cook_count;
+                        break;
+                    }
+                    // 检测自动烹饪解锁
+                    checkOcr = await Ocr(730, 993, 124, 40);
+                    if (checkOcr && checkOcr.text.includes("自动烹饪")) {
+                        if (settings.autoLocked === "手动烹饪数计入总数") {
+                            log.info(`检测到自动烹饪已解锁，${food_name} 剩余${food_num - cook_count}次`);
+                            food_num -= cook_count;
+                        } else {
+                            log.info(`检测到自动烹饪已解锁，${food_name} 剩余${food_num}次`);
+                        }
+                        await sleep(200);
+                        click(1878, 846); // 点击空白处
+                        await sleep(500);
+                        break;
+                    }
+                    // 检测材料耗尽
+                    checkOcr = await Ocr(132, 33, 69, 29);
+                    if (!(checkOcr && checkOcr.text.includes("烹饪"))) {
+                        log.error("OCR错误, 未识别到文本： 烹饪，可能原因：食材耗尽");
+                        return false;
+                    }
+                }
+            }
+            if (food_num > 0) { // 使用自动烹饪
+                await sleep(200);
+                click(793, 1013); // 自动烹饪
+                await sleep(500);
+                await set_ingredient_num(food_num);
+                while (true) { // [DEBUG] 无容错
+                    let ocrResult = await Ocr(934, 884, 76, 39);
+                    if (ocrResult && ocrResult.text.includes("确认")) {
+                        ocrResult.Click();
+                        await sleep(500);
+                        break;
+                    }
+                }
+            }
+            log.info(`料理(${food_name})烹饪完成...`);
+            await sleep(500); // [DEBUG] 如果卡在烹饪界面，考虑延长此处延时
+            click(1878, 846); // 点击空白处
+            await sleep(500);
+            let ocrResult = await Ocr(132, 33, 69, 29);
+            if (ocrResult && ocrResult.text.includes("烹饪")) {
+                await sleep(500);
+                keyPress("Escape"); // 返回料理制作
+                await sleep(500);
+            }
+            return true;
+
+        } else {
+            log.error("OCR错误，未找到烹饪按钮"); // [DEBUG] 加个检测，返回到料理制作界面
+            return false;
+        }
+    }
+
+    /**
+     * 根据settings的选择，确定料理名和对应的数量
+     * @param spl 特殊料理
+     * @returns {Promise<void>} 如果成功读取，返回料理名称和料理数量的字典
+     */
+    async function calculate_food(spl = false) {
+        let foodDic = {};
+        let foodNum, foodList;
+
+        // 读取设置项
+        if (spl) {
+            foodList = Array.from(settings.selectCharacter);
+            foodNum = settings.characterFoodNum.trim().split(" ");
+            log.debug(`解析料理数据(spl)\n${foodList.join("|")}\n${foodNum.join("|")}`);
+            // 将特殊料理名转换为普通料理名 [DEBUG] 未测试
+            let tempList = [];
+            for (let i = 0; i < foodList.length; i++) {
+                let spl_name = foodList[i].split("(")[0];
+                tempList.push(food_msg[spl_name]["belonging"]);
+            }
+            foodList = tempList;
+        } else {
+            let arrays = [
+                Array.from(settings.selectRecovery),
+                Array.from(settings.selectATKBoosting),
+                Array.from(settings.selectAdventure),
+                Array.from(settings.selectDEFBoosting),
+                Array.from(settings.selectOthers)
+            ]
+            foodList = [...new Set(arrays.flat())]; // 合并去重
+            foodNum = settings.foodNum.trim().split(" ");
+            log.debug(`解析料理数据\n${foodList.join("|")}\n${foodNum.join("|")}`);
+        }
+        // 为空则直接返回false
+        if (foodList.length === 0) return false;
+
+        // 检测并合并数量
+        if (foodNum.length === 1) {
+            for (let i = 0; i < foodList.length; i++) {
+                foodDic[foodList[i]] = parseInt(foodNum[0], 10);
+            }
+
+        } else {
+            if (foodList.length !== foodNum.length) {
+                log.error("输入的料理数与选择的料理数不一致！");
+                return false;
+            }
+            for (let i = 0; i < foodList.length; i++) {
+                foodDic[foodList[i]] = parseInt(foodNum[i], 10);
+            }
+        }
+
+        // 根据概率计算大致次数（向上取整）(spl)
+        if (spl && settings.characterMode === "预期的特殊料理数") {
+            for (const[f_name, f_num] of Object.entries(foodDic)) {
+                let probability = special_food[food_msg[f_name]["price"]][2];
+                let base = Math.ceil(1 / probability);
+                foodDic[f_name] = base * f_num;
+                log.info(`料理(${f_name})的预期烹饪次数发生更改: ${f_num} -> ${base * f_num}`)
+            }
+        }
+        return foodDic;
+    }
+
+    /**
+     * 在当前页面选购商品（餐馆、杂货店等商人NPC），购买完成后停留在商店界面
+     * @param {string} name - 名称
+     * @param {number} num - 数量
+     * @param {boolean} detect - 启用摩拉检测
+     * @returns {Promise<number|boolean>}
+     *   - 成功时返回实际购买成功的商品数量（可能与实际数目不符[如果OCR兜底失败]）
+     *   - 失败时返回 false（如不存在、售罄、资金不足[还没做]或其他错误）
+     */
+    async function select_goods(name, num, detect = false) { // [DEBUG] 暂未设置摩拉不足的情况
+        // 确保滑块位于顶端
+        await scroll_bar_to_side(1271, 113, 12, 830, 130, 923, 123, 931, 1276, "Up");
+
+        let flag = true;
+        let c_flag = false;
+        while (flag) {
+            if (c_flag) flag = false; // 确保页末也能识别
+            let ocrList = await Ocr(115, 89, 1142, 856, true); // 左侧列表区域
+            if (ocrList) {
+                for (let i = 0; i < ocrList.length; i++) {
+                    if (ocrList[i].text.includes(name)) { // 找到name
+                        let real_num = 0;
+                        ocrList[i].Click();
+                        await sleep(500);
+                        let buy_btn = await Ocr(1631, 993, 150, 50); // 右下购买按钮
+
+                        if (buy_btn) {
+                            buy_btn.Click();
+                            await sleep(500);
+                            let available_num = await Ocr(1190, 588, 81, 27); // 最大可选数量
+                            if (available_num) {
+                                let max_num = parseInt(available_num.text, 10);
+
+                                if (max_num < num) { // 拉满
+                                    click(1185, 601); // 点击滑条最大值(736-1186)
+                                    await sleep(500);
+                                    if (detect) { // 检测摩拉是否充足
+                                        let mora_ocr = await Ocr(1609, 28, 162, 40);
+                                        let cost_ocr = await Ocr(961,682, 95, 32);
+                                        if (cost_ocr && mora_ocr) {
+                                            let cost = parseInt(cost_ocr, 10);
+                                            let mora = parseInt(mora_ocr, 10);
+                                            if (cost > mora) {
+                                                log.error(`剩余摩拉不足: 需求(${cost})拥有(${mora})`);
+                                                return false;
+                                            } else {
+                                                log.debug(`摩拉充足: 需求(${cost})拥有(${mora})`);
+                                            }
+                                        } else {
+                                            log.warn("总摩拉数或消耗摩拉数未识别...");
+                                        }
+                                    }
+                                    click(1181, 780); // 点击购买
+                                    await sleep(500);
+                                    click(1555, 827); // 点击空白区域
+                                    await sleep(500);
+                                    real_num = max_num;
+                                } else { // 百分比选择数量(有误差，使用OCR修正)
+                                    click(736 + Math.floor(450 * num / max_num), 601);
+                                    await sleep(100);
+                                    let current_num = await Ocr(904, 527, 115, 54); // 已选的数量
+                                    if (current_num) { // [DEBUG]若false则可能有些许误差
+                                        current_num = parseInt(current_num.text, 10);
+                                        log.debug(`OCR识别的当前已选数量(需求: ${num}): ${current_num}`);
+                                        if (current_num > num) {
+                                            for (let k = 0; k < current_num - num; k++) { // -
+                                                log.debug("-1");
+                                                click(628, 602);
+                                                await sleep(50);
+                                            }
+
+                                        } else if (current_num < num) {
+                                            for (let k = 0; k < num - current_num; k++) { // +
+                                                log.debug("+1");
+                                                click(1292, 602);
+                                                await sleep(50);
+                                            }
+                                        }
+                                    }
+                                    await sleep(500);
+                                    if (detect) { // 检测摩拉是否充足
+                                        let mora_ocr = await Ocr(1609, 28, 162, 40);
+                                        let cost_ocr = await Ocr(961,682, 95, 32);
+                                        if (cost_ocr && mora_ocr) {
+                                            let cost = parseInt(cost_ocr, 10);
+                                            let mora = parseInt(mora_ocr, 10);
+                                            if (cost > mora) {
+                                                log.error(`剩余摩拉不足: 需求(${cost})拥有(${mora})`);
+                                                return false;
+                                            }
+                                        }
+                                    }
+                                    click(1181, 780); // 点击购买
+                                    await sleep(500);
+                                    click(1555, 827); // 点击空白区域
+                                    await sleep(500);
+                                    real_num = num;
+                                }
+                                log.info(`购买成功: ${name}(${real_num})`);
+                                return real_num;
+                            } else {
+                                log.error(`未识别到 ${name} 的剩余数量`);
+                                keyPress("Escape");
+                                await sleep(500);
+                            }
+                        } else {
+                            log.info(`${name} 已售罄`);
+                        }
+                        return false
+                    }
+                }
+            }
+            let scrollResult = await scroll_page(1271, 113, 12, 830, 130, 923, 1276, "Down");
+            if (!scrollResult) {
+                c_flag = true; // 确保页末也能识别
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 在烹饪/食材加工界面开始，自动收集并实现单个食材加工
+     * @param name 要加工的物品名称
+     * @param num 要加工的食材数量，为0时仅收集
+     * @returns {Promise<number|boolean>} 实际加工的数量
+     */
+    async function ingredient_process_single(name, num) {
+        await sleep(500); // 点击料理制作图标
+        click(909, 48);
+        await sleep(500);
+        click(1008, 48); // 点击食材加工图标
+        await sleep(500);
+
+        // 领取食材
+        let claim_all = await Ocr(198, 1003, 118, 31);
+        if (claim_all && claim_all.text === "全部领取") {
+            claim_all.Click(); // 全部领取
+            await sleep(500);
+            click(1569, 864); // 点击空白处
+            await sleep(500);
+        }
+
+        // 找到 name (制作中也能找到)
+        let flag = false;
+        for (let y = 0; y < 3; y++) {
+            for (let x = 0; x < 8; x++) {
+                click(178 + 147 * x, 197 + 175 * y);
+                await sleep(300);
+
+                let item_name = await Ocr(1334, 129, 440, 40);
+                if (item_name && item_name.text.includes(name)) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) break;
+        }
+
+        // 当食材为鱼肉时生效
+        let baseNum = 1; // 1份可兑换baseNum份鱼肉
+        if (name === "鱼肉") {
+            // 选择对应鱼类
+            await sleep(200);
+            click(1718, 564); // 点击配方
+            await sleep(800);
+            let fishSelect = Array.from(settings.fishSelect);
+            while (true) {
+                let flag = false;
+                await sleep(500);
+
+                if (fishSelect.length === 0) {
+                    // 将滑块拖到顶部
+                    await scroll_bar_to_side(930, 98, 12, 927,114, 1004, 112, 1012, 935, "up", "black");
+                    for (const [f_name, f_msg] of Object.entries(fish_msg)) { // 默认鱼类
+                        let f_num = f_msg["num"];
+                        let fishRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/images/fish/${f_name}.png`), 263, 107, 127, 135);
+                        fishRo.threshold = 0.7;
+                        let gameRegion = captureGameRegion();
+                        let result = gameRegion.Find(fishRo);
+                        gameRegion.dispose();
+
+                        if (result.isExist()) {
+                            await sleep(200);
+                            // click(700, result.y + 45); // 选择
+                            // await sleep(300);
+                            click(1853, 886); // 点击空白处
+                            await sleep(800);
+                            log.info(`当前兑换鱼肉的配方为: ${f_name}(1:${f_num})`);
+                            baseNum = f_num;
+                            flag = true;
+                            break;
+                        } else {
+                            log.info(`未找到鱼类图标(${fishSelect[i]})`);
+                        }
+                    }
+                } else {
+                    for (let i = 0; i < fishSelect.length; i++) {
+                        let fishRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/images/fish/${fishSelect[i]}.png`), 260, 80, 144, 978);
+                        fishRo.threshold = 0.7;
+                        let gameRegion = captureGameRegion();
+                        let result = gameRegion.Find(fishRo);
+                        gameRegion.dispose();
+
+                        if (result.isExist()) {
+                            log.info(`找到鱼类图标(${fishSelect[i]})`);
+                            // 检测是否还有余量
+                            await sleep(200);
+                            result.Click();
+                            await sleep(500);
+                            let ocrNum = await get_current_item_num();
+                            if (!(ocrNum && ocrNum !== 0)) {
+                                log.info(`鱼类(${fishSelect[i]})数量不足...`);
+                                fishSelect.splice(i, 1); // 删去该鱼类
+                                await sleep(200);
+                                click(23, 516); // 点击左侧空白处
+                                await sleep(300);
+                                // 将滑块拖到顶部
+                                await scroll_bar_to_side(930, 98, 12, 927,114, 1004, 112, 1012, 935, "Up", "black");
+                                continue; // 没有余量则继续查找下一个
+                            } else {
+                                log.info(`鱼类(${fishSelect[i]})剩余数量: ${ocrNum}`);
+                            }
+                            await sleep(200);
+                            click(700, result.y + 45); // 选择
+                            await sleep(300);
+                            click(1853, 886); // 点击空白处
+                            await sleep(800);
+                            log.info(`当前兑换鱼肉的配方为: ${fishSelect[i]}(1:${fish_msg[fishSelect[i]]["num"]})`);
+                            baseNum = fish_msg[fishSelect[i]]["num"];
+                            flag = true;
+                            break;
+                        } else {
+                            log.info(`未找到鱼类图标(${fishSelect[i]})`);
+                        }
+                    }
+                }
+                if (flag) break;
+                let scroll_result = await scroll_page(930, 98, 12, 927, 114, 1004, 935, "Down", "black");
+                if (!scroll_result) {
+                    // 将滑块拖到顶部
+                    await scroll_bar_to_side(930, 98, 12, 927,114, 1004, 112, 1012, 935, "Up", "black");
+                }
+            }
+        }
+
+        // 点击 制作 [DEBUG] 鱼肉相关逻辑在此处前添加
+        click(1687, 1016);
+        await sleep(500);
+        let check_ocr = await Ocr(901, 524, 118, 31);
+        if (check_ocr && check_ocr.text === "队列已满") {
+            log.info(`食材加工(${name}): 队列已满...`);
+            return 0;
+        }
+
+        let max_num_ocr = await Ocr(1215, 573, 76, 34);
+        let max_num = -1;
+        if (max_num_ocr) {
+            let string = max_num_ocr.text.replace(/\D/g, '');
+            if (string) {
+                max_num = parseInt(string, 10);
+            }
+        }
+        if (max_num === -1) {
+            log.warn(`OCR错误食材加工(${name})制作界面未检测到最大值文本，可能是数字过小，本次制作1次...`);
+            keyPress("Escape");
+            await sleep(500);
+            return baseNum;
+        }
+
+        if (num < max_num) {
+            await set_ingredient_num(num);
+            return num * baseNum;
+        } else {
+            await set_ingredient_num(max_num);
+            return max_num * baseNum;
+        }
+    }
+
+    /**
+     * 获取食材的当前持有数量
+     * @param ingredient_list 食材名称列表
+     * @returns {Promise<void>}
+     */
+    async function get_ingredient_num(ingredient_list) {
+        let ingredient_dic = {};
+
+        await sleep(500); // 点击料理制作图标
+        click(909, 48);
+        await sleep(500);
+        click(1008, 48); // 点击食材加工图标
+        await sleep(500);
+
+        // 领取食材
+        let claim_all = await Ocr(198, 1003, 118, 31);
+        if (claim_all && claim_all.text === "全部领取") {
+            claim_all.Click(); // 全部领取
+            await sleep(500);
+            click(1569, 864); // 点击空白处
+            await sleep(500);
+        }
+
+        // 寻找并记录食材持有数量
+        for (let i = 0; i < ingredient_list.length; i++) {
+            let ocrResult = await ocr_find_area(109, 97, 1178, 886, await deal_string(ingredient_list[i]));
+            if (ocrResult) {
+                log.debug(`OCR找到食材(${ingredient_list[i]})并点击...`);
+                ocrResult[i].Click();
+            } else { // 如果不显示名称（加工中）
+                let flag = false;
+                for (let y = 0; y < 3; y++) {
+                    for (let x = 0; x < 8; x++) {
+                        click(178 + 147 * x, 197 + 175 * y);
+                        await sleep(300);
+
+                        let item_name = await Ocr(1334, 129, 440, 40);
+                        if (item_name && item_name.text.includes(ingredient_list[i])) {
+                            log.debug(`迭代点击找到食材(${ingredient_list[i]})...`);
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (flag) break;
+                }
+            }
+            // 识别当前食材持有数量
+            await sleep(500);
+            let ocrNum = await Ocr(1325, 181, 220, 40);
+            if (ocrNum) {
+                ingredient_dic[ingredient_list[i]] = ocrNum.text.replace(/\D/g, '');
+                log.info(`食材(${ingredient_list[i]})当前持有数量: ${ocrNum.text.replace(/\D/g, '')}`);
+            } else {
+                ingredient_dic[ingredient_list[i]] = 0;
+                log.warn(`未识别到食材(${ingredient_list[i]})剩余数量...`);
+            }
+        }
+
+        return ingredient_dic;
+    }
+
+    /**
+     * 食材加工(需要确保当前处于食材加工/料理制作界面)
+     * @returns {Promise<void>}
+     */
+    async function ingredient_process() {
+        let ingredientDic = {};
+        // 读取设置
+        let ingredientList = Array.from(settings.ingredientSelect);
+        let ingredientNum = settings.ingredientNum.trim().split(" ");
+        log.debug(`读取设置(ingredientList): ${ingredientList.join("|")}`);
+        log.debug(`读取设置(ingredientNum): ${ingredientNum.join("|")}`);
+
+        // 检测并合并数量
+        if (ingredientNum.length === 1) {
+            for (let i = 0; i < ingredientList.length; i++) {
+                ingredientDic[ingredientList[i]] = parseInt(ingredientNum[0], 10);
+            }
+        } else {
+            if (ingredientList.length !== ingredientNum.length) {
+                log.error("输入的食材数与选择的食材数不一致！");
+                return false;
+            }
+            for (let i = 0; i < ingredientList.length; i++) {
+                ingredientDic[ingredientList[i]] = parseInt(ingredientNum[i], 10);
+            }
+        }
+
+        // 根据设置计算实际加工数量
+        let calculateDic = {};
+        if (settings.ingredientMode === "预期的食材数量(持有总量)") {
+            let currentIngredientDic = await get_ingredient_num(Object.keys(ingredientList));
+            for (let i = 0; i < Object.keys(ingredientList).length; i++) {
+                if (ingredientDic[ingredientList[i]] >= currentIngredientDic[ingredientList[i]]) {
+                    calculateDic[ingredientList[i]] = ingredientDic[ingredientList[i]] - currentIngredientDic[ingredientList[i]];
+                    log.info(`食材(${ingredientList[i]})的实际加工次数: ${calculateDic[ingredientList[i]]}`);
+                    log.debug(`当前(${currentIngredientDic[ingredientList[i]]}) 预期(${ingredientDic[ingredientList[i]]})`);
+                } else {
+                    log.info(`食材(${ingredientList[i]})当前数量已达标: 当前(${currentIngredientDic[ingredientList[i]]}) 预期(${ingredientDic[ingredientList[i]]})`);
+                }
+            }
+            ingredientDic = calculateDic;
+        }
+        log.debug(`实际加工数量: keys: ${Object.keys(ingredientDic).join("|")} values: ${Object.values(ingredientDic).join("|")}`)
+
+        // 开始食材加工 [DEBUG]此处稍复杂，需要检查和测试
+        let waitDic = {}; // [DEBUG] 重点改进处，等待加工过程可以去做点更有意义的东西(跑材料，烹饪等)，或者能用本地json记录来改进[不现实]
+        while (true) {
+            let deleteList = [];
+            // let splIngredient = ""; // 指定加工的食材(循环等待使用)
+            for (let [i_name, i_num] of Object.entries(ingredientDic)) {
+                log.debug(`ingredientDic的实际值 ${i_name} ${i_num}`);
+                // if (splIngredient) { // 指定
+                //     i_name = splIngredient;
+                //     i_num = ingredientDic[splIngredient];
+                // }
+                // 执行单个食材加工
+                let resultNum = await ingredient_process_single(i_name, i_num);
+                let count; // 记录剩余加工次数
+                if (resultNum <= 0) {
+                    log.warn(`食材(${i_name})本次实际加工次数为0...`);
+                } else {
+                    // 记录CD
+                    if (Object.keys(waitDic).includes(i_name)) {
+                        waitDic[i_name] += resultNum * ingredient_msg[i_name]["time"];
+                    } else {
+                        waitDic[i_name] = resultNum * ingredient_msg[i_name]["time"];
+                    }
+
+                    if (i_num - resultNum <= 0) {
+                        count = 0;
+                    } else {
+                        count = i_num - resultNum;
+                    }
+                    log.info(`食材(${i_name})本次实际加工次数为 ${resultNum} ，剩余 ${count} 次`);
+                }
+                if (count <= 0) {
+                    deleteList.push(i_name);
+                    log.info(`食材(${i_name})的制作已完成...`);
+                }
+                // if (splIngredient) { // 指定
+                //     splIngredient = "";
+                //     break;
+                // }
+            }
+            // 移除已经完成的键值对(ingredientDic)
+            if (deleteList.length !== 0) {
+                // let tempDic = {};
+                // for (const [t_name, t_num] of Object.entries(ingredientDic)) {
+                //     if (!(deleteList.includes(t_name))) {
+                //         tempDic[t_name] = t_num;
+                //     }
+                // }
+                // ingredientDic = tempDic;
+                for (let i = 0; i < deleteList.length; i++) {
+                    delete ingredientDic[deleteList[i]];
+                }
+                log.debug(`移除 ingredientDic 的 ${deleteList.join("|")}`);
+            }
+
+            // 判断是否需要等待
+            if (!(settings.waitForFinish)) {
+                log.info("检测到已设置不进行等待，直接退出...");
+                await sleep(3000);
+                return true;
+            }
+
+            // 等待或加速某一个加工项直至完成(最短时间)
+            if (Object.keys(ingredientDic).length === 0 && Object.keys(waitDic).length === 0) {
+                log.debug(`ingredientDic 和 waitDic均为空`);
+                return true; // 加工列表和等待列表均清空再跳出循环
+            } else {
+                log.debug(`ingredientDic - keys: ${Object.keys(ingredientDic).join("|")} values: ${Object.values(ingredientDic).join("|")}`);
+                log.debug(`waitDic - keys: ${Object.keys(waitDic).join("|")} values: ${Object.values(waitDic).join("|")}`);
+            }
+            let minWaitTime = Infinity;
+            let currentName = "default";
+
+            for (const [name, count] of Object.entries(waitDic)) {
+                if (count <= minWaitTime) {
+                    minWaitTime = count;
+                    currentName = name;
+                }
+            }
+
+            if (minWaitTime !== Infinity && minWaitTime >= 0) {
+                if (Array.from(settings.acceleratorSelect).length !== 0) {
+                    log.info(`开始加速(${currentName}): 剩余共计${minWaitTime}分钟`);
+                    let accResult = await ore_accelerator(currentName, minWaitTime);
+                    log.info(`${currentName} 加速${accResult !== false ? "成功": "失败"}`);
+                    if (accResult === 0) {
+                        delete waitDic[currentName];
+                    } else if (accResult !== 0) {
+                        waitDic[currentName] = accResult;
+                    } else {
+                        log.error("建议终止脚本，排查问题或者禁用矿石加速...");
+                        await sleep(10000);
+                    }
+                } else {
+                    log.info(`开始等待(${currentName})加工: 本次共计${minWaitTime}分钟`);
+                    await sleep(1000 * 60 * minWaitTime);
+                    log.info("本次等待结束...")
+                    await sleep(3000);
+                    click(246, 1018); // 点击 全部领取
+                    await sleep(500);
+                    click(1853, 878); // 点击空白处
+                    await sleep(500);
+                    // 同步减少其他所有食材的CD
+                    for (const [i_name, i_count] of Object.entries(waitDic)) {
+                        if (currentName === i_name) continue;
+                        waitDic[i_name] = i_count - minWaitTime;
+                    }
+                    delete waitDic[currentName];
+                }
+
+            } else {
+                log.warn("本次等待步骤被跳过，可能过程中出现了错误...")
+                log.debug(`minWaitTime ${minWaitTime} | waitDic keys: ${Object.keys(waitDic).join("-")} values: ${Object.values(waitDic).join("-")}`);
+                await sleep(3000);
+            }
+        }
+    }
+
+    /**
+     * 使用矿石加速（需要在食材加工界面）
+     * @param ingredientName 食材名称
+     * @param ingredientTime 食材加工时间(分钟)
+     * @returns {Promise<number|boolean>} 食材剩余的加工时间(分钟)
+     */
+    async function ore_accelerator(ingredientName, ingredientTime) {
+        let oreDic = {};
+        let oreList = Array.from(settings.acceleratorSelect).map(item => item.split(":")[0]);
+        let oreNum = settings.oreRetain.split(" ");
+        log.debug(`读取设置(oreList): ${oreList.join("|")}`);
+        log.debug(`读取设置(oreNum): ${oreNum.join("|")}`);
+
+        // 检测并合并数量
+        if (oreNum.length === 1) {
+            for (let i = 0; i < oreList.length; i++) {
+                oreDic[oreList[i]] = parseInt(oreNum[0], 10);
+            }
+        } else {
+            if (oreList.length !== oreNum.length) {
+                log.error("输入的矿石数与选择的矿石数不一致！");
+                return false;
+            }
+            for (let i = 0; i < oreList.length; i++) {
+                oreDic[oreList[i]] = parseInt(oreNum[i], 10);
+            }
+        }
+
+        // 找到并点击食材
+        let ocrResult = await ocr_find_area(109, 97, 1178, 886, await deal_string(ingredientName));
+        if (ocrResult) {
+            log.debug(`OCR找到食材(${ingredientName})并点击...`);
+            ocrResult.Click();
+        } else { // 如果不显示名称（加工中）
+            let flag = false;
+            for (let y = 0; y < 3; y++) {
+                for (let x = 0; x < 8; x++) {
+                    click(178 + 147 * x, 197 + 175 * y);
+                    await sleep(300);
+
+                    let item_name = await Ocr(1334, 129, 440, 40);
+                    if (item_name && item_name.text.includes(ingredientName)) {
+                        log.debug(`迭代点击找到食材(${ingredientName})...`);
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) break;
+            }
+        }
+
+        // 先尝试领取一下
+        let claim_all = await Ocr(198, 1003, 118, 31);
+        if (claim_all && claim_all.text === "全部领取") {
+            claim_all.Click(); // 全部领取
+            await sleep(500);
+            click(1569, 864); // 点击空白处
+            await sleep(500);
+        }
+
+        // 查找矿石加速是否可用
+        let findResult = await Ocr(1367, 991, 147, 56);
+        if (findResult && findResult.text.includes("加速")) {
+            await sleep(200);
+            findResult.Click(); // 加速制作
+            await sleep(300);
+        } else {
+            log.warn(`未找到可用的矿石加速按钮(${ingredientName})`);
+            return false;
+        }
+
+        // 匹配查找矿石
+        let oreFlag = true;
+        while (true) {
+            for (const [o_name, o_count] of Object.entries(oreDic)) {
+                moveMouseTo(524, 258); // 移走鼠标，防止干扰OCR
+                let oreRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/images/ore/${o_name}.png`), 503, 314, 924, 184);
+                oreRo.threshold = 0.85;
+                let gameRegion = captureGameRegion();
+                let result = gameRegion.Find(oreRo);
+                gameRegion.dispose();
+
+                if (result.isExist()) {
+                    // 选中矿石
+                    await sleep(100);
+                    result.Click();
+                    await sleep(200);
+                    // 检测矿石数量，计算点击次数（略去初始的数量1）
+                    let clickCount;
+                    let timeRemain;
+                    let itemPage = await Ocr(866, 233, 184, 16);
+                    if (itemPage && itemPage.text.includes("快速加工")) { // 如果未打开矿石详情页面
+                        result.Click();
+                        await sleep(500);
+                    }
+                    await sleep(500);
+                    let oreNumOcr = await get_current_item_num(524, 258);
+                    await sleep(200);
+                    click(524, 258); // 点击空白处
+                    await sleep(300);
+                    if (oreNumOcr) {
+                        if (oreNumOcr > o_count) {
+                            clickCount = Math.ceil(ingredientTime * 60 / accelerator_msg[o_name]) - 1;
+                            if (clickCount > oreNumOcr - o_count) {
+                                log.info(`设置的矿石保留数为${o_count}，此次加速使用矿石数由${clickCount + 1}改为${oreNumOcr - o_count}`);
+                                clickCount = oreNumOcr - o_count - 1;
+                                timeRemain = Math.ceil((ingredientTime * 60 - clickCount * accelerator_msg[o_name]) / 60); // 已留冗余时间
+                            } else {
+                                log.info(`此次加速使用矿石(${o_name})数: ${clickCount + 1}个`);
+                                timeRemain = 0;
+                            }
+                        } else {
+                            log.warn(`矿石(${o_name})的剩余数量不足(${oreNumOcr} <= ${o_count})，跳过此矿石...`);
+                            await sleep(200);
+                            click(524, 258); // 点击空白处
+                            await sleep(300);
+                            continue;
+                        }
+                    } else {
+                        log.warn(`未识别到矿石(${o_name})的剩余数量，跳过此矿石...`);
+                        await sleep(200);
+                        click(524, 258); // 点击空白处
+                        await sleep(300);
+                        continue;
+                    }
+
+                    // 点击
+                    for (let i = 0; i < clickCount; i++) {
+                        click(1351, 583);
+                        await sleep(50);
+                    }
+
+                    // 识别当前次数
+                    let ocrResult = await Ocr(1145, 554, 177, 58);
+                    if (ocrResult) {
+                        let ocrNum = parseInt(ocrResult.text, 10);
+                        log.info(`本次加速素材(${o_name})使用数量: ${clickCount + 1}个，实际使用数量(OCR): ${ocrNum}个`);
+                    } else {
+                        log.info(`OCR失败，未识别到当前加速素材(${o_name})使用数量...`);
+                    }
+
+                    // 获取
+                    await sleep(200);
+                    click(1199, 805); // 获取
+                    await sleep(200);
+                    click(1853, 850); // 点击空白处
+                    await sleep(300);
+
+                    return timeRemain;
+                }
+            }
+            // 当前页面未找到矿石，向右滑动
+            if (oreFlag) {
+                oreFlag = false;
+                log.debug(`未找到矿石(${Object.keys(oreDic).join("|")})，向右滑动`);
+                await mouseDrag(1277, 327, 859, 397);
+                await sleep(1000);
+            } else {
+                log.error(`未找到矿石: ${Object.keys(oreDic).join("|")}，本次加速失败...`);
+                await sleep(200);
+                click(1853, 850); // 点击空白处
+                await sleep(300);
+                return false;
+            }
         }
     }
 
     async function main() {
-        // 调整分辨率和dpi，适应屏幕操作
-        setGameMetrics(1920, 1080);
-        // 解析料理数据
-        await parse_food_data();
-        // 读取JS脚本配置
-        let setting = get_js_settings();
-        // 解析JS脚本配置
-        let setting_dic = parse_js_settings(setting);
-
-        // ------>* 烹饪 *<------
-        if (Object.keys(setting_dic["cooking"]).length !== 0 || Object.keys(setting_dic["character"]).length !== 0) {
-            let flag_check_ui = true;
-            // 检测是否处于料理制作界面
-            for (let n = 0; n < 4; n++) {
-                let judge_food = await is_food_page();
-                if (judge_food) {
-                    log.info("当前处于料理制作界面");
-                    break;
-                } else {
-                    if (n == 3) {
-                        log.error(`多次尝试后未能进入料理制作界面，烹饪类 任务已跳过`);
-                        flag_check_ui = false;
-                        break;
-                    }
-                    log.warn(`当前未处于料理制作界面，进行第 ${n + 1}/3 次重试`);
-                    genshin.returnMainUi(); // 返回主界面
-                    // 前往锅
-                    await pathingScript.runFile("assets/pathing/蒙德-锅-坠星山谷蒙德城.json");
-                    keyPress("F");
-                    await sleep(1500);
-                }
-            }
-            if (flag_check_ui) {
-                if (setting_dic["other_settings"]["prime_cooking"] && setting_dic["other_settings"]["cooking_mode"] === "刷满熟练度(将选择的可烹饪食物熟练度刷满)") {
-                    click(143, 1019); // 点击筛选按钮
-                    await sleep(1000);
-                    click(186, 1020); // 重置
-                    await sleep(500);
-                    click(76, 685); // 筛选熟练度未满
-                    await sleep(500);
-                    click(491, 1019); // 确认筛选
-                    await sleep(1500);
-                    let current_item_name;
-                    while (true) {
-                        current_item_name = await recognize_item_name();
-                        if (current_item_name === false) { // 【DEBUG】此处考虑完成后识别为空的情况（待测，目前没有筛选后为空的素材）
-                            break;
-                        }
-                        let cooking_result = await auto_cooking(current_item_name, setting_dic); // 自动烹饪方法
-                        if (cooking_result) {
-                            log.info(`${current_item_name} 完成！`);
-                            await sleep(500);
-                        } else {
-                            log.warn(`${current_item_name} 料理过程中出错...`);
-                        }
-                        while (!(await is_food_page()) && await is_cooking_page()) {
-                            keyPress("Escape");
-                            await sleep(2000);
-                        }
-                    }
-
-                } else {
-                    for (const [food_name, num] of Object.entries(setting_dic["cooking"])) {
-                        // 此处应加一个检测到主界面重新进入料理界面的逻辑
-                        if (await is_cooking_page()) { // 检测并退出烹饪界面
-                            keyPress("VK_ESCAPE");
-                            await sleep(200);
-                        }
-                        let current_food_name = food_name; // 当前料理名
-                        let check_state = await select_food_from_food_page(current_food_name, setting_dic); // 查找食谱
-                        if (check_state) {
-                            try {
-                                let cooking_result = await auto_cooking(current_food_name, setting_dic); // 自动烹饪方法
-                                if (cooking_result) {
-                                    log.info(`${current_food_name} 完成！`);
-                                    await sleep(500);
-                                } else {
-                                    log.warn(`${current_food_name} 料理过程中出错...`);
-                                }
-                            } catch (error) {
-                                log.error(`${current_food_name} 料理过程中触发异常: ${error}`);
-                            }
-                        } else {
-                            log.warn(`料理 ${current_food_name} 已跳过`);
-                        }
-                    }
-                    for (const [character_name, num] of Object.entries(setting_dic["character"])) {
-                        let current_food_name = food_dic[character_name]["belonging"]; // 当前料理名
-                        let check_state = await select_food_from_food_page(current_food_name, setting_dic); // 查找食谱
-                        if (check_state) {
-                            try {
-                                let cooking_result = await auto_cooking(current_food_name, setting_dic); // 自动烹饪方法
-                                if (cooking_result) {
-                                    log.info(`${current_food_name} 完成！`);
-                                    await sleep(500);
-                                } else {
-                                    log.warn(`${current_food_name} 料理过程中出错...`);
-                                }
-                            } catch (error) {
-                                log.error(`${current_food_name} 料理过程中触发异常: ${error}`);
-                            }
-                        } else {
-                            log.warn(`料理 ${current_food_name} 已跳过`);
-                        }
-                    }
-                }
-            }
+        // EULA检测
+        if (!(settings.EULA)) {
+            log.error("请阅读README后，在JS脚本配置启用脚本...");
+            return null;
         }
-        if (Object.keys(setting_dic["cooking"]).length === 0 && Object.keys(setting_dic["character"]).length === 0) {
-            log.warn(`请在JS脚本配置内选择要烹饪的料理...`);
+
+        // 返回主界面
+        await genshin.returnMainUi();
+
+        // 刷满熟练度
+        if (settings.unlockAutoCooking) {
+            log.info("当前模式为刷满熟练度...");
+            if (parseInt(settings.segmentTime, 10) === 86) {
+                log.warn("检测到JS脚本配置 时延 未进行更改，请确保已经正确设置!\n将在10s后继续...");
+                await sleep(5000);
+            }
             await sleep(5000);
+            let flag = await go_and_interact("锅");
+            if (!flag) {
+                log.error("未找到锅...");
+                return null;
+            }
+            while (await unlock_auto_cooking()) {
+                log.debug("料理熟练度循环...");
+            }
+            log.info("刷满熟练度 任务结束...");
+            // 返回主界面
+            await genshin.returnMainUi();
+            return null;
         }
-        if (await is_cooking_page()) {
-            keyPress("VK_ESCAPE");
+
+        // 制作料理0和特殊料理1
+        for (let i = 0; i < 2; i++) {
+            let food_dic = await calculate_food(i !== 0);
+            if (Object.keys(food_dic).length !== 0) {
+                // 前往锅
+                let flag = await go_and_interact("锅");
+                if (!flag) {
+                    log.error("未找到锅...");
+                    return null;
+                }
+                for (const [f_name, f_num] of Object.entries(food_dic)) {
+                    // 找到料理
+                    let findResult = await find_and_click_food(f_name);
+                    if (findResult) {
+                        await escoffier_cook_for_u(f_name, f_num, i !== 0);
+                    }
+                }
+                log.info("全部料理制作完毕...");
+                // 返回主界面
+                await genshin.returnMainUi();
+            }
+        }
+
+        // 食材加工
+        if (Array.from(settings.ingredientSelect).length !== 0) {
+            // 前往锅
+            let flag = await go_and_interact("锅");
+            if (!flag) {
+                log.error("未找到锅...");
+                return null;
+            }
             await sleep(200);
+
+            await ingredient_process();
+            log.info("全部食材加工完毕...");
+            // 返回主界面
+            await genshin.returnMainUi();
         }
+
     }
 
-await main();
+
+
+    await main();
 })();

@@ -1,0 +1,64 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时42.09秒，包含以下怪物：1只机关·侦察记录型、1只攻坚特化型机关、1只歼灭特化型机关。",
+    "enable_monster_loot_split": false,
+    "hash_res": "63584443",
+    "last_modified_time": 1768067980922,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E017枫丹露景泉东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3468.82,
+      "y": 3550.14
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3462.4091796875,
+      "y": 3569.7509765625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3433.6005859375,
+      "y": 3601.192626953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 3433.6005859375,
+      "y": 3601.192626953125
+    }
+  ]
+}

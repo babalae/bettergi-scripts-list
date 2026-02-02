@@ -53,7 +53,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 })();
 
 function convertToTrueIfNotBoolean(value) {
-  return typeof value === 'boolean' ? value : true;
+    return typeof value === 'boolean' ? value : true;
 }
 // 执行 path 任务
 async function AutoPath(locationName) {
@@ -229,6 +229,7 @@ async function executeBattleTasks(fightTimeout, enemyType, cts) {
                 }
             }
         }
+        keyUp("VK_LBUTTON");
     }
 }
 
@@ -243,10 +244,10 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
     if (roundIndex === 0) {
         initialDetected = await detectTaskTrigger(3, enemyType);
     }
-    if(!initialDetected || roundIndex > 0) {
+    if (!initialDetected || roundIndex > 0) {
         await genshin.relogin();
     }
-    
+
 
     // 启动路径导航任务（异步）
     let pathTask = AutoPath(`${enemyType}-战斗点`);
@@ -262,7 +263,7 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
     const cts = new CancellationTokenSource();
 
     const targetCoords = getTargetCoordinates(enemyType);
-    await waitForTargetPosition(pathTask, targetCoords); 
+    await waitForTargetPosition(pathTask, targetCoords);
     await executeBattleTasks(fightTimeout, enemyType, cts);
     await pathTask;
 
@@ -270,7 +271,7 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
     if (enemyType === "鳄鱼") {
         await AutoPath('鳄鱼-拾取');
     }
-    if(enemyType === "蕈兽") {
+    if (enemyType === "蕈兽") {
         await AutoPath('蕈兽-对话');
         await sleep(50);
         keyPress("F");
@@ -382,10 +383,9 @@ function getOcrKeywords(enemyType) {
         return ["实验家", "变成", "实验品", "击败", "所有", "魔物"];
     }
     else if (enemyType === "雷萤术士") {
-        return ["雷萤", "术士","圆滚滚", "不可食用", "威撼", "攀岩", "消灭", "准备", "打倒", "所有", "魔物","盗宝团","击败","成员","盗亦无道"];
+        return ["雷萤", "术士", "圆滚滚", "不可食用", "威撼", "攀岩", "消灭", "准备", "打倒", "所有", "魔物", "盗宝团", "击败", "成员", "盗亦无道"];
     }
-    else
-    {
+    else {
         return ["突发", "任务", "打倒", "消灭", "敌人", "所有"]; // 兜底关键词
     }
 }
@@ -403,7 +403,7 @@ function getTargetCoordinates(enemyType) {
     } else if (enemyType === "蕈兽") {
         return { x: 3794.55, y: -350.60 };
     } else if (enemyType === "雷萤术士") {
-        return {x:  883.91,  y:656.63};
+        return { x: 883.91, y: 656.63 };
     }
 }
 
@@ -419,7 +419,7 @@ function getTriggerPoint(enemyType) {
     } else if (enemyType === "蕈兽") {
         return { x: 3749.38, y: -391.91 }; // 蕈兽触发点坐标
     } else if (enemyType === "雷萤术士") {
-        return {x:881.92, y: 616.85}; // 雷萤术士触发点坐标
+        return { x: 881.92, y: 616.85 }; // 雷萤术士触发点坐标
     }
 }
 
@@ -490,9 +490,9 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
                     cts.cancel(); // 取消任务
                     return true;
                 }
-                if(enemyType=="蕈兽" && text2.includes("维沙瓦")){
+                if (enemyType == "蕈兽" && text2.includes("维沙瓦")) {
                     log.info("战斗结果：成功");
-                    cts.cancel(); 
+                    cts.cancel();
                     return true;
                 }
             }
@@ -510,7 +510,7 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
                     return false;
                 }
             }
-            if(enemyType !== "蕈兽") {
+            if (enemyType !== "蕈兽") {
                 // 检查事件关键词
                 let find = 0;
                 for (let keyword of eventKeywords) {

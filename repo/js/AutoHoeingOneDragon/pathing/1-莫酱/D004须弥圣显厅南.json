@@ -1,0 +1,81 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时54.74秒，包含以下怪物：1只镀金旅团·刀舞者、1只镀金旅团·炽阳凝冰、1只镀金旅团·白日鸣雷。",
+    "enable_monster_loot_split": false,
+    "hash_res": "62910228",
+    "last_modified_time": 1768158469044,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D004须弥圣显厅南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4777.59619140625,
+      "y": -1434.33447265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4755.6015625,
+      "y": -1458.1494140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4747.251953125,
+      "y": -1503.5078125
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4738.279296875,
+      "y": -1533.5634765625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4729.7216796875,
+      "y": -1556.47509765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4729.7216796875,
+      "y": -1556.47509765625
+    }
+  ]
+}

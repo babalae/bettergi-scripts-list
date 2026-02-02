@@ -1,0 +1,96 @@
+{
+  "info": {
+    "name": "F057纳塔安饶之野西北",
+    "type": "collect",
+    "author": "汐&mno",
+    "version": "1.0",
+    "map_name": "Teyvat",
+    "description": "  路线信息：该路线预计用时95.35秒，包含以下怪物：5只幼突角龙、3只突角龙。",
+    "hash_res": "66354892",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10928.75,
+      "y": -2366.36
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10923.25,
+      "y": -2428.53
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10936.81,
+      "y": -2429.81
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10936.81,
+      "y": -2429.81
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10913.62,
+      "y": -2434.69
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10825.45,
+      "y": -2463.02
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10814.56,
+      "y": -2523.83
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 10814.56,
+      "y": -2523.83
+    }
+  ]
+}

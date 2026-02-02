@@ -1,0 +1,49 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768791378848,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "挪德卡莱-垂钓点-虚海望噩影泽地东北-花鳉_素素凶凶鲨_虹光凶凶鲨_蓝昼明眼鱼-果酿饵_清白饵-普通",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9492.001953125,
+      "y": 5526.0830078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9424.1484375,
+      "y": 5521.88671875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9420.625,
+      "y": 5526.373046875
+    }
+  ]
+}

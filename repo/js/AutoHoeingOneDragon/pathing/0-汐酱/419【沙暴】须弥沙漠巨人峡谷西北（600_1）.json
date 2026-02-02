@@ -1,0 +1,150 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时101.55秒，包含以下怪物：1只遗迹重机。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769355316311,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "419【沙暴】须弥沙漠巨人峡谷西北（600_1）",
+    "tags": [
+      "沙暴"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4589.01220703125,
+      "y": -652.93798828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 4570.27734375,
+      "y": -670.44384765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4570.27734375,
+      "y": -670.44384765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4550.2236328125,
+      "y": -719.0087890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4540.376953125,
+      "y": -740.5068359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),moveby(0,1000),keydown(w),wait(0.5),keypress(t),wait(0.2),keypress(t),wait(0.5),keyup(w)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4525.1328125,
+      "y": -769.87744140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.5)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4503.74560546875,
+      "y": -794.505859375
+    },
+    {
+      "action": "log_output",
+      "action_params": "切换[沙暴]状态",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4513.001953125,
+      "y": -786.50634765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),wait(5.5)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4513.001953125,
+      "y": -786.50634765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5485.2216796875,
+      "y": -1240.50732421875
+    },
+    {
+      "action": "log_output",
+      "action_params": "此地有沙暴必摔死1次,无法解决",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": 5473.3095703125,
+      "y": -1220.8349609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5473.3095703125,
+      "y": -1220.8349609375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5498.4580078125,
+      "y": -1095.15966796875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 5498.4580078125,
+      "y": -1095.15966796875
+    }
+  ]
+}

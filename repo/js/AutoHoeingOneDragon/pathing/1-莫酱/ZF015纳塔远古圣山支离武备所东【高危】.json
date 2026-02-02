@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时111.64秒，包含以下怪物：1只深邃拟覆叶、1只秘源机兵·寻捕械。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769077606427,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "ZF015纳塔远古圣山支离武备所东【高危】",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -293.452880859375,
+      "y": 535.0208740234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -252.539794921875,
+      "y": 537.5673828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -246.627197265625,
+      "y": 547.2359619140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -227.35546875,
+      "y": 596.9317626953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -237.962158203125,
+      "y": 604.8448486328125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -228.539794921875,
+      "y": 618.9637451171875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -228.539794921875,
+      "y": 618.9637451171875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -228.539794921875,
+      "y": 618.9637451171875
+    }
+  ]
+}

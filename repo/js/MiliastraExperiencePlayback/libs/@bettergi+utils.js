@@ -1,6 +1,6 @@
 import { __name } from "./rolldown-runtime.js";
 
-//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/workflow.js
+//#region node_modules/@bettergi/utils/dist/workflow.js
 /** 默认最大重试次数 */
 const defaultMaxAttempts = 5;
 /** 默认重试间隔（毫秒） */
@@ -61,7 +61,7 @@ const waitForRegionDisappear = async (regionProvider, retryAction, options) => {
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/asserts.js
+//#region node_modules/@bettergi/utils/dist/asserts.js
 /**
  * 断言某个区域即将出现，否则抛出异常
  * @param regionProvider 返回区域的函数
@@ -85,7 +85,7 @@ const assertRegionDisappearing = async (regionProvider, message, retryAction, op
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/exception.js
+//#region node_modules/@bettergi/utils/dist/exception.js
 /**
  * 获取错误信息字符串
  * @param err 异常对象
@@ -104,7 +104,7 @@ const isHostException = (err) => {
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/mouse.js
+//#region node_modules/@bettergi/utils/dist/mouse.js
 /** 使用回放脚本模拟滚动 */
 const simulateScroll = async (wheelDelta, times) => {
   const script = {
@@ -144,7 +144,10 @@ const mouseScrollDownLines = (lines, lineHeight = 175) => {
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/ocr.js
+//#region node_modules/@bettergi/utils/dist/ocr.js
+const scaleTo1080P = (n) => {
+  return genshin.scaleTo1080PRatio <= 1 ? n : Math.floor(n / genshin.scaleTo1080PRatio);
+};
 /**
  * 在指定区域内搜索图片
  * @param image 图片路径 或 图片Mat
@@ -223,31 +226,30 @@ const findTextWithinBounds = (text, x, y, w, h, options, config = {}) => {
  * @param condition 查找条件
  * @param listView 列表视图参数
  * @param retryOptions 重试选项
- * @param sampling 区域采样函数，通过采样区域画面变化判断列表是否触底（默认：底半区）
- * @param threshold 采样区域匹配阈值（默认：0.9）
+ * @param threshold 列表视图变化匹配阈值（默认：0.9）
  * @returns 如果找到匹配的区域，则返回该区域，否则返回 undefined
  */
-const findWithinListView = async (condition, listView, retryOptions, sampling, threshold = 0.9) => {
+const findWithinListView = async (condition, listView, retryOptions, threshold = 0.9) => {
   const { x, y, w, h, lineHeight, scrollLines = 1, paddingX = 10, paddingY = 10 } = listView;
   const { maxAttempts = 99, retryInterval = 1200 } = retryOptions || {};
-  sampling ??= (r) => r.deriveCrop(1, r.height * 0.5, r.width - 1, r.height * 0.5);
   const captureListViewRegion = () => captureGameRegion().deriveCrop(x, y, w, h);
   const isReachedBottom = (() => {
+    let captured;
     let lastCaptured;
     return () => {
-      const newRegion = captureListViewRegion();
-      if (!newRegion?.isExist()) return true;
       try {
+        captured = captureListViewRegion();
         if (!lastCaptured) return false;
-        const oldRegion = sampling(lastCaptured);
-        if (!oldRegion?.isExist()) return true;
-        const ro = RecognitionObject.templateMatch(oldRegion.srcMat);
+        const lc = lastCaptured.deriveCrop(1, 1, lastCaptured.width - 2, lastCaptured.height - 2);
+        const ro = RecognitionObject.templateMatch(lc.srcMat);
         ro.threshold = threshold;
         ro.use3Channels = true;
         ro.initTemplate();
-        return newRegion.find(ro)?.isExist();
+        return captured.find(ro).isExist();
+      } catch {
+        return true;
       } finally {
-        lastCaptured = newRegion;
+        lastCaptured = captured;
       }
     };
   })();
@@ -259,7 +261,7 @@ const findWithinListView = async (condition, listView, retryOptions, sampling, t
     },
     async () => {
       moveMouseTo(x + w - paddingX, y + paddingY);
-      await sleep(50);
+      await sleep(200);
       await mouseScrollDownLines(scrollLines, lineHeight);
     },
     {
@@ -269,14 +271,9 @@ const findWithinListView = async (condition, listView, retryOptions, sampling, t
   );
   if (targetRegion?.isExist()) {
     const { item1, item2 } = targetRegion.convertPositionToGameCaptureRegion(0, 0);
-    const scale = genshin.width / 1920;
-    const [x$1, y$1] = [
-      Math.floor(scale <= 1 ? item1 : item1 / scale),
-      Math.floor(scale <= 1 ? item2 : item2 / scale),
-    ];
     Object.assign(targetRegion, {
-      x: x$1,
-      y: y$1,
+      x: scaleTo1080P(item1),
+      y: scaleTo1080P(item2),
     });
     return targetRegion;
   }
@@ -288,8 +285,7 @@ const findWithinListView = async (condition, listView, retryOptions, sampling, t
  * @param matchOptions 搜索选项
  * @param retryOptions 重试选项
  * @param config 识别对象配置
- * @param sampling 区域采样函数，通过采样区域画面变化判断列表是否触底（默认：底半区）
- * @param threshold 采样区域匹配阈值（默认：0.9）
+ * @param threshold 列表视图变化匹配阈值（默认：0.9）
  * @returns 如果找到匹配的文本区域，则返回该区域，否则返回 undefined
  */
 const findTextWithinListView = async (
@@ -298,7 +294,6 @@ const findTextWithinListView = async (
   matchOptions,
   retryOptions,
   config = {},
-  sampling,
   threshold = 0.9,
 ) => {
   const ro = RecognitionObject.ocrThis;
@@ -311,13 +306,12 @@ const findTextWithinListView = async (
     },
     listView,
     retryOptions,
-    sampling,
     threshold,
   );
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/misc.js
+//#region node_modules/@bettergi/utils/dist/misc.js
 /**
  * 深度合并多个对象
  * @param objects 多个对象
@@ -335,7 +329,7 @@ const deepMerge = (...objects) => {
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/time.js
+//#region node_modules/@bettergi/utils/dist/time.js
 /**
  * 获取下一个（含当日）凌晨4点的时间
  */
@@ -393,7 +387,7 @@ const formatDurationAsReadable = (duration) => {
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/progress.js
+//#region node_modules/@bettergi/utils/dist/progress.js
 /** 进度追踪器 */
 var ProgressTracker = class {
   total = 0;
@@ -466,7 +460,7 @@ var ProgressTracker = class {
 };
 
 //#endregion
-//#region node_modules/.pnpm/@bettergi+utils@0.1.27/node_modules/@bettergi/utils/dist/store.js
+//#region node_modules/@bettergi/utils/dist/store.js
 /**
  * 创建一个持久化存储对象，用于管理应用状态数据
  * 该函数会创建一个代理对象，对该对象的所有属性的修改都会自动同步到相应的JSON文件（脚本的 `store` 目录下）中。
@@ -475,7 +469,7 @@ var ProgressTracker = class {
  */
 const useStore = (name) => {
   const filePath = `store/${name}.json`;
-  const obj = (() => {
+  const storeData = (() => {
     try {
       if (
         ![...file.readPathSync("store")].map((path) => path.replace(/\\/g, "/")).includes(filePath)
@@ -487,34 +481,34 @@ const useStore = (name) => {
       return {};
     }
   })();
-  const createProxy = (target, parentPath = []) => {
-    if (typeof target !== "object" || target === null) return target;
-    return new Proxy(target, {
-      get: (target$1, key) => {
-        const value = Reflect.get(target$1, key);
+  const createProxy = (targetObject, parentPath = []) => {
+    if (typeof targetObject !== "object" || targetObject === null) return targetObject;
+    return new Proxy(targetObject, {
+      get: (target, key) => {
+        const value = Reflect.get(target, key);
         return typeof value === "object" && value !== null
           ? createProxy(value, [...parentPath, key])
           : value;
       },
-      set: (target$1, key, value) => {
-        const success = Reflect.set(target$1, key, value);
+      set: (target, key, value) => {
+        const success = Reflect.set(target, key, value);
         if (success)
           Promise.resolve().then(() => {
-            file.writeTextSync(filePath, JSON.stringify(obj, null, 2));
+            file.writeTextSync(filePath, JSON.stringify(storeData, null, 2));
           });
         return success;
       },
-      deleteProperty: (target$1, key) => {
-        const success = Reflect.deleteProperty(target$1, key);
+      deleteProperty: (target, key) => {
+        const success = Reflect.deleteProperty(target, key);
         if (success)
           Promise.resolve().then(() => {
-            file.writeTextSync(filePath, JSON.stringify(obj, null, 2));
+            file.writeTextSync(filePath, JSON.stringify(storeData, null, 2));
           });
         return success;
       },
     });
   };
-  return createProxy(obj);
+  return createProxy(storeData);
 };
 /**
  * 创建一个带有默认值的持久化存储对象，用于管理应用状态数据
