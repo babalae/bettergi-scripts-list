@@ -53,7 +53,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;钟离 a(0.2),e;attack(0.3);",
+      "action_params": "伊涅芙 e;芙宁娜 e;钟离 w(1),j,wait(5),w(1);爱可菲 e;",
       "id": 4,
       "move_mode": "dash",
       "type": "path",
@@ -80,7 +80,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;钟离 w(1),j,wait(5),w(1);爱可菲 e;",
       "id": 7,
       "move_mode": "dash",
       "type": "path",
@@ -188,7 +188,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.3);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;wait(1.2),keypress(1),wait(0.2),e,q,wait(1.2),keypress(2),wait(0.2),e,q,wait(1.2),keypress(3),wait(0.2),e,q,wait(1.2),keypress(4),wait(0.2),e,q,",
+      "action_params": "attack(0.3);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;钟离 w(1),j,wait(5),w(1);爱可菲 e;wait(1.2),keypress(1),wait(0.2),e,q,wait(1.2),keypress(2),wait(0.2),e,q,wait(1.2),keypress(3),wait(0.2),e,q,wait(1.2),keypress(4),wait(0.2),e,q,",
       "id": 19,
       "move_mode": "dash",
       "type": "path",
