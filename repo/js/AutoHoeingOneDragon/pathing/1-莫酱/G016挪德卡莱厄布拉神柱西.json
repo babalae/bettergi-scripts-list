@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时57.79秒，包含以下怪物：1只愚人众特辖队·先锋士、1只愚人众特辖队·疗愈师、1只愚人众特辖队·雷霰近卫军。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769880870986,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "G016挪德卡莱厄布拉神柱西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10068.826171875,
+      "y": 5628.60546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10077.880859375,
+      "y": 5633.443359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10112.7578125,
+      "y": 5635.2568359375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10122.3662109375,
+      "y": 5637.1064453125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10134.712890625,
+      "y": 5639.63134765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 10134.712890625,
+      "y": 5639.63134765625
+    }
+  ]
+}

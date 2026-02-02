@@ -1,0 +1,113 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时125.9秒，包含以下怪物：2只火史莱姆、1只大型火史莱姆、3只射手丘丘人、1只镀金旅团·刀舞者、1只镀金旅团·灵风猎手。",
+    "enable_monster_loot_split": false,
+    "hash_res": "30341339",
+    "last_modified_time": 1768055312079,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D002须弥愚妄行宫",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4592.50927734375,
+      "y": -647.1630859375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4605.86328125,
+      "y": -655.38525390625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4599.2392578125,
+      "y": -677.58447265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4599.2392578125,
+      "y": -677.58447265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4592.50732421875,
+      "y": -647.16845703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4565.892578125,
+      "y": -673.2900390625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4548.818359375,
+      "y": -737.349609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4548.818359375,
+      "y": -737.349609375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4576.697265625,
+      "y": -774.66552734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4576.697265625,
+      "y": -774.66552734375
+    }
+  ]
+}

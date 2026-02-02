@@ -1,0 +1,144 @@
+{
+  "info": {
+    "name": "F007纳塔踞石山庙宇北侧",
+    "type": "collect",
+    "author": "Demo&汐&mno",
+    "version": "1.1",
+    "description": "  路线信息：该路线预计用时132.04秒，包含以下怪物：2只疾讯勇士·引索客、1只疾讯勇士·荡风斥候、1只疾讯勇士·重刃讯使、1只匿叶龙武士·旋锯飞叶、1只幼嵴锋龙、1只嵴锋龙、1只匿叶龙。",
+    "hash_res": "42171876",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7746.55,
+      "y": -2250.58
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7779.11,
+      "y": -2231.94
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 7779.11,
+      "y": -2231.94
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7746.55,
+      "y": -2250.58
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7727.25,
+      "y": -2177.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7727.25,
+      "y": -2177.5
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7695.39,
+      "y": -2155.74
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7690.26,
+      "y": -2120.36
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7689.63,
+      "y": -2133.38
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7689.63,
+      "y": -2133.38
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7662.02,
+      "y": -2107.73
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7660.02,
+      "y": -2107.73
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7660.02,
+      "y": -2107.73
+    }
+  ]
+}

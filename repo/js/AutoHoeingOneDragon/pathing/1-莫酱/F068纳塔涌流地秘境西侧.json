@@ -1,0 +1,130 @@
+{
+  "info": {
+    "author": "Demo&汐&mno",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      },
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时96.6秒，包含以下怪物：1只流刃勇士·游击人、4只流刃勇士·锯脂者、2只流刃勇士·掷叉猎手、2只鳍游龙武士·裂礁之涛。",
+    "enable_monster_loot_split": false,
+    "hash_res": "77286024",
+    "last_modified_time": 1769621816972,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F068纳塔涌流地秘境西侧",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9038.84,
+      "y": -2429.3600000000006
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9086.31,
+      "y": -2454.8600000000006
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9086.31,
+      "y": -2454.8600000000006
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9092.490234375,
+      "y": -2460.8818359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9125.38,
+      "y": -2483.6000000000004
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9121.69,
+      "y": -2488.66
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9121.69,
+      "y": -2488.66
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9159.3603515625,
+      "y": -2476.80859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9160.56,
+      "y": -2470.3099999999995
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9160.937594041545,
+      "y": -2467.5939713307926
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9160.937594041545,
+      "y": -2467.5939713307926
+    }
+  ]
+}

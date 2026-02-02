@@ -1,0 +1,141 @@
+{
+  "info": {
+    "name": "F059纳塔安饶之野沃陆之邦北小岛",
+    "type": "collect",
+    "author": "汐&mno",
+    "version": "1.0",
+    "map_name": "Teyvat",
+    "description": "  路线信息：该路线预计用时206.88秒，包含以下怪物：2只幼鳍游龙、3只鳍游龙、4只幼突角龙、3.5只突角龙。",
+    "hash_res": "74405148",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10261.65,
+      "y": -2529.6
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10277.34,
+      "y": -2513.61
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10300.19,
+      "y": -2494.65
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10295.21,
+      "y": -2424.58
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10285.06,
+      "y": -2316.21
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10285.06,
+      "y": -2316.21
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(E),wait(1.5),keydown(Q),wait(1.5),keyup(Q),attack(0.3)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10317.51,
+      "y": -2178.25
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10296,
+      "y": -2175.79
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10296,
+      "y": -2175.79
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10357.61,
+      "y": -2159.29
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10358.98,
+      "y": -2081.83
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10410.95,
+      "y": -2048.72
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 10410.95,
+      "y": -2048.72
+    }
+  ]
+}

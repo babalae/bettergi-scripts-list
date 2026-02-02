@@ -1,0 +1,184 @@
+{
+  "info": {
+    "author": "Demo&汐&mno",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      },
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时173.19秒，包含以下怪物：1只铸砂勇士·叩问人、1只铸砂勇士·碎盾者、3只嵴锋龙、5只幼匿叶龙、4只匿叶龙、1只嵴锋龙武士·破岩锐刃。",
+    "enable_monster_loot_split": false,
+    "hash_res": "64313894",
+    "last_modified_time": 1769622047509,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F016纳塔坚岩隘谷硫晶支脉",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8671.01,
+      "y": -1270.619999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8678.74,
+      "y": -1253.92
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8690.500031347183,
+      "y": -1252.9376549315566
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 8690.500031347183,
+      "y": -1252.9376549315566
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8671.01,
+      "y": -1270.619999999999
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8657.78,
+      "y": -1296.0200000000004
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8670.15,
+      "y": -1348.7000000000007
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8658.29,
+      "y": -1324.1599999999999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8658.29,
+      "y": -1324.1599999999999
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8605.72,
+      "y": -1308.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8605.72,
+      "y": -1308.5
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8519.927734375,
+      "y": -1371.814453125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8532.228515625,
+      "y": -1364.8125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8532.228515625,
+      "y": -1364.8125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "4000",
+      "id": 15,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8495.19,
+      "y": -1403.119999999999
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8512.05,
+      "y": -1408.3500000000004
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 8512.05,
+      "y": -1408.3500000000004
+    }
+  ]
+}

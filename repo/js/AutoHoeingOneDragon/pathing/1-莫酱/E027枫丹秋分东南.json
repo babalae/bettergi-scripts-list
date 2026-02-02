@@ -1,0 +1,82 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时58.94秒，包含以下怪物：1只雷史莱姆、1只变异雷史莱姆、1只冰史莱姆、1只泡泡雄海马、1只大天使海兔。",
+    "enable_monster_loot_split": false,
+    "hash_res": "26480363",
+    "last_modified_time": 1768071371699,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E027枫丹秋分东南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3815.130000000001,
+      "y": 2336.959999999999
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3818.6484375,
+      "y": 2327.166748046875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3823.4951171875,
+      "y": 2307.391357421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3823.4951171875,
+      "y": 2307.391357421875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3791.341796875,
+      "y": 2293.2685546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 3791.341796875,
+      "y": 2293.2685546875
+    }
+  ]
+}
