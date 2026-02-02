@@ -102,6 +102,11 @@
     "label": "运行路线时输出交互或拾取精英和小怪数量，便于在日志分析中比对"
   },
   {
+    "name": "disableAsync",
+    "type": "checkbox",
+    "label": "禁用异步操作，尝试在切换队伍，传送等操作时异步加载信息，节省时间"
+  },
+  {
     "name": "enableCoordCheck",
     "type": "checkbox",
     "label": "路线结尾时进行坐标检查\n用于在路线出现卡死等放弃时不记录cd信息"

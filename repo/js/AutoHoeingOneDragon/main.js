@@ -57,17 +57,26 @@ let lastEatBuff = 0;
 (async function () {
     //通用预处理
     await loadConfig();
+    let switchPartyTask;
+    if (["运行锄地路线", "启用仅指定怪物模式"].includes(operationMode)) {
+        switchPartyTask = switchPartyIfNeeded(partyName);
+    }
+    if (settings.disableAsync) {
+        await switchPartyTask;
+    }
     targetItems = await loadTargetItems();
     localeWorks = await checkLocaleTimeSupport();
     dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
     await loadBlacklist(true);
     await rotateWarnIfAccountEmpty();
 
+
     if (operationMode === "启用仅指定怪物模式") {
         await filterPathingsByTargetMonsters();
-        await switchPartyIfNeeded(partyName);
-
         await updateRecords(pathings, accountName);
+        if (!settings.disableAsync) {
+            await switchPartyTask;
+        }
         await processPathingsByGroup(pathings, accountName);
         return;
 
@@ -88,7 +97,9 @@ let lastEatBuff = 0;
             await copyPathingsByGroup(pathings);
             await updateRecords(pathings, accountName);
         } else if (operationMode === "运行锄地路线") {
-            await switchPartyIfNeeded(partyName);
+            if (!settings.disableAsync) {
+                await switchPartyTask;
+            }
             await validateTeamAndConfig();
             log.info("开始运行锄地路线");
             await updateRecords(pathings, accountName);
@@ -1015,7 +1026,6 @@ async function runPath(fullPath, map_name, pm, pe) {
 
     /* ===== 3. 原逻辑不变 ===== */
     state = { running: true, currentPathing: currentPathing };
-
     /* ---------- 主任务 ---------- */
     const pathingTask = (async () => {
         // 从 fullPath 中提取纯文件名（去掉路径和扩展名）
@@ -1510,6 +1520,20 @@ async function processPathingsByGroup(pathings, accountName) {
     let lastX = 0;
     let lastY = 0;
 
+    if (settings.enableCoordCheck) {
+        try {
+            await genshin.returnMainUi();
+            const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name);
+            if (miniMapPosition) {
+                // 更新坐标
+                lastX = miniMapPosition.X;
+                lastY = miniMapPosition.Y;
+            }
+        } catch (error) {
+            log.error(`获取坐标时发生错误：${error.message}`);
+        }
+    }
+
     // 定义路径组名称到组号的映射（10 个）
     const groupMapping = {
         "路径组一": 1,
@@ -1609,17 +1633,6 @@ async function processPathingsByGroup(pathings, accountName) {
 
             // 输出路径已刷新并开始处理的信息
             log.info(`该路线已刷新，开始处理。`);
-            try {
-                await genshin.returnMainUi();
-                const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name);
-                if (miniMapPosition) {
-                    // 更新坐标
-                    lastX = miniMapPosition.X;
-                    lastY = miniMapPosition.Y;
-                }
-            } catch (error) {
-                log.error(`获取坐标时发生错误：${error.message}`);
-            }
 
             // 调用 runPath 函数处理路径
             await runPath(pathing.fullPath, pathing.map_name, pathing.m, pathing.e);
@@ -1658,25 +1671,27 @@ async function processPathingsByGroup(pathings, accountName) {
                 }
             } catch (e) { /* 读文件失败就留 0,0 继续走后面逻辑 */ }
             let coordAbnormal = false;
-            try {
-                await genshin.returnMainUi();
-                const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name);
-                if (miniMapPosition) {
-                    const diffX = Math.abs(lastX - miniMapPosition.X);
-                    const diffY = Math.abs(lastY - miniMapPosition.Y);
-                    const endDiffX = Math.abs(fileEndX - miniMapPosition.X);
-                    const endDiffY = Math.abs(fileEndY - miniMapPosition.Y);
+            if (settings.enableCoordCheck) {
+                try {
+                    await genshin.returnMainUi();
+                    const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name);
+                    if (miniMapPosition) {
+                        const diffX = Math.abs(lastX - miniMapPosition.X);
+                        const diffY = Math.abs(lastY - miniMapPosition.Y);
+                        const endDiffX = Math.abs(fileEndX - miniMapPosition.X);
+                        const endDiffY = Math.abs(fileEndY - miniMapPosition.Y);
 
-                    lastX = miniMapPosition.X;
-                    lastY = miniMapPosition.Y;
+                        lastX = miniMapPosition.X;
+                        lastY = miniMapPosition.Y;
 
-                    if ((diffX + diffY) < 5 || (endDiffX + endDiffY) > 30) {
-                        coordAbnormal = true;
+                        if ((diffX + diffY) < 5 || (endDiffX + endDiffY) > 30) {
+                            coordAbnormal = true;
+                        }
                     }
+                } catch (error) {
+                    log.error(`获取坐标时发生错误：${error.message}`);
+                    coordAbnormal = true;
                 }
-            } catch (error) {
-                log.error(`获取坐标时发生错误：${error.message}`);
-                coordAbnormal = true;
             }
             await genshin.returnMainUi();
             let mainUiRes = await isMainUI(2000);
@@ -1700,7 +1715,6 @@ async function processPathingsByGroup(pathings, accountName) {
                     newCDTime = nowPlus12h;
                 }
             }
-
             // 更新路径的 cdTime
             pathing.cdTime = newCDTime.toLocaleString();
             if (!localeWorks) pathing.cdTime = newCDTime.toISOString();
