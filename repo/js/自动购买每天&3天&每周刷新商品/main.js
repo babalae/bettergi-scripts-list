@@ -762,7 +762,7 @@ async function qucikBuy() {
         // 点击确认按钮
         click(confirmBtnX, confirmBtnY);
         // 等待购买完成
-        await sleep(200);
+        await sleep(1200);
         // 点击空白关闭
         click(buyBtnX, buyBtnY);
         await sleep(200);
@@ -776,7 +776,7 @@ async function qucikBuy() {
 
 // 跳过对话
 async function spikChat(npcName) {
-    let count = 5; // 添加let声明
+    let count = 6; // 添加let声明
     await sleep(1000);
     if (npcName == "布纳马") {
         // 设置脚本环境的游戏分辨率和DPI缩放
@@ -1165,5 +1165,6 @@ async function initRo() {
     }
 
 })();
+
 
 
