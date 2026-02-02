@@ -5,7 +5,8 @@
     "label": "运行模式",
     "options": [
       "营养袋模式",
-      "筛选模式"
+      "筛选模式",
+      "综合模式"
     ],
     "default": "营养袋模式"
   },
@@ -25,6 +26,24 @@
     "name": "resurrectionFoodName",
     "type": "input-text",
     "label": "复活药名称",
+    "default": ""
+  },
+  {
+    "name": "attackFoodName",
+    "type": "input-text",
+    "label": "攻击药名称",
+    "default": ""
+  },
+  {
+    "name": "defenseFoodName",
+    "type": "input-text",
+    "label": "防御药名称",
+    "default": ""
+  },
+  {
+    "name": "otherFoodName",
+    "type": "input-text",
+    "label": "其他药名称",
     "default": ""
   },
   {
