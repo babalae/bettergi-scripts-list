@@ -1,0 +1,91 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时76.26秒，包含以下怪物：1只愚人众先遣队·岩使游击兵、2只机关·侦察记录型、2只机关·算力增幅器、1只歼灭特化型机关、1只盗宝团·粉碎者。",
+    "enable_monster_loot_split": false,
+    "hash_res": "08155435",
+    "last_modified_time": 1768125873153,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E022枫丹厄里东北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4705.470000000001,
+      "y": 2951.5599999999995
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4720.41015625,
+      "y": 2926.95751953125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4723.08203125,
+      "y": 2934.123291015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4723.08203125,
+      "y": 2934.123291015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4753.23828125,
+      "y": 2928.91259765625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4799.0771484375,
+      "y": 2880.8251953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4799.0771484375,
+      "y": 2880.8251953125
+    }
+  ]
+}

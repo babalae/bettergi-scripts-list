@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时39.67秒，包含以下怪物：3只丘丘人。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769881009251,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "G017挪德卡莱厄布拉神柱北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9920.2734375,
+      "y": 5727.9580078125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9906.265625,
+      "y": 5754.8564453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9906.265625,
+      "y": 5754.8564453125
+    }
+  ]
+}
