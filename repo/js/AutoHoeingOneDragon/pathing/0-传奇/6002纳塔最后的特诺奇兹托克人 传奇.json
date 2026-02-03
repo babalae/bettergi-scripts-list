@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "思"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时120秒，包含以下怪物：5只小怪传奇倍率二。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768493934815,
+    "map_match_method": "TemplateMatch",
+    "map_name": "Teyvat",
+    "name": "6002纳塔最后的特诺奇兹托克人 传奇",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14649.207489200364,
+      "y": 547.621908074887
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14627.00095018325,
+      "y": 551.2487890467819
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14566.043728231052,
+      "y": 579.7630051007718
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "100",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 14540.567957903917,
+      "y": 583.2643092042381
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 14519.750325491019,
+      "y": 581.7511095351974
+    }
+  ]
+}

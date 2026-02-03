@@ -1,4 +1,4 @@
-//当前js版本2.1.1
+//当前js版本2.2.1
 
 //自定义配置变量预声明
 let accountName;
@@ -1709,7 +1709,7 @@ async function processPathingsByGroup(pathings, accountName) {
                 // 如果设置的时间小于等于当前时间，说明需要取下一个晚上 8 点
                 newCDTime.setUTCHours(20 + 24, 0, 0, 0); // 设置为下一个 UTC 时间的 20:00
             }
-            if (pathing.m !== 0) {
+            if (pathing.m !== 0 && !pathing.tags.includes("传奇")) {
                 const nowPlus12h = new Date(now.getTime() + 12 * 3600 * 1000); // now + 12h
                 if (newCDTime < nowPlus12h) {
                     newCDTime = nowPlus12h;
