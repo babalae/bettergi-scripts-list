@@ -176,6 +176,16 @@ let checkInterval = +settings.checkInterval || 50;
             "label": "输入用于存储信息的文件名，只在不同账号分别管理CD时填写"
         },
         {
+            "name": "priorityItems",
+            "type": "input-text",
+            "label": "优先采集材料，每天会尝试优先采集指定数量的目标物品，随后才执行路径组\n格式：材料名*数量，由加号+连接\n如萃凝晶*160+甜甜花*10"
+        },
+        {
+            "name": "priorityItemsPartyName",
+            "type": "input-text",
+            "label": "优先采集材料使用的配队名称"
+        },
+        {
             "name": "disableJsons",
             "type": "input-text",
             "label": "填写需要禁用的路线的关键词，使用中文分号分隔\n文件路径含有相关关键词的路线会被禁用"
@@ -222,16 +232,6 @@ let checkInterval = +settings.checkInterval || 50;
 
     if (settings.enableMoreSettings) {
         newSettings.push(
-            {
-                "name": "priorityItems",
-                "type": "input-text",
-                "label": "优先采集材料，每天会尝试优先采集指定数量的目标物品，随后才执行路径组\n格式：材料名*数量，由加号+连接\n如萃凝晶*160+甜甜花*10"
-            },
-            {
-                "name": "priorityItemsPartyName",
-                "type": "input-text",
-                "label": "优先采集材料使用的配队名称"
-            },
             {
                 "name": "priorityTags",
                 "type": "input-text",
