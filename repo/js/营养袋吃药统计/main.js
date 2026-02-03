@@ -34,6 +34,11 @@ if (isNaN(refreshTime) || refreshTime < 0 || refreshTime >= 24) {
 const refreshHour = Math.floor(refreshTime);
 const refreshMinute = Math.floor((refreshTime - refreshHour) * 60);
 log.info(`刷新时间为: ${refreshHour}:${String(refreshMinute).padStart(2, '0')}`);
+
+// 正则特殊字符转义函数
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 (async function () {
     // 检验账户名
     async function getUserName() {
@@ -133,11 +138,11 @@ log.info(`刷新时间为: ${refreshHour}:${String(refreshMinute).padStart(2, '0
             // 时间格式正则：匹配 "时间:YYYY/MM/DD HH:mm:ss"
             const timeRegex = /时间:(\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2})/;
             // 药品匹配正则
-            const recoveryRegex = new RegExp(`${recoveryFoodName}-(\\d+)`);
-            const resurrectionRegex = new RegExp(`${resurrectionFoodName}-(\\d+)`);
-            const attackRegex = new RegExp(`${attackFoodName}-(\\d+)`);
-            const defenseRegex = new RegExp(`${defenseFoodName}-(\\d+)`);
-            const otherRegex = new RegExp(`${otherFoodName}-(\\d+)`);
+            const recoveryRegex = new RegExp(`${escapeRegExp(recoveryFoodName)}-(\\d+)`);
+            const resurrectionRegex = new RegExp(`${escapeRegExp(resurrectionFoodName)}-(\\d+)`);
+            const attackRegex = new RegExp(`${escapeRegExp(attackFoodName)}-(\\d+)`);
+            const defenseRegex = new RegExp(`${escapeRegExp(defenseFoodName)}-(\\d+)`);
+            const otherRegex = new RegExp(`${escapeRegExp(otherFoodName)}-(\\d+)`);
 
             // 正向遍历：找到第一个小于startTime的行索引（边界）
             let firstOutOfRangeIndex = -1; // 初始化为-1（表示所有行都在时间范围内）
@@ -342,7 +347,7 @@ log.info(`刷新时间为: ${refreshHour}:${String(refreshMinute).padStart(2, '0
                 // 创建药品匹配正则，只处理需要记录的药品
                 const regexList = drugs
                     .filter(name => name.trim())
-                    .map(name => new RegExp(`${name}-\\d+$`));
+                    .map(name => new RegExp(`${escapeRegExp(name)}-\\d+$`));
 
                 // 过滤掉当天时间范围内的同名记录
                 lines = lines.filter(line => {
@@ -740,12 +745,17 @@ log.info(`刷新时间为: ${refreshHour}:${String(refreshMinute).padStart(2, '0
         log.info(`已读取到本地数据`)
     } else {
         // 情况2：部分有，部分无，用有的那个，缺的用当前数据
+        // 情况3：全部本地数据都没有，所有药品都使用当前数据作为初始数据
         initRecovery = hasLocalRecovery ? localData.recovery.count : recoveryNumber;
         initResurrection = hasLocalResurrection ? localData.resurrection.count : resurrectionNumber;
         initAttack = hasLocalAttack ? localData.attack.count : attackNumber;
         initDefense = hasLocalDefense ? localData.defense.count : defenseNumber;
         initOther = hasLocalOther ? localData.other.count : otherNumber;
-        log.info(`未读取到全部的本地数据，缺失部分使用当前数据作为初始数据`)
+        if (loadedFoodCount === 0) {
+            log.info(`未读取到本地数据，所有药品使用当前数据作为初始数据`)
+        } else {
+            log.info(`未读取到全部的本地数据，缺失部分使用当前数据作为初始数据`)
+        }
     }
     
     // 判断是否需要写入（只写入填了名字的药品）
