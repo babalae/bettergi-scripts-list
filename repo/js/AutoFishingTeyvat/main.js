@@ -926,6 +926,9 @@
             }
         }
 
+        // 回到主界面
+        await genshin.returnMainUi();
+
         // 记录钓鱼开始时间
         const time_start_fishing = Date.now();
 
