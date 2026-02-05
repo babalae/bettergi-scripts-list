@@ -4,7 +4,7 @@ const path = require('path');
 // ================= 使用说明 =================
 // 1. 请确保你是以bettergi-script-list完整仓库的环境运行此脚本
 // 2. 请确保你本地配置了node.js环境
-// 3. 运行: node dev_deploy.js 脚本文件夹名 BGI目录。例：node build/dev_deploy.js test E:\BetterGIProject\BetterGI
+// 3. 运行: node build/dev_deploy.js 脚本文件夹名 BGI目录。例：node build/dev_deploy.js test E:\BetterGIProject\BetterGI
 // 4. 脚本自动导入，会删除原有packages后导入新的packages，其他文件覆盖式导入
 // ===========================================
 
