@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1769348184119,
+    "last_modified_time": 1770194548355,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "509【收尾】枫丹-科学院工坊高塔②-8",
@@ -183,15 +183,14 @@
       "action": "",
       "action_params": "",
       "id": 19,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
-      "x": 4412.0732421875,
-      "y": 4990.52490234375
+      "x": 4411.7275390625,
+      "y": 4990.2255859375
     },
     {
       "action": "combat_script",
-      "action_params": "click,wait(0.1),click,wait(1.2),d(1.65),keypress(x),wait(0.05),keypress(x),wait(0.95),click,wait(0.2),click",
+      "action_params": "click,wait(0.1),click,wait(1.2),d(2.25),keypress(x),wait(0.05),keypress(x),wait(0.35),click,wait(0.2),click",
       "id": 20,
       "move_mode": "walk",
       "type": "orientation",
@@ -429,8 +428,8 @@
       "id": 46,
       "move_mode": "dash",
       "type": "path",
-      "x": 4511.0322265625,
-      "y": 4985.03076171875
+      "x": 4510.75,
+      "y": 4986.65585781894
     },
     {
       "action": "",

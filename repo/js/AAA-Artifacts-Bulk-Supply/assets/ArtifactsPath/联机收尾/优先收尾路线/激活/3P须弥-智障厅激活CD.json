@@ -9,10 +9,10 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1765817751671,
+    "last_modified_time": 1761287728735,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "1P枫丹-科学院工坊TP刷CD",
+    "name": "3P须弥-智障厅激活CD",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,35 +24,44 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4429.1826171875,
-      "y": 5097.20703125
-    },
-    {
-      "action": "set_time",
-      "action_params": "06:00",
-      "id": 2,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 4437.81640625,
-      "y": 5082.35791015625
+      "x": 5169.26171875,
+      "y": -2346.0537109375
     },
     {
       "action": "",
       "action_params": "",
-      "id": 3,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 4429.931640625,
-      "y": 5013.0234375
+      "id": 2,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5384.2529296875,
+      "y": -2456.419921875
     },
     {
       "action": "combat_script",
-      "action_params": "wait(1.5)",
+      "action_params": "wait(1)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 5347.8359375,
+      "y": -2418.6884765625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5347.8359375,
+      "y": -2418.6884765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "dash",
+      "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 4428.125,
-      "y": 4938.6171875
+      "x": 5347.126953125,
+      "y": -2315.349609375
     }
   ]
 }
