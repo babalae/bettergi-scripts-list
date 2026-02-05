@@ -24,6 +24,16 @@
     "label": "是否清理丘丘人\n【默认否，仅对盗宝团有效，选是会清理丘丘人之后再开始任务】"
   },
   {
+    "name": "disableAsyncFight",
+    "type": "checkbox",
+    "label": "禁用容易导致问题的异步战斗，改为正常的战斗结束逻辑，勾选后需要在配置组中正常配置战斗结束检测"
+  },
+  {
+    "name": "loopTillNoExpOrMora",
+    "type": "checkbox",
+    "label": "连续两次循环全程没有检测到获取经验值或摩拉图标时提前终止"
+  },
+  {
     "name": "partyName",
     "type": "input-text",
     "label": "(选填)需要切换的队伍名称"

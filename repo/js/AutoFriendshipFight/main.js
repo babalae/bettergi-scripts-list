@@ -5,6 +5,20 @@ const BENCHMARK_HOUR = "T04:00:00";
 const DEFAULT_OCR_TIMEOUT_SECONDS = 10;
 const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 
+let detectedExpOrMora = true;
+let NoExpOrMoraCount = 0;
+let running = true;
+
+const expRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/exp.png"), 74, 341, 207 - 74, 803 - 341);
+expRo.Threshold = 0.85;
+expRo.Use3Channels = true;
+expRo.InitTemplate();
+
+const moraRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/exp.png"), 74, 341, 207 - 74, 803 - 341);
+moraRo.Threshold = 0.85;
+moraRo.Use3Channels = true;
+moraRo.InitTemplate();
+
 (async function () {
     const startTime = Date.now();
     // 启用自动拾取的实时任务
@@ -173,50 +187,47 @@ async function executeBattleTasks(fightTimeout, enemyType, cts) {
     let battleTask;
     let battleResult = null;
     let fightResult = null;
-
+    let battleDetectTask = null;
+    let results = null;
     try {
-        battleTask = dispatcher.RunTask(new SoloTask("AutoFight"), cts);
-        const battleDetectTask = waitForBattleResult(fightTimeout * 1000, enemyType, cts);
+        if (settings.disableAsyncFight) {
+            battleTask = await dispatcher.RunTask(new SoloTask("AutoFight"));
+            return { success: true };
+        } else {
+            battleTask = dispatcher.RunTask(new SoloTask("AutoFight"), cts);
+            battleDetectTask = waitForBattleResult(fightTimeout * 1000, enemyType, cts);
+            // 使用 Promise.allSettled 而不是 Promise.all，这样可以处理部分成功的情况
+            results = await Promise.allSettled([
+                battleTask.catch(error => {
+                    // 如果是取消错误（成功检测后的正常取消），不算真正的错误
+                    if (error.message && error.message.includes("取消自动任务")) {
+                        log.info("战斗任务已被成功取消");
+                        return { cancelled: true };
+                    }
+                    throw error; // 其他错误继续抛出
+                }),
+                battleDetectTask
+            ]);
 
-        // 使用 Promise.allSettled 而不是 Promise.all，这样可以处理部分成功的情况
-        const results = await Promise.allSettled([
-            battleTask.catch(error => {
-                // 如果是取消错误（成功检测后的正常取消），不算真正的错误
-                if (error.message && error.message.includes("取消自动任务")) {
-                    log.info("战斗任务已被成功取消");
-                    return { cancelled: true };
-                }
-                throw error; // 其他错误继续抛出
-            }),
-            battleDetectTask
-        ]);
+            battleResult = results[0];
+            fightResult = results[1];
 
-        battleResult = results[0];
-        fightResult = results[1];
-
-        // 检查检测任务是否成功
-        if (fightResult.status === 'fulfilled') {
-            log.info("战斗检测任务完成");
-            return { success: true, battleResult: battleResult.value, fightResult: fightResult.value };
-        } else if (fightResult.status === 'rejected') {
-            throw fightResult.reason;
+            // 检查检测任务是否成功
+            if (fightResult.status === 'fulfilled') {
+                log.info("战斗检测任务完成");
+                return { success: true, battleResult: battleResult.value, fightResult: fightResult.value };
+            } else if (fightResult.status === 'rejected') {
+                throw fightResult.reason;
+            }
         }
-
     } catch (error) {
-        if (error.message && error.message.includes("战斗超时")) {
-            log.error(`战斗超时，终止整个任务: ${error.message}`);
-            await genshin.tpToStatueOfTheSeven();
-            throw error;
-        }
-
         // 过滤掉正常的取消错误
         if (error.message && error.message.includes("取消自动任务")) {
             log.info("战斗任务正常取消（战斗检测成功）");
             return { success: true, cancelled: true };
         }
-
         log.error(`战斗执行过程中出错: ${error.message}`);
-        throw error;
+        await genshin.tpToStatueOfTheSeven();
     } finally {
         // 确保战斗任务被等待完成（即使被取消）
         if (battleTask) {
@@ -244,11 +255,21 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
     if (roundIndex === 0) {
         initialDetected = await detectTaskTrigger(3, enemyType);
     }
+    if (!detectedExpOrMora && settings.loopTillNoExpOrMora) {
+        NoExpOrMoraCount++;
+        log.warn("上次运行未检测到经验或摩拉");
+        if (NoExpOrMoraCount >= 2) {
+            log.warn("连续两次循环没有经验或摩拉掉落，提前终止");
+            return false;
+        }
+    } else {
+        NoExpOrMoraCount = 0;
+        detectedExpOrMora = false;
+    }
     if (!initialDetected || roundIndex > 0) {
         await genshin.relogin();
     }
-
-
+    
     // 启动路径导航任务（异步）
     let pathTask = AutoPath(`${enemyType}-战斗点`);
     const ocrStatus = await detectTaskTrigger(ocrTimeout, enemyType);
@@ -298,7 +319,12 @@ function logProgress(startTime, currentRound, totalRounds) {
 // 执行 N 次好感任务并输出日志 - 重构后的主函数
 async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "盗宝团") {
     const startFirstTime = Date.now();
+    let detectExpOrMoraTask;
+    if (settings.loopTillNoExpOrMora) {
+        detectExpOrMoraTask = detectExpOrMora();
+    }
     for (let i = 0; i < times; i++) {
+        try { await sleep(1); } catch (e) { break; }
         try {
             const success = await executeSingleFriendshipRound(i, ocrTimeout, fightTimeout, enemyType);
             if (!success)
@@ -306,18 +332,53 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
             logProgress(startFirstTime, i, times);
         } catch (error) {
             log.error(`第 ${i + 1} 轮好感任务失败: ${error.message}`);
-
             // 如果是战斗超时错误，直接终止整个任务
+            /*
             if (error.message && error.message.includes("战斗超时")) {
                 throw error;
             }
+            */
             continue;
         }
     }
-
+    running = false;
+    if (settings.loopTillNoExpOrMora) {
+        await detectExpOrMoraTask;
+    }
     log.info(`${enemyType}好感已完成`);
 }
 
+async function detectExpOrMora() {
+    while (running) {
+        try { await sleep(1); } catch (e) { break; }
+        let gameRegion;
+        if (!detectedExpOrMora) {
+            try {
+                gameRegion = captureGameRegion();
+                const res1 = gameRegion.find(expRo);
+                if (res1.isExist()) {
+                    log.info("识别到经验");
+                    detectedExpOrMora = true;
+                    continue;
+                }
+                const res2 = gameRegion.find(moraRo);
+                if (res2.isExist()) {
+                    log.info("识别到经验");
+                    detectedExpOrMora = true;
+                    continue;
+                }
+            } catch (e) {
+                log.error(`检测经验和摩拉掉落过程中出现错误 ${e.message}`);
+            } finally {
+                gameRegion?.dispose();
+            }
+        } else {
+            //无需检测时额外等待200
+            await sleep(200);
+        }
+        await sleep(200);
+    }
+}
 
 async function calulateRunTimes() {
     log.info(`'请确保队伍满员，并为队伍配置相应的战斗策略'`);
@@ -396,7 +457,7 @@ function getTargetCoordinates(enemyType) {
         return { x: 4840.55, y: -3078.01 };
     } else if (enemyType === "盗宝团") {
         // 盗宝团战斗点坐标
-        return { x: -2757.28, y: -3468.43 };
+        return { x: -2753.04, y: -3459.3025 };
     } else if (enemyType === "鳄鱼") {
         // 鳄鱼战斗点坐标
         return { x: 3578.08, y: -500.75 };

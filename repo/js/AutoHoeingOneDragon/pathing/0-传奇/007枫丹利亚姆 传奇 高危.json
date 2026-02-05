@@ -1,0 +1,76 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "思"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时139.76秒，预计收入3000摩拉，包含以下怪物：3只精英传奇倍率五。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768131656960,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "007枫丹利亚姆 传奇 高危",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 3035.6297000135746,
+      "y": 3727.409085358373
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3010.000976473055,
+      "y": 3737.7504623063323
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "100",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2982.74728757485,
+      "y": 3750.5017567640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2945.2156915976648,
+      "y": 3767.9241756984793
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "100",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2898.4965280958077,
+      "y": 3770.9940824789483
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2896.25,
+      "y": 3779.0001849225337
+    }
+  ]
+}
