@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -7,10 +7,10 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时139.76秒，预计收入600摩拉，包含以下怪物：3只精英传奇倍率二。",
+    "description": "  路线信息：该路线预计用时139.76秒，包含以下怪物：3只精英传奇倍率二。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1768043958884,
-    "map_match_method": "TemplateMatch",
+    "last_modified_time": 1770234313400,
+    "map_match_method": "",
     "map_name": "Teyvat",
     "name": "006挪德卡莱苔骨荒原西格德 传奇",
     "tags": [],
@@ -33,33 +33,70 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 9175.597393783086,
-      "y": 1930.4038689445097
+      "x": 9177.875,
+      "y": 1916.1259050332174
     },
     {
       "action": "stop_flying",
-      "action_params": "1000",
+      "action_params": "1300",
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 9080.405748201347,
-      "y": 1950.8751155765822
+      "x": 9129.3759765625,
+      "y": 1935.67578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9093.9375,
+      "y": 1946.5005430199308
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9080.4384765625,
+      "y": 1950.4921875
     },
     {
       "action": "combat_script",
-      "action_params": ";茜特菈莉 e;伊涅芙 e;莱依拉 e;keypress(f)",
-      "id": 4,
+      "action_params": "keypress(f),wait(0.1),keypress(f)",
+      "id": 6,
       "move_mode": "walk",
-      "type": "path",
-      "x": 9080.437011763472,
-      "y": 1951.1251386918993
+      "type": "target",
+      "x": 9080.4384765625,
+      "y": 1950.4921875
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 5,
+      "id": 7,
       "move_mode": "dash",
-      "type": "target",
+      "type": "path",
+      "x": 9079.688910461078,
+      "y": 1957.747457315174
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9079.688910461078,
+      "y": 1957.747457315174
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": 9079.688910461078,
       "y": 1957.747457315174
     }
