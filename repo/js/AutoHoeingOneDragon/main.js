@@ -1364,8 +1364,8 @@ async function dumper(pathFilePath, map_name) {
         const pathingContent = await file.readText(pathFilePath);
         const parsedContent = JSON.parse(pathingContent);
         const positions = parsedContent.positions;
-        // 初始化 hasT 为 false
-        let hasT = false;
+        // 初始化 disableDumper 为 false
+        let disableDumper = false;
 
         // 初始化 fightPositions 数组
         let fightPositions = [];
@@ -1374,7 +1374,7 @@ async function dumper(pathFilePath, map_name) {
         for (const pos of positions) {
             // 检查 action_params 是否包含 keypress(T)
             if (pos.action_params && pos.action_params.includes('keypress(T)')) {
-                hasT = true;
+                disableDumper = true;
             }
 
             // 如果 action 是 "fight"，则添加到 fightPositions
@@ -1386,7 +1386,14 @@ async function dumper(pathFilePath, map_name) {
                 });
             }
         }
-        if (!hasT) {
+
+        //6.3强制使用sift的地图不开启泥头车
+        const info = parsedContent.info;
+        if (info.map_match_method && info.map_match_method === "SIFT") {
+            disableDumper = true;
+        }
+
+        if (!disableDumper) {
             while (state.running) {
                 //log.info("调试-泥头车循环");
                 await sleep(501);
