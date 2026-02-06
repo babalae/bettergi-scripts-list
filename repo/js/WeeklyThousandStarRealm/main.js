@@ -205,11 +205,11 @@ async function findSaveInList(keyword) {
       return region;
     }
 
+    moveMouseTo(890, 800);
     // 向下滚动
-    moveMouseTo(1800, 500);
-    await sleep(100);
-    await mouseScrollDown(400);
-    await sleep(500);
+    for (let count = 0; count < 5; count++) {
+      verticalScroll(-10);
+    }
   }
 
   return null;
@@ -325,7 +325,7 @@ async function createMap() {
 // 从收藏创建关卡
 async function createStarMap() {
   await findTextAndClick("搜索", 0, 0, 1920, 120);
-  inputText(starRoomName);
+  inputText(roomID);
   await sleep(1000);
   await findTextAndClick("搜索", 0, 0, 1920, 120);
   await sleep(duration);
