@@ -420,6 +420,7 @@ async function main() {
   let skippedSets = []; // 记录跳过的套装名称（已有方案且未勾选覆盖）
   let notFoundSets = []; // 记录未找到的套装名称（OCR 未识别到）
   let failedSets = []; // 记录处理失败的套装名称（执行过程中出错）
+  let finishedSetNames = new Set(); // 记录已完成处理的套装名称（成功/跳过/失败）
 
   while (true) {
     log.info("步骤：开始识别当前屏幕的套装");
@@ -503,18 +504,21 @@ async function main() {
 
           if (configured === true) {
             configuredSets.push(setConfig.set_name);
+            finishedSetNames.add(setConfig.set_name);
             log.info("套装「{name}」处理完成，进度: {current}/{total}", setConfig.set_name, configuredSets.length, selectedSets.length);
 
-            // 快速结算：如果已处理数量达到用户选择的数量，提前结束
-            if (configuredSets.length >= selectedSets.length) {
-              log.info("已完成所有选择的套装配置");
+            // 快速结算：如果已完成数量达到用户选择的数量，提前结束
+            if (finishedSetNames.size >= selectedSets.length) {
+              log.info("已处理完所有选择的套装（含跳过/失败）");
               break;
             }
           } else if (configured === false) {
             skippedSets.push(setConfig.set_name);
+            finishedSetNames.add(setConfig.set_name);
             log.info("套装「{name}」已跳过（已有方案且未勾选覆盖）", setConfig.set_name);
           } else {
             failedSets.push(setConfig.set_name);
+            finishedSetNames.add(setConfig.set_name);
             log.error("套装「{name}」处理失败（执行过程中出现错误）", setConfig.set_name);
           }
         } else {
@@ -522,8 +526,8 @@ async function main() {
         }
       }
 
-      // 快速结算：如果已处理数量达到用户选择的数量，跳出外层循环
-      if (configuredSets.length >= selectedSets.length) {
+      // 快速结算：如果已完成数量达到用户选择的数量，跳出外层循环
+      if (finishedSetNames.size >= selectedSets.length) {
         break;
       }
     } finally {
@@ -552,6 +556,9 @@ async function main() {
       let cfg = config.find(c => c.set_name === name);
       return cfg && cfg.set_name !== selectedName && matchSetName(selectedName, cfg);
     }) || skippedSets.some(name => {
+      let cfg = config.find(c => c.set_name === name);
+      return cfg && cfg.set_name !== selectedName && matchSetName(selectedName, cfg);
+    }) || failedSets.some(name => {
       let cfg = config.find(c => c.set_name === name);
       return cfg && cfg.set_name !== selectedName && matchSetName(selectedName, cfg);
     });
