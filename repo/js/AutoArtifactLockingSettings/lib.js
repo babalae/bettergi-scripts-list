@@ -44,30 +44,6 @@ export const findTextInRegion = (x1, y1, x2, y2, targetText) => {
 };
 
 /**
- * 在当前游戏画面中查找并点击包含指定文本的区域中心
- * @param {string} targetText - 您要查找并点击的目标文本。
- * @returns {Promise<boolean>} - 如果成功找到并点击，则返回 true；否则返回 false。
- */
-export const findAndClickText = async (targetText) => {
-  log.debug("开始查找并点击文本: '{target}'", targetText);
-  let captureRegion = captureGameRegion(); // 获取当前游戏截图
-  let foundRegion = findTextInRegion(captureRegion, targetText);
-
-  if (foundRegion && !foundRegion.isEmpty()) {
-    // 计算找到文本区域的中心点坐标
-    let centerX = foundRegion.x + Math.floor(foundRegion.width / 2);
-    let centerY = foundRegion.y + Math.floor(foundRegion.height / 2);
-
-    log.debug("文本 '{text}' 的中心坐标是: x={x}, y={y}", foundRegion.text, centerX, centerY);
-    click(centerX, centerY); // 点击中心点
-    return true;
-  } else {
-    log.error("在当前屏幕中没有找到文本 '{target}'", targetText);
-    return false;
-  }
-};
-
-/**
  * 平滑拖动列表（从起始坐标拖动到目标坐标）
  * @param {number} startX - 起始 X 坐标
  * @param {number} startY - 起始 Y 坐标

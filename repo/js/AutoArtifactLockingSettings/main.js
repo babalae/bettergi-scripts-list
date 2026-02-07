@@ -1,4 +1,4 @@
-import { findTextInRegion, findAndClickText, smoothDragVertical } from './lib.js';
+import { findTextInRegion, smoothDragVertical } from './lib.js';
 
 // 延迟时间默认值（单位：毫秒）
 const DEFAULT_DELAY_SHORT = 75;
