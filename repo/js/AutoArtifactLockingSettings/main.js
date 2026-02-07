@@ -419,6 +419,7 @@ async function main() {
   let configuredSets = []; // 记录成功配置的套装名称
   let skippedSets = []; // 记录跳过的套装名称（已有方案且未勾选覆盖）
   let notFoundSets = []; // 记录未找到的套装名称（OCR 未识别到）
+  let failedSets = []; // 记录处理失败的套装名称（执行过程中出错）
 
   while (true) {
     log.info("步骤：开始识别当前屏幕的套装");
@@ -500,7 +501,7 @@ async function main() {
           // 配置该套装
           let configured = await configureArtifactSet(setConfig, uiCoords, overwriteExisting);
 
-          if (configured) {
+          if (configured === true) {
             configuredSets.push(setConfig.set_name);
             log.info("套装「{name}」处理完成，进度: {current}/{total}", setConfig.set_name, configuredSets.length, selectedSets.length);
 
@@ -509,9 +510,12 @@ async function main() {
               log.info("已完成所有选择的套装配置");
               break;
             }
-          } else {
+          } else if (configured === false) {
             skippedSets.push(setConfig.set_name);
             log.info("套装「{name}」已跳过（已有方案且未勾选覆盖）", setConfig.set_name);
+          } else {
+            failedSets.push(setConfig.set_name);
+            log.error("套装「{name}」处理失败（执行过程中出现错误）", setConfig.set_name);
           }
         } else {
           log.info("配置文件中未找到套装「{name}」，跳过", setName);
@@ -540,7 +544,7 @@ async function main() {
   // 检查哪些用户选择的套装未被识别到
   for (let selectedName of selectedSets) {
     // 检查是否已成功配置或已跳过
-    if (configuredSets.includes(selectedName) || skippedSets.includes(selectedName)) {
+    if (configuredSets.includes(selectedName) || skippedSets.includes(selectedName) || failedSets.includes(selectedName)) {
       continue;
     }
     // 检查是否通过别名匹配到了
@@ -564,6 +568,13 @@ async function main() {
     log.info("跳过（已有方案）: {count} 个套装", skippedSets.length);
     for (let name of skippedSets) {
       log.info("  - {name}", name);
+    }
+  }
+
+  if (failedSets.length > 0) {
+    log.error("处理失败: {count} 个套装", failedSets.length);
+    for (let name of failedSets) {
+      log.error("  ✗ {name}", name);
     }
   }
 
