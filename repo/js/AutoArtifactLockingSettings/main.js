@@ -336,8 +336,24 @@ async function configurePlan(plan, uiCoords) {
 }
 
 async function main() {
-  // 无论如何先等待 1 s
-  await sleep(DELAY_LONG);
+  // 运行前检查游戏窗口信息，并验证分辨率是否为 16:9
+  const width = genshin.width;
+  const height = genshin.height;
+  if (!width || !height) {
+    log.error("无法获取游戏窗口信息，请确保原神正在运行，脚本已终止");
+    return;
+  }
+
+  const aspectRatio = width / height;
+  const targetRatio = 16 / 9;
+  const ratioTolerance = 0.01; // 允许极小的浮点误差
+
+  log.debug("环境检测：当前游戏分辨率 {w}x{h}", width, height);
+
+  if (Math.abs(aspectRatio - targetRatio) > ratioTolerance) {
+    log.error("当前分辨率不是 16:9（检测到: {w}x{h}），脚本已终止", width, height);
+    return;
+  }
 
   // 读取配置文件
   const configText = await file.readText("圣遗物锁定方案信息.json");
@@ -348,7 +364,7 @@ async function main() {
   const uiCoords = JSON.parse(uiCoordsText);
 
   // 读取用户设置
-  let selectedSets = Array.from(settings.artifactSets); // C# List<string> 对象，需要转换为 JS 数组
+  let selectedSets = settings.artifactSets ? Array.from(settings.artifactSets) : []; // C# List<string> 对象，需要转换为 JS 数组
   let overwriteExisting = settings.overwriteExisting; // 是否覆盖已有方案
 
   log.debug("用户选择的套装数量: {count}", selectedSets.length);
@@ -374,6 +390,13 @@ async function main() {
     return;
   }
 
+  // 返回主界面
+  await genshin.returnMainUi();
+
+  // 打开背包
+  keyPress("B")
+  await sleep(DELAY_LONG);
+
   log.info("即将配置 {count} 个套装", selectedSets.length);
 
   // 第一步：点击圣遗物背包页面
@@ -384,7 +407,7 @@ async function main() {
   // 第二步：验证是否进入圣遗物页面
   let verifyResult = findTextInRegion(131, 21, 231, 70, "圣遗物");
   if (!verifyResult) {
-    log.error("未检测到「圣遗物」页面，请确保已打开背包");
+    log.error("未检测到「圣遗物」页面");
     return;
   }
 
