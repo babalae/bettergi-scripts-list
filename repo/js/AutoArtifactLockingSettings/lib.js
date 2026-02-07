@@ -10,37 +10,43 @@
 export const findTextInRegion = (x1, y1, x2, y2, targetText) => {
   // 获取游戏画面截图并裁剪指定区域
   let screen = captureGameRegion();
-  let searchRegion = screen.DeriveCrop(x1, y1, x2 - x1, y2 - y1);
+  let searchRegion = screen.deriveCrop(x1, y1, x2 - x1, y2 - y1);
 
-  // 对区域进行 OCR，获取所有文本行的列表
-  let ocrResultList = searchRegion.findMulti(RecognitionObject.ocrThis);
-  log.debug("OCR 识别到的文本行总数: {count}", ocrResultList.count);
+  try {
+    // 对区域进行 OCR，获取所有文本行的列表
+    let ocrResultList = searchRegion.findMulti(RecognitionObject.ocrThis);
+    log.debug("OCR 识别到的文本行总数: {count}", ocrResultList.count);
 
-  // 遍历所有 OCR 结果
-  for (let i = 0; i < ocrResultList.count; i++) {
-    let currentResult = ocrResultList[i];
-    log.debug("识别到文本: '{text}'，位置: ({x}, {y})", currentResult.text, currentResult.x, currentResult.y);
+    // 遍历所有 OCR 结果
+    for (let i = 0; i < ocrResultList.count; i++) {
+      let currentResult = ocrResultList[i];
+      log.debug("识别到文本: '{text}'，位置: ({x}, {y})", currentResult.text, currentResult.x, currentResult.y);
 
-    // 判断识别到的文本是否包含目标文本
-    if (currentResult.text && currentResult.text.includes(targetText)) {
-      log.debug("成功找到目标文本 '{target}'!", targetText);
-      // 计算中心坐标（局部坐标）
-      let localCenterX = currentResult.x + Math.floor(currentResult.width / 2);
-      let localCenterY = currentResult.y + Math.floor(currentResult.height / 2);
-      // 转换为屏幕绝对坐标
-      let screenX = x1 + localCenterX;
-      let screenY = y1 + localCenterY;
-      return {
-        x: screenX,
-        y: screenY,
-        text: currentResult.text
-      };
+      // 判断识别到的文本是否包含目标文本
+      if (currentResult.text && currentResult.text.includes(targetText)) {
+        log.debug("成功找到目标文本 '{target}'!", targetText);
+        // 计算中心坐标（局部坐标）
+        let localCenterX = currentResult.x + Math.floor(currentResult.width / 2);
+        let localCenterY = currentResult.y + Math.floor(currentResult.height / 2);
+        // 转换为屏幕绝对坐标
+        let screenX = x1 + localCenterX;
+        let screenY = y1 + localCenterY;
+        return {
+          x: screenX,
+          y: screenY,
+          text: currentResult.text
+        };
+      }
     }
-  }
 
-  // 如果遍历完所有结果都未找到，返回 null
-  log.debug("在指定区域内未能找到目标文本: '{target}'", targetText);
-  return null;
+    // 如果遍历完所有结果都未找到，返回 null
+    log.debug("在指定区域内未能找到目标文本: '{target}'", targetText);
+    return null;
+  } finally {
+    // 释放图像资源
+    searchRegion.dispose();
+    screen.dispose();
+  }
 };
 
 /**

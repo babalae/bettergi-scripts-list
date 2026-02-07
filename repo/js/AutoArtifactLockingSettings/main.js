@@ -7,7 +7,12 @@ const DEFAULT_DELAY_LONG = 1000;
 const DEFAULT_DELAY_EXTRA_LONG = 3000;
 
 // 从 settings 读取延迟系数，不填则使用默认值 1.0
-const DELAY_MULTIPLIER = settings.delayMultiplier ? parseFloat(settings.delayMultiplier) : 1.0;
+const rawMultiplier = settings.delayMultiplier ? parseFloat(settings.delayMultiplier) : 1.0;
+if (isNaN(rawMultiplier) || rawMultiplier <= 0) {
+  log.error("延迟系数配置错误，必须是大于 0 的数字，当前值: {value}", settings.delayMultiplier);
+  throw new Error("延迟系数配置错误，脚本已终止");
+}
+const DELAY_MULTIPLIER = rawMultiplier;
 
 // 计算实际延迟值（默认值 × 延迟系数）
 const DELAY_SHORT = Math.round(DEFAULT_DELAY_SHORT * DELAY_MULTIPLIER);
@@ -80,7 +85,7 @@ function isSelectedSetMatch(selectedName, recognizedName, config) {
  * @param {Object} setConfig - 套装配置对象
  * @param {Object} uiCoords - UI坐标映射对象
  * @param {boolean} overwriteExisting - 是否覆盖已有方案
- * @returns {boolean} - 是否成功配置（false 表示跳过）
+ * @returns {boolean|null} - true: 成功配置, false: 跳过(已有方案且未勾选覆盖), null: 错误(找不到按钮/无启用方案等)
  */
 async function configureArtifactSet(setConfig, uiCoords, overwriteExisting) {
   // 根据配置处理推荐方案开关
@@ -111,7 +116,7 @@ async function configureArtifactSet(setConfig, uiCoords, overwriteExisting) {
     await sleep(DELAY_MEDIUM);
   } else {
     log.error("未找到「编辑」按钮");
-    return;
+    return null;
   }
 
   // 获取所有启用的方案
@@ -121,7 +126,7 @@ async function configureArtifactSet(setConfig, uiCoords, overwriteExisting) {
     // 点击返回按钮
     click(1840, 44);
     await sleep(DELAY_MEDIUM);
-    return;
+    return null;
   }
 
   log.debug("找到 {count} 个启用的方案", enabledPlans.length);
@@ -420,100 +425,109 @@ async function main() {
 
     // 获取游戏画面截图
     let screen = captureGameRegion();
+    let listRegion = null;
 
-    // 裁剪套装列表区域 (142,209) 到 (384,954)
-    const cropStartX = 142;
-    const cropStartY = 209;
-    const cropEndX = 384;
-    const cropEndY = 954;
-    let listRegion = screen.DeriveCrop(cropStartX, cropStartY, cropEndX - cropStartX, cropEndY - cropStartY);
+    try {
+      // 裁剪套装列表区域 (142,209) 到 (384,954)
+      const cropStartX = 142;
+      const cropStartY = 209;
+      const cropEndX = 384;
+      const cropEndY = 954;
+      listRegion = screen.deriveCrop(cropStartX, cropStartY, cropEndX - cropStartX, cropEndY - cropStartY);
 
-    // 使用 findMulti 进行 OCR 识别
-    let ocrResultList = listRegion.findMulti(RecognitionObject.ocrThis);
+      // 使用 findMulti 进行 OCR 识别
+      let ocrResultList = listRegion.findMulti(RecognitionObject.ocrThis);
 
-    log.debug("识别到 {count} 个文本", ocrResultList.count);
+      log.debug("识别到 {count} 个文本", ocrResultList.count);
 
-    if (ocrResultList.count === 0) {
-      log.warn("未识别到任何文本，列表遍历完成");
-      break;
-    }
-
-    // 记录本轮识别到的套装名称
-    let currentScreenSets = [];
-    for (let i = 0; i < ocrResultList.count; i++) {
-      currentScreenSets.push(ocrResultList[i].text.trim());
-    }
-
-    // 检查是否所有套装都已处理过（说明列表已经到底了）
-    let allProcessed = currentScreenSets.every(name => processedSets.has(name));
-    if (allProcessed) {
-      log.info("当前屏幕所有套装都已处理过，列表遍历完成");
-      break;
-    }
-
-    // 遍历识别到的所有文本，处理套装
-    for (let i = 0; i < ocrResultList.count; i++) {
-      let ocrResult = ocrResultList[i];
-      let setName = ocrResult.text.trim();
-
-      // 跳过已处理的套装
-      if (processedSets.has(setName)) {
-        log.debug("套装「{name}」已处理过，跳过", setName);
-        continue;
+      if (ocrResultList.count === 0) {
+        log.warn("未识别到任何文本，列表遍历完成");
+        break;
       }
 
-      log.debug("识别到套装名称: {name}", setName);
+      // 记录本轮识别到的套装名称
+      let currentScreenSets = [];
+      for (let i = 0; i < ocrResultList.count; i++) {
+        currentScreenSets.push(ocrResultList[i].text.trim());
+      }
 
-      // 检查该套装是否在用户选择的列表中（支持别名匹配）
-      let matchedSelectedName = selectedSets.find(selected => isSelectedSetMatch(selected, setName, config));
-      if (!matchedSelectedName) {
-        log.debug("套装「{name}」不在用户选择列表中，跳过", setName);
+      // 检查是否所有套装都已处理过（说明列表已经到底了）
+      let allProcessed = currentScreenSets.every(name => processedSets.has(name));
+      if (allProcessed) {
+        log.info("当前屏幕所有套装都已处理过，列表遍历完成");
+        break;
+      }
+
+      // 遍历识别到的所有文本，处理套装
+      for (let i = 0; i < ocrResultList.count; i++) {
+        let ocrResult = ocrResultList[i];
+        let setName = ocrResult.text.trim();
+
+        // 跳过已处理的套装
+        if (processedSets.has(setName)) {
+          log.debug("套装「{name}」已处理过，跳过", setName);
+          continue;
+        }
+
+        log.debug("识别到套装名称: {name}", setName);
+
+        // 检查该套装是否在用户选择的列表中（支持别名匹配）
+        let matchedSelectedName = selectedSets.find(selected => isSelectedSetMatch(selected, setName, config));
+        if (!matchedSelectedName) {
+          log.debug("套装「{name}」不在用户选择列表中，跳过", setName);
+          processedSets.add(setName);
+          continue;
+        }
+
+        // 在配置中查找对应的套装（支持别名匹配）
+        let setConfig = findSetConfig(setName, config);
+
+        // 标记为已处理（无论是否有配置）
         processedSets.add(setName);
-        continue;
-      }
 
-      // 在配置中查找对应的套装（支持别名匹配）
-      let setConfig = findSetConfig(setName, config);
+        if (setConfig) {
+          log.info(`开始处理套装: 「${setConfig.set_name}」`);
 
-      // 标记为已处理（无论是否有配置）
-      processedSets.add(setName);
+          // 计算文本左上角的屏幕绝对坐标
+          let absoluteX = cropStartX + ocrResult.x;
+          let absoluteY = cropStartY + ocrResult.y;
 
-      if (setConfig) {
-        log.info(`开始处理套装: 「${setConfig.set_name}」`);
+          // 点击套装名称进入详情页
+          log.debug("点击套装，坐标: ({x}, {y})", absoluteX, absoluteY);
+          click(absoluteX, absoluteY);
+          await sleep(DELAY_MEDIUM);
 
-        // 计算文本左上角的屏幕绝对坐标
-        let absoluteX = cropStartX + ocrResult.x;
-        let absoluteY = cropStartY + ocrResult.y;
+          // 配置该套装
+          let configured = await configureArtifactSet(setConfig, uiCoords, overwriteExisting);
 
-        // 点击套装名称进入详情页
-        log.debug("点击套装，坐标: ({x}, {y})", absoluteX, absoluteY);
-        click(absoluteX, absoluteY);
-        await sleep(DELAY_MEDIUM);
+          if (configured) {
+            configuredSets.push(setConfig.set_name);
+            log.info("套装「{name}」处理完成，进度: {current}/{total}", setConfig.set_name, configuredSets.length, selectedSets.length);
 
-        // 配置该套装
-        let configured = await configureArtifactSet(setConfig, uiCoords, overwriteExisting);
-
-        if (configured) {
-          configuredSets.push(setConfig.set_name);
-          log.info("套装「{name}」处理完成，进度: {current}/{total}", setConfig.set_name, configuredSets.length, selectedSets.length);
-
-          // 快速结算：如果已处理数量达到用户选择的数量，提前结束
-          if (configuredSets.length >= selectedSets.length) {
-            log.info("已完成所有选择的套装配置");
-            break;
+            // 快速结算：如果已处理数量达到用户选择的数量，提前结束
+            if (configuredSets.length >= selectedSets.length) {
+              log.info("已完成所有选择的套装配置");
+              break;
+            }
+          } else {
+            skippedSets.push(setConfig.set_name);
+            log.info("套装「{name}」已跳过（已有方案且未勾选覆盖）", setConfig.set_name);
           }
         } else {
-          skippedSets.push(setConfig.set_name);
-          log.info("套装「{name}」已跳过（已有方案且未勾选覆盖）", setConfig.set_name);
+          log.info("配置文件中未找到套装「{name}」，跳过", setName);
         }
-      } else {
-        log.info("配置文件中未找到套装「{name}」，跳过", setName);
       }
-    }
 
-    // 快速结算：如果已处理数量达到用户选择的数量，跳出外层循环
-    if (configuredSets.length >= selectedSets.length) {
-      break;
+      // 快速结算：如果已处理数量达到用户选择的数量，跳出外层循环
+      if (configuredSets.length >= selectedSets.length) {
+        break;
+      }
+    } finally {
+      // 释放图像资源
+      if (listRegion) {
+        listRegion.dispose();
+      }
+      screen.dispose();
     }
 
     await sleep(DELAY_LONG);
