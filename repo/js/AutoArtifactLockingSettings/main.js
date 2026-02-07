@@ -6,8 +6,8 @@ const DEFAULT_DELAY_MEDIUM = 200;
 const DEFAULT_DELAY_LONG = 1000;
 const DEFAULT_DELAY_EXTRA_LONG = 3000;
 
-// 从 settings 读取延迟系数，不填则使用默认值 1.0
-const rawMultiplier = settings.delayMultiplier ? parseFloat(settings.delayMultiplier) : 1.0;
+// 从 settings 读取延迟系数，不填则使用默认值 1.2
+const rawMultiplier = settings.delayMultiplier ? parseFloat(settings.delayMultiplier) : 1.2;
 if (isNaN(rawMultiplier) || rawMultiplier <= 0) {
   log.error("延迟系数配置错误，必须是大于 0 的数字，当前值: {value}", settings.delayMultiplier);
   throw new Error("延迟系数配置错误，脚本已终止");
