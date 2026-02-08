@@ -119,7 +119,8 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
             break
         case LoadType.bgi_tools:
             // 通过bgi_tools方式加载配置
-            const uidConfigListBgiTools = await pullJsonConfig(config.user.uid+'')||[]
+            log.info(`开始拉取bgi_tools配置`)
+            const uidConfigListBgiTools = await pullJsonConfig(config.user.uid + '') || []
             if (uidConfigListBgiTools?.length > 0) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
                 uidConfigListBgiTools.forEach(item => {
@@ -182,14 +183,14 @@ async function init() {
 async function main() {
     // 初始化配置
     await init();
-
-
+    if (config.bgi_tools.open.open_push) {
+        log.info(`开始推送bgi_tools配置`)
+        await pushAllJsonConfig(JSON.stringify(file.readTextSync(config.path.domain)))
+    }
     // 获取秘境配置
     let domainConfig = config.domain.config;
-
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|执行顺序,..."
     const autoFightOrderList = initDomainOrderList(domainConfig);
-
     autoFightOrderList.sort((a, b) => b.order - a.order)
     await autoDomainList(autoFightOrderList);
 }
