@@ -1,5 +1,6 @@
 import {config, initConfig, initSettings, LoadType} from './config/config';
 import {ocrUid} from './utils/uid';
+import {pullJsonConfig, pushAllJsonConfig} from './utils/bgi_tools';
 
 /**
  * 自动执行秘境任务的异步函数
@@ -114,6 +115,17 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
                         // autoFightOrderSet.push(autoFightOrder)
                     }
                 )
+            }
+            break
+        case LoadType.bgi_tools:
+            // 通过bgi_tools方式加载配置
+            const uidConfigListBgiTools = await pullJsonConfig(config.user.uid)||[]
+            if (uidConfigListBgiTools?.length > 0) {
+                // 如果配置列表不为空，遍历并添加到结果集合中
+                uidConfigListBgiTools.forEach(item => {
+                    // 将秘境顺序对象添加到列表中
+                    autoFightOrderSet.add(item)
+                })
             }
             break
         default:

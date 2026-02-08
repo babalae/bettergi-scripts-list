@@ -16,5 +16,21 @@
       "type": "input-text",
       "label": "自动秘境计划配置\n语法:队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日(1-3和本体的一致)|执行顺序(越大越先执行),...\n(无配置可留空如||唯有秘境名称配置不可为空)\n如: 速刷|苍白的遗荣|1||9",
       "default": ""
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "type": "separator"
+    },
+    {
+      "name": "bgi_tools_http_pull_json_config",
+      "type": "input-text",
+      "label": "bgi_tools拉取配置api(去看文档)"
+    },
+    {
+      "name": "bgi_tools_http_push_all_json_config",
+      "type": "input-text",
+      "label": "bgi_tools推送全部配置api(去看文档)"
     }
 ]

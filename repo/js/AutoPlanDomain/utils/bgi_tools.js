@@ -46,3 +46,8 @@ async function pushAllJsonConfig(Json = "[]", http_api = config.bgi_tools.api.ht
         return undefined
     })
 }
+
+export {
+    pullJsonConfig,
+    pushAllJsonConfig
+}
