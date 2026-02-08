@@ -4,7 +4,8 @@ const config = {
     //setting设置放在这个json
     domain: {
         config: '',
-        load_uid_config: false
+        // load_uid_config: false,
+        loads: [],//加载方式list
     },
     info: {
         key: undefined,//密钥
@@ -33,6 +34,18 @@ const config = {
     //物品名称映射秘境名称
     domainItemsMap: new Map(),
 }
+
+const LoadType = Object.freeze({
+    uid: 'uid',//uid加载
+    input: 'input',//input加载
+    fromValue(value) {
+        return Object.keys(this).find(key => this[key] === value);
+    }
+})
+const LoadMap = new Map([
+    ['UID加载', LoadType.uid],
+    ['输入加载', LoadType.input],
+])
 
 /**
  * 初始化设置函数
@@ -414,14 +427,14 @@ async function initConfig() {
     if (config.domainList.length <= 0) {
         throw new Error("配置文件缺失或读取异常!")
     }
-    config.domain.load_uid_config = settings.load_uid_config || config.domain.load_uid_config
-    if (config.domain.load_uid_config){
-        config.user.uid = await ocrUid()
-    }
+    let loadList = await getValueByMultiCheckboxName('auto_load')|| []
+    const loads= loadList.map(item => LoadMap.get(item))
+    config.domain.loads = loads
+    config.user.uid = await ocrUid()
 }
 
 export {
-    config,
+    config, LoadType, LoadMap,
     checkKey,
     initSettings,
     getMultiCheckboxMap,
