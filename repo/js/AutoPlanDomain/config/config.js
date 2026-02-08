@@ -7,6 +7,12 @@ const config = {
         // load_uid_config: false,
         loads: [],//加载方式list
     },
+    bgi_tools: {
+        api: {
+            httpPullJsonConfig: undefined,
+            httpPushAllJsonConfig: undefined,
+        }
+    },
     info: {
         key: undefined,//密钥
         manifest: {},
@@ -38,6 +44,7 @@ const config = {
 const LoadType = Object.freeze({
     uid: 'uid',//uid加载
     input: 'input',//input加载
+    bgi_tools: 'bgi_tools',//input加载
     fromValue(value) {
         return Object.keys(this).find(key => this[key] === value);
     }
@@ -45,6 +52,7 @@ const LoadType = Object.freeze({
 const LoadMap = new Map([
     ['UID加载', LoadType.uid],
     ['输入加载', LoadType.input],
+    ['bgi_tools加载', LoadType.bgi_tools],
 ])
 
 /**
@@ -433,7 +441,23 @@ async function initConfig() {
         throw new Error("配置文件缺失或读取异常!")
     }
     let loadList = await getValueByMultiCheckboxName('auto_load') || []
-    const loads = loadList.map(item => LoadMap.get(item))
+    const loads = loadList.map(item => {
+        const load = LoadMap.get(item);
+        let order = 1
+        switch (load) {
+            case LoadType.input:
+                order = 1;
+                break;
+            case LoadType.uid:
+                order = 2;
+                break;
+            case LoadType.bgi_tools:
+                order = 3;
+                break;
+        }
+        return {load: load, order: order}
+    })
+    loads.sort((a, b) => a.order - b.order)
     config.domain.loads = loads
     config.user.uid = await ocrUid()
 }

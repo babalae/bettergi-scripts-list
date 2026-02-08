@@ -28,6 +28,7 @@ async function ocrRegion(x = 0,
         region3.Dispose()
     }
 }
+
 export {
     ocrRegion
 }

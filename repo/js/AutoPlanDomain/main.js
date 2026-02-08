@@ -8,7 +8,7 @@ import {ocrUid} from './utils/uid';
  */
 async function autoDomain(autoFight) {
     // 创建秘境参数对象，初始化值为0
-    let domainParam = new AutoDomainParam(0);
+    let domainParam = new AutoDomainParam(autoFight.DomainRoundNum);
     //秘境名称
     domainParam.DomainName = autoFight.domainName || domainParam.DomainName;
     //队伍名称
@@ -16,7 +16,7 @@ async function autoDomain(autoFight) {
     //周日|限时选择的值
     domainParam.SundaySelectedValue = autoFight.sundaySelectedValue || domainParam.SundaySelectedValue;
     //副本轮数
-    domainParam.DomainRoundNum = autoFight.DomainRoundNum || domainParam.DomainRoundNum;
+    // domainParam.domainRoundNum = autoFight.DomainRoundNum || domainParam.DomainRoundNum;
     await dispatcher.RunAutoDomainTask(domainParam);
 }
 
@@ -139,8 +139,9 @@ async function initDomainOrderList(domainConfig) {
             } // 秘境信息对象
         }*/
     // let Load = LoadType.uid
+
     for (const Load of config.domain.loads) {
-        await loadMode(Load, autoFightOrderSet, domainConfig);
+        await loadMode(Load.load, autoFightOrderSet, domainConfig);
     }
 
     // 检查是否已配置秘境

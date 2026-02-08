@@ -7,8 +7,8 @@
     {
       "name": "auto_load",
       "type": "multi-checkbox",
-      "label": "加载模式\n全选时相同的配置输入加载会覆盖UID加载\n自动秘境计划配置(属于输入加载)\nconfig/domain_config.json(属于UID加载)",
-      "option": ["输入加载","UID加载"] ,
+      "label": "加载模式\n全选时相同的配置输入加载会覆盖UID加载\n自动秘境计划配置(属于输入加载)\nconfig/domain_config.json(属于UID加载)\nhttp获取配置(属于bgi_tools加载)",
+      "option": ["输入加载","UID加载","bgi_tools加载"] ,
       "default": ["输入加载","UID加载"]
     },
     {
