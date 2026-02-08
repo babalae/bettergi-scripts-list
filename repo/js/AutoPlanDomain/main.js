@@ -53,7 +53,15 @@ function initDomainOrderList(domainConfig) {
             let domainName = arr[1];
             let DomainRoundNum = arr[2];
             let sundaySelectedValue = arr[3];
-            let order = parseInt(arr[4]+"");
+            let order = (() => {
+                const rawOrder = arr[4]; // 获取原始值
+                if (rawOrder == null || String(rawOrder).trim() === "") {
+                    return 0; // 若为空或无效值，默认返回 0
+                }
+                const parsedOrder = parseInt(String(rawOrder).trim(), 10); // 转换为整数
+                return isNaN(parsedOrder) ? 0 : parsedOrder; // 若转换失败，返回默认值 0
+            })();
+
 
             if (!config.domainNames.has(domainName)) {
                 //秘境名称没有记录 查询是否是物品名称

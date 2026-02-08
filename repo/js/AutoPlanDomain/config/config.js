@@ -4,7 +4,7 @@ const config = {
         config: ''
     },
     info: {
-        manifest:{},
+        manifest: {},
         settings: undefined
     },
     //
@@ -63,6 +63,7 @@ async function initSettings() {
     // 返回设置对象
     return settingsJson
 }
+
 /**
  * 获取多复选框的映射表
  * 该函数会从初始化的设置中提取所有类型为"multi-checkbox"的条目，
@@ -110,6 +111,7 @@ async function getValueByMultiCheckboxName(name) {
     log.debug("values={key}", JSON.stringify(values))
     return values
 }
+
 async function initConfig() {
     /*  const domainList = [
           {
@@ -359,7 +361,12 @@ async function initConfig() {
           }
       ]*/
 
-    const domainList = JSON.parse(file.readTextSync(config.path.domain)) || []
+    const domainList = JSON.parse(file.readTextSync(config.path.domain)) || [{
+        name: undefined,
+        type: undefined,
+        hasOrder: false,
+        list: []
+    }]
 
     config.domainList.push(...domainList)
 
