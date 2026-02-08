@@ -3,7 +3,8 @@ import {ocrUid} from "../utils/uid";
 const config = {
     //setting设置放在这个json
     domain: {
-        config: ''
+        config: '',
+        load_uid_config: false
     },
     info: {
         key: undefined,//密钥
@@ -413,7 +414,10 @@ async function initConfig() {
     if (config.domainList.length <= 0) {
         throw new Error("配置文件缺失或读取异常!")
     }
-    config.user.uid = await ocrUid()
+    config.domain.load_uid_config = settings.load_uid_config || config.domain.load_uid_config
+    if (config.domain.load_uid_config){
+        config.user.uid = await ocrUid()
+    }
 }
 
 export {
