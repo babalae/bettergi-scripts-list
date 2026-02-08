@@ -36,8 +36,29 @@ async function autoDomainList(autoDomainOrderList) {
  * @returns {Array} 返回处理后的秘境顺序列表
  */
 function initDomainOrderList(domainConfig) {
-    const autoFightOrderList = [] // 存储秘境顺序列表的数组
-    if (domainConfig){
+    const autoFightOrderSet = new Set() // 存储秘境顺序列表的数组
+    /*    let te = {
+            order: 1,      // 顺序值
+            autoFight: {
+                domainName: undefined,//秘境名称
+                partyName: undefined,//队伍名称
+                sundaySelectedValue: undefined,//周日|限时选择的值
+                DomainRoundNum: undefined,//副本轮数
+            } // 秘境信息对象
+        }*/
+    const uid = undefined
+    if (uid) {
+        const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.domainConfig)) || new Map()
+        const uidConfigList = configAutoFightOrderMap.get(uid) || [];
+        if (uidConfigList?.length > 0) {
+            uidConfigList.forEach(item => {
+                // 将秘境顺序对象添加到列表中
+                autoFightOrderSet.add(item)
+            })
+        }
+    }
+
+    if (domainConfig) {
         // 处理输入字符串：去除首尾空格，将中文逗号替换为英文逗号，然后按逗号分割
         domainConfig.trim().replaceAll('，', ',').split(",").forEach(
             item => {
@@ -90,17 +111,18 @@ function initDomainOrderList(domainConfig) {
                     autoFight: autoFight // 秘境信息对象
                 }
                 // 将秘境顺序对象添加到列表中
-                autoFightOrderList.push(autoFightOrder)
+                autoFightOrderSet.add(autoFightOrder)
+                // autoFightOrderSet.push(autoFightOrder)
             }
         )
     }
 
     // 检查是否已配置秘境
-    if (autoFightOrderList.length <= 0) {
+    if (autoFightOrderSet.length <= 0) {
         throw new Error("请先配置秘境配置");
     }
     // 返回处理后的秘境顺序列表
-    return autoFightOrderList;
+    return Array.from(autoFightOrderSet);
 }
 
 /**

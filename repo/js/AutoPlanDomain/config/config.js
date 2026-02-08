@@ -7,6 +7,9 @@ const config = {
         manifest: {},
         settings: undefined
     },
+    user: {
+        uid: undefined,
+    },
     //
     path: {
         manifest: "manifest.json",
