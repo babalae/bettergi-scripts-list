@@ -46,7 +46,7 @@ function initDomainOrderList(domainConfig) {
                 DomainRoundNum: undefined,//副本轮数
             } // 秘境信息对象
         }*/
-    const uid = undefined
+    const uid = config.user.uid
     if (uid) {
         const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.domainConfig)) || new Map()
         const uidConfigList = configAutoFightOrderMap.get(uid) || [];

@@ -1,3 +1,5 @@
+import {ocrUid} from "../utils/uid";
+
 const config = {
     //setting设置放在这个json
     domain: {
@@ -116,10 +118,11 @@ async function getValueByMultiCheckboxName(name) {
     log.debug("values={key}", JSON.stringify(values))
     return values
 }
+
 /**
  * 检查密钥是否正确
  */
-async function checkKey(key="") {
+async function checkKey(key = "") {
     if (config.info.key !== key.trim()) {
         throw new Error("密钥错误");
     }
@@ -410,6 +413,7 @@ async function initConfig() {
     if (config.domainList.length <= 0) {
         throw new Error("配置文件缺失或读取异常!")
     }
+    config.user.uid = await ocrUid()
 }
 
 export {
