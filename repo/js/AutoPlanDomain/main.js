@@ -1,4 +1,4 @@
-import {config, initConfig,initSettings} from './config/config';
+import {config, initConfig, initSettings} from './config/config';
 
 /**
  * 自动执行秘境任务的异步函数
@@ -53,13 +53,19 @@ function initDomainOrderList(domainConfig) {
             let domainName = arr[1];
             let DomainRoundNum = arr[2];
             let sundaySelectedValue = arr[3];
-            let order = parseInt(arr[4]);
+            let order = parseInt(arr[4]+"");
 
             if (!config.domainNames.has(domainName)) {
                 //秘境名称没有记录 查询是否是物品名称
                 if (config.itemNames.has(domainName)) {
-
-                }else {
+                    const domainNameTemp = config.domainItemsMap.get(domainName);
+                    if (!domainNameTemp) {
+                        throw new Error(`${domainName} 输入错误`);
+                    }
+                    const domainSelectedValue = parseInt(config.domainOrderMap.get(domainName) + "");
+                    sundaySelectedValue = domainSelectedValue
+                    domainName = domainNameTemp
+                } else {
                     throw new Error(`${domainName} 输入错误`);
                 }
             }
