@@ -1,4 +1,4 @@
-import {config, initConfig} from './config/config';
+import {config, initConfig,initSettings} from './config/config';
 
 /**
  * 自动执行秘境任务的异步函数
@@ -89,6 +89,7 @@ function initDomainOrderList(domainConfig) {
 async function init() {
     // 调用initConfig函数并等待其完成
     // 这是一个异步初始化配置的步骤
+    await initSettings()
     await initConfig();
 }
 
