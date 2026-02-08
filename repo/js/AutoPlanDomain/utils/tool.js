@@ -28,7 +28,29 @@ async function ocrRegion(x = 0,
         region3.Dispose()
     }
 }
+/**
+ * 获取当前日期的星期信息
+ * @returns {Object} 返回包含星期数字和星期名称的对象
+ */
+async function getDayOfWeek() {
+    // 获取当前日期对象
+    const today = new Date();
+    // 获取当前日期是星期几（0代表星期日，1代表星期一，以此类推）
+    const day = today.getDay();
+    // 创建包含星期名称的数组
+    const weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+    let weekDay = `${weekDays[day]}`;
+
+    log.debug(`今天是[{day}]`, day)
+    log.debug(`今天是[{weekDays}]`, weekDay)
+    // 返回包含星期数字和对应星期名称的对象
+    return {
+        day: day,
+        dayOfWeek: weekDay
+    }
+}
 
 export {
-    ocrRegion
+    ocrRegion,
+    getDayOfWeek
 }

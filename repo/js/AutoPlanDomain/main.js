@@ -31,7 +31,14 @@ async function autoDomainList(autoDomainOrderList) {
         await autoDomain(item.autoFight);
     }
 }
-
+// 辅助函数：安全地解析 day 字段
+function parseDay(day) {
+    if (day == null || String(day).trim() === "") {
+        return undefined; // 空值或无效值返回 undefined
+    }
+    const parsedDay = parseInt(String(day).trim(), 10);
+    return isNaN(parsedDay) ? undefined : parsedDay; // 非法数字返回 undefined
+}
 /**
  * 根据不同的加载方式加载秘境配置
  * @param {string} Load - 加载方式类型，如uid或input
@@ -50,6 +57,10 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
                 uidConfigList.forEach(item => {
                     // 将秘境顺序对象添加到列表中
+                    // 主逻辑优化
+                    if (item.day !== undefined) {
+                        item.day = parseDay(item.day);
+                    }
                     autoFightOrderSet.add(item)
                 })
             }
@@ -73,9 +84,10 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
                         let domainName = arr[1]; // 解析秘境名称
                         let domainRoundNum = arr[2]; // 解析副本轮数
                         let sundaySelectedValue = arr[3]; // 解析周日|限时选择的值
+                        let day = arr[4].trim() != "" ? parseInt(arr[4]) : undefined;
                         // 解析顺序值，处理可能的无效值
                         let order = (() => {
-                            const rawOrder = arr[4]; // 获取原始值
+                            const rawOrder = arr[5]; // 获取原始值
                             if (rawOrder == null || String(rawOrder).trim() === "") {
                                 return 0; // 若为空或无效值，默认返回 0
                             }
@@ -108,6 +120,7 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
                         // 创建秘境顺序对象
                         let autoFightOrder = {
                             order: order,      // 顺序值
+                            day: day,// 执行日期
                             autoFight: autoFight // 秘境信息对象
                         }
                         // 将秘境顺序对象添加到列表中
@@ -125,6 +138,10 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
                 uidConfigListBgiTools.forEach(item => {
                     // 将秘境顺序对象添加到列表中
+                    // 主逻辑优化
+                    if (item.day !== undefined) {
+                        item.day = parseDay(item.day);
+                    }
                     autoFightOrderSet.add(item)
                 })
             }
@@ -189,7 +206,7 @@ async function main() {
     }
     // 获取秘境配置
     let domainConfig = config.domain.config;
-    //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|执行顺序,..."
+    //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|周几执行(0-6)不填默认执行|执行顺序,..."
     const autoFightOrderList = initDomainOrderList(domainConfig);
     autoFightOrderList.sort((a, b) => b.order - a.order)
     await autoDomainList(autoFightOrderList);
