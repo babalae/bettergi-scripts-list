@@ -119,7 +119,7 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
             break
         case LoadType.bgi_tools:
             // 通过bgi_tools方式加载配置
-            const uidConfigListBgiTools = await pullJsonConfig(config.user.uid)||[]
+            const uidConfigListBgiTools = await pullJsonConfig(config.user.uid+'')||[]
             if (uidConfigListBgiTools?.length > 0) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
                 uidConfigListBgiTools.forEach(item => {

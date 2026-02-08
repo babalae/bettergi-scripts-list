@@ -11,7 +11,8 @@ const config = {
         api: {
             httpPullJsonConfig: undefined,
             httpPushAllJsonConfig: undefined,
-        }
+        },
+        open: {open_push: false}
     },
     info: {
         key: undefined,//密钥
@@ -408,6 +409,11 @@ async function initConfig() {
             throw new Error("密钥不匹配!")
         }
     }
+    config.user.uid = await ocrUid()
+    config.bgi_tools.api.httpPullJsonConfig=settings.bgi_tools_http_pull_json_config
+    config.bgi_tools.api.httpPushAllJsonConfig=settings.bgi_tools_http_push_all_json_config
+    config.bgi_tools.open.open_push=settings.bgi_tools_open_push
+
     const domainList = JSON.parse(file.readTextSync(config.path.domain)) || [{
         name: undefined,
         type: undefined,
@@ -459,7 +465,6 @@ async function initConfig() {
     })
     loads.sort((a, b) => a.order - b.order)
     config.domain.loads = loads
-    config.user.uid = await ocrUid()
 }
 
 export {
