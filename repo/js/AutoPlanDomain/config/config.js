@@ -10,7 +10,8 @@ const config = {
     //
     path: {
         manifest: "manifest.json",
-        domain: `./config/domain.json`
+        domain: `./config/domain.json`,
+        domainConfig: `./config/domain_config.json`
     },
     //所有秘境信息
     domainList: [],

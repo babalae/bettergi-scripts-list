@@ -37,61 +37,68 @@ async function autoDomainList(autoDomainOrderList) {
  */
 function initDomainOrderList(domainConfig) {
     const autoFightOrderList = [] // 存储秘境顺序列表的数组
-    // 处理输入字符串：去除首尾空格，将中文逗号替换为英文逗号，然后按逗号分割
-    domainConfig.trim().replaceAll('，', ',').split(",").forEach(
-        item => {
-            // 将当前项按"|"分割成数组
-            let arr = item.split("|")
-            // 创建秘境信息对象
-            let autoFight = {
-                domainName: undefined,//秘境名称
-                partyName: undefined,//队伍名称
-                sundaySelectedValue: undefined,//周日|限时选择的值
-                DomainRoundNum: undefined,//副本轮数
-            }
-            let partyName = arr[0];
-            let domainName = arr[1];
-            let DomainRoundNum = arr[2];
-            let sundaySelectedValue = arr[3];
-            let order = (() => {
-                const rawOrder = arr[4]; // 获取原始值
-                if (rawOrder == null || String(rawOrder).trim() === "") {
-                    return 0; // 若为空或无效值，默认返回 0
+    if (domainConfig){
+        // 处理输入字符串：去除首尾空格，将中文逗号替换为英文逗号，然后按逗号分割
+        domainConfig.trim().replaceAll('，', ',').split(",").forEach(
+            item => {
+                // 将当前项按"|"分割成数组
+                let arr = item.split("|")
+                // 创建秘境信息对象
+                let autoFight = {
+                    domainName: undefined,//秘境名称
+                    partyName: undefined,//队伍名称
+                    sundaySelectedValue: undefined,//周日|限时选择的值
+                    DomainRoundNum: undefined,//副本轮数
                 }
-                const parsedOrder = parseInt(String(rawOrder).trim(), 10); // 转换为整数
-                return isNaN(parsedOrder) ? 0 : parsedOrder; // 若转换失败，返回默认值 0
-            })();
+                let partyName = arr[0];
+                let domainName = arr[1];
+                let domainRoundNum = arr[2];
+                let sundaySelectedValue = arr[3];
+                let order = (() => {
+                    const rawOrder = arr[4]; // 获取原始值
+                    if (rawOrder == null || String(rawOrder).trim() === "") {
+                        return 0; // 若为空或无效值，默认返回 0
+                    }
+                    const parsedOrder = parseInt(String(rawOrder).trim(), 10); // 转换为整数
+                    return isNaN(parsedOrder) ? 0 : parsedOrder; // 若转换失败，返回默认值 0
+                })();
 
 
-            if (!config.domainNames.has(domainName)) {
-                //秘境名称没有记录 查询是否是物品名称
-                if (config.itemNames.has(domainName)) {
-                    const domainNameTemp = config.domainItemsMap.get(domainName);
-                    if (!domainNameTemp) {
+                if (!config.domainNames.has(domainName)) {
+                    //秘境名称没有记录 查询是否是物品名称
+                    if (config.itemNames.has(domainName)) {
+                        const domainNameTemp = config.domainItemsMap.get(domainName);
+                        if (!domainNameTemp) {
+                            throw new Error(`${domainName} 输入错误`);
+                        }
+                        const domainSelectedValue = parseInt(config.domainOrderMap.get(domainName) + "");
+                        sundaySelectedValue = domainSelectedValue
+                        domainName = domainNameTemp
+                    } else {
                         throw new Error(`${domainName} 输入错误`);
                     }
-                    const domainSelectedValue = parseInt(config.domainOrderMap.get(domainName) + "");
-                    sundaySelectedValue = domainSelectedValue
-                    domainName = domainNameTemp
-                } else {
-                    throw new Error(`${domainName} 输入错误`);
                 }
-            }
 
-            // 设置秘境信息的各个属性
-            autoFight.partyName = partyName       // 队伍名称
-            autoFight.domainName = domainName      // 秘境名称
-            autoFight.DomainRoundNum = DomainRoundNum  // 副本轮数
-            autoFight.sundaySelectedValue = sundaySelectedValue // 周日|限时选择的值
-            // 创建秘境顺序对象
-            let autoFightOrder = {
-                order: order,      // 顺序值
-                autoFight: autoFight // 秘境信息对象
+                // 设置秘境信息的各个属性
+                autoFight.partyName = partyName       // 队伍名称
+                autoFight.domainName = domainName      // 秘境名称
+                autoFight.DomainRoundNum = domainRoundNum  // 副本轮数
+                autoFight.sundaySelectedValue = sundaySelectedValue // 周日|限时选择的值
+                // 创建秘境顺序对象
+                let autoFightOrder = {
+                    order: order,      // 顺序值
+                    autoFight: autoFight // 秘境信息对象
+                }
+                // 将秘境顺序对象添加到列表中
+                autoFightOrderList.push(autoFightOrder)
             }
-            // 将秘境顺序对象添加到列表中
-            autoFightOrderList.push(autoFightOrder)
-        }
-    )
+        )
+    }
+
+    // 检查是否已配置秘境
+    if (autoFightOrderList.length <= 0) {
+        throw new Error("请先配置秘境配置");
+    }
     // 返回处理后的秘境顺序列表
     return autoFightOrderList;
 }
@@ -118,10 +125,7 @@ async function main() {
 
     // 获取秘境配置
     let domainConfig = config.domain.config;
-    // 检查是否已配置秘境
-    if (!domainConfig) {
-        throw new Error("请先配置秘境配置");
-    }
+
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|执行顺序,..."
     const autoFightOrderList = initDomainOrderList(domainConfig);
 
