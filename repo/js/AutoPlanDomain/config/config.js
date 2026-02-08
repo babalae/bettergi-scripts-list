@@ -4,6 +4,7 @@ const config = {
         config: ''
     },
     info: {
+        key: undefined,//密钥
         manifest: {},
         settings: undefined
     },
@@ -115,7 +116,19 @@ async function getValueByMultiCheckboxName(name) {
     log.debug("values={key}", JSON.stringify(values))
     return values
 }
+/**
+ * 检查密钥是否正确
+ */
+async function checkKey(key="") {
+    if (config.info.key !== key.trim()) {
+        throw new Error("密钥错误");
+    }
+}
 
+/**
+ * 初始化秘境配置
+ * @returns {Promise<void>}
+ */
 async function initConfig() {
     /*  const domainList = [
           {
@@ -401,6 +414,7 @@ async function initConfig() {
 
 export {
     config,
+    checkKey,
     initSettings,
     getMultiCheckboxMap,
     getValueByMultiCheckboxName,
