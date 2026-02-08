@@ -394,7 +394,12 @@ async function initConfig() {
               list: ["如雷的盛怒", "平息鸣雷的尊者"]
           }
       ]*/
-
+    config.info.key = settings.key || config.info.key
+    if (config.info?.key) {
+        if (config.info.key !== config.info.manifest?.key) {
+            throw new Error("密钥不匹配!")
+        }
+    }
     const domainList = JSON.parse(file.readTextSync(config.path.domain)) || [{
         name: undefined,
         type: undefined,
@@ -427,8 +432,8 @@ async function initConfig() {
     if (config.domainList.length <= 0) {
         throw new Error("配置文件缺失或读取异常!")
     }
-    let loadList = await getValueByMultiCheckboxName('auto_load')|| []
-    const loads= loadList.map(item => LoadMap.get(item))
+    let loadList = await getValueByMultiCheckboxName('auto_load') || []
+    const loads = loadList.map(item => LoadMap.get(item))
     config.domain.loads = loads
     config.user.uid = await ocrUid()
 }
