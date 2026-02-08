@@ -1,5 +1,6 @@
 import {config, initConfig, initSettings, LoadType} from './config/config';
 import {ocrUid} from './utils/uid';
+import {getDayOfWeek} from './utils/tool';
 import {pullJsonConfig, pushAllJsonConfig} from './utils/bgi_tools';
 
 /**
@@ -31,6 +32,7 @@ async function autoDomainList(autoDomainOrderList) {
         await autoDomain(item.autoFight);
     }
 }
+
 // 辅助函数：安全地解析 day 字段
 function parseDay(day) {
     if (day == null || String(day).trim() === "") {
@@ -39,6 +41,7 @@ function parseDay(day) {
     const parsedDay = parseInt(String(day).trim(), 10);
     return isNaN(parsedDay) ? undefined : parsedDay; // 非法数字返回 undefined
 }
+
 /**
  * 根据不同的加载方式加载秘境配置
  * @param {string} Load - 加载方式类型，如uid或input
@@ -179,7 +182,15 @@ async function initDomainOrderList(domainConfig) {
         throw new Error("请先配置秘境配置");
     }
     // 返回处理后的秘境顺序列表
-    return Array.from(autoFightOrderSet);
+    let from = Array.from(autoFightOrderSet);
+    let dayOfWeek = getDayOfWeek();
+    from = from.filter(item => {
+        if (item.day) {
+            return item.day === dayOfWeek.day
+        }
+        return true
+    })
+    return from;
 }
 
 /**
