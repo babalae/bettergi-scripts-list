@@ -69,8 +69,10 @@ async function performOcr(targetTexts, xRange, yRange, ra = null, timeout = 200,
                     correctedText = correctedText.replace(new RegExp(escapedWrong, 'g'), correctChar);
                 }
 
-                // 3.2 匹配目标文本（避免重复添加同一结果）
-                const isTargetMatched = targetTexts.some(target => correctedText.includes(target));
+                // 3.2 匹配目标文本（双向匹配，避免重复添加同一结果）
+                const isTargetMatched = targetTexts.some(target => 
+                    correctedText.includes(target) || target.includes(correctedText)
+                );
                 if (isTargetMatched) {
                     results.push({
                         text: correctedText,    // 最终修正后的文本

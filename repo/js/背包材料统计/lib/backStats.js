@@ -1,4 +1,4 @@
-eval(file.readTextSync("lib/region.js"));
+eval(safeReadTextSync("lib/region.js"));
 
 const holdX = Math.min(1920, Math.max(0, Math.floor(Number(settings.HoldX) || 1050)));
 const holdY = Math.min(1080, Math.max(0, Math.floor(Number(settings.HoldY) || 750)));
@@ -10,6 +10,7 @@ const pageScrollCount = 22; // 最多滑页次数
 
 // 材料分类映射表
 const materialTypeMap = {
+    "祝圣精华": "2",
     "锻造素材": "5",
     "怪物掉落素材": "3",
     "一般素材": "5",
@@ -22,26 +23,25 @@ const materialTypeMap = {
     "角色天赋素材": "3",
     "武器突破素材": "3",
     "采集食物": "4",
-    "料理": "4",
+    "料理": "4"
 };
 
 // 材料前位定义
 const materialPriority = {
-    "养成道具": 1,
-    "祝圣精华": 2,
-    "锻造素材": 1,
-    "怪物掉落素材": 1,
-    "采集食物": 1,
-    "一般素材": 2,
-    "周本素材": 2,
-    "料理": 2,
-    "烹饪食材": 3,
-    "角色突破素材": 3,
-    "木材": 4,
-    "宝石": 4,
-    "鱼饵鱼类": 5,
-    "角色天赋素材": 5,
-    "武器突破素材": 6,
+    "祝圣精华": 2, 
+    "锻造素材": 1, 
+    "怪物掉落素材": 1, 
+    "采集食物": 1, 
+    "一般素材": 2, 
+    "周本素材": 2, 
+    "料理": 2, 
+    "烹饪食材": 3, 
+    "角色突破素材": 3, 
+    "木材": 4, 
+    "宝石": 4, 
+    "鱼饵鱼类": 5, 
+    "角色天赋素材": 5, 
+    "武器突破素材": 6
 };
 
 // 2. 数字替换映射表（处理OCR识别误差）
@@ -132,6 +132,89 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
     });
 }
 
+// 并行模板匹配函数
+async function parallelTemplateMatch(ra, materials, x, y, width, height, threshold = 0.8, enableMouseMove = true) {
+    const matchPromises = materials.map(({ name, mat }) => {
+        return new Promise((resolve) => {
+            try {
+                const recognitionObject = RecognitionObject.TemplateMatch(mat, x, y, width, height);
+                recognitionObject.threshold = threshold;
+                recognitionObject.Use3Channels = true;
+                
+                const result = ra.find(recognitionObject);
+                if (result.isExist() && result.x !== 0 && result.y !== 0) {
+                    if (enableMouseMove) {
+                        moveMouseTo(result.x, result.y);
+                    }
+                    resolve({ name, result });
+                } else {
+                    resolve({ name, result: null });
+                }
+            } catch (error) {
+                log.error(`并行模板匹配错误: ${name} - ${error.message}`);
+                resolve({ name, result: null });
+            }
+        });
+    });
+    
+    return await Promise.all(matchPromises);
+}
+
+// 智能OCR识别函数
+async function smartRecognizeText(ocrRegion, ra, quickMode = true) {
+    if (quickMode) {
+        // 快速模式：超时50ms，只尝试1次
+        return await recognizeText(ocrRegion, 50, 5, 1, 1, ra);
+    } else {
+        // 正常模式：超时100ms，尝试3次
+        return await recognizeText(ocrRegion, 100, 10, 3, 2, ra);
+    }
+}
+
+// 批量OCR处理函数
+async function batchRecognizeText(ocrRegions, ra, timeout = 200, retryInterval = 10, maxAttempts = 5, maxFailures = 2, quickMode = true) {
+    const ocrPromises = ocrRegions.map(({ region, name }) => {
+        return new Promise((resolve) => {
+            smartRecognizeText(region, ra, quickMode)
+                .then(result => resolve({ name, result }))
+                .catch(error => {
+                    log.error(`批量OCR错误: ${name} - ${error.message}`);
+                    resolve({ name, result: false });
+                });
+        });
+    });
+    
+    return await Promise.all(ocrPromises);
+}
+
+// 合并OCR区域函数（用于密集区域的批量处理）
+function mergeOcrRegions(regions) {
+    if (regions.length === 0) return [];
+    
+    // 按y坐标排序
+    regions.sort((a, b) => a.region.y - b.region.y);
+    
+    const merged = [];
+    let currentMerge = { ...regions[0] };
+    
+    for (let i = 1; i < regions.length; i++) {
+        const region = regions[i];
+        // 检查是否可以合并（垂直距离小于阈值）
+        if (region.region.y - (currentMerge.region.y + currentMerge.region.height) < 20) {
+            // 合并区域
+            currentMerge.region.width = Math.max(currentMerge.region.width, region.region.width);
+            currentMerge.region.height = region.region.y + region.region.height - currentMerge.region.y;
+            currentMerge.name += `,${region.name}`;
+        } else {
+            merged.push(currentMerge);
+            currentMerge = { ...region };
+        }
+    }
+    merged.push(currentMerge);
+    
+    return merged;
+}
+
 // 通用鼠标拖动函数（提取重复逻辑）
 /**
  * 通用鼠标拖动工具函数
@@ -210,21 +293,23 @@ function filterMaterialsByPriority(materialsCategory) {
         throw new Error(`Invalid materialTypeMap for: ${materialsCategory}`);
     }
 
-    // 获取所有优先级更高的材料分类（前位材料）
-    const frontPriorityMaterials = Object.keys(materialPriority)
-        .filter(mat => materialPriority[mat] < currentPriority && materialTypeMap[mat] === currentType);
-
     // 获取所有优先级更低的材料分类（后位材料）
     const backPriorityMaterials = Object.keys(materialPriority)
         .filter(mat => materialPriority[mat] > currentPriority && materialTypeMap[mat] === currentType);
-    // 合并当前和后位材料分类
-    const finalFilteredMaterials = [...backPriorityMaterials,materialsCategory ];// 当前材料
+    
+    // 合并当前和后位材料分类（只包含同位和后位，不包含前位）
+    // 只有同位或后位材料才会触发全列扫描
+    const finalFilteredMaterials = [...backPriorityMaterials, materialsCategory];
     return finalFilteredMaterials
 }
 
     // 扫描材料
 async function scanMaterials(materialsCategory, materialCategoryMap) {
-    // 获取当前+后位材料名单
+    // 材料图片缓存
+    const materialImages = {}; // 用于缓存加载的图片
+    const priorityMaterialImages = {}; // 用于缓存优先级材料图片
+
+    // 获取当前+后位材料名单（仅包含同位和后位，不包含前位）
     const priorityMaterialNames = [];
     const finalFilteredMaterials = await filterMaterialsByPriority(materialsCategory);
     for (const category of finalFilteredMaterials) {
@@ -233,6 +318,14 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
         for (const filePath of materialIconFilePaths) {
             const name = basename(filePath).replace(".png", ""); // 去掉文件扩展名
             priorityMaterialNames.push({ category, name });
+            
+            // 预加载优先级材料图片
+            if (!priorityMaterialImages[name]) {
+                const mat = file.readImageMatSync(filePath);
+                if (!mat.empty()) {
+                    priorityMaterialImages[name] = mat;
+                }
+            }
         }
     }
 
@@ -245,7 +338,6 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
     // 创建材料种类集合
     const materialCategories = [];
     const allMaterials = new Set(); // 用于记录所有需要扫描的材料名称
-    const materialImages = {}; // 用于缓存加载的图片
 
     // 检查 materialCategoryMap 中当前分类的数组是否为空
     const categoryMaterials = materialCategoryMap[materialsCategory] || [];
@@ -320,59 +412,63 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
     let tempPhrases = [...scanPhrases];
     tempPhrases.sort(() => Math.random() - 0.5); // 打乱数组顺序，确保随机性
     let phrasesStartTime = Date.now();
+    let previousScreenshot = null; // 用于存储上一次翻页前的截图
     // 扫描背包中的材料
     for (let scroll = 0; scroll <= pageScrollCount; scroll++) {
 
         const ra = captureGameRegion();
-        if (!foundPriorityMaterial) {
-            for (const { category, name } of priorityMaterialNames) {
-                if (recognizedMaterials.has(name)) {
-                    continue; // 如果已经识别过，跳过
-                }
+        // 重置foundPriorityMaterial标志，每次翻页都重新检查
+        foundPriorityMaterial = false;
+        
+        // 检查第八列是否有目标材料
+    // priorityMaterialNames只包含当前和后位材料
+    const priorityMaterialsToMatch = priorityMaterialNames
+        .filter(({ name }) => !recognizedMaterials.has(name))
+        .map(({ name }) => {
+            const mat = priorityMaterialImages[name];
+            return mat ? { name, mat } : null;
+        })
+        .filter(Boolean);
 
-                const filePath = `assets/images/${category}/${name}.png`;
-                const mat = file.readImageMatSync(filePath);
-                if (mat.empty()) {
-                    log.error(`加载材料图库失败：${filePath}`);
-                    continue; // 跳过当前文件
-                }
-
-                const recognitionObject = RecognitionObject.TemplateMatch(mat, 1142, startY, columnWidth, columnHeight);
-                recognitionObject.threshold = 0.8; // 设置识别阈值
-                recognitionObject.Use3Channels = true;
-
-                const result = ra.find(recognitionObject);
-                if (result.isExist() && result.x !== 0 && result.y !== 0) {
-                    foundPriorityMaterial = true; // 标记找到前位材料
-                    // drawAndClearRedBox(result, ra, 100);// 调用异步函数绘制红框并延时清除
-                    log.info(`发现当前或后位材料: ${name}，开始全列扫描`);
-                    break; // 发现前位材料后，退出当前循环
-                }
+    if (priorityMaterialsToMatch.length > 0) {
+        const matchResults = await parallelTemplateMatch(ra, priorityMaterialsToMatch, 1142, startY, columnWidth, columnHeight, 0.8);
+        
+        for (const { name, result } of matchResults) {
+            if (result) {
+                foundPriorityMaterial = true; // 标记找到目标材料
+                // log.info(`发现目标材料: ${name}，开始全列扫描`);
+                break;
             }
         }
-
-        if (foundPriorityMaterial) {
-            for (let column = 0; column < maxColumns; column++) {
-                const scanX0 = startX + column * OffsetWidth;
-                const scanX = Math.round(scanX0);
-
-
-                for (let i = 0; i < materialCategories.length; i++) {
-                    const { name } = materialCategories[i];
-                    if (recognizedMaterials.has(name)) {
-                        continue; // 如果已经识别过，跳过
-                    }
-
+    }
+    
+    // 只有发现目标材料时，才执行全列扫描
+    if (foundPriorityMaterial) {
+        log.info(`开始全列扫描`);
+        const ocrRegions = [];
+        const matchedMaterials = [];
+        
+        for (let column = 0; column < maxColumns; column++) {
+            const scanX0 = startX + column * OffsetWidth;
+            const scanX = Math.round(scanX0);
+            
+            // 准备当前列需要扫描的材料
+            const materialsToMatch = materialCategories
+                .filter(({ name }) => !recognizedMaterials.has(name))
+                .map(({ name }) => {
                     const mat = materialImages[name];
-                    const recognitionObject = RecognitionObject.TemplateMatch(mat, scanX, startY, columnWidth, columnHeight);
-                    recognitionObject.threshold = 0.85;
-                    recognitionObject.Use3Channels = true;
-
-                    const result = ra.find(recognitionObject);
-
-                    if (result.isExist() && result.x !== 0 && result.y !== 0) {
+                    return mat ? { name, mat } : null;
+                })
+                .filter(Boolean);
+            
+            if (materialsToMatch.length > 0) {
+                // 并行扫描当前列的所有材料
+                const matchResults = await parallelTemplateMatch(ra, materialsToMatch, scanX, startY, columnWidth, columnHeight, 0.85);
+                
+                // 收集匹配结果和OCR区域
+                for (const { name, result } of matchResults) {
+                    if (result) {
                         recognizedMaterials.add(name);
-                        moveMouseTo(result.x, result.y);
 
                         // drawAndClearRedBox(result, ra, 100);// 调用异步函数绘制红框并延时清除
                         const ocrRegion = {
@@ -381,8 +477,8 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
                             width: 66 + 2 * tolerance,
                             height: 22 + 2 * tolerance
                         };
-                        const ocrResult = await recognizeText(ocrRegion, 200, 10, 5, 2, ra);
-                        materialInfo.push({ name, count: ocrResult || "?" });
+                        ocrRegions.push({ region: ocrRegion, name });
+                        matchedMaterials.push({ name, result });
 
                         if (!hasFoundFirstMaterial) {
                             hasFoundFirstMaterial = true;
@@ -391,10 +487,22 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
                             lastFoundTime = Date.now();
                         }
                     }
-                    await sleep(imageDelay);
                 }
             }
         }
+        
+        // 批量处理OCR
+        if (ocrRegions.length > 0) {
+            const ocrResults = await batchRecognizeText(ocrRegions, ra);
+            
+            // 处理OCR结果
+            for (const { name, result } of ocrResults) {
+                materialInfo.push({ name, count: result || "?" });
+            }
+        }
+    } else {
+        log.info(`未发现目标材料，跳过`);
+    }
 
         // 每5秒输出一句俏皮话
         const phrasesTime = Date.now();
@@ -421,21 +529,110 @@ async function scanMaterials(materialsCategory, materialCategoryMap) {
             break;
         }
 
-        // 检查是否到达最后一页
-        const sliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/SliderBottom.png"), 1284, 916, 9, 26);
-        sliderBottomRo.threshold = 0.8;
-        const sliderBottomResult = ra.find(sliderBottomRo);
-        if (sliderBottomResult.isExist()) {
-            log.info("已到达最后一页！");
-            shouldEndScan = true;
-            break;
-        }
+        // 检查是否到达最后一页（使用画面比较替代滑条检测）
+        // 注：画面比较逻辑已集成到翻页操作中
 
+
+        // 捕获当前翻页前的截图（用于与下一次翻页前的截图比较）
+        const currentScreenshot = {
+            region: { x: 400, y: 400, width: 600, height: 100 }, // 长条形状比较区域
+            mat: ra.DeriveCrop(400, 400, 600, 100).SrcMat // 外扩1像素
+        };
+        
+        // 检查是否需要启动画面比较兜底逻辑
+        let useScreenComparison = false;
+        if (!shouldEndScan && scroll < pageScrollCount && previousScreenshot) {
+            // 检查是否满足兜底条件：
+            // 1. 已找到至少一个材料，但长时间未发现新材料
+            // 2. 或连续多次未发现任何材料
+            if (recognizedMaterials.size > 0) {
+                const noNewMaterialTime = Date.now() - lastFoundTime;
+                if (noNewMaterialTime > 5000) { // 5秒未发现新材料
+                    useScreenComparison = true;
+                    log.info(`5秒未发现新材料，启动画面比较兜底逻辑`);
+                }
+            } else if (scroll > 5) { // 连续翻页5次以上仍未发现任何材料
+                useScreenComparison = true;
+                log.info(`连续翻页${scroll}次未发现任何材料，启动画面比较兜底逻辑`);
+            }
+        }
+        
         // 滑动到下一页
         if (scroll < pageScrollCount) {
+            if (useScreenComparison && previousScreenshot) {
+                // 使用模板匹配比较两次翻页前的截图（兜底机制）
+                const matchRo = RecognitionObject.TemplateMatch(
+                    previousScreenshot.mat,
+                    previousScreenshot.region.x - 1,
+                    previousScreenshot.region.y - 1,
+                    previousScreenshot.region.width + 2,
+                    previousScreenshot.region.height + 2
+                );
+                matchRo.threshold = 0.95; // 高阈值，确保区域变化足够明显
+                matchRo.Use3Channels = true;
+                
+                const matchResult = ra.find(matchRo);
+                if (matchResult.isExist()) {
+                    log.info("连续翻页画面无明显变化，执行最后一次全列扫描");
+                    
+                    // 执行最后一次全列扫描
+                    log.info("执行最后一次全列扫描");
+                    for (let column = 0; column < maxColumns; column++) {
+                        const scanX0 = startX + column * OffsetWidth;
+                        const scanX = Math.round(scanX0);
+                        for (let i = 0; i < materialCategories.length; i++) {
+                            const { name } = materialCategories[i];
+                            if (recognizedMaterials.has(name)) {
+                                continue; // 如果已经识别过，跳过
+                            }
+
+                            const mat = materialImages[name];
+                            const recognitionObject = RecognitionObject.TemplateMatch(mat, scanX, startY, columnWidth, columnHeight);
+                            recognitionObject.threshold = 0.85;
+                            recognitionObject.Use3Channels = true;
+
+                            const result = ra.find(recognitionObject);
+
+                            if (result.isExist() && result.x !== 0 && result.y !== 0) {
+                                recognizedMaterials.add(name);
+                                moveMouseTo(result.x, result.y);
+
+                                const ocrRegion = {
+                                    x: result.x - tolerance,
+                                    y: result.y + 97 - tolerance,
+                                    width: 66 + 2 * tolerance,
+                                    height: 22 + 2 * tolerance
+                                };
+                                const ocrResult = await recognizeText(ocrRegion, 200, 10, 5, 2, ra);
+                                materialInfo.push({ name, count: ocrResult || "?" });
+
+                                if (!hasFoundFirstMaterial) {
+                                    hasFoundFirstMaterial = true;
+                                    lastFoundTime = Date.now();
+                                } else {
+                                    lastFoundTime = Date.now();
+                                }
+                            }
+                            await sleep(imageDelay);
+                        }
+                    }
+                    
+                    log.info("最后一次全列扫描完成，结束扫描");
+                    shouldEndScan = true;
+                    break;
+                } else {
+                    log.info("连续翻页画面有变化，继续扫描");
+                }
+            }
+            
+            // 执行翻页
             await scrollPage(-totalPageDistance, 10, 5);
-            await sleep(100);
+            // 减少等待时间，提高翻页速度
+            await sleep(50);
         }
+        
+        // 更新上一次的截图
+        previousScreenshot = currentScreenshot;
     }
 
     // 处理未匹配的材料
@@ -472,10 +669,40 @@ ${Array.from(unmatchedMaterialNames).join(",")}
 
 // 定义所有图标的图像识别对象，每个图片都有自己的识别区域
 const BagpackRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Bagpack.png"), 58, 31, 38, 38);
+const XPRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/XP.png"), 653, 29, 38, 38);
 const MaterialsRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Materials.png"), 941, 29, 38, 38);
 const CultivationItemsRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/CultivationItems.png"), 749, 30, 38, 38);
 const FoodRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Food.png"), 845, 31, 38, 38);
 
+/**
+ * 获取材料分类对应的CategoryObject
+ * @param {string} materialsCategory - 材料分类名称
+ * @returns {Object|null} 对应的CategoryObject或null
+ */
+function getCategoryObject(materialsCategory) {
+    switch (materialsCategory) {
+        case "祝圣精华":
+            return XPRo;
+        case "锻造素材":
+        case "一般素材":
+        case "烹饪食材":
+        case "木材":
+        case "鱼饵鱼类":
+            return MaterialsRo;
+        case "采集食物":
+        case "料理":
+            return FoodRo;
+        case "怪物掉落素材":
+        case "周本素材":
+        case "角色突破素材":
+        case "宝石":
+        case "角色天赋素材":
+        case "武器突破素材":
+            return CultivationItemsRo;
+        default:
+            return null;
+    }
+}
 
 function dynamicMaterialGrouping(materialCategoryMap) {
     // 初始化动态分组对象
@@ -527,7 +754,14 @@ async function MaterialPath(materialCategoryMap, cachedFrame = null) {
     let currentCategoryIndex = 0; // 当前处理的分类索引
     let materialsCategory = ""; // 当前处理的材料分类名称
     const allLowCountMaterials = []; // 用于存储所有识别到的低数量材料信息
-
+    
+    // 添加状态变量，记录上一个分类的信息
+    let prevCategory = null;
+    let prevCategoryObject = null;
+    let prevPriority = null;
+    let prevGroup = null;
+    let skipSliderReset = false; // 是否跳过滑条重置
+    
     const sortedGroups = dynamicMaterialGrouping(materialCategoryMap);
 // log.info("材料 动态[分组]结果:");
     sortedGroups.forEach(group => {
@@ -550,7 +784,7 @@ async function MaterialPath(materialCategoryMap, cachedFrame = null) {
             case 1: // 打开背包界面
                 // log.info("打开背包界面");
                 keyPress("B"); // 打开背包界面
-                await sleep(1000);
+                await sleep(800); // 减少等待时间
 
                 cachedFrame?.dispose();
                 cachedFrame = captureGameRegion();
@@ -595,33 +829,13 @@ async function MaterialPath(materialCategoryMap, cachedFrame = null) {
                 break;
 
             case 3: // 识别材料分类
-                let CategoryObject;
-                switch (materialsCategory) {
-                    case "锻造素材":
-                    case "一般素材":
-                    case "烹饪食材":
-                    case "木材":
-                    case "鱼饵鱼类":
-                        CategoryObject = MaterialsRo;
-                        break;
-                    case "采集食物":
-                    case "料理":
-                        CategoryObject = FoodRo;
-                        break;
-                    case "怪物掉落素材":
-                    case "周本素材":
-                    case "角色突破素材":
-                    case "宝石":
-                    case "角色天赋素材":
-                    case "武器突破素材":
-                        CategoryObject = CultivationItemsRo;
-                        break;
-                    default:
-                        log.error("未知的材料分类");
-                        // ===== 补充优化：异常时释放资源并退出 =====
-                        cachedFrame?.dispose();
-                        stage = 0; // 回退到阶段0
-                        return;
+                let CategoryObject = getCategoryObject(materialsCategory);
+                if (!CategoryObject) {
+                    log.error("未知的材料分类");
+                    // ===== 补充优化：异常时释放资源并退出 =====
+                    cachedFrame?.dispose();
+                    stage = 0; // 回退到阶段0
+                    return;
                 }
 
                 const CategoryResult = await recognizeImage(CategoryObject, cachedFrame);
@@ -639,18 +853,63 @@ async function MaterialPath(materialCategoryMap, cachedFrame = null) {
 
             case 4: // 扫描材料
                 log.info("芭芭拉，冲鸭！");
-                await moveMouseTo(1288, 124); // 移动鼠标至滑条顶端
-                await sleep(200);
-                leftButtonDown(); // 长按左键重置材料滑条
-                await sleep(300);
-                leftButtonUp();
-                await sleep(200);
+                
+                // 判断是否需要重置滑条
+                if (!skipSliderReset) {
+                    await moveMouseTo(1288, 124); // 移动鼠标至滑条顶端
+                    await sleep(200);
+                    leftButtonDown(); // 长按左键重置材料滑条
+                    await sleep(300);
+                    leftButtonUp();
+                    await sleep(200);
+                } else {
+                    log.info("同一大类且为后位材料，跳过滑条重置");
+                    // 不重置滑条，直接从当前位置开始检查第八列
+                }
 
                 // 扫描材料并获取低于目标数量的材料
                 const lowCountMaterials = await scanMaterials(materialsCategory, materialCategoryMap);
                 allLowCountMaterials.push(lowCountMaterials);
 
+                // 保存当前分类信息，用于下一个分类的判断
+                prevCategory = materialsCategory;
+                prevPriority = materialPriority[materialsCategory];
+                
+                // 获取当前分类的CategoryObject
+                const currentCategoryObject = getCategoryObject(materialsCategory);
+                prevCategoryObject = currentCategoryObject;
+                prevGroup = sortedGroups[currentGroupIndex];
+
                 currentCategoryIndex++;
+                
+                // 判断下一个分类是否是同一个大类CategoryObject下的后位材料
+                let nextCategory = null;
+                let nextCategoryObject = null;
+                let nextPriority = null;
+                
+                // 检查是否还有下一个分类
+                if (currentGroupIndex < sortedGroups.length) {
+                    const group = sortedGroups[currentGroupIndex];
+                    if (currentCategoryIndex < group.categories.length) {
+                        nextCategory = group.categories[currentCategoryIndex];
+                        
+                        // 获取下一个分类的CategoryObject
+                        nextCategoryObject = getCategoryObject(nextCategory);
+                        
+                        // 获取下一个分类的优先级
+                        nextPriority = materialPriority[nextCategory];
+                    }
+                }
+                
+                // 判断是否跳过滑条重置：同一大类且为后位材料
+                if (nextCategory && 
+                    nextCategoryObject === prevCategoryObject && 
+                    nextPriority > prevPriority) {
+                    skipSliderReset = true;
+                } else {
+                    skipSliderReset = false;
+                }
+                
                 stage = 2; // 返回阶段2处理下一个分类
                 break;
 
