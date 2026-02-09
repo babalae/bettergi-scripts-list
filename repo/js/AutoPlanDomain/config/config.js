@@ -1,4 +1,5 @@
 import {ocrUid} from "../utils/uid";
+import {ocrPhysical} from "../utils/physical";
 
 const config = {
     //setting设置放在这个json
@@ -21,6 +22,10 @@ const config = {
     },
     user: {
         uid: undefined,
+        physical: {
+            min: 20,//最小体力
+            current: 0,//当前体力
+        }
     },
     //
     path: {
@@ -162,6 +167,11 @@ async function initConfig() {
             throw new Error("密钥不匹配!")
         }
     }
+    //流程->返回主页 打开地图 返回主页
+    const physical = await ocrPhysical(true, true)
+    config.user.physical.current = physical.current
+    config.user.physical.min = physical.min
+    // 初始化uid
     config.user.uid = await ocrUid()
     config.bgi_tools.api.httpPullJsonConfig = settings.bgi_tools_http_pull_json_config
     config.bgi_tools.api.httpPushAllJsonConfig = settings.bgi_tools_http_push_all_json_config
@@ -224,7 +234,6 @@ async function initConfig() {
     loads.sort((a, b) => a.order - b.order)
     config.domain.loads = loads
 }
-
 
 
 export {
