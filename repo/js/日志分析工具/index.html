@@ -287,7 +287,6 @@
         }
 
         .legacy-format .main-row-name {
-            font-weight: normal;
             background-color: #f0f0f0;
         }
 
@@ -473,6 +472,11 @@
             background-color: #4CAF50;
             border-color: #4CAF50;
             color: white;
+        }
+
+        .control-btn:nth-child(9).active {
+            background-color: #1976D2;
+            border-color: #1976D2;
         }
 
         /* 快速导航菜单 */
@@ -997,8 +1001,8 @@
             }
 
             .control-btn {
-                flex: 0 0 calc(24% - 6px);
-                min-width: calc(24% - 6px);
+                flex: 0 0 calc(19.5% - 6px);
+                min-width: calc(19.5% - 6px);
                 font-size: 12px;
                 padding: 6px 8px;
                 margin: 2px;
@@ -1029,8 +1033,8 @@
             }
 
             .control-btn {
-                flex: 0 0 calc(24% - 4px);
-                min-width: calc(24% - 4px);
+                flex: 0 0 calc(19.5% - 4px);
+                min-width: calc(19.5% - 4px);
                 font-size: 11px;
                 padding: 4px 6px;
             }
@@ -1101,7 +1105,7 @@
             margin-bottom: 8px;
         }
 
-        /* 新增：確保在新版和舊版格式下排序按鈕樣式一致 */
+        /* 確保在新版和舊版格式下排序按鈕樣式一致 */
         .sort-btn {
             position: absolute;
             right: 5px;
@@ -1163,11 +1167,38 @@
         body.dark-theme .legacy-format .sort-btn {
             color: #fff;
         }
+
+        /* 任务数量显示样式 */
+        .task-count {
+            float: right;
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        /* 时间筛选模式样式 */
+        .time-filter-mode .filter-indicator {
+            background-color: #1976D2;
+        }
+
+        .time-filter-mode .filter-keywords {
+            font-weight: bold;
+            color: #ffeb3b;
+        }
+
+        /* 暗色主题适配 */
+        .dark-theme.time-filter-mode .filter-indicator {
+            background-color: #1976D2;
+        }
+
+        .dark-theme.time-filter-mode .filter-keywords {
+            color: #ffeb3b;
+            ;
+        }
     </style>
 </head>
 
 <body>
-    <!-- 新增：篩選狀態提示 -->
+    <!-- 篩選狀態提示 -->
     <div class="filter-indicator" id="filterIndicator">
         <span>正在篩選: </span>
         <span class="filter-keywords" id="filterKeywords"></span>
@@ -1177,7 +1208,7 @@
 
     <div id="container">
         <div id="dropZone" class="empty">将日志文件拖放到此处</div>
-        <!-- 修改后的上传区域 -->
+        <!-- 上传区域 -->
         <div id="fileUploadContainer">
             <!-- 上层：选择文件按钮 -->
             <div>
@@ -1196,6 +1227,7 @@
                 <button class="control-btn" data-key="74">异常任务</button>
                 <button class="control-btn" data-key="72">任務篩選</button>
                 <button class="control-btn" data-key="77">统计拾取物</button>
+                <button class="control-btn" data-key="100">时间筛选模式</button>
             </div>
         </div>
     </div>
@@ -1211,17 +1243,17 @@
         </div>
     </div>
 
-    <!-- 新增：时间列显示状态指示器 -->
+    <!-- 时间列显示状态指示器 -->
     <div class="time-toggle-indicator" id="timeToggleIndicator"></div>
-    <!-- 新增：统计列显示状态指示器 -->
+    <!-- 统计列显示状态指示器 -->
     <div class="stats-toggle-indicator" id="statsToggleIndicator"></div>
-    <!-- 新增：表格格式显示状态指示器 -->
+    <!-- 表格格式显示状态指示器 -->
     <div class="stats-toggle-indicator" id="formatToggleIndicator"></div>
     <!-- 在HTML中添加拾取物列显示状态指示器 -->
     <div class="stats-toggle-indicator" id="picksToggleIndicator"></div>
     <!-- 在HTML中添加零统计任务显示状态指示器 -->
     <div class="stats-toggle-indicator" id="zeroStatsToggleIndicator"></div>
-    <!-- 新增：帮助提示指示器 -->
+    <!-- 帮助提示指示器 -->
     <div class="help-indicator" id="helpIndicator">按 0 键查看说明</div>
 
     <!-- 快速导航切换按钮 -->
@@ -1231,9 +1263,9 @@
     <div class="quick-nav" id="quickNav">
         <div class="quick-nav-header">配置组导航</div>
         <input type="text" class="quick-nav-search" id="quickNavSearch" placeholder="搜索配置组...">
-        <!-- 新增排除输入框 -->
+        <!-- 排除输入框 -->
         <input type="text" class="quick-nav-search" id="quickNavExclude" placeholder="排除配置组...">
-        <!-- 新增：总时长显示 -->
+        <!-- 总时长显示 -->
         <div id="quickNavTotalTime"
             style="padding: 5px 8px; font-size: 12px; color: #666; border-bottom: 1px solid #ddd; text-align: center;">
             总时长: <span id="quickNavTotalTimeValue">0</span>
@@ -1263,13 +1295,15 @@
         const ADJUSTMENT_THROTTLE = 100; // 100ms节流
         let currentExcludeText = ''; // 保存当前的排除文本
 
-        // 在全局变量区域添加拾取效率相关变量
         let currentPickEfficiencyItem = null; // 当前计算的拾取物
         let isPickEfficiencyMode = false; // 是否处于拾取效率模式
 
         let picksSortByCount = true; // true: 按数量排序, false: 按拾取顺序
         let currentSortState = 0; // 0:读取顺序, 1:时间排序, 2:耗时升序, 3:耗时降序
 
+        let isTimeFilterMode = false; // 时间筛选模式
+        let timeFilterStart = null;   // 筛选开始时间
+        let timeFilterEnd = null;     // 筛选结束时间
 
         // 自定义确认对话框
         function showCustomConfirm(title, message) {
@@ -1433,13 +1467,47 @@
             allGroups: []
         };
 
+        // 取得URL参数（大小寫兼容）
+        function getValue(varname) {
+            const url = window.location.href;
+            const urlObj = new URL(url);
+            const params = new URLSearchParams(urlObj.search);
+
+            // 1. 首先嘗試原始大小寫
+            let value = params.get(varname);
+            if (value !== null) {
+                return value;
+            }
+
+            // 2. 如果沒有找到，嘗試小寫
+            const paramNames = Array.from(params.keys());
+            const matchedName = paramNames.find(name =>
+                name.toLowerCase() === varname.toLowerCase()
+            );
+
+            // 返回匹配的參數值，如果找不到則返回空字符串
+            return matchedName ? params.get(matchedName) : "";
+        }
+
         // 页面加载时显示帮助提示
         window.onload = function () {
-            const now = new Date();
-            const currentHour = now.getHours();
-            const minutes = now.getMinutes();
-            if ((currentHour < 6) || (currentHour === 6 && minutes <= 30)) {
+            // 首先读取URL参数
+            const themeParam = getValue("C");
+            const boxParam = getValue("LBox");
+
+            // 1. 设置主题（参数优先级最高）
+            if (themeParam === "1") {
                 document.body.classList.add('dark-theme');
+            } else if (themeParam === "0") {
+                document.body.classList.remove('dark-theme');
+            } else {
+                // 如果没有主题参数，使用原来的时间判断逻辑
+                const now = new Date();
+                const currentHour = now.getHours();
+                const minutes = now.getMinutes();
+                if ((currentHour < 6) || (currentHour === 6 && minutes <= 30)) {
+                    document.body.classList.add('dark-theme');
+                }
             }
 
             // 显示帮助提示
@@ -1468,8 +1536,14 @@
                 document.body.classList.add('mobile-device');
                 document.getElementById('fileUploadContainer').classList.add('visible');
             } else {
-                // 电脑设备保持隐藏状态
-                document.getElementById('fileUploadContainer').classList.remove('visible');
+                // 电脑设备：如果参数指定显示，则显示；否则保持隐藏
+                if (boxParam === "true") {
+                    document.getElementById('fileUploadContainer').classList.add('visible');
+                    uploadContainerVisible = true; // 根据参数设置显示，变量设为true
+                } else {
+                    document.getElementById('fileUploadContainer').classList.remove('visible');
+                    uploadContainerVisible = false; // 根据参数设置隐藏，变量设为false
+                }
             }
 
             // 初始化功能按钮状态
@@ -1496,11 +1570,12 @@
                 84: timeColumnsVisible,  // 时间列
                 89: statsColumnsVisible, // 统计列
                 73: picksColumnsVisible, // 拾取物列
-                // 79: isPickEfficiencyMode, // 拾取效率模式（新增）
+                // 79: isPickEfficiencyMode, // 拾取效率模式
                 80: isStaticMode,        // 导出模式
                 74: hideZeroStatsTasks,  // 异常任务
                 72: isFilterMode,         // 任務篩選
-                77: false                // 统计拾取物（新增）
+                77: false,                // 统计拾取物
+                100: isTimeFilterMode    // 时间筛选模式
             };
 
             // 更新按钮显示状态
@@ -1560,8 +1635,11 @@
                 // case 85: // 表格格式切换
                 //     isActive = useLegacyFormat;
                 //     break;
-                case 77: // 统计拾取物（新增）- 始终为false，只是占位符
+                case 77: // 统计拾取物- 始终为false，只是占位符
                     isActive = false;
+                    break;
+                case 100: // 数字键盘4 - 时间筛选
+                    isActive = isTimeFilterMode;
                     break;
             }
 
@@ -1583,104 +1661,6 @@
             for (const keyCode in controlButtons) {
                 updateButtonState(parseInt(keyCode));
             }
-        }
-
-        // 处理文件选择事件
-        async function handleFileSelect(e) {
-            const files = Array.from(e.target.files)
-                .filter(f => f.name.startsWith('better-genshin-impact'))
-                .sort((a, b) => parseDateFromFileName(a.name) - parseDateFromFileName(b.name));
-
-            if (files.length === 0) {
-                alert('请选择BetterGI日志文件（文件名以better-genshin-impact开头）');
-                return;
-            }
-
-            parsingContext.activeGroups.clear();
-            parsingContext.activeTasks.clear();
-            parsingContext.allGroups = [];
-
-            try {
-                resetTimeTracker();
-                document.getElementById('dropZone').innerHTML = '<div class="loading">解析中...</div>';
-                document.getElementById('dropZone').className = 'has-content';
-
-                for (const file of files) {
-                    const content = await readFileAsText(file);
-                    parseLog(content, parseDateFromFileName(file.name));
-                }
-
-                const result = finalizeParsing();
-                document.getElementById('dropZone').innerHTML = generateHTML(result);
-                setupCoordPopups();
-                document.querySelectorAll('.group-header').forEach((el, i) => {
-                    el.onclick = (e) => {
-                        const arrow = el.querySelector('.arrow');
-                        const content = document.getElementById(`group-${i}`);
-                        const container = el.closest('.group-container');
-
-                        // 获取配置组标题和内容的位置信息
-                        const headerRect = el.getBoundingClientRect();
-                        const containerRect = container.getBoundingClientRect();
-
-                        // 判断标题是否在可视区域顶部（考虑固定定位）
-                        const isStickyAtTop = headerRect.top <= 15 && headerRect.top >= -10;
-
-                        if (isStickyAtTop) {
-                            // 计算需要滚动到的位置
-                            // 让配置组标题滚动到距离顶部30px的位置
-                            const targetPosition = container.offsetTop - 40;
-                            const currentPosition = dropZone.scrollTop;
-                            const scrollDistance = Math.abs(targetPosition - currentPosition);
-
-                            // 计算滚动时间：根据距离，但不小于300ms，不大于2000ms，然后加上500ms的额外时间
-                            const scrollDuration = Math.min(2000, Math.max(200, scrollDistance)) + 50;
-
-                            // 使用平滑滚动
-                            dropZone.scrollTo({
-                                top: targetPosition,
-                                behavior: 'smooth'
-                            });
-
-                            // 在滚动完成后再折叠，使用计算出的时间
-                            setTimeout(() => {
-                                toggleCollapseState(el, content, arrow);
-                            }, scrollDuration);
-
-                        } else {
-                            // 已经在顶部，直接折叠
-                            toggleCollapseState(el, content, arrow);
-                        }
-                    };
-                });
-
-                // 应用初始显示状态
-                updateTimeColumnsVisibility();
-                updateStatsColumnsVisibility();
-                updateTableFormat();
-                setupRowHighlight();
-
-                // 使用防抖版本
-                setTimeout(() => {
-                    debouncedAdjustTableHeader();
-                }, 150);
-                // 标记已有日志数据
-                hasLogData = true;
-                showQuickNavToggle();
-            } catch (e) {
-                document.getElementById('dropZone').innerHTML = `<div class="error">解析失败：${e.message}</div>`;
-                hideQuickNavToggle();
-            }
-        }
-
-        // 读取文件内容为文本
-        function readFileAsText(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = e => resolve(e.target.result);
-                reader.onerror = e => reject(e);
-                reader.readAsText(file);
-            });
         }
 
         // 任務篩選功能
@@ -1726,15 +1706,15 @@
             if (hideZeroStatsTasks) {
                 toggleZeroStatsTasksInFilterMode();
             }
-
+            // 更新任務數量
+            updateTaskCounts();
             // 顯示篩選提示
             showFilterIndicator();
-
             // 更新按鈕狀態
             updateButtonState(72);
         }
 
-        // 修改退出筛选模式的函数，确保正确处理零统计状态
+        // 退出筛选模式的函数，确保正确处理零统计状态
         function exitFilterMode() {
             isFilterMode = false;
             currentFilterKeywords = [];
@@ -1773,7 +1753,7 @@
             updateButtonState(72);
         }
 
-        // 修改 applyTaskFilter 函数，在筛选模式下隐藏所有拾取物
+        // 在筛选模式下隐藏所有拾取物
         function applyTaskFilter() {
             const tables = document.querySelectorAll('table');
 
@@ -1937,6 +1917,7 @@
             // 筛选后调整表头位置
             setTimeout(() => {
                 adjustTableHeaderPosition();
+                updateTaskCounts(); // 更新任务数量显示
                 refreshQuickNav();
             }, 50);
         }
@@ -1953,7 +1934,7 @@
                     teamRolesRow.style.display = '';
                 }
 
-                // 显示所有行，但根据拾取效率模式状态处理拾取物行
+                // 显示所有行，但根据模式状态处理拾取物行
                 const rows = table.querySelectorAll('tr');
                 rows.forEach(row => {
                     if (!row.querySelector('th')) {
@@ -1977,6 +1958,7 @@
             // 重新调整表头位置
             setTimeout(() => {
                 adjustTableHeaderPosition();
+                updateTaskCounts(); // 更新任务数量显示
                 refreshQuickNav();
             }, 50);
         }
@@ -2015,15 +1997,34 @@
             dropZone.classList.remove('dragover');
         });
 
+        // 處理拖放事件
         dropZone.addEventListener('drop', async e => {
             e.preventDefault();
             dropZone.style.backgroundColor = '';
 
-            const files = Array.from(e.dataTransfer.files)
+            const success = await processFiles(e.dataTransfer.files);
+            if (!success) {
+                alert('请拖入BetterGI日志文件（文件名以better-genshin-impact开头）');
+            }
+        });
+
+        // 處理文件選擇事件
+        async function handleFileSelect(e) {
+            const success = await processFiles(e.target.files);
+            if (!success) {
+                alert('请选择BetterGI日志文件（文件名以better-genshin-impact开头）');
+            }
+        }
+
+        //處理文件列表的通用函數
+        async function processFiles(fileList) {
+            const files = Array.from(fileList)
                 .filter(f => f.name.startsWith('better-genshin-impact'))
                 .sort((a, b) => parseDateFromFileName(a.name) - parseDateFromFileName(b.name));
 
-            if (files.length === 0) return;
+            if (files.length === 0) {
+                return false;
+            }
 
             parsingContext.activeGroups.clear();
             parsingContext.activeTasks.clear();
@@ -2032,6 +2033,7 @@
             try {
                 resetTimeTracker();
                 dropZone.innerHTML = '<div class="loading">解析中...</div>';
+                dropZone.className = 'has-content';
 
                 for (const file of files) {
                     const content = await file.text();
@@ -2039,10 +2041,10 @@
                 }
 
                 const result = finalizeParsing();
-                dropZone.className = 'has-content';
                 dropZone.innerHTML = generateHTML(result);
                 setupCoordPopups();
-                // 修改折叠功能事件处理
+
+                // 折叠功能事件处理
                 document.querySelectorAll('.group-header').forEach((el, i) => {
                     el.onclick = (e) => {
                         const arrow = el.querySelector('.arrow');
@@ -2090,22 +2092,28 @@
                 updateStatsColumnsVisibility();
                 // 应用初始表格格式
                 updateTableFormat();
-
                 // 设置行高亮效果
                 setupRowHighlight();
 
+                // 使用防抖版本調整表頭
+                setTimeout(() => {
+                    debouncedAdjustTableHeader();
+                }, 150);
+
                 // 第二次讀檔時保留各功能状态
-                if (hasLogData = true) {
+                if (hasLogData) {
                     refreshHTML();
                 }
                 // 标记已有日志数据
                 hasLogData = true;
                 showQuickNavToggle();
+                return true;
             } catch (e) {
                 dropZone.innerHTML = `<div class="error">解析失败：${e.message}</div>`;
                 hideQuickNavToggle();
+                return false;
             }
-        });
+        }
 
         function setupSortButtons() {
             // 时间排序按钮
@@ -2346,7 +2354,7 @@
             });
         }
 
-        // 修改坐标弹窗事件处理函数
+        // 坐标弹窗事件处理函数
         function setupCoordPopups() {
             const coordsCells = document.querySelectorAll('.coords-cell');
             const battleCells = document.querySelectorAll('.has-battle-events');
@@ -2807,13 +2815,13 @@
                 SURVIVAL_AFTER_SKILL: 20,       // 生存位技能后的切换 +20
                 NORMAL_SWITCH: 1,               // 一般成功切换角色 +1
                 COLLECTION_SWITCH: -100,        // 采集相关切换 -100（确保排除）
-                MOVEMENT_CONTEXT: 5              // 新增：移动上下文权重 +8
+                MOVEMENT_CONTEXT: 5              // 移动上下文权重 +8
             };
 
             // 任务级别的角色统计
             let survivalWeights = new Map(); //  生存位权重
             let walkWeights = new Map(); // 行走位权重
-            let dashWeights = new Map(); // 新增：赶路位权重
+            let dashWeights = new Map(); // 赶路位权重
             let lastSwitchedRole = null; // 记录最近切换的角色
             let pendingSurvivalAction = false; // 标记有生存位动作待处理
             let nahidaCollect = false; // 纳西妲采集标记
@@ -2844,7 +2852,7 @@
                     pendingSurvivalAction = true;
                 }
 
-                // 新增：检测赶路位指令
+                // 检测赶路位指令
                 if (line.includes('自动赶路："') && line.includes('赶路')) {
                     const dashMatch = line.match(/自动赶路："(.+?)" 赶路/);
                     if (dashMatch && currentGroup && currentTask) {
@@ -2874,7 +2882,7 @@
                         let survivalWeightToAdd = 0;
                         let walkWeightToAdd = 0;
 
-                        // 新增：检查最近是否有赶路操作
+                        // 检查最近是否有赶路操作
                         const hasRecentDash = currentTask.recentDashRole === roleName;
 
                         // 采集相关的切换 - 给负权重确保排除
@@ -2895,7 +2903,7 @@
                             walkWeightToAdd = WEIGHTS.NORMAL_SWITCH * 10;
                         }
 
-                        // 新增：移动上下文权重判断
+                        // 移动上下文权重判断
                         if (prevLine.includes('到达路径点附近') ||
                             prevLine.includes('执行 "简易策略脚本"') ||
                             prevLine.includes('粗略接近途经点') ||
@@ -2903,7 +2911,7 @@
                             walkWeightToAdd += WEIGHTS.MOVEMENT_CONTEXT;
                         }
 
-                        // 新增：交互或拾取后的切换权重 +8
+                        // 交互或拾取后的切换权重 +8
                         if (prevLine.includes('交互或拾取："')) {
                             walkWeightToAdd += 8;
                         }
@@ -2939,8 +2947,8 @@
                         teamRoles: new Set(),
                         survivalRoles: [], // 生存位
                         walkRoles: [],     // 行走位
-                        dashRoles: [],      // 新增：赶路位
-                        hasRotationTargeting: false  // 新增：旋转索敌标记
+                        dashRoles: [],      // 赶路位
+                        hasRotationTargeting: false  // 旋转索敌标记
                     };
                     group.lastActive = parseTime(prevLine, fileDate);
                     parsingContext.activeGroups.set(groupName, group);
@@ -2983,7 +2991,7 @@
                             // 汇总配置组的角色信息
                             const groupSurvivalRoles = new Map();
                             const groupWalkRoles = new Map();
-                            const groupDashRoles = new Map(); // 新增：赶路位汇总
+                            const groupDashRoles = new Map(); // 赶路位汇总
 
                             group.tasks.forEach(task => {
                                 // 汇总生存位 - 只取每个任务的主要生存位
@@ -3085,15 +3093,15 @@
                                 timeout: 0
                             },
                             picks: new Map(),
-                            reviveEvents: [], // 新增：复活事件
-                            timeoutEvents: [], // 新增：超时事件
+                            reviveEvents: [], // 复活事件
+                            timeoutEvents: [], // 超时事件
                             maxBattleCount: 0, // 记录最大战斗次数
-                            specialAlerts: new Map(), // 修改：使用Map而不是数组，用于计数特殊事件
-                            survivalRoles: [], // 新增：生存位角色
-                            walkRoles: [],      // 新增：行走位角色
-                            dashRoles: [],      // 新增：赶路位角色
-                            recentDashRole: null, // 新增：最近的赶路角色，用于排除行走位权重
-                            skipped: false // 新增跳过标记
+                            specialAlerts: new Map(), // 用于计数特殊事件
+                            survivalRoles: [], // 生存位角色
+                            walkRoles: [],      // 行走位角色
+                            dashRoles: [],      // 赶路位角色
+                            recentDashRole: null, // 最近的赶路角色，用于排除行走位权重
+                            skipped: false // 跳过标记
                         };
                         currentGroup.tasks.push(task);
                         parsingContext.activeTasks.set(task.name, task);
@@ -3161,7 +3169,7 @@
                             // 保存到任务
                             task.survivalRoles = finalSurvivalRole ? [finalSurvivalRole] : [];
                             task.walkRoles = finalWalkRole ? [finalWalkRole] : [];
-                            task.dashRoles = finalDashRole ? [finalDashRole] : []; // 新增：保存赶路位
+                            task.dashRoles = finalDashRole ? [finalDashRole] : [];
 
                             // 调试输出
                             // console.log(`任务 ${task.name} 生存位权重:`, Array.from(survivalWeights.entries()));
@@ -3257,10 +3265,15 @@
                             }
                         }
                         // if (line.includes("距离过远，跳过路径点")) currentTask.faults.too_far_skip++;
-                        if (line.includes("距离过远") && /\(\d+\.?\d*,\d+\.?\d*\)->\(\d+\.?\d*,\d+\.?\d*\)=\d+\.?\d*，跳过路径点/)
+                        // 0.56.后不傳回极大的坐标
+                        if (
+                            (line.includes("距离过远") && /\(\d+\.?\d*,\d+\.?\d*\)->\(\d+\.?\d*,\d+\.?\d*\)=\d+\.?\d*，跳过路径点/) ||
+                            line.includes("未识别到当前位置")
+                        ) {
                             currentTask.faults.too_far_skip++;
+                        }
 
-                        if (line.includes("，重试多次后仍然失败，放弃此路径点！")) {
+                        if (line.includes("，重试多次后仍然失败，放弃此路径点！") || line.includes("执行超时，放弃此次追踪")) {
                             const message = '路径识别失败，放弃路径';
                             const type = 'abnormal-alert';
                             if (currentTask.specialAlerts.has(message)) {
@@ -3383,7 +3396,10 @@
                         }
 
                         // 6. 战斗脚本设置错误
-                        if (line.includes('执行脚本时发生异常: "未匹配到任何战斗脚本"') || line.includes('执行地图追踪时候发生错误: "未匹配到任何战斗脚本"')) {
+                        if (
+                            line.includes('执行脚本时发生异常: "未匹配到任何战斗脚本"')
+                            || line.includes('执行地图追踪时候发生错误: "未匹配到任何战斗脚本"')
+                            || line.includes('执行地图追踪时候发生错误: "战斗策略文件不存在"')) {
                             const message = '未匹配到任何战斗脚本';
                             const type = 'combat-script-error';
                             if (currentTask.specialAlerts.has(message)) {
@@ -3668,8 +3684,14 @@
                         }
 
                         // 27.鋤地一條龍(坐标获取异常，不记录运行数据)
-                        if (line.includes('坐标获取异常，不记录运行数据') ||
-                            (line.includes('出现异常') && line.includes('不记录cd'))) {
+                        if (
+                            line.includes('坐标获取异常，不记录运行数据') || // 鋤地2.0.2前日志
+                            line.includes('路线未正常完成、坐标获取异常或不处于主界面，不记录运行数据') || // 鋤地2.0.3日志
+                            line.includes('距离异常，不记录数据') || // 采集cd管理
+                            (line.includes('出现异常') && line.includes('不记录cd')) ||
+                            line.includes('出发点与终点过于接近，不记录运行数据') ||
+                            line.includes('位置几乎未变化，不更新刷新时间')
+                        ) {
                             const message = '终点坐标异常，不记录';
                             const type = 'abnormal-alert';
                             currentTask.faults.too_far_skip++;
@@ -3814,7 +3836,7 @@
                             currentTask.picks.set(pickItemName, (currentTask.picks.get(pickItemName) || 0) + 1);
                             currentGroup.picks.set(pickItemName, (currentGroup.picks.get(pickItemName) || 0) + 1);
 
-                            // 新增：記錄拾取順序
+                            // 記錄拾取順序
                             if (!currentTask.pickSequence) {
                                 currentTask.pickSequence = [];
                             }
@@ -3839,7 +3861,7 @@
             return nameWithoutExt;
         }
 
-        // 新增函数：检查任务是否有实际执行内容
+        // 检查任务是否有实际执行内容
         function hasTaskActualContent(task) {
             // 如果有任何统计信息不为0，说明有实际执行
             if (task.faults.revive > 0 ||
@@ -3934,14 +3956,14 @@
             return result.join('') || "0秒";
         }
 
-        // 新增耗时计算函数
+        // 耗时计算函数
         function calculateDuration(start, end) {
             if (!start || !end) return '进行中';
             const diff = (end.getTime() - start.getTime()) / 1000;
             return formatDuration(diff);
         }
 
-        // 新增配置组耗时计算
+        // 配置组耗时计算
         function calculateGroupDuration(group) {
             if (!group.startTime || !group.endTime) return '进行中';
             const diff = (group.endTime.getTime() - group.startTime.getTime()) / 1000;
@@ -4106,7 +4128,7 @@
                             }
                         }
 
-                        // 檢查赶路位（新增）- 改为模糊匹配
+                        // 檢查赶路位 - 改为模糊匹配
                         if (group.dashRoles && group.dashRoles.length > 0) {
                             const dashRoleNames = roleStr.split(',').map(r => r.trim());
                             const foundDashRoles = group.dashRoles.filter(dashRole =>
@@ -4136,10 +4158,12 @@
                         </tr>`;
                 }
 
-                // 修改表头，在拾取物列添加效率按钮
                 html += `
                     <tr class="sticky-header">
-                        <th data-sort-type="string">任务名称</th>
+                        <th data-sort-type="string">
+                            任务名称
+                            <span class="task-count">${group.tasks.length}个</span>
+                        </th>
                         <th class="column-start-time">
                             开始时间 
                             <btn class="sort-btn" style="font-size:15px;padding:1px 4px;margin-left:3px;cursor:pointer;" 
@@ -4416,7 +4440,7 @@
                             }
                         }
 
-                        // 檢查赶路位（新增）- 改为模糊匹配
+                        // 檢查赶路位 - 改为模糊匹配
                         if (group.dashRoles && group.dashRoles.length > 0) {
                             const dashRoleNames = roleStr.split(',').map(r => r.trim());
                             const foundDashRoles = group.dashRoles.filter(dashRole =>
@@ -4448,7 +4472,10 @@
 
                 html += `
                     <tr class="sticky-header">
-                        <th data-sort-type="string">任务名称</th>
+                        <th data-sort-type="string">
+                            任务名称
+                            <span class="task-count">${group.tasks.length}个</span>
+                        </th>
                         <th class="column-start-time">
                             开始时间 
                             <btn class="sort-btn" style="font-size:15px;padding:1px 4px;margin-left:3px;cursor:pointer;" 
@@ -4676,7 +4703,7 @@
             });
         }
 
-        // 修改折叠功能事件处理
+        // 折叠功能事件处理
         document.querySelectorAll('.group-header').forEach((el, i) => {
             el.onclick = (e) => {
                 const arrow = el.querySelector('.arrow');
@@ -4729,7 +4756,7 @@
             debouncedAdjustTableHeader();
         }
 
-        // 修改格式化拾取物的函数，支持两种显示方式
+        // 格式化拾取物的函数，支持两种显示方式
         function formatPicks(picks, pickSequence, excludeItems = false) {
             if (!picks || picks.size === 0) return '无';
 
@@ -4797,7 +4824,7 @@
             }, 2000);
         }
 
-        // 新增：更新时间列的显示状态
+        // 更新时间列的显示状态
         function updateTimeColumnsVisibility() {
             if (timeColumnsVisible) {
                 document.body.classList.remove('time-columns-hidden');
@@ -4806,7 +4833,7 @@
             }
         }
 
-        // 新增：显示时间列状态提示
+        // 显示时间列状态提示
         function showTimeToggleIndicator() {
             const indicator = document.getElementById('timeToggleIndicator');
             indicator.textContent = `时间列: ${timeColumnsVisible ? '显示' : '隐藏'}`;
@@ -4818,7 +4845,7 @@
             }, 2000);
         }
 
-        // 新增：更新统计列的显示状态
+        // 更新统计列的显示状态
         function updateStatsColumnsVisibility() {
             if (statsColumnsVisible) {
                 document.body.classList.remove('stats-columns-hidden');
@@ -4827,7 +4854,7 @@
             }
         }
 
-        // 新增：显示统计列状态提示
+        // 显示统计列状态提示
         function showStatsToggleIndicator() {
             const indicator = document.getElementById('statsToggleIndicator');
             indicator.textContent = `统计列: ${statsColumnsVisible ? '显示' : '隐藏'}`;
@@ -4860,7 +4887,7 @@
             }, 2000);
         }
 
-        // 新增：更新表格格式
+        // 更新表格格式
         function updateTableFormat() {
             if (useLegacyFormat) {
                 document.body.classList.add('legacy-format');
@@ -4869,7 +4896,7 @@
             }
         }
 
-        // 新增：显示表格格式状态提示
+        // 显示表格格式状态提示
         function showFormatToggleIndicator() {
             const indicator = document.getElementById('formatToggleIndicator');
             indicator.textContent = `表格格式: ${useLegacyFormat ? '新版' : '旧版'}`;
@@ -4891,12 +4918,16 @@
 
             const currentPickEfficiencyMode = isPickEfficiencyMode; // 保存拾取效率模式状态
             currentPickEfficiencyItem = currentPickEfficiencyItem; // 保存当前计算的物品
-            const currentPicksSortByCount = picksSortByCount; // 新增：保存拾取物排序状态
+            const currentPicksSortByCount = picksSortByCount; // 保存拾取物排序状态
+
+            const currenTimeFilterMode = isTimeFilterMode;// 保存时间筛选模式
+            const currentimeFilterStart = timeFilterStart;// 保存筛选开始时间
+            const currentimeFilterEnd = timeFilterEnd;// 保存筛选开始时间
 
             dropZone.innerHTML = generateHTML(result);
             setupCoordPopups();
 
-            // 修改折叠功能事件处理
+            // 折叠功能事件处理
             document.querySelectorAll('.group-header').forEach((el, i) => {
                 el.onclick = (e) => {
                     const arrow = el.querySelector('.arrow');
@@ -4954,8 +4985,8 @@
             setTimeout(() => {
                 adjustTableHeaderPosition();
                 setupSortButtons();
-
                 dropZone.scrollTop = 0;
+                updateTaskCounts(); // 重新计算任务数量
             }, 200); // 延迟100ms确保DOM完全渲染
 
             // 恢复状态
@@ -4965,7 +4996,10 @@
 
             isPickEfficiencyMode = currentPickEfficiencyMode;
             currentPickEfficiencyItem = currentPickEfficiencyItem;
-            picksSortByCount = currentPicksSortByCount; // 新增：恢复拾取物排序状态
+            picksSortByCount = currentPicksSortByCount; // 恢复拾取物排序状态
+            if (currenTimeFilterMode) {
+                applyTimeFilter(currentimeFilterStart, currentimeFilterEnd);
+            }
 
             // 应用筛选状态
             if (isFilterMode) {
@@ -4995,6 +5029,7 @@
                     }
                     updateButtonState(74);
                     updateButtonState(72);
+                    updateTaskCounts();// 更新任务数量显示
                 }, 150);
             }
 
@@ -5032,7 +5067,6 @@
             updateQuickNavItems();
         }
 
-        // 修改adjustTableHeaderPosition函数
         function adjustTableHeaderPosition() {
             const now = Date.now();
 
@@ -5130,7 +5164,7 @@
         const optimizedAdjustTableHeader = throttle(adjustTableHeaderPosition, 50);
         const debouncedAdjustTableHeader = debounce(adjustTableHeaderPosition, 150);
 
-        // 修改事件监听器
+        // 事件监听器
         function setupOptimizedEventListeners() {
             // 滚动事件使用节流
             window.addEventListener('scroll', optimizedAdjustTableHeader, { passive: true });
@@ -5150,7 +5184,7 @@
             setupOptimizedEventListeners();
         }
 
-        // 新增：设置行高亮效果
+        // 设置行高亮效果
         function setupRowHighlight() {
             const tables = document.querySelectorAll('table');
 
@@ -5425,7 +5459,13 @@
                     return;
                 }
 
-                toggleTaskFilter();
+                // 如果处于时间筛选模式，退出时间筛选
+                if (isTimeFilterMode) {
+                    exitTimeFilterMode();
+                } else {
+                    // 否则切换任务筛选
+                    toggleTaskFilter();
+                }
                 e.preventDefault();
             } else if (keyNum.keyCode == 73 && keyNum.altKey) { // Alt + I - 切换拾取物显示顺序
                 if (!hasLogData) {
@@ -5486,6 +5526,9 @@
 
                 countPickups();
                 e.preventDefault();
+            } else if (keyNum.keyCode == 112) { // F1 鍵 - 打開 README.md
+                window.open("https://github.com/this-Fish/this-fish.github.io/tree/main/Read_BetterGI_Log");
+                e.preventDefault();
             } else if (keyNum.keyCode == 113) { // F2 鍵 - 快速上傳文件
                 // 防止在輸入框中觸發
                 const activeElement = document.activeElement;
@@ -5501,8 +5544,28 @@
                 // 防止在輸入框中觸發
                 "true" === document.body.getAttribute("contenteditable") ? (document.body.setAttribute("contenteditable", false), alert("关闭自由编辑网页！")) : (document.body.setAttribute("contenteditable", true), alert("启用自由编辑网页！"))
                 e.preventDefault();
-            }
+            } else if (keyNum.keyCode == 100) { // 右4
+                if (!hasLogData) {
+                    e.preventDefault();
+                    return;
+                }
 
+                // 如果已经处于时间筛选模式，按4键退出
+                if (isTimeFilterMode) {
+                    exitTimeFilterMode();
+                    e.preventDefault();
+                    return;
+                }
+                if (isFilterMode) {
+                    // 退出篩選模式
+                    exitFilterMode();
+                    return;
+                }
+
+                // 否则进入时间筛选模式
+                showTimeFilterPrompt();
+                e.preventDefault();
+            }
 
             // 在每个快捷键处理完后，更新对应的按钮状态
             if ([192, 84, 89, 73, 80, 74].includes(keyNum.keyCode)) {
@@ -5513,6 +5576,322 @@
             }
         }
 
+        // 时间筛选提示函数
+        function showTimeFilterPrompt() {
+
+            // 如果当前处于任务筛选模式，先退出
+            if (isFilterMode) {
+                exitFilterMode();
+            }
+
+            // 计算默认开始时间（当天04:00，如果当前时间在00:00-03:59，则减1天）
+            const now = new Date();
+            let startDate = new Date(now);
+
+            if (now.getHours() < 4) {
+                // 如果是00:00-03:59，使用前一天的04:00
+                startDate.setDate(startDate.getDate() - 1);
+            }
+            startDate.setHours(4, 0, 0, 0);
+
+            const endDate = new Date(now); // 结束时间默认当前时间
+
+            // 格式化日期为字符串
+            const formatDateForInput = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                const seconds = String(date.getSeconds()).padStart(2, '0');
+                return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+            };
+
+            // 计算当天0时0分0秒的格式化字符串
+            const todayStart = new Date(now);
+            todayStart.setHours(0, 0, 0, 0);
+            const defaultTodayStart = formatDateForInput(todayStart);
+
+            const defaultStartTime = formatDateForInput(startDate);
+            const defaultEndTime = formatDateForInput(endDate);
+
+            // 第一个提示框：开始时间
+            const startInput = prompt(
+                "请输入开始时间 (格式: YYYY/MM/DD HH:MM:SS)\n为空则使用当天0时0分0秒\n示例: 2026/01/13 12:05:25",
+                defaultStartTime
+            );
+
+            if (startInput === null) return; // 用户取消
+
+            // 第二个提示框：结束时间
+            const endInput = prompt(
+                "请输入结束时间 (格式: YYYY/MM/DD HH:MM:SS)\n为空则使用当前时间\n示例: 2026/01/13 18:30:07",
+                defaultEndTime
+            );
+
+            if (endInput === null) return; // 用户取消
+
+            // 解析时间字符串
+            const parseDateTime = (str) => {
+                // 如果输入为空，返回null，后续会特殊处理
+                if (!str || str.trim() === '') {
+                    return null;
+                }
+
+                const parts = str.trim().split(/[/ :]/);
+                if (parts.length !== 6) {
+                    throw new Error("时间格式错误，请使用 YYYY/MM/DD HH:MM:SS 格式");
+                }
+
+                const year = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10) - 1; // 月份从0开始
+                const day = parseInt(parts[2], 10);
+                const hours = parseInt(parts[3], 10);
+                const minutes = parseInt(parts[4], 10);
+                const seconds = parseInt(parts[5], 10);
+
+                return new Date(year, month, day, hours, minutes, seconds);
+            };
+
+            try {
+                let startTime = parseDateTime(startInput);
+                let endTime = parseDateTime(endInput);
+
+                // 如果开始时间为空，使用当天0时0分0秒
+                if (startTime === null) {
+                    startTime = new Date(now);
+                    startTime.setHours(0, 0, 0, 0);
+                }
+
+                // 如果结束时间为空，使用当前时间
+                if (endTime === null) {
+                    endTime = new Date(now);
+                }
+
+                if (startTime >= endTime) {
+                    alert("开始时间必须早于结束时间");
+                    return;
+                }
+
+                applyTimeFilter(startTime, endTime);
+            } catch (error) {
+                alert(`时间解析错误: ${error.message}`);
+            }
+        }
+
+        // 应用时间筛选
+        function applyTimeFilter(startTime, endTime) {
+            if (!startTime || !endTime) { return; }
+            // 保存筛选时间
+            timeFilterStart = startTime;
+            timeFilterEnd = endTime;
+            isTimeFilterMode = true;
+
+            // 添加时间筛选模式类
+            document.body.classList.add('time-filter-mode');
+
+            const tables = document.querySelectorAll('table');
+
+            tables.forEach(table => {
+                const container = table.closest('.group-container');
+                const groupHeader = container.querySelector('.group-header h2');
+                const groupName = groupHeader ? groupHeader.textContent : '';
+
+                // 确保队伍角色行显示
+                const teamRolesRow = table.querySelector('.team-roles-row');
+                if (teamRolesRow) {
+                    teamRolesRow.style.display = '';
+                }
+
+                // 时间筛选模式下，不隐藏汇总行（除非拾取效率模式启用）
+                const summaryRows = table.querySelectorAll('.summary-row');
+                summaryRows.forEach(row => {
+                    // 如果拾取效率模式启用，则隐藏汇总行，否则显示
+                    if (isPickEfficiencyMode) {
+                        row.style.display = 'none';
+                    } else {
+                        row.style.display = '';
+                    }
+                });
+
+                let groupHasVisibleTask = false;
+
+                // 新版格式
+                if (!useLegacyFormat) {
+                    const rows = table.querySelectorAll('tr[data-original-index]');
+
+                    rows.forEach(row => {
+                        // 跳过非任务行
+                        if (row.querySelector('th') ||
+                            row.classList.contains('team-roles-row') ||
+                            row.classList.contains('summary-row')) {
+                            return;
+                        }
+
+                        // 获取任务开始时间
+                        const startTimeCell = row.querySelector('.column-start-time');
+                        if (startTimeCell) {
+                            const timeText = startTimeCell.textContent.trim();
+
+                            const taskStartTime = parseTableTime(timeText);
+
+                            // 判断任务是否在时间范围内
+                            if (taskStartTime &&
+                                taskStartTime >= timeFilterStart &&
+                                taskStartTime <= timeFilterEnd) {
+                                row.style.display = '';
+                                groupHasVisibleTask = true;
+                            } else {
+                                row.style.display = 'none';
+                            }
+                        }
+                    });
+                }
+                // 旧版格式
+                else {
+                    const taskNameRows = table.querySelectorAll('tr .main-row-name');
+
+                    taskNameRows.forEach(taskNameCell => {
+                        const row = taskNameCell.closest('tr');
+                        const taskId = row.getAttribute('data-task-id');
+
+                        if (taskId) {
+                            // 获取任务开始时间
+                            const startTimeCell = row.querySelector('.column-start-time');
+                            if (startTimeCell) {
+                                const timeText = startTimeCell.textContent.trim();
+                                const taskStartTime = parseTableTime(timeText);
+
+                                if (taskStartTime &&
+                                    taskStartTime >= timeFilterStart &&
+                                    taskStartTime <= timeFilterEnd) {
+                                    // 显示相关行
+                                    const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
+                                    relatedRows.forEach(r => {
+                                        if (!r.classList.contains('summary-row')) {
+                                            r.style.display = '';
+                                        }
+                                    });
+                                    groupHasVisibleTask = true;
+                                } else {
+                                    // 隐藏相关行
+                                    const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
+                                    relatedRows.forEach(r => {
+                                        r.style.display = 'none';
+                                    });
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // 如果配置组没有可见任务，隐藏整个配置组
+                if (groupHasVisibleTask) {
+                    container.style.display = '';
+                } else {
+                    container.style.display = 'none';
+                }
+            });
+
+            // 显示筛选提示
+            showTimeFilterIndicator();
+
+            // 更新按钮状态
+            updateButtonState(100); // 虽然我们没有对应的按钮，但可以保留
+
+            // 更新任务计数
+            updateTaskCounts();
+
+            // 调整表头位置
+            setTimeout(() => {
+                adjustTableHeaderPosition();
+                refreshQuickNav();
+            }, 50);
+        }
+
+        // 解析表格中的时间字符串
+        function parseTableTime(timeStr) {
+            if (!timeStr || timeStr === '未知时间' || timeStr === '进行中') return null;
+
+            // 处理格式: 2025/05/23 07:19:45
+            const parts = timeStr.split(/[/ :]/);
+            if (parts.length !== 6) return null;
+
+            const year = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1;
+            const day = parseInt(parts[2], 10);
+            const hours = parseInt(parts[3], 10);
+            const minutes = parseInt(parts[4], 10);
+            const seconds = parseInt(parts[5], 10);
+
+            return new Date(year, month, day, hours, minutes, seconds);
+        }
+
+        // 显示时间筛选提示
+        function showTimeFilterIndicator() {
+            const indicator = document.getElementById('filterIndicator');
+            const keywordsElement = document.getElementById('filterKeywords');
+
+            const formatDate = (date) => {
+                return date.toLocaleString('zh-CN', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+            };
+
+            const startStr = formatDate(timeFilterStart);
+            const endStr = formatDate(timeFilterEnd);
+
+            keywordsElement.textContent = `${startStr} - ${endStr}`;
+            indicator.classList.add('visible');
+
+            // 动态计算筛选提示宽度
+            const filterWidth = indicator.offsetWidth;
+            document.documentElement.style.setProperty('--filter-indicator-width', filterWidth + 'px');
+        }
+
+        // 退出时间筛选模式
+        function exitTimeFilterMode() {
+            isTimeFilterMode = false;
+            timeFilterStart = null;
+            timeFilterEnd = null;
+
+            // 移除时间筛选模式类
+            document.body.classList.remove('time-filter-mode');
+
+            // 移除筛选，显示所有任务和总计行
+            removeTaskFilter();
+
+            // 隐藏筛选提示
+            hideFilterIndicator();
+
+            // 更新任务计数
+            setTimeout(() => {
+                updateTaskCounts();
+                adjustTableHeaderPosition();
+                refreshQuickNav();
+            }, 50);
+
+            updateButtonState(100);
+            // 显示退出提示
+            showTimeFilterExitIndicator();
+        }
+
+        // 显示时间筛选退出提示
+        function showTimeFilterExitIndicator() {
+            const indicator = document.getElementById('filterIndicator');
+            const keywordsElement = document.getElementById('filterKeywords');
+
+            keywordsElement.textContent = '时间筛选已退出';
+            indicator.classList.add('visible');
+
+            indicator.classList.remove('visible');
+        }
+
         // 统计拾取物函数
         function countPickups() {
             if (!hasLogData) {
@@ -5520,7 +5899,7 @@
             }
 
             // 获取用户输入，默认值为战狂,游医,教官,流放者
-            const input = prompt(
+            let input = prompt(
                 "请输入要统计的拾取物名称（多个用逗号分隔）\n例如：战狂,游医,教官,流放者\n\n匹配规则：包含关键字即计数",
                 "战狂,游医,教官,流放者"
             );
@@ -5528,6 +5907,11 @@
             if (input === null || input.trim() === '') {
                 return; // 用户取消或输入为空
             }
+
+            // 小彩蛋-统计鍵快捷標記
+            if (input == "/1") { input = "战狂,游医,教官,流放者" }
+            if (input == "/2") { input = "拉扯结束" }
+            if (input == "/3") { input = "小怪" }
 
             const itemsToCount = input.split(',')
                 .map(item => item.trim())
@@ -5665,7 +6049,7 @@
             // updateButtonState(79); // 假设使用 O 键（79）
         }
 
-        // 修改退出拾取效率模式函数，确保正确恢复
+        // 退出拾取效率模式函数
         function exitPickEfficiencyMode() {
             isPickEfficiencyMode = false;
             currentPickEfficiencyItem = null;
@@ -5692,7 +6076,7 @@
             // updateButtonState(79);
         }
 
-        // 修改 applyPickEfficiency 函数，确保排除拾取物汇总行
+        // 确保排除拾取物汇总行
         function applyPickEfficiency() {
             if (!currentPickEfficiencyItem) return;
 
@@ -5803,7 +6187,7 @@
             return totalSeconds;
         }
 
-        // 修改 findItemCount 函数，支持包含关键字的匹配
+        // 支持包含关键字的匹配
         function findItemCount(picksHtml, itemNames) {
             // 将HTML转换为文本进行搜索
             const tempDiv = document.createElement('div');
@@ -5887,7 +6271,6 @@
             // 不自动隐藏，直到用户退出模式
         }
 
-        // 添加显示状态提示函数
         function showZeroStatsToggleIndicator() {
             const indicator = document.getElementById('zeroStatsToggleIndicator');
             indicator.textContent = `零统计任务: ${hideZeroStatsTasks ? '隐藏' : '显示'}`;
@@ -5899,20 +6282,28 @@
             }, 2000);
         }
 
-        // 修改退出零统计筛选的逻辑
+        // 零统计筛选的逻辑
         function toggleZeroStatsTasks() {
             hideZeroStatsTasks = !hideZeroStatsTasks;
 
             // 如果在筛选模式下，需要重新应用筛选
-            if (isFilterMode) {
+            if (isFilterMode || isTimeFilterMode) {
                 // 先应用筛选模式
-                applyTaskFilter();
+                if (isTimeFilterMode) {
+                    applyTimeFilter(timeFilterStart, timeFilterEnd)
+                } else {
+                    applyTaskFilter();
+                }
                 // 然后应用零统计筛选 - 使用筛选模式版本
                 if (hideZeroStatsTasks) {
                     toggleZeroStatsTasksInFilterMode();
                 } else {
                     // 退出零统计筛选时，重新应用筛选但不隐藏零统计任务
-                    applyTaskFilter();
+                    if (isTimeFilterMode) {
+                        applyTimeFilter(timeFilterStart, timeFilterEnd)
+                    } else {
+                        applyTaskFilter();
+                    }
                 }
             } else {
                 // 非筛选模式下正常执行
@@ -5925,11 +6316,69 @@
 
             // 切换后刷新导航
             setTimeout(() => {
+                updateTaskCounts();
                 refreshQuickNav();
             }, 50);
         }
 
-        // 修改筛选模式下的零统计筛选函数
+        // 辅助函数：检查行是否有非零统计
+        function hasNonZeroStats(row) {
+            const reviveCell = row.querySelector('.column-revive');
+            const retryCell = row.querySelector('.column-retry');
+            const retryDetailCell = row.querySelector('.column-retry-detail');
+            const tooFarSkipCell = row.querySelector('.column-too-far-skip');
+            const timeoutCell = row.querySelector('.column-timeout');
+            const teleportCell = row.querySelector('.column-teleport');
+
+            if (reviveCell && retryCell && retryDetailCell && tooFarSkipCell && timeoutCell && teleportCell) {
+                const isAllZero =
+                    (reviveCell.textContent.trim() === '' || reviveCell.textContent.trim() === '0') &&
+                    (retryCell.textContent.trim() === '' || retryCell.textContent.trim() === '0') &&
+                    (retryDetailCell.textContent.trim() === '' || retryDetailCell.textContent.trim() === '0') &&
+                    (tooFarSkipCell.textContent.trim() === '' || tooFarSkipCell.textContent.trim() === '0') &&
+                    (timeoutCell.textContent.trim() === '' || timeoutCell.textContent.trim() === '0') &&
+                    (teleportCell.textContent.trim() === '' || teleportCell.textContent.trim() === '0');
+
+                return !isAllZero;
+            }
+            return true; // 如果找不到统计单元格，默认显示该行
+        }
+
+        // 辅助函数: 检查行是否全零统计
+        function isRowAllZeroStats(row) {
+            const reviveCell = row.querySelector('.column-revive');
+            const retryCell = row.querySelector('.column-retry');
+            const retryDetailCell = row.querySelector('.column-retry-detail');
+            const tooFarSkipCell = row.querySelector('.column-too-far-skip');
+            const timeoutCell = row.querySelector('.column-timeout');
+            const teleportCell = row.querySelector('.column-teleport');
+
+            if (reviveCell && retryCell && retryDetailCell && tooFarSkipCell && timeoutCell && teleportCell) {
+                return (reviveCell.textContent.trim() === '' || reviveCell.textContent.trim() === '0') &&
+                    (retryCell.textContent.trim() === '' || retryCell.textContent.trim() === '0') &&
+                    (retryDetailCell.textContent.trim() === '' || retryDetailCell.textContent.trim() === '0') &&
+                    (tooFarSkipCell.textContent.trim() === '' || tooFarSkipCell.textContent.trim() === '0') &&
+                    (timeoutCell.textContent.trim() === '' || timeoutCell.textContent.trim() === '0') &&
+                    (teleportCell.textContent.trim() === '' || teleportCell.textContent.trim() === '0');
+            }
+            return false;
+        }
+
+        // 辅助函数: 检查任务是否在时间范围内
+        function isTaskInTimeRange(row) {
+            const startTimeCell = row.querySelector('.column-start-time');
+            if (startTimeCell) {
+                const timeText = startTimeCell.textContent.trim();
+                const taskStartTime = parseTableTime(timeText);
+
+                return taskStartTime &&
+                    taskStartTime >= timeFilterStart &&
+                    taskStartTime <= timeFilterEnd;
+            }
+            return false;
+        }
+
+        // 筛选模式下的零统计筛选函数
         function toggleZeroStatsTasksInFilterMode() {
             const tables = document.querySelectorAll('table');
 
@@ -5952,232 +6401,201 @@
 
                 let groupHasVisibleTask = false;
 
-                // 第一步：检查配置组名是否匹配关键字
-                const groupMatchesKeyword = currentFilterKeywords.some(keyword =>
-                    groupName.toLowerCase().includes(keyword.toLowerCase())
-                );
-
-                // 如果配置组名匹配，检查组内任务并根据统计列筛选
-                // (需要對舊版UI格做特殊處理)
-                if (groupMatchesKeyword) {
-
+                // 判断当前是哪种筛选模式
+                if (isTimeFilterMode) {
+                    // 时间筛选模式 - 检查任务时间是否在范围内，并且统计非零（如果需要）
                     if (!useLegacyFormat) {
-
-                        // 显示所有非零统计任务
-                        const rows = table.querySelectorAll('tr');
+                        const rows = table.querySelectorAll('tr[data-original-index]');
                         rows.forEach(row => {
-                            // 跳过表头行、队伍角色行和summary-row
-                            if (row.querySelector('th') || row.classList.contains('team-roles-row') || row.classList.contains('summary-row')) {
-                                // 确保这些行显示，但summary-row保持隐藏
-                                if (row.classList.contains('summary-row')) {
-                                    row.style.display = 'none';
-                                } else {
-                                    row.style.display = '';
-                                }
+                            // 跳过非任务行
+                            if (row.querySelector('th') ||
+                                row.classList.contains('team-roles-row') ||
+                                row.classList.contains('summary-row')) {
                                 return;
                             }
 
+                            // 判断任务是否在时间范围内
+                            const isInTimeRange = isTaskInTimeRange(row);
+
                             // 检查统计列是否非零
-                            let matchesStats = true;
-                            if (hideZeroStatsTasks) {
-                                const reviveCell = row.querySelector('.column-revive');
-                                const retryCell = row.querySelector('.column-retry');
-                                const retryDetailCell = row.querySelector('.column-retry-detail');
-                                const tooFarSkipCell = row.querySelector('.column-too-far-skip');
-                                const timeoutCell = row.querySelector('.column-timeout');
-                                const teleportCell = row.querySelector('.column-teleport');
+                            const matchesStats = hideZeroStatsTasks ? !isRowAllZeroStats(row) : true;
 
-                                if (reviveCell && retryCell && retryDetailCell && tooFarSkipCell && timeoutCell && teleportCell) {
-                                    const isAllZero =
-                                        (reviveCell.textContent.trim() === '' || reviveCell.textContent.trim() === '0') &&
-                                        (retryCell.textContent.trim() === '' || retryCell.textContent.trim() === '0') &&
-                                        (retryDetailCell.textContent.trim() === '' || retryDetailCell.textContent.trim() === '0') &&
-                                        (tooFarSkipCell.textContent.trim() === '' || tooFarSkipCell.textContent.trim() === '0') &&
-                                        (timeoutCell.textContent.trim() === '' || timeoutCell.textContent.trim() === '0') &&
-                                        (teleportCell.textContent.trim() === '' || teleportCell.textContent.trim() === '0');
-
-                                    matchesStats = !isAllZero;
-                                }
-                            }
-
-                            if (matchesStats) {
+                            if (isInTimeRange && matchesStats) {
                                 row.style.display = '';
                                 groupHasVisibleTask = true;
                             } else {
                                 row.style.display = 'none';
                             }
                         });
-                    } else if (useLegacyFormat) {
+                    } else {
                         // 旧版格式
                         const taskNameRows = table.querySelectorAll('tr .main-row-name');
-
                         taskNameRows.forEach(taskNameCell => {
                             const row = taskNameCell.closest('tr');
                             const taskId = row.getAttribute('data-task-id');
 
                             if (taskId) {
+                                // 判断任务是否在时间范围内
+                                const isInTimeRange = isTaskInTimeRange(row);
+
                                 // 检查统计列是否非零
-                                let matchesStats = true;
-                                if (hideZeroStatsTasks) {
-                                    const reviveCell = row.querySelector('.column-revive');
-                                    const retryCell = row.querySelector('.column-retry');
-                                    const retryDetailCell = row.querySelector('.column-retry-detail');
-                                    const tooFarSkipCell = row.querySelector('.column-too-far-skip');
-                                    const timeoutCell = row.querySelector('.column-timeout');
-                                    const teleportCell = row.querySelector('.column-teleport');
+                                const matchesStats = hideZeroStatsTasks ? !isRowAllZeroStats(row) : true;
 
-                                    if (reviveCell && retryCell && retryDetailCell && tooFarSkipCell && timeoutCell && teleportCell) {
-                                        const isAllZero =
-                                            (reviveCell.textContent.trim() === '' || reviveCell.textContent.trim() === '0') &&
-                                            (retryCell.textContent.trim() === '' || retryCell.textContent.trim() === '0') &&
-                                            (retryDetailCell.textContent.trim() === '' || retryDetailCell.textContent.trim() === '0') &&
-                                            (tooFarSkipCell.textContent.trim() === '' || tooFarSkipCell.textContent.trim() === '0') &&
-                                            (timeoutCell.textContent.trim() === '' || timeoutCell.textContent.trim() === '0') &&
-                                            (teleportCell.textContent.trim() === '' || teleportCell.textContent.trim() === '0');
-
-                                        matchesStats = !isAllZero;
-                                    }
+                                if (isInTimeRange && matchesStats) {
+                                    const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
+                                    relatedRows.forEach(r => {
+                                        if (!r.classList.contains('summary-row')) {
+                                            r.style.display = '';
+                                        }
+                                    });
+                                    groupHasVisibleTask = true;
+                                } else {
+                                    const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
+                                    relatedRows.forEach(r => {
+                                        r.style.display = 'none';
+                                    });
                                 }
+                            }
+                        });
+                    }
+                } else {
+                    // 普通任务筛选模式（H键筛选）
+
+                    // 第一步：检查配置组名是否匹配关键字
+                    const groupMatchesKeyword = currentFilterKeywords.some(keyword =>
+                        groupName.toLowerCase().includes(keyword.toLowerCase())
+                    );
+
+                    // 如果配置组名匹配，显示组内所有非零统计任务
+                    if (groupMatchesKeyword) {
+                        if (!useLegacyFormat) {
+                            const rows = table.querySelectorAll('tr');
+                            rows.forEach(row => {
+                                // 跳过表头行、队伍角色行和summary-row
+                                if (row.querySelector('th') || row.classList.contains('team-roles-row') || row.classList.contains('summary-row')) {
+                                    if (row.classList.contains('summary-row')) {
+                                        // 在普通筛选模式下，无论配置组名是否匹配，summary-row都保持隐藏
+                                        row.style.display = 'none';
+                                    } else {
+                                        row.style.display = '';
+                                    }
+                                    return;
+                                }
+
+                                // 检查统计列是否非零
+                                const matchesStats = hideZeroStatsTasks ? !isRowAllZeroStats(row) : true;
 
                                 if (matchesStats) {
-                                    const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
-                                    relatedRows.forEach(r => {
-                                        // 跳过summary-row
-                                        if (!r.classList.contains('summary-row')) {
-                                            r.style.display = '';
-                                        }
-                                    });
+                                    row.style.display = '';
                                     groupHasVisibleTask = true;
                                 } else {
-                                    const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
-                                    relatedRows.forEach(r => {
-                                        r.style.display = 'none';
-                                    });
-                                }
-                            }
-                        });
-                    }
-
-                }
-                // 如果配置组名不匹配，检查组内任务
-                else {
-                    // 新版格式：直接扫描所有行
-                    if (!useLegacyFormat) {
-                        const rows = table.querySelectorAll('tr');
-
-                        rows.forEach(row => {
-                            // 跳过表头行、队伍角色行和summary-row
-                            if (row.querySelector('th') || row.classList.contains('team-roles-row') || row.classList.contains('summary-row')) {
-                                // 确保这些行显示，但summary-row保持隐藏
-                                if (row.classList.contains('summary-row')) {
                                     row.style.display = 'none';
-                                } else {
-                                    row.style.display = '';
                                 }
-                                return;
-                            }
+                            });
+                        } else {
+                            // 旧版格式
+                            const taskNameRows = table.querySelectorAll('tr .main-row-name');
+                            taskNameRows.forEach(taskNameCell => {
+                                const row = taskNameCell.closest('tr');
+                                const taskId = row.getAttribute('data-task-id');
 
-                            // 获取任务名称
-                            const taskNameCell = row.querySelector('td:first-child');
-                            if (taskNameCell) {
-                                const taskName = taskNameCell.textContent.toLowerCase();
+                                if (taskId) {
+                                    // 检查统计列是否非零
+                                    const matchesStats = hideZeroStatsTasks ? !isRowAllZeroStats(row) : true;
 
-                                // 检查任务名称是否包含任一关键字
-                                const matchesKeyword = currentFilterKeywords.some(keyword =>
-                                    taskName.includes(keyword.toLowerCase())
-                                );
-
-                                // 检查统计列是否非零
-                                let matchesStats = true;
-                                if (hideZeroStatsTasks) {
-                                    const reviveCell = row.querySelector('.column-revive');
-                                    const retryCell = row.querySelector('.column-retry');
-                                    const retryDetailCell = row.querySelector('.column-retry-detail');
-                                    const tooFarSkipCell = row.querySelector('.column-too-far-skip');
-                                    const timeoutCell = row.querySelector('.column-timeout');
-                                    const teleportCell = row.querySelector('.column-teleport');
-
-                                    if (reviveCell && retryCell && retryDetailCell && tooFarSkipCell && timeoutCell && teleportCell) {
-                                        const isAllZero =
-                                            (reviveCell.textContent.trim() === '' || reviveCell.textContent.trim() === '0') &&
-                                            (retryCell.textContent.trim() === '' || retryCell.textContent.trim() === '0') &&
-                                            (retryDetailCell.textContent.trim() === '' || retryDetailCell.textContent.trim() === '0') &&
-                                            (tooFarSkipCell.textContent.trim() === '' || tooFarSkipCell.textContent.trim() === '0') &&
-                                            (timeoutCell.textContent.trim() === '' || timeoutCell.textContent.trim() === '0') &&
-                                            (teleportCell.textContent.trim() === '' || teleportCell.textContent.trim() === '0');
-
-                                        matchesStats = !isAllZero;
+                                    if (matchesStats) {
+                                        const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
+                                        relatedRows.forEach(r => {
+                                            // 跳过summary-row
+                                            if (!r.classList.contains('summary-row')) {
+                                                r.style.display = '';
+                                            }
+                                        });
+                                        groupHasVisibleTask = true;
+                                    } else {
+                                        const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
+                                        relatedRows.forEach(r => {
+                                            r.style.display = 'none';
+                                        });
                                     }
                                 }
-
-                                if (matchesKeyword && matchesStats) {
-                                    row.style.display = '';
-                                    groupHasVisibleTask = true;
-                                } else {
-                                    row.style.display = 'none';
-                                }
-                            }
-                        });
+                            });
+                        }
                     }
-                    // 旧版格式
+                    // 配置组名不匹配，检查任务名是否匹配关键字
                     else {
-                        const taskNameRows = table.querySelectorAll('tr .main-row-name');
+                        if (!useLegacyFormat) {
+                            const rows = table.querySelectorAll('tr');
+                            rows.forEach(row => {
+                                // 跳过表头行、队伍角色行和summary-row
+                                if (row.querySelector('th') || row.classList.contains('team-roles-row') || row.classList.contains('summary-row')) {
+                                    // 在普通筛选模式下，如果配置组名不匹配，summary-row也保持隐藏
+                                    if (row.classList.contains('summary-row')) {
+                                        row.style.display = 'none';
+                                    } else {
+                                        row.style.display = '';
+                                    }
+                                    return;
+                                }
 
-                        taskNameRows.forEach(taskNameCell => {
-                            const row = taskNameCell.closest('tr');
-                            const taskId = row.getAttribute('data-task-id');
+                                // 获取任务名称
+                                const taskNameCell = row.querySelector('td:first-child');
+                                if (taskNameCell) {
+                                    const taskName = taskNameCell.textContent.toLowerCase();
 
-                            if (taskId) {
-                                const taskName = taskNameCell.textContent.toLowerCase();
+                                    // 检查任务名称是否包含任一关键字
+                                    const matchesKeyword = currentFilterKeywords.some(keyword =>
+                                        taskName.includes(keyword.toLowerCase())
+                                    );
 
-                                // 检查任务名称是否包含任一关键字
-                                const matchesKeyword = currentFilterKeywords.some(keyword =>
-                                    taskName.includes(keyword.toLowerCase())
-                                );
+                                    // 检查统计列是否非零
+                                    const matchesStats = hideZeroStatsTasks ? !isRowAllZeroStats(row) : true;
 
-                                // 检查统计列是否非零
-                                let matchesStats = true;
-                                if (hideZeroStatsTasks) {
-                                    const reviveCell = row.querySelector('.column-revive');
-                                    const retryCell = row.querySelector('.column-retry');
-                                    const retryDetailCell = row.querySelector('.column-retry-detail');
-                                    const tooFarSkipCell = row.querySelector('.column-too-far-skip');
-                                    const timeoutCell = row.querySelector('.column-timeout');
-                                    const teleportCell = row.querySelector('.column-teleport');
-
-                                    if (reviveCell && retryCell && retryDetailCell && tooFarSkipCell && timeoutCell && teleportCell) {
-                                        const isAllZero =
-                                            (reviveCell.textContent.trim() === '' || reviveCell.textContent.trim() === '0') &&
-                                            (retryCell.textContent.trim() === '' || retryCell.textContent.trim() === '0') &&
-                                            (retryDetailCell.textContent.trim() === '' || retryDetailCell.textContent.trim() === '0') &&
-                                            (tooFarSkipCell.textContent.trim() === '' || tooFarSkipCell.textContent.trim() === '0') &&
-                                            (timeoutCell.textContent.trim() === '' || timeoutCell.textContent.trim() === '0') &&
-                                            (teleportCell.textContent.trim() === '' || teleportCell.textContent.trim() === '0');
-
-                                        matchesStats = !isAllZero;
+                                    if (matchesKeyword && matchesStats) {
+                                        row.style.display = '';
+                                        groupHasVisibleTask = true;
+                                    } else {
+                                        row.style.display = 'none';
                                     }
                                 }
+                            });
+                        } else {
+                            // 旧版格式
+                            const taskNameRows = table.querySelectorAll('tr .main-row-name');
+                            taskNameRows.forEach(taskNameCell => {
+                                const row = taskNameCell.closest('tr');
+                                const taskId = row.getAttribute('data-task-id');
 
-                                if (matchesKeyword && matchesStats) {
-                                    const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
-                                    relatedRows.forEach(r => {
-                                        // 跳过summary-row
-                                        if (!r.classList.contains('summary-row')) {
-                                            r.style.display = '';
-                                        }
-                                    });
-                                    groupHasVisibleTask = true;
-                                } else {
-                                    const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
-                                    relatedRows.forEach(r => {
-                                        r.style.display = 'none';
-                                    });
+                                if (taskId) {
+                                    const taskName = taskNameCell.textContent.toLowerCase();
+
+                                    // 检查任务名称是否包含任一关键字
+                                    const matchesKeyword = currentFilterKeywords.some(keyword =>
+                                        taskName.includes(keyword.toLowerCase())
+                                    );
+
+                                    // 检查统计列是否非零
+                                    const matchesStats = hideZeroStatsTasks ? !isRowAllZeroStats(row) : true;
+
+                                    if (matchesKeyword && matchesStats) {
+                                        const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
+                                        relatedRows.forEach(r => {
+                                            if (!r.classList.contains('summary-row')) {
+                                                r.style.display = '';
+                                            }
+                                        });
+                                        groupHasVisibleTask = true;
+                                    } else {
+                                        const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
+                                        relatedRows.forEach(r => {
+                                            r.style.display = 'none';
+                                        });
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                 }
-
                 // 如果配置组没有可见任务且处于隐藏模式，隐藏整个配置组
                 if (hideZeroStatsTasks && !groupHasVisibleTask) {
                     container.style.display = 'none';
@@ -6185,10 +6603,10 @@
                     container.style.display = '';
                 }
             });
+
         }
 
-
-        // 新增：非筛选模式下的零统计筛选
+        // 非筛选模式下的零统计筛选
         function toggleZeroStatsTasksNormal() {
             const tables = document.querySelectorAll('table');
 
@@ -6267,6 +6685,21 @@
                 // 如果配置组没有可见任务且处于隐藏模式，隐藏整个配置组
                 if (hideZeroStatsTasks && !hasVisibleTask) {
                     container.style.display = 'none';
+                }
+            });
+        }
+
+        // 添加更新任务数量的逻辑
+        function updateTaskCounts() {
+            const tables = document.querySelectorAll('table');
+
+            tables.forEach(table => {
+                const container = table.closest('.group-container');
+                const visibleTasks = container.querySelectorAll('tr[data-original-index]:not([style*="display: none"])').length;
+                const taskCountElement = table.querySelector('.task-count');
+
+                if (taskCountElement) {
+                    taskCountElement.textContent = `${visibleTasks}个`;
                 }
             });
         }
@@ -6664,7 +7097,7 @@
             const quickNavToggle = document.getElementById('quickNavToggle');
             const quickNav = document.getElementById('quickNav');
             const quickNavSearch = document.getElementById('quickNavSearch');
-            const quickNavExclude = document.getElementById('quickNavExclude'); // 新增
+            const quickNavExclude = document.getElementById('quickNavExclude');
 
             if (!quickNavToggle || !quickNav) return;
 
@@ -6785,7 +7218,7 @@
 
             const groups = document.querySelectorAll('.group-container');
             let hasVisibleGroups = false;
-            let totalDurationSeconds = 0; // 新增：用于累计总时长（秒）
+            let totalDurationSeconds = 0; // 用于累计总时长（秒）
 
             groups.forEach((group, index) => {
                 // 检查配置组是否可见
@@ -6818,12 +7251,12 @@
                 quickNavItems.appendChild(navItem);
                 hasVisibleGroups = true;
 
-                // 新增：累加总时长
+                // 累加总时长
                 const durationInSeconds = extractDurationFromTitle(fullTitle);
                 totalDurationSeconds += durationInSeconds;
             });
 
-            // 新增：更新总时长显示
+            // 更新总时长显示
             updateTotalDurationDisplay(totalDurationSeconds);
 
             // 如果没有可见的配置组，显示提示
@@ -6836,7 +7269,7 @@
                 noResults.style.fontStyle = 'italic';
                 quickNavItems.appendChild(noResults);
 
-                // 新增：如果没有可见配置组，总时长显示为0
+                // 如果没有可见配置组，总时长显示为0
                 updateTotalDurationDisplay(0);
             }
         }
@@ -6921,7 +7354,7 @@
                 : [];
 
             let hasMatches = false;
-            let totalDurationSeconds = 0; // 新增：用于累计总时长（秒）
+            let totalDurationSeconds = 0; // 用于累计总时长（秒）
 
             navItems.forEach(item => {
                 // 跳过"没有可见的配置组"提示
@@ -6950,7 +7383,7 @@
                     item.style.display = 'block';
                     hasMatches = true;
 
-                    // 新增：获取该配置组的时长并累加
+                    // 获取该配置组的时长并累加
                     const fullTitle = item.getAttribute('data-full-title');
                     if (fullTitle) {
                         const durationInSeconds = extractDurationFromTitle(fullTitle);
@@ -6991,7 +7424,7 @@
             }
         }
 
-        // 新增：从配置组标题中提取时长（秒）
+        // 从配置组标题中提取时长（秒）
         function extractDurationFromTitle(fullTitle) {
             // 示例标题格式："配置組：自動釣魚　下 (2025/05/23 07:19:45 - 2025/05/23 09:34:18) 耗时2小时14分钟33秒"
             // 或 "配置組：鋤JS-精英 (2025/12/26 04:20:24 - 2025/12/26 08:08:24) 耗时3小时48分钟"
@@ -7012,7 +7445,7 @@
             return 0;
         }
 
-        // 新增：更新总时长显示
+        // 更新总时长显示
         function updateTotalDurationDisplay(totalSeconds) {
             const totalTimeValueElement = document.getElementById('quickNavTotalTimeValue');
             if (totalTimeValueElement) {
