@@ -7,9 +7,8 @@ import {config} from "../config/config";
  * @returns {Promise<HttpResponse>}
  */
 async function pullJsonConfig(uid, http_api) {
-    const res = await http.request("GET", http_api, JSON.stringify({
-            uid: uid,
-        })
+    http_api += "?uid=" + uid
+    const res = await http.request("GET", http_api
         // , JSON.stringify({"Content-Type": "application/json"})
     )
     log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
