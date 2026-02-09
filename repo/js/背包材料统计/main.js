@@ -1319,7 +1319,9 @@ async function processMonsterPathEntry(entry, context) {
     const endTime = new Date().toLocaleString();
     const runTime = (new Date(endTime) - new Date(startTime)) / 1000;
 
-    const noRecordContent = `路径名: ${pathName}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: noRecord模式忽略\n\n`;
+    // 生成内容检测码
+    const contentCode = pathingFilePath ? generatePathContentCode(pathingFilePath) : "00000000";
+    const noRecordContent = `路径名: ${pathName}\n内容检测码: ${contentCode}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: noRecord模式忽略\n\n`;
     writeContentToFile(`${noRecordDir}/${monsterName}.txt`, noRecordContent);
   } else {
     // 普通记录模式
@@ -1471,7 +1473,9 @@ async function processNormalPathEntry(entry, context) {
     const endTime = new Date().toLocaleString();
     const runTime = (new Date(endTime) - new Date(startTime)) / 1000;
 
-    const noRecordContent = `路径名: ${pathName}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: noRecord模式忽略\n\n`;
+    // 生成内容检测码
+    const contentCode = pathingFilePath ? generatePathContentCode(pathingFilePath) : "00000000";
+    const noRecordContent = `路径名: ${pathName}\n内容检测码: ${contentCode}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: noRecord模式忽略\n\n`;
     writeContentToFile(`${noRecordDir}/${resourceName}.txt`, noRecordContent);
   } else {
     if (currentMaterialName !== resourceName) {
@@ -1643,7 +1647,9 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
           const resourceName = entry.monsterName || entry.resourceName || '未知资源';
           const startTime = new Date().toLocaleString();
           const endTime = new Date().toLocaleString();
-          const noRecordContent = `路径名: ${pathName}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: 0秒\n数量变化: ${singleError.message}\n\n`;
+          // 生成内容检测码
+          const contentCode = entry.path ? generatePathContentCode(entry.path) : "00000000";
+          const noRecordContent = `路径名: ${pathName}\n内容检测码: ${contentCode}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: 0秒\n数量变化: ${singleError.message}\n\n`;
           writeContentToFile(`${CONSTANTS.NO_RECORD_DIR}/${resourceName}.txt`, noRecordContent);
           log.info(`${CONSTANTS.LOG_MODULES.RECORD}已将错误路径记录为noRecord模式：${pathName}`);
         } catch (recordError) {
