@@ -26,7 +26,8 @@
     {
       "name": "bgi_tools_http_pull_json_config",
       "type": "input-text",
-      "label": "bgi_tools拉取配置api(去看文档)"
+      "label": "bgi_tools拉取配置api(去看文档)",
+      "default": "http://127.0.0.1:8081/bgi/auto/plan/domain/json"
     },
     {
       "name": "bgi_tools_open_push",
@@ -36,6 +37,7 @@
     {
       "name": "bgi_tools_http_push_all_json_config",
       "type": "input-text",
-      "label": "bgi_tools推送全部配置api(去看文档)"
+      "label": "bgi_tools推送全部配置api(去看文档)",
+      "default": "http://127.0.0.1:8081/bgi/auto/plan/domain/json/all"
     }
 ]

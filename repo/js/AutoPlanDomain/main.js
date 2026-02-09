@@ -65,7 +65,7 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
                     //     item.day = parseDay(item.day);
                     // }
                     if (item.days && item.days.length > 0) {
-                        item.days = item.days.map(day => parseDay(day)).filter(day => day !== undefined)
+                        item.days = item.days.map(day => parseDay(day)).filter(day => day)
                         // item.day = parseDay(item.day);
                     }
                     autoFightOrderSet.add(item)
@@ -151,7 +151,7 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
                     // 将秘境顺序对象添加到列表中
                     // 主逻辑优化
                     if (item.days && item.days.length > 0) {
-                        item.days = item.days.map(day => parseDay(day)).filter(day => day !== undefined)
+                        item.days = item.days.map(day => parseDay(day)).filter(day => day)
                         // item.day = parseDay(item.day);
                     }
                     autoFightOrderSet.add(item)
@@ -232,11 +232,20 @@ async function main() {
     let domainConfig = config.domain.config;
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|周几执行(0-6)不填默认执行|执行顺序,..."
     const autoFightOrderList = initDomainOrderList(domainConfig);
-    autoFightOrderList.sort((a, b) => b.order - a.order)
-    await autoDomainList(autoFightOrderList);
+    if (autoFightOrderList?.length > 0) {
+        autoFightOrderList.sort((a, b) => b.order - a.order)
+        await autoDomainList(autoFightOrderList);
+    } else {
+        log.info(`本日无计划`)
+    }
+
 }
 
-await main()
+(async function () {
+    // await test()
+    // await test1()
+    await main()
+})()
 
 async function test() {
     await init();
@@ -245,9 +254,18 @@ async function test() {
     // log.info("text:{1}",text)
     const list = JSON.parse(text);
     // log.info("list:{1}",list)
-    log.info("httpPullJsonConfig:{1}", JSON.parse(JSON.stringify(config.bgi_tools)).api.httpPushAllJsonConfig)
+    log.info("httpPullJsonConfig:{1}", config.bgi_tools.api.httpPushAllJsonConfig)
     log.info("|test==>config.bgi_tools:{1}", JSON.stringify(config.bgi_tools))
     await pushAllJsonConfig(list, config.bgi_tools.api.httpPushAllJsonConfig)
 }
 
-// await test()
+
+async function test1() {
+    await init();
+    // log.info("text:{1}",text)
+    // log.info("list:{1}",list)
+    log.info("httpPullJsonConfig:{1}", config.bgi_tools.api.httpPullJsonConfig)
+    log.info("|test==>config.bgi_tools:{1}", JSON.stringify(config.bgi_tools))
+    const list = await pullJsonConfig(config.user.uid, config.bgi_tools.api.httpPullJsonConfig)
+    log.info("list:{1}", JSON.stringify(list))
+}
