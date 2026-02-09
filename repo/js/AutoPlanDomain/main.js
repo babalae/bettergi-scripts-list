@@ -164,6 +164,7 @@ async function initDomainOrderList(domainConfig) {
     const autoFightOrderSet = new Set() // 存储秘境顺序列表的数组
     /*    let te = {
             order: 1,      // 顺序值
+            day: 0,// 执行日期
             autoFight: {
                 domainName: undefined,//秘境名称
                 partyName: undefined,//队伍名称
