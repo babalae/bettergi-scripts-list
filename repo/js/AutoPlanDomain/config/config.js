@@ -163,10 +163,10 @@ async function checkKey(key = "") {
 async function initConfig() {
     config.info.key = settings.key || config.info.key
     await checkKey(config.info.key)
-    //流程->返回主页 打开地图 返回主页
-    const physical = await ocrPhysical(true, true)
-    config.user.physical.current = physical.current
-    config.user.physical.min = physical.min
+    // //流程->返回主页 打开地图 返回主页
+    // const physical = await ocrPhysical(true, true)
+    // config.user.physical.current = physical.current
+    // config.user.physical.min = physical.min
     // 初始化uid
     config.user.uid = await ocrUid()
     config.bgi_tools.api.httpPullJsonConfig = settings.bgi_tools_http_pull_json_config

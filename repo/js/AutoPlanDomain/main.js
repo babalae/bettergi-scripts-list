@@ -2,6 +2,7 @@ import {config, initConfig, initSettings, LoadType} from './config/config';
 import {ocrUid} from './utils/uid';
 import {getDayOfWeek} from './utils/tool';
 import {pullJsonConfig, pushAllJsonConfig} from './utils/bgi_tools';
+import {ocrPhysical} from "./utils/physical";
 
 /**
  * 自动执行秘境任务的异步函数
@@ -9,6 +10,14 @@ import {pullJsonConfig, pushAllJsonConfig} from './utils/bgi_tools';
  * @returns {Promise<void>} - 执行完成后返回的Promise
  */
 async function autoDomain(autoFight) {
+    //流程->返回主页 打开地图 返回主页
+    const physicalOcr = await ocrPhysical(true, true)
+    config.user.physical.current = physicalOcr.current
+    config.user.physical.min = physicalOcr.min
+    const physical = config.user.physical
+    if (physical.current >= physical.min) {
+        throwError(`体力不足，当前体力${physical.current}，最低体力${physical.min}，请手动补充体力后重试`)
+    }
     // 创建秘境参数对象，初始化值为0
     let domainParam = new AutoDomainParam(autoFight.DomainRoundNum);
     //秘境名称
