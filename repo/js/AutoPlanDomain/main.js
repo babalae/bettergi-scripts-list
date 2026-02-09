@@ -61,8 +61,12 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
                 uidConfigList.forEach(item => {
                     // 将秘境顺序对象添加到列表中
                     // 主逻辑优化
-                    if (item.day !== undefined) {
-                        item.day = parseDay(item.day);
+                    // if (item.day !== undefined) {
+                    //     item.day = parseDay(item.day);
+                    // }
+                    if (item.days && item.days.length > 0) {
+                        item.days = item.days.map(day => parseDay(day)).filter(day => day !== undefined)
+                        // item.day = parseDay(item.day);
                     }
                     autoFightOrderSet.add(item)
                 })
@@ -87,7 +91,10 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
                         let domainName = arr[1]; // 解析秘境名称
                         let domainRoundNum = arr[2]; // 解析副本轮数
                         let sundaySelectedValue = arr[3]; // 解析周日|限时选择的值
-                        let day = arr[4].trim() != "" ? parseInt(arr[4]) : undefined;
+                        // let day = arr[4].trim() != "" ? parseInt(arr[4]) : undefined;
+                        let days = arr[4].trim() !== ""
+                            ? arr[4].split('/').map(d => parseInt(d.trim())).filter(d => !isNaN(d))
+                            : [];
                         // 解析顺序值，处理可能的无效值
                         let order = (() => {
                             const rawOrder = arr[5]; // 获取原始值
@@ -123,7 +130,8 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
                         // 创建秘境顺序对象
                         let autoFightOrder = {
                             order: order,      // 顺序值
-                            day: day,// 执行日期
+                            // day: day,// 执行日期
+                            days: days,        // 执行日期（数组）
                             autoFight: autoFight // 秘境信息对象
                         }
                         // 将秘境顺序对象添加到列表中
@@ -136,14 +144,15 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
         case LoadType.bgi_tools:
             // 通过bgi_tools方式加载配置
             log.info(`开始拉取bgi_tools配置`)
-            const uidConfigListBgiTools = await pullJsonConfig(config.user.uid + '',config.bgi_tools.api.httpPullJsonConfig) || []
+            const uidConfigListBgiTools = await pullJsonConfig(config.user.uid + '', config.bgi_tools.api.httpPullJsonConfig) || []
             if (uidConfigListBgiTools?.length > 0) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
                 uidConfigListBgiTools.forEach(item => {
                     // 将秘境顺序对象添加到列表中
                     // 主逻辑优化
-                    if (item.day !== undefined) {
-                        item.day = parseDay(item.day);
+                    if (item.days && item.days.length > 0) {
+                        item.days = item.days.map(day => parseDay(day)).filter(day => day !== undefined)
+                        // item.day = parseDay(item.day);
                     }
                     autoFightOrderSet.add(item)
                 })
@@ -186,8 +195,11 @@ async function initDomainOrderList(domainConfig) {
     let from = Array.from(autoFightOrderSet);
     let dayOfWeek = getDayOfWeek();
     from = from.filter(item => {
-        if (item.day) {
-            return item.day === dayOfWeek.day
+        // if (item.day) {
+        //     return item.day === dayOfWeek.day
+        // }
+        if (item.days && item.days.length > 0) {
+            return item.days.includes(dayOfWeek.day);
         }
         return true
     })
@@ -214,7 +226,7 @@ async function main() {
     await init();
     if (config.bgi_tools.open.open_push) {
         log.info(`开始推送bgi_tools配置`)
-        await pushAllJsonConfig(JSON.parse(file.readTextSync(config.path.domain)),config.bgi_tools.api.httpPushAllJsonConfig)
+        await pushAllJsonConfig(JSON.parse(file.readTextSync(config.path.domain)), config.bgi_tools.api.httpPushAllJsonConfig)
     }
     // 获取秘境配置
     let domainConfig = config.domain.config;
@@ -225,6 +237,7 @@ async function main() {
 }
 
 await main()
+
 async function test() {
     await init();
     const text = file.readTextSync(config.path.domain);
@@ -232,9 +245,9 @@ async function test() {
     // log.info("text:{1}",text)
     const list = JSON.parse(text);
     // log.info("list:{1}",list)
-    log.info("httpPullJsonConfig:{1}",JSON.parse(JSON.stringify(config.bgi_tools)).api.httpPushAllJsonConfig)
-    log.info("|test==>config.bgi_tools:{1}",JSON.stringify(config.bgi_tools))
-    await pushAllJsonConfig(list,config.bgi_tools.api.httpPushAllJsonConfig)
+    log.info("httpPullJsonConfig:{1}", JSON.parse(JSON.stringify(config.bgi_tools)).api.httpPushAllJsonConfig)
+    log.info("|test==>config.bgi_tools:{1}", JSON.stringify(config.bgi_tools))
+    await pushAllJsonConfig(list, config.bgi_tools.api.httpPushAllJsonConfig)
 }
 
 // await test()
