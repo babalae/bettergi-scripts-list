@@ -151,7 +151,7 @@ async function getValueByMultiCheckboxName(name) {
  * 检查密钥是否正确
  */
 async function checkKey(key = "") {
-    if (config.info.key !== key.trim()) {
+    if (config?.info?.manifest?.key !== key?.trim()) {
         throw new Error("密钥错误");
     }
 }
@@ -162,11 +162,7 @@ async function checkKey(key = "") {
  */
 async function initConfig() {
     config.info.key = settings.key || config.info.key
-    if (config.info?.key) {
-        if (config.info.key !== config.info.manifest?.key) {
-            throw new Error("密钥不匹配!")
-        }
-    }
+    await checkKey(config.info.key)
     //流程->返回主页 打开地图 返回主页
     const physical = await ocrPhysical(true, true)
     config.user.physical.current = physical.current
