@@ -136,7 +136,7 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
         case LoadType.bgi_tools:
             // 通过bgi_tools方式加载配置
             log.info(`开始拉取bgi_tools配置`)
-            const uidConfigListBgiTools = await pullJsonConfig(config.user.uid + '') || []
+            const uidConfigListBgiTools = await pullJsonConfig(config.user.uid + '',config.bgi_tools.api.httpPullJsonConfig) || []
             if (uidConfigListBgiTools?.length > 0) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
                 uidConfigListBgiTools.forEach(item => {
@@ -214,7 +214,7 @@ async function main() {
     await init();
     if (config.bgi_tools.open.open_push) {
         log.info(`开始推送bgi_tools配置`)
-        await pushAllJsonConfig(JSON.stringify(file.readTextSync(config.path.domain)))
+        await pushAllJsonConfig(JSON.parse(file.readTextSync(config.path.domain)),config.bgi_tools.api.httpPushAllJsonConfig)
     }
     // 获取秘境配置
     let domainConfig = config.domain.config;
@@ -225,3 +225,16 @@ async function main() {
 }
 
 await main()
+async function test() {
+    await init();
+    const text = file.readTextSync(config.path.domain);
+    // log.info("settings:{1}",config.info.settings)
+    // log.info("text:{1}",text)
+    const list = JSON.parse(text);
+    // log.info("list:{1}",list)
+    log.info("httpPullJsonConfig:{1}",JSON.parse(JSON.stringify(config.bgi_tools)).api.httpPushAllJsonConfig)
+    log.info("|test==>config.bgi_tools:{1}",JSON.stringify(config.bgi_tools))
+    await pushAllJsonConfig(list,config.bgi_tools.api.httpPushAllJsonConfig)
+}
+
+// await test()

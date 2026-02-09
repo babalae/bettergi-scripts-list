@@ -6,45 +6,44 @@ import {config} from "../config/config";
  * @param http_api
  * @returns {Promise<HttpResponse>}
  */
-async function pullJsonConfig(uid, http_api = config.bgi_tools.api.httpPullJsonConfig) {
-    const result = http.request("GET", http_api, JSON.stringify({
+async function pullJsonConfig(uid, http_api) {
+    const res = await http.request("GET", http_api, JSON.stringify({
             uid: uid,
         })
         // , JSON.stringify({"Content-Type": "application/json"})
-    ).then(res => {
-        log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
-        if (res.status_code === 200 && res.body) {
-            let result_json = JSON.parse(res.body);
-            if (result_json?.code === 200) {
-                return result_json?.data
-            }
-            throw new Error("请求失败,error:" + result_json?.message)
+    )
+    log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
+    if (res.status_code === 200 && res.body) {
+        let result_json = JSON.parse(res.body);
+        if (result_json?.code === 200) {
+            return result_json?.data
         }
-        return undefined
-    })
-    return result
+        throw new Error("请求失败,error:" + result_json?.message)
+    }
+    return undefined
 }
 
 /**
  * 推送全部Json数据
  * @param Json
  * @param http_api
- * @returns {Promise<void>}
+ * @returns {Promise<HttpResponse>}
  */
-async function pushAllJsonConfig(Json = "[]", http_api = config.bgi_tools.api.httpPushAllJsonConfig) {
-    const result = http.request("POST", http_api, Json
-        , JSON.stringify({"Content-Type": "application/json"})
-    ).then(res => {
-        log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
-        if (res.status_code === 200 && res.body) {
-            let result_json = JSON.parse(res.body);
-            if (result_json?.code === 200) {
-                return result_json?.data
-            }
-            throw new Error("请求失败,error:" + result_json?.message)
+async function pushAllJsonConfig(list = [], http_api) {
+    log.info(`list:{1},http:{2}`, list, http_api)
+    const res = await http.request("POST", http_api, JSON.stringify({json: JSON.stringify(list)}), JSON.stringify({
+        "Content-Type": "application/json"
+    }))
+
+    log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
+    if (res.status_code === 200 && res.body) {
+        let result_json = JSON.parse(res.body);
+        if (result_json?.code === 200) {
+            return result_json?.data
         }
-        return undefined
-    })
+        throw new Error("请求失败,error:" + result_json?.message)
+    }
+    return undefined
 }
 
 export {
