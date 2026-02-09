@@ -45,7 +45,7 @@ const config = {
 const LoadType = Object.freeze({
     uid: 'uid',//uid加载
     input: 'input',//input加载
-    bgi_tools: 'bgi_tools',//input加载
+    bgi_tools: 'bgi_tools',//bgi_tools加载
     fromValue(value) {
         return Object.keys(this).find(key => this[key] === value);
     }
