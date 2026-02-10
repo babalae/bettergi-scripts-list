@@ -73,8 +73,15 @@
   }
 ]
 ```
+### 如果你不想研究语法 请部署[bettergi-scripts-tools](https://github.com/Kirito520Asuna/bettergi-scripts-tools) v0.0.4以上版本
 
+***`话不多说直接上图:`***
 
+![login](md/bgi-tools-login.jpg)
+![init](md/bgi-tools-config-ui-init.jpg)
+![config](md/bgi-tools-config-ui.jpg)
+![config-01](md/bgi-tools-config-ui-01.jpg)
+![config-02](md/bgi-tools-config-ui-02.jpg)
 ## 使用建议
 
 1. 第一次使用建议只勾选「输入加载」，把计划写在 `domain_config` 里测试
