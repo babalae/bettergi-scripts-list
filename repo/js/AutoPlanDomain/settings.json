@@ -40,4 +40,11 @@
       "label": "bgi_tools推送全部配置api(去看文档)",
       "default": "http://127.0.0.1:8081/bgi/auto/plan/domain/json/all"
     }
+,
+    {
+      "name": "bgi_tools_token",
+      "type": "input-text",
+      "label": "bgi_tools授权token 语法:tokenName=tokenValue(去看文档)",
+      "default": "Authorization= "
+    }
 ]

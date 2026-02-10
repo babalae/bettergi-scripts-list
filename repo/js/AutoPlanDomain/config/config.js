@@ -9,6 +9,11 @@ const config = {
         loads: [],//加载方式list
     },
     bgi_tools: {
+        //授权token
+        token: {
+            name: 'Authorization',
+            value: ''
+        },
         api: {
             httpPullJsonConfig: undefined,
             httpPushAllJsonConfig: undefined,
@@ -169,10 +174,14 @@ async function initConfig() {
     // config.user.physical.min = physical.min
     // 初始化uid
     config.user.uid = await ocrUid()
+    const bgi_tools_token = settings.bgi_tools_token||"Authorization= "
+    const list = Array.from(bgi_tools_token.split("=")).map(item=>item.trim());
+    config.bgi_tools.token.name = list[0]
+    config.bgi_tools.token.value = list[1]
     config.bgi_tools.api.httpPullJsonConfig = settings.bgi_tools_http_pull_json_config
     config.bgi_tools.api.httpPushAllJsonConfig = settings.bgi_tools_http_push_all_json_config
     config.bgi_tools.open.open_push = settings.bgi_tools_open_push
-    log.info(`|bgi_tools:{1}`, JSON.stringify(config.bgi_tools))
+    log.debug(`|bgi_tools:{1}`, JSON.stringify(config.bgi_tools))
     // const text = file.readTextSync(config.path.domain);
     // log.info("config.path.domain:{1}",config.path.domain)
     // log.info("text:{2}",text)

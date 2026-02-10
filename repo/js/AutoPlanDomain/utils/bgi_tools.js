@@ -1,4 +1,3 @@
-import {config} from "../config/config";
 
 /**
  * 拉取对应uid的Json数据
@@ -28,11 +27,14 @@ async function pullJsonConfig(uid, http_api) {
  * @param http_api
  * @returns {Promise<HttpResponse>}
  */
-async function pushAllJsonConfig(list = [], http_api) {
+async function pushAllJsonConfig(list = [], http_api,token={name: "Authorization", value: ''}) {
     log.info(`list:{1},http:{2}`, list, http_api)
-    const res = await http.request("POST", http_api, JSON.stringify({json: JSON.stringify(list)}), JSON.stringify({
-        "Content-Type": "application/json"
-    }))
+    let value = {
+        "Content-Type": "application/json",
+        [token.name]: token.value
+    };
+
+    const res = await http.request("POST", http_api, JSON.stringify({json: JSON.stringify(list)}), JSON.stringify(value))
 
     log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
     if (res.status_code === 200 && res.body) {
