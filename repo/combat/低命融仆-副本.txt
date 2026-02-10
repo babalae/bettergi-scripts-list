@@ -1,9 +1,9 @@
 // 作者:Polaris
 // 描述:0命or1命仆人融化队
+茜特菈莉 attack,wait(0.1),e,keypress(F1),wait(1),keypress(ESCAPE),keypress(q),wait(0.15),ready
 阿蕾奇诺 charge,e,wait(0.15)
 班尼特 e,keypress(F1),wait(1),keypress(ESCAPE),keypress(q),wait(0.15),ready
 枫原万叶 e,wait(0.15)
 砂糖 e,wait(0.15)
-希诺宁 e,attack,attack
-茜特菈莉 attack,wait(0.1),e,keypress(F1),wait(1),keypress(ESCAPE),keypress(q),wait(0.15),ready
+希诺宁 e,attack(0.35), wait(0.1), attack(0.35)
 阿蕾奇诺 charge,dash(0.3),attack(3),dash,attack(3),dash,attack(3),dash
