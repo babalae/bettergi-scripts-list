@@ -86,7 +86,7 @@ async function findFIcon(recognitionObject, timeout = 10, ra = null) {
 
 // 定义Scroll.png识别对象（无修改，与OCR无关）
 const ScrollRo = RecognitionObject.TemplateMatch(
-    file.ReadImageMatSync("assets/Scroll.png"), 
+    file.ReadImageMatSync("assets/Scroll.png"),
     1055, 521, 15, 35  // 识别范围：x=1055, y=521, width=15, height=35
 );
 
@@ -149,7 +149,7 @@ async function alignAndInteractTarget(targetTexts, fDialogueRo, textxRange, text
             // 4. 文本匹配与交互（双向匹配，增强容错性）
             let foundTarget = false;
             for (const targetText of targetTexts) {
-                const targetResult = ocrResults.find(res => 
+                const targetResult = ocrResults.find(res =>
                     res.text.includes(targetText) || targetText.includes(res.text)
                 );
                 if (!targetResult) continue;

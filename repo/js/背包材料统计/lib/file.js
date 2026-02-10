@@ -55,14 +55,14 @@ function fileExists(filePath) {
     try {
         // 2. 路径标准化（复用已有normalizePath，统一分隔符）
         const normalizedFilePath = normalizePath(filePath);
-        
+
         // 3. 拆分「文件所在目录」和「文件名」（核心步骤）
         // 3.1 提取纯文件名（复用已有basename）
         const fileName = basename(normalizedFilePath);
         // 3.2 提取文件所在的目录路径（基于标准化路径拆分）
         // 修复：当没有目录结构时，使用'.'表示当前目录，而不是'/'（避免越界访问）
-        const dirPath = normalizedFilePath.lastIndexOf('/') !== -1 
-            ? normalizedFilePath.substring(0, normalizedFilePath.lastIndexOf('/')) 
+        const dirPath = normalizedFilePath.lastIndexOf('/') !== -1
+            ? normalizedFilePath.substring(0, normalizedFilePath.lastIndexOf('/'))
             : '.';
 
         // 4. 先判断目录是否存在
@@ -113,20 +113,20 @@ function fileExists(filePath) {
  * @returns {any} 文件内容（成功）| defaultValue（失败）
  */
 function safeReadTextSync(filePath, defaultValue = "") {
-  try {
-    // 第一步：校验文件是否存在
-    if (!fileExists(filePath)) {
-      log.debug(`${CONSTANTS.LOG_MODULES.RECORD}文件不存在，跳过读取: ${filePath}`);
-      return defaultValue;
+    try {
+        // 第一步：校验文件是否存在
+        if (!fileExists(filePath)) {
+            log.debug(`${CONSTANTS.LOG_MODULES.RECORD}文件不存在，跳过读取: ${filePath}`);
+            return defaultValue;
+        }
+        // 第二步：读取文件（捕获读取异常）
+        const content = file.readTextSync(filePath);
+        // log.debug(`${CONSTANTS.LOG_MODULES.RECORD}成功读取文件: ${filePath}`);
+        return content;
+    } catch (error) {
+        log.debug(`${CONSTANTS.LOG_MODULES.RECORD}读取文件失败: ${filePath} → 原因：${error.message}`);
+        return defaultValue;
     }
-    // 第二步：读取文件（捕获读取异常）
-    const content = file.readTextSync(filePath);
-    // log.debug(`${CONSTANTS.LOG_MODULES.RECORD}成功读取文件: ${filePath}`);
-    return content;
-  } catch (error) {
-    log.debug(`${CONSTANTS.LOG_MODULES.RECORD}读取文件失败: ${filePath} → 原因：${error.message}`);
-    return defaultValue;
-  }
 }
 
 // 带深度限制的非递归文件夹读取
@@ -139,11 +139,11 @@ function readAllFilePaths(dir, depth = 0, maxDepth = 3, includeExtensions = ['.p
     try {
         const filePaths = [];
         const stack = [[dir, depth]]; // 存储(路径, 当前深度)的栈
-        
+
         while (stack.length > 0) {
             const [currentDir, currentDepth] = stack.pop();
             const entries = file.readPathSync(currentDir);
-            
+
             for (const entry of entries) {
                 const isDirectory = pathExists(entry);
                 if (isDirectory) {
@@ -174,20 +174,20 @@ function writeFile(filePath, content, isAppend = true, maxRecords = 36500) {
                 // 文件不存在时视为空内容
                 existingContent = "";
             }
-            
+
             // 分割现有记录并过滤空记录
             const records = existingContent.split("\n\n").filter(Boolean);
-            
+
             // 新内容放在最前面，形成完整记录列表
             const allRecords = [content, ...records];
-            
+
             // 只保留最新的maxRecords条（超过则删除最老的）
             const keptRecords = allRecords.slice(0, maxRecords);
-            
+
             // 拼接记录并写入文件
             const finalContent = keptRecords.join("\n\n");
             const result = file.writeTextSync(filePath, finalContent, false);
-            
+
             // log.info(result ? `[追加] 成功写入: ${filePath}` : `[追加] 写入失败: ${filePath}`);
             return result;
         } else {

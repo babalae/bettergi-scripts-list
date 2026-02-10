@@ -5,16 +5,16 @@
 
 var globalLatestRa = null;
 async function recognizeImage(
-    recognitionObject, 
-    ra, 
-    timeout = 1000, 
-    interval = 500, 
-    useNewScreenshot = false, 
+    recognitionObject,
+    ra,
+    timeout = 1000,
+    interval = 500,
+    useNewScreenshot = false,
     iconType = null
 ) {
     let startTime = Date.now();
-    globalLatestRa = ra; 
-    const originalRa = ra; 
+    globalLatestRa = ra;
+    const originalRa = ra;
     let tempRa = null; // 用于管理临时创建的资源
 
     try {
@@ -84,10 +84,10 @@ async function drawAndClearRedBox(searchRegion, ra, delay = 500) {
             searchRegion.width, searchRegion.height
         );
         drawRegion.DrawSelf("icon"); // 绘制红框
-        
+
         // 等待指定时间
         await sleep(delay);
-        
+
         // 清除红框 - 使用更可靠的方式
         if (drawRegion && typeof drawRegion.DrawSelf === 'function') {
             // 可能需要使用透明绘制来清除，或者绘制一个0大小的区域

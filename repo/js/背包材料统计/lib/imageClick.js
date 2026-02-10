@@ -4,7 +4,7 @@ async function preloadImageResources(specificNames) {
 
     function hasIconFolder(dirPath) {
         try {
-            const entries = readAllFilePaths(dirPath, 0, 0, [], true); 
+            const entries = readAllFilePaths(dirPath, 0, 0, [], true);
             return entries.some(entry => normalizePath(entry).endsWith('/icon'));
         } catch (e) {
             log.error(`检查目录【${dirPath}】是否有icon文件夹失败：${e.message}`);
@@ -24,7 +24,7 @@ async function preloadImageResources(specificNames) {
 
     const targetDirs = subDirs.filter(subDir => {
         const dirName = basename(subDir);
-        const hasIcon = hasIconFolder(subDir); 
+        const hasIcon = hasIconFolder(subDir);
         const matchName = isAll ? true : preSpecificNames.includes(dirName);
         return hasIcon && matchName;
     });
@@ -62,14 +62,14 @@ async function preloadImageResources(specificNames) {
             try {
                 const configContent = safeReadTextSync(configPath);
                 popupConfig = { ...popupConfig, ...JSON.parse(configContent) };
-                isSpecialModule = popupConfig.isSpecial === true 
-                    && typeof popupConfig.detectRegion === 'object' 
-                    && popupConfig.detectRegion !== null 
-                    && popupConfig.detectRegion.x != null 
-                    && popupConfig.detectRegion.y != null 
-                    && popupConfig.detectRegion.width != null 
-                    && popupConfig.detectRegion.height != null 
-                    && popupConfig.detectRegion.width > 0 
+                isSpecialModule = popupConfig.isSpecial === true
+                    && typeof popupConfig.detectRegion === 'object'
+                    && popupConfig.detectRegion !== null
+                    && popupConfig.detectRegion.x != null
+                    && popupConfig.detectRegion.y != null
+                    && popupConfig.detectRegion.width != null
+                    && popupConfig.detectRegion.height != null
+                    && popupConfig.detectRegion.width > 0
                     && popupConfig.detectRegion.height > 0;
                 specialDetectRegion = isSpecialModule ? popupConfig.detectRegion : null;
                 // log.info(`【${dirName}】加载配置成功：${isFirstLevel ? '第一级' : '第二级'} | 模块类型：${isSpecialModule ? '特殊模块' : '普通模块'}`);
@@ -83,7 +83,7 @@ async function preloadImageResources(specificNames) {
             const entries = readAllFilePaths(subDir, 0, 1, [], true);
             const iconDir = entries.find(entry => normalizePath(entry).endsWith('/icon'));
             const iconFilePaths = readAllFilePaths(iconDir, 0, 0, ['.png', '.jpg', '.jpeg']);
-            
+
             if (iconFilePaths.length === 0) {
                 log.warn(`【${dirName}】特殊模块无有效icon文件，跳过`);
                 continue;
@@ -96,7 +96,7 @@ async function preloadImageResources(specificNames) {
                     log.error(`【${dirName}】特殊模块加载图标失败：${filePath}`);
                     continue;
                 }
-                iconRecognitionObjects.push({ 
+                iconRecognitionObjects.push({
                     name: basename(filePath),
                     ro: RecognitionObject.TemplateMatch(mat, 0, 0, 1920, 1080),
                     iconDir,
@@ -131,7 +131,7 @@ async function preloadImageResources(specificNames) {
             const entries = readAllFilePaths(subDir, 0, 1, [], true);
             const iconDir = entries.find(entry => normalizePath(entry).endsWith('/icon'));
             const pictureDir = entries.find(entry => normalizePath(entry).endsWith('/Picture'));
-            
+
             if (!pictureDir) {
                 log.warn(`【${dirName}】普通模块无Picture文件夹，跳过`);
                 continue;
@@ -139,7 +139,7 @@ async function preloadImageResources(specificNames) {
 
             const iconFilePaths = readAllFilePaths(iconDir, 0, 0, ['.png', '.jpg', '.jpeg']);
             const pictureFilePaths = readAllFilePaths(pictureDir, 0, 0, ['.png', '.jpg', '.jpeg']);
-            
+
             // 仅在资源为空时警告
             if (iconFilePaths.length === 0) {
                 log.warn(`【${dirName}】普通模块无有效icon文件，跳过`);
@@ -157,10 +157,10 @@ async function preloadImageResources(specificNames) {
                     log.error(`【${dirName}】加载图标失败：${filePath}`);
                     continue;
                 }
-                iconRecognitionObjects.push({ 
+                iconRecognitionObjects.push({
                     name: basename(filePath),
                     ro: RecognitionObject.TemplateMatch(mat, 0, 0, 1920, 1080),
-                    iconDir 
+                    iconDir
                 });
             }
 
@@ -171,9 +171,9 @@ async function preloadImageResources(specificNames) {
                     log.error(`【${dirName}】加载图库图片失败：${filePath}`);
                     continue;
                 }
-                pictureRegions.push({ 
+                pictureRegions.push({
                     name: basename(filePath),
-                    region: new ImageRegion(mat, 0, 0) 
+                    region: new ImageRegion(mat, 0, 0)
                 });
             }
 
@@ -216,7 +216,7 @@ async function imageClickBackgroundTask() {
     log.info("imageClick后台任务已启动");
 
     // 配置参数
-    const taskDelay = Math.min(999, Math.max(1, Math.floor(Number(settings.PopupClickDelay) || 15)))*1000;
+    const taskDelay = Math.min(999, Math.max(1, Math.floor(Number(settings.PopupClickDelay) || 15))) * 1000;
     const specificNamesStr = settings.PopupNames || "";
     const specificNames = specificNamesStr
         .split(/[,，、 \s]+/)
@@ -240,10 +240,10 @@ async function imageClickBackgroundTask() {
     // 打印资源检测结果
     log.info("\n==================== 现有弹窗加载结果 ====================");
     log.info("1. 一级弹窗（共" + firstLevelDirs.length + "个）：");
-    firstLevelDirs.forEach((res, idx) => log.info(`   ${idx+1}. 【${res.dirName}】`));
+    firstLevelDirs.forEach((res, idx) => log.info(`   ${idx + 1}. 【${res.dirName}】`));
     const secondLevelResources = preloadedResources.filter(res => !res.isFirstLevel);
     log.info("\n2. 二级弹窗（共" + secondLevelResources.length + "个）：");
-    secondLevelResources.forEach((res, idx) => log.info(`   ${idx+1}. 【${res.dirName}】`));
+    secondLevelResources.forEach((res, idx) => log.info(`   ${idx + 1}. 【${res.dirName}】`));
     log.info("=============================================================\n");
 
     // 核心逻辑：外循环遍历所有一级弹窗
@@ -302,7 +302,7 @@ async function imageClickBackgroundTask() {
         // log.info(`===== 外循环结束：等待${taskDelay/1000}秒后开始下一次循环 =====`);
         await sleep(taskDelay);
     }
-    
+
     log.info("imageClick后台任务结束");
     return { success: true };
 }
@@ -323,14 +323,14 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
         for (const foundRegion of foundRegions) {
             const tolerance = 1;
             const iconMat = file.readImageMatSync(`${normalizePath(foundRegion.iconDir)}/${foundRegion.iconName}`);
-            
+
             const { detectRegion } = popupConfig;
             const defaultX = foundRegion.region.x - tolerance;
             const defaultY = foundRegion.region.y - tolerance;
             const defaultWidth = foundRegion.region.width + 2 * tolerance;
             const defaultHeight = foundRegion.region.height + 2 * tolerance;
             const recognitionObject = RecognitionObject.TemplateMatch(
-                iconMat, 
+                iconMat,
                 detectRegion?.x ?? defaultX,
                 detectRegion?.y ?? defaultY,
                 detectRegion?.width ?? defaultWidth,
@@ -347,7 +347,7 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
                 useNewScreenshot,
                 dirName
             );
-            
+
             if (result.isDetected && result.x !== 0 && result.y !== 0) {
                 hasAnyIconDetected = true;
                 isAnySuccess = true;
@@ -375,7 +375,7 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
                             const pressDelay = popupConfig.loopDelay || 1000;
                             for (let i = 0; i < pressCount; i++) {
                                 keyPress(targetKey); // 保留原始按键逻辑
-                                log.info(`【${dirName}】弹窗触发按键【${targetKey}】${i+1}次`);
+                                log.info(`【${dirName}】弹窗触发按键【${targetKey}】${i + 1}次`);
                                 if (i < pressCount - 1) await sleep(pressDelay); // 非最后一次加间隔
                             }
                             log.info(`【${dirName}】弹窗触发按键【${targetKey}】，共${pressCount}次，间隔${pressDelay}ms`);
@@ -390,8 +390,8 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
                             }
                             const ocrResults = await performOcr(targetTexts, xRange, yRange, timeout, ra);
                             if (ocrResults.length > 0) {
-                                const ocrActualX = Math.round(ocrResults[0].x + ocrResults[0].width/2) + xOffset;
-                                const ocrActualY = Math.round(ocrResults[0].y + ocrResults[0].height/2) + yOffset;
+                                const ocrActualX = Math.round(ocrResults[0].x + ocrResults[0].width / 2) + xOffset;
+                                const ocrActualY = Math.round(ocrResults[0].y + ocrResults[0].height / 2) + yOffset;
                                 // 新增：OCR点击加循环（默认1次，0间隔，与原逻辑一致）
                                 const ocrCount = popupConfig.loopCount;
                                 const ocrDelay = popupConfig.loopDelay;
@@ -441,7 +441,7 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
                             const defaultDelay = popupConfig.loopDelay;
                             for (let i = 0; i < defaultCount; i++) {
                                 await click(actualX, actualY); // 保留原始默认点击逻辑
-                                log.info(`点击【${dirName}】弹窗：(${actualX}, ${actualY})${i+1}次`);
+                                log.info(`点击【${dirName}】弹窗：(${actualX}, ${actualY})${i + 1}次`);
                                 if (i < defaultCount - 1) await sleep(defaultDelay); // 非最后一次加间隔
                             }
                             isAnySuccess = true;

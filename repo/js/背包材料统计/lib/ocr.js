@@ -70,7 +70,7 @@ async function performOcr(targetTexts, xRange, yRange, ra = null, timeout = 200,
                 }
 
                 // 3.2 匹配目标文本（双向匹配，避免重复添加同一结果）
-                const isTargetMatched = targetTexts.some(target => 
+                const isTargetMatched = targetTexts.some(target =>
                     correctedText.includes(target) || target.includes(correctedText)
                 );
                 if (isTargetMatched) {
@@ -101,13 +101,13 @@ async function performOcr(targetTexts, xRange, yRange, ra = null, timeout = 200,
                 }
                 log.debug("已释放旧截图资源，准备重新捕获");
             }
-            
+
             // 重新捕获后增加null校验
             currentScreenshot = captureGameRegion();
             if (!currentScreenshot) {
                 log.error("重新捕获截图失败，返回了null值");
             }
-            
+
             log.error(`OCR识别异常（已重新截图，将重试）: ${error.message}`);
             await sleep(5); // 短暂等待，避免高频截图占用CPU/内存
         }
