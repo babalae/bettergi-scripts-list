@@ -102,6 +102,7 @@ let underWater = false;
 let checkInterval = +settings.checkInterval || 50;
 
 (async function () {
+    dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
     /* ===== 零基构建 settings.json（BEGIN） ===== */
     const SETTINGS_FILE = `settings.json`;
     const PATHINGS_ROOT = `pathing`;
