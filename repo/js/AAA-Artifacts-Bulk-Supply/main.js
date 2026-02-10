@@ -62,6 +62,7 @@ let gameRegion;
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
+    dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
     targetItems = await loadTargetItems();
     state.activatePickUp = false;
     {

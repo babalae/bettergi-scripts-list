@@ -1,0 +1,175 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时144.48秒，包含以下怪物：3只风史莱姆、2只大型风史莱姆、2只岩史莱姆、4只大型岩史莱姆。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1770550333909,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B020璃月轻策庄北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 799.4580078125,
+      "y": 1790.70654296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 730.2763671875,
+      "y": 1787.58203125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 725.2451171875,
+      "y": 1786.7021484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 725.2451171875,
+      "y": 1786.7021484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 707.0966796875,
+      "y": 1817.0126953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 703.7958984375,
+      "y": 1849.0078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 680.015625,
+      "y": 1880.12158203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 662.3154296875,
+      "y": 1901.7802734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 651.2255859375,
+      "y": 1925.984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;",
+      "id": 10,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 647.8486328125,
+      "y": 1939.4609375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 629.583984375,
+      "y": 1935.57373046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 629.583984375,
+      "y": 1935.57373046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 624.1494140625,
+      "y": 1929.4306640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 600.05859375,
+      "y": 1935.25439453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 15,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 592.1875,
+      "y": 1947.75439453125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 589.7497061201702,
+      "y": 1951.405309344129
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 589.7497061201702,
+      "y": 1951.405309344129
+    }
+  ]
+}
