@@ -235,7 +235,7 @@ async function main() {
     await init();
     if (config.bgi_tools.open.open_push) {
         log.info(`开始推送bgi_tools配置`)
-        await pushAllJsonConfig(JSON.parse(file.readTextSync(config.path.domain)), config.bgi_tools.api.httpPushAllJsonConfig)
+        await pushAllJsonConfig(JSON.parse(file.readTextSync(config.path.domain)), config.bgi_tools.api.httpPushAllJsonConfig,config.bgi_tools.token)
     }
     // 获取秘境配置
     let domainConfig = config.domain.config;

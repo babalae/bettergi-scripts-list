@@ -27,6 +27,7 @@
 | **bgi_tools_http_pull_json_config**   | input-text        | bgi_tools 拉取配置的 API 地址（当选择 bgi_tools加载 时生效）                                                                      | https://example.com/api/pull |
 | **bgi_tools_open_push**               | checkbox          | 是否在脚本结束时推送当前全部配置给 bgi_tools（用于同步/备份）                                                                             | 勾选 = 开启推送                                        |
 | **bgi_tools_http_push_all_json_config** | input-text      | bgi_tools 推送全部配置的 API 地址（当开启推送时使用）                                                                               | https://example.com/api/push-all                 |
+| **bgi_tools_token** | input-text      | bgi_tools授权token 语法:tokenName=tokenValue                                                                               | tokenName=tokenValue                   |
 
 ### 计划配置语法（domain_config 字段）
 
