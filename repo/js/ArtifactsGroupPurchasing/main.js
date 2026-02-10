@@ -25,6 +25,7 @@ let runnedEnding = false;
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
+    dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
 
     if (settings.logName) {
         expGain = await processArtifacts();
