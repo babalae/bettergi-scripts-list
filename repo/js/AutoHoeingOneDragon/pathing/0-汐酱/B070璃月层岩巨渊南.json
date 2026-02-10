@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时43.01秒，包含以下怪物：2只风史莱姆、1只大型风史莱姆。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1770542526627,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B070璃月层岩巨渊南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1759.4375,
+      "y": -869.865234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1765.2109375,
+      "y": -876.5810546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1801.6298828125,
+      "y": -884.0712890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1829.1396484375,
+      "y": -862.388671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1852.587890625,
+      "y": -855.001953125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1873.8720703125,
+      "y": -846.7666015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1873.8720703125,
+      "y": -846.7666015625
+    }
+  ]
+}

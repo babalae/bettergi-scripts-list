@@ -634,7 +634,7 @@ async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonst
 
         default:
             log.info("使用原文件顺序运行");
-            pathings.sort((a, b) => a.index - b.index);
+            pathings.sort((a, b) => a.fileName.localeCompare(b.fileName)); // 按文件名排序
     }
     log.info("路线组合结果如下：");
     log.info(`总精英怪数量: ${totalSelectedElites.toFixed(0)}`);

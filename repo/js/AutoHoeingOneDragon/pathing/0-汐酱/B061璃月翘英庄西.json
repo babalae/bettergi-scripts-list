@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时87.02秒，包含以下怪物：2只冰史莱姆、2只大型冰史莱姆、2只岩史莱姆、1只大型岩史莱姆。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1770538663946,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B061璃月翘英庄西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1548.08203125,
+      "y": 2244.9560546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1609.890625,
+      "y": 2196.96826171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 1627.099609375,
+      "y": 2198.2109375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1631.619140625,
+      "y": 2204.5986328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1631.619140625,
+      "y": 2204.5986328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1669.16015625,
+      "y": 2225.16748046875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1695.3349609375,
+      "y": 2229.19921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1695.3349609375,
+      "y": 2229.19921875
+    }
+  ]
+}
