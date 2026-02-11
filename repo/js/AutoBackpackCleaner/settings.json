@@ -3,13 +3,36 @@
         "name": "targetNumber",
         "type": "input-text",
         "label": "删除后的目标数量",
-        "default": "9000"
+        "default": "9900"
     },
     {
         "name": "startNumber",
         "type": "input-text",
-        "label": "起删数量，大于这个数量的材料才删",
-        "default": "9900"
+        "label": "起删数量，大于等于这个数量的材料才删",
+        "default": "9901"
+    },
+    {
+        "name": "endNumber",
+        "type": "input-text",
+        "label": "终止数量，大于这个数量的材料不删（以防把矿删了）",
+        "default": "9999"
+    },
+    {
+        "name": "whiteNumbers",
+        "type": "input-text",
+        "label": "白名单数量，数量恰好等于该值的物品不会被删除，如有多个，使用【中文逗号】分隔\n用于保留特定物品"
+    },
+    {
+        "name": "executingTypes",
+        "type": "multi-checkbox",
+        "label": "要执行的物品种类",
+        "default": [
+            "养成道具"
+        ],
+        "options": [
+            "养成道具",
+            "材料"
+        ]
     },
     {
         "name": "delayScale",
