@@ -132,7 +132,8 @@ const csvText = `物品,刷新机制,背包分类
 烛伞蘑菇,每天0点,食物
 `
 
-const renameMap = { "晶蝶": "晶核", "「冷鲜肉」": "冷鲜肉", "白铁矿": "白铁块", "铁矿": "铁块" };
+// 材料文件夹名: 背包物品名（准确地说是API返回的材料名）
+const renameMap = { "晶蝶": "晶核", "「冷鲜肉」": "冷鲜肉"};
 
 const supportFile = "native_supported.json";
 const materialMetadata = {};
