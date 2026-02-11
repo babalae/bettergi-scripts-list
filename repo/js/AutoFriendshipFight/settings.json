@@ -29,6 +29,11 @@
     "label": "禁用容易导致问题的异步战斗，改为正常的战斗结束逻辑，勾选后需要在配置组中正常配置战斗结束检测"
   },
   {
+    "name": "use1000Stars",
+    "type": "checkbox",
+    "label": "使用进出千星替代退出重登"
+  },
+  {
     "name": "loopTillNoExpOrMora",
     "type": "checkbox",
     "label": "连续两次循环全程没有检测到获取经验值或摩拉图标时提前终止"
@@ -41,7 +46,7 @@
   {
     "name": "runTimes",
     "type": "input-text",
-    "label": "(选填)运行次数\n【默认10次，卡时间模式默认50次】"
+    "label": "(选填)运行次数\n【默认10次】"
   },
   {
     "name": "ocrTimeout",

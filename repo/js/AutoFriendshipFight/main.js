@@ -51,7 +51,7 @@ expRo.Threshold = 0.85;
 expRo.Use3Channels = true;
 expRo.InitTemplate();
 
-const moraRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/exp.png"), 74, 341, 207 - 74, 803 - 341);
+const moraRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/mora.png"), 74, 341, 207 - 74, 803 - 341);
 moraRo.Threshold = 0.85;
 moraRo.Use3Channels = true;
 moraRo.InitTemplate();
@@ -320,9 +320,13 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
         detectedExpOrMora = false;
     }
     if (!initialDetected || roundIndex > 0) {
-        await genshin.relogin();
+        if (settings.use1000Stars) {
+            await genshin.wonderlandCycle();
+        } else {
+            await genshin.relogin();
+        }
     }
-    
+
     // 启动路径导航任务（异步）
     let pathTask = AutoPath(`${enemyType}-战斗点`);
     const ocrStatus = await detectTaskTrigger(ocrTimeout, enemyType);
