@@ -235,15 +235,16 @@ async function main() {
     await init();
     if (config.bgi_tools.open.open_push) {
         log.info(`开始推送bgi_tools配置`)
-        await pushAllJsonConfig(JSON.parse(file.readTextSync(config.path.domain)), config.bgi_tools.api.httpPushAllJsonConfig,config.bgi_tools.token)
+        await pushAllJsonConfig(JSON.parse(file.readTextSync(config.path.domain)), config.bgi_tools.api.httpPushAllJsonConfig, config.bgi_tools.token)
     }
     // 获取秘境配置
     let domainConfig = config.domain.config;
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|周几执行(0-6)不填默认执行|执行顺序,..."
     const autoFightOrderList = initDomainOrderList(domainConfig);
-    if (autoFightOrderList?.length > 0) {
-        autoFightOrderList.sort((a, b) => b.order - a.order)
-        await autoDomainList(autoFightOrderList);
+    const list = autoFightOrderList.filter(item => item.autoFight.DomainRoundNum > 0)
+    if (list?.length > 0) {
+        list.sort((a, b) => b.order - a.order)
+        await autoDomainList(list);
     } else {
         log.info(`本日无计划`)
     }
