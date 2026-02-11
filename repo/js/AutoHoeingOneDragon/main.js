@@ -628,7 +628,7 @@ async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonst
             pathings.sort((a, b) => {
                 const aHigh = a.tags.includes("高收益") ? 1 : 0;
                 const bHigh = b.tags.includes("高收益") ? 1 : 0;
-                return bHigh - aHigh || a.index - b.index; // 有标签的在前，同标签按原顺序
+                return bHigh - aHigh || a.fileName.localeCompare(b.fileName); // 有标签的在前，同标签按文件名排序
             });
             break;
 
