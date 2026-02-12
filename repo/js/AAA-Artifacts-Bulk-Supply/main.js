@@ -59,6 +59,7 @@ let timeMoveUp = Math.round(timeMove * 0.45);
 let timeMoveDown = Math.round(timeMove * 0.55);
 let rollingDelay = 25;
 let gameRegion;
+let lastsettimeTime = 0;
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
@@ -1130,6 +1131,15 @@ async function fakeLog(name, isJs, isStart, duration) {
 }
 
 async function runPath(fullPath, targetItemPath = null) {
+    let settimeInterval = 10 * 60 * 1000;
+    if (settings.setTimeMode && settings.setTimeMode != "不调节时间" && (((new Date() - lastsettimeTime) > settimeInterval))) {
+        if (settings.setTimeMode === "尽量调为白天") {
+            await pathingScript.runFile("assets/调为白天.json");
+        } else {
+            await pathingScript.runFile("assets/调为夜晚.json");
+        }
+        lastsettimeTime = new Date();
+    }
     state = state || {};   // 若已存在则保持原引用，否则新建空对象
     state.running = true;
 
