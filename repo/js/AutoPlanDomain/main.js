@@ -10,20 +10,20 @@ import {ocrPhysical} from "./utils/physical";
  * @returns {Promise<void>} - 执行完成后返回的Promise
  */
 async function autoDomain(autoFight) {
-    //定死做预留冗余 先不实现
+    //定死做预留冗余 先不实现 不能指定次数 只能指定启用
     let physical_domain = autoFight?.physical || [
-        {order: 0, name: "原粹树脂", count: 1},
-        {order: 1, name: "浓缩树脂", count: 0},
-        {order: 2, name: "须臾树脂", count: 0},
-        {order: 3, name: "脆弱树脂", count: 0},
+        {order: 0, name: "原粹树脂", count: 1, open: true},
+        {order: 1, name: "浓缩树脂", count: 0, open: false},
+        {order: 2, name: "须臾树脂", count: 0, open: false},
+        {order: 3, name: "脆弱树脂", count: 0, open: false},
     ]
     physical_domain.sort((a, b) => a.order - b.order)
-    // 不包含原粹树脂数的和
+    // 不包含原粹树脂的和
     const noOriginalSum = physical_domain.filter(item => item.name.trim() !== "原粹树脂")
-        .map(item => item.count).reduce((acc, curr) => acc + curr, 0);//求和
-    // 只包含原粹树脂数的和
+        .map(item => item.open ? 1 : 0).reduce((acc, curr) => acc + curr, 0);//求和
+    // 只包含原粹树脂的和
     const originalSum = physical_domain.find(item => item.name?.trim() === "原粹树脂")
-        .map(item => item.count).reduce((acc, curr) => acc + curr, 0);
+        .map(item => item.open ? 1 : 0).reduce((acc, curr) => acc + curr, 0);
     const resinPriorityList = physical_domain.map(item => item.name?.trim())
     //  /** 树脂使用优先级列表 */
     //   resinPriorityList: string[];
