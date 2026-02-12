@@ -1,6 +1,6 @@
 import {config, initConfig, initSettings, LoadType} from './config/config';
 import {ocrUid} from './utils/uid';
-import {getDayOfWeek, throwError} from './utils/tool';
+import {getDayOfWeek, outDomainUI, throwError} from './utils/tool';
 import {pullJsonConfig, pushAllJsonConfig} from './utils/bgi_tools';
 import {ocrPhysical} from "./utils/physical";
 
@@ -20,7 +20,11 @@ async function autoDomain(autoFight) {
     }
     // 创建秘境参数对象，初始化值为0
     let domainParam = new AutoDomainParam();
-    log.debug(`开始执行秘境任务`)
+    //关闭分解
+    domainParam.autoArtifactSalvage = false
+    //关闭榨干原粹树脂
+    domainParam.specifyResinUse = true
+    // log.debug(`开始执行秘境任务`)
     //秘境名称
     domainParam.DomainName = autoFight.domainName || domainParam.DomainName;
     log.debug(`秘境名称:${domainParam.DomainName}`)
@@ -32,17 +36,17 @@ async function autoDomain(autoFight) {
     //周日|限时选择的值
     domainParam.SundaySelectedValue = autoFight.sundaySelectedValue || domainParam.SundaySelectedValue;
     log.debug(`周日|限时选择的值:${domainParam.SundaySelectedValue}`)
-
     //副本轮数
     try {
         domainParam.domainRoundNum = parseInt((autoFight.DomainRoundNum || domainParam.DomainRoundNum) + "");
-    }catch (e) {
+    } catch (e) {
         throwError(e.message)
         log.debug(`副本轮数:${autoFight.domainRoundNum}`)
     }
     log.debug(`副本轮数:${domainParam.domainRoundNum}`)
     await dispatcher.RunAutoDomainTask(domainParam);
 }
+
 
 /**
  * 自动执行秘境任务列表处理函数

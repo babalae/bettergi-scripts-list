@@ -11,7 +11,7 @@ async function ocrRegion(x = 0,
                          w = 1920,
                          h = 1080) {
     // 创建OCR识别对象，使用指定的坐标和尺寸
-    let recognitionObjectOcr = RecognitionObject.Ocr(x, y, w,h);
+    let recognitionObjectOcr = RecognitionObject.Ocr(x, y, w, h);
     // 捕获游戏区域图像
     let region3 = captureGameRegion()
     try {
@@ -28,6 +28,7 @@ async function ocrRegion(x = 0,
         region3.Dispose()
     }
 }
+
 /**
  * 获取当前日期的星期信息
  * @returns {Object} 返回包含星期数字和星期名称的对象
@@ -49,6 +50,7 @@ async function getDayOfWeek() {
         dayOfWeek: weekDay
     }
 }
+
 const commonPath = 'assets/'
 const commonMap = new Map([
     ['main_ui', {
@@ -71,11 +73,17 @@ const commonMap = new Map([
         name: 'add_button',
         type: '.jpg',
     }],
+    ['out_domain', {
+        path: `${commonPath}`,
+        name: 'out_domain',
+        type: '.jpg',
+    }],
 ])
 const genshinJson = {
     width: 1920,//genshin.width,
     height: 1080,//genshin.height,
 }
+
 /**
  * 根据键值获取JSON路径
  * @param {string} key - 要查找的键值
@@ -118,12 +126,113 @@ async function toMainUi() {
     }
 
 }
+
+const isInOutDomainUI = () => {
+    // let name = '主界面'
+    let main_ui = getJsonPath('out_domain');
+    // 定义识别对象
+    let paimonMenuRo = RecognitionObject.TemplateMatch(
+        file.ReadImageMatSync(`${main_ui.path}${main_ui.name}${main_ui.type}`),
+        0,
+        0,
+        genshinJson.width / 3.0,
+        genshinJson.width / 5.0
+    );
+    let captureRegion = captureGameRegion();
+    let res = captureRegion.find(paimonMenuRo);
+    captureRegion.Dispose()
+    return !res.isEmpty();
+};
+
+async function outDomainUI() {
+    let ms = 300
+    let index = 1
+    await sleep(ms);
+    while (!isInOutDomainUI()) {
+        await sleep(ms);
+        await keyPress("ESCAPE");
+        await sleep(ms);
+        if (index > 3) {
+            log.error(`多次尝试匹配退出秘境界面失败 假定已经退出处理`);
+        }
+        index += 1
+    }
+
+    if (isInOutDomainUI()) {
+        try {
+            //点击确认按钮
+            await findTextAndClick('确认')
+        }catch (e) {
+            log.error(`多次尝试点击确认失败 假定已经退出处理`);
+        }
+
+    }
+
+}
+
+/**
+ * 通用找文本并点击（OCR）
+ * @param {string|string[]} text 目标文本（单个文本或文本列表，列表时需全部匹配）
+ * @param {number} [x=0] OCR 区域左上角 X
+ * @param {number} [y=0] OCR 区域左上角 Y
+ * @param {number} [w=1920] OCR 区域宽度
+ * @param {number} [h=1080] OCR 区域高度
+ * @param {number} [attempts=5] OCR 尝试次数
+ * @param {number} [interval=50] 每次 OCR 之间的等待间隔（毫秒）
+ * @param {number} [preClickDelay=50] 点击前等待时间（毫秒）
+ * @param {number} [postClickDelay=50] 点击后等待时间（毫秒）
+ *
+ * @returns
+ * - RecognitionResult | null
+ */
+async function findTextAndClick(
+    text,
+    x = 0,
+    y = 0,
+    w = 1920,
+    h = 1080,
+    attempts = 5,
+    interval = 50,
+    preClickDelay = 50,
+    postClickDelay = 50
+) {
+    const keyword = text.toLowerCase();
+
+    for (let i = 0; i < attempts; i++) {
+        const gameRegion = captureGameRegion();
+        try {
+            const ro = RecognitionObject.Ocr(x, y, w, h);
+            const results = gameRegion.findMulti(ro);
+
+            for (let j = 0; j < results.count; j++) {
+                const res = results[j];
+                if (
+                    res.isExist() &&
+                    res.text &&
+                    res.text.toLowerCase().includes(keyword)
+                ) {
+                    await sleep(preClickDelay);
+                    res.click();
+                    await sleep(postClickDelay);
+                    return res;
+                }
+            }
+        } finally {
+            gameRegion.dispose();
+        }
+
+        await sleep(interval);
+    }
+
+    return null;
+}
+
 /**
  * 抛出错误函数
  * 该函数用于显示错误通知并抛出错误对象
  * @param {string} msg - 错误信息，将用于通知和错误对象
  */
-function throwError(msg,isNotification=false) {
+function throwError(msg, isNotification = false) {
     // 使用notification组件显示错误通知
     // notification.error(`${msg}`);
     if (isNotification) {
@@ -139,5 +248,8 @@ export {
     getJsonPath,
     isInMainUI,
     toMainUi,
+    isInOutDomainUI,
+    outDomainUI,
+    findTextAndClick,
     throwError,
 }
