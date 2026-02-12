@@ -1,4 +1,4 @@
-import { getJsonPath } from "../utils/tool";
+import {getJsonPath, toMainUi} from "./tool";
 //====================================================
 const genshinJson = {
     width: 1920,//genshin.width,

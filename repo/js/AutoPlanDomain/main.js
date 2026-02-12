@@ -1,6 +1,6 @@
 import {config, initConfig, initSettings, LoadType} from './config/config';
 import {ocrUid} from './utils/uid';
-import {getDayOfWeek} from './utils/tool';
+import {getDayOfWeek,throwError} from './utils/tool';
 import {pullJsonConfig, pushAllJsonConfig} from './utils/bgi_tools';
 import {ocrPhysical} from "./utils/physical";
 
@@ -15,7 +15,7 @@ async function autoDomain(autoFight) {
     config.user.physical.current = physicalOcr.current
     config.user.physical.min = physicalOcr.min
     const physical = config.user.physical
-    if (physical.current >= physical.min) {
+    if (physical.current < physical.min) {
         throwError(`体力不足，当前体力${physical.current}，最低体力${physical.min}，请手动补充体力后重试`)
     }
     // 创建秘境参数对象，初始化值为0
@@ -202,6 +202,7 @@ async function initDomainOrderList(domainConfig) {
     }
     // 返回处理后的秘境顺序列表
     let from = Array.from(autoFightOrderSet);
+    log.info(`from:{0}`,JSON.stringify(from))
     let dayOfWeek = getDayOfWeek();
     from = from.filter(item => {
         // if (item.day) {
@@ -240,7 +241,7 @@ async function main() {
     // 获取秘境配置
     let domainConfig = config.domain.config;
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|周几执行(0-6)不填默认执行|执行顺序,..."
-    const autoFightOrderList = initDomainOrderList(domainConfig);
+    const autoFightOrderList =await initDomainOrderList(domainConfig);
     const list = autoFightOrderList.filter(item => item.autoFight.DomainRoundNum > 0)
     if (list?.length > 0) {
         list.sort((a, b) => b.order - a.order)

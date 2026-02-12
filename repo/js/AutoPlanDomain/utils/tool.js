@@ -72,6 +72,10 @@ const commonMap = new Map([
         type: '.jpg',
     }],
 ])
+const genshinJson = {
+    width: 1920,//genshin.width,
+    height: 1080,//genshin.height,
+}
 /**
  * 根据键值获取JSON路径
  * @param {string} key - 要查找的键值
