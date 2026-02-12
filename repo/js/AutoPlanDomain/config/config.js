@@ -30,6 +30,7 @@ const config = {
         physical: {
             min: 20,//最小体力
             current: 0,//当前体力
+            names: ["原粹树脂", "浓缩树脂", "须臾树脂", "脆弱树脂"]
         }
     },
     //
@@ -174,8 +175,8 @@ async function initConfig() {
     // config.user.physical.min = physical.min
     // 初始化uid
     config.user.uid = await ocrUid()
-    const bgi_tools_token = settings.bgi_tools_token||"Authorization= "
-    const list = Array.from(bgi_tools_token.split("=")).map(item=>item.trim());
+    const bgi_tools_token = settings.bgi_tools_token || "Authorization= "
+    const list = Array.from(bgi_tools_token.split("=")).map(item => item.trim());
     config.bgi_tools.token.name = list[0]
     config.bgi_tools.token.value = list[1]
     config.bgi_tools.api.httpPullJsonConfig = settings.bgi_tools_http_pull_json_config

@@ -11,12 +11,22 @@ import {ocrPhysical} from "./utils/physical";
  */
 async function autoDomain(autoFight) {
     //定死做预留冗余 先不实现 不能指定次数 只能指定启用
-    let physical_domain = autoFight?.physical || [
-        {order: 0, name: "原粹树脂", count: 1, open: true},
-        {order: 1, name: "浓缩树脂", count: 0, open: false},
-        {order: 2, name: "须臾树脂", count: 0, open: false},
-        {order: 3, name: "脆弱树脂", count: 0, open: false},
-    ]
+    let physical_domain = autoFight?.physical
+    //     || [
+    //     {order: 0, name: "原粹树脂", count: 1, open: true},
+    //     {order: 1, name: "浓缩树脂", count: 0, open: false},
+    //     {order: 2, name: "须臾树脂", count: 0, open: false},
+    //     {order: 3, name: "脆弱树脂", count: 0, open: false},
+    // ]
+
+    if (!physical_domain) {
+        const names = config.user.physical.names;
+        physical_domain = []
+        names.forEach((name, index) => {
+            physical_domain.push({order: index, name: name, open: index === 0})
+        })
+    }
+
     physical_domain.sort((a, b) => a.order - b.order)
     // 不包含原粹树脂的和
     const noOriginalSum = physical_domain.filter(item => item.name.trim() !== "原粹树脂")
@@ -24,7 +34,7 @@ async function autoDomain(autoFight) {
     // 只包含原粹树脂的和
     const originalSum = physical_domain.find(item => item.name?.trim() === "原粹树脂")
         .map(item => item.open ? 1 : 0).reduce((acc, curr) => acc + curr, 0);
-    const resinPriorityList = physical_domain.map(item => item.name?.trim())
+    const resinPriorityList = physical_domain.filter(item => item.open).map(item => item.name?.trim())
     //  /** 树脂使用优先级列表 */
     //   resinPriorityList: string[];
     //   /** 使用原粹树脂次数 */
@@ -49,8 +59,8 @@ async function autoDomain(autoFight) {
     domainParam.autoArtifactSalvage = false
     //关闭榨干原粹树脂
     domainParam.specifyResinUse = true
-    //配置原粹树脂使用优先级
-    if (false && resinPriorityList.length > 0) {
+    //配置树脂使用优先级
+    if (resinPriorityList.length > 0) {
         domainParam.resinPriorityList = resinPriorityList
     }
     // log.debug(`开始执行秘境任务`)
