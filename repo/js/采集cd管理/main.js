@@ -676,8 +676,8 @@ let checkInterval = +settings.checkInterval || 50;
 
                 const pickedCounter = {};
                 priorityItemSet.forEach(n => pickedCounter[n] = 0);
-                /* ===== 每轮开始输出剩余物品 ===== */
-                log.info(`剩余目标材料 ${priorityList.map(t => `${t.itemName}*${t.count}`).join(', ')} `);
+                /* ===== 剩余物品 ===== */
+                let remaining = priorityList.map(t => `${t.itemName}*${t.count}`).join(', ');
                 /* 4-1 扫描 + 读 record + 前置过滤（禁用/时间/材料相关）+ 计算效率 + CD后置排除 */
                 const allFiles = await readFolder('pathing', true);
                 const rawRecord = await file.readText(`${recordFolder}/${subFolderName}/record.json`);
@@ -792,6 +792,8 @@ let checkInterval = +settings.checkInterval || 50;
                     }
                 }
 
+                log.info(`当前进度：执行路线 ${fileName}，剩余优先材料：${remaining}`);
+
                 let timeNow = new Date();
                 if (Foods.length != 0 && (((timeNow - lastCookTime) > cookInterval) || firstCook)) {
                     firstCook = false;
@@ -813,7 +815,6 @@ let checkInterval = +settings.checkInterval || 50;
                 runOnce.push(fileName);
 
                 /* ================================= */
-                log.info(`当前进度：执行路线 ${fileName}`);
                 state.running = true;
 
                 const raw = file.readTextSync(filePath);
@@ -1197,7 +1198,7 @@ let checkInterval = +settings.checkInterval || 50;
                             lastMapName = mapName;
                             const pickupTask = recognizeAndInteract();
 
-                            log.info(`当前进度：路径组${i} ${folder} ${fileName} 为第 ${groupFiles.indexOf(filePath) + 1}/${groupFiles.length} 个`);
+                            log.info(`当前进度：执行路线 ${fileName}，路径组${i} ${folder} 第 ${groupFiles.indexOf(filePath) + 1}/${groupFiles.length} 个`);
                             log.info(`当前路线分均效率为 ${(filePath._efficiency ?? 0).toFixed(2)}`);
 
                             try {
