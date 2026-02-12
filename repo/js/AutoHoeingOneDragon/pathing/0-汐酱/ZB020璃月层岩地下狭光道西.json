@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "author": "汐",
     "authors": [
@@ -11,7 +11,7 @@
     "description": "  路线信息：该路线预计用时85.72秒，包含以下怪物：1只黑蛇骑士·斩风之剑。",
     "enable_monster_loot_split": false,
     "hash_res": "58938884",
-    "last_modified_time": 1769079218577,
+    "last_modified_time": 1770862162718,
     "map_match_method": "",
     "map_name": "TheChasm",
     "name": "ZB020璃月层岩地下狭光道西",
@@ -84,20 +84,38 @@
       "y": 368.720458984375
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1099.4421797061873,
+      "y": 376.5022937904687
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1083,
+      "y": 384.25
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
       "move_mode": "dash",
       "type": "path",
       "x": 1068.55,
       "y": 377.52
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 9,
-      "move_mode": "walk",
-      "type": "orientation",
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
       "x": 1068.55,
       "y": 377.52
     }
