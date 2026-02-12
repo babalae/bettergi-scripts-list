@@ -644,7 +644,7 @@ async function findBestRouteGroups(pathings, k1, k2, targetEliteNum, targetMonst
     const m = Math.floor((totalTimeCombined % 3600) / 60);
     const s = totalTimeCombined % 60;
     log.info(`预计总用时: ${h} 时 ${m} 分 ${s.toFixed(0)} 秒`);
-    if (totalSelectedElites < targetEliteNum || totalSelectedMonsters < targetMonsterNum || totalSelectedElites > targetEliteNum * 1.1) {
+    if (totalSelectedElites < targetEliteNum - 5 || totalSelectedMonsters < targetMonsterNum - 25 || totalSelectedElites > targetEliteNum * 1.1) {
         log.warn("警告，可能条件填写不合理，分配结果与目标存在较大差异");
         await sleep(5000);
     }
