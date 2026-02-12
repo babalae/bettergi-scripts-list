@@ -1,6 +1,6 @@
 import {config, initConfig, initSettings, LoadType} from './config/config';
 import {ocrUid} from './utils/uid';
-import {getDayOfWeek,throwError} from './utils/tool';
+import {getDayOfWeek, throwError} from './utils/tool';
 import {pullJsonConfig, pushAllJsonConfig} from './utils/bgi_tools';
 import {ocrPhysical} from "./utils/physical";
 
@@ -19,15 +19,28 @@ async function autoDomain(autoFight) {
         throwError(`体力不足，当前体力${physical.current}，最低体力${physical.min}，请手动补充体力后重试`)
     }
     // 创建秘境参数对象，初始化值为0
-    let domainParam = new AutoDomainParam(autoFight.DomainRoundNum);
+    let domainParam = new AutoDomainParam();
+    log.debug(`开始执行秘境任务`)
     //秘境名称
     domainParam.DomainName = autoFight.domainName || domainParam.DomainName;
+    log.debug(`秘境名称:${domainParam.DomainName}`)
+
     //队伍名称
     domainParam.PartyName = autoFight.partyName || domainParam.PartyName;
+    log.debug(`队伍名称:${domainParam.PartyName}`)
+
     //周日|限时选择的值
     domainParam.SundaySelectedValue = autoFight.sundaySelectedValue || domainParam.SundaySelectedValue;
+    log.debug(`周日|限时选择的值:${domainParam.SundaySelectedValue}`)
+
     //副本轮数
-    // domainParam.domainRoundNum = autoFight.DomainRoundNum || domainParam.DomainRoundNum;
+    try {
+        domainParam.domainRoundNum = parseInt((autoFight.DomainRoundNum || domainParam.DomainRoundNum) + "");
+    }catch (e) {
+        throwError(e.message)
+        log.debug(`副本轮数:${autoFight.domainRoundNum}`)
+    }
+    log.debug(`副本轮数:${domainParam.domainRoundNum}`)
     await dispatcher.RunAutoDomainTask(domainParam);
 }
 
@@ -202,7 +215,7 @@ async function initDomainOrderList(domainConfig) {
     }
     // 返回处理后的秘境顺序列表
     let from = Array.from(autoFightOrderSet);
-    log.info(`from:{0}`,JSON.stringify(from))
+    log.info(`from:{0}`, JSON.stringify(from))
     let dayOfWeek = getDayOfWeek();
     from = from.filter(item => {
         // if (item.day) {
@@ -241,7 +254,7 @@ async function main() {
     // 获取秘境配置
     let domainConfig = config.domain.config;
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|周几执行(0-6)不填默认执行|执行顺序,..."
-    const autoFightOrderList =await initDomainOrderList(domainConfig);
+    const autoFightOrderList = await initDomainOrderList(domainConfig);
     const list = autoFightOrderList.filter(item => item.autoFight.DomainRoundNum > 0)
     if (list?.length > 0) {
         list.sort((a, b) => b.order - a.order)
