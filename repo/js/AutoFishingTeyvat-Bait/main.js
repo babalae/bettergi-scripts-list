@@ -941,7 +941,7 @@
             return 0;
         }
 
-        let max_num_ocr = await Ocr(1226, 578, 44, 24);
+        let max_num_ocr = await Ocr(1215, 573, 76, 34);
         let max_num = -1;
         if (max_num_ocr) {
             let string = max_num_ocr.text.replace(/\D/g, '');
@@ -973,44 +973,6 @@
          *  "material_dic": material_dic // x: x
          * }
          */
-
-        await sleep(2000);
-        let num = 180;
-        let max_num = 3745;
-        click(1166 + Math.floor(359 * num < max_num ? num: max_num / max_num), 671);
-        await sleep(100);
-        let current_num = await Ocr(1264, 617, 158, 30); // 已选的合成次数文本区域
-        if (current_num && max_num > num) { // [DEBUG]若false则可能有些许误差
-            // 如果差值过大，从头开始
-            if (Math.abs(num - current_num) > 125) {
-                await sleep(300);
-                click(1167, 671);
-                current_num = 1;
-            } else {
-                current_num = parseInt(current_num.text.replace(/\D/g, ''), 10);
-            }
-
-            if (current_num > num) {
-                for (let i = 0; i < current_num - num; i++) { // -
-                    log.debug("-1");
-                    click(1075, 671);
-                    await sleep(75);
-                }
-            } else if (current_num < num) {
-                for (let i = 0; i < num - current_num; i++) { // +
-                    log.debug("+1");
-                    click(1612, 671);
-                    await sleep(75);
-                }
-            }
-        } else if (!current_num) {
-            log.error(`OCR错误，未识别到当前合成数，该鱼饵(${name})跳过...`);
-            await sleep(1000);
-            return false;
-        }
-        await sleep(500);
-
-        return null;
 
         let data = await calculate_values();
         await go_and_interact("合成台");
