@@ -10,12 +10,37 @@ import {ocrPhysical} from "./utils/physical";
  * @returns {Promise<void>} - 执行完成后返回的Promise
  */
 async function autoDomain(autoFight) {
+    //定死做预留冗余 先不实现
+    let physical_domain = autoFight?.physical || [
+        {order: 0, name: "原粹树脂", count: 1},
+        {order: 1, name: "浓缩树脂", count: 0},
+        {order: 2, name: "须臾树脂", count: 0},
+        {order: 3, name: "脆弱树脂", count: 0},
+    ]
+    physical_domain.sort((a, b) => a.order - b.order)
+    // 不包含原粹树脂数的和
+    const noOriginalSum = physical_domain.filter(item => item.name.trim() !== "原粹树脂")
+        .map(item => item.count).reduce((acc, curr) => acc + curr, 0);//求和
+    // 只包含原粹树脂数的和
+    const originalSum = physical_domain.find(item => item.name?.trim() === "原粹树脂")
+        .map(item => item.count).reduce((acc, curr) => acc + curr, 0);
+    const resinPriorityList = physical_domain.map(item => item.name?.trim())
+    //  /** 树脂使用优先级列表 */
+    //   resinPriorityList: string[];
+    //   /** 使用原粹树脂次数 */
+    //   originalResinUseCount: number;
+    //   /** 使用浓缩树脂次数 */
+    //   condensedResinUseCount: number;
+    //   /** 使用须臾树脂次数 */
+    //   transientResinUseCount: number;
+    //   /** 使用脆弱树脂次数 */
+    //   fragileResinUseCount: number;
     //流程->返回主页 打开地图 返回主页
     const physicalOcr = await ocrPhysical(true, true)
     config.user.physical.current = physicalOcr.current
     config.user.physical.min = physicalOcr.min
     const physical = config.user.physical
-    if (physical.current < physical.min) {
+    if (physical.current < physical.min && noOriginalSum <= 0 && originalSum > 0) {
         throwError(`体力不足，当前体力${physical.current}，最低体力${physical.min}，请手动补充体力后重试`)
     }
     // 创建秘境参数对象，初始化值为0
@@ -24,6 +49,10 @@ async function autoDomain(autoFight) {
     domainParam.autoArtifactSalvage = false
     //关闭榨干原粹树脂
     domainParam.specifyResinUse = true
+    //配置原粹树脂使用优先级
+    if (false && resinPriorityList.length > 0) {
+        domainParam.resinPriorityList = resinPriorityList
+    }
     // log.debug(`开始执行秘境任务`)
     //秘境名称
     domainParam.DomainName = autoFight.domainName || domainParam.DomainName;
