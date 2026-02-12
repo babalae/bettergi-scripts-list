@@ -35,13 +35,13 @@ const userSettings = {
     disableJsons: settings.disableJsons || ""
 };
 
-let processingIngredient = settings.processingIngredient;
+let ingredientProcessingFood = settings.ingredientProcessingFood;
+let foodCounts = settings.foodCount;
 
 let firstCook = true;
 let firstsettime = true;
 let lastCookTime = new Date();
 let lastsettimeTime = new Date();
-let lastMapName = "";
 
 // 解析禁用名单
 let disableArray = [];
@@ -89,12 +89,15 @@ let lastRoll = new Date();
 let checkDelay = Math.round(findFInterval / 2);
 
 let Foods = [];
+let foodCount = [];
 
 const FiconRo = RecognitionObject.TemplateMatch(fIcontemplate, 1102, 335, 34, 400);
 FiconRo.Threshold = 0.95;
 FiconRo.InitTemplate();
 
 const mainUiRo = RecognitionObject.TemplateMatch(mainUITemplate, 0, 0, 150, 150);
+
+let underWater = false;
 
 let checkInterval = +settings.checkInterval || 50;
 
@@ -200,29 +203,14 @@ let checkInterval = +settings.checkInterval || 50;
             "default": "100"
         },
         {
-            "name": "processingIngredient",
-            "type": "multi-checkbox",
-            "label": "要加工的食材种类",
-            "default": [],
-            "options": [
-                "面粉",
-                "兽肉",
-                "鱼肉",
-                "神秘的肉",
-                "黑麦粉",
-                "奶油",
-                "熏禽肉",
-                "黄油",
-                "火腿",
-                "糖",
-                "香辛料",
-                "酸奶油",
-                "蟹黄",
-                "果酱",
-                "奶酪",
-                "培根",
-                "香肠"
-            ]
+            "name": "ingredientProcessingFood",
+            "type": "input-text",
+            "label": "食材名称\n用中文逗号，分隔"
+        },
+        {
+            "name": "foodCount",
+            "type": "input-text",
+            "label": "食材数量\n数量对应上方的食材\n用中文逗号，分隔"
         },
         {
             "name": "checkInterval",
@@ -450,9 +438,12 @@ let checkInterval = +settings.checkInterval || 50;
             log.error(`写入文件失败: ${recordFilePath}`);
         }
 
-        try {
-            Foods = Array.from(processingIngredient);
-        } catch (e) { Foods = []; }
+        if (typeof ingredientProcessingFood === 'string' && ingredientProcessingFood.trim()) {
+            Foods = ingredientProcessingFood
+                .split(/[,，;；\s]+/)          // 支持中英文逗号、分号、空格
+                .map(word => word.trim())
+                .filter(word => word.length > 0);
+        }
 
         if (typeof foodCounts === 'string' && foodCounts.trim()) {
             foodCount = foodCounts
@@ -676,8 +667,8 @@ let checkInterval = +settings.checkInterval || 50;
 
                 const pickedCounter = {};
                 priorityItemSet.forEach(n => pickedCounter[n] = 0);
-                /* ===== 剩余物品 ===== */
-                let remaining = priorityList.map(t => `${t.itemName}*${t.count}`).join(', ');
+                /* ===== 每轮开始输出剩余物品 ===== */
+                log.info(`剩余目标材料 ${priorityList.map(t => `${t.itemName}*${t.count}`).join(', ')} `);
                 /* 4-1 扫描 + 读 record + 前置过滤（禁用/时间/材料相关）+ 计算效率 + CD后置排除 */
                 const allFiles = await readFolder('pathing', true);
                 const rawRecord = await file.readText(`${recordFolder}/${subFolderName}/record.json`);
@@ -792,14 +783,12 @@ let checkInterval = +settings.checkInterval || 50;
                     }
                 }
 
-                log.info(`当前进度：执行路线 ${fileName}，剩余优先材料：${remaining}`);
-
                 let timeNow = new Date();
                 if (Foods.length != 0 && (((timeNow - lastCookTime) > cookInterval) || firstCook)) {
                     firstCook = false;
                     await ingredientProcessing();
                     lastCookTime = new Date();
-                    lastMapName = "Teyvat";
+                    underWater = false;
                 }
 
                 if (settings.setTimeMode && settings.setTimeMode != "不调节时间" && (((timeNow - lastsettimeTime) > settimeInterval) || firstsettime)) {
@@ -815,28 +804,16 @@ let checkInterval = +settings.checkInterval || 50;
                 runOnce.push(fileName);
 
                 /* ================================= */
+                log.info(`当前进度：执行路线 ${fileName}`);
                 state.running = true;
-
-                const raw = file.readTextSync(filePath);
-                const json = JSON.parse(raw);
-                const mapName = (json.info?.map_name && json.info.map_name.trim()) ? json.info.map_name : 'Teyvat';
-                if (filePath.includes('枫丹水下')) {
-                    log.info("当前路线为水下路线，检查螃蟹技能");
-                    let skillRes = await findAndClick("assets/螃蟹技能图标.png", false, 1000);
-                    if (!skillRes || lastMapName != mapName) {
-                        log.info("识别到没有螃蟹技能或上一条路线处于其他地图，前往获取螃蟹技能");
-
-                        if (mapName === "SeaOfBygoneEras") {
-                            await pathingScript.runFile("assets/学习螃蟹技能2.json");
-                        }
-                        else {
-                            "assets/学习螃蟹技能1.json";
-                        }
-                    }
-                }
-                lastMapName = mapName;
                 const pickupTask = recognizeAndInteract();
-
+                if (!underWater && filePath.includes('枫丹水下')) {
+                    await pathingScript.runFile("assets/A00-塞洛海原（学习螃蟹技能）.json");
+                    underWater = true;
+                }
+                if (underWater && !filePath.includes('枫丹水下')) {
+                    underWater = false;
+                }
                 try {
                     await pathingScript.runFile(filePath);
                 } catch (e) {
@@ -1139,7 +1116,7 @@ let checkInterval = +settings.checkInterval || 50;
                                 firstCook = false;
                                 await ingredientProcessing();
                                 lastCookTime = new Date();
-                                lastMapName = "Teyvat";
+                                underWater = false;
                             }
 
                             if (settings.setTimeMode && settings.setTimeMode != "不调节时间" && (((timeNow - lastsettimeTime) > settimeInterval) || firstsettime)) {
@@ -1178,29 +1155,17 @@ let checkInterval = +settings.checkInterval || 50;
                             /* ======================================= */
 
                             state.running = true;
-                            const raw = file.readTextSync(filePath);
-                            const json = JSON.parse(raw);
-                            const mapName = (json.info?.map_name && json.info.map_name.trim()) ? json.info.map_name : 'Teyvat';
-                            if (filePath.includes('枫丹水下')) {
-                                log.info("当前路线为水下路线，检查螃蟹技能");
-                                let skillRes = await findAndClick("assets/螃蟹技能图标.png", false);
-                                if (!skillRes || lastMapName != mapName) {
-                                    log.info("识别到没有螃蟹技能或上一条路线处于其他地图，前往获取螃蟹技能");
-
-                                    if (mapName === "SeaOfBygoneEras") {
-                                        await pathingScript.runFile("assets/学习螃蟹技能2.json");
-                                    }
-                                    else {
-                                        "assets/学习螃蟹技能1.json";
-                                    }
-                                }
-                            }
-                            lastMapName = mapName;
                             const pickupTask = recognizeAndInteract();
 
-                            log.info(`当前进度：执行路线 ${fileName}，路径组${i} ${folder} 第 ${groupFiles.indexOf(filePath) + 1}/${groupFiles.length} 个`);
+                            log.info(`当前进度：路径组${i} ${folder} ${fileName} 为第 ${groupFiles.indexOf(filePath) + 1}/${groupFiles.length} 个`);
                             log.info(`当前路线分均效率为 ${(filePath._efficiency ?? 0).toFixed(2)}`);
-
+                            if (!underWater && filePath.fullPath.includes('枫丹水下')) {
+                                await pathingScript.runFile("assets/A00-塞洛海原（学习螃蟹技能）.json");
+                                underWater = true;
+                            }
+                            if (underWater && !filePath.fullPath.includes('枫丹水下')) {
+                                underWater = false;
+                            }
                             try {
                                 state.runPickupLog = [];          // 新路线开始前清空
                                 await pathingScript.runFile(filePath.fullPath);
@@ -1832,7 +1797,7 @@ async function isTimeRestricted(timeRule, threshold = 5) {
 /**
 * 食材加工主函数，用于自动前往指定地点进行食材的加工
 *
-* 该函数会根据 Foods 数组中的食材名称，依次查找并制作对应的料食材
+* 该函数会根据 Foods 和 foodCount 数组中的食材名称和数量，依次查找并制作对应的料食材
 * 支持调味品类食材（直接在“食材加工”界面查找）
 *
 * @returns {Promise<void>} 无返回值，执行完所有加工流程后退出
@@ -1844,9 +1809,11 @@ async function ingredientProcessing() {
         "奶酪", "培根", "香肠"
     ];
     if (Foods.length == 0) { log.error("未选择要加工的食材"); return; }
-    const taskList = Foods.map((name) => `${name}`).join("，");
-    const tasks = Foods.map((name) => ({
+    if (Foods.length != foodCount.length) { log.error("请检查食材与对应的数量是否一致！"); return; }
+    const taskList = Foods.map((name, i) => `${name}*${foodCount[i]}`).join("，");
+    const tasks = Foods.map((name, idx) => ({
         name,
+        count: Number(foodCount[idx]) || 0,
         done: false
     }));
     log.info(`本次加工食材：${taskList}`);
@@ -1922,6 +1889,7 @@ async function ingredientProcessing() {
                 await sleep(100);
             }
             Foods.splice(i, 1);
+            foodCount.splice(i, 1);
 
             return false;
         }
@@ -1930,9 +1898,9 @@ async function ingredientProcessing() {
         await findPNG("选择加工数量");
         click(960, 460);
         await sleep(800);
-        inputText(String(99));
+        inputText(String(tasks[i].count));
 
-        log.info(`尝试制作${tasks[i].name} 99个`);
+        log.info(`尝试制作${tasks[i].name} ${tasks[i].count}个`);
         await clickPNG("确认加工");
         await sleep(500);
 
@@ -1949,6 +1917,7 @@ async function ingredientProcessing() {
                 await sleep(100);
             }
             Foods.splice(i, 1);
+            foodCount.splice(i, 1);
 
             return false;
         }
@@ -1985,7 +1954,7 @@ async function ingredientProcessing() {
         }
     }
 
-    const remain1 = tasks.filter(t => !t.done).map(t => `${t.name}`).join("，") || "无";
+    const remain1 = tasks.filter(t => !t.done).map(t => `${t.name}*${t.count}`).join("，") || "无";
     log.info(`剩余待加工食材：${remain1}`);
 
     if (remain1 === "无") {
@@ -2011,7 +1980,7 @@ async function ingredientProcessing() {
 
     for (const item of foodItems) {
         click(item.x, item.y); await sleep(1 * checkInterval);
-        click(item.x, item.y); await sleep(3 * checkInterval);
+        click(item.x, item.y); await sleep(6 * checkInterval);
 
         for (let round = 0; round < 5; round++) {
             const rg = captureGameRegion();
@@ -2053,7 +2022,7 @@ async function ingredientProcessing() {
         }
     }
 
-    const remain = tasks.filter(t => !t.done).map(t => `${t.name}`).join("，") || "无";
+    const remain = tasks.filter(t => !t.done).map(t => `${t.name}*${t.count}`).join("，") || "无";
     log.info(`剩余待加工食材：${remain}`);
 
 
@@ -2106,7 +2075,7 @@ async function clickPNG(png, maxAttempts = 20) {
     const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
     pngRo.Threshold = 0.95;
     pngRo.InitTemplate();
-    return await findAndClick(pngRo, true, maxAttempts * checkInterval, checkInterval);
+    return await findAndClick(pngRo, true, maxAttempts);
 }
 
 async function findPNG(png, maxAttempts = 20) {
@@ -2114,75 +2083,19 @@ async function findPNG(png, maxAttempts = 20) {
     const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
     pngRo.Threshold = 0.95;
     pngRo.InitTemplate();
-    return await findAndClick(pngRo, false, maxAttempts * checkInterval, checkInterval);
+    return await findAndClick(pngRo, false, maxAttempts);
 }
 
-/**
- * 通用找图/找RO并可选点击（支持单图片文件路径、单RO、图片文件路径数组、RO数组）
- * @param {string|string[]|RecognitionObject|RecognitionObject[]} target
- * @param {boolean}  [doClick=true]                是否点击
- * @param {number}   [timeout=3000]                识别时间上限（ms）
- * @param {number}   [interval=50]                 识别间隔（ms）
- * @param {number}   [retType=0]                   0-返回布尔；1-返回 Region 结果
- * @param {number}   [preClickDelay=50]            点击前等待
- * @param {number}   [postClickDelay=50]           点击后等待
- * @returns {boolean|Region}  根据 retType 返回是否成功或最终 Region
- */
-async function findAndClick(target,
-    doClick = true,
-    timeout = 3000,
-    interval = 50,
-    retType = 0,
-    preClickDelay = 50,
-    postClickDelay = 50) {
-    try {
-        // 1. 统一转成 RecognitionObject 数组
-        let ros = [];
-        if (Array.isArray(target)) {
-            ros = target.map(t =>
-                (typeof t === 'string')
-                    ? RecognitionObject.TemplateMatch(file.ReadImageMatSync(t))
-                    : t
-            );
-        } else {
-            ros = [(typeof target === 'string')
-                ? RecognitionObject.TemplateMatch(file.ReadImageMatSync(target))
-                : target];
-        }
-
-        const start = Date.now();
-        let found = null;
-
-        while (Date.now() - start <= timeout) {
-            const gameRegion = captureGameRegion();
-            try {
-                // 依次尝试每一个 ro
-                for (const ro of ros) {
-                    const res = gameRegion.find(ro);
-                    if (!res.isEmpty()) {          // 找到
-                        found = res;
-                        if (doClick) {
-                            await sleep(preClickDelay);
-                            res.click();
-                            await sleep(postClickDelay);
-                        }
-                        break;                     // 成功即跳出 for
-                    }
-                }
-                if (found) break;                  // 成功即跳出 while
-            } finally {
-                gameRegion.dispose();
-            }
-            await sleep(interval);                 // 没找到时等待
-        }
-
-        // 3. 按需返回
-        return retType === 0 ? !!found : (found || null);
-
-    } catch (error) {
-        log.error(`执行通用识图时出现错误：${error.message}`);
-        return retType === 0 ? false : null;
+async function findAndClick(target, doClick = true, maxAttempts = 60) {
+    for (let i = 0; i < maxAttempts; i++) {
+        const rg = captureGameRegion();
+        try {
+            const res = rg.find(target);
+            if (res.isExist()) { await sleep(checkInterval * 2 + 50); if (doClick) { res.click(); } await sleep(50); return true; }
+        } finally { rg.dispose(); }
+        if (i < maxAttempts - 1) await sleep(checkInterval);
     }
+    return false;
 }
 
 /**
@@ -2215,7 +2128,6 @@ function isArrivedAtEndPoint(fullPath) {
         if (endX === 0 && endY === 0) return false;   // 没找到有效点
 
         /* 2. 取当前人物坐标 */
-
         const mapName = (json.info?.map_name && json.info.map_name.trim()) ? json.info.map_name : 'Teyvat';
         const pos = genshin.getPositionFromMap(mapName, 3000);
         const curX = pos.X;
