@@ -35,7 +35,8 @@ async function ocrRegion(x = 0,
  */
 async function getDayOfWeek() {
     // 获取当前日期对象
-    const today = new Date();
+    let today = new Date();//4点刷新 所以要减去4小时
+    today.setHours(today.getHours() - 4); // 减去 4 小
     // 获取当前日期是星期几（0代表星期日，1代表星期一，以此类推）
     const day = today.getDay();
     // 创建包含星期名称的数组
