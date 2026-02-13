@@ -561,7 +561,18 @@
      * @returns {Promise<boolean>}
      */
     async function make_bait(name, num) {
-        if (num === 0) return true;
+        if (num === 0) {
+            log.info("合成次数: 0，跳过...");
+            await sleep(500);
+            return true;
+        } else if (num > 200) {
+            log.warn(`合成次数: ${num}，次数异常，跳过...`);
+            await sleep(500);
+            return true;
+        } else {
+            log.info(`合成次数: ${num}`);
+            await sleep(500);
+        }
         let shelter_option = await Ocr(165, 1001, 289, 32); // 筛选器文本
 
         if (shelter_option) {
@@ -677,20 +688,32 @@
         await sleep(100);
         let current_num = await Ocr(1264, 617, 158, 30); // 已选的合成次数文本区域
         if (current_num && max_num > num) { // [DEBUG]若false则可能有些许误差
-            current_num = parseInt(current_num.text.replace(/\D/g, ''), 10);
+            // 如果差值过大，从头开始
+            if (Math.abs(num - current_num) > 125) {
+                await sleep(300);
+                click(1167, 671);
+                current_num = 1;
+            } else {
+                current_num = parseInt(current_num.text.replace(/\D/g, ''), 10);
+            }
+
             if (current_num > num) {
                 for (let i = 0; i < current_num - num; i++) { // -
                     log.debug("-1");
                     click(1075, 671);
-                    await sleep(50);
+                    await sleep(75);
                 }
             } else if (current_num < num) {
                 for (let i = 0; i < num - current_num; i++) { // +
                     log.debug("+1");
                     click(1612, 671);
-                    await sleep(50);
+                    await sleep(75);
                 }
             }
+        } else if (!current_num) {
+            log.error(`OCR错误，未识别到当前合成数，该鱼饵(${name})跳过...`);
+            await sleep(1000);
+            return false;
         }
         await sleep(500);
 
@@ -950,6 +973,7 @@
          *  "material_dic": material_dic // x: x
          * }
          */
+
         let data = await calculate_values();
         await go_and_interact("合成台");
         for (const[b_name, b_msg] of Object.entries(data["exp_bait_dic"])) {
