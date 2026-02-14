@@ -1148,7 +1148,13 @@ async function runPath(fullPath, map_name, pm, pe) {
 
         if (pickup_Mode.includes("模板匹配")) {
             while (state.running) {
-                await sleep(1500);
+                let sleepTimes = 0;
+                while (state.running && sleepTimes < 30) {
+                    await sleep(50);
+                    sleepTimes++;
+                }
+                if (!state.running) break;
+
                 if (await checkItemFull()) {
                     const TEXT_X = 560, TEXT_Y = 450, TEXT_W = 1360 - 560, TEXT_H = 620 - 450;
                     let ocrText = null;
@@ -1396,7 +1402,13 @@ async function dumper(pathFilePath, map_name) {
         if (!disableDumper) {
             while (state.running) {
                 //log.info("调试-泥头车循环");
-                await sleep(501);
+                let sleepTimes = 0;
+                while (state.running && sleepTimes < 10) {
+                    await sleep(50);
+                    sleepTimes++;
+                }
+                if (!state.running) break;
+                await sleep(1);
                 if (await isMainUI() && !await findAndClick(flyingRo, false, 2, 3)) {
                     //log.info("调试-获取坐标");
                     //在主界面才尝试获取坐标
