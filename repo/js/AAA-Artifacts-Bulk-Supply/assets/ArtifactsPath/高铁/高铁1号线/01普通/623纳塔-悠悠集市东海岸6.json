@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758882956341,
+    "last_modified_time": 1771056804748,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "623纳塔-悠悠集市东海岸6",
@@ -136,9 +136,18 @@
       "y": 553.5615374693198
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13634.662109375,
+      "y": 561.7841796875
+    },
+    {
       "action": "combat_script",
       "action_params": "keypress(f),a(0.1);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "id": 14,
+      "id": 15,
       "move_mode": "dash",
       "type": "target",
       "x": 13634.4951171875,
@@ -147,7 +156,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 15,
+      "id": 16,
       "move_mode": "dash",
       "type": "path",
       "x": 13632.830078125,
@@ -156,7 +165,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 17,
       "move_mode": "walk",
       "type": "orientation",
       "x": 13627.654296875,
@@ -165,7 +174,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "id": 17,
+      "id": 18,
       "move_mode": "climb",
       "type": "target",
       "x": 13628.109375,

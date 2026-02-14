@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1764343869219,
+    "last_modified_time": 1771057303260,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "01【额外】稻妻-踏鞴砂大炮点5",
@@ -31,7 +31,6 @@
       "action": "log_output",
       "action_params": "如果发现大炮没调查点,先检查开炮打歪?没打歪的消失,是原神本身bug,后面连续N天也拿不到!目前无法靠修脚本解决!\n唯一解决方式:删除开炮路径一天,第二天正常开炮就有了!\n唯一解决方式:删除开炮路径一天,第二天正常开炮就有了!\n唯一解决方式:删除开炮路径一天,第二天正常开炮就有了!",
       "id": 2,
-      "locked": false,
       "move_mode": "dash",
       "type": "orientation",
       "x": -3247.587890625,
@@ -40,7 +39,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 4,
+      "id": 3,
       "move_mode": "dash",
       "type": "path",
       "x": -3247.587890625,
@@ -49,7 +48,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 5,
+      "id": 4,
       "move_mode": "fly",
       "type": "path",
       "x": -3278.250023700497,
@@ -58,7 +57,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),a(0.2);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "id": 6,
+      "id": 5,
       "move_mode": "climb",
       "type": "target",
       "x": -3276.6572265625,
@@ -67,7 +66,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 7,
+      "id": 6,
       "move_mode": "walk",
       "type": "teleport",
       "x": -3016.8056640625,
@@ -76,7 +75,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 8,
+      "id": 7,
       "move_mode": "run",
       "type": "path",
       "x": -3040.125237004977,
@@ -85,7 +84,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 8,
       "move_mode": "dash",
       "type": "path",
       "x": -3074.1253397071323,
@@ -94,7 +93,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 10,
+      "id": 9,
       "move_mode": "run",
       "type": "path",
       "x": -3109.0632327403855,
@@ -103,7 +102,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),keypress(x);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);keypress(f),wait(0.2),keypress(f)",
-      "id": 11,
+      "id": 10,
       "move_mode": "dash",
       "type": "target",
       "x": -3113.9374209983416,
@@ -112,7 +111,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 12,
+      "id": 11,
       "move_mode": "walk",
       "type": "path",
       "x": -3115.124970374378,
@@ -121,7 +120,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 13,
+      "id": 12,
       "move_mode": "dash",
       "type": "path",
       "x": -3109.0000316006626,
@@ -130,7 +129,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
+      "id": 13,
       "move_mode": "dash",
       "type": "path",
       "x": -3100.468753950083,
@@ -139,7 +138,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 15,
+      "id": 14,
       "move_mode": "walk",
       "type": "path",
       "x": -3096.4687519750423,
@@ -148,7 +147,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
-      "id": 16,
+      "id": 15,
       "move_mode": "fly",
       "type": "target",
       "x": -3095.8125079001657,
@@ -157,7 +156,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
-      "id": 17,
+      "id": 16,
       "move_mode": "walk",
       "type": "path",
       "x": -3098.966796875,
@@ -166,7 +165,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 17,
       "move_mode": "walk",
       "type": "teleport",
       "x": -3156.6171875,
@@ -175,7 +174,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
+      "id": 18,
       "move_mode": "run",
       "type": "path",
       "x": -3177.130859375,
@@ -184,7 +183,7 @@
     {
       "action": "stop_flying",
       "action_params": "2900",
-      "id": 20,
+      "id": 19,
       "move_mode": "fly",
       "type": "path",
       "x": -3190.5712890625,
@@ -193,7 +192,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 21,
+      "id": 20,
       "move_mode": "dash",
       "type": "path",
       "x": -3228.685546875,
@@ -202,7 +201,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f)",
-      "id": 22,
+      "id": 21,
       "move_mode": "walk",
       "type": "target",
       "x": -3228.562496049917,
@@ -211,7 +210,7 @@
     {
       "action": "force_tp",
       "action_params": "",
-      "id": 23,
+      "id": 22,
       "move_mode": "walk",
       "type": "teleport",
       "x": -3229.908203125,
@@ -220,7 +219,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 24,
+      "id": 23,
       "move_mode": "dash",
       "type": "path",
       "x": -3264.978515625,
@@ -229,7 +228,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 25,
+      "id": 24,
       "move_mode": "dash",
       "type": "target",
       "x": -3298.0312480249577,
@@ -238,7 +237,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);keypress(f),wait(0.2),keypress(f)",
-      "id": 26,
+      "id": 25,
       "move_mode": "walk",
       "type": "path",
       "x": -3300.468773700497,
