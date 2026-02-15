@@ -62,7 +62,7 @@ async function autoDomain(autoFight) {
     domainParam.specifyResinUse = true
     //配置树脂使用优先级
     if (resinPriorityList.length > 0) {
-        domainParam.resinPriorityList = resinPriorityList
+        domainParam.SetResinPriorityList(...resinPriorityList)
     }
     // log.debug(`开始执行秘境任务`)
     //秘境名称
