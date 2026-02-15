@@ -86,9 +86,33 @@ async function autoDomain(autoFight) {
         log.debug(`副本轮数:${autoFight.domainRoundNum}`)
     }
     log.debug(`副本轮数:${domainParam.domainRoundNum}`)
-    await dispatcher.RunAutoDomainTask(domainParam);
+
+    // 复活重试
+    for (let i = 0; i < 5; i++) {
+        try {
+            await dispatcher.RunAutoDomainTask(domainParam);
+            // 其他场景不重试
+            break;
+        } catch (e) {
+            const errorMessage = e.message
+            // 只有选择了秘境的时候才会重试
+            if (errorMessage.includes("复活") && domainParam.DomainName) {
+                continue;
+            }
+            throw e;
+        }
+    }
 }
 
+/**
+ * 自动执行地脉花任务的异步函数
+ * @param autoLeyLineOutcrop
+ * @returns {Promise<void>}
+ */
+async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
+    //todo :地脉花
+
+}
 
 /**
  * 自动执行列表处理函数
@@ -97,10 +121,10 @@ async function autoDomain(autoFight) {
 async function autoRunList(autoRunOrderList) {
     //计划执行
     for (const item of autoRunOrderList) {
-        if (item.runType===config.user.runTypes[0]){
+        if (item.runType === config.user.runTypes[0]) {
             await autoDomain(item.autoFight);
-        }else if (item.runType===config.user.runTypes[1]){
-            //todo :地脉花
+        } else if (item.runType === config.user.runTypes[1]) {
+            await autoLeyLineOutcrop(item.autoLeyLineOutcrop);
         }
     }
 }
@@ -313,7 +337,7 @@ async function main() {
     let runConfig = config.run.config;
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|周几执行(0-6)不填默认执行|执行顺序,..."
     const autoRunOrderList = await initRunOrderList(runConfig);
-    const list = autoRunOrderList.filter(item => item.runType===config.user.runTypes[0]&&item.autoFight.DomainRoundNum > 0)
+    const list = autoRunOrderList.filter(item => item.runType === config.user.runTypes[0] && item.autoFight.DomainRoundNum > 0)
     if (list?.length > 0) {
         await autoRunList(list);
     } else {
