@@ -94,7 +94,7 @@ async function autoDomain(autoFight) {
  * 自动执行秘境任务列表处理函数
  * @param {Array} autoDomainOrderList - 包含秘境自动配置的数组
  */
-async function autoDomainList(autoDomainOrderList) {
+async function autoRunList(autoDomainOrderList) {
     //计划执行
     for (const item of autoDomainOrderList) {
         await autoDomain(item.autoFight);
@@ -307,7 +307,7 @@ async function main() {
     const autoRunOrderList = await initRunOrderList(domainConfig);
     const list = autoRunOrderList.filter(item => item.autoFight.DomainRoundNum > 0)
     if (list?.length > 0) {
-        await autoDomainList(list);
+        await autoRunList(list);
     } else {
         log.info(`本日无计划`)
     }
