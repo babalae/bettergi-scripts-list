@@ -91,12 +91,12 @@ async function autoDomain(autoFight) {
 
 
 /**
- * 自动执行秘境任务列表处理函数
- * @param {Array} autoDomainOrderList - 包含秘境自动配置的数组
+ * 自动执行列表处理函数
+ * @param {Array} autoRunOrderList - 包含自动配置的数组
  */
-async function autoRunList(autoDomainOrderList) {
+async function autoRunList(autoRunOrderList) {
     //计划执行
-    for (const item of autoDomainOrderList) {
+    for (const item of autoRunOrderList) {
         if (item.runType===config.user.runTypes[0]){
             await autoDomain(item.autoFight);
         }else if (item.runType===config.user.runTypes[1]){
