@@ -114,15 +114,15 @@ function parseDay(day) {
  * 根据不同的加载方式加载秘境配置
  * @param {string} Load - 加载方式类型，如uid或input
  * @param {Set} autoFightOrderSet - 用于存储秘境顺序的Set集合
- * @param {string} domainConfig - 输入的配置字符串，仅在Load为input时使用
+ * @param {string} runConfig - 输入的配置字符串，仅在Load为input时使用
  */
-async function loadMode(Load, autoFightOrderSet, domainConfig) {
+async function loadMode(Load, autoFightOrderSet, runConfig) {
     switch (Load) {
         case LoadType.uid:
 
             // 通过UID方式加载配置
             const uid = config.user.uid || (await ocrUid()) // 获取用户UID，如果未配置则通过OCR识别获取
-            const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.domainConfig)) || new Map() // 读取本地配置文件并转换为Map对象
+            const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.runConfig)) || new Map() // 读取本地配置文件并转换为Map对象
             const uidConfigList = configAutoFightOrderMap.get(uid) || []; // 获取当前UID对应的配置列表
             if (uidConfigList?.length > 0) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
@@ -142,9 +142,9 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
             break
         case LoadType.input:
             // 通过输入字符串方式加载配置
-            if (domainConfig) {
+            if (runConfig) {
                 // 处理输入字符串：去除首尾空格，将中文逗号替换为英文逗号，然后按逗号分割
-                domainConfig.trim().replaceAll('，', ',').split(",").forEach(
+                runConfig.trim().replaceAll('，', ',').split(",").forEach(
                     item => {
                         // 将当前项按"|"分割成数组
                         let arr = item.split("|")
