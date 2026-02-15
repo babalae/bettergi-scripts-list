@@ -37,7 +37,7 @@ const config = {
     path: {
         manifest: "manifest.json",
         domain: "config/domain.json",
-        runConfig: "config/domain_config.json"
+        runConfig: "config/run_config.json"
     },
     //所有秘境信息
     domainList: [],
@@ -216,7 +216,7 @@ async function initConfig() {
         }
 
     })
-    config.run.config = settings.domain_config || config.run.config
+    config.run.config = settings.run_config || config.run.config
     if (config.domainList.length <= 0) {
         throw new Error("配置文件缺失或读取异常!")
     }

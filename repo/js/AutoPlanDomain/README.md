@@ -22,14 +22,14 @@
 | 配置项                                | 类型              | 说明                                                                                                               | 示例值                                              |
 |---------------------------------------|-------------------|------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
 | **key**                               | input-text        | 版本密钥（必填，仔细看本文档）                                                                                                  | xxxx                                             |
-| **auto_load**                         | multi-checkbox    | 加载模式（可多选）<br>・输入加载：使用下方 domain_config 字段<br>・UID加载：读取 config/domain_config.json（每个UID独立）<br>・bgi_tools加载：从远程API拉取 | 默认：["输入加载","UID加载"]                              |
-| **domain_config**                     | input-text        | 自动秘境计划配置（当选择“输入加载”时生效）<br>格式见下方“计划配置语法”                                                                          | 速刷\|苍白的遗荣\|3\|1-3\|0,6\|9<br>（多条用英文逗号分隔）         |
+| **auto_load**                         | multi-checkbox    | 加载模式（可多选）<br>・输入加载：使用下方 run_config 字段<br>・UID加载：读取 config/run_config.json（每个UID独立）<br>・bgi_tools加载：从远程API拉取 | 默认：["输入加载","UID加载"]                              |
+| **run_config**                     | input-text        | 自动秘境计划配置（当选择“输入加载”时生效）<br>格式见下方“计划配置语法”                                                                          | 速刷\|苍白的遗荣\|3\|1-3\|0,6\|9<br>（多条用英文逗号分隔）         |
 | **bgi_tools_http_pull_json_config**   | input-text        | bgi_tools 拉取配置的 API 地址（当选择 bgi_tools加载 时生效）                                                                      | https://example.com/api/pull |
 | **bgi_tools_open_push**               | checkbox          | 是否在脚本结束时推送当前全部配置给 bgi_tools（用于同步/备份）                                                                             | 勾选 = 开启推送                                        |
 | **bgi_tools_http_push_all_json_config** | input-text      | bgi_tools 推送全部配置的 API 地址（当开启推送时使用）                                                                               | https://example.com/api/push-all                 |
 | **bgi_tools_token** | input-text      | bgi_tools授权token 语法:tokenName=tokenValue                                                                               | tokenName=tokenValue                   |
 
-### 计划配置语法（domain_config 字段）
+### 计划配置语法（run_config 字段）
 
 ```
 队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日(1-3和本体的一致)|周几执行(0-6)不填默认执行|树脂使用顺序|执行顺序(越大越先执行)
@@ -60,7 +60,7 @@
 雷国|无想之刃狭间|2|2|0|浓缩树脂/原粹树脂|2           # 只在周日刷，优先使用浓缩树脂后使用原粹树脂，优先级较低
 ```
 （注意：最后一条也可以不带逗号）
-### 计划配置语法（config/domain_config.json 配置）
+### 计划配置语法（config/run_config.json 配置）
 ```json
 [
   {
@@ -92,8 +92,8 @@
 ![config-02](md/bgi-tools-config-ui-02.jpg)
 ## 使用建议
 
-1. 第一次使用建议只勾选「输入加载」，把计划写在 `domain_config` 里测试
-2. 熟练后可改为「UID加载」，把配置保存为 `config/domain_config.json`（每个账号独立）
+1. 第一次使用建议只勾选「输入加载」，把计划写在 `run_config` 里测试
+2. 熟练后可改为「UID加载」，把配置保存为 `config/run_config.json`（每个账号独立）
 3. 如果你有自己的云端配置服务，可使用「bgi_tools加载」 + 推送功能实现多端同步
 4. 确保 BetterGI 的**自动秘境**功能已正常可用（钟离识别、战斗策略等）
 
