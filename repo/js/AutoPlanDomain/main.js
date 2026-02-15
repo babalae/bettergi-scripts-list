@@ -155,17 +155,21 @@ async function loadMode(Load, autoFightOrderSet, runConfig) {
                             sundaySelectedValue: undefined,//周日|限时选择的值
                             DomainRoundNum: undefined,//副本轮数
                         }
-                        let partyName = arr[0]; // 解析队伍名称
-                        let domainName = arr[1]; // 解析秘境名称
-                        let domainRoundNum = arr[2]; // 解析副本轮数
-                        let sundaySelectedValue = arr[3]; // 解析周日|限时选择的值
+                        let runType = arr[0]; // 解析运行类型
+                        if (!config.user.runTypes.includes(runType)) {
+                            throwError(`运行类型${runType}输入错误`)
+                        }
+                        let partyName = arr[1]; // 解析队伍名称
+                        let domainName = arr[2]; // 解析秘境名称
+                        let domainRoundNum = arr[3]; // 解析副本轮数
+                        let sundaySelectedValue = arr[4]; // 解析周日|限时选择的值
                         // let day = arr[4].trim() != "" ? parseInt(arr[4]) : undefined;
-                        let days = arr[4].trim() !== ""
+                        let days = arr[5].trim() !== ""
                             ? arr[4].split('/').map(d => parseInt(d.trim())).filter(d => !isNaN(d))
                             : [];
                         // 解析顺序值，处理可能的无效值
                         let order = (() => {
-                            const rawOrder = arr[5]; // 获取原始值
+                            const rawOrder = arr[6]; // 获取原始值
                             if (rawOrder == null || String(rawOrder).trim() === "") {
                                 return 0; // 若为空或无效值，默认返回 0
                             }
@@ -305,7 +309,7 @@ async function main() {
     let runConfig = config.run.config;
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|周几执行(0-6)不填默认执行|执行顺序,..."
     const autoRunOrderList = await initRunOrderList(runConfig);
-    const list = autoRunOrderList.filter(item => item.autoFight.DomainRoundNum > 0)
+    const list = autoRunOrderList.filter(item => item.runType==="秘境"&&item.autoFight.DomainRoundNum > 0)
     if (list?.length > 0) {
         await autoRunList(list);
     } else {
