@@ -32,7 +32,7 @@ async function autoDomain(autoFight) {
     const noOriginalSum = physical_domain.filter(item => item.name.trim() !== "原粹树脂")
         .filter(item => item.open ).length;//求和
     // 只包含原粹树脂的和
-    const originalSum = physical_domain.find(item => item.name?.trim() === "原粹树脂")
+    const originalSum = physical_domain.filter(item => item.name?.trim() === "原粹树脂")
         .filter(item => item.open ).length;
     const resinPriorityList = physical_domain.filter(item => item.open).map(item => item.name?.trim())
     //  /** 树脂使用优先级列表 */
