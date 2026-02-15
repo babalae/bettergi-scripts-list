@@ -309,7 +309,7 @@ async function main() {
     let runConfig = config.run.config;
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|周几执行(0-6)不填默认执行|执行顺序,..."
     const autoRunOrderList = await initRunOrderList(runConfig);
-    const list = autoRunOrderList.filter(item => item.runType==="秘境"&&item.autoFight.DomainRoundNum > 0)
+    const list = autoRunOrderList.filter(item => item.runType===config.user.runTypes[0]&&item.autoFight.DomainRoundNum > 0)
     if (list?.length > 0) {
         await autoRunList(list);
     } else {
