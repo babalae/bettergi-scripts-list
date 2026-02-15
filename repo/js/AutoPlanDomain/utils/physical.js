@@ -1,4 +1,4 @@
-import {getJsonPath, toMainUi} from "./tool";
+import {getJsonPath, toMainUi,throwError} from "./tool";
 //====================================================
 const genshinJson = {
     width: 1920,//genshin.width,
@@ -47,7 +47,7 @@ async function ocrPhysical(opToMainUi = false,openMap=false,minPhysical=20,isRes
         }
     }
     log.debug(`===开始识别原粹树脂===`)
-    let ms = 1000  // 定义操作延迟时间（毫秒）
+    let ms = 2000  // 定义操作延迟时间（毫秒）
     if (opToMainUi) {
         await toMainUi();  // 切换到主界面
     }
