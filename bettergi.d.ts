@@ -580,6 +580,12 @@ declare const dispatcher: {
    * @param customCt 自定义取消令牌（可选）
    */
   runAutoFightTask(param: AutoFightParam, customCt?: CancellationToken | null): Promise<void>;
+  /**
+   * 运行自动地脉花任务
+   * @param param 自动地脉花任务参数
+   * @param customCt 自定义取消令牌（可选）
+   */
+  runAutoLeyLineOutcropTask(param: AutoLeyLineOutcropParam, customCt?: CancellationToken | null): Promise<void>;
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   AddTimer: typeof dispatcher.addTimer;
   AddTrigger: typeof dispatcher.addTrigger;
@@ -589,6 +595,7 @@ declare const dispatcher: {
   GetLinkedCancellationToken: typeof dispatcher.getLinkedCancellationToken;
   RunAutoDomainTask: typeof dispatcher.runAutoDomainTask;
   RunAutoFightTask: typeof dispatcher.runAutoFightTask;
+  RunAutoLeyLineOutcropTask: typeof dispatcher.runAutoLeyLineOutcropTask;
   // ==== END AUTO-GENERATED ALIASES ====;
 };
 
@@ -819,7 +826,7 @@ declare class AutoLeyLineOutcropParam {
     isResinExhaustionMode: boolean;
     /** 耗尽模式取小值 */
     openModeCountMin: boolean;
-    /** 刷取次数 */
+    /** 是否使用冒险之证寻找地脉花 */
     useAdventurerHandbook: boolean;
     /** 好感队名称 */
     friendshipTeam: string;
