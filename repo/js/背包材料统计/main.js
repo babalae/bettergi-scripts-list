@@ -138,7 +138,7 @@ function getCachedImageMat(filePath) {
 // ==============================================
 // OCR上下文（用于动态过滤拾取列表）
 // ==============================================
-const ocrContext = { currentPathType: null, currentTargetMaterials: [] };
+const ocrContext = { currentPathType: null, currentTargetMaterials: [], pathingMonsterMaterials: new Set() };
 
 // ==============================================
 // 初始化配置参数
@@ -1065,7 +1065,7 @@ function filterLowCountMaterials(pathingMaterialCounts, materialCategoryMap) {
 
   // 提取所有需要扫描的材料（超量+低数量共用同一源）
   const allMaterials = Object.values(materialCategoryMap).flat();
-  log.info(`【材料基准】本次需扫描的全量材料：${allMaterials.join("、")}`);
+  if (debugLog) log.info(`【材料基准】本次需扫描的全量材料：${allMaterials.join("、")}`);
 
   // ========== 第一步：平行判断超量材料（原始数据，不经过低数量过滤） ==========
   pathingMaterialCounts.forEach(item => {
@@ -1796,11 +1796,13 @@ function classifyNormalPathFiles(pathingDir, targetResourceNames, lowCountMateri
   });
 
   if (pathEntries.length > 0) {
-    // log.info(`${CONSTANTS.LOG_MODULES.PATH}\n===== 匹配到的材料路径列表 =====`);
-    pathEntries.forEach((entry, index) => {
-      log.info(`${index + 1}. 材料：${entry.resourceName || entry.monsterName}，路径：${entry.path}`);
-    });
-    // log.info(`=================================\n`);
+    if (debugLog) {
+      log.info(`${CONSTANTS.LOG_MODULES.PATH}\n===== 匹配到的材料路径列表 =====`);
+      pathEntries.forEach((entry, index) => {
+        log.info(`${index + 1}. 材料：${entry.resourceName || entry.monsterName}，路径：${entry.path}`);
+      });
+      log.info(`=================================\n`);
+    }
   } else {
     log.info(`${CONSTANTS.LOG_MODULES.PATH}未匹配到任何有效的材料路径`);
   }
@@ -1873,6 +1875,9 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
         return;
       }
       materials.forEach(mat => {
+        // 添加到pathing怪物材料集合（用于OCR过滤）
+        ocrContext.pathingMonsterMaterials.add(mat);
+        
         const category = matchImageAndGetCategory(mat, imagesDir);
         if (!category) return;
         if (!materialCategoryMap[category]) materialCategoryMap[category] = [];
@@ -1882,6 +1887,7 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
         }
       });
     });
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MONSTER}pathing文件夹中的怪物材料共${ocrContext.pathingMonsterMaterials.size}种：${Array.from(ocrContext.pathingMonsterMaterials).join('、')}`);
   }
 
   let processedFoodPaths = foodPaths;
@@ -1896,7 +1902,7 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
     pathingMaterialCounts = allMaterialCounts;
 
     // 筛选低数量材料（同时生成超量名单）
-    log.info(`${CONSTANTS.LOG_MODULES.MONSTER}[怪物材料] 基于全量扫描结果筛选有效材料`);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MONSTER}[怪物材料] 基于全量扫描结果筛选有效材料`);
     const filteredMaterials = filterLowCountMaterials(allMaterialCounts.flat(), materialCategoryMap);
     const validMonsterMaterialNames = filteredMaterials.map(m => m.name);
     if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MONSTER}[怪物材料] 筛选后有效材料：${validMonsterMaterialNames.join('、')}`);
@@ -2069,11 +2075,36 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
       let filtered = allTargetTexts.filter(name => !excessMaterialNames.includes(name));
       
       if (ocrContext.currentPathType === 'monster') {
-        filtered = filtered.filter(name => !materialToMonsters[name]);
-        const currentMonsterMaterials = ocrContext.currentTargetMaterials || [];
-        filtered = [...filtered, ...currentMonsterMaterials];
+        // 怪物路径执行时的过滤逻辑：
+        // 1. 对于怪物材料，只保留：
+        //    - 当前怪物的材料
+        //    - pathing文件夹中存在且未超量的其他怪物材料
+        // 2. 非怪物材料保持不变
         
-        if (debugLog) log.info(`OCR拾取列表（怪物路径）：${filtered.join('、')}`);
+        filtered = filtered.filter(name => {
+          // 如果不是怪物材料，保留
+          if (!materialToMonsters[name]) return true;
+          
+          // 如果是怪物材料，检查是否在允许的列表中
+          const currentMonsterMaterials = ocrContext.currentTargetMaterials || [];
+          const pathingMonsterMaterials = Array.from(ocrContext.pathingMonsterMaterials || new Set());
+          
+          // 保留当前怪物的材料或pathing中的怪物材料
+          return currentMonsterMaterials.includes(name) || pathingMonsterMaterials.includes(name);
+        });
+        
+        if (debugLog) {
+          const currentMonsterMaterials = ocrContext.currentTargetMaterials || [];
+          const pathingMonsterMaterials = Array.from(ocrContext.pathingMonsterMaterials || new Set());
+          const additionalMonsterMaterials = pathingMonsterMaterials.filter(mat => 
+            !currentMonsterMaterials.includes(mat) && !excessMaterialNames.includes(mat)
+          );
+          
+          log.info(`OCR拾取列表（怪物路径）：`);
+          log.info(`  - 当前怪物材料：${currentMonsterMaterials.join('、') || '无'}`);
+          log.info(`  - pathing其他怪物材料（未超量）：${additionalMonsterMaterials.join('、') || '无'}`);
+          log.info(`  - 非怪物材料：${filtered.filter(name => !materialToMonsters[name]).join('、') || '无'}`);
+        }
       }
       
       return filtered;
