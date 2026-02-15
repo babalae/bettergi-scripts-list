@@ -233,11 +233,11 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
 }
 
 /**
- * 初始化秘境顺序列表
+ * 初始化执行顺序列表
  * @param {string} domainConfig - 输入的字符串，包含秘境顺序信息
  * @returns {Array} 返回处理后的秘境顺序列表
  */
-async function initDomainOrderList(domainConfig) {
+async function initRunOrderList(domainConfig) {
     const autoFightOrderSet = new Set() // 存储秘境顺序列表的数组
     /*    let te = {
             order: 1,      // 顺序值
@@ -304,7 +304,7 @@ async function main() {
     // 获取秘境配置
     let domainConfig = config.domain.config;
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|周几执行(0-6)不填默认执行|执行顺序,..."
-    const autoFightOrderList = await initDomainOrderList(domainConfig);
+    const autoFightOrderList = await initRunOrderList(domainConfig);
     const list = autoFightOrderList.filter(item => item.autoFight.DomainRoundNum > 0)
     if (list?.length > 0) {
         await autoDomainList(list);
