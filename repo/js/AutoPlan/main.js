@@ -97,7 +97,11 @@ async function autoDomain(autoFight) {
 async function autoRunList(autoDomainOrderList) {
     //计划执行
     for (const item of autoDomainOrderList) {
-        await autoDomain(item.autoFight);
+        if (item.runType===config.user.runTypes[0]){
+            await autoDomain(item.autoFight);
+        }else if (item.runType===config.user.runTypes[1]){
+            //todo :地脉花
+        }
     }
 }
 
