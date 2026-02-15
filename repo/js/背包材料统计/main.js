@@ -1409,7 +1409,7 @@ async function processMonsterPathEntry(entry, context) {
         const original = updatedFlattened.find(m => m.name === updated.name);
         if (original) {
           const diff = parseInt(updated.count) - parseInt(original.count);
-          if (diff !== 0 || updated.name === updated.name) {
+          if (diff !== 0 || materials.includes(updated.name)) {
             materialCountDifferences[updated.name] = diff;
             globalAccumulatedDifferences[updated.name] = (globalAccumulatedDifferences[updated.name] || 0) + diff;
             materialAccumulatedDifferences[monsterName][updated.name] = (materialAccumulatedDifferences[monsterName][updated.name] || 0) + diff;

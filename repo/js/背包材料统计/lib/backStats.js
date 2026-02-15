@@ -893,7 +893,7 @@ async function MaterialPath(materialCategoryMap, cachedFrame = null) {
                 cachedFrame?.dispose();
                 cachedFrame = captureGameRegion();
 
-                const backpackResult = await recognizeImage(BagpackRo, cachedFrame, 2000);
+                const backpackResult = await recognizeImage(BagpackRo, cachedFrame, 2000, 500, true, "背包");
                 if (backpackResult.isDetected) {
                     // log.info("成功识别背包图标");
                     stage = 2; // 进入下一阶段
@@ -942,7 +942,7 @@ async function MaterialPath(materialCategoryMap, cachedFrame = null) {
                     return;
                 }
 
-                const CategoryResult = await recognizeImage(CategoryObject, cachedFrame);
+                const CategoryResult = await recognizeImage(CategoryObject, cachedFrame, 2000, 500, true, materialsCategory);
                 if (CategoryResult.isDetected) {
                     log.info(`识别到${materialsCategory} 所在分类。`);
                     stage = 4; // 进入下一阶段

@@ -26,7 +26,7 @@ function parseCategoryContent(content) {
 
 // 从 targetText 文件夹中读取分类信息（无修改，与OCR无关）
 function readtargetTextCategories(targetTextDir) {
-    const targetTextFilePaths = readAllFilePaths(targetTextDir, 0, 1);
+    const targetTextFilePaths = readAllFilePaths(targetTextDir, 0, 1, ['.txt']);
     const materialCategories = {};
 
     let pickTextNames = [];
@@ -38,7 +38,6 @@ function readtargetTextCategories(targetTextDir) {
 
     let availablePickCategories = [];
     try {
-        const targetTextFilePaths = readAllFilePaths(targetTextDir, 0, 1, ['.txt']);
         availablePickCategories = targetTextFilePaths.map(filePath => basename(filePath).replace('.txt', ''));
         log.info(`可用识别名单：${availablePickCategories.join(', ')}`);
     } catch (e) {

@@ -67,10 +67,10 @@ function updateSettingsOptions() {
                 popupSetting.options = popupDirs;
                 hasChanges = true;
                 if (newOptions.length > 0) {
-                    log.info("PopupNames新增选项: " + newOptions.join(', ') + ")");
+                    log.info("PopupNames新增选项: " + newOptions.join(', '));
                 }
                 if (removedOptions.length > 0) {
-                    log.info("PopupNames删除选项: " + removedOptions.join(', ') + ")");
+                    log.info("PopupNames删除选项: " + removedOptions.join(', '));
                 }
             } else {
                 log.info("PopupNames无新增选项");
@@ -114,10 +114,10 @@ function updateSettingsOptions() {
                 cdSetting.options = cdCategories;
                 hasChanges = true;
                 if (newOptions.length > 0) {
-                    log.info("CDCategories新增选项: " + newOptions.join(', ') + ")");
+                    log.info("CDCategories新增选项: " + newOptions.join(', '));
                 }
                 if (removedOptions.length > 0) {
-                    log.info("CDCategories删除选项: " + removedOptions.join(', ') + ")");
+                    log.info("CDCategories删除选项: " + removedOptions.join(', '));
                 }
             }
         }
@@ -157,10 +157,10 @@ function updateSettingsOptions() {
                 pickSetting.options = pickCategories;
                 hasChanges = true;
                 if (newOptions.length > 0) {
-                    log.info("PickCategories新增选项: " + newOptions.join(', ') + ")");
+                    log.info("PickCategories新增选项: " + newOptions.join(', '));
                 }
                 if (removedOptions.length > 0) {
-                    log.info("PickCategories删除选项: " + removedOptions.join(', ') + ")");
+                    log.info("PickCategories删除选项: " + removedOptions.join(', '));
                 }
             }
         }
