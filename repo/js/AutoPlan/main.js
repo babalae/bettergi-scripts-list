@@ -261,7 +261,7 @@ async function initRunOrderList(domainConfig) {
 
     // 检查是否已配置秘境
     if (autoFightOrderSet.length <= 0) {
-        throw new Error("请先配置秘境配置");
+        throw new Error("请先配置体力配置");
     }
     // 返回处理后的秘境顺序列表
     let from = Array.from(autoFightOrderSet);
