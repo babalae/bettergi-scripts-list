@@ -45,6 +45,7 @@ async function autoDomain(autoFight) {
     //   transientResinUseCount: number;
     //   /** 使用脆弱树脂次数 */
     //   fragileResinUseCount: number;
+    await sleep(1000)
     //流程->返回主页 打开地图 返回主页
     const physicalOcr = await ocrPhysical(true, true)
     config.user.physical.current = physicalOcr.current

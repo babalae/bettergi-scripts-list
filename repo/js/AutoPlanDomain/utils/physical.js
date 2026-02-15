@@ -47,7 +47,7 @@ async function ocrPhysical(opToMainUi = false,openMap=false,minPhysical=20,isRes
         }
     }
     log.debug(`===开始识别原粹树脂===`)
-    let ms = 2000  // 定义操作延迟时间（毫秒）
+    let ms = 1000  // 定义操作延迟时间（毫秒）
     if (opToMainUi) {
         await toMainUi();  // 切换到主界面
     }
@@ -62,13 +62,14 @@ async function ocrPhysical(opToMainUi = false,openMap=false,minPhysical=20,isRes
     let add_buttonJSON = getJsonPath('add_button');
     let add_objJson = {
         path: `${add_buttonJSON.path}${add_buttonJSON.name}${add_buttonJSON.type}`,
-        x: 1242,
-        y: 21,
-        width: 54,
-        height: 51,
+        x: 1373,
+        y: 22,
+        width: 52,
+        height: 49,
     }
     let templateMatchAddButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${add_objJson.path}`), add_objJson.x, add_objJson.y, add_objJson.width, add_objJson.height);
     let regionA = captureGameRegion()
+    // let deriveCrop = regionA.DeriveCrop(add_objJson.x, add_objJson.y, add_objJson.width, add_objJson.height);
     try {
         let buttonA = regionA.find(templateMatchAddButtonRo);
 
@@ -79,6 +80,7 @@ async function ocrPhysical(opToMainUi = false,openMap=false,minPhysical=20,isRes
         }
         await buttonA.click()
     }finally {
+        // deriveCrop.Dispose()
         regionA.Dispose()
     }
 
