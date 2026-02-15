@@ -31,12 +31,15 @@ async function ocrRegion(x = 0,
 
 /**
  * 获取当前日期的星期信息
+ * @param {boolean} [calibrationGameRefreshTime=true] 是否进行游戏刷新时间校准
  * @returns {Object} 返回包含星期数字和星期名称的对象
  */
-async function getDayOfWeek() {
+async function getDayOfWeek(calibrationGameRefreshTime = true) {
     // 获取当前日期对象
     let today = new Date();//4点刷新 所以要减去4小时
-    today.setHours(today.getHours() - 4); // 减去 4 小
+    if (calibrationGameRefreshTime){
+        today.setHours(today.getHours() - 4); // 减去 4 小
+    }
     // 获取当前日期是星期几（0代表星期日，1代表星期一，以此类推）
     const day = today.getDay();
     // 创建包含星期名称的数组
