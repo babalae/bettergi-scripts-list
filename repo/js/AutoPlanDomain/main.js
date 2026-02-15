@@ -261,17 +261,21 @@ async function initDomainOrderList(domainConfig) {
     }
     // 返回处理后的秘境顺序列表
     let from = Array.from(autoFightOrderSet);
-    log.info(`from:{0}`, JSON.stringify(from))
-    let dayOfWeek = getDayOfWeek();
+    let dayOfWeek = await getDayOfWeek();
+    log.debug(`old-from:{0}`, JSON.stringify(from))
     from = from.filter(item => {
         // if (item.day) {
         //     return item.day === dayOfWeek.day
         // }
         if (item.days && item.days.length > 0) {
-            return item.days.includes(dayOfWeek.day);
+            const includes = item.days.includes(dayOfWeek.day);
+            log.debug(`[{1}]item.days:{0}`, dayOfWeek.day, JSON.stringify(item.days))
+            return includes;
         }
         return true
     })
+    from.sort((a, b) => b.order - a.order)
+    log.debug(`from:{0}`, JSON.stringify(from))
     return from;
 }
 
@@ -303,7 +307,6 @@ async function main() {
     const autoFightOrderList = await initDomainOrderList(domainConfig);
     const list = autoFightOrderList.filter(item => item.autoFight.DomainRoundNum > 0)
     if (list?.length > 0) {
-        list.sort((a, b) => b.order - a.order)
         await autoDomainList(list);
     } else {
         log.info(`本日无计划`)
