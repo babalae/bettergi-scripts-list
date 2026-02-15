@@ -111,6 +111,21 @@ async function autoDomain(autoFight) {
  */
 async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
     //todo :地脉花
+    autoLeyLineOutcrop={
+      "count": 0,
+      "country": "country_cb3d792be8db",
+      "leyLineOutcropType": "leyLineOutcropType_f259b77fabcb",
+      "isResinExhaustionMode": false,
+      "openModeCountMin": false,
+      "useAdventurerHandbook": false,
+      "friendshipTeam": "friendshipTeam_7122cab56b16",
+      "team": "team_d0798ca3aa27",
+      "timeout": 0,
+      "isGoToSynthesizer": false,
+      "useFragileResin": false,
+      "useTransientResin": false,
+      "isNotification": false
+    }
 
 }
 
