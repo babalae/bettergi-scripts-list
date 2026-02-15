@@ -115,8 +115,8 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
       "count": 0,
       "country": "country_cb3d792be8db",
       "leyLineOutcropType": "leyLineOutcropType_f259b77fabcb",
-      "isResinExhaustionMode": true,
-      "openModeCountMin": true,
+      // "isResinExhaustionMode": true,
+      // "openModeCountMin": true,
       "useAdventurerHandbook": false,
       "friendshipTeam": "friendshipTeam_7122cab56b16",
       "team": "team_d0798ca3aa27",
@@ -127,6 +127,38 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
       "isNotification": false
     }
 
+    if (true){
+        log.info("地脉 暂不支持")
+        return
+    }
+
+    let param = new AutoLeyLineOutcropParam(autoLeyLineOutcrop.count, autoLeyLineOutcrop.country, autoLeyLineOutcrop.leyLineOutcropType);
+    param.useAdventurerHandbook = autoLeyLineOutcrop.useAdventurerHandbook;
+    param.friendshipTeam = autoLeyLineOutcrop.friendshipTeam;
+    param.team = autoLeyLineOutcrop.team;
+    param.timeout = autoLeyLineOutcrop.timeout;
+    param.isGoToSynthesizer = autoLeyLineOutcrop.isGoToSynthesizer;
+    param.useFragileResin = autoLeyLineOutcrop.useFragileResin;
+    param.useTransientResin = autoLeyLineOutcrop.useTransientResin;
+    param.isNotification = autoLeyLineOutcrop.isNotification;
+
+    param.isResinExhaustionMode = true;
+    param.openModeCountMin = true;
+    // 复活重试
+    for (let i = 0; i < 5; i++) {
+        try {
+            await dispatcher.RunAutoLeyLineOutcropTask(param);
+            // 其他场景不重试
+            break;
+        } catch (e) {
+            const errorMessage = e.message
+            // 只有选择了秘境的时候才会重试
+            if (errorMessage.includes("复活")) {
+                continue;
+            }
+            throw e;
+        }
+    }
 }
 
 /**
