@@ -133,7 +133,7 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
                     //     item.day = parseDay(item.day);
                     // }
                     if (item.days && item.days.length > 0) {
-                        item.days = item.days.map(day => parseDay(day)).filter(day => day)
+                        item.days = item.days.map(day => parseDay(day))
                         // item.day = parseDay(item.day);
                     }
                     autoFightOrderSet.add(item)
@@ -219,7 +219,7 @@ async function loadMode(Load, autoFightOrderSet, domainConfig) {
                     // 将秘境顺序对象添加到列表中
                     // 主逻辑优化
                     if (item.days && item.days.length > 0) {
-                        item.days = item.days.map(day => parseDay(day)).filter(day => day)
+                        item.days = item.days.map(day => parseDay(day))
                         // item.day = parseDay(item.day);
                     }
                     autoFightOrderSet.add(item)
