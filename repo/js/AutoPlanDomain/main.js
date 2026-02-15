@@ -251,7 +251,7 @@ async function initRunOrderList(domainConfig) {
         }*/
     // let Load = LoadType.uid
 
-    for (const Load of config.domain.loads) {
+    for (const Load of config.run.loads) {
         await loadMode(Load.load, autoFightOrderSet, domainConfig);
     }
 
@@ -302,7 +302,7 @@ async function main() {
         await pushAllJsonConfig(JSON.parse(file.readTextSync(config.path.domain)), config.bgi_tools.api.httpPushAllJsonConfig, config.bgi_tools.token)
     }
     // 获取配置
-    let runConfig = config.domain.config;
+    let runConfig = config.run.config;
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|周几执行(0-6)不填默认执行|执行顺序,..."
     const autoRunOrderList = await initRunOrderList(runConfig);
     const list = autoRunOrderList.filter(item => item.autoFight.DomainRoundNum > 0)

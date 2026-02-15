@@ -3,7 +3,7 @@ import {ocrPhysical} from "../utils/physical";
 
 const config = {
     //setting设置放在这个json
-    domain: {
+    run: {
         config: '',
         // load_uid_config: false,
         loads: [],//加载方式list
@@ -216,7 +216,7 @@ async function initConfig() {
         }
 
     })
-    config.domain.config = settings.domain_config || config.domain.config
+    config.run.config = settings.domain_config || config.run.config
     if (config.domainList.length <= 0) {
         throw new Error("配置文件缺失或读取异常!")
     }
@@ -238,7 +238,7 @@ async function initConfig() {
         return {load: load, order: order}
     })
     loads.sort((a, b) => a.order - b.order)
-    config.domain.loads = loads
+    config.run.loads = loads
 }
 
 
