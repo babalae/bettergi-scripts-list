@@ -342,7 +342,10 @@ async function initRunOrderList(domainConfig) {
     let from = Array.from(autoFightOrderSet);
     let dayOfWeek = await getDayOfWeek();
     log.debug(`old-from:{0}`, JSON.stringify(from))
-    from = from.filter(item => {
+    from = from
+        //过滤掉不执行的秘境
+        .filter(item => config.user.runTypes.includes(item.runType))
+        .filter(item => {
         // if (item.day) {
         //     return item.day === dayOfWeek.day
         // }
