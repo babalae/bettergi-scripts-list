@@ -115,8 +115,8 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
       "count": 0,
       "country": "country_cb3d792be8db",
       "leyLineOutcropType": "leyLineOutcropType_f259b77fabcb",
-      "isResinExhaustionMode": false,
-      "openModeCountMin": false,
+      "isResinExhaustionMode": true,
+      "openModeCountMin": true,
       "useAdventurerHandbook": false,
       "friendshipTeam": "friendshipTeam_7122cab56b16",
       "team": "team_d0798ca3aa27",
@@ -352,7 +352,10 @@ async function main() {
     let runConfig = config.run.config;
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|周几执行(0-6)不填默认执行|执行顺序,..."
     const autoRunOrderList = await initRunOrderList(runConfig);
-    const list = autoRunOrderList.filter(item => item.runType === config.user.runTypes[0] && item.autoFight.DomainRoundNum > 0)
+    const list = autoRunOrderList.filter(item =>
+        (item.runType === config.user.runTypes[0] && item?.autoFight.DomainRoundNum > 0)
+    || (item.runType === config.user.runTypes[1] && item?.autoLeyLineOutcrop.count > 0)
+    )
     if (list?.length > 0) {
         await autoRunList(list);
     } else {
