@@ -30,10 +30,10 @@ async function autoDomain(autoFight) {
     physical_domain.sort((a, b) => a.order - b.order)
     // 不包含原粹树脂的和
     const noOriginalSum = physical_domain.filter(item => item.name.trim() !== "原粹树脂")
-        .filter(item => item.open ).length;//求和
+        .filter(item => item.open).length;//求和
     // 只包含原粹树脂的和
     const originalSum = physical_domain.filter(item => item.name?.trim() === "原粹树脂")
-        .filter(item => item.open ).length;
+        .filter(item => item.open).length;
     const resinPriorityList = physical_domain.filter(item => item.open).map(item => item.name?.trim())
     //  /** 树脂使用优先级列表 */
     //   resinPriorityList: string[];
@@ -73,8 +73,10 @@ async function autoDomain(autoFight) {
     domainParam.PartyName = autoFight.partyName || domainParam.PartyName;
     log.debug(`队伍名称:${domainParam.PartyName}`)
 
-    //周日|限时选择的值
-    domainParam.SundaySelectedValue = autoFight.sundaySelectedValue || domainParam.SundaySelectedValue;
+    if (autoFight.sundaySelectedValue) {
+        //周日|限时选择的值
+        domainParam.SundaySelectedValue = "" + (autoFight.sundaySelectedValue || domainParam.SundaySelectedValue);
+    }
     log.debug(`周日|限时选择的值:${domainParam.SundaySelectedValue}`)
     //副本轮数
     try {
