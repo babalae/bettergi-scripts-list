@@ -2104,17 +2104,21 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
   let materialCategoryMap = {};
   
   // 处理选中的材料分类
-  if (selected_materials_array.length > 0) {
-    // 1. 初始化选中的分类
+  if (selected_materials_array.length > 0 && !pathingMode.onlyPathing) {
+    // 1. 初始化选中的分类（onlyPathing模式除外）
     selected_materials_array.forEach(selectedCategory => {
       materialCategoryMap[selectedCategory] = [];
     });
   } else {
-    log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}未选择【材料分类】，采用【路径材料】专注模式`);
+    if (pathingMode.onlyPathing) {
+      log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}onlyPathing模式：将自动扫描pathing材料的实际分类`);
+    } else {
+      log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}未选择【材料分类】，采用【路径材料】专注模式`);
+    }
   }
   
   // 2. 处理路径相关材料（仅includeBoth和onlyPathing模式）
-  if ((pathingMode.includeBoth || pathingMode.onlyPathing) && Object.keys(materialCategoryMap).length > 0) {
+  if ((pathingMode.includeBoth || pathingMode.onlyPathing) && (Object.keys(materialCategoryMap).length > 0 || pathingMode.onlyPathing)) {
     const pathingFilePaths = readAllFilePaths(CONSTANTS.PATHING_DIR, 0, 3, ['.json']);
     const pathEntries = pathingFilePaths.map(path => {
       const { materialName, monsterName } = extractResourceNameFromPath(path, cdMaterialNames);
@@ -2133,7 +2137,10 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
     // 构建分类映射
     Array.from(allMaterials).forEach(resourceName => {
       const category = matchImageAndGetCategory(resourceName, CONSTANTS.IMAGES_DIR);
-      if (category && materialCategoryMap[category]) {
+      if (category) {
+        if (!materialCategoryMap[category]) {
+          materialCategoryMap[category] = [];
+        }
         if (!materialCategoryMap[category].includes(resourceName)) {
           materialCategoryMap[category].push(resourceName);
         }
