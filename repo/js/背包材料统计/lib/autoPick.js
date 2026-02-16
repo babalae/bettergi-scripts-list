@@ -26,14 +26,34 @@ function parseCategoryContent(content) {
 
 // 从 targetText 文件夹中读取分类信息（无修改，与OCR无关）
 function readtargetTextCategories(targetTextDir) {
-    const targetTextFilePaths = readAllFilePaths(targetTextDir, 0, 1);
+    const targetTextFilePaths = readAllFilePaths(targetTextDir, 0, 1, ['.txt']);
     const materialCategories = {};
 
-    // 解析筛选名单
-    const pickTextNames = (settings.PickCategories || "")
-        .split(/[,，、 \s]+/).map(n => n.trim()).filter(n => n);
+    let pickTextNames = [];
+    try {
+        pickTextNames = Array.from(settings.PickCategories || []);
+    } catch (e) {
+        log.error(`获取PickCategories设置失败: ${e.message}`);
+    }
 
-    // 兜底日志：确认pickTextNames是否为空，方便排查
+    let availablePickCategories = [];
+    try {
+        availablePickCategories = targetTextFilePaths.map(filePath => basename(filePath).replace('.txt', ''));
+        log.info(`可用识别名单：${availablePickCategories.join(', ')}`);
+    } catch (e) {
+        log.error(`扫描识别名单目录失败: ${e.message}`);
+    }
+
+    if (pickTextNames.length === 0) {
+        log.info("未指定识别名单，将加载所有文件");
+    } else {
+        const invalidCategories = pickTextNames.filter(name => !availablePickCategories.includes(name));
+        if (invalidCategories.length > 0) {
+            log.warn(`以下识别名单不存在，将被忽略：${invalidCategories.join(', ')}`);
+            pickTextNames = pickTextNames.filter(name => availablePickCategories.includes(name));
+        }
+    }
+
     log.info(`筛选名单状态：${pickTextNames.length === 0 ? '未指定（空），将加载所有文件' : '指定了：' + pickTextNames.join(',')}`);
 
     for (const filePath of targetTextFilePaths) {
@@ -92,36 +112,38 @@ const ScrollRo = RecognitionObject.TemplateMatch(
 
 /**
  * 对齐并交互目标（核心改造：适配最新版performOcr）
- * @param {string[]} targetTexts - 待匹配的目标文本列表
+ * @param {string[]|Function} targetTextsOrFunc - 待匹配的目标文本列表或函数
  * @param {Object} fDialogueRo - F图标的识别对象
  * @param {Object} textxRange - 文本识别的X轴范围 { min: number, max: number }
  * @param {number} texttolerance - 文本与F图标Y轴对齐的容差
  * @param {Object} cachedFrame - 缓存的图像帧（可选）
  */
-async function alignAndInteractTarget(targetTexts, fDialogueRo, textxRange, texttolerance, cachedFrame = null) {
+async function alignAndInteractTarget(targetTextsOrFunc, fDialogueRo, textxRange, texttolerance, cachedFrame = null) {
     let lastLogTime = Date.now();
-    const recognitionCount = new Map(); // 避免误触：文本+Y坐标 → 计数
-    const ocrScreenshots = []; // 收集最新版performOcr返回的截图，统一释放
+    const recognitionCount = new Map();
+    const ocrScreenshots = [];
 
     try {
         while (!state.completed && !state.cancelRequested) {
-            recognitionCount.clear(); // 每次循环开始时清空计数
+            if (state.ocrPaused) {
+                await sleep(100);
+                continue;
+            }
+            recognitionCount.clear();
             const currentTime = Date.now();
-            // 每10秒输出检测日志（保留原逻辑）
+
             if (currentTime - lastLogTime >= 10000) {
                 log.info("独立OCR识别中...");
                 lastLogTime = currentTime;
             }
             await sleep(50);
 
-            // 1. 释放上一帧缓存，捕获新帧（保留原逻辑）
             if (cachedFrame) {
                 if (cachedFrame.Dispose) cachedFrame.Dispose();
                 else if (cachedFrame.dispose) cachedFrame.dispose();
             }
             cachedFrame = captureGameRegion();
 
-            // 2. 识别F图标/Scroll.png（保留原逻辑）
             let fRes = await findFIcon(fDialogueRo, 10, cachedFrame);
             if (!fRes) {
                 const scrollRes = await findFIcon(ScrollRo, 10, cachedFrame);
@@ -132,21 +154,19 @@ async function alignAndInteractTarget(targetTexts, fDialogueRo, textxRange, text
                 continue;
             }
 
-            // 3. 核心改造：调用最新版performOcr
-            // 适配点1：参数顺序调整为「targetTexts, xRange, yRange, ra, timeout, interval」
-            // 适配点2：接收返回的「results+screenshot」，并收集screenshot
-            const yRange = { min: fRes.y - 3, max: fRes.y + 37 }; // 原Y轴范围不变
-            const { results: ocrResults, screenshot: ocrScreenshot } = await performOcr(
-                targetTexts,    // 目标文本列表（原逻辑）
-                textxRange,     // 文本X轴范围（原逻辑）
-                yRange,         // 文本Y轴范围（原逻辑）
-                cachedFrame,    // 初始截图（最新版：第4个参数为ra）
-                10,             // 超时时间（保留原10ms）
-                5               // 重试间隔（保留原5ms）
-            );
-            ocrScreenshots.push(ocrScreenshot); // 收集截图，避免内存泄漏
+            const targetTexts = typeof targetTextsOrFunc === 'function' ? targetTextsOrFunc() : targetTextsOrFunc;
 
-            // 4. 文本匹配与交互（双向匹配，增强容错性）
+            const yRange = { min: fRes.y - 3, max: fRes.y + 37 };
+            const { results: ocrResults, screenshot: ocrScreenshot } = await performOcr(
+                targetTexts,
+                textxRange,
+                yRange,
+                cachedFrame,
+                10,
+                5
+            );
+            ocrScreenshots.push(ocrScreenshot);
+
             let foundTarget = false;
             for (const targetText of targetTexts) {
                 const targetResult = ocrResults.find(res =>
@@ -154,11 +174,9 @@ async function alignAndInteractTarget(targetTexts, fDialogueRo, textxRange, text
                 );
                 if (!targetResult) continue;
 
-                // 计数防误触
                 const materialId = `${targetText}-${targetResult.y}`;
                 recognitionCount.set(materialId, (recognitionCount.get(materialId) || 0) + 1);
 
-                // Y轴对齐判断
                 const centerYTargetText = targetResult.y + targetResult.height / 2;
                 if (Math.abs(centerYTargetText - (fRes.y + fRes.height / 2)) <= texttolerance) {
                     if (recognitionCount.get(materialId) >= 1) {
@@ -171,7 +189,6 @@ async function alignAndInteractTarget(targetTexts, fDialogueRo, textxRange, text
                 }
             }
 
-            // 5. 未找到目标则翻滚（保留原逻辑）
             if (!foundTarget) {
                 await keyMouseScript.runFile(`assets/滚轮下翻.json`);
             }
@@ -179,20 +196,16 @@ async function alignAndInteractTarget(targetTexts, fDialogueRo, textxRange, text
     } catch (error) {
         log.error(`对齐交互异常: ${error.message}`);
     } finally {
-        // 6. 统一释放所有资源（新增：解决内存泄漏）
-        // 释放缓存帧
         if (cachedFrame) {
             if (cachedFrame.Dispose) cachedFrame.Dispose();
             else if (cachedFrame.dispose) cachedFrame.dispose();
         }
-        // 释放OCR截图
         for (const screenshot of ocrScreenshots) {
             if (screenshot) {
                 if (screenshot.Dispose) screenshot.Dispose();
                 else if (screenshot.dispose) screenshot.dispose();
             }
         }
-        // 任务状态日志（保留原逻辑）
         if (state.cancelRequested) {
             log.info("检测任务已取消");
         } else if (!state.completed) {

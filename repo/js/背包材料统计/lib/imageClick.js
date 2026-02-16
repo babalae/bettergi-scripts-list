@@ -217,11 +217,36 @@ async function imageClickBackgroundTask() {
 
     // 配置参数
     const taskDelay = Math.min(999, Math.max(1, Math.floor(Number(settings.PopupClickDelay) || 15))) * 1000;
-    const specificNamesStr = settings.PopupNames || "";
-    const specificNames = specificNamesStr
-        .split(/[,，、 \s]+/)
-        .map(name => name.trim())
-        .filter(name => name !== "");
+    let specificNames = [];
+    try {
+        specificNames = Array.from(settings.PopupNames || []);
+    } catch (e) {
+        log.error(`获取PopupNames设置失败: ${e.message}`);
+    }
+
+    let availablePopupDirs = [];
+    try {
+        const imageClickDir = "assets/imageClick";
+        const subDirs = readAllFilePaths(imageClickDir, 0, 2, [], true);
+        availablePopupDirs = subDirs.filter(subDir => {
+            const dirName = basename(subDir);
+            const entries = readAllFilePaths(subDir, 0, 0, [], true);
+            return entries.some(entry => normalizePath(entry).endsWith('/icon'));
+        }).map(dir => basename(dir));
+        log.info(`可用弹窗目录：${availablePopupDirs.join(', ')}`);
+    } catch (e) {
+        log.error(`扫描弹窗目录失败: ${e.message}`);
+    }
+
+    if (specificNames.length === 0) {
+        log.info("未指定弹窗名称，将处理所有可用弹窗");
+    } else {
+        const invalidNames = specificNames.filter(name => !availablePopupDirs.includes(name));
+        if (invalidNames.length > 0) {
+            log.warn(`以下弹窗名称不存在，将被忽略：${invalidNames.join(', ')}`);
+            specificNames = specificNames.filter(name => availablePopupDirs.includes(name));
+        }
+    }
 
     // 预加载资源
     const preloadedResources = await preloadImageResources(specificNames);
