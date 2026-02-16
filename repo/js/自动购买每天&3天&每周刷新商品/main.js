@@ -242,26 +242,6 @@ function getRecordPath(accountName) {
     return `record/${accountName.trim()}/records.json`;
 }
 
-// 确保账号目录存在
-async function ensureAccountDirectory(accountName) {
-    const validName = validateUserName(accountName);
-    const dirPath = `record/${validName}`;
-
-    try {
-        // 检查目录是否存在
-        await file.readText(dirPath + "/.keep");
-    } catch (error) {
-        // 目录不存在，尝试创建
-        try {
-            // 创建目录（通过写入一个临时文件）
-            await file.writeText(dirPath + "/.keep", "");
-            log.info(`创建账号目录: ${dirPath}`);
-        } catch (mkdirError) {
-            log.error(`创建账号目录失败: ${mkdirError.message}`);
-        }
-    }
-}
-
 // ==================== 新增函数：读取商人记录文件 ====================
 async function loadNpcRecords() {
     const recordPath = getRecordPath(userName);
