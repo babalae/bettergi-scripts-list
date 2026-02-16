@@ -71,6 +71,15 @@
 		"_1d_foods": ["霄灯"],
 		"tags": ["璃月"]
 	},
+	"石头": {
+		"name": "石头",
+		"enable": true,
+		"page": 1,
+		"time": "any",
+		"path": "assets/path/璃月-璃月港-石头.json",
+		"_1d_foods": ["铁块", "白铁块", "夜泊石"],
+		"tags": ["璃月"]
+	},
 	"DongSheng": {
 		"name": "东升",
 		"enable": true,
@@ -109,6 +118,26 @@
 		"_1d_foods": ["鱼肉","鱼肉2"],
 		"tags": ["璃月"]
 	},
+	"长顺": {
+		"name": "长顺",
+		"enable": true,
+		"page": 1,
+		"time": "day",
+		"path": "assets/path/璃月-璃月港-长顺.json",
+		"_1d_foods": ["土豆"],
+		"_3d_foods": ["石珀", "电气水晶"],
+		"_7d_foods": ["糖", "奶酪"],
+		"tags": ["璃月"]
+	},
+	"博来": {
+		"name": "博来",
+		"enable": true,
+		"page": 1,
+		"time": "any",
+		"path": "assets/path/璃月-璃月港-博来.json",
+		"_3d_foods": ["苹果", "日落果", "鱼肉", "星螺"],
+		"tags": ["璃月"]
+	},
 	"阿桂": {
 		"name": "阿桂",
 		"enable": true,
@@ -118,15 +147,51 @@
 		"_3d_foods": ["清心", "琉璃袋", "马尾", "莲蓬", "冰雾花花朵", "烈焰花花蕊"],
 		"tags": ["璃月"]
 	},
+	"朱老板": {
+		"name": "朱老板",
+		"enable": true,
+		"page": 1,
+		"time": "any",
+		"path": "assets/path/璃月-琼玑野-朱老板.json",
+		"_1d_foods": ["大碗茶"],
+		"tags": ["璃月","稀少商品"]
+	},
 	"菲尔戈黛特": {
 		"name": "菲尔戈黛特",
 		"enable": true,
 		"page": 2,
 		"time": "any",
 		"path": "assets/path/璃月-望舒客栈-菲尔戈黛特.json",
-		"_3d_foods": ["松茸", "琉璃袋"],
-		"_7d_foods": ["黄油","香肠"],
+		"_3d_foods": ["松茸","霓裳花", "琉璃袋"],
+		"_7d_foods": ["黄油", "香肠"],
 		"tags": ["璃月"]
+	},
+	"老周叔": {
+		"name": "老周叔",
+		"enable": true,
+		"page": 1,
+		"time": "any",
+		"path": "assets/path/璃月-石门-老周叔.json",
+		"_1d_foods": ["大碗茶"],
+		"tags": ["璃月","稀少商品"]
+	},
+	"小白": {
+		"name": "小白",
+		"enable": true,
+		"page": 2,
+		"time": "any",
+		"path": "assets/path/璃月-轻策庄-小白.json",
+		"_3d_foods": ["豆腐", "杏仁", "霓裳花"],
+		"tags": ["璃月"]
+	},
+	"凯叔": {
+		"name": "凯叔",
+		"enable": true,
+		"page": 1,
+		"time": "day",
+		"path": "assets/path/璃月-轻策庄-凯叔.json",
+		"_1d_foods": ["大碗茶"],
+		"tags": ["璃月","稀少商品"]
 	},
 	"丰泰": {
 		"name": "丰泰",
@@ -154,6 +219,16 @@
 		"time": "any",
 		"path": "assets/path/稻妻-离岛-小畑.json",
 		"_1d_foods": ["螃蟹","鱼肉", "虾仁"],
+		"_3d_foods": ["海灵芝"],
+		"tags": ["稻妻"]
+	},
+	"秋月": {
+		"name": "秋月",
+		"enable": true,
+		"page": 1,
+		"time": "any",
+		"path": "assets/path/稻妻-离岛-秋月.json",
+		"_1d_foods": ["铁块", "白铁块", "电气水晶"],
 		"tags": ["稻妻"]
 	},
 	"卡琵莉亚": {
@@ -180,7 +255,8 @@
 		"page": 2,
 		"time": "any",
 		"path": "assets/path/稻妻-稻妻城-葵.json",
-		"_1d_foods": ["洋葱", "牛奶", "卷心菜", "土豆", "小麦", "稻米", "虾仁", "豆腐", "盐", "胡椒", "番茄"],
+		"_1d_foods": ["盐", "胡椒", "洋葱", "牛奶", "番茄", "卷心菜", "土豆", "小麦", "稻米", "虾仁", "豆腐"],
+		"_3d_foods": ["鸣草"],
 		"tags": ["稻妻"]
 	},
 	"ShimuraKanbei": {
@@ -190,8 +266,27 @@
 		"time": "any",
 		"path": "assets/path/稻妻-稻妻城-志村勘兵卫.json",
 		"_1d_foods": ["鱼肉", "螃蟹"],
-		"_3d_foods": ["堇瓜"],
+		"_3d_foods": ["海草", "堇瓜", "白萝卜"],
+		"_7d_foods": ["香肠", "培根", "面粉", "糖"],
 		"tags": ["稻妻"]
+	},
+	"智树": {
+		"name": "智树",
+		"enable": true,
+		"page": 1,
+		"time": "any",
+		"path": "assets/path/稻妻-稻妻城-智树.json",
+		"_1d_foods": ["团子牛奶"],
+		"tags": ["稻妻","稀少商品"]
+	},
+	"木南杏奈": {
+		"name": "木南杏奈",
+		"enable": true,
+		"page": 2,
+		"time": "any",
+		"path": "assets/path/稻妻-稻妻城-木南杏奈.json",
+		"_1d_foods": ["特制风味烤蘑菇披萨"],
+		"tags": ["稻妻", "稀少商品"]
 	},
 	"清子": {
 		"name": "清子",
@@ -202,22 +297,25 @@
 		"_7d_foods": ["牛奶", "番茄", "土豆", "小麦", "豆腐"],
 		"tags": ["稻妻"]
 	},
+	"阿什帕齐": {
+		"name": "阿什帕齐",
+		"enable": true,
+		"page": 1,
+		"time": "any",
+		"path": "assets/path/须弥-化城郭-阿什帕齐.json",
+		"_1d_foods": ["兽肉", "禽肉"],
+		"_3d_foods": ["鸟蛋", "树王圣体菇"],
+		"_7d_foods": ["香辛料"],
+		"tags": ["须弥"]
+	},
 	"Zhute": {
 		"name": "朱特",
 		"enable": true,
 		"page": 1,
 		"time": "any",
 		"path": "assets/path/须弥-须弥城-朱特.json",
-		"_3d_foods": ["帕蒂沙兰"],
-		"tags": ["须弥"]
-	},
-	"Butrus": {
-		"name": "布特罗斯",
-		"enable": true,
-		"page": 1,
-		"time": "any",
-		"path": "assets/path/须弥-奥摩斯港-布特罗斯.json",
-		"_1d_foods": ["鱼肉", "螃蟹", "虾仁"],
+		"_3d_foods": ["香辛果", "帕蒂沙兰"],
+		"_7d_foods": ["香辛料"],
 		"tags": ["须弥"]
 	},
 	"Pam": {
@@ -227,6 +325,7 @@
 		"time": "any",
 		"path": "assets/path/须弥-须弥城-珀姆.json",
 		"_1d_foods": ["鱼肉", "螃蟹", "虾仁"],
+		"_3d_foods": ["海草"],
 		"tags": ["须弥"]
 	},
 	"Hamawi": {
@@ -235,7 +334,8 @@
 		"page": 2,
 		"time": "any",
 		"path": "assets/path/须弥-须弥城-哈马维.json",
-		"_1d_foods": ["洋葱", "牛奶", "卷心菜", "土豆", "小麦", "稻米", "虾仁", "豆腐", "盐", "胡椒", "番茄"],
+		"_1d_foods": ["盐", "胡椒", "洋葱", "牛奶", "番茄", "卷心菜", "土豆", "小麦", "稻米", "豆腐", "虾仁"],
+		"_3d_foods": ["香辛果", "墩墩桃"],
 		"tags": ["须弥"]
 	},
 	"Lambad": {
@@ -244,7 +344,9 @@
 		"page": 3,
 		"time": "any",
 		"path": "assets/path/须弥-须弥城-兰巴德酒馆-兰巴德.json",
-		"_1d_foods": ["鱼肉", "螃蟹"],
+		"_1d_foods": ["鱼肉", "螃蟹", "秃秃豆"],
+		"_3d_foods": ["星蕈"],
+		"_7d_foods": ["面粉", "香肠", "培根", "香辛料", "糖"],
 		"tags": ["须弥","独立地图"]
 	},
 	"Enteka": {
@@ -256,14 +358,33 @@
 		"_1d_foods": ["咖啡豆"],
 		"tags": ["须弥","独立地图"]
 	},
-	"Azalai": {
-		"name": "阿扎莱",
+	"拉玛": {
+		"name": "拉玛",
 		"enable": true,
-		"page": 2,
-		"time": "night",
-		"path": "assets/path/须弥-阿如村-阿扎莱.json",
-		"_1d_foods": ["鱼肉", "兽肉", "秃秃豆"],
-		"tags": ["须弥", "黑心商人"]
+		"page": 1,
+		"time": "any",
+		"path": "assets/path/须弥-奥摩斯港-拉玛.json",
+		"_1d_foods": ["盐", "胡椒"],
+		"_7d_foods": ["香辛料", "糖", "黄油", "奶酪"],
+		"tags": ["须弥"]
+	},
+	"Butrus": {
+		"name": "布特罗斯",
+		"enable": true,
+		"page": 1,
+		"time": "any",
+		"path": "assets/path/须弥-奥摩斯港-布特罗斯.json",
+		"_1d_foods": ["鱼肉", "螃蟹", "虾仁"],
+		"tags": ["须弥"]
+	},
+	"秋蔚": {
+		"name": "秋蔚",
+		"enable": true,
+		"page": 1,
+		"time": "any",
+		"path": "assets/path/须弥-奥摩斯港-秋蔚.json",
+		"_3d_foods": ["水晶块", "石珀", "夜泊石", "霓裳花"],
+		"tags": ["须弥"]
 	},
 	"巴巴克": {
 		"name": "巴巴克",
@@ -271,8 +392,28 @@
 		"page": 1,
 		"time": "any",
 		"path": "assets/path/须弥-奥摩斯港-巴巴克.json",
-		"_3d_foods": ["清心", "琉璃袋"],
+		"_3d_foods": ["慕风蘑菇" ,"蒲公英籽" ,"琉璃袋", "清心", "鸣草", "珊瑚真珠"],
 		"tags": ["须弥"]
+	},
+	"兰玛尼": {
+		"name": "兰玛尼",
+		"enable": true,
+		"page": 1,
+		"time": "any",
+		"path": "assets/path/须弥-桓那兰那(梦境)-兰玛尼.json",
+		"_3d_foods": ["日落果", "香辛果", "墩墩桃", "树王圣体菇", "劫波莲"],
+		"tags": ["须弥", "桓那兰那(梦境)"]
+	},
+	"Azalai": {
+		"name": "阿扎莱",
+		"enable": true,
+		"page": 2,
+		"time": "night",
+		"path": "assets/path/须弥-阿如村-阿扎莱.json",
+		"_1d_foods": ["鱼肉", "兽肉", "秃秃豆"],
+		"_3d_foods": ["星蕈", "枣椰", "墩墩桃"],
+		"_7d_foods": ["面粉", "香辛料", "糖"],
+		"tags": ["须弥", "黑心商人"]
 	},
 	"Boucicaut": {
 		"name": "布希柯",
@@ -280,7 +421,8 @@
 		"page": 2,
 		"time": "any",
 		"path": "assets/path/枫丹-枫丹廷-布希柯.json",
-		"_1d_foods": ["枫达", "洋葱", "牛奶", "卷心菜", "土豆", "小麦", "秃秃豆", "杏仁", "发酵果实汁", "盐", "胡椒", "番茄"],
+		"_1d_foods": ["枫达", "盐", "胡椒", "洋葱", "牛奶", "番茄", "卷心菜", "土豆", "小麦", "秃秃豆", "杏仁", "发酵果实汁"],
+		"_3d_foods": ["蘑菇", "茉洁草"],
 		"tags": ["枫丹"]
 	},
 	"Arouet": {
@@ -290,6 +432,16 @@
 		"time": "any",
 		"path": "assets/path/枫丹-枫丹廷-阿鲁埃.json",
 		"_1d_foods": ["枫达", "咖啡豆"],
+		"tags": ["枫丹"]
+	},
+	"欧仁妮": {
+		"name": "欧仁妮",
+		"enable": true,
+		"page": 2,
+		"time": "any",
+		"path": "assets/path/枫丹-枫丹廷-欧仁妮.json",
+		"_1d_foods": ["番茄", "卷心菜"],
+		"_3d_foods": ["泡泡桔", "茉洁草", "日落果", "墩墩桃", "枣椰", "落落莓", "虹彩蔷薇"],
 		"tags": ["枫丹"]
 	},
 	"桑格内蒂": {
@@ -309,7 +461,7 @@
 		"time": "any",
 		"path": "assets/path/枫丹-白淞镇-安特曼.json",
 		"_1d_foods": ["鱼肉", "螃蟹", "虾仁"],
-		"_3d_foods": ["海露花", "汐藻"],
+		"_3d_foods": ["海露花", "汐藻", "苍晶螺"],
 		"tags": ["枫丹"]
 	},
 	"皮托": {
@@ -328,16 +480,8 @@
 		"page": 1,
 		"time": "any",
 		"path": "assets/path/纳塔-圣火竞技场-钦特利.json",
-		"_3d_foods": ["青蜜莓", "苦种"],
-		"tags": ["纳塔"]
-	},
-	"夏安卡": {
-		"name": "夏安卡",
-		"enable": true,
-		"page": 3,
-		"time": "any",
-		"path": "assets/path/纳塔-圣火竞技场-夏安卡.json",
-		"_7d_foods": ["面粉", "奶油", "黄油", "火腿", "糖", "蟹黄", "果酱", "奶酪", "培根", "香肠"],
+		"_1d_foods": ["土豆"],
+		"_3d_foods": ["烛伞蘑菇", "颗粒果", "苦种", "烬芯花", "青蜜莓", "肉龙掌"],
 		"tags": ["纳塔"]
 	},
 	"Bunama": {
@@ -349,6 +493,33 @@
 		"_1d_foods": ["盐", "胡椒", "小麦", "洋葱", "牛奶", "番茄", "卷心菜", "土豆", "秃秃豆"],
 		"tags": ["纳塔"]
 	},
+	"夏安卡": {
+		"name": "夏安卡",
+		"enable": true,
+		"page": 3,
+		"time": "any",
+		"path": "assets/path/纳塔-圣火竞技场-夏安卡.json",
+		"_7d_foods": ["面粉", "奶油", "黄油", "火腿", "糖", "蟹黄", "果酱", "奶酪", "培根", "香肠"],
+		"tags": ["纳塔"]
+	},
+	"伊蜜": {
+		"name": "伊蜜",
+		"enable": true,
+		"page": 1,
+		"time": "any",
+		"path": "assets/path/纳塔-坚岩隘谷-伊蜜.json",
+		"_3d_foods": ["铁块", "白铁块", "水晶块", "萃凝晶", "澄晶实"],
+		"tags": ["纳塔"]
+	},
+	"穆托莉娜": {
+		"name": "穆托莉娜",
+		"enable": true,
+		"page": 1,
+		"time": "any",
+		"path": "assets/path/纳塔-悠悠度假村-穆托莉娜.json",
+		"_3d_foods": ["灼灼彩菊", "肉龙掌", "云岩裂叶", "浪沫羽鳃"],
+		"tags": ["纳塔"]
+	},
 	"采若": {
 		"name": "采若",
 		"enable": true,
@@ -356,6 +527,24 @@
 		"time": "any",
 		"path": "assets/path/挪德卡莱-那夏镇-采若.json", 
 		"_1d_foods": ["盐", "胡椒", "洋葱", "牛奶", "番茄", "卷心菜", "土豆", "小麦", "黑麦"],
+		"tags": ["挪德卡莱"]
+	},
+	"丽切娅": {
+		"name": "丽切娅",
+		"enable": true,
+		"page": 1,
+		"time": "any",
+		"path": "assets/path/挪德卡莱-那夏镇-丽切娅.json", 
+		"_3d_foods": ["甜甜花", "宿影花", "霜盏花"],
+		"tags": ["挪德卡莱"]
+	},
+	"卡嘉": {
+		"name": "卡嘉",
+		"enable": true,
+		"page": 4,
+		"time": "any",
+		"path": "assets/path/挪德卡莱-那夏镇-卡嘉.json", 
+		"_7d_foods": ["面粉", "奶油", "熏禽肉", "黄油", "火腿", "糖", "蟹黄", "果酱", "奶酪", "培根", "香肠"],
 		"tags": ["挪德卡莱"]
 	},
 	"科菲策": {
