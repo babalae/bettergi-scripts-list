@@ -10,43 +10,43 @@ function updateSettingsOptions() {
         log.info("settings.json内容长度: " + settingsContent.length);
         var settings = JSON.parse(settingsContent);
         log.info("settings.json解析成功，配置项数量: " + settings.length);
-        
+
         var hasChanges = false;
-        
+
         var popupDirs = readAllFilePaths("assets/imageClick", 0, 2, [], true)
-            .filter(function(dirPath) {
+            .filter(function (dirPath) {
                 var entries = readAllFilePaths(dirPath, 0, 0, [], true);
-                return entries.some(function(entry) {
+                return entries.some(function (entry) {
                     return normalizePath(entry).endsWith('/icon');
                 });
             })
-            .filter(function(dirPath) {
+            .filter(function (dirPath) {
                 return !normalizePath(dirPath).includes('/其他/');
             })
-            .map(function(dirPath) {
+            .map(function (dirPath) {
                 return basename(dirPath);
             })
             .sort();
         log.info("扫描到弹窗目录数量: " + popupDirs.length);
-        
-        var popupSetting = settings.find(function(s) {
+
+        var popupSetting = settings.find(function (s) {
             return s.name === "PopupNames";
         });
         if (popupSetting) {
             log.info("找到PopupNames配置项");
             var existingOptions = popupSetting.options || [];
             log.info("现有options数量: " + existingOptions.length);
-            
+
             var existingSet = {};
             for (var k = 0; k < existingOptions.length; k++) {
                 existingSet[existingOptions[k]] = true;
             }
-            
+
             var popupSet = {};
             for (var p = 0; p < popupDirs.length; p++) {
                 popupSet[popupDirs[p]] = true;
             }
-            
+
             var newOptions = [];
             var removedOptions = [];
             for (var m = 0; m < popupDirs.length; m++) {
@@ -59,10 +59,10 @@ function updateSettingsOptions() {
                     removedOptions.push(existingOptions[n]);
                 }
             }
-            
+
             log.info("新增options数量: " + newOptions.length);
             log.info("删除options数量: " + removedOptions.length);
-            
+
             if (newOptions.length > 0 || removedOptions.length > 0) {
                 popupSetting.options = popupDirs;
                 hasChanges = true;
@@ -78,14 +78,14 @@ function updateSettingsOptions() {
         } else {
             log.info("未找到PopupNames配置项");
         }
-        
+
         var cdCategories = readAllFilePaths("materialsCD", 0, 1, ['.txt'])
-            .map(function(filePath) {
+            .map(function (filePath) {
                 return basename(filePath).replace('.txt', '');
             })
             .sort();
-        
-        var cdSetting = settings.find(function(s) {
+
+        var cdSetting = settings.find(function (s) {
             return s.name === "CDCategories";
         });
         if (cdSetting) {
@@ -121,14 +121,14 @@ function updateSettingsOptions() {
                 }
             }
         }
-        
+
         var pickCategories = readAllFilePaths("targetText", 0, 1, ['.txt'])
-            .map(function(filePath) {
+            .map(function (filePath) {
                 return basename(filePath).replace('.txt', '');
             })
             .sort();
-        
-        var pickSetting = settings.find(function(s) {
+
+        var pickSetting = settings.find(function (s) {
             return s.name === "PickCategories";
         });
         if (pickSetting) {
@@ -164,7 +164,7 @@ function updateSettingsOptions() {
                 }
             }
         }
-        
+
         if (hasChanges) {
             var updatedContent = JSON.stringify(settings, null, 2);
             file.writeTextSync(SETTINGS_FILE, updatedContent, false);

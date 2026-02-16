@@ -106,7 +106,7 @@ async function findFIcon(recognitionObject, timeout = 10, ra = null) {
 
 // 定义Scroll.png识别对象（无修改，与OCR无关）
 const ScrollRo = RecognitionObject.TemplateMatch(
-    file.ReadImageMatSync("assets/Scroll.png"), 
+    file.ReadImageMatSync("assets/Scroll.png"),
     1055, 521, 15, 35  // 识别范围：x=1055, y=521, width=15, height=35
 );
 
@@ -131,7 +131,7 @@ async function alignAndInteractTarget(targetTextsOrFunc, fDialogueRo, textxRange
             }
             recognitionCount.clear();
             const currentTime = Date.now();
-            
+
             if (currentTime - lastLogTime >= 10000) {
                 log.info("独立OCR识别中...");
                 lastLogTime = currentTime;
@@ -169,7 +169,7 @@ async function alignAndInteractTarget(targetTextsOrFunc, fDialogueRo, textxRange
 
             let foundTarget = false;
             for (const targetText of targetTexts) {
-                const targetResult = ocrResults.find(res => 
+                const targetResult = ocrResults.find(res =>
                     res.text.includes(targetText) || targetText.includes(res.text)
                 );
                 if (!targetResult) continue;
