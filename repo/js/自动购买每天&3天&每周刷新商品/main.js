@@ -1,10 +1,10 @@
 // fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
-//在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
-//在js结尾处伪造该js开始运行的日志信息，如 await fakeLog("js脚本", true, false, 2333);
-//duration项目仅在伪造结束信息时有效，且无实际作用，可以任意填写，当你需要在日志中输出特定值时才需要，单位为毫秒
-//在调用地图追踪前伪造该地图追踪开始运行的日志信息，如 await fakeLog(`地图追踪.json`, false, true, 0);
-//在调用地图追踪后伪造该地图追踪结束运行的日志信息，如 await fakeLog(`地图追踪.json`, false, false, 0);
-//如此便可以在js运行过程中伪造地图追踪的日志信息，可以在日志分析等中查看
+// 在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
+// 在js结尾处伪造该js开始运行的日志信息，如 await fakeLog("js脚本", true, false, 2333);
+// duration项目仅在伪造结束信息时有效，且无实际作用，可以任意填写，当你需要在日志中输出特定值时才需要，单位为毫秒
+// 在调用地图追踪前伪造该地图追踪开始运行的日志信息，如 await fakeLog(`地图追踪.json`, false, true, 0);
+// 在调用地图追踪后伪造该地图追踪结束运行的日志信息，如 await fakeLog(`地图追踪.json`, false, false, 0);
+// 如此便可以在js运行过程中伪造地图追踪的日志信息，可以在日志分析等中查看
 // name: 字符串，表示脚本或地图追踪的名称
 // isJs: 布尔值，true表示脚本，false表示地图追踪
 // isStart: 布尔值，true表示开始日志，false表示结束日志
@@ -44,8 +44,6 @@ async function fakeLog(name, isJs, isStart, duration) {
         log.error("参数 'duration' 必须是整数！");
         return;
     }
-
-
 
     // 将 currentTime 转换为 Date 对象并格式化为 HH:mm:ss.sss
     const date = new Date(currentTime);
@@ -113,44 +111,31 @@ function logConditional(message) {
 }
 
 // ==================== 加载外部数据文件 ====================
-let foodsData = {};
 let npcData = {};
 
-// 存储用户要购买的商品ID集合
+// 存储用户要购买的商品名称集合（中文名）
 let userFoodsToBuy = new Set();
 
 async function loadExternalData() {
     try {
-        // 加载商品数据
-        const foodsContent = await file.readText("assets/data/foods.json");
-        foodsData = JSON.parse(foodsContent);
-        logConditional(`已加载商品数据: ${Object.keys(foodsData).length} 种商品`);
-
         // 加载商人数据
-        const npcsContent = await file.readText("assets/data/npcs.json");
+        const npcsContent = await file.readText("assets/npcs.json");
         npcData = JSON.parse(npcsContent);
         logConditional(`已加载商人数据: ${Object.keys(npcData).length} 个商人`);
 
-        // 解析用户要购买的商品列表
+        // 解析用户要购买的商品列表（中文商品名，空格分隔）
         const foodsInput = (settings.foodsToBuy || "").trim();
         if (foodsInput) {
             const foodNames = foodsInput.split(/\s+/);
             const enabledFoodsList = [];
             for (const foodName of foodNames) {
-                // 查找商品对应的ID
-                const foodEntry = Object.values(foodsData).find(
-                    food => food.name === foodName || food.id === foodName
-                );
-                if (foodEntry) {
-                    userFoodsToBuy.add(foodEntry.id);
-                    enabledFoodsList.push(foodEntry.name);  // 保存商品名称用于显示
-                } else {
-                    log.warn(`未找到商品: ${foodName}`);
-                }
+                // 直接使用用户输入的商品名，不需要验证是否存在（由用户自行确保）
+                userFoodsToBuy.add(foodName);
+                enabledFoodsList.push(foodName);
             }
             // 输出用户启用的商品列表
             if (enabledFoodsList.length > 0) {
-                log.info(`用户启用了下列商品:${enabledFoodsList.join(", ")}`);
+                log.info(`用户启用了下列商品: ${enabledFoodsList.join(", ")}`);
             } else {
                 log.warn("用户未启用任何商品");
             }
@@ -172,22 +157,10 @@ function filterUserFoods(foodList) {
     }
 
     return foodList.filter(food => {
-        // 查找商品对应的ID
-        const foodEntry = Object.values(foodsData).find(
-            f => f.name === food || f.id === food
-        );
-
-        if (!foodEntry) {
-            if (recordDebug) {
-                log.info(`[调试] 商品列表中未找到: ${food}`);
-            }
-            return false;
-        }
-
-        // 检查是否在用户要购买的商品集合中
-        const shouldBuy = userFoodsToBuy.has(foodEntry.id);
+        // 直接检查商品名是否在用户要购买的商品集合中
+        const shouldBuy = userFoodsToBuy.has(food);
         if (recordDebug && shouldBuy) {
-            log.info(`[调试] 用户选择购买: ${foodEntry.name} (ID: ${foodEntry.id})`);
+            log.info(`[调试] 用户选择购买: ${food}`);
         }
         return shouldBuy;
     });
@@ -586,77 +559,6 @@ function formatDateToLocalISO(date) {
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}+08:00`;
 }
 
-// 设置游戏时间
-async function setTime(hour, minute) {
-    // 关于setTime
-    // 原作者: Tim
-    // 脚本名称: SetTimeMinute - 精确调整游戏时间到分钟
-    // 脚本版本: 1.0
-    // Hash: f5c2547dfc286fc643c733d630f775e8fbf12971
-
-    // 设置游戏分辨率和DPI缩放
-    setGameMetrics(1920, 1080, 1);
-    // 圆心坐标
-    const centerX = 1441;
-    const centerY = 501.6;
-    // 半径
-    const r1 = 30;
-    const r2 = 150;
-    const r3 = 300;
-    const stepDuration = 50;
-
-    function getPosition(r, index) {
-        let angle = index * Math.PI / 720;
-        return [Math.round(centerX + r * Math.cos(angle)), Math.round(centerY + r * Math.sin(angle))];
-    }
-    async function mouseClick(x, y) {
-        moveMouseTo(x, y);
-        await sleep(50);
-        leftButtonDown();
-        await sleep(50);
-        leftButtonUp();
-        await sleep(stepDuration);
-    }
-    async function mouseClickAndMove(x1, y1, x2, y2) {
-        moveMouseTo(x1, y1);
-        await sleep(50);
-        leftButtonDown();
-        await sleep(50);
-        moveMouseTo(x2, y2);
-        await sleep(50);
-        leftButtonUp();
-        await sleep(stepDuration);
-    }
-    async function setTime(hour, minute) {
-        const end = (hour + 6) * 60 + minute - 20;
-        const n = 3;
-        for (let i = - n + 1; i < 1; i++) {
-            let [x, y] = getPosition(r1, end + i * 1440 / n);
-            await mouseClick(x, y);
-        }
-        let [x1, y1] = getPosition(r2, end + 5);
-        let [x2, y2] = getPosition(r3, end + 20 + 0.5);
-        await mouseClickAndMove(x1, y1, x2, y2);
-    }
-
-    let h = Math.floor(hour + minute / 60);
-    const m = Math.floor(hour * 60 + minute) - h * 60;
-    h = ((h % 24) + 24) % 24;
-    log.info(`设置时间到 ${h} 点 ${m} 分`);
-    await keyPress("Escape");
-    await sleep(1000);
-    await click(50, 700);
-    await sleep(2000);
-    await setTime(h, m);
-    await sleep(1000);
-    await click(1500, 1000);//确认
-    await sleep(18000);
-    await keyPress("Escape");
-    await sleep(2000);
-    await keyPress("Escape");
-    await sleep(2000);
-}
-
 // 地图追踪
 async function autoPath(locationPath) {
     try {
@@ -778,13 +680,21 @@ async function qucikBuy() {
 async function spikChat(npcName) {
     let count = 6; // 添加let声明
     await sleep(1000);
-    if (npcName == "布纳马") {
+    if (npcName == "布纳马" || npcName == "杜拉夫") {
         // 设置脚本环境的游戏分辨率和DPI缩放
         setGameMetrics(1920, 1080, 1);
 
         await sleep(1000);
         // 交互
-        for (let i = 0; i < 3; i++) {
+
+        let loop_count = 3;
+        if (npcName == "布纳马") {
+            loop_count = 3;
+        } else if (npcName == "杜拉夫") {
+            loop_count = 2;
+        }
+
+        for (let i = 0; i < loop_count; i++) {
             keyPress("VK_F");
             await sleep(1500);
         }
@@ -793,7 +703,7 @@ async function spikChat(npcName) {
         let captureRegion = captureGameRegion()
         let resList = captureRegion.findMulti(RecognitionObject.ocrThis);
         for (let i = 0; i < resList.count; i++) {
-            if (resList[i].text.includes("有什么卖的")) {
+            if (resList[i].text.includes("有什么卖的") || resList[i].text.includes("可以卖一些")) {
                 await sleep(500);
                 click(resList[i].x + 30, resList[i].y + 30); // 点击有什么卖的
                 await sleep(500);
@@ -813,6 +723,40 @@ async function spikChat(npcName) {
             keyPress("VK_F");
             await sleep(1300);
         }
+    }
+}
+
+// ==================== 商品识别对象映射表 ====================
+let foodROMap = {}; // 键为商品名（中文），值为 RecognitionObject
+
+// 加载识别对象（只加载用户选择的商品）
+async function initRo() {
+    try {
+        for (let foodName of userFoodsToBuy) {
+            // 图片文件路径：assets/images/商品名.png
+            const imagePath = `assets/images/${foodName}.png`;
+            try {
+                const ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagePath));
+                ro.Threshold = 0.75;
+                ro.Use3Channels = true;
+                foodROMap[foodName] = ro;
+                logConditional(`已启用商品: ${foodName}`);
+            } catch (e) {
+                log.error(`加载商品图片失败: ${imagePath}，请确保图片存在`);
+            }
+        }
+        // 加载其他识别对象（购买按钮等）
+        for (let [key, item] of Object.entries(othrtRo)) {
+            item.ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(item.file));
+            item.ro.Threshold = 0.85;
+        }
+
+        logConditional(`总共启用了 ${userFoodsToBuy.size} 种商品`);
+        return true;
+    }
+    catch (error) {
+        log.error("加载识别对象时发生错误: {error}", error.message);
+        throw error;
     }
 }
 
@@ -896,43 +840,27 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
                 log.info(`[调试] 尝试购买: ${item}`);
             }
 
-            // 查找商品对应的ID（支持中文名和英文ID）
-            let foodId = null;
-            let foodName = item;
-
-            // 直接在foodsData中查找
-            for (const [id, food] of Object.entries(foodsData)) {
-                if (food.name === item || food.id === item) {
-                    foodId = id;
-                    foodName = food.name;
-                    break;
-                }
-            }
-
-            if (!foodId) {
-                log.warn(`未找到商品 "${item}" 的识别数据，跳过`);
+            // 直接从映射表中获取识别对象
+            const ro = foodROMap[item];
+            if (!ro) {
+                log.warn(`商品 "${item}" 未启用或没有识别对象，跳过`);
                 continue;
             }
 
-            if (!foodsData[foodId] || !foodsData[foodId].ro) {
-                log.warn(`商品 "${foodName}" (ID: ${foodId}) 未启用或没有识别对象，跳过`);
-                continue;
-            }
-
-            let resList = captureRegion.FindMulti(foodsData[foodId].ro);
+            let resList = captureRegion.FindMulti(ro);
 
             for (let res of resList) {
                 if (recordDebug) {
-                    log.info(`[调试] 找到物品: ${foodsData[foodId].name} 位置(${res.x},${res.y},${res.width},${res.height})`);
+                    log.info(`[调试] 找到物品: ${item} 位置(${res.x},${res.y},${res.width},${res.height})`);
                 }
                 // 移除已购买的物品
                 boughtFoods.add(item);
                 // 点击商品
                 click(res.x * 2 + res.width, res.y * 2 + res.height);
                 if (await qucikBuy()) {
-                    log.info(`购买成功: ${foodsData[foodId].name}`);
+                    log.info(`购买成功: ${item}`);
                     // 交互或拾取："XXXX"
-                    await fakeLog(foodsData[foodId].name, false, false, 23333);
+                    await fakeLog(item, false, false, 23333);
 
                     // 记录购买的商品
                     purchasedFoods.push(item);
@@ -945,12 +873,12 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
                         await saveNpcRecords(npcRecords);
                     }
 
-                    await sleep(2000);
+                    await sleep(1500);
                     // 重新截图
                     captureRegion = captureGameRegion();
                 }
                 else {
-                    log.info(`购买失败: ${foodsData[foodId].name}, 背包已经满或商品已售罄`);
+                    log.info(`购买失败: ${item}, 背包已经满或商品已售罄`);
                 }
             }
         }
@@ -1032,34 +960,6 @@ async function initNpcData(records) {
     }
 }
 
-// 加载识别对象
-async function initRo() {
-    try {
-        // 加载识别对象 - 只加载用户选择的商品
-        for (let [key, item] of Object.entries(foodsData)) {
-            // 判断是否在用户选择的商品中
-            if (userFoodsToBuy.has(item.id)) {
-                item.ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(item.file));
-                item.ro.Threshold = 0.75;
-                item.ro.Use3Channels = true;
-                logConditional(`已启用商品: ${item.name} (${item.id})`);
-            }
-        }
-        // 加载其他识别对象
-        for (let [key, item] of Object.entries(othrtRo)) {
-            item.ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(item.file));
-            item.ro.Threshold = 0.85;
-        }
-
-        logConditional(`总共启用了 ${userFoodsToBuy.size} 种商品`);
-        return true;
-    }
-    catch (error) {
-        log.error("加载识别对象时发生错误: {error}", error.message);
-        throw error;
-    }
-}
-
 (async function () {
     try {
         // ==================== 初始化账号 ====================
@@ -1067,9 +967,10 @@ async function initRo() {
 
         // ==================== 加载外部数据 ====================
         if (!await loadExternalData()) {
-            log.error("商品或商人数据加载失败，脚本终止");
+            log.error("商人数据加载失败，脚本终止");
             return;
         }
+        const skip = settings.skip || false;
 
         // ==================== 初始化识别对象 ====================
         await initRo();
@@ -1126,10 +1027,12 @@ async function initRo() {
 
                 // 设置游戏时间
                 if (npc.time === "night") {
-                    await setTime(20, 0); // 设置为晚上8点
+                    // 设置为晚上8点
+                    await genshin.setTime(20, 0, skip);
                 }
                 else if (npc.time === "day") {
-                    await setTime(8, 0); // 设置为早上8点
+                    // 设置为早上8点
+                    await genshin.setTime(8, 0, skip);
                 }
 
                 await autoPath(npc.path);
