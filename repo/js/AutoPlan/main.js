@@ -241,7 +241,9 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             index++
                             let domainRoundNum = arr[index]; // 解析副本轮数
                             index++
-                            let sundaySelectedValue = arr[index]; // 解析周日|限时选择的值
+                            let sundaySelectedValue="1"
+                            if (index<arr.length)
+                             sundaySelectedValue = arr[index]; // 解析周日|限时选择的值
 
                             // 检查秘境名称是否有效
                             if (!config.domainNames.has(domainName)) {
@@ -251,8 +253,10 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                     if (!domainNameTemp) {
                                         throw new Error(`${domainName} 输入错误`);
                                     }
-                                    const domainSelectedValue = parseInt(config.domainOrderMap.get(domainName) + "");
-                                    sundaySelectedValue = domainSelectedValue
+                                    if (index<arr.length){
+                                        const domainSelectedValue = parseInt(config.domainOrderMap.get(domainName) + "");
+                                        sundaySelectedValue = domainSelectedValue
+                                    }
                                     domainName = domainNameTemp
                                 } else {
                                     throw new Error(`${domainName} 输入错误`);
