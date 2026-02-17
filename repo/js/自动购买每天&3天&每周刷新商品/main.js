@@ -36,10 +36,6 @@ async function fakeLog(name, isJs, isStart, duration) {
         log.error("参数 'isStart' 必须是布尔型！");
         return;
     }
-    if (typeof currentTime !== 'number' || !Number.isInteger(currentTime)) {
-        log.error("参数 'currentTime' 必须是整数！");
-        return;
-    }
     if (typeof duration !== 'number' || !Number.isInteger(duration)) {
         log.error("参数 'duration' 必须是整数！");
         return;
@@ -115,8 +111,6 @@ let npcData = {};
 
 // 存储用户要购买的商品名称集合（中文名）
 let userFoodsToBuy = new Set();
-// 存储用户启用的标签
-let enabledTags = [];
 
 async function loadExternalData() {
     try {
@@ -125,45 +119,24 @@ async function loadExternalData() {
         npcData = JSON.parse(npcsContent);
         logConditional(`已加载商人数据: ${Object.keys(npcData).length} 个商人`);
 
-        // ====== 收集所有标签 ======
-        const allTags = new Set();
-        for (const [key, npc] of Object.entries(npcData)) {
-            if (npc.tags && Array.isArray(npc.tags)) {
-                npc.tags.forEach(tag => allTags.add(tag));
-            }
-        }
-        logConditional(`可用的标签: ${Array.from(allTags).join(", ")}`);
-
-        // ====== 解析用户输入 ======
+        // 解析用户要购买的商品列表（中文商品名，空格分隔）
         const foodsInput = (settings.foodsToBuy || "").trim();
         if (foodsInput) {
-            // 支持多种分隔符：空格、英文逗号、中文逗号、顿号
-            const inputItems = foodsInput.split(/[,\s、]+/).filter(item => item.trim() !== "");
+            const foodNames = foodsInput.split(/[,\s、]+/).filter(name => name.trim() !== "");
             const enabledFoodsList = [];
-
-            for (const item of inputItems) {
-                if (allTags.has(item)) {
-                    // 是标签，添加到 enabledTags
-                    enabledTags.push(item);
-                    log.info(`启用标签: ${item}`);
-                } else {
-                    // 作为商品名处理
-                    userFoodsToBuy.add(item);
-                    enabledFoodsList.push(item);
-                }
+            for (const foodName of foodNames) {
+                // 直接使用用户输入的商品名，不需要验证是否存在（由用户自行确保）
+                userFoodsToBuy.add(foodName);
+                enabledFoodsList.push(foodName);
             }
-
-            // 输出最终启用的商品
+            // 输出用户启用的商品列表
             if (enabledFoodsList.length > 0) {
                 log.info(`用户启用了下列商品: ${enabledFoodsList.join(", ")}`);
             } else {
-                log.info("未直接启用任何商品，仅通过标签购买");
-            }
-            if (enabledTags.length > 0) {
-                log.info(`用户启用了下列标签: ${enabledTags.join(", ")}`);
+                log.warn("用户未启用任何商品");
             }
         } else {
-            log.warn("用户未指定要购买的商品或标签");
+            log.warn("用户未指定要购买的商品");
         }
 
         return true;
@@ -174,25 +147,13 @@ async function loadExternalData() {
 }
 
 // ==================== 辅助函数：过滤用户要购买的商品 ====================
-function filterUserFoods(foodList, npc) {
+function filterUserFoods(foodList) {
     if (!foodList || !Array.isArray(foodList)) {
         return [];
     }
 
-    // 检查该商人是否属于任何启用的标签
-    if (npc && npc.tags && Array.isArray(npc.tags)) {
-        const hasEnabledTag = npc.tags.some(tag => enabledTags.includes(tag));
-        if (hasEnabledTag) {
-            // 如果属于启用标签，则返回所有商品（全买）
-            if (recordDebug) {
-                log.info(`[调试] 商人 ${npc.name} 属于启用标签，购买其所有商品`);
-            }
-            return foodList; // 全返回
-        }
-    }
-
-    // 否则只返回用户直接指定的商品
     return foodList.filter(food => {
+        // 直接检查商品名是否在用户要购买的商品集合中
         const shouldBuy = userFoodsToBuy.has(food);
         if (recordDebug && shouldBuy) {
             log.info(`[调试] 用户选择购买: ${food}`);
@@ -271,13 +232,13 @@ const ignoreRecords = settings.ignoreRecords || false;
 const recordDebug = settings.recordDebug || false;
 
 // 解析禁用的商人列表
-const disabledNpcs = (settings.disabledNpcs || "").split(/\s+/).filter(npc => npc.trim() !== "");
+const disabledNpcs = (settings.disabledNpcs || "").split(/[,\s、]+/).filter(npc => npc.trim() !== "");
 if (disabledNpcs.length > 0) {
     log.info(`已禁用商人: ${disabledNpcs.join(", ")}`);
 }
 
 // 解析禁用的标签列表
-const disabledTags = (settings.disabledTags || "").split(/\s+/).filter(tag => tag.trim() !== "");
+const disabledTags = (settings.disabledTags || "").split(/[,\s、]+/).filter(tag => tag.trim() !== "");
 if (disabledTags.length > 0) {
     log.info(`已禁用标签: ${disabledTags.join(", ")}`);
 }
@@ -303,6 +264,26 @@ function getRecordPath(accountName) {
         accountName = "默认账户";
     }
     return `record/${accountName.trim()}/records.json`;
+}
+
+// 确保账号目录存在
+async function ensureAccountDirectory(accountName) {
+    const validName = validateUserName(accountName);
+    const dirPath = `record/${validName}`;
+
+    try {
+        // 检查目录是否存在
+        await file.readText(dirPath + "/.keep");
+    } catch (error) {
+        // 目录不存在，尝试创建
+        try {
+            // 创建目录（通过写入一个临时文件）
+            await file.writeText(dirPath + "/.keep", "");
+            log.info(`创建账号目录: ${dirPath}`);
+        } catch (mkdirError) {
+            log.error(`创建账号目录失败: ${mkdirError.message}`);
+        }
+    }
 }
 
 // ==================== 新增函数：读取商人记录文件 ====================
@@ -478,17 +459,17 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
 
     if (forceRefresh) {
         // 强制刷新，但只购买已启用的商品
-        if (npc._1d_foods) foodsToBuy["1d"] = filterUserFoods(npc._1d_foods, npc);
-        if (npc._3d_foods) foodsToBuy["3d"] = filterUserFoods(npc._3d_foods, npc);
-        if (npc._7d_foods) foodsToBuy["7d"] = filterUserFoods(npc._7d_foods, npc);
-        if (npc._thu_foods) foodsToBuy["thu"] = filterUserFoods(npc._thu_foods, npc);
-        if (npc._month_foods) foodsToBuy["month"] = filterUserFoods(npc._month_foods, npc);
+        if (npc._1d_foods) foodsToBuy["1d"] = filterUserFoods(npc._1d_foods);
+        if (npc._3d_foods) foodsToBuy["3d"] = filterUserFoods(npc._3d_foods);
+        if (npc._7d_foods) foodsToBuy["7d"] = filterUserFoods(npc._7d_foods);
+        if (npc._thu_foods) foodsToBuy["thu"] = filterUserFoods(npc._thu_foods);
+        if (npc._month_foods) foodsToBuy["month"] = filterUserFoods(npc._month_foods);
         return foodsToBuy;
     }
 
     // 1天商品逻辑
     if (npc._1d_foods) {
-        const enabledFoods = filterUserFoods(npc._1d_foods, npc);
+        const enabledFoods = filterUserFoods(npc._1d_foods);
         if (enabledFoods.length > 0) {
             if (!npcRecord || !npcRecord["1d_time"]) {
                 // 没有记录，需要购买已启用的商品
@@ -509,7 +490,7 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
 
     // 3天商品逻辑
     if (npc._3d_foods) {
-        const enabledFoods = filterUserFoods(npc._3d_foods, npc);
+        const enabledFoods = filterUserFoods(npc._3d_foods);
         if (enabledFoods.length > 0) {
             if (!npcRecord || !npcRecord["3d_time"]) {
                 // 没有记录，直接购买
@@ -536,7 +517,7 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
 
     // 7天商品（周一刷新）逻辑
     if (npc._7d_foods) {
-        const enabledFoods = filterUserFoods(npc._7d_foods, npc);
+        const enabledFoods = filterUserFoods(npc._7d_foods);
         if (enabledFoods.length > 0) {
             if (!npcRecord || !npcRecord["7d_time"]) {
                 // 没有记录，直接购买
@@ -579,7 +560,7 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
 
     // 周四刷新商品逻辑（与7天类似，但刷新日不同）
     if (npc._thu_foods) {
-        const enabledFoods = filterUserFoods(npc._thu_foods, npc);
+        const enabledFoods = filterUserFoods(npc._thu_foods);
         if (enabledFoods.length > 0) {
             if (!npcRecord || !npcRecord["thu_time"]) {
                 // 没有记录，直接购买
@@ -622,7 +603,7 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
 
     // 每月1号刷新商品逻辑（不受AKF影响）
     if (npc._month_foods) {
-        const enabledFoods = filterUserFoods(npc._month_foods, npc);
+        const enabledFoods = filterUserFoods(npc._month_foods);
         if (enabledFoods.length > 0) {
             if (!npcRecord || !npcRecord["month_time"]) {
                 // 没有记录，直接购买
