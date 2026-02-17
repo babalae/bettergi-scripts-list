@@ -1,13 +1,17 @@
 {
   "manifest_version": 1,
   "name": "AAA狗粮批发",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "tags": [
     "狗粮"
   ],
   "description": "直接利用“富98个上限点”1号/2号路线交替运行(路线不重复),来给收尾和额外路线卡时间，花最少的时间拿最多的狗粮",
   "saved_files": [
-    "records/*.txt"
+    "records/*.txt",
+    "assets/targetItems/保留/*.png",
+    "assets/targetItems/保留/*/*.png",
+    "assets/targetItems/保留/*/*/*.png",
+    "assets/targetItems/保留/*/*/*/*.png"
   ],
   "authors": [
     {
