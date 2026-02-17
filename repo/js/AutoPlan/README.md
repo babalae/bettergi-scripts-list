@@ -79,7 +79,7 @@
       "domainName": undefined,//秘境名称
       "partyName": undefined,//队伍名称
       "sundaySelectedValue": undefined,//周日|限时选择的值
-      "DomainRoundNum": undefined,//副本轮数
+      "domainRoundNum": undefined,//副本轮数
     } // 秘境信息对象
   }
 ]

@@ -80,12 +80,12 @@ async function autoDomain(autoFight) {
     log.debug(`周日|限时选择的值:${domainParam.SundaySelectedValue}`)
     //副本轮数
     try {
-        domainParam.domainRoundNum = parseInt((autoFight.DomainRoundNum || domainParam.DomainRoundNum) + "");
+        domainParam.DomainRoundNum = parseInt((autoFight.domainRoundNum || domainParam.DomainRoundNum) + "");
     } catch (e) {
-        throwError(e.message)
         log.debug(`副本轮数:${autoFight.domainRoundNum}`)
+        throwError(e.message)
     }
-    log.debug(`副本轮数:${domainParam.domainRoundNum}`)
+    log.debug(`副本轮数:${domainParam.DomainRoundNum}`)
 
     // 复活重试
     for (let i = 0; i < 5; i++) {
@@ -228,7 +228,7 @@ async function loadMode(Load, autoFightOrderSet, runConfig) {
                             domainName: undefined,//秘境名称
                             partyName: undefined,//队伍名称
                             sundaySelectedValue: undefined,//周日|限时选择的值
-                            DomainRoundNum: undefined,//副本轮数
+                            domainRoundNum: undefined,//副本轮数
                         }
                         let runType = arr[0]; // 解析运行类型
                         if (!config.user.runTypes.includes(runType)) {
@@ -272,7 +272,7 @@ async function loadMode(Load, autoFightOrderSet, runConfig) {
                         // 设置秘境信息的各个属性
                         autoFight.partyName = partyName       // 队伍名称
                         autoFight.domainName = domainName      // 秘境名称
-                        autoFight.DomainRoundNum = domainRoundNum  // 副本轮数
+                        autoFight.domainRoundNum = domainRoundNum  // 副本轮数
                         autoFight.sundaySelectedValue = sundaySelectedValue // 周日|限时选择的值
                         // 创建秘境顺序对象
                         let autoFightOrder = {
@@ -325,7 +325,7 @@ async function initRunOrderList(domainConfig) {
                 domainName: undefined,//秘境名称
                 partyName: undefined,//队伍名称
                 sundaySelectedValue: undefined,//周日|限时选择的值
-                DomainRoundNum: undefined,//副本轮数
+                domainRoundNum: undefined,//副本轮数
             } // 秘境信息对象
         }*/
     // let Load = LoadType.uid
@@ -388,7 +388,7 @@ async function main() {
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|周几执行(0-6)不填默认执行|执行顺序,..."
     const autoRunOrderList = await initRunOrderList(runConfig);
     const list = autoRunOrderList.filter(item =>
-        (item.runType === config.user.runTypes[0] && item?.autoFight.DomainRoundNum > 0)
+        (item.runType === config.user.runTypes[0] && item?.autoFight.domainRoundNum > 0)
     || (item.runType === config.user.runTypes[1] && item?.autoLeyLineOutcrop.count > 0)
     )
     if (list?.length > 0) {
