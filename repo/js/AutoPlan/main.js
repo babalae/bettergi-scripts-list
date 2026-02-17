@@ -270,6 +270,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                 domainRoundNum: undefined,//副本轮数
                             }
                             // 设置秘境信息的各个属性
+                            if (partyName.trim()!=="")
                             autoFight.partyName = partyName       // 队伍名称
                             autoFight.domainName = domainName      // 秘境名称
                             autoFight.domainRoundNum = domainRoundNum  // 副本轮数
