@@ -299,17 +299,17 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             index++
                             autoLeyLineOutcrop.friendshipTeam=arr[index]
                             index++
-                            autoLeyLineOutcrop.useFragileResin=arr[index]
+                            autoLeyLineOutcrop.useFragileResin=arr[index].trim()!==""
                             index++
-                            autoLeyLineOutcrop.useTransientResin=arr[index]
+                            autoLeyLineOutcrop.useTransientResin=arr[index].trim()!==""
                             index++
-                            autoLeyLineOutcrop.isGoToSynthesizer=arr[index]
+                            autoLeyLineOutcrop.isGoToSynthesizer=arr[index].trim()!==""
                             index++
-                            autoLeyLineOutcrop.useAdventurerHandbook=arr[index]
+                            autoLeyLineOutcrop.useAdventurerHandbook=arr[index].trim()!==""
                             index++
-                            autoLeyLineOutcrop.isNotification=arr[index]
+                            autoLeyLineOutcrop.isNotification=arr[index].trim()!==""
                             index++
-                            autoLeyLineOutcrop.timeout=arr[index]
+                            autoLeyLineOutcrop.timeout=parseInteger(arr[index])
 
                             autoOrder.autoLeyLineOutcrop=autoLeyLineOutcrop // 将地脉信息对象添加到顺序对象中
                         }
