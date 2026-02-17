@@ -201,14 +201,17 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                     item => {
                         // 将当前项按"|"分割成数组
                         let arr = item.split("|")
-
-                        let runType = arr[0]; // 解析运行类型
-                        let days = arr[1].trim() !== ""
-                            ? arr[1].split('/').map(d => parseInt(d.trim())).filter(d => !isNaN(d))
+                        // 类型|执行日期|执行顺序
+                        let index=0
+                        let runType = arr[index]; // 解析运行类型
+                        index++
+                        let days = arr[index].trim() !== ""
+                            ? arr[index].split('/').map(d => parseInt(d.trim())).filter(d => !isNaN(d))
                             : [];
+                        index++
                         // 解析顺序值，处理可能的无效值
                         let order = (() => {
-                            const rawOrder = arr[2]; // 获取原始值
+                            const rawOrder = arr[index]; // 获取原始值
                             if (rawOrder == null || String(rawOrder).trim() === "") {
                                 return 0; // 若为空或无效值，默认返回 0
                             }
@@ -225,13 +228,20 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             autoLeyLineOutcrop: undefined // 地脉信息对象
                         }
 
+                        index++
+
                         if (!config.user.runTypes.includes(runType)) {
                             throwError(`运行类型${runType}输入错误`)
-                        } else if (config.user.runTypes[0] === runType) {
-                            let partyName = arr[3]; // 解析队伍名称
-                            let domainName = arr[4]; // 解析秘境名称
-                            let domainRoundNum = arr[5]; // 解析副本轮数
-                            let sundaySelectedValue = arr[6]; // 解析周日|限时选择的值
+                        }
+                        else if (config.user.runTypes[0] === runType) {
+                            //"|队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日,..."
+                            let partyName = arr[index]; // 解析队伍名称
+                            index++
+                            let domainName = arr[index]; // 解析秘境名称
+                            index++
+                            let domainRoundNum = arr[index]; // 解析副本轮数
+                            index++
+                            let sundaySelectedValue = arr[index]; // 解析周日|限时选择的值
 
                             // 检查秘境名称是否有效
                             if (!config.domainNames.has(domainName)) {
@@ -261,16 +271,47 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             autoFight.domainRoundNum = domainRoundNum  // 副本轮数
                             autoFight.sundaySelectedValue = sundaySelectedValue // 周日|限时选择的值
 
-
                             autoOrder.autoFight=autoFight // 将秘境信息对象添加到秘境顺序对象中
-
-                        }else if(config.user.runTypes[1]===runType){
+                        }
+                        else if(config.user.runTypes[1]===runType){
+                            //"|队伍名称|国家|刷几轮|花类型|好感队|是否使用脆弱树脂|是否使用须臾树脂|是否前往合成台合成浓缩树脂|是否使用冒险之证|发送详细通知|战斗超时时间,..."
                             let autoLeyLineOutcrop={
-                                count: 0,
-                                country: undefined,
-
+                                count: 0,                        // 刷几次（0=自动/无限）
+                                country: undefined,                     // 国家地区
+                                leyLineOutcropType: undefined, // 需映射为经验/摩拉
+                                useAdventurerHandbook: false,    // 是否使用冒险之证
+                                friendshipTeam: "",              // 好感队伍ID
+                                team: "",                        // 主队伍ID
+                                timeout: 120,                      // 超时时间（秒）
+                                isGoToSynthesizer: false,        // 是否前往合成台
+                                useFragileResin: false,          // 使用脆弱树脂
+                                useTransientResin: false,        // 使用须臾树脂（须臾=Transient）
+                                isNotification: false            // 是否通知
                             }
+                            index++
+                            autoLeyLineOutcrop.team=arr[index]
+                            index++
+                            autoLeyLineOutcrop.country=arr[index]
+                            index++
+                            autoLeyLineOutcrop.count=arr[index]
+                            index++
+                            autoLeyLineOutcrop.leyLineOutcropType=arr[index]
+                            index++
+                            autoLeyLineOutcrop.friendshipTeam=arr[index]
+                            index++
+                            autoLeyLineOutcrop.useFragileResin=arr[index]
+                            index++
+                            autoLeyLineOutcrop.useTransientResin=arr[index]
+                            index++
+                            autoLeyLineOutcrop.isGoToSynthesizer=arr[index]
+                            index++
+                            autoLeyLineOutcrop.useAdventurerHandbook=arr[index]
+                            index++
+                            autoLeyLineOutcrop.isNotification=arr[index]
+                            index++
+                            autoLeyLineOutcrop.timeout=arr[index]
 
+                            autoOrder.autoLeyLineOutcrop=autoLeyLineOutcrop // 将地脉信息对象添加到顺序对象中
                         }
 
                         // 将秘境顺序对象添加到列表中
