@@ -111,23 +111,23 @@ async function autoDomain(autoFight) {
  */
 async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
     //todo :地脉花
-    autoLeyLineOutcrop={
-      "count": 0,
-      "country": "country_cb3d792be8db",
-      "leyLineOutcropType": "leyLineOutcropType_f259b77fabcb",
-      // "isResinExhaustionMode": true,
-      // "openModeCountMin": true,
-      "useAdventurerHandbook": false,
-      "friendshipTeam": "friendshipTeam_7122cab56b16",
-      "team": "team_d0798ca3aa27",
-      "timeout": 0,
-      "isGoToSynthesizer": false,
-      "useFragileResin": false,
-      "useTransientResin": false,
-      "isNotification": false
+    autoLeyLineOutcrop = {
+        "count": 0,
+        "country": "country_cb3d792be8db",
+        "leyLineOutcropType": "leyLineOutcropType_f259b77fabcb",
+        // "isResinExhaustionMode": true,
+        // "openModeCountMin": true,
+        "useAdventurerHandbook": false,
+        "friendshipTeam": "friendshipTeam_7122cab56b16",
+        "team": "team_d0798ca3aa27",
+        "timeout": 0,
+        "isGoToSynthesizer": false,
+        "useFragileResin": false,
+        "useTransientResin": false,
+        "isNotification": false
     }
 
-    if (true){
+    if (true) {
         log.info("地脉 暂不支持")
         return
     }
@@ -188,11 +188,98 @@ function parseInteger(day) {
 /**
  * 根据不同的加载方式加载秘境配置
  * @param {string} Load - 加载方式类型，如uid或input
- * @param {Set} autoFightOrderSet - 用于存储秘境顺序的Set集合
+ * @param {Set} autoOrderSet - 用于存储秘境顺序的Set集合
  * @param {string} runConfig - 输入的配置字符串，仅在Load为input时使用
  */
-async function loadMode(Load, autoFightOrderSet, runConfig) {
+async function loadMode(Load, autoOrderSet, runConfig) {
     switch (Load) {
+        case LoadType.input:
+            // 通过输入字符串方式加载配置
+            if (runConfig) {
+                // 处理输入字符串：去除首尾空格，将中文逗号替换为英文逗号，然后按逗号分割
+                runConfig.trim().replaceAll('，', ',').split(",").forEach(
+                    item => {
+                        // 将当前项按"|"分割成数组
+                        let arr = item.split("|")
+
+                        let runType = arr[0]; // 解析运行类型
+                        let days = arr[1].trim() !== ""
+                            ? arr[1].split('/').map(d => parseInt(d.trim())).filter(d => !isNaN(d))
+                            : [];
+                        // 解析顺序值，处理可能的无效值
+                        let order = (() => {
+                            const rawOrder = arr[2]; // 获取原始值
+                            if (rawOrder == null || String(rawOrder).trim() === "") {
+                                return 0; // 若为空或无效值，默认返回 0
+                            }
+                            const parsedOrder = parseInt(String(rawOrder).trim(), 10); // 转换为整数
+                            return isNaN(parsedOrder) ? 0 : parsedOrder; // 若转换失败，返回默认值 0
+                        })();
+
+                        // 创建秘境顺序对象
+                        let autoOrder = {
+                            order: order,      // 顺序值
+                            // day: day,// 执行日期
+                            days: days,        // 执行日期（数组）
+                            autoFight: undefined, // 秘境信息对象
+                            autoLeyLineOutcrop: undefined // 地脉信息对象
+                        }
+
+                        if (!config.user.runTypes.includes(runType)) {
+                            throwError(`运行类型${runType}输入错误`)
+                        } else if (config.user.runTypes[0] === runType) {
+                            let partyName = arr[3]; // 解析队伍名称
+                            let domainName = arr[4]; // 解析秘境名称
+                            let domainRoundNum = arr[5]; // 解析副本轮数
+                            let sundaySelectedValue = arr[6]; // 解析周日|限时选择的值
+
+                            // 检查秘境名称是否有效
+                            if (!config.domainNames.has(domainName)) {
+                                //秘境名称没有记录 查询是否是物品名称
+                                if (config.itemNames.has(domainName)) {
+                                    const domainNameTemp = config.domainItemsMap.get(domainName);
+                                    if (!domainNameTemp) {
+                                        throw new Error(`${domainName} 输入错误`);
+                                    }
+                                    const domainSelectedValue = parseInt(config.domainOrderMap.get(domainName) + "");
+                                    sundaySelectedValue = domainSelectedValue
+                                    domainName = domainNameTemp
+                                } else {
+                                    throw new Error(`${domainName} 输入错误`);
+                                }
+                            }
+                            // 创建秘境信息对象
+                            let autoFight = {
+                                domainName: undefined,//秘境名称
+                                partyName: undefined,//队伍名称
+                                sundaySelectedValue: undefined,//周日|限时选择的值
+                                domainRoundNum: undefined,//副本轮数
+                            }
+                            // 设置秘境信息的各个属性
+                            autoFight.partyName = partyName       // 队伍名称
+                            autoFight.domainName = domainName      // 秘境名称
+                            autoFight.domainRoundNum = domainRoundNum  // 副本轮数
+                            autoFight.sundaySelectedValue = sundaySelectedValue // 周日|限时选择的值
+
+
+                            autoOrder.autoFight=autoFight // 将秘境信息对象添加到秘境顺序对象中
+
+                        }else if(config.user.runTypes[1]===runType){
+                            let autoLeyLineOutcrop={
+                                count: 0,
+                                country: undefined,
+
+                            }
+
+                        }
+
+                        // 将秘境顺序对象添加到列表中
+                        autoOrderSet.add(autoOrder)
+                    }
+                )
+            }
+            break
+
         case LoadType.uid:
 
             // 通过UID方式加载配置
@@ -211,81 +298,8 @@ async function loadMode(Load, autoFightOrderSet, runConfig) {
                         item.days = item.days.map(day => parseInteger(day))
                         // item.day = parseInteger(item.day);
                     }
-                    autoFightOrderSet.add(item)
+                    autoOrderSet.add(item)
                 })
-            }
-            break
-        case LoadType.input:
-            // 通过输入字符串方式加载配置
-            if (runConfig) {
-                // 处理输入字符串：去除首尾空格，将中文逗号替换为英文逗号，然后按逗号分割
-                runConfig.trim().replaceAll('，', ',').split(",").forEach(
-                    item => {
-                        // 将当前项按"|"分割成数组
-                        let arr = item.split("|")
-                        // 创建秘境信息对象
-                        let autoFight = {
-                            domainName: undefined,//秘境名称
-                            partyName: undefined,//队伍名称
-                            sundaySelectedValue: undefined,//周日|限时选择的值
-                            domainRoundNum: undefined,//副本轮数
-                        }
-                        let runType = arr[0]; // 解析运行类型
-                        if (!config.user.runTypes.includes(runType)) {
-                            throwError(`运行类型${runType}输入错误`)
-                        }
-                        let partyName = arr[1]; // 解析队伍名称
-                        let domainName = arr[2]; // 解析秘境名称
-                        let domainRoundNum = arr[3]; // 解析副本轮数
-                        let sundaySelectedValue = arr[4]; // 解析周日|限时选择的值
-                        // let day = arr[4].trim() != "" ? parseInt(arr[4]) : undefined;
-                        let days = arr[5].trim() !== ""
-                            ? arr[4].split('/').map(d => parseInt(d.trim())).filter(d => !isNaN(d))
-                            : [];
-                        // 解析顺序值，处理可能的无效值
-                        let order = (() => {
-                            const rawOrder = arr[6]; // 获取原始值
-                            if (rawOrder == null || String(rawOrder).trim() === "") {
-                                return 0; // 若为空或无效值，默认返回 0
-                            }
-                            const parsedOrder = parseInt(String(rawOrder).trim(), 10); // 转换为整数
-                            return isNaN(parsedOrder) ? 0 : parsedOrder; // 若转换失败，返回默认值 0
-                        })();
-
-
-                        // 检查秘境名称是否有效
-                        if (!config.domainNames.has(domainName)) {
-                            //秘境名称没有记录 查询是否是物品名称
-                            if (config.itemNames.has(domainName)) {
-                                const domainNameTemp = config.domainItemsMap.get(domainName);
-                                if (!domainNameTemp) {
-                                    throw new Error(`${domainName} 输入错误`);
-                                }
-                                const domainSelectedValue = parseInt(config.domainOrderMap.get(domainName) + "");
-                                sundaySelectedValue = domainSelectedValue
-                                domainName = domainNameTemp
-                            } else {
-                                throw new Error(`${domainName} 输入错误`);
-                            }
-                        }
-
-                        // 设置秘境信息的各个属性
-                        autoFight.partyName = partyName       // 队伍名称
-                        autoFight.domainName = domainName      // 秘境名称
-                        autoFight.domainRoundNum = domainRoundNum  // 副本轮数
-                        autoFight.sundaySelectedValue = sundaySelectedValue // 周日|限时选择的值
-                        // 创建秘境顺序对象
-                        let autoFightOrder = {
-                            order: order,      // 顺序值
-                            // day: day,// 执行日期
-                            days: days,        // 执行日期（数组）
-                            autoFight: autoFight // 秘境信息对象
-                        }
-                        // 将秘境顺序对象添加到列表中
-                        autoFightOrderSet.add(autoFightOrder)
-                        // autoFightOrderSet.push(autoFightOrder)
-                    }
-                )
             }
             break
         case LoadType.bgi_tools:
@@ -301,7 +315,7 @@ async function loadMode(Load, autoFightOrderSet, runConfig) {
                         item.days = item.days.map(day => parseInteger(day))
                         // item.day = parseInteger(item.day);
                     }
-                    autoFightOrderSet.add(item)
+                    autoOrderSet.add(item)
                 })
             }
             break
@@ -346,16 +360,16 @@ async function initRunOrderList(domainConfig) {
         //过滤掉不执行的秘境
         .filter(item => config.user.runTypes.includes(item.runType))
         .filter(item => {
-        // if (item.day) {
-        //     return item.day === dayOfWeek.day
-        // }
-        if (item.days && item.days.length > 0) {
-            const includes = item.days.includes(dayOfWeek.day);
-            log.debug(`[{1}]item.days:{0}`, dayOfWeek.day, JSON.stringify(item.days))
-            return includes;
-        }
-        return true
-    })
+            // if (item.day) {
+            //     return item.day === dayOfWeek.day
+            // }
+            if (item.days && item.days.length > 0) {
+                const includes = item.days.includes(dayOfWeek.day);
+                log.debug(`[{1}]item.days:{0}`, dayOfWeek.day, JSON.stringify(item.days))
+                return includes;
+            }
+            return true
+        })
     from.sort((a, b) => b.order - a.order)
     log.debug(`from:{0}`, JSON.stringify(from))
     return from;
@@ -389,7 +403,7 @@ async function main() {
     const autoRunOrderList = await initRunOrderList(runConfig);
     const list = autoRunOrderList.filter(item =>
         (item.runType === config.user.runTypes[0] && item?.autoFight.domainRoundNum > 0)
-    || (item.runType === config.user.runTypes[1] && item?.autoLeyLineOutcrop.count > 0)
+        || (item.runType === config.user.runTypes[1] && item?.autoLeyLineOutcrop.count > 0)
     )
     if (list?.length > 0) {
         await autoRunList(list);
