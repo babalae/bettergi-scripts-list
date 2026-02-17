@@ -115,6 +115,8 @@ let npcData = {};
 
 // 存储用户要购买的商品名称集合（中文名）
 let userFoodsToBuy = new Set();
+// 存储用户启用的标签
+let enabledTags = [];
 
 async function loadExternalData() {
     try {
@@ -123,24 +125,45 @@ async function loadExternalData() {
         npcData = JSON.parse(npcsContent);
         logConditional(`已加载商人数据: ${Object.keys(npcData).length} 个商人`);
 
-        // 解析用户要购买的商品列表（中文商品名，空格分隔）
+        // ====== 收集所有标签 ======
+        const allTags = new Set();
+        for (const [key, npc] of Object.entries(npcData)) {
+            if (npc.tags && Array.isArray(npc.tags)) {
+                npc.tags.forEach(tag => allTags.add(tag));
+            }
+        }
+        logConditional(`可用的标签: ${Array.from(allTags).join(", ")}`);
+
+        // ====== 解析用户输入 ======
         const foodsInput = (settings.foodsToBuy || "").trim();
         if (foodsInput) {
-            const foodNames = foodsInput.split(/\s+/);
+            // 支持多种分隔符：空格、英文逗号、中文逗号、顿号
+            const inputItems = foodsInput.split(/[,\s、]+/).filter(item => item.trim() !== "");
             const enabledFoodsList = [];
-            for (const foodName of foodNames) {
-                // 直接使用用户输入的商品名，不需要验证是否存在（由用户自行确保）
-                userFoodsToBuy.add(foodName);
-                enabledFoodsList.push(foodName);
+
+            for (const item of inputItems) {
+                if (allTags.has(item)) {
+                    // 是标签，添加到 enabledTags
+                    enabledTags.push(item);
+                    log.info(`启用标签: ${item}`);
+                } else {
+                    // 作为商品名处理
+                    userFoodsToBuy.add(item);
+                    enabledFoodsList.push(item);
+                }
             }
-            // 输出用户启用的商品列表
+
+            // 输出最终启用的商品
             if (enabledFoodsList.length > 0) {
                 log.info(`用户启用了下列商品: ${enabledFoodsList.join(", ")}`);
             } else {
-                log.warn("用户未启用任何商品");
+                log.info("未直接启用任何商品，仅通过标签购买");
+            }
+            if (enabledTags.length > 0) {
+                log.info(`用户启用了下列标签: ${enabledTags.join(", ")}`);
             }
         } else {
-            log.warn("用户未指定要购买的商品");
+            log.warn("用户未指定要购买的商品或标签");
         }
 
         return true;
@@ -151,13 +174,25 @@ async function loadExternalData() {
 }
 
 // ==================== 辅助函数：过滤用户要购买的商品 ====================
-function filterUserFoods(foodList) {
+function filterUserFoods(foodList, npc) {
     if (!foodList || !Array.isArray(foodList)) {
         return [];
     }
 
+    // 检查该商人是否属于任何启用的标签
+    if (npc && npc.tags && Array.isArray(npc.tags)) {
+        const hasEnabledTag = npc.tags.some(tag => enabledTags.includes(tag));
+        if (hasEnabledTag) {
+            // 如果属于启用标签，则返回所有商品（全买）
+            if (recordDebug) {
+                log.info(`[调试] 商人 ${npc.name} 属于启用标签，购买其所有商品`);
+            }
+            return foodList; // 全返回
+        }
+    }
+
+    // 否则只返回用户直接指定的商品
     return foodList.filter(food => {
-        // 直接检查商品名是否在用户要购买的商品集合中
         const shouldBuy = userFoodsToBuy.has(food);
         if (recordDebug && shouldBuy) {
             log.info(`[调试] 用户选择购买: ${food}`);
@@ -200,6 +235,34 @@ function getMondayOfWeek(date) {
     return d;
 }
 
+// ==================== 辅助函数：获取给定日期所在的周四日期 ====================
+function getThursdayOfWeek(date) {
+    const d = new Date(date);
+    // 调整到4点刷新
+    if (d.getHours() < 4) {
+        d.setDate(d.getDate() - 1);
+    }
+    const day = d.getDay(); // 0=周日, 1=周一, 2=周二, 3=周三, 4=周四, 5=周五, 6=周六
+    // 目标周四：如果当前<=周四，则取本周四；否则取下周四
+    let targetDay = 4; // 周四对应的getDay值为4
+    if (day <= targetDay) {
+        d.setDate(d.getDate() + (targetDay - day));
+    } else {
+        d.setDate(d.getDate() + (7 - day + targetDay));
+    }
+    d.setHours(4, 0, 0, 0);
+    return d;
+}
+
+// ==================== 辅助函数：获取下个月1号的日期 ====================
+function getNextMonthFirstDay(date) {
+    const d = new Date(date);
+    d.setMonth(d.getMonth() + 1);
+    d.setDate(1);
+    d.setHours(4, 0, 0, 0);
+    return d;
+}
+
 // ==================== 账号管理功能 ====================
 let userName = settings.userName || "默认账户";
 
@@ -227,10 +290,10 @@ let followSystem = false;
 if (AKFValue === 0) {
     // 0 表示跟随系统判定
     followSystem = true;
-    log.info("7天商品购买: 跟随系统判定");
+    log.info("每周商品购买: 跟随系统判定");
 } else {
     AFKDay = AKFValue === 7 ? 0 : AKFValue;
-    log.info(`7天商品购买: 每周${AFKDay === 0 ? "日" : AFKDay}购买`);
+    log.info(`每周商品购买: 每周${AFKDay === 0 ? "日" : AFKDay}购买`);
 }
 
 // 获取账号记录路径
@@ -303,7 +366,11 @@ function updateNpcRecord(records, npcName, refreshType, purchasedItems) {
             "3d": [],
             "3d_time": null,
             "7d": [],
-            "7d_time": null
+            "7d_time": null,
+            "thu": [],
+            "thu_time": null,
+            "month": [],
+            "month_time": null
         };
         records.push(record);
     }
@@ -347,9 +414,16 @@ function updateNpcRecord(records, npcName, refreshType, purchasedItems) {
         // 确保刷新时间是04:00
         refreshTime.setHours(4, 0, 0, 0);
     } else if (refreshType === "7d") {
-        // 7天商品：下次刷新是下周一
+        // 7天商品（周一刷新）：下次刷新是下周一
         refreshTime = getMondayOfWeek(now);
         refreshTime.setDate(refreshTime.getDate() + 7);
+    } else if (refreshType === "thu") {
+        // 周四刷新商品：下次刷新是下周四
+        refreshTime = getThursdayOfWeek(now);
+        refreshTime.setDate(refreshTime.getDate() + 7);
+    } else if (refreshType === "month") {
+        // 每月1号刷新商品：下次刷新是下个月1号
+        refreshTime = getNextMonthFirstDay(now);
     }
 
     // 只更新实际购买的商品
@@ -397,20 +471,24 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
     const foodsToBuy = {
         "1d": [],
         "3d": [],
-        "7d": []
+        "7d": [],
+        "thu": [],
+        "month": []
     };
 
     if (forceRefresh) {
         // 强制刷新，但只购买已启用的商品
-        if (npc._1d_foods) foodsToBuy["1d"] = filterUserFoods(npc._1d_foods);
-        if (npc._3d_foods) foodsToBuy["3d"] = filterUserFoods(npc._3d_foods);
-        if (npc._7d_foods) foodsToBuy["7d"] = filterUserFoods(npc._7d_foods);
+        if (npc._1d_foods) foodsToBuy["1d"] = filterUserFoods(npc._1d_foods, npc);
+        if (npc._3d_foods) foodsToBuy["3d"] = filterUserFoods(npc._3d_foods, npc);
+        if (npc._7d_foods) foodsToBuy["7d"] = filterUserFoods(npc._7d_foods, npc);
+        if (npc._thu_foods) foodsToBuy["thu"] = filterUserFoods(npc._thu_foods, npc);
+        if (npc._month_foods) foodsToBuy["month"] = filterUserFoods(npc._month_foods, npc);
         return foodsToBuy;
     }
 
     // 1天商品逻辑
     if (npc._1d_foods) {
-        const enabledFoods = filterUserFoods(npc._1d_foods);
+        const enabledFoods = filterUserFoods(npc._1d_foods, npc);
         if (enabledFoods.length > 0) {
             if (!npcRecord || !npcRecord["1d_time"]) {
                 // 没有记录，需要购买已启用的商品
@@ -431,7 +509,7 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
 
     // 3天商品逻辑
     if (npc._3d_foods) {
-        const enabledFoods = filterUserFoods(npc._3d_foods);
+        const enabledFoods = filterUserFoods(npc._3d_foods, npc);
         if (enabledFoods.length > 0) {
             if (!npcRecord || !npcRecord["3d_time"]) {
                 // 没有记录，直接购买
@@ -456,9 +534,9 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
         }
     }
 
-    // 7天商品逻辑
+    // 7天商品（周一刷新）逻辑
     if (npc._7d_foods) {
-        const enabledFoods = filterUserFoods(npc._7d_foods);
+        const enabledFoods = filterUserFoods(npc._7d_foods, npc);
         if (enabledFoods.length > 0) {
             if (!npcRecord || !npcRecord["7d_time"]) {
                 // 没有记录，直接购买
@@ -494,6 +572,76 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
                     }
                 } else if (recordDebug) {
                     log.info(`[调试] ${npc.name} 的7天商品未到刷新时间，下次刷新: ${formatDateToLocalISO(nextRefreshTime)}`);
+                }
+            }
+        }
+    }
+
+    // 周四刷新商品逻辑（与7天类似，但刷新日不同）
+    if (npc._thu_foods) {
+        const enabledFoods = filterUserFoods(npc._thu_foods, npc);
+        if (enabledFoods.length > 0) {
+            if (!npcRecord || !npcRecord["thu_time"]) {
+                // 没有记录，直接购买
+                foodsToBuy["thu"] = enabledFoods;
+                if (recordDebug) {
+                    log.info(`[调试] ${npc.name} 的周四商品没有记录，直接购买`);
+                }
+            } else {
+                // 有记录，检查是否已刷新
+                const nextRefreshTime = new Date(npcRecord["thu_time"]);
+
+                if (now >= nextRefreshTime) {
+                    // 已到刷新时间，检查是否应该购买（同样受AKF控制）
+                    if (followSystem) {
+                        // 跟随系统模式：直接购买
+                        foodsToBuy["thu"] = enabledFoods;
+                        if (recordDebug) {
+                            log.info(`[调试] ${npc.name} 的周四商品已到刷新时间，跟随系统模式，直接购买`);
+                        }
+                    } else {
+                        // 固定日模式：检查今天是否是指定购买日
+                        const today = getAdjustedDayOfWeek();
+                        const targetDay = AFKDay === 0 ? 7 : AFKDay;
+
+                        if (today === targetDay) {
+                            foodsToBuy["thu"] = enabledFoods;
+                            if (recordDebug) {
+                                log.info(`[调试] ${npc.name} 的周四商品已到刷新时间，今天是指定购买日(${targetDay})，购买`);
+                            }
+                        } else if (recordDebug) {
+                            log.info(`[调试] ${npc.name} 的周四商品已到刷新时间，但今天(${today})不是指定购买日(${targetDay})，不购买`);
+                        }
+                    }
+                } else if (recordDebug) {
+                    log.info(`[调试] ${npc.name} 的周四商品未到刷新时间，下次刷新: ${formatDateToLocalISO(nextRefreshTime)}`);
+                }
+            }
+        }
+    }
+
+    // 每月1号刷新商品逻辑（不受AKF影响）
+    if (npc._month_foods) {
+        const enabledFoods = filterUserFoods(npc._month_foods, npc);
+        if (enabledFoods.length > 0) {
+            if (!npcRecord || !npcRecord["month_time"]) {
+                // 没有记录，直接购买
+                foodsToBuy["month"] = enabledFoods;
+                if (recordDebug) {
+                    log.info(`[调试] ${npc.name} 的每月商品没有记录，直接购买`);
+                }
+            } else {
+                // 有记录，检查是否已刷新
+                const nextRefreshTime = new Date(npcRecord["month_time"]);
+
+                if (now >= nextRefreshTime) {
+                    // 已到刷新时间，直接购买
+                    foodsToBuy["month"] = enabledFoods;
+                    if (recordDebug) {
+                        log.info(`[调试] ${npc.name} 的每月商品已到刷新时间，直接购买`);
+                    }
+                } else if (recordDebug) {
+                    log.info(`[调试] ${npc.name} 的每月商品未到刷新时间，下次刷新: ${formatDateToLocalISO(nextRefreshTime)}`);
                 }
             }
         }
@@ -755,7 +903,7 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
     if (recordDebug) {
         log.info(`[调试] 开始处理: ${displayName}`);
         if (npcRecord) {
-            log.info(`[调试] 当前记录: 1d=${npcRecord["1d_time"] || "无"}, 3d=${npcRecord["3d_time"] || "无"}, 7d=${npcRecord["7d_time"] || "无"}`);
+            log.info(`[调试] 当前记录: 1d=${npcRecord["1d_time"] || "无"}, 3d=${npcRecord["3d_time"] || "无"}, 7d=${npcRecord["7d_time"] || "无"}, thu=${npcRecord["thu_time"] || "无"}, month=${npcRecord["month_time"] || "无"}`);
         }
     }
 
@@ -767,6 +915,8 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
         log.info(`[调试]   1天商品: ${foodsToBuy["1d"].join(", ")}`);
         log.info(`[调试]   3天商品: ${foodsToBuy["3d"].join(", ")}`);
         log.info(`[调试]   7天商品: ${foodsToBuy["7d"].join(", ")}`);
+        log.info(`[调试]   周四商品: ${foodsToBuy["thu"].join(", ")}`);
+        log.info(`[调试]   每月商品: ${foodsToBuy["month"].join(", ")}`);
     }
 
     // 合并所有要购买的食物
@@ -774,6 +924,8 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
     if (foodsToBuy["1d"]) allFoodsToBuy.push(...foodsToBuy["1d"]);
     if (foodsToBuy["3d"]) allFoodsToBuy.push(...foodsToBuy["3d"]);
     if (foodsToBuy["7d"]) allFoodsToBuy.push(...foodsToBuy["7d"]);
+    if (foodsToBuy["thu"]) allFoodsToBuy.push(...foodsToBuy["thu"]);
+    if (foodsToBuy["month"]) allFoodsToBuy.push(...foodsToBuy["month"]);
 
     if (allFoodsToBuy.length === 0) {
         logConditional(`${displayName} 没有需要购买的商品`);
@@ -781,7 +933,9 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
             purchased: [],
             "1d": [],
             "3d": [],
-            "7d": []
+            "7d": [],
+            "thu": [],
+            "month": []
         };
     }
 
@@ -792,12 +946,14 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
     const purchasedByType = {
         "1d": [],
         "3d": [],
-        "7d": []
+        "7d": [],
+        "thu": [],
+        "month": []
     };
 
     // 构建商品到刷新类型的映射
     const foodToRefreshType = {};
-    for (const type of ["1d", "3d", "7d"]) {
+    for (const type of ["1d", "3d", "7d", "thu", "month"]) {
         if (foodsToBuy[type]) {
             for (const food of foodsToBuy[type]) {
                 foodToRefreshType[food] = type;
@@ -891,7 +1047,9 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
         purchased: purchasedFoods,
         "1d": purchasedByType["1d"],
         "3d": purchasedByType["3d"],
-        "7d": purchasedByType["7d"]
+        "7d": purchasedByType["7d"],
+        "thu": purchasedByType["thu"],
+        "month": purchasedByType["month"]
     };
 }
 
@@ -929,7 +1087,9 @@ async function initNpcData(records) {
         // 检查是否有需要购买的商品
         const hasFoodsToBuy = foodsToBuy["1d"].length > 0 ||
             foodsToBuy["3d"].length > 0 ||
-            foodsToBuy["7d"].length > 0;
+            foodsToBuy["7d"].length > 0 ||
+            foodsToBuy["thu"].length > 0 ||
+            foodsToBuy["month"].length > 0;
 
         npc.enable = npc.enable && hasFoodsToBuy;
 
@@ -969,6 +1129,8 @@ async function initNpcData(records) {
                 if (record["1d_time"]) log.info(`[调试]     1天刷新: ${record["1d_time"]}`);
                 if (record["3d_time"]) log.info(`[调试]     3天刷新: ${record["3d_time"]}`);
                 if (record["7d_time"]) log.info(`[调试]     7天刷新: ${record["7d_time"]}`);
+                if (record["thu_time"]) log.info(`[调试]     周四刷新: ${record["thu_time"]}`);
+                if (record["month_time"]) log.info(`[调试]     每月刷新: ${record["month_time"]}`);
             });
         }
 
