@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1762156806510,
+    "last_modified_time": 1771310223371,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "506枫丹-科学院左沙滩北4",
@@ -45,8 +45,8 @@
       "y": 4747.5107421875
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": ";迪希雅 attack(0.08),e;",
       "id": 4,
       "move_mode": "dash",
       "type": "path",
@@ -64,7 +64,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),attack(0.3);迪希雅 e,e;芙宁娜 e;万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),wait(0.2),keypress(f),attack(0.3);芙宁娜 e;万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "id": 6,
       "move_mode": "climb",
       "type": "target",
@@ -99,7 +99,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
+      "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f);迪希雅 e;万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);",
       "id": 10,
       "move_mode": "climb",
       "type": "target",
