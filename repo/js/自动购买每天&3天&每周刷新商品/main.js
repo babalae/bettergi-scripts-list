@@ -458,7 +458,7 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
     };
 
     if (forceRefresh) {
-        // 强制刷新，但只购买已启用的商品
+        // 强制刷新：所有启用商品都尝试
         if (npc._1d_foods) foodsToBuy["1d"] = filterUserFoods(npc._1d_foods);
         if (npc._3d_foods) foodsToBuy["3d"] = filterUserFoods(npc._3d_foods);
         if (npc._7d_foods) foodsToBuy["7d"] = filterUserFoods(npc._7d_foods);
@@ -467,166 +467,44 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
         return foodsToBuy;
     }
 
-    // 1天商品逻辑
-    if (npc._1d_foods) {
-        const enabledFoods = filterUserFoods(npc._1d_foods);
-        if (enabledFoods.length > 0) {
-            if (!npcRecord || !npcRecord["1d_time"]) {
-                // 没有记录，需要购买已启用的商品
-                foodsToBuy["1d"] = enabledFoods;
-            } else {
-                // 读取记录中的下次刷新时间
-                const nextRefreshTime = new Date(npcRecord["1d_time"]);
+    // 辅助函数：处理单个刷新类型
+    function processType(type, enabledFoods, refreshLogic) {
+        if (!enabledFoods || enabledFoods.length === 0) return [];
 
-                if (now >= nextRefreshTime) {
-                    // 已到刷新时间，需要购买
-                    foodsToBuy["1d"] = enabledFoods;
-                } else if (recordDebug) {
-                    log.info(`[调试] ${npc.name} 的1天商品未到刷新时间，下次刷新: ${formatDateToLocalISO(nextRefreshTime)}`);
-                }
-            }
+        // 获取已购买列表（如果记录存在）
+        const purchasedList = npcRecord && npcRecord[type] ? npcRecord[type] : [];
+        // 找出未购买的商品
+        const notPurchased = enabledFoods.filter(food => !purchasedList.includes(food));
+
+        // 如果没有记录或没有刷新时间，说明从未买过，全部尝试
+        if (!npcRecord || !npcRecord[`${type}_time`]) {
+            return enabledFoods;
+        }
+
+        const nextRefreshTime = new Date(npcRecord[`${type}_time`]);
+        if (now >= nextRefreshTime) {
+            // 已到刷新时间：所有商品都应重新尝试（已购买和未购买的都可能再次出现）
+            return enabledFoods;
+        } else {
+            // 未到刷新时间：只尝试从未购买过的商品
+            return notPurchased;
         }
     }
 
-    // 3天商品逻辑
-    if (npc._3d_foods) {
-        const enabledFoods = filterUserFoods(npc._3d_foods);
-        if (enabledFoods.length > 0) {
-            if (!npcRecord || !npcRecord["3d_time"]) {
-                // 没有记录，直接购买
-                foodsToBuy["3d"] = enabledFoods;
-                if (recordDebug) {
-                    log.info(`[调试] ${npc.name} 的3天商品没有记录，直接购买`);
-                }
-            } else {
-                // 有记录，检查是否已刷新
-                const nextRefreshTime = new Date(npcRecord["3d_time"]);
+    // 处理每天刷新商品
+    foodsToBuy["1d"] = processType("1d", filterUserFoods(npc._1d_foods));
 
-                if (now >= nextRefreshTime) {
-                    // 已到刷新时间，需要购买
-                    foodsToBuy["3d"] = enabledFoods;
-                    if (recordDebug) {
-                        log.info(`[调试] ${npc.name} 的3天商品已到刷新时间，需要购买`);
-                    }
-                } else if (recordDebug) {
-                    log.info(`[调试] ${npc.name} 的3天商品未到刷新时间，下次刷新: ${formatDateToLocalISO(nextRefreshTime)}`);
-                }
-            }
-        }
-    }
+    // 处理3天刷新商品
+    foodsToBuy["3d"] = processType("3d", filterUserFoods(npc._3d_foods));
 
-    // 7天商品（周一刷新）逻辑
-    if (npc._7d_foods) {
-        const enabledFoods = filterUserFoods(npc._7d_foods);
-        if (enabledFoods.length > 0) {
-            if (!npcRecord || !npcRecord["7d_time"]) {
-                // 没有记录，直接购买
-                foodsToBuy["7d"] = enabledFoods;
-                if (recordDebug) {
-                    log.info(`[调试] ${npc.name} 的7天商品没有记录，直接购买`);
-                }
-            } else {
-                // 有记录，检查是否已刷新
-                const nextRefreshTime = new Date(npcRecord["7d_time"]);
+    // 处理7天刷新商品（周一刷新）
+    foodsToBuy["7d"] = processType("7d", filterUserFoods(npc._7d_foods));
 
-                if (now >= nextRefreshTime) {
-                    // 已到刷新时间，检查是否应该购买
-                    if (followSystem) {
-                        // 跟随系统模式：直接购买
-                        foodsToBuy["7d"] = enabledFoods;
-                        if (recordDebug) {
-                            log.info(`[调试] ${npc.name} 的7天商品已到刷新时间，跟随系统模式，直接购买`);
-                        }
-                    } else {
-                        // 固定日模式：检查今天是否是指定购买日
-                        const today = getAdjustedDayOfWeek();
-                        const targetDay = AFKDay === 0 ? 7 : AFKDay; // 将0（周日）转换为7
+    // 处理周四刷新商品
+    foodsToBuy["thu"] = processType("thu", filterUserFoods(npc._thu_foods));
 
-                        if (today === targetDay) {
-                            foodsToBuy["7d"] = enabledFoods;
-                            if (recordDebug) {
-                                log.info(`[调试] ${npc.name} 的7天商品已到刷新时间，今天是指定购买日(${targetDay})，购买`);
-                            }
-                        } else if (recordDebug) {
-                            log.info(`[调试] ${npc.name} 的7天商品已到刷新时间，但今天(${today})不是指定购买日(${targetDay})，不购买`);
-                        }
-                    }
-                } else if (recordDebug) {
-                    log.info(`[调试] ${npc.name} 的7天商品未到刷新时间，下次刷新: ${formatDateToLocalISO(nextRefreshTime)}`);
-                }
-            }
-        }
-    }
-
-    // 周四刷新商品逻辑（与7天类似，但刷新日不同）
-    if (npc._thu_foods) {
-        const enabledFoods = filterUserFoods(npc._thu_foods);
-        if (enabledFoods.length > 0) {
-            if (!npcRecord || !npcRecord["thu_time"]) {
-                // 没有记录，直接购买
-                foodsToBuy["thu"] = enabledFoods;
-                if (recordDebug) {
-                    log.info(`[调试] ${npc.name} 的周四商品没有记录，直接购买`);
-                }
-            } else {
-                // 有记录，检查是否已刷新
-                const nextRefreshTime = new Date(npcRecord["thu_time"]);
-
-                if (now >= nextRefreshTime) {
-                    // 已到刷新时间，检查是否应该购买（同样受AKF控制）
-                    if (followSystem) {
-                        // 跟随系统模式：直接购买
-                        foodsToBuy["thu"] = enabledFoods;
-                        if (recordDebug) {
-                            log.info(`[调试] ${npc.name} 的周四商品已到刷新时间，跟随系统模式，直接购买`);
-                        }
-                    } else {
-                        // 固定日模式：检查今天是否是指定购买日
-                        const today = getAdjustedDayOfWeek();
-                        const targetDay = AFKDay === 0 ? 7 : AFKDay;
-
-                        if (today === targetDay) {
-                            foodsToBuy["thu"] = enabledFoods;
-                            if (recordDebug) {
-                                log.info(`[调试] ${npc.name} 的周四商品已到刷新时间，今天是指定购买日(${targetDay})，购买`);
-                            }
-                        } else if (recordDebug) {
-                            log.info(`[调试] ${npc.name} 的周四商品已到刷新时间，但今天(${today})不是指定购买日(${targetDay})，不购买`);
-                        }
-                    }
-                } else if (recordDebug) {
-                    log.info(`[调试] ${npc.name} 的周四商品未到刷新时间，下次刷新: ${formatDateToLocalISO(nextRefreshTime)}`);
-                }
-            }
-        }
-    }
-
-    // 每月1号刷新商品逻辑（不受AKF影响）
-    if (npc._month_foods) {
-        const enabledFoods = filterUserFoods(npc._month_foods);
-        if (enabledFoods.length > 0) {
-            if (!npcRecord || !npcRecord["month_time"]) {
-                // 没有记录，直接购买
-                foodsToBuy["month"] = enabledFoods;
-                if (recordDebug) {
-                    log.info(`[调试] ${npc.name} 的每月商品没有记录，直接购买`);
-                }
-            } else {
-                // 有记录，检查是否已刷新
-                const nextRefreshTime = new Date(npcRecord["month_time"]);
-
-                if (now >= nextRefreshTime) {
-                    // 已到刷新时间，直接购买
-                    foodsToBuy["month"] = enabledFoods;
-                    if (recordDebug) {
-                        log.info(`[调试] ${npc.name} 的每月商品已到刷新时间，直接购买`);
-                    }
-                } else if (recordDebug) {
-                    log.info(`[调试] ${npc.name} 的每月商品未到刷新时间，下次刷新: ${formatDateToLocalISO(nextRefreshTime)}`);
-                }
-            }
-        }
-    }
+    // 处理每月刷新商品
+    foodsToBuy["month"] = processType("month", filterUserFoods(npc._month_foods));
 
     return foodsToBuy;
 }
