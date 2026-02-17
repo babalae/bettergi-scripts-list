@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1771248205039,
+    "last_modified_time": 1771299801495,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "蒙德-蒙德城-天使的馈赠-查尔斯",
@@ -49,6 +49,15 @@
       "action": "",
       "action_params": "",
       "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -894.005859375,
+      "y": 2319.78125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
       "move_mode": "run",
       "type": "path",
       "x": -908.830078125,
@@ -57,7 +66,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "dash",
       "type": "path",
       "x": -921.044921875,
@@ -66,7 +75,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 6,
+      "id": 7,
       "move_mode": "walk",
       "type": "path",
       "x": -923.63671875,
@@ -75,7 +84,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 7,
+      "id": 8,
       "move_mode": "dash",
       "type": "path",
       "x": -930.8125,
@@ -84,7 +93,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 8,
+      "id": 9,
       "move_mode": "walk",
       "type": "path",
       "x": -934.296875,
@@ -93,7 +102,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 10,
       "move_mode": "walk",
       "type": "path",
       "x": -933.291015625,
@@ -102,7 +111,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.5),keypress(F),wait(0.2),keypress(F),wait(0.2),keypress(F),wait(7.5),keydown(a),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keyup(a),wait(0.5),s(0.5),wait(0.5),d(2),wait(0.5),w(0.8),wait(0.5),a(0.5),wait(1.5)",
-      "id": 10,
+      "id": 11,
       "move_mode": "walk",
       "type": "target",
       "x": -929.392578125,

@@ -111,6 +111,9 @@ let npcData = {};
 
 // 存储用户要购买的商品名称集合（中文名）
 let userFoodsToBuy = new Set();
+let userTagsToBuy = new Set();    // 标签名
+let allTags = new Set();          // 所有可用标签（从 npcs.json 收集）
+let requiredFoods = new Set();  // 所有需要加载图片的商品
 
 async function loadExternalData() {
     try {
@@ -119,31 +122,78 @@ async function loadExternalData() {
         npcData = JSON.parse(npcsContent);
         logConditional(`已加载商人数据: ${Object.keys(npcData).length} 个商人`);
 
-        // 解析用户要购买的商品列表（中文商品名，空格分隔）
+        // ========== 收集所有标签 ==========
+        for (let key in npcData) {
+            let npc = npcData[key];
+            if (npc.tags && Array.isArray(npc.tags)) {
+                npc.tags.forEach(tag => allTags.add(tag));
+            }
+        }
+        logConditional(`共收集到 ${allTags.size} 个标签`);
+
+        // ========== 解析用户输入 ==========
         const foodsInput = (settings.foodsToBuy || "").trim();
         if (foodsInput) {
-            const foodNames = foodsInput.split(/[,\s、]+/).filter(name => name.trim() !== "");
+            const items = foodsInput.split(/[,\s、]+/).filter(item => item.trim() !== "");
             const enabledFoodsList = [];
-            for (const foodName of foodNames) {
-                // 直接使用用户输入的商品名，不需要验证是否存在（由用户自行确保）
-                userFoodsToBuy.add(foodName);
-                enabledFoodsList.push(foodName);
+            const enabledTagsList = [];
+
+            for (const item of items) {
+                if (allTags.has(item)) {
+                    // 是标签
+                    userTagsToBuy.add(item);
+                    enabledTagsList.push(item);
+                } else {
+                    // 视为商品名
+                    userFoodsToBuy.add(item);
+                    enabledFoodsList.push(item);
+                }
             }
-            // 输出用户启用的商品列表
+
+            // 输出用户启用的标签和商品
+            if (enabledTagsList.length > 0) {
+                log.info(`用户启用了以下标签: ${enabledTagsList.join(", ")}`);
+            }
             if (enabledFoodsList.length > 0) {
-                log.info(`用户启用了下列商品: ${enabledFoodsList.join(", ")}`);
-            } else {
-                log.warn("用户未启用任何商品");
+                log.info(`用户启用了以下商品: ${enabledFoodsList.join(", ")}`);
+            }
+            if (enabledTagsList.length === 0 && enabledFoodsList.length === 0) {
+                log.warn("用户未启用任何标签或商品");
             }
         } else {
-            log.warn("用户未指定要购买的商品");
+            log.warn("用户未指定要购买的商品或标签");
         }
+
+        // 计算所有需要加载图片的商品
+        requiredFoods = new Set(userFoodsToBuy);
+        for (let key in npcData) {
+            let npc = npcData[key];
+            if (npc.tags && Array.isArray(npc.tags) && npc.tags.some(tag => userTagsToBuy.has(tag))) {
+                if (npc._1d_foods) npc._1d_foods.forEach(food => requiredFoods.add(food));
+                if (npc._3d_foods) npc._3d_foods.forEach(food => requiredFoods.add(food));
+                if (npc._7d_foods) npc._7d_foods.forEach(food => requiredFoods.add(food));
+                if (npc._thu_foods) npc._thu_foods.forEach(food => requiredFoods.add(food));
+                if (npc._month_foods) npc._month_foods.forEach(food => requiredFoods.add(food));
+            }
+        }
+        logConditional(`需要加载图片的商品总数: ${requiredFoods.size}`);
 
         return true;
     } catch (error) {
         log.error(`加载外部数据失败: ${error.message}`);
         return false;
     }
+}
+
+// ==================== 辅助函数：获取商人的所有商品 ====================
+function getAllNpcFoods(npc) {
+    const all = [];
+    if (npc._1d_foods) all.push(...npc._1d_foods);
+    if (npc._3d_foods) all.push(...npc._3d_foods);
+    if (npc._7d_foods) all.push(...npc._7d_foods);
+    if (npc._thu_foods) all.push(...npc._thu_foods);
+    if (npc._month_foods) all.push(...npc._month_foods);
+    return all;
 }
 
 // ==================== 辅助函数：过滤用户要购买的商品 ====================
@@ -230,12 +280,6 @@ let userName = settings.userName || "默认账户";
 // 确保设置变量存在
 const ignoreRecords = settings.ignoreRecords || false;
 const recordDebug = settings.recordDebug || false;
-
-// 解析禁用的商人列表
-const disabledNpcs = (settings.disabledNpcs || "").split(/[,\s、]+/).filter(npc => npc.trim() !== "");
-if (disabledNpcs.length > 0) {
-    log.info(`已禁用商人: ${disabledNpcs.join(", ")}`);
-}
 
 // 解析禁用的标签列表
 const disabledTags = (settings.disabledTags || "").split(/[,\s、]+/).filter(tag => tag.trim() !== "");
@@ -457,54 +501,71 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
         "month": []
     };
 
+    // 首先检查禁用（此处假设之前已检查过，但为防止遗漏，可再加一道保险）
+    // 实际上禁用检查在更外层（initNpcData 和主循环）已经处理，这里可以省略
+
     if (forceRefresh) {
-        // 强制刷新：所有启用商品都尝试
-        if (npc._1d_foods) foodsToBuy["1d"] = filterUserFoods(npc._1d_foods);
-        if (npc._3d_foods) foodsToBuy["3d"] = filterUserFoods(npc._3d_foods);
-        if (npc._7d_foods) foodsToBuy["7d"] = filterUserFoods(npc._7d_foods);
-        if (npc._thu_foods) foodsToBuy["thu"] = filterUserFoods(npc._thu_foods);
-        if (npc._month_foods) foodsToBuy["month"] = filterUserFoods(npc._month_foods);
+        // 强制刷新：决定使用完整列表还是具体商品列表
+        // 先判断是否命中标签
+        let useAll = false;
+        if (npc.tags && Array.isArray(npc.tags)) {
+            useAll = npc.tags.some(tag => userTagsToBuy.has(tag));
+        }
+        if (useAll) {
+            // 标签商人：购买所有商品
+            if (npc._1d_foods) foodsToBuy["1d"] = npc._1d_foods;
+            if (npc._3d_foods) foodsToBuy["3d"] = npc._3d_foods;
+            if (npc._7d_foods) foodsToBuy["7d"] = npc._7d_foods;
+            if (npc._thu_foods) foodsToBuy["thu"] = npc._thu_foods;
+            if (npc._month_foods) foodsToBuy["month"] = npc._month_foods;
+        } else {
+            // 非标签商人：只购买用户明确指定的商品
+            if (npc._1d_foods) foodsToBuy["1d"] = filterUserFoods(npc._1d_foods);
+            if (npc._3d_foods) foodsToBuy["3d"] = filterUserFoods(npc._3d_foods);
+            if (npc._7d_foods) foodsToBuy["7d"] = filterUserFoods(npc._7d_foods);
+            if (npc._thu_foods) foodsToBuy["thu"] = filterUserFoods(npc._thu_foods);
+            if (npc._month_foods) foodsToBuy["month"] = filterUserFoods(npc._month_foods);
+        }
         return foodsToBuy;
     }
 
-    // 辅助函数：处理单个刷新类型
-    function processType(type, enabledFoods, refreshLogic) {
-        if (!enabledFoods || enabledFoods.length === 0) return [];
+    // 辅助函数：处理单个类型，根据是否命中标签决定使用完整列表还是过滤列表
+    function processType(type, fullList) {
+        if (!fullList || fullList.length === 0) return [];
 
-        // 获取已购买列表（如果记录存在）
+        // 判断该商人是否命中用户标签（只需判断一次，可在外层缓存结果）
+        // 此处简单处理：每次调用都判断，但实际可优化
+        let useAll = false;
+        if (npc.tags && Array.isArray(npc.tags)) {
+            useAll = npc.tags.some(tag => userTagsToBuy.has(tag));
+        }
+
+        // 确定要购买的候选商品列表
+        let candidateList = useAll ? fullList : filterUserFoods(fullList);
+        if (candidateList.length === 0) return [];
+
+        // 获取已购买列表
         const purchasedList = npcRecord && npcRecord[type] ? npcRecord[type] : [];
         // 找出未购买的商品
-        const notPurchased = enabledFoods.filter(food => !purchasedList.includes(food));
+        const notPurchased = candidateList.filter(food => !purchasedList.includes(food));
 
-        // 如果没有记录或没有刷新时间，说明从未买过，全部尝试
         if (!npcRecord || !npcRecord[`${type}_time`]) {
-            return enabledFoods;
+            return candidateList; // 从未买过，全部尝试
         }
 
         const nextRefreshTime = new Date(npcRecord[`${type}_time`]);
         if (now >= nextRefreshTime) {
-            // 已到刷新时间：所有商品都应重新尝试（已购买和未购买的都可能再次出现）
-            return enabledFoods;
+            return candidateList; // 已刷新，全部尝试
         } else {
-            // 未到刷新时间：只尝试从未购买过的商品
-            return notPurchased;
+            return notPurchased;   // 未刷新，只尝试未购买过的
         }
     }
 
-    // 处理每天刷新商品
-    foodsToBuy["1d"] = processType("1d", filterUserFoods(npc._1d_foods));
-
-    // 处理3天刷新商品
-    foodsToBuy["3d"] = processType("3d", filterUserFoods(npc._3d_foods));
-
-    // 处理7天刷新商品（周一刷新）
-    foodsToBuy["7d"] = processType("7d", filterUserFoods(npc._7d_foods));
-
-    // 处理周四刷新商品
-    foodsToBuy["thu"] = processType("thu", filterUserFoods(npc._thu_foods));
-
-    // 处理每月刷新商品
-    foodsToBuy["month"] = processType("month", filterUserFoods(npc._month_foods));
+    foodsToBuy["1d"] = processType("1d", npc._1d_foods);
+    foodsToBuy["3d"] = processType("3d", npc._3d_foods);
+    foodsToBuy["7d"] = processType("7d", npc._7d_foods);
+    foodsToBuy["thu"] = processType("thu", npc._thu_foods);
+    foodsToBuy["month"] = processType("month", npc._month_foods);
 
     return foodsToBuy;
 }
@@ -719,8 +780,7 @@ let foodROMap = {}; // 键为商品名（中文），值为 RecognitionObject
 // 加载识别对象（只加载用户选择的商品）
 async function initRo() {
     try {
-        for (let foodName of userFoodsToBuy) {
-            // 图片文件路径：assets/images/商品名.png
+        for (let foodName of requiredFoods) {
             const imagePath = `assets/images/${foodName}.png`;
             try {
                 const ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagePath));
@@ -732,13 +792,11 @@ async function initRo() {
                 log.error(`加载商品图片失败: ${imagePath}，请确保图片存在`);
             }
         }
-        // 加载其他识别对象（购买按钮等）
         for (let [key, item] of Object.entries(othrtRo)) {
             item.ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(item.file));
             item.ro.Threshold = 0.85;
         }
-
-        logConditional(`总共启用了 ${userFoodsToBuy.size} 种商品`);
+        logConditional(`总共启用了 ${requiredFoods.size} 种商品`);
         return true;
     }
     catch (error) {
@@ -915,14 +973,6 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
 // 初始化商人商品
 async function initNpcData(records) {
     for (let [key, npc] of Object.entries(npcData)) {
-        // 检查是否在禁用列表中
-        if (disabledNpcs.includes(npc.name)) {
-            npc.enable = false;
-            const displayName = getDisplayNameFromPath(npc.path);
-            logConditional(`已禁用: ${displayName}`);
-            continue;
-        }
-
         // 检查是否通过标签禁用
         if (npc.tags && Array.isArray(npc.tags)) {
             const hasDisabledTag = npc.tags.some(tag => disabledTags.includes(tag));

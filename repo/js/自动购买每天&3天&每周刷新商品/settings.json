@@ -28,16 +28,10 @@
         "default": "0"
     },
     {
-        "name": "disabledNpcs",
-        "type": "input-text",
-        "label": "要禁用的商人\n（多个商人用空格分隔）\n示例：阿扎莱 皮托",
-        "default": "阿扎莱 皮托"
-    },
-    {
         "name": "disabledTags",
         "type": "input-text",
-        "label": "禁用标签\n（多个标签以空格分隔，如：黑心商人 挪德卡莱）",
-        "default": ""
+        "label": "禁用标签\n（多个标签以空格分隔，如： 挪德卡莱 黑心商人 卡琵莉亚）",
+        "default": "卡琵莉亚"
     },
     {
         "name": "skip",
