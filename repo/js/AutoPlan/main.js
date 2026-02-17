@@ -177,7 +177,7 @@ async function autoRunList(autoRunOrderList) {
 }
 
 // 辅助函数：安全地解析 day 字段
-function parseDay(day) {
+function parseInteger(day) {
     if (day == null || String(day).trim() === "") {
         return undefined; // 空值或无效值返回 undefined
     }
@@ -205,11 +205,11 @@ async function loadMode(Load, autoFightOrderSet, runConfig) {
                     // 将秘境顺序对象添加到列表中
                     // 主逻辑优化
                     // if (item.day !== undefined) {
-                    //     item.day = parseDay(item.day);
+                    //     item.day = parseInteger(item.day);
                     // }
                     if (item.days && item.days.length > 0) {
-                        item.days = item.days.map(day => parseDay(day))
-                        // item.day = parseDay(item.day);
+                        item.days = item.days.map(day => parseInteger(day))
+                        // item.day = parseInteger(item.day);
                     }
                     autoFightOrderSet.add(item)
                 })
@@ -298,8 +298,8 @@ async function loadMode(Load, autoFightOrderSet, runConfig) {
                     // 将秘境顺序对象添加到列表中
                     // 主逻辑优化
                     if (item.days && item.days.length > 0) {
-                        item.days = item.days.map(day => parseDay(day))
-                        // item.day = parseDay(item.day);
+                        item.days = item.days.map(day => parseInteger(day))
+                        // item.day = parseInteger(item.day);
                     }
                     autoFightOrderSet.add(item)
                 })
