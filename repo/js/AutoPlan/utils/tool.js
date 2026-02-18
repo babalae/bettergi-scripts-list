@@ -110,9 +110,13 @@ const isInMainUI = () => {
         genshinJson.width / 5.0
     );
     let captureRegion = captureGameRegion();
-    let res = captureRegion.find(paimonMenuRo);
-    captureRegion.Dispose()
-    return !res.isEmpty();
+    try {
+        let res = captureRegion.find(paimonMenuRo);
+        return !res.isEmpty();
+    }finally {
+        captureRegion.Dispose()
+    }
+
 };
 
 async function toMainUi() {
@@ -143,9 +147,12 @@ const isInOutDomainUI = () => {
         genshinJson.width / 5.0
     );
     let captureRegion = captureGameRegion();
-    let res = captureRegion.find(paimonMenuRo);
-    captureRegion.Dispose()
-    return !res.isEmpty();
+    try {
+        let res = captureRegion.find(paimonMenuRo);
+        return !res.isEmpty();
+    }finally {
+        captureRegion.Dispose()
+    }
 };
 
 async function outDomainUI() {
@@ -156,21 +163,25 @@ async function outDomainUI() {
         await sleep(ms);
         await keyPress("ESCAPE");
         await sleep(ms);
+        if (isInMainUI()){
+          break
+        } else if (isInOutDomainUI()) {
+            try {
+                //点击确认按钮
+                await findTextAndClick('确认')
+            }catch (e) {
+                // log.error(`多次尝试点击确认失败 假定已经退出处理`);
+            }
+
+        }
         if (index > 3) {
             log.error(`多次尝试匹配退出秘境界面失败 假定已经退出处理`);
+            break
         }
         index += 1
     }
 
-    if (isInOutDomainUI()) {
-        try {
-            //点击确认按钮
-            await findTextAndClick('确认')
-        }catch (e) {
-            log.error(`多次尝试点击确认失败 假定已经退出处理`);
-        }
 
-    }
 
 }
 

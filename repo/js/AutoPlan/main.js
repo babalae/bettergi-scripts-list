@@ -223,6 +223,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                         let autoOrder = {
                             order: order,      // 顺序值
                             // day: day,// 执行日期
+                            runType: runType,  // 运行类型
                             days: days,        // 执行日期（数组）
                             autoFight: undefined, // 秘境信息对象
                             autoLeyLineOutcrop: undefined // 地脉信息对象
@@ -417,6 +418,7 @@ async function initRunOrderList(domainConfig) {
             // if (item.day) {
             //     return item.day === dayOfWeek.day
             // }
+            log.debug(`[{1}]item.days.length:{0}`, dayOfWeek.day, item?.days?.length||0)
             if (item.days && item.days.length > 0) {
                 const includes = item.days.includes(dayOfWeek.day);
                 log.debug(`[{1}]item.days:{0}`, dayOfWeek.day, JSON.stringify(item.days))
