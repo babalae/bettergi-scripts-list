@@ -1966,6 +1966,16 @@ async function ingredientProcessing() {
         await sleep(200);
         /* 正常完成：仅领取，不移除 */
         if (await clickPNG("全部领取", 3)) {
+            let dowait = false;
+            await sleep(4 * checkInterval);
+            while (await findPNG("道具数量超过上限")) {
+                await sleep(checkInterval * 4);
+                log.info("识别到道具数量超过上限，等待消失");
+                dowait = true;
+            }
+            if (dowait) {
+                await sleep(10 * checkInterval)
+            }
             await clickPNG("点击空白区域继续");
             await findPNG("食材加工2");
             await sleep(100);
@@ -1975,6 +1985,16 @@ async function ingredientProcessing() {
     /* ===== 2. 两轮扫描 ===== */
     // 进入界面先领取一次
     if (await clickPNG("全部领取", 3)) {
+        let dowait = false;
+        await sleep(4 * checkInterval);
+        while (await findPNG("道具数量超过上限")) {
+            await sleep(checkInterval * 4);
+            log.info("识别到道具数量超过上限，等待消失");
+            dowait = true;
+        }
+        if (dowait) {
+            await sleep(10 * checkInterval)
+        }
         await clickPNG("点击空白区域继续");
         await findPNG("食材加工2");
         await sleep(100);
