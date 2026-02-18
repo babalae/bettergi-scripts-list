@@ -339,7 +339,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
             // 通过UID方式加载配置
             const uid = config.user.uid || (await ocrUid()) // 获取用户UID，如果未配置则通过OCR识别获取
             const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.runConfig)) || new Map() // 读取本地配置文件并转换为Map对象
-            const uidConfigList = configAutoFightOrderMap.get(uid) || []; // 获取当前UID对应的配置列表
+            const uidConfigList = configAutoFightOrderMap.get(uid+"") || []; // 获取当前UID对应的配置列表
             if (uidConfigList?.length > 0) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
                 uidConfigList.forEach(item => {

@@ -80,7 +80,7 @@
 ```json
 [
   [
-    uid,
+    "uid",
     [
       {
         "order": 1,
@@ -158,7 +158,7 @@
 ```json
 [
   [
-    10000002,
+    "10000002",
     [
       {
         "order": 1,
@@ -212,7 +212,6 @@
           "useTransientResin": false,
           "isNotification": false
         }
-      }
       }
     ]
   ]
