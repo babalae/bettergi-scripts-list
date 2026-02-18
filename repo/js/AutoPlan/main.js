@@ -234,6 +234,14 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             throwError(`运行类型${runType}输入错误`)
                         }
                         else if (config.user.runTypes[0] === runType) {
+                            // 创建秘境信息对象
+                            let autoFight = {
+                                domainName: undefined,//秘境名称
+                                partyName: undefined,//队伍名称
+                                sundaySelectedValue: 1,//周日|限时选择的值
+                                domainRoundNum: 0,//副本轮数
+                            }
+
                             //"|队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日,..."
                             let partyName = arr[index]; // 解析队伍名称
                             index++
@@ -262,13 +270,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                     throw new Error(`${domainName} 输入错误`);
                                 }
                             }
-                            // 创建秘境信息对象
-                            let autoFight = {
-                                domainName: undefined,//秘境名称
-                                partyName: undefined,//队伍名称
-                                sundaySelectedValue: undefined,//周日|限时选择的值
-                                domainRoundNum: undefined,//副本轮数
-                            }
+
                             // 设置秘境信息的各个属性
                             autoFight.partyName = partyName       // 队伍名称
                             autoFight.domainName = domainName      // 秘境名称
