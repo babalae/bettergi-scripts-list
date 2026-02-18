@@ -18,6 +18,17 @@
       "default": ""
     },
     {
+      "name": "retry_count",
+      "type": "select",
+      "label": "复活重试次数",
+      "options": [
+      "1","2","3",
+      "4","5","6",
+      "7","8","9",
+      ] ,
+      "default": "3"
+    },
+    {
         "type": "separator"
     },
     {
@@ -39,8 +50,7 @@
       "type": "input-text",
       "label": "bgi_tools推送全部配置api(去看文档)",
       "default": "http://127.0.0.1:8081/bgi/auto/plan/domain/json/all"
-    }
-,
+    },
     {
       "name": "bgi_tools_token",
       "type": "input-text",

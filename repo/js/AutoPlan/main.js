@@ -88,7 +88,7 @@ async function autoDomain(autoFight) {
     log.debug(`副本轮数:${domainParam.DomainRoundNum}`)
 
     // 复活重试
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < config.run.retry_count; i++) {
         try {
             await dispatcher.RunAutoDomainTask(domainParam);
             // 其他场景不重试
@@ -102,6 +102,7 @@ async function autoDomain(autoFight) {
             throw e;
         }
     }
+    await outDomainUI()
 }
 
 /**
@@ -145,7 +146,7 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
     param.isResinExhaustionMode = true;
     param.openModeCountMin = true;
     // 复活重试
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < config.run.retry_count; i++) {
         try {
             await dispatcher.RunAutoLeyLineOutcropTask(param);
             // 其他场景不重试
