@@ -181,7 +181,7 @@ let checkInterval = +settings.checkInterval || 50;
         {
             "name": "priorityItemsPartyName",
             "type": "input-text",
-            "label": "优先采集材料使用的配队名称"
+            "label": "优先采集材料使用的备用配队名称\n在指定路线不存在对应文件夹指定的配队时使用"
         },
         {
             "name": "disableJsons",
@@ -512,6 +512,7 @@ let checkInterval = +settings.checkInterval || 50;
 
             if (priorityList.length === 0) {
                 log.info("今日优先材料已达标，跳过优先采集阶段");
+                notification.send("今日优先材料已达标，跳过优先采集阶段");
             }
             /* ================================= */
 
@@ -761,8 +762,9 @@ let checkInterval = +settings.checkInterval || 50;
                             !runOnce.includes(f.fileName);     // 本轮没跑过
                     })
                     .sort((a, b) => b._priorityEff - a._priorityEff);
-                if (candidateRoutes.length === 0) {
-                    log.info('已无可用优先路线（可能全部在CD或已达标），退出优先采集阶段');
+                if (candidateRoutes.length === 0 && priorityList.length > 0) {
+                    log.info('已无可用优先路线（可能全部在CD），退出优先采集阶段');
+                    notification.send('已无可用优先路线（可能全部在CD），退出优先采集阶段');
                     break;
                 }
                 const bestRoute = candidateRoutes[0];
@@ -966,7 +968,12 @@ let checkInterval = +settings.checkInterval || 50;
                     await appendDailyPickup(state.runPickupLog);
                     state.runPickupLog = [];
                 }
+                if (priorityList.length <= 0) {
+                    log.info('每日优先材料已达标，退出优先采集阶段');
+                    notification.send('每日优先材料已达标，退出优先采集阶段');
+                }
             }
+            await sleep(1000);
         }
         let loopattempts = 0;
         // ==================== 路径组循环 ====================
@@ -980,6 +987,9 @@ let checkInterval = +settings.checkInterval || 50;
 
                 const folder = folderNames[i - 1] || `路径组${i}`;
                 const targetFolder = `pathing/${folder} `;
+
+                log.info(`开始执行路径组${i} 文件夹：${folder}`);
+                notification.send(`开始执行路径组${i} 文件夹：${folder}`);
 
                 /* 运行期同样用 Map<fileName, 原对象> 只改 cdTime */
                 const rawRecord = await file.readText(recordFilePath);
@@ -1956,6 +1966,16 @@ async function ingredientProcessing() {
         await sleep(200);
         /* 正常完成：仅领取，不移除 */
         if (await clickPNG("全部领取", 3)) {
+            let dowait = false;
+            await sleep(4 * checkInterval);
+            while (await findPNG("道具数量超过上限")) {
+                await sleep(checkInterval * 4);
+                log.info("识别到道具数量超过上限，等待消失");
+                dowait = true;
+            }
+            if (dowait) {
+                await sleep(10 * checkInterval)
+            }
             await clickPNG("点击空白区域继续");
             await findPNG("食材加工2");
             await sleep(100);
@@ -1965,6 +1985,16 @@ async function ingredientProcessing() {
     /* ===== 2. 两轮扫描 ===== */
     // 进入界面先领取一次
     if (await clickPNG("全部领取", 3)) {
+        let dowait = false;
+        await sleep(4 * checkInterval);
+        while (await findPNG("道具数量超过上限")) {
+            await sleep(checkInterval * 4);
+            log.info("识别到道具数量超过上限，等待消失");
+            dowait = true;
+        }
+        if (dowait) {
+            await sleep(10 * checkInterval)
+        }
         await clickPNG("点击空白区域继续");
         await findPNG("食材加工2");
         await sleep(100);
