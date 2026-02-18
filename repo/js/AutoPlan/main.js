@@ -1,7 +1,7 @@
 import {config, initConfig, initSettings, LoadType} from './config/config';
 import {ocrUid} from './utils/uid';
 import {getDayOfWeek, outDomainUI, throwError} from './utils/tool';
-import {pullJsonConfig, pushAllJsonConfig} from './utils/bgi_tools';
+import {pullJsonConfig, pushAllCountryConfig, pushAllJsonConfig} from './utils/bgi_tools';
 import {ocrPhysical} from "./utils/physical";
 
 /**
@@ -453,6 +453,7 @@ async function main() {
     if (config.bgi_tools.open.open_push) {
         log.info(`开始推送bgi_tools配置`)
         await pushAllJsonConfig(JSON.parse(file.readTextSync(config.path.domain)), config.bgi_tools.api.httpPushAllJsonConfig, config.bgi_tools.token)
+        await pushAllCountryConfig(JSON.parse(file.readTextSync(config.path.countryList)), config.bgi_tools.api.httpPushAllCountryConfig, config.bgi_tools.token)
     }
     // 获取配置
     let runConfig = config.run.config;
