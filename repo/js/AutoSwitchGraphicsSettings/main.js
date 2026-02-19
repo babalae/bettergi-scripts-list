@@ -9,14 +9,26 @@ const graphicsTextRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("as
 
 // 封装好的点击以上两个按钮操作
 const findAndClick = async (object) => {
-	let res = captureGameRegion().Find(object);
-	res.click();
-	res.click(); // 点两次是因为设置图标有的时候点一次无反应
+	let res = captureGameRegion();
+	if (!res) {
+		log.error("截图失败");
+		return;
+	}
+	let found = res.Find(object);
+	if (!found) {
+		log.error("未能找到目标元素，请确认游戏界面状态");
+		return;
+	}
+	found.click();
+	found.click(); // 点两次是因为设置图标有的时候点一次无反应
+	res.Dispose();
 };
 
 // 封装好的寻找选项功能
 const findOption = async (optionName) => {
-	let ocrList = captureGameRegion().findMulti(RecognitionObject.ocrThis);
+	let pic = captureGameRegion();
+	let ocrList = pic.findMulti(RecognitionObject.ocrThis);
+	pic.Dispose();
 	for(let i = 0;i < ocrList.count; i++)
 		if(ocrList[i].Text === optionName)
 			return ocrList[i];
