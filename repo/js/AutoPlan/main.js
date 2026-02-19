@@ -464,7 +464,18 @@ async function main() {
         || (item.runType === config.user.runTypes[1] && item?.autoLeyLineOutcrop.count > 0)
     )
     if (list?.length > 0) {
-        await autoRunList(list);
+        //循环跑
+        while (true){
+            await autoRunList(list);
+            if (true){
+                //不循环跑
+                break
+            }else
+            if (config.user.physical.current<config.user.physical.min){
+                //体力耗尽
+                break
+            }
+        }
     } else {
         log.info(`本日无计划`)
     }
