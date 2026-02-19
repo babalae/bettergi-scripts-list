@@ -86,23 +86,26 @@ async function autoDomain(autoFight) {
         throwError(e.message)
     }
     log.debug(`副本轮数:${domainParam.DomainRoundNum}`)
-
-    // 复活重试
-    for (let i = 0; i < config.run.retry_count; i++) {
-        try {
-            await dispatcher.RunAutoDomainTask(domainParam);
-            // 其他场景不重试
-            break;
-        } catch (e) {
-            const errorMessage = e.message
-            // 只有选择了秘境的时候才会重试
-            if (errorMessage.includes("复活") && domainParam.DomainName) {
-                continue;
+    try {
+        // 复活重试
+        for (let i = 0; i < config.run.retry_count; i++) {
+            try {
+                await dispatcher.RunAutoDomainTask(domainParam);
+                // 其他场景不重试
+                break;
+            } catch (e) {
+                const errorMessage = e.message
+                // 只有选择了秘境的时候才会重试
+                if (errorMessage.includes("复活") && domainParam.DomainName) {
+                    continue;
+                }
+                throw e;
             }
-            throw e;
         }
+    } finally {
+        // 退出秘境
+        await outDomainUI()
     }
-    await outDomainUI()
 }
 
 /**
@@ -203,7 +206,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                         // 将当前项按"|"分割成数组
                         let arr = item.split("|")
                         // 类型|执行日期|执行顺序
-                        let index=0
+                        let index = 0
                         let runType = arr[index]; // 解析运行类型
                         index++
                         let days = arr[index].trim() !== ""
@@ -234,8 +237,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
 
                         if (!config.user.runTypes.includes(runType)) {
                             throwError(`运行类型${runType}输入错误`)
-                        }
-                        else if (config.user.runTypes[0] === runType) {
+                        } else if (config.user.runTypes[0] === runType) {
                             // 创建秘境信息对象
                             let autoFight = {
                                 domainName: undefined,//秘境名称
@@ -251,9 +253,9 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             index++
                             let domainRoundNum = arr[index]; // 解析副本轮数
                             index++
-                            let sundaySelectedValue="1"
-                            if (index<arr.length)
-                             sundaySelectedValue = arr[index]; // 解析周日|限时选择的值
+                            let sundaySelectedValue = "1"
+                            if (index < arr.length)
+                                sundaySelectedValue = arr[index]; // 解析周日|限时选择的值
 
                             // 检查秘境名称是否有效
                             if (!config.domainNames.has(domainName)) {
@@ -263,7 +265,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                     if (!domainNameTemp) {
                                         throw new Error(`${domainName} 输入错误`);
                                     }
-                                    if (index<arr.length){
+                                    if (index < arr.length) {
                                         const domainSelectedValue = parseInt(config.domainOrderMap.get(domainName) + "");
                                         sundaySelectedValue = domainSelectedValue
                                     }
@@ -279,11 +281,10 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             autoFight.domainRoundNum = domainRoundNum  // 副本轮数
                             autoFight.sundaySelectedValue = sundaySelectedValue // 周日|限时选择的值
 
-                            autoOrder.autoFight=autoFight // 将秘境信息对象添加到秘境顺序对象中
-                        }
-                        else if(config.user.runTypes[1]===runType){
+                            autoOrder.autoFight = autoFight // 将秘境信息对象添加到秘境顺序对象中
+                        } else if (config.user.runTypes[1] === runType) {
                             //"|队伍名称|国家|刷几轮|花类型|好感队|是否使用脆弱树脂|是否使用须臾树脂|是否前往合成台合成浓缩树脂|是否使用冒险之证|发送详细通知|战斗超时时间,..."
-                            let autoLeyLineOutcrop={
+                            let autoLeyLineOutcrop = {
                                 count: 0,                        // 刷几次（0=自动/无限）
                                 country: undefined,                     // 国家地区
                                 leyLineOutcropType: undefined, // 需映射为经验/摩拉
@@ -297,36 +298,36 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                 isNotification: false            // 是否通知
                             }
                             index++
-                            autoLeyLineOutcrop.team=arr[index]
+                            autoLeyLineOutcrop.team = arr[index]
                             index++
-                            autoLeyLineOutcrop.country=arr[index]
+                            autoLeyLineOutcrop.country = arr[index]
                             index++
-                            autoLeyLineOutcrop.count=arr[index]
+                            autoLeyLineOutcrop.count = arr[index]
                             index++
-                            autoLeyLineOutcrop.leyLineOutcropType=arr[index]
+                            autoLeyLineOutcrop.leyLineOutcropType = arr[index]
                             index++
-                            if (index<arr.length)
-                            autoLeyLineOutcrop.friendshipTeam=arr[index]
+                            if (index < arr.length)
+                                autoLeyLineOutcrop.friendshipTeam = arr[index]
                             index++
-                            if (index<arr.length)
-                            autoLeyLineOutcrop.useFragileResin=arr[index].trim()!==""
+                            if (index < arr.length)
+                                autoLeyLineOutcrop.useFragileResin = arr[index].trim() !== ""
                             index++
-                            if (index<arr.length)
-                            autoLeyLineOutcrop.useTransientResin=arr[index].trim()!==""
+                            if (index < arr.length)
+                                autoLeyLineOutcrop.useTransientResin = arr[index].trim() !== ""
                             index++
-                            if (index<arr.length)
-                            autoLeyLineOutcrop.isGoToSynthesizer=arr[index].trim()!==""
+                            if (index < arr.length)
+                                autoLeyLineOutcrop.isGoToSynthesizer = arr[index].trim() !== ""
                             index++
-                            if (index<arr.length)
-                            autoLeyLineOutcrop.useAdventurerHandbook=arr[index].trim()!==""
+                            if (index < arr.length)
+                                autoLeyLineOutcrop.useAdventurerHandbook = arr[index].trim() !== ""
                             index++
-                            if (index<arr.length)
-                            autoLeyLineOutcrop.isNotification=arr[index].trim()!==""
+                            if (index < arr.length)
+                                autoLeyLineOutcrop.isNotification = arr[index].trim() !== ""
                             index++
-                            if (index<arr.length)
-                            autoLeyLineOutcrop.timeout=parseInteger(arr[index])
+                            if (index < arr.length)
+                                autoLeyLineOutcrop.timeout = parseInteger(arr[index])
 
-                            autoOrder.autoLeyLineOutcrop=autoLeyLineOutcrop // 将地脉信息对象添加到顺序对象中
+                            autoOrder.autoLeyLineOutcrop = autoLeyLineOutcrop // 将地脉信息对象添加到顺序对象中
                         }
 
                         // 将秘境顺序对象添加到列表中
@@ -341,7 +342,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
             // 通过UID方式加载配置
             const uid = config.user.uid || (await ocrUid()) // 获取用户UID，如果未配置则通过OCR识别获取
             const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.runConfig)) || new Map() // 读取本地配置文件并转换为Map对象
-            const uidConfigList = configAutoFightOrderMap.get(uid+"") || []; // 获取当前UID对应的配置列表
+            const uidConfigList = configAutoFightOrderMap.get(uid + "") || []; // 获取当前UID对应的配置列表
             if (uidConfigList?.length > 0) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
                 uidConfigList.forEach(item => {
@@ -419,7 +420,7 @@ async function initRunOrderList(domainConfig) {
             // if (item.day) {
             //     return item.day === dayOfWeek.day
             // }
-            log.debug(`[{1}]item.days.length:{0}`, dayOfWeek.day, item?.days?.length||0)
+            log.debug(`[{1}]item.days.length:{0}`, dayOfWeek.day, item?.days?.length || 0)
             if (item.days && item.days.length > 0) {
                 const includes = item.days.includes(dayOfWeek.day);
                 log.debug(`[{1}]item.days:{0}`, dayOfWeek.day, JSON.stringify(item.days))
@@ -465,13 +466,12 @@ async function main() {
     )
     if (list?.length > 0) {
         //循环跑
-        while (true){
+        while (true) {
             await autoRunList(list);
-            if (true){
+            if (true) {
                 //不循环跑
                 break
-            }else
-            if (config.user.physical.current<config.user.physical.min){
+            } else if (config.user.physical.current < config.user.physical.min) {
                 //体力耗尽
                 break
             }
