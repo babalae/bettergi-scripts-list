@@ -471,9 +471,6 @@ async function main() {
             if (true) {
                 //不循环跑
                 break
-            } else if (config.user.physical.current < config.user.physical.min) {
-                //体力耗尽
-                break
             }
         }
     } else {
