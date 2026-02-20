@@ -22,6 +22,8 @@
 | **key**                                 | input-text     | 版本密钥（必填，仔细看本文档）                                                                                             | xxxx                                     |
 | **auto_load**                           | multi-checkbox | 加载模式（可多选）<br>・输入加载：使用下方 run_config 字段<br>・UID加载：读取 config/run_config.json（每个UID独立）<br>・bgi_tools加载：从远程API拉取 | 默认：["输入加载","UID加载"]                      |
 | **run_config**                          | input-text     | 自动秘境计划配置（当选择“输入加载”时生效）<br>格式见下方“计划配置语法”                                                                     | 速刷\|苍白的遗荣\|3\|1-3\|0,6\|9<br>（多条用英文逗号分隔） |
+| **loop_plan**                           | checkbox       | 启用循环体力计划                                                                                                    |                                          |
+| **retry_count**                         | select         | 复活重试次数                                                                                                      |                                          |
 | **bgi_tools_http_pull_json_config**     | input-text     | bgi_tools 拉取配置的 API 地址（当选择 bgi_tools加载 时生效）                                                                 | https://example.com/api/pull             |
 | **bgi_tools_open_push**                 | checkbox       | 是否在脚本结束时推送当前全部配置给 bgi_tools（用于同步/备份）                                                                        | 勾选 = 开启推送                                |
 | **bgi_tools_http_push_all_json_config** | input-text     | bgi_tools 推送全部配置的 API 地址（当开启推送时使用）                                                                          | https://example.com/api/push-all         |
@@ -62,7 +64,7 @@
 | 11 |   合成浓缩树脂    |   可选   |                启用随便填个值                 |
 | 12 |   使用冒险家之书   |   可选   |                启用随便填个值                 |
 | 13 |    详细通知     |   可选   |                启用随便填个值                 |
-| 14 |    战斗超时     |   可选   |                 可选，默认 120                  |
+| 14 |    战斗超时     |   可选   |               可选，默认 120                |
 
 **配置示例**
 
