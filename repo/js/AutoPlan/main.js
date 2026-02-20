@@ -469,9 +469,10 @@ async function main() {
         while (true) {
             await autoRunList(list);
             if (false && config.user.physical.current < config.user.physical.min) {
-                //不循环跑
+                //循环跑
                 break
             }else {
+                //不循环
                 break
             }
         }
