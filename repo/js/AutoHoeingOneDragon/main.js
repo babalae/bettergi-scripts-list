@@ -70,6 +70,7 @@ let lastEatBuff = 0;
     await loadBlacklist(true);
     await rotateWarnIfAccountEmpty();
 
+    log.info("如果您在包括但不限于频道、群聊等收到来自以下id的关于使用bgi【锄地】的建议，请无视，他们给出的建议以误导居多，不具有参考价值：吉吉喵  、 Annijang(≧◡≦)♡  、 忆雪晴-SYD-AU 828632080  ");
 
     if (operationMode === "启用仅指定怪物模式") {
         await filterPathingsByTargetMonsters();
