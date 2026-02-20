@@ -83,8 +83,9 @@ const chooseOption = async (optionName, order) => {
 				log.info("{name}选择{option}", settingsTemplate[i].name, settingsArr[i].Value);
 				await chooseOption(settingsTemplate[i].name, j);
 			}
-	
+    
 	log.info("修改图像设置完成，正在尝试回到主界面……");
 	await genshin.returnMainUi();
 	log.info("回到主界面成功");
 })();
+
