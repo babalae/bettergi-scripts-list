@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1770280176299,
+    "last_modified_time": 1771566512624,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "706挪德卡莱- 绯沙盐沼1",
@@ -31,19 +31,20 @@
       "action": "",
       "action_params": "",
       "id": 2,
+      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 9205.9501953125,
-      "y": 3296.1181640625
+      "x": 9207.2216796875,
+      "y": 3294.88671875
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),dash,keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);wait(1)",
+      "action_params": "keypress(f),dash,keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),w(0.1),keypress(f),wait(0.2);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);wait(1)",
       "id": 3,
       "move_mode": "dash",
-      "type": "target",
-      "x": 9205.9501953125,
-      "y": 3296.1181640625
+      "type": "path",
+      "x": 9207.2216796875,
+      "y": 3294.88671875
     }
   ]
 }
