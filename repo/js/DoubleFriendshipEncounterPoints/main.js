@@ -447,7 +447,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 				} else {
 					log.warn("出现异常情况或超时，请检查");
 				}
-				await sleep(2000);
+				await sleep(3000);
 			}
 		}
 	}

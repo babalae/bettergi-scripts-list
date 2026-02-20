@@ -1,5 +1,11 @@
-const attempts = 20; // 最大尝试次数
-const interval = 1000; // 每次间隔 ms
+import {
+  getImgMat,
+  findText,
+  findTextAndClick,
+  findImgAndClick,
+  waitUntilTextAppear
+} from "../../../packages/utils/tool";
+
 const duration = 1000; // 默认点击等待延时
 
 const storePath = "data/store.json"
@@ -13,11 +19,6 @@ const useFixedAttempts = userAttempts > 0;
 const weekMaxExp = Number(settings.weekMaxExp || "4000");
 const singleExp = Number(settings.singleExp || "270");
 let weekTotal = initWeekTotal();
-
-// 获取图片资源
-function getImgMat(path) {
-  return file.readImageMatSync('assets/' + path + '.png');
-}
 
 // 读取存档
 function loadWeekData() {
@@ -106,87 +107,12 @@ function decreaseWeekTotal() {
   weekTotal = stored.weekTotal;
 }
 
-// 查找文本
-async function findText(text, x, y, w, h, textAttempts = attempts) {
-  const searchText = text.toLowerCase();
-
-  for (let i = 0; i < textAttempts; i++) {
-    const captureRegion = captureGameRegion();
-    const ro = RecognitionObject.ocr(x, y, w, h);
-    const results = captureRegion.findMulti(ro);
-    captureRegion.dispose();
-
-    for (let j = 0; j < results.count; j++) {
-      const region = results[j];
-      if (region.isExist() && region.text.toLowerCase().includes(searchText)) {
-        return region;
-      }
-    }
-
-    await sleep(interval);
-  }
-
-  return null;
-}
-
 // 升级特殊界面点击
 async function findAndClickWhiteSpaceNext() {
-  const captureRegion = captureGameRegion();
-  const ro = RecognitionObject.ocr(610, 950, 700, 60);
-  const results = captureRegion.findMulti(ro);
-  captureRegion.dispose();
-
-  for (let j = 0; j < results.count; j++) {
-    const region = results[j];
-    if (region.isExist()) {
-      const text = region.text.toLowerCase();
-      if (text.includes("点击") && text.includes("继续")) {
-        await sleep(duration);
-        click(610, 950);
-      }
-    }
-  }
-}
-
-// 查找图片
-async function findImage(imgMat, x, y, w, h, imgAttempts = attempts) {
-  const searchImg = RecognitionObject.TemplateMatch(imgMat, x, y, w, h);
-
-  for (let i = 0; i < imgAttempts; i++) {
-    const captureRegion = captureGameRegion();
-    const result = captureRegion.find(searchImg);
-    captureRegion.dispose();
-
-    if (result.isExist()) {
-      return result;
-    }
-
-    await sleep(interval);
-  }
-
-  return null;
-}
-
-// 查找文本并点击
-async function findTextAndClick(text, x, y, w, h, textAttempts = attempts) {
-  const target = await findText(text, x, y, w, h, textAttempts);
-  if (target) {
+  const result = await findText(["点击", "继续"],610, 950, 700, 60);
+  if (result) {
     await sleep(duration);
-    target.click();
-  } else {
-    log.error("文本{text}查找失败", text);
-  }
-}
-
-// 查找图片并点击
-async function findImageAndClick(path, x, y, w, h, imgAttempts = attempts) {
-  const imgMat = getImgMat(path);
-  const target = await findImage(imgMat, x, y, w, h, imgAttempts);
-  if (target) {
-    await sleep(duration);
-    target.click();
-  } else {
-    log.error("图标{path}查找失败", path);
+    click(610, 950);
   }
 }
 
@@ -198,7 +124,7 @@ async function findSaveInList(keyword) {
     const region = await findText(
       keyword,
       200, 250, 1500, 700,
-      1
+      3
     );
 
     if (region) {
@@ -227,8 +153,8 @@ async function deleteSource() {
   keyPress("VK_B");
   await sleep(duration);
 
-  await findTextAndClick("管理关卡", 960, 0, 960, 100);
-  await findTextAndClick("管理", 960, 980, 960, 100);
+  await findTextAndClick("管理关卡", 960, 0, 960, 100, 50, 50);
+  await findTextAndClick("管理", 960, 980, 960, 100, 50, 50);
 
   // 查找目标存档
   const saveRegion = await findSaveInList(starRoomName);
@@ -242,12 +168,13 @@ async function deleteSource() {
   const sy = saveRegion.y - 30;
 
   await sleep(300);
-  await findImageAndClick("check_box", 0, sy, 1480, saveRegion.height + 70);
+  const check_box = getImgMat("assets/check_box.png");
+  await findImgAndClick(check_box, 0, sy, 1480, saveRegion.height + 70, 2000);
   // 删除
   await sleep(duration);
-  await findTextAndClick("删除", 960, 980, 960, 100);
-  await findTextAndClick("确认", 960, 600, 960, 400);
-  await findTextAndClick("确认", 960, 600, 960, 400);
+  await findTextAndClick("删除", 960, 980, 960, 100, 50, 100);
+  await findTextAndClick("确认", 960, 600, 960, 400, 50, 100);
+  await findTextAndClick("确认", 960, 600, 960, 400, 50, 100);
 
   log.info("关卡存档删除完成");
   await sleep(duration);
@@ -257,29 +184,48 @@ async function deleteSource() {
 // 进入千星奇域的全部奇域页面
 async function enterSourcePage() {
   // 1. 检测是否在房间内，在则退出
-  const inRoom = await findText("房间", 1500, 0, 420, 500, 5);
+  const inRoom = await findText("房间", 1500, 0, 420, 500, 5, 100);
   if (inRoom) {
     keyPress("VK_P");
-    await sleep(duration);
-    await findImageAndClick("exit_room", 960, 0, 960, 540);
+    const exit_room = getImgMat("assets/exit_room.png");
+    await waitUntilTextAppear(
+      "确认",
+      async () => {
+        await findImgAndClick(exit_room, 960, 0, 960, 540, 500);
+      },
+      960,
+      600,
+      960,
+      400,
+      10
+    );
     await findTextAndClick("确认", 960, 600, 960, 400);
     await genshin.returnMainUi();
     keyPress("VK_F6");
   } else {
     keyPress("VK_F6");
   }
-
   await sleep(duration);
 }
 
 // 进入千星奇域的收藏奇域页面
 async function enterStarSourcePage() {
   // 1. 检测是否在房间内，在则退出
-  const inRoom = await findText("房间", 1500, 0, 420, 500, 5);
+  const inRoom = await findText("房间", 1500, 0, 420, 500, 5, 100);
   if (inRoom) {
     keyPress("VK_P");
-    await sleep(duration);
-    await findImageAndClick("exit_room", 960, 0, 960, 540);
+    const exit_room = getImgMat("assets/exit_room.png");
+    await waitUntilTextAppear(
+      "确认",
+      async () => {
+        await findImgAndClick(exit_room, 960, 0, 960, 540, 500);
+      },
+      960,
+      600,
+      960,
+      400,
+      100
+    );
     await findTextAndClick("确认", 960, 600, 960, 400);
     await genshin.returnMainUi();
     keyPress("VK_B");
@@ -302,20 +248,9 @@ async function createMap() {
   await sleep(duration);
   click(355, 365);
   await sleep(duration);
-  while (true) {
-    const result = await findText("房间", 960, 100, 960, 200, 2);
-    if (result) {
-      await sleep(duration);
-      result.click();
-      await sleep(duration);
-      break;
-    } else {
-      const result2 = await findText("大厅", 960, 600, 960, 400, 2);
-      if (result2) {
-        result2.click();
-        await sleep(duration);
-      }
-    }
+  const result = await findTextAndClick("房间",960, 100, 960, 200, 2);
+  if (!result) {
+    await findTextAndClick("大厅", 960, 600, 960, 400, 2);
   }
   await findText("开始游戏", 960, 540, 960, 540);
   click(770, 275);
@@ -326,25 +261,16 @@ async function createMap() {
 async function createStarMap() {
   await findTextAndClick("搜索", 0, 0, 1920, 120);
   inputText(roomID);
-  await sleep(1000);
+  await sleep(500);
   await findTextAndClick("搜索", 0, 0, 1920, 120);
   await sleep(duration);
   click(420, 830);
   await sleep(duration);
-  while (true) {
-    const result = await findText("房间", 960, 100, 960, 200, 2);
-    if (result) {
-      await sleep(duration);
-      result.click();
-      await sleep(duration);
-      break;
-    } else {
-      const result2 = await findText("大厅", 960, 600, 960, 400, 2);
-      if (result2) {
-        result2.click();
-        await sleep(duration);
-      }
-    }
+  const result = await findTextAndClick("房间",960, 100, 960, 200, 2);
+  if (!result) {
+    await findTextAndClick("大厅", 960, 600, 960, 400, 2);
+    await waitUntilTextAppear("房间", () => {},960, 100, 960, 200, 50, 1000);
+    await findTextAndClick("房间",960, 100, 960, 200);
   }
   await findText("开始游戏", 960, 540, 960, 540);
   click(770, 275);
@@ -363,49 +289,30 @@ async function playMap() {
     await createMap();
   }
 
-  while (true) {
-    await sleep(duration);
-    const result = await findText("开始游戏", 960, 540, 960, 540, 5);
-    if (result) {
-      await sleep(duration);
-      result.click();
-      log.info("开始执行第{i}/{total}次奇域挑战", 1, total);
-      await sleep(duration);
-    } else {
-      await sleep(duration);
-      break;
-    }
-  }
+  await findTextAndClick("开始游戏", 960, 540, 960, 540, 5, 50, 50);
+  log.info("开始执行第{i}/{total}次奇域挑战", 1, total);
   let firstOutputCount = 0;
-  while (true) {
-    const whiteText = await findText("空白", 610, 900, 700, 100, 1);
-    if (whiteText) {
-      await sleep(duration);
-      click(610, 950);
-    }
-
-    const result = await findText("返回大厅", 960, 540, 960, 540, 1);
-    if (result) {
-      await sleep(duration);
-      result.click();
-      await sleep(duration);
-      if (!useFixedAttempts) {
-        decreaseWeekTotal();
-      }
-      log.info("本次关卡结束");
-      break;
-    } else {
-      const inRoom = await findText("房间", 1500, 0, 420, 500, 1);
-      if (inRoom) {
-        break;
-      }
+  await waitUntilTextAppear(
+    "返回大厅",
+    async () => {
+      await findAndClickWhiteSpaceNext();
       if (firstOutputCount % 16 === 0) {
         log.info("等待本次关卡结束...");
       }
       firstOutputCount++;
-      await sleep(interval);
-    }
+    },
+    960,
+    540,
+    960,
+    540,
+    500,
+    2000
+  );
+  await findTextAndClick("返回大厅", 960, 540, 960, 540);
+  if (!useFixedAttempts) {
+    decreaseWeekTotal();
   }
+  log.info("本次关卡结束");
 
   await deleteSource();
 
@@ -415,42 +322,28 @@ async function playMap() {
       await sleep(duration);
       keyPress("VK_P");
       await sleep(duration);
-      while (true) {
-        const result = await findText("开始游戏", 960, 540, 960, 540, 1);
-        if (result) {
-          await sleep(duration);
-          result.click();
-          log.info("开始执行第{i}/{total}次奇域挑战", i + 1, total);
-          await sleep(duration);
-          break;
-        } else {
-          await sleep(duration);
-        }
-      }
+      await findTextAndClick("开始游戏", 960, 540, 960, 540, 20, 50, 50);
+      log.info("开始执行第{i}/{total}次奇域挑战", i + 1, total);
       let outputCount = 0;
-      while (true) {
-        await findAndClickWhiteSpaceNext();
-        const result = await findText("返回大厅", 960, 540, 960, 540, 1);
-        if (result) {
-          await sleep(duration);
-          result.click();
-          await sleep(duration);
-          if (!useFixedAttempts) {
-            decreaseWeekTotal();
-          }
-          log.info("本次关卡结束");
-          break;
-        } else {
-          const inRoom = await findText("房间", 1500, 0, 420, 500, 1);
-          if (inRoom) {
-            break;
-          }
-          if (outputCount % 10 === 0) {
+      await waitUntilTextAppear(
+        "返回大厅",
+        async () => {
+          await findAndClickWhiteSpaceNext();
+          if (outputCount % 16 === 0) {
             log.info("等待本次关卡结束...");
           }
           outputCount++;
-          await sleep(interval);
-        }
+        },
+        960,
+        540,
+        960,
+        540,
+        500,
+        2000
+      );
+      await findTextAndClick("返回大厅", 960, 540, 960, 540);
+      if (!useFixedAttempts) {
+        decreaseWeekTotal();
       }
       await deleteSource();
     }
