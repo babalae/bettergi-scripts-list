@@ -469,6 +469,7 @@ async function main() {
         while (true) {
             await autoRunList(list);
             if(false){
+                //循环
                 if (config.user.physical.current < config.user.physical.min) {
                     //体力耗尽
                     break
