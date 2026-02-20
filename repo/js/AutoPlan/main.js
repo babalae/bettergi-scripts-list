@@ -468,13 +468,16 @@ async function main() {
         //循环跑
         while (true) {
             await autoRunList(list);
-            if (false && config.user.physical.current < config.user.physical.min) {
-                //循环跑
-                break
+            if(false){
+                if (config.user.physical.current < config.user.physical.min) {
+                    //体力耗尽
+                    break
+                }
             }else {
                 //不循环
                 break
             }
+
         }
     } else {
         log.info(`本日无计划`)
