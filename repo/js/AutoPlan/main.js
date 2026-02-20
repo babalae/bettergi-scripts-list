@@ -254,7 +254,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             let domainRoundNum = arr[index]; // 解析副本轮数
                             index++
                             let sundaySelectedValue = "1"
-                            if (index < arr.length)
+                            if (index <= arr.length-1)
                                 sundaySelectedValue = arr[index]; // 解析周日|限时选择的值
 
                             // 检查秘境名称是否有效
@@ -265,7 +265,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                     if (!domainNameTemp) {
                                         throw new Error(`${domainName} 输入错误`);
                                     }
-                                    if (index < arr.length) {
+                                    if (index <= arr.length-1) {
                                         const domainSelectedValue = parseInt(config.domainOrderMap.get(domainName) + "");
                                         sundaySelectedValue = domainSelectedValue
                                     }
@@ -306,25 +306,25 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             index++
                             autoLeyLineOutcrop.leyLineOutcropType = arr[index]
                             index++
-                            if (index < arr.length)
+                            if (index <= arr.length-1)
                                 autoLeyLineOutcrop.friendshipTeam = arr[index]
                             index++
-                            if (index < arr.length)
+                            if (index <= arr.length-1)
                                 autoLeyLineOutcrop.useFragileResin = arr[index].trim() !== ""
                             index++
-                            if (index < arr.length)
+                            if (index <= arr.length-1)
                                 autoLeyLineOutcrop.useTransientResin = arr[index].trim() !== ""
                             index++
-                            if (index < arr.length)
+                            if (index <= arr.length-1)
                                 autoLeyLineOutcrop.isGoToSynthesizer = arr[index].trim() !== ""
                             index++
-                            if (index < arr.length)
+                            if (index <= arr.length-1)
                                 autoLeyLineOutcrop.useAdventurerHandbook = arr[index].trim() !== ""
                             index++
-                            if (index < arr.length)
+                            if (index <= arr.length-1)
                                 autoLeyLineOutcrop.isNotification = arr[index].trim() !== ""
                             index++
-                            if (index < arr.length)
+                            if (index <= arr.length-1)
                                 autoLeyLineOutcrop.timeout = parseInteger(arr[index])
 
                             autoOrder.autoLeyLineOutcrop = autoLeyLineOutcrop // 将地脉信息对象添加到顺序对象中
