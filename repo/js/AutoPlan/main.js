@@ -468,7 +468,7 @@ async function main() {
         //循环跑
         while (true) {
             await autoRunList(list);
-            if(false){
+            if(config.run.loop_plan){
                 //循环
                 if (config.user.physical.current < config.user.physical.min) {
                     //体力耗尽

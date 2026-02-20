@@ -1,9 +1,9 @@
 import {ocrUid} from "../utils/uid";
-import {ocrPhysical} from "../utils/physical";
 
 const config = {
     //setting设置放在这个json
     run: {
+        loop_plan: false,//启用循环体力计划
         retry_count: 3,//复活重试次数
         config: '',
         // load_uid_config: false,
@@ -180,6 +180,7 @@ async function initConfig() {
     // 初始化uid
     config.user.uid = await ocrUid()
     config.run.retry_count = (settings.retry_count?parseInt(settings.retry_count):config.run.retry_count)
+    config.run.loop_plan= settings.loop_plan || config.run.loop_plan
     const bgi_tools_token = settings.bgi_tools_token || "Authorization= "
     const list = Array.from(bgi_tools_token.split("=")).map(item => item.trim());
     config.bgi_tools.token.name = list[0]
