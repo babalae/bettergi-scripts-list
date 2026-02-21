@@ -3,7 +3,8 @@
 
      const party = settings.n;//设置好要切换的队伍
      const food = settings.food;//设置要吃的食物
-     const foodCount = settings.foodNumber - 1;//点击“+”的次数，比食物数量少1
+     const foodNumber = Number(settings.foodNumber);
+     const foodCount = foodNumber - 1;//点击“+”的次数，比食物数量少1
      const n = settings.runNumber;//运行次数
 
      const Dm = `assets/地脉.png`
@@ -454,6 +455,7 @@
                     await sleep(500);
 
                     log.info("看我一口气吃掉" + settings.foodNumber + "个" + food + "！");
+                    totalFoodEaten += foodNumber;
 
                     await returnMijingUi();
                     await sleep(10);
@@ -499,7 +501,7 @@
      }
 
      // ===== 3. 主函数执行部分 =====
-
+     let totalFoodEaten = 0;
      //设置分辨率和缩放
      setGameMetrics(1920, 1080, 1);
      await genshin.returnMainUi();//回到主界面，在秘境中可能会卡几秒
@@ -529,12 +531,7 @@
           for (let i = 0; i < n; i++) {
                await doit(dieCount);
                dieCount++;
-               if (dieCount % 8 === 0 && dieCount != n) { //每8次回一次神像
-                    log.info("队友们的血量好像有点不太健康欸……先回去补一补！");
-                    await genshin.tpToStatueOfTheSeven();
-                    await sleep(500);
-                    await fuben();
-               }
+               log.warn(`当前进度：第${i + 1}轮 / 共${n}轮 ｜ 已吃 ${totalFoodEaten} 个${food}`);
           }
      } catch (error) {
           await returnMijingUi();
