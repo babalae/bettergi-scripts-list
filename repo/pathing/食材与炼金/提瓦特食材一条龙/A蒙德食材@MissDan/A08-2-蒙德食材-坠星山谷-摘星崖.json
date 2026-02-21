@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "2个鸟蛋；2个蘑菇；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762331075688,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A08-2-蒙德食材-坠星山谷-摘星崖",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1505.5781,
+      "y": 2296.542
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1501.3359,
+      "y": 2241.1941
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -1493.5137,
+      "y": 2169.7373
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1487.1562,
+      "y": 2171.3069
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1511.2148,
+      "y": 2186.0847
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1513.0645,
+      "y": 2186.9617
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+[
+    {
+        "name": "path_restriction_min",
+        "type": "select",
+        "label": "限制路径点包含的野伏众数量：最小值",
+        "options": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16"
+        ]
+    },
+    {
+        "name": "path_restriction_max",
+        "type": "select",
+        "label": "限制路径点包含的野伏众数量：最大值",
+        "options": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16"
+        ]
+    },
+    {
+        "name": "path_restriction_NarukamiIsland",
+        "type": "checkbox",
+        "label": "排除地区：鸣神岛"
+    },
+    {
+        "name": "path_restriction_Kannazuka",
+        "type": "checkbox",
+        "label": "排除地区：神无冢"
+    },
+    {
+        "name": "path_restriction_YashioriIsland",
+        "type": "checkbox",
+        "label": "排除地区：八酝岛"
+    },
+    {
+        "name": "path_restriction_SeiraiIsland",
+        "type": "checkbox",
+        "label": "排除地区：清籁岛"
+    },
+    {
+        "name": "path_restriction_WatatsumiIsland",
+        "type": "checkbox",
+        "label": "排除地区：海祇岛"
+    },
+    {
+        "name": "response_time",
+        "type": "select",
+        "label": "延迟启动时间(s)",
+        "options": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+        ]
+    }
+]

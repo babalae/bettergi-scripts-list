@@ -1,0 +1,132 @@
+[
+  {
+    "name": "runExtra",
+    "type": "checkbox",
+    "label": "运行额外路线，运行完联机收尾后单人运行时勾选\n勾选后处于单人世界时将运行额外路线\n如果选择自动进入模式，则会在任务完成后运行额外路线"
+  },
+  {
+    "name": "runDebug",
+    "type": "checkbox",
+    "label": "调试时勾选，跳过路线执行逻辑"
+  },
+  {
+    "name": "logName",
+    "type": "input-text",
+    "label": "填写后将在js运行结束后分解狗粮\n并输出分解获得的经验值\n格式为 名字：联机狗粮分解获得经验xxx"
+  },
+  {
+    "name": "onlyRunPerfectly",
+    "type": "input-text",
+    "label": "输入任意内容后启用强迫症模式\n人不齐或队友未正常到位时不执行任何路线\n并在运行结束后间隔一秒输出按中文分号；分隔的内容"
+  },
+  {
+    "name": "normalEnding",
+    "type": "input-text",
+    "label": "正常运行结束后间隔一秒输出按中文分号；分隔的内容"
+  },
+  {
+    "name": "groupMode",
+    "type": "select",
+    "label": "#############################################\n联机运行配置\n\n运行模式",
+    "options": [
+      "手动进入后运行",
+      "按照下列配置自动进入并运行"
+    ],
+    "default": "手动进入后运行"
+  },
+  {
+    "name": "yourIndex",
+    "type": "input-text",
+    "label": "该部分配置请仔细阅读readme后填写\n强烈建议联机运行的所有成员以下配置除你的序号外【完全相同】\n你的序号"
+  },
+  {
+    "name": "runningOrder",
+    "type": "input-text",
+    "label": "运行次序,将依次进入对应序号的成员的世界进行联机狗粮",
+    "default": "1234"
+  },
+  {
+    "name": "p1UID",
+    "type": "input-text",
+    "label": "1号的uid"
+  },
+  {
+    "name": "p1Name",
+    "type": "input-text",
+    "label": "1号的名称（以游戏内实际显示为准，有备注时填备注名）"
+  },
+  {
+    "name": "p2UID",
+    "type": "input-text",
+    "label": "2号的uid"
+  },
+  {
+    "name": "p2Name",
+    "type": "input-text",
+    "label": "2号的名称（以游戏内实际显示为准，有备注时填备注名）"
+  },
+  {
+    "name": "p3UID",
+    "type": "input-text",
+    "label": "3号的uid"
+  },
+  {
+    "name": "p3Name",
+    "type": "input-text",
+    "label": "3号的名称（以游戏内实际显示为准，有备注时填备注名）"
+  },
+  {
+    "name": "p4UID",
+    "type": "input-text",
+    "label": "4号的uid"
+  },
+  {
+    "name": "p4Name",
+    "type": "input-text",
+    "label": "4号的名称（以游戏内实际显示为准，有备注时填备注名）"
+  },
+  {
+    "name": "notify",
+    "type": "checkbox",
+    "label": "#############################################\n其他配置\n\n是否通知信息"
+  },
+  {
+    "name": "forceGroupNumber",
+    "type": "input-text",
+    "label": "强制指定自己在队伍中的编号，仅在识别异常时使用，填0不指定",
+    "default": "0"
+  },
+  {
+    "name": "partyName",
+    "type": "input-text",
+    "label": "运行时使用队伍，将在进入联机模式前切换"
+  },
+  {
+    "name": "usingCharacter",
+    "type": "input-text",
+    "label": "运行时使用角色的序号\n将在进入联机模式前尝试切换到对应序号的角色"
+  },
+  {
+    "name": "TMthreshold",
+    "type": "input-text",
+    "label": "拾取使用的匹配阈值\n观察到误捡可适当调高\n观察到漏捡可适当调低",
+    "default": "0.9"
+  },
+  {
+    "name": "findFInterval",
+    "type": "input-text",
+    "label": "识别间隔(毫秒)\n两次检测f图标之间等待时间",
+    "default": "100"
+  },
+  {
+    "name": "p1EndingRoute",
+    "type": "select",
+    "label": "#############################################\n收尾路线配置\n非必要不建议更改\n\n1p收尾路线",
+    "options": [
+      "枫丹高塔",
+      "茶叶",
+      "清籁丸"
+    ],
+    "default": "枫丹高塔"
+  }
+]

@@ -1,0 +1,115 @@
+{
+  "info": {
+    "name": "C01-紫晶块-稻妻-八酝島-名椎滩-西-2个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.47.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1751121028312,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2533.23,
+      "y": -3539.72,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -2515.42,
+      "y": -3535.67,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2513.19,
+      "y": -3533.1,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "玛薇卡 w(0.1),e(hold),wait(0.05),w(4.2),e,wait(0.1),keypress(1),wait(0.1),keypress(2)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -2466.4,
+      "y": -3488.6,
+      "type": "path",
+      "move_mode": "swim",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -2444.76,
+      "y": -3475.31,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -2441.78,
+      "y": -3476.69,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": -2441.78,
+      "y": -3476.69,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 8,
+      "x": -2441.34,
+      "y": -3487.81,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -2438.9,
+      "y": -3485.6,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": -2438.9,
+      "y": -3485.6,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

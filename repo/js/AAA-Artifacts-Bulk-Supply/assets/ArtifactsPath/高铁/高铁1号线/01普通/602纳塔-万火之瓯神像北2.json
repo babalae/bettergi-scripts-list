@@ -1,0 +1,65 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgiVersion": "0.42.3",
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769190649161,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "602纳塔-万火之瓯神像北2",
+    "tags": [],
+    "type": "collect",
+    "version": ""
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8738.201171875,
+      "y": -1857.45947265625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8716.09375,
+      "y": -1865.416015625
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8719.2001953125,
+      "y": -1864.53466796875
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8724.24609375,
+      "y": -1863.20947265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8724.24609375,
+      "y": -1863.2099609375
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+[
+  {
+    "name": "pickupMode",
+    "type": "checkbox",
+    "label": "是否启用自动拾取实时任务",
+    "default": true
+  },
+  {
+    "name": "enemyType",
+    "type": "select",
+    "label": "选择敌人类型",
+    "options": [
+      "盗宝团",
+      "愚人众",
+      "鳄鱼",
+      "蕈兽",
+      "雷萤术士"
+    ],
+    "default": "盗宝团"
+  },
+  {
+    "name": "qiuQiuRen",
+    "type": "checkbox",
+    "label": "是否清理丘丘人\n【默认否，仅对盗宝团有效，选是会清理丘丘人之后再开始任务】"
+  },
+  {
+    "name": "disableAsyncFight",
+    "type": "checkbox",
+    "label": "禁用容易导致问题的异步战斗，改为正常的战斗结束逻辑，勾选后需要在配置组中正常配置战斗结束检测"
+  },
+  {
+    "name": "use1000Stars",
+    "type": "checkbox",
+    "label": "使用进出千星替代退出重登"
+  },
+  {
+    "name": "loopTillNoExpOrMora",
+    "type": "checkbox",
+    "label": "连续两次循环全程没有检测到获取经验值或摩拉图标时提前终止"
+  },
+  {
+    "name": "partyName",
+    "type": "input-text",
+    "label": "(选填)需要切换的队伍名称"
+  },
+  {
+    "name": "runTimes",
+    "type": "input-text",
+    "label": "(选填)运行次数\n【默认10次】"
+  },
+  {
+    "name": "ocrTimeout",
+    "type": "input-text",
+    "label": "OCR超时时间\n【选填，默认为10秒，如果经常提前判定未识别到任务，请适当调大】",
+    "default": 10
+  },
+  {
+    "name": "fightTimeout",
+    "type": "input-text",
+    "label": "战斗超时时间\n【选填，默认为120秒】",
+    "default": 120
+  }
+]

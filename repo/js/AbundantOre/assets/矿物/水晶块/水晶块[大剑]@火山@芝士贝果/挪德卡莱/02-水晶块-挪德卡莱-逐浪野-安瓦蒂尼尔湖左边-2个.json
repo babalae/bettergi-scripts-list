@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.55.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768443250108,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "02-水晶块-挪德卡莱-逐浪野-安瓦蒂尼尔湖左边-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9668.8086,
+      "y": 6045.7642
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9679.7959,
+      "y": 6046.6406
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9735.0166,
+      "y": 6052.0581
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9744.3691,
+      "y": 6053.0156
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9744.5117,
+      "y": 6047.332
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9742.3418,
+      "y": 6050.0278
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9742.082,
+      "y": 6047.186
+    }
+  ]
+}

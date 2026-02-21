@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "GCM",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768202433668,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "枫丹-餐馆",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4645.5244140625,
+      "y": 3467.85791015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4630.716796875,
+      "y": 3455.758544921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1),keypress(f)",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4637.1005859375,
+      "y": 3449.37060546875
+    }
+  ]
+}

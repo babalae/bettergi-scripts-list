@@ -1,0 +1,309 @@
+{
+  "info": {
+    "name": "02-神秘的肉-三运河之地地下-18个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Sabersunny",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "tags": [],
+    "last_modified_time": 1753887979063,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5493.9448,
+      "y": -510.0972,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5547.0142,
+      "y": -466.3594,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 5571.4292,
+      "y": -384.979,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 5571.4678,
+      "y": -362.7432,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 5578.1978,
+      "y": -357.8242,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 5578.4038,
+      "y": -361.3228,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 5582.9897,
+      "y": -341.437,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 5569.0356,
+      "y": -335.3647,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 5537.001,
+      "y": -329.251,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "雷电将军 e",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 5537.001,
+      "y": -329.251,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 5539.3066,
+      "y": -326.5361,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 5536.0977,
+      "y": -331.1045,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 5529.5024,
+      "y": -327.7446,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 5504.8315,
+      "y": -320.3174,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 5489.3145,
+      "y": -317.251,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 5472.5527,
+      "y": -319.6807,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1600",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 5475.9536,
+      "y": -297.4365,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 5475.9453,
+      "y": -297.3867,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 5472.5498,
+      "y": -286.728,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 5472.5498,
+      "y": -286.728,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "雷电将军 e",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 5472.5498,
+      "y": -286.728,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 5475.7437,
+      "y": -285.8003,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": 5475.064,
+      "y": -289.7861,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": 5444.5449,
+      "y": -292.751,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 25,
+      "x": 5428.2554,
+      "y": -322.9468,
+      "action": "up_down_grab_leaf",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 26,
+      "x": 5434.6992,
+      "y": -352.3096,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 27,
+      "x": 5429.6777,
+      "y": -375.6396,
+      "action": "up_down_grab_leaf",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 28,
+      "x": 5406.4346,
+      "y": -381.3081,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 29,
+      "x": 5409.7476,
+      "y": -385.0312,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "雷电将军 e",
+      "type": "path"
+    },
+    {
+      "id": 30,
+      "x": 5409.7476,
+      "y": -385.0312,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack",
+      "type": "path"
+    },
+    {
+      "id": 31,
+      "x": 5408.4053,
+      "y": -379.3042,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 32,
+      "x": 5407.9058,
+      "y": -386.1514,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

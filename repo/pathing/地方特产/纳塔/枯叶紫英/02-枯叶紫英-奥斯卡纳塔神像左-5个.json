@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "02-枯叶紫英-奥斯卡纳塔神像左-5个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "需要盾位",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "曦",
+        "links": "https://github.com/cx05121"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 10030.41,
+      "y": -643.35,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 10041.79,
+      "y": -636.66,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9995.88,
+      "y": -766.54,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 9991.17,
+      "y": -784.07,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 9991.31,
+      "y": -789.25,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 9988.76,
+      "y": -787.84,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9982.93,
+      "y": -802.93,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 9983.02,
+      "y": -803.9,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "info": {
+    "name": "2606璃月地下水泽北",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 551.12,
+      "y": 950.91,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 542.16,
+      "y": 955.59,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 537.34,
+      "y": 967.66,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 522.77,
+      "y": 981.08,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 515.09,
+      "y": 976.82,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    },
+    {
+      "id": 6,
+      "x": 506.17,
+      "y": 989.33,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 506.17,
+      "y": 989.33,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 507.37,
+      "y": 1008.3,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 521.15,
+      "y": 1064.14,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 554.36,
+      "y": 1051.86,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1500",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 562.2,
+      "y": 1020.08,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.1),keydown(s),wait(0.1),dash,keyup(s)"
+    },
+    {
+      "id": 12,
+      "x": 554.63,
+      "y": 1035.83,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 552.97,
+      "y": 1047.68,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 554.63,
+      "y": 1035.83,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

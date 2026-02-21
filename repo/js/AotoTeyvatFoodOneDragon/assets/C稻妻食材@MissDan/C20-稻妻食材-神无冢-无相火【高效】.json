@@ -1,0 +1,299 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759349193401,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C20-稻妻食材-神无冢-无相火【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3234.1543,
+      "y": -3155.5322
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -3241.0664,
+      "y": -3143.0107
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3232.5039,
+      "y": -3101.8887
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3253.2852,
+      "y": -3089.6113
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3271.8848,
+      "y": -3082.8691
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3271.6035,
+      "y": -3102.2773
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3274.5352,
+      "y": -3104.1699
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3271.75,
+      "y": -3116.8639
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3270.6631,
+      "y": -3118.626
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3266,
+      "y": -3114.5293
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3233.8965,
+      "y": -3155.4131
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3226.5781,
+      "y": -3159.8682
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3225.9375,
+      "y": -3161.7188
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3231.043,
+      "y": -3166.8379
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3232.9023,
+      "y": -3165.0918
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3236.7148,
+      "y": -3174.8672
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3234.1836,
+      "y": -3155.4727
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3225.627,
+      "y": -3133.0029
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3204.3926,
+      "y": -3088.4121
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3208.4961,
+      "y": -3101.3164
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3238.6523,
+      "y": -3068.2188
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3238.2305,
+      "y": -2996.3906
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3234.9551,
+      "y": -2993.2979
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3233.7715,
+      "y": -2991.7246
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3236.42,
+      "y": -2983.42
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -3236.91,
+      "y": -2982.27
+    },
+    {
+      "action": "",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3235.99,
+      "y": -2982.59
+    },
+    {
+      "action": "",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3237.48,
+      "y": -2981.39
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3262.1914,
+      "y": -2976.7637
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e",
+      "id": 30,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3249.6523,
+      "y": -2974.9092
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 31,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3247.4961,
+      "y": -2974.4941
+    }
+  ]
+}

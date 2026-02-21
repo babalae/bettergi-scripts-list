@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "C01-稻妻-九条阵屋-1株-无草神",
+    "type": "collect",
+    "version": "1.0",
+    "description": "无草神松茸版，路线会夹杂其他一些小材料，对比草神版本效率不高，且有些小瑕疵，不过并不影响松茸采集！嗯对，有问题联系QQ3522426260",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "寰宇-@3522426260"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3393.12,
+      "y": -3556.0,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -3399.6,
+      "y": -3559.03,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -3438.82,
+      "y": -3585.58,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -3436.19,
+      "y": -3578.16,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

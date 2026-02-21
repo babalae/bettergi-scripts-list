@@ -1,0 +1,56 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgiVersion": "0.34.5",
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769189259225,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "316稻妻-鹤观惑饲滩2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2612.330078125,
+      "y": -6508.2763671875
+    },
+    {
+      "action": "stop_flying",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2583.8583984375,
+      "y": -6525.984375
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2582.0703125,
+      "y": -6528.740234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 wait(0.2),keydown(E),wait(0.47),keyup(E),attack(0.2),wait(0.5);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2580.103515625,
+      "y": -6532.2197265625
+    }
+  ]
+}

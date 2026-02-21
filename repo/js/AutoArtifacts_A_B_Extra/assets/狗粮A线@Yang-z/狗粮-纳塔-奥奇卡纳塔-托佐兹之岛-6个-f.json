@@ -1,0 +1,132 @@
+{
+    "info": {
+        "name": "狗粮-纳塔-奥奇卡纳塔-托佐兹之岛-6个-f",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": 9670.130859375,
+            "y": 171.31884765625,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": "force_tp"
+        },
+        {
+            "x": 9663.5947265625,
+            "y": 183.833984375,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "1"
+        },
+
+        {
+            "x": 9672.03515625,
+            "y": 189.12353515625,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 9675.875,
+            "y": 220.560546875,
+            "type": "path",
+            "move_mode": "run"
+        },
+
+        {
+            "x": 9684.16796875,
+            "y": 230.54736328125,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "2"
+        },
+
+        {
+            "x": 9687.234375,
+            "y": 230.724609375,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "3"
+        },
+        {
+            "x": 9688.345703125,
+            "y": 230.91455078125,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "3"
+        },
+
+        {
+            "x": 9694.974609375,
+            "y": 220.93896484375,
+            "type": "orientation"
+        },
+        {
+            "x": 9694.974609375,
+            "y": 220.93896484375,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "4"
+        },
+
+        {
+            "x": 9672.3916015625,
+            "y": 228.1494140625,
+            "type": "path",
+            "move_mode": "run"
+        },
+
+        {
+            "x": 9665.0224609375,
+            "y": 230.787109375,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.5)",
+            "#": "5"
+        },
+
+
+
+        {
+            "x": 9670.130859375,
+            "y": 171.31884765625,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": "force_tp"
+        },
+        {
+            "x": 9627.869140625,
+            "y": 156.5830078125,
+            "type": "path",
+            "move_mode": "fly"
+        },
+        {
+            "x": 9595.6904296875,
+            "y": 167.17333984375,
+            "type": "target",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(0.5),click",
+            "//": "stop_flying"
+        },
+        {
+            "x": 9586.58984375,
+            "y": 172.35888671875,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "6"
+        },
+        {
+            "x": 9587.501953125,
+            "y": 171.46044921875,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "6"
+        }
+
+    ]
+    
+}

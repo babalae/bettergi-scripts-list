@@ -1,0 +1,106 @@
+{
+  "info": {
+    "name": "稻妻海祗岛01",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "mfkvfhpdx",
+        "links": "https://github.com/mfkvfhpdx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1056.69,
+      "y": -3945.74
+    },
+    {
+      "id": 2,
+      "x": -1039.14,
+      "y": -3926.35,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": -1043.08,
+      "y": -3914.18,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 4,
+      "x": -1046.72,
+      "y": -3914.82,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -1046.49,
+      "y": -3911.25,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": -1046.09,
+      "y": -3910.21,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": -1044.27,
+      "y": -3910.64,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": -1045.04,
+      "y": -3912.53,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": -1042.09,
+      "y": -3908.56,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 10,
+      "x": -1045.02,
+      "y": -3908.87,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 11,
+      "x": -1045.85,
+      "y": -3907.46,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

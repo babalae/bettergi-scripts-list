@@ -1,0 +1,144 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "约1分钟2秒/4个",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763905069007,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "07-枣椰-丰饶绿洲右下-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4391.9551,
+      "y": -2725.6484
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4396.4998,
+      "y": -2729.3744
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4424.4072,
+      "y": -2735.2422
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4439.9374,
+      "y": -2714.6256
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4458.5107,
+      "y": -2688.1611
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4493.3757,
+      "y": -2684.3747
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4530.7428,
+      "y": -2654.9996
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4525.6763,
+      "y": -2648.3223
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4544.0044,
+      "y": -2625.2676
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4592.7502,
+      "y": -2636.8736
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_X);迪希雅 wait(0.3),keypress(VK_E),keypress(VK_E),wait(0.2);",
+      "id": 11,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4607.2627,
+      "y": -2640.4199
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4607.2627,
+      "y": -2640.4199
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 w(0.2),click(middle),wait(0.5),keydown(e),wait(0.75),moveby(0,-300),wait(0.3),moveby(-950,0),wait(0.3),moveby(-950,0),wait(0.3),keyup(e);",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4618.6367,
+      "y": -2636.2295
+    }
+  ]
+}

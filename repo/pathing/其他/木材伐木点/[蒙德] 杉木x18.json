@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "[蒙德] 杉木x18",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "Ayaka-Main",
+        "links": "https://github.com/Patrick-Ze"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -251.59,
+      "y": 2256.59,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -231.84,
+      "y": 2219.85,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -221.59,
+      "y": 2218.25,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -154.84,
+      "y": 2198.95,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -28.12,
+      "y": 2163.09,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    }
+  ]
+}
