@@ -580,6 +580,12 @@ declare const dispatcher: {
    * @param customCt 自定义取消令牌（可选）
    */
   runAutoFightTask(param: AutoFightParam, customCt?: CancellationToken | null): Promise<void>;
+  /**
+   * 运行自动地脉花任务
+   * @param param 自动地脉花任务参数
+   * @param customCt 自定义取消令牌（可选）
+   */
+  runAutoLeyLineOutcropTask(param: AutoLeyLineOutcropParam, customCt?: CancellationToken | null): Promise<void>;
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   AddTimer: typeof dispatcher.addTimer;
   AddTrigger: typeof dispatcher.addTrigger;
@@ -589,6 +595,7 @@ declare const dispatcher: {
   GetLinkedCancellationToken: typeof dispatcher.getLinkedCancellationToken;
   RunAutoDomainTask: typeof dispatcher.runAutoDomainTask;
   RunAutoFightTask: typeof dispatcher.runAutoFightTask;
+  RunAutoLeyLineOutcropTask: typeof dispatcher.runAutoLeyLineOutcropTask;
   // ==== END AUTO-GENERATED ALIASES ====;
 };
 
@@ -800,6 +807,57 @@ declare class FightFinishDetectConfig {
   declare BeforeDetectDelay: typeof FightFinishDetectConfig.prototype.beforeDetectDelay;
   declare RotateFindEnemyEnabled: typeof FightFinishDetectConfig.prototype.rotateFindEnemyEnabled;
   // ==== END AUTO-GENERATED ALIASES ====
+}
+
+
+/**
+ * 自动地脉花任务参数
+ */
+declare class AutoLeyLineOutcropParam {
+    constructor(count: number, country: string, leyLineOutcropType: string);
+
+    /** 刷取次数 */
+    count: number;
+    /** 国家地区 */
+    country: string;
+    /** 地脉花类型  启示之花/藏金之花 */
+    leyLineOutcropType: string;
+    /** 树脂耗尽模式 */
+    isResinExhaustionMode: boolean;
+    /** 耗尽模式取小值 */
+    openModeCountMin: boolean;
+    /** 是否使用冒险之证寻找地脉花 */
+    useAdventurerHandbook: boolean;
+    /** 好感队名称 */
+    friendshipTeam: string;
+    /** 战斗的队伍名称 */
+    team: string;
+    /** 战斗超时时间 */
+    timeout: number;
+    /** 前往合成台合成浓缩树脂 */
+    isGoToSynthesizer: boolean;
+    /** 使用脆弱树脂 */
+    useFragileResin: boolean;
+    /** 使用须臾树脂 */
+    useTransientResin: boolean;
+    /** 详细通知 */
+    isNotification: boolean;
+    // ==== BEGIN AUTO-GENERATED ALIASES ====
+    declare Count: typeof AutoLeyLineOutcropParam.prototype.count;
+
+    declare Country: typeof AutoLeyLineOutcropParam.prototype.country;
+    declare LeyLineOutcropType: typeof AutoLeyLineOutcropParam.prototype.leyLineOutcropType;
+    declare OpenModeCountMin: typeof AutoLeyLineOutcropParam.prototype.openModeCountMin;
+    declare IsResinExhaustionMode: typeof AutoLeyLineOutcropParam.prototype.isResinExhaustionMode;
+    declare UseAdventurerHandbook: typeof AutoLeyLineOutcropParam.prototype.useAdventurerHandbook;
+    declare FriendshipTeam: typeof AutoLeyLineOutcropParam.prototype.friendshipTeam;
+    declare Team: typeof AutoLeyLineOutcropParam.prototype.team;
+    declare Timeout: typeof AutoLeyLineOutcropParam.prototype.timeout;
+    declare IsGoToSynthesizer: typeof AutoLeyLineOutcropParam.prototype.isGoToSynthesizer;
+    declare UseFragileResin: typeof AutoLeyLineOutcropParam.prototype.useFragileResin;
+    declare UseTransientResin: typeof AutoLeyLineOutcropParam.prototype.useTransientResin;
+    declare IsNotification: typeof AutoLeyLineOutcropParam.prototype.isNotification;
+    // ==== END AUTO-GENERATED ALIASES ====
 }
 
 /**
