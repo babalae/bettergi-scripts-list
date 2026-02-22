@@ -732,9 +732,7 @@ async function spikChat(npcName) {
         // 设置脚本环境的游戏分辨率和DPI缩放
         setGameMetrics(1920, 1080, 1);
 
-        await sleep(1000);
         // 交互
-
         let loop_count = 3;
         if (npcName == "布纳马") {
             loop_count = 3;
@@ -769,7 +767,7 @@ async function spikChat(npcName) {
     } else {
         for (let i = 0; i < count; i++) {
             keyPress("VK_F");
-            await sleep(1300);
+            await sleep(1500);
         }
     }
 }
