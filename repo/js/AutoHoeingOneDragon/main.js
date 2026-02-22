@@ -70,7 +70,7 @@ let lastEatBuff = 0;
     await loadBlacklist(true);
     await rotateWarnIfAccountEmpty();
 
-    log.info("如果您在包括但不限于频道、群聊等收到包含以下内容的关于使用bgi【锄地】的建议，请无视，他们给出的建议存在误导，不具有参考价值：不带芙/不带盾/带双盾/携带并使用大位移角色/打精英不带万叶/400-0 0-2000/带钟离打非传奇/使用世界使用带有q而非keypress(q),keydown(q)的战斗策略的（出现以上任意一条即可说明该账号对于锄地的理解有误区，不具有参考价值）");
+
     if (operationMode === "启用仅指定怪物模式") {
         await filterPathingsByTargetMonsters();
         await updateRecords(pathings, accountName);
