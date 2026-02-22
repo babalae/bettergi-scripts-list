@@ -1,0 +1,34 @@
+[
+  {
+    "name": "targetDish",
+    "type": "input-text",
+    "label": "需要烹饪的料理名称"
+  },
+  {
+    "name": "operationMode",
+    "type": "select",
+    "label": "选择烹饪类型",
+    "options": [
+      "奇怪料理",
+      "普通料理"
+    ]
+  },
+  {
+    "name": "targetNum",
+    "type": "input-text",
+    "label": "输入目标数量",
+    "default": "10"
+  },
+  {
+    "name": "extraTime",
+    "type": "input-text",
+    "label": "烹饪时间修正(毫秒)\n制作普通料理时按空格的时机将延后该值(负数则提前)",
+    "default": "0"
+  },
+  {
+    "name": "sleepTimeRate",
+    "type": "input-text",
+    "label": "识别间隔修正，各种等待时间将被调整为原来的该数值倍\n仅建议在设备较差出现明显问题时调大",
+    "default": "1"
+  }
+]
