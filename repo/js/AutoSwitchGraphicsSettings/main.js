@@ -6,6 +6,7 @@ const settingsArr = Array.from(settings);
 // 载入设置图标和图像设置按钮
 const settingsIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/gear.png"));
 const graphicsTextRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/graphics.png"));
+const volumeTextRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/volume.png"));
 
 // 封装好的点击以上两个按钮操作
 const findAndClick = async (object) => {
@@ -24,15 +25,12 @@ const findAndClick = async (object) => {
 	gameRegion.Dispose();
 };
 
-// 封装好的 OCR 寻找选项功能
-const findOption = async (optionName) => {
-	let gameRegion = captureGameRegion();
-	let ocrList = gameRegion.findMulti(RecognitionObject.ocrThis);
-	gameRegion.Dispose();
-	for(let i = 0;i < ocrList.count; i++)
-		if(ocrList[i].Text === optionName)
-			return ocrList[i];
-};
+// 转换音量设置项字符串为整数
+const stringToInt = async (str) => {
+  if (!/^-?\d+$/.test(str))
+    return NaN;
+  return Number(str);
+}
 
 const buildOcrMap = () => { // 硬编码按钮坐标，用于极速模式
 	let map = new Map([
@@ -57,6 +55,16 @@ const buildOcrMap = () => { // 硬编码按钮坐标，用于极速模式
   ["角色动态高精度", { x: 1500, y: 840 }]
 ]);
 	return map;
+};
+
+// 封装好的 OCR 寻找选项功能
+const findOption = async (optionName) => {
+	let gameRegion = captureGameRegion();
+	let ocrList = gameRegion.findMulti(RecognitionObject.ocrThis);
+	gameRegion.Dispose();
+	for(let i = 0;i < ocrList.count; i++)
+		if(ocrList[i].Text === optionName)
+			return ocrList[i];
 };
 
 // 普通模式点击选项
@@ -95,6 +103,18 @@ const chooseOptionFast = async (optionName, order, ocrMap) => {
 	else
 		click(1000, 39); // 单击空白处取消关闭下拉菜单的后摇
 };
+
+// 拖动音量条
+const dragOption = async (optionName, size) => {
+	if(size === -1)
+		return; // 默认选项，跳过
+	if(Number.isNaN(size) || size < 0 || size > 10)
+		return; // 音量大小不合法，跳过
+	let res = await findOption(optionName);
+	let x = res.x, y = res.y;
+	for(let i = 25;i <= 39;++i) // 鲁棒性
+		click(x + 955 + 32 * size, y + i);
+}
 
 (async function () {
 	if(!settings.check) {
@@ -153,12 +173,13 @@ const chooseOptionFast = async (optionName, order, ocrMap) => {
 					await chooseOption(settingsTemplate[i].name, j);
 				}
 
+		// 滚动页面
 		moveMouseTo(1000, 500);
 		for(let i = 0;i < 50;++i)
 			verticalScroll(-1);
 		await sleep(500);
 
-		for(let i = 9;i < settingsTemplate.length;++i)
+		for(let i = 9;i < 21;++i)
 			for(let j = 0; j < Array.from(settingsTemplate[i].options).length;++j)
 				if(settingsArr[i].Value === Array.from(settingsTemplate[i].options)[j]) {
 					log.info("{name}选择{option}", settingsTemplate[i].name, settingsArr[i].Value);
@@ -168,6 +189,49 @@ const chooseOptionFast = async (optionName, order, ocrMap) => {
 	}
 
 	log.info("修改图像设置完成，正在尝试回到主界面……");
+	await genshin.returnMainUi();
+	log.info("回到主界面成功，现在开始修改{highlight}", "音量设置");
+	keyPress("ESCAPE");
+	await sleep(1000);
+	await findAndClick(settingsIconRo);
+	log.info("进入设置界面成功，打开声音页");
+	await sleep(1000);
+	await findAndClick(volumeTextRo);
+	await sleep(500);
+
+	log.info("正在调整{highlight}", "主音量");
+	await dragOption("音量", await stringToInt(settings.mainVolume));
+	log.info("正在调整{highlight}", "音乐音量");
+	await dragOption("音乐音量", await stringToInt(settings.musicVolume));
+	log.info("正在调整{highlight}", "语音音量");
+	await dragOption("语音音量", await stringToInt(settings.dialogueVolume));
+	log.info("正在调整{highlight}", "音效音量");
+	await dragOption("音效音量", await stringToInt(settings.sfxVolume));
+
+	let map = new Map();
+	map.set("动态范围", ["默认", "完全", "有限"]);
+	map.set("输出设置", ["默认", "立体声", "环绕声"]);
+	map.set("最小化时静音", ["默认", "关闭", "打开"]);
+
+	log.info("{name}选择{option}", "动态范围", settings.dynamicRange);
+	if(settings.dynamicRange !== "默认")
+		for(let i = 0;i < map.get("动态范围").length;++i)
+			if(map.get("动态范围")[i] === settings.dynamicRange)
+				await chooseOption("动态范围", i);
+
+	log.info("{name}选择{option}", "输出设置", settings.outputSetting);
+	if(settings.outputSetting !== "默认")
+		for(let i = 0;i < map.get("输出设置").length;++i)
+			if(map.get("输出设置")[i] === settings.outputSetting)
+				await chooseOption("输出设置", i);
+
+	log.info("{name}选择{option}", "最小化时静音", settings.muteWhenMinimized);
+	if(settings.muteWhenMinimized !== "默认")
+		for(let i = 0;i < map.get("最小化时静音").length;++i)
+			if(map.get("最小化时静音")[i] === settings.muteWhenMinimized)
+				await chooseOption("最小化时静音", i);
+
+	log.info("修改音量设置完成，正在尝试回到主界面……");
 	await genshin.returnMainUi();
 	log.info("回到主界面成功");
 })();
