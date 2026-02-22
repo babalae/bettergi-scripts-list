@@ -5,13 +5,17 @@
       {
         "links": "https://github.com/Bedrockx",
         "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时95.35秒，包含以下怪物：1只大型草史莱姆、2只打手丘丘人、1只火斧丘丘暴徒、3只雷萤。",
     "enable_monster_loot_split": false,
     "hash_res": "28970498",
-    "last_modified_time": 1767810029137,
+    "last_modified_time": 1771696623510,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B044璃月明蕴镇西北",
@@ -35,13 +39,22 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": -214.919921875,
-      "y": 969.64794921875
+      "x": -208.61328125,
+      "y": 975.2099609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -219.6328125,
+      "y": 969.4912109375
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);伊涅芙 e;芙宁娜 e;岩王帝君 w(1.2),j,wait(5.3),w(1);爱可菲 e;",
-      "id": 3,
+      "action_params": "keypress(f);伊涅芙 e;芙宁娜 e;爱可菲 e;",
+      "id": 4,
       "move_mode": "dash",
       "type": "path",
       "x": -233.978515625,
@@ -50,7 +63,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 4,
+      "id": 5,
       "move_mode": "dash",
       "type": "path",
       "x": -218.853515625,
@@ -59,7 +72,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "walk",
       "type": "path",
       "x": -218.853515625,
@@ -68,7 +81,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 6,
+      "id": 7,
       "move_mode": "dash",
       "type": "path",
       "x": -261.134765625,
@@ -77,7 +90,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 7,
+      "id": 8,
       "move_mode": "dash",
       "type": "path",
       "x": -261.134765625,
@@ -86,7 +99,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 8,
+      "id": 9,
       "move_mode": "dash",
       "type": "path",
       "x": -288.498046875,
@@ -95,7 +108,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 9,
+      "id": 10,
       "move_mode": "dash",
       "type": "orientation",
       "x": -288.498046875,

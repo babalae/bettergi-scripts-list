@@ -119,10 +119,11 @@ async function findAndClickWhiteSpaceNext() {
 // 查找要删除的存档
 async function findSaveInList(keyword) {
   const maxScroll = 15;
+  const keywords = keyword.trim().split(" ");
 
   for (let i = 0; i < maxScroll; i++) {
     const region = await findText(
-      keyword,
+      keywords,
       200, 250, 1500, 700,
       3
     );

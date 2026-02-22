@@ -1,0 +1,24 @@
+[
+    {
+        "name": "targetState",
+        "type": "select",
+        "label": "选择要设置的世界权限",
+        "options": [
+            "确认后可加入",
+            "直接加入",
+            "不允许加入"
+        ],
+        "default": "确认后可加入"
+    },
+    {
+        "name": "forceCheck",
+        "type": "checkbox",
+        "label": "强化确认模式，勾选后将确认切换成功才退出"
+    },
+    {
+        "name": "checkInterval",
+        "type": "input-text",
+        "label": "识别间隔(毫秒)，设备性能较差经常设置失败时适当调大",
+        "default": "50"
+    }
+]
