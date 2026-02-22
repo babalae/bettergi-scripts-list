@@ -249,5 +249,67 @@
 			"打开"
 		],
 		"default": "默认"
+	},
+	{
+		"name": "separator",
+		"type": "separator",
+		"label": "音量设置 -1为默认 范围0-10"
+	},
+	{
+		"name": "mainVolume",
+		"type": "input-text",
+		"label": "主音量",
+		"default": "-1"
+	},
+	{
+		"name": "musicVolume",
+		"type": "input-text",
+		"label": "音乐音量",
+		"default": "-1"
+	},
+	{
+		"name": "dialogueVolume",
+		"type": "input-text",
+		"label": "语音音量",
+		"default": "-1"
+	},
+	{
+		"name": "sfxVolume",
+		"type": "input-text",
+		"label": "音效音量",
+		"default": "-1"
+	},
+	{
+		"name": "dynamicRange",
+		"type": "select",
+		"label": "动态范围",
+		"options": [
+			"默认",
+			"完全",
+			"有限"
+		],
+		"default": "默认"
+	},
+	{
+		"name": "outputSetting",
+		"type": "select",
+		"label": "输出设置",
+		"options": [
+			"默认",
+			"立体声",
+			"环绕声"
+		],
+		"default": "默认"
+	},
+	{
+		"name": "muteWhenMinimized",
+		"type": "select",
+		"label": "最小化时静音",
+		"options": [
+			"默认",
+			"关闭",
+			"打开"
+		],
+		"default": "默认"
 	}
 ]
