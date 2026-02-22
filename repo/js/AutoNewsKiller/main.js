@@ -10,7 +10,7 @@ let newCount = 0;
     await genshin.returnMainUi();
     keyPress("B");
 
-    let types = Array.from(settings.executingTypes) || ["全选"];
+    let types = Array.from(settings.executingTypes);
     if (types.includes("全选")) {
         types = ["武器",
             "圣遗物",
@@ -46,7 +46,7 @@ let newCount = 0;
             await sleep(300);
         }
         let scrolls = 0;
-        while (scrolls < 145) {
+        while (scrolls < 200) {
             scrolls++
             try { await sleep(1) } catch (e) { break; }
             while (true) {
