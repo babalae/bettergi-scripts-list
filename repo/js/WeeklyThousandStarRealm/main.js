@@ -261,7 +261,7 @@ async function createMap() {
 // 从收藏创建关卡
 async function createStarMap() {
   await findTextAndClick("搜索", 0, 0, 1920, 120);
-  inputText(roomID);
+  inputText(starRoomName);
   await sleep(500);
   await findTextAndClick("搜索", 0, 0, 1920, 120);
   await sleep(duration);
