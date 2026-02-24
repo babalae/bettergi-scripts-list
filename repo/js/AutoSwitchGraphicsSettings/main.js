@@ -62,9 +62,16 @@ const findOption = async (optionName) => {
 	let gameRegion = captureGameRegion();
 	let ocrList = gameRegion.findMulti(RecognitionObject.ocrThis);
 	gameRegion.Dispose();
-	for(let i = 0;i < ocrList.count; i++)
-		if(ocrList[i].Text === optionName)
+	if(!ocrList || ocrList.count === 0) {
+		log.error("未能找到选项：{name}", optionName);
+		return null;
+	}
+	for (let i = 0; i < ocrList.count; i++) {
+		if (ocrList[i].Text === optionName)
 			return ocrList[i];
+	}
+	log.error("未能找到选项：{name}", optionName);
+	return null;
 };
 
 // 普通模式点击选项
@@ -72,6 +79,8 @@ const chooseOption = async (optionName, order) => {
 	if(order === 0)
 		return; // 默认选项，跳过
 	let res = await findOption(optionName);
+	if(!res)
+		return; // 未找到此选项
 	let x = res.x, y = res.y;
 	click(x + 1000, y + 25); // 点击选项的下拉栏，依赖选项名称的相对位置
 	await sleep(100);
@@ -111,6 +120,8 @@ const dragOption = async (optionName, size) => {
 	if(Number.isNaN(size) || size < 0 || size > 10)
 		return; // 音量大小不合法，跳过
 	let res = await findOption(optionName);
+	if(!res)
+		return; // 未找到此选项
 	let x = res.x, y = res.y;
 	for(let i = 25;i <= 39;++i) // 鲁棒性
 		click(x + 955 + 32 * size, y + i);
