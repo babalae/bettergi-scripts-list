@@ -1,0 +1,238 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765809244548,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "624【收尾】纳塔-悠悠集市②-6",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 13975.744140625,
+      "y": 466.935546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.4)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 13982.29296875,
+      "y": 463.09814453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-2300),keydown(VK_SPACE),wait(1),keyup(VK_SPACE),wait(0.2),keypress(e),wait(0.3),keypress(e),wait(1.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),click(middle)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 13981.7744140625,
+      "y": 435.37744140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 13979.3623046875,
+      "y": 439.89501953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 13980.7783203125,
+      "y": 436.62158203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13974.447265625,
+      "y": 446.35888671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 13971.9462890625,
+      "y": 450.4765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 13972.5458984375,
+      "y": 449.7177734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f)",
+      "id": 9,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 13970.34375,
+      "y": 447.2188274657774
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 13957.9541015625,
+      "y": 439.001953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f)",
+      "id": 11,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 13956.578125,
+      "y": 434.73046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 13952.0927734375,
+      "y": 429.3359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f)",
+      "id": 13,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 13950.6103515625,
+      "y": 431.95654296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13962.4287109375,
+      "y": 441.33251953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(Q),keypress(f),wait(0.8),keypress(f),keyup(Q)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13967.00390625,
+      "y": 446.2744140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 13968,
+      "y": 451.3369140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 13968,
+      "y": 451.3369140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 13969.794921875,
+      "y": 450.9912109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 13967.3271484375,
+      "y": 450.29638671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13967.3271484375,
+      "y": 450.29638671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 13964.748046875,
+      "y": 444.158203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3),wait(1.5);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle),wait(1);",
+      "id": 22,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 13976.10546875,
+      "y": 445.083984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3),wait(1.2);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(4);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);wait(1)",
+      "id": 23,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 13970.49267578125,
+      "y": 436.24267578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 24,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13958.712890625,
+      "y": 429.1162109375
+    }
+  ]
+}
