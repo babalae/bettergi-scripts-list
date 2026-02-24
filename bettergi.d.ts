@@ -131,6 +131,18 @@ declare function getAvatars(): string[];
  */
 declare function inputText(text: string): void;
 
+/**
+ * 获取当前程序版本号
+ * @returns 版本号字符串
+ */
+declare function getVersion(): string;
+
+/**
+ * 获取当前游戏窗口指标
+ * @returns [width, height, dpi] 数组
+ */
+declare function getGameMetrics(): number[];
+
 // ==================== 全局对象 ====================
 
 /**
@@ -194,26 +206,39 @@ declare const genshin: {
   /** 导航相关Instance，仅内部使用 */
   readonly lazyNavigationInstance: any;
   /**
-   * 传送到指定坐标
+   * 传送到指定坐标（数值坐标）
    * @param x X 坐标
    * @param y Y 坐标
    */
-  tp(x: number | string, y: number | string): Promise<void>;
+  tp(x: number, y: number): Promise<void>;
   /**
-   * 传送到指定坐标（强制传送）
+   * 传送到指定坐标（数值坐标，强制传送）
    * @param x X 坐标
    * @param y Y 坐标
    * @param force 是否强制传送
    */
-  tp(x: number | string, y: number | string, force: boolean): Promise<void>;
+  tp(x: number, y: number, force: boolean): Promise<void>;
   /**
-   * 传送到指定坐标（指定地图）
+   * 传送到指定坐标（数值坐标，指定地图）
    * @param x X 坐标
    * @param y Y 坐标
    * @param mapName 地图名称
    * @param force 是否强制传送
    */
   tp(x: number, y: number, mapName: string, force: boolean): Promise<void>;
+  /**
+   * 传送到指定坐标（字符串坐标）
+   * @param x X 坐标
+   * @param y Y 坐标
+   */
+  tp(x: string, y: string): Promise<void>;
+  /**
+   * 传送到指定坐标（字符串坐标，强制传送）
+   * @param x X 坐标
+   * @param y Y 坐标
+   * @param force 是否强制传送
+   */
+  tp(x: string, y: string, force: boolean): Promise<void>;
   /**
    * 移动大地图到指定坐标
    * @param x X 坐标
@@ -245,30 +270,35 @@ declare const genshin: {
   tpToStatueOfTheSeven(): Promise<void>;
   /**
    * 从大地图获取当前位置
-   * @returns 位置坐标
+   * @returns 位置坐标，获取失败时返回 null
    */
-  getPositionFromBigMap(): Point2f;
+  getPositionFromBigMap(): Point2f | null;
   /**
    * 从大地图获取当前位置（指定地图）
    * @param mapName 地图名称
-   * @returns 位置坐标
+   * @returns 位置坐标，获取失败时返回 null
    */
-  getPositionFromBigMap(mapName: string): Point2f;
+  getPositionFromBigMap(mapName: string): Point2f | null;
   /**
-   * 从小地图获取当前位置
-   * @param mapName 地图名称（可选，默认为提瓦特大陆）
-   * @param cacheTimeMs 缓存时间（毫秒，默认 900ms）
-   * @returns 位置坐标
+   * 从小地图获取当前位置（使用默认地图和缓存时间）
+   * @returns 位置坐标，获取失败时返回 null
    */
-  getPositionFromMap(mapName?: string, cacheTimeMs?: number): Point2f;
+  getPositionFromMap(): Point2f | null;
+  /**
+   * 从小地图获取当前位置（指定地图）
+   * @param mapName 地图名称
+   * @param cacheTimeMs 缓存时间（毫秒，默认 900ms）
+   * @returns 位置坐标，获取失败时返回 null
+   */
+  getPositionFromMap(mapName: string, cacheTimeMs?: number): Point2f | null;
   /**
    * 从小地图获取当前位置（局部匹配）
    * @param mapName 地图名称
    * @param x 参考世界坐标 X
    * @param y 参考世界坐标 Y
-   * @returns 位置坐标
+   * @returns 位置坐标，获取失败时返回 null
    */
-  getPositionFromMap(mapName: string, x: number, y: number): Point2f;
+  getPositionFromMap(mapName: string, x: number, y: number): Point2f | null;
   /**
    * 获取摄像机朝向
    * @returns 朝向角度
@@ -326,6 +356,24 @@ declare const genshin: {
    * 重新登录原神
    */
   relogin(): Promise<void>;
+  /**
+   * 进出千星奇域
+   */
+  wonderlandCycle(): Promise<void>;
+  /**
+   * 调整时间（数值参数）
+   * @param hour 目标小时（0-24）
+   * @param minute 目标分钟（0-59）
+   * @param skip 是否跳过动画（默认 false）
+   */
+  setTime(hour: number, minute: number, skip?: boolean): Promise<void>;
+  /**
+   * 调整时间（字符串参数）
+   * @param hour 目标小时（0-24 的字符串形式）
+   * @param minute 目标分钟（0-59 的字符串形式）
+   * @param skip 是否跳过动画（默认 false）
+   */
+  setTime(hour: string, minute: string, skip?: boolean): Promise<void>;
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   readonly Width: typeof genshin.width;
   readonly Height: typeof genshin.height;
@@ -352,6 +400,8 @@ declare const genshin: {
   ReturnMainUi: typeof genshin.returnMainUi;
   AutoFishing: typeof genshin.autoFishing;
   Relogin: typeof genshin.relogin;
+  WonderlandCycle: typeof genshin.wonderlandCycle;
+  SetTime: typeof genshin.setTime;
   // ==== END AUTO-GENERATED ALIASES ====;
 };
 
@@ -464,6 +514,15 @@ declare const file: {
    * @returns 是否写入成功
    */
   writeImageSync(path: string, mat: Mat): boolean;
+  /**
+   * 同步读取图像文件为 Mat 对象，并调整到指定尺寸
+   * @param path 图像文件路径
+   * @param width 调整后的宽度
+   * @param height 调整后的高度
+   * @param interpolation 插值算法（0=最近邻, 1=双线性(默认), 2=双三次, 3=区域重采样, 4=Lanczos, 5=精确双线性）
+   * @returns 调整尺寸后的 Mat 对象
+   */
+  readImageMatWithResizeSync(path: string, width: number, height: number, interpolation?: number): Mat;
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   ReadPathSync: typeof file.readPathSync;
   IsFolder: typeof file.isFolder;
@@ -473,6 +532,7 @@ declare const file: {
   WriteTextSync: typeof file.writeTextSync;
   WriteText: typeof file.writeText;
   WriteImageSync: typeof file.writeImageSync;
+  ReadImageMatWithResizeSync: typeof file.readImageMatWithResizeSync;
   // ==== END AUTO-GENERATED ALIASES ====;
 };
 
@@ -557,7 +617,7 @@ declare const dispatcher: {
    * @param customCts 自定义取消令牌源
    * @returns 任务结果
    */
-  runTask(soloTask: SoloTask, customCts: CancellationTokenSource): Promise<any>;
+  runTask(soloTask: SoloTask, customCts: CancellationTokenSource): Promise<void>;
   /**
    * 获取链接的取消令牌源
    * @returns 取消令牌源
@@ -601,7 +661,7 @@ declare class RealtimeTimer {
   /** 任务名称 */
   name?: string;
   /** 触发间隔（毫秒，默认 50ms） */
-  interval?: number;
+  interval: number;
   /** 任务配置 */
   config?: any;
 
@@ -642,6 +702,8 @@ declare class SoloTask {
 declare class CancellationTokenSource {
   /** 取消令牌 */
   readonly token: CancellationToken;
+  /** 是否已请求取消 */
+  readonly isCancellationRequested: boolean;
 
   constructor();
 
@@ -657,10 +719,27 @@ declare class CancellationTokenSource {
   cancel(): void;
 
   /**
+   * 取消操作
+   * @param throwOnFirstException 是否在第一个异常时抛出
+   */
+  cancel(throwOnFirstException: boolean): void;
+
+  /**
+   * 异步取消操作
+   */
+  cancelAsync(): Promise<void>;
+
+  /**
    * 在指定延迟后取消
    * @param millisecondsDelay 延迟时间（毫秒）
    */
   cancelAfter(millisecondsDelay: number): void;
+
+  /**
+   * 尝试重置令牌源
+   * @returns 是否成功
+   */
+  tryReset(): boolean;
 
   /**
    * 释放资源
@@ -670,9 +749,12 @@ declare class CancellationTokenSource {
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   declare readonly Token: typeof CancellationTokenSource.prototype.token;
 
+  declare readonly IsCancellationRequested: typeof CancellationTokenSource.prototype.isCancellationRequested;
   declare static CreateLinkedTokenSource: typeof CancellationTokenSource.createLinkedTokenSource;
   declare Cancel: typeof CancellationTokenSource.prototype.cancel;
+  declare CancelAsync: typeof CancellationTokenSource.prototype.cancelAsync;
   declare CancelAfter: typeof CancellationTokenSource.prototype.cancelAfter;
+  declare TryReset: typeof CancellationTokenSource.prototype.tryReset;
   declare Dispose: typeof CancellationTokenSource.prototype.dispose;
   // ==== END AUTO-GENERATED ALIASES ====
 }
@@ -687,13 +769,59 @@ declare class CancellationToken {
   /** 是否可以被取消 */
   readonly canBeCanceled: boolean;
 
+  /** 等待句柄 */
+  readonly waitHandle: any;
+
   static readonly none: any;
+
+  /**
+   * 注册取消回调
+   * @param callback 回调函数
+   */
+  register(callback: Function): any;
+
+  /**
+   * 注册取消回调
+   * @param callback 回调函数
+   * @param state 状态对象
+   */
+  register(callback: Function, state: any): any;
+
+  /**
+   * 注册取消回调
+   * @param callback 回调函数
+   * @param state 状态对象
+   * @param useSynchronizationContext 是否使用同步上下文
+   */
+  register(callback: Function, state: any, useSynchronizationContext: boolean): any;
+
+  /**
+   * 注册取消回调（非安全）
+   * @param callback 回调函数
+   */
+  unsafeRegister(callback: Function): any;
+
+  /**
+   * 注册取消回调（非安全）
+   * @param callback 回调函数
+   * @param state 状态对象
+   */
+  unsafeRegister(callback: Function, state: any): any;
+
+  /**
+   * 如果已请求取消则抛出异常
+   */
+  throwIfCancellationRequested(): void;
 
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   declare readonly IsCancellationRequested: typeof CancellationToken.prototype.isCancellationRequested;
 
   declare readonly CanBeCanceled: typeof CancellationToken.prototype.canBeCanceled;
+  declare readonly WaitHandle: typeof CancellationToken.prototype.waitHandle;
   declare static readonly None: typeof CancellationToken.none;
+  declare Register: typeof CancellationToken.prototype.register;
+  declare UnsafeRegister: typeof CancellationToken.prototype.unsafeRegister;
+  declare ThrowIfCancellationRequested: typeof CancellationToken.prototype.throwIfCancellationRequested;
   // ==== END AUTO-GENERATED ALIASES ====
 }
 
@@ -701,7 +829,38 @@ declare class CancellationToken {
  * PostMessage 模拟器
  */
 declare class PostMessage {
-    constructor();
+  constructor();
+
+  /**
+   * 按下键盘按键
+   * @param key 按键名称
+   */
+  keyDown(key: string): void;
+
+  /**
+   * 释放键盘按键
+   * @param key 按键名称
+   */
+  keyUp(key: string): void;
+
+  /**
+   * 按下并释放键盘按键
+   * @param key 按键名称
+   */
+  keyPress(key: string): void;
+
+  /**
+   * 点击（无参数）
+   */
+  click(): void;
+
+  // ==== BEGIN AUTO-GENERATED ALIASES ====
+  declare KeyDown: typeof PostMessage.prototype.keyDown;
+
+  declare KeyUp: typeof PostMessage.prototype.keyUp;
+  declare KeyPress: typeof PostMessage.prototype.keyPress;
+  declare Click: typeof PostMessage.prototype.click;
+  // ==== END AUTO-GENERATED ALIASES ====
 }
 
 /**
@@ -724,7 +883,8 @@ declare class ServerTime {
  * 自动秘境任务参数
  */
 declare class AutoDomainParam {
-  constructor(fightCount: number, fightStrategyPath: string);
+  constructor(domainRoundNum: number, path: string);
+  constructor(domainRoundNum?: number);
 
   /** 副本轮数 */
   domainRoundNum: number;
@@ -752,6 +912,28 @@ declare class AutoDomainParam {
   transientResinUseCount: number;
   /** 使用脆弱树脂次数 */
   fragileResinUseCount: number;
+  /** 游戏文化信息 */
+  gameCultureInfo: any;
+  /** 字符串本地化器 */
+  stringLocalizer: any;
+
+  /**
+   * 设置默认值
+   */
+  setDefault(): void;
+
+  /**
+   * 设置战斗策略路径
+   * @param strategyName 策略名称
+   * @returns 策略路径
+   */
+  setCombatStrategyPath(strategyName?: string): string;
+
+  /**
+   * 设置树脂优先级列表
+   * @param list 优先级列表
+   */
+  setResinPriorityList(...priorities: string[]): void;
 
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   declare DomainRoundNum: typeof AutoDomainParam.prototype.domainRoundNum;
@@ -768,6 +950,11 @@ declare class AutoDomainParam {
   declare CondensedResinUseCount: typeof AutoDomainParam.prototype.condensedResinUseCount;
   declare TransientResinUseCount: typeof AutoDomainParam.prototype.transientResinUseCount;
   declare FragileResinUseCount: typeof AutoDomainParam.prototype.fragileResinUseCount;
+  declare GameCultureInfo: typeof AutoDomainParam.prototype.gameCultureInfo;
+  declare StringLocalizer: typeof AutoDomainParam.prototype.stringLocalizer;
+  declare SetDefault: typeof AutoDomainParam.prototype.setDefault;
+  declare SetCombatStrategyPath: typeof AutoDomainParam.prototype.setCombatStrategyPath;
+  declare SetResinPriorityList: typeof AutoDomainParam.prototype.setResinPriorityList;
   // ==== END AUTO-GENERATED ALIASES ====
 }
 
@@ -806,7 +993,7 @@ declare class FightFinishDetectConfig {
  * 自动战斗任务参数
  */
 declare class AutoFightParam {
-  constructor(fightStrategyPath: string);
+  constructor(strategyName?: string);
 
   /** 战斗策略路径 */
   combatStrategyPath: string;
@@ -827,7 +1014,7 @@ declare class AutoFightParam {
   /** 按CD调度动作 */
   actionSchedulerByCd: string;
   /** 仅拾取精英掉落模式 */
-  onlyPickEliteDropsMode: boolean;
+  onlyPickEliteDropsMode: string;
   /** 战斗战利品阈值 */
   battleThresholdForLoot: number;
   /** 守护角色 */
@@ -846,9 +1033,27 @@ declare class AutoFightParam {
   burstEnabled: boolean;
   /** 琴双倍拾取 */
   qinDoublePickUp: boolean;
+  /** 游戏文化信息 */
+  gameCultureInfo: any;
+  /** 字符串本地化器 */
+  stringLocalizer: any;
+
+  /**
+   * 设置战斗策略路径
+   * @param strategyName 策略名称
+   */
+  setCombatStrategyPath(strategyName?: string): void;
+
+  /**
+   * 设置默认值
+   */
+  setDefault(): void;
 
   /** 是否启用游泳检测 */
   static swimmingEnabled: boolean;
+
+  /** 战斗结束检测配置（嵌套类型构造函数） */
+  static readonly fightFinishDetectConfig: typeof FightFinishDetectConfig;
 
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   declare CombatStrategyPath: typeof AutoFightParam.prototype.combatStrategyPath;
@@ -871,7 +1076,12 @@ declare class AutoFightParam {
   declare RotaryFactor: typeof AutoFightParam.prototype.rotaryFactor;
   declare BurstEnabled: typeof AutoFightParam.prototype.burstEnabled;
   declare QinDoublePickUp: typeof AutoFightParam.prototype.qinDoublePickUp;
+  declare GameCultureInfo: typeof AutoFightParam.prototype.gameCultureInfo;
+  declare StringLocalizer: typeof AutoFightParam.prototype.stringLocalizer;
+  declare SetCombatStrategyPath: typeof AutoFightParam.prototype.setCombatStrategyPath;
+  declare SetDefault: typeof AutoFightParam.prototype.setDefault;
   declare static SwimmingEnabled: typeof AutoFightParam.swimmingEnabled;
+  declare static readonly FightFinishDetectConfig: typeof AutoFightParam.fightFinishDetectConfig;
   // ==== END AUTO-GENERATED ALIASES ====
 }
 
@@ -881,15 +1091,45 @@ declare class AutoFightParam {
  * OpenCV Mat 图像矩阵
  */
 declare class Mat {
+  // ==================== 实例属性 ====================
+
+  /** 标志位 */
+  readonly flags: any;
+  /** 矩阵维度 */
+  readonly dims: any;
+  /** 行数 */
+  readonly rows: any;
+  /** 列数 */
+  readonly cols: any;
   /** 图像宽度 */
   readonly width: number;
   /** 图像高度 */
   readonly height: number;
+  /** 像素数据 */
+  readonly data: any;
+  /** 数据指针 */
+  readonly dataPointer: any;
+  /** 数据起始位置 */
+  readonly dataStart: any;
+  /** 数据结束位置 */
+  readonly dataEnd: any;
+  /** 数据限制位置 */
+  readonly dataLimit: any;
+  /** 原生指针 */
+  readonly cvPtr: any;
+  /** 是否已释放 */
+  readonly isDisposed: any;
+  /** 是否启用释放 */
+  readonly isEnabledDispose: any;
+
+  // ==================== 静态属性 ====================
 
   /** 索引器 */
   static readonly indexer: any;
   /** 非安全索引器 */
   static readonly unsafeIndexer: any;
+
+  // ==================== 静态方法 ====================
 
   /**
    * 从原生指针创建 Mat
@@ -906,10 +1146,36 @@ declare class Mat {
   static fromPixelData(width: number, height: number, data: any): Mat;
 
   /**
+   * 从像素数据创建 Mat
+   * @param width 宽度
+   * @param height 高度
+   * @param type 数据类型
+   * @param data 像素数据
+   */
+  static fromPixelData(width: number, height: number, type: number, data: any): Mat;
+
+  /**
+   * 从像素数据创建 Mat
+   * @param width 宽度
+   * @param height 高度
+   * @param type 数据类型
+   * @param data 像素数据
+   * @param step 步长
+   */
+  static fromPixelData(width: number, height: number, type: number, data: any, step: any): Mat;
+
+  /**
    * 从流创建 Mat
    * @param stream 流对象
    */
   static fromStream(stream: any): Mat;
+
+  /**
+   * 从流创建 Mat
+   * @param stream 流对象
+   * @param mode 读取模式
+   */
+  static fromStream(stream: any, mode: any): Mat;
 
   /**
    * 解码图像数据
@@ -918,16 +1184,37 @@ declare class Mat {
   static imDecode(data: any): Mat;
 
   /**
+   * 解码图像数据
+   * @param data 图像数据
+   * @param flags 解码标志
+   */
+  static imDecode(data: any, flags: any): Mat;
+
+  /**
    * 从图像数据创建 Mat
    * @param imageData 图像数据
    */
   static fromImageData(imageData: any): Mat;
 
   /**
+   * 从图像数据创建 Mat
+   * @param imageData 图像数据
+   * @param flags 标志
+   */
+  static fromImageData(imageData: any, flags: any): Mat;
+
+  /**
    * 创建对角矩阵
    * @param mat 输入矩阵
    */
   static diag(mat: Mat): Mat;
+
+  /**
+   * 创建零矩阵
+   * @param size 尺寸对象
+   * @param type 数据类型
+   */
+  static zeros(size: any, type: number): Mat;
 
   /**
    * 创建零矩阵
@@ -939,11 +1226,25 @@ declare class Mat {
 
   /**
    * 创建全1矩阵
+   * @param size 尺寸对象
+   * @param type 数据类型
+   */
+  static ones(size: any, type: number): Mat;
+
+  /**
+   * 创建全1矩阵
    * @param rows 行数
    * @param cols 列数
    * @param type 数据类型
    */
   static ones(rows: number, cols: number, type: number): Mat;
+
+  /**
+   * 创建单位矩阵
+   * @param size 尺寸对象
+   * @param type 数据类型
+   */
+  static eye(size: any, type: number): Mat;
 
   /**
    * 创建单位矩阵
@@ -959,15 +1260,1079 @@ declare class Mat {
    */
   static fromArray(array: any[]): Mat;
 
-  /**
-   * 释放资源
-   */
+  // ==================== 生命周期方法 ====================
+
+  /** 释放资源 */
+  release(): void;
+  /** 释放资源 */
   dispose(): void;
+  /** 如果已释放则抛出异常 */
+  throwIfDisposed(): void;
+
+  // ==================== 算术运算 ====================
+
+  /** 一元正运算 */
+  plus(): any;
+  /** 取反 */
+  negate(): any;
+  /**
+   * 矩阵加法
+   * @param other 另一个矩阵或标量值
+   * @returns 相加后的新矩阵
+   */
+  add(other: Mat | any): Mat;
+  /**
+   * 矩阵减法
+   * @param other 另一个矩阵或标量值
+   * @returns 相减后的新矩阵
+   */
+  subtract(other: Mat | any): Mat;
+  /**
+   * 矩阵乘法
+   * @param other 另一个矩阵或标量值
+   * @returns 相乘后的新矩阵
+   */
+  multiply(other: Mat | any): Mat;
+  /**
+   * 矩阵除法
+   * @param other 另一个矩阵或标量值
+   * @returns 相除后的新矩阵
+   */
+  divide(other: Mat | any): Mat;
+
+  // ==================== 位运算 ====================
+
+  /**
+   * 按位与运算
+   * @param other 另一个矩阵或标量值
+   * @returns 按位与后的新矩阵
+   */
+  bitwiseAnd(other: Mat | any): Mat;
+  /**
+   * 按位或运算
+   * @param other 另一个矩阵或标量值
+   * @returns 按位或后的新矩阵
+   */
+  bitwiseOr(other: Mat | any): Mat;
+  /**
+   * 按位异或运算
+   * @param other 另一个矩阵或标量值
+   * @returns 按位异或后的新矩阵
+   */
+  xor(other: Mat | any): Mat;
+  /** 按位取反 */
+  onesComplement(): any;
+
+  // ==================== 比较运算 ====================
+
+  /**
+   * 逐元素小于比较
+   * @param other 另一个矩阵或标量值
+   * @returns 比较结果矩阵
+   */
+  lessThan(other: Mat | any): Mat;
+  /**
+   * 逐元素小于等于比较
+   * @param other 另一个矩阵或标量值
+   * @returns 比较结果矩阵
+   */
+  lessThanOrEqual(other: Mat | any): Mat;
+  /**
+   * 逐元素不等于比较
+   * @param other 另一个矩阵或标量值
+   * @returns 比较结果矩阵
+   */
+  notEquals(other: Mat | any): Mat;
+  /**
+   * 逐元素大于比较
+   * @param other 另一个矩阵或标量值
+   * @returns 比较结果矩阵
+   */
+  greaterThan(other: Mat | any): Mat;
+  /**
+   * 逐元素大于等于比较
+   * @param other 另一个矩阵或标量值
+   * @returns 比较结果矩阵
+   */
+  greaterThanOrEqual(other: Mat | any): Mat;
+
+  // ==================== 行列访问 ====================
+
+  /**
+   * 获取 UMat
+   * @param accessFlag 访问标志
+   * @param usageFlags 用途标志
+   * @returns UMat 对象
+   */
+  getUMat(accessFlag: number, usageFlags: number): any;
+  /**
+   * 获取指定列
+   * @param x 列索引
+   * @returns 列矩阵
+   */
+  col(x: number): Mat;
+  /**
+   * 获取列范围
+   * @param range 列范围对象
+   * @returns 列范围子矩阵
+   */
+  colRange(range: any): Mat;
+  /**
+   * 获取列范围
+   * @param startCol 起始列索引
+   * @param endCol 结束列索引
+   * @returns 列范围子矩阵
+   */
+  colRange(startCol: number, endCol: number): Mat;
+  /**
+   * 获取指定行
+   * @param y 行索引
+   * @returns 行矩阵
+   */
+  row(y: number): Mat;
+  /**
+   * 获取行范围
+   * @param range 行范围对象
+   * @returns 行范围子矩阵
+   */
+  rowRange(range: any): Mat;
+  /**
+   * 获取行范围
+   * @param startRow 起始行索引
+   * @param endRow 结束行索引
+   * @returns 行范围子矩阵
+   */
+  rowRange(startRow: number, endRow: number): Mat;
+  /**
+   * 获取对角线
+   * @param d 对角线索引，0 表示主对角线，正值表示上方，负值表示下方
+   * @returns 对角线矩阵
+   */
+  diag(d?: number): Mat;
+  /**
+   * 获取子矩阵（通过 Rect）
+   * @param rect 矩形区域
+   * @returns 子矩阵
+   */
+  subMat(rect: any): Mat;
+  /**
+   * 获取子矩阵（通过行列范围）
+   * @param rowRange 行范围
+   * @param colRange 列范围
+   * @returns 子矩阵
+   */
+  subMat(rowRange: any, colRange: any): Mat;
+  /**
+   * 获取子矩阵（通过行列起止索引）
+   * @param rowStart 起始行
+   * @param rowEnd 结束行
+   * @param colStart 起始列
+   * @param colEnd 结束列
+   * @returns 子矩阵
+   */
+  subMat(rowStart: number, rowEnd: number, colStart: number, colEnd: number): Mat;
+
+  // ==================== 矩阵操作 ====================
+
+  /**
+   * 克隆矩阵
+   * @returns 矩阵的深拷贝
+   */
+  clone(): Mat;
+  /**
+   * 克隆矩阵的 ROI 区域
+   * @param roi 感兴趣区域（Rect）
+   * @returns ROI 区域的深拷贝
+   */
+  clone(roi: any): Mat;
+  /**
+   * 拷贝到目标矩阵
+   * @param dst 目标矩阵
+   * @param mask 掩码矩阵
+   */
+  copyTo(dst: Mat, mask: Mat): void;
+  /**
+   * 转换数据类型
+   * @param dst 目标矩阵
+   * @param rtype 目标类型（如 CV_8U, CV_32F 等）
+   * @param alpha 缩放因子
+   * @param beta 偏移量
+   */
+  convertTo(dst: Mat, rtype: number, alpha: number, beta: number): void;
+  /**
+   * 赋值给目标矩阵
+   * @param dst 目标矩阵
+   * @param type 目标类型
+   */
+  assignTo(dst: Mat, type: number): void;
+  /**
+   * 设置矩阵值
+   * @param value 要设置的值（Scalar）
+   * @param mask 掩码（可选的 InputArray）
+   * @returns 当前矩阵
+   */
+  setTo(value: any, mask: any): Mat;
+  /**
+   * 改变矩阵形状
+   * @param cn 新的通道数
+   * @param rows 新的行数（0 表示不变）
+   * @returns 重塑后的矩阵
+   */
+  reshape(cn: number, rows: number): Mat;
+  /** 转置 (返回 MatExpr) */
+  t(): any;
+  /**
+   * 求逆矩阵
+   * @param method 求逆方法（如 DECOMP_LU, DECOMP_SVD 等）
+   * @returns 逆矩阵（MatExpr）
+   */
+  inv(method: number): any;
+  /**
+   * 逐元素乘法
+   * @param m 另一个矩阵（InputArray）
+   * @param scale 缩放因子
+   * @returns 逐元素乘积（MatExpr）
+   */
+  mul(m: any, scale: number): any;
+  /**
+   * 叉积
+   * @param m 另一个矩阵
+   * @returns 叉积结果矩阵
+   */
+  cross(m: Mat): Mat;
+  /**
+   * 点积
+   * @param m 另一个矩阵
+   * @returns 点积结果
+   */
+  dot(m: Mat): number;
+
+  // ==================== 矩阵创建与尺寸 ====================
+
+  /**
+   * 创建矩阵（通过 Size）
+   * @param size 矩阵尺寸
+   * @param type 矩阵类型（如 CV_8UC3）
+   */
+  create(size: any, type: number): void;
+  /**
+   * 创建矩阵（通过行列数）
+   * @param rows 行数
+   * @param cols 列数
+   * @param type 矩阵类型（如 CV_8UC3）
+   */
+  create(rows: number, cols: number, type: number): void;
+  /**
+   * 预留行空间
+   * @param sz 预留的行数
+   */
+  reserve(sz: number): void;
+  /**
+   * 预留缓冲区空间
+   * @param sz 预留的字节数
+   */
+  reserveBuffer(sz: number): void;
+  /**
+   * 调整矩阵大小
+   * @param sz 新的行数
+   */
+  resize(sz: number): void;
+  /**
+   * 调整矩阵大小并用值填充
+   * @param sz 新的行数
+   * @param s 填充值（Scalar）
+   */
+  resize(sz: number, s: any): void;
+  /**
+   * 调整矩阵大小并指定边界
+   * @param sz 新的行数
+   * @param s 填充值（Scalar）
+   * @param top 上边界
+   * @param bottom 下边界
+   */
+  resize(sz: number, s: any, top: number, bottom: number): void;
+  /**
+   * 删除末尾行
+   * @param nelems 要删除的行数
+   */
+  popBack(nelems: number): void;
+  /**
+   * 追加行
+   * @param m 要追加的矩阵
+   */
+  pushBack(m: Mat): void;
+
+  // ==================== ROI 操作 ====================
+
+  /**
+   * 定位 ROI 在父矩阵中的位置
+   * @param wholeSize 输出：父矩阵尺寸（Size）
+   * @param ofs 输出：ROI 偏移量（Point）
+   */
+  locateROI(wholeSize: any, ofs: any): void;
+  /**
+   * 调整 ROI 边界
+   * @param dtop 上边界调整量
+   * @param dbottom 下边界调整量
+   * @param dleft 左边界调整量
+   * @param dright 右边界调整量
+   * @returns 调整后的矩阵
+   */
+  adjustROI(dtop: number, dbottom: number, dleft: number, dright: number): Mat;
+
+  // ==================== 矩阵信息 ====================
+
+  /** 是否连续存储 */
+  isContinuous(): any;
+  /** 是否为子矩阵 */
+  isSubmatrix(): any;
+  /** 单个元素字节大小 */
+  elemSize(): any;
+  /** 单通道元素字节大小 */
+  elemSize1(): any;
+  /** 获取矩阵类型 */
+  type(): any;
+  /** 获取矩阵深度 */
+  depth(): any;
+  /** 获取通道数 */
+  channels(): any;
+  /**
+   * 获取归一化步长
+   * @param i 维度索引
+   * @returns 归一化后的步长值
+   */
+  step1(i: number): number;
+  /** 是否为空矩阵 */
+  empty(): any;
+  /**
+   * 获取元素总数
+   * @returns 矩阵中所有元素的数量
+   */
+  total(): number;
+  /**
+   * 获取指定维度范围的元素总数
+   * @param startDim 起始维度
+   * @param endDim 结束维度
+   * @returns 元素数量
+   */
+  total(startDim: number, endDim: number): number;
+  /**
+   * 检查向量
+   * @param elemChannels 期望的通道数
+   * @param depth 期望的深度
+   * @param requireContinuous 是否要求连续存储
+   * @returns 向量长度，如果不是向量则返回 -1
+   */
+  checkVector(elemChannels: number, depth: number, requireContinuous: boolean): number;
+  /**
+   * 获取数据指针（单维索引）
+   * @param i0 第一维索引
+   * @returns 数据指针
+   */
+  ptr(i0: number): any;
+  /**
+   * 获取数据指针（二维索引）
+   * @param i0 第一维索引
+   * @param i1 第二维索引
+   * @returns 数据指针
+   */
+  ptr(i0: number, i1: number): any;
+  /**
+   * 获取数据指针（三维索引）
+   * @param i0 第一维索引
+   * @param i1 第二维索引
+   * @param i2 第三维索引
+   * @returns 数据指针
+   */
+  ptr(i0: number, i1: number, i2: number): any;
+  /**
+   * 获取矩阵尺寸
+   * @returns Size 对象
+   */
+  size(): any;
+  /**
+   * 获取指定维度的大小
+   * @param dim 维度索引
+   * @returns 该维度的大小
+   */
+  size(dim: number): number;
+  /**
+   * 获取步长
+   * @returns 步长值
+   */
+  step(): number;
+  /**
+   * 获取指定维度的步长
+   * @param dim 维度索引
+   * @returns 该维度的步长
+   */
+  step(dim: number): number;
+
+  // ==================== 数据输出与克隆 ====================
+
+  /**
+   * 转储矩阵内容为字符串
+   * @param format 输出格式（DumpFormat）
+   * @returns 矩阵内容的字符串表示
+   */
+  dump(format: any): string;
+  /** 创建同类型空矩阵 */
+  emptyClone(): any;
+
+  // ==================== 索引器与元素访问 ====================
+
+  /** 获取通用索引器 */
+  getGenericIndexer(): any;
+  /** 获取非安全通用索引器 */
+  getUnsafeGenericIndexer(): any;
+  /**
+   * 获取元素值（一维索引）
+   * @param i0 第一维索引
+   * @returns 元素值
+   */
+  get(i0: number): any;
+  /**
+   * 获取元素值（二维索引）
+   * @param i0 行索引
+   * @param i1 列索引
+   * @returns 元素值
+   */
+  get(i0: number, i1: number): any;
+  /**
+   * 获取元素值（三维索引）
+   * @param i0 第一维索引
+   * @param i1 第二维索引
+   * @param i2 第三维索引
+   * @returns 元素值
+   */
+  get(i0: number, i1: number, i2: number): any;
+  /**
+   * 获取元素值（一维索引，get 的别名）
+   * @param i0 第一维索引
+   * @returns 元素值
+   */
+  at(i0: number): any;
+  /**
+   * 获取元素值（二维索引，get 的别名）
+   * @param i0 行索引
+   * @param i1 列索引
+   * @returns 元素值
+   */
+  at(i0: number, i1: number): any;
+  /**
+   * 获取元素值（三维索引，get 的别名）
+   * @param i0 第一维索引
+   * @param i1 第二维索引
+   * @param i2 第三维索引
+   * @returns 元素值
+   */
+  at(i0: number, i1: number, i2: number): any;
+  /**
+   * 设置元素值（一维索引）
+   * @param i0 第一维索引
+   * @param value 要设置的值
+   */
+  set(i0: number, value: any): void;
+  /**
+   * 设置元素值（二维索引）
+   * @param i0 行索引
+   * @param i1 列索引
+   * @param value 要设置的值
+   */
+  set(i0: number, i1: number, value: any): void;
+  /**
+   * 设置元素值（三维索引）
+   * @param i0 第一维索引
+   * @param i1 第二维索引
+   * @param i2 第三维索引
+   * @param value 要设置的值
+   */
+  set(i0: number, i1: number, i2: number, value: any): void;
+  /**
+   * 获取数组数据
+   * @param idx 索引数组
+   * @returns 数组数据
+   */
+  getArray(idx: any): any;
+  /**
+   * 获取二维数组数据
+   * @param idx 索引数组
+   * @returns 二维数组数据
+   */
+  getRectangularArray(idx: any): any;
+  /**
+   * 设置数组数据
+   * @param data 要设置的数组数据
+   */
+  setArray(data: any): void;
+  /**
+   * 设置二维数组数据
+   * @param data 要设置的二维数组数据
+   */
+  setRectangularArray(data: any): void;
+  /**
+   * 索引器访问
+   * @param i0 第一维索引
+   * @param i1 第二维索引（可选）
+   * @param i2 第三维索引（可选）
+   * @returns 元素值
+   */
+  item(i0: number, i1?: number, i2?: number): any;
+
+  // ==================== 序列化 ====================
+
+  /**
+   * 转换为字节数组
+   * @param ext 图像格式扩展名（如 ".png", ".jpg"）
+   * @param prms 编码参数
+   * @returns 字节数组
+   */
+  toBytes(ext: string, prms: any): any;
+  /**
+   * 转换为内存流
+   * @param ext 图像格式扩展名（如 ".png", ".jpg"）
+   * @param prms 编码参数
+   * @returns 内存流
+   */
+  toMemoryStream(ext: string, prms: any): any;
+  /**
+   * 写入流
+   * @param stream 目标流
+   * @param ext 图像格式扩展名（如 ".png", ".jpg"）
+   * @param prms 编码参数
+   */
+  writeToStream(stream: any, ext: string, prms: any): void;
+
+  // ==================== 其他工具方法 ====================
+
+  /**
+   * 获取对齐信息
+   * @param value 对齐值
+   * @returns 对齐后的值
+   */
+  alignment(value: number): number;
+  /** 类型转换 */
+  cast(): any;
+  /** 作为 Span 返回 */
+  asSpan(): any;
+
+  // ==================== forEach 遍历方法 ====================
+
+  /**
+   * 按字节遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsByte(callback: Function): void;
+  /**
+   * 按 Vec2b 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec2b(callback: Function): void;
+  /**
+   * 按 Vec3b 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec3b(callback: Function): void;
+  /**
+   * 按 Vec4b 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec4b(callback: Function): void;
+  /**
+   * 按 Vec6b 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec6b(callback: Function): void;
+  /**
+   * 按 Int16 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsInt16(callback: Function): void;
+  /**
+   * 按 Vec2s 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec2s(callback: Function): void;
+  /**
+   * 按 Vec3s 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec3s(callback: Function): void;
+  /**
+   * 按 Vec4s 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec4s(callback: Function): void;
+  /**
+   * 按 Vec6s 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec6s(callback: Function): void;
+  /**
+   * 按 Int32 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsInt32(callback: Function): void;
+  /**
+   * 按 Vec2i 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec2i(callback: Function): void;
+  /**
+   * 按 Vec3i 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec3i(callback: Function): void;
+  /**
+   * 按 Vec4i 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec4i(callback: Function): void;
+  /**
+   * 按 Vec6i 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec6i(callback: Function): void;
+  /**
+   * 按 Float 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsFloat(callback: Function): void;
+  /**
+   * 按 Vec2f 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec2f(callback: Function): void;
+  /**
+   * 按 Vec3f 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec3f(callback: Function): void;
+  /**
+   * 按 Vec4f 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec4f(callback: Function): void;
+  /**
+   * 按 Vec6f 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec6f(callback: Function): void;
+  /**
+   * 按 Double 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsDouble(callback: Function): void;
+  /**
+   * 按 Vec2d 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec2d(callback: Function): void;
+  /**
+   * 按 Vec3d 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec3d(callback: Function): void;
+  /**
+   * 按 Vec4d 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec4d(callback: Function): void;
+  /**
+   * 按 Vec6d 遍历矩阵元素
+   * @param callback 回调函数
+   */
+  forEachAsVec6d(callback: Function): void;
+
+  // ==================== 数学运算 ====================
+
+  /** 取绝对值 */
+  abs(): any;
+  /** 缩放并取绝对值 */
+  convertScaleAbs(alpha: number, beta: number): Mat;
+  /** 查找表变换 */
+  lUT(lut: Mat): Mat;
+  /** 求和 */
+  sum(): any;
+  /** 统计非零元素个数 */
+  countNonZero(): any;
+  /** 查找非零元素 */
+  findNonZero(): any;
+  /** 求均值 */
+  mean(mask: Mat): any;
+  /** 求均值和标准差 */
+  meanStdDev(mean: any, stddev: any, mask: any): void;
+  /** 求范数 */
+  norm(normType: number, mask: any): number;
+  /** 归一化 */
+  normalize(alpha: number, beta: number, normType: number, dtype: number, mask: any): Mat;
+  /** 求最小最大值及位置 */
+  minMaxLoc(minVal: any, maxVal: any): void;
+  minMaxLoc(minVal: any, maxVal: any, minLoc: any, maxLoc: any, mask: any): void;
+  /** 求最小最大值及索引 */
+  minMaxIdx(minVal: any, maxVal: any): void;
+  minMaxIdx(minVal: any, maxVal: any, minIdx: any, maxIdx: any, mask: any): void;
+  /** 矩阵规约 */
+  reduce(dim: number, rtype: number, dtype: number): Mat;
+
+  // ==================== 通道操作 ====================
+
+  /** 分离通道 */
+  split(): any;
+  /** 提取通道 */
+  extractChannel(coi: number): Mat;
+  /** 插入通道 */
+  insertChannel(ch: Mat, coi: number): void;
+
+  // ==================== 元素级运算 ====================
+
+  /** 翻转矩阵 */
+  flip(flipCode: number): Mat;
+  /** 重复矩阵 */
+  repeat(ny: number, nx: number): Mat;
+  /** 范围检测 */
+  inRange(lowerb: any, upperb: any): Mat;
+  /** 开方 */
+  sqrt(): any;
+  /** 幂运算 */
+  pow(power: number): Mat;
+  /** 指数运算 */
+  exp(): any;
+  /** 对数运算 */
+  log(): any;
+  /** 检查值范围 */
+  checkRange(quiet: boolean): boolean;
+  checkRange(quiet: boolean, pos: any, minVal: number, maxVal: number): boolean;
+  /** 修补 NaN 值 */
+  patchNaNs(val: number): void;
+
+  // ==================== 线性代数 ====================
+
+  /** 计算转置矩阵乘积 */
+  mulTransposed(aTa: boolean, delta: any, scale: number, dtype: number): Mat;
+  /** 转置 */
+  transpose(): any;
+  /** 变换 */
+  transform(m: Mat): Mat;
+  /** 透视变换 */
+  perspectiveTransform(m: Mat): Mat;
+  /** 补全对称矩阵 */
+  completeSymm(lowerToUpper: boolean): void;
+  /** 设置为单位矩阵 */
+  setIdentity(s: any): void;
+  /** 求行列式 */
+  determinant(): any;
+  /** 求迹 */
+  trace(): any;
+
+  // ==================== 排序 ====================
+
+  /** 排序 */
+  sort(flags: number): Mat;
+  /** 排序并返回索引 */
+  sortIdx(flags: number): Mat;
+
+  // ==================== 频域变换 ====================
+
+  /** 离散傅里叶变换 */
+  dft(flags: number, nonzeroRows: number): Mat;
+  /** 逆离散傅里叶变换 */
+  idft(flags: number, nonzeroRows: number): Mat;
+  /** 离散余弦变换 */
+  dct(flags: number): Mat;
+  /** 逆离散余弦变换 */
+  idct(flags: number): Mat;
+
+  // ==================== 随机数 ====================
+
+  /** 生成均匀分布随机数 */
+  randu(low: any, high: any): void;
+  /** 生成正态分布随机数 */
+  randn(mean: any, stddev: any): void;
+  /** 随机打乱 */
+  randShuffle(iterFactor: number): void;
+  randShuffle(iterFactor: number, rng: any): void;
+
+  // ==================== 绘图方法 ====================
+
+  /** 画线 */
+  line(x1: number, y1: number, x2: number, y2: number, color: any, thickness: number): void;
+  line(x1: number, y1: number, x2: number, y2: number, color: any, thickness: number, lineType: number, shift: number): void;
+  /** 画矩形 */
+  rectangle(pt1: any, pt2: any, color: any, thickness: number, lineType: number): void;
+  rectangle(rect: any, color: any, thickness: number, lineType: number, shift: number, param6: any): void;
+  /** 画圆 */
+  circle(centerX: number, centerY: number, radius: number, color: any, thickness: number, lineType: number): void;
+  circle(centerX: number, centerY: number, radius: number, color: any, thickness: number, lineType: number, shift: number): void;
+  /** 画椭圆 */
+  ellipse(box: any, color: any, thickness: number, lineType: number): void;
+  ellipse(center: any, axes: any, angle: number, startAngle: number, endAngle: number, color: any, thickness: number, lineType: number, shift: number): void;
+  /** 画标记 */
+  drawMarker(position: any, color: any, markerType: number, markerSize: number, thickness: number, lineType: number): void;
+  /** 填充凸多边形 */
+  fillConvexPoly(pts: any, color: any, lineType: number, shift: number): void;
+  /** 填充多边形 */
+  fillPoly(pts: any, color: any, lineType: number, shift: number, offset: any): void;
+  /** 画折线/多边形 */
+  polylines(pts: any, isClosed: boolean, color: any, thickness: number, lineType: number, shift: number): void;
+  /** 绘制文字 */
+  putText(text: string, org: any, fontFace: number, fontScale: number, color: any, thickness: number, lineType: number, bottomLeftOrigin: boolean): void;
+
+  // ==================== 图像编解码与保存 ====================
+
+  /** 编码图像 */
+  imEncode(ext: string, prms: any): any;
+  /** 写入图像文件 */
+  imWrite(fileName: string, prms: any): boolean;
+  /** 保存图像 */
+  saveImage(fileName: string, prms: any): boolean;
+
+  // ==================== 边界与滤波 ====================
+
+  /** 扩展边界 */
+  copyMakeBorder(top: number, bottom: number, left: number, right: number, borderType: number, value: any): Mat;
+  /** 中值滤波 */
+  medianBlur(ksize: number): Mat;
+  /** 高斯模糊 */
+  gaussianBlur(ksize: any, sigmaX: number, sigmaY: number, borderType: number): Mat;
+  /** 双边滤波 */
+  bilateralFilter(d: number, sigmaColor: number, sigmaSpace: number, borderType: number): Mat;
+  /** 方框滤波 */
+  boxFilter(ddepth: number, ksize: any, anchor: any, normalize: boolean, borderType: number): Mat;
+  /** 均值模糊 */
+  blur(ksize: any, anchor: any, borderType: number): Mat;
+  /** 自定义卷积滤波 */
+  filter2D(ddepth: number, kernel: Mat, anchor: any, delta: number, borderType: number): Mat;
+  /** 可分离滤波 */
+  sepFilter2D(ddepth: number, kernelX: Mat, kernelY: Mat, anchor: any, delta: number, borderType: number): Mat;
+
+  // ==================== 边缘检测与梯度 ====================
+
+  /** Sobel 算子 */
+  sobel(ddepth: number, dx: number, dy: number, ksize: number, scale: number, delta: number, borderType: number): Mat;
+  /** Scharr 算子 */
+  scharr(ddepth: number, dx: number, dy: number, scale: number, delta: number, borderType: number): Mat;
+  /** Laplacian 算子 */
+  laplacian(ddepth: number, ksize: number, scale: number, delta: number, borderType: number): Mat;
+  /** Canny 边缘检测 */
+  canny(threshold1: number, threshold2: number, apertureSize: number, l2Gradient: boolean): Mat;
+
+  // ==================== 角点检测 ====================
+
+  /** 角点特征值和特征向量 */
+  cornerEigenValsAndVecs(blockSize: number, ksize: number, borderType: number): Mat;
+  /** 预角点检测 */
+  preCornerDetect(ksize: number, borderType: number): Mat;
+  /** 亚像素角点精确化 */
+  cornerSubPix(corners: any, winSize: any, zeroZone: any, criteria: any): void;
+  /** 检测优质特征点 */
+  goodFeaturesToTrack(maxCorners: number, qualityLevel: number, minDistance: number, mask: any, blockSize: number, useHarrisDetector: boolean, k: number): any;
+
+  // ==================== 霍夫变换 ====================
+
+  /** 霍夫直线变换 */
+  houghLines(rho: number, theta: number, threshold: number, srn: number, stn: number): Mat;
+  /** 概率霍夫直线变换 */
+  houghLinesP(rho: number, theta: number, threshold: number, minLineLength: number, maxLineGap: number): Mat;
+  /** 霍夫圆变换 */
+  houghCircles(method: number, dp: number, minDist: number, param1: number, param2: number, minRadius: number, maxRadius: number): Mat;
+
+  // ==================== 形态学操作 ====================
+
+  /** 膨胀 */
+  dilate(element: Mat, anchor: any, iterations: number, borderType: number, borderValue: any): Mat;
+  /** 腐蚀 */
+  erode(element: Mat, anchor: any, iterations: number, borderType: number, borderValue: any): Mat;
+  /** 形态学变换 */
+  morphologyEx(op: number, element: Mat, anchor: any, iterations: number, borderType: number, borderValue: any): Mat;
+
+  // ==================== 几何变换 ====================
+
+  /** 仿射变换 */
+  warpAffine(m: Mat, dsize: any, flags: number, borderMode: number, borderValue: any): Mat;
+  /** 透视变换 */
+  warpPerspective(m: Mat, dsize: any, flags: number, borderMode: number, borderValue: any): Mat;
+  /** 重映射 */
+  remap(map1: Mat, map2: Mat, interpolation: number, borderMode: number, borderValue: any): Mat;
+  /** 反转仿射变换 */
+  invertAffineTransform(): any;
+  /** 获取子像素精度矩形 */
+  getRectSubPix(patchSize: any, center: any, patchType: number): Mat;
+
+  // ==================== 累积操作 ====================
+
+  /** 累积 */
+  accumulate(mask: Mat): void;
+  /** 平方累积 */
+  accumulateSquare(mask: Mat): void;
+  /** 创建汉宁窗 */
+  createHanningWindow(winSize: any, type: number): void;
+
+  // ==================== 阈值处理 ====================
+
+  /** 阈值处理 */
+  threshold(thresh: number, maxval: number, type: number): Mat;
+  /** 自适应阈值处理 */
+  adaptiveThreshold(maxValue: number, adaptiveMethod: number, thresholdType: number, blockSize: number, c: number): Mat;
+
+  // ==================== 图像金字塔 ====================
+
+  /** 下采样 */
+  pyrDown(dstSize: any, borderType: number): Mat;
+  /** 上采样 */
+  pyrUp(dstSize: any, borderType: number): Mat;
+  /** 构建金字塔 */
+  buildPyramid(maxLevel: number, borderType: number): any;
+
+  // ==================== 相机标定与校正 ====================
+
+  /** 去畸变 */
+  undistort(cameraMatrix: Mat, distCoeffs: Mat, newCameraMatrix: Mat): Mat;
+  /** 获取默认新相机矩阵 */
+  getDefaultNewCameraMatrix(imgSize: any, centerPrincipalPoint: boolean): Mat;
+  /** 去畸变点 */
+  undistortPoints(cameraMatrix: Mat, distCoeffs: Mat, r: Mat, p: Mat): Mat;
+
+  // ==================== 直方图处理 ====================
+
+  /** 直方图均衡化 */
+  equalizeHist(): any;
+
+  // ==================== 图像分割 ====================
+
+  /** 分水岭算法 */
+  watershed(markers: Mat): void;
+  /** 均值漂移滤波 */
+  pyrMeanShiftFiltering(sp: number, sr: number, maxLevel: number, termcrit: any): Mat;
+  /** GrabCut 分割 */
+  grabCut(mask: Mat, rect: any, bgdModel: Mat, fgdModel: Mat, iterCount: number, mode: number): void;
+  /**
+   * 漫水填充
+   * @param seedPoint 种子点
+   * @param newVal 填充的新颜色值
+   */
+  floodFill(seedPoint: any, newVal: any): number;
+  /**
+   * 漫水填充
+   * @param seedPoint 种子点
+   * @param newVal 填充的新颜色值
+   * @param rect 输出的最小包围矩形
+   */
+  floodFill(seedPoint: any, newVal: any, rect: any): number;
+  /**
+   * 漫水填充（完整参数）
+   * @param seedPoint 种子点
+   * @param newVal 填充的新颜色值
+   * @param rect 输出的最小包围矩形
+   * @param loDiff 下界差值
+   * @param upDiff 上界差值
+   * @param flags 标志位
+   */
+  floodFill(seedPoint: any, newVal: any, rect: any, loDiff: any, upDiff: any, flags: number): number;
+  /**
+   * 漫水填充（带掩码）
+   * @param seedPoint 种子点
+   * @param newVal 填充的新颜色值
+   * @param rect 输出的最小包围矩形
+   * @param loDiff 下界差值
+   * @param upDiff 上界差值
+   * @param flags 标志位
+   * @param mask 掩码矩阵
+   */
+  floodFill(seedPoint: any, newVal: any, rect: any, loDiff: any, upDiff: any, flags: number, mask: Mat): number;
+
+  // ==================== 颜色空间转换 ====================
+
+  /** 颜色空间转换 */
+  cvtColor(code: number, dstCn: number): Mat;
+
+  // ==================== 图像矩与模板匹配 ====================
+
+  /** 计算图像矩 */
+  moments(binaryImage: boolean): any;
+  /** 模板匹配 */
+  matchTemplate(templ: Mat, method: number, mask: Mat): Mat;
+
+  // ==================== 连通域分析 ====================
+
+  /** 连通域标记 */
+  connectedComponents(labels: Mat, connectivity: number): number;
+  connectedComponents(labels: Mat, connectivity: number, ltype: number): number;
+  /** 连通域标记（带统计信息） */
+  connectedComponentsWithStats(labels: Mat, stats: Mat, centroids: Mat, connectivity: number): number;
+  connectedComponentsWithStats(labels: Mat, stats: Mat, centroids: Mat, connectivity: number, ltype: number): number;
+  /** 连通域标记（扩展版） */
+  connectedComponentsEx(connectivity: number): any;
+
+  // ==================== 轮廓操作 ====================
+
+  /** 查找轮廓 */
+  findContours(contours: any, hierarchy: any, mode: number, method: number, offset: any): void;
+  /** 查找轮廓（返回数组） */
+  findContoursAsArray(mode: number, method: number, offset: any): any;
+  /** 查找轮廓（返回 Mat） */
+  findContoursAsMat(mode: number, method: number, offset: any): any;
+  /** 绘制轮廓 */
+  drawContours(contours: any, contourIdx: number, color: any, thickness: number, lineType: number, hierarchy: any, maxLevel: number, offset: any): void;
+
+  // ==================== 形状分析 ====================
+
+  /** 多边形逼近 */
+  approxPolyDP(epsilon: number, closed: boolean): Mat;
+  /** 计算弧长 */
+  arcLength(closed: boolean): number;
+  /** 计算外接矩形 */
+  boundingRect(): any;
+  /** 计算轮廓面积 */
+  contourArea(oriented: boolean): number;
+  /** 最小面积外接矩形 */
+  minAreaRect(): any;
+  /** 最小外接圆 */
+  minEnclosingCircle(center: any, radius: any): void;
+  /** 凸包 */
+  convexHull(hull: Mat, clockwise: boolean): void;
+  /** 凸包点集 */
+  convexHullPoints(clockwise: boolean): any;
+  /** 凸包浮点点集 */
+  convexHullFloatPoints(clockwise: boolean): any;
+  /** 凸包索引 */
+  convexHullIndices(clockwise: boolean): any;
+  /** 凸缺陷 */
+  convexityDefects(convexHull: Mat): Mat;
+  /** 凸缺陷（Vec 格式） */
+  convexityDefectsAsVec(convexHull: Mat): any;
+  /** 是否为凸轮廓 */
+  isContourConvex(): any;
+  /** 拟合椭圆 */
+  fitEllipse(): any;
+  /** 拟合二维直线 */
+  fitLine2D(distType: number, param: number, reps: number, aeps: number): any;
+  /** 拟合三维直线 */
+  fitLine3D(distType: number, param: number, reps: number, aeps: number): any;
+  /** 点与多边形的关系测试 */
+  pointPolygonTest(pt: any, measureDist: boolean): number;
+
+  // ==================== 距离变换 ====================
+
+  /** 距离变换 */
+  distanceTransform(distanceType: number, maskSize: number): Mat;
 
   // ==== BEGIN AUTO-GENERATED ALIASES ====
-  declare readonly Width: typeof Mat.prototype.width;
+  declare readonly Flags: typeof Mat.prototype.flags;
 
+  declare readonly Dims: typeof Mat.prototype.dims;
+  declare readonly Rows: typeof Mat.prototype.rows;
+  declare readonly Cols: typeof Mat.prototype.cols;
+  declare readonly Width: typeof Mat.prototype.width;
   declare readonly Height: typeof Mat.prototype.height;
+  declare readonly Data: typeof Mat.prototype.data;
+  declare readonly DataPointer: typeof Mat.prototype.dataPointer;
+  declare readonly DataStart: typeof Mat.prototype.dataStart;
+  declare readonly DataEnd: typeof Mat.prototype.dataEnd;
+  declare readonly DataLimit: typeof Mat.prototype.dataLimit;
+  declare readonly CvPtr: typeof Mat.prototype.cvPtr;
+  declare readonly IsDisposed: typeof Mat.prototype.isDisposed;
+  declare readonly IsEnabledDispose: typeof Mat.prototype.isEnabledDispose;
   declare static readonly Indexer: typeof Mat.indexer;
   declare static readonly UnsafeIndexer: typeof Mat.unsafeIndexer;
   declare static FromNativePointer: typeof Mat.fromNativePointer;
@@ -980,7 +2345,231 @@ declare class Mat {
   declare static Ones: typeof Mat.ones;
   declare static Eye: typeof Mat.eye;
   declare static FromArray: typeof Mat.fromArray;
+  declare Release: typeof Mat.prototype.release;
   declare Dispose: typeof Mat.prototype.dispose;
+  declare ThrowIfDisposed: typeof Mat.prototype.throwIfDisposed;
+  declare Plus: typeof Mat.prototype.plus;
+  declare Negate: typeof Mat.prototype.negate;
+  declare Add: typeof Mat.prototype.add;
+  declare Subtract: typeof Mat.prototype.subtract;
+  declare Multiply: typeof Mat.prototype.multiply;
+  declare Divide: typeof Mat.prototype.divide;
+  declare BitwiseAnd: typeof Mat.prototype.bitwiseAnd;
+  declare BitwiseOr: typeof Mat.prototype.bitwiseOr;
+  declare Xor: typeof Mat.prototype.xor;
+  declare OnesComplement: typeof Mat.prototype.onesComplement;
+  declare LessThan: typeof Mat.prototype.lessThan;
+  declare LessThanOrEqual: typeof Mat.prototype.lessThanOrEqual;
+  declare NotEquals: typeof Mat.prototype.notEquals;
+  declare GreaterThan: typeof Mat.prototype.greaterThan;
+  declare GreaterThanOrEqual: typeof Mat.prototype.greaterThanOrEqual;
+  declare GetUMat: typeof Mat.prototype.getUMat;
+  declare Col: typeof Mat.prototype.col;
+  declare ColRange: typeof Mat.prototype.colRange;
+  declare Row: typeof Mat.prototype.row;
+  declare RowRange: typeof Mat.prototype.rowRange;
+  declare SubMat: typeof Mat.prototype.subMat;
+  declare Clone: typeof Mat.prototype.clone;
+  declare CopyTo: typeof Mat.prototype.copyTo;
+  declare ConvertTo: typeof Mat.prototype.convertTo;
+  declare AssignTo: typeof Mat.prototype.assignTo;
+  declare SetTo: typeof Mat.prototype.setTo;
+  declare Reshape: typeof Mat.prototype.reshape;
+  declare T: typeof Mat.prototype.t;
+  declare Inv: typeof Mat.prototype.inv;
+  declare Mul: typeof Mat.prototype.mul;
+  declare Cross: typeof Mat.prototype.cross;
+  declare Dot: typeof Mat.prototype.dot;
+  declare Create: typeof Mat.prototype.create;
+  declare Reserve: typeof Mat.prototype.reserve;
+  declare ReserveBuffer: typeof Mat.prototype.reserveBuffer;
+  declare Resize: typeof Mat.prototype.resize;
+  declare PopBack: typeof Mat.prototype.popBack;
+  declare PushBack: typeof Mat.prototype.pushBack;
+  declare LocateROI: typeof Mat.prototype.locateROI;
+  declare AdjustROI: typeof Mat.prototype.adjustROI;
+  declare IsContinuous: typeof Mat.prototype.isContinuous;
+  declare IsSubmatrix: typeof Mat.prototype.isSubmatrix;
+  declare ElemSize: typeof Mat.prototype.elemSize;
+  declare ElemSize1: typeof Mat.prototype.elemSize1;
+  declare Type: typeof Mat.prototype.type;
+  declare Depth: typeof Mat.prototype.depth;
+  declare Channels: typeof Mat.prototype.channels;
+  declare Step1: typeof Mat.prototype.step1;
+  declare Empty: typeof Mat.prototype.empty;
+  declare Total: typeof Mat.prototype.total;
+  declare CheckVector: typeof Mat.prototype.checkVector;
+  declare Ptr: typeof Mat.prototype.ptr;
+  declare Size: typeof Mat.prototype.size;
+  declare Step: typeof Mat.prototype.step;
+  declare Dump: typeof Mat.prototype.dump;
+  declare EmptyClone: typeof Mat.prototype.emptyClone;
+  declare GetGenericIndexer: typeof Mat.prototype.getGenericIndexer;
+  declare GetUnsafeGenericIndexer: typeof Mat.prototype.getUnsafeGenericIndexer;
+  declare Get: typeof Mat.prototype.get;
+  declare At: typeof Mat.prototype.at;
+  declare Set: typeof Mat.prototype.set;
+  declare GetArray: typeof Mat.prototype.getArray;
+  declare GetRectangularArray: typeof Mat.prototype.getRectangularArray;
+  declare SetArray: typeof Mat.prototype.setArray;
+  declare SetRectangularArray: typeof Mat.prototype.setRectangularArray;
+  declare Item: typeof Mat.prototype.item;
+  declare ToBytes: typeof Mat.prototype.toBytes;
+  declare ToMemoryStream: typeof Mat.prototype.toMemoryStream;
+  declare WriteToStream: typeof Mat.prototype.writeToStream;
+  declare Alignment: typeof Mat.prototype.alignment;
+  declare Cast: typeof Mat.prototype.cast;
+  declare AsSpan: typeof Mat.prototype.asSpan;
+  declare ForEachAsByte: typeof Mat.prototype.forEachAsByte;
+  declare ForEachAsVec2b: typeof Mat.prototype.forEachAsVec2b;
+  declare ForEachAsVec3b: typeof Mat.prototype.forEachAsVec3b;
+  declare ForEachAsVec4b: typeof Mat.prototype.forEachAsVec4b;
+  declare ForEachAsVec6b: typeof Mat.prototype.forEachAsVec6b;
+  declare ForEachAsInt16: typeof Mat.prototype.forEachAsInt16;
+  declare ForEachAsVec2s: typeof Mat.prototype.forEachAsVec2s;
+  declare ForEachAsVec3s: typeof Mat.prototype.forEachAsVec3s;
+  declare ForEachAsVec4s: typeof Mat.prototype.forEachAsVec4s;
+  declare ForEachAsVec6s: typeof Mat.prototype.forEachAsVec6s;
+  declare ForEachAsInt32: typeof Mat.prototype.forEachAsInt32;
+  declare ForEachAsVec2i: typeof Mat.prototype.forEachAsVec2i;
+  declare ForEachAsVec3i: typeof Mat.prototype.forEachAsVec3i;
+  declare ForEachAsVec4i: typeof Mat.prototype.forEachAsVec4i;
+  declare ForEachAsVec6i: typeof Mat.prototype.forEachAsVec6i;
+  declare ForEachAsFloat: typeof Mat.prototype.forEachAsFloat;
+  declare ForEachAsVec2f: typeof Mat.prototype.forEachAsVec2f;
+  declare ForEachAsVec3f: typeof Mat.prototype.forEachAsVec3f;
+  declare ForEachAsVec4f: typeof Mat.prototype.forEachAsVec4f;
+  declare ForEachAsVec6f: typeof Mat.prototype.forEachAsVec6f;
+  declare ForEachAsDouble: typeof Mat.prototype.forEachAsDouble;
+  declare ForEachAsVec2d: typeof Mat.prototype.forEachAsVec2d;
+  declare ForEachAsVec3d: typeof Mat.prototype.forEachAsVec3d;
+  declare ForEachAsVec4d: typeof Mat.prototype.forEachAsVec4d;
+  declare ForEachAsVec6d: typeof Mat.prototype.forEachAsVec6d;
+  declare Abs: typeof Mat.prototype.abs;
+  declare ConvertScaleAbs: typeof Mat.prototype.convertScaleAbs;
+  declare LUT: typeof Mat.prototype.lUT;
+  declare Sum: typeof Mat.prototype.sum;
+  declare CountNonZero: typeof Mat.prototype.countNonZero;
+  declare FindNonZero: typeof Mat.prototype.findNonZero;
+  declare Mean: typeof Mat.prototype.mean;
+  declare MeanStdDev: typeof Mat.prototype.meanStdDev;
+  declare Norm: typeof Mat.prototype.norm;
+  declare Normalize: typeof Mat.prototype.normalize;
+  declare MinMaxLoc: typeof Mat.prototype.minMaxLoc;
+  declare MinMaxIdx: typeof Mat.prototype.minMaxIdx;
+  declare Reduce: typeof Mat.prototype.reduce;
+  declare Split: typeof Mat.prototype.split;
+  declare ExtractChannel: typeof Mat.prototype.extractChannel;
+  declare InsertChannel: typeof Mat.prototype.insertChannel;
+  declare Flip: typeof Mat.prototype.flip;
+  declare Repeat: typeof Mat.prototype.repeat;
+  declare InRange: typeof Mat.prototype.inRange;
+  declare Sqrt: typeof Mat.prototype.sqrt;
+  declare Pow: typeof Mat.prototype.pow;
+  declare Exp: typeof Mat.prototype.exp;
+  declare Log: typeof Mat.prototype.log;
+  declare CheckRange: typeof Mat.prototype.checkRange;
+  declare PatchNaNs: typeof Mat.prototype.patchNaNs;
+  declare MulTransposed: typeof Mat.prototype.mulTransposed;
+  declare Transpose: typeof Mat.prototype.transpose;
+  declare Transform: typeof Mat.prototype.transform;
+  declare PerspectiveTransform: typeof Mat.prototype.perspectiveTransform;
+  declare CompleteSymm: typeof Mat.prototype.completeSymm;
+  declare SetIdentity: typeof Mat.prototype.setIdentity;
+  declare Determinant: typeof Mat.prototype.determinant;
+  declare Trace: typeof Mat.prototype.trace;
+  declare Sort: typeof Mat.prototype.sort;
+  declare SortIdx: typeof Mat.prototype.sortIdx;
+  declare Dft: typeof Mat.prototype.dft;
+  declare Idft: typeof Mat.prototype.idft;
+  declare Dct: typeof Mat.prototype.dct;
+  declare Idct: typeof Mat.prototype.idct;
+  declare Randu: typeof Mat.prototype.randu;
+  declare Randn: typeof Mat.prototype.randn;
+  declare RandShuffle: typeof Mat.prototype.randShuffle;
+  declare Line: typeof Mat.prototype.line;
+  declare Rectangle: typeof Mat.prototype.rectangle;
+  declare Circle: typeof Mat.prototype.circle;
+  declare Ellipse: typeof Mat.prototype.ellipse;
+  declare DrawMarker: typeof Mat.prototype.drawMarker;
+  declare FillConvexPoly: typeof Mat.prototype.fillConvexPoly;
+  declare FillPoly: typeof Mat.prototype.fillPoly;
+  declare Polylines: typeof Mat.prototype.polylines;
+  declare PutText: typeof Mat.prototype.putText;
+  declare ImEncode: typeof Mat.prototype.imEncode;
+  declare ImWrite: typeof Mat.prototype.imWrite;
+  declare SaveImage: typeof Mat.prototype.saveImage;
+  declare CopyMakeBorder: typeof Mat.prototype.copyMakeBorder;
+  declare MedianBlur: typeof Mat.prototype.medianBlur;
+  declare GaussianBlur: typeof Mat.prototype.gaussianBlur;
+  declare BilateralFilter: typeof Mat.prototype.bilateralFilter;
+  declare BoxFilter: typeof Mat.prototype.boxFilter;
+  declare Blur: typeof Mat.prototype.blur;
+  declare Filter2D: typeof Mat.prototype.filter2D;
+  declare SepFilter2D: typeof Mat.prototype.sepFilter2D;
+  declare Sobel: typeof Mat.prototype.sobel;
+  declare Scharr: typeof Mat.prototype.scharr;
+  declare Laplacian: typeof Mat.prototype.laplacian;
+  declare Canny: typeof Mat.prototype.canny;
+  declare CornerEigenValsAndVecs: typeof Mat.prototype.cornerEigenValsAndVecs;
+  declare PreCornerDetect: typeof Mat.prototype.preCornerDetect;
+  declare CornerSubPix: typeof Mat.prototype.cornerSubPix;
+  declare GoodFeaturesToTrack: typeof Mat.prototype.goodFeaturesToTrack;
+  declare HoughLines: typeof Mat.prototype.houghLines;
+  declare HoughLinesP: typeof Mat.prototype.houghLinesP;
+  declare HoughCircles: typeof Mat.prototype.houghCircles;
+  declare Dilate: typeof Mat.prototype.dilate;
+  declare Erode: typeof Mat.prototype.erode;
+  declare MorphologyEx: typeof Mat.prototype.morphologyEx;
+  declare WarpAffine: typeof Mat.prototype.warpAffine;
+  declare WarpPerspective: typeof Mat.prototype.warpPerspective;
+  declare Remap: typeof Mat.prototype.remap;
+  declare InvertAffineTransform: typeof Mat.prototype.invertAffineTransform;
+  declare GetRectSubPix: typeof Mat.prototype.getRectSubPix;
+  declare Accumulate: typeof Mat.prototype.accumulate;
+  declare AccumulateSquare: typeof Mat.prototype.accumulateSquare;
+  declare CreateHanningWindow: typeof Mat.prototype.createHanningWindow;
+  declare Threshold: typeof Mat.prototype.threshold;
+  declare AdaptiveThreshold: typeof Mat.prototype.adaptiveThreshold;
+  declare PyrDown: typeof Mat.prototype.pyrDown;
+  declare PyrUp: typeof Mat.prototype.pyrUp;
+  declare BuildPyramid: typeof Mat.prototype.buildPyramid;
+  declare Undistort: typeof Mat.prototype.undistort;
+  declare GetDefaultNewCameraMatrix: typeof Mat.prototype.getDefaultNewCameraMatrix;
+  declare UndistortPoints: typeof Mat.prototype.undistortPoints;
+  declare EqualizeHist: typeof Mat.prototype.equalizeHist;
+  declare Watershed: typeof Mat.prototype.watershed;
+  declare PyrMeanShiftFiltering: typeof Mat.prototype.pyrMeanShiftFiltering;
+  declare GrabCut: typeof Mat.prototype.grabCut;
+  declare FloodFill: typeof Mat.prototype.floodFill;
+  declare CvtColor: typeof Mat.prototype.cvtColor;
+  declare Moments: typeof Mat.prototype.moments;
+  declare MatchTemplate: typeof Mat.prototype.matchTemplate;
+  declare ConnectedComponents: typeof Mat.prototype.connectedComponents;
+  declare ConnectedComponentsWithStats: typeof Mat.prototype.connectedComponentsWithStats;
+  declare ConnectedComponentsEx: typeof Mat.prototype.connectedComponentsEx;
+  declare FindContours: typeof Mat.prototype.findContours;
+  declare FindContoursAsArray: typeof Mat.prototype.findContoursAsArray;
+  declare FindContoursAsMat: typeof Mat.prototype.findContoursAsMat;
+  declare DrawContours: typeof Mat.prototype.drawContours;
+  declare ApproxPolyDP: typeof Mat.prototype.approxPolyDP;
+  declare ArcLength: typeof Mat.prototype.arcLength;
+  declare BoundingRect: typeof Mat.prototype.boundingRect;
+  declare ContourArea: typeof Mat.prototype.contourArea;
+  declare MinAreaRect: typeof Mat.prototype.minAreaRect;
+  declare MinEnclosingCircle: typeof Mat.prototype.minEnclosingCircle;
+  declare ConvexHull: typeof Mat.prototype.convexHull;
+  declare ConvexHullPoints: typeof Mat.prototype.convexHullPoints;
+  declare ConvexHullFloatPoints: typeof Mat.prototype.convexHullFloatPoints;
+  declare ConvexHullIndices: typeof Mat.prototype.convexHullIndices;
+  declare ConvexityDefects: typeof Mat.prototype.convexityDefects;
+  declare ConvexityDefectsAsVec: typeof Mat.prototype.convexityDefectsAsVec;
+  declare IsContourConvex: typeof Mat.prototype.isContourConvex;
+  declare FitEllipse: typeof Mat.prototype.fitEllipse;
+  declare FitLine2D: typeof Mat.prototype.fitLine2D;
+  declare FitLine3D: typeof Mat.prototype.fitLine3D;
+  declare PointPolygonTest: typeof Mat.prototype.pointPolygonTest;
+  declare DistanceTransform: typeof Mat.prototype.distanceTransform;
   // ==== END AUTO-GENERATED ALIASES ====
 }
 
@@ -995,6 +2584,88 @@ declare class Point2f {
 
   constructor();
   constructor(x: number, y: number);
+
+  /**
+   * 转换为 Point（整数坐标）
+   */
+  toPoint(): any;
+
+  /**
+   * 转换为 Vec2f
+   */
+  toVec2f(): any;
+
+  /**
+   * 一元正运算
+   */
+  plus(): Point2f;
+
+  /**
+   * 取反
+   */
+  negate(): Point2f;
+
+  /**
+   * 加法
+   * @param other 另一个点
+   */
+  add(other: Point2f): Point2f;
+
+  /**
+   * 减法
+   * @param other 另一个点
+   */
+  subtract(other: Point2f): Point2f;
+
+  /**
+   * 乘法
+   * @param scalar 标量
+   */
+  multiply(scalar: number): Point2f;
+
+  /**
+   * 计算到另一个点的距离
+   * @param other 另一个点
+   */
+  distanceTo(other: Point2f): number;
+
+  /**
+   * 计算点积（实例方法）
+   * @param other 另一个点
+   */
+  dotProduct(other: Point2f): number;
+
+  /**
+   * 计算点积（实例方法，静态风格）
+   * @param p1 点1
+   * @param p2 点2
+   */
+  dotProduct(p1: any, p2: any): number;
+
+  /**
+   * 计算叉积（实例方法）
+   * @param other 另一个点
+   */
+  crossProduct(other: Point2f): number;
+
+  /**
+   * 计算叉积（实例方法，静态风格）
+   * @param p1 点1
+   * @param p2 点2
+   */
+  crossProduct(p1: any, p2: any): number;
+
+  /**
+   * 解构为 x, y
+   */
+  deconstruct(): [number, number];
+
+  /**
+   * 解构为 x, y（带输出参数）
+   * @param x X 坐标输出
+   * @param y Y 坐标输出
+   */
+  deconstruct(x: any, y: any): any;
 
   /**
    * 从 Point 创建 Point2f
@@ -1017,10 +2688,22 @@ declare class Point2f {
 
   /**
    * 计算点积
+   * @param p1 点或参数
+   */
+  static dotProduct(p1: any): number;
+
+  /**
+   * 计算点积
    * @param p1 点1
    * @param p2 点2
    */
   static dotProduct(p1: Point2f, p2: Point2f): number;
+
+  /**
+   * 计算叉积
+   * @param p1 点或参数
+   */
+  static crossProduct(p1: any): number;
 
   /**
    * 计算叉积
@@ -1033,11 +2716,20 @@ declare class Point2f {
   declare X: typeof Point2f.prototype.x;
 
   declare Y: typeof Point2f.prototype.y;
+  declare ToPoint: typeof Point2f.prototype.toPoint;
+  declare ToVec2f: typeof Point2f.prototype.toVec2f;
+  declare Plus: typeof Point2f.prototype.plus;
+  declare Negate: typeof Point2f.prototype.negate;
+  declare Add: typeof Point2f.prototype.add;
+  declare Subtract: typeof Point2f.prototype.subtract;
+  declare Multiply: typeof Point2f.prototype.multiply;
+  declare DistanceTo: typeof Point2f.prototype.distanceTo;
+  declare DotProduct: typeof Point2f.prototype.dotProduct;
+  declare CrossProduct: typeof Point2f.prototype.crossProduct;
+  declare Deconstruct: typeof Point2f.prototype.deconstruct;
   declare static FromPoint: typeof Point2f.fromPoint;
   declare static FromVec2f: typeof Point2f.fromVec2f;
   declare static Distance: typeof Point2f.distance;
-  declare static DotProduct: typeof Point2f.dotProduct;
-  declare static CrossProduct: typeof Point2f.crossProduct;
   // ==== END AUTO-GENERATED ALIASES ====
 }
 
@@ -1077,6 +2769,26 @@ declare class RecognitionObject {
   useBinaryMatch: boolean;
   /** 二值化阈值 (默认 128) */
   binaryThreshold: number;
+  /** 颜色转换代码 */
+  colorConversionCode: number;
+  /** 颜色范围下界 */
+  lowerColor: any;
+  /** 颜色范围上界 */
+  upperColor: any;
+  /** 匹配数量 */
+  matchCount: number;
+  /** OCR 引擎 */
+  ocrEngine: any;
+  /** 替换字典 */
+  replaceDictionary: any;
+  /** 全部包含匹配文本 */
+  allContainMatchText: string[];
+  /** 任一包含匹配文本 */
+  oneContainMatchText: string[];
+  /** 正则匹配文本 */
+  regexMatchText: string[];
+  /** OCR 识别的文本 */
+  text: string;
 
   /**
    * 初始化模板
@@ -1084,25 +2796,55 @@ declare class RecognitionObject {
   initTemplate(): this;
 
   /**
-   * 模板匹配
-   * @param srcMat 源图像
-   * @param ro 识别对象
+   * 克隆识别对象
    */
-  static templateMatch(srcMat: Mat, ro: RecognitionObject): Region[];
+  clone(): RecognitionObject;
 
   /**
-   * OCR 文字识别
-   * @param srcMat 源图像
-   * @param ro 识别对象
+   * 创建模板匹配识别对象
+   * @param mat 模板图像
    */
-  static ocr(srcMat: Mat, ro: RecognitionObject): Region[];
+  static templateMatch(mat: Mat): RecognitionObject;
+  /**
+   * 创建模板匹配识别对象（带遮罩）
+   * @param mat 模板图像
+   * @param useMask 是否使用遮罩
+   * @param maskColor 遮罩颜色
+   */
+  static templateMatch(mat: Mat, useMask: boolean, maskColor?: any): RecognitionObject;
+  /**
+   * 创建模板匹配识别对象（指定ROI区域）
+   * @param mat 模板图像
+   * @param x ROI X坐标
+   * @param y ROI Y坐标
+   * @param w ROI 宽度
+   * @param h ROI 高度
+   */
+  static templateMatch(mat: Mat, x: number, y: number, w: number, h: number): RecognitionObject;
 
   /**
-   * OCR 匹配
-   * @param srcMat 源图像
-   * @param ro 识别对象
+   * 创建OCR识别对象（指定ROI区域）
+   * @param x ROI X坐标
+   * @param y ROI Y坐标
+   * @param w ROI 宽度
+   * @param h ROI 高度
    */
-  static ocrMatch(srcMat: Mat, ro: RecognitionObject): Region[];
+  static ocr(x: number, y: number, w: number, h: number): RecognitionObject;
+  /**
+   * 创建OCR识别对象（使用Rect指定ROI区域）
+   * @param rect ROI矩形区域
+   */
+  static ocr(rect: any): RecognitionObject;
+
+  /**
+   * 创建OCR匹配识别对象（指定ROI区域和匹配文本）
+   * @param x ROI X坐标
+   * @param y ROI Y坐标
+   * @param w ROI 宽度
+   * @param h ROI 高度
+   * @param matchTexts 匹配文本列表
+   */
+  static ocrMatch(x: number, y: number, w: number, h: number, ...matchTexts: string[]): RecognitionObject;
 
   static readonly ocrThis: RecognitionObject;
 
@@ -1124,7 +2866,18 @@ declare class RecognitionObject {
   declare MaxMatchCount: typeof RecognitionObject.prototype.maxMatchCount;
   declare UseBinaryMatch: typeof RecognitionObject.prototype.useBinaryMatch;
   declare BinaryThreshold: typeof RecognitionObject.prototype.binaryThreshold;
+  declare ColorConversionCode: typeof RecognitionObject.prototype.colorConversionCode;
+  declare LowerColor: typeof RecognitionObject.prototype.lowerColor;
+  declare UpperColor: typeof RecognitionObject.prototype.upperColor;
+  declare MatchCount: typeof RecognitionObject.prototype.matchCount;
+  declare OcrEngine: typeof RecognitionObject.prototype.ocrEngine;
+  declare ReplaceDictionary: typeof RecognitionObject.prototype.replaceDictionary;
+  declare AllContainMatchText: typeof RecognitionObject.prototype.allContainMatchText;
+  declare OneContainMatchText: typeof RecognitionObject.prototype.oneContainMatchText;
+  declare RegexMatchText: typeof RecognitionObject.prototype.regexMatchText;
+  declare Text: typeof RecognitionObject.prototype.text;
   declare InitTemplate: typeof RecognitionObject.prototype.initTemplate;
+  declare Clone: typeof RecognitionObject.prototype.clone;
   declare static TemplateMatch: typeof RecognitionObject.templateMatch;
   declare static Ocr: typeof RecognitionObject.ocr;
   declare static OcrMatch: typeof RecognitionObject.ocrMatch;
@@ -1140,10 +2893,24 @@ declare class DesktopRegion extends Region {
    * 在桌面区域点击
    * @param x X 坐标
    * @param y Y 坐标
+   */
+  desktopRegionClick(x: number, y: number): void;
+
+  /**
+   * 在桌面区域点击
+   * @param x X 坐标
+   * @param y Y 坐标
    * @param w 宽度
    * @param h 高度
    */
   desktopRegionClick(x: number, y: number, w: number, h: number): void;
+
+  /**
+   * 在桌面区域移动鼠标
+   * @param x X 坐标
+   * @param y Y 坐标
+   */
+  desktopRegionMove(x: number, y: number): void;
 
   /**
    * 在桌面区域移动鼠标
@@ -1155,6 +2922,37 @@ declare class DesktopRegion extends Region {
   desktopRegionMove(x: number, y: number, w: number, h: number): void;
 
   /**
+   * 从桌面区域派生游戏捕获区域
+   * @param captureMat 截图 Mat 对象
+   * @param x X 坐标
+   * @param y Y 坐标
+   * @returns 游戏捕获区域
+   */
+  derive(captureMat: Mat, x: number, y: number): GameCaptureRegion;
+
+  /**
+   * 派生新区域（使用 Rect）
+   * @param rect 矩形区域
+   */
+  derive(rect: any): Region;
+
+  /**
+   * 派生新区域
+   * @param x X 坐标
+   * @param y Y 坐标
+   */
+  derive(x: number, y: number): Region;
+
+  /**
+   * 派生新区域
+   * @param x X 坐标
+   * @param y Y 坐标
+   * @param w 宽度
+   * @param h 高度
+   */
+  derive(x: number, y: number, w: number, h: number): Region;
+
+  /**
    * 静态方法：在桌面指定位置点击
    * @param cx X 坐标
    * @param cy Y 坐标
@@ -1162,11 +2960,29 @@ declare class DesktopRegion extends Region {
   static desktopRegionClick(cx: number, cy: number): void;
 
   /**
+   * 静态方法：在桌面指定区域点击
+   * @param x X 坐标
+   * @param y Y 坐标
+   * @param w 宽度
+   * @param h 高度
+   */
+  static desktopRegionClick(x: number, y: number, w: number, h: number): void;
+
+  /**
    * 静态方法：在桌面指定位置移动鼠标
    * @param cx X 坐标
    * @param cy Y 坐标
    */
   static desktopRegionMove(cx: number, cy: number): void;
+
+  /**
+   * 静态方法：在桌面指定区域移动鼠标
+   * @param x X 坐标
+   * @param y Y 坐标
+   * @param w 宽度
+   * @param h 高度
+   */
+  static desktopRegionMove(x: number, y: number, w: number, h: number): void;
 
   /**
    * 静态方法：相对移动鼠标
@@ -1179,6 +2995,7 @@ declare class DesktopRegion extends Region {
   declare DesktopRegionClick: typeof DesktopRegion.prototype.desktopRegionClick;
 
   declare DesktopRegionMove: typeof DesktopRegion.prototype.desktopRegionMove;
+  declare Derive: typeof DesktopRegion.prototype.derive;
   declare static DesktopRegionMoveBy: typeof DesktopRegion.desktopRegionMoveBy;
   // ==== END AUTO-GENERATED ALIASES ====
 }
@@ -1187,6 +3004,27 @@ declare class DesktopRegion extends Region {
  * 游戏捕获区域
  */
 declare class GameCaptureRegion extends ImageRegion {
+  /**
+   * 转换为矩形绘制对象（游戏坐标，指定区域）
+   * @param x X 坐标
+   * @param y Y 坐标
+   * @param w 宽度
+   * @param h 高度
+   * @param pen 画笔（可选）
+   * @param name 绘制名称（可选）
+   */
+  convertToRectDrawable(x: number, y: number, w: number, h: number, pen?: any, name?: string): any;
+
+  /**
+   * 转换为线条绘制对象（游戏坐标）
+   */
+  convertToLineDrawable(x1: number, y1: number, x2: number, y2: number, pen?: any, name?: string): any;
+
+  /**
+   * 裁剪派生为 1080P 区域（使用自身区域）
+   */
+  deriveTo1080P(): ImageRegion;
+
   /**
    * 静态方法：在游戏区域点击
    * @param posFunc 位置计算函数
@@ -1206,20 +3044,6 @@ declare class GameCaptureRegion extends ImageRegion {
   static gameRegionMoveBy(deltaFunc: (size: any, scale: number) => [number, number]): void;
 
   /**
-   * 静态方法：点击 1080P 坐标
-   * @param x X 坐标 (1080P)
-   * @param y Y 坐标 (1080P)
-   */
-  static click1080P(x: number, y: number): void;
-
-  /**
-   * 静态方法：移动到 1080P 坐标
-   * @param x X 坐标 (1080P)
-   * @param y Y 坐标 (1080P)
-   */
-  static move1080P(x: number, y: number): void;
-
-  /**
    * 静态方法：点击游戏区域的 1080P 坐标
    * @param x X 坐标 (1080P)
    * @param y Y 坐标 (1080P)
@@ -1234,12 +3058,13 @@ declare class GameCaptureRegion extends ImageRegion {
   static gameRegion1080PPosMove(x: number, y: number): void;
 
   // ==== BEGIN AUTO-GENERATED ALIASES ====
-  declare static GameRegionClick: typeof GameCaptureRegion.gameRegionClick;
+  declare ConvertToRectDrawable: typeof GameCaptureRegion.prototype.convertToRectDrawable;
 
+  declare ConvertToLineDrawable: typeof GameCaptureRegion.prototype.convertToLineDrawable;
+  declare DeriveTo1080P: typeof GameCaptureRegion.prototype.deriveTo1080P;
+  declare static GameRegionClick: typeof GameCaptureRegion.gameRegionClick;
   declare static GameRegionMove: typeof GameCaptureRegion.gameRegionMove;
   declare static GameRegionMoveBy: typeof GameCaptureRegion.gameRegionMoveBy;
-  declare static Click1080P: typeof GameCaptureRegion.click1080P;
-  declare static Move1080P: typeof GameCaptureRegion.move1080P;
   declare static GameRegion1080PPosClick: typeof GameCaptureRegion.gameRegion1080PPosClick;
   declare static GameRegion1080PPosMove: typeof GameCaptureRegion.gameRegion1080PPosMove;
   // ==== END AUTO-GENERATED ALIASES ====
@@ -1280,10 +3105,31 @@ declare class ImageRegion extends Region {
   find(ro: RecognitionObject): Region;
 
   /**
+   * 在区域内查找识别对象（带回调）
+   * @param ro 识别对象
+   * @param successAction 成功回调
+   * @param failAction 失败回调
+   */
+  find(ro: RecognitionObject, successAction: ((region: Region) => void) | null, failAction: (() => void) | null): Region;
+
+  /**
    * 在区域内查找所有匹配的识别对象
    * @param ro 识别对象
    */
   findMulti(ro: RecognitionObject): Region[];
+
+  /**
+   * 在区域内查找所有匹配的识别对象（带回调）
+   * @param ro 识别对象
+   * @param successAction 成功回调
+   * @param failAction 失败回调
+   */
+  findMulti(ro: RecognitionObject, successAction: ((regions: Region[]) => void) | null, failAction: (() => void) | null): Region[];
+
+  /**
+   * 释放资源
+   */
+  dispose(): void;
 
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   declare readonly SrcMat: typeof ImageRegion.prototype.srcMat;
@@ -1293,6 +3139,7 @@ declare class ImageRegion extends Region {
   declare DeriveCrop: typeof ImageRegion.prototype.deriveCrop;
   declare Find: typeof ImageRegion.prototype.find;
   declare FindMulti: typeof ImageRegion.prototype.findMulti;
+  declare Dispose: typeof ImageRegion.prototype.dispose;
   // ==== END AUTO-GENERATED ALIASES ====
 }
 
@@ -1318,6 +3165,15 @@ declare class Region {
   readonly right: number;
   /** OCR 识别的文本 */
   text: string;
+  /** 前一个区域 */
+  readonly prev: Region | null;
+  /** 前一个区域的坐标转换器 */
+  readonly prevConverter: any;
+
+  /**
+   * 后台点击（通过 PostMessage）
+   */
+  backgroundClick(): void;
 
   /**
    * 点击区域中心
@@ -1374,6 +3230,14 @@ declare class Region {
   drawSelf(name: string, pen?: any): void;
 
   /**
+   * 在窗口绘制指定区域（使用 Rect）
+   * @param rect 矩形区域
+   * @param name 绘制名称
+   * @param pen 画笔（可选）
+   */
+  drawRect(rect: any, name: string, pen?: any): void;
+
+  /**
    * 在窗口绘制指定区域
    * @param x X 坐标
    * @param y Y 坐标
@@ -1383,6 +3247,82 @@ declare class Region {
    * @param pen 画笔（可选）
    */
   drawRect(x: number, y: number, w: number, h: number, name: string, pen?: any): void;
+
+  /**
+   * 自身转为矩形绘制对象
+   * @param name 绘制名称
+   * @param pen 画笔（可选）
+   */
+  selfToRectDrawable(name: string, pen?: any): any;
+
+  /**
+   * 转为矩形绘制对象（使用 Rect）
+   * @param rect 矩形区域
+   * @param name 绘制名称
+   * @param pen 画笔
+   */
+  toRectDrawable(rect: any, name: string, pen?: any): any;
+
+  /**
+   * 转为矩形绘制对象
+   * @param x X 坐标
+   * @param y Y 坐标
+   * @param w 宽度
+   * @param h 高度
+   * @param name 绘制名称
+   * @param pen 画笔（可选）
+   */
+  toRectDrawable(x: number, y: number, w: number, h: number, name: string, pen?: any): any;
+
+  /**
+   * 转为线条绘制对象
+   * @param x1 起始 X
+   * @param y1 起始 Y
+   * @param x2 结束 X
+   * @param y2 结束 Y
+   * @param name 绘制名称
+   * @param pen 画笔（可选）
+   */
+  toLineDrawable(x1: number, y1: number, x2: number, y2: number, name: string, pen?: any): any;
+
+  /**
+   * 在窗口绘制线条
+   * @param x1 起始 X
+   * @param y1 起始 Y
+   * @param x2 结束 X
+   * @param y2 结束 Y
+   * @param name 绘制名称
+   * @param pen 画笔（可选）
+   */
+  drawLine(x1: number, y1: number, x2: number, y2: number, name: string, pen?: any): void;
+
+  /**
+   * 转换自身位置到游戏捕获区域坐标
+   */
+  convertSelfPositionToGameCaptureRegion(): any;
+
+  /**
+   * 转换位置到游戏捕获区域坐标
+   * @param x X 坐标
+   * @param y Y 坐标
+   */
+  convertPositionToGameCaptureRegion(x: number, y: number): any;
+
+  /**
+   * 转换位置到游戏捕获区域坐标
+   * @param x X 坐标
+   * @param y Y 坐标
+   * @param w 宽度
+   * @param h 高度
+   */
+  convertPositionToGameCaptureRegion(x: number, y: number, w: number, h: number): any;
+
+  /**
+   * 转换位置到桌面区域坐标
+   * @param x X 坐标
+   * @param y Y 坐标
+   */
+  convertPositionToDesktopRegion(x: number, y: number): any;
 
   /**
    * 转换为 ImageRegion
@@ -1405,6 +3345,28 @@ declare class Region {
   isExist(): boolean;
 
   /**
+   * 派生新区域（使用 Rect）
+   * @param rect 矩形区域
+   */
+  derive(rect: any): Region;
+
+  /**
+   * 派生新区域
+   * @param x X 坐标
+   * @param y Y 坐标
+   */
+  derive(x: number, y: number): Region;
+
+  /**
+   * 派生新区域
+   * @param x X 坐标
+   * @param y Y 坐标
+   * @param w 宽度
+   * @param h 高度
+   */
+  derive(x: number, y: number, w: number, h: number): Region;
+
+  /**
    * 释放资源
    */
   dispose(): void;
@@ -1420,6 +3382,9 @@ declare class Region {
   declare Left: typeof Region.prototype.left;
   declare readonly Right: typeof Region.prototype.right;
   declare Text: typeof Region.prototype.text;
+  declare readonly Prev: typeof Region.prototype.prev;
+  declare readonly PrevConverter: typeof Region.prototype.prevConverter;
+  declare BackgroundClick: typeof Region.prototype.backgroundClick;
   declare Click: typeof Region.prototype.click;
   declare DoubleClick: typeof Region.prototype.doubleClick;
   declare ClickTo: typeof Region.prototype.clickTo;
@@ -1427,10 +3392,18 @@ declare class Region {
   declare MoveTo: typeof Region.prototype.moveTo;
   declare DrawSelf: typeof Region.prototype.drawSelf;
   declare DrawRect: typeof Region.prototype.drawRect;
+  declare SelfToRectDrawable: typeof Region.prototype.selfToRectDrawable;
+  declare ToRectDrawable: typeof Region.prototype.toRectDrawable;
+  declare ToLineDrawable: typeof Region.prototype.toLineDrawable;
+  declare DrawLine: typeof Region.prototype.drawLine;
+  declare ConvertSelfPositionToGameCaptureRegion: typeof Region.prototype.convertSelfPositionToGameCaptureRegion;
+  declare ConvertPositionToGameCaptureRegion: typeof Region.prototype.convertPositionToGameCaptureRegion;
+  declare ConvertPositionToDesktopRegion: typeof Region.prototype.convertPositionToDesktopRegion;
   declare ToImageRegion: typeof Region.prototype.toImageRegion;
   declare ToRect: typeof Region.prototype.toRect;
   declare IsEmpty: typeof Region.prototype.isEmpty;
   declare IsExist: typeof Region.prototype.isExist;
+  declare Derive: typeof Region.prototype.derive;
   declare Dispose: typeof Region.prototype.dispose;
   // ==== END AUTO-GENERATED ALIASES ====
 }
@@ -1451,9 +3424,10 @@ declare class CombatScenes {
   /**
    * 初始化队伍
    * @param imageRegion 图像区域
+   * @param autoFightConfig 自动战斗配置（可选）
    * @returns 当前实例
    */
-  initializeTeam(imageRegion: ImageRegion): this;
+  initializeTeam(imageRegion: ImageRegion, autoFightConfig?: any): this;
 
   /**
    * 获取角色列表（只读）
@@ -1462,9 +3436,37 @@ declare class CombatScenes {
   getAvatars(): Avatar[];
 
   /**
+   * 刷新队伍角色编号区域列表
+   * @param imageRegion 图像区域
+   * @returns 是否成功
+   */
+  refreshTeamAvatarIndexRectList(imageRegion: ImageRegion): boolean;
+
+  /**
+   * 分类角色中文名称
+   * @param img 图像
+   * @param index 角色编号
+   */
+  classifyAvatarCnName(img: any, index: number): any;
+
+  /**
+   * 分类角色名称
+   * @param img 图像
+   * @param index 角色编号
+   */
+  classifyAvatarName(img: any, index: number): string;
+
+  /**
    * 检查队伍是否已初始化
    */
   checkTeamInitialized(): boolean;
+
+  /**
+   * 更新按CD调度的动作调度器
+   * @param cdConfig 调度配置
+   * @returns 角色名称列表
+   */
+  updateActionSchedulerByCd(cdConfig: string): string[];
 
   /**
    * 通过名称选择角色
@@ -1485,6 +3487,25 @@ declare class CombatScenes {
    * @param ct 取消令牌（可选）
    */
   currentAvatar(force?: boolean, region?: ImageRegion, ct?: any): string | null;
+
+  /**
+   * 获取当前出战角色编号
+   * @param imageRegion 图像区域
+   * @param context 角色激活检查上下文
+   */
+  getActiveAvatarIndex(imageRegion: ImageRegion, context: any): number;
+
+  /**
+   * @deprecated 使用旧版 OCR 初始化队伍
+   * @param captureContent 截图内容
+   */
+  initializeTeamOldOcr(captureContent: any): this;
+
+  /**
+   * @deprecated OCR 错误纠正
+   * @param name OCR 识别的名称
+   */
+  errorOcrCorrection(name: string): string;
 
   /**
    * 任务前准备
@@ -1510,9 +3531,16 @@ declare class CombatScenes {
   declare ExpectedTeamAvatarNum: typeof CombatScenes.prototype.expectedTeamAvatarNum;
   declare InitializeTeam: typeof CombatScenes.prototype.initializeTeam;
   declare GetAvatars: typeof CombatScenes.prototype.getAvatars;
+  declare RefreshTeamAvatarIndexRectList: typeof CombatScenes.prototype.refreshTeamAvatarIndexRectList;
+  declare ClassifyAvatarCnName: typeof CombatScenes.prototype.classifyAvatarCnName;
+  declare ClassifyAvatarName: typeof CombatScenes.prototype.classifyAvatarName;
   declare CheckTeamInitialized: typeof CombatScenes.prototype.checkTeamInitialized;
+  declare UpdateActionSchedulerByCd: typeof CombatScenes.prototype.updateActionSchedulerByCd;
   declare SelectAvatar: typeof CombatScenes.prototype.selectAvatar;
   declare CurrentAvatar: typeof CombatScenes.prototype.currentAvatar;
+  declare GetActiveAvatarIndex: typeof CombatScenes.prototype.getActiveAvatarIndex;
+  declare InitializeTeamOldOcr: typeof CombatScenes.prototype.initializeTeamOldOcr;
+  declare ErrorOcrCorrection: typeof CombatScenes.prototype.errorOcrCorrection;
   declare BeforeTask: typeof CombatScenes.prototype.beforeTask;
   declare AfterTask: typeof CombatScenes.prototype.afterTask;
   declare Dispose: typeof CombatScenes.prototype.dispose;
@@ -1529,12 +3557,18 @@ declare class Avatar {
   readonly index: number;
   /** 配置文件中的角色信息 */
   readonly combatAvatar: any;
+  /** 手动设置的技能冷却时间（秒） */
+  manualSkillCd: number;
+  /** 上次使用技能的时间 */
+  lastSkillTime: any;
   /** 元素爆发是否就绪 */
   isBurstReady: boolean;
   /** 名字所在矩形位置 */
   nameRect: any;
   /** 编号所在矩形位置 */
   indexRect: any;
+  /** 取消令牌 */
+  ct: any;
   /** 战斗场景引用 */
   readonly combatScenes: CombatScenes;
 
@@ -1545,15 +3579,28 @@ declare class Avatar {
 
   /**
    * 尝试切换到该角色
-   * @param maxRetry 最大重试次数（可选）
+   * @param tryTimes 最大重试次数（默认4）
+   * @param needLog 是否需要日志（默认true）
    */
-  trySwitch(maxRetry?: number): boolean;
+  trySwitch(tryTimes?: number, needLog?: boolean): boolean;
+
+  /**
+   * 切换到该角色（不使用取消令牌）
+   */
+  switchWithoutCts(): void;
 
   /**
    * 使用元素战技
    * @param holdPress 是否长按（可选）
    */
   useSkill(holdPress?: boolean): void;
+
+  /**
+   * 使用技能后的处理
+   * @param givenRegion 图像区域（可选）
+   * @returns 技能冷却时间
+   */
+  afterUseSkill(givenRegion?: ImageRegion): number;
 
   /**
    * 使用元素爆发
@@ -1591,15 +3638,33 @@ declare class Avatar {
   walk(direction: string, ms: number): void;
 
   /**
+   * 移动摄像机
+   * @param pixelDeltaX X 偏移量（像素）
+   * @param pixelDeltaY Y 偏移量（像素）
+   */
+  moveCamera(pixelDeltaX: number, pixelDeltaY: number): void;
+
+  /**
    * 等待
    * @param ms 等待时间（毫秒）
    */
   wait(ms: number): void;
 
   /**
-   * 检查技能是否就绪
+   * 等待角色就绪（等待角色编号块出现）
    */
-  isSkillReady(): boolean;
+  ready(): void;
+
+  /**
+   * 检查技能是否就绪
+   * @param printLog 是否打印日志（默认false）
+   */
+  isSkillReady(printLog?: boolean): boolean;
+
+  /**
+   * 获取技能冷却剩余秒数
+   */
+  getSkillCdSeconds(): number;
 
   /**
    * 检查是否为出战状态
@@ -1608,49 +3673,127 @@ declare class Avatar {
   isActive(region: ImageRegion): boolean;
 
   /**
+   * 检查是否为出战状态（不依赖编号矩形）
+   * @param region 图像区域
+   */
+  isActiveNoIndexRect(region: ImageRegion): boolean;
+
+  /**
    * 等待技能冷却
    * @param ct 取消令牌
    */
   waitSkillCd(ct: any): Promise<void>;
 
   /**
-   * 静态方法：角色倒下时抛出异常
+   * 按下鼠标按键
+   * @param key 按键名称（默认"left"）
    */
-  static throwWhenDefeated(): void;
+  mouseDown(key?: string): void;
+
+  /**
+   * 释放鼠标按键
+   * @param key 按键名称（默认"left"）
+   */
+  mouseUp(key?: string): void;
+
+  /**
+   * 点击鼠标按键
+   * @param key 按键名称（默认"left"）
+   */
+  click(key?: string): void;
+
+  /**
+   * 相对移动鼠标
+   * @param x X 偏移量
+   * @param y Y 偏移量
+   */
+  moveBy(x: number, y: number): void;
+
+  /**
+   * 鼠标垂直滚动
+   * @param scrollAmountInClicks 滚动量（正数向上，负数向下）
+   */
+  scroll(scrollAmountInClicks: number): void;
+
+  /**
+   * 按下键盘按键
+   * @param key 按键名称
+   */
+  keyDown(key: string): void;
+
+  /**
+   * 释放键盘按键
+   * @param key 按键名称
+   */
+  keyUp(key: string): void;
+
+  /**
+   * 按下并释放键盘按键
+   * @param key 按键名称
+   */
+  keyPress(key: string): void;
+
+  /**
+   * 静态方法：角色倒下时抛出异常
+   * @param region 图像区域
+   * @param ct 取消令牌
+   */
+  static throwWhenDefeated(region: ImageRegion, ct: any): void;
 
   /**
    * 静态方法：传送点恢复
+   * @param ct 取消令牌
+   * @param ex 异常
    */
-  static tpForRecover(): Promise<void>;
+  static tpForRecover(ct: any, ex: any): void;
 
   /**
    * 静态方法：根据技能CD解析动作调度器
-   * @param schedule 调度配置
+   * @param avatarName 角色名称
+   * @param input 输入配置
+   * @returns 冷却时间（秒），无效时返回 null
    */
-  static parseActionSchedulerByCd(schedule: string): any;
+  static parseActionSchedulerByCd(avatarName: string, input: string): number | null;
 
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   declare readonly Name: typeof Avatar.prototype.name;
 
   declare readonly Index: typeof Avatar.prototype.index;
   declare readonly CombatAvatar: typeof Avatar.prototype.combatAvatar;
+  declare ManualSkillCd: typeof Avatar.prototype.manualSkillCd;
+  declare LastSkillTime: typeof Avatar.prototype.lastSkillTime;
   declare IsBurstReady: typeof Avatar.prototype.isBurstReady;
   declare NameRect: typeof Avatar.prototype.nameRect;
   declare IndexRect: typeof Avatar.prototype.indexRect;
+  declare Ct: typeof Avatar.prototype.ct;
   declare readonly CombatScenes: typeof Avatar.prototype.combatScenes;
   declare Switch: typeof Avatar.prototype.switch;
   declare TrySwitch: typeof Avatar.prototype.trySwitch;
+  declare SwitchWithoutCts: typeof Avatar.prototype.switchWithoutCts;
   declare UseSkill: typeof Avatar.prototype.useSkill;
+  declare AfterUseSkill: typeof Avatar.prototype.afterUseSkill;
   declare UseBurst: typeof Avatar.prototype.useBurst;
   declare Attack: typeof Avatar.prototype.attack;
   declare Charge: typeof Avatar.prototype.charge;
   declare Dash: typeof Avatar.prototype.dash;
   declare Jump: typeof Avatar.prototype.jump;
   declare Walk: typeof Avatar.prototype.walk;
+  declare MoveCamera: typeof Avatar.prototype.moveCamera;
   declare Wait: typeof Avatar.prototype.wait;
+  declare Ready: typeof Avatar.prototype.ready;
   declare IsSkillReady: typeof Avatar.prototype.isSkillReady;
+  declare GetSkillCdSeconds: typeof Avatar.prototype.getSkillCdSeconds;
   declare IsActive: typeof Avatar.prototype.isActive;
+  declare IsActiveNoIndexRect: typeof Avatar.prototype.isActiveNoIndexRect;
   declare WaitSkillCd: typeof Avatar.prototype.waitSkillCd;
+  declare MouseDown: typeof Avatar.prototype.mouseDown;
+  declare MouseUp: typeof Avatar.prototype.mouseUp;
+  declare Click: typeof Avatar.prototype.click;
+  declare MoveBy: typeof Avatar.prototype.moveBy;
+  declare Scroll: typeof Avatar.prototype.scroll;
+  declare KeyDown: typeof Avatar.prototype.keyDown;
+  declare KeyUp: typeof Avatar.prototype.keyUp;
+  declare KeyPress: typeof Avatar.prototype.keyPress;
   declare static ThrowWhenDefeated: typeof Avatar.throwWhenDefeated;
   declare static TpForRecover: typeof Avatar.tpForRecover;
   declare static ParseActionSchedulerByCd: typeof Avatar.parseActionSchedulerByCd;
@@ -1662,6 +3805,173 @@ declare class Avatar {
 //  */
 // 为了避免与其他package中的类型冲突，这里不声明全局变量
 // declare const OpenCvSharp: any;
+
+/**
+ * 自动跳过剧情配置
+ */
+declare class AutoSkipConfig {
+  /** 属性变更事件 */
+  propertyChanged: any;
+  /** 属性即将变更事件 */
+  propertyChanging: any;
+  /** 是否启用自动跳过 */
+  enabled: boolean;
+  /** 是否启用快速跳过对话 */
+  quicklySkipConversationsEnabled: boolean;
+  /** 选择选项后的延迟时间（毫秒） */
+  afterChooseOptionSleepDelay: number;
+  /** 点击确认前的延迟时间（毫秒） */
+  beforeClickConfirmDelay: number;
+  /** 是否启用自动领取每日奖励 */
+  autoGetDailyRewardsEnabled: boolean;
+  /** 是否启用自动重新探索 */
+  autoReExploreEnabled: boolean;
+  /** @deprecated 自动重新探索角色 */
+  autoReExploreCharacter: string;
+  /** 点击聊天选项方式 */
+  clickChatOption: string;
+  /** 是否启用自定义优先选项 */
+  customPriorityOptionsEnabled: boolean;
+  /** 自定义优先选项 */
+  customPriorityOptions: string;
+  /** 是否启用自动邀约事件 */
+  autoHangoutEventEnabled: boolean;
+  /** 自动邀约结束选择 */
+  autoHangoutEndChoose: string;
+  /** 自动邀约选择选项的延迟时间（毫秒） */
+  autoHangoutChooseOptionSleepDelay: number;
+  /** 是否启用自动邀约按跳过键 */
+  autoHangoutPressSkipEnabled: boolean;
+  /** 是否启用后台运行 */
+  runBackgroundEnabled: boolean;
+  /** 是否启用提交物品 */
+  submitGoodsEnabled: boolean;
+  /** 是否启用画中画 */
+  pictureInPictureEnabled: boolean;
+  /** 画中画来源类型 */
+  pictureInPictureSourceType: string;
+  /** 是否启用关闭弹出页 */
+  closePopupPagedEnabled: boolean;
+  /** 是否跳过内置点击选项 */
+  skipBuiltInClickOptions: boolean;
+
+  constructor();
+
+  /**
+   * 是否点击第一个聊天选项
+   * @returns 是否启用
+   */
+  isClickFirstChatOption(): boolean;
+
+  /**
+   * 是否随机点击聊天选项
+   * @returns 是否启用
+   */
+  isClickRandomChatOption(): boolean;
+
+  /**
+   * 是否不点击聊天选项
+   * @returns 是否启用
+   */
+  isClickNoneChatOption(): boolean;
+
+  // ==== BEGIN AUTO-GENERATED ALIASES ====
+  declare PropertyChanged: typeof AutoSkipConfig.prototype.propertyChanged;
+
+  declare PropertyChanging: typeof AutoSkipConfig.prototype.propertyChanging;
+  declare Enabled: typeof AutoSkipConfig.prototype.enabled;
+  declare QuicklySkipConversationsEnabled: typeof AutoSkipConfig.prototype.quicklySkipConversationsEnabled;
+  declare AfterChooseOptionSleepDelay: typeof AutoSkipConfig.prototype.afterChooseOptionSleepDelay;
+  declare BeforeClickConfirmDelay: typeof AutoSkipConfig.prototype.beforeClickConfirmDelay;
+  declare AutoGetDailyRewardsEnabled: typeof AutoSkipConfig.prototype.autoGetDailyRewardsEnabled;
+  declare AutoReExploreEnabled: typeof AutoSkipConfig.prototype.autoReExploreEnabled;
+  declare AutoReExploreCharacter: typeof AutoSkipConfig.prototype.autoReExploreCharacter;
+  declare ClickChatOption: typeof AutoSkipConfig.prototype.clickChatOption;
+  declare CustomPriorityOptionsEnabled: typeof AutoSkipConfig.prototype.customPriorityOptionsEnabled;
+  declare CustomPriorityOptions: typeof AutoSkipConfig.prototype.customPriorityOptions;
+  declare AutoHangoutEventEnabled: typeof AutoSkipConfig.prototype.autoHangoutEventEnabled;
+  declare AutoHangoutEndChoose: typeof AutoSkipConfig.prototype.autoHangoutEndChoose;
+  declare AutoHangoutChooseOptionSleepDelay: typeof AutoSkipConfig.prototype.autoHangoutChooseOptionSleepDelay;
+  declare AutoHangoutPressSkipEnabled: typeof AutoSkipConfig.prototype.autoHangoutPressSkipEnabled;
+  declare RunBackgroundEnabled: typeof AutoSkipConfig.prototype.runBackgroundEnabled;
+  declare SubmitGoodsEnabled: typeof AutoSkipConfig.prototype.submitGoodsEnabled;
+  declare PictureInPictureEnabled: typeof AutoSkipConfig.prototype.pictureInPictureEnabled;
+  declare PictureInPictureSourceType: typeof AutoSkipConfig.prototype.pictureInPictureSourceType;
+  declare ClosePopupPagedEnabled: typeof AutoSkipConfig.prototype.closePopupPagedEnabled;
+  declare SkipBuiltInClickOptions: typeof AutoSkipConfig.prototype.skipBuiltInClickOptions;
+  declare IsClickFirstChatOption: typeof AutoSkipConfig.prototype.isClickFirstChatOption;
+  declare IsClickRandomChatOption: typeof AutoSkipConfig.prototype.isClickRandomChatOption;
+  declare IsClickNoneChatOption: typeof AutoSkipConfig.prototype.isClickNoneChatOption;
+  // ==== END AUTO-GENERATED ALIASES ====
+}
+
+/**
+ * 键鼠钩子，用于监听全局键盘和鼠标事件
+ */
+declare class KeyMouseHook {
+  constructor();
+
+  /**
+   * 注册键盘按下事件回调
+   * @param callback 回调函数
+   * @param useCodeOnly 是否仅返回 KeyCode，默认为 true
+   */
+  onKeyDown(callback: Function, useCodeOnly?: boolean): void;
+
+  /**
+   * 注册键盘释放事件回调
+   * @param callback 回调函数
+   * @param useCodeOnly 是否仅返回 KeyCode，默认为 true
+   */
+  onKeyUp(callback: Function, useCodeOnly?: boolean): void;
+
+  /**
+   * 注册鼠标按下事件回调
+   * @param callback 回调函数
+   */
+  onMouseDown(callback: Function): void;
+
+  /**
+   * 注册鼠标释放事件回调
+   * @param callback 回调函数
+   */
+  onMouseUp(callback: Function): void;
+
+  /**
+   * 注册鼠标移动事件回调
+   * @param callback 回调函数
+   * @param interval 回调间隔时间（毫秒），默认 200ms
+   */
+  onMouseMove(callback: Function, interval?: number): void;
+
+  /**
+   * 注册鼠标滚轮事件回调
+   * @param callback 回调函数
+   */
+  onMouseWheel(callback: Function): void;
+
+  /**
+   * 移除所有监听器
+   */
+  removeAllListeners(): void;
+
+  /**
+   * 释放资源
+   */
+  dispose(): void;
+
+  // ==== BEGIN AUTO-GENERATED ALIASES ====
+  declare OnKeyDown: typeof KeyMouseHook.prototype.onKeyDown;
+
+  declare OnKeyUp: typeof KeyMouseHook.prototype.onKeyUp;
+  declare OnMouseDown: typeof KeyMouseHook.prototype.onMouseDown;
+  declare OnMouseUp: typeof KeyMouseHook.prototype.onMouseUp;
+  declare OnMouseMove: typeof KeyMouseHook.prototype.onMouseMove;
+  declare OnMouseWheel: typeof KeyMouseHook.prototype.onMouseWheel;
+  declare RemoveAllListeners: typeof KeyMouseHook.prototype.removeAllListeners;
+  declare Dispose: typeof KeyMouseHook.prototype.dispose;
+  // ==== END AUTO-GENERATED ALIASES ====
+}
 
 /**
  * 脚本自定义设置（settings.json）
