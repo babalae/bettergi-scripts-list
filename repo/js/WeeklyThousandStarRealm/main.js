@@ -2,7 +2,8 @@ import {
   findText,
   findTextAndClick,
   findImgAndClick,
-  waitUntilTextAppear, waitUntilImgDisappear, findImg
+  waitUntilTextAppear,
+  waitUntilImgDisappear
 } from "../../../packages/utils/tool";
 
 import fold_triangle from "assets/fold_triangle.png";
