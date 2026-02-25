@@ -126,7 +126,7 @@ async function checkAndFold() {
     await waitUntilImgDisappear(
       fold_triangle,
       async () => {
-        await findImgAndClick(fold_triangle, 1400, 650, 400, 100);
+        await findImgAndClick(fold_triangle, 1400, 650, 400, 100, 200);
         await sleep(duration);
       },
       1400,
