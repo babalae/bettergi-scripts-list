@@ -1,7 +1,8 @@
-// 當前版本2.1.3
+// 當前版本2.1.4
 // Encounter Points
 const AdventurerHandbookButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Adventurer Handbook Button.png"), 100, 300, 700, 700);
 const EncounterPointsStageRewardsRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Encounter Points Stage Rewards.png"), 1500, 700, 100, 100);
+const ClaimRewards_cn_Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/ClaimRewards_cn.png"), 515, 815, 250, 100);
 const Cannot_receive = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Cannot_receive.png"), 1060, 715, 100, 100);
 // MainUi
 const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/paimon_menu.png"), 0, 0, 100, 100);
@@ -80,7 +81,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
             if (!!settings.partyName) {
                 await claimEncounterPointsRewards();
             }
-            await fontaineCatherineCommissionAward()
+            await fontaineCatherineCommissionAward();
         } else {
             // 使用好友尘歌壶领双倍好感的情况
             let request_times = settings.request_times * 2;
@@ -112,7 +113,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
 
                 await claimEncounterPointsRewards();
                 await ReturnToBigWorld();
-                await fontaineCatherineCommissionAward()
+                await fontaineCatherineCommissionAward();
             } else {
                 // 这里捕获「完全无法进入」的情况
                 log.error("无法进入任何好友的尘歌壶，可能是没有好友全都未开放权限。");
@@ -490,8 +491,9 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
             await sleep(1800)
             const ro28 = captureGameRegion();
             let EncounterPointsStageRewardsButton = ro28.find(Cannot_receive);
+            let ClaimRewards_cn_Button = ro28.find(ClaimRewards_cn_Ro);
             ro28.dispose();
-            if (EncounterPointsStageRewardsButton.isExist()) {
+            if (EncounterPointsStageRewardsButton.isExist() ||ClaimRewards_cn_Button.isExist()) {
                 log.info("识别到 完成所有任務");
                 returnValue = true;
 
@@ -708,6 +710,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
         await keyPress("f");
         await sleep(1000);
         // 利用自動劇情領奬
+        let config = new AutoSkipConfig();
         config.AutoReExploreEnabled = true;
         dispatcher.addTimer(new RealtimeTimer("AutoSkip", config));
         await sleep(10000);
