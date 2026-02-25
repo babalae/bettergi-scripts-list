@@ -261,9 +261,9 @@ async function enterStarSourcePage() {
 // 创建关卡
 async function createMap() {
   await findTextAndClick("搜索", 1320, 0, 600, 95);
-  await findTextAndClick("搜索", 0, 120, 1920, 60);
+  await findTextAndClick("搜索", 0, 120, 1920, 60, 10, 100, 50, 200);
   inputText(roomID);
-  await sleep(1000);
+  await sleep(duration);
   await findTextAndClick("搜索", 0, 120, 1920, 60);
   await sleep(duration);
   click(355, 365);
@@ -280,9 +280,9 @@ async function createMap() {
 // 从收藏创建关卡
 async function createStarMap() {
   await checkAndFold();
-  await findTextAndClick("搜索", 0, 0, 1920, 120);
+  await findTextAndClick("搜索", 0, 0, 1920, 120, 10, 100, 50, 200);
   inputText(starRoomName);
-  await sleep(500);
+  await sleep(duration);
   await findTextAndClick("搜索", 0, 0, 1920, 120);
   await sleep(duration);
   click(420, 830);
