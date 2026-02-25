@@ -1,10 +1,14 @@
 import {
-  getImgMat,
   findText,
   findTextAndClick,
   findImgAndClick,
-  waitUntilTextAppear
+  waitUntilTextAppear,
+  waitUntilImgDisappear
 } from "../../../packages/utils/tool";
+
+import fold_triangle from "assets/fold_triangle.png";
+import check_box from "assets/check_box.png";
+import exit_room from "assets/exit_room.png";
 
 const duration = 1000; // 默认点击等待延时
 
@@ -116,6 +120,24 @@ async function findAndClickWhiteSpaceNext() {
   }
 }
 
+// 折叠展开的置顶栏
+async function checkAndFold() {
+  const top_text = await findText("置顶", 1400, 650, 400, 100);
+  if (top_text) {
+    await waitUntilImgDisappear(
+      fold_triangle,
+      async () => {
+        await findImgAndClick(fold_triangle, 1400, 650, 400, 100, 200);
+        await sleep(duration);
+      },
+      1400,
+      650,
+      400,
+      100
+    );
+  }
+}
+
 // 查找要删除的存档
 async function findSaveInList(keyword) {
   const maxScroll = 15;
@@ -169,7 +191,6 @@ async function deleteSource() {
   const sy = saveRegion.y - 30;
 
   await sleep(300);
-  const check_box = getImgMat("assets/check_box.png");
   await findImgAndClick(check_box, 0, sy, 1480, saveRegion.height + 70, 2000);
   // 删除
   await sleep(duration);
@@ -188,7 +209,6 @@ async function enterSourcePage() {
   const inRoom = await findText("房间", 1500, 0, 420, 500, 5, 100);
   if (inRoom) {
     keyPress("VK_P");
-    const exit_room = getImgMat("assets/exit_room.png");
     await waitUntilTextAppear(
       "确认",
       async () => {
@@ -215,7 +235,6 @@ async function enterStarSourcePage() {
   const inRoom = await findText("房间", 1500, 0, 420, 500, 5, 100);
   if (inRoom) {
     keyPress("VK_P");
-    const exit_room = getImgMat("assets/exit_room.png");
     await waitUntilTextAppear(
       "确认",
       async () => {
@@ -260,6 +279,7 @@ async function createMap() {
 
 // 从收藏创建关卡
 async function createStarMap() {
+  await checkAndFold();
   await findTextAndClick("搜索", 0, 0, 1920, 120);
   inputText(starRoomName);
   await sleep(500);
