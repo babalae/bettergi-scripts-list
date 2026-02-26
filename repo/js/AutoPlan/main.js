@@ -131,10 +131,10 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
     //     "isNotification": false
     // }
 
-    if (true) {
+/*    if (true) {
         log.info("地脉 暂不支持")
         return
-    }
+    }*/
 
     let param = new AutoLeyLineOutcropParam(autoLeyLineOutcrop.count, autoLeyLineOutcrop.country, autoLeyLineOutcrop.leyLineOutcropType);
     param.useAdventurerHandbook = autoLeyLineOutcrop.useAdventurerHandbook;
