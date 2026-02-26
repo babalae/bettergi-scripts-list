@@ -212,15 +212,16 @@ async function enterSourcePage() {
     await waitUntilTextAppear(
       "确认",
       async () => {
-        await findImgAndClick(exit_room, 960, 0, 960, 540, 500);
+        await findImgAndClick(exit_room, 960, 0, 960, 540, 5000);
       },
       960,
       600,
       960,
       400,
-      10
+      50,
+      100
     );
-    await findTextAndClick("确认", 960, 600, 960, 400);
+    await findTextAndClick("确认", 960, 600, 960, 400, 50);
     await genshin.returnMainUi();
     keyPress("VK_F6");
   } else {
@@ -258,8 +259,8 @@ async function enterStarSourcePage() {
   await sleep(duration);
 }
 
-// 创建关卡
-async function createMap() {
+// 搜索关卡
+async function searchMap() {
   await findTextAndClick("搜索", 1320, 0, 600, 95);
   await findTextAndClick("搜索", 0, 120, 1920, 60, 10, 100, 50, 200);
   inputText(roomID);
@@ -268,17 +269,10 @@ async function createMap() {
   await sleep(duration);
   click(355, 365);
   await sleep(duration);
-  const result = await findTextAndClick("房间",960, 100, 960, 200, 2);
-  if (!result) {
-    await findTextAndClick("大厅", 960, 600, 960, 400, 2);
-  }
-  await findText("开始游戏", 960, 540, 960, 540);
-  click(770, 275);
-  await sleep(duration);
 }
 
-// 从收藏创建关卡
-async function createStarMap() {
+// 从收藏搜索关卡
+async function searchStarMap() {
   await checkAndFold();
   await findTextAndClick("搜索", 0, 0, 1920, 120, 10, 100, 50, 200);
   inputText(starRoomName);
@@ -287,11 +281,15 @@ async function createStarMap() {
   await sleep(duration);
   click(420, 830);
   await sleep(duration);
+}
+
+// 创建房间
+async function createRoom() {
   const result = await findTextAndClick("房间",960, 100, 960, 200, 2);
   if (!result) {
     await findTextAndClick("大厅", 960, 600, 960, 400, 2);
     await waitUntilTextAppear("房间", () => {},960, 100, 960, 200, 50, 1000);
-    await findTextAndClick("房间",960, 100, 960, 200);
+    await findTextAndClick("房间",960, 100, 960, 200, 20, 50, 200);
   }
   await findText("开始游戏", 960, 540, 960, 540);
   click(770, 275);
@@ -305,10 +303,12 @@ async function playMap() {
   const total = useFixedAttempts ? userAttempts : leave;
 
   if (starMode) {
-    await createStarMap();
+    await searchStarMap();
   } else {
-    await createMap();
+    await searchMap();
   }
+
+  await createRoom();
 
   await findTextAndClick("开始游戏", 960, 540, 960, 540, 5, 50, 50);
   log.info("开始执行第{i}/{total}次奇域挑战", 1, total);
