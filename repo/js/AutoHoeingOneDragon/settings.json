@@ -149,16 +149,10 @@
     "label": "勾选后禁用根据运行记录优化路线选择的功能\n完全使用路线原有信息\n【注意】启用该选项将导致无法根据个人运行清空自动优化路线选择"
   },
   {
-    "name": "eEfficiencyIndex",
+    "name": "efficiencyIndex",
     "type": "input-text",
-    "label": "精英计算权重，填0以上的数字\n越大越倾向于花费较多时间提高总收益",
-    "default": "2.5"
-  },
-  {
-    "name": "mEfficiencyIndex",
-    "type": "input-text",
-    "label": "小怪计算权重，填0以上的数字\n越大越倾向于花费较多时间提高总收益",
-    "default": "0.5"
+    "label": "摩拉/耗时权衡因数，填0及以上的数字\n越大越倾向于花费较多时间提高总收益\n含义为愿意为1摩拉多花多少秒",
+    "default": "0.25"
   },
   {
     "name": "curiosityFactor",
