@@ -54,6 +54,7 @@ let state;
 let pathings;
 let localeWorks;
 let lastEatBuff = 0;
+let currentFood = "";
 
 (async function () {
     //通用预处理
@@ -962,31 +963,50 @@ async function runPath(fullPath, map_name, pm, pe) {
         await pathingScript.runFile("assets/强制黑芙.json");
     }
     if (settings.eatBuff) {
-        const res = settings.eatBuff.split('，');
         if (new Date() - lastEatBuff > 300 * 1000) {
-            lastEatBuff = new Date();
+            // 1. 数据预处理：分割、去空、去重
+            let res = settings.eatBuff
+                .split('，')
+                .map(item => item.trim())
+                .filter(item => item.length > 0)
+                .filter((item, index, arr) => arr.indexOf(item) === index);
+
+            // 无有效数据时提前返回
+            if (res.length === 0) {
+                log.error("无有效的食物配置");
+                return;
+            }
+            // 2. 优化排序：currentFood 置顶以减少筛选操作
+            if (currentFood && res.includes(currentFood)) {
+                res = [currentFood, ...res.filter(item => item !== currentFood)];
+            }
             await genshin.returnMainUi();
             keyPress("B");
-            await sleep(300);
             let type = "食物"
             await findAndClick([`assets/背包界面/${type}1.png`, `assets/背包界面/${type}2.png`]);
-            await sleep(300);
-            // 2. 遍历数组，逐项执行
+            // 3. 遍历数组，逐项执行
             for (const item of res) {
-                await sleep(300);
-                await findAndClick(['assets/筛选1.png', 'assets/筛选2.png']);
-                await findAndClick("assets/重置.png");
-                await sleep(500);
-                await findAndClick("assets/搜索.png");
-                await sleep(1000);
-                // 真正输入当前这一项
-                log.info(`搜索${item}`)
-                inputText(item);
-                await findAndClick("assets/确认筛选.png");
-                await sleep(500);
+                if (currentFood !== item) {
+                    await sleep(300);
+                    await findAndClick(['assets/筛选1.png', 'assets/筛选2.png']);
+                    await findAndClick("assets/重置.png");
+                    await sleep(300);
+                    await findAndClick("assets/搜索.png");
+                    await sleep(300);
+                    await findAndClick("assets/搜索成功点击.png");
+                    // 真正输入当前这一项
+                    log.info(`搜索${item}`);
+                    currentFood = item;
+                    inputText(item);
+                    await findAndClick("assets/确认筛选.png");
+                    while (await findAndClick("assets/确认筛选.png", false, 2, 3)) {
+                        await sleep(16);
+                    }
+                }
                 await findAndClick("assets/使用.png");
             }
             await genshin.returnMainUi();
+            lastEatBuff = new Date();
         }
 
     }
