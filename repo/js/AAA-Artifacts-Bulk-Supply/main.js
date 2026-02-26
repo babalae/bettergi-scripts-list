@@ -28,6 +28,7 @@ const doDecomposeRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("ass
 const doDecompose2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/doDecompose2.png"));
 
 const outDatedRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/ConfirmButton.png"), 760, 700, 100, 100);
+const scrollRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/拾取滚轮.png"), 1017, 496, 1093 - 581, 581 - 496);
 
 const normalPathA = settings.fastMode ? "" : "assets/ArtifactsPath/普通98点1号线";
 const normalPathB = settings.fastMode ? "" : "assets/ArtifactsPath/普通98点2号线";
@@ -1197,10 +1198,10 @@ async function recognizeAndInteract() {
         gameRegion = captureGameRegion();
         let centerYF = await findFIcon();
         if (!centerYF) {
-            if (await isMainUI()) {
-                if (new Date() - lastRoll >= 200) {
+            if (new Date() - lastRoll >= 200) {
+                lastRoll = new Date();
+                if (await hasScroll()) {
                     await keyMouseScript.runFile(`assets/滚轮下翻.json`);
-                    lastRoll = new Date();
                 }
             }
             continue;
@@ -1295,25 +1296,6 @@ async function recognizeAndInteract() {
         return null;
     }
 
-    async function isMainUI() {
-        const recognitionObject = RecognitionObject.TemplateMatch(mainUITemplate, 0, 0, 150, 150);
-        const maxAttempts = 1;
-        let attempts = 0;
-
-        while (attempts < maxAttempts && state.running) {
-            try {
-                const result = gameRegion.find(recognitionObject);
-                if (result.isExist()) return true;
-            } catch (error) {
-                log.error(`识别图像时发生异常: ${error.message}`);
-                if (!state.running) break;
-                return false;
-            }
-            attempts++;
-            await sleep(checkDelay);
-        }
-        return false;
-    }
 }
 
 /**
@@ -1482,4 +1464,33 @@ async function findAndClick(target,
         log.error(`执行通用识图时出现错误：${error.message}`);
         return retType === 0 ? false : null;
     }
+}
+
+/**
+ * 判断当前是否存在拾取滚轮图标
+ * @param {number} maxDuration 最大允许耗时（毫秒）
+ */
+async function hasScroll(maxDuration = 10) {
+    const start = Date.now();
+    let dodispose = false;
+    while (Date.now() - start < maxDuration) {
+        if (!gameRegion) {
+            gameRegion = captureGameRegion();
+            dodispose = true;
+        }
+        try {
+            const result = gameRegion.find(scrollRo);
+            if (result.isExist()) return true;
+        } catch (error) {
+            log.error(`识别图像时发生异常: ${error.message}`);
+            return false;          // 一旦出现异常直接退出，不再重试
+        }
+        await sleep(checkDelay);   // 识别间隔
+        if (dodispose) {
+            gameRegion.dispose();
+            dodispose = false;     // 已经释放，标记避免重复 dispose
+        }
+    }
+    /* 超时仍未识别到，返回失败 */
+    return false;
 }
