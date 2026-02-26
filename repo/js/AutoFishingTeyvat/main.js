@@ -1001,8 +1001,6 @@
         const kill_minute = typeof(settings.time_kill_minute) === 'undefined' ? "无" : settings.time_kill_minute;
         const is_time_kill = kill_hour !== "无" && kill_minute !== "无"; // 判断是否启用
         let time_target = new Date();
-        // 读取用户自定义CD记录标识
-        const archive_force =  typeof(settings.archive_force) === 'undefined' ? "" : settings.archive_force;
 
         // 获取当前用户UID，四种格式，单人未识别：default_user，单人识别，{uid纯数字}，多人未识别：default_bgiMultiUser，多人识别：bgiMultiUser_{uid纯数字}
         let uid = "default_user";
@@ -1019,11 +1017,11 @@
                 log.debug("等待直到进入教程界面");
             }
 
-            if (archive_force === "") {
+            if (settings.archive_force === "") {
                 let ocrUid = await Ocr(1679, 1048, 200, 28);
                 if (ocrUid && ocrUid.text !== "") uid = ocrUid.text.replace(/\D/g, '');
             } else {
-                uid = archive_force;
+                uid = settings.archive_force;
             }
 
 
