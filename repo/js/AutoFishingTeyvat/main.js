@@ -508,13 +508,13 @@
 
             // 读取地区
             // let path_sort_area = typeof(settings.path_sort_area) === 'undefined' || settings.path_sort_area === "" ? [] : settings.path_sort_area.split(' ');
-            let path_sort_area = Array.from(settings.path_sort_area);
+            let path_sort_area = settings.path_sort_area ? Array.from(settings.path_sort_area) : [] ;
             // 读取鱼类
             // let path_sort_fish = typeof(settings.path_sort_fish) === 'undefined' || settings.path_sort_fish === "" ? [] : settings.path_sort_fish.split(' ');
-            let path_sort_fish = Array.from(settings.path_sort_fish);
+            let path_sort_fish = settings.path_sort_fish ? Array.from(settings.path_sort_fish) : [] ;
             // 读取鱼饵
             // let path_sort_bait = typeof(settings.path_sort_bait) === 'undefined' || settings.path_sort_bait === "" ? [] : settings.path_sort_bait.split(' ');
-            let path_sort_bait = Array.from(settings.path_sort_bait);
+            let path_sort_bait = settings.path_sort_bait ? Array.from(settings.path_sort_bait) : [] ;
             // 读取兑换材料
             let path_sort_material = typeof(settings.path_sort_material) === 'undefined' ? "无(默认)" : settings.path_sort_material;
             // 读取调试信息
@@ -981,7 +981,7 @@
         // 判断是否是调式模式
         const is_con = !(typeof(settings.path_select) === 'undefined' || settings.path_select === "无(默认)");
         // 读取开发者日志设置
-        const developer_log = Array.from(settings.developer_log);
+        const developer_log = settings.developer_log ? Array.from(settings.developer_log) : [];
         // 键鼠设置读取
         const block_gcm = typeof(settings.block_gcm) === 'undefined' ? false : settings.block_gcm;
         // 战斗设置读取
@@ -1001,6 +1001,8 @@
         const kill_minute = typeof(settings.time_kill_minute) === 'undefined' ? "无" : settings.time_kill_minute;
         const is_time_kill = kill_hour !== "无" && kill_minute !== "无"; // 判断是否启用
         let time_target = new Date();
+        // 读取用户自定义CD记录标识
+        const archive_force =  typeof(settings.archive_force) === 'undefined' ? "" : settings.archive_force;
 
         // 获取当前用户UID，四种格式，单人未识别：default_user，单人识别，{uid纯数字}，多人未识别：default_bgiMultiUser，多人识别：bgiMultiUser_{uid纯数字}
         let uid = "default_user";
@@ -1017,11 +1019,11 @@
                 log.debug("等待直到进入教程界面");
             }
 
-            if (settings.archive_force === "") {
+            if (archive_force === "") {
                 let ocrUid = await Ocr(1679, 1048, 200, 28);
                 if (ocrUid && ocrUid.text !== "") uid = ocrUid.text.replace(/\D/g, '');
             } else {
-                uid = settings.archive_force;
+                uid = archive_force;
             }
 
 
