@@ -41,6 +41,7 @@ const fIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync('assets/F_
 fIconRo.Threshold = 0.95;
 fIconRo.InitTemplate();
 const mainUIRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/MainUI.png"), 0, 0, 150, 150);
+const scrollRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/拾取滚轮.png"), 1017, 496, 1093 - 581, 581 - 496);
 
 //全局通用变量声明
 let gameRegion;
@@ -53,6 +54,7 @@ let state;
 let pathings;
 let localeWorks;
 let lastEatBuff = 0;
+let currentFood = "";
 
 (async function () {
     //通用预处理
@@ -961,31 +963,50 @@ async function runPath(fullPath, map_name, pm, pe) {
         await pathingScript.runFile("assets/强制黑芙.json");
     }
     if (settings.eatBuff) {
-        const res = settings.eatBuff.split('，');
         if (new Date() - lastEatBuff > 300 * 1000) {
-            lastEatBuff = new Date();
+            // 1. 数据预处理：分割、去空、去重
+            let res = settings.eatBuff
+                .split('，')
+                .map(item => item.trim())
+                .filter(item => item.length > 0)
+                .filter((item, index, arr) => arr.indexOf(item) === index);
+
+            // 无有效数据时提前返回
+            if (res.length === 0) {
+                log.error("无有效的食物配置");
+                return;
+            }
+            // 2. 优化排序：currentFood 置顶以减少筛选操作
+            if (currentFood && res.includes(currentFood)) {
+                res = [currentFood, ...res.filter(item => item !== currentFood)];
+            }
             await genshin.returnMainUi();
             keyPress("B");
-            await sleep(300);
             let type = "食物"
             await findAndClick([`assets/背包界面/${type}1.png`, `assets/背包界面/${type}2.png`]);
-            await sleep(300);
-            // 2. 遍历数组，逐项执行
+            // 3. 遍历数组，逐项执行
             for (const item of res) {
-                await sleep(300);
-                await findAndClick(['assets/筛选1.png', 'assets/筛选2.png']);
-                await findAndClick("assets/重置.png");
-                await sleep(500);
-                await findAndClick("assets/搜索.png");
-                await sleep(1000);
-                // 真正输入当前这一项
-                log.info(`搜索${item}`)
-                inputText(item);
-                await findAndClick("assets/确认筛选.png");
-                await sleep(500);
+                if (currentFood !== item) {
+                    await sleep(300);
+                    await findAndClick(['assets/筛选1.png', 'assets/筛选2.png']);
+                    await findAndClick("assets/重置.png");
+                    await sleep(300);
+                    await findAndClick("assets/搜索.png");
+                    await sleep(300);
+                    await findAndClick("assets/搜索成功点击.png");
+                    // 真正输入当前这一项
+                    log.info(`搜索${item}`);
+                    currentFood = item;
+                    inputText(item);
+                    await findAndClick("assets/确认筛选.png");
+                    while (await findAndClick("assets/确认筛选.png", false, 2, 3)) {
+                        await sleep(16);
+                    }
+                }
                 await findAndClick("assets/使用.png");
             }
             await genshin.returnMainUi();
+            lastEatBuff = new Date();
         }
 
     }
@@ -1250,7 +1271,7 @@ async function recognizeAndInteract() {
         if (!centerYF) {
             if (new Date() - lastRoll >= 200) {
                 lastRoll = new Date();
-                if (await isMainUI()) {
+                if (await hasScroll()) {
                     await keyMouseScript.runFile(`assets/滚轮下翻.json`);
                 }
             }
@@ -1890,6 +1911,35 @@ async function isMainUI(maxDuration = 10) {
         }
         try {
             const result = gameRegion.find(mainUIRo);
+            if (result.isExist()) return true;
+        } catch (error) {
+            log.error(`识别图像时发生异常: ${error.message}`);
+            return false;          // 一旦出现异常直接退出，不再重试
+        }
+        await sleep(checkDelay);   // 识别间隔
+        if (dodispose) {
+            gameRegion.dispose();
+            dodispose = false;     // 已经释放，标记避免重复 dispose
+        }
+    }
+    /* 超时仍未识别到，返回失败 */
+    return false;
+}
+
+/**
+ * 判断当前是否存在拾取滚轮图标
+ * @param {number} maxDuration 最大允许耗时（毫秒）
+ */
+async function hasScroll(maxDuration = 10) {
+    const start = Date.now();
+    let dodispose = false;
+    while (Date.now() - start < maxDuration) {
+        if (!gameRegion) {
+            gameRegion = captureGameRegion();
+            dodispose = true;
+        }
+        try {
+            const result = gameRegion.find(scrollRo);
             if (result.isExist()) return true;
         } catch (error) {
             log.error(`识别图像时发生异常: ${error.message}`);
