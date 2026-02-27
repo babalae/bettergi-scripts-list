@@ -1,0 +1,125 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时117.67秒，包含以下怪物：1只大型狂蔓隙境原体、2只狂蔓隙境原体、1只遗迹重机、1只遗迹龙兽·空巡。",
+    "enable_monster_loot_split": false,
+    "hash_res": "61674668",
+    "last_modified_time": 1770213347676,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E036枫丹厄里那斯西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5114.517578125,
+      "y": 2995.697265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5100.9189453125,
+      "y": 2966.8251953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5098.369140625,
+      "y": 2955.1396484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5075.4228515625,
+      "y": 2908.4931640625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5075.7236328125,
+      "y": 2868.2763671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5073.671875,
+      "y": 2845.21142578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5061.978515625,
+      "y": 2816.8134765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5037.873046875,
+      "y": 2787.7763671875
+    },
+    {
+      "action": "log_output",
+      "action_params": "楼下的飞天吊毛打超时不要算了",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5037.873046875,
+      "y": 2787.7763671875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5038.5185546875,
+      "y": 2774.59033203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 5038.5185546875,
+      "y": 2774.59033203125
+    }
+  ]
+}

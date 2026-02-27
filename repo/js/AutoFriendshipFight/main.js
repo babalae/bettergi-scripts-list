@@ -1,9 +1,60 @@
 const DEFAULT_RUNS = 10;
-const DEFAULT_PERIOD = 25;
-const DEFAULT_BASE_RUNS = 50;
-const BENCHMARK_HOUR = "T04:00:00";
 const DEFAULT_OCR_TIMEOUT_SECONDS = 10;
 const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
+
+let detectedExpOrMora = true;
+let NoExpOrMoraCount = 0;
+let running = true;
+
+const DEFAULT_OCR_KEYWORDS = ["突发", "任务", "打倒", "消灭", "敌人", "所有"];
+
+const ENEMY_CONFIG = {
+    "愚人众": {
+        ocrKeywords: ["买卖", "不成", "正义存", "愚人众", "禁止", "危险", "运输", "打倒", "盗宝团", "丘丘人", "今晚", "伙食", "所有人"],
+        targetCoords: { x: 4840.55, y: -3078.01 },
+        triggerPoint: { x: 4783.79, y: -3065.62 },
+        preparePath: "愚人众-准备",
+        failReturnPath: "愚人众-准备",
+    },
+    "盗宝团": {
+        ocrKeywords: ["岛上", "无贼", "消灭", "鬼鬼祟祟", "盗宝团"],
+        targetCoords: { x: -2753.04, y: -3459.3025 },
+        triggerPoint: { x: -2736.60, y: -3415.44 },
+    },
+    "鳄鱼": {
+        ocrKeywords: ["张牙", "舞爪", "恶党", "鳄鱼", "打倒", "所有", "鳄鱼"],
+        targetCoords: { x: 3578.08, y: -500.75 },
+        triggerPoint: { x: 3614.63, y: -521.60 },
+        preparePath: "鳄鱼-准备",
+        failReturnPath: "鳄鱼-准备",
+        failReturnSleepMs: 5000,
+        initialDelayMs: 5000,
+        postBattlePath: "鳄鱼-拾取",
+    },
+    "蕈兽": {
+        ocrKeywords: ["实验家", "变成", "实验品", "击败", "所有", "魔物"],
+        targetCoords: { x: 3794.55, y: -350.60 },
+        triggerPoint: { x: 3749.38, y: -391.91 },
+        preparePath: "蕈兽-准备",
+        postBattlePath: "蕈兽-对话",
+    },
+    "雷萤术士": {
+        ocrKeywords: ["雷萤", "术士", "圆滚滚", "不可食用", "威撼", "攀岩", "消灭", "准备", "打倒", "所有", "魔物", "盗宝团", "击败", "成员", "盗亦无道"],
+        targetCoords: { x: 883.91, y: 656.63 },
+        triggerPoint: { x: 881.92, y: 616.85 },
+        preparePath: "雷萤术士-准备",
+    },
+};
+
+const expRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/exp.png"), 74, 341, 207 - 74, 803 - 341);
+expRo.Threshold = 0.85;
+expRo.Use3Channels = true;
+expRo.InitTemplate();
+
+const moraRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/mora.png"), 74, 341, 207 - 74, 803 - 341);
+moraRo.Threshold = 0.85;
+moraRo.Use3Channels = true;
+moraRo.InitTemplate();
 
 (async function () {
     const startTime = Date.now();
@@ -22,27 +73,7 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
     log.info(`当前选择的敌人类型: ${enemyType}`);
     log.info(`${enemyType}好感开始...`);
 
-    // 清理丘丘人（仅盗宝团需要）
-    if (settings.qiuQiuRen && enemyType === "盗宝团") {
-        log.info(`清理原住民...`);
-        await AutoPath('盗宝团-准备');
-    }
-    if (enemyType === "愚人众") {
-        log.info(`导航到愚人众触发点...`);
-        await AutoPath('愚人众-准备');
-    }
-    if (enemyType === "鳄鱼") {
-        log.info(`导航到鳄鱼触发点...`);
-        await AutoPath('鳄鱼-准备');
-    }
-    if (enemyType === "蕈兽") {
-        log.info(`导航到蕈兽触发点...`);
-        await AutoPath('蕈兽-准备');
-    }
-    if (enemyType === "雷萤术士") {
-        log.info(`导航到雷萤术士触发点...`);
-        await AutoPath('雷萤术士-准备');
-    }
+    await prepareForEnemy(enemyType);
     // 验证超时设置
     const ocrTimeout = validateTimeoutSetting(settings.ocrTimeout, DEFAULT_OCR_TIMEOUT_SECONDS, "OCR");
     const fightTimeout = validateTimeoutSetting(settings.fightTimeout, DEFAULT_FIGHT_TIMEOUT_SECONDS, "战斗");
@@ -53,7 +84,42 @@ const DEFAULT_FIGHT_TIMEOUT_SECONDS = 120;
 })();
 
 function convertToTrueIfNotBoolean(value) {
-  return typeof value === 'boolean' ? value : true;
+    return typeof value === 'boolean' ? value : true;
+}
+
+function getEnemyConfig(enemyType) {
+    return ENEMY_CONFIG[enemyType] || {};
+}
+
+async function prepareForEnemy(enemyType) {
+    // 清理丘丘人（仅盗宝团需要）
+    if (settings.qiuQiuRen && enemyType === "盗宝团") {
+        log.info("清理原住民...");
+        await AutoPath("盗宝团-准备");
+    }
+
+    const { preparePath } = getEnemyConfig(enemyType);
+    if (preparePath) {
+        log.info(`导航到${enemyType}触发点...`);
+        await AutoPath(preparePath);
+    }
+}
+
+async function runPostBattle(enemyType) {
+    const { postBattlePath } = getEnemyConfig(enemyType);
+    if (postBattlePath) {
+        await AutoPath(postBattlePath);
+    }
+
+    if (enemyType === "蕈兽") {
+        await sleep(50);
+        keyPress("F");
+        await sleep(50);
+        keyPress("F");
+        await sleep(500);
+        await genshin.chooseTalkOption("下次");
+        await sleep(500);
+    }
 }
 // 执行 path 任务
 async function AutoPath(locationName) {
@@ -173,50 +239,47 @@ async function executeBattleTasks(fightTimeout, enemyType, cts) {
     let battleTask;
     let battleResult = null;
     let fightResult = null;
-
+    let battleDetectTask = null;
+    let results = null;
     try {
-        battleTask = dispatcher.RunTask(new SoloTask("AutoFight"), cts);
-        const battleDetectTask = waitForBattleResult(fightTimeout * 1000, enemyType, cts);
+        if (settings.disableAsyncFight) {
+            battleTask = await dispatcher.RunTask(new SoloTask("AutoFight"));
+            return { success: true };
+        } else {
+            battleTask = dispatcher.RunTask(new SoloTask("AutoFight"), cts);
+            battleDetectTask = waitForBattleResult(fightTimeout * 1000, enemyType, cts);
+            // 使用 Promise.allSettled 而不是 Promise.all，这样可以处理部分成功的情况
+            results = await Promise.allSettled([
+                battleTask.catch(error => {
+                    // 如果是取消错误（成功检测后的正常取消），不算真正的错误
+                    if (error.message && error.message.includes("取消自动任务")) {
+                        log.info("战斗任务已被成功取消");
+                        return { cancelled: true };
+                    }
+                    throw error; // 其他错误继续抛出
+                }),
+                battleDetectTask
+            ]);
 
-        // 使用 Promise.allSettled 而不是 Promise.all，这样可以处理部分成功的情况
-        const results = await Promise.allSettled([
-            battleTask.catch(error => {
-                // 如果是取消错误（成功检测后的正常取消），不算真正的错误
-                if (error.message && error.message.includes("取消自动任务")) {
-                    log.info("战斗任务已被成功取消");
-                    return { cancelled: true };
-                }
-                throw error; // 其他错误继续抛出
-            }),
-            battleDetectTask
-        ]);
+            battleResult = results[0];
+            fightResult = results[1];
 
-        battleResult = results[0];
-        fightResult = results[1];
-
-        // 检查检测任务是否成功
-        if (fightResult.status === 'fulfilled') {
-            log.info("战斗检测任务完成");
-            return { success: true, battleResult: battleResult.value, fightResult: fightResult.value };
-        } else if (fightResult.status === 'rejected') {
-            throw fightResult.reason;
+            // 检查检测任务是否成功
+            if (fightResult.status === 'fulfilled') {
+                log.info("战斗检测任务完成");
+                return { success: true, battleResult: battleResult.value, fightResult: fightResult.value };
+            } else if (fightResult.status === 'rejected') {
+                throw fightResult.reason;
+            }
         }
-
     } catch (error) {
-        if (error.message && error.message.includes("战斗超时")) {
-            log.error(`战斗超时，终止整个任务: ${error.message}`);
-            await genshin.tpToStatueOfTheSeven();
-            throw error;
-        }
-
         // 过滤掉正常的取消错误
         if (error.message && error.message.includes("取消自动任务")) {
             log.info("战斗任务正常取消（战斗检测成功）");
             return { success: true, cancelled: true };
         }
-
         log.error(`战斗执行过程中出错: ${error.message}`);
-        throw error;
+        await genshin.tpToStatueOfTheSeven();
     } finally {
         // 确保战斗任务被等待完成（即使被取消）
         if (battleTask) {
@@ -229,6 +292,7 @@ async function executeBattleTasks(fightTimeout, enemyType, cts) {
                 }
             }
         }
+        keyUp("VK_LBUTTON");
     }
 }
 
@@ -236,17 +300,32 @@ async function executeBattleTasks(fightTimeout, enemyType, cts) {
 async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout, enemyType) {
     // 导航到触发点
     await navigateToTriggerPoint(enemyType);
-    if (roundIndex === 0 && enemyType === "鳄鱼") {
-        await sleep(5000);
+    const { initialDelayMs } = getEnemyConfig(enemyType);
+    if (roundIndex === 0 && initialDelayMs) {
+        await sleep(initialDelayMs);
     }
     let initialDetected = false;
     if (roundIndex === 0) {
         initialDetected = await detectTaskTrigger(3, enemyType);
     }
-    if(!initialDetected || roundIndex > 0) {
-        await genshin.relogin();
+    if (!detectedExpOrMora && settings.loopTillNoExpOrMora) {
+        NoExpOrMoraCount++;
+        log.warn("上次运行未检测到经验或摩拉");
+        if (NoExpOrMoraCount >= 2) {
+            log.warn("连续两次循环没有经验或摩拉掉落，提前终止");
+            return false;
+        }
+    } else {
+        NoExpOrMoraCount = 0;
+        detectedExpOrMora = false;
     }
-    
+    if (!initialDetected || roundIndex > 0) {
+        if (settings.use1000Stars) {
+            await genshin.wonderlandCycle();
+        } else {
+            await genshin.relogin();
+        }
+    }
 
     // 启动路径导航任务（异步）
     let pathTask = AutoPath(`${enemyType}-战斗点`);
@@ -262,24 +341,11 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
     const cts = new CancellationTokenSource();
 
     const targetCoords = getTargetCoordinates(enemyType);
-    await waitForTargetPosition(pathTask, targetCoords); 
+    await waitForTargetPosition(pathTask, targetCoords);
     await executeBattleTasks(fightTimeout, enemyType, cts);
     await pathTask;
 
-    // 特殊处理：鳄鱼战斗后需要拾取
-    if (enemyType === "鳄鱼") {
-        await AutoPath('鳄鱼-拾取');
-    }
-    if(enemyType === "蕈兽") {
-        await AutoPath('蕈兽-对话');
-        await sleep(50);
-        keyPress("F");
-        await sleep(50);
-        keyPress("F");
-        await sleep(500);
-        await genshin.chooseTalkOption("下次");
-        await sleep(500);
-    }
+    await runPostBattle(enemyType);
 
     // 返回 true 表示成功完成这一轮
     return true;
@@ -297,7 +363,12 @@ function logProgress(startTime, currentRound, totalRounds) {
 // 执行 N 次好感任务并输出日志 - 重构后的主函数
 async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "盗宝团") {
     const startFirstTime = Date.now();
+    let detectExpOrMoraTask;
+    if (settings.loopTillNoExpOrMora) {
+        detectExpOrMoraTask = detectExpOrMora();
+    }
     for (let i = 0; i < times; i++) {
+        try { await sleep(1); } catch (e) { break; }
         try {
             const success = await executeSingleFriendshipRound(i, ocrTimeout, fightTimeout, enemyType);
             if (!success)
@@ -305,60 +376,63 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
             logProgress(startFirstTime, i, times);
         } catch (error) {
             log.error(`第 ${i + 1} 轮好感任务失败: ${error.message}`);
-
             // 如果是战斗超时错误，直接终止整个任务
             if (error.message && error.message.includes("战斗超时")) {
                 throw error;
-            }
+            }    // 战斗超时就是需要取消任务
             continue;
         }
     }
-
-    log.info(`${enemyType}好感已完成`);
+    running = false;
+    if (settings.loopTillNoExpOrMora) {
+        await detectExpOrMoraTask;
+    }
+    log.info(`${enemyType} 好感已完成`);
 }
 
+async function detectExpOrMora() {
+    while (running) {
+        try { await sleep(1); } catch (e) { break; }
+        let gameRegion;
+        if (!detectedExpOrMora) {
+            try {
+                gameRegion = captureGameRegion();
+                const res1 = gameRegion.find(expRo);
+                if (res1.isExist()) {
+                    log.info("识别到经验");
+                    detectedExpOrMora = true;
+                    continue;
+                }
+                const res2 = gameRegion.find(moraRo);
+                if (res2.isExist()) {
+                    log.info("识别到经验");
+                    detectedExpOrMora = true;
+                    continue;
+                }
+            } catch (e) {
+                log.error(`检测经验和摩拉掉落过程中出现错误 ${e.message}`);
+            } finally {
+                gameRegion?.dispose();
+            }
+        } else {
+            //无需检测时额外等待200
+            await sleep(200);
+        }
+        await sleep(200);
+    }
+}
 
 async function calulateRunTimes() {
     log.info(`'请确保队伍满员，并为队伍配置相应的战斗策略'`);
     // 计算运行次数
     let runTimes = Number(settings.runTimes);
-    if (!isPositiveInteger(runTimes) && !settings.waitTimeMode) {
+    if (!isPositiveInteger(runTimes)) {
         log.warn("请输入正确的次数，必须是正整数！");
         log.warn(`运行次数重置为 ${DEFAULT_RUNS} 次！`);
         runTimes = DEFAULT_RUNS;
     }
 
-    if (settings.waitTimeMode) {
-        if (!isPositiveInteger(runTimes)) {
-            log.warn("运行次数必须是正整数，使用默认基准次数");
-            log.warn(`运行次数重置为 ${DEFAULT_BASE_RUNS} 次！`);
-            runTimes = DEFAULT_BASE_RUNS;
-        }
-
-        // 验证日期格式
-        const waitTimeModeDay = settings.waitTimeModeDay;
-        if (!isValidDateFormat(waitTimeModeDay)) {
-            log.error("基准日期格式错误，请检查后重试！");
-            log.error("参考格式：2025-01-01");
-            log.error(`错误输入：${waitTimeModeDay}`);
-            await sleep(5000);
-            return;
-        }
-
-        let period = Number(settings.waitTimeModePeriod);
-        if (!isPositiveInteger(period) || period > runTimes) {
-            period = DEFAULT_PERIOD < runTimes ? DEFAULT_PERIOD : runTimes;
-            log.warn(`卡时间模式周期必须是 1-${runTimes} 之间的正整数！使用 ${period} 作为周期`);
-        }
-        runTimes = calculateWaitModeRuns(runTimes, waitTimeModeDay, period);
-
-        // 添加日志输出，提醒用户当前使用的基准日期和周期
-        log.info(`当前使用的基准日期: ${waitTimeModeDay}`);
-        log.info(`当前使用的周期: ${period} 天`);
-        log.info(`根据基准日期和周期计算，今日运行次数: ${runTimes}`);
-    } else {
-        log.info(`当前设置的运行次数: ${runTimes}`);
-    }
+    log.info(`当前设置的运行次数: ${runTimes}`);
     return runTimes;
 }
 
@@ -369,84 +443,22 @@ function isPositiveInteger(value) {
 
 // 根据敌人类型获取OCR关键词
 function getOcrKeywords(enemyType) {
-    if (enemyType === "愚人众") {
-        return ["买卖", "不成", "正义存", "愚人众", "禁止", "危险", "运输", "打倒", "盗宝团", "丘丘人", "今晚", "伙食", "所有人"];
-    }
-    else if (enemyType === "盗宝团") {
-        return ["岛上", "无贼", "消灭", "鬼鬼祟祟", "盗宝团"];
-    }
-    else if (enemyType === "鳄鱼") {
-        return ["张牙", "舞爪", "恶党", "鳄鱼", "打倒", "所有", "鳄鱼"];
-    }
-    else if (enemyType === "蕈兽") {
-        return ["实验家", "变成", "实验品", "击败", "所有", "魔物"];
-    }
-    else if (enemyType === "雷萤术士") {
-        return ["雷萤", "术士","圆滚滚", "不可食用", "威撼", "攀岩", "消灭", "准备", "打倒", "所有", "魔物","盗宝团","击败","成员","盗亦无道"];
-    }
-    else
-    {
-        return ["突发", "任务", "打倒", "消灭", "敌人", "所有"]; // 兜底关键词
-    }
+    const { ocrKeywords } = getEnemyConfig(enemyType);
+    return ocrKeywords || DEFAULT_OCR_KEYWORDS;
 }
 
 // 根据敌人类型获取目标战斗点坐标
 function getTargetCoordinates(enemyType) {
-    if (enemyType === "愚人众") {
-        return { x: 4840.55, y: -3078.01 };
-    } else if (enemyType === "盗宝团") {
-        // 盗宝团战斗点坐标
-        return { x: -2757.28, y: -3468.43 };
-    } else if (enemyType === "鳄鱼") {
-        // 鳄鱼战斗点坐标
-        return { x: 3578.08, y: -500.75 };
-    } else if (enemyType === "蕈兽") {
-        return { x: 3794.55, y: -350.60 };
-    } else if (enemyType === "雷萤术士") {
-        return {x:  883.91,  y:656.63};
-    }
+    const { targetCoords } = getEnemyConfig(enemyType);
+    return targetCoords;
 }
 
 function getTriggerPoint(enemyType) {
-    if (enemyType === "愚人众") {
-        return { x: 4783.79, y: -3065.62 }; // 愚人众触发点坐标
-    }
-    else if (enemyType === "盗宝团") {
-        return { x: -2736.60, y: -3415.44 }; // 盗宝团触发点坐标
-    }
-    else if (enemyType === "鳄鱼") {
-        return { x: 3614.63, y: -521.60 }; // 鳄鱼触发点坐标
-    } else if (enemyType === "蕈兽") {
-        return { x: 3749.38, y: -391.91 }; // 蕈兽触发点坐标
-    } else if (enemyType === "雷萤术士") {
-        return {x:881.92, y: 616.85}; // 雷萤术士触发点坐标
-    }
+    const { triggerPoint } = getEnemyConfig(enemyType);
+    return triggerPoint;
 }
 
 // 验证日期格式
-function isValidDateFormat(dateStr) {
-    if (!dateStr) return false;
-
-    // 检查格式是否为 YYYY-MM-DD
-    const regex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!regex.test(dateStr)) return false;
-
-    // 检查是否为有效日期
-    const date = new Date(dateStr);
-    return !isNaN(date.getTime());
-}
-
-function calculateWaitModeRuns(baseRuns, waitTimeModeDay, period) {
-    const now = new Date();
-    const benchmark = new Date(waitTimeModeDay + BENCHMARK_HOUR);
-    const timeDiff = now.getTime() - benchmark.getTime();
-    const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    const daysNormalized = daysDiff >= 0 ? daysDiff : period - (Math.abs(daysDiff) % period);
-    const dayInCycle = (daysNormalized % period) + 1;
-    const baseRunsPerDay = Math.ceil(baseRuns / period);
-    return baseRunsPerDay * dayInCycle;
-}
-
 async function switchPartyIfNeeded(partyName) {
     if (!partyName) {
         await genshin.returnMainUi();
@@ -482,17 +494,18 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
             let text = result.text;
             let text2 = result2.text;
             capture.dispose();
+            if (enemyType === "蕈兽" && text2.includes("维沙瓦")) {
+                log.info("战斗结果：成功");
+                cts.cancel();
+                return true;
+            }
+
             // 检查成功关键词
             for (let keyword of successKeywords) {
                 if (text.includes(keyword)) {
                     log.info("检测到战斗成功关键词: {0}", keyword);
                     log.info("战斗结果：成功");
                     cts.cancel(); // 取消任务
-                    return true;
-                }
-                if(enemyType=="蕈兽" && text2.includes("维沙瓦")){
-                    log.info("战斗结果：成功");
-                    cts.cancel(); 
                     return true;
                 }
             }
@@ -504,13 +517,14 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
                     log.warn("战斗结果：失败，回到七天神像重试");
                     cts.cancel(); // 取消任务
                     await genshin.tpToStatueOfTheSeven();
-                    if (enemyType === "愚人众") {
-                        await AutoPath('愚人众-准备');
+                    const { failReturnPath } = getEnemyConfig(enemyType);
+                    if (failReturnPath) {
+                        await AutoPath(failReturnPath);
                     }
                     return false;
                 }
             }
-            if(enemyType !== "蕈兽") {
+            if (enemyType !== "蕈兽") {
                 // 检查事件关键词
                 let find = 0;
                 for (let keyword of eventKeywords) {
@@ -529,14 +543,13 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
                 if (notFind > 10) {
                     log.warn("不在任务触发区域，战斗失败");
                     cts.cancel(); // 取消任务
-                    if (enemyType === "愚人众") {
-                        log.warn("回到愚人众准备点");
-                        await AutoPath('愚人众-准备');
+                    const { failReturnPath, failReturnSleepMs } = getEnemyConfig(enemyType);
+                    if (failReturnPath) {
+                        log.warn(`回到${enemyType}准备点`);
+                        await AutoPath(failReturnPath);
                     }
-                    if (enemyType === "鳄鱼") {
-                        log.warn("回到鳄鱼准备点");
-                        await AutoPath('鳄鱼-准备');
-                        await sleep(5000);
+                    if (failReturnSleepMs) {
+                        await sleep(failReturnSleepMs);
                     }
                     return false;
 
@@ -570,7 +583,7 @@ function validateTimeoutSetting(value, defaultValue, timeoutType) {
 
     // 检查是否为有效数字且大于0
     if (!isFinite(timeout) || timeout <= 0) {
-        log.warn(`${timeoutType}超时设置无效，必须是大于0的数字，将使用默认值 ${defaultValue} 秒`);
+        log.warn(`${timeoutType} 超时设置无效，必须是大于0的数字，将使用默认值 ${defaultValue} 秒`);
         return defaultValue;
     }
 

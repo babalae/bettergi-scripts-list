@@ -239,6 +239,7 @@
     /**
      * 计算垂钓点再次可用的时间戳
      * @param {String} status - Daytime或Nighttime
+     * @param {String} current_cd
      * @returns {number} 返回垂钓点再次可用的时间戳
      * @description
      * 当前采用的CD计算为基于当前冷却时间对象中的 status 属性，计算并返回三天后（从当天 0 点开始计算）的时间戳。
@@ -507,13 +508,13 @@
 
             // 读取地区
             // let path_sort_area = typeof(settings.path_sort_area) === 'undefined' || settings.path_sort_area === "" ? [] : settings.path_sort_area.split(' ');
-            let path_sort_area = Array.from(settings.path_sort_area);
+            let path_sort_area = settings.path_sort_area ? Array.from(settings.path_sort_area) : [] ;
             // 读取鱼类
             // let path_sort_fish = typeof(settings.path_sort_fish) === 'undefined' || settings.path_sort_fish === "" ? [] : settings.path_sort_fish.split(' ');
-            let path_sort_fish = Array.from(settings.path_sort_fish);
+            let path_sort_fish = settings.path_sort_fish ? Array.from(settings.path_sort_fish) : [] ;
             // 读取鱼饵
             // let path_sort_bait = typeof(settings.path_sort_bait) === 'undefined' || settings.path_sort_bait === "" ? [] : settings.path_sort_bait.split(' ');
-            let path_sort_bait = Array.from(settings.path_sort_bait);
+            let path_sort_bait = settings.path_sort_bait ? Array.from(settings.path_sort_bait) : [] ;
             // 读取兑换材料
             let path_sort_material = typeof(settings.path_sort_material) === 'undefined' ? "无(默认)" : settings.path_sort_material;
             // 读取调试信息
@@ -826,142 +827,54 @@
             const base_other_path = "assets/pathing_others/";
             const image_path = "assets/peculiar_pinion.png";
             const image_world_path = "assets/peculiar_pinion_world.png";
+            let imageExitRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Exit.png"));
 
             if (tsurumi_method === "1") {
                 keyPress("B");
-                await sleep(2000);
+                while (!(captureGameRegion().Find(imageExitRo).isExist())) { // [DEBUG] 可能陷入死循环？
+                    await sleep(500);
+                    log.debug("等待直到进入背包界面");
+                }
+                await sleep(500);
                 click(1055, 48);
                 await sleep(1000);
 
                 let imageRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(image_path), 0, 95, 1278, 883);
                 imageRo.threshold = 0.9;
 
-                // // 记录原有快捷更换的4个小道具及装备状态
-                // click(positions["quick_change_state"][0], positions["quick_change_state"][1]);
-                // await sleep(500);
-                // let ori_gadget_region = captureGameRegion();
-                // let ori_gadget = {};
-                // let equipped = false;
-                //
-                // for (let i = 1; i <=4; i++) {
-                //     const currentBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/bottom_ico.png"), positions[`bottom${i}_pos`][0], positions[`bottom${i}_pos`][1], positions[`bottom${i}_pos`][2], positions[`bottom${i}_pos`][3]);
-                //     const currentEquipRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/current_ico.png"), positions[`bottom${i}_pos`][0], positions[`bottom${i}_pos`][1], positions[`bottom${i}_pos`][2], positions[`bottom${i}_pos`][3]);
-                //     if (!(ori_gadget_region.Find(currentBottomRo).isExist())) {
-                //         ori_gadget[i] = ori_gadget_region.DeriveCrop(positions[`upper${i}_pos`][0], positions[`upper${i}_pos`][1], positions[`upper${i}_pos`][2], positions[`upper${i}_pos`][3]);
-                //         if (ori_gadget_region.Find(currentEquipRo).isExist()) {
-                //             equipped = i;
-                //         }
-                //
-                //     } else {
-                //         ori_gadget[i] = false;
-                //     }
-                // }
-                // await sleep(100);
-                // click(positions["return_btn"][0], positions["return_btn"][1]);
-                // await sleep(200);
-
                 // 在本页面中寻找奇特的羽毛[DEBUG]下滑使用AEscoffier_chef内的scroll_pages_main修改后实现)
                 let page_state = true;
-                // while (page_state) {
+                moveMouseTo(1555, 860); // 移走鼠标，防止干扰识别
+                let gadget_region = captureGameRegion();
+                let gadget = gadget_region.Find(imageRo);
+                gadget_region.dispose();
+
+                // 如果当前页面存在奇特的羽毛
+                if (gadget.isExist()) {
+                    gadget.Click();
+                    await sleep(500);
                     moveMouseTo(1555, 860); // 移走鼠标，防止干扰识别
-                    let gadget_region = captureGameRegion();
-                    let gadget = gadget_region.Find(imageRo);
-                    gadget_region.dispose();
-
-                    // 如果当前页面存在奇特的羽毛
-                    if (gadget.isExist()) {
-                        gadget.Click();
-                        await sleep(500);
-                        moveMouseTo(1555, 860); // 移走鼠标，防止干扰识别
-                        let ocrResult = await Ocr(1626, 990, 150, 52);
-                        // 防止卸下奇特的羽毛
-                        if (ocrResult && ocrResult.text.includes("装备")) {
-                            click(1685, 1018);
-                        } else {
-                            click(1843, 48);
-                        }
-                        await sleep(2500);
-                        // 使用小道具激活垂钓点
-                        keyPress("Z");
-                        await sleep(1000);
-
-                        // // 恢复原有小道具布局
-                        // keyPress("B");
-                        // await sleep(2000);
-                        // click(1055, 48);
-                        // await sleep(1000);
-                        // click(positions["quick_change_state"][0], positions["quick_change_state"][1]);
-                        // // 清除并还原小道具快捷栏
-                        // for (let i = 1; i <=4; i++) {
-                        //     if (ori_gadget[i]) {
-                        //         await sleep(200);
-                        //         click(positions[`bottom${i}`][0], positions[`bottom${i}`][1]);
-                        //         await sleep(200);
-                        //         const tempRo = RecognitionObject.TemplateMatch(ori_gadget[i], 0, 95, 1278, 883);
-                        //         while (true) {
-                        //             const tempRegion = captureGameRegion();
-                        //             let gadget = tempRegion.Find(tempRo);
-                        //             tempRegion.dispose();
-                        //             if (gadget.isExist()) {
-                        //                 gadget.Click();
-                        //                 break;
-                        //             } else {
-                        //                 if (!(scroll_pages_main("down", 1))) {
-                        //                     log.warn(`未找到快捷更换栏原有的${i}号位小道具，已留空...`);
-                        //                     break;
-                        //                 }
-                        //             }
-                        //         }
-                        //     }
-                        // }
-                        // await sleep(100);
-                        // click(positions["confirm_btn"][0], positions["confirm_btn"][1]);
-                        // await sleep(200);
-                        // // 装备原先装备的小道具[DEBUG]如果原先未装备小道具或者装备的小道具不位于快捷栏位则装备状态无法还原
-                        // if (equipped) {
-                        //     while (true) {
-                        //         const oriEquippedRo = RecognitionObject.TemplateMatch(ori_gadget[equipped], 0, 95, 1278, 883);
-                        //         let gameRegion = captureGameRegion();
-                        //         let match_result = gameRegion.Find(oriEquippedRo);
-                        //         gameRegion.dispose();
-                        //         if (match_result.isExist()) {
-                        //             match_result.Click();
-                        //             await sleep(200);
-                        //             let gameRegion = captureGameRegion();
-                        //             let ocr_result = gameRegion.Find(ocrRo);
-                        //             gameRegion.dispose();
-                        //             if (ocr_result.isExist() && ocr_result.text === "装备") {
-                        //                 click(1685, 1018);
-                        //             } else {
-                        //                 click(1843, 48);
-                        //             }
-                        //             await sleep(500);
-                        //             break;
-                        //         } else {
-                        //             let page_state = scroll_pages_main("down", 1);
-                        //             if (page_state === false) {
-                        //                 log.warn("未找到原先装备的小道具...");
-                        //                 await sleep(500);
-                        //                 click(1843, 48);
-                        //                 await sleep(500);
-                        //                 break;
-                        //             }
-                        //         }
-                        //     }
-                        // }
-                        // click(1843, 48); // 关闭背包界面
-                        // await sleep(1000);
-
-                        await pathingScript.runFile(base_other_path + file_name + ".json");
-                        // break;
-                    } else {
-                        page_state = scroll_pages_main("down", 1);
-                        if (page_state === false) { // [DEBUG]未拥有奇特的羽毛的情况暂未测试(不确定滑到底部未找到是否能触发)
-                            log.warn("未找到小道具：奇特的羽毛，该点位已跳过...");
-                        }
-                        return false;
+                    let ocrResult = await Ocr(1626, 990, 150, 52);
+                    // 防止卸下奇特的羽毛
+                    if (ocrResult && ocrResult.text.includes("装备")) {
+                        click(1685, 1018);
                     }
-                // }
+                    // 返回主界面
+                    await genshin.returnMainUi();
+                    await sleep(500);
+                    // 使用小道具激活垂钓点
+                    keyPress("Z");
+                    await sleep(1000);
+
+                    await pathingScript.runFile(base_other_path + file_name + ".json");
+
+                } else {
+                    page_state = scroll_pages_main("down", 1);
+                    if (page_state === false) { // [DEBUG]未拥有奇特的羽毛的情况暂未测试(不确定滑到底部未找到是否能触发)
+                        log.warn("未找到小道具：奇特的羽毛，该点位已跳过...");
+                    }
+                    return false;
+                }
             } else {
                 await sleep(1000);
                 keyDown("Z");
@@ -1012,6 +925,9 @@
                 await fakeLog(`${file_name}-垂钓`, false, true, false, 0);
             }
         }
+
+        // 回到主界面
+        await genshin.returnMainUi();
 
         // 记录钓鱼开始时间
         const time_start_fishing = Date.now();
@@ -1065,7 +981,7 @@
         // 判断是否是调式模式
         const is_con = !(typeof(settings.path_select) === 'undefined' || settings.path_select === "无(默认)");
         // 读取开发者日志设置
-        const developer_log = Array.from(settings.developer_log);
+        const developer_log = settings.developer_log ? Array.from(settings.developer_log) : [];
         // 键鼠设置读取
         const block_gcm = typeof(settings.block_gcm) === 'undefined' ? false : settings.block_gcm;
         // 战斗设置读取
@@ -1086,7 +1002,7 @@
         const is_time_kill = kill_hour !== "无" && kill_minute !== "无"; // 判断是否启用
         let time_target = new Date();
 
-        // 获取当前用户UID
+        // 获取当前用户UID，四种格式，单人未识别：default_user，单人识别，{uid纯数字}，多人未识别：default_bgiMultiUser，多人识别：bgiMultiUser_{uid纯数字}
         let uid = "default_user";
         if (fishing_cd && !is_con) {
             const singleRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/single.png"));
@@ -1096,25 +1012,20 @@
             genshin.returnMainUi();
             await sleep(1000);
             keyPress("G");
-            await sleep(1500);
+            while (!(captureGameRegion().Find(imageExitRo).isExist())) { // [DEBUG] 可能陷入死循环？
+                await sleep(500);
+                log.debug("等待直到进入教程界面");
+            }
 
-            let ocrUid = await Ocr(1679, 1048, 200, 28);
-            if (ocrUid && ocrUid.text !== "") uid = ocrUid.text;
+            if (settings.archive_force === "") {
+                let ocrUid = await Ocr(1679, 1048, 200, 28);
+                if (ocrUid && ocrUid.text !== "") uid = ocrUid.text.replace(/\D/g, '');
+            } else {
+                uid = settings.archive_force;
+            }
+
 
             await genshin.returnMainUi();
-
-            // keyPress("F2"); // 按下F2打开多人模式界面
-            // await sleep(1000);
-            // let ro2 = captureGameRegion();
-            // let ocrText = ro2.Find(ocrRoText); // 当前页面OCR
-            // if (ocrText.isExist() && ocrText.text === "回到单人模式") {
-            //     log.info("当前为多人模式，垂钓点CD统计已失效...");
-            //     fishing_cd = false; // 多人模式下关闭CD记录功能
-            // }
-            // ro2.dispose();
-            //
-            // await sleep(500);
-            // keyPress("Escape");
 
             let mainUiCapture = captureGameRegion();
             if (mainUiCapture.Find(singleRo).isExist()) { // 单人模式
@@ -1153,7 +1064,6 @@
                 await genshin.returnMainUi;
 
                 log.info("当前为多人模式且并非房主，垂钓点CD统计将记录1P的CD(不影响单人模式的CD记录)");
-                // fishing_cd = false; // 多人模式下关闭CD统计功能
             }
             mainUiCapture.dispose();
         }
@@ -1197,31 +1107,27 @@
             }
             // 路径详细信息
             const path_msg = get_pathing_msg(path_filter[i]);
-            // try {
-                let current_msg = `${path_msg["area"]}-${path_msg["detail"]}`
-                log.info(`当前钓鱼点: ${current_msg}(进度: ${i + 1}/${path_filter.length})`);
-                // For ABGI only
-                log.debug(`当前进度：${current_msg}(进度: ${i + 1}/${path_filter.length})`);
-                if (path_continue === current_msg) {
-                    is_continue = false;
-                }
 
-                // 从选择的点位继续
-                if (path_continue !== "无(默认)" && !is_con && is_continue && path_filter.length === path_pathing.length) {
-                    log.info("跳过...");
-                    continue;
-                }
+            let current_msg = `${path_msg["area"]}-${path_msg["detail"]}`
+            log.info(`当前垂钓点: ${current_msg}(进度: ${i + 1}/${path_filter.length})`);
+            // For ABGI only
+            log.debug(`当前进度：${current_msg}(进度: ${i + 1}/${path_filter.length})`);
+            if (path_continue === current_msg) {
+                is_continue = false;
+            }
 
-                const run_result = await run_file(path_msg, time_out_throw, time_out_whole, is_con, developer_log, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid, is_time_kill, time_target, kill_hour, kill_minute);
+            // 从选择的点位继续
+            if (path_continue !== "无(默认)" && !is_con && is_continue && path_filter.length === path_pathing.length) {
+                log.info("跳过...");
+                continue;
+            }
 
-                // 新增：检查 run_file 是否因为到达终止时间而返回特殊标记
-                if (run_result === "time_kill") {
-                    return null; // 直接退出整个任务
-                }
-            // } catch (error) {
-            //     const file_name = `${path_msg["area"]}-${path_msg["type"]}-${path_msg["detail"]}`;
-            //     log.info(`路径: ${file_name} 执行时出错，已跳过...\n错误信息: ${error}`)
-            // }
+            const run_result = await run_file(path_msg, time_out_throw, time_out_whole, is_con, developer_log, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid, is_time_kill, time_target, kill_hour, kill_minute);
+
+            // 新增：检查 run_file 是否因为到达终止时间而返回特殊标记
+            if (run_result === "time_kill") {
+                return null; // 直接退出整个任务
+            }
         }
     }
 

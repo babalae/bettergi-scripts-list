@@ -1,7 +1,7 @@
 {
   "manifest_version": 1,
   "name": "锄地一条龙",
-  "version": "1.21.0",
+  "version": "2.5.1",
   "description": "一站式解决自动化锄地，支持只拾取狗粮，请仔细阅读README.md后使用",
   "authors": [
     {
@@ -19,6 +19,13 @@
     "records/*.json",
     "blacklists/*.json",
     "settings/*.json",
-    "assets/targetItems/其他/预留/**/*.png"
+    "assets/targetItems/其他/保留/*.png",
+    "assets/targetItems/其他/保留/*/*.png",
+    "assets/targetItems/其他/保留/*/*/*.png",
+    "assets/targetItems/其他/保留/*/*/*/*.png",
+    "pathing/0-保留/*.json",
+    "pathing/0-保留/*/*.json",
+    "pathing/0-保留/*/*/*.json",
+    "pathing/0-保留/*/*/*/*.json"
   ]
 }

@@ -7,13 +7,14 @@ import {
   findElementViewBtn,
   findGotTeyvatBtn,
   findHeaderTitle,
+  findPaimon,
 } from "../constants/regions.js";
 
 //#region src/modules/lobby.ts
 //! 判断是否处于奇域大厅
-const isInLobby = () => findBeyondHallBtn() !== void 0;
+const isInLobby = () => findPaimon() !== void 0 && findBeyondHallBtn() !== void 0;
 //! 判断是否处于提瓦特大陆
-const isInTeyvat = () => findElementViewBtn() !== void 0;
+const isInTeyvat = () => findPaimon() !== void 0 && findElementViewBtn() !== void 0;
 //! 退出大厅返回提瓦特大陆
 const exitLobbyToTeyvat = async () => {
   if (!userConfig.goToTeyvat) return;

@@ -11,6 +11,7 @@
     const BH = `assets/RecognitionObject/${Material}.png`;
     const ZHIBIANYI = "assets/RecognitionObject/zhibian.png";
     const CHA = "assets/RecognitionObject/cha.png";
+    const xingChen = "assets/RecognitionObject/星尘.png";
     const ifAkf = settings.ifAkf;
     const chargingMethod = settings.chargingMethod;
     const ifCooking = settings.ifCooking;
@@ -19,6 +20,9 @@
     const ifMijing = settings.ifMijing;
     const ifbuyNet = settings.ifbuyNet;
     const ifbuyTzq = settings.ifbuyTzq;
+    const ifPink = settings.ifPink;
+    const ifBlue = settings.ifBlue;
+    const ifChange = ifPink || ifBlue;
     const ifZBY = settings.ifZBY;
     const ifYB = settings.ifYB;
     const food = settings.food; // 要烹饪的食物
@@ -42,12 +46,13 @@
     // 直接通过映射获取ITEM值（未匹配时默认0）
     const ITEM = materialToItemMap[Material] || 0;
 
-    if (chargingMethod == "法器角色充能" && settings.TEAMname === undefined) {
+    if (ifZBY && chargingMethod == "法器角色充能" && (!settings.TEAMname || settings.TEAMname.trim() === "")) {
         log.error("您选择了法器角色充能，请在配置页面填写包含法器角色的队伍名称！！！");
         return;// 没选就报错后停止
     }
+
     //检查用户是否配置队伍
-    if (ifAkf && settings.TEAMname === undefined) {
+    if (ifZBY && ifAkf && (!settings.TEAMname || settings.TEAMname.trim() === "")) {
         log.error("您选择了拥有爱可菲，请在配置页面填写包含爱可菲的队伍名称！！！");
         return;// 没选就报错后停止
     }
@@ -66,7 +71,8 @@
         { condition: ifShouling, func: hitBoss, name: "首领" },
         { condition: ifMijing, func: AutoDomain, name: "秘境" },
         { condition: ifbuyNet, func: buyNet, name: "购买四方八方之网" },
-        { condition: ifbuyTzq, func: buyTzq, name: "购买投资券" }
+        { condition: ifbuyTzq, func: buyTzq, name: "购买投资券" },
+        { condition: ifChange, func: getPinkandBlue, name: "粉球篮球兑换" }
     ];
 
     // ===== 2. 子函数定义部分 =====
@@ -345,6 +351,67 @@
         return false;
     }
 
+    //兑换功能函数，用于自动完成兑换操作
+    async function Exchange(exchangeObject, objName) {
+        try {
+            await sleep(1000);
+            moveMouseTo(1900, 205);
+            await leftButtonDown();
+            await sleep(1500);
+            await leftButtonUp();
+            let object = await imageRecognitionEnhanced(exchangeObject, 5, 1, 0, 496, 224, 556, 221, true);
+            if (!object.found) {
+                log.warn("未找到物品：{objName}，可能本月已兑换", objName);
+                moveMouseTo(1900, 210);
+                await sleep(800);
+                await leftButtonDown();
+                await sleep(800);
+                moveMouseTo(1900, 960);
+                await sleep(800);
+                await leftButtonUp();
+                let waitObj = await imageRecognitionEnhanced(`assets/RecognitionObject/待刷新${objName}.png`, 5, 0, 0, 441, 163, 1350, 829, true);
+                if (waitObj.found) {
+                    log.info("在已兑换的物品中找到了{objName}", objName);
+                    return true;
+                } else {
+                    log.error("经过查找仍未找到物品：{objName}", objName);
+                    return false;
+                }
+            }
+            await sleep(1000);
+
+            // 识别"兑换"文字按钮的位置
+            let duiHuan = await textOCREnhanced("兑换", 5, 0, 0, 1123, 762, 115, 40, 1);
+
+            // 如果找到"兑换"按钮，则执行点击操作
+            if (duiHuan.found) {
+                // 连续点击指定位置4次，每次间隔150毫秒
+                for (let i = 0; i < 4; i++) {
+                    await click(1290, 600);
+                    await sleep(150);
+                }
+
+                // 最后点击"兑换"按钮
+                await click(duiHuan.x, duiHuan.y);
+
+                log.info("本月{objName}已完成兑换", objName);
+
+                await sleep(1000);
+
+                await keyPress("VK_ESCAPE");
+
+                return true;
+            } else {
+                log.warn("未找到兑换按钮，请重试");
+                return false;
+            }
+        } catch (error) {
+            if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
+            log.error("执行粉球篮球兑换过程中出现错误: {error}", error.message);
+        }
+
+    }
+
     // 等待质变仪完成提示出现。 若超时则强制结束流程。
     async function waitTransformer(deployed) {
         var startTime = new Date();
@@ -600,6 +667,16 @@
         return nextMonday4AM.toISOString();
     }
 
+    // 返回下月1号四点的时间戳
+    function getNextMonthFirst4AMISO() {
+        const now = new Date();
+
+        // 获取当前月份并加一个月
+        let nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 4, 0, 0, 0);
+
+        return nextMonth.toISOString();
+    }
+
     // 检查文件是否存在
     async function checkFileExists(filePath) {
         try {
@@ -760,491 +837,565 @@
 
     // 晶蝶诱捕装置
     async function Jingdie() {
-        // 读取CD记录
-        const cdRecords = await readCDRecords();
-        let updatedRecords = { ...cdRecords };
+        try {
+            // 读取CD记录
+            const cdRecords = await readCDRecords();
+            let updatedRecords = { ...cdRecords };
 
-        const routeName = "晶蝶诱捕装置";
+            const routeName = "晶蝶诱捕装置";
 
-        // 检查CD
-        if (!isRouteAvailable(routeName, cdRecords)) {
-            log.info(routeName + "CD未刷新，跳过本次执行");
-            return;
+            // 检查CD
+            if (!isRouteAvailable(routeName, cdRecords)) {
+                log.info(routeName + "CD未刷新，跳过本次执行");
+                return;
+            }
+
+            keyPress("M");
+            await sleep(1000);
+
+            // 判断是否诱捕完成
+            const res2 = await textOCREnhanced("晶蝶诱捕装置", 1, 0, 3, 0, 0, 360, 500);
+
+            if (!res2.found) {
+                log.warn("诱捕未完成，不执行后续操作");
+                await genshin.returnMainUi();
+                return;
+            } else {
+                //执行晶蝶诱捕装置代码
+                await AutoPath("晶蝶诱捕装置");
+                //进行交互
+                await sleep(1000);
+                keyPress("F");//领取奖励
+                await sleep(2000);
+
+                click(960, 900);//点击奖励弹窗
+
+                await sleep(1000);
+                keyPress("F");//再次启动
+                await sleep(1000);
+
+                click(1750, 1020);//点击启动
+                await sleep(1000);
+                click(1180, 750);//点击确认
+
+                log.info("已完成 领取晶蝶诱捕装置");
+                await sleep(1000);
+
+                // 更新CD记录（设置为七天后）
+                updatedRecords[routeName] = getSevenDaysLater();
+                await writeCDRecords(updatedRecords);
+
+                log.info("本周晶蝶诱捕装置收取完成！");
+            }
+        } catch (error) {
+            if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
+            log.error("执行晶蝶诱捕任务过程中出现错误: {error}", error.message);
         }
-
-        log.info("正在执行本周晶蝶诱捕装置收取任务……");
-
-        keyPress("M");
-        await sleep(1000);
-
-        // 判断是否诱捕完成
-        const res2 = await textOCREnhanced("晶蝶诱捕装置", 1, 0, 3, 0, 0, 360, 500);
-
-        if (!res2.found) {
-            log.warn("诱捕未完成，不执行后续操作");
-            await genshin.returnMainUi();
-            return;
-        } else {
-            //执行晶蝶诱捕装置代码
-            await AutoPath("晶蝶诱捕装置");
-            //进行交互
-            await sleep(1000);
-            keyPress("F");//领取奖励
-            await sleep(2000);
-
-            click(960, 900);//点击奖励弹窗
-
-            await sleep(1000);
-            keyPress("F");//再次启动
-            await sleep(1000);
-
-            click(1750, 1020);//点击启动
-            await sleep(1000);
-            click(1180, 750);//点击确认
-
-            log.info("已完成 领取晶蝶诱捕装置");
-            await sleep(1000);
-
-            // 更新CD记录（设置为七天后）
-            updatedRecords[routeName] = getSevenDaysLater();
-            await writeCDRecords(updatedRecords);
-
-            log.info("本周晶蝶诱捕装置收取完成！");
-        }
-
 
     }
 
     // 质变仪和爱可菲
     async function autoZhibian() {
-        // 读取CD记录
-        const cdRecords = await readCDRecords();
-        let updatedRecords = { ...cdRecords };
+        try {
+            // 读取CD记录
+            const cdRecords = await readCDRecords();
+            let updatedRecords = { ...cdRecords };
 
-        const routeName = "质变仪&爱可菲";
+            const routeName = "质变仪&爱可菲";
 
-        // 检查CD
-        if (!isRouteAvailable(routeName, cdRecords)) {
-            log.info(routeName + "CD未刷新，跳过本次执行");
-            return;
+            // 检查CD
+            if (!isRouteAvailable(routeName, cdRecords)) {
+                log.info(routeName + "CD未刷新，跳过本次执行");
+                return;
+            }
+
+            await sleep(500);
+            await keyPress("B");
+            await sleep(1000);
+
+            await handleExpiredItems(); //处理过期物品
+
+            await sleep(1000);
+            await click(1067, 57);//点开背包,可做图像识别优化
+
+            const ifXdj = await textOCREnhanced("小道具", 3, 0, 3, 126, 17, 99, 53); if (!ifXdj.found) { throw new Error("未打开'小道具'页面,请确保背包已正确打开并切换到小道具标签页"); }//确认在小道具界面
+            await sleep(500);
+            const res1 = await imageRecognitionEnhanced(ZHIBIANYI, 1, 1, 0);//识别质变仪图片
+            if (res1.found) {
+                await genshin.returnMainUi();
+                log.info("质变仪CD已刷新！");
+            } else {
+                log.warn("'质变仪CD中'或'未找到质变仪!'");
+                await genshin.returnMainUi();
+                return;
+            }
+
+            await switchPartyIfNeeded(TEAM); //切换到指定队伍
+
+            if (chargingMethod == "电气水晶充能") {
+                await AutoPath("全自动质变仪");
+            } else if (chargingMethod == "法器角色充能") {
+                await genshin.tp(-874.724609375, 2276.950439453125);
+            }
+
+            const deployed = await deployTransformer();//部署质变仪
+            if (!deployed) {
+                log.error("质变仪未找到或在cd中");
+            } else {
+                await insertMaterial();//放入材料并开始质变流程
+            }
+
+            await waitTransformer(deployed)//等待质变完成
+            log.info("任务执行完成！！！");
+
+            // 更新CD记录（设置为七天后）
+            updatedRecords[routeName] = getSevenDaysLater();
+            await writeCDRecords(updatedRecords);
+            log.info("本周质变仪&爱可菲任务已完成！");
+        } catch (error) {
+            if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
+            log.error("执行质变仪&爱可菲任务过程中出现错误: {error}", error.message);
         }
-
-        log.info("正在执行本周质变仪&爱可菲任务……");
-
-        // 检查质变仪cd是否已刷新
-        await sleep(500);
-        await keyPress("B");
-        await sleep(1000);
-
-        await handleExpiredItems(); //处理过期物品
-
-        await sleep(1000);
-        await click(1067, 57);//点开背包,可做图像识别优化
-
-        const ifXdj = await textOCREnhanced("小道具", 3, 0, 3, 126, 17, 99, 53); if (!ifXdj.found) { throw new Error("未打开'小道具'页面,请确保背包已正确打开并切换到小道具标签页"); }//确认在小道具界面
-        await sleep(500);
-        const res1 = await imageRecognitionEnhanced(ZHIBIANYI, 1, 1, 0);//识别质变仪图片
-        if (res1.found) {
-            await genshin.returnMainUi();
-            log.info("质变仪CD已刷新！");
-        } else {
-            log.warn("'质变仪CD中'或'未找到质变仪!'");
-            await genshin.returnMainUi();
-            return;
-        }
-
-        await switchPartyIfNeeded(TEAM); //切换到指定队伍
-
-        if (chargingMethod == "电气水晶充能") {
-            await AutoPath("全自动质变仪");
-        } else if (chargingMethod == "法器角色充能") {
-            await genshin.tp(-874.724609375, 2276.950439453125);
-        }
-
-        const deployed = await deployTransformer();//部署质变仪
-        if (!deployed) {
-            log.error("质变仪未找到或在cd中");
-        } else {
-            await insertMaterial();//放入材料并开始质变流程
-        }
-
-        await waitTransformer(deployed)//等待质变完成
-        log.info("任务执行完成！！！");
-
-        // 更新CD记录（设置为七天后）
-        updatedRecords[routeName] = getSevenDaysLater();
-        await writeCDRecords(updatedRecords);
-        log.info("本周质变仪&爱可菲任务已完成！");
     }
 
     // 每周做菜
     async function Cooking() {
-        // 读取CD记录
-        const cdRecords = await readCDRecords();
-        let updatedRecords = { ...cdRecords };
+        try {
+            // 读取CD记录
+            const cdRecords = await readCDRecords();
+            let updatedRecords = { ...cdRecords };
 
-        const routeName = "每周做菜";
+            const routeName = "每周做菜";
 
-        // 检查CD
-        if (!isRouteAvailable(routeName, cdRecords)) {
-            log.info(routeName + "CD未刷新，跳过本次执行");
-            return;
-        }
-
-        log.info("正在执行本周烹饪任务……");
-        await AutoPath("每周做菜");
-        await sleep(10);
-        keyDown("VK_MENU");
-        await sleep(500);
-
-        const res1 = await textOCREnhanced("烹饪", 5, 0, 3, 1150, 460, 155, 155);
-        if (res1.found) {
-            click(res1.x + 15, res1.y + 15);
-        }
-
-        await sleep(800);
-        keyUp("VK_MENU");
-        await sleep(1000);
-
-        click(145, 1015);// 筛选
-        await sleep(800);
-
-        click(195, 1015);// 重置
-        await sleep(800);
-
-        click(500, 1020);// 确认筛选
-        await sleep(800);
-
-        //滚轮预操作
-        await moveMouseTo(1287, 131);
-        await sleep(100);
-        await leftButtonDown();
-        await sleep(100);
-        await moveMouseTo(1287, 161);
-
-        let YOffset = 0; // Y轴偏移量，根据需要调整
-        const maxRetries = 20; // 最大重试次数
-        let retries = 0; // 当前重试次数
-        while (retries < maxRetries) {
-            const res2 = await textOCREnhanced(food, 1, 0, 3, 116, 116, 1165, 880);
-            if (res2.found) {
-                await leftButtonUp();
-                await sleep(500);
-                await click(res2.x + 50, res2.y - 60);
-                await sleep(1000);
-
-                await sleep(1000);
-                click(1700, 1020);// 制作
-                await sleep(1000);
-
-                await textOCREnhanced("自动烹饪", 5, 1, 0, 725, 1000, 130, 45);
-                await sleep(800);
-                click(960, 460);
-                await sleep(800);
-                inputText(cookCount);
-                await sleep(800);
-                click(1190, 755);
-                await sleep(2500); // 等待烹饪完成
-
-                await genshin.returnMainUi();
-                log.info("本周烹饪任务已完成！");
-
-                // 更新CD记录
-                updatedRecords[routeName] = getNextMonday4AMISO();
-                await writeCDRecords(updatedRecords);
-
+            // 检查CD
+            if (!isRouteAvailable(routeName, cdRecords)) {
+                log.info(routeName + "CD未刷新，跳过本次执行");
                 return;
             }
-            retries++; // 重试次数加1
-            //滚轮操作
-            YOffset += 50;
+
+            await AutoPath("每周做菜");
+            await sleep(10);
+            keyDown("VK_MENU");
             await sleep(500);
-            if (retries === maxRetries || 161 + YOffset > 1080) {
-                await leftButtonUp();
-                await sleep(100);
-                await moveMouseTo(1287, 131);
-                await genshin.returnMainUi();
-                log.error("料理未找到！");
+
+            const res1 = await textOCREnhanced("烹饪", 5, 0, 3, 1150, 460, 155, 155);
+            if (res1.found) {
+                click(res1.x + 15, res1.y + 15);
             }
-            await moveMouseTo(1287, 161 + YOffset);
-            await sleep(300);
+
+            await sleep(800);
+            keyUp("VK_MENU");
+            await sleep(1000);
+
+            click(145, 1015);// 筛选
+            await sleep(800);
+
+            click(195, 1015);// 重置
+            await sleep(800);
+
+            click(500, 1020);// 确认筛选
+            await sleep(800);
+
+            //滚轮预操作
+            await moveMouseTo(1287, 131);
+            await sleep(100);
+            await leftButtonDown();
+            await sleep(100);
+            await moveMouseTo(1287, 161);
+
+            let YOffset = 0; // Y轴偏移量，根据需要调整
+            const maxRetries = 20; // 最大重试次数
+            let retries = 0; // 当前重试次数
+            while (retries < maxRetries) {
+                const res2 = await textOCREnhanced(food, 1, 0, 3, 116, 116, 1165, 880);
+                if (res2.found) {
+                    await leftButtonUp();
+                    await sleep(500);
+                    await click(res2.x + 50, res2.y - 60);
+                    await sleep(1000);
+
+                    await sleep(1000);
+                    click(1700, 1020);// 制作
+                    await sleep(1000);
+
+                    await textOCREnhanced("自动烹饪", 5, 1, 0, 725, 1000, 130, 45);
+                    await sleep(800);
+                    click(960, 460);
+                    await sleep(800);
+                    inputText(cookCount);
+                    await sleep(800);
+                    click(1190, 755);
+                    await sleep(2500); // 等待烹饪完成
+
+                    await genshin.returnMainUi();
+                    log.info("本周烹饪任务已完成！");
+
+                    // 更新CD记录
+                    updatedRecords[routeName] = getNextMonday4AMISO();
+                    await writeCDRecords(updatedRecords);
+
+                    return;
+                }
+                retries++; // 重试次数加1
+                //滚轮操作
+                YOffset += 50;
+                await sleep(500);
+                if (retries === maxRetries || 161 + YOffset > 1080) {
+                    await leftButtonUp();
+                    await sleep(100);
+                    await moveMouseTo(1287, 131);
+                    await genshin.returnMainUi();
+                    log.error("料理未找到！");
+                }
+                await moveMouseTo(1287, 161 + YOffset);
+                await sleep(300);
+            }
+        } catch (error) {
+            if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
+            log.error("执行烹饪任务过程中出现错误: {error}", error.message);
         }
     }
 
     // 每周锻造
     async function duanZao() {
-        // 读取CD记录
-        const cdRecords = await readCDRecords();
-        let updatedRecords = { ...cdRecords };
+        try {
+            // 读取CD记录
+            const cdRecords = await readCDRecords();
+            let updatedRecords = { ...cdRecords };
 
-        const routeName = "每周锻造";
+            const routeName = "每周锻造";
 
-        // 检查CD
-        if (!isRouteAvailable(routeName, cdRecords)) {
-            log.info(routeName + "CD未刷新，跳过本次执行");
-            return;
-        }
-
-        log.info("正在执行本周锻造任务……");
-        await AutoPath("瓦格纳");
-        keyDown("VK_MENU");
-        await textOCREnhanced("瓦格纳", 5, 1, 0, 1150, 460, 155, 155);
-        await sleep(800);
-        keyUp("VK_MENU");
-
-        click(960, 540);// 对话
-        await sleep(1000);
-
-        await textOCREnhanced("委托锻造", 5, 1, 0, 1150, 400, 300, 300);
-        await sleep(1500);
-
-        click(960, 540);// 对话
-        await sleep(1500);
-
-        const res1 = await textOCREnhanced("可收取", 1, 0, 3, 625, 265, 130, 50);
-        if (res1.found) {
-            click(180, 1015);// 全部领取
-            await sleep(1500);
-
-            click(980, 900);// 确认按钮
-            await sleep(1500);
-
-            click(220, 145);// 点击配方
-            await sleep(1000);
-        }
-
-        click(360, 1015);// 筛选按钮
-        await sleep(1500);
-        await textOCREnhanced("武器升级材料", 5, 1, 0, 30, 170, 410, 60);
-        await sleep(1500);
-
-        await imageRecognitionEnhanced(mineralFile, 10, 1, 0, 40, 210, 720, 770)
-        await sleep(1500);
-
-        for (let i = 0; i < 4; i++) {
-            click(1760, 1015);// 开始锻造
-            await sleep(300);
-        }
-
-        await genshin.returnMainUi();
-        log.info("本周锻造任务已完成！");
-
-        // 更新CD记录
-        updatedRecords[routeName] = getNextMonday4AMISO();
-        await writeCDRecords(updatedRecords);
-    }
-
-    // 每周首领
-    async function hitBoss() {
-        // 读取CD记录
-        const cdRecords = await readCDRecords();
-        let updatedRecords = { ...cdRecords };
-
-        const routeName = "每周首领";
-
-        // 检查CD
-        if (!isRouteAvailable(routeName, cdRecords)) {
-            log.info(routeName + "CD未刷新，跳过本次执行");
-            return;
-        }
-
-        log.info("正在执行本周首领击败任务……");
-
-        await genshin.tpToStatueOfTheSeven();// 先去神像确保状态和队伍切换
-        await switchPartyIfNeeded(BossPartyName);
-        await sleep(5000);
-
-        for (let i = 1; i <= 10; i++) {
-            if (i % 2 == 0) { await AutoPath("爆炎树"); }
-            else if (i % 2 != 0) { await AutoPath("急冻树"); }
-            await sleep(10);
-            log.info("第" + i + "次首领已击败！")
-        }
-
-        log.info("本周首领击败任务已完成！");
-
-        // 更新CD记录
-        updatedRecords[routeName] = getNextMonday4AMISO();
-        await writeCDRecords(updatedRecords);
-    }
-
-    // 每周秘境
-    async function AutoDomain() {
-        // 读取CD记录
-        const cdRecords = await readCDRecords();
-        let updatedRecords = { ...cdRecords };
-
-        const routeName = "每周秘境";
-
-        // 检查CD
-        if (!isRouteAvailable(routeName, cdRecords)) {
-            log.info(routeName + "CD未刷新，跳过本次执行");
-            return;
-        }
-
-        log.info("正在执行本周秘境任务……");
-
-        await genshin.tpToStatueOfTheSeven();// 先去神像确保状态和队伍切换
-        await switchPartyIfNeeded(BossPartyName);
-        await sleep(5000);
-
-        while (mijingCount <= 10) {
-            log.info(`正在进行第${mijingCount}次秘境挑战`);
-            await fuben();
-            // 开始自动战斗
-            log.info("开始自动战斗");
-            const fightResult = await autoFight(120000); // 120秒战斗超时
-
-            if (fightResult) {
-                log.info(`战斗成功！当前完成 ${mijingCount} 次`);
-            } else {
-                log.error("战斗失败，终止脚本");
-                break;
+            // 检查CD
+            if (!isRouteAvailable(routeName, cdRecords)) {
+                log.info(routeName + "CD未刷新，跳过本次执行");
+                return;
             }
-            await sleep(1500);
-            mijingCount++;
-        }
-        log.info("本周秘境任务已完成！");
 
-        // 更新CD记录
-        updatedRecords[routeName] = getNextMonday4AMISO();
-        await writeCDRecords(updatedRecords);
-
-        await genshin.tpToStatueOfTheSeven();// 回一次神像
-        await sleep(5000);
-    }
-
-    // 购买四方八方之网
-    async function buyNet() {
-        // 读取CD记录
-        const cdRecords = await readCDRecords();
-        let updatedRecords = { ...cdRecords };
-
-        const routeName = "购买四方网";
-
-        // 检查CD
-        if (!isRouteAvailable(routeName, cdRecords)) {
-            log.info(routeName + "CD未刷新，跳过本次执行");
-            return;
-        }
-
-        log.info("正在执行本周四方网购买任务……");
-
-        await AutoPath("四方八方之网");
-        await sleep(800);
-
-        keyPress("F");
-        await sleep(1300);
-
-        click(960, 540);// 对话
-        await sleep(1000);
-
-        await textOCREnhanced("购买", 3, 1, 0, 1320, 630, 130, 60);// 对话：购买四方八方之网
-        await sleep(1000);
-
-        const res1 = await textOCREnhanced("已售罄", 1, 0, 3, 1515, 920, 90, 35);
-        if (!res1.found) {
-            click(1670, 1015);
+            await AutoPath("瓦格纳");
+            keyDown("VK_MENU");
+            await textOCREnhanced("瓦格纳", 5, 1, 0, 1150, 460, 155, 155);
             await sleep(800);
+            keyUp("VK_MENU");
 
-            for (let i = 0; i < 7; i++) {// 拉满拉满，TMD全部拉满
-                click(1290, 600);
-                await sleep(150);
+            click(960, 540);// 对话
+            await sleep(1000);
+
+            await textOCREnhanced("委托锻造", 5, 1, 0, 1150, 400, 300, 300);
+            await sleep(1500);
+
+            click(960, 540);// 对话
+            await sleep(1500);
+
+            const res1 = await textOCREnhanced("可收取", 1, 0, 3, 625, 265, 130, 50);
+            if (res1.found) {
+                click(180, 1015);// 全部领取
+                await sleep(1500);
+
+                click(980, 900);// 确认按钮
+                await sleep(1500);
+
+                click(220, 145);// 点击配方
+                await sleep(1000);
             }
 
-            click(1175, 780);// 点击购买
-            await sleep(300);
-            await genshin.returnMainUi();
+            click(360, 1015);// 筛选按钮
+            await sleep(1500);
+            await textOCREnhanced("武器升级材料", 5, 1, 0, 30, 170, 410, 60);
+            await sleep(1500);
 
-            log.info("本周四方网购买任务已完成！");
+            await imageRecognitionEnhanced(mineralFile, 10, 1, 0, 40, 210, 720, 770)
+            await sleep(1500);
+
+            for (let i = 0; i < 4; i++) {
+                click(1760, 1015);// 开始锻造
+                await sleep(300);
+            }
+
+            await genshin.returnMainUi();
+            log.info("本周锻造任务已完成！");
 
             // 更新CD记录
             updatedRecords[routeName] = getNextMonday4AMISO();
             await writeCDRecords(updatedRecords);
-        } else {
-            log.warn("四方网CD未刷新！！！");
+        } catch (error) {
+            if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
+            log.error("执行锻造任务过程中出现错误: {error}", error.message);
+        }
+    }
+
+    // 每周首领
+    async function hitBoss() {
+        try {
+            // 读取CD记录
+            const cdRecords = await readCDRecords();
+            let updatedRecords = { ...cdRecords };
+
+            const routeName = "每周首领";
+
+            // 检查CD
+            if (!isRouteAvailable(routeName, cdRecords)) {
+                log.info(routeName + "CD未刷新，跳过本次执行");
+                return;
+            }
+
+            await genshin.tpToStatueOfTheSeven();// 先去神像确保状态和队伍切换
+            await switchPartyIfNeeded(BossPartyName);
+            await sleep(5000);
+
+            for (let i = 1; i <= 10; i++) {
+                if (i % 2 == 0) { await AutoPath("爆炎树"); }
+                else if (i % 2 != 0) { await AutoPath("急冻树"); }
+                await sleep(10);
+                log.info("第" + i + "次首领已击败！")
+            }
+
+            log.info("本周首领击败任务已完成！");
+
+            // 更新CD记录
+            updatedRecords[routeName] = getNextMonday4AMISO();
+            await writeCDRecords(updatedRecords);
+        } catch (error) {
+            if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
+            log.error("执行首领任务过程中出现错误: {error}", error.message);
+        }
+    }
+
+    // 每周秘境
+    async function AutoDomain() {
+        try {
+            // 读取CD记录
+            const cdRecords = await readCDRecords();
+            let updatedRecords = { ...cdRecords };
+
+            const routeName = "每周秘境";
+
+            // 检查CD
+            if (!isRouteAvailable(routeName, cdRecords)) {
+                log.info(routeName + "CD未刷新，跳过本次执行");
+                return;
+            }
+
+            await genshin.tpToStatueOfTheSeven();// 先去神像确保状态和队伍切换
+            await switchPartyIfNeeded(BossPartyName);
+            await sleep(5000);
+
+            while (mijingCount <= 10) {
+                log.info(`正在进行第${mijingCount}次秘境挑战`);
+                await fuben();
+                // 开始自动战斗
+                log.info("开始自动战斗");
+                const fightResult = await autoFight(120000); // 120秒战斗超时
+
+                if (fightResult) {
+                    log.info(`战斗成功！当前完成 ${mijingCount} 次`);
+                } else {
+                    log.error("战斗失败，终止脚本");
+                    break;
+                }
+                await sleep(1500);
+                mijingCount++;
+            }
+            log.info("本周秘境任务已完成！");
+
+            // 更新CD记录
+            updatedRecords[routeName] = getNextMonday4AMISO();
+            await writeCDRecords(updatedRecords);
+
+            await genshin.tpToStatueOfTheSeven();// 回一次神像
+            await sleep(5000);
+        } catch (error) {
+            if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
+            log.error("执行秘境任务过程中出现错误: {error}", error.message);
+        }
+    }
+
+    // 购买四方八方之网
+    async function buyNet() {
+        try {
+            // 读取CD记录
+            const cdRecords = await readCDRecords();
+            let updatedRecords = { ...cdRecords };
+
+            const routeName = "购买四方网";
+
+            // 检查CD
+            if (!isRouteAvailable(routeName, cdRecords)) {
+                log.info(routeName + "CD未刷新，跳过本次执行");
+                return;
+            }
+
+            await AutoPath("四方八方之网");
+            await sleep(800);
+
+            keyPress("F");
+            await sleep(1300);
+
+            click(960, 540);// 对话
+            await sleep(1000);
+
+            await textOCREnhanced("购买", 3, 1, 0, 1320, 630, 130, 60);// 对话：购买四方八方之网
+            await sleep(1000);
+
+            const res1 = await textOCREnhanced("已售罄", 1, 0, 3, 1515, 920, 90, 35);
+            if (!res1.found) {
+                click(1670, 1015);
+                await sleep(800);
+
+                for (let i = 0; i < 7; i++) {// 拉满拉满，TMD全部拉满
+                    click(1290, 600);
+                    await sleep(150);
+                }
+
+                click(1175, 780);// 点击购买
+                await sleep(300);
+                await genshin.returnMainUi();
+
+                log.info("本周四方网购买任务已完成！");
+
+                // 更新CD记录
+                updatedRecords[routeName] = getNextMonday4AMISO();
+                await writeCDRecords(updatedRecords);
+            } else {
+                log.warn("四方网CD未刷新！！！");
+            }
+        } catch (error) {
+            if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
+            log.error("执行四方网任务过程中出现错误: {error}", error.message);
         }
     }
 
     // 购买投资券
     async function buyTzq() {
-        // 读取CD记录
-        const cdRecords = await readCDRecords();
-        let updatedRecords = { ...cdRecords };
+        try {
+            // 读取CD记录
+            const cdRecords = await readCDRecords();
+            let updatedRecords = { ...cdRecords };
 
-        const routeName = "投资券";
+            const routeName = "投资券";
 
-        // 检查CD
-        if (!isRouteAvailable(routeName, cdRecords)) {
-            log.info(routeName + "CD未刷新，跳过本次执行");
-            return;
-        }
-
-        log.info("正在提交本周投资券……");
-
-        await AutoPath("投资券");
-
-        await sleep(1000);
-        keyPress("F");
-        await sleep(1000);
-        click(960, 540);
-        await sleep(2000);
-
-        await textOCREnhanced("我要结算", 3, 1, 0, 1325, 550, 250, 55);
-
-        await sleep(1000);
-        click(960, 540);
-        await sleep(1000);
-
-        const notHave = await textOCREnhanced("没有投资券", 3, 0, 3, 830, 925, 160, 50);
-        if (notHave.found) {
-            click(960, 540);
-            await sleep(1500);
-
-            click(960, 540);
-            await sleep(1500);
-
-            click(1700, 1000);
-            await sleep(1000);
-
-            for (let i = 0; i < 8; i++) {
-                click(1295, 600);
-                await sleep(100);
+            // 检查CD
+            if (!isRouteAvailable(routeName, cdRecords)) {
+                log.info(routeName + "CD未刷新，跳过本次执行");
+                return;
             }
-            click(1180, 780);
-            await sleep(1000);
 
-            await genshin.returnMainUi();
+            await AutoPath("投资券");
 
             await sleep(1000);
             keyPress("F");
             await sleep(1000);
             click(960, 540);
-            await sleep(1500);
+            await sleep(2000);
 
-            await textOCREnhanced("我要结算", 3, 1, 0, 1325, 500, 250, 80);
+            await textOCREnhanced("我要结算", 3, 1, 0, 1325, 550, 250, 55);
 
             await sleep(1000);
             click(960, 540);
             await sleep(1000);
+
+            const notHave = await textOCREnhanced("没有投资券", 3, 0, 3, 830, 925, 160, 50);
+            if (notHave.found) {
+                click(960, 540);
+                await sleep(1500);
+
+                click(960, 540);
+                await sleep(1500);
+
+                click(1700, 1000);
+                await sleep(1000);
+
+                for (let i = 0; i < 8; i++) {
+                    click(1295, 600);
+                    await sleep(100);
+                }
+                click(1180, 780);
+                await sleep(1000);
+
+                await genshin.returnMainUi();
+
+                await sleep(1000);
+                keyPress("F");
+                await sleep(1000);
+                click(960, 540);
+                await sleep(1500);
+
+                await textOCREnhanced("我要结算", 3, 1, 0, 1325, 500, 250, 80);
+
+                await sleep(1000);
+                click(960, 540);
+                await sleep(1000);
+            }
+            keyPress("F");
+            await sleep(1000);
+
+            click(110, 185);
+            await sleep(1000);
+            click(1235, 815);
+            await sleep(1000);
+            click(1620, 1020);
+            await sleep(2500);
+
+            click(1620, 1020);
+
+            log.info("本周投资券已提交！");
+
+            // 更新CD记录
+            updatedRecords[routeName] = getNextMonday4AMISO();
+            await writeCDRecords(updatedRecords);
+        } catch (error) {
+            if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
+            log.error("执行投资券过程中出现错误: {error}", error.message);
         }
-        keyPress("F");
-        await sleep(1000);
+    }
 
-        click(110, 185);
-        await sleep(1000);
-        click(1235, 815);
-        await sleep(1000);
-        click(1620, 1020);
-        await sleep(2500);
+    // 粉球蓝球入口
+    async function getPinkandBlue() {
+        if (ifPink) { await stardustExchange("纠缠之缘"); }
+        if (ifBlue) { await stardustExchange("相遇之缘"); }
+        await genshin.returnMainUi();
+    }
 
-        click(1620, 1020);
+    // 粉球蓝球兑换
+    async function stardustExchange(routeName) {
+        try {
+            // 读取CD记录
+            const cdRecords = await readCDRecords();
+            let updatedRecords = { ...cdRecords };
 
-        log.info("本周投资券已提交！");
+            // 检查CD
+            if (!isRouteAvailable(routeName, cdRecords)) {
+                log.info(routeName + "CD未刷新，跳过本次执行");
+                return;
+            }
 
-        // 更新CD记录
-        updatedRecords[routeName] = getNextMonday4AMISO();
-        await writeCDRecords(updatedRecords);
+            log.info("正在进行本月{routeName}兑换……", routeName);
+            let ifXingChen = await imageRecognitionEnhanced(xingChen, 5, 0, 0, 1130, 355, 315, 300);
+            if (!ifXingChen.found) {
+                await genshin.returnMainUi();
+                await sleep(1000);
+                await keyPress("VK_ESCAPE");
+                await sleep(1000);
+                await textOCREnhanced("祈愿", 10, 1, 0, 318, 863, 65, 30, 1);
+                await textOCREnhanced("尘辉兑换", 10, 1, 0, 100, 1005, 110, 35, 1);
+                await textOCREnhanced("星尘兑换", 10, 1, 0, 768, 104, 260, 46, 1);
+                ifXingChen = await imageRecognitionEnhanced(xingChen, 5, 0, 0, 1226, 451, 100, 60);
+                if (!ifXingChen.found) {
+                    await textOCREnhanced("星尘兑换", 10, 1, 0, 768, 104, 260, 46, 1);
+                }
+                await sleep(1000);
+            }
+
+            let getIt = await Exchange(`assets/RecognitionObject/${routeName}.png`, routeName);
+
+            if (getIt) {
+                // 更新CD记录
+                updatedRecords[routeName] = getNextMonthFirst4AMISO();
+                await writeCDRecords(updatedRecords);
+            }
+        } catch (error) {
+            if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
+            log.error("执行粉球篮球兑换过程中出现错误: {error}", error.message);
+        }
     }
 
     // 版本信息
@@ -1270,14 +1421,16 @@
         // 执行所有启用的任务
         for (const task of tasks) {
             if (task.condition) {
+                log.info("开始执行任务：{name}", task.name);
                 await task.func();
                 await sleep(10);
             }
         }
     } catch (error) {
+        if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
         log.error(`执行过程中发生错误：${error.message}`);
     } finally {
         await genshin.returnMainUi();
     }
-    
+
 })();

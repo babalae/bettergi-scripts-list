@@ -46,7 +46,7 @@ async function canCanNeed() {
             let attempts = 0;
             while (moraRes < 0 && attempts < 5) {
                 attempts++;
-                moraRes = await numberTemplateMatch("assets/背包摩拉数字", moraX, moraY, 300, 40, 0.95, 0.8, 5);
+                moraRes = await numberTemplateMatch("assets/背包摩拉数字", moraX, moraY, 300, 40, 0.95, 0.85, 10);
             }
             if (moraRes >= 0) {
                 log.info(`成功识别到摩拉数值: ${moraRes}`);
@@ -84,7 +84,7 @@ async function canCanNeed() {
             let attempts = 0;
             while (primogemRes < 0 && attempts < 5) {
                 attempts++;
-                primogemRes = await numberTemplateMatch("assets/背包摩拉数字", primogemX + 28, primogemY, plusX - primogemX, 40, 0.95, 0.8, 5);
+                primogemRes = await numberTemplateMatch("assets/背包摩拉数字", primogemX + 28, primogemY, plusX - primogemX, 40, 0.95, 0.85, 10);
             }
             if (primogemRes >= 0) {
                 log.info(`成功识别到原石数值: ${primogemRes}`);
@@ -203,8 +203,8 @@ async function numberTemplateMatch(
     numberPngFilePath,
     x = 0, y = 0, w = 1920, h = 1080,
     maxThreshold = 0.95,
-    minThreshold = 0.8,
-    splitCount = 3,
+    minThreshold = 0.87,
+    splitCount = 10,
     maxOverlap = 2
 ) {
     let ros = [];

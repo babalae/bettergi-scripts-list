@@ -35,11 +35,20 @@ const findCloseDialog = () => {
 };
 //! 通用：点击空白处区域继续位置
 const clickToContinue = () => {
-  click(900, 1050);
+  click(960, 1070);
 };
 //! 查找UID文本
 const findUidText = () => {
   return findTextWithinBounds("UID", 1620, 1050, 300, 30, { contains: true });
+};
+//! 查找派蒙图标（判断处于奇域大世界/大厅）
+const findPaimon = () => {
+  const iro = findImageWithinBounds("assets/UI_Icon_Paimon.png", 0, 0, 100, 100, {
+    useMask: true,
+    threshold: 0.8,
+  });
+  iro?.drawSelf("group_img");
+  return iro;
 };
 //! 查找元素视野按钮（判断处于大世界）
 const findElementViewBtn = () => {
@@ -176,10 +185,6 @@ const findStageEscBtn = () => {
 const findExitStageBtn = () => {
   return findTextWithinBounds("中断挑战", 576, 324, 768, 432);
 };
-//! 关卡：查找奇域等级提升页面
-const findSkipLevelUpMsg = () => {
-  return findTextWithinBounds("空白处", 610, 950, 700, 60, { contains: true });
-};
 //! 退出：查找返回提瓦特按钮
 const findGotTeyvatBtn = () => {
   return findTextWithinBounds("返回", 1500, 0, 300, 95, { contains: true });
@@ -244,12 +249,12 @@ export {
   findHeaderTitle,
   findLeaveRoomBtn,
   findManageStagesBtn,
+  findPaimon,
   findPrepareMsg,
   findSaveToDeletePos,
   findSearchWonderlandBtn,
   findSearchWonderlandInput,
   findSearchWonderlandThrottleMsg,
-  findSkipLevelUpMsg,
   findStageEscBtn,
   findUidText,
 };

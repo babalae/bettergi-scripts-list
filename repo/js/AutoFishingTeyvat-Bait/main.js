@@ -1,4 +1,4 @@
-(async function () { // 鱼饵合成上限[]、鱼饵原料数不为2时可能出错[]、NPC的CD记录[]
+(async function () { // 鱼饵合成上限[]、鱼饵原料数不为2时可能出错[]、NPC的CD记录[]，OCR仍有识别错误的可能性，例如1111识别成11
 
     const bait_list = ["果酿饵", "赤糜饵", "蠕虫假饵", "飞蝇假饵", "甘露饵", "酸桔饵", "维护机关频闪诱饵", "澄晶果粒饵", "温火饵", "槲梭饵", "清白饵"]
     const material_msg = {
@@ -100,7 +100,7 @@
         "培根": {"material": {"兽肉": 2, "盐": 2}, "time": 15},
         "香肠": {"material": {"兽肉": 3}, "time": 20}
     }
-    const accelerator_msg = {
+    const accelerator_msg = { // s
         "铁块": 20,
         "白铁块": 40,
         "水晶块": 60,
@@ -146,7 +146,6 @@
                 return false;
             }
         }
-
     }
 
     /**
@@ -206,7 +205,7 @@
         while (true) {
             let gameRegion = captureGameRegion();
             let barUpSite = gameRegion.Find(barUpRo);
-            if (barUpSite) {
+            if (barUpSite.isExist()) {
                 if (barUpSite.y >= 125) {
                     click(1276, 125);
                     await sleep(200);
@@ -376,6 +375,7 @@
      * @param target 目标字符串
      * @param candidates 字符串数组
      * @returns {null}
+     * @see levenshteinDistance
      */
     async function findClosestMatch(target, candidates) {
         let closest = null;
@@ -484,7 +484,7 @@
             click(k === 0 ? 1080: 1216, 874); // 点击原料1、2
             await sleep(500);
             let ocr_area = await Ocr(881, 763, 158, 267, true); // 中间 "当前拥有xxx" 部分区域
-            if (ocr_area.length !== 0) {
+            if (ocr_area) {
                 let refer_y;
                 for (let i = 0; i < ocr_area.length; i++) {
                     if (ocr_area[i].text.includes("当前拥有")) {
@@ -561,7 +561,18 @@
      * @returns {Promise<boolean>}
      */
     async function make_bait(name, num) {
-        if (num === 0) return true;
+        if (num === 0) {
+            log.info("合成次数: 0，跳过...");
+            await sleep(500);
+            return true;
+        } else if (num > 200) {
+            log.warn(`合成次数: ${num}，次数异常，跳过...`);
+            await sleep(500);
+            return true;
+        } else {
+            log.info(`合成次数: ${num}`);
+            await sleep(500);
+        }
         let shelter_option = await Ocr(165, 1001, 289, 32); // 筛选器文本
 
         if (shelter_option) {
@@ -677,20 +688,32 @@
         await sleep(100);
         let current_num = await Ocr(1264, 617, 158, 30); // 已选的合成次数文本区域
         if (current_num && max_num > num) { // [DEBUG]若false则可能有些许误差
-            current_num = parseInt(current_num.text.replace(/\D/g, ''), 10);
+            // 如果差值过大，从头开始
+            if (Math.abs(num - current_num) > 125) {
+                await sleep(300);
+                click(1167, 671);
+                current_num = 1;
+            } else {
+                current_num = parseInt(current_num.text.replace(/\D/g, ''), 10);
+            }
+
             if (current_num > num) {
                 for (let i = 0; i < current_num - num; i++) { // -
                     log.debug("-1");
                     click(1075, 671);
-                    await sleep(50);
+                    await sleep(75);
                 }
             } else if (current_num < num) {
                 for (let i = 0; i < num - current_num; i++) { // +
                     log.debug("+1");
                     click(1612, 671);
-                    await sleep(50);
+                    await sleep(75);
                 }
             }
+        } else if (!current_num) {
+            log.error(`OCR错误，未识别到当前合成数，该鱼饵(${name})跳过...`);
+            await sleep(1000);
+            return false;
         }
         await sleep(500);
 
@@ -829,10 +852,11 @@
      * @param type 类型
      * @param area 国家
      * @returns {Promise<boolean>} 是否成功进入
+     * @see enter_store 对话并进入NPC商店，需要确保与NPC对话的F图标存在
      */
     async function go_and_interact(type, area = "蒙德") {
         // 返回主界面
-        genshin.returnMainUi();
+        await genshin.returnMainUi();
 
         if (type === "合成台") {
             await sleep(500);
@@ -845,7 +869,7 @@
             await sleep(500);
             if (path_json["info"]["description"].includes("GCM")) {
                 // 等待到返回主界面
-                genshin.returnMainUi();
+                await genshin.returnMainUi();
                 await sleep(500);
                 await keyMouseScript.runFile(`assets/npc/${area}-${type}-GCM.json`);
                 await sleep(500);
@@ -917,7 +941,7 @@
             return 0;
         }
 
-        let max_num_ocr = await Ocr(1226, 578, 44, 24);
+        let max_num_ocr = await Ocr(1215, 573, 76, 34);
         let max_num = -1;
         if (max_num_ocr) {
             let string = max_num_ocr.text.replace(/\D/g, '');
@@ -949,6 +973,7 @@
          *  "material_dic": material_dic // x: x
          * }
          */
+
         let data = await calculate_values();
         await go_and_interact("合成台");
         for (const[b_name, b_msg] of Object.entries(data["exp_bait_dic"])) {
