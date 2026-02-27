@@ -187,13 +187,13 @@ async function outDomainUI() {
     await findTextAndClick('地脉异常')
     await sleep(ms);
     while (!await isInOutDomainUI()) {
-        await sleep(ms);
-        await keyPress("ESCAPE");
-        await sleep(ms * 2);
         if (isInMainUI()) {
             inMainUI = true
             break
         }
+        await sleep(ms);
+        await keyPress("ESCAPE");
+        await sleep(ms * 2);
         if (index > 3) {
             log.error(`多次尝试匹配退出秘境界面失败 假定已经退出处理`);
             tryMax = true
