@@ -10,6 +10,7 @@ import {ocrPhysical} from "./utils/physical";
  * @returns {Promise<void>} - 执行完成后返回的Promise
  */
 async function autoDomain(autoFight) {
+    log.info(`{0}`,"开始执行秘境任务")
     //定死做预留冗余 先不实现 不能指定次数 只能指定启用
     let physical_domain = autoFight?.physical
     //     || [
@@ -103,6 +104,7 @@ async function autoDomain(autoFight) {
             }
         }
     } finally {
+        log.info(`{0}`, "执行完成")
         // 退出秘境
         await outDomainUI()
     }
@@ -131,11 +133,12 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
     //     "isNotification": false
     // }
 
-/*    if (true) {
-        log.info("地脉 暂不支持")
-        return
-    }*/
 
+    log.info(`{0}`,"开始执行地脉任务")
+    if (true) {
+        log.warn("地脉 暂不支持")
+        return
+    }
     let param = new AutoLeyLineOutcropParam(autoLeyLineOutcrop.count, autoLeyLineOutcrop.country, autoLeyLineOutcrop.leyLineOutcropType);
     param.useAdventurerHandbook = autoLeyLineOutcrop.useAdventurerHandbook;
     param.friendshipTeam = autoLeyLineOutcrop.friendshipTeam;
@@ -172,6 +175,7 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
 async function autoRunList(autoRunOrderList) {
     //计划执行
     for (const item of autoRunOrderList) {
+        await sleep(1000)
         if (item.runType === config.user.runTypes[0]) {
             await autoDomain(item.autoFight);
         } else if (item.runType === config.user.runTypes[1]) {
@@ -222,6 +226,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             const parsedOrder = parseInt(String(rawOrder).trim(), 10); // 转换为整数
                             return isNaN(parsedOrder) ? 0 : parsedOrder; // 若转换失败，返回默认值 0
                         })();
+                        index++
 
                         // 创建秘境顺序对象
                         let autoOrder = {
@@ -233,7 +238,6 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             autoLeyLineOutcrop: undefined // 地脉信息对象
                         }
 
-                        index++
 
                         if (!config.user.runTypes.includes(runType)) {
                             throwError(`运行类型${runType}输入错误`)
@@ -254,7 +258,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             let domainRoundNum = arr[index]; // 解析副本轮数
                             index++
                             let sundaySelectedValue = "1"
-                            if (index <= arr.length-1)
+                            if (index <= arr.length - 1)
                                 sundaySelectedValue = arr[index]; // 解析周日|限时选择的值
 
                             // 检查秘境名称是否有效
@@ -265,7 +269,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                     if (!domainNameTemp) {
                                         throw new Error(`${domainName} 输入错误`);
                                     }
-                                    if (index <= arr.length-1) {
+                                    if (index <= arr.length - 1) {
                                         const domainSelectedValue = parseInt(config.domainOrderMap.get(domainName) + "");
                                         sundaySelectedValue = domainSelectedValue
                                     }
@@ -297,7 +301,6 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                 useTransientResin: false,        // 使用须臾树脂（须臾=Transient）
                                 isNotification: false            // 是否通知
                             }
-                            index++
                             autoLeyLineOutcrop.team = arr[index]
                             index++
                             autoLeyLineOutcrop.country = arr[index]
@@ -306,25 +309,25 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             index++
                             autoLeyLineOutcrop.leyLineOutcropType = arr[index]
                             index++
-                            if (index <= arr.length-1)
+                            if (index <= arr.length - 1)
                                 autoLeyLineOutcrop.friendshipTeam = arr[index]
                             index++
-                            if (index <= arr.length-1)
+                            if (index <= arr.length - 1)
                                 autoLeyLineOutcrop.useFragileResin = arr[index].trim() !== ""
                             index++
-                            if (index <= arr.length-1)
+                            if (index <= arr.length - 1)
                                 autoLeyLineOutcrop.useTransientResin = arr[index].trim() !== ""
                             index++
-                            if (index <= arr.length-1)
+                            if (index <= arr.length - 1)
                                 autoLeyLineOutcrop.isGoToSynthesizer = arr[index].trim() !== ""
                             index++
-                            if (index <= arr.length-1)
+                            if (index <= arr.length - 1)
                                 autoLeyLineOutcrop.useAdventurerHandbook = arr[index].trim() !== ""
                             index++
-                            if (index <= arr.length-1)
+                            if (index <= arr.length - 1)
                                 autoLeyLineOutcrop.isNotification = arr[index].trim() !== ""
                             index++
-                            if (index <= arr.length-1)
+                            if (index <= arr.length - 1)
                                 autoLeyLineOutcrop.timeout = parseInteger(arr[index])
 
                             autoOrder.autoLeyLineOutcrop = autoLeyLineOutcrop // 将地脉信息对象添加到顺序对象中
@@ -468,13 +471,13 @@ async function main() {
         //循环跑
         while (true) {
             await autoRunList(list);
-            if(config.run.loop_plan){
+            if (config.run.loop_plan) {
                 //循环
                 if (config.user.physical.current < config.user.physical.min) {
                     //体力耗尽
                     break
                 }
-            }else {
+            } else {
                 //不循环
                 break
             }
@@ -515,6 +518,7 @@ async function test1() {
     const list = await pullJsonConfig(config.user.uid, config.bgi_tools.api.httpPullJsonConfig)
     log.info("list:{1}", JSON.stringify(list))
 }
+
 async function test2() {
     await init();
     await outDomainUI();
