@@ -1,4 +1,4 @@
-# AutoPlan
+# AutoPlan自动体力计划
 
 **自动体力计划JS**  
 本脚本通过调用 **BetterGI** 本体自动秘境实现体力计划
