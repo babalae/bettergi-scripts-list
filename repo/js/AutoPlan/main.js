@@ -11,6 +11,7 @@ import {ocrPhysical} from "./utils/physical";
  */
 async function autoDomain(autoFight) {
     log.info(`{0}`,"开始执行秘境任务")
+    log.warn(`{0}`,"非体力耗尽情况下(受本体限制),等待退出秘境时间较长")
     //定死做预留冗余 先不实现 不能指定次数 只能指定启用
     let physical_domain = autoFight?.physical
     //     || [
