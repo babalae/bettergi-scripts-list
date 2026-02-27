@@ -135,56 +135,125 @@ async function toMainUi() {
 
 }
 
-const isInOutDomainUI = () => {
-    // let name = '主界面'
-    let main_ui = getJsonPath('out_domain');
-    // 定义识别对象
-    let paimonMenuRo = RecognitionObject.TemplateMatch(
-        file.ReadImageMatSync(`${main_ui.path}${main_ui.name}${main_ui.type}`),
-        0,
-        0,
-        genshinJson.width / 3.0,
-        genshinJson.width / 5.0
-    );
-    let captureRegion = captureGameRegion();
-    try {
-        let res = captureRegion.find(paimonMenuRo);
-        return !res.isEmpty();
-    }finally {
-        captureRegion.Dispose()
+const isInOutDomainUI = async () => {
+    // // let name = '主界面'
+    // let main_ui = getJsonPath('out_domain');
+    // // 定义识别对象
+    // let paimonMenuRo = RecognitionObject.TemplateMatch(
+    //     file.ReadImageMatSync(`${main_ui.path}${main_ui.name}${main_ui.type}`),
+    //     0,
+    //     0,
+    //     genshinJson.width / 3.0,
+    //     genshinJson.width / 5.0
+    // );
+    // let captureRegion = captureGameRegion();
+    // try {
+    //     let res = captureRegion.find(paimonMenuRo);
+    //     return !res.isEmpty();
+    // }finally {
+    //     captureRegion.Dispose()
+    // }
+    //509, 259, 901, 563
+    const text = "退出秘境";
+    const ocrRegion = {
+        x: 509,
+        y: 259,
+        w: 901,
+        h: 563
     }
+    const find = await findText(text, ocrRegion.x, ocrRegion.y, ocrRegion.w, ocrRegion.h)
+    log.info("识别结果:{1}", find)
+    return find && find.includes(text)
 };
 
 async function outDomainUI() {
+    const ocrRegion={
+        x: 509,
+        y: 259,
+        w: 901,
+        h: 563
+    }
     let ms = 300
     let index = 1
+    let tryMax=false
     await sleep(ms);
-    while (!isInOutDomainUI()) {
+    //点击确认按钮
+    await findTextAndClick('地脉异常')
+    await sleep(ms);
+    while (!await isInOutDomainUI()) {
         await sleep(ms);
         await keyPress("ESCAPE");
-        await sleep(ms);
+        await sleep(ms*2);
         if (isInMainUI()){
           break
-        } else if (isInOutDomainUI()) {
-            try {
-                //点击确认按钮
-                await findTextAndClick('确认')
-            }catch (e) {
-                // log.error(`多次尝试点击确认失败 假定已经退出处理`);
-            }
-
         }
         if (index > 3) {
             log.error(`多次尝试匹配退出秘境界面失败 假定已经退出处理`);
+            tryMax=true
             break
         }
         index += 1
     }
-
+    if ((!tryMax)&&await isInOutDomainUI()) {
+        try {
+            //点击确认按钮
+            await findTextAndClick('确认',ocrRegion.x, ocrRegion.y, ocrRegion.w, ocrRegion.h)
+        }catch (e) {
+            // log.error(`多次尝试点击确认失败 假定已经退出处理`);
+        }
+    }
 
 
 }
+/**
+ * 在指定区域内查找文本内容
+ * @param {string} text - 要查找的文本内容
+ * @param {number} x - 查找区域的左上角x坐标，默认为0
+ * @param {number} y - 查找区域的左上角y坐标，默认为0
+ * @param {number} w - 查找区域的宽度，默认为1920
+ * @param {number} h - 查找区域的高度，默认为1080
+ * @param {number} attempts - 尝试查找的次数，默认为5
+ * @param {number} interval - 每次尝试之间的间隔时间(毫秒)，默认为50
+ * @returns {Promise<string>} 返回找到的文本内容，如果未找到则返回空字符串
+ */
+async function findText(
+    text,
+    x = 0,
+    y = 0,
+    w = 1920,
+    h = 1080,
+    attempts = 5,
+    interval = 50,
+) {
+    const keyword = text.toLowerCase(); // 将搜索关键字转换为小写，实现不区分大小写的搜索
 
+    for (let i = 0; i < attempts; i++) { // 循环尝试查找文本，最多尝试attempts次
+        const gameRegion = captureGameRegion(); // 捕获游戏区域图像
+        try {
+            const ro = RecognitionObject.Ocr(x, y, w, h); // 创建OCR识别对象，指定识别区域
+            const results = gameRegion.findMulti(ro); // 在区域内查找所有匹配的文本
+
+            // 遍历查找结果
+            for (let j = 0; j < results.count; j++) {
+                const res = results[j];
+                // 检查结果是否存在、包含文本内容，并且文本包含搜索关键字
+                if (
+                    res.isExist() &&
+                    res.text &&
+                    res.text.toLowerCase().includes(keyword)
+                ) {
+                    return res.text; // 找到匹配文本，直接返回
+                }
+            }
+        } finally {
+            gameRegion.dispose(); // 确保释放游戏区域资源
+        }
+
+        await sleep(interval); // 等待指定的时间后进行下一次尝试
+    }
+
+    return ""; // 未找到匹配文本，返回空字符串
+}
 /**
  * 通用找文本并点击（OCR）
  * @param {string|string[]} text 目标文本（单个文本或文本列表，列表时需全部匹配）
