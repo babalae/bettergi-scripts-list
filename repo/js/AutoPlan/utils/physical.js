@@ -49,10 +49,12 @@ async function ocrPhysical(opToMainUi = false,openMap=false,minPhysical=20,isRes
     log.debug(`===开始识别原粹树脂===`)
     let ms = 1000  // 定义操作延迟时间（毫秒）
     if (opToMainUi) {
+        await sleep(ms)
         await toMainUi();  // 切换到主界面
     }
 
     if (openMap){
+        await sleep(ms)
         //打开地图界面
         await keyPress('M')
     }

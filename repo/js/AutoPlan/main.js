@@ -176,7 +176,7 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
 async function autoRunList(autoRunOrderList) {
     //计划执行
     for (const item of autoRunOrderList) {
-        await sleep(1000)
+        await sleep(3000)
         if (item.runType === config.user.runTypes[0]) {
             await autoDomain(item.autoFight);
         } else if (item.runType === config.user.runTypes[1]) {
