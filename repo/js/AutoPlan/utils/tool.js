@@ -166,6 +166,10 @@ const isInOutDomainUI = async () => {
     return find && find.includes(text)
 };
 
+/**
+ * 退出秘境的UI处理函数
+ * 该函数用于处理退出秘境界面的相关操作，包括点击确认按钮和检测界面状态
+ */
 async function outDomainUI() {
     log.info(`{0}`,"退出秘境");
     const ocrRegion = {
