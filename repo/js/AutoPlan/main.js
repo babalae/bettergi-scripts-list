@@ -489,6 +489,7 @@ async function main() {
 (async function () {
     // await test()
     // await test1()
+    // await test2()
     await main()
 })()
 
@@ -513,4 +514,8 @@ async function test1() {
     log.info("|test==>config.bgi_tools:{1}", JSON.stringify(config.bgi_tools))
     const list = await pullJsonConfig(config.user.uid, config.bgi_tools.api.httpPullJsonConfig)
     log.info("list:{1}", JSON.stringify(list))
+}
+async function test2() {
+    await init();
+    await outDomainUI();
 }

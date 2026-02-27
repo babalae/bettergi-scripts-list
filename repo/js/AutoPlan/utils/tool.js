@@ -37,7 +37,7 @@ async function ocrRegion(x = 0,
 async function getDayOfWeek(calibrationGameRefreshTime = true) {
     // 获取当前日期对象
     let today = new Date();//4点刷新 所以要减去4小时
-    if (calibrationGameRefreshTime){
+    if (calibrationGameRefreshTime) {
         today.setHours(today.getHours() - 4); // 减去 4 小
     }
     // 获取当前日期是星期几（0代表星期日，1代表星期一，以此类推）
@@ -113,7 +113,7 @@ const isInMainUI = () => {
     try {
         let res = captureRegion.find(paimonMenuRo);
         return !res.isEmpty();
-    }finally {
+    } finally {
         captureRegion.Dispose()
     }
 
@@ -162,12 +162,13 @@ const isInOutDomainUI = async () => {
         h: 563
     }
     const find = await findText(text, ocrRegion.x, ocrRegion.y, ocrRegion.w, ocrRegion.h)
-    log.info("识别结果:{1}", find)
+    log.debug("识别结果:{1}", find)
     return find && find.includes(text)
 };
 
 async function outDomainUI() {
-    const ocrRegion={
+    log.info(`{0}`,"退出秘境");
+    const ocrRegion = {
         x: 509,
         y: 259,
         w: 901,
@@ -175,7 +176,8 @@ async function outDomainUI() {
     }
     let ms = 300
     let index = 1
-    let tryMax=false
+    let tryMax = false
+    let inMainUI = false
     await sleep(ms);
     //点击确认按钮
     await findTextAndClick('地脉异常')
@@ -183,28 +185,30 @@ async function outDomainUI() {
     while (!await isInOutDomainUI()) {
         await sleep(ms);
         await keyPress("ESCAPE");
-        await sleep(ms*2);
-        if (isInMainUI()){
-          break
+        await sleep(ms * 2);
+        if (isInMainUI()) {
+            inMainUI = true
+            break
         }
         if (index > 3) {
             log.error(`多次尝试匹配退出秘境界面失败 假定已经退出处理`);
-            tryMax=true
+            tryMax = true
             break
         }
         index += 1
     }
-    if ((!tryMax)&&await isInOutDomainUI()) {
+    if ((!tryMax) && (!inMainUI) && await isInOutDomainUI()) {
         try {
             //点击确认按钮
-            await findTextAndClick('确认',ocrRegion.x, ocrRegion.y, ocrRegion.w, ocrRegion.h)
-        }catch (e) {
+            await findTextAndClick('确认', ocrRegion.x, ocrRegion.y, ocrRegion.w, ocrRegion.h)
+        } catch (e) {
             // log.error(`多次尝试点击确认失败 假定已经退出处理`);
         }
     }
 
 
 }
+
 /**
  * 在指定区域内查找文本内容
  * @param {string} text - 要查找的文本内容
@@ -254,6 +258,7 @@ async function findText(
 
     return ""; // 未找到匹配文本，返回空字符串
 }
+
 /**
  * 通用找文本并点击（OCR）
  * @param {string|string[]} text 目标文本（单个文本或文本列表，列表时需全部匹配）
