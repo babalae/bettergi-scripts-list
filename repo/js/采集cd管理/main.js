@@ -46,9 +46,9 @@ let lastMapName = "";
 // 解析禁用名单
 let disableArray = [];
 if (userSettings.disableJsons) {
-    tmp = userSettings.disableJsons.split('；');
-    for (k = 0; k < tmp.length; k++) {
-        s = tmp[k].trim();
+    let tmp = userSettings.disableJsons.split('；');
+    for (let k = 0; k < tmp.length; k++) {
+        let s = tmp[k].trim();
         if (s) disableArray[disableArray.length] = s;
     }
 }
@@ -833,7 +833,7 @@ let checkInterval = +settings.checkInterval || 50;
                             await pathingScript.runFile("assets/学习螃蟹技能2.json");
                         }
                         else {
-                            "assets/学习螃蟹技能1.json";
+                            await pathingScript.runFile("assets/学习螃蟹技能1.json");
                         }
                     }
                 }
