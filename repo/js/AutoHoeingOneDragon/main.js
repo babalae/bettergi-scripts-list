@@ -144,7 +144,7 @@ async function loadConfig() {
             tagsForGroup9: settings.tagsForGroup9 || '',
             tagsForGroup10: settings.tagsForGroup10 || '',
             disableSelfOptimization: settings.disableSelfOptimization ?? false,
-            efficiencyIndex: settings.efficiencyIndex ?? 2.5,
+            efficiencyIndex: settings.efficiencyIndex ?? 0.25,
             curiosityFactor: settings.curiosityFactor ?? '0',
             ignoreRate: settings.ignoreRate ?? 0,
             targetEliteNum: settings.targetEliteNum ?? 400,
@@ -897,7 +897,7 @@ async function printGroupSummary() {
 
     // 其他配置信息
     resultText += "配置参数：\n";
-    resultText += `  摩拉/耗时权衡因数: ${settings.efficiencyIndex || 2.5}\n`;
+    resultText += `  摩拉/耗时权衡因数: ${settings.efficiencyIndex || 0.25}\n`;
     resultText += `  好奇系数: ${settings.curiosityFactor || 0}\n`;
     resultText += `  忽略比例: ${settings.ignoreRate || 0}\n`;
     resultText += `  目标精英数: ${settings.targetEliteNum || 400}\n`;

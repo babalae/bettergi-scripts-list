@@ -750,6 +750,7 @@ async function writeCDInfo(accountName) {
 
 //运行普通路线
 async function runNormalPath(doStop) {
+    if (settings.fastMode) { return; }
     furinaState = "unknown";
     if (state.cancel) return;
     const routeMap = { A: normalPathA, B: normalPathB };
@@ -783,6 +784,7 @@ async function runActivatePath() {
         log.info("今日执行过激活路线");
         state.runningEndingAndExtraRoute = record.lastRunEndingRoute;
     }
+    if (settings.fastMode) { return; }
     let endingPath = state.runningEndingAndExtraRoute === "收尾额外A"
         ? "assets/ArtifactsPath/优先收尾路线"
         : "assets/ArtifactsPath/替补收尾路线";
