@@ -220,9 +220,13 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                         let index = 0
                         let runType = arr[index]; // 解析运行类型
                         index++
-                        let days = arr[index].trim() !== ""
-                            ? arr[index].split('/').map(d => parseInt(d.trim())).filter(d => !isNaN(d))
+                        const rawDays = arr[index];
+                        let days = (rawDays != null && String(rawDays).trim() !== "")
+                            ? String(rawDays).split('/').map(d => parseInt(d.trim(), 10)).filter(d => !isNaN(d))
                             : [];
+                        // let days = arr[index].trim() !== ""
+                        //     ? arr[index].split('/').map(d => parseInt(d.trim())).filter(d => !isNaN(d))
+                        //     : [];
                         index++
                         // 解析顺序值，处理可能的无效值
                         let order = (() => {
