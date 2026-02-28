@@ -157,6 +157,7 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
 
     param.isResinExhaustionMode = true;
     param.openModeCountMin = true;
+    await sleep(1000)
     // 复活重试
     for (let i = 0; i < config.run.retry_count; i++) {
         try {
