@@ -147,8 +147,8 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
     // param.count = parseInteger(autoLeyLineOutcrop.count+"");
     // param.country = autoLeyLineOutcrop.country;
     // param.leyLineOutcropType = autoLeyLineOutcrop.leyLineOutcropType;
-
-    param.useAdventurerHandbook = autoLeyLineOutcrop.useAdventurerHandbook;
+    //和本体保持一致
+    param.useAdventurerHandbook = !autoLeyLineOutcrop.useAdventurerHandbook;
     param.friendshipTeam = autoLeyLineOutcrop.friendshipTeam;
     param.team = autoLeyLineOutcrop.team;
     param.timeout = autoLeyLineOutcrop.timeout;
