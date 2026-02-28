@@ -323,20 +323,22 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             if (index <= arr.length - 1)
                                 autoLeyLineOutcrop.friendshipTeam = arr[index]
                             index++
+
                             if (index <= arr.length - 1)
-                                autoLeyLineOutcrop.useFragileResin = arr[index].trim() !== ""
+                                autoLeyLineOutcrop.useFragileResin = (arr[index] != null && arr[index].trim() !== "")
                             index++
                             if (index <= arr.length - 1)
-                                autoLeyLineOutcrop.useTransientResin = arr[index].trim() !== ""
+                                autoLeyLineOutcrop.useTransientResin = (arr[index] != null && arr[index].trim() !== "")
                             index++
                             if (index <= arr.length - 1)
-                                autoLeyLineOutcrop.isGoToSynthesizer = arr[index].trim() !== ""
+                                autoLeyLineOutcrop.isGoToSynthesizer = (arr[index] != null && arr[index].trim() !== "")
                             index++
                             if (index <= arr.length - 1)
-                                autoLeyLineOutcrop.useAdventurerHandbook = arr[index].trim() !== ""
+                                autoLeyLineOutcrop.useAdventurerHandbook = (arr[index] != null && arr[index].trim() !== "")
                             index++
                             if (index <= arr.length - 1)
-                                autoLeyLineOutcrop.isNotification = arr[index].trim() !== ""
+                                autoLeyLineOutcrop.isNotification = (arr[index] != null && arr[index].trim() !== "")
+                            
                             index++
                             if (index <= arr.length - 1)
                                 autoLeyLineOutcrop.timeout = parseInteger(arr[index])
