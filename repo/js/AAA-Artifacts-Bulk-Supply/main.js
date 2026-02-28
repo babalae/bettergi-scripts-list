@@ -537,7 +537,7 @@ async function processArtifacts(times = 1) {
         await genshin.returnMainUi();
         await sleep(250);
         keyPress("B");
-        if (await findAndClick(outDatedRo)) {
+        if (await findAndClick(outdatedRo)) {
             log.info("检测到过期物品弹窗，处理");
             await sleep(1000);
         }

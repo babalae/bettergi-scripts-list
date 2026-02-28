@@ -2369,7 +2369,7 @@ async function processPriorityItems() {
 
             await handleTimeAdjustment(timeNow);
             await fakeLog(fileName, false, true, 0);
-            runOnce.push(fileName);
+            runOnce.push(fullName);
 
             /* ========== 历史拾取物前置排序 ========== */
             targetItems = prioritizeHistoricalItems(targetItems, cdMap, fullName);
