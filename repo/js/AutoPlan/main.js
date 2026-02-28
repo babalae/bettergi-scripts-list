@@ -10,8 +10,8 @@ import {ocrPhysical} from "./utils/physical";
  * @returns {Promise<void>} - 执行完成后返回的Promise
  */
 async function autoDomain(autoFight) {
-    log.info(`{0}`,"开始执行秘境任务")
-    log.warn(`{0}`,"非体力耗尽情况下(受本体限制),等待退出秘境时间较长")
+    log.info(`{0}`, "开始执行秘境任务")
+    log.warn(`{0}`, "非体力耗尽情况下(受本体限制),等待退出秘境时间较长")
     //定死做预留冗余 先不实现 不能指定次数 只能指定启用
     let physical_domain = autoFight?.physical
     //     || [
@@ -135,12 +135,12 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
     // }
 
 
-    log.info(`{0}`,"开始执行地脉任务")
+    log.info(`{0}`, "开始执行地脉任务")
     // if (true) {
     //     log.warn("地脉 暂不支持")
     //     return
     // }
-    let param = new AutoLeyLineOutcropParam(parseInteger(autoLeyLineOutcrop.count+""), autoLeyLineOutcrop.country, autoLeyLineOutcrop.leyLineOutcropType);
+    let param = new AutoLeyLineOutcropParam(parseInteger(autoLeyLineOutcrop.count + ""), autoLeyLineOutcrop.country, autoLeyLineOutcrop.leyLineOutcropType);
     // let param = new AutoLeyLineOutcropParam();
     // param.count = parseInteger(autoLeyLineOutcrop.count+"");
     // param.country = autoLeyLineOutcrop.country;
@@ -351,8 +351,11 @@ async function loadMode(Load, autoOrderSet, runConfig) {
 
             // 通过UID方式加载配置
             const uid = config.user.uid || (await ocrUid()) // 获取用户UID，如果未配置则通过OCR识别获取
-            const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.runConfig)) || new Map() // 读取本地配置文件并转换为Map对象
-            const uidConfigList = configAutoFightOrderMap.get(uid + "") || []; // 获取当前UID对应的配置列表
+            // const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.runConfig)) || new Map() // 读取本地配置文件并转换为Map对象
+            // const uidConfigList = configAutoFightOrderMap.get(uid + "") || []; // 获取当前UID对应的配置列表
+
+            const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.runConfig)) || {} // 读取本地配置文件
+            const uidConfigList = configAutoFightOrderMap[uid + ""] || []; // 获取当前UID对应的配置列表
             if (uidConfigList?.length > 0) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
                 uidConfigList.forEach(item => {
@@ -416,7 +419,7 @@ async function initRunOrderList(domainConfig) {
     }
 
     // 检查是否已配置秘境
-    if (autoFightOrderSet.length <= 0) {
+    if (autoFightOrderSet?.length <= 0 || autoFightOrderSet?.size <= 0) {
         throw new Error("请先配置体力配置");
     }
     // 返回处理后的秘境顺序列表

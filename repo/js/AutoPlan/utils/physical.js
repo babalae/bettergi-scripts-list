@@ -17,12 +17,16 @@ const TemplateOrcJson={x: 1568, y: 16, width: 225, height: 60,}
  * @param {string} str - 包含数字的字符串
  * @returns {number} - 由字符串中所有数字组合而成的整数
  */
-async function saveOnlyNumber(str) {
+async function saveOnlyNumber(str,defaultValue=0) {
     // 使用正则表达式匹配字符串中的所有数字
     // \d+ 匹配一个或多个数字
     // .join('') 将匹配到的数字数组连接成一个字符串
     // parseInt 将连接后的字符串转换为整数
-    return parseInt(str.match(/\d+/g).join(''));
+    try {
+        return parseInt(str.match(/\d+/g).join(''));
+    }catch (e) {
+        return defaultValue
+    }
 }
 
 /**
