@@ -3,7 +3,7 @@ let artifactPartyName = settings.artifactPartyName || "狗粮";//狗粮队伍名
 let combatPartyName = settings.combatPartyName;//清怪队伍名称
 let minIntervalTime = settings.fastMode
     ? 10
-    : Number(settings.minIntervalTime || 1);
+    : (parseInt(settings.minIntervalTime) || 1);
 let maxWaitingTime = settings.maxWaitingTime || 0;//最大额外等待时间（分钟）
 let forceAlternate = settings.forceAlternate;//强制交替
 let onlyActivate = settings.onlyActivate;//只运行激活额外和收尾
@@ -12,14 +12,14 @@ let keep4Star = settings.keep4Star;//保留四星
 let autoSalvage = settings.autoSalvage;//启用自动分解
 let notify = settings.notify;//启用通知
 let accountName = settings.accountName || "默认账户";//账户名
-let TMthreshold = +settings.TMthreshold || 0.9;//拾取阈值
+let tmThreshold = +settings.TMthreshold || 0.9;//拾取阈值
 
 //文件路径
 const DeleteButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/DeleteButton.png"));
 const AutoAddButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/AutoAddButton.png"));
 const ConfirmButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/ConfirmButton.png"));
-const DestoryButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/DestoryButton.png"));
-const MidDestoryButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/DestoryButton.png"), 900, 600, 500, 300);
+const DestroyButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/DestoryButton.png"));
+const MidDestroyButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/DestoryButton.png"), 900, 600, 500, 300);
 
 const decomposeRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/decompose.png"));
 const quickChooseRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/quickChoose.png"));
@@ -27,7 +27,7 @@ const confirmRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/
 const doDecomposeRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/doDecompose.png"));
 const doDecompose2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/doDecompose2.png"));
 
-const outDatedRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/ConfirmButton.png"), 760, 700, 100, 100);
+const outdatedRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/ConfirmButton.png"), 760, 700, 100, 100);
 const scrollRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/拾取滚轮.png"), 1017, 496, 1093 - 581, 581 - 496);
 
 const normalPathA = settings.fastMode ? "" : "assets/ArtifactsPath/普通98点1号线";
@@ -224,7 +224,7 @@ async function readRecord(accountName) {
         lastRunDate: "1970/01/01",
         lastActivateTime: new Date("1970-01-01T20:00:00.000Z"),
         lastRunEndingRoute: "收尾额外A",
-        records: new Array(33550336).fill(""),
+        records: new Array(1000).fill(""),
         version: ""
     };
 
@@ -389,7 +389,7 @@ async function processArtifacts(times = 1) {
 
     async function decomposeArtifacts() {
         keyPress("B");
-        if (await findAndClick(outDatedRo, true, 1500)) {
+        if (await findAndClick(outdatedRo, true, 1500)) {
             log.info("检测到过期物品弹窗，处理");
             await sleep(1000);
         }
@@ -537,7 +537,7 @@ async function processArtifacts(times = 1) {
         await genshin.returnMainUi();
         await sleep(250);
         keyPress("B");
-        if (await findAndClick(outDatedRo)) {
+        if (await findAndClick(outdatedRo)) {
             log.info("检测到过期物品弹窗，处理");
             await sleep(1000);
         }
@@ -573,13 +573,13 @@ async function processArtifacts(times = 1) {
                 }
                 await sleep(600);
                 // 点击摧毁
-                if (!await findAndClick(DestoryButtonRo)) {
+                if (!await findAndClick(DestroyButtonRo)) {
                     await genshin.returnMainUi();
                     return;
                 }
                 await sleep(600);
                 // 弹出页面点击摧毁
-                if (!await findAndClick(MidDestoryButtonRo)) {
+                if (!await findAndClick(MidDestroyButtonRo)) {
                     await genshin.returnMainUi();
                     return;
                 }
@@ -1265,7 +1265,7 @@ async function recognizeAndInteract() {
                     30
                 );
 
-                recognitionObject.Threshold = TMthreshold;
+                recognitionObject.Threshold = tmThreshold;
                 recognitionObject.InitTemplate();
                 result = gameRegion.find(recognitionObject);
                 if (result.isExist()) {
