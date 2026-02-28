@@ -21,7 +21,7 @@ async function autoDomain(autoFight) {
     //     {order: 3, name: "脆弱树脂", count: 0, open: false},
     // ]
 
-    if ((!physical_domain) || physical_domain.filter(item => item.open).length === 0) {
+    if ((!physical_domain) || physical_domain.filter(item => item?.open).length === 0) {
         const names = config.user.physical.names;
         physical_domain = []
         names.forEach((name, index) => {
@@ -31,12 +31,12 @@ async function autoDomain(autoFight) {
 
     physical_domain.sort((a, b) => a.order - b.order)
     // 不包含原粹树脂的和
-    const noOriginalSum = physical_domain.filter(item => item.name.trim() !== "原粹树脂")
-        .filter(item => item.open).length;//求和
+    const noOriginalSum = physical_domain.filter(item => item?.name.trim() !== "原粹树脂")
+        .filter(item => item?.open).length;//求和
     // 只包含原粹树脂的和
-    const originalSum = physical_domain.filter(item => item.name?.trim() === "原粹树脂")
-        .filter(item => item.open).length;
-    const resinPriorityList = physical_domain.filter(item => item.open).map(item => item.name?.trim())
+    const originalSum = physical_domain.filter(item => item?.name?.trim() === "原粹树脂")
+        .filter(item => item?.open).length;
+    const resinPriorityList = physical_domain.filter(item => item?.open).map(item => item?.name?.trim())
     //  /** 树脂使用优先级列表 */
     //   resinPriorityList: string[];
     //   /** 使用原粹树脂次数 */
