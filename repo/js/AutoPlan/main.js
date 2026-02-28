@@ -69,26 +69,25 @@ async function autoDomain(autoFight) {
     // log.debug(`开始执行秘境任务`)
     //秘境名称
     domainParam.DomainName = autoFight.domainName || domainParam.DomainName;
-    // log.debug(`秘境名称:${domainParam.DomainName}`)
+    log.debug(`秘境名称:${domainParam.DomainName}`)
 
     //队伍名称
     domainParam.PartyName = autoFight.partyName || domainParam.PartyName;
-    // log.debug(`队伍名称:${domainParam.PartyName}`)
+    log.debug(`队伍名称:${domainParam.PartyName}`)
 
     if (autoFight.sundaySelectedValue) {
         //周日|限时选择的值
         domainParam.SundaySelectedValue = "" + (autoFight.sundaySelectedValue || domainParam.SundaySelectedValue);
     }
-    // log.debug(`周日|限时选择的值:${domainParam.SundaySelectedValue}`)
+    log.debug(`周日|限时选择的值:${domainParam.SundaySelectedValue}`)
     //副本轮数
     try {
         domainParam.DomainRoundNum = parseInt((autoFight.domainRoundNum || domainParam.DomainRoundNum) + "");
     } catch (e) {
-        // log.debug(`副本轮数:${autoFight.domainRoundNum}`)
+        log.debug(`副本轮数:${autoFight.domainRoundNum}`)
         throwError(e.message)
     }
-    // log.debug(`副本轮数:${domainParam.DomainRoundNum}`)
-    log.debug(`秘境参数:{0}`,JSON.stringify(autoFight))
+    log.debug(`副本轮数:${domainParam.DomainRoundNum}`)
     try {
         // 复活重试
         for (let i = 0; i < config.run.retry_count; i++) {
@@ -141,7 +140,6 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
     //     log.warn("地脉 暂不支持")
     //     return
     // }
-    log.debug(`地脉参数:{0}`,JSON.stringify(autoLeyLineOutcrop))
     let param = new AutoLeyLineOutcropParam(parseInteger(autoLeyLineOutcrop.count+""), autoLeyLineOutcrop.country, autoLeyLineOutcrop.leyLineOutcropType);
     // let param = new AutoLeyLineOutcropParam();
     // param.count = parseInteger(autoLeyLineOutcrop.count+"");
