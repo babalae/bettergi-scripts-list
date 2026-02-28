@@ -180,7 +180,7 @@ async function initConfig() {
     // 初始化uid
     config.user.uid = await ocrUid()
     config.run.retry_count = (settings.retry_count?parseInt(settings.retry_count):config.run.retry_count)
-    config.run.loop_plan= settings.loop_plan || config.run.loop_plan
+    config.run.loop_plan = settings.loop_plan !== undefined ? settings.loop_plan : config.run.loop_plan
     const bgi_tools_token = settings.bgi_tools_token || "Authorization= "
     const list = Array.from(bgi_tools_token.split("=")).map(item => item.trim());
     config.bgi_tools.token.name = list[0]
