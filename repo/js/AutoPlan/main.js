@@ -136,11 +136,16 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
 
 
     log.info(`{0}`,"开始执行地脉任务")
-    if (true) {
-        log.warn("地脉 暂不支持")
-        return
-    }
-    let param = new AutoLeyLineOutcropParam(autoLeyLineOutcrop.count, autoLeyLineOutcrop.country, autoLeyLineOutcrop.leyLineOutcropType);
+    // if (true) {
+    //     log.warn("地脉 暂不支持")
+    //     return
+    // }
+    let param = new AutoLeyLineOutcropParam(parseInteger(autoLeyLineOutcrop.count+""), autoLeyLineOutcrop.country, autoLeyLineOutcrop.leyLineOutcropType);
+    // let param = new AutoLeyLineOutcropParam();
+    // param.count = parseInteger(autoLeyLineOutcrop.count+"");
+    // param.country = autoLeyLineOutcrop.country;
+    // param.leyLineOutcropType = autoLeyLineOutcrop.leyLineOutcropType;
+
     param.useAdventurerHandbook = autoLeyLineOutcrop.useAdventurerHandbook;
     param.friendshipTeam = autoLeyLineOutcrop.friendshipTeam;
     param.team = autoLeyLineOutcrop.team;
