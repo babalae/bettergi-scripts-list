@@ -1,3 +1,4 @@
+// Version: 1.1
 (async function () {
     // =========================================================================
     // 0. 动态加载数据 (基于 Genshin_Domains_SC_Live_Source.json)
@@ -6,10 +7,8 @@
     const DB_FILENAME = "Genshin_Domains_SC_Live_Source.json";
 
     try {
-        // [修正] 使用正确的方法名 ReadTextSync 读取文件
         let rawContent = file.ReadTextSync(DB_FILENAME);
         
-        // 检查读取结果是否为空
         if (!rawContent) {
             throw new Error("读取文件返回空内容");
         }
@@ -25,7 +24,6 @@
             sourceData.domains.talent_books.forEach(item => {
                 let domain = item.domain_name_sc;
                 let schedule = item.schedule;
-                // 映射规则: Mon_Thu -> 1, Tue_Fri -> 2, Wed_Sat -> 3
                 if (schedule.Mon_Thu) MATERIAL_DB[schedule.Mon_Thu] = { domain: domain, idx: 1 };
                 if (schedule.Tue_Fri) MATERIAL_DB[schedule.Tue_Fri] = { domain: domain, idx: 2 };
                 if (schedule.Wed_Sat) MATERIAL_DB[schedule.Wed_Sat] = { domain: domain, idx: 3 };
@@ -47,7 +45,6 @@
         if (sourceData.domains.artifacts) {
             sourceData.domains.artifacts.forEach(item => {
                 let domain = item.domain_name_sc;
-                // 将 drops 数组组合成 key，格式为 "Drop1 / Drop2"
                 let key = item.drops.join(" / ");
                 MATERIAL_DB[key] = { domain: domain, type: "artifact" };
             });
@@ -58,23 +55,20 @@
     } catch (e) {
         log.error(`【致命错误】无法读取或解析 ${DB_FILENAME}`);
         log.error(`错误详情: ${e.message}`);
-        log.error("请确保 JSON 文件存在于脚本目录中且格式正确。脚本已停止。");
         return;
     }
 
     // =========================================================================
-    // 1. 读取用户设置
+    // 1. 读取并验证用户设置 (防呆机制)
     // =========================================================================
     let userConfig = settings;
     let enableDebug = userConfig.EnableDebug;
 
-    // --- 读取三个独立栏位 ---
     let pTalent = userConfig.TargetTalentMaterialName;
     let pWeapon = userConfig.TargetWeaponMaterialName;
     let pArtifact = userConfig.TargetArtifactName;
     let pForceRunMode = userConfig.ForceRunMode;
 
-    // --- 互斥检查与目标确定 ---
     let selectedCount = (pTalent ? 1 : 0) + (pWeapon ? 1 : 0) + (pArtifact ? 1 : 0);
 
     if (selectedCount === 0) {
@@ -88,104 +82,111 @@
     }
 
     let pTargetMaterial = pTalent || pWeapon || pArtifact;
-
-    // --- 通用参数 ---
     let pPartyName = userConfig.PartyName || "";
     let pRunUntilDepleted = userConfig.RunUntilResinDepleted;
     let pAutoArtifactSalvage = userConfig.AutoArtifactSalvage;
     let pMaxArtifactStar = userConfig.MaxArtifactStar || "4"; 
     
-    // 初始化目标参数
     let pDomainName = "";
     let pSundaySelectedValue = "";
 
-    // 数值参数
-    let pOriginal = parseInt(userConfig.OriginalResinUseCount) || 0;
+    // --- 数值读取与防呆验证 ---
+    let pOriginalAmount = parseInt(userConfig.OriginalResinAmount) || 0;
+    let pOriginal40 = Math.floor(pOriginalAmount / 40);
+    let pOriginal20 = Math.floor((pOriginalAmount % 40) / 20);
+
     let pCondensed = parseInt(userConfig.CondensedResinUseCount) || 0;
     let pTransient = parseInt(userConfig.TransientResinUseCount) || 0;
-    let pFragile = parseInt(userConfig.FragileResinUseCount) || 0;
-    let pDomainRoundNum = parseInt(userConfig.DomainRoundNum) || 0;
-    let pFightEndDelay = parseInt(userConfig.FightEndDelay) || 5;
+    
+    // 脆弱树脂 (手动输入框防呆)
+    let pFragileRaw = parseInt(userConfig.FragileResinUseCount);
+    let pFragile = (isNaN(pFragileRaw) || pFragileRaw < 0) ? 0 : pFragileRaw;
+    if (userConfig.FragileResinUseCount && (isNaN(pFragileRaw) || pFragileRaw < 0)) {
+        log.warn("【配置警告】脆弱树脂刷取数量输入无效或为负数，已自动重置为 0。");
+    }
 
-    // [新增] 树脂机制警告
-    if (!pRunUntilDepleted && pOriginal > 0) {
-        log.warn("【树脂警告】您设置了使用原粹树脂。由于 BetterGI 本体任务目前不支持选择 20/40 树脂：");
-        log.warn(" -> 请务必在运行脚本前，手动进入一次秘境，确认并调整好游戏内的树脂消耗选项，否则可能导致消耗不符合预期。");
+    // 秘境轮数 (手动输入框防呆)
+    let pDomainRoundNumRaw = parseInt(userConfig.DomainRoundNum);
+    let pDomainRoundNum = (isNaN(pDomainRoundNumRaw) || pDomainRoundNumRaw < 0) ? 0 : pDomainRoundNumRaw;
+    if (userConfig.DomainRoundNum && (isNaN(pDomainRoundNumRaw) || pDomainRoundNumRaw < 0)) {
+        log.warn("【配置警告】秘境刷取轮数输入无效，已自动重置为 0 (无限轮直至树脂耗尽)。");
+    }
+
+    // 战斗后等待时间 (手动输入框防呆)
+    let pFightEndDelayRaw = parseInt(userConfig.FightEndDelay);
+    let pFightEndDelay = (isNaN(pFightEndDelayRaw) || pFightEndDelayRaw < 0) ? 5 : pFightEndDelayRaw;
+    if (userConfig.FightEndDelay && (isNaN(pFightEndDelayRaw) || pFightEndDelayRaw < 0)) {
+        log.warn("【配置警告】战斗完成后等待时间输入无效，已恢复默认值 5 秒。");
+    }
+
+    // 树脂刷取顺序防呆 (正则过滤与去重)
+    let rawOrderStr = (userConfig.ResinUsageOrder || "").toString().trim();
+    if (/[^12345]/.test(rawOrderStr) && !pRunUntilDepleted) {
+        log.warn(`【配置警告】树脂刷取顺序包含无效字符，非 1~5 的内容已被自动过滤。`);
+    }
+    
+    // 仅保留1~5，并去除重复数字
+    let pOrderStr = [...new Set(rawOrderStr.replace(/[^12345]/g, '').split(''))].join('');
+    if (rawOrderStr.replace(/[^12345]/g, '').length !== pOrderStr.length && !pRunUntilDepleted) {
+        log.warn(`【配置警告】树脂刷取顺序中存在重复设定的数字，已自动去重处理为: ${pOrderStr}`);
+    }
+
+    let priorityList = [];
+    for (let char of pOrderStr) {
+        if (char === '1') priorityList.push("浓缩树脂");
+        else if (char === '2') priorityList.push("原粹树脂40");
+        else if (char === '3') priorityList.push("原粹树脂20");
+        else if (char === '4') priorityList.push("须臾树脂");
+        else if (char === '5') priorityList.push("脆弱树脂");
+    }
+
+    // 零动作警告
+    if (!pRunUntilDepleted && pOriginalAmount === 0 && pCondensed === 0 && pTransient === 0 && pFragile === 0 && pDomainRoundNum === 0) {
+        log.warn("【配置警告】您未设置任何树脂消耗数量，也未限制秘境轮数！脚本可能进本后无事可做。");
     }
 
     // =========================================================================
-    // 2. 智能逻辑处理
+    // 2. 智能逻辑处理 (日期检查)
     // =========================================================================
-    
-    // 中文星期对照表 (0-6)
     const WEEK_MAP = ["日", "一", "二", "三", "四", "五", "六"];
-
     let materialInfo = MATERIAL_DB[pTargetMaterial];
+
     if (!materialInfo) {
         log.error(`【数据错误】无法在数据库中找到项目：${pTargetMaterial}`);
-        log.error("请检查 JSON 数据文件是否包含此素材，或 settings.json 中的名称是否一致。");
         return;
     }
 
     if (materialInfo.type === 'artifact') {
-        // [圣遗物] 每日开放，直接放行
         pDomainName = materialInfo.domain;
         pSundaySelectedValue = ""; 
         log.info(`【圣遗物模式】目标：${pTargetMaterial}`);
-        log.info(`【自动定位】秘境：${pDomainName} (每日开放)`);
     } else {
-        // [天赋/武器素材] 需要日期检查
         let requiredIdx = materialInfo.idx;
         pDomainName = materialInfo.domain;
         pSundaySelectedValue = requiredIdx.toString(); 
 
-        // --- 全球通用时间逻辑 (跨时区修正版) ---
-        
-        // 1. 获取 BGI 配置的服务器偏移量 (例如亚服为 +8小时，单位毫秒)
         let serverOffsetMs = ServerTime.GetServerTimeZoneOffset();
-        
-        // 2. 获取当前的 UTC 时间戳 (全球统一，不受电脑时区影响)
         let utcNow = Date.now();
-        
-        // 3. 计算"游戏服务器的逻辑时间戳"
-        // 算法: UTC时间 + 服务器偏移量 - 4小时(换日)
-        // 这样算出来的时间，如果视作 UTC 时间，其"星期几"就是游戏内的"星期几"
         let logicTimeMs = utcNow + serverOffsetMs - (4 * 60 * 60 * 1000);
         let logicDate = new Date(logicTimeMs);
-        
-        // 4. 获取 UTC 星期 (关键: 必须用 getUTCDay，忽略本地时区)
         let dayOfWeek = logicDate.getUTCDay();
         let dayStr = WEEK_MAP[dayOfWeek]; 
 
         if (enableDebug) {
-            // 调试信息：计算当前的服务器名义时间
             let serverTimeDate = new Date(utcNow + serverOffsetMs);
-            log.info(`[DEBUG] 游戏服务器时间(UTC视角): ${serverTimeDate.toUTCString()}`);
-            log.info(`[DEBUG] 逻辑判定后星期: ${dayStr}`);
+            log.info(`[DEBUG] 游戏服务器时间: ${serverTimeDate.toUTCString()}`);
         }
 
-        // 判断今日是否开放
-        let isDateOpen = false;
-        if (dayOfWeek === 0) isDateOpen = true; // 周日
-        else if (requiredIdx === 1 && (dayOfWeek === 1 || dayOfWeek === 4)) isDateOpen = true;
-        else if (requiredIdx === 2 && (dayOfWeek === 2 || dayOfWeek === 5)) isDateOpen = true;
-        else if (requiredIdx === 3 && (dayOfWeek === 3 || dayOfWeek === 6)) isDateOpen = true;
+        let isDateOpen = (dayOfWeek === 0) || 
+                         (requiredIdx === 1 && (dayOfWeek === 1 || dayOfWeek === 4)) ||
+                         (requiredIdx === 2 && (dayOfWeek === 2 || dayOfWeek === 5)) ||
+                         (requiredIdx === 3 && (dayOfWeek === 3 || dayOfWeek === 6));
 
         log.info(`【智能匹配】目标: ${pTargetMaterial} (游戏内星期${dayStr})`);
 
-        if (isDateOpen) {
-            log.info(`【日期检查】通过，今日为常规开放日。`);
-        } else {
-            log.warn(`【日期检查】警告：今日 (游戏内星期${dayStr}) 非该素材常规开放日！`);
-            
-            if (pForceRunMode) {
-                log.warn(`【强制运行】检测到"强制运行"已勾选。脚本将继续执行。`);
-                log.warn(`【风险提示】若游戏内并无"限时全开"活动，底层的 OCR 将无法识别活动，BetterGI 将会直接进入今日预设副本，导致刷错素材！`);
-            } else {
-                log.error(`【停止运行】为防止刷错素材，脚本已停止。`);
-                log.error(`  -> 若您确认当前游戏有"限时全开/精通移涌"活动，请在设置中勾选"强制运行"以忽略此警告。`);
-                return; // 安全退出
-            }
+        if (!isDateOpen && !pForceRunMode) {
+            log.error(`【停止运行】今日非该素材开放日。若需强制运行，请在设置中勾选。`);
+            return;
         }
     }
 
@@ -202,12 +203,34 @@
             taskParam.SundaySelectedValue = pSundaySelectedValue;
             
             taskParam.SpecifyResinUse = !pRunUntilDepleted;
+            
             if (!pRunUntilDepleted) {
-                taskParam.OriginalResinUseCount = pOriginal;
+                // 赋值各类型树脂次数
+                taskParam.OriginalResin20UseCount = pOriginal20;
+                taskParam.OriginalResin40UseCount = pOriginal40;
+                taskParam.OriginalResinUseCount = 0; // 核心逻辑已改用 20/40 独立计算，此项设为0
                 taskParam.CondensedResinUseCount = pCondensed;
                 taskParam.TransientResinUseCount = pTransient;
                 taskParam.FragileResinUseCount = pFragile;
-                taskParam.SetResinPriorityList("浓缩树脂", "原粹树脂", "须臾树脂", "脆弱树脂");
+                
+                // 逻辑冲突警告检查
+                if (pOrderStr === "") {
+                    log.warn("【配置警告】树脂刷取顺序完全留空！在指定次数模式下，脚本将不会消耗任何树脂。");
+                } else {
+                    if (pCondensed > 0 && !pOrderStr.includes('1')) log.warn("【配置警告】浓缩树脂数量大于0，但未配置在刷取顺序(1)中，将被底层忽略！");
+                    if (pOriginal40 > 0 && !pOrderStr.includes('2')) log.warn("【配置警告】原粹树脂需要消耗40体力，但未配置在刷取顺序(2)中，将被底层忽略！");
+                    if (pOriginal20 > 0 && !pOrderStr.includes('3')) log.warn("【配置警告】原粹树脂需要消耗20体力，但未配置在刷取顺序(3)中，将被底层忽略！");
+                    if (pTransient > 0 && !pOrderStr.includes('4')) log.warn("【配置警告】须臾树脂数量大于0，但未配置在刷取顺序(4)中，将被底层忽略！");
+                    if (pFragile > 0 && !pOrderStr.includes('5')) log.warn("【配置警告】脆弱树脂数量大于0，但未配置在刷取顺序(5)中，将被底层忽略！");
+                }
+                
+                // 传入自定义优先级
+                if (priorityList.length > 0) {
+                    taskParam.SetResinPriorityList(...priorityList);
+                } else {
+                    // 若留空，传递空字串防止报错
+                    taskParam.SetResinPriorityList(""); 
+                }
             } else {
                 taskParam.SetResinPriorityList("浓缩树脂", "原粹树脂");
             }
@@ -231,12 +254,11 @@
             } else if (msg.includes("TaskCanceledException")) {
                 log.info("[脚本] 任务已取消。");
                 break;
+            } else if (msg.includes("未找到对应的秘境")) {
+                log.error("请等待BetterGI本体更新支援新秘境");
+                throw ex;
             } else {
                 log.error(`[脚本] 错误: ${msg}`);
-                // [修改] 新增针对未找到传送点的错误提示
-                if (msg.includes("未找到对应的秘境")) {
-                    log.error("请等待BetterGI本体更新支援新秘境");
-                }
                 throw ex; 
             }
         }
