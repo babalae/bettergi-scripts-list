@@ -241,6 +241,9 @@ async function initConfig() {
     let loadList = await getValueByMultiCheckboxName('auto_load') || []
     const loads = loadList.map(item => {
         const load = LoadMap.get(item);
+        if (!load) {
+            throw new Error(`无效加载方式: ${item}`);
+        }
         let order = 1
         switch (load) {
             case LoadType.input:
