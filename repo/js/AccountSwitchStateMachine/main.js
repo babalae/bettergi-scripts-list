@@ -702,6 +702,8 @@ async function findAndClick(target, click = true, timeout = 30000) {
 
     return false;
 }
+// 将函数挂载到 globalThis，供 new Function 创建的作用域访问
+globalThis.findAndClick = findAndClick;
 
 /**
  * 使用预加载的图片矩阵查找并点击
@@ -761,6 +763,8 @@ async function findAndClickByMat(imageMat, click = true, timeout = 30000) {
 
     return false;
 }
+// 将函数挂载到 globalThis，供 new Function 创建的作用域访问
+globalThis.findAndClickByMat = findAndClickByMat;
 
 /**
  * 数字模板匹配
