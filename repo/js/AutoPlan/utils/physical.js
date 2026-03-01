@@ -38,7 +38,7 @@ async function saveOnlyNumber(str,defaultValue=0) {
  * @returns {Promise<Object>} 返回一个包含识别结果的Promise对象
  *   - ok {boolean}: 是否可执行（体力是否足够）
  *   - min {number}: 最小可执行体力值
- *   - remainder {number}: 当前剩余体力值
+ *   - current {number}: 当前剩余体力值
  */
 async function ocrPhysical(opToMainUi = false,openMap=false,minPhysical=20,isResinExhaustionMode=true) {
     // 检查是否启用体力识别功能，如果未启用则直接返回默认结果
