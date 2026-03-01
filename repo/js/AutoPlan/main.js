@@ -397,7 +397,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
             break
         default:
             throw new Error("请先配置加载方式");
-            break;
+            // break;
     }
 }
 
@@ -425,7 +425,7 @@ async function initRunOrderList(domainConfig) {
     }
 
     // 检查是否已配置秘境
-    if (autoFightOrderSet?.length <= 0 || autoFightOrderSet?.size <= 0) {
+    if (!autoFightOrderSet || autoFightOrderSet.size <= 0) {
         throw new Error("请先配置体力配置");
     }
     // 返回处理后的秘境顺序列表
@@ -488,6 +488,9 @@ async function main() {
         while (true) {
             await autoRunList(list);
             if (config.run.loop_plan) {
+                // 重新获取当前体力值
+                const physicalOcr = await ocrPhysical(true, true);
+                config.user.physical.current = physicalOcr.current;
                 //循环
                 if (config.user.physical.current < config.user.physical.min) {
                     //体力耗尽

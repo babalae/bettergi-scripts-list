@@ -34,7 +34,7 @@ async function saveOnlyNumber(str,defaultValue=0) {
  * @param {boolean} [opToMainUi=false] - 是否操作到主界面
  * @param {boolean} [openMap=false] - 是否打开地图界面
  * @param {number} [minPhysical=20] - 最小可执行体力值
- * @param {boolean} [isResinExhaustionMode=ture] - 是否启用体力识别功能
+ * @param {boolean} [isResinExhaustionMode=true] - 是否启用体力识别功能
  * @returns {Promise<Object>} 返回一个包含识别结果的Promise对象
  *   - ok {boolean}: 是否可执行（体力是否足够）
  *   - min {number}: 最小可执行体力值
@@ -86,8 +86,8 @@ async function ocrPhysical(opToMainUi = false,openMap=false,minPhysical=20,isRes
         }
         await buttonA.click()
     }finally {
-        // deriveCrop.Dispose()
-        regionA.Dispose()
+        // deriveCrop.dispose()
+        regionA.dispose()
     }
 
     await sleep(ms)
@@ -113,7 +113,7 @@ async function ocrPhysical(opToMainUi = false,openMap=false,minPhysical=20,isRes
             throwError(`${tmJson.path} 匹配异常`)
         }
     }finally {
-        region.Dispose()
+        region.dispose()
     }
 
 
@@ -151,7 +151,7 @@ async function ocrPhysical(opToMainUi = false,openMap=false,minPhysical=20,isRes
     } catch (e) {
         throwError(`识别失败,err:${e.message}`)
     } finally {
-        region3.Dispose()
+        region3.dispose()
         //返回地图操作
         if (opToMainUi) {
             await toMainUi();  // 切换到主界面

@@ -25,7 +25,7 @@ async function ocrRegion(x = 0,
         return null
     } finally {
         // 确保释放区域资源
-        region3.Dispose()
+        region3.dispose()
     }
 }
 
@@ -114,7 +114,7 @@ const isInMainUI = () => {
         let res = captureRegion.find(paimonMenuRo);
         return !res.isEmpty();
     } finally {
-        captureRegion.Dispose()
+        captureRegion.dispose()
     }
 
 };
@@ -151,7 +151,7 @@ const isInOutDomainUI = async () => {
     //     let res = captureRegion.find(paimonMenuRo);
     //     return !res.isEmpty();
     // }finally {
-    //     captureRegion.Dispose()
+    //     captureRegion.dispose()
     // }
     //509, 259, 901, 563
     const text = "退出秘境";

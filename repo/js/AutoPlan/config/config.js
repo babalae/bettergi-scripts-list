@@ -34,7 +34,7 @@ const config = {
             current: 0,//当前体力
             names: ["原粹树脂", "浓缩树脂", "须臾树脂", "脆弱树脂"]
         },
-        runTypes:['秘境','地脉']
+        runTypes: ['秘境', '地脉']
     },
     //
     path: {
@@ -179,12 +179,23 @@ async function initConfig() {
     // config.user.physical.min = physical.min
     // 初始化uid
     config.user.uid = await ocrUid()
-    config.run.retry_count = (settings.retry_count?parseInt(settings.retry_count):config.run.retry_count)
+    config.run.retry_count = (settings.retry_count ? parseInt(settings.retry_count) : config.run.retry_count)
     config.run.loop_plan = settings.loop_plan !== undefined ? settings.loop_plan : config.run.loop_plan
     const bgi_tools_token = settings.bgi_tools_token || "Authorization= "
-    const list = Array.from(bgi_tools_token.split("=")).map(item => item.trim());
-    config.bgi_tools.token.name = list[0]
-    config.bgi_tools.token.value = list[1]
+    // const list = Array.from(bgi_tools_token.split("=")).map(item => item.trim());
+    // config.bgi_tools.token.name = list[0]
+    // config.bgi_tools.token.value = list[1]
+
+    const separatorIndex = bgi_tools_token.indexOf("=");
+    if (separatorIndex !== -1) {
+        config.bgi_tools.token.name = bgi_tools_token.substring(0, separatorIndex).trim();
+        config.bgi_tools.token.value = bgi_tools_token.substring(separatorIndex + 1).trim();
+    } else {
+        config.bgi_tools.token.name = bgi_tools_token.trim();
+        config.bgi_tools.token.value = "";
+    }
+
+
     config.bgi_tools.api.httpPullJsonConfig = settings.bgi_tools_http_pull_json_config
     config.bgi_tools.api.httpPushAllJsonConfig = settings.bgi_tools_http_push_all_json_config
     config.bgi_tools.api.httpPushAllCountryConfig = settings.bgi_tools_http_push_all_country_config

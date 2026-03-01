@@ -3,10 +3,15 @@ import {ocrRegion} from './tool.js'
 async function saveOnlyNumber(str) {
     str = str ? str : '';
     // 使用正则表达式匹配字符串中的所有数字
-    // \d+ 匹配一个或多个数字
+    // \d匹配一个或多个数字
     // .join('') 将匹配到的数字数组连接成一个字符串
     // parseInt 将连接后的字符串转换为整数
-    return parseInt(str.match(/\d+/g).join(''));
+    // return parseInt(str.match(/\d+/g).join(''));
+    const matches = str.match(/\d+/g);
+    if (!matches) {
+        return 0; // 或抛出错误
+    }
+    return parseInt(matches.join(''), 10);
 }
 
 /**

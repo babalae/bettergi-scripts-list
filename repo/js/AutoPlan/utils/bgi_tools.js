@@ -18,7 +18,7 @@ async function pullJsonConfig(uid, http_api) {
         }
         throw new Error("请求失败,error:" + result_json?.message)
     }
-    return undefined
+    // return undefined
 }
 
 /**
@@ -44,7 +44,7 @@ async function pushAllJsonConfig(list = [], http_api,token={name: "Authorization
         }
         throw new Error("请求失败,error:" + result_json?.message)
     }
-    return undefined
+    // return undefined
 }
 
 /**
