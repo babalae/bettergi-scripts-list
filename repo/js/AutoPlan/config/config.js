@@ -179,7 +179,13 @@ async function initConfig() {
     // config.user.physical.min = physical.min
     // 初始化uid
     config.user.uid = await ocrUid()
-    config.run.retry_count = (settings.retry_count ? parseInt(settings.retry_count) : config.run.retry_count)
+    // config.run.retry_count = (settings.retry_count ? parseInt(settings.retry_count) : config.run.retry_count)
+
+    const retryCount = Number.parseInt(String(settings.retry_count ?? ""), 10);
+    config.run.retry_count = Number.isFinite(retryCount) && retryCount > 0
+        ? retryCount
+        : config.run.retry_count;
+
     config.run.loop_plan = settings.loop_plan !== undefined ? settings.loop_plan : config.run.loop_plan
     const bgi_tools_token = settings.bgi_tools_token || "Authorization= "
     // const list = Array.from(bgi_tools_token.split("=")).map(item => item.trim());

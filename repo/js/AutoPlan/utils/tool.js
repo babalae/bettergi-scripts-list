@@ -265,7 +265,7 @@ async function findText(
 
 /**
  * 通用找文本并点击（OCR）
- * @param {string|string[]} text 目标文本（单个文本或文本列表，列表时需全部匹配）
+ * @param {string} text 目标文本（单个文本）
  * @param {number} [x=0] OCR 区域左上角 X
  * @param {number} [y=0] OCR 区域左上角 Y
  * @param {number} [w=1920] OCR 区域宽度
