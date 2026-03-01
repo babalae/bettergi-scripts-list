@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "枫丹-垂钓点-白露区白淞镇西南",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.2",
+    "description": "地区: 枫丹\n类型: 垂钓点\n详细位置: 白露区白淞镇西南\n鱼类: 花鳉、波波心羽鲈、烘烘心羽鲈、维护机关·水域清理者、维护机关·白金典藏型\n饵类: 果酿饵、酸橘饵、维护机关频闪诱饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4147.55,
+      "y": 2607.45,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4190.81,
+      "y": 2621.49,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4337.25,
+      "y": 2651.36,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4339.33,
+      "y": 2651.38,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

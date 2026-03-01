@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "须弥-垂钓点-下风蚀地阿如村",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.3",
+    "description": "地区: 须弥\n类型: 垂钓点\n详细位置: 下风蚀地阿如村\n鱼类: 花鳉、水晶宴、吹沙角鲀、暮云角鲀、翡玉斧枪鱼\n饵类: 果酿饵、甘露饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4096.01,
+      "y": -2025.96,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4106.81,
+      "y": -2002.15,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4125.62,
+      "y": -1995.95,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4142.21,
+      "y": -1984.34,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4166.21,
+      "y": -1957.38,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(3),attack(0.1)"
+    },
+    {
+      "id": 6,
+      "x": 4163.05,
+      "y": -1960.71,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(10.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

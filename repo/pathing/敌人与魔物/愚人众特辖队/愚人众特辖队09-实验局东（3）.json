@@ -1,0 +1,90 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/evildoer12138",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757857473620,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "愚人众特辖队09-实验局东（3）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9597.5262,
+      "y": 3389.4826
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9605.376,
+      "y": 3382.8754
+    },
+    {
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9598.1256,
+      "y": 3326.8753
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9585.877,
+      "y": 3306.8736
+    },
+    {
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9579.8748,
+      "y": 3291.2498
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9575.3746,
+      "y": 3271.249
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9527.628,
+      "y": 3290.1252
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9513.1257,
+      "y": 3293.4992
+    }
+  ]
+}

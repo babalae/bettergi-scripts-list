@@ -1,0 +1,80 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 悠悠度假村呼呼丘西南\n鱼类: 繁花斗士急流鱼、深潜斗士急流鱼、晚霞翻车鲀、伪装鲨鲨独角鱼\n饵类: 澄晶果粒饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764513935227,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔-垂钓点-悠悠度假村呼呼丘西南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14113.72,
+      "y": 766.72
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14154.82,
+      "y": 751.14
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),dash(1),keyup(w),wait(1)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14162.59,
+      "y": 747.77
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14174.81,
+      "y": 742.75
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 14186.28,
+      "y": 729.65
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 14187.67,
+      "y": 727.46
+    }
+  ]
+}

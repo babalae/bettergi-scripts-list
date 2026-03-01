@@ -1,0 +1,125 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 奥奇卡纳塔西北\n鱼类: 拟似燃素独角鱼、炽岩斗士急流鱼\n饵类: 温火饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766917580029,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔-垂钓点-奥奇卡纳塔西北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10273.62,
+      "y": -192.19
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10302.5957,
+      "y": -159.1494
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),dash(6),keyup(w)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10313.2822,
+      "y": -129.4614
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10329.3721,
+      "y": -121.6631
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),dash(3.2),keyup(w),j,wait(2),keydown(VK_X)",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "orientation",
+      "x": 10328.8887,
+      "y": -141.627
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1700",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10328.7998,
+      "y": -141.9141
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10302.9873,
+      "y": -147.9678
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10292.8076,
+      "y": -171.7021
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10298.0088,
+      "y": -192.8711
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10307.3506,
+      "y": -197.6641
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10306.5312,
+      "y": -201.7988
+    }
+  ]
+}

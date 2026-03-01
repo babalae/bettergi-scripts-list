@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "501枫丹城 浊水幻灵（200_3）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时60秒，包含3只精英与5只小怪，预计收入802.5摩拉，包含以下怪物：1只水史莱姆、2只浊水粉碎幻灵、1只浊水喷吐幻灵、4只膨膨兽。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4823.34,
+      "y": 3628.29,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4883.8,
+      "y": 3599.12,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4921.38,
+      "y": 3619.12,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4970.83,
+      "y": 3647.45,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4976.08,
+      "y": 3657.33,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

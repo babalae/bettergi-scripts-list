@@ -1,0 +1,207 @@
+{
+  "info": {
+    "name": "3108稻妻荒海南",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时182.31秒，包含17只小怪，预计收入810摩拉，包含以下怪物：2只大型水史莱姆、2只雷史莱姆、1只大型雷史莱姆、1只雷箭丘丘人、1只愚人众先遣队·水铳重卫士、1只愚人众先遣队·风拳前锋军、1只愚人众先遣队·雷锤前锋军、1只盗宝团·火之药剂师、1只盗宝团·水之药剂师、1只盗宝团·雷之药剂师、1只盗宝团·冰之药剂师、1只盗宝团·掘墓者、1只盗宝团·粉碎者、1只野伏·阵刀番、1只野伏·火伏番。",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4217.9,
+      "y": -2397.87,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4160.15,
+      "y": -2398.67,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "2000",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4162.15,
+      "y": -2398.67,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -4162.15,
+      "y": -2398.67,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "orientation"
+    },
+    {
+      "id": 5,
+      "x": -4217.88,
+      "y": -2397.87,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": -4195.74,
+      "y": -2444.34,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -4196.74,
+      "y": -2444.34,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -4196.74,
+      "y": -2444.34,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -4176.17,
+      "y": -2448.24,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -4140.12,
+      "y": -2471.12,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -4140.12,
+      "y": -2471.12,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -4125.93,
+      "y": -2477.52,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -4115.54,
+      "y": -2475.63,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -4115.54,
+      "y": -2475.63,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -4103.52,
+      "y": -2484.41,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -4089.31,
+      "y": -2495.34,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -4089.1,
+      "y": -2472.55,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -4089.1,
+      "y": -2472.55,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": -4096.92,
+      "y": -2486.87,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": -4115.17,
+      "y": -2512.75,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": -4115.17,
+      "y": -2512.75,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

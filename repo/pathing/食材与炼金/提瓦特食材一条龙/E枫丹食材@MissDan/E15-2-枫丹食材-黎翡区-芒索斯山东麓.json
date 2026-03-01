@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "4个松果；3个泡泡桔；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762495086650,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E15-2-枫丹食材-黎翡区-芒索斯山东麓",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4985.0273,
+      "y": 4463.1978
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 5044.5098,
+      "y": 4437.7759
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 5048.8184,
+      "y": 4414.2715
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 5065.3438,
+      "y": 4429.7988
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5067.1484,
+      "y": 4428.3989
+    }
+  ]
+}

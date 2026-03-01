@@ -1,0 +1,202 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个薄荷；9个鸟蛋；9个茉洁草；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762498648693,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E28-1-枫丹食材-伊黎耶林区-幽林雾道东北【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3199.8,
+      "y": 3433.92
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3154.7305,
+      "y": 3387.9893
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3136.4678,
+      "y": 3374.0566
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3122.29,
+      "y": 3365.0239
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3115.7461,
+      "y": 3381.7183
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3125.1191,
+      "y": 3398.1387
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3115.2305,
+      "y": 3403.988
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3111.0977,
+      "y": 3421.1501
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3117.6387,
+      "y": 3442.2532
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3127.2598,
+      "y": 3459.9438
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3148.0869,
+      "y": 3463.0339
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3155.6143,
+      "y": 3476.781
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3149.0303,
+      "y": 3494.3755
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3153.7598,
+      "y": 3496.4502
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3155.0254,
+      "y": 3498.0134
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3155.0771,
+      "y": 3497.2805
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3153.5938,
+      "y": 3494.7188
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3191.8691,
+      "y": 3490.3784
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 3188.5195,
+      "y": 3495.7815
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3188.374,
+      "y": 3496.7375
+    }
+  ]
+}

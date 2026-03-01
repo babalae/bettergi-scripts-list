@@ -1,0 +1,279 @@
+{
+    "info": {
+        "name": "【额外】狗粮-纳塔-鸡屁股+8个／9个-f",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+
+        {
+            "x": 8738.1943359375,
+            "y": -1857.46533203125,
+            "type": "teleport"
+        },
+        {
+            "x": 8766.15234375,
+            "y": -1834.3193359375,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(0.2),click",
+            "//": "stop_flying"
+        },
+        {
+            "x": 8766.4541015625,
+            "y": -1825.40478515625,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "1"
+        },
+
+
+
+        {
+            "x": 8439.59765625,
+            "y": -2107.0283203125,
+            "type": "teleport"
+        },
+        {
+            "x": 8415.802734375,
+            "y": -2075.837890625,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 8379.1923828125,
+            "y": -1980.14990234375,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(3.5),click",
+            "//": "无伤下落"
+        },
+        {
+            "x": 8375.69921875,
+            "y": -1971.431640625,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "2"
+        },
+
+
+
+        {
+            "x": 8258.3486328125,
+            "y": -1744.6220703125,
+            "type": "teleport"
+        },
+        {
+            "x": 8234.75,
+            "y": -1720.24462890625,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 8230.8564453125,
+            "y": -1712.17041015625,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "3"
+        },
+
+
+
+        {
+            "x": 7857.4638671875,
+            "y": -1751.333984375,
+            "type": "teleport"
+        },
+        {
+            "x": 8003.58984375,
+            "y": -1744.78076171875,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(3),click",
+            "//": "无伤下落"
+        },
+        {
+            "x": 7994.86328125,
+            "y": -1745.2353515625,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "4"
+        },
+
+
+
+        {
+            "x": 8400.59765625,
+            "y": -1221.3232421875,
+            "type": "teleport"
+        },
+        {
+            "x": 8374.5419921875,
+            "y": -1222.99951171875,
+            "type": "path",
+            "move_mode": "dash"
+        },
+        {
+            "x": 8264.1640625,
+            "y": -1248.92578125,
+            "type": "path",
+            "move_mode": "dash"
+        },
+        {
+            "x": 8133.962890625,
+            "y": -1271.9609375,
+            "type": "path",
+            "move_mode": "dash"
+        },
+
+        {
+            "x": 8124.2548828125,
+            "y": -1275.65576171875,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "6"
+        },
+        {
+            "x": 8124.2548828125,
+            "y": -1275.65576171875,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "6"
+        },
+        {
+            "x": 8125.720703125,
+            "y": -1278.67822265625,
+            "type": "orientation"
+        },
+        {
+            "x": 8125.720703125,
+            "y": -1278.67822265625,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "7"
+        },
+        {
+            "x": 8125.720703125,
+            "y": -1278.67822265625,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "7"
+        },
+
+        {
+            "x": 8125.6845703125,
+            "y": -1281.18212890625,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 8124.62060546875,
+            "y": -1290.23388671875,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 8123.27001953125,
+            "y": -1330.814453125,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 8121.0458984375,
+            "y": -1400.533203125,
+            "type": "path",
+            "move_mode": "fly",
+            "_action": "combat_script",
+            "_action_params": "keypress(VK_SPACE),wait(0.2),click",
+            "//": "no stop_flying"
+        },
+        {
+            "x": 8140.86962890625,
+            "y": -1458.4140625,
+            "type": "path",
+            "move_mode": "dash"
+        },
+        {
+            "x": 8143.83251953125,
+            "y": -1471.2744140625,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "8"
+        },
+
+
+
+        {
+            "x": 9782.4208984375,
+            "y": -1764.7216796875,
+            "type": "teleport",
+            "action": "force_tp"
+        },
+        {
+            "x": 9888.5888671875,
+            "y": -1760.61376953125,
+            "type": "path",
+            "move_mode": "dash"
+        },
+        {
+            "x": 9899.2236328125,
+            "y": -1761.6298828125,
+            "type": "path",
+            "move_mode": "run",
+            "action": "combat_script",
+            "action_params": "wait(0.2),keypress(t),wait(2.8),keypress(e),wait(1)",
+            "//": "附身，遁地"
+        },
+        {
+            "x": 9904.220703125,
+            "y": -1797.63037109375,
+            "type": "path",
+            "move_mode": "climb"
+        },
+
+        {
+            "x": 9896.650390625,
+            "y": -1866.52490234375,
+            "type": "target",
+            "move_mode": "run",
+            "#": "9"
+        }
+        
+    ],
+
+    "positions_not_actived": [
+
+        {
+            "x": 8008.7412109375,
+            "y": -1738.15478515625,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 8053.34326171875,
+            "y": -1713.03271484375,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 8056.2685546875,
+            "y": -1715.15673828125,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "5",
+            "//": "需要在到达上限之前触摸鸡屁三次直到出现调查点，超限后回来依然存在"
+        },
+        {
+            "x": 8056.9794921875,
+            "y": -1716.3125,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "5"
+        }
+    ]
+}

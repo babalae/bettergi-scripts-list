@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "枫丹-垂钓点-莫尔泰区卡布狄斯堡遗迹南",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.3",
+    "description": "地区: 枫丹\n类型: 垂钓点\n详细位置: 莫尔泰区卡布狄斯堡遗迹南\n鱼类: 花鳉、波波心羽鲈、烘烘心羽鲈、维护机关·态势控制者、维护机关·澄金领队型\n饵类: 果酿饵、酸橘饵、维护机关频闪诱饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3463.27,
+      "y": 2286.31,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3467.56,
+      "y": 2300.31,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3421.63,
+      "y": 2359.2,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3426.25,
+      "y": 2364.33,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

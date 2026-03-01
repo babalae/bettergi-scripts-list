@@ -1,0 +1,162 @@
+{
+  "info": {
+    "name": "07-水晶块-蒙德-风龙废墟南-6个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 36.52,
+      "y": 2380.92,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 59.06,
+      "y": 2392.41,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 73.33,
+      "y": 2387.79,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(a),wait(0.5),keyup(a),keydown(w),wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE),wait(0.3),keypress(x),wait(0.2),keypress(x),wait(2)",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 74.31,
+      "y": 2391.15,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "keydown(d),click(middle),wait(1),keypress(VK_SPACE),wait(0.5),click(middle),wait(0.5),wait(1),keypress(VK_SPACE),wait(0.5),keyup(d),wait(0.3),keypress(VK_X),wait(0.3),keypress(VK_X)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 92.86,
+      "y": 2387.66,
+      "action": "mining",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 101.51,
+      "y": 2401.52,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 157.14,
+      "y": 2409.22,
+      "action": "mining",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 158.19,
+      "y": 2445.3,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 185.61,
+      "y": 2435.83,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 193.28,
+      "y": 2463.84,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 212.83,
+      "y": 2476.25,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 219.11,
+      "y": 2471.53,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 246.51,
+      "y": 2440.62,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 249.06,
+      "y": 2437.19,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 254.79,
+      "y": 2429.96,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 353.36,
+      "y": 2449.94,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "mining",
+      "action_params": ""
+    }
+  ]
+}

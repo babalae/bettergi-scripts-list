@@ -1,0 +1,114 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时64秒，包含1只精英与9只小怪，预计收入964.5摩拉，包含以下怪物：1只打手丘丘人、2只冲锋丘丘人、1只岩盾丘丘人、2只雷箭丘丘人、2只冰箭丘丘人、1只丘丘岩盔王、1只岩丘丘萨满。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760206782602,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "216璃月珉林北（600_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1120.96,
+      "y": 1190.4
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1099.88,
+      "y": 1189.56
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1083.24,
+      "y": 1190.58
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1056.34,
+      "y": 1182.9
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1033.13,
+      "y": 1186.28
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1040.9082,
+      "y": 1175.1553
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1043.28,
+      "y": 1163.36
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1051.4062,
+      "y": 1124.9502
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1048.498,
+      "y": 1122.418
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 1048.498,
+      "y": 1122.418
+    }
+  ]
+}

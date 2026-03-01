@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "珊瑚宫比较近的-两只",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "Vicissitude"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -765.87,
+      "y": -3557.31,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -777.63,
+      "y": -3552.97,
+      "type": "path",
+      "move_mode": "swim",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -796.11,
+      "y": -3543.24,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1315.19,
+      "y": -3776.06,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1322.72,
+      "y": -3777.1,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1333.94,
+      "y": -3781.54,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

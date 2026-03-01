@@ -1,0 +1,111 @@
+{
+  "info": {
+    "name": "C02-清水玉-古茶树坡-西侧-5个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1691.31,
+      "y": 1829.3,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1786.66,
+      "y": 1872.65,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1786.36,
+      "y": 1869.77,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 1790.61,
+      "y": 1862.53,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 1791.6,
+      "y": 1866.98,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "3",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 1813.17,
+      "y": 1810.68,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1849.87,
+      "y": 1789.99,
+      "action": "",
+      "move_mode": "swim",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 1877.08,
+      "y": 1778.79,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 1881.88,
+      "y": 1772.86,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 1877.73,
+      "y": 1764.58,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 1878.93,
+      "y": 1771.9,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "action_params": "3",
+      "type": "target"
+    }
+  ]
+}

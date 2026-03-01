@@ -1,0 +1,35 @@
+{
+  "info": {
+    "name": "[枫丹] 炬木x15",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "Ayaka-Main",
+        "links": "https://github.com/Patrick-Ze"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4704.08,
+      "y": 2376.87,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4683.69,
+      "y": 2389.75,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "目前不支持非地面点位的路径追踪，请向东方向前行到墙边",
+      "type": "orientation"
+    }
+  ]
+}

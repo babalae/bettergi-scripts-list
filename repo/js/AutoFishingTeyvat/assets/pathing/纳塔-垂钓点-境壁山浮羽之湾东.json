@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "纳塔-垂钓点-境壁山浮羽之湾东",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.3",
+    "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 境壁山浮羽之湾东\n鱼类: 伪装鲨鲨独角鱼、花鳉、繁花斗士急流鱼、深潜斗士急流鱼、晚霞翻车鲀、青浪翻车鲀\n饵类: 果酿饵、澄晶果粒饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9970.75,
+      "y": -1605.49,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9995.6,
+      "y": -1608.06,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 10000.27,
+      "y": -1601.03,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 10117.55,
+      "y": -1573.44,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 10132.27,
+      "y": -1589.87,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 10163.63,
+      "y": -1606.48,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 10170.19,
+      "y": -1619.94,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

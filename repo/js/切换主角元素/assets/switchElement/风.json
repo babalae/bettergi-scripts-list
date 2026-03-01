@@ -1,0 +1,42 @@
+{
+  "info": {
+    "name": "风主",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751300321221
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1266.748046875,
+      "y": 1933.923828125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1266.5419921875,
+      "y": 1929.845703125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1265.130859375,
+      "y": 1924.84375,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(w); 荧 attack,wait(2),keypress(f); 空 attack,wait(2),keypress(f);"
+    }
+  ]
+}

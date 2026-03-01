@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "发条机关02",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "½",
+        "links": "https://github.com/Traveler07"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4143.92,
+      "y": 4423.53
+    },
+    {
+      "id": 2,
+      "x": 4169.96,
+      "y": 4424.96,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 4181.61,
+      "y": 4421.51,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 4211.86,
+      "y": 4412.62,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 5,
+      "x": 4211.87,
+      "y": 4412.63,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

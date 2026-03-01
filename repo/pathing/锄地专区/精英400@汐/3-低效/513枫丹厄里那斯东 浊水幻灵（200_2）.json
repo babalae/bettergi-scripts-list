@@ -1,0 +1,45 @@
+{
+  "info": {
+    "name": "513枫丹厄里那斯东 浊水幻灵（200_2）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "2浊水幻灵  路线信息：该路线预计用时72.29秒，包含2只精英与1只小怪，预计收入440.5摩拉，包含以下怪物：2只浊水粉碎幻灵、1只机关·算力增幅器。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4705.61,
+      "y": 2951.58,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4681.1,
+      "y": 2902.76,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4664.99,
+      "y": 2865.37,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

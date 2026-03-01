@@ -1,0 +1,150 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757184645167,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A35-萃凝晶-枫丹-苍晶区南-3（火神赶路-4个）",
+    "tags": [
+      "双手剑",
+      "火神赶路"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4876.6,
+      "y": 2255.18
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(1.6),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4852.3018,
+      "y": 2251.1426
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4852.3008,
+      "y": 2251.1426
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4850.99,
+      "y": 2245.54
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4850.99,
+      "y": 2245.54
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4842.04,
+      "y": 2238.08
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4837.7,
+      "y": 2234.84
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4837.7,
+      "y": 2234.84
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4838.0591,
+      "y": 2246.5366
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4830.5918,
+      "y": 2238.2703
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4830.5913,
+      "y": 2238.2703
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4837.293,
+      "y": 2256.3796
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4831.0342,
+      "y": 2257.4719
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4831.0342,
+      "y": 2257.4719
+    }
+  ]
+}

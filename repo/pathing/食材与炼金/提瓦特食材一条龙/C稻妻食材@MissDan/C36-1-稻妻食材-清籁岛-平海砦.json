@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "6个蘑菇；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762348790219,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C36-1-稻妻食材-清籁岛-平海砦",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4208.9844,
+      "y": -4303.8223
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4197.4609,
+      "y": -4332.332
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "target",
+      "x": -4210.1113,
+      "y": -4335.1426
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "target",
+      "x": -4202.7891,
+      "y": -4335.8242
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "target",
+      "x": -4193.4531,
+      "y": -4343.6318
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "target",
+      "x": -4210.9453,
+      "y": -4343.998
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4207.7109,
+      "y": -4347.9365
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "target",
+      "x": -4208.043,
+      "y": -4349.915
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4199.0371,
+      "y": -4351.5361
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 10,
+      "move_mode": "run",
+      "type": "target",
+      "x": -4192.9297,
+      "y": -4349.8281
+    }
+  ]
+}

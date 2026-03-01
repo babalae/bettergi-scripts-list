@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "蒙德-垂钓点-苍风高地清泉镇北",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.2",
+    "description": "地区: 蒙德\n类型: 垂钓点\n详细位置: 苍风高地清泉镇北\n鱼类: 花鳉、蓝染花鳉、鸩棘鱼、赤魔王、流纹茶蝶鱼、炮鲀、苦炮鲀\n饵类: 果酿饵、赤糜饵、蠕虫假饵、飞蝇假饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -868.42,
+      "y": 1991.78,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -838.38,
+      "y": 2031.1,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -831.54,
+      "y": 2031.18,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -803.01,
+      "y": 2039.03,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -803.65,
+      "y": 2042.02,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

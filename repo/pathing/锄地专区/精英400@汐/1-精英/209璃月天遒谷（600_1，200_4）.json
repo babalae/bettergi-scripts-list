@@ -1,0 +1,113 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时107秒，包含5只精英与3只小怪，预计收入1764.5摩拉，包含以下怪物：1只愚人众·雷莹术士、3只幼岩龙蜥、1只岩龙蜥、3只雷萤。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759688997487,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "209璃月天遒谷（600_1，200_4）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1268.41,
+      "y": -64.1
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1290.25,
+      "y": -44.71
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1292.28,
+      "y": -11.58
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1310.5,
+      "y": 39.5
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1292.71,
+      "y": 79.43
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1292.71,
+      "y": 79.43
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1152.88,
+      "y": 141.63
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1147.56,
+      "y": 103.81
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1120.5,
+      "y": 126.81
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1078.46,
+      "y": 132.32
+    }
+  ]
+}

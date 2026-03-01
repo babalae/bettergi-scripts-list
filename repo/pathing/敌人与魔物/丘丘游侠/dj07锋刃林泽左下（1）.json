@@ -1,0 +1,161 @@
+{
+  "info": {
+    "name": "dj07锋刃林泽左下（1）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "下流山汉",
+        "links": "https://github.com/vulgar-rustic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5942.5,
+      "y": 618.18,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5948.38,
+      "y": 618.98,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 5968.09,
+      "y": 595.81,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 5994.3,
+      "y": 588.59,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5),moveby(0,-1000),wait(0.5),keypress(t)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 6027.55,
+      "y": 580.76,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 6060.34,
+      "y": 563.09,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 6079.59,
+      "y": 556.83,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 6113.93,
+      "y": 554.45,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 6139.6,
+      "y": 569.4,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 6143.11,
+      "y": 588.72,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "wait(0.5),moveby(0,-1000000),wait(0.5),moveby(0,1000),wait(0.5),keypress(t)",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 6158.88,
+      "y": 600.8,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 6162.87,
+      "y": 620.6,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 6153.28,
+      "y": 653.43,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 6158.82,
+      "y": 668.27,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 6166.44,
+      "y": 661.24,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 6158.5,
+      "y": 662.56,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

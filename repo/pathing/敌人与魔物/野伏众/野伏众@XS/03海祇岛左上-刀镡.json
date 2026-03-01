@@ -1,0 +1,41 @@
+{
+  "info": {
+    "name": "03海祇岛左上-刀镡",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "XS",
+        "links": "https://github.com/xwsqy6"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -766.01,
+      "y": -3557.36,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": -740.28,
+      "y": -3478.24,
+      "type": "path",
+      "move_mode": "swim",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -732.86,
+      "y": -3456.47,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

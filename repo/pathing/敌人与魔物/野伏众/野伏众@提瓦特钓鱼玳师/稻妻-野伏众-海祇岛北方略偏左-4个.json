@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-海祇岛北方略偏左-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "野伏众-4个\n稻妻-海祇岛北方略偏左",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -765.55,
+      "y": -3556.74,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -755.58,
+      "y": -3574.26,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": -707.3,
+      "y": -3606.52,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -707.24,
+      "y": -3606.49,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -741.82,
+      "y": -3647.79,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": -751.83,
+      "y": -3682.83,
+      "action_params": ""
+    }
+  ]
+}

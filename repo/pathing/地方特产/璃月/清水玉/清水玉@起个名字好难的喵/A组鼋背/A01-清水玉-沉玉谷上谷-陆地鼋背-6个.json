@@ -1,0 +1,111 @@
+{
+  "info": {
+    "name": "A01-清水玉-沉玉谷上谷-陆地鼋背-6个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "大剑"
+    ],
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2145.63,
+      "y": 2412.93,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 2115.32,
+      "y": 2463.13,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 2112.68,
+      "y": 2477.5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 2126.98,
+      "y": 2521.31,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 2154.88,
+      "y": 2548.37,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 2195.7,
+      "y": 2646.78,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2000"
+    },
+    {
+      "id": 7,
+      "x": 2200.23,
+      "y": 2646.03,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 2201.5,
+      "y": 2647.64,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 2199.32,
+      "y": 2648.97,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 2198.76,
+      "y": 2645.88,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "06-神秘的肉-巨人峡谷下-9个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Sabersunny",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "tags": [],
+    "last_modified_time": 1753600299003,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5200.8398,
+      "y": -1339.3306,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5217.7715,
+      "y": -1427.3252,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 5189.4463,
+      "y": -1453.9409,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 5200.1641,
+      "y": -1472.0479,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 s(0.2),e(hold),wait(0.3),w(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 5200.1641,
+      "y": -1472.0479,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "雷电将军 e",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 5200.1641,
+      "y": -1472.0479,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 5207.2798,
+      "y": -1471.6567,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 5205.7905,
+      "y": -1466.9834,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 5193.0688,
+      "y": -1462.0566,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 5198.7812,
+      "y": -1466.583,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 5199.7554,
+      "y": -1467.4927,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

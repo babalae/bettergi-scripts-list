@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+	<meta name="version" content="1.1">
+    <title>BGI原琴制谱器</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh; /* 确保包括缓冲区域的最小高度 */
+        }
+        /* 页面容器 */
+        #container {
+            display: flex;
+            flex-direction: column;
+        }
+        #top-section {
+            display: flex;
+            min-height: 100vh; /* 占满可见页面高度 */
+            margin-bottom: 100px; /* 给菜单栏留出空间 */
+        }
+        /* 左侧图像区域 */
+/*
+        #image-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+*/
+        #image-section img {
+            height: 100%; /* 自适应页面高度 */
+            object-fit: contain; /* 保持比例缩放 */
+        }
+        /* 文本区域容器 */
+        #code-wrapper {
+            flex: 1;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+        #code-area {
+            width: 100%;
+            height: 62.5%; /* 高度基于左侧图片 */
+            border: none;
+            padding: 10px;
+            font-size: calc(0.6vw + 0.6vh);
+            font-family: monospace;
+            line-height: 1.5em;
+            resize: none; /* 禁止调整大小 */
+            overflow-y: auto; /* 内容超出时显示滚动条 */
+            box-sizing: border-box;
+        }
+        /* 悬浮菜单栏 */
+        #bottom-section {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: auto; /* 根据内容高度自适应 */
+            padding: 10px;
+            background-color: #e0e0e0;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column; /* 垂直排列 */
+            justify-content: center;
+        }
+        .action-button {
+            margin: calc(0.5vw + 0.5vh);
+            padding: calc(0.5vw + 0.5vh) calc(1vw + 1vh);
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .action-button:hover {
+            background-color: #0056b3;
+        }
+		.textarea {
+			margin: 10px;
+            padding: 10px 20px;
+            font-size: calc(0.6vw + 0.6vh);
+            color: black;
+            border: none;
+            border-radius: 5px;
+		}
+		.input-text {
+			width: calc(5vw + 5vh);
+			height: calc(0.5vw + 0.5vh);
+			margin: calc(0.5vw + 0.5vh);
+            padding: calc(0.5vw + 0.5vh) calc(0.5vw + 0.5vh);
+            font-size: calc(0.6vw + 0.6vh);
+            color: black;
+            border: none;
+            border-radius: 5px;
+		}
+		.input-text-bpm {
+			width: calc(2vw + 2vh);
+			height: calc(0.5vw + 0.5vh);
+			margin: calc(0.5vw + 0.5vh);
+            padding: calc(0.5vw + 0.5vh) calc(0.5vw + 0.5vh);
+            font-size: calc(0.6vw + 0.6vh);
+            color: black;
+            border: none;
+            border-radius: 5px;
+		}
+		.input-text-descriptiont {
+			width: calc(20vw + 20vh);
+			height: calc(0.5vw + 0.5vh);
+			margin: calc(0.5vw + 0.5vh);
+            padding: calc(0.5vw + 0.5vh) calc(0.5vw + 0.5vh);
+            font-size: calc(0.6vw + 0.6vh);
+            color: black;
+            border: none;
+            border-radius: 5px;
+		}
+		.dropdown {
+			margin: calc(0.5vw + 0.5vh);
+            padding: calc(0.5vw + 0.5vh) calc(0.5vw + 0.5vh);
+            font-size: calc(0.6vw + 0.6vh);
+            background-color: #FFFFFF;
+            color: black;
+            border: none;
+            border-radius: 5px;
+		}
+        .hotspot {
+            margin: 10px auto;
+            width: 100px;
+            height: 50px;
+            background-color: #ffa500;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: calc(0.15625vw + 0.15625vw);
+        }
+        /* 缓冲区域 */
+        #buffer {
+            height: 100px; /* 缓冲区域高度(占位) */
+            background-color: transparent;
+            display: block;
+        }
+		/* 隐藏默认文件选择框 */
+        #file_input {
+            display: none;
+        }
+        /* 鼠标悬停效果 */
+        .custom-file-label:hover {
+            background-color: #0056b3;
+        }
+
+        /* 为文件名展示样式 */
+        .file_name {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <!-- 顶部内容 -->
+        <div id="top-section">
+            <div id="image-section">
+            <img src="五线谱注解.png" alt="左侧图片" width="1111" height="1111" usemap="#Map" style="display: block; max-width: 100%; height: auto;">
+            <map name="Map">
+			  <area shape="rect" coords="194,227,254,287" onclick="add_key('@')">
+              <area shape="rect" coords="394,27,449,77" onclick="add_key('U')">
+              <area shape="rect" coords="394,77,449,127" onclick="add_key('T')">
+              <area shape="rect" coords="394,127,449,177" onclick="add_key('E')">
+              <area shape="rect" coords="394,177,449,227" onclick="add_key('Q')">
+              <area shape="rect" coords="394,227,449,277" onclick="add_key('H')">
+              <area shape="rect" coords="394,277,449,327" onclick="add_key('F')">
+              <area shape="rect" coords="394,327,449,377" onclick="add_key('S')">
+              <area shape="rect" coords="394,377,449,427" onclick="add_key('M')">
+              <area shape="rect" coords="394,427,449,477" onclick="add_key('B')">
+              <area shape="rect" coords="394,477,449,527" onclick="add_key('C')">
+              <area shape="rect" coords="394,527,449,577" onclick="add_key('Z')">
+              <area shape="rect" coords="448,52,503,102" onclick="add_key('Y')">
+              <area shape="rect" coords="448,102,503,152" onclick="add_key('R')">
+              <area shape="rect" coords="448,152,503,202" onclick="add_key('W')">
+              <area shape="rect" coords="448,202,503,252" onclick="add_key('J')">
+              <area shape="rect" coords="448,252,503,302" onclick="add_key('G')">
+              <area shape="rect" coords="448,302,503,352" onclick="add_key('D')">
+              <area shape="rect" coords="448,352,503,402" onclick="add_key('A')">
+              <area shape="rect" coords="448,402,503,452" onclick="add_key('N')">
+              <area shape="rect" coords="448,452,503,502" onclick="add_key('V')">
+              <area shape="rect" coords="448,502,503,552" onclick="add_key('X')">
+              <area shape="rect" coords="596,202,651,252" onclick="add_key('U')">
+              <area shape="rect" coords="596,252,651,302" onclick="add_key('T')">
+              <area shape="rect" coords="596,302,651,352" onclick="add_key('E')">
+              <area shape="rect" coords="596,352,651,402" onclick="add_key('Q')">
+              <area shape="rect" coords="596,402,651,452" onclick="add_key('H')">
+              <area shape="rect" coords="596,452,651,502" onclick="add_key('F')">
+              <area shape="rect" coords="596,502,651,552" onclick="add_key('S')">
+              <area shape="rect" coords="596,552,651,602" onclick="add_key('M')">
+              <area shape="rect" coords="596,602,651,652" onclick="add_key('B')">
+              <area shape="rect" coords="596,652,651,702" onclick="add_key('C')">
+              <area shape="rect" coords="596,702,651,752" onclick="add_key('Z')">
+              <area shape="rect" coords="650,227,705,277" onclick="add_key('Y')">
+              <area shape="rect" coords="650,277,705,327" onclick="add_key('R')">
+              <area shape="rect" coords="650,327,705,377" onclick="add_key('W')">
+              <area shape="rect" coords="650,377,705,427" onclick="add_key('J')">
+              <area shape="rect" coords="650,427,705,477" onclick="add_key('G')">
+              <area shape="rect" coords="650,477,705,527" onclick="add_key('D')">
+              <area shape="rect" coords="650,527,705,577" onclick="add_key('A')">
+              <area shape="rect" coords="650,577,705,627" onclick="add_key('N')">
+              <area shape="rect" coords="650,627,705,677" onclick="add_key('V')">
+              <area shape="rect" coords="650,677,705,727" onclick="add_key('X')">
+			  <area shape="rect" coords="794,377,849,427" onclick="add_key('U')">
+              <area shape="rect" coords="794,427,849,477" onclick="add_key('T')">
+              <area shape="rect" coords="794,477,849,527" onclick="add_key('E')">
+              <area shape="rect" coords="794,527,849,577" onclick="add_key('Q')">
+              <area shape="rect" coords="794,577,849,627" onclick="add_key('H')">
+              <area shape="rect" coords="794,627,849,677" onclick="add_key('F')">
+              <area shape="rect" coords="794,677,849,727" onclick="add_key('S')">
+              <area shape="rect" coords="794,727,849,777" onclick="add_key('M')">
+              <area shape="rect" coords="794,777,849,827" onclick="add_key('B')">
+              <area shape="rect" coords="794,827,849,877" onclick="add_key('C')">
+              <area shape="rect" coords="794,877,849,927" onclick="add_key('Z')">
+              <area shape="rect" coords="849,403,904,453" onclick="add_key('Y')">
+              <area shape="rect" coords="849,453,904,503" onclick="add_key('R')">
+              <area shape="rect" coords="849,503,904,553" onclick="add_key('W')">
+              <area shape="rect" coords="849,553,904,603" onclick="add_key('J')">
+              <area shape="rect" coords="849,603,904,653" onclick="add_key('G')">
+              <area shape="rect" coords="849,653,904,703" onclick="add_key('D')">
+              <area shape="rect" coords="849,703,904,753" onclick="add_key('A')">
+              <area shape="rect" coords="849,753,904,803" onclick="add_key('N')">
+              <area shape="rect" coords="849,803,904,853" onclick="add_key('V')">
+              <area shape="rect" coords="849,853,904,903" onclick="add_key('X')">
+            </map>
+            </div>
+            <div id="code-wrapper">
+				<textarea id="code-area" placeholder="自动生成代码..."></textarea>
+            </div>
+        </div>
+
+        <!-- 缓冲区域 -->
+        <div id="buffer"></div>
+
+        <!-- 悬浮菜单栏 -->
+        <div id="bottom-section">
+			<!-- 第一行 -->
+			<div class="row">
+				<label for="score_name" class="textarea">曲名:</label>
+    			<input type="text" id="score_name" name="score_name" class="input-text" placeholder="输入歌曲名称...">
+				<label for="score_author" class="textarea">录谱人:</label>
+   				<input type="text" id="score_author" name="score_author" class="input-text" placeholder="输入翻谱人名称...">
+				<label for="score_bpm" class="textarea">BPM:</label>
+    			<input type="number" id="score_bpm" name="score_bpm" min="1" max="1000" value="1" class="input-text-bpm">
+				<label for="time_signature" class="textarea">拍号: </label>
+                <select id="time_signature" class="dropdown">
+                    <option value="1/4">1/4</option>
+                    <option value="2/4">3/4</option>
+                    <option value="3/4">3/4</option>
+					<option value="4/4">4/4</option>
+					<option value="5/4">5/4</option>
+					<option value="3/8">3/8</option>
+					<option value="4/8">4/8</option>
+					<option value="6/8">6/8</option>
+					<option value="9/8">9/8</option>
+					<option value="2/2">2/2</option>
+					<option value="3/2">3/2</option>
+                </select>
+				<label for="score_composer" class="textarea">曲师:</label>
+    			<input type="text" id="score_composer" name="score_composer" class="input-text" placeholder="曲师...">
+				<label for="score_arranger" class="textarea">谱师:</label>
+    			<input type="text" id="score_arranger" name="score_arranger" class="input-text" placeholder="谱师...">
+				<label for="score_instrument" class="textarea">乐器: </label>
+                <select id="score_instrument" class="dropdown">
+                    <option value="风物之诗琴">风物之诗琴</option>
+                    <option value="老旧的诗琴">老旧的诗琴</option>
+                    <option value="镜花之琴">镜花之琴</option>
+					<option value="荒泷·盛世豪鼓">荒泷·盛世豪鼓</option>
+					<option value="绮筵之鼓">绮筵之鼓</option>
+					<option value="晚风圆号">晚风圆号</option>
+					<option value="聚聚鼓">聚聚鼓</option>
+					<option value="悠可琴">悠可琴</option>
+					<option value="「余音」">「余音」</option>
+					<option value="跃律琴">跃律琴</option>
+                </select>
+			</div>
+            <!-- 第二行 -->
+            <div class="row">
+				<label for="dropdown_type" class="textarea">音符类型: </label>
+                <select id="dropdown_type" class="dropdown">
+                    <option value="none">普通</option>
+                    <option value="*">附点音符</option>
+                    <option value=".">连音</option>
+					<option value="$">连音(末尾)</option>
+					<option value="#">装饰音·倚音</option>
+                </select>
+				<label for="dropdown_all" class="textarea" style="display: none;" id="dropdown_all_text">连音总时值: </label>
+				<select id="dropdown_all" class="dropdown" style="display: none;">
+					<option value="0.25">4个全音符</option>
+					<option value="0.375">3个全音符</option>
+					<option value="0.5">2个全音符</option>
+					<option value="1">全音符</option>
+					<option value="2">二分音符</option>
+					<option value="4">四分音符</option>
+					<option value="8">八分音符</option>
+					<option value="16">十六分音符</option>
+					<option value="32">三十二分音符</option>
+					<option value="64">六十四分音符</option>
+                </select>
+				<label for="score_description" class="textarea">描述:</label>
+    			<input type="text" id="score_description" name="score_description" class="input-text-descriptiont" placeholder="在这里填写描述(例如五线谱的网址)...">
+            </div>
+            <!-- 第三行 -->
+            <div class="row">
+				<label for="dropdown_long" class="textarea" id="dropdown_long_text">音符时值: </label>
+                <select id="dropdown_long" class="dropdown">
+                    <option value="1">全音符</option>
+                    <option value="2">二分音符</option>
+                    <option value="4">四分音符</option>
+					<option value="8">八分音符</option>
+					<option value="16">十六分音符</option>
+					<option value="32">三十二分音符</option>
+					<option value="64">六十四分音符</option>
+                </select>
+                <button class="action-button" onclick="new_bar()">分节</button>
+                <button class="action-button" onclick="new_line()">换行</button>
+				<button class="action-button" onclick="btn_confirm()">确定（完善音符）</button>
+				<button class="action-button" onclick="btn_output()">导出乐谱JSON</button>
+				<input type="file" id="file_input">
+				<button for="file_input" class="action-button" id="read_button">读取乐谱JSON</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+		document.addEventListener("keydown", function(event) {
+		  if (event.key === "Enter") {
+			const activeElement = document.activeElement;
+			const codeArea = document.getElementById("code-area");
+
+			/*如果焦点不在 #code-area 上*/
+			if (activeElement !== codeArea) {
+			  event.preventDefault(); /*阻止默认行为*/
+			  btn_confirm();
+			}
+		  }
+    	});
+		
+		document.addEventListener('DOMContentLoaded', function() {
+			/*设置页面底部缓冲区高度与悬浮菜单栏的高度相同*/
+        	var bottomSection = document.getElementById('bottom-section');
+        	var buffer = document.getElementById('buffer');
+        	buffer.style.height = bottomSection.offsetHeight + 'px';
+			
+			var dropdownType = document.getElementById('dropdown_type');
+			var dropdownAllText = document.getElementById('dropdown_all_text');
+			var dropdownAll = document.getElementById('dropdown_all');
+			var dropdownLong = document.getElementById('dropdown_long_text');
+			
+			const fileInput = document.getElementById('file_input');
+			const readButton = document.getElementById('read_button');
+			const textArea = document.getElementById("code-area");
+
+			// 代码文本框自动滚动到底部
+			textArea.addEventListener("input", () => {
+				textArea.scrollTop = textArea.scrollHeight;
+			});
+
+			
+			/*设置连音时值下拉菜单的可见性和音符时值文本*/
+			dropdownType.addEventListener('change', function() {
+				if (dropdownType.value === "." || dropdownType.value === "$") { // 显示连音总时值
+					dropdownAll.style.display = 'inline-block'; 
+					dropdownAllText.style.display = 'inline-block';
+					dropdownLong.textContent = "连音中当前音符时值: ";
+				} else {
+					dropdownAll.style.display = 'none'; // 隐藏
+					dropdownAllText.style.display = 'none';
+					dropdownLong.textContent = "音符时值: ";
+//					// 重置音符类型下拉菜单为默认选项
+//					dropdownAll.selectedIndex = 0; 
+				}
+			});
+			
+
+			/*点击“读取JSON文件”按钮时触发*/
+			readButton.addEventListener('click', () => {
+				fileInput.value = ""; // 清空上一次选择的文件
+				fileInput.click();    // 模拟点击文件选择框
+			});
+
+			/*文件选择完成后触发*/
+			fileInput.addEventListener('change', () => {
+				const file = fileInput.files[0];
+				if (file) {
+					btn_read(); // 在选择文件后调用读取方法
+				} else {
+					alert("文件选择出错！"); // 理论上不会执行
+				}
+			});
+    	});
+		
+		
+		/*点击图片添加音符*/
+		function add_key(key) {
+			const regex_note = /(^|(?<=\])|(?<=\n))[^][^\n]*(?=\[\])/g; // 匹配空音符A[]或(AD)[]
+			const codeArea = document.getElementById('code-area');
+			const textArea = document.getElementById('code-area'); // 用于滚动
+            let content = codeArea.value;
+			let matches = content.match(regex_note);
+			if (matches !== null && matches.length > 1) { // 异常操作检测（可能用不到）
+				alert(`存在的未完成的音符数大于一个，无法添加新的音符(目前存在的所有未完成音符数: ${matches.length})`);
+				return null;
+			}
+
+            if (content.endsWith("[]")) { // 添加为和弦
+				if (content[content.length - 3] === ")") { // 已是和弦
+					const left_index = content.lastIndexOf("(");
+					const right_index = content.lastIndexOf(")");
+					
+					const string_mid = content.substring(left_index, right_index);
+					if (string_mid.includes(key)) { // 重复音不添加
+						return null;
+					}
+					content = `${content.substring(0, left_index)}${string_mid}${key}${content.substring(right_index)}`;
+				} else { // 仍为单音
+					const ori_key_index = content.lastIndexOf("[") - 1;
+					if (content[ori_key_index] === key) { // 重复音不添加
+						return null;
+					}
+					content = `${content.substring(0, ori_key_index)}(${content[ori_key_index]}${key})[]`;
+				}
+				codeArea.value = content;
+            } else { // 添加新的音
+				content += key + "[]"; 
+				codeArea.value = content;
+            }
+			// 滚动到底部
+			textArea.scrollTop = textArea.scrollHeight;
+		}
+		
+		/*点击按钮添加分节标志*/
+		function new_bar() {
+			const regex_note = /(^|(?<=\])|(?<=\n))[^][^\n]*(?=\[\])/g; // 匹配空音符A[]或(AD)[]
+			const codeArea = document.getElementById('code-area');
+			const textArea = document.getElementById('code-area'); // 用于滚动
+            let content = codeArea.value;
+			if (regex_note.test(content)) {
+				alert(`存在未完成的音符！`);
+				return null;
+			} else if (content.endsWith("\n") || content.endsWith("|")) {
+				alert("小节内容不能为空！");
+				return null;
+			}
+			content += "|\n";
+			codeArea.value = content;
+			// 滚动到底部
+			textArea.scrollTop = textArea.scrollHeight;
+			
+		}
+		
+		/*点击按钮添加换行标志*/
+		function new_line() {
+			const regex_note = /(^|(?<=\])|(?<=\n))[^][^\n]*(?=\[\])/g; // 匹配空音符A[]或(AD)[]
+			const codeArea = document.getElementById('code-area');
+			const textArea = document.getElementById('code-area'); // 用于滚动
+            let content = codeArea.value;
+			if (regex_note.test(content)) {
+				alert(`存在未完成的音符！`);
+				return null;
+			} else if (content.endsWith("\n")) {
+				alert("行的内容不能为空！\n如果已经添加了分节标志，请手动删除分节标志");
+				return null;
+			}
+			content += "|\n\n";
+			codeArea.value = content;
+			// 滚动到底部
+			codeArea.scrollTop = textArea.scrollHeight;
+		}
+		
+		/*根据所选完善音符*/
+		function btn_confirm() {
+			const codeArea = document.getElementById('code-area');
+			let content = codeArea.value;
+			if (!content.endsWith("[]")) {
+				alert("未检测到空音符，请先添加音符！");
+				return null;
+			}
+			const dropdownType = document.getElementById('dropdown_type');
+			const score_type = dropdownType.value;
+			const dropdownLong = document.getElementById('dropdown_long');
+			const dropdownAll = document.getElementById('dropdown_all');
+			const regex_detail = /(?<=\[)[\s\S]*?(?=\])/g // 匹配 [] test
+			
+			if (score_type === "none") { // 普通音符
+				content = `${content.slice(0, -2)}[${dropdownLong.value}]`;
+			} else if (score_type === ".") { // 连音(默认使用3)
+				content = `${content.slice(0, -2)}[${dropdownAll.value}-${dropdownLong.value}.3]`;
+			} else if (score_type === "$") { // 连音(末尾)
+				content = `${content.slice(0, -2)}[${dropdownAll.value}-${dropdownLong.value}.$]`;
+			} else { // 附点音符或装饰音·倚音
+				content = `${content.slice(0, -2)}[${dropdownLong.value}-${dropdownType.value}]`;
+			}
+			codeArea.value = content;
+			
+		}
+       
+		/*导出乐谱文件*/
+		function btn_output() {
+			const score_name = document.getElementById("score_name").value;
+			const score_author = document.getElementById("score_author").value;
+
+			if (score_name === "" || score_author === "") {
+				alert("导出前请填写曲谱名和录谱人！");
+				return null;
+			}
+			let score_instrument = document.getElementById("score_instrument").value;
+			let score_description = document.getElementById("score_description").value;
+			const score_bpm = document.getElementById("score_bpm").value;
+			const time_signature = document.getElementById("time_signature").value;
+			let score_composer = document.getElementById("score_composer").value;
+			let score_arranger = document.getElementById("score_arranger").value;
+			score_description = typeof(score_description) === "undefined" ? "无": score_description;
+			score_composer = typeof(score_composer) === "undefined" ? "无": score_composer;
+			score_arranger = typeof(score_arranger) === "undefined" ? "无": score_arranger;
+			const notes = document.getElementById("code-area").value;
+			
+			const json_content = `{
+  "name": "${score_name}",
+  "author": "${score_author}",
+  "instrument": "${score_instrument}",
+  "description": "${score_description}",
+  "bpm": "${score_bpm}",
+  "time_signature": "${time_signature}",
+  "composer": "${score_composer}",
+  "arranger": "${score_arranger}",
+  "notes": "${notes.replace(/\n/g, "\\n")}"
+}`;
+			// 创建Blob对象
+  			const blob = new Blob([json_content], { type: 'application/json' });
+			// 创建下载链接
+  			const url = URL.createObjectURL(blob);
+			// 动态创建隐藏的<a>元素
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = `${score_name}.json`; // 文件名
+			a.style.display = 'none';
+
+			// 模拟点击触发下载
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+
+			// 释放URL对象
+			URL.revokeObjectURL(url);
+		}
+		
+		/*读取乐谱文件*/
+		function btn_read() {
+			const codeArea = document.getElementById('code-area');
+			const scoreName = document.getElementById('score_name');
+			const scoreAuthor = document.getElementById('score_author');
+			const scoreInstrument = document.getElementById('score_instrument');
+			const scoreBpm = document.getElementById('score_bpm');
+			const timeSignature = document.getElementById('time_signature');
+			const scoreComposer = document.getElementById('score_composer');
+			const scoreArranger = document.getElementById('score_arranger');
+			const scoreDescription = document.getElementById('score_description');
+			
+			const fileInput = document.getElementById('file_input');
+			const file = fileInput.files[0]; // 获取选中的文件
+			if (!file) {
+				alert('请先选择一个文件！');
+				return;
+			}
+
+			// 使用 FileReader 读取文件内容
+			const reader = new FileReader();
+
+			// 文件读取成功的回调函数
+			reader.onload = function(event) {
+				const content = event.target.result; // 文件内容
+				const content_msg = get_music_msg(content); // 解析后的文件内容
+				// 将本地乐谱文件载入HTML
+				scoreName.value = content_msg["name"];
+				scoreAuthor.value = content_msg["author"];
+				scoreInstrument.value = content_msg["instrument"];
+				scoreBpm.value = content_msg["bpm"];
+				timeSignature.value = content_msg["time_signature"];
+				scoreComposer.value = content_msg["composer"];
+				scoreArranger.value = content_msg["arranger"];
+				scoreDescription.value = content_msg["description"];
+				codeArea.value = content_msg["notes"]; // notes
+			};
+
+			// 以文本形式读取文件
+			reader.readAsText(file);
+		}
+		
+		/**
+		 *
+		 * 解析一个乐谱文件
+		 *
+		 * @param file_text {string} 乐曲文件内容
+		 * @returns 
+		 */
+		function get_music_msg(file_text) {
+
+			let music_msg_dic = {};
+
+			// 正则表达式，用于匹配如下内容
+			let regex_name = /(?<="name": ")[\s\S]*?(?=")/
+			let regex_author = /(?<="author": ")[\s\S]*?(?=")/
+			let regex_instrument = /(?<="instrument": ")[\s\S]*?(?=")/
+			let regex_description = /(?<="description": ")[\s\S]*?(?=")/
+			let regex_bpm = /(?<="bpm": ")[\s\S]*?(?=")/
+			let regex_time_signature = /(?<="time_signature": ")[\s\S]*?(?=")/
+			let regex_composer = /(?<="composer": ")[\s\S]*?(?=")/
+			let regex_arranger = /(?<="arranger": ")[\s\S]*?(?=")/
+			let regex_notes = /(?<="notes": ")[\s\S]*?(?=")/
+
+			let regex_blank_1 = /[\\\\n]{1}/g
+			let regex_blank_2 = /[\\\\n]{2}/g
+			try {
+				// 歌曲名
+				music_msg_dic["name"] = file_text.match(regex_name)[0];
+				// 录谱人
+				music_msg_dic["author"] = file_text.match(regex_author)[0];
+				// 乐器
+				music_msg_dic["instrument"] = file_text.match(regex_instrument)[0];
+				// 描述
+				music_msg_dic["description"] = file_text.match(regex_description)[0];
+				// 歌曲BPM
+				music_msg_dic["bpm"] = file_text.match(regex_bpm)[0];
+				// 拍号
+				music_msg_dic["time_signature"] = file_text.match(regex_time_signature)[0];
+				// 曲师
+				music_msg_dic["composer"] = file_text.match(regex_composer)[0];
+				// 谱师
+				music_msg_dic["arranger"] = file_text.match(regex_arranger)[0];
+				// 曲谱内容(删除换行符)
+				music_msg_dic["notes"] = file_text.match(regex_notes)[0].replace(regex_blank_2, "\n").replace(regex_blank_1, "");
+				
+			} catch(error) {
+				alert(`曲谱解析错误：${error}\n请检查曲谱文件格式是否正确`);
+				return null;
+			}
+			
+			return music_msg_dic;
+			
+		}
+    </script>
+</body>
+</html>

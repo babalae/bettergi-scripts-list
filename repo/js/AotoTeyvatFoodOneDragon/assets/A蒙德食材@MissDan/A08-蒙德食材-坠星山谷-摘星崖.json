@@ -1,0 +1,229 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759339657283,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A08-蒙德食材-坠星山谷-摘星崖",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1505.5762,
+      "y": 2296.5393
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1496.2227,
+      "y": 2290.2388
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1463.459,
+      "y": 2291.5527
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1458.4277,
+      "y": 2285.1182
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1457.25,
+      "y": 2282.3164
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1467.6836,
+      "y": 2280.2163
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1467.834,
+      "y": 2286.3552
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1462.5391,
+      "y": 2322.2905
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1463.5117,
+      "y": 2324.0059
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1428.5625,
+      "y": 2349.5132
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1429.0918,
+      "y": 2321.7686
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1409.8438,
+      "y": 2313.3193
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1382.8398,
+      "y": 2278.8711
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1381.6484,
+      "y": 2277.1687
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1385.6445,
+      "y": 2266.3691
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1382.2266,
+      "y": 2254.3433
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.8)",
+      "id": 17,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1364.2852,
+      "y": 2271.5913
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1505.5781,
+      "y": 2296.542
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1501.3359,
+      "y": 2241.1941
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -1493.5137,
+      "y": 2169.7373
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1487.1562,
+      "y": 2171.3069
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1511.2148,
+      "y": 2186.0847
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1513.0645,
+      "y": 2186.9617
+    }
+  ]
+}

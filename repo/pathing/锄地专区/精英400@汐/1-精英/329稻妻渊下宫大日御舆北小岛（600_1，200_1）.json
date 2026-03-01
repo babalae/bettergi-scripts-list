@@ -1,0 +1,105 @@
+{
+  "info": {
+    "name": "329稻妻渊下宫大日御舆北小岛（600_1，200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时101.25秒，包含2只精英与8只小怪，预计收入1124摩拉，包含以下怪物：2只丘丘人、4只打手丘丘人、2只射手丘丘人、1只木盾丘丘暴徒、1只丘丘岩盔王。",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "tags": [],
+    "last_modified_time": 1754760395806,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 282.83,
+      "y": 421.01,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 246.56,
+      "y": 416.19,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 253.04,
+      "y": 431.06,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 245.06,
+      "y": 453.56,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 243.5,
+      "y": 458.75,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 252.69,
+      "y": 484.62,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 270.3434,
+      "y": 589.0807,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 279.0967,
+      "y": 616.9585,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 279.0967,
+      "y": 616.9585,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+[
+  {
+    "name": "music_start",
+    "type": "input-text",
+    "label": "定时启动时间（示例 19:19:10 默认：不启用）"
+  },
+  {
+    "name": "type_select",
+    "type": "select",
+    "label": "播放模式（默认：单曲单次执行）",
+    "options": [
+      "单曲单次执行",
+      "单曲循环",
+      "队列单次执行",
+      "队列循环"
+    ]
+  },
+  {
+    "name": "music_selector",
+    "type": "select",
+    "label": "选择乐曲（单曲模式中有效）",
+    "options": [
+      "0001.小星星",
+      "0002.小星星变奏曲",
+      "0003.Unknown Mother Goose [アンノウン・マザーグース]",
+      "0004.铃芽之旅[Suzume]",
+      "0005.Flower Dance",
+      "0006.起风了",
+      "0007.千本樱 (Eric Chen)",
+      "0008.春よ、来い（春天，来吧）",
+      "0009.One Last Kiss",
+      "0010.卡农(MIDI转谱)",
+      "0011.圆号卡农",
+      "0012.悠可琴千本樱",
+      "0013.Counting Stars",
+      "0014.Bad Apple",
+      "0015.Bad Apple!!",
+      "0016.我期待的不是雪，而是有你的冬天",
+      "0017.Nod-Krai",
+      "0018.蒲公英的约定",
+      "0019.枫",
+      "0020.大石碎胸口 ver. “一阵强劲的音乐”",
+      "0021.ClockParadox_Drop2",
+      "0022.DAMIDAMI"
+    ]
+  },
+  {
+    "name": "music_queue",
+    "type": "input-text",
+    "label": "队列执行（填写数字[乐曲前的序号]，空格隔开，不填默认不启用）"
+  },
+  {
+    "name": "music_interval",
+    "type": "input-text",
+    "label": "队列内间隔时间（单位：s, 队列模式中有效）"
+  },
+  {
+    "name": "music_repeat",
+    "type": "input-text",
+    "label": "循环执行次数（值为0时无限循环 默认：1）"
+  },
+  {
+    "name": "repeat_interval",
+    "type": "input-text",
+    "label": "循环间隔时间（单位：s, 循环模式下生效，默认：0s）"
+  },
+  {
+    "name": "debug_mode",
+    "type": "select",
+    "label": "调试模式（默认：禁用）",
+    "options": [
+      "禁用",
+      "启用"
+    ]
+  }
+]

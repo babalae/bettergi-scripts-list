@@ -1,0 +1,89 @@
+{
+  "info": {
+    "name": "原海异种26-伊黎耶林区南09",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3957.5,
+      "y": 2878.63,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3936.5,
+      "y": 2874.0,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3901.25,
+      "y": 2845.81,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3898.44,
+      "y": 2841.44,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": 3907.0,
+      "y": 2830.57,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3929.0,
+      "y": 2812.25,
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3992.5,
+      "y": 2806.24,
+      "action": "",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "action": "fight",
+      "move_mode": "climb",
+      "type": "target",
+      "x": 4027.75,
+      "y": 2764.02,
+      "action_params": ""
+    }
+  ]
+}

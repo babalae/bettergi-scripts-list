@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "稻妻-垂钓点-清籁岛越石村东南",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.2",
+    "description": "地区: 稻妻\n类型: 垂钓点\n详细位置: 清籁岛越石村东南\n鱼类: 琉璃花鳉、肺棘鱼、赤魔王、金赤假龙、锖假龙、流纹京紫蝶鱼\n饵类: 果酿饵、赤糜饵、蠕虫假饵、飞蝇假饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4023.3,
+      "y": -4428.84,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4032.28,
+      "y": -4430.06,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4052.24,
+      "y": -4439.89,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4057.28,
+      "y": -4437.1,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

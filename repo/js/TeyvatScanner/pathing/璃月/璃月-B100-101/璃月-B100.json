@@ -1,0 +1,49 @@
+﻿{
+  "info": {
+    "name": "璃月-B100",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754144831422,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 828.50390625,
+      "y": -583.138671875,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 840.9755859375,
+      "y": -566.08251953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 893.4326171875,
+      "y": -476.70166015625,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "3000"
+    }
+  ]
+}

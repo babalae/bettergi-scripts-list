@@ -1,0 +1,84 @@
+{
+  "info": {
+    "name": "蒙德-垂钓点-明冠山地风龙废墟北",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.2",
+    "description": "地区: 蒙德\n类型: 垂钓点\n详细位置: 明冠山地风龙废墟北\n鱼类: 花鳉、蓝染花鳉、擒霞客、水晶宴\n饵类: 果酿饵\n附加信息: 战斗",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 265.65,
+      "y": 2914.79,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 195.72,
+      "y": 2919.42,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 126.32,
+      "y": 2909.81,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 77.14,
+      "y": 2925.38,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 56.73,
+      "y": 2905.74,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 56.18,
+      "y": 2897.43,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 55.63,
+      "y": 2891.88,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 59.92,
+      "y": 2889.84,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

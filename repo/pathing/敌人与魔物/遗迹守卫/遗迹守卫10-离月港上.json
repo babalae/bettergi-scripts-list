@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "遗迹守卫10-离月港上",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "san"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 26.89,
+      "y": -128.14
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 55.9,
+      "y": -128.14
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 70.91,
+      "y": -87.12
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": 87.42,
+      "y": -68.11
+    }
+  ]
+}

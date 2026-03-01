@@ -1,0 +1,73 @@
+[
+  {
+    "name": "runMode",
+    "type": "select",
+    "label": "运行模式",
+    "options": [
+      "营养袋模式",
+      "筛选模式",
+      "综合模式"
+    ],
+    "default": "营养袋模式"
+  },
+  {
+    "name": "initSelect",
+    "type": "checkbox",
+    "label": "重新初始化药品数量",
+    "default": false
+  },
+    {
+    "name": "recoveryFoodName",
+    "type": "input-text",
+    "label": "回血药名称",
+    "default": ""
+  },
+  {
+    "name": "resurrectionFoodName",
+    "type": "input-text",
+    "label": "复活药名称",
+    "default": ""
+  },
+  {
+    "name": "attackFoodName",
+    "type": "input-text",
+    "label": "攻击药名称",
+    "default": ""
+  },
+  {
+    "name": "defenseFoodName",
+    "type": "input-text",
+    "label": "防御药名称",
+    "default": ""
+  },
+  {
+    "name": "otherFoodName",
+    "type": "input-text",
+    "label": "其他药名称",
+    "default": ""
+  },
+  {
+    "name": "userName",
+    "type": "input-text",
+    "label": "账户名称\n用于多账户运行时区分不同账户",
+    "default": "默认账户"
+  },
+  {
+    "name": "refreshTime",
+    "type": "input-text",
+    "label": "每日刷新时间\n用来定义当日刷新时间（0-24之间，支持一位小数）",
+    "default": "4.0"
+  },
+  {
+    "name": "loadDelay",
+    "type": "input-text",
+    "label": "加载等待延迟\n用于界面打开和切换的等待（默认800，单位毫秒）",
+    "default": "800"
+  },
+  {
+    "name": "stepDelay",
+    "type": "input-text",
+    "label": "操作间隔延迟\n用于OCR前和输入药名前的短暂等待（默认500，单位毫秒）",
+    "default": "500"
+  }
+]

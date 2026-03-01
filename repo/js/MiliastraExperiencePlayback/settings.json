@@ -1,0 +1,92 @@
+[
+  {
+    "type": "input-text",
+    "name": "room",
+    "label": "每周奇域关卡关键词或关卡GUID",
+    "default": "20031486040"
+  },
+  {
+    "type": "input-text",
+    "name": "playbacks",
+    "label": "每周通关回放文件随机池（逗号分隔）",
+    "default": "美景音乐播放器结算.json"
+  },
+  {
+    "type": "input-text",
+    "name": "expPerAttempt",
+    "label": "每次通关获取的经验值（如果勾选删除关卡存档，每个成就加额外50经验值）",
+    "default": "20"
+  },
+  {
+    "type": "checkbox",
+    "name": "deleteStageSave",
+    "label": "删除关卡存档（可重复达成成就，获取更多经验值）",
+    "default": false
+  },
+  {
+    "type": "input-text",
+    "name": "deleteStageSaveKeyword",
+    "label": "删除关卡存档查找关键字",
+    "default": "音乐播放"
+  },
+  {
+    "type": "input-text",
+    "name": "expWeeklyLimit",
+    "label": "每周可获取的经验值上限",
+    "default": "4000"
+  },
+  {
+    "type": "checkbox",
+    "name": "force",
+    "label": "忽略本周经验值已达上限",
+    "default": false
+  },
+  {
+    "type": "input-text",
+    "name": "thisAttempts",
+    "label": "每周指定通关次数（0表示自动判断）",
+    "default": "0"
+  },
+  {
+    "type": "checkbox",
+    "name": "dailyEnabled",
+    "label": "执行每日通关任务",
+    "default": false
+  },
+  {
+    "type": "input-text",
+    "name": "dailyRooms",
+    "label": "每日奇域关卡关键词或关卡GUID（逗号分隔）",
+    "default": "24429042323,28644538672"
+  },
+  {
+    "type": "input-text",
+    "name": "dailyPlaybacks",
+    "label": "每日通关回放文件随机池（同一关卡逗号分隔，不同关卡分号分隔）",
+    "default": "通关回放1.json,通关回放2.json;40秒按1通关.json"
+  },
+  {
+    "type": "input-text",
+    "name": "dailyLimit",
+    "label": "每日单个关卡通关上限",
+    "default": "1"
+  },
+  {
+    "type": "checkbox",
+    "name": "dailyForce",
+    "label": "忽略每日单个关卡通关上限",
+    "default": false
+  },
+  {
+    "type": "checkbox",
+    "name": "closeStageDialog",
+    "label": "执行通关回放前关闭游戏说明对话框",
+    "default": true
+  },
+  {
+    "type": "checkbox",
+    "name": "goToTeyvat",
+    "label": "完成后返回提瓦特大陆",
+    "default": true
+  }
+]

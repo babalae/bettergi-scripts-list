@@ -1,0 +1,22 @@
+{
+  "manifest_version": 1,
+  "name": "自动配置圣遗物锁定方案",
+  "version": "1.0.0",
+  "bgi_version": "0.56.2",
+  "description": "自动配置圣遗物锁定方案，方案来源于 哔哩哔哩 @酸儒书生 https://www.bilibili.com/video/BV13YHQzMEAT",
+  "authors": [
+    {
+      "name": "bling-yshs",
+      "link": "https://github.com/bling-yshs"
+    },
+    {
+      "name": "Bedrockx",
+      "link": "https://github.com/Bedrockx"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "library": [
+    "."
+  ]
+}

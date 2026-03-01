@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个甜甜花；4个鸟蛋；1个蘑菇；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762328790414,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A02-3-蒙德食材-坠星山谷-蒙德城",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -749.4385,
+      "y": 2263.0662
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -881.8145,
+      "y": 2287.7991
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -889.5107,
+      "y": 2294.2202
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -925.1133,
+      "y": 2308.9734
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -938.8652,
+      "y": 2321.5217
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -941.8594,
+      "y": 2327.5745
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.2),j,wait(0.2),attack(2),wait(1),keyup(w)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -945.9062,
+      "y": 2333.0938
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -948.7812,
+      "y": 2337.8125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -946.041,
+      "y": 2333.2083
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -953.5898,
+      "y": 2320.3054
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758655256750,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B44-萃凝晶-纳塔-奥奇卡纳塔2（战斗-4个）",
+    "tags": [
+      "双手剑",
+      "精英怪"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9875.59,
+      "y": -401.05
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9883.83,
+      "y": -432.98
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9905.98,
+      "y": -424.45
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9908.11,
+      "y": -398.69
+    },
+    {
+      "action": "combat_script",
+      "action_params": "茜特菈莉 e;莱依拉 e;芙宁娜 e;爱可菲 e;伊涅芙 e;玛薇卡 e;",
+      "id": 5,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9900.5293,
+      "y": -363.6421
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9900.5293,
+      "y": -363.6421
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9902.96,
+      "y": -355.22
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9902.96,
+      "y": -355.22
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9907.87,
+      "y": -359.16
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9907.45,
+      "y": -355.1
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9907.45,
+      "y": -355.1
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9908.24,
+      "y": -359.08
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9909.52,
+      "y": -356.25
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9909.52,
+      "y": -356.25
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9909.52,
+      "y": -356.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9910.23,
+      "y": -360.21
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9911.98,
+      "y": -357.19
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9911.98,
+      "y": -357.19
+    }
+  ]
+}

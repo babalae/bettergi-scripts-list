@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "须弥-禽肉-上风蚀地荼诃落谷-1个-战斗3肉1",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4470.716796875,
+      "y": -2915.3251953125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4443.7099609375,
+      "y": -2906.587890625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4419.38427734375,
+      "y": -2903.595703125,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(space),wait(2),attack(0.1),wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4419.38427734375,
+      "y": -2903.595703125,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4419.9060239300725,
+      "y": -2911.4705454504438,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 4417.9374909572025,
+      "y": -2897.810799046949,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 4424.999195191058,
+      "y": -2902.687405502609,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 4412.4382957661455,
+      "y": -2905.3439232452183,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

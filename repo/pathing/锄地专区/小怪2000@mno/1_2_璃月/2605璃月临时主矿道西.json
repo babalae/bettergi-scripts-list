@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "2605璃月临时主矿道西",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时106.57秒，包含6只小怪，预计收入364.5摩拉，包含以下怪物：3只水史莱姆、2只大型水史莱姆、1只大型岩史莱姆。",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 895.65,
+      "y": 1020.93,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 886.85,
+      "y": 1017.52,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 861.67,
+      "y": 986.78,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1500"
+    },
+    {
+      "id": 4,
+      "x": 823.2,
+      "y": 989.5,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 787.54,
+      "y": 998.94,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "3000"
+    },
+    {
+      "id": 6,
+      "x": 774.55,
+      "y": 1015.54,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 743.25,
+      "y": 1022.19,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 736.65,
+      "y": 1024.88,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 736.65,
+      "y": 1024.88,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 712.43,
+      "y": 1042.07,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 694.76,
+      "y": 1048.82,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 669,
+      "y": 1044.91,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

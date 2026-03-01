@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "荒岛朝圣指南_路线1",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750597203971,
+    "authors": [
+      {
+        "name": "花见木易",
+        "links": "https://github.com/Flower-MUYi"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2215.94,
+      "y": -3709.56,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2212.09,
+      "y": -3725.08,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -2191.94,
+      "y": -3739.24,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -2184.93,
+      "y": -3751.54,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -2190.59,
+      "y": -3765.37,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -2188.56,
+      "y": -3768.19,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -2187.88,
+      "y": -3794.43,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -2190.62,
+      "y": -3795.34,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f)",
+      "type": "target"
+    }
+  ]
+}

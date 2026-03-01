@@ -1,0 +1,104 @@
+{
+  "info": {
+    "name": "C01-枫丹动能工程科学研究院区左侧-8个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.50.0",
+    "tags": [],
+    "last_modified_time": 1755602367251,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4139.5078,
+      "y": 4547.2334,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4196.1191,
+      "y": 4505.5938,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keydown(VK_LCONTROL);wait(8);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,571)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4196.1191,
+      "y": 4505.5938,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4199.332,
+      "y": 4504.5293,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4196.1191,
+      "y": 4505.5938,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_SPACE);wait(8);keyup(VK_SPACE);click(middle);wait(0.5);moveby(0,571)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 4196.1191,
+      "y": 4505.5938,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL);wait(1);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,571)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4261.2539,
+      "y": 4516.5327,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keydown(VK_LCONTROL);wait(2);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,571)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4261.2539,
+      "y": 4516.5327,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4263.8066,
+      "y": 4520.332,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

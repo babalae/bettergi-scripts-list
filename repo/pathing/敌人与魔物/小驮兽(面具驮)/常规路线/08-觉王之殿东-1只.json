@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "08-觉王之殿东-1只",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "jay",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "驮兽",
+      "丘丘面具",
+      "兽肉",
+      "小驮兽"
+    ],
+    "last_modified_time": 1754659135418,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3253.1055,
+      "y": -591.0059,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3217.6123,
+      "y": -545.8394,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3174.8398,
+      "y": -501.6548,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

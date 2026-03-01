@@ -1,0 +1,97 @@
+{
+  "info": {
+    "name": "遗迹守卫13",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "XS",
+        "links": "https://github.com/xwsqy6"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1045.52,
+      "y": 950.58
+    },
+    {
+      "id": 2,
+      "x": 1058.1,
+      "y": 959.7,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 1088.75,
+      "y": 983.0,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 1094.48,
+      "y": 970.66,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 1076.13,
+      "y": 975.7,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 1079.26,
+      "y": 984.48,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 1110.36,
+      "y": 981.87,
+      "type": "target",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": 1108.82,
+      "y": 1000.32,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": 1113.07,
+      "y": 1007.28,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 10,
+      "x": 1117.46,
+      "y": 1016.88,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight"
+    }
+  ]
+}

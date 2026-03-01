@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "A11-甜甜花-蒙德-摘星崖-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "甜甜花",
+      "低效"
+    ],
+    "last_modified_time": 1748837686509,
+    "authors": [
+      {
+        "name": "ddaodan",
+        "links": "https://github.com/ddaodan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1558.51,
+      "y": 2497.75,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1573.06,
+      "y": 2510.49,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1614.19,
+      "y": 2563.84,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1624.13,
+      "y": 2589.19,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1632.15,
+      "y": 2606.79,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    }
+  ]
+}

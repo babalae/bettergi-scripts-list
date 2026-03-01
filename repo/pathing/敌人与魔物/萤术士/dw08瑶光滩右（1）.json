@@ -1,0 +1,55 @@
+{
+  "info": {
+    "name": "dw08瑶光滩右（1）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "下流山汉",
+        "links": "https://github.com/vulgar-rustic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -474.06,
+      "y": 441.54,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": -451.39,
+      "y": 438.13,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -434.29,
+      "y": 426.69,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -427.56,
+      "y": 406.85,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": "",
+      "locked": true
+    }
+  ]
+}

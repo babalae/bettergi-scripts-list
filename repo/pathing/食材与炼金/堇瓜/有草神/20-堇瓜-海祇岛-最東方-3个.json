@@ -1,0 +1,50 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756147248488,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "20-堇瓜-海祇岛-最東方-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1314.8809,
+      "y": -3775.8828
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1335.5391,
+      "y": -3767.6221
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1335.5391,
+      "y": -3767.6221
+    }
+  ]
+}

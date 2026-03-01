@@ -1,0 +1,94 @@
+[
+  {
+    "name": "notice",
+    "type": "checkbox",
+    "label": "通过BGI通知系统发送详细通知"
+  },
+  {
+    "name": "model",
+    "type": "select",
+    "label": "模式选择（默认：模式一）\n【模式一】自动模式：\n自动选择数量最多的矿石锻造\n【模式二】手动模式：\n依次按照矿石定义顺序尝试\n注:模式一可能会因OCR识别数量不准导致选择错误",
+    "options": [
+      "模式一",
+      "模式二"
+    ],
+    "default": "模式一"
+  },
+  {
+    "name": "smithyName",
+    "type": "select",
+    "label": "铁匠铺地区选择（默认：蒙德铁匠铺）",
+    "options": [
+      "蒙德铁匠铺",
+      "璃月铁匠铺",
+      "稻妻铁匠铺",
+      "须弥铁匠铺",
+      "枫丹铁匠铺",
+      "纳塔铁匠铺",
+      "挪德卡莱铁匠铺"
+    ],
+    "default": "蒙德铁匠铺"
+  },
+  {
+    "name": "forgedOrNot",
+    "type": "select",
+    "label": "是否进行锻造（默认：是）\n可用于仅领取锻造",
+    "options": [
+      "是",
+      "否"
+    ],
+    "default": "是"
+  },
+  {
+    "name": "CondessenceCrystal",
+    "type": "select",
+    "label": "【锻造用矿排序】\n1.当矿石未能识别或处于模式二时，按照定义顺序使用\n2.设置为0的矿石自动排除\n3.相同排序时，按照定义框从上至下优先\n\n萃凝晶",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "default": "1"
+  },
+  {
+    "name": "CrystalChunk",
+    "type": "select",
+    "label": "水晶块",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "default": "2"
+  },
+  {
+    "name": "AmethystLump",
+    "type": "select",
+    "label": "紫晶块",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "default": "3"
+  },
+  {
+    "name": "RainbowdropCrystal",
+    "type": "select",
+    "label": "虹滴晶",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "default": "4"
+  }
+]

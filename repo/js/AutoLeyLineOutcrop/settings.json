@@ -1,0 +1,97 @@
+[
+    {
+        "name": "start",
+        "type": "checkbox",
+        "label": "请仔细阅读脚本介绍，并进行配置后勾选此项\n不勾选脚本不会运行！"
+    },
+    {
+        "name": "leyLineOutcropType",
+        "type": "select",
+        "label": "地脉花类型",
+        "options": [
+            "蓝花（经验书）",
+            "黄花（摩拉）"
+        ]
+    },
+    {
+        "name": "country",
+        "type": "select",
+        "label": "国家（璃月和须弥路线不完整，仅供测试，不推荐使用）",
+        "options": [
+            "蒙德",
+            "璃月",
+            "稻妻",
+            "须弥",
+            "枫丹",
+            "纳塔",
+            "挪德卡莱"
+        ],
+        "default": "稻妻"
+    },
+    {
+        "name": "isResinExhaustionMode",
+        "type": "checkbox",
+        "label": "树脂耗尽模式\n开启后会自动统计所有可用树脂并计算可刷取次数，替换上方设置的刷取次数\n注意：请同时设置树脂刷取次数，将在统计失败时使用"
+    },
+    {
+        "name": "openModeCountMin",
+        "type": "checkbox",
+        "label": "刷取次数取小值\n开启后树脂耗尽模式中计算可刷取次数，和上方设置的刷取次数取小值"
+    },
+    {
+        "name": "count",
+        "type": "input-text",
+        "label": "刷取次数，默认6次",
+        "default": "6"
+    },
+    {
+        "name": "useTransientResin",
+        "type": "checkbox",
+        "label": "是否使用须臾树脂\n开启后会在原粹/浓缩树脂用完后使用",
+        "default": false
+    },
+    {
+        "name": "useFragileResin",
+        "type": "checkbox",
+        "label": "是否使用脆弱树脂\n开启后会在其他树脂用完后使用",
+        "default": false
+    },
+    {
+        "name": "team",
+        "type": "input-text",
+        "label": "战斗的队伍名称，不填表示不切换队伍"
+    },
+    {
+       "name": "friendshipTeam",
+       "type": "input-text",
+       "label": "好感队名称，不填表示不切换好感队" 
+    },
+    {
+        "name": "timeout",
+        "type": "input-text",
+        "label": "战斗超时时间，单位秒，默认120秒",
+        "default": 120
+    },
+    {
+        "name": "useAdventurerHandbook",
+        "type": "checkbox",
+        "label": "是否使用冒险之证寻找地脉花"
+    },
+    {
+        "name": "isNotification",
+        "type": "checkbox",
+        "label": "通过BGI通知系统发送详细通知"
+    },
+    {
+        "name": "oneDragonMode",
+        "type": "checkbox",
+        "label": "一条龙模式\n开启后，会跳过开始的前往七天神像以及强制更新"
+    },
+    {
+            "name": "isGoToSynthesizer",
+            "type": "select",
+            "label": "是否前往合成台合成浓缩树脂\n 体力大于40时自动合成浓缩树脂【开发中】"
+    }
+]
+  
+

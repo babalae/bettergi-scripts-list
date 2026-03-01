@@ -1,0 +1,292 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756803342994,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A01-塞洛海原左侧-18个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4399.8887,
+      "y": 3083.4065
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,1200)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4399.8887,
+      "y": 3083.4065
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(4);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,571)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4477.4199,
+      "y": 3114.6396
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4476.333,
+      "y": 3103.3193
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4481.5322,
+      "y": 3111.4409
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4484.3672,
+      "y": 3108.5674
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4491.1348,
+      "y": 3097.4766
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4481.9648,
+      "y": 3090.6875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4502.1953,
+      "y": 3080.0454
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4507.3652,
+      "y": 3074.1094
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4510.9668,
+      "y": 3072.9368
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4513.9141,
+      "y": 3067.6709
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4516.5361,
+      "y": 3069.4956
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4540.6553,
+      "y": 3026.4861
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4593.5654,
+      "y": 3004.2424
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(3);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,571)",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4627.4668,
+      "y": 2969.4814
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4624.5947,
+      "y": 2974.554
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4622.1484,
+      "y": 2981.8909
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4620.2129,
+      "y": 2984.3042
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4615.9268,
+      "y": 2985.0776
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4607.6074,
+      "y": 2978.688
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4606.2598,
+      "y": 2974.8992
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4616.2969,
+      "y": 2991.1121
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4615.9043,
+      "y": 2997.7466
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4612.542,
+      "y": 3000.5469
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4587.5977,
+      "y": 2990.405
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4579.2441,
+      "y": 2986.7927
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4584.9785,
+      "y": 2971.449
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 29,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4589.2754,
+      "y": 2957.5657
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 30,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4588.0762,
+      "y": 2951.8062
+    }
+  ]
+}

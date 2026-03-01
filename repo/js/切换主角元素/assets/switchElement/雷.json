@@ -1,0 +1,33 @@
+{
+  "info": {
+    "name": "雷",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751302521509
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3233.314453125,
+      "y": -3534.126953125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -3237.7265625,
+      "y": -3533.8779296875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(w); 荧 attack,wait(2),keypress(f); 空 attack,wait(2),keypress(f);"
+    }
+  ]
+}

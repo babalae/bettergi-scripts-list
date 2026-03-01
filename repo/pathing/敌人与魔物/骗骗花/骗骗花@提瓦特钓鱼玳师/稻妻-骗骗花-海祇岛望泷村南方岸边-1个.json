@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "稻妻-骗骗花-海祇岛望泷村南方岸边-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-1个\n稻妻-海祇岛望泷村南方岸边\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -758.02,
+      "y": -3999.8,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -752.01,
+      "y": -4010.68,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -774.87,
+      "y": -4054.82,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -813.65,
+      "y": -4111.52,
+      "type": "target",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": -813.65,
+      "y": -4111.52,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

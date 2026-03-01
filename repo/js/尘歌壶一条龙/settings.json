@@ -1,0 +1,68 @@
+[
+    {
+        "name": "route",
+        "type": "input-text",
+        "label": "进入尘歌壶以后寻找阿圆的路径\n填写规则：方向键+空格+时间(单位：毫秒)\n多个路径用英文逗号隔开，示例：A 1800,S 1300\n示例配套洞天摹数81708444664"
+    },
+    {
+        "name": "itemsToBuy",
+        "type": "input-text",
+        "label": "想要购买的物品名称，支持只填写部分文字\n多个物品用英文逗号隔开，例如：祝圣精华,树脂"
+    },
+    {
+        "name": "forgingRoute",
+        "type": "input-text",
+        "label": "锻造路径(格式同上)，示例：D 2000"
+    },
+    {
+        "name": "cookingRoute",
+        "type": "input-text",
+        "label": "烹饪路径(格式同上)，示例：W 1000"
+    },
+    {
+        "name": "skipCharacterReward",
+        "type": "checkbox",
+        "label": "不领取角色好感(注意是不领取)"
+    },
+    {
+        "name": "skipTreasureReward",
+        "type": "checkbox",
+        "label": "不领取洞天宝钱(注意是不领取)"
+    },
+    {
+        "name": "execute_Week",
+        "type": "multi-checkbox",
+        "label": "指定星期几运行",
+        "default": [
+            "星期一",
+            "星期三",
+            "星期六"
+        ],
+        "options": [
+            "星期一",
+            "星期二",
+            "星期三",
+            "星期四",
+            "星期五",
+            "星期六",
+            "星期日"
+        ]
+    },
+    {
+        "name": "exchange_Week",
+        "type": "multi-checkbox",
+        "label": "额外流程\n指定在星期几 购买物品、烹饪、锻造",
+        "default": [
+            "星期一"
+        ],
+        "options": [
+            "星期一",
+            "星期二",
+            "星期三",
+            "星期四",
+            "星期五",
+            "星期六",
+            "星期日"
+        ]
+    }
+]

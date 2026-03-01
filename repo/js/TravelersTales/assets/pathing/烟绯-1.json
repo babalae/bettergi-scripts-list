@@ -1,0 +1,71 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759897582501,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "烟绯-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9537.4365234375,
+      "y": 1637.353515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9528.9501953125,
+      "y": 1624.15380859375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2500",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9509.81640625,
+      "y": 1602.8623046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9517.0302734375,
+      "y": 1606.2509765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9514.166015625,
+      "y": 1612.10302734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9513.4990234375,
+      "y": 1613.81201171875
+    }
+  ]
+}

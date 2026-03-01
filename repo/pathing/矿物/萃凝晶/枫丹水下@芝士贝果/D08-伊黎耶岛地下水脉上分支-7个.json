@@ -1,0 +1,247 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756805669889,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D08-伊黎耶岛地下水脉上分支-7个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3344.5205,
+      "y": 3903.5728
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3348.7295,
+      "y": 3948.8948
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3340.1211,
+      "y": 3987.2244
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3339.8379,
+      "y": 4010.7634
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3315.8555,
+      "y": 4040.5232
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 3317.4834,
+      "y": 4051.6174
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3319.6973,
+      "y": 4063.1553
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3309.8389,
+      "y": 4074.8201
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3310.3477,
+      "y": 4091.6738
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3299.1201,
+      "y": 4101.1104
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(4);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,1400)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3283.292,
+      "y": 4109.7959
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3272.7422,
+      "y": 4109.978
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3245.2109,
+      "y": 4066.8418
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3227.9873,
+      "y": 4060.3435
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle);wait(0.5);moveby(0,850)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3222.3516,
+      "y": 4048.9944
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack;keydown(VK_LCONTROL);wait(5);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,1400)",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3209.3037,
+      "y": 4032.8623
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3217.957,
+      "y": 4037.9763
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e,wait(0.5);e;wait(0.5)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3221.8945,
+      "y": 4037.2917
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3183.6064,
+      "y": 4034.3215
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3177.6982,
+      "y": 4005.2783
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e,wait(0.5);e;wait(0.5)",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3180.167,
+      "y": 3998.7666
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3182.1523,
+      "y": 4001.3882
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3156.1406,
+      "y": 3992.1829
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3160.7832,
+      "y": 3975.9067
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e,wait(0.5);e;wait(0.5)",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3162.3096,
+      "y": 3970.7124
+    }
+  ]
+}

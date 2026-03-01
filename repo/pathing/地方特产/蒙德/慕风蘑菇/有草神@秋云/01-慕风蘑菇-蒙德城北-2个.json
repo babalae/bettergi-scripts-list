@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "01-慕风蘑菇-蒙德城北-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "秋云",
+        "links": "https://github.com/physligl"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -747.34,
+      "y": 2260.17,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -848.24,
+      "y": 2339.5,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -848.24,
+      "y": 2339.5,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(X)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -848.24,
+      "y": 2339.5,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "稻妻-飘浮灵-海祇岛望泷村南-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "飘浮灵-2个\n稻妻-海祇岛望泷村南",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -755.58,
+      "y": -4001.08,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -752.68,
+      "y": -4011.0,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -773.27,
+      "y": -4053.43,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -789.89,
+      "y": -4074.93,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -837.28,
+      "y": -4079.26,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -836.44,
+      "y": -4085.17,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

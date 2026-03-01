@@ -1,0 +1,80 @@
+{
+  "info": {
+    "name": "原海异种37-厄里那斯08",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4744.88,
+      "y": 2631.98,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4741.88,
+      "y": 2635.0,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4712.5,
+      "y": 2572.5,
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 4653.49,
+      "y": 2496.84,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4669.25,
+      "y": 2484.35,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4603.99,
+      "y": 2519.59,
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4605.0,
+      "y": 2594.77,
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "info": {
+    "name": "B13-日落果-璃月-明蕴镇中",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ],
+    "version": "1.0",
+    "description": "带万叶采集",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754735337808,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -188.25,
+      "y": 972.7305,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -171.5996,
+      "y": 960.4463,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -175.1396,
+      "y": 921.3501,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -169.2305,
+      "y": 900.229,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -177.9268,
+      "y": 873.8271,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -170.1243,
+      "y": 872.6796,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -160.8701,
+      "y": 873.8677,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(0.2),e(hold),attack,wait(2)"
+    },
+    {
+      "id": 8,
+      "x": -169.1249,
+      "y": 855.6334,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -218.1943,
+      "y": 861.918,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(0.5),e(hold),attack,wait(2)"
+    }
+  ]
+}

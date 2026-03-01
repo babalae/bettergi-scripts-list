@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "诺艾尔-1",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -749.3984375,
+      "y": 2263.072509765625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -734.4404296875,
+      "y": 2259.92626953125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": -734.4404296875,
+      "y": 2259.92626953125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(6)"
+    },
+    {
+      "id": 4,
+      "x": -732.681640625,
+      "y": 2261.82177734375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": ""
+    }
+  ]
+}

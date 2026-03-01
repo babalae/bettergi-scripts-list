@@ -1,0 +1,195 @@
+{
+  "info": {
+    "name": "须弥-禽肉-上风蚀地丰饶绿洲东-3个-战斗3肉3",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4451.611328125,
+      "y": -2455.1572265625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4442.57421875,
+      "y": -2475.24609375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4441.68212890625,
+      "y": -2502.0302734375,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4442.40576171875,
+      "y": -2505.8486328125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4449.66943359375,
+      "y": -2505.6328125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4566.44384765625,
+      "y": -2532.634765625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 4566.44384765625,
+      "y": -2532.634765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 4571.0859375,
+      "y": -2531.3134765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 4570.4931640625,
+      "y": -2529.33203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 4561.62939453125,
+      "y": -2529.4912109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 4562.931640625,
+      "y": -2538.578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 4574.1337890625,
+      "y": -2539.8388671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 4643.2841796875,
+      "y": -2522.0341796875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(3)"
+    },
+    {
+      "id": 14,
+      "x": 4653.736328125,
+      "y": -2517.126953125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 4642.32470703125,
+      "y": -2513.3291015625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 16,
+      "x": 4642.32470703125,
+      "y": -2513.3291015625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 4643.224609375,
+      "y": -2514.5771484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": 4642.0439453125,
+      "y": -2511.7197265625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": 4656.2587890625,
+      "y": -2525.6455078125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(0.8),attack(0.1),wait(1)"
+    },
+    {
+      "id": 20,
+      "x": 4664.30615234375,
+      "y": -2527.2490234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
