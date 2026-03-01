@@ -102,7 +102,7 @@
       },
       {
         "targetState": "mainUI",
-        "action": "click(10, 10); while (!await findAndClick('assets/RecognitionObjects/Paimon.png', false, 200)) { await sleep(5000); click(10, 10); }"
+        "action": "click(10, 10); let attempts = 0; const maxAttempts = 30; while (!await findAndClick('assets/RecognitionObjects/Paimon.png', false, 200) && attempts < maxAttempts) { attempts++; await sleep(5000); click(10, 10); }"
       }
     ],
     "detection": {

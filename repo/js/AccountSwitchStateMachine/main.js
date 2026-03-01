@@ -208,7 +208,9 @@ let gameRegion = null;
                                 file.ReadImageMatSync('assets/RecognitionObjects/EnterAccount.png'),
                                 0, 0, 1920, 1080
                             );
-                            accountInputFound = captureGameRegion().find(checkRo).isExist();
+                            const tempRegion = captureGameRegion();
+                            accountInputFound = tempRegion.find(checkRo).isExist();
+                            tempRegion.dispose();
                             if (accountInputFound) {
                                 log.warn('账号输入框仍然存在，可能输入失败，重试');
                             } else {
@@ -236,7 +238,9 @@ let gameRegion = null;
                                 file.ReadImageMatSync('assets/RecognitionObjects/EnterPassword.png'),
                                 0, 0, 1920, 1080
                             );
-                            passwordInputFound = captureGameRegion().find(checkRo).isExist();
+                            const tempRegion = captureGameRegion();
+                            passwordInputFound = tempRegion.find(checkRo).isExist();
+                            tempRegion.dispose();
                             if (passwordInputFound) {
                                 log.warn('密码输入框仍然存在，可能输入失败，重试');
                             } else {
@@ -1024,15 +1028,20 @@ async function handleScreenshotMode() {
         
         // 捕获游戏画面
         gameRegion = captureGameRegion();
-        const mat = gameRegion.DeriveCrop(CAP_X, CAP_Y, CAP_W, CAP_H).SrcMat;
-        
-        // 保存路径
-        const TARGET_DIR = 'accounts';
-        const fullPath = TARGET_DIR + '/' + uidStr + '.png';
-        
-        // 保存图片
-        file.WriteImageSync(fullPath, mat);
-        mat.dispose();
+        try {
+            const mat = gameRegion.DeriveCrop(CAP_X, CAP_Y, CAP_W, CAP_H).SrcMat;
+            
+            // 保存路径
+            const TARGET_DIR = 'accounts';
+            const fullPath = TARGET_DIR + '/' + uidStr + '.png';
+            
+            // 保存图片
+            file.WriteImageSync(fullPath, mat);
+            mat.dispose();
+        } finally {
+            gameRegion.dispose();
+            gameRegion = null;
+        }
         
         log.info(`成功保存账号图片：${fullPath}`);
         notification.Send(`截图模式成功：已保存账号图片 ${uidStr}.png`);
