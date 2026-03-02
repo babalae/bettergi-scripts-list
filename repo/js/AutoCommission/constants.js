@@ -133,4 +133,10 @@ var Constants = {
   COMMISSION_COMPLETE_OCR_Y: 165,
   COMMISSION_COMPLETE_OCR_WIDTH: 170, // 1050 - 880
   COMMISSION_COMPLETE_OCR_HEIGHT: 45, // 210 - 165
+  
+  // 委托名称跟地点标准化匹配阈值（用 OCR结果 与 现有字符列表 对比，超过阈值则认为匹配）
+  MATCH_THRESHOLD: {
+    COMISSIONS_NAME: 0.6,
+    LOCATION: 0.6,
+  }
 };

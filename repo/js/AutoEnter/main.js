@@ -290,7 +290,9 @@ async function findAndClick(target, maxAttempts = 20) {
         try {
             const result = gameRegion.find(target);
             if (result.isExist) {
+                await sleep(50);
                 result.click();
+                await sleep(50);
                 return true;                 // 成功立刻返回
             }
             log.warn(`识别失败，第 ${attempts + 1} 次重试`);

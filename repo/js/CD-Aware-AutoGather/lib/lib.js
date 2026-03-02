@@ -736,6 +736,9 @@ async function waitTpFinish(timeout = 30000) {
 }
 
 function calculateDistance(point1, point2) {
+    if (point1 === null || point2 === null) {
+        return null;
+    }
     const deltaX = point1.x - point2.x;
     const deltaY = point1.y - point2.y;
     const distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));

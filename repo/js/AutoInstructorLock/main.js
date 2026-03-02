@@ -15,6 +15,7 @@
     await ClickPNG("reset");
     //筛选套装
     await ClickPNG("filterSet");
+    await sleep(200);
     moveMouseTo(400, 750);
     //开始寻找教官
     let attempts = 0;
@@ -102,7 +103,7 @@ async function findAndClick(target, maxAttempts = 20) {
         const rg = captureGameRegion();
         try {
             const res = rg.find(target);
-            if (res.isExist()) { await sleep(50); res.click(); return true; }
+            if (res.isExist()) { await sleep(50); res.click(); await sleep(50); return true; }
         } finally { rg.dispose(); }
         if (i < maxAttempts - 1) await sleep(50);
     }

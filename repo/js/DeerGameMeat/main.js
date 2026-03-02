@@ -11,16 +11,20 @@
     function checkRequiredCharacters() {
         const avatars = getAvatars();
         let hasLayla = false;
+        let hasColumbina = false;
         let hasKazuha = false;
 
         if (avatars && avatars.length > 1) {
             for (let i = 0; i < avatars.length; i++) {
                 if (avatars[i] === "菈乌玛") hasLayla = true;
+                if (avatars[i] === "哥伦比娅") hasColumbina = true;
                 if (avatars[i] === "枫原万叶") hasKazuha = true;
             }
 
-            if (!hasLayla || !hasKazuha) {
-                log.error(`队伍角色检查失败 - 菈乌玛:${hasLayla ? '✓' : '✗'} 枫原万叶:${hasKazuha ? '✓' : '✗'}`);
+            const hasOne = hasLayla || hasColumbina;
+
+            if (!hasOne || !hasKazuha) {
+                log.error(`队伍角色检查失败 - 菈乌玛或哥伦比娅:${hasOne ? '✓' : '✗'} 枫原万叶:${hasKazuha ? '✓' : '✗'}`);
                 return false;
             }
             return true;

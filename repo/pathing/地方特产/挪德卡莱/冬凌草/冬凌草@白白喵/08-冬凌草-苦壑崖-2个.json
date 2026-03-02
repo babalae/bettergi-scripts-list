@@ -1,0 +1,89 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.55.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769265953396,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "08-冬凌草-苦壑崖-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9960.9414,
+      "y": 6220.0283
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10016.874,
+      "y": 6214.5732
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10055.2246,
+      "y": 6180.8716
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10074.4512,
+      "y": 6190.4106
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.01)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10078.4258,
+      "y": 6191.9937
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.01)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10079.5703,
+      "y": 6190.2139
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10080.3477,
+      "y": 6189.2993
+    }
+  ]
+}

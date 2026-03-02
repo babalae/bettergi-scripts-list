@@ -983,7 +983,21 @@ if(afterStamina< 20) skipCheckStamina = 0;
                      else await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
                      log.info(`前往讨伐${bossName}`);
                      await pathingScript.runFile(`assets/goToBoss/${bossName}前往.json`);
-                     await sleep(1000);
+                 	 if(bossName=="超重型陆巡舰·机动战垒"){
+					 keyDown("w");
+					 await sleep(13000);
+					 keyUp("w");
+					 }
+					 else if(bossName=="深黯魇语之主"){
+					 keyDown("w");
+					 await sleep(2000);
+					 keyPress("VK_SPACE");
+					 await sleep(500);
+					 keyPress("VK_SPACE");
+					 await sleep(13000);
+					 keyUp("w");
+					 }
+                     await sleep(500);
                      log.info(`开始战斗`);
                      try {
                          await dispatcher.runTask(new SoloTask("AutoFight"));
@@ -992,6 +1006,20 @@ if(afterStamina< 20) skipCheckStamina = 0;
                          log.info(`挑战失败，再来一次`);
                          await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
                          await pathingScript.runFile(`assets/goToBoss/${bossName}前往.json`);
+                         if(bossName=="超重型陆巡舰·机动战垒"){
+					     keyDown("w");
+					     await sleep(13000);
+					     keyUp("w");
+					     }
+					     else if(bossName=="深黯魇语之主"){
+					     keyDown("w");
+					     await sleep(2000);
+					     keyPress("VK_SPACE");
+					     await sleep(500);
+					     keyPress("VK_SPACE");
+					     await sleep(13000);
+					     keyUp("w");
+					     }
                          await dispatcher.runTask(new SoloTask("AutoFight"));
                      }
                      await sleep(1000);
@@ -1123,5 +1151,6 @@ else log.info(`没有选择挑战首领${i+1}，跳过执行`);
 sendBufferedNotifications();//发送累积的完成信息
 
 })();
+
 
 

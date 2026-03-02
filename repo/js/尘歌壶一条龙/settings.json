@@ -12,12 +12,12 @@
     {
         "name": "forgingRoute",
         "type": "input-text",
-        "label": "锻造路径(格式同上)，示例：D 2000\n周一自动执行"
+        "label": "锻造路径(格式同上)，示例：D 2000"
     },
     {
         "name": "cookingRoute",
         "type": "input-text",
-        "label": "烹饪路径(格式同上)，示例：W 1000\n周一自动执行"
+        "label": "烹饪路径(格式同上)，示例：W 1000"
     },
     {
         "name": "skipCharacterReward",
@@ -30,15 +30,39 @@
         "label": "不领取洞天宝钱(注意是不领取)"
     },
     {
-        "name": "week",
-        "type": "input-text",
-        "label": "指定周几执行\n(使用\",\"分割多个周几)\n例：输入\"2,3,4,5,6,7\"，会在周2,3,4,5,6,日才运行尘歌壶流程",
-        "default": "1,3,6"
+        "name": "execute_Week",
+        "type": "multi-checkbox",
+        "label": "指定星期几运行",
+        "default": [
+            "星期一",
+            "星期三",
+            "星期六"
+        ],
+        "options": [
+            "星期一",
+            "星期二",
+            "星期三",
+            "星期四",
+            "星期五",
+            "星期六",
+            "星期日"
+        ]
     },
     {
-        "name": "exchangeWeek",
-        "type": "input-text",
-        "label": "指定在周几购买物品、烹饪、锻造\n(使用\",\"分割多个周几，0表示每天)\n例：输入\"1,3,5\"，会在周一、三、五购买物品、烹饪、锻造\n默认：1（周一）",
-        "default": "1"
+        "name": "exchange_Week",
+        "type": "multi-checkbox",
+        "label": "额外流程\n指定在星期几 购买物品、烹饪、锻造",
+        "default": [
+            "星期一"
+        ],
+        "options": [
+            "星期一",
+            "星期二",
+            "星期三",
+            "星期四",
+            "星期五",
+            "星期六",
+            "星期日"
+        ]
     }
 ]

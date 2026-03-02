@@ -1,5 +1,5 @@
 // 延时时间
-const outTime= ~~settings.outTime;
+const outTime= ~~String(settings.outTime).replace(/\D/g, "");
 
 // 比较结果
 let result = 0
@@ -114,19 +114,20 @@ async function compareVersion(version1, version2) {
         //     log.info(`ABGI启动${settings.selectTask}`+"：");
         //     await sleep(outTime);
         //     return;
-        case "更换联机房间":
-            result = await compareVersion(settings.versionABGI, "3.5.25");
-            if (result == -1) {
-                log.error("无法调用该任务，请更新ABGI至3.5.25版本或更高版本");
-                await sleep(outTime);
-                return;
-            };
-            await sleep(500);
-            log.info(`ABGI启动更换房间：`+`${settings.inputText}`);
-            await sleep(outTime);
-            return;
-        case "等待时间(单位为ms)":
-            await sleep(500);
+        // case "更换联机房间":
+        //     result = await compareVersion(settings.versionABGI, "3.5.25");
+        //     if (result == -1) {
+        //         log.error("无法调用该任务，请更新ABGI至3.5.25版本或更高版本");
+        //         await sleep(outTime);
+        //         return;
+        //     };
+        //     await sleep(500);
+        //     log.info(`ABGI启动更换房间：`+`${settings.inputText}`);
+        //     await sleep(outTime);
+        //     return;
+        case "等待时间(单位为秒)":
+            const pureDigitStr = String(settings.inputText).replace(/\D/g, "");
+            await sleep(pureDigitStr*1000);
             await sleep(outTime);
             return;
         default:

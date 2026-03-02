@@ -4,8 +4,44 @@ const CondensedResin = RecognitionObject.TemplateMatch(file.ReadImageMatSync("as
 const Clear = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/Clear.png"));
 // 读取配置文件
 let location = settings.location;
-const settingsWeek = settings.week;
-const everyDay = settings.everyDay;
+
+/**
+ * 根据星期配置判断是否运行脚本
+ * @param {Array} weekSelection - 用户选择的星期数组
+ * @returns {boolean} 是否符合运行条件
+ */
+function shouldRunByWeekConfig(weekSelection) {
+    const weekDays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+
+    // 检查配置是否为空
+    if (!Array.isArray(weekSelection) || weekSelection.length === 0) {
+        return false;
+    }
+
+    // 取得调整后的星期（0-6，0=星期日）
+    const getAdjustedDayOfWeek = () => {
+        const now = new Date();
+        let dayOfWeek = now.getDay(); // 0-6
+        const hours = now.getHours();
+
+        // 凌晨 00:00~04:00 视为前一天
+        if (hours < 4) {
+            dayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+            log.info(`当前时间 ${now.getHours()}:${now.getMinutes()}，视为前一天（${weekDays[dayOfWeek]}）`);
+        } else {
+            log.info(`当前时间 ${now.getHours()}:${now.getMinutes()}，使用当天（${weekDays[dayOfWeek]}）`);
+        }
+
+        return dayOfWeek;
+    };
+
+    const adjustedDayOfWeek = getAdjustedDayOfWeek();
+    const currentChineseDay = weekDays[adjustedDayOfWeek];
+
+    // 检查是否在允许的星期范围内
+    const shouldRun = weekSelection.includes(currentChineseDay);
+    return shouldRun;
+}
 
 // 执行路径
 async function AutoPath(locationName) {
@@ -110,110 +146,37 @@ async function condensedResin() {
 }
 
 (async function () {
-    // 获取
-    function validateAndStoreNumbers(input) {
-        // 去除所有空格
-        const cleanedInput = input.replace(/\s/g, '');
-        
-        // 使用正则表达式检测是否符合期望格式
-        const regex = /^([1-7])(,([1-7]))*$/;
-        
-        // 检测输入字符串是否符合正则表达式
-        if (regex.test(cleanedInput)) {
-            // 将输入字符串按逗号分割成数组
-            const numbers = cleanedInput.split(',');
-            return numbers.map(Number);
-        } else {
-            return false;
-        }
+    // 检查配置是否存在
+    if (!Object.keys(settings).includes("execute_Week")) {
+        log.error("首次运行前请编辑JS脚本自定义配置");
+        return;
     }
 
-    // 获取调整后的星期几（考虑00:00~04:00视为前一天）
-    function getAdjustedDayOfWeek() {
-        const now = new Date();
-        let dayOfWeek = now.getDay(); // 0-6 (0是周日)
-        const hours = now.getHours();
-
-        // 如果时间在00:00~04:00之间，视为前一天
-        if (hours < 4) {
-            dayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // 前一天
-            log.info(`当前时间 ${now.getHours()}:${now.getMinutes()}，视为前一天（星期 ${dayOfWeek === 0 ? 7 : dayOfWeek}）`);
-        } else {
-            log.info(`当前时间 ${now.getHours()}:${now.getMinutes()}，使用当天（星期 ${dayOfWeek === 0 ? 7 : dayOfWeek}）`);
-        }
-
-        // 转换为1-7格式（7代表周日）
-        return dayOfWeek === 0 ? 7 : dayOfWeek;
+    // 检查是否应该运行
+    const executeWeek = Array.from(settings.execute_Week || []);
+    if (!shouldRunByWeekConfig(executeWeek)) {
+        log.info(`交互或拾取："不运行"`);
+        return;
     }
 
     //main/======================================================================================
     setGameMetrics(1920, 1080, 1)
     await genshin.returnMainUi();
-
-    // 判断设置合法性
-    var items = [];
-
-    // 每天都合成体力,开启后无视星期设定,运行完直接return跳出
-    if (everyDay) {
-        log.info("已开启每天都合成体力，无视星期设置");
-        try {
-            if (!location) {
-                location = "蒙德合成台";
-                log.info(`未设置传送位置，默认前往 ${location}...`);
-            }
-            log.info(`正在前往 ${location} 合成浓缩树脂`);
-            await AutoPath(location);
-            await sleep(1000);
-            log.info("寻找合成台");
-            await condensedResin();
-            await sleep(1000);
-            await genshin.returnMainUi();
-            return;
-        } catch (e) {
-            log.error("传送失败，请检查设置");
-            return;
+    try {
+        if (!location) {
+            location = "蒙德合成台";
+            log.info(`未设置传送位置，默认前往 ${location}...`);
         }
-    }
-
-    if (settingsWeek && !everyDay) {
-        items = validateAndStoreNumbers(settingsWeek);
-        if (!items) {
-            log.error("星期设置格式错误，请使用类似'1,3,5,7'的格式");
-            return;
-        }
-
-        // 获取调整后的星期几（考虑00:00~04:00视为前一天）
-        const dayOfWeek = getAdjustedDayOfWeek();
-
-        // 检查当前星期是否在用户设置的范围内
-        if (items.includes(dayOfWeek)) {
-            try {
-                // 读取配置文件
-                if (!location) {
-                    location = "璃月合成台";
-                    log.info(`未设置传送位置，默认前往 ${location}...`);
-                }
-                log.info(`今天是星期 ${dayOfWeek}，正在前往 ${location} 合成浓缩树脂`);
-                await AutoPath(location);
-                await sleep(1000);
-                log.info("寻找合成台");
-                await condensedResin();
-                await sleep(1000);
-                await genshin.returnMainUi();
-            } catch (e) {
-                log.error("传送失败，请检查设置");
-                return;
-            }
-        } else {
-            log.info(`今天是星期 ${dayOfWeek}，不需要合成体力`);
-            return;
-        }
-    } else if (!everyDay) {
-        log.error("还没有设置需要在星期几合成体力呢");
-        log.error("请在调试器里添加本脚本->右键JS脚本->修改JS脚本自定义配置.");
+        log.info(`正在前往 ${location} 合成浓缩树脂`);
+        await AutoPath(location);
+        await sleep(1000);
+        log.info("寻找合成台");
+        await condensedResin();
+        await sleep(1000);
+        await genshin.returnMainUi();
+        return;
+    } catch (e) {
+        log.error("传送失败，请检查设置");
         return;
     }
-
-    //main/**======================================================================================
-
 })();

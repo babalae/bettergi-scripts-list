@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时52.73秒，包含以下怪物：2只火史莱姆、1只大型火史莱姆、2只岩史莱姆、1只大型岩史莱姆。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1770548987557,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B032璃月天遒谷东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1151.123046875,
+      "y": 142.1142578125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1170.173828125,
+      "y": 156.42578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1170.173828125,
+      "y": 156.42578125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1125.6689453125,
+      "y": 189.6171875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1125.6689453125,
+      "y": 189.6171875
+    }
+  ]
+}

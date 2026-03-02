@@ -1,4 +1,210 @@
-// 原神每日委托自动执行脚本 - 委托功能识别模块
+// 原神每日委托自动执行脚本 - 委托识别模块
+// 编辑距离算法，用于计算字符串相似度
+function levenshteinDistance(str1, str2) {
+  const m = str1.length;
+  const n = str2.length;
+  const dp = Array(m + 1).fill(null).map(() => Array(n + 1).fill(0));
+  
+  for (let i = 0; i <= m; i++) dp[i][0] = i;
+  for (let j = 0; j <= n; j++) dp[0][j] = j;
+  
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
+      dp[i][j] = Math.min(
+        dp[i - 1][j] + 1,
+        dp[i][j - 1] + 1,
+        dp[i - 1][j - 1] + cost
+      );
+    }
+  }
+  
+  return dp[m][n];
+}
+
+// 获取最接近的匹配项（带阈值）
+function getClosestMatch(target, candidates, threshold = Constants.MATCH_THRESHOLD.DEFAULT) {
+  if (!candidates || candidates.length === 0) return null;
+  
+  let closest = candidates[0];
+  let minDistance = levenshteinDistance(target, closest);
+  let maxSimilarity = calculateSimilarity(target, closest);
+  
+  for (let i = 1; i < candidates.length; i++) {
+    const distance = levenshteinDistance(target, candidates[i]);
+    const similarity = calculateSimilarity(target, candidates[i]);
+    
+    if (similarity > maxSimilarity) {
+      maxSimilarity = similarity;
+      minDistance = distance;
+      closest = candidates[i];
+    }
+  }
+  
+  // 检查相似度是否达到阈值
+  if (maxSimilarity < threshold) {
+    return null;
+  }
+  
+  return closest;
+}
+
+// 计算字符串相似度
+function calculateSimilarity(str1, str2) {
+  const distance = levenshteinDistance(str1, str2);
+  const maxLength = Math.max(str1.length, str2.length);
+  return maxLength === 0 ? 1 : 1 - (distance / maxLength);
+}
+
+var CommissionStandardizer = {
+  // 标准化列表
+  standardizationLists: {
+    fight: {},
+    talk: {}
+  },
+  
+  // 初始化标准化列表
+  initialize: function() {
+    log.info("初始化委托标准化列表...");
+    
+    try {
+      // 初始化战斗委托标准化列表
+      this.standardizationLists.fight = this.buildFightStandardizationList();
+      
+      // 初始化对话委托标准化列表
+      this.standardizationLists.talk = this.buildTalkStandardizationList();
+      
+      log.info("委托标准化列表初始化完成");
+      log.debug("战斗委托标准化列表: {count} 个委托", Object.keys(this.standardizationLists.fight).length);
+      log.debug("对话委托标准化列表: {count} 个委托", Object.keys(this.standardizationLists.talk).length);
+      log.debug("standardizationLists的值:{x}",JSON.stringify(this.standardizationLists))
+    } catch (error) {
+      log.error("初始化标准化列表时出错: {error}", error.message);
+    }
+  },
+  
+  // 构建战斗委托标准化列表
+  buildFightStandardizationList: function() {
+    const fightList = {};
+    
+    try {
+      // 读取assets目录下除process外的所有文件夹
+      const assetsPath = "assets";
+      const items = Array.from(file.readPathSync(assetsPath));
+
+      // 过滤出文件夹且不是process
+      const folders = items.filter(item => {
+        return file.isFolder(item) && !item.includes("process");
+      });
+
+      // 遍历每个战斗委托文件夹
+      for (const folderPath of folders) {
+        // 从完整路径中提取文件夹名称
+        const folderName = folderPath.replace(assetsPath + "/", "").replace(assetsPath + "\\", "");
+        const files = Array.from(file.readPathSync(folderPath));
+        
+        // 过滤出json文件
+        const jsonFiles = files.filter(file => file.endsWith(".json"));
+        
+        // 提取文件名（不包含路径和.json后缀），并去除-1 -2等数字后缀
+        const cleanFileNames = jsonFiles.map(filePath => {
+          // 从完整路径中提取文件名
+          const fileName = filePath.split("/").pop().split("\\").pop();
+          // 去除-1 -2等数字后缀和.json后缀
+          return fileName.replace(/-(\d+)?\.json$/, "");
+        });
+        
+        fightList[folderName] = cleanFileNames;
+      }
+    } catch (error) {
+      log.error("构建战斗委托标准化列表时出错: {error}", error.message);
+    }
+    
+    return fightList;
+  },
+  
+  // 构建对话委托标准化列表
+  buildTalkStandardizationList: function() {
+    const talkList = {};
+    
+    try {
+      // 读取assets/process目录下的所有文件夹
+      const processPath = "assets/process";
+      const items = Array.from(file.readPathSync(processPath));
+      
+      // 过滤出文件夹
+      const folders = items.filter(item => {
+        return file.isFolder(item);
+      });
+      
+      // 遍历每个对话委托文件夹
+      for (const folderPath of folders) {
+        // 从完整路径中提取文件夹名称
+        const folderName = folderPath.split("/").pop().split("\\").pop();
+        const subItems = Array.from(file.readPathSync(folderPath));
+        
+        // 过滤出子文件夹
+        const subFolders = subItems.filter(subItem => {
+          return file.isFolder(subItem);
+        });
+        
+        // 从完整路径中提取子文件夹名称
+        const cleanSubFolders = subFolders.map(subFolderPath => {
+          // 从完整路径中提取最后一级文件夹名称
+          return subFolderPath.split("/").pop().split("\\").pop();
+        });
+        
+        talkList[folderName] = cleanSubFolders;
+      }
+    } catch (error) {
+      log.error("构建对话委托标准化列表时出错: {error}", error.message);
+    }
+    
+    return talkList;
+  },
+  
+  // 标准化委托名称
+  standardizeCommissionName: function(rawName) {
+    // 从所有标准化列表中查找最接近的名称
+    const allNames = [
+      ...Object.keys(this.standardizationLists.fight),
+      ...Object.keys(this.standardizationLists.talk)
+    ];
+    
+    return getClosestMatch(rawName, allNames, Constants.MATCH_THRESHOLD.COMISSIONS_NAME);
+  },
+  
+  // 标准化委托地点
+  standardizeCommissionLocation: function(commissionName, rawLocation) {
+    // 根据委托类型选择对应的标准化列表
+    let candidates = [];
+    
+    if (this.standardizationLists.fight[commissionName]) {
+      // 战斗委托
+      candidates = this.standardizationLists.fight[commissionName];
+    } else if (this.standardizationLists.talk[commissionName]) {
+      // 对话委托
+      candidates = this.standardizationLists.talk[commissionName];
+    }
+    
+    if (candidates.length === 0) {
+      log.warn("没有找到委托 {name} 的标准化地点列表", commissionName);
+      return rawLocation;
+    }
+    
+    // 获取最接近的地点
+    const closestLocation = getClosestMatch(rawLocation, candidates, Constants.MATCH_THRESHOLD.LOCATION);
+    
+    if (closestLocation) {
+      log.info("标准化地点: {raw} -> {standard}", rawLocation, closestLocation);
+      return closestLocation;
+    } else {
+      log.info("地点相似度未达阈值，保持原地点: {raw}", rawLocation);
+      return rawLocation;
+    }
+  }
+};
+
 var CommissionRecognition = {
   // 识别委托地点
   recognizeCommissionLocation: async function() {
@@ -110,6 +316,15 @@ var CommissionRecognition = {
               if (text && text.length >= Constants.MIN_TEXT_LENGTH) {
                 log.info('第{index}个委托: "{text}"', regionIndex + 1, text);
 
+                // 标准化委托名称
+                var standardizedName = CommissionStandardizer.standardizeCommissionName(text);
+                if (standardizedName && standardizedName !== text) {
+                  log.info('委托名称标准化: "{raw}" -> "{standard}"', text, standardizedName);
+                  text = standardizedName;
+                } else {
+                  log.debug('委托名称相似度未达阈值，保持原名称: "{raw}"', text);
+                }
+
                 // 检查委托类型
                 var isFightCommission = supportedCommissions.fight.includes(text);
                 var isTalkCommission = supportedCommissions.talk.includes(text);
@@ -207,6 +422,14 @@ var CommissionRecognition = {
           log.info("委托国家: {status}", detailStatus);
           commission.country = detailStatus;
           var location = await CommissionRecognition.recognizeCommissionLocation();
+          
+          // 标准化委托地点
+          var standardizedLocation = CommissionStandardizer.standardizeCommissionLocation(commission.name, location);
+          if (standardizedLocation && standardizedLocation !== location) {
+            log.info('委托地点标准化: "{raw}" -> "{standard}"', location, standardizedLocation);
+            location = standardizedLocation;
+          }
+          
           commission.location = location;
           log.info(
             "委托 {name} 的地点: {location}",
@@ -298,6 +521,15 @@ var CommissionRecognition = {
             if (text && text.length >= Constants.MIN_TEXT_LENGTH) {
               log.info('第4个委托: "{text}"', text);
 
+              // 标准化委托名称
+              var standardizedName = CommissionStandardizer.standardizeCommissionName(text);
+              if (standardizedName && standardizedName !== text) {
+                log.info('委托名称标准化: "{raw}" -> "{standard}"', text, standardizedName);
+                text = standardizedName;
+              } else {
+                log.info('委托名称相似度未达阈值，保持原名称: "{raw}"', text);
+              }
+
               // 检查委托类型
               var isFightCommission = supportedCommissions.fight.includes(text);
               var isTalkCommission = supportedCommissions.talk.includes(text);
@@ -386,6 +618,14 @@ var CommissionRecognition = {
 
             // 识别委托地点
             var location = await CommissionRecognition.recognizeCommissionLocation();
+            
+            // 标准化委托地点
+            var standardizedLocation = CommissionStandardizer.standardizeCommissionLocation(fourthCommission.name, location);
+            if (standardizedLocation && standardizedLocation !== location) {
+              log.info('委托地点标准化: "{raw}" -> "{standard}"', location, standardizedLocation);
+              location = standardizedLocation;
+            }
+            
             fourthCommission.location = location;
             log.info(
               "委托 {name} 的地点: {location}",

@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时69.46秒，包含以下怪物：2只冰史莱姆、1只大型冰史莱姆。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1770539196644,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B008璃月悬练山西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2211.826171875,
+      "y": 1249.0625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2150.8896484375,
+      "y": 1172.64404296875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2103.0390625,
+      "y": 1131.44482421875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2076.68359375,
+      "y": 1111.072265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 2076.68359375,
+      "y": 1111.072265625
+    }
+  ]
+}

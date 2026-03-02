@@ -1,0 +1,202 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgiVersion": "0.42.3",
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769189236422,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "312稻妻-平海砦8",
+    "tags": [],
+    "type": "collect",
+    "version": ""
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4185.0078125,
+      "y": -4244.4521484375
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4164.5859375,
+      "y": -4246.80859375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4161.0205078125,
+      "y": -4245.0068359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 wait(0.2),keydown(E),wait(0.47),keyup(E),attack(0.2),wait(0.5);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4163.865234375,
+      "y": -4241.2314453125
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4160.935546875,
+      "y": -4239.349609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4156.60546875,
+      "y": -4232.4990234375
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4169.375,
+      "y": -4233.250509060826
+    },
+    {
+      "action": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4245.000669384877,
+      "y": -4208.500359217334
+    },
+    {
+      "action": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4254.626059859391,
+      "y": -4216.375134706501
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),keydown(a),wait(1.5),keyup(a)",
+      "id": 10,
+      "move_mode": "run",
+      "type": "target",
+      "x": -4246.2978515625,
+      "y": -4234.4384765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4252.9140625,
+      "y": -4237.189453125
+    },
+    {
+      "action": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4243.250390474514,
+      "y": -4259.374910195667
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4236.506640625001,
+      "y": -4260
+    },
+    {
+      "action": "",
+      "id": 14,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4225.437946256585,
+      "y": -4256.687634706501
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "run",
+      "type": "target",
+      "x": -4228.874776871708,
+      "y": -4237.00006735325
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "run",
+      "type": "target",
+      "x": -4215.75,
+      "y": -4251.687389334604
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4218.1875,
+      "y": -4253.281404931555
+    },
+    {
+      "action": "",
+      "id": 18,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4215.90625,
+      "y": -4269.781172534222
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4203.283203125,
+      "y": -4280.01953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 wait(0.2),keydown(E),wait(0.47),keyup(E),attack(0.2),wait(0.5);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 20,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4186.75612208253,
+      "y": -4299.379939238339
+    },
+    {
+      "action": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4184.62550203866,
+      "y": -4301.250449021667
+    }
+  ]
+}

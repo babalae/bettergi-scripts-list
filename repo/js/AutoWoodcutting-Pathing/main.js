@@ -36,6 +36,49 @@
         }
     }
 
+    /**
+     * 求解 燃爆木-白栗栎木 路线次数.
+     * @param {number} targetB - 目标燃爆木数量
+     * @param {number} targetO - 目标白栗栎木数量
+     * @returns {object} 最优规划方案
+     */
+    function lpsolve3(targetB, targetO) {
+        let minTotalRuns = Infinity;
+        let bestScheme = { x1: 0, x2: 0, x3: 0, total: 0 };
+
+        // x2 是桥梁，遍历 x2 的可能次数
+        // 最大遍历范围可以设为两个目标中较大的一个除以 x2 对应的产量
+        const maxX2 = Math.max(Math.ceil(targetB / 27), Math.ceil(targetO / 33));
+
+        for (let x2 = 0; x2 <= maxX2; x2++) {
+            // 计算 x2 产出后的剩余需求
+            const remainingB = Math.max(0, targetB - x2 * 27);
+            const remainingO = Math.max(0, targetO - x2 * 33);
+
+            // x1 补齐剩下的燃爆木 (每单位产出 54)
+            const x1 = Math.ceil(remainingB / 54);
+
+            // x3 补齐剩下的白栗栎木 (每单位产出 36)
+            const x3 = Math.ceil(remainingO / 36);
+
+            const currentTotal = x1 + x2 + x3;
+
+            // 如果当前方案总次数更少，则更新最优解
+            if (currentTotal < minTotalRuns) {
+                minTotalRuns = currentTotal;
+                bestScheme = {
+                    x1: x1,
+                    x2: x2,
+                    x3: x3,
+                    total: currentTotal,
+                    actualB: x1 * 54 + x2 * 27,
+                    actualO: x2 * 33 + x3 * 36
+                };
+            }
+        }
+        return bestScheme;
+    }
+
     function logRemainingItems() {
         let target = woodCountToStr(woodNumberMap);
         if (target === '') {
@@ -146,11 +189,19 @@
             }
         }
 
+        // 椴木需要悬铃木凑数量，用||
         if (woodNumberMap.get('悬铃木') > 0 || woodNumberMap.get('椴木') > 0) {
             await runPathingNTimes('悬铃木-椴木-大循环', '', 1);
             let [x1, x2] = lpsolve2(woodNumberMap.get('悬铃木'), woodNumberMap.get('椴木'));
             await runPathingNTimes('悬铃木', '悬铃木', x1);
             await runPathingNTimes('椴木', '椴木', x2);
+        }
+
+        if (woodNumberMap.get('燃爆木') > 0 && woodNumberMap.get('白栗栎木') > 0) {
+            let result = lpsolve3(woodNumberMap.get('燃爆木'), woodNumberMap.get('白栗栎木'));
+            await runPathingNTimes('燃爆木', '燃爆木', result.x1);
+            await runPathingNTimes('燃爆木-白栗栎木', '', result.x2);
+            await runPathingNTimes('白栗栎木', '白栗栎木', result.x3);
         }
 
         for (let wood of singleWoodType) {
@@ -204,6 +255,7 @@
         }
     }
 
+    // 从路径名称中获取单次伐木数量
     function filenameToWoodCountMap(str, woodCount = new Map()) {
         let strArray = str.split("-").filter(str => str.trim() !== "");
         for (let i = 0; i < strArray.length - 1; i++) {
@@ -423,7 +475,8 @@
         '香柏木-萃华木': { fileName: ['枫丹-枫丹廷-香柏木-9个(大循环)', '枫丹-枫丹廷-香柏木-27个-萃华木-15个(循环)'], folderName: '枫丹-香柏木-萃华木' },
         '炬木': { fileName: ['枫丹-很明亮的地方-炬木-36个'] },
         // '炬木': { fileName: ['枫丹-很明亮的地方-炬木-36个(大循环)', '枫丹-很明亮的地方-炬木-36个(循环)'], folderName: '枫丹-炬木' },
-        '白栗栎木': { fileName: ['纳塔-踞石山-白栗栎木-36个', '纳塔-回声之子-白栗栎木-33个-燃爆木-27个'], folderName: '纳塔-白栗栎木-燃爆木' },
+        '燃爆木-白栗栎木': { fileName: ['纳塔-回声之子-白栗栎木-33个-燃爆木-27个'], folderName: '纳塔-白栗栎木-燃爆木' },
+        '白栗栎木': { fileName: ['纳塔-踞石山-白栗栎木-36个'], folderName: '纳塔-白栗栎木-燃爆木' },
         '灰灰楼林木': { fileName: ['纳塔-奥奇卡纳塔-灰灰楼林木-42个'] },
         '燃爆木': { fileName: ['纳塔-隆崛坡-燃爆木-54个'] },
         // '桃椰子木': { fileName: ['纳塔-浮土静界-桃椰子木-0个(大循环)', '纳塔-浮土静界-桃椰子木-36个(循环)'], folderName: '纳塔-桃椰子木' },

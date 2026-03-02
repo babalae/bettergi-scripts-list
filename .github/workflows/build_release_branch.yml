@@ -64,7 +64,7 @@ jobs:
         git rm -rf .
         
         echo "📦 检出 main 分支的内容到工作区"
-        git checkout main -- repo .gitignore
+        git checkout main -- repo packages .gitignore
         
         echo "📋 复制生成的文件到 release 分支"
         cp ../repo.json .

@@ -13,7 +13,6 @@ import {
   findCloseDialog,
   findExitStageBtn,
   findPrepareMsg,
-  findSkipLevelUpMsg,
   findStageEscBtn,
 } from "../constants/regions.js";
 import { isInLobby } from "./lobby.js";
@@ -67,9 +66,9 @@ const playStage = async (playbacks) => {
 };
 //! 执行通关回放文件（随机抽取）
 const execStagePlayback = async (playbacks) => {
-  const file$1 = playbacks[Math.floor(Math.random() * playbacks.length)];
-  log.info("执行通关回放文件: {file}", file$1);
-  await keyMouseScript.runFile(file$1);
+  const file = playbacks[Math.floor(Math.random() * playbacks.length)];
+  log.info("执行通关回放文件: {file}", file);
+  await keyMouseScript.runFile(file);
 };
 //! 退出关卡
 const exitStage = async () => {
@@ -111,7 +110,7 @@ const exitStageToLobby = async () => {
       isInLobby,
       async () => {
         //! 跳过奇域等级提升页面（奇域等级每逢11、21、31、41级时出现加星页面）
-        if (findSkipLevelUpMsg()) clickToContinue();
+        clickToContinue();
         //! 点击底部 “返回大厅” 按钮
         findBottomBtnText("返回大厅")?.click();
       },

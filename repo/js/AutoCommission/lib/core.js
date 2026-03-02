@@ -33,6 +33,9 @@ var Core = {
 
       // 加载支持的委托列表
       var supportedCommissions = await CommissionData.loadSupportedCommissions();
+      
+      // OCR名称校正初始化
+      CommissionStandardizer.initialize();
 
       log.info(
         "支持的战斗委托: {count} 个",

@@ -94,6 +94,7 @@ let userName = settings.userName || "默认账户";
         let shopDialogueRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Picture/Shopping.png"), 1259, 540, 100, 400);
         let shopDialogueRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Picture/Shopping2.png"), 0, 0, 150, 100);
         let conFirmRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Picture/Confirm.png"), 1585, 1005, 31, 31);
+        let guDong = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Picture/古董.png"));
 
         // 定义一个函数识别并交互 NPC
         async function checkFAlignment(fDialogueRo) {
@@ -109,16 +110,14 @@ let userName = settings.userName || "默认账户";
                         // 第 1-3 次尝试
                         await simulateKeyOperations("S", 200); // 后退 200 毫秒
                         await sleep(200);
-                        await simulateKeyOperations("W", 400); // 前进 400 毫秒
-                        await sleep(500);
                     } else if (f_attempts <= 5) {
                         // 第 4-5 次尝试
-                        log.warn("无法找到NPC，退出购买流程");
-                        return { success: false, reason: "npc_not_found" };
+                        await simulateKeyOperations("W", 400); // 前进 400 毫秒
+                        await sleep(500);
                     } else {
                         // 第 6 次尝试，尝试次数已达上限
-                        log.warn("尝试次数已达上限");
-                        break; // 找到后退出循环
+                        log.warn("无法找到NPC，退出购买流程");
+                        break;
                     }
 
                     // 检查是否找到 F 图标
@@ -151,8 +150,12 @@ let userName = settings.userName || "默认账户";
         for (let i = 0; i < 5; i++) {
             // 最多 F 5次
             let captureRegion = captureGameRegion();  // 获取一张截图
-            let res = captureRegion.Find(shopDialogueRo);
-            captureRegion.dispose();
+            let res;
+            if (locationName=='璃月购买狗粮2'){
+                res = captureRegion.Find(guDong);
+            }else{
+                res = captureRegion.Find(shopDialogueRo);
+            }
             if (res.isEmpty()) {
               keyPress("F");
               await sleep(1000);

@@ -92,29 +92,108 @@ var CommissionData = {
     return CommissionData.supportedCommissions;
   },
 
+  // 检查时间戳是否为今天（以凌晨四点为分界）
+  isToday: function(timestampString) {
+    try {
+      const timestamp = new Date(timestampString);
+      const now = new Date();
+      
+      // 计算今天凌晨四点的时间
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 4, 0, 0);
+      
+      // 如果当前时间还没到今天四点，则以昨天四点为分界
+      if (now < today) {
+        today.setDate(today.getDate() - 1);
+      }
+      
+      // 检查时间戳是否在今天四点之后
+      return timestamp >= today;
+    } catch (error) {
+      log.error("检查时间戳时出错: {error}", error.message);
+      return false;
+    }
+  },
+  
   // 保存委托数据到文件
   saveCommissionsData: async function(commissionsTable) {
     try {
       log.info("保存委托数据到文件...");
-
-      // 创建JSON格式的委托数据
-      var commissionsData = {
-        timestamp: new Date().toISOString(),
-        commissions: commissionsTable,
-      };
-
-      // 保存到文件
+      
       var outputPath = Constants.OUTPUT_DIR + "/commissions_data.json";
+      var shouldUpdateExisting = false;
+      var existingData = null;
+      
+      // 尝试读取现有文件
       try {
-        var jsonResult = file.writeTextSync(
-          outputPath,
-          JSON.stringify(commissionsData, null, 2)
-        );
-        if (jsonResult) {
-          log.info("委托数据已保存到: {path}", outputPath);
+        var existingContent = file.readTextSync(outputPath);
+        existingData = JSON.parse(existingContent);
+        
+        // 检查条件：timestamp是今天，且commissions有4个元素
+        if (existingData && existingData.timestamp && existingData.commissions && 
+            existingData.commissions.length === 4 && commissionsTable.length === 4 &&
+            this.isToday(existingData.timestamp)) {
+          
+          // 提取现有和新的委托名称列表
+          const existingNames = existingData.commissions.map(c => c.name).sort();
+          const newNames = commissionsTable.map(c => c.name).sort();
+          
+          // 检查名称是否完全匹配
+          const namesMatch = existingNames.every((name, index) => name === newNames[index]);
+          
+          if (namesMatch) {
+            log.info("检测到相同的委托列表，只更新已完成状态");
+            shouldUpdateExisting = true;
+          } else {
+            log.info("委托名称不完全匹配，执行完整保存");
+          }
         } else {
-          log.error("保存委托数据失败");
+          // 输出条件不成立的原因
+          let reason = "";
+          if (!existingData) reason = "没有现有数据"; 
+          else if (!existingData.timestamp) reason = "缺少时间戳";
+          else if (!existingData.commissions) reason = "缺少委托列表";
+          else if (existingData.commissions.length !== 4) reason = `现有委托数量不是4个（实际：${existingData.commissions.length}）`;
+          else if (commissionsTable.length !== 4) reason = `新委托数量不是4个（实际：${commissionsTable.length}）`;
+          else if (!this.isToday(existingData.timestamp)) reason = "时间戳不是今天";
+          log.info(`执行完整保存：${reason}`);
         }
+      } catch (error) {
+        log.error("无法读取现有委托数据{error}",error.message);
+      }
+      
+      var commissionsData;
+      
+      if (shouldUpdateExisting && existingData) {
+        // 只更新location为已完成的状态
+        for (var i = 0; i < existingData.commissions.length; i++) {
+          const existingCommission = existingData.commissions[i];
+          const newCommission = commissionsTable.find(c => c.name === existingCommission.name);
+          
+          if (newCommission && newCommission.location === "已完成") {
+            existingCommission.location = "已完成";
+            existingCommission.type = newCommission.type;
+            existingCommission.supported = newCommission.supported;
+            // 保留其他原有字段
+          }
+        }
+        
+        // 更新时间戳
+        existingData.timestamp = new Date().toISOString();
+        commissionsData = existingData;
+      } else {
+        // 创建新的JSON格式的委托数据
+        commissionsData = {
+          timestamp: new Date().toISOString(),
+          commissions: commissionsTable,
+        };
+      }
+      
+      // 保存到文件
+      try {
+        file.writeTextSync(outputPath, JSON.stringify(commissionsData, null, 2));
+        
+        log.info("委托数据保存结束");
+       
       } catch (jsonError) {
         log.error("保存委托数据失败: {error}", jsonError.message);
       }

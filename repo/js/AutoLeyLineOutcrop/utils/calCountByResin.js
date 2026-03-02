@@ -212,10 +212,11 @@ async function countOriginalResin(tryOriginalMode, opToMainUi, openMap) {
     } else {
         log.info('尝试使用优化模式');
         let ocrPhysical = await physical.ocrPhysical(opToMainUi, openMap);
+        log.debug(`ocrPhysical: {0}`,JSON.stringify(ocrPhysical))
         await sleep(600)
         // ocrPhysical = false//模拟异常
-        if (ocrPhysical && ocrPhysical.ok) {
-            return ocrPhysical.remainder;
+        if (ocrPhysical/* && ocrPhysical.ok*/) {
+            return ocrPhysical?.remainder;
         } else {
             //异常 退出至地图 尝试使用原始模式
             await keyPress("VK_ESCAPE")

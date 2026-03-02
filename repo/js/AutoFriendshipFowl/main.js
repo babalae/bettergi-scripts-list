@@ -1,6 +1,6 @@
 (async function () {
     const TELEPORT_COORDS = { x: 2297.60, y: -824.45 };
-    	async function switchPartyIfNeeded(partyName) {
+    async function switchPartyIfNeeded(partyName) {
         if (!partyName) {
             await genshin.returnMainUi();
             return;
@@ -25,7 +25,7 @@
         await sleep(1000);
         click(1010, 760);
         await sleep(1000);
-    } 
+    }
 
     async function AutoPath(locationName) {
         try {
@@ -41,7 +41,7 @@
         let capture = await captureGameRegion();
         let ocr = await capture.find(RecognitionObject.ocrThis);
         capture.dispose();
-        if(ocr.text.includes('投喂')){
+        if (ocr.text.includes('投喂')) {
             return true;
         }
         return false;
@@ -51,18 +51,20 @@
 
         log.info(`导航至甜甜花位置`);
         await AutoPath('导航至甜甜花位置');
+        await AutoPath('到甜甜花');
         await genshin.relogin();
         log.info(`自动好感开始...`);
         const startFirstTime = Date.now();
         for (let i = 0; i < times; i++) {
             log.info(`自动好感当前次数：${i + 1}/${times}`);
             await AutoPath('到狗盆');
-            for(let j = 0; j < 3 && !await OcrF(); j++){
+            for (let j = 0; j < 3 && !await OcrF(); j++) {
                 await AutoPath('到狗盆');
             }
             await Feed();
-            if( i != times - 1) {
-                await AutoPath('到甜甜花'); 
+            if (i != times - 1) {
+                await AutoPath('到甜甜花');
+                await AutoPath('到甜甜花');
                 await genshin.relogin();
             }  //最后一次不需要返回到甜甜花
             const estimatedCompletion = CalculateEstimatedCompletion(startFirstTime, i + 1, times);
@@ -83,20 +85,20 @@
         return formattedTime;
     }
 
-	// 计算预估时间
+    // 计算预估时间
     function CalculateEstimatedCompletion(startTime, current, total) {
         if (current === 0) return "计算中...";
-        
+
         const elapsedTime = Date.now() - startTime;
         const timePerTask = elapsedTime / current;
         const remainingTasks = total - current;
-        const remainingTime = timePerTask * remainingTasks;        
+        const remainingTime = timePerTask * remainingTasks;
         const completionDate = new Date(Date.now() + remainingTime);
         return `${completionDate.toLocaleTimeString()} (约 ${Math.round(remainingTime / 60000)} 分钟)`;
     }
 
     function isPositiveInteger(value) {
-	value = Number(value);    
+        value = Number(value);
         return Number.isInteger(value) && value > 0;
     }
     // 启用自动拾取的实时任务
@@ -116,14 +118,14 @@
 
     log.info('自动好感开始...');
     //默认10次自动好感
-    if(isPositiveInteger(settings.times)){
+    if (isPositiveInteger(settings.times)) {
         log.info(`自动好感任务开始，运行：${settings.times} 次`);
-    	await AutoFriendshipDev(settings.times);	
+        await AutoFriendshipDev(settings.times);
     } else {
-	log.info(`运行次数输入不合法或者未输入，使用默认值`);
-	times = 10;
-	log.info(`自动好感任务开始，运行：${times} 次`);
-	await AutoFriendshipDev(10);	
+        log.info(`运行次数输入不合法或者未输入，使用默认值`);
+        times = 10;
+        log.info(`自动好感任务开始，运行：${times} 次`);
+        await AutoFriendshipDev(10);
     }
     log.info(`自动好感运行总时长：${LogTimeTaken(startTime)}`);
 })();

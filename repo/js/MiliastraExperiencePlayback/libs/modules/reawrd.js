@@ -59,10 +59,15 @@ const fetchBattlepassExp = async () => {
     async () => {
       //! 重复确认，防止误领纪游奖励（部件礼箱会卡流程）而不是经验
       if (findHeaderTitle("任务", true)) {
-        findBottomBtnText("领取", true)?.click();
-        clickToContinue();
-        await sleep(1e3);
-        clickToContinue();
+        const reward = findBottomBtnText("领取", true);
+        if (reward) {
+          reward.click();
+          await sleep(50);
+          reward.click();
+          clickToContinue();
+          await sleep(1e3);
+          clickToContinue();
+        }
       }
     },
     {
@@ -72,16 +77,28 @@ const fetchBattlepassExp = async () => {
   );
   await genshin.returnMainUi();
 };
+//! 点击领取奖励按钮
+const clickClaimRewardBtn = async () => {
+  const reward = findFetchRewardBtn();
+  if (reward) {
+    reward.click();
+    await sleep(50);
+    reward.click();
+    clickToContinue();
+    await sleep(1e3);
+    clickToContinue();
+  }
+};
 //! 领取绮衣珍赏奖励
 const fetchRaimentCollection = async () => {
   //! 打开绮衣珍赏
   await assertRegionAppearing(
-    () => findHeaderTitle("珍赏", true),
+    () => findHeaderTitle("绮衣", true) || findHeaderTitle("珍赏", true),
     "打开绮衣珍赏超时，活动未轮换/已结束",
     async () => {
       keyPress("VK_F6");
       await sleep(2e3);
-      if (findHeaderTitle("珍赏", true) === void 0) keyPress("VK_Q");
+      if (!findHeaderTitle("绮衣", true) && !findHeaderTitle("珍赏", true)) keyPress("VK_Q");
     },
     {
       maxAttempts: 5,
@@ -93,13 +110,7 @@ const fetchRaimentCollection = async () => {
     findFetchRewardBtn,
     "领取绮衣珍赏奖励超时",
     async () => {
-      const reward = findFetchRewardBtn();
-      if (reward) {
-        reward.click();
-        clickToContinue();
-        await sleep(1e3);
-        clickToContinue();
-      }
+      await clickClaimRewardBtn();
     },
     {
       maxAttempts: 5,
@@ -129,13 +140,7 @@ const fetchInvitationToWonderland = async () => {
     findFetchRewardBtn,
     "领取妙思觅索奖励超时",
     async () => {
-      const reward = findFetchRewardBtn();
-      if (reward) {
-        reward.click();
-        clickToContinue();
-        await sleep(1e3);
-        clickToContinue();
-      }
+      await clickClaimRewardBtn();
     },
     {
       maxAttempts: 5,
