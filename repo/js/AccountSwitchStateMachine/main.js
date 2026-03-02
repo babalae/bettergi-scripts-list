@@ -6,6 +6,12 @@ let gameRegion = null;
 
 // 主逻辑
 (async function () {
+    if (settings.verifyUid && !settings.targetUid) {
+        const msg = '已启用UID校验,但未填写目标UID,请检查配置';
+        log.error(msg);
+        notification.error(msg);
+        return;
+    }
     // 读取状态配置文件
     let statesData;
     try {
@@ -62,12 +68,12 @@ let gameRegion = null;
 
         // 判断是否跳过搜索，直接使用账号密码
         let useAccountPassword = settings.skipSearch;
-        
+
         if (!useAccountPassword) {
             // 尝试预加载账号图片模板
             let accountImageMat = null;
             const accountImagePath = `accounts/${settings.targetUid}.png`;
-            
+
             try {
                 accountImageMat = file.ReadImageMatSync(accountImagePath);
                 log.info(`成功预加载账号图片：${accountImagePath}`);
@@ -76,12 +82,12 @@ let gameRegion = null;
                 log.warn('将使用账号密码方式登录');
                 useAccountPassword = true;
             }
-            
+
             // 如果图片预加载成功，尝试使用图片查找方式
             if (!useAccountPassword) {
                 // 尝试查找账号图片分支
                 log.info('开始：尝试使用账号图片查找方式');
-                
+
                 // 首先定位到"进入游戏或登录其他账号"状态
                 log.info('开始：尝试切换到 enterGame 状态');
                 const enterGameResult = await goToState('enterGame');
@@ -90,17 +96,19 @@ let gameRegion = null;
                     useAccountPassword = true;
                 } else {
                     log.info('成功到达 enterGame 状态');
-                    
+
                     // 检查当前界面是否存在目标账号图片（适用于只有一个账号的情况）
                     log.info(`尝试在 enterGame 状态查找账号图片：${accountImagePath}`);
                     const accountRo = RecognitionObject.TemplateMatch(accountImageMat, 0, 0, 1920, 1080);
+                    accountRo.Threshold = parseFloat(settings.accountImageThreshold) || 0.9;
+                    accountRo.InitTemplate();
                     const uidFoundInEnterGame = await findAndClick(accountRo, false, 1000);
-                    
+
                     if (uidFoundInEnterGame) {
                         log.info(`在 enterGame 状态找到账号图片：${settings.targetUid}.png`);
                         // 点击进入游戏按钮
                         await findAndClick('assets/RecognitionObjects/EnterGame.png', true, 1000);
-                        
+
                         // 定位到主界面
                         log.info('开始：尝试切换到 mainUI 状态');
                         const mainUIResult = await goToState('mainUI');
@@ -114,7 +122,7 @@ let gameRegion = null;
                         }
                     } else {
                         log.info('在 enterGame 状态未找到账号图片，尝试展开账号列表');
-                        
+
                         // 定位到选择账号界面
                         log.info('开始：尝试切换到 selectAccount 状态');
                         const selectAccountResult = await goToState('selectAccount');
@@ -123,15 +131,17 @@ let gameRegion = null;
                             useAccountPassword = true;
                         } else {
                             log.info('成功到达 selectAccount 状态');
-                            
+
                             // 使用预加载的图片模板进行查找
                             log.info(`尝试查找并点击账号图片：${accountImagePath}`);
                             const accountRo = RecognitionObject.TemplateMatch(accountImageMat, 0, 0, 1920, 1080);
+                            accountRo.Threshold = parseFloat(settings.accountImageThreshold) || 0.9;
+                            accountRo.InitTemplate();
                             const uidFound = await findAndClick(accountRo, true, 5000);
-                            
+
                             if (uidFound) {
                                 log.info(`成功点击账号图片：${settings.targetUid}.png`);
-                                
+
                                 // 定位到主界面
                                 log.info('开始：尝试切换到 mainUI 状态');
                                 const mainUIResult = await goToState('mainUI');
@@ -158,7 +168,7 @@ let gameRegion = null;
         // 账号密码分支
         if (useAccountPassword) {
             log.info('开始：使用账号密码登录方式');
-            
+
             // 检查账号密码是否为空
             if (!settings.account || !settings.password) {
                 log.error('账号或密码为空，无法使用账号密码方式登录');
@@ -369,7 +379,7 @@ async function determineCurrentState(previousState = null) {
     // 最多尝试3次
     const maxAttempts = 30;
     let currentMousePos = null; // 保存当前鼠标位置，初始为空表示未知
-    
+
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
         try {
             // 遍历所有状态进行匹配
@@ -484,10 +494,10 @@ async function evaluateDetectionConditions(detection, currentMousePos) {
 
     // 检查鼠标位置是否需要移动
     let newMousePos = currentMousePos;
-    
+
     // 检查当前鼠标位置是否离所有识别区域均超过50x50
     const isMouseSafe = checkMousePosition(currentMousePos, detection.conditions);
-    
+
     if (!isMouseSafe) {
         // 寻找合适的鼠标位置
         newMousePos = findSafeMousePosition(detection.conditions);
@@ -506,7 +516,7 @@ async function evaluateDetectionConditions(detection, currentMousePos) {
     if (gameRegion) {
         gameRegion.dispose();
     }
-    
+
     // 捕获游戏画面
     gameRegion = captureGameRegion();
 
@@ -566,18 +576,18 @@ function checkMousePosition(mousePos, conditions) {
     if (!mousePos) {
         return false; // 未知位置，认为不安全
     }
-    
+
     for (const condition of conditions) {
         const { region } = condition;
         const { x, y, width, height } = region;
-        
+
         // 检查鼠标是否在识别区域附近50像素内
         if (mousePos.x >= x - 50 && mousePos.x <= x + width + 50 &&
             mousePos.y >= y - 50 && mousePos.y <= y + height + 50) {
             return false;
         }
     }
-    
+
     return true;
 }
 
@@ -590,11 +600,11 @@ function findSafeMousePosition(conditions) {
     for (let x = 10; x <= 1910; x += 10) {
         for (let y = 10; y <= 1070; y += 10) {
             let isSafe = true;
-            
+
             for (const condition of conditions) {
                 const { region } = condition;
                 const { x: rx, y: ry, width, height } = region;
-                
+
                 // 检查该点是否在识别区域附近50像素内
                 if (x >= rx - 50 && x <= rx + width + 50 &&
                     y >= ry - 50 && y <= ry + height + 50) {
@@ -602,13 +612,13 @@ function findSafeMousePosition(conditions) {
                     break;
                 }
             }
-            
+
             if (isSafe) {
                 return { x, y };
             }
         }
     }
-    
+
     return null; // 没有找到安全位置
 }
 
@@ -771,19 +781,31 @@ async function findAndClick(target,
     retType = 0,
     preClickDelay = 50,
     postClickDelay = 50) {
+    // 建立识别目标的对象，将 mat 和 ro 分别挂载到对象上
+    let targetObjs = [];
     try {
-        // 1. 统一转成 RecognitionObject 数组
-        let ros = [];
+        // 1. 统一处理目标，保存 mat 和 ro 的对应关系
         if (Array.isArray(target)) {
-            ros = target.map(t =>
-                (typeof t === 'string')
-                    ? RecognitionObject.TemplateMatch(file.ReadImageMatSync(t))
-                    : t
-            );
+            targetObjs = new Array(target.length);
+            for (let i = 0; i < target.length; i++) {
+                const t = target[i];
+                targetObjs[i] = {};
+                if (typeof t === 'string') {
+                    targetObjs[i].mat = file.ReadImageMatSync(t);
+                    targetObjs[i].ro = RecognitionObject.TemplateMatch(targetObjs[i].mat);
+                } else {
+                    targetObjs[i].ro = t;
+                }
+            }
         } else {
-            ros = [(typeof target === 'string')
-                ? RecognitionObject.TemplateMatch(file.ReadImageMatSync(target))
-                : target];
+            targetObjs = new Array(1);
+            targetObjs[0] = {};
+            if (typeof target === 'string') {
+                targetObjs[0].mat = file.ReadImageMatSync(target);
+                targetObjs[0].ro = RecognitionObject.TemplateMatch(targetObjs[0].mat);
+            } else {
+                targetObjs[0].ro = target;
+            }
         }
 
         const start = Date.now();
@@ -793,8 +815,8 @@ async function findAndClick(target,
             const gameRegion = captureGameRegion();
             try {
                 // 依次尝试每一个 ro
-                for (const ro of ros) {
-                    const res = gameRegion.find(ro);
+                for (let i = 0; i < targetObjs.length; i++) {
+                    const res = gameRegion.find(targetObjs[i].ro);
                     if (!res.isEmpty()) {          // 找到
                         found = res;
                         if (doClick) {
@@ -818,6 +840,17 @@ async function findAndClick(target,
     } catch (error) {
         log.error(`执行通用识图时出现错误：${error.message}`);
         return retType === 0 ? false : null;
+    } finally {
+        // 遍历对象释放 mat
+        for (let i = 0; i < targetObjs.length; i++) {
+            if (targetObjs[i] && targetObjs[i].mat) {
+                try {
+                    targetObjs[i].mat.dispose();
+                } catch (e) {
+                    log.error(`释放 Mat 对象时出错：${e.message}`);
+                }
+            }
+        }
     }
 }
 
@@ -939,10 +972,10 @@ async function numberTemplateMatch(
 function calculateSimilarity(str1, str2) {
     const len1 = str1.length;
     const len2 = str2.length;
-    
+
     // 创建距离矩阵
     const matrix = Array(len1 + 1).fill().map(() => Array(len2 + 1).fill(0));
-    
+
     // 初始化第一行和第一列
     for (let i = 0; i <= len1; i++) {
         matrix[i][0] = i;
@@ -950,7 +983,7 @@ function calculateSimilarity(str1, str2) {
     for (let j = 0; j <= len2; j++) {
         matrix[0][j] = j;
     }
-    
+
     // 计算距离
     for (let i = 1; i <= len1; i++) {
         for (let j = 1; j <= len2; j++) {
@@ -962,12 +995,12 @@ function calculateSimilarity(str1, str2) {
             );
         }
     }
-    
+
     // 计算相似度
     const maxLen = Math.max(len1, len2);
     const distance = matrix[len1][len2];
     const similarity = 1 - (distance / maxLen);
-    
+
     return similarity;
 }
 
@@ -983,18 +1016,18 @@ function isUidMatch(currentUid, targetUid) {
     if (currentUid < 0) {
         return false;
     }
-    
+
     const currentUidStr = currentUid.toString();
     const targetUidStr = targetUid.toString();
-    
+
     // 计算相似度
     const similarity = calculateSimilarity(currentUidStr, targetUidStr);
-    
+
     // 输出相似度信息
     log.info(`UID相似度：${(similarity * 100).toFixed(2)}% (${currentUidStr} vs ${targetUidStr})`);
-    
+
     // 相似度大于等于8/9时认为匹配成功
-    return similarity >= 8/9;
+    return similarity >= 8 / 9;
 }
 
 /**
@@ -1037,58 +1070,58 @@ async function verifyCurrentUid() {
 async function handleScreenshotMode() {
     try {
         log.info('进入截图模式');
-        
+
         // 1. 确定要使用的UID
         let uidStr = settings.targetUid;
-        
+
         if (!uidStr) {
             log.info('未设置目标UID，尝试识别当前账号UID');
             const currentUid = await verifyCurrentUid();
-            
+
             if (currentUid < 0) {
                 log.error('未能识别当前账号UID，截图模式失败');
                 notification.error('截图模式失败：未能识别当前账号UID');
                 return;
             }
-            
+
             uidStr = currentUid.toString();
             log.info(`识别到当前账号UID：${uidStr}`);
         } else {
             log.info(`使用设置的目标UID：${uidStr}`);
         }
-        
+
         // 2. 前往"进入游戏或登录其他账号"界面
         log.info('开始：前往进入游戏或登录其他账号界面');
-        
+
         // 直接尝试进入enterGame状态
         const enterGameResult = await goToState('enterGame');
-        
+
         if (!enterGameResult) {
             log.error('未能到达进入游戏或登录其他账号界面，截图模式失败');
             notification.error('截图模式失败：未能到达进入游戏或登录其他账号界面');
             return;
         }
-        
+
         log.info('成功到达进入游戏或登录其他账号界面');
-        
+
         // 3. 截图保存对应UID图片
         log.info('开始：截图保存账号图片');
-        
+
         // 截图区域：780 481 150 27
         const CAP_X = 780;
         const CAP_Y = 481;
         const CAP_W = 150;
         const CAP_H = 27;
-        
+
         // 保存路径
         const TARGET_DIR = 'accounts';
         const fullPath = TARGET_DIR + '/' + uidStr + '.png';
-        
+
         // 捕获游戏画面
         gameRegion = captureGameRegion();
         try {
             const mat = gameRegion.DeriveCrop(CAP_X, CAP_Y, CAP_W, CAP_H).SrcMat;
-            
+
             // 保存图片
             file.WriteImageSync(fullPath, mat);
             mat.dispose();
@@ -1096,15 +1129,15 @@ async function handleScreenshotMode() {
             gameRegion.dispose();
             gameRegion = null;
         }
-        
+
         log.info(`成功保存账号图片：${fullPath}`);
         notification.Send(`截图模式成功：已保存账号图片 ${uidStr}.png`);
-        
+
         // 4. 返回主界面
         log.info('开始：返回主界面');
         await goToState('mainUI');
         log.info('已返回主界面');
-        
+
     } catch (e) {
         log.error(`截图模式出错：${e.message}`);
         notification.error(`截图模式失败：${e.message}`);
