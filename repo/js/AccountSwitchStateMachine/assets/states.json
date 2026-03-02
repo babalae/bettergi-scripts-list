@@ -1,0 +1,412 @@
+[
+  {
+    "name": "mainUI",
+    "description": "处于主界面",
+    "transitions": [
+      {
+        "targetState": "menuUI",
+        "action": "keyPress('VK_ESCAPE'); await sleep(1000);"
+      }
+    ],
+    "detection": {
+      "conditions": [
+        {
+          "id": "paimon",
+          "template": "assets/RecognitionObjects/Paimon.png",
+          "region": {
+            "x": 0,
+            "y": 0,
+            "width": 150,
+            "height": 150
+          }
+        }
+      ],
+      "logic": "paimon"
+    }
+  },
+  {
+    "name": "menuUI",
+    "description": "处于菜单界面",
+    "transitions": [
+      {
+        "targetState": "mainUI",
+        "action": "await genshin.returnMainUi();"
+      },
+      {
+        "targetState": "prepareToLogOut",
+        "action": "click(50, 1025); await findAndClick('assets/RecognitionObjects/PrepareToLogOut.png', false);"
+      }
+    ],
+    "detection": {
+      "conditions": [
+        {
+          "id": "menu",
+          "template": "assets/RecognitionObjects/Menu.png",
+          "region": {
+            "x": 0,
+            "y": 0,
+            "width": 150,
+            "height": 150
+          }
+        },
+        {
+          "id": "prepareToLogOut",
+          "template": "assets/RecognitionObjects/PrepareToLogOut.png",
+          "region": {
+            "x": 646,
+            "y": 488,
+            "width": 639,
+            "height": 97
+          }
+        }
+      ],
+      "logic": "menu && !prepareToLogOut"
+    }
+  },
+  {
+    "name": "prepareToLogOut",
+    "description": "预备退出登录",
+    "transitions": [
+      {
+        "targetState": "menuUI",
+        "action": "await findAndClick('assets/RecognitionObjects/PrepareToLogOut.png');"
+      },
+      {
+        "targetState": "loginScreen",
+        "action": "await findAndClick('assets/RecognitionObjects/PrepareToLogOut.png'); await sleep(500); await findAndClick('assets/RecognitionObjects/SwitchAccount.png', false, 30000);"
+      }
+    ],
+    "detection": {
+      "conditions": [
+        {
+          "id": "prepareToLogOut",
+          "template": "assets/RecognitionObjects/PrepareToLogOut.png",
+          "region": {
+            "x": 646,
+            "y": 488,
+            "width": 639,
+            "height": 97
+          }
+        }
+      ],
+      "logic": "prepareToLogOut"
+    }
+  },
+  {
+    "name": "loginScreen",
+    "description": "登录界面",
+    "transitions": [
+      {
+        "targetState": "exitAccount",
+        "action": "await findAndClick('assets/RecognitionObjects/SwitchAccount.png');"
+      },
+      {
+        "targetState": "mainUI",
+        "action": "click(10, 10); let attempts = 0; const maxAttempts = 30; while (!await findAndClick('assets/RecognitionObjects/Paimon.png', false, 200) && attempts < maxAttempts) { attempts++; await sleep(5000); click(10, 10); }"
+      }
+    ],
+    "detection": {
+      "conditions": [
+        {
+          "id": "switchAccount",
+          "template": "assets/RecognitionObjects/SwitchAccount.png",
+          "region": {
+            "x": 1783,
+            "y": 940,
+            "width": 100,
+            "height": 100
+          }
+        },
+        {
+          "id": "exit",
+          "template": "assets/RecognitionObjects/Exit.png",
+          "region": {
+            "x": 911,
+            "y": 600,
+            "width": 341,
+            "height": 173
+          }
+        },
+        {
+          "id": "confirm",
+          "template": "assets/RecognitionObjects/Confirm.png",
+          "region": {
+            "x": 734,
+            "y": 826,
+            "width": 439,
+            "height": 116
+          }
+        }
+      ],
+      "logic": "switchAccount && !exit && !confirm"
+    }
+  },
+  {
+    "name": "exitAccount",
+    "description": "退出账号界面",
+    "transitions": [
+      {
+        "targetState": "enterGame",
+        "action": "await findAndClick('assets/RecognitionObjects/Exit.png');"
+      }
+    ],
+    "detection": {
+      "conditions": [
+        {
+          "id": "exit",
+          "template": "assets/RecognitionObjects/Exit.png",
+          "region": {
+            "x": 911,
+            "y": 600,
+            "width": 341,
+            "height": 173
+          }
+        },
+        {
+          "id": "confirm",
+          "template": "assets/RecognitionObjects/Confirm.png",
+          "region": {
+            "x": 734,
+            "y": 826,
+            "width": 439,
+            "height": 116
+          }
+        }
+      ],
+      "logic": "exit && !confirm"
+    }
+  },
+  {
+    "name": "enterGame",
+    "description": "进入游戏或登录其他账号",
+    "transitions": [
+      {
+        "targetState": "selectAccount",
+        "action": "click(974,496);"
+      },
+      {
+        "targetState": "enterAccountAndPassword",
+        "action": "await findAndClick('assets/RecognitionObjects/LoginOther.png');"
+      },
+      {
+        "targetState": "loginScreen",
+        "action": "await findAndClick('assets/RecognitionObjects/EnterGame.png');"
+      }
+    ],
+    "detection": {
+      "conditions": [
+        {
+          "id": "enterGame",
+          "template": "assets/RecognitionObjects/EnterGame.png",
+          "region": {
+            "x": 643,
+            "y": 565,
+            "width": 652,
+            "height": 186
+          }
+        },
+        {
+          "id": "loginOther",
+          "template": "assets/RecognitionObjects/LoginOther.png",
+          "region": {
+            "x": 643,
+            "y": 565,
+            "width": 652,
+            "height": 186
+          }
+        },
+        {
+          "id": "confirm",
+          "template": "assets/RecognitionObjects/Confirm.png",
+          "region": {
+            "x": 734,
+            "y": 826,
+            "width": 439,
+            "height": 116
+          }
+        }
+      ],
+      "logic": "enterGame && loginOther && !confirm"
+    }
+  },
+  {
+    "name": "selectAccount",
+    "description": "选择账号界面",
+    "transitions": [
+      {
+        "targetState": "enterGame",
+        "action": "click(957, 404);"
+      }
+    ],
+    "detection": {
+      "conditions": [
+        {
+          "id": "enterGame",
+          "template": "assets/RecognitionObjects/EnterGame.png",
+          "region": {
+            "x": 643,
+            "y": 565,
+            "width": 652,
+            "height": 186
+          }
+        },
+        {
+          "id": "loginOther",
+          "template": "assets/RecognitionObjects/LoginOther.png",
+          "region": {
+            "x": 643,
+            "y": 565,
+            "width": 652,
+            "height": 186
+          }
+        },
+        {
+          "id": "selectAccount",
+          "template": "assets/RecognitionObjects/SelectAccount.png",
+          "region": {
+            "x": 642,
+            "y": 441,
+            "width": 644,
+            "height": 580
+          }
+        },
+        {
+          "id": "confirm",
+          "template": "assets/RecognitionObjects/Confirm.png",
+          "region": {
+            "x": 734,
+            "y": 826,
+            "width": 439,
+            "height": 116
+          }
+        }
+      ],
+      "logic": "!enterGame && !loginOther && selectAccount && !confirm"
+    }
+  },
+  {
+    "name": "enterAccountAndPassword",
+    "description": "输入账号密码界面",
+    "transitions": [
+      {
+        "targetState": "noAccount",
+        "action": "click(1260, 259);"
+      }
+    ],
+    "detection": {
+      "conditions": [
+        {
+          "id": "enterAccountAndPassword",
+          "template": "assets/RecognitionObjects/EnterAccountAndPassword.png",
+          "region": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080
+          }
+        },
+        {
+          "id": "confirm",
+          "template": "assets/RecognitionObjects/Confirm.png",
+          "region": {
+            "x": 734,
+            "y": 826,
+            "width": 439,
+            "height": 116
+          }
+        }
+      ],
+      "logic": "enterAccountAndPassword && !confirm"
+    }
+  },
+  {
+    "name": "ageConfirmation",
+    "description": "适龄提示界面",
+    "transitions": [
+      {
+        "targetState": "noAccount",
+        "action": "await findAndClick('assets/RecognitionObjects/Confirm.png');"
+      }
+    ],
+    "detection": {
+      "conditions": [
+        {
+          "id": "confirm",
+          "template": "assets/RecognitionObjects/Confirm.png",
+          "region": {
+            "x": 734,
+            "y": 826,
+            "width": 439,
+            "height": 116
+          }
+        }
+      ],
+      "logic": "confirm"
+    }
+  },
+  {
+    "name": "noAccount",
+    "description": "无账号登录界面",
+    "transitions": [
+      {
+        "targetState": "enterGame",
+        "action": "await findAndClick('assets/RecognitionObjects/Login.png');"
+      }
+    ],
+    "detection": {
+      "conditions": [
+        {
+          "id": "login",
+          "template": "assets/RecognitionObjects/Login.png",
+          "region": {
+            "x": 1776,
+            "y": 934,
+            "width": 100,
+            "height": 100
+          }
+        },
+        {
+          "id": "enterGame",
+          "template": "assets/RecognitionObjects/EnterGame.png",
+          "region": {
+            "x": 643,
+            "y": 565,
+            "width": 652,
+            "height": 186
+          }
+        },
+        {
+          "id": "selectAccount",
+          "template": "assets/RecognitionObjects/SelectAccount.png",
+          "region": {
+            "x": 642,
+            "y": 441,
+            "width": 644,
+            "height": 580
+          }
+        },
+        {
+          "id": "enterAccountAndPassword",
+          "template": "assets/RecognitionObjects/EnterAccountAndPassword.png",
+          "region": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080
+          }
+        },
+        {
+          "id": "confirm",
+          "template": "assets/RecognitionObjects/Confirm.png",
+          "region": {
+            "x": 734,
+            "y": 826,
+            "width": 439,
+            "height": 116
+          }
+        }
+      ],
+      "logic": "login && !enterGame && !selectAccount && !enterAccountAndPassword && !confirm"
+    }
+  }
+]
