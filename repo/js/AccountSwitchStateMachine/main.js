@@ -6,7 +6,8 @@ let gameRegion = null;
 
 // 主逻辑
 (async function () {
-    if (settings.verifyUid && !settings.targetUid) {
+    // 只有当未开启截图模式时，才检查 verifyUid 和 targetUid
+    if (!settings.screenshotMode && settings.verifyUid && !settings.targetUid) {
         const msg = '已启用UID校验,但未填写目标UID,请检查配置';
         log.error(msg);
         notification.error(msg);
@@ -871,6 +872,10 @@ async function findAndClick(target,
  * @param {number}  maxOverlap        - 非极大抑制时允许的最大重叠像素，默认 2；只要 x 或 y 方向重叠大于该值即视为重复框
  *
  * @returns {number} 识别出的整数；若没有任何有效数字框则返回 -1
+ *
+ * @example
+ * const mora = await numberTemplateMatch('摩拉数字', 860, 70, 200, 40);
+ * if (mora >= 0) console.log(`当前摩拉：${mora}`);
  */
 async function numberTemplateMatch(
     numberPngFilePath,
@@ -880,16 +885,19 @@ async function numberTemplateMatch(
     splitCount = 5,
     maxOverlap = 2
 ) {
-    let ros = [];
+    let targetObjs = new Array(10); // 0-9 共10个数字模板
     for (let i = 0; i <= 9; i++) {
-        ros[i] = RecognitionObject.TemplateMatch(
-            file.ReadImageMatSync(`${numberPngFilePath}/${i}.png`), x, y, w, h);
+        targetObjs[i] = {};
+        targetObjs[i].mat = file.ReadImageMatSync(`${numberPngFilePath}/${i}.png`);
+        targetObjs[i].ro = RecognitionObject.TemplateMatch(targetObjs[i].mat, x, y, w, h);
     }
 
-    function setThreshold(roArr, newThreshold) {
-        for (let i = 0; i < roArr.length; i++) {
-            roArr[i].Threshold = newThreshold;
-            roArr[i].InitTemplate();
+    function setThreshold(objs, newThreshold) {
+        for (let i = 0; i < objs.length; i++) {
+            if (objs[i] && objs[i].ro) {
+                objs[i].ro.Threshold = newThreshold;
+                objs[i].ro.InitTemplate();
+            }
         }
     }
 
@@ -902,12 +910,12 @@ async function numberTemplateMatch(
         /* 1. splitCount 次等间隔阈值递减 */
         for (let k = 0; k < splitCount; k++) {
             const curThr = maxThreshold - (maxThreshold - minThreshold) * k / Math.max(splitCount - 1, 1);
-            setThreshold(ros, curThr);
+            setThreshold(targetObjs, curThr);
 
             /* 2. 9-0 每个模板跑一遍，所有框都收 */
             for (let digit = 9; digit >= 0; digit--) {
                 try {
-                    const res = gameRegion.findMulti(ros[digit]);
+                    const res = gameRegion.findMulti(targetObjs[digit].ro);
                     if (res.count === 0) continue;
 
                     for (let i = 0; i < res.count; i++) {
@@ -930,6 +938,16 @@ async function numberTemplateMatch(
         log.error(`识别数字过程中出现错误：${error.message}`);
     } finally {
         if (gameRegion) gameRegion.dispose();
+        // 释放数字模板的 mat 对象
+        for (let i = 0; i < targetObjs.length; i++) {
+            if (targetObjs[i] && targetObjs[i].mat) {
+                try {
+                    targetObjs[i].mat.dispose();
+                } catch (e) {
+                    log.error(`释放数字模板 Mat 对象时出错：${e.message}`);
+                }
+            }
+        }
     }
 
     /* 3. 无结果提前返回 -1 */
@@ -951,6 +969,7 @@ async function numberTemplateMatch(
         }
         if (!overlap) {
             adopted.push(c);
+            //log.info(`在 [${c.x},${c.y},${c.w},${c.h}] 找到数字 ${c.digit}，匹配阈值=${c.thr}`);
         }
     }
 
