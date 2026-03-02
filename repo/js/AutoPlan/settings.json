@@ -1,0 +1,71 @@
+[
+    {
+      "name": "key",
+      "type": "input-text",
+      "label": "密钥(去看文档)"
+    },
+    {
+      "name": "auto_load",
+      "type": "multi-checkbox",
+      "label": "加载模式\n说明太长 去看文档",
+      "options": ["输入加载","UID加载","bgi_tools加载"] ,
+      "default": ["输入加载","UID加载"]
+    },
+    {
+      "name": "run_config",
+      "type": "input-text",
+      "label": "自动秘境计划配置\n语法:说明太长 去看文档",
+      "default": ""
+    },
+    {
+      "name": "loop_plan",
+      "type": "checkbox",
+      "label": "循环体力计划\n体力耗尽自动终止"
+    },
+    {
+      "name": "retry_count",
+      "type": "select",
+      "label": "复活重试次数",
+      "options": [
+      "1","2","3",
+      "4","5","6",
+      "7","8","9"
+      ] ,
+      "default": "3"
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "type": "separator"
+    },
+    {
+      "name": "bgi_tools_http_pull_json_config",
+      "type": "input-text",
+      "label": "bgi_tools拉取配置api(去看文档)",
+      "default": "http://127.0.0.1:8081/bgi/auto/plan/json"
+    },
+    {
+      "name": "bgi_tools_open_push",
+      "type": "checkbox",
+      "label": "开始推送bgi_tools配置"
+    },
+    {
+      "name": "bgi_tools_http_push_all_json_config",
+      "type": "input-text",
+      "label": "bgi_tools推送全部配置api(去看文档)",
+      "default": "http://127.0.0.1:8081/bgi/auto/plan/domain/json/all"
+    },
+    {
+      "name": "bgi_tools_http_push_all_country_config",
+      "type": "input-text",
+      "label": "bgi_tools推送全部国家配置api(去看文档)",
+      "default": "http://127.0.0.1:8081/bgi/auto/plan/country/json/all"
+    },
+    {
+      "name": "bgi_tools_token",
+      "type": "input-text",
+      "label": "bgi_tools授权token 语法:tokenName=tokenValue(去看文档)",
+      "default": "Authorization= "
+    }
+]
