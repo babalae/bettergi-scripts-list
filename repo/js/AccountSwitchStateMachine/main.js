@@ -349,26 +349,38 @@ async function determineCurrentState(previousState = null) {
     // 最多尝试3次
     const maxAttempts = 30;
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-        // 捕获游戏画面
+        // 释放之前的gameRegion
+        if (gameRegion) {
+            gameRegion.dispose();
+            gameRegion = null;
+        }
+        
+        // 捕获游戏画面并使用try-finally确保释放
         gameRegion = captureGameRegion();
+        try {
+            // 遍历所有状态进行匹配
+            for (const stateName of stateSequence) {
+                const state = stateMachineConfig[stateName];
+                if (!state || !state.detection) continue;
 
-        // 遍历所有状态进行匹配
-        for (const stateName of stateSequence) {
-            const state = stateMachineConfig[stateName];
-            if (!state || !state.detection) continue;
+                // 评估该状态的检测条件
+                if (await evaluateDetectionConditions(state.detection)) {
+                    return stateName;
+                }
+            }
 
-            // 评估该状态的检测条件
-            if (await evaluateDetectionConditions(state.detection)) {
-                return stateName;
+            if (attempt < maxAttempts) {
+                log.warn(`第 ${attempt} 次尝试未识别到当前状态，1秒后重试...`);
+                await sleep(1000);
+            }
+        } finally {
+            // 统一释放gameRegion
+            if (gameRegion) {
+                gameRegion.dispose();
+                gameRegion = null;
             }
         }
-
-        if (attempt < maxAttempts) {
-            log.warn(`第 ${attempt} 次尝试未识别到当前状态，1秒后重试...`);
-            await sleep(1000);
-        }
     }
-
     log.error(`经过 ${maxAttempts} 次尝试仍无法识别当前状态`);
     return null;
 }
@@ -643,68 +655,71 @@ function findPath(startState, targetState) {
 }
 
 /**
- * 查找并点击指定图片
- * 支持传入图片路径或RecognitionObject对象
- *
- * @param {string|RecognitionObject} target - 图片路径或识别对象
- * @param {boolean} click - 是否点击，默认为true
- * @param {number} timeout - 超时时间（毫秒），默认30000
- * @returns {boolean} 是否找到并点击
+ * 通用找图/找RO并可选点击（支持单图片文件路径、单RO、图片文件路径数组、RO数组）
+ * @param {string|string[]|RecognitionObject|RecognitionObject[]} target
+ * @param {boolean}  [doClick=true]                是否点击
+ * @param {number}   [timeout=3000]                识别时间上限（ms）
+ * @param {number}   [interval=50]                 识别间隔（ms）
+ * @param {number}   [retType=0]                   0-返回布尔；1-返回 Region 结果
+ * @param {number}   [preClickDelay=50]            点击前等待
+ * @param {number}   [postClickDelay=50]           点击后等待
+ * @returns {boolean|Region}  根据 retType 返回是否成功或最终 Region
  */
-async function findAndClick(target, click = true, timeout = 30000) {
-    const startTime = Date.now();
-
-    while (Date.now() - startTime < timeout) {
-        gameRegion = captureGameRegion();
-
-        let result;
-        if (typeof target === 'string') {
-            // 传入的是图片路径
-            const ro = RecognitionObject.TemplateMatch(
-                file.ReadImageMatSync(target),
-                0, 0, 1920, 1080
+async function findAndClick(target,
+    doClick = true,
+    timeout = 3000,
+    interval = 50,
+    retType = 0,
+    preClickDelay = 50,
+    postClickDelay = 50) {
+    try {
+        // 1. 统一转成 RecognitionObject 数组
+        let ros = [];
+        if (Array.isArray(target)) {
+            ros = target.map(t =>
+                (typeof t === 'string')
+                    ? RecognitionObject.TemplateMatch(file.ReadImageMatSync(t))
+                    : t
             );
-            result = gameRegion.find(ro);
         } else {
-            // 传入的是RecognitionObject对象
-            result = gameRegion.find(target);
+            ros = [(typeof target === 'string')
+                ? RecognitionObject.TemplateMatch(file.ReadImageMatSync(target))
+                : target];
         }
 
-        if (result.isExist()) {
-            if (click) {
-                // 获取识别结果的中心点，使用最远的备用点（50x50点阵）
-                const x = result.x + result.width / 2;
-                const y = result.y + result.height / 2;
+        const start = Date.now();
+        let found = null;
 
-                // 计算点阵中距离最远的点
-                let farthestX = x;
-                let farthestY = y;
-                let maxDistance = 0;
-
-                for (let px = 10; px <= 1910; px += 50) {
-                    for (let py = 10; py <= 1070; py += 50) {
-                        const distance = Math.sqrt((px - x) ** 2 + (py - y) ** 2);
-                        if (distance > maxDistance) {
-                            maxDistance = distance;
-                            farthestX = px;
-                            farthestY = py;
+        while (Date.now() - start <= timeout) {
+            const gameRegion = captureGameRegion();
+            try {
+                // 依次尝试每一个 ro
+                for (const ro of ros) {
+                    const res = gameRegion.find(ro);
+                    if (!res.isEmpty()) {          // 找到
+                        found = res;
+                        if (doClick) {
+                            await sleep(preClickDelay);
+                            res.click();
+                            await sleep(postClickDelay);
                         }
+                        break;                     // 成功即跳出 for
                     }
                 }
-
-                // 先移动到最远点，再点击目标
-                moveMouseTo(farthestX, farthestY);
-                await sleep(50);
-                result.click();
-                await sleep(50);
+                if (found) break;                  // 成功即跳出 while
+            } finally {
+                gameRegion.dispose();
             }
-            return true;
+            await sleep(interval);                 // 没找到时等待
         }
 
-        await sleep(200);
-    }
+        // 3. 按需返回
+        return retType === 0 ? !!found : (found || null);
 
-    return false;
+    } catch (error) {
+        log.error(`执行通用识图时出现错误：${error.message}`);
+        return retType === 0 ? false : null;
+    }
 }
 // 将函数挂载到 globalThis，供 new Function 创建的作用域访问
 globalThis.findAndClick = findAndClick;
@@ -719,53 +734,13 @@ globalThis.findAndClick = findAndClick;
  * @returns {boolean} 是否找到并点击
  */
 async function findAndClickByMat(imageMat, click = true, timeout = 30000) {
-    const startTime = Date.now();
-
-    while (Date.now() - startTime < timeout) {
-        gameRegion = captureGameRegion();
-
-        // 使用预加载的图片矩阵创建识别对象
-        const ro = RecognitionObject.TemplateMatch(
-            imageMat,
-            0, 0, 1920, 1080
-        );
-        const result = gameRegion.find(ro);
-
-        if (result.isExist()) {
-            if (click) {
-                // 获取识别结果的中心点，使用最远的备用点（50x50点阵）
-                const x = result.x + result.width / 2;
-                const y = result.y + result.height / 2;
-
-                // 计算点阵中距离最远的点
-                let farthestX = x;
-                let farthestY = y;
-                let maxDistance = 0;
-
-                for (let px = 10; px <= 1910; px += 50) {
-                    for (let py = 10; py <= 1070; py += 50) {
-                        const distance = Math.sqrt((px - x) ** 2 + (py - y) ** 2);
-                        if (distance > maxDistance) {
-                            maxDistance = distance;
-                            farthestX = px;
-                            farthestY = py;
-                        }
-                    }
-                }
-
-                // 先移动到最远点，再点击目标
-                moveMouseTo(farthestX, farthestY);
-                await sleep(50);
-                result.click();
-                await sleep(50);
-            }
-            return true;
-        }
-
-        await sleep(200);
-    }
-
-    return false;
+    // 创建识别对象
+    const ro = RecognitionObject.TemplateMatch(
+        imageMat,
+        0, 0, 1920, 1080
+    );
+    // 调用通用findAndClick函数
+    return await findAndClick(ro, click, timeout, 200);
 }
 // 将函数挂载到 globalThis，供 new Function 创建的作用域访问
 globalThis.findAndClickByMat = findAndClickByMat;
