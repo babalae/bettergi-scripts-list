@@ -312,7 +312,7 @@ async function waitUntilImgDisappear(
   y = 0,
   w = 1920,
   h = 1080,
-  timeout = 5000,
+  timeout = 10000,
   interval = 50
 ) {
   const start = Date.now();
@@ -350,7 +350,7 @@ async function waitUntilTextAppear(
   y = 0,
   w = 1920,
   h = 1080,
-  attempts = 5,
+  attempts = 100,
   interval = 50
 ) {
   const start = Date.now();
@@ -389,7 +389,7 @@ async function waitUntilTextDisappear(
   y = 0,
   w = 1920,
   h = 1080,
-  attempts = 5,
+  attempts = 100,
   interval = 50
 ) {
   const start = Date.now();
