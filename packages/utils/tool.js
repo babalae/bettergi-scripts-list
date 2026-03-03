@@ -274,7 +274,7 @@ async function waitUntilImgAppear(
   y = 0,
   w = 1920,
   h = 1080,
-  timeout = 5000,
+  timeout = 10000,
   interval = 50
 ) {
   const start = Date.now();
