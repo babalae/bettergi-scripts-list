@@ -3,12 +3,14 @@ import {
   findTextAndClick,
   findImgAndClick,
   waitUntilTextAppear,
-  waitUntilImgDisappear
+  waitUntilImgDisappear,
+  waitUntilImgAppear
 } from "../../../packages/utils/tool";
 
 import fold_triangle from "assets/fold_triangle.png";
 import check_box from "assets/check_box.png";
 import exit_room from "assets/exit_room.png";
+import paimon from "../../../packages/assets/imgs/paimon_menu.png";
 
 const duration = 1000; // 默认点击等待延时
 
@@ -380,6 +382,9 @@ async function exitToTeyvat() {
   await findTextAndClick("返回", 960, 0, 960, 100);
   await sleep(duration);
   await findTextAndClick("确认", 960, 600, 960, 400);
+  await waitUntilImgAppear(paimon);
+  // 有镜头拉近动画
+  await sleep(duration);
 }
 
 (async function () {
