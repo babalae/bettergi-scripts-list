@@ -280,7 +280,9 @@ async function waitUntilImgAppear(
   const start = Date.now();
 
   while (Date.now() - start <= timeout) {
-    await action();
+    if (action) {
+      await action();
+    }
     const res = await findImg(target, x, y, w, h, interval);
     if (res) return res;
     await sleep(interval);
@@ -316,7 +318,9 @@ async function waitUntilImgDisappear(
   const start = Date.now();
 
   while (Date.now() - start <= timeout) {
-    await action();
+    if (action) {
+      await action();
+    }
     const res = await findImg(target, x, y, w, h, interval);
     if (!res) return true;
     await sleep(interval);
@@ -352,8 +356,9 @@ async function waitUntilTextAppear(
   const start = Date.now();
 
   while (Date.now() - start <= attempts * interval) {
-    await action();
-
+    if (action) {
+      await action();
+    }
     const res = await findText(text, x, y, w, h, 1, interval);
     if (res) return res;
 
@@ -390,7 +395,9 @@ async function waitUntilTextDisappear(
   const start = Date.now();
 
   while (Date.now() - start <= attempts * interval) {
-    await action();
+    if (action) {
+      await action();
+    }
     const res = await findText(text, x, y, w, h, 1, interval); // 每次只试 1 次 OCR
     if (!res) return true;
     await sleep(interval);
