@@ -68,7 +68,124 @@ async function isTaskCompleted(materialType, materialName, currentRequireCounts)
         return previousRequireCounts === currentRequireCounts;
     }
 }
+/**
+ * 在指定区域内查找并点击指定文字
+ * @param {string} targetText - 要点击的目标文字
+ * @param {number} x - 识别区域的左上角X坐标
+ * @param {number} y - 识别区域的左上角Y坐标
+ * @param {number} width - 识别区域的宽度
+ * @param {number} height - 识别区域的高度
+ * @param {object} options - 可选参数
+ * @param {boolean} options.trimText - 是否对OCR结果进行trim处理，默认true
+ * @param {boolean} options.clickCenter - 是否点击文字区域中心，默认true
+ * @param {number} options.retryCount - 重试次数，默认3
+ * @param {number} options.retryInterval - 重试间隔(毫秒)，默认500
+ * @returns {Promise<boolean>} 是否找到并点击了文字
+ */
+async function clickTextInRegion(targetText, x=0, y=0, width=1920, height=1080, options = {}) {
+    const {
+        trimText = true,
+        clickCenter = true,
+        retryCount = 3,
+        retryInterval = 400
+    } = options;
 
+    for (let attempt = 0; attempt <= retryCount; attempt++) {
+        let captureRegion = null;
+        let ocrRo = null;
+        let results = null;
+        
+        try {
+            // 获取游戏区域截图
+            captureRegion = captureGameRegion();
+
+            // 创建OCR识别对象，限定识别区域
+            ocrRo = RecognitionObject.ocr(x, y, width, height);
+            
+            // 在限定区域内进行OCR识别
+            results = captureRegion.findMulti(ocrRo);
+
+            // 遍历OCR结果
+            for (let i = 0; i < results.count; i++) {
+                const res = results[i];
+                let detectedText = res.text;
+                
+                // 可选：去除前后空白字符
+                if (trimText) {
+                    detectedText = detectedText.trim();
+                }
+
+                // 检查是否匹配目标文字
+                if (detectedText === targetText) {
+                    //log.info(`找到目标文字: "${targetText}"，位置: (${res.x}, ${res.y}, ${res.width}, ${res.height})`);
+                    
+                    if (clickCenter) {
+                        // 点击文字区域中心
+                        await sleep(200);
+                        keyDown("VK_LMENU");
+                        await sleep(600);
+                        res.click();
+                        await sleep(200);
+                        keyUp("VK_LMENU");
+                        log.info(`已点击文字中心: "${targetText}"`);
+
+                    } else {
+                        // 点击文字区域的左上角
+                        res.clickTo(0, 0);
+                        log.info(`已点击文字偏移位置: "${targetText}"`);
+                    }
+                    
+                    // 释放资源
+                    if (captureRegion) {
+                        captureRegion.Dispose();
+                    }
+                    if (res) {
+                        res.Dispose();
+                    }
+                    
+                    return true;
+                }
+                
+                // 释放当前遍历的结果对象
+                if (res) {
+                    res.Dispose();
+                }
+            }
+
+            // 如果当前尝试未找到，且还有重试机会，则等待后重试
+            if (attempt < retryCount) {
+                
+                await sleep(retryInterval);
+            }
+        } catch (error) {
+            log.error(`点击文字"${targetText}"时发生错误: ${error.message}`);
+            if (attempt < retryCount) {
+                await sleep(retryInterval);
+            }
+        } finally {
+            // 确保每次尝试都释放资源
+            if (captureRegion) {
+                captureRegion.Dispose();
+            }
+            if (results) {
+                // 如果还有未释放的结果对象
+                for (let i = 0; i < results.count; i++) {
+                    const res = results[i];
+                    if (res && typeof res.Dispose === 'function') {
+                        try {
+                            res.Dispose();
+                        } catch (e) {
+                            // 忽略释放错误
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    log.info(`未找到文字: "${targetText}"，已尝试${retryCount + 1}次`);
+    return false;
+}
 //获取BOSS材料数量
 async function getBossMaterialCount(bossName) {
 await genshin.returnMainUi();
@@ -708,8 +825,8 @@ async function getMaterialCount(bookName) {
         await genshin.returnMainUi();
         await sleep(500);
         keyPress("F1");
-        await repeatOperationUntilTextFound({x: 250,y: 420,width: 100,height: 60,targetText: "秘境",stepDuration: 0,waitTime: 100,ifClick: true});//用来等待点击文字,10s等待
-        await repeatOperationUntilTextFound({x: 415,y: 390,width: 300,height: 80,targetText: "天赋",stepDuration: 0,waitTime: 100,ifClick: true});//用来等待点击文字,10s等待
+        await clickTextInRegion("秘境",0,0,700,1000);
+		await clickTextInRegion("天赋突破素材",510,0,960,1000);
         // 1. 进入对应国家的副本
         log.info(`正在点击${country}副本...`);
         try {
@@ -792,8 +909,8 @@ async function getWeaponMaterialCount(materialName) {
         await genshin.returnMainUi();
         await sleep(500);
         keyPress("F1");
-        await repeatOperationUntilTextFound({x: 250,y: 420,width: 100,height: 60,targetText: "秘境",stepDuration: 0,waitTime: 100,ifClick: true});//用来等待点击文字,10s等待
-        await repeatOperationUntilTextFound({x: 415,y: 300,width: 300,height: 80,targetText: "武器",stepDuration: 0,waitTime: 100,ifClick: true});//用来等待点击文字,10s等待
+        await clickTextInRegion("秘境",0,0,700,1000);
+		await clickTextInRegion("武器突破素材",510,0,960,1000);
         // 1. 进入对应国家的副本
         log.info(`正在点击${country}副本...`);
         try {
@@ -1008,7 +1125,7 @@ if(afterStamina< 20) skipCheckStamina = 0;
                          await pathingScript.runFile(`assets/goToBoss/${bossName}前往.json`);
                          if(bossName=="超重型陆巡舰·机动战垒"){
 					     keyDown("w");
-					     await sleep(13000);
+					     await sleep(15000);
 					     keyUp("w");
 					     }
 					     else if(bossName=="深黯魇语之主"){
@@ -1151,6 +1268,7 @@ else log.info(`没有选择挑战首领${i+1}，跳过执行`);
 sendBufferedNotifications();//发送累积的完成信息
 
 })();
+
 
 
 
