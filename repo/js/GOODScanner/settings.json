@@ -1,0 +1,32 @@
+[
+    {
+        "name": "scanCharacters",
+        "type": "checkbox",
+        "label": "扫描角色 (Scan Characters)",
+        "default": true
+    },
+    {
+        "name": "scanWeapons",
+        "type": "checkbox",
+        "label": "扫描武器 (Scan Weapons)",
+        "default": true
+    },
+    {
+        "name": "scanArtifacts",
+        "type": "checkbox",
+        "label": "扫描圣遗物 (Scan Artifacts)",
+        "default": true
+    },
+    {
+        "name": "minWeaponRarity",
+        "type": "input",
+        "label": "最低武器星级 (Min weapon rarity: 3/4/5)",
+        "default": "3"
+    },
+    {
+        "name": "minArtifactRarity",
+        "type": "input",
+        "label": "最低圣遗物星级 (Min artifact rarity: 4/5)",
+        "default": "4"
+    }
+]
