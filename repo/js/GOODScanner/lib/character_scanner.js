@@ -9,8 +9,6 @@ var CHAR_OCR = {
     NAME:         { x: 120,  y: 18,  w: 250, h: 42 },
     // Character level (e.g., "Lv.90")
     LEVEL:        { x: 120,  y: 62,  w: 180, h: 30 },
-    // Constellation count area (shown in constellation tab)
-    CONSTELLATION: { x: 60, y: 200, w: 100, h: 40 },
     // Talent levels in the talent tab
     // Normal Attack talent level
     TALENT_AUTO:   { x: 270, y: 520, w: 60, h: 30 },
@@ -38,6 +36,21 @@ var CHAR_TABS = {
     TALENT:       { x: 1050, y: 60 },
     // The constellation tab
     CONSTELLATION: { x: 1250, y: 60 }
+};
+
+// Constellation sidebar click positions (scaled from Inventory_Kamera's 1280x720 base)
+// At 1920x1080: X=1695, Y starts at 270 with 112.5px spacing
+var CONST_SIDEBAR = {
+    X: 1695,
+    FIRST_Y: 270,
+    OFFSET_Y: 112.5
+};
+
+// Constellation activation indicator region (scaled from 1280x720 to 1920x1080)
+// At 1280x720: rect(70, 665, 30, 30) → At 1920x1080: rect(105, 997, 45, 45)
+// This is the "Activate" button area at the bottom-left of the constellation detail
+var CONST_ACTIVATE_REGION = {
+    x: 105, y: 997, w: 45, h: 45
 };
 
 // Read a single character's basic info (name + level) from the character screen
@@ -83,48 +96,46 @@ async function readTalentLevels() {
 }
 
 // Read constellation count from the constellation tab
+// Strategy adapted from Inventory_Kamera: click each constellation entry in the
+// sidebar sequentially, then OCR the activation button region. A locked constellation
+// shows "激活" (Activate) text, while an unlocked one shows the constellation
+// name/description. We count how many are unlocked before hitting a locked one.
 // Returns 0-6
 async function readConstellationCount() {
     // Navigate to constellation tab
     click(CHAR_TABS.CONSTELLATION.x, CHAR_TABS.CONSTELLATION.y);
-    await sleep(800);
+    await sleep(1000);
 
-    // The constellation screen shows 6 nodes in a circular layout
-    // Active constellations are lit up / colored, inactive are dim/locked
-    // Strategy: OCR the constellation text or count active indicators
-    // A simpler approach: read the "命之座" text which may show count
+    var constellation = 0;
 
-    // Try reading a summary area that might show constellation info
-    var constText = await ocrRegion(CHAR_OCR.CONSTELLATION.x, CHAR_OCR.CONSTELLATION.y,
-        CHAR_OCR.CONSTELLATION.w, CHAR_OCR.CONSTELLATION.h);
+    for (var c = 0; c < 6; c++) {
+        // Click the constellation entry in the right sidebar
+        var clickX = CONST_SIDEBAR.X;
+        var clickY = Math.round(CONST_SIDEBAR.FIRST_Y + c * CONST_SIDEBAR.OFFSET_Y);
 
-    if (constText) {
-        var cMatch = constText.match(/(\d)/);
-        if (cMatch) return parseInt(cMatch[1]);
-    }
+        click(clickX, clickY);
+        // First constellation needs more time for the UI to load
+        await sleep(c === 0 ? 700 : 500);
 
-    // Fallback: try reading individual constellation nodes
-    // Constellation positions are roughly in a vertical list or circular pattern
-    // We check each of the 6 constellation positions for "active" state
-    var activeCount = 0;
-    var constPositions = [
-        { x: 1400, y: 240 },
-        { x: 1520, y: 340 },
-        { x: 1520, y: 480 },
-        { x: 1400, y: 580 },
-        { x: 1280, y: 480 },
-        { x: 1280, y: 340 }
-    ];
+        // OCR the activation region at the bottom of the constellation detail
+        // A locked constellation has "激活" (Activate) button text
+        // An unlocked constellation does NOT show "激活" — it shows something else or nothing
+        var activateText = await ocrRegion(
+            CONST_ACTIVATE_REGION.x, CONST_ACTIVATE_REGION.y,
+            CONST_ACTIVATE_REGION.w, CONST_ACTIVATE_REGION.h, 800
+        );
 
-    // Check each constellation node via OCR — active ones have visible text/effects
-    for (var i = 0; i < constPositions.length; i++) {
-        var nodeText = await ocrRegion(constPositions[i].x - 30, constPositions[i].y - 20, 60, 40, 500);
-        if (nodeText && nodeText.length > 0) {
-            activeCount++;
+        // Check if this constellation is locked (shows "激活" button)
+        if (activateText && activateText.indexOf("激活") !== -1) {
+            // This constellation is locked — all remaining are also locked
+            break;
         }
+
+        // This constellation is unlocked
+        constellation++;
     }
 
-    return Math.min(activeCount, 6);
+    return constellation;
 }
 
 // Scan a single character fully (basic info + talents + constellation)
