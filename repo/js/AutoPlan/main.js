@@ -3,6 +3,7 @@ import {ocrUid} from './utils/uid';
 import {getDayOfWeek, outDomainUI, throwError} from './utils/tool';
 import {pullJsonConfig, pushAllCountryConfig, pushAllJsonConfig} from './utils/bgi_tools';
 import {ocrPhysical} from "./utils/physical";
+import {findStygianOnslaught} from "./utils/activity";
 
 /**
  * 自动执行秘境任务的异步函数
@@ -479,10 +480,21 @@ async function main() {
     let runConfig = config.run.config;
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|周几执行(0-6)不填默认执行|执行顺序,..."
     const autoRunOrderList = await initRunOrderList(runConfig);
-    const list = autoRunOrderList.filter(item =>
+    let list = autoRunOrderList.filter(item =>
         (item.runType === config.user.runTypes[0] && item?.autoFight.domainRoundNum > 0)
         || (item.runType === config.user.runTypes[1] && item?.autoLeyLineOutcrop.count > 0)
     )
+
+    const hasStygianOnslaught = list.some(item => item.runType===config.user.runTypes[2]);
+    if (hasStygianOnslaught) {
+        const isStygianOnslaught = await findStygianOnslaught();
+        if (!isStygianOnslaught) {
+            log.info(`幽境危战已结束`)
+            list = list.filter(item => item.runType !== config.user.runTypes[2])
+        }
+        await toMainUi()
+    }
+
     if (list?.length > 0) {
         //循环跑
         while (true) {
