@@ -28,5 +28,41 @@
         "type": "input",
         "label": "最低圣遗物星级 (Min artifact rarity: 4/5)",
         "default": "4"
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "name": "refreshMappings",
+        "type": "checkbox",
+        "label": "刷新游戏数据（每小时最多刷新一次）",
+        "default": false
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "name": "travelerName",
+        "type": "input",
+        "label": "旅行者 自定义名称（游戏内显示的名字）",
+        "default": ""
+    },
+    {
+        "name": "wandererName",
+        "type": "input",
+        "label": "流浪者 自定义名称（游戏内显示的名字）",
+        "default": ""
+    },
+    {
+        "name": "manekinName",
+        "type": "input",
+        "label": "奇偶·男性 自定义名称（游戏内显示的名字）",
+        "default": ""
+    },
+    {
+        "name": "manekinaName",
+        "type": "input",
+        "label": "奇偶·女性 自定义名称（游戏内显示的名字）",
+        "default": ""
     }
 ]

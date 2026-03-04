@@ -79,6 +79,21 @@ for (var i = 0; i < MAPPINGS.weapons.length; i++) {
     if (w.rarity <= 2) WEAPON_1_2_STAR.push(w.id);
 }
 
+// Apply user name overrides for characters with customizable in-game names
+var NAME_OVERRIDES = [
+    { setting: "travelerName", id: "Traveler" },
+    { setting: "wandererName", id: "Wanderer" },
+    { setting: "manekinName", id: "Manekin" },
+    { setting: "manekinaName", id: "Manekina" }
+];
+for (var i = 0; i < NAME_OVERRIDES.length; i++) {
+    var override = NAME_OVERRIDES[i];
+    var customName = settings[override.setting];
+    if (customName && typeof customName === "string" && customName.trim()) {
+        CHARACTER_NAME_MAP[customName.trim()] = override.id;
+    }
+}
+
 // --- Level to Ascension Lookup ---
 // Given a character/weapon level, determine the maximum possible ascension
 // Ascension boundaries: 20→0, 40→1, 50→2, 60→3, 70→4, 80→5, 90→6

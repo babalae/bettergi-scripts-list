@@ -4,7 +4,7 @@
 // ============================================================
 
 // Load modules
-eval(file.readTextSync("lib/constants.js"));
+eval(file.readTextSync("lib/fetch_mappings.js"));
 eval(file.readTextSync("lib/ocr_utils.js"));
 eval(file.readTextSync("lib/navigation.js"));
 eval(file.readTextSync("lib/artifact_scanner.js"));
@@ -13,6 +13,10 @@ eval(file.readTextSync("lib/character_scanner.js"));
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
+
+    // Fetch/refresh game data mappings before loading constants
+    await fetchMappingsIfNeeded();
+    eval(file.readTextSync("lib/constants.js"));
 
     var startTime = Date.now();
     log.info("=== GOOD Scanner v1.0 ===");
