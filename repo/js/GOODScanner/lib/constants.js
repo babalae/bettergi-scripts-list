@@ -47,9 +47,13 @@ var SLOT_KEY_MAP = {
 var MAPPINGS = JSON.parse(file.readTextSync("data/mappings.json"));
 
 var CHARACTER_NAME_MAP = {};
+var CHARACTER_CONST_BONUS = {};
 for (var i = 0; i < MAPPINGS.characters.length; i++) {
     var c = MAPPINGS.characters[i];
     CHARACTER_NAME_MAP[c.names.zh] = c.id;
+    if (c.c3 || c.c5) {
+        CHARACTER_CONST_BONUS[c.id] = { c3: c.c3 || null, c5: c.c5 || null };
+    }
 }
 
 var WEAPON_NAME_MAP = {};
@@ -64,13 +68,11 @@ for (var i = 0; i < MAPPINGS.artifactSets.length; i++) {
     ARTIFACT_SET_MAP[a.names.zh] = a.id;
 }
 
-// Build rarity arrays from mappings data
-var STAR_3_SETS = [];
-var STAR_4_SETS = [];
+// 套装最高星级映射
+var ARTIFACT_SET_MAX_RARITY = {};
 for (var i = 0; i < MAPPINGS.artifactSets.length; i++) {
     var a = MAPPINGS.artifactSets[i];
-    if (a.rarity === 3) STAR_3_SETS.push(a.id);
-    else if (a.rarity === 4) STAR_4_SETS.push(a.id);
+    ARTIFACT_SET_MAX_RARITY[a.id] = a.rarity;
 }
 
 var WEAPON_1_2_STAR = [];
@@ -144,11 +146,26 @@ function parseStatFromText(text) {
 
 // --- Helper: Fuzzy match a string against a map ---
 // Returns the best matching key from the map, or null
+// OCR 常见混淆字对: [错误字, 正确字]
+var OCR_CONFUSIONS = [
+    ["茲", "兹"],
+    ["兹", "茲"]
+];
+
 function fuzzyMatchMap(text, map) {
     if (!text) return null;
     // Clean OCR text: remove non-CJK/non-alphanumeric noise
     var cleaned = text.replace(/[^\u4E00-\u9FFF\u300C\u300Da-zA-Z0-9]/g, "").trim();
     if (!cleaned) return null;
+
+    // Try OCR confusion substitutions
+    for (var ci = 0; ci < OCR_CONFUSIONS.length; ci++) {
+        var from = OCR_CONFUSIONS[ci][0], to = OCR_CONFUSIONS[ci][1];
+        if (cleaned.indexOf(from) !== -1) {
+            var alt = cleaned.replace(new RegExp(from, "g"), to);
+            if (map[alt] !== undefined) return map[alt];
+        }
+    }
 
     // Exact match first
     if (map[cleaned] !== undefined) return map[cleaned];

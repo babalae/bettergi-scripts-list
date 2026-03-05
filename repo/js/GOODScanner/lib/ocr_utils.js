@@ -3,7 +3,6 @@
 // ============================================================
 
 // Perform OCR on a specific game region with retry
-// Returns recognized text string, or null on failure
 async function ocrRegion(x, y, w, h, timeout) {
     if (timeout === undefined) timeout = 3000;
     var startTime = Date.now();
@@ -23,17 +22,16 @@ async function ocrRegion(x, y, w, h, timeout) {
         } catch (e) {
             retryCount++;
             if (retryCount > 3) {
-                log.warn("OCR failed after " + retryCount + " retries at (" + x + "," + y + ")");
+                log.warn("[OCR] 识别失败 区域 (" + x + "," + y + ")");
                 return null;
             }
         }
-        await sleep(300);
+        await sleep(Math.round(DELAY_SCROLL * 1.5));
     }
     return null;
 }
 
-// Perform OCR and return text, capturing a fresh game image each time
-// Uses pre-created OCR recognition objects for efficiency
+// Perform OCR on a pre-captured game image
 function ocrWithImage(gameImage, x, y, w, h) {
     var ocrObj = RecognitionObject.Ocr(x, y, w, h);
     var result = gameImage.Find(ocrObj);
@@ -42,8 +40,7 @@ function ocrWithImage(gameImage, x, y, w, h) {
     return text ? text.trim() : "";
 }
 
-// Check if a template matches in a region of the game image
-// Returns true if match found
+// Check if a template matches in a region
 function templateMatchInRegion(gameImage, templateMat, x, y, w, h, threshold) {
     var crop = gameImage.DeriveCrop(x, y, w, h);
     var tmObj = RecognitionObject.TemplateMatch(templateMat);
@@ -57,7 +54,7 @@ function templateMatchInRegion(gameImage, templateMat, x, y, w, h, threshold) {
     return found;
 }
 
-// Count template matches in a region (e.g., counting star icons)
+// Count template matches in a region
 function countTemplateMatches(gameImage, templateMat, x, y, w, h) {
     var crop = gameImage.DeriveCrop(x, y, w, h);
     var tmObj = RecognitionObject.TemplateMatch(templateMat);
@@ -68,7 +65,7 @@ function countTemplateMatches(gameImage, templateMat, x, y, w, h) {
     return count;
 }
 
-// Parse a number from OCR text (e.g., "Lv.90" → 90, "+20" → 20, "1/1800" → 1)
+// Parse a number from OCR text
 function parseNumberFromText(text) {
     if (!text) return 0;
     var match = text.match(/(\d+)/);
@@ -82,15 +79,54 @@ function parseSlashNumber(text) {
     return match ? parseInt(match[1]) : parseNumberFromText(text);
 }
 
-// Detect lock status from a game image region
-// Lock icon is typically at a known position in the detail panel
-function detectLockIcon(gameImage, lockTemplateMat, x, y, w, h) {
-    return templateMatchInRegion(gameImage, lockTemplateMat, x, y, w, h);
+// 检测像素亮度是否为深色 (亮度 < 128)
+function isPixelDark(gameImage, x, y) {
+    var mat = gameImage.SrcMat;
+    var pixel = mat.SubMat(y, y + 1, x, x + 1).Mean();
+    var b = pixel.Val0, g = pixel.Val1, r = pixel.Val2;
+    var brightness = (r + g + b) / 3;
+    return brightness < 128;
 }
 
-// Read the item count display "N/M" from the top-right area
+// 双像素验证暗色图标检测
+function detectDarkIcon(gameImage, x1, y1, x2, y2, label) {
+    var d1 = isPixelDark(gameImage, x1, y1);
+    var d2 = isPixelDark(gameImage, x2, y2);
+    if (d1 !== d2) {
+        log.error("[" + label + "] 检测不一致: (" + x1 + "," + y1 + ")=" + d1 + " (" + x2 + "," + y2 + ")=" + d2);
+    }
+    return d1;
+}
+
+// 检测武器锁定状态
+function detectWeaponLock(gameImage) {
+    return detectDarkIcon(gameImage, 1768, 428, 1740, 429, "武器锁定");
+}
+
+// 检测圣遗物锁定状态
+function detectArtifactLock(gameImage, yShift) {
+    var dy = yShift || 0;
+    return detectDarkIcon(gameImage, 1683, 428 + dy, 1708, 428 + dy, "圣遗物锁定");
+}
+
+// 检测圣遗物收藏标记 (astralMark)
+function detectArtifactAstralMark(gameImage, yShift) {
+    var dy = yShift || 0;
+    return detectDarkIcon(gameImage, 1768, 428 + dy, 1740, 429 + dy, "圣遗物收藏");
+}
+
+// 检测圣遗物是否为祝圣之霜定义 (elixirCrafted)
+function detectElixirCrafted(gameImage) {
+    var text = ocrWithImage(gameImage, 1360, 410, 140, 26);
+    return !!(text && text.indexOf("祝圣") !== -1);
+}
+
+// elixirCrafted 导致的 Y 偏移量
+var ELIXIR_SHIFT = 40;
+
+// Read the item count display "N/M"
 async function readItemCount() {
-    var text = await ocrRegion(1500, 0, 300, 80);
+    var text = await ocrRegion(1545, 30, 263, 38);
     if (!text) return { current: 0, total: 0 };
     var match = text.match(/(\d+)\s*\/\s*(\d+)/);
     if (!match) return { current: 0, total: 0 };

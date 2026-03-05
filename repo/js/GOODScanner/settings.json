@@ -2,67 +2,118 @@
     {
         "name": "scanCharacters",
         "type": "checkbox",
-        "label": "扫描角色 (Scan Characters)",
+        "label": "扫描角色 (Characters)",
         "default": true
     },
     {
         "name": "scanWeapons",
         "type": "checkbox",
-        "label": "扫描武器 (Scan Weapons)",
+        "label": "扫描武器 (Weapons)",
         "default": true
     },
     {
         "name": "scanArtifacts",
         "type": "checkbox",
-        "label": "扫描圣遗物 (Scan Artifacts)",
+        "label": "扫描圣遗物 (Artifacts)",
         "default": true
-    },
-    {
-        "name": "minWeaponRarity",
-        "type": "input",
-        "label": "最低武器星级 (Min weapon rarity: 3/4/5)",
-        "default": "3"
-    },
-    {
-        "name": "minArtifactRarity",
-        "type": "input",
-        "label": "最低圣遗物星级 (Min artifact rarity: 4/5)",
-        "default": "4"
     },
     {
         "type": "separator"
     },
     {
-        "name": "refreshMappings",
-        "type": "checkbox",
-        "label": "刷新游戏数据（每小时最多刷新一次）",
-        "default": false
+        "name": "dpiScale",
+        "type": "input-text",
+        "label": "Windows缩放 DPI（如 1、1.25、1.5、2）",
+        "default": "1"
     },
     {
         "type": "separator"
     },
     {
         "name": "travelerName",
-        "type": "input",
-        "label": "旅行者 自定义名称（游戏内显示的名字）",
+        "type": "input-text",
+        "label": "旅行者 自定义名称（游戏内改的名字）",
         "default": ""
     },
     {
         "name": "wandererName",
-        "type": "input",
-        "label": "流浪者 自定义名称（游戏内显示的名字）",
+        "type": "input-text",
+        "label": "流浪者 自定义名称（游戏内改的名字）",
         "default": ""
     },
     {
         "name": "manekinName",
-        "type": "input",
-        "label": "奇偶·男性 自定义名称（游戏内显示的名字）",
+        "type": "input-text",
+        "label": "奇偶·男性 自定义名称（游戏内改的名字）",
         "default": ""
     },
     {
         "name": "manekinaName",
-        "type": "input",
-        "label": "奇偶·女性 自定义名称（游戏内显示的名字）",
+        "type": "input-text",
+        "label": "奇偶·女性 自定义名称（游戏内改的名字）",
         "default": ""
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "name": "continueOnFailure",
+        "type": "checkbox",
+        "label": "识别失败时继续扫描下一项（否则终止）",
+        "default": false
+    },
+    {
+        "name": "logProgress",
+        "type": "checkbox",
+        "label": "输出每个物品/角色的扫描日志",
+        "default": false
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "name": "minWeaponRarity",
+        "type": "input-text",
+        "label": "最低武器星级 (3/4/5)",
+        "default": "3"
+    },
+    {
+        "name": "minArtifactRarity",
+        "type": "input-text",
+        "label": "最低圣遗物星级 (4/5)",
+        "default": "4"
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "name": "delayOpenScreen",
+        "type": "input-text",
+        "label": "打开界面延迟 ms",
+        "default": "1000"
+    },
+    {
+        "name": "delayCharTabSwitch",
+        "type": "input-text",
+        "label": "角色页签切换延迟 ms",
+        "default": "500"
+    },
+    {
+        "name": "delayInventoryTabSwitch",
+        "type": "input-text",
+        "label": "背包页签切换延迟 ms",
+        "default": "500"
+    },
+    {
+        "name": "delayScroll",
+        "type": "input-text",
+        "label": "翻页延迟 ms",
+        "default": "200"
+    },
+    {
+        "name": "delayGridItem",
+        "type": "input-text",
+        "label": "每格延迟 ms",
+        "default": "60"
     }
 ]

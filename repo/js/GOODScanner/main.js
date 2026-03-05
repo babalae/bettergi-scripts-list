@@ -1,83 +1,74 @@
 // ============================================================
-// GOOD Scanner — Scan characters, weapons, artifacts via OCR
-// Export in GOOD v3 format for Genshin Optimizer
+// GOOD Scanner
 // ============================================================
 
-// Load modules
-eval(file.readTextSync("lib/fetch_mappings.js"));
-eval(file.readTextSync("lib/ocr_utils.js"));
-eval(file.readTextSync("lib/navigation.js"));
-eval(file.readTextSync("lib/artifact_scanner.js"));
-eval(file.readTextSync("lib/weapon_scanner.js"));
-eval(file.readTextSync("lib/character_scanner.js"));
-
 (async function () {
-    setGameMetrics(1920, 1080, 1);
+    log.info("=== GOOD Scanner v1.0 ===");
 
-    // Fetch/refresh game data mappings before loading constants
+    try {
+    var dpi = parseFloat(settings.dpiScale) || 1;
+    setGameMetrics(1920, 1080, dpi);
+
+    // 延迟设置 (ms)
+    var DELAY_OPEN_SCREEN = parseInt(settings.delayOpenScreen) || 1000;
+    var DELAY_CHAR_TAB = parseInt(settings.delayCharTabSwitch) || 500;
+    var DELAY_INV_TAB = parseInt(settings.delayInventoryTabSwitch) || 500;
+    var DELAY_SCROLL = parseInt(settings.delayScroll) || 200;
+    var DELAY_GRID_ITEM = parseInt(settings.delayGridItem) || 60;
+
+    eval(file.readTextSync("lib/fetch_mappings.js"));
+    eval(file.readTextSync("lib/ocr_utils.js"));
+    eval(file.readTextSync("lib/navigation.js"));
+    eval(file.readTextSync("lib/artifact_scanner.js"));
+    eval(file.readTextSync("lib/weapon_scanner.js"));
+    eval(file.readTextSync("lib/character_scanner.js"));
+
     await fetchMappingsIfNeeded();
     eval(file.readTextSync("lib/constants.js"));
 
     var startTime = Date.now();
-    log.info("=== GOOD Scanner v1.0 ===");
-    log.info("Starting inventory scan for GOOD v3 export...");
 
-    // Read user settings
     var doScanCharacters = settings.scanCharacters !== false;
     var doScanWeapons = settings.scanWeapons !== false;
     var doScanArtifacts = settings.scanArtifacts !== false;
     var minWeaponRarity = parseInt(settings.minWeaponRarity) || 3;
     var minArtifactRarity = parseInt(settings.minArtifactRarity) || 4;
 
-    log.info("Scan config: characters=" + doScanCharacters +
-        ", weapons=" + doScanWeapons + " (>=" + minWeaponRarity + "★)" +
-        ", artifacts=" + doScanArtifacts + " (>=" + minArtifactRarity + "★)");
-
     var characters = [];
     var weapons = [];
     var artifacts = [];
 
-    try {
-        // Phase 1: Scan Characters
         if (doScanCharacters) {
-            log.info("");
-            log.info("========== Phase 1: Scanning Characters ==========");
             try {
                 characters = await scanAllCharacters();
             } catch (e) {
-                log.error("Character scan failed: " + e.message);
+                log.error("角色扫描失败: " + e.message);
                 log.error(e.stack);
             }
             await returnToMainUI();
         }
 
-        // Phase 2: Scan Weapons
         if (doScanWeapons) {
-            log.info("");
-            log.info("========== Phase 2: Scanning Weapons ==========");
             try {
                 weapons = await scanAllWeapons(minWeaponRarity);
             } catch (e) {
-                log.error("Weapon scan failed: " + e.message);
+                log.error("武器扫描失败: " + e.message);
                 log.error(e.stack);
             }
-            await returnToMainUI();
+            if (!doScanArtifacts) await returnToMainUI();
         }
 
-        // Phase 3: Scan Artifacts
         if (doScanArtifacts) {
-            log.info("");
-            log.info("========== Phase 3: Scanning Artifacts ==========");
             try {
-                artifacts = await scanAllArtifacts(minArtifactRarity);
+                var skipOpen = doScanWeapons; // already in backpack after weapon scan
+                artifacts = await scanAllArtifacts(minArtifactRarity, undefined, skipOpen);
             } catch (e) {
-                log.error("Artifact scan failed: " + e.message);
+                log.error("圣遗物扫描失败: " + e.message);
                 log.error(e.stack);
             }
             await returnToMainUI();
         }
 
-        // Assemble GOOD v3 JSON
         var goodData = {
             format: "GOOD",
             version: 3,
@@ -87,44 +78,32 @@ eval(file.readTextSync("lib/character_scanner.js"));
         if (doScanWeapons) goodData.weapons = weapons;
         if (doScanArtifacts) goodData.artifacts = artifacts;
 
-        // Write output file
-        var timestamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+        var now = new Date();
+        var timestamp = now.getFullYear() + "-" +
+            String(now.getMonth() + 1).padStart(2, "0") + "-" +
+            String(now.getDate()).padStart(2, "0") + "_" +
+            String(now.getHours()).padStart(2, "0") + "-" +
+            String(now.getMinutes()).padStart(2, "0") + "-" +
+            String(now.getSeconds()).padStart(2, "0");
         var outputPath = "records/good_export_" + timestamp + ".json";
         var jsonStr = JSON.stringify(goodData, null, 2);
 
         var writeOk = file.WriteTextSync(outputPath, jsonStr);
         if (writeOk) {
-            log.info("");
-            log.info("=== Export Complete ===");
-            log.info("Output: " + outputPath);
+            log.info("导出: " + outputPath);
         } else {
-            log.error("Failed to write output file: " + outputPath);
-            // Try alternative path
-            var altPath = "records/good_export.json";
-            file.WriteTextSync(altPath, jsonStr);
-            log.info("Written to fallback path: " + altPath);
+            log.error("写入失败: " + outputPath);
+            file.WriteTextSync("records/good_export.json", jsonStr);
         }
 
-        // Summary
         var elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-        log.info("");
-        log.info("=== Scan Summary ===");
-        log.info("Characters: " + characters.length);
-        log.info("Weapons:    " + weapons.length);
-        log.info("Artifacts:  " + artifacts.length);
-        log.info("Time:       " + elapsed + "s");
-        log.info("Format:     GOOD v3");
-        log.info("====================");
+        log.info("=== 完成: 角色 " + characters.length + " / 武器 " + weapons.length +
+            " / 圣遗物 " + artifacts.length + " (" + elapsed + "s) ===");
 
     } catch (e) {
-        log.error("Scan failed: " + e.message);
+        log.error("扫描失败: " + e.message);
         log.error(e.stack);
     }
 
-    // Return to main UI
-    try {
-        await genshin.returnMainUi();
-    } catch (e) {
-        log.warn("Could not return to main UI: " + e.message);
-    }
+    try { await genshin.returnMainUi(); } catch (e) {}
 })();

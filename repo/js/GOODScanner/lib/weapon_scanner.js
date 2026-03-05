@@ -1,101 +1,107 @@
 // ============================================================
-// Weapon Scanner — Scans weapons from backpack
+// Weapon Scanner — 扫描背包中的武器
+// 卡片区域: x=1307, y=119, w=494, h=841
 // ============================================================
 
-// OCR coordinate regions for weapon detail panel (backpack view, 1920x1080)
+var CARD = { x: 1307, y: 119, w: 494, h: 841 };
+
 var WEAPON_OCR = {
-    // Weapon name
-    NAME:         { x: 1310, y: 140, w: 300, h: 50 },
-    // Level display (e.g., "Lv.90/90")
-    LEVEL:        { x: 1310, y: 420, w: 200, h: 35 },
-    // Refinement rank text (e.g., "精炼1阶")
-    REFINEMENT:   { x: 1310, y: 500, w: 200, h: 35 },
-    // Equipped character text
-    EQUIP:        { x: 1310, y: 770, w: 340, h: 40 },
-    // Lock area
-    LOCK:         { x: 1750, y: 760, w: 50,  h: 50 },
-    // Star rarity area
-    RARITY:       { x: 1380, y: 340, w: 200, h: 40 },
-    // Base ATK area
-    BASE_ATK:     { x: 1310, y: 460, w: 150, h: 35 }
+    NAME: { x: CARD.x, y: CARD.y, w: CARD.w, h: Math.round(CARD.h * 0.07) },
+    LEVEL: {
+        x: CARD.x + Math.round(CARD.w * 0.060),
+        y: CARD.y + Math.round(CARD.h * 0.367),
+        w: Math.round(CARD.w * 0.262),
+        h: Math.round(CARD.h * 0.035)
+    },
+    REFINEMENT: {
+        x: CARD.x + Math.round(CARD.w * 0.058),
+        y: CARD.y + Math.round(CARD.h * 0.417),
+        w: Math.round(CARD.w * 0.25),
+        h: Math.round(CARD.h * 0.038)
+    },
+    EQUIP: {
+        x: CARD.x + Math.round(CARD.w * 0.10),
+        y: CARD.y + Math.round(CARD.h * 0.935),
+        w: Math.round(CARD.w * 0.85),
+        h: Math.round(CARD.h * 0.06)
+    }
 };
 
-// Detect weapon rarity by counting star icons or OCR
-// Returns 1-5
-function detectWeaponRarity(gameImage) {
-    // Try OCR on rarity area — look for star count from the detail panel
-    // The rarity stars are shown near the weapon level
-    // We use star position: stars appear around (1380-1560, 345)
-    // Each star is about 28px wide. We check how many appear.
-    var text = ocrWithImage(gameImage, 1310, 180, 380, 30);
-    // A rough heuristic: higher-rarity weapons have different name stylings
-    // For now, we count the number of star characters if the OCR picks them up
-    // Fallback: check if weapon is in the 1-2 star list
-    return 0; // Will be determined from lookup
+// 武器背包中排在最后的低星武器和锻造材料（中文名）
+var WEAPON_STOP_NAMES = [
+    "历练的猎弓", "口袋魔导书", "铁尖枪", "佣兵重剑", "银剑",
+    "猎弓", "学徒笔记", "新手长枪", "训练大剑", "无锋剑",
+    "精锻用魔矿", "精锻用良矿", "精锻用杂矿"
+];
+
+// 检测卡片是否为3星及以上（星级图标区域像素为黄色）
+function isWeapon3StarOrAbove(gameImage) {
+    var mat = gameImage.SrcMat;
+    var pixel = mat.SubMat(372, 373, 1416, 1417).Mean();
+    var b = pixel.Val0, g = pixel.Val1, r = pixel.Val2;
+    // 黄色: R高 G中 B低
+    return (r > 150 && g > 100 && b < 100);
 }
 
-// Scan a single weapon from the currently displayed detail panel
 function scanSingleWeapon(gameImage) {
-    // 1. Read weapon name
     var nameText = ocrWithImage(gameImage, WEAPON_OCR.NAME.x, WEAPON_OCR.NAME.y,
         WEAPON_OCR.NAME.w, WEAPON_OCR.NAME.h);
     var weaponKey = fuzzyMatchMap(nameText, WEAPON_NAME_MAP);
     if (!weaponKey) {
-        log.warn("Could not match weapon name: " + nameText);
-        return null;
-    }
-
-    // 2. Determine rarity from lookup
-    var rarity = 0;
-    if (WEAPON_1_2_STAR.indexOf(weaponKey) !== -1) {
-        rarity = (weaponKey === "DullBlade" || weaponKey === "WasterGreatsword" ||
-                  weaponKey === "BeginnersProtector" || weaponKey === "HuntersBow" ||
-                  weaponKey === "ApprenticesNotes") ? 1 : 2;
-    }
-    // If we couldn't determine from lookup, try detecting from star area
-    if (rarity === 0) {
-        // Read text near the rarity star area to see if we can pick up star info
-        var rarityText = ocrWithImage(gameImage, WEAPON_OCR.RARITY.x, WEAPON_OCR.RARITY.y,
-            WEAPON_OCR.RARITY.w, WEAPON_OCR.RARITY.h);
-        // Count star-like characters
-        if (rarityText) {
-            var starCount = (rarityText.match(/★|☆|✦|⭐/g) || []).length;
-            if (starCount >= 3 && starCount <= 5) rarity = starCount;
+        // 匹配失败时，检查是否为低星武器/材料
+        for (var i = 0; i < WEAPON_STOP_NAMES.length; i++) {
+            if (nameText && nameText.indexOf(WEAPON_STOP_NAMES[i]) !== -1) {
+                log.info("[武器] 检测到「" + WEAPON_STOP_NAMES[i] + "」，停止扫描");
+                return { _stop: true };
+            }
         }
-        // Default heuristic: if we found the weapon in WEAPON_NAME_MAP, it's at least 3-star
-        // 5-star weapons are well-known, 4-star are the rest
-        if (rarity === 0) rarity = 4; // conservative default
+        if (!isWeapon3StarOrAbove(gameImage)) {
+            log.info("[武器] 检测到低星物品，停止扫描");
+            return { _stop: true };
+        }
+        if (settings.continueOnFailure) {
+            log.warn("[武器] 无法匹配: 「" + nameText + "」，跳过");
+            return null;
+        }
+        throw new Error("无法匹配武器: 「" + nameText + "」");
     }
 
-    // 3. Read level
     var levelText = ocrWithImage(gameImage, WEAPON_OCR.LEVEL.x, WEAPON_OCR.LEVEL.y,
         WEAPON_OCR.LEVEL.w, WEAPON_OCR.LEVEL.h);
     var level = 1;
+    var ascended = false;
     if (levelText) {
-        var lvMatch = levelText.match(/[Ll][Vv]\.?\s*(\d+)/);
+        var lvMatch = levelText.match(/(\d+)\s*\/\s*(\d+)/);
         if (lvMatch) {
             level = parseInt(lvMatch[1]);
+            var maxLevel = Math.round(parseInt(lvMatch[2]) / 10) * 10;
+            ascended = level >= 20 && level < maxLevel;
         } else {
-            level = parseNumberFromText(levelText);
+            var singleMatch = levelText.match(/[Ll][Vv]\.?\s*(\d+)/);
+            level = singleMatch ? parseInt(singleMatch[1]) : parseNumberFromText(levelText);
         }
     }
 
-    // 4. Read refinement
     var refText = ocrWithImage(gameImage, WEAPON_OCR.REFINEMENT.x, WEAPON_OCR.REFINEMENT.y,
         WEAPON_OCR.REFINEMENT.w, WEAPON_OCR.REFINEMENT.h);
     var refinement = 1;
     if (refText) {
-        // Match patterns like "精炼1阶", "精炼2", "R1" etc.
         var refMatch = refText.match(/精炼\s*(\d)/);
         if (refMatch) {
             refinement = parseInt(refMatch[1]);
         } else {
             var rMatch = refText.match(/[Rr](\d)/);
             if (rMatch) refinement = parseInt(rMatch[1]);
+            else {
+                var digitMatch = refText.match(/(\d)/);
+                if (digitMatch) {
+                    var d = parseInt(digitMatch[1]);
+                    if (d >= 1 && d <= 5) refinement = d;
+                }
+            }
         }
     }
 
-    // 5. Read equipped character
     var equipText = ocrWithImage(gameImage, WEAPON_OCR.EQUIP.x, WEAPON_OCR.EQUIP.y,
         WEAPON_OCR.EQUIP.w, WEAPON_OCR.EQUIP.h);
     var location = "";
@@ -104,12 +110,7 @@ function scanSingleWeapon(gameImage) {
         location = fuzzyMatchMap(charName, CHARACTER_NAME_MAP) || "";
     }
 
-    // 6. Detect lock status
-    var lockText = ocrWithImage(gameImage, WEAPON_OCR.LOCK.x, WEAPON_OCR.LOCK.y,
-        WEAPON_OCR.LOCK.w, WEAPON_OCR.LOCK.h);
-    var lock = (lockText && lockText.length > 0);
-
-    // 7. Calculate ascension from level
+    var lock = detectWeaponLock(gameImage);
     var ascension = levelToAscension(level);
 
     return {
@@ -122,52 +123,49 @@ function scanSingleWeapon(gameImage) {
     };
 }
 
-// Scan all weapons from the backpack
-async function scanAllWeapons(minRarity) {
+async function scanAllWeapons(minRarity, devLimit, skipOpenBackpack) {
     if (minRarity === undefined) minRarity = 3;
 
-    log.info("Opening backpack for weapon scan...");
-    await openBackpack();
+    log.info("[武器] 开始扫描...");
+    if (!skipOpenBackpack) await openBackpack();
     await selectBackpackTab("weapon");
-    await sleep(500);
 
-    // Read total weapon count
     var counts = await readItemCount();
     var totalCount = counts.total;
     if (totalCount === 0) {
-        log.warn("No weapons found in backpack");
+        log.warn("[武器] 背包中没有武器");
         return [];
     }
-    log.info("Total weapons to scan: " + totalCount);
+    log.info("[武器] 总数: " + totalCount);
 
     var weapons = [];
     var scannedCount = 0;
 
     await traverseBackpackGrid(totalCount, async function (itemIndex) {
         scannedCount++;
-        if (scannedCount % 20 === 0 || scannedCount === totalCount) {
-            log.info("Scanning weapon " + scannedCount + "/" + totalCount + "...");
-        }
-
-        await sleep(100);
 
         var gameImage = captureGameRegion();
         try {
             var weapon = scanSingleWeapon(gameImage);
-            if (weapon) {
-                // Check rarity via lookup — if weapon key is in our map, it's at least 3-star
-                // Skip 1-2 star if below threshold
-                var isLowRarity = WEAPON_1_2_STAR.indexOf(weapon.key) !== -1;
-                if (!isLowRarity || minRarity <= 2) {
-                    weapons.push(weapon);
-                }
+            if (weapon && weapon._stop) {
+                gameImage.Dispose();
+                return true;
+            }
+            if (weapon && weapon.key) {
+                weapons.push(weapon);
+                if (settings.logProgress) log.info("[武器] " + weapon.key + " Lv." + weapon.level +
+                    " R" + weapon.refinement + " " + (weapon.location || "-") +
+                    (weapon.lock ? " 🔒" : ""));
             }
         } catch (e) {
-            log.warn("Error scanning weapon #" + scannedCount + ": " + e.message);
+            gameImage.Dispose();
+            throw e;
         }
         gameImage.Dispose();
-    });
 
-    log.info("Weapon scan complete. Found " + weapons.length + " weapons");
+        if (devLimit && weapons.length >= devLimit) return true;
+    }, 12); // TEMP: skip 12 pages for testing
+
+    log.info("[武器] 完成，共 " + weapons.length + " 把");
     return weapons;
 }

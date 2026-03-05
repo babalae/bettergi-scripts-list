@@ -1,38 +1,80 @@
 // ============================================================
-// Artifact Scanner — Scans artifacts from backpack
+// Artifact Scanner — 扫描背包中的圣遗物
+// 卡片区域: x=1307, y=119, w=494, h=841
 // ============================================================
 
-// OCR coordinate regions for artifact detail panel (backpack view, 1920x1080)
+var CARD = { x: 1307, y: 119, w: 494, h: 841 };
+
 var ARTIFACT_OCR = {
-    // Part name (e.g., "生之花")
-    PART_NAME:    { x: 1320, y: 180, w: 90,  h: 40 },
-    // Main stat name + value
-    MAIN_STAT:    { x: 1320, y: 268, w: 180, h: 32 },
-    // Set name
-    SET_NAME:     { x: 1320, y: 630, w: 240, h: 35 },
-    // Level area (for OCR, e.g., "+20")
-    LEVEL:        { x: 1330, y: 425, w: 70,  h: 30 },
-    // Sub-stat lines (4 possible)
-    SUB1:         { x: 1352, y: 470, w: 368, h: 40 },
-    SUB2:         { x: 1352, y: 510, w: 368, h: 40 },
-    SUB3:         { x: 1352, y: 550, w: 368, h: 40 },
-    SUB4:         { x: 1352, y: 590, w: 368, h: 40 },
-    // Equipped character text area (bottom of panel)
-    EQUIP:        { x: 1310, y: 770, w: 340, h: 40 },
-    // Lock icon area
-    LOCK:         { x: 1750, y: 760, w: 50,  h: 50 },
-    // Star/rarity area
-    RARITY:       { x: 1430, y: 340, w: 200, h: 40 },
-    // Astral mark / elixir area (near the set bonus text)
-    EXTRA_INFO:   { x: 1310, y: 660, w: 400, h: 80 }
+    PART_NAME: {
+        x: CARD.x + Math.round(CARD.w * 0.0405),
+        y: CARD.y + Math.round(CARD.h * 0.0772),
+        w: Math.round(CARD.w * 0.4757),
+        h: Math.round(CARD.h * 0.0475)
+    },
+    MAIN_STAT: {
+        x: CARD.x + Math.round(CARD.w * 0.0405),
+        y: CARD.y + Math.round(CARD.h * 0.1722),
+        w: Math.round(CARD.w * 0.4555),
+        h: Math.round(CARD.h * 0.0416)
+    },
+    LEVEL: {
+        x: CARD.x + Math.round(CARD.w * 0.0506),
+        y: CARD.y + Math.round(CARD.h * 0.3634),
+        w: Math.round(CARD.w * 0.1417),
+        h: Math.round(CARD.h * 0.0416)
+    },
+    SUBSTATS: { x: 1353, y: 475, w: 247, h: 150 },
+    SET_NAME_X: 1330,
+    SET_NAME_W: 200,
+    SET_NAME_Y: 630,
+    SET_NAME_H: 30,
+    EQUIP: {
+        x: CARD.x + Math.round(CARD.w * 0.10),
+        y: CARD.y + Math.round(CARD.h * 0.935),
+        w: Math.round(CARD.w * 0.85),
+        h: Math.round(CARD.h * 0.06)
+    }
 };
 
-// Offset for "祝圣之霜定义" (Sanctifying Essence) artifacts
-var SE_OFFSET_Y = 38;
+function findSetKeyInText(text) {
+    if (!text) return null;
+    var key = fuzzyMatchMap(text, ARTIFACT_SET_MAP);
+    if (key) return key;
+    var lines = text.split("\n");
+    for (var i = 0; i < lines.length; i++) {
+        var line = lines[i].trim();
+        if (line.length < 2) continue;
+        key = fuzzyMatchMap(line, ARTIFACT_SET_MAP);
+        if (key) return key;
+    }
+    return null;
+}
 
-// Scan a single artifact from the currently displayed detail panel
+// 检测星级像素是否为黄色
+function isStarYellow(gameImage, x) {
+    var mat = gameImage.SrcMat;
+    var pixel = mat.SubMat(372, 373, x, x + 1).Mean();
+    var b = pixel.Val0, g = pixel.Val1, r = pixel.Val2;
+    return (r > 150 && g > 100 && b < 100);
+}
+
+// 检测圣遗物星级: 5星=(1485黄), 4星=(1450黄,1485非黄), 其他=3星及以下
+function detectArtifactRarity(gameImage) {
+    if (isStarYellow(gameImage, 1485)) return 5;
+    if (isStarYellow(gameImage, 1450)) return 4;
+    return 3;
+}
+
 function scanSingleArtifact(gameImage) {
-    // 1. Read part name (slot)
+    // 0. 检测星级，3星及以下直接停止
+    var rarity = detectArtifactRarity(gameImage);
+    if (rarity <= 3) {
+        log.info("[圣遗物] 检测到 " + rarity + "★ 物品，停止扫描");
+        return { _stop: true };
+    }
+
+    // 1. 部位名
     var partText = ocrWithImage(gameImage, ARTIFACT_OCR.PART_NAME.x, ARTIFACT_OCR.PART_NAME.y,
         ARTIFACT_OCR.PART_NAME.w, ARTIFACT_OCR.PART_NAME.h);
     var slotKey = null;
@@ -45,16 +87,23 @@ function scanSingleArtifact(gameImage) {
         }
     }
     if (!slotKey) {
-        log.warn("Could not detect artifact slot from: " + partText);
-        return null;
+        // 4星无法识别部位 — 可能是祝圣精华，跳过
+        if (rarity === 4) {
+            log.info("[圣遗物] 4★ 无法识别部位（可能为祝圣精华），跳过");
+            return null;
+        }
+        if (settings.continueOnFailure) {
+            log.warn("[圣遗物] 无法识别部位: 「" + partText + "」，跳过");
+            return null;
+        }
+        throw new Error("无法识别部位: 「" + partText + "」");
     }
 
-    // 2. Read main stat
+    // 2. 主属性
     var mainStatText = ocrWithImage(gameImage, ARTIFACT_OCR.MAIN_STAT.x, ARTIFACT_OCR.MAIN_STAT.y,
         ARTIFACT_OCR.MAIN_STAT.w, ARTIFACT_OCR.MAIN_STAT.h);
     var mainStatKey = null;
     if (mainStatText) {
-        // For flower, main is always HP flat; for plume, main is always ATK flat
         if (slotKey === "flower") {
             mainStatKey = "hp";
         } else if (slotKey === "plume") {
@@ -65,12 +114,19 @@ function scanSingleArtifact(gameImage) {
         }
     }
     if (!mainStatKey) {
-        log.warn("Could not detect main stat from: " + mainStatText);
-        return null;
+        if (settings.continueOnFailure) {
+            log.warn("[圣遗物] 无法识别主属性: 「" + mainStatText + "」，跳过");
+            return null;
+        }
+        throw new Error("无法识别主属性: 「" + mainStatText + "」");
     }
 
-    // 3. Read level
-    var levelText = ocrWithImage(gameImage, ARTIFACT_OCR.LEVEL.x, ARTIFACT_OCR.LEVEL.y,
+    // 3. 检测 elixirCrafted
+    var elixirCrafted = detectElixirCrafted(gameImage);
+    var yShift = elixirCrafted ? ELIXIR_SHIFT : 0;
+
+    // 4. 等级
+    var levelText = ocrWithImage(gameImage, ARTIFACT_OCR.LEVEL.x, ARTIFACT_OCR.LEVEL.y + yShift,
         ARTIFACT_OCR.LEVEL.w, ARTIFACT_OCR.LEVEL.h);
     var level = 0;
     if (levelText) {
@@ -78,48 +134,55 @@ function scanSingleArtifact(gameImage) {
         level = lvMatch ? parseInt(lvMatch[1]) : 0;
     }
 
-    // 4. Read set name — try normal position first, then SE offset
-    var setNameText = ocrWithImage(gameImage, ARTIFACT_OCR.SET_NAME.x, ARTIFACT_OCR.SET_NAME.y,
-        ARTIFACT_OCR.SET_NAME.w, ARTIFACT_OCR.SET_NAME.h);
-    var setKey = fuzzyMatchMap(setNameText, ARTIFACT_SET_MAP);
-    var isSE = false;
-    if (!setKey) {
-        // Try with SE offset
-        setNameText = ocrWithImage(gameImage, ARTIFACT_OCR.SET_NAME.x,
-            ARTIFACT_OCR.SET_NAME.y + SE_OFFSET_Y, ARTIFACT_OCR.SET_NAME.w, ARTIFACT_OCR.SET_NAME.h);
-        setKey = fuzzyMatchMap(setNameText, ARTIFACT_SET_MAP);
-        if (setKey) isSE = true;
-    }
-    if (!setKey) {
-        log.warn("Could not detect artifact set from: " + setNameText);
-        return null;
-    }
-
-    // 5. Determine rarity from set type
-    var rarity = 5;
-    if (STAR_3_SETS.indexOf(setKey) !== -1) rarity = 3;
-    else if (STAR_4_SETS.indexOf(setKey) !== -1) rarity = 4;
-
-    // 6. Read substats
-    var subOffsetY = isSE ? SE_OFFSET_Y : 0;
+    // 5. 副属性
+    var subsText = ocrWithImage(gameImage, ARTIFACT_OCR.SUBSTATS.x, ARTIFACT_OCR.SUBSTATS.y + yShift,
+        ARTIFACT_OCR.SUBSTATS.w, ARTIFACT_OCR.SUBSTATS.h);
     var substats = [];
     var unactivatedSubstats = [];
-    var subRegions = [ARTIFACT_OCR.SUB1, ARTIFACT_OCR.SUB2, ARTIFACT_OCR.SUB3, ARTIFACT_OCR.SUB4];
-    for (var si = 0; si < subRegions.length; si++) {
-        var reg = subRegions[si];
-        var subText = ocrWithImage(gameImage, reg.x, reg.y + subOffsetY, reg.w, reg.h);
-        if (!subText || subText.length < 2) continue;
-        var parsed = parseStatFromText(subText);
-        if (parsed) {
-            if (parsed.inactive) {
-                unactivatedSubstats.push({ key: parsed.key, value: parsed.value });
-            } else {
-                substats.push({ key: parsed.key, value: parsed.value });
+    if (subsText) {
+        var cutIdx = subsText.indexOf("2件套");
+        if (cutIdx !== -1) subsText = subsText.substring(0, cutIdx);
+        var lines = subsText.split("\n");
+        for (var si = 0; si < lines.length; si++) {
+            var line = lines[si].trim();
+            if (!line || line.length < 2) continue;
+            var parsed = parseStatFromText(line);
+            if (parsed) {
+                if (parsed.inactive) {
+                    unactivatedSubstats.push({ key: parsed.key, value: parsed.value });
+                } else {
+                    substats.push({ key: parsed.key, value: parsed.value });
+                }
             }
         }
     }
 
-    // 7. Read equipped character
+    // 6. 套装名
+    // 套装名位置基于4条副属性，每少一条上移40px
+    var statCount = substats.length + unactivatedSubstats.length;
+    if (statCount < 1) statCount = 1;
+    if (statCount > 4) statCount = 4;
+    if (statCount < 4 && rarity === 5) {
+        log.warn("[圣遗物] 5★ 仅识别到 " + statCount + " 条副属性");
+    }
+    var missingStats = 4 - statCount;
+    var setX = ARTIFACT_OCR.SET_NAME_X;
+    var setY = ARTIFACT_OCR.SET_NAME_Y + yShift - (missingStats * 40);
+    var setNameText = ocrWithImage(gameImage, setX, setY, ARTIFACT_OCR.SET_NAME_W, ARTIFACT_OCR.SET_NAME_H);
+    var setKey = findSetKeyInText(setNameText);
+    if (!setKey) {
+        var statKeys = substats.map(function(s) { return s.key; }).concat(
+            unactivatedSubstats.map(function(s) { return s.key + "(inactive)"; }));
+        log.warn("[圣遗物] 无法识别套装: setY=" + setY + " stats=[" + statKeys.join(", ") + "] text=「" + setNameText + "」");
+        if (settings.continueOnFailure) {
+            return null;
+        }
+        throw new Error("无法识别套装 (副属性数=" + statCount + "): 「" + setNameText + "」");
+    }
+
+    // 7. 星级 (已在步骤0通过像素检测)
+
+    // 8. 装备角色
     var equipText = ocrWithImage(gameImage, ARTIFACT_OCR.EQUIP.x, ARTIFACT_OCR.EQUIP.y,
         ARTIFACT_OCR.EQUIP.w, ARTIFACT_OCR.EQUIP.h);
     var location = "";
@@ -128,31 +191,12 @@ function scanSingleArtifact(gameImage) {
         location = fuzzyMatchMap(charName, CHARACTER_NAME_MAP) || "";
     }
 
-    // 8. Detect lock status from OCR in the equip/lock area
-    var lockText = ocrWithImage(gameImage, ARTIFACT_OCR.LOCK.x, ARTIFACT_OCR.LOCK.y,
-        ARTIFACT_OCR.LOCK.w, ARTIFACT_OCR.LOCK.h);
-    var lock = false;
-    // Lock icon presence — we check if there's a lock indicator
-    // In practice, we look for the lock/unlock toggle in that region
-    if (lockText && lockText.length > 0) {
-        lock = true;
-    }
+    // 9. 锁定
+    var lock = detectArtifactLock(gameImage, yShift);
 
-    // 9. Detect astral mark and elixir crafted from extra info area
-    var extraText = ocrWithImage(gameImage, ARTIFACT_OCR.EXTRA_INFO.x,
-        ARTIFACT_OCR.EXTRA_INFO.y + subOffsetY, ARTIFACT_OCR.EXTRA_INFO.w, ARTIFACT_OCR.EXTRA_INFO.h);
-    var astralMark = false;
-    var elixirCrafted = false;
-    if (extraText) {
-        if (extraText.indexOf("星辉") !== -1 || extraText.indexOf("星标") !== -1) {
-            astralMark = true;
-        }
-        if (extraText.indexOf("秘药") !== -1 || extraText.indexOf("精酿") !== -1) {
-            elixirCrafted = true;
-        }
-    }
+    // 10. 收藏标记 (astralMark)
+    var astralMark = detectArtifactAstralMark(gameImage, yShift);
 
-    // Assemble GOOD artifact object
     var artifact = {
         setKey: setKey,
         slotKey: slotKey,
@@ -161,12 +205,11 @@ function scanSingleArtifact(gameImage) {
         mainStatKey: mainStatKey,
         location: location,
         lock: lock,
+        astralMark: astralMark,
+        elixirCrafted: elixirCrafted,
         substats: substats
     };
 
-    // Add optional GOOD v3 fields if relevant
-    if (astralMark) artifact.astralMark = true;
-    if (elixirCrafted) artifact.elixirCrafted = true;
     if (unactivatedSubstats.length > 0) {
         artifact.unactivatedSubstats = unactivatedSubstats;
     }
@@ -174,47 +217,123 @@ function scanSingleArtifact(gameImage) {
     return artifact;
 }
 
-// Scan all artifacts from the backpack
-async function scanAllArtifacts(minRarity) {
+async function scanAllArtifacts(minRarity, devLimit, skipOpenBackpack) {
     if (minRarity === undefined) minRarity = 4;
 
-    log.info("Opening backpack for artifact scan...");
-    await openBackpack();
+    log.info("[圣遗物] 开始扫描...");
+    if (!skipOpenBackpack) await openBackpack();
     await selectBackpackTab("artifact");
-    await sleep(500);
 
-    // Read total artifact count
     var counts = await readItemCount();
     var totalCount = counts.total;
     if (totalCount === 0) {
-        log.warn("No artifacts found in backpack");
+        log.warn("[圣遗物] 背包中没有圣遗物");
         return [];
     }
-    log.info("Total artifacts to scan: " + totalCount);
+    log.info("[圣遗物] 总数: " + totalCount);
 
     var artifacts = [];
     var scannedCount = 0;
+    var failCount = 0;
+
+    // 行级去重: 每行8个指纹，与已见行比较
+    var seenRows = [];
+    var currentRow = [];
+    var COLS = 8;
+
+    function artifactFingerprint(a) {
+        if (!a) return "null";
+        var subs = a.substats.map(function(s) { return s.key + ":" + s.value; }).join(";");
+        return a.setKey + "|" + a.slotKey + "|" + a.level + "|" + a.mainStatKey + "|" + a.rarity + "|" + subs;
+    }
+
+    function isRowDuplicate(row) {
+        var rowStr = row.join(",");
+        for (var i = 0; i < seenRows.length; i++) {
+            if (seenRows[i] === rowStr) return true;
+        }
+        return false;
+    }
+
+    var pendingRow = []; // artifacts pending row dedup check
 
     await traverseBackpackGrid(totalCount, async function (itemIndex) {
-        scannedCount++;
-        if (scannedCount % 20 === 0 || scannedCount === totalCount) {
-            log.info("Scanning artifact " + scannedCount + "/" + totalCount + "...");
-        }
+        if (devLimit && artifacts.length >= devLimit) return true;
 
-        await sleep(100); // Wait for detail panel to update
+        scannedCount++;
+        var col = itemIndex % COLS;
 
         var gameImage = captureGameRegion();
+        var artifact = null;
         try {
-            var artifact = scanSingleArtifact(gameImage);
-            if (artifact && artifact.rarity >= minRarity) {
-                artifacts.push(artifact);
+            artifact = scanSingleArtifact(gameImage);
+            if (artifact && artifact._stop) {
+                gameImage.Dispose();
+                return true;
             }
         } catch (e) {
-            log.warn("Error scanning artifact #" + scannedCount + ": " + e.message);
+            gameImage.Dispose();
+            throw e;
         }
         gameImage.Dispose();
-    });
 
-    log.info("Artifact scan complete. Found " + artifacts.length + " artifacts (>=" + minRarity + " star)");
+        currentRow.push(artifactFingerprint(artifact));
+        if (artifact && artifact.rarity >= minRarity) {
+            pendingRow.push(artifact);
+        } else if (!artifact) {
+            failCount++;
+        } else {
+            failCount = 0;
+        }
+
+        // 行满时检查去重
+        if (currentRow.length >= COLS || col === COLS - 1) {
+            if (isRowDuplicate(currentRow)) {
+                log.warn("[圣遗物] 检测到重复行，跳过 " + pendingRow.length + " 个");
+            } else {
+                seenRows.push(currentRow.join(","));
+                for (var ri = 0; ri < pendingRow.length; ri++) {
+                    artifacts.push(pendingRow[ri]);
+                    if (settings.logProgress) log.info("[圣遗物] " + pendingRow[ri].setKey + " " + pendingRow[ri].slotKey +
+                        " +" + pendingRow[ri].level + " " + pendingRow[ri].rarity + "★" +
+                        " " + (pendingRow[ri].location || "-") +
+                        (pendingRow[ri].lock ? " 🔒" : "") +
+                        (pendingRow[ri].astralMark ? " ⭐" : "") +
+                        (pendingRow[ri].elixirCrafted ? " 祝圣" : ""));
+                }
+                failCount = 0;
+            }
+            currentRow = [];
+            pendingRow = [];
+        }
+
+        if (devLimit && artifacts.length >= devLimit) return true;
+
+        if (failCount >= 10) {
+            log.error("[圣遗物] 连续 " + failCount + " 个失败，停止");
+            return true;
+        }
+    }, 52, function () { // onScroll: clear row cache
+        seenRows = [];
+        currentRow = [];
+        pendingRow = [];
+    }); // TEMP: skip 52 pages for testing
+
+    // 后处理: 移除未强化的4★低价值圣遗物（5★套装的4★掉落）
+    var beforeCount = artifacts.length;
+    artifacts = artifacts.filter(function (a) {
+        if (a.rarity === 4 && a.level === 0) {
+            var maxRarity = ARTIFACT_SET_MAX_RARITY[a.setKey];
+            if (maxRarity && maxRarity >= 5) {
+                return false;
+            }
+        }
+        return true;
+    });
+    if (artifacts.length < beforeCount) {
+        log.info("[圣遗物] 过滤 " + (beforeCount - artifacts.length) + " 个未强化的4★低价值圣遗物");
+    }
+
+    log.info("[圣遗物] 完成，共 " + artifacts.length + " 个 (>=" + minRarity + "★)");
     return artifacts;
 }

@@ -5,11 +5,9 @@
 var MAPPINGS_URL = "https://ggartifact.com/good/mappings.json";
 var MAPPINGS_CACHE_PATH = "data/mappings.json";
 var MAPPINGS_META_PATH = "data/mappings_meta.json";
-var MAPPINGS_TTL_DEFAULT = 7 * 24 * 3600 * 1000; // 7 days
-var MAPPINGS_TTL_REFRESH = 1 * 3600 * 1000;       // 1 hour
+var MAPPINGS_TTL = 24 * 3600 * 1000; // 1 day
 
 async function fetchMappingsIfNeeded() {
-    // Read cached metadata
     var lastFetchTime = 0;
     try {
         var metaRaw = file.readTextSync(MAPPINGS_META_PATH);
@@ -17,38 +15,24 @@ async function fetchMappingsIfNeeded() {
             var meta = JSON.parse(metaRaw);
             lastFetchTime = meta.lastFetchTime || 0;
         }
-    } catch (e) {
-        // No meta file or parse error — treat as never fetched
-    }
+    } catch (e) {}
 
-    // Check if cached file exists
     var cacheExists = false;
     try {
         var cached = file.readTextSync(MAPPINGS_CACHE_PATH);
         cacheExists = cached && cached.length > 0;
-    } catch (e) {
-        cacheExists = false;
-    }
+    } catch (e) {}
 
-    // Determine TTL based on user setting
-    var ttl = settings.refreshMappings ? MAPPINGS_TTL_REFRESH : MAPPINGS_TTL_DEFAULT;
-    var elapsed = Date.now() - lastFetchTime;
-
-    if (cacheExists && elapsed < ttl) {
-        log.info("游戏数据映射缓存有效，跳过刷新（上次更新: " +
-            new Date(lastFetchTime).toISOString().slice(0, 19).replace("T", " ") + "）");
+    if (cacheExists && (Date.now() - lastFetchTime) < MAPPINGS_TTL) {
         return;
     }
 
-    // Fetch from remote
-    log.info("正在从远程服务器获取游戏数据映射...");
+    log.info("正在获取游戏数据映射...");
     try {
         var response = await http.request("GET", MAPPINGS_URL, null, null);
 
         if (response.status_code === 200 && response.body) {
-            // Validate JSON before saving
             JSON.parse(response.body);
-
             file.WriteTextSync(MAPPINGS_CACHE_PATH, response.body);
             file.WriteTextSync(MAPPINGS_META_PATH, JSON.stringify({
                 lastFetchTime: Date.now()
@@ -59,9 +43,9 @@ async function fetchMappingsIfNeeded() {
         }
     } catch (e) {
         if (cacheExists) {
-            log.warn("获取游戏数据映射失败（" + e.message + "），使用本地缓存");
+            log.warn("获取数据失败（" + e.message + "），使用本地缓存");
         } else {
-            throw new Error("获取游戏数据映射失败且无本地缓存: " + e.message +
+            throw new Error("获取游戏数据失败且无本地缓存: " + e.message +
                 "\n请确认已开启 JS HTTP 权限，并检查网络连接。");
         }
     }
