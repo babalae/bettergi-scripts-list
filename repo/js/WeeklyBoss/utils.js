@@ -728,7 +728,9 @@ await sleep(500);
 keyPress("F");
 await sleep(2000);
 await repeatOperationUntilTextFound({x: 1650,y: 1000,width: 160,height: 45,targetText: "单人挑战",stepDuration: 0,waitTime: 100});//等待点击单人挑战
-await sleep(500);
+await sleep(1500);
+if(settings.monsterName!="风魔龙")click(300,settings.difficulty*110+90);
+	
 if(!settings.fightMode){
     let capture = captureGameRegion();
     const region = RecognitionObject.ocr(1320, 10, 290, 80);//领奖次数区域
