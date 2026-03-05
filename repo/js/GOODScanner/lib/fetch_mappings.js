@@ -7,6 +7,7 @@ var MAPPINGS_CACHE_PATH = "data/mappings.json";
 var MAPPINGS_META_PATH = "data/mappings_meta.json";
 var MAPPINGS_TTL = 24 * 3600 * 1000; // 1 day
 
+// 检查并下载游戏数据映射（每日最多刷新一次）
 async function fetchMappingsIfNeeded() {
     var lastFetchTime = 0;
     try {

@@ -43,6 +43,7 @@ function isWeapon3StarOrAbove(gameImage) {
     return (r > 150 && g > 100 && b < 100);
 }
 
+// 扫描单个武器卡片，返回 GOOD 武器对象或 {_stop} 或 null
 function scanSingleWeapon(gameImage) {
     var nameText = ocrWithImage(gameImage, WEAPON_OCR.NAME.x, WEAPON_OCR.NAME.y,
         WEAPON_OCR.NAME.w, WEAPON_OCR.NAME.h);
@@ -123,6 +124,7 @@ function scanSingleWeapon(gameImage) {
     };
 }
 
+// 扫描背包中所有武器，返回 GOOD 武器数组
 async function scanAllWeapons(minRarity, devLimit, skipOpenBackpack) {
     if (minRarity === undefined) minRarity = 3;
 

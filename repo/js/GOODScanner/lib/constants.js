@@ -52,6 +52,7 @@ var ARTIFACT_SET_MAP = {};
 var ARTIFACT_SET_MAX_RARITY = {};
 var WEAPON_1_2_STAR = [];
 
+// 从 data/mappings.json 初始化所有名称映射表
 function initMappings() {
     var raw = file.readTextSync("data/mappings.json");
     if (!raw) throw new Error("data/mappings.json 不存在，请确认已成功获取游戏数据");

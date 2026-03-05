@@ -37,6 +37,7 @@ var ARTIFACT_OCR = {
     }
 };
 
+// 从 OCR 文本中模糊匹配套装名，返回 GOOD setKey 或 null
 function findSetKeyInText(text) {
     if (!text) return null;
     var key = fuzzyMatchMap(text, ARTIFACT_SET_MAP);
@@ -66,6 +67,7 @@ function detectArtifactRarity(gameImage) {
     return 3;
 }
 
+// 扫描单个圣遗物卡片，返回 GOOD 圣遗物对象或 {_stop} 或 null
 function scanSingleArtifact(gameImage) {
     // 0. 检测星级，3星及以下直接停止
     var rarity = detectArtifactRarity(gameImage);
@@ -217,6 +219,7 @@ function scanSingleArtifact(gameImage) {
     return artifact;
 }
 
+// 扫描背包中所有圣遗物，返回 GOOD 圣遗物数组
 async function scanAllArtifacts(minRarity, devLimit, skipOpenBackpack) {
     if (minRarity === undefined) minRarity = 4;
 
@@ -241,12 +244,14 @@ async function scanAllArtifacts(minRarity, devLimit, skipOpenBackpack) {
     var currentRow = [];
     var COLS = 8;
 
+    // 生成圣遗物指纹用于行去重
     function artifactFingerprint(a) {
         if (!a) return "null";
         var subs = a.substats.map(function(s) { return s.key + ":" + s.value; }).join(";");
         return a.setKey + "|" + a.slotKey + "|" + a.level + "|" + a.mainStatKey + "|" + a.rarity + "|" + subs;
     }
 
+    // 检查当前行指纹是否与已见行重复
     function isRowDuplicate(row) {
         var rowStr = row.join(",");
         for (var i = 0; i < seenRows.length; i++) {

@@ -12,17 +12,20 @@ var GRID = {
     OFFSET_Y: 166
 };
 
+// 返回游戏主界面
 async function returnToMainUI() {
     await genshin.returnMainUi();
     await sleep(DELAY_OPEN_SCREEN);
 }
 
+// 打开背包界面
 async function openBackpack() {
     await returnToMainUI();
     keyPress("VK_B");
     await sleep(DELAY_OPEN_SCREEN);
 }
 
+// 点击背包页签 ("weapon" | "artifact")
 async function selectBackpackTab(tabName) {
     var tabPositions = {
         "weapon": { x: 585, y: 50 },
@@ -38,6 +41,7 @@ async function selectBackpackTab(tabName) {
 }
 
 var _scrollCnt = 0;
+// 滚动一页网格（49次滚轮，每3页修正1次）
 async function scrollGridPage() {
     for (var i = 0; i < 49; i++) {
         await verticalScroll(-1);
@@ -50,6 +54,7 @@ async function scrollGridPage() {
 }
 
 var _gridItemDelay;
+// 点击网格中指定行列的物品
 async function clickGridItem(row, col) {
     if (!_gridItemDelay) _gridItemDelay = Math.round(DELAY_GRID_ITEM / 3);
     var x = GRID.FIRST_X + col * GRID.OFFSET_X;
@@ -99,6 +104,7 @@ async function traverseBackpackGrid(totalCount, callback, onScroll) {
     }
 }
 
+// 打开角色界面
 async function openCharacterScreen() {
     await returnToMainUI();
     keyPress("VK_C");

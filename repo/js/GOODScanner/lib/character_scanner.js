@@ -27,6 +27,7 @@ var TALENT_FIRST_Y = 165;
 var TALENT_OFFSET_Y = 90;
 var TALENT_LEVEL_REGION = { x: 1, y: 138, w: 559, h: 77 };
 
+// 解析角色名称和元素类型文本，返回 {name, element, rawText}
 function parseCharacterNameAndElement(text) {
     var name = null;
     var element = null;
@@ -41,6 +42,7 @@ function parseCharacterNameAndElement(text) {
     return { name: name, element: element, rawText: text };
 }
 
+// OCR 读取角色名称和元素，失败时等待1秒重试一次
 async function readCharacterNameAndElement() {
     var text = await ocrRegion(CHAR_NAME_REGION.x, CHAR_NAME_REGION.y,
         CHAR_NAME_REGION.w, CHAR_NAME_REGION.h);
@@ -56,6 +58,7 @@ async function readCharacterNameAndElement() {
     return result;
 }
 
+// OCR 读取角色等级，返回 {level, ascended}
 async function readCharacterLevel() {
     var text = await ocrRegion(CHAR_LEVEL_REGION.x, CHAR_LEVEL_REGION.y,
         CHAR_LEVEL_REGION.w, CHAR_LEVEL_REGION.h);
@@ -75,6 +78,7 @@ async function readCharacterLevel() {
     return { level: level, ascended: ascended };
 }
 
+// 点击第 cIndex 个命座节点，检测是否已激活
 async function isConstellationActivated(cIndex, isFirstClick) {
     var clickY = CONST_FIRST_Y + cIndex * CONST_OFFSET_Y;
     click(CONST_CLICK_X, clickY);
@@ -144,6 +148,7 @@ async function readConstellationCount(characterName, element) {
     return constellation;
 }
 
+// 从文本中解析 "Lv.X" 格式的等级数字
 function parseLvText(text) {
     if (!text) return 0;
     var m = text.match(/[Ll][Vv]\.?\s*(\d{1,2})/);
@@ -154,6 +159,7 @@ function parseLvText(text) {
     return 0;
 }
 
+// 点击天赋详情读取等级（概览读取失败时的回退方案）
 async function readTalentByClick(talentIndex, isFirst) {
     var clickY = TALENT_FIRST_Y + talentIndex * TALENT_OFFSET_Y;
     click(TALENT_CLICK_X, clickY);
@@ -295,6 +301,7 @@ async function scanSingleCharacter(firstName, reverse) {
     };
 }
 
+// 扫描所有角色，返回 GOOD 角色数组
 async function scanAllCharacters(devLimit) {
     log.info("[角色] 开始扫描...");
     await openCharacterScreen();
