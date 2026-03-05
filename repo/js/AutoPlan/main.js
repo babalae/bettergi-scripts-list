@@ -118,7 +118,6 @@ async function autoDomain(autoFight) {
  * @returns {Promise<void>}
  */
 async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
-    //todo :地脉花
     // autoLeyLineOutcrop = {
     //     "count": 0,
     //     "country": "country_cb3d792be8db",
@@ -163,6 +162,109 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
     for (let i = 0; i < config.run.retry_count; i++) {
         try {
             await dispatcher.RunAutoLeyLineOutcropTask(param);
+            // 其他场景不重试
+            break;
+        } catch (e) {
+            const errorMessage = e.message
+            // 只有选择了秘境的时候才会重试
+            if (errorMessage.includes("复活")) {
+                continue;
+            }
+            throw e;
+        }
+    }
+}
+
+/**
+ * 自动执行幽境危战任务的异步函数
+ * @param autoStygianOnslaught
+ * @returns {Promise<void>}
+ */
+async function autoStygianOnslaught(autoStygianOnslaught) {
+    // autoStygianOnslaught = {
+    //     /**boss 名字 1~3 */
+    //     bossNum: 1,
+    //     /**结束后是否自动分解圣遗物*/
+    //     autoArtifactSalvage: false,
+    //     /**指定树脂的使用次数*/
+    //     specifyResinUse: false,
+    //     /**自定义使用树脂优先级*/
+    //     resinPriorityList: [""],
+    //     /** 使用原粹树脂刷取副本次数*/
+    //     originalResinUseCount: 0,
+    //     /** 使用浓缩树脂刷取副本次数*/
+    //     condensedResinUseCount: 0,
+    //     /** 使用须臾树脂刷取副本次数*/
+    //     transientResinUseCount: 0,
+    //     /** 使用脆弱树脂刷取副本次数*/
+    //     fragileResinUseCount: 0,
+    //     /**指定战斗队伍*/
+    //     fightTeamName: undefined
+    // }
+
+    //定死做预留冗余 先不实现 不能指定次数 只能指定启用
+    let physical_domain = autoStygianOnslaught?.physical
+    //     || [
+    //     {order: 0, name: "原粹树脂", count: 1, open: true},
+    //     {order: 1, name: "浓缩树脂", count: 0, open: false},
+    //     {order: 2, name: "须臾树脂", count: 0, open: false},
+    //     {order: 3, name: "脆弱树脂", count: 0, open: false},
+    // ]
+
+    if ((!physical_domain) || physical_domain.filter(item => item?.open).length === 0) {
+        const names = config.user.physical.names;
+        physical_domain = []
+        names.forEach((name, index) => {
+            physical_domain.push({order: index, name: name, open: index === 0})
+        })
+    }
+
+    physical_domain.sort((a, b) => a.order - b.order)
+    // 不包含原粹树脂的和
+    const noOriginalSum = physical_domain.filter(item => item?.name.trim() !== "原粹树脂")
+        .filter(item => item?.open).length;//求和
+    // 只包含原粹树脂的和
+    const originalSum = physical_domain.filter(item => item?.name?.trim() === "原粹树脂")
+        .filter(item => item?.open).length;
+    const physical_domain_filter = physical_domain.filter(item => item?.open);
+    const resinPriorityList = physical_domain_filter.map(item => item?.name?.trim())
+    //  /** 树脂使用优先级列表 */
+    //   resinPriorityList: string[];
+    //   /** 使用原粹树脂次数 */
+    //   originalResinUseCount: number;
+    //   /** 使用浓缩树脂次数 */
+    //   condensedResinUseCount: number;
+    //   /** 使用须臾树脂次数 */
+    //   transientResinUseCount: number;
+    //   /** 使用脆弱树脂次数 */
+    //   fragileResinUseCount: number;
+    await sleep(1000)
+    //流程->返回主页 打开地图 返回主页
+    const physicalOcr = await ocrPhysical(true, true)
+    config.user.physical.current = physicalOcr.current
+    config.user.physical.min = physicalOcr.min
+    const physical = config.user.physical
+    if (physical.current < physical.min && noOriginalSum <= 0 && originalSum > 0) {
+        throwError(`体力不足，当前体力${physical.current}，最低体力${physical.min}，请手动补充体力后重试`)
+    }
+
+    let param = new AutoStygianOnslaught()
+    param.bossNum = autoStygianOnslaught?.bossNum > 0 && autoStygianOnslaught?.bossNum < 3 ? autoStygianOnslaught.bossNum : 1
+    param.specifyResinUse = autoStygianOnslaught?.specifyResinUse
+    param.fightTeamName = autoStygianOnslaught?.fightTeamName||param.fightTeamName
+    if (resinPriorityList.length > 0) {
+        param.SetResinPriorityList(...resinPriorityList)
+        param.originalResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "原粹树脂")?.count||0
+        param.condensedResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "浓缩树脂")?.count||0
+        param.transientResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "须臾树脂")?.count||0
+        param.fragileResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "脆弱树脂")?.count||0
+    }
+
+    await sleep(1000)
+    // 复活重试
+    for (let i = 0; i < config.run.retry_count; i++) {
+        try {
+            await dispatcher.RunAutoStygianOnslaughtTask(autoStygianOnslaught)
             // 其他场景不重试
             break;
         } catch (e) {
@@ -492,7 +594,7 @@ async function main() {
             if (isStygianOnslaught) {
                 //圣遗物秘境名称
                 const holyRelicDomainNames = config.domainList.filter(item => !item.hasOrder).map(item => item.name);
-                const filter = list.find(item => item.runType === config.user.runTypes[1]&&holyRelicDomainNames.includes(item.autoFight.domainName));
+                const filter = list.find(item => item.runType === config.user.runTypes[1] && holyRelicDomainNames.includes(item.autoFight.domainName));
                 if (filter) {
                     // 幽境危战添加秘境顺序前
                     list.forEach(item => {
