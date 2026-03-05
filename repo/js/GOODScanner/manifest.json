@@ -1,16 +1,14 @@
 {
-    "manifest_version": 1,
-    "name": "GOOD Scanner",
-    "version": "1.0.0",
-    "description": "Scan characters, weapons, and artifacts via OCR and export in GOOD v3 format (compatible with Genshin Optimizer). Requires 1920x1080 resolution.",
-    "authors": [
-        {
-            "name": "BetterGI Community"
-        }
-    ],
-    "settings_ui": "settings.json",
-    "main": "main.js",
-    "http_allowed_urls": [
-        "https://ggartifact.com/*"
-    ]
+  "manifest_version": 1,
+  "name": "OCR账号数据导出 (GOOD v3)",
+  "version": "1.0.0",
+  "description": "OCR图像扫描角色、武器、圣遗物全部数据并导出成GOOD v3格式。可用于GGArtifact.com优化计算。",
+  "authors": [
+    {
+      "name": "GGArtifact"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "http_allowed_urls": ["https://ggartifact.com/*"]
 }
