@@ -487,12 +487,15 @@ async function main() {
 
     const hasStygianOnslaught = list.some(item => item.runType===config.user.runTypes[2]);
     if (hasStygianOnslaught) {
-        const isStygianOnslaught = await findStygianOnslaught();
-        if (!isStygianOnslaught) {
-            log.info(`幽境危战已结束`)
-            list = list.filter(item => item.runType !== config.user.runTypes[2])
+        try {
+            const isStygianOnslaught = await findStygianOnslaught();
+            if (!isStygianOnslaught) {
+                log.info(`幽境危战已结束`)
+                list = list.filter(item => item.runType !== config.user.runTypes[2])
+            }
+        }finally {
+            await toMainUi()
         }
-        await toMainUi()
     }
 
     if (list?.length > 0) {

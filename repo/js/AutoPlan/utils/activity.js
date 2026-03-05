@@ -203,7 +203,7 @@ async function OcrKey(activityName, key, ocrRegion = ocrRegionConfig.remainingTi
 
 // ... existing code ...
 
-async function scrollFindActivity(activityKey = "F5", name, key, value) {
+async function scrollFindActivity(name, key, value,activityKey = "F5") {
     const ms = 1000;
     // 1. 打开活动页面（默认 F5）
     await keyPress(activityKey);
