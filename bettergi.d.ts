@@ -1054,7 +1054,7 @@ declare class AutoLeyLineOutcropParam {
     // ==== END AUTO-GENERATED ALIASES ====
 }
 /**
- * 自动地脉花任务参数
+ * 自动幽境危战任务参数
  */
 declare class AutoStygianOnslaughtParam {
   constructor(path: string);
