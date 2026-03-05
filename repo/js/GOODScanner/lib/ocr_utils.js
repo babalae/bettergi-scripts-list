@@ -79,6 +79,14 @@ function parseSlashNumber(text) {
     return match ? parseInt(match[1]) : parseNumberFromText(text);
 }
 
+// 检测星级像素是否为黄色 (R高 G中 B低)
+function isStarYellow(gameImage, x) {
+    var mat = gameImage.SrcMat;
+    var pixel = mat.SubMat(372, 373, x, x + 1).Mean();
+    var b = pixel.Val0, g = pixel.Val1, r = pixel.Val2;
+    return (r > 150 && g > 100 && b < 100);
+}
+
 // 检测像素亮度是否为深色 (亮度 < 128)
 function isPixelDark(gameImage, x, y) {
     var mat = gameImage.SrcMat;

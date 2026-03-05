@@ -52,14 +52,6 @@ function findSetKeyInText(text) {
     return null;
 }
 
-// 检测星级像素是否为黄色
-function isStarYellow(gameImage, x) {
-    var mat = gameImage.SrcMat;
-    var pixel = mat.SubMat(372, 373, x, x + 1).Mean();
-    var b = pixel.Val0, g = pixel.Val1, r = pixel.Val2;
-    return (r > 150 && g > 100 && b < 100);
-}
-
 // 检测圣遗物星级: 5星=(1485黄), 4星=(1450黄,1485非黄), 其他=3星及以下
 function detectArtifactRarity(gameImage) {
     if (isStarYellow(gameImage, 1485)) return 5;
@@ -236,7 +228,6 @@ async function scanAllArtifacts(minRarity, devLimit, skipOpenBackpack) {
     log.info("[圣遗物] 总数: " + totalCount);
 
     var artifacts = [];
-    var scannedCount = 0;
     var failCount = 0;
 
     // 行级去重: 每行8个指纹，与已见行比较
@@ -264,8 +255,6 @@ async function scanAllArtifacts(minRarity, devLimit, skipOpenBackpack) {
 
     await traverseBackpackGrid(totalCount, async function (itemIndex) {
         if (devLimit && artifacts.length >= devLimit) return true;
-
-        scannedCount++;
         var col = itemIndex % COLS;
 
         var gameImage = captureGameRegion();

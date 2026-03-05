@@ -34,19 +34,11 @@ var WEAPON_STOP_NAMES = [
     "精锻用魔矿", "精锻用良矿", "精锻用杂矿"
 ];
 
-// 检测星级像素是否为黄色
-function isWeaponStarYellow(gameImage, x) {
-    var mat = gameImage.SrcMat;
-    var pixel = mat.SubMat(372, 373, x, x + 1).Mean();
-    var b = pixel.Val0, g = pixel.Val1, r = pixel.Val2;
-    return (r > 150 && g > 100 && b < 100);
-}
-
-// 检测武器星级: 5星/4星/3星及以下
+// 检测武器星级: 5星/4星/3星/2星及以下
 function detectWeaponRarity(gameImage) {
-    if (isWeaponStarYellow(gameImage, 1485)) return 5;
-    if (isWeaponStarYellow(gameImage, 1450)) return 4;
-    if (isWeaponStarYellow(gameImage, 1416)) return 3;
+    if (isStarYellow(gameImage, 1485)) return 5;
+    if (isStarYellow(gameImage, 1450)) return 4;
+    if (isStarYellow(gameImage, 1416)) return 3;
     return 2;
 }
 
@@ -150,10 +142,8 @@ async function scanAllWeapons(minRarity, devLimit, skipOpenBackpack) {
     log.info("[武器] 总数: " + totalCount);
 
     var weapons = [];
-    var scannedCount = 0;
 
     await traverseBackpackGrid(totalCount, async function (itemIndex) {
-        scannedCount++;
 
         var gameImage = captureGameRegion();
         try {

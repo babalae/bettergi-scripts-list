@@ -50,7 +50,6 @@ var CHARACTER_CONST_BONUS = {};
 var WEAPON_NAME_MAP = {};
 var ARTIFACT_SET_MAP = {};
 var ARTIFACT_SET_MAX_RARITY = {};
-var WEAPON_1_2_STAR = [];
 
 // 从 data/mappings.json 初始化所有名称映射表
 function initMappings() {
@@ -71,7 +70,6 @@ function initMappings() {
     for (i = 0; i < MAPPINGS.weapons.length; i++) {
         entry = MAPPINGS.weapons[i];
         WEAPON_NAME_MAP[entry.names.zh] = entry.id;
-        if (entry.rarity <= 2) WEAPON_1_2_STAR.push(entry.id);
     }
 
     for (i = 0; i < MAPPINGS.artifactSets.length; i++) {
