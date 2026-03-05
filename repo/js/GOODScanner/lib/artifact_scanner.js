@@ -59,7 +59,7 @@ function detectArtifactRarity(gameImage) {
     return 3;
 }
 
-// 扫描单个圣遗物卡片，返回 GOOD 圣遗物对象或 {_stop} 或 null
+// 扫描单个圣遗物卡片，返回 GOOD 圣遗物对象、{_stop}、{_skip} 或 null
 function scanSingleArtifact(gameImage) {
     // 0. 检测星级，3星及以下直接停止
     var rarity = detectArtifactRarity(gameImage);
@@ -81,10 +81,10 @@ function scanSingleArtifact(gameImage) {
         }
     }
     if (!slotKey) {
-        // 4星无法识别部位 — 可能是祝圣精华，跳过
+        // 4星无法识别部位 — 可能是祝圣精华，跳过（不计入失败）
         if (rarity === 4) {
             log.info("[圣遗物] 4★ 无法识别部位（可能为祝圣精华），跳过");
-            return null;
+            return { _skip: true };
         }
         if (settings.continueOnFailure) {
             log.warn("[圣遗物] 无法识别部位: 「" + partText + "」，跳过");
@@ -271,12 +271,14 @@ async function scanAllArtifacts(minRarity, devLimit, skipOpenBackpack) {
         }
         gameImage.Dispose();
 
-        currentRow.push(artifactFingerprint(artifact));
+        var skipped = artifact && artifact._skip;
+        currentRow.push(skipped ? "skip" : artifactFingerprint(artifact));
         if (artifact && artifact.rarity >= minRarity) {
             pendingRow.push(artifact);
+            failCount = 0;
         } else if (!artifact) {
             failCount++;
-        } else {
+        } else if (!skipped) {
             failCount = 0;
         }
 
