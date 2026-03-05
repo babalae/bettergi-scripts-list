@@ -324,6 +324,19 @@ async function scanAllArtifacts(minRarity, devLimit, skipOpenBackpack) {
         pendingRow = [];
     });
 
+    // 刷新最后一行（不满8个的部分行）
+    if (currentRow.length > 0 && !isRowDuplicate(currentRow)) {
+        for (var ri = 0; ri < pendingRow.length; ri++) {
+            artifacts.push(pendingRow[ri]);
+            if (settings.logProgress) log.info("[圣遗物] " + pendingRow[ri].setKey + " " + pendingRow[ri].slotKey +
+                " +" + pendingRow[ri].level + " " + pendingRow[ri].rarity + "★" +
+                " " + (pendingRow[ri].location || "-") +
+                (pendingRow[ri].lock ? " 🔒" : "") +
+                (pendingRow[ri].astralMark ? " ⭐" : "") +
+                (pendingRow[ri].elixirCrafted ? " 祝圣" : ""));
+        }
+    }
+
     // 后处理: 移除未强化的4★低价值圣遗物（5★套装的4★掉落）
     var beforeCount = artifacts.length;
     artifacts = artifacts.filter(function (a) {

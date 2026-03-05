@@ -101,13 +101,12 @@ initMappings();
 // --- Level to Ascension Lookup ---
 // Given a character/weapon level, determine the maximum possible ascension
 // Ascension boundaries: 20→0, 40→1, 50→2, 60→3, 70→4, 80→5, 90→6
-function levelToAscension(level) {
-    if (level <= 20) return 0;
-    if (level <= 40) return 1;
-    if (level <= 50) return 2;
-    if (level <= 60) return 3;
-    if (level <= 70) return 4;
-    if (level <= 80) return 5;
+function levelToAscension(level, ascended) {
+    var thresholds = [20, 40, 50, 60, 70, 80];
+    for (var i = 0; i < thresholds.length; i++) {
+        if (level < thresholds[i]) return i;
+        if (level === thresholds[i]) return ascended ? i + 1 : i;
+    }
     return 6;
 }
 

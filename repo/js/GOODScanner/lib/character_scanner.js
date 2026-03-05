@@ -266,7 +266,7 @@ async function scanSingleCharacter(firstName, reverse) {
         levelInfo = await readCharacterLevel();
     }
 
-    var ascension = levelToAscension(levelInfo.level);
+    var ascension = levelToAscension(levelInfo.level, levelInfo.ascended);
 
     // 达达利亚固有天赋: 普攻等级+1
     if (nameInfo.name === "Tartaglia") {

@@ -34,13 +34,20 @@ var WEAPON_STOP_NAMES = [
     "精锻用魔矿", "精锻用良矿", "精锻用杂矿"
 ];
 
-// 检测卡片是否为3星及以上（星级图标区域像素为黄色）
-function isWeapon3StarOrAbove(gameImage) {
+// 检测星级像素是否为黄色
+function isWeaponStarYellow(gameImage, x) {
     var mat = gameImage.SrcMat;
-    var pixel = mat.SubMat(372, 373, 1416, 1417).Mean();
+    var pixel = mat.SubMat(372, 373, x, x + 1).Mean();
     var b = pixel.Val0, g = pixel.Val1, r = pixel.Val2;
-    // 黄色: R高 G中 B低
     return (r > 150 && g > 100 && b < 100);
+}
+
+// 检测武器星级: 5星/4星/3星及以下
+function detectWeaponRarity(gameImage) {
+    if (isWeaponStarYellow(gameImage, 1485)) return 5;
+    if (isWeaponStarYellow(gameImage, 1450)) return 4;
+    if (isWeaponStarYellow(gameImage, 1416)) return 3;
+    return 2;
 }
 
 // 扫描单个武器卡片，返回 GOOD 武器对象或 {_stop} 或 null
@@ -56,7 +63,7 @@ function scanSingleWeapon(gameImage) {
                 return { _stop: true };
             }
         }
-        if (!isWeapon3StarOrAbove(gameImage)) {
+        if (detectWeaponRarity(gameImage) <= 2) {
             log.info("[武器] 检测到低星物品，停止扫描");
             return { _stop: true };
         }
@@ -111,14 +118,16 @@ function scanSingleWeapon(gameImage) {
         location = fuzzyMatchMap(charName, CHARACTER_NAME_MAP) || "";
     }
 
+    var rarity = detectWeaponRarity(gameImage);
     var lock = detectWeaponLock(gameImage);
-    var ascension = levelToAscension(level);
+    var ascension = levelToAscension(level, ascended);
 
     return {
         key: weaponKey,
         level: level,
         ascension: ascension,
         refinement: refinement,
+        rarity: rarity,
         location: location,
         lock: lock
     };
@@ -153,7 +162,7 @@ async function scanAllWeapons(minRarity, devLimit, skipOpenBackpack) {
                 gameImage.Dispose();
                 return true;
             }
-            if (weapon && weapon.key) {
+            if (weapon && weapon.key && weapon.rarity >= minRarity) {
                 weapons.push(weapon);
                 if (settings.logProgress) log.info("[武器] " + weapon.key + " Lv." + weapon.level +
                     " R" + weapon.refinement + " " + (weapon.location || "-") +
