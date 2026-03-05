@@ -339,7 +339,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             index++
                             if (index <= arr.length - 1)
                                 autoLeyLineOutcrop.isNotification = (arr[index] != null && arr[index].trim() !== "")
-                            
+
                             index++
                             if (index <= arr.length - 1)
                                 autoLeyLineOutcrop.timeout = parseInteger(arr[index])
@@ -398,7 +398,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
             break
         default:
             throw new Error("请先配置加载方式");
-            // break;
+        // break;
     }
 }
 
@@ -485,15 +485,26 @@ async function main() {
         || (item.runType === config.user.runTypes[1] && item?.autoLeyLineOutcrop.count > 0)
     )
 
-    const hasStygianOnslaught = list.some(item => item.runType===config.user.runTypes[2]);
+    const hasStygianOnslaught = list.some(item => item.runType === config.user.runTypes[2]);
     if (hasStygianOnslaught) {
         try {
             const isStygianOnslaught = await findStygianOnslaught();
-            if (!isStygianOnslaught) {
+            if (isStygianOnslaught) {
+                const filter = list.find(item => item.runType === config.user.runTypes[1]);
+                if (filter) {
+                    // 幽境危战添加秘境顺序前
+                    list.forEach(item => {
+                        if (item.runType === config.user.runTypes[2]) {
+                            item.order = filter.order + 1
+                        }
+                    })
+                    list.sort((item1, item2) => item2.order - item1.order)
+                }
+            } else {
                 log.info(`幽境危战已结束`)
                 list = list.filter(item => item.runType !== config.user.runTypes[2])
             }
-        }finally {
+        } finally {
             await toMainUi()
         }
     }
