@@ -249,15 +249,15 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
     }
 
     let param = new AutoStygianOnslaught()
-    param.bossNum = autoStygianOnslaught?.bossNum > 0 && autoStygianOnslaught?.bossNum < 3 ? autoStygianOnslaught.bossNum : 1
-    param.specifyResinUse = autoStygianOnslaught?.specifyResinUse
-    param.fightTeamName = autoStygianOnslaught?.fightTeamName||param.fightTeamName
+    param.bossNum = autoStygianOnslaught?.bossNum > 0 && autoStygianOnslaught?.bossNum < 3 ? autoStygianOnslaught.bossNum : param.bossNum
+    param.specifyResinUse = autoStygianOnslaught?.specifyResinUse|| param.specifyResinUse
+    param.fightTeamName = autoStygianOnslaught?.fightTeamName || param.fightTeamName
     if (resinPriorityList.length > 0) {
         param.SetResinPriorityList(...resinPriorityList)
-        param.originalResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "原粹树脂")?.count||0
-        param.condensedResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "浓缩树脂")?.count||0
-        param.transientResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "须臾树脂")?.count||0
-        param.fragileResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "脆弱树脂")?.count||0
+        param.originalResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "原粹树脂"&&item?.open)?.count || 0
+        param.condensedResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "浓缩树脂"&&item?.open)?.count || 0
+        param.transientResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "须臾树脂"&&item?.open)?.count || 0
+        param.fragileResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "脆弱树脂"&&item?.open)?.count || 0
     }
 
     await sleep(1000)
@@ -349,7 +349,8 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             runType: runType,  // 运行类型
                             days: days,        // 执行日期（数组）
                             autoFight: undefined, // 秘境信息对象
-                            autoLeyLineOutcrop: undefined // 地脉信息对象
+                            autoLeyLineOutcrop: undefined, // 地脉信息对象
+                            autoStygianOnslaught: undefined // 幽境信息对象
                         }
 
 
@@ -447,6 +448,67 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                 autoLeyLineOutcrop.timeout = parseInteger(arr[index])
 
                             autoOrder.autoLeyLineOutcrop = autoLeyLineOutcrop // 将地脉信息对象添加到顺序对象中
+                        } else if (config.user.runTypes[0] === runType) {
+                            let autoLeyLineOutcrop = {
+                                bossNum: undefined,//boss1-3
+                                friendshipTeam: "",//队伍名称
+                                specifyResinUse: undefined,//周日|限时选择的值
+                                physical: [
+                                    {order: 0, name: "浓缩树脂", open: true, count: 1},
+                                    {order: 1, name: "原粹树脂", open: true, count: 1},
+                                    {order: 2, name: "须臾树脂", open: false, count: 1},
+                                    {order: 3, name: "脆弱树脂", open: false, count: 1}
+                                ],//副本轮数
+                            }
+                            const bossNum = parseInteger(arr[index]);
+                            if (bossNum && bossNum > 0 && bossNum <= 3) {
+                                autoLeyLineOutcrop.bossNum = bossNum
+                            }
+                            index++
+                            if (index <= arr.length - 1) {
+                                const friendshipTeam = arr[index];
+                                if (friendshipTeam && friendshipTeam.trim() !== "") {
+                                    autoLeyLineOutcrop.friendshipTeam = friendshipTeam
+                                }
+                            }
+                            index++
+                            if (index <= arr.length - 1) {
+                                autoLeyLineOutcrop.specifyResinUse = arr[index].trim() !== ""
+                            }
+                            if (autoLeyLineOutcrop.specifyResinUse) {
+                                index++
+                                let line = 0
+                                if (index <= arr.length - 1) {
+                                    if (arr[index]?.trim() !== "") {
+                                        const physical = []
+                                        const physicals = arr[index].trim().split("/");
+                                        for (let i = 0; i < physicals.length; i++) {
+                                            const item = physicals[i];
+                                            physical.push({order: i, name: item, open: true, count: 1})
+                                        }
+                                        line = physical.length
+                                        autoLeyLineOutcrop.physical = physical
+                                    }
+                                }
+                                index++
+                                if (index <= arr.length - 1) {
+                                    if (line > 0 && arr[index]?.trim() !== "") {
+                                        const counts = arr[index].trim().split("/")
+                                            .map(item => {
+                                                let count = parseInteger(item)||1;
+                                                return count
+                                            });
+                                        autoLeyLineOutcrop.physical.forEach((item, index) => {
+                                            try {
+                                                item.count = counts[index] || 1;
+                                            }catch ( e){
+                                                log.warn(`解析${item.name}数量失败`)
+                                                throwError(`解析${item.name}数量失败`)
+                                            }
+                                        });
+                                    }
+                                }
+                            }
                         }
 
                         // 将秘境顺序对象添加到列表中
