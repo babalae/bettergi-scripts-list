@@ -1,3 +1,4 @@
+
 const commonPath = 'assets/icon/'
 const commonMap = new Map([
     ['main_ui', {
@@ -53,7 +54,6 @@ async function saveOnlyNumber(str) {
     // parseInt 将连接后的字符串转换为整数
     return parseInt(str.match(/\d+/g).join(''));
 }
-
 /**
  * 识别原粹树脂（体力）的函数
  * @param {boolean} [opToMainUi=false] - 是否操作到主界面
@@ -89,10 +89,10 @@ async function ocrPhysical(opToMainUi = false,openMap=false) {
     let add_buttonJSON = getJsonPath('add_button');
     let add_objJson = {
         path: `${add_buttonJSON.path}${add_buttonJSON.name}${add_buttonJSON.type}`,
-        x: 1242,
-        y: 21,
-        width: 54,
-        height: 51,
+        x: 1375,
+        y: 27,
+        width: 49,
+        height: 40,
     }
     let templateMatchAddButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${add_objJson.path}`), add_objJson.x, add_objJson.y, add_objJson.width, add_objJson.height);
     let regionA = captureGameRegion()
@@ -108,12 +108,6 @@ async function ocrPhysical(opToMainUi = false,openMap=false) {
     }finally {
         regionA.Dispose()
     }
-
-    // let add_obj = {
-    //     x: 1264,
-    //     y: 39,
-    // }
-    // await click(add_obj.x, add_obj.y)
     await sleep(ms)
 
     log.debug(`===[定位原粹树脂]===`)
@@ -138,27 +132,6 @@ async function ocrPhysical(opToMainUi = false,openMap=false) {
     }finally {
         region.Dispose()
     }
-
-/*    log.debug(`===[定位/200]===`)
-    //定位200
-    let jsonPath2 = getJsonPath('200');
-    let tmJson2 = {
-        path: `${jsonPath2.path}${jsonPath2.name}${jsonPath2.type}`,
-        x: TemplateOrcJson.x,
-        y: TemplateOrcJson.y,
-        width: TemplateOrcJson.width,
-        height: TemplateOrcJson.height,
-    }
-    let templateMatchButtonRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${tmJson2.path}`), tmJson2.x, tmJson2.y, tmJson2.width, tmJson2.height);
-    let region2 = captureGameRegion()
-    let button2 = region2.find(templateMatchButtonRo2);
-    region2.Dispose()
-
-    await sleep(ms)
-    if (!button2.isExist()) {
-        log.error(`${tmJson2.path} 匹配异常`)
-        throwError(`${tmJson2.path} 匹配异常`)
-    }*/
 
     log.debug(`===[识别原粹树脂]===`)
     //识别体力 x=1625,y=31,width=79,height=30 / x=1689,y=35,width=15,height=26
