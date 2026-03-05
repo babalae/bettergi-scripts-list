@@ -663,7 +663,7 @@ async function main() {
                     // 幽境危战添加秘境顺序前
                     list.forEach(item => {
                         if (item.runType === config.user.runTypes[2]) {
-                            item.order = filter.order + 1
+                            item.order = Math.max(filter.order + 1, item.order)
                         }
                     })
                     list.sort((item1, item2) => item2.order - item1.order)
