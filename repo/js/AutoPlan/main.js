@@ -250,14 +250,14 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
 
     let param = new AutoStygianOnslaught()
     param.bossNum = autoStygianOnslaught?.bossNum > 0 && autoStygianOnslaught?.bossNum < 3 ? autoStygianOnslaught.bossNum : param.bossNum
-    param.specifyResinUse = autoStygianOnslaught?.specifyResinUse|| param.specifyResinUse
+    param.specifyResinUse = autoStygianOnslaught?.specifyResinUse || param.specifyResinUse
     param.fightTeamName = autoStygianOnslaught?.fightTeamName || param.fightTeamName
     if (resinPriorityList.length > 0) {
         param.SetResinPriorityList(...resinPriorityList)
-        param.originalResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "原粹树脂"&&item?.open)?.count || 0
-        param.condensedResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "浓缩树脂"&&item?.open)?.count || 0
-        param.transientResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "须臾树脂"&&item?.open)?.count || 0
-        param.fragileResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "脆弱树脂"&&item?.open)?.count || 0
+        param.originalResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "原粹树脂" && item?.open)?.count || 0
+        param.condensedResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "浓缩树脂" && item?.open)?.count || 0
+        param.transientResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "须臾树脂" && item?.open)?.count || 0
+        param.fragileResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "脆弱树脂" && item?.open)?.count || 0
     }
 
     await sleep(1000)
@@ -290,6 +290,8 @@ async function autoRunList(autoRunOrderList) {
             await autoDomain(item.autoFight);
         } else if (item.runType === config.user.runTypes[1]) {
             await autoLeyLineOutcrop(item.autoLeyLineOutcrop);
+        } else if (item.runType === config.user.runTypes[2]) {
+            await autoStygianOnslaught(item.autoStygianOnslaught);
         }
     }
 }
@@ -495,13 +497,13 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                     if (line > 0 && arr[index]?.trim() !== "") {
                                         const counts = arr[index].trim().split("/")
                                             .map(item => {
-                                                let count = parseInteger(item)||1;
+                                                let count = parseInteger(item) || 1;
                                                 return count
                                             });
                                         autoLeyLineOutcrop.physical.forEach((item, index) => {
                                             try {
                                                 item.count = counts[index] || 1;
-                                            }catch ( e){
+                                            } catch (e) {
                                                 log.warn(`解析${item.name}数量失败`)
                                                 throwError(`解析${item.name}数量失败`)
                                             }
