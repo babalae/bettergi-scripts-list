@@ -287,7 +287,7 @@ async function scanAllArtifacts(minRarity, devLimit, skipOpenBackpack) {
         }
 
         // 行满时检查去重
-        if (currentRow.length >= COLS || col === COLS - 1) {
+        if (currentRow.length >= COLS) {
             if (isRowDuplicate(currentRow)) {
                 log.warn("[圣遗物] 检测到重复行，跳过 " + pendingRow.length + " 个");
             } else {
@@ -313,11 +313,11 @@ async function scanAllArtifacts(minRarity, devLimit, skipOpenBackpack) {
             log.error("[圣遗物] 连续 " + failCount + " 个失败，停止");
             return true;
         }
-    }, 52, function () { // onScroll: clear row cache
+    }, function () { // onScroll: clear row cache
         seenRows = [];
         currentRow = [];
         pendingRow = [];
-    }); // TEMP: skip 52 pages for testing
+    });
 
     // 后处理: 移除未强化的4★低价值圣遗物（5★套装的4★掉落）
     var beforeCount = artifacts.length;

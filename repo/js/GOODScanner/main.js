@@ -88,12 +88,12 @@
         var outputPath = "records/good_export_" + timestamp + ".json";
         var jsonStr = JSON.stringify(goodData, null, 2);
 
-        var writeOk = file.WriteTextSync(outputPath, jsonStr);
+        var writeOk = file.writeTextSync(outputPath, jsonStr);
         if (writeOk) {
             log.info("导出: " + outputPath);
         } else {
             log.error("写入失败: " + outputPath);
-            file.WriteTextSync("records/good_export.json", jsonStr);
+            file.writeTextSync("records/good_export.json", jsonStr);
         }
 
         var elapsed = ((Date.now() - startTime) / 1000).toFixed(1);

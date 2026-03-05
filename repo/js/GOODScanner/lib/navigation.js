@@ -61,26 +61,14 @@ async function clickGridItem(row, col) {
 }
 
 // 遍历背包网格中的物品
-async function traverseBackpackGrid(totalCount, callback, skipPages, onScroll) {
+async function traverseBackpackGrid(totalCount, callback, onScroll) {
     var itemsPerPage = GRID.COLS * GRID.ROWS;
     var pageCount = Math.ceil(totalCount / itemsPerPage);
     var itemIndex = 0;
 
     _scrollCnt = 0;
 
-    // TEMP: skip pages for testing end behavior
-    if (skipPages && skipPages > 0) {
-        var toSkip = Math.min(skipPages, pageCount - 1);
-        for (var sp = 0; sp < toSkip; sp++) {
-            moveMouseTo(GRID.FIRST_X, GRID.FIRST_Y);
-            await sleep(100);
-            await scrollGridPage();
-        }
-        itemIndex = toSkip * itemsPerPage;
-        log.info("[导航] 跳过 " + toSkip + " 页，从第 " + itemIndex + " 个开始");
-    }
-
-    for (var page = (skipPages || 0); page < pageCount; page++) {
+    for (var page = 0; page < pageCount; page++) {
         var startRow = 0;
         var remaining = totalCount - page * itemsPerPage;
 

@@ -164,7 +164,7 @@ async function scanAllWeapons(minRarity, devLimit, skipOpenBackpack) {
         gameImage.Dispose();
 
         if (devLimit && weapons.length >= devLimit) return true;
-    }, 12); // TEMP: skip 12 pages for testing
+    });
 
     log.info("[武器] 完成，共 " + weapons.length + " 把");
     return weapons;

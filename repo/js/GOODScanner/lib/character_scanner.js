@@ -271,12 +271,13 @@ async function scanSingleCharacter(firstName, reverse) {
     var bonus = CHARACTER_CONST_BONUS[nameInfo.name];
     if (bonus) {
         var talentKeyMap = { "A": "auto", "E": "skill", "Q": "burst" };
+        var k;
         if (constellation >= 3 && bonus.c3 && talentKeyMap[bonus.c3]) {
-            var k = talentKeyMap[bonus.c3];
+            k = talentKeyMap[bonus.c3];
             talents[k] = Math.max(1, talents[k] - 3);
         }
         if (constellation >= 5 && bonus.c5 && talentKeyMap[bonus.c5]) {
-            var k = talentKeyMap[bonus.c5];
+            k = talentKeyMap[bonus.c5];
             talents[k] = Math.max(1, talents[k] - 3);
         }
     }

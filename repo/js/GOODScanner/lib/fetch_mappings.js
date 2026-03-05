@@ -33,8 +33,8 @@ async function fetchMappingsIfNeeded() {
 
         if (response.status_code === 200 && response.body) {
             JSON.parse(response.body);
-            file.WriteTextSync(MAPPINGS_CACHE_PATH, response.body);
-            file.WriteTextSync(MAPPINGS_META_PATH, JSON.stringify({
+            file.writeTextSync(MAPPINGS_CACHE_PATH, response.body);
+            file.writeTextSync(MAPPINGS_META_PATH, JSON.stringify({
                 lastFetchTime: Date.now()
             }));
             log.info("游戏数据映射已更新");
