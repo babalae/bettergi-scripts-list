@@ -217,7 +217,7 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
         const names = config.user.physical.names;
         physical_domain = []
         names.forEach((name, index) => {
-            physical_domain.push({order: index, name: name, open: index === 0,count: 1})
+            physical_domain.push({order: index, name: name, open: index === 0, count: 1})
         })
     }
 
@@ -252,7 +252,7 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
 
 
     param.bossNum = autoStygianOnslaught?.bossNum > 0 && autoStygianOnslaught?.bossNum <= 3 ? autoStygianOnslaught.bossNum : param.bossNum
-    param.fightTeamName = autoStygianOnslaught?.fightTeamName || param.fightTeamName
+    param.fightTeamName = autoStygianOnslaught?.fightTeamName?.trim() !== "" ? autoStygianOnslaught.fightTeamName.trim() : param.fightTeamName
     if (resinPriorityList.length > 0) {
         param.SetResinPriorityList(...resinPriorityList)
         param.originalResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === config.user.physical.names[0] && item?.open)?.count || 0
