@@ -462,7 +462,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             let autoLeyLineOutcrop = {
                                 bossNum: undefined,//boss1-3
                                 friendshipTeam: "",//队伍名称
-                                specifyResinUse: undefined,//周日|限时选择的值
+                                specifyResinUse: undefined,//自定义树脂使用
                                 physical: [
                                     {order: 0, name: config.user.physical.names[1], open: true, count: 1},
                                     {order: 1, name: config.user.physical.names[0], open: true, count: 1},
@@ -470,9 +470,11 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                     {order: 3, name: config.user.physical.names[3], open: false, count: 1}
                                 ],//副本轮数
                             }
-                            const bossNum = parseInteger(arr[index]);
-                            if (bossNum && bossNum > 0 && bossNum <= 3) {
-                                autoLeyLineOutcrop.bossNum = bossNum
+                            if (index <= arr.length - 1) {
+                                const bossNum = parseInteger(arr[index]);
+                                if (bossNum && bossNum > 0 && bossNum <= 3) {
+                                    autoLeyLineOutcrop.bossNum = bossNum
+                                }
                             }
                             index++
                             if (index <= arr.length - 1) {
