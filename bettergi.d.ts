@@ -1078,6 +1078,18 @@ declare class AutoStygianOnslaughtParam {
   fightTeamName: string;
   /**战斗脚本包路径*/
   combatScriptBagPath: string;
+  /**
+   * 设置战斗策略路径
+   * @param strategyName 策略名称
+   * @returns 策略路径
+   */
+  setCombatStrategyPath(strategyName?: string): string;
+
+  /**
+   * 设置树脂优先级列表
+   * @param list 优先级列表
+   */
+  setResinPriorityList(...priorities: string[]): void;
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   declare BossNum: typeof AutoStygianOnslaughtParam.prototype.bossNum;
   declare AutoArtifactSalvage: typeof AutoStygianOnslaughtParam.prototype.autoArtifactSalvage;
@@ -1089,6 +1101,8 @@ declare class AutoStygianOnslaughtParam {
   declare FragileResinUseCount: typeof AutoStygianOnslaughtParam.prototype.fragileResinUseCount;
   declare FightTeamName: typeof AutoStygianOnslaughtParam.prototype.fightTeamName;
   declare CombatScriptBagPath: typeof AutoStygianOnslaughtParam.prototype.combatScriptBagPath;
+  declare SetCombatStrategyPath: typeof AutoDomainParam.prototype.setCombatStrategyPath;
+  declare SetResinPriorityList: typeof AutoDomainParam.prototype.setResinPriorityList;
   // ==== END AUTO-GENERATED ALIASES ====
 }
 /**
