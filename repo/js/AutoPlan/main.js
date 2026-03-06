@@ -1,6 +1,6 @@
 import {config, initConfig, initSettings, LoadType} from './config/config';
 import {ocrUid} from './utils/uid';
-import {getDayOfWeek, outDomainUI, throwError} from './utils/tool';
+import {getDayOfWeek, outDomainUI, outStygianOnslaughtUI, throwError} from './utils/tool';
 import {pullJsonConfig, pushAllCountryConfig, pushAllJsonConfig} from './utils/bgi_tools';
 import {ocrPhysical} from "./utils/physical";
 import {findStygianOnslaught} from "./utils/activity";
@@ -261,20 +261,25 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
     }
 
     await sleep(1000)
-    // 复活重试
-    for (let i = 0; i < config.run.retry_count; i++) {
-        try {
-            await dispatcher.RunAutoStygianOnslaughtTask(autoStygianOnslaught)
-            // 其他场景不重试
-            break;
-        } catch (e) {
-            const errorMessage = e.message
-            // 只有选择了秘境的时候才会重试
-            if (errorMessage.includes("复活")) {
-                continue;
+    try {
+        // 复活重试
+        for (let i = 0; i < config.run.retry_count; i++) {
+            try {
+                await dispatcher.RunAutoStygianOnslaughtTask(autoStygianOnslaught)
+                // 其他场景不重试
+                break;
+            } catch (e) {
+                const errorMessage = e.message
+                if (errorMessage.includes("复活")) {
+                    continue;
+                }
+                throw e;
             }
-            throw e;
         }
+    } finally {
+        log.info(`{0}`, "执行完成")
+        // 退出危战
+        await outStygianOnslaughtUI()
     }
 }
 
