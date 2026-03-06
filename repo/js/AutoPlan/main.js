@@ -16,10 +16,10 @@ async function autoDomain(autoFight) {
     //定死做预留冗余 先不实现 不能指定次数 只能指定启用
     let physical_domain = autoFight?.physical
     //     || [
-    //     {order: 0, name: "原粹树脂", count: 1, open: true},
-    //     {order: 1, name: "浓缩树脂", count: 0, open: false},
-    //     {order: 2, name: "须臾树脂", count: 0, open: false},
-    //     {order: 3, name: "脆弱树脂", count: 0, open: false},
+    //     {order: 0, name: config.user.physical.names[0], count: 1, open: true},
+    //     {order: 1, name: config.user.physical.names[1], count: 0, open: false},
+    //     {order: 2, name: config.user.physical.names[2], count: 0, open: false},
+    //     {order: 3, name: config.user.physical.names[3], count: 0, open: false},
     // ]
 
     if ((!physical_domain) || physical_domain.filter(item => item?.open).length === 0) {
@@ -32,10 +32,10 @@ async function autoDomain(autoFight) {
 
     physical_domain.sort((a, b) => a.order - b.order)
     // 不包含原粹树脂的和
-    const noOriginalSum = physical_domain.filter(item => item?.name.trim() !== "原粹树脂")
+    const noOriginalSum = physical_domain.filter(item => item?.name.trim() !== config.user.physical.names[0])
         .filter(item => item?.open).length;//求和
     // 只包含原粹树脂的和
-    const originalSum = physical_domain.filter(item => item?.name?.trim() === "原粹树脂")
+    const originalSum = physical_domain.filter(item => item?.name?.trim() === config.user.physical.names[0])
         .filter(item => item?.open).length;
     const resinPriorityList = physical_domain.filter(item => item?.open).map(item => item?.name?.trim())
     //  /** 树脂使用优先级列表 */
@@ -205,10 +205,10 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
     //定死做预留冗余 先不实现 不能指定次数 只能指定启用
     let physical_domain = autoStygianOnslaught?.physical
     //     || [
-    //     {order: 0, name: "原粹树脂", count: 1, open: true},
-    //     {order: 1, name: "浓缩树脂", count: 0, open: false},
-    //     {order: 2, name: "须臾树脂", count: 0, open: false},
-    //     {order: 3, name: "脆弱树脂", count: 0, open: false},
+    //     {order: 0, name: config.user.physical.names[0], count: 1, open: true},
+    //     {order: 1, name: config.user.physical.names[1], count: 0, open: false},
+    //     {order: 2, name: config.user.physical.names[2], count: 0, open: false},
+    //     {order: 3, name: config.user.physical.names[3], count: 0, open: false},
     // ]
 
     if ((!physical_domain) || physical_domain.filter(item => item?.open).length === 0) {
@@ -221,10 +221,10 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
 
     physical_domain.sort((a, b) => a.order - b.order)
     // 不包含原粹树脂的和
-    const noOriginalSum = physical_domain.filter(item => item?.name.trim() !== "原粹树脂")
+    const noOriginalSum = physical_domain.filter(item => item?.name.trim() !== config.user.physical.names[0])
         .filter(item => item?.open).length;//求和
     // 只包含原粹树脂的和
-    const originalSum = physical_domain.filter(item => item?.name?.trim() === "原粹树脂")
+    const originalSum = physical_domain.filter(item => item?.name?.trim() === config.user.physical.names[0])
         .filter(item => item?.open).length;
     const physical_domain_filter = physical_domain.filter(item => item?.open);
     const resinPriorityList = physical_domain_filter.map(item => item?.name?.trim())
@@ -254,10 +254,10 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
     param.fightTeamName = autoStygianOnslaught?.fightTeamName || param.fightTeamName
     if (resinPriorityList.length > 0) {
         param.SetResinPriorityList(...resinPriorityList)
-        param.originalResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "原粹树脂" && item?.open)?.count || 0
-        param.condensedResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "浓缩树脂" && item?.open)?.count || 0
-        param.transientResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "须臾树脂" && item?.open)?.count || 0
-        param.fragileResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === "脆弱树脂" && item?.open)?.count || 0
+        param.originalResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === config.user.physical.names[0] && item?.open)?.count || 0
+        param.condensedResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === config.user.physical.names[1] && item?.open)?.count || 0
+        param.transientResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === config.user.physical.names[2] && item?.open)?.count || 0
+        param.fragileResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === config.user.physical.names[3] && item?.open)?.count || 0
     }
 
     await sleep(1000)
@@ -456,10 +456,10 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                 friendshipTeam: "",//队伍名称
                                 specifyResinUse: undefined,//周日|限时选择的值
                                 physical: [
-                                    {order: 0, name: "浓缩树脂", open: true, count: 1},
-                                    {order: 1, name: "原粹树脂", open: true, count: 1},
-                                    {order: 2, name: "须臾树脂", open: false, count: 1},
-                                    {order: 3, name: "脆弱树脂", open: false, count: 1}
+                                    {order: 0, name: config.user.physical.names[1], open: true, count: 1},
+                                    {order: 1, name: config.user.physical.names[0], open: true, count: 1},
+                                    {order: 2, name: config.user.physical.names[2], open: false, count: 1},
+                                    {order: 3, name: config.user.physical.names[3], open: false, count: 1}
                                 ],//副本轮数
                             }
                             const bossNum = parseInteger(arr[index]);
