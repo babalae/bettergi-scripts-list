@@ -201,6 +201,8 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
     //     /**指定战斗队伍*/
     //     fightTeamName: undefined
     // }
+    let param = new AutoStygianOnslaught()
+    param.specifyResinUse = autoStygianOnslaught?.specifyResinUse || param.specifyResinUse
 
     //定死做预留冗余 先不实现 不能指定次数 只能指定启用
     let physical_domain = autoStygianOnslaught?.physical
@@ -211,11 +213,11 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
     //     {order: 3, name: config.user.physical.names[3], count: 0, open: false},
     // ]
 
-    if ((!physical_domain) || physical_domain.filter(item => item?.open).length === 0) {
+    if (param.specifyResinUse && ((!physical_domain) || physical_domain.filter(item => item?.open).length === 0)) {
         const names = config.user.physical.names;
         physical_domain = []
         names.forEach((name, index) => {
-            physical_domain.push({order: index, name: name, open: index === 0})
+            physical_domain.push({order: index, name: name, open: index === 0,count: 1})
         })
     }
 
@@ -248,9 +250,8 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
         throwError(`体力不足，当前体力${physical.current}，最低体力${physical.min}，请手动补充体力后重试`)
     }
 
-    let param = new AutoStygianOnslaught()
-    param.bossNum = autoStygianOnslaught?.bossNum > 0 && autoStygianOnslaught?.bossNum < 3 ? autoStygianOnslaught.bossNum : param.bossNum
-    param.specifyResinUse = autoStygianOnslaught?.specifyResinUse || param.specifyResinUse
+
+    param.bossNum = autoStygianOnslaught?.bossNum > 0 && autoStygianOnslaught?.bossNum <= 3 ? autoStygianOnslaught.bossNum : param.bossNum
     param.fightTeamName = autoStygianOnslaught?.fightTeamName || param.fightTeamName
     if (resinPriorityList.length > 0) {
         param.SetResinPriorityList(...resinPriorityList)
