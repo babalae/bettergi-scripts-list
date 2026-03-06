@@ -1,3 +1,9 @@
+async function keyMaintain(key, duration) {
+    keyDown(key);
+    await sleep(duration);
+    keyUp(key);
+}
+
 /**
  * 自动导航直到检测到指定文字
  * @param {Object} options 配置选项
@@ -1464,7 +1470,7 @@ keyUp("SHIFT");
 await sleep(700);
 keyUp("w");
 keyDown("d");
-await sleep(200)
+await sleep(200);
 keyDown("w");
 await sleep(700);
 keyUp("w");
