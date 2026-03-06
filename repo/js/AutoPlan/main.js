@@ -13,6 +13,10 @@ import {findStygianOnslaught} from "./utils/activity";
 async function autoDomain(autoFight) {
     log.info(`{0}`, "开始执行秘境任务")
     log.warn(`{0}`, "非体力耗尽情况下(受本体限制),等待退出秘境时间较长")
+    // 创建秘境参数对象，初始化值为0
+    let domainParam = new AutoDomainParam();
+    //关闭榨干原粹树脂
+    domainParam.specifyResinUse = true
     //定死做预留冗余 先不实现 不能指定次数 只能指定启用
     let physical_domain = autoFight?.physical
     //     || [
@@ -54,15 +58,13 @@ async function autoDomain(autoFight) {
     config.user.physical.current = physicalOcr.current
     config.user.physical.min = physicalOcr.min
     const physical = config.user.physical
-    if (physical.current < physical.min && noOriginalSum <= 0 && originalSum > 0) {
+    if (domainParam.specifyResinUse && physical.current < physical.min && noOriginalSum <= 0 && originalSum > 0) {
         throwError(`体力不足，当前体力${physical.current}，最低体力${physical.min}，请手动补充体力后重试`)
     }
-    // 创建秘境参数对象，初始化值为0
-    let domainParam = new AutoDomainParam();
+
     //关闭分解
     domainParam.autoArtifactSalvage = false
-    //关闭榨干原粹树脂
-    domainParam.specifyResinUse = true
+
     //配置树脂使用优先级
     if (resinPriorityList.length > 0) {
         domainParam.SetResinPriorityList(...resinPriorityList)
