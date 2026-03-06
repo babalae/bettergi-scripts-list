@@ -101,8 +101,9 @@
         ],
         // 类型支持。  秘境、地脉、幽境
         "runType": "秘境",
+        // 秘境信息对象,
         "autoFight": {
-          // 秘境信息对象,
+          //树脂开启和使用顺序
           "physical": [
             {
               "order": 0,
@@ -125,7 +126,6 @@
               "open": false
             }
           ],
-          //树脂开启和使用顺序
           "domainName": undefined,
           //秘境名称
           "partyName": undefined,
@@ -135,8 +135,8 @@
           "domainRoundNum": undefined
           //副本轮数
         },
+        //地脉信息对象
         "autoLeyLineOutcrop": {
-          //地脉信息对象
           //刷几轮
           "count": 0,
           //国家
@@ -160,8 +160,9 @@
           //详细通知
           "isNotification": false
         },
+        //危战信息对象
         "autoStygianOnslaught": {
-          //危战信息对象
+          //自定义树脂
           "physical": [
             {
               "order": 0,
@@ -188,10 +189,11 @@
               "count": 0
             }
           ],
-          // 是否指定使用
+          // 是否指定使用自定义树脂
           "specifyResinUse": false,
           //指定刷取战场 1-3
           "bossNum": undefined,
+          //队伍名称
           "fightTeamName": ""
         }
       }
