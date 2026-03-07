@@ -265,7 +265,7 @@
 ]
 ```
 
-### 如果你不想研究语法 请部署[bettergi-scripts-tools](https://github.com/Kirito520Asuna/bettergi-scripts-tools) v0.0.4以上版本
+### 如果你不想研究语法 请部署[bettergi-scripts-tools](https://github.com/Kirito520Asuna/bettergi-scripts-tools)(点击前往部署) v0.0.4以上版本
 
 ***`话不多说直接上图:`***
 
