@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "稻妻-骗骗花-鹤观知比山北侧海滩-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-1个\n稻妻-鹤观知比山北侧海滩",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2552.49,
+      "y": -6004.27,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2570.02,
+      "y": -5918.19,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2580.46,
+      "y": -5874.35,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

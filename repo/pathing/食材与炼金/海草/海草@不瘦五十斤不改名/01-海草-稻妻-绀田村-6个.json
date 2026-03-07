@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "01-海草-稻妻-绀田村-6个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4050.01,
+      "y": -2657.45
+    },
+    {
+      "id": 2,
+      "x": -4020.79,
+      "y": -2625.6,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 3,
+      "x": -3983.14,
+      "y": -2617.7,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -3915.35,
+      "y": -2611.67,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "稻妻-飘浮灵-海祇岛珊瑚宫下东北-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "飘浮灵-2个\n稻妻-海祇岛珊瑚宫下东北",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -757.97,
+      "y": -3815.17,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -770.6,
+      "y": -3800.12,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -790.48,
+      "y": -3784.76,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(1.5),attack(0.1)",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -790.48,
+      "y": -3784.76,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

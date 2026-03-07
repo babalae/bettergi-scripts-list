@@ -1,0 +1,113 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Annijang",
+        "name": "Annijang"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766467447294,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C02-丘丘人射手-须弥-香醉坡-3只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2220.4443,
+      "y": -430.9224
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2220.4443,
+      "y": -430.9224
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "500",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2292.5293,
+      "y": -430.1611
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2292.5293,
+      "y": -430.1611
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2294.166,
+      "y": -434.8667
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2308.4473,
+      "y": -434.5972
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 2320.1621,
+      "y": -441.2002
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2328.2002,
+      "y": -464.6104
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2341.2822,
+      "y": -501.9028
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2372.9756,
+      "y": -516.2642
+    }
+  ]
+}

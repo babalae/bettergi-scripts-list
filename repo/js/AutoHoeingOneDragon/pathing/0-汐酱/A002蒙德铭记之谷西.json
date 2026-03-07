@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时68.09秒，包含以下怪物：1只大型风史莱姆、1只大型冰史莱姆。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1770548618965,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A002蒙德铭记之谷西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -576.9140625,
+      "y": 1857.4794921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -590.447265625,
+      "y": 1839.197265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -670.69140625,
+      "y": 1828.68359375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -682.03515625,
+      "y": 1805.822265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -682.03515625,
+      "y": 1805.822265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -662.642578125,
+      "y": 1701.724609375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -650.50390625,
+      "y": 1720.09326171875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -628.99609375,
+      "y": 1730.525390625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -628.99609375,
+      "y": 1730.525390625
+    }
+  ]
+}

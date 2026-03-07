@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时72.71秒，包含以下怪物：2只雷史莱姆、1只变异雷史莱姆、2只冰史莱姆。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1770549917525,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B023璃月石门西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 205.365234375,
+      "y": 1571.205078125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 218.6142578125,
+      "y": 1542.2373046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 230.806640625,
+      "y": 1526.19970703125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 233.498046875,
+      "y": 1521.845703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 233.498046875,
+      "y": 1521.845703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 259.2919921875,
+      "y": 1506.08056640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 311.1787109375,
+      "y": 1516.29296875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 307.314453125,
+      "y": 1561.00927734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 307.314453125,
+      "y": 1561.00927734375
+    }
+  ]
+}

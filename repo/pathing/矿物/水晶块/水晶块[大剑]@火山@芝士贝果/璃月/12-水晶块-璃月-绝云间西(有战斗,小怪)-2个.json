@@ -1,0 +1,132 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/RRRR623",
+                "name": "火山"
+            }
+        ],
+        "bgi_version": "0.52.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1761139177484,
+        "map_match_method": "",
+        "map_name": "Teyvat",
+        "name": "12-水晶块-璃月-绝云间西(有战斗,小怪)-2个",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 1,
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 1182.66,
+            "y": 626.08
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 2,
+            "move_mode": "dash",
+            "type": "path",
+            "x": 1204.37,
+            "y": 638.0
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 3,
+            "move_mode": "dash",
+            "type": "path",
+            "x": 1253.2,
+            "y": 648.0
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 4,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 1257.81,
+            "y": 645.85
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 5,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 1262.73,
+            "y": 646.48
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 6,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 1267.0332,
+            "y": 645.0435
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 7,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 1287.2246,
+            "y": 638.2354
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 8,
+            "move_mode": "dash",
+            "type": "path",
+            "x": 1298.75,
+            "y": 633.31
+        },
+        {
+            "action": "fight",
+            "action_params": "",
+            "id": 9,
+            "move_mode": "dash",
+            "point_ext_params": {
+                "description": "丘丘人",
+                "misidentification": {
+                    "arrival_time": 0,
+                    "handling_mode": "previousDetectedPoint",
+                    "type": [
+                        "unrecognized"
+                    ]
+                },
+                "monster_tag": "normal"
+            },
+            "type": "path",
+            "x": 1286.38,
+            "y": 626.35
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 10,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 1278.75,
+            "y": 612.35
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 11,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 1284.82,
+            "y": 613.36
+        }
+    ]
+}

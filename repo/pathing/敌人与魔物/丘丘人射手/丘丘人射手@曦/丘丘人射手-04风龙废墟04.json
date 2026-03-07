@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "丘丘人射手-04风龙废墟04",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "曦",
+        "links": "https://github.com/cx05121"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 36.75,
+      "y": 2380.85,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 49.65,
+      "y": 2419.96,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9.69,
+      "y": 2437.03,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -39.25,
+      "y": 2455.31,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -57.92,
+      "y": 2475.66,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}

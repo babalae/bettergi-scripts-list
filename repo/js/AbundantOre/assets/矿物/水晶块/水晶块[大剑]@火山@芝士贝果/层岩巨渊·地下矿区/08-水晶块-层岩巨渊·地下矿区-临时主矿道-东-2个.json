@@ -1,0 +1,91 @@
+{
+  "info": {
+    "name": "08-水晶块-层岩巨渊·地下矿区-临时主矿道-东-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 551.08,
+      "y": 950.8,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 541.75,
+      "y": 955.5,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 534.77,
+      "y": 977.45,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 522.48,
+      "y": 1007.01,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 466.65,
+      "y": 1008.91,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "3200",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 466.44,
+      "y": 1004.78,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 470.03,
+      "y": 1007.19,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 470.03,
+      "y": 1007.19,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "target"
+    }
+  ]
+}

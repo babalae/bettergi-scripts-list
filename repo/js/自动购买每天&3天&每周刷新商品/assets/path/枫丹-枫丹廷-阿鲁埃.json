@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "ale",
+    "type": "collect",
+    "author": "听雨♪",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4645.490234375,
+      "y": 3467.8603515625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4635.865234375,
+      "y": 3475.1591796875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4639.42724609375,
+      "y": 3505.39697265625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4622.95654296875,
+      "y": 3509.7421875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4602.0556640625,
+      "y": 3515.504150390625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Character",
+    "type": "input-text",
+    "label": "角色（如 草神、奶奶)"
+  },
+  {
+    "name": "Weapon",
+    "type": "input-text",
+    "label": "武器（如 金珀、祭礼)"
+  },
+  {
+    "name": "Element",
+    "type": "select",
+    "label": "=============\n选元素缩范围 非必填\n元素（默认'物'=不选)",
+    "options": [
+      "物",
+      "火",
+      "水",
+      "草",
+      "雷",
+      "风",
+      "冰",
+      "岩"
+    ]
+  },
+  {
+    "name": "pageScrollCount",
+    "type": "input-text",
+    "label": "默认：四行武器为一页\n最大滑页次数（默认2)"
+  }
+]

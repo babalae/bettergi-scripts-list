@@ -1,0 +1,130 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时155.26秒，包含以下怪物：3只火史莱姆、2只冰史莱姆、1只大型冰史莱姆、1只打手丘丘人、1只木盾丘丘人、1只射手丘丘人、1只水丘丘萨满、3只水史莱姆。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1770549536462,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B037璃月归离原东北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 339.546875,
+      "y": 543.83203125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 293.548828125,
+      "y": 577.212890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 293.548828125,
+      "y": 577.212890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 288.1298828125,
+      "y": 562.8662109375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 234.779296875,
+      "y": 532.6416015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 234.779296875,
+      "y": 532.6416015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 260.53125,
+      "y": 556.490234375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 264.3935546875,
+      "y": 681.41796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 264.3935546875,
+      "y": 681.41796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 258.4580078125,
+      "y": 680.23876953125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 236.3505859375,
+      "y": 724.724609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 236.3505859375,
+      "y": 724.724609375
+    }
+  ]
+}

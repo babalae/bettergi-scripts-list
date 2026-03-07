@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "09-鬼兜虫-踏鞴砂(中部)-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3157.65,
+      "y": -3890.36,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3153.29,
+      "y": -3853.63,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -3129.6,
+      "y": -3833.51,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -3106.64,
+      "y": -3788.42,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -3095.08,
+      "y": -3785.43,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -3091.47,
+      "y": -3787.1,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": -3082.6,
+      "y": -3770.76,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": -3089.78,
+      "y": -3764.7,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

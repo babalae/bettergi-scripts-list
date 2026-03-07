@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "罗莎莉亚-3",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -867.748046875,
+      "y": 2281.41845703125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -895.88671875,
+      "y": 2249.685302734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -904.0048828125,
+      "y": 2238.18603515625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": ""
+    }
+  ]
+}
