@@ -646,6 +646,12 @@ declare const dispatcher: {
    * @param customCt 自定义取消令牌（可选）
    */
   runAutoLeyLineOutcropTask(param: AutoLeyLineOutcropParam, customCt?: CancellationToken | null): Promise<void>;
+  /**
+   * 运行自动幽境危战任务
+   * @param param 战斗任务参数
+   * @param customCt 自定义取消令牌（可选）
+   */
+  runAutoStygianOnslaughtTask(param: AutoStygianOnslaughtParam, customCt?: CancellationToken | null): Promise<void>;
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   AddTimer: typeof dispatcher.addTimer;
   AddTrigger: typeof dispatcher.addTrigger;
@@ -656,6 +662,7 @@ declare const dispatcher: {
   RunAutoDomainTask: typeof dispatcher.runAutoDomainTask;
   RunAutoFightTask: typeof dispatcher.runAutoFightTask;
   RunAutoLeyLineOutcropTask: typeof dispatcher.runAutoLeyLineOutcropTask;
+  RunAutoStygianOnslaughtTask: typeof dispatcher.runAutoStygianOnslaughtTask;
   // ==== END AUTO-GENERATED ALIASES ====;
 };
 
@@ -1046,7 +1053,58 @@ declare class AutoLeyLineOutcropParam {
     declare IsNotification: typeof AutoLeyLineOutcropParam.prototype.isNotification;
     // ==== END AUTO-GENERATED ALIASES ====
 }
+/**
+ * 自动幽境危战任务参数
+ */
+declare class AutoStygianOnslaughtParam {
+  constructor(path: string);
+  /**boss 名字 1~3 */
+  bossNum: number;
+  /**结束后是否自动分解圣遗物*/
+  autoArtifactSalvage: boolean;
+  /**指定树脂的使用次数*/
+  specifyResinUse: boolean;
+  /**自定义使用树脂优先级*/
+  resinPriorityList: string[];
+  /** 使用原粹树脂刷取副本次数*/
+  originalResinUseCount: number;
+  /** 使用浓缩树脂刷取副本次数*/
+  condensedResinUseCount: number;
+  /** 使用须臾树脂刷取副本次数*/
+  transientResinUseCount: number;
+  /** 使用脆弱树脂刷取副本次数*/
+  fragileResinUseCount: number;
+  /**指定战斗队伍*/
+  fightTeamName: string;
+  /**战斗脚本包路径*/
+  combatScriptBagPath: string;
+  /**
+   * 设置战斗策略路径
+   * @param strategyName 策略名称
+   * @returns 策略路径
+   */
+  setCombatStrategyPath(strategyName?: string): string;
 
+  /**
+   * 设置树脂优先级列表
+   * @param list 优先级列表
+   */
+  setResinPriorityList(...priorities: string[]): void;
+  // ==== BEGIN AUTO-GENERATED ALIASES ====
+  declare BossNum: typeof AutoStygianOnslaughtParam.prototype.bossNum;
+  declare AutoArtifactSalvage: typeof AutoStygianOnslaughtParam.prototype.autoArtifactSalvage;
+  declare SpecifyResinUse: typeof AutoStygianOnslaughtParam.prototype.specifyResinUse;
+  declare ResinPriorityList: typeof AutoStygianOnslaughtParam.prototype.resinPriorityList;
+  declare OriginalResinUseCount: typeof AutoStygianOnslaughtParam.prototype.originalResinUseCount;
+  declare CondensedResinUseCount: typeof AutoStygianOnslaughtParam.prototype.condensedResinUseCount;
+  declare TransientResinUseCount: typeof AutoStygianOnslaughtParam.prototype.transientResinUseCount;
+  declare FragileResinUseCount: typeof AutoStygianOnslaughtParam.prototype.fragileResinUseCount;
+  declare FightTeamName: typeof AutoStygianOnslaughtParam.prototype.fightTeamName;
+  declare CombatScriptBagPath: typeof AutoStygianOnslaughtParam.prototype.combatScriptBagPath;
+  declare SetCombatStrategyPath: typeof AutoDomainParam.prototype.setCombatStrategyPath;
+  declare SetResinPriorityList: typeof AutoDomainParam.prototype.setResinPriorityList;
+  // ==== END AUTO-GENERATED ALIASES ====
+}
 /**
  * 自动战斗任务参数
  */
