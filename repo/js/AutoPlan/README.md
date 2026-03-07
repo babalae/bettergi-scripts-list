@@ -126,14 +126,14 @@
               "open": false
             }
           ],
-          "domainName": undefined,
           //秘境名称
-          "partyName": undefined,
+          "domainName": undefined,
           //队伍名称
-          "sundaySelectedValue": undefined,
+          "partyName": undefined,
           //周日|限时选择的值
-          "domainRoundNum": undefined
+          "sundaySelectedValue": undefined,
           //副本轮数
+          "domainRoundNum": undefined
         },
         //地脉信息对象
         "autoLeyLineOutcrop": {
@@ -298,6 +298,7 @@
 | 版本    | 密钥                  |
 |-------|---------------------|
 | 0.0.1 | oiJbmjU2R0NniiwiZxh |
+| 0.0.2 | oiJbmjU2R0NniiwiZxh |
 
 ## 版本历史（简要）
 
