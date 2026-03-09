@@ -458,7 +458,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                 autoLeyLineOutcrop.timeout = parseInteger(arr[index])
 
                             autoOrder.autoLeyLineOutcrop = autoLeyLineOutcrop // 将地脉信息对象添加到顺序对象中
-                        } else if (config.user.runTypes[0] === runType) {
+                        } else if (config.user.runTypes[2] === runType) {
                             let autoLeyLineOutcrop = {
                                 bossNum: undefined,//boss1-3
                                 friendshipTeam: "",//队伍名称
@@ -663,6 +663,7 @@ async function main() {
 
     const hasStygianOnslaught = list.some(item => item.runType === config.user.runTypes[2]);
     if (hasStygianOnslaught) {
+        log.info(`{0}`,`检查幽境危战紊乱爆发期开放`)
         try {
             const isStygianOnslaught = await findStygianOnslaught();
             if (isStygianOnslaught) {
@@ -678,8 +679,9 @@ async function main() {
                     })
                     list.sort((item1, item2) => item2.order - item1.order)
                 }
+                log.info(`{0}`,`幽境危战紊乱爆发期已开启`)
             } else {
-                log.info(`幽境危战已结束`)
+                log.info(`{0}`,`幽境危战紊乱爆发期已结束`)
                 list = list.filter(item => item.runType !== config.user.runTypes[2])
             }
         } finally {
