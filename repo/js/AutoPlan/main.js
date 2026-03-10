@@ -366,7 +366,8 @@ async function loadMode(Load, autoOrderSet, runConfig) {
 
                         if (!config.user.runTypes.includes(runType)) {
                             throwError(`运行类型${runType}输入错误`)
-                        } else if (config.user.runTypes[0] === runType) {
+                        }
+                        else if (config.user.runTypes[0] === runType) {
                             // 创建秘境信息对象
                             let autoFight = {
                                 domainName: undefined,//秘境名称
@@ -411,7 +412,8 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             autoFight.sundaySelectedValue = sundaySelectedValue // 周日|限时选择的值
 
                             autoOrder.autoFight = autoFight // 将秘境信息对象添加到秘境顺序对象中
-                        } else if (config.user.runTypes[1] === runType) {
+                        }
+                        else if (config.user.runTypes[1] === runType) {
                             //"|队伍名称|国家|刷几轮|花类型|好感队|是否使用脆弱树脂|是否使用须臾树脂|是否前往合成台合成浓缩树脂|是否使用冒险之证|发送详细通知|战斗超时时间,..."
                             let autoLeyLineOutcrop = {
                                 count: 0,                        // 刷几次（0=自动/无限）
@@ -458,7 +460,8 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                 autoLeyLineOutcrop.timeout = parseInteger(arr[index])
 
                             autoOrder.autoLeyLineOutcrop = autoLeyLineOutcrop // 将地脉信息对象添加到顺序对象中
-                        } else if (config.user.runTypes[2] === runType) {
+                        }
+                        else if (config.user.runTypes[2] === runType) {
                             let autoLeyLineOutcrop = {
                                 bossNum: undefined,//boss1-3
                                 friendshipTeam: "",//队伍名称
@@ -521,6 +524,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                     }
                                 }
                             }
+                            autoOrder.autoLeyLineOutcrop = autoLeyLineOutcrop
                         }
 
                         // 将秘境顺序对象添加到列表中
