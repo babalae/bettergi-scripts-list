@@ -203,7 +203,7 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
     //     /**指定战斗队伍*/
     //     fightTeamName: undefined
     // }
-    log.info(`autoStygianOnslaught ={0}`, JSON.stringify(autoStygianOnslaught))
+    log.debug(`autoStygianOnslaught ={0}`, JSON.stringify(autoStygianOnslaught))
     log.info(`{0}`, "开始执行幽境任务")
     let param = new AutoStygianOnslaughtParam()
     param.specifyResinUse = autoStygianOnslaught?.specifyResinUse || param.specifyResinUse
@@ -256,7 +256,7 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
 
 
     param.bossNum = autoStygianOnslaught?.bossNum > 0 && autoStygianOnslaught?.bossNum <= 3 ? autoStygianOnslaught.bossNum : param.bossNum
-    param.fightTeamName = autoStygianOnslaught?.friendshipTeam?.trim() !== "" ? autoStygianOnslaught.friendshipTeam.trim() : param.fightTeamName
+    param.fightTeamName = autoStygianOnslaught?.fightTeamName?.trim() !== "" ? autoStygianOnslaught.fightTeamName.trim() : param.fightTeamName
     if (resinPriorityList.length > 0) {
         param.SetResinPriorityList(...resinPriorityList)
         param.originalResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === config.user.physical.names[0] && item?.open)?.count || 0
@@ -466,7 +466,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                         else if (config.user.runTypes[2] === runType) {
                             let autoStygianOnslaught = {
                                 bossNum: undefined,//boss1-3
-                                friendshipTeam: "",//队伍名称
+                                fightTeamName: "",//队伍名称
                                 specifyResinUse: undefined,//自定义树脂使用
                                 physical: [
                                     {order: 0, name: config.user.physical.names[1], open: true, count: 1},
@@ -483,9 +483,9 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             }
                             index++
                             if (index <= arr.length - 1) {
-                                const friendshipTeam = arr[index];
-                                if (friendshipTeam && friendshipTeam.trim() !== "") {
-                                    autoStygianOnslaught.friendshipTeam = friendshipTeam
+                                const fightTeamName = arr[index];
+                                if (fightTeamName && fightTeamName.trim() !== "") {
+                                    autoStygianOnslaught.fightTeamName = fightTeamName
                                 }
                             }
                             index++
