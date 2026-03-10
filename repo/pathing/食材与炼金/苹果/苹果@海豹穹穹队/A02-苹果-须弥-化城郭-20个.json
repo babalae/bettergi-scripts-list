@@ -1,0 +1,291 @@
+﻿{
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "海豹穹穹队"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "纳西妲采集",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1766782721453,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A02-苹果-须弥-化城郭-20个",
+    "order": 0,
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2701.86,
+      "y": -761.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2695.5966796875,
+      "y": -769.6494140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2667.056640625,
+      "y": -810.70654296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2646.5390625,
+      "y": -838.33203125
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2631.5654296875,
+      "y": -850.53759765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(5.7)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2631.5654296875,
+      "y": -850.53759765625
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2639.900390625,
+      "y": -855.4892578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2607.716796875,
+      "y": -875.87109375
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2590.4150390625,
+      "y": -886.93310546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(5.5)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2584.396484375,
+      "y": -899.03662109375
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2584.3193359375,
+      "y": -899.20654296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2560.44140625,
+      "y": -889.45849609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2529.787109375,
+      "y": -904.8876953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2495.931640625,
+      "y": -920.47509765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2457.1171875,
+      "y": -919.86279296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2428.7734375,
+      "y": -916.1396484375
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2400.955078125,
+      "y": -914.47705078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2370.3779296875,
+      "y": -923.77392578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2352.2783203125,
+      "y": -924.20166015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2308.09375,
+      "y": -918.29541015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2258.1484375,
+      "y": -920.89453125
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2225.380859375,
+      "y": -913.71826171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2188,
+      "y": -896.63818359375
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2142.0859375,
+      "y": -900.0205078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(5)",
+      "id": 25,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2131.8583984375,
+      "y": -900.443359375
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2146.546875,
+      "y": -915
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(5)",
+      "id": 27,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2131.8583984375,
+      "y": -900.443359375
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2137.84765625,
+      "y": -885.09130859375
+    }
+  ]
+}

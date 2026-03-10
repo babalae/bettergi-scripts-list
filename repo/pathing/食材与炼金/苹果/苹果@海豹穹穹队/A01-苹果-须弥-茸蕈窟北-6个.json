@@ -1,4 +1,4 @@
-{
+﻿{
   "config": {
     "realtime_triggers": {
       "AutoPick": true
@@ -21,13 +21,13 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "队伍必须有早柚/瑶瑶，高危",
+    "description": "纳西妲采集",
     "enable_monster_loot_split": false,
     "items": [],
-    "last_modified_time": 1761248810027,
-    "map_match_method": "TemplateMatch",
+    "last_modified_time": 1766775077297,
+    "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "16-鳗肉-神无冢-3条（待",
+    "name": "A01-苹果-须弥-茸蕈窟北-6个",
     "order": 0,
     "tags": [],
     "type": "collect",
@@ -50,13 +50,13 @@
         }
       },
       "type": "teleport",
-      "x": -3475.86,
-      "y": -3753.47
+      "x": 2802.35,
+      "y": 15.83
     },
     {
       "action": "",
       "id": 2,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "point_ext_params": {
         "description": "",
         "enable_monster_loot_split": false,
@@ -69,13 +69,13 @@
         }
       },
       "type": "path",
-      "x": -3468.28125,
-      "y": -3750.916015625
+      "x": 2803.796875,
+      "y": 27.61181640625
     },
     {
       "action": "",
       "id": 3,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "point_ext_params": {
         "description": "",
         "enable_monster_loot_split": false,
@@ -88,13 +88,13 @@
         }
       },
       "type": "path",
-      "x": -3457.94921875,
-      "y": -3743.0849609375
+      "x": 2807.0625,
+      "y": 32.49072265625
     },
     {
       "action": "",
       "id": 4,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "point_ext_params": {
         "description": "",
         "enable_monster_loot_split": false,
@@ -107,13 +107,13 @@
         }
       },
       "type": "path",
-      "x": -3451.3671875,
-      "y": -3738.0576171875
+      "x": 2830.0927734375,
+      "y": 68.72216796875
     },
     {
       "action": "",
       "id": 5,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "point_ext_params": {
         "description": "",
         "enable_monster_loot_split": false,
@@ -126,13 +126,13 @@
         }
       },
       "type": "path",
-      "x": -3444.12109375,
-      "y": -3732.5458984375
+      "x": 2880.07421875,
+      "y": 148.40771484375
     },
     {
       "action": "",
       "id": 6,
-      "move_mode": "walk",
+      "move_mode": "run",
       "point_ext_params": {
         "description": "",
         "enable_monster_loot_split": false,
@@ -144,12 +144,13 @@
           ]
         }
       },
-      "type": "target",
-      "x": -3434.875,
-      "y": -3725.87890625
+      "type": "path",
+      "x": 2889.134765625,
+      "y": 162.91455078125
     },
     {
-      "action": "",
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 7,
       "move_mode": "walk",
       "point_ext_params": {
@@ -164,49 +165,30 @@
         }
       },
       "type": "target",
-      "x": -3426.248046875,
-      "y": -3723.3525390625
+      "x": 2907.01953125,
+      "y": 192.5927734375
     },
     {
-      "action": "",
+      "action": "combat_script",
+      "action_params": "wait(6)",
       "id": 8,
       "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "target",
-      "x": -3425.884765625,
-      "y": -3719.849609375
+      "type": "path",
+      "x": 2907.01953125,
+      "y": 192.5927734375
     },
     {
-      "action": "",
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 9,
       "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "target",
-      "x": -3424.115234375,
-      "y": -3718.6953125
+      "type": "path",
+      "x": 2907.01953125,
+      "y": 192.5927734375
     },
     {
-      "action": "",
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 10,
       "move_mode": "walk",
       "point_ext_params": {
@@ -221,11 +203,12 @@
         }
       },
       "type": "path",
-      "x": -3424.099609375,
-      "y": -3718.6806640625
+      "x": 2911.2763671875,
+      "y": 216.69580078125
     },
     {
-      "action": "",
+      "action": "nahida_collect",
+      "action_params": "",
       "id": 11,
       "move_mode": "walk",
       "point_ext_params": {
@@ -239,66 +222,9 @@
           ]
         }
       },
-      "type": "path",
-      "x": -3426.5703125,
-      "y": -3719.3125
-    },
-    {
-      "action": "",
-      "id": 12,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "path",
-      "x": -3424.427734375,
-      "y": -3723.607421875
-    },
-    {
-      "action": "",
-      "id": 13,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "path",
-      "x": -3429.08203125,
-      "y": -3724.673828125
-    },
-    {
-      "action": "",
-      "id": 14,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "path",
-      "x": -3433.849609375,
-      "y": -3722.9091796875
+      "type": "target",
+      "x": 2913.3115234375,
+      "y": 226.77294921875
     }
   ]
 }

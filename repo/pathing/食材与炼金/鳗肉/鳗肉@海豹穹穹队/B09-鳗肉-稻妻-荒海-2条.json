@@ -16,18 +16,18 @@
   "info": {
     "authors": [
       {
-        "links": "https: //github.com/OhmyPaoPao",
+        "links": "",
         "name": "海豹穹穹队"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "鳗鱼拾取，队伍要有早柚/瑶瑶",
     "enable_monster_loot_split": false,
     "items": [],
     "last_modified_time": 1763798485078,
     "map_match_method": "TemplateMatch",
     "map_name": "Teyvat",
-    "name": "B09-鳗肉-稻妻-荒海-2条",
+    "name": "18-鳗肉-荒海-2条",
     "order": 0,
     "tags": [],
     "type": "collect",
@@ -38,6 +38,17 @@
       "action": "",
       "id": 1,
       "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
       "type": "teleport",
       "x": -4217.63,
       "y": -2397.2
@@ -46,106 +57,249 @@
       "action": "",
       "id": 2,
       "move_mode": "fly",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
       "type": "path",
-      "x": -4216.2969,
-      "y": -2386.0947
+      "x": -4216.296875,
+      "y": -2386.0947265625
     },
     {
       "action": "",
       "id": 3,
       "move_mode": "fly",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
       "type": "path",
-      "x": -4215.2227,
-      "y": -2353.0967
+      "x": -4215.22265625,
+      "y": -2353.0966796875
     },
     {
       "action": "",
       "id": 4,
       "move_mode": "fly",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
       "type": "path",
-      "x": -4217.8281,
-      "y": -2312.9707
+      "x": -4217.828125,
+      "y": -2312.970703125
     },
     {
       "action": "",
       "id": 5,
       "move_mode": "fly",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
       "type": "path",
-      "x": -4225.2168,
-      "y": -2274.6631
+      "x": -4225.216796875,
+      "y": -2274.6630859375
     },
     {
       "action": "stop_flying",
       "action_params": "",
       "id": 6,
       "move_mode": "fly",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
       "type": "target",
-      "x": -4233.4688,
-      "y": -2236.5693
+      "x": -4233.46875,
+      "y": -2236.5693359375
     },
     {
       "action": "",
       "id": 7,
       "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
       "type": "path",
-      "x": -4234.8906,
-      "y": -2229.3008
+      "x": -4234.890625,
+      "y": -2229.30078125
     },
     {
       "action": "",
       "id": 8,
       "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
       "type": "path",
-      "x": -4244.1406,
-      "y": -2208.8438
+      "x": -4244.140625,
+      "y": -2208.84375
     },
     {
       "action": "",
       "id": 9,
       "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
       "type": "path",
-      "x": -4258.9707,
-      "y": -2185.4766
+      "x": -4258.970703125,
+      "y": -2185.4765625
     },
     {
       "action": "",
       "id": 10,
       "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
       "type": "target",
-      "x": -4261.2148,
-      "y": -2183.627
+      "x": -4261.21484375,
+      "y": -2183.626953125
     },
     {
       "action": "",
       "id": 11,
       "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
       "type": "target",
-      "x": -4266.0684,
-      "y": -2177.5176
+      "x": -4266.068359375,
+      "y": -2177.517578125
     },
     {
       "action": "",
       "id": 12,
       "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
       "type": "path",
-      "x": -4264.918,
-      "y": -2175.9316
+      "x": -4264.91796875,
+      "y": -2175.931640625
     },
     {
       "action": "",
       "id": 13,
       "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
       "type": "path",
-      "x": -4265.4902,
-      "y": -2179.3516
+      "x": -4265.490234375,
+      "y": -2179.3515625
     },
     {
       "action": "",
       "id": 14,
       "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
       "type": "path",
-      "x": -4261.0918,
-      "y": -2182.8105
+      "x": -4261.091796875,
+      "y": -2182.810546875
     }
   ]
 }
