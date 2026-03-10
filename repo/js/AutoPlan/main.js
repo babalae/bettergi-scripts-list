@@ -1,6 +1,6 @@
 import {config, initConfig, initSettings, LoadType} from './config/config';
 import {ocrUid} from './utils/uid';
-import {getDayOfWeek, outDomainUI, outStygianOnslaughtUI, throwError} from './utils/tool';
+import {getDayOfWeek, outDomainUI, outStygianOnslaughtUI, throwError,toMainUi} from './utils/tool';
 import {pullJsonConfig, pushAllCountryConfig, pushAllJsonConfig} from './utils/bgi_tools';
 import {ocrPhysical} from "./utils/physical";
 import {findStygianOnslaught} from "./utils/activity";
@@ -662,13 +662,14 @@ async function main() {
     const autoRunOrderList = await initRunOrderList(runConfig);
     let list = autoRunOrderList.filter(item =>
         (item.runType === config.user.runTypes[0] && item?.autoFight.domainRoundNum > 0)
-        || (item.runType === config.user.runTypes[1] && item?.autoLeyLineOutcrop.count > 0)
+        || (item.runType === config.user.runTypes[1] && item?.autoLeyLineOutcrop.count > 0)||(item.runType === config.user.runTypes[2])
     )
 
     const hasStygianOnslaught = list.some(item => item.runType === config.user.runTypes[2]);
     if (hasStygianOnslaught) {
         log.info(`{0}`,`检查幽境危战紊乱爆发期开放`)
         try {
+            await toMainUi()
             const isStygianOnslaught = await findStygianOnslaught();
             if (isStygianOnslaught) {
                 //圣遗物秘境名称
