@@ -203,11 +203,13 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
     //     /**指定战斗队伍*/
     //     fightTeamName: undefined
     // }
-    let param = new AutoStygianOnslaught()
+    log.info(`autoStygianOnslaught ={0}`, JSON.stringify(autoStygianOnslaught))
+    log.info(`{0}`, "开始执行幽境任务")
+    let param = new AutoStygianOnslaughtParam()
     param.specifyResinUse = autoStygianOnslaught?.specifyResinUse || param.specifyResinUse
 
     //定死做预留冗余 先不实现 不能指定次数 只能指定启用
-    let physical_domain = autoStygianOnslaught?.physical
+    let physical_domain = autoStygianOnslaught?.physical||[]
     //     || [
     //     {order: 0, name: config.user.physical.names[0], count: 1, open: true},
     //     {order: 1, name: config.user.physical.names[1], count: 0, open: false},
@@ -223,7 +225,7 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
         })
     }
 
-    physical_domain.sort((a, b) => a.order - b.order)
+    physical_domain?.sort((a, b) => a.order - b.order)
     // 不包含原粹树脂的和
     const noOriginalSum = physical_domain.filter(item => item?.name.trim() !== config.user.physical.names[0])
         .filter(item => item?.open).length;//求和
@@ -254,7 +256,7 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
 
 
     param.bossNum = autoStygianOnslaught?.bossNum > 0 && autoStygianOnslaught?.bossNum <= 3 ? autoStygianOnslaught.bossNum : param.bossNum
-    param.fightTeamName = autoStygianOnslaught?.fightTeamName?.trim() !== "" ? autoStygianOnslaught.fightTeamName.trim() : param.fightTeamName
+    param.fightTeamName = autoStygianOnslaught?.friendshipTeam?.trim() !== "" ? autoStygianOnslaught.friendshipTeam.trim() : param.fightTeamName
     if (resinPriorityList.length > 0) {
         param.SetResinPriorityList(...resinPriorityList)
         param.originalResinUseCount = physical_domain_filter.find(item => item?.name?.trim() === config.user.physical.names[0] && item?.open)?.count || 0
@@ -268,7 +270,7 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
         // 复活重试
         for (let i = 0; i < config.run.retry_count; i++) {
             try {
-                await dispatcher.RunAutoStygianOnslaughtTask(autoStygianOnslaught)
+                await dispatcher.RunAutoStygianOnslaughtTask(param)
                 // 其他场景不重试
                 break;
             } catch (e) {
@@ -462,7 +464,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             autoOrder.autoLeyLineOutcrop = autoLeyLineOutcrop // 将地脉信息对象添加到顺序对象中
                         }
                         else if (config.user.runTypes[2] === runType) {
-                            let autoLeyLineOutcrop = {
+                            let autoStygianOnslaught = {
                                 bossNum: undefined,//boss1-3
                                 friendshipTeam: "",//队伍名称
                                 specifyResinUse: undefined,//自定义树脂使用
@@ -476,21 +478,21 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                             if (index <= arr.length - 1) {
                                 const bossNum = parseInteger(arr[index]);
                                 if (bossNum && bossNum > 0 && bossNum <= 3) {
-                                    autoLeyLineOutcrop.bossNum = bossNum
+                                    autoStygianOnslaught.bossNum = bossNum
                                 }
                             }
                             index++
                             if (index <= arr.length - 1) {
                                 const friendshipTeam = arr[index];
                                 if (friendshipTeam && friendshipTeam.trim() !== "") {
-                                    autoLeyLineOutcrop.friendshipTeam = friendshipTeam
+                                    autoStygianOnslaught.friendshipTeam = friendshipTeam
                                 }
                             }
                             index++
                             if (index <= arr.length - 1) {
-                                autoLeyLineOutcrop.specifyResinUse = arr[index].trim() !== ""
+                                autoStygianOnslaught.specifyResinUse = arr[index].trim() !== ""
                             }
-                            if (autoLeyLineOutcrop.specifyResinUse) {
+                            if (autoStygianOnslaught.specifyResinUse) {
                                 index++
                                 let line = 0
                                 if (index <= arr.length - 1) {
@@ -502,7 +504,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                             physical.push({order: i, name: item, open: true, count: 1})
                                         }
                                         line = physical.length
-                                        autoLeyLineOutcrop.physical = physical
+                                        autoStygianOnslaught.physical = physical
                                     }
                                 }
                                 index++
@@ -513,7 +515,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                                 let count = parseInteger(item) || 1;
                                                 return count
                                             });
-                                        autoLeyLineOutcrop.physical.forEach((item, index) => {
+                                        autoStygianOnslaught.physical.forEach((item, index) => {
                                             try {
                                                 item.count = counts[index] || 1;
                                             } catch (e) {
@@ -524,7 +526,7 @@ async function loadMode(Load, autoOrderSet, runConfig) {
                                     }
                                 }
                             }
-                            autoOrder.autoLeyLineOutcrop = autoLeyLineOutcrop
+                            autoOrder.autoStygianOnslaught = autoStygianOnslaught
                         }
 
                         // 将秘境顺序对象添加到列表中
