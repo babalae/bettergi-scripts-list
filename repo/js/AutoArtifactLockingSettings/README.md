@@ -1,4 +1,4 @@
-<h1 align="center">🔒 自动配置圣遗物锁定方案</h1>
+# 🔒 自动配置圣遗物锁定方案
 
 ## ✨ 脚本简介
 
@@ -52,6 +52,11 @@
 2. 屏幕左下角的错误日志截个图
 3. https://github.com/babalae/bettergi-scripts-list/issues 创建一个 issue，**上传截图和日志**，并 @bling-yshs
 
+## 更新日志
+
+- 1.0.1 (2026-03-10)
+  - 清理 `圣遗物锁定方案信息.json` 里的重复数据，脚本内容没有实际修改
+
 ## 🙏 致谢
 
 - 锁定方案来源：[@酸儒书生](https://space.bilibili.com/10411008)
@@ -60,3 +65,4 @@
 
 - [bling-yshs](https://github.com/bling-yshs)
 - [Bedrockx](https://github.com/Bedrockx)
+- [qwecxzpoi](https://github.com/qwecxzpoi)
