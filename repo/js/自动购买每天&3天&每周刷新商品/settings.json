@@ -2,7 +2,7 @@
     {
         "name": "userName",
         "type": "input-text",
-        "label": "账号名（用于区分不同账户的记录）",
+        "label": "账号名（用于区分不同账户的记录）\n为空则读取uid作为自定义CD记录标识",
         "default": "默认账户"
     },
     {
@@ -36,7 +36,7 @@
     {
         "name": "skip",
         "type": "checkbox",
-        "label": "跳过调整时间动画（不推荐）",
+        "label": "跳过调整时间动画",
         "default": false
     },
     {
@@ -48,7 +48,7 @@
     {
         "name": "recordDebug",
         "type": "checkbox",
-        "label": "记录调试模式（显示详细日志）",
+        "label": "调试模式（显示详细日志）",
         "default": false
     }
 
