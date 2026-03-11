@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https: //github.com/OhmyPaoPao",
+        "name": "海豹穹穹队"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "有怪，要将风元素角色放在队伍编号1的位置",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1772962311780,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A12-鳗肉-须弥-神的棋盘-2条",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5420.4805,
+      "y": -1463.168
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 5439.9043,
+      "y": -1466.0293
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 5443.7109,
+      "y": -1443.6572
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 5447.96,
+      "y": -1421.9678
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 5434.5059,
+      "y": -1410.2988
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(1),wait(0.1),keypress(E),wait(0.1),keypress(E)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 5411.9883,
+      "y": -1397.251
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(E)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 5412.4277,
+      "y": -1397.6875
+    }
+  ]
+}

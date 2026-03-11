@@ -1,10 +1,10 @@
 {
   "info": {
-    "name": "苹果11-化城郭-须弥6个",
+    "name": "苹果10-卡萨扎莱宫-须弥3个",
     "type": "collect",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0",
+    "bgi_version": "0.52.0",
     "authors": [
       {
         "name": "不瘦五十斤不改名",
@@ -18,39 +18,23 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 2701.62,
-      "y": -761.88
+      "x": 2531.84,
+      "y": -144.8
     },
     {
       "id": 2,
-      "x": 2645.97,
-      "y": -841.34,
+      "x": 2434.4,
+      "y": -261.91,
       "type": "path",
       "move_mode": "fly",
-      "action": ""
+      "action": "stop_flying"
     },
     {
       "id": 3,
-      "x": 2645.97,
-      "y": -841.34,
+      "x": 2437.44,
+      "y": -264.29,
       "type": "path",
       "move_mode": "walk",
-      "action": "nahida_collect"
-    },
-    {
-      "id": 4,
-      "x": 2624.72,
-      "y": -851.89,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "nahida_collect"
-    },
-    {
-      "id": 5,
-      "x": 2595.68,
-      "y": -882.42,
-      "type": "path",
-      "move_mode": "run",
       "action": "nahida_collect"
     }
   ]

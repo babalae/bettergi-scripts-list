@@ -21,13 +21,13 @@
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "队伍必须有早柚/瑶瑶，高危",
+    "description": "需镇压沙暴才可正常执行，队伍里有瑶瑶早柚",
     "enable_monster_loot_split": false,
     "items": [],
-    "last_modified_time": 1761243939154,
+    "last_modified_time": 1761426149250,
     "map_match_method": "TemplateMatch",
     "map_name": "Teyvat",
-    "name": "B03-鳗肉-稻妻-珊瑚宫北-9条",
+    "name": "A14-鳗肉-须弥-巨人峡谷-5条（需镇压沙暴）",
     "order": 0,
     "tags": [],
     "type": "collect",
@@ -50,8 +50,8 @@
         }
       },
       "type": "teleport",
-      "x": -765.55,
-      "y": -3556.74
+      "x": 5201.2,
+      "y": -1338.16
     },
     {
       "action": "",
@@ -68,9 +68,9 @@
           ]
         }
       },
-      "type": "path",
-      "x": -762.3496,
-      "y": -3551.4404
+      "type": "orientation",
+      "x": 5198.332,
+      "y": -1341.1167
     },
     {
       "action": "",
@@ -88,8 +88,8 @@
         }
       },
       "type": "path",
-      "x": -753.1582,
-      "y": -3542.4746
+      "x": 5199.1699,
+      "y": -1339.4077
     },
     {
       "action": "",
@@ -107,8 +107,8 @@
         }
       },
       "type": "path",
-      "x": -746.4688,
-      "y": -3537.9941
+      "x": 5197.7773,
+      "y": -1351.7085
     },
     {
       "action": "",
@@ -126,8 +126,8 @@
         }
       },
       "type": "path",
-      "x": -728.9004,
-      "y": -3533.3564
+      "x": 5184.2832,
+      "y": -1360.8232
     },
     {
       "action": "",
@@ -145,8 +145,8 @@
         }
       },
       "type": "path",
-      "x": -715.916,
-      "y": -3533.6455
+      "x": 5172.2207,
+      "y": -1363.8462
     },
     {
       "action": "",
@@ -164,8 +164,8 @@
         }
       },
       "type": "path",
-      "x": -698.1758,
-      "y": -3534.5703
+      "x": 5164.1328,
+      "y": -1369.5654
     },
     {
       "action": "",
@@ -183,8 +183,8 @@
         }
       },
       "type": "path",
-      "x": -685.6484,
-      "y": -3534.4453
+      "x": 5152.4395,
+      "y": -1379.6719
     },
     {
       "action": "",
@@ -201,9 +201,9 @@
           ]
         }
       },
-      "type": "target",
-      "x": -681.5625,
-      "y": -3531.916
+      "type": "path",
+      "x": 5150.4102,
+      "y": -1387.0659
     },
     {
       "action": "",
@@ -221,8 +221,8 @@
         }
       },
       "type": "path",
-      "x": -680.0977,
-      "y": -3530.6016
+      "x": 5139.0547,
+      "y": -1385.6465
     },
     {
       "action": "",
@@ -240,8 +240,8 @@
         }
       },
       "type": "path",
-      "x": -679.5137,
-      "y": -3529.8086
+      "x": 5124.3438,
+      "y": -1379.9019
     },
     {
       "action": "",
@@ -259,8 +259,8 @@
         }
       },
       "type": "path",
-      "x": -675.4727,
-      "y": -3524.1191
+      "x": 5108.9707,
+      "y": -1373.939
     },
     {
       "action": "",
@@ -278,8 +278,8 @@
         }
       },
       "type": "path",
-      "x": -662.8535,
-      "y": -3515.4922
+      "x": 5102.2744,
+      "y": -1371.3154
     },
     {
       "action": "",
@@ -297,8 +297,8 @@
         }
       },
       "type": "path",
-      "x": -651.3027,
-      "y": -3513.9648
+      "x": 5100.3965,
+      "y": -1371.7803
     },
     {
       "action": "",
@@ -316,8 +316,8 @@
         }
       },
       "type": "path",
-      "x": -645.3281,
-      "y": -3512.9551
+      "x": 5099.3232,
+      "y": -1368.541
     },
     {
       "action": "",
@@ -335,8 +335,8 @@
         }
       },
       "type": "path",
-      "x": -637.9316,
-      "y": -3509.2148
+      "x": 5098.8457,
+      "y": -1367.9629
     },
     {
       "action": "",
@@ -354,8 +354,8 @@
         }
       },
       "type": "target",
-      "x": -633.5781,
-      "y": -3503.918
+      "x": 5103.7598,
+      "y": -1367.1963
     },
     {
       "action": "",
@@ -372,9 +372,9 @@
           ]
         }
       },
-      "type": "target",
-      "x": -633.6543,
-      "y": -3502.9033
+      "type": "path",
+      "x": 5100.9111,
+      "y": -1367.2397
     },
     {
       "action": "",
@@ -391,12 +391,13 @@
           ]
         }
       },
-      "type": "target",
-      "x": -631.8516,
-      "y": -3501.834
+      "type": "teleport",
+      "x": 5201.2,
+      "y": -1338.16
     },
     {
-      "action": "",
+      "action": "combat_script",
+      "action_params": "keypress(CONTROL)",
       "id": 20,
       "move_mode": "walk",
       "point_ext_params": {
@@ -410,9 +411,9 @@
           ]
         }
       },
-      "type": "path",
-      "x": -630.2852,
-      "y": -3502.0283
+      "type": "orientation",
+      "x": 5197.2119,
+      "y": -1336.3511
     },
     {
       "action": "",
@@ -429,9 +430,9 @@
           ]
         }
       },
-      "type": "path",
-      "x": -632.8379,
-      "y": -3501.1816
+      "type": "target",
+      "x": 5197.9912,
+      "y": -1335.6851
     },
     {
       "action": "",
@@ -448,12 +449,13 @@
           ]
         }
       },
-      "type": "path",
-      "x": -631.7109,
-      "y": -3503.6191
+      "type": "target",
+      "x": 5201.998,
+      "y": -1330.6616
     },
     {
-      "action": "",
+      "action": "up_down_grab_leaf",
+      "action_params": "",
       "id": 23,
       "move_mode": "walk",
       "point_ext_params": {
@@ -467,12 +469,13 @@
           ]
         }
       },
-      "type": "path",
-      "x": -631.248,
-      "y": -3501.1699
+      "type": "orientation",
+      "x": 5224.5137,
+      "y": -1310.8989
     },
     {
-      "action": "",
+      "action": "combat_script",
+      "action_params": "keypress(CONTROL)",
       "id": 24,
       "move_mode": "walk",
       "point_ext_params": {
@@ -487,8 +490,8 @@
         }
       },
       "type": "path",
-      "x": -598.1289,
-      "y": -3513.4863
+      "x": 5221.6943,
+      "y": -1305.7588
     },
     {
       "action": "",
@@ -506,8 +509,8 @@
         }
       },
       "type": "path",
-      "x": -592.9219,
-      "y": -3510.4141
+      "x": 5217.6816,
+      "y": -1298.5034
     },
     {
       "action": "",
@@ -525,8 +528,8 @@
         }
       },
       "type": "path",
-      "x": -590.8613,
-      "y": -3509.8154
+      "x": 5215.2012,
+      "y": -1289.2349
     },
     {
       "action": "",
@@ -544,8 +547,8 @@
         }
       },
       "type": "path",
-      "x": -588.9414,
-      "y": -3509.9453
+      "x": 5213.0898,
+      "y": -1283.9385
     },
     {
       "action": "",
@@ -563,8 +566,8 @@
         }
       },
       "type": "path",
-      "x": -590.5195,
-      "y": -3510.5947
+      "x": 5206.7324,
+      "y": -1278.146
     },
     {
       "action": "",
@@ -582,8 +585,8 @@
         }
       },
       "type": "path",
-      "x": -593.4316,
-      "y": -3510.5762
+      "x": 5204.0801,
+      "y": -1273.7881
     },
     {
       "action": "",
@@ -601,8 +604,8 @@
         }
       },
       "type": "path",
-      "x": -592.8496,
-      "y": -3509.793
+      "x": 5201.7637,
+      "y": -1267.2568
     },
     {
       "action": "",
@@ -620,8 +623,8 @@
         }
       },
       "type": "path",
-      "x": -585.0742,
-      "y": -3514.125
+      "x": 5188.3037,
+      "y": -1257.6431
     },
     {
       "action": "",
@@ -639,8 +642,8 @@
         }
       },
       "type": "path",
-      "x": -571.4941,
-      "y": -3520.3242
+      "x": 5182.6895,
+      "y": -1251.9136
     },
     {
       "action": "",
@@ -657,9 +660,9 @@
           ]
         }
       },
-      "type": "path",
-      "x": -563.4395,
-      "y": -3532.1484
+      "type": "target",
+      "x": 5179.1865,
+      "y": -1248.3052
     },
     {
       "action": "",
@@ -676,9 +679,9 @@
           ]
         }
       },
-      "type": "path",
-      "x": -549.7598,
-      "y": -3546.8311
+      "type": "target",
+      "x": 5177.6074,
+      "y": -1247.4443
     },
     {
       "action": "",
@@ -695,9 +698,9 @@
           ]
         }
       },
-      "type": "path",
-      "x": -545.7754,
-      "y": -3554.2637
+      "type": "target",
+      "x": 5175.9893,
+      "y": -1248.6538
     },
     {
       "action": "",
@@ -714,9 +717,9 @@
           ]
         }
       },
-      "type": "path",
-      "x": -546.1426,
-      "y": -3564.9258
+      "type": "target",
+      "x": 5177.3867,
+      "y": -1249.9907
     },
     {
       "action": "",
@@ -733,9 +736,9 @@
           ]
         }
       },
-      "type": "path",
-      "x": -544.6523,
-      "y": -3578.3652
+      "type": "target",
+      "x": 5176.9648,
+      "y": -1251.8506
     },
     {
       "action": "",
@@ -752,237 +755,9 @@
           ]
         }
       },
-      "type": "path",
-      "x": -542.1738,
-      "y": -3588.0557
-    },
-    {
-      "action": "",
-      "id": 39,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
       "type": "target",
-      "x": -539.5195,
-      "y": -3595.084
-    },
-    {
-      "action": "",
-      "id": 40,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "target",
-      "x": -539.0195,
-      "y": -3596.0098
-    },
-    {
-      "action": "",
-      "id": 41,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "path",
-      "x": -539.0117,
-      "y": -3597.0234
-    },
-    {
-      "action": "",
-      "id": 42,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "path",
-      "x": -539.4316,
-      "y": -3596.0889
-    },
-    {
-      "action": "",
-      "id": 43,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "path",
-      "x": -534.4961,
-      "y": -3603.5586
-    },
-    {
-      "action": "",
-      "id": 44,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "target",
-      "x": -533.4531,
-      "y": -3605.4336
-    },
-    {
-      "action": "",
-      "id": 45,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "target",
-      "x": -536.1328,
-      "y": -3607.7256
-    },
-    {
-      "action": "",
-      "id": 46,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "path",
-      "x": -537.1035,
-      "y": -3608.0635
-    },
-    {
-      "action": "",
-      "id": 47,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "path",
-      "x": -537.7402,
-      "y": -3608.9004
-    },
-    {
-      "action": "",
-      "id": 48,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "path",
-      "x": -534.1602,
-      "y": -3604.8711
-    },
-    {
-      "action": "",
-      "id": 49,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "path",
-      "x": -534.0938,
-      "y": -3603.9014
-    },
-    {
-      "action": "",
-      "id": 50,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "path",
-      "x": -536.248,
-      "y": -3602.665
+      "x": 5179.4199,
+      "y": -1250.8813
     }
   ]
 }
