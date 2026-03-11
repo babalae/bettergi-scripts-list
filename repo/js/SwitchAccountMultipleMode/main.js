@@ -438,9 +438,14 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         await KeyboardMouseMode();
     } else if (settings.Modes == "账号+密码+OCR") {
         await OcrMode();
+    } else if (settings.Modes == "B服切换另一个账号纯键鼠") {
+        await BilibiliKeyboardMouseMode();
+    } else if (settings.Modes == "B服切换另一个账号匹配+键鼠") {
+        await BilibiliMatchAndKeyboardMouseMode();
     } else {
         log.info("尖尖哇嘎乃")
     }
+
     // 下拉列表模式
     async function DropDownMode() {
         const isInGame = await waitAndDetermineCurrentView();
@@ -457,47 +462,48 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         await waitAndDetermineCurrentView();
 
     }
-    // 纯键鼠模式    对应：账号+密码（根据分辨率确定鼠标位置）
+
+    // 纯键鼠模式 对应：账号+密码（根据分辨率确定鼠标位置）
     async function KeyboardMouseMode() {
         setGameMetrics(1920, 1080, 2.0);
         //到达主页面
         await genshin.returnMainUi();//使用新号（无派蒙）测试，请注释掉这一行
         await sleep(1000);
-        
+
         //打开派蒙页面
         keyPress("VK_ESCAPE");
         await sleep(1000);
-        
+
         //退出门图标
         click(50, 1030);
         await sleep(1000);
-        
+
         //退出至登录页面
         click(978, 540);
         await sleep(15000);
-        
+
         //登录页面退出当前账号的小门图标
         click(1828, 985);
         await sleep(1000);
-        
+
         //点击退出当前账号
-        if(Account=="否"){
+        if (Account == "否") {
             //长期账号->勾选：退出并保留登录记录
             click(698, 568);
-        } else{
+        } else {
             //临时账号->勾选：退出并清除登录记录
             click(698, 476);
         }
         await sleep(1000);
-        
+
         //点击退出大按钮
         click(1107, 684);
         await sleep(1500);
-        
+
         //登录其他账号
         click(946, 703);
         await sleep(1000);
-        
+
         //点击用户名输入框
         click(815, 400);
         //如果有文本，清除
@@ -505,7 +511,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         // 输入文本
         await inputText(settings.username);
         await sleep(500);
-        
+
         //点击密码输入框
         click(815, 480);
         //如果有文本，清除
@@ -513,7 +519,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         // 输入文本
         await inputText(settings.password);
         await sleep(500);
-        
+
         //回车弹出协议确定框（如果有的话）
         for (let i = 0; i < 3; i++) {
             //三次回车，规避强制点击进入游戏（如果开启了自动开门功能，这一步是必须的，后续维护者须知0.54.0版本对开门的“进入游戏”识别是和配置组同时进行的。多次回车+短时间点击，可以规避掉鼠标乱点的问题。彩虹QQ人于2026年1月5日留。）
@@ -524,7 +530,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             await sleep(500);
         }
         await sleep(8000);//这一步根据各自网络环境和主机配置可以适当增减
-        
+
         //进入世界循环点击，增加容错
         for (let i = 5; i > 0; i--) {
             click(960, 540);
@@ -535,6 +541,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         //点击领月卡
         await genshin.blessingOfTheWelkinMoon();
     }
+
     // OCR模式 对应：账号+密码+OCR
     async function OcrMode() {
         setGameMetrics(1920, 1080, 1);
@@ -597,6 +604,165 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             await sleep(8000);
             await recognizeTextAndClick("点击进入", RecognitionObject.Ocr(862, 966, 206, 104), 5000);
             await sleep(15000);
+
+            //可能登录账号的时候出现月卡提醒，则先点击一次月卡。
+            //await genshin.blessingOfTheWelkinMoon();
+            //await sleep(1000);
+            //await genshin.blessingOfTheWelkinMoon();
+            //await sleep(1000);
+            //防止genshin.blessingOfTheWelkinMoon();方法失效，先使用物理点击。
+            await sleep(2000);
+            keyDown("VK_MENU");
+            await sleep(500);
+            for (let i = 0; i <= 4; i++) {
+                await click(960, 864);
+                await sleep(1000);
+            }
+            //keyUp("VK_MENU");
+            await genshin.returnMainUi();
+            await sleep(1000);
+            // 如果配置了通知
+            notification.send("账号【" + settings.username + "】切换成功");
+        } catch (error) {
+            log.error(`${script_name}脚本执行过程中发生错误：${error.message}`);
+            //如果发生错误，则发送通知
+            notification.error(`${script_name}脚本执行过程中发生错误：${error.message}`);
+            throw new Error(`${script_name}脚本执行过程中发生错误：${error.message}`);
+        } finally {
+            keyUp("VK_MENU");
+        }
+    }
+
+    // B服切换纯键鼠模式 对应：B服切换另一个账号纯键鼠（根据分辨率确定鼠标位置）
+    async function BilibiliKeyboardMouseMode() {
+        setGameMetrics(1920, 1080, 2.0);
+        //到达主页面
+        await genshin.returnMainUi();//使用新号（无派蒙）测试，请注释掉这一行
+        await sleep(1000);
+
+        //打开派蒙页面
+        keyPress("VK_ESCAPE");
+        await sleep(1000);
+
+        //退出门图标
+        click(50, 1030);
+        await sleep(1000);
+
+        //退出至登录页面
+        click(978, 540);
+        await sleep(7000);
+
+        //登录其他账号
+        click(1135, 478);
+        await sleep(1000);
+
+        //点击用户名
+        click(963, 635);
+        await sleep(500);
+
+        //点击登录
+        click(963, 635);
+        await sleep(500);
+
+        //登录其他账号
+        click(1135, 478);
+        await sleep(1000);
+
+        //取消点击用户名（确保能登录）
+        click(963, 400);
+        await sleep(500);
+
+        //点击登录
+        click(963, 635);
+        await sleep(500);
+
+        //这一步根据各自网络环境和主机配置可以适当增减
+        await sleep(6000);
+
+        //进入世界循环点击，增加容错
+        for (let i = 5; i > 0; i--) {
+            click(960, 540);
+            await sleep(1200);//增加容错（例如进入人机验证时）
+        }
+        //确保进入主页面
+        await sleep(12000);
+        //点击领月卡
+        await genshin.blessingOfTheWelkinMoon();
+    }
+
+    // B服切换匹配+键鼠模式 对应：B服切换另一个账号匹配+键鼠
+    async function BilibiliMatchAndKeyboardMouseMode() {
+        setGameMetrics(1920, 1080, 1);
+        // 如果切换账号是第一个脚本，则有可能出现月卡选项
+        //防止genshin.blessingOfTheWelkinMoon();方法失效，先使用物理点击。
+        try {
+            keyDown("VK_MENU");
+            await sleep(500);
+            for (let i = 0; i <= 4; i++) {
+                await click(960, 864);
+                await sleep(1000);
+            }
+        } finally {
+            keyUp("VK_MENU");
+        }
+        //await genshin.blessingOfTheWelkinMoon();
+        //await sleep(1000);
+        //await genshin.blessingOfTheWelkinMoon();
+        //await sleep(1000);
+        await genshin.returnMainUi();
+
+        await keyPress("VK_ESCAPE");
+        await sleep(500);
+        try {
+            await matchImgAndClick(pm_out, "左下角退出门");
+            await matchImgAndClick(out_to_login, "退出至登陆页面");
+            //这一步根据 电脑配置和当前网络情况不同休眠时间不同，建议实际运行之后，如果有日志 ： 第x次 识别失败，就适当增加休眠时间
+            await sleep(7000);
+
+            //登录其他账号
+            click(1135, 478);
+            await sleep(1000);
+
+            //点击用户名
+            click(963, 635);
+            await sleep(500);
+
+            //点击登录
+            click(963, 635);
+            await sleep(500);
+
+            //登录其他账号
+            click(1135, 478);
+            await sleep(1000);
+
+            //取消点击用户名（确保能登录）
+            click(963, 400);
+            await sleep(500);
+
+            //点击登录
+            click(963, 635);
+            await sleep(500);
+
+            //如果当天上下线次数过于频繁
+            for (let i = 1; i <= 2; i++) {
+                const ro = captureGameRegion();
+                let verify = ro.Find(login_verification.template);
+                ro.dispose();
+                //等待1s避免循环速度过快
+                await sleep(1000);
+                if (verify.isExist()) {
+                    //这里可配置通知方法
+                    notification.error(`${script_name}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
+                    log.error(`${script_name}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
+                }
+            }
+            /**
+             * 根据不同网络环境和电脑配置，此操作可能会将领取月卡操作取代，但是不影响使用
+             * 如果发现卡在这一步，请适当延长sleep时间
+             */
+            await sleep(6500);
+            await recognizeTextAndClick("点击进入", RecognitionObject.Ocr(862, 966, 206, 104), 5000);
+            await sleep(12000);
 
             //可能登录账号的时候出现月卡提醒，则先点击一次月卡。
             //await genshin.blessingOfTheWelkinMoon();
