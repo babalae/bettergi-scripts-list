@@ -213,6 +213,55 @@ async function outDomainUI() {
 
 }
 
+const isInOutStygianOnslaughtUI = async () =>{
+    const text = "退出挑战";
+    const ocrRegion = {
+        x: 509,
+        y: 259,
+        w: 901,
+        h: 563
+    }
+    const find = await findText(text, ocrRegion.x, ocrRegion.y, ocrRegion.w, ocrRegion.h)
+    log.debug("识别结果:{1}", find)
+    return find && find.includes(text)
+}
+async function outStygianOnslaughtUI() {
+    log.info(`{0}`,"退出挑战");
+    const ocrRegion = {
+        x: 509,
+        y: 259,
+        w: 901,
+        h: 563
+    }
+    let ms = 300
+    let index = 1
+    let tryMax = false
+    let inMainUI = false
+    await sleep(ms);
+    while (!await isInOutStygianOnslaughtUI()) {
+        if (isInMainUI()) {
+            inMainUI = true
+            break
+        }
+        await sleep(ms);
+        await keyPress("ESCAPE");
+        await sleep(ms * 2);
+        if (index > 3) {
+            log.error(`多次尝试匹配退出秘境界面失败 假定已经退出处理`);
+            tryMax = true
+            break
+        }
+        index += 1
+    }
+    if ((!tryMax) && (!inMainUI) && await isInOutStygianOnslaughtUI()) {
+        try {
+            //点击确认按钮
+            await findTextAndClick('退出挑战', ocrRegion.x, ocrRegion.y, ocrRegion.w, ocrRegion.h)
+        } catch (e) {
+            // log.error(`多次尝试点击确认失败 假定已经退出处理`);
+        }
+    }
+}
 /**
  * 在指定区域内查找文本内容
  * @param {string} text - 要查找的文本内容
@@ -343,6 +392,8 @@ export {
     toMainUi,
     isInOutDomainUI,
     outDomainUI,
+    isInOutStygianOnslaughtUI,
+    outStygianOnslaughtUI,
     findTextAndClick,
     throwError,
 }

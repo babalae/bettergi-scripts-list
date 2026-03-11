@@ -34,7 +34,7 @@ const config = {
             current: 0,//当前体力
             names: ["原粹树脂", "浓缩树脂", "须臾树脂", "脆弱树脂"]
         },
-        runTypes: ['秘境', '地脉']
+        runTypes: ['秘境', '地脉', '幽境']
     },
     //
     path: {
