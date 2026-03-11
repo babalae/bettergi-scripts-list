@@ -8,15 +8,12 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时131.36秒，包含以下怪物：1只遗迹重机、2只遗迹巡弋者、0.5只伸缩风蕈兽。",
-    "hash_res": "12239776",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1762170381245,
+    "last_modified_time": 1773244467995,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "D011【沙暴】须弥沙漠三运河之地",
-    "tags": [
-      "沙暴"
-    ],
+    "tags": [],
     "type": "collect",
     "version": "1.0"
   },
@@ -27,13 +24,31 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
+      "x": 4957.404296875,
+      "y": -695.181640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.5),attack(0.2),wait(1),s(1),dash,wait(0.7),keypress(f),wait(0.2),keypress(f),wait(5.5)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3069,
+      "y": -673.0144805314794
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": 4589.01220703125,
       "y": -652.93798828125
     },
     {
       "action": "",
       "action_params": "",
-      "id": 2,
+      "id": 4,
       "move_mode": "dash",
       "type": "orientation",
       "x": 4570.27734375,
@@ -42,7 +57,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 3,
+      "id": 5,
       "move_mode": "dash",
       "type": "path",
       "x": 4570.27734375,
@@ -51,7 +66,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 4,
+      "id": 6,
       "move_mode": "dash",
       "type": "path",
       "x": 4550.2236328125,
@@ -60,7 +75,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(t),wait(0.2),keypress(t)",
-      "id": 5,
+      "id": 7,
       "move_mode": "dash",
       "type": "path",
       "x": 4540.376953125,
@@ -69,7 +84,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(t),wait(0.2),keypress(t),moveby(0,1000),keydown(w),wait(0.5),keypress(t),wait(0.2),keypress(t),wait(0.5),keyup(w)",
-      "id": 6,
+      "id": 8,
       "move_mode": "walk",
       "type": "orientation",
       "x": 4525.1328125,
@@ -78,7 +93,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.5)",
-      "id": 7,
+      "id": 9,
       "move_mode": "walk",
       "type": "orientation",
       "x": 4503.74560546875,
@@ -87,7 +102,7 @@
     {
       "action": "log_output",
       "action_params": "切换[沙暴]状态",
-      "id": 8,
+      "id": 10,
       "move_mode": "dash",
       "type": "orientation",
       "x": 4513.001953125,
@@ -96,7 +111,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.2),keypress(f),w(0.2),keypress(f),wait(5.5)",
-      "id": 9,
+      "id": 11,
       "move_mode": "dash",
       "type": "path",
       "x": 4513.001953125,
@@ -105,7 +120,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 10,
+      "id": 12,
       "move_mode": "walk",
       "type": "teleport",
       "x": 5173.60302734375,
@@ -114,7 +129,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 11,
+      "id": 13,
       "move_mode": "fly",
       "type": "path",
       "x": 5162.541015625,
@@ -123,7 +138,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 12,
+      "id": 14,
       "move_mode": "dash",
       "type": "path",
       "x": 5152.812393347761,
@@ -132,7 +147,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 13,
+      "id": 15,
       "move_mode": "dash",
       "type": "path",
       "x": 5146.248356765498,
@@ -141,7 +156,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
+      "id": 16,
       "move_mode": "jump",
       "type": "path",
       "x": 5139.562377547429,
@@ -150,8 +165,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 15,
-      "locked": false,
+      "id": 17,
       "move_mode": "dash",
       "type": "path",
       "x": 5085.9853515625,
@@ -160,7 +174,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 16,
+      "id": 18,
       "move_mode": "dash",
       "type": "orientation",
       "x": 5085.9853515625,
