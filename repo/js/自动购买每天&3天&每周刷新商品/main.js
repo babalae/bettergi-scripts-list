@@ -275,7 +275,75 @@ function getNextMonthFirstDay(date) {
 }
 
 // ==================== 账号管理功能 ====================
-let userName = settings.userName || "默认账户";
+let userName;
+
+// 清理账户名，防止路径非法字符
+function validateUserName(name) {
+    if (typeof name !== 'string' || name.trim() === '') return '默认账户';
+    // 替换 Windows 路径非法字符，并去除首尾空格
+    return name.trim().replace(/[\\/:*?"<>|]/g, '_');
+}
+
+async function getUidFromGame() {
+    // 设置脚本环境的游戏分辨率和DPI缩放
+    setGameMetrics(3840, 2160, 1.5);
+
+    // 确保回到主界面
+    await genshin.returnMainUi();
+    await sleep(1000);
+
+    // 打开派蒙菜单
+    keyPress("G");
+    await sleep(500);
+
+    // 加载退出按钮识别图（需要 assets/images/Exit.png 存在）
+    let imageExitRo;
+    try {
+        imageExitRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/images/Exit.png"));
+        imageExitRo.Threshold = 0.8;
+    } catch (e) {
+        log.warn("无法加载 assets/Exit.png，将使用固定延时等待菜单打开");
+    }
+
+    if (imageExitRo) {
+        // 等待退出按钮出现，最多5秒
+        const startTime = Date.now();
+        while (Date.now() - startTime < 5000) {
+            let capture = captureGameRegion();
+            if (capture.Find(imageExitRo).isExist()) {
+                capture.dispose();
+                break;
+            }
+            capture.dispose();
+            await sleep(500);
+        }
+    } else {
+        await sleep(2000); // 无图片则直接等待2秒
+    }
+
+    // OCR识别UID
+    let gameRegion = captureGameRegion();
+    let ocrResult = gameRegion.Find(RecognitionObject.Ocr(1679, 1048, 200, 28));
+    gameRegion.dispose();
+
+    let uid = "";
+    if (ocrResult.isExist() && ocrResult.text) {
+        uid = ocrResult.text.replace(/\D/g, ''); // 只保留数字
+    }
+
+    // 关闭派蒙菜单
+    keyPress("ESCAPE");
+    await sleep(500);
+    await genshin.returnMainUi();
+
+    if (uid && uid.length >= 5) { // UID通常9位，至少5位
+        log.info(`从游戏获取到UID: ${uid}`);
+        return uid;
+    } else {
+        log.warn("无法从游戏获取UID");
+        return null;
+    }
+}
 
 // 确保设置变量存在
 const ignoreRecords = settings.ignoreRecords || false;
@@ -308,26 +376,6 @@ function getRecordPath(accountName) {
         accountName = "默认账户";
     }
     return `record/${accountName.trim()}/records.json`;
-}
-
-// 确保账号目录存在
-async function ensureAccountDirectory(accountName) {
-    const validName = validateUserName(accountName);
-    const dirPath = `record/${validName}`;
-
-    try {
-        // 检查目录是否存在
-        await file.readText(dirPath + "/.keep");
-    } catch (error) {
-        // 目录不存在，尝试创建
-        try {
-            // 创建目录（通过写入一个临时文件）
-            await file.writeText(dirPath + "/.keep", "");
-            log.info(`创建账号目录: ${dirPath}`);
-        } catch (mkdirError) {
-            log.error(`创建账号目录失败: ${mkdirError.message}`);
-        }
-    }
 }
 
 // ==================== 新增函数：读取商人记录文件 ====================
@@ -1009,7 +1057,26 @@ async function initNpcData(records) {
 
 (async function () {
     try {
-        // ==================== 初始化账号 ====================
+        // ==================== 确定账号名 ====================
+        let rawUserName = settings.userName ? settings.userName.trim() : "";
+        if (!rawUserName) {
+            log.info("settings.userName 为空，尝试从游戏获取UID作为账户名...");
+            const uid = await getUidFromGame();
+            if (uid) {
+                userName = uid;
+                log.info(`使用UID作为账户名: ${userName}`);
+            } else {
+                userName = "默认账户";
+                log.warn("无法获取UID，使用默认账户");
+            }
+        } else {
+            userName = validateUserName(rawUserName);
+            if (userName !== rawUserName) {
+                log.info(`账户名已清理: ${userName}`);
+                settings.userName = userName;
+            }
+        }
+
         log.info(`当前账户: ${userName}`);
 
         // ==================== 加载外部数据 ====================
