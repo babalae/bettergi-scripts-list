@@ -614,14 +614,17 @@
 
         }
         // 如果是midi转换的乐谱
-        if (Object.keys(sheet_list[0]).length === 3) {
-            for (let i = 0; i < sheet_list.length; i++) {
-                log.info(`时长：${sheet_list[i]["time"]}`)
-                await sleep(Math.round(sheet_list[i]["time"]));
-                if (sheet_list[i]["type"] === "on") {
-                    keyDown(sheet_list[i]["note"]);
+        if (typeof(sheet_list) === "string") {
+			let play_sheet = sheet_list.split("|");
+            for (let i = 0; i < play_sheet.length; i++) {
+				let current_note = play_sheet[i].split("_");
+                log.info(`${play_sheet[i]}`);
+                await sleep(Math.round(current_note[2]));
+				if (current_note[1] === "@") continue;
+                if (current_note[0] === "D") {
+					keyDown(current_note[1]);
                 } else {
-                    keyUp(sheet_list[i]["note"]);
+                    keyUp(current_note[1]);
                 }
             }
         } else {
