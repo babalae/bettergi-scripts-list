@@ -104,7 +104,7 @@ async function autoDomain(autoFight) {
                 if (errorMessage.includes("复活") && domainParam.DomainName) {
                     continue;
                 }
-                if (!config.run.exclude_run_exception) {
+                if (!config.run.exclude_run_exception||config.run.loop_plan) {//排除异常 与循环计划互斥
                     throw e;
                 }
             }
@@ -174,7 +174,7 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
             if (errorMessage.includes("复活")) {
                 continue;
             }
-            if (!config.run.exclude_run_exception) {
+            if (!config.run.exclude_run_exception||config.run.loop_plan) {//排除异常 与循环计划互斥
                 throw e;
             }
         }
@@ -282,7 +282,7 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
                 if (errorMessage.includes("复活")) {
                     continue;
                 }
-                if (!config.run.exclude_run_exception) {
+                if (!config.run.exclude_run_exception||config.run.loop_plan) {//排除异常 与循环计划互斥
                     throw e;
                 }
             }
