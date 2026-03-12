@@ -1,10 +1,10 @@
 {
   "info": {
-    "name": "苹果03-晨曦酒庄-蒙德7个",
+    "name": "苹果12-天臂池-须弥6个",
     "type": "collect",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "不瘦五十斤不改名",
@@ -18,53 +18,45 @@
       "action": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": -578.85,
-      "y": 1853.51
+      "x": 3067.84,
+      "y": -714.02
     },
     {
       "id": 2,
-      "x": -560.32,
-      "y": 1799.23,
+      "x": 2994.22,
+      "y": -740.19,
       "type": "path",
-      "move_mode": "run",
-      "action": "nahida_collect"
+      "move_mode": "fly",
+      "action": "stop_flying"
     },
     {
       "id": 3,
-      "x": -549.32,
-      "y": 1790.41,
+      "x": 2992.45,
+      "y": -733.67,
       "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "action": "nahida_collect"
     },
     {
       "id": 4,
-      "x": -542.45,
-      "y": 1772.85,
+      "x": 3000.91,
+      "y": -681.83,
       "type": "path",
-      "move_mode": "walk",
+      "move_mode": "run",
       "action": ""
     },
     {
       "id": 5,
-      "x": -430.29,
-      "y": 1765.62,
+      "x": 3024.8,
+      "y": -609.82,
       "type": "path",
-      "move_mode": "fly",
+      "move_mode": "run",
       "action": ""
     },
     {
       "id": 6,
-      "x": -421.61,
-      "y": 1785.41,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
-    },
-    {
-      "id": 7,
-      "x": -410.34,
-      "y": 1796.16,
+      "x": 3054.77,
+      "y": -598.05,
       "type": "path",
       "move_mode": "walk",
       "action": "nahida_collect"
