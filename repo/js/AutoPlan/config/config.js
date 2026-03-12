@@ -3,6 +3,7 @@ import {ocrUid} from "../utils/uid";
 const config = {
     //setting设置放在这个json
     run: {
+        exclude_run_exception: false,//忽略运行异常
         loop_plan: false,//启用循环体力计划
         retry_count: 3,//复活重试次数
         config: '',
@@ -185,6 +186,8 @@ async function initConfig() {
     config.run.retry_count = Number.isFinite(retryCount) && retryCount > 0
         ? retryCount
         : config.run.retry_count;
+
+    config.run.exclude_run_exception=settings.exclude_run_exception
 
     config.run.loop_plan = settings.loop_plan !== undefined ? settings.loop_plan : config.run.loop_plan
     const bgi_tools_token = settings.bgi_tools_token || "Authorization= "

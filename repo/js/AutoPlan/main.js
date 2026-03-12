@@ -104,7 +104,9 @@ async function autoDomain(autoFight) {
                 if (errorMessage.includes("复活") && domainParam.DomainName) {
                     continue;
                 }
-                throw e;
+                if (!config.run.exclude_run_exception) {
+                    throw e;
+                }
             }
         }
     } finally {
@@ -172,7 +174,9 @@ async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
             if (errorMessage.includes("复活")) {
                 continue;
             }
-            throw e;
+            if (!config.run.exclude_run_exception) {
+                throw e;
+            }
         }
     }
 }
@@ -278,7 +282,9 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
                 if (errorMessage.includes("复活")) {
                     continue;
                 }
-                throw e;
+                if (!config.run.exclude_run_exception) {
+                    throw e;
+                }
             }
         }
     } finally {

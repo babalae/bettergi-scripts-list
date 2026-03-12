@@ -18,6 +18,11 @@
       "default": ""
     },
     {
+      "name": "exclude_run_exception",
+      "type": "checkbox",
+      "label": "忽略运行异常\n(当前计划出现异常后,会执行下一个计划)"
+    },
+    {
       "name": "loop_plan",
       "type": "checkbox",
       "label": "循环体力计划\n体力耗尽自动终止"
