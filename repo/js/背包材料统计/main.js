@@ -151,7 +151,6 @@ const ColdStartCache = {
       log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}如需缓存加速，请手动创建文件夹: ${this.cacheDir}`);
     }
   },
-
   // 获取初始快照
   async getInitialSnapshot(categoryMap, forceRefresh = false) {
     const now = Date.now();
@@ -167,6 +166,7 @@ const ColdStartCache = {
         this.timestamp = null;
       } else if (ageMinutes <= this.expiryMinutes) {
         log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}🚀 使用内存缓存 (${ageMinutes.toFixed(1)}分钟前)`);
+        // ✅ 直接返回，不执行任何扫描操作
         return this.snapshot;
       }
     }
@@ -185,19 +185,18 @@ const ColdStartCache = {
           this.deleteCacheFile();
         } else if (ageMinutes <= this.expiryMinutes) {
           log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}🚀 使用文件缓存 (${ageMinutes.toFixed(1)}分钟前)`);
+          // ✅ 直接返回，不执行任何扫描操作
           return this.snapshot;
         }
       }
     }
-
-    // 3. 执行真实扫描
+    // 3. 只有没有缓存或缓存过期才执行扫描
     log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}执行初始扫描...`);
     const startTime = Date.now();
     this.snapshot = await MaterialPath(categoryMap);
     this.timestamp = now;
     const costTime = ((Date.now() - startTime) / 1000).toFixed(1);
 
-    // 4. 保存缓存
     this.saveToFile();
     log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}初始扫描完成，耗时 ${costTime}秒，已缓存`);
 
