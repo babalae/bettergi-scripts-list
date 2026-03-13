@@ -113,6 +113,144 @@ function generatePathContentCode(pathingFilePath) {
     return "00000000";
   }
 }
+// ==============================================
+// 冷启动缓存管理（解决重复扫描问题）
+// ==============================================
+const ColdStartCache = {
+  snapshot: null,
+  timestamp: null,
+  cacheFile: "cache/initial_snapshot.json",
+  expiryMinutes: 30,
+  taskCancelled: false,  // 新增：记录任务是否被取消
+
+  // 初始化
+  init(settings) {
+    if (settings.cacheExpiryMinutes) {
+      this.expiryMinutes = settings.cacheExpiryMinutes;
+    }
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存: ${this.expiryMinutes}分钟过期`);
+  },
+
+  // 新增：设置任务取消状态
+  setTaskCancelled(cancelled) {
+    this.taskCancelled = cancelled;
+  },
+
+  // 获取初始快照
+  async getInitialSnapshot(categoryMap, forceRefresh = false) {
+    const now = Date.now();
+
+    // 1. 尝试内存缓存
+    if (!forceRefresh && this.snapshot && this.timestamp) {
+      const ageMinutes = (now - this.timestamp) / (60 * 1000);
+      if (ageMinutes <= this.expiryMinutes) {
+        log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}🚀 使用内存缓存 (${ageMinutes.toFixed(1)}分钟前)`);
+
+        // 新增：检查是否是任务取消导致的旧数据
+        if (this.taskCancelled) {
+          log.info(`   ⚠️ 注意：上次任务未完成，数量可能不是最新的`);
+        }
+
+        return this.snapshot;
+      }
+    }
+
+    // 2. 尝试文件缓存
+    if (!forceRefresh && await this.loadFromFile()) {
+      const ageMinutes = (now - this.timestamp) / (60 * 1000);
+      if (ageMinutes <= this.expiryMinutes) {
+        log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}🚀 使用文件缓存 (${ageMinutes.toFixed(1)}分钟前)`);
+
+        // 新增：检查是否是任务取消导致的旧数据
+        if (this.taskCancelled) {
+          log.info(`   ⚠️ 注意：上次任务未完成，数量可能不是最新的`);
+        }
+
+        return this.snapshot;
+      }
+    }
+
+    // 3. 执行真实扫描
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}执行初始扫描...`);
+    const startTime = Date.now();
+    this.snapshot = await MaterialPath(categoryMap);
+    this.timestamp = now;
+    this.taskCancelled = false;  // 新增：重置取消状态
+    const costTime = ((Date.now() - startTime) / 1000).toFixed(1);
+
+    // 4. 保存缓存
+    this.saveToFile();
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}初始扫描完成，耗时 ${costTime}秒，已缓存`);
+
+    return this.snapshot;
+  },
+
+  // 任务完成时更新缓存
+  async updateOnCompletion(categoryMap) {
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}任务完成，更新缓存...`);
+    const startTime = Date.now();
+    this.snapshot = await MaterialPath(categoryMap);
+    this.timestamp = Date.now();
+    this.taskCancelled = false;  // 新增：重置取消状态
+    this.saveToFile();
+    const costTime = ((Date.now() - startTime) / 1000).toFixed(1);
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存更新完成，耗时 ${costTime}秒`);
+    return this.snapshot;
+  },
+
+  // 保存到文件
+  saveToFile() {
+    try {
+      const cacheDir = "cache";
+      if (!file.exists(cacheDir)) {
+        file.createDir(cacheDir);
+      }
+
+      const cacheData = {
+        snapshot: this.snapshot,
+        timestamp: this.timestamp,
+        taskCancelled: this.taskCancelled,  // 新增：保存取消状态
+        version: "1.0"
+      };
+      file.writeTextSync(this.cacheFile, JSON.stringify(cacheData));
+      log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存已保存到文件`);
+    } catch (error) {
+      log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}保存缓存失败: ${error.message}`);
+    }
+  },
+
+  // 从文件加载
+  async loadFromFile() {
+    try {
+      if (!file.exists(this.cacheFile)) return false;
+
+      const content = safeReadTextSync(this.cacheFile);
+      if (!content) return false;
+
+      const cacheData = JSON.parse(content);
+      this.snapshot = cacheData.snapshot;
+      this.timestamp = cacheData.timestamp;
+      this.taskCancelled = cacheData.taskCancelled || false;  // 新增：加载取消状态
+      return true;
+    } catch (error) {
+      log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}加载缓存失败: ${error.message}`);
+      return false;
+    }
+  },
+
+  // 清除缓存（调试用）
+  clear() {
+    this.snapshot = null;
+    this.timestamp = null;
+    this.taskCancelled = false;
+    try {
+      if (file.exists(this.cacheFile)) {
+        file.delete(this.cacheFile);
+      }
+    } catch (error) {}
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存已清除`);
+  }
+};
 
 // ==============================================
 // 全局状态（保持不变）
@@ -149,7 +287,13 @@ const noRecord = settings.noRecord || false;
 const debugLog = settings.debugLog || false;
 const targetCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.TargetCount) || 5000))); // 设定的目标数量
 const exceedCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.ExceedCount) || 9000))); // 设定的超量目标数量
-const endTimeStr = settings.CurrentTime ? settings.CurrentTime : null; 
+const endTimeStr = settings.CurrentTime ? settings.CurrentTime : null;
+
+// 新增：缓存配置
+const cacheExpiryMinutes = Math.min(120, Math.max(5, Number(settings.cacheExpiryMinutes) || 30));
+
+// 初始化缓存
+ColdStartCache.init({ cacheExpiryMinutes });
 
 // 解析需要处理的CD分类
 let allowedCDCategories = [];
@@ -1725,6 +1869,7 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
       // 优先响应手动终止指令
       if (state.cancelRequested) {
         log.warn(`${CONSTANTS.LOG_MODULES.PATH}检测到手动终止指令，停止路径处理`);
+        ColdStartCache.setTaskCancelled(true);  // 新增：记录任务被取消
         break;
       }
 
@@ -1737,6 +1882,7 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
           if (remainingMinutes <= 0) {
             log.warn(`${CONSTANTS.LOG_MODULES.MAIN}已过指定终止时间（${endTimeStr}），停止路径处理`);
             state.cancelRequested = true;
+            ColdStartCache.setTaskCancelled(true);  // 新增：记录任务被取消
             break;
           }
 
@@ -1795,6 +1941,7 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
         }
       } catch (singleError) {
         log.error(`${CONSTANTS.LOG_MODULES.PATH}处理路径出错，已跳过：${singleError.message}`);
+        ColdStartCache.setTaskCancelled(true);  // 新增：出错也算任务未完成
         
         await sleep(1);
         if (state.cancelRequested) {
@@ -1962,8 +2109,9 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
 
   if (normalPaths.length > 0 || monsterPaths.length > 0) {
     // 优化：一次扫描获取全量材料数量，同时服务于怪物和普通材料
-    log.info(`${CONSTANTS.LOG_MODULES.PATH}[材料扫描] 执行一次全量背包扫描（服务于怪物+普通路径）`);
-    const allMaterialCounts = await MaterialPath(materialCategoryMap);
+    // 优化：使用缓存获取材料数量
+    log.info(`${CONSTANTS.LOG_MODULES.PATH}[材料扫描] 获取背包数据...`);
+    const allMaterialCounts = await ColdStartCache.getInitialSnapshot(materialCategoryMap);
     pathingMaterialCounts = allMaterialCounts;
 
     // 筛选低数量材料（同时生成超量名单）
