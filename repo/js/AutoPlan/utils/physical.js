@@ -295,7 +295,17 @@ async function countAllResin() {
         throw error;
     }
 }
-
+/**
+ * 切换到国家选择界面的异步函数
+ * 通过点击指定坐标并等待界面加载来完成切换操作
+ */
+async function switchtoCountrySelection(x, y) {
+    // 切换到国家选择界面
+    click(CONFIG.COORDINATES.MAP_SWITCH.x, CONFIG.COORDINATES.MAP_SWITCH.y);
+    await sleep(CONFIG.UI_DELAY);
+    click(x, y);
+    await sleep(CONFIG.UI_DELAY);
+}
 function displayResults(results) {
     const resultText = `原粹:${results.original} 浓缩:${results.condensed} 须臾:${results.transient} 脆弱:${results.fragile}`;
 
