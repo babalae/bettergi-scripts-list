@@ -113,6 +113,196 @@ function generatePathContentCode(pathingFilePath) {
     return "00000000";
   }
 }
+// ==============================================
+// 冷启动缓存管理（精简版，无取消状态）
+// ==============================================
+const ColdStartCache = {
+  snapshot: null,
+  timestamp: null,
+  cacheFile: "cache/initial_snapshot.json",
+  cacheDir: "cache",
+  expiryMinutes: 30,
+  maxAgeHours: 8,
+
+  // 初始化
+  init(settings) {
+    if (settings.cacheExpiryMinutes) {
+      this.expiryMinutes = Math.min(120, Math.max(5, Number(settings.cacheExpiryMinutes) || 30));
+    }
+    if (settings.cacheMaxAgeHours) {
+      this.maxAgeHours = Math.min(24, Math.max(1, Number(settings.cacheMaxAgeHours) || 8));
+    }
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存配置: ${this.expiryMinutes}分钟过期, 最长${this.maxAgeHours}小时`);
+
+    // 尝试创建目录（不阻塞）
+    this.ensureCacheDirectory();
+  },
+
+  // 检查缓存目录
+  ensureCacheDirectory() {
+    if (!file.isFolder(this.cacheDir)) {
+      log.warn(`缓存目录不存在，请手动创建: ${this.cacheDir}`);
+    }
+  },
+  // 获取初始快照
+  async getInitialSnapshot(categoryMap, forceRefresh = false) {
+    const now = Date.now();
+
+    // 1. 尝试内存缓存
+    if (!forceRefresh && this.snapshot && this.timestamp) {
+      const ageMinutes = (now - this.timestamp) / (60 * 1000);
+      const ageHours = ageMinutes / 60;
+
+      if (ageHours > this.maxAgeHours) {
+        log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}内存缓存超过最大生命周期，重新扫描`);
+        this.snapshot = null;
+        this.timestamp = null;
+      } else if (ageMinutes <= this.expiryMinutes) {
+        log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}🚀 使用内存缓存 (${ageMinutes.toFixed(1)}分钟前)`);
+        // ✅ 直接返回，不执行任何扫描操作
+        return this.snapshot;
+      }
+    }
+
+    // 2. 尝试文件缓存
+    if (!forceRefresh) {
+      const fileCache = await this.loadFromFile();
+      if (fileCache) {
+        const ageMinutes = (now - this.timestamp) / (60 * 1000);
+        const ageHours = ageMinutes / 60;
+
+        if (ageHours > this.maxAgeHours) {
+          log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}文件缓存超过最大生命周期，重新扫描`);
+          this.snapshot = null;
+          this.timestamp = null;
+          this.deleteCacheFile();
+        } else if (ageMinutes <= this.expiryMinutes) {
+          log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}🚀 使用文件缓存 (${ageMinutes.toFixed(1)}分钟前)`);
+          // ✅ 直接返回，不执行任何扫描操作
+          return this.snapshot;
+        }
+      }
+    }
+    // 3. 只有没有缓存或缓存过期才执行扫描
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}执行初始扫描...`);
+    const startTime = Date.now();
+    this.snapshot = await MaterialPath(categoryMap);
+    this.timestamp = now;
+    const costTime = ((Date.now() - startTime) / 1000).toFixed(1);
+
+    this.saveToFile();
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}初始扫描完成，耗时 ${costTime}秒，已缓存`);
+
+    return this.snapshot;
+  },
+
+  // 路径执行后更新缓存
+  updateAfterPath(materialCountDifferences) {
+    if (!this.snapshot) return;
+
+    let updated = false;
+    Object.entries(materialCountDifferences).forEach(([materialName, diff]) => {
+      for (const category of this.snapshot) {
+        const item = category.find(m => m.name === materialName);
+        if (item) {
+          const oldCount = parseInt(item.count);
+          item.count = (oldCount + diff).toString();
+          updated = true;
+          if (debugLog) {
+            log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存更新: ${materialName} ${oldCount} → ${item.count}`);
+          }
+          break;
+        }
+      }
+    });
+
+    // 直接保存，不用setTimeout
+    if (updated) {
+      this.saveToFile();
+    }
+  },
+
+  // 保存到文件
+  saveToFile() {
+    if (!this.snapshot) return;
+
+    try {
+      const cacheData = {
+        snapshot: this.snapshot,
+        timestamp: this.timestamp,
+        version: "1.0"  // 移除 taskCancelled
+      };
+
+      const jsonStr = JSON.stringify(cacheData);
+      const result = file.writeTextSync(this.cacheFile, jsonStr, false);
+
+      if (result && debugLog) {
+        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存已保存 (${(jsonStr.length/1024).toFixed(2)}KB)`);
+      }
+    } catch (error) {
+      if (debugLog) {
+        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存保存失败: ${error.message}`);
+      }
+    }
+  },
+
+  // 从文件加载
+  async loadFromFile() {
+    try {
+      const content = file.readTextSync(this.cacheFile);
+      if (!content) return false;
+
+      const cacheData = JSON.parse(content);
+
+      // 版本检查（兼容旧版）
+      if (cacheData.version !== "1.0" && cacheData.version !== undefined) {
+        return false;
+      }
+
+      this.snapshot = cacheData.snapshot;
+      this.timestamp = cacheData.timestamp;
+
+      if (debugLog) {
+        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存加载成功，来自: ${new Date(this.timestamp).toLocaleString()}`);
+      }
+      return true;
+    } catch (error) {
+      return false;
+    }
+  },
+
+  // 删除缓存文件
+  deleteCacheFile() {
+    try {
+      file.delete(this.cacheFile);
+    } catch (error) {}
+  },
+
+  // 任务完成时更新缓存
+  async updateOnCompletion(categoryMap) {
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}任务完成，更新缓存...`);
+    const startTime = Date.now();
+    this.snapshot = await MaterialPath(categoryMap);
+    this.timestamp = Date.now();
+    this.saveToFile();
+    const costTime = ((Date.now() - startTime) / 1000).toFixed(1);
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存更新完成，耗时 ${costTime}秒`);
+    return this.snapshot;
+  },
+
+  // 强制保存
+  forceSave() {
+    this.saveToFile();
+  },
+
+  // 清除缓存
+  clear() {
+    this.snapshot = null;
+    this.timestamp = null;
+    this.deleteCacheFile();
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存已清除`);
+  }
+};
 
 // ==============================================
 // 全局状态（保持不变）
@@ -149,7 +339,13 @@ const noRecord = settings.noRecord || false;
 const debugLog = settings.debugLog || false;
 const targetCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.TargetCount) || 5000))); // 设定的目标数量
 const exceedCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.ExceedCount) || 9000))); // 设定的超量目标数量
-const endTimeStr = settings.CurrentTime ? settings.CurrentTime : null; 
+const endTimeStr = settings.CurrentTime ? settings.CurrentTime : null;
+
+// 新增：缓存配置
+const cacheExpiryMinutes = Math.min(120, Math.max(5, Number(settings.cacheExpiryMinutes) || 30));
+
+// 初始化缓存
+ColdStartCache.init({ cacheExpiryMinutes });
 
 // 解析需要处理的CD分类
 let allowedCDCategories = [];
@@ -178,6 +374,29 @@ if (allowedCDCategories.length > 0) {
 } else {
     log.info(`${CONSTANTS.LOG_MODULES.INIT}未配置CD分类过滤，将处理所有分类`);
 }
+// 新增：检查缓存目录
+(function checkCacheDirectory() {
+  try {
+    // 尝试写测试文件
+    const testFile = "cache/.test";
+    const result = file.writeTextSync(testFile, "test", false);
+    if (result) {
+      try { file.delete(testFile); } catch (e) {}
+    } else {
+      log.warn(`========================================`);
+      log.warn(`【重要提示】缓存功能需要手动创建文件夹`);
+      log.warn(`请在脚本目录下创建文件夹: cache`);
+      log.warn(`创建后缓存功能才能正常工作`);
+      log.warn(`========================================`);
+    }
+  } catch (error) {
+    log.warn(`========================================`);
+    log.warn(`【重要提示】缓存功能需要手动创建文件夹`);
+    log.warn(`请在脚本目录下创建文件夹: cache`);
+    log.warn(`创建后缓存功能才能正常工作`);
+    log.warn(`========================================`);
+  }
+})();
 
 // ==============================================
 // 材料与怪物映射管理
@@ -212,24 +431,53 @@ function parseMonsterMaterials() {
   try {
     const content = safeReadTextSync(CONSTANTS.MONSTER_MATERIALS_PATH);
     const lines = content.split('\n').map(line => line.trim()).filter(line => line);
-    
+
     lines.forEach(line => {
       if (!line.includes('：')) return;
       const [monsterName, materialsStr] = line.split('：');
       const materials = materialsStr.split(/[,，、 \s]+/)
-        .map(mat => mat.trim())
-        .filter(mat => mat);
-      
+          .map(mat => mat.trim())
+          .filter(mat => mat);
+
       if (monsterName && materials.length > 0) {
-        monsterToMaterials[monsterName] = materials;
+        // 处理怪物名称可能包含多个名称的情况（用 / 分隔）
+        const monsterNames = monsterName.split(/[\/、\s]+/).filter(name => name.trim());
+
+        monsterNames.forEach(singleMonsterName => {
+          if (!monsterToMaterials[singleMonsterName]) {
+            monsterToMaterials[singleMonsterName] = [];
+          }
+
+          // 去重添加材料
+          materials.forEach(mat => {
+            if (!monsterToMaterials[singleMonsterName].includes(mat)) {
+              monsterToMaterials[singleMonsterName].push(mat);
+            }
+          });
+        });
+
         materials.forEach(mat => {
           if (!materialToMonsters[mat]) {
             materialToMonsters[mat] = new Set(); // 用Set替代Array
           }
-          materialToMonsters[mat].add(monsterName);
+          monsterNames.forEach(singleMonsterName => {
+            materialToMonsters[mat].add(singleMonsterName);
+          });
         });
+
+        // 调试信息：只在debugLog开启时打印详细解析内容
+        if (debugLog) {
+          log.debug(`${CONSTANTS.LOG_MODULES.MONSTER}解析行: ${line}`);
+          log.debug(`  -> 怪物: [${monsterNames.join('], [')}]`);
+          log.debug(`  -> 材料: [${materials.join('], [')}]`);
+        }
       }
     });
+
+    // 重要统计信息：保持info级别（每次启动打印一次）
+    log.info(`${CONSTANTS.LOG_MODULES.MONSTER}共解析 ${Object.keys(monsterToMaterials).length} 个怪物`);
+    log.info(`${CONSTANTS.LOG_MODULES.MONSTER}共解析 ${Object.keys(materialToMonsters).length} 种材料`);
+
   } catch (error) {
     log.error(`${CONSTANTS.LOG_MODULES.MONSTER}解析怪物材料文件失败：${error.message}`);
   }
@@ -1433,6 +1681,10 @@ async function processMonsterPathEntry(entry, context) {
       });
 
       log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}怪物路径${pathName}数量变化: ${JSON.stringify(materialCountDifferences)}`);
+      // 新增：更新缓存
+      if (ColdStartCache.snapshot) {
+        ColdStartCache.updateAfterPath(materialCountDifferences);
+      }
       // 检查怪物对应的材料是否有超量，如果有，记录到noRecord目录
       let isExcess = false;
       const monsterMaterials = monsterToMaterials[monsterName] || [];
@@ -1614,6 +1866,10 @@ async function processNormalPathEntry(entry, context) {
       });
 
       log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}材料路径${pathName}数量变化: ${JSON.stringify(materialCountDifferences)}`);
+      // 新增：更新缓存
+      if (ColdStartCache.snapshot) {
+        ColdStartCache.updateAfterPath(materialCountDifferences);
+      }
       // 检查材料是否在超量名单中，如果是，记录到noRecord目录
       let isExcess = false;
       // 检查当前材料是否超量
@@ -1708,6 +1964,7 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
           if (remainingMinutes <= 0) {
             log.warn(`${CONSTANTS.LOG_MODULES.MAIN}已过指定终止时间（${endTimeStr}），停止路径处理`);
             state.cancelRequested = true;
+            ColdStartCache.setTaskCancelled(true);  // 新增：记录任务被取消
             break;
           }
 
@@ -1766,7 +2023,6 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
         }
       } catch (singleError) {
         log.error(`${CONSTANTS.LOG_MODULES.PATH}处理路径出错，已跳过：${singleError.message}`);
-        
         await sleep(1);
         if (state.cancelRequested) {
           log.warn(`${CONSTANTS.LOG_MODULES.PATH}检测到终止指令，停止处理`);
@@ -1933,8 +2189,9 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
 
   if (normalPaths.length > 0 || monsterPaths.length > 0) {
     // 优化：一次扫描获取全量材料数量，同时服务于怪物和普通材料
-    log.info(`${CONSTANTS.LOG_MODULES.PATH}[材料扫描] 执行一次全量背包扫描（服务于怪物+普通路径）`);
-    const allMaterialCounts = await MaterialPath(materialCategoryMap);
+    // 优化：使用缓存获取材料数量
+    log.info(`${CONSTANTS.LOG_MODULES.PATH}[材料扫描] 获取背包数据...`);
+    const allMaterialCounts = await ColdStartCache.getInitialSnapshot(materialCategoryMap);
     pathingMaterialCounts = allMaterialCounts;
 
     // 筛选低数量材料（同时生成超量名单）
