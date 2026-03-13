@@ -262,19 +262,19 @@ async function countAllResin() {
             resinCounts.original = await countOriginalResin(!tryPass);
         }
         // resinCounts.condensed = await countCondensedResin();
-        if (!tryPass) {
+        // if (!tryPass) {
             // 打开补充树脂界面统计须臾/脆弱树脂
-            await openReplenishResinUi();
-            await sleep(CONFIG.UI_DELAY);
+            // await openReplenishResinUi();
+            // await sleep(CONFIG.UI_DELAY);
 
             // 点击避免选中效果影响统计
-            click(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y);
-            await sleep(500);
+            // click(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y);
+            // await sleep(500);
 
             // log.info("开始统计补充树脂界面中的树脂");
             // resinCounts.transient = await countTransientResin();
             // resinCounts.fragile = await countFragileResin();
-        }
+        // }
         // 显示结果
         displayResults(resinCounts);
 
