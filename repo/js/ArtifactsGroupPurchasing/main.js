@@ -667,7 +667,9 @@ async function autoEnter(autoEnterSettings) {
     log.info(`加载完成共 ${targetsRo.length} 个目标`);
 
     // ===== 主循环 =====
-    while (new Date() - start < timeout * 60 * 1000) {
+    const totalTime = timeout * 60 * 1000;
+    let checkPoints = [false, false, false]; // 使用数组标记检查状态，分别对应30%、50%、70%时间点
+    while (new Date() - start < totalTime) {
         if (enterMode === "进入他人世界") {
             const playerSign = await getPlayerSign();
             await sleep(500);
@@ -712,6 +714,20 @@ async function autoEnter(autoEnterSettings) {
                     await genshin.returnMainUi();
                 }
             }
+            
+            // 检查时间点，触发额外检测
+            const elapsed = new Date() - start;
+            const timePoints = [0.3, 0.5, 0.7];
+            for (let i = 0; i < timePoints.length; i++) {
+                const point = timePoints[i];
+                if (!checkPoints[i] && elapsed >= totalTime * point) {
+                    checkPoints[i] = true;
+                    log.info(`达到超时时间的 ${point * 100}%，额外进行一次检测`);
+                    enterCount = maxEnterCount;
+                    break;
+                }
+            }
+            
             if (enterCount >= maxEnterCount) break;
             if (await isYUI()) keyPress("VK_ESCAPE"); await sleep(500);
             await genshin.returnMainUi();
