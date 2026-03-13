@@ -1,4 +1,4 @@
-import {getJsonPath, toMainUi, throwError,findImgAndClick} from "./tool";
+import {getJsonPath, toMainUi, throwError, findImgAndClick} from "./tool";
 //====================================================
 const genshinJson = {
     width: 1920,//genshin.width,
@@ -123,8 +123,8 @@ async function ocrPhysical(opToMainUi = false, openMap = false, minPhysical = 20
     //     // deriveCrop.dispose()
     //     regionA.dispose()
     // }
-    const addClick = await findImgAndClick(`${add_objJson.path}`,1248, 21, 50, 50);
-    if (addClick===null) {
+    const addClick = await findImgAndClick(`${add_objJson.path}`, 1248, 21, 50, 50);
+    if (addClick === null) {
         throwError(`${add_objJson.path}匹配异常`)
     }
     await sleep(ms)
@@ -220,11 +220,13 @@ async function openMap() {
     await genshin.setBigMapZoomLevel(CONFIG.MAP_ZOOM_LEVEL);
     log.info("地图界面设置完成");
 }
+
 /**
  * 统计所有树脂数量的主函数
  * @returns {Object} 包含所有树脂数量的对象
  */
 async function countAllResin() {
+    let shouldRestoreMainUi = false
     try {
         // setGameMetrics(1920, 1080, 1);
         // log.info("开始统计树脂数量");
@@ -234,9 +236,9 @@ async function countAllResin() {
             fragile: undefined,
             condensed: undefined
         }
-        await genshin.returnMainUi();
+        await toMainUi();
         await sleep(CONFIG.UI_DELAY);
-
+        shouldRestoreMainUi = true
         // 打开地图界面统计原粹/浓缩树脂
         await openMap();
         await sleep(CONFIG.UI_DELAY);
@@ -263,17 +265,17 @@ async function countAllResin() {
         }
         // resinCounts.condensed = await countCondensedResin();
         // if (!tryPass) {
-            // 打开补充树脂界面统计须臾/脆弱树脂
-            // await openReplenishResinUi();
-            // await sleep(CONFIG.UI_DELAY);
+        // 打开补充树脂界面统计须臾/脆弱树脂
+        // await openReplenishResinUi();
+        // await sleep(CONFIG.UI_DELAY);
 
-            // 点击避免选中效果影响统计
-            // click(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y);
-            // await sleep(500);
+        // 点击避免选中效果影响统计
+        // click(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y);
+        // await sleep(500);
 
-            // log.info("开始统计补充树脂界面中的树脂");
-            // resinCounts.transient = await countTransientResin();
-            // resinCounts.fragile = await countFragileResin();
+        // log.info("开始统计补充树脂界面中的树脂");
+        // resinCounts.transient = await countTransientResin();
+        // resinCounts.fragile = await countFragileResin();
         // }
         // 显示结果
         displayResults(resinCounts);
@@ -293,8 +295,14 @@ async function countAllResin() {
     } catch (error) {
         log.error(`统计树脂数量时发生异常: ${error.message}`);
         throw error;
+    } finally {
+        if (shouldRestoreMainUi) {
+            await toMainUi();
+            await sleep(CONFIG.UI_DELAY);
+        }
     }
 }
+
 /**
  * 切换到国家选择界面的异步函数
  * 通过点击指定坐标并等待界面加载来完成切换操作
@@ -306,6 +314,7 @@ async function switchtoCountrySelection(x, y) {
     click(x, y);
     await sleep(CONFIG.UI_DELAY);
 }
+
 function displayResults(results) {
     const resultText = `原粹:${results.original} 浓缩:${results.condensed} 须臾:${results.transient} 脆弱:${results.fragile}`;
 
@@ -330,7 +339,7 @@ async function countOriginalResin(tryOriginalMode, opToMainUi, openMap) {
         let ocr_physical
         try {
             ocr_physical = await ocrPhysical(opToMainUi, openMap);
-        }catch (e) {
+        } catch (e) {
             //异常 退出至地图 尝试使用原始模式
             await keyPress("VK_ESCAPE")
         }
@@ -395,8 +404,8 @@ async function recognizeImage(recognitionObject, timeout = CONFIG.RECOGNITION_TI
             }
         } catch (error) {
             log.error(`识别图像时发生异常: ${error.message}`);
-        }finally {
-            if (gameRegion){
+        } finally {
+            if (gameRegion) {
                 gameRegion.dispose();
             }
         }
