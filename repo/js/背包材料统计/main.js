@@ -140,15 +140,8 @@ const ColdStartCache = {
 
   // 检查缓存目录
   ensureCacheDirectory() {
-    try {
-      const testFile = this.cacheDir + "/.write_test";
-      const result = file.writeTextSync(testFile, "test", false);
-      if (result) {
-        try { file.delete(testFile); } catch (e) {}
-      }
-    } catch (error) {
-      // 忽略错误，只是提示
-      log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}如需缓存加速，请手动创建文件夹: ${this.cacheDir}`);
+    if (!file.isFolder(this.cacheDir)) {
+      log.warn(`缓存目录不存在，请手动创建: ${this.cacheDir}`);
     }
   },
   // 获取初始快照
