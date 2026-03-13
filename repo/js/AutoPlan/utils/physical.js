@@ -208,7 +208,7 @@ async function ocrPhysical(opToMainUi = false, openMap = false, minPhysical = 20
  */
 async function openMap() {
     log.info("打开地图界面");
-    keyPress("M");
+    await keyPress("M");
     await sleep(CONFIG.UI_DELAY);
 
     // 切换到国家选择界面
