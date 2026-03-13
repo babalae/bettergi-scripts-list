@@ -342,7 +342,6 @@ async function countOriginalResin(tryOriginalMode, opToMainUi, openMap) {
     }
 }
 
-
 async function countOriginalResinBackup() {
     const originalResin = await recognizeImage(RESIN_ICONS.ORIGINAL);
     if (!originalResin) {
@@ -366,6 +365,35 @@ async function countOriginalResinBackup() {
 
     log.warn(`未能识别原粹树脂数量`);
     return 0;
+}
+
+
+// ==================== 工具函数 ====================
+
+/**
+ * 通用图像识别函数
+ * @param {Object} recognitionObject - 识别对象
+ * @param {number} timeout - 超时时间（毫秒）
+ * @returns {Object|null} 识别结果或null
+ */
+async function recognizeImage(recognitionObject, timeout = CONFIG.RECOGNITION_TIMEOUT) {
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < timeout) {
+        try {
+            // 直接链式调用，不保存gameRegion变量，避免内存管理问题
+            const imageResult = captureGameRegion().find(recognitionObject);
+            if (imageResult.isExist()) {
+                return imageResult;
+            }
+        } catch (error) {
+            log.error(`识别图像时发生异常: ${error.message}`);
+        }
+        await sleep(CONFIG.SLEEP_INTERVAL);
+    }
+
+    log.warn(`经过多次尝试，仍然无法识别图像`);
+    return null;
 }
 
 /**
