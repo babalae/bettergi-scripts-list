@@ -327,7 +327,13 @@ async function countOriginalResin(tryOriginalMode, opToMainUi, openMap) {
         return await countOriginalResinBackup()
     } else {
         log.info('尝试使用优化模式');
-        let ocr_physical = await ocrPhysical(opToMainUi, openMap);
+        let ocr_physical
+        try {
+            ocr_physical = await ocrPhysical(opToMainUi, openMap);
+        }catch (e) {
+            //异常 退出至地图 尝试使用原始模式
+            await keyPress("VK_ESCAPE")
+        }
         log.debug(`ocrPhysical: {0}`, JSON.stringify(ocr_physical))
         await sleep(600)
         // ocrPhysical = false//模拟异常
@@ -335,7 +341,7 @@ async function countOriginalResin(tryOriginalMode, opToMainUi, openMap) {
             return ocr_physical?.current;
         } else {
             //异常 退出至地图 尝试使用原始模式
-            await keyPress("VK_ESCAPE")
+            // await keyPress("VK_ESCAPE")
             log.error(`ocrPhysical error`);
             throw new Error("ocrPhysical error");
         }
@@ -380,14 +386,19 @@ async function recognizeImage(recognitionObject, timeout = CONFIG.RECOGNITION_TI
     const startTime = Date.now();
 
     while (Date.now() - startTime < timeout) {
+        const gameRegion = captureGameRegion();
         try {
             // 直接链式调用，不保存gameRegion变量，避免内存管理问题
-            const imageResult = captureGameRegion().find(recognitionObject);
+            const imageResult = gameRegion.find(recognitionObject);
             if (imageResult.isExist()) {
                 return imageResult;
             }
         } catch (error) {
             log.error(`识别图像时发生异常: ${error.message}`);
+        }finally {
+            if (gameRegion){
+                gameRegion.dispose();
+            }
         }
         await sleep(CONFIG.SLEEP_INTERVAL);
     }
