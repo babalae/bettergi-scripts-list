@@ -114,7 +114,7 @@ function generatePathContentCode(pathingFilePath) {
   }
 }
 // ==============================================
-// 冷启动缓存管理（适配BGI环境，稳健的目录处理）
+// 冷启动缓存管理（精简版，无取消状态）
 // ==============================================
 const ColdStartCache = {
   snapshot: null,
@@ -123,8 +123,6 @@ const ColdStartCache = {
   cacheDir: "cache",
   expiryMinutes: 30,
   maxAgeHours: 8,
-  taskCancelled: false,
-  pendingSave: false,
 
   // 初始化
   init(settings) {
@@ -136,34 +134,22 @@ const ColdStartCache = {
     }
     log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存配置: ${this.expiryMinutes}分钟过期, 最长${this.maxAgeHours}小时`);
 
-    // 启动时尝试确保缓存目录可用
+    // 尝试创建目录（不阻塞）
     this.ensureCacheDirectory();
   },
 
-  // ========== 新增：确保缓存目录可用 ==========
+  // 检查缓存目录
   ensureCacheDirectory() {
     try {
-      // 尝试1：直接写一个测试文件，看是否能成功
       const testFile = this.cacheDir + "/.write_test";
-      const testResult = file.writeTextSync(testFile, "test", false);
-
-      if (testResult) {
-        // 写入成功，删除测试文件
+      const result = file.writeTextSync(testFile, "test", false);
+      if (result) {
         try { file.delete(testFile); } catch (e) {}
-        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存目录可用`);
-        return true;
       }
     } catch (error) {
-      log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存目录不可写: ${error.message}`);
+      // 忽略错误，只是提示
+      log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}如需缓存加速，请手动创建文件夹: ${this.cacheDir}`);
     }
-
-    // 尝试2：提示用户手动创建
-    log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}========================================`);
-    log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存目录不可用，请手动创建文件夹:`);
-    log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}${this.cacheDir}`);
-    log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}========================================`);
-
-    return false;
   },
 
   // 获取初始快照
@@ -181,9 +167,6 @@ const ColdStartCache = {
         this.timestamp = null;
       } else if (ageMinutes <= this.expiryMinutes) {
         log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}🚀 使用内存缓存 (${ageMinutes.toFixed(1)}分钟前)`);
-        if (this.taskCancelled) {
-          log.info(`   ⚠️ 注意：上次任务未完成，但缓存已实时更新`);
-        }
         return this.snapshot;
       }
     }
@@ -202,9 +185,6 @@ const ColdStartCache = {
           this.deleteCacheFile();
         } else if (ageMinutes <= this.expiryMinutes) {
           log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}🚀 使用文件缓存 (${ageMinutes.toFixed(1)}分钟前)`);
-          if (this.taskCancelled) {
-            log.info(`   ⚠️ 注意：上次任务未完成，但缓存已实时更新`);
-          }
           return this.snapshot;
         }
       }
@@ -215,17 +195,16 @@ const ColdStartCache = {
     const startTime = Date.now();
     this.snapshot = await MaterialPath(categoryMap);
     this.timestamp = now;
-    this.taskCancelled = false;
     const costTime = ((Date.now() - startTime) / 1000).toFixed(1);
 
-    // 4. 尝试保存缓存（但不阻塞主流程）
+    // 4. 保存缓存
     this.saveToFile();
-    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}初始扫描完成，耗时 ${costTime}秒${this.snapshot ? '，尝试缓存' : ''}`);
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}初始扫描完成，耗时 ${costTime}秒，已缓存`);
 
     return this.snapshot;
   },
 
-  // 更新缓存
+  // 路径执行后更新缓存
   updateAfterPath(materialCountDifferences) {
     if (!this.snapshot) return;
 
@@ -245,61 +224,32 @@ const ColdStartCache = {
       }
     });
 
-    if (updated) this.debounceSave();
-  },
-
-  // 防抖保存
-  debounceSave() {
-    if (this.pendingSave) clearTimeout(this.saveTimer);
-    this.pendingSave = true;
-    this.saveTimer = setTimeout(() => {
+    // 直接保存，不用setTimeout
+    if (updated) {
       this.saveToFile();
-      this.pendingSave = false;
-    }, 5000);
-  },
-
-  // ========== 新增：安全删除缓存文件 ==========
-  deleteCacheFile() {
-    try {
-      file.delete(this.cacheFile);
-      log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存文件已删除`);
-    } catch (error) {
-      // 忽略删除错误
     }
   },
 
-  // ========== 修改：保存到文件（不抛出异常） ==========
+  // 保存到文件
   saveToFile() {
-    // 如果没有快照，不保存
     if (!this.snapshot) return;
 
     try {
       const cacheData = {
         snapshot: this.snapshot,
         timestamp: this.timestamp,
-        taskCancelled: this.taskCancelled,
-        version: "1.0"
+        version: "1.0"  // 移除 taskCancelled
       };
 
       const jsonStr = JSON.stringify(cacheData);
-
-      // 直接尝试写入
       const result = file.writeTextSync(this.cacheFile, jsonStr, false);
 
-      if (result) {
-        if (debugLog) {
-          log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存已保存 (${(jsonStr.length/1024).toFixed(2)}KB)`);
-        }
-      } else {
-        // 写入失败，但不影响主流程
-        if (debugLog) {
-          log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存保存失败，请检查目录权限`);
-        }
+      if (result && debugLog) {
+        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存已保存 (${(jsonStr.length/1024).toFixed(2)}KB)`);
       }
     } catch (error) {
-      // 捕获所有异常，不影响主流程
       if (debugLog) {
-        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存保存异常: ${error.message}`);
+        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存保存失败: ${error.message}`);
       }
     }
   },
@@ -312,34 +262,37 @@ const ColdStartCache = {
 
       const cacheData = JSON.parse(content);
 
-      if (cacheData.version !== "1.0") {
+      // 版本检查（兼容旧版）
+      if (cacheData.version !== "1.0" && cacheData.version !== undefined) {
         return false;
       }
 
       this.snapshot = cacheData.snapshot;
       this.timestamp = cacheData.timestamp;
-      this.taskCancelled = cacheData.taskCancelled || false;
 
       if (debugLog) {
         log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存加载成功，来自: ${new Date(this.timestamp).toLocaleString()}`);
       }
       return true;
     } catch (error) {
-      // 文件不存在或读取失败，都视为无缓存
       return false;
     }
   },
+
+  // 删除缓存文件
+  deleteCacheFile() {
+    try {
+      file.delete(this.cacheFile);
+    } catch (error) {}
+  },
+
   // 任务完成时更新缓存
   async updateOnCompletion(categoryMap) {
     log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}任务完成，更新缓存...`);
     const startTime = Date.now();
     this.snapshot = await MaterialPath(categoryMap);
     this.timestamp = Date.now();
-    this.taskCancelled = false;
-
-    if (this.saveTimer) clearTimeout(this.saveTimer);
     this.saveToFile();
-
     const costTime = ((Date.now() - startTime) / 1000).toFixed(1);
     log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存更新完成，耗时 ${costTime}秒`);
     return this.snapshot;
@@ -347,24 +300,15 @@ const ColdStartCache = {
 
   // 强制保存
   forceSave() {
-    if (this.saveTimer) {
-      clearTimeout(this.saveTimer);
-      this.saveTimer = null;
-    }
-    if (this.pendingSave) {
-      this.saveToFile();
-      this.pendingSave = false;
-    }
+    this.saveToFile();
   },
 
   // 清除缓存
   clear() {
     this.snapshot = null;
     this.timestamp = null;
-    this.taskCancelled = false;
-
-    if (this.saveTimer) clearTimeout(this.saveTimer);
     this.deleteCacheFile();
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存已清除`);
   }
 };
 
@@ -2016,7 +1960,6 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
       // 优先响应手动终止指令
       if (state.cancelRequested) {
         log.warn(`${CONSTANTS.LOG_MODULES.PATH}检测到手动终止指令，停止路径处理`);
-        ColdStartCache.setTaskCancelled(true);  // 新增：记录任务被取消
         break;
       }
 
@@ -2088,8 +2031,6 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
         }
       } catch (singleError) {
         log.error(`${CONSTANTS.LOG_MODULES.PATH}处理路径出错，已跳过：${singleError.message}`);
-        ColdStartCache.setTaskCancelled(true);  // 新增：出错也算任务未完成
-        
         await sleep(1);
         if (state.cancelRequested) {
           log.warn(`${CONSTANTS.LOG_MODULES.PATH}检测到终止指令，停止处理`);
