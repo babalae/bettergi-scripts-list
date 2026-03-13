@@ -212,24 +212,53 @@ function parseMonsterMaterials() {
   try {
     const content = safeReadTextSync(CONSTANTS.MONSTER_MATERIALS_PATH);
     const lines = content.split('\n').map(line => line.trim()).filter(line => line);
-    
+
     lines.forEach(line => {
       if (!line.includes('：')) return;
       const [monsterName, materialsStr] = line.split('：');
       const materials = materialsStr.split(/[,，、 \s]+/)
-        .map(mat => mat.trim())
-        .filter(mat => mat);
-      
+          .map(mat => mat.trim())
+          .filter(mat => mat);
+
       if (monsterName && materials.length > 0) {
-        monsterToMaterials[monsterName] = materials;
+        // 处理怪物名称可能包含多个名称的情况（用 / 分隔）
+        const monsterNames = monsterName.split(/[\/、\s]+/).filter(name => name.trim());
+
+        monsterNames.forEach(singleMonsterName => {
+          if (!monsterToMaterials[singleMonsterName]) {
+            monsterToMaterials[singleMonsterName] = [];
+          }
+
+          // 去重添加材料
+          materials.forEach(mat => {
+            if (!monsterToMaterials[singleMonsterName].includes(mat)) {
+              monsterToMaterials[singleMonsterName].push(mat);
+            }
+          });
+        });
+
         materials.forEach(mat => {
           if (!materialToMonsters[mat]) {
             materialToMonsters[mat] = new Set(); // 用Set替代Array
           }
-          materialToMonsters[mat].add(monsterName);
+          monsterNames.forEach(singleMonsterName => {
+            materialToMonsters[mat].add(singleMonsterName);
+          });
         });
+
+        // 调试信息：只在debugLog开启时打印详细解析内容
+        if (debugLog) {
+          log.debug(`${CONSTANTS.LOG_MODULES.MONSTER}解析行: ${line}`);
+          log.debug(`  -> 怪物: [${monsterNames.join('], [')}]`);
+          log.debug(`  -> 材料: [${materials.join('], [')}]`);
+        }
       }
     });
+
+    // 重要统计信息：保持info级别（每次启动打印一次）
+    log.info(`${CONSTANTS.LOG_MODULES.MONSTER}共解析 ${Object.keys(monsterToMaterials).length} 个怪物`);
+    log.info(`${CONSTANTS.LOG_MODULES.MONSTER}共解析 ${Object.keys(materialToMonsters).length} 种材料`);
+
   } catch (error) {
     log.error(`${CONSTANTS.LOG_MODULES.MONSTER}解析怪物材料文件失败：${error.message}`);
   }
