@@ -114,24 +114,25 @@ function generatePathContentCode(pathingFilePath) {
   }
 }
 // ==============================================
-// 冷启动缓存管理（解决重复扫描问题）
+// 冷启动缓存管理（支持增量更新）
 // ==============================================
 const ColdStartCache = {
   snapshot: null,
   timestamp: null,
   cacheFile: "cache/initial_snapshot.json",
   expiryMinutes: 30,
-  taskCancelled: false,  // 新增：记录任务是否被取消
+  taskCancelled: false,
+  pendingSave: false,  // 是否等待保存
 
   // 初始化
   init(settings) {
     if (settings.cacheExpiryMinutes) {
-      this.expiryMinutes = settings.cacheExpiryMinutes;
+      this.expiryMinutes = Math.min(120, Math.max(5, Number(settings.cacheExpiryMinutes) || 30));
     }
     log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存: ${this.expiryMinutes}分钟过期`);
   },
 
-  // 新增：设置任务取消状态
+  // 设置任务取消状态
   setTaskCancelled(cancelled) {
     this.taskCancelled = cancelled;
   },
@@ -146,9 +147,8 @@ const ColdStartCache = {
       if (ageMinutes <= this.expiryMinutes) {
         log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}🚀 使用内存缓存 (${ageMinutes.toFixed(1)}分钟前)`);
 
-        // 新增：检查是否是任务取消导致的旧数据
         if (this.taskCancelled) {
-          log.info(`   ⚠️ 注意：上次任务未完成，数量可能不是最新的`);
+          log.info(`   ⚠️ 注意：上次任务未完成，但缓存已实时更新`);
         }
 
         return this.snapshot;
@@ -161,9 +161,8 @@ const ColdStartCache = {
       if (ageMinutes <= this.expiryMinutes) {
         log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}🚀 使用文件缓存 (${ageMinutes.toFixed(1)}分钟前)`);
 
-        // 新增：检查是否是任务取消导致的旧数据
         if (this.taskCancelled) {
-          log.info(`   ⚠️ 注意：上次任务未完成，数量可能不是最新的`);
+          log.info(`   ⚠️ 注意：上次任务未完成，但缓存已实时更新`);
         }
 
         return this.snapshot;
@@ -175,7 +174,7 @@ const ColdStartCache = {
     const startTime = Date.now();
     this.snapshot = await MaterialPath(categoryMap);
     this.timestamp = now;
-    this.taskCancelled = false;  // 新增：重置取消状态
+    this.taskCancelled = false;
     const costTime = ((Date.now() - startTime) / 1000).toFixed(1);
 
     // 4. 保存缓存
@@ -185,13 +184,68 @@ const ColdStartCache = {
     return this.snapshot;
   },
 
-  // 任务完成时更新缓存
+  // ========== 新增：路径执行后更新缓存 ==========
+  updateAfterPath(materialCountDifferences) {
+    if (!this.snapshot) {
+      log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存不存在，无法更新`);
+      return;
+    }
+
+    // 遍历所有变化，更新缓存中的数量
+    let updated = false;
+
+    Object.entries(materialCountDifferences).forEach(([materialName, diff]) => {
+      // 在快照中查找该材料
+      for (const category of this.snapshot) {
+        const item = category.find(m => m.name === materialName);
+        if (item) {
+          const oldCount = parseInt(item.count);
+          const newCount = oldCount + diff;
+          item.count = newCount.toString();
+          updated = true;
+
+          if (debugLog) {
+            log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存更新: ${materialName} ${oldCount} → ${newCount} (${diff > 0 ? '+' : ''}${diff})`);
+          }
+          break;
+        }
+      }
+    });
+
+    // 如果有更新，延迟保存到文件（防抖）
+    if (updated) {
+      this.debounceSave();
+    }
+  },
+
+  // 防抖保存：避免频繁写入文件
+  debounceSave() {
+    if (this.pendingSave) {
+      clearTimeout(this.saveTimer);
+    }
+
+    this.saveTimer = setTimeout(() => {
+      this.saveToFile();
+      this.pendingSave = false;
+      if (debugLog) {
+        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存已自动保存`);
+      }
+    }, 5000); // 5秒内多次更新只保存一次
+  },
+
+  // 任务完成时更新缓存（仍然保留，作为最终保底）
   async updateOnCompletion(categoryMap) {
     log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}任务完成，更新缓存...`);
     const startTime = Date.now();
     this.snapshot = await MaterialPath(categoryMap);
     this.timestamp = Date.now();
-    this.taskCancelled = false;  // 新增：重置取消状态
+    this.taskCancelled = false;
+
+    // 清除待保存定时器
+    if (this.saveTimer) {
+      clearTimeout(this.saveTimer);
+    }
+
     this.saveToFile();
     const costTime = ((Date.now() - startTime) / 1000).toFixed(1);
     log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存更新完成，耗时 ${costTime}秒`);
@@ -202,38 +256,67 @@ const ColdStartCache = {
   saveToFile() {
     try {
       const cacheDir = "cache";
-      if (!file.exists(cacheDir)) {
-        file.createDir(cacheDir);
+
+      // 检查目录是否存在
+      if (!file.isDirectoryExist(cacheDir)) {
+        const success = file.createDir(cacheDir);
+        if (!success) {
+          log.error(`${CONSTANTS.LOG_MODULES.MATERIAL}无法创建缓存目录，请手动创建 cache 文件夹`);
+          return;
+        }
       }
 
+      // 准备缓存数据
       const cacheData = {
         snapshot: this.snapshot,
         timestamp: this.timestamp,
-        taskCancelled: this.taskCancelled,  // 新增：保存取消状态
+        taskCancelled: this.taskCancelled,
         version: "1.0"
       };
-      file.writeTextSync(this.cacheFile, JSON.stringify(cacheData));
-      log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存已保存到文件`);
+
+      const jsonStr = JSON.stringify(cacheData);
+      const result = file.writeTextSync(this.cacheFile, jsonStr, false);
+
+      if (result) {
+        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存已保存到文件 (${(jsonStr.length/1024).toFixed(2)}KB)`);
+      } else {
+        log.error(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存写入失败`);
+      }
     } catch (error) {
-      log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}保存缓存失败: ${error.message}`);
+      log.error(`${CONSTANTS.LOG_MODULES.MATERIAL}保存缓存异常: ${error.message}`);
     }
   },
 
   // 从文件加载
   async loadFromFile() {
     try {
-      if (!file.exists(this.cacheFile)) return false;
+      if (!file.isFileExist(this.cacheFile)) {
+        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存文件不存在`);
+        return false;
+      }
 
-      const content = safeReadTextSync(this.cacheFile);
-      if (!content) return false;
+      const content = file.readTextSync(this.cacheFile);
+      if (!content) {
+        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存文件为空`);
+        return false;
+      }
 
       const cacheData = JSON.parse(content);
+
+      // 版本检查
+      if (cacheData.version !== "1.0") {
+        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存版本不匹配，重新扫描`);
+        return false;
+      }
+
       this.snapshot = cacheData.snapshot;
       this.timestamp = cacheData.timestamp;
-      this.taskCancelled = cacheData.taskCancelled || false;  // 新增：加载取消状态
+      this.taskCancelled = cacheData.taskCancelled || false;
+
+      log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存加载成功，来自: ${new Date(this.timestamp).toLocaleString()}`);
       return true;
     } catch (error) {
-      log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}加载缓存失败: ${error.message}`);
+      log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}加载缓存失败: ${error.message}`);
       return false;
     }
   },
@@ -243,12 +326,19 @@ const ColdStartCache = {
     this.snapshot = null;
     this.timestamp = null;
     this.taskCancelled = false;
+
+    if (this.saveTimer) {
+      clearTimeout(this.saveTimer);
+    }
+
     try {
-      if (file.exists(this.cacheFile)) {
+      if (file.isFileExist(this.cacheFile)) {
         file.delete(this.cacheFile);
+        log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存文件已删除`);
       }
-    } catch (error) {}
-    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存已清除`);
+    } catch (error) {
+      log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}清除缓存失败: ${error.message}`);
+    }
   }
 };
 
@@ -1606,6 +1696,10 @@ async function processMonsterPathEntry(entry, context) {
       });
 
       log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}怪物路径${pathName}数量变化: ${JSON.stringify(materialCountDifferences)}`);
+      // 新增：更新缓存
+      if (ColdStartCache.snapshot) {
+        ColdStartCache.updateAfterPath(materialCountDifferences);
+      }
       // 检查怪物对应的材料是否有超量，如果有，记录到noRecord目录
       let isExcess = false;
       const monsterMaterials = monsterToMaterials[monsterName] || [];
@@ -1787,6 +1881,10 @@ async function processNormalPathEntry(entry, context) {
       });
 
       log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}材料路径${pathName}数量变化: ${JSON.stringify(materialCountDifferences)}`);
+      // 新增：更新缓存
+      if (ColdStartCache.snapshot) {
+        ColdStartCache.updateAfterPath(materialCountDifferences);
+      }
       // 检查材料是否在超量名单中，如果是，记录到noRecord目录
       let isExcess = false;
       // 检查当前材料是否超量
