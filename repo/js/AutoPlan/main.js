@@ -682,7 +682,7 @@ async function main() {
             if (isStygianOnslaught) {
                 //圣遗物秘境名称
                 const holyRelicDomainNames = config.domainList.filter(item => !item.hasOrder).map(item => item.name);
-                const filter = list.find(item => item.runType === config.user.runTypes[0] && holyRelicDomainNames.includes(item.autoFight.domainName));
+                const filter = list.find(item => item.runType === config.user.runTypes[0] && holyRelicDomainNames.includes(item.autoFight?.domainName));
                 if (filter) {
                     // 幽境危战添加秘境顺序前
                     list.forEach(item => {
