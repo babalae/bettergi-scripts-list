@@ -114,27 +114,56 @@ function generatePathContentCode(pathingFilePath) {
   }
 }
 // ==============================================
-// 冷启动缓存管理（支持增量更新）
+// 冷启动缓存管理（适配BGI环境，稳健的目录处理）
 // ==============================================
 const ColdStartCache = {
   snapshot: null,
   timestamp: null,
   cacheFile: "cache/initial_snapshot.json",
+  cacheDir: "cache",
   expiryMinutes: 30,
+  maxAgeHours: 8,
   taskCancelled: false,
-  pendingSave: false,  // 是否等待保存
+  pendingSave: false,
 
   // 初始化
   init(settings) {
     if (settings.cacheExpiryMinutes) {
       this.expiryMinutes = Math.min(120, Math.max(5, Number(settings.cacheExpiryMinutes) || 30));
     }
-    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存: ${this.expiryMinutes}分钟过期`);
+    if (settings.cacheMaxAgeHours) {
+      this.maxAgeHours = Math.min(24, Math.max(1, Number(settings.cacheMaxAgeHours) || 8));
+    }
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存配置: ${this.expiryMinutes}分钟过期, 最长${this.maxAgeHours}小时`);
+
+    // 启动时尝试确保缓存目录可用
+    this.ensureCacheDirectory();
   },
 
-  // 设置任务取消状态
-  setTaskCancelled(cancelled) {
-    this.taskCancelled = cancelled;
+  // ========== 新增：确保缓存目录可用 ==========
+  ensureCacheDirectory() {
+    try {
+      // 尝试1：直接写一个测试文件，看是否能成功
+      const testFile = this.cacheDir + "/.write_test";
+      const testResult = file.writeTextSync(testFile, "test", false);
+
+      if (testResult) {
+        // 写入成功，删除测试文件
+        try { file.delete(testFile); } catch (e) {}
+        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存目录可用`);
+        return true;
+      }
+    } catch (error) {
+      log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存目录不可写: ${error.message}`);
+    }
+
+    // 尝试2：提示用户手动创建
+    log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}========================================`);
+    log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存目录不可用，请手动创建文件夹:`);
+    log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}${this.cacheDir}`);
+    log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}========================================`);
+
+    return false;
   },
 
   // 获取初始快照
@@ -144,28 +173,40 @@ const ColdStartCache = {
     // 1. 尝试内存缓存
     if (!forceRefresh && this.snapshot && this.timestamp) {
       const ageMinutes = (now - this.timestamp) / (60 * 1000);
-      if (ageMinutes <= this.expiryMinutes) {
-        log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}🚀 使用内存缓存 (${ageMinutes.toFixed(1)}分钟前)`);
+      const ageHours = ageMinutes / 60;
 
+      if (ageHours > this.maxAgeHours) {
+        log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}内存缓存超过最大生命周期，重新扫描`);
+        this.snapshot = null;
+        this.timestamp = null;
+      } else if (ageMinutes <= this.expiryMinutes) {
+        log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}🚀 使用内存缓存 (${ageMinutes.toFixed(1)}分钟前)`);
         if (this.taskCancelled) {
           log.info(`   ⚠️ 注意：上次任务未完成，但缓存已实时更新`);
         }
-
         return this.snapshot;
       }
     }
 
     // 2. 尝试文件缓存
-    if (!forceRefresh && await this.loadFromFile()) {
-      const ageMinutes = (now - this.timestamp) / (60 * 1000);
-      if (ageMinutes <= this.expiryMinutes) {
-        log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}🚀 使用文件缓存 (${ageMinutes.toFixed(1)}分钟前)`);
+    if (!forceRefresh) {
+      const fileCache = await this.loadFromFile();
+      if (fileCache) {
+        const ageMinutes = (now - this.timestamp) / (60 * 1000);
+        const ageHours = ageMinutes / 60;
 
-        if (this.taskCancelled) {
-          log.info(`   ⚠️ 注意：上次任务未完成，但缓存已实时更新`);
+        if (ageHours > this.maxAgeHours) {
+          log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}文件缓存超过最大生命周期，重新扫描`);
+          this.snapshot = null;
+          this.timestamp = null;
+          this.deleteCacheFile();
+        } else if (ageMinutes <= this.expiryMinutes) {
+          log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}🚀 使用文件缓存 (${ageMinutes.toFixed(1)}分钟前)`);
+          if (this.taskCancelled) {
+            log.info(`   ⚠️ 注意：上次任务未完成，但缓存已实时更新`);
+          }
+          return this.snapshot;
         }
-
-        return this.snapshot;
       }
     }
 
@@ -177,96 +218,62 @@ const ColdStartCache = {
     this.taskCancelled = false;
     const costTime = ((Date.now() - startTime) / 1000).toFixed(1);
 
-    // 4. 保存缓存
+    // 4. 尝试保存缓存（但不阻塞主流程）
     this.saveToFile();
-    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}初始扫描完成，耗时 ${costTime}秒，已缓存`);
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}初始扫描完成，耗时 ${costTime}秒${this.snapshot ? '，尝试缓存' : ''}`);
 
     return this.snapshot;
   },
 
-  // ========== 新增：路径执行后更新缓存 ==========
+  // 更新缓存
   updateAfterPath(materialCountDifferences) {
-    if (!this.snapshot) {
-      log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存不存在，无法更新`);
-      return;
-    }
+    if (!this.snapshot) return;
 
-    // 遍历所有变化，更新缓存中的数量
     let updated = false;
-
     Object.entries(materialCountDifferences).forEach(([materialName, diff]) => {
-      // 在快照中查找该材料
       for (const category of this.snapshot) {
         const item = category.find(m => m.name === materialName);
         if (item) {
           const oldCount = parseInt(item.count);
-          const newCount = oldCount + diff;
-          item.count = newCount.toString();
+          item.count = (oldCount + diff).toString();
           updated = true;
-
           if (debugLog) {
-            log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存更新: ${materialName} ${oldCount} → ${newCount} (${diff > 0 ? '+' : ''}${diff})`);
+            log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存更新: ${materialName} ${oldCount} → ${item.count}`);
           }
           break;
         }
       }
     });
 
-    // 如果有更新，延迟保存到文件（防抖）
-    if (updated) {
-      this.debounceSave();
-    }
+    if (updated) this.debounceSave();
   },
 
-  // 防抖保存：避免频繁写入文件
+  // 防抖保存
   debounceSave() {
-    if (this.pendingSave) {
-      clearTimeout(this.saveTimer);
-    }
-
+    if (this.pendingSave) clearTimeout(this.saveTimer);
+    this.pendingSave = true;
     this.saveTimer = setTimeout(() => {
       this.saveToFile();
       this.pendingSave = false;
-      if (debugLog) {
-        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存已自动保存`);
-      }
-    }, 5000); // 5秒内多次更新只保存一次
+    }, 5000);
   },
 
-  // 任务完成时更新缓存（仍然保留，作为最终保底）
-  async updateOnCompletion(categoryMap) {
-    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}任务完成，更新缓存...`);
-    const startTime = Date.now();
-    this.snapshot = await MaterialPath(categoryMap);
-    this.timestamp = Date.now();
-    this.taskCancelled = false;
-
-    // 清除待保存定时器
-    if (this.saveTimer) {
-      clearTimeout(this.saveTimer);
-    }
-
-    this.saveToFile();
-    const costTime = ((Date.now() - startTime) / 1000).toFixed(1);
-    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存更新完成，耗时 ${costTime}秒`);
-    return this.snapshot;
-  },
-
-  // 保存到文件
-  saveToFile() {
+  // ========== 新增：安全删除缓存文件 ==========
+  deleteCacheFile() {
     try {
-      const cacheDir = "cache";
+      file.delete(this.cacheFile);
+      log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存文件已删除`);
+    } catch (error) {
+      // 忽略删除错误
+    }
+  },
 
-      // 检查目录是否存在
-      if (!file.isDirectoryExist(cacheDir)) {
-        const success = file.createDir(cacheDir);
-        if (!success) {
-          log.error(`${CONSTANTS.LOG_MODULES.MATERIAL}无法创建缓存目录，请手动创建 cache 文件夹`);
-          return;
-        }
-      }
+  // ========== 修改：保存到文件（不抛出异常） ==========
+  saveToFile() {
+    // 如果没有快照，不保存
+    if (!this.snapshot) return;
 
-      // 准备缓存数据
+    try {
       const cacheData = {
         snapshot: this.snapshot,
         timestamp: this.timestamp,
@@ -275,37 +282,37 @@ const ColdStartCache = {
       };
 
       const jsonStr = JSON.stringify(cacheData);
+
+      // 直接尝试写入
       const result = file.writeTextSync(this.cacheFile, jsonStr, false);
 
       if (result) {
-        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存已保存到文件 (${(jsonStr.length/1024).toFixed(2)}KB)`);
+        if (debugLog) {
+          log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存已保存 (${(jsonStr.length/1024).toFixed(2)}KB)`);
+        }
       } else {
-        log.error(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存写入失败`);
+        // 写入失败，但不影响主流程
+        if (debugLog) {
+          log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存保存失败，请检查目录权限`);
+        }
       }
     } catch (error) {
-      log.error(`${CONSTANTS.LOG_MODULES.MATERIAL}保存缓存异常: ${error.message}`);
+      // 捕获所有异常，不影响主流程
+      if (debugLog) {
+        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存保存异常: ${error.message}`);
+      }
     }
   },
 
   // 从文件加载
   async loadFromFile() {
     try {
-      if (!file.isFileExist(this.cacheFile)) {
-        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存文件不存在`);
-        return false;
-      }
-
       const content = file.readTextSync(this.cacheFile);
-      if (!content) {
-        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存文件为空`);
-        return false;
-      }
+      if (!content) return false;
 
       const cacheData = JSON.parse(content);
 
-      // 版本检查
       if (cacheData.version !== "1.0") {
-        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存版本不匹配，重新扫描`);
         return false;
       }
 
@@ -313,32 +320,51 @@ const ColdStartCache = {
       this.timestamp = cacheData.timestamp;
       this.taskCancelled = cacheData.taskCancelled || false;
 
-      log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存加载成功，来自: ${new Date(this.timestamp).toLocaleString()}`);
+      if (debugLog) {
+        log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存加载成功，来自: ${new Date(this.timestamp).toLocaleString()}`);
+      }
       return true;
     } catch (error) {
-      log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}加载缓存失败: ${error.message}`);
+      // 文件不存在或读取失败，都视为无缓存
       return false;
     }
   },
+  // 任务完成时更新缓存
+  async updateOnCompletion(categoryMap) {
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}任务完成，更新缓存...`);
+    const startTime = Date.now();
+    this.snapshot = await MaterialPath(categoryMap);
+    this.timestamp = Date.now();
+    this.taskCancelled = false;
 
-  // 清除缓存（调试用）
+    if (this.saveTimer) clearTimeout(this.saveTimer);
+    this.saveToFile();
+
+    const costTime = ((Date.now() - startTime) / 1000).toFixed(1);
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存更新完成，耗时 ${costTime}秒`);
+    return this.snapshot;
+  },
+
+  // 强制保存
+  forceSave() {
+    if (this.saveTimer) {
+      clearTimeout(this.saveTimer);
+      this.saveTimer = null;
+    }
+    if (this.pendingSave) {
+      this.saveToFile();
+      this.pendingSave = false;
+    }
+  },
+
+  // 清除缓存
   clear() {
     this.snapshot = null;
     this.timestamp = null;
     this.taskCancelled = false;
 
-    if (this.saveTimer) {
-      clearTimeout(this.saveTimer);
-    }
-
-    try {
-      if (file.isFileExist(this.cacheFile)) {
-        file.delete(this.cacheFile);
-        log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}缓存文件已删除`);
-      }
-    } catch (error) {
-      log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}清除缓存失败: ${error.message}`);
-    }
+    if (this.saveTimer) clearTimeout(this.saveTimer);
+    this.deleteCacheFile();
   }
 };
 
@@ -412,6 +438,29 @@ if (allowedCDCategories.length > 0) {
 } else {
     log.info(`${CONSTANTS.LOG_MODULES.INIT}未配置CD分类过滤，将处理所有分类`);
 }
+// 新增：检查缓存目录
+(function checkCacheDirectory() {
+  try {
+    // 尝试写测试文件
+    const testFile = "cache/.test";
+    const result = file.writeTextSync(testFile, "test", false);
+    if (result) {
+      try { file.delete(testFile); } catch (e) {}
+    } else {
+      log.warn(`========================================`);
+      log.warn(`【重要提示】缓存功能需要手动创建文件夹`);
+      log.warn(`请在脚本目录下创建文件夹: cache`);
+      log.warn(`创建后缓存功能才能正常工作`);
+      log.warn(`========================================`);
+    }
+  } catch (error) {
+    log.warn(`========================================`);
+    log.warn(`【重要提示】缓存功能需要手动创建文件夹`);
+    log.warn(`请在脚本目录下创建文件夹: cache`);
+    log.warn(`创建后缓存功能才能正常工作`);
+    log.warn(`========================================`);
+  }
+})();
 
 // ==============================================
 // 材料与怪物映射管理
