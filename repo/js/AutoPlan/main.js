@@ -2,7 +2,7 @@ import {config, initConfig, initSettings, LoadType} from './config/config';
 import {ocrUid} from './utils/uid';
 import {getDayOfWeek, outDomainUI, outStygianOnslaughtUI, throwError,toMainUi} from './utils/tool';
 import {pullJsonConfig, pushAllCountryConfig, pushAllJsonConfig} from './utils/bgi_tools';
-import {ocrPhysical} from "./utils/physical";
+import {countOriginalResin, ocrPhysical,countAllResin} from "./utils/physical";
 import {findStygianOnslaught} from "./utils/activity";
 
 /**
@@ -54,9 +54,13 @@ async function autoDomain(autoFight) {
     //   fragileResinUseCount: number;
     await sleep(1000)
     //流程->返回主页 打开地图 返回主页
-    const physicalOcr = await ocrPhysical(true, true)
-    config.user.physical.current = physicalOcr.current
-    config.user.physical.min = physicalOcr.min
+    // const physicalOcr = await ocrPhysical(true, true)
+    // config.user.physical.current = physicalOcr.current
+    // config.user.physical.min = physicalOcr.min
+
+    const currentPhysical = await countAllResin()
+    config.user.physical.current = currentPhysical.originalResinCount;
+
     const physical = config.user.physical
     if (domainParam.specifyResinUse && physical.current < physical.min && noOriginalSum <= 0 && originalSum > 0) {
         throwError(`体力不足，当前体力${physical.current}，最低体力${physical.min}，请手动补充体力后重试`)
@@ -250,9 +254,12 @@ async function autoStygianOnslaught(autoStygianOnslaught) {
     //   fragileResinUseCount: number;
     await sleep(1000)
     //流程->返回主页 打开地图 返回主页
-    const physicalOcr = await ocrPhysical(true, true)
-    config.user.physical.current = physicalOcr.current
-    config.user.physical.min = physicalOcr.min
+    // const physicalOcr = await ocrPhysical(true, true)
+    // config.user.physical.current = physicalOcr.current
+    // config.user.physical.min = physicalOcr.min
+    const currentPhysical = await countAllResin()
+    config.user.physical.current = currentPhysical.originalResinCount;
+
     const physical = config.user.physical
     if (physical.current < physical.min && noOriginalSum <= 0 && originalSum > 0) {
         throwError(`体力不足，当前体力${physical.current}，最低体力${physical.min}，请手动补充体力后重试`)
@@ -708,8 +715,9 @@ async function main() {
             await autoRunList(list);
             if (config.run.loop_plan) {
                 // 重新获取当前体力值
-                const physicalOcr = await ocrPhysical(true, true);
-                config.user.physical.current = physicalOcr.current;
+                // const physicalOcr = await ocrPhysical(true, true);
+                const currentPhysical = await countAllResin()
+                config.user.physical.current = currentPhysical.originalResinCount;
                 //循环
                 if (config.user.physical.current < config.user.physical.min) {
                     //体力耗尽
