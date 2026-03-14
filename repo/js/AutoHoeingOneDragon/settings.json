@@ -58,6 +58,18 @@
     "default": "模板匹配拾取，拾取狗粮和怪物材料"
   },
   {
+    "name": "onlyRelatedItems",
+    "type": "checkbox",
+    "label": "只使用路线相关怪物材料进行识别，提高性能\n仅在选择模板匹配拾取，拾取狗粮和怪物材料时生效\n推荐先不勾选运行一段时间获取历史数据后勾选",
+    "default": false
+  },
+  {
+    "name": "disableSecondCheck",
+    "type": "checkbox",
+    "label": "禁用识别到物品后的二次校验，可能增加误捡概率",
+    "default": false
+  },
+  {
     "name": "activeDumperMode",
     "type": "input-text",
     "label": "泥头车模式,将在接近战斗点前提前释放部分角色e技能\n需要启用时填写这些角色在队伍中的编号\n有多个角色需要释放时用【中文逗号】分隔\n【注意】精英路线启用泥头车将有可能导致狗粮损失\n【注意】盾位角色启用泥头车将可能导致第一轮战斗后半段无护盾覆盖"
