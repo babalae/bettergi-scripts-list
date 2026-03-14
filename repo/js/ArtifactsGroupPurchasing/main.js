@@ -648,7 +648,6 @@ async function autoEnter(autoEnterSettings) {
     // ===== 状态 =====
     let enterCount = 0;
     let targetsRo = [];
-    let checkToEnd = false;
     let enteredPlayers = [];
 
     // ===== 初始化 =====
@@ -668,7 +667,7 @@ async function autoEnter(autoEnterSettings) {
 
     // ===== 主循环 =====
     const totalTime = timeout * 60 * 1000;
-    let checkPoints = [false, false, false]; // 使用数组标记检查状态，分别对应30%、50%、70%时间点
+    let checkPoints = [false, false, false, false, false]; // 使用数组标记检查状态，分别对应20%、40%、60%、80%、90%时间点
     while (new Date() - start < totalTime) {
         if (enterMode === "进入他人世界") {
             const playerSign = await getPlayerSign();
@@ -717,18 +716,18 @@ async function autoEnter(autoEnterSettings) {
             
             // 检查时间点，触发额外检测
             const elapsed = new Date() - start;
-            const timePoints = [0.3, 0.5, 0.7];
+            const timePoints = [0.2, 0.4, 0.6, 0.8, 0.9];
             for (let i = 0; i < timePoints.length; i++) {
                 const point = timePoints[i];
                 if (!checkPoints[i] && elapsed >= totalTime * point) {
                     checkPoints[i] = true;
                     log.info(`达到超时时间的 ${point * 100}%，额外进行一次检测`);
-                    enterCount = maxEnterCount;
+                    enterCount = maxEnterCount; // 强制触发检测
                     break;
                 }
             }
             
-            if (enterCount >= maxEnterCount) break;
+            // 继续执行，不在这里结束循环，由统一检查部分处理
             if (await isYUI()) keyPress("VK_ESCAPE"); await sleep(500);
             await genshin.returnMainUi();
             keyPress("Y"); await sleep(250);
@@ -767,8 +766,7 @@ async function autoEnter(autoEnterSettings) {
 
             if (await isYUI()) { keyPress("VK_ESCAPE"); await genshin.returnMainUi(); }
 
-            if (enterCount >= maxEnterCount || checkToEnd) {
-                checkToEnd = true;
+            if (enterCount >= maxEnterCount) {
                 await sleep(20000);
                 if (await findTotalNumber() === maxEnterCount + 1) {
                     notification.send(`已达到预定人数：${maxEnterCount + 1}`);

@@ -54,6 +54,7 @@ let pathings;
 let localeWorks;
 let lastEatBuff = 0;
 let currentFood = "";
+let monsterInfoObject;
 
 (async function () {
     //通用预处理
@@ -278,7 +279,7 @@ async function rotateWarnIfAccountEmpty() {
 async function processPathings(groupTags) {
     // 读取怪物信息
     const monsterInfoContent = await file.readText("assets/monsterInfo.json");
-    const monsterInfoObject = JSON.parse(monsterInfoContent);
+    monsterInfoObject = JSON.parse(monsterInfoContent);
 
     // 读取路径文件夹中的所有文件
     log.info("开始读取路径文件");
@@ -1031,9 +1032,9 @@ async function runPath(fullPath, map_name, pm, pe) {
     }
 
     /* ===== 2. 重排 targetItems：当前路线拾取过的提前 ===== */
+    const history = {};
     if (targetItems && currentPathing && currentPathing.items && currentPathing.items.length) {
         // 用对象当 Set 做 O(1) 查询
-        const history = {};
         for (let i = 0; i < currentPathing.items.length; i++) {
             history[currentPathing.items[i]] = true;
         }
@@ -1043,6 +1044,48 @@ async function runPath(fullPath, map_name, pm, pe) {
             const bHit = history[b.itemName] ? 1 : 0;
             return bHit - aHit;   // 1 在前，0 在后
         });
+    }
+
+    /* ===== 2.1 处理 onlyRelatedItems 配置 ===== */
+    if (settings.onlyRelatedItems && currentPathing && currentPathing.monsterInfo) {
+        // 首先将所有图片的 enabled 记为 true
+        for (const it of targetItems) {
+            it.enabled = true;
+        }
+
+        // 将所有的怪物材料图片的 enabled 记为 false
+        for (const it of targetItems) {
+            if (it.isMonsterMaterial) {
+                it.enabled = false;
+            }
+        }
+
+        // 根据当前路线包含的怪物类型，找出这些怪物的 item 合并后去重
+        const monsterItems = new Set();
+        for (const [monsterName, count] of Object.entries(currentPathing.monsterInfo)) {
+            const monster = monsterInfoObject.find(m => m.name === monsterName);
+            if (monster && monster.item && monster.item.length > 0) {
+                monster.item.forEach(itemName => monsterItems.add(itemName));
+            }
+        }
+
+        // 将结果数组与图片的 itemName 进行对比，如果纯中文部分相同，则说明需要启用该怪物材料
+        for (const it of targetItems) {
+            if (it.isMonsterMaterial) {
+                const cnPart = it.itemName.replace(/[^\u4e00-\u9fa5]/g, '');
+                for (const monsterItem of monsterItems) {
+                    const monsterCnPart = monsterItem.replace(/[^\u4e00-\u9fa5]/g, '');
+                    if (cnPart === monsterCnPart) {
+                        it.enabled = true;
+                        break;
+                    }
+                }
+                // 特别的，如果在历史中命中过，也视为相关，也改为 true
+                if (history[it.itemName]) {
+                    it.enabled = true;
+                }
+            }
+        }
     }
 
     /* ===== 3. 原逻辑不变 ===== */
@@ -1280,10 +1323,7 @@ async function recognizeAndInteract() {
 
         let foundTarget = false;
         if (pickup_Mode.includes("模板匹配")) {
-            let time1 = new Date();
             itemName = await performTemplateMatch(centerYF);
-            let time2 = new Date();
-            //log.info(`调试-本次识别用时${time2 - time1}毫秒`);
         }
         if (itemName) {
             //log.info(`调试-识别到物品${itemName}`);
@@ -1341,15 +1381,33 @@ async function recognizeAndInteract() {
         }
 
         try {
+            let firstMatch = null;
             for (const it of targetItems) {
+                if (!it.enabled) continue;
                 const cnLen = Math.min(
                     [...it.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length,
                     5
                 ); // 0-5
 
                 if (regions[cnLen].find(it.roi).isExist()) {
-                    return it.itemName;
+                    firstMatch = it;
+                    break;
                 }
+            }
+
+            if (!firstMatch) return null;
+
+            if (!settings.disableSecondCheck) {
+                const cnLen = Math.min(
+                    [...firstMatch.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length,
+                    5
+                );
+                if (regions[cnLen].find(firstMatch.roi).isExist()) {
+                    return firstMatch.itemName;
+                }
+                return null;
+            } else {
+                return firstMatch.itemName;
             }
         } catch (e) {
             log.error(`performTemplateMatch: ${e.message}`);
@@ -1969,6 +2027,8 @@ async function loadTargetItems() {
             it.template = file.ReadImageMatSync(it.fullPath);
             it.itemName = it.fileName.replace(/\.png$/i, '');
             it.roi = RecognitionObject.TemplateMatch(it.template);
+            it.enabled = true;
+            it.isMonsterMaterial = it.fullPath.includes('怪物掉落材料');
 
             // 新增：解析括号中的阈值
             const match = it.fullPath.match(/[（(](.*?)[)）]/); // 匹配英文或中文括号
