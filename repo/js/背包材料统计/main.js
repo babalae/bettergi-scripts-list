@@ -343,9 +343,13 @@ const endTimeStr = settings.CurrentTime ? settings.CurrentTime : null;
 
 // 新增：缓存配置
 const cacheExpiryMinutes = Math.min(120, Math.max(5, Number(settings.cacheExpiryMinutes) || 30));
+const cacheMaxAgeHours = Math.min(24, Math.max(1, Number(settings.cacheMaxAgeHours) || 8));
 
 // 初始化缓存
-ColdStartCache.init({ cacheExpiryMinutes });
+ColdStartCache.init({
+  cacheExpiryMinutes,
+  cacheMaxAgeHours
+});
 
 // 解析需要处理的CD分类
 let allowedCDCategories = [];
@@ -1964,7 +1968,6 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
           if (remainingMinutes <= 0) {
             log.warn(`${CONSTANTS.LOG_MODULES.MAIN}已过指定终止时间（${endTimeStr}），停止路径处理`);
             state.cancelRequested = true;
-            ColdStartCache.setTaskCancelled(true);  // 新增：记录任务被取消
             break;
           }
 
