@@ -1,5 +1,5 @@
 let notify = settings.notify
-let account = settings.account || "默认账户";
+let account = settings.userName || "默认账户";
 (async function () {
     // 设置分辨率和缩放
     setGameMetrics(1920, 1080, 1);
@@ -105,11 +105,14 @@ let account = settings.account || "默认账户";
     const formattedExpBig = await formatExp(expBig);
     const formattedExpStock = await formatExp(expStock);
     const formattedTotalExp = await formatExp(totalExp);
+
+    // 记录保存功能
+    const userName = await getUserName();
+    const recordPath = `assets/${userName}.txt`;
     
     // 构建通知消息
     let message = `📦 圣遗物经验统计\n`;
-    message += `\n`;
-    message += `💾 已储存经验：${initialValue} 点\n`;
+    message += `👤 账户名：${userName}\n`;;
     message += `\n`;
     message += `📊 [狗粮数量统计]\n`;
     message += `📦 总数量：${totalCount} 个\n`;
@@ -125,9 +128,6 @@ let account = settings.account || "默认账户";
     message += `💰 库存经验合计：${formattedExpStock}（含储存${initialValue}点）\n`;
     message += `\n`;
     message += `✨ 总经验：${formattedTotalExp}\n`;
-    // 记录保存功能
-    const userName = await getUserName();
-    const recordPath = `assets/${userName}.txt`;
     
     // 获取本地保存的数据
     const localData = await getLocalData(recordPath);
@@ -248,32 +248,33 @@ let account = settings.account || "默认账户";
         const gameRegion = captureGameRegion();
         const allCandidates = [];
 
-        /* 1. splitCount 次等间隔阈值递减 */
-        for (let k = 0; k < splitCount; k++) {
-            const curThr = maxThreshold - (maxThreshold - minThreshold) * k / Math.max(splitCount - 1, 1);
-            setThreshold(ros, curThr);
+        try{
+            /* 1. splitCount 次等间隔阈值递减 */
+            for (let k = 0; k < splitCount; k++) {
+                const curThr = maxThreshold - (maxThreshold - minThreshold) * k / Math.max(splitCount - 1, 1);
+                setThreshold(ros, curThr);
 
-            /* 2. 0-9 每个模板跑一遍，所有框都收 */
-            for (let digit = 0; digit <= 9; digit++) {
-                const res = gameRegion.findMulti(ros[digit]);
-                if (res.count === 0) continue;
+                /* 2. 0-9 每个模板跑一遍，所有框都收 */
+                for (let digit = 0; digit <= 9; digit++) {
+                    const res = gameRegion.findMulti(ros[digit]);
+                    if (res.count === 0) continue;
 
-                for (let i = 0; i < res.count; i++) {
-                    const box = res[i];
-                    allCandidates.push({
-                        digit: digit,
-                        x: box.x,
-                        y: box.y,
-                        w: box.width,
-                        h: box.height,
-                        thr: curThr
-                    });
+                    for (let i = 0; i < res.count; i++) {
+                        const box = res[i];
+                        allCandidates.push({
+                            digit: digit,
+                            x: box.x,
+                            y: box.y,
+                            w: box.width,
+                            h: box.height,
+                            thr: curThr
+                        });
+                    }
                 }
             }
-
+        }catch{
+            gameRegion.dispose();
         }
-        gameRegion.dispose();
-
         /* 3. 无结果提前返回 -1 */
         if (allCandidates.length === 0) {
             return -1;
@@ -323,17 +324,6 @@ let account = settings.account || "默认账户";
             if (i < maxAttempts - 1) await sleep(50);
         }
         return false;
-    }
-
-    // 检验账户名
-    async function getUserName() {
-        userName = userName.trim();
-        // 账户名规则：数字、中英文，长度1-20字符
-        if (!userName || !/^[\u4e00-\u9fa5A-Za-z0-9]{1,20}$/.test(userName)) {
-            log.error(`账户名${userName}违规，暂时使用默认账户名，请查看readme后修改`)
-            userName = "默认账户";
-        }
-        return userName;
     }
 
     async function close_expired_stuff_popup_window() {
