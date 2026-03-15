@@ -75,7 +75,8 @@ const MidDestoryButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync
 			await sleep(1000);
 		}
 	} catch (ex) {
-		log.info("背包里的圣遗物已摧毁完毕，提前结束")
+		log.info("背包里的圣遗物已摧毁完毕，提前结束");
+		notification.send("背包里的圣遗物已摧毁完毕，提前结束");
 	} finally {
 		await genshin.returnMainUi();
 	}
