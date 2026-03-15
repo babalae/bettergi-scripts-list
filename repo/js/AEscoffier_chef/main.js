@@ -242,7 +242,8 @@
         if (string.length <= 6) {
             return string; // 如果字符串长度是6位或以下，原形返回
         } else {
-            return string.substring(0, 5) + '..'; // 如果字符串长度超过6位，保留前5位并加上'..'
+            // return string.substring(0, 5) + '..'; // 如果字符串长度超过6位，保留前5位并加上'..'
+            return string.substring(0, 5); // 如果字符串长度超过6位，保留前5位
         }
     }
 

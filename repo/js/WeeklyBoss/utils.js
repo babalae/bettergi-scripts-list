@@ -1,3 +1,9 @@
+async function keyMaintain(key, duration) {
+    keyDown(key);
+    await sleep(duration);
+    keyUp(key);
+}
+
 /**
  * 自动导航直到检测到指定文字
  * @param {Object} options 配置选项
@@ -728,7 +734,9 @@ await sleep(500);
 keyPress("F");
 await sleep(2000);
 await repeatOperationUntilTextFound({x: 1650,y: 1000,width: 160,height: 45,targetText: "单人挑战",stepDuration: 0,waitTime: 100});//等待点击单人挑战
-await sleep(500);
+await sleep(1500);
+if(settings.monsterName!="风魔龙")click(300,settings.difficulty*110+90);
+	
 if(!settings.fightMode){
     let capture = captureGameRegion();
     const region = RecognitionObject.ocr(1320, 10, 290, 80);//领奖次数区域
@@ -1426,7 +1434,53 @@ await checkDate(main);
 }
 
 async function weeklyBoss13() {
+async function extraFightAction(fight = 0) {
+  switch (fight) {
+  case 1://单次调用战斗任务后
 
+    break;
+  case 2:  //未出现boss名称但有队伍名称
+
+    break;
+  case 3://全无，可能是过程动画
+
+
+    break;
+  default:
+    break;
+  }
+}
+
+async function main() {
+await goToChallenge();
+//副本内前往BOSS处
+await eatFood();//嗑药
+//前进触发战斗，然后前往柱子处躲避
+keyPress("1");await sleep(500);//切换钟离
+await keyMaintain("w", 2000);
+await keyMaintain("s", 3500);
+await keyMaintain("d", 4300);
+await keyMaintain("e", 1000);
+await sleep(5000);
+keyDown("w");
+await sleep(700);
+keyDown("SHIFT");
+await sleep(400);
+keyUp("SHIFT");
+await sleep(700);
+keyUp("w");
+keyDown("d");
+await sleep(200);
+keyDown("w");
+await sleep(700);
+keyUp("w");
+keyUp("d");
+await autoFightAsync();
+await autoFightAndEndDetection(extraFightAction);//一直战斗直到检测到结束
+await autoNavigateToReward();
+await claimAndExit();
+}
+await checkDate(main);
 }
 
 this.utils = {
@@ -1441,5 +1495,6 @@ this.utils = {
     weeklyBoss9,
     weeklyBoss10,
     weeklyBoss11,
-    weeklyBoss12
+    weeklyBoss12,
+	weeklyBoss13,
 };

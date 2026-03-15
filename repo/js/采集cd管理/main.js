@@ -233,6 +233,7 @@ async function performTemplateMatch(centerYF) {
     }
 
     try {
+        let firstMatch = null;
         for (const it of targetItems) {
             const cnLen = Math.min(
                 [...it.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length,
@@ -240,8 +241,24 @@ async function performTemplateMatch(centerYF) {
             ); // 0-5
 
             if (regions[cnLen].find(it.roi).isExist()) {
-                return it.itemName;
+                firstMatch = it;
+                break;
             }
+        }
+
+        if (!firstMatch) return null;
+
+        if (!settings.disableSecondCheck) {
+            const cnLen = Math.min(
+                [...firstMatch.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length,
+                5
+            );
+            if (regions[cnLen].find(firstMatch.roi).isExist()) {
+                return firstMatch.itemName;
+            }
+            return null;
+        } else {
+            return firstMatch.itemName;
         }
     } catch (e) {
         log.error(`performTemplateMatch: ${e.message}`);
@@ -1938,6 +1955,12 @@ async function buildSettingsJson() {
                 "尽量调为夜晚"
             ],
             "default": "不调节时间"
+        },
+        {
+            "name": "disableSecondCheck",
+            "type": "checkbox",
+            "label": "禁用识别到物品后的二次校验，可能增加误捡概率",
+            "default": false
         }
     );
 

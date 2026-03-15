@@ -274,13 +274,15 @@ async function waitUntilImgAppear(
   y = 0,
   w = 1920,
   h = 1080,
-  timeout = 5000,
+  timeout = 10000,
   interval = 50
 ) {
   const start = Date.now();
 
   while (Date.now() - start <= timeout) {
-    await action();
+    if (action) {
+      await action();
+    }
     const res = await findImg(target, x, y, w, h, interval);
     if (res) return res;
     await sleep(interval);
@@ -310,13 +312,15 @@ async function waitUntilImgDisappear(
   y = 0,
   w = 1920,
   h = 1080,
-  timeout = 5000,
+  timeout = 10000,
   interval = 50
 ) {
   const start = Date.now();
 
   while (Date.now() - start <= timeout) {
-    await action();
+    if (action) {
+      await action();
+    }
     const res = await findImg(target, x, y, w, h, interval);
     if (!res) return true;
     await sleep(interval);
@@ -346,14 +350,15 @@ async function waitUntilTextAppear(
   y = 0,
   w = 1920,
   h = 1080,
-  attempts = 5,
+  attempts = 100,
   interval = 50
 ) {
   const start = Date.now();
 
   while (Date.now() - start <= attempts * interval) {
-    await action();
-
+    if (action) {
+      await action();
+    }
     const res = await findText(text, x, y, w, h, 1, interval);
     if (res) return res;
 
@@ -384,13 +389,15 @@ async function waitUntilTextDisappear(
   y = 0,
   w = 1920,
   h = 1080,
-  attempts = 5,
+  attempts = 100,
   interval = 50
 ) {
   const start = Date.now();
 
   while (Date.now() - start <= attempts * interval) {
-    await action();
+    if (action) {
+      await action();
+    }
     const res = await findText(text, x, y, w, h, 1, interval); // 每次只试 1 次 OCR
     if (!res) return true;
     await sleep(interval);
