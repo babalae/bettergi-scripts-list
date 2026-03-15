@@ -437,16 +437,15 @@ function escapeRegExp(string) {
         const allCandidates = [];
 
         /* 1. splitCount 次等间隔阈值递减 */
-        for (let k = 0; k < splitCount; k++) {
-            const curThr = maxThreshold - (maxThreshold - minThreshold) * k / Math.max(splitCount - 1, 1);
-            setThreshold(ros, curThr);
-
+        try{
+            for (let k = 0; k < splitCount; k++) {
+                const curThr = maxThreshold - (maxThreshold - minThreshold) * k / Math.max(splitCount - 1, 1);
+                setThreshold(ros, curThr);
             /* 2. 0-9 每个模板跑一遍，所有框都收 */
             for (let digit = 0; digit <= 9; digit++) {
                 const res = gameRegion.findMulti(ros[digit]);
-                if (res.count === 0) continue;
-
-                for (let i = 0; i < res.count; i++) {
+                if (res.length === 0) continue;
+                for (let i = 0; i < res.length; i++) {
                     const box = res[i];
                     allCandidates.push({
                         digit: digit,
@@ -455,12 +454,13 @@ function escapeRegExp(string) {
                         w: box.width,
                         h: box.height,
                         thr: curThr
-                    });
+                        });
+                    }
                 }
             }
-
+        }finally {
+            gameRegion.dispose();
         }
-        gameRegion.dispose();
 
         /* 3. 无结果提前返回 -1 */
         if (allCandidates.length === 0) {
@@ -676,7 +676,8 @@ function escapeRegExp(string) {
             inputText(drugName);
             await clickPNG('确认筛选');
             await sleep(loadDelay);
-            const count = await getFoodCount(drugName,ocrRegion2) || 0;
+            const countStr = await getFoodCount(drugName, ocrRegion2);
+            const count = Number(countStr || 0);
             
             if (count === 0) {
                 notification.send(`【营养袋吃药统计】\n未识别到${drugType}数量\n药品名：${drugName}\n设置数量为：0`);
