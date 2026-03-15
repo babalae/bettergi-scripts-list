@@ -501,7 +501,7 @@
     const startTime = Date.now();
     // 分别将填入的木材名称和数量转成数组
     // let woodsArray = settings.woods ? settings.woods.split(/\s+/) : [];
-    let woodsArray = Array.from(settings.woodsMultiCheckbox);
+    let woodsArray = settings.woodsMultiCheckbox ? Array.from(settings.woodsMultiCheckbox) : [];
     let numbersArray = settings.numbers ? settings.numbers.split(/\s+/).map(Number).map(num => isNaN(num) ? 0 : num) : [];
     let woodInventoryNumber = settings.woodInventoryNumber ? (isNaN(settings.woodInventoryNumber) ? 2000 : settings.woodInventoryNumber) : 2000;
     let hasItto = settings.hasItto ? settings.hasItto : false;
