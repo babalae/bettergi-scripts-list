@@ -1,5 +1,5 @@
 let notify = settings.notify
-let account = settings.account || "默认账户";
+let account = settings.userName || "默认账户";
 (async function () {
     // 设置分辨率和缩放
     setGameMetrics(1920, 1080, 1);
@@ -249,15 +249,14 @@ let account = settings.account || "默认账户";
         const allCandidates = [];
 
         /* 1. splitCount 次等间隔阈值递减 */
-        for (let k = 0; k < splitCount; k++) {
-            const curThr = maxThreshold - (maxThreshold - minThreshold) * k / Math.max(splitCount - 1, 1);
-            setThreshold(ros, curThr);
-
+        try{
+            for (let k = 0; k < splitCount; k++) {
+                const curThr = maxThreshold - (maxThreshold - minThreshold) * k / Math.max(splitCount - 1, 1);
+                setThreshold(ros, curThr);
             /* 2. 0-9 每个模板跑一遍，所有框都收 */
             for (let digit = 0; digit <= 9; digit++) {
                 const res = gameRegion.findMulti(ros[digit]);
                 if (res.count === 0) continue;
-
                 for (let i = 0; i < res.count; i++) {
                     const box = res[i];
                     allCandidates.push({
@@ -267,12 +266,13 @@ let account = settings.account || "默认账户";
                         w: box.width,
                         h: box.height,
                         thr: curThr
-                    });
+                        });
+                    }
                 }
             }
-
+        }finally {
+            gameRegion.dispose();
         }
-        gameRegion.dispose();
 
         /* 3. 无结果提前返回 -1 */
         if (allCandidates.length === 0) {
