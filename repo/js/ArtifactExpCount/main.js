@@ -105,11 +105,14 @@ let account = settings.account || "默认账户";
     const formattedExpBig = await formatExp(expBig);
     const formattedExpStock = await formatExp(expStock);
     const formattedTotalExp = await formatExp(totalExp);
+
+    // 记录保存功能
+    const userName = await getUserName();
+    const recordPath = `assets/${userName}.txt`;
     
     // 构建通知消息
     let message = `📦 圣遗物经验统计\n`;
-    message += `\n`;
-    message += `💾 已储存经验：${initialValue} 点\n`;
+    message += `👤 账户名：${userName}\n`;;
     message += `\n`;
     message += `📊 [狗粮数量统计]\n`;
     message += `📦 总数量：${totalCount} 个\n`;
@@ -125,9 +128,6 @@ let account = settings.account || "默认账户";
     message += `💰 库存经验合计：${formattedExpStock}（含储存${initialValue}点）\n`;
     message += `\n`;
     message += `✨ 总经验：${formattedTotalExp}\n`;
-    // 记录保存功能
-    const userName = await getUserName();
-    const recordPath = `assets/${userName}.txt`;
     
     // 获取本地保存的数据
     const localData = await getLocalData(recordPath);

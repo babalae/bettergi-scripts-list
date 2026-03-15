@@ -392,40 +392,133 @@ function escapeRegExp(string) {
         }
     }
 
-    async function recognizeNumberByOCR(ocrRegion, pattern) {
-        let captureRegion = null;
-        try {
-            const ocrRo = RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
-            captureRegion = captureGameRegion();
-            const resList = captureRegion.findMulti(ocrRo);
+     /**
+     * 在指定区域内，用 0-9 的 PNG 模板做「多阈值 + 非极大抑制」数字识别，
+     * 最终把检测到的数字按左右顺序拼成一个整数返回。
+     *
+     * @param {string}  numberPngFilePath - 存放 0.png ~ 9.png 的文件夹路径（不含文件名）
+     * @param {number}  x                 - 待识别区域的左上角 x 坐标，默认 0
+     * @param {number}  y                 - 待识别区域的左上角 y 坐标，默认 0
+     * @param {number}  w                 - 待识别区域的宽度，默认 1920
+     * @param {number}  h                 - 待识别区域的高度，默认 1080
+     * @param {number}  maxThreshold      - 模板匹配起始阈值，默认 0.95（最高可信度）
+     * @param {number}  minThreshold      - 模板匹配最低阈值，默认 0.8（最低可信度）
+     * @param {number}  splitCount        - 在 maxThreshold 与 minThreshold 之间做几次等间隔阈值递减，默认 3
+     * @param {number}  maxOverlap        - 非极大抑制时允许的最大重叠像素，默认 2；只要 x 或 y 方向重叠大于该值即视为重复框
+     *
+     * @returns {number} 识别出的整数；若没有任何有效数字框则返回 -1
+     *
+     * @example
+     * const mora = await numberTemplateMatch('摩拉数字', 860, 70, 200, 40);
+     * if (mora >= 0) console.log(`当前摩拉：${mora}`);
+     */
+    async function numberTemplateMatch(
+        numberPngFilePath,
+        x = 0, y = 0, w = 1920, h = 1080,
+        maxThreshold = 0.95,
+        minThreshold = 0.8,
+        splitCount = 3,
+        maxOverlap = 2
+    ) {
+        let ros = [];
+        for (let i = 0; i <= 9; i++) {
+            ros[i] = RecognitionObject.TemplateMatch(
+                file.ReadImageMatSync(`${numberPngFilePath}/${i}.png`), x, y, w, h);
+        }
 
-            if (!resList || resList.length === 0) {
-                log.warn("OCR未识别到任何文本");
-                return null;
+        function setThreshold(roArr, newThreshold) {
+            for (let i = 0; i < roArr.length; i++) {
+                roArr[i].Threshold = newThreshold;
+                roArr[i].InitTemplate();
+            }
+        }
+
+        const gameRegion = captureGameRegion();
+        const allCandidates = [];
+
+        /* 1. splitCount 次等间隔阈值递减 */
+        for (let k = 0; k < splitCount; k++) {
+            const curThr = maxThreshold - (maxThreshold - minThreshold) * k / Math.max(splitCount - 1, 1);
+            setThreshold(ros, curThr);
+
+            /* 2. 0-9 每个模板跑一遍，所有框都收 */
+            for (let digit = 0; digit <= 9; digit++) {
+                const res = gameRegion.findMulti(ros[digit]);
+                if (res.count === 0) continue;
+
+                for (let i = 0; i < res.count; i++) {
+                    const box = res[i];
+                    allCandidates.push({
+                        digit: digit,
+                        x: box.x,
+                        y: box.y,
+                        w: box.width,
+                        h: box.height,
+                        thr: curThr
+                    });
+                }
             }
 
-            for (const res of resList) {
-                if (!res || !res.text) {
-                    continue;
-                }
-                const numberMatch = res.text.match(pattern);
-                if (numberMatch) {
-                    const number = parseInt(numberMatch[1] || numberMatch[0]);
-                    if (!isNaN(number)) {
-                        return number;
-                    }
+        }
+        gameRegion.dispose();
+
+        /* 3. 无结果提前返回 -1 */
+        if (allCandidates.length === 0) {
+            return -1;
+        }
+
+        /* 4. 非极大抑制（必须 x、y 两个方向重叠都 > maxOverlap 才视为重复） */
+        const adopted = [];
+        for (const c of allCandidates) {
+            let overlap = false;
+            for (const a of adopted) {
+                const xOverlap = Math.max(0, Math.min(c.x + c.w, a.x + a.w) - Math.max(c.x, a.x));
+                const yOverlap = Math.max(0, Math.min(c.y + c.h, a.y + a.h) - Math.max(c.y, a.y));
+                if (xOverlap > maxOverlap && yOverlap > maxOverlap) {
+                    overlap = true;
+                    break;
                 }
             }
-        }
-        catch (error) {
-            log.error(`OCR识别时发生异常: ${error.message}`);
-        }
-        finally {
-            if (captureRegion) {
-                captureRegion.dispose();
+            if (!overlap) {
+                adopted.push(c);
+                //log.info(`在 [${c.x},${c.y},${c.w},${c.h}] 找到数字 ${c.digit}，匹配阈值=${c.thr}`);
             }
         }
-        return null;
+
+        /* 5. 按 x 排序，拼整数；仍无有效框时返回 -1 */
+        if (adopted.length === 0) return -1;
+        adopted.sort((a, b) => a.x - b.x);
+
+        return adopted.reduce((num, item) => num * 10 + item.digit, 0);
+    }
+
+        /**
+     * 识别背包中指定物品的数量
+     * @param {string} itemName - 物品名称（仅用于日志）
+     * @param {number} x - 数字区域左上角x坐标
+     * @param {number} y - 数字区域左上角y坐标
+     * @param {number} width - 数字区域宽度
+     * @param {number} height - 数字区域高度
+     * @returns {Promise<string>} 识别到的数字字符串（可能为空）
+     */
+    async function getFoodCount(itemName, ocrRegion) {
+        for (let i = 0; i < 5; i++) {
+            try {
+                // 使用numberTemplateMatch函数识别数字
+                const count = await numberTemplateMatch(
+                    'assets/背包数字', // 数字模板文件夹路径
+                    ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height
+                );
+                const digits = count === -1 ? '' : count.toString();
+                log.info(`识别到${itemName}数量为${digits}`);
+                //log.info(`识别到${itemName}识别区域为${x}, ${y}, ${width}, ${height}`)
+                return digits; // 成功识别即返回
+            } catch (error) {
+                log.error(`识别${itemName}数量时发生错误: ${error.message}`);
+            }
+            if (i < 5 - 1) await sleep(50);
+        }
+        return ''; // 未找到时返回空字符串
     }
 
     async function recognizeFoodItemByOCR(ocrRegion, pattern) {
@@ -490,7 +583,7 @@ function escapeRegExp(string) {
     }
 
     async function clickPNG(png, maxAttempts = 20, doClick=true) {
-//        log.info(`调试-点击目标${png},重试次数${maxAttempts}`);
+        //log.info(`调试-点击目标${png},重试次数${maxAttempts}`);
         const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${png}.png`));
         pngRo.Threshold = 0.95;
         pngRo.InitTemplate();
@@ -583,7 +676,7 @@ function escapeRegExp(string) {
             inputText(drugName);
             await clickPNG('确认筛选');
             await sleep(loadDelay);
-            const count = await recognizeNumberByOCR(ocrRegion2, /\d+/) || 0;
+            const count = await getFoodCount(drugName,ocrRegion2) || 0;
             
             if (count === 0) {
                 notification.send(`【营养袋吃药统计】\n未识别到${drugType}数量\n药品名：${drugName}\n设置数量为：0`);
