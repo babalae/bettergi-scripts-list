@@ -1,0 +1,65 @@
+{
+  "info": {
+    "version": "1.0",
+    "name": "05-须弥蔷薇-须弥-觉王之殿-6个",
+    "description": "",
+    "type": "collect",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3591.7,
+      "y": -787.67,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 3596.89,
+      "y": -804.37,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 3597.98,
+      "y": -807.62,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 3624.9,
+      "y": -912.66,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 5,
+      "x": 3624.51,
+      "y": -911.97,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 6,
+      "x": 3642.0,
+      "y": -897.91,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

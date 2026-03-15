@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "起个名字好难的喵"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762182496344,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔-海浪中的莎孚",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7796.244140625,
+      "y": -1872.90380859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7805.5322265625,
+      "y": -1882.408203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_T)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7813.25,
+      "y": -1890.07470703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7845.3125,
+      "y": -1858.2470703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7882.5078125,
+      "y": -1807.60546875
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "info": {
+    "name": "15-苦种-纳塔-花羽会-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9587.54,
+      "y": -1279.62
+    },
+    {
+      "id": 2,
+      "x": 9649.81,
+      "y": -1379.44,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 9653.06,
+      "y": -1378.58,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

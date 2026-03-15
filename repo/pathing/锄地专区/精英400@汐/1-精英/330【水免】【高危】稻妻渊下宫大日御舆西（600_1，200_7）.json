@@ -1,0 +1,139 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时234秒，包含8只精英，预计收入2360摩拉，包含以下怪物：1只深渊使徒·激流、5只遗迹守卫、1只火斧丘丘暴徒。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758031318838,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "330【水免】【高危】稻妻渊下宫大日御舆西（600_1，200_7）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 378.1423,
+      "y": 370.7635
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 368.4269,
+      "y": 355.1685
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 285.2601,
+      "y": 277.3914
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 301.4364,
+      "y": 277.8604
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 281.2238,
+      "y": 276.6216
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 281.2238,
+      "y": 276.6216
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 361.7188,
+      "y": 290.8127
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 351.125,
+      "y": 289.2494
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 351.125,
+      "y": 289.2494
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3),wait(3)",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 389.6139,
+      "y": 298.3223
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 389.6139,
+      "y": 298.3223
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 372.9194,
+      "y": 107.2444
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 362.125,
+      "y": 149.4989
+    }
+  ]
+}

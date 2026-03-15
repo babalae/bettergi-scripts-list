@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "枫丹-垂钓点-伊黎耶林区柔灯港西北",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.2",
+    "description": "地区: 枫丹\n类型: 垂钓点\n详细位置: 伊黎耶林区柔灯港西北\n鱼类: 海涛斧枪鱼、波波心羽鲈、维护机关·水域清理者、维护机关·澄金领队型\n饵类: 甘露饵、酸橘饵、维护机关频闪诱饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2889.82,
+      "y": 3186.38,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2893.67,
+      "y": 3204.7,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2885.13,
+      "y": 3248.58,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2895.09,
+      "y": 3256.25,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

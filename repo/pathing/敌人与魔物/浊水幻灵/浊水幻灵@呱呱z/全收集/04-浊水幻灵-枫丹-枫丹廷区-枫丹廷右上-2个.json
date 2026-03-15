@@ -1,0 +1,53 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jidingcai",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755694378968,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "04-浊水幻灵-枫丹-枫丹廷区-枫丹廷右上-2个",
+    "tags": [
+      "精英怪",
+      "浊水幻灵",
+      "高效"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4328.4111,
+      "y": 3960.9927
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(6),keyup(VK_SPACE),keypress(VK_MBUTTON)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4299.4375,
+      "y": 3967.7886
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "target",
+      "x": 4199.5166,
+      "y": 4003.9333
+    }
+  ]
+}

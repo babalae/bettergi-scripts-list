@@ -1,0 +1,29 @@
+[
+  {
+    "name": "execute_Week",
+    "type": "multi-checkbox",
+    "label": "指定星期几运行",
+    "default": [
+      "星期一"
+    ],
+    "options": [
+      "星期一",
+      "星期二",
+      "星期三",
+      "星期四",
+      "星期五",
+      "星期六",
+      "星期日"
+    ]
+  },{
+    "name": "partyName",
+    "type": "input-text",
+    "label": "队伍名称（默认不切换）"
+  },
+  {
+    "name": "loopTimes",
+    "type": "input-text",
+    "label": "刷取次数（默认10次）",
+    "default": "10"
+  }
+]

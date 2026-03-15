@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 挪德卡莱\n类型: 垂钓点\n详细位置: 伦波岛空寂走廊西北\n鱼类: 花鳉、蓝昼明眼鱼、夜色明眼鱼\n饵类: 果酿饵、清白饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757698231051,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "挪德卡莱-垂钓点-伦波岛空寂走廊西北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9191.62,
+      "y": 2852.11
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9221.95,
+      "y": 2844.34
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9277.12,
+      "y": 2851.11
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9332.38,
+      "y": 2852.56
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9363.83,
+      "y": 2855.76
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9368.08,
+      "y": 2862.31
+    }
+  ]
+}

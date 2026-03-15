@@ -1,0 +1,81 @@
+{
+    "info": {
+        "name": "狗粮-纳塔-镜璧山-七天神像下-3个-f",
+        "bgi_version": "0.45.1",
+        "type": "collect",
+        "map_name": "Teyvat",
+        "author": "Yang-z",
+        "version": "1.2"
+    },
+    "positions": [
+        {
+            "x": 9520.5634765625,
+            "y": -1779.60302734375,
+            "type": "teleport",
+            "action": "force_tp"
+        },
+        {
+            "x": 9555.6435546875,
+            "y": -1778.80810546875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 9546.599609375,
+            "y": -1767.18115234375,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(0.5),click",
+            "//": "stop_flying"
+        },
+
+        {
+            "x": 9542.546875,
+            "y": -1764.77685546875,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "1"
+        },
+
+        {
+            "x": 9545.076171875,
+            "y": -1766.88134765625,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 9541.2958984375,
+            "y": -1771.8271484375,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        
+        {
+            "x": 9540.861328125,
+            "y": -1782.04150390625,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "2"
+        },
+        {
+            "x": 9539.1494140625,
+            "y": -1781.53076171875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 9535.1435546875,
+            "y": -1777.7138671875,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "3"
+        },
+        {
+            "x": 9532.529296875,
+            "y": -1777.7744140625,
+            "type": "path",
+            "move_mode": "walk"
+        }
+    ]
+}

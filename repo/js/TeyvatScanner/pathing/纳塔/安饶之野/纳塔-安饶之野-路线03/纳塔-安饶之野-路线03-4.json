@@ -1,0 +1,51 @@
+{
+  "info": {
+    "name": "纳塔-安饶之野-路线03-4",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750838423003
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9719.0869140625,
+      "y": -2508.744140625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 2,
+      "x": 9750.43359375,
+      "y": -2508.611328125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9808.4755859375,
+      "y": -2510.8359375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9831.3037109375,
+      "y": -2505.9853515625,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "target"
+    }
+  ]
+}

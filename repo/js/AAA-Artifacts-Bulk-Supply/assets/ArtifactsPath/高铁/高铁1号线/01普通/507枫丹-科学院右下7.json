@@ -1,0 +1,191 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgiVersion": "0.42.3",
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769189400863,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "507枫丹-科学院右下7",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4301.279296875,
+      "y": 4765.08203125
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4289.249804762744,
+      "y": 4753.625291864084
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4284.500920404207,
+      "y": 4744.437185684834
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4273.69775390625,
+      "y": 4740.9970703125
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4264.293457031251,
+      "y": 4729.876953125
+    },
+    {
+      "action": "stop_flying",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4253.6880857117685,
+      "y": 4716.186916271832
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4220.62377279439,
+      "y": 4701.248720288249
+    },
+    {
+      "action": "stop_flying",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4196.312304762744,
+      "y": 4692.025089804334
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4196.312304762744,
+      "y": 4692.025089804334
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 4188.20751953125,
+      "y": 4675.89990234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4191.249901247927,
+      "y": 4672.436499574411
+    },
+    {
+      "action": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4200.5625,
+      "y": 4657.000202059749
+    },
+    {
+      "action": "stop_flying",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4215.997406133597,
+      "y": 4628.311691760999
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 4206.906319727592,
+      "y": 4618.093671421208
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 wait(0.2),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4208.1564034007015,
+      "y": 4619.9372642636245
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4184.155957144116,
+      "y": 4627.312612255417
+    },
+    {
+      "action": "",
+      "id": 17,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4120.218931291738,
+      "y": 4665.718761225542
+    },
+    {
+      "action": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4115.750139455183,
+      "y": 4668.062544902166
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 wait(0.2),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4113.530998980671,
+      "y": 4667.781261225542
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4115.2099609375,
+      "y": 4669.80126953125
+    }
+  ]
+}
