@@ -1,0 +1,109 @@
+{
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
+  "info": {
+    "authors": [
+      {
+        "links": "https: //github.com/OhmyPaoPao",
+        "name": "海豹穹穹队"
+      },{
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "3个鳗肉采集",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1773423821211,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D18-鳗肉-须弥-铄石之丘-3个",
+    "order": 0,
+    "tags": [
+      "鳗肉；",
+      "瑶瑶"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5141.61,
+      "y": -2778.84
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "mapRecognition",
+          "type": [
+            "unrecognized"
+          ]
+        },
+        "monster_tag": ""
+      },
+      "type": "teleport",
+      "x": 5711.48,
+      "y": -2850.78
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 5721.169921875,
+      "y": -2883.193359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 5753.76953125,
+      "y": -2917.0224609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5835.88671875,
+      "y": -2948.83203125
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 5841.0908203125,
+      "y": -2952.6669921875
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "4个鳗肉；",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1773403083957,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "ZC02-鳗肉-渊下宫-狭间之街-4个",
+    "order": 0,
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 626.1805419921875,
+      "y": 622.023681640625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1200",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 654.8594970703125,
+      "y": 574.6317138671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 666.4698486328125,
+      "y": 549.5369873046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 661.8916015625,
+      "y": 545.0382080078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 666.0189208984375,
+      "y": 533.653564453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 662.890625,
+      "y": 533.46630859375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.456)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 663.89208984375,
+      "y": 522.823974609375
+    }
+  ]
+}

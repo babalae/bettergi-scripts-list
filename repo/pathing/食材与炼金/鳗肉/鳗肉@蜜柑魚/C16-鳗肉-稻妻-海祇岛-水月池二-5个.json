@@ -1,0 +1,148 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "5个鳗肉；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1773588387981,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C16-鳗肉-稻妻-海祇岛-水月池二-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1134.5800000000017,
+      "y": -3605
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(1),keypress(t),wait(1),keypress(t),wait(1),keypress(t),wait(1)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1138.3100000000013,
+      "y": -3597.41
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1152.0400000000009,
+      "y": -3592.2999999999993
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1159.92578125,
+      "y": -3585.98828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -1233.251953125,
+      "y": -3581.3818359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1234.57421875,
+      "y": -3578.5009765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1240.12109375,
+      "y": -3571.880859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -1236.888671875,
+      "y": -3561.8349609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1181.6796875,
+      "y": -3480.583984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1178.984375,
+      "y": -3479.650390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "run",
+      "type": "target",
+      "x": -1140.234375,
+      "y": -3478.365234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1102.865234375,
+      "y": -3490.96875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1098.34765625,
+      "y": -3487.9091796875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1093.189453125,
+      "y": -3486.0771484375
+    }
+  ]
+}

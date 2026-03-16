@@ -1,0 +1,245 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "海豹穹穹队"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "13个鳗肉；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1773663188472,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D01-鳗肉-须弥-镔铁沙丘-13个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4273.1796875,
+      "y": -520.4453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4267.412109375,
+      "y": -504.609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4264.767578125,
+      "y": -501.724609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4269.591796875,
+      "y": -461.29296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4268.8193359375,
+      "y": -457.861328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4258.5283203125,
+      "y": -428.8046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4288.80859375,
+      "y": -323.9365234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4330.427734375,
+      "y": -316.4326171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4334.3544921875,
+      "y": -314.744140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4332.6845703125,
+      "y": -317.30859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4342.9345703125,
+      "y": -316.2314453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "j,wait(1.35),j",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4366.41015625,
+      "y": -360.6748046875
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4370.919921875,
+      "y": -382.8818359375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1300",
+      "id": 14,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4382.15234375,
+      "y": -408.0830078125
+    },
+    {
+      "action": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4397.640599999999,
+      "y": -402.70260000000053
+    },
+    {
+      "action": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4401.499,
+      "y": -426.27150000000074
+    },
+    {
+      "action": "log_output",
+      "action_params": "怪物镇守鳗鱼",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4402.3555,
+      "y": -429.6782000000003
+    },
+    {
+      "action": "",
+      "id": 18,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4403.294900000001,
+      "y": -439.71340000000055
+    },
+    {
+      "action": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4407.2266,
+      "y": -443.85210000000006
+    },
+    {
+      "action": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4411.3066,
+      "y": -447.6841000000004
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4432.6015625,
+      "y": -468.103515625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4443.25,
+      "y": -469.75
+    },
+    {
+      "action": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4448.4902,
+      "y": -470.8755000000001
+    },
+    {
+      "action": "log_output",
+      "action_params": "怪物镇守鳗鱼",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4455.463899999999,
+      "y": -472.22459999999955
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 25,
+      "move_mode": "run",
+      "type": "target",
+      "x": 4465.1924,
+      "y": -467.79689999999937
+    }
+  ]
+}

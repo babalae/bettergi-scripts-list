@@ -1,0 +1,86 @@
+{
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
+  "info": {
+    "authors": [
+      {
+        "links": "https: //github.com/OhmyPaoPao",
+        "name": "海豹穹穹队"
+      },{
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "2个鳗肉；",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1773401631234,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "ZC01-鳗肉-渊下宫-蛇肠之路-2个",
+    "order": 0,
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1581.110595703125,
+      "y": -112.44677734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1593.6583251953125,
+      "y": -91.884521484375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1616.88916015625,
+      "y": -75.24267578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 1631.228271484375,
+      "y": -69.13037109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.456)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1627.2412109375,
+      "y": -70.091552734375
+    }
+  ]
+}
