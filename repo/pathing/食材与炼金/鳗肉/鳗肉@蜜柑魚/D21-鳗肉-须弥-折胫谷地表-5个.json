@@ -1,0 +1,107 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https: //github.com/OhmyPaoPao",
+        "name": "海豹穹穹队"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "5个鳗肉；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1773595206949,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D21-鳗肉-须弥-折胫谷地表-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5988.7197,
+      "y": -318.3701
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5954.2295,
+      "y": -399.4717
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1.5)",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 5926.0986,
+      "y": -520.5771
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5920.5605,
+      "y": -544.9561
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6004.6562,
+      "y": -725.1094
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6012.4414,
+      "y": -734.6953
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6014.7754,
+      "y": -731.5361
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5996.1445,
+      "y": -880.4473
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 5995.2139,
+      "y": -885.3301
+    }
+  ]
+}

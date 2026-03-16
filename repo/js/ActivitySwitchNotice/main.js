@@ -1,7 +1,9 @@
 let manifest = {};
 let manifest_json = "manifest.json";
 let configSettings = undefined
-
+import {mapMission} from "./utils/mapMission"
+import {dailyCommissionMain,campaignAreaMain} from "./utils/campaignArea"
+import {activityMain} from "./utils/activity"
 /**
  * 初始化设置函数
  * 从配置文件中读取设置信息并返回
@@ -87,17 +89,17 @@ async function getValueByMultiCheckboxName(name) {
     return values
 }
 async function init() {
-    let utils = [
-        "uid",
-        "ws",
-        "notice",
-        "campaignArea",
-        "activity",
-        "mapMission",
-    ]
-    for (let util of utils) {
-        eval(file.readTextSync(`utils/${util}.js`));
-    }
+    // let utils = [
+    //     "uid",
+    //     "ws",
+    //     "notice",
+    //     "campaignArea",
+    //     "activity",
+    //     "mapMission",
+    // ]
+    // for (let util of utils) {
+    //     eval(file.readTextSync(`utils/${util}.js`));
+    // }
     // manifest = JSON.parse(file.readTextSync("manifest.json"));
     await initSettings();
     log.debug("main 初始化完成");
@@ -151,7 +153,7 @@ async function main() {
     if (mapList.length > 0) {
         try {
             log.info(`开始识别地图任务`)
-            await mapUtil.mapMission(mapList)
+            await mapMission(mapList)
         } finally {
             await toMainUi()
         }
@@ -160,15 +162,15 @@ async function main() {
     let openKey = true
 
     try {
-        await campaignAreaUtil.dailyCommissionMain(openKey)
+        await dailyCommissionMain(openKey)
         await sleep(ms * 2);
         openKey = false
     } catch (e) {
         await toMainUi()
         throw e
     }
-    await campaignAreaUtil.campaignAreaMain(openKey)
+    await campaignAreaMain(openKey)
     await sleep(ms * 2);
     await toMainUi()
-    await activityUtil.activityMain(settings.newActivityNotice)
+    await activityMain(settings.newActivityNotice)
 }

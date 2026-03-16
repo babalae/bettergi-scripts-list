@@ -1,0 +1,132 @@
+{
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
+  "info": {
+    "authors": [
+      {
+        "links": "https: //github.com/OhmyPaoPao",
+        "name": "海豹穹穹队"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "3个鳗肉；",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1773576384016,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D19-鳗肉-须弥-赤王陵西北-3个",
+    "order": 0,
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5536.6084,
+      "y": -2052.6924
+    },
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5977.3,
+      "y": -2125.39
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5962.5967,
+      "y": -2094.2109
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5962.7793,
+      "y": -2093.4844
+    },
+    {
+      "action": "combat_script",
+      "action_params": "j,wait(0.1),j,wait(1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5967.0791,
+      "y": -1987.7539
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5962.9824,
+      "y": -1980.623
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1),w(3),wait(0.75),keydown(a),keypress(space),wait(0.99),keypress(space),wait(0.99),keypress(space),wait(0.99),keypress(space),wait(0.99),keypress(space),wait(0.99),keypress(space),wait(0.99),keypress(space),wait(0.99),keyup(a),wait(0.3),keypress(x),wait(0.2),keypress(x),wait(0.2),keypress(x)",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5961.9473,
+      "y": -1972.5186
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5974.4072,
+      "y": -1958.3721
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5976.0703,
+      "y": -1955.2578
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5972.3535,
+      "y": -1952.0146
+    }
+  ]
+}
