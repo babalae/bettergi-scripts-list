@@ -159,7 +159,11 @@ async function sendText(text) {
     await send(wsProxyUrl, wsUrl, ws_token, action, group_id, user_id, textList, atList)
 }
 
-this.wsUtil = {
+// this.wsUtil = {
+//     send,
+//     sendText
+// }
+export {
     send,
     sendText
 }
