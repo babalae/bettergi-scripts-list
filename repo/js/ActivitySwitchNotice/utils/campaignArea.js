@@ -1,4 +1,4 @@
-import {findTextAndClick} from "./tool";
+import {findTextAndClick,getDayOfWeek} from "./tool";
 import {sendText} from "./notice";
 import {ocrUID} from "./uid";
 function settingsParseInt(str, defaultValue) {
@@ -16,7 +16,8 @@ function settingsParseStr(str, defaultValue) {
 
 const config = {
     campaignAreaKey: settingsParseStr(settings.campaignAreaKey, 'F1'),
-    campaignAreaReminderDay: settingsParseInt(settings.campaignAreaReminderDay, 0),//征讨领域提醒日
+    // campaignAreaReminderDay: settingsParseInt(settings.campaignAreaReminderDay, 0),//征讨领域提醒日
+    campaignAreaReminderDays: Array.from(settings.campaignAreaReminderDays)
 }
 const ocrRegionConfig = {
     weeklyCount: {x: 809, y: 258, width: 277, height: 37},//征讨领域减半次数识别区域坐标和尺寸
@@ -103,27 +104,31 @@ async function ocrWeeklyCount(ocrRegion = ocrRegionConfig.weeklyCount) {
     }
 }
 
-/**
- * 获取当前日期的星期信息
- * @returns {Object} 返回包含星期数字和星期名称的对象
- */
-async function getDayOfWeek() {
-    // 获取当前日期对象
-    const today = new Date();
-    // 获取当前日期是星期几（0代表星期日，1代表星期一，以此类推）
-    const day = today.getDay();
-    // 创建包含星期名称的数组
-    const weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
-    let weekDay = `${weekDays[day]}`;
-
-    log.debug(`今天是[{day}]`, day)
-    log.debug(`今天是[{weekDays}]`, weekDay)
-    // 返回包含星期数字和对应星期名称的对象
-    return {
-        day: day,
-        dayOfWeek: weekDay
-    }
-}
+// /**
+//  * 获取当前日期的星期信息
+//  * @param {boolean} [calibrationGameRefreshTime=true] 是否进行游戏刷新时间校准
+//  * @returns {Object} 返回包含星期数字和星期名称的对象
+//  */
+// async function getDayOfWeek(calibrationGameRefreshTime = true) {
+//     // 获取当前日期对象
+//     let today = new Date();//4点刷新 所以要减去4小时
+//     if (calibrationGameRefreshTime) {
+//         today.setHours(today.getHours() - 4); // 减去 4 小
+//     }
+//     // 获取当前日期是星期几（0代表星期日，1代表星期一，以此类推）
+//     const day = today.getDay();
+//     // 创建包含星期名称的数组
+//     const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+//     let weekDay = `${weekDays[day]}`;
+//
+//     log.debug(`今天是[{day}]`, day)
+//     log.debug(`今天是[{weekDays}]`, weekDay)
+//     // 返回包含星期数字和对应星期名称的对象
+//     return {
+//         day: day,
+//         dayOfWeek: weekDay
+//     }
+// }
 
 /**
  * 执行秘境征讨剩余次数提醒的主函数
@@ -133,7 +138,10 @@ async function campaignAreaMain(openKey = true) {
     // 获取当前星期信息
     let dayOfWeek = await getDayOfWeek();
     // 如果不是周日(0代表周日)，则直接返回
-    const bool = dayOfWeek.day != config.campaignAreaReminderDay;
+    // const bool = dayOfWeek.day != config.campaignAreaReminderDay;
+    log.info(`秘境征讨提醒日:{0}`,JSON.stringify(config.campaignAreaReminderDays))
+    const bool =!config.campaignAreaReminderDays.includes(dayOfWeek.dayOfWeek)
+    // log.info(`bool={0}`,bool)
     // 记录开始执行秘境征讨提醒的日志
     log.info(`[{dayOfWeek.dayOfWeek}]，${bool ? "跳过" : "开始"}执行秘境征讨剩余次数提醒`, dayOfWeek.dayOfWeek)
     if (bool) {
@@ -180,8 +188,8 @@ async function dailyCommissionMain(openKey = true) {
     // 获取当前星期信息
     let dayOfWeek = await getDayOfWeek();
     // 如果不是周日(0代表周日)，
-    const bool = dayOfWeek.day != config.campaignAreaReminderDay;
-
+    // const bool = dayOfWeek.day != config.campaignAreaReminderDay;
+    const bool =config.campaignAreaReminderDays.includes(dayOfWeek.dayOfWeek)
     // 设置操作间隔时间(毫秒)
     let ms = 600
     // 等待一段时间
