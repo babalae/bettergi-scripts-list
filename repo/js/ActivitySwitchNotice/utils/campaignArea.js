@@ -1,3 +1,6 @@
+import {findTextAndClick} from "./tool";
+import {sendText} from "./notice";
+import {ocrUID} from "./uid";
 function settingsParseInt(str, defaultValue) {
     try {
         return str ? parseInt('' + str) : defaultValue;
@@ -17,6 +20,7 @@ const config = {
 }
 const ocrRegionConfig = {
     weeklyCount: {x: 809, y: 258, width: 277, height: 37},//征讨领域减半次数识别区域坐标和尺寸
+    campaignArea:{x:433, y:215, width:306, height:697},//征讨领域识别区域
     dailyCommission: {x: 630, y: 312, width: 105, height: 118},//每日委托识别区域坐标和尺寸
 }
 const xyConfig = {
@@ -148,16 +152,21 @@ async function campaignAreaMain(openKey = true) {
     await click(xyConfig.secretRealm.x, xyConfig.secretRealm.y)
     await sleep(ms * 2)
     // 点击秘境征讨坐标
-    await click(xyConfig.campaignArea.x, xyConfig.campaignArea.y)
+    // await click(xyConfig.campaignArea.x, xyConfig.campaignArea.y)
+    const find = await findTextAndClick("征讨领域");
+    if (find===null){
+        log.warn("未找到征讨领域")
+        return
+    }
     await sleep(ms * 2)
     // 使用OCR识别本周秘境征讨剩余次数
     let weekJson = await ocrWeeklyCount();
 
     // 如果有剩余次数，则记录日志并发送通知
     if (weekJson.count > 0) {
-        let uid = await uidUtil.ocrUID()
+        let uid = await ocrUID()
         log.info(`本周剩余消耗减半次数:${weekJson.count}`)
-        await noticeUtil.sendText(`>|本周剩余消耗减半次数:${weekJson.count}`, `UID:${uid}\n秘境征讨`)
+        await sendText(`>|本周剩余消耗减半次数:${weekJson.count}`, `UID:${uid}\n秘境征讨`)
     }
 
 }
@@ -191,12 +200,17 @@ async function dailyCommissionMain(openKey = true) {
     if (re.daily.total > re.daily.use
         || re.physical.total > re.physical.use
     ) {
-        let uid = await uidUtil.ocrUID()
-        await noticeUtil.sendText(`>|每日委托奖励:${re.daily.use}/${re.daily.total}\n>|原粹树脂消耗:${re.physical.use}/${re.physical.total}`, `UID:${uid}\n每日委托`)
+        let uid = await ocrUID()
+        await sendText(`>|每日委托奖励:${re.daily.use}/${re.daily.total}\n>|原粹树脂消耗:${re.physical.use}/${re.physical.total}`, `UID:${uid}\n每日委托`)
     }
 }
 
-this.campaignAreaUtil = {
+// this.campaignAreaUtil = {
+//     campaignAreaMain,
+//     dailyCommissionMain,
+// }
+
+export {
     campaignAreaMain,
     dailyCommissionMain,
 }

@@ -1,3 +1,4 @@
+import {sendText as wsSendText} from "./ws"
 const NoticeType = Object.freeze({
     bgi: 'bgi',//BGI通知
     independence: 'independence',//独立通知
@@ -44,7 +45,7 @@ async function sendNotice(map = new Map(), title, noNotice = false) {
     for (let noticeElement of configNotice.noticeList) {
         switch (noticeElement.type) {
             case NoticeType.independence:
-                await wsUtil.sendText(noticeText)
+                await wsSendText(noticeText)
                 break
             case NoticeType.bgi:
                 notification.send(noticeText)
@@ -74,7 +75,7 @@ async function sendText(noticeText, title, noNotice = false) {
     for (let noticeElement of configNotice.noticeList) {
         switch (noticeElement.type) {
             case NoticeType.independence:
-                await wsUtil.sendText(text)
+                await wsSendText(text)
                 break
             case NoticeType.bgi:
                 notification.send(text)
@@ -84,7 +85,12 @@ async function sendText(noticeText, title, noNotice = false) {
     return
 }
 
-this.noticeUtil = {
+// this.noticeUtil = {
+//     sendNotice,
+//     sendText,
+// }
+
+export {
     sendNotice,
     sendText,
 }

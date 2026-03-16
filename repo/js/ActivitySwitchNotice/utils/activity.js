@@ -1,3 +1,5 @@
+import {sendNotice,sendText} from "./notice";
+import {ocrUID} from "./uid";
 const config_name = "config"
 const json_path = {
     activity: `${config_name}/activity.json`
@@ -445,11 +447,11 @@ async function init() {
 /**
  * 活动主函数：扫描所有活动页面，识别剩余时间，最后统一发送通知
  */
-async function activityMain(newActivityNotice = true) {
+ async function activityMain(newActivityNotice = true) {
     await init();
     const ms = 1000;
     await sleep(ms);
-    let uid = await uidUtil.ocrUID()
+    let uid = await ocrUID()
     let activityData=[]
     let activitySetLast = new Set()
     try {
@@ -724,7 +726,7 @@ async function activityMain(newActivityNotice = true) {
             blackText += `==>{已开启黑名单: ${blackAllText.join("|")}}<==`
         }
 
-        await noticeUtil.sendNotice(activityMapFilter, `UID:${uid}\n原神活动剩余时间提醒(仅显示 ${titleKey} 的活动)${blackText}`);
+        await sendNotice(activityMapFilter, `UID:${uid}\n原神活动剩余时间提醒(仅显示 ${titleKey} 的活动)${blackText}`);
     } else {
         log.warn("不存在符合条件的活动，未发送通知");
     }
@@ -737,7 +739,7 @@ async function activityMain(newActivityNotice = true) {
             try {
                 if(activitySetLast.size > 0){
                     log.info("新增活动: {newActivities}", newActivities);
-                    await noticeUtil.sendText(newActivities.join("\n"), `UID:${uid}\n新增活动`);
+                    await sendText(newActivities.join("\n"), `UID:${uid}\n新增活动`);
                 }
                 activityData=activityData.filter(item => item.uid !== uid)
                 activityData.push(currentActivityJson)
@@ -762,8 +764,9 @@ async function activityMain(newActivityNotice = true) {
     }
 }
 
-this.activityUtil = {
-    // config,
-    activityMain,
-    // OcrRemainingTime,
-}
+// this.activityUtil = {
+//     // config,
+//     activityMain,
+//     // OcrRemainingTime,
+// }
+export {activityMain}
