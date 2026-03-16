@@ -99,12 +99,12 @@ async function compareVersion(version1, version2) {
             await sleep(outTime);
             return;
         case "联机更换ABGI的账号信息":
-            result = await compareVersion(settings.versionABGI, "3.4.12");
-            if (result == -1) {
-                log.error("无法调用该任务，请更新ABGI至3.4.12版本或更高版本");
-                await sleep(outTime);
-                return;
-            };
+            // result = await compareVersion(settings.versionABGI, "3.4.12");
+            // if (result == -1) {
+            //     log.error("无法调用该任务，请更新ABGI至3.4.12版本或更高版本");
+            //     await sleep(outTime);
+            //     return;
+            // };
             await sleep(500);
             log.info("ABGI启动联机换号："+`${settings.inputText}`);
             await sleep(outTime);
@@ -114,20 +114,25 @@ async function compareVersion(version1, version2) {
         //     log.info(`ABGI启动${settings.selectTask}`+"：");
         //     await sleep(outTime);
         //     return;
-        // case "更换联机房间":
-        //     result = await compareVersion(settings.versionABGI, "3.5.25");
-        //     if (result == -1) {
-        //         log.error("无法调用该任务，请更新ABGI至3.5.25版本或更高版本");
-        //         await sleep(outTime);
-        //         return;
-        //     };
-        //     await sleep(500);
-        //     log.info(`ABGI启动更换房间：`+`${settings.inputText}`);
-        //     await sleep(outTime);
-        //     return;
+        case "更换联机房间":
+            // result = await compareVersion(settings.versionABGI, "3.5.25");
+            // if (result == -1) {
+            //     log.error("无法调用该任务，请更新ABGI至3.5.25版本或更高版本");
+            //     await sleep(outTime);
+            //     return;
+            // };
+            await sleep(500);
+            log.info(`ABGI启动更换房间：`+`${settings.inputText}`);
+            await sleep(outTime);
+            return;
         case "等待时间(单位为秒)":
             const pureDigitStr = String(settings.inputText).replace(/\D/g, "");
             await sleep(pureDigitStr*1000);
+            await sleep(outTime);
+            return;
+        case "红血检测":
+            await sleep(500);            
+            log.info(`ABGI启动关闭红血检测：`+`${settings.inputText}`);
             await sleep(outTime);
             return;
         default:
