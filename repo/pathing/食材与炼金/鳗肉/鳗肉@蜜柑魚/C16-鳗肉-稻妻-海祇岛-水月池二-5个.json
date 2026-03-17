@@ -1,15 +1,15 @@
-{
+﻿{
   "info": {
     "authors": [
       {
-        "links": "https://github.com/this-Fish",
+        "links": "",
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "5个鳗肉；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1773588387981,
+    "last_modified_time": 1773755621655,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C16-鳗肉-稻妻-海祇岛-水月池二-5个",
@@ -24,17 +24,17 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -1134.58,
-      "y": -3605.0
+      "x": -1134.5800000000017,
+      "y": -3605
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.5),keypress(f),wait(1),keypress(t),wait(1),keypress(t),wait(1),keypress(t),wait(1)",
       "id": 2,
       "move_mode": "walk",
-      "type": "path",
-      "x": -1138.31,
-      "y": -3597.41
+      "type": "target",
+      "x": -1138.103515625,
+      "y": -3596.3349609375
     },
     {
       "action": "stop_flying",
@@ -42,8 +42,8 @@
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": -1152.04,
-      "y": -3592.3
+      "x": -1152.0400000000009,
+      "y": -3592.2999999999993
     },
     {
       "action": "",
@@ -51,8 +51,8 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": -1159.9258,
-      "y": -3585.9883
+      "x": -1159.92578125,
+      "y": -3585.98828125
     },
     {
       "action": "",
@@ -60,8 +60,8 @@
       "id": 5,
       "move_mode": "dash",
       "type": "target",
-      "x": -1233.252,
-      "y": -3581.3818
+      "x": -1233.251953125,
+      "y": -3581.3818359375
     },
     {
       "action": "combat_script",
@@ -69,8 +69,8 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": -1234.5742,
-      "y": -3578.501
+      "x": -1234.57421875,
+      "y": -3578.5009765625
     },
     {
       "action": "",
@@ -78,8 +78,8 @@
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": -1240.1211,
-      "y": -3571.8809
+      "x": -1240.12109375,
+      "y": -3571.880859375
     },
     {
       "action": "",
@@ -87,8 +87,8 @@
       "id": 8,
       "move_mode": "jump",
       "type": "path",
-      "x": -1236.8887,
-      "y": -3561.835
+      "x": -1236.888671875,
+      "y": -3561.8349609375
     },
     {
       "action": "",
@@ -96,8 +96,8 @@
       "id": 9,
       "move_mode": "dash",
       "type": "path",
-      "x": -1181.6797,
-      "y": -3480.584
+      "x": -1181.6796875,
+      "y": -3480.583984375
     },
     {
       "action": "combat_script",
@@ -105,8 +105,8 @@
       "id": 10,
       "move_mode": "walk",
       "type": "path",
-      "x": -1178.9844,
-      "y": -3479.6504
+      "x": -1178.984375,
+      "y": -3479.650390625
     },
     {
       "action": "",
@@ -114,8 +114,8 @@
       "id": 11,
       "move_mode": "run",
       "type": "target",
-      "x": -1140.2344,
-      "y": -3478.3652
+      "x": -1140.234375,
+      "y": -3478.365234375
     },
     {
       "action": "",
@@ -123,8 +123,8 @@
       "id": 12,
       "move_mode": "dash",
       "type": "path",
-      "x": -1102.8652,
-      "y": -3490.9688
+      "x": -1102.865234375,
+      "y": -3490.96875
     },
     {
       "action": "",
@@ -132,8 +132,8 @@
       "id": 13,
       "move_mode": "walk",
       "type": "path",
-      "x": -1098.3477,
-      "y": -3487.9092
+      "x": -1098.34765625,
+      "y": -3487.9091796875
     },
     {
       "action": "combat_script",
@@ -141,8 +141,8 @@
       "id": 14,
       "move_mode": "walk",
       "type": "path",
-      "x": -1093.1895,
-      "y": -3486.0771
+      "x": -1093.189453125,
+      "y": -3486.0771484375
     }
   ]
 }

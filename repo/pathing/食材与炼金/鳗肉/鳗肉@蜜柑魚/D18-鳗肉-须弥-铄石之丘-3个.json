@@ -18,13 +18,12 @@
       {
         "links": "https: //github.com/OhmyPaoPao",
         "name": "海豹穹穹队"
-      },
-      {
-        "links": "https://github.com/this-Fish",
+      },{
+        "links": "",
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "3个鳗肉采集",
     "enable_monster_loot_split": false,
     "items": [],
@@ -42,18 +41,18 @@
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
       "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": 5141.61,
       "y": -2778.84
     },
     {
-      "id": 2,
       "action": "",
       "action_params": "",
+      "id": 2,
       "move_mode": "walk",
       "point_ext_params": {
         "description": "",
@@ -71,40 +70,40 @@
       "y": -2850.78
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 5721.169921875,
+      "y": -2883.193359375
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "action": "",
-      "action_params": "",
       "move_mode": "run",
       "type": "path",
-      "x": 5721.1699,
-      "y": -2883.1934
+      "x": 5753.76953125,
+      "y": -2917.0224609375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "action": "",
-      "action_params": "",
-      "move_mode": "run",
-      "type": "path",
-      "x": 5753.7695,
-      "y": -2917.0225
-    },
-    {
-      "id": 5,
-      "action": "",
-      "action_params": "",
       "move_mode": "dash",
       "type": "path",
-      "x": 5835.8867,
-      "y": -2948.832
+      "x": 5835.88671875,
+      "y": -2948.83203125
     },
     {
-      "id": 6,
       "action": "pick_around",
       "action_params": "",
+      "id": 5,
       "move_mode": "walk",
       "type": "target",
-      "x": 5841.0908,
-      "y": -2952.667
+      "x": 5841.0908203125,
+      "y": -2952.6669921875
     }
   ]
 }

@@ -1,4 +1,4 @@
-{
+﻿{
   "config": {
     "realtime_triggers": {
       "AutoPick": true
@@ -16,15 +16,15 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/this-Fish",
+        "links": "",
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "2个鳗肉；",
     "enable_monster_loot_split": false,
     "items": [],
-    "last_modified_time": 1773590036642,
+    "last_modified_time": 1773755937096,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "D04-鳗肉-须弥-显圣厅四周三-2个",
@@ -40,8 +40,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4777.9795,
-      "y": -1439.0078
+      "x": 4777.9794921875,
+      "y": -1439.0078125
     },
     {
       "action": "",
@@ -49,17 +49,17 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 4804.0176,
-      "y": -1430.083
+      "x": 4804.017578125,
+      "y": -1430.0830078125
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 4891.1533,
-      "y": -1524.6367
+      "x": 4891.1533203125,
+      "y": -1524.63671875
     },
     {
       "action": "",
@@ -67,8 +67,8 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 4893.8164,
-      "y": -1526.959
+      "x": 4893.81640625,
+      "y": -1526.958984375
     },
     {
       "action": "",
@@ -76,8 +76,8 @@
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": 4896.5361,
-      "y": -1528.9473
+      "x": 4896.5361328125,
+      "y": -1528.947265625
     },
     {
       "action": "",
@@ -85,8 +85,8 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 4903.543,
-      "y": -1520.7969
+      "x": 4903.54296875,
+      "y": -1520.796875
     },
     {
       "action": "",
@@ -95,7 +95,7 @@
       "move_mode": "walk",
       "type": "path",
       "x": 4905.8125,
-      "y": -1518.748
+      "y": -1518.748046875
     },
     {
       "action": "combat_script",
@@ -103,8 +103,8 @@
       "id": 8,
       "move_mode": "walk",
       "type": "target",
-      "x": 4904.6943,
-      "y": -1519.9512
+      "x": 4904.6943359375,
+      "y": -1519.951171875
     }
   ]
 }

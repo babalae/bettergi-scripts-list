@@ -18,20 +18,19 @@
       {
         "links": "https: //github.com/OhmyPaoPao",
         "name": "海豹穹穹队"
-      },
-      {
-        "links": "https://github.com/this-Fish",
+      },{
+        "links": "",
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "3个鳗肉；",
     "enable_monster_loot_split": false,
     "items": [],
     "last_modified_time": 1773429142526,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "D23-鳗肉-须弥-三运河之地-3个【沙暴】",
+    "name": "D23-鳗肉-须弥-三运河之地-3个（需镇压沙暴）",
     "order": 0,
     "tags": [],
     "type": "collect",
@@ -44,8 +43,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4957.4043,
-      "y": -695.1816
+      "x": 4957.404296875,
+      "y": -695.181640625
     },
     {
       "action": "log_output",
@@ -53,8 +52,8 @@
       "id": 2,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 3069.0,
-      "y": -673.0145
+      "x": 3069,
+      "y": -673.0144805314794
     },
     {
       "action": "combat_script",
@@ -62,8 +61,8 @@
       "id": 3,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 3069.0,
-      "y": -673.0145
+      "x": 3069,
+      "y": -673.0144805314794
     },
     {
       "action": "",
@@ -96,8 +95,8 @@
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": 5620.2383,
-      "y": -362.5312
+      "x": 5620.23828125,
+      "y": -362.53125
     },
     {
       "action": "",
@@ -106,7 +105,7 @@
       "move_mode": "walk",
       "type": "path",
       "x": 5624.3125,
-      "y": -365.3262
+      "y": -365.326171875
     },
     {
       "action": "",
@@ -114,8 +113,8 @@
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": 5625.4834,
-      "y": -363.5645
+      "x": 5625.4833984375,
+      "y": -363.564453125
     },
     {
       "action": "combat_script",
@@ -123,8 +122,8 @@
       "id": 10,
       "move_mode": "walk",
       "type": "target",
-      "x": 5623.7812,
-      "y": -364.2002
+      "x": 5623.78125,
+      "y": -364.2001953125
     }
   ]
 }

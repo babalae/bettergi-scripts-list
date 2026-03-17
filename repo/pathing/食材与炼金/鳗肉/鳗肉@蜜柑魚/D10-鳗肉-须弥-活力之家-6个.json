@@ -1,4 +1,4 @@
-{
+﻿{
   "config": {
     "realtime_triggers": {
       "AutoPick": true
@@ -20,15 +20,15 @@
         "name": "海豹穹穹队"
       },
       {
-        "links": "https://github.com/this-Fish",
+        "links": "",
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "6个鳗肉；",
     "enable_monster_loot_split": false,
     "items": [],
-    "last_modified_time": 1773594521039,
+    "last_modified_time": 1773755911447,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "D10-鳗肉-须弥-活力之家-6个",
@@ -44,17 +44,17 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4036.584,
-      "y": -2464.6289
+      "x": 4036.583984375,
+      "y": -2464.62890625
     },
     {
       "action": "combat_script",
-      "action_params": "wait(1)",
+      "action_params": "wait(1.5)",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 4037.002,
-      "y": -2395.9658
+      "x": 4037.001953125,
+      "y": -2395.9658203125
     },
     {
       "action": "",
@@ -62,17 +62,17 @@
       "id": 3,
       "move_mode": "jump",
       "type": "path",
-      "x": 4038.1084,
-      "y": -2384.9883
+      "x": 4038.1083984375,
+      "y": -2384.98828125
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 4063.5693,
-      "y": -2329.3906
+      "x": 4063.5693359375,
+      "y": -2329.390625
     },
     {
       "action": "",
@@ -80,8 +80,8 @@
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": 4065.4062,
-      "y": -2328.4023
+      "x": 4065.40625,
+      "y": -2328.40234375
     },
     {
       "action": "",
@@ -89,8 +89,8 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 4068.0352,
-      "y": -2326.6826
+      "x": 4068.03515625,
+      "y": -2326.6826171875
     },
     {
       "action": "",
@@ -98,8 +98,8 @@
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": 4070.8164,
-      "y": -2325.4717
+      "x": 4070.81640625,
+      "y": -2325.4716796875
     },
     {
       "action": "",
@@ -107,8 +107,8 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 4063.8662,
-      "y": -2328.6367
+      "x": 4063.8662109375,
+      "y": -2328.63671875
     },
     {
       "action": "",
@@ -116,8 +116,8 @@
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": 4033.9521,
-      "y": -2307.998
+      "x": 4033.9521484375,
+      "y": -2307.998046875
     },
     {
       "action": "combat_script",
@@ -134,17 +134,18 @@
       "id": 11,
       "move_mode": "fly",
       "type": "path",
-      "x": 3971.9111,
-      "y": -2220.0859
+      "x": 3971.9111328125,
+      "y": -2220.0859375
     },
     {
       "action": "log_output",
       "action_params": "怪物镇守鳗鱼",
       "id": 12,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 3958.1855,
-      "y": -2229.0703
+      "x": 3958.185546875,
+      "y": -2229.0703125
     },
     {
       "action": "",
@@ -152,8 +153,8 @@
       "id": 13,
       "move_mode": "jump",
       "type": "target",
-      "x": 3955.4238,
-      "y": -2234.2109
+      "x": 3955.423828125,
+      "y": -2234.2109375
     },
     {
       "action": "",
@@ -162,16 +163,25 @@
       "move_mode": "walk",
       "type": "target",
       "x": 3956.875,
-      "y": -2232.4004
+      "y": -2232.400390625
     },
     {
       "action": "",
       "action_params": "",
       "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3958.185546875,
+      "y": -2229.0703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3993.3867,
-      "y": -1989.252
+      "x": 3993.38671875,
+      "y": -1989.251953125
     }
   ]
 }
