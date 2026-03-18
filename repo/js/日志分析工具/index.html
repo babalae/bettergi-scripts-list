@@ -1,3 +1,4 @@
+<!--20260306-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -1254,7 +1255,7 @@
     <!-- 在HTML中添加零统计任务显示状态指示器 -->
     <div class="stats-toggle-indicator" id="zeroStatsToggleIndicator"></div>
     <!-- 帮助提示指示器 -->
-    <div class="help-indicator" id="helpIndicator">按 0 键查看说明</div>
+    <div class="help-indicator" id="helpIndicator">按 0 或 F1 键查看说明</div>
 
     <!-- 快速导航切换按钮 -->
     <div class="quick-nav-toggle" id="quickNavToggle" style="display: none;">📋 导航</div>
@@ -1289,6 +1290,7 @@
         let controlButtons = {}; // 存储按钮状态
         let isFilterMode = false; // 跟踪篩選模式狀態
         let currentFilterKeywords = []; // 當前篩選關鍵字
+        let currentExcludeGroupKeywords = []; // 當前排除的配置組關鍵字
 
         let isAdjustingTableHeader = false;
         let lastAdjustmentTime = 0;
@@ -1677,23 +1679,48 @@
 
         // 進入篩選模式
         function enterFilterMode() {
-            const input = prompt("请输入要筛选的任务关键字（多个关键字用逗号分隔）\n\n例如：蒙德,璃月,稻妻");
+            const input = prompt("请输入筛选条件\n格式：包含关键字（多个用逗号分隔） /- 排除配置组关键字（多个用逗号分隔）\n例如：蒙德,璃月/-钓鱼,采集\n只排除：/-钓鱼,采集\n只包含：蒙德,璃月");
 
             if (input === null) {
-                // 用戶取消輸入
+                return; // 用戶取消
+            }
+
+            const trimmedInput = input.trim();
+            if (trimmedInput === '') {
+                alert("请至少输入一个筛选条件！");
                 return;
             }
 
-            const keywords = input.split(',')
-                .map(keyword => keyword.trim())
-                .filter(keyword => keyword.length > 0);
+            // 分割包含和排除部分
+            let includePart = '';
+            let excludePart = '';
+            const separatorIndex = trimmedInput.indexOf('/-');
+            if (separatorIndex === -1) {
+                // 没有分隔符，全部作为包含关键字
+                includePart = trimmedInput;
+            } else {
+                includePart = trimmedInput.substring(0, separatorIndex).trim();
+                excludePart = trimmedInput.substring(separatorIndex + 2).trim(); // 跳过 "/-"
+            }
 
-            if (keywords.length === 0) {
-                alert("请输入有效的关键字！");
+            // 解析包含关键字
+            const includeKeywords = includePart
+                ? includePart.split(',').map(keyword => keyword.trim()).filter(keyword => keyword.length > 0)
+                : [];
+
+            // 解析排除关键字
+            const excludeKeywords = excludePart
+                ? excludePart.split(',').map(keyword => keyword.trim()).filter(keyword => keyword.length > 0)
+                : [];
+
+            // 如果兩部分都為空，不進入篩選模式
+            if (includeKeywords.length === 0 && excludeKeywords.length === 0) {
+                alert("请至少输入一个筛选条件！");
                 return;
             }
 
-            currentFilterKeywords = keywords;
+            currentFilterKeywords = includeKeywords;
+            currentExcludeGroupKeywords = excludeKeywords;
             isFilterMode = true;
 
             // 添加filter-mode类到body
@@ -1718,6 +1745,7 @@
         function exitFilterMode() {
             isFilterMode = false;
             currentFilterKeywords = [];
+            currentExcludeGroupKeywords = [];
 
             // 移除筛选，显示所有任务和总计行
             removeTaskFilter();
@@ -1761,29 +1789,34 @@
                 const container = table.closest('.group-container');
                 const groupHeader = container.querySelector('.group-header h2');
                 const groupName = groupHeader ? groupHeader.textContent : '';
+                const pureGroupName = extractGroupName(groupName); // 提取纯配置组名
 
                 let groupHasVisibleTask = false;
 
                 // 确保队伍角色行显示
                 const teamRolesRow = table.querySelector('.team-roles-row');
-                if (teamRolesRow) {
-                    teamRolesRow.style.display = '';
-                }
+                if (teamRolesRow) teamRolesRow.style.display = '';
 
                 // 隐藏所有拾取物行
                 const summaryRows = table.querySelectorAll('.summary-row');
-                summaryRows.forEach(row => {
-                    row.style.display = 'none';
-                });
+                summaryRows.forEach(row => row.style.display = 'none');
 
-                // 第一步：检查配置组名是否匹配关键字
-                const groupMatchesKeyword = currentFilterKeywords.some(keyword =>
-                    groupName.toLowerCase().includes(keyword.toLowerCase())
-                );
+                // 檢查排除關鍵字
+                const groupExcluded = currentExcludeGroupKeywords.length > 0 &&
+                    currentExcludeGroupKeywords.some(keyword => pureGroupName.toLowerCase().includes(keyword.toLowerCase()));
+
+                if (groupExcluded) {
+                    container.style.display = 'none';
+                    return; // 跳過此組
+                }
+
+                // 檢查包含關鍵字（配置組名）
+                const groupMatchesInclude = currentFilterKeywords.length === 0 ||
+                    currentFilterKeywords.some(keyword => pureGroupName.toLowerCase().includes(keyword.toLowerCase()));
 
                 // 如果配置组名匹配，显示整个配置组的所有任务
-                if (groupMatchesKeyword) {
-                    // 显示所有任务行
+                if (groupMatchesInclude) {
+                    // 配置組名匹配，顯示所有任務行
                     const rows = table.querySelectorAll('tr');
                     rows.forEach(row => {
                         if (!row.querySelector('th') && !row.classList.contains('team-roles-row') && !row.classList.contains('summary-row')) {
@@ -1791,18 +1824,13 @@
                         }
                     });
                     groupHasVisibleTask = true;
-                }
-                // 如果配置组名不匹配，检查组内任务
-                else {
-                    // 新版格式
+                } else {
+                    // 配置組名不匹配，按任務名稱篩選
                     if (!useLegacyFormat) {
                         const rows = table.querySelectorAll('tr');
-
                         rows.forEach(row => {
                             // 跳过表头行、队伍角色行和已经隐藏的summary-row
-                            if (row.querySelector('th') || row.classList.contains('team-roles-row') || row.classList.contains('summary-row')) {
-                                return;
-                            }
+                            if (row.querySelector('th') || row.classList.contains('team-roles-row') || row.classList.contains('summary-row')) return;
 
                             // 获取任务名称
                             const taskNameCell = row.querySelector('td:first-child');
@@ -1810,7 +1838,7 @@
                                 const taskName = taskNameCell.textContent.toLowerCase();
 
                                 // 检查任务名称是否包含任一关键字
-                                const matchesKeyword = currentFilterKeywords.some(keyword =>
+                                const matchesInclude = currentFilterKeywords.some(keyword =>
                                     taskName.includes(keyword.toLowerCase())
                                 );
 
@@ -1837,7 +1865,7 @@
                                     }
                                 }
 
-                                if (matchesKeyword && matchesStats) {
+                                if (matchesInclude && matchesStats) {
                                     row.style.display = '';
                                     groupHasVisibleTask = true;
                                 } else {
@@ -1858,7 +1886,7 @@
                                 const taskName = taskNameCell.textContent.toLowerCase();
 
                                 // 检查任务名称是否包含任一关键字
-                                const matchesKeyword = currentFilterKeywords.some(keyword =>
+                                const matchesInclude = currentFilterKeywords.some(keyword =>
                                     taskName.includes(keyword.toLowerCase())
                                 );
 
@@ -1885,33 +1913,23 @@
                                     }
                                 }
 
-                                if (matchesKeyword && matchesStats) {
+                                if (matchesInclude && matchesStats) {
                                     const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
                                     relatedRows.forEach(r => {
-                                        if (!r.classList.contains('summary-row')) {
-                                            r.style.display = '';
-                                        }
+                                        if (!r.classList.contains('summary-row')) r.style.display = '';
                                     });
                                     groupHasVisibleTask = true;
                                 } else {
                                     const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
-                                    relatedRows.forEach(r => {
-                                        r.style.display = 'none';
-                                    });
+                                    relatedRows.forEach(r => r.style.display = 'none');
                                 }
                             }
                         });
                     }
                 }
 
-
-
                 // 如果配置组没有可见任务，隐藏整个配置组（包括队伍角色行）
-                if (groupHasVisibleTask) {
-                    container.style.display = '';
-                } else {
-                    container.style.display = 'none';
-                }
+                container.style.display = groupHasVisibleTask ? '' : 'none';
             });
 
             // 筛选后调整表头位置
@@ -1968,7 +1986,15 @@
             const indicator = document.getElementById('filterIndicator');
             const keywordsElement = document.getElementById('filterKeywords');
 
-            keywordsElement.textContent = currentFilterKeywords.join(', ');
+            let displayText = '';
+            if (currentFilterKeywords.length > 0) {
+                displayText += '包含: ' + currentFilterKeywords.join(', ');
+            }
+            if (currentExcludeGroupKeywords.length > 0) {
+                if (displayText) displayText += ' | ';
+                displayText += '排除組: ' + currentExcludeGroupKeywords.join(', ');
+            }
+            keywordsElement.textContent = displayText;
             indicator.classList.add('visible');
 
             // 动态计算筛选提示宽度并设置CSS变量
@@ -3450,7 +3476,7 @@
                         }
 
                         // 10. 当前获取焦点的窗口不是原神，尝试恢复窗口
-                        if (line.includes("当前获取焦点的窗口不是原神，尝试恢复窗口")) {
+                        if (line.includes("当前获取焦点的窗口不是原神，尝试恢复窗口") || (line.includes("当前获取焦点的窗口为: ") && line.includes("，不是原神，尝试恢复窗口"))) {
                             const message = '窗口焦点异常，尝试恢复';
                             const type = 'pause-alert';
                             if (currentTask.specialAlerts.has(message)) {
@@ -3689,6 +3715,7 @@
                             line.includes('路线未正常完成、坐标获取异常或不处于主界面，不记录运行数据') || // 鋤地2.0.3日志
                             line.includes('距离异常，不记录数据') || // 采集cd管理
                             (line.includes('出现异常') && line.includes('不记录cd')) ||
+                            line.includes('坐标获取失败，不更新记录') || // CD-Aware-AutoGather2.0前日志
                             line.includes('出发点与终点过于接近，不记录运行数据') ||
                             line.includes('位置几乎未变化，不更新刷新时间')
                         ) {
@@ -4915,6 +4942,7 @@
             const currentHideZeroStats = hideZeroStatsTasks;
             const currentFilterMode = isFilterMode;
             currentFilterKeywords = [...currentFilterKeywords];
+            currentExcludeGroupKeywords = [...currentExcludeGroupKeywords];
 
             const currentPickEfficiencyMode = isPickEfficiencyMode; // 保存拾取效率模式状态
             currentPickEfficiencyItem = currentPickEfficiencyItem; // 保存当前计算的物品
@@ -4993,6 +5021,7 @@
             hideZeroStatsTasks = currentHideZeroStats;
             isFilterMode = currentFilterMode;
             currentFilterKeywords = currentFilterKeywords;
+            currentExcludeGroupKeywords = currentExcludeGroupKeywords;
 
             isPickEfficiencyMode = currentPickEfficiencyMode;
             currentPickEfficiencyItem = currentPickEfficiencyItem;
@@ -6384,20 +6413,22 @@
 
             tables.forEach(table => {
                 const container = table.closest('.group-container');
+
+                // 如果配置组已被 H 键排除（display: none），则跳过整个表格
+                if (container.style.display === 'none') {
+                    return;
+                }
+
                 const groupHeader = container.querySelector('.group-header h2');
                 const groupName = groupHeader ? groupHeader.textContent : '';
 
                 // 确保队伍角色行始终显示
                 const teamRolesRow = table.querySelector('.team-roles-row');
-                if (teamRolesRow) {
-                    teamRolesRow.style.display = ''; // 确保显示
-                }
+                if (teamRolesRow) teamRolesRow.style.display = '';
 
                 // 确保拾取物行保持隐藏
                 const summaryRows = table.querySelectorAll('.summary-row');
-                summaryRows.forEach(row => {
-                    row.style.display = 'none';
-                });
+                summaryRows.forEach(row => row.style.display = 'none');
 
                 let groupHasVisibleTask = false;
 
@@ -6461,20 +6492,22 @@
                 } else {
                     // 普通任务筛选模式（H键筛选）
 
-                    // 第一步：检查配置组名是否匹配关键字
-                    const groupMatchesKeyword = currentFilterKeywords.some(keyword =>
+                    // 如果没有包含关键字，则直接认为所有未排除的组都匹配
+                    const noIncludeKeywords = currentFilterKeywords.length === 0;
+
+                    // 检查配置组名是否匹配关键字（仅在有关键字时进行）
+                    const groupMatchesKeyword = !noIncludeKeywords && currentFilterKeywords.some(keyword =>
                         groupName.toLowerCase().includes(keyword.toLowerCase())
                     );
 
-                    // 如果配置组名匹配，显示组内所有非零统计任务
-                    if (groupMatchesKeyword) {
+                    if (noIncludeKeywords || groupMatchesKeyword) {
+                        // 没有包含关键字 或 配置组名匹配：显示组内所有任务，并应用零统计
                         if (!useLegacyFormat) {
                             const rows = table.querySelectorAll('tr');
                             rows.forEach(row => {
                                 // 跳过表头行、队伍角色行和summary-row
                                 if (row.querySelector('th') || row.classList.contains('team-roles-row') || row.classList.contains('summary-row')) {
                                     if (row.classList.contains('summary-row')) {
-                                        // 在普通筛选模式下，无论配置组名是否匹配，summary-row都保持隐藏
                                         row.style.display = 'none';
                                     } else {
                                         row.style.display = '';
@@ -6506,7 +6539,6 @@
                                     if (matchesStats) {
                                         const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
                                         relatedRows.forEach(r => {
-                                            // 跳过summary-row
                                             if (!r.classList.contains('summary-row')) {
                                                 r.style.display = '';
                                             }
@@ -6514,16 +6546,13 @@
                                         groupHasVisibleTask = true;
                                     } else {
                                         const relatedRows = table.querySelectorAll(`tr[data-task-id="${taskId}"]`);
-                                        relatedRows.forEach(r => {
-                                            r.style.display = 'none';
-                                        });
+                                        relatedRows.forEach(r => r.style.display = 'none');
                                     }
                                 }
                             });
                         }
-                    }
-                    // 配置组名不匹配，检查任务名是否匹配关键字
-                    else {
+                    } else {
+                        // 配置组名不匹配，检查任务名是否匹配关键字
                         if (!useLegacyFormat) {
                             const rows = table.querySelectorAll('tr');
                             rows.forEach(row => {
@@ -6603,7 +6632,6 @@
                     container.style.display = '';
                 }
             });
-
         }
 
         // 非筛选模式下的零统计筛选

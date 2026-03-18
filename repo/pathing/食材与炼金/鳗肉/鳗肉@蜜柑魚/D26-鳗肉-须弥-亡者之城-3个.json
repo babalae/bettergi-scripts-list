@@ -13,7 +13,7 @@
     "bgi_version": "0.52.0",
     "description": "3个鳗肉；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1773432329740,
+    "last_modified_time": 1773769339587,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "D26-鳗肉-须弥-亡者之城-3个",
@@ -62,6 +62,16 @@
       "action": "stop_flying",
       "action_params": "",
       "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4477.3291,
+      "y": -703.3301
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.75)",
+      "id": 6,
       "move_mode": "walk",
       "type": "path",
       "x": 4477.3291,
@@ -70,7 +80,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 6,
+      "id": 7,
       "move_mode": "run",
       "type": "path",
       "x": 4458.3193,
@@ -79,7 +89,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 7,
+      "id": 8,
       "move_mode": "run",
       "type": "target",
       "x": 4445.3516,
@@ -87,8 +97,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.456)",
-      "id": 8,
+      "action_params": "wait(0.345)",
+      "id": 9,
       "move_mode": "walk",
       "type": "target",
       "x": 4443.958,
@@ -97,7 +107,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 10,
       "move_mode": "walk",
       "type": "teleport",
       "x": 4273.1807,

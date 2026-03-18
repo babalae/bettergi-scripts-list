@@ -28,7 +28,7 @@
     "description": "6个鳗肉；",
     "enable_monster_loot_split": false,
     "items": [],
-    "last_modified_time": 1773594521039,
+    "last_modified_time": 1773755911447,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "D10-鳗肉-须弥-活力之家-6个",
@@ -49,9 +49,9 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(1)",
+      "action_params": "wait(1.5)",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
       "x": 4037.002,
       "y": -2395.9658
@@ -69,7 +69,7 @@
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
       "x": 4063.5693,
       "y": -2329.3906
@@ -141,6 +141,7 @@
       "action": "log_output",
       "action_params": "怪物镇守鳗鱼",
       "id": 12,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 3958.1855,
@@ -168,6 +169,15 @@
       "action": "",
       "action_params": "",
       "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3958.1855,
+      "y": -2229.0703
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
       "move_mode": "walk",
       "type": "teleport",
       "x": 3993.3867,
