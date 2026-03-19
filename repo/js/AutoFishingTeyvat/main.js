@@ -1077,7 +1077,7 @@
             if (time_target < now) { // 不是当天终止，天数+1
                 time_target.setDate(now.getDate() + 1); // 不会超限
             }
-            let time_show = `${time_target.getFullYear()}/${time_target.getMonth()}/${time_target.getDate()} ${time_target.getHours()}:${time_target.getMinutes()}`;
+            let time_show = `${time_target.getFullYear()}/${time_target.getMonth() + 1}/${time_target.getDate()} ${time_target.getHours()}:${time_target.getMinutes()}`;
             log.info(`定时关闭已启用，将在 ${time_show} 后停止后续任务...`);
             await sleep(2000);
         }
