@@ -17,7 +17,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时186.82秒，包含8只小怪，预计收入567摩拉，包含以下怪物：2只幼嵴锋龙、6只嵴锋龙。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1769414218739,
+    "last_modified_time": 1773912759605,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "F016纳塔坚岩隘谷硫晶支脉-2",
@@ -46,7 +46,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.2)",
+      "action_params": "attack(0.2);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;哥伦比娅 e;",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
@@ -127,7 +127,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.2);芙宁娜 e;岩王帝君 w(1.8),j,wait(5),w(1);爱可菲 e;伊涅芙 e;",
+      "action_params": "attack(0.2);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;哥伦比娅 e;",
       "id": 12,
       "move_mode": "dash",
       "type": "path",

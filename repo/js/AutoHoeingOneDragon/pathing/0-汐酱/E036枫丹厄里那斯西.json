@@ -11,7 +11,7 @@
     "description": "  路线信息：该路线预计用时117.67秒，包含以下怪物：1只大型狂蔓隙境原体、2只狂蔓隙境原体、1只遗迹重机、1只遗迹龙兽·空巡。",
     "enable_monster_loot_split": false,
     "hash_res": "61674668",
-    "last_modified_time": 1772613349420,
+    "last_modified_time": 1773899342484,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "E036枫丹厄里那斯西",
@@ -98,36 +98,63 @@
       "id": 9,
       "move_mode": "dash",
       "type": "path",
-      "x": 5057.0068359375,
-      "y": 2788.107421875
+      "x": 5058.212890625,
+      "y": 2786.8388671875
     },
     {
       "action": "",
       "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5068.642578125,
+      "y": 2781.86474609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
       "move_mode": "dash",
       "type": "path",
-      "x": 5046.458984375,
-      "y": 2802.298828125
+      "x": 5070.09765625,
+      "y": 2797.1318359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5054.4794921875,
+      "y": 2806.4599609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5036.2880859375,
+      "y": 2786.93701171875
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 11,
+      "id": 14,
       "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 5038.646484375,
-      "y": 2790.2529296875
+      "x": 5040.0263671875,
+      "y": 2774.69921875
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.1)",
-      "id": 12,
+      "id": 15,
       "move_mode": "dash",
       "type": "orientation",
-      "x": 5038.646484375,
-      "y": 2790.2529296875
+      "x": 5040.0263671875,
+      "y": 2774.69921875
     }
   ]
 }
