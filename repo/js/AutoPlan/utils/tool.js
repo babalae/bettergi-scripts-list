@@ -368,7 +368,64 @@ async function findTextAndClick(
 
     return null;
 }
+/**
+ * 通用找图并点击（支持图片文件路径、Mat）
+ * @param {string|Mat} target 图片路径或已构造的 Mat
+ * @param {number} [x=0] 识别区域左上角 X
+ * @param {number} [y=0] 识别区域左上角 Y
+ * @param {number} [w=1920] 识别区域宽度
+ * @param {number} [h=1080] 识别区域高度
+ * @param {number} [timeout=1000] 识别时间上限（毫秒）
+ * @param {number} [interval=50] 每次识别之间的等待间隔（毫秒）
+ * @param {number} [preClickDelay=50] 点击前等待时间（毫秒）
+ * @param {number} [postClickDelay=50] 点击后等待时间（毫秒）
+ *
+ * @returns
+ * - RecognitionResult | null
+ */
+async function findImgAndClick(
+    target,
+    x = 0,
+    y = 0,
+    w = 1920,
+    h = 1080,
+    timeout = 1000,
+    interval = 50,
+    preClickDelay = 50,
+    postClickDelay = 50
+) {
+    const ro =
+        typeof target === 'string'
+            ? RecognitionObject.TemplateMatch(
+                file.readImageMatSync(target),
+                x, y, w, h
+            )
+            : RecognitionObject.TemplateMatch(
+                target,
+                x, y, w, h
+            );
 
+    const start = Date.now();
+
+    while (Date.now() - start <= timeout) {
+        const gameRegion = captureGameRegion();
+        try {
+            const res = gameRegion.find(ro);
+            if (!res.isEmpty()) {
+                await sleep(preClickDelay);
+                res.click();
+                await sleep(postClickDelay);
+                return res;
+            }
+        } finally {
+            gameRegion.dispose();
+        }
+
+        await sleep(interval);
+    }
+
+    return null;
+}
 /**
  * 抛出错误函数
  * 该函数用于显示错误通知并抛出错误对象
@@ -395,5 +452,6 @@ export {
     isInOutStygianOnslaughtUI,
     outStygianOnslaughtUI,
     findTextAndClick,
+    findImgAndClick,
     throwError,
 }
