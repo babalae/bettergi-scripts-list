@@ -592,6 +592,7 @@
                     if (totalFoodToEat <= 0) {
                          log.info(`当前${food}数量为${currentCount}，已经满足或低于剩余数量${remainingFood}的要求，不需要再吃了！`);
                          await returnMijingUi();
+                         n = 1;
                          return;
                     }
                     
