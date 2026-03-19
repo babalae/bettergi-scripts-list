@@ -55,14 +55,14 @@ function fileExists(filePath) {
     try {
         // 2. 路径标准化（复用已有normalizePath，统一分隔符）
         const normalizedFilePath = normalizePath(filePath);
-
+        
         // 3. 拆分「文件所在目录」和「文件名」（核心步骤）
         // 3.1 提取纯文件名（复用已有basename）
         const fileName = basename(normalizedFilePath);
         // 3.2 提取文件所在的目录路径（基于标准化路径拆分）
         // 修复：当没有目录结构时，使用'.'表示当前目录，而不是'/'（避免越界访问）
-        const dirPath = normalizedFilePath.lastIndexOf('/') !== -1
-            ? normalizedFilePath.substring(0, normalizedFilePath.lastIndexOf('/'))
+        const dirPath = normalizedFilePath.lastIndexOf('/') !== -1 
+            ? normalizedFilePath.substring(0, normalizedFilePath.lastIndexOf('/')) 
             : '.';
 
         // 4. 先判断目录是否存在
@@ -113,24 +113,24 @@ function fileExists(filePath) {
  * @returns {any} 文件内容（成功）| defaultValue（失败）
  */
 function safeReadTextSync(filePath, defaultValue = "") {
-    try {
-        // 第一步：校验文件是否存在
-        if (!fileExists(filePath)) {
-            log.debug(`${CONSTANTS.LOG_MODULES.RECORD}文件不存在，跳过读取: ${filePath}`);
-            return defaultValue;
-        }
-        // 第二步：读取文件（捕获读取异常）
-        const content = file.readTextSync(filePath);
-        // log.debug(`${CONSTANTS.LOG_MODULES.RECORD}成功读取文件: ${filePath}`);
-        return content;
-    } catch (error) {
-        log.debug(`${CONSTANTS.LOG_MODULES.RECORD}读取文件失败: ${filePath} → 原因：${error.message}`);
-        return defaultValue;
+  try {
+    // 第一步：校验文件是否存在
+    if (!fileExists(filePath)) {
+      log.debug(`${CONSTANTS.LOG_MODULES.RECORD}文件不存在，跳过读取: ${filePath}`);
+      return defaultValue;
     }
+    // 第二步：读取文件（捕获读取异常）
+    const content = file.readTextSync(filePath);
+    // log.debug(`${CONSTANTS.LOG_MODULES.RECORD}成功读取文件: ${filePath}`);
+    return content;
+  } catch (error) {
+    log.debug(`${CONSTANTS.LOG_MODULES.RECORD}读取文件失败: ${filePath} → 原因：${error.message}`);
+    return defaultValue;
+  }
 }
 
 // 带深度限制的非递归文件夹读取
-function readAllFilePaths(dir, depth = 0, maxDepth = 3, includeExtensions = ['.png', '.json', '.txt'], includeDirs = false) {
+function readAllFilePaths(dir, depth = 0, maxDepth = 6, includeExtensions = ['.png', '.json', '.txt'], includeDirs = false) {
     if (!pathExists(dir)) {
         log.error(`目录 ${dir} 不存在`);
         return [];
@@ -139,11 +139,11 @@ function readAllFilePaths(dir, depth = 0, maxDepth = 3, includeExtensions = ['.p
     try {
         const filePaths = [];
         const stack = [[dir, depth]]; // 存储(路径, 当前深度)的栈
-
+        
         while (stack.length > 0) {
             const [currentDir, currentDepth] = stack.pop();
             const entries = file.readPathSync(currentDir);
-
+            
             for (const entry of entries) {
                 const isDirectory = pathExists(entry);
                 if (isDirectory) {
@@ -162,6 +162,88 @@ function readAllFilePaths(dir, depth = 0, maxDepth = 3, includeExtensions = ['.p
         return [];
     }
 }
+
+// ==============================================
+// 全局图片缓存（避免重复加载）
+// ==============================================
+const globalImageCache = new Map();
+
+/**
+ * 获取缓存的图像Mat（避免重复加载）
+ * @param {string} filePath - 图像文件路径
+ * @returns {Mat} 图像Mat对象
+ */
+function getCachedImageMat(filePath) {
+    if (globalImageCache.has(filePath)) {
+        return globalImageCache.get(filePath);
+    }
+    const mat = file.readImageMatSync(filePath);
+    if (!mat.empty()) {
+        globalImageCache.set(filePath, mat);
+    }
+    return mat;
+}
+
+// ==============================================
+// 图像分类映射
+// ==============================================
+const imageMapCache = new Map(); // 图像分类映射缓存
+const loggedResources = new Set(); // 已记录的资源名
+
+/**
+ * 创建图像分类映射（目录到分类的映射）
+ * @param {string} imagesDir - 图像目录
+ * @returns {Object} 图像名到分类的映射
+ */
+const createImageCategoryMap = (imagesDir) => {
+  const map = {};
+  const imageFiles = readAllFilePaths(imagesDir, 0, 1, ['.png']);
+  
+  for (const imagePath of imageFiles) {
+    const pathParts = imagePath.split(/[\\/]/);
+    if (pathParts.length < 3) continue;
+
+    const imageName = pathParts.pop()
+      .replace(/\.png$/i, '')
+      .trim()
+      .toLowerCase();
+    
+    if (!(imageName in map)) {
+      map[imageName] = pathParts[2];
+    }
+  }
+  
+  return map;
+};
+
+/**
+ * 匹配图像并获取材料分类
+ * @param {string} resourceName - 资源名
+ * @param {string} imagesDir - 图像目录
+ * @returns {string|null} 材料分类（null=未匹配）
+ */
+function matchImageAndGetCategory(resourceName, imagesDir) {
+  const processedName = (MATERIAL_ALIAS[resourceName] || resourceName).toLowerCase();
+  
+  if (!imageMapCache.has(imagesDir)) {
+    log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}初始化图像分类缓存：${imagesDir}`);
+    imageMapCache.set(imagesDir, createImageCategoryMap(imagesDir));
+  }
+
+  const result = imageMapCache.get(imagesDir)[processedName] ?? null;
+  if (result) {
+    // log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}资源${resourceName}匹配分类：${result}`);
+  } else {
+    // log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}资源${resourceName}未匹配到分类`);
+  }
+
+  if (!loggedResources.has(processedName)) {
+    loggedResources.add(processedName);
+  }
+  
+  return result;
+}
+
 // 新记录在最上面20250531 isAppend默认就是true追加
 function writeFile(filePath, content, isAppend = true, maxRecords = 36500) {
     try {
@@ -174,20 +256,20 @@ function writeFile(filePath, content, isAppend = true, maxRecords = 36500) {
                 // 文件不存在时视为空内容
                 existingContent = "";
             }
-
+            
             // 分割现有记录并过滤空记录
             const records = existingContent.split("\n\n").filter(Boolean);
-
+            
             // 新内容放在最前面，形成完整记录列表
             const allRecords = [content, ...records];
-
+            
             // 只保留最新的maxRecords条（超过则删除最老的）
             const keptRecords = allRecords.slice(0, maxRecords);
-
+            
             // 拼接记录并写入文件
             const finalContent = keptRecords.join("\n\n");
             const result = file.writeTextSync(filePath, finalContent, false);
-
+            
             // log.info(result ? `[追加] 成功写入: ${filePath}` : `[追加] 写入失败: ${filePath}`);
             return result;
         } else {
