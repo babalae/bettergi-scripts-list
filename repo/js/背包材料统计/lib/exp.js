@@ -46,59 +46,68 @@ async function recognizeExpRegion(regionName, initialRa = null, timeout = 2000) 
 
     log.info(`[狗粮OCR] 识别${regionName}（x=${ocrRegion.x}, y=${ocrRegion.y}）`);
     let ocrScreenshot = null; // 存储performOcr返回的有效截图
+    let shouldDispose = false; // 标记是否需要释放截图
 
     try {
-        // 2. 转换OCR区域格式：ocrRegion(x,y,width,height) → xRange/yRange(min/max)
-        const xRange = { 
-            min: ocrRegion.x, 
-            max: ocrRegion.x + ocrRegion.width 
-        };
-        const yRange = { 
-            min: ocrRegion.y, 
-            max: ocrRegion.y + ocrRegion.height 
-        };
-
-        // 3. 调用新版 performOcr（自动重截图、资源管理、异常处理）
+        // 2. 调用新版 performOcr（自动重截图、资源管理、异常处理）
         // 目标文本传空数组：识别数字无需匹配特定文本，仅需提取内容
-        const { results, screenshot } = await performOcr(
+        const { results, screenshot, shouldDispose: disposeFlag } = await performOcr(
             [""],        // targetTexts：空数组（数字识别无特定目标）
-            xRange,      // 转换后的X轴范围
-            yRange,      // 转换后的Y轴范围
+            ocrRegion,   // 识别区域 { x, y, width, height }
             initialRa,   // 初始截图（外部传入）
             timeout,     // 超时时间（复用原参数）
-            50           // 重试间隔（默认50ms，比原500ms更灵敏）
+            500           // 重试间隔（默认500ms）
         );
         ocrScreenshot = screenshot; // 暂存截图，后续返回或释放
+        shouldDispose = disposeFlag; // 记录是否需要释放
 
         // 4. 处理OCR结果（保留原数字处理+日志逻辑）
         if (results.length > 0) {
-            const { originalText, text: correctedText } = results[0]; // 从performOcr拿原始/修正文本
-            log.info(`[狗粮OCR] 原始文本：${originalText}`); // 保持原日志格式
+            log.info(`[狗粮OCR] 共识别到${results.length}个文本块`);
+            let maxExpCount = 0;
+            let bestResult = null;
+            let hasValidNumber = false;
 
-            // 用原processNumberText提纯数字
-            const { processedText, removedSymbols } = processNumberText(correctedText);
-            if (removedSymbols.length > 0) {
-                log.info(`[狗粮OCR] 去除无效字符：${removedSymbols.join(', ')}`); // 保留原日志
+            // 遍历所有识别结果，找到最大的数字
+            for (let i = 0; i < results.length; i++) {
+                const result = results[i];
+                const { originalText, text: correctedText } = result;
+                log.info(`[狗粮OCR] [${i+1}/${results.length}] 原始文本："${originalText}"`);
+
+                // 用原processNumberText提纯数字
+                const { processedText, removedSymbols } = processNumberText(correctedText);
+                if (removedSymbols.length > 0) {
+                    log.info(`[狗粮OCR] [${i+1}/${results.length}] 去除无效字符：${removedSymbols.join(', ')}`);
+                }
+
+                const expCount = processedText ? Math.abs(parseInt(processedText, 10)) : 0;
+                log.info(`[狗粮OCR] [${i+1}/${results.length}] 提取数字：${expCount}（processedText="${processedText}"）`);
+                
+                if (!isNaN(expCount) && (expCount > maxExpCount || !hasValidNumber)) {
+                    maxExpCount = expCount;
+                    bestResult = result;
+                    hasValidNumber = true;
+                    log.info(`[狗粮OCR] [${i+1}/${results.length}] 更新最大值：${maxExpCount}`);
+                }
             }
 
-            const expCount = processedText ? parseInt(processedText, 10) : 0;
-            log.info(`[狗粮OCR] ${regionName}结果：${expCount}`); // 保留原日志
-            return { success: true, expCount, screenshot: ocrScreenshot }; // 返回截图（调试用）
+            log.info(`[狗粮OCR] ${regionName}最终结果：${maxExpCount}`);
+            return { success: true, expCount: maxExpCount, screenshot: ocrScreenshot };
         }
 
     } catch (error) {
         // 捕获performOcr未处理的异常（如参数错误）
         log.error(`[狗粮OCR] ${regionName}识别异常：${error.message}`);
-        // 异常时释放截图资源
-        if (ocrScreenshot) {
+        // 异常时释放截图资源（仅当需要释放时）
+        if (ocrScreenshot && shouldDispose) {
             if (ocrScreenshot.Dispose) ocrScreenshot.Dispose();
             else if (ocrScreenshot.dispose) ocrScreenshot.dispose();
         }
     }
 
     // 5. 识别失败/超时（保留原逻辑）
-    log.error(`[狗粮OCR] ${regionName}超时未识别，默认0`);
-    return { success: false, expCount: 0, screenshot: ocrScreenshot }; // 超时也返回截图（排查用）
+    log.error(`[狗粮OCR] ${regionName}未识别到文本，默认0`);
+    return { success: false, expCount: 0, screenshot: ocrScreenshot, shouldDispose }; // 超时也返回截图（排查用）
 }
 
 // 5. 狗粮分解流程（调整：适配recognizeExpRegion的新返回值，优化资源释放）
@@ -136,29 +145,21 @@ async function executeSalvageWithOCR() {
 
                 // 分解前识别储存EXP（适配新的recognizeExpRegion返回值）
                 if (x === 660 && y === 1010) {
-                    // 释放旧缓存帧
-                    if (cachedFrame) {
-                        if (cachedFrame.Dispose) cachedFrame.Dispose();
-                        else if (cachedFrame.dispose) cachedFrame.dispose();
-                    }
-                    // 捕获新帧
+                    cachedFrame?.dispose();
                     cachedFrame = captureGameRegion();
-                    // 调用改造后的recognizeExpRegion（接收expCount和screenshot）
-                    const { expCount, screenshot } = await recognizeExpRegion("expStorage", cachedFrame, 1000);
+                    // 调用改造后的recognizeExpRegion（接收expCount、screenshot和shouldDispose）
+                    const { expCount, screenshot, shouldDispose } = await recognizeExpRegion("expStorage", cachedFrame, 1000);
                     storageExp = expCount;
-                    ocrScreenshots.push(screenshot); // 收集截图（后续统一释放）
+                    ocrScreenshots.push({ screenshot, shouldDispose }); // 收集截图和释放标记
                 }
 
                 // 分解后识别新增EXP（同上，适配新返回值）
                 if (x === 340 && y === 1000) {
-                    if (cachedFrame) {
-                        if (cachedFrame.Dispose) cachedFrame.Dispose();
-                        else if (cachedFrame.dispose) cachedFrame.dispose();
-                    }
+                    cachedFrame?.dispose();
                     cachedFrame = captureGameRegion();
-                    const { expCount, screenshot } = await recognizeExpRegion("expCount", cachedFrame, 1000);
+                    const { expCount, screenshot, shouldDispose } = await recognizeExpRegion("expCount", cachedFrame, 1000);
                     countExp = expCount;
-                    ocrScreenshots.push(screenshot); // 收集截图
+                    ocrScreenshots.push({ screenshot, shouldDispose }); // 收集截图
                 }
             }
         }
@@ -176,14 +177,22 @@ async function executeSalvageWithOCR() {
         // 最终统一释放所有资源（避免内存泄漏）
         // 1. 释放缓存帧
         if (cachedFrame) {
-            if (cachedFrame.Dispose) cachedFrame.Dispose();
-            else if (cachedFrame.dispose) cachedFrame.dispose();
+            try {
+                if (cachedFrame.Dispose) cachedFrame.Dispose();
+                else if (cachedFrame.dispose) cachedFrame.dispose();
+            } catch (e) {
+                log.debug(`[狗粮分解] 释放缓存帧失败（可能已释放）: ${e.message}`);
+            }
         }
-        // 2. 释放OCR过程中产生的截图
-        for (const screenshot of ocrScreenshots) {
-            if (screenshot) {
-                if (screenshot.Dispose) screenshot.Dispose();
-                else if (screenshot.dispose) screenshot.dispose();
+        // 2. 释放OCR过程中产生的截图（仅释放需要释放的）
+        for (const { screenshot, shouldDispose } of ocrScreenshots) {
+            if (screenshot && shouldDispose) {
+                try {
+                    if (screenshot.Dispose) screenshot.Dispose();
+                    else if (screenshot.dispose) screenshot.dispose();
+                } catch (e) {
+                    log.debug(`[狗粮分解] 释放OCR截图失败（可能已释放）: ${e.message}`);
+                }
             }
         }
         log.debug("[狗粮分解] 所有资源已释放");
