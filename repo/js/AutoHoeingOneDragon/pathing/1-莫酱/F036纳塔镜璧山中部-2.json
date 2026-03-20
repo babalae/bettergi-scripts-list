@@ -1,26 +1,30 @@
 {
   "info": {
-    "name": "F036纳塔镜璧山中部-2",
-    "type": "collect",
     "author": "Demo&汐&mno",
-    "version": "1.2",
-    "map_name": "Teyvat",
-    "description": "  路线信息：该路线预计用时274.27秒，包含以下怪物：1只灵觉勇士·执意师、4只幼绒翼龙、2只绒翼龙、2只幼暝视龙、6只暝视龙。",
-    "hash_res": "64330361",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "Demo"
       },
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       },
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时274.27秒，包含以下怪物：1只灵觉勇士·执意师、4只幼绒翼龙、2只绒翼龙、2只幼暝视龙、6只暝视龙。",
+    "enable_monster_loot_split": false,
+    "hash_res": "64330361",
+    "last_modified_time": 1773914512821,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F036纳塔镜璧山中部-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
   },
   "positions": [
     {
@@ -52,7 +56,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.5)",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;哥伦比娅 e;菈乌玛 e;",
       "id": 4,
       "move_mode": "dash",
       "type": "path",
@@ -97,7 +101,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.5),",
+      "action_params": "attack(0.3)",
       "id": 9,
       "move_mode": "dash",
       "type": "path",
@@ -205,7 +209,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.5)",
+      "action_params": "attack(0.5);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;哥伦比娅 e;",
       "id": 21,
       "move_mode": "dash",
       "type": "path",
