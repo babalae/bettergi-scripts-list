@@ -172,11 +172,8 @@ async function alignAndInteractTarget(targetTextsOrFunc, fDialogueRo, textxRange
             ocrScreenshots.push({ screenshot: ocrScreenshot, shouldDispose });
 
             let foundTarget = false;
-            for (const targetText of targetTexts) {
-                const targetResult = ocrResults.find(res => 
-                    res.text.includes(targetText) || targetText.includes(res.text)
-                );
-                if (!targetResult) continue;
+            for (const targetResult of ocrResults) {
+                const targetText = targetResult.text;
 
                 const materialId = `${targetText}-${targetResult.y}`;
                 recognitionCount.set(materialId, (recognitionCount.get(materialId) || 0) + 1);
