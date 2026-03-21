@@ -1,15 +1,22 @@
-{
+﻿{
   "info": {
-    "name": "B033璃月琼玑野渌华池",
-    "type": "collect",
-    "author": "蜜柑魚",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时67.92秒，包含以下怪物：1只炽热骗骗花、2只雷萤。",
-    "hash_res": "95969953",
-    "map_name": "Teyvat",
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
     "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时67.92秒，包含以下怪物：1只炽热骗骗花、2只雷萤。",
+    "enable_monster_loot_split": false,
+    "hash_res": "95969953",
+    "last_modified_time": 1774107992115,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B033璃月琼玑野渌华池",
     "tags": [],
-    "last_modified_time": 1752249619598
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
@@ -18,8 +25,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 837.51,
-      "y": 235.14
+      "x": 837.5100000000002,
+      "y": 235.14000000000033
     },
     {
       "action": "stop_flying",
@@ -27,35 +34,28 @@
       "id": 2,
       "move_mode": "fly",
       "type": "path",
-      "x": 861.21,
-      "y": 163.66
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 854.23,
-      "y": 168.81
+      "x": 862.3564453125,
+      "y": 208.9208984375
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
+      "id": 3,
+      "locked": false,
+      "move_mode": "dash",
       "type": "path",
-      "x": 854.23,
-      "y": 168.81
+      "x": 864.716796875,
+      "y": 174.40625
     },
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 5,
-      "move_mode": "walk",
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
       "type": "orientation",
-      "x": 854.23,
-      "y": 168.81
+      "x": 864.716796875,
+      "y": 174.40625
     }
   ]
 }
