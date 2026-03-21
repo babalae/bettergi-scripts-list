@@ -13,7 +13,7 @@
     "bgi_version": "0.52.0",
     "description": "约1分钟2秒/4个",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1763905069007,
+    "last_modified_time": 1774079235744,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "07-枣椰-丰饶绿洲右下-4个",
@@ -116,7 +116,6 @@
       "action": "combat_script",
       "action_params": "keypress(VK_X);迪希雅 wait(0.3),keypress(VK_E),keypress(VK_E),wait(0.2);",
       "id": 11,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 4607.2627,
@@ -126,6 +125,7 @@
       "action": "",
       "action_params": "",
       "id": 12,
+      "locked": false,
       "move_mode": "walk",
       "type": "target",
       "x": 4607.2627,
@@ -146,8 +146,8 @@
       "id": 14,
       "move_mode": "walk",
       "type": "path",
-      "x": 4618.6367,
-      "y": -2636.2295
+      "x": 4607.2627,
+      "y": -2640.4199
     }
   ]
 }
