@@ -1862,8 +1862,8 @@
             return null;
         }
 
-        // // 返回主界面
-        // await genshin.returnMainUi();
+        // 返回主界面
+        await genshin.returnMainUi();
 
         // 刷满熟练度
         if (settings.unlockAutoCooking) {
@@ -1891,12 +1891,12 @@
         for (let i = 0; i < 2; i++) {
             let food_dic = await calculate_food(i !== 0);
             if (Object.keys(food_dic).length !== 0) {
-                // // 前往锅
-                // let flag = await go_and_interact("锅");
-                // if (!flag) {
-                //     log.error("未找到锅...");
-                //     return null;
-                // }
+                // 前往锅
+                let flag = await go_and_interact("锅");
+                if (!flag) {
+                    log.error("未找到锅...");
+                    return null;
+                }
                 for (const [f_name, f_num] of Object.entries(food_dic)) {
                     // 找到料理
                     let findResult = await find_and_click_food(f_name);
