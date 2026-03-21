@@ -106,7 +106,7 @@ async function findFIcon(recognitionObject, timeout = 10, ra = null) {
 
 // 定义Scroll.png识别对象（无修改，与OCR无关）
 const ScrollRo = RecognitionObject.TemplateMatch(
-    file.ReadImageMatSync("assets/Scroll.png"),
+    file.ReadImageMatSync("assets/Scroll.png"), 
     1055, 521, 15, 35  // 识别范围：x=1055, y=521, width=15, height=35
 );
 
@@ -131,8 +131,8 @@ async function alignAndInteractTarget(targetTextsOrFunc, fDialogueRo, textxRange
             }
             recognitionCount.clear();
             const currentTime = Date.now();
-
-            if (currentTime - lastLogTime >= 10000) {
+            
+            if (currentTime - lastLogTime >= 15000) {
                 log.info("独立OCR识别中...");
                 lastLogTime = currentTime;
             }
@@ -156,23 +156,24 @@ async function alignAndInteractTarget(targetTextsOrFunc, fDialogueRo, textxRange
 
             const targetTexts = typeof targetTextsOrFunc === 'function' ? targetTextsOrFunc() : targetTextsOrFunc;
 
-            const yRange = { min: fRes.y - 3, max: fRes.y + 37 };
-            const { results: ocrResults, screenshot: ocrScreenshot } = await performOcr(
+            const region = {
+                x: textxRange.min,
+                y: fRes.y - 3,
+                width: textxRange.max - textxRange.min,
+                height: 40
+            };
+            const { results: ocrResults, screenshot: ocrScreenshot, shouldDispose } = await performOcr(
                 targetTexts,
-                textxRange,
-                yRange,
+                region,
                 cachedFrame,
                 10,
                 5
             );
-            ocrScreenshots.push(ocrScreenshot);
+            ocrScreenshots.push({ screenshot: ocrScreenshot, shouldDispose });
 
             let foundTarget = false;
-            for (const targetText of targetTexts) {
-                const targetResult = ocrResults.find(res =>
-                    res.text.includes(targetText) || targetText.includes(res.text)
-                );
-                if (!targetResult) continue;
+            for (const targetResult of ocrResults) {
+                const targetText = targetResult.text;
 
                 const materialId = `${targetText}-${targetResult.y}`;
                 recognitionCount.set(materialId, (recognitionCount.get(materialId) || 0) + 1);
@@ -190,6 +191,14 @@ async function alignAndInteractTarget(targetTextsOrFunc, fDialogueRo, textxRange
             }
 
             if (!foundTarget) {
+                if (ocrResults.length > 0) {
+                    const fCenterY = fRes.y + fRes.height / 2;
+                    for (const res of ocrResults) {
+                        const centerY = res.y + res.height / 2;
+                        const yDiff = Math.abs(centerY - fCenterY);
+                        log.debug(`未匹配: "${res.text}" Y中心: ${centerY.toFixed(1)}, F图标Y中心: ${fCenterY.toFixed(1)}, 差值: ${yDiff.toFixed(1)}, 容忍度: ${texttolerance}`);
+                    }
+                }
                 await keyMouseScript.runFile(`assets/滚轮下翻.json`);
             }
         }
@@ -197,13 +206,21 @@ async function alignAndInteractTarget(targetTextsOrFunc, fDialogueRo, textxRange
         log.error(`对齐交互异常: ${error.message}`);
     } finally {
         if (cachedFrame) {
-            if (cachedFrame.Dispose) cachedFrame.Dispose();
-            else if (cachedFrame.dispose) cachedFrame.dispose();
+            try {
+                if (cachedFrame.Dispose) cachedFrame.Dispose();
+                else if (cachedFrame.dispose) cachedFrame.dispose();
+            } catch (e) {
+                log.debug(`释放缓存帧失败（可能已释放）: ${e.message}`);
+            }
         }
-        for (const screenshot of ocrScreenshots) {
-            if (screenshot) {
-                if (screenshot.Dispose) screenshot.Dispose();
-                else if (screenshot.dispose) screenshot.dispose();
+        for (const { screenshot, shouldDispose } of ocrScreenshots) {
+            if (screenshot && shouldDispose) {
+                try {
+                    if (screenshot.Dispose) screenshot.Dispose();
+                    else if (screenshot.dispose) screenshot.dispose();
+                } catch (e) {
+                    log.debug(`释放OCR截图失败（可能已释放）: ${e.message}`);
+                }
             }
         }
         if (state.cancelRequested) {

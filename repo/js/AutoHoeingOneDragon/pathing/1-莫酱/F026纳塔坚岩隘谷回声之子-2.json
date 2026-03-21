@@ -1,26 +1,30 @@
 {
   "info": {
-    "name": "F026纳塔坚岩隘谷回声之子-2",
-    "type": "collect",
     "author": "Demo&汐&mno",
-    "version": "1.2",
-    "description": "  路线信息：该路线预计用时189.61秒，包含以下怪物：6只铸砂勇士·叩问人、1只铸砂勇士·碎盾者、1只嵴锋龙武士·碎晶打者、2只幼嵴锋龙、3只嵴锋龙。",
-    "hash_res": "91576363",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
     "authors": [
       {
         "name": "Demo"
       },
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       },
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时189.61秒，包含以下怪物：6只铸砂勇士·叩问人、1只铸砂勇士·碎盾者、1只嵴锋龙武士·碎晶打者、2只幼嵴锋龙、3只嵴锋龙。",
+    "enable_monster_loot_split": false,
+    "hash_res": "91576363",
+    "last_modified_time": 1773913457808,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F026纳塔坚岩隘谷回声之子-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
   },
   "positions": [
     {
@@ -160,7 +164,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.3)",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;哥伦比娅 e;",
       "id": 16,
       "move_mode": "dash",
       "type": "path",

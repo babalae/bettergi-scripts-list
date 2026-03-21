@@ -45,6 +45,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			await sleep(100);
 		}
 	}
+
 	// 切换队伍
 	async function SwitchParty(partyName) {
 		let ConfigureStatue = false;

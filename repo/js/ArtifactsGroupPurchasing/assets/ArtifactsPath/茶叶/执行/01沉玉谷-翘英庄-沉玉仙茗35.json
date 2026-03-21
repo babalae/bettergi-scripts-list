@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766435675850,
+    "last_modified_time": 1773813995232,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "01沉玉谷-翘英庄-沉玉仙茗35",
@@ -181,8 +181,8 @@
       "y": 2358.775634765625
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
       "id": 19,
       "move_mode": "dash",
       "type": "target",
@@ -208,8 +208,8 @@
       "y": 2350.5322265625
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
       "id": 22,
       "move_mode": "dash",
       "type": "target",

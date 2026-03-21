@@ -6,7 +6,7 @@
  * @returns {Promise<HttpResponse>}
  */
 async function pullJsonConfig(uid, http_api) {
-    http_api += "?uid=" + uid
+    http_api += "?uid=" + uid+"&enable=" + true
     const res = await http.request("GET", http_api
         // , JSON.stringify({"Content-Type": "application/json"})
     )

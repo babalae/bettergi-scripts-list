@@ -10,10 +10,10 @@
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.55.0",
+    "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1769260068220,
+    "last_modified_time": 1773600542542,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "03-冬凌草-厄布拉神柱左-7个",
@@ -136,8 +136,8 @@
       "id": 13,
       "move_mode": "dash",
       "type": "path",
-      "x": 10247.7383,
-      "y": 5614.9854
+      "x": 10246.248,
+      "y": 5614.6104
     },
     {
       "action": "",
@@ -145,17 +145,44 @@
       "id": 14,
       "move_mode": "walk",
       "type": "path",
+      "x": 10247.7383,
+      "y": 5614.9854
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10249.6748,
+      "y": 5616.918
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
       "x": 10248.6787,
       "y": 5620.0352
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.345)",
-      "id": 15,
+      "action": "",
+      "action_params": "",
+      "id": 17,
       "move_mode": "walk",
       "type": "path",
       "x": 10247.7812,
       "y": 5614.8754
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10250.0938,
+      "y": 5620.4824
     }
   ]
 }

@@ -10,10 +10,10 @@
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.55.0",
+    "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1769262164931,
+    "last_modified_time": 1773768964792,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "05-冬凌草-安瓦蒂尼尔湖-10个",
@@ -125,7 +125,16 @@
       "action": "",
       "action_params": "",
       "id": 12,
-      "move_mode": "run",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9593.4384,
+      "y": 5969.9375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
       "type": "path",
       "x": 9594.7402,
       "y": 5972.1699
@@ -133,7 +142,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.1)",
-      "id": 13,
+      "id": 14,
       "move_mode": "walk",
       "type": "path",
       "x": 9596.0254,
@@ -142,7 +151,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
+      "id": 15,
       "move_mode": "walk",
       "type": "path",
       "x": 9598.1523,
@@ -151,7 +160,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.01)",
-      "id": 15,
+      "id": 16,
       "move_mode": "walk",
       "type": "path",
       "x": 9600.2285,
@@ -160,7 +169,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 17,
       "move_mode": "walk",
       "type": "path",
       "x": 9615.5547,
@@ -169,7 +178,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "walk",
       "type": "path",
       "x": 9618.1816,
@@ -178,7 +187,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.345)",
-      "id": 18,
+      "id": 19,
       "move_mode": "walk",
       "type": "path",
       "x": 9615.5391,

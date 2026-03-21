@@ -15,7 +15,7 @@
     "description": "  路线信息：该路线预计用时163.7秒，包含以下怪物：6只水史莱姆、1只丘丘人、2只打手丘丘人、1只火斧丘丘暴徒、6只重甲蟹·红、5只重甲蟹·绿、2只坚盾重甲蟹。",
     "enable_monster_loot_split": false,
     "hash_res": "43735401",
-    "last_modified_time": 1768144511569,
+    "last_modified_time": 1773905289152,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "E003枫丹廷北",
@@ -71,7 +71,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;钟师傅 w(1),j,wait(5.1),w(1);爱可菲 e;",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;爱可菲 e;哥伦比娅 e;",
       "id": 6,
       "move_mode": "dash",
       "type": "path",
@@ -80,7 +80,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;钟师傅 w(1.2),j,wait(5.3),w(1);爱可菲 e;wait(6)",
+      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;wait(6)",
       "id": 7,
       "move_mode": "dash",
       "type": "path",
@@ -125,7 +125,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.5);伊涅芙 e;芙宁娜 e;钟师傅 w(1),j,wait(5),keypress(c),w(1);爱可菲 e;",
+      "action_params": "attack(0.5);伊涅芙 e;芙宁娜 e;爱可菲 e;",
       "id": 12,
       "move_mode": "dash",
       "type": "path",
@@ -134,7 +134,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.5);伊涅芙 e;芙宁娜 e;岩神 w(1),j,wait(5),w(1.1);爱可菲 e;",
+      "action_params": "attack(0.5);伊涅芙 e;芙宁娜 e;爱可菲 e;",
       "id": 13,
       "move_mode": "dash",
       "type": "path",

@@ -5,7 +5,13 @@
      const food = settings.food;//设置要吃的食物
      const foodNumber = Number(settings.foodNumber);
      const foodCount = foodNumber - 1;//点击“+”的次数，比食物数量少1
-     const n = settings.runNumber;//运行次数
+     let n = settings.runNumber;//运行次数
+     const mode = settings.mode;//运行模式
+     const remainingFood = Number(settings.remainingFood);//最终剩余数量
+     let totalFoodToEat = 0; //需要消耗的食物总数
+     let autoCalculateRuns = false; //是否自动计算运行次数
+     let currentCount = 0; //当前食物数量
+     let eatNumbers = []; //每次要吃的食物数量数组
 
      const Dm = `assets/地脉.png`
      const pingguo = `assets/${food}.png`;//食物图片路径
@@ -16,8 +22,14 @@
 
      // 添加验证
      if (!party) { log.error("队伍名为空，请仔细阅读readme并进行设置后再使用此脚本！"); return; }// 利用队伍是否为空判断用户有没有进行设置
-     if (foodCount > 98 || foodCount < 0) { log.error("食材数量请填写1-99之间的数字！"); return; }//确保食材数量1~99
-     if (n <= 0) { log.error("不是哥们，运行次数还能小于0？？？"); return; }//确保运行次数合法
+     if (mode === "固定数量模式") {
+          if (foodCount > 98 || foodCount < 0) { log.error("食材数量请填写1-99之间的数字！"); return; }//确保食材数量1~99
+     }
+     if (mode === "剩余数量模式") {
+          if (remainingFood < 0 ) { log.error("最终剩余数量请填写大于0的数字！"); return; }//确保最终剩余数量合法
+          autoCalculateRuns = true;
+     }
+     if (!autoCalculateRuns && n <= 0) { log.error("不是哥们，运行次数还能小于0？？？"); return; }//确保运行次数合法
 
      // ===== 2. 子函数定义部分 =====
 
@@ -149,6 +161,140 @@
 
           return result;
      }
+
+     /**
+     * 在指定区域内，用 0-9 的 PNG 模板做「多阈值 + 非极大抑制」数字识别，
+     * 最终把检测到的数字按左右顺序拼成一个整数返回。
+     *
+     * @param {string}  numberPngFilePath - 存放 0.png ~ 9.png 的文件夹路径（不含文件名）
+     * @param {number}  x                 - 待识别区域的左上角 x 坐标，默认 0
+     * @param {number}  y                 - 待识别区域的左上角 y 坐标，默认 0
+     * @param {number}  w                 - 待识别区域的宽度，默认 1920
+     * @param {number}  h                 - 待识别区域的高度，默认 1080
+     * @param {number}  maxThreshold      - 模板匹配起始阈值，默认 0.95（最高可信度）
+     * @param {number}  minThreshold      - 模板匹配最低阈值，默认 0.8（最低可信度）
+     * @param {number}  splitCount        - 在 maxThreshold 与 minThreshold 之间做几次等间隔阈值递减，默认 3
+     * @param {number}  maxOverlap        - 非极大抑制时允许的最大重叠像素，默认 2；只要 x 或 y 方向重叠大于该值即视为重复框
+     *
+     * @returns {number} 识别出的整数；若没有任何有效数字框则返回 -1
+     *
+     * @example
+     * const mora = await numberTemplateMatch('摩拉数字', 860, 70, 200, 40);
+     * if (mora >= 0) console.log(`当前摩拉：${mora}`);
+     */
+    async function numberTemplateMatch(
+        numberPngFilePath,
+        x = 0, y = 0, w = 1920, h = 1080,
+        maxThreshold = 0.95,
+        minThreshold = 0.8,
+        splitCount = 3,
+        maxOverlap = 2
+    ) {
+        let ros = [];
+        for (let i = 0; i <= 9; i++) {
+            ros[i] = RecognitionObject.TemplateMatch(
+                file.ReadImageMatSync(`${numberPngFilePath}/${i}.png`), x, y, w, h);
+        }
+
+        function setThreshold(roArr, newThreshold) {
+            for (let i = 0; i < roArr.length; i++) {
+                roArr[i].Threshold = newThreshold;
+                roArr[i].InitTemplate();
+            }
+        }
+
+        const gameRegion = captureGameRegion();
+        const allCandidates = [];
+
+        try{
+            /* 1. splitCount 次等间隔阈值递减 */
+            for (let k = 0; k < splitCount; k++) {
+                const curThr = maxThreshold - (maxThreshold - minThreshold) * k / Math.max(splitCount - 1, 1);
+                setThreshold(ros, curThr);
+
+                /* 2. 0-9 每个模板跑一遍，所有框都收 */
+                for (let digit = 0; digit <= 9; digit++) {
+                    const res = gameRegion.findMulti(ros[digit]);
+                    if (res.count === 0) continue;
+
+                    for (let i = 0; i < res.count; i++) {
+                        const box = res[i];
+                        allCandidates.push({
+                            digit: digit,
+                            x: box.x,
+                            y: box.y,
+                            w: box.width,
+                            h: box.height,
+                            thr: curThr
+                        });
+                    }
+                }
+            }
+        }catch{
+            gameRegion.dispose();
+        }
+        /* 3. 无结果提前返回 -1 */
+        if (allCandidates.length === 0) {
+            return -1;
+        }
+
+        /* 4. 非极大抑制（必须 x、y 两个方向重叠都 > maxOverlap 才视为重复） */
+        const adopted = [];
+        for (const c of allCandidates) {
+            let overlap = false;
+            for (const a of adopted) {
+                const xOverlap = Math.max(0, Math.min(c.x + c.w, a.x + a.w) - Math.max(c.x, a.x));
+                const yOverlap = Math.max(0, Math.min(c.y + c.h, a.y + a.h) - Math.max(c.y, a.y));
+                if (xOverlap > maxOverlap && yOverlap > maxOverlap) {
+                    overlap = true;
+                    break;
+                }
+            }
+            if (!overlap) {
+                adopted.push(c);
+                //log.info(`在 [${c.x},${c.y},${c.w},${c.h}] 找到数字 ${c.digit}，匹配阈值=${c.thr}`);
+            }
+        }
+
+        /* 5. 按 x 排序，拼整数；仍无有效框时返回 -1 */
+        if (adopted.length === 0) return -1;
+        adopted.sort((a, b) => a.x - b.x);
+
+        return adopted.reduce((num, item) => num * 10 + item.digit, 0);
+    }
+
+     /**
+     * 识别背包中指定物品的数量
+     * @param {string} itemName - 物品名称（仅用于日志）
+     * @param {string} templatePath - 模板图片路径
+     * @returns {Promise<string>} 识别到的数字字符串（可能为空）
+     */
+    async function getFoodCount(itemName, templatePath) {
+        const ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(templatePath));
+        ro.InitTemplate();
+        for (let i = 0; i < 5; i++) {
+            const rg = captureGameRegion();
+            try {
+                const res = rg.find(ro);
+                if (res.isExist()) {
+                    const regionToCheck = { x: res.x, y: res.y + 95, width: 70, height: 20 };
+                    // 使用numberTemplateMatch函数识别数字
+                    const count = await numberTemplateMatch(
+                        'assets/背包数字', // 数字模板文件夹路径
+                        regionToCheck.x, regionToCheck.y, regionToCheck.width, regionToCheck.height
+                    );
+                    const digits = count === -1 ? '' : count.toString();
+                    log.info(`识别到${itemName}数量为${digits}`);
+                    //log.info(`识别到${itemName}识别区域为${regionToCheck.x}, ${regionToCheck.y}, ${regionToCheck.width}, ${regionToCheck.height}`)
+                    return digits; // 成功识别即返回
+                }
+            } finally {
+                rg.dispose();
+            }
+            if (i < 5 - 1) await sleep(50);
+        }
+        return ''; // 未找到时返回空字符串
+    }
 
      /**
      * 文字OCR识别封装函数（支持空文本匹配任意文字）
@@ -432,7 +578,53 @@
           await leftButtonDown();
           await sleep(100);
           await moveMouseTo(1287, 161);
+          
+          let currentFoodCount = foodCount;
+          let currentFoodNumber = foodNumber;
+          // 只在第一次运行时获取当前食物数量并计算所有运行参数
+          if (dieCount === 0 && autoCalculateRuns) {
+               const currentCountStr = await getFoodCount(food, pingguo);
+               if (currentCountStr) {
+                    currentCount = Number(currentCountStr);
+                    // 计算需要消耗的食物总数
+                    totalFoodToEat = currentCount - remainingFood;
+                    
+                    if (totalFoodToEat <= 0) {
+                         log.info(`当前${food}数量为${currentCount}，已经满足或低于剩余数量${remainingFood}的要求，不需要再吃了！`);
+                         await returnMijingUi();
+                         n = 1;
+                         return;
+                    }
+                    
+                    // 计算每次要吃的数量，每次最多99个
+                    eatNumbers = [];
+                    while (totalFoodToEat > 0) {
+                         const eatNumber = Math.min(totalFoodToEat, 99);
+                         eatNumbers.push(eatNumber);
+                         totalFoodToEat -= eatNumber;
+                    }
+                    
+                    // 设置运行次数
+                    n = eatNumbers.length;
+                    
+                    log.info(`当前${food}数量为${currentCount}，目标剩余${remainingFood}个，需要消耗${currentCount - remainingFood}个，将分${n}次完成。`);
+                    log.info(`计划分批次吃的数量列表为：${eatNumbers.join('、')}`);
+                    
+                    // 设置第一次要吃的数量
+                    currentFoodNumber = eatNumbers[dieCount];
+                    currentFoodCount = currentFoodNumber - 1;
+               } else {
+                    // 如果无法获取数量，使用默认值
+                    log.info(`未获取到食物数量，使用固定数量模式的设置`);
+                    autoCalculateRuns = false;
+               }
+          } else if (autoCalculateRuns) {
+               // 非第一次运行，使用预计算的数量
+               currentFoodNumber = eatNumbers[dieCount];
+               currentFoodCount = currentFoodNumber - 1;
+          }
 
+          
           while (retries < maxRetries) {
                const ifpingguo = await imageRecognitionEnhanced(pingguo, 1, 0, 0, 115, 120, 1150, 880);//识别"苹果"图片
                if (ifpingguo.found) {
@@ -446,7 +638,7 @@
                     await imageRecognitionEnhanced(zjz, 3, 1, 0, 625, 290, 700, 360, true);//点击伊涅芙证件照,确保吃食物的是伊涅芙
                     await sleep(500);
 
-                    for (let i = 0; i < foodCount; i++) {
+                    for (let i = 0; i < currentFoodCount; i++) {
                          click(1251, 630);
                          await sleep(150);
                     }
@@ -454,8 +646,8 @@
                     await click(1180, 770);//点击确认
                     await sleep(500);
 
-                    log.info("看我一口气吃掉" + settings.foodNumber + "个" + food + "！");
-                    totalFoodEaten += foodNumber;
+                    log.info("看我一口气吃掉" + currentFoodNumber + "个" + food + "！");
+                    totalFoodEaten += currentFoodNumber;
 
                     await returnMijingUi();
                     await sleep(10);

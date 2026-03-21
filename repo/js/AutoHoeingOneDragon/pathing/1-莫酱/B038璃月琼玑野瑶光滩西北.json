@@ -13,7 +13,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时80秒，包含以下怪物：2只水萤、3只雷萤。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1769074213613,
+    "last_modified_time": 1774034891197,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B038璃月琼玑野瑶光滩西北",
@@ -60,7 +60,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);伊涅芙 e;芙宁娜 e;钟师傅 w(1.1),j,wait(5.6),w(1);爱可菲 e;",
+      "action_params": "keypress(f);伊涅芙 e;芙宁娜 e;爱可菲 e;哥伦比娅 e;",
       "id": 5,
       "move_mode": "dash",
       "type": "path",
@@ -80,19 +80,30 @@
       "action": "fight",
       "action_params": "",
       "id": 7,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": -130.66796875,
       "y": 396.58203125
     },
     {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -114.99674508981843,
+      "y": 417.75527029218665
+    },
+    {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 8,
+      "id": 9,
       "move_mode": "dash",
       "type": "orientation",
-      "x": -130.66796875,
-      "y": 396.58203125
+      "x": -114.99674508981843,
+      "y": 417.75527029218665
     }
   ]
 }
