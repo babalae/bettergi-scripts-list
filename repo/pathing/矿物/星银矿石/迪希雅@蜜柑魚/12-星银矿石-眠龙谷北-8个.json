@@ -1,0 +1,194 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774090801177,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "12-星银矿石-眠龙谷北-8个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -573.732421875,
+      "y": 1458.931640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.01)",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -593.8125,
+      "y": 1443.0224609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -620.759765625,
+      "y": 1425.26953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -632.935546875,
+      "y": 1404.16748046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -635.4921875,
+      "y": 1402.046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -632.3203125,
+      "y": 1411.3828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -634.982421875,
+      "y": 1408.2041015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -685.10546875,
+      "y": 1409.8955078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -713.16015625,
+      "y": 1421.2001953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -751.28125,
+      "y": 1442.2529296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -770.40234375,
+      "y": 1450.3984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -770.76171875,
+      "y": 1446.96240234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -762.271484375,
+      "y": 1447.7294921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -764.12890625,
+      "y": 1445.703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -752.59765625,
+      "y": 1441.4501953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -756.376953125,
+      "y": 1440.169921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -750.30859375,
+      "y": 1426.19921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 18,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -758.44140625,
+      "y": 1430.466796875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.456)",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -758.44140625,
+      "y": 1430.466796875
+    }
+  ]
+}

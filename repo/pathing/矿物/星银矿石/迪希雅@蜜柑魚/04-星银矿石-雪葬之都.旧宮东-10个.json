@@ -1,0 +1,175 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774083661773,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "04-星银矿石-雪葬之都.旧宮东-10个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1023.3100000000013,
+      "y": 1174.4799999999996
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1035.4000000000015,
+      "y": 1162.7299999999996
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1800",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1182.5499999999993,
+      "y": 1264.5499999999993
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1176.3100000000013,
+      "y": 1262.9400000000005
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1171.7799999999988,
+      "y": 1259.7000000000007
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1170.0999999999985,
+      "y": 1259.2200000000012
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1168.5,
+      "y": 1265
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1167.013671875,
+      "y": 1258.6083984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2.5)",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1179.5001808559427,
+      "y": 1229.374060563936
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1262.2734375,
+      "y": 1113.3662109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1257.9199999999983,
+      "y": 1107.1900000000005
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1255.8499999999985,
+      "y": 1104.3600000000006
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1256.5499999999993,
+      "y": 1102.42
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1257.7999999999993,
+      "y": 1098.7999999999993
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1259.869999999999,
+      "y": 1098.83
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1261.701171875,
+      "y": 1095.1640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.456)",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -1259.869999999999,
+      "y": 1098.83
+    }
+  ]
+}
