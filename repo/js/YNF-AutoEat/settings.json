@@ -10,6 +10,11 @@
     "default": "固定数量模式"
   },
   {
+    "name": "notify",
+    "type": "checkbox",
+    "label": "通知"
+  },
+  {
     "name": "n",
     "type": "input-text",
     "label": "队伍名称（包含伊涅芙的队伍）",
@@ -18,7 +23,7 @@
   {
     "name": "food",
     "type": "select",
-    "label": "伊涅芙今天吃什么（默认苹果）",
+    "label": "=============\n固定数量模式设置\n=============\n伊涅芙今天吃什么（默认苹果）",
     "options": [
       "苹果",
       "日落果",
@@ -31,21 +36,74 @@
     "default": "苹果"
   },
   {
-    "name": "remainingFood",
-    "type": "input-text",
-    "label": "最终剩余数量（剩余数量模式下生效）",
-    "default": "100"
-  },
-  {
     "name": "foodNumber",
     "type": "input-text",
-    "label": "食材数量\n想让伊涅芙吃多少个（固定数量模式下生效）",
+    "label": "食材数量\n想让伊涅芙吃多少个(单次)",
     "default": "99"
   },
   {
     "name": "runNumber",
     "type": "input-text",
-    "label": "运行次数\n想嘎伊涅芙多少次（固定数量模式下生效）",
+    "label": "运行次数（想嘎伊涅芙多少次）",
     "default": "1"
+  },
+  {
+    "name": "foods",
+    "type": "multi-checkbox",
+    "label": "=============\n剩余数量模式设置\n=============\n伊涅芙今天吃什么（可多选）",
+    "options": [
+      "苹果",
+      "日落果",
+      "泡泡桔",
+      "烛伞蘑菇",
+      "星蕈",
+      "活化的星蕈",
+      "枯焦的星蕈"
+    ],
+    "default": [
+      "苹果"
+    ]
+  },
+  {
+    "name": "remaining_苹果",
+    "type": "input-text",
+    "label": "苹果剩余数量",
+    "default": ""
+  },
+  {
+    "name": "remaining_日落果",
+    "type": "input-text",
+    "label": "日落果剩余数量",
+    "default": ""
+  },
+  {
+    "name": "remaining_泡泡桔",
+    "type": "input-text",
+    "label": "泡泡桔剩余数量",
+    "default": ""
+  },
+  {
+    "name": "remaining_烛伞蘑菇",
+    "type": "input-text",
+    "label": "烛伞蘑菇剩余数量",
+    "default": ""
+  },
+  {
+    "name": "remaining_星蕈",
+    "type": "input-text",
+    "label": "星蕈剩余数量",
+    "default": ""
+  },
+  {
+    "name": "remaining_活化的星蕈",
+    "type": "input-text",
+    "label": "活化的星蕈剩余数量",
+    "default": ""
+  },
+  {
+    "name": "remaining_枯焦的星蕈",
+    "type": "input-text",
+    "label": "枯焦的星蕈剩余数量",
+    "default": ""
   }
 ]
