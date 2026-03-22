@@ -606,7 +606,10 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
             perTimeSum: 0,
             perTimeCount: 0,
             qualifiedPerTimeSum: 0,
-            estimatedTimeSum: 0
+            estimatedTimeSum: 0,
+            thresholdPerTimeSum: 0,
+            thresholdPerTimeCount: 0,
+            thresholdPerTimeList: []
           };
         }
         
@@ -615,16 +618,22 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
         
         if (!canRunCD) {
           failedCD++;
-        }
-        if (!(pathCheckResult === true || pathCheckResult.valid)) {
+        } else if (!(pathCheckResult === true || pathCheckResult.valid)) {
           failedFrequency++;
-        }
-        if (perTime === null) {
+        } else if (perTime === null) {
           insufficientRecords++;
         } else if (isTimeCostOk) {
           passedTimeCost++;
         } else {
           failedTimeCost++;
+        }
+        
+        const isNotZeroExceeded = pathCheckResult === true || pathCheckResult.valid;
+        
+        if (isNotZeroExceeded && perTime !== null) {
+          resourceAnalysis[resourceKey].thresholdPerTimeSum += perTime;
+          resourceAnalysis[resourceKey].thresholdPerTimeCount++;
+          resourceAnalysis[resourceKey].thresholdPerTimeList.push(perTime);
         }
         
         if (canRunCD && (pathCheckResult === true || pathCheckResult.valid) && isTimeCostOk) {
@@ -659,11 +668,16 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
       
       log.info(`${CONSTANTS.LOG_MODULES.PATH}\n各材料平均时间成本及达标情况：`);
       for (const [resourceKey, data] of Object.entries(resourceAnalysis)) {
-        const avgPerTime = data.perTimeCount > 0 ? (data.perTimeSum / data.perTimeCount).toFixed(4) : '无记录';
-        const qualifiedRatio = data.total > 0 ? ((data.qualified / data.total) * 100).toFixed(1) : '0.0';
+        const avgThresholdPerTime = data.thresholdPerTimeCount > 0 ? (data.thresholdPerTimeSum / data.thresholdPerTimeCount).toFixed(4) : '无记录';
+        const sortedThresholdTimes = [...data.thresholdPerTimeList].sort((a, b) => a - b);
+        const thresholdIndex = Math.ceil((timeCost / 100) * sortedThresholdTimes.length);
+        const thresholdPercentileTimes = sortedThresholdTimes.slice(0, thresholdIndex);
+        const avgThresholdPercentile = thresholdPercentileTimes.length > 0 
+          ? (thresholdPercentileTimes.reduce((sum, t) => sum + t, 0) / thresholdPercentileTimes.length).toFixed(4) 
+          : '无达标';
+        const qualifiedRatio = data.thresholdPerTimeCount > 0 ? ((data.qualified / data.thresholdPerTimeCount) * 100).toFixed(1) : '0.0';
         const totalEstimatedTime = formatTime(data.estimatedTimeSum);
         const avgQualifiedPerTime = data.qualified > 0 ? (data.qualifiedPerTimeSum / data.qualified).toFixed(4) : '无达标';
-        const thresholdValue = timeCostStats[resourceKey] ? (timeCostStats[resourceKey].percentiles[timeCost] || timeCostStats[resourceKey].median).toFixed(4) : '无数据';
         
         const isFood = resourceKey && isFoodResource(resourceKey);
         const isMonster = monsterToMaterials.hasOwnProperty(resourceKey);
@@ -677,9 +691,9 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
         log.info(`${CONSTANTS.LOG_MODULES.PATH}  --------------------------------------`);
         log.info(`${CONSTANTS.LOG_MODULES.PATH}  ${resourceKey}:`);
         log.info(`${CONSTANTS.LOG_MODULES.PATH}    达标平均：${avgQualifiedPerTime}${unit}`);
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}    设置的${timeCost}%分位阈值：${thresholdValue}${unit}`);
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}    所有有记录路径的平均：${avgPerTime}${unit}`);
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}    达标：${qualifiedRatio}% (${data.qualified}/${data.total})，总耗时：${totalEstimatedTime}`);
+        log.info(`${CONSTANTS.LOG_MODULES.PATH}    所有记录平均（排除0记录超限）：${avgThresholdPerTime}${unit}`);
+        log.info(`${CONSTANTS.LOG_MODULES.PATH}    设置的${timeCost}%分位阈值：${avgThresholdPercentile}${unit}`);
+        log.info(`${CONSTANTS.LOG_MODULES.PATH}    达标：${qualifiedRatio}% (${data.qualified}/${data.thresholdPerTimeCount})，总耗时：${totalEstimatedTime}`);
       }
       log.info(`${CONSTANTS.LOG_MODULES.PATH}=============================\n`);
       
