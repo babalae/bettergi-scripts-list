@@ -2,19 +2,27 @@
      // ===== 1. 预处理部分 =====
 
      const party = settings.n;//设置好要切换的队伍
-     const food = settings.food;//设置要吃的食物
+     let foods = []; //要吃的食物数组（剩余数量模式）
+     const food = settings.food;//固定数量模式要吃的食物
      const foodNumber = Number(settings.foodNumber);
      const foodCount = foodNumber - 1;//点击“+”的次数，比食物数量少1
      let n = settings.runNumber;//运行次数
      const mode = settings.mode;//运行模式
-     const remainingFood = Number(settings.remainingFood);//最终剩余数量
      let totalFoodToEat = 0; //需要消耗的食物总数
      let autoCalculateRuns = false; //是否自动计算运行次数
      let currentCount = 0; //当前食物数量
      let eatNumbers = []; //每次要吃的食物数量数组
+     let currentFoodIndex = 0; //当前正在处理的食物索引
+     let foodInfos = []; //食物信息数组，包含每种食物的数量和计划
+     
+     // 获取特定食材的剩余数量
+     function getRemainingFood(foodName) {
+          const value = settings[`remaining_${foodName}`];
+          // 如果值为空字符串或者转换为数字后是NaN，则返回9999
+          return value === "" || isNaN(Number(value)) ? 9999 : Number(value);
+     }
 
      const Dm = `assets/地脉.png`
-     const pingguo = `assets/${food}.png`;//食物图片路径
      const zjz = `assets/zhengjianzhao.png`;//伊涅芙证件照
      const foodbag = `assets/foodbag.png`;//背包的“食物”界面
 
@@ -26,7 +34,12 @@
           if (foodCount > 98 || foodCount < 0) { log.error("食材数量请填写1-99之间的数字！"); return; }//确保食材数量1~99
      }
      if (mode === "剩余数量模式") {
-          if (remainingFood < 0 ) { log.error("最终剩余数量请填写大于0的数字！"); return; }//确保最终剩余数量合法
+          // 处理多食物设置
+          foods = Array.from(settings.foods);
+          if (foods.length === 0) {
+               log.error("请至少选择一种食物！");
+               return;
+          }
           autoCalculateRuns = true;
      }
      if (!autoCalculateRuns && n <= 0) { log.error("不是哥们，运行次数还能小于0？？？"); return; }//确保运行次数合法
@@ -581,56 +594,112 @@
           
           let currentFoodCount = foodCount;
           let currentFoodNumber = foodNumber;
+          let currentFood = food; // 当前正在处理的食物
+          let currentFoodPath = `assets/${currentFood}.png`; // 当前食物的图片路径
+          
           // 只在第一次运行时获取当前食物数量并计算所有运行参数
           if (dieCount === 0 && autoCalculateRuns) {
-               const currentCountStr = await getFoodCount(food, pingguo);
-               if (currentCountStr) {
-                    currentCount = Number(currentCountStr);
-                    // 计算需要消耗的食物总数
-                    totalFoodToEat = currentCount - remainingFood;
+               // 重置食物信息数组
+               foodInfos = [];
+               eatNumbers = [];
+               
+               // 获取所有选中食物的数量
+               for (let i = 0; i < foods.length; i++) {
+                    const currentFoodName = foods[i];
+                    const currentFoodPath = `assets/${currentFoodName}.png`;
+                    const currentCountStr = await getFoodCount(currentFoodName, currentFoodPath);
                     
-                    if (totalFoodToEat <= 0) {
-                         log.info(`当前${food}数量为${currentCount}，已经满足或低于剩余数量${remainingFood}的要求，不需要再吃了！`);
-                         await returnMijingUi();
-                         n = 1;
-                         return;
+                    if (currentCountStr) {
+                         const currentCount = Number(currentCountStr);
+                         // 获取当前食物对应的剩余数量
+                         const currentRemainingFood = getRemainingFood(currentFoodName);
+                         
+                         // 验证剩余数量是否合法
+                         if (currentRemainingFood < 0) {
+                              log.error(`${currentFoodName}的最终剩余数量请填写大于等于0的数字！`);
+                              continue;
+                         }
+                         
+                         // 计算需要消耗的食物数量
+                         const needToEat = currentCount - currentRemainingFood;
+                         
+                         if (needToEat > 0) {
+                              // 计算每次要吃的数量，每次最多99个
+                              const currentEatNumbers = [];
+                              let remainingToEat = needToEat;
+                              while (remainingToEat > 0) {
+                                   const eatNumber = Math.min(remainingToEat, 99);
+                                   currentEatNumbers.push(eatNumber);
+                                   remainingToEat -= eatNumber;
+                              }
+                              
+                              // 保存食物信息
+                              foodInfos.push({
+                                   name: currentFoodName,
+                                   currentCount: currentCount,
+                                   remainingFood: currentRemainingFood,
+                                   needToEat: needToEat,
+                                   eatNumbers: currentEatNumbers,
+                                   currentIndex: 0
+                              });
+                              
+                              // 将当前食物的计划添加到总计划中
+                              eatNumbers = eatNumbers.concat(currentEatNumbers);
+                              
+                              //log.info(`当前${currentFoodName}数量为${currentCount}，目标剩余${currentRemainingFood}个，需要消耗${needToEat}个。`);
+                              //log.info(`计划分批次吃的数量列表为：${currentEatNumbers.join('、')}`);
+                         } else {
+                              log.info(`当前${currentFoodName}数量为${currentCount}，已经满足或低于填写的剩余数量${currentRemainingFood}，不需要再吃了！`);
+                         }
+                    } else {
+                         log.info(`未获取到${currentFoodName}的数量，跳过进食。`);
                     }
-                    
-                    // 计算每次要吃的数量，每次最多99个
-                    eatNumbers = [];
-                    while (totalFoodToEat > 0) {
-                         const eatNumber = Math.min(totalFoodToEat, 99);
-                         eatNumbers.push(eatNumber);
-                         totalFoodToEat -= eatNumber;
-                    }
-                    
-                    // 设置运行次数
-                    n = eatNumbers.length;
-                    
-                    log.info(`当前${food}数量为${currentCount}，目标剩余${remainingFood}个，需要消耗${currentCount - remainingFood}个，将分${n}次完成。`);
-                    log.info(`计划分批次吃的数量列表为：${eatNumbers.join('、')}`);
-                    
-                    // 设置第一次要吃的数量
-                    currentFoodNumber = eatNumbers[dieCount];
-                    currentFoodCount = currentFoodNumber - 1;
-               } else {
-                    // 如果无法获取数量，使用默认值
-                    log.info(`未获取到食物数量，使用固定数量模式的设置`);
-                    autoCalculateRuns = false;
                }
-          } else if (autoCalculateRuns) {
-               // 非第一次运行，使用预计算的数量
-               currentFoodNumber = eatNumbers[dieCount];
+               
+               // 如果没有需要吃的食物，退出
+               if (eatNumbers.length === 0) {
+                    log.info("所有选中的食物都已经等于或低于填写的剩余数量，不需要再吃了！");
+                    n = 1;
+                    await returnMijingUi();
+                    return;
+               }
+               
+               // 设置运行次数
+               n = eatNumbers.length;
+               //log.info(`总共需要分${n}次完成所有食物的消耗。`);
+               
+               // 设置第一次要吃的食物和数量
+               currentFoodIndex = 0;
+               currentFood = foodInfos[0].name;
+               currentFoodPath = `assets/${currentFood}.png`;
+               currentFoodNumber = foodInfos[0].eatNumbers[0];
                currentFoodCount = currentFoodNumber - 1;
+               foodInfos[0].currentIndex = 1;
+          } else if (autoCalculateRuns) {
+               // 非第一次运行，确定当前要吃的食物和数量
+               let totalProcessed = 0;
+               for (let i = 0; i < foodInfos.length; i++) {
+                    const foodInfo = foodInfos[i];
+                    if (dieCount < totalProcessed + foodInfo.eatNumbers.length) {
+                         currentFoodIndex = i;
+                         currentFood = foodInfo.name;
+                         currentFoodPath = `assets/${currentFood}.png`;
+                         currentFoodNumber = foodInfo.eatNumbers[dieCount - totalProcessed];
+                         currentFoodCount = currentFoodNumber - 1;
+                         foodInfo.currentIndex = dieCount - totalProcessed + 1;
+                         break;
+                    }
+                    totalProcessed += foodInfo.eatNumbers.length;
+               }
           }
 
           
           while (retries < maxRetries) {
-               const ifpingguo = await imageRecognitionEnhanced(pingguo, 1, 0, 0, 115, 120, 1150, 880);//识别"苹果"图片
-               if (ifpingguo.found) {
+               const ifFood = await imageRecognitionEnhanced(currentFoodPath, 1, 0, 0, 115, 120, 1150, 880);//识别当前食物图片
+               if (ifFood.found) {
                     await leftButtonUp();
                     await sleep(500);
-                    await click(ifpingguo.x + 45, ifpingguo.y + 50);
+                    await click(ifFood.x + 45, ifFood.y + 50);
                     await sleep(1000);
 
                     await click(1700, 1020);//点击使用
@@ -646,7 +715,7 @@
                     await click(1180, 770);//点击确认
                     await sleep(500);
 
-                    log.info("看我一口气吃掉" + currentFoodNumber + "个" + food + "！");
+                    log.info("看我一口气吃掉" + currentFoodNumber + "个" + currentFood + "！");
                     totalFoodEaten += currentFoodNumber;
 
                     await returnMijingUi();
@@ -663,7 +732,7 @@
                     await sleep(100);
                     await moveMouseTo(1287, 131);
                     await genshin.returnMainUi();
-                    throw new Error("没有找到指定的食物：" + food + "，请检查背包中该食材数量是否足够！");
+                    throw new Error("没有找到指定的食物：" + currentFood + "，请检查背包中该食材数量是否足够！");
                }
                await moveMouseTo(1287, 161 + YOffset);
                await sleep(300);
@@ -723,14 +792,53 @@
           for (let i = 0; i < n; i++) {
                await doit(dieCount);
                dieCount++;
-               log.warn(`当前进度：第${i + 1}轮 / 共${n}轮 ｜ 已吃 ${totalFoodEaten} 个${food}`);
+               
+               // 在剩余数量模式下，显示当前正在处理的食物名称
+               if (autoCalculateRuns && foodInfos.length > 0) {
+                    let currentFood = food;
+                    let totalProcessed = 0;
+                    for (let j = 0; j < foodInfos.length; j++) {
+                         const foodInfo = foodInfos[j];
+                         if (dieCount <= totalProcessed + foodInfo.eatNumbers.length) {
+                              currentFood = foodInfo.name;
+                              break;
+                         }
+                         totalProcessed += foodInfo.eatNumbers.length;
+                    }
+                    log.warn(`当前进度：第${i + 1}轮 / 共${n}轮 ｜ 已吃 ${totalFoodEaten} 个食物`);
+               } else {
+                    log.warn(`当前进度：第${i + 1}轮 / 共${n}轮 ｜ 已吃 ${totalFoodEaten} 个${food}`);
+               }
           }
      } catch (error) {
           await returnMijingUi();
           log.error(`脚本运行中断: ${error.message}`);
           return;
      }
-     log.info("运行结束！今天的" + food + "味道不错哦~");
+     if (autoCalculateRuns && foodInfos.length > 0) {
+          log.info(`运行结束！今天的美食盛宴圆满完成~`);
+          log.info(`本次享用的食物有：${foods.join('、')}`);
+          log.info(`每一种都超级美味呢！`);
+     } else {
+          log.info("运行结束！今天的" + food + "味道不错哦~");
+     }
+     
+     // 通知今天的进食情况
+     if (settings.notify) {
+          if (totalFoodEaten > 0) {
+               // 构建包含每种食物名字和个数的字符串
+               let foodDetails = "";
+               if (autoCalculateRuns && foodInfos.length > 0) {
+                    foodDetails = foodInfos.map(info => `${info.name}: ${info.needToEat}个`).join('、');
+               } else {
+                    foodDetails = `${food}: ${totalFoodEaten}个`;
+               }
+               
+               notification.send(`总共吃了 ${totalFoodEaten} 个食物（${foodDetails}），伊涅芙吃得很开心呢！`);
+          } else {
+               notification.send("这次没吃东西哦");
+          }
+     }
 
      await genshin.tpToStatueOfTheSeven();
 })();
