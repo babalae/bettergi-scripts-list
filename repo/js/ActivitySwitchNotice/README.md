@@ -511,6 +511,9 @@ ActivitySwitchNotice/
 
 ## 版本历史
 
+### 0.1.2 (2026-03-23)
+- 新增云端配置功能
+- 改变wsproxy授权方式(授权token或bettergi-scripts-tools<版本需求0.0.7>授权拉取)
 ### 0.1.1 (2026-03-16)
 - 周本提醒日 升为多选
 - 适配新秘境征讨UI
