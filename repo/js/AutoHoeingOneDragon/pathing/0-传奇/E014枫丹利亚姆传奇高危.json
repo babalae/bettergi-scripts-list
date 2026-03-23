@@ -4,12 +4,16 @@
       {
         "links": "",
         "name": "思"
+      },
+      {
+        "links": "",
+        "name": "汐"
       }
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时139.76秒，预计收入3000摩拉，包含以下怪物：3只精英传奇倍率五。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1768131656960,
+    "last_modified_time": 1774278866539,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "E014枫丹利亚姆传奇高危",
@@ -33,17 +37,17 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 3010.000976473055,
-      "y": 3737.7504623063323
+      "x": 3015.8955078125,
+      "y": 3735.73828125
     },
     {
-      "action": "stop_flying",
-      "action_params": "100",
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 2982.74728757485,
-      "y": 3750.5017567640625
+      "x": 2997.8349609375,
+      "y": 3745.79150390625
     },
     {
       "action": "",
@@ -51,17 +55,17 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 2945.2156915976648,
-      "y": 3767.9241756984793
+      "x": 2969.521484375,
+      "y": 3755.54296875
     },
     {
-      "action": "stop_flying",
-      "action_params": "100",
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "move_mode": "fly",
+      "move_mode": "dash",
       "type": "path",
-      "x": 2898.4965280958077,
-      "y": 3770.9940824789483
+      "x": 2915.900390625,
+      "y": 3764.0546875
     },
     {
       "action": "fight",
@@ -69,8 +73,8 @@
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 2896.25,
-      "y": 3779.0001849225337
+      "x": 2900.8125,
+      "y": 3781.3121680038093
     }
   ]
 }
