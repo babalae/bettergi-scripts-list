@@ -102,10 +102,44 @@
         "type": "separator"
     },
     {
+        "type": "separator"
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "name": "wsNoticeType",
+        "type": "select",
+        "label": "独立通知配置(设置):\n==============================\n",
+        "options": [
+            "自定义通知",
+            "bgi-tools通知"
+        ],
+        "default": "自定义通知"
+    },
+    {
+        "name": "http_api_access_ws_proxy",
+        "type": "input-text",
+        "label": "bgi-tools获取授权wsproxy api地址",
+        "default": "http://127.0.0.1:8081/bgi/ws-proxy/access"
+    },
+    {
+      "name": "bgi_tools_token",
+      "type": "input-text",
+      "label": "bgi_tools授权token 语法:tokenName=tokenValue",
+      "default": "Authorization= "
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "type": "separator"
+    },
+    {
         "name": "ws_proxy_url",
         "type": "input-text",
-        "label": "独立通知配置:\n==============================\nWebSocketProxyUrl(列:http://127.0.0.1:8081/ws-proxy/message/send)",
-        "default": "http://127.0.0.1:8081/ws-proxy/message/send"
+        "label": "WebSocketProxyUrl(列:http://127.0.0.1:8081/bgi/ws-proxy/message/send)",
+        "default": "http://127.0.0.1:8081/bgi/ws-proxy/message/send"
     },
     {
         "name": "ws_url",
