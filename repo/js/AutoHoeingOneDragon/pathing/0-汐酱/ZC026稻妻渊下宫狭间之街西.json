@@ -9,9 +9,9 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时170.9秒，包含以下怪物：3只打手丘丘人、1只冲锋丘丘人、1只木盾丘丘人、2只火斧丘丘暴徒、1只雷斧丘丘暴徒、1只水丘丘萨满、1只遗迹守卫、3只遗迹歼击者、1只遗迹防卫者、1只深海龙蜥·原种。",
-    "hash_res": "65684637",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1763194152729,
+    "hash_res": "65684637",
+    "last_modified_time": 1774340257305,
     "map_match_method": "",
     "map_name": "Enkanomiya",
     "name": "ZC026稻妻渊下宫狭间之街西",
@@ -150,8 +150,18 @@
       "action": "fight",
       "action_params": "",
       "id": 15,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
+      "x": 921.3899999999999,
+      "y": 487.31999999999994
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "orientation",
       "x": 921.3899999999999,
       "y": 487.31999999999994
     }

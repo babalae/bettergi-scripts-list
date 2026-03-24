@@ -1,36 +1,51 @@
 {
   "info": {
-    "name": "C023稻妻越石村-2",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时42.24秒，包含以下怪物：2只遗迹防卫者。",
-    "hash_res": "88433647",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时42.24秒，包含以下怪物：2只遗迹防卫者。",
+    "enable_monster_loot_split": false,
+    "hash_res": "88433647",
+    "last_modified_time": 1774337849907,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C023稻妻越石村-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": -4023.31,
-      "y": -4428.8,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4023.31,
+      "y": -4428.8
     },
     {
-      "id": 2,
-      "x": -4022.26,
-      "y": -4469.69,
       "action": "fight",
+      "id": 2,
+      "locked": false,
       "move_mode": "dash",
-      "type": "path"
+      "type": "path",
+      "x": -4022.26,
+      "y": -4469.69
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -4022.26,
+      "y": -4469.69
     }
   ]
 }

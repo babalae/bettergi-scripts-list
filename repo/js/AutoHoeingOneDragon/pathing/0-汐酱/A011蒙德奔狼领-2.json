@@ -11,7 +11,7 @@
     "description": "  路线信息：该路线预计用时82.07秒，包含以下怪物：1只冰深渊法师、2只嗜岩·兽境幼兽、1只冰霜骗骗花。",
     "enable_monster_loot_split": false,
     "hash_res": "81889919",
-    "last_modified_time": 1769181197693,
+    "last_modified_time": 1774335779514,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A011蒙德奔狼领-2",
@@ -78,8 +78,18 @@
       "action": "fight",
       "action_params": "",
       "id": 7,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
+      "x": -222.4,
+      "y": 2095
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 8,
+      "move_mode": "run",
+      "type": "orientation",
       "x": -222.4,
       "y": 2095
     }

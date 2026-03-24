@@ -11,7 +11,7 @@
     "description": "  路线信息：该路线预计用时80.88秒，包含以下怪物：1只遗迹守卫、3只遗迹巡弋者。",
     "enable_monster_loot_split": false,
     "hash_res": "03787299",
-    "last_modified_time": 1768830861133,
+    "last_modified_time": 1774340088773,
     "map_match_method": "",
     "map_name": "Enkanomiya",
     "name": "ZC010稻妻渊下宫蛇心之地东",
@@ -69,8 +69,18 @@
       "action": "fight",
       "action_params": "",
       "id": 6,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
+      "x": 113.8599999999999,
+      "y": -236.5300000000002
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": 113.8599999999999,
       "y": -236.5300000000002
     }

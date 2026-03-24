@@ -9,9 +9,9 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时160.44秒，包含以下怪物：3只深邃拟覆叶。",
-    "hash_res": "02357534",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1763017853891,
+    "hash_res": "02357534",
+    "last_modified_time": 1774339110053,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "F041纳塔奥奇次数盾-1",
@@ -141,8 +141,18 @@
       "action": "fight",
       "action_params": "",
       "id": 14,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
+      "x": 9565.62,
+      "y": 183.46
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": 9565.62,
       "y": 183.46
     }

@@ -8,9 +8,9 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时151.15秒，包含以下怪物：4只荒野幽徒、2只荒野狂狩士、1只愚人众特辖队·线列军、1只愚人众特辖队·疗愈师、1只蕴光璇蛸。",
-    "hash_res": "61985273",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1763193980405,
+    "hash_res": "61985273",
+    "last_modified_time": 1774339554472,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "G018挪德卡莱月矩力设计局北-2",
@@ -86,8 +86,18 @@
       "action": "fight",
       "action_params": "",
       "id": 8,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
+      "x": 9698.2275390625,
+      "y": 3385.759521484375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": 9698.2275390625,
       "y": 3385.759521484375
     }

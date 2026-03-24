@@ -10,7 +10,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时55.42秒，包含以下怪物：1只愚人众·雷莹术士、2只幼岩龙蜥。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1768831149957,
+    "last_modified_time": 1774337428427,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B031璃月天遒谷-2",
@@ -41,8 +41,18 @@
       "action": "fight",
       "action_params": "",
       "id": 3,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
+      "x": 1078.4599999999991,
+      "y": 132.3199999999997
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": 1078.4599999999991,
       "y": 132.3199999999997
     }

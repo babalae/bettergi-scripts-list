@@ -756,6 +756,9 @@ async function qucikBuy() {
         await sleep(200);
         click(2370, 1208);
         await sleep(200);
+        // 再點擊+號避免只買99
+        click(2584, 1204);
+        await sleep(200);
 
         // 点击确认按钮
         click(confirmBtnX, confirmBtnY);
