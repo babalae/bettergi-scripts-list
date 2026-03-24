@@ -1,38 +1,52 @@
 {
   "info": {
-    "name": "ZC030稻妻渊下宫蛇肠之路南",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时42.49秒，包含以下怪物：2只深海龙蜥·原种。",
-    "hash_res": "91005300",
-    "map_name": "Enkanomiya",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时42.49秒，包含以下怪物：2只深海龙蜥·原种。",
+    "enable_monster_loot_split": false,
+    "hash_res": "91005300",
+    "last_modified_time": 1774340305953,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "ZC030稻妻渊下宫蛇肠之路南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 1407.36,
-      "y": -462.52,
       "action": "",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1407.36,
+      "y": -462.52
     },
     {
-      "id": 2,
-      "x": 1437.97,
-      "y": -431.22,
-      "type": "path",
-      "move_mode": "dash",
       "action": "fight",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1437.97,
+      "y": -431.22
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1437.97,
+      "y": -431.22
     }
   ]
 }

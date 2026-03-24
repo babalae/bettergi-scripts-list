@@ -9,9 +9,9 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时298.1秒，包含以下怪物：3只丘丘人、2只木盾丘丘人、1只雷箭丘丘人、1只火斧丘丘暴徒、1只雷斧丘丘暴徒、1只雷丘丘萨满、1只遗迹守卫、6只遗迹巡弋者、2只遗迹歼击者、2只电气骗骗花。",
-    "hash_res": "50455883",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1762607593220,
+    "hash_res": "50455883",
+    "last_modified_time": 1774337952486,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C037稻妻鹤观千来神祠",
@@ -213,8 +213,18 @@
       "action": "fight",
       "action_params": "",
       "id": 22,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
+      "x": -2640.459999999999,
+      "y": -6022.279999999999
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 23,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": -2640.459999999999,
       "y": -6022.279999999999
     }

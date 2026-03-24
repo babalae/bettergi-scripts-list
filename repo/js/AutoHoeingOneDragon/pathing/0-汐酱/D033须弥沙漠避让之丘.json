@@ -1,55 +1,70 @@
 {
   "info": {
-    "name": "D033须弥沙漠避让之丘",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时59.52秒，包含以下怪物：1只元能构装体·力场发生器、1只元能构装体·重塑仪。",
-    "hash_res": "58399597",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时59.52秒，包含以下怪物：1只元能构装体·力场发生器、1只元能构装体·重塑仪。",
+    "enable_monster_loot_split": false,
+    "hash_res": "58399597",
+    "last_modified_time": 1774338468502,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D033须弥沙漠避让之丘",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 4810.32,
-      "y": -2732.94,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 4810.32,
+      "y": -2732.94
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": 4809.45,
-      "y": -2759.82,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": -2759.82
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 4729,
-      "y": -2848.5,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4729,
+      "y": -2848.5
     },
     {
-      "id": 4,
-      "x": 4700.17,
-      "y": -2876.39,
       "action": "fight",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4700.17,
+      "y": -2876.39
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4700.17,
+      "y": -2876.39
     }
   ]
 }
