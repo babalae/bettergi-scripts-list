@@ -9,8 +9,8 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时102.36秒，包含以下怪物：10只深黯钓客。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1768631035861,
-    "map_match_method": "SIFT",
+    "last_modified_time": 1774339744530,
+    "map_match_method": "",
     "map_name": "Teyvat",
     "name": "G041挪德卡莱苦壑崖西",
     "tags": [
@@ -60,8 +60,18 @@
       "action": "fight",
       "action_params": "",
       "id": 5,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
+      "x": 10201.2265625,
+      "y": 6325.0869140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": 10201.2265625,
       "y": 6325.0869140625
     }

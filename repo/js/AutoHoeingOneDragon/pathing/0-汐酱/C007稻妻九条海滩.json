@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "author": "汐",
     "authors": [
@@ -11,7 +11,7 @@
     "description": "  路线信息：该路线预计用时181.66秒，包含以下怪物：3只火史莱姆、2只丘丘人、1只打手丘丘人、1只火箭丘丘人、1只冰箭丘丘人、1只丘丘雷兜王、1只风丘丘萨满、1只火深渊法师、1只雷深渊法师、1只盗宝团·斥候、1只盗宝团·火之药剂师、1只盗宝团·雷之药剂师、3只野伏·火伏番、2只海乱鬼·炎威。",
     "enable_monster_loot_split": false,
     "hash_res": "03882928",
-    "last_modified_time": 1773409362271,
+    "last_modified_time": 1774337784800,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C007稻妻九条海滩",
@@ -159,8 +159,18 @@
       "action": "fight",
       "action_params": "",
       "id": 16,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
+      "x": -3524.16,
+      "y": -3163.040000000001
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": -3524.16,
       "y": -3163.040000000001
     }

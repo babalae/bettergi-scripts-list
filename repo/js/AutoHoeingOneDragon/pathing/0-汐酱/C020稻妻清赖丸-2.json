@@ -11,7 +11,7 @@
     "description": "  路线信息：该路线预计用时77.85秒，包含以下怪物：1只遗迹巡弋者、2只遗迹防卫者。",
     "enable_monster_loot_split": false,
     "hash_res": "93649028",
-    "last_modified_time": 1768830672217,
+    "last_modified_time": 1774337820438,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C020稻妻清赖丸-2",
@@ -69,8 +69,18 @@
       "action": "fight",
       "action_params": "",
       "id": 6,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
+      "x": -3764.18,
+      "y": -4254.63
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": -3764.18,
       "y": -4254.63
     }
