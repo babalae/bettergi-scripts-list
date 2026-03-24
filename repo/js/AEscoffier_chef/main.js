@@ -1868,7 +1868,7 @@
         // 刷满熟练度
         if (settings.unlockAutoCooking) {
             log.info("当前模式为刷满熟练度...");
-            if (!(segmentTime.includes(" ")) && settings.segmentTime === "92 85 96 203 86") {
+            if (!(settings.segmentTime.includes(" ")) && settings.segmentTime === "92 85 96 203 86") {
                 log.warn("检测到JS脚本配置 时延 未进行更改，请确保已经正确设置!\n将在10s后继续...");
                 await sleep(5000);
             }
