@@ -3,5 +3,29 @@
     "name": "teamName",
     "type": "input-text",
     "label": "请输入队伍名称(不填默认当前队伍)"
+  },
+  {
+    "name": "healBeforeSwitchTeam",
+    "type": "checkbox",
+    "label": "切换队伍前回七天神像回血",
+    "default": true
+  },
+  {
+    "name": "enableSecondFight",
+    "type": "checkbox",
+    "label": "开启第二次充能战斗（循环充能）",
+    "default": false
+  },
+  {
+    "name": "backToStatueAfterCharge",
+    "type": "checkbox",
+    "label": "充能结束后回七天神像回血",
+    "default": true
+  },
+  {
+    "name": "teleportToLiam",
+    "type": "checkbox",
+    "label": "充能结束后传送到利亚姆传送点",
+    "default": false
   }
- ]
+]
