@@ -1,69 +1,70 @@
 {
   "info": {
-    "name": "D020须弥沙漠沙虫隧道",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时61.47秒，包含以下怪物：1只遗迹重机。",
-    "hash_res": "84542485",
-    "bgi_version": "0.45.0",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
     ],
-    "map_name": "Teyvat",
-    "tags": [],
-    "last_modified_time": 1754750129278,
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时61.47秒，包含以下怪物：1只遗迹重机。",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "hash_res": "84542485",
+    "last_modified_time": 1774445651337,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D020须弥沙漠沙虫隧道",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 4572.27,
-      "y": -1070.77,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": 4572.27,
+      "y": -1070.7700000000004
     },
     {
-      "id": 2,
-      "x": 4593.98,
-      "y": -1031.59,
-      "action": "combat_script",
-      "move_mode": "dash",
-      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 4599.19,
-      "y": -1023.56,
       "action": "",
-      "move_mode": "jump",
       "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 4,
-      "x": 4625.56,
-      "y": -996.19,
-      "action": "fight",
+      "id": 2,
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 4598.2294921875,
+      "y": -1036.787109375
     },
     {
-      "id": 5,
-      "x": 4625.56,
-      "y": -996.19,
       "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4609.1875,
+      "y": -1021.6250301677737
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
       "move_mode": "dash",
+      "type": "path",
+      "x": 4658.17578125,
+      "y": -996.7021484375
+    },
+    {
+      "action": "combat_script",
       "action_params": "wait(0.2)",
-      "type": "orientation"
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4658.17578125,
+      "y": -996.7021484375
     }
   ]
 }
