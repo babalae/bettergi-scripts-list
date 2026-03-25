@@ -499,6 +499,19 @@
                                 await sleep(500);
                             }
                         }
+                    } else if (ocr_area[i].text.includes("培养需求")) {
+                        refer_y = ocr_area[i].y;
+
+                        for (let j = 0; j < ocr_area.length; j++) {
+                            let string = ocr_area[j].text.replace(/\D/g, '');
+                            if (string && ocr_area[j].y > refer_y - 12 && ocr_area[j].y < refer_y + 12) { // 纯数字且y坐标范围合理
+                                string = string.split("/")[0].replace(/\D/g, '');
+                                material_num[k === 0 ? 0: 1] = parseInt(string, 10);
+                                log.info(`识别到 ${name} 的原料${k === 0 ? 1: 2}(${bait_msg[name][k === 0 ? 0: 1]})数量: ${material_num[k === 0 ? 0: 1]}`);
+                                click(1480, 974); // 点击空白处返回
+                                await sleep(500);
+                            }
+                        }
                     }
                     if (material_num[k === 0 ? 0: 1] !== -1) break;
                 }
