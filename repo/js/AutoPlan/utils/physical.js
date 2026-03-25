@@ -349,7 +349,7 @@ async function countOriginalResin(tryOriginalMode, opToMainUi, openMap) {
             return ocr_physical?.current;
         } else {
             //异常 退出至地图 尝试使用原始模式
-            await keyPress("VK_ESCAPE")
+            // await keyPress("VK_ESCAPE")
             log.error(`ocrPhysical error`);
             throw new Error("ocrPhysical error");
         }
