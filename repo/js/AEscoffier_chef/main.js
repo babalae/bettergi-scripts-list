@@ -301,6 +301,20 @@
                             return item_num;
                         }
                     }
+                } else if (ocr_area[i].text.includes("培养需求")) {
+                    refer_y = ocr_area[i].y;
+
+                    for (let j = 0; j < ocr_area.length; j++) {
+                        let string = ocr_area[j].text.replace(/\D/g, '');
+                        if (string && ocr_area[j].y > refer_y - 12 && ocr_area[j].y < refer_y + 12) { // 纯数字且y坐标范围合理
+                            string = string.split("/")[0].replace(/\D/g, '');
+                            item_num = parseInt(string, 10);
+                            log.debug(`识别到物品数量: ${item_num}`);
+                            click(x, y); // 点击空白处返回
+                            await sleep(500);
+                            return item_num;
+                        }
+                    }
                 }
                 if (item_num !== -1) break;
             }
@@ -875,7 +889,7 @@
             click(material_site[i]["x"], material_site[i]["y1"]);
             await sleep(500);
             let ocrResult = await Ocr(881, 763, 158, 267);
-            if (ocrResult && ocrResult.text.includes("当前拥有")) {
+            if (ocrResult && (ocrResult.text.includes("当前拥有") || ocrResult.text.includes("培养需求"))) {
                 flag = true;
             } else {
                 // 点击食材（下）
@@ -884,7 +898,7 @@
                 click(material_site[i]["x"], material_site[i]["y2"]);
                 await sleep(500);
                 let ocrResult = await Ocr(881, 763, 158, 267);
-                if (ocrResult && ocrResult.text.includes("当前拥有")) {
+                if (ocrResult && (ocrResult.text.includes("当前拥有") || ocrResult.text.includes("培养需求"))) {
                     flag = true;
                 }
             }
