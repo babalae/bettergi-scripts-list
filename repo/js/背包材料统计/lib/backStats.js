@@ -487,6 +487,7 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
     let shouldEndScan = false;
     let foundPriorityMaterial = false;
     let isEighthColumnScan = false; // 当前是否为第八列扫描（用于跳过5秒超时终止）
+    let hasStartedFullColumnScan = false; // 是否已经开始过全列扫描（用于开启5秒翻页终止检测）
 
     // 俏皮话逻辑
     const scanPhrases = [
@@ -646,6 +647,7 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
     // 只有发现目标材料时，才执行全列扫描
     if (foundPriorityMaterial) {
         if (debugLog) log.info(`开始全列扫描`);
+        hasStartedFullColumnScan = true; // 标记已经开始全列扫描（后续所有翻页都执行终止检测）
         const ocrRegions = await performFullColumnScan(ra, materialCategories, materialImages, recognizedMaterials, startX, startY, columnWidth, columnHeight, maxColumns, OffsetWidth, tolerance);
         
         // 批量处理OCR
@@ -656,6 +658,10 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
             for (const { name, result } of ocrResults) {
                 materialInfo.push({ name, count: result || "?" });
             }
+            
+            // 更新最后发现材料的时间
+            hasFoundFirstMaterial = true;
+            lastFoundTime = Date.now();
         }
     } else {
         log.info(`未发现目标材料，跳过`);
@@ -701,9 +707,9 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
 
         isEighthColumnScan = false; // 第八列扫描结束，重置标志
 
-        // 5秒未发现新材料时结束扫描，但如果触发兜底逻辑或第八列扫描则跳过此检查
-        if (hasFoundFirstMaterial && Date.now() - lastFoundTime > 5000 && !useScreenComparison && !isEighthColumnScan) {
-            log.info("未发现新的材料，结束扫描");
+        // 5秒未发现新材料时结束扫描，只有开始全列扫描后才允许执行此检测
+        if (hasStartedFullColumnScan && hasFoundFirstMaterial && Date.now() - lastFoundTime > 5000) {
+            log.info("全列扫描模式下未发现新的材料，结束扫描");
             shouldEndScan = true;
             break;
         }
@@ -743,6 +749,10 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
                         for (const { name, result } of ocrResults) {
                             materialInfo.push({ name, count: result || "?" });
                         }
+                        
+                        // 更新最后发现材料的时间
+                        hasFoundFirstMaterial = true;
+                        lastFoundTime = Date.now();
                     }
                     
                     log.info("最后一次全列扫描完成，结束扫描");
@@ -769,6 +779,11 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
         if (!recognizedMaterials.has(name)) {
             unmatchedMaterialNames.add(name);
         }
+    }
+
+    // 将未匹配的材料添加到结果中，数量设为0
+    for (const name of unmatchedMaterialNames) {
+        materialInfo.push({ name, count: 0 });
     }
 
     // 日志记录
@@ -904,7 +919,7 @@ async function MaterialPath(materialCategoryMap, cachedFrame = null) {
         loopCount++;
         switch (stage) {
             case 0: // 返回主界面
-                log.info("返回主界面");
+                // log.info("返回主界面");
                 await genshin.returnMainUi();
                 await sleep(500);
                 stage = 1; // 进入下一阶段
