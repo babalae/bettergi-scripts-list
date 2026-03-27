@@ -11,15 +11,78 @@
     /**
      * -------- 工具函数 --------
      */
+    // /**
+    //  *
+    //  * @returns {Array} 本地曲谱文件列表
+    //  */
+    // const musicList = () => {
+    //     const scoreFiles = Array.from(file.readPathSync(base_path)).filter(path => !file.isFolder(path) && path.endsWith(".json"));
+    //     const localMusicList = scoreFiles.map(path => path.match(regex_name)[0]);
+    //     return localMusicList;
+    // }
+
     /**
-     * 
-     * @returns {Array} 本地曲谱文件列表
+     * 读取本地曲谱文件夹下的所有 .json 文件，并返回文件名列表。
+     * 同时自动修正不合规的文件名：格式为 000X.任意字符.json（X 为四位数字，不足补零）。
+     * 重命名规则：对于不合规文件，分配当前未使用的最小四位数字作为前缀，保留原文件名主体。
+     * @returns {Array} 本地曲谱文件列表（合规文件名）
      */
     const musicList = () => {
-        const scoreFiles = Array.from(file.readPathSync(base_path)).filter(path => !file.isFolder(path) && path.endsWith(".json"));
-        const localMusicList = scoreFiles.map(path => path.match(regex_name)[0]);
-        return localMusicList;
-    }
+        const usedNumbers = new Set();
+        const finalList = [];
+
+        // readPathSync(base_path) 返回完整相对路径
+        const entries = Array.from(file.readPathSync(base_path));
+        const jsonEntries = entries.filter(entry => !file.isFolder(entry) && entry.endsWith('.json'));
+
+        // 统计已有编号
+        jsonEntries.forEach(entry => {
+            const fileName = entry.split(/[/\\]/).pop();
+            if (/^\d{4}\..*\.json$/.test(fileName)) {
+                usedNumbers.add(parseInt(fileName.substring(0, 4), 10));
+            }
+        });
+
+        // 处理每个文件
+        jsonEntries.forEach(entry => {
+            const fileName = entry.split(/[/\\]/).pop();
+            const dirPath = entry.slice(0, entry.length - fileName.length);
+
+            if (/^\d{4}\..*\.json$/.test(fileName)) {
+                // 合规：返回不带 .json 的文件名
+                finalList.push(fileName.replace(/\.json$/, ''));
+            } else {
+                // 不合规：自动补零
+                const baseName = fileName.replace(/\.json$/, '');
+
+                let newNum = 1;
+                while (usedNumbers.has(newNum)) newNum++;
+
+                const newPrefix = newNum.toString().padStart(4, '0');
+                const newFileName = `${newPrefix}.${baseName}.json`;
+
+                const oldPath = entry;
+                const newPath = dirPath + newFileName;
+                log.debug(`${oldPath} -> ${newPath}`);
+
+                file.renamePathSync(oldPath, newPath);
+
+                finalList.push(`${newPrefix}.${baseName}`);
+                usedNumbers.add(newNum);
+            }
+        });
+
+        // 排序
+        finalList.sort((a, b) => {
+            const na = parseInt(a.substring(0, 4), 10);
+            const nb = parseInt(b.substring(0, 4), 10);
+            return na - nb;
+        });
+
+        return finalList; // 返回不带 .json 的文件名
+    };
+
+
     /**
      *
      * 根据乐曲文件名生成乐曲文件路径
@@ -614,14 +677,17 @@
 
         }
         // 如果是midi转换的乐谱
-        if (Object.keys(sheet_list[0]).length === 3) {
-            for (let i = 0; i < sheet_list.length; i++) {
-                log.info(`时长：${sheet_list[i]["time"]}`)
-                await sleep(Math.round(sheet_list[i]["time"]));
-                if (sheet_list[i]["type"] === "on") {
-                    keyDown(sheet_list[i]["note"]);
+        if (typeof(sheet_list) === "string") {
+			let play_sheet = sheet_list.split("|");
+            for (let i = 0; i < play_sheet.length; i++) {
+				let current_note = play_sheet[i].split("_");
+                log.info(`${play_sheet[i]}`);
+                await sleep(Math.round(current_note[2]));
+				if (current_note[1] === "@") continue;
+                if (current_note[0] === "D") {
+					keyDown(current_note[1]);
                 } else {
-                    keyUp(sheet_list[i]["note"]);
+                    keyUp(current_note[1]);
                 }
             }
         } else {
@@ -748,7 +814,7 @@
     }
 
     /**
-     * 检查本地曲谱文件与主程序配置是否一致，并自动修正配置文件。
+     * 检查本地曲谱文件与主程序配置是否一致，并自动修正配置settings文件。
      *
      * @returns {boolean} 如果一致返回 true，否则返回 false。
      */

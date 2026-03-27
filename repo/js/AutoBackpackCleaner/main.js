@@ -1,11 +1,14 @@
 const bottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/到底了.png"), 1282, 934, 1296 - 1282, 945 - 934);
 bottomRo.Threshold = 0.9;
 bottomRo.InitTemplate();
-const star1Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/一星.png"), 107, 214, 1169, 706);
-star1Ro.Threshold = 0.9;
+const star0Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/0星.png"), 107, 214, 1169, 706);
+star0Ro.Threshold = 0.93;
+star0Ro.InitTemplate();
+const star1Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/1星.png"), 107, 214, 1169, 706);
+star1Ro.Threshold = 0.85;
 star1Ro.InitTemplate();
-const star2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/二星.png"), 107, 214, 1169, 706);
-star2Ro.Threshold = 0.9;
+const star2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/2星.png"), 107, 214, 1169, 706);
+star2Ro.Threshold = 0.85;
 star2Ro.InitTemplate();
 const delete1Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/摧毁图标1.png"), 31, 969, 93, 101);
 delete1Ro.Threshold = 0.9;
@@ -29,102 +32,140 @@ let scrollScale = Number(settings.scrollScale) || 10;
 
 (async function () {
     //进入养成道具界面
+    if (!settings.delayScale) {
+        log.error("延迟系数异常，你从来没打开过自定义配置");
+        log.error("去阅读README后再使用");
+        return;
+    }
+    log.warn("务必仔细自行关注各个物品的数量，如有误删，后果自负");
     await genshin.returnMainUi();
+    log.warn("务必仔细自行关注各个物品的数量，如有误删，后果自负");
     await genshin.tpToStatueOfTheSeven();
+    log.warn("务必仔细自行关注各个物品的数量，如有误删，后果自负");
     await genshin.returnMainUi();
     keyPress("B");
-    let type = "养成道具";
+    let types = Array.from(settings.executingTypes);
     const targetNumber = Number(settings.targetNumber) || 9000;
     const startNumber = Number(settings.startNumber) || 9900;
+    const endNumber = Number(settings.endNumber) || 9999;
+    const whiteNumbers = settings.whiteNumbers || "";
+
+    // 按中文逗号分隔，去除空项
+    const numberArray = whiteNumbers
+        .split('，')
+        .map(s => s.trim())
+        .filter(s => s !== '');
+
+    const validWhiteNumbers = [];
+
+    // 校验每一项是否为有效数字
+    for (const item of numberArray) {
+        const num = Number(item);
+
+        // 校验：必须是有效数字（不是NaN，不是Infinity）
+        if (!Number.isFinite(num)) {
+            log.error(`${item} 不是有效数字`);
+            throw new Error('存在非法数字格式');
+        }
+
+        validWhiteNumbers.push(num);
+    }
+
+    // 此时 validWhiteNumbers 存储的是数字类型数组，如 [1, 2, 3]
+    log.info(`白名单数字列表：${validWhiteNumbers.join(', ')}`);
+
     if (targetNumber >= startNumber) {
         log.error("目标数量必须小于起删数量");
         return;
     }
-    if (await findAndClick([`assets/RecognitionObject/背包界面/${type}1.png`, `assets/RecognitionObject/背包界面/${type}2.png`])) {
-        log.info(`成功进入${type}界面，开始执行`);
-    } else {
-        await genshin.returnMainUi();
-        keyPress("B");
+    for (let type of types) {
+        try { await sleep(1) } catch (e) { break; }
         if (await findAndClick([`assets/RecognitionObject/背包界面/${type}1.png`, `assets/RecognitionObject/背包界面/${type}2.png`])) {
             log.info(`成功进入${type}界面，开始执行`);
         } else {
-            log.info(`进入${type}界面失败`);
-            return;
-        }
-    }
-    let scrolls = 0
-    while (scrolls < 200) {
-        try { await sleep(1) } catch (e) { break; }
-        if (await findAndClick(delete2Ro, false, 100, 16)) {
-            await findAndClick("assets/RecognitionObject/返回.png");
-            await sleep(delay2);
-        }
-        let findFullRes = null;
-        let time4 = new Date();
-        const gameRegion = captureGameRegion();
-        const allRes1 = gameRegion.findMulti(star2Ro);
-
-        let time5 = new Date();
-        log.info(`调试-找出所有2星用时${time5 - time4}`);
-        for (let i = 0; i < allRes1.count; i++) {
-            const res = allRes1[i];
-            const num = await numberTemplateMatch("assets/背包物品数字", res.x + 34, res.y + 16, 59, 30);
-            if (num >= startNumber) {
-                findFullRes = { x: res.x, y: res.y };
-                break;
+            await genshin.returnMainUi();
+            keyPress("B");
+            if (await findAndClick([`assets/RecognitionObject/背包界面/${type}1.png`, `assets/RecognitionObject/背包界面/${type}2.png`])) {
+                log.info(`成功进入${type}界面，开始执行`);
+            } else {
+                log.info(`进入${type}界面失败`);
+                return;
             }
         }
-        let time6 = new Date();
-        log.info(`调试-依次核对数量${time6 - time5}`);
-        if (!findFullRes) {
-            let time1 = new Date();
-            const allRes2 = gameRegion.findMulti(star1Ro);
-            let time2 = new Date();
-            log.info(`调试-找出所有1星用时${time2 - time1}`);
-            for (let i = 0; i < allRes2.count; i++) {
-                const res = allRes2[i];
-                const num = await numberTemplateMatch("assets/背包物品数字", res.x + 34, res.y + 16, 59, 30);
-                if (num >= startNumber) {
+        await sleep(500);
+        let scrolls = 0
+        while (scrolls < 200) {
+            try { await sleep(1) } catch (e) { break; }
+            if (await findAndClick(delete2Ro, false, 100, 16)) {
+                await findAndClick("assets/RecognitionObject/返回.png");
+                await sleep(delay2);
+            }
+            let findFullRes = null;
+            const gameRegion = captureGameRegion();
+            const allRes1 = gameRegion.findMulti(star2Ro);
+            for (let i = 0; i < allRes1.count; i++) {
+                const res = allRes1[i];
+                const num = await numberTemplateMatch("assets/背包物品数字", res.x + 20, res.y + 14, 80, 30);
+                if (num >= startNumber && num <= endNumber && !validWhiteNumbers.includes(num)) {
                     findFullRes = { x: res.x, y: res.y };
                     break;
                 }
             }
-            let time3 = new Date();
-            log.info(`调试-依次核对数量${time3 - time2}`);
-        }
-        gameRegion.dispose();
-        if (findFullRes) {
-            //二次确认
-            let fullNum = await numberTemplateMatch("assets/背包物品数字", findFullRes.x + 34, findFullRes.y + 16, 59, 30);
-            log.info(`找到一个爆仓材料，位置(${findFullRes.x},${findFullRes.y})，数量 ${fullNum} 个`);
-            await findAndClick(delete1Ro, true, 200, 16);
-            await sleep(delay2);
-            click(findFullRes.x + 20, findFullRes.y - 60);
-            await sleep(delay2);
-            if (!await deleteToTargetNumber(fullNum - targetNumber)) {
+            if (!findFullRes) {
+                const allRes2 = gameRegion.findMulti(star1Ro);
+                for (let i = 0; i < allRes2.count; i++) {
+                    const res = allRes2[i];
+                    const num = await numberTemplateMatch("assets/背包物品数字", res.x + 20, res.y + 14, 80, 30);
+                    if (num >= startNumber && num <= endNumber && !validWhiteNumbers.includes(num)) {
+                        findFullRes = { x: res.x, y: res.y };
+                        break;
+                    }
+                }
+            }
+            if (!findFullRes) {
+                const allRes3 = gameRegion.findMulti(star0Ro);
+                for (let i = 0; i < allRes3.count; i++) {
+                    const res = allRes3[i];
+                    const num = await numberTemplateMatch("assets/背包物品数字", res.x + 20, res.y + 14, 80, 30);
+                    if (num >= startNumber && num <= endNumber && !validWhiteNumbers.includes(num)) {
+                        findFullRes = { x: res.x, y: res.y };
+                        break;
+                    }
+                }
+            }
+            gameRegion.dispose();
+            if (findFullRes) {
+                let fullNum = await numberTemplateMatch("assets/背包物品数字", findFullRes.x + 20, findFullRes.y + 14, 80, 30);
+                log.info(`找到一个爆仓材料，位置(${findFullRes.x},${findFullRes.y})，数量 ${fullNum} 个`);
+                await findAndClick(delete1Ro, true, 200, 16);
+                await sleep(delay2);
+                click(findFullRes.x + 20, findFullRes.y - 60);
+                await sleep(delay2);
+                if (!await deleteToTargetNumber(fullNum - targetNumber)) {
+                    continue;
+                }
+                await sleep(delay2);
+                await findAndClick(delete2Ro);
+                await sleep(delay2);
+                await findAndClick(delete3Ro);
+                itemCount++;
+                itemDeleteCount += fullNum - targetNumber;
                 continue;
             }
-            await sleep(delay2);
-            await findAndClick(delete2Ro);
-            await sleep(delay2);
-            await findAndClick(delete3Ro);
-            itemCount++;
-            itemDeleteCount += fullNum - targetNumber;
-            continue;
-        }
-        scrolls++;
-        let bottomres = await findAndClick(bottomRo, false, 2, 3, 1);
-        if (bottomres) {
+            scrolls++;
+            let bottomres = await findAndClick(bottomRo, false, 2, 3, 1);
+            if (bottomres) {
+                moveMouseTo(139, 910);
+                await scrollDown(3);
+                bottomres = await findAndClick(bottomRo, false, 2, 3, 1);
+                if (bottomres) {
+                    log.info(`到底了,${type}类型处理完毕`);
+                    break;
+                }
+            }
             moveMouseTo(139, 910);
             await scrollDown(3);
-            bottomres = await findAndClick(bottomRo, false, 2, 3, 1);
-            if (bottomres) {
-                log.info(`到底了,${type}类型处理完毕`);
-                break;
-            }
         }
-        moveMouseTo(139, 910);
-        await scrollDown(3);
     }
     log.info(`删除了${itemCount}种爆仓材料共${itemDeleteCount}个`);
 })();
@@ -205,6 +246,7 @@ async function findAndClick(target,
 async function scrollDown(lines = 1) {
     lines = lines * scrollScale;
     for (let i = 0; i < lines; i++) {
+        try { await sleep(1) } catch (e) { break; }
         await keyMouseScript.runFile(`assets/滚轮下翻.json`);
     }
     await sleep(delay1);
@@ -357,6 +399,7 @@ async function deleteToTargetNumber(delta) {
     click(342, 923);
     await sleep(delay1);
     while (true) {
+        try { await sleep(1) } catch (e) { break; }
         let res = await numberTemplateMatch("assets/摧毁物品数字", 192, 901, 116, 56);
         //log.info(`调试-识别结果为${res}`);
         if (res === -1 || Math.abs(res - lastRes) > 100) {
@@ -390,6 +433,9 @@ async function deleteToTargetNumber(delta) {
                     moveMouseTo(342, 923);
                     leftButtonDown();
                     state = 1;
+                } else {
+                    moveMouseTo(342, 923);
+                    leftButtonDown();
                 }
             } else {
                 if (state != 0) {
@@ -410,6 +456,9 @@ async function deleteToTargetNumber(delta) {
                     moveMouseTo(168, 923);
                     leftButtonDown();
                     state = -1;
+                } else {
+                    moveMouseTo(168, 923);
+                    leftButtonDown();
                 }
             } else {
                 if (state != 0) {

@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1763968754650,
+    "last_modified_time": 1772105247607,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "305【收尾】稻妻-踏鞴砂①-10",
@@ -137,8 +137,8 @@
       "id": 14,
       "move_mode": "jump",
       "type": "path",
-      "x": -3257.84765625,
-      "y": -3565.798828125
+      "x": -3254.8125,
+      "y": -3566.9833984375
     },
     {
       "action": "",
@@ -146,21 +146,30 @@
       "id": 15,
       "move_mode": "walk",
       "type": "path",
-      "x": -3257.84765625,
-      "y": -3565.798828125
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keydown(w),wait(0.1),dash,wait(0.3),attack(0.22),j,wait(0.35),keyup(w),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),",
-      "id": 16,
-      "move_mode": "dash",
-      "type": "orientation",
-      "x": -3261.25,
-      "y": -3563.56214587073
+      "x": -3257.986328125,
+      "y": -3565.9541015625
     },
     {
       "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3260.1953125,
+      "y": -3564.0791015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.25),dash,wait(0.5),j,w(0.3),wait(0.5),w(0.1),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2)",
       "id": 17,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3260.1953125,
+      "y": -3564.0791015625
+    },
+    {
+      "action": "",
+      "id": 18,
       "move_mode": "walk",
       "type": "teleport",
       "x": -3288.212890625,
@@ -168,8 +177,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(z);芙宁娜 attack(0.08),e;",
-      "id": 18,
+      "action_params": "keypress(f);芙宁娜 attack(0.08),e;",
+      "id": 19,
       "move_mode": "dash",
       "type": "path",
       "x": -3269.974609375,
@@ -177,8 +186,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),keypress(q),wait(0.3),keypress(q),keypress(1),wait(0.5),keypress(q),wait(0.7),keypress(2),wait(0.5),keypress(q),wait(0.7),keypress(3),wait(0.5),keypress(q),wait(0.7),keypress(4),wait(0.5),keypress(q),attack(0.3)",
-      "id": 19,
+      "action_params": "keypress(f),wait(0.2),keypress(f)",
+      "id": 20,
       "move_mode": "dash",
       "type": "path",
       "x": -3275.4687756755375,
@@ -187,7 +196,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),w(0.2),keypress(f),w(0.2),keypress(f),wait(0.2),keypress(x),wait(0.2),keypress(x);芙宁娜 e;",
-      "id": 20,
+      "id": 21,
       "move_mode": "climb",
       "type": "target",
       "x": -3276.6259765625,
@@ -196,7 +205,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(x),w(0.1);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "id": 21,
+      "id": 22,
       "move_mode": "dash",
       "type": "orientation",
       "x": -3259.7021484375,
@@ -205,7 +214,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 22,
+      "id": 23,
       "move_mode": "dash",
       "type": "path",
       "x": -3259.7021484375,
@@ -214,7 +223,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.2),keypress(f),w(0.4),keypress(f),d(0.2),j,keypress(f),d(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "id": 23,
+      "id": 24,
       "move_mode": "climb",
       "type": "target",
       "x": -3261.4375158003313,
@@ -222,7 +231,7 @@
     },
     {
       "action": "",
-      "id": 24,
+      "id": 25,
       "move_mode": "dash",
       "type": "path",
       "x": -3243.9580078125,
@@ -231,7 +240,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
-      "id": 25,
+      "id": 26,
       "move_mode": "climb",
       "type": "target",
       "x": -3240.224609375,
@@ -240,7 +249,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 26,
+      "id": 27,
       "move_mode": "fly",
       "type": "path",
       "x": -3207.0937282745435,
@@ -249,7 +258,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 27,
+      "id": 28,
       "move_mode": "climb",
       "type": "target",
       "x": -3209.1249407487558,
@@ -258,7 +267,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(x),wait(0.2),keypress(x),wait(0.2),keypress(x);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "id": 28,
+      "id": 29,
       "move_mode": "walk",
       "type": "path",
       "x": -3211.2186848236306,
@@ -267,7 +276,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 29,
+      "id": 30,
       "move_mode": "dash",
       "type": "path",
       "x": -3204.3408203125,
@@ -276,7 +285,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
-      "id": 30,
+      "id": 31,
       "move_mode": "walk",
       "type": "path",
       "x": -3206.3750197504123,
@@ -285,7 +294,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 31,
+      "id": 32,
       "move_mode": "fly",
       "type": "path",
       "x": -3181.671875,
@@ -294,7 +303,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),",
-      "id": 32,
+      "id": 33,
       "move_mode": "dash",
       "type": "path",
       "x": -3191.3437756755375,
@@ -303,7 +312,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 33,
+      "id": 34,
       "move_mode": "dash",
       "type": "path",
       "x": -3196.6876086272823,
@@ -312,7 +321,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 34,
+      "id": 35,
       "move_mode": "fly",
       "type": "target",
       "x": -3207.73828125,
@@ -321,7 +330,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),w(0.3),keypress(f),w(0.4),keypress(f),keypress(x);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);keypress(x)",
-      "id": 35,
+      "id": 36,
       "move_mode": "climb",
       "type": "target",
       "x": -3205.7812341996687,
@@ -330,7 +339,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 36,
+      "id": 37,
       "move_mode": "walk",
       "type": "path",
       "x": -3204.873046875,
@@ -338,7 +347,7 @@
     },
     {
       "action": "",
-      "id": 37,
+      "id": 38,
       "move_mode": "walk",
       "type": "teleport",
       "x": -3156.5830078125,
@@ -347,7 +356,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 38,
+      "id": 39,
       "move_mode": "run",
       "type": "path",
       "x": -3167.8095703125,
@@ -356,7 +365,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.3),keypress(VK_SPACE),wait(2.4),keypress(VK_SPACE)",
-      "id": 39,
+      "id": 40,
       "move_mode": "fly",
       "type": "path",
       "x": -3170.9267578125,
@@ -365,7 +374,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 40,
+      "id": 41,
       "move_mode": "fly",
       "type": "path",
       "x": -3149.3564453125,
@@ -374,7 +383,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),s(0.2);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "id": 41,
+      "id": 42,
       "move_mode": "climb",
       "type": "target",
       "x": -3152.970703125,
@@ -382,7 +391,7 @@
     },
     {
       "action": "",
-      "id": 42,
+      "id": 43,
       "move_mode": "walk",
       "type": "path",
       "x": -3148.46875,
@@ -391,7 +400,7 @@
     {
       "action": "combat_script",
       "action_params": "keydown(w),wait(0.1),dash,wait(0.3),attack(0.22),j,wait(0.35),keyup(w),wait(0.25);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),keydown(s),wait(0.3),attack(0.2),keyup(s);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
-      "id": 43,
+      "id": 44,
       "move_mode": "jump",
       "type": "orientation",
       "x": -3142.8437954259534,
@@ -400,7 +409,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 44,
+      "id": 45,
       "move_mode": "climb",
       "type": "target",
       "x": -3143.875,

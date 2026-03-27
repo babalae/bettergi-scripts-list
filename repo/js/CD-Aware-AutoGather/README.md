@@ -9,7 +9,7 @@
 - 可设置一个或多个不运行的时间段
 - 采集过程自动切换合适的队伍
 
-**若脚本有问题，可[点击此处进行反馈](https://github.com/babalae/bettergi-scripts-list/issues/new?template=bug_report.yml&script-name=CD-Aware-AutoGather:2.1.0&additional-info=保留此行以便通知作者:%20@Patrick-Ze%0A%0A---%0A)**
+**若脚本有问题，可[点击此处进行反馈](https://github.com/babalae/bettergi-scripts-list/issues/new?template=bug_report.yml&script-name=CD-Aware-AutoGather:2.2.0&additional-info=保留此行以便通知作者:%20@Patrick-Ze%0A%0A---%0A)**
 
 # 使用前准备
 

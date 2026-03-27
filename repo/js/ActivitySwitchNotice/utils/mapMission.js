@@ -1,3 +1,5 @@
+import {sendText} from "./notice";
+import {ocrUID} from "./uid";
 const ocrRegionConfig = {
     mapMission: {x: 6, y: 8, width: 395, height: 977},//地图任务识别区域坐标和尺寸
 }
@@ -87,13 +89,19 @@ async function mapMission(list = [], toOpenMap = true) {
         log.warn(`未识别到地图任务`)
         return
     }
-    const uid = await uidUtil.ocrUID()
+    const uid = await ocrUID()
     let text = ""
     keyJsonList.forEach(item => text += "|< " + item.text + " >\n")
-    await noticeUtil.sendText(text, `UID:${uid}\n地图任务`)
+    await sendText(text, `UID:${uid}\n地图任务`)
 }
 
-this.mapUtil = {
+// this.mapUtil = {
+//     mapMission,
+//     ocrMapMission,
+//     openMap,
+// }
+
+export {
     mapMission,
     ocrMapMission,
     openMap,

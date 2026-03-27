@@ -1,0 +1,78 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时47.28秒，包含以下怪物：1只遗迹巡弋者、2只遗迹侦察者。",
+    "enable_monster_loot_split": false,
+    "hash_res": "37393243",
+    "last_modified_time": 1774337929601,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C029稻妻平海砦北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4184.75,
+      "y": -4244.77
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4162.46875,
+      "y": -4225.87598492203
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4136.494140625,
+      "y": -4232.5263671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4120.125,
+      "y": -4241.062477866921
+    },
+    {
+      "action": "fight",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4096.189999999999,
+      "y": -4229.439999999999
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -4096.189999999999,
+      "y": -4229.439999999999
+    }
+  ]
+}

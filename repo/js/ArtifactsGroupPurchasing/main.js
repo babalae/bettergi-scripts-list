@@ -1,5 +1,6 @@
 const runExtra = settings.runExtra || false;
 const leaveTeamRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/leaveTeam.png"));
+const scrollRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/拾取滚轮.png"), 1017, 496, 1093 - 581, 581 - 496);
 let targetItems;
 let pickupDelay = 100;
 let timeMove = 1000;
@@ -25,6 +26,7 @@ let runnedEnding = false;
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
+    dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
 
     if (settings.logName) {
         expGain = await processArtifacts();
@@ -646,7 +648,6 @@ async function autoEnter(autoEnterSettings) {
     // ===== 状态 =====
     let enterCount = 0;
     let targetsRo = [];
-    let checkToEnd = false;
     let enteredPlayers = [];
 
     // ===== 初始化 =====
@@ -665,7 +666,9 @@ async function autoEnter(autoEnterSettings) {
     log.info(`加载完成共 ${targetsRo.length} 个目标`);
 
     // ===== 主循环 =====
-    while (new Date() - start < timeout * 60 * 1000) {
+    const totalTime = timeout * 60 * 1000;
+    let checkPoints = [false, false, false, false, false]; // 使用数组标记检查状态，分别对应20%、40%、60%、80%、90%时间点
+    while (new Date() - start < totalTime) {
         if (enterMode === "进入他人世界") {
             const playerSign = await getPlayerSign();
             await sleep(500);
@@ -710,7 +713,21 @@ async function autoEnter(autoEnterSettings) {
                     await genshin.returnMainUi();
                 }
             }
-            if (enterCount >= maxEnterCount) break;
+            
+            // 检查时间点，触发额外检测
+            const elapsed = new Date() - start;
+            const timePoints = [0.2, 0.4, 0.6, 0.8, 0.9];
+            for (let i = 0; i < timePoints.length; i++) {
+                const point = timePoints[i];
+                if (!checkPoints[i] && elapsed >= totalTime * point) {
+                    checkPoints[i] = true;
+                    log.info(`达到超时时间的 ${point * 100}%，额外进行一次检测`);
+                    enterCount = maxEnterCount; // 强制触发检测
+                    break;
+                }
+            }
+            
+            // 继续执行，不在这里结束循环，由统一检查部分处理
             if (await isYUI()) keyPress("VK_ESCAPE"); await sleep(500);
             await genshin.returnMainUi();
             keyPress("Y"); await sleep(250);
@@ -749,8 +766,7 @@ async function autoEnter(autoEnterSettings) {
 
             if (await isYUI()) { keyPress("VK_ESCAPE"); await genshin.returnMainUi(); }
 
-            if (enterCount >= maxEnterCount || checkToEnd) {
-                checkToEnd = true;
+            if (enterCount >= maxEnterCount) {
                 await sleep(20000);
                 if (await findTotalNumber() === maxEnterCount + 1) {
                     notification.send(`已达到预定人数：${maxEnterCount + 1}`);
@@ -1263,10 +1279,10 @@ async function recognizeAndInteract() {
         gameRegion = captureGameRegion();
         let centerYF = await findFIcon();
         if (!centerYF) {
-            if (await isMainUI()) {
-                if (new Date() - lastRoll >= 200) {
+            if (new Date() - lastRoll >= 200) {
+                lastRoll = new Date();
+                if (await hasScroll()) {
                     await keyMouseScript.runFile(`assets/滚轮下翻.json`);
-                    lastRoll = new Date();
                 }
             }
             continue;
@@ -1648,4 +1664,33 @@ async function numberTemplateMatch(
     adopted.sort((a, b) => a.x - b.x);
 
     return adopted.reduce((num, item) => num * 10 + item.digit, 0);
+}
+
+/**
+ * 判断当前是否存在拾取滚轮图标
+ * @param {number} maxDuration 最大允许耗时（毫秒）
+ */
+async function hasScroll(maxDuration = 10) {
+    const start = Date.now();
+    let dodispose = false;
+    while (Date.now() - start < maxDuration) {
+        if (!gameRegion) {
+            gameRegion = captureGameRegion();
+            dodispose = true;
+        }
+        try {
+            const result = gameRegion.find(scrollRo);
+            if (result.isExist()) return true;
+        } catch (error) {
+            log.error(`识别图像时发生异常: ${error.message}`);
+            return false;          // 一旦出现异常直接退出，不再重试
+        }
+        await sleep(checkDelay);   // 识别间隔
+        if (dodispose) {
+            gameRegion.dispose();
+            dodispose = false;     // 已经释放，标记避免重复 dispose
+        }
+    }
+    /* 超时仍未识别到，返回失败 */
+    return false;
 }

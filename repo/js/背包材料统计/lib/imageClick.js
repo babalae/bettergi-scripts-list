@@ -60,7 +60,7 @@ async function preloadImageResources(specificNames) {
 
         if (fileExists(configPath)) {
             try {
-                const configContent = file.readTextSync(configPath);
+                const configContent = safeReadTextSync(configPath);
                 popupConfig = { ...popupConfig, ...JSON.parse(configContent) };
                 isSpecialModule = popupConfig.isSpecial === true 
                     && typeof popupConfig.detectRegion === 'object' 
@@ -104,7 +104,6 @@ async function preloadImageResources(specificNames) {
                 });
             }
 
-            // 关键修改：遍历所有图标，为每个图标生成识别信息
             const foundRegions = []; // 存储所有图标的识别配置
             for (const targetIcon of iconRecognitionObjects) { // 遍历每个图标
                 const manualRegion = new ImageRegion(targetIcon.mat, specialDetectRegion.x, specialDetectRegion.y);
@@ -218,11 +217,36 @@ async function imageClickBackgroundTask() {
 
     // 配置参数
     const taskDelay = Math.min(999, Math.max(1, Math.floor(Number(settings.PopupClickDelay) || 15)))*1000;
-    const specificNamesStr = settings.PopupNames || "";
-    const specificNames = specificNamesStr
-        .split(/[,，、 \s]+/)
-        .map(name => name.trim())
-        .filter(name => name !== "");
+    let specificNames = [];
+    try {
+        specificNames = Array.from(settings.PopupNames || []);
+    } catch (e) {
+        log.error(`获取PopupNames设置失败: ${e.message}`);
+    }
+
+    let availablePopupDirs = [];
+    try {
+        const imageClickDir = "assets/imageClick";
+        const subDirs = readAllFilePaths(imageClickDir, 0, 2, [], true);
+        availablePopupDirs = subDirs.filter(subDir => {
+            const dirName = basename(subDir);
+            const entries = readAllFilePaths(subDir, 0, 0, [], true);
+            return entries.some(entry => normalizePath(entry).endsWith('/icon'));
+        }).map(dir => basename(dir));
+        log.info(`可用弹窗目录：${availablePopupDirs.join(', ')}`);
+    } catch (e) {
+        log.error(`扫描弹窗目录失败: ${e.message}`);
+    }
+
+    if (specificNames.length === 0) {
+        log.info("未指定弹窗名称，将处理所有可用弹窗");
+    } else {
+        const invalidNames = specificNames.filter(name => !availablePopupDirs.includes(name));
+        if (invalidNames.length > 0) {
+            log.warn(`以下弹窗名称不存在，将被忽略：${invalidNames.join(', ')}`);
+            specificNames = specificNames.filter(name => availablePopupDirs.includes(name));
+        }
+    }
 
     // 预加载资源
     const preloadedResources = await preloadImageResources(specificNames);
@@ -253,12 +277,11 @@ async function imageClickBackgroundTask() {
 
         // 遍历所有一级弹窗
         for (const currentFirstLevel of firstLevelDirs) {
-            log.info(`【${currentFirstLevel.dirName}】准备识别...`);
             // 检查当前一级弹窗是否被触发
             const levelResult = await imageClick([currentFirstLevel], null, [currentFirstLevel.dirName], true);
 
             if (levelResult.success) {
-                // log.info(`【${currentFirstLevel.dirName}】触发成功，进入内部流程...`);
+                log.info(`【${currentFirstLevel.dirName}】触发成功，进入内部流程...`);
                 const levelStack = [currentFirstLevel];
 
                 // 内循环处理内部流程
@@ -360,12 +383,12 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
                 log.info(`识别到【${dirName}】弹窗，偏移后位置(${actualX}, ${actualY})`);
 
                 if (!popupConfig.isSpecial) {
+                    // log.info(`点击【${dirName}】弹窗：(${actualX}, ${actualY})`);
                     // 新增：普通点击加循环（默认1次，0间隔，与原逻辑一致）
                     const clickCount = popupConfig.loopCount;
                     const clickDelay = popupConfig.loopDelay;
                     for (let i = 0; i < clickCount; i++) {
                         await click(actualX, actualY); // 保留原始点击逻辑
-                        // log.info(`点击【${dirName}】弹窗：(${actualX}, ${actualY})${i+1}次`);
                         if (i < clickCount - 1) await sleep(clickDelay); // 非最后一次加间隔
                     }
                 } else {
@@ -374,7 +397,7 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
                             const targetKey = popupConfig.keyCode || "VK_SPACE";
                             // 新增：key_press用循环（默认3次，1000ms间隔，与原硬编码逻辑一致）
                             const pressCount = popupConfig.loopCount || 3;
-                            const pressDelay = popupConfig.loopDelay || 500;
+                            const pressDelay = popupConfig.loopDelay || 1000;
                             for (let i = 0; i < pressCount; i++) {
                                 keyPress(targetKey); // 保留原始按键逻辑
                                 log.info(`【${dirName}】弹窗触发按键【${targetKey}】${i+1}次`);
@@ -390,7 +413,13 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
                                 log.error(`【${dirName}】弹窗OCR配置不全，跳过`);
                                 break;
                             }
-                            const ocrResults = await performOcr(targetTexts, xRange, yRange, timeout, ra);
+                            const region = {
+                                x: xRange.min,
+                                y: yRange.min,
+                                width: xRange.max - xRange.min,
+                                height: yRange.max - yRange.min
+                            };
+                            const { results: ocrResults } = await performOcr(targetTexts, region, ra, timeout);
                             if (ocrResults.length > 0) {
                                 const ocrActualX = Math.round(ocrResults[0].x + ocrResults[0].width/2) + xOffset;
                                 const ocrActualY = Math.round(ocrResults[0].y + ocrResults[0].height/2) + yOffset;

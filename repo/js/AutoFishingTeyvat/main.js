@@ -508,13 +508,13 @@
 
             // 读取地区
             // let path_sort_area = typeof(settings.path_sort_area) === 'undefined' || settings.path_sort_area === "" ? [] : settings.path_sort_area.split(' ');
-            let path_sort_area = Array.from(settings.path_sort_area);
+            let path_sort_area = settings.path_sort_area ? Array.from(settings.path_sort_area) : [] ;
             // 读取鱼类
             // let path_sort_fish = typeof(settings.path_sort_fish) === 'undefined' || settings.path_sort_fish === "" ? [] : settings.path_sort_fish.split(' ');
-            let path_sort_fish = Array.from(settings.path_sort_fish);
+            let path_sort_fish = settings.path_sort_fish ? Array.from(settings.path_sort_fish) : [] ;
             // 读取鱼饵
             // let path_sort_bait = typeof(settings.path_sort_bait) === 'undefined' || settings.path_sort_bait === "" ? [] : settings.path_sort_bait.split(' ');
-            let path_sort_bait = Array.from(settings.path_sort_bait);
+            let path_sort_bait = settings.path_sort_bait ? Array.from(settings.path_sort_bait) : [] ;
             // 读取兑换材料
             let path_sort_material = typeof(settings.path_sort_material) === 'undefined' ? "无(默认)" : settings.path_sort_material;
             // 读取调试信息
@@ -926,6 +926,9 @@
             }
         }
 
+        // 回到主界面
+        await genshin.returnMainUi();
+
         // 记录钓鱼开始时间
         const time_start_fishing = Date.now();
 
@@ -978,7 +981,7 @@
         // 判断是否是调式模式
         const is_con = !(typeof(settings.path_select) === 'undefined' || settings.path_select === "无(默认)");
         // 读取开发者日志设置
-        const developer_log = Array.from(settings.developer_log);
+        const developer_log = settings.developer_log ? Array.from(settings.developer_log) : [];
         // 键鼠设置读取
         const block_gcm = typeof(settings.block_gcm) === 'undefined' ? false : settings.block_gcm;
         // 战斗设置读取
@@ -1074,7 +1077,7 @@
             if (time_target < now) { // 不是当天终止，天数+1
                 time_target.setDate(now.getDate() + 1); // 不会超限
             }
-            let time_show = `${time_target.getFullYear()}/${time_target.getMonth()}/${time_target.getDate()} ${time_target.getHours()}:${time_target.getMinutes()}`;
+            let time_show = `${time_target.getFullYear()}/${time_target.getMonth() + 1}/${time_target.getDate()} ${time_target.getHours()}:${time_target.getMinutes()}`;
             log.info(`定时关闭已启用，将在 ${time_show} 后停止后续任务...`);
             await sleep(2000);
         }

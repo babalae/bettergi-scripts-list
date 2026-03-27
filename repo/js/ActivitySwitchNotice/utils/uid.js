@@ -135,7 +135,15 @@ async function check() {
     return check
 }
 
-this.uidUtil = {
+// this.uidUtil = {
+//     toMainUi,
+//     isInMainUI,
+//     checkUid,
+//     ocrUID,
+//     check,
+//     compareUid,
+// }
+export {
     toMainUi,
     isInMainUI,
     checkUid,

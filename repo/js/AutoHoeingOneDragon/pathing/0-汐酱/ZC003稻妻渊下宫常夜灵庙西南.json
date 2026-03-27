@@ -1,0 +1,133 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时143.58秒，包含以下怪物：2只冲锋丘丘人、1只木盾丘丘暴徒、3只嗜岩·兽境幼兽、3只遗迹守卫。",
+    "enable_monster_loot_split": false,
+    "hash_res": "56339918",
+    "last_modified_time": 1774340058284,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "ZC003稻妻渊下宫常夜灵庙西南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -366.34,
+      "y": 235.74
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -245.75,
+      "y": 223.94
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -226.24,
+      "y": 222.01
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -213.55,
+      "y": 220.31
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -210.5,
+      "y": 219.8
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -198.07,
+      "y": 271.19
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -204.99,
+      "y": 223.87
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -221.46,
+      "y": 220.49
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -264.02,
+      "y": 192.58
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(2),wait(3)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -290.21,
+      "y": 129.31
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -290.21,
+      "y": 129.31
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -290.21,
+      "y": 129.31
+    }
+  ]
+}

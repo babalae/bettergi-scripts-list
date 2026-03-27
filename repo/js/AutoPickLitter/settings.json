@@ -56,12 +56,6 @@
     "default": "随机模式"
   },
   {
-    "name": "dragonEggsNum",
-    "type": "input-text",
-    "label": "平均模式：自行输入自己背包各龙蛋数目\n顺序为【山-飞-圣-太-献-菲 】\n各龙蛋数目用【-】相连",
-    "default": "0-0-0-0-0-0" 
-  },
-  {
     "name": "pickupDragonEgg",
     "type": "select",
     "label": "指定模式：选择你喜欢的龙蛋",
@@ -74,12 +68,12 @@
       "闪闪礼蛋·飞澜鲨鲨"
     ]
   },
-  // {
-  //   "name": "updateEggs",
-  //   "type": "checkbox",
-  //   "label": "是否更新背包各龙蛋数目(默认否)",
-  //   "default": "false"
-  // },
+  {
+    "name": "updateEggs",
+    "type": "checkbox",
+    "label": "是否更新背包各龙蛋数目(默认否)，勾选上后，下次运行前记得取消",
+    "default": "false"
+  },
   {
     "name": "turntable",
     "type": "checkbox",

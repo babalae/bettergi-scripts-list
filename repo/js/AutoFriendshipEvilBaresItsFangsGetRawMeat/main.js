@@ -198,7 +198,11 @@
 				notification.send(`已抵达突发任务“张牙舞爪的恶党”触发位置`);
 			}
 
-			await genshin.relogin();
+			if (settings.circulationMethod) {
+				await genshin.wonderlandCycle();
+			} else {
+				await genshin.relogin();
+			}
 
 			// 判断游戏重上后是否在任务触发位置，如果在就进行OCR，如果不在则退回次数并重新执行触发路线
 			if (await comparePosition()) {
@@ -366,7 +370,7 @@
 	} else {
 		log.info(`>> 今日已完成 ${record.alreadyRunCount} 次，还需运行 ${timesToRun} 次`);
 	}
-	
+
 	log.info('兽肉好感开始...');
 	await AutoFriendship(timesToRun, statueTimes, getMeatMode, delayTime, startTime, ocrTimeout);
 

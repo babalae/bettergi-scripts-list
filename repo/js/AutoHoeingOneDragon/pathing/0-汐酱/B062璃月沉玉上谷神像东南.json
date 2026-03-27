@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时69.8秒，包含以下怪物：4只冰史莱姆、1只大型冰史莱姆。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1770486160643,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B062璃月沉玉上谷神像东南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1466.62890625,
+      "y": 2000.783203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1446.4853515625,
+      "y": 1997.755859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1402.572265625,
+      "y": 1938.740234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1366.291015625,
+      "y": 1895.890625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1352.7373046875,
+      "y": 1861.1005859375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1352.7373046875,
+      "y": 1861.1005859375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 1352.7373046875,
+      "y": 1861.1005859375
+    }
+  ]
+}

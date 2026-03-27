@@ -20,6 +20,12 @@
         "type": "separator"
     },
     {
+        "name": "newActivityNotice",
+        "type": "checkbox",
+        "label": "启用新活动通知",
+        "default": true
+    },
+    {
         "label": "地图识别任务提醒",
         "type": "multi-checkbox",
         "name": "mapMissionKeys",
@@ -69,19 +75,22 @@
         "type": "separator"
     },
     {
-        "name": "campaignAreaReminderDay",
-        "type": "select",
-        "label": "周本提醒日(0-6,0=周日,1=周一,2=周二,3=周三,4=周四,5=周五,6=周六)",
+        "label": "周本提醒日",
+        "name": "campaignAreaReminderDays",
+        "type": "multi-checkbox",
         "options": [
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6"
+            "周一",
+            "周二",
+            "周三",
+            "周四",
+            "周五",
+            "周六",
+            "周日"
         ],
-        "default": "0"
+        "default": [
+            "周六",
+            "周日"]
+
     },
     {
         "name": "campaignAreaKey",
@@ -93,10 +102,44 @@
         "type": "separator"
     },
     {
+        "type": "separator"
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "name": "wsNoticeType",
+        "type": "select",
+        "label": "独立通知配置(设置):\n==============================\n",
+        "options": [
+            "自定义通知",
+            "bgi-tools通知"
+        ],
+        "default": "自定义通知"
+    },
+    {
+        "name": "http_api_access_ws_proxy",
+        "type": "input-text",
+        "label": "bgi-tools获取授权wsproxy api地址",
+        "default": "http://127.0.0.1:8081/bgi/ws-proxy/access"
+    },
+    {
+      "name": "bgi_tools_token",
+      "type": "input-text",
+      "label": "bgi_tools授权token 语法:tokenName=tokenValue",
+      "default": "Authorization= "
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "type": "separator"
+    },
+    {
         "name": "ws_proxy_url",
         "type": "input-text",
-        "label": "独立通知配置:\n==============================\nWebSocketProxyUrl(列:http://127.0.0.1:8081/ws-proxy/message/send)",
-        "default": "http://127.0.0.1:8081/ws-proxy/message/send"
+        "label": "WebSocketProxyUrl(列:http://127.0.0.1:8081/bgi/ws-proxy/message/send)",
+        "default": "http://127.0.0.1:8081/bgi/ws-proxy/message/send"
     },
     {
         "name": "ws_url",

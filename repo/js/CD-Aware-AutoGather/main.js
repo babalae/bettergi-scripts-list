@@ -943,11 +943,22 @@ async function runPathTaskIfCooldownExpired(material, taskInfo) {
                 let pathStart = logFakePathStart(fileName);
                 let pathStartPos = await genshin.getPositionFromMap(currentMap);
                 // 延迟抛出`UserCancelled`，以便正确更新运行记录
+                const pathStartTime = new Date();
                 let cancel = await runPathScriptFile(jsonPath);
 
                 await genshin.returnMainUi();
                 let pathEndPos = await genshin.getPositionFromMap(currentMap);
                 let distance = calculateDistance(pathStartPos, pathEndPos);
+                if (distance === null) {
+                    const timeDiff = (new Date() - pathStartTime) / 1000;
+                    // TemplateMatch模式暂时无法获取新地图的坐标，在API支持前简单做个workaround
+                    if (timeDiff > 10) {
+                        log.warn("无法获取位置坐标，基于路径耗时更新刷新时间");
+                        distance = 20928;
+                    } else {
+                        log.warn("无法获取位置坐标，路径耗时较短，不更新刷新时间");
+                    }
+                }
                 if (distance >= 5) {
                     const jsonData = JSON.parse(readTextSync(jsonPath));
                     const jsonRegion = jsonData.info?.map_name || "Teyvat";

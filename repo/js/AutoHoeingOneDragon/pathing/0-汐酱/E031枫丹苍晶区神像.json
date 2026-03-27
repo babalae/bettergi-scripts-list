@@ -1,0 +1,70 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时54.74秒，包含以下怪物：2只狂蔓隙境原体。",
+    "enable_monster_loot_split": false,
+    "hash_res": "30255686",
+    "last_modified_time": 1774338742985,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E031枫丹苍晶区神像",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4749.51,
+      "y": 2636.27
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4803.52,
+      "y": 2573.24
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4850.5,
+      "y": 2541.63
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4848.71,
+      "y": 2539.45
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4848.71,
+      "y": 2539.45
+    }
+  ]
+}

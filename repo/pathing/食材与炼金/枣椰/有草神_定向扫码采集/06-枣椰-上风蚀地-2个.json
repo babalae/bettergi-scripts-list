@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "约1分钟6秒/2个",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1764003391801,
+    "last_modified_time": 1765445584442,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "06-枣椰-上风蚀地-2个",
@@ -55,9 +55,19 @@
       "y": -2834.8447
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4471.3281,
+      "y": -2837.4141
+    },
+    {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "dash",
       "type": "path",
       "x": 4471.3281,
@@ -66,7 +76,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(VK_X);迪希雅 wait(0.3),keypress(VK_E),wait(0.3),keypress(VK_E),wait(0.1);",
-      "id": 6,
+      "id": 7,
       "move_mode": "run",
       "type": "path",
       "x": 4505.6133,
@@ -75,8 +85,7 @@
     {
       "action": "nahida_collect",
       "action_params": "",
-      "id": 7,
-      "locked": false,
+      "id": 8,
       "move_mode": "walk",
       "type": "path",
       "x": 4505.6133,
@@ -85,7 +94,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(VK_X);迪希雅 wait(0.01)",
-      "id": 8,
+      "id": 9,
       "move_mode": "walk",
       "type": "orientation",
       "x": 4505.0,

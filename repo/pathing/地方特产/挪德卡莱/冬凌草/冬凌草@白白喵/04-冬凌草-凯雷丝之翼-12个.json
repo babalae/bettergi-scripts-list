@@ -10,10 +10,10 @@
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.55.0",
+    "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1769261777655,
+    "last_modified_time": 1773768290657,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "04-冬凌草-凯雷丝之翼-12个",
@@ -113,8 +113,8 @@
       "y": 5747.5679
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
       "id": 11,
       "move_mode": "walk",
       "type": "path",

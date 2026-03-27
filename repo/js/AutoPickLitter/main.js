@@ -6,12 +6,12 @@ let recordsNum = 0; // 写入内容次数
 let sticksTime = false; // 判定是否可以上香
 //六龙蛋位置
 const coordinates = [
-    [565, 150],
-    [568, 723],
-    [1088, 161],
-    [874, 335],
-    [468, 574],
-    [1339, 358]
+    [565, 150],  // 山
+    [568, 723],  // 飞
+    [1088, 161],  // 圣
+    [874, 335],   // 太
+    [468, 574],   // 献
+    [1339, 358]  // 菲
 ];
 
 // 通用方法区域
@@ -414,7 +414,8 @@ async function chcekDragonEggs() {
     await keyPress("B");
     await checkExpire();
     await sleep(1500);
-    await click(1250,50); 
+    await click(1250,50);
+    await sleep(50);
     let DragonEggs = [0, 0, 0, 0, 0, 0];
     let judgeEgg = 0;
     // 判定是不是只有一页
@@ -423,16 +424,18 @@ async function chcekDragonEggs() {
         for (let index = 0; index < 6; index++) {
             let DragonEgg = await findImgIcon(`assets/RecognitionObject/DragonEgg${index}.png`, { min: 99, max: 1295 }, { min: 104, max: 967 }, true, 0.95);
             if (DragonEgg.success) {
-                let ocrEggNum = await performOcr("", 
-                    { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
-                // log.info(`第一次识别到的数字：${ocrEggNum.text}`);
-                if (ocrEggNum.text == "") {
-                    await sleep(700);
-                    ocrEggNum = await performOcr("", 
-                        { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
-                    // log.info(`第二次识别到的数字：${ocrEggNum.text}`);
-                };
-                DragonEggs[index] = Number(ocrEggNum.text);
+                // let ocrEggNum = await performOcr("", 
+                //     { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
+                // // log.info(`第一次识别到的数字：${ocrEggNum.text}`);
+                // if (ocrEggNum.text == "") {
+                //     await sleep(700);
+                //     ocrEggNum = await performOcr("", 
+                //         { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
+                //     // log.info(`第二次识别到的数字：${ocrEggNum.text}`);
+                // };
+                let eggNum = await numberTemplateMatch('assets/backpackNumber', DragonEgg.coordinates[0]-46, DragonEgg.coordinates[1]+56, 80, 27);
+                log.info(`识别到的数字：${eggNum}`);
+                DragonEggs[index] = Number(eggNum);
             }else{
                 DragonEggs[index] = 0;
             };
@@ -443,19 +446,11 @@ async function chcekDragonEggs() {
             for (let index = 0; index < 6; index++) {
                 let DragonEgg = await findImgIcon(`assets/RecognitionObject/DragonEgg${index}.png`, { min: 99, max: 1295 }, { min: 104, max: 967 }, true, 0.95);
                 if (DragonEgg.success) {
-                    let ocrEggNum = await performOcr("", 
-                        { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
-                    // log.info(`第一次识别到的数字：${ocrEggNum.text}`);
-                    if (ocrEggNum.text == "") {
-                        await sleep(700);
-                        ocrEggNum = await performOcr("", 
-                            { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
-                        // log.info(`第二次识别到的数字：${ocrEggNum.text}`);
+                    let eggNum = await numberTemplateMatch('assets/backpackNumber', DragonEgg.coordinates[0]-46, DragonEgg.coordinates[1]+56, 80, 27);
+                    if (eggNum == "") {
+                        eggNum = 1;
                     };
-                    if (ocrEggNum.text == "") {
-                        ocrEggNum.text = 1;
-                    };
-                    DragonEggs[index] = ocrEggNum.text;
+                    DragonEggs[index] = eggNum;
                 }else{
                     DragonEggs[index] = 0;
                 };
@@ -510,8 +505,110 @@ async function checkExpire() {
     let ocrExpire = await performOcr("",{ min: 870, max: 1040 }, { min: 280, max: 320 }, true);
     if (ocrExpire.text == "物品过期") {
         log.info(`处理中=========`);
-       await click(980, 750); 
+       await click(980, 750);
+       await sleep(50);
     };
+};
+
+// 多文本识别数字
+/**
+ * 在指定区域内，用 0-9 的 PNG 模板做「多阈值 + 非极大抑制」数字识别，
+ * 最终把检测到的数字按左右顺序拼成一个整数返回。
+ *
+ * @param {string}  numberPngFilePath - 存放 0.png ~ 9.png 的文件夹路径（不含文件名）
+ * @param {number}  x                 - 待识别区域的左上角 x 坐标，默认 0
+ * @param {number}  y                 - 待识别区域的左上角 y 坐标，默认 0
+ * @param {number}  w                 - 待识别区域的宽度，默认 1920
+ * @param {number}  h                 - 待识别区域的高度，默认 1080
+ * @param {number}  maxThreshold      - 模板匹配起始阈值，默认 0.95（最高可信度）
+ * @param {number}  minThreshold      - 模板匹配最低阈值，默认 0.8（最低可信度）
+ * @param {number}  splitCount        - 在 maxThreshold 与 minThreshold 之间做几次等间隔阈值递减，默认 3
+ * @param {number}  maxOverlap        - 非极大抑制时允许的最大重叠像素，默认 2；只要 x 或 y 方向重叠大于该值即视为重复框
+ *
+ * @returns {number} 识别出的整数；若没有任何有效数字框则返回 -1
+ *
+ * @example
+ * const mora = await numberTemplateMatch('摩拉数字', 860, 70, 200, 40);
+ * if (mora >= 0) console.log(`当前摩拉：${mora}`);
+ */
+async function numberTemplateMatch(
+    numberPngFilePath,
+    x = 0, y = 0, w = 1920, h = 1080,
+    maxThreshold = 0.95,
+    minThreshold = 0.8,
+    splitCount = 3,
+    maxOverlap = 2
+) {
+    let ros = [];
+    for (let i = 0; i <= 9; i++) {
+        ros[i] = RecognitionObject.TemplateMatch(
+            file.ReadImageMatSync(`${numberPngFilePath}/${i}.png`), x, y, w, h);
+    };
+
+    function setThreshold(roArr, newThreshold) {
+        for (let i = 0; i < roArr.length; i++) {
+            roArr[i].Threshold = newThreshold;
+            roArr[i].InitTemplate();
+        };
+    };
+
+    const gameRegion = captureGameRegion();
+    const allCandidates = [];
+
+    /* 1. splitCount 次等间隔阈值递减 */
+    for (let k = 0; k < splitCount; k++) {
+        const curThr = maxThreshold - (maxThreshold - minThreshold) * k / Math.max(splitCount - 1, 1);
+        setThreshold(ros, curThr);
+
+        /* 2. 0-9 每个模板跑一遍，所有框都收 */
+        for (let digit = 0; digit <= 9; digit++) {
+            const res = gameRegion.findMulti(ros[digit]);
+            if (res.count === 0) continue;
+
+            for (let i = 0; i < res.count; i++) {
+                const box = res[i];
+                allCandidates.push({
+                    digit: digit,
+                    x: box.x,
+                    y: box.y,
+                    w: box.width,
+                    h: box.height,
+                    thr: curThr
+                });
+            };
+        };
+
+    };
+    gameRegion.dispose();
+
+    /* 3. 无结果提前返回 -1 */
+    if (allCandidates.length === 0) {
+        return -1;
+    };
+
+    /* 4. 非极大抑制（必须 x、y 两个方向重叠都 > maxOverlap 才视为重复） */
+    const adopted = [];
+    for (const c of allCandidates) {
+        let overlap = false;
+        for (const a of adopted) {
+            const xOverlap = Math.max(0, Math.min(c.x + c.w, a.x + a.w) - Math.max(c.x, a.x));
+            const yOverlap = Math.max(0, Math.min(c.y + c.h, a.y + a.h) - Math.max(c.y, a.y));
+            if (xOverlap > maxOverlap && yOverlap > maxOverlap) {
+                overlap = true;
+                break;
+            }
+        }
+        if (!overlap) {
+            adopted.push(c);
+            //log.info(`在 [${c.x},${c.y},${c.w},${c.h}] 找到数字 ${c.digit}，匹配阈值=${c.thr}`);
+        }
+    }
+
+    /* 5. 按 x 排序，拼整数；仍无有效框时返回 -1 */
+    if (adopted.length === 0) return -1;
+    adopted.sort((a, b) => a.x - b.x);
+
+    return adopted.reduce((num, item) => num * 10 + item.digit, 0);
 };
 
 // 执行区
@@ -540,6 +637,7 @@ async function checkExpire() {
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/蒙德清泉镇路线.json");
         await genshin.setTime(8,0);
+        await sleep(700);
         //识别对话位置，并点击
         let ocrResults = await performOcr("神奇的", dialogZone.x, dialogZone.y, false);
         if (ocrResults.success) {
@@ -547,17 +645,12 @@ async function checkExpire() {
             await performOcr("如何才", dialogZone.x, dialogZone.y, false);
             await sleep(700);
             let ocrOver = await performOcr("已",{ min: 1482, max: 1630 }, { min: 912, max: 957 }, false);
+            await sleep(700);
             if (ocrOver.success) {
                 log.info("已售罄！！！");
             } else {
-                let ocrMora = await performOcr("", { min: 1600, max: 1780 }, { min: 30, max: 60 }, true);
-                if (ocrMora == "") {
-                    await sleep(700);
-                    ocrMora = await performOcr("", { min: 1600, max: 1780 }, { min: 30, max: 60 }, true);
-                };
-                // 处理得到的数据
-                let onlyNumber = ocrMora.text.replace(/[^0-9]/g, "");
-                if (BigInt(onlyNumber) >= 300) {
+                const mora = await numberTemplateMatch('assets/moraNumber', 1600, 30, 180, 30);
+                if (BigInt(mora) >= 300) {
                     await sleep(800);
                     await click(1636,1019);
                     await sleep(1000);
@@ -806,7 +899,7 @@ async function checkExpire() {
         await fakeLog("枫丹梅洛彼得堡福利餐", false, true, 0)
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/枫丹梅洛彼得堡路线.json");
-        await sleep(1000);
+        await sleep(1500);
         let ocrResults = await performOcr("布兰", dialogZone.x, dialogZone.y, false);
         if (ocrResults.success) {
             await sleep(700);
@@ -902,12 +995,11 @@ async function checkExpire() {
     if(settings.eggs){
         await fakeLog("纳塔悠悠集市龙蛋", false, true, 0)
         // 保留打开背包识别龙蛋信息
-        // let nowDragonEggsNum = record.lastDragonEggsNum;
-        // if (record.lastDragonEggsNum == "【山之血：0，飞澜鲨鲨：0，圣龙君临：0，太阳的轰鸣：0，献给小酒杯：0，菲耶蒂娜：0】" || settings.updateEggs) {
-        //     nowDragonEggsNum = await chcekDragonEggs();
-        //     settings.updateEggs = "false";
-        // };
-        let nowDragonEggsNum = settings.dragonEggsNum;
+        let nowDragonEggsNum = record.lastDragonEggsNum;
+        log.info(`上次的龙蛋信息:${nowDragonEggsNum}`);
+        if (record.lastDragonEggsNum == "【山之血：0，飞澜鲨鲨：0，圣龙君临：0，太阳的轰鸣：0，献给小酒杯：0，菲耶蒂娜：0】" || settings.updateEggs) {
+            nowDragonEggsNum = await chcekDragonEggs();
+        };
         let nowDragonEggs = nowDragonEggsNum.match(/\d+/g).map(Number);
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/纳塔悠悠集市路线.json");
@@ -951,15 +1043,15 @@ async function checkExpire() {
                 }else {
                     // 平均模式
                     const now = new Date();
-                    const weekNumber = now.getDay()
+                    const weekNumber = now.getDay();
                     if (nowDragonEggs.every(num => num === nowDragonEggs[0])) {
                         // 所有元素相同时，按星期规则处理
-                        if (weekNumber === 0) { // 周日：随机一个元素+1
+                        if (weekNumber == 0) { // 周日：随机一个元素+1
                             figure = Math.floor(Math.random() * 6);
                             nowDragonEggs[figure]++;
                         } else { // 周一到周六：第n个元素 +n（1-6）
-                            const index = weekNumber - 1; // 周一对应索引0，...，周六对应索引5
-                            nowDragonEggs[index]++;
+                            figure = weekNumber - 1; // 周一对应索引0，...，周六对应索引5
+                            nowDragonEggs[figure]++;
                         };
                     } else {
                         // 元素不同时：给低于平均数且最小的元素+1，直到趋于平均
@@ -1239,6 +1331,7 @@ async function checkExpire() {
                 if (ocrResults1.success) {
                     await sleep(800);
                     await click(1012, 765);
+                    await sleep(50);
                     await click(1012, 765);
                 };
             };
@@ -1291,6 +1384,7 @@ async function checkExpire() {
                 if (ocrResults1.success) {
                     await sleep(800);
                     await click(1012, 765);
+                    await sleep(50);
                     await click(1012, 765);
                 };
             };

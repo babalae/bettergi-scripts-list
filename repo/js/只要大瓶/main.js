@@ -44,51 +44,85 @@ let rg;
     keyPress("B");
     //切换到圣遗物界面
 
-    await clickPNG("狗粮界面");
+    await findAndClick(["assets/RecognitionObject/狗粮界面1.png", "assets/RecognitionObject/狗粮界面2.png"]);
 
     if (settings.autoSwitchCount) {
         log.info(`填写了临界小瓶数量为${(+settings.autoSwitchCount)},开始识别`);
 
-        await clickPNG("筛选");
+        await findAndClick("assets/RecognitionObject/筛选.png");
         await sleep(200);
         click(30, 30);
         await sleep(100);
-        await clickPNG("重置");
+        await findAndClick("assets/RecognitionObject/重置.png");
         await sleep(200);
-        await clickPNG("祝圣之霜定义");
+        await findAndClick("assets/RecognitionObject/祝圣之霜定义.png");
         await sleep(200);
-        await clickPNG("未装备");
+        await findAndClick("assets/RecognitionObject/未装备.png");
         await sleep(200);
-        await clickPNG("未锁定");
+        await findAndClick("assets/RecognitionObject/未锁定.png");
         await sleep(200);
-        await clickPNG("确认");
+        await findAndClick("assets/RecognitionObject/确认.png");
         await sleep(200);
         click(30, 30);
         await sleep(100);
         {
             const smallBottleRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/背包小瓶.png`));
+            const bigBottleRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/背包大瓶.png`));
             smallBottleRo.InitTemplate();
+            let digitsSmall = -1;
+            let digitsBig = -1;
             for (let i = 0; i < 5; i++) {
+                if (digitsSmall >= 0) {
+                    break;
+                }
                 const rg = captureGameRegion();
                 try {
                     const res = rg.find(smallBottleRo);
-                    if (res.isExist()) {
-                        const regionToCheck = { x: res.x, y: res.y + 110, width: 122, height: 30 };
-                        const raw = await recognizeTextInRegion(regionToCheck);
 
-                        // 只保留数字
-                        const digits = (raw || '').replace(/\D/g, '');
-                        log.info(`识别到小瓶数量为${digits}`);
-                        if ((+digits) > settings.autoSwitchCount) {
-                            settings.bottleType = "只要大瓶";
-                        } else {
-                            settings.bottleType = "只要小瓶";
-                        }
-                        log.info(`当前分解模式为${settings.bottleType}`);
-                        break;
+                    if (res.isExist()) {
+                        digitsSmall = await numberTemplateMatch("assets/背包物品数字", res.x, res.y + 110, 122, 30);
+                        log.info(`识别到小瓶数量为${digitsSmall}`);
                     }
+
                 } finally { rg.dispose(); }
                 if (i < 5 - 1) await sleep(50);
+            }
+            if (digitsSmall < 0) {
+                log.info(`未识别到小瓶数量，视为0`);
+                digitsSmall = 0;
+            }
+            if (digitsSmall >= settings.autoSwitchCount) {
+                settings.bottleType = "只要大瓶";
+            } else {
+                settings.bottleType = "只要小瓶";
+            }
+            log.info(`当前分解模式为${settings.bottleType}`);
+            if (settings.recognizeBig) {
+                //点击小瓶防止大瓶图标闪烁
+                await findAndClick("assets/RecognitionObject/背包小瓶.png");
+                await sleep(300);
+
+                for (let i = 0; i < 5; i++) {
+                    if (digitsBig >= 0) {
+                        break;
+                    }
+                    const rg = captureGameRegion();
+                    try {
+                        const res = rg.find(bigBottleRo);
+
+                        if (res.isExist()) {
+                            digitsBig = await numberTemplateMatch("assets/背包物品数字", res.x, res.y + 110, 122, 30);
+                            log.info(`识别到大瓶，数量为${digitsBig}`);
+                        }
+
+                    } finally { rg.dispose(); }
+                    if (i < 5 - 1) await sleep(50);
+                }
+                if (digitsBig < 0) {
+                    log.info(`未识别到大瓶数量，视为0`);
+                    digitsBig = 0;
+                }
+                notification.send(`当前背包大瓶数量为${digitsBig}，小瓶数量为${digitsSmall}`);
             }
         }
     }
@@ -116,14 +150,14 @@ let rg;
     }
 
     //点击分解
-    await clickPNG("分解");
+    await findAndClick("assets/RecognitionObject/分解.png");
     await sleep(500);
-    await clickPNG("分解筛选");
+    await findAndClick("assets/RecognitionObject/分解筛选.png");
     await sleep(200);
-    await clickPNG("分解未锁定");
-    await clickPNG("分解确认");
+    await findAndClick("assets/RecognitionObject/分解未锁定.png");
+    await findAndClick("assets/RecognitionObject/分解确认.png");
     //点击倒序
-    await clickPNG("倒序");
+    await findAndClick("assets/RecognitionObject/倒序.png");
     rg = captureGameRegion();
     while (true) {
         let foundBigBottle = false;
@@ -137,7 +171,6 @@ let rg;
             rg.dispose();
             rg = captureGameRegion();
             try {
-
                 const bigRes = rg.find(pngRo1);
                 if (bigRes.isExist()) {
                     foundBigBottle = true;
@@ -162,12 +195,10 @@ let rg;
                 }
             } finally {
             }
-            let time1 = new Date();
             if (!await selectOneAritfact()) {
                 log.info("所有指定星级选择后不足以分解出目标");
                 break;
             }
-            //log.info(`调试-用时${new Date() - time1}`);
         }
         if (foundBigBottle) {
             log.info("成功选出分解所需狗粮");
@@ -184,8 +215,8 @@ let rg;
         fourStarCount += tempfourStarCount;
         tempfourStarCount = 0;
 
-        await clickPNG("执行分解");
-        await clickPNG("进行分解");
+        await findAndClick("assets/RecognitionObject/执行分解.png");
+        await findAndClick("assets/RecognitionObject/进行分解.png");
         await sleep(700);
         click(30, 30);
         await sleep(300);
@@ -208,8 +239,10 @@ let rg;
 
     if (parts.length > 2) {
         log.info(parts.join(''));
+        notification.send(parts.join(''));
     } else {
         log.info('没有分解任何物品。');
+        notification.send('没有分解任何物品。');
     }
 
 
@@ -275,25 +308,72 @@ async function selectOneAritfact() {
     return false;
 }
 
-async function clickPNG(png, maxAttempts = 40, Threshold = 0.9) {
-    const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
-    pngRo.Threshold = Threshold;
-    pngRo.InitTemplate();
-    return await findAndClick(pngRo, maxAttempts);
-}
+/**
+ * 通用找图/找RO并可选点击（支持单图片文件路径、单RO、图片文件路径数组、RO数组）
+ * @param {string|string[]|RecognitionObject|RecognitionObject[]} target
+ * @param {boolean}  [doClick=true]                是否点击
+ * @param {number}   [timeout=3000]                识别时间上限（ms）
+ * @param {number}   [interval=50]                 识别间隔（ms）
+ * @param {number}   [retType=0]                   0-返回布尔；1-返回 Region 结果
+ * @param {number}   [preClickDelay=50]            点击前等待
+ * @param {number}   [postClickDelay=50]           点击后等待
+ * @returns {boolean|Region}  根据 retType 返回是否成功或最终 Region
+ */
+async function findAndClick(target,
+    doClick = true,
+    timeout = 3000,
+    interval = 50,
+    retType = 0,
+    preClickDelay = 16,
+    postClickDelay = 16) {
+    try {
+        // 1. 统一转成 RecognitionObject 数组
+        let ros = [];
+        if (Array.isArray(target)) {
+            ros = target.map(t =>
+                (typeof t === 'string')
+                    ? RecognitionObject.TemplateMatch(file.ReadImageMatSync(t))
+                    : t
+            );
+        } else {
+            ros = [(typeof target === 'string')
+                ? RecognitionObject.TemplateMatch(file.ReadImageMatSync(target))
+                : target];
+        }
 
-async function findAndClick(target, maxAttempts = 20) {
-    //log.info("调试-开始检查");
-    for (let i = 0; i < maxAttempts; i++) {
-        //log.info("调试-检查一次");
-        const rg = captureGameRegion();
-        try {
-            const res = rg.find(target);
-            if (res.isExist()) { await sleep(16); res.click(); await sleep(50); return true; }
-        } finally { rg.dispose(); }
-        if (i < maxAttempts - 1) await sleep(50);
+        const start = Date.now();
+        let found = null;
+
+        while (Date.now() - start <= timeout) {
+            const gameRegion = captureGameRegion();
+            try {
+                // 依次尝试每一个 ro
+                for (const ro of ros) {
+                    const res = gameRegion.find(ro);
+                    if (!res.isEmpty()) {          // 找到
+                        found = res;
+                        if (doClick) {
+                            await sleep(preClickDelay);
+                            res.click();
+                            await sleep(postClickDelay);
+                        }
+                        break;                     // 成功即跳出 for
+                    }
+                }
+                if (found) break;                  // 成功即跳出 while
+            } finally {
+                gameRegion.dispose();
+            }
+            await sleep(interval);                 // 没找到时等待
+        }
+
+        // 3. 按需返回
+        return retType === 0 ? !!found : (found || null);
+
+    } catch (error) {
+        log.error(`执行通用识图时出现错误：${error.message}`);
+        return retType === 0 ? false : null;
     }
-    return false;
 }
 
 async function findPNG(png, maxAttempts = 20) {
@@ -315,28 +395,102 @@ async function findWithoutClick(target, maxAttempts = 20) {
     return false;
 }
 
-async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
-    let startTime = Date.now();
-    let retryCount = 0; // 重试计数
-    while (Date.now() - startTime < timeout) {
-        try {
-            // 在指定区域进行 OCR 识别
-            const gameRegion = captureGameRegion();
-            let ocrResult = gameRegion.find(RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height));
-            gameRegion.dispose();
-            if (ocrResult) {
-                let correctedText = ocrResult.text;
-                return correctedText; // 返回识别到的内容
-            } else {
-                log.warn(`OCR 识别区域未找到内容`);
-                return null; // 如果 OCR 未识别到内容，返回 null
-            }
-        } catch (error) {
-            retryCount++; // 增加重试计数
-            log.warn(`OCR 识别失败，正在进行第 ${retryCount} 次重试...`);
-        }
-        await sleep(200);
+/**
+ * 在指定区域内，用 0-9 的 PNG 模板做「多阈值 + 非极大抑制」数字识别，
+ * 最终把检测到的数字按左右顺序拼成一个整数返回。
+ *
+ * @param {string}  numberPngFilePath - 存放 0.png ~ 9.png 的文件夹路径（不含文件名）
+ * @param {number}  x                 - 待识别区域的左上角 x 坐标，默认 0
+ * @param {number}  y                 - 待识别区域的左上角 y 坐标，默认 0
+ * @param {number}  w                 - 待识别区域的宽度，默认 1920
+ * @param {number}  h                 - 待识别区域的高度，默认 1080
+ * @param {number}  maxThreshold      - 模板匹配起始阈值，默认 0.95（最高可信度）
+ * @param {number}  minThreshold      - 模板匹配最低阈值，默认 0.8（最低可信度）
+ * @param {number}  splitCount        - 在 maxThreshold 与 minThreshold 之间做几次等间隔阈值递减，默认 3
+ * @param {number}  maxOverlap        - 非极大抑制时允许的最大重叠像素，默认 2；只要 x 或 y 方向重叠大于该值即视为重复框
+ *
+ * @returns {number} 识别出的整数；若没有任何有效数字框则返回 -1
+ *
+ * @example
+ * const mora = await numberTemplateMatch('摩拉数字', 860, 70, 200, 40);
+ * if (mora >= 0) console.log(`当前摩拉：${mora}`);
+ */
+async function numberTemplateMatch(
+    numberPngFilePath,
+    x = 0, y = 0, w = 1920, h = 1080,
+    maxThreshold = 0.95,
+    minThreshold = 0.87,
+    splitCount = 10,
+    maxOverlap = 2
+) {
+    let ros = [];
+    for (let i = 0; i <= 9; i++) {
+        ros[i] = RecognitionObject.TemplateMatch(
+            file.ReadImageMatSync(`${numberPngFilePath}/${i}.png`), x, y, w, h);
     }
-    log.warn(`经过多次尝试，仍然无法在指定区域识别到文字`);
-    return null; // 如果未识别到文字，返回 null
+
+    function setThreshold(roArr, newThreshold) {
+        for (let i = 0; i < roArr.length; i++) {
+            roArr[i].Threshold = newThreshold;
+            roArr[i].InitTemplate();
+        }
+    }
+
+    const gameRegion = captureGameRegion();
+    const allCandidates = [];
+
+    /* 1. splitCount 次等间隔阈值递减 */
+    for (let k = 0; k < splitCount; k++) {
+        const curThr = maxThreshold - (maxThreshold - minThreshold) * k / Math.max(splitCount - 1, 1);
+        setThreshold(ros, curThr);
+
+        /* 2. 0-9 每个模板跑一遍，所有框都收 */
+        for (let digit = 0; digit <= 9; digit++) {
+            const res = gameRegion.findMulti(ros[digit]);
+            if (res.count === 0) continue;
+
+            for (let i = 0; i < res.count; i++) {
+                const box = res[i];
+                allCandidates.push({
+                    digit: digit,
+                    x: box.x,
+                    y: box.y,
+                    w: box.width,
+                    h: box.height,
+                    thr: curThr
+                });
+            }
+        }
+
+    }
+    gameRegion.dispose();
+
+    /* 3. 无结果提前返回 -1 */
+    if (allCandidates.length === 0) {
+        return -1;
+    }
+
+    /* 4. 非极大抑制（必须 x、y 两个方向重叠都 > maxOverlap 才视为重复） */
+    const adopted = [];
+    for (const c of allCandidates) {
+        let overlap = false;
+        for (const a of adopted) {
+            const xOverlap = Math.max(0, Math.min(c.x + c.w, a.x + a.w) - Math.max(c.x, a.x));
+            const yOverlap = Math.max(0, Math.min(c.y + c.h, a.y + a.h) - Math.max(c.y, a.y));
+            if (xOverlap > maxOverlap && yOverlap > maxOverlap) {
+                overlap = true;
+                break;
+            }
+        }
+        if (!overlap) {
+            adopted.push(c);
+            //log.info(`在 [${c.x},${c.y},${c.w},${c.h}] 找到数字 ${c.digit}，匹配阈值=${c.thr}`);
+        }
+    }
+
+    /* 5. 按 x 排序，拼整数；仍无有效框时返回 -1 */
+    if (adopted.length === 0) return -1;
+    adopted.sort((a, b) => a.x - b.x);
+
+    return adopted.reduce((num, item) => num * 10 + item.digit, 0);
 }

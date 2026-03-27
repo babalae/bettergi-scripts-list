@@ -99,27 +99,36 @@
     "default": false
   },
   {
-    "name": "OriginalResinUseCount",
+    "name": "ResinUsageOrder",
     "type": "input-text",
-    "label": "原粹树脂刷取次数 (请先在游戏内手动调整 20/40 选项)",
+    "label": "树脂刷取顺序(1浓缩 2原40 3原20 4须臾 5脆弱)",
+    "default": "123"
+  },
+  {
+    "name": "OriginalResinAmount",
+    "type": "select",
+    "label": "原粹树脂刷取数量",
+    "options": ["0", "20", "40", "60", "80", "100", "120", "140", "160", "180", "200"],
     "default": "0"
   },
   {
     "name": "CondensedResinUseCount",
-    "type": "input-text",
-    "label": "浓缩树脂刷取次数",
+    "type": "select",
+    "label": "浓缩树脂刷取数量",
+    "options": ["0", "1", "2", "3", "4", "5"],
     "default": "0"
   },
   {
     "name": "TransientResinUseCount",
-    "type": "input-text",
-    "label": "须臾树脂刷取次数",
+    "type": "select",
+    "label": "须臾树脂刷取数量",
+    "options": ["0", "1", "2", "3"],
     "default": "0"
   },
   {
     "name": "FragileResinUseCount",
     "type": "input-text",
-    "label": "脆弱树脂刷取次数",
+    "label": "脆弱树脂刷取数量",
     "default": "0"
   },
   {

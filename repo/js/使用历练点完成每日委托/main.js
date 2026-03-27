@@ -1,6 +1,8 @@
+// 當前版本2.2.0
 // Encounter Points
 const AdventurerHandbookButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Adventurer Handbook Button.png"), 100, 300, 700, 700);
 const EncounterPointsStageRewardsRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Encounter Points Stage Rewards.png"), 1500, 700, 100, 100);
+const ClaimRewards_cn_Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/ClaimRewards_cn.png"), 515, 815, 250, 100);
 const Cannot_receive = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Cannot_receive.png"), 1060, 715, 100, 100);
 // MainUi
 const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/paimon_menu.png"), 0, 0, 100, 100);
@@ -29,7 +31,6 @@ const removedCharacters2 = settings.removedCharacters2 || false;
 const removedCharacters3 = settings.removedCharacters3 || false;
 const removedCharacters4 = settings.removedCharacters4 || false;
 // 读取配置文件
-const settingsWeek = settings.week;
 const settingsNotDoublePoints = settings.notDoublePoints || false;
 const settingsAppointFriendName = settings.appointFriendName ? settings.appointFriendName.trim() : "";
 
@@ -40,45 +41,8 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
  * @returns {Promise<void>}
  */
 (async function () {
-    let shouldRun = false; // 标志变量
-    let dayOfWeek = -1;    // 星期变量
-
-    // 判断设置合法性
-    var items = [];
-
     await genshin.returnMainUi();
 
-    // 判定 每天执行 / 星期几、是否使用历练点领奖
-    if (settingsWeek === "0") {
-        shouldRun = true;
-        log.info("设置每天执行，开始使用历练点完成每日委托");
-    } else if (settingsWeek) {
-        items = validateAndStoreNumbers(settingsWeek);
-        if (!items) {
-            log.error("星期设置格式错误，请使用类似'1,3,5,7'的格式");
-            return;
-        }
-
-        // 获取调整后的星期几（考虑00:00~04:00视为前一天）
-        dayOfWeek = getAdjustedDayOfWeek();
-
-        // 检查当前星期是否在用户设置的范围内
-        if (items.includes(dayOfWeek)) {
-            shouldRun = true;
-            log.info(`今天是星期 ${dayOfWeek}，开始使用历练点完成每日委托`);
-        } else {
-            log.info(`今天是星期 ${dayOfWeek}，不使用历练点`);
-            log.info(`交互或拾取："不运行"`);
-            return;
-        }
-    } else {
-        log.error("还没有设置需要在星期几使用历练点完成每日委托呢");
-        log.error("请在调试器里添加本脚本->右键JS脚本->修改JS脚本自定义配置.");
-        return;
-    }
-
-    // 检查是否可以领取历练点奖励
-    //好友尘歌壶历時檢查
     // 直接領取時檢查&領取
     log.info("检查是否可以领取历练点奖励");
     if (await checkEncounterPointsRewards() == true) {
@@ -89,84 +53,76 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
         return;
     }
 
-    if (shouldRun) {
-        try {
-            // 切换队伍
-            if (!!settings.partyName) {
-                try {
-                    log.info("正在尝试切换至" + settings.partyName);
-                    if (!settings.disableGoStatue) {
-                        log.info("正在传送回七天神像切换队伍");
-                        await genshin.TpToStatueOfTheSeven();
-                        await SwitchParty(settings.partyName);
-                    } else {
-                        await genshin.returnMainUi();
-                        await SwitchParty(settings.partyName);
-                    }
-                } catch {
-                    log.warn("\n\n队伍切换失败,可能是：\n1.处于联机模式 \n2.无法正确识别\n3.JS自定义配置中的队伍名称设置错误，请检查!\n");
+    try {
+        // 切换队伍
+        if (!!settings.partyName) {
+            try {
+                log.info("正在尝试切换至" + settings.partyName);
+                if (!settings.disableGoStatue) {
+                    log.info("正在传送回七天神像切换队伍");
+                    await genshin.TpToStatueOfTheSeven();
+                    await SwitchParty(settings.partyName);
+                } else {
                     await genshin.returnMainUi();
+                    await SwitchParty(settings.partyName);
                 }
-            } else {
+            } catch {
+                log.warn("\n\n队伍切换失败,可能是：\n1.处于联机模式 \n2.无法正确识别\n3.JS自定义配置中的队伍名称设置错误，请检查!\n");
                 await genshin.returnMainUi();
             }
+        } else {
+            await genshin.returnMainUi();
+        }
 
-            // 区分双倍好感
-            if (settingsNotDoublePoints == true) {
-                // 不使用好友尘歌壶领双倍好感的情况
-                // 如果有设置队伍名称，需要在切换队伍后单独领取历练点奖励
-                if (!!settings.partyName) {
-                    await claimEncounterPointsRewards();
+        // 区分双倍好感
+        if (settingsNotDoublePoints) {
+            // 不使用好友尘歌壶领双倍好感的情况
+            // 如果有设置队伍名称，需要在切换队伍后单独领取历练点奖励
+            if (!!settings.partyName) {
+                await claimEncounterPointsRewards();
+            }
+            await fontaineCatherineCommissionAward();
+        } else {
+            // 使用好友尘歌壶领双倍好感的情况
+            let request_times = settings.request_times * 2;
+            let total_clicks = request_times ? request_times : 14;
+            let enterStatus = false
+
+            // 指定好友名称
+            if (settingsAppointFriendName) {
+                log.info(`尝试进入指定好友 [${settingsAppointFriendName}] 的尘歌壶`);
+                enterStatus = await AppointFriendRequestToVisitSereniteaPot();
+
+                if (!enterStatus) {
+                    log.warn("无法进入指定好友尘歌壶，可能原因：未开放/识别失败");
+                    log.info("尝试改为「依次进入」模式...");
+                    await pageTop(RightSliderTopRo);
+                    enterStatus = await RequestToVisitSereniteaPot(total_clicks);
                 }
-                await fontaineCatherineCommissionAward()
-            } else if (settingsNotDoublePoints == false) {
-                // 使用好友尘歌壶领双倍好感的情况
-                let request_times = settings.request_times * 2;
-                let total_clicks = request_times ? request_times : 14;
-                // 指定好友名称
-                if (settingsAppointFriendName !== "") {
-                    let enterStatus = await AppointFriendRequestToVisitSereniteaPot();
-                    if (enterStatus) {
-                        await sleep(2000);
-                        log.info("正在让指定位置角色离队");
-                        await removeSpecifiedRole();
-                        await claimEncounterPointsRewards();
-                        await ReturnToBigWorld();
-                        await fontaineCatherineCommissionAward()
-                    } else {
-                        log.warn("好友列表未能识别出设置的好友名称");
-                        log.info("尝试依次进入");
-                        await pageTop(RightSliderTopRo);
-                        let enterStatus = await RequestToVisitSereniteaPot(total_clicks);
-                        if (enterStatus) {
-                            await sleep(2000);
-                            log.info("正在让指定位置角色离队");
-                            await removeSpecifiedRole();
-                            await claimEncounterPointsRewards();
-                            await ReturnToBigWorld();
-                            await fontaineCatherineCommissionAward()
-                        }
-                    }
-                } else if (settingsAppointFriendName == "") {
-                    log.warn("未设置指定好友，执行依次进入");
-                    let enterStatus = await RequestToVisitSereniteaPot(total_clicks);
-                    if (enterStatus) {
-                        await sleep(2000);
-                        log.info("正在让指定位置角色离队");
-                        await removeSpecifiedRole();
-                        await claimEncounterPointsRewards();
-                        await ReturnToBigWorld();
-                        await fontaineCatherineCommissionAward()
-                    }
-                } else {
-                    log.warn("出现异常，请检查自定义参数和日志，也可能是没有好友开放尘歌壶");
-                }
+            } else {
+                log.info("未设置指定好友，执行「依次进入」模式");
+                enterStatus = await RequestToVisitSereniteaPot(total_clicks);
             }
 
-        } catch (e) {
-            log.error("失败，请检查设置");
-            return;
+            if (enterStatus) {
+                log.info("成功进入尘歌壶，开始执行后续操作")
+                await sleep(2000);
+
+                log.info("正在让指定位置角色离队");
+                await removeSpecifiedRole();
+
+                await claimEncounterPointsRewards();
+                await ReturnToBigWorld();
+                await fontaineCatherineCommissionAward();
+            } else {
+                // 这里捕获「完全无法进入」的情况
+                log.error("无法进入任何好友的尘歌壶，可能是没有好友全都未开放权限。");
+            }
         }
+
+    } catch (e) {
+        log.error("失败，请检查设置");
+        return;
     }
 
     // 以下为可供调用的函数部分
@@ -535,8 +491,9 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
             await sleep(1800)
             const ro28 = captureGameRegion();
             let EncounterPointsStageRewardsButton = ro28.find(Cannot_receive);
+            let ClaimRewards_cn_Button = ro28.find(ClaimRewards_cn_Ro);
             ro28.dispose();
-            if (EncounterPointsStageRewardsButton.isExist()) {
+            if (EncounterPointsStageRewardsButton.isExist() ||ClaimRewards_cn_Button.isExist()) {
                 log.info("识别到 完成所有任務");
                 returnValue = true;
 
@@ -604,7 +561,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
                 } else {
                     log.warn("出现异常情况或超时，请检查");
                 }
-                await sleep(2000);
+                await sleep(3000);
             }
         }
     }
@@ -728,23 +685,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
         }
     }
 
-    // 获取调整后的星期几（考虑00:00~04:00视为前一天）
-    function getAdjustedDayOfWeek() {
-        const now = new Date();
-        let dayOfWeek = now.getDay(); // 0-6 (0是周日)
-        const hours = now.getHours();
 
-        // 如果时间在00:00~04:00之间，视为前一天
-        if (hours < 4) {
-            dayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // 前一天
-            log.info(`当前时间 ${now.getHours()}:${now.getMinutes()}，视为前一天（星期 ${dayOfWeek === 0 ? 7 : dayOfWeek}）`);
-        } else {
-            log.info(`当前时间 ${now.getHours()}:${now.getMinutes()}，使用当天（星期 ${dayOfWeek === 0 ? 7 : dayOfWeek}）`);
-        }
-
-        // 转换为1-7格式（7代表周日）
-        return dayOfWeek === 0 ? 7 : dayOfWeek;
-    }
 
     // 自動凱瑟琳領奬
     async function fontaineCatherineCommissionAward() {
@@ -769,7 +710,11 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
         await keyPress("f");
         await sleep(1000);
         // 利用自動劇情領奬
-        dispatcher.addTimer(new RealtimeTimer("AutoSkip"));
+        let config = new AutoSkipConfig();
+        config.AutoGetDailyRewardsEnabled = true;
+        config.AutoReExploreEnabled = true;
+        
+        dispatcher.addTimer(new RealtimeTimer("AutoSkip", config));
         await sleep(10000);
         await genshin.returnMainUi();
         await sleep(1000);
