@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时168.72秒，包含以下怪物：1只突角龙、1只炉壳山鼬、1只深邃拟覆叶_200、2只幼绒翼龙、1只绒翼龙。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1767735774352,
+    "last_modified_time": 1774515570295,
     "map_match_method": "",
     "map_name": "AncientSacredMountain",
     "name": "ZF001纳塔远古圣山聚火祭验所东北",
@@ -104,14 +104,15 @@
       "action_params": "",
       "id": 10,
       "move_mode": "fly",
-      "type": "target",
-      "x": -585.486083984375,
-      "y": 281.3262939453125
+      "type": "path",
+      "x": -580.808349609375,
+      "y": 283.284423828125
     },
     {
       "action": "combat_script",
       "action_params": "keydown(w),dash(4.5),keyup(w)",
       "id": 11,
+      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
       "x": -587.25,
@@ -121,10 +122,11 @@
       "action": "fight",
       "action_params": "",
       "id": 12,
+      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
-      "x": -585.486083984375,
-      "y": 281.3262939453125
+      "x": -587.25,
+      "y": 309.25
     },
     {
       "action": "combat_script",
@@ -132,8 +134,8 @@
       "id": 13,
       "move_mode": "walk",
       "type": "orientation",
-      "x": -585.486083984375,
-      "y": 281.3262939453125
+      "x": -587.25,
+      "y": 309.25
     }
   ]
 }
