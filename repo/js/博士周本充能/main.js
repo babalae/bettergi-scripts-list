@@ -193,6 +193,8 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 
         await keyMouseScript.runFile("222.json");
 
+		await sleep(1000);
+
         log.info("充能完成");
     }
 
@@ -322,6 +324,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			log.info("正在尝试切换至" + settings.partyName);
 			await SwitchParty(settings.partyName);
 			await goToWeeklyBossAndEnter();
+
 			await genshin.TpToStatueOfTheSeven();
 			genshin.clearPartyCache();
 
