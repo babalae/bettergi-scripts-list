@@ -1,8 +1,6 @@
 // ======================================================
 // 切换账号OCR模式
 const author = "彩虹QQ人";
-const script_mode = "切换账号OCR模式";
-
 // 图像识别资源
 const pm_out = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/pm_out.png")),
@@ -58,6 +56,7 @@ async function clickCenter(x, y, width, height) {
 
 // 匹配图像并点击
 async function matchImgAndClick(obj, desc, timeout = 8000) {
+    const script_mode = "matchImgAndClick";
     const start = Date.now();
     let retryCount = 0; // 识别次数计数
     let status = false; // 用于记录是否匹配成功
@@ -542,6 +541,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
 
     // OCR模式 对应：账号+密码+OCR
     async function OcrMode() {
+        const script_mode = "OCR模式";
         setGameMetrics(1920, 1080, 1);
         // 如果切换账号是第一个脚本，则有可能出现月卡选项
         //防止genshin.blessingOfTheWelkinMoon();方法失效，先使用物理点击。
@@ -690,6 +690,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
 
     // B服切换匹配+键鼠模式 对应：B服切换另一个账号匹配+键鼠
     async function BilibiliMatchAndKeyboardMouseMode() {
+        const script_mode = "B服切换匹配+键鼠模式";
         setGameMetrics(1920, 1080, 1);
         // 如果切换账号是第一个脚本，则有可能出现月卡选项
         //防止genshin.blessingOfTheWelkinMoon();方法失效，先使用物理点击。
