@@ -136,9 +136,18 @@
       "y": -2918.95
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8243.97,
+      "y": -2918.95
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
       "move_mode": "dash",
       "type": "path",
       "x": 8168.64,
@@ -147,7 +156,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 14,
+      "id": 15,
       "move_mode": "dash",
       "type": "orientation",
       "x": 8168.64,
@@ -156,7 +165,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 15,
+      "id": 16,
       "move_mode": "walk",
       "type": "teleport",
       "x": 8291.63,
@@ -165,7 +174,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f);芙宁娜 e;钟师傅 w(1.09),j,wait(5.06),w(1);爱可菲 e;伊涅芙 e;",
-      "id": 16,
+      "id": 17,
       "move_mode": "dash",
       "type": "path",
       "x": 8309.97,
@@ -174,7 +183,7 @@
     {
       "action": "combat_script",
       "action_params": "attack(0.2)",
-      "id": 17,
+      "id": 18,
       "move_mode": "fly",
       "type": "path",
       "x": 8369.97,
@@ -182,15 +191,6 @@
     },
     {
       "action": "fight",
-      "action_params": "",
-      "id": 18,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 8358.44,
-      "y": -2879.67
-    },
-    {
-      "action": "",
       "action_params": "",
       "id": 19,
       "move_mode": "dash",
@@ -204,13 +204,22 @@
       "id": 20,
       "move_mode": "dash",
       "type": "path",
+      "x": 8358.44,
+      "y": -2879.67
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "dash",
+      "type": "path",
       "x": 8315.89,
       "y": -2837.92
     },
     {
       "action": "",
       "action_params": "",
-      "id": 21,
+      "id": 22,
       "move_mode": "dash",
       "type": "path",
       "x": 8326.56,
@@ -219,7 +228,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 22,
+      "id": 23,
       "move_mode": "walk",
       "type": "path",
       "x": 8328.27,
@@ -228,7 +237,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 23,
+      "id": 24,
       "move_mode": "dash",
       "type": "path",
       "x": 8328.27,
@@ -237,7 +246,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 24,
+      "id": 25,
       "move_mode": "dash",
       "type": "path",
       "x": 8286.044921875,
@@ -246,7 +255,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 25,
+      "id": 26,
       "move_mode": "dash",
       "type": "orientation",
       "x": 8286.044921875,

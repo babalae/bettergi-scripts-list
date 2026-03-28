@@ -136,9 +136,18 @@
       "y": -1578.7494245399375
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10156.187358937681,
+      "y": -1578.7494245399375
+    },
+    {
       "action": "combat_script",
       "action_params": "keypress(f);芙宁娜 e;摩拉克斯 w(1),j,wait(5),j,j,j,w(1);爱可菲 e;伊涅芙 e;",
-      "id": 13,
+      "id": 14,
       "move_mode": "dash",
       "type": "path",
       "x": 10142.75,
@@ -147,7 +156,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1.5),keydown(s),wait(0.2),keydown(LSHIFT),wait(6),keyup(s),keyup(LSHIFT)",
-      "id": 14,
+      "id": 15,
       "move_mode": "dash",
       "type": "path",
       "x": 10171.9,
@@ -155,15 +164,6 @@
     },
     {
       "action": "fight",
-      "action_params": "",
-      "id": 15,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 10133.19,
-      "y": -1553.5599999999995
-    },
-    {
-      "action": "",
       "action_params": "",
       "id": 16,
       "move_mode": "dash",
@@ -177,13 +177,22 @@
       "id": 17,
       "move_mode": "dash",
       "type": "path",
+      "x": 10133.19,
+      "y": -1553.5599999999995
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
       "x": 10126.35,
       "y": -1543.33
     },
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "dash",
       "type": "path",
       "x": 10124.26,
@@ -192,7 +201,7 @@
     {
       "action": "combat_script",
       "action_params": "attack(0.2)",
-      "id": 19,
+      "id": 20,
       "move_mode": "jump",
       "type": "path",
       "x": 10128.750094801992,
@@ -201,7 +210,7 @@
     {
       "action": "combat_script",
       "action_params": "attack(0.2)",
-      "id": 20,
+      "id": 21,
       "move_mode": "dash",
       "type": "path",
       "x": 10101.17,
@@ -210,7 +219,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 21,
+      "id": 22,
       "move_mode": "dash",
       "type": "path",
       "x": 10108.88,
@@ -219,7 +228,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 22,
+      "id": 23,
       "move_mode": "dash",
       "type": "path",
       "x": 10108.88,
@@ -228,7 +237,7 @@
     {
       "action": "combat_script",
       "action_params": "attack(0.2)",
-      "id": 23,
+      "id": 24,
       "move_mode": "dash",
       "type": "path",
       "x": 10090.77,
@@ -237,7 +246,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 24,
+      "id": 25,
       "move_mode": "dash",
       "type": "path",
       "x": 10068.36,
@@ -246,7 +255,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 25,
+      "id": 26,
       "move_mode": "dash",
       "type": "orientation",
       "x": 10068.36,
