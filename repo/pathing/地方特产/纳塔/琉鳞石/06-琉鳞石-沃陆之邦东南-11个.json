@@ -1,0 +1,221 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774726803052,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "06-琉鳞石-沃陆之邦东南-11个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10026.3369140625,
+      "y": -2613.611328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10073.6572265625,
+      "y": -2642.154296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10099.2939453125,
+      "y": -2666.6669921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10129.9501953125,
+      "y": -2694.212890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10116.650390625,
+      "y": -2735.1787109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),keypress(f),wait(0.2),keypress(t),keypress(f),wait(0.5)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10107.37109375,
+      "y": -2731.927734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),keypress(f),wait(0.2),keypress(t),keypress(f),wait(0.2),keypress(t),keypress(f)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10107.37109375,
+      "y": -2731.927734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 10111.6728515625,
+      "y": -2744.1884765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10124.56640625,
+      "y": -2772.8203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10117.0244140625,
+      "y": -2806.7275390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10135.6171875,
+      "y": -2814.1337890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 12,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 10135.7080078125,
+      "y": -2812.359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 10136.09375,
+      "y": -2825.6247572519314
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10143.25,
+      "y": -2823.656303101139
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.4),keydown(e),attack(1.8),keyup(e)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10146.568359375,
+      "y": -2821.2880859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10146.4970703125,
+      "y": -2826.5732421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.4),keydown(e),attack(1.8),keyup(e)",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10148.212890625,
+      "y": -2829.4921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10141.41015625,
+      "y": -2840.95703125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.4),keydown(e),attack(1.8),keyup(e)",
+      "id": 19,
+      "locked": false,
+      "move_mode": "climb",
+      "type": "orientation",
+      "x": 10139.7880859375,
+      "y": -2845.142578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 10139.7880859375,
+      "y": -2845.142578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10144.8486328125,
+      "y": -2844.310546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.4),keydown(e),attack(1.8),keyup(e)",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10147.275390625,
+      "y": -2847.359375
+    }
+  ]
+}
