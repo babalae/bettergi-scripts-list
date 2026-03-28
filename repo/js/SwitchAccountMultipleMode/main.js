@@ -1,7 +1,7 @@
 // ======================================================
-// 切换账号(OCR)版本
+// 切换账号OCR模式
 const author = "彩虹QQ人";
-const script_name = "切换账号(OCR)版本";
+const script_mode = "切换账号OCR模式";
 
 // 图像识别资源
 const pm_out = {
@@ -78,9 +78,9 @@ async function matchImgAndClick(obj, desc, timeout = 8000) {
             log.info(`【IMG】第${retryCount++}次识别并点击 ${desc} 失败 | 耗时: ${Date.now() - start}ms`);
         }
     } catch (error) {
-        log.error(`【IMG】${script_name}等待超时，请人工介入。===待切换账号：${settings.username}===超时原因：未找到目标 [${desc}] | 文件：${obj.name}`);
+        log.error(`【IMG】${script_mode}等待超时，请人工介入。===待切换账号：${settings.username}===超时原因：未找到目标 [${desc}] | 文件：${obj.name}`);
         //如果有配置通知……
-        notification.error(`【IMG】${script_name}等待超时，请人工介入。===待切换账号：${settings.username}===超时原因：未找到目标 [${desc}] | 文件：${obj.name}`);
+        notification.error(`【IMG】${script_mode}等待超时，请人工介入。===待切换账号：${settings.username}===超时原因：未找到目标 [${desc}] | 文件：${obj.name}`);
         throw new Error(`【IMG】识别图像时发生异常: ${error.message}`);
     }
     return { success: false };
@@ -117,7 +117,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     }
     return { success: false };
 }
-// 切换账号(OCR)版本
+// 切换账号OCR模式
 // ======================================================
 
 (async function () {
@@ -591,8 +591,8 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
                 await sleep(1000);
                 if (verify.isExist()) {
                     //这里可配置通知方法
-                    notification.error(`${script_name}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
-                    log.error(`${script_name}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
+                    notification.error(`${script_mode}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
+                    log.error(`${script_mode}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
                 }
             }
             /**
@@ -622,10 +622,10 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             // 如果配置了通知
             notification.send("账号【" + settings.username + "】切换成功");
         } catch (error) {
-            log.error(`${script_name}脚本执行过程中发生错误：${error.message}`);
+            log.error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
             //如果发生错误，则发送通知
-            notification.error(`${script_name}脚本执行过程中发生错误：${error.message}`);
-            throw new Error(`${script_name}脚本执行过程中发生错误：${error.message}`);
+            notification.error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
+            throw new Error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
         } finally {
             keyUp("VK_MENU");
         }
@@ -750,8 +750,8 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
                 await sleep(1000);
                 if (verify.isExist()) {
                     //这里可配置通知方法
-                    notification.error(`${script_name}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
-                    log.error(`${script_name}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
+                    notification.error(`${script_mode}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
+                    log.error(`${script_mode}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
                 }
             }
             /**
@@ -781,10 +781,10 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             // 如果配置了通知
             notification.send("账号【" + settings.username + "】切换成功");
         } catch (error) {
-            log.error(`${script_name}脚本执行过程中发生错误：${error.message}`);
+            log.error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
             //如果发生错误，则发送通知
-            notification.error(`${script_name}脚本执行过程中发生错误：${error.message}`);
-            throw new Error(`${script_name}脚本执行过程中发生错误：${error.message}`);
+            notification.error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
+            throw new Error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
         } finally {
             keyUp("VK_MENU");
         }
