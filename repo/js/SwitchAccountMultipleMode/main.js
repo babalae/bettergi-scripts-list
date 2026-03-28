@@ -2,6 +2,7 @@
 // 切换账号(OCR)版本
 const author = "彩虹QQ人";
 const script_name = "切换账号(OCR)版本";
+
 // 图像识别资源
 const pm_out = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/pm_out.png")),
@@ -35,15 +36,17 @@ const agree = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/agree.png")),
     name: "agree.png"
 };
+
 // 人机验证识别图片
 const login_verification = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/verification.png")),
     name: "verification.png"
 };
+
 // 判断temporaryAccount是否为空，如果为空则赋值‘否’
 const Account = settings.temporaryAccount || "否";
-
 eval(file.readTextSync('utils/uid.js'))
+
 // 点击区域中心
 async function clickCenter(x, y, width, height) {
     let centerX = Math.round(x + width / 2);
@@ -52,6 +55,7 @@ async function clickCenter(x, y, width, height) {
     await sleep(500); // 确保点击后有足够的时间等待
     return { success: true, x: centerX, y: centerY };
 }
+
 // 匹配图像并点击
 async function matchImgAndClick(obj, desc, timeout = 8000) {
     const start = Date.now();
@@ -81,6 +85,7 @@ async function matchImgAndClick(obj, desc, timeout = 8000) {
     }
     return { success: false };
 }
+
 // 文字识别并点击
 async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     let start = Date.now();
@@ -113,13 +118,6 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     return { success: false };
 }
 // 切换账号(OCR)版本
-// ======================================================
-
-// ======================================================
-//切换账号DropDown
-
-
-//切换账号DropDown
 // ======================================================
 
 (async function () {
