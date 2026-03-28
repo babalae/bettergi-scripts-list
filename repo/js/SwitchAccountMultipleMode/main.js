@@ -34,6 +34,42 @@ const agree = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/agree.png")),
     name: "agree.png"
 };
+const confirm_switch_account = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/confirm.png")),
+    name: "confirm.png"
+};
+const input_email_username = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/input_email_username.png")),
+    name: "input_email_username.png"
+};
+const enter_game = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/enter_game.png")),
+    name: "enter_game.png"
+};
+const switch_server = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/switch_server.png")),
+    name: "switch_server.png"
+};
+const asia_server = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/asia.png")),
+    name: "asia.png"
+};
+const europe_server = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/europe.png")),
+    name: "europe.png"
+};
+const america_server = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/america.png")),
+    name: "america.png"
+};
+const twhkmo_server = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/twhkmo.png")),
+    name: "twhkmo.png"
+};
+const confirm_button = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/confirm_button.png")),
+    name: "confirm_button.png"
+};
 
 // 人机验证识别图片
 const login_verification = {
@@ -439,6 +475,8 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         await BilibiliKeyboardMouseMode();
     } else if (settings.Modes == "B服切换另一个账号匹配+键鼠") {
         await BilibiliMatchAndKeyboardMouseMode();
+    } else if (settings.Modes == "国际服账号+密码+OCR") {
+        await GlobalOcrMode();
     } else {
         log.info("尖尖哇嘎乃")
     }
@@ -779,6 +817,90 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             //keyUp("VK_MENU");
             await genshin.returnMainUi();
             await sleep(1000);
+            // 如果配置了通知
+            notification.send("账号【" + settings.username + "】切换成功");
+        } catch (error) {
+            log.error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
+            //如果发生错误，则发送通知
+            notification.error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
+            throw new Error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
+        } finally {
+            keyUp("VK_MENU");
+        }
+    }
+
+    // 国际服OCR模式 对应：国际服账号+密码+OCR
+    async function GlobalOcrMode() {
+        const script_mode = "国际服OCR模式";
+        const page = new BvPage();
+
+        setGameMetrics(1920, 1080, 1);
+        // 如果切换账号是第一个脚本，则有可能出现月卡选项
+        // if (await page.WaitForOcrMatch("今日空月")) {
+        //     await click(960, 864);
+        // }
+        await genshin.returnMainUi();
+
+        await keyPress("VK_ESCAPE");
+        await sleep(500);
+        try {
+            await matchImgAndClick(pm_out, "左下角退出门");
+            await matchImgAndClick(out_to_login, "退出至登陆页面");
+            await page.WaitForOcrMatch("开始游戏");
+            await matchImgAndClick(login_out_account, "登录页的右下角退出按钮");
+            await page.WaitForOcrMatch("切换账号");
+            await matchImgAndClick(confirm_switch_account, "确认切换账号");
+            await recognizeTextAndClick("登录其他账号", RecognitionObject.Ocr(300, 200, 1200, 800), 8000);
+            await sleep(1000);
+            await matchImgAndClick(input_email_username, "输入邮箱/用户名");
+            await inputText(settings.username);
+            await sleep(1000);
+            await matchImgAndClick(input_password, "输入密码");
+            await inputText(settings.password);
+            await sleep(1000);
+            // 按下回车登录账号，弹出用户协议对话框
+            await keyPress("VK_RETURN");
+            // await matchImgAndClick(enter_game, "进入游戏");
+            // await matchImgAndClick(agree, "同意用户协议");
+            // 当天上下线次数过于频繁弹验证码
+            for (let i = 1; i <= 5; i++) {
+                const ro = captureGameRegion();
+                let verify = ro.Find(login_verification.template);
+                ro.dispose();
+                await sleep(1000);
+                if (verify.isExist()) {
+                    notification.error(`${script_mode}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
+                    log.error(`${script_mode}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
+                }
+            }
+            // 换服务器操作
+            if (settings.Servers) {
+                await page.WaitForOcrMatch("开始游戏");
+                await matchImgAndClick(switch_server, "更换服务器");
+                if (settings.Servers == "Asia") {
+                    await matchImgAndClick(asia_server, "亚服");
+                } else if (settings.Servers == "Europe") {
+                    await matchImgAndClick(europe_server, "欧服");
+                } else if (settings.Servers == "America") {
+                    await matchImgAndClick(america_server, "美服");
+                } else if (settings.Servers == "TW,HK,MO") {
+                    await matchImgAndClick(twhkmo_server, "台港澳");
+                } else {
+                    log.info("尖尖哇嘎乃")
+                }
+                await matchImgAndClick(confirm_button, "确认换服");
+            }
+            await page.WaitForOcrMatch("开始游戏");
+            await click(960, 640);
+            await page.Wait(5000);
+            log.info('等待提瓦特大门加载');
+            await page.WaitForOcrMatch("点击进入");
+            await click(960, 640);
+            // 可能登录账号的时候出现月卡提醒，则先点击一次月卡。
+            if (await page.WaitForOcrMatch("今日空月")) {
+                await click(960, 864);
+            }
+            await genshin.returnMainUi();
             // 如果配置了通知
             notification.send("账号【" + settings.username + "】切换成功");
         } catch (error) {
