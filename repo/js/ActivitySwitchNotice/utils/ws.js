@@ -1,4 +1,3 @@
-import {config} from "../../AutoPlan/config/config";
 import {ocrUID} from "./uid";
 
 const actionType = Object.freeze({

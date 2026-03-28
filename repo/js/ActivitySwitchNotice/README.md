@@ -511,6 +511,8 @@ ActivitySwitchNotice/
 
 ## 版本历史
 
+### 0.1.3 (2026-03-28)
+- 修复异常配置导致无法运行
 ### 0.1.2 (2026-03-23)
 - 新增云端配置功能
 - 改变wsproxy授权方式(授权token或bettergi-scripts-tools<版本需求0.0.7>授权拉取)
