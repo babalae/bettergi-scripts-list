@@ -432,7 +432,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     }
     if (settings.Modes == "下拉列表") {
         await DropDownMode();
-    } else if (settings.Modes == "账号+密码") {
+    } else if (settings.Modes == "账号+密码+键鼠") {
         await KeyboardMouseMode();
     } else if (settings.Modes == "账号+密码+OCR") {
         await OcrMode();
@@ -461,7 +461,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
 
     }
 
-    // 纯键鼠模式 对应：账号+密码（根据分辨率确定鼠标位置）
+    // 纯键鼠模式 对应：账号+密码+键鼠（根据分辨率确定鼠标位置）
     async function KeyboardMouseMode() {
         setGameMetrics(1920, 1080, 2.0);
         //到达主页面
