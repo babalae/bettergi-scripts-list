@@ -18,10 +18,6 @@ const out_account = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/out_account.png")),
     name: "out_account.png"
 };
-const login_other_account = {
-    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/login_other_account_1.png")),
-    name: "login_other_account.png"
-};
 const input_phone_or_email = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/input_phone_or_email.png")),
     name: "input_phone_or_email.png"
@@ -41,10 +37,6 @@ const confirm_switch_account = {
 const input_email_username = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/input_email_username.png")),
     name: "input_email_username.png"
-};
-const enter_game = {
-    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/enter_game.png")),
-    name: "enter_game.png"
 };
 const switch_server = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/switch_server.png")),
@@ -263,7 +255,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
 
     const targetUser = settings.username;
 
-    const assetLogoutIcon = u.loadTemplate("Assets/RecognitionObject/logout.png", 1750, 900, 170, 180);
+    const assetLogoutIcon = u.loadTemplate("Assets/RecognitionObject/login_out_account.png", 1750, 900, 170, 180);
     const assetPaimonMenuIcon = u.loadTemplate("Assets/RecognitionObject/paimon_menu.png", 0, 0, 150, 150);
 
     // Check current state
@@ -582,7 +574,6 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         const script_mode = "OCR模式";
         setGameMetrics(1920, 1080, 1);
         // 如果切换账号是第一个脚本，则有可能出现月卡选项
-        //防止genshin.blessingOfTheWelkinMoon();方法失效，先使用物理点击。
         try {
             keyDown("VK_MENU");
             await sleep(500);
@@ -593,10 +584,6 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         } finally {
             keyUp("VK_MENU");
         }
-        //await genshin.blessingOfTheWelkinMoon();
-        //await sleep(1000);
-        //await genshin.blessingOfTheWelkinMoon();
-        //await sleep(1000);
         await genshin.returnMainUi();
 
         await keyPress("VK_ESCAPE");
@@ -642,11 +629,6 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             await sleep(15000);
 
             //可能登录账号的时候出现月卡提醒，则先点击一次月卡。
-            //await genshin.blessingOfTheWelkinMoon();
-            //await sleep(1000);
-            //await genshin.blessingOfTheWelkinMoon();
-            //await sleep(1000);
-            //防止genshin.blessingOfTheWelkinMoon();方法失效，先使用物理点击。
             await sleep(2000);
             keyDown("VK_MENU");
             await sleep(500);
@@ -731,7 +713,6 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         const script_mode = "B服切换匹配+键鼠模式";
         setGameMetrics(1920, 1080, 1);
         // 如果切换账号是第一个脚本，则有可能出现月卡选项
-        //防止genshin.blessingOfTheWelkinMoon();方法失效，先使用物理点击。
         try {
             keyDown("VK_MENU");
             await sleep(500);
@@ -742,10 +723,6 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         } finally {
             keyUp("VK_MENU");
         }
-        //await genshin.blessingOfTheWelkinMoon();
-        //await sleep(1000);
-        //await genshin.blessingOfTheWelkinMoon();
-        //await sleep(1000);
         await genshin.returnMainUi();
 
         await keyPress("VK_ESCAPE");
@@ -802,11 +779,6 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             await sleep(12000);
 
             //可能登录账号的时候出现月卡提醒，则先点击一次月卡。
-            //await genshin.blessingOfTheWelkinMoon();
-            //await sleep(1000);
-            //await genshin.blessingOfTheWelkinMoon();
-            //await sleep(1000);
-            //防止genshin.blessingOfTheWelkinMoon();方法失效，先使用物理点击。
             await sleep(2000);
             keyDown("VK_MENU");
             await sleep(500);
@@ -833,12 +805,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     async function GlobalOcrMode() {
         const script_mode = "国际服OCR模式";
         const page = new BvPage();
-
         setGameMetrics(1920, 1080, 1);
-        // 如果切换账号是第一个脚本，则有可能出现月卡选项
-        // if (await page.WaitForOcrMatch("今日空月")) {
-        //     await click(960, 864);
-        // }
         await genshin.returnMainUi();
 
         await keyPress("VK_ESCAPE");
@@ -860,7 +827,6 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             await sleep(1000);
             // 按下回车登录账号，弹出用户协议对话框
             await keyPress("VK_RETURN");
-            // await matchImgAndClick(enter_game, "进入游戏");
             // await matchImgAndClick(agree, "同意用户协议");
             // 当天上下线次数过于频繁弹验证码
             for (let i = 1; i <= 5; i++) {
