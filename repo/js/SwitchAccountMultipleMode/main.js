@@ -806,6 +806,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         const script_mode = "国际服OCR模式";
         const page = new BvPage();
         setGameMetrics(1920, 1080, 1);
+        await genshin.blessingOfTheWelkinMoon();
         await genshin.returnMainUi();
 
         await keyPress("VK_ESCAPE");
@@ -869,9 +870,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             await page.WaitForOcrMatch("点击进入");
             await click(960, 640);
             // 可能登录账号的时候出现月卡提醒，则先点击一次月卡。
-            if (await page.WaitForOcrMatch("今日空月")) {
-                await click(960, 864);
-            }
+            await genshin.blessingOfTheWelkinMoon();
             await genshin.returnMainUi();
             // 如果配置了通知
             notification.send("账号【" + settings.username + "】切换成功");
