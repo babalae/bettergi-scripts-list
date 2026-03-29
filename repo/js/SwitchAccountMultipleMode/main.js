@@ -842,7 +842,9 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             // 换服务器操作
             if (settings.Servers) {
                 await page.WaitForOcrMatch("开始游戏");
+                log.info("正在更换服务器")
                 await matchImgAndClick(switch_server, "更换服务器");
+                let serversMatched = true;
                 if (settings.Servers == "Asia") {
                     await matchImgAndClick(asia_server, "亚服");
                 } else if (settings.Servers == "Europe") {
@@ -853,9 +855,13 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
                     await matchImgAndClick(twhkmo_server, "台港澳");
                 } else {
                     log.info("尖尖哇嘎乃")
+                    serversMatched = false;
                 }
-                await matchImgAndClick(confirm_button, "确认换服");
+                if (serversMatched) {
+                    await matchImgAndClick(confirm_button, "确认换服");
+                }
             }
+            await keyPress("VK_ESCAPE");
             await page.WaitForOcrMatch("开始游戏");
             await click(960, 640);
             await page.Wait(5000);
