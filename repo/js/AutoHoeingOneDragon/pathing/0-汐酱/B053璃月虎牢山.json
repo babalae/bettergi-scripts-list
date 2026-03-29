@@ -11,7 +11,7 @@
     "description": "  路线信息：该路线预计用时197.22秒，包含以下怪物：1只火箭丘丘人、1只冰箭丘丘人、2只火斧丘丘暴徒、1只丘丘岩盔王、1只草丘丘萨满、1只冰深渊法师、2只遗迹猎者。",
     "enable_monster_loot_split": false,
     "hash_res": "64871388",
-    "last_modified_time": 1774337592322,
+    "last_modified_time": 1774716973689,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B053璃月虎牢山",
@@ -150,15 +150,25 @@
       "action": "fight",
       "action_params": "",
       "id": 15,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 1993.06,
       "y": 393.25
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1993.9423828125,
+      "y": 394.5478515625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 17,
       "move_mode": "dash",
       "type": "path",
       "x": 1994.75,
@@ -167,7 +177,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "dash",
       "type": "path",
       "x": 2005.22,
@@ -176,7 +186,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 18,
+      "id": 19,
       "move_mode": "dash",
       "type": "orientation",
       "x": 2005.22,
