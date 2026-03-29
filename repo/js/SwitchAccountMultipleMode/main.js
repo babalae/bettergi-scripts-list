@@ -1,7 +1,6 @@
 // ======================================================
-// 切换账号(OCR)版本
+// 切换账号OCR模式
 const author = "彩虹QQ人";
-const script_name = "切换账号(OCR)版本";
 // 图像识别资源
 const pm_out = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/pm_out.png")),
@@ -19,10 +18,6 @@ const out_account = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/out_account.png")),
     name: "out_account.png"
 };
-const login_other_account = {
-    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/login_other_account_1.png")),
-    name: "login_other_account.png"
-};
 const input_phone_or_email = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/input_phone_or_email.png")),
     name: "input_phone_or_email.png"
@@ -35,15 +30,49 @@ const agree = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/agree.png")),
     name: "agree.png"
 };
+const confirm_switch_account = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/confirm.png")),
+    name: "confirm.png"
+};
+const input_email_username = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/input_email_username.png")),
+    name: "input_email_username.png"
+};
+const switch_server = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/switch_server.png")),
+    name: "switch_server.png"
+};
+const asia_server = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/asia.png")),
+    name: "asia.png"
+};
+const europe_server = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/europe.png")),
+    name: "europe.png"
+};
+const america_server = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/america.png")),
+    name: "america.png"
+};
+const twhkmo_server = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/twhkmo.png")),
+    name: "twhkmo.png"
+};
+const confirm_button = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/confirm_button.png")),
+    name: "confirm_button.png"
+};
+
 // 人机验证识别图片
 const login_verification = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/verification.png")),
     name: "verification.png"
 };
+
 // 判断temporaryAccount是否为空，如果为空则赋值‘否’
 const Account = settings.temporaryAccount || "否";
-
 eval(file.readTextSync('utils/uid.js'))
+
 // 点击区域中心
 async function clickCenter(x, y, width, height) {
     let centerX = Math.round(x + width / 2);
@@ -52,8 +81,10 @@ async function clickCenter(x, y, width, height) {
     await sleep(500); // 确保点击后有足够的时间等待
     return { success: true, x: centerX, y: centerY };
 }
+
 // 匹配图像并点击
 async function matchImgAndClick(obj, desc, timeout = 8000) {
+    const script_mode = "matchImgAndClick";
     const start = Date.now();
     let retryCount = 0; // 识别次数计数
     let status = false; // 用于记录是否匹配成功
@@ -74,13 +105,14 @@ async function matchImgAndClick(obj, desc, timeout = 8000) {
             log.info(`【IMG】第${retryCount++}次识别并点击 ${desc} 失败 | 耗时: ${Date.now() - start}ms`);
         }
     } catch (error) {
-        log.error(`【IMG】${script_name}等待超时，请人工介入。===待切换账号：${settings.username}===超时原因：未找到目标 [${desc}] | 文件：${obj.name}`);
+        log.error(`【IMG】${script_mode}等待超时，请人工介入。===待切换账号：${settings.username}===超时原因：未找到目标 [${desc}] | 文件：${obj.name}`);
         //如果有配置通知……
-        notification.error(`【IMG】${script_name}等待超时，请人工介入。===待切换账号：${settings.username}===超时原因：未找到目标 [${desc}] | 文件：${obj.name}`);
+        notification.error(`【IMG】${script_mode}等待超时，请人工介入。===待切换账号：${settings.username}===超时原因：未找到目标 [${desc}] | 文件：${obj.name}`);
         throw new Error(`【IMG】识别图像时发生异常: ${error.message}`);
     }
     return { success: false };
 }
+
 // 文字识别并点击
 async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     let start = Date.now();
@@ -112,14 +144,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     }
     return { success: false };
 }
-// 切换账号(OCR)版本
-// ======================================================
-
-// ======================================================
-//切换账号DropDown
-
-
-//切换账号DropDown
+// 切换账号OCR模式
 // ======================================================
 
 (async function () {
@@ -230,7 +255,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
 
     const targetUser = settings.username;
 
-    const assetLogoutIcon = u.loadTemplate("Assets/RecognitionObject/logout.png", 1750, 900, 170, 180);
+    const assetLogoutIcon = u.loadTemplate("Assets/RecognitionObject/login_out_account.png", 1750, 900, 170, 180);
     const assetPaimonMenuIcon = u.loadTemplate("Assets/RecognitionObject/paimon_menu.png", 0, 0, 150, 150);
 
     // Check current state
@@ -434,7 +459,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     }
     if (settings.Modes == "下拉列表") {
         await DropDownMode();
-    } else if (settings.Modes == "账号+密码") {
+    } else if (settings.Modes == "账号+密码+键鼠") {
         await KeyboardMouseMode();
     } else if (settings.Modes == "账号+密码+OCR") {
         await OcrMode();
@@ -442,6 +467,8 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         await BilibiliKeyboardMouseMode();
     } else if (settings.Modes == "B服切换另一个账号匹配+键鼠") {
         await BilibiliMatchAndKeyboardMouseMode();
+    } else if (settings.Modes == "国际服账号+密码+OCR") {
+        await GlobalOcrMode();
     } else {
         log.info("尖尖哇嘎乃")
     }
@@ -463,7 +490,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
 
     }
 
-    // 纯键鼠模式 对应：账号+密码（根据分辨率确定鼠标位置）
+    // 纯键鼠模式 对应：账号+密码+键鼠（根据分辨率确定鼠标位置）
     async function KeyboardMouseMode() {
         setGameMetrics(1920, 1080, 2.0);
         //到达主页面
@@ -544,9 +571,9 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
 
     // OCR模式 对应：账号+密码+OCR
     async function OcrMode() {
+        const script_mode = "OCR模式";
         setGameMetrics(1920, 1080, 1);
         // 如果切换账号是第一个脚本，则有可能出现月卡选项
-        //防止genshin.blessingOfTheWelkinMoon();方法失效，先使用物理点击。
         try {
             keyDown("VK_MENU");
             await sleep(500);
@@ -557,10 +584,6 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         } finally {
             keyUp("VK_MENU");
         }
-        //await genshin.blessingOfTheWelkinMoon();
-        //await sleep(1000);
-        //await genshin.blessingOfTheWelkinMoon();
-        //await sleep(1000);
         await genshin.returnMainUi();
 
         await keyPress("VK_ESCAPE");
@@ -593,8 +616,8 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
                 await sleep(1000);
                 if (verify.isExist()) {
                     //这里可配置通知方法
-                    notification.error(`${script_name}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
-                    log.error(`${script_name}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
+                    notification.error(`${script_mode}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
+                    log.error(`${script_mode}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
                 }
             }
             /**
@@ -606,11 +629,6 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             await sleep(15000);
 
             //可能登录账号的时候出现月卡提醒，则先点击一次月卡。
-            //await genshin.blessingOfTheWelkinMoon();
-            //await sleep(1000);
-            //await genshin.blessingOfTheWelkinMoon();
-            //await sleep(1000);
-            //防止genshin.blessingOfTheWelkinMoon();方法失效，先使用物理点击。
             await sleep(2000);
             keyDown("VK_MENU");
             await sleep(500);
@@ -624,10 +642,10 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             // 如果配置了通知
             notification.send("账号【" + settings.username + "】切换成功");
         } catch (error) {
-            log.error(`${script_name}脚本执行过程中发生错误：${error.message}`);
+            log.error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
             //如果发生错误，则发送通知
-            notification.error(`${script_name}脚本执行过程中发生错误：${error.message}`);
-            throw new Error(`${script_name}脚本执行过程中发生错误：${error.message}`);
+            notification.error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
+            throw new Error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
         } finally {
             keyUp("VK_MENU");
         }
@@ -692,9 +710,9 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
 
     // B服切换匹配+键鼠模式 对应：B服切换另一个账号匹配+键鼠
     async function BilibiliMatchAndKeyboardMouseMode() {
+        const script_mode = "B服切换匹配+键鼠模式";
         setGameMetrics(1920, 1080, 1);
         // 如果切换账号是第一个脚本，则有可能出现月卡选项
-        //防止genshin.blessingOfTheWelkinMoon();方法失效，先使用物理点击。
         try {
             keyDown("VK_MENU");
             await sleep(500);
@@ -705,10 +723,6 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         } finally {
             keyUp("VK_MENU");
         }
-        //await genshin.blessingOfTheWelkinMoon();
-        //await sleep(1000);
-        //await genshin.blessingOfTheWelkinMoon();
-        //await sleep(1000);
         await genshin.returnMainUi();
 
         await keyPress("VK_ESCAPE");
@@ -752,8 +766,8 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
                 await sleep(1000);
                 if (verify.isExist()) {
                     //这里可配置通知方法
-                    notification.error(`${script_name}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
-                    log.error(`${script_name}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
+                    notification.error(`${script_mode}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
+                    log.error(`${script_mode}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
                 }
             }
             /**
@@ -765,11 +779,6 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             await sleep(12000);
 
             //可能登录账号的时候出现月卡提醒，则先点击一次月卡。
-            //await genshin.blessingOfTheWelkinMoon();
-            //await sleep(1000);
-            //await genshin.blessingOfTheWelkinMoon();
-            //await sleep(1000);
-            //防止genshin.blessingOfTheWelkinMoon();方法失效，先使用物理点击。
             await sleep(2000);
             keyDown("VK_MENU");
             await sleep(500);
@@ -783,10 +792,93 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             // 如果配置了通知
             notification.send("账号【" + settings.username + "】切换成功");
         } catch (error) {
-            log.error(`${script_name}脚本执行过程中发生错误：${error.message}`);
+            log.error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
             //如果发生错误，则发送通知
-            notification.error(`${script_name}脚本执行过程中发生错误：${error.message}`);
-            throw new Error(`${script_name}脚本执行过程中发生错误：${error.message}`);
+            notification.error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
+            throw new Error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
+        } finally {
+            keyUp("VK_MENU");
+        }
+    }
+
+    // 国际服OCR模式 对应：国际服账号+密码+OCR
+    async function GlobalOcrMode() {
+        const script_mode = "国际服OCR模式";
+        const page = new BvPage();
+        setGameMetrics(1920, 1080, 1);
+        await genshin.blessingOfTheWelkinMoon();
+        await genshin.returnMainUi();
+
+        await keyPress("VK_ESCAPE");
+        await sleep(500);
+        try {
+            await matchImgAndClick(pm_out, "左下角退出门");
+            await matchImgAndClick(out_to_login, "退出至登陆页面");
+            await page.WaitForOcrMatch("开始游戏");
+            await matchImgAndClick(login_out_account, "登录页的右下角退出按钮");
+            await page.WaitForOcrMatch("切换账号");
+            await matchImgAndClick(confirm_switch_account, "确认切换账号");
+            await recognizeTextAndClick("登录其他账号", RecognitionObject.Ocr(300, 200, 1200, 800), 8000);
+            await sleep(1000);
+            await matchImgAndClick(input_email_username, "输入邮箱/用户名");
+            await inputText(settings.username);
+            await sleep(1000);
+            await matchImgAndClick(input_password, "输入密码");
+            await inputText(settings.password);
+            await sleep(1000);
+            // 按下回车登录账号，弹出用户协议对话框
+            await keyPress("VK_RETURN");
+            // await matchImgAndClick(agree, "同意用户协议");
+            // 当天上下线次数过于频繁弹验证码
+            for (let i = 1; i <= 5; i++) {
+                const ro = captureGameRegion();
+                let verify = ro.Find(login_verification.template);
+                ro.dispose();
+                await sleep(1000);
+                if (verify.isExist()) {
+                    notification.error(`${script_mode}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
+                    log.error(`${script_mode}触发人机验证，请手动登录。===待切换账号：${settings.username}`);
+                }
+            }
+            // 换服务器操作
+            if (settings.Servers) {
+                await page.WaitForOcrMatch("开始游戏");
+                log.info("正在更换服务器")
+                await matchImgAndClick(switch_server, "更换服务器");
+                let serversMatched = true;
+                if (settings.Servers == "Asia") {
+                    await matchImgAndClick(asia_server, "亚服");
+                } else if (settings.Servers == "Europe") {
+                    await matchImgAndClick(europe_server, "欧服");
+                } else if (settings.Servers == "America") {
+                    await matchImgAndClick(america_server, "美服");
+                } else if (settings.Servers == "TW,HK,MO") {
+                    await matchImgAndClick(twhkmo_server, "台港澳");
+                } else {
+                    log.info("尖尖哇嘎乃")
+                    serversMatched = false;
+                }
+                if (serversMatched) {
+                    await matchImgAndClick(confirm_button, "确认换服");
+                }
+            }
+            await keyPress("VK_ESCAPE");
+            await page.WaitForOcrMatch("开始游戏");
+            await click(960, 640);
+            await page.Wait(5000);
+            log.info('等待提瓦特大门加载');
+            await page.WaitForOcrMatch("点击进入");
+            await click(960, 640);
+            // 可能登录账号的时候出现月卡提醒，则先点击一次月卡。
+            await genshin.blessingOfTheWelkinMoon();
+            await genshin.returnMainUi();
+            // 如果配置了通知
+            notification.send("账号【" + settings.username + "】切换成功");
+        } catch (error) {
+            log.error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
+            //如果发生错误，则发送通知
+            notification.error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
+            throw new Error(`${script_mode}脚本执行过程中发生错误：${error.message}`);
         } finally {
             keyUp("VK_MENU");
         }

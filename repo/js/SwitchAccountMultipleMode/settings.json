@@ -5,10 +5,11 @@
     "label": "切换模式",
     "options": [
       "下拉列表",
-      "账号+密码",
+      "账号+密码+键鼠",
       "账号+密码+OCR",
       "B服切换另一个账号纯键鼠",
-      "B服切换另一个账号匹配+键鼠"
+      "B服切换另一个账号匹配+键鼠",
+      "国际服账号+密码+OCR"
     ],
     "default": "下拉列表"
   },
@@ -21,6 +22,18 @@
     "name": "password",
     "type": "input-text",
     "label": "密码（只保存在本地，请妥善保管）\n切换模式为下拉列表时无需填写"
+  },
+  {
+    "name": "Servers",
+    "type": "select",
+    "label": "国际服服务器",
+    "options": [
+      "Asia",
+      "Europe",
+      "America",
+      "TW,HK,MO",
+      "不切换服务器"
+    ]
   },
   {
     "name": "uid",
