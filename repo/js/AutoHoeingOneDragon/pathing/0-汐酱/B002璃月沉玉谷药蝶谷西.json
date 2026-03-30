@@ -40,7 +40,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;moveby(0,-2000)",
+      "action_params": "茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;moveby(0,-2000)",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
@@ -61,16 +61,7 @@
       "action_params": "",
       "id": 5,
       "move_mode": "dash",
-      "type": "orientation",
-      "x": 1928.8896484375,
-      "y": 1661.55078125
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 6,
-      "move_mode": "run",
-      "type": "orientation",
+      "type": "path",
       "x": 1928.8896484375,
       "y": 1661.55078125
     }

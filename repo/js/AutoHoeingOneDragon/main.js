@@ -172,7 +172,7 @@ async function loadConfig() {
 
             const filePath = `settings/${accountName}.json`;
             file.writeText(filePath, cfgStr, false);
-        } else {
+        } else if (settings.groupIndex) {
             let cfg;
             try {
                 const raw = await file.readText(`settings/${accountName}.json`);
@@ -185,6 +185,10 @@ async function loadConfig() {
             for (const key in cfg) {
                 settings[key] = cfg[key];
             }
+        } else {
+            log.error(`你没打开过自定义配置，请阅读readme并按要求配置后再运行`);
+            await sleep(10000);
+            log.warn("超时未退出，尝试以默认配置运行,但仍建议阅读文档后再运行")
         }
     }
     //加载自定义配置
