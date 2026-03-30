@@ -1,5 +1,5 @@
 import {ocrUid} from "./utils/uid.js";
-import {toMainUi,throwError} from "./utils/tool.js";
+import {toMainUi, throwError} from "./utils/tool.js";
 
 const config = {
     tryRe: {
@@ -9,7 +9,7 @@ const config = {
     user: {
         uid: undefined
     },
-    send_notification:false
+    send_notification: false
 }
 
 /**
@@ -43,33 +43,27 @@ async function isTaskRefreshed(filePath, options = {}) {
         throw new Error("已重试" + (try_count - 1) + "次数,超出最大重试" + try_count_max + "次数");
     }
     if (!config.user.uid) {
-        config.user.uid = await ocrUid();
+        const resolvedUid = await ocrUid();
+        if (!Number.isInteger(resolvedUid) || resolvedUid <= 0) {
+              throw new Error(`UID 识别失败: ${resolvedUid}`);
+        }
+        config.user.uid = resolvedUid;
     }
     const uid = config.user.uid;
     const current = {uid: uid, time: undefined}
     // 读取文件内容
     let contentList = [];
     try {
-        contentList =  JSON.parse(file.readTextSync(filePath))
-    }catch (e) {
-        log.debug("warn:"+e.message)
+        contentList = JSON.parse(file.readTextSync(filePath))
+    } catch (e) {
+        log.debug("warn:" + e.message)
     }
-
+    const last = contentList.find(item => item.uid === uid)
+    const lastTimeNumber = last?.time
+    const lastTime = lastTimeNumber ? new Date(lastTimeNumber) : new Date(0);
     try {
-        const lastTimeStr = contentList.find(item => item.uid === current.uid)
-        //todo:uid取lastTime
-        const lastTime = lastTimeStr ? new Date(lastTimeStr) : new Date(0);
         const nowTime = new Date();
-        current.time=nowTime.getTime();
-        if (contentList.some(item => item.uid === current.uid)) {
-            contentList.forEach(item => {
-                if (item.uid === current.uid) {
-                    item.time = current.time;
-                }
-            })
-        }else {
-            contentList.push(current);
-        }
+        current.time = nowTime.getTime();
 
         let shouldRefresh = false;
 
@@ -146,29 +140,41 @@ async function isTaskRefreshed(filePath, options = {}) {
         //     // await file.writeText(filePath, JSON.stringify(contentList));
         //     shouldRefresh = true;
         // }
+        try {
+            if (shouldRefresh) {
+                const message = `任务已刷新，执行每月兑换抽卡资源`;
+                log.info(message)
+                if (config.send_notification) {
+                    notification.send(message);
+                }
+                await exchangeGoods();
 
-        if (shouldRefresh) {
-            const message = `任务已刷新，执行每月兑换抽卡资源`;
-            log.info( message)
-            if (config.send_notification){
-                notification.send(message);
+                if (contentList.some(item => item.uid === current.uid)) {
+                    contentList.forEach(item => {
+                        if (item.uid === current.uid) {
+                            item.time = current.time;
+                        }
+                    })
+                } else {
+                    contentList.push(current);
+                }
+
+                // 更新最后完成时间
+                await file.writeText(filePath, JSON.stringify(contentList));
+                return true;
+            } else {
+                const message = `任务未刷新，跳过每月兑换抽卡资源`;
+                log.info(message)
+                if (config.send_notification) {
+                    notification.send(message);
+                }
+                return false;
             }
-            await exchangeGoods();
-            // 更新最后完成时间
-            await file.writeText(filePath, JSON.stringify(contentList));
-            return true;
-        } else {
-            const message = `任务未刷新，跳过每月兑换抽卡资源`;
-            log.info( message)
-            if (config.send_notification){
-                notification.send(message);
-            }
-            return false;
+        } finally {
+            log.debug("contentList:", JSON.stringify(contentList))
         }
-        log.debug("contentList:", JSON.stringify(contentList))
     } catch (error) {
         log.error(`刷新任务失败: ${error}`);
-        // 如果文件不存在，创建新文件并返回true(视为需要刷新)
         const createResult = await file.writeText(filePath, JSON.stringify(contentList));
         if (createResult) {
             log.debug("创建新文件成功");
@@ -264,7 +270,7 @@ async function exchangeGoods() {
 
     let validatedMaterialQuantity = positiveIntegerJudgment(materialQuantity);
     if (validatedMaterialQuantity < 750) {
-        throwError(`星尘数量为：${validatedMaterialQuantity}，数量不足，无法全部兑换`,config.send_notification)
+        throwError(`星尘数量为：${validatedMaterialQuantity}，数量不足，无法全部兑换`, config.send_notification)
         // notification.send(`星尘数量为：${validatedMaterialQuantity}，无法全部兑换`);
         // throw new Error(`星尘数量为：${validatedMaterialQuantity}，不能完全兑换`);
     }
@@ -307,7 +313,7 @@ async function exchangeGoods() {
     }
     const message = `商城抽卡资源兑换完成`;
     log.info(message)
-    if (config.send_notification){
+    if (config.send_notification) {
         notification.send(message);
     }
 }
@@ -315,7 +321,7 @@ async function exchangeGoods() {
 async function main() {
     try {
         config.tryRe.max = parseInt(settings.try_count_max + "") || config.tryRe.max
-        config.send_notification= settings.send_notification
+        config.send_notification = settings.send_notification
     } catch (e) {
     }
     try {
@@ -324,7 +330,7 @@ async function main() {
             monthlyDay: 1,    // 每月第1天（默认值，可省略）
             monthlyHour: 4    // 凌晨4点（默认值，可省略）
         });
-    }finally {
+    } finally {
         await toMainUi()
     }
 }
