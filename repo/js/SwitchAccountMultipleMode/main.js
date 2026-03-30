@@ -152,8 +152,8 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     // Library functions
 
     var u = {}; // utilities 工具函数集合
-    u.logi = function (message, args) { log.info("[切换账号]" + message, args) };
-    u.logw = function (message, args) { log.warn("[切换账号]" + message, args) };
+    u.logi = function (message, args) { log.info("[下拉列表切换账号]" + message, args) };
+    u.logw = function (message, args) { log.warn("[下拉列表切换账号]" + message, args) };
     u.loadTemplate = function (filePath, x /* 0 if omit */, y /* 0 if omit */, w /* maxWidth if omit */, h /* maxHeight if omit */) {
         return RecognitionObject.TemplateMatch(file.ReadImageMatSync(filePath), x, y, w, h);
     };
@@ -179,21 +179,32 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     };
     u.matchUserRelaxed = function (text, username) {
         if (typeof text !== "string" || typeof username !== "string") return false;
-        // Check the head
-        for (let i = 0; i < text.length; i++) {
-            const a = text[i];
-            const b = username[i];
-            if (a === '*') break; // Stop checking when a '*' is found in text.
-            if (a !== b) return false;
+
+        // 1. 规范化：将连续的 '*' 替换为单个 '*'
+        const pattern = text.replace(/\*+/g, '*');
+        const target = username.replace(/\*+/g, '*');
+
+        // 2. 如果规范化后没有通配符，则进行全等匹配
+        if (!pattern.includes('*')) {
+            return pattern === target;
         }
-        // Check the tail
-        for (let i = 0; i < text.length; i++) {
-            const a = text[text.length - 1 - i];
-            const b = username[username.length - 1 - i];
-            if (a === '*') break; // Stop checking when a '*' is found in text.
-            if (a !== b) return false;
-        }
-        return true;
+
+        // 3. 获取前缀和后缀
+        // split('*') 会将 "abc*def" 拆分为 ["abc", "def"]
+        // 如果是 "*abc"，拆分为 ["", "abc"]；如果是 "abc*"，拆分为 ["abc", ""]
+        const parts = pattern.split('*');
+        const prefix = parts[0];
+        const suffix = parts[parts.length - 1];
+
+        // 4. 匹配逻辑：
+        // - 目标字符串必须以 prefix 开头
+        // - 目标字符串必须以 suffix 结尾
+        // - 目标字符串的长度必须足以容纳 prefix 和 suffix (避免重叠部分的逻辑错误)
+        return (
+            target.startsWith(prefix) &&
+            target.endsWith(suffix) &&
+            target.length >= (prefix.length + suffix.length)
+        );
     };
     u.waitAndFindImage = async function (asset, internal = 500, timeout = 60000) {
         const start = Date.now();
@@ -370,7 +381,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         btnLogout.DrawSelf("LogoutBtn");
         btnLogout.Click();
 
-        const assetQuitTextButton = u.loadTemplate("Assets/RecognitionObject/quit.png", 680, 380, 1220, 700);
+        const assetQuitTextButton = u.loadTemplate("Assets/RecognitionObject/out_account.png", 680, 380, 1220, 700);
         let btnQuit = await u.waitAndFindImage(assetQuitTextButton, 200);
         // u.logi("识别到退出按钮，点击");
         // btnQuit.DrawSelf("QuitBtn");
@@ -399,8 +410,9 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         {
             const start = Date.now();
             let lastLog = start;
-            while (selectedUser == null) {
-                await sleep(200);
+            // 超时8秒直接跳出让下一步报错
+            while (selectedUser == null && Date.now() - start <= 8000) {
+                await sleep(500);
 
                 let captureRegion = captureGameRegion();
                 let resList = captureRegion.findMulti(RecognitionObject.ocr(680, 540, 540, 500));
@@ -411,16 +423,9 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
                     if (user) {
                         selectedUser = res;
                         break;
-                    }
-                }
-
-                if (Date.now() - lastLog >= 10000) {
-                    let elapsed = ((Date.now() - start) / 1000).toFixed(1);
-                    u.logw("等待匹配图像已持续 {0} 秒，仍在尝试寻找账号文本：{1}", elapsed, targetUser);
-                    lastLog = Date.now();
-                    for (let i = 0; i < resList.count; i++) {
-                        let res = resList[i];
-                        u.logw("账户文本：{0}", res.text);
+                    } else {
+                        u.logw("当前匹配文本：{0}", res.text);
+                        lastLog = Date.now();
                     }
                 }
             }
@@ -467,8 +472,10 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         await BilibiliKeyboardMouseMode();
     } else if (settings.Modes == "B服切换另一个账号匹配+键鼠") {
         await BilibiliMatchAndKeyboardMouseMode();
-    } else if (settings.Modes == "国际服账号+密码+OCR") {
+    } else if (settings.Modes == "国际服+账号+密码+OCR") {
         await GlobalOcrMode();
+    } else if (settings.Modes == "国际服+下拉列表") {
+        await GlobalDropDownMode();
     } else {
         log.info("尖尖哇嘎乃")
     }
@@ -488,6 +495,60 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         await sleep(20000);
         await waitAndDetermineCurrentView();
 
+    }
+
+    // 国际服下拉列表模式
+    async function GlobalDropDownMode() {
+        const script_mode = "国际服下拉列表模式";
+        const page = new BvPage();
+        setGameMetrics(1920, 1080, 1);
+        const isInGame = await waitAndDetermineCurrentView();
+        if (isInGame) {
+            await stateReturnToGenshinGate();
+            await sleep(1000);
+        }
+        await page.WaitForOcrMatch("开始游戏");
+        await matchImgAndClick(login_out_account, "登录页的右下角退出按钮");
+        await page.WaitForOcrMatch("切换账号");
+        await matchImgAndClick(confirm_switch_account, "确认切换账号");
+        await sleep(500);
+        await stateChangeUser();
+        await sleep(500);
+        // 换服务器操作
+        if (settings.Servers) {
+            await page.WaitForOcrMatch("开始游戏");
+            log.info("正在更换服务器")
+            await matchImgAndClick(switch_server, "更换服务器");
+            let serversMatched = true;
+            if (settings.Servers == "Asia") {
+                await matchImgAndClick(asia_server, "亚服");
+            } else if (settings.Servers == "Europe") {
+                await matchImgAndClick(europe_server, "欧服");
+            } else if (settings.Servers == "America") {
+                await matchImgAndClick(america_server, "美服");
+            } else if (settings.Servers == "TW,HK,MO") {
+                await matchImgAndClick(twhkmo_server, "台港澳");
+            } else {
+                log.info("尖尖哇嘎乃")
+                serversMatched = false;
+            }
+            if (serversMatched) {
+                await matchImgAndClick(confirm_button, "确认换服");
+            }
+        }
+        await keyPress("VK_ESCAPE");
+        await page.WaitForOcrMatch("开始游戏");
+        await click(960, 640);
+        await page.Wait(5000);
+        log.info('等待提瓦特大门加载');
+        await page.WaitForOcrMatch("点击进入");
+        await click(960, 640);
+        // 可能登录账号的时候出现月卡提醒，则先点击一次月卡。
+        await genshin.blessingOfTheWelkinMoon();
+        await page.Wait(1000);
+        await genshin.returnMainUi();
+        // 如果配置了通知
+        notification.send("账号【" + settings.username + "】切换成功");
     }
 
     // 纯键鼠模式 对应：账号+密码+键鼠（根据分辨率确定鼠标位置）
@@ -871,6 +932,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             await click(960, 640);
             // 可能登录账号的时候出现月卡提醒，则先点击一次月卡。
             await genshin.blessingOfTheWelkinMoon();
+            await page.Wait(1000);
             await genshin.returnMainUi();
             // 如果配置了通知
             notification.send("账号【" + settings.username + "】切换成功");
