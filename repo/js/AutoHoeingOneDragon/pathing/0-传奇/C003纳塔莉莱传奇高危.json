@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "思"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时139.26秒，包含以下怪物：5只小怪传奇倍率二。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774279785109,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C003纳塔-莉莱 传奇 高危",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9783.049474634747,
+      "y": -1766.648492793891
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9788.4375,
+      "y": -1757.3447017224116
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9791.500216994013,
+      "y": -1690.249352771134
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9800.046875,
+      "y": -1700.9892578125
+    }
+  ]
+}

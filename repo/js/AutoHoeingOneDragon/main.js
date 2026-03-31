@@ -1,5 +1,3 @@
-//当前js版本2.5.0
-
 //自定义配置变量预声明
 let accountName;
 let pickup_Mode;
