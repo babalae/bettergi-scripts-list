@@ -39,13 +39,13 @@ function readtargetTextCategories(targetTextDir) {
     let availablePickCategories = [];
     try {
         availablePickCategories = targetTextFilePaths.map(filePath => basename(filePath).replace('.txt', ''));
-        log.info(`可用识别名单：${availablePickCategories.join(', ')}`);
+        if (debugLog) log.info(`可用识别名单：${availablePickCategories.join(', ')}`);
     } catch (e) {
         log.error(`扫描识别名单目录失败: ${e.message}`);
     }
 
     if (pickTextNames.length === 0) {
-        log.info("未指定识别名单，将加载所有文件");
+        if (debugLog) log.info("未指定识别名单，将加载所有文件");
     } else {
         const invalidCategories = pickTextNames.filter(name => !availablePickCategories.includes(name));
         if (invalidCategories.length > 0) {
@@ -54,7 +54,7 @@ function readtargetTextCategories(targetTextDir) {
         }
     }
 
-    log.info(`筛选名单状态：${pickTextNames.length === 0 ? '未指定（空），将加载所有文件' : '指定了：' + pickTextNames.join(',')}`);
+    if (debugLog) log.info(`筛选名单状态：${pickTextNames.length === 0 ? '未指定（空），将加载所有文件' : '指定了：' + pickTextNames.join(',')}`);
 
     for (const filePath of targetTextFilePaths) {
         if (state.cancelRequested) break;
@@ -76,7 +76,7 @@ function readtargetTextCategories(targetTextDir) {
 
         materialCategories[sourceCategory] = parseCategoryContent(content);
     }
-    log.info(`完成读取，加载的分类：${Object.keys(materialCategories).join(',')}`);
+    if (debugLog) log.info(`完成读取，加载的分类：${Object.keys(materialCategories).join(',')}`);
     return materialCategories;
 }
 
@@ -196,7 +196,9 @@ async function alignAndInteractTarget(targetTextsOrFunc, fDialogueRo, textxRange
                     for (const res of ocrResults) {
                         const centerY = res.y + res.height / 2;
                         const yDiff = Math.abs(centerY - fCenterY);
-                        log.debug(`未匹配: "${res.text}" Y中心: ${centerY.toFixed(1)}, F图标Y中心: ${fCenterY.toFixed(1)}, 差值: ${yDiff.toFixed(1)}, 容忍度: ${texttolerance}`);
+                        const logText = `未匹配: "${res.text}" Y中心: ${centerY.toFixed(1)}, F图标Y中心: ${fCenterY.toFixed(1)}, 差值: ${yDiff.toFixed(1)}, 容忍度: ${texttolerance}`;
+                        log.debug(logText);
+                        writeFile("user/OCR未匹配记录.txt", logText);
                     }
                 }
                 await keyMouseScript.runFile(`assets/滚轮下翻.json`);

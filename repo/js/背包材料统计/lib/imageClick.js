@@ -264,11 +264,11 @@ async function imageClickBackgroundTask() {
 
     // 打印资源检测结果
     log.info("\n==================== 现有弹窗加载结果 ====================");
-    log.info("1. 一级弹窗（共" + firstLevelDirs.length + "个）：");
-    firstLevelDirs.forEach((res, idx) => log.info(`   ${idx+1}. 【${res.dirName}】`));
+    const firstLevelNames = firstLevelDirs.map(res => res.dirName).join('、');
+    log.info("1. 一级弹窗（共" + firstLevelDirs.length + "个）：" + firstLevelNames);
     const secondLevelResources = preloadedResources.filter(res => !res.isFirstLevel);
-    log.info("\n2. 二级弹窗（共" + secondLevelResources.length + "个）：");
-    secondLevelResources.forEach((res, idx) => log.info(`   ${idx+1}. 【${res.dirName}】`));
+    const secondLevelNames = secondLevelResources.map(res => res.dirName).join('、');
+    log.info("2. 二级弹窗（共" + secondLevelResources.length + "个）：" + secondLevelNames);
     log.info("=============================================================\n");
 
     // 核心逻辑：外循环遍历所有一级弹窗

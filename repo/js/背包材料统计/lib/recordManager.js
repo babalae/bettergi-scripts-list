@@ -138,7 +138,7 @@ function checkPathNameFrequency(resourceName, pathName, recordDir, isFood = fals
       if (line.startsWith('路径名: ')) {
         currentPathName = line.split('路径名: ')[1];
       } else if (line.startsWith('内容检测码: ')) {
-        recordContentCode = line.split('内容检测码: ')[1];
+        recordContentCode = line.split('内容检测码: ')[1].trim();
       } else if (line === '' && currentPathName && recordContentCode) {
         if (hasValidContentCode) {
           if (recordContentCode === currentContentCode) {
@@ -266,11 +266,11 @@ function getLastRunEndTime(resourceName, pathName, recordDir, noRecordDir, pathi
         
         blockLines.forEach(line => {
           if (line.startsWith('路径名: ')) {
-            blockPathName = line.split('路径名: ')[1];
+            blockPathName = line.split('路径名: ')[1].trim();
           } else if (line.startsWith('内容检测码: ')) {
-            blockContentCode = line.split('内容检测码: ')[1] || '00000000';
+            blockContentCode = line.split('内容检测码: ')[1].trim() || '00000000';
           } else if (line.startsWith('结束时间: ')) {
-            blockEndTime = line.split('结束时间: ')[1];
+            blockEndTime = line.split('结束时间: ')[1].trim();
           }
         });
         
@@ -308,7 +308,7 @@ function getLastRunEndTime(resourceName, pathName, recordDir, noRecordDir, pathi
  * @param {Object} cache - 缓存对象（单次路径处理周期内有效）
  * @returns {Array<Object>} 结构化记录列表（含runTime、quantityChange）
  */
-function getHistoricalPathRecords(resourceKey, pathName, recordDir, noRecordDir, isFood = false, cache = {}, pathingFilePath) {
+function getHistoricalPathRecords(resourceKey, pathName, recordDir, noRecordDir, isFood = false, cache = {}, pathingFilePath, filterExcessMaterials = false) {
   const contentCode = pathingFilePath ? generatePathContentCode(pathingFilePath) : null;
   const hasValidContentCode = contentCode && contentCode !== "00000000";
   
@@ -353,14 +353,14 @@ function getHistoricalPathRecords(resourceKey, pathName, recordDir, noRecordDir,
 
     blockLines.forEach(line => {
       if (line.startsWith('路径名: ')) {
-        const recordPathName = line.split('路径名: ')[1];
+        const recordPathName = line.split('路径名: ')[1].trim();
         const cleanRecordPathName = recordPathName.replace(/_[0-9a-fA-F]{8}\.json$/, '.json');
         if (cleanRecordPathName === cleanPathName) {
           isTargetPath = true;
         }
       }
       if (line.startsWith('内容检测码: ')) {
-        recordContentCode = line.split('内容检测码: ')[1] || "00000000";
+        recordContentCode = line.split('内容检测码: ')[1].trim() || "00000000";
       }
       if (line.startsWith('运行时间: ')) {
         runTime = parseInt(line.split('运行时间: ')[1].split('秒')[0], 10) || 0;
@@ -391,6 +391,35 @@ function getHistoricalPathRecords(resourceKey, pathName, recordDir, noRecordDir,
 
   cache[cacheKey] = records;
   if (debugLog) log.debug(`${CONSTANTS.LOG_MODULES.RECORD}读取记录并缓存：${cacheKey}（${records.length}条）`);
+  
+  if (filterExcessMaterials && excessMaterialNames.length > 0) {
+    const filteredRecords = records.filter(record => {
+      const { quantityChange } = record;
+      
+      if (isFood) {
+        return true;
+      }
+      
+      if (monsterToMaterials[resourceKey]) {
+        const monsterMaterials = monsterToMaterials[resourceKey];
+        const allExcess = monsterMaterials.every(mat => excessMaterialNames.includes(mat));
+        return !allExcess;
+      }
+      
+      if (quantityChange[resourceKey] !== undefined) {
+        return !excessMaterialNames.includes(resourceKey);
+      }
+      
+      return true;
+    });
+    
+    if (debugLog && filteredRecords.length !== records.length) {
+      log.debug(`${CONSTANTS.LOG_MODULES.RECORD}过滤超量材料记录：${records.length}条 -> ${filteredRecords.length}条`);
+    }
+    
+    return filteredRecords;
+  }
+  
   return records;
 }
 

@@ -36,6 +36,12 @@ const CONSTANTS = {
 // 引入外部脚本（源码不变）
 // ==============================================
 eval(file.readTextSync("lib/file.js"));
+
+// 提前读取 settings.json 以便定义 debugLog
+var settingsContent = file.readTextSync("settings.json");
+var settings = JSON.parse(settingsContent);
+var debugLog = settings.debugLog || false;
+
 eval(safeReadTextSync("lib/updateSettings.js"));
 eval(safeReadTextSync("lib/ocr.js"));
 eval(safeReadTextSync("lib/writeImage.js"));
@@ -70,7 +76,6 @@ const timeCost = Math.min(100, Math.max(1, Math.floor(Number(settings.TimeCost) 
 const notify = settings.notify || false;
 const noRecord = settings.noRecord || false;
 const noMonsterFilter = !settings.noMonsterFilter;
-const debugLog = settings.debugLog || false;
 const targetCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.TargetCount) || 1000))); // 设定的目标数量
 const exceedCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.ExceedCount) || 9000))); // 设定的超量目标数量
 const endTimeStr = settings.CurrentTime ? settings.CurrentTime : null; 
@@ -87,7 +92,7 @@ let availableCDCategories = [];
 try {
     const cdFilePaths = readAllFilePaths(CONSTANTS.MATERIAL_CD_DIR, 0, 1, ['.txt']);
     availableCDCategories = cdFilePaths.map(filePath => basename(filePath).replace('.txt', ''));
-    log.info(`${CONSTANTS.LOG_MODULES.INIT}可用CD分类：${availableCDCategories.join(', ')}`);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.INIT}可用CD分类：${availableCDCategories.join(', ')}`);
 } catch (e) {
     log.error(`${CONSTANTS.LOG_MODULES.INIT}扫描CD目录失败: ${e.message}`);
 }
@@ -100,7 +105,7 @@ if (allowedCDCategories.length > 0) {
     }
     log.info(`${CONSTANTS.LOG_MODULES.INIT}已配置只处理以下CD分类：${allowedCDCategories.join('、')}`);
 } else {
-    log.info(`${CONSTANTS.LOG_MODULES.INIT}未配置CD分类过滤，将处理所有分类`);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.INIT}未配置CD分类过滤，将处理所有分类`);
 }
 
 // ==============================================
@@ -463,8 +468,8 @@ function filterLowCountMaterials(pathingMaterialCounts, materialCategoryMap, onl
   
   // onlyCategory模式下，检查所有扫描到的材料，而不仅仅是materialCategoryMap中的材料
   const shouldCheckAll = onlyCategoryMode || allMaterials.length === 0;
-  log.info(`【材料基准】onlyCategoryMode=${onlyCategoryMode}, allMaterials长度=${allMaterials.length}, shouldCheckAll=${shouldCheckAll}, pathingMaterialCounts长度=${pathingMaterialCounts.length}`);
-  log.info(`【扫描结果】${pathingMaterialCounts.map(item => `${item.name}:${item.count}`).join(', ')}`);
+  if (debugLog) log.info(`【材料基准】onlyCategoryMode=${onlyCategoryMode}, allMaterials长度=${allMaterials.length}, shouldCheckAll=${shouldCheckAll}, pathingMaterialCounts长度=${pathingMaterialCounts.length}`);
+  if (debugLog) log.info(`【扫描结果】${pathingMaterialCounts.map(item => `${item.name}:${item.count}`).join(', ')}`);
   
   // ========== 第一步：平行判断超量材料（原始数据，不经过低数量过滤） ==========
   pathingMaterialCounts.forEach(item => {
@@ -486,7 +491,6 @@ function filterLowCountMaterials(pathingMaterialCounts, materialCategoryMap, onl
     // 超量判断（平行逻辑：只要≥阈值就标记，和低数量无关）
     if (processedCount >= EXCESS_THRESHOLD) {
       tempExcess.push(item.name);
-      log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}[超量标记] ${item.name} 原始：${item.count} → ${processedCount} ≥ ${EXCESS_THRESHOLD}`);
     }
   });
 
@@ -512,7 +516,7 @@ function filterLowCountMaterials(pathingMaterialCounts, materialCategoryMap, onl
   // ========== 第三步：更新全局超量名单（去重） ==========
   excessMaterialNames = [...new Set(tempExcess)];
   const realExcessCount = excessMaterialNames.filter(name => name !== "OCR启动").length;
-  log.info(`【超量材料更新】共${realExcessCount}种：${excessMaterialNames.filter(name => name !== "OCR启动").join("、")}`);
+  if (debugLog) log.info(`【超量材料更新】共${realExcessCount}种：${excessMaterialNames.filter(name => name !== "OCR启动").join("、")}`);
   if (debugLog) log.info(`【低数量材料】筛选后共${filteredLowCountMaterials.length}种：${filteredLowCountMaterials.map(m => m.name).join("、")}`);
 
   // 返回低数量材料（超量名单已独立生成）
@@ -610,11 +614,11 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
     return { path, resourceName: materialName, monsterName };
   }).filter(entry => (entry.resourceName || entry.monsterName) && entry.path.trim() !== "");
 
-  log.info(`${CONSTANTS.LOG_MODULES.PATH}[路径初始化] 共读取有效路径 ${pathEntries.length} 条`);
+  if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[路径初始化] 共读取有效路径 ${pathEntries.length} 条`);
 
   // 测算模式：不执行背包扫描，直接返回所有路径
   if (pathingMode.estimateMode) {
-    log.info(`${CONSTANTS.LOG_MODULES.PATH}[测算模式] 跳过背包扫描，直接进行路径分析`);
+    log.info(`${CONSTANTS.LOG_MODULES.PATH}[测算模式] 将执行背包扫描以筛选低数量材料`);
   }
 
   // 分类路径（狗粮 > 怪物 > 普通材料）
@@ -622,13 +626,9 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
   const monsterPaths = pathEntries.filter(entry => entry.monsterName && entry.monsterName !== '地脉花');
   const normalPaths = pathEntries.filter(entry => entry.resourceName && !entry.monsterName && entry.resourceName !== '锄地');
 
-  log.info(`${CONSTANTS.LOG_MODULES.PATH}[路径分类] 狗粮:${foodPaths.length} 怪物:${monsterPaths.length} 普通:${normalPaths.length}`);
+  if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[路径分类] 狗粮:${foodPaths.length} 怪物:${monsterPaths.length} 普通:${normalPaths.length}`);
 
-  // 测算模式：直接返回所有路径
-  if (pathingMode.estimateMode) {
-    const allPaths = [...monsterPaths, ...normalPaths, ...foodPaths];
-    return { allPaths, pathingMaterialCounts: [] };
-  }
+  // 测算模式不再直接返回所有路径，而是继续执行背包扫描以筛选低数量材料
 
   // 怪物路径关联材料到分类（扫描用）- 仅includeBoth和onlyPathing模式
   if (pathingMode.includeBoth || pathingMode.onlyPathing) {
@@ -663,7 +663,7 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
   if (normalPaths.length > 0 || monsterPaths.length > 0 || pathingMode.onlyCategory) {
     // 优化：一次扫描获取全量材料数量，同时服务于怪物和普通材料
     log.info(`${CONSTANTS.LOG_MODULES.PATH}[材料扫描] 执行一次全量背包扫描（服务于怪物+普通路径）`);
-    log.info(`${CONSTANTS.LOG_MODULES.PATH}[材料扫描] materialCategoryMap内容：${JSON.stringify(materialCategoryMap)}`);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[材料扫描] materialCategoryMap内容：${JSON.stringify(materialCategoryMap)}`);
     const allMaterialCounts = await MaterialPath(materialCategoryMap);
     pathingMaterialCounts = allMaterialCounts;
     // log.info(`${CONSTANTS.LOG_MODULES.PATH}[材料扫描] 扫描返回数据：${JSON.stringify(allMaterialCounts)}`);
@@ -675,6 +675,16 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
     const validMonsterMaterialNames = filteredMaterials.map(m => m.name);
     if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MONSTER}[怪物材料] 筛选后有效材料：${validMonsterMaterialNames.join('、')}`);
 
+    // includeBoth模式：更新超量名单并保存到文件
+    if (pathingMode.includeBoth) {
+      const finalExcessList = excessMaterialNames.filter(name => name !== "OCR启动");
+      if (finalExcessList.length > 0) {
+        log.info(`${CONSTANTS.LOG_MODULES.PATH}[includeBoth模式] 更新超量名单，共${finalExcessList.length}种：${finalExcessList.join('、')}`);
+      }
+      const fullContent = finalExcessList.length > 0 ? `超量名单:${finalExcessList.join(',')}\n` : "";
+      file.writeTextSync(CONSTANTS.EXCESS_MATERIALS_PATH, fullContent, false);
+    }
+
     // onlyCategory模式：只扫描，不处理路径
     if (pathingMode.onlyCategory) {
       // 先读取txt超量名单
@@ -684,10 +694,13 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
       const scannedMaterials = allMaterialCounts.flat();
       const updatedExcessMaterials = new Set(txtExcessMaterials);
       
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] txt超量名单长度:${txtExcessMaterials.length}, 内容:${txtExcessMaterials.join('、')}`);
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] updatedExcessMaterials初始长度:${updatedExcessMaterials.size}`);
+      if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] txt超量名单长度:${txtExcessMaterials.length}, 内容:${txtExcessMaterials.join('、')}`);
+      // log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] updatedExcessMaterials初始长度:${updatedExcessMaterials.size}`);
       
       // 逐一检查txt超量名单中的每个材料
+      const keptMaterials = [];
+      const removedMaterials = [];
+      
       txtExcessMaterials.forEach(name => {
         const found = scannedMaterials.find(m => m.name === name);
         if (found) {
@@ -700,29 +713,37 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
           }
           // 用处理后的数量判断是否超量
           if (rawCount >= exceedCount) {
-            log.info(`${CONSTANTS.LOG_MODULES.PATH}[比对] ${name} 原始:${originalCount} 处理后:${rawCount} ≥ ${exceedCount} → 保留在超量名单`);
+            keptMaterials.push(name);
           } else {
-            log.info(`${CONSTANTS.LOG_MODULES.PATH}[比对] ${name} 原始:${originalCount} 处理后:${rawCount} < ${exceedCount} → 从超量名单剔除`);
+            removedMaterials.push(name);
             updatedExcessMaterials.delete(name);
           }
         } else {
           // 没扫描到，保留在超量名单
-          log.info(`${CONSTANTS.LOG_MODULES.PATH}[比对] ${name} 未扫描到 → 保留在超量名单`);
+          keptMaterials.push(name);
         }
       });
       
       const finalExcessList = Array.from(updatedExcessMaterials);
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 更新后超量名单，共${finalExcessList.length}种：${finalExcessList.join('、')}`);
+      
+      // 输出汇总日志
+      if (keptMaterials.length > 0) {
+        log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 保留在超量名单：${keptMaterials.join('、')}`);
+      }
+      if (removedMaterials.length > 0) {
+        log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 从超量名单剔除：${removedMaterials.join('、')}`);
+      }
+      log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 更新后超量名单，共${finalExcessList.length}种`);
       
       // 保存更新后的超量名单（直接覆盖，不合并）
       const fullContent = finalExcessList.length > 0 ? `超量名单:${finalExcessList.join(',')}\n` : "";
       file.writeTextSync(CONSTANTS.EXCESS_MATERIALS_PATH, fullContent, false);
-      log.info(`${CONSTANTS.LOG_MODULES.RECORD}超量名单已保存至 ${CONSTANTS.EXCESS_MATERIALS_PATH}，共${finalExcessList.length}种`);
+      // log.info(`${CONSTANTS.LOG_MODULES.RECORD}超量名单已保存至 ${CONSTANTS.EXCESS_MATERIALS_PATH}，共${finalExcessList.length}种`);
       
       // 过滤只保留超量名单中的材料
       const filteredByExcess = scannedMaterials.filter(item => finalExcessList.includes(item.name));
       pathingMaterialCounts = [filteredByExcess];
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 过滤后保留超量材料：${filteredByExcess.map(m => m.name).join('、') || '无'}`);
+      if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 过滤后保留超量材料：${filteredByExcess.map(m => m.name).join('、') || '无'}`);
       
       return { allPaths: [], pathingMaterialCounts };
     }
@@ -737,9 +758,9 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
     if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[普通材料] 筛选后保留路径 ${processedNormalPaths.length} 条`);
   } else if (foodPaths.length > 0) {
     // 只有狗粮路径时，也需要初始化超量名单（OCR启动需要）
-    log.info(`${CONSTANTS.LOG_MODULES.PATH}[狗粮模式] 初始化超量名单`);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[狗粮模式] 初始化超量名单`);
     excessMaterialNames = ["OCR启动"];
-    log.info(`【超量材料更新】共${excessMaterialNames.length}种：${excessMaterialNames.join("、")}`);
+    if (debugLog) log.info(`【超量材料更新】共${excessMaterialNames.length}种：${excessMaterialNames.join("、")}`);
   }
 
   // 按TargetresourceName顺序处理路径（优先级1-3按目标顺序，同类型内也按目标顺序）
@@ -1015,7 +1036,7 @@ function loadExcessMaterialsList() {
     }
     
     const materials = match[1].split(',').map(name => name.trim()).filter(name => name);
-    log.info(`${CONSTANTS.LOG_MODULES.RECORD}读取超量名单成功，共${materials.length}种：${materials.join('、')}`);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.RECORD}读取超量名单成功，共${materials.length}种：${materials.join('、')}`);
     return materials;
   } catch (error) {
     log.error(`${CONSTANTS.LOG_MODULES.RECORD}读取超量名单失败：${error.message}`);
@@ -1145,7 +1166,7 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
 
   // 并行任务：路径处理
   const pathTask = (async () => {
-    log.info(`${CONSTANTS.LOG_MODULES.MAIN}开始路径处理流程`);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MAIN}开始路径处理流程`);
 
     // 加载CD分类
     const CDCategories = readMaterialCD();
@@ -1169,7 +1190,7 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
     });
   } else {
     if (pathingMode.onlyPathing) {
-      log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}onlyPathing模式：将自动扫描pathing材料的实际分类`);
+      if (debugLog) log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}onlyPathing模式：将自动扫描pathing材料的实际分类`);
     } else {
       log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}未选择【材料分类】，采用【路径材料】专注模式`);
     }
@@ -1338,7 +1359,7 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
   const imageTask = pathingMode.estimateMode ? null : imageClickBackgroundTask();
   
   const tasks = pathingMode.estimateMode ? [pathTask] : [ocrTask, pathTask, imageTask].filter(t => t !== null);
-  log.info(`${CONSTANTS.LOG_MODULES.MAIN}任务列表已创建，共${tasks.length}个任务`);
+  if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MAIN}任务列表已创建，共${tasks.length}个任务`);
   
   try {
     await Promise.allSettled(tasks);
