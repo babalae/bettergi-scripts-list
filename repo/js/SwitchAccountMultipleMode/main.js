@@ -62,7 +62,14 @@ const confirm_button = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/confirm_button.png")),
     name: "confirm_button.png"
 };
-
+const clear_login_info = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/clear_login_info.png")),
+    name: "clear_login_info.png"
+};
+const save_login_info = {
+    template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/save_login_info.png")),
+    name: "save_login_info.png"
+};
 // 人机验证识别图片
 const login_verification = {
     template: RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/verification.png")),
@@ -419,7 +426,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
                 captureRegion.dispose();
                 for (let i = 0; i < resList.count; i++) {
                     let res = resList[i];
-                    let user = lastLog > start ? u.matchUserRelaxed(res.text, targetUser) : u.matchUser(res.text, targetUser);
+                    let user = u.matchUserRelaxed(res.text, targetUser) || u.matchUser(res.text, targetUser);
                     if (user) {
                         selectedUser = res;
                         break;
@@ -462,19 +469,15 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         log.info("当前UID与设置UID相同，无需切换账号。");
         return
     }
-    if (settings.Modes == "下拉列表") {
+    if (settings.Modes == "下拉列表" && !settings.GlobalAccount) {
         await DropDownMode();
-    } else if (settings.Modes == "账号+密码+键鼠") {
-        await KeyboardMouseMode();
-    } else if (settings.Modes == "账号+密码+OCR") {
+    } else if (settings.Modes == "账号+密码+OCR" && !settings.GlobalAccount) {
         await OcrMode();
-    } else if (settings.Modes == "B服切换另一个账号纯键鼠") {
-        await BilibiliKeyboardMouseMode();
     } else if (settings.Modes == "B服切换另一个账号匹配+键鼠") {
         await BilibiliMatchAndKeyboardMouseMode();
-    } else if (settings.Modes == "国际服+账号+密码+OCR") {
+    } else if (settings.Modes == "账号+密码+OCR" && settings.GlobalAccount) {
         await GlobalOcrMode();
-    } else if (settings.Modes == "国际服+下拉列表") {
+    } else if (settings.Modes == "下拉列表" && settings.GlobalAccount) {
         await GlobalDropDownMode();
     } else {
         log.info("尖尖哇嘎乃")
@@ -511,11 +514,17 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         await matchImgAndClick(login_out_account, "登录页的右下角退出按钮");
         await page.WaitForOcrMatch("切换账号");
         await matchImgAndClick(confirm_switch_account, "确认切换账号");
-        await sleep(500);
+        // 检测是否弹出保存登陆记录弹框
+        if (await page.WaitForOcrMatch("退出并", new OpenCvSharp.OpenCvSharp.Rect(0, 0, 1920, 1080), 0.8, 1000)) {
+            await matchImgAndClick(save_login_info, "保留登陆记录");
+            await sleep(500);
+            await matchImgAndClick(confirm_switch_account, "确认切换账号");
+            await sleep(500);
+        }
         await stateChangeUser();
         await sleep(500);
         // 换服务器操作
-        if (settings.Servers) {
+        if (settings.Servers && (settings.Servers !== "不切换服务器" || settings.Servers == "")) {
             await page.WaitForOcrMatch("开始游戏");
             log.info("正在更换服务器")
             await matchImgAndClick(switch_server, "更换服务器");
@@ -549,85 +558,6 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         await genshin.returnMainUi();
         // 如果配置了通知
         notification.send("账号【" + settings.username + "】切换成功");
-    }
-
-    // 纯键鼠模式 对应：账号+密码+键鼠（根据分辨率确定鼠标位置）
-    async function KeyboardMouseMode() {
-        setGameMetrics(1920, 1080, 2.0);
-        //到达主页面
-        await genshin.returnMainUi();//使用新号（无派蒙）测试，请注释掉这一行
-        await sleep(1000);
-
-        //打开派蒙页面
-        keyPress("VK_ESCAPE");
-        await sleep(1000);
-
-        //退出门图标
-        click(50, 1030);
-        await sleep(1000);
-
-        //退出至登录页面
-        click(978, 540);
-        await sleep(15000);
-
-        //登录页面退出当前账号的小门图标
-        click(1828, 985);
-        await sleep(1000);
-
-        //点击退出当前账号
-        if (Account == "否") {
-            //长期账号->勾选：退出并保留登录记录
-            click(698, 568);
-        } else {
-            //临时账号->勾选：退出并清除登录记录
-            click(698, 476);
-        }
-        await sleep(1000);
-
-        //点击退出大按钮
-        click(1107, 684);
-        await sleep(1500);
-
-        //登录其他账号
-        click(946, 703);
-        await sleep(1000);
-
-        //点击用户名输入框
-        click(815, 400);
-        //如果有文本，清除
-        await keyPress("VK_DELETE");
-        // 输入文本
-        await inputText(settings.username);
-        await sleep(500);
-
-        //点击密码输入框
-        click(815, 480);
-        //如果有文本，清除
-        await keyPress("VK_DELETE");
-        // 输入文本
-        await inputText(settings.password);
-        await sleep(500);
-
-        //回车弹出协议确定框（如果有的话）
-        for (let i = 0; i < 3; i++) {
-            //三次回车，规避强制点击进入游戏（如果开启了自动开门功能，这一步是必须的，后续维护者须知0.54.0版本对开门的“进入游戏”识别是和配置组同时进行的。多次回车+短时间点击，可以规避掉鼠标乱点的问题。彩虹QQ人于2026年1月5日留。）
-            keyPress("VK_RETURN");
-            await sleep(500);
-            //用户协议弹窗，点击同意，等待8.5s，增加容错
-            click(1093, 593);
-            await sleep(500);
-        }
-        await sleep(8000);//这一步根据各自网络环境和主机配置可以适当增减
-
-        //进入世界循环点击，增加容错
-        for (let i = 5; i > 0; i--) {
-            click(960, 540);
-            await sleep(1200);//增加容错（例如进入人机验证时）
-        }
-        //确保进入主页面
-        await sleep(12000);
-        //点击领月卡
-        await genshin.blessingOfTheWelkinMoon();
     }
 
     // OCR模式 对应：账号+密码+OCR
@@ -710,63 +640,6 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         } finally {
             keyUp("VK_MENU");
         }
-    }
-
-    // B服切换纯键鼠模式 对应：B服切换另一个账号纯键鼠（根据分辨率确定鼠标位置）
-    async function BilibiliKeyboardMouseMode() {
-        setGameMetrics(1920, 1080, 2.0);
-        //到达主页面
-        await genshin.returnMainUi();//使用新号（无派蒙）测试，请注释掉这一行
-        await sleep(1000);
-
-        //打开派蒙页面
-        keyPress("VK_ESCAPE");
-        await sleep(1000);
-
-        //退出门图标
-        click(50, 1030);
-        await sleep(1000);
-
-        //退出至登录页面
-        click(978, 540);
-        await sleep(7000);
-
-        //登录其他账号
-        click(1135, 478);
-        await sleep(1000);
-
-        //点击用户名
-        click(963, 635);
-        await sleep(500);
-
-        //点击登录
-        click(963, 635);
-        await sleep(500);
-
-        //登录其他账号
-        click(1135, 478);
-        await sleep(1000);
-
-        //取消点击用户名（确保能登录）
-        click(963, 400);
-        await sleep(500);
-
-        //点击登录
-        click(963, 635);
-        await sleep(500);
-
-        //这一步根据各自网络环境和主机配置可以适当增减
-        await sleep(6000);
-
-        //进入世界循环点击，增加容错
-        for (let i = 5; i > 0; i--) {
-            click(960, 540);
-            await sleep(1200);//增加容错（例如进入人机验证时）
-        }
-        //确保进入主页面
-        await sleep(12000);
-        //点击领月卡
-        await genshin.blessingOfTheWelkinMoon();
     }
 
     // B服切换匹配+键鼠模式 对应：B服切换另一个账号匹配+键鼠
@@ -879,6 +752,13 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             await matchImgAndClick(login_out_account, "登录页的右下角退出按钮");
             await page.WaitForOcrMatch("切换账号");
             await matchImgAndClick(confirm_switch_account, "确认切换账号");
+            // 检测是否弹出保存登陆记录弹框
+            if (await page.WaitForOcrMatch("退出并", new OpenCvSharp.OpenCvSharp.Rect(0, 0, 1920, 1080), 0.8, 1000)) {
+                await matchImgAndClick(save_login_info, "保留登陆记录");
+                await sleep(500);
+                await matchImgAndClick(confirm_switch_account, "确认切换账号");
+                await sleep(500);
+            }
             await recognizeTextAndClick("登录其他账号", RecognitionObject.Ocr(300, 200, 1200, 800), 8000);
             await sleep(1000);
             await matchImgAndClick(input_email_username, "输入邮箱/用户名");
@@ -902,7 +782,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
                 }
             }
             // 换服务器操作
-            if (settings.Servers) {
+            if (settings.Servers && (settings.Servers !== "不切换服务器" || settings.Servers == "")) {
                 await page.WaitForOcrMatch("开始游戏");
                 log.info("正在更换服务器")
                 await matchImgAndClick(switch_server, "更换服务器");
