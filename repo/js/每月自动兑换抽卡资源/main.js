@@ -7,7 +7,8 @@ const config = {
         count: 0
     },
     user: {
-        uid: undefined
+        uid: undefined,
+        insufficient_exchange: false,//兑换不足
     },
     send_notification: false
 }
@@ -35,6 +36,9 @@ async function isTaskRefreshed(filePath, options = {}) {
         monthlyDay = 1,         // 每月刷新默认第1天
         monthlyHour = 4          // 每月刷新默认凌晨4点
     } = options;
+    if (config.user.insufficient_exchange){
+        throwError("兑换不足，请手动兑换", config.send_notification)
+    }
     config.tryRe.count++
     const retry = config.tryRe;
     const try_count_max = retry.max
@@ -270,6 +274,7 @@ async function exchangeGoods() {
 
     let validatedMaterialQuantity = positiveIntegerJudgment(materialQuantity);
     if (validatedMaterialQuantity < 750) {
+        config.user.insufficient_exchange=true
         throwError(`星尘数量为：${validatedMaterialQuantity}，数量不足，无法全部兑换`, config.send_notification)
         // notification.send(`星尘数量为：${validatedMaterialQuantity}，无法全部兑换`);
         // throw new Error(`星尘数量为：${validatedMaterialQuantity}，不能完全兑换`);
