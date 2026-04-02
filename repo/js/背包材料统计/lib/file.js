@@ -116,7 +116,7 @@ function safeReadTextSync(filePath, defaultValue = "") {
   try {
     // 第一步：校验文件是否存在
     if (!fileExists(filePath)) {
-      log.debug(`${CONSTANTS.LOG_MODULES.RECORD}文件不存在，跳过读取: ${filePath}`);
+      // log.debug(`${CONSTANTS.LOG_MODULES.RECORD}文件不存在，跳过读取: ${filePath}`);
       return defaultValue;
     }
     // 第二步：读取文件（捕获读取异常）
@@ -226,7 +226,7 @@ function matchImageAndGetCategory(resourceName, imagesDir) {
   const processedName = (MATERIAL_ALIAS[resourceName] || resourceName).toLowerCase();
   
   if (!imageMapCache.has(imagesDir)) {
-    log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}初始化图像分类缓存：${imagesDir}`);
+    // log.debug(`${CONSTANTS.LOG_MODULES.MATERIAL}初始化图像分类缓存：${imagesDir}`);
     imageMapCache.set(imagesDir, createImageCategoryMap(imagesDir));
   }
 

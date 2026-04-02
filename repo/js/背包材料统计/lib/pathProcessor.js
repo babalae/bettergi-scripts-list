@@ -366,7 +366,7 @@ async function processMonsterPathEntry(entry, context) {
     if (startTime) {
       const endTime = new Date().toLocaleString();
       runTime = (new Date(endTime) - new Date(startTime)) / 1000;
-      await handlePathError(error, pathingFilePath, pathName, monsterName, startTime, endTime, runTime, shouldRunAsNoRecord, false);
+      await handlePathError(error, pathingFilePath, pathName, monsterName, startTime, endTime, runTime, shouldRunAsNoRecord, state.cancelRequested);
     }
     throw error;
   }
@@ -589,7 +589,8 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
           noRecordDir,
           isFood,
           pathRecordCache,
-          pathingFilePath
+          pathingFilePath,
+          true
         );
         
         const isTimeCostOk = perTime === null || isTimeCostQualified(
@@ -655,17 +656,6 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
         }
       }
       
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}\n===== 测算模式分析结果 =====`);
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}时间成本：${timeCost}%`);
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}总路径数：${totalPaths}`);
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}未通过（CD未刷新）：${failedCD}条`);
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}未通过（0记录超限）：${failedFrequency}条`);
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}未达标（时间成本不合格）：${failedTimeCost}条`);
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}直通达标（记录不足）：${insufficientRecords}条`);
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}达标路径数：${totalQualifiedPaths}条（同时通过三个校验）`);
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}达标占比：${totalPaths > 0 ? ((totalQualifiedPaths / totalPaths) * 100).toFixed(1) : 0}%`);
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}预计耗时：${formatTime(totalEstimatedTime)}`);
-      
       log.info(`${CONSTANTS.LOG_MODULES.PATH}\n各材料平均时间成本及达标情况：`);
       for (const [resourceKey, data] of Object.entries(resourceAnalysis)) {
         const avgThresholdPerTime = data.thresholdPerTimeCount > 0 ? (data.thresholdPerTimeSum / data.thresholdPerTimeCount).toFixed(4) : '无记录';
@@ -675,7 +665,6 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
         const avgThresholdPercentile = thresholdPercentileTimes.length > 0 
           ? (thresholdPercentileTimes.reduce((sum, t) => sum + t, 0) / thresholdPercentileTimes.length).toFixed(4) 
           : '无达标';
-        const qualifiedRatio = data.thresholdPerTimeCount > 0 ? ((data.qualified / data.thresholdPerTimeCount) * 100).toFixed(1) : '0.0';
         const totalEstimatedTime = formatTime(data.estimatedTimeSum);
         const avgQualifiedPerTime = data.qualified > 0 ? (data.qualifiedPerTimeSum / data.qualified).toFixed(4) : '无达标';
         
@@ -687,15 +676,21 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
         } else if (isMonster) {
           unit = '秒/中位材料';
         }
+        const totalPassedPaths = data.qualified;
+        const totalPathsForMaterial = data.total;
+        const directPassPaths = totalPassedPaths;
+        const displayRatio = `${totalPassedPaths}/${totalPathsForMaterial}`;
         
         log.info(`${CONSTANTS.LOG_MODULES.PATH}  --------------------------------------`);
         log.info(`${CONSTANTS.LOG_MODULES.PATH}  ${resourceKey}:`);
         log.info(`${CONSTANTS.LOG_MODULES.PATH}    达标平均：${avgQualifiedPerTime}${unit}`);
         log.info(`${CONSTANTS.LOG_MODULES.PATH}    所有记录平均（排除0记录超限）：${avgThresholdPerTime}${unit}`);
         log.info(`${CONSTANTS.LOG_MODULES.PATH}    设置的${timeCost}%分位阈值：${avgThresholdPercentile}${unit}`);
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}    达标：${qualifiedRatio}% (${data.qualified}/${data.thresholdPerTimeCount})，总耗时：${totalEstimatedTime}`);
+        log.info(`${CONSTANTS.LOG_MODULES.PATH}    达标：${displayRatio}，总耗时：${totalEstimatedTime}`);
       }
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}=============================\n`);
+      
+      const qualifiedRatio = totalPaths > 0 ? ((totalQualifiedPaths / totalPaths) * 100).toFixed(1) : 0;
+      log.info(`${CONSTANTS.LOG_MODULES.PATH}===== 测算模式分析结果 =====\n时间成本:${timeCost}%，总路径:${totalPaths}\nCD冷却中:${failedCD}，0记录超限:${failedFrequency}，cost不达标:${failedTimeCost}\n达标:${totalQualifiedPaths}(${qualifiedRatio}%)，预计耗时:${formatTime(totalEstimatedTime)}\n`);
       
       if (notify) {
         const estimateMsg = `【测算模式】分析完成\n总路径数：${totalPaths}\n达标路径数：${totalQualifiedPaths}\n达标占比：${totalPaths > 0 ? ((totalQualifiedPaths / totalPaths) * 100).toFixed(1) : 0}%\n预计耗时：${formatTime(totalEstimatedTime)}`;
