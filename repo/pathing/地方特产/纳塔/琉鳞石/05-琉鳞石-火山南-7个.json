@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1774725733395,
+    "last_modified_time": 1774898302102,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "05-琉鳞石-火山南-7个",
@@ -83,7 +83,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "w(0.4),keydown(e),attack(1.8),keyup(e)",
+      "action_params": "w(0.7),keydown(e),attack(1.8),keyup(e)",
       "id": 8,
       "move_mode": "walk",
       "type": "orientation",
@@ -92,7 +92,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.3)",
+      "action_params": "attack(0.3),wait(1)",
       "id": 9,
       "move_mode": "walk",
       "type": "path",
