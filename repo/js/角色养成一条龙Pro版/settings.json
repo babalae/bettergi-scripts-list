@@ -1,0 +1,111 @@
+[
+  {
+    "name": "Character",
+    "type": "input-text",
+    "label": "【请输入培养的角色名称】不要输错角色的名称，否则会识别角色出错"
+  },
+   {
+      "name": "Element",
+        "type": "select",
+        "label": "【选择角色的元素类型】上面填入角色名称的元素类型，请不要填错元素类型，否则会找不到角色",
+        "options": [
+            "火元素",
+            "水元素",
+            "冰元素",
+            "风元素",
+            "雷元素",
+            "岩元素",
+            "草元素"
+        ]
+        
+    },
+  {
+      "name": "bossRequireCounts",
+        "type": "select",
+        "label": "【角色突破目标等级】你想升到多少级然后不再刷材料，选择80级也就是将角色升到90级",
+        "options": [
+            "80级",
+            "70级",
+            "60级",
+            "50级",
+            "40级",
+            "20级"
+            
+        ]
+        
+    },
+  {
+      "name": "weaponMaterialRequireCounts",
+        "type": "select",
+        "label": "【武器突破目标等级】你想升到多少级然后不再刷材料，选择80级也就是将武器升到90级",
+        "options": [
+            "80级",
+            "70级",
+            "60级",
+            "50级",
+            "40级",
+            "20级"
+            
+        ]
+        
+    },
+   {
+    "name": "talentBookRequireCounts",
+    "type": "input-text",
+    "label": "目标天赋等级【你想升到多少级然后不再刷材料】(x-y-z，x代表普攻等级，y代表战技等级，z代表大招等级，示列：1-10-10)"
+  },
+  {
+    "name": "teamName",
+    "type": "input-text",
+    "label": "挑战队伍名称，开启秘境和boss挑战前，先切换的队伍"
+  },
+  {
+    "name": "strategyName",
+    "type": "input-text",
+    "label": "战斗策略名称（默认为auto，可以选择不填。）"
+  },
+  {
+    "name": "teamName2",
+    "type": "input-text",
+    "label": "采集队伍名称，用于采集时可能需要用到草神，水元素角色，雷元素角色，风元素角色等。"
+  },
+  {
+    "name": "isNoGrassGod",
+    "type": "checkbox",
+    "label": "默认选择有草神，【勾选则跳过】有草神的线路",
+    "default": false
+  },
+  {
+    "name": "energyMax",
+    "type": "checkbox",
+    "label": "【勾选后】挑战Boss前先去恢复满能量",
+    "default": false
+  },
+
+  {
+    "name": "unfairContractTerms",
+    "type": "checkbox",
+    "label": "签署霸王条款开启使用，出了事跟作者无关",
+    "default": false
+  },
+  {
+    "name": "checkVersionEnabled",
+    "type": "checkbox",
+    "label": "启用版本检查（脚本启动时检查更新，如网络较慢可关闭）",
+    "default": true
+  },
+  {
+    "name": "adventurePath",
+    "type": "select",
+    "label": "前往指定地区的地脉之花",
+    "options": [
+      "蒙德",
+      "璃月",
+      "稻妻",
+      "枫丹",
+      "纳塔",
+      "挪德卡莱"
+    ],
+    "default": "蒙德"
+  }
+]
