@@ -1,5 +1,18 @@
-(async function () {
-    
+import {ocrUid} from "./utils/uid.js";
+import {toMainUi, throwError} from "./utils/tool.js";
+
+const config = {
+    tryRe: {
+        max: 3,
+        count: 0
+    },
+    user: {
+        uid: undefined,
+        insufficient_exchange: false,//兑换不足
+    },
+    send_notification: false
+}
+
 /**
  * 判断任务是否已刷新
  * @param {string} filePath - 存储最后完成时间的文件路径
@@ -23,26 +36,52 @@ async function isTaskRefreshed(filePath, options = {}) {
         monthlyDay = 1,         // 每月刷新默认第1天
         monthlyHour = 4          // 每月刷新默认凌晨4点
     } = options;
-
+    if (config.user.insufficient_exchange){
+        throwError("兑换不足，请手动兑换", config.send_notification)
+    }
+    config.tryRe.count++
+    const retry = config.tryRe;
+    const try_count_max = retry.max
+    const try_count = retry.count
+    if (try_count_max < try_count) {
+        throw new Error("已重试" + (try_count - 1) + "次数,超出最大重试" + try_count_max + "次数");
+    }
+    if (!config.user.uid) {
+        const resolvedUid = await ocrUid();
+        if (!Number.isInteger(resolvedUid) || resolvedUid <= 0) {
+              throw new Error(`UID 识别失败: ${resolvedUid}`);
+        }
+        config.user.uid = resolvedUid;
+    }
+    const uid = config.user.uid;
+    const current = {uid: uid, time: undefined}
+    // 读取文件内容
+    let contentList = [];
     try {
-        // 读取文件内容
-        let content = await file.readText(filePath);
-        const lastTime = new Date(content);
+        contentList = JSON.parse(file.readTextSync(filePath))
+    } catch (e) {
+        log.debug("warn:" + e.message)
+    }
+    const last = contentList.find(item => item.uid === uid)
+    const lastTimeNumber = last?.time
+    const lastTime = lastTimeNumber ? new Date(lastTimeNumber) : new Date(0);
+    try {
         const nowTime = new Date();
-        
+        current.time = nowTime.getTime();
+
         let shouldRefresh = false;
-        
+
 
         switch (refreshType) {
             case 'hourly': // 每小时刷新
                 shouldRefresh = (nowTime - lastTime) >= 3600 * 1000;
                 break;
-                
+
             case 'daily': // 每天固定时间刷新
                 // 检查是否已经过了当天的刷新时间
                 const todayRefresh = new Date(nowTime);
                 todayRefresh.setHours(dailyHour, 0, 0, 0);
-                
+
                 // 如果当前时间已经过了今天的刷新时间，检查上次完成时间是否在今天刷新之前
                 if (nowTime >= todayRefresh) {
                     shouldRefresh = lastTime < todayRefresh;
@@ -53,7 +92,7 @@ async function isTaskRefreshed(filePath, options = {}) {
                     shouldRefresh = lastTime < yesterdayRefresh;
                 }
                 break;
-                
+
             case 'weekly': // 每周固定时间刷新
                 // 获取本周的刷新时间
                 const thisWeekRefresh = new Date(nowTime);
@@ -61,7 +100,7 @@ async function isTaskRefreshed(filePath, options = {}) {
                 const dayDiff = (thisWeekRefresh.getDay() - weeklyDay + 7) % 7;
                 thisWeekRefresh.setDate(thisWeekRefresh.getDate() - dayDiff);
                 thisWeekRefresh.setHours(weeklyHour, 0, 0, 0);
-                
+
                 // 如果当前时间已经过了本周的刷新时间
                 if (nowTime >= thisWeekRefresh) {
                     shouldRefresh = lastTime < thisWeekRefresh;
@@ -72,14 +111,14 @@ async function isTaskRefreshed(filePath, options = {}) {
                     shouldRefresh = lastTime < lastWeekRefresh;
                 }
                 break;
-                
+
             case 'monthly': // 每月固定时间刷新
                 // 获取本月的刷新时间
                 const thisMonthRefresh = new Date(nowTime);
                 // 设置为本月指定日期的凌晨
                 thisMonthRefresh.setDate(monthlyDay);
                 thisMonthRefresh.setHours(monthlyHour, 0, 0, 0);
-                
+
                 // 如果当前时间已经过了本月的刷新时间
                 if (nowTime >= thisMonthRefresh) {
                     shouldRefresh = lastTime < thisMonthRefresh;
@@ -94,38 +133,59 @@ async function isTaskRefreshed(filePath, options = {}) {
             case 'custom': // 自定义小时数刷新
                 shouldRefresh = (nowTime - lastTime) >= customHours * 3600 * 1000;
                 break;
-                
+
             default:
                 throw new Error(`未知的刷新类型: ${refreshType}`);
         }
-        
-        // 如果文件内容无效或不存在，视为需要刷新
-        if (!content || isNaN(lastTime.getTime())) {
-            await file.writeText(filePath, nowTime.toISOString());
-            shouldRefresh = true;
+
+        // // 如果文件内容无效或不存在，视为需要刷新
+        // if (!contentList || isNaN(lastTime.getTime())) {
+        //     //todo:写入也要改 contentList.put(uid, nowTime.toISOString())
+        //     // await file.writeText(filePath, JSON.stringify(contentList));
+        //     shouldRefresh = true;
+        // }
+        try {
+            if (shouldRefresh) {
+                const message = `任务已刷新，执行每月兑换抽卡资源`;
+                log.info(message)
+                if (config.send_notification) {
+                    notification.send(message);
+                }
+                await exchangeGoods();
+
+                if (contentList.some(item => item.uid === current.uid)) {
+                    contentList.forEach(item => {
+                        if (item.uid === current.uid) {
+                            item.time = current.time;
+                        }
+                    })
+                } else {
+                    contentList.push(current);
+                }
+
+                // 更新最后完成时间
+                await file.writeText(filePath, JSON.stringify(contentList));
+                return true;
+            } else {
+                const message = `任务未刷新，跳过每月兑换抽卡资源`;
+                log.info(message)
+                if (config.send_notification) {
+                    notification.send(message);
+                }
+                return false;
+            }
+        } finally {
+            log.debug("contentList:", JSON.stringify(contentList))
         }
-        
-        if (shouldRefresh) {
-            notification.send(`任务已刷新，执行每月兑换抽卡资源`);
-            await exchangeGoods();
-            // 更新最后完成时间
-            await file.writeText(filePath, nowTime.toISOString());
-            return true;
-        } else {
-            notification.send(`任务未刷新，跳过每月兑换抽卡资源`);
-            return false;
-        }
-        
     } catch (error) {
-        // 如果文件不存在，创建新文件并返回true(视为需要刷新)
-        const createResult = await file.writeText(filePath, '');
+        log.error(`刷新任务失败: ${error}`);
+        const createResult = await file.writeText(filePath, JSON.stringify(contentList));
         if (createResult) {
-            log.info("创建新文件成功");
-         await isTaskRefreshed(filePath, options = {});
+            log.debug("创建新文件成功");
+            await isTaskRefreshed(filePath, options = {});
         }
     }
 }
-
 
 //检查是否为正整数
 function positiveIntegerJudgment(testNumber) {
@@ -135,76 +195,149 @@ function positiveIntegerJudgment(testNumber) {
         const cleaned = testNumber.replace(/[^\d]/g, '');
         testNumber = parseInt(cleaned, 10);
     }
-    
+
     // 检查是否为有效的数字
     if (typeof testNumber !== 'number' || isNaN(testNumber)) {
         throw new Error(`无效的值: ${testNumber} (必须为数字)`);
     }
-    
+
     // 检查是否为整数
     if (!Number.isInteger(testNumber)) {
         throw new Error(`必须为整数: ${testNumber}`);
     }
-    
+
     return testNumber;
 }
 
-
 async function exchangeGoods() {
-
-    await genshin.returnMainUi();await sleep(1000);
-    keyPress("ESCAPE"); await sleep(2000);//呼叫派蒙
-    click(198,416);await sleep(2000);//点击商城
-    click(127,434);await sleep(1000);//尘辉兑换
-    click(998,125);await sleep(1000);//星辰兑换
+    await toMainUi();
+    await sleep(1000);
+    keyPress("ESCAPE");
+    await sleep(2000);//呼叫派蒙
+    click(198, 416);
+    await sleep(2000);//点击商城
+    click(127, 434);
+    await sleep(1000);//尘辉兑换
+    click(998, 125);
+    await sleep(1000);//星辰兑换
+    let materialQuantity = "";
     //检查星辰的数量
     const region = RecognitionObject.ocr(1400, 31, 150, 50); // 星辰数量区域
     let capture = captureGameRegion();
-    let res = capture.find(region);
-    capture.dispose();
-    let materialQuantity = res.text;
-    let validatedMaterialQuantity = positiveIntegerJudgment(materialQuantity);
-    if(validatedMaterialQuantity < 750){
-        notification.send(`星尘数量为：${validatedMaterialQuantity}，无法全部兑换`);
-        throw new Error(`星尘数量为：${validatedMaterialQuantity}，不能完全兑换`);
+    try {
+        let res = capture.find(region);
+        materialQuantity = res.text;
+    } finally {
+        if (capture) {
+            capture.dispose();
+        }
     }
-    log.info(`星尘数量为：${validatedMaterialQuantity}，数量充足，可以全部兑换`);
+
     const pinkBallRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/pinkBall.png"));
     let ro1 = captureGameRegion();
-    let pinkBall = ro1.find(pinkBallRo);
-    ro1.dispose();
-        if (pinkBall.isExist()) {
-            pinkBall.click();await sleep(1000);
-            click(1290,604);await sleep(500);//增加
-            click(1290,604);await sleep(500);//增加
-            click(1290,604);await sleep(500);//增加
-            click(1290,604);await sleep(500);//增加
-            click(1164,782);await sleep(500);//确认兑换
-            click(960,754);await sleep(1000);//点击空白处继续
+    let pinkBallExist = false
+    let pinkBall
+    try {
+        let pinkBallFind = ro1.find(pinkBallRo);
+        pinkBallExist = pinkBallFind.isExist();
+        pinkBall = {
+            x: pinkBallFind.x,
+            y: pinkBallFind.y
+        }
+    } finally {
+        if (ro1) {
+            ro1.dispose();
+        }
     }
+
     const blueBallRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/blueBall.png"));
     let ro2 = captureGameRegion();
-    let blueBall = ro2.find(blueBallRo);
-    ro2.dispose();
-        if (blueBall.isExist()) {
-            blueBall.click();await sleep(1000);
-            click(1290,604);await sleep(500);//增加
-            click(1290,604);await sleep(500);//增加
-            click(1290,604);await sleep(500);//增加
-            click(1290,604);await sleep(500);//增加
-            click(1164,782);await sleep(500);//确认兑换
-            click(960,754);await sleep(1000);//点击空白处继续
+    let blueBallExist = false
+    let blueBall
+    try {
+        let blueBallFind = ro2.find(blueBallRo);
+        blueBallExist = blueBallFind.isExist();
+        blueBall = {
+            x: blueBallFind.x,
+            y: blueBallFind.y
+        }
+    } finally {
+        if (ro2) {
+            ro2.dispose();
+        }
     }
-    notification.send(`商城抽卡资源兑换完成`);
+
+    if (!pinkBallExist && !blueBallExist) {
+        log.info(`没有粉球和蓝球，跳过兑换`);
+        return
+    }
+
+    let validatedMaterialQuantity = positiveIntegerJudgment(materialQuantity);
+    if (validatedMaterialQuantity < 750) {
+        config.user.insufficient_exchange=true
+        throwError(`星尘数量为：${validatedMaterialQuantity}，数量不足，无法全部兑换`, config.send_notification)
+        // notification.send(`星尘数量为：${validatedMaterialQuantity}，无法全部兑换`);
+        // throw new Error(`星尘数量为：${validatedMaterialQuantity}，不能完全兑换`);
+    }
+    log.info(`星尘数量为：${validatedMaterialQuantity}，数量充足，可以全部兑换`);
+
+    if (pinkBallExist && pinkBall) {
+        // pinkBall.click();
+        click(pinkBall.x, pinkBall.y)
+        await sleep(1000);
+        click(1290, 604);
+        await sleep(500);//增加
+        click(1290, 604);
+        await sleep(500);//增加
+        click(1290, 604);
+        await sleep(500);//增加
+        click(1290, 604);
+        await sleep(500);//增加
+        click(1164, 782);
+        await sleep(500);//确认兑换
+        click(960, 754);
+        await sleep(1000);//点击空白处继续
+    }
+
+    if (blueBallExist && blueBall) {
+        // blueBall.click();
+        click(blueBall.x, blueBall.y)
+        await sleep(1000);
+        click(1290, 604);
+        await sleep(500);//增加
+        click(1290, 604);
+        await sleep(500);//增加
+        click(1290, 604);
+        await sleep(500);//增加
+        click(1290, 604);
+        await sleep(500);//增加
+        click(1164, 782);
+        await sleep(500);//确认兑换
+        click(960, 754);
+        await sleep(1000);//点击空白处继续
+    }
+    const message = `商城抽卡资源兑换完成`;
+    log.info(message)
+    if (config.send_notification) {
+        notification.send(message);
+    }
 }
 
+async function main() {
+    try {
+        config.tryRe.max = parseInt(settings.try_count_max + "") || config.tryRe.max
+        config.send_notification = settings.send_notification
+    } catch (e) {
+    }
+    try {
+        await isTaskRefreshed("assets/monthly.txt", {
+            refreshType: 'monthly',
+            monthlyDay: 1,    // 每月第1天（默认值，可省略）
+            monthlyHour: 4    // 凌晨4点（默认值，可省略）
+        });
+    } finally {
+        await toMainUi()
+    }
+}
 
-    
-await isTaskRefreshed("assets/monthly.txt", {
-    refreshType: 'monthly',
-    monthlyDay: 1,    // 每月第1天（默认值，可省略）
-    monthlyHour: 4    // 凌晨4点（默认值，可省略）
-});
-
-
-})();
+await main();
