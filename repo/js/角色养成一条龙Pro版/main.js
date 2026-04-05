@@ -1126,10 +1126,15 @@ async function runAutoLeyLineOutcropTask(expRuns, moraRuns, stamina) {
             for (let i = 0; i < expMaxRounds; i++) {
                 log.info(`开始执行启示之花，次数: ${expRuns}, 第${i + 1}轮`);
                 
-                const resinSupportedCount = Math.floor(stamina / 40) + (stamina % 40 >= 20 ? 1 : 0);
+                let currentStamina = stamina;
+                if (i > 0) {
+                    currentStamina = await Inventory.queryStaminaValue();
+                }
+                
+                const resinSupportedCount = Math.floor(currentStamina / 40) + (currentStamina % 40 >= 20 ? 1 : 0);
                 const actualCount = Math.min(expRuns, resinSupportedCount);
-                log.info(`当前树脂: ${stamina}, 树脂支持次数: ${resinSupportedCount}, 实际执行次数: ${actualCount}`);
-                notification.send(`当前树脂: ${stamina}, 树脂支持次数: ${resinSupportedCount}, 实际执行次数: ${actualCount}`);
+                log.info(`当前树脂: ${currentStamina}, 树脂支持次数: ${resinSupportedCount}, 实际执行次数: ${actualCount}`);
+                notification.send(`当前树脂: ${currentStamina}, 树脂支持次数: ${resinSupportedCount}, 实际执行次数: ${actualCount}`);
                 
                 let taskParam = new AutoLeyLineOutcropParam();
                 taskParam.Count = actualCount;
