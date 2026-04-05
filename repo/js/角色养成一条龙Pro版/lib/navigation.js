@@ -154,7 +154,7 @@ var Navigation = {
         moveMouseTo(50, 50);
         await sleep(400);
         
-        await OcrHelper.waitAndClickImage(imageName);
+        await OcrHelper.waitAndClickImage(imageName, 0, 0, true, 10000, 500, 0.8, {x: 715, y: 698, width: 474, height: 243});
         try {
             await OcrHelper.repeatOperationUntilTextFound({
                 x: 1640, y: 960, width: 200, height: 100,

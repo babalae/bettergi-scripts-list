@@ -87,9 +87,35 @@ const Main = async () => {
         
         // ========== 第一步：执行角色识别与材料计算流程 ==========
         log.info("📌 开始执行角色识别与材料计算流程...");
-       await Character.findCharacterAndGetLevel();
+        await Character.findCharacterAndGetLevel();
         
         // ============== 材料刷取逻辑开始 ==============
+        
+        // 识别UID（用于区分不同账号的任务记录）并保存到配置
+        const currentUid = await Collection.getCurrentAccountUid();
+        const maskedUid = Utils.maskUid(currentUid);
+        log.info(`📌 当前运行账号UID：${maskedUid}`);
+        
+        // 保存UID到配置文件（保持数组格式）
+        try {
+            const configContent = file.readTextSync(Constants.CONFIG_PATH);
+            let configArray = JSON.parse(configContent);
+            if (!Array.isArray(configArray)) {
+                configArray = [];
+            }
+            const uidIndex = configArray.findIndex(item => item.hasOwnProperty("currentUid"));
+            if (uidIndex !== -1) {
+                configArray[uidIndex] = { "currentUid": currentUid };
+            } else {
+                configArray.push({ "currentUid": currentUid });
+            }
+            file.writeTextSync(Constants.CONFIG_PATH, JSON.stringify(configArray, null, 2));
+            log.info(`✅ UID已保存到配置文件`);
+        } catch (e) {
+            log.warn(`保存UID到配置文件失败: ${e.message}`);
+        }
+        
+        setGameMetrics(1920, 1080, 1);
         
         // 天赋书刷取逻辑
         for (let i = 0; i < 1; i++) {
@@ -122,6 +148,7 @@ const Main = async () => {
                 continue;
             }
             const talentBookName = Utils.fuzzyMatch(talentBookNameFromConfig, talentBookCandidates);
+            const currentCharacterName = settings.Character ? settings.Character.trim() : "未知角色";
             if (talentBookName && talentBookName !== "无") {
                 try {
                     const talentBookConfigKey = `talentBookRequireCounts${i}`;
@@ -129,11 +156,12 @@ const Main = async () => {
                     let bookRequireCounts = Utils.parseAndValidateCounts(talentBookCountsStr, 3);
                     log.info(`天赋书${i + 1}方案解析成功: ${bookRequireCounts.join(', ')}`);
                     
-                    const isCompleted = await TaskManager.isTaskCompleted("talent", talentBookName, bookRequireCounts);
+                    const isCompleted = await TaskManager.isTaskCompleted("talent", talentBookName, bookRequireCounts, currentCharacterName, currentUid);
                     if (isCompleted) {
+                        log.info(`天赋书${talentBookName} 已刷取至目标数量，跳过执行`);
                         Utils.addNotification(`天赋书${talentBookName} 已刷取至目标数量，跳过执行`);
                     } else {
-                        await Farming.getTalentBook(talentBookName, bookRequireCounts);
+                        await Farming.getTalentBook(talentBookName, bookRequireCounts, currentCharacterName, currentUid);
                     }
                 } catch (error) {
                     notification.send(`天赋书${talentBookName}刷取失败，错误信息: ${error.message}`);
@@ -178,6 +206,7 @@ const Main = async () => {
                 continue;
             }
             const weaponName = Utils.fuzzyMatch(weaponDomainNameFromConfig, weaponDomainCandidates);
+            const currentCharacterName = settings.Character ? settings.Character.trim() : "未知角色";
             if (weaponName && weaponName !== "无") {
                 try {
                     const weaponConfigKey = `weaponMaterialRequireCounts${i}`;
@@ -185,11 +214,12 @@ const Main = async () => {
                     let weaponRequireCounts = Utils.parseAndValidateCounts(weaponCountsStr, 4);
                     log.info(`武器材料${i + 1}方案解析成功: ${weaponRequireCounts.join(', ')}`);
                     
-                    const isCompleted = await TaskManager.isTaskCompleted("wepon", weaponName, weaponRequireCounts);
+                    const isCompleted = await TaskManager.isTaskCompleted("wepon", weaponName, weaponRequireCounts, currentCharacterName, currentUid);
                     if (isCompleted) {
+                        log.info(`武器材料${weaponName} 已刷取至目标数量，跳过执行`);
                         Utils.addNotification(`武器材料${weaponName} 已刷取至目标数量，跳过执行`);
                     } else {
-                        await Farming.getWeaponMaterial(weaponName, weaponRequireCounts);
+                        await Farming.getWeaponMaterial(weaponName, weaponRequireCounts, currentCharacterName, currentUid);
                     }
                 } catch (error) {
                     notification.send(`武器材料${weaponName}刷取失败，错误信息: ${error.message}`);
@@ -253,16 +283,18 @@ const Main = async () => {
                 continue;
             }
             const bossName = Utils.fuzzyMatch(bossMaterialNameFromConfig, bossMaterialCandidates);
+            const currentCharacterName = settings.Character ? settings.Character.trim() : "未知角色";
             if (bossName && bossName !== "无") {
                 try {
                     const bossConfigKey = `bossRequireCounts${i}`;
                     const bossRequireCounts = getConfigValue(bossConfigKey);
                     
-                    const isCompleted = await TaskManager.isTaskCompleted("boss", bossName, bossRequireCounts);
+                    const isCompleted = await TaskManager.isTaskCompleted("boss", bossName, bossRequireCounts, currentCharacterName, currentUid);
                     if (isCompleted) {
+                        log.info(`首领材料${bossName} 已刷取至目标数量，跳过执行`);
                         Utils.addNotification(`首领材料${bossName} 已刷取至目标数量，跳过执行`);
                     } else {
-                        await Farming.getBossMaterial(bossName, bossRequireCounts);
+                        await Farming.getBossMaterial(bossName, bossRequireCounts, currentCharacterName, currentUid);
                     }
                 } catch (error) {
                     notification.send(`首领材料${bossName}刷取失败，错误信息: ${error.message}`);
@@ -313,16 +345,16 @@ async function runMaterialCollection() {
     await genshin.returnMainUi();
     setGameMetrics(1920, 1080, 1.25);
     
-    // 识别UID
-    const currentUid = await Collection.getCurrentAccountUid();
-    const maskedUid = Utils.maskUid(currentUid);
-    log.info(`📌 当前运行账号UID：${maskedUid}`);
-    
     // 读取配置
     const config = Utils.readJson(Constants.CONFIG_PATH);
     const cooldownRecord = Utils.readJson(Constants.SCRIPT_COOLDOWN_RECORD, {});
     const isNoGrassGod = settings.isNoGrassGod || false;
     log.info(`📌 草神路线配置：${isNoGrassGod ? "排除有草神路线" : "默认选择有草神路线"}`);
+    
+    // 从配置读取UID（已在材料刷取流程中识别并保存）
+    const currentUid = config["currentUid"] || Constants.DEFAULT_UID;
+    const maskedUid = Utils.maskUid(currentUid);
+    log.info(`📌 当前运行账号UID：${maskedUid}`);
     
     // 清理所有材料类型的过期冷却记录
     log.info("📌 正在清理过期冷却记录...");
@@ -761,7 +793,7 @@ async function performCharacterRecognition(materialType, recognitionType = "all"
 async function runLeyLineManagement() {
     try {
         log.info("===== 地脉花管理流程开始执行 =====");
-        
+        setGameMetrics(1920, 1080, 1)
         // 检查体力值
         const stamina = await Inventory.queryStaminaValue();
         const minStamina = 20;

@@ -159,15 +159,20 @@ var Collection = {
                 keyPress("VK_ESCAPE");
                 await sleep(2000);
                 log.info("🔍 OCR识别UID（区域：x168,y195,w120,h27）");
-                const uidRegion = RecognitionObject.ocr(168, 195, 120, 27);
-                let capture = captureGameRegion();
-                let ocrRes = capture.find(uidRegion);
-                let rawUidText = ocrRes.text ? ocrRes.text.trim() : "";
-                capture.dispose();
-                checkResult.accountUid = rawUidText.replace(/[^0-9]/g, '');
-                if (!checkResult.accountUid) {
-                    checkResult.accountUid = Constants.DEFAULT_UID;
+                const uidTextList = await Utils.ocrRecognizeWithRetry(168, 195, 120, 27, "UID识别");
+                let rawUidText = uidTextList && uidTextList.length > 0 ? uidTextList[0] : "";
+                const extractedUid = rawUidText.replace(/[^0-9]/g, '');
+                
+                // 验证UID：不能是默认值，且必须是9位数字
+                if (!extractedUid || extractedUid === Constants.DEFAULT_UID || extractedUid.length !== 9) {
+                    log.warn(`⚠️ UID识别结果无效：${extractedUid || "空"}（需要9位数字），将重试`);
+                    log.info("📌 按下ESC关闭派蒙菜单，准备重试");
+                    await genshin.returnMainUi();
+                    await sleep(2500);
+                    throw new Error(`UID识别结果无效：${extractedUid || "空"}（需要9位数字）`);
                 }
+                
+                checkResult.accountUid = extractedUid;
                 log.info(`✅ 当前账号UID：${Utils.maskUid(checkResult.accountUid)}`);
                 log.info("📌 按下ESC关闭派蒙菜单，返回主界面");
                 keyPress("VK_ESCAPE");

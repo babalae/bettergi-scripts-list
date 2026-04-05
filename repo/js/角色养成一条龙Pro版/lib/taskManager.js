@@ -16,11 +16,13 @@ var TaskManager = {
     },
     
     // 添加已完成任务
-    addCompletedTask: async function(materialType, materialName, requireCounts) {
+    addCompletedTask: async function(materialType, materialName, requireCounts, characterName, uid) {
         const tasks = this.loadCompletedTasks();
-        const taskKey = `${materialType}_${materialName}`;
+        const taskKey = `${uid}_${characterName}_${materialType}_${materialName}`;
         
         tasks[taskKey] = {
+            uid,
+            characterName,
             materialType,
             materialName,
             requireCounts,
@@ -28,12 +30,12 @@ var TaskManager = {
         };
         
         await this.saveCompletedTasks(tasks);
-        log.info(`已标记 ${materialName} 为完成`);
+        log.info(`已标记 ${uid} 的 ${characterName} 的 ${materialName} 为完成`);
     },
     
-    isTaskCompleted: async function(materialType, materialName, currentRequireCounts) {
+    isTaskCompleted: async function(materialType, materialName, currentRequireCounts, characterName, uid) {
         const tasks = this.loadCompletedTasks();
-        const taskKey = `${materialType}_${materialName}`;
+        const taskKey = `${uid}_${characterName}_${materialType}_${materialName}`;
         
         if (!tasks[taskKey]) {
             return false;

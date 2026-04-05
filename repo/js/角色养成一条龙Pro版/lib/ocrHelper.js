@@ -114,27 +114,50 @@ var OcrHelper = {
                 `${talentName}等级识别`
             );
             
-            const lvRegex = /Lv\.(\d+)/;
-            const pureNumRegex = /\d+/;
+            const lvRegexList = [
+                /Lv\.(\d+)/i,
+                /1v\.(\d+)/i,
+                /lv\.(\d+)/i,
+                /LV\.(\d+)/,
+                /1V\.(\d+)/,
+                /[l1][vV]\.(\d+)/
+            ];
             
             let level = null;
             
             if (allTexts && allTexts.length > 0) {
                 for (const text of allTexts) {
-                    const match = text.match(lvRegex);
-                    if (match) {
-                        level = parseInt(match[1], 10);
-                        log.info(`${talentName}匹配到等级：${level} 级  文本：${text}`);
-                        break;
+                    for (const regex of lvRegexList) {
+                        const match = text.match(regex);
+                        if (match) {
+                            level = parseInt(match[1], 10);
+                            log.info(`${talentName}匹配到等级：${level} 级  文本：${text}`);
+                            break;
+                        }
+                    }
+                    if (level) break;
+                }
+                
+                if (!level) {
+                    for (const text of allTexts) {
+                        const allNumbers = text.match(/\d+/g);
+                        if (allNumbers && allNumbers.length > 0) {
+                            const lastNum = parseInt(allNumbers[allNumbers.length - 1], 10);
+                            if (!isNaN(lastNum) && lastNum >= 1 && lastNum <= 15) {
+                                level = lastNum;
+                                log.info(`${talentName}从文本中提取末尾数字作为等级：${level}（文本：${text}）`);
+                                break;
+                            }
+                        }
                     }
                 }
                 
                 if (!level) {
                     for (const text of allTexts) {
-                        const numMatch = text.match(pureNumRegex);
+                        const numMatch = text.match(/\d+/);
                         if (numMatch) {
                             const num = parseInt(numMatch[0], 10);
-                            if (!isNaN(num)) {
+                            if (!isNaN(num) && num >= 1 && num <= 15) {
                                 level = num;
                                 log.info(`${talentName}从文本中提取数字作为等级：${level}（文本：${text}）`);
                                 break;
@@ -190,9 +213,8 @@ var OcrHelper = {
             return false;
         }
     },
-    
-    // 等待图片出现并点击
-    waitAndClickImage: async function(imageName, extraWidth, extraHeight, ifClick, timeout, checkInterval, threshold) {
+       // 等待图片出现并点击
+    waitAndClickImage: async function(imageName, extraWidth, extraHeight, ifClick, timeout, checkInterval, threshold, region) {
         extraWidth = extraWidth || 0;
         extraHeight = extraHeight || 0;
         ifClick = ifClick !== false;
@@ -204,7 +226,11 @@ var OcrHelper = {
         const imagePath = `assets/${imageName}.png`;
         
         const templateMat = file.ReadImageMatSync(imagePath);
-        const recognitionObj = RecognitionObject.TemplateMatch(templateMat, 0, 0, 1920, 1080);
+        const searchX = region ? region.x : 0;
+        const searchY = region ? region.y : 0;
+        const searchW = region ? region.width : 1920;
+        const searchH = region ? region.height : 1080;
+        const recognitionObj = RecognitionObject.TemplateMatch(templateMat, searchX, searchY, searchW, searchH);
         recognitionObj.threshold = threshold;
         
         while (Date.now() - startTime < timeout) {
@@ -213,7 +239,8 @@ var OcrHelper = {
             captureRegion.dispose();
             
             if (!result.isEmpty()) {
-                log.info(`找到图片 ${imageName}，位置(${result.x}, ${result.y})，正在点击...`);
+                const regionInfo = region ? `，查找区域X${region.x}，Y${region.y}，W${region.width}，H${region.height}` : '';
+                log.info(`找到图片 ${imageName}，位置(${result.x}, ${result.y})，正在点击...${regionInfo}`);
                 if (ifClick) click(result.x + extraWidth, result.y + extraHeight);
                 await sleep(300);
                 return true;
