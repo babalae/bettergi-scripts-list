@@ -109,11 +109,6 @@ async function compareVersion(version1, version2) {
             log.info("ABGI启动联机换号："+`${settings.inputText}`);
             await sleep(outTime);
             return;
-        // case "关闭原神":
-        //     await sleep(500);
-        //     log.info(`ABGI启动${settings.selectTask}`+"：");
-        //     await sleep(outTime);
-        //     return;
         case "更换联机房间":
             // result = await compareVersion(settings.versionABGI, "3.5.25");
             // if (result == -1) {
@@ -133,6 +128,16 @@ async function compareVersion(version1, version2) {
         case "红血检测":
             await sleep(500);            
             log.info(`ABGI启动关闭红血检测：`+`${settings.inputText}`);
+            await sleep(outTime);
+            return;
+        case "启动1Remote多用户":
+            await sleep(500);            
+            log.info(`ABGI启动1Remote多用户：`+`${settings.inputText}`);
+            await sleep(outTime);
+            return;
+        case "注销1Remote多用户":
+            await sleep(500);            
+            log.info(`ABGI注销1Remote多用户：`+`${settings.inputText}`);
             await sleep(outTime);
             return;
         default:
