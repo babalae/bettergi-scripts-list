@@ -26,8 +26,7 @@
       "type": "teleport",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 2,
@@ -36,8 +35,7 @@
       "type": "target",
       "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "j,wait(1.25),j,attack(0.2)",
-      "locked": false
+      "action_params": "j,wait(1.25),j,attack(0.2)"
     },
     {
       "id": 3,
@@ -64,7 +62,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": "wait(0.249)"
     },
     {
       "id": 6,
@@ -118,7 +116,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": "wait(0.249)"
     },
     {
       "id": 12,
@@ -136,17 +134,7 @@
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 14,
-      "x": -2530.68,
-      "y": -6474.93,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": ""
     },
     {
       "id": 15,

@@ -36,8 +36,7 @@
       "action": "combat_script",
       "move_mode": "fly",
       "action_params": "j,wait(7),j,attack(0.2)",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 3,
@@ -138,17 +137,7 @@
       "action": "mining",
       "move_mode": "walk",
       "action_params": "",
-      "type": "target",
-      "locked": false
-    },
-    {
-      "id": 13,
-      "x": -4251.57,
-      "y": -4664.13,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.5)",
-      "type": "path"
+      "type": "target"
     },
     {
       "id": 14,
@@ -157,17 +146,7 @@
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 15,
-      "x": -4253.0,
-      "y": -4656.65,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": ""
     },
     {
       "id": 16,
@@ -185,17 +164,7 @@
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 18,
-      "x": -4255.92,
-      "y": -4654.71,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": ""
     },
     {
       "id": 19,
@@ -213,7 +182,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": "wait(0.249)"
     },
     {
       "id": 21,
@@ -223,15 +192,6 @@
       "move_mode": "walk",
       "action": "mining",
       "action_params": ""
-    },
-    {
-      "id": 22,
-      "x": -4266.83,
-      "y": -4668.9,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
     },
     {
       "id": 23,

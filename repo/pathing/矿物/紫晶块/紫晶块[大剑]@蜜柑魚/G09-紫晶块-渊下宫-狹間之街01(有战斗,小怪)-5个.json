@@ -48,15 +48,6 @@
       "type": "target"
     },
     {
-      "id": 4,
-      "x": 609.57,
-      "y": 637.11,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.5)",
-      "type": "path"
-    },
-    {
       "id": 5,
       "x": 611.75,
       "y": 633.21,
@@ -75,15 +66,6 @@
       "type": "target"
     },
     {
-      "id": 7,
-      "x": 611.13,
-      "y": 632.37,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.5)",
-      "type": "path"
-    },
-    {
       "id": 8,
       "x": 604.63,
       "y": 677.6,
@@ -99,8 +81,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(1)",
-      "locked": false
+      "action_params": "wait(1)"
     },
     {
       "id": 10,
@@ -110,7 +91,6 @@
       "move_mode": "walk",
       "action": "fight",
       "action_params": "",
-      "locked": false,
       "point_ext_params": {
         "misidentification": {
           "type": [
@@ -151,15 +131,6 @@
       "type": "target"
     },
     {
-      "id": 14,
-      "x": 632.67,
-      "y": 673.04,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.5)",
-      "type": "path"
-    },
-    {
       "id": 15,
       "x": 636.36,
       "y": 673.32,
@@ -167,15 +138,6 @@
       "move_mode": "walk",
       "action_params": "",
       "type": "target"
-    },
-    {
-      "id": 16,
-      "x": 636.36,
-      "y": 673.32,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.5)",
-      "type": "path"
     },
     {
       "id": 17,

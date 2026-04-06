@@ -64,7 +64,6 @@
       "move_mode": "dash",
       "action": "fight",
       "action_params": "",
-      "locked": false,
       "point_ext_params": {
         "misidentification": {
           "type": [
@@ -93,17 +92,7 @@
       "type": "target",
       "move_mode": "dash",
       "action": "mining",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 8,
-      "x": -2746.19,
-      "y": -3555.42,
-      "type": "target",
-      "move_mode": "dash",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": ""
     },
     {
       "id": 9,
@@ -121,17 +110,7 @@
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
-      "action_params": "",
-      "locked": false
-    },
-    {
-      "id": 11,
-      "x": -2750.23,
-      "y": -3555.95,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": ""
     },
     {
       "id": 12,
@@ -140,8 +119,7 @@
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 13,
