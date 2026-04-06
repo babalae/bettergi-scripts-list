@@ -4,12 +4,13 @@ import {
   findImgAndClick,
   waitUntilTextAppear,
   waitUntilImgDisappear,
-  waitUntilImgAppear
+  waitUntilImgAppear, findImg
 } from "../../../packages/utils/tool";
 
 import fold_triangle from "assets/fold_triangle.png";
 import check_box from "assets/check_box.png";
 import exit_room from "assets/exit_room.png";
+import room_ready from "assets/room_ready.png";
 import paimon from "../../../packages/assets/imgs/paimon_menu.png";
 
 const duration = 1000; // 默认点击等待延时
@@ -295,6 +296,13 @@ async function createRoom() {
   }
   await findText("开始游戏", 960, 540, 960, 540);
   click(770, 275);
+  // 校验点击状态
+  let is_ready = await findImg(room_ready, 600, 170, 350, 230);
+  while (!is_ready.isExist()) {
+    await sleep(duration);
+    click(770, 275);
+    is_ready = await findImg(room_ready, 600, 170, 350, 230);
+  }
   await sleep(duration);
 }
 
