@@ -1,0 +1,148 @@
+{
+  "info": {
+    "name": "06-海露花-枫丹-厄里那斯2-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芭芭拉"
+    ],
+    "last_modified_time": 1755632673492,
+    "authors": [
+      {
+        "name": "寥寥轻舟"
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5113.44,
+      "y": 2998.23,
+      "action": "hydro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5061.6484,
+      "y": 3025.3162,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 5046.291,
+      "y": 3025.4312,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 5016.5332,
+      "y": 3020.564,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4988.3066,
+      "y": 3030.2976,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4966.2652,
+      "y": 3037.75,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4965.7554,
+      "y": 3061.75,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4987.5181,
+      "y": 3080.8506,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4987.52,
+      "y": 3080.85,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 wait(1),e;",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4978.72,
+      "y": 3089.28,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 4980.4541,
+      "y": 3091.3704,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 4990.53,
+      "y": 3094.31,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 4997.71,
+      "y": 3098.34,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 5003.63,
+      "y": 3108.21,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 charge(0.5),wait(1);",
+      "type": "path"
+    }
+  ]
+}

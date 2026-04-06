@@ -1,0 +1,73 @@
+{
+  "info": {
+    "name": "09-劫波莲-觉王之殿北边-5个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "lifrom",
+        "links": "https://github.com/pkjsjq"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3707.46,
+      "y": -484.41
+    },
+    {
+      "id": 2,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target",
+      "x": 3598.91,
+      "y": -435.43
+    },
+    {
+      "id": 3,
+      "x": 3598.91,
+      "y": -435.43,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 4,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3547.88,
+      "y": -441.43
+    },
+    {
+      "id": 5,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3554.44,
+      "y": -441.22
+    },
+    {
+      "id": 6,
+      "x": 3560.31,
+      "y": -434.73,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 3554.44,
+      "y": -441.22,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

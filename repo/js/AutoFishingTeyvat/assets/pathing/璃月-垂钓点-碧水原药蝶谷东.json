@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "璃月-垂钓点-碧水原药蝶谷东",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.2",
+    "description": "地区: 璃月\n类型: 垂钓点\n详细位置: 碧水原药蝶谷东\n鱼类: 花鳉、斗棘鱼、流纹褐蝶鱼\n饵类: 果酿饵、赤糜饵、蠕虫假饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1270.66,
+      "y": 1564.15,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1186.85,
+      "y": 1544.49,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1152.12,
+      "y": 1537.31,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1144.65,
+      "y": 1535.11,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

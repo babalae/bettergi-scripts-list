@@ -1,0 +1,143 @@
+{
+  "info": {
+    "name": "萃凝晶-烟迷主左侧",
+    "type": "collect",
+    "version": "1.0",
+    "description": "需要钟离，有纳西妲可以顺便采集周围的植物\n注意：钟离不可以作为生存位！\n-(25.6.14)成成：增加拾取点位",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "成成"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9989.57,
+      "y": -1607.82,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 10004.17,
+      "y": -1606.33,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 10012.87,
+      "y": -1604.34,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "100",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 10016.14,
+      "y": -1603.15,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 e(hold)",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 10020.69,
+      "y": -1606.19,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 10020.98,
+      "y": -1607.0,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 10013.09,
+      "y": -1607.41,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 10009.82,
+      "y": -1601.99,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 10017.95,
+      "y": -1598.96,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 10015.9,
+      "y": -1608.87,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 10013.6,
+      "y": -1597.57,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 10022.08,
+      "y": -1601.01,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 10020.78,
+      "y": -1605.9,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 10012.45,
+      "y": -1603.86,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "06-绯樱绣球-荒海(砂流)-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4407.88,
+      "y": -2397.98
+    },
+    {
+      "id": 2,
+      "x": -4405.28,
+      "y": -2393.24,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -4374.47,
+      "y": -2377.53,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "electro_collect"
+    },
+    {
+      "id": 4,
+      "x": -4369.14,
+      "y": -2372.85,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -4336.71,
+      "y": -2342.27,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "electro_collect"
+    }
+  ]
+}

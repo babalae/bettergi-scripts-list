@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "柒叶子"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "须弥购买狗粮",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766156030914,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "须弥购买狗粮",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2694.060546875,
+      "y": -416.48193359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2703.25,
+      "y": -412.1879647946662
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2711.25390625,
+      "y": -408.43115234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2750.25,
+      "y": -406.0810546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 2766.1728515625,
+      "y": -389.298828125
+    }
+  ]
+}

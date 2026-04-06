@@ -1,0 +1,19 @@
+﻿[
+    {
+        "name":  "autoRecognize",
+        "type":  "checkbox",
+        "label":  "自动识别",
+        "default":  true
+    },
+    {
+        "name":  "onlyName",
+        "type":  "checkbox",
+        "label":  "只显示角色名"
+    },
+    {
+        "name":  "skipKey",
+        "type":  "input-text",
+        "label":  "跳过等待立刻识别的按键",
+        "default":  "R"
+    }
+]

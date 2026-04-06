@@ -1,0 +1,125 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "芝麻糊"
+      },
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760555605353,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "G06-挪德卡莱食材-伦波岛-蛋卷工坊北",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 9885.5459,
+      "y": 1718.5952
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9898.7354,
+      "y": 1709.9614
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9912.5244,
+      "y": 1711.3916
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9972.21,
+      "y": 1724.6514
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9997.7119,
+      "y": 1740.7842
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10000.1758,
+      "y": 1757.1914
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10029.9863,
+      "y": 1735.4141
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10051.5674,
+      "y": 1723.8066
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10069.3457,
+      "y": 1710.9541
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10017.2959,
+      "y": 1701.1621
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10005.7324,
+      "y": 1706.3345
+    }
+  ]
+}

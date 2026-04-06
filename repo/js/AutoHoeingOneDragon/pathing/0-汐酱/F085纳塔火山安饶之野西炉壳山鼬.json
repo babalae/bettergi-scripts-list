@@ -1,0 +1,46 @@
+{
+  "info": {
+    "name": "F085纳塔火山安饶之野西炉壳山鼬",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时58.22秒，包含以下怪物：1只炉壳山鼬。",
+    "hash_res": "43983349",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10793.22,
+      "y": -3066.85
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10761.3,
+      "y": -2999.34
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10768.97,
+      "y": -2970.38
+    }
+  ]
+}

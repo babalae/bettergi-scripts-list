@@ -1,0 +1,104 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时113.19秒，包含以下怪物：2只流刃勇士·游击人、1只流刃勇士·锯脂者、1只流刃勇士·掷叉猎手、1只鳍游龙武士·裂礁之涛、1只幼鳍游龙、2只鳍游龙。",
+    "enable_monster_loot_split": false,
+    "hash_res": "09638149",
+    "last_modified_time": 1773927570547,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F059纳塔提提岛",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 15200.9189453125,
+      "y": 1629.703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 15168.541015625,
+      "y": 1669.54833984375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 15154.0166015625,
+      "y": 1680.98046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 15138.6220703125,
+      "y": 1691.60009765625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 15125.232421875,
+      "y": 1695.294921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 15125.232421875,
+      "y": 1695.294921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 15095.9208984375,
+      "y": 1733.4013671875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 15106.53515625,
+      "y": 1752.76318359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 15106.53515625,
+      "y": 1752.76318359375
+    }
+  ]
+}

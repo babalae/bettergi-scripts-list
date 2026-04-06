@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "A005蒙德雪山-2",
+    "tags": [
+      "环境伤害"
+    ],
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时70.12秒，包含以下怪物：1只丘丘霜铠王。",
+    "hash_res": "99604745",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -796.32,
+      "y": 1037.22
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -774.8,
+      "y": 1033.03
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -718.14,
+      "y": 1067.74
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -701.05,
+      "y": 1086.65
+    }
+  ]
+}

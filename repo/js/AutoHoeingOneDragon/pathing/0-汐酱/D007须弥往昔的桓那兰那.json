@@ -1,0 +1,56 @@
+{
+  "info": {
+    "name": "D007须弥往昔的桓那兰那",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时54.79秒，包含以下怪物：2只嗜雷·兽境幼兽、1只嗜岩·兽境猎犬、1只嗜雷·兽境猎犬。",
+    "hash_res": "96448481",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4046.04,
+      "y": -739.91
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3996.25,
+      "y": -709.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3977.12,
+      "y": -708
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3930.04,
+      "y": -699
+    }
+  ]
+}

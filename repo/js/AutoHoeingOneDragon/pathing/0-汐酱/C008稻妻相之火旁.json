@@ -1,0 +1,96 @@
+{
+  "info": {
+    "name": "C008稻妻相之火旁",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时93.1秒，包含以下怪物：1只丘丘雷兜王、1只盗宝团·火之药剂师、1只盗宝团·冰之药剂师、1只盗宝团·海上男儿、1只野伏·阵刀番、1只海乱鬼·炎威。",
+    "hash_res": "95307930",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "tags": [],
+    "last_modified_time": 1754745515364,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3234.04,
+      "y": -3155.55
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3242.13,
+      "y": -3137.25
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3258.5,
+      "y": -3130.37
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3244.06,
+      "y": -3106.24
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3243.63,
+      "y": -3101.16
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(x);玛薇卡 w(0.2),attack(0.3),e(hold),wait(0.05),keydown(w),wait(0.01),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.1),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.1),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(1.1),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.3);",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3270.13,
+      "y": -2990.28
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3270.13,
+      "y": -2990.28
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3303,
+      "y": -2946.52
+    }
+  ]
+}

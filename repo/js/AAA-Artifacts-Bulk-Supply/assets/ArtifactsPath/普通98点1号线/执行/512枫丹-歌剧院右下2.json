@@ -1,0 +1,66 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766672405611,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "512枫丹-歌剧院右下2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3595.5517578125,
+      "y": 3254.333251953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3618.656212474212,
+      "y": 3272.375075789818
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 3,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 3614.84375,
+      "y": 3277.156305332699
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),w(0.2),keypress(f),wait(0.1),keypress(f);迪希雅 attack(0.08),e;",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3586.4443359375,
+      "y": 3288.72314453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 3584.98828125,
+      "y": 3289.309326171875
+    }
+  ]
+}

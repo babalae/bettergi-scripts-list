@@ -1,0 +1,136 @@
+{
+  "info": {
+    "name": "D002须弥二净甸",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时148.2秒，包含以下怪物：1只旋转冰蕈兽、1只遗迹龙兽·地巡、2只遗迹龙兽·空巡、2只伸缩火蕈兽、0.5只伸缩岩蕈兽。",
+    "hash_res": "50839521",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3252.83,
+      "y": -591.32
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3250.81,
+      "y": -521.88
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3241.1,
+      "y": -526.36
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3067.79,
+      "y": -713.76
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3051.05,
+      "y": -642.73
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3034.78,
+      "y": -636.95
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3204.71,
+      "y": -911.67
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3202.94,
+      "y": -903.71
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3203.86,
+      "y": -890.14
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3198.98,
+      "y": -848.47
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3194.23,
+      "y": -820.77
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3195.82,
+      "y": -806.45
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3203.36,
+      "y": -808.95
+    }
+  ]
+}

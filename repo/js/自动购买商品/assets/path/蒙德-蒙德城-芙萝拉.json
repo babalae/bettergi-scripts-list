@@ -1,0 +1,85 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1771245132008,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蒙德-蒙德城-芙萝拉",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -875.962890625,
+      "y": 2275.97314453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -881.373046875,
+      "y": 2266.9462890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -905.27734375,
+      "y": 2242.64794921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -929.93359375,
+      "y": 2236.62841796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -931.033203125,
+      "y": 2244.7998046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -928.744140625,
+      "y": 2245.970703125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.6),wait(0.65)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -925.978515625,
+      "y": 2247.224609375
+    }
+  ]
+}
