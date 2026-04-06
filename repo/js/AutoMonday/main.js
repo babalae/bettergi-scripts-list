@@ -874,6 +874,11 @@
                 keyPress("F");//再次启动
                 await sleep(1000);
 
+                click(468, 180);//点击水晶块
+                await sleep(100);
+                click(450, 1020);//点击最大
+                await sleep(100);
+
                 click(1750, 1020);//点击启动
                 await sleep(1000);
                 click(1180, 750);//点击确认
