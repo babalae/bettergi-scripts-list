@@ -1,0 +1,287 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "径一"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759808235952,
+    "map_match_method": "TemplateMatch",
+    "map_name": "Teyvat",
+    "name": "22-香醉坡",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2217.3711,
+      "y": -564.0327
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2231.2363,
+      "y": -575.7827
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2233.2344,
+      "y": -603.8335
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2234.2578,
+      "y": -607.916
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2230.0195,
+      "y": -608.2754
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2230.0195,
+      "y": -608.2754
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2220.4414,
+      "y": -430.9233
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2231.1016,
+      "y": -416.7588
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2237.6973,
+      "y": -408.1182
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2254.9648,
+      "y": -413.9775
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2324.5508,
+      "y": -464.4897
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2335.502,
+      "y": -474.3359
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2325.042,
+      "y": -455.854
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2350.3242,
+      "y": -404.8794
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "id": 15,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2375.1562,
+      "y": -397.1494
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2375.1562,
+      "y": -397.1494
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2220.4414,
+      "y": -430.9233
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2164.3154,
+      "y": -352.9082
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "id": 19,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2167.043,
+      "y": -322.0801
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 20,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2167.043,
+      "y": -322.0801
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2145.0312,
+      "y": -272.0381
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2151.8105,
+      "y": -194.7612
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2181.6523,
+      "y": -156.2349
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2161.124,
+      "y": -115.5635
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2129.9346,
+      "y": -96.8281
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2121.6562,
+      "y": -125.5293
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2129.1992,
+      "y": -159.4185
+    },
+    {
+      "id": 28,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2093.75,
+      "y": -155.5
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2090.5,
+      "y": -120.25
+    }
+  ]
+}
