@@ -1,0 +1,26 @@
+{
+  "manifest_version": 1,
+  "name": "角色养成一条龙Pro版",
+  "version": "2.1.1",
+  "bgi_version": "0.58.0",
+  "description": "可自动识别角色、武器、天赋等级和背包材料，智能计算升级缺口刷取材料。自动刷取天赋、武器、BOSS 材料、地图追踪采集特产与魔物材料、经验书、摩拉，根据材料缺口智能刷取地脉花；还具备材料冷却管理、任务记录、多账号隔离和智能提醒等功能。总结，将角色升级需要的所有材料刷取配置合并到一起，仅用这个脚本就可以完成角色升级的所有材料的收集。详情见readme.md\n----------注意事项----------\n\n●仅支持BetterGI 0.58.0 及以上版本！\n运行前请确保已订阅以下地图追踪脚本：\n\n●地区特产的所有地图追踪路径脚本\n●敌人与魔物的所有地图追踪路径脚本",
+  "authors": [
+    {
+      "name": "云闲vsv",
+      "links": "https://github.com/dcvsd24"
+    },
+    {
+      "name": "柒叶子",
+      "links": "https://github.com/5117600049"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "saved_files": [
+    "data/run_data/completed_tasks.json"
+  ],
+  "main": "main.js",
+  "http_allowed_urls": [
+    "https://raw.githubusercontent.com/dcvsd24/Character-Cultivation-Pro-Test/*",
+    "https://github.com/dcvsd24/Character-Cultivation-Pro-Test/*"
+  ]
+}
