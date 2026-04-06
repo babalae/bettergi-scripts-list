@@ -6,7 +6,7 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.47.0",
+    "bgi_version": "0.52.0",
     "tags": [
       "双手剑"
     ],
@@ -26,8 +26,7 @@
       "type": "teleport",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 2,
@@ -36,8 +35,7 @@
       "type": "target",
       "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "j,wait(1.25),j,attack(0.2)",
-      "locked": false
+      "action_params": "j,wait(1.25),j,attack(0.2)"
     },
     {
       "id": 3,
@@ -64,7 +62,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": "wait(0.249)"
     },
     {
       "id": 6,
@@ -118,7 +116,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": "wait(0.249)"
     },
     {
       "id": 12,
@@ -136,20 +134,10 @@
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 14,
-      "x": -2530.68,
-      "y": -6474.93,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
-    },
-    {
-      "id": 15,
       "x": -2493.36,
       "y": -6459.86,
       "type": "path",
@@ -158,7 +146,7 @@
       "action_params": ""
     },
     {
-      "id": 16,
+      "id": 15,
       "x": -2484.24,
       "y": -6447.77,
       "type": "path",
@@ -167,7 +155,7 @@
       "action_params": ""
     },
     {
-      "id": 17,
+      "id": 16,
       "x": -2470.8,
       "y": -6440.49,
       "type": "path",
@@ -176,7 +164,7 @@
       "action_params": ""
     },
     {
-      "id": 18,
+      "id": 17,
       "x": -2454.55,
       "y": -6399.58,
       "type": "path",
@@ -185,7 +173,7 @@
       "action_params": ""
     },
     {
-      "id": 19,
+      "id": 18,
       "x": -2455.23,
       "y": -6390.34,
       "type": "path",
@@ -194,7 +182,7 @@
       "action_params": ""
     },
     {
-      "id": 20,
+      "id": 19,
       "x": -2457.89,
       "y": -6391.37,
       "type": "target",
@@ -203,7 +191,7 @@
       "action_params": ""
     },
     {
-      "id": 21,
+      "id": 20,
       "x": -2457.89,
       "y": -6391.37,
       "type": "path",
