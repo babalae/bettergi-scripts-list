@@ -89,6 +89,7 @@
     
     let pDomainName = "";
     let pSundaySelectedValue = "";
+    let pCombatStrategyFile = userConfig.CombatStrategyFile || "";
 
     // --- 数值读取与防呆验证 ---
     let pOriginalAmount = parseInt(userConfig.OriginalResinAmount) || 0;
@@ -193,6 +194,20 @@
     // =========================================================================
     // 3. 执行主流程
     // =========================================================================
+    
+    // 处理战斗策略路径
+    let pCombatStrategyPath = "";
+    if (pCombatStrategyFile) {
+        // 自动补充 .txt 后缀
+        if (!pCombatStrategyFile.toLowerCase().endsWith(".txt")) {
+            pCombatStrategyFile += ".txt";
+        }
+        pCombatStrategyPath = `User/AutoFight/${pCombatStrategyFile}`;
+        log.info(`【战斗策略】使用战斗策略：${pCombatStrategyFile}`);
+    } else {
+        log.info(`【战斗策略】使用默认策略`);
+    }
+    
     while (true) {
         try {
             let taskParam = new AutoDomainParam(pDomainRoundNum);
@@ -201,6 +216,7 @@
             taskParam.AutoArtifactSalvage = pAutoArtifactSalvage;
             taskParam.MaxArtifactStar = pMaxArtifactStar;
             taskParam.SundaySelectedValue = pSundaySelectedValue;
+            taskParam.CombatStrategyPath = pCombatStrategyPath;
             
             taskParam.SpecifyResinUse = !pRunUntilDepleted;
             
