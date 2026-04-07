@@ -2,16 +2,16 @@
   "info": {
     "name": "1102(1-16)蒙德望风角",
     "type": "collect",
+    "author": "mno",
     "version": "1.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时142.99秒，包含4601只精英与14只小怪，预计收入920767摩拉，包含以下怪物：1只火史莱姆、1只丘丘人、3只打手丘丘人、1只木盾丘丘人、2只射手丘丘人、3只火箭丘丘人、1只冰箭丘丘人、1只爆弹丘丘人、1只水丘丘萨满。",
     "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "mno",
         "links": "https://github.com/Bedrockx"
       }
-    ],
-    "enable_monster_loot_split": true
+    ]
   },
   "positions": [
     {
@@ -93,10 +93,7 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "point_ext_params": {
-        "monster_tag": "elite"
-      }
+      "type": "path"
     },
     {
       "id": 10,
@@ -127,7 +124,7 @@
     },
     {
       "id": 13,
-      "x": -1488.0,
+      "x": -1488,
       "y": 2756.44,
       "action": "",
       "move_mode": "dash",
@@ -185,7 +182,7 @@
       "y": 2747.55,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

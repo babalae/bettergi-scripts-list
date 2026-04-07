@@ -1,0 +1,68 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时67.92秒，包含以下怪物：2只炽热骗骗花、2只雷萤。",
+    "enable_monster_loot_split": false,
+    "hash_res": "95969953",
+    "last_modified_time": 1774283885346,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B033璃月琼玑野渌华池",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 837.5100000000002,
+      "y": 235.14000000000033
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 849.005859375,
+      "y": 230.92578125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 870.9794921875,
+      "y": 200.64892578125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 861.2197265625,
+      "y": 173.2890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 861.2197265625,
+      "y": 173.2890625
+    }
+  ]
+}

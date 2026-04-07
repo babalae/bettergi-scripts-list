@@ -127,9 +127,18 @@ var Execute = {
           await sleep(300);
           keyUp("VK_ESCAPE");
           await sleep(1200);
-          await genshin.setBigMapZoomLevel(2);
-          // 获取地图坐标并保存
-          var bigMapPosition = genshin.getPositionFromBigMap();
+          let scale = 2.0
+          let bigMapPosition
+          while (scale <= 5.0) {
+            try {
+              await genshin.setBigMapZoomLevel(scale);
+              bigMapPosition = genshin.getPositionFromBigMap();
+              break;
+            } catch {
+              scale += 0.1;
+            }
+            await sleep(100);
+          }
           if (bigMapPosition) {
             currentCommissionPosition = bigMapPosition;
             log.info(
@@ -267,6 +276,8 @@ var Execute = {
         var captureRegion = captureGameRegion();
         var rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
         var rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
+        captureRegion.dispose();
+        rewardTextArea.dispose();
         log.debug("检测到文字: " + rewardResult.text);
         // 检测到特点文字则结束！！！
         if (rewardResult.text == textArray) {
@@ -282,6 +293,7 @@ var Execute = {
         for (var i = 0; i < 100; i++) {
           captureRegion = captureGameRegion();
           var iconRes = captureRegion.Find(boxIconRo);
+          captureRegion.dispose();
           log.info("检测到委托图标位置 ({x}, {y})", iconRes.x, iconRes.y);
           if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
             advanceNum++;
@@ -432,8 +444,6 @@ var Execute = {
       // 按F键并执行优化的自动剧情
       log.info("执行自动剧情");
       await DialogProcessor.executeOptimizedAutoTalk(
-        null,
-        5,
         context.priorityOptions,
         context.npcWhiteList,
         context.isInMainUI
@@ -472,8 +482,6 @@ var Execute = {
 
     // 执行对话，使用当前步骤的优先选项和NPC白名单
     await DialogProcessor.executeOptimizedAutoTalk(
-      null,
-      skipCount,
       priorityOptions,
       npcWhiteList,
       isInMainUI

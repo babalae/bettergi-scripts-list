@@ -2,8 +2,9 @@
   "info": {
     "name": "6203--纳塔_奥奇_中层悬崖_11-2)",
     "type": "collect",
+    "author": "Demo&汐&mno",
     "version": "1.6",
-    "description": "",
+    "description": "  路线信息：该路线预计用时283.76秒，包含1只精英与12只小怪，预计收入1091摩拉，包含以下怪物：2只射手丘丘人、1只火斧丘丘暴徒、10只绒翼龙。",
     "bgi_version": "0.42.0",
     "authors": [
       {
@@ -17,8 +18,7 @@
         "name": "mno",
         "links": "https://github.com/Bedrockx"
       }
-    ],
-    "enable_monster_loot_split": true
+    ]
   },
   "positions": [
     {
@@ -55,10 +55,7 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "point_ext_params": {
-        "monster_tag": "elite"
-      }
+      "type": "path"
     },
     {
       "id": 5,
@@ -199,7 +196,7 @@
       "y": -241.13,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "path"
     },
     {
@@ -210,10 +207,7 @@
       "move_mode": "dash",
       "action_params": "",
       "type": "path",
-      "locked": false,
-      "point_ext_params": {
-        "monster_tag": "elite"
-      }
+      "locked": false
     },
     {
       "id": 22,
@@ -221,7 +215,7 @@
       "y": -253.29,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

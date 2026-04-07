@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "4个香辛果；1个须弥蔷薇；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762357108530,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D07-1-须弥食材-护世森-卡萨扎莱宫东【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2483.1211,
+      "y": 6.4038
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2477.9062,
+      "y": -28.2378
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2465.3887,
+      "y": 1.5015
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2435.0918,
+      "y": 31.2754
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2424.2295,
+      "y": 31.1221
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2420.7656,
+      "y": 33.8774
+    }
+  ]
+}

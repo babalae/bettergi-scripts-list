@@ -7,10 +7,10 @@
         "links": "https://github.com/jbcaaa"
       }
     ],
-    "bgi_version": "0.45.0",
+    "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1756653078929,
+    "last_modified_time": 1762229414465,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "02-须弥-帕蒂沙兰-须弥城右下-5个",
@@ -22,6 +22,7 @@
     {
       "action": "",
       "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 2651.43,
@@ -31,6 +32,7 @@
       "action": "combat_script",
       "action_params": "wait(0.4)",
       "id": 2,
+      "locked": false,
       "move_mode": "walk",
       "type": "target",
       "x": 2653.37,
@@ -39,6 +41,7 @@
     {
       "action": "",
       "id": 3,
+      "locked": false,
       "move_mode": "jump",
       "type": "path",
       "x": 2662.25,
@@ -47,6 +50,7 @@
     {
       "action": "",
       "id": 4,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 2698.04,
@@ -55,6 +59,7 @@
     {
       "action": "",
       "id": 5,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 2708.54,
@@ -64,15 +69,17 @@
       "action": "combat_script",
       "action_params": "wait(0.4)",
       "id": 6,
+      "locked": false,
       "move_mode": "walk",
       "type": "target",
-      "x": 2717.32,
-      "y": -523.21
+      "x": 2719.084,
+      "y": -522.9692
     },
     {
       "action": "combat_script",
       "action_params": "w(4)",
       "id": 7,
+      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
       "x": 2731.2471,
@@ -82,6 +89,7 @@
       "action": "stop_flying",
       "action_params": "",
       "id": 8,
+      "locked": false,
       "move_mode": "fly",
       "type": "target",
       "x": 2787.25,
@@ -91,6 +99,7 @@
       "action": "combat_script",
       "action_params": "wait(0.4)",
       "id": 9,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 2787.25,

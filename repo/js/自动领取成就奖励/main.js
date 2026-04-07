@@ -20,6 +20,7 @@ async function detectTextInRegion(x, y, width, height, targetText) {
         
         // 在指定区域内进行OCR识别
         let resList = captureRegion.findMulti(ocrRo);
+        captureRegion.dispose();
         
         // 如果没有识别到任何结果，返回false
         if (resList.count === 0) {
@@ -30,7 +31,7 @@ async function detectTextInRegion(x, y, width, height, targetText) {
         // 获取第一个识别结果
         let firstResult = resList[0];
         let detectedText = firstResult.text;
-        
+
         // 如果没有传入目标文字，则只要检测到非空内容就算成功
         if (targetText === undefined) {
             return detectedText.trim() !== "" ? detectedText : false;
@@ -108,6 +109,7 @@ const waitAndClickImage = async (
         const captureRegion = captureGameRegion();
         // 查找图片
         const result = captureRegion.Find(recognitionObj);
+        captureRegion.dispose();
         
         if (!result.isEmpty()) {
             log.info(`找到图片 ${imageName}，位置(${result.x}, ${result.y})，正在点击...`);

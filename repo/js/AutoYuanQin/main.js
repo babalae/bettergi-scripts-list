@@ -11,15 +11,78 @@
     /**
      * -------- 工具函数 --------
      */
+    // /**
+    //  *
+    //  * @returns {Array} 本地曲谱文件列表
+    //  */
+    // const musicList = () => {
+    //     const scoreFiles = Array.from(file.readPathSync(base_path)).filter(path => !file.isFolder(path) && path.endsWith(".json"));
+    //     const localMusicList = scoreFiles.map(path => path.match(regex_name)[0]);
+    //     return localMusicList;
+    // }
+
     /**
-     * 
-     * @returns {Array} 本地曲谱文件列表
+     * 读取本地曲谱文件夹下的所有 .json 文件，并返回文件名列表。
+     * 同时自动修正不合规的文件名：格式为 000X.任意字符.json（X 为四位数字，不足补零）。
+     * 重命名规则：对于不合规文件，分配当前未使用的最小四位数字作为前缀，保留原文件名主体。
+     * @returns {Array} 本地曲谱文件列表（合规文件名）
      */
     const musicList = () => {
-        const scoreFiles = Array.from(file.readPathSync(base_path)).filter(path => !file.isFolder(path) && path.endsWith(".json"));
-        const localMusicList = scoreFiles.map(path => path.match(regex_name)[0]);
-        return localMusicList;
-    }
+        const usedNumbers = new Set();
+        const finalList = [];
+
+        // readPathSync(base_path) 返回完整相对路径
+        const entries = Array.from(file.readPathSync(base_path));
+        const jsonEntries = entries.filter(entry => !file.isFolder(entry) && entry.endsWith('.json'));
+
+        // 统计已有编号
+        jsonEntries.forEach(entry => {
+            const fileName = entry.split(/[/\\]/).pop();
+            if (/^\d{4}\..*\.json$/.test(fileName)) {
+                usedNumbers.add(parseInt(fileName.substring(0, 4), 10));
+            }
+        });
+
+        // 处理每个文件
+        jsonEntries.forEach(entry => {
+            const fileName = entry.split(/[/\\]/).pop();
+            const dirPath = entry.slice(0, entry.length - fileName.length);
+
+            if (/^\d{4}\..*\.json$/.test(fileName)) {
+                // 合规：返回不带 .json 的文件名
+                finalList.push(fileName.replace(/\.json$/, ''));
+            } else {
+                // 不合规：自动补零
+                const baseName = fileName.replace(/\.json$/, '');
+
+                let newNum = 1;
+                while (usedNumbers.has(newNum)) newNum++;
+
+                const newPrefix = newNum.toString().padStart(4, '0');
+                const newFileName = `${newPrefix}.${baseName}.json`;
+
+                const oldPath = entry;
+                const newPath = dirPath + newFileName;
+                log.debug(`${oldPath} -> ${newPath}`);
+
+                file.renamePathSync(oldPath, newPath);
+
+                finalList.push(`${newPrefix}.${baseName}`);
+                usedNumbers.add(newNum);
+            }
+        });
+
+        // 排序
+        finalList.sort((a, b) => {
+            const na = parseInt(a.substring(0, 4), 10);
+            const nb = parseInt(b.substring(0, 4), 10);
+            return na - nb;
+        });
+
+        return finalList; // 返回不带 .json 的文件名
+    };
+
+
     /**
      *
      * 根据乐曲文件名生成乐曲文件路径
@@ -614,14 +677,17 @@
 
         }
         // 如果是midi转换的乐谱
-        if (Object.keys(sheet_list[0]).length === 3) {
-            for (let i = 0; i < sheet_list.length; i++) {
-                log.info(`时长：${sheet_list[i]["time"]}`)
-                await sleep(Math.round(sheet_list[i]["time"]));
-                if (sheet_list[i]["type"] === "on") {
-                    keyDown(sheet_list[i]["note"]);
+        if (typeof(sheet_list) === "string") {
+			let play_sheet = sheet_list.split("|");
+            for (let i = 0; i < play_sheet.length; i++) {
+				let current_note = play_sheet[i].split("_");
+                log.info(`${play_sheet[i]}`);
+                await sleep(Math.round(current_note[2]));
+				if (current_note[1] === "@") continue;
+                if (current_note[0] === "D") {
+					keyDown(current_note[1]);
                 } else {
-                    keyUp(sheet_list[i]["note"]);
+                    keyUp(current_note[1]);
                 }
             }
         } else {
@@ -663,47 +729,55 @@
                     if (i !== sheet_list.length - 1) {
                         await sleep(ornament_time);
                     }
-                } else if (/\.3|\.6|\.\$/.test(sheet_list[i]["spl"])) { // 三连音/六连音（可能包含休止符）
+                } else if (/\.([36$])/.test(sheet_list[i]["spl"])) { // 三连音/六连音（可能包含休止符）
                     temp_legato.push({
                         "note": sheet_list[i]["note"],
                         "chord": sheet_list[i]["chord"],
-                        "type": sheet_list[i]["type"]
+                        "type": sheet_list[i]["type"],
+                        "spl": sheet_list[i]["spl"]
                     });
 
                     // 演奏连音
-                    if ("$".includes(sheet_list[i]["spl"])) {
+                    if (sheet_list[i]["spl"].includes("$")) {
                         // 连音的总时长
                         let time_legato = Math.round(symbol_time * (symbol / sheet_list[i]["type"]));
                         // 当前音符类型
-                        let current_type = parseInt(sheet_list[i]["spl"].split(".")[0])
+                        let current_type = parseInt(sheet_list[i]["spl"].split(/\./)[0])
                         // 连音的音符数值总和（用于计算当前音符时长）
-                        let time_all = temp_legato.reduce((sum, each) => sum + 1 / parseInt(each["spl"].split(".")[0]), 0);
-                        // 当前音符时长
-                        let time_current = Math.round(time_legato * (1 / current_type) / time_all);
+                        let time_all = 0;
+                        for (let j = 0; j < temp_legato.length; j++) {
+                            time_all += 1 / parseInt(temp_legato[j]["spl"].split(/\./)[0], 0);
+                        }
                         // 计数
-                        let count = undefined;
+                        let count = 0;
 
-                        for (const note_legato of temp_legato) {
-                            if (sheet_list[i]["chord"]) {
-                                await play_chord(sheet_list[i]["note"]); // 和弦
+                        for (let j = 0; j < temp_legato.length; j++) {
+                            // 当前音符时长
+                            let time_current = Math.round(time_legato * (1 / parseInt(temp_legato[j]["spl"].split(/\./)[0], 0)) / time_all);
+
+                            if (temp_legato[j]["chord"]) {
+                                await play_chord(temp_legato[j]["note"]); // 和弦
                             } else {
-                                if (sheet_list[i]["note"] === '@') { // 休止符
+                                if (temp_legato[j]["note"] === '@') { // 休止符
                                     // pass
                                 } else {
-                                    await play_note(sheet_list[i]["note"]); // 单音
+                                    await play_note(temp_legato[j]["note"]); // 单音
                                 }
                             }
-
-                            if (count === temp_legato.length - 1 && i !== sheet_list.length - 1) {
-                                // 计算连音的最后一个音的时值（计算装饰音）
-                                await sleep(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i, time_current));
-                                // 重置连音缓存区
-                                temp_legato = [];
+                            if (count < temp_legato.length) {
+                                await sleep(time_current);
+                            } else if (count === temp_legato.length - 1) {
+                                if (i !== sheet_list.length - 1) {
+                                    // 计算连音的最后一个音的时值（计算装饰音）
+                                    await sleep(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i, time_current));
+                                }
                             } else if (i !== sheet_list.length - 1) {
                                 await sleep(time_current);
                             }
                             count += 1;
                         }
+                        // 重置连音缓存区
+                        temp_legato = [];
                     }
                 } else if (sheet_list[i]["spl"] === '*') { // 附点音符
                     if (sheet_list[i]["chord"]) {
@@ -740,7 +814,7 @@
     }
 
     /**
-     * 检查本地曲谱文件与主程序配置是否一致，并自动修正配置文件。
+     * 检查本地曲谱文件与主程序配置是否一致，并自动修正配置settings文件。
      *
      * @returns {boolean} 如果一致返回 true，否则返回 false。
      */
@@ -808,7 +882,7 @@
 
         const alwaysRepeat = ((settings_msg.playType === PlayType.SingleMusicRepeat || settings_msg.playType === PlayType.QueueMusicRepeat) && (settings_msg.repeatTimes === 0));
         await waitTargetTime(settings_msg.startTime);
-        try {
+        // try {
             do {
                 for (const music_info of music_infos) {
                     log.info(`开始演奏: ${music_info.name} - ${music_info.author}`);
@@ -837,15 +911,16 @@
                 }
                 if (settings_msg.repeatInterval > 0) await sleep(settings_msg.repeatInterval * 1000);
             } while (alwaysRepeat || --settings_msg.repeatTimes > 0);
-        } catch (error) {
-            if (DEBUG) {
-                log.error(`脚本执行错误 ${error} erron.txt 已打印`)
-                file.writeTextSync("erron.txt", `${error.stack}`);
-            }
-            else {
-                log.error(`脚本执行错误 ${error}`)
-            }
-        }
+        // } catch (error) {
+        //     if (DEBUG) {
+        //         log.error(`脚本执行错误 ${error} erron.txt 已打印`)
+        //         file.writeTextSync("erron.txt", `${error.stack}`);
+        //     }
+        //     else {
+        //         log.error(`脚本执行错误 ${error}`)
+        //     }
+        // }
     }
     await main();
+
 })();

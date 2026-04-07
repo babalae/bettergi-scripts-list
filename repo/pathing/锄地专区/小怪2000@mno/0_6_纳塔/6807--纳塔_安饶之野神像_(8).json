@@ -1,10 +1,10 @@
 {
   "info": {
     "name": "6807--纳塔_安饶之野神像_(8)",
-    "enable_monster_loot_split": true,
     "type": "collect",
+    "author": "汐&mno",
     "version": "1.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时128.52秒，包含8只小怪，预计收入486摩拉，包含以下怪物：1只幼鳍游龙、1只鳍游龙、3只幼突角龙、3只突角龙。",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "authors": [
@@ -53,7 +53,7 @@
       "y": -2607.93,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     },
     {
@@ -108,7 +108,7 @@
       "y": -2442.36,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

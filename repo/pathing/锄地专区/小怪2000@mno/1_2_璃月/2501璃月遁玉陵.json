@@ -1,10 +1,10 @@
 {
   "info": {
     "name": "2501璃月遁玉陵",
-    "enable_monster_loot_split": true,
     "type": "collect",
+    "author": "mno",
     "version": "1.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时213.87秒，包含14只小怪，预计收入972摩拉，包含以下怪物：3只火史莱姆、1只草史莱姆、1只愚人众先遣队·火统游击兵、1只愚人众先遣队·雷锤前锋军、1只盗宝团·神射手、1只盗宝团·掘墓者、1只盗宝团·粉碎者、2只水萤、3只雷萤。",
     "bgi_version": "0.42.0",
     "authors": [
       {
@@ -227,7 +227,7 @@
       "y": -227.34,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

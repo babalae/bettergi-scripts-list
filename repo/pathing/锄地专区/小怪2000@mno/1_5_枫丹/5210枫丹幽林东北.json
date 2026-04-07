@@ -1,8 +1,8 @@
 {
   "info": {
     "name": "5210枫丹幽林东北",
-    "enable_monster_loot_split": true,
     "type": "collect",
+    "author": "mno",
     "version": "1.0",
     "description": "",
     "bgi_version": "0.42.0",
@@ -92,7 +92,7 @@
       "y": 3423.13,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

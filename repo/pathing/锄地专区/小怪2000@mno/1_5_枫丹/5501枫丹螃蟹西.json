@@ -1,8 +1,8 @@
 {
   "info": {
     "name": "5501枫丹螃蟹西",
-    "enable_monster_loot_split": true,
     "type": "collect",
+    "author": "mno",
     "version": "1.0",
     "description": "",
     "bgi_version": "0.42.0",
@@ -227,7 +227,7 @@
       "y": 2401.99,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

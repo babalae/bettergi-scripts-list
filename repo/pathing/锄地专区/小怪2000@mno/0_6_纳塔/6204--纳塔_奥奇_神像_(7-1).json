@@ -1,10 +1,10 @@
 {
   "info": {
     "name": "6204--纳塔_奥奇_神像_(7-1)",
-    "enable_monster_loot_split": true,
     "type": "collect",
+    "author": "Demo&汐&mno",
     "version": "1.2",
-    "description": "",
+    "description": "  路线信息：该路线预计用时135.01秒，包含100只精英与6只小怪，预计收入20445.5摩拉，包含以下怪物：1只幼暝视龙、5只暝视龙。",
     "bgi_version": "0.42.0",
     "authors": [
       {
@@ -96,7 +96,7 @@
     {
       "id": 9,
       "x": 9751.5,
-      "y": -444.0,
+      "y": -444,
       "action": "",
       "move_mode": "dash",
       "action_params": "",
@@ -118,7 +118,7 @@
       "y": -433.17,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

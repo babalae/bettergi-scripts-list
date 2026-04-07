@@ -1,16 +1,37 @@
 const runExtra = settings.runExtra || false;
 const leaveTeamRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/leaveTeam.png"));
+const scrollRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/拾取滚轮.png"), 1017, 496, 1093 - 581, 581 - 496);
 let targetItems;
 let pickupDelay = 100;
 let timeMove = 1000;
+let findFInterval = (+settings.findFInterval || 100);
+if (findFInterval < 16) {
+    findFInterval = 16;
+}
+if (findFInterval > 200) {
+    findFInterval = 200;
+}
+let lastRoll = new Date();
+let checkDelay = Math.round(findFInterval / 2);
 let timeMoveUp = Math.round(timeMove * 0.45);
 let timeMoveDown = Math.round(timeMove * 0.55);
-let rollingDelay = 25;
+let rollingDelay = 50;
 let state;
 let gameRegion;
+let TMthreshold = +settings.TMthreshold || 0.9;
+let doRunExtra = false;
+let expGain;
+let skipRunning = false;
+let runnedEnding = false;
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
+    dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
+
+    if (settings.logName) {
+        expGain = await processArtifacts();
+        moraGain = await mora();
+    }
     await genshin.tpToStatueOfTheSeven();
     await switchPartyIfNeeded(settings.partyName);
     targetItems = await loadTargetItems();
@@ -37,13 +58,18 @@ let gameRegion;
         const pos = enteringIndex.indexOf(yourIndex) + 1; // 第几个执行
         log.info(`你的序号是${yourIndex}号，将在第${pos}个执行`);
 
+        let loopCnt = 0;
         // 按 runningOrder 依次进入世界并执行联机收尾
         for (const idx of enteringIndex) {
+            if (skipRunning) {
+                break;
+            }
             await genshin.clearPartyCache();
             if (settings.usingCharacter) { await sleep(1000); keyPress(`${settings.usingCharacter}`); }
             //构造加入idx号世界的autoEnter的settings
             let autoEnterSettings;
             if (idx === yourIndex) {
+                settings.forceGroupNumber = 1;//将房主强制指定为房主
                 // 1. 先收集真实存在的白名单
                 const permits = {};
                 let permitIndex = 1;
@@ -61,20 +87,23 @@ let gameRegion;
                 autoEnterSettings = {
                     enterMode: "等待他人进入",
                     permissionMode: "白名单",
-                    timeout: 5,
+                    timeout: loopCnt++ === 0 ? 10 : 5,   // ← 第一次 10，之后 5
                     maxEnterCount: Object.keys(permits).length
                 };
 
                 Object.assign(autoEnterSettings, permits);
-                log.info(`等待他人进入自己世界，白名单人数：${autoEnterSettings.maxEnterCount}`);
+                log.info(`等待他人进入自己世界，目标人数：${autoEnterSettings.maxEnterCount}`);
+                notification.send(`等待他人进入自己世界，目标人数：${autoEnterSettings.maxEnterCount}`);
             } else {
+                settings.forceGroupNumber = 0;//取消强制指定
                 // 构造队员配置
                 autoEnterSettings = {
                     enterMode: "进入他人世界",
                     enteringUID: settings[`p${idx}UID`],
-                    timeout: 5
+                    timeout: loopCnt++ === 0 ? 10 : 5,   // ← 第一次 10，之后 5
                 };
                 log.info(`将要进入序号${idx}，uid为${settings[`p${idx}UID`]}的世界`);
+                notification.send(`将要进入序号${idx}，uid为${settings[`p${idx}UID`]}，名称为${settings[`p${idx}Name`]}的世界`);
             }
             let attempts = 0;
             while (attempts < 5) {
@@ -83,6 +112,7 @@ let gameRegion;
                 //队员加入后要检查房主名称
                 if (autoEnterSettings.enterMode === "进入他人世界" && attempts != 5) {
                     if (await checkP1Name(settings[`p${idx}Name`])) {
+                        notification.send(`成功进入序号${idx}，uid为${settings[`p${idx}UID`]}，名称为${settings[`p${idx}Name`]}的世界`);
                         break;
                     } else {
                         //进入了错误的世界，退出世界并重新加入,最后一次不检查
@@ -96,6 +126,8 @@ let gameRegion;
                             await keyPress("F2");
                             await sleep(1000);
                             await findAndClick(leaveTeamRo);
+                            await sleep(1000);
+                            keyPress("VK_ESCAPE");
                             await waitForMainUI(true);
                             await genshin.returnMainUi();
                         }
@@ -106,37 +138,66 @@ let gameRegion;
             }
             //执行对应的联机狗粮
             await runGroupPurchasing(false);
+            settings.forceGroupNumber = 0;//解除强制指定
         }
-        //如果勾选了额外，在结束后再执行一次额外路线
-        if (settings.runExtra) {
+        //如果勾选了额外，且本次自动运行当过房主成功进人，在结束后再执行一次额外路线
+        if (settings.runExtra && doRunExtra) {
             await runGroupPurchasing(runExtra);
         }
     }
     await genshin.tpToStatueOfTheSeven();
+
+    if (skipRunning && !runnedEnding) {
+        log.info(`本次运行启用并触发了强迫症模式，且未完成收尾路线需要重新上线`);
+
+        // 按中文分号分割字符串
+        const segments = settings.onlyRunPerfectly.split('；');
+
+        // 逐段输出，每段间隔1秒
+        for (const segment of segments) {
+            if (segment.trim()) { // 跳过空段落
+                log.info(segment.trim());
+                await sleep(1000);
+            }
+        }
+        await sleep(10000);
+        return;
+    }
+
+    if (settings.logName) {
+        expGain = await processArtifacts() - expGain;
+        moraGain = await mora() - moraGain;
+        log.info(`${settings.logName}：联机狗粮分解获得经验${expGain}`);
+        notification.send(`${settings.logName}：联机狗粮分解获得经验${expGain}`);
+        log.info(`${settings.logName}：联机狗粮获得摩拉${moraGain}`);
+        notification.send(`${settings.logName}：联机狗粮获得摩拉${moraGain}`);
+    }
+
+    {
+        log.info(`本次运行未启用或未触发强迫症模式，正常结束`);
+        if (settings.normalEnding) {
+            // 按中文分号分割字符串
+            const segments = settings.normalEnding.split('；');
+
+            // 逐段输出，每段间隔1秒
+            for (const segment of segments) {
+                if (segment.trim()) { // 跳过空段落
+                    log.info(segment.trim());
+                    await sleep(1000);
+                }
+            }
+        }
+    }
 }
 )();
 
 async function checkP1Name(p1Name) {
-    await genshin.returnMainUi();
-    await keyPress("F2");
-    await sleep(2000);
-    const gameRegion = captureGameRegion();
-    const resList = gameRegion.findMulti(RecognitionObject.ocr(400, 170, 300, 55));
-    gameRegion.dispose();
-    let hit = null;
-    let txt;
-    for (const res of resList) {
-        txt = res.text.trim();
-        if (txt === p1Name) { hit = txt; break; }
-    }
-    if (hit) {
-        log.info(`识别到房主为${hit}，与预期相符`);
-        return true;
-    } else {
-        log.warn(`识别结果为${txt},与预期的${p1Name}不符，重试`);
-        return false;
-    }
+    //log.info("禁用了房主名称校验，直接视为通过");
+    //强制禁用房主检测
+    return true;
+
 }
+
 
 /**
  * 群收尾 / 额外路线统一入口
@@ -145,15 +206,12 @@ async function checkP1Name(p1Name) {
 async function runGroupPurchasing(runExtra) {
     // ===== 1. 读取配置 =====
     const p1EndingRoute = settings.p1EndingRoute || "枫丹高塔";
-    const p2EndingRoute = settings.p2EndingRoute || "度假村";
-    const p3EndingRoute = settings.p3EndingRoute || "智障厅";
-    const p4EndingRoute = settings.p4EndingRoute || "踏鞴砂";
+    const p2EndingRoute = "度假村";
+    const p3EndingRoute = "智障厅";
+    const p4EndingRoute = "踏鞴砂";
     const forceGroupNumber = settings.forceGroupNumber || 0;
 
     // ===== 2. 图标模板 =====
-    const p2InBigMapRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/2pInBigMap.png"));
-    const p3InBigMapRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/3pInBigMap.png"));
-    const p4InBigMapRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/4pInBigMap.png"));
     const kickAllRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickAll.png"));
     const confirmKickRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/confirmKick.png"));
 
@@ -172,12 +230,17 @@ async function runGroupPurchasing(runExtra) {
         groupNumBer = forceGroupNumber;
         log.info(`将自己在队伍中的编号强制指定为${groupNumBer}`);
     }
-
     if (groupNumBer === 1) {
         log.info("是1p，检测当前总人数");
         const totalNumber = await findTotalNumber();
         await waitForReady(totalNumber);
-        for (let i = 1; i <= totalNumber; i++) await runEndingPath(i);
+        if (skipRunning) {
+            log.info(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
+            notification.send(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
+            await sleep(10000);
+        } else {
+            for (let i = 1; i <= totalNumber; i++) await runEndingPath(i);
+        }
         let kickAttempts = 0;
         while (kickAttempts < 10) {
             kickAttempts++;
@@ -222,9 +285,15 @@ async function runGroupPurchasing(runExtra) {
             await waitForMainUI(true);
             await genshin.returnMainUi();
         }
-    } else if (runExtra) {
-        log.info("请确保联机收尾已结束，将开始运行额外路线");
-        await runExtraPath();
+    } else if (groupNumBer === 0) {
+        if (runExtra) {
+            log.info("请确保联机收尾已结束，将开始运行额外路线");
+            await runExtraPath();
+        } else {
+            log.warn("处于单人模式，不执行任何路线");
+        }
+    } else {
+        log.warn("角色编号识别异常")
     }
     running = false;
 
@@ -272,60 +341,69 @@ async function runGroupPurchasing(runExtra) {
         }
 
         log.warn("等待队友就绪超时");
+        if (settings.onlyRunPerfectly) {
+            skipRunning = true;
+            doRunExtra = false;
+        }
         return false;
     }
 
     async function checkReady(i) {
-        /* 1. 先把地图移到目标点位（point 来自 info.json） */
-        const point = await getPointByPlayer(i);
-        if (!point) return false;
-        // 把路径封装在函数内部
-        const map = {
-            2: "assets/RecognitionObject/2pInBigMap.png",
-            3: "assets/RecognitionObject/3pInBigMap.png",
-            4: "assets/RecognitionObject/4pInBigMap.png"
-        };
-        const tplPath = map[i];
-        if (!tplPath) {
-            log.error(`无效玩家编号: ${i}`);
-            return null;
+        try {
+            /* 1. 先把地图移到目标点位（point 来自 info.json） */
+            const point = await getPointByPlayer(i);
+            if (!point) return false;
+            // 把路径封装在函数内部
+            const map = {
+                2: "assets/RecognitionObject/2pInBigMap.png",
+                3: "assets/RecognitionObject/3pInBigMap.png",
+                4: "assets/RecognitionObject/4pInBigMap.png"
+            };
+            const tplPath = map[i];
+            if (!tplPath) {
+                log.error(`无效玩家编号: ${i}`);
+                return null;
+            }
+
+            const template = file.ReadImageMatSync(tplPath);
+            const recognitionObj = RecognitionObject.TemplateMatch(template, 0, 0, 1920, 1080);
+            if (await findAndClick(recognitionObj, false, 2000)) await sleep(1000);
+
+            await genshin.moveMapTo(Math.round(point.x), Math.round(point.y));
+
+            /* 2. 取图标屏幕坐标 */
+            const pos = await getPlayerIconPos(i);
+            if (!pos || !pos.found) return false;
+
+            /* 3. 屏幕坐标 → 地图坐标（图标）*/
+            const mapZoomLevel = 2.0;
+            await genshin.setBigMapZoomLevel(mapZoomLevel);
+            const mapScaleFactor = 2.361;
+
+            const center = genshin.getPositionFromBigMap();   // 仅用于坐标系转换
+            const iconScreenX = pos.x;
+            const iconScreenY = pos.y;
+
+            const iconMapX = (960 - iconScreenX) * mapZoomLevel / mapScaleFactor + center.x;
+            const iconMapY = (540 - iconScreenY) * mapZoomLevel / mapScaleFactor + center.y;
+
+            /* 4. 计算“图标地图坐标”与“目标点位”的距离 */
+            const dx = iconMapX - point.x;
+            const dy = iconMapY - point.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            /* 5. 打印两种坐标及距离 */
+            log.info(`玩家 ${i}P`);
+            log.info(`├─ 屏幕坐标: (${iconScreenX}, ${iconScreenY})`);
+            log.info(`├─ 图标地图坐标: (${iconMapX.toFixed(2)}, ${iconMapY.toFixed(2)})`);
+            log.info(`├─ 目标点位坐标: (${point.x}, ${point.y})`);
+            log.info(`└─ 图标与目标点位距离: ${dist.toFixed(2)} m`);
+
+            return dist <= 10;   // 10 m 阈值，可按需调整
+        } catch (error) {
+            log.error(error.message);
+            return false;
         }
-
-        const template = file.ReadImageMatSync(tplPath);
-        const recognitionObj = RecognitionObject.TemplateMatch(template, 0, 0, 1920, 1080); // 全屏查找，可自行改区域
-        if (await findAndClick(recognitionObj, 5)) await sleep(1000);
-
-        await genshin.moveMapTo(Math.round(point.x), Math.round(point.y));
-
-        /* 2. 取图标屏幕坐标 */
-        const pos = await getPlayerIconPos(i);
-        if (!pos || !pos.found) return false;
-
-        /* 3. 屏幕坐标 → 地图坐标（图标）*/
-        const mapZoomLevel = 2.0;
-        await genshin.setBigMapZoomLevel(mapZoomLevel);
-        const mapScaleFactor = 2.361;
-
-        const center = genshin.getPositionFromBigMap();   // 仅用于坐标系转换
-        const iconScreenX = pos.x;
-        const iconScreenY = pos.y;
-
-        const iconMapX = (960 - iconScreenX) * mapZoomLevel / mapScaleFactor + center.x;
-        const iconMapY = (540 - iconScreenY) * mapZoomLevel / mapScaleFactor + center.y;
-
-        /* 4. 计算“图标地图坐标”与“目标点位”的距离 */
-        const dx = iconMapX - point.x;
-        const dy = iconMapY - point.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        /* 5. 打印两种坐标及距离 */
-        log.info(`玩家 ${i}P`);
-        log.info(`├─ 屏幕坐标: (${iconScreenX}, ${iconScreenY})`);
-        log.info(`├─ 图标地图坐标: (${iconMapX.toFixed(2)}, ${iconMapY.toFixed(2)})`);
-        log.info(`├─ 目标点位坐标: (${point.x}, ${point.y})`);
-        log.info(`└─ 图标与目标点位距离: ${dist.toFixed(2)} m`);
-
-        return dist <= 10;   // 10 m 阈值，可按需调整
     }
 
 
@@ -444,17 +522,17 @@ async function runGroupPurchasing(runExtra) {
         }
 
         const folderPath = `assets/ArtifactsPath/${folderName}/执行`;
-        const files = await readFolder(folderPath, true);
+        const files = await readFolder(folderPath, ".json");
 
         if (files.length === 0) {
             log.warn(`文件夹 ${folderPath} 下未找到任何 JSON 路线文件`);
             return;
         }
+        runnedEnding = true;
         if (!settings.runDebug) {
             for (const { fullPath } of files) {
                 await runPath(fullPath, 1);
             }
-
             log.info(`${folderName} 的全部路线已完成`);
         } else {
             log.info("当前为调试模式，跳过执行路线");
@@ -467,10 +545,17 @@ async function runGroupPurchasing(runExtra) {
     async function runExtraPath() {
 
         const folderPath = `assets/ArtifactsPath/额外/执行`;
-        const files = await readFolder(folderPath, true);
+        const files = await readFolder(folderPath, ".json");
 
         if (files.length === 0) {
             log.warn(`文件夹 ${folderPath} 下未找到任何 JSON 路线文件`);
+            return;
+        }
+
+        if (skipRunning) {
+            log.info(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
+            notification.send(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
+            await sleep(10000);
             return;
         }
 
@@ -504,17 +589,27 @@ async function runGroupPurchasing(runExtra) {
         }
 
         const folderPath = `assets/ArtifactsPath/${folderName}/占位`;
-        const files = await readFolder(folderPath, true);
+        const files = await readFolder(folderPath, ".json");
 
         if (files.length === 0) {
             log.warn(`文件夹 ${folderPath} 下未找到任何 JSON 路线文件`);
-            return;
         }
 
         for (const { fullPath } of files) {
             await runPath(fullPath, 1);
         }
+        try {
+            const pos = await genshin.getPositionFromMap();
+            const dist = Math.hypot(pos.x - 2297.3, pos.y + 823.8);
+            if (dist && dist < 100) {
+                log.warn("仍然在七天神像附近，尝试重跑至多一次");
+                for (const { fullPath } of files) {
+                    await runPath(fullPath, 1);
+                }
+            }
+        } catch (error) {
 
+        }
         log.info(`${folderName} 的全部路线已完成`);
     }
 }
@@ -547,13 +642,12 @@ async function autoEnter(autoEnterSettings) {
     const requestEnterRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/requestEnter.png"));
     const requestEnter2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/requestEnter.png"), 1480, 300, 280, 600);
     const yUIRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/yUI.png"));
-    const allowEnterRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/allowEnter.png"), 1250, 300, 150, 130);
+    const allowEnterRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/allowEnter.png"));
     const targetsPath = "targets";
 
     // ===== 状态 =====
     let enterCount = 0;
     let targetsRo = [];
-    let checkToEnd = false;
     let enteredPlayers = [];
 
     // ===== 初始化 =====
@@ -562,24 +656,27 @@ async function autoEnter(autoEnterSettings) {
     log.info(`当前模式为：${enterMode}`);
 
     // 加载目标 PNG
-    const targetPngs = await readFolder(targetsPath, false);
+    const targetPngs = await readFolder(targetsPath, ".png");
     for (const f of targetPngs) {
-        if (!f.fullPath.endsWith('.png')) continue;
         const mat = file.ReadImageMatSync(f.fullPath);
-        const ro = RecognitionObject.TemplateMatch(mat, 650, 320, 350, 60);
+        const ro = RecognitionObject.TemplateMatch(mat, 664, 481, 1355 - 668, 588 - 484);
         const baseName = f.fileName.replace(/\.png$/i, '');
         targetsRo.push({ ro, baseName });
     }
     log.info(`加载完成共 ${targetsRo.length} 个目标`);
 
     // ===== 主循环 =====
-    while (new Date() - start < timeout * 60 * 1000) {
+    const totalTime = timeout * 60 * 1000;
+    let checkPoints = [false, false, false, false, false]; // 使用数组标记检查状态，分别对应20%、40%、60%、80%、90%时间点
+    while (new Date() - start < totalTime) {
         if (enterMode === "进入他人世界") {
             const playerSign = await getPlayerSign();
             await sleep(500);
-            if (playerSign !== 0) {
+            if (playerSign > 1) {
                 log.info(`加入成功，队伍编号 ${playerSign}`);
                 break;
+            } else if (playerSign === -1) {
+                log.warn("队伍编号识别异常，尝试按0p处理");
             }
             log.info('不处于多人世界，开始尝试加入');
             await genshin.returnMainUi(); await sleep(500);
@@ -610,11 +707,27 @@ async function autoEnter(autoEnterSettings) {
                     await keyPress("F2");
                     await sleep(1000);
                     await findAndClick(leaveTeamRo);
+                    await sleep(1000);
+                    keyPress("VK_ESCAPE");
                     await waitForMainUI(true);
                     await genshin.returnMainUi();
                 }
             }
-            if (enterCount >= maxEnterCount) break;
+            
+            // 检查时间点，触发额外检测
+            const elapsed = new Date() - start;
+            const timePoints = [0.2, 0.4, 0.6, 0.8, 0.9];
+            for (let i = 0; i < timePoints.length; i++) {
+                const point = timePoints[i];
+                if (!checkPoints[i] && elapsed >= totalTime * point) {
+                    checkPoints[i] = true;
+                    log.info(`达到超时时间的 ${point * 100}%，额外进行一次检测`);
+                    enterCount = maxEnterCount; // 强制触发检测
+                    break;
+                }
+            }
+            
+            // 继续执行，不在这里结束循环，由统一检查部分处理
             if (await isYUI()) keyPress("VK_ESCAPE"); await sleep(500);
             await genshin.returnMainUi();
             keyPress("Y"); await sleep(250);
@@ -626,6 +739,7 @@ async function autoEnter(autoEnterSettings) {
             while (attempts++ < 5) {
                 if (permissionMode === "无条件通过") {
                     if (await findAndClick(allowEnterRo)) {
+                        doRunExtra = true;
                         await waitForMainUI(true, 20 * 1000);
                         enterCount++;
                         break;
@@ -638,6 +752,8 @@ async function autoEnter(autoEnterSettings) {
                             enterCount++;
                             enteredPlayers = [...new Set([...enteredPlayers, result])];
                             log.info(`允许 ${result} 加入`);
+                            notification.send(`允许 ${result} 加入`);
+                            doRunExtra = true;
                             if (await isYUI()) { keyPress("VK_ESCAPE"); await sleep(500); await genshin.returnMainUi(); }
                             break;
                         } else {
@@ -650,12 +766,23 @@ async function autoEnter(autoEnterSettings) {
 
             if (await isYUI()) { keyPress("VK_ESCAPE"); await genshin.returnMainUi(); }
 
-            if (enterCount >= maxEnterCount || checkToEnd) {
-                checkToEnd = true;
+            if (enterCount >= maxEnterCount) {
                 await sleep(20000);
-                if (await findTotalNumber() === maxEnterCount + 1) break;
+                if (await findTotalNumber() === maxEnterCount + 1) {
+                    notification.send(`已达到预定人数：${maxEnterCount + 1}`);
+                    break;
+                }
                 else enterCount--;
             }
+        }
+    }
+
+    if (new Date() - start >= timeout * 60 * 1000) {
+        log.warn("超时未达到预定人数");
+        notification.error(`超时未达到预定人数`);
+        if (settings.onlyRunPerfectly) {
+            skipRunning = true;
+            doRunExtra = false;
         }
     }
 
@@ -691,7 +818,7 @@ async function autoEnter(autoEnterSettings) {
         } catch { }
         try {
             const gameRegion = captureGameRegion();
-            const resList = gameRegion.findMulti(RecognitionObject.ocr(650, 320, 350, 60));
+            const resList = gameRegion.findMulti(RecognitionObject.ocr(664, 481, 1355 - 668, 588 - 484));
             gameRegion.dispose();
             let hit = null;
             for (const res of resList) {
@@ -724,42 +851,92 @@ async function switchPartyIfNeeded(partyName) {
     }
 }
 
-async function findAndClick(target, maxAttempts = 20) {
-    for (let attempts = 0; attempts < maxAttempts; attempts++) {
-        const gameRegion = captureGameRegion();
-        try {
-            const result = gameRegion.find(target);
-            if (result.isExist()) {
-                result.click();
-                return true;                 // 成功立刻返回
+/**
+ * 通用找图/找RO并可选点击（支持单图片文件路径、单RO、图片文件路径数组、RO数组）
+ * @param {string|string[]|RecognitionObject|RecognitionObject[]} target
+ * @param {boolean}  [doClick=true]                是否点击
+ * @param {number}   [timeout=3000]                识别时间上限（ms）
+ * @param {number}   [interval=50]                 识别间隔（ms）
+ * @param {number}   [retType=0]                   0-返回布尔；1-返回 Region 结果
+ * @param {number}   [preClickDelay=50]            点击前等待
+ * @param {number}   [postClickDelay=50]           点击后等待
+ * @returns {boolean|Region}  根据 retType 返回是否成功或最终 Region
+ */
+async function findAndClick(target,
+    doClick = true,
+    timeout = 3000,
+    interval = 50,
+    retType = 0,
+    preClickDelay = 50,
+    postClickDelay = 50) {
+    try {
+        // 1. 统一转成 RecognitionObject 数组
+        let ros = [];
+        if (Array.isArray(target)) {
+            ros = target.map(t =>
+                (typeof t === 'string')
+                    ? RecognitionObject.TemplateMatch(file.ReadImageMatSync(t))
+                    : t
+            );
+        } else {
+            ros = [(typeof target === 'string')
+                ? RecognitionObject.TemplateMatch(file.ReadImageMatSync(target))
+                : target];
+        }
+
+        const start = Date.now();
+        let found = null;
+
+        while (Date.now() - start <= timeout) {
+            const gameRegion = captureGameRegion();
+            try {
+                // 依次尝试每一个 ro
+                for (const ro of ros) {
+                    const res = gameRegion.find(ro);
+                    if (!res.isEmpty()) {          // 找到
+                        found = res;
+                        if (doClick) {
+                            await sleep(preClickDelay);
+                            res.click();
+                            await sleep(postClickDelay);
+                        }
+                        break;                     // 成功即跳出 for
+                    }
+                }
+                if (found) break;                  // 成功即跳出 while
+            } finally {
+                gameRegion.dispose();
             }
-        } catch (err) {
-        } finally {
-            gameRegion.dispose();
+            await sleep(interval);                 // 没找到时等待
         }
-        if (attempts < maxAttempts - 1) {   // 最后一次不再 sleep
-            await sleep(250);
-        }
+
+        // 3. 按需返回
+        return retType === 0 ? !!found : (found || null);
+
+    } catch (error) {
+        log.error(`执行通用识图时出现错误：${error.message}`);
+        return retType === 0 ? false : null;
     }
-    //log.error("已达到重试次数上限，仍未找到目标");
-    return false;
 }
 
 //等待主界面状态
 async function waitForMainUI(requirement, timeOut = 60 * 1000) {
     log.info(`等待至多${timeOut}毫秒`)
     const startTime = Date.now();
+    let logcount = 0;
     while (Date.now() - startTime < timeOut) {
         const mainUIState = await isMainUI();
+        logcount++;
         if (mainUIState === requirement) return true;
-
         const elapsed = Date.now() - startTime;
         const min = Math.floor(elapsed / 60000);
         const sec = Math.floor((elapsed % 60000) / 1000);
         const ms = elapsed % 1000;
-        log.info(`已等待 ${min}分 ${sec}秒 ${ms}毫秒`);
-
-        await sleep(1000);
+        if (logcount >= 50) {
+            logcount = 0;
+            log.info(`已等待 ${min}分 ${sec}秒 ${ms}毫秒`);
+        }
+        await sleep(200);
     }
     log.error("超时仍未到达指定状态");
     return false;
@@ -806,8 +983,7 @@ async function isMainUI() {
 //获取联机世界的当前玩家标识
 async function getPlayerSign() {
     let attempts = 0;
-    let result = 0;
-    while (attempts < 5) {
+    while (attempts < 10) {
         attempts++;
         const picDic = {
             "0P": "assets/RecognitionObject/0P.png",
@@ -818,11 +994,21 @@ async function getPlayerSign() {
         }
         await genshin.returnMainUi();
         await sleep(500);
-        const p0Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["0P"]), 344, 22, 45, 45);
-        const p1Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["1P"]), 344, 22, 45, 45);
-        const p2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["2P"]), 344, 22, 45, 45);
-        const p3Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["3P"]), 344, 22, 45, 45);
-        const p4Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["4P"]), 344, 22, 45, 45);
+        const p0Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["0P"]), 200, 10, 400, 70);
+        p0Ro.Threshold = 0.95;
+        p0Ro.InitTemplate();
+        const p1Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["1P"]), 200, 10, 400, 70);
+        p1Ro.Threshold = 0.95;
+        p1Ro.InitTemplate();
+        const p2Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["2P"]), 200, 10, 400, 70);
+        p2Ro.Threshold = 0.95;
+        p2Ro.InitTemplate();
+        const p3Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["3P"]), 200, 10, 400, 70);
+        p3Ro.Threshold = 0.95;
+        p3Ro.InitTemplate();
+        const p4Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(picDic["4P"]), 200, 10, 400, 70);
+        p4Ro.Threshold = 0.95;
+        p4Ro.InitTemplate();
         moveMouseTo(1555, 860); // 移走鼠标，防止干扰识别
         const gameRegion = captureGameRegion();
         // 当前页面模板匹配
@@ -832,13 +1018,16 @@ async function getPlayerSign() {
         let p3 = gameRegion.Find(p3Ro);
         let p4 = gameRegion.Find(p4Ro);
         gameRegion.dispose();
-        if (p0.isExist()) { result = 0; break; }
-        if (p1.isExist()) { result = 1; break; }
-        if (p2.isExist()) { result = 2; break; }
-        if (p3.isExist()) { result = 3; break; }
-        if (p4.isExist()) { result = 4; break; }
+        if (p0.isExist()) { log.info("识别结果为0P"); return 0; }
+        if (p1.isExist()) { log.info("识别结果为1P"); return 1; }
+        if (p2.isExist()) { log.info("识别结果为2P"); return 2; }
+        if (p3.isExist()) { log.info("识别结果为3P"); return 3; }
+        if (p4.isExist()) { log.info("识别结果为4P"); return 4; }
+        await genshin.returnMainUi();
+        await sleep(250);
     }
-    return result;
+    log.warn("超时仍未识别到队伍编号");
+    return -1;
 }
 
 async function findTotalNumber() {
@@ -966,55 +1155,42 @@ async function fakeLog(name, isJs, isStart, duration) {
     }
 }
 
-// 定义 readFolder 函数
-async function readFolder(folderPath, onlyJson) {
-    // 新增一个堆栈，初始时包含 folderPath
-    const folderStack = [folderPath];
+/**
+ * 递归读取目录下所有文件
+ * @param {string} folderPath 起始目录
+ * @param {string} [ext='']   需要的文件后缀，空字符串表示不限制；例如 'json' 或 '.json' 均可
+ * @returns {Array<{fullPath:string, fileName:string, folderPathArray:string[]}>}
+ */
+async function readFolder(folderPath, ext = '') {
+    // 统一后缀格式：确保前面有一个点，且全小写
+    const targetExt = ext ? (ext.startsWith('.') ? ext : `.${ext}`).toLowerCase() : '';
 
-    // 新增一个数组，用于存储文件信息对象
+    const folderStack = [folderPath];
     const files = [];
 
-    // 当堆栈不为空时，继续处理
     while (folderStack.length > 0) {
-        // 从堆栈中弹出一个路径
         const currentPath = folderStack.pop();
-
-        // 读取当前路径下的所有文件和子文件夹路径
-        const filesInSubFolder = file.ReadPathSync(currentPath);
-
-        // 临时数组，用于存储子文件夹路径
+        const filesInSubFolder = file.ReadPathSync(currentPath); // 同步读取当前目录
         const subFolders = [];
+
         for (const filePath of filesInSubFolder) {
             if (file.IsFolder(filePath)) {
-                // 如果是文件夹，先存储到临时数组中
-                subFolders.push(filePath);
+                subFolders.push(filePath);          // 子目录稍后处理
             } else {
-                // 如果是文件，根据 onlyJson 判断是否存储
-                if (onlyJson) {
-                    if (filePath.endsWith(".json")) {
-                        const fileName = filePath.split('\\').pop(); // 提取文件名
-                        const folderPathArray = filePath.split('\\').slice(0, -1); // 提取文件夹路径数组
-                        files.push({
-                            fullPath: filePath,
-                            fileName: fileName,
-                            folderPathArray: folderPathArray
-                        });
-                        //log.info(`找到 JSON 文件：${filePath}`);
-                    }
-                } else {
-                    const fileName = filePath.split('\\').pop(); // 提取文件名
-                    const folderPathArray = filePath.split('\\').slice(0, -1); // 提取文件夹路径数组
-                    files.push({
-                        fullPath: filePath,
-                        fileName: fileName,
-                        folderPathArray: folderPathArray
-                    });
-                    //log.info(`找到文件：${filePath}`);
+                // 后缀过滤
+                if (targetExt) {
+                    const fileExt = filePath.toLowerCase().slice(filePath.lastIndexOf('.'));
+                    if (fileExt !== targetExt) continue;
                 }
+
+                const fileName = filePath.split('\\').pop();
+                const folderPathArray = filePath.split('\\').slice(0, -1);
+                files.push({ fullPath: filePath, fileName, folderPathArray });
             }
         }
-        // 将临时数组中的子文件夹路径按原顺序压入堆栈
-        folderStack.push(...subFolders.reverse()); // 反转子文件夹路径
+
+        // 保持同层顺序，reverse 后仍按原顺序入栈
+        folderStack.push(...subFolders.reverse());
     }
 
     return files;
@@ -1025,6 +1201,7 @@ async function runPath(fullPath, targetItemPath) {
 
     /* ---------- 主任务 ---------- */
     const pathingTask = (async () => {
+        await genshin.returnMainUi();
         log.info(`开始执行路线: ${fullPath}`);
         await fakeLog(fullPath, false, true, 0);
         await pathingScript.runFile(fullPath);
@@ -1039,16 +1216,31 @@ async function runPath(fullPath, targetItemPath) {
     })();
 
     const errorProcessTask = (async () => {
-        const revivalRo1 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/revival1.png"));
+        const revivalRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/复苏.png"));
+        const readingRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/readingUI.png"), 72, 22, 133 - 72, 79 - 22);
+        const dialogueRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/dialogueUI.png"), 187, 26, 233 - 130, 69);
         let errorCheckCount = 9;
         while (state.running) {
             await sleep(100);
             errorCheckCount++;
             if (errorCheckCount > 50) {
                 errorCheckCount = 0;
-                //log.info("尝试识别并点击复苏按钮");
-                if (await findAndClick(revivalRo1, 2)) {
-                    //log.info("识别到复苏按钮，点击复苏");
+
+                if (await findAndClick(revivalRo, true, 2, 3)) {
+                    log.info("识别到复苏按钮，点击复苏");
+                    errorCheckCount = 50;
+                }
+
+                if (await findAndClick(readingRo, false, 2, 3)) {
+                    log.info("识别到阅读界面，esc脱离");
+                    await genshin.returnMainUi();
+                    errorCheckCount = 50;
+                }
+
+                if (await findAndClick(dialogueRo, false, 2, 3)) {
+                    log.info("识别到对话界面，点击进行对话");
+                    click(960, 540);
+                    errorCheckCount = 50;
                 }
             }
         }
@@ -1061,7 +1253,7 @@ async function runPath(fullPath, targetItemPath) {
 //加载拾取物图片
 async function loadTargetItems() {
     const targetItemPath = 'assets/targetItems';   // 固定目录
-    const items = await readFolder(targetItemPath, false);
+    const items = await readFolder(targetItemPath, ".png");
     // 统一预加载模板
     for (const it of items) {
         it.template = file.ReadImageMatSync(it.fullPath);
@@ -1087,7 +1279,12 @@ async function recognizeAndInteract() {
         gameRegion = captureGameRegion();
         let centerYF = await findFIcon();
         if (!centerYF) {
-            if (await isMainUI()) await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+            if (new Date() - lastRoll >= 200) {
+                lastRoll = new Date();
+                if (await hasScroll()) {
+                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                }
+            }
             continue;
         }
         //log.info(`调试-成功找到f图标,centerYF为${centerYF}`);
@@ -1137,7 +1334,18 @@ async function recognizeAndInteract() {
             let result;
             let itemName = null;
             for (const targetItem of targetItems) {
-                let recognitionObject = RecognitionObject.TemplateMatch(targetItem.template, 1219, centerYF - 15, 32 + 30 * (targetItem.itemName.length) + 2, 30);
+                //log.info(`正在尝试匹配${targetItem.itemName}`);
+                const cnLen = Math.min([...targetItem.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length, 5);
+                const recognitionObject = RecognitionObject.TemplateMatch(
+                    targetItem.template,
+                    1219,
+                    centerYF - 15,
+                    12 + 28 * cnLen + 2,
+                    30
+                );
+
+                recognitionObject.Threshold = TMthreshold;
+                recognitionObject.InitTemplate();
                 result = gameRegion.find(recognitionObject);
                 if (result.isExist()) {
                     itemName = targetItem.itemName;
@@ -1153,6 +1361,8 @@ async function recognizeAndInteract() {
 
     async function findFIcon() {
         let recognitionObject = RecognitionObject.TemplateMatch(fIcontemplate, 1102, 335, 34, 400);
+        recognitionObject.Threshold = 0.95;
+        recognitionObject.InitTemplate();
         try {
             let result = gameRegion.find(recognitionObject);
             if (result.isExist()) {
@@ -1163,7 +1373,7 @@ async function recognizeAndInteract() {
             if (!state.running)
                 return null;
         }
-        await sleep(100);
+        await sleep(checkDelay);
         return null;
     }
 
@@ -1182,8 +1392,305 @@ async function recognizeAndInteract() {
                 return false;
             }
             attempts++;
-            await sleep(50);
+            await sleep(checkDelay);
         }
         return false;
     }
+}
+
+async function processArtifacts() {
+    const decomposeRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/decompose.png"));
+    const quickChooseRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/quickChoose.png"));
+    const confirmRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/confirm.png"));
+
+    const outDatedRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/ConfirmButton.png"), 760, 700, 100, 100);
+    await genshin.returnMainUi();
+    await sleep(500);
+    let result = 0;
+    try {
+        result = await decomposeArtifacts();
+    } catch (error) {
+        log.error(`处理狗粮分解时发生异常: ${error.message}`);
+    }
+    await genshin.returnMainUi();
+    return result;
+
+    async function decomposeArtifacts() {
+        keyPress("B");
+        if (await findAndClick(outDatedRo, true, 1500)) {
+            log.info("检测到过期物品弹窗，处理");
+            await sleep(1000);
+        }
+        let enterAttempts = 0;
+        await sleep(500);
+        while (enterAttempts < 10) {
+            const type = "圣遗物";
+            const clicked = await findAndClick([
+                `assets/RecognitionObject/背包界面/${type}1.png`,
+                `assets/RecognitionObject/背包界面/${type}2.png`
+            ]);
+            if (clicked) break; // 找到并点击成功就退出循环
+            await sleep(750);
+            enterAttempts++;
+            await genshin.returnMainUi();
+            await sleep(100);
+            keyPress("B");
+        }
+        if (enterAttempts >= 10) {
+            log.warn("尝试十次未能成功进入背包界面");
+            notification.Send("尝试十次未能成功进入背包界面");
+            await genshin.returnMainUi();
+            return 0;
+        }
+        if (!await findAndClick(decomposeRo)) {
+            await genshin.returnMainUi();
+            return 0;
+        }
+        await sleep(1000);
+
+        // 识别已储存经验（1570-880-1650-930）
+        const digits = await numberTemplateMatch("assets/已储存经验数字", 1573, 885, 74, 36);
+
+        let initialValue = 0;
+        if (digits >= 0) {
+            initialValue = digits;
+            log.info(`已储存经验识别成功: ${initialValue}`);
+        } else {
+            log.warn(`在指定区域未识别到有效数字: ${initialValue}`);
+        }
+
+        if (!await findAndClick(quickChooseRo)) {
+            await genshin.returnMainUi();
+            return 0;
+        }
+        moveMouseTo(960, 540);
+        await sleep(1000);
+
+        // 点击“确认选择”按钮
+        if (!await findAndClick(confirmRo)) {
+            await genshin.returnMainUi();
+            return 0;
+        }
+        await sleep(2000);
+
+        // 当前总经验（1470-880-205-70）
+
+        const digits2 = await numberTemplateMatch("assets/分解可获得经验数字", 1469, 899, 180, 37, 0.95, 0.85, 5, 1);
+
+        let newValue = 0;
+        if (digits2 >= 0) {
+            newValue = digits2
+            log.info(`当前总经验识别成功: ${newValue}`);
+        } else {
+            log.warn(`在指定区域未识别到有效数字: ${newValue}`);
+        }
+
+        // 7. 计算分解获得经验=总经验-上次剩余
+        const resinExperience = Math.max(newValue - initialValue, 0);
+        log.info(`分解可获得经验: ${resinExperience}`);
+        let resultExperience = resinExperience;
+        if (resultExperience === 0) {
+            resultExperience = initialValue;
+        }
+        const result = resultExperience;
+        await genshin.returnMainUi();
+        return result;
+    }
+}
+
+async function mora() {
+
+    let result = 0;
+    let tryTimes = 0;
+    while (result === 0 && tryTimes < 3) {
+        log.info("开始尝试识别摩拉");
+        let enterAttempts = 0;
+        await genshin.returnMainUi();
+        await sleep(100);
+        keyPress("B");
+        await sleep(500);
+        while (enterAttempts < 10) {
+            const type = "养成道具";
+            const clicked = await findAndClick([
+                `assets/RecognitionObject/背包界面/${type}1.png`,
+                `assets/RecognitionObject/背包界面/${type}2.png`
+            ]);
+            if (clicked) break; // 找到并点击成功就退出循环
+            await sleep(750);
+            enterAttempts++;
+            await genshin.returnMainUi();
+            await sleep(100);
+            keyPress("B");
+        }
+        if (enterAttempts >= 10) {
+            log.warn("尝试十次未能成功进入背包界面");
+            notification.Send("尝试十次未能成功进入背包界面");
+            await genshin.returnMainUi();
+            return 0;
+        }
+
+        let moraRes = 0;
+        await sleep(1000);
+        if (settings.notify) {
+            notification.Send(`当前摩拉如图`);
+        }
+
+        const moraRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/mora.png"));
+        const gameRegion = captureGameRegion();
+        let moraX = 336;
+        let moraY = 1004;
+        try {
+            const result = gameRegion.find(moraRo);
+            if (result.isExist()) {
+                moraX = result.x;
+                moraY = result.y;
+            }
+        } catch (err) {
+        } finally {
+            gameRegion.dispose();
+        }
+
+        moraRes = await numberTemplateMatch("assets/背包摩拉数字", moraX, moraY, 300, 40, 0.95, 0.85, 10);
+
+        if (moraRes >= 0) {
+            log.info(`成功识别到摩拉数值: ${moraRes}`);
+            result = moraRes;
+        } else {
+            log.warn("未能识别到摩拉数值。");
+        }
+
+        await sleep(500);
+        tryTimes++;
+        await genshin.returnMainUi();
+    }
+    return result;
+}
+
+/**
+ * 在指定区域内，用 0-9 的 PNG 模板做「多阈值 + 非极大抑制」数字识别，
+ * 最终把检测到的数字按左右顺序拼成一个整数返回。
+ *
+ * @param {string}  numberPngFilePath - 存放 0.png ~ 9.png 的文件夹路径（不含文件名）
+ * @param {number}  x                 - 待识别区域的左上角 x 坐标，默认 0
+ * @param {number}  y                 - 待识别区域的左上角 y 坐标，默认 0
+ * @param {number}  w                 - 待识别区域的宽度，默认 1920
+ * @param {number}  h                 - 待识别区域的高度，默认 1080
+ * @param {number}  maxThreshold      - 模板匹配起始阈值，默认 0.95（最高可信度）
+ * @param {number}  minThreshold      - 模板匹配最低阈值，默认 0.8（最低可信度）
+ * @param {number}  splitCount        - 在 maxThreshold 与 minThreshold 之间做几次等间隔阈值递减，默认 3
+ * @param {number}  maxOverlap        - 非极大抑制时允许的最大重叠像素，默认 2；只要 x 或 y 方向重叠大于该值即视为重复框
+ *
+ * @returns {number} 识别出的整数；若没有任何有效数字框则返回 -1
+ *
+ * @example
+ * const mora = await numberTemplateMatch('摩拉数字', 860, 70, 200, 40);
+ * if (mora >= 0) console.log(`当前摩拉：${mora}`);
+ */
+async function numberTemplateMatch(
+    numberPngFilePath,
+    x = 0, y = 0, w = 1920, h = 1080,
+    maxThreshold = 0.95,
+    minThreshold = 0.8,
+    splitCount = 3,
+    maxOverlap = 2
+) {
+    let ros = [];
+    for (let i = 0; i <= 9; i++) {
+        ros[i] = RecognitionObject.TemplateMatch(
+            file.ReadImageMatSync(`${numberPngFilePath}/${i}.png`), x, y, w, h);
+    }
+
+    function setThreshold(roArr, newThreshold) {
+        for (let i = 0; i < roArr.length; i++) {
+            roArr[i].Threshold = newThreshold;
+            roArr[i].InitTemplate();
+        }
+    }
+
+    const gameRegion = captureGameRegion();
+    const allCandidates = [];
+
+    /* 1. splitCount 次等间隔阈值递减 */
+    for (let k = 0; k < splitCount; k++) {
+        const curThr = maxThreshold - (maxThreshold - minThreshold) * k / Math.max(splitCount - 1, 1);
+        setThreshold(ros, curThr);
+
+        /* 2. 0-9 每个模板跑一遍，所有框都收 */
+        for (let digit = 0; digit <= 9; digit++) {
+            const res = gameRegion.findMulti(ros[digit]);
+            if (res.count === 0) continue;
+
+            for (let i = 0; i < res.count; i++) {
+                const box = res[i];
+                allCandidates.push({
+                    digit: digit,
+                    x: box.x,
+                    y: box.y,
+                    w: box.width,
+                    h: box.height,
+                    thr: curThr
+                });
+            }
+        }
+
+    }
+    gameRegion.dispose();
+
+    /* 3. 无结果提前返回 -1 */
+    if (allCandidates.length === 0) {
+        return -1;
+    }
+
+    /* 4. 非极大抑制（必须 x、y 两个方向重叠都 > maxOverlap 才视为重复） */
+    const adopted = [];
+    for (const c of allCandidates) {
+        let overlap = false;
+        for (const a of adopted) {
+            const xOverlap = Math.max(0, Math.min(c.x + c.w, a.x + a.w) - Math.max(c.x, a.x));
+            const yOverlap = Math.max(0, Math.min(c.y + c.h, a.y + a.h) - Math.max(c.y, a.y));
+            if (xOverlap > maxOverlap && yOverlap > maxOverlap) {
+                overlap = true;
+                break;
+            }
+        }
+        if (!overlap) {
+            adopted.push(c);
+            //log.info(`在 [${c.x},${c.y},${c.w},${c.h}] 找到数字 ${c.digit}，匹配阈值=${c.thr}`);
+        }
+    }
+
+    /* 5. 按 x 排序，拼整数；仍无有效框时返回 -1 */
+    if (adopted.length === 0) return -1;
+    adopted.sort((a, b) => a.x - b.x);
+
+    return adopted.reduce((num, item) => num * 10 + item.digit, 0);
+}
+
+/**
+ * 判断当前是否存在拾取滚轮图标
+ * @param {number} maxDuration 最大允许耗时（毫秒）
+ */
+async function hasScroll(maxDuration = 10) {
+    const start = Date.now();
+    let dodispose = false;
+    while (Date.now() - start < maxDuration) {
+        if (!gameRegion) {
+            gameRegion = captureGameRegion();
+            dodispose = true;
+        }
+        try {
+            const result = gameRegion.find(scrollRo);
+            if (result.isExist()) return true;
+        } catch (error) {
+            log.error(`识别图像时发生异常: ${error.message}`);
+            return false;          // 一旦出现异常直接退出，不再重试
+        }
+        await sleep(checkDelay);   // 识别间隔
+        if (dodispose) {
+            gameRegion.dispose();
+            dodispose = false;     // 已经释放，标记避免重复 dispose
+        }
+    }
+    /* 超时仍未识别到，返回失败 */
+    return false;
 }

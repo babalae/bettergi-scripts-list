@@ -59,8 +59,9 @@ async function() {
 		await sleep(2000);
 
 		// 浓缩树脂识别
-		let Condensed = captureGameRegion().find(CondensedRo);
-		Condensed.dispose();
+		let condensedCaptureRegion = captureGameRegion();
+		let Condensed = condensedCaptureRegion.find(CondensedRo);
+		condensedCaptureRegion.dispose();
 		let Isfive = false;
 		if (Condensed.isExist()) {
 			log.info("识别到浓缩树脂");

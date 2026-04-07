@@ -1,0 +1,47 @@
+{
+  "info": {
+    "name": "ZB016璃月层岩地下巨蛇岩洞-1",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时46.54秒，包含以下怪物：1只黯色空壳·旗令。",
+    "hash_res": "43474355",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 891.64,
+      "y": 764.61
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1800",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 919.41,
+      "y": 734.81
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 924.19,
+      "y": 729.87
+    }
+  ]
+}

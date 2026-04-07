@@ -1,3 +1,9 @@
+async function keyMaintain(key, duration) {
+    keyDown(key);
+    await sleep(duration);
+    keyUp(key);
+}
+
 /**
  * 自动导航直到检测到指定文字
  * @param {Object} options 配置选项
@@ -52,6 +58,8 @@ const repeatOperationUntilTextFound = async ({
         
         // 2. 执行OCR识别
         const ocrResult = textArea.find(RecognitionObject.ocrThis);
+        captureRegion.dispose();
+        textArea.dispose();
         
         const hasAnyText = ocrResult.text.trim().length > 0;
         const matchesTarget = targetText === null 
@@ -64,7 +72,7 @@ const repeatOperationUntilTextFound = async ({
             if (ifClick) click(Math.round(x + width / 2), Math.round(y + height / 2));
             return true;
         }
-        
+
         // 4. 检查步数限制
         if (stepsTaken >= maxSteps) {
             throw new Error(`检查次数超过最大限制: ${maxSteps}，未查询到文字"${targetText}"`);
@@ -121,7 +129,9 @@ let challengeTime = 0;
             await sleep(500);
             leftButtonClick();
             await sleep(100);
-            let res = captureGameRegion().find(RecognitionObject.ocr(840, 935, 230, 40));
+            const ro = captureGameRegion();
+            let res = ro.find(RecognitionObject.ocr(840, 935, 230, 40));
+            ro.dispose();
             if (res.text.includes("自动退出")) {
                      log.info("检测到挑战成功");           
                      return;
@@ -154,13 +164,14 @@ async function tpEndDetection() {
         let capture = captureGameRegion();
         let res1 = capture.find(region1);
         let res2 = capture.find(region2);
+        capture.dispose();
         if (!res1.isEmpty()|| !res2.isEmpty()){
             log.info("传送完成");
             await sleep(1000);//传送结束后有僵直
             click(960, 810);//点击任意处
             await sleep(500);
             return;
-        } 
+        }
         tpTime++;
         await sleep(100);
     }
@@ -620,7 +631,7 @@ async function autoFightAndEndDetection(extraFightAction) {
     // 定义两个检测区域
     const region1 = RecognitionObject.ocr(700, 0, 450, 100);//区域一 BOSS名称
     const region2 = RecognitionObject.ocr(820, 935, 280, 50);//区域二 成功倒计时
-    const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/paimon_menu.png"), 0, 0, genshin.width / 3.0, genshin.width / 5.0);
+    const paimonMenuRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/paimon_menu.png"), 0, 0, 640, 216);
     const teamRo1 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/team1.png"), 1820, 240, 80, 400);
     const teamRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/team2.png"), 1820, 240, 80, 400);
     let challengeTime = 0;
@@ -723,7 +734,9 @@ await sleep(500);
 keyPress("F");
 await sleep(2000);
 await repeatOperationUntilTextFound({x: 1650,y: 1000,width: 160,height: 45,targetText: "单人挑战",stepDuration: 0,waitTime: 100});//等待点击单人挑战
-await sleep(500);
+await sleep(1500);
+if(settings.monsterName!="风魔龙")click(300,settings.difficulty*110+90);
+	
 if(!settings.fightMode){
     let capture = captureGameRegion();
     const region = RecognitionObject.ocr(1320, 10, 290, 80);//领奖次数区域
@@ -1421,7 +1434,53 @@ await checkDate(main);
 }
 
 async function weeklyBoss13() {
+async function extraFightAction(fight = 0) {
+  switch (fight) {
+  case 1://单次调用战斗任务后
 
+    break;
+  case 2:  //未出现boss名称但有队伍名称
+
+    break;
+  case 3://全无，可能是过程动画
+
+
+    break;
+  default:
+    break;
+  }
+}
+
+async function main() {
+await goToChallenge();
+//副本内前往BOSS处
+await eatFood();//嗑药
+//前进触发战斗，然后前往柱子处躲避
+keyPress("1");await sleep(500);//切换钟离
+await keyMaintain("w", 2000);
+await keyMaintain("s", 3500);
+await keyMaintain("d", 4300);
+await keyMaintain("e", 1000);
+await sleep(5000);
+keyDown("w");
+await sleep(700);
+keyDown("SHIFT");
+await sleep(400);
+keyUp("SHIFT");
+await sleep(700);
+keyUp("w");
+keyDown("d");
+await sleep(200);
+keyDown("w");
+await sleep(700);
+keyUp("w");
+keyUp("d");
+await autoFightAsync();
+await autoFightAndEndDetection(extraFightAction);//一直战斗直到检测到结束
+await autoNavigateToReward();
+await claimAndExit();
+}
+await checkDate(main);
 }
 
 this.utils = {
@@ -1436,5 +1495,6 @@ this.utils = {
     weeklyBoss9,
     weeklyBoss10,
     weeklyBoss11,
-    weeklyBoss12
+    weeklyBoss12,
+	weeklyBoss13,
 };

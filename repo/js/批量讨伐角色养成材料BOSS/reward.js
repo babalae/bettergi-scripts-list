@@ -18,7 +18,7 @@ async function autoNavigateToReward() {
             let captureRegion = captureGameRegion();
             let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
             let rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
-            captureRegion.Dispose();
+            captureRegion.dispose();
             rewardTextArea.Dispose();
             // 检测到特点文字则结束！！！
             if (rewardResult.text == "接触征讨之花") {
@@ -34,7 +34,7 @@ async function autoNavigateToReward() {
                 let iconRes = captureRegion.Find(boxIconRo);
                 let climbTextArea = captureRegion.DeriveCrop(1686, 1030, 60, 23);
                 let climbResult = climbTextArea.find(RecognitionObject.ocrThis);
-                captureRegion.Dispose();
+                captureRegion.dispose();
                 climbTextArea.Dispose();
                 // 检查是否处于攀爬状态
                 if (climbResult.text.toLowerCase() === "space") {
@@ -48,7 +48,13 @@ async function autoNavigateToReward() {
                     await sleep(800);
                     keyUp("w");
                 }
-                if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
+                if (iconRes.isEmpty()) {
+                    log.warn("未找到宝箱图标，重试");
+                    moveMouseBy(200, 0);
+                    await sleep(500);
+                    continue;
+                }
+                else if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
                     advanceNum++;
                     log.info(`视野已调正，前进第${advanceNum}次`);
                     break;
@@ -76,37 +82,42 @@ async function autoNavigateToReward() {
     }
 }
 
-async function takeReward(isClaimFailed) {
+async function takeReward(isInsufficientResin) {
     try {
         const mainUiRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/mainUi.png"));
         for (let attempt = 1; attempt <= 100; attempt++) {
             log.debug(`尝试领取奖励，第${attempt}次`);
-            captureRegion = captureGameRegion();
+            let captureRegion = captureGameRegion();
 
             // 点击F领取Boss地脉花
             log.debug("尝试接触征讨之花");
             let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
             let rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
-            if (rewardResult.text === "接触征讨之花" && isClaimFailed == false) {
+            rewardTextArea.dispose();
+            if (rewardResult.text === "接触征讨之花" && isInsufficientResin == false) {
                 keyPress("F");
                 await sleep(1000);
+                captureRegion.dispose();
                 captureRegion = captureGameRegion();
             }
 
             // 使用脆弱树脂领取奖励
             let useTextArea = captureRegion.DeriveCrop(850, 740, 250, 35);
             let useResult = useTextArea.find(RecognitionObject.ocrThis);
+            useTextArea.dispose();
             log.debug("领取奖励检测到文字: " + useResult.text);
             if (useResult.text.includes("补充")) {
                 log.info("脆弱树脂不足，跳过领取");
                 click(1345, 300);
                 await sleep(1000);
+                captureRegion.dispose();
                 captureRegion = captureGameRegion();
-                isClaimFailed = true;
+                isInsufficientResin = true;
             }
             else if (useResult.text.includes("使用"))  {
                 log.info("使用脆弱树脂领取奖励");
                 click(useResult.x, useResult.y);
+                captureRegion.dispose();
                 captureRegion = captureGameRegion();
                 await sleep(3000);
             }
@@ -114,10 +125,12 @@ async function takeReward(isClaimFailed) {
             // 关闭奖励界面
             let closeRewardUi = captureRegion.DeriveCrop(860, 970, 200, 28);
             let closeResult = closeRewardUi.find(RecognitionObject.ocrThis);
+            closeRewardUi.dispose();
             log.debug("底部检测到文字: " + closeResult.text);
             if (closeResult.text.includes("点击")){
                 click(975, 1000);//点击空白区域
                 await sleep(1000);
+                captureRegion.dispose();
                 captureRegion = captureGameRegion();
             }
 
@@ -125,9 +138,10 @@ async function takeReward(isClaimFailed) {
             let inMainUi = captureRegion.Find(mainUiRo);
             if (inMainUi.x > 0 && !useResult.text.includes("树脂")) {
                 log.debug("回到主界面");
-                return isClaimFailed;
+                captureRegion.dispose();
+                return isInsufficientResin;
             }
-            captureRegion.Dispose();
+            captureRegion.dispose();
             rewardTextArea.Dispose();
             useTextArea.Dispose();
             closeRewardUi.Dispose();

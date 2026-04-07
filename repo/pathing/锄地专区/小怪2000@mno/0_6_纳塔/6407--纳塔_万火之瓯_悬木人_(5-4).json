@@ -1,10 +1,10 @@
 {
   "info": {
     "name": "6407--纳塔_万火之瓯_悬木人_(5-4)",
-    "enable_monster_loot_split": true,
     "type": "collect",
+    "author": "Demo&汐&mno",
     "version": "1.2",
-    "description": "",
+    "description": "  路线信息：该路线预计用时116.25秒，包含9只小怪，预计收入567摩拉，包含以下怪物：1只疾讯勇士·重刃讯使、1只匿叶龙武士·流火鸣空、3只幼匿叶龙、4只匿叶龙。",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "authors": [
@@ -56,7 +56,7 @@
       "y": -2129.31,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     },
     {
@@ -138,7 +138,7 @@
       "y": -2194.96,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

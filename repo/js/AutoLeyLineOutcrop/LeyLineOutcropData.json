@@ -823,6 +823,38 @@
         "x": 9426.45,
         "y": 3051.57
       }
+    },
+    {
+      "id": 104,
+      "region": "挪德卡莱",
+      "position": {
+        "x": 9375.39,
+        "y": 3150.54
+      }
+    },
+    {
+      "id": 105,
+      "region": "挪德卡莱",
+      "position": {
+        "x": 10043.07,
+        "y": 5938.26
+      }
+    },
+    {
+      "id": 106,
+      "region": "挪德卡莱",
+      "position": {
+        "x": 10265.25,
+        "y": 5753.38
+      }
+    },
+    {
+      "id": 107,
+      "region": "挪德卡莱",
+      "position": {
+        "x": 10068.82,
+        "y": 5628.59
+      }
     }
   ],
   "blossoms": [
@@ -2702,8 +2734,8 @@
       "id": 1234,
       "region": "纳塔9-1",
       "position": {
-        "x": 9920.8,
-        "y": -1196.25
+        "x": 9945.54,
+        "y": -1192.6
       }
     },
     {
@@ -2748,7 +2780,7 @@
     },
     {
       "id": 1240,
-      "region": "挪德卡莱2-1",
+      "region": "挪德卡莱1-3",
       "position": {
         "x": 9132.02,
         "y": 2155.61
@@ -2756,7 +2788,7 @@
     },
     {
       "id": 1241,
-      "region": "挪德卡莱2-2",
+      "region": "挪德卡莱1-4",
       "position": {
         "x": 9018.5,
         "y": 2146.22
@@ -2764,7 +2796,7 @@
     },
     {
       "id": 1242,
-      "region": "挪德卡莱3-1",
+      "region": "挪德卡莱2-1",
       "position": {
         "x": 10799.37,
         "y": 2240.19
@@ -2772,7 +2804,7 @@
     },
     {
       "id": 1243,
-      "region": "挪德卡莱3-2",
+      "region": "挪德卡莱2-2",
       "position": {
         "x": 10819.83,
         "y": 2170.72
@@ -2780,7 +2812,7 @@
     },
     {
       "id": 1244,
-      "region": "挪德卡莱3-3",
+      "region": "挪德卡莱2-3",
       "position": {
         "x": 10874.92,
         "y": 2110.37
@@ -2788,7 +2820,7 @@
     },
     {
       "id": 1245,
-      "region": "挪德卡莱3-4",
+      "region": "挪德卡莱2-4",
       "position": {
         "x": 10986.27,
         "y": 1943.02
@@ -2796,7 +2828,7 @@
     },
     {
       "id": 1246,
-      "region": "挪德卡莱4-1",
+      "region": "挪德卡莱3-1",
       "position": {
         "x": 9454.46,
         "y": 3008.55
@@ -2804,10 +2836,82 @@
     },
     {
       "id": 1247,
-      "region": "挪德卡莱4-3",
+      "region": "挪德卡莱3-2",
+      "position": {
+        "x": 9424.5,
+        "y": 3135.77
+      }
+    },
+    {
+      "id": 1248,
+      "region": "挪德卡莱3-3",
       "position": {
         "x": 9461.06,
         "y": 3200.05
+      }
+    },
+    {
+      "id": 1249,
+      "region": "挪德卡莱3-4",
+      "position": {
+        "x": 9523.04,
+        "y": 3231.02
+      }
+    },
+    {
+      "id": 1250,
+      "region": "挪德卡莱4-1",
+      "position": {
+        "x": 10062.22,
+        "y": 6066.64
+      }
+    },
+    {
+      "id": 1251,
+      "region": "挪德卡莱4-2",
+      "position": {
+        "x": 10039.93,
+        "y": 5999.9
+      }
+    },
+    {
+      "id": 1252,
+      "region": "挪德卡莱4-3",
+      "position": {
+        "x": 9957.05,
+        "y": 5931.78
+      }
+    },
+    {
+      "id": 1253,
+      "region": "挪德卡莱5-1",
+      "position": {
+        "x": 10093.56,
+        "y": 5796.98
+      }
+    },
+    {
+      "id": 1254,
+      "region": "挪德卡莱5-2",
+      "position": {
+        "x": 10005.12,
+        "y": 5796.59
+      }
+    },
+    {
+      "id": 1255,
+      "region": "挪德卡莱5-3",
+      "position": {
+        "x": 10058.82,
+        "y": 5706.93
+      }
+    },
+    {
+      "id": 1256,
+      "region": "挪德卡莱5-4",
+      "position": {
+        "x": 10133.95,
+        "y": 5683.7
       }
     }
   ],
@@ -4520,47 +4624,112 @@
     {
       "source": 100,
       "target": 1240,
-      "route": "assets/pathing/挪德卡莱2-蓝泊湖-1.json"
+      "route": "assets/pathing/挪德卡莱1-苔骨荒原-3.json"
+    },
+    {
+      "source": 1239,
+      "target": 1240,
+      "route": "assets/pathing/挪德卡莱1-苔骨荒原-3.json"
     },
     {
       "source": 1240,
       "target": 1241,
-      "route": "assets/pathing/挪德卡莱2-蓝泊湖-2.json"
+      "route": "assets/pathing/挪德卡莱1-苔骨荒原-4.json"
     },
     {
       "source": 101,
       "target": 1242,
-      "route": "assets/pathing/挪德卡莱3-希汐岛-1.json"
+      "route": "assets/pathing/挪德卡莱2-希汐岛-1.json"
     },
     {
       "source": 1242,
       "target": 1243,
-      "route": "assets/pathing/挪德卡莱3-希汐岛-2.json"
+      "route": "assets/pathing/挪德卡莱2-希汐岛-2.json"
     },
     {
       "source": 1243,
       "target": 1244,
-      "route": "assets/pathing/挪德卡莱3-希汐岛-3.json"
+      "route": "assets/pathing/挪德卡莱2-希汐岛-3.json"
     },
     {
       "source": 102,
       "target": 1245,
-      "route": "assets/pathing/挪德卡莱3-希汐岛-4.json"
+      "route": "assets/pathing/挪德卡莱2-希汐岛-4.json"
     },
     {
       "source": 1244,
       "target": 1245,
-      "route": "assets/pathing/挪德卡莱3-希汐岛-4.json"
+      "route": "assets/pathing/挪德卡莱2-希汐岛-4.json"
     },
     {
       "source": 103,
       "target": 1246,
-      "route": "assets/pathing/挪德卡莱4-月矩力试验设计局-1.json"
+      "route": "assets/pathing/挪德卡莱3-月矩力试验设计局-1.json"
+    },
+    {
+      "source": 104,
+      "target": 1247,
+      "route": "assets/pathing/挪德卡莱3-月矩力试验设计局-2.json"
     },
     {
       "source": 1246,
       "target": 1247,
-      "route": "assets/pathing/挪德卡莱4-月矩力试验设计局-3.json"
+      "route": "assets/pathing/挪德卡莱3-月矩力试验设计局-2.json"
+    },
+    {
+      "source": 1247,
+      "target": 1248,
+      "route": "assets/pathing/挪德卡莱3-月矩力试验设计局-3.json"
+    },
+    {
+      "source": 1248,
+      "target": 1249,
+      "route": "assets/pathing/挪德卡莱3-月矩力试验设计局-4.json"
+    },
+    {
+      "source": 105,
+      "target": 1250,
+      "route": "assets/pathing/挪德卡莱4-望崖营垒-1.json"
+    },
+    {
+      "source": 1250,
+      "target": 1251,
+      "route": "assets/pathing/挪德卡莱4-望崖营垒-2.json"
+    },
+    {
+      "source": 105,
+      "target": 1252,
+      "route": "assets/pathing/挪德卡莱4-望崖营垒-3.json"
+    },
+    {
+      "source": 1251,
+      "target": 1252,
+      "route": "assets/pathing/挪德卡莱4-望崖营垒-3.json"
+    },
+    {
+      "source": 106,
+      "target": 1253,
+      "route": "assets/pathing/挪德卡莱5-厄布拉神柱-1.json"
+    },
+    {
+      "source": 1253,
+      "target": 1254,
+      "route": "assets/pathing/挪德卡莱5-厄布拉神柱-2.json"
+    },
+    {
+      "source": 107,
+      "target": 1255,
+      "route": "assets/pathing/挪德卡莱5-厄布拉神柱-3.json"
+    },
+    {
+      "source": 1254,
+      "target": 1255,
+      "route": "assets/pathing/挪德卡莱5-厄布拉神柱-3.json"
+    },
+    {
+      "source": 1255,
+      "target": 1256,
+      "route": "assets/pathing/挪德卡莱5-厄布拉神柱-4.json"
     }
   ],
   "indexes": {
@@ -5473,6 +5642,9 @@
       "100": [
         1240
       ],
+      "1239": [
+        1240
+      ],
       "1240": [
         1241
       ],
@@ -5494,8 +5666,42 @@
       "103": [
         1246
       ],
+      "104": [
+        1247
+      ],
       "1246": [
         1247
+      ],
+      "1247": [
+        1248
+      ],
+      "1248": [
+        1249
+      ],
+      "105": [
+        1250,
+        1252
+      ],
+      "1250": [
+        1251
+      ],
+      "1251": [
+        1252
+      ],
+      "106": [
+        1253
+      ],
+      "1253": [
+        1254
+      ],
+      "107": [
+        1255
+      ],
+      "1254": [
+        1255
+      ],
+      "1255": [
+        1256
       ]
     },
     "edgesByTarget": {
@@ -6321,7 +6527,8 @@
         1238
       ],
       "1240": [
-        100
+        100,
+        1239
       ],
       "1241": [
         1240
@@ -6343,7 +6550,37 @@
         103
       ],
       "1247": [
+        104,
         1246
+      ],
+      "1248": [
+        1247
+      ],
+      "1249": [
+        1248
+      ],
+      "1250": [
+        105
+      ],
+      "1251": [
+        1250
+      ],
+      "1252": [
+        105,
+        1251
+      ],
+      "1253": [
+        106
+      ],
+      "1254": [
+        1253
+      ],
+      "1255": [
+        107,
+        1254
+      ],
+      "1256": [
+        1255
       ]
     }
   }

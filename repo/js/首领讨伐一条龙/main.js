@@ -37,6 +37,8 @@ const autoNavigateToReward = async () => {
         let captureRegion = captureGameRegion();
         let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
         let rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
+        captureRegion.dispose();
+        rewardTextArea.dispose();
         // 检测到特点文字则结束！！！ 
         if (rewardResult.text == "接触征讨之花") {
             log.info(`总计前进第${advanceNum}次`);
@@ -44,42 +46,46 @@ const autoNavigateToReward = async () => {
             return;
         }
         else if(advanceNum > 150){
-        log.info(`总计前进第${advanceNum}次`);
-        throw new Error('前进时间超时');
+            log.info(`总计前进第${advanceNum}次`);
+            throw new Error('前进时间超时');
         }
         // 2. 未到达领奖点，则调整视野
         for(let i = 0; i < 100; i++){
-        captureRegion = captureGameRegion();
-        let iconRes = captureRegion.Find(boxIconRo);
-        let climbTextArea = captureRegion.DeriveCrop(1685, 1030, 65, 25);
-        let climbResult = climbTextArea.find(RecognitionObject.ocrThis);
-        // 检查是否处于攀爬状态
-        if (climbResult.text == "Space"){
-        log.info("检侧进入攀爬状态，尝试脱离");
-        keyPress("x");
-        await sleep(1000);
-        keyDown("a");
-        await sleep(800);
-        keyUp("a");
-        keyDown("w");
-        await sleep(800);
-        keyUp("w");
+            captureRegion = captureGameRegion();
+            let iconRes = captureRegion.Find(boxIconRo);
+            let climbTextArea = captureRegion.DeriveCrop(1685, 1030, 65, 25);
+            let climbResult = climbTextArea.find(RecognitionObject.ocrThis);
+            captureRegion.dispose();
+            climbTextArea.dispose();
+            // 检查是否处于攀爬状态
+            if (climbResult.text == "Space"){
+            log.info("检侧进入攀爬状态，尝试脱离");
+            keyPress("x");
+            await sleep(1000);
+            keyDown("a");
+            await sleep(800);
+            keyUp("a");
+            keyDown("w");
+            await sleep(800);
+            keyUp("w");
+            }
+            if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
+                advanceNum++;
+                break;
+            } else {
+                // 小幅度调整
+                if(iconRes.y >= 520)  moveMouseBy(0, 920);
+                let adjustAmount = iconRes.x < 920 ? -20 : 20;
+                let distanceToCenter = Math.abs(iconRes.x - 920); // 计算与920的距离
+                let scaleFactor = Math.max(1, Math.floor(distanceToCenter / 50)); // 根据距离缩放，最小为1
+                let adjustAmount2 = iconRes.y < 540 ? scaleFactor : 10;
+                moveMouseBy(adjustAmount * adjustAmount2, 0);
+                await sleep(100);
+            }
+            if(i > 20) {
+                throw new Error('视野调整超时');
+            }
         }
-        if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {    
-            advanceNum++;
-            break;
-        } else {
-            // 小幅度调整
-            if(iconRes.y >= 520)  moveMouseBy(0, 920);
-            let adjustAmount = iconRes.x < 920 ? -20 : 20;
-            let distanceToCenter = Math.abs(iconRes.x - 920); // 计算与920的距离
-            let scaleFactor = Math.max(1, Math.floor(distanceToCenter / 50)); // 根据距离缩放，最小为1
-            let adjustAmount2 = iconRes.y < 540 ? scaleFactor : 10;
-            moveMouseBy(adjustAmount * adjustAmount2, 0);
-            await sleep(100);
-        }     
-  if(i > 20) throw new Error('视野调整超时');
-    }
         // 3. 前进一小步
         keyDown("w");
         await sleep(200);
@@ -98,20 +104,30 @@ const autoNavigateToReward = async () => {
                 await genshin.returnMainUi();
                 keyPress("M");//打开地图
                 await sleep(1200);
-                captureGameRegion().find(PlusButtonRo).click();// 点击添加体力
+                let ro1 = captureGameRegion();
+                ro1.find(PlusButtonRo).click();// 点击添加体力
+                ro1.dispose();
                 await sleep(600);
-                captureGameRegion().find(FragileResinRo).click();// 选择脆弱树脂
+                let ro2 = captureGameRegion();
+                ro2.find(FragileResinRo).click();// 选择脆弱树脂
+                ro2.dispose();
                 await sleep(600);
-                captureGameRegion().find(ConfirmButtonRo).click();// 点击使用
+                let ro3 = captureGameRegion();
+                ro3.find(ConfirmButtonRo).click();// 点击使用
+                ro3.dispose();
                 await sleep(600);
 
-                let QuickUsePlusButton = captureGameRegion().find(QuickUsePlusButtonRo);
+                let ro4 = captureGameRegion();
+                let QuickUsePlusButton = ro4.find(QuickUsePlusButtonRo);
+                ro4.dispose();
                 for (let i = 0; i < resinNum; ++i) {
                     QuickUsePlusButton.click();// 点击使用数量
                     await sleep(300);
                 }
 
-                captureGameRegion().find(ConfirmButtonRo).click();// 点击使用
+                let ro5 = captureGameRegion();
+                ro5.find(ConfirmButtonRo).click();// 点击使用
+                ro5.dispose();
                 await sleep(600);
                 click(960, 1000);// 点击空白处
                 await genshin.returnMainUi();

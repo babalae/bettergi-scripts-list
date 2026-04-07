@@ -2,16 +2,16 @@
   "info": {
     "name": "2601(水免)璃月港东北",
     "type": "collect",
+    "author": "mno",
     "version": "1.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时297.45秒，包含3只精英与30只小怪，预计收入2463摩拉，包含以下怪物：10只水史莱姆、2只大型水史莱姆、2只风史莱姆、1只大型风史莱姆、3只冰史莱姆、1只大型冰史莱姆、1只水深渊法师、1只冰深渊法师、1只愚人众·雷莹术士、1只盗宝团·斥候、1只盗宝团·雷之药剂师、1只盗宝团·冰之药剂师、1只盗宝团·神射手、1只盗宝团·掘墓者、3只水萤、3只雷萤。",
     "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "mno",
         "links": "https://github.com/Bedrockx"
       }
-    ],
-    "enable_monster_loot_split": true
+    ]
   },
   "positions": [
     {
@@ -39,10 +39,7 @@
       "action": "fight",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "point_ext_params": {
-        "monster_tag": "elite"
-      }
+      "type": "path"
     },
     {
       "id": 4,
@@ -132,10 +129,7 @@
       "action": "fight",
       "move_mode": "walk",
       "action_params": "",
-      "type": "path",
-      "point_ext_params": {
-        "monster_tag": "elite"
-      }
+      "type": "path"
     },
     {
       "id": 14,
@@ -242,7 +236,7 @@
       "y": -101.5,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "path"
     },
     {
@@ -296,7 +290,7 @@
       "y": -57.27,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

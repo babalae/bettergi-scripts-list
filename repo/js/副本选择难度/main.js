@@ -261,9 +261,24 @@
             "description": "Domain",
             "name": "荒废砌造坞",
             "position": [-3378.5, 0, 10535.5]
+        },
+        {
+            "description": "Domain",
+            "name": "霜凝的机枢",
+            "position": [3150.53, 0, 9375.39]
+        },
+        {
+            "description": "Domain",
+            "name": "失落的月庭",
+            "position": [1936.05, 0, 10828.34]
+        },
+        {
+            "description": "Domain",
+            "name": "无光的深都",
+            "position": [1832.2, 0, 9967.05]
         }
     ]
-    Lowxy=[200,300,400,500,600,700]
+    Lowxy = [200, 300, 400, 500, 600, 700]
     let domainName = settings.name;
     let domainLevel = settings.level;
     // 使用 find 方法找到匹配的域对象
@@ -310,17 +325,17 @@
     await sleep(500);
     keyPress("f")
     await sleep(5000);
-    let xy =0;let xx=400
-    switch (domainLevel){
-        case "I" :xy=200;break;
-        case "II" :xy=300;break;
-        case "III" :xy=400;break;
-        case "IV" :xy=500;break;
-        case "V" :xy=600;break;
-        case "VI" :xy=700;break;
+    let xy = 0; let xx = 400
+    switch (domainLevel) {
+        case "I": xy = 200; break;
+        case "II": xy = 300; break;
+        case "III": xy = 400; break;
+        case "IV": xy = 500; break;
+        case "V": xy = 600; break;
+        case "VI": xy = 700; break;
     }
     log.info(`已选择难度${domainLevel}`)
-    click(xx,xy)
+    click(xx, xy)
     await sleep(1000);
-    click(1840,50)
+    click(1840, 50)
 })();

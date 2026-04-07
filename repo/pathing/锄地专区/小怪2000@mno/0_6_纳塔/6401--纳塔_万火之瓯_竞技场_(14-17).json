@@ -1,10 +1,10 @@
 {
   "info": {
     "name": "6401--纳塔_万火之瓯_竞技场_(14-17)",
-    "enable_monster_loot_split": true,
     "type": "collect",
+    "author": "Demo&汐",
     "version": "1.1",
-    "description": "",
+    "description": "  路线信息：该路线预计用时336.28秒，包含31只小怪，预计收入1863摩拉，包含以下怪物：1只水史莱姆、1只大型水史莱姆、1只铸砂勇士·叩问人、1只铸砂勇士·碎盾者、1只铸砂勇士·投矛手、3只疾讯勇士·引索客、1只疾讯勇士·荡风斥候、1只疾讯勇士·重刃讯使、1只嵴锋龙武士·碎晶打者、1只匿叶龙武士·旋锯飞叶、4只幼嵴锋龙、6只嵴锋龙、3只幼匿叶龙、6只匿叶龙。",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "authors": [
@@ -75,7 +75,7 @@
     {
       "id": 7,
       "x": 9011.54,
-      "y": -1596.0,
+      "y": -1596,
       "action": "",
       "move_mode": "jump",
       "action_params": "",
@@ -123,7 +123,7 @@
       "y": -1626.08,
       "action": "combat_script",
       "move_mode": "fly",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "path"
     },
     {

@@ -1,0 +1,13 @@
+// 作者:PanGuoFeng
+// 描述:雷神国家队
+//配置:该配置根据作者本人队伍设定，如果可以通过副本，则无需看下面配置。
+//		行秋配置：充能>170%、武器：祭礼剑（必需）
+//		香菱配置：充能>200%
+//		雷神配置：充能>250%
+//		班尼特配置：充能>240%
+雷神 w(1.3),skill，wait(0.2)
+行秋 skill,burst,attack,wait(0.01)
+班尼特 attack,burst,wait(0.1),skill
+香菱 wait(0.5),burst,wait(0.1),skill,wait(0.1)
+行秋 skill,attack
+雷神 burst,attack(8)

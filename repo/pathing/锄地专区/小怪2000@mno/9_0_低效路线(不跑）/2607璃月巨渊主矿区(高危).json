@@ -2,6 +2,7 @@
   "info": {
     "name": "2607璃月巨渊主矿区(高危)",
     "type": "collect",
+    "author": "mno",
     "version": "1.0",
     "description": "",
     "map_name": "TheChasm",
@@ -174,7 +175,7 @@
       "y": 974.34,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     },
     {
@@ -300,7 +301,7 @@
       "y": 1102.39,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

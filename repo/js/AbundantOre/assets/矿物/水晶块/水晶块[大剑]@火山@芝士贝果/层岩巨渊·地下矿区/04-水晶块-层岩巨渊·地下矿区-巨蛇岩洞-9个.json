@@ -1,0 +1,207 @@
+{
+  "info": {
+    "name": "04-水晶块-层岩巨渊·地下矿区-巨蛇岩洞-9个",
+    "type": "collect",
+    "version": "1.1",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 887.62,
+      "y": 762.63,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 971.08,
+      "y": 703.16,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1041.14,
+      "y": 699.91,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1045.47,
+      "y": 698.07,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 1047.28,
+      "y": 702.0,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 1056.79,
+      "y": 699.55,
+      "action": "mining",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 1055.21,
+      "y": 696.8,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 887.64,
+      "y": 762.66,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 9,
+      "x": 959.6,
+      "y": 779.51,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 988.19,
+      "y": 782.12,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 1006.53,
+      "y": 783.29,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "s(0.2),dash,wait(0.2),dash",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 995.91,
+      "y": 782.46,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 1015.48,
+      "y": 783.74,
+      "action": "mining",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": 1021.63,
+      "y": 783.7,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "s(0.2),dash",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 1014.9,
+      "y": 784.81,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 1023.22,
+      "y": 787.97,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "s(0.2),dash,wait(0.2),dash",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 1016.08,
+      "y": 784.28,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 1029.34,
+      "y": 784.06,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 19,
+      "x": 1025.69,
+      "y": 786.05,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 20,
+      "x": 1022.3,
+      "y": 790.56,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 21,
+      "x": 1018.16,
+      "y": 788.16,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

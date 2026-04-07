@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758051699503,
+    "last_modified_time": 1761135720632,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B26-萃凝晶-纳塔-悬木人上方3（火神赶路-3个）",
@@ -40,35 +40,27 @@
     },
     {
       "action": "combat_script",
-      "action_params": "玛薇卡 w(0.15),attack(0.3),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),dash(0.5),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "action_params": "玛薇卡 w(0.15),attack(0.3),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(1),attack,wait(2),e,wait(0.2),keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 3,
+      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 8892.4277,
-      "y": -2080.4854
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.5)",
-      "id": 4,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 8892.4277,
-      "y": -2080.4854
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 8898.248,
-      "y": -2066.5684
+      "x": 8806.082,
+      "y": -2038.3208
     },
     {
       "action": "",
       "action_params": "",
-      "id": 6,
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8888.2324,
+      "y": -2039.0215
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
       "move_mode": "dash",
       "type": "path",
       "x": 8909.1211,
@@ -77,7 +69,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 7,
+      "id": 6,
       "move_mode": "walk",
       "type": "target",
       "x": 8914.4551,
@@ -86,7 +78,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
-      "id": 8,
+      "id": 7,
       "move_mode": "walk",
       "type": "path",
       "x": 8914.4551,
@@ -95,7 +87,7 @@
     {
       "action": "pick_around",
       "action_params": "",
-      "id": 9,
+      "id": 8,
       "move_mode": "walk",
       "type": "path",
       "x": 8914.4551,
@@ -104,7 +96,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 10,
+      "id": 9,
       "move_mode": "run",
       "type": "path",
       "x": 8912.8232,
@@ -113,7 +105,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 11,
+      "id": 10,
       "move_mode": "walk",
       "type": "target",
       "x": 8914.9111,
@@ -122,7 +114,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
-      "id": 12,
+      "id": 11,
       "move_mode": "walk",
       "type": "path",
       "x": 8914.9111,

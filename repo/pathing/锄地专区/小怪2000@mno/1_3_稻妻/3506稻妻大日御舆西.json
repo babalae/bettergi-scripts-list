@@ -2,6 +2,7 @@
   "info": {
     "name": "3506稻妻大日御舆西",
     "type": "collect",
+    "author": "mno",
     "version": "1.0",
     "description": "",
     "map_name": "Enkanomiya",
@@ -11,8 +12,7 @@
         "name": "mno",
         "links": "https://github.com/Bedrockx"
       }
-    ],
-    "enable_monster_loot_split": true
+    ]
   },
   "positions": [
     {
@@ -50,10 +50,7 @@
       "type": "orientation",
       "move_mode": "walk",
       "action": "fight",
-      "action_params": "",
-      "point_ext_params": {
-        "monster_tag": "elite"
-      }
+      "action_params": ""
     },
     {
       "id": 5,

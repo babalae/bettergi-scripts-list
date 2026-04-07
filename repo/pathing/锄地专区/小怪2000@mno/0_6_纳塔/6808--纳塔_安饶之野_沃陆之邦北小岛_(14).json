@@ -1,10 +1,10 @@
 {
   "info": {
     "name": "6808--纳塔_安饶之野_沃陆之邦北小岛_(14)",
-    "enable_monster_loot_split": true,
     "type": "collect",
+    "author": "汐&mno",
     "version": "1.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时172.07秒，包含12只小怪，预计收入729摩拉，包含以下怪物：2只幼鳍游龙、3只鳍游龙、4只幼突角龙、3只突角龙。",
     "bgi_version": "0.42.0",
     "authors": [
       {
@@ -83,7 +83,7 @@
     },
     {
       "id": 8,
-      "x": 10296.0,
+      "x": 10296,
       "y": -2175.79,
       "action": "fight",
       "move_mode": "dash",
@@ -124,7 +124,7 @@
       "y": -2048.72,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]

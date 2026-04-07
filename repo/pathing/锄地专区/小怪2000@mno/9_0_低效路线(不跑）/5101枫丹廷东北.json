@@ -2,6 +2,7 @@
   "info": {
     "name": "5101枫丹廷东北",
     "type": "collect",
+    "author": "mno",
     "version": "1.0",
     "description": "",
     "bgi_version": "0.42.0",
@@ -136,7 +137,7 @@
       "y": 3798.5,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     },
     {
@@ -181,7 +182,7 @@
       "y": 4011.05,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "path"
     }
   ]

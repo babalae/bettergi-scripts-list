@@ -1,25 +1,67 @@
 eval(file.readTextSync("reward.js"));
+eval(file.readTextSync("utils.js"));
 (async function () {
+    const FARM_MODES = {
+        ONCE: "一次性",
+        DAILY_LIMIT: "一次性-每日限量",
+        DAILY: "每日重置"
+    };
     try {
         /**
          * 追加Boss配置
          */
-        function addBoss() {
+        async function addBoss() {
+            //总次数
             const rounds = parseInt(settings.rounds, 10);
             if (isNaN(rounds) || rounds < 0) {
-                console.warn(`⚠️无效的挑战次数: ${settings.rounds}，将使用 1 作为默认值。`);
+                log.warn(`⚠️无效的挑战次数: {rounds}，将使用 1 作为默认值。`, settings.rounds);
             }
             const totalCount = isNaN(rounds) ? 1 : rounds;
+
+            // 每日刷取上限
+            let dailyLimitCount = parseInt(settings.dailyLimitCount, 10);
+            if (isNaN(dailyLimitCount) || dailyLimitCount < 0) {
+                log.warn(`⚠️无效的每日上限: {dailyLimitCount}，将使用 1 作为默认值。`, settings.dailyLimitCount);
+            }
+            dailyLimitCount = isNaN(dailyLimitCount) ? 1 : dailyLimitCount;
+
+
+            //战斗超时时间
+            let timeout = parseInt(settings.timeout, 10);
+            if (isNaN(timeout)) {
+                log.warn(`⚠️无效的超时时间: {timeout}，将使用 240 秒作为默认值。`, settings.timeout)
+                timeout = 240;
+            }
+
+            // 刷取模式
+            if (settings.farmMode === FARM_MODES.ONCE) {
+                farmMode = FARM_MODES.ONCE
+            } else if (settings.farmMode === FARM_MODES.DAILY_LIMIT) {
+                farmMode = FARM_MODES.DAILY_LIMIT
+            } else if (settings.farmMode === FARM_MODES.DAILY) {
+                farmMode = FARM_MODES.DAILY
+            } else {
+                throw new Error(`无效的farmMode: ${settings.farmMode}`);
+            }
+
             const newBoss = {
                 name: settings.bossSelection,
                 totalCount: totalCount,
-                completedCount: 0,
                 remainingCount: totalCount,
                 team: settings.switchPartyName,
-                returnToStatueAfterEachRound: settings.returnToStatueBeforeStart
+                returnToStatueAfterEachRound: settings.returnToStatueBeforeStart,
+                farmMode: farmMode,
+                lastFarmTime: null,
+                dailyLimitCount: dailyLimitCount,
+                dailyRemainingCount: dailyLimitCount,
+                fightParam: {
+                    timeout: timeout,
+                    strategyName: settings.strategyName,
+                }
             };
+
             config.push(newBoss);
-            log.info(`✅Boss "${settings.bossSelection}" 已追加。`);
+            log.info(`✅Boss "{bossSelection}" 已追加。`, settings.bossSelection);
         }
 
         /**
@@ -44,20 +86,26 @@ eval(file.readTextSync("reward.js"));
          * 遍历整个boss讨伐列表，然后按照讨伐次数自动讨伐并领取奖励
          * @async
          * @param {boolean} goToBoss - 是否需要导航到Boss。
-         * @param {boolean} isClaimFailed - 是否因为体力不足而中止。
+         * @param {boolean} isInsufficientResin - 是否因为体力不足而中止。
          * @param {boolean} battleSuccess - 当前一轮讨伐是否成功。
          * @param {boolean} returnToStatueAfterEachRound - 是否在每次讨伐后回到七天神像。
          */
         async function runMain() {
-            
+
             // --- 打印所有Boss的剩余次数 ---
             for (let i = 0; i < config.length; i++) {
                 if (i % 10 === 0) {
                     let currentPage = Math.floor(i / 10) + 1;
-                    log.info(`--- 当前boss队列 (第 ${currentPage} 页) ---`);
+                    log.info(`--- 当前boss队列 (第 {currentPage} 页) ---`, currentPage);
                 }
 
-                log.info(`🎵${i + 1}.${config[i]["name"]} - 剩余: ${config[i]["remainingCount"]}/${config[i]["totalCount"]}, 队伍: ${config[i]["team"]}`);
+                log.info(`🎵{i}.{name} - 剩余: {remainingCount}/{totalCount}, 队伍: {team}`,
+                    i + 1,
+                    config[i]["name"],
+                    config[i]["remainingCount"],
+                    config[i]["totalCount"],
+                    config[i]["team"]
+                );
 
                 const isEndOfPage = (i + 1) % 10 === 0;
                 const isLastItem = i === config.length - 1;
@@ -71,7 +119,7 @@ eval(file.readTextSync("reward.js"));
 
                     if (isEndOfPage && !isLastItem) {
                         let currentPage = Math.floor((i + 1) / 10);
-                        log.info(`⌛️当前第 ${currentPage} 页结束，5秒后显示下一页`);
+                        log.info(`⌛️当前第 {currentPage} 页结束，5秒后显示下一页`, currentPage);
                         await sleep(5000);
                     } else if (isLastItem) {
                         log.info(`🔚列表显示完毕，5秒后继续`);
@@ -79,61 +127,101 @@ eval(file.readTextSync("reward.js"));
                     }
                 }
             }
+
             try {
-                let isClaimFailed = false;
+                let isInsufficientResin = false;
                 // --- 遍历Boss列表 ---
-                for (const boss of config) {
+                for (let boss of config) {
                     let goToBoss = true;
                     const returnToStatueAfterEachRound = boss.returnToStatueAfterEachRound
 
                     // --- 检查体力是否足够 ---
-                    if (isClaimFailed) {
-                        break; // 如果体力不足，跳出循环
+                    if (isInsufficientResin) {
+                        log.info(`体力不足，结束刷取BOSS材料`)
+                        break; 
                     };
 
+                    //刷取模式为 每日限量 or 每日重置 时
+                    if (boss.farmMode === FARM_MODES.DAILY_LIMIT || boss.farmMode === FARM_MODES.DAILY) {
+                        //如果今天还未刷取，重置今日已刷取次数
+                        if (!isToday(boss.lastFarmTime)) {
+                            log.info(`今天还未刷取{boss.name}，重置今日刷取次数`, boss.name);
+                            boss.dailyRemainingCount = Math.min(boss.dailyLimitCount, boss.remainingCount);
+                            boss.lastFarmTime = getToday();
+                        }
+                        if (boss.dailyRemainingCount < 1) {
+                            log.info(`今日刷取{name}达到上限，跳过`, boss.name);
+                            continue;
+                        }
+                    }
+
+
                     // --- 检查当前boss剩余需讨伐次数 ---
-                    if (boss.remainingCount <= 0) {
-                        log.info(`Boss "${boss.name}" 已完成全部${boss.totalCount}次讨伐。跳过`);
+                    if (boss.remainingCount <= 0 && boss.farmMode === FARM_MODES.ONCE) {
+                        log.info(`Boss "{name}" 已完成全部{totalCount}次讨伐。跳过`, boss.name, boss.totalCount);
                         continue;
                     };
 
                     // --- 切换队伍 ---
                     if (boss.team !== "不切换") {
-                        log.info(`切换队伍『${boss.team}』`);
+                        log.info(`切换队伍『{team}』`, boss.team);
                         await genshin.switchParty(boss.team);
                     };
 
+                    // --- 初始化自定战斗参数 ---
+                    // let fightParam = new AutoFightParam(boss.fightParam.strategyName)
+                    // fightParam.timeout = boss.fightParam.timeout;
+
+                    let remainingCount
+                    if (boss.farmMode === FARM_MODES.DAILY_LIMIT || boss.farmMode === FARM_MODES.DAILY) {
+                        remainingCount = boss.dailyRemainingCount
+                    } else if (boss.farmMode === FARM_MODES.ONCE) {
+                        remainingCount = boss.remainingCount
+                    }
+
                     // --- 根据剩余次数循环讨伐 ---
-                    for (let round = 1; round <= boss.remainingCount; round++) {
+                    for (let round = 1; round <= remainingCount; round++) {
                         let battleSuccess = false;
-                        if (isClaimFailed) {
+                        if (isInsufficientResin) {
                             break; // --- 体力不足，停止讨伐 ---
                         }
-
-                        log.info(`📢当前进度：讨伐『${boss.name}』，第${round}/${boss.remainingCount}次`);
-                        log.info(`使用队伍：${boss.team}，每轮回七天神像：${returnToStatueAfterEachRound ? '是' : '否'}`);
+                        log.info(`📢当前进度：讨伐『{boss.name}』，第{round}/{remainingCount}次,今日限次：{dailyLimitCount}`,
+                            boss.name,
+                            round,
+                            remainingCount,
+                            boss.farmMode === FARM_MODES.ONCE ? boss.totalCount : boss.dailyLimitCount
+                        );
+                        log.info(`使用队伍：{team}，每轮回七天神像：{text}`,
+                            boss.team,
+                            returnToStatueAfterEachRound ? '是' : '否'
+                        );
 
                         for (let attempt = 1; attempt <= 2; attempt++) {
                             //体力不足和战斗成功后无需重试
-                            if (isClaimFailed || battleSuccess) {
+                            if (isInsufficientResin || battleSuccess) {
                                 break;
                             };
                             if (goToBoss) {
-                                log.info(`🏃前往『${boss.name}』`);
+                                log.info(`🏃前往『{name}』`,boss.name);
                                 await pathingScript.runFile(`assets/Pathing/${boss.name}前往.json`);
                             };
                             try {
 
-                                log.info(`⚔️开始第 ${attempt} 次讨伐尝试`);
+                                log.info(`⚔️开始第 {round} 次讨伐的第 {attempt} 尝试`,round,attempt);
                                 await dispatcher.runTask(new SoloTask("AutoFight"));
+                                // await dispatcher.runAutoFightTask(fightParam);
                                 await autoNavigateToReward();
-                                isClaimFailed = await takeReward(isClaimFailed);
+                                isInsufficientResin = await takeReward(isInsufficientResin);
                                 battleSuccess = true;
                                 goToBoss = false;
                                 // === 更新 讨伐完成次数 与 剩余讨伐次数 ===
-                                if (!isClaimFailed) {
-                                    boss.remainingCount--;
-                                    boss.completedCount++;
+                                if (!isInsufficientResin) {
+                                    if (boss.farmMode === FARM_MODES.DAILY_LIMIT || boss.farmMode === FARM_MODES.ONCE) {
+                                        boss.remainingCount--;
+                                    }
+                                    if (boss.farmMode === FARM_MODES.DAILY_LIMIT || boss.farmMode === FARM_MODES.DAILY) {
+                                        boss.dailyRemainingCount--;
+                                    }
                                 };
                                 break;
 
@@ -146,7 +234,7 @@ eval(file.readTextSync("reward.js"));
                         }
 
                         if (!battleSuccess) {
-                            log.error(`💀战斗失败次数超过2次，跳过当前BOSS ${boss.name}`);
+                            log.error(`💀战斗失败次数超过2次，跳过当前BOSS ${name}`,boss.name);
                             break;
                         }
 
@@ -157,8 +245,8 @@ eval(file.readTextSync("reward.js"));
                             goToBoss = true;
                         };
 
-                        if (!goToBoss && boss.remainingCount > 0 && !isClaimFailed) {
-                            if (["歌裴莉娅的葬送", "科培琉司的劫罚", "纯水精灵"].includes(boss.name)) {
+                        if (!goToBoss && boss.remainingCount > 0 && !isInsufficientResin) {
+                            if (["歌裴莉娅的葬送", "科培琉司的劫罚", "纯水精灵","霜夜巡天灵主","重拳出击鸭"].includes(boss.name)) {
                                 await pathingScript.runFile(`assets/Pathing/${boss.name}战斗后快速前往.json`);
                             } else {
                                 log.debug("等待5s后BOSS刷新");
@@ -169,34 +257,45 @@ eval(file.readTextSync("reward.js"));
                 }
             }
             catch (error) {
-                log.error(`遍历Boss列表失败，error: ${error}`);
+                log.error(`遍历Boss列表失败， ${error}`);
             } finally {
+                log.info("📢脚本执行完毕,保存配置");
                 file.writeTextSync("assets/config/config.json", JSON.stringify(config, null, 4));
             }
-
-
         }
 
-        const content = file.readTextSync("assets/config/config.json");
-        let config = JSON.parse(content);
-
-        if (!Array.isArray(config)) {
+        let config;
+        try {
+            config = JSON.parse(file.readTextSync("assets/config/config.json"));
+        } catch (error) {
+            log.error(`读取配置文件失败: ${error}`);
+            log.info(`初始化配置`);
             config = [];
         }
+        if (!Array.isArray(config)) {
+            log.warn("配置文件格式不正确，已重置为空数组");
+            config = [];
+        }
+
         const runMode = settings.runMode;
-        const modeHandlers = {
-            "追加指定Boss及相关配置": addBoss,
-            "删除同名Boss及相关配置": removeBoss,
-            "！！删除所有BOSS！！": clearAllBosses,
-            "运行": runMain,
+        // === 执行对应操作 ===
+        const RUN_MODES = {
+            ADD_BOSS: "追加指定Boss及相关配置",
+            REMOVE_BOSS: "删除同名Boss及相关配置",
+            CLEAR_ALL: "！！删除所有BOSS！！",
+            RUN: "运行"
         };
 
-        // === 执行对应操作 ===
-        const handler = modeHandlers[runMode];
-        if (handler) {
-            await handler();
+        if (runMode === RUN_MODES.ADD_BOSS) {
+            addBoss();
+        } else if (runMode === RUN_MODES.REMOVE_BOSS) {
+            removeBoss();
+        } else if (runMode === RUN_MODES.CLEAR_ALL) {
+            clearAllBosses();
+        } else if (runMode === RUN_MODES.RUN) {
+            await runMain();
         } else {
-            log.debug("❓️未知的运行模式:", runMode);
+            log.error("❓️未知的运行模式:", runMode);
         }
 
         // === 写回配置文件 ===

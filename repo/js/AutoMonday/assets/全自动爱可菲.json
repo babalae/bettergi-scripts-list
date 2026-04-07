@@ -1,4 +1,4 @@
-﻿{
+{
   "config": {
     "realtime_triggers": {
       "AutoPick": true
@@ -24,7 +24,7 @@
     "description": "基于电气水晶的全自动爱可菲做菜",
     "enable_monster_loot_split": false,
     "items": [],
-    "last_modified_time": 1758611009216,
+    "last_modified_time": 1768384702360,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "全自动爱可菲",
@@ -39,25 +39,15 @@
       "action_params": "",
       "id": 1,
       "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
       "type": "path",
-      "x": -308.251953125,
-      "y": 623.14453125
+      "x": -309.21484375,
+      "y": 617.025390625
     },
     {
       "action": "combat_script",
-      "action_params": "爱可菲 e(hold),s(0.75)",
+      "action_params": "w(0.2);爱可菲 e(hold);",
       "id": 2,
+      "locked": false,
       "move_mode": "walk",
       "point_ext_params": {
         "description": "",
@@ -70,9 +60,38 @@
           ]
         }
       },
-      "type": "target",
-      "x": -309.484375,
-      "y": 616.5263671875
+      "type": "orientation",
+      "x": -309.3583984375,
+      "y": 615.38134765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -308.541015625,
+      "y": 620.0087890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "orientation",
+      "x": -309.3583984375,
+      "y": 615.38134765625
     }
   ]
 }

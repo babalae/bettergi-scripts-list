@@ -2,7 +2,7 @@
 
 [BetterGI](https://github.com/babalae/better-genshin-impact) 的 📜 脚本仓库
 
-在线版脚本仓库：[bgi.sh](https://bgi.sh)
+在线版脚本仓库：[bgi.sh](https://bgi.sh)  备用地址：[https://s.bettergi.com](https://s.bettergi.com/)
 
 作者Q群：764972801 （非作者请勿加入）
 
@@ -18,6 +18,26 @@
 ## 脚本提交规范
 
 为了保证脚本的规范性和可读性，方便用户清晰了解脚本的用途，制定以下脚本命名规则和脚本文件夹命名规则。
+
+### 战斗策略脚本
+
+创建战斗策略脚本请参考文档[自动战斗](https://www.bettergi.com/feats/task/domain.html)和已有的其他战斗策略脚本
+
+#### 命名规则
+
+- 脚本的名称**应包含使用的角色简写**
+- 特别的，只能用于副本，不适用于锄地的战斗策略应当增加“-副本”的后缀
+
+#### 注释与署名
+
+- 战斗策略脚本中使用“//”进行注释，必要时应当在脚本中使用注释以明确使用的条件等
+- 推荐在策略中同时通过注释说明自动战斗设置中的相关部分，例如：“// 检查战斗结束的延时：设置为 0.4”
+- 署名使用“//作者：你的名字”，错误的格式将导致无法识别
+
+#### 注意事项
+
+- 确保你充分了解自动战斗的完整机制（如战斗结束检查的触发）和每个动作的具体内容再开始编写战斗策略
+- 提交前请进行充分的实战测试与优化。若战斗策略被社区或管理员判定为低质量，其合并请求（PR）将不予通过。
 
 ### 地图追踪脚本
 
@@ -204,6 +224,10 @@
 
 ## 相关源码
 
-脚本仓库页面的源码：[bettergi-scripts-web](https://github.com/huiyadanli/bettergi-scripts-web)
+脚本仓库页面的源码
+
+- 旧版：[bettergi-scripts-web](https://github.com/huiyadanli/bettergi-scripts-web)
+- 新版：[bettergi-script-web](https://github.com/zaodonganqi/bettergi-script-web)
+
 
 地图路径追踪的源码：[bettergi-map](https://github.com/huiyadanli/bettergi-map)

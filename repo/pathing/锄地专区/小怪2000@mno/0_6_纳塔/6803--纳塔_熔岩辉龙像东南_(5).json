@@ -1,10 +1,10 @@
 {
   "info": {
     "name": "6803--纳塔_熔岩辉龙像东南_(5)",
-    "enable_monster_loot_split": true,
     "type": "collect",
+    "author": "汐&mno",
     "version": "1.0",
-    "description": "",
+    "description": "  路线信息：该路线预计用时125.35秒，包含6只小怪，预计收入486摩拉，包含以下怪物：1只绒翼龙、1只暝视龙、4只突角龙。",
     "map_name": "Teyvat",
     "bgi_version": "0.45.0",
     "authors": [
@@ -71,7 +71,7 @@
       "y": -2268.1,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     },
     {
@@ -135,7 +135,7 @@
       "y": -2432.28,
       "action": "combat_script",
       "move_mode": "dash",
-      "action_params": "wait(1)",
+      "action_params": "wait(0.1)",
       "type": "orientation"
     }
   ]
