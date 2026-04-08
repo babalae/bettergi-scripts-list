@@ -206,26 +206,31 @@ async function deleteSource() {
   await genshin.returnMainUi();
 }
 
+// 退出房间
+async function exitRoom() {
+  keyPress("VK_P");
+  await waitUntilTextAppear(
+    "确认",
+    async () => {
+      await findImgAndClick(exit_room, 960, 0, 960, 540, 5000);
+    },
+    960,
+    600,
+    960,
+    400,
+    50,
+    100
+  );
+  await findTextAndClick("确认", 960, 600, 960, 400, 50);
+  await genshin.returnMainUi();
+}
+
 // 进入千星奇域的全部奇域页面
 async function enterSourcePage() {
   // 1. 检测是否在房间内，在则退出
   const inRoom = await findText("房间", 1500, 0, 420, 500, 5, 100);
   if (inRoom) {
-    keyPress("VK_P");
-    await waitUntilTextAppear(
-      "确认",
-      async () => {
-        await findImgAndClick(exit_room, 960, 0, 960, 540, 5000);
-      },
-      960,
-      600,
-      960,
-      400,
-      50,
-      100
-    );
-    await findTextAndClick("确认", 960, 600, 960, 400, 50);
-    await genshin.returnMainUi();
+    await exitRoom();
     keyPress("VK_F6");
   } else {
     keyPress("VK_F6");
@@ -238,20 +243,7 @@ async function enterStarSourcePage() {
   // 1. 检测是否在房间内，在则退出
   const inRoom = await findText("房间", 1500, 0, 420, 500, 5, 100);
   if (inRoom) {
-    keyPress("VK_P");
-    await waitUntilTextAppear(
-      "确认",
-      async () => {
-        await findImgAndClick(exit_room, 960, 0, 960, 540, 500);
-      },
-      960,
-      600,
-      960,
-      400,
-      100
-    );
-    await findTextAndClick("确认", 960, 600, 960, 400);
-    await genshin.returnMainUi();
+    await exitRoom();
     keyPress("VK_B");
   } else {
     keyPress("VK_F6");
@@ -297,8 +289,9 @@ async function createRoom() {
   await findText("开始游戏", 960, 540, 960, 540);
   click(770, 275);
   // 校验点击状态
+  await sleep(duration);
   let is_ready = await findImg(room_ready, 600, 170, 350, 230);
-  while (!is_ready.isExist()) {
+  while (!is_ready) {
     await sleep(duration);
     click(770, 275);
     is_ready = await findImg(room_ready, 600, 170, 350, 230);
