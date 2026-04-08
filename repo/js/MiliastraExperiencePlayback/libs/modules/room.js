@@ -1,5 +1,5 @@
 import { __name } from "../rolldown-runtime.js";
-import { assertRegionAppearing, waitForAction } from "../@bettergi+utils.js";
+import { assertRegionAppearing, sleepSync, waitForAction } from "../@bettergi+utils.js";
 import {
   clickToChooseFirstSearchResult,
   findAllWonderlandsBtn,
@@ -73,6 +73,7 @@ const createRoom = async (room) => {
       //! 检测搜索过于频繁提示
       if (findSearchWonderlandThrottleMsg()) return true;
       //! 检测搜索结果是否变化
+      sleepSync(1e3);
       return fswnt.toLocaleLowerCase().trim() !== iwnt.toLocaleLowerCase().trim();
     },
     async () => {
