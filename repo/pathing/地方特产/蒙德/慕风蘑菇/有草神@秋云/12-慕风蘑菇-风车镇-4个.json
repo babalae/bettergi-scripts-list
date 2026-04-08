@@ -1,0 +1,150 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1775656636428,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "12-慕风蘑菇-风车镇-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -156.431640625,
+      "y": 3091.36572265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -155.068359375,
+      "y": 3079.90673828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -141.958984375,
+      "y": 3074.12841796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -142.583984375,
+      "y": 3059.1396484375
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -144.71484375,
+      "y": 3056.2353515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -137.091796875,
+      "y": 3064.02734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 attack",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -140.484375,
+      "y": 3048.77294921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 moveby(0,5000),keydown(e),wait(0.3),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),keyup(e),wait(0.5),click(middle)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -140.484375,
+      "y": 3048.77294921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -133.939453125,
+      "y": 3065.22705078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -123.005859375,
+      "y": 3076.76953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -112.259765625,
+      "y": 3097.37158203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 w(0.1),wait(0.5),moveby(0,5000),keydown(e),wait(0.3),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),keyup(e),wait(0.5),click(middle)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -112.08203125,
+      "y": 3095.3681640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -121.841796875,
+      "y": 3091.3876953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 w(0.1),wait(1.5),moveby(0,5000),keydown(e),wait(0.3),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),keyup(e),wait(0.5),click(middle)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -124.5625,
+      "y": 3106.17822265625
+    }
+  ]
+}
