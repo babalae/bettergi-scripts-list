@@ -327,6 +327,13 @@ const deepMerge = (...objects) => {
     }, result);
   }, {});
 };
+/**
+ * 同步休眠执行指定时长
+ * @param duration - 休眠时长（毫秒）
+ */
+const sleepSync = (duration) => {
+  duration > 0 && Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, duration);
+};
 
 //#endregion
 //#region node_modules/@bettergi/utils/dist/time.js
@@ -533,6 +540,7 @@ export {
   getNextDay4AM,
   getNextMonday4AM,
   isHostException,
+  sleepSync,
   useStoreWithDefaults,
   waitForAction,
 };

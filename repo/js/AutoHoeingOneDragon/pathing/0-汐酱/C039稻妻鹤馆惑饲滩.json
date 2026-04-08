@@ -11,7 +11,7 @@
     "description": "  路线信息：该路线预计用时344.25秒，包含以下怪物：1只水史莱姆、2只丘丘人、0.5只射手丘丘人、2只雷斧丘丘暴徒、1只丘丘雷兜王、1只水丘丘萨满、2只嗜雷·兽境幼兽、2只嗜岩·兽境猎犬、3只遗迹巡弋者、1只遗迹歼击者、0.5只嗜雷·兽境猎犬。",
     "enable_monster_loot_split": false,
     "hash_res": "23912835",
-    "last_modified_time": 1774337987602,
+    "last_modified_time": 1775575072867,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C039稻妻鹤馆惑饲滩",
@@ -53,8 +53,8 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": -2675.1100000000006,
-      "y": -6493.27
+      "x": -2676.8757594790404,
+      "y": -6492.062060808985
     },
     {
       "action": "",
@@ -111,18 +111,38 @@
       "y": -6524.33
     },
     {
-      "action": "fight",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "attack(0.1)",
       "id": 11,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": -2702.3100000000013,
-      "y": -6597.310000000001
+      "x": -2706.15625,
+      "y": -6596.7578125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2706.15625,
+      "y": -6596.7578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -2706.15625,
+      "y": -6596.7578125
     },
     {
       "action": "",
       "action_params": "",
-      "id": 12,
+      "id": 14,
       "move_mode": "walk",
       "type": "teleport",
       "x": -2612.380000000001,
@@ -131,7 +151,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 13,
+      "id": 15,
       "move_mode": "dash",
       "type": "path",
       "x": -2558.260000000002,
@@ -140,7 +160,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
+      "id": 16,
       "move_mode": "dash",
       "type": "path",
       "x": -2566.6399999999994,
@@ -149,7 +169,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 15,
+      "id": 17,
       "move_mode": "fly",
       "type": "path",
       "x": -2556.1899999999987,
@@ -158,7 +178,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 16,
+      "id": 18,
       "move_mode": "walk",
       "type": "path",
       "x": -2554.1899999999987,
@@ -167,7 +187,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 19,
       "move_mode": "dash",
       "type": "path",
       "x": -2544.4199999999983,
@@ -176,7 +196,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 18,
+      "id": 20,
       "move_mode": "dash",
       "type": "path",
       "x": -2467.529999999999,
@@ -185,7 +205,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
+      "id": 21,
       "move_mode": "dash",
       "type": "path",
       "x": -2441.1699999999983,
@@ -194,7 +214,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 20,
+      "id": 22,
       "move_mode": "dash",
       "type": "path",
       "x": -2430.6100000000006,
@@ -203,7 +223,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 21,
+      "id": 23,
       "move_mode": "dash",
       "type": "path",
       "x": -2379.970000000001,
@@ -212,7 +232,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 22,
+      "id": 24,
       "move_mode": "dash",
       "type": "path",
       "x": -2387.30078125,
@@ -221,7 +241,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 23,
+      "id": 25,
       "move_mode": "dash",
       "type": "path",
       "x": -2405.203125,
@@ -230,7 +250,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 24,
+      "id": 26,
       "move_mode": "dash",
       "type": "path",
       "x": -2431.220703125,
@@ -239,7 +259,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 25,
+      "id": 27,
       "move_mode": "dash",
       "type": "path",
       "x": -2429.265625,
@@ -248,7 +268,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 26,
+      "id": 28,
       "move_mode": "dash",
       "type": "path",
       "x": -2399.328125,
@@ -257,7 +277,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 27,
+      "id": 29,
       "move_mode": "dash",
       "type": "path",
       "x": -2399.328125,
@@ -266,7 +286,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 28,
+      "id": 30,
       "move_mode": "dash",
       "type": "path",
       "x": -2422.630000000001,
