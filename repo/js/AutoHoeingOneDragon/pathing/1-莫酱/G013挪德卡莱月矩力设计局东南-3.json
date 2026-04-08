@@ -10,7 +10,7 @@
     "description": "  路线信息：该路线预计用时87.82秒，包含以下怪物：1只愚人众特辖队·先锋士、1只愚人众特辖队·疗愈师、1只愚人众特辖队·掷弹兵、1只巡陆艇·近战攻坚型、1只巡陆艇·尖端全能攻坚型、1只巡陆艇·尖端全能斥候型、1只巡陆艇·尖端火力地效型。",
     "enable_monster_loot_split": false,
     "hash_res": "75306089",
-    "last_modified_time": 1773935256418,
+    "last_modified_time": 1775505141475,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "G013挪德卡莱月矩力设计局东南-3",
@@ -122,19 +122,20 @@
       "action": "fight",
       "action_params": "",
       "id": 12,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 9746.8740234375,
-      "y": 3108.3076171875
+      "x": 9737.2919921875,
+      "y": 3101.830078125
     },
     {
       "action": "combat_script",
       "action_params": "wait(1)",
       "id": 13,
       "move_mode": "dash",
-      "type": "orientation",
-      "x": 9746.8740234375,
-      "y": 3108.3076171875
+      "type": "path",
+      "x": 9737.2919921875,
+      "y": 3101.830078125
     }
   ]
 }

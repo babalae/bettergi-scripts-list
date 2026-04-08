@@ -1,19 +1,23 @@
 {
   "info": {
-    "name": "C002高危稻妻白狐之野南",
-    "type": "collect",
     "author": "mno",
-    "version": "1.0",
-    "map_name": "Teyvat",
-    "description": "  路线信息：该路线预计用时124.99秒，包含以下怪物：1只丘丘人、2只打手丘丘人、3只雷弹丘丘人、1只雷斧丘丘暴徒、1只盗宝团·斥候、1只盗宝团·神射手、1只盗宝团·海上男儿、1只野伏·阵刀番、2只电气骗骗花。",
-    "hash_res": "17736706",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "mno",
-        "links": "https://github.com/Bedrockx"
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时124.99秒，包含以下怪物：1只丘丘人、2只打手丘丘人、3只雷弹丘丘人、1只雷斧丘丘暴徒、1只盗宝团·斥候、1只盗宝团·神射手、1只盗宝团·海上男儿、1只野伏·阵刀番、2只电气骗骗花。",
+    "enable_monster_loot_split": false,
+    "hash_res": "17736706",
+    "last_modified_time": 1775572875254,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C002高危稻妻白狐之野南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
@@ -22,8 +26,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -4232.14,
-      "y": -3001.98
+      "x": -4232.139999999999,
+      "y": -3001.9799999999996
     },
     {
       "action": "",
@@ -31,8 +35,8 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": -4225.16,
-      "y": -2975.64
+      "x": -4226.525390625,
+      "y": -2965.3544921875
     },
     {
       "action": "",
@@ -40,62 +44,62 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": -4229.89,
-      "y": -2952.35
+      "x": -4218.4994575149685,
+      "y": -2933.6232432359375
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "walk",
+      "move_mode": "climb",
       "type": "target",
-      "x": -4215.85,
-      "y": -2931.11
+      "x": -4216.125149183383,
+      "y": -2929.0005085369667
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),wait(0.1),dash",
+      "action_params": ";钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;keypress(f),w(0.1),keypress(f),w(0.1),keypress(f),w(0.1),keypress(f),w(0.1),keypress(f),w(0.1),keypress(f),w(0.1),keypress(f),w(0.1),keypress(f),w(0.1),keypress(f),d(0.1),keypress(f),d(0.1),keypress(f),d(0.1),keypress(f),d(0.1),keypress(f),d(0.1),keypress(f),d(0.1),keypress(f),s(0.1),keypress(f),s(0.1),keypress(f),s(0.1),keypress(f),s(0.1),keypress(f),s(0.1),keypress(f),s(0.1),",
       "id": 5,
       "move_mode": "dash",
-      "type": "path",
-      "x": -4214.44,
-      "y": -2931.09
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(f),wait(0.1),dash",
-      "id": 6,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -4215.21,
-      "y": -2930.44
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(f),wait(0.1),dash",
-      "id": 7,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -4214.69,
-      "y": -2929.59
+      "type": "orientation",
+      "x": -4212.905476958833,
+      "y": -2931.5007050171553
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 8,
-      "move_mode": "walk",
+      "id": 6,
+      "move_mode": "dash",
       "type": "orientation",
-      "x": -4209.39,
-      "y": -2922.88
+      "x": -4213.905721077095,
+      "y": -2928.5626386918993
     },
     {
       "action": "",
       "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4213.7183295741015,
+      "y": -2923.997931179165
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4223.709999999999,
+      "y": -2885.6000000000004
+    },
+    {
+      "action": "fight",
+      "action_params": "",
       "id": 9,
       "move_mode": "dash",
       "type": "path",
-      "x": -4209.39,
-      "y": -2922.88
+      "x": -4204.790000000001,
+      "y": -2876.4799999999996
     },
     {
       "action": "",
@@ -103,8 +107,8 @@
       "id": 10,
       "move_mode": "walk",
       "type": "path",
-      "x": -4214.69,
-      "y": -2929.59
+      "x": -4204.790000000001,
+      "y": -2876.4799999999996
     },
     {
       "action": "",
@@ -112,53 +116,26 @@
       "id": 11,
       "move_mode": "dash",
       "type": "path",
-      "x": -4223.71,
-      "y": -2885.6
+      "x": -4124.68,
+      "y": -2948.2000000000007
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 12,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -4204.79,
-      "y": -2876.48
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 13,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -4204.79,
-      "y": -2876.48
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 14,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -4124.68,
-      "y": -2948.2
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 15,
       "move_mode": "walk",
       "type": "path",
       "x": -4120.25,
-      "y": -2978.13
+      "y": -2978.130000000001
     },
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 16,
+      "id": 13,
       "move_mode": "walk",
       "type": "orientation",
       "x": -4120.25,
-      "y": -2978.13
+      "y": -2978.130000000001
     }
   ]
 }
