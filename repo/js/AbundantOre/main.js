@@ -348,6 +348,7 @@ async function get_inventory() {
 
 let last_script_end_pos = [null, null];
 let last_script_normal_completion = true;
+let mining_character = null;
 
 async function run_pathing_script(name, path_state_change, current_states) {
     path_state_change ||= {};
@@ -374,21 +375,42 @@ async function run_pathing_script(name, path_state_change, current_states) {
     {
         const json_obj = JSON.parse(json_content);
         let modified = false;
+        let num_skipped_mining_actions = 0;
+        let num_replaced_mining_actions = 0;
+        let last_linnea_mining_pos = null;
         for (const i of json_obj.positions) {
+            if (i.action !== "mining") {
+                continue;
+            }
             if (use_global_mining_action) {
-                if (settings.custom_mining_action && i.action === "combat_script" && i.action_params.includes("诺艾尔 ")) {
-                    i.action = "mining";
+                // nop
+            } else if (settings.custom_mining_action) {
+                i.action = "combat_script";
+                i.action_params = settings.custom_mining_action;
+                num_replaced_mining_actions += 1;
+                modified = true;
+            } else if (mining_character === "诺艾尔") {
+                i.action = "combat_script";
+                i.action_params = "诺艾尔 attack(2.0)";
+                num_replaced_mining_actions += 1;
+                modified = true;
+            } else if (mining_character === "莉奈娅") {
+                const dist_from_last_mining_pos = last_linnea_mining_pos === null ? 9999 :
+                    Math.hypot(i.x - last_linnea_mining_pos.x, i.y - last_linnea_mining_pos.y);
+                if (dist_from_last_mining_pos < 7.5) {
+                    i.type = "path";
+                    i.action = "";
                     i.action_params = "";
+                    num_skipped_mining_actions += 1;
                     modified = true;
-                }
-            } else {
-                if (i.action === "mining") {
-                    // set Noelle mining action
+                } else {
                     i.action = "combat_script";
-                    i.action_params = settings.custom_mining_action || "诺艾尔 attack(2.0)";
-                    modified = true;
-                } else if (settings.custom_mining_action && i.action === "combat_script" && i.action_params.includes("诺艾尔 ")) {
-                    i.action_params = settings.custom_mining_action;
+                    i.action_params = "莉奈娅 moveby(0,2500),charge(0.6),click(middle)";
+                    num_replaced_mining_actions += 1;
+                    last_linnea_mining_pos = {
+                        x: i.x,
+                        y: i.y
+                    };
                     modified = true;
                 }
             }
@@ -474,9 +496,17 @@ async function main() {
     log.debug("Exclude regions: {a}, exclude types: {b}", settings.exclude_regions, settings.exclude_ore_types);
     log.debug("Exclude tags: {a}", get_exclude_tags());
     log.debug("Underwater only: {a}", underwater_only());
-    if (!underwater_only()) {
-        if (!Array.from(getAvatars()).includes("诺艾尔") && !settings.custom_mining_action) {
-            log.error("地面挖矿请带诺艾尔");
+    const preapproved_mining_characters = ["莉奈娅", "诺艾尔"];
+    if (!underwater_only() && !settings.custom_mining_action) {
+        const characters = Array.from(getAvatars());
+        for (const i of preapproved_mining_characters) {
+            if (characters.includes(i)) {
+                mining_character = i;
+                break;
+            }
+        }
+        if (mining_character === null) {
+            log.error("地面挖矿请带{c}", preapproved_mining_characters.join("或"));
             return;
         }
     }

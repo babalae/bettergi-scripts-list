@@ -9,23 +9,25 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1775649137587,
+    "last_modified_time": 1775724943186,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A07-铁块-蒙德-马斯克礁-6个",
-    "tags": [],
+    "name": "A13-莉奈娅挖矿一条龙-蒙德-明冠峡",
+    "tags": [
+      "莉奈娅"
+    ],
     "type": "collect",
     "version": "1.0"
   },
   "positions": [
     {
-      "action": "force_tp",
+      "action": "",
       "action_params": "",
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -2660.252,
-      "y": 1638.3389
+      "x": -440.2148,
+      "y": 2580.9404
     },
     {
       "action": "",
@@ -33,8 +35,8 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": -2612.9844,
-      "y": 1643.3799
+      "x": -427.2422,
+      "y": 2577.103
     },
     {
       "action": "",
@@ -42,62 +44,89 @@
       "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": -2613.8848,
-      "y": 1673.7246
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -2620.3477,
-      "y": 1671.9688
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -2627.9453,
-      "y": 1677.9736
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -2631.3125,
-      "y": 1681.3457
+      "x": -415.8867,
+      "y": 2584.3306
     },
     {
       "action": "",
       "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -407.5977,
+      "y": 2590.7402
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -391.0371,
+      "y": 2601.6528
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -392.6562,
+      "y": 2608.877
+    },
+    {
+      "action": "mining",
+      "action_params": "",
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": -2634.7344,
-      "y": 1691.9658
+      "x": -397.9375,
+      "y": 2620.7476
     },
     {
       "action": "mining",
       "action_params": "",
       "id": 8,
       "move_mode": "walk",
-      "type": "target",
-      "x": -2641.416,
-      "y": 1696.9917
+      "type": "path",
+      "x": -400.041,
+      "y": 2626.873
     },
     {
       "action": "mining",
       "action_params": "",
       "id": 9,
       "move_mode": "walk",
-      "type": "target",
-      "x": -2643.6035,
-      "y": 1700.5024
+      "type": "path",
+      "x": -398.0254,
+      "y": 2635.2031
+    },
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -313.1191,
+      "y": 2873.7852
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -322.2305,
+      "y": 2868.0869
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -319.498,
+      "y": 2859.418
     }
   ]
 }
