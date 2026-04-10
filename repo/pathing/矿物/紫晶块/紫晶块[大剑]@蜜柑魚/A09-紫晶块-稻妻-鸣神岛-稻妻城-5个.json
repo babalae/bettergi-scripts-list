@@ -6,7 +6,7 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.47.0",
+    "bgi_version": "0.52.0",
     "tags": [
       "双手剑"
     ],
@@ -35,8 +35,7 @@
       "type": "path",
       "move_mode": "fly",
       "action": "combat_script",
-      "action_params": "j,wait(1.75),j,attack(0.2)",
-      "locked": false
+      "action_params": "j,wait(1.75),j,attack(0.2)"
     },
     {
       "id": 3,
@@ -112,17 +111,17 @@
     },
     {
       "id": 11,
-      "x": -4515.79,
-      "y": -3244.52,
-      "type": "path",
+      "x": -4512.18,
+      "y": -3240.07,
+      "type": "target",
       "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action": "mining",
+      "action_params": ""
     },
     {
       "id": 12,
-      "x": -4512.18,
-      "y": -3240.07,
+      "x": -4508.07,
+      "y": -3246.37,
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
@@ -130,33 +129,6 @@
     },
     {
       "id": 13,
-      "x": -4512.18,
-      "y": -3240.07,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
-    },
-    {
-      "id": 14,
-      "x": -4508.07,
-      "y": -3246.37,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "mining",
-      "action_params": ""
-    },
-    {
-      "id": 15,
-      "x": -4508.07,
-      "y": -3246.37,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
-    },
-    {
-      "id": 16,
       "x": -4517.21,
       "y": -3263.22,
       "type": "path",
@@ -165,7 +137,7 @@
       "action_params": ""
     },
     {
-      "id": 17,
+      "id": 14,
       "x": -4499.15,
       "y": -3294.42,
       "type": "path",
@@ -174,7 +146,7 @@
       "action_params": ""
     },
     {
-      "id": 18,
+      "id": 15,
       "x": -4501.39,
       "y": -3311.31,
       "type": "path",
@@ -183,7 +155,7 @@
       "action_params": ""
     },
     {
-      "id": 19,
+      "id": 16,
       "x": -4531.08,
       "y": -3337.06,
       "type": "path",
@@ -192,26 +164,16 @@
       "action_params": ""
     },
     {
-      "id": 20,
+      "id": 17,
       "x": -4521.99,
       "y": -3358.69,
       "type": "target",
       "move_mode": "dash",
       "action": "mining",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
-      "id": 21,
-      "x": -4521.99,
-      "y": -3358.69,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
-    },
-    {
-      "id": 22,
+      "id": 18,
       "x": -4522.55,
       "y": -3347.62,
       "type": "target",
@@ -220,7 +182,7 @@
       "action_params": ""
     },
     {
-      "id": 23,
+      "id": 19,
       "x": -4522.57,
       "y": -3347.62,
       "type": "path",
