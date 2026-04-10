@@ -196,8 +196,8 @@
     // =========================================================================
     
     // 处理战斗策略路径
-    let pCombatStrategyPath = "";
-    if (pCombatStrategyFile) {
+    let pCombatStrategyPath = "__USE_DEFAULT__";
+    if (pCombatStrategyFile && pCombatStrategyFile.trim()) {
         // 自动补充 .txt 后缀
         if (!pCombatStrategyFile.toLowerCase().endsWith(".txt")) {
             pCombatStrategyFile += ".txt";
@@ -207,7 +207,7 @@
     } else {
         log.info(`【战斗策略】使用默认策略`);
     }
-    
+
     while (true) {
         try {
             let taskParam = new AutoDomainParam(pDomainRoundNum);
@@ -216,7 +216,11 @@
             taskParam.AutoArtifactSalvage = pAutoArtifactSalvage;
             taskParam.MaxArtifactStar = pMaxArtifactStar;
             taskParam.SundaySelectedValue = pSundaySelectedValue;
-            taskParam.CombatStrategyPath = pCombatStrategyPath;
+
+            // 仅在有值时赋值战斗策略路径
+            if (pCombatStrategyPath !== "__USE_DEFAULT__") {
+                taskParam.CombatStrategyPath = pCombatStrategyPath;
+            }
             
             taskParam.SpecifyResinUse = !pRunUntilDepleted;
             
