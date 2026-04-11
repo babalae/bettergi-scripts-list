@@ -11,7 +11,7 @@
     "description": "  路线信息：该路线预计用时77.08秒，包含以下怪物：2只打手丘丘人、1只木盾丘丘人、2只雷箭丘丘人、1只丘丘雷兜王、1只愚人众·冰萤术士。",
     "enable_monster_loot_split": false,
     "hash_res": "93649028",
-    "last_modified_time": 1772955431307,
+    "last_modified_time": 1775574132857,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C020稻妻清赖丸-2",
@@ -33,19 +33,19 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": -3689.6500000000015,
-      "y": -4290.01
+      "x": -3690.8755424850315,
+      "y": -4293.50129445773
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 3,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": -3697.880000000001,
-      "y": -4328.07
+      "x": -3695.1255967335346,
+      "y": -4356.155544982843
     },
     {
       "action": "",
@@ -53,8 +53,8 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": -3693.73828125,
-      "y": -4358.0703125
+      "x": -3695.1255967335346,
+      "y": -4356.155544982843
     },
     {
       "action": "fight",
@@ -62,8 +62,8 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": -3697.25,
-      "y": -4353.51
+      "x": -3661.41,
+      "y": -4391.4
     },
     {
       "action": "",
@@ -71,17 +71,8 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": -3697.25,
-      "y": -4353.51
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "run",
-      "type": "path",
-      "x": -3661.41,
-      "y": -4391.4
+      "x": -3695.219441668414,
+      "y": -4356.094524363107
     }
   ]
 }

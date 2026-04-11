@@ -786,9 +786,9 @@ async function validateTeamAndConfig() {
             await sleep(5000);
             haveProblem = true;
         }
-        if (!['茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '琦良良', '迪希雅', '迪奥娜']
+        if (!['茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '绮良良', '迪希雅', '迪奥娜']
             .some(n => avatars.includes(n))) {
-            log.warn("未携带合适的抗打断角色（茜特菈莉/伊涅芙/莱依拉/蓝砚/白术/琦良良/迪希雅/迪奥娜）");
+            log.warn("未携带合适的抗打断角色（茜特菈莉/伊涅芙/莱依拉/蓝砚/白术/绮良良/迪希雅/迪奥娜）");
             await sleep(5000);
             haveProblem = true;
         }

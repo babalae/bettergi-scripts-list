@@ -1,5 +1,5 @@
 // 作者：火山
-// 描述：请务必打开本文档仔细阅读说明设置！！！【此版本作为Check——主动触发战斗结束检测的测试版本，有bug或者异常请及时向管理反馈】（内含少部分满命、进阶操作，默认已注释不开启。本策略作为示范教学，希望大家学习理解bgi战斗逻辑，如有更好的策略，欢迎提交）
+// 描述：（锄地+副本）请务必打开本文档仔细阅读说明设置！！！【此版本作为Check——主动触发战斗结束检测的测试版本，有bug或者异常请及时向管理反馈】（内含少部分满命、进阶操作，默认已注释不开启。本策略作为示范教学，希望大家学习理解bgi战斗逻辑，如有更好的策略，欢迎提交）
 // 版本：v3.0
 
 // 战斗配置设置流程
@@ -7,20 +7,20 @@
 // 1. 进入战斗配置页面
 // 路径：调度器 → 配置组 → 设置 → 战斗配置操作：将 “战斗配置” 功能开启！（必须开启战斗配置，底下的设置才能生效，每个配置组设置独立的）
 
-// 2. 战斗结束检测相关设置（没有的选项无视就好）
+// 2. 战斗结束检测相关设置（——————没有的选项无视就好———————）
 // 自动检测战斗结束：开启
 // 更快检查结束战斗：关闭
-// 检查战斗结束的延时：设置为 0.4 （老电脑设置高点，最高0.75）
-// 按键触发后检查延时：设置为 0.4 （老电脑设置高点，最高0.75）
+// 检查战斗结束的延时：设置为 0.4
+// 按键触发后检查延时：设置为 0.4
 // 按键触发后检查延时（快速模式建议配合“不等待旋转结束”使用）: 开启（默认值0.15）
 
 // 3. 敌人定位与面向设置
 // 用于自动调整角色朝向，优化战斗操作。
-// 旋转寻找敌人位置：开启（旋转速度把条拉到最右，再往左一下, 可以选择不开启)
+// 旋转寻找敌人位置：关闭（旋转速度把条拉到最左）可以选择开启
 // Q 前检测：关闭
-// 尝试面向敌人：开启（可以选择不开启，如果不开旋转寻找敌人位置）
-// 单次接近敌人行走时间(毫秒）：1000 （这是默认值，可以选择填0，不接近怪物 [设置0暂未支持] ）
-// 不等待旋转结束：开启
+// 尝试面向敌人：关闭（可以选择开启，如果开旋转寻找爹位置）
+// 单次接近敌人行走时间(毫秒）：1 （不接近怪物）
+// 不等待旋转结束：关闭
 
 // 4. 技能释放与角色优先级设置
 // 核心为盾奶角色技能优先释放，需准确配置角色位置。
@@ -36,7 +36,28 @@
 // 以下是战斗策略正文，注意合理搭配队伍
 // ！！！请严格遵守BGI战斗配队逻辑！！！（以 盾【刚需】+主c【可以是后台输出角色】+副c【可以是后台输出角色】+万叶/琴【如需要捡掉落物的可以带，比如精英怪，小怪、副本可酌情不带换成，奶妈 or 后台输出角色】）
 
-// 盾（刚需）
+// 前置防止未拉到怪物仇恨脱战 or 超前爆发【适合自定义需要提前释放技能的角色】（不需要可以注释掉）
+茜特菈莉 e
+
+伊涅芙 e
+
+钟离  s(0.2), e(hold), wait(0.2), w(0.2)
+
+莱依拉 e
+
+绮良良 e
+
+托马 e
+
+芙宁娜 attack(0.1), keydown(E), wait(0.3), keyup(E)
+
+玛薇卡 e
+
+哥伦比娅 attack(0.1), check, keydown(e), wait(0.3), keyup(e), wait(0.3), check
+
+莉奈娅 attack(0.05), keydown(E),wait(0.05),attack(0.82),keyup(E), wait(1), check, keypress(q), ready
+
+// 盾（刚需）————强调一下，只需要带一个盾位就够了，盾量不够穿千岩
 茜特菈莉 e, attack(0.3), check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, e, wait(0.3), check
 
 伊涅芙 e, attack(0.3), check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, check
@@ -54,7 +75,7 @@
 // 后台、挂元素、副C、先手
 玛薇卡  e, wait(0.3), check, keypress(q), wait(0.1), ready, keypress(q), wait(0.1), ready, check
 迪希雅 e, attack(0.3), e, wait(0.3), check
-香菱 e, wait(0.3),check, keypress(q), wait(0.1), ready, check, keypress(q),, wait(0.1), ready, check, keypress(q), wait(0.1), ready, check
+香菱 e, wait(0.3),check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, check
 仆人 attack(0.3), check, e, wait(0.3), check
 
 // 夜兰顺时针
@@ -78,8 +99,7 @@
 
 叶洛亚 e, attack(0.3), check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, check
 
-莉奈娅 attack(0.1), e,wait(0.3), check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, check
-// (爆发秒怪）莉奈娅 attack(0.1), check, keypress(e),wait(0.15), keypress(e),wait(0.15), keypress(e),wait(0.15), keypress(e),wait(0.15), keypress(e), attack(0.3), check, keypress(q), keypress(q), wait(0.1), ready, check
+莉奈娅 attack(0.05), keydown(E),wait(0.05),attack(0.82),keyup(E), wait(1), check, keypress(q), wait(0.1), ready, check
 
 菈乌玛 attack(0.1), check, keypress(q), wait(0.1), ready, check, keydown(E), wait(0.4), attack(0.3), keyup(E), wait(0.1), check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, check, keydown(E), wait(0.4), attack(0.3), keyup(E), attack(0.2), check
 
@@ -107,7 +127,7 @@
 
 // 减抗
 希诺宁 s(0.2), e, w(0.18), attack(0.7), keypress(x), wait(0.2), check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, attack, e, wait(0.3), check
-枫原万叶 attack(0.08),check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, check, keydown(E), wait(0.48), keyup(E), attack(0.3), wait(0.5), attack(0.1), check
+枫原万叶 attack(0.08), keypress(q), wait(0.1), ready, keypress(q), wait(0.1), ready, keydown(E), wait(0.48), keyup(E), attack(0.3), wait(0.5), attack(0.1)
 砂糖 e, attack(0.3), check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, check, e, attack(0.2)
 琴 attack(0.21), check, keydown(e), wait(0.14), moveby(0, 1300), wait(0.75), keyup(e), attack(0.12), wait(0.2),check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, check
 

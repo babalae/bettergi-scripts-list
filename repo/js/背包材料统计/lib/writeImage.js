@@ -113,7 +113,7 @@ async function locateRarityAndCropColumn(ra, scanX0, startY, columnHeight, minYG
                 y:localYStart,
                 width:localXWidth,
                 height:localYHeight}
-                await drawAndClearRedBox(region, ra, 20);// 调用异步函数绘制红框并延时清除
+                // await drawAndClearRedBox(region, ra, 20);// 调用异步函数绘制红框并延时清除
             const localRo = RecognitionObject.TemplateMatch(
                 rarityMat,
                 localXStart,
@@ -179,7 +179,7 @@ async function saveAllOcrRegionImages(ra, ocrRegions, materialImages, saveDir = 
     let croppedRegion = null;
     
     // 保留你原有函数的红框绘制逻辑
-    await drawAndClearRedBox(region, ra, 50);
+    // await drawAndClearRedBox(region, ra, 50);
     
     try {
       // ---------------------- 核心修改1：裁图区域扩大2像素作为识图区域 ----------------------
