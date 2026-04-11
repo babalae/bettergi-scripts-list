@@ -1,4 +1,4 @@
-// Version: 1.6
+// Version: 1.7
 // Modified Date: 2026-04-11
 (async function () {
     // =========================================================================
@@ -139,11 +139,11 @@
 
     // 树脂刷取顺序 (input-text)
     let rawOrderStr = (userConfig.ResinUsageOrder || "").toString().trim();
-    if (/[^12345]/.test(rawOrderStr) && !pRunUntilDepleted) {
+    if (/[^12345]/.test(rawOrderStr)) {
         log.warn(`【配置警告】树脂刷取顺序包含无效字符，非 1~5 的内容已被自动过滤。`);
     }
     let pOrderStr = [...new Set(rawOrderStr.replace(/[^12345]/g, '').split(''))].join('');
-    if (rawOrderStr.replace(/[^12345]/g, '').length !== pOrderStr.length && !pRunUntilDepleted) {
+    if (rawOrderStr.replace(/[^12345]/g, '').length !== pOrderStr.length) {
         log.warn(`【配置警告】树脂刷取顺序中存在重复设定的数字，已自动去重处理为: ${pOrderStr}`);
     }
 
@@ -219,6 +219,7 @@
     
     taskParam.SpecifyResinUse = !pRunUntilDepleted;
     
+    // 樹脂數量與警告邏輯
     if (!pRunUntilDepleted) {
         taskParam.OriginalResin20UseCount = pOriginal20;
         taskParam.OriginalResin40UseCount = pOriginal40;
@@ -236,11 +237,17 @@
             if (pTransient > 0 && !pOrderStr.includes('4')) log.warn("【配置警告】须臾树脂数量大于0，但未配置在刷取顺序(4)中，将被底层忽略！");
             if (pFragile > 0 && !pOrderStr.includes('5')) log.warn("【配置警告】脆弱树脂数量大于0，但未配置在刷取顺序(5)中，将被底层忽略！");
         }
-
-        if (priorityList.length > 0) taskParam.SetResinPriorityList(...priorityList);
-        else taskParam.SetResinPriorityList(""); 
     } else {
-        taskParam.SetResinPriorityList("浓缩树脂", "原粹树脂");
+        if (pOrderStr === "") {
+            log.warn("【配置警告】树脂刷取顺序完全留空！在耗尽模式下，脚本将不会消耗任何树脂。");
+        }
+    }
+
+    // 統一由 priorityList 決定刷取順序 (包含耗盡模式)
+    if (priorityList.length > 0) {
+        taskParam.SetResinPriorityList(...priorityList);
+    } else {
+        taskParam.SetResinPriorityList(""); 
     }
 
     while (true) {
