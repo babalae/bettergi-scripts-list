@@ -48,6 +48,7 @@ async function autoNavigateToReward() {
                     await sleep(800);
                     keyUp("w");
                 }
+                if (i > 50) throw new Error('视野调整超时');
                 if (iconRes.isEmpty()) {
                     log.warn("未找到宝箱图标，重试");
                     moveMouseBy(200, 0);
@@ -68,7 +69,6 @@ async function autoNavigateToReward() {
                     moveMouseBy(adjustAmount * adjustAmount2, 0);
                     await sleep(100);
                 }
-                if (i > 50) throw new Error('视野调整超时');
             }
             // 3. 前进一小步
             keyDown("w");

@@ -34,25 +34,37 @@ import { runAutoFight } from "./src/auto-fight.js";
          * 追加Boss配置
          */
         function addBoss() {
-            //总次数
+            // Boss 选择校验
+            if (!settings.bossSelection || settings.bossSelection.trim() === "") {
+                log.error("❌未选择有效的 Boss，请从下拉列表中选择。");
+                return;
+            }
+
+            if (settings.bossSelection.includes("未支持")) {
+                log.error(`❌Boss "${settings.bossSelection}" 暂未支持，无法添加。`);
+                return;
+            }
+
+            // 总次数
             const rounds = parseInt(settings.rounds, 10);
+            let totalCount = 1;
             if (isNaN(rounds) || rounds < 0) {
                 log.warn(`⚠️无效的挑战次数: {rounds}，将使用 1 作为默认值。`, settings.rounds);
+            } else {
+                totalCount = rounds;
             }
-            const totalCount = isNaN(rounds) ? 1 : rounds;
 
             // 每日刷取上限
             let dailyLimitCount = parseInt(settings.dailyLimitCount, 10);
             if (isNaN(dailyLimitCount) || dailyLimitCount < 0) {
                 log.warn(`⚠️无效的每日上限: {dailyLimitCount}，将使用 1 作为默认值。`, settings.dailyLimitCount);
+                dailyLimitCount = 1;
             }
-            dailyLimitCount = isNaN(dailyLimitCount) ? 1 : dailyLimitCount;
 
-
-            //战斗超时时间
+            // 战斗超时时间
             let timeout = parseInt(settings.timeout, 10);
-            if (isNaN(timeout)) {
-                log.warn(`⚠️无效的超时时间: {timeout}，将使用 240 秒作为默认值。`, settings.timeout)
+            if (isNaN(timeout) || timeout < 0) {
+                log.warn(`⚠️无效的超时时间: {timeout}，将使用 240 秒作为默认值。`, settings.timeout);
                 timeout = 240;
             }
             let farmMode = null;
