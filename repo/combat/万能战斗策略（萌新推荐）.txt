@@ -1,5 +1,5 @@
 // 作者：火山
-// 描述：请务必打开本文档仔细阅读说明设置！！！【此版本作为Check——主动触发战斗结束检测的测试版本，有bug或者异常请及时向管理反馈】（内含少部分满命、进阶操作，默认已注释不开启。本策略作为示范教学，希望大家学习理解bgi战斗逻辑，如有更好的策略，欢迎提交）
+// 描述：（锄地+副本）请务必打开本文档仔细阅读说明设置！！！【此版本作为Check——主动触发战斗结束检测的测试版本，有bug或者异常请及时向管理反馈】（内含少部分满命、进阶操作，默认已注释不开启。本策略作为示范教学，希望大家学习理解bgi战斗逻辑，如有更好的策略，欢迎提交）
 // 版本：v3.0
 
 // 战斗配置设置流程
@@ -55,7 +55,7 @@
 
 哥伦比娅 attack(0.1), check, keydown(e), wait(0.3), keyup(e), wait(0.3), check
 
-莉奈娅 e, attack(0.6), wait(1), check, keypress(q), ready
+莉奈娅 attack(0.05), keydown(E),wait(0.05),attack(0.82),keyup(E), wait(1), check, keypress(q), ready
 
 // 盾（刚需）————强调一下，只需要带一个盾位就够了，盾量不够穿千岩
 茜特菈莉 e, attack(0.3), check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, e, wait(0.3), check
@@ -99,7 +99,7 @@
 
 叶洛亚 e, attack(0.3), check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, check
 
-莉奈娅 attack(0.1), check, keypress(e), wait(0.18), keypress(e), wait(0.18), attack(0.4), wait(0.6), check, keypress(q), ready
+莉奈娅 attack(0.05), keydown(E),wait(0.05),attack(0.82),keyup(E), wait(1), check, keypress(q), wait(0.1), ready, check
 
 菈乌玛 attack(0.1), check, keypress(q), wait(0.1), ready, check, keydown(E), wait(0.4), attack(0.3), keyup(E), wait(0.1), check, keypress(q), wait(0.1), ready, check, keypress(q), wait(0.1), ready, check, keydown(E), wait(0.4), attack(0.3), keyup(E), attack(0.2), check
 
