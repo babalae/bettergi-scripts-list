@@ -1,0 +1,96 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "不瘦五十斤不改名"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774340777823,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A07-胡萝卜-蒙德-明冠峡-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -439.7,
+      "y": 2579.87
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -423.88,
+      "y": 2521.75
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -424.86,
+      "y": 2512.27
+    },
+    {
+      "action": "stop_flying",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -423.8,
+      "y": 2504.56
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -417.76,
+      "y": 2479.84
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -416.25,
+      "y": 2478.44
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -414.91796875,
+      "y": 2477.39794921875
+    },
+    {
+      "action": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -418.01,
+      "y": 2475.38
+    },
+    {
+      "action": "combat_script",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -419.01,
+      "y": 2477.05,
+      "action_params": "wait(0.456)"
+    }
+  ]
+}

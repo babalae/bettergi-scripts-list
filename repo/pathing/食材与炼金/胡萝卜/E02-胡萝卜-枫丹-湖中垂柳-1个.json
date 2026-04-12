@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774341593644,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E02-胡萝卜-枫丹-湖中垂柳-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3032.6806640625,
+      "y": 3732.3984375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3014.9052734375,
+      "y": 3779.95458984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2994.7880859375,
+      "y": 3812.48681640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2984.4365234375,
+      "y": 3835.47412109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2999.126953125,
+      "y": 3852.60693359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2986.2900390625,
+      "y": 3857.223388671875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.8)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 2986.2900390625,
+      "y": 3857.223388671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3032.6806640625,
+      "y": 3732.3984375
+    }
+  ]
+}
