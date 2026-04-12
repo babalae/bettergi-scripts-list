@@ -93,15 +93,9 @@
     "default": ""
   },
   {
-    "name": "CombatStrategyFile",
-    "type": "input-text",
-    "label": "战斗策略",
-    "default": ""
-  },
-  {
     "name": "RunUntilResinDepleted",
     "type": "checkbox",
-    "label": "刷取至树脂耗尽 (优先用原粹后用浓缩)",
+    "label": "刷取至树脂耗尽 (依树脂刷取顺序)",
     "default": false
   },
   {
@@ -149,6 +143,19 @@
     "label": "需要快速分解圣遗物的最高星级",
     "options": ["1", "2", "3", "4"],
     "default": "4"
+  },
+  {
+    "name": "CombatStrategyType",
+    "type": "select",
+    "label": "战斗策略选择",
+    "options": ["根据队伍自动选择(指定策略无效)", "指定战斗策略"],
+    "default": "根据队伍自动选择(指定策略无效)"
+  },
+  {
+    "name": "SpecifiedCombatStrategy",
+    "type": "input-text",
+    "label": "指定战斗策略名称 (不含.txt)",
+    "default": ""
   },
   {
     "name": "FightEndDelay",
