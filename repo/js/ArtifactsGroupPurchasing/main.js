@@ -1,6 +1,9 @@
 const runExtra = settings.runExtra || false;
 const leaveTeamRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/leaveTeam.png"));
 const scrollRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/拾取滚轮.png"), 1017, 496, 1093 - 581, 581 - 496);
+const kick2pRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickButton.png"), 1520, 277, 230, 120);
+const kick3pRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickButton.png"), 1520, 400, 230, 120);
+const kick4pRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickButton.png"), 1520, 527, 230, 120);
 let targetItems;
 let pickupDelay = 100;
 let timeMove = 1000;
@@ -22,11 +25,20 @@ let TMthreshold = +settings.TMthreshold || 0.9;
 let doRunExtra = false;
 let expGain;
 let skipRunning = false;
+let crashType = null; // 记录炸车类型
+let rideTime = new Date().toISOString(); // 记录上车时间
 let runnedEnding = false;
+let onlineRecord = {
+    lastRunTime: new Date(0).toISOString(),
+    todayRecords: []
+};
 
 (async function () {
     setGameMetrics(1920, 1080, 1);
     dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
+
+    // 读取运行记录
+    await readOnlineRecord();
 
     if (settings.logName) {
         expGain = await processArtifacts();
@@ -35,11 +47,46 @@ let runnedEnding = false;
     await genshin.tpToStatueOfTheSeven();
     await switchPartyIfNeeded(settings.partyName);
     targetItems = await loadTargetItems();
-    if (settings.groupMode != "按照下列配置自动进入并运行") {
+    if (settings.groupMode === "手动进入后运行") {
         await genshin.clearPartyCache();
         await runGroupPurchasing(runExtra);
-    }
-    if (settings.groupMode != "手动进入后运行") {
+    } else {
+        if (settings.groupMode === "按照下列配置自动进入并运行") {
+            //直接使用自定义配置
+        } else {
+            //使用json文件覆写自定义配置
+            const jsonPath = "匹配信息.json";
+            try {
+                const jsonStr = file.ReadTextSync(jsonPath);
+                const jsonConfig = JSON.parse(jsonStr);
+                log.info(`成功读取并解析JSON配置文件: ${jsonPath}`);
+
+                // 设置yourIndex
+                if (jsonConfig.myPosition) {
+                    settings.yourIndex = jsonConfig.myPosition;
+                    log.info(`从JSON配置中设置yourIndex为: ${settings.yourIndex}`);
+                }
+
+                // 生成runningOrder（固定为"1"，只给第一个人跑）
+                if (jsonConfig.teamMembers && Array.isArray(jsonConfig.teamMembers)) {
+                    const sortedMembers = jsonConfig.teamMembers.sort((a, b) => parseInt(a.position) - parseInt(b.position));
+                    const runningOrder = "1"; // 固定为"1"，只给第一个人跑
+                    settings.runningOrder = runningOrder;
+                    log.info(`从JSON配置中设置runningOrder为: ${settings.runningOrder}`);
+
+                    // 设置每个位置的UID和Name
+                    sortedMembers.forEach(member => {
+                        const pos = member.position;
+                        settings[`p${pos}UID`] = member.uid;
+                        settings[`p${pos}Name`] = member.username;
+                        log.info(`设置${pos}号玩家: ${member.username} (${member.uid})`);
+                    });
+                }
+            } catch (error) {
+                log.error(`读取或解析JSON配置文件失败: ${error.message}`);
+                throw new Error(`JSON配置文件错误: ${error.message}`);
+            }
+        }
         //解析与输出自定义配置
         const raw = settings.runningOrder || "1234";
         if (!/^[1-4]+$/.test(raw)) {
@@ -106,13 +153,17 @@ let runnedEnding = false;
                 notification.send(`将要进入序号${idx}，uid为${settings[`p${idx}UID`]}，名称为${settings[`p${idx}Name`]}的世界`);
             }
             let attempts = 0;
+            let enterSuccess = false;
             while (attempts < 5) {
                 attempts++;
-                await autoEnter(autoEnterSettings);
+                enterSuccess = await autoEnter(autoEnterSettings);
                 //队员加入后要检查房主名称
                 if (autoEnterSettings.enterMode === "进入他人世界" && attempts != 5) {
-                    if (await checkP1Name(settings[`p${idx}Name`])) {
+                    if (enterSuccess && await checkP1Name(settings[`p${idx}Name`])) {
                         notification.send(`成功进入序号${idx}，uid为${settings[`p${idx}UID`]}，名称为${settings[`p${idx}Name`]}的世界`);
+                        break;
+                    } else if (!enterSuccess) {
+                        log.error(`尝试加入序号${idx}，uid为${settings[`p${idx}UID`]}，名称为${settings[`p${idx}Name`]}的世界失败`);
                         break;
                     } else {
                         //进入了错误的世界，退出世界并重新加入,最后一次不检查
@@ -144,6 +195,7 @@ let runnedEnding = false;
         if (settings.runExtra && doRunExtra) {
             await runGroupPurchasing(runExtra);
         }
+
     }
     await genshin.tpToStatueOfTheSeven();
 
@@ -154,13 +206,28 @@ let runnedEnding = false;
         const segments = settings.onlyRunPerfectly.split('；');
 
         // 逐段输出，每段间隔1秒
+        const outputContent = [];
+        outputContent.push(`本次运行启用并触发了强迫症模式，且未完成收尾路线需要重新上线`);
         for (const segment of segments) {
             if (segment.trim()) { // 跳过空段落
                 log.info(segment.trim());
+                outputContent.push(segment.trim());
                 await sleep(1000);
             }
         }
+
+        // 写入运行结果.txt
+        try {
+            file.WriteTextSync('运行结果.txt', outputContent.join('\n'));
+            log.info(`已将运行结果写入运行结果.txt`);
+        } catch (error) {
+            log.error(`写入运行结果.txt失败: ${error.message}`);
+        }
+
         await sleep(10000);
+
+        // 处理运行记录和重新上线
+        await handleOnlineRecordAndReonline(true, crashType);
         return;
     }
 
@@ -175,6 +242,11 @@ let runnedEnding = false;
 
     {
         log.info(`本次运行未启用或未触发强迫症模式，正常结束`);
+
+        // 准备输出内容
+        const outputContent = [];
+        outputContent.push(`本次运行未启用或未触发强迫症模式，正常结束`);
+
         if (settings.normalEnding) {
             // 按中文分号分割字符串
             const segments = settings.normalEnding.split('；');
@@ -183,10 +255,22 @@ let runnedEnding = false;
             for (const segment of segments) {
                 if (segment.trim()) { // 跳过空段落
                     log.info(segment.trim());
+                    outputContent.push(segment.trim());
                     await sleep(1000);
                 }
             }
         }
+
+        // 写入运行结果.txt
+        try {
+            file.WriteTextSync('运行结果.txt', outputContent.join('\n'));
+            log.info(`已将运行结果写入运行结果.txt`);
+        } catch (error) {
+            log.error(`写入运行结果.txt失败: ${error.message}`);
+        }
+
+        // 处理运行记录和重新上线
+        await handleOnlineRecordAndReonline(false);
     }
 }
 )();
@@ -239,14 +323,55 @@ async function runGroupPurchasing(runExtra) {
             notification.send(`强迫症模式启用中，队友不齐或未及时到位，跳过所有路线`);
             await sleep(10000);
         } else {
-            for (let i = 1; i <= totalNumber; i++) await runEndingPath(i);
+            let kick2pSuccess = true; // 标记2p是否成功踢人
+            for (let i = 1; i <= totalNumber; i++) {
+                await runEndingPath(i);
+                // 执行第2和第3组路线后，如果设置了preKick，则踢人
+                if (i === 2 || i === 3) {
+                    if (settings.preKick) {
+                        // 调用findTotalNumber()获取当前人数
+                        const currentTotalNumber = await findTotalNumber();
+                        let shouldKick = false;
+                        let expectedNumber = i === 2 ? 4 : 3;
+                        
+                        // 检查是否符合预期人数
+                        if (i === 2 && currentTotalNumber === expectedNumber) {
+                            shouldKick = true;
+                        } else if (i === 3 && currentTotalNumber === expectedNumber && kick2pSuccess) {
+                            shouldKick = true;
+                        }
+                        
+                        // 只有人数不符合预期时才通知
+                        if (currentTotalNumber !== expectedNumber) {
+                            const errorMsg = `执行${i}P路线后与预期人数不符，当前人数：${currentTotalNumber}，预期人数：${expectedNumber}`;
+                            log.error(errorMsg);
+                            notification.error(errorMsg);
+                            if (i === 2) kick2pSuccess = false;
+                        } else if (i === 2) {
+                            // 2P人数符合预期，标记踢人成功
+                            kick2pSuccess = true;
+                        }
+                        
+                        // 执行踢人逻辑
+                        if (shouldKick) {
+                            log.info(`执行${i}P路线后，踢出对应占位号`);
+                            await findAndClick(kick2pRo);
+                            await sleep(500);
+                            await findAndClick(confirmKickRo);
+                        }
+                        
+                        // 无论是否踢人，都返回主界面
+                        await genshin.returnMainUi();
+                    }
+                }
+            }
         }
         let kickAttempts = 0;
         while (kickAttempts < 10) {
             kickAttempts++;
             await genshin.returnMainUi();
             await keyPress("F2");
-            await sleep(2000);
+            await sleep(500);
             await findAndClick(kickAllRo);
             await sleep(500);
             await findAndClick(confirmKickRo);
@@ -343,6 +468,7 @@ async function runGroupPurchasing(runExtra) {
         log.warn("等待队友就绪超时");
         if (settings.onlyRunPerfectly) {
             skipRunning = true;
+            crashType = "waitForPlayersArrive"; // 情况2：房主超时未等到所有队员到达预期坐标
             doRunExtra = false;
         }
         return false;
@@ -371,35 +497,49 @@ async function runGroupPurchasing(runExtra) {
 
             await genshin.moveMapTo(Math.round(point.x), Math.round(point.y));
 
-            /* 2. 取图标屏幕坐标 */
-            const pos = await getPlayerIconPos(i);
-            if (!pos || !pos.found) return false;
-
             /* 3. 屏幕坐标 → 地图坐标（图标）*/
             const mapZoomLevel = 2.0;
-            await genshin.setBigMapZoomLevel(mapZoomLevel);
             const mapScaleFactor = 2.361;
 
-            const center = genshin.getPositionFromBigMap();   // 仅用于坐标系转换
-            const iconScreenX = pos.x;
-            const iconScreenY = pos.y;
+            /* 计算距离的内置函数 */
+            function calculateDistance(iconScreenX, iconScreenY, center) {
+                const iconMapX = (960 - iconScreenX) * mapZoomLevel / mapScaleFactor + center.x;
+                const iconMapY = (540 - iconScreenY) * mapZoomLevel / mapScaleFactor + center.y;
+                const dx = iconMapX - point.x;
+                const dy = iconMapY - point.y;
+                return Math.sqrt(dx * dx + dy * dy);
+            }
 
-            const iconMapX = (960 - iconScreenX) * mapZoomLevel / mapScaleFactor + center.x;
-            const iconMapY = (540 - iconScreenY) * mapZoomLevel / mapScaleFactor + center.y;
+            /* 1. 第一次：使用目标点位作为中心点 */
+            await genshin.setBigMapZoomLevel(mapZoomLevel);
+            await sleep(500);
+            const pos1 = await getPlayerIconPos(i);
+            if (!pos1 || !pos1.found) return false;
+            let dist = calculateDistance(pos1.x, pos1.y, { x: point.x, y: point.y });
+            log.info(`玩家 ${i}P 第1次检查(目标点位中心): 距离 ${dist.toFixed(2)} m`);
+            if (dist <= 20) return true;
 
-            /* 4. 计算“图标地图坐标”与“目标点位”的距离 */
-            const dx = iconMapX - point.x;
-            const dy = iconMapY - point.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
+            /* 2-4次：使用屏幕中心点坐标 */
+            for (let attempt = 2; attempt <= 4; attempt++) {
+                if (attempt > 2) {
+                    await sleep(500);
+                }
 
-            /* 5. 打印两种坐标及距离 */
-            log.info(`玩家 ${i}P`);
-            log.info(`├─ 屏幕坐标: (${iconScreenX}, ${iconScreenY})`);
-            log.info(`├─ 图标地图坐标: (${iconMapX.toFixed(2)}, ${iconMapY.toFixed(2)})`);
-            log.info(`├─ 目标点位坐标: (${point.x}, ${point.y})`);
-            log.info(`└─ 图标与目标点位距离: ${dist.toFixed(2)} m`);
+                await genshin.setBigMapZoomLevel(mapZoomLevel);
+                const pos = await getPlayerIconPos(i);
+                if (!pos || !pos.found) return false;
 
-            return dist <= 10;   // 10 m 阈值，可按需调整
+                try {
+                    dist = calculateDistance(pos.x, pos.y, genshin.getPositionFromBigMap());
+                    log.info(`玩家 ${i}P 第${attempt}次检查(屏幕中心点): 距离 ${dist.toFixed(2)} m`);
+                    if (dist <= 20) return true;
+                } catch (e) {
+                    log.warn(`玩家 ${i}P 第${attempt}次检查失败: ${e.message}`);
+                }
+            }
+
+            log.info(`玩家 ${i}P 4次检查均未通过阈值20m`);
+            return false;
         } catch (error) {
             log.error(error.message);
             return false;
@@ -649,6 +789,7 @@ async function autoEnter(autoEnterSettings) {
     let enterCount = 0;
     let targetsRo = [];
     let enteredPlayers = [];
+    let success = false;
 
     // ===== 初始化 =====
     setGameMetrics(1920, 1080, 1);
@@ -674,6 +815,7 @@ async function autoEnter(autoEnterSettings) {
             await sleep(500);
             if (playerSign > 1) {
                 log.info(`加入成功，队伍编号 ${playerSign}`);
+                success = true;
                 break;
             } else if (playerSign === -1) {
                 log.warn("队伍编号识别异常，尝试按0p处理");
@@ -713,7 +855,7 @@ async function autoEnter(autoEnterSettings) {
                     await genshin.returnMainUi();
                 }
             }
-            
+
             // 检查时间点，触发额外检测
             const elapsed = new Date() - start;
             const timePoints = [0.2, 0.4, 0.6, 0.8, 0.9];
@@ -726,7 +868,7 @@ async function autoEnter(autoEnterSettings) {
                     break;
                 }
             }
-            
+
             // 继续执行，不在这里结束循环，由统一检查部分处理
             if (await isYUI()) keyPress("VK_ESCAPE"); await sleep(500);
             await genshin.returnMainUi();
@@ -778,11 +920,22 @@ async function autoEnter(autoEnterSettings) {
     }
 
     if (new Date() - start >= timeout * 60 * 1000) {
-        log.warn("超时未达到预定人数");
-        notification.error(`超时未达到预定人数`);
-        if (settings.onlyRunPerfectly) {
-            skipRunning = true;
-            doRunExtra = false;
+        if (enterMode === "进入他人世界") {
+            log.warn("队员超时未能进入房主世界");
+            notification.error(`队员超时未能进入房主世界`);
+            if (settings.onlyRunPerfectly) {
+                skipRunning = true;
+                crashType = "playerTimeoutEnterWorld"; // 情况3：队员超时未能进入房主世界
+                doRunExtra = false;
+            }
+        } else {
+            log.warn("超时未达到预定人数");
+            notification.error(`超时未达到预定人数`);
+            if (settings.onlyRunPerfectly) {
+                skipRunning = true;
+                crashType = "waitForExpectedPlayers"; // 情况1：房主超时未等到预期人数
+                doRunExtra = false;
+            }
         }
     }
 
@@ -829,6 +982,8 @@ async function autoEnter(autoEnterSettings) {
             return hit;
         } catch { return null; }
     }
+
+    return success;
 }
 
 //切换队伍
@@ -1035,10 +1190,7 @@ async function findTotalNumber() {
     await keyPress("F2");
     await sleep(2000);
 
-    // 定义模板
-    const kick2pRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickButton.png"), 1520, 277, 230, 120);
-    const kick3pRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickButton.png"), 1520, 400, 230, 120);
-    const kick4pRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickButton.png"), 1520, 527, 230, 120);
+    // 使用全局定义的模板
 
     moveMouseTo(1555, 860); // 防止鼠标干扰
     const gameRegion = captureGameRegion();
@@ -1693,4 +1845,367 @@ async function hasScroll(maxDuration = 10) {
     }
     /* 超时仍未识别到，返回失败 */
     return false;
+}
+
+// 读取运行记录
+async function readOnlineRecord() {
+    const logName = settings.logName || "默认账户";
+    const recordFilePath = `records/${logName}.json`;
+
+    try {
+        const recordStr = await file.readText(recordFilePath);
+        const record = JSON.parse(recordStr);
+
+        // 检查是否同一天（北京时间凌晨4点分界）
+        const lastRunTime = new Date(record.lastRunTime);
+        const now = new Date();
+        const isSameDay = isSameDayBeijing(lastRunTime, now);
+
+        if (!isSameDay) {
+            log.info(`上次运行时间与当前时间不在同一天，清空记录`);
+            onlineRecord = {
+                lastRunTime: new Date(0).toISOString(),
+                todayRecords: []
+            };
+        } else {
+            onlineRecord = record;
+            log.info(`成功读取运行记录，上次运行时间: ${onlineRecord.lastRunTime}`);
+            log.info(`今日运行记录数: ${onlineRecord.todayRecords.length}`);
+        }
+    } catch (error) {
+        log.warn(`读取运行记录文件失败: ${error.message}，使用默认信息`);
+        onlineRecord = {
+            lastRunTime: new Date(0).toISOString(),
+            todayRecords: []
+        };
+    }
+}
+
+// 写入运行记录
+async function writeOnlineRecord(isCrash) {
+    try {
+        // 读取匹配信息.json
+        const jsonPath = "匹配信息.json";
+        const jsonStr = file.ReadTextSync(jsonPath);
+        const jsonConfig = JSON.parse(jsonStr);
+
+        // 根据myPosition判断是否是房主，修正notHost值
+        const isHost = parseInt(jsonConfig.myPosition) === 1;
+        const correctedOnlineInfo = {
+            ...jsonConfig.onlineInfo,
+            notHost: !isHost  // 如果是房主，notHost应为false；如果不是房主，notHost应为true
+        };
+
+        // 构造本次运行记录
+        const record = {
+            onlineInfo: correctedOnlineInfo,
+            isCrash: isCrash,
+            endTime: new Date().toISOString()
+        };
+
+        // 添加到今日记录
+        onlineRecord.todayRecords.push(record);
+        onlineRecord.lastRunTime = new Date().toISOString();
+
+        // 写入文件
+        const logName = settings.logName || "默认账户";
+        const recordFilePath = `records/${logName}.json`;
+        await file.writeText(recordFilePath, JSON.stringify(onlineRecord, null, 2), false);
+
+        log.info(`成功写入运行记录文件: ${recordFilePath}`);
+        log.info(`本次运行${isCrash ? '炸车' : '正常结束'}，结束时间: ${record.endTime}`);
+        log.info(`本次运行${isHost ? '是房主' : '不是房主'}，记录的notHost值为: ${correctedOnlineInfo.notHost}`);
+    } catch (error) {
+        log.error(`写入运行记录文件失败: ${error.message}`);
+    }
+}
+
+// 处理运行记录和重新上线
+async function handleOnlineRecordAndReonline(isCrash, crashType = null) {
+    // 写入本次运行记录到文件
+    await writeOnlineRecord(isCrash);
+    await sleep(1000);
+
+    // 如果是炸车，直接重新上线
+    if (isCrash) {
+        log.info(`炸车后重新上线，不消耗次数`);
+        await generateReonlineCommand(null, true, crashType);
+        return;
+    }
+
+    // 读取匹配信息.json，获取本次的onlineInfo
+    let onlineInfo = null;
+    let jsonConfig = null;
+    try {
+        const jsonPath = "匹配信息.json";
+        const jsonStr = file.ReadTextSync(jsonPath);
+        jsonConfig = JSON.parse(jsonStr);
+        onlineInfo = jsonConfig.onlineInfo;
+    } catch (error) {
+        log.error(`读取匹配信息.json失败: ${error.message}`);
+        return;
+    }
+
+    // 正常结束，检查是否需要重新上线
+    const autoReonline = parseInt(settings.autoReonline) || 0;
+
+    // 计算正常运行的次数（不包含炸车的记录）
+    const normalRunCount = onlineRecord.todayRecords.filter(record => !record.isCrash).length;
+    log.info(`今日正常运行次数: ${normalRunCount}，预定重新上线次数: ${autoReonline}`);
+
+    // 检查是否所有运行记录（不含炸车）均未当过房主
+    const hasBeenHost = onlineRecord.todayRecords.some(record =>
+        !record.isCrash && record.onlineInfo && !record.onlineInfo.notHost
+    );
+    log.info(`今日是否当过房主: ${hasBeenHost}`);
+
+    // 条件1：运行次数未达标
+    const needReonlineByCount = normalRunCount < autoReonline;
+    // 条件2：未当过房主
+    const needReonlineByHost = !hasBeenHost;
+
+    // 停止重新上线的条件：达到预定次数且当过房主
+    const shouldStopReonline = normalRunCount >= autoReonline && hasBeenHost;
+
+    if (shouldStopReonline) {
+        log.info(`今日上线次数已达到预定次数且当过房主，不再重新上线`);
+
+        // 如果settings.afterOneDragon存在，单独启动该一条龙
+        if (settings.afterOneDragon) {
+            await generateOneDragonCommand(settings.afterOneDragon);
+        }
+    } else if (autoReonline > 0) {
+        log.info(`满足重新上线条件：${needReonlineByCount ? '次数未达标' : ''} ${needReonlineByCount && needReonlineByHost ? '且' : ''} ${needReonlineByHost ? '未当过房主' : ''}`);
+
+        let reonlineInfo = { ...onlineInfo };
+
+        // 根据用户明确的逻辑设置notHost
+        // 1. 如果上次上线勾选了不当房主，继续使用不当房主上线
+        if (onlineInfo.notHost) {
+            reonlineInfo.notHost = true;
+            log.info(`上次上线勾选了不当房主，继续使用不当房主上线`);
+        }
+        // 2. 如果当过了房主，则使用勾选不当房主
+        else if (hasBeenHost) {
+            reonlineInfo.notHost = true;
+            log.info(`今日已当过房主，使用勾选不当房主上线`);
+        }
+        // 3. 如果没当过房主，且匹配信息中没有勾选不当房主，则继续使用不勾选不当房主上线
+        else {
+            reonlineInfo.notHost = false;
+            log.info(`今日未当过房主，且上次未勾选不当房主，继续使用不勾选不当房主上线`);
+        }
+
+        // 生成重新上线命令
+        await generateReonlineCommand(reonlineInfo, false, null);
+    } else {
+        log.info(`autoReonline设置为0，不执行自动重新上线`);
+
+        // 如果settings.afterOneDragon存在，单独启动该一条龙
+        if (settings.afterOneDragon) {
+            await generateOneDragonCommand(settings.afterOneDragon);
+        }
+    }
+}
+
+// 生成重新上线命令
+async function generateReonlineCommand(onlineInfo = null, isCrash = false, crashType = null) {
+    try {
+        // 如果没有提供onlineInfo，则从匹配信息.json中读取
+        if (!onlineInfo) {
+            const jsonPath = "匹配信息.json";
+            const jsonStr = file.ReadTextSync(jsonPath);
+            const jsonConfig = JSON.parse(jsonStr);
+            onlineInfo = jsonConfig.onlineInfo;
+        }
+
+        // 构造命令对象
+        const commandData = {
+            "mojiang-command": true
+        };
+
+        // 如果是炸车
+        if (isCrash) {
+            // 情况2：房主超时未等到所有队员到达预期坐标 - 无需报告，直接上线和启动一条龙
+            if (crashType === "waitForPlayersArrive") {
+                // 第一个指令：上线
+                commandData["command"] = "online";
+                commandData["params"] = {
+                    "username": onlineInfo.gameName,
+                    "uid": onlineInfo.uid,
+                    "room": onlineInfo.targetRoom,
+                    "notHost": onlineInfo.notHost
+                };
+
+                // 第二个指令：启动等待一条龙（如果存在）
+                if (settings.waitingOneDragon) {
+                    commandData["command*"] = "start-dragon";
+                    commandData["params*"] = {
+                        "dragonName": settings.waitingOneDragon
+                    };
+                    log.info(`添加启动一条龙指令: ${settings.waitingOneDragon}`);
+                }
+
+                log.info(`情况2炸车，直接上线和启动一条龙`);
+            }
+            // 其他情况：需要报告炸车信息、上线、启动等待一条龙
+            else {
+                // 读取完整的匹配信息.json，获取teamMembers
+                let jsonConfig = null;
+                let teamMembers = [];
+                try {
+                    const jsonPath = "匹配信息.json";
+                    const jsonStr = file.ReadTextSync(jsonPath);
+                    jsonConfig = JSON.parse(jsonStr);
+                    teamMembers = jsonConfig.teamMembers || [];
+                } catch (error) {
+                    log.error(`读取匹配信息.json失败: ${error.message}`);
+                }
+
+                // 构造crashInfo
+                let crashInfo = {};
+                if (crashType === "waitForExpectedPlayers") {
+                    // 情况1：房主超时未等到预期人数
+                    // 说明自己在队伍中编号，成功进入的人如实写，没成功进入的人也如实写
+                    crashInfo = {
+                        "myPosition": jsonConfig ? jsonConfig.myPosition : "1",
+                        "enteredPlayers": onlineInfo.enteredPlayers || [],
+                        "notEnteredPlayers": onlineInfo.notEnteredPlayers || []
+                    };
+                } else if (crashType === "waitForPlayersArrive") {
+                    // 情况2：房主超时未等到所有队员到达预期坐标
+                    // 说明自己在队伍中编号，成功进入的人留空，没成功进入的人写自己
+                    crashInfo = {
+                        "myPosition": jsonConfig ? jsonConfig.myPosition : "1",
+                        "enteredPlayers": [],
+                        "notEnteredPlayers": [onlineInfo.gameName]
+                    };
+                } else {
+                    // 情况3：队员超时未能进入房主世界
+                    // 说明自己在队伍中编号，成功进入的人如实写，没成功进入的人也如实写
+                    crashInfo = {
+                        "myPosition": jsonConfig ? jsonConfig.myPosition : "1",
+                        "enteredPlayers": [],
+                        "notEnteredPlayers": []
+                    };
+                }
+
+                // 第一个指令：报告炸车信息
+                commandData["command"] = "report-crash";
+                commandData["params"] = {
+                    "crashType": crashType || "超时",
+                    "rideTime": rideTime,
+                    "rideMembers": teamMembers,
+                    "crashInfo": crashInfo,
+                    "rideIdentifier": onlineInfo.rideIdentifier || "" // 添加发车标识
+                };
+
+                // 第二个指令：上线
+                commandData["command*"] = "online";
+                commandData["params*"] = {
+                    "username": onlineInfo.gameName,
+                    "uid": onlineInfo.uid,
+                    "room": onlineInfo.targetRoom,
+                    "notHost": onlineInfo.notHost
+                };
+
+                // 第三个指令：启动等待一条龙（如果存在）
+                if (settings.waitingOneDragon) {
+                    commandData["command**"] = "start-dragon";
+                    commandData["params**"] = {
+                        "dragonName": settings.waitingOneDragon
+                    };
+                    log.info(`添加启动一条龙指令: ${settings.waitingOneDragon}`);
+                }
+
+                log.info(`添加炸车报告指令`);
+            }
+        }
+        // 如果不是炸车但settings.waitingOneDragon存在，添加启动一条龙指令
+        else if (settings.waitingOneDragon) {
+            commandData["command"] = "online";
+            commandData["params"] = {
+                "username": onlineInfo.gameName,
+                "uid": onlineInfo.uid,
+                "room": onlineInfo.targetRoom,
+                "notHost": onlineInfo.notHost
+            };
+
+            commandData["command*"] = "start-dragon";
+            commandData["params*"] = {
+                "dragonName": settings.waitingOneDragon
+            };
+            log.info(`添加启动一条龙指令: ${settings.waitingOneDragon}`);
+        }
+        // 正常情况：只上线
+        else {
+            commandData["command"] = "online";
+            commandData["params"] = {
+                "username": onlineInfo.gameName,
+                "uid": onlineInfo.uid,
+                "room": onlineInfo.targetRoom,
+                "notHost": onlineInfo.notHost
+            };
+        }
+
+        // 转换为JSON字符串
+        const jsonString = JSON.stringify(commandData, null, 2);
+
+        // 写入command.json文件
+        await file.writeText('command.json', jsonString, false);
+        log.info(`成功生成重新上线命令文件: command.json`);
+        log.info(`游戏名称: ${onlineInfo.gameName}`);
+        log.info(`UID: ${onlineInfo.uid}`);
+        log.info(`目标房间: ${onlineInfo.targetRoom}`);
+        log.info(`是否不当房主: ${onlineInfo.notHost}`);
+        if (isCrash) {
+            if (crashType === "waitForPlayersArrive") {
+                log.info(`情况2炸车，直接上线和启动一条龙`);
+            } else {
+                log.info(`添加了炸车报告指令`);
+            }
+        } else if (settings.waitingOneDragon) {
+            log.info(`启动一条龙: ${settings.waitingOneDragon}`);
+        }
+    } catch (error) {
+        log.error(`生成重新上线命令文件失败: ${error.message}`);
+    }
+}
+
+// 生成启动一条龙命令
+async function generateOneDragonCommand(dragonName) {
+    try {
+        // 构造命令对象
+        const commandData = {
+            "mojiang-command": true,
+            "command": "start-dragon",
+            "params": {
+                "dragonName": dragonName
+            }
+        };
+
+        // 转换为JSON字符串
+        const jsonString = JSON.stringify(commandData, null, 2);
+
+        // 写入command.json文件
+        await file.writeText('command.json', jsonString, false);
+        log.info(`成功生成启动一条龙命令文件: command.json`);
+        log.info(`启动一条龙: ${dragonName}`);
+    } catch (error) {
+        log.error(`生成启动一条龙命令文件失败: ${error.message}`);
+    }
+}
+
+// 判断两个时间是否为同一天（北京时间凌晨4点分界）
+function isSameDayBeijing(date1, date2) {
+    const offset = 8 * 60 * 60 * 1000; // 北京时间UTC+8的偏移量
+    const boundary = 4 * 60 * 60 * 1000; // 凌晨4点
+
+    const time1 = date1.getTime() + offset;
+    const time2 = date2.getTime() + offset;
+
+    const day1 = Math.floor((time1 - boundary) / (24 * 60 * 60 * 1000));
+    const day2 = Math.floor((time2 - boundary) / (24 * 60 * 60 * 1000));
+
+    return day1 === day2;
 }
