@@ -58,7 +58,7 @@ async function scrollPage(totalDistance, isUp = false, waitCount = 6, stepDistan
  * @param {number} stepDistance - 每次滚动的步长距离
  * @param {number} scrollPageCount - 滚动页面次数，默认从config中获取
  */
-async function scrollPagesByActivity(isUp = false, total = 90, waitCount = 6, stepDistance = 30, scrollPageCount = config.scrollPageCount) {
+async function scrollPagesByActivity(isUp = false, total = 90, waitCount = 6, stepDistance = 30, scrollPageCount = 4) {
     // 根据滚动方向设置坐标位置
     // 如果是向上滚动，使用顶部坐标；否则使用底部坐标
     let x = isUp ? xyConfig.top.x : xyConfig.bottom.x;  // 根据滚动方向获取x坐标
@@ -356,7 +356,7 @@ async function findStygianOnslaught() {
         value: "已结束",
     }
     const findResult = await scrollFindActivity(findActivity.name, findActivity.key, findActivity.value);
-    if (findResult.name && findResult.key && findResult.value) {
+    if((!findResult.name)||(findResult.name && findResult.key && findResult.value) ){
         // 幽境危战 紊乱爆发期 已结束
         return false
     }
