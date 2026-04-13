@@ -1889,11 +1889,10 @@ async function writeOnlineRecord(isCrash) {
         const jsonStr = file.ReadTextSync(jsonPath);
         const jsonConfig = JSON.parse(jsonStr);
 
-        // 根据myPosition判断是否是房主，修正notHost值
+        // 保留原始的notHost值，不强制修正
         const isHost = parseInt(jsonConfig.myPosition) === 1;
         const correctedOnlineInfo = {
-            ...jsonConfig.onlineInfo,
-            notHost: !isHost  // 如果是房主，notHost应为false；如果不是房主，notHost应为true
+            ...jsonConfig.onlineInfo
         };
 
         // 构造本次运行记录
@@ -2063,39 +2062,34 @@ async function generateReonlineCommand(onlineInfo = null, isCrash = false, crash
                 }
 
                 // 构造crashInfo
-                let crashInfo = {};
+                let crashInfo = {
+                    "crashType": crashType || "超时",
+                    "rideTime": rideTime,
+                    "rideMembers": teamMembers
+                };
                 if (crashType === "waitForExpectedPlayers") {
                     // 情况1：房主超时未等到预期人数
                     // 说明自己在队伍中编号，成功进入的人如实写，没成功进入的人也如实写
-                    crashInfo = {
-                        "myPosition": jsonConfig ? jsonConfig.myPosition : "1",
-                        "enteredPlayers": onlineInfo.enteredPlayers || [],
-                        "notEnteredPlayers": onlineInfo.notEnteredPlayers || []
-                    };
+                    crashInfo.myPosition = jsonConfig ? jsonConfig.myPosition : "1";
+                    crashInfo.enteredPlayers = onlineInfo.enteredPlayers || [];
+                    crashInfo.notEnteredPlayers = onlineInfo.notEnteredPlayers || [];
                 } else if (crashType === "waitForPlayersArrive") {
                     // 情况2：房主超时未等到所有队员到达预期坐标
                     // 说明自己在队伍中编号，成功进入的人留空，没成功进入的人写自己
-                    crashInfo = {
-                        "myPosition": jsonConfig ? jsonConfig.myPosition : "1",
-                        "enteredPlayers": [],
-                        "notEnteredPlayers": [onlineInfo.gameName]
-                    };
+                    crashInfo.myPosition = jsonConfig ? jsonConfig.myPosition : "1";
+                    crashInfo.enteredPlayers = [];
+                    crashInfo.notEnteredPlayers = [onlineInfo.gameName];
                 } else {
                     // 情况3：队员超时未能进入房主世界
                     // 说明自己在队伍中编号，成功进入的人如实写，没成功进入的人也如实写
-                    crashInfo = {
-                        "myPosition": jsonConfig ? jsonConfig.myPosition : "1",
-                        "enteredPlayers": [],
-                        "notEnteredPlayers": []
-                    };
+                    crashInfo.myPosition = jsonConfig ? jsonConfig.myPosition : "1";
+                    crashInfo.enteredPlayers = [];
+                    crashInfo.notEnteredPlayers = [];
                 }
 
                 // 第一个指令：报告炸车信息
                 commandData["command"] = "report-crash";
                 commandData["params"] = {
-                    "crashType": crashType || "超时",
-                    "rideTime": rideTime,
-                    "rideMembers": teamMembers,
                     "crashInfo": crashInfo,
                     "rideIdentifier": onlineInfo.rideIdentifier || "" // 添加发车标识
                 };
