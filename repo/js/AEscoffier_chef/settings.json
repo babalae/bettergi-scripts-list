@@ -640,6 +640,16 @@
     "default": "⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬"
   },
   {
+    "name": "cookPattern",
+    "type": "select",
+    "label": "手动烹饪方式",
+    "options": [
+      "定制模式(需要手动配置 时延 )",
+      "BGI本体的自动烹饪方法"
+    ],
+    "default": "BGI本体的自动烹饪方法"
+  },
+  {
     "name": "dealInsufficient",
     "type": "select",
     "label": "检测到食材不足时\n注：禁用则不检测食材数量",
