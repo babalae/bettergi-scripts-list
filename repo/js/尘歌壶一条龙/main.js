@@ -1,16 +1,40 @@
+// 尘歌壶一条龙-领取洞天宝钱、角色好感和购买物品
 async function main() {
+    setGameMetrics(1920, 1080, 1);
 
-    const today = new Date().getDay();
-    const isMonday = today === 1;
-
-    // 检查是否为周一，周三或周六
-    if (!isScheduledDay()) {
-        log.info("今日非周一，周三或周六，脚本不执行");
+    // 检查配置是否存在
+    if (!Object.keys(settings).includes("execute_Week")) {
+        log.error("首次运行前请编辑JS脚本自定义配置");
         return;
     }
-    
+
+    // 检查是否应该运行
+    const executeWeek = Array.from(settings.execute_Week || []);
+    if (!shouldRunByWeekConfig(executeWeek)) {
+        log.info(`交互或拾取："不运行"`);
+        return;
+    }
+
+    // 检查是否应该执行 购买物品、锻造、烹饪
+    let shouldExchange = false;
+    const exchange_Week = Array.from(settings.exchange_Week || []);
+
+    // 先检查配置是否为空
+    if (exchange_Week.length === 0) {
+        log.info("额外流程未选择任何星期，不执行购买物品、烹饪、锻造");
+        shouldExchange = false;
+    } else {
+        shouldExchange = shouldRunByWeekConfig(exchange_Week);
+        if (shouldExchange) {
+            log.info("额外流程执行日，将执行购买物品、锻造、烹饪");
+        }
+    }
+
     // 检查配置
     checkSettings();
+
+    await genshin.returnMainUi();
+    await sleep(1000);
 
     // 打开背包并切换到小道具
     await openBackpack();
@@ -32,9 +56,8 @@ async function main() {
 
     // 领取好感度以及洞天宝钱
     await collectRewards();
-    
-    if (isMonday) {
-        log.info("今天是周一，兑换物品");
+
+    if (shouldExchange) {
         // 兑换物品
         await exchangeItems();
     }
@@ -45,11 +68,205 @@ async function main() {
     await sleep(1000);
     click(960, 540);
 
-    // 周一执行锻造任务和烹饪任务
-    if (isMonday) {
-        log.info("今天是周一，执行锻造任务");
+/**
+ * 根据星期配置判断是否运行脚本
+ * @param {Array} weekSelection - 用户选择的星期数组（中文格式）
+ * @returns {boolean} 是否符合运行条件
+ */
+function shouldRunByWeekConfig(weekSelection) {
+    const weekDays = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+
+    // 检查配置是否为空
+    if (!Array.isArray(weekSelection) || weekSelection.length === 0) {
+        return false;
+    }
+
+    // 取得调整后的星期（0-6，0=星期日）
+    const getAdjustedDayOfWeek = () => {
+        const now = new Date();
+        let dayOfWeek = now.getDay(); // 0-6
+        const hours = now.getHours();
+
+        // 凌晨 00:00~04:00 视为前一天
+        if (hours < 4) {
+            dayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+            log.info(`当前时间 ${now.getHours()}:${now.getMinutes()}，视为前一天（${weekDays[dayOfWeek]}）`);
+        } else {
+            log.info(`当前时间 ${now.getHours()}:${now.getMinutes()}，使用当天（${weekDays[dayOfWeek]}）`);
+        }
+
+        return dayOfWeek;
+    };
+
+    const adjustedDayOfWeek = getAdjustedDayOfWeek();
+    const currentChineseDay = weekDays[adjustedDayOfWeek];
+
+    // 检查是否在允许的星期范围内
+    const shouldRun = weekSelection.includes(currentChineseDay);
+    return shouldRun;
+}
+
+// 检查配置
+function checkSettings() {
+    if (!settings.route) {
+        log.warn("当前未配置进入尘歌壶以后的路线，脚本可能无法正常运行");
+    }
+
+    // 记录是否跳过领取角色好感和洞天宝钱
+    if (settings.skipCharacterReward) {
+        log.info("当前配置：不领取角色好感");
+    }
+
+    if (settings.skipTreasureReward) {
+        log.info("当前配置：不领取洞天宝钱");
+    }
+}
+
+// 打开背包并切换到小道具
+async function openBackpack() {
+    keyPress("B");
+    await sleep(1000);
+    click(1048, 50);
+    await sleep(1000);
+}
+
+// 查找并使用尘歌壶
+async function findAndUseSereniteaPot() {
+    await findSereniteaPot();
+    await sleep(1000);
+    keyPress("F");
+}
+
+// 等待进入尘歌壶
+async function waitForEnteringSereniteaPot() {
+    // 先等待5秒，应该不会比这快
+    await sleep(5000);
+
+    // 等待传送完成
+    let isEntering = true;
+    while (isEntering) {
+        let screen = captureGameRegion();
+        let targetRegion = screen.DeriveCrop(85, 1025, 69, 28);
+        let ocrRo = RecognitionObject.Ocr(0, 0, targetRegion.Width, targetRegion.Height);
+        let ocrResult = targetRegion.find(ocrRo);
+        screen.dispose();
+        targetRegion.dispose();
+        if (ocrResult.Text.toLowerCase().includes("enter")) {
+            isEntering = false;
+        }
+        await sleep(1000);
+    }
+
+    // 进入尘歌壶以后，等待1秒
+    await sleep(1000);
+}
+
+// 移动到阿圆并领取奖励
+async function collectRewards() {
+    log.info("开始领取好感度以及洞天宝钱");
+
+    click(1370, 432);
+    await sleep(1000);
+
+    // 领取好感度
+    if (!settings.skipCharacterReward) {
+        log.info("领取角色好感度");
+        click(1810, 715);
+        log.info(`交互或拾取："好感"`);
+        await sleep(1000);
+
+        // 关闭洞天赠礼弹窗
+        click(1346, 300);
+        await sleep(1000);
+    } else {
+        log.info("根据自定义配置，跳过领取角色好感度");
+    }
+
+    // 领取洞天宝钱
+    if (!settings.skipTreasureReward) {
+        log.info("领取洞天宝钱");
+        click(1080, 929);
+        log.info(`交互或拾取："洞天宝钱"`);
+        await sleep(1000);
+
+        // 关闭洞天财瓮弹窗
+        click(1346, 300);
+        await sleep(1000);
+    } else {
+        log.info("根据自定义配置，跳过领取洞天宝钱");
+    }
+
+    // 关闭对话
+    click(1864, 47);
+    await sleep(3000);
+}
+
+async function findSereniteaPot() {
+    let currentX = 178; // 起始X坐标
+    let searchCount = 0; // 添加查找次数计数器
+    const MAX_SEARCH_COUNT = 5; // 最大查找次数
+
+    while (searchCount < MAX_SEARCH_COUNT) {
+        searchCount++;
+        // 点击当前坐标的小道具
+        click(currentX, 188);
+        await sleep(1000);
+
+        // 获取游戏区域截图
+        let screen = captureGameRegion();
+
+        // 根据指定区域进行剪裁
+        let targetRegion = screen.DeriveCrop(1307, 119, 493, 55);
+
+        // 使用OCR识别
+        let ocrRo = RecognitionObject.Ocr(0, 0, targetRegion.Width, targetRegion.Height);
+        let ocrResult = targetRegion.find(ocrRo);
+        screen.dispose();
+        targetRegion.dispose();
+
+        if (!ocrResult.isEmpty() && ocrResult.Text.includes("尘歌壶")) {
+            // 点击指定坐标
+            click(1690, 1020);
+            await sleep(1000);
+            // 检查一下背包页面是否退出了，有可能当前角色状态没法放置尘歌壶，直接再判断一次截图区域文本是不是尘歌壶就行
+            let screen2 = captureGameRegion();
+            // 根据指定区域进行剪裁
+            let targetRegion2 = screen2.DeriveCrop(1307, 119, 493, 55);
+            let ocrRo2 = RecognitionObject.Ocr(0, 0, targetRegion2.Width, targetRegion2.Height);
+            let ocrResult2 = targetRegion2.find(ocrRo2);
+            screen2.dispose();
+            targetRegion2.dispose();
+            if (!ocrResult2.isEmpty() && ocrResult2.Text.includes("尘歌壶")) {
+                throw new Error("当前无法放置尘歌壶，请检查具体原因");
+            }
+            return;
+        } else {
+            currentX += 145; // 向右移动145像素，查找下一个格子的小道具
+            await sleep(100);
+        }
+    }
+
+    throw new Error(`查找尘歌壶次数超过${MAX_SEARCH_COUNT}次，请检查背包是否存在尘歌壶`);
+}
+
+async function moveToTarget(routeConfig) {
+    if (!routeConfig) return;
+
+    const routes = routeConfig.split(',').map(r => r.trim());
+    for (const route of routes) {
+        const [direction, time] = route.split(' ');
+        if (!direction || !time) continue;
+
+        keyDown(direction);
+        await sleep(parseInt(time));
+        keyUp(direction);
+        await sleep(500);
+    }
+}
+
+    // 星期几N执行锻造任务和烹饪任务
+    if (shouldExchange) {
         if (settings.forgingRoute) await handleForging();
-        log.info("今天是周一，执行烹饪任务");
         if (settings.cookingRoute) await handleCooking();
         keyDown("a");
         await sleep(2000);
@@ -113,12 +330,6 @@ async function handleForging() {
     }
 }
 
-// 判断当前是否为周一，周三或周六
-function isScheduledDay() {
-    const today = new Date().getDay(); // 0=周日, 1=周一, ..., 6=周六
-    return today === 1 || today === 3 || today === 6; // 周一，周三或周六
-}
-
 async function exchangeItems() {
     if (!settings.itemsToBuy) {
         log.warn("未配置要购买的物品");
@@ -171,6 +382,7 @@ async function exchangeItems() {
                 // 使用OCR识别物品名称
                 let ocrRo = RecognitionObject.Ocr(0, 0, targetRegion.Width, targetRegion.Height);
                 let ocrResult = targetRegion.find(ocrRo);
+                targetRegion.dispose();
 
                 if (ocrResult.isEmpty()) {
                     throw new Error("无法识别物品名称，请检查具体原因");
@@ -188,6 +400,8 @@ async function exchangeItems() {
                 let soldOutRegion = screen.DeriveCrop(1308, 403, 491, 100);
                 let soldOutOcrRo = RecognitionObject.Ocr(0, 0, soldOutRegion.Width, soldOutRegion.Height);
                 let soldOutResult = soldOutRegion.find(soldOutOcrRo);
+                screen.dispose();
+                soldOutRegion.dispose();
 
                 // 如果发现任何已售罄的物品，就认为所有可购买的物品都已检查过，结束搜索
                 log.debug(`识别到的文字: ${soldOutResult.Text}`)
@@ -207,7 +421,7 @@ async function exchangeItems() {
 
                     log.info(`开始购买物品: ${itemName}`);
 
-                    // 执行购买流程
+                    // 运行购买流程
                     // 1. 鼠标移动到起始位置
                     moveMouseTo(1448, 693);
                     await sleep(300);
@@ -233,6 +447,7 @@ async function exchangeItems() {
                     await sleep(1000);
 
                     log.info(`成功购买物品: ${itemName}`);
+                    log.info(`交互或拾取："${itemName}"`);
 
                     // 检查是否已找到所有物品
                     if (foundItems.length === itemsToBuy.length) {
@@ -258,156 +473,6 @@ async function exchangeItems() {
     click(1841, 47)
     await sleep(1000);
 
-}
-
-// 检查配置
-function checkSettings() {
-    if (!settings.route) {
-        log.warn("当前未配置进入尘歌壶以后的路线，脚本可能无法正常运行");
-    }
-
-    // 记录是否跳过领取角色好感和洞天宝钱
-    if (settings.skipCharacterReward) {
-        log.info("当前配置：不领取角色好感");
-    }
-
-    if (settings.skipTreasureReward) {
-        log.info("当前配置：不领取洞天宝钱");
-    }
-}
-
-// 打开背包并切换到小道具
-async function openBackpack() {
-    keyPress("B");
-    await sleep(1000);
-    click(1048, 50);
-    await sleep(1000);
-}
-
-// 查找并使用尘歌壶
-async function findAndUseSereniteaPot() {
-    await findSereniteaPot();
-    await sleep(1000);
-    keyPress("F");
-}
-
-// 等待进入尘歌壶
-async function waitForEnteringSereniteaPot() {
-    // 先等待5秒，应该不会比这快
-    await sleep(5000);
-
-    // 等待传送完成
-    let isEntering = true;
-    while (isEntering) {
-        let screen = captureGameRegion();
-        let targetRegion = screen.DeriveCrop(85, 1025, 69, 28);
-        let ocrRo = RecognitionObject.Ocr(0, 0, targetRegion.Width, targetRegion.Height);
-        let ocrResult = targetRegion.find(ocrRo);
-        if (ocrResult.Text.toLowerCase().includes("enter")) {
-            isEntering = false;
-        }
-        await sleep(1000);
-    }
-
-    // 进入尘歌壶以后，等待1秒
-    await sleep(1000);
-}
-
-// 移动到阿圆并领取奖励
-async function collectRewards() {
-    log.info("开始领取好感度以及洞天宝钱");
-
-    click(1370, 432);
-    await sleep(1000);
-
-    // 领取好感度
-    if (!settings.skipCharacterReward) {
-        log.info("领取角色好感度");
-        click(1810, 715);
-        await sleep(1000);
-
-        // 关闭洞天赠礼弹窗
-        click(1346, 300);
-        await sleep(1000);
-    } else {
-        log.info("根据自定义配置，跳过领取角色好感度");
-    }
-
-    // 领取洞天宝钱
-    if (!settings.skipTreasureReward) {
-        log.info("领取洞天宝钱");
-        click(1080, 929);
-        await sleep(1000);
-
-        // 关闭洞天财瓮弹窗
-        click(1346, 300);
-        await sleep(1000);
-    } else {
-        log.info("根据自定义配置，跳过领取洞天宝钱");
-    }
-
-    // 关闭对话
-    click(1864, 47);
-    await sleep(3000);
-}
-
-async function findSereniteaPot() {
-    let currentX = 178; // 起始X坐标
-    let searchCount = 0; // 添加查找次数计数器
-    const MAX_SEARCH_COUNT = 5; // 最大查找次数
-
-    while (searchCount < MAX_SEARCH_COUNT) {
-        searchCount++;
-        // 点击当前坐标的小道具
-        click(currentX, 188);
-        await sleep(1000);
-
-        // 获取游戏区域截图
-        let screen = captureGameRegion();
-
-        // 根据指定区域进行剪裁
-        let targetRegion = screen.DeriveCrop(1307, 119, 493, 55);
-
-        // 使用OCR识别
-        let ocrRo = RecognitionObject.Ocr(0, 0, targetRegion.Width, targetRegion.Height);
-        let ocrResult = targetRegion.find(ocrRo);
-
-        if (!ocrResult.isEmpty() && ocrResult.Text.includes("尘歌壶")) {
-            // 点击指定坐标
-            click(1690, 1020);
-            await sleep(1000);
-            // 检查一下背包页面是否退出了，有可能当前角色状态没法放置尘歌壶，直接再判断一次截图区域文本是不是尘歌壶就行
-            let screen = captureGameRegion();
-            // 根据指定区域进行剪裁
-            let targetRegion = screen.DeriveCrop(1307, 119, 493, 55);
-            let ocrRo = RecognitionObject.Ocr(0, 0, targetRegion.Width, targetRegion.Height);
-            let ocrResult = targetRegion.find(ocrRo);
-            if (!ocrResult.isEmpty() && ocrResult.Text.includes("尘歌壶")) {
-                throw new Error("当前无法放置尘歌壶，请检查具体原因");
-            }
-            return;
-        } else {
-            currentX += 145; // 向右移动145像素，查找下一个格子的小道具
-            await sleep(100);
-        }
-    }
-
-    throw new Error(`查找尘歌壶次数超过${MAX_SEARCH_COUNT}次，请检查背包是否存在尘歌壶`);
-}
-
-async function moveToTarget(routeConfig) {
-    if (!routeConfig) return;
-    
-    const routes = routeConfig.split(',').map(r => r.trim());
-    for (const route of routes) {
-        const [direction, time] = route.split(' ');
-        if (!direction || !time) continue;
-        
-        keyDown(direction);
-        await sleep(parseInt(time));
-        keyUp(direction);
-        await sleep(500);
-    }
 }
 
 main();

@@ -1,60 +1,74 @@
 {
   "info": {
-    "name": "未命名路径",
-    "type": "collect",
-    "author": "柒叶子",
-    "version": "1.0",
+    "authors": [
+      {
+        "links": "",
+        "name": "柒叶子"
+      }
+    ],
+    "bgi_version": "0.45.0",
     "description": "枫丹购买狗粮",
-    "bgi_version": "0.35.1"
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766154078571,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "枫丹购买狗粮",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": 4509.2685546875,
-      "y": 3460.351806640625,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": 4509.2685546875,
+      "y": 3460.351806640625
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(2)",
       "id": 2,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
       "x": 4510.45019,
-      "y": 3461.4650,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
+      "y": 3461.465
     },
     {
+      "action": "stop_flying",
       "id": 3,
-      "x": 4524.146484375,
-      "y": 3475.12744140625,
-      "type": "path",
       "move_mode": "fly",
-      "action": "stop_flying"
+      "type": "path",
+      "x": 4522.5634765625,
+      "y": 3476.1142578125
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 4520.9707,
-      "y": 3481.4746,
-      "type": "target",
-      "move_mode": "walk",
-      "action": ""
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4522.37109375,
+      "y": 3482.04541015625
     },
     {
+      "action": "",
       "id": 5,
-      "x": 4517.4394,
-      "y": 3484.6450,
+      "move_mode": "climb",
       "type": "target",
-      "move_mode": "walk",
-      "action": ""
+      "x": 4517.3359375,
+      "y": 3485.044921875
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": 4519.1445,
-      "y": 3486.5954,
+      "move_mode": "dash",
       "type": "target",
-      "move_mode": "walk",
-      "action": ""
+      "x": 4519.431640625,
+      "y": 3487.817138671875
     }
   ]
 }

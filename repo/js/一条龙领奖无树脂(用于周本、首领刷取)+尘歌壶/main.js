@@ -9,6 +9,7 @@
         while (tpTime < 300) {
             let capture = captureGameRegion();
             let res = capture.find(region);
+            capture.dispose();
             if (!res.isEmpty()) {
                 log.info("传送完成");
                 await sleep(1200); // 传送结束后有僵直

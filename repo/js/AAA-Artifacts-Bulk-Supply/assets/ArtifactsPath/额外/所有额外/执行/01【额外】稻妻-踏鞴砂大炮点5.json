@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760774454660,
+    "last_modified_time": 1771057303260,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "01【额外】稻妻-踏鞴砂大炮点5",
@@ -28,8 +28,8 @@
       "y": -3533.951171875
     },
     {
-      "action": "set_time",
-      "action_params": "06:00",
+      "action": "log_output",
+      "action_params": "如果发现大炮没调查点,先检查开炮打歪?没打歪的消失,是原神本身bug,后面连续N天也拿不到!目前无法靠修脚本解决!\n唯一解决方式:删除开炮路径一天,第二天正常开炮就有了!\n唯一解决方式:删除开炮路径一天,第二天正常开炮就有了!\n唯一解决方式:删除开炮路径一天,第二天正常开炮就有了!",
       "id": 2,
       "move_mode": "dash",
       "type": "orientation",
@@ -181,8 +181,8 @@
       "y": -3862.318359375
     },
     {
-      "action": "combat_script",
-      "action_params": "keypress(VK_SPACE),wait(2.5),click",
+      "action": "stop_flying",
+      "action_params": "2900",
       "id": 19,
       "move_mode": "fly",
       "type": "path",

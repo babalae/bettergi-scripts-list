@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIDI制谱器 · AutoYuanQin 智能适配</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(145deg, #1e2b3a 0%, #0f1a24 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .card {
+            max-width: 1000px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 42px;
+            padding: 30px 35px;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.2s;
+        }
+        h1 {
+            font-size: 2.3rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: #efe7d7;
+            text-shadow: 0 4px 10px #a58c6f30;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        h1 small {
+            font-size: 0.85rem;
+            background: #3f4e5e;
+            color: #cdddee;
+            padding: 4px 12px;
+            border-radius: 60px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+        .sub {
+            color: #a3bbd0;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            border-left: 4px solid #d4b48c;
+            padding-left: 18px;
+            background: linear-gradient(90deg, #2c3d4e, transparent);
+            border-radius: 0 20px 20px 0;
+            line-height: 1.5;
+        }
+        .upload-area {
+            background: #1e2e3b;
+            border-radius: 48px;
+            padding: 20px 25px;
+            margin-bottom: 30px;
+            border: 1px dashed #7f9fbb;
+            transition: 0.2s;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px;
+        }
+        .upload-area:hover {
+            border-color: #e8c39e;
+            background: #253644;
+        }
+        .file-label {
+            background: #d4b48c;
+            color: #1a262f;
+            padding: 12px 30px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.15s;
+            box-shadow: 0 6px 14px #00000050;
+            border: 1px solid #ffe7c4;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .file-label:hover {
+            background: #eac9a8;
+            transform: scale(1.02);
+        }
+        #file-name {
+            color: #cdddee;
+            font-size: 0.95rem;
+            background: #0f1a22;
+            padding: 8px 20px;
+            border-radius: 40px;
+            flex: 1;
+            min-width: 200px;
+            border: 1px solid #3c5568;
+            word-break: break-word;
+        }
+        .two-cols {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+        .track-panel {
+            flex: 1.2;
+            min-width: 280px;
+            background: #15222e;
+            border-radius: 32px;
+            padding: 22px 18px;
+            border: 1px solid #3d566b;
+            box-shadow: inset 0 2px 5px #00000055;
+        }
+        .info-panel {
+            flex: 2;
+            min-width: 300px;
+            background: #15222e;
+            border-radius: 32px;
+            padding: 22px 25px;
+            border: 1px solid #3d566b;
+            box-shadow: inset 0 2px 5px #00000055;
+        }
+        .section-title {
+            color: #efdbbf;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 400;
+            border-bottom: 1px solid #5b7489;
+            padding-bottom: 7px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .track-list {
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 8px;
+            margin-bottom: 20px;
+        }
+        .track-item {
+            background: #1e2f3d;
+            border-radius: 40px;
+            margin-bottom: 8px;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #cbdae7;
+            border: 1px solid #3b5368;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .track-item.selected {
+            background: #c9af8b;
+            border-color: #fbe6c0;
+            color: #101f2b;
+            font-weight: 600;
+            box-shadow: 0 0 0 2px #a58c6f;
+        }
+        .track-item input[type="checkbox"] {
+            accent-color: #d4b48c;
+            width: 18px;
+            height: 18px;
+        }
+        .badge {
+            background: #2e4b62;
+            color: white;
+            border-radius: 50px;
+            padding: 3px 10px;
+            font-size: 0.8rem;
+            margin-left: auto;
+        }
+        .preview-controls {
+            margin-top: 18px;
+            display: flex;
+            gap: 12px;
+            justify-content: space-between;
+            background: #1b2b37;
+            border-radius: 40px;
+            padding: 8px 12px;
+            border: 1px solid #4e6e89;
+        }
+        .preview-btn {
+            background: #3b6077;
+            border: none;
+            color: #f0e7db;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.1s;
+            border: 1px solid #7a9cba;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .preview-btn.play {
+            background: #6d8f6d;
+            border-color: #a8cfaf;
+        }
+        .preview-btn.stop {
+            background: #a05d5d;
+            border-color: #e6a7a7;
+        }
+        .preview-btn:hover {
+            filter: brightness(1.1);
+        }
+        .shift-option {
+            background: #1b2b37;
+            border-radius: 40px;
+            padding: 10px 16px;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #4e6e89;
+            color: #f0e7db;
+        }
+        .shift-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #d4b48c;
+            cursor: pointer;
+        }
+        .shift-option label {
+            cursor: pointer;
+            flex: 1;
+        }
+        .info-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #3f6792;
+            color: #ffecdd;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.1s;
+            border: 1px solid #9fc3ee;
+            box-shadow: 0 2px 5px #00000040;
+            margin-left: 4px;
+        }
+        .info-icon:hover {
+            background: #5882b3;
+            transform: scale(1.05);
+        }
+        .shift-indicator {
+            background: #233b4b;
+            border-radius: 40px;
+            padding: 6px 16px;
+            font-size: 0.9rem;
+            color: #f0ddc5;
+            display: inline-block;
+            border: 1px solid #7c9ec0;
+            margin-top: 8px;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 16px 10px;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .input-grid label {
+            color: #b9d0e5;
+            font-weight: 400;
+            font-size: 0.95rem;
+        }
+        .input-grid input, .input-grid select, .input-grid textarea {
+            background: #1d2e3d;
+            border: 1px solid #4f6c84;
+            border-radius: 40px;
+            padding: 10px 18px;
+            color: #f0e7d8;
+            font-size: 0.95rem;
+            outline: none;
+            transition: 0.1s;
+        }
+        .input-grid input:focus, .input-grid select:focus, .input-grid textarea:focus {
+            border-color: #e6c39b;
+            box-shadow: 0 0 0 2px #755f4330;
+        }
+        .input-grid textarea {
+            border-radius: 24px;
+            resize: vertical;
+            min-height: 65px;
+            grid-column: span 2;
+        }
+        .meta-readonly {
+            background: #1b2d3b;
+            border-radius: 40px;
+            padding: 14px 20px;
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px 30px;
+            border: 1px solid #4a6b85;
+            color: #d3e2f0;
+        }
+        .meta-readonly span {
+            font-size: 0.95rem;
+        }
+        .meta-readonly strong {
+            color: #eaceb0;
+            font-weight: 500;
+            margin-right: 5px;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 18px;
+            margin: 25px 0 20px;
+        }
+        .btn {
+            background: #314c62;
+            border: none;
+            color: #f0e3d4;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 4px 10px #00000040;
+            border: 1px solid #66839b;
+        }
+        .btn-primary {
+            background: #c9aa80;
+            color: #14222e;
+            border-color: #efdbbf;
+        }
+        .btn-primary:hover {
+            background: #e0c09b;
+            transform: scale(1.02);
+        }
+        .btn:hover {
+            background: #3f5e78;
+        }
+        .preview-area {
+            background: #0b1821;
+            border-radius: 26px;
+            padding: 20px;
+            border: 1px solid #44607a;
+            margin-top: 20px;
+        }
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            color: #c9af91;
+            margin-bottom: 12px;
+        }
+        #json-output {
+            background: #10212b;
+            border-radius: 18px;
+            padding: 18px;
+            color: #bed9f0;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.8rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 220px;
+            overflow: auto;
+            border: 1px solid #2f4b61;
+        }
+        .download-btn {
+            background: #7c9ab3;
+            color: #0f1f2c;
+            border: none;
+            border-radius: 40px;
+            padding: 12px 28px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .footer-note {
+            text-align: right;
+            color: #7d93a8;
+            font-size: 0.8rem;
+            margin-top: 12px;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a2b36;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4f6e88;
+            border-radius: 8px;
+        }
+    </style>
+    <!-- 内嵌 midi-parser-js 库 (v4.0.4 核心)  -->
+    <script>
+    (function(global){function MidiParser(){this.obj=null;}MidiParser.prototype.parse=function(data){if(!(data instanceof Uint8Array)) throw new Error('Data must be Uint8Array');var p=0,chunk,chunks=[];var read32=function(){var n=(data[p]<<24)|(data[p+1]<<16)|(data[p+2]<<8)|data[p+3];p+=4;return n;};var read16=function(){var n=(data[p]<<8)|data[p+1];p+=2;return n;};var read8=function(){return data[p++];};var readVar=function(){var res=0;while(true){var b=read8();res=(res<<7)|(b&0x7F);if(!(b&0x80)) break;}return res;};if(read32()!==0x4D546864) throw new Error('Invalid MIDI header (MThd)');var headerSize=read32();if(headerSize<6) throw new Error('Incomplete header');var format=read16();var trackCount=read16();var timeDivision=read16();var ticksPerBeat=timeDivision&0x8000? null: timeDivision;var header={format:format,trackCount:trackCount,ticksPerBeat:ticksPerBeat};p=8+headerSize;var tracks=[];for(var t=0;t<trackCount;t++){if(read32()!==0x4D54726B) throw new Error('Invalid track header (MTrk)');var trackLen=read32();var trackEnd=p+trackLen;var track={events:[]};var absTime=0, runningStatus=null;while(p<trackEnd){var delta=readVar();absTime+=delta;var event={delta:delta,absTime:absTime};var status=read8();if(status<0x80) { status=runningStatus; p--; } else runningStatus=status;var type=status&0xF0;var channel=status&0x0F;if(status===0xFF){ // meta event
+                var metaType=read8();var len=readVar();var metaData=data.subarray(p,p+len);p+=len;event.meta=true;event.type=metaType;event.data=metaData;if(metaType===0x03) event.trackName=new TextDecoder().decode(metaData);else if(metaType===0x51) event.tempo=(metaData[0]<<16)|(metaData[1]<<8)|metaData[2];else if(metaType===0x58){event.numerator=metaData[0];event.denominator=1<<metaData[1];event.clocks=metaData[2];event.notated32=metaData[3];}}else if(status===0xF0||status===0xF7){var len=readVar();p+=len; // sysEx, ignore
+            }else{if(type===0x90){ // note on
+                var note=read8();var vel=read8();event.noteOn={channel:channel,noteNumber:note,velocity:vel};if(vel===0) event.noteOff={channel:channel,noteNumber:note};}else if(type===0x80||type===0x90){ // note off or note on vel0 already
+                if(type===0x80){var note=read8();var vel=read8();event.noteOff={channel:channel,noteNumber:note};}else{}}else if(type===0xA0){p+=2;} // key pressure
+                else if(type===0xB0){p+=2;} // control
+                else if(type===0xC0){p+=1;} // program
+                else if(type===0xD0){p+=1;} // pressure
+                else if(type===0xE0){p+=2;} // pitch
+                else{}}track.events.push(event);}tracks.push(track);}return{header:header,tracks:tracks};};global.MidiParser=new MidiParser();})(window);
+    </script>
+</head>
+<body>
+<div class="card">
+    <h1>🎹 MIDI制谱器 <small>for JS脚本: AutoYuanQin</small></h1>
+    <div class="sub">支持多音轨勾选合并，独立八度偏移</div>
+
+    <!-- 文件上传区 -->
+    <div class="upload-area">
+        <label for="midiFile" class="file-label">📂 选择 MIDI 文件</label>
+        <input type="file" id="midiFile" accept=".mid,.midi" style="display: none;">
+        <span id="file-name">未选择任何文件</span>
+    </div>
+
+    <!-- 左右两列：轨道列表 + 元信息编辑 -->
+    <div class="two-cols">
+        <!-- 左侧：通道选择 + 预览控制 + 八度偏移显示 + 自动偏移开关 -->
+        <div class="track-panel">
+            <div class="section-title"><span>🎶 音轨通道</span><span class="badge" id="track-count">0</span></div>
+            <div id="track-list-container" class="track-list">
+                <!-- 动态生成轨道选项 -->
+            </div>
+            <div style="color:#a2bbd3; font-size:0.85rem; padding:6px 0;"> ☑️ 勾选需要合并的音轨（多选）</div>
+            <div style="margin-top:10px; background:#1d3140; border-radius:30px; padding:8px 12px; color:#bad2eb;">
+                <span>📊 原始范围: </span><span id="note-range-orig">—</span><br>
+                <span>🔁 合并偏移: </span><span id="best-shift">各轨独立计算</span><br>
+                <span>🎯 调整后范围: </span><span id="note-range-adjusted">—</span>
+            </div>
+            <!-- 独立偏移详细列表 -->
+            <div id="shift-detail-container" class="shift-detail" style="display: none;"></div>
+
+            <!-- 自动八度偏移开关 + 信息图标 -->
+            <div class="shift-option">
+                <input type="checkbox" id="auto-shift-checkbox" checked>
+                <label for="auto-shift-checkbox">✨ 启用自动八度偏移 (各轨独立优化)</label>
+                <span class="info-icon" id="shift-info-icon" title="点击查看说明">ⓘ</span>
+            </div>
+
+            <!-- 预览控制按钮组 -->
+            <div class="preview-controls">
+                <button class="preview-btn play" id="play-preview-btn">▶ 播放</button>
+                <button class="preview-btn stop" id="stop-preview-btn">⏹ 停止</button>
+            </div>
+            <div class="shift-indicator" id="shift-info">自动八度偏移已启用（各轨独立）</div>
+        </div>
+
+        <!-- 右侧：曲谱元信息编辑 + 只读元数据显示 -->
+        <div class="info-panel">
+            <div class="section-title">✏️ 曲谱元信息</div>
+            <div class="input-grid">
+                <label>歌曲名</label>
+                <input type="text" id="score-name" value="默认曲谱" placeholder="自定义曲谱名称">
+
+                <label>乐器</label>
+                <select id="score-instrument" class="dropdown">
+                    <option value="风物之诗琴" selected>风物之诗琴</option>
+                    <option value="老旧的诗琴">老旧的诗琴</option>
+                    <option value="镜花之琴">镜花之琴</option>
+                    <option value="荒泷·盛世豪鼓">荒泷·盛世豪鼓</option>
+                    <option value="绮筵之鼓">绮筵之鼓</option>
+                    <option value="晚风圆号">晚风圆号</option>
+                    <option value="聚聚鼓">聚聚鼓</option>
+                    <option value="悠可琴">悠可琴</option>
+                    <option value="「余音」">「余音」</option>
+                    <option value="跃律琴">跃律琴</option>
+                    <option value="谐律键琴">谐律键琴</option>
+                </select>
+
+                <label>曲谱信息</label>
+                <textarea id="score-description" placeholder="例如：原神风物之诗琴独奏">曲谱信息</textarea>
+
+                <label>曲师</label>
+                <input type="text" id="score-composer" value="曲师">
+
+                <label>谱师</label>
+                <input type="text" id="score-arranger" value="谱师">
+
+                <!-- 新增作者（录谱人）输入框，默认MidiTrans -->
+                <label>作者（录谱人）</label>
+                <input type="text" id="score-author" value="MidiTrans" placeholder="填写录谱人">
+            </div>
+            <!-- 只读元数据区域（BPM已改为可编辑输入框，保留隐藏span供内部使用） -->
+            <div class="meta-readonly">
+                <span><strong>BPM:</strong> <input type="number" id="bpm-input" min="1" max="400" value="120" style="width:80px; background:#1d2e3b; color:white; border:1px solid #4f6c84; border-radius:20px; padding:4px 8px; text-align:center;"> <span id="meta-bpm" style="display:none;">120</span></span>
+                <span><strong>拍号:</strong> <span id="meta-timesig">4/4</span></span>
+                <span><strong>类型:</strong> midi</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 操作按钮组 (按钮文字已修改) -->
+    <div class="action-buttons">
+        <button class="btn" id="preview-btn">🎧 预览选中轨道</button>
+        <button class="btn btn-primary" id="convert-btn">⚡ 生成 JSON 曲谱</button>
+    </div>
+
+    <!-- 预览与下载 -->
+    <div class="preview-area">
+        <div class="preview-header">
+            <span>🔍 预览输出的JSON文件</span>
+            <button class="download-btn" id="download-btn">⬇️ 下载 JSON</button>
+        </div>
+        <div id="json-output">点击「生成」查看结果</div>
+    </div>
+    <div class="footer-note">author: 提瓦特钓鱼玳师</div>
+</div>
+
+<script>
+(function() {
+    // ----- 原神琴键映射表 (27键) -----
+    const KEY_MAP = {
+        36: 'Z', 38: 'X', 40: 'C', 41: 'V', 43: 'B', 45: 'N', 47: 'M',
+        48: 'A', 50: 'S', 52: 'D', 53: 'F', 55: 'G', 57: 'H', 59: 'J',
+        60: 'Q', 62: 'W', 64: 'E', 65: 'R', 67: 'T', 69: 'Y', 71: 'U'
+    };
+    const VALID_PITCHES = Object.keys(KEY_MAP).map(Number).sort((a,b)=>a-b); // [36,38,40,41,43,45,47,48,...71]
+
+    // 工具：将音符映射到最近的有效键（相同八度倾向，差最小）
+    function mapPitchToValid(pitch) {
+        if (pitch < 36 || pitch > 71) return null; // 超出范围舍弃
+        if (KEY_MAP[pitch]) return pitch;
+        // 找最近音 (最小绝对值差)
+        let best = VALID_PITCHES.reduce((prev, curr) => {
+            return (Math.abs(curr - pitch) < Math.abs(prev - pitch) ? curr : prev);
+        }, VALID_PITCHES[0]);
+        return best;
+    }
+
+    // 计算最佳八度偏移量 (使最多音符落在36-71)
+    function computeBestOctaveShift(notes) {
+        if (!notes || notes.length === 0) return 0;
+        const pitches = notes.map(n => n.pitch);
+        const minPitch = Math.min(...pitches);
+        const maxPitch = Math.max(...pitches);
+        // 考虑偏移范围: 让尽可能多的音符落入[36,71]
+        let bestShift = 0;
+        let maxCount = 0;
+        // 从 -3 到 +3 八度 (每步12半音)
+        for (let shift = -3; shift <= 3; shift++) {
+            let count = pitches.filter(p => {
+                let shifted = p + shift * 12;
+                return shifted >= 36 && shifted <= 71;
+            }).length;
+            if (count > maxCount) {
+                maxCount = count;
+                bestShift = shift;
+            } else if (count === maxCount && Math.abs(shift) < Math.abs(bestShift)) {
+                // 相同数量时选偏移小的（更接近原调）
+                bestShift = shift;
+            }
+        }
+        return bestShift;
+    }
+
+    // 全局变量
+    let currentMidi = null;           // 解析后的midi对象
+    let selectedTrackIndexes = [];    // 存储选中的多个音轨索引
+    let tracksInfo = [];               // 存储每个轨道的事件/音符（带绝对时间）
+    let mergedNotes = [];              // 存储合并后的音符（绝对时间轴）
+    let lastGeneratedJson = null;
+
+    // 全局元数据 (从MIDI提取)
+    let globalBpm = 120;
+    let globalTimeSig = '4/4';
+
+    // 预览相关
+    let currentPreviewCtx = null;
+    let currentPreviewOscs = [];
+    let previewTimer = null;
+
+    // UI元素
+    const fileInput = document.getElementById('midiFile');
+    const fileNameSpan = document.getElementById('file-name');
+    const trackContainer = document.getElementById('track-list-container');
+    const trackCountSpan = document.getElementById('track-count');
+    const noteRangeOrigSpan = document.getElementById('note-range-orig');
+    const bestShiftSpan = document.getElementById('best-shift');
+    const noteRangeAdjSpan = document.getElementById('note-range-adjusted');
+    const previewBtn = document.getElementById('preview-btn');
+    const convertBtn = document.getElementById('convert-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const jsonOutput = document.getElementById('json-output');
+    const playPreviewBtn = document.getElementById('play-preview-btn');
+    const stopPreviewBtn = document.getElementById('stop-preview-btn');
+    const shiftInfoSpan = document.getElementById('shift-info');
+    const metaBpmSpan = document.getElementById('meta-bpm');
+    const metaTimesigSpan = document.getElementById('meta-timesig');
+    const autoShiftCheckbox = document.getElementById('auto-shift-checkbox');
+    const shiftInfoIcon = document.getElementById('shift-info-icon');
+
+    // 新增BPM输入框
+    const bpmInput = document.getElementById('bpm-input');
+
+    // UI 输入字段（新增作者）
+    const scoreName = document.getElementById('score-name');
+    const scoreInstrument = document.getElementById('score-instrument');
+    const scoreDescription = document.getElementById('score-description');
+    const scoreComposer = document.getElementById('score-composer');
+    const scoreArranger = document.getElementById('score-arranger');
+    const scoreAuthor = document.getElementById('score-author'); // 新增作者输入框
+
+    // 辅助函数：统计单个音轨的音符数量
+    function countTrackNotes(track) {
+        let noteCount = 0;
+        let pendingNotes = new Map(); // key: channel-note, value: startTicks
+        
+        track.events.forEach(ev => {
+            if (ev.noteOn && ev.noteOn.velocity > 0) {
+                const key = `${ev.noteOn.channel}-${ev.noteOn.noteNumber}`;
+                pendingNotes.set(key, true);
+            } else if (ev.noteOff || (ev.noteOn && ev.noteOn.velocity === 0)) {
+                const noteNum = ev.noteOff ? ev.noteOff.noteNumber : ev.noteOn.noteNumber;
+                const channel = ev.noteOff ? ev.noteOff.channel : ev.noteOn.channel;
+                const key = `${channel}-${noteNum}`;
+                
+                if (pendingNotes.has(key)) {
+                    noteCount++;
+                    pendingNotes.delete(key);
+                }
+            }
+        });
+        
+        // 统计未关闭的音符（MIDI文件可能不完整）
+        noteCount += pendingNotes.size;
+        
+        return noteCount;
+    }
+
+    // 辅助函数：从MIDI提取BPM和拍号并更新显示
+    function updateGlobalMetaFromMidi() {
+        if (!currentMidi) return;
+        // 提取BPM
+        let bpm = 120;
+        for (let track of currentMidi.tracks) {
+            for (let ev of track.events) {
+                if (ev.meta && ev.type === 0x51 && ev.tempo) {
+                    let microPerBeat = ev.tempo;
+                    bpm = Math.round(60000000 / microPerBeat);
+                    break;
+            }}
+        }
+        // 提取拍号
+        let timesig = '4/4';
+        for (let track of currentMidi.tracks) {
+            for (let ev of track.events) {
+                if (ev.meta && ev.type === 0x58 && ev.numerator && ev.denominator) {
+                    timesig = `${ev.numerator}/${ev.denominator}`;
+                    break;
+            }}
+        }
+        globalBpm = bpm;
+        globalTimeSig = timesig;
+        metaBpmSpan.textContent = globalBpm;          // 隐藏的span仍然更新
+        bpmInput.value = globalBpm;                   // 可编辑输入框同步
+        metaTimesigSpan.textContent = globalTimeSig;
+    }
+
+    // 修复1：精准合并选中音轨的音符（基于全局绝对时间轴）
+    function mergeSelectedTrackNotes() {
+        if (selectedTrackIndexes.length === 0 || !currentMidi || tracksInfo.length === 0) {
+            mergedNotes = [];
+            return;
+        }
+
+        // 统一的时间基准：基于MIDI的ticksPerBeat和全局BPM
+        const ticksPerBeat = currentMidi.header.ticksPerBeat || 480;
+        const microPerBeat = 60000000 / globalBpm; // 微秒/拍
+        const secPerTick = microPerBeat / 1000000 / ticksPerBeat; // 秒/tick
+
+        // 收集所有选中音轨的音符（转换为全局绝对时间）
+        let allNotes = [];
+        selectedTrackIndexes.forEach(idx => {
+            const track = currentMidi.tracks[idx];
+            if (!track) return;
+
+            let trackAbsTicks = 0; // 轨道内绝对ticks
+            let pendingNotes = new Map(); // key: channel-note, value: startTicks
+
+            track.events.forEach(ev => {
+                trackAbsTicks += ev.delta; // 累加delta得到轨道内绝对ticks
+                // 只处理音符事件
+                if (ev.noteOn && ev.noteOn.velocity > 0) {
+                    const key = `${ev.noteOn.channel}-${ev.noteOn.noteNumber}`;
+                    pendingNotes.set(key, trackAbsTicks);
+                } else if (ev.noteOff || (ev.noteOn && ev.noteOn.velocity === 0)) {
+                    const noteNum = ev.noteOff ? ev.noteOff.noteNumber : ev.noteOn.noteNumber;
+                    const channel = ev.noteOff ? ev.noteOff.channel : ev.noteOn.channel;
+                    const key = `${channel}-${noteNum}`;
+                    
+                    if (pendingNotes.has(key)) {
+                        const startTicks = pendingNotes.get(key);
+                        const endTicks = trackAbsTicks;
+                        
+                        // 转换为全局绝对时间（毫秒）
+                        const startMs = Math.round(startTicks * secPerTick * 1000);
+                        const endMs = Math.round(endTicks * secPerTick * 1000);
+
+                        if (endMs > startMs) { // 过滤无效音符
+                            allNotes.push({
+                                pitch: noteNum,
+                                startMs: startMs,
+                                endMs: endMs
+                            });
+                        }
+                        pendingNotes.delete(key);
+                    }
+                }
+            });
+        });
+
+        // 按开始时间排序，确保时间轴有序
+        mergedNotes = allNotes.sort((a, b) => a.startMs - b.startMs);
+    }
+
+    // 根据复选框状态获取实际要使用的偏移量
+    function getCurrentOctaveShift() {
+        if (!autoShiftCheckbox.checked) return 0;
+        // 基于合并后的音符计算最佳偏移
+        return computeBestOctaveShift(mergedNotes);
+    }
+
+    // 更新UI上关于偏移的显示
+    function updateShiftDisplay() {
+        const enabled = autoShiftCheckbox.checked;
+        const shift = enabled ? computeBestOctaveShift(mergedNotes) : 0;
+        
+        if (mergedNotes.length > 0) {
+            const pitches = mergedNotes.map(n => n.pitch);
+            const minPitch = Math.min(...pitches);
+            const maxPitch = Math.max(...pitches);
+            const adjustedMin = minPitch + shift * 12;
+            const adjustedMax = maxPitch + shift * 12;
+            
+            noteRangeOrigSpan.textContent = `${minPitch} ~ ${maxPitch}`;
+            noteRangeAdjSpan.textContent = `${adjustedMin} ~ ${adjustedMax} (限制36-71)`;
+            
+            const shiftStr = shift === 0 ? '0 (原调)' : (shift > 0 ? `+${shift} 八度` : `${shift} 八度`);
+            bestShiftSpan.textContent = shiftStr;
+        } else {
+            noteRangeOrigSpan.textContent = '—';
+            noteRangeAdjSpan.textContent = '—';
+            bestShiftSpan.textContent = '0';
+        }
+        
+        shiftInfoSpan.textContent = enabled ? '✨ 自动八度偏移已启用' : '⛔ 自动八度偏移已禁用';
+        playPreviewBtn.textContent = enabled ? '▶ 播放' : '▶ 播放(原调)';
+    }
+
+    // 信息图标点击事件：弹出说明
+    shiftInfoIcon.addEventListener('click', function(e) {
+        e.stopPropagation(); 
+        alert('双音轨已基于全局绝对时间轴合并，预览/生成的JSON中两个音轨的音符会按实际时间同时播放；超出27键的音会替换为@占位符，保留时长。');
+    });
+
+    // 处理文件选择
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        fileNameSpan.textContent = file.name;
+        // 自动填充歌曲名 (去掉扩展名)
+        let baseName = file.name.replace(/\.[^/.]+$/, "");
+        scoreName.value = baseName;
+
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+            const arrayBuffer = ev.target.result;
+            const uint8 = new Uint8Array(arrayBuffer);
+            try {
+                currentMidi = window.MidiParser.parse(uint8);
+                updateGlobalMetaFromMidi();  
+                // 初始化轨道信息（统计每个轨道的音符数量）
+                tracksInfo = currentMidi.tracks.map((track, idx) => ({ 
+                    index: idx, 
+                    notes: [],
+                    noteCount: countTrackNotes(track) // 统计音符数量
+                }));
+                trackCountSpan.textContent = currentMidi.tracks.length;
+                // 重置选中状态
+                selectedTrackIndexes = [];
+                renderTrackList();
+                mergeSelectedTrackNotes();
+                updateShiftDisplay();
+            } catch (err) {
+                alert('MIDI解析失败：' + err.message);
+                console.error(err);
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    });
+
+    // 修复2：修复复选框逻辑（无选中时不提示上限）+ 显示正确的音符数量
+    function renderTrackList() {
+        trackContainer.innerHTML = '';
+        if (!currentMidi) return;
+
+        currentMidi.tracks.forEach((track, idx) => {
+            const isSelected = selectedTrackIndexes.includes(idx);
+            const noteCount = tracksInfo[idx]?.noteCount || 0; // 获取统计的音符数量
+            const div = document.createElement('div');
+            div.className = `track-item ${isSelected ? 'selected' : ''}`;
+            div.innerHTML = `
+                <input type="checkbox" name="trackCheckbox" value="${idx}" ${isSelected ? 'checked' : ''}>
+                <span>音轨 ${idx}</span>
+                <span class="badge">🎵 ${noteCount} 音符</span>
+            `;
+
+            div.addEventListener('click', (e) => {
+                const checkbox = div.querySelector('input');
+                if (e.target.tagName !== 'INPUT') {
+                    checkbox.checked = !checkbox.checked;
+                }
+
+                // 核心修复：先判断当前状态，再处理上限
+                const willCheck = checkbox.checked;
+                if (willCheck) {
+                    // 勾选时才判断上限
+                    if (selectedTrackIndexes.length >= 2) {
+                        alert('最多只能选择两个音轨！');
+                        checkbox.checked = false;
+                        return;
+                    }
+                    // 新增选中
+                    selectedTrackIndexes.push(idx);
+                } else {
+                    // 取消勾选：直接移除
+                    selectedTrackIndexes = selectedTrackIndexes.filter(i => i !== idx);
+                }
+
+                // 重新渲染+合并音符
+                renderTrackList();
+                mergeSelectedTrackNotes();
+                updateShiftDisplay();
+                stopPreview();
+            });
+            trackContainer.appendChild(div);
+        });
+    }
+
+    // 监听复选框变化
+    autoShiftCheckbox.addEventListener('change', () => {
+        updateShiftDisplay();
+    });
+
+    // 预览按钮: 显示选中音轨的统计
+    previewBtn.addEventListener('click', () => {
+        if (!currentMidi) { alert('请先加载MIDI文件'); return; }
+        if (selectedTrackIndexes.length === 0) {
+            alert('请选择至少一个音轨');
+            return;
+        }
+        
+        let msg = `已选中 ${selectedTrackIndexes.length} 个音轨：\n`;
+        let totalNotes = 0;
+        selectedTrackIndexes.forEach(idx => {
+            const noteCount = tracksInfo[idx]?.noteCount || 0;
+            msg += `- 音轨 ${idx}: ${noteCount} 个音符\n`;
+            totalNotes += noteCount;
+        });
+        msg += `\n合并后总音符数: ${totalNotes}`;
+        msg += `\n当前八度偏移: ${getCurrentOctaveShift()}`;
+        alert(msg);
+    });
+
+    // ----- 预览播放功能 (播放合并后的音符) -----
+    function stopPreview() {
+        if (previewTimer) {
+            clearTimeout(previewTimer);
+            previewTimer = null;
+        }
+        if (currentPreviewCtx) {
+            currentPreviewOscs.forEach(osc => {
+                try { osc.stop(); } catch (e) {}
+            });
+            currentPreviewCtx.close().catch(console.warn);
+            currentPreviewCtx = null;
+            currentPreviewOscs = [];
+        }
+    }
+
+    async function playPreview() {
+        if (!mergedNotes || mergedNotes.length === 0) {
+            alert('选中轨道无音符可播放');
+            return;
+        }
+        stopPreview();
+
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        currentPreviewCtx = audioCtx;
+        if (audioCtx.state === 'suspended') await audioCtx.resume();
+
+        const startTime = audioCtx.currentTime + 0.1;
+        const shift = getCurrentOctaveShift();
+        const oscs = [];
+
+        // 找出最晚结束时间
+        let maxEndMs = Math.max(...mergedNotes.map(n => n.endMs));
+
+        mergedNotes.forEach(n => {
+            // 应用八度偏移
+            const shiftedPitch = n.pitch + shift * 12;
+            const validPitch = mapPitchToValid(shiftedPitch);
+            if (!validPitch) return;
+
+            // 计算频率
+            const freq = 440 * Math.pow(2, (validPitch - 69) / 12);
+            
+            const osc = audioCtx.createOscillator();
+            osc.type = 'sine';
+            osc.frequency.value = freq;
+            
+            const gain = audioCtx.createGain();
+            gain.gain.value = 0.08;
+            osc.connect(gain).connect(audioCtx.destination);
+
+            // 基于绝对时间播放
+            const startSec = startTime + (n.startMs / 1000);
+            const endSec = startTime + (n.endMs / 1000);
+            
+            try {
+                osc.start(startSec);
+                osc.stop(endSec);
+            } catch (e) {
+                console.warn('振荡器调度失败', e);
+            }
+            oscs.push(osc);
+        });
+
+        currentPreviewOscs = oscs;
+        // 自动停止
+        previewTimer = setTimeout(stopPreview, maxEndMs + 2000);
+    }
+
+    playPreviewBtn.addEventListener('click', playPreview);
+    stopPreviewBtn.addEventListener('click', stopPreview);
+
+    // 修复3：生成notes字符串（修改on/off为D/U）
+    function generateNotesString() {
+        if (mergedNotes.length === 0) return 'D_@_0';
+
+        const shift = getCurrentOctaveShift();
+        // 生成所有音符的on/off事件
+        let events = [];
+        mergedNotes.forEach(n => {
+            const shiftedPitch = n.pitch + shift * 12;
+            const validPitch = mapPitchToValid(shiftedPitch);
+            const keyChar = validPitch ? KEY_MAP[validPitch] : '@';
+
+            // 按下事件 (on → D)
+            events.push({ timeMs: n.startMs, type: 'D', key: keyChar });
+            // 释放事件 (off → U)
+            events.push({ timeMs: n.endMs, type: 'U', key: keyChar });
+        });
+
+        // 按绝对时间排序（关键：确保事件时间轴正确）
+        events.sort((a, b) => {
+            if (a.timeMs !== b.timeMs) return a.timeMs - b.timeMs;
+            // 同时间先释放再按下，避免冲突
+            return a.type === 'U' ? -1 : 1;
+        });
+
+        // 转换为相对时间（原神脚本需要的格式）
+        let result = [];
+        let prevTime = 0;
+        events.forEach(ev => {
+            const wait = Math.max(0, Math.round(ev.timeMs - prevTime));
+            result.push(`${ev.type}_${ev.key}_${wait}`);
+            prevTime = ev.timeMs;
+        });
+
+        return result.join('|');
+    }
+
+    // 转换按钮（修改JSON格式：新增bpm字段，按钮文字已改）
+    convertBtn.addEventListener('click', () => {
+        if (!currentMidi || selectedTrackIndexes.length === 0) {
+            alert('请先选择MIDI文件并勾选音轨');
+            return;
+        }
+        if (mergedNotes.length === 0) {
+            alert('选中轨道无有效音符，无法转换');
+            return;
+        }
+
+        // 计算选中音轨的总音符数
+        let totalTicks = 0;
+        selectedTrackIndexes.forEach(idx => {
+            totalTicks += tracksInfo[idx]?.noteCount || 0;
+        });
+
+        const notesStr = generateNotesString();
+        const nameValue = scoreName.value.trim() || '默认曲谱';
+        const instrumentValue = scoreInstrument.value;
+        const descValue = scoreDescription.value.trim() || '曲谱信息';
+        const composerValue = scoreComposer.value.trim() || '曲师';
+        const arrangerValue = scoreArranger.value.trim() || '谱师';
+        const authorValue = scoreAuthor.value.trim() || 'MidiTrans';
+
+        // 获取当前BPM（来自可编辑输入框）
+        const currentBpm = parseInt(bpmInput.value, 10);
+        const finalBpm = (currentBpm && !isNaN(currentBpm)) ? currentBpm : globalBpm;
+
+        // 修改后的JSON格式：新增bpm字段，ticks保持原有逻辑（音符数之和）
+        const outputJson = {
+            name: nameValue,
+            author: authorValue,
+            instrument: instrumentValue,
+            type: "midi",
+            description: descValue,
+            time_signature: globalTimeSig,
+            composer: composerValue,
+            arranger: arrangerValue,
+            bpm: finalBpm,                     // 新增bpm键
+            ticks: totalTicks,                  // 保持原意：选中音轨音符数之和
+            notes: notesStr
+        };
+
+        lastGeneratedJson = outputJson;
+        jsonOutput.textContent = JSON.stringify(outputJson, null, 2);
+    });
+
+    // 下载 JSON
+    downloadBtn.addEventListener('click', () => {
+        if (!lastGeneratedJson) {
+            alert('请先生成JSON');
+            return;
+        }
+        const jsonStr = JSON.stringify(lastGeneratedJson, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = (lastGeneratedJson.name || '曲谱') + '.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    // 初始化点击上传区
+    document.querySelector('.file-label').addEventListener('click', () => fileInput.click());
+
+})();
+</script>
+</body>
+</html>

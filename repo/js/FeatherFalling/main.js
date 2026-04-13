@@ -52,7 +52,9 @@ async function PlacePortableWaypoint() {
     await sleep(50);
     click(1050, 50);
     await sleep(1000);
-    let result = captureGameRegion().find(tpBagRo);
+    const ro1 = captureGameRegion();
+    let result = ro1.find(tpBagRo);
+    ro1.dispose();
     if (result.isExist()) {
         result.click();
         await sleep(1000);
@@ -73,14 +75,18 @@ async function FeatherFailing() {
     await genshin.setBigMapZoomLevel(3.0);
     await genshin.moveMapTo(3419, 2739, `枫丹`);
     await genshin.setBigMapZoomLevel(1.0);
-    let result = captureGameRegion().find(tpIconRo);
+    const ro2 = captureGameRegion();
+    let result = ro2.find(tpIconRo);
+    ro2.dispose();
     if (result.isExist()) {
         log.info("传送点图标已识别，点击传送");
         result.click();
         await sleep(1000);
         let totalHours = 999;
         if (settings.autoPortableWaypoint) {
-            let result = captureGameRegion().find(ocrRo);
+            const ro3 = captureGameRegion();
+            let result = ro3.find(ocrRo);
+            ro3.dispose();
             log.info("识别到锚点文字: " + result.text);
 
             // 使用正则表达式匹配不同的时间格式
@@ -103,7 +109,9 @@ async function FeatherFailing() {
                 log.warn("无法解析锚点剩余时间格式，本次不放置锚点");
             }
         }
-        result = captureGameRegion().find(goTeleportRo);
+        const ro4 = captureGameRegion();
+        result = ro4.find(goTeleportRo);
+        ro4.dispose();
         result.click();
         await sleep(1000);
         await genshin.returnMainUi();
@@ -142,7 +150,9 @@ async function FeatherFailing() {
         await sleep(50);
         keyUp("W");
         await sleep(300);
-        result = captureGameRegion().find(swimStateRo);
+        const ro5 = captureGameRegion();
+        result = ro5.find(swimStateRo);
+        ro5.dispose();
         if (result.isExist()) {
             log.info("已进入游泳状态");
             break;
@@ -169,7 +179,9 @@ async function FeatherFailing() {
     await sleep(200);
     middleButtonClick();
     for (let i = 0; i < 100; i++) {
-        result = captureGameRegion().find(swimStateRo);
+        const ro6 = captureGameRegion();
+        result = ro6.find(swimStateRo);
+        ro6.dispose();
         if (!result.isExist()) {
             log.info("已退出游泳状态");
             break;

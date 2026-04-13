@@ -301,10 +301,14 @@ function extractInfoFromCombatFile(filePath) {
     const authorMatch = content.match(/\/\/\s*作者\s*[:：](.*)/);
     const descriptionMatch = content.match(/\/\/\s*描述\s*[:：](.*)/);
     const versionMatch = content.match(/\/\/\s*版本\s*[:：](.*)/);
-    const characterMatches = content.match(/^(?!\/\/).*?(\S+)(?=\s|$)/gm);    
-    let tags = [...new Set(characterMatches || [])]
-        .map(char => char.trim())
-        .filter(char => char.length > 0 && !char.match(/^[,.]$/)); // 过滤掉单个逗号或句号
+    const lines = content.split('\n');
+
+    const tags = [...new Set(
+        lines
+            .map(l => l.trim())
+            .filter(l => l && !l.startsWith('//'))
+            .map(l => l.split(/\s+/)[0])
+    )];
     
     // 获取最后更新时间
     const gitTimestamp = getGitTimestamp(filePath);

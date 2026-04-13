@@ -15,12 +15,44 @@
     "label": "填写后将在js运行结束后分解狗粮\n并输出分解获得的经验值\n格式为 名字：联机狗粮分解获得经验xxx"
   },
   {
+    "name": "onlyRunPerfectly",
+    "type": "input-text",
+    "label": "输入任意内容后启用强迫症模式\n人不齐或队友未正常到位时不执行任何路线\n并在运行结束后间隔一秒输出按中文分号；分隔的内容"
+  },
+  {
+    "name": "normalEnding",
+    "type": "input-text",
+    "label": "正常运行结束后间隔一秒输出按中文分号；分隔的内容"
+  },
+  {
+    "name": "autoReonline",
+    "type": "input-text",
+    "label": "自动重新上线\n运行联机结束后自动使用匹配信息.json中的信息重新在mojang上线\n填写所需的最小上线次数\n炸车后重新上线不消耗次数,正常当房主跑完一次后自动改为不当房主\n需要使用该功能时填4，否则填0",
+    "default": "0"
+  },
+  {
+    "name": "preKick",
+    "type": "checkbox",
+    "label": "完成2/3p路线后提前踢出2/3p"
+  },
+  {
+    "name": "waitingOneDragon",
+    "type": "input-text",
+    "label": "联机等待一条龙名称，炸车或正常结束后重新上线时启动该一条龙进行等待\n需要配合mojang使用"
+  },
+  {
+    "name": "afterOneDragon",
+    "type": "input-text",
+    "label": "联机后一条龙名称，正常结束后且不再重新上线时启动该一条龙\n需要配合mojang使用"
+  },
+  {
     "name": "groupMode",
     "type": "select",
-    "label": "####################################################################\n联机运行配置\n\n运行模式",
+    "label": "#############################################\n联机运行配置\n\n运行模式",
     "options": [
       "手动进入后运行",
-      "按照下列配置自动进入并运行"
+      "按照下列配置自动进入并运行",
+      "使用JSON配置文件"
     ],
     "default": "手动进入后运行"
   },
@@ -76,9 +108,14 @@
     "label": "4号的名称（以游戏内实际显示为准，有备注时填备注名）"
   },
   {
+    "name": "jsonConfigPath",
+    "type": "input-text",
+    "label": "JSON配置文件路径\n选择'使用JSON配置文件'模式时填写\n相对路径或绝对路径，如：匹配信息.json"
+  },
+  {
     "name": "notify",
     "type": "checkbox",
-    "label": "####################################################################\n其他配置\n\n是否通知信息"
+    "label": "#############################################\n其他配置\n\n是否通知信息"
   },
   {
     "name": "forceGroupNumber",
@@ -97,57 +134,26 @@
     "label": "运行时使用角色的序号\n将在进入联机模式前尝试切换到对应序号的角色"
   },
   {
-    "name": "p1EndingRoute",
-    "type": "select",
-    "label": "####################################################################\n收尾路线配置\n请确保每个人在该部分的选项【完全一致】\n非必要不建议更改\n\n1p收尾路线",
-    "options": [
-      "枫丹高塔",
-      "度假村",
-      "智障厅",
-      "踏鞴砂"
-    ],
-    "default": "枫丹高塔"
-  },
-  {
-    "name": "p2EndingRoute",
-    "type": "select",
-    "label": "2p收尾路线",
-    "options": [
-      "枫丹高塔",
-      "度假村",
-      "智障厅",
-      "踏鞴砂"
-    ],
-    "default": "度假村"
-  },
-  {
-    "name": "p3EndingRoute",
-    "type": "select",
-    "label": "3p收尾路线",
-    "options": [
-      "枫丹高塔",
-      "度假村",
-      "智障厅",
-      "踏鞴砂"
-    ],
-    "default": "智障厅"
-  },
-  {
-    "name": "p4EndingRoute",
-    "type": "select",
-    "label": "4p收尾路线",
-    "options": [
-      "枫丹高塔",
-      "度假村",
-      "智障厅",
-      "踏鞴砂"
-    ],
-    "default": "踏鞴砂"
-  },
-  {
     "name": "TMthreshold",
     "type": "input-text",
     "label": "拾取使用的匹配阈值\n观察到误捡可适当调高\n观察到漏捡可适当调低",
     "default": "0.9"
+  },
+  {
+    "name": "findFInterval",
+    "type": "input-text",
+    "label": "识别间隔(毫秒)\n两次检测f图标之间等待时间",
+    "default": "100"
+  },
+  {
+    "name": "p1EndingRoute",
+    "type": "select",
+    "label": "#############################################\n收尾路线配置\n非必要不建议更改\n\n1p收尾路线",
+    "options": [
+      "枫丹高塔",
+      "茶叶",
+      "清籁丸"
+    ],
+    "default": "枫丹高塔"
   }
 ]

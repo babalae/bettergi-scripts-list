@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "丘丘人射手-09灵矩关（高危）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "此处有丘丘岩凯王",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "曦",
+        "links": "https://github.com/cx05121"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1038.26,
+      "y": -559.75
+    },
+    {
+      "id": 2,
+      "x": 968.73,
+      "y": -521.92,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 968.73,
+      "y": -521.92,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 4,
+      "x": 933.36,
+      "y": -497.25,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

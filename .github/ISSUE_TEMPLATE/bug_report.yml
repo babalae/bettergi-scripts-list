@@ -1,0 +1,78 @@
+name: Bug Report / 问题反馈
+description: 反馈使用 BetterGI 脚本时遇到的问题
+title: "[Bug]: 简短描述你遇到的问题"
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请仔细填写以下信息，以便我们能快速定位并解决问题。
+        （必填项已标记）
+  
+  # BetterGI 版本 (必填)
+  - type: input
+    id: bettergi-version
+    attributes:
+      label: BetterGI 版本 (必填)
+      description: 请填写你正在使用的 BetterGI 的版本号。
+      # 使用一个不存在的版本作为占位符，以便对用户进行简单验证
+      placeholder: 例如：0.53.9
+    validations:
+      required: true
+
+  # 脚本名称 (必填)
+  - type: input
+    id: script-name
+    attributes:
+      label: 脚本名称 (必填)
+      description: 请填写你出现问题的具体脚本的名称。
+      placeholder: 例如：自动日常, 自动锄大地 等
+    validations:
+      required: true
+      
+  # 问题描述 (必填)
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: 问题描述 (必填)
+      description: 请清晰、简洁地描述你遇到的问题，例如“脚本执行到XX步骤后崩溃” 或 “XX功能没有按预期工作”。
+      placeholder: 请在此处具体描述遇到的问题...
+    validations:
+      required: true
+
+  # 复现步骤 (可选)
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: 复现步骤 (可选)
+      description: 如果可能，请提供重现该问题的详细步骤。这将极大地帮助我们。
+      placeholder: |
+        例如：
+        1. 添加XX脚本
+        2. 设置参数 A=值, B=值
+        3. 点击“运行”
+        4. 问题发生，现象为xxx
+    validations:
+      required: false
+
+  # 日志文件或录屏 (可选，并附带安全提示)
+  - type: textarea
+    id: logs-and-video
+    attributes:
+      label: 日志文件或录屏 (可选)
+      description: |
+        请附上相关的日志文件（如 `.log` 文件）或问题发生的录屏。
+        
+        **⚠️ 重要提示:** 在上传日志、截图或录像前，请务必检查其中是否包含任何**个人敏感信息**（如用户UID等）。如果有，请将其**移除或打码**后再上传。
+      placeholder: 确认没有泄露个人信息或者UID后，你可以将文件拖动到此处完成上传
+    validations:
+      required: false
+
+  # 其他信息（可选）
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: 其他信息 (可选)
+      description: 你认为对解决问题有帮助的任何其他信息，例如脚本版本、操作系统版本、网络环境等。
+    validations:
+      required: false

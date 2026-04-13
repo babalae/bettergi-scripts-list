@@ -25,6 +25,7 @@ async function (timeout) {
                         for (let keyword of successKeywords) {
                             if (text.includes(keyword)) {
                                 log.debug("检测到战斗成功关键词: {0}", keyword);
+                                captureRegion.dispose();
                                 resolve(true);
                                 return;
                             }
@@ -34,6 +35,7 @@ async function (timeout) {
                         for (let keyword of failureKeywords) {
                             if (text.includes(keyword)) {
                                 log.debug("检测到战斗失败关键词: {0}", keyword);
+                                captureRegion.dispose();
                                 resolve(false);
                                 return;
                             }

@@ -24,7 +24,7 @@
     "description": "设计师若紫，购买四方八方之网",
     "enable_monster_loot_split": false,
     "items": [],
-    "last_modified_time": 1759502044257,
+    "last_modified_time": 1762243516854,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "四方八方之网",
@@ -54,9 +54,10 @@
       "y": -3001.84765625
     },
     {
-      "action": "",
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "walk",
       "point_ext_params": {
         "description": "",
         "enable_monster_loot_split": false,
@@ -69,8 +70,8 @@
         }
       },
       "type": "target",
-      "x": -4242.96875,
-      "y": -2999.5625
+      "x": -4242.6875,
+      "y": -2999.65625
     }
   ]
 }

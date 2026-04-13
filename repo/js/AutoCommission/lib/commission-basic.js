@@ -149,14 +149,20 @@ var CommissionBasic = {
       // 检测完成状态
       var completedResult = checkRegion.find(completedRo);
       if (!completedResult.isEmpty()) {
+        captureRegion.dispose();
+        checkRegion.dispose();
         return "completed";
       }
 
       // 检测未完成状态
       var uncompletedResult = checkRegion.find(uncompletedRo);
       if (!uncompletedResult.isEmpty()) {
+        captureRegion.dispose();
+        checkRegion.dispose();
         return "uncompleted";
       }
+      captureRegion.dispose();
+      checkRegion.dispose();
 
       log.warn("委托{id}状态识别失败", button.id);
       return "unknown";

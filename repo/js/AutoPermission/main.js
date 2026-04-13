@@ -1,7 +1,7 @@
 (async function () {
     await genshin.returnMainUi();
     let domainName = settings.domainName;
-    let operationDelay = settings.operationDelay?settings.operationDelay:1000;
+    let operationDelay = settings.operationDelay?Number(settings.operationDelay):1000;
     if(domainName===undefined){
         domainName="不允许加入"
     }
@@ -31,6 +31,7 @@
             log.info("锁门");
             break;
     }
+    await sleep(operationDelay);
     }
     else{
         let tag = 0;
@@ -38,6 +39,7 @@
             let OCRcaptureRegion = captureGameRegion();
             
             let resList = OCRcaptureRegion.findMulti(RecognitionObject.ocrThis);
+            OCRcaptureRegion.dispose();
 
             for (let i = 0; i < resList.count; i++) {
                 let res = resList[i];
@@ -54,9 +56,10 @@
         }
         tag = 0;
         for (let i = 0; i < 5 && tag === 0; i++) {
-            OCRcaptureRegion = captureGameRegion();
+            let OCRcaptureRegion = captureGameRegion();
 
-            resList = OCRcaptureRegion.findMulti(RecognitionObject.ocrThis);
+            let resList = OCRcaptureRegion.findMulti(RecognitionObject.ocrThis);
+            OCRcaptureRegion.dispose();
 
             for (let i = 0; i < resList.count; i++) { 
                 let res = resList[i];

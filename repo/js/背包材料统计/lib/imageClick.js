@@ -60,7 +60,7 @@ async function preloadImageResources(specificNames) {
 
         if (fileExists(configPath)) {
             try {
-                const configContent = file.readTextSync(configPath);
+                const configContent = safeReadTextSync(configPath);
                 popupConfig = { ...popupConfig, ...JSON.parse(configContent) };
                 isSpecialModule = popupConfig.isSpecial === true 
                     && typeof popupConfig.detectRegion === 'object' 
@@ -104,17 +104,18 @@ async function preloadImageResources(specificNames) {
                 });
             }
 
-            const targetIcon = iconRecognitionObjects[0];
-            const manualRegion = new ImageRegion(targetIcon.mat, specialDetectRegion.x, specialDetectRegion.y);
-            manualRegion.width = specialDetectRegion.width;
-            manualRegion.height = specialDetectRegion.height;
-
-            const foundRegions = [{
-                pictureName: "特殊模块",
-                iconName: targetIcon.name,
-                region: manualRegion,
-                iconDir: iconDir
-            }];
+            const foundRegions = []; // 存储所有图标的识别配置
+            for (const targetIcon of iconRecognitionObjects) { // 遍历每个图标
+                const manualRegion = new ImageRegion(targetIcon.mat, specialDetectRegion.x, specialDetectRegion.y);
+                manualRegion.width = specialDetectRegion.width;
+                manualRegion.height = specialDetectRegion.height;
+                foundRegions.push({
+                    pictureName: "特殊模块",
+                    iconName: targetIcon.name, // 当前图标的名称
+                    region: manualRegion, // 复用同一个detectRegion区域
+                    iconDir: iconDir
+                });
+            }
             // log.info(`【${dirName}】特殊模块生成识别区域：x=${manualRegion.x}, y=${manualRegion.y}, 宽=${manualRegion.width}, 高=${manualRegion.height}`);
 
             preloadedResources.push({
@@ -216,11 +217,36 @@ async function imageClickBackgroundTask() {
 
     // 配置参数
     const taskDelay = Math.min(999, Math.max(1, Math.floor(Number(settings.PopupClickDelay) || 15)))*1000;
-    const specificNamesStr = settings.PopupNames || "";
-    const specificNames = specificNamesStr
-        .split(/[,，、 \s]+/)
-        .map(name => name.trim())
-        .filter(name => name !== "");
+    let specificNames = [];
+    try {
+        specificNames = Array.from(settings.PopupNames || []);
+    } catch (e) {
+        log.error(`获取PopupNames设置失败: ${e.message}`);
+    }
+
+    let availablePopupDirs = [];
+    try {
+        const imageClickDir = "assets/imageClick";
+        const subDirs = readAllFilePaths(imageClickDir, 0, 2, [], true);
+        availablePopupDirs = subDirs.filter(subDir => {
+            const dirName = basename(subDir);
+            const entries = readAllFilePaths(subDir, 0, 0, [], true);
+            return entries.some(entry => normalizePath(entry).endsWith('/icon'));
+        }).map(dir => basename(dir));
+        log.info(`可用弹窗目录：${availablePopupDirs.join(', ')}`);
+    } catch (e) {
+        log.error(`扫描弹窗目录失败: ${e.message}`);
+    }
+
+    if (specificNames.length === 0) {
+        log.info("未指定弹窗名称，将处理所有可用弹窗");
+    } else {
+        const invalidNames = specificNames.filter(name => !availablePopupDirs.includes(name));
+        if (invalidNames.length > 0) {
+            log.warn(`以下弹窗名称不存在，将被忽略：${invalidNames.join(', ')}`);
+            specificNames = specificNames.filter(name => availablePopupDirs.includes(name));
+        }
+    }
 
     // 预加载资源
     const preloadedResources = await preloadImageResources(specificNames);
@@ -238,11 +264,11 @@ async function imageClickBackgroundTask() {
 
     // 打印资源检测结果
     log.info("\n==================== 现有弹窗加载结果 ====================");
-    log.info("1. 一级弹窗（共" + firstLevelDirs.length + "个）：");
-    firstLevelDirs.forEach((res, idx) => log.info(`   ${idx+1}. 【${res.dirName}】`));
+    const firstLevelNames = firstLevelDirs.map(res => res.dirName).join('、');
+    log.info("1. 一级弹窗（共" + firstLevelDirs.length + "个）：" + firstLevelNames);
     const secondLevelResources = preloadedResources.filter(res => !res.isFirstLevel);
-    log.info("\n2. 二级弹窗（共" + secondLevelResources.length + "个）：");
-    secondLevelResources.forEach((res, idx) => log.info(`   ${idx+1}. 【${res.dirName}】`));
+    const secondLevelNames = secondLevelResources.map(res => res.dirName).join('、');
+    log.info("2. 二级弹窗（共" + secondLevelResources.length + "个）：" + secondLevelNames);
     log.info("=============================================================\n");
 
     // 核心逻辑：外循环遍历所有一级弹窗
@@ -335,6 +361,7 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
                 detectRegion?.width ?? defaultWidth,
                 detectRegion?.height ?? defaultHeight
             );
+            // log.info(JSON.stringify(detectRegion, null, 2));
             recognitionObject.threshold = 0.85;
 
             const result = await recognizeImage(
@@ -373,6 +400,7 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
                             const pressDelay = popupConfig.loopDelay || 1000;
                             for (let i = 0; i < pressCount; i++) {
                                 keyPress(targetKey); // 保留原始按键逻辑
+                                log.info(`【${dirName}】弹窗触发按键【${targetKey}】${i+1}次`);
                                 if (i < pressCount - 1) await sleep(pressDelay); // 非最后一次加间隔
                             }
                             log.info(`【${dirName}】弹窗触发按键【${targetKey}】，共${pressCount}次，间隔${pressDelay}ms`);
@@ -385,7 +413,13 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
                                 log.error(`【${dirName}】弹窗OCR配置不全，跳过`);
                                 break;
                             }
-                            const ocrResults = await performOcr(targetTexts, xRange, yRange, timeout, ra);
+                            const region = {
+                                x: xRange.min,
+                                y: yRange.min,
+                                width: xRange.max - xRange.min,
+                                height: yRange.max - yRange.min
+                            };
+                            const { results: ocrResults } = await performOcr(targetTexts, region, ra, timeout);
                             if (ocrResults.length > 0) {
                                 const ocrActualX = Math.round(ocrResults[0].x + ocrResults[0].width/2) + xOffset;
                                 const ocrActualY = Math.round(ocrResults[0].y + ocrResults[0].height/2) + yOffset;
@@ -438,6 +472,7 @@ async function imageClick(preloadedResources, ra = null, specificNames = null, u
                             const defaultDelay = popupConfig.loopDelay;
                             for (let i = 0; i < defaultCount; i++) {
                                 await click(actualX, actualY); // 保留原始默认点击逻辑
+                                log.info(`点击【${dirName}】弹窗：(${actualX}, ${actualY})${i+1}次`);
                                 if (i < defaultCount - 1) await sleep(defaultDelay); // 非最后一次加间隔
                             }
                             isAnySuccess = true;

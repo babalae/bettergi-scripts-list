@@ -1,0 +1,114 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时182.26秒，包含以下怪物：2.5只丘丘人、1只火箭丘丘人、3只打手丘丘人、1只冲锋丘丘人、1只木盾丘丘人、2只岩盾丘丘人、1只雷箭丘丘人、1只岩盾丘丘暴徒、1只火深渊法师、1只水深渊法师、1只雷深渊法师、2只遗迹巡弋者。",
+    "enable_monster_loot_split": false,
+    "hash_res": "06625117",
+    "last_modified_time": 1774340229183,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "ZC025稻妻渊下宫狭间之街到东南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 630.7,
+      "y": 624.81
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 551.59,
+      "y": 612.94
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 591.43,
+      "y": 595.8
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 620.63,
+      "y": 528.45
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 620.63,
+      "y": 528.45
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 620.63,
+      "y": 528.45
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 591.01,
+      "y": 500.91
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 597.22,
+      "y": 528.46
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 597.22,
+      "y": 528.46
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 540.6,
+      "y": 535.84
+    }
+  ]
+}

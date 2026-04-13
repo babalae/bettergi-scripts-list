@@ -1,0 +1,115 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769188925607,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "308稻妻-望泷村4",
+    "tags": [],
+    "type": "collect",
+    "version": ""
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -755.556640625,
+      "y": -4001.0576171875
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -725.943359375,
+      "y": -4029.255859375
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -709.2138671875,
+      "y": -4045.4638671875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 wait(0.2),keydown(E),wait(0.47),keyup(E),attack(0.2),wait(0.5);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -702.724609375,
+      "y": -4050.6787109375
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": -698.0936808735478,
+      "y": -4054.6565758962133
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -674.09375,
+      "y": -4044.8126659980953
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 wait(0.2),keydown(E),wait(0.47),keyup(E),attack(0.2),wait(0.5);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -672.3125,
+      "y": -4043.2811836007622
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 wait(0.2),keydown(E),wait(0.47),keyup(E),attack(0.2),wait(0.5);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 8,
+      "move_mode": "run",
+      "type": "target",
+      "x": -688.75,
+      "y": -4042.5000774657783
+    },
+    {
+      "action": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": -688.3746095254883,
+      "y": -4071.8737876415
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),a(0.2),keypress(f),a(0.2),keypress(f),;万叶 wait(0.2),keydown(E),wait(0.47),keyup(E),attack(0.2),wait(0.5);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 10,
+      "move_mode": "run",
+      "type": "target",
+      "x": -693.4687658003313,
+      "y": -4087.2813182108366
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -694.3750039500828,
+      "y": -4086.2813409477803
+    }
+  ]
+}

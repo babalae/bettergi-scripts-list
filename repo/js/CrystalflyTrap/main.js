@@ -42,6 +42,7 @@
             await sleep(1000);
             let backpackTitle = captureGameRegion();
             let resList = backpackTitle.findMulti(RecognitionObject.ocr(130, 0, 200, 50));
+            backpackTitle.dispose();
             for (let i = 0; i < resList.count; i++) {
                 let res = resList[i];
                 if (!res.text.includes("小道")) {
@@ -50,7 +51,9 @@
                     await sleep(1000);
                 }
             }
-            let crystalflyTrap = captureGameRegion().find(RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/晶蝶诱捕装置.png")))
+            const ro1 = captureGameRegion();
+            let crystalflyTrap = ro1.find(RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/晶蝶诱捕装置.png")))
+            ro1.dispose();
             if (crystalflyTrap) {
                 log.info("选择晶蝶诱捕装置");
                 crystalflyTrap.click();
@@ -65,6 +68,7 @@
             await sleep(1000);
             let captureRegion = captureGameRegion();
             let resList2 = captureRegion.findMulti(RecognitionObject.ocr(1210, 510, 210, 50));
+            captureRegion.dispose();
             for (let i = 0; i < resList2.count; i++) {
                 let res = resList2[i];
                 if (!res.text.includes("晶蝶") || !res.text.includes("诱捕") || !res.text.includes("装置")) {
@@ -75,9 +79,13 @@
             log.info("添加矿石");
             keyPress("F");
             await sleep(1000);
-            let oreIcon = captureGameRegion().find(RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/icon/${ore}.png`)))
+            const ro2 = captureGameRegion();
+            let oreIcon = ro2.find(RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/icon/${ore}.png`)))
+            ro2.dispose();
             if (oreIcon) {
-                let oreCount = captureGameRegion().find(RecognitionObject.ocr(oreIcon.x - 20, 240, 90, 30));
+                const ro3 = captureGameRegion();
+                let oreCount = ro3.find(RecognitionObject.ocr(oreIcon.x - 20, 240, 90, 30));
+                ro3.dispose();
                 if (oreCount.text < 30) {
                     log.error(`${ore}数量不足30个！`);
                     throw new Error(`${ore}数量不足30个！`);
@@ -123,6 +131,7 @@
             
             let captureRegion = captureGameRegion();
             let resList = captureRegion.findMulti(RecognitionObject.ocr(1210, 510, 210, 50));
+            captureRegion.dispose();
             for (let i = 0; i < resList.count; i++) {
                 let res = resList[i];
                 if (!res.text.includes("晶蝶") || !res.text.includes("诱捕") || !res.text.includes("装置")) {

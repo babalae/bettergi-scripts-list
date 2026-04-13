@@ -53,7 +53,9 @@ function filterChineseChars(text) {
 async function recognizeImage(recognitionObject) {
     await sleep(500);  // 延迟500ms，避免识别请求过于频繁
     try {
-        const imageResult = captureGameRegion().find(recognitionObject);
+        const ro = captureGameRegion();
+        const imageResult = ro.find(recognitionObject);
+        ro.dispose();
         // 当识别结果存在且坐标不为(0,0)时（排除无效识别）
         return !!imageResult && imageResult.x !== 0 && imageResult.y !== 0;
     } catch (error) {
@@ -77,7 +79,9 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
             // 绘制识别区域红框（调试用）
             //captureGameRegion().find(region).DrawSelf("debug");
 
-            const ocrResult = captureGameRegion().find(region);
+            const ro = captureGameRegion();
+            const ocrResult = ro.find(region);
+            ro.dispose();
             if (ocrResult) {
                 // 应用字符替换映射表修正识别结果
                 let correctedText = ocrResult.text;
@@ -105,14 +109,15 @@ const paimonMenuRo = RecognitionObject.TemplateMatch(
     file.ReadImageMatSync("assets/paimon_menu.png"),
     0,
     0,
-    genshin.width / 3.0,
-    genshin.width / 5.0
+    640,
+    216
 );
 
 // 判断是否在主界面的函数
 const isInMainUI = () => {
     let captureRegion = captureGameRegion();
     let res = captureRegion.Find(paimonMenuRo);
+    captureRegion.dispose();
     return !res.isEmpty();
 };
 

@@ -1,0 +1,105 @@
+{
+  "info": {
+    "name": "ZC023稻妻渊下宫狭间之街到东北",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时124.99秒，包含以下怪物：2只打手丘丘人、1只冰箭丘丘人、1只火深渊法师、2只深海龙蜥·原种、1只深海龙蜥·原种_600。",
+    "hash_res": "43434511",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "tags": [],
+    "last_modified_time": 1754746106312,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 625.96,
+      "y": 621.87
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 599.4,
+      "y": 625.84
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 573.32,
+      "y": 645.86
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 530.33,
+      "y": 648.07
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 523.87,
+      "y": 667.07
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 536.93,
+      "y": 689.91
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(x);茜特菈莉 e;莱依拉 e;wait(3)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 591.21,
+      "y": 682.75
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 571.38,
+      "y": 686.66
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 548.3,
+      "y": 680.97
+    }
+  ]
+}

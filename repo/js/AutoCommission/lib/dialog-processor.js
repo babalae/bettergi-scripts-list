@@ -137,9 +137,9 @@ var DialogProcessor = {
       // 获取对话区域截图并进行OCR识别
       var dialogOptionsRegion = {
         X: 1250,
-        Y: 450,
+        Y: 250,
         WIDTH: 550,
-        HEIGHT: 400,
+        HEIGHT: 600,
       };
       var ocrResults = await Utils.easyOCR(dialogOptionsRegion);
       if (ocrResults.count > 0) {

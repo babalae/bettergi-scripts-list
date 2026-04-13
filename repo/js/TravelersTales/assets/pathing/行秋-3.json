@@ -1,0 +1,70 @@
+{
+  "info": {
+    "name": "行秋-3",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 840.3544921875,
+      "y": 1532.58154296875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 840.3544921875,
+      "y": 1532.58154296875,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 834.87109375,
+      "y": 1549.65771484375,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 834.5400390625,
+      "y": 1569.146484375,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 833.9365234375,
+      "y": 1593.658203125,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 834.115234375,
+      "y": 1599.3125,
+      "action": "",
+      "move_mode": "climb",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 833.2158203125,
+      "y": 1604.42138671875,
+      "action": "combat_script",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}

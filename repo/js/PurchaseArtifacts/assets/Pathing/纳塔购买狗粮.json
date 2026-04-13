@@ -1,30 +1,40 @@
 {
   "info": {
-    "name": "未命名路径",
-    "type": "collect",
-    "author": "柒叶子",
-    "version": "1.0",
+    "authors": [
+      {
+        "links": "",
+        "name": "柒叶子"
+      }
+    ],
+    "bgi_version": "0.45.0",
     "description": "纳塔购买狗粮",
-    "bgi_version": "0.35.1"
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766155084145,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔购买狗粮",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 9057.61328125,
-      "y": -1845.81005859375,
-      "type": "teleport",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9057.61328125,
+      "y": -1845.81005859375
     },
     {
-      "id": 2,
-      "x": 9061.1553,
-      "y": -1850.5386,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9061.1553,
+      "y": -1850.5386
     }
   ]
 }

@@ -1,10 +1,4 @@
 (async function () {
-    const woodType = ["桦木", "萃华木", "松木", "却砂木", "竹节", "垂香木", "杉木", "梦见木", "枫木", "孔雀木", "御伽木", "辉木", "业果木", "证悟木", "刺葵木", "柽木", "悬铃木", "椴木", "白梣木", "香柏木", "炬木", "白栗栎木", "灰灰楼林木", "燃爆木", "桃椰子木", "银冷杉木", "榛木", "夏栎木", "桤木"];
-    const singleWoodType = ["桦木", "萃华木", "松木", "杉木", "竹节", "却砂木", "梦见木", "枫木", "孔雀木", "御伽木", "证悟木", "业果木", "辉木", "刺葵木", "柽木", "白梣木", "炬木", "白栗栎木", "燃爆木", "灰灰楼林木", "桃椰子木", "银冷杉木", "榛木", "夏栎木", "桤木"];
-
-    const woodNumberMap = new Map(woodType.map(key => [key, 0]));
-    let woodNumberMapCopy = new Map();
-
     // 用于求解 垂香木-萃华木-香柏木 路线次数的线性规划求解器, 暴力求解，加一点点剪枝.
     function lpsolve1(y1, y2, y3) {
         let x1max = Math.ceil(y1 / 48);
@@ -40,6 +34,49 @@
         } else {
             return [Math.ceil((10 * y1 - 9 * y2) / 150), Math.ceil((14 * y2 - 10 * y1) / 150)];
         }
+    }
+
+    /**
+     * 求解 燃爆木-白栗栎木 路线次数.
+     * @param {number} targetB - 目标燃爆木数量
+     * @param {number} targetO - 目标白栗栎木数量
+     * @returns {object} 最优规划方案
+     */
+    function lpsolve3(targetB, targetO) {
+        let minTotalRuns = Infinity;
+        let bestScheme = { x1: 0, x2: 0, x3: 0, total: 0 };
+
+        // x2 是桥梁，遍历 x2 的可能次数
+        // 最大遍历范围可以设为两个目标中较大的一个除以 x2 对应的产量
+        const maxX2 = Math.max(Math.ceil(targetB / 27), Math.ceil(targetO / 33));
+
+        for (let x2 = 0; x2 <= maxX2; x2++) {
+            // 计算 x2 产出后的剩余需求
+            const remainingB = Math.max(0, targetB - x2 * 27);
+            const remainingO = Math.max(0, targetO - x2 * 33);
+
+            // x1 补齐剩下的燃爆木 (每单位产出 54)
+            const x1 = Math.ceil(remainingB / 54);
+
+            // x3 补齐剩下的白栗栎木 (每单位产出 36)
+            const x3 = Math.ceil(remainingO / 36);
+
+            const currentTotal = x1 + x2 + x3;
+
+            // 如果当前方案总次数更少，则更新最优解
+            if (currentTotal < minTotalRuns) {
+                minTotalRuns = currentTotal;
+                bestScheme = {
+                    x1: x1,
+                    x2: x2,
+                    x3: x3,
+                    total: currentTotal,
+                    actualB: x1 * 54 + x2 * 27,
+                    actualO: x2 * 33 + x3 * 36
+                };
+            }
+        }
+        return bestScheme;
     }
 
     function logRemainingItems() {
@@ -82,9 +119,9 @@
         if (pathing.fileName.length > 1 && pathing.fileName[0].includes('大循环')) {
             try {
                 log.info(`正在执行 ${pathingName} 大循环路径`);
-                await fakeLog(`${pathing.fileName}`, false, true, 0);
+                await fakeLog(`${pathing.fileName[0]}`, false, true, 0);
                 await pathingScript.runFile(filePath);
-                await fakeLog(`${pathing.fileName}`, false, false, 0);
+                await fakeLog(`${pathing.fileName[0]}`, false, false, 0);
                 await sleep(1);
                 log.info(`完成 ${pathingName} 大循环路径, 获得${woodCountToStr(woodCount)}`);
                 woodCount.forEach((value, key) => { woodNumberMap.set(key, woodNumberMap.get(key) - value) });
@@ -152,11 +189,19 @@
             }
         }
 
+        // 椴木需要悬铃木凑数量，用||
         if (woodNumberMap.get('悬铃木') > 0 || woodNumberMap.get('椴木') > 0) {
             await runPathingNTimes('悬铃木-椴木-大循环', '', 1);
             let [x1, x2] = lpsolve2(woodNumberMap.get('悬铃木'), woodNumberMap.get('椴木'));
             await runPathingNTimes('悬铃木', '悬铃木', x1);
             await runPathingNTimes('椴木', '椴木', x2);
+        }
+
+        if (woodNumberMap.get('燃爆木') > 0 && woodNumberMap.get('白栗栎木') > 0) {
+            let result = lpsolve3(woodNumberMap.get('燃爆木'), woodNumberMap.get('白栗栎木'));
+            await runPathingNTimes('燃爆木', '燃爆木', result.x1);
+            await runPathingNTimes('燃爆木-白栗栎木', '', result.x2);
+            await runPathingNTimes('白栗栎木', '白栗栎木', result.x3);
         }
 
         for (let wood of singleWoodType) {
@@ -204,12 +249,13 @@
                 });
             }
             if (unsupportedWoods.length !== 0) {
-                log.info(`${unsupportedWoods.join(", ")} 暂不支持`);
+                log.warn(`${unsupportedWoods.join(", ")} 暂不支持`);
             }
             woodNumberMapCopy = new Map([...woodNumberMap]);
         }
     }
 
+    // 从路径名称中获取单次伐木数量
     function filenameToWoodCountMap(str, woodCount = new Map()) {
         let strArray = str.split("-").filter(str => str.trim() !== "");
         for (let i = 0; i < strArray.length - 1; i++) {
@@ -235,7 +281,9 @@
         keyDown("VK_Z");
         await sleep(1500)
         keyUp("VK_Z");
-        let theBoonOfTheElderTree = captureGameRegion().find(RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/The Boon of the Elder Tree.png"), 550, 450, 900, 300));
+        const ro = captureGameRegion();
+        let theBoonOfTheElderTree = ro.find(RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/The Boon of the Elder Tree.png"), 550, 450, 900, 300));
+        ro.dispose();
         if (theBoonOfTheElderTree.isExist()) {
             log.info("识别到王树瑞佑");
             theBoonOfTheElderTree.click();
@@ -246,6 +294,54 @@
             notification.error(`未装备有王树瑞佑，伐木结束`);
         }
         return theElderTreeStatus
+    }
+
+    // 调用BGI任务读取背包中的木材数量并返回
+    async function woodInventory(woodsArray, numbersArray, woodInventoryNumber) {
+        log.info("先别急，先别动键盘鼠标，要去一个神秘的地方");
+        await genshin.Tp(1581.11, -112.45, "Enkanomiya", true);
+        await moveMouseBy(0, -114514);
+        await moveMouseBy(0, -1919810);
+        await sleep(1000);
+        if (woodsArray.length === 0) {
+            var resultDict = await dispatcher.runTask(new SoloTask("CountInventoryItem", { "gridScreenName": "Materials", "itemNames": woodType }));
+        } else {
+            var resultDict = await dispatcher.runTask(new SoloTask("CountInventoryItem", { "gridScreenName": "Materials", "itemNames": woodsArray }));
+        }
+
+        const keys = [];
+        const values = [];
+
+        try {
+            for (const [key, value] of Object.entries(resultDict)) {
+                // 尝试将值转换为数字
+                const numValue = Number(value);
+
+                // 检查是否为有效数字（NaN 表示不是数字）
+                if (isNaN(numValue)) {
+                    console.warn(`跳过无效值: key=${key}, value=${value}`);
+                    continue;
+                }
+
+                // 执行计算逻辑
+                const diff = Math.min(woodInventoryNumber, 9999) - numValue; // 限制不超过背包上限
+                const result = diff > 0 ? diff : 0;
+
+                keys.push(key);
+                values.push(result);
+            }
+            // log.info("成功检测到的木材" + keys.join(","));
+            // log.info("成功检测到的木材砍伐数量" + values.join(","));
+            if (keys.length === 0) {
+                log.warn("未识别到任何木材，使用预设数据");
+                return [woodsArray, numbersArray];
+            } else {
+                return [keys, values];
+            }
+        } catch (err) {
+            log.warn("处理故障，使用预设数据")
+            return [woodsArray, numbersArray];
+        }
     }
 
     function logTimeTaken(startTime) {
@@ -344,9 +440,12 @@
         }
     }
 
-    // Set game environment settings
-    const startTime = Date.now();
-    setGameMetrics(1920, 1080, 1);
+    const woodType = ["桦木", "萃华木", "松木", "却砂木", "竹节", "垂香木", "杉木", "梦见木", "枫木", "孔雀木", "御伽木", "辉木", "业果木", "证悟木", "刺葵木", "柽木", "悬铃木", "椴木", "白梣木", "香柏木", "炬木", "白栗栎木", "灰灰楼林木", "燃爆木", "桃椰子木", "银冷杉木", "榛木", "夏栎木", "桤木"];
+    const singleWoodType = ["桦木", "萃华木", "松木", "杉木", "竹节", "却砂木", "梦见木", "枫木", "孔雀木", "御伽木", "证悟木", "业果木", "辉木", "刺葵木", "柽木", "白梣木", "炬木", "白栗栎木", "燃爆木", "灰灰楼林木", "桃椰子木", "银冷杉木", "榛木", "夏栎木", "桤木"];
+
+    const woodNumberMap = new Map(woodType.map(key => [key, 0]));
+    let woodNumberMapCopy = new Map();
+
     // 修改路线：除了 垂香木-萃华木-香柏木，悬铃木-椴木 以外，其他木材基本都是单独路线，可以替换 \assets\AutoPath 中的路径追踪脚本，然后修改 pathingMap 中的文件名即可。
     // pathingMap 为木材路径追踪文件路径列表, 键名可以随意命名, 值的 fileName 属性为路线包含路径追踪文件名列表, 文件夹为'assets/AutoPath/', 如果还有子文件夹请添加 folderName 属性. 如果 fileName 数组中有两项以上, 并且第一个文件名包含 '大循环', 则会先执行一次大循环, 剩余的文件名视为循环路径, 将在每次循环中依次执行.
     // 因为要根据文件名来计算循环次数, 所以文件命名必须包含 '木材种类1-数量1-木材种类2-数量2-...', 说明此文件路线中采集的木材种类和数目. 如果没有采集木材(比如单纯跑路的大循环)也请至少添加一种类型, 数量可以填0.
@@ -376,13 +475,16 @@
         '香柏木-萃华木': { fileName: ['枫丹-枫丹廷-香柏木-9个(大循环)', '枫丹-枫丹廷-香柏木-27个-萃华木-15个(循环)'], folderName: '枫丹-香柏木-萃华木' },
         '炬木': { fileName: ['枫丹-很明亮的地方-炬木-36个'] },
         // '炬木': { fileName: ['枫丹-很明亮的地方-炬木-36个(大循环)', '枫丹-很明亮的地方-炬木-36个(循环)'], folderName: '枫丹-炬木' },
-        '白栗栎木': { fileName: ['纳塔-踞石山-白栗栎木-36个', '纳塔-回声之子-白栗栎木-33个-燃爆木-27个'], folderName: '纳塔-白栗栎木-燃爆木' },
+        '燃爆木-白栗栎木': { fileName: ['纳塔-回声之子-白栗栎木-33个-燃爆木-27个'], folderName: '纳塔-白栗栎木-燃爆木' },
+        '白栗栎木': { fileName: ['纳塔-踞石山-白栗栎木-36个'], folderName: '纳塔-白栗栎木-燃爆木' },
         '灰灰楼林木': { fileName: ['纳塔-奥奇卡纳塔-灰灰楼林木-42个'] },
         '燃爆木': { fileName: ['纳塔-隆崛坡-燃爆木-54个'] },
         // '桃椰子木': { fileName: ['纳塔-浮土静界-桃椰子木-0个(大循环)', '纳塔-浮土静界-桃椰子木-36个(循环)'], folderName: '纳塔-桃椰子木' },
-        '桃椰子木': { fileName: ['纳塔-浮土静界-桃椰子木-42个'] },
+        '桃椰子木': { fileName: ['纳塔-浮土静界-桃椰子木-42个'], folderName: '纳塔-桃椰子木' },
         '银冷杉木': { fileName: ['挪德卡莱-霜月之坊-银冷杉木-54个'] },
-        '榛木': { fileName: ['挪德卡莱-月矩力试验设计局-榛木-57个'] },
+        // '榛木': { fileName: ['挪德卡莱-月矩力试验设计局-榛木-57个(稳定)'], folderName: '挪德卡莱-榛木' },
+        // '榛木': { fileName: ['挪德卡莱-月矩力试验设计局-榛木-57个(月灵)'], folderName: '挪德卡莱-榛木' },
+        '榛木': { fileName: ['挪德卡莱-月矩力试验设计局-榛木-57个(月灵)', '挪德卡莱-月矩力试验设计局-榛木-57个(稳定)'], folderName: '挪德卡莱-榛木' },
         '夏栎木': { fileName: ['挪德卡莱-苔原之隙-夏栎木-0个(大循环)', '挪德卡莱-苔原之隙-夏栎木-36个(循环)'], folderName: '挪德卡莱-夏栎木' },
         '桤木': { fileName: ['挪德卡莱-伦波岛-桤木-87个'] }
     };
@@ -396,17 +498,25 @@
         await sleep(500);
     }
 
+    const startTime = Date.now();
+    // 分别将填入的木材名称和数量转成数组
+    // let woodsArray = settings.woods ? settings.woods.split(/\s+/) : [];
+    let woodsArray = settings.woodsMultiCheckbox ? Array.from(settings.woodsMultiCheckbox) : [];
+    let numbersArray = settings.numbers ? settings.numbers.split(/\s+/).map(Number).map(num => isNaN(num) ? 0 : num) : [];
+    let woodInventoryNumber = settings.woodInventoryNumber ? (isNaN(settings.woodInventoryNumber) ? 2000 : settings.woodInventoryNumber) : 2000;
+    let hasItto = settings.hasItto ? settings.hasItto : false;
     let theBoonOfTheElderTreeStatus = settings.theBoonOfTheElderTree ? await theElderTree() : true;
-
+    // 判断是否装备王树瑞佑，如果未装备则跳过伐木
     if (theBoonOfTheElderTreeStatus) {
-        log.info('自动伐木开始...');
+        // 判断是否开启背包检测，如果未开启或识别失败，则使用设置填入的数据或默认数据
+        let [woodsInventory, woodCountInventory] = settings.woodInventory ? await woodInventory(woodsArray, numbersArray, woodInventoryNumber) : [woodsArray, numbersArray];
 
-        let woodsArray = settings.woods ? settings.woods.split(/\s+/) : [];
-        let numbersArray = settings.numbers ? settings.numbers.split(/\s+/).map(Number).map(num => isNaN(num) ? 0 : num) : [];
-        let hasItto = settings.hasItto ? settings.hasItto : false;
-        mapWoodsToNumbers(woodsArray, numbersArray, hasItto);
+        // 将识别到的木材种类和所需数量转换为映射表，并计算需要砍伐的次数
+        mapWoodsToNumbers(woodsInventory, woodCountInventory, hasItto);
+        log.info('自动伐木开始...');
         await woodCutting();
     } else {
         log.error("未装备有王树瑞佑，伐木结束")
     }
+
 })();

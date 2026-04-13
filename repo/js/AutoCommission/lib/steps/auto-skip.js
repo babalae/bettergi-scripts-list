@@ -22,7 +22,9 @@ var executeAutoSkipLogic = async function (stepData, stepName) {
     var recognizeImage = async function (recognitionObject) {
       try {
         // 尝试识别图像
-        var imageResult = captureGameRegion().find(recognitionObject);
+        let captureRegion = captureGameRegion();
+        var imageResult = captureRegion.find(recognitionObject);
+        captureRegion.dispose();
         if (
           imageResult &&
           imageResult.x !== 0 &&
@@ -183,6 +185,8 @@ var executeAutoSkipLogic = async function (stepData, stepName) {
               dialogArea.height
             );
             var ocrResults = dialogArea.FindMulti(ocrRo);
+            captureRegion.dispose();
+            dialogArea.dispose();
 
             if (ocrResults && ocrResults.count > 0) {
               var foundValidOption = false;

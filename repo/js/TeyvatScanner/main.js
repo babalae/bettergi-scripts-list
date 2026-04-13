@@ -378,9 +378,11 @@ async function isCompassFree(totalAttempts = 3) {
         // 遍历所有图标路径
         for (const icon of iconPaths) {
             // 使用图像识别方法查找图标
-            const iconList = captureGameRegion().findMulti(
+            const ro = captureGameRegion();
+            const iconList = ro.findMulti(
                 RecognitionObject.TemplateMatch(file.ReadImageMatSync(icon.path))
             );
+            ro.dispose();
 
             // 判断是否找到图标
             if (iconList && iconList.count > 0) {
@@ -418,9 +420,11 @@ async function isCompassFree(totalAttempts = 3) {
         // 遍历所有图标路径
         for (const icon of iconPaths) {
             // 使用图像识别方法查找图标
-            const iconList = captureGameRegion().findMulti(
+            const ro = captureGameRegion();
+            const iconList = ro.findMulti(
                 RecognitionObject.TemplateMatch(file.ReadImageMatSync(icon.path))
             );
+            ro.dispose();
 
             // 判断是否找到图标
             if (iconList && iconList.count > 0) {
@@ -494,9 +498,11 @@ async function doTreasureExist(totalAttempts = 3) {
         // 遍历所有图标路径
         for (const icon of iconPaths) {
             // 使用图像识别方法查找图标
-            const iconList = captureGameRegion().findMulti(
+            const ro = captureGameRegion();
+            const iconList = ro.findMulti(
                 RecognitionObject.TemplateMatch(file.ReadImageMatSync(icon.path))
             );
+            ro.dispose();
 
             // 判断是否找到图标
             if (iconList && iconList.count > 0) {

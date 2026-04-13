@@ -6,7 +6,76 @@
     const CaiJiPartyName = settings.CaiJiPartyName || "null";
     const ZDYparty = settings.ZDYparty || "null";
 
-    const userName = await getCurrentUsername();
+    const userName = settings.userName || "默认账户";
+
+    // Windows文件名非法字符列表
+    const illegalCharacters = /[\\/:*?"<>|]/;
+    // Windows保留设备名称列表
+    const reservedNames = [
+        "CON", "PRN", "AUX", "NUL",
+        "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
+        "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
+    ];
+
+    // 检查userName是否为空或只有空格
+    if (!userName || userName.trim() === "") {
+        log.error(`账户名 "${userName}" 不合法，账户名为空或只包含空格。`);
+        log.error(`将终止程序，请使用合法的名称`);
+        await sleep(5000);
+        return;
+    }
+    // 检查userName是否以空格开头
+    else if (userName.startsWith(" ")) {
+        log.error(`账户名 "${userName}" 不合法，以空格开头。`);
+        log.error(`将终止程序，请使用合法的名称`);
+        await sleep(5000);
+        return;
+    }
+    // 检查userName是否以空格结尾
+    else if (userName.endsWith(" ")) {
+        log.error(`账户名 "${userName}" 不合法，以空格结尾。`);
+        log.error(`将终止程序，请使用合法的名称`);
+        await sleep(5000);
+        return;
+    }
+    // 检查userName是否以点号结尾
+    else if (userName.endsWith(".")) {
+        log.error(`账户名 "${userName}" 不合法，以点号结尾。`);
+        log.error(`将终止程序，请使用合法的名称`);
+        await sleep(5000);
+        return;
+    }
+    // 检查userName是否包含非法字符
+    else if (illegalCharacters.test(userName)) {
+        log.error(`账户名 "${userName}" 不合法，包含非法字符。`);
+        log.error(`将终止程序，请使用合法的名称`);
+        await sleep(5000);
+        return;
+    }
+    // 检查userName是否是保留设备名称
+    else if (reservedNames.includes(userName.toUpperCase())) {
+        log.error(`账户名 "${userName}" 不合法，是保留设备名称。`);
+        log.error(`将终止程序，请使用合法的名称`);
+        await sleep(5000);
+        return;
+    }
+    // 检查userName长度是否超过255字符
+    else if (userName.length > 255) {
+        log.error(`账户名 "${userName}" 不合法，账户名过长。`);
+        log.error(`将终止程序，请使用合法的名称`);
+        await sleep(5000);
+        return;
+    }
+    // 检查userName长度是否为0
+    else if (userName.length === 0) {
+        log.error(`账户名不合法，账户名为空。`);
+        log.error(`将终止程序，请使用合法的名称`);
+        await sleep(5000);
+        return;
+    }
+    else {
+        log.info(`账户名 "${userName}" 合法。`);
+    }
 
     const cdRecordPath = `record/${userName}_cd.txt`;// 修改CD记录文件路径，包含用户名
 
@@ -35,7 +104,7 @@
     }
 
     // 常量定义
-    const Pamon = `assets/RecognitionObject/Pamon.png`;
+    const Pamon = `assets/RecognitionObject/Paimon.png`;
     const targetFoods = new Set([
         "面粉", "兽肉", "鱼肉", "神秘的肉", "黑麦粉", "奶油", "熏禽肉",
         "黄油", "火腿", "糖", "香辛料", "酸奶油", "蟹黄", "果酱",
@@ -56,7 +125,7 @@
 
     // 状态变量
     let currentTask = 0; // 当前任务计数器
-    let firstScan, secondScan, nowStatus, earning;
+    let firstScan, secondScan, nowStatus, earning, stovePosition;
 
     // ===== 2. 子函数定义部分 =====
 
@@ -226,7 +295,7 @@
                 holdY: 750,
 
                 // 页面滚动距离，控制每次翻页时滑动的距离，数值越小翻页越精细但需要更多次翻页
-                pageScrollDistance: 450,
+                pageScrollDistance: 300,
 
                 // 图像识别延迟（毫秒），在识别物品时的延迟时间，用于平衡性能和准确性
                 imageDelay: 20,
@@ -606,7 +675,7 @@
                 const columnWidth = 123;
                 const columnHeight = 680;
                 const maxColumns = 8;
-                const pageScrollCount = 22;
+                const pageScrollCount = 35;
 
                 // 扫描状态
                 let hasFoundFirstMaterial = false;
@@ -935,8 +1004,8 @@
 
         // 计算每个物品的差值
         itemsToCheck.forEach(name => {
-            const count1 = map1[name];
-            const count2 = map2[name];
+            const count1 = map1[name] || "0";
+            const count2 = map2[name] || "0";
 
             // 检查是否有任意一次识别失败
             if (count1 === "?" || count2 === "?") {
@@ -981,14 +1050,16 @@
                 const now = new Date();
                 const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-                let newRecord = `=== ${formattedDate} ===\n`;
+                let newRecord = `=== ${formattedDate} ===\n（收益结果受多因素影响，可能会不准确，本结果仅供参考）\n`;
 
                 let hasChanges = false;
                 Object.keys(diff).forEach(item => {
                     const change = diff[item];
 
                     if (change === "识别失败") {
-                        // 不记录识别失败的项目
+                        // 记录识别失败的项目
+                        newRecord += `❌ ${item}: 识别失败\n`;
+                        hasChanges = true; // 确保即使只有识别失败的项目也会显示"有变化"
                     } else {
                         if (change !== 0) {
                             newRecord += `✅ ${item}: ${change > 0 ? '+' : ''}${change}\n`;
@@ -1298,7 +1369,7 @@
     }
 
     /**
-    * 获取JSON文件中最后一个对象的xy坐标（异步版本）
+    * 获取JSON文件中最后一个对象的xy坐标
     * @param {string} filePath - JSON文件路径
     * @returns {Object|null} 包含x和y坐标的对象，失败时返回null
     */
@@ -1306,39 +1377,54 @@
         try {
             // 使用异步文件读取函数
             const content = await file.readText(filePath);
-            const jsonData = JSON.parse(content);
 
-            // 检查数据结构
-            if (!jsonData || typeof jsonData !== 'object') {
-                throw new Error('无效的JSON数据结构');
+            // 为了减少内存使用，在使用完content后尽快释放
+            let positions;
+            let lastPosition;
+            let result;
+
+            try {
+                const jsonData = JSON.parse(content);
+
+                // 检查数据结构
+                if (!jsonData || typeof jsonData !== 'object') {
+                    throw new Error('无效的JSON数据结构');
+                }
+
+                positions = jsonData.positions;
+                if (!positions || !Array.isArray(positions) || positions.length === 0) {
+                    throw new Error('positions数组为空或不存在');
+                }
+
+                // 获取最后一个点位
+                lastPosition = positions[positions.length - 1];
+
+                // 检查坐标字段
+                if (typeof lastPosition.x === 'undefined' || typeof lastPosition.y === 'undefined') {
+                    throw new Error('最后一个点位缺少x或y坐标');
+                }
+
+                result = {
+                    x: lastPosition.x,
+                    y: lastPosition.y,
+                    positionId: lastPosition.id || null,
+                    totalPositions: positions.length,
+                    index: positions.length - 1
+                };
+            } finally {
+                // 显式清理对象引用，帮助垃圾回收
+                positions = null;
+                lastPosition = null;
             }
 
-            const positions = jsonData.positions;
-            if (!positions || !Array.isArray(positions) || positions.length === 0) {
-                throw new Error('positions数组为空或不存在');
-            }
-
-            // 获取最后一个点位
-            const lastPosition = positions[positions.length - 1];
-
-            // 检查坐标字段
-            if (typeof lastPosition.x === 'undefined' || typeof lastPosition.y === 'undefined') {
-                throw new Error('最后一个点位缺少x或y坐标');
-            }
-
-            return {
-                x: lastPosition.x,
-                y: lastPosition.y,
-                positionId: lastPosition.id || null,
-                totalPositions: positions.length,
-                index: positions.length - 1
-            };
+            return result;
 
         } catch (error) {
             log.error(`处理文件 ${filePath} 时出错:`, error.message);
             return null;
         }
     }
+
 
     /**
     * 比较两个坐标是否近似相等
@@ -1433,10 +1519,11 @@
              * @param { string[] } files - 要执行的路线文件名数组（含路径）
              */
             async function runFiles(files) {
+                // 启用自动拾取
+                dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+
                 for (const fileName of files) {
                     try {
-
-
                         // 提取路线名称（不含.json后缀）
                         const fName = fileName.split('\\').pop().split('/').pop().replace('.json', '');
 
@@ -1503,6 +1590,17 @@
 
                         await fakeLog(routeName, false, false, 0);
 
+                        const ifExit = checkExitTime(settings.exitTime); // 检查是否已到退出时间
+                        if (!ifExit) {
+                            // 计算需要等待的时间
+                            const waitTime = calculateWaitTime(settings.exitTime);
+                            if (waitTime > 0) {
+                                log.warn(`距离退出时间还有约${Math.floor(waitTime / 1000 / 60)}分${Math.floor((waitTime / 1000) % 60)}秒`);
+                                await genshin.tpToStatueOfTheSeven(); // 回神像等别被肘死了再怪作者……
+                                await sleep(waitTime + 10000); // 等待时间差+10秒
+                            }
+                        }
+
                         try {
                             // 若启用月卡功能，则点击领取月卡奖励
                             if (ifMonthcard) {
@@ -1513,9 +1611,15 @@
                         } catch (error) {
                             log.error(`月卡功能发生错误: ${error}`);
                         }
+
+                        if (!ifExit) {
+                            log.warn("已到退出时间，将退出程序");
+                            await genshin.returnMainUi();
+                            throw new Error("Exit time reached."); // 抛出异常
+                        }
+
                     } catch (e) {
-                        // 修改：继续抛出被取消的任务错误，以便上层处理
-                        if (e.message == "A task was canceled.") {
+                        if (e.message == "A task was canceled." || e.message == "Exit time reached.") {
                             throw e; // 继续抛出错误
                         } else {
                             log.error(`处理文件 ${fileName} 时出错: ${e.message}，已跳过该路径`);
@@ -1524,23 +1628,28 @@
                     }
                 }
 
+                // 关闭自动拾取，防止误触炉子
+                dispatcher.ClearAllTriggers();
+
                 // 获取炉子位置坐标并与当前位置比较，决定是否需要执行食材加工
-                let position3, position4;
+                let position4;
                 try {
-                    position3 = await getLastPositionCoords(`assets/${stove}.json`);
                     position4 = genshin.getPositionFromMap();
                 } catch (error) {
                     position4 = { X: 0, Y: 0 }
                 }
-                log.debug(`炉子坐标: X=${position3.x}, Y=${position3.y}`);
-                log.debug(`当前小地图坐标: X=${position4.X}, Y=${position4.Y}`);
 
-                const ifDeviation1 = areCoordinatesApproximate(position3, position4, 15);
-                await sleep(10);
+                if (stovePosition && ifingredientProcessing) {
+                    log.debug(`炉子坐标: X=${stovePosition.x}, Y=${stovePosition.y}`);
+                    log.debug(`当前小地图坐标: X=${position4.X}, Y=${position4.Y}`);
 
-                if (ifDeviation1) {
-                    log.debug("距离上一次加工过近，不执行食材加工");
-                    return;
+                    const ifDeviation1 = areCoordinatesApproximate(stovePosition, position4, 15);
+                    await sleep(10);
+
+                    if (ifDeviation1) {
+                        log.debug("距离上一次加工过近，不执行食材加工");
+                        return;
+                    }
                 }
 
                 // 执行食材加工
@@ -1551,12 +1660,102 @@
             // 执行地图追踪文件
             await runFiles(jsonFilePaths);
         } catch (e) {
-            // 修改：继续抛出被取消的任务错误，保持错误传播链
-            if (e.message == "A task was canceled.") {
-                throw e; // 继续抛出错误
+            if (e.message == "A task was canceled." || e.message == "Exit time reached.") {
+                throw e;
             }
             log.error(`路径组执行失败: ${e.message}`);
         }
+    }
+
+    /**
+    * 计算距离退出时间的等待时间
+    * @param {string} timeSetting - 时间设置字符串，格式为 "HH:MM" 或 "HH：MM"
+    * @returns {number} 需要等待的毫秒数
+    */
+    function calculateWaitTime(timeSetting) {
+        if (!timeSetting || !/^\d{1,2}[:：]\d{2}$/.test(timeSetting)) return 0;
+
+        const now = new Date();
+        const currentHour = now.getHours();
+        const currentMinute = now.getMinutes();
+        const currentSecond = now.getSeconds();
+
+        // 解析设置的时间（支持中英文冒号）
+        const [targetHour, targetMinute] = timeSetting.split(/[:：]/).map(Number);
+
+        // 验证时间有效性
+        if (isNaN(targetHour) || isNaN(targetMinute) ||
+            targetHour < 0 || targetHour > 23 ||
+            targetMinute < 0 || targetMinute > 59) {
+            return 0;
+        }
+
+        // 计算当前时间和目标时间的总秒数
+        const currentTotalSeconds = currentHour * 3600 + currentMinute * 60 + currentSecond;
+        const targetTotalSeconds = targetHour * 3600 + targetMinute * 60;
+
+        // 计算需要等待的秒数
+        let secondsToWait;
+        if (currentTotalSeconds < targetTotalSeconds) {
+            // 同一天内
+            secondsToWait = targetTotalSeconds - currentTotalSeconds;
+        } else {
+            // 跨天情况（目标时间是第二天）
+            secondsToWait = (24 * 3600 - currentTotalSeconds) + targetTotalSeconds;
+        }
+
+        return secondsToWait * 1000; // 转换为毫秒
+    }
+
+    /**
+    * 检查当前时间是否接近禁止运行的时间点（提前10分钟停止）
+    * @param {string} timeSetting - 时间设置字符串，格式为 "HH:MM" 或 "HH：MM"，如 "04:30" 或 "04：30" 表示凌晨4点30分
+    * @returns {boolean} 如果当前时间距离禁止运行时间点不足10分钟返回false，否则返回true
+    */
+    function checkExitTime(timeSetting) {
+        if (!timeSetting || !/^\d{1,2}[:：]\d{2}$/.test(timeSetting)) return true;
+
+        const now = new Date();
+        const currentHour = now.getHours();
+        const currentMinute = now.getMinutes();
+
+        // 解析设置的时间（支持中英文冒号，会有小笨猪写中文冒号吗？）
+        const [targetHour, targetMinute] = timeSetting.split(/[:：]/).map(Number);
+
+        // 验证时间有效性
+        if (isNaN(targetHour) || isNaN(targetMinute) ||
+            targetHour < 0 || targetHour > 23 ||
+            targetMinute < 0 || targetMinute > 59) {
+            return true;
+        }
+
+        // 计算当前时间与目标时间的分钟差
+        const currentTotalMinutes = currentHour * 60 + currentMinute;
+        const targetTotalMinutes = targetHour * 60 + targetMinute;
+
+        // 计算距离目标时间的分钟数（考虑跨天情况）
+        let minutesToTarget;
+        if (currentTotalMinutes <= targetTotalMinutes) {
+            // 同一天内
+            minutesToTarget = targetTotalMinutes - currentTotalMinutes;
+        } else {
+            // 跨天情况（目标时间是第二天）
+            minutesToTarget = (24 * 60 - currentTotalMinutes) + targetTotalMinutes;
+        }
+
+        // 如果距离目标时间不足10分钟，返回false表示应该退出
+        if (minutesToTarget <= 10 && minutesToTarget >= 0) {
+            log.warn(`当前时间 ${currentHour}:${currentMinute.toString().padStart(2, '0')} 距离禁止运行时间 ${targetHour}:${targetMinute.toString().padStart(2, '0')} 不足10分钟，脚本将退出`);
+            return false;
+        }
+
+        // 如果当前时间正好在目标时间，也退出
+        if (currentHour === targetHour && currentMinute === targetMinute) {
+            log.warn(`当前时间 ${currentHour}:${currentMinute.toString().padStart(2, '0')} 为禁止运行时间，脚本将退出`);
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -1565,14 +1764,18 @@
     * @returns {Promise<void>} 无返回值的异步函数
     */
     async function preventBeingcaught() {
+        // 解决剧情弹出页，观景点以及其他奇奇怪怪的页面，理论上都有办法逃出。长剧情无法完全退出时，在运行下一脚本前会触发bgi剧情接管
+        // 因为某些问题频繁交互的场景下无法解决
         const res1 = await imageRecognitionEnhanced(Pamon, 1.5, 0, 0, 39, 31, 38, 38);
         if (res1.found) {
             return;
         }
         for (let i = 0; i < 3; i++) {
-            click(1370, 800);
+            await click(1370, 800); // 尝试点击剧情对话位置
             await sleep(300);
-            click(1370, 800);
+            await keyPress("ESCAPE"); // 尝试点击ESC键返回主页面
+            await sleep(300);
+            await click(1370, 800);
             await sleep(300);
         }
         const res2 = await imageRecognitionEnhanced(Pamon, 1.5, 0, 0, 39, 31, 38, 38);
@@ -1594,6 +1797,8 @@
     async function exponentialBackoffRetry(operation, maxRetries = 5, baseDelay = 500) {
         for (let i = 0; i < maxRetries; i++) {
             try {
+                await click(975, 985); // 点击“复苏”（如果有），先排除全体阵亡的可能性
+                await sleep(100);
                 return await operation();
             } catch (error) {
                 if (i === maxRetries - 1) throw error;
@@ -1618,31 +1823,6 @@
             log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
             // notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
             await genshin.returnMainUi();
-        }
-    }
-
-    // 获取当前账户id
-    async function getCurrentUsername() {
-        let userName;
-        try {
-            if (!settings.userName) {
-                await genshin.returnMainUi();
-                const texts = await textOCR("", 0.3, 0, 2, 1750, 1050, 135, 30);
-                if (texts && texts.found) {
-                    userName = texts.text;
-                } else {
-                    userName = "默认账户";
-                }
-            } else {
-                userName = settings.userName;
-            }
-
-            log.info("当前用户:" + userName);
-            await genshin.returnMainUi();
-            return userName;
-        } catch (e) {
-            log.error(`获取用户名失败: ${e.message}`);
-            return "默认账户";
         }
     }
 
@@ -1840,7 +2020,7 @@
                 await sleep(800);
                 inputText(foodCount[i]);
                 log.info(`尝试制作${Foods[i]} ${foodCount[i]}个`);
-                log.info("由于受到队列和背包食材数量限制，实际制作数量与上述数量可能不一致！");
+                log.warn("由于受到队列和背包食材数量限制，实际制作数量与上述数量可能不一致！");
                 await sleep(800);
                 click(1190, 755);
                 await sleep(800);
@@ -2112,8 +2292,15 @@
 
         await switchPartyIfNeeded(CaiJiPartyName);
 
-        // 启用自动拾取
-        dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+        // 获取炉子位置
+        if (ifingredientProcessing) {
+            try {
+                stovePosition = await getLastPositionCoords(`assets/${stove}.json`);
+            } catch (error) {
+                log.warn(`获取炉子坐标失败: ${error.message}`);
+                stovePosition = null;
+            }
+        }
 
         const countrys = await executeRegions(); // 筛选要运行的国家
         const jsonCount = countJsonFiles(countrys); // 统计JSON文件数
@@ -2166,8 +2353,12 @@
     } catch (error) {
         // 伪造错误结束记录
         await fakeLog("AotoTeyvatFoodOneDragon", true, false, 0);
-        log.error("任务执行失败：" + error.message);
-        notification.error("任务执行失败：" + error.message);
+
+        if (error.message != "Exit time reached.") {
+            notification.error("任务中断：" + error.message);
+        }
+
+        log.error("任务中断：" + error.message);
         return;
     }
 })();

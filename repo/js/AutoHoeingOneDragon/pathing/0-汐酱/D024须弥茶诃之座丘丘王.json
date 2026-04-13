@@ -1,0 +1,55 @@
+{
+  "info": {
+    "name": "D024须弥茶诃之座丘丘王",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时52.73秒，包含以下怪物：1只丘丘雷兜王、1只丘丘岩盔王。",
+    "hash_res": "35302615",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3546.66,
+      "y": -1993.62
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3580.64,
+      "y": -1996.18
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3583.19,
+      "y": -1996.25
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3601.68,
+      "y": -2012.01
+    }
+  ]
+}
