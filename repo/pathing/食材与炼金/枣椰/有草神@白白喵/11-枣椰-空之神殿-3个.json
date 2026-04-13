@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ],
+    "bgi_version": "0.62.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1776044439732,
+    "map_match_method": "",
+    "map_name": "TempleOfSpace",
+    "name": "11-枣椰-空之神殿-3个.json",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 413.3861,
+      "y": 751.7876
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 445.4749,
+      "y": 771.0399
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 407.5878,
+      "y": 805.1978
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 410.3292,
+      "y": 811.9574
+    }
+  ]
+}
