@@ -725,6 +725,9 @@ switch (settings.monsterName) {
   case "门扉前的弈局":
          await genshin.tp(-1608.205078125,1730.2724609375,true);//传送到周本
     break;
+  case "博士":
+         await genshin.tp(9531,6393);
+    break;
   default:
     break;
 }

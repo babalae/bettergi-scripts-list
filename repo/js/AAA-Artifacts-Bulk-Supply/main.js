@@ -177,7 +177,53 @@ let lastsettimeTime = 0;
     }
     await writeRecord(accountName);
 
+    // 生成自动上线命令
+    await generateAutoOnlineCommand();
+
 })();
+
+// 生成自动上线命令
+async function generateAutoOnlineCommand() {
+    if (settings.onlyActivate && state.runningEndingAndExtraRoute === "收尾额外A" && settings.autoOnline) {
+        try {
+            // 解析autoOnline字符串，按-拆分
+            const autoOnlineParts = settings.autoOnline.split('-');
+            if (autoOnlineParts.length >= 3) {
+                const username = autoOnlineParts[0].trim();
+                const uid = autoOnlineParts[1].trim();
+                const room = autoOnlineParts[2].trim();
+                const notHost = false; // 固定为false
+                
+                // 构造命令对象
+                const commandData = {
+                    "mojiang-command": true,
+                    "command": "online",
+                    "params": {
+                        "username": username,
+                        "uid": uid,
+                        "room": room,
+                        "notHost": notHost
+                    }
+                };
+                
+                // 转换为JSON字符串
+                const jsonString = JSON.stringify(commandData, null, 2);
+                
+                // 写入command.json文件
+                await file.writeText('command.json', jsonString, false);
+                log.info(`成功生成自动上线命令文件: command.json`);
+                log.info(`游戏名称: ${username}`);
+                log.info(`UID: ${uid}`);
+                log.info(`目标房间: ${room}`);
+                log.info(`是否不当房主: ${notHost}`);
+            } else {
+                log.warn(`autoOnline配置格式不正确，需要至少包含游戏名称-UID-目标房间`);
+            }
+        } catch (error) {
+            log.error(`生成自动上线命令文件失败: ${error.message}`);
+        }
+    }
+}
 
 async function readRecord(accountName) {
     /* ---------- 文件名合法性校验 ---------- */

@@ -1,38 +1,73 @@
-eval(file.readTextSync("reward.js"));
-eval(file.readTextSync("utils.js"));
+import { autoNavigateToReward, takeReward } from "./src/reward.js";
+import { getToday, isToday } from "./src/utils.js";
+import { runAutoFight } from "./src/auto-fight.js";
 (async function () {
     const FARM_MODES = {
         ONCE: "一次性",
         DAILY_LIMIT: "一次性-每日限量",
         DAILY: "每日重置"
     };
+
+    /**
+     * 需要战斗后重新对话开启战斗的 Boss 列表
+     * (Talk to Start 战斗类型)
+     */
+    const BOSS_TALK_TO_START = [
+        "歌裴莉娅的葬送",
+        "科培琉司的劫罚",
+        "纯水精灵",
+        "重拳出击鸭"
+    ];
+
+    /**
+     * 未支持地图自动寻路的 Boss 列表
+     * (需要使用键鼠手动寻路)
+     */
+    const BOSS_NO_PATHING_SUPPORT = [
+        "蕴光月守宫",
+        "超重型陆巡舰·机动战垒",
+        "蕴光月幻蝶"
+    ];
+
     try {
         /**
          * 追加Boss配置
          */
-        async function addBoss() {
-            //总次数
+        function addBoss() {
+            // Boss 选择校验
+            if (!settings.bossSelection || settings.bossSelection.trim() === "") {
+                log.error("❌未选择有效的 Boss，请从下拉列表中选择。");
+                return;
+            }
+
+            if (settings.bossSelection.includes("未支持")) {
+                log.error(`❌Boss "${settings.bossSelection}" 暂未支持，无法添加。`);
+                return;
+            }
+
+            // 总次数
             const rounds = parseInt(settings.rounds, 10);
+            let totalCount = 1;
             if (isNaN(rounds) || rounds < 0) {
                 log.warn(`⚠️无效的挑战次数: {rounds}，将使用 1 作为默认值。`, settings.rounds);
+            } else {
+                totalCount = rounds;
             }
-            const totalCount = isNaN(rounds) ? 1 : rounds;
 
             // 每日刷取上限
             let dailyLimitCount = parseInt(settings.dailyLimitCount, 10);
             if (isNaN(dailyLimitCount) || dailyLimitCount < 0) {
                 log.warn(`⚠️无效的每日上限: {dailyLimitCount}，将使用 1 作为默认值。`, settings.dailyLimitCount);
+                dailyLimitCount = 1;
             }
-            dailyLimitCount = isNaN(dailyLimitCount) ? 1 : dailyLimitCount;
 
-
-            //战斗超时时间
+            // 战斗超时时间
             let timeout = parseInt(settings.timeout, 10);
-            if (isNaN(timeout)) {
-                log.warn(`⚠️无效的超时时间: {timeout}，将使用 240 秒作为默认值。`, settings.timeout)
+            if (isNaN(timeout) || timeout < 0) {
+                log.warn(`⚠️无效的超时时间: {timeout}，将使用 240 秒作为默认值。`, settings.timeout);
                 timeout = 240;
             }
-
+            let farmMode = null;
             // 刷取模式
             if (settings.farmMode === FARM_MODES.ONCE) {
                 farmMode = FARM_MODES.ONCE
@@ -168,10 +203,6 @@ eval(file.readTextSync("utils.js"));
                         await genshin.switchParty(boss.team);
                     };
 
-                    // --- 初始化自定战斗参数 ---
-                    // let fightParam = new AutoFightParam(boss.fightParam.strategyName)
-                    // fightParam.timeout = boss.fightParam.timeout;
-
                     let remainingCount
                     if (boss.farmMode === FARM_MODES.DAILY_LIMIT || boss.farmMode === FARM_MODES.DAILY) {
                         remainingCount = boss.dailyRemainingCount
@@ -203,13 +234,18 @@ eval(file.readTextSync("utils.js"));
                             };
                             if (goToBoss) {
                                 log.info(`🏃前往『{name}』`,boss.name);
-                                await pathingScript.runFile(`assets/Pathing/${boss.name}前往.json`);
+                                if (BOSS_NO_PATHING_SUPPORT.includes(boss.name)) {
+                                    //分层地图未适配区域的BOSS,使用键鼠寻路
+                                    await pathingScript.runFile(`assets/Pathing/${boss.name}强制传送.json`);
+                                    await keyMouseScript.runFile(`assets/Pathing/${boss.name}键鼠前往.json`);
+                                } else {
+                                    await pathingScript.runFile(`assets/Pathing/${boss.name}前往.json`);
+                                }
                             };
                             try {
 
                                 log.info(`⚔️开始第 {round} 次讨伐的第 {attempt} 尝试`,round,attempt);
-                                await dispatcher.runTask(new SoloTask("AutoFight"));
-                                // await dispatcher.runAutoFightTask(fightParam);
+                                await runAutoFight(boss.fightParam);
                                 await autoNavigateToReward();
                                 isInsufficientResin = await takeReward(isInsufficientResin);
                                 battleSuccess = true;
@@ -246,11 +282,23 @@ eval(file.readTextSync("utils.js"));
                         };
 
                         if (!goToBoss && boss.remainingCount > 0 && !isInsufficientResin) {
-                            if (["歌裴莉娅的葬送", "科培琉司的劫罚", "纯水精灵","霜夜巡天灵主","重拳出击鸭"].includes(boss.name)) {
+                            if (BOSS_TALK_TO_START.includes(boss.name)) {
+                                //战斗后重新对话交互开启战斗
                                 await pathingScript.runFile(`assets/Pathing/${boss.name}战斗后快速前往.json`);
+                            
+                            } else if (BOSS_NO_PATHING_SUPPORT.includes(boss.name)) {
+                                //分层地图未适配区域的BOSS,重新寻路来靠近BOSS位置
+                                await pathingScript.runFile(`assets/Pathing/${boss.name}强制传送.json`);
+                                await keyMouseScript.runFile(`assets/Pathing/${boss.name}键鼠前往.json`);
+                            
                             } else {
-                                log.debug("等待5s后BOSS刷新");
-                                await sleep(5000);
+                                log.info("重新靠近BOSS位置并等待4s");
+                                // 读取boss前往路径文件，获取最后一个位置点
+                                const pathingData = JSON.parse(file.readTextSync(`assets/Pathing/${boss.name}前往.json`));
+                                const lastPosition = pathingData.positions[pathingData.positions.length - 1];
+                                const pathingJson = JSON.stringify({ positions: [lastPosition] });
+                                await pathingScript.run(pathingJson);
+                                await sleep(4000);
                             };
                         };
                     }
@@ -280,10 +328,10 @@ eval(file.readTextSync("utils.js"));
         const runMode = settings.runMode;
         // === 执行对应操作 ===
         const RUN_MODES = {
-            ADD_BOSS: "追加指定Boss及相关配置",
-            REMOVE_BOSS: "删除同名Boss及相关配置",
-            CLEAR_ALL: "！！删除所有BOSS！！",
-            RUN: "运行"
+            ADD_BOSS: "2.追加指定Boss",
+            REMOVE_BOSS: "3.删除同名Boss",
+            CLEAR_ALL: "4.删除所有BOSS",
+            RUN: "1.运行"
         };
 
         if (runMode === RUN_MODES.ADD_BOSS) {
