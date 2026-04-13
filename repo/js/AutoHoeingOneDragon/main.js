@@ -39,9 +39,11 @@ fIconRo.Threshold = 0.95;
 fIconRo.InitTemplate();
 const mainUIRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/MainUI.png"), 0, 0, 150, 150);
 const scrollRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/拾取滚轮.png"), 1017, 496, 1093 - 581, 581 - 496);
+let imageMat = file.ReadImageMatSync("assets/三色血条.png");
+let img = new ImageRegion(imageMat, 0, 0);
+let revivalMedicineRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/复活药.png"));
 
 //全局通用变量声明
-let gameRegion;
 let targetItems;
 let shouldSwitchFurina = false;
 let lastRollTime = new Date();
@@ -53,9 +55,9 @@ let localeTimeSupported;
 let lastBuffTime = 0;
 let currentFood = "";
 let monsterInfoObject;
+const GAME_REGION_CACHE_SIZE = 5; // 游戏区域截图缓存大小上限
 const gameRegionManager = {
-    newGameRegion: null,
-    oldGameRegion: null,
+    cache: [], // 缓存队列，保存近GAME_REGION_CACHE_SIZE张截图
     lastCapture: new Date(),
     isDisposing: false,
     isCapturing: false
@@ -781,14 +783,14 @@ async function validateTeamAndConfig() {
             await sleep(5000);
             haveProblem = true;
         }
-        if (!['芙宁娜', '爱可菲'].some(n => avatars.includes(n))) {
-            log.warn("未携带合适的输出角色（芙宁娜/爱可菲），建议重新阅读 readme 相关部分");
+        if (!['芙宁娜', '爱可菲', '莉奈娅'].some(n => avatars.includes(n))) {
+            log.warn("未携带合适的输出角色（芙宁娜/爱可菲/莉奈娅），建议重新阅读 readme 相关部分");
             await sleep(5000);
             haveProblem = true;
         }
         if (!['茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '绮良良', '迪希雅', '迪奥娜']
             .some(n => avatars.includes(n))) {
-            log.warn("未携带合适的抗打断角色（茜特菈莉/伊涅芙/莱依拉/蓝砚/白术/绮良良/迪希雅/迪奥娜）");
+            log.warn("未携带合适的抗打断角色（'茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '绮良良', '迪希雅', '迪奥娜'）");
             await sleep(5000);
             haveProblem = true;
         }
@@ -1136,6 +1138,59 @@ async function runPath(fullPath, map_name, pm, pe) {
         }
     })();
 
+    const eatMedecineTask = (async () => {
+        if (settings.detectRevival || settings.detectHealthBar) {
+            let eatRevivalMedecineCount = 0;
+            let eatHealthBarMedecineCount = 0;
+            let eatRevivalMedecineconfirmCount = 0;
+            let eatHealthBarMedecineconfirmCount = 0;
+            let clearCount = 0;
+            while (state.running) {
+                try { await sleep(25) } catch (e) { break; }
+                clearCount++;
+                if (clearCount >= 120) {
+                    eatRevivalMedecineCount = 0;
+                    eatHealthBarMedecineCount = 0;
+                    clearCount = 0;
+                }
+                let loopCount = 0;
+                while (state.running) {
+                    try { await sleep(25) } catch (e) { break; }
+                    loopCount++;
+                    if (loopCount >= 10) {
+                        break;
+                    }
+                }
+                if (!await isMainUI(10)) continue;//不在主界面不判定吃药
+                let shouldTakeMedicineRes = await shouldTakeMedicine(settings.detectRevival && settings.detectRevival > 0, settings.detectHealthBar && settings.detectHealthBar > 0);
+                if (shouldTakeMedicineRes.shouldTake) {
+                    if (shouldTakeMedicineRes.medicineType === "revival") {
+                        eatRevivalMedecineconfirmCount++;
+                    } else {
+                        eatRevivalMedecineconfirmCount = 0;
+                    }
+                    if (shouldTakeMedicineRes.medicineType === "heal") {
+                        eatHealthBarMedecineconfirmCount++;
+                    } else {
+                        eatHealthBarMedecineconfirmCount = 0;
+                    }
+                }
+                if (eatRevivalMedecineconfirmCount >= 3 && eatRevivalMedecineCount < settings.detectRevival) {
+                    keyPress("Z");
+                    log.info(`交互或拾取："使用复活料理"`);
+                    eatRevivalMedecineconfirmCount = 0;
+                    eatRevivalMedecineCount++;
+                }
+                if (eatHealthBarMedecineconfirmCount >= 3 && eatHealthBarMedecineCount < settings.detectHealthBar) {
+                    keyPress("Z");
+                    log.info(`交互或拾取："使用回血料理"`);
+                    eatHealthBarMedecineconfirmCount = 0;
+                    eatHealthBarMedecineCount++;
+                }
+            }
+        }
+    })();
+
     const errorProcessTask = (async () => {
         let errorProcessCount = 0;
         while (state.running) {
@@ -1182,8 +1237,7 @@ async function runPath(fullPath, map_name, pm, pe) {
             let attempts = 0;
             while (attempts < maxAttempts && state.running) {
                 try {
-                    gameRegion = await getGameRegion();
-                    const result = gameRegion.find(itemFullRo);
+                    const result = (await getGameRegion()).find(itemFullRo);
                     if (result.isExist()) {
                         return true;
                     }
@@ -1231,7 +1285,7 @@ async function runPath(fullPath, map_name, pm, pe) {
                     const TEXT_X = 560, TEXT_Y = 450, TEXT_W = 1360 - 560, TEXT_H = 620 - 450;
                     let ocrText = null;
                     try {
-                        const resList = gameRegion.findMulti(
+                        const resList = (await getGameRegion()).findMulti(
                             RecognitionObject.ocr(TEXT_X, TEXT_Y, TEXT_W, TEXT_H)
                         );
                         if (resList.count) {
@@ -1293,6 +1347,7 @@ async function runPath(fullPath, map_name, pm, pe) {
         pickupTask,
         errorProcessTask,
         blacklistTask,
+        eatMedecineTask,
         dumperTask
     ].filter(Boolean));
 }
@@ -1314,7 +1369,6 @@ async function recognizeAndInteract() {
     //主循环
     while (state.running) {
         //log.info("调试-交互拾取进行中");
-        gameRegion = await getGameRegion();
         let centerYF = await findFIcon();
 
         if (!centerYF) {
@@ -1358,7 +1412,6 @@ async function recognizeAndInteract() {
             }
         } else {
             //log.warn("未识别到结果");
-            //await refreshTargetItems(centerYF);
             lastItemName = "";
         }
         if (!foundTarget) {
@@ -1379,36 +1432,20 @@ async function recognizeAndInteract() {
     }
 
     async function performTemplateMatch(centerYF) {
-        /* 一次性切 6 种宽度（0-5 汉字） */
-        const regions = [];
-        for (let cn = 0; cn <= 5; cn++) {   // 0~5 共 6 档
-            const w = 12 + 28 * Math.min(cn, 5) + 2;
-            regions[cn] = gameRegion.DeriveCrop(1219, centerYF - 15, w, 30);
-        }
-
+        const w = 12 + 28 * 5 + 2;
+        regionPerformTemplateMatch = (await getGameRegion()).DeriveCrop(1219, centerYF - 15, w, 30);
         try {
             let firstMatch = null;
             for (const it of targetItems) {
                 if (!it.enabled) continue;
-                const cnLen = Math.min(
-                    [...it.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length,
-                    5
-                ); // 0-5
-
-                if (regions[cnLen].find(it.roi).isExist()) {
+                if (regionPerformTemplateMatch.find(it.roi).isExist()) {
                     firstMatch = it;
                     break;
                 }
             }
-
             if (!firstMatch) return null;
-
             if (!settings.disableSecondCheck) {
-                const cnLen = Math.min(
-                    [...firstMatch.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length,
-                    5
-                );
-                if (regions[cnLen].find(firstMatch.roi).isExist()) {
+                if (regionPerformTemplateMatch.find(firstMatch.roi).isExist()) {
                     return firstMatch.itemName;
                 }
                 return null;
@@ -1418,14 +1455,14 @@ async function recognizeAndInteract() {
         } catch (e) {
             log.error(`performTemplateMatch: ${e.message}`);
         } finally {
-            regions.forEach(r => r.dispose());
+            regionPerformTemplateMatch.dispose();
         }
         return null;
     }
 
     async function findFIcon() {
         try {
-            let result = gameRegion.find(fIconRo);
+            let result = (await getGameRegion()).find(fIconRo);
             if (result.isExist()) {
                 return Math.round(result.y + result.height / 2);
             }
@@ -1584,8 +1621,7 @@ async function dumper(pathFilePath, map_name) {
         let attempts = 0;
         while (attempts < maxAttempts && state.running) {
             try {
-                gameRegion = await getGameRegion()
-                let result = gameRegion.find(recognitionObject);
+                let result = (await getGameRegion()).find(recognitionObject);
                 if (result.isExist()) {
                     return true; // 如果找到图标，返回 true
                 }
@@ -1598,6 +1634,68 @@ async function dumper(pathFilePath, map_name) {
         }
         return false; // 如果尝试次数达到上限或取消，返回 false
     }
+}
+
+/**
+ * 检查是否需要使用药品
+ * @param {boolean} useRevivalMedicine 是否检测复活药
+ * @param {boolean} useHealMedicine 是否检测回血药
+ * @returns {Object} 包含是否应该吃药以及药品种类的对象
+ * @returns {boolean} return.shouldTake 是否应该吃药
+ * @returns {string|null} return.medicineType 药品种类，可能的值：'revival'（复活药）、'heal'（回血药）、null（不需要吃药）
+ */
+async function shouldTakeMedicine(useRevivalMedicine = false, useHealMedicine = false) {
+    // 检测复活药逻辑
+    if (useRevivalMedicine) {
+        let res2 = (await getGameRegion()).find(revivalMedicineRo);
+        if (!res2.isEmpty()) {
+            return {
+                shouldTake: true,
+                medicineType: 'revival'
+            };
+        }
+    }
+
+    // 检测回血药逻辑
+    if (useHealMedicine) {
+        //识别血条类型
+        let toCheckRegion = (await getGameRegion()).DeriveCrop(824 - 9, 1014 - 9, 8, 8);
+        let toCheckMat = toCheckRegion.SrcMat;
+        let ro = RecognitionObject.TemplateMatch(toCheckMat);
+        ro.use3Channels = true;
+        ro.Threshold = 0.4;
+        ro.InitTemplate();
+        try {
+            let res = img.find(ro);
+            if (!res.isEmpty()) {
+                let color;
+                if (res.x > 30) {
+                    color = "绿";
+                }
+                else if (res.x > 14) {
+                    color = "红";
+                }
+                else {
+                    color = "空";
+                }
+
+                if (color === "红" || color === "空") {
+                    return {
+                        shouldTake: true,
+                        medicineType: 'heal'
+                    };
+                }
+            }
+        } catch (error) {
+            log.error(`识别血条时出现错误${error.message}`);
+        } finally {
+            toCheckRegion.dispose();
+        }
+    }
+    return {
+        shouldTake: false,
+        medicineType: null
+    };
 }
 
 /* ========================= ⑤ 批量调度与数据持久化 =========================
@@ -1955,9 +2053,8 @@ async function switchPartyIfNeeded(partyName) {
 async function isMainUI(maxDuration = 10) {
     const start = Date.now();
     while (Date.now() - start < maxDuration) {
-        gameRegion = await getGameRegion();
         try {
-            const result = gameRegion.find(mainUIRo);
+            const result = (await getGameRegion()).find(mainUIRo);
             if (result.isExist()) return true;
         } catch (error) {
             log.error(`识别图像时发生异常: ${error.message}`);
@@ -1976,9 +2073,8 @@ async function isMainUI(maxDuration = 10) {
 async function hasScroll(maxDuration = 10) {
     const start = Date.now();
     while (Date.now() - start < maxDuration) {
-        gameRegion = await getGameRegion();
         try {
-            const result = gameRegion.find(scrollRo);
+            const result = (await getGameRegion()).find(scrollRo);
             if (result.isExist()) return true;
         } catch (error) {
             log.error(`识别图像时发生异常: ${error.message}`);
@@ -1992,7 +2088,6 @@ async function hasScroll(maxDuration = 10) {
 
 // 加载拾取物图片
 async function loadTargetItems() {
-
     let targetItemPath;
     if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料") {
         targetItemPath = "assets/targetItems/";
@@ -2036,7 +2131,7 @@ async function performOcr(centerYF) {
     const TEXT_Y = centerYF - 30, TEXT_H = 60;
 
     try {
-        const resList = gameRegion.findMulti(
+        const resList = (await getGameRegion()).findMulti(
             RecognitionObject.ocr(TEXT_X, TEXT_Y, TEXT_W, TEXT_H)
         );
         if (!resList.count) return null;
@@ -2052,55 +2147,6 @@ async function performOcr(centerYF) {
         log.error(`OCR异常: ${e.message}`);
         return null;
     }
-}
-
-async function refreshTargetItems(centerYF) {
-    const TARGET_DIR = 'assets/targetItems';
-
-    /* 1. 一次截屏 */
-    const rawText = await performOcr(centerYF);
-    if (!rawText) { log.warn('未识别到文字'); return; }
-
-    const itemName = rawText.replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, '');
-    if (!itemName) { log.warn('未提取到有效物品名'); return; }
-
-    const CAP_X = 1220;                       // 左侧固定
-    let CAP_W = 12 + 28 * (itemName.length);  // 动态宽度
-    if (itemName.length > 4) {
-        CAP_W = 32 + 30 * 4;//过长时只取前五个字的区域
-    }
-    const CAP_Y = centerYF - 14;
-    const CAP_H = 28;
-
-    const mat = gameRegion.DeriveCrop(CAP_X, CAP_Y, CAP_W, CAP_H).SrcMat;
-
-    /* 2. 纯 for 循环重名检测 */
-    let finalName = itemName;
-    let seq = 1;
-    while (true) {
-        let hit = false;
-        for (let i = 0; i < targetItems.length; i++) {
-            if (targetItems[i].itemName === finalName) {
-                hit = true;
-                break;
-            }
-        }
-        if (!hit) break;          // 没找到重名，可用
-        finalName = itemName + '(' + seq + ')';
-        seq++;
-    }
-
-    /* 3. 保存 & 入库 */
-    const fullPath = TARGET_DIR + '/' + finalName + '.png';
-    file.WriteImageSync(fullPath, mat);
-    targetItems.push({
-        fullPath: fullPath,
-        fileName: finalName + '.png',
-        itemName: finalName,
-        template: file.ReadImageMatSync(fullPath)
-    });
-
-    log.info('已新增拾取物：' + finalName);
 }
 
 /**
@@ -2322,10 +2368,10 @@ async function findAndClick(target,
         let found = null;
 
         while (Date.now() - start <= timeout) {
-            const gameRegion = await getGameRegion();
+            try { await sleep(1); } catch (error) { break; }
             // 依次尝试每一个 ro
             for (const ro of ros) {
-                const res = gameRegion.find(ro);
+                const res = (await getGameRegion()).find(ro);
                 if (!res.isEmpty()) {          // 找到
                     found = res;
                     if (doClick) {
@@ -2358,26 +2404,26 @@ async function findAndClick(target,
  * 
  * @description
  * 使用 gameRegionManager 对象管理以下属性：
- * - newGameRegion: 存储最新的游戏区域截图对象
- * - oldGameRegion: 存储上一个游戏区域截图对象，用于资源释放
+ * - cache: 缓存队列，保存近5张截图
  * - lastCapture: 上一次捕获游戏区域的时间戳
  * - isDisposing: 标记是否正在释放旧截图，用于安全锁
  * - isCapturing: 标记是否正在执行截图操作，用于全局锁
  */
 async function getGameRegion(minInterval = 17, asyncDispose = false) {
     async function disposeOldGameRegion() {
-        if (gameRegionManager.oldGameRegion) {
-            gameRegionManager.isDisposing = true;
-            try {
-                gameRegionManager.oldGameRegion.dispose();
-            } catch (error) {
-                log.error(`释放旧游戏区域截图失败: ${error.message}`);
-            } finally {
-                gameRegionManager.isDisposing = false;
-                gameRegionManager.oldGameRegion = gameRegionManager.newGameRegion;
+        gameRegionManager.isDisposing = true;
+        try {
+            // 当缓存队列超过GAME_REGION_CACHE_SIZE个时，销毁最旧的截图
+            while (gameRegionManager.cache.length > GAME_REGION_CACHE_SIZE) {
+                const oldestRegion = gameRegionManager.cache.shift();
+                if (oldestRegion) {
+                    oldestRegion.dispose();
+                }
             }
-        } else {
-            gameRegionManager.oldGameRegion = gameRegionManager.newGameRegion;
+        } catch (error) {
+            log.error(`释放旧游戏区域截图失败: ${error.message}`);
+        } finally {
+            gameRegionManager.isDisposing = false;
         }
     }
 
@@ -2385,15 +2431,16 @@ async function getGameRegion(minInterval = 17, asyncDispose = false) {
     while (gameRegionManager.isCapturing) {
         await sleep(1);
     }
-    
+
     gameRegionManager.isCapturing = true;
     try {
-        if (new Date() - gameRegionManager.lastCapture >= minInterval || !gameRegionManager.newGameRegion) {
+        if (new Date() - gameRegionManager.lastCapture >= minInterval || gameRegionManager.cache.length === 0) {
             while (gameRegionManager.isDisposing) {
                 await sleep(1);
             }
             gameRegionManager.lastCapture = new Date();
-            gameRegionManager.newGameRegion = captureGameRegion();
+            const newRegion = captureGameRegion();
+            gameRegionManager.cache.push(newRegion);
 
             // 根据参数决定是否等待释放完成
             if (asyncDispose) {
@@ -2406,6 +2453,7 @@ async function getGameRegion(minInterval = 17, asyncDispose = false) {
         log.error(`获取游戏区域截图失败: ${error.message}`);
     } finally {
         gameRegionManager.isCapturing = false;
-        return gameRegionManager.newGameRegion;
+        // 返回最新的截图
+        return gameRegionManager.cache[gameRegionManager.cache.length - 1];
     }
 }
