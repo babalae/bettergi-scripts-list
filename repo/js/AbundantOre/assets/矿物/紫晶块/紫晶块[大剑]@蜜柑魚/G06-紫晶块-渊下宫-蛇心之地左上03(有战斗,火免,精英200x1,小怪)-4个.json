@@ -6,7 +6,7 @@
     "version": "1.0",
     "description": "",
     "map_name": "Enkanomiya",
-    "bgi_version": "0.47.0",
+    "bgi_version": "0.52.0",
     "tags": [
       "双手剑",
       "精英怪",
@@ -111,8 +111,7 @@
       "type": "path",
       "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 10,
@@ -121,8 +120,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 11,
@@ -131,8 +129,7 @@
       "type": "target",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 12,
@@ -141,8 +138,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 13,
@@ -164,15 +160,6 @@
     },
     {
       "id": 15,
-      "x": 443.46,
-      "y": -229.2,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
-    },
-    {
-      "id": 16,
       "x": 444.32,
       "y": -229.65,
       "type": "target",
@@ -181,7 +168,7 @@
       "action_params": ""
     },
     {
-      "id": 17,
+      "id": 16,
       "x": 442.83,
       "y": -229.27,
       "type": "path",
@@ -190,7 +177,7 @@
       "action_params": ""
     },
     {
-      "id": 18,
+      "id": 17,
       "x": 451.3,
       "y": -225.55,
       "type": "path",
@@ -199,7 +186,7 @@
       "action_params": ""
     },
     {
-      "id": 19,
+      "id": 18,
       "x": 468.14,
       "y": -231.65,
       "type": "target",
@@ -208,17 +195,16 @@
       "action_params": ""
     },
     {
-      "id": 20,
+      "id": 19,
       "x": 469.57,
       "y": -236.02,
       "type": "path",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
-      "id": 21,
+      "id": 20,
       "x": 467.13,
       "y": -250.16,
       "type": "path",
@@ -227,7 +213,7 @@
       "action_params": ""
     },
     {
-      "id": 22,
+      "id": 21,
       "x": 491.97,
       "y": -243.27,
       "type": "path",
@@ -236,7 +222,7 @@
       "action_params": ""
     },
     {
-      "id": 23,
+      "id": 22,
       "x": 498.1,
       "y": -244.02,
       "type": "path",
@@ -245,7 +231,7 @@
       "action_params": ""
     },
     {
-      "id": 24,
+      "id": 23,
       "x": 495.84,
       "y": -248.66,
       "type": "path",
@@ -265,7 +251,7 @@
       }
     },
     {
-      "id": 25,
+      "id": 24,
       "x": 495.84,
       "y": -248.66,
       "type": "path",
@@ -274,7 +260,7 @@
       "action_params": ""
     },
     {
-      "id": 26,
+      "id": 25,
       "x": 497.78,
       "y": -238.05,
       "type": "path",
@@ -283,7 +269,7 @@
       "action_params": ""
     },
     {
-      "id": 27,
+      "id": 26,
       "x": 495.27,
       "y": -237.27,
       "type": "target",
@@ -292,26 +278,16 @@
       "action_params": ""
     },
     {
-      "id": 28,
-      "x": 495.27,
-      "y": -237.27,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
-    },
-    {
-      "id": 29,
+      "id": 27,
       "x": 493.75,
       "y": -242.43,
       "type": "path",
       "move_mode": "walk",
       "action": "",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
-      "id": 30,
+      "id": 28,
       "x": 493.31,
       "y": -242.35,
       "type": "target",
@@ -320,16 +296,7 @@
       "action_params": ""
     },
     {
-      "id": 31,
-      "x": 493.31,
-      "y": -242.35,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
-    },
-    {
-      "id": 32,
+      "id": 29,
       "x": 493.75,
       "y": -242.43,
       "type": "path",

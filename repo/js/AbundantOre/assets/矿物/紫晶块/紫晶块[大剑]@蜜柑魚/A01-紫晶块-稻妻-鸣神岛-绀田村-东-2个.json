@@ -11,7 +11,7 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
+    "bgi_version": "0.52.0",
     "tags": [
       "双手剑"
     ],
@@ -36,8 +36,7 @@
       "action": "",
       "move_mode": "dash",
       "action_params": "",
-      "type": "path",
-      "locked": false
+      "type": "path"
     },
     {
       "id": 3,
@@ -90,7 +89,7 @@
       "y": -2606.41,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.5)",
+      "action_params": "wait(0.249)",
       "type": "path"
     },
     {
