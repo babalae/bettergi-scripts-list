@@ -1670,16 +1670,16 @@ async function shouldTakeMedicine(useRevivalMedicine = false, useHealMedicine = 
             if (!res.isEmpty()) {
                 let color;
                 if (res.x > 30) {
-                    color = "绿";
+                    color = "黄";
                 }
                 else if (res.x > 14) {
-                    color = "红";
+                    color = "绿";
                 }
                 else {
-                    color = "空";
+                    color = "红";
                 }
-
-                if (color === "红" || color === "空") {
+                //log.info(`识别到血条颜色${color}`);
+                if (color === "红") {
                     return {
                         shouldTake: true,
                         medicineType: 'heal'
