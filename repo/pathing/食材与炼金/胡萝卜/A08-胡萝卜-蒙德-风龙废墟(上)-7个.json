@@ -1,105 +1,143 @@
 {
   "info": {
-    "name": "A08-胡萝卜-蒙德-风龙废墟(上)-7个",
-    "type": "collect",
     "author": "不瘦五十斤不改名",
-    "version": "1.0",
-    "bgi_version": "0.42.0",
     "authors": [
       {
         "name": "不瘦五十斤不改名",
         "links": "https://github.com/PanZic"
       }
-    ]
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1775639755342,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A08-胡萝卜-蒙德-风龙废墟(上)-7个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
-      "x": 265.62,
-      "y": 2914.83,
+      "locked": false,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": ""
+      "x": 265.62,
+      "y": 2914.83
     },
     {
+      "action": "",
       "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
       "x": 210.23,
-      "y": 2911.8,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": 2911.8
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 178.02,
-      "y": 2932.84,
+      "locked": false,
+      "move_mode": "dash",
       "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "x": 182.4658,
+      "y": 2930.6538
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 176.33,
-      "y": 2933.82,
-      "type": "target",
+      "locked": false,
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 178.9697,
+      "y": 2932.7202
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 176.3,
-      "y": 2932.89,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 176.4121,
+      "y": 2930.6172
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": 183.41,
-      "y": 2813.31,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 176.3184,
+      "y": 2935.6416
     },
     {
+      "action": "",
       "id": 7,
-      "x": 160.11,
-      "y": 2796.64,
+      "locked": false,
+      "move_mode": "dash",
       "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "x": 183.41,
+      "y": 2813.31
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 8,
-      "x": 157.48,
-      "y": 2794.83,
+      "move_mode": "dash",
       "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "x": 162.1182,
+      "y": 2800.7607
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 9,
-      "x": 155.53,
-      "y": 2796.46,
-      "type": "target",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 159.2725,
+      "y": 2797.7349
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 10,
-      "x": 154.71,
-      "y": 2799.23,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 153.9404,
+      "y": 2794.2739
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 11,
-      "x": 142.72,
-      "y": 2806.82,
-      "type": "path",
       "move_mode": "walk",
-      "action": ""
+      "type": "path",
+      "x": 161.0225,
+      "y": 2794.1538
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 154.957,
+      "y": 2799.7271
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 13,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 142.72,
+      "y": 2806.82
     }
   ]
 }
