@@ -53,9 +53,9 @@
 
 玛薇卡 e
 
-哥伦比娅 attack(0.1), check, keydown(e), wait(0.3), keyup(e), wait(0.3), check
+哥伦比娅 attack(0.1), check, keydown(e), wait(0.3), keyup(e), wait(0.1), check, wait(0.3)
 
-莉奈娅 attack(0.05), keydown(E),wait(0.05),attack(0.82),keyup(E), wait(1), check, keypress(q), ready, wait(0.3)
+莉奈娅 attack(0.05), keypress(q), ready, check, wait(0.3), keydown(E), wait(0.05), attack(0.82), keyup(E), wait(1), check
 
 // 盾（刚需）————强调一下，只需要带一个盾位就够了，盾量不够穿千岩
 茜特菈莉 e, attack(0.3), check, wait(0.3), keypress(q), wait(0.1), keypress(q), wait(0.1), keypress(q), ready, check, wait(0.3), attack(0.3), check, wait(0.3)
