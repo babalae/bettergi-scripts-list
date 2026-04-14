@@ -156,6 +156,22 @@ function load_flaky_end_paths() {
     }
 }
 
+let linnea_override_config = {};
+
+function load_linnea_override_config() {
+    const basedir = "assets/path_override/linnea/";
+    const c = JSON.parse(file.readTextSync(basedir + "config.json"));
+    for (const [k, v] of Object.entries(c)) {
+        if (v.hasOwnProperty("file")) {
+            v["file"] = basedir + v["file"];
+            if (!v.hasOwnProperty("mining_dist_threshold")) {
+                v["mining_dist_threshold"] = 0.0;
+            }
+        }
+    }
+    linnea_override_config = c;
+}
+
 async function flush_persistent_data() {
     await file.writeText("local/persistent_data.json", JSON.stringify(persistent_data, null, "  "));
 }
@@ -376,31 +392,61 @@ function modify_script_for_claymores(json_content) {
     return json_content;
 }
 
-function modify_script_for_linnea(json_content, is_overriden_path) {
+async function modify_script_for_linnea(json_content, override_config) {
     const linnea_mining_action = `${linnea_chs_name} moveby(0,2500),charge(0.6),click(middle)`;
-    const mining_dist_threshold = is_overriden_path ? 0.0 : 7.5;
+    let mining_dist_threshold = 7.5;
     const additional_sleep_time_before_teleport = 1.2;
-    const json_obj = JSON.parse(json_content);
+    let preserve_mining_points = null;
 
-    let last_linnea_mining_pos = null;
-    for (const i of json_obj.positions) {
-        if (i.action !== "mining") {
-            continue;
+    if (override_config) {
+        if (override_config.hasOwnProperty("file")) {
+            json_content = await file.readText(override_config["file"]);
         }
-        const dist_from_last_mining_pos = last_linnea_mining_pos === null ? 9999 :
-            Math.hypot(i.x - last_linnea_mining_pos.x, i.y - last_linnea_mining_pos.y);
-        if (dist_from_last_mining_pos < mining_dist_threshold) {
-            i.type = "path";
-            i.action = "";
-            i.action_params = "";
-        } else {
-            last_linnea_mining_pos = {
-                x: i.x,
-                y: i.y
-            };
+        if (override_config.hasOwnProperty("mining_dist_threshold")) {
+            mining_dist_threshold = override_config["mining_dist_threshold"];
+        }
+        if (override_config.hasOwnProperty("preserve_mining_points")) {
+            preserve_mining_points = override_config["preserve_mining_points"];
         }
     }
 
+    const json_obj = JSON.parse(json_content);
+
+    // Skip some mining points
+    if (preserve_mining_points === null) {
+        let last_linnea_mining_pos = null;
+        for (const i of json_obj.positions) {
+            if (i.action !== "mining") {
+                continue;
+            }
+            const dist_from_last_mining_pos = last_linnea_mining_pos === null ? 9999 :
+                Math.hypot(i.x - last_linnea_mining_pos.x, i.y - last_linnea_mining_pos.y);
+            if (dist_from_last_mining_pos < mining_dist_threshold) {
+                i.type = "path";
+                i.action = "";
+                i.action_params = "";
+            } else {
+                last_linnea_mining_pos = {
+                    x: i.x,
+                    y: i.y
+                };
+            }
+        }
+    } else {
+        let counter = 0;
+        for (const i of json_obj.positions) {
+            if (i.action === "mining") {
+                if (!preserve_mining_points.includes(counter)) {
+                    i.type = "path";
+                    i.action = "";
+                    i.action_params = "";
+                }
+                counter += 1;
+            }
+        }
+    }
+
+    // Drop useless waypoints
     const new_positions = [];
     const stashed_positions = [];
     let has_mining_since_last_teleport = false;
@@ -422,6 +468,7 @@ function modify_script_for_linnea(json_content, is_overriden_path) {
         }
     }
 
+    // Patch mining actions
     for (const [id, i] of new_positions.entries()) {
         if (i.action === "mining") {
             i.action = "combat_script";
@@ -432,6 +479,7 @@ function modify_script_for_linnea(json_content, is_overriden_path) {
         }
     }
 
+    // Correct indices
     for (const [id, i] of new_positions.entries()) {
         i.id = id + 1;
     }
@@ -469,14 +517,7 @@ async function run_pathing_script(name, path_state_change, current_states) {
     } else if (settings.custom_mining_action || mining_character === "诺艾尔") {
         json_content = modify_script_for_claymores(json_content);
     } else if (mining_character === linnea_chs_name) {
-        let is_overriden_path = false;
-        const path_override = "assets/path_override/linnea/" + name;
-        if (file.isExists(path_override)) {
-            log.debug("Use overriden path, {p}", path_override);
-            json_content = await file.readText(path_override);
-            is_overriden_path = true;
-        }
-        json_content = modify_script_for_linnea(json_content, is_overriden_path);
+        json_content = await modify_script_for_linnea(json_content, linnea_override_config[name] || null);
     }
 
     const cancellation_token = dispatcher.getLinkedCancellationToken();
@@ -545,6 +586,7 @@ async function main() {
     load_disabled_paths();
     load_statistics_data();
     load_flaky_end_paths();
+    load_linnea_override_config();
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     // Run an empty pathing script to give BGI a chance to switch team if the user specifies one.
     await pathingScript.runFile("assets/empty_pathing.json");
