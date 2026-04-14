@@ -1,6 +1,6 @@
 // 作者：火山
 // 描述：（锄地+副本）请务必打开本文档仔细阅读说明设置！！！【此版本增加Check、ready两种新战斗策略语法的应用，实现自主动精准控制战斗结束检查时间点，有bug或者异常卡顿请及时向管理反馈】（内含少部分满命、进阶操作，默认已注释不开启。本策略作为示范教学，希望大家学习理解bgi战斗逻辑，如有更好的策略，欢迎提交）
-// 版本：v3.1
+// 版本：v3.2
 
 // 战斗配置设置流程
 // 该设置从调度器入口开始，按以下层级路径操作，核心为开启相关功能并配置关键参数。
@@ -55,7 +55,7 @@
 
 哥伦比娅 attack(0.1), check, keydown(e), wait(0.3), keyup(e), wait(0.1), check, wait(0.3)
 
-莉奈娅 attack(0.05), keypress(q), ready, check, wait(0.3), keydown(E), wait(0.05), attack(0.82), keyup(E), wait(1), check
+莉奈娅 attack(0.1), keypress(q), wait(0.1), ready, check, attack(0.4), keydown(E), wait(0.05), attack(0.82), keyup(E), wait(1), check
 
 // 盾（刚需）————强调一下，只需要带一个盾位就够了，盾量不够穿千岩
 茜特菈莉 e, attack(0.3), check, wait(0.3), keypress(q), wait(0.1), keypress(q), wait(0.1), keypress(q), ready, check, wait(0.3), attack(0.3), check, wait(0.3)
