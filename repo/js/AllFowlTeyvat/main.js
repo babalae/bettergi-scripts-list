@@ -1,4 +1,4 @@
-(async function () {
+(async function () { // 智能拾取应当支持精确的拾取统计，智能拾取并非实时，缺少CD记录
     const pathing_list = [
         "璃月-禽肉-云来海璃月港北-1个-下落2肉1",
         "璃月-禽肉-云来海璃月港西-2个-下落1肉2",
@@ -40,6 +40,138 @@
     ];
     const statue_name = "蒙德-七天神像-苍风高地";
     const longest_path_time = 300; // 耗时最长的路线的时长（s）
+    const base_path_pathing = "assets/pathing/";
+
+    /**
+     * 供 findClosestMatch 调用
+     */
+    async function levenshteinDistance(a, b) {
+        const matrix = [];
+        for (let i = 0; i <= b.length; i++) {
+            matrix[i] = [i];
+        }
+        for (let j = 0; j <= a.length; j++) {
+            matrix[0][j] = j;
+        }
+        for (let i = 1; i <= b.length; i++) {
+            for (let j = 1; j <= a.length; j++) {
+                if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                    matrix[i][j] = matrix[i - 1][j - 1];
+                } else {
+                    matrix[i][j] = Math.min(
+                        matrix[i - 1][j - 1] + 1, // 替换
+                        matrix[i][j - 1] + 1,     // 插入
+                        matrix[i - 1][j] + 1      // 删除
+                    );
+                }
+            }
+        }
+        // 基础距离 + 长度差异加权（长度差异每多1，距离+4）
+        const lengthDiff = Math.abs(a.length - b.length);
+        return matrix[b.length][a.length] + lengthDiff * 4;
+    }
+
+
+    /**
+     * 查找最相似的字符串（最大限度避免OCR偏差导致的异常）
+     *
+     * @param {string} target - 目标字符串
+     * @param {string[]} candidates - 候选字符串数组
+     * @param {number} maxAllowedDistance - 最大允许的编辑距离（超过则舍弃）
+     * @returns {Promise<string | boolean>} - 返回最匹配的字符串，如果没有符合条件的则返回 false
+     */
+    async function findClosestMatch(target, candidates, maxAllowedDistance = Infinity) {
+        let closest = false;
+        let minDistance = Infinity;
+
+        for (const candidate of candidates) {
+            const distance = await levenshteinDistance(target, candidate);
+
+            // 如果距离超过最大允许值，则跳过
+            if (distance > maxAllowedDistance) {
+                continue;
+            }
+
+            // 更新最小距离和最匹配字符串
+            if (distance < minDistance) {
+                log.debug(`current: ${distance} < allowed: ${maxAllowedDistance}`);
+                minDistance = distance;
+                closest = candidate;
+            }
+        }
+
+        return closest;
+    }
+
+
+    /**
+     * 有选择的自动拾取，只捡禽肉
+     * @param needItemName 需要拾取的物品
+     */
+    async function autoPickUp(needItemName = "禽肉") {
+        await sleep(500);
+        const f_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/F.png"), 1094, 334, 50, 426);
+        const roll_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Roll.png"), 1047, 516, 32, 48);
+        const upRolls = "{ \"macroEvents\": [ { \"type\": 6, \"mouseX\": 0, \"mouseY\": 120, \"time\": 0 }, { \"type\": 6, \"mouseX\": 0, \"mouseY\": 0, \"time\": 5 } ], \"info\": { \"name\": \"\", \"description\": \"\", \"x\": 0, \"y\": 0, \"width\": 1920, \"height\": 1080, \"recordDpi\": 1 } }"
+        const downRolls = "{ \"macroEvents\": [ { \"type\": 6, \"mouseX\": 0, \"mouseY\": -120, \"time\": 0 }, { \"type\": 6, \"mouseX\": 0, \"mouseY\": 0, \"time\": 5 } ], \"info\": { \"name\": \"\", \"description\": \"\", \"x\": 0, \"y\": 0, \"width\": 1920, \"height\": 1080, \"recordDpi\": 1 } }"
+
+        // 将F标识移动至顶部
+        while (true) {
+            await sleep(100); // 100ms检测一次
+            let gameCapture = captureGameRegion();
+
+            if (gameCapture.Find(roll_pic).isExist() && !(gameCapture.Find(f_pic).isExist())) { // 滚轮标识
+                // 将F标识滑动到到最上方
+                log.debug("autoPickUp: Roll true");
+                let fResult = gameCapture.Find(f_pic);
+                if (fResult.isExist() && fResult.y < 400) {
+                    // 滚动识别
+                    log.debug("autoPickUp: F top");
+                    break;
+                } else {
+                    await keyMouseScript.run(upRolls);
+                }
+            } else if (gameCapture.Find(f_pic).isExist()) { // F标识
+                // F标识默认在最上方
+                log.debug("autoPickUp: roll false, F true");
+                break;
+            } else { // 未检测到掉落物
+                log.debug("autoPickUp: None");
+                return null;
+            }
+            gameCapture.dispose();
+        }
+
+        // OCR并拾取 [DEBUG] 20次滚动可能过少，应该改为坐标检测
+        let i = 20;
+        while (i) {
+            await sleep(100); // 100ms检测一次
+            let gameCapture = captureGameRegion();
+
+            let fResult = gameCapture.Find(f_pic);
+            log.debug(`autoPickUp: F(${fResult.x}, ${fResult.y})`);
+            // F标识消失
+            if (!(gameCapture.Find(f_pic).isExist())) {
+                log.debug("autoPickUp: F not exists");
+                return null;
+            }
+            // 根据F标识计算当前物品OCR区域
+            let ocrRo = RecognitionObject.Ocr(fResult.x + 108, fResult.y, 265, 33);
+            let ocrResult = gameCapture.Find(ocrRo);
+
+            if (await findClosestMatch(needItemName, [ocrResult.text], 1)) {
+                log.debug(`pick: ${needItemName}(target) -> ${ocrResult.text}(current)`);
+                log.info(`交互或拾取："${needItemName}"`);
+                keyPress("F");
+                await sleep(500);
+            } else {
+                log.debug(`skip: ${needItemName} -> ${ocrResult.text}`);
+                await keyMouseScript.run(downRolls);
+            }
+            gameCapture.dispose();
+            i--;
+        }
+    }
 
     /**
      * 设置时间（白天和夜晚）。
@@ -55,9 +187,9 @@
         let position_12 = [1440, 330]; // 防止转动无效（鼠标途经点）
         let position_18 = [1610, 500];
 
-        await keyPress("Escape");
+        keyPress("Escape");
         await sleep(1000);
-        await click(45, 715);
+        click(45, 715);
         await sleep(2000);
 
         moveMouseTo(position_center[0], position_center[1]);
@@ -77,11 +209,11 @@
         leftButtonUp();
 
         await sleep(1000);
-        await click(1450, 1020); // 确认
+        click(1450, 1020); // 确认
         await sleep(20000); // 等待时间调节
-        await keyPress("Escape");
+        keyPress("Escape");
         await sleep(2000);
-        await keyPress("Escape");
+        keyPress("Escape");
         await sleep(2000);
     }
 
@@ -99,9 +231,10 @@
 
         // 30s点击一次，等待领取月卡
         let step_flag = 0; // 领取月卡步骤标志
+        let auto_skip = !settings.check_welkin_moon;
         while (auto_skip && time_now < time_4 && time_predict_end >= time_4) {
             log.info(`等待领取月卡(剩余${Math.floor((time_4 - new Date()) / 1000)}s)...`);
-            if (step_flag == 0) {
+            if (step_flag === 0) {
                 // 传送到七天神像
                 await pathingScript.runFile(base_path_pathing + statue_name + ".json");
                 step_flag += 1;
@@ -119,12 +252,11 @@
 
         }
         // 领取月卡(点击两次)
-        if (step_flag == 2) {
-            step_flag = 0;
+        if (step_flag === 2) {
             await sleep(5); // 补回容错时间
-            await click(1450, 1020); // 点击时间调节的确认按钮的位置
+            click(1450, 1020); // 点击时间调节的确认按钮的位置
             await sleep(5); // 等待月卡动画时间
-            await click(1450, 1020);
+            click(1450, 1020);
             await sleep(1);
         }
     }
@@ -200,8 +332,23 @@
      *
      * */
     async function run_file(file_name) {
-        const base_path_pathing = "assets/pathing/";
-        await pathingScript.runFile(base_path_pathing + file_name + ".json");
+        const file_path = base_path_pathing + file_name + ".json";
+        if (settings.mode_pick === "自动拾取（智能）") {
+            let file_json = JSON.parse(file.readTextSync(file_path));
+            for (let i = 0; i < file_json["positions"].length; i++) {
+                let base_json = JSON.parse(file.readTextSync("assets/base.json"));
+                let current_position = file_json["positions"][i];
+                current_position["id"] = 1;
+                base_json["positions"].push(current_position);
+                await pathingScript.run(JSON.stringify(base_json));
+                if (file_json["positions"][i]["type"] === "path" || file_json["positions"][i]["type"] === "target") {
+                    await autoPickUp();
+                }
+            }
+
+        } else {
+            await pathingScript.runFile(file_path);
+        }
     }
 
     async function main() {
