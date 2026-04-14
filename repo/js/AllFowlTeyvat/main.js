@@ -143,7 +143,8 @@
         }
 
         // OCR并拾取 [DEBUG] 20次滚动可能过少，应该改为坐标检测
-        while (20) {
+        let i = 20;
+        while (i) {
             await sleep(100); // 100ms检测一次
             let gameCapture = captureGameRegion();
 
@@ -168,6 +169,7 @@
                 await keyMouseScript.run(downRolls);
             }
             gameCapture.dispose();
+            i--;
         }
     }
 
