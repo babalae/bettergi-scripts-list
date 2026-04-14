@@ -40,6 +40,7 @@
     ];
     const statue_name = "蒙德-七天神像-苍风高地";
     const longest_path_time = 300; // 耗时最长的路线的时长（s）
+    const base_path_pathing = "assets/pathing/";
 
     /**
      * 供 findClosestMatch 调用
@@ -166,6 +167,7 @@
                 log.debug(`skip: ${needItemName} -> ${ocrResult.text}`);
                 await keyMouseScript.run(downRolls);
             }
+            gameCapture.dispose();
         }
     }
 
@@ -227,7 +229,7 @@
 
         // 30s点击一次，等待领取月卡
         let step_flag = 0; // 领取月卡步骤标志
-        let auto_skip = settings.check_welkin_moon;
+        let auto_skip = !settings.check_welkin_moon;
         while (auto_skip && time_now < time_4 && time_predict_end >= time_4) {
             log.info(`等待领取月卡(剩余${Math.floor((time_4 - new Date()) / 1000)}s)...`);
             if (step_flag === 0) {
@@ -328,7 +330,6 @@
      *
      * */
     async function run_file(file_name) {
-        const base_path_pathing = "assets/pathing/";
         const file_path = base_path_pathing + file_name + ".json";
         if (settings.mode_pick === "自动拾取（智能）") {
             let file_json = JSON.parse(file.readTextSync(file_path));
