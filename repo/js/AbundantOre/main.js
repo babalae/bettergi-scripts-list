@@ -18,6 +18,8 @@ function forge_pathing_end_log(name, elapsed_time) {
     log.debug(c);
 }
 
+const linnea_chs_name = "莉奈娅";
+
 const country_name_tag_map = {
     "蒙德": "mondstadt",
     "璃月": "liyue",
@@ -152,6 +154,22 @@ function load_flaky_end_paths() {
         }
         flaky_end_paths.add(l);
     }
+}
+
+let linnea_override_config = {};
+
+function load_linnea_override_config() {
+    const basedir = "assets/path_override/linnea/";
+    const c = JSON.parse(file.readTextSync(basedir + "config.json"));
+    for (const [k, v] of Object.entries(c)) {
+        if (v.hasOwnProperty("file")) {
+            v["file"] = basedir + v["file"];
+            if (!v.hasOwnProperty("mining_dist_threshold")) {
+                v["mining_dist_threshold"] = 0.0;
+            }
+        }
+    }
+    linnea_override_config = c;
 }
 
 async function flush_persistent_data() {
@@ -350,6 +368,128 @@ let last_script_end_pos = [null, null];
 let last_script_normal_completion = true;
 let mining_character = null;
 
+function modify_script_for_claymores(json_content) {
+    const json_obj = JSON.parse(json_content);
+    let modified = false;
+    for (const i of json_obj.positions) {
+        if (i.action !== "mining") {
+            continue;
+        }
+        if (settings.custom_mining_action) {
+            i.action = "combat_script";
+            i.action_params = settings.custom_mining_action;
+            modified = true;
+        } else if (mining_character === "诺艾尔") {
+            i.action = "combat_script";
+            i.action_params = "诺艾尔 attack(2.0)";
+            modified = true;
+        }
+    }
+    if (modified) {
+        log.debug("Patched mining action");
+        json_content = JSON.stringify(json_obj);
+    }
+    return json_content;
+}
+
+async function modify_script_for_linnea(json_content, override_config) {
+    const linnea_mining_action = `${linnea_chs_name} moveby(0,2500),charge(0.6),click(middle)`;
+    let mining_dist_threshold = 7.5;
+    const additional_sleep_time_before_teleport = 1.2;
+    let preserve_mining_points = null;
+
+    if (override_config) {
+        if (override_config.hasOwnProperty("file")) {
+            json_content = await file.readText(override_config["file"]);
+        }
+        if (override_config.hasOwnProperty("mining_dist_threshold")) {
+            mining_dist_threshold = override_config["mining_dist_threshold"];
+        }
+        if (override_config.hasOwnProperty("preserve_mining_points")) {
+            preserve_mining_points = override_config["preserve_mining_points"];
+        }
+    }
+
+    const json_obj = JSON.parse(json_content);
+
+    // Skip some mining points
+    if (preserve_mining_points === null) {
+        let last_linnea_mining_pos = null;
+        for (const i of json_obj.positions) {
+            if (i.action !== "mining") {
+                continue;
+            }
+            const dist_from_last_mining_pos = last_linnea_mining_pos === null ? 9999 :
+                Math.hypot(i.x - last_linnea_mining_pos.x, i.y - last_linnea_mining_pos.y);
+            if (dist_from_last_mining_pos < mining_dist_threshold) {
+                i.type = "path";
+                i.action = "";
+                i.action_params = "";
+            } else {
+                last_linnea_mining_pos = {
+                    x: i.x,
+                    y: i.y
+                };
+            }
+        }
+    } else {
+        let counter = 0;
+        for (const i of json_obj.positions) {
+            if (i.action === "mining") {
+                if (!preserve_mining_points.includes(counter)) {
+                    i.type = "path";
+                    i.action = "";
+                    i.action_params = "";
+                }
+                counter += 1;
+            }
+        }
+    }
+
+    // Drop useless waypoints
+    const new_positions = [];
+    const stashed_positions = [];
+    let has_mining_since_last_teleport = false;
+    for (const i of json_obj.positions) {
+        if (i.type === "teleport") {
+            if (!has_mining_since_last_teleport) {
+                new_positions.push(...stashed_positions);
+            }
+            stashed_positions.length = 0;
+            stashed_positions.push(i);
+            has_mining_since_last_teleport = false;
+        } else if (i.action === "mining") {
+            new_positions.push(...stashed_positions);
+            new_positions.push(i);
+            stashed_positions.length = 0;
+            has_mining_since_last_teleport = true;
+        } else {
+            stashed_positions.push(i);
+        }
+    }
+
+    // Patch mining actions
+    for (const [id, i] of new_positions.entries()) {
+        if (i.action === "mining") {
+            i.action = "combat_script";
+            i.action_params = linnea_mining_action;
+            if (additional_sleep_time_before_teleport > 0 && (id === new_positions.length - 1 || new_positions[id + 1].type === "teleport")) {
+                i.action_params += `;wait(${additional_sleep_time_before_teleport})`;
+            }
+        }
+    }
+
+    // Correct indices
+    for (const [id, i] of new_positions.entries()) {
+        i.id = id + 1;
+    }
+    json_obj.positions = new_positions;
+
+    log.debug("Patched mining action");
+    json_content = JSON.stringify(json_obj);
+    return json_content;
+}
+
 async function run_pathing_script(name, path_state_change, current_states) {
     path_state_change ||= {};
     path_state_change.require ||= [];
@@ -372,58 +512,19 @@ async function run_pathing_script(name, path_state_change, current_states) {
     }
     log.info("运行 {name}", name);
     let json_content = await file.readText(filename_to_path_map[name]);
-    {
-        const json_obj = JSON.parse(json_content);
-        let modified = false;
-        let num_skipped_mining_actions = 0;
-        let num_replaced_mining_actions = 0;
-        let last_linnea_mining_pos = null;
-        for (const i of json_obj.positions) {
-            if (i.action !== "mining") {
-                continue;
-            }
-            if (use_global_mining_action) {
-                // nop
-            } else if (settings.custom_mining_action) {
-                i.action = "combat_script";
-                i.action_params = settings.custom_mining_action;
-                num_replaced_mining_actions += 1;
-                modified = true;
-            } else if (mining_character === "诺艾尔") {
-                i.action = "combat_script";
-                i.action_params = "诺艾尔 attack(2.0)";
-                num_replaced_mining_actions += 1;
-                modified = true;
-            } else if (mining_character === "莉奈娅") {
-                const dist_from_last_mining_pos = last_linnea_mining_pos === null ? 9999 :
-                    Math.hypot(i.x - last_linnea_mining_pos.x, i.y - last_linnea_mining_pos.y);
-                if (dist_from_last_mining_pos < 7.5) {
-                    i.type = "path";
-                    i.action = "";
-                    i.action_params = "";
-                    num_skipped_mining_actions += 1;
-                    modified = true;
-                } else {
-                    i.action = "combat_script";
-                    i.action_params = "莉奈娅 moveby(0,2500),charge(0.6),click(middle)";
-                    num_replaced_mining_actions += 1;
-                    last_linnea_mining_pos = {
-                        x: i.x,
-                        y: i.y
-                    };
-                    modified = true;
-                }
-            }
-        }
-        if (modified) {
-            log.debug("Patched mining action");
-            json_content = JSON.stringify(json_obj);
-        }
+    if (use_global_mining_action) {
+        // nop
+    } else if (settings.custom_mining_action || mining_character === "诺艾尔") {
+        json_content = modify_script_for_claymores(json_content);
+    } else if (mining_character === linnea_chs_name) {
+        json_content = await modify_script_for_linnea(json_content, linnea_override_config[name] || null);
     }
+
     const cancellation_token = dispatcher.getLinkedCancellationToken();
     const t0 = Date.now();
     forge_pathing_start_log(name);
     await pathingScript.run(json_content);
+    await sleep(1000);
     const elapsed_time = Date.now() - t0;
     forge_pathing_end_log(name, elapsed_time);
     if (!cancellation_token.isCancellationRequested) {
@@ -485,6 +586,7 @@ async function main() {
     load_disabled_paths();
     load_statistics_data();
     load_flaky_end_paths();
+    load_linnea_override_config();
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     // Run an empty pathing script to give BGI a chance to switch team if the user specifies one.
     await pathingScript.runFile("assets/empty_pathing.json");
@@ -496,7 +598,7 @@ async function main() {
     log.debug("Exclude regions: {a}, exclude types: {b}", settings.exclude_regions, settings.exclude_ore_types);
     log.debug("Exclude tags: {a}", get_exclude_tags());
     log.debug("Underwater only: {a}", underwater_only());
-    const preapproved_mining_characters = ["莉奈娅", "诺艾尔"];
+    const preapproved_mining_characters = [linnea_chs_name, "诺艾尔"];
     if (!underwater_only() && !settings.custom_mining_action) {
         const characters = Array.from(getAvatars());
         for (const i of preapproved_mining_characters) {

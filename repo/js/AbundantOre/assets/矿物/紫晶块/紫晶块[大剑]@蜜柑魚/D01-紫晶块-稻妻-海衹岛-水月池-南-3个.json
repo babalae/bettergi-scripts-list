@@ -6,7 +6,7 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.47.0",
+    "bgi_version": "0.52.0",
     "tags": [
       "双手剑"
     ],
@@ -53,7 +53,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": "wait(0.249)"
     },
     {
       "id": 5,
@@ -89,20 +89,10 @@
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 9,
-      "x": -1203.53,
-      "y": -3840.89,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
-    },
-    {
-      "id": 10,
       "x": -1201.96,
       "y": -3844.52,
       "type": "target",
@@ -111,7 +101,7 @@
       "action_params": ""
     },
     {
-      "id": 11,
+      "id": 10,
       "x": -1201.92,
       "y": -3844.61,
       "type": "path",
