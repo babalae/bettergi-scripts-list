@@ -18,6 +18,8 @@ function forge_pathing_end_log(name, elapsed_time) {
     log.debug(c);
 }
 
+const use_global_mining_action = settings.custom_mining_action === "默认" || settings.custom_mining_action === "default";
+
 const linnea_chs_name = "莉奈娅";
 
 const country_name_tag_map = {
@@ -496,8 +498,6 @@ async function run_pathing_script(name, path_state_change, current_states) {
     path_state_change.add ||= [];
     path_state_change.sustain ||= [];
 
-    const use_global_mining_action = settings.custom_mining_action === "默认" || settings.custom_mining_action === "default";
-
     for (const s of path_state_change.require) {
         if (!current_states.has(s)) {
             log.debug("Trying to get {s}", s);
@@ -599,8 +599,12 @@ async function main() {
     log.debug("Exclude tags: {a}", get_exclude_tags());
     log.debug("Underwater only: {a}", underwater_only());
     const preapproved_mining_characters = [linnea_chs_name, "诺艾尔"];
+    const characters = Array.from(getAvatars());
+    if (characters.includes(linnea_chs_name) && (use_global_mining_action || settings.custom_mining_action.includes(linnea_chs_name))) {
+        log.error("{l}挖矿请{no}填写自定义挖矿动作", linnea_chs_name, "勿");
+        return;
+    }
     if (!underwater_only() && !settings.custom_mining_action) {
-        const characters = Array.from(getAvatars());
         for (const i of preapproved_mining_characters) {
             if (characters.includes(i)) {
                 mining_character = i;
