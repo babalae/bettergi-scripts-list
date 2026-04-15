@@ -1,0 +1,62 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "芝麻糊"
+      },
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "9个夏槲果；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762504910299,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "G08-1-挪德卡莱食材-伦波岛-北方训练场东",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9711.2969,
+      "y": 1803.9287
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9715.9902,
+      "y": 1793.0293
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9745.0195,
+      "y": 1794.0591
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9768.14,
+      "y": 1794.2609
+    }
+  ]
+}
