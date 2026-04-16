@@ -1,0 +1,35 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762625771641,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "小小人儿快长大-3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7571.662109375,
+      "y": -1359.19580078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_T),wait(3),keypress(VK_E),wait(0.5)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7562.24609375,
+      "y": -1361.9580078125
+    }
+  ]
+}

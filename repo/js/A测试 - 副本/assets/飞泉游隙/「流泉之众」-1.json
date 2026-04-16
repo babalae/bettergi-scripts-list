@@ -1,0 +1,62 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1761998751578,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "「流泉之众」-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8919.00390625,
+      "y": -2679.111328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8933.802734375,
+      "y": -2706.1767578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3),walk(w,2),wait(3),keypress(F)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8928.2744140625,
+      "y": -2709.671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8934.2158203125,
+      "y": -2704.8125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3),keypress(VK_T),wait(3),click,wait(60)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8931.2197265625,
+      "y": -2709.15625
+    }
+  ]
+}

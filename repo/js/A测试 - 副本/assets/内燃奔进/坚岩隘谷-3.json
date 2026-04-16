@@ -1,0 +1,199 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763311494908,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "坚岩隘谷-3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8179.2470703125,
+      "y": -1868.19482421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8186.9482421875,
+      "y": -1848.82421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8194.3798828125,
+      "y": -1824.197265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8198.40625,
+      "y": -1811.748046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8199.369140625,
+      "y": -1808.798828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8200.0400390625,
+      "y": -1806.787109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "walk(w,2),wait(0.5),keypress(F)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8200.8583984375,
+      "y": -1804.0576171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 8204.6181640625,
+      "y": -1794.0615234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8224.4912109375,
+      "y": -1762.5166015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8236.4423828125,
+      "y": -1680
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "500",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8229.076171875,
+      "y": -1646.5888671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8226.7822265625,
+      "y": -1635.4111328125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "500",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8221.689453125,
+      "y": -1600.3935546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8218.46484375,
+      "y": -1587.8701171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8206.21484375,
+      "y": -1570.7001953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8201.8349609375,
+      "y": -1557.6728515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8197.484375,
+      "y": -1550.5146484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8193.462890625,
+      "y": -1543.2685546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8186.5556640625,
+      "y": -1537.34912109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 20,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8179.2470703125,
+      "y": -1868.19482421875
+    }
+  ]
+}

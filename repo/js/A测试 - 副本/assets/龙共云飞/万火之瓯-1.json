@@ -1,0 +1,152 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1761905792056,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "万火之瓯-1.",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8738.568359375,
+      "y": -1857.18115234375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "200",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8771.158203125,
+      "y": -1907.1337890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8773.9169921875,
+      "y": -1911.36669921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8776.2109375,
+      "y": -1914.908203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8779.84375,
+      "y": -1920.3408203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8782.80078125,
+      "y": -1924.8427734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8784.9287109375,
+      "y": -1928.15185546875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "200",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8836.8134765625,
+      "y": -1905.12890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8848.732421875,
+      "y": -1907.65380859375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "200",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8876.6337890625,
+      "y": -1923.91650390625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "200",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8893.1611328125,
+      "y": -1939.8173828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8905.3623046875,
+      "y": -1953.546875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "200",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8979.26171875,
+      "y": -1952.62353515625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8980.61328125,
+      "y": -1958.494140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9068.9248046875,
+      "y": -2034.30859375
+    }
+  ]
+}

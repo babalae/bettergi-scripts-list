@@ -1,0 +1,92 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1761324472274,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "踞石山-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7796.24609375,
+      "y": -1872.904296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7796.24609375,
+      "y": -1872.8984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7817.310546875,
+      "y": -1906.6982421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7827.330078125,
+      "y": -1916.7119140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(right)",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7827.330078125,
+      "y": -1916.7119140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(right)",
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7827.330078125,
+      "y": -1916.7119140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(F)",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7827.330078125,
+      "y": -1916.7119140625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7827.330078125,
+      "y": -1916.7119140625
+    }
+  ]
+}
