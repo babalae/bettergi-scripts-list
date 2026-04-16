@@ -369,6 +369,7 @@ async function get_inventory() {
 let last_script_end_pos = [null, null];
 let last_script_normal_completion = true;
 let mining_character = null;
+let fallback_claymore_character = null;
 
 function modify_script_for_claymores(json_content) {
     const json_obj = JSON.parse(json_content);
@@ -396,9 +397,16 @@ function modify_script_for_claymores(json_content) {
 
 async function modify_script_for_linnea(json_content, override_config) {
     const linnea_mining_action = `${linnea_chs_name} moveby(0,2500),charge(0.6),click(middle)`;
+    const claymore_mining_actions = {
+        "诺艾尔": "attack(2.0)",
+        "迪希雅": "attack(0.6),mousedown,wait(2.1),mouseup,j",
+        "玛薇卡": "attack(0.20),j,wait(0.5),attack(0.6)",
+    };
+    const fallback_mining_action = fallback_claymore_character ? (fallback_claymore_character + " " + claymore_mining_actions[fallback_claymore_character]) : null;
     let mining_dist_threshold = 7.5;
     const additional_sleep_time_before_teleport = 1.2;
-    let preserve_mining_points = null;
+    let pinned_mining_points = null;
+    let fallback_mining_points = null;
 
     if (override_config) {
         if (override_config.hasOwnProperty("file")) {
@@ -407,87 +415,156 @@ async function modify_script_for_linnea(json_content, override_config) {
         if (override_config.hasOwnProperty("mining_dist_threshold")) {
             mining_dist_threshold = override_config["mining_dist_threshold"];
         }
-        if (override_config.hasOwnProperty("preserve_mining_points")) {
-            preserve_mining_points = override_config["preserve_mining_points"];
+        if (override_config.hasOwnProperty("pinned_mining_points")) {
+            pinned_mining_points = override_config["pinned_mining_points"];
+        }
+        if (override_config.hasOwnProperty("fallback_mining_points") && fallback_mining_action !== null) {
+            fallback_mining_points = override_config["fallback_mining_points"];
         }
     }
 
     const json_obj = JSON.parse(json_content);
-
-    // Skip some mining points
-    if (preserve_mining_points === null) {
-        let last_linnea_mining_pos = null;
+    const path_segments = [];
+    {
+        let segment = [];
+        let mining_counter = 0;
         for (const i of json_obj.positions) {
+            if (i.type === "teleport") {
+                if (segment.length !== 0) {
+                    path_segments.push(segment);
+                    segment = [];
+                }
+            }
+            if (i.action === "mining") {
+                const is_pinned = pinned_mining_points !== null && pinned_mining_points.includes(mining_counter);
+                const is_fallback = fallback_mining_action !== null && fallback_mining_points !== null && fallback_mining_points.includes(mining_counter);
+                i.internal = {
+                    "mining_point_id": mining_counter,
+                    "is_pinned": is_pinned || is_fallback,
+                    "is_fallback": is_fallback,
+                };
+                mining_counter += 1;
+            }
+            segment.push(JSON.parse(JSON.stringify(i)));
+        }
+        if (segment.length !== 0) {
+            path_segments.push(segment);
+            segment = [];
+        }
+    }
+
+    const process_segment = (segment) => {
+        // Drop mining points around the pinned ones
+        const pinned_mining_pos = [];
+        for (const i of segment) {
+            if (i.action === "mining" && i.internal.is_pinned) {
+                pinned_mining_pos.push({
+                    x: i.x,
+                    y: i.y,
+                });
+            }
+        }
+        for (const i of segment) {
+            if (i.action === "mining" && !i.internal.is_pinned) {
+                for (const j of pinned_mining_pos) {
+                    const dist = Math.hypot(i.x - j.x, i.y - j.y);
+                    if (dist < mining_dist_threshold) {
+                        i.type = "path";
+                        i.action = "";
+                        i.action_params = "";
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Skip some mining points
+        let last_linnea_mining_pos = null;
+        for (const i of segment) {
             if (i.action !== "mining") {
                 continue;
             }
-            const dist_from_last_mining_pos = last_linnea_mining_pos === null ? 9999 :
-                Math.hypot(i.x - last_linnea_mining_pos.x, i.y - last_linnea_mining_pos.y);
-            if (dist_from_last_mining_pos < mining_dist_threshold) {
+            if (i.internal.is_pinned) {
+                if (!i.internal.is_fallback) {
+                    last_linnea_mining_pos = {
+                        x: i.x,
+                        y: i.y
+                    };
+                }
+                continue;
+            }
+            const dist = last_linnea_mining_pos === null ? 9999 : Math.hypot(i.x - last_linnea_mining_pos.x, i.y - last_linnea_mining_pos.y);
+            if (dist < mining_dist_threshold) {
                 i.type = "path";
                 i.action = "";
                 i.action_params = "";
             } else {
                 last_linnea_mining_pos = {
                     x: i.x,
-                    y: i.y
+                    y: i.y,
                 };
             }
         }
-    } else {
-        let counter = 0;
-        for (const i of json_obj.positions) {
-            if (i.action === "mining") {
-                if (!preserve_mining_points.includes(counter)) {
-                    i.type = "path";
-                    i.action = "";
-                    i.action_params = "";
+
+        // Skip useless waypoints
+        for (let i = 0; i < segment.length; ++i) {
+            const wi = segment[i];
+            if (wi.action === "mining" && !wi.internal.is_fallback) {
+                let j = i + 1;
+                for (; j < segment.length; ++j) {
+                    const wj = segment[j];
+                    if (wj.type === "path" && wj.action === "" && Math.hypot(wj.x - wi.x, wj.y - wi.y) <= 10 ||
+                        wj.type === "target" && wj.action === "" && Math.hypot(wj.x - wi.x, wj.y - wi.y) <= 10 ||
+                        wj.action === "combat_script" && wj.action_params.match(/^wait\([0-9.]+\)$/g) ||
+                        wj.action === "pick_around") {} else {
+                        break;
+                    }
                 }
-                counter += 1;
+                for (let k = i + 1; k < j; ++k) {
+                    if (!segment[k].internal) {
+                        segment[k].internal = {};
+                    }
+                    segment[k].internal.useless = true;
+                }
             }
         }
-    }
-
-    // Drop useless waypoints
-    const new_positions = [];
-    const stashed_positions = [];
-    let has_mining_since_last_teleport = false;
-    for (const i of json_obj.positions) {
-        if (i.type === "teleport") {
-            if (!has_mining_since_last_teleport) {
-                new_positions.push(...stashed_positions);
-            }
-            stashed_positions.length = 0;
-            stashed_positions.push(i);
-            has_mining_since_last_teleport = false;
-        } else if (i.action === "mining") {
-            new_positions.push(...stashed_positions);
-            new_positions.push(i);
-            stashed_positions.length = 0;
-            has_mining_since_last_teleport = true;
-        } else {
-            stashed_positions.push(i);
-        }
-    }
-
-    // Patch mining actions
-    for (const [id, i] of new_positions.entries()) {
-        if (i.action === "mining") {
-            i.action = "combat_script";
-            i.action_params = linnea_mining_action;
-            if (additional_sleep_time_before_teleport > 0 && (id === new_positions.length - 1 || new_positions[id + 1].type === "teleport")) {
-                i.action_params += `;wait(${additional_sleep_time_before_teleport})`;
+        for (let i = segment.length - 1; i >= 0; --i) {
+            if (segment[i].internal?.useless) {
+                segment.splice(i, 1);
             }
         }
-    }
 
-    // Correct indices
-    for (const [id, i] of new_positions.entries()) {
-        i.id = id + 1;
-    }
-    json_obj.positions = new_positions;
+        // patch mining actions
+        for (const [id, i] of segment.entries()) {
+            if (i.action === "mining") {
+                if (i.internal.is_fallback) {
+                    i.action = "combat_script";
+                    i.action_params = fallback_mining_action;
+                } else {
+                    i.action = "combat_script";
+                    i.action_params = linnea_mining_action;
+                    if (additional_sleep_time_before_teleport > 0.0 && id === segment.length - 1) {
+                        i.action_params += `;wait(${additional_sleep_time_before_teleport})`;
+                    }
+                }
+            }
+        }
 
-    log.debug("Patched mining action");
+    };
+
+    const patched_positions = [];
+    for (const segment of path_segments) {
+        process_segment(segment);
+        for (const i of segment) {
+            const i_copy = JSON.parse(JSON.stringify(i));
+            delete i_copy.internal;
+            i_copy.id = patched_positions.length + 1;
+            patched_positions.push(i_copy);
+        }
+    }
+    json_obj.positions = patched_positions;
+
+    log.debug("Patched mining action for Linnea");
     json_content = JSON.stringify(json_obj);
     return json_content;
 }
@@ -598,13 +675,15 @@ async function main() {
     log.debug("Exclude regions: {a}, exclude types: {b}", settings.exclude_regions, settings.exclude_ore_types);
     log.debug("Exclude tags: {a}", get_exclude_tags());
     log.debug("Underwater only: {a}", underwater_only());
-    const preapproved_mining_characters = [linnea_chs_name, "诺艾尔"];
+
     const characters = Array.from(getAvatars());
     if (characters.includes(linnea_chs_name) && (use_global_mining_action || (settings.custom_mining_action || "").includes(linnea_chs_name))) {
         log.error("{l}挖矿请{no}填写自定义挖矿动作", linnea_chs_name, "勿");
         return;
     }
     if (!underwater_only() && !settings.custom_mining_action) {
+        const preapproved_mining_characters = [linnea_chs_name, "诺艾尔"];
+        const preapproved_fallback_claymore_characters = ["诺艾尔", "玛薇卡", "迪希雅"];
         for (const i of preapproved_mining_characters) {
             if (characters.includes(i)) {
                 mining_character = i;
@@ -614,6 +693,14 @@ async function main() {
         if (mining_character === null) {
             log.error("地面挖矿请带{c}", preapproved_mining_characters.join("或"));
             return;
+        }
+        if (mining_character === linnea_chs_name) {
+            for (const i of preapproved_fallback_claymore_characters) {
+                if (characters.includes(i)) {
+                    fallback_claymore_character = i;
+                    break;
+                }
+            }
         }
     }
 
