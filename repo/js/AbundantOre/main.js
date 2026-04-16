@@ -492,7 +492,7 @@ async function modify_script_for_linnea(json_content, override_config) {
     return json_content;
 }
 
-async function run_pathing_script(name, path_state_change, current_states) {
+async function run_pathing_script(name, tags, path_state_change, current_states) {
     path_state_change ||= {};
     path_state_change.require ||= [];
     path_state_change.add ||= [];
@@ -504,7 +504,7 @@ async function run_pathing_script(name, path_state_change, current_states) {
             for (const [name, data] of Object.entries(statistics)) {
                 const add_states = data.state_change?.add || [];
                 if (add_states.includes(s)) {
-                    await run_pathing_script(name, data.state_change, current_states);
+                    await run_pathing_script(name, data.tags, data.state_change, current_states);
                     break;
                 }
             }
@@ -512,7 +512,7 @@ async function run_pathing_script(name, path_state_change, current_states) {
     }
     log.info("运行 {name}", name);
     let json_content = await file.readText(filename_to_path_map[name]);
-    if (use_global_mining_action) {
+    if (use_global_mining_action || tags.includes("fontaine underwater") || tags.includes("sea of bygone eras underwater")) {
         // nop
     } else if (settings.custom_mining_action || mining_character === "诺艾尔") {
         json_content = modify_script_for_claymores(json_content);
@@ -600,7 +600,7 @@ async function main() {
     log.debug("Underwater only: {a}", underwater_only());
     const preapproved_mining_characters = [linnea_chs_name, "诺艾尔"];
     const characters = Array.from(getAvatars());
-    if (characters.includes(linnea_chs_name) && (use_global_mining_action || settings.custom_mining_action.includes(linnea_chs_name))) {
+    if (characters.includes(linnea_chs_name) && (use_global_mining_action || (settings.custom_mining_action || "").includes(linnea_chs_name))) {
         log.error("{l}挖矿请{no}填写自定义挖矿动作", linnea_chs_name, "勿");
         return;
     }
@@ -703,7 +703,7 @@ async function main() {
         for (const [name, data] of tasks) {
             cached_inventory_data = null;
             try {
-                await run_pathing_script(name, data.state_change, current_states);
+                await run_pathing_script(name, data.tags, data.state_change, current_states);
             } catch (e) {
                 finished = true;
                 break;
