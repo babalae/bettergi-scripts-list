@@ -635,7 +635,7 @@ async function recordForFile(judge) {
 };
 
 /* ---------- 工具函数：计算【下次4点刷新时间】 ---------- */
-function getNextRefreshTime(lastTime) {
+async function getNextRefreshTime(lastTime) {
     const now = new Date();
     // 取“最近一次已过去的 04:00”作为当前刷新周期的起点
     const lastBoundary = new Date(now);
@@ -649,6 +649,7 @@ function getNextRefreshTime(lastTime) {
     return lastTime.getTime() < lastBoundary.getTime()
         ? lastBoundary.getTime()
         : lastBoundary.getTime() + ONE_DAY;
+
 };
 
 // 检查背包龙蛋数目
