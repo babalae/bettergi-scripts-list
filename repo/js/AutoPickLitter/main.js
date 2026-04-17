@@ -492,9 +492,8 @@ async function recordForFile(judge) {
 
         /* ---------- 判断取水时间 ---------- */
         if (settings.water) {
-            const now = Date.now();        // 当前毫秒时间戳
-            const aimWaterTime = new Date(record.lastWaterTime.getTime() + 24 * 60 * 60 * 1000).getTime();
-            /* ---------- 计算下次可取水时间 ---------- */
+            const now = Date.now();
+            const aimWaterTime = getNextRefreshTime(record.lastWaterTime);
             if (aimWaterTime - now > 0) {
                 log.info(`取水时间还未到！！！`);
                 recordsTime.waterTime = false;
@@ -506,9 +505,8 @@ async function recordForFile(judge) {
 
         /* ---------- 判断上香时间 ---------- */
         if (settings.sticks) {
-            const now = Date.now();        // 当前毫秒时间戳
-            const aimSticksTime = new Date(record.lastSticksTime.getTime() + 24 * 60 * 60 * 1000).getTime();
-            /* ---------- 计算下次可上香时间 ---------- */
+            const now = Date.now();
+            const aimSticksTime = getNextRefreshTime(record.lastSticksTime);
             if (aimSticksTime - now > 0) {
                 log.info(`上香时间还未到！！！`);
                 recordsTime.sticksTime = false;
@@ -520,9 +518,8 @@ async function recordForFile(judge) {
 
         /* ---------- 判断抽签时间 ---------- */
         if (settings.lots) {
-            const now = Date.now();        // 当前毫秒时间戳
-            const aimLotsTime = new Date(record.lastLotsTime.getTime() + 24 * 60 * 60 * 1000).getTime();
-            /* ---------- 计算下次可抽签时间 ---------- */
+            const now = Date.now();
+            const aimLotsTime = getNextRefreshTime(record.lastLotsTime);
             if (aimLotsTime - now > 0) {
                 log.info(`抽签时间还未到！！！`);
                 recordsTime.lotsTime = false;
@@ -534,9 +531,8 @@ async function recordForFile(judge) {
 
         /* ---------- 判断拾螺时间 ---------- */
         if (settings.conchs) {
-            const now = Date.now();        // 当前毫秒时间戳
-            const aimConchsTime = new Date(record.lastConchsTime.getTime() + 24 * 60 * 60 * 1000).getTime();
-            /* ---------- 计算下次可拾螺时间 ---------- */
+            const now = Date.now();
+            const aimConchsTime = getNextRefreshTime(record.lastConchsTime);
             if (aimConchsTime - now > 0) {
                 log.info(`拾螺时间还未到！！！`);
                 recordsTime.conchsTime = false;
@@ -548,9 +544,8 @@ async function recordForFile(judge) {
 
         /* ---------- 判断探监时间 ---------- */
         if (settings.meal) {
-            const now = Date.now();        // 当前毫秒时间戳
-            const aimMealTime = new Date(record.lastMealTime.getTime() + 24 * 60 * 60 * 1000).getTime();
-            /* ---------- 计算下次可探监时间 ---------- */
+            const now = Date.now();
+            const aimMealTime = getNextRefreshTime(record.lastMealTime);
             if (aimMealTime - now > 0) {
                 log.info(`探监时间还未到！！！`);
                 recordsTime.mealTime = false;
@@ -562,9 +557,8 @@ async function recordForFile(judge) {
 
         /* ---------- 判断拾蛋时间 ---------- */
         if (settings.eggs) {
-            const now = Date.now();        // 当前毫秒时间戳
-            const aimEggsTime = new Date(record.lastEggsTime.getTime() + 24 * 60 * 60 * 1000).getTime();
-            /* ---------- 计算下次可拾蛋时间 ---------- */
+            const now = Date.now();
+            const aimEggsTime = getNextRefreshTime(record.lastEggsTime);
             if (aimEggsTime - now > 0) {
                 log.info(`拾蛋时间还未到！！！`);
                 recordsTime.eggsTime = false;
@@ -576,9 +570,8 @@ async function recordForFile(judge) {
 
         /* ---------- 判断转盘时间 ---------- */
         if (settings.turntable) {
-            const now = Date.now();        // 当前毫秒时间戳
-            const aimTurntableTime = new Date(record.lastTurntableTime.getTime() + 24 * 60 * 60 * 1000).getTime();
-            /* ---------- 计算下次可转盘时间 ---------- */
+            const now = Date.now();
+            const aimTurntableTime = getNextRefreshTime(record.lastTurntableTime);
             if (aimTurntableTime - now > 0) {
                 log.info(`转盘时间还未到！！！`);
                 recordsTime.turntableTime = false;
@@ -590,9 +583,8 @@ async function recordForFile(judge) {
 
         /* ---------- 判断领菜时间 ---------- */
         if (settings.todayLuck) {
-            const now = Date.now();        // 当前毫秒时间戳
-            const aimTodayLuckTime = new Date(record.lastTodayLuckTime.getTime() + 24 * 60 * 60 * 1000).getTime();
-            /* ---------- 计算下次可领菜时间 ---------- */
+            const now = Date.now();
+            const aimTodayLuckTime = getNextRefreshTime(record.lastTodayLuckTime);
             if (aimTodayLuckTime - now > 0) {
                 log.info(`领菜时间还未到！！！`);
                 recordsTime.todayLuckTime = false;
@@ -604,9 +596,8 @@ async function recordForFile(judge) {
 
         /* ---------- 判断领糖时间 ---------- */
         if (settings.sweetStatue) {
-            const now = Date.now();        // 当前毫秒时间戳
-            const aimSweetStatueTime = new Date(record.lastSweetStatueTime.getTime() + 24 * 60 * 60 * 1000).getTime();
-            /* ---------- 计算下次可领糖时间 ---------- */
+            const now = Date.now();
+            const aimSweetStatueTime = getNextRefreshTime(record.lastSweetStatueTime);
             if (aimSweetStatueTime - now > 0) {
                 log.info(`领糖时间还未到！！！`);
                 recordsTime.sweetStatueTime = false;
@@ -641,6 +632,20 @@ async function recordForFile(judge) {
             log.error(`写入 ${recordFilePath} 失败:`, e);
         };
     };
+};
+
+/* ---------- 工具函数：计算【下次4点刷新时间】 ---------- */
+function getNextRefreshTime(lastTime) {
+    const now = new Date();
+    const today4AM = new Date(now);
+    today4AM.setHours(4, 0, 0, 0); // 今天 04:00
+
+    const lastTimestamp = lastTime.getTime();
+    const fourTimestamp = today4AM.getTime();
+
+    // 上次时间 < 今天4点 → 今天4点可刷新
+    // 上次时间 >= 今天4点 → 明天4点可刷新
+    return lastTimestamp < fourTimestamp ? fourTimestamp : fourTimestamp + 24 * 60 * 60 * 1000;
 };
 
 // 检查背包龙蛋数目
