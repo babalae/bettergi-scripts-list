@@ -274,7 +274,7 @@ async function recordForFile(judge) {
     /* ---------- 文件名合法性校验 ---------- */
     const illegalCharacters = /[\\/:*?"<>|]/;
     const reservedNames = [
-        "CON", "PRN", "AUX", "NUL",
+        "CON"， "PRN", "AUX", "NUL",
         "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
         "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
     ];
@@ -285,7 +285,7 @@ async function recordForFile(judge) {
         accountName.startsWith(" ") ||
         accountName.endsWith(" ") ||
         illegalCharacters.test(accountName) ||
-        reservedNames。includes(accountName.toUpperCase()) ||
+        reservedNames.includes(accountName.toUpperCase()) ||
         accountName.length > 255
     ) {
         log.error(`账户名 "${accountName}" 不合法，将使用默认值`);
@@ -428,7 +428,7 @@ async function recordForFile(judge) {
             if (turntableTime) {
                 const d = new Date(turntableTime);
                 if (!isNaN(d.getTime())) {
-                    record。lastTurntableTime = d;   // 保持 Date 对象
+                    record.lastTurntableTime = d;   // 保持 Date 对象
                 };
             };
 
@@ -485,7 +485,7 @@ async function recordForFile(judge) {
         try {
             const manifest = JSON.parse(await file.readText("manifest.json"));
             record.version = manifest.version;
-            log。info(`当前版本为${record.version}`);
+            log.info(`当前版本为${record.version}`);
         } catch (err) {
             log.error("读取或解析 manifest.json 失败:", err);
         };
