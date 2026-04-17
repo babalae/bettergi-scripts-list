@@ -285,7 +285,7 @@ async function recordForFile(judge) {
         accountName.startsWith(" ") ||
         accountName.endsWith(" ") ||
         illegalCharacters.test(accountName) ||
-        reservedNames.includes(accountName.toUpperCase()) ||
+        reservedNames。includes(accountName.toUpperCase()) ||
         accountName.length > 255
     ) {
         log.error(`账户名 "${accountName}" 不合法，将使用默认值`);
@@ -428,7 +428,7 @@ async function recordForFile(judge) {
             if (turntableTime) {
                 const d = new Date(turntableTime);
                 if (!isNaN(d.getTime())) {
-                    record.lastTurntableTime = d;   // 保持 Date 对象
+                    record。lastTurntableTime = d;   // 保持 Date 对象
                 };
             };
 
@@ -485,7 +485,7 @@ async function recordForFile(judge) {
         try {
             const manifest = JSON.parse(await file.readText("manifest.json"));
             record.version = manifest.version;
-            log.info(`当前版本为${record.version}`);
+            log。info(`当前版本为${record.version}`);
         } catch (err) {
             log.error("读取或解析 manifest.json 失败:", err);
         };
@@ -637,15 +637,18 @@ async function recordForFile(judge) {
 /* ---------- 工具函数：计算【下次4点刷新时间】 ---------- */
 function getNextRefreshTime(lastTime) {
     const now = new Date();
-    const today4AM = new Date(now);
-    today4AM.setHours(4, 0, 0, 0); // 今天 04:00
-
-    const lastTimestamp = lastTime.getTime();
-    const fourTimestamp = today4AM.getTime();
-
-    // 上次时间 < 今天4点 → 今天4点可刷新
-    // 上次时间 >= 今天4点 → 明天4点可刷新
-    return lastTimestamp < fourTimestamp ? fourTimestamp : fourTimestamp + 24 * 60 * 60 * 1000;
+    // 取“最近一次已过去的 04:00”作为当前刷新周期的起点
+    const lastBoundary = new Date(now);
+    lastBoundary.setHours(4, 0, 0, 0);
+    if (now.getTime() < lastBoundary.getTime()) {
+        lastBoundary.setDate(lastBoundary.getDate() - 1);
+    };
+    const ONE_DAY = 24 * 60 * 60 * 1000;
+    // lastTime 在当前周期之前 → 当前周期起点即可刷新（立即可执行）
+    // lastTime 已在当前周期内 → 下次刷新为当前周期起点 + 24h
+    return lastTime.getTime() < lastBoundary.getTime()
+        ? lastBoundary.getTime()
+        : lastBoundary.getTime() + ONE_DAY;
 };
 
 // 检查背包龙蛋数目
