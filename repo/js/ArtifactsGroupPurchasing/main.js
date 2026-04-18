@@ -27,6 +27,7 @@ let expGain;
 let skipRunning = false;
 let crashType = null; // 记录炸车类型
 let rideTime = new Date().toISOString(); // 记录上车时间
+let enteredPlayers = []; // 记录已进入的玩家（全局变量）
 let runnedEnding = false;
 let onlineRecord = {
     lastRunTime: new Date(0).toISOString(),
@@ -139,6 +140,7 @@ let onlineRecord = {
                 };
 
                 Object.assign(autoEnterSettings, permits);
+                enteredPlayers = [];
                 log.info(`等待他人进入自己世界，目标人数：${autoEnterSettings.maxEnterCount}`);
                 notification.send(`等待他人进入自己世界，目标人数：${autoEnterSettings.maxEnterCount}`);
             } else {
@@ -788,7 +790,6 @@ async function autoEnter(autoEnterSettings) {
     // ===== 状态 =====
     let enterCount = 0;
     let targetsRo = [];
-    let enteredPlayers = [];
     let success = false;
 
     // ===== 初始化 =====
@@ -1899,6 +1900,7 @@ async function writeOnlineRecord(isCrash) {
         const record = {
             onlineInfo: correctedOnlineInfo,
             isCrash: isCrash,
+            isHost: isHost,
             endTime: new Date().toISOString()
         };
 
@@ -1954,7 +1956,7 @@ async function handleOnlineRecordAndReonline(isCrash, crashType = null) {
 
     // 检查是否所有运行记录（不含炸车）均未当过房主
     const hasBeenHost = onlineRecord.todayRecords.some(record =>
-        !record.isCrash && record.onlineInfo && !record.onlineInfo.notHost
+        !record.isCrash && record.isHost
     );
     log.info(`今日是否当过房主: ${hasBeenHost}`);
 
@@ -2025,7 +2027,7 @@ async function generateReonlineCommand(onlineInfo = null, isCrash = false, crash
 
         // 如果是炸车
         if (isCrash) {
-            // 情况2：房主超时未等到所有队员到达预期坐标 - 无需报告，直接上线和启动一条龙
+            // 情况2：房主超时未等到所有队员到达预期坐标 - 无需报告，直接上线和启动等待一条龙
             if (crashType === "waitForPlayersArrive") {
                 // 第一个指令：上线
                 commandData["command"] = "online";
@@ -2065,14 +2067,28 @@ async function generateReonlineCommand(onlineInfo = null, isCrash = false, crash
                 let crashInfo = {
                     "crashType": crashType || "超时",
                     "rideTime": rideTime,
-                    "rideMembers": teamMembers
+                    "rideMembers": teamMembers,
+                    "reporter": {
+                        "username": onlineInfo.gameName,
+                        "uid": onlineInfo.uid,
+                        "position": jsonConfig ? jsonConfig.myPosition : "1"
+                    }
                 };
                 if (crashType === "waitForExpectedPlayers") {
                     // 情况1：房主超时未等到预期人数
                     // 说明自己在队伍中编号，成功进入的人如实写，没成功进入的人也如实写
                     crashInfo.myPosition = jsonConfig ? jsonConfig.myPosition : "1";
-                    crashInfo.enteredPlayers = onlineInfo.enteredPlayers || [];
-                    crashInfo.notEnteredPlayers = onlineInfo.notEnteredPlayers || [];
+                    crashInfo.enteredPlayers = enteredPlayers || [];
+                    
+                    // 计算未进入的玩家：从teamMembers中排除自己(房主)和已进入的玩家
+                    const allPlayerNames = teamMembers
+                        .filter(m => m.position !== "1") // 排除房主(位置1)
+                        .map(m => m.username);
+                    const enteredPlayerNames = enteredPlayers || [];
+                    crashInfo.notEnteredPlayers = allPlayerNames.filter(name => !enteredPlayerNames.includes(name));
+                    
+                    log.info(`炸车报告 - 已进入玩家: ${crashInfo.enteredPlayers.join(', ') || '无'}`);
+                    log.info(`炸车报告 - 未进入玩家: ${crashInfo.notEnteredPlayers.join(', ') || '无'}`);
                 } else if (crashType === "waitForPlayersArrive") {
                     // 情况2：房主超时未等到所有队员到达预期坐标
                     // 说明自己在队伍中编号，成功进入的人留空，没成功进入的人写自己
@@ -2115,7 +2131,7 @@ async function generateReonlineCommand(onlineInfo = null, isCrash = false, crash
                 log.info(`添加炸车报告指令`);
             }
         }
-        // 如果不是炸车但settings.waitingOneDragon存在，添加启动一条龙指令
+        // 正常结束且settings.waitingOneDragon存在，上线，启动等待一条龙
         else if (settings.waitingOneDragon) {
             commandData["command"] = "online";
             commandData["params"] = {
@@ -2131,7 +2147,7 @@ async function generateReonlineCommand(onlineInfo = null, isCrash = false, crash
             };
             log.info(`添加启动一条龙指令: ${settings.waitingOneDragon}`);
         }
-        // 正常情况：只上线
+        // 正常结束且settings.waitingOneDragon不存在，只上线
         else {
             commandData["command"] = "online";
             commandData["params"] = {
