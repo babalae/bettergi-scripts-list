@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766672405611,
+    "last_modified_time": 1776449925403,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "512枫丹-歌剧院右下2",
@@ -27,13 +27,13 @@
       "y": 3254.333251953125
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "attack(0.1)",
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 3618.656212474212,
-      "y": 3272.375075789818
+      "x": 3618.25,
+      "y": 3271.2815155056996
     },
     {
       "action": "combat_script",
@@ -46,7 +46,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),w(0.2),keypress(f),wait(0.1),keypress(f);迪希雅 attack(0.08),e;",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.1),keypress(f);迪希雅 attack(0.08),e;",
       "id": 4,
       "move_mode": "dash",
       "type": "path",
