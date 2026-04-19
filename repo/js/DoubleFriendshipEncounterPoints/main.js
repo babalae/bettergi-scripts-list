@@ -196,6 +196,12 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 		const rawNames = settings.appointFriendName.split(',');
 		const friendNames = rawNames.map(name => name.trim()).filter(name => name !== "");
 
+		//没有有效的指定好友名称
+        if (friendNames.length === 0) {
+            log.warn("指定的好友名称为空（如仅逗号或空白），将回退到「依次进入」模式");
+            return false;
+        }
+
 		let enterStatus = false;
 		await sleep(2000);
 		keyPress("VK_ESCAPE");
@@ -268,7 +274,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 				log.warn(`进入好友 [${res.text}] 的尘歌壶失败，尝试下一个指定好友`);
 				log.info(`交互或拾取："无法进入 [${res.text}] 的尘歌壶"`);
 				keyPress("VK_ESCAPE");
-				await sleep(50);
+				await sleep(200);
 
 			}
 
