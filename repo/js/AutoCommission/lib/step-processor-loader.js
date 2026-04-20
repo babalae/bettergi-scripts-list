@@ -43,15 +43,11 @@ var StepProcessorLoader = {
       for (var i = 0; i < stepFiles.length; i++) {
         var fileName = stepFiles[i];
         try {
-          log.info("正在加载步骤处理器: {file}", fileName);
           eval(file.readTextSync("lib/steps/" + fileName));
-          log.debug("步骤处理器 {file} 加载成功", fileName);
         } catch (error) {
           log.error("加载步骤处理器 {file} 失败: {error}", fileName, error.message);
         }
       }
-      
-      log.info("步骤处理器动态加载完成，共注册 {count} 个处理器", Object.keys(this.processors).length);
     } catch (error) {
       log.error("动态扫描步骤处理器目录失败: {error}", error.message);
       log.warn("将使用备用的固定文件列表加载方式");
