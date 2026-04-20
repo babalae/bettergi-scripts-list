@@ -70,6 +70,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 			await ReturnToBigWorld();
 		} else {
 			log.warn("好友列表未能识别出设置的好友名称");
+			log.info(`交互或拾取："无法进入所有指定好友尘歌壶"`);
 			log.info("尝试依次进入");
 			await pageTop(RightSliderTopRo);
 			let enterStatus = await RequestToVisitSereniteaPot(total_clicks);
@@ -191,6 +192,16 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 
 	// 模板匹配&OCR进指定好友尘歌壶
 	async function AppointFriendRequestToVisitSereniteaPot() {
+		// 解析多个好友名称（支持 "aaa,bbb,ccc" 或 "aaa, bbb, ccc"）
+		const rawNames = settings.appointFriendName.split(',');
+		const friendNames = rawNames.map(name => name.trim()).filter(name => name !== "");
+
+		//没有有效的指定好友名称
+        if (friendNames.length === 0) {
+            log.warn("指定的好友名称为空（如仅逗号或空白），将回退到「依次进入」模式");
+            return false;
+        }
+
 		let enterStatus = false;
 		await sleep(2000);
 		keyPress("VK_ESCAPE");
@@ -209,73 +220,73 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 			await sleep(2000);
 		}
 
-		for (let p = 0; p < 5; p++) {
+		// 一頁7個好友、假定200好友位全滿、指定好友在第200位、得翻29次頁面
+		for (let p = 0; p < 29; p++) {
 			// 点击好友头像
 			let captureRegion = captureGameRegion();
 			let resList = captureRegion.findMulti(RecognitionObject.ocr(250, 120, 500, 840));
 			captureRegion.dispose();
 			for (let i = 0; i < resList.count; i++) {
 				let res = resList[i];
-				if (res.text.includes(settings.appointFriendName)) {
-					if (settings.enableDebug) {
-						log.info("指定好友名字位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
-					}
-					click(res.x - 100, res.y + 50);
-					await sleep(1000);
-
-					// 申请造访尘歌壶
-					let captureRegion = captureGameRegion();
-					let resList = captureRegion.findMulti(RecognitionObject.ocr(250, 220, 425, 380));
-					captureRegion.dispose();
-					for (let i = 0; i < resList.count; i++) {
-						let res = resList[i];
-						if (res.text.includes("申请造访") || res.text.includes("visit Serenitea Pot") || res.text.includes("申請造訪")) {
-							if (settings.enableDebug) {
-								log.info("申请造访尘歌壶位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
-							}
-							res.click();
-						}
+				// 检查当前好友名字是否匹配任意一个指定名称
+				let matched = false;
+				for (let name of friendNames) {
+					if (res.text.includes(name)) {
+						matched = true;
+						break;
 					}
 				}
+				if (!matched) continue;
+
+				if (settings.enableDebug) {
+					log.info("指定好友名字位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+				}
+				click(res.x - 100, res.y + 50);
+				await sleep(1000);
+
+				// 申请造访尘歌壶
+				let captureRegion = captureGameRegion();
+				let resList2 = captureRegion.findMulti(RecognitionObject.ocr(250, 220, 425, 380));
+				captureRegion.dispose();
+				for (let i = 0; i < resList2.count; i++) {
+					let res = resList2[i];
+					if (res.text.includes("申请造访") || res.text.includes("visit Serenitea Pot") || res.text.includes("申請造訪")) {
+						if (settings.enableDebug) {
+							log.info("申请造访尘歌壶位置:({x},{y},{w},{h}), 识别内容：{text}", res.x, res.y, res.Width, res.Height, res.text);
+						}
+						res.click();
+						await sleep(200);
+					}
+				}
+
+				// 等待进入尘歌壶（最多等待15秒）
+				for (let wait = 0; wait < 30; wait++) {
+					const roCheck = captureGameRegion();
+					let paimonMenu = roCheck.find(paimonMenuRo);
+					roCheck.dispose();
+					if (paimonMenu.isExist()) {
+						log.info("已进入联机模式");
+						enterStatus = true;
+						return enterStatus;  // 成功进入，直接返回
+					}
+					await sleep(500);
+				}
+				log.warn(`进入好友 [${res.text}] 的尘歌壶失败，尝试下一个指定好友`);
+				log.info(`交互或拾取："无法进入 [${res.text}] 的尘歌壶"`);
+				keyPress("VK_ESCAPE");
+				await sleep(200);
+
 			}
+
 			await sleep(1000);
-			// 翻页继续尝试&模板匹配的方式等待加载
+			// 翻页继续尝试
 			let captureRegion_2 = captureGameRegion();
 			let SliderBottom = captureRegion_2.find(RightSliderBottomRo);
 			captureRegion_2.dispose();
 			if (SliderBottom.isExist()) {
 				await pageDown(RightSliderBottomRo);
 			} else {
-				for (let i = 0; i < 10; i++) {
-					let captureRegion = captureGameRegion();
-					let paimonMenu = captureRegion.Find(paimonMenuRo);
-					let CoOpMode = captureRegion.Find(CoOpModeRo);
-					let MyFriends = captureRegion.Find(MyFriendsRo);
-					captureRegion.dispose();
-					if (CoOpMode.isExist() || MyFriends.isExist()) {
-						log.info("继续申请");
-						break;
-					} else if (paimonMenu.isEmpty() && (CoOpMode.isEmpty() || MyFriends.isEmpty())) {
-						log.info("正在等待加载");
-						await click(960, 540);
-						for (let i = 0; i < 30; i++) {
-							let captureRegion = captureGameRegion();
-							let paimonMenu = captureRegion.Find(paimonMenuRo);
-							captureRegion.dispose();
-							if (paimonMenu.isExist()) {
-								break;
-							}
-							await sleep(1000);
-						}
-					} else if (paimonMenu.isExist()) {
-						log.info("已进入联机模式");
-						enterStatus = true;
-						break;
-					} else {
-						log.warn("出现异常情况，请检查");
-						enterStatus = false;
-					}
-				}
+				// 没有滑块时可能已到末尾，跳出翻页循环
 				break;
 			}
 		}
@@ -518,7 +529,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 	// 向下一页
 	async function pageDown(SliderBottomRo) {
 		let captureRegion = captureGameRegion();
-		let SliderBottom = captureGameRegion().find(SliderBottomRo);
+		let SliderBottom = captureRegion.find(SliderBottomRo);
 		captureRegion.dispose();
 		if (SliderBottom.isExist()) {
 			log.info("当前页面已点击完毕，向下滑动");
