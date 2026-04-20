@@ -529,7 +529,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 	// 向下一页
 	async function pageDown(SliderBottomRo) {
 		let captureRegion = captureGameRegion();
-		let SliderBottom = captureGameRegion().find(SliderBottomRo);
+		let SliderBottom = captureRegion.find(SliderBottomRo);
 		captureRegion.dispose();
 		if (SliderBottom.isExist()) {
 			log.info("当前页面已点击完毕，向下滑动");
