@@ -33,6 +33,7 @@
 ### 0.31
 
 - 优化了莉奈娅挖矿的逻辑
+- 优化了莉奈娅的挖矿动作，special thanks to [@this-Fish](https://github.com/this-Fish)
 
 ### 0.30
 
