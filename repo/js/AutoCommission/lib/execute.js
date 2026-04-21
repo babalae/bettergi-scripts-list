@@ -127,26 +127,9 @@ var Execute = {
           await sleep(300);
           keyUp("VK_ESCAPE");
           await sleep(1200);
-          let scale = 2.0
-          let bigMapPosition
-          while (scale <= 5.0) {
-            try {
-              await genshin.setBigMapZoomLevel(scale);
-              bigMapPosition = genshin.getPositionFromBigMap();
-              break;
-            } catch {
-              scale += 0.1;
-            }
-            await sleep(100);
-          }
-          if (bigMapPosition) {
-            currentCommissionPosition = bigMapPosition;
-            log.info(
-              "当前委托位置: ({x}, {y})",
-              bigMapPosition.x,
-              bigMapPosition.y
-            );
-          }
+          // 使用投票机制获取位置
+          let bigMapPosition = await Utils.getPositionWithVoting(genshin);
+          currentCommissionPosition = bigMapPosition;
 
           await genshin.returnMainUi();
         } else {
