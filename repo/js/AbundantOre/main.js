@@ -396,7 +396,7 @@ function modify_script_for_claymores(json_content) {
 }
 
 async function modify_script_for_linnea(json_content, override_config) {
-    const linnea_mining_action = `${linnea_chs_name} moveby(0,2500),charge(0.6),click(middle)`;
+    const linnea_mining_action = `${linnea_chs_name} moveby(0,2500),wait(0.5),charge(0.6),click(middle)`;
     const claymore_mining_actions = {
         "诺艾尔": "attack(2.0)",
         "迪希雅": "attack(0.6),mousedown,wait(2.1),mouseup,j",
