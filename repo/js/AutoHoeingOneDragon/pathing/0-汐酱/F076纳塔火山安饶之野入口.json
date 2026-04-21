@@ -8,10 +8,10 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时72秒，包含以下怪物：1只冲锋丘丘人、2只射手丘丘人、1只火斧丘丘暴徒、1只丘丘雷兜王。",
+    "description": "  路线信息：该路线预计用时68.01秒，包含以下怪物：1只冲锋丘丘人、2只射手丘丘人、1只火斧丘丘暴徒、1只丘丘雷兜王。",
     "enable_monster_loot_split": false,
     "hash_res": "53011901",
-    "last_modified_time": 1774450944804,
+    "last_modified_time": 1776528522247,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "F076纳塔火山安饶之野入口",
@@ -75,9 +75,10 @@
       "y": -2537.72
     },
     {
-      "action": "fight",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": ";哥伦比娅 e;莉奈娅 e; ;",
       "id": 7,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 9802.22,
@@ -87,10 +88,28 @@
       "action": "fight",
       "action_params": "",
       "id": 8,
-      "move_mode": "jump",
+      "move_mode": "dash",
       "type": "path",
-      "x": 9810.6328125,
-      "y": -2530.2041015625
+      "x": 9802.22,
+      "y": -2540.11
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9802.22,
+      "y": -2540.11
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1);万叶 attack(0.08),e(hold),attack(0.2),wait(1); ;",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9802.22,
+      "y": -2540.11
     }
   ]
 }

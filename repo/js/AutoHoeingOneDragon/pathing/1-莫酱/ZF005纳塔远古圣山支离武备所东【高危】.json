@@ -7,9 +7,9 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时105秒，包含以下怪物：1只秘源机兵·寻捕械、1只深邃拟覆叶。",
+    "description": "  路线信息：该路线预计用时111.64秒，包含以下怪物：1只深邃拟覆叶、1只秘源机兵·寻捕械。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1774334298007,
+    "last_modified_time": 1776787718825,
     "map_match_method": "",
     "map_name": "AncientSacredMountain",
     "name": "ZF005纳塔远古圣山支离武备所东【高危】",
@@ -33,13 +33,22 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
+      "x": -273.297119140625,
+      "y": 533.07666015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
       "x": -252.539794921875,
       "y": 537.5673828125
     },
     {
       "action": "",
       "action_params": "",
-      "id": 3,
+      "id": 4,
       "move_mode": "dash",
       "type": "path",
       "x": -246.627197265625,
@@ -48,20 +57,11 @@
     {
       "action": "",
       "action_params": "",
-      "id": 4,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -227.35546875,
-      "y": 596.9317626953125
-    },
-    {
-      "action": "",
-      "action_params": "",
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": -237.962158203125,
-      "y": 604.8448486328125
+      "x": -230.601806640625,
+      "y": 597.469970703125
     },
     {
       "action": "fight",
@@ -69,35 +69,26 @@
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": -228.539794921875,
-      "y": 618.9637451171875
-    },
-    {
-      "action": "combat_script",
-      "action_params": "attack(0.5)",
-      "id": 7,
-      "move_mode": "dash",
-      "type": "orientation",
-      "x": -228.539794921875,
-      "y": 618.9637451171875
+      "x": -232.251953125,
+      "y": 623.6968994140625
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 8,
+      "id": 7,
       "move_mode": "dash",
       "type": "path",
-      "x": -228.539794921875,
-      "y": 618.9637451171875
+      "x": -232.265869140625,
+      "y": 616.7945556640625
     },
     {
       "action": "combat_script",
-      "action_params": "wait(1)",
-      "id": 9,
+      "action_params": "wait(0.2)",
+      "id": 8,
       "move_mode": "dash",
       "type": "orientation",
-      "x": -228.539794921875,
-      "y": 618.9637451171875
+      "x": -232.265869140625,
+      "y": 616.7945556640625
     }
   ]
 }
