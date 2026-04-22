@@ -8,10 +8,10 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时166秒，包含以下怪物：1只火箭丘丘人、1只冰箭丘丘人、2只火斧丘丘暴徒、1只丘丘岩盔王、1只草丘丘萨满、1只冰深渊法师、2只遗迹猎者。",
+    "description": "  路线信息：该路线预计用时197.22秒，包含以下怪物：1只火箭丘丘人、1只冰箭丘丘人、2只火斧丘丘暴徒、1只丘丘岩盔王、1只草丘丘萨满、1只冰深渊法师、2只遗迹猎者。",
     "enable_monster_loot_split": false,
     "hash_res": "64871388",
-    "last_modified_time": 1774716973689,
+    "last_modified_time": 1776785670871,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B053璃月虎牢山",
@@ -26,8 +26,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1793.55,
-      "y": 716.34
+      "x": 1793.5499999999993,
+      "y": 716.3400000000001
     },
     {
       "action": "",
@@ -35,7 +35,7 @@
       "id": 2,
       "move_mode": "climb",
       "type": "path",
-      "x": 1802.31,
+      "x": 1802.3099999999995,
       "y": 710.75
     },
     {
@@ -44,7 +44,7 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 1820.88,
+      "x": 1820.880000000001,
       "y": 682.25
     },
     {
@@ -62,8 +62,8 @@
       "id": 5,
       "move_mode": "fly",
       "type": "path",
-      "x": 1842.62,
-      "y": 620.87
+      "x": 1842.619999999999,
+      "y": 620.8699999999999
     },
     {
       "action": "fight",
@@ -71,7 +71,7 @@
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 1853.38,
+      "x": 1853.380000000001,
       "y": 596
     },
     {
@@ -80,17 +80,17 @@
       "id": 7,
       "move_mode": "dash",
       "type": "path",
-      "x": 1838.94,
-      "y": 537.72
+      "x": 1838.9400000000005,
+      "y": 537.7200000000003
     },
     {
-      "action": "combat_script",
-      "action_params": "keypress(x);玛薇卡 w(0.2),attack(0.3),e(hold),keydown(w),wait(0.1),keydown(LSHIFT),wait(3.2),keyup(LSHIFT),wait(0.1),dash,wait(0.8),dash,wait(0.8),keyup(w);",
+      "action": "",
+      "action_params": "",
       "id": 8,
       "move_mode": "dash",
-      "type": "orientation",
-      "x": 1827.45,
-      "y": 416.65
+      "type": "path",
+      "x": 1831.583984375,
+      "y": 433.3095703125
     },
     {
       "action": "fight",
@@ -98,90 +98,62 @@
       "id": 9,
       "move_mode": "dash",
       "type": "path",
-      "x": 1827.45,
-      "y": 416.65
+      "x": 1835.41015625,
+      "y": 409.9208984375
     },
     {
       "action": "",
       "action_params": "",
       "id": 10,
-      "move_mode": "climb",
-      "type": "path",
-      "x": 1831.59,
-      "y": 416.59
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(x);玛薇卡 w(0.2),attack(0.3),e(hold),keydown(w),wait(0.1),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9),keypress(VK_SPACE),wait(0.15),keypress(VK_SPACE),wait(0.1),keypress(VK_SPACE),wait(0.01),keypress(VK_SPACE),wait(0.9);",
-      "id": 11,
       "move_mode": "dash",
-      "type": "orientation",
-      "x": 1940.13,
-      "y": 406.59
+      "type": "path",
+      "x": 1914.9375,
+      "y": 411.8112255726419
     },
     {
       "action": "",
       "action_params": "",
-      "id": 12,
+      "id": 11,
       "move_mode": "dash",
       "type": "path",
-      "x": 1940.13,
-      "y": 406.59
+      "x": 1956.4375,
+      "y": 409.8735738550995
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(x);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
-      "id": 13,
+      "action_params": ";伊涅芙 e;莉奈娅 e;芙宁娜 e;玛薇卡 e;爱可菲 e; ;",
+      "id": 12,
       "move_mode": "dash",
       "type": "path",
-      "x": 1965,
-      "y": 404
+      "x": 1985.5625,
+      "y": 439.31210553438905
     },
     {
-      "action": "",
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1997.9697265625,
+      "y": 396.9228515625
+    },
+    {
+      "action": "fight",
       "action_params": "",
       "id": 14,
       "move_mode": "dash",
       "type": "path",
-      "x": 1989.7,
-      "y": 405.54
+      "x": 1997.9697265625,
+      "y": 396.9228515625
     },
     {
-      "action": "fight",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
       "id": 15,
       "move_mode": "dash",
-      "type": "path",
-      "x": 1993.06,
-      "y": 393.25,
-      "locked": false
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 16,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 1993.9423828125,
-      "y": 394.5478515625
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 17,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 1994.75,
-      "y": 416.08
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 18,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 2005.22,
-      "y": 411.84
+      "type": "orientation",
+      "x": 1997.9697265625,
+      "y": 396.9228515625
     }
   ]
 }
