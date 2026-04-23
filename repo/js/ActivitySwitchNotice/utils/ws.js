@@ -49,6 +49,27 @@ let local = {
 }
 
 /**
+ * 构建初始化配置设置函数
+ * 该函数用于初始化WebSocket配置和本地配置信息
+ */
+async function buildInitConfigSettings() {
+    // 初始化WebSocket配置对象
+    configWs = {
+        action: actionMap.get(settings.action), // 从actionMap中获取对应的操作映射
+        group_id: settings.send_id,            // 设置群组ID
+        user_id: settings.send_id,             // 设置用户ID
+        ws_proxy_url: settings.ws_proxy_url,   // 设置WebSocket代理URL
+        ws_url: settings.ws_url,               // 设置WebSocket连接URL
+        ws_token: settings.ws_token,           // 设置WebSocket连接令牌
+        at_list: settings.at_list ? settings.at_list.split(",") : [] // 处理@用户列表，如果存在则按逗号分割，否则为空数组
+    }
+    // 初始化本地配置对象
+    local = {
+        token: null,  // 初始化token为null
+        uid: null,    // 初始化用户ID为null
+    }
+}
+/**
  *
  *
  * 初始化函数
@@ -56,6 +77,7 @@ let local = {
  * 目前函数体为空，可以根据实际需求添加初始化逻辑
  */
 async function init() {
+    await buildInitConfigSettings()
     const uid = await ocrUID()
     local.token = await getToken()
     local.uid = uid

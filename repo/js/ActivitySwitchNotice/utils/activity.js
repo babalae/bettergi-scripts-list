@@ -435,7 +435,24 @@ async function OcrKey(activityName, key = "剩余时间", ocrRegion = ocrRegionC
     }
 }
 
+async function buildInitConfigSettings() {
+    config = {
+        //剩余时间,白名单 启用`和`关系(默认`与`关系)
+        relationship: settings.relationship,
+        whiteActivityNameList: parseWhiteActivity(settings.whiteActivityNameList),
+        activityKey: (settings.activityKey ? settings.activityKey : 'F5'),
+        toTopCount: settingsParseInt(settings.toTopCount, 10),//滑动到顶最大尝试次数
+        scrollPageCount: settingsParseInt(settings.scrollPageCount, 4),//滑动次数/页
+        notifyHoursThreshold: settingsParseInt(settings.notifyHoursThreshold, 8760),//剩余时间阈值(默认 8760小时=365天)
+        // 黑名单活动名称列表，这些活动将被排除在识别和处理之外
+        // 通过 | 分隔多个活动名称，并过滤掉空白项
+        blackActivityMap: parseBlackActivity(settings.blackActivity, parseWhiteActivity(settings.whiteActivityNameList)),
+        // 同时确保黑名单中的活动名称不包含在白名单（whiteActivityNameList）中
+        blackActivityNameList: [],
+    }
+}
 async function init() {
+    await buildInitConfigSettings();
     log.debug(`[init-config]-[{config}]`, JSON.stringify(config));
     let blackActivityMap = config.blackActivityMap
     config.blackActivityNameList = blackActivityMap ? Array.from(blackActivityMap.keys()) : [];
