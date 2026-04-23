@@ -1,6 +1,6 @@
 import {ocrUid} from "../utils/uid";
 
-const config = {
+let config = {
     //setting设置放在这个json
     run: {
         exclude_run_exception: false,//忽略运行异常
@@ -71,7 +71,71 @@ const LoadMap = new Map([
     ['输入加载', LoadType.input],
     ['bgi_tools加载', LoadType.bgi_tools],
 ])
-
+/**
+ * 构建初始化配置设置函数
+ * 该函数用于创建并返回一个包含各种配置项的对象
+ * @returns {Object} 包含所有配置项的对象
+ */
+export async function buildInitConfigSettings(){
+    // 初始化配置对象，包含运行设置、工具配置、信息、用户、路径等
+    config = {
+        //setting设置放在这个json
+        run: {
+            exclude_run_exception: false,//忽略运行异常
+            loop_plan: false,//启用循环体力计划
+            retry_count: 3,//复活重试次数
+            config: '',
+            // load_uid_config: false,
+            loads: [],//加载方式list
+        },
+        bgi_tools: {
+            //授权token
+            token: {
+                name: 'Authorization',
+                value: ''
+            },
+            api: {
+                httpPullJsonConfig: undefined,
+                httpPushAllJsonConfig: undefined,
+                httpPushAllCountryConfig: undefined,
+            },
+            open: {open_push: false}
+        },
+        info: {
+            key: undefined,//密钥
+            manifest: {},
+            settings: undefined
+        },
+        user: {
+            uid: undefined,
+            physical: {
+                min: 20,//最小体力
+                current: 0,//当前体力
+                names: ["原粹树脂", "浓缩树脂", "须臾树脂", "脆弱树脂"]
+            },
+            runTypes: ['秘境', '地脉', '幽境']
+        },
+        //
+        path: {
+            manifest: "manifest.json",
+            domain: "config/domain.json",
+            runConfig: "config/run_config.json",
+            countryList: "config/countryList.json"
+        },
+        //所有秘境信息
+        domainList: [],
+        //所有秘境名称
+        domainNames: new Set(),
+        //物品名称(只记录顶级的名称->金色物品名称)
+        itemNames: new Set(),
+        //秘境名称映射物品列表
+        domainMap: new Map(),
+        //秘境名称映射秘境列表顺序
+        domainOrderMap: new Map(),
+        //物品名称映射秘境名称
+        domainItemsMap: new Map(),
+    }
+}
 /**
  * 初始化设置函数
  * 从配置文件中读取设置信息并返回
