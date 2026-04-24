@@ -13,7 +13,7 @@
  * @returns
  * - RecognitionResult | null
  */
-async function findTextAndClick(
+export async function findTextAndClick(
     text,
     x = 0,
     y = 0,
@@ -59,7 +59,7 @@ async function findTextAndClick(
  * @param {boolean} [calibrationGameRefreshTime=true] 是否进行游戏刷新时间校准
  * @returns {Object} 返回包含星期数字和星期名称的对象
  */
-async function getDayOfWeek(calibrationGameRefreshTime = true) {
+export async function getDayOfWeek(calibrationGameRefreshTime = true) {
     // 获取当前日期对象
     let today = new Date();//4点刷新 所以要减去4小时
     if (calibrationGameRefreshTime) {
@@ -79,4 +79,35 @@ async function getDayOfWeek(calibrationGameRefreshTime = true) {
         dayOfWeek: weekDay
     }
 }
-export { findTextAndClick,getDayOfWeek}
+
+// 判断是否在主界面的函数
+export const isInMainUI = () => {
+    let captureRegion = captureGameRegion();
+    let res = captureRegion.Find(RecognitionObject.TemplateMatch(
+        file.ReadImageMatSync("assets/paimon_menu.png"),
+        0,
+        0,
+        640,
+        216
+    ));
+    captureRegion.dispose();
+    return !res.isEmpty();
+};
+
+export async function toMainUi() {
+    let ms = 300
+    let index = 1
+    await sleep(ms);
+    while (!isInMainUI()) {
+        await sleep(ms);
+        await genshin.returnMainUi(); // 如果未启用，则返回游戏主界面
+        await sleep(ms);
+        if (index > 3) {
+            throw new Error(`多次尝试返回主界面失败`);
+        }
+        index += 1
+    }
+}
+
+
+

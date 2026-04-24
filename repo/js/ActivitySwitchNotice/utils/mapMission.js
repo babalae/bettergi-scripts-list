@@ -12,7 +12,7 @@ const ocrRegionConfig = {
  * @param {Object} [regionConfig=ocrRegionConfig.mapMission] - OCR识别区域配置对象，包含x、y、width、height属性
  * @returns {Promise<Array<Object>>} 返回识别结果数组，每个元素包含ok(boolean)和text(string)属性
  */
-async function ocrMapMission(missionNameList = [], regionConfig = ocrRegionConfig.mapMission) {
+export async function ocrMapMission(missionNameList = [], regionConfig = ocrRegionConfig.mapMission) {
     let jsonList = [];
     let region = null;
 
@@ -69,13 +69,13 @@ async function ocrMapMission(missionNameList = [], regionConfig = ocrRegionConfi
 
 //伴月纪闻任务待完成
 // 通过地图识别任务
-async function openMap() {
+export async function openMap() {
     const key = settings.mapKey || 'M'
     await sleep(200)
     await keyPress(key)
 }
 
-async function mapMission(list = [], toOpenMap = true) {
+export async function mapMission(list = [], toOpenMap = true) {
     let ms = 600
     if (toOpenMap) {
         await openMap();
@@ -95,14 +95,9 @@ async function mapMission(list = [], toOpenMap = true) {
     await sendText(text, `UID:${uid}\n地图任务`)
 }
 
-// this.mapUtil = {
+
+// export {
 //     mapMission,
 //     ocrMapMission,
 //     openMap,
 // }
-
-export {
-    mapMission,
-    ocrMapMission,
-    openMap,
-}

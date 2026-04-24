@@ -35,7 +35,7 @@ const xyConfig = {
  * @param {Object} ocrRegion - OCR识别区域配置，默认为ocrRegionConfig.dailyCommission
  * @returns {Object} 返回包含每日委托和体力使用情况的对象
  */
-async function ocrDailyCommission(ocrRegion = ocrRegionConfig.dailyCommission) {
+export async function ocrDailyCommission(ocrRegion = ocrRegionConfig.dailyCommission) {
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
     try {
         const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
@@ -74,7 +74,7 @@ async function ocrDailyCommission(ocrRegion = ocrRegionConfig.dailyCommission) {
  * @returns {Object} 返回包含周计数信息的JSON对象，包含text、total和count属性
  * @throws {Error} 当OCR识别失败时抛出错误
  */
-async function ocrWeeklyCount(ocrRegion = ocrRegionConfig.weeklyCount) {
+export async function ocrWeeklyCount(ocrRegion = ocrRegionConfig.weeklyCount) {
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
     try {
         const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
@@ -104,37 +104,12 @@ async function ocrWeeklyCount(ocrRegion = ocrRegionConfig.weeklyCount) {
     }
 }
 
-// /**
-//  * 获取当前日期的星期信息
-//  * @param {boolean} [calibrationGameRefreshTime=true] 是否进行游戏刷新时间校准
-//  * @returns {Object} 返回包含星期数字和星期名称的对象
-//  */
-// async function getDayOfWeek(calibrationGameRefreshTime = true) {
-//     // 获取当前日期对象
-//     let today = new Date();//4点刷新 所以要减去4小时
-//     if (calibrationGameRefreshTime) {
-//         today.setHours(today.getHours() - 4); // 减去 4 小
-//     }
-//     // 获取当前日期是星期几（0代表星期日，1代表星期一，以此类推）
-//     const day = today.getDay();
-//     // 创建包含星期名称的数组
-//     const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-//     let weekDay = `${weekDays[day]}`;
-//
-//     log.debug(`今天是[{day}]`, day)
-//     log.debug(`今天是[{weekDays}]`, weekDay)
-//     // 返回包含星期数字和对应星期名称的对象
-//     return {
-//         day: day,
-//         dayOfWeek: weekDay
-//     }
-// }
 
 /**
  * 执行秘境征讨剩余次数提醒的主函数
  * 该函数会在每周日执行，检查秘境征讨的剩余次数并发送提醒
  */
-async function campaignAreaMain(openKey = true) {
+export async function campaignAreaMain(openKey = true) {
     // 获取当前星期信息
     let dayOfWeek = await getDayOfWeek();
     // 如果不是周日(0代表周日)，则直接返回
@@ -184,7 +159,7 @@ async function campaignAreaMain(openKey = true) {
  * @param {boolean} openKey - 是否开启热键功能，默认为true
  * @returns {Promise<void>}
  */
-async function dailyCommissionMain(openKey = true) {
+export async function dailyCommissionMain(openKey = true) {
     // 获取当前星期信息
     let dayOfWeek = await getDayOfWeek();
     // 如果不是周日(0代表周日)，
@@ -213,12 +188,7 @@ async function dailyCommissionMain(openKey = true) {
     }
 }
 
-// this.campaignAreaUtil = {
+// export {
 //     campaignAreaMain,
 //     dailyCommissionMain,
 // }
-
-export {
-    campaignAreaMain,
-    dailyCommissionMain,
-}

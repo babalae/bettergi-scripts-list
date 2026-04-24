@@ -4,6 +4,7 @@ let configSettings = undefined
 import {mapMission} from "./utils/mapMission"
 import {dailyCommissionMain,campaignAreaMain} from "./utils/campaignArea"
 import {activityMain} from "./utils/activity"
+import {toMainUi,isInMainUI} from "./utils/tool"
 /**
  * 初始化设置函数
  * 从配置文件中读取设置信息并返回
@@ -103,35 +104,6 @@ async function init() {
     // manifest = JSON.parse(file.readTextSync("manifest.json"));
     await initSettings();
     log.debug("main 初始化完成");
-}
-
-// 判断是否在主界面的函数
-const isInMainUI = () => {
-    let captureRegion = captureGameRegion();
-    let res = captureRegion.Find(RecognitionObject.TemplateMatch(
-        file.ReadImageMatSync("assets/paimon_menu.png"),
-        0,
-        0,
-        640,
-        216
-    ));
-    captureRegion.dispose();
-    return !res.isEmpty();
-};
-
-async function toMainUi() {
-    let ms = 300
-    let index = 1
-    await sleep(ms);
-    while (!isInMainUI()) {
-        await sleep(ms);
-        await genshin.returnMainUi(); // 如果未启用，则返回游戏主界面
-        await sleep(ms);
-        if (index > 3) {
-            throw new Error(`多次尝试返回主界面失败`);
-        }
-        index += 1
-    }
 }
 
 (async function () {
