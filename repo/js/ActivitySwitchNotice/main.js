@@ -1,3 +1,5 @@
+import {checkHolyRelicsKey} from "./utils/HolyRelics";
+
 let manifest = {};
 let manifest_json = "manifest.json";
 let configSettings = undefined
@@ -127,6 +129,22 @@ async function main() {
             log.info(`开始识别地图任务`)
             await mapMission(mapList)
         } finally {
+            await toMainUi()
+        }
+    }
+
+    const checkHolyRelic=settings.checkHolyRelic||false
+    if (checkHolyRelic) {
+        const holyRelicsDiffCount= settings.holyRelicsDiffCountThreshold
+        let threshold=400
+        try {
+            threshold=parseInt(holyRelicsDiffCount.replace(/[^0-9]/g, '').trim())
+        }catch (e) {
+            log.warn(`圣遗物剩余空间阈值格式错误，默认 400`)
+        }
+        try {
+            await checkHolyRelicsKey(threshold)
+        }finally {
             await toMainUi()
         }
     }
