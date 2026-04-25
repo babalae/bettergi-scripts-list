@@ -267,7 +267,7 @@ async function main() {
     await switchPartyIfNeeded(settings.partyName);
     retry = 0;
     // 任务循环
-    while (!finished) {
+    task: while (!finished) {
         // 重新登陆，刷新任务
         await genshin.relogin();
         // 检测“动物密友”任务是否触发，若未触发则重新登陆触发
@@ -287,7 +287,7 @@ async function main() {
         const checkFeedPromise = checkFeed();
         // 返回前判断任务是否已完成，减少时间
         for (let index = 0; index < 10; index++) {
-            if (finished) { break; }
+            if (finished) { break task; }
             await sleep(10);
         }
         // 返回甜甜花
