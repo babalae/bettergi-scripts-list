@@ -1,4 +1,3 @@
-
 // 全局变量
 // 标记任务是否结束
 let finished = false;
@@ -197,6 +196,7 @@ async function feedDog() {
     let retry;
 
     retry = 0;
+    await sleep(200); // 等待角色站稳，避免二次调整位置
     do {
         gameRegion = captureGameRegion();
         result = gameRegion.find(feedRo);
