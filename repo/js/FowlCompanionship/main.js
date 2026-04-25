@@ -2,8 +2,6 @@
 // 全局变量
 // 标记任务是否结束
 let finished = false;
-// 单次任务中是否已经完成投喂动作
-let dogfed = false;
 // 投喂次数
 let feedCount = 0;
 
@@ -39,11 +37,13 @@ const zeroFowlRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync('assets
 const moraRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync('assets/摩拉.png'), 61, 500, 300, 300);
 
 // 监测是否联机，若联机则退出联机状态
-async function isCoOpMode() {
+async function ensureSinglePlayerMode() {
     let gameRegion;
+    let result;
+    let exists;
 
     gameRegion = captureGameRegion();
-    let result = gameRegion.find(coOpModeRo);
+    result = gameRegion.find(coOpModeRo);
     gameRegion.dispose();
     exists = result.isExist();
     result.dispose();
@@ -140,7 +140,7 @@ async function randomEventTriggered() {
     return false;
 }
 
-// 判断是否投喂成功
+// 判断投喂后是否完成事件
 async function finishedEvent() {
     let index;
     let gameRegion;
@@ -194,15 +194,22 @@ async function feedDog() {
     let gameRegion;
     let result;
     let exists;
+    let retry;
 
+    retry = 0;
     do {
         gameRegion = captureGameRegion();
         result = gameRegion.find(feedRo);
         gameRegion.dispose();
         exists = result.isExist();
         result.dispose();
-        if (!exists) { await pathingScript.runFile("pathing/禽肉好感_狗盆点位.json"); }
-        else { keyPress("F"); }
+        if (!exists) {
+            if (++retry > 5) {
+                log.error("多次尝试仍未识别到“投喂”，结束任务");
+                return false;
+            }
+            await pathingScript.runFile("pathing/禽肉好感_狗盆点位.json");
+        } else { keyPress("F"); }
     } while (!exists);
 
     await sleep(1000);
@@ -217,18 +224,19 @@ async function feedDog() {
             keyPress("Escape");
             await sleep(1000);
             await genshin.returnMainUi();
-            if (result.isExist()) {
-                log.error("禽肉数量为0，无法完成任务");
-                finished = true;
-            }
+            if (result.isExist()) { log.error("禽肉数量为0，无法完成任务"); }
             return false;
         }
     } finally {
         result.dispose();
         gameRegion.dispose();
-        dogfed = true;
     }
 
+    return true;
+}
+
+// 检查“投喂”的结果
+async function checkFeed() {
     if (await finishedEvent()) {
         feedCount++;
         log.info("投喂成功");
@@ -245,33 +253,46 @@ async function feedDog() {
 }
 
 async function main() {
+    let retry;
+
     // 等待返回主界面
     await genshin.returnMainUi();
     // 强制传送，避免在奇奇怪怪的地方，例如“银月之庭”
     await genshin.tp(-4492, -3208, "Teyvat", true);
     // 判断是否为联机模式，通过模拟点击回到单人模式
-    while (!(await isCoOpMode())) { await sleep(500); }
+    while (!(await ensureSinglePlayerMode())) { await sleep(500); }
     // 移动到任务刷新点
     await pathingScript.runFile("pathing/禽肉好感_初始化.json");
     // 判断是否设置了好感队，切换队伍
     await switchPartyIfNeeded(settings.partyName);
+    retry = 0;
     // 任务循环
     while (!finished) {
         // 重新登陆，刷新任务
         await genshin.relogin();
         // 检测“动物密友”任务是否触发，若未触发则重新登陆触发
-        if (!(await randomEventTriggered())) { continue; }
+        if (!(await randomEventTriggered())) {
+            if (++retry > 5) {
+                log.error("多次尝试触发突发事件失败，结束任务");
+                break;
+            }
+            await pathingScript.runFile("pathing/禽肉好感_甜甜花点位.json");
+            continue;
+        } else { retry = 0; }
         // 前往狗盆
         await pathingScript.runFile("pathing/禽肉好感_喂狗.json");
-        // // 异步执行喂狗
-        feedDog();
-        // 等待投喂动作结束
-        while (!dogfed) { await sleep(100); }
-        dogfed = false;
+        // 等待投喂
+        if (!(await feedDog())) { break; }
+        // 异步检查投喂结果
+        const checkFeedPromise = checkFeed();
         // 返回前判断任务是否已完成，减少时间
-        if (finished) { break; }
+        for (let index = 0; index < 10; index++) {
+            if (finished) { break; }
+            await sleep(10);
+        }
         // 返回甜甜花
         await pathingScript.runFile("pathing/禽肉好感_返回.json");
+        await checkFeedPromise;
     }
     log.info("好感任务结束");
 }
