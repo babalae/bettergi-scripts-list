@@ -266,6 +266,7 @@ async function main() {
     // 判断是否设置了好感队，切换队伍
     await switchPartyIfNeeded(settings.partyName);
     retry = 0;
+    const startTime = Date.now();
     // 任务循环
     task: while (!finished) {
         // 重新登陆，刷新任务
@@ -292,6 +293,13 @@ async function main() {
         }
         // 返回甜甜花
         await pathingScript.runFile("pathing/禽肉好感_返回.json");
+        // 计算剩余时间
+        if (feedCount > 0) {
+            const remainingTime = (Date.now() - startTime) / feedCount * (10 - feedCount) / 1000;
+            const remainingMinutes = Math.floor(remainingTime / 60);
+            const remainingSeconds = remainingTime % 60;
+            log.info(`当前进度：第 ${feedCount}/10 次已完成，预计剩余时间：${remainingMinutes} 分 ${remainingSeconds.toFixed(0)} 秒`);
+        }
         await checkFeedPromise;
     }
     log.info("好感任务结束");
