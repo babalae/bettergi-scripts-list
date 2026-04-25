@@ -1,3 +1,4 @@
+/*
 const commonPath = 'assets/'
 const commonMap = new Map([
     ['main_ui', {
@@ -11,16 +12,17 @@ const genshinJson = {
     height: 1080,//genshin.height,
 }
 
-/**
+/!**
  * 根据键值获取JSON路径
  * @param {string} key - 要查找的键值
  * @returns {any} 返回与键值对应的JSON路径值
- */
+ *!/
 function getJsonPath(key) {
     return commonMap.get(key); // 通过commonMap的get方法获取指定键对应的值
 }
-
-function saveOnlyNumber(str) {
+*/
+import {toMainUi,isInMainUI} from "./tool"
+export function saveOnlyNumber(str) {
     str = str ? str : '';
     // 使用正则表达式匹配字符串中的所有数字
     // \d+ 匹配一个或多个数字
@@ -29,7 +31,7 @@ function saveOnlyNumber(str) {
     return parseInt(str.match(/\d+/g).join(''));
 }
 
-async function ocrUID() {
+export async function ocrUID() {
     let uid_json = {
         x: 1683,
         y: 1051,
@@ -57,41 +59,7 @@ async function ocrUID() {
     }
 }
 
-// 判断是否在主界面的函数
-const isInMainUI = () => {
-    // let name = '主界面'
-    let main_ui = getJsonPath('main_ui');
-    // 定义识别对象
-    let paimonMenuRo = RecognitionObject.TemplateMatch(
-        file.ReadImageMatSync(`${main_ui.path}${main_ui.name}${main_ui.type}`),
-        0,
-        0,
-        genshinJson.width / 3.0,
-        genshinJson.width / 5.0
-    );
-    let captureRegion = captureGameRegion();
-    let res = captureRegion.find(paimonMenuRo);
-    captureRegion.Dispose()
-    return !res.isEmpty();
-};
-
-async function toMainUi() {
-    let ms = 1000
-    let index = 1
-    await sleep(ms);
-    while (!isInMainUI()) {
-        await sleep(ms);
-        await genshin.returnMainUi(); // 如果未启用，则返回游戏主界面
-        await sleep(ms);
-        if (index > 3) {
-            throw new Error(`多次尝试返回主界面失败`);
-        }
-        index += 1
-    }
-
-}
-
-async function compareUid(UID = settings.uid) {
+export async function compareUid(UID = settings.uid) {
     let uid = await ocrUID()
     let setUid = 0
     try {
@@ -106,7 +74,7 @@ async function compareUid(UID = settings.uid) {
     return compare
 }
 
-async function checkUid() {
+export async function checkUid() {
     let reJson = {
         inMainUI: false,
         isUid: false
@@ -117,7 +85,7 @@ async function checkUid() {
     return reJson
 }
 
-async function check() {
+export async function check() {
     let check = false
     if (settings.uid) {
         try {
@@ -135,19 +103,12 @@ async function check() {
     return check
 }
 
-// this.uidUtil = {
-//     toMainUi,
-//     isInMainUI,
+
+// export {
+//     // toMainUi,
+//     // isInMainUI,
 //     checkUid,
 //     ocrUID,
 //     check,
 //     compareUid,
 // }
-export {
-    toMainUi,
-    isInMainUI,
-    checkUid,
-    ocrUID,
-    check,
-    compareUid,
-}

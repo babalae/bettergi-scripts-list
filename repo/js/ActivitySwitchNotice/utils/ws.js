@@ -164,7 +164,7 @@ export async function pullAccessWsProxyConfig(uid, http_api) {
  * @param {Array} atList - @用户列表
  * @returns {Promise<void>} 无返回值
  */
-async function send(wsProxyUrl, wsUrl, wsToken, action, group_id, user_id, textList, atList) {
+export async function send(wsProxyUrl, wsUrl, wsToken, action, group_id, user_id, textList, atList) {
     const uid = local.uid
     // 构建基础JSON对象
     let json = {
@@ -239,7 +239,7 @@ async function send(wsProxyUrl, wsUrl, wsToken, action, group_id, user_id, textL
     }
 }
 
-async function sendText(text) {
+export async function sendText(text) {
     await init();
     let action = configWs.action;
     let group_id = configWs.group_id;
@@ -253,11 +253,7 @@ async function sendText(text) {
     await send(wsProxyUrl, wsUrl, ws_token, action, group_id, user_id, textList, atList)
 }
 
-// this.wsUtil = {
+// export {
 //     send,
 //     sendText
 // }
-export {
-    send,
-    sendText
-}

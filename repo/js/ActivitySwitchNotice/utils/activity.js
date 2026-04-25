@@ -464,7 +464,7 @@ async function init() {
 /**
  * 活动主函数：扫描所有活动页面，识别剩余时间，最后统一发送通知
  */
- async function activityMain(newActivityNotice = true) {
+export async function activityMain(newActivityNotice = true) {
     await init();
     const ms = 1000;
     await sleep(ms);
@@ -781,9 +781,4 @@ async function init() {
     }
 }
 
-// this.activityUtil = {
-//     // config,
-//     activityMain,
-//     // OcrRemainingTime,
-// }
-export {activityMain}
+// export {activityMain}
