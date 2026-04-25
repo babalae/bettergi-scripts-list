@@ -1,9 +1,12 @@
+import {checkHolyRelicsKey} from "./utils/HolyRelics";
+
 let manifest = {};
 let manifest_json = "manifest.json";
 let configSettings = undefined
 import {mapMission} from "./utils/mapMission"
 import {dailyCommissionMain,campaignAreaMain} from "./utils/campaignArea"
 import {activityMain} from "./utils/activity"
+import {toMainUi,isInMainUI} from "./utils/tool"
 /**
  * 初始化设置函数
  * 从配置文件中读取设置信息并返回
@@ -105,35 +108,6 @@ async function init() {
     log.debug("main 初始化完成");
 }
 
-// 判断是否在主界面的函数
-const isInMainUI = () => {
-    let captureRegion = captureGameRegion();
-    let res = captureRegion.Find(RecognitionObject.TemplateMatch(
-        file.ReadImageMatSync("assets/paimon_menu.png"),
-        0,
-        0,
-        640,
-        216
-    ));
-    captureRegion.dispose();
-    return !res.isEmpty();
-};
-
-async function toMainUi() {
-    let ms = 300
-    let index = 1
-    await sleep(ms);
-    while (!isInMainUI()) {
-        await sleep(ms);
-        await genshin.returnMainUi(); // 如果未启用，则返回游戏主界面
-        await sleep(ms);
-        if (index > 3) {
-            throw new Error(`多次尝试返回主界面失败`);
-        }
-        index += 1
-    }
-}
-
 (async function () {
     await init();
     if (settings.toMainUi) {
@@ -155,6 +129,28 @@ async function main() {
             log.info(`开始识别地图任务`)
             await mapMission(mapList)
         } finally {
+            await toMainUi()
+        }
+    }
+
+    const checkHolyRelic=settings.checkHolyRelic||false
+    if (checkHolyRelic) {
+        const DEFAULT_THRESHOLD = 400
+        const raw = settings.holyRelicsDiffCountThreshold
+        let threshold = DEFAULT_THRESHOLD
+        try {
+            const digits = ('' + (raw ?? '')).replace(/[^0-9]/g, '').trim()
+            const parsed = digits ? parseInt(digits, 10) : NaN
+            threshold = Number.isFinite(parsed) && parsed > 0 ? parsed : DEFAULT_THRESHOLD
+            if (!Number.isFinite(parsed)) {
+                log.warn(`圣遗物剩余空间阈值格式错误，默认 ${DEFAULT_THRESHOLD}`)
+            }
+        } catch (e) {
+            log.warn(`圣遗物剩余空间阈值解析异常，默认 ${DEFAULT_THRESHOLD}: ${e.message}`)
+        }
+        try {
+            await checkHolyRelicsKey(threshold)
+        }finally {
             await toMainUi()
         }
     }

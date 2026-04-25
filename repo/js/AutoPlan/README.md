@@ -267,12 +267,13 @@
 ]
 ```
 
-### 如果你不想研究语法 请部署[bettergi-scripts-tools](https://github.com/Kirito520Asuna/bettergi-scripts-tools)(点击前往部署) v0.0.4以上版本
+### 如果你不想研究语法 请部署[bettergi-scripts-tools](https://github.com/Kirito520Asuna/bettergi-scripts-tools)(点击前往部署) v0.0.4以上版本(建议使用v0.0.8+)
 
 ***`话不多说直接上图:`***
 
 ![login](md/bgi-tools-login.jpg)
 ![init](md/bgi-tools-config-ui-init.jpg)
+![init-api](md/bgi-tools-config-ui-init-api.jpg)
 ![config](md/bgi-tools-config-ui.jpg)
 ![config-01](md/bgi-tools-config-ui-01.jpg)
 ![config-02](md/bgi-tools-config-ui-02.jpg)

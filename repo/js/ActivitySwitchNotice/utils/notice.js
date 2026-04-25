@@ -11,10 +11,14 @@ const NoticeMap = new Map([
     ['独立通知', [{type: NoticeType.independence}]],
     ['独立通知和BGI通知', [{type: NoticeType.independence}, {type: NoticeType.bgi}]],
 ])
-const configNotice = {
+let configNotice = {
     noticeList: NoticeMap.get(settings.noticeType),
 }
-
+async function buildConfigNotice() {
+    configNotice = {
+        noticeList: NoticeMap.get(settings.noticeType),
+    }
+}
 /**
  * 发送通知的异步函数
  * @param {Map} map - 包含通知内容键值对的Map对象
@@ -23,7 +27,7 @@ const configNotice = {
  */
 async function sendNotice(map = new Map(), title, noNotice = false) {
     log.debug(`sendNotice: map.size=${map.size}, noNotice=${noNotice}`);
-
+    await buildConfigNotice()
     // 如果设置了不发送通知且map为空，则记录日志并返回
     if ((map.size <= 0) || noNotice) {
         log.debug(`if sendNotice: map.size=${map.size}, noNotice=${noNotice}`);
@@ -67,6 +71,7 @@ async function sendText(noticeText, title, noNotice = false) {
         log.info(`sendText 无通知内容`)  // 记录日志信息
         return  // 直接返回，不执行后续操作
     }
+    await buildConfigNotice()
     // 构建通知文本，如果有标题则先添加标题
     let text = title ? title + "\n======\n" : "\n"
     // 添加通知内容
