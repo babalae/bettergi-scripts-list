@@ -135,12 +135,18 @@ async function main() {
 
     const checkHolyRelic=settings.checkHolyRelic||false
     if (checkHolyRelic) {
-        const holyRelicsDiffCount= settings.holyRelicsDiffCountThreshold
-        let threshold=400
+        const DEFAULT_THRESHOLD = 400
+        const raw = settings.holyRelicsDiffCountThreshold
+        let threshold = DEFAULT_THRESHOLD
         try {
-            threshold=parseInt(holyRelicsDiffCount.replace(/[^0-9]/g, '').trim())
-        }catch (e) {
-            log.warn(`圣遗物剩余空间阈值格式错误，默认 400`)
+            const digits = ('' + (raw ?? '')).replace(/[^0-9]/g, '').trim()
+            const parsed = digits ? parseInt(digits, 10) : NaN
+            threshold = Number.isFinite(parsed) && parsed > 0 ? parsed : DEFAULT_THRESHOLD
+            if (!Number.isFinite(parsed)) {
+                log.warn(`圣遗物剩余空间阈值格式错误，默认 ${DEFAULT_THRESHOLD}`)
+            }
+        } catch (e) {
+            log.warn(`圣遗物剩余空间阈值解析异常，默认 ${DEFAULT_THRESHOLD}: ${e.message}`)
         }
         try {
             await checkHolyRelicsKey(threshold)

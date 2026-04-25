@@ -299,15 +299,21 @@ export async function getDayOfWeek(calibrationGameRefreshTime = true) {
 // 判断是否在主界面的函数
 export const isInMainUI = () => {
     let captureRegion = captureGameRegion();
-    let res = captureRegion.Find(RecognitionObject.TemplateMatch(
-        file.ReadImageMatSync("assets/paimon_menu.png"),
-        0,
-        0,
-        640,
-        216
-    ));
-    captureRegion.dispose();
-    return !res.isEmpty();
+
+    try {
+        const res = captureRegion.Find(RecognitionObject.TemplateMatch(
+            file.ReadImageMatSync("assets/paimon_menu.png"),
+            0,
+            0,
+            640,
+            216
+        ));
+        return !res.isEmpty();
+    } finally {
+        if (captureRegion) {
+            captureRegion.dispose();
+        }
+    }
 };
 
 export async function toMainUi() {
