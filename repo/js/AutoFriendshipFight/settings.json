@@ -59,5 +59,11 @@
     "type": "input-text",
     "label": "战斗超时时间\n【选填，默认为120秒】",
     "default": 120
+  },
+  {
+    "name": "swimConsecutiveLimit",
+    "type": "input-text",
+    "label": "游泳连续触发阈值\n【选填，默认5；当日连续触发达到阈值后会提示“战斗策略或配队严重不合理”并终止】",
+    "default": 5
   }
 ]
