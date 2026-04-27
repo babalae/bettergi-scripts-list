@@ -1,0 +1,103 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777186901975,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "26-苦种-硫晶支脉2-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8400.904296875,
+      "y": -1221.12109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8396.908203125,
+      "y": -1232.01171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8362.4970703125,
+      "y": -1283.8740234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),attack(0.1),wait(0.3)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8364.52734375,
+      "y": -1303.5244140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8359.5107421875,
+      "y": -1346.18359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8334.5087890625,
+      "y": -1326.111328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8296.7646484375,
+      "y": -1314.484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8293.037109375,
+      "y": -1313.2060546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8294.4609375,
+      "y": -1321.5625
+    }
+  ]
+}

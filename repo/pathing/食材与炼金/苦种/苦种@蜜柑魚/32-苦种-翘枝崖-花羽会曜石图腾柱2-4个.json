@@ -1,0 +1,121 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1776965936335,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "32-苦种-翘枝崖-花羽会曜石图腾柱2-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9485.5791015625,
+      "y": -1205.37890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9480.599609375,
+      "y": -1212.3955078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9472.765625,
+      "y": -1210.4072265625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9460.02734375,
+      "y": -1216.1611328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9413.0556640625,
+      "y": -1213.162109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9404.4853515625,
+      "y": -1181.6357421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9401.263671875,
+      "y": -1177.412109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9399.5986328125,
+      "y": -1137.310546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9384.01953125,
+      "y": -1149.4052734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9382.53515625,
+      "y": -1153.259765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9382.681640625,
+      "y": -1149.634765625
+    }
+  ]
+}

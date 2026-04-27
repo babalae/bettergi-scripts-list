@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777055444596,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "05-苦种-窃火者密岛-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7875.21484375,
+      "y": -2751.7421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7853.857421875,
+      "y": -2780.646484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7831.822265625,
+      "y": -2783.123046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7815.681640625,
+      "y": -2816.3828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7790.423828125,
+      "y": -2816.1171875
+    }
+  ]
+}

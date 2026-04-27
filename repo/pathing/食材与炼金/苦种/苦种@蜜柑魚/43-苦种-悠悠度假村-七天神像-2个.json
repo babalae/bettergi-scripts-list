@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1776963162753,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "43-苦种-悠悠度假村-七天神像-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 13638.185546875,
+      "y": -168.68505859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13669.5556640625,
+      "y": -188.8896484375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.01)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13703.736328125,
+      "y": -224.3046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13707.240234375,
+      "y": -221.423828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13703.3125,
+      "y": -224.8486328125
+    }
+  ]
+}

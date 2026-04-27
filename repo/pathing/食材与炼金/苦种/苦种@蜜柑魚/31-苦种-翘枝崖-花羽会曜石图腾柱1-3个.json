@@ -1,0 +1,104 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1776965688744,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "31-苦种-翘枝崖-花羽会曜石图腾柱1-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9485.5615234375,
+      "y": -1205.16455078125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9501.7099609375,
+      "y": -1212.869140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9494.7109375,
+      "y": -1207.0810546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9480.54296875,
+      "y": -1214.36328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9494.7109375,
+      "y": -1207.0810546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9488.6845703125,
+      "y": -1184.9873046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9490.9921875,
+      "y": -1176.263671875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9484.916015625,
+      "y": -1161.3203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9454.7685546875,
+      "y": -1163.0595703125
+    }
+  ]
+}

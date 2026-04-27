@@ -1,0 +1,76 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "白白喵"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777055968357,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "08-苦种-竞技场东北3-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8706.82421875,
+      "y": -1574.7998046875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8706.748702742772,
+      "y": -1599.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8699.6708984375,
+      "y": -1653.70703125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8697.5595703125,
+      "y": -1659.18359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8690.541015625,
+      "y": -1660.2890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8698.7001953125,
+      "y": -1658.93359375
+    }
+  ]
+}

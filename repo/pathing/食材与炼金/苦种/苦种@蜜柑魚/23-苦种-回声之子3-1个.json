@@ -1,0 +1,76 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "白白喵"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777105909242,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "23-苦种-回声之子3-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7759.595703125,
+      "y": -1401.1171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7761.814453125,
+      "y": -1407.654296875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7792.201171875,
+      "y": -1464.380859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7791.19140625,
+      "y": -1467.0625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7796.927734375,
+      "y": -1464.486328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7790.146484375,
+      "y": -1464.4033203125
+    }
+  ]
+}
