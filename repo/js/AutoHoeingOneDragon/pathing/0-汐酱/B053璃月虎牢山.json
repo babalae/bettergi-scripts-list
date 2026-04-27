@@ -1,0 +1,159 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时197.22秒，包含以下怪物：1只火箭丘丘人、1只冰箭丘丘人、2只火斧丘丘暴徒、1只丘丘岩盔王、1只草丘丘萨满、1只冰深渊法师、2只遗迹猎者。",
+    "enable_monster_loot_split": false,
+    "hash_res": "64871388",
+    "last_modified_time": 1776785670871,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B053璃月虎牢山",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1793.5499999999993,
+      "y": 716.3400000000001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 1802.3099999999995,
+      "y": 710.75
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1820.880000000001,
+      "y": 682.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1829,
+      "y": 652.75
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1842.619999999999,
+      "y": 620.8699999999999
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1853.380000000001,
+      "y": 596
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1838.9400000000005,
+      "y": 537.7200000000003
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1831.583984375,
+      "y": 433.3095703125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1835.41015625,
+      "y": 409.9208984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1914.9375,
+      "y": 411.8112255726419
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1956.4375,
+      "y": 409.8735738550995
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";伊涅芙 e;莉奈娅 e;芙宁娜 e;玛薇卡 e;爱可菲 e; ;",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1985.5625,
+      "y": 439.31210553438905
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1997.9697265625,
+      "y": 396.9228515625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1997.9697265625,
+      "y": 396.9228515625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1997.9697265625,
+      "y": 396.9228515625
+    }
+  ]
+}

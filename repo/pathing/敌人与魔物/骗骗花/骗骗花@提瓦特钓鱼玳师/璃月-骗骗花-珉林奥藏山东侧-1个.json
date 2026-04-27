@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "璃月-骗骗花-珉林奥藏山东侧-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-1个\n璃月-珉林奥藏山东侧\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1604.7,
+      "y": 1040.31,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1592.41,
+      "y": 1036.84,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1404.19,
+      "y": 1045.92,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1404.19,
+      "y": 1045.92,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "attack(0.1),wait(2),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash"
+    },
+    {
+      "id": 5,
+      "x": 1404.19,
+      "y": 1045.92,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

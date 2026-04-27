@@ -1,0 +1,157 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "3个甜甜花；1个薄荷；12个日落果；1个松茸；2个蘑菇；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762331984453,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A15-2-蒙德食材-风啸山坡-誓言岬【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1998.8105,
+      "y": 1435.1719
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2012.5742,
+      "y": 1476.4863
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2007.418,
+      "y": 1483.1748
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2002.1484,
+      "y": 1489.4678
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1977.2344,
+      "y": 1486.5723
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1962.9785,
+      "y": 1495.3896
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1934.0117,
+      "y": 1500.0039
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1925.625,
+      "y": 1462.4224
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1932.6797,
+      "y": 1444.4111
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1939.5508,
+      "y": 1419.9688
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1930.8047,
+      "y": 1405.2656
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1923.9141,
+      "y": 1383.1655
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1922.0938,
+      "y": 1360.4775
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1897.082,
+      "y": 1357.3594
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1892.2031,
+      "y": 1347.8535
+    }
+  ]
+}

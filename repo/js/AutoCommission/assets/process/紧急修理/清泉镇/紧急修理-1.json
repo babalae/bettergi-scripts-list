@@ -1,0 +1,69 @@
+{
+  "info": {
+    "name": "紧急修理-1",
+    "type": "collect",
+    "author": "云闲vsv",
+    "version": "1.0",
+    "description": "紧急修理-1",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753249286484
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -867.5869140625,
+      "y": 1992.22021484375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -856.3525390625,
+      "y": 1985.38427734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -836.9130859375,
+      "y": 1988.89306640625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -826.4658203125,
+      "y": 1980.59765625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -828.8779296875,
+      "y": 1986.576171875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -825.0361328125,
+      "y": 1983.1259765625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

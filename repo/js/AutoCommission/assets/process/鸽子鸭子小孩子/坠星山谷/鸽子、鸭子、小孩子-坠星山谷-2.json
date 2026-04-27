@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "到达播撒点位",
+    "type": "collect",
+    "author": "未知_",
+    "version": "1.0",
+    "description": "到达任务执行地点",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1018.0361328125,
+      "y": 2184.58251953125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1048.16796875,
+      "y": 2199.8818359375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1071.3662109375,
+      "y": 2204.976806640625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1069.3525390625,
+      "y": 2226.945068359375,
+      "type": "target",
+      "move_mode": "swim",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

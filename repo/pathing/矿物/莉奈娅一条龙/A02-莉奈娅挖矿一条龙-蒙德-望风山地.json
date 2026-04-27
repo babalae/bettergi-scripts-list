@@ -1,0 +1,142 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1775712458175,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A02-莉奈娅挖矿一条龙-蒙德-望风山地",
+    "tags": [
+      "莉奈娅"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1273.6836,
+      "y": 2721.6357
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1304.0996,
+      "y": 2735.5908
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1319.0547,
+      "y": 2723.6484
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1333.1016,
+      "y": 2706.7324
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1345.3848,
+      "y": 2700.5312
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1375.0527,
+      "y": 2688.1548
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1399.1973,
+      "y": 2688.1401
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1399.1973,
+      "y": 2688.1401
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1273.7148,
+      "y": 2721.6187
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1257.623,
+      "y": 2715.8213
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1236.4395,
+      "y": 2709.3833
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1230.6738,
+      "y": 2701.4302
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1216.5352,
+      "y": 2694.4697
+    }
+  ]
+}

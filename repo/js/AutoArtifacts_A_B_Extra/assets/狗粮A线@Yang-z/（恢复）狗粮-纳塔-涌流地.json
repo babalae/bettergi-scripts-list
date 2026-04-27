@@ -1,0 +1,38 @@
+{
+    "info": {
+        "name": "（恢复）狗粮-纳塔-涌流地",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": 8582.041015625,
+            "y": -2675.1962890625,
+            "type": "teleport"
+        },
+        {
+            "x": 8579.3798828125,
+            "y": -2658.2998046875,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "x": 8579.26953125,
+            "y": -2657.3076171875,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "x": 8586.71875,
+            "y": -2652.466796875,
+            "type": "path",
+            "move_mode": "walk"
+        }
+    ]
+}

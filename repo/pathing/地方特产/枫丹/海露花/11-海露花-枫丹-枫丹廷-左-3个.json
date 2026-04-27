@@ -1,0 +1,117 @@
+{
+  "info": {
+    "name": "11-海露花-枫丹-枫丹廷-左-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芭芭拉"
+    ],
+    "last_modified_time": 1754884048215,
+    "authors": [
+      {
+        "name": "寥寥轻舟"
+      },
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4824.0078,
+      "y": 3628.9966,
+      "action": "hydro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4811.3369,
+      "y": 3601.0049,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4780.0098,
+      "y": 3538.6365,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4785.127,
+      "y": 3519.1313,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 4799.3379,
+      "y": 3492.8552,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 e",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 4800.4902,
+      "y": 3489.8821,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4815.8887,
+      "y": 3499.5408,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4819.6641,
+      "y": 3502.4675,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4819.459,
+      "y": 3504.4922,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4819.5371,
+      "y": 3507.2681,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    }
+  ]
+}

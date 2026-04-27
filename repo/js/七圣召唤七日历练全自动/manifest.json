@@ -1,0 +1,26 @@
+{
+  "manifest_version": 1,
+  "name": "打牌一条龙",
+  "version": "2.17",
+  "description": "完成每周的七圣召唤七日历练（来客挑战）。详见README.md",
+  "tags": [
+    "七圣召唤"
+  ],
+  "authors": [
+    {
+      "name": "柒叶子",
+      "links": "https://github.com/5117600049"
+    },
+    {
+      "name": "Ayaka-Main",
+      "links": "https://github.com/Patrick-Ze"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "assets/weekly.txt",
+    "牌组策略/*.txt",
+    "牌组策略/各策略胜败记录.json"
+  ]
+}

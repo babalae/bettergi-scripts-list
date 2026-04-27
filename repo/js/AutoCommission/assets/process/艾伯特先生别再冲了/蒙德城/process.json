@@ -1,0 +1,95 @@
+[
+  {
+    "type": "地图追踪",
+    "data": "艾伯特先生别再冲了-蒙德城-1.json",
+    "note": ""
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 5,
+      "npcWhiteList": ["维多利亚"]
+    },
+    "note": ""
+  },
+  {
+    "type": "地图追踪",
+    "data": "艾伯特先生别再冲了-蒙德城-2.json",
+    "note": ""
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 5,
+      "npcWhiteList": ["艾伯特"]
+    },
+    "note": ""
+  },
+  {
+    "type": "切换队伍",
+    "data": "元素采集",
+    "note": "执行切换队伍步骤"
+  },
+  {
+    "type": "地图追踪",
+    "data": "艾伯特先生别再冲了-蒙德城-3.json",
+    "note": ""
+  },
+ {
+   "type": "委托描述检测", 
+   "data": {
+     "description": "清扫落叶",
+     "executeFile": "艾伯特先生别再冲了-蒙德城-6.json",
+     "runType": "path", 
+     "useKeyword": true
+   },
+   "note": "检测委托描述并执行清扫落叶"
+ },
+   {
+    "type": "切换队伍",
+    "data": "战斗",
+    "note": "执行切换队伍步骤"
+  },
+  {
+    "type": "地图追踪",
+    "data": "艾伯特先生别再冲了-蒙德城-4.json",
+    "note": ""
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 5,
+      "npcWhiteList": ["艾伯特"]
+    },
+    "note": ""
+  },
+  {
+    "type": "地图追踪",
+    "data": "艾伯特先生别再冲了-蒙德城-5.json",
+    "note": ""
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 5,
+      "npcWhiteList": ["进入教堂"]
+    },
+    "note": ""
+  },
+  {
+    "type": "追踪委托",
+    "data": {
+      "npc": "维多利亚",
+      "iconType": "Question"
+    },
+    "note": ""
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 5,
+      "npcWhiteList": ["维多利亚"]
+    },
+    "note": ""
+  }
+]

@@ -1,0 +1,102 @@
+[
+    {
+        "name": "CookingTimes",
+        "type": "input-text",
+        "label": "【料理制作】：\n\n烹饪次数（默认0，即跳过）",
+    },
+    {
+        "name": "Cooking",
+        "type": "input-text",
+        "label": "输入料理名",
+    },
+    {
+        "name": "PrepCount",
+        "type": "input-text",
+        "label": "\n====================\n\n【食材加工】：\n\n加工数量(不填默认99)"
+    },
+    {
+        "name": "Processing11",
+        "type": "checkbox",
+        "label": "如勾选：面粉,黄油,糖\n上方填入88,66\n则加工面粉88,黄油66,糖88\n-----------------\n\n1小麦=面粉"
+    },
+    {
+        "name": "Processing15",
+        "type": "checkbox",
+        "label": "-----------------\n\n1黑麦=黑麦粉"
+    },
+    {
+        "name": "Processing24",
+        "type": "checkbox",
+        "label": "-----------------\n\n1牛奶=酸奶油"
+    },
+    {
+        "name": "Processing16",
+        "type": "checkbox",
+        "label": "-----------------\n\n1牛奶=奶油"
+    },
+    {
+        "name": "Processing18",
+        "type": "checkbox",
+        "label": "-----------------\n\n2牛奶=黄油"
+    },
+    {
+        "name": "Processing27",
+        "type": "checkbox",
+        "label": "-----------------\n\n3牛奶=奶酪"
+    },
+    {
+        "name": "Processing21",
+        "type": "checkbox",
+        "label": "-----------------\n\n2兽肉+1盐=火腿"
+    },
+    {
+        "name": "Processing31",
+        "type": "checkbox",
+        "label": "-----------------\n\n3兽肉=香肠"
+    },
+    {
+        "name": "Processing17",
+        "type": "checkbox",
+        "label": "--------------------\n\n3禽肉+1盐=熏禽肉"
+    },
+    {
+        "name": "Processing28",
+        "type": "checkbox",
+        "label": "-----------------\n\n4兽肉+2盐=培根"
+    },
+    {
+        "name": "Processing22",
+        "type": "checkbox",
+        "label": "-----------------\n\n2甜甜花=糖"
+    },
+    {
+        "name": "Processing23",
+        "type": "checkbox",
+        "label": "-----------------\n\n2香辛果=香辛料"
+    },
+    {
+        "name": "Processing26",
+        "type": "checkbox",
+        "label": "----------------------------\n\n3日落果+2树莓+1糖=果酱"
+    },
+    {
+        "name": "Processing25",
+        "type": "checkbox",
+        "label": "-----------------\n\n4螃蟹=蟹黄"
+    },
+    {
+        "name": "Processing12",
+        "type": "checkbox",
+        "label": "--------------------\n\n冷鲜肉 转化成 兽肉"
+    },
+    {
+        "name": "Processing14",
+        "type": "checkbox",
+        "label": "-----------------------------\n\n神秘的肉 转化成 肉加工产物"
+    },
+    {
+        "name": "Processing13",
+        "type": "checkbox",
+        "label": "--------------------------------\n\n鱼 转化成 鱼肉，排除 红色花鳉"
+    }
+]

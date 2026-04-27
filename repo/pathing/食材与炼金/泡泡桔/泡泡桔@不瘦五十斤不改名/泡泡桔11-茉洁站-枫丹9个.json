@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "泡泡桔11-茉洁站-枫丹9个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3774.1,
+      "y": 3783.98
+    },
+    {
+      "id": 2,
+      "x": 3802.77,
+      "y": 3759.81,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 3,
+      "x": 3861.29,
+      "y": 3722.56,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": 3864.1,
+      "y": 3722.26,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 5,
+      "x": 3902.77,
+      "y": 3717.1,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 6,
+      "x": 3902.69,
+      "y": 3716.81,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

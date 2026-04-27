@@ -1,0 +1,89 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 枫丹\n类型: 垂钓点\n详细位置: 诺思托伊区佩特莉可镇南\n鱼类: 海涛斧枪鱼、波波心羽鲈、烘烘心羽鲈、维护机关·初始能力型、维护机关·水域清理者、维护机关·态势控制者、维护机关·澄金领队型\n饵类: 甘露饵、酸橘饵、维护机关频闪诱饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764682995912,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "枫丹-垂钓点-诺思托伊区佩特莉可镇南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.3"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4322.26,
+      "y": 1172.83
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4329.62,
+      "y": 1170.86
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4345.23,
+      "y": 1100.58
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4350.02,
+      "y": 1093.33
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 4358.98,
+      "y": 1088.88
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4355.55,
+      "y": 1083.78
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4359.3,
+      "y": 1080.32
+    }
+  ]
+}

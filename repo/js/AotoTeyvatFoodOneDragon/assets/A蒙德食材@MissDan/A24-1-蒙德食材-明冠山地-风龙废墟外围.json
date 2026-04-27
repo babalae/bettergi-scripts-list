@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "3个甜甜花；1个蘑菇；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762333705852,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A24-1-蒙德食材-明冠山地-风龙废墟外围",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -83.5,
+      "y": 2781.958
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -82.582,
+      "y": 2790.0825
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -74.0469,
+      "y": 2797.2417
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": -101.8672,
+      "y": 2781.2935
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -106.6055,
+      "y": 2772.4329
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -113.9023,
+      "y": 2768.0815
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": -116.9102,
+      "y": 2731.0645
+    }
+  ]
+}

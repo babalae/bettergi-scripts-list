@@ -1,0 +1,89 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 枫丹\n类型: 垂钓点\n详细位置: 翡黎区芒索斯山东麓东\n鱼类: 海涛斧枪鱼、烘烘心羽鲈、维护机关·初始能力型、维护机关·态势控制者\n饵类: 甘露饵、酸桔饵、维护机关频闪诱饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764681292604,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "枫丹-垂钓点-翡黎区芒索斯山东麓东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4984.74,
+      "y": 4462.95
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4929.13,
+      "y": 4445.92
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4894.21,
+      "y": 4408.47
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 4874.83,
+      "y": 4394.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4871.91,
+      "y": 4390.95
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4870.47,
+      "y": 4391.7
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(10.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4868.41,
+      "y": 4395.03
+    }
+  ]
+}

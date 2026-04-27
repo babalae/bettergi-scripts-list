@@ -1,0 +1,105 @@
+{
+  "info": {
+    "name": "B045璃月天衡山",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时75秒，包含以下怪物：2只打手丘丘人、1只射手丘丘人、1只幼岩龙蜥、1只岩龙蜥。",
+    "hash_res": "01494282",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754740695717,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 611.71,
+      "y": -284.67
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 616.28,
+      "y": -223.27
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 627.26,
+      "y": -174
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 642,
+      "y": -162.5
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 607.5,
+      "y": -124.25
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 579.14,
+      "y": -110.94
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 597.14,
+      "y": -101.94
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 595.14,
+      "y": -85.94
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 590,
+      "y": -97.75
+    }
+  ]
+}

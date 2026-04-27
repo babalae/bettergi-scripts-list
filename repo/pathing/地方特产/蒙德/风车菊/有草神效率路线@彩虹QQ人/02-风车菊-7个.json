@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "02-风车菊-7个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "性价比路线，要求队伍：必须带小草神",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "彩虹QQ人",
+        "links": "https://github.com/KRdingsan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -578.69,
+      "y": 1853.52,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": -547.41,
+      "y": 1859.59,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -569.82,
+      "y": 1845.2,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -592.23,
+      "y": 1844.19,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -586.83,
+      "y": 1862.85,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -593.85,
+      "y": 1873.84,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -573.95,
+      "y": 1882.71,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
