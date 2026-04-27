@@ -1,12 +1,12 @@
-﻿{
+{
   "info": {
     "authors": [
       {
-        "links": "",
+        "links": "https://github.com/this-Fish",
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.45.0",
+    "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
     "last_modified_time": 1776968051133,
@@ -19,76 +19,76 @@
   },
   "positions": [
     {
-      "action": "",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 9971.43359375,
-      "y": -1605.076171875
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 9960.0771484375,
-      "y": -1579.30078125
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 9937.2880859375,
-      "y": -1552.12109375
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.345)",
-      "id": 8,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 9935.078125,
-      "y": -1550.033203125
-    },
-    {
-      "action": "",
-      "action_params": "",
       "id": 1,
+      "action": "",
+      "action_params": "",
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9782.6904296875,
-      "y": -1764.3193359375
+      "x": 9971.4336,
+      "y": -1605.0762
     },
     {
-      "action": "",
-      "action_params": "",
       "id": 2,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 9828.1845703125,
-      "y": -1764.1337890625
-    },
-    {
       "action": "",
       "action_params": "",
-      "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 9866.1025390625,
-      "y": -1772.966796875
+      "x": 9960.0771,
+      "y": -1579.3008
     },
     {
+      "id": 3,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9937.2881,
+      "y": -1552.1211
+    },
+    {
+      "id": 4,
       "action": "combat_script",
       "action_params": "wait(0.345)",
-      "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 9861.853515625,
-      "y": -1756.2353515625
+      "x": 9935.0781,
+      "y": -1550.0332
+    },
+    {
+      "id": 5,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9782.6904,
+      "y": -1764.3193
+    },
+    {
+      "id": 6,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9828.1846,
+      "y": -1764.1338
+    },
+    {
+      "id": 7,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9866.1025,
+      "y": -1772.9668
+    },
+    {
+      "id": 8,
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9861.8535,
+      "y": -1756.2354
     }
   ]
 }
