@@ -1,0 +1,130 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777102563785,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "19-苦种-祖遗庙宇1-6个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7845.3525,
+      "y": -2047.0938
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7846.7588,
+      "y": -2072.6553
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7861.4785,
+      "y": -2083.4932
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7857.7178,
+      "y": -2079.8037
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7861.876,
+      "y": -2077.041
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7867.4092,
+      "y": -2074.4707
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7865.5039,
+      "y": -2063.9414
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7861.7246,
+      "y": -2063.8838
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7887.3965,
+      "y": -2064.8027
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 7921.7324,
+      "y": -2076.168
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7919.3408,
+      "y": -2080.5723
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.456)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7916.6865,
+      "y": -2081.0215
+    }
+  ]
+}

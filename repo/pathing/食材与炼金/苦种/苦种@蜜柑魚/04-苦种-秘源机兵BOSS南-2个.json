@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777055273101,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "04-苦种-秘源机兵BOSS南-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8291.8789,
+      "y": -2922.1709
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8280.418,
+      "y": -2894.1836
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.456)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8278.0342,
+      "y": -2888.8096
+    }
+  ]
+}
