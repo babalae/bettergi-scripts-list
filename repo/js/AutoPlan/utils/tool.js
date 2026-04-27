@@ -6,7 +6,7 @@
  * @param {number} h - 区域高度，默认为1080
  * @returns {Promise<string|null>} 返回识别到的文本内容，如果识别失败则返回null
  */
-async function ocrRegion(x = 0,
+export async function ocrRegion(x = 0,
                          y = 0,
                          w = 1920,
                          h = 1080) {
@@ -34,7 +34,7 @@ async function ocrRegion(x = 0,
  * @param {boolean} [calibrationGameRefreshTime=true] 是否进行游戏刷新时间校准
  * @returns {Object} 返回包含星期数字和星期名称的对象
  */
-async function getDayOfWeek(calibrationGameRefreshTime = true) {
+export async function getDayOfWeek(calibrationGameRefreshTime = true) {
     // 获取当前日期对象
     let today = new Date();//4点刷新 所以要减去4小时
     if (calibrationGameRefreshTime) {
@@ -55,8 +55,8 @@ async function getDayOfWeek(calibrationGameRefreshTime = true) {
     }
 }
 
-const commonPath = 'assets/'
-const commonMap = new Map([
+export const commonPath = 'assets/'
+export const commonMap = new Map([
     ['main_ui', {
         path: `${commonPath}`,
         name: 'paimon_menu',
@@ -83,7 +83,7 @@ const commonMap = new Map([
         type: '.jpg',
     }],
 ])
-const genshinJson = {
+export const genshinJson = {
     width: 1920,//genshin.width,
     height: 1080,//genshin.height,
 }
@@ -93,12 +93,12 @@ const genshinJson = {
  * @param {string} key - 要查找的键值
  * @returns {any} 返回与键值对应的JSON路径值
  */
-function getJsonPath(key) {
+export function getJsonPath(key) {
     return commonMap.get(key); // 通过commonMap的get方法获取指定键对应的值
 }
 
 // 判断是否在主界面的函数
-const isInMainUI = () => {
+export const isInMainUI = () => {
     // let name = '主界面'
     let main_ui = getJsonPath('main_ui');
     // 定义识别对象
@@ -119,7 +119,7 @@ const isInMainUI = () => {
 
 };
 
-async function toMainUi() {
+export async function toMainUi() {
     let ms = 300
     let index = 1
     await sleep(ms);
@@ -135,7 +135,7 @@ async function toMainUi() {
 
 }
 
-const isInOutDomainUI = async () => {
+export const isInOutDomainUI = async () => {
     // // let name = '主界面'
     // let main_ui = getJsonPath('out_domain');
     // // 定义识别对象
@@ -170,7 +170,7 @@ const isInOutDomainUI = async () => {
  * 退出秘境的UI处理函数
  * 该函数用于处理退出秘境界面的相关操作，包括点击确认按钮和检测界面状态
  */
-async function outDomainUI() {
+export async function outDomainUI() {
     log.info(`{0}`,"退出秘境");
     const ocrRegion = {
         x: 509,
@@ -213,7 +213,7 @@ async function outDomainUI() {
 
 }
 
-const isInOutStygianOnslaughtUI = async () =>{
+export const isInOutStygianOnslaughtUI = async () =>{
     const text = "退出挑战";
     const ocrRegion = {
         x: 509,
@@ -225,7 +225,7 @@ const isInOutStygianOnslaughtUI = async () =>{
     log.debug("识别结果:{1}", find)
     return find && find.includes(text)
 }
-async function outStygianOnslaughtUI() {
+export async function outStygianOnslaughtUI() {
     log.info(`{0}`,"退出挑战");
     const ocrRegion = {
         x: 509,
@@ -273,7 +273,7 @@ async function outStygianOnslaughtUI() {
  * @param {number} interval - 每次尝试之间的间隔时间(毫秒)，默认为50
  * @returns {Promise<string>} 返回找到的文本内容，如果未找到则返回空字符串
  */
-async function findText(
+export async function findText(
     text,
     x = 0,
     y = 0,
@@ -327,7 +327,7 @@ async function findText(
  * @returns
  * - RecognitionResult | null
  */
-async function findTextAndClick(
+export async function findTextAndClick(
     text,
     x = 0,
     y = 0,
@@ -383,7 +383,7 @@ async function findTextAndClick(
  * @returns
  * - RecognitionResult | null
  */
-async function findImgAndClick(
+export async function findImgAndClick(
     target,
     x = 0,
     y = 0,
@@ -431,7 +431,7 @@ async function findImgAndClick(
  * 该函数用于显示错误通知并抛出错误对象
  * @param {string} msg - 错误信息，将用于通知和错误对象
  */
-function throwError(msg, isNotification = false) {
+export function throwError(msg, isNotification = false) {
     // 使用notification组件显示错误通知
     // notification.error(`${msg}`);
     if (isNotification) {
@@ -441,17 +441,26 @@ function throwError(msg, isNotification = false) {
     throw new Error(`${msg}`);
 }
 
-export {
-    ocrRegion,
-    getDayOfWeek,
-    getJsonPath,
-    isInMainUI,
-    toMainUi,
-    isInOutDomainUI,
-    outDomainUI,
-    isInOutStygianOnslaughtUI,
-    outStygianOnslaughtUI,
-    findTextAndClick,
-    findImgAndClick,
-    throwError,
+// 辅助函数：安全地解析 day 字段
+export function parseInteger(str) {
+    if (str == null || String(str).trim() === "") {
+        return undefined; // 空值或无效值返回 undefined
+    }
+    const parsedInt = parseInt(String(str).trim(), 10);
+    return isNaN(parsedInt) ? undefined : parsedInt; // 非法数字返回 undefined
 }
+
+// export {
+//     ocrRegion,
+//     getDayOfWeek,
+//     getJsonPath,
+//     isInMainUI,
+//     toMainUi,
+//     isInOutDomainUI,
+//     outDomainUI,
+//     isInOutStygianOnslaughtUI,
+//     outStygianOnslaughtUI,
+//     findTextAndClick,
+//     findImgAndClick,
+//     throwError,
+// }
