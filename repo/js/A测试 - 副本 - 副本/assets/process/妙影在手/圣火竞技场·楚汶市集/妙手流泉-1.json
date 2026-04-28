@@ -1,0 +1,80 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764650661869,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "妙手流泉-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8919.0029296875,
+      "y": -2679.1142578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8961.6435546875,
+      "y": -2676.845703125
+    },
+    {
+      "action": "set_time",
+      "action_params": "6:20",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8994.9892578125,
+      "y": -2707.263671875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8989.513671875,
+      "y": -2722.37109375
+    },
+    {
+      "action": "set_time",
+      "action_params": "6:20",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8982.650390625,
+      "y": -2737.349609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),walk(d,0.2),wait(0.5),click(middle),wait(0.5)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8982.650390625,
+      "y": -2737.349609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8984.0302734375,
+      "y": -2738.048828125
+    }
+  ]
+}

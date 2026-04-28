@@ -1,0 +1,108 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764364630604,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "妙手回声-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7579.93359375,
+      "y": -1382.2421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7586.2978515625,
+      "y": -1374.013671875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "300",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7585.5419921875,
+      "y": -1365.99658203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7586.55859375,
+      "y": -1359.37744140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_E)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7592.216796875,
+      "y": -1358.78515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7586.55859375,
+      "y": -1359.37744140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_T)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7592.216796875,
+      "y": -1358.78515625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(F)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7599.7890625,
+      "y": -1358.94091796875
+    },
+    {
+      "action": "set_time",
+      "action_params": "11:20",
+      "id": 9,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7599.8916015625,
+      "y": -1339.7763671875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_E),wait(0.5),walk(w,7.5),wait(1),keypress(VK_E),wait(1),click(middle)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7599.8916015625,
+      "y": -1339.7763671875
+    }
+  ]
+}

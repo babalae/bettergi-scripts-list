@@ -1,0 +1,80 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762268662269,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "坚岩隘谷-2(差最后一步）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8259.890625,
+      "y": -1744.33251953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8235.7646484375,
+      "y": -1728.8876953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8218.84375,
+      "y": -1721.9521484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8198.578125,
+      "y": -1712.0595703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8190.2578125,
+      "y": -1707.611328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(F),wait(3),keypress(VK_T),wait(0.1),click(middle),wait(0.1),moveby(-50,-100),wait(0.1),keypress(VK_T)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8184,
+      "y": -1710.2060546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),moveby(1,-1800),wait(1),keypress(VK_E),wait(0.2),keypress(VK_E),wait(1),wait(1.5),moveby(800,0),wait(1),keypress(VK_E),wait(3.5),moveby(-500,0),wait(1.5),keypress(VK_E),wait(5.5),,keypress(VK_E),wait(4.5),moveby(-250,250),wait(0.5),keypress(VK_E),wait(3.5),keypress(VK_E),wait(3.5),moveby(00,-300),keypress(VK_E),wait(0.2),keypress(VK_E),wait(1),keypress(VK_E)，wait(2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8182.712890625,
+      "y": -1713.70263671875
+    }
+  ]
+}

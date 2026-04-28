@@ -1,0 +1,287 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1761437279782,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "踞石山-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8059.236328125,
+      "y": -2372.32421875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "250",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8072.28125,
+      "y": -2409.62890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8067.93359375,
+      "y": -2410.71875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8065.01953125,
+      "y": -2411.8193359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8060.4853515625,
+      "y": -2414.126953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8052.009765625,
+      "y": -2417.208984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8047.15234375,
+      "y": -2419.146484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8045.2275390625,
+      "y": -2419.9111328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8043.30859375,
+      "y": -2420.669921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8041.384765625,
+      "y": -2421.439453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "walk(w,0.35)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8039.412109375,
+      "y": -2422.17578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2.5)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8038.9375,
+      "y": -2422.2998046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_T)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8039.1748046875,
+      "y": -2424.3642578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8047.345703125,
+      "y": -2472.6513671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8012.451171875,
+      "y": -2518.875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7955.630859375,
+      "y": -2544.41015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7943.658203125,
+      "y": -2540.9453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7895.2109375,
+      "y": -2581.1416015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7892.341796875,
+      "y": -2614.82421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7895.60546875,
+      "y": -2627.5
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7897.51171875,
+      "y": -2631.0205078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7933.8427734375,
+      "y": -2635.3125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_Q)",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7953.955078125,
+      "y": -2634.740234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keyup(VK_Q)",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7954.0068359375,
+      "y": -2634.7265625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "50",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7953.4765625,
+      "y": -2634.974609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7939.7265625,
+      "y": -2657.47265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 27,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7934.375,
+      "y": -2665.796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7927.837890625,
+      "y": -2673.9423828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7923.7841796875,
+      "y": -2669.708984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3)",
+      "id": 30,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7923.236328125,
+      "y": -2672.197265625
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763490413689,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "妙手悬木-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8497.837890625,
+      "y": -2221.875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8505.1669921875,
+      "y": -2221.35546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "walk(w,2),wait(0.5),keypress(VK_X),wait(2),walk(s,1.2),wait(0.5),click(middle),wait(1)),moveby(00,-600)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8507.927734375,
+      "y": -2216.0107421875
+    }
+  ]
+}

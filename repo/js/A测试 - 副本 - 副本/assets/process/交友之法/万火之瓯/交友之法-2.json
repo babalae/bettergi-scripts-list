@@ -1,0 +1,62 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1761238003573,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "交友之法-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "fly",
+      "type": "teleport",
+      "x": 8738.5732421875,
+      "y": -1857.1875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(F)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8691.896484375,
+      "y": -1839.197265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(F)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8695.361328125,
+      "y": -1842.890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(F)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8695.3662109375,
+      "y": -1842.88671875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(F)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8691.986328125,
+      "y": -1838.3505859375
+    }
+  ]
+}

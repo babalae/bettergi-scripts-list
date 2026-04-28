@@ -1,0 +1,116 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765170839391,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "嘿你的信-3（变龙,拿信.1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8372.4375,
+      "y": -2195.95703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8382.208984375,
+      "y": -2178.3076171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8397.8330078125,
+      "y": -2159.85546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8416.013671875,
+      "y": -2142.6689453125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3500",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8442.681640625,
+      "y": -2127.705078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8449.451171875,
+      "y": -2115.509765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8451.8974609375,
+      "y": -2101.0546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8477.369140625,
+      "y": -2107.98046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_T),wait(1.5)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8477.71484375,
+      "y": -2110.8359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8476.96875,
+      "y": -2119.42578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),click(left),wait(0.5),click(left),wait(2),keypress(VK_E),wait(4),walk(d,0.2),wait(0.5),click(middle),wait(0.5),moveby(00,600),wait(0.5),keypress(VK_E),wait(3),keypress(VK_E),wait(3),walk(w,0.35),wait(0.5),click(left),wait(2),wait(0.5),click(left),wait(0.8),click(middle),wait(0.5),moveby(350,00),wait(0.5),keypress(VK_E),wait(3),walk(a,0.2),wait(0.5),click(middle),wait(0.5),keypress(VK_E),wait(5),walk(d,0.2),wait(0.5),click(middle),wait(3),keypress(VK_E),wait(3),walk(d,0.2),wait(0.5),click(middle),wait(0.9),walk(w,1.5),wait(1),keypress(F),wait(1),",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8473.486328125,
+      "y": -2129.3359375
+    }
+  ]
+}
