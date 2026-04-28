@@ -521,6 +521,8 @@ async function executeBattleTasks(fightTimeout, enemyType, cts, battlePointCoord
 
     let battleTask;
     let battleDetectTask = null;
+    let awaitBattleTask = true;
+    const awaitBattleTaskMs = 2000;
     try {
         if (settings.disableAsyncFight) {
             // 同步战斗模式：依赖配置组的“战斗结束检测”让 AutoFight 自行退出
@@ -536,6 +538,7 @@ async function executeBattleTasks(fightTimeout, enemyType, cts, battlePointCoord
             ]);
             if (first.kind === "battle_timeout") {
                 try { cts.cancel(); } catch { }
+                awaitBattleTask = false;
                 return { success: false, status: "auto_fight_ended" };
             }
             if (first.kind === "battle_rejected") {
@@ -570,6 +573,7 @@ async function executeBattleTasks(fightTimeout, enemyType, cts, battlePointCoord
 
             if (first.kind === "detect_fulfilled") {
                 log.info("战斗检测任务完成");
+                try { cts.cancel(); } catch { }
                 return { success: first.status === "success", status: first.status };
             }
             if (first.kind === "detect_rejected") {
@@ -587,6 +591,7 @@ async function executeBattleTasks(fightTimeout, enemyType, cts, battlePointCoord
 
             if (second.kind === "detect_fulfilled") {
                 log.info("战斗检测任务完成");
+                try { cts.cancel(); } catch { }
                 return { success: second.status === "success", status: second.status };
             }
             if (second.kind === "detect_rejected") {
@@ -606,10 +611,16 @@ async function executeBattleTasks(fightTimeout, enemyType, cts, battlePointCoord
         log.error(`战斗执行过程中出错: ${msg}`);
         return { success: false, status: "error", errorMessage: msg };
     } finally {
-        // 确保战斗任务被等待完成（即使被取消）
+        // 避免因 AutoFight 不响应取消导致 finally 永久挂起
         if (battleTask) {
             try {
-                await battleTask;
+                const done = await Promise.race([
+                    battleTask.then(() => true),
+                    sleep(awaitBattleTask ? awaitBattleTaskMs : 0).then(() => false)
+                ]);
+                if (!done) {
+                    battleTask.catch(() => { });
+                }
             } catch (error) {
                 // 忽略 finally 块中的取消错误
                 if (!isCancellationError(error)) {
@@ -679,11 +690,19 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
         const maxDetectMs = Math.max(0, Number(fightTimeout) * 1000);
         const battleDetectCts = new CancellationTokenSource();
         const battleDetectPromise = waitForBattleResult(maxDetectMs, enemyType, battleDetectCts, battlePointCoords);
-        try {
-            log.info("开始战斗!");
-            await runBattlePathToBattlePoint(enemyType, true);
-        } catch (e) {
+        log.info("开始战斗!");
+        const pathPromise = runBattlePathToBattlePoint(enemyType, true);
+        const pathWrapped = pathPromise
+            .then(() => ({ kind: "path_fulfilled" }))
+            .catch(error => ({ kind: "path_rejected", error }));
+        const detectWrapped = battleDetectPromise
+            .then(status => ({ kind: "detect_fulfilled", status }))
+            .catch(error => ({ kind: "detect_rejected", error }));
+
+        const first = await Promise.race([pathWrapped, detectWrapped]);
+        if (first.kind === "path_rejected") {
             try { battleDetectCts.cancel(); } catch { }
+            const e = first.error;
             if (isCancellationError(e)) throw e;
             const msg = e && e.message ? String(e.message) : "";
             if (swim.enabled && (msg.includes("前往七天神像重试") || msg.includes("检测到游泳"))) {
@@ -696,7 +715,15 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
             }
             throw e;
         }
-        const battleStatus = await battleDetectPromise;
+
+        const battleStatus = first.kind === "detect_fulfilled"
+            ? first.status
+            : await battleDetectPromise;
+
+        if (first.kind === "detect_fulfilled") {
+            await Promise.race([pathPromise.catch(() => { }), sleep(2000)]);
+        }
+
         if (battleStatus === "cancelled") {
             throw new Error("战斗任务已取消");
         }
