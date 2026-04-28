@@ -864,7 +864,13 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
             : await battleDetectPromise;
 
         if (first.kind === "detect_fulfilled") {
-            await Promise.race([pathPromise.catch(() => { }), sleep(2000)]);
+            const pathSettled = await Promise.race([
+                pathPromise.then(() => true).catch(() => true),
+                sleep(maxDetectMs).then(() => false)
+            ]);
+            if (!pathSettled) {
+                throw createScriptError(ERROR_CODES.BATTLE_TIMEOUT, ERR_MESSAGES.BATTLE_TIMEOUT);
+            }
         }
 
         if (battleStatus === "cancelled") {
