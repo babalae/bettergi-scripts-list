@@ -26,6 +26,18 @@ const useFixedAttempts = userAttempts > 0;
 const weekMaxExp = Number(settings.weekMaxExp || "4000");
 const singleExp = Number(settings.singleExp || "270");
 let weekTotal = initWeekTotal();
+let progressWinId = null;
+
+function sendProgress(pct, text, cur, tot) {
+  if (!progressWinId) return;
+  htmlMask.send(progressWinId, "/progress", JSON.stringify({
+    title: "运行进度",
+    progress: pct,
+    current: cur || 0,
+    total: tot || 0,
+    status: text
+  }));
+}
 
 // 读取存档
 function loadWeekData() {
@@ -85,8 +97,8 @@ function initWeekTotal() {
 
   // 配置变化 -> 重算
   if (
-      stored.weekMaxExp !== weekMaxExp ||
-      stored.singleExp !== singleExp
+    stored.weekMaxExp !== weekMaxExp ||
+    stored.singleExp !== singleExp
   ) {
     stored.weekMaxExp = weekMaxExp;
     stored.singleExp = singleExp;
@@ -315,6 +327,7 @@ async function playMap() {
 
   await findTextAndClick("开始游戏", 960, 540, 960, 540, 5, 50, 50);
   log.info("开始执行第{i}/{total}次奇域挑战", 1, total);
+  sendProgress(0, `正在执行第1/${total}次挑战`, 1, total);
   let firstOutputCount = 0;
   await waitUntilTextAppear(
     "返回大厅",
@@ -337,6 +350,7 @@ async function playMap() {
     decreaseWeekTotal();
   }
   log.info("本次关卡结束");
+  sendProgress(Math.round(1 / total * 100), `第1/${total}次挑战完成`, 1, total);
 
   await deleteSource();
 
@@ -348,6 +362,7 @@ async function playMap() {
       await sleep(duration);
       await findTextAndClick("开始游戏", 960, 540, 960, 540, 20, 50, 50);
       log.info("开始执行第{i}/{total}次奇域挑战", i + 1, total);
+      sendProgress(Math.round(i / total * 100), `正在执行第${i + 1}/${total}次挑战`, i + 1, total);
       let outputCount = 0;
       await waitUntilTextAppear(
         "返回大厅",
@@ -369,6 +384,7 @@ async function playMap() {
       if (!useFixedAttempts) {
         decreaseWeekTotal();
       }
+      sendProgress(Math.round((i + 1) / total * 100), `第${i + 1}/${total}次挑战完成`, i + 1, total);
       await deleteSource();
     }
   }
@@ -386,12 +402,25 @@ async function exitToTeyvat() {
   await waitUntilImgAppear(paimon);
   // 有镜头拉近动画
   await sleep(duration);
+  log.info("运行结束");
 }
 
 (async function () {
   if (!runJS) {
     log.error("您未同意此脚本的免责声明，请先同意后重新运行此脚本！");
+    htmlMask.show("assets/disclaimer-mask.html");
+    await sleep(10000);
     return;
+  }
+
+  const showSkill = roomID === "37135473336";
+  progressWinId = htmlMask.show("assets/progress-mask.html");
+  await sleep(duration);
+  sendProgress(0, "准备中...");
+  if (showSkill && progressWinId) {
+    htmlMask.request(progressWinId, "/showskill", JSON.stringify({
+      show: showSkill
+    }));
   }
 
   await genshin.returnMainUi();
@@ -399,8 +428,8 @@ async function exitToTeyvat() {
   if (useFixedAttempts) {
     // 手动模式：忽略本周计数
     log.info(
-        "已进入指定次数模式，本次将执行{count}次挑战（不计入周进度）",
-        userAttempts
+      "已进入指定次数模式，本次将执行{count}次挑战（不计入周进度）",
+      userAttempts
     );
   } else {
     // 每周模式
@@ -409,11 +438,16 @@ async function exitToTeyvat() {
     const done = Math.ceil(weekMaxExp / singleExp) - leave;
 
     log.info(
-        "本周共需刷取 {total} 次，已刷 {done} 次，剩余 {leave} 次",
-        Math.ceil(weekMaxExp / singleExp),
-        done,
-        leave
+      "本周共需刷取 {total} 次，已刷 {done} 次，剩余 {leave} 次",
+      Math.ceil(weekMaxExp / singleExp),
+      done,
+      leave
     );
+
+    if (leave < 1) {
+      log.info("本周任务已完成，结束运行");
+      return;
+    }
   }
 
   if (starMode) {
@@ -424,4 +458,6 @@ async function exitToTeyvat() {
   }
   await playMap();
   await exitToTeyvat();
+  sendProgress(100, "全部完成！");
+  await sleep(3000);
 })();
