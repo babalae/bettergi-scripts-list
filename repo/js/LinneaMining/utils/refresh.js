@@ -1,5 +1,5 @@
 const REFRESH_DATA_PATH = "local/refresh_records.json";
-const FALLBACK_DURATION = 120;
+const FALLBACK_DURATION = 60;
 
 /**
  * 从本地文件加载刷新记录数据
@@ -127,7 +127,7 @@ function getRouteDuration(routePath, data) {
 
 /**
  * 估算多条路线的总运行时长
- * 有历史记录的路线使用实际时长，无记录的按 2 分钟计算
+ * 有历史记录的路线使用实际时长，无记录的按 1 分钟计算
  *
  * @param {string[]} routePaths - 路线文件路径数组
  * @param {Object} data - 刷新记录对象

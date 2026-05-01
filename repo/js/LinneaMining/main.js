@@ -5,7 +5,7 @@ import { loadRefreshData, cleanupStaleRecords, recordRoute, filterRunnableRoutes
 
 (async function () {
   const version = getVersion()
-  const minVersion = '0.60.2'
+  const minVersion = '0.60.2-alpha.3'
 
   if (!checkVersion(version, minVersion)) {
     log.warn(`当前 BetterGI 版本(${version})低于最低要求(${minVersion})，内部算法缺少优化，出现异常为正常情况`)
@@ -56,7 +56,7 @@ import { loadRefreshData, cleanupStaleRecords, recordRoute, filterRunnableRoutes
     return;
   }
 
-  const allRoutes = await getRoutes();
+  const allRoutes = getRoutes();
   if (allRoutes.length === 0) {
     log.error("未找到任何路线文件！请确保paths目录下存在路线文件。");
     return;

@@ -1,31 +1,29 @@
 /**
  * 语义化版本比对，判断当前版本是否满足最低要求
- * 支持带预发布标识的版本号（如 0.60.2-alpha.2），自动提取主版本号进行比较
+ * 支持带预发布标识的版本号（如 0.60.2-alpha.2）
+ * 规则：前缀相同时，有预发布标识的版本 < 无预发布标识的版本
  *
  * @param {string} version - 当前版本号
- * @param {string} minVersion - 最低要求版本号，默认 '0.60.2'
+ * @param {string} minVersion - 最低要求版本号
  * @returns {boolean} 当前版本是否 >= 最低要求版本
  */
-function checkVersion(version, minVersion = '0.60.2') {
-  const normalizeVersion = (v) => {
-    const match = String(v).match(/^(\d+\.\d+\.\d+)/)
-    return match ? match[1] : '0.0.0'
+function checkVersion(version, minVersion) {
+  const re = /^(\d+)\.(\d+)\.(\d+)(?:[-.](.+))?$/
+
+  const pick = (/** @type {string} */ v, /** @type {number} */ i) => Number(v.match(re)?.[i] ?? 0)
+  const pre = (/** @type {string} */ v) => v.match(re)?.[4] ?? null
+
+  for (const i of [1, 2, 3]) {
+    if (pick(version, i) > pick(minVersion, i)) return true
+    if (pick(version, i) < pick(minVersion, i)) return false
   }
 
-  const currentParts = normalizeVersion(version).split('.').map(Number)
-  const minParts = normalizeVersion(minVersion).split('.').map(Number)
+  const a = pre(version), b = pre(minVersion)
+  if (a === null && b === null) return true
+  if (a === null) return true
+  if (b === null) return false
 
-  const maxLength = Math.max(currentParts.length, minParts.length)
-
-  while (currentParts.length < maxLength) currentParts.push(0)
-  while (minParts.length < maxLength) minParts.push(0)
-
-  for (let i = 0; i < maxLength; i++) {
-    if (currentParts[i] > minParts[i]) return true
-    if (currentParts[i] < minParts[i]) return false
-  }
-
-  return true
+  return a >= b
 }
 
 export { checkVersion };
