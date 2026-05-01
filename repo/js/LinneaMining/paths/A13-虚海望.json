@@ -1,4 +1,4 @@
-{
+﻿{
   "config": {
     "realtime_triggers": {
       "AutoPick": true
@@ -20,11 +20,11 @@
         "name": "躁动的氨气"
       }
     ],
-    "bgi_version": "0.60.2",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
     "items": [],
-    "last_modified_time": 1777471707084,
+    "last_modified_time": 1777606543056,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "A13-虚海望",
@@ -251,128 +251,12 @@
     },
     {
       "action": "linnea_mining",
-      "action_params": "2,2",
+      "action_params": "2,3",
       "id": 18,
       "move_mode": "walk",
       "type": "orientation",
       "x": 9700.8809,
       "y": 5375.1191
-    },
-    {
-      "action": "",
-      "id": 19,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "teleport",
-      "x": 9637.7559,
-      "y": 4976.2744
-    },
-    {
-      "action": "",
-      "id": 20,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "path",
-      "x": 9642.582,
-      "y": 4958.6074
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 21,
-      "move_mode": "fly",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "path",
-      "x": 9635.2051,
-      "y": 4938.5938
-    },
-    {
-      "action": "",
-      "id": 22,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "path",
-      "x": 9629.6113,
-      "y": 4939.4336
-    },
-    {
-      "action": "",
-      "id": 23,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "path",
-      "x": 9613.5195,
-      "y": 4937.0273
-    },
-    {
-      "action": "linnea_mining",
-      "action_params": "2,3",
-      "id": 24,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
-      "type": "orientation",
-      "x": 9602.2627,
-      "y": 4943.6406
     }
   ]
 }

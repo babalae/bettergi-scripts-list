@@ -1,0 +1,428 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777521720640,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B01-悠悠度假村",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 15041.7813,
+      "y": 1345.7236
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 15010.2158,
+      "y": 1312.0581
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14981.0615,
+      "y": 1319.8389
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14929.9893,
+      "y": 1350.6914
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14901.9863,
+      "y": 1353.8604
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14896.9668,
+      "y": 1357.6563
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14903.2119,
+      "y": 1361.2881
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 15052.0752,
+      "y": 1607.1641
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 15056.5039,
+      "y": 1604.6035
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 15023.7852,
+      "y": 1513.5234
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 11,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 15020.9404,
+      "y": 1504.9458
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14637.1895,
+      "y": 1000.1479
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14632.5371,
+      "y": 999.4668
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 14607.3164,
+      "y": 997.6055
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 15,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 14589.1475,
+      "y": 957.0815
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14595.6797,
+      "y": 952.3843
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14637.1934,
+      "y": 1000.1475
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14650.9688,
+      "y": 910.3496
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14659.5742,
+      "y": 907.7656
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14656.4619,
+      "y": 878.1826
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14653.1865,
+      "y": 886.7095
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14702.3789,
+      "y": 913.189
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),moveby(0,1000)",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 14719.4941,
+      "y": 901.9814
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14741.4824,
+      "y": 888.5737
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14733.1465,
+      "y": 724.5957
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "run",
+      "type": "path",
+      "x": 14672.9473,
+      "y": 692.4443
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14676.5938,
+      "y": 684.1563
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14685.7881,
+      "y": 656.7085
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14654.3008,
+      "y": 558.439
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 30,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14636.5479,
+      "y": 551.4453
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 31,
+      "move_mode": "run",
+      "type": "path",
+      "x": 14598.4043,
+      "y": 553.7681
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 32,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14571.1592,
+      "y": 552.2495
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 33,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14513.1348,
+      "y": 536.9619
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 34,
+      "move_mode": "run",
+      "type": "path",
+      "x": 14460.2637,
+      "y": 514.9629
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 35,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14436.3457,
+      "y": 515.4165
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 36,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14429.2471,
+      "y": 530.1621
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 37,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14421.6172,
+      "y": 533.1641
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 38,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14400.2627,
+      "y": 541.5898
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 39,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14167.1035,
+      "y": 627.623
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 40,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14195.7139,
+      "y": 587.0762
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 41,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14227.1816,
+      "y": 571.4844
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 42,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14235.0547,
+      "y": 548.9473
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 43,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14220.0947,
+      "y": 515.1406
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 44,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14201.2109,
+      "y": 516.5098
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 45,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14218.9609,
+      "y": 524.8389
+    }
+  ]
+}

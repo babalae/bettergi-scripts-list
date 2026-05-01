@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -6,10 +6,10 @@
         "name": "躁动的氨气"
       }
     ],
-    "bgi_version": "0.60.2",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1777387825961,
+    "last_modified_time": 1777517232088,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A12-苔古荒原地下",
@@ -46,18 +46,27 @@
       "y": 1668.3237
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 9864.4912,
-      "y": 1671.5083
+      "x": 9864.4805,
+      "y": 1670.8047
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9856.0586,
+      "y": 1676.4336
     },
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "walk",
       "type": "path",
       "x": 9848.5859,
@@ -66,7 +75,7 @@
     {
       "action": "linnea_mining",
       "action_params": "1,1",
-      "id": 6,
+      "id": 7,
       "move_mode": "walk",
       "type": "orientation",
       "x": 9838.6865,

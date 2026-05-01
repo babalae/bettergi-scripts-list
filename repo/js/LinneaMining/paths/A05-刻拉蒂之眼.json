@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "authors": [
       {
@@ -6,10 +6,10 @@
         "name": "躁动的氨气"
       }
     ],
-    "bgi_version": "0.60.2",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1777385946693,
+    "last_modified_time": 1777517218045,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A05-刻拉蒂之眼",
@@ -91,7 +91,7 @@
       "y": 2227.5918
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 9,
       "move_mode": "walk",
@@ -100,9 +100,18 @@
       "y": 2254.8428
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8655.545,
+      "y": 2260.4873
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
       "move_mode": "walk",
       "type": "path",
       "x": 8657.9258,
@@ -111,7 +120,7 @@
     {
       "action": "linnea_mining",
       "action_params": "1,1",
-      "id": 11,
+      "id": 12,
       "move_mode": "walk",
       "type": "orientation",
       "x": 8664.4902,
@@ -120,7 +129,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 12,
+      "id": 13,
       "move_mode": "walk",
       "type": "path",
       "x": 8663.6855,
@@ -129,7 +138,7 @@
     {
       "action": "linnea_mining",
       "action_params": "1,1",
-      "id": 13,
+      "id": 14,
       "move_mode": "walk",
       "type": "orientation",
       "x": 8656.8262,
@@ -138,7 +147,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
+      "id": 15,
       "move_mode": "walk",
       "type": "path",
       "x": 8637.0225,
@@ -147,7 +156,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 15,
+      "id": 16,
       "move_mode": "walk",
       "type": "path",
       "x": 8643.2637,
@@ -156,7 +165,7 @@
     {
       "action": "linnea_mining",
       "action_params": "1,1",
-      "id": 16,
+      "id": 17,
       "move_mode": "walk",
       "type": "orientation",
       "x": 8652.0293,
@@ -165,7 +174,7 @@
     {
       "action": "linnea_mining",
       "action_params": "1,1",
-      "id": 17,
+      "id": 18,
       "move_mode": "walk",
       "type": "orientation",
       "x": 8644.9844,
@@ -174,7 +183,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "walk",
       "type": "path",
       "x": 8646.9629,
@@ -183,7 +192,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
+      "id": 20,
       "move_mode": "walk",
       "type": "path",
       "x": 8669.3848,
@@ -192,7 +201,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 20,
+      "id": 21,
       "move_mode": "walk",
       "type": "path",
       "x": 8675.917,
@@ -201,7 +210,7 @@
     {
       "action": "linnea_mining",
       "action_params": "1,1",
-      "id": 21,
+      "id": 22,
       "move_mode": "walk",
       "type": "orientation",
       "x": 8682.9688,
@@ -210,7 +219,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 22,
+      "id": 23,
       "move_mode": "walk",
       "type": "path",
       "x": 8714.1064,
@@ -219,7 +228,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 23,
+      "id": 24,
       "move_mode": "walk",
       "type": "path",
       "x": 8715.5771,
@@ -228,7 +237,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 24,
+      "id": 25,
       "move_mode": "walk",
       "type": "path",
       "x": 8728.0361,
@@ -237,7 +246,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 25,
+      "id": 26,
       "move_mode": "walk",
       "type": "target",
       "x": 8726.9141,
@@ -246,7 +255,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 26,
+      "id": 27,
       "move_mode": "walk",
       "type": "target",
       "x": 8731.1055,
@@ -255,7 +264,7 @@
     {
       "action": "linnea_mining",
       "action_params": "1,1",
-      "id": 27,
+      "id": 28,
       "move_mode": "walk",
       "type": "orientation",
       "x": 8739.1748,
@@ -264,16 +273,16 @@
     {
       "action": "",
       "action_params": "",
-      "id": 28,
+      "id": 29,
       "move_mode": "walk",
       "type": "path",
-      "x": 8726.5049,
-      "y": 2376.3296
+      "x": 8730.75,
+      "y": 2382.2813
     },
     {
       "action": "",
       "action_params": "",
-      "id": 29,
+      "id": 30,
       "move_mode": "walk",
       "type": "path",
       "x": 8710.1875,
@@ -282,7 +291,7 @@
     {
       "action": "linnea_mining",
       "action_params": "1,1",
-      "id": 30,
+      "id": 31,
       "move_mode": "walk",
       "type": "orientation",
       "x": 8708.666,
