@@ -1,0 +1,105 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777628759767,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A01-希汐岛左下-01",
+    "tags": [
+      "虹滴晶"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 11060.8975,
+      "y": 1592.3135
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 11045.252,
+      "y": 1608.9297
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 11032.167,
+      "y": 1612.7764
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11026.9268,
+      "y": 1603.7539
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11033.1875,
+      "y": 1576.5312
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11026.8779,
+      "y": 1605.7744
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11027.7734,
+      "y": 1607.4688
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11013.6035,
+      "y": 1596.9648
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10973.5127,
+      "y": 1682.4473
+    }
+  ]
+}

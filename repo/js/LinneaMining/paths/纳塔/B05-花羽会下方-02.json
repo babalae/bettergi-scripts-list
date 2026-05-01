@@ -1,0 +1,141 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777630148532,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B05-花羽会下方-02",
+    "tags": [
+      "萃凝晶"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9587.4131,
+      "y": -1279.2451
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9606.0469,
+      "y": -1294.4248
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 9624.9307,
+      "y": -1307.1562
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9624.9307,
+      "y": -1307.1562
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9641.9756,
+      "y": -1323.9932
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9661.0713,
+      "y": -1350.791
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9688.4014,
+      "y": -1372.9561
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9682.2598,
+      "y": -1354.5615
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9765.2949,
+      "y": -1363.5391
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9769.7441,
+      "y": -1359.9805
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9764.1172,
+      "y": -1371.2539
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9723.0586,
+      "y": -1423.8848
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9700.5996,
+      "y": -1427.7012
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777629927183,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B02-安绕之野-04",
+    "tags": [
+      "萃凝晶",
+      "白铁块"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9838.3477,
+      "y": -2364.9062
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9800.4268,
+      "y": -2330.7256
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9772.5186,
+      "y": -2286.9473
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9754.8633,
+      "y": -2273.1816
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9714.3154,
+      "y": -2260.4971
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9719.6328,
+      "y": -2255.5078
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9728.5557,
+      "y": -2228.6055
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9742.6025,
+      "y": -2215.7246
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9756.751,
+      "y": -2214.0967
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9745.6807,
+      "y": -2211.2266
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9751.3076,
+      "y": -2205.3994
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9744.7031,
+      "y": -2210.6982
+    }
+  ]
+}

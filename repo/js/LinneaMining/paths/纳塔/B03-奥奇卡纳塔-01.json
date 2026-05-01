@@ -1,0 +1,69 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777629963179,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B03-奥奇卡纳塔-01",
+    "tags": [
+      "萃凝晶"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10273.916,
+      "y": -191.8887
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10275.7344,
+      "y": -179.4189
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10267.7617,
+      "y": -146.9648
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10267.7744,
+      "y": -131.4238
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "2,3",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10268.043,
+      "y": -121.3242
+    }
+  ]
+}

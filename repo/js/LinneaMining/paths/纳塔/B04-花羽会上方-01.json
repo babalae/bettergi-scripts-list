@@ -1,0 +1,69 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777630038028,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B04-花羽会上方-01",
+    "tags": [
+      "萃凝晶"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9548.0176,
+      "y": -1116.8955
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9558.6602,
+      "y": -1105.7461
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9632.3682,
+      "y": -1044.6709
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9637.1758,
+      "y": -1034.5059
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9604.0977,
+      "y": -1061.9844
+    }
+  ]
+}

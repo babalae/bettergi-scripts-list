@@ -1,0 +1,60 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777628765898,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A01-希汐岛左下-02",
+    "tags": [
+      "虹滴晶"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10973.5127,
+      "y": 1682.4473
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10985.5244,
+      "y": 1673.5088
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10979.4043,
+      "y": 1663.1636
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11013.6035,
+      "y": 1596.9648
+    }
+  ]
+}
