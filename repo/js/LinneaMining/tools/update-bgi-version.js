@@ -20,10 +20,21 @@ function updateVersion(dir) {
         console.log(`Removed BOM: ${path.relative(targetDir, fullPath)}`);
       }
       const data = JSON.parse(raw);
-      if (data.info?.bgi_version) {
+      let changed = false;
+
+      if (data.info?.bgi_version && data.info.bgi_version !== newVersion) {
         data.info.bgi_version = newVersion;
-        fs.writeFileSync(fullPath, JSON.stringify(data, null, 2));
-        console.log(`Updated: ${path.relative(targetDir, fullPath)} -> ${newVersion}`);
+        changed = true;
+      }
+
+      if (!data.info.version) {
+        data.info.version = "1.0";
+        changed = true;
+      }
+
+      if (changed) {
+        fs.writeFileSync(fullPath, JSON.stringify(data, null, 2) + '\n');
+        console.log(`Updated: ${path.relative(targetDir, fullPath)}`);
       }
     }
   }

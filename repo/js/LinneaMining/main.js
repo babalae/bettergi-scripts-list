@@ -5,9 +5,10 @@ import { loadRefreshData, cleanupStaleRecords, recordRoute, filterRunnableRoutes
 
 (async function () {
   const version = getVersion()
+  const minVersion = '0.60.2'
 
-  if (!checkVersion(version)) {
-    log.warn(`当前 BetterGI 版本(${version})低于最低要求(${minBgiVersion})，内部算法缺少优化，出现异常为正常情况`)
+  if (!checkVersion(version, minVersion)) {
+    log.warn(`当前 BetterGI 版本(${version})低于最低要求(${minVersion})，内部算法缺少优化，出现异常为正常情况`)
   }
 
   setGameMetrics(1920, 1080, 1);
