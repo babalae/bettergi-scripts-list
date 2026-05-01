@@ -1,7 +1,7 @@
 import { checkVersion } from "./utils/version.js";
 import { checkAvatar } from "./utils/avatar.js";
-import { getRoutes } from "./utils/routes.js";
-import { loadRefreshData, cleanupStaleRecords, recordRoute, filterRunnableRoutes } from "./utils/refresh.js";
+import { getRoutes, filterByTags, filterByRegion } from "./utils/routes.js";
+import { loadRefreshData, cleanupStaleRecords, recordRoute, filterRunnableRoutes, getRouteDuration, estimateRoutesDuration, formatDuration } from "./utils/refresh.js";
 
 (async function () {
   const version = getVersion()
@@ -15,6 +15,9 @@ import { loadRefreshData, cleanupStaleRecords, recordRoute, filterRunnableRoutes
   await genshin.returnMainUi();
 
   const partyName = settings.partyName || "";
+  const excludeOreTypes = Array.from(settings.excludeOreTypes || []);
+  const excludeRegions = Array.from(settings.excludeRegions || []);
+  const skipBattleRoutes = settings.skipBattleRoutes === true;
 
   // 切换队伍
   async function switchParty(partyName) {
@@ -59,27 +62,59 @@ import { loadRefreshData, cleanupStaleRecords, recordRoute, filterRunnableRoutes
     return;
   }
 
-  const refreshData = loadRefreshData();
-  cleanupStaleRecords(refreshData, allRoutes);
+  let routes = allRoutes;
 
-  const routes = filterRunnableRoutes(allRoutes, refreshData);
-  if (routes.length === 0) {
+  routes = filterByRegion(routes, excludeRegions);
+  if (excludeRegions.length > 0 && routes.length < allRoutes.length) {
+    log.info(`地区筛选：排除 ${allRoutes.length - routes.length} 条路线`);
+  }
+
+  routes = filterByTags(routes, excludeOreTypes);
+  if (excludeOreTypes.length > 0 && routes.length < allRoutes.length) {
+    log.info(`矿物筛选：排除 ${allRoutes.length - routes.length} 条路线`);
+  }
+
+  if (skipBattleRoutes) {
+    routes = filterByTags(routes, ["战斗"]);
+    if (routes.length < allRoutes.length) {
+      log.info(`跳过战斗路线：排除 ${allRoutes.length - routes.length} 条路线`);
+    }
+  }
+
+  const refreshData = loadRefreshData();
+  cleanupStaleRecords(refreshData, routes);
+
+  const runnableRoutes = filterRunnableRoutes(routes, refreshData);
+  if (runnableRoutes.length === 0) {
     log.info("所有路线均未刷新，无需运行");
     return;
   }
 
-  log.info(`将运行 ${routes.length}/${allRoutes.length} 条路线（${allRoutes.length - routes.length} 条未刷新已跳过）`);
+  log.info(`将运行 ${runnableRoutes.length}/${allRoutes.length} 条路线`);
 
   dispatcher.addTimer(new RealtimeTimer("AutoPick"));
 
-  for (let i = 0; i < routes.length; i++) {
-    const route = routes[i];
-    log.info(`路线 ${i + 1}/${routes.length}: ${route.split('\\').pop()}`);
+  for (let i = 0; i < runnableRoutes.length; i++) {
+    const route = runnableRoutes[i];
+    const fileName = route.split('\\').pop();
+
+    const remaining = runnableRoutes.slice(i);
+    const remainingEst = estimateRoutesDuration(remaining, refreshData);
+    const thisRouteEst = getRouteDuration(route, refreshData);
+
+    if (thisRouteEst !== null) {
+      log.info(`路线 ${i + 1}/${runnableRoutes.length}: ${fileName}（预计 ${formatDuration(thisRouteEst)}，剩余 ${formatDuration(remainingEst)}）`);
+    } else {
+      log.info(`路线 ${i + 1}/${runnableRoutes.length}: ${fileName}（预计 ${formatDuration(remainingEst)}）`);
+    }
+
+    const startTime = Date.now();
     await runRoute(route);
     await sleep(10);
-    recordRoute(route, refreshData);
+    const duration = (Date.now() - startTime) / 1000;
+    recordRoute(route, refreshData, duration);
 
-    if (i < routes.length - 1) {
+    if (i < runnableRoutes.length - 1) {
       await sleep(2000);
     }
   }
