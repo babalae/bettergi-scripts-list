@@ -1,3 +1,5 @@
+import {openBag} from "../../../packages/utils/tool";
+
 const folderA = 'assets/狗粮A线@Yang-z/';
 const folderB = 'assets/狗粮B线@Yang-z/';
 const folderE = 'assets/狗粮额外@Yang-z/';
@@ -241,8 +243,8 @@ async function executeSalvageWithOCR(pathGroup, isPreRun = false) {
     let cachedFrame = null;
 
     try {
-        await genshin.returnMainUi();
-        keyPress("B"); await sleep(1000);
+        await openBag();
+        await sleep(1000);
         const coords = [
             [670, 40],                  // 打开背包
             [660, 1010],    // 打开分解
