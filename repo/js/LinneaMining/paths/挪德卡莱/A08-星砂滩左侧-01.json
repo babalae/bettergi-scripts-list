@@ -1,0 +1,69 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777641908210,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A08-星砂滩左侧-01",
+    "tags": [
+      "虹滴晶"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9746.3359,
+      "y": 1916.6543
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "target",
+      "x": 9748.2793,
+      "y": 1986.4746
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9742.8496,
+      "y": 1995.2305
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9742.9609,
+      "y": 2000.4443
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9753.9727,
+      "y": 1998.6973
+    }
+  ]
+}

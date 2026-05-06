@@ -1,0 +1,78 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777628783391,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A02-沐光之台",
+    "tags": [
+      "虹滴晶"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10524.9141,
+      "y": 1931.8145
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10506.9131,
+      "y": 1954.0835
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10437.5322,
+      "y": 1965.1475
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10442.957,
+      "y": 1974.6445
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),moveby(0,-1000)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10442.957,
+      "y": 1974.6445
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10445.7822,
+      "y": 1979.5498
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777630165708,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B06-烟谜主左上-01",
+    "tags": [
+      "白铁块"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9839.8184,
+      "y": -1289.7363
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9852.8779,
+      "y": -1294.7559
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(T),wait(1)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9863.0498,
+      "y": -1293.6064
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(F),wait(5)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9876.6484,
+      "y": -1292.7559
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(9),keydown(Q),wait(2),keyup(Q),click",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9901.793,
+      "y": -1281.2383
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9918.9336,
+      "y": -1273.9932
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9935.2588,
+      "y": -1262.6602
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9917.1348,
+      "y": -1263.3809
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9940.877,
+      "y": -1273.083
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9950.3652,
+      "y": -1274.8096
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9961.3906,
+      "y": -1291.9512
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9953.8535,
+      "y": -1309.0967
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9942.2637,
+      "y": -1333.8877
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9944.1484,
+      "y": -1345.0361
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9942.9404,
+      "y": -1354.998
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9920.3164,
+      "y": -1390.7266
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9908.707,
+      "y": -1399.7461
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9910.0439,
+      "y": -1417.6904
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9890.7324,
+      "y": -1418.9277
+    }
+  ]
+}

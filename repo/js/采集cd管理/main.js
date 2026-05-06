@@ -56,6 +56,13 @@ let subFolderPath;
 let recordFilePath;
 let name2Other;
 let alias2Names;
+const GAME_REGION_CACHE_SIZE = 5; // 游戏区域截图缓存大小上限
+const gameRegionManager = {
+    cache: [], // 缓存队列，保存近GAME_REGION_CACHE_SIZE张截图
+    lastCapture: new Date(),
+    isDisposing: false,
+    isCapturing: false
+};
 
 /* ===== 5. 待定分区（后续手动分类） ===== */
 let materialCdMap = {};
@@ -103,13 +110,11 @@ let materialCdMap = {};
  */
 async function recognizeAndInteract() {
     let lastcenterYF = 0, lastItemName = "", thisMoveUpTime = 0, lastMoveDown = 0;
-    gameRegion = captureGameRegion();
     let lastCheckItemFull = new Date();
     let checkTask = null;
 
     while (state.running) {
-        gameRegion.dispose();
-        gameRegion = captureGameRegion();
+        gameRegion = await getGameRegion();
 
         if (new Date() - lastCheckItemFull > 2500 && !checkTask) {
             lastCheckItemFull = new Date();
@@ -285,7 +290,7 @@ async function performTemplateMatch(centerYF) {
  */
 async function isMainUI() {
     for (let i = 0; i < 1 && state.running; i++) {
-        if (!gameRegion) gameRegion = captureGameRegion();
+        gameRegion = await getGameRegion();
         try {
             if (gameRegion.find(mainUiRo).isExist()) {
                 return true;
@@ -876,7 +881,7 @@ async function ingredientProcessing() {
         return;
     }
 
-    const rg = captureGameRegion();
+    const rg = await getGameRegion();
     const foodItems = [];
     try {
         for (const flag of ['已加工0个', '已加工1个']) {
@@ -887,7 +892,9 @@ async function ingredientProcessing() {
             }
             mat.dispose();
         }
-    } finally { rg.dispose(); }
+    } catch (error) {
+        log.error(error.message);
+    }
 
     log.info(`识别到${foodItems.length}个加工中食材`);
 
@@ -896,7 +903,7 @@ async function ingredientProcessing() {
         click(item.x, item.y); await sleep(3 * checkInterval);
 
         for (let round = 0; round < 5; round++) {
-            const rg = captureGameRegion();
+            const rg = await getGameRegion();
             try {
                 let hit = false;
 
@@ -930,7 +937,6 @@ async function ingredientProcessing() {
 
                 if (hit) break;            // 本轮已命中，跳出 round
             } finally {
-                rg.dispose();
             }
         }
     }
@@ -1680,7 +1686,7 @@ async function findAndClick(target,
         let found = null;
 
         while (Date.now() - start <= timeout) {
-            const gameRegion = captureGameRegion();
+            const gameRegion = await getGameRegion();
             try {
                 // 依次尝试每一个 ro
                 for (const ro of ros) {
@@ -1697,7 +1703,6 @@ async function findAndClick(target,
                 }
                 if (found) break;                  // 成功即跳出 while
             } finally {
-                gameRegion.dispose();
             }
             await sleep(interval);                 // 没找到时等待
         }
@@ -1708,6 +1713,69 @@ async function findAndClick(target,
     } catch (error) {
         log.error(`执行通用识图时出现错误：${error.message}`);
         return retType === 0 ? false : null;
+    }
+}
+
+/**
+ * 获取游戏区域截图，根据时间间隔决定是否重新捕获
+ * 
+ * @param {number} [minInterval=17] - 最小截图间隔（毫秒），默认17ms（约60fps）
+ * @param {boolean} [asyncDispose=false] - 是否异步释放旧截图，默认false
+ * @returns {Promise<Object>} 游戏区域截图对象
+ * 
+ * @description
+ * 使用 gameRegionManager 对象管理以下属性：
+ * - cache: 缓存队列，保存近5张截图
+ * - lastCapture: 上一次捕获游戏区域的时间戳
+ * - isDisposing: 标记是否正在释放旧截图，用于安全锁
+ * - isCapturing: 标记是否正在执行截图操作，用于全局锁
+ */
+async function getGameRegion(minInterval = 17, asyncDispose = false) {
+    async function disposeOldGameRegion() {
+        gameRegionManager.isDisposing = true;
+        try {
+            // 当缓存队列超过GAME_REGION_CACHE_SIZE个时，销毁最旧的截图
+            while (gameRegionManager.cache.length > GAME_REGION_CACHE_SIZE) {
+                const oldestRegion = gameRegionManager.cache.shift();
+                if (oldestRegion) {
+                    oldestRegion.dispose();
+                }
+            }
+        } catch (error) {
+            log.error(`释放旧游戏区域截图失败: ${error.message}`);
+        } finally {
+            gameRegionManager.isDisposing = false;
+        }
+    }
+
+    // 等待其他任务完成截图
+    while (gameRegionManager.isCapturing) {
+        await sleep(1);
+    }
+
+    gameRegionManager.isCapturing = true;
+    try {
+        if (new Date() - gameRegionManager.lastCapture >= minInterval || gameRegionManager.cache.length === 0) {
+            while (gameRegionManager.isDisposing) {
+                await sleep(1);
+            }
+            gameRegionManager.lastCapture = new Date();
+            const newRegion = captureGameRegion();
+            gameRegionManager.cache.push(newRegion);
+
+            // 根据参数决定是否等待释放完成
+            if (asyncDispose) {
+                disposeOldGameRegion();
+            } else {
+                await disposeOldGameRegion();
+            }
+        }
+    } catch (error) {
+        log.error(`获取游戏区域截图失败: ${error.message}`);
+    } finally {
+        gameRegionManager.isCapturing = false;
+        // 返回最新的截图
+        return gameRegionManager.cache[gameRegionManager.cache.length - 1];
     }
 }
 
@@ -1783,12 +1851,8 @@ function isArrivedAtEndPoint(fullPath) {
  */
 async function hasScroll(maxDuration = 10) {
     const start = Date.now();
-    let dodispose = false;
     while (Date.now() - start < maxDuration) {
-        if (!gameRegion) {
-            gameRegion = captureGameRegion();
-            dodispose = true;
-        }
+        gameRegion = await getGameRegion();
         try {
             const result = gameRegion.find(scrollRo);
             if (result.isExist()) return true;
@@ -1797,10 +1861,6 @@ async function hasScroll(maxDuration = 10) {
             return false;          // 一旦出现异常直接退出，不再重试
         }
         await sleep(findFInterval);   // 识别间隔
-        if (dodispose) {
-            gameRegion.dispose();
-            dodispose = false;     // 已经释放，标记避免重复 dispose
-        }
     }
     /* 超时仍未识别到，返回失败 */
     return false;

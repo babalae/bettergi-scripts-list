@@ -132,9 +132,18 @@ async function loadExternalData() {
         logConditional(`共收集到 ${allTags.size} 个标签`);
 
         // ========== 解析用户输入 ==========
-        const foodsInput = (settings.foodsToBuy || "").trim();
-        if (foodsInput) {
-            const items = foodsInput.split(/[,\s、]+/).filter(item => item.trim() !== "");
+        let items = [];
+        // 优先尝试读取新的列表配置
+        if (settings.foodsToBuyList) {
+            items = Array.from(settings.foodsToBuyList);
+        } else if (typeof settings.foodsToBuy === 'string') {
+            // 兼容旧配置
+            items = (settings.foodsToBuy || "").trim().split(/[,\s、]+/).filter(item => item.trim() !== "");
+        } else if (settings.foodsToBuy) {
+            items = Array.from(settings.foodsToBuy);
+        }
+
+        if (items.length > 0) {
             const enabledFoodsList = [];
             const enabledTagsList = [];
 
@@ -350,7 +359,15 @@ const ignoreRecords = settings.ignoreRecords || false;
 const recordDebug = settings.recordDebug || false;
 
 // 解析禁用的标签列表
-const disabledTags = (settings.disabledTags || "").split(/[,\s、]+/).filter(tag => tag.trim() !== "");
+let disabledTags = [];
+if (settings.disabledTagsList) {
+    disabledTags = Array.from(settings.disabledTagsList);
+} else if (typeof settings.disabledTags === 'string') {
+    disabledTags = (settings.disabledTags || "").split(/[,\s、]+/).filter(tag => tag.trim() !== "");
+} else if (settings.disabledTags) {
+    disabledTags = Array.from(settings.disabledTags);
+}
+
 if (disabledTags.length > 0) {
     log.info(`已禁用标签: ${disabledTags.join(", ")}`);
 }

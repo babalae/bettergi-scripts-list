@@ -1,0 +1,70 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777629306960,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "A15-安瓦蒂尼尔湖-02",
+    "tags": [
+      "水晶块",
+      "白铁块"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9668.791,
+      "y": 6045.7822
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9633.9443,
+      "y": 6034.9756
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9560.5625,
+      "y": 6018.125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9486.6523,
+      "y": 6018.2959
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "2,2",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": 9490.3457,
+      "y": 6027.9712
+    }
+  ]
+}

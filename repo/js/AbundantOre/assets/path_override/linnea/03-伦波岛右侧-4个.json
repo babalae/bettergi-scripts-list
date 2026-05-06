@@ -1,0 +1,114 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/cheese-bagel",
+        "name": "芝士贝果"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777868041086,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "03-伦波岛右侧-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9746.3349609375,
+      "y": 1916.6513671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9717.908203125,
+      "y": 1911.896484375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle);",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9707.744140625,
+      "y": 1895.16796875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 charge(0.8)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9691.7890625,
+      "y": 1893.8046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9746.3349609375,
+      "y": 1916.6513671875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9746.3349609375,
+      "y": 1916.6513671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9691.8369140625,
+      "y": 1929.07861328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9661.7109375,
+      "y": 1921.31640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle)",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9665.03515625,
+      "y": 1910.0703125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 charge(0.8);wait(1.2)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9668.056640625,
+      "y": 1894.76025390625
+    }
+  ]
+}

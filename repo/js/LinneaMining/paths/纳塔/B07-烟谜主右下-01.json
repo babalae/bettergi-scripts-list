@@ -1,0 +1,78 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777630258862,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B07-烟谜主右下-01",
+    "tags": [
+      "萃凝晶"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9685.8232,
+      "y": -1621.1748
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9684.8281,
+      "y": -1622.2773
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9672.1318,
+      "y": -1700.4062
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9666.8643,
+      "y": -1699.7012
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9647.0811,
+      "y": -1698.1768
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "2,2",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9664.5488,
+      "y": -1697.4365
+    }
+  ]
+}

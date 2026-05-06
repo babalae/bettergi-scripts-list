@@ -1,0 +1,195 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777628775969,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A01-希汐岛左下-03",
+    "tags": [
+      "虹滴晶"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 11060.9111,
+      "y": 1592.3213
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 11076.9082,
+      "y": 1575.1826
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11104.6953,
+      "y": 1578.7207
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "2,3",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11105.5469,
+      "y": 1588.3047
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11117.915,
+      "y": 1579.6895
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 11137.4033,
+      "y": 1581.9521
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 11138.8359,
+      "y": 1595.0981
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "2,3",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11137.9453,
+      "y": 1603.1719
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11137.8721,
+      "y": 1605.9644
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11118.085,
+      "y": 1628.1523
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11103.5703,
+      "y": 1637.2031
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11097.1826,
+      "y": 1648.626
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11100.1328,
+      "y": 1657.0547
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11103.2656,
+      "y": 1666.6504
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11108.4688,
+      "y": 1676.9922
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11112.875,
+      "y": 1685.6104
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11125.6562,
+      "y": 1677.7656
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 11132.2021,
+      "y": 1673.3096
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11137.0215,
+      "y": 1667.2622
+    }
+  ]
+}

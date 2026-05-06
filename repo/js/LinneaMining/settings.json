@@ -1,0 +1,44 @@
+[
+  {
+    "name": "partyName",
+    "type": "input-text",
+    "default": "",
+    "label": "队伍名称"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "excludeRegions",
+    "type": "multi-checkbox",
+    "label": "跳过以下地区",
+    "options": [
+      "挪德卡莱",
+      "纳塔"
+    ]
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "excludeOreTypes",
+    "type": "multi-checkbox",
+    "label": "不挖以下矿物",
+    "options": [
+      "虹滴晶",
+      "白铁块",
+      "水晶块",
+      "铁块",
+      "萃凝晶"
+    ]
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "skipBattleRoutes",
+    "type": "checkbox",
+    "default": false,
+    "label": "跳过战斗点位"
+  }
+]

@@ -1,0 +1,60 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777629625023,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B01-悠悠度假村-05",
+    "tags": [
+      "白铁块"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14733.1465,
+      "y": 724.5957
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 14672.9473,
+      "y": 692.4443
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14676.5938,
+      "y": 684.1563
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,1",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14685.7881,
+      "y": 656.7085
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "manifest_version": 1,
+  "name": "莉奈娅挖矿一条龙",
+  "version": "0.2.0",
+  "bgi_version": "0.60.2",
+  "description": "不分矿种，稳定刷新即挖",
+  "authors": [
+    {
+      "name": "躁动的氨气",
+      "links": "https://github.com/zaodonganqi"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "data/*.txt",
+    "local/refresh_records.json"
+  ],
+  "library": [
+    ".",
+    "utils"
+  ]
+}

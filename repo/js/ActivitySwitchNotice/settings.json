@@ -99,6 +99,33 @@
         "default": "F1"
     },
     {
+        "name": "openBagKey",
+        "type": "input-text",
+        "label": "打开背包按键(不填，默认：B)",
+        "default": "B"
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "name": "checkHolyRelic",
+        "type": "checkbox",
+        "label": "启用圣遗物空间提醒",
+        "default": false
+    },
+    {
+        "name": "holyRelicsDiffCountThreshold",
+        "type": "input-text",
+        "label": "圣遗物剩余空间阈值",
+        "default": "400"
+    },
+    {
         "type": "separator"
     },
     {

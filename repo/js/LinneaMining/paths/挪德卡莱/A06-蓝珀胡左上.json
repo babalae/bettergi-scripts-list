@@ -1,0 +1,87 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777628877185,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A06-蓝珀胡左上",
+    "tags": [
+      "虹滴晶"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9248.2344,
+      "y": 2350.249
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9260.7783,
+      "y": 2338.3604
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9289.5928,
+      "y": 2344.4766
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9306.5869,
+      "y": 2337.0376
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9314.6748,
+      "y": 2336.5464
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9342.2812,
+      "y": 2291.1875
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "2,4",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9338.3525,
+      "y": 2293.9131
+    }
+  ]
+}

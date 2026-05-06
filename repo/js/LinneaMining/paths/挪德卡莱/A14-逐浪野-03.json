@@ -1,0 +1,69 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777629347236,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "A14-逐浪野-03",
+    "tags": [
+      "虹滴晶"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9775.0703,
+      "y": 5817.2271
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9823.6172,
+      "y": 5819.1797
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9848.5996,
+      "y": 5831.0288
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9841.1523,
+      "y": 5846.3096
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "2,3",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9829.8389,
+      "y": 5846.417
+    }
+  ]
+}

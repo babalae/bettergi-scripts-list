@@ -1,0 +1,89 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1777629362569,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "A13-虚海望-03",
+    "order": 0,
+    "tags": [
+      "虹滴晶"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9561.5537,
+      "y": 5321.6885
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9565.5391,
+      "y": 5331.8345
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9616.8828,
+      "y": 5331.0156
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9621.9658,
+      "y": 5358.0635
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9634.7207,
+      "y": 5369.2686
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9689.708,
+      "y": 5380.0312
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "2,3",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9700.8809,
+      "y": 5375.1191
+    }
+  ]
+}

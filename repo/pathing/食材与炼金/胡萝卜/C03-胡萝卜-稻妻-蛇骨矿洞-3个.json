@@ -1,85 +1,107 @@
 {
   "info": {
-    "name": "C03-胡萝卜-稻妻-蛇骨矿洞-3个",
-    "type": "collect",
-    "author": "蜜柑魚",
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754247377538,
     "authors": [
       {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
       }
-    ]
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1775554498519,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C03-胡萝卜-稻妻-蛇骨矿洞-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
       "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
       "x": -2221.1,
-      "y": -4006.94,
-      "action": "",
-      "move_mode": "walk",
-      "type": "teleport"
+      "y": -4006.94
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -2229.36,
-      "y": -4037.52,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "move_mode": "run",
+      "type": "path",
+      "x": -2218.0898,
+      "y": -4012.0801
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": -2259.5,
-      "y": -4042.56,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "move_mode": "run",
+      "type": "path",
+      "x": -2229.4004,
+      "y": -4035.6699
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 4,
-      "x": -2268.39,
-      "y": -4043.55,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2233.4531,
+      "y": -4043.5732
     },
     {
+      "action": "",
       "id": 5,
-      "x": -2300.3,
-      "y": -4034.73,
-      "action": "",
-      "move_mode": "walk",
-      "type": "path"
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2259.5,
+      "y": -4042.56
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
       "id": 6,
-      "x": -2302.58,
-      "y": -4037.68,
-      "action": "",
-      "move_mode": "walk",
-      "type": "target"
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2268.39,
+      "y": -4043.55
     },
     {
+      "action": "",
       "id": 7,
-      "x": -2302.93,
-      "y": -4038.73,
-      "action": "",
-      "move_mode": "walk",
-      "type": "target"
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2300.3,
+      "y": -4034.73
     },
     {
-      "id": 8,
-      "x": -2307.58,
-      "y": -4046.31,
       "action": "",
+      "id": 8,
       "move_mode": "walk",
-      "type": "path"
+      "type": "target",
+      "x": -2302.58,
+      "y": -4037.68
+    },
+    {
+      "action": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2302.93,
+      "y": -4038.73
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2307.58,
+      "y": -4046.31
     }
   ]
 }
