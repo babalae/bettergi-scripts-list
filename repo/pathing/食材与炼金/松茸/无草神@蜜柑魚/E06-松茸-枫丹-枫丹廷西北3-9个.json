@@ -1,0 +1,130 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777398002154,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E06-松茸-枫丹-枫丹廷西北3-9个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4860.7021484375,
+      "y": 3913.58740234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4882.8876953125,
+      "y": 3998.98095703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 4881.7421875,
+      "y": 4006.13671875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4885.220703125,
+      "y": 4004.29150390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4876.9873046875,
+      "y": 4017.4921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4879.392578125,
+      "y": 4017.6474609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4876.8212890625,
+      "y": 4023.5107421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4820.7255859375,
+      "y": 4053.28759765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4764.072265625,
+      "y": 4023.087890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4762.849609375,
+      "y": 4031.02734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 4720.0478515625,
+      "y": 4047.35107421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 4715.5771484375,
+      "y": 4040.4931640625
+    }
+  ]
+}

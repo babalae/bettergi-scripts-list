@@ -1,0 +1,103 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777307188589,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A13-松茸-蒙德-急冻树西南-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1534.28515625,
+      "y": 1977.11669921875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1527.6796875,
+      "y": 2001.58984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1519.86328125,
+      "y": 2024.2109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1506.62890625,
+      "y": 2030.97607421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1538.06640625,
+      "y": 2010.59033203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1544.443359375,
+      "y": 2003.7138671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1571.49609375,
+      "y": 1992.443359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1584.787109375,
+      "y": 1991.28173828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1593.3515625,
+      "y": 2001.1640625
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777312774684,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B05-松茸-璃月-明蕴镇东-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -415.75390625,
+      "y": 732.078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -391.220703125,
+      "y": 720.64453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -345.83984375,
+      "y": 732.8251953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -346.421875,
+      "y": 751.6767578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -343.087890625,
+      "y": 762.4443359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -358.68359375,
+      "y": 780.36572265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -339.75,
+      "y": 816.1435546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -337.83984375,
+      "y": 814.1982421875
+    }
+  ]
+}

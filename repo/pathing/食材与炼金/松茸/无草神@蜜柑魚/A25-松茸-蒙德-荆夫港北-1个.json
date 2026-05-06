@@ -1,0 +1,58 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777231023413,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "AN5-松茸-蒙德-荆夫港北-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -218.23828125,
+      "y": 3787.81640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -198.103515625,
+      "y": 3766.76708984375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "4000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -141.859375,
+      "y": 3704.73583984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -146.73828125,
+      "y": 3701.486328125
+    }
+  ]
+}

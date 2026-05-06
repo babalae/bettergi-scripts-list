@@ -1,0 +1,103 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777288877626,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A07-松茸-蒙德-清泉镇东南-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -913.509765625,
+      "y": 1790.623046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -922.90625,
+      "y": 1783.9873046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -933.640625,
+      "y": 1766.57568359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -929.021484375,
+      "y": 1762.1865234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -926.7734375,
+      "y": 1760.0263671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -961.625,
+      "y": 1754.896484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -972.84375,
+      "y": 1757.03125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -992.544921875,
+      "y": 1763.41455078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -990.888671875,
+      "y": 1780.080078125
+    }
+  ]
+}

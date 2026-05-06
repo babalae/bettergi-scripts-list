@@ -1,0 +1,94 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777286749253,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A01-松茸-蒙德-晨曦酒庄西-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -200.814453125,
+      "y": 1862.181640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -189.5859375,
+      "y": 1884.2646484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -173.060546875,
+      "y": 1909.98046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -167.759765625,
+      "y": 1913.20751953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -145.59375,
+      "y": 1922.89599609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -140.65234375,
+      "y": 1926.5908203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -134.7421875,
+      "y": 1935.63720703125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -137.1640625,
+      "y": 1952.9638671875
+    }
+  ]
+}

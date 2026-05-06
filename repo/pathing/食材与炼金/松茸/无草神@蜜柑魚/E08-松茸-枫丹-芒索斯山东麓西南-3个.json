@@ -1,0 +1,103 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777400099263,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E08-松茸-枫丹-芒索斯山东麓西南-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4985.029296875,
+      "y": 4463.19140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5005.2724609375,
+      "y": 4424.3603515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5011.1650390625,
+      "y": 4423.03466796875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5067.3779296875,
+      "y": 4355.3388671875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5064.509765625,
+      "y": 4340.44140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5048.5595703125,
+      "y": 4317.30078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 5058.2578125,
+      "y": 4312.07568359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5075.654296875,
+      "y": 4269.740234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.21)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5077.8359375,
+      "y": 4265.2763671875
+    }
+  ]
+}

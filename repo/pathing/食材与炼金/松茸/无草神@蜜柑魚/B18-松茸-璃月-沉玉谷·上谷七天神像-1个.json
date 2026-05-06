@@ -1,0 +1,58 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777392387162,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B18-松茸-璃月-沉玉谷·上谷七天神像-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1468.396484375,
+      "y": 1998.33740234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1453.8359375,
+      "y": 1996.90234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1445.90234375,
+      "y": 1989.9169921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.21)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1429.857421875,
+      "y": 1982.021484375
+    }
+  ]
+}

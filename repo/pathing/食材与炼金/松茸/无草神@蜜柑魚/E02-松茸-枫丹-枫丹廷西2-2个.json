@@ -1,0 +1,76 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777395777806,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E02-松茸-枫丹-枫丹廷西2-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4824.0126953125,
+      "y": 3628.9951171875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4876.0283203125,
+      "y": 3620.6318359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4883.583984375,
+      "y": 3620.771484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4877.2568359375,
+      "y": 3621.67236328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4899.884765625,
+      "y": 3642.5302734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4914.5634765625,
+      "y": 3653.4013671875
+    }
+  ]
+}

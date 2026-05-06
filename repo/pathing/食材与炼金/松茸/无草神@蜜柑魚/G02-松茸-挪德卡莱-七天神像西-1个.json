@@ -1,0 +1,49 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777223680568,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "G02-松茸-挪德卡莱-七天神像西-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9657.748046875,
+      "y": 1724.90625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9675.12109375,
+      "y": 1677.396484375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9669.0556640625,
+      "y": 1680.029296875
+    }
+  ]
+}

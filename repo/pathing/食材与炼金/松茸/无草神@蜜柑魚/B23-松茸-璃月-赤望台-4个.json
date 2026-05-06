@@ -1,0 +1,112 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777394653111,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B23-松茸-璃月-赤望台-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2630.130859375,
+      "y": 1528.88525390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2617.953125,
+      "y": 1500.09375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2610.7744140625,
+      "y": 1484.4189453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2613.9853515625,
+      "y": 1488.19287109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2622.12109375,
+      "y": 1485.43896484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 2636.1220703125,
+      "y": 1452.6533203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2627.533203125,
+      "y": 1454.53076171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2630.671875,
+      "y": 1436.78564453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2640.4609375,
+      "y": 1443.47509765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2646.0703125,
+      "y": 1444.07958984375
+    }
+  ]
+}

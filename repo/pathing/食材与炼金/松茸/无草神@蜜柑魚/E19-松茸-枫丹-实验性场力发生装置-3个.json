@@ -1,0 +1,131 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777459524266,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E19-松茸-枫丹-实验性场力发生装置-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4149.2392578125,
+      "y": 4423.888671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4160.3642578125,
+      "y": 4430.6513671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4181.13671875,
+      "y": 4421.263671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4176.2626953125,
+      "y": 4402.60302734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4212.8515625,
+      "y": 4387.83349609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4149.2392578125,
+      "y": 4423.888671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4133.240234375,
+      "y": 4414.3740234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4121.076171875,
+      "y": 4384.00634765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4116.0703125,
+      "y": 4387.40673828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4039.6533203125,
+      "y": 4391.744140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 4036.876953125,
+      "y": 4383.72509765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4029.99609375,
+      "y": 4372.583984375
+    }
+  ]
+}
