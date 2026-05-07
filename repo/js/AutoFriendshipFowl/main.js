@@ -257,7 +257,7 @@ async function moveToEventTriggerArea() {
 
     try {
         for (let index = 0; index < 3; index++) {
-            await pathingScript.runFile("pathing/禽肉好感_初始化.json");
+            await pathingScript.runFile("assets/pathing/鸡腿好感_初始化.json");
             for (let index = 0; index < 2; index++) {
                 miniMapPosition = genshin.getPositionFromMap("Teyvat");
                 if (miniMapPosition) { break; }
