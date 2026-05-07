@@ -14,6 +14,10 @@ import {
   estimateRoutesDuration,
   formatDuration
 } from "./utils/refresh.js"
+import {
+  parseRunTimeLimit,
+  isTimeUp
+} from "./utils/timeControl.js"
 import {startMonthCardWatcher} from "../../../packages/utils/tool"
 
 // 切换队伍
@@ -62,6 +66,7 @@ async function runRoute(routePath) {
   const excludeOreTypes = Array.from(settings.excludeOreTypes || [])
   const excludeRegions = Array.from(settings.excludeRegions || [])
   const skipBattleRoutes = settings.skipBattleRoutes === true
+  const targetRunningMinutes = settings.targetRunningMinutes || null
 
   await switchParty(partyName)
 
@@ -106,9 +111,19 @@ async function runRoute(routePath) {
 
   log.info(`将运行 ${runnableRoutes.length}/${allRoutes.length} 条路线`)
 
+  const runUntilTime = parseRunTimeLimit(targetRunningMinutes)
+  if (runUntilTime) {
+    const minutes = Math.round((runUntilTime - Date.now()) / 60 / 1000)
+    log.info(`将在 ${minutes} 分钟后停止运行`)
+  }
+
   dispatcher.addTimer(new RealtimeTimer("AutoPick"))
 
   for (let i = 0; i < runnableRoutes.length; i++) {
+    if (isTimeUp(runUntilTime)) {
+      log.info("已到达运行时长限制，停止运行")
+      break
+    }
     const route = runnableRoutes[i]
     const fileName = route.split('\\').pop()
 

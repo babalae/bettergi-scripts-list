@@ -1,14 +1,5 @@
 [
   {
-    "name": "partyName",
-    "type": "input-text",
-    "default": "",
-    "label": "队伍名称"
-  },
-  {
-    "type": "separator"
-  },
-  {
     "name": "excludeRegions",
     "type": "multi-checkbox",
     "label": "跳过以下地区",
@@ -23,7 +14,7 @@
   {
     "name": "excludeOreTypes",
     "type": "multi-checkbox",
-    "label": "不挖以下矿物",
+    "label": "\n不挖以下矿物",
     "options": [
       "虹滴晶",
       "白铁块",
@@ -39,6 +30,24 @@
     "name": "skipBattleRoutes",
     "type": "checkbox",
     "default": false,
-    "label": "跳过战斗点位"
+    "label": "\n跳过战斗点位"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "partyName",
+    "type": "input-text",
+    "default": "",
+    "label": "\n队伍名称"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "targetRunningMinutes",
+    "type": "input-text",
+    "default": "",
+    "label": "\n目标运行时长（分钟）"
   }
 ]
