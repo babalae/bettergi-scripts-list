@@ -26,4 +26,4 @@ function checkVersion(version, minVersion) {
   return a >= b
 }
 
-export { checkVersion };
+export { checkVersion }

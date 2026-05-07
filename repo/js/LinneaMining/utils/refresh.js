@@ -1,5 +1,5 @@
-const REFRESH_DATA_PATH = "local/refresh_records.json";
-const FALLBACK_DURATION = 60;
+const REFRESH_DATA_PATH = "local/refresh_records.json"
+const FALLBACK_DURATION = 60
 
 /**
  * 从本地文件加载刷新记录数据
@@ -8,10 +8,10 @@ const FALLBACK_DURATION = 60;
  */
 function loadRefreshData() {
   try {
-    const raw = file.readTextSync(REFRESH_DATA_PATH);
-    return JSON.parse(raw) || {};
+    const raw = file.readTextSync(REFRESH_DATA_PATH)
+    return JSON.parse(raw) || {}
   } catch {
-    return {};
+    return {}
   }
 }
 
@@ -21,7 +21,7 @@ function loadRefreshData() {
  * @param {Object} data - 刷新记录对象
  */
 function saveRefreshData(data) {
-  file.writeTextSync(REFRESH_DATA_PATH, JSON.stringify(data, null, 2));
+  file.writeTextSync(REFRESH_DATA_PATH, JSON.stringify(data, null, 2))
 }
 
 /**
@@ -32,20 +32,20 @@ function saveRefreshData(data) {
  * @returns {Object} 清理后的刷新记录对象
  */
 function cleanupStaleRecords(data, routePaths) {
-  const pathSet = new Set(routePaths);
-  const keys = Object.keys(data);
-  let removed = 0;
+  const pathSet = new Set(routePaths)
+  const keys = Object.keys(data)
+  let removed = 0
   for (const key of keys) {
     if (!pathSet.has(key)) {
-      delete data[key];
-      removed++;
+      delete data[key]
+      removed++
     }
   }
   if (removed > 0) {
-    log.info(`清理了 ${removed} 条过期路线记录`);
-    saveRefreshData(data);
+    log.info(`清理了 ${removed} 条过期路线记录`)
+    saveRefreshData(data)
   }
-  return data;
+  return data
 }
 
 /**
@@ -57,14 +57,14 @@ function cleanupStaleRecords(data, routePaths) {
  * @param {number} duration - 本次运行时长（秒），0 或负数时不记录时长
  */
 function recordRoute(routePath, data, duration) {
-  const existing = data[routePath];
+  const existing = data[routePath]
   if (existing && typeof existing === 'object') {
-    existing.t = Date.now();
-    if (duration > 0) existing.d = Math.round(duration);
+    existing.t = Date.now()
+    if (duration > 0) existing.d = Math.round(duration)
   } else {
-    data[routePath] = { t: Date.now(), d: duration > 0 ? Math.round(duration) : null };
+    data[routePath] = { t: Date.now(), d: duration > 0 ? Math.round(duration) : null }
   }
-  saveRefreshData(data);
+  saveRefreshData(data)
 }
 
 /**
@@ -77,17 +77,17 @@ function recordRoute(routePath, data, duration) {
  * @returns {boolean} 矿石是否已刷新，记录不存在视为已刷新
  */
 function isRouteReady(routePath, data, refreshDays = 3) {
-  const record = data[routePath];
-  const lastRun = record?.t || (typeof record === 'number' ? record : null);
-  if (!lastRun) return true;
+  const record = data[routePath]
+  const lastRun = record?.t || (typeof record === 'number' ? record : null)
+  if (!lastRun) return true
 
-  const t = lastRun / 1000;
-  let t0 = Math.floor(t / 86400) * 86400 + 57600;
+  const t = lastRun / 1000
+  let t0 = Math.floor(t / 86400) * 86400 + 57600
   if (t0 > t) {
-    t0 -= 86400;
+    t0 -= 86400
   }
-  const respawnTime = t0 + 86400 * refreshDays;
-  return respawnTime < Date.now() / 1000;
+  const respawnTime = t0 + 86400 * refreshDays
+  return respawnTime < Date.now() / 1000
 }
 
 /**
@@ -99,16 +99,16 @@ function isRouteReady(routePath, data, refreshDays = 3) {
  * @returns {string[]} 已刷新的路线文件路径数组
  */
 function filterRunnableRoutes(routePaths, data, refreshDays = 3) {
-  const runnable = [];
+  const runnable = []
   for (const routePath of routePaths) {
     if (isRouteReady(routePath, data, refreshDays)) {
-      runnable.push(routePath);
+      runnable.push(routePath)
     } else {
-      const fileName = routePath.split('\\').pop();
-      log.info(`跳过未刷新路线: ${fileName}`);
+      const fileName = routePath.split('\\').pop()
+      log.info(`跳过未刷新路线: ${fileName}`)
     }
   }
-  return runnable;
+  return runnable
 }
 
 /**
@@ -119,10 +119,10 @@ function filterRunnableRoutes(routePaths, data, refreshDays = 3) {
  * @returns {number|null} 历史运行时长（秒），无记录返回 null
  */
 function getRouteDuration(routePath, data) {
-  const record = data[routePath];
-  if (!record) return null;
-  if (typeof record === 'object' && record.d) return record.d;
-  return null;
+  const record = data[routePath]
+  if (!record) return null
+  if (typeof record === 'object' && record.d) return record.d
+  return null
 }
 
 /**
@@ -134,12 +134,12 @@ function getRouteDuration(routePath, data) {
  * @returns {number} 估算总时长（秒）
  */
 function estimateRoutesDuration(routePaths, data) {
-  let total = 0;
+  let total = 0
   for (const routePath of routePaths) {
-    const d = getRouteDuration(routePath, data);
-    total += d !== null ? d : FALLBACK_DURATION;
+    const d = getRouteDuration(routePath, data)
+    total += d !== null ? d : FALLBACK_DURATION
   }
-  return total;
+  return total
 }
 
 /**
@@ -150,14 +150,24 @@ function estimateRoutesDuration(routePaths, data) {
  * @returns {string} 格式化后的时长字符串
  */
 function formatDuration(seconds) {
-  seconds = Math.max(0, Math.round(seconds));
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  const s = seconds % 60;
-  const mm = String(m).padStart(2, '0');
-  const ss = String(s).padStart(2, '0');
-  if (h > 0) return `${h}小时${mm}分${ss}秒`;
-  return `${mm}分${ss}秒`;
+  seconds = Math.max(0, Math.round(seconds))
+  const h = Math.floor(seconds / 3600)
+  const m = Math.floor((seconds % 3600) / 60)
+  const s = seconds % 60
+  const mm = String(m).padStart(2, '0')
+  const ss = String(s).padStart(2, '0')
+  if (h > 0) return `${h}小时${mm}分${ss}秒`
+  return `${mm}分${ss}秒`
 }
 
-export { loadRefreshData, saveRefreshData, cleanupStaleRecords, recordRoute, isRouteReady, filterRunnableRoutes, getRouteDuration, estimateRoutesDuration, formatDuration };
+export {
+  loadRefreshData,
+  saveRefreshData,
+  cleanupStaleRecords,
+  recordRoute,
+  isRouteReady,
+  filterRunnableRoutes,
+  getRouteDuration,
+  estimateRoutesDuration,
+  formatDuration
+}
