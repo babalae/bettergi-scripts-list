@@ -144,6 +144,8 @@ moraRo.InitTemplate();
         safeDispose(moraMat);
         expMat = null;
         moraMat = null;
+        // 给 .NET Task 续延留出执行时间，避免 V8 释放后访问已释放对象导致 ObjectDisposedException
+        await sleep(500);
     }
 })();
 
@@ -747,20 +749,14 @@ async function executeBattleTasks(fightTimeout, enemyType, cts, battlePointCoord
         return { success: false, status: "error", errorMessage: msg };
     } finally {
         // 避免因 AutoFight 不响应取消导致 finally 永久挂起
-        if (battleTask) {
+        if (battleTask && awaitBattleTask) {
             try {
-                const done = await Promise.race([
-                    battleTask.then(() => true),
-                    sleep(awaitBattleTask ? awaitBattleTaskMs : 0).then(() => false)
+                await Promise.race([
+                    battleTask,
+                    sleep(awaitBattleTaskMs)
                 ]);
-                if (!done) {
-                    battleTask.catch(() => { });
-                }
-            } catch (error) {
-                // 忽略 finally 块中的取消错误
-                if (!isCancellationError(error)) {
-                    log.warn(`清理战斗任务时出错: ${error.message}`);
-                }
+            } catch (_) {
+                // 忽略清理阶段的任何错误（取消/超时等）
             }
         }
         keyUp("VK_LBUTTON");
