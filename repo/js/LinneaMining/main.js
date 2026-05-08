@@ -18,6 +18,11 @@ import {
   parseRunTimeLimit,
   isTimeUp
 } from "./utils/timeControl.js"
+import {
+  getInventory,
+  formatYieldDiff,
+  formatInventory
+} from "./utils/inventory.js"
 import {startMonthCardWatcher} from "../../../packages/utils/tool"
 
 // 切换队伍
@@ -53,10 +58,10 @@ async function runRoute(routePath) {
   const watcher = startMonthCardWatcher()
 
   const version = getVersion()
-  const minVersion = '0.60.2-alpha.3'
+  const minVersion = '0.60.2-alpha.5'
 
   if (!checkVersion(version, minVersion)) {
-    log.warn(`当前 BetterGI 版本(${version})低于最低要求(${minVersion})，内部算法缺少优化，出现异常为正常情况`)
+    log.warn(`当前 BetterGI 版本(${version})低于最低要求(${minVersion})，出现异常为正常情况`)
   }
 
   setGameMetrics(1920, 1080, 1)
@@ -67,13 +72,6 @@ async function runRoute(routePath) {
   const excludeRegions = Array.from(settings.excludeRegions || [])
   const skipBattleRoutes = settings.skipBattleRoutes === true
   const targetRunningMinutes = settings.targetRunningMinutes || null
-
-  await switchParty(partyName)
-
-  if (!checkAvatar("莉奈娅")) {
-    log.error("队伍角色检查失败 - 未找到莉奈娅，脚本终止")
-    return
-  }
 
   const allRoutes = getRoutes()
   if (allRoutes.length === 0) {
@@ -109,6 +107,13 @@ async function runRoute(routePath) {
     return
   }
 
+  await switchParty(partyName)
+
+  if (!checkAvatar("莉奈娅")) {
+    log.error("队伍角色检查失败 - 未找到莉奈娅，脚本终止")
+    return
+  }
+
   log.info(`将运行 ${runnableRoutes.length}/${allRoutes.length} 条路线`)
 
   const runUntilTime = parseRunTimeLimit(targetRunningMinutes)
@@ -118,6 +123,11 @@ async function runRoute(routePath) {
   }
 
   dispatcher.addTimer(new RealtimeTimer("AutoPick"))
+
+  const originalInventory = await getInventory()
+  log.info("当前背包：" + formatInventory(originalInventory))
+
+  const scriptStartTime = Date.now()
 
   for (let i = 0; i < runnableRoutes.length; i++) {
     if (isTimeUp(runUntilTime)) {
@@ -150,5 +160,12 @@ async function runRoute(routePath) {
   }
 
   log.info("所有路线运行完成")
+
+  const latestInventory = await getInventory()
+  const runningMinutes = (Date.now() - scriptStartTime) / 1000 / 60
+  const summary = `运行${runningMinutes.toFixed(2)}分钟，${formatYieldDiff(latestInventory, originalInventory)}`
+  log.info("当前背包：" + formatInventory(latestInventory))
+  log.info(summary)
+
   await watcher.cancel()
 })()
