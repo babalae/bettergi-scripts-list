@@ -1,3 +1,5 @@
+import {ImageRegionSafe} from "./package";
+
 /**
  * 对指定区域进行OCR文字识别
  * @param {number} x - 区域左上角x坐标，默认为0
@@ -25,7 +27,8 @@ async function ocrRegion(x = 0,
         return null
     } finally {
         // 确保释放区域资源
-        region3.dispose()
+        // region3.dispose()
+        ImageRegionSafe.safeDispose(region3)
     }
 }
 
@@ -114,7 +117,8 @@ const isInMainUI = () => {
         let res = captureRegion.find(paimonMenuRo);
         return !res.isEmpty();
     } finally {
-        captureRegion.dispose()
+        // captureRegion.dispose()
+        ImageRegionSafe.safeDispose(captureRegion)
     }
 
 };
@@ -303,7 +307,8 @@ async function findText(
                 }
             }
         } finally {
-            gameRegion.dispose(); // 确保释放游戏区域资源
+            // gameRegion.dispose(); // 确保释放游戏区域资源
+            ImageRegionSafe.safeDispose(gameRegion);
         }
 
         await sleep(interval); // 等待指定的时间后进行下一次尝试
@@ -360,7 +365,8 @@ async function findTextAndClick(
                 }
             }
         } finally {
-            gameRegion.dispose();
+            // gameRegion.dispose();
+            ImageRegionSafe.safeDispose(gameRegion);
         }
 
         await sleep(interval);
@@ -418,7 +424,8 @@ async function findImgAndClick(
                 return res;
             }
         } finally {
-            gameRegion.dispose();
+            // gameRegion.dispose();
+            ImageRegionSafe.safeDispose(gameRegion);
         }
 
         await sleep(interval);

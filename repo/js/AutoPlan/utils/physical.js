@@ -1,4 +1,5 @@
 import {getJsonPath, toMainUi, throwError, findImgAndClick} from "./tool";
+import {ImageRegionSafe} from "./package";
 //====================================================
 const genshinJson = {
     width: 1920,//genshin.width,
@@ -152,7 +153,8 @@ async function ocrPhysical(opToMainUi = false, openMap = false, minPhysical = 20
             return undefined
         }
     } finally {
-        region.dispose()
+        // region.dispose()
+        ImageRegionSafe.safeDispose(region)
     }
 
 
@@ -192,7 +194,8 @@ async function ocrPhysical(opToMainUi = false, openMap = false, minPhysical = 20
         log.error(`识别失败,err:${e.message}`)
         return undefined
     } finally {
-        region3.dispose()
+        // region3.dispose()
+        ImageRegionSafe.safeDispose(region3)
         //返回地图操作
         if (opToMainUi) {
             await toMainUi();  // 切换到主界面
@@ -405,9 +408,10 @@ async function recognizeImage(recognitionObject, timeout = CONFIG.RECOGNITION_TI
         } catch (error) {
             log.error(`识别图像时发生异常: ${error.message}`);
         } finally {
-            if (gameRegion) {
-                gameRegion.dispose();
-            }
+            // if (gameRegion) {
+            //     gameRegion.dispose();
+            // }
+            ImageRegionSafe.safeDispose(gameRegion);
         }
         await sleep(CONFIG.SLEEP_INTERVAL);
     }
@@ -456,9 +460,10 @@ async function recognizeNumberByOCR(ocrRegion, pattern) {
         if (resList && typeof resList.dispose === 'function') {
             resList.dispose();
         }
-        if (captureRegion && typeof captureRegion.dispose === 'function') {
-            captureRegion.dispose();
-        }
+        // if (captureRegion && typeof captureRegion.dispose === 'function') {
+        //     captureRegion.dispose();
+        // }
+        ImageRegionSafe.safeDispose(captureRegion);
     }
 }
 
