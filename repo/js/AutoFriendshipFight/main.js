@@ -818,7 +818,8 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
     }
 
     if (battleResult.status === "recovered_to_statue") {
-        await recoverAfterFailure(enemyType, enemyType === "盗宝团");
+        // 此状态意味着游戏已自动回到七天神像，无需再次 TP
+        await recoverAfterFailure(enemyType, true);
         throw new Error("检测到游泳且自动回七天神像，视为本轮失败");
     }
 
