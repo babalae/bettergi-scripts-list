@@ -21,7 +21,10 @@ function getJsonPath(key) {
     return commonMap.get(key); // 通过commonMap的get方法获取指定键对应的值
 }
 */
-import {toMainUi,isInMainUI} from "./tool"
+import {toMainUi, isInMainUI} from "./tool"
+import {checkVersion} from "./version";
+import {ImageRegionSafe} from "./package";
+
 export function saveOnlyNumber(str) {
     str = str ? str : '';
     // 使用正则表达式匹配字符串中的所有数字
@@ -32,6 +35,16 @@ export function saveOnlyNumber(str) {
 }
 
 export async function ocrUID() {
+    let manifest = {};
+    let manifest_json = "manifest.json";
+    manifest = JSON.parse(file.readTextSync(manifest_json));
+    const version = getVersion();
+    const check_version = manifest.min_bgi_version && checkVersion(version, manifest.min_bgi_version)
+
+    if (!check_version){
+        const uid = await genshin.uid()
+        return uid
+    }
     let uid_json = {
         x: 1683,
         y: 1051,
@@ -55,7 +68,8 @@ export async function ocrUID() {
         return uid
 
     } finally {
-        region3.Dispose()
+        ImageRegionSafe.safeDispose(region3)
+        // region3.Dispose()
     }
 }
 
@@ -104,11 +118,3 @@ export async function check() {
 }
 
 
-// export {
-//     // toMainUi,
-//     // isInMainUI,
-//     checkUid,
-//     ocrUID,
-//     check,
-//     compareUid,
-// }
