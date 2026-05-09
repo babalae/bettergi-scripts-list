@@ -185,8 +185,8 @@ moraRo.InitTemplate();
     );
 
     // 主循环入口
-    await AutoFriendshipDev(runTimes, ocrTimeout, fightTimeout, enemyType);
-    log.info(`${enemyType}好感运行总时长：${LogTimeTaken(startTime)}`);
+    await runFriendshipLoop(runTimes, ocrTimeout, fightTimeout, enemyType);
+    log.info(`${enemyType}好感运行总时长：${formatElapsedTime(startTime)}`);
   } catch (error) {
     if (isCancellationError(error)) {
       log.info("脚本已取消");
@@ -533,6 +533,10 @@ function SwimTracker(enemyType) {
   return { enabled };
 }
 
+function isSwimRecoveryEnabled(enemyType) {
+  return SwimTracker(enemyType).enabled;
+}
+
 /**
  * 敌人准备流程：执行 preparePath / 盗宝团可选清理丘丘人。
  * @param {string} enemyType
@@ -745,7 +749,7 @@ async function runBattlePathToBattlePoint(
  * @param {number} startTimeParam
  * @returns {string}
  */
-function LogTimeTaken(startTimeParam) {
+function formatElapsedTime(startTimeParam) {
   const currentTime = Date.now();
   const totalTimeInSeconds = (currentTime - startTimeParam) / 1000;
   const minutes = Math.floor(totalTimeInSeconds / 60);
@@ -761,7 +765,7 @@ function LogTimeTaken(startTimeParam) {
  * @param {number} total
  * @returns {string}
  */
-function CalculateEstimatedCompletion(startTime, current, total) {
+function estimateCompletionTime(startTime, current, total) {
   if (current === 0) return "计算中...";
 
   const elapsedTime = Date.now() - startTime;
@@ -841,6 +845,175 @@ async function detectTaskTrigger(ocrTimeout, enemyType) {
   return ocrStatus;
 }
 
+function cancelTaskSilently(cts) {
+  try {
+    cts?.cancel?.();
+  } catch {
+    void 0;
+  }
+}
+
+function silencePromiseRejection(task) {
+  task?.catch?.(() => {});
+}
+
+function isBattleTimeoutError(error) {
+  return (
+    error &&
+    (error.code === ERROR_CODES.BATTLE_TIMEOUT ||
+      (error.message && String(error.message).includes("战斗超时")))
+  );
+}
+
+function wrapBattleTask(battleTask) {
+  return battleTask
+    .then((value) => ({ kind: "battle_fulfilled", value }))
+    .catch((error) => ({ kind: "battle_rejected", error }));
+}
+
+function wrapBattleDetectTask(battleDetectTask) {
+  return battleDetectTask
+    .then((status) => ({ kind: "detect_fulfilled", status }))
+    .catch((error) => ({ kind: "detect_rejected", error }));
+}
+
+async function cleanupBattleTask(
+  battleTask,
+  awaitBattleTask,
+  awaitBattleTaskMs,
+) {
+  if (!battleTask) return;
+  try {
+    const done = await Promise.race([
+      battleTask.then(() => true).catch(() => true),
+      sleep(awaitBattleTask ? awaitBattleTaskMs : 5000).then(() => false),
+    ]);
+    if (!done) {
+      log.warn("AutoFight 未在超时内响应取消，后台任务可能仍在运行");
+      silencePromiseRejection(battleTask);
+    }
+  } catch (error) {
+    if (!isCancellationError(error)) {
+      log.warn(`清理战斗任务时出错: ${error.message}`);
+    }
+  }
+}
+
+async function executeBattleTasksSyncMode(
+  fightTimeout,
+  enemyType,
+  cts,
+  battlePointCoords,
+  taskContext,
+) {
+  const maxDetectMs = Math.max(0, Number(fightTimeout) * 1000);
+  taskContext.battleTask = dispatcher.runTask(new SoloTask("AutoFight"), cts);
+  const battleWrapped = wrapBattleTask(taskContext.battleTask);
+  const first = await Promise.race([
+    battleWrapped,
+    sleep(maxDetectMs).then(() => ({ kind: "battle_timeout" })),
+  ]);
+
+  if (first.kind === "battle_timeout") {
+    cancelTaskSilently(cts);
+    taskContext.awaitBattleTask = false;
+    return { success: false, status: "auto_fight_ended" };
+  }
+  if (first.kind === "battle_rejected") {
+    throw first.error;
+  }
+
+  const graceMs = Math.min(8000, maxDetectMs);
+  try {
+    const status = await waitForBattleResult(
+      graceMs,
+      enemyType,
+      cts,
+      battlePointCoords,
+    );
+    return { success: status === "success", status };
+  } catch (error) {
+    if (isBattleTimeoutError(error)) {
+      return { success: false, status: "auto_fight_ended" };
+    }
+    throw error;
+  }
+}
+
+async function executeBattleTasksAsyncMode(
+  fightTimeout,
+  enemyType,
+  cts,
+  battlePointCoords,
+  taskContext,
+) {
+  taskContext.battleTask = dispatcher.runTask(new SoloTask("AutoFight"), cts);
+  const battleDetectTask = waitForBattleResult(
+    fightTimeout * 1000,
+    enemyType,
+    cts,
+    battlePointCoords,
+  );
+  const maxDetectMs = Math.max(0, Number(fightTimeout) * 1000);
+  const graceMs = Math.min(8000, maxDetectMs);
+  const battleWrapped = wrapBattleTask(taskContext.battleTask);
+  const detectWrapped = wrapBattleDetectTask(battleDetectTask);
+
+  const first = await Promise.race([battleWrapped, detectWrapped]);
+  if (first.kind === "detect_fulfilled") {
+    log.info("战斗检测任务完成");
+    cancelTaskSilently(cts);
+    return { success: first.status === "success", status: first.status };
+  }
+  if (first.kind === "detect_rejected") {
+    throw first.error;
+  }
+  if (first.kind === "battle_rejected" && isCancellationError(first.error)) {
+    throw first.error;
+  }
+
+  const second = await Promise.race([
+    detectWrapped,
+    sleep(graceMs).then(() => ({ kind: "detect_timeout" })),
+  ]);
+  if (second.kind === "detect_fulfilled") {
+    log.info("战斗检测任务完成");
+    cancelTaskSilently(cts);
+    return { success: second.status === "success", status: second.status };
+  }
+  if (second.kind === "detect_rejected") {
+    throw second.error;
+  }
+
+  cancelTaskSilently(cts);
+  try {
+    await Promise.race([detectWrapped, sleep(1500)]);
+  } catch {
+    void 0;
+  }
+  return { success: false, status: "auto_fight_ended" };
+}
+
+function toBattleExecutionErrorResult(error, enemyType) {
+  if (isCancellationError(error)) {
+    throw error;
+  }
+  const msg = error && error.message ? String(error.message) : "";
+  if (
+    isSwimRecoveryEnabled(enemyType) &&
+    (msg.includes("前往七天神像重试") || msg.includes("检测到游泳"))
+  ) {
+    log.warn(`战斗执行异常（已自动回七天神像）: ${msg}`);
+    return {
+      success: false,
+      status: "recovered_to_statue",
+      errorMessage: msg,
+    };
+  }
+  log.error(`战斗执行过程中出错: ${msg}`);
+  return { success: false, status: "error", errorMessage: msg };
+}
+
 // 执行战斗任务（并发执行战斗和结果检测）
 /**
  * 执行 AutoFight 并用 OCR 判定战斗结果（支持同步/异步模式与超时保护）。
@@ -857,158 +1030,37 @@ async function executeBattleTasks(
   battlePointCoords,
 ) {
   log.info("开始战斗!");
-
-  let battleTask;
-  let battleDetectTask = null;
-  let awaitBattleTask = true;
   const awaitBattleTaskMs = 10000;
+  const taskContext = {
+    battleTask: null,
+    awaitBattleTask: true,
+  };
 
   try {
     if (settings.disableAsyncFight) {
-      const maxDetectMs = Math.max(0, Number(fightTimeout) * 1000);
-      battleTask = dispatcher.runTask(new SoloTask("AutoFight"), cts);
-      const battleWrapped = battleTask
-        .then((value) => ({ kind: "battle_fulfilled", value }))
-        .catch((error) => ({ kind: "battle_rejected", error }));
-      const first = await Promise.race([
-        battleWrapped,
-        sleep(maxDetectMs).then(() => ({ kind: "battle_timeout" })),
-      ]);
-      if (first.kind === "battle_timeout") {
-        try {
-          cts.cancel();
-        } catch {
-          void 0;
-        }
-        awaitBattleTask = false;
-        return { success: false, status: "auto_fight_ended" };
-      }
-      if (first.kind === "battle_rejected") {
-        throw first.error;
-      }
-      const graceMs = Math.min(8000, maxDetectMs);
-      try {
-        const status = await waitForBattleResult(
-          graceMs,
-          enemyType,
-          cts,
-          battlePointCoords,
-        );
-        return { success: status === "success", status };
-      } catch (error) {
-        if (
-          error &&
-          (error.code === ERROR_CODES.BATTLE_TIMEOUT ||
-            (error.message && String(error.message).includes("战斗超时")))
-        ) {
-          return { success: false, status: "auto_fight_ended" };
-        }
-        throw error;
-      }
-    } else {
-      battleTask = dispatcher.runTask(new SoloTask("AutoFight"), cts);
-      battleDetectTask = waitForBattleResult(
-        fightTimeout * 1000,
+      return await executeBattleTasksSyncMode(
+        fightTimeout,
         enemyType,
         cts,
         battlePointCoords,
+        taskContext,
       );
-      const maxDetectMs = Math.max(0, Number(fightTimeout) * 1000);
-      const graceMs = Math.min(8000, maxDetectMs);
-
-      const battleWrapped = battleTask
-        .then((value) => ({ kind: "battle_fulfilled", value }))
-        .catch((error) => ({ kind: "battle_rejected", error }));
-
-      const detectWrapped = battleDetectTask
-        .then((status) => ({ kind: "detect_fulfilled", status }))
-        .catch((error) => ({ kind: "detect_rejected", error }));
-
-      const first = await Promise.race([battleWrapped, detectWrapped]);
-
-      if (first.kind === "detect_fulfilled") {
-        log.info("战斗检测任务完成");
-        try {
-          cts.cancel();
-        } catch {
-          void 0;
-        }
-        return { success: first.status === "success", status: first.status };
-      }
-      if (first.kind === "detect_rejected") {
-        throw first.error;
-      }
-
-      if (
-        first.kind === "battle_rejected" &&
-        isCancellationError(first.error)
-      ) {
-        throw first.error;
-      }
-
-      const second = await Promise.race([
-        detectWrapped,
-        sleep(graceMs).then(() => ({ kind: "detect_timeout" })),
-      ]);
-
-      if (second.kind === "detect_fulfilled") {
-        log.info("战斗检测任务完成");
-        try {
-          cts.cancel();
-        } catch {
-          void 0;
-        }
-        return { success: second.status === "success", status: second.status };
-      }
-      if (second.kind === "detect_rejected") {
-        throw second.error;
-      }
-
-      try {
-        cts.cancel();
-      } catch {
-        void 0;
-      }
-      try {
-        await Promise.race([detectWrapped, sleep(1500)]);
-      } catch {
-        void 0;
-      }
-      return { success: false, status: "auto_fight_ended" };
     }
+    return await executeBattleTasksAsyncMode(
+      fightTimeout,
+      enemyType,
+      cts,
+      battlePointCoords,
+      taskContext,
+    );
   } catch (error) {
-    if (isCancellationError(error)) throw error;
-    const msg = error && error.message ? String(error.message) : "";
-    if (
-      SwimTracker(enemyType).enabled &&
-      (msg.includes("前往七天神像重试") || msg.includes("检测到游泳"))
-    ) {
-      log.warn(`战斗执行异常（已自动回七天神像）: ${msg}`);
-      return {
-        success: false,
-        status: "recovered_to_statue",
-        errorMessage: msg,
-      };
-    }
-    log.error(`战斗执行过程中出错: ${msg}`);
-    return { success: false, status: "error", errorMessage: msg };
+    return toBattleExecutionErrorResult(error, enemyType);
   } finally {
-    if (battleTask) {
-      try {
-        const done = await Promise.race([
-          battleTask.then(() => true).catch(() => true),
-          sleep(awaitBattleTask ? awaitBattleTaskMs : 5000).then(() => false),
-        ]);
-        if (!done) {
-          log.warn("AutoFight 未在超时内响应取消，后台任务可能仍在运行");
-          battleTask.catch(() => {});
-        }
-      } catch (error) {
-        if (!isCancellationError(error)) {
-          log.warn(`清理战斗任务时出错: ${error.message}`);
-        }
-      }
-    }
+    await cleanupBattleTask(
+      taskContext.battleTask,
+      taskContext.awaitBattleTask,
+      awaitBattleTaskMs,
+    );
     keyUp("VK_LBUTTON");
   }
 }
@@ -1022,6 +1074,105 @@ async function executeBattleTasks(
  * @param {string} enemyType
  * @returns {Promise<boolean>} 返回 false 表示整体应提前结束
  */
+async function runTreasureHoarderAsyncRound(
+  fightTimeout,
+  enemyType,
+  battlePointCoords,
+) {
+  const maxDetectMs = Math.max(0, Number(fightTimeout) * 1000);
+  const battleDetectCts = new CancellationTokenSource();
+  const battleDetectPromise = waitForBattleResult(
+    maxDetectMs,
+    enemyType,
+    battleDetectCts,
+    battlePointCoords,
+  );
+  log.info("开始战斗!");
+
+  const pathPromise = runBattlePathToBattlePoint(enemyType, true);
+  const pathWrapped = pathPromise
+    .then(() => ({ kind: "path_fulfilled" }))
+    .catch((error) => ({ kind: "path_rejected", error }));
+  const detectWrapped = wrapBattleDetectTask(battleDetectPromise);
+  const first = await Promise.race([pathWrapped, detectWrapped]);
+
+  if (first.kind === "path_rejected") {
+    cancelTaskSilently(battleDetectCts);
+    const pathError = first.error;
+    if (isCancellationError(pathError)) throw pathError;
+    const msg = pathError && pathError.message ? String(pathError.message) : "";
+    if (msg.includes("前往七天神像重试") || msg.includes("检测到游泳")) {
+      await recoverAfterFailure(enemyType, true);
+      throw new Error(ERR_MESSAGES.SWIM_RECOVERED);
+    }
+    throw pathError;
+  }
+
+  const battleStatus =
+    first.kind === "detect_fulfilled"
+      ? first.status
+      : await battleDetectPromise;
+  if (first.kind === "detect_fulfilled") {
+    const pathSettled = await Promise.race([
+      pathPromise.then(() => true).catch(() => true),
+      sleep(maxDetectMs).then(() => false),
+    ]);
+    if (!pathSettled) {
+      silencePromiseRejection(pathPromise);
+      log.warn("寻路任务未在预期时间内完成，已进入后台静默模式");
+      throw createScriptError(
+        ERROR_CODES.BATTLE_TIMEOUT,
+        ERR_MESSAGES.BATTLE_TIMEOUT,
+      );
+    }
+  }
+
+  if (battleStatus === "cancelled") {
+    throw new Error("战斗任务已取消");
+  }
+  if (battleStatus === "success") {
+    await runPostBattle(enemyType);
+    return true;
+  }
+
+  await recoverAfterFailure(enemyType, false);
+  throw new Error(`战斗失败: ${battleStatus}`);
+}
+
+async function runBattlePathWithSwimRecovery(enemyType) {
+  try {
+    await runBattlePathToBattlePoint(enemyType, enemyType === "盗宝团");
+  } catch (error) {
+    if (isCancellationError(error)) throw error;
+    const msg = error && error.message ? String(error.message) : "";
+    if (
+      isSwimRecoveryEnabled(enemyType) &&
+      (msg.includes("前往七天神像重试") || msg.includes("检测到游泳"))
+    ) {
+      await recoverAfterFailure(enemyType, true);
+      throw new Error(ERR_MESSAGES.SWIM_RECOVERED);
+    }
+    throw error;
+  }
+}
+
+async function handleBattleResult(enemyType, battleResult) {
+  if (battleResult.status === "success") {
+    await runPostBattle(enemyType);
+    return true;
+  }
+  if (battleResult.status === "recovered_to_statue") {
+    // 此状态意味着游戏已自动回到七天神像，无需再次 TP
+    await recoverAfterFailure(enemyType, true);
+    throw new Error(ERR_MESSAGES.SWIM_RECOVERED);
+  }
+  await recoverAfterFailure(enemyType, false);
+  const msg = battleResult.errorMessage
+    ? String(battleResult.errorMessage)
+    : `战斗失败: ${battleResult.status}`;
+  throw new Error(msg);
+}
+
 async function executeSingleFriendshipRound(
   roundIndex,
   ocrTimeout,
@@ -1085,85 +1236,14 @@ async function executeSingleFriendshipRound(
   }
 
   if (enemyType === "盗宝团" && !settings.disableAsyncFight) {
-    const maxDetectMs = Math.max(0, Number(fightTimeout) * 1000);
-    const battleDetectCts = new CancellationTokenSource();
-    const battleDetectPromise = waitForBattleResult(
-      maxDetectMs,
+    return await runTreasureHoarderAsyncRound(
+      fightTimeout,
       enemyType,
-      battleDetectCts,
       battlePointCoords,
     );
-    log.info("开始战斗!");
-    const pathPromise = runBattlePathToBattlePoint(enemyType, true);
-    const pathWrapped = pathPromise
-      .then(() => ({ kind: "path_fulfilled" }))
-      .catch((error) => ({ kind: "path_rejected", error }));
-    const detectWrapped = battleDetectPromise
-      .then((status) => ({ kind: "detect_fulfilled", status }))
-      .catch((error) => ({ kind: "detect_rejected", error }));
-
-    const first = await Promise.race([pathWrapped, detectWrapped]);
-    if (first.kind === "path_rejected") {
-      try {
-        battleDetectCts.cancel();
-      } catch {
-        void 0;
-      }
-      const e = first.error;
-      if (isCancellationError(e)) throw e;
-      const msg = e && e.message ? String(e.message) : "";
-      if (msg.includes("前往七天神像重试") || msg.includes("检测到游泳")) {
-        await recoverAfterFailure(enemyType, true);
-        throw new Error(ERR_MESSAGES.SWIM_RECOVERED);
-      }
-      throw e;
-    }
-
-    const battleStatus =
-      first.kind === "detect_fulfilled"
-        ? first.status
-        : await battleDetectPromise;
-
-    if (first.kind === "detect_fulfilled") {
-      const pathSettled = await Promise.race([
-        pathPromise.then(() => true).catch(() => true),
-        sleep(maxDetectMs).then(() => false),
-      ]);
-      if (!pathSettled) {
-        pathPromise.catch(() => {});
-        log.warn("寻路任务未在预期时间内完成，已进入后台静默模式");
-        throw createScriptError(
-          ERROR_CODES.BATTLE_TIMEOUT,
-          ERR_MESSAGES.BATTLE_TIMEOUT,
-        );
-      }
-    }
-
-    if (battleStatus === "cancelled") {
-      throw new Error("战斗任务已取消");
-    }
-    if (battleStatus === "success") {
-      await runPostBattle(enemyType);
-      return true;
-    }
-    await recoverAfterFailure(enemyType, false);
-    throw new Error(`战斗失败: ${battleStatus}`);
   }
 
-  try {
-    await runBattlePathToBattlePoint(enemyType, enemyType === "盗宝团");
-  } catch (e) {
-    if (isCancellationError(e)) throw e;
-    const msg = e && e.message ? String(e.message) : "";
-    if (
-      SwimTracker(enemyType).enabled &&
-      (msg.includes("前往七天神像重试") || msg.includes("检测到游泳"))
-    ) {
-      await recoverAfterFailure(enemyType, true);
-      throw new Error(ERR_MESSAGES.SWIM_RECOVERED);
-    }
-    throw e;
-  }
+  await runBattlePathWithSwimRecovery(enemyType);
 
   const battleCts = new CancellationTokenSource();
   const battleResult = await executeBattleTasks(
@@ -1173,22 +1253,7 @@ async function executeSingleFriendshipRound(
     battlePointCoords,
   );
 
-  if (battleResult.status === "success") {
-    await runPostBattle(enemyType);
-    return true;
-  }
-
-  if (battleResult.status === "recovered_to_statue") {
-    // 此状态意味着游戏已自动回到七天神像，无需再次 TP
-    await recoverAfterFailure(enemyType, true);
-    throw new Error(ERR_MESSAGES.SWIM_RECOVERED);
-  }
-
-  await recoverAfterFailure(enemyType, false);
-  const msg = battleResult.errorMessage
-    ? String(battleResult.errorMessage)
-    : `战斗失败: ${battleResult.status}`;
-  throw new Error(msg);
+  return await handleBattleResult(enemyType, battleResult);
 }
 
 // 记录进度信息
@@ -1199,12 +1264,12 @@ async function executeSingleFriendshipRound(
  * @param {number} totalRounds
  */
 function logProgress(startTime, currentRound, totalRounds) {
-  const estimatedCompletion = CalculateEstimatedCompletion(
+  const estimatedCompletion = estimateCompletionTime(
     startTime,
     currentRound + 1,
     totalRounds,
   );
-  const currentTime = LogTimeTaken(startTime);
+  const currentTime = formatElapsedTime(startTime);
   log.info(
     `当前进度：${currentRound + 1}/${totalRounds} (${(((currentRound + 1) / totalRounds) * 100).toFixed(1)}%)`,
   );
@@ -1221,7 +1286,7 @@ function logProgress(startTime, currentRound, totalRounds) {
  * @param {string} enemyType
  * @returns {Promise<void>}
  */
-async function AutoFriendshipDev(
+async function runFriendshipLoop(
   times,
   ocrTimeout,
   fightTimeout,
