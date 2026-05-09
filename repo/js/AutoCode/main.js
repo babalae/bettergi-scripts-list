@@ -1,3 +1,4 @@
+import {ocrUID} from "./utils/uid";
 let username = settings.username || "default";
 let use_bgi_code_source = settings.use_bgi_code_source || false;
 
@@ -109,17 +110,23 @@ async function openCodeUI() {
     await sleep(1000);
 
     // 2. 检验设置用户名
-    function getUsername() {
-        username = username.trim();
-        // 只允许 中文 / 英文 / 数字，长度 1~20
-        if (!username || !/^[\u4e00-\u9fa5A-Za-z0-9]{1,20}$/.test(username)) {
-            log.error(`用户名${username}违规，暂时使用默认用户名，请查看readme后修改`)
-            username = "default";
+    async function getUsername() {
+        const uid = await ocrUID()
+        if (uid === 0) {
+            username = username.trim();
+            // 只允许 中文 / 英文 / 数字，长度 1~20
+            if (!username || !/^[\u4e00-\u9fa5A-Za-z0-9]{1,20}$/.test(username)) {
+                log.error(`用户名${username}违规，暂时使用默认用户名，请查看readme后修改`)
+                username = "default";
+            }
+        } else {
+            username = `${uid}`;
         }
+
         return username;
     }
 
-    username = getUsername();
+    username =await getUsername();
     const recordPath = `record/record_${username}.txt`;
 
     // 3. 读取已兑换记录
