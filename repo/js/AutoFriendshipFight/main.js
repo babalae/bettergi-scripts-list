@@ -53,6 +53,7 @@ const ENEMY_CONFIG = {
         ocrKeywords: ["岛上", "无贼", "消灭", "鬼鬼祟祟", "盗宝团"],
         targetCoords: { x: -2753.04, y: -3459.3025 },
         triggerPoint: { x: -2736.60, y: -3415.44 },
+        swimRecoveryEnabled: true,
     },
     "鳄鱼": {
         ocrKeywords: ["张牙", "舞爪", "恶党", "鳄鱼", "打倒", "所有", "鳄鱼"],
@@ -242,13 +243,17 @@ function getEnemyConfig(enemyType) {
 }
 
 /**
- * 游泳回神像异常跟踪开关（兼容 executeBattleTasks 中的统一判定写法）。
- * 目前默认仅对盗宝团启用，保持与历史行为一致。
+ * 游泳回神像异常跟踪开关（统一判定入口，可配置扩展）。
+ * 优先读取敌人配置 swimRecoveryEnabled，未配置时兼容旧行为（仅盗宝团启用）。
  * @param {string} enemyType
  * @returns {{enabled:boolean}}
  */
 function SwimTracker(enemyType) {
-    return { enabled: enemyType === "盗宝团" };
+    const cfg = getEnemyConfig(enemyType);
+    const enabled = typeof cfg.swimRecoveryEnabled === "boolean"
+        ? cfg.swimRecoveryEnabled
+        : enemyType === "盗宝团";
+    return { enabled };
 }
 
 /**
@@ -334,18 +339,6 @@ async function AutoPath(locationName) {
         log.error(`执行 ${locationName} 路径时发生错误: ${error.message}`);
         return false;
     }
-}
-
-/**
- * 生成当天日期键（YYYY-MM-DD）。
- * @returns {string}
- */
-function getTodayKey() {
-    const d = new Date();
-    const yyyy = String(d.getFullYear());
-    const mm = String(d.getMonth() + 1).padStart(2, "0");
-    const dd = String(d.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
 }
 
 /**
@@ -809,7 +802,7 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
     } catch (e) {
         if (isCancellationError(e)) throw e;
         const msg = e && e.message ? String(e.message) : "";
-        if (enemyType === "盗宝团" && (msg.includes("前往七天神像重试") || msg.includes("检测到游泳"))) {
+        if (SwimTracker(enemyType).enabled && (msg.includes("前往七天神像重试") || msg.includes("检测到游泳"))) {
             await recoverAfterFailure(enemyType, true);
             throw new Error("检测到游泳且自动回七天神像，视为本轮失败");
         }
