@@ -30,6 +30,18 @@ function saveOnlyNumber(str) {
 }
 
 async function ocrUID() {
+
+    let manifest = {};
+    let manifest_json = "manifest.json";
+    manifest = JSON.parse(file.readTextSync(manifest_json));
+    const version = getVersion();
+    const check_version = manifest.min_bgi_version && checkVersion(version, manifest.min_bgi_version)
+
+    if (!check_version){
+        const uid = await genshin.uid()
+        return uid
+    }
+
     let uid_json = {
         x: 1683,
         y: 1051,
@@ -38,19 +50,24 @@ async function ocrUID() {
     }
     let recognitionObjectOcr = RecognitionObject.Ocr(uid_json.x, uid_json.y, uid_json.width, uid_json.height);
     let region3 = captureGameRegion()
-    let res = region3.find(recognitionObjectOcr);
-    log.info(`[OCR识别UID]识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
-    //只保留数字
-    let uid
-    try {
-        uid = saveOnlyNumber(res.text)
-    } catch (e) {
-        log.warn(`UID未设置`)
-        uid = 0
+    try{
+        let res = region3.find(recognitionObjectOcr);
+        log.info(`[OCR识别UID]识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
+        //只保留数字
+        let uid
+        try {
+            uid = saveOnlyNumber(res.text)
+        } catch (e) {
+            log.warn(`UID未设置`)
+            uid = 0
+        }
+        log.info(`[OCR识别UID]识别结果: {uid}`, uid);
+
+        return uid
+    }finally {
+        // region3.dispose()
+        ImageRegionSafe.safeDispose(region3)
     }
-    log.info(`[OCR识别UID]识别结果: {uid}`, uid);
-    region3.dispose()
-    return uid
 }
 
 // 判断是否在主界面的函数
