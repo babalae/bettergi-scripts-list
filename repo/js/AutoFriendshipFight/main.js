@@ -917,7 +917,7 @@ async function executeBattleTasksSyncMode(
   if (first.kind === "battle_timeout") {
     cancelTaskSilently(cts);
     taskContext.awaitBattleTask = false;
-    return { success: false, status: "auto_fight_ended" };
+    throw first;
   }
   if (first.kind === "battle_rejected") {
     throw first.error;
@@ -968,7 +968,7 @@ async function executeBattleTasksAsyncMode(
   if (first.kind === "detect_rejected") {
     throw first.error;
   }
-  if (first.kind === "battle_rejected" && isCancellationError(first.error)) {
+  if (first.kind === "battle_rejected") {
     throw first.error;
   }
 
@@ -1054,6 +1054,12 @@ async function executeBattleTasks(
       taskContext,
     );
   } catch (error) {
+    if (error && error.kind === "battle_timeout") {
+      throw createScriptError(
+        ERROR_CODES.BATTLE_TIMEOUT,
+        ERR_MESSAGES.BATTLE_TIMEOUT,
+      );
+    }
     return toBattleExecutionErrorResult(error, enemyType);
   } finally {
     await cleanupBattleTask(
@@ -1486,12 +1492,23 @@ async function switchPartyIfNeeded(partyName) {
     if (!(await genshin.switchParty(partyName))) {
       log.info("切换队伍失败，前往七天神像重试");
       await genshin.tpToStatueOfTheSeven();
-      await genshin.switchParty(partyName);
+      const switchedAfterTp = await genshin.switchParty(partyName);
+      if (!switchedAfterTp) {
+        const errMsg = "队伍切换失败，回神像重试后仍未成功";
+        log.error(errMsg);
+        notification.error(errMsg);
+        await genshin.returnMainUi();
+        throw new Error(errMsg);
+      }
     }
-  } catch {
+  } catch (error) {
+    if (isCancellationError(error)) {
+      throw error;
+    }
     log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
     notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
     await genshin.returnMainUi();
+    throw error;
   }
 }
 
