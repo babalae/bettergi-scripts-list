@@ -744,7 +744,7 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
         throw new Error(`未配置 ${enemyType} 的 targetCoords`);
     }
 
-    if (enemyType === "盗宝团") {
+    if (enemyType === "盗宝团" && !settings.disableAsyncFight) {
         const maxDetectMs = Math.max(0, Number(fightTimeout) * 1000);
         const battleDetectCts = new CancellationTokenSource();
         const battleDetectPromise = waitForBattleResult(maxDetectMs, enemyType, battleDetectCts, battlePointCoords);
