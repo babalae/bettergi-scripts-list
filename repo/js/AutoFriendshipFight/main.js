@@ -82,13 +82,13 @@ const ENEMY_CONFIG = {
 // 经验/摩拉模板匹配资源
 // 这里保留 Mat 引用，便于脚本结束时主动释放，降低长时间运行的资源占用风险
 let expMat = file.ReadImageMatSync("Assets/exp.png");
-const expRo = RecognitionObject.TemplateMatch(expMat, 74, 341, 207 - 74, 803 - 341);
+let expRo = RecognitionObject.TemplateMatch(expMat, 74, 341, 207 - 74, 803 - 341);
 expRo.Threshold = 0.85;
 expRo.Use3Channels = true;
 expRo.InitTemplate();
 
 let moraMat = file.ReadImageMatSync("Assets/mora.png");
-const moraRo = RecognitionObject.TemplateMatch(moraMat, 74, 341, 207 - 74, 803 - 341);
+let moraRo = RecognitionObject.TemplateMatch(moraMat, 74, 341, 207 - 74, 803 - 341);
 moraRo.Threshold = 0.85;
 moraRo.Use3Channels = true;
 moraRo.InitTemplate();
@@ -136,9 +136,13 @@ moraRo.InitTemplate();
         // 修复点：无论成功/失败/异常，都必须停止后台循环与释放模板资源
         running = false;
         // 给 .NET Task 续延留出执行时间，避免 V8 释放后访问已释放对象导致 ObjectDisposedException
-        await sleep(500);
+        await sleep(1000);
+        safeDispose(expRo);
+        safeDispose(moraRo);
         safeDispose(expMat);
         safeDispose(moraMat);
+        expRo = null;
+        moraRo = null;
         expMat = null;
         moraMat = null;
     }
@@ -235,6 +239,16 @@ function getEnemyConfig(enemyType) {
         log.warn(`未知 enemyType: ${enemyType}，将使用默认配置`);
     }
     return cfg || {};
+}
+
+/**
+ * 游泳回神像异常跟踪开关（兼容 executeBattleTasks 中的统一判定写法）。
+ * 目前默认仅对盗宝团启用，保持与历史行为一致。
+ * @param {string} enemyType
+ * @returns {{enabled:boolean}}
+ */
+function SwimTracker(enemyType) {
+    return { enabled: enemyType === "盗宝团" };
 }
 
 /**
@@ -564,18 +578,15 @@ async function detectTaskTrigger(ocrTimeout, enemyType) {
  * @returns {Promise<{success:boolean,status:string,errorMessage?:string}>}
  */
 async function executeBattleTasks(fightTimeout, enemyType, cts, battlePointCoords) {
-    // 修复点：
-    // - 以前只要“检测任务 fulfilled”就当成功；现在明确区分 success/failure/out_of_area 等状态
-    // - 取消只意味着停止战斗任务，不等价于“本轮战斗成功”
     log.info("开始战斗!");
 
     let battleTask;
     let battleDetectTask = null;
-    const awaitBattleTaskMs = 2000;
+    let awaitBattleTask = true;
+    const awaitBattleTaskMs = 10000;
+
     try {
         if (settings.disableAsyncFight) {
-            // 同步战斗模式：依赖配置组的“战斗结束检测”让 AutoFight 自行退出
-            // 额外增加 watchdog：超过 fightTimeout 仍未退出则取消任务，避免无限战斗
             const maxDetectMs = Math.max(0, Number(fightTimeout) * 1000);
             battleTask = dispatcher.runTask(new SoloTask("AutoFight"), cts);
             const battleWrapped = battleTask
@@ -587,6 +598,7 @@ async function executeBattleTasks(fightTimeout, enemyType, cts, battlePointCoord
             ]);
             if (first.kind === "battle_timeout") {
                 try { cts.cancel(); } catch { }
+                awaitBattleTask = false;
                 return { success: false, status: "auto_fight_ended" };
             }
             if (first.kind === "battle_rejected") {
@@ -603,7 +615,6 @@ async function executeBattleTasks(fightTimeout, enemyType, cts, battlePointCoord
                 throw error;
             }
         } else {
-            // 异步战斗模式：并发启动战斗 + OCR 检测结果；检测到结果后取消战斗任务
             battleTask = dispatcher.runTask(new SoloTask("AutoFight"), cts);
             battleDetectTask = waitForBattleResult(fightTimeout * 1000, enemyType, cts, battlePointCoords);
             const maxDetectMs = Math.max(0, Number(fightTimeout) * 1000);
@@ -647,27 +658,33 @@ async function executeBattleTasks(fightTimeout, enemyType, cts, battlePointCoord
             }
 
             try { cts.cancel(); } catch { }
+            try { await Promise.race([detectWrapped, sleep(1500)]); } catch { }
             return { success: false, status: "auto_fight_ended" };
         }
     } catch (error) {
         if (isCancellationError(error)) throw error;
         const msg = error && error.message ? String(error.message) : "";
-        if (enemyType === "盗宝团" && (msg.includes("前往七天神像重试") || msg.includes("检测到游泳"))) {
+        if (SwimTracker(enemyType).enabled && (msg.includes("前往七天神像重试") || msg.includes("检测到游泳"))) {
             log.warn(`战斗执行异常（已自动回七天神像）: ${msg}`);
             return { success: false, status: "recovered_to_statue", errorMessage: msg };
         }
         log.error(`战斗执行过程中出错: ${msg}`);
         return { success: false, status: "error", errorMessage: msg };
     } finally {
-        // 避免因 AutoFight 不响应取消导致 finally 永久挂起
         if (battleTask) {
             try {
-                await Promise.race([
-                    battleTask,
-                    sleep(awaitBattleTaskMs)
+                const done = await Promise.race([
+                    battleTask.then(() => true).catch(() => true),
+                    sleep(awaitBattleTask ? awaitBattleTaskMs : 5000).then(() => false)
                 ]);
-            } catch (_) {
-                // 忽略清理阶段的任何错误（取消/超时等）
+                if (!done) {
+                    log.warn("AutoFight 未在超时内响应取消，后台任务可能仍在运行");
+                    battleTask.catch(() => { });
+                }
+            } catch (error) {
+                if (!isCancellationError(error)) {
+                    log.warn(`清理战斗任务时出错: ${error.message}`);
+                }
             }
         }
         keyUp("VK_LBUTTON");
@@ -770,6 +787,8 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
                 sleep(maxDetectMs).then(() => false)
             ]);
             if (!pathSettled) {
+                pathPromise.catch(() => { });
+                log.warn("寻路任务未在预期时间内完成，已进入后台静默模式");
                 throw createScriptError(ERROR_CODES.BATTLE_TIMEOUT, ERR_MESSAGES.BATTLE_TIMEOUT);
             }
         }
