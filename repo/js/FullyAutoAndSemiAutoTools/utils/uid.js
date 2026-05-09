@@ -1,3 +1,6 @@
+import {checkVersion} from "../../ActivitySwitchNotice/utils/version";
+import {ImageRegionSafe} from "./package";
+
 const commonPath = 'Assets/RecognitionObject/'
 const commonMap = new Map([
     ['main_ui', {
@@ -30,6 +33,16 @@ function saveOnlyNumber(str) {
 }
 
 async function ocrUID() {
+    let manifest = {};
+    let manifest_json = "manifest.json";
+    manifest = JSON.parse(file.readTextSync(manifest_json));
+    const version = getVersion();
+    const check_version = manifest.min_bgi_version && checkVersion(version, manifest.min_bgi_version)
+
+    if (!check_version){
+        const uid = await genshin.uid()
+        return uid
+    }
     let uid_json = {
         x: 1683,
         y: 1051,
@@ -48,7 +61,8 @@ async function ocrUID() {
         log.warn(`UID未设置`)
         uid = 0
     } finally {
-        region3.dispose()
+        // region3.dispose()
+        ImageRegionSafe.safeDispose(region3)
     }
     log.debug(`[OCR识别UID]识别结果: {uid}`, uid);
     return uid
