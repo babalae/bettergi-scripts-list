@@ -285,18 +285,43 @@ async function getManagedGameRegion(minIntervalMs = GAME_REGION_MIN_INTERVAL_MS,
  * @returns {Promise<void>}
  */
 async function flushGameRegionCache() {
-    while (gameRegionManager.isCapturing || gameRegionManager.isDisposing) {
+    const waitFlagsDeadline = Date.now() + 3000;
+    while ((gameRegionManager.isCapturing || gameRegionManager.isDisposing) && Date.now() < waitFlagsDeadline) {
         await sleep(1);
+    }
+    if (gameRegionManager.isCapturing || gameRegionManager.isDisposing) {
+        log.warn("flushGameRegionCache 等待截图状态释放超时，跳过本次强制清理");
+        return;
     }
 
     gameRegionManager.isDisposing = true;
     try {
+        const flushDeadline = Date.now() + 3000;
         while (gameRegionManager.cache.length > 0) {
-            const region = gameRegionManager.cache.pop();
+            const disposableIndex = gameRegionManager.cache.findIndex(
+                region => (gameRegionManager.borrowCountByRegion.get(region) || 0) <= 0
+            );
+            if (disposableIndex < 0) {
+                if (Date.now() >= flushDeadline) {
+                    log.warn("flushGameRegionCache 等待借用截图归还超时，保留仍被借用的截图对象");
+                    break;
+                }
+                await sleep(1);
+                continue;
+            }
+            const [region] = gameRegionManager.cache.splice(disposableIndex, 1);
             safeDispose(region);
+            gameRegionManager.borrowCountByRegion.delete(region);
         }
-        gameRegionManager.borrowCountByRegion.clear();
-        gameRegionManager.lastCaptureTs = 0;
+        const inCache = new Set(gameRegionManager.cache);
+        for (const region of Array.from(gameRegionManager.borrowCountByRegion.keys())) {
+            if (!inCache.has(region)) {
+                gameRegionManager.borrowCountByRegion.delete(region);
+            }
+        }
+        if (gameRegionManager.cache.length === 0) {
+            gameRegionManager.lastCaptureTs = 0;
+        }
     } finally {
         gameRegionManager.isDisposing = false;
     }
