@@ -82,13 +82,13 @@ const ENEMY_CONFIG = {
 
 // 经验/摩拉模板匹配资源
 // 这里保留 Mat 引用，便于脚本结束时主动释放，降低长时间运行的资源占用风险
-let expMat = file.ReadImageMatSync("Assets/exp.png");
+let expMat = file.ReadImageMatSync("assets/exp.png");
 let expRo = RecognitionObject.TemplateMatch(expMat, 74, 341, 207 - 74, 803 - 341);
 expRo.Threshold = 0.85;
 expRo.Use3Channels = true;
 expRo.InitTemplate();
 
-let moraMat = file.ReadImageMatSync("Assets/mora.png");
+let moraMat = file.ReadImageMatSync("assets/mora.png");
 let moraRo = RecognitionObject.TemplateMatch(moraMat, 74, 341, 207 - 74, 803 - 341);
 moraRo.Threshold = 0.85;
 moraRo.Use3Channels = true;
@@ -329,7 +329,7 @@ async function recoverAfterFailure(enemyType, skipTp = false) {
 async function AutoPath(locationName) {
     // 统一包装路径执行：避免 runFile 抛错导致整个脚本中断
     try {
-    const filePath = `Assets/AutoPath/${locationName}.json`;
+    const filePath = `assets/AutoPath/${locationName}.json`;
         await pathingScript.runFile(filePath);
         return true;
     } catch (error) {
@@ -390,7 +390,7 @@ function getBattlePointFromBattlePath(enemyType) {
     if (battlePointCache.has(enemyType)) {
         return battlePointCache.get(enemyType);
     }
-    const filePath = `Assets/AutoPath/${enemyType}-战斗点.json`;
+    const filePath = `assets/AutoPath/${enemyType}-战斗点.json`;
     let point = null;
     try {
         if (fileExistsSafe(filePath)) {
@@ -419,7 +419,7 @@ function getBattlePointFromBattlePath(enemyType) {
  * @returns {Promise<void>}
  */
 async function runBattlePathToBattlePoint(enemyType, injectFightAction = false) {
-    const filePath = `Assets/AutoPath/${enemyType}-战斗点.json`;
+    const filePath = `assets/AutoPath/${enemyType}-战斗点.json`;
     if (!fileExistsSafe(filePath)) {
         throw new Error(`缺少战斗点路径文件: ${filePath}`);
     }
