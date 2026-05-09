@@ -798,7 +798,7 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
     }
 
     try {
-        await runBattlePathToBattlePoint(enemyType, false);
+        await runBattlePathToBattlePoint(enemyType, enemyType === "盗宝团");
     } catch (e) {
         if (isCancellationError(e)) throw e;
         const msg = e && e.message ? String(e.message) : "";
