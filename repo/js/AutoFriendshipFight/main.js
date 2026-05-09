@@ -17,6 +17,7 @@ const ERROR_CODES = {
 
 const ERR_MESSAGES = {
     BATTLE_TIMEOUT: "战斗超时，未检测到结果",
+    SWIM_RECOVERED: "检测到游泳且自动回七天神像，视为本轮失败",
 };
 
 // 掉落检测状态
@@ -26,8 +27,18 @@ const ERR_MESSAGES = {
 let detectedExpOrMora = true;
 let noExpOrMoraCount = 0;
 let running = true;
+const GAME_REGION_CACHE_SIZE = 5;
+const GAME_REGION_MIN_INTERVAL_MS = 17;
+const gameRegionManager = {
+    cache: [],
+    borrowCountByRegion: new Map(),
+    lastCaptureTs: 0,
+    isDisposing: false,
+    isCapturing: false,
+};
 
 const warnedEnemyTypes = new Set();
+const ACTIVITY_LIST_OCR_REGION = { x: 0, y: 200, w: 300, h: 300 };
 
 // 默认突发任务 OCR 关键词（敌人配置未提供时使用）
 const DEFAULT_OCR_KEYWORDS = ["突发", "任务", "打倒", "消灭", "敌人", "所有"];
@@ -138,6 +149,7 @@ moraRo.InitTemplate();
         running = false;
         // 给 .NET Task 续延留出执行时间，避免 V8 释放后访问已释放对象导致 ObjectDisposedException
         await sleep(1000);
+        await flushGameRegionCache();
         safeDispose(expRo);
         safeDispose(moraRo);
         safeDispose(expMat);
@@ -156,7 +168,7 @@ moraRo.InitTemplate();
  */
 function convertToTrueIfNotBoolean(value) {
     // settings 里可能是 undefined/字符串等非布尔值，此处按“未设置则视为开启”处理
-    return typeof value === 'boolean' ? value : true;
+    return typeof value === "boolean" ? value : true;
 }
 
 /**
@@ -180,6 +192,114 @@ function safeDispose(obj) {
         (typeof obj.dispose === "function" ? obj.dispose : null);
     if (!fn) return;
     try { fn.call(obj); } catch { }
+}
+
+/**
+ * 统一释放截图缓存中的旧对象，仅保留最近若干帧。
+ * @returns {Promise<void>}
+ */
+async function disposeOldGameRegions() {
+    gameRegionManager.isDisposing = true;
+    try {
+        while (gameRegionManager.cache.length > GAME_REGION_CACHE_SIZE) {
+            const disposableIndex = gameRegionManager.cache.findIndex(region => (gameRegionManager.borrowCountByRegion.get(region) || 0) <= 0);
+            if (disposableIndex < 0) {
+                break;
+            }
+            const [oldestRegion] = gameRegionManager.cache.splice(disposableIndex, 1);
+            safeDispose(oldestRegion);
+            gameRegionManager.borrowCountByRegion.delete(oldestRegion);
+        }
+    } finally {
+        gameRegionManager.isDisposing = false;
+    }
+}
+
+/**
+ * 标记托管截图被借用（调用方开始使用）。
+ * @param {*} region
+ */
+function retainManagedGameRegion(region) {
+    if (!region) return;
+    const prev = gameRegionManager.borrowCountByRegion.get(region) || 0;
+    gameRegionManager.borrowCountByRegion.set(region, prev + 1);
+}
+
+/**
+ * 标记托管截图归还（调用方结束使用）。
+ * @param {*} region
+ */
+function releaseManagedGameRegion(region) {
+    if (!region) return;
+    const prev = gameRegionManager.borrowCountByRegion.get(region) || 0;
+    if (prev <= 1) {
+        gameRegionManager.borrowCountByRegion.delete(region);
+    } else {
+        gameRegionManager.borrowCountByRegion.set(region, prev - 1);
+    }
+}
+
+/**
+ * 获取游戏区域截图（统一入口）：带最小截图间隔与缓存清理。
+ * 注意：调用方不应释放返回的 region，生命周期由缓存管理器统一托管。
+ * @param {number} [minIntervalMs=17]
+ * @param {boolean} [asyncDispose=false]
+ * @returns {Promise<*>}
+ */
+async function getManagedGameRegion(minIntervalMs = GAME_REGION_MIN_INTERVAL_MS, asyncDispose = false) {
+    while (gameRegionManager.isCapturing) {
+        await sleep(1);
+    }
+
+    gameRegionManager.isCapturing = true;
+    try {
+        const now = Date.now();
+        if (now - gameRegionManager.lastCaptureTs >= minIntervalMs || gameRegionManager.cache.length === 0) {
+            while (gameRegionManager.isDisposing) {
+                await sleep(1);
+            }
+            const region = captureGameRegion();
+            gameRegionManager.cache.push(region);
+            gameRegionManager.lastCaptureTs = now;
+            if (asyncDispose) {
+                disposeOldGameRegions();
+            } else {
+                await disposeOldGameRegions();
+            }
+        }
+        const region = gameRegionManager.cache[gameRegionManager.cache.length - 1] || null;
+        retainManagedGameRegion(region);
+        return region;
+    } catch (error) {
+        log.error(`获取游戏区域截图失败: ${error && error.message ? error.message : error}`);
+        const region = gameRegionManager.cache[gameRegionManager.cache.length - 1] || null;
+        retainManagedGameRegion(region);
+        return region;
+    } finally {
+        gameRegionManager.isCapturing = false;
+    }
+}
+
+/**
+ * 释放截图缓存中的所有对象（脚本退出时调用）。
+ * @returns {Promise<void>}
+ */
+async function flushGameRegionCache() {
+    while (gameRegionManager.isCapturing || gameRegionManager.isDisposing) {
+        await sleep(1);
+    }
+
+    gameRegionManager.isDisposing = true;
+    try {
+        while (gameRegionManager.cache.length > 0) {
+            const region = gameRegionManager.cache.pop();
+            safeDispose(region);
+        }
+        gameRegionManager.borrowCountByRegion.clear();
+        gameRegionManager.lastCaptureTs = 0;
+    } finally {
+        gameRegionManager.isDisposing = false;
+    }
 }
 
 /**
@@ -224,6 +344,58 @@ function safeGetPositionFromMap() {
             throw error;
         }
         return null;
+    }
+}
+
+/**
+ * 规范化 OCR 文本：转字符串并移除空白。
+ * @param {*} text
+ * @returns {string}
+ */
+function normalizeOcrText(text) {
+    const s = text == null ? "" : String(text);
+    return s.replace(/\s+/g, "");
+}
+
+/**
+ * 从指定截图中提取活动列表 OCR 文本（多结果拼接），仅释放内部 OCR 结果对象。
+ * @param {*} captureRegion
+ * @returns {string}
+ */
+function readActivityListTextFromCapture(captureRegion) {
+    let resList = null;
+    const chunks = [];
+    try {
+        const { x, y, w, h } = ACTIVITY_LIST_OCR_REGION;
+        resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
+        for (let i = 0; i < resList.count; i++) {
+            let res = resList[i];
+            try {
+                if (res && res.text) {
+                    chunks.push(String(res.text));
+                }
+            } finally {
+                safeDispose(res);
+            }
+        }
+    } finally {
+        safeDispose(resList);
+    }
+    return normalizeOcrText(chunks.join(""));
+}
+
+/**
+ * 基于托管截图并 OCR 识别活动列表区域文本（统一封装）。
+ * @returns {Promise<string>}
+ */
+async function readActivityListText() {
+    let captureRegion = null;
+    try {
+        captureRegion = await getManagedGameRegion();
+        if (!captureRegion) return "";
+        return readActivityListTextFromCapture(captureRegion);
+    } finally {
+        releaseManagedGameRegion(captureRegion);
     }
 }
 
@@ -329,7 +501,7 @@ async function recoverAfterFailure(enemyType, skipTp = false) {
 async function AutoPath(locationName) {
     // 统一包装路径执行：避免 runFile 抛错导致整个脚本中断
     try {
-    const filePath = `assets/AutoPath/${locationName}.json`;
+        const filePath = `assets/AutoPath/${locationName}.json`;
         await pathingScript.runFile(filePath);
         return true;
     } catch (error) {
@@ -523,24 +695,13 @@ async function detectTaskTrigger(ocrTimeout, enemyType) {
     let ocrStartTime = Date.now();
 
     while (Date.now() - ocrStartTime < ocrTimeout * 1000 && !ocrStatus) {
-        let captureRegion = null;
-        let resList = null;
         try {
-            captureRegion = captureGameRegion();
-            resList = captureRegion.findMulti(RecognitionObject.ocr(0, 200, 300, 300));
-            for (let o = 0; o < resList.count; o++) {
-                let res = resList[o];
-                try {
-                    for (let keyword of ocrKeywords) {
-                        if (res && res.text && String(res.text).includes(keyword)) {
-                            ocrStatus = true;
-                            log.info("检测到突发任务触发");
-                            break;
-                        }
-                    }
-                    if (ocrStatus) break;
-                } finally {
-                    safeDispose(res);
+            const activityText = await readActivityListText();
+            for (const keyword of ocrKeywords) {
+                if (activityText.includes(keyword)) {
+                    ocrStatus = true;
+                    log.info("检测到突发任务触发");
+                    break;
                 }
             }
         } catch (error) {
@@ -548,9 +709,6 @@ async function detectTaskTrigger(ocrTimeout, enemyType) {
                 throw error;
             }
             log.error(`OCR检测突发任务过程中出错: ${error && error.message ? error.message : error}`);
-        } finally {
-            safeDispose(resList);
-            safeDispose(captureRegion);
         }
 
         if (!ocrStatus) {
@@ -765,7 +923,7 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
             const msg = e && e.message ? String(e.message) : "";
             if (msg.includes("前往七天神像重试") || msg.includes("检测到游泳")) {
                 await recoverAfterFailure(enemyType, true);
-                throw new Error("检测到游泳且自动回七天神像，视为本轮失败");
+                throw new Error(ERR_MESSAGES.SWIM_RECOVERED);
             }
             throw e;
         }
@@ -804,7 +962,7 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
         const msg = e && e.message ? String(e.message) : "";
         if (SwimTracker(enemyType).enabled && (msg.includes("前往七天神像重试") || msg.includes("检测到游泳"))) {
             await recoverAfterFailure(enemyType, true);
-            throw new Error("检测到游泳且自动回七天神像，视为本轮失败");
+            throw new Error(ERR_MESSAGES.SWIM_RECOVERED);
         }
         throw e;
     }
@@ -820,7 +978,7 @@ async function executeSingleFriendshipRound(roundIndex, ocrTimeout, fightTimeout
     if (battleResult.status === "recovered_to_statue") {
         // 此状态意味着游戏已自动回到七天神像，无需再次 TP
         await recoverAfterFailure(enemyType, true);
-        throw new Error("检测到游泳且自动回七天神像，视为本轮失败");
+        throw new Error(ERR_MESSAGES.SWIM_RECOVERED);
     }
 
     await recoverAfterFailure(enemyType, false);
@@ -868,8 +1026,9 @@ async function AutoFriendshipDev(times, ocrTimeout, fightTimeout, enemyType = "�
             try { await sleep(1); } catch (e) { break; }
             try {
                 const success = await executeSingleFriendshipRound(i, ocrTimeout, fightTimeout, enemyType);
-                if (!success)
+                if (!success) {
                     break;
+                }
                 successCount++;
                 logProgress(startFirstTime, i, times);
             } catch (error) {
@@ -911,12 +1070,16 @@ async function detectExpOrMora() {
     // 注意：该循环依赖 running 停止；必须保证任何退出路径都会把 running=false
     while (running) {
         try { await sleep(1); } catch (e) { break; }
-        let gameRegion;
+        let gameRegion = null;
         if (!detectedExpOrMora) {
             let res1 = null;
             let res2 = null;
             try {
-                gameRegion = captureGameRegion();
+                gameRegion = await getManagedGameRegion(17, false);
+                if (!gameRegion) {
+                    await sleep(50);
+                    continue;
+                }
                 res1 = gameRegion.find(expRo);
                 if (res1.isExist()) {
                     log.info("识别到经验");
@@ -934,7 +1097,7 @@ async function detectExpOrMora() {
             } finally {
                 safeDispose(res1);
                 safeDispose(res2);
-                safeDispose(gameRegion);
+                releaseManagedGameRegion(gameRegion);
             }
         } else {
             //无需检测时额外等待200
@@ -950,7 +1113,7 @@ async function detectExpOrMora() {
  */
 async function calculateRunTimes() {
     // 从 settings 读取次数并校验；非法则回退默认值
-    log.info(`'请确保队伍满员，并为队伍配置相应的战斗策略'`);
+    log.info("请确保队伍满员，并为队伍配置相应的战斗策略");
     // 计算运行次数
     let runTimes = Number(settings.runTimes);
     if (!isPositiveInteger(runTimes)) {
@@ -1006,7 +1169,7 @@ function getTriggerPoint(enemyType) {
     return triggerPoint;
 }
 
-// 验证日期格式
+// 队伍切换相关
 /**
  * 可选切换队伍；失败则尝试回七天神像后重试。
  * @param {string} partyName
@@ -1057,52 +1220,54 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
     let notFind = 0;
 
     while (Date.now() - fightStartTime < timeout) {
-        if (!cts) cts = new CancellationTokenSource();
+        if (!cts) {
+            cts = new CancellationTokenSource();
+        }
         if (isCtsCancellationRequested(cts)) {
             return "cancelled";
         }
         let capture = null;
         let result = null;
-        let result2 = null;
         try {
-            capture = captureGameRegion();
+            capture = await getManagedGameRegion(17, false);
+            if (!capture) {
+                await sleep(pollIntervalMs);
+                continue;
+            }
             // 沿用最初版写死的 OCR 框（1080p 下的“事件完成”识别区域）
             result = capture.find(RecognitionObject.ocr(850, 150, 200, 80));
-            result2 = capture.find(RecognitionObject.ocr(0, 200, 300, 300));
-            let text = result && result.text ? String(result.text) : "";
-            text = text ? text.replace(/\s+/g, "") : "";
-            let text2 = result2 && result2.text ? String(result2.text) : "";
-            text2 = text2 ? text2.replace(/\s+/g, "") : "";
+            const text = normalizeOcrText(result && result.text ? result.text : "");
+            const text2 = readActivityListTextFromCapture(capture);
             if (enemyType === "蕈兽" && text2.includes("维沙瓦")) {
                 log.info("战斗结果：成功");
-                try{ cts.cancel(); } catch{} // 取消任务
+                try { cts.cancel(); } catch { } // 取消任务
                 return "success";
             }
 
             // 检查成功关键词：只要开战后识别到“事件/完成”等关键词即可认为本轮结束
             if (Date.now() - fightStartTime >= 2000) {
-                for (let keyword of successKeywords) {
+                for (const keyword of successKeywords) {
                     if (text.includes(keyword)) {
                         log.info("检测到战斗成功关键词: {0}", keyword);
                         log.info("战斗结果：成功");
-                        try{ cts.cancel(); } catch{} // 取消任务
+                        try { cts.cancel(); } catch { } // 取消任务
                         return "success";
                     }
                 }
             }
 
             // 检查失败关键词
-            for (let keyword of failureKeywords) {
+            for (const keyword of failureKeywords) {
                 if (text.includes(keyword)) {
                     log.warn("检测到战斗失败关键词: {0}", keyword);
-                    try{ cts.cancel(); } catch{} // 取消任务
+                    try { cts.cancel(); } catch { } // 取消任务
                     return "failure";
                 }
             }
             if (enemyType !== "蕈兽") {
                 // 检查事件关键词
                 let find = 0;
-                for (let keyword of eventKeywords) {
+                for (const keyword of eventKeywords) {
                     if (text2.includes(keyword)) {
                         find++;
                     }
@@ -1129,25 +1294,22 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
 
                     if (nearBattlePoint) {
                         log.info("触发关键词消失但仍在战斗点附近，视为本轮结束");
-                        try{ cts.cancel(); } catch{} // 取消任务
+                        try { cts.cancel(); } catch { } // 取消任务
                         return "success";
                     }
 
                     log.warn("不在任务触发区域，战斗失败");
-                    try{ cts.cancel(); } catch{} // 取消任务
+                    try { cts.cancel(); } catch { } // 取消任务
                     return "out_of_area";
 
                 }
             }
-        }
-        catch (error) {
+        } catch (error) {
             log.error("OCR过程中出错: {0}", error);
             // 出错后继续循环，不进行额外嵌套处理
-        }
-        finally {
+        } finally {
             safeDispose(result);
-            safeDispose(result2);
-            safeDispose(capture);
+            releaseManagedGameRegion(capture);
         }
 
         // 统一的检查间隔
@@ -1155,7 +1317,7 @@ async function waitForBattleResult(timeout = 2 * 60 * 1000, enemyType = "盗宝�
     }
 
     log.warn("在超时时间内未检测到战斗结果");
-    try{ cts.cancel(); } catch{} // 取消任务
+    try { cts.cancel(); } catch { } // 取消任务
     throw createScriptError(ERROR_CODES.BATTLE_TIMEOUT, ERR_MESSAGES.BATTLE_TIMEOUT);
 }
 
