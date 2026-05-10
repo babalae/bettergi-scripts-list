@@ -1114,6 +1114,9 @@ if(afterStamina< 20) skipCheckStamina = 0;
 					 await sleep(13000);
 					 keyUp("w");
 					 }
+				 	 else if(bossName=="守望者·堕天"){
+                     await keyMouseScript.runFile(`assets/goToBoss/守望者·堕天前往键鼠.json`);				 
+					 }
                      await sleep(500);
                      log.info(`开始战斗`);
                      try {
@@ -1137,6 +1140,9 @@ if(afterStamina< 20) skipCheckStamina = 0;
 					     await sleep(13000);
 					     keyUp("w");
 					     }
+				 	     else if(bossName=="守望者·堕天"){
+                         await keyMouseScript.runFile(`assets/goToBoss/守望者·堕天前往键鼠.json`);				 
+					     }						 
                          await dispatcher.runTask(new SoloTask("AutoFight"));
                      }
                      await sleep(1000);
