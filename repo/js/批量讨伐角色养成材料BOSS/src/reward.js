@@ -1,9 +1,32 @@
+import { isCancellationError } from "./utils.js";
+
+/**
+ * 自动导航到奖励点（征讨之花位置）
+ * 
+ * 该函数通过以下步骤实现自动寻路：
+ * 1. 调整为俯视视角
+ * 2. 通过识别宝箱图标来调整方向和前进
+ * 3. 检测攀爬状态并尝试脱离
+ * 4. 当检测到"接触征讨之花"文字时停止
+ * 
+ * @async
+ * @function autoNavigateToReward
+ * @throws {Error} 当前进时间超过 40 次时抛出超时错误
+ * @throws {Error} 当视野调整超过 50 次未成功时抛出超时错误
+ * 
+ * @example
+ * await autoNavigateToReward();
+ */
 async function autoNavigateToReward() {
     try {
-        // 定义识别对象
+        const Rect = OpenCvSharp.OpenCvSharp.Rect;
+        const page = new BvPage();
         const boxIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/box.png"));
 
-        let advanceNum = 0;//前进次数
+        const rewardRect = new Rect(1210, 515, 200, 50);
+        const climbRect = new Rect(1686, 1030, 60, 23);
+
+        let advanceNum = 0;
         //调整为俯视视野
         middleButtonClick();
         await sleep(800);
@@ -13,32 +36,25 @@ async function autoNavigateToReward() {
         await sleep(400);
         moveMouseBy(0, 710);
         log.info("开始领奖");
+        
         while (true) {
             // 1. 优先检查是否已到达领奖点
-            let captureRegion = captureGameRegion();
-            let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
-            let rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
-            captureRegion.dispose();
-            rewardTextArea.Dispose();
-            // 检测到特点文字则结束！！！
-            if (rewardResult.text == "接触征讨之花") {
-                log.info("已到达领奖点，检测到文字: " + rewardResult.text);
+            if (await page.Locator("接触征讨之花", rewardRect).isExist()) {
+                log.info("已到达领奖点，检测到文字：接触征讨之花");
                 return;
             }
-            else if (advanceNum > 40) {
+            
+            if (advanceNum > 40) {
                 throw new Error('前进时间超时');
             }
+            
             // 2. 未到达领奖点，则调整视野
             for (let i = 0; i < 100; i++) {
-                captureRegion = captureGameRegion();
-                let iconRes = captureRegion.Find(boxIconRo);
-                let climbTextArea = captureRegion.DeriveCrop(1686, 1030, 60, 23);
-                let climbResult = climbTextArea.find(RecognitionObject.ocrThis);
-                captureRegion.dispose();
-                climbTextArea.Dispose();
-                // 检查是否处于攀爬状态
-                if (climbResult.text.toLowerCase() === "space") {
-                    log.info("检侧进入攀爬状态，尝试脱离");
+                if (i > 50) throw new Error('视野调整超时');
+                
+                // 检查攀爬状态
+                if (await page.Locator("Space", climbRect).isExist()) {
+                    log.info("检测到攀爬状态，尝试脱离");
                     keyPress("x");
                     await sleep(1000);
                     keyDown("a");
@@ -47,110 +63,117 @@ async function autoNavigateToReward() {
                     keyDown("w");
                     await sleep(800);
                     keyUp("w");
+                    continue;
                 }
-                if (i > 50) throw new Error('视野调整超时');
-                if (iconRes.isEmpty()) {
+                
+                // 查找宝箱图标
+                const boxResult = page.Locator(boxIconRo).findAll();
+                if (boxResult.count < 1) {
                     log.warn("未找到宝箱图标，重试");
                     moveMouseBy(200, 0);
                     await sleep(500);
                     continue;
                 }
-                else if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
+             
+                const iconRes = boxResult[0];
+                if (iconRes.X >= 920 && iconRes.X <= 980 && iconRes.Y <= 540) {
                     advanceNum++;
                     log.info(`视野已调正，前进第${advanceNum}次`);
                     break;
                 } else {
                     // 小幅度调整
-                    if (iconRes.y >= 520) moveMouseBy(0, 920);
-                    let adjustAmount = iconRes.x < 920 ? -20 : 20;
-                    let distanceToCenter = Math.abs(iconRes.x - 920); // 计算与920的距离
-                    let scaleFactor = Math.max(1, Math.floor(distanceToCenter / 50)); // 根据距离缩放，最小为1
-                    let adjustAmount2 = iconRes.y < 540 ? scaleFactor : 10;
+                    if (iconRes.Y >= 520) moveMouseBy(0, 920);
+                    const adjustAmount = iconRes.X < 920 ? -20 : 20;
+                    const distanceToCenter = Math.abs(iconRes.X - 920);
+                    const scaleFactor = Math.max(1, Math.floor(distanceToCenter / 50));
+                    const adjustAmount2 = iconRes.Y < 540 ? scaleFactor : 10;
                     moveMouseBy(adjustAmount * adjustAmount2, 0);
                     await sleep(100);
                 }
             }
+            
             // 3. 前进一小步
             keyDown("w");
             await sleep(500);
             keyUp("w");
-            await sleep(200); // 等待角色移动稳定
+            await sleep(200);
         }
     } catch (error) {
+        // 先检查是否为取消异常
+        if (isCancellationError(error)) {
+            throw error;
+        }
         log.error(`自动寻路到奖励失败，error: ${error}`);
         throw error;
     }
 }
 
+/**
+ * 领取讨伐奖励
+ * 
+ * 该函数通过以下步骤实现奖励领取：
+ * 1. 识别并交互"接触征讨之花"（按 F 键）
+ * 2. 处理脆弱树脂不足的情况（检测"补充"文字）
+ * 3. 使用脆弱树脂领取奖励（检测"使用"文字）
+ * 4. 关闭奖励界面（检测"点击"文字）
+ * 5. 确认回到主界面后结束
+ * 
+ * @async
+ * @function takeReward
+ * @param {boolean} isInsufficientResin - 树脂是否不足的标志位
+ * @returns {Promise<boolean>} 返回更新后的树脂不足状态
+ * @throws {Error} 当领取奖励超过 100 次尝试时抛出超时错误
+ * 
+ * @example
+ * let insufficientResin = false;
+ * insufficientResin = await takeReward(insufficientResin);
+ */
 async function takeReward(isInsufficientResin) {
     try {
+        const Rect = OpenCvSharp.OpenCvSharp.Rect;
+        const page = new BvPage();
+
+        const rewardRect = new Rect(1210, 515, 200, 50);    //地脉花交互
+        const useRect = new Rect(850, 740, 250, 35);    //补充原粹树脂 or 使用原粹树脂
+        const closeRect = new Rect(850, 960, 220, 35);    //关闭掉落奖励列表
         const mainUiRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/mainUi.png"));
-        for (let attempt = 1; attempt <= 100; attempt++) {
-            log.debug(`尝试领取奖励，第${attempt}次`);
-            let captureRegion = captureGameRegion();
 
-            // 点击F领取Boss地脉花
-            log.debug("尝试接触征讨之花");
-            let rewardTextArea = captureRegion.DeriveCrop(1210, 515, 200, 50);
-            let rewardResult = rewardTextArea.find(RecognitionObject.ocrThis);
-            rewardTextArea.dispose();
-            if (rewardResult.text === "接触征讨之花" && isInsufficientResin == false) {
+        await page.Locator("接触征讨之花", rewardRect)
+            .withRetryAction(async () => {
+                log.info("检测到接触征讨之花，按 F 键交互");
                 keyPress("F");
-                await sleep(1000);
-                captureRegion.dispose();
-                captureRegion = captureGameRegion();
-            }
+            })
+            .WaitForDisappear();
 
-            // 使用脆弱树脂领取奖励
-            let useTextArea = captureRegion.DeriveCrop(850, 740, 250, 35);
-            let useResult = useTextArea.find(RecognitionObject.ocrThis);
-            useTextArea.dispose();
-            log.debug("领取奖励检测到文字: " + useResult.text);
-            if (useResult.text.includes("补充")) {
-                log.info("脆弱树脂不足，跳过领取");
-                click(1345, 300);
-                await sleep(1000);
-                captureRegion.dispose();
-                captureRegion = captureGameRegion();
-                isInsufficientResin = true;
-            }
-            else if (useResult.text.includes("使用"))  {
-                log.info("使用脆弱树脂领取奖励");
-                click(useResult.x, useResult.y);
-                captureRegion.dispose();
-                captureRegion = captureGameRegion();
-                await sleep(3000);
-            }
-
-            // 关闭奖励界面
-            let closeRewardUi = captureRegion.DeriveCrop(860, 970, 200, 28);
-            let closeResult = closeRewardUi.find(RecognitionObject.ocrThis);
-            closeRewardUi.dispose();
-            log.debug("底部检测到文字: " + closeResult.text);
-            if (closeResult.text.includes("点击")){
-                click(975, 1000);//点击空白区域
-                await sleep(1000);
-                captureRegion.dispose();
-                captureRegion = captureGameRegion();
-            }
-
-            // 检查是否回到主界面
-            let inMainUi = captureRegion.Find(mainUiRo);
-            if (inMainUi.x > 0 && !useResult.text.includes("树脂")) {
-                log.debug("回到主界面");
-                captureRegion.dispose();
-                return isInsufficientResin;
-            }
-            captureRegion.dispose();
-            await sleep(500);
-
+        try {
+            await page.Locator("使用原粹树脂", useRect).ClickUntilDisappears(3000)
+            await page.Locator("点击空白区域继续", closeRect).ClickUntilDisappears(3000)
+        } catch (error) {
+            isInsufficientResin = true;
+            await page.Locator("补充原粹树脂", useRect)
+                .withRetryAction(async () => {
+                    page.Click(1345, 300); //点击右上角 X 关闭窗口
+                })
+                .WaitForDisappear();
+            log.info("领取失败，可能是原粹树脂不足，尝试关闭领取界面");
+            log.debug("错误信息：{message}", error.message);
+            log.debug("错误栈：{stack}", error.stack);
         }
-        throw new Error('领取奖励超时');
+        if (await page.Locator(mainUiRo).isExist()) {
+            log.info("已回到主界面，领取奖励结束");
+            return isInsufficientResin;
+        }
+
+        throw new Error('未成功回到主界面');
+        
     } catch (error) {
-        log.error(`领取奖励失败: ${error.message}`);
+        // 先检查是否为取消异常
+        if (isCancellationError(error)) {
+            throw error;
+        }
+        log.error(`领取奖励失败：${error.message}`);
         throw error;
     }
-
 }
 
 export { autoNavigateToReward, takeReward };
