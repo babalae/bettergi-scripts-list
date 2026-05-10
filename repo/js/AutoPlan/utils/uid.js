@@ -27,7 +27,7 @@ async function ocrUid() {
     const version = getVersion();
     const check_version = manifest.min_bgi_version && checkVersion(version, manifest.min_bgi_version)
 
-    if (!check_version){
+    if (check_version){
         const uid = await genshin.uid()
         return uid
     }
