@@ -6,7 +6,12 @@
  */
 function parseRunTimeLimit(targetMinutes) {
   if (!targetMinutes) return null
-  return Date.now() + Number(targetMinutes) * 60 * 1000
+      const minutes = Number(targetMinutes)
+      if (isNaN(minutes) || minutes <= 0) {
+        log.warn(`无效的运行时长设置: ${targetMinutes}`)
+        return null
+      }
+    return Date.now() + minutes * 60 * 1000
 }
 
 /**

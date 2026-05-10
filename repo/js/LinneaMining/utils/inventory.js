@@ -43,7 +43,11 @@ async function getInventory() {
         RecognitionObject.ocr(res.x, res.y + 120, 120, 40)
       )
       if (ocrRes) {
-        result[ore.name] = Number(ocrRes.text)
+        if (!isNaN(count) && count >= 0) {
+          result[ore.name] = count
+        } else {
+          log.warn(`OCR 识别矿石数量失败: ${ore.name}, 文本: ${ocrRes.text}`)
+        }
       }
     }
   }

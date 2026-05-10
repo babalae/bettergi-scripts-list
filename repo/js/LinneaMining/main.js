@@ -48,8 +48,10 @@ async function switchParty(partyName) {
 async function runRoute(routePath) {
   try {
     await pathingScript.runFile(routePath)
+    return true
   } catch (err) {
     log.error(`路线运行失败 ${routePath}:`, err)
+    return false
   }
 }
 
@@ -148,10 +150,12 @@ async function runRoute(routePath) {
     }
 
     const startTime = Date.now()
-    await runRoute(route)
     await sleep(10)
-    const duration = (Date.now() - startTime) / 1000
-    recordRoute(route, refreshData, duration)
+    const res = await runRoute(route)
+    if (res) {
+      const duration = (Date.now() - startTime) / 1000
+      recordRoute(route, refreshData, duration)
+    }
 
     // 最后一条路线，给一定时间缓冲
     if (i === runnableRoutes.length - 1) {
