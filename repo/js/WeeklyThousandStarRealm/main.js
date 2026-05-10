@@ -4,7 +4,8 @@ import {
   findImgAndClick,
   waitUntilTextAppear,
   waitUntilImgDisappear,
-  waitUntilImgAppear, findImg
+  waitUntilImgAppear,
+  findImg
 } from "../../../packages/utils/tool";
 
 import fold_triangle from "assets/fold_triangle.png";
@@ -12,6 +13,7 @@ import check_box from "assets/check_box.png";
 import exit_room from "assets/exit_room.png";
 import room_ready from "assets/room_ready.png";
 import paimon from "../../../packages/assets/imgs/paimon_menu.png";
+import { checkVersion } from "../../../packages/utils/tool";
 
 const duration = 1000; // 默认点击等待延时
 
@@ -27,6 +29,7 @@ const weekMaxExp = Number(settings.weekMaxExp || "4000");
 const singleExp = Number(settings.singleExp || "270");
 let weekTotal = initWeekTotal();
 let progressWinId = null;
+let useMask = false;
 
 function sendProgress(pct, text, cur, tot) {
   if (!progressWinId) return;
@@ -327,7 +330,9 @@ async function playMap() {
 
   await findTextAndClick("开始游戏", 960, 540, 960, 540, 5, 50, 50);
   log.info("开始执行第{i}/{total}次奇域挑战", 1, total);
-  sendProgress(0, `正在执行第1/${total}次挑战`, 1, total);
+  if (useMask) {
+    sendProgress(0, `正在执行第1/${total}次挑战`, 1, total);
+  }
   let firstOutputCount = 0;
   await waitUntilTextAppear(
     "返回大厅",
@@ -350,7 +355,9 @@ async function playMap() {
     decreaseWeekTotal();
   }
   log.info("本次关卡结束");
-  sendProgress(Math.round(1 / total * 100), `第1/${total}次挑战完成`, 1, total);
+  if (useMask) {
+    sendProgress(Math.round(1 / total * 100), `第1/${total}次挑战完成`, 1, total);
+  }
 
   await deleteSource();
 
@@ -362,7 +369,9 @@ async function playMap() {
       await sleep(duration);
       await findTextAndClick("开始游戏", 960, 540, 960, 540, 20, 50, 50);
       log.info("开始执行第{i}/{total}次奇域挑战", i + 1, total);
-      sendProgress(Math.round(i / total * 100), `正在执行第${i + 1}/${total}次挑战`, i + 1, total);
+      if (useMask) {
+        sendProgress(Math.round(i / total * 100), `正在执行第${i + 1}/${total}次挑战`, i + 1, total);
+      }
       let outputCount = 0;
       await waitUntilTextAppear(
         "返回大厅",
@@ -384,7 +393,9 @@ async function playMap() {
       if (!useFixedAttempts) {
         decreaseWeekTotal();
       }
-      sendProgress(Math.round((i + 1) / total * 100), `第${i + 1}/${total}次挑战完成`, i + 1, total);
+      if (useMask) {
+        sendProgress(Math.round((i + 1) / total * 100), `第${i + 1}/${total}次挑战完成`, i + 1, total);
+      }
       await deleteSource();
     }
   }
@@ -406,21 +417,30 @@ async function exitToTeyvat() {
 }
 
 (async function () {
+  const version = getVersion();
+  const minVersion = '0.60.2-alpha.3';
+
+  useMask = checkVersion(version, minVersion);
+
   if (!runJS) {
     log.error("您未同意此脚本的免责声明，请先同意后重新运行此脚本！");
-    htmlMask.show("assets/disclaimer-mask.html");
-    await sleep(10000);
+    if (useMask) {
+      htmlMask.show("assets/disclaimer-mask.html");
+      await sleep(10000);
+    }
     return;
   }
 
-  const showSkill = roomID === "37135473336";
-  progressWinId = htmlMask.show("assets/progress-mask.html");
-  await sleep(duration);
-  sendProgress(0, "准备中...");
-  if (showSkill && progressWinId) {
-    htmlMask.request(progressWinId, "/showskill", JSON.stringify({
-      show: showSkill
-    }));
+  if (useMask) {
+    const showSkill = roomID === "37135473336";
+    progressWinId = htmlMask.show("assets/progress-mask.html");
+    await sleep(duration);
+    sendProgress(0, "准备中...");
+    if (showSkill && progressWinId) {
+      htmlMask.request(progressWinId, "/showskill", JSON.stringify({
+        show: showSkill
+      }));
+    }
   }
 
   await genshin.returnMainUi();
@@ -458,6 +478,8 @@ async function exitToTeyvat() {
   }
   await playMap();
   await exitToTeyvat();
-  sendProgress(100, "全部完成！");
+  if (useMask) {
+    sendProgress(100, "全部完成！");
+  }
   await sleep(3000);
 })();
