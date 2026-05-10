@@ -1,0 +1,50 @@
+[
+    {
+        "name": "adventurersGuildPath",
+        "type": "select",
+        "label": "前往指定地区的冒险家协会领取奖励",
+        "options": [
+            "蒙德",
+            "璃月",
+            "稻妻",
+            "须弥",
+            "枫丹",
+            "挪德卡莱"
+        ],
+        "default": "蒙德"
+    },
+    {
+        "name": "dailyRewardNotice",
+        "type": "checkbox",
+        "label": "每日状态通知",
+        "default": true
+    },
+    {
+        "name": "errorNotice",
+        "type": "checkbox",
+        "label": "执行报错通知",
+        "default": true
+    },
+    {
+        "type":"separator",
+        "label": "==== 分步通知独立开关 ===="
+    },
+    {
+        "name": "mailNotice",
+        "type": "checkbox",
+        "label": "邮件领取完毕通知",
+        "default": true
+    },
+    {
+        "name": "battlePassNotice",
+        "type": "checkbox",
+        "label": "珍珠纪行领取完毕通知",
+        "default": false
+    },
+    {
+        "name": "adventurersGuildCommissionNotice",
+        "type": "checkbox",
+        "label": "每日委托完成后通知",
+        "default": false
+    }
+]
