@@ -18,11 +18,11 @@ import {
   parseRunTimeLimit,
   isTimeUp
 } from "./utils/timeControl.js"
-import {
-  getInventory,
-  formatYieldDiff,
-  formatInventory
-} from "./utils/inventory.js"
+// import {
+//   getInventory,
+//   formatYieldDiff,
+//   formatInventory
+// } from "./utils/inventory.js"
 import {startMonthCardWatcher} from "../../../packages/utils/tool"
 
 // 切换队伍
@@ -124,8 +124,8 @@ async function runRoute(routePath) {
 
   dispatcher.addTimer(new RealtimeTimer("AutoPick"))
 
-  const originalInventory = await getInventory()
-  log.info("当前背包：" + formatInventory(originalInventory))
+  // const originalInventory = await getInventory()
+  // log.info("当前背包：" + formatInventory(originalInventory))
 
   const scriptStartTime = Date.now()
 
@@ -161,11 +161,11 @@ async function runRoute(routePath) {
 
   log.info("所有路线运行完成")
 
-  const latestInventory = await getInventory()
-  const runningMinutes = (Date.now() - scriptStartTime) / 1000 / 60
-  const summary = `运行${runningMinutes.toFixed(2)}分钟，${formatYieldDiff(latestInventory, originalInventory)}`
-  log.info("当前背包：" + formatInventory(latestInventory))
-  log.info(summary)
+  // const latestInventory = await getInventory()
+  // const runningMinutes = (Date.now() - scriptStartTime) / 1000 / 60
+  // const summary = `运行${runningMinutes.toFixed(2)}分钟，${formatYieldDiff(latestInventory, originalInventory)}`
+  // log.info("当前背包：" + formatInventory(latestInventory))
+  // log.info(summary)
 
   await watcher.cancel()
 })()
