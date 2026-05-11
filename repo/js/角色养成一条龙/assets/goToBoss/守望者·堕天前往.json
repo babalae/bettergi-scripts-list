@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -9,8 +9,8 @@
     "bgi_version": "0.45.0",
     "description": "守望者·堕天前往",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1775918714572,
-    "map_match_method": "",
+    "last_modified_time": 1778509657695,
+    "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "守望者·堕天前往",
     "tags": [],
@@ -24,8 +24,26 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -232.99987359734587,
-      "y": 4094
+      "x": -227.96875,
+      "y": 4109.873046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -238.427734375,
+      "y": 4139.6220703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -257.708984375,
+      "y": 4196.93359375
     }
   ]
 }
