@@ -1,7 +1,7 @@
 {
   "manifest_version": 1,
-  "name": "战斗好感：自动好感度&卡时间",
-  "version": "1.5.8",
+  "name": "战斗好感：自动好感度",
+  "version": "2.0.0",
   "bgi_version": "0.45.1",
   "tags": [
     "好感",
@@ -11,11 +11,19 @@
     "鳄鱼",
     "兽肉"
   ],
-  "description": "通过战斗类突发事件刷好感度，刷盗宝团、愚人众材料，概率掉落兽肉，小怪锄地，卡时间等，请配合战斗策略使用。盗宝团部分在 HZYgrandma & 愚溪的原始脚本上改编。当前版本可能无法以任意方式拾取掉落物，如果有拾取掉落物需求，请勿更新。",
+  "description": "通过战斗类突发事件自动刷好感度，支持盗宝团、愚人众、鳄鱼、蕈兽、雷萤术士等路线，请配合战斗策略使用。",
   "authors": [
     {
       "name": "秋云",
       "links": "https://github.com/physligl"
+    },
+    {
+      "name": "火山",
+      "links": "https://github.com/RRRR623"
+    },
+    {
+      "name": "mno",
+      "links": "https://github.com/Bedrockx"
     }
   ],
   "settings_ui": "settings.json",
