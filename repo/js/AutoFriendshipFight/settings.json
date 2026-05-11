@@ -1,9 +1,8 @@
 [
   {
-    "name": "pickupMode",
+    "name": "disablePickup",
     "type": "checkbox",
-    "label": "是否启用自动拾取实时任务",
-    "default": true
+    "label": "禁用自动拾取实时任务"
   },
   {
     "name": "enemyType",
@@ -20,8 +19,9 @@
   },
   {
     "name": "qiuQiuRen",
-    "type": "checkbox",
-    "label": "是否清理丘丘人\n【默认否，仅对盗宝团有效，选是会清理丘丘人之后再开始任务】"
+    "type": "input-text",
+    "label": "清理丘丘人超时时间(秒)\n【默认0不执行，仅对盗宝团有效，超出时间自动结束清理】",
+    "default": "0"
   },
   {
     "name": "disableAsyncFight",
@@ -52,12 +52,12 @@
     "name": "ocrTimeout",
     "type": "input-text",
     "label": "OCR超时时间\n【选填，默认为10秒，如果经常提前判定未识别到任务，请适当调大】",
-    "default": 10
+    "default": "10"
   },
   {
     "name": "fightTimeout",
     "type": "input-text",
     "label": "战斗超时时间\n【选填，默认为120秒】",
-    "default": 120
+    "default": "120"
   }
 ]
