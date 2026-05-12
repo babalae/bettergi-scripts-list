@@ -27,7 +27,7 @@ RESOURCE_DIR_NAMES = {"assets", "asset", "resources", "resource"}
 COMBAT_AUTHOR_EXACT = re.compile(r"^//作者：\S.+")
 COMBAT_AUTHOR_LOOSE = re.compile(r"^//\s*(?:原作者|作者)\s*[:：].+")
 PATHING_NUMBER_PREFIX = re.compile(r"^(?:[A-Za-z]\d{2,3}|\d{2,3})-")
-PATHING_QUANTITY = re.compile(r"\d+个")
+PATHING_QUANTITY = re.compile(r"\d+(?:[~～\-–—]\d+)?\+?(个|只|朵|条|株)(?=$|[-;，,、（）()\[\]【】\s])")
 
 
 @dataclass(frozen=True)
@@ -316,9 +316,9 @@ def audit_pathing(pathing: Path, root: Path, findings: list[Finding]) -> dict[st
                     "WARNING",
                     "pathing",
                     rpath,
-                    "地图追踪脚本文件名应包含预期采集数量，例如 `6个`",
-                    "文件名未包含 `数字+个` 的数量信息。",
-                    "在文件名末尾补充预期数量，例如 `-6个`；历史路线可先列入迁移计划。",
+                    "地图追踪脚本文件名应包含预期采集数量，例如 `6个`、`1只`、`3朵`",
+                    "文件名未包含合法数量信息；支持 `个`、`只`、`朵`、`条`、`株` 以及范围数量。",
+                    "在文件名末尾补充预期数量，例如 `-6个` 或 `-1只`；历史路线可先列入迁移计划。",
                     "ERROR",
                 )
             extra_chars = set("_()（）[]【】,.，、@")
