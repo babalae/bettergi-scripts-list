@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Iterable
 
 SEVERITIES = ("ERROR", "WARNING", "MANUAL_REVIEW")
-PATHING_CATEGORIES = {"锄地专区", "地方特产", "敌人与魔物", "矿物", "其他"}
+README_PATHING_CATEGORIES = {"锄地专区", "地方特产", "敌人与魔物", "矿物", "其他"}
 # README text says "six" categories, but currently lists the five above explicitly.
 README_LISTED_CATEGORY_RULE = "README: 地图追踪脚本一级分类应为 `锄地专区`、`地方特产`、`敌人与魔物`、`矿物`、`其他`"
 
@@ -38,6 +38,7 @@ class Finding:
     rule: str
     problem: str
     suggested_fix: str
+    downgraded_from: str | None = None
 
 
 def rel(path: Path, root: Path) -> str:
@@ -49,8 +50,17 @@ def md_escape(value: object) -> str:
     return text.replace("|", "\\|")
 
 
-def add(findings: list[Finding], severity: str, typ: str, path: str, rule: str, problem: str, fix: str) -> None:
-    findings.append(Finding(severity, typ, path, rule, problem, fix))
+def add(
+    findings: list[Finding],
+    severity: str,
+    typ: str,
+    path: str,
+    rule: str,
+    problem: str,
+    fix: str,
+    downgraded_from: str | None = None,
+) -> None:
+    findings.append(Finding(severity, typ, path, rule, problem, fix, downgraded_from))
 
 
 def require_scopes(root: Path) -> tuple[Path, Path, Path]:
@@ -146,14 +156,16 @@ def audit_combat(combat: Path, root: Path, findings: list[Finding]) -> dict[str,
                 "若只能用于副本，请将文件名改为 `...-副本.txt`；否则在注释中明确适用范围。",
             )
         if "不适用于锄地" in content and not stem.endswith("-副本"):
+            only_domain = "只能用于副本" in content or "仅用于副本" in content
             add(
                 findings,
-                "ERROR",
+                "ERROR" if only_domain else "MANUAL_REVIEW",
                 "combat",
                 rpath,
-                "只能用于副本、不适用于锄地的战斗策略应增加 `-副本` 后缀",
-                "脚本明确写有“不适用于锄地”，但文件名没有 `-副本` 后缀。",
-                "将文件名增加 `-副本` 后缀，或修正文档说明。",
+                "只有同时满足“只能用于副本、不适用于锄地”的战斗策略才应增加 `-副本` 后缀",
+                "脚本写有“不适用于锄地”，但未能自动确认是否只能用于副本；好感/盗宝团等特殊用途需要人工判断。",
+                "人工确认适用场景；若只能用于副本，请将文件名增加 `-副本` 后缀，否则在注释中明确特殊用途。",
+                None if only_domain else "ERROR",
             )
         # Character abbreviations are partly semantic. Flag filenames without obvious Chinese character sequences used in action lines.
         action_chars = set()
@@ -178,22 +190,47 @@ def audit_combat(combat: Path, root: Path, findings: list[Finding]) -> dict[str,
 
 
 def material_dir_for(path: Path, pathing: Path) -> str | None:
+    """Infer the material/monster directory only for categories with stable layouts."""
     parts = path.relative_to(pathing).parts
     if len(parts) < 2:
         return None
     category = parts[0]
+    if category in {"矿物", "敌人与魔物", "食材与炼金"}:
+        return parts[1]
     if category == "地方特产" and len(parts) >= 3:
         return parts[2]
-    return parts[1]
+    return None
+
+
+def pathing_special_case(parts: tuple[str, ...]) -> str | None:
+    if len(parts) >= 2 and parts[0] == "其他" and parts[1] == "成就":
+        return "其他/成就"
+    if len(parts) >= 2 and parts[0] == "其他" and parts[1] == "提瓦特钓鱼指南":
+        return "其他/提瓦特钓鱼指南"
+    if parts and parts[0] == "其他":
+        return "其他"
+    return None
 
 
 def audit_pathing(pathing: Path, root: Path, findings: list[Finding]) -> dict[str, int]:
     audit_readme_case(pathing, root, "pathing", findings)
     json_files = list(iter_files(pathing, ".json"))
     readmes = [p for p in iter_files(pathing) if p.name == "README.md"]
+    special_counts = {"其他/成就": 0, "其他/提瓦特钓鱼指南": 0, "其他": 0}
 
     for category_dir in sorted(p for p in pathing.iterdir() if p.is_dir()):
-        if category_dir.name not in PATHING_CATEGORIES:
+        if category_dir.name == "食材与炼金":
+            add(
+                findings,
+                "WARNING",
+                "pathing",
+                rel(category_dir, root),
+                "README category list may be inconsistent with existing repo/pathing/食材与炼金",
+                "README 明列的一級分類未包含 `食材与炼金`，但仓库中存在该一级目录；不再对该目录下每个文件重复报一級分類 ERROR。",
+                "维护者应确认 README 是否需要补充该分类，或规划迁移该目录。",
+                "ERROR",
+            )
+        elif category_dir.name not in README_PATHING_CATEGORIES:
             add(
                 findings,
                 "ERROR",
@@ -222,59 +259,79 @@ def audit_pathing(pathing: Path, root: Path, findings: list[Finding]) -> dict[st
     for file in json_files:
         rpath = rel(file, root)
         stem = file.stem
-        material = material_dir_for(file, pathing)
         parts = file.relative_to(pathing).parts
-        if parts and parts[0] not in PATHING_CATEGORIES:
+        special_case = pathing_special_case(parts)
+        if special_case:
+            special_counts[special_case] = special_counts.get(special_case, 0) + 1
             add(
                 findings,
+                "MANUAL_REVIEW",
+                "pathing",
+                rpath,
+                "legacy/pathing-special-case exclusions",
+                f"`repo/pathing/{special_case}` 属于特殊用途或非标准材料采集路径；已跳过编号、数量、材料目录一致性的 hard fail。",
+                "人工确认该路径是否需要独立命名规范；如属于材料采集路线，再按标准命名补齐编号、材料名和数量。",
                 "ERROR",
-                "pathing",
-                rpath,
-                README_LISTED_CATEGORY_RULE,
-                f"文件位于未列入 README 的一级分类 `{parts[0]}`。",
-                "移动到 README 规定分类，或先更新 README 分类规范。",
             )
-        if not PATHING_NUMBER_PREFIX.search(stem):
+        material = None if special_case else material_dir_for(file, pathing)
+        if not special_case and material is None:
             add(
                 findings,
+                "MANUAL_REVIEW",
+                "pathing",
+                rpath,
+                "无法可靠推断材料目录时不应 hard fail 材料名称一致性",
+                "该文件所在分类/层级无法可靠推断材料或怪物名称。",
+                "人工确认目录层级；若属于标准分类，请移动到 README 规定的材料/怪物目录结构。",
                 "ERROR",
-                "pathing",
-                rpath,
-                "地图追踪脚本文件名应以两位/三位编号开头，例如 `01-材料-地点-6个`",
-                "文件名未以规范编号和连字符开头。",
-                "按 `编号-材料名称-区域/地点-数量` 重命名。",
             )
-        if material and material.split("@")[0] not in stem:
-            add(
-                findings,
-                "ERROR",
-                "pathing",
-                rpath,
-                "文件名材料名称应与所在材料目录一致",
-                f"所在材料目录推断为 `{material}`，但文件名 `{stem}` 未包含该材料名称。",
-                "将文件名中的材料名称改为材料目录名，或移动到正确材料目录。",
-            )
-        if not PATHING_QUANTITY.search(stem):
-            add(
-                findings,
-                "ERROR",
-                "pathing",
-                rpath,
-                "地图追踪脚本文件名应包含预期采集数量，例如 `6个`",
-                "文件名未包含 `数字+个` 的数量信息。",
-                "在文件名末尾补充预期数量，例如 `-6个`。",
-            )
-        extra_chars = set("_()（）[]【】,.，、@")
-        if any(ch in stem for ch in extra_chars):
-            add(
-                findings,
-                "WARNING",
-                "pathing",
-                rpath,
-                "脚本名称原则上仅限编号、材料名称、区域/子区域、数量，不应包含额外描述或标点",
-                "文件名包含可能属于额外描述或标点的字符。",
-                "确认是否必要；如非必要，按 README 示例精简命名。",
-            )
+
+        # For legacy repositories, filename convention drift is reported as WARNING rather than ERROR.
+        if not special_case:
+            if not PATHING_NUMBER_PREFIX.search(stem):
+                add(
+                    findings,
+                    "WARNING",
+                    "pathing",
+                    rpath,
+                    "地图追踪脚本文件名应以两位/三位编号开头，例如 `01-材料-地点-6个`",
+                    "文件名未以规范编号和连字符开头。",
+                    "按 `编号-材料名称-区域/地点-数量` 重命名；历史路线可批量规划后再迁移。",
+                    "ERROR",
+                )
+            if material and material.split("@")[0] not in stem:
+                add(
+                    findings,
+                    "WARNING",
+                    "pathing",
+                    rpath,
+                    "文件名材料名称应与所在材料目录一致",
+                    f"所在材料目录推断为 `{material}`，但文件名 `{stem}` 未包含该材料名称。",
+                    "将文件名中的材料名称改为材料目录名，或移动到正确材料目录；如目录为兼容历史结构，请人工确认。",
+                    "ERROR",
+                )
+            if not PATHING_QUANTITY.search(stem):
+                add(
+                    findings,
+                    "WARNING",
+                    "pathing",
+                    rpath,
+                    "地图追踪脚本文件名应包含预期采集数量，例如 `6个`",
+                    "文件名未包含 `数字+个` 的数量信息。",
+                    "在文件名末尾补充预期数量，例如 `-6个`；历史路线可先列入迁移计划。",
+                    "ERROR",
+                )
+            extra_chars = set("_()（）[]【】,.，、@")
+            if any(ch in stem for ch in extra_chars):
+                add(
+                    findings,
+                    "WARNING",
+                    "pathing",
+                    rpath,
+                    "脚本名称原则上仅限编号、材料名称、区域/子区域、数量，不应包含额外描述或标点",
+                    "文件名包含可能属于额外描述或标点的字符。",
+                    "确认是否必要；如非必要，按 README 示例精简命名。",
+                )
         try:
             data = json.loads(file.read_text(encoding="utf-8-sig"))
         except Exception as exc:
@@ -297,8 +354,13 @@ def audit_pathing(pathing: Path, root: Path, findings: list[Finding]) -> dict[st
                 f"JSON 名称为 `{json_name}`，文件名为 `{stem}`。",
                 "将 JSON 的 `info.name`/`name` 改为文件名，或重命名文件。",
             )
-    return {"pathing_json_files": len(json_files), "pathing_readmes": len(readmes)}
-
+    return {
+        "pathing_json_files": len(json_files),
+        "pathing_readmes": len(readmes),
+        "pathing_special_achievement": special_counts.get("其他/成就", 0),
+        "pathing_special_fishing": special_counts.get("其他/提瓦特钓鱼指南", 0),
+        "pathing_special_other": special_counts.get("其他", 0),
+    }
 
 def audit_js(js: Path, root: Path, findings: list[Finding]) -> dict[str, int]:
     audit_readme_case(js, root, "js", findings)
@@ -354,12 +416,23 @@ def audit_js(js: Path, root: Path, findings: list[Finding]) -> dict[str, int]:
 def make_report(root: Path, stats: dict[str, int], findings: list[Finding]) -> str:
     now = _dt.datetime.now(_dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     counts = {severity: sum(1 for f in findings if f.severity == severity) for severity in SEVERITIES}
+    affected_paths = {f.path for f in findings}
+    downgraded_count = sum(1 for f in findings if f.downgraded_from)
+    rule_counts: dict[tuple[str, str], int] = {}
+    for finding in findings:
+        key = (finding.severity, finding.rule)
+        rule_counts[key] = rule_counts.get(key, 0) + 1
+    repository_issues = [
+        f for f in findings
+        if f.rule.startswith("README category list may") or f.path in {"<repository>", "repo/pathing", "repo/js", "repo/combat"}
+    ]
     lines = [
         "# Script Spec Audit Report",
         "",
         f"- 扫描时间：`{now}`",
         "- 扫描范围：`repo/combat`、`repo/pathing`、`repo/js`",
         "- 依据：仓库 README 的「脚本提交规范」；已确认 `build/build.js` 主要负责生成/更新 `repo.json`，`build/validate.py` 主要覆盖地图追踪 JSON 结构、字段、版本、作者、编码及 JSON/子目录混放校验，本工具补充命名与打包规范审计。",
+        "- Severity 说明：历史/特殊用途 pathing 的命名漂移默认不再 hard fail；只有可明确自动判定的结构或元数据不一致保留为 ERROR。",
         "",
         "## 扫描数量统计",
         "",
@@ -372,18 +445,53 @@ def make_report(root: Path, stats: dict[str, int], findings: list[Finding]) -> s
         "",
         "## Findings Summary",
         "",
-        "| Severity | Count |",
-        "| -------- | ----: |",
+        "| Metric | Count |",
+        "| ------ | ----: |",
         f"| ERROR | {counts['ERROR']} |",
         f"| WARNING | {counts['WARNING']} |",
         f"| MANUAL_REVIEW | {counts['MANUAL_REVIEW']} |",
-        f"| TOTAL | {len(findings)} |",
+        f"| TOTAL findings | {len(findings)} |",
+        f"| affected files/paths count | {len(affected_paths)} |",
+        f"| downgraded count | {downgraded_count} |",
+        "",
+        "## Repository-level Issues",
+        "",
+        "| Severity | Path | Rule | Problem | Suggested Fix |",
+        "| -------- | ---- | ---- | ------- | ------------- |",
+    ]
+    if repository_issues:
+        for f in repository_issues:
+            lines.append(
+                f"| {md_escape(f.severity)} | `{md_escape(f.path)}` | {md_escape(f.rule)} | {md_escape(f.problem)} | {md_escape(f.suggested_fix)} |"
+            )
+    else:
+        lines.append("| - | - | - | 未发现 repository-level issue。 | - |")
+    lines.extend([
+        "",
+        "## Legacy / Pathing Special-case Exclusions",
+        "",
+        "这些路径不会直接套用标准材料采集命名 hard fail；对应文件会进入 WARNING 或 MANUAL_REVIEW，供维护者确认是否需要单独规范。",
+        "",
+        "| Exclusion | Affected JSON Files | Handling |",
+        "| --------- | ------------------: | -------- |",
+        f"| `repo/pathing/其他/成就/**` | {stats.get('pathing_special_achievement', 0)} | 跳过编号、数量、材料目录一致性 ERROR，列为 MANUAL_REVIEW。 |",
+        f"| `repo/pathing/其他/提瓦特钓鱼指南/**` | {stats.get('pathing_special_fishing', 0)} | 釣魚特殊用途，不 hard fail 数量/材料目录一致性，列为 MANUAL_REVIEW。 |",
+        f"| other `repo/pathing/其他/**` | {stats.get('pathing_special_other', 0)} | 通常无法可靠推断材料目录，列为 MANUAL_REVIEW。 |",
+        "",
+        "## Rule-level Count",
+        "",
+        "| Severity | Rule | Count |",
+        "| -------- | ---- | ----: |",
+    ])
+    for (severity, rule), count in sorted(rule_counts.items(), key=lambda item: (SEVERITIES.index(item[0][0]), item[0][1])):
+        lines.append(f"| {md_escape(severity)} | {md_escape(rule)} | {count} |")
+    lines.extend([
         "",
         "## Detailed Findings",
         "",
         "| Severity | Type | Path | Rule | Problem | Suggested Fix |",
         "| -------- | ---- | ---- | ---- | ------- | ------------- |",
-    ]
+    ])
     for f in sorted(findings, key=lambda x: (SEVERITIES.index(x.severity), x.type, x.path, x.rule)):
         lines.append(
             f"| {md_escape(f.severity)} | {md_escape(f.type)} | `{md_escape(f.path)}` | {md_escape(f.rule)} | {md_escape(f.problem)} | {md_escape(f.suggested_fix)} |"
@@ -392,7 +500,6 @@ def make_report(root: Path, stats: dict[str, int], findings: list[Finding]) -> s
         lines.append("| - | - | - | - | 未发现问题。 | - |")
     lines.append("")
     return "\n".join(lines)
-
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Audit README script submission conventions.")
