@@ -1,0 +1,85 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时55秒，包含以下怪物：1只丘丘雷兜王。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777660717309,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "A034蒙德风息山西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -745.021484375,
+      "y": 2881.80224609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -665.759765625,
+      "y": 2875.30712890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.15),keypress(t),wait(0.15),keypress(t)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -638.6640625,
+      "y": 2847.56298828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -600.609375,
+      "y": 2907.04296875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_RBUTTON),wait(4.5),keydown(q),wait(0.8),keyup(q),keyup(VK_RBUTTON),wait(0.1),j",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -600.609375,
+      "y": 2907.04296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -600.609375,
+      "y": 2907.04296875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -614.568359375,
+      "y": 2908.8251953125
+    }
+  ]
+}

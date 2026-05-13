@@ -17,7 +17,7 @@
     "description": "  路线信息：该路线预计用时183.81秒，包含以下怪物：1只流刃勇士·游击人、2只流刃勇士·锯脂者、2只流刃勇士·掷叉猎手、1只鳍游龙武士·裂礁之涛、2只幼鳍游龙、5只鳍游龙、1只鳍游龙武士·穿浪之梭。",
     "enable_monster_loot_split": false,
     "hash_res": "19701760",
-    "last_modified_time": 1773934145430,
+    "last_modified_time": 1778678702500,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "F090纳塔涌流地中央神像",
@@ -46,7 +46,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;哥伦比娅 e;",
+      "action_params": "attack(0.3)",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
@@ -113,8 +113,8 @@
       "id": 10,
       "move_mode": "climb",
       "type": "path",
-      "x": 8564.8408203125,
-      "y": -2675.6904296875
+      "x": 8569.7890625,
+      "y": -2675.398666972782
     },
     {
       "action": "",
@@ -122,26 +122,26 @@
       "id": 11,
       "move_mode": "dash",
       "type": "path",
-      "x": 8544,
-      "y": -2680.4373491611295
+      "x": 8542.078125,
+      "y": -2682.6767578125
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 12,
-      "move_mode": "dash",
+      "move_mode": "fly",
       "type": "path",
-      "x": 8543.23828125,
-      "y": -2696.2431640625
+      "x": 8525.1357421875,
+      "y": -2689.3828125
     },
     {
-      "action": "combat_script",
-      "action_params": "attack(0.3);伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;哥伦比娅 e;",
+      "action": "fight",
+      "action_params": "",
       "id": 13,
       "move_mode": "dash",
       "type": "path",
-      "x": 8510.06,
-      "y": -2714.130000000001
+      "x": 8489.63,
+      "y": -2685.5599999999995
     },
     {
       "action": "",
@@ -149,40 +149,22 @@
       "id": 14,
       "move_mode": "dash",
       "type": "path",
-      "x": 8499.71,
-      "y": -2721.0599999999995
+      "x": 8489.63,
+      "y": -2685.5599999999995
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 15,
       "move_mode": "dash",
       "type": "path",
-      "x": 8489.63,
-      "y": -2685.5599999999995
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 16,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 8489.63,
-      "y": -2685.5599999999995
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 17,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 8489.12,
-      "y": -2720.5699999999997
+      "x": 8489.2998046875,
+      "y": -2747.091796875
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 18,
+      "id": 16,
       "move_mode": "dash",
       "type": "path",
       "x": 8431.56,
@@ -191,7 +173,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 19,
+      "id": 17,
       "move_mode": "dash",
       "type": "orientation",
       "x": 8439.32,
