@@ -43,6 +43,7 @@ let CDInfo = [];
 let failcount = 0;
 let autoSalvageCount = 0;
 let furinaState = "unknown";
+let commands = []; // 命令数组（全局变量）
 
 let targetItems;
 let pickupDelay = 100;
@@ -177,26 +178,40 @@ let lastsettimeTime = 0;
     }
     await writeRecord(accountName);
 
-    // 生成自动上线命令
-    await generateAutoOnlineCommand();
+    // 只有当配置了autoOnline时才生成命令文件
+    if (settings.autoOnline && settings.autoOnline.trim()) {
+        await generateCommandFile();
+    } else {
+        log.info(`未配置autoOnline，跳过命令文件生成`);
+    }
 
 })();
 
-// 生成自动上线命令
-async function generateAutoOnlineCommand() {
-    if (settings.onlyActivate && state.runningEndingAndExtraRoute === "收尾额外A" && settings.autoOnline) {
-        try {
-            // 解析autoOnline字符串，按-拆分
+// 生成命令文件
+async function generateCommandFile() {
+    try {
+        // 初始化命令数组
+        commands = [];
+
+        // 获取游戏账户名（从autoOnline配置中提取）
+        let gameAccount = "";
+        if (settings.autoOnline) {
+            const autoOnlineParts = settings.autoOnline.split('-');
+            if (autoOnlineParts.length >= 1) {
+                gameAccount = autoOnlineParts[0].trim();
+            }
+        }
+
+        // 如果是收尾额外A且配置了autoOnline，添加上线命令
+        if (state.runningEndingAndExtraRoute === "收尾额外A" && settings.autoOnline) {
             const autoOnlineParts = settings.autoOnline.split('-');
             if (autoOnlineParts.length >= 3) {
                 const username = autoOnlineParts[0].trim();
                 const uid = autoOnlineParts[1].trim();
                 const room = autoOnlineParts[2].trim();
-                const notHost = false; // 固定为false
-                
-                // 构造命令对象
-                const commandData = {
-                    "mojiang-command": true,
+                const notHost = false;
+
+                commands.push({
                     "command": "online",
                     "params": {
                         "username": username,
@@ -204,24 +219,47 @@ async function generateAutoOnlineCommand() {
                         "room": room,
                         "notHost": notHost
                     }
-                };
-                
-                // 转换为JSON字符串
-                const jsonString = JSON.stringify(commandData, null, 2);
-                
-                // 写入command.json文件
-                await file.writeText('command.json', jsonString, false);
-                log.info(`成功生成自动上线命令文件: command.json`);
-                log.info(`游戏名称: ${username}`);
-                log.info(`UID: ${uid}`);
-                log.info(`目标房间: ${room}`);
-                log.info(`是否不当房主: ${notHost}`);
+                });
+                log.info(`添加上线命令: ${username}-${uid}-${room}`);
             } else {
                 log.warn(`autoOnline配置格式不正确，需要至少包含游戏名称-UID-目标房间`);
             }
-        } catch (error) {
-            log.error(`生成自动上线命令文件失败: ${error.message}`);
         }
+
+        // 添加收益报告命令
+        commands.push({
+            "command": "report-gain",
+            "params": {
+                "gameAccount": gameAccount,
+                "expGain": Math.max(0, artifactExperienceDiff),
+                "moraGain": Math.max(0, moraDiff)
+            }
+        });
+        log.info(`添加收益报告命令: gameAccount=${gameAccount}, expGain=${Math.max(0, artifactExperienceDiff)}, moraGain=${Math.max(0, moraDiff)}`);
+
+        // 根据命令数组生成命令对象
+        const commandData = {
+            "mojiang-command": true
+        };
+
+        commands.forEach((cmd, index) => {
+            if (index === 0) {
+                commandData["command"] = cmd.command;
+                commandData["params"] = cmd.params;
+            } else {
+                commandData[`command*${'*'.repeat(index - 1)}`] = cmd.command;
+                commandData[`params*${'*'.repeat(index - 1)}`] = cmd.params;
+            }
+        });
+
+        // 转换为JSON字符串
+        const jsonString = JSON.stringify(commandData, null, 2);
+
+        // 写入command.json文件
+        await file.writeText('command.json', jsonString, false);
+        log.info(`成功生成命令文件: command.json`);
+    } catch (error) {
+        log.error(`生成命令文件失败: ${error.message}`);
     }
 }
 

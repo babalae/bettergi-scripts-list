@@ -181,7 +181,11 @@ import { runAutoFight } from "./src/auto-fight.js";
                         //如果今天还未刷取，重置今日已刷取次数
                         if (!isToday(boss.lastFarmTime)) {
                             log.info(`今天还未刷取{boss.name}，重置今日刷取次数`, boss.name);
-                            boss.dailyRemainingCount = Math.min(boss.dailyLimitCount, boss.remainingCount);
+                            if (boss.farmMode === FARM_MODES.DAILY) {
+                                boss.dailyRemainingCount = boss.dailyLimitCount;
+                            } else {
+                                boss.dailyRemainingCount = Math.min(boss.dailyLimitCount, boss.remainingCount);
+                            }
                             boss.lastFarmTime = getToday();
                         }
                         if (boss.dailyRemainingCount < 1) {
@@ -347,7 +351,7 @@ import { runAutoFight } from "./src/auto-fight.js";
         }
 
         // === 写回配置文件 ===
-        if (runMode !== "运行") {
+        if (runMode !== RUN_MODES.RUN) {
             file.writeTextSync("assets/config/config.json", JSON.stringify(config, null, 4));
         }
 

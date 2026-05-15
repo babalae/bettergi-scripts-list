@@ -374,4 +374,66 @@ var Utils = {
       return false;
     }
   },
+
+  // 位置识别投票函数
+  getPositionWithVoting: async function (genshin) {
+    /**
+     * 使用投票机制获取最可靠的地图位置
+     * @param {Object} genshin - genshin对象
+     * @returns {Object} - 最可靠的位置对象
+     * @throws {Error} - 当无法识别位置时抛出错误
+     */
+    let scale = 2.0;
+    const positions = [];
+    let recognitionCount = 0;
+    
+    // 至少识别6次
+    while (scale <= 5.0 && recognitionCount < 6) {
+      try {
+        await genshin.setBigMapZoomLevel(scale);
+        await sleep(100);
+        const position = genshin.getPositionFromBigMap();
+        positions.push(position);
+        recognitionCount++;
+      } catch (error) {
+        log.debug('缩放:{0}, error:{1}', scale, error.message);
+      }
+      scale += 0.3;
+    }
+    
+    // 聚类并选择最可靠的位置
+    if (positions.length > 0) {
+      // 简单的聚类算法
+      const clusters = [];
+      for (const pos of positions) {
+        let added = false;
+        for (const cluster of clusters) {
+          const distance = Math.sqrt(
+            Math.pow(cluster[0].x - pos.x, 2) + Math.pow(cluster[0].y - pos.y, 2)
+          );
+          if (distance < 5) {
+            cluster.push(pos);
+            added = true;
+            break;
+          }
+        }
+        if (!added) {
+          clusters.push([pos]);
+        }
+      }
+      
+      // 选择最大的聚类
+      clusters.sort((a, b) => b.length - a.length);
+      if (clusters.length > 0) {
+        // 取聚类中的第一个位置作为最终位置
+        const bestPosition = clusters[0][0];
+        log.info(`位置识别成功: (${bestPosition.x}, ${bestPosition.y})`);
+        // 打印所有识别的坐标（debug日志）
+        log.debug(`所有识别坐标: ${positions.map(p => `(${p.x}, ${p.y})`).join(', ')}`);
+        return bestPosition;
+      }
+    }
+    
+    throw new Error('无法从大地图中识别位置');
+  },
 };

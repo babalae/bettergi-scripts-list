@@ -142,15 +142,13 @@ async function takeReward(isInsufficientResin) {
                 return isInsufficientResin;
             }
             captureRegion.dispose();
-            rewardTextArea.Dispose();
-            useTextArea.Dispose();
-            closeRewardUi.Dispose();
             await sleep(500);
 
         }
         throw new Error('领取奖励超时');
     } catch (error) {
-        log.error(`领取奖励失败: ${error}`);
+        log.error(`领取奖励失败: ${error.message}`);
+        throw error;
     }
 
 }

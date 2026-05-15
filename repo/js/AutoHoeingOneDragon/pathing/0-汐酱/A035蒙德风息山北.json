@@ -1,0 +1,103 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时55秒，包含以下怪物：1只丘丘岩盔王。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777836119165,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "A035蒙德风息山北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -745.021484375,
+      "y": 2881.80224609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -727.85546875,
+      "y": 2893.9130859375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-3000),keypress(t),wait(0.15),keypress(t),moveby(0,-1500),keypress(t),wait(0.15),keypress(t),click(middle),wait(0.6)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -727.85546875,
+      "y": 2893.9130859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -712.66015625,
+      "y": 2985.9814453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_RBUTTON),wait(6.5),keydown(q),wait(0.8),keyup(q),keyup(VK_RBUTTON),wait(0.1),j",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -712.66015625,
+      "y": 2985.9814453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -721.271484375,
+      "y": 2983.54345703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -733.3125,
+      "y": 2983.33056640625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -732.6015625,
+      "y": 2987.539041638838
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -732.6015625,
+      "y": 2987.539041638838
+    }
+  ]
+}

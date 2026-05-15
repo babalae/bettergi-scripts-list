@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个薄荷；6个鸟蛋；2个香辛果；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762361499520,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D25-4-须弥食材-善见地-水天丛林【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 3128.69,
+      "y": -1734.66
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3142.92,
+      "y": -1726.23
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3227.68,
+      "y": -1590.28
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 3230.76,
+      "y": -1589.73
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3235.49,
+      "y": -1596.15
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 3239.75,
+      "y": -1596.91
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3243.88,
+      "y": -1597.3
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 3243.88,
+      "y": -1597.3
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3232.5156,
+      "y": -1650.624
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3238.0664,
+      "y": -1650.2339
+    }
+  ]
+}

@@ -14,7 +14,7 @@
   {
     "name": "bossSelection",
     "type": "cascade-select",
-    "label": "选择讨伐BOSS \n - 以拼音首字母按英文字母表排序",
+    "label": "选择讨伐BOSS",
     "cascadeOptions": {
       "蒙德": [
         "急冻树",
@@ -87,13 +87,13 @@
   {
     "name": "timeout",
     "type": "input-text",
-    "label": "战斗超时设置（秒）\n !!!暂时未生效，等下版本BGI更新后更新!!!",
+    "label": "战斗超时设置（秒）",
     "default": 240
   },
   {
     "name": "strategyName",
     "type": "input-text",
-    "label": "战斗策略名\n !!!暂时未生效，等下版本BGI更新后更新!!!\n - BGI本体策略文件夹下的策略名，不含后缀， \n - 如在文件夹内需保留目录结构",
+    "label": "战斗策略名 - BGI本体策略文件夹下的策略名，不含后缀， \n - 如在文件夹内需保留目录结构",
     "default": "根据队伍自动选择"
   },
   {
