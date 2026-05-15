@@ -270,6 +270,14 @@
                 await keyMouseScript.runFile(`assets/npc/${area}-${type}-GCM.json`);
                 await sleep(500);
             }
+            if (type === "锅") {
+                click(143, 1018); // 筛选
+                await sleep(500);
+                click(143, 1018); // 重置
+                await sleep(500);
+                click(493, 1025); // 确认筛选
+                await sleep(500)
+            }
         }
 
         return await enter_store();
@@ -494,6 +502,7 @@
         let barDownRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${bg === "white" ? "slide_bar_main_down": "slide_bar_left_down"}.png`), x, y, w, h);
         barUpRo.threshold = 0.7;
         barDownRo.threshold = 0.7;
+        let barUpper_temp = 0;
 
         while (true) {
             await sleep(200);
@@ -501,6 +510,11 @@
             let gameRegion = captureGameRegion();
             if (side.toLowerCase() === "up") {
                 let barUpper = gameRegion.Find(barUpRo);
+                if (barUpper.y !== barUpper_temp) { // 防止卡死
+                    barUpper_temp = barUpper.y;
+                } else {
+                    break;
+                }
                 gameRegion.dispose();
                 if (barUpper.isExist()) {
                     if (barUpper.y < max) { // 到顶了
