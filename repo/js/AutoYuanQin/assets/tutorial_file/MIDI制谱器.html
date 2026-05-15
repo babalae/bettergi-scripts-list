@@ -609,16 +609,14 @@
     const autoShiftCheckbox = document.getElementById('auto-shift-checkbox');
     const shiftInfoIcon = document.getElementById('shift-info-icon');
 
-    // 新增BPM输入框
-    const bpmInput = document.getElementById('bpm-input');
-
-    // UI 输入字段（新增作者）
+    // 输入控件
+    const bpmInput = document.getElementById('bpm-input');  // BPM
     const scoreName = document.getElementById('score-name');
     const scoreInstrument = document.getElementById('score-instrument');
     const scoreDescription = document.getElementById('score-description');
     const scoreComposer = document.getElementById('score-composer');
     const scoreArranger = document.getElementById('score-arranger');
-    const scoreAuthor = document.getElementById('score-author'); // 新增作者输入框
+    const scoreAuthor = document.getElementById('score-author');  // 作者
 
     // 辅助函数：统计单个音轨的音符数量
     function countTrackNotes(track) {
