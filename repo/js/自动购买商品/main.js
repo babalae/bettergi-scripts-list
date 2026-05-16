@@ -795,6 +795,8 @@ async function quickBuy(itemName) {
             if (isCapacityFull) {
                 capacityLimitedFoods.add(itemName);
                 log.info(`[容量上限] 商品 "${itemName}" 触发背包容量已达上限，后续将不再购买。`);
+                // 交互或拾取："XXXX"
+                await fakeLog("${itemName} 已达上限", false, false, 23333);
                 return 'capacity';
             }
             // 非容量问题，可能售罄导致按钮消失？仍尝试检测售罄消息
