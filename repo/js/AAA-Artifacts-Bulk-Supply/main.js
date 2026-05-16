@@ -86,7 +86,7 @@ let lastsettimeTime = 0;
 
     state.currentParty = "";
     state.cancel = false;
-    log.info(`今日运行普通${state.runningRoute}路线`);
+    log.info(`今日运行${state.runningRoute}号线`);
     if (state.runnedToday) {
         await readCDInfo(accountName);
     } else {
