@@ -7,6 +7,8 @@ import {mapMission} from "./utils/mapMission"
 import {dailyCommissionMain,campaignAreaMain} from "./utils/campaignArea"
 import {activityMain} from "./utils/activity"
 import {toMainUi,isInMainUI} from "./utils/tool"
+import {checkVersion} from "../AutoPlan/utils/version";
+
 /**
  * 初始化设置函数
  * 从配置文件中读取设置信息并返回
@@ -33,6 +35,9 @@ async function initSettings() {
         // 捕获并记录可能的错误
         log.warn("{error}", error.message);
     }
+    const version = getVersion();
+    const min_bgi_version=manifest.min_bgi_version
+    manifest.checkVersion=checkVersion(version, min_bgi_version)
     // 读取并解析设置文件
     const settingsJson = JSON.parse(file.readTextSync(settings_ui));
     // 如果configSettings未定义，则将其设置为解析后的设置对象

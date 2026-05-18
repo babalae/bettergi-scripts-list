@@ -20,6 +20,18 @@ async function saveOnlyNumber(str) {
  * @returns {Promise<number>} - 异步函数，没有明确的返回值
  */
 async function ocrUid() {
+
+    let manifest = {};
+    let manifest_json = "manifest.json";
+    manifest = JSON.parse(file.readTextSync(manifest_json));
+    const version = getVersion();
+    const check_version = manifest.min_bgi_version && checkVersion(version, manifest.min_bgi_version)
+
+    if (check_version){
+        const uid = await genshin.uid()
+        return uid
+    }
+
     // 定义OCR识别的坐标和尺寸参数
     let uid_json = {
         x: 1683,        // OCR识别区域的左上角x坐标

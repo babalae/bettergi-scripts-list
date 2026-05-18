@@ -1,3 +1,5 @@
+import {ImageRegionSafe} from "./package";
+
 /**
  * 通用找文本（OCR）
  * @param {string|string[]} text 目标文本（单个文本或文本列表，列表时需全部匹配）
@@ -40,7 +42,8 @@ export async function findText(
                 }
             }
         } finally {
-            gameRegion.dispose();
+            // gameRegion.dispose();
+            ImageRegionSafe.safeDispose(gameRegion)
         }
 
         await sleep(interval);
@@ -97,7 +100,8 @@ export async function findTextAndClick(
                 }
             }
         } finally {
-            gameRegion.dispose();
+            // gameRegion.dispose();
+            ImageRegionSafe.safeDispose(gameRegion)
         }
 
         await sleep(interval);
@@ -151,7 +155,8 @@ export async function findImg(
         } catch (e) {
             log.error(e.toString());
         } finally {
-            gameRegion.dispose();
+            // gameRegion.dispose();
+            ImageRegionSafe.safeDispose(gameRegion)
         }
 
         await sleep(interval);
@@ -211,7 +216,8 @@ export async function findImgAndClick(
                 return res;
             }
         } finally {
-            gameRegion.dispose();
+            // gameRegion.dispose();
+            ImageRegionSafe.safeDispose(gameRegion)
         }
 
         await sleep(interval);
