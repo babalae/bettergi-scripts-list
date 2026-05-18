@@ -1,0 +1,80 @@
+[
+    {
+        "name": "adventurersGuildPath",
+        "type": "select",
+        "label": "前往指定地区的冒险家协会领取奖励",
+        "options": [
+            "蒙德",
+            "璃月",
+            "稻妻",
+            "须弥",
+            "枫丹",
+            "挪德卡莱"
+        ],
+        "default": "蒙德"
+    },
+    {
+        "name": "mailEnabled",
+        "type": "checkbox",
+        "label": "自动领取邮箱",
+        "default": true
+    },
+    {
+        "name": "battlePassEnabled",
+        "type": "checkbox",
+        "label": "自动领取珍珠纪行奖励",
+        "default": true
+    },
+    {
+        "name": "expeditionEnabled",
+        "type": "checkbox",
+        "label": "自动重新探索派遣",
+        "default": true
+    },
+    {
+        "name": "dailyCommissionEnabled",
+        "type": "checkbox",
+        "label": "自动领取每日委托",
+        "default": true
+    },
+    {
+        "name": "dailyRewardNotice",
+        "type": "checkbox",
+        "label": "每日状态通知",
+        "default": true
+    },
+    {
+        "name": "errorNotice",
+        "type": "checkbox",
+        "label": "执行报错通知",
+        "default": true
+    },
+    {
+        "type":"separator",
+        "label": "==== 分步通知独立开关 ===="
+    },
+    {
+        "name": "mailNotice",
+        "type": "checkbox",
+        "label": "邮件领取完毕通知",
+        "default": true
+    },
+    {
+        "name": "battlePassNotice",
+        "type": "checkbox",
+        "label": "珍珠纪行领取完毕通知",
+        "default": false
+    },
+    {
+        "name": "expeditionNotice",
+        "type": "checkbox",
+        "label": "探索派遣通知",
+        "default": false
+    },
+    {
+        "name": "dailyCommissionNotice",
+        "type": "checkbox",
+        "label": "每日委托领取完毕通知",
+        "default": false
+    }
+]
