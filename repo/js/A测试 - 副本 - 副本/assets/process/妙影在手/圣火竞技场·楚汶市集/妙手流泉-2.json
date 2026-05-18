@@ -1,0 +1,35 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764515507583,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "妙手流泉-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "set_time",
+      "action_params": "6:20",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8984.919921875,
+      "y": -2736.486328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),walk(d,0.2),wait(0.5),click(middle)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8983.4619140625,
+      "y": -2752.427734375
+    }
+  ]
+}

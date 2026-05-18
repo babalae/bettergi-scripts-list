@@ -1,0 +1,62 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764348766925,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "空想俱乐部热能催眠-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9060.5439453125,
+      "y": -1847.5087890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9073.3056640625,
+      "y": -1849.7607421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9095.298828125,
+      "y": -1854.8583984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9102.3203125,
+      "y": -1847.5166015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle),walk(w,3),wait(0.5),walk(s,0.2)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9096.125,
+      "y": -1843.95068359375
+    }
+  ]
+}

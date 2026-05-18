@@ -1,0 +1,53 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1761996432900,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "溶水域-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8582.26953125,
+      "y": -2674.95703125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3),keypress(F)",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8553.7294921875,
+      "y": -2788.6748046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8546.2607421875,
+      "y": -2789.57421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(VK_T),wait(3),click(middle),wait(0.5),click,wait(80)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8550.705078125,
+      "y": -2793.1669921875
+    }
+  ]
+}

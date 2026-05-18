@@ -1,0 +1,134 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762079837449,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "坚岩隘谷-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7759.595703125,
+      "y": -1401.115234375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1800",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7785.4873046875,
+      "y": -1395.0712890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "walk(w,0.5),wait(3),keypress(F),wait(4),moveby(00,-5000),wait(3),keypress(VK_T),wait(3),,keypress(VK_E),wait(1)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7782.1611328125,
+      "y": -1402.2998046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1),wait(0.5),walk(w,0.8),wait(1),walk(d,2),wait(1),walk(s,0.8),walk(d,4),wait(1),keypress(F)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7778.3310546875,
+      "y": -1413.60888671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7896.08203125,
+      "y": -1521.3291015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7916.890625,
+      "y": -1519.17041015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2),click",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7933.3916015625,
+      "y": -1517.13525390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7942.4130859375,
+      "y": -1515.8828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7963.20703125,
+      "y": -1530.732421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2),click",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7966.244140625,
+      "y": -1531.58203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2),click",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7984.408203125,
+      "y": -1537.890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2),click",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7999.453125,
+      "y": -1560.1240234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2),walk(w,2)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8011.42578125,
+      "y": -1558.58203125
+    }
+  ]
+}

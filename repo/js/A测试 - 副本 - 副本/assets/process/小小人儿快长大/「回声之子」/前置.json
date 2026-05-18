@@ -1,0 +1,87 @@
+[
+ {
+    "type": "地图追踪",
+    "data": "小小人儿快长大-2.json",
+    "note": "执行第二个地图追踪步骤"
+  },
+  {
+    "type": "自动任务",
+    "data": {
+      "action": "enable",
+      "taskType": "AutoSkip"
+    },
+    "note": "开启自动剧情"
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待返回主界面"
+  },
+  {
+    "type": "地图追踪",
+    "data": "小小人儿快长大-3.json",
+    "note": "执行第三个地图追踪步骤"
+  },
+  {
+    "type": "委托描述检测",
+    "data": {
+      "description": "挖掘出埋藏着的目标机关",
+      "executeFile": "地图追踪-1.json",
+      "runType": "path",
+      "useKeyword": false
+    },
+    "note": "去挖第一个点"
+  },
+  {
+    "type": "委托描述检测",
+    "data": {
+      "description": "挖掘出埋藏着的目标机关",
+      "executeFile": "地图追踪-2.json",
+      "runType": "path",
+      "useKeyword": false
+    },
+    "note": "去挖第二个点"
+  },
+  {
+    "type": "委托描述检测",
+    "data": {
+      "description": "挖掘出埋藏着的目标机关",
+      "executeFile": "地图追踪-3.json",
+      "runType": "path",
+      "useKeyword": false
+    },
+    "note": "去挖第三个点"
+  },
+  {
+    "type": "委托描述检测",
+    "data": {
+      "description": "挖掘出埋藏着的目标机关",
+      "executeFile": "地图追踪-4.json",
+      "runType": "path",
+      "useKeyword": false
+    },
+    "note": "去挖第四个点"
+  },
+  {
+    "type": "委托描述检测",
+    "data": {
+      "description": "挖掘出埋藏着的目标机关",
+      "executeFile": "地图追踪-5.json",
+      "runType": "path",
+      "useKeyword": false
+    },
+    "note": "去挖第五个点"
+  },
+  {
+    "type": "自动任务",
+    "data": {
+      "action": "enable",
+      "taskType": "AutoSkip"
+    },
+    "note": "开启自动剧情"
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待返回主界面"
+  }
+
+]
