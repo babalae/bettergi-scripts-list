@@ -481,23 +481,15 @@ function updateNpcRecord(records, npcName, refreshType, purchasedItems) {
     }
 
     let record = getNpcRecord(records, npcName);
-
     if (!record) {
-        record = {
-            npcname: npcName,
-            "1d": [],
-            "1d_time": null,
-            "3d": [],
-            "3d_time": null,
-            "7d": [],
-            "7d_time": null,
-            "thu": [],
-            "thu_time": null,
-            "month": [],
-            "month_time": null
-        };
+        record = { npcname: npcName };
         records.push(record);
     }
+
+    // 合并已购商品（去重），而非覆盖
+    const existing = record[refreshType] || [];
+    const merged = [...new Set([...existing, ...purchasedItems])];
+    record[refreshType] = merged;
 
     const now = new Date();
     let refreshTime;
@@ -549,8 +541,6 @@ function updateNpcRecord(records, npcName, refreshType, purchasedItems) {
         refreshTime = getNextMonthFirstDay(now);
     }
 
-    // 只更新实际购买的商品
-    record[refreshType] = purchasedItems;
     record[`${refreshType}_time`] = formatDateToLocalISO(refreshTime);
 
     // 计算下次刷新日期
@@ -799,7 +789,7 @@ async function quickBuy(itemName) {
                 capacityLimitedFoods.add(itemName);
                 log.info(`[容量上限] 商品 "${itemName}" 触发背包容量已达上限，后续将不再购买。`);
                 // 交互或拾取："XXXX"
-                await fakeLog("${itemName} 已达上限", false, false, 23333);
+                await fakeLog(`${itemName} 已达上限`, false, false, 23333);
                 return 'capacity';
             }
             // 非容量问题，可能售罄导致按钮消失？仍尝试检测售罄消息
