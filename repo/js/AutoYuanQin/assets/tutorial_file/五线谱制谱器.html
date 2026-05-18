@@ -534,7 +534,9 @@
   "time_signature": "${time_signature}",
   "composer": "${score_composer}",
   "arranger": "${score_arranger}",
-  "notes": "${notes.replace(/\n/g, "\\n")}"
+  "notes": "${notes.replace(/\n/g, "\\n")}",
+  "type": "yuanqin",
+  "ticks": 480
 }`;
 			// 创建Blob对象
   			const blob = new Blob([json_content], { type: 'application/json' });

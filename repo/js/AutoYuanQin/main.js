@@ -245,7 +245,7 @@
 
         MusicInfo.name = (music_msg_dic.name !== undefined) ? (music_msg_dic.name) : ("未知曲名");
         MusicInfo.author = (music_msg_dic.author !== undefined) ? (music_msg_dic.author) : ("未知作者");
-        MusicInfo.instrument = (music_msg_dic.instrument !== undefined) ? (music_msg_dic.instrument) : ("无建议乐器");
+        MusicInfo.instrument = (music_msg_dic.instrument !== undefined) ? (music_msg_dic.instrument) : ("风物之诗琴");
         MusicInfo.description = (music_msg_dic.description !== undefined) ? (music_msg_dic.description) : ("无描述");
         MusicInfo.composer = (music_msg_dic.composer !== undefined) ? (music_msg_dic.composer) : ("未知作曲者");
         MusicInfo.arranger = (music_msg_dic.arranger !== undefined) ? (music_msg_dic.arranger) : ("未知编曲者");
@@ -253,6 +253,7 @@
         MusicInfo.type = (music_msg_dic.type !== undefined) ? (music_msg_dic.type) : ("yuanqin");
         MusicInfo.bpm = (music_msg_dic.bpm !== undefined) ? (music_msg_dic.bpm) : (120);
         MusicInfo.time_signature = (music_msg_dic.time_signature !== undefined) ? (music_msg_dic.time_signature) : ("4/4");
+        MusicInfo.ticks = (music_msg_dic.ticks !== undefined) ? (music_msg_dic.ticks) : (480);
 
         if (music_msg_dic.notes === undefined) {
             log.error(`文件 ${music_name} 无乐曲信息`);
@@ -627,9 +628,10 @@
      * @param sheet_list {Object[][]} 解析后的乐谱
      * @param bpm BPM (240)
      * @param ts 拍号 (3/4)
+     * @param ticks ticks per beat （MIDI用）
      * @returns {Promise<void>}
      */
-    async function play_sheet(sheet_list, bpm, ts) {
+    async function play_sheet(sheet_list, bpm, ts, ticks = 480) {
         /**
          *
          * 计算当前音符的时长（检测音符后是否有装饰音）
@@ -679,10 +681,13 @@
         // 如果是midi转换的乐谱
         if (typeof(sheet_list) === "string") {
 			let play_sheet = sheet_list.split("|");
+            let base_time = 60000 / (bpm * ticks);  // second per beat - 每tick多少毫秒
             for (let i = 0; i < play_sheet.length; i++) {
-				let current_note = play_sheet[i].split("_");
-                log.info(`${play_sheet[i]}`);
-                await sleep(Math.round(current_note[2]));
+				let current_note = play_sheet[i];
+                log.debug(`${current_note[0]}-${current_note[1]}-${current_note.slice(2)}`);
+                let current_ticks = Math.round(current_note.slice(2));
+                let wait_time = Math.round(current_ticks * base_time);
+                await sleep(wait_time);
 				if (current_note[1] === "@") continue;
                 if (current_note[0] === "D") {
 					keyDown(current_note[1]);
@@ -891,7 +896,7 @@
                             await play_sheet(music_info.notes, music_info.bpm, music_info.time_signature);
                             break;
                         case "midi":
-                            await play_sheet(music_info.notes, music_info.bpm, music_info.time_signature);
+                            await play_sheet(music_info.notes, music_info.bpm, music_info.time_signature, music_info.ticks);
                             break;
                         case "keyboard":
                             if (DEBUG) {
