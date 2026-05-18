@@ -301,12 +301,16 @@ function getThursdayOfWeek(date) {
         d.setDate(d.getDate() - 1);
     }
     const day = d.getDay(); // 0=周日, 1=周一, 2=周二, 3=周三, 4=周四, 5=周五, 6=周六
-    // 目标周四：如果当前<=周四，则取本周四；否则取下周四
-    let targetDay = 4; // 周四对应的getDay值为4
-    if (day <= targetDay) {
+    let targetDay = 4;
+    if (day < targetDay) {
+        // 本周四
         d.setDate(d.getDate() + (targetDay - day));
-    } else {
+    } else if (day > targetDay) {
+        // 下周四
         d.setDate(d.getDate() + (7 - day + targetDay));
+    } else {
+        // 当天是周四，已经过了4点，返回下周四
+        d.setDate(d.getDate() + 7);
     }
     d.setHours(4, 0, 0, 0);
     return d;
@@ -540,7 +544,6 @@ function updateNpcRecord(records, npcName, refreshType, purchasedItems) {
     } else if (refreshType === "thu") {
         // 周四刷新商品：下次刷新是下周四
         refreshTime = getThursdayOfWeek(now);
-        refreshTime.setDate(refreshTime.getDate() + 7);
     } else if (refreshType === "month") {
         // 每月1号刷新商品：下次刷新是下个月1号
         refreshTime = getNextMonthFirstDay(now);
