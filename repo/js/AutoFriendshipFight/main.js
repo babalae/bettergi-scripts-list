@@ -431,7 +431,7 @@ async function executeBattleTasks() {
     } catch (error) {
         const msg = error && error.message ? String(error.message) : "";
         // 特别处理：如果是"取消自动任务"错误，视为成功
-        if (msg.includes("取消自动任务")) {
+        if (msg.includes("取消自动任务") || msg.includes("A task was canceled")) {
             return { status: "success" };
         }
         log.error(`战斗执行过程中出错: ${msg}`);
