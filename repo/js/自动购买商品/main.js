@@ -1,3 +1,5 @@
+//3.3.6
+
 // fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
 // 在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
 // 在js结尾处伪造该js开始运行的日志信息，如 await fakeLog("js脚本", true, false, 2333);
@@ -114,6 +116,7 @@ let userFoodsToBuy = new Set();
 let userTagsToBuy = new Set();    // 标签名
 let allTags = new Set();          // 所有可用标签（从 npcs.json 收集）
 let requiredFoods = new Set();  // 所有需要加载图片的商品
+let capacityLimitedFoods = new Set();  // 存储因背包容量已达上限而不再购买的商品名
 
 async function loadExternalData() {
     try {
@@ -132,18 +135,9 @@ async function loadExternalData() {
         logConditional(`共收集到 ${allTags.size} 个标签`);
 
         // ========== 解析用户输入 ==========
-        let items = [];
-        // 优先尝试读取新的列表配置
-        if (settings.foodsToBuyList) {
-            items = Array.from(settings.foodsToBuyList);
-        } else if (typeof settings.foodsToBuy === 'string') {
-            // 兼容旧配置
-            items = (settings.foodsToBuy || "").trim().split(/[,\s、]+/).filter(item => item.trim() !== "");
-        } else if (settings.foodsToBuy) {
-            items = Array.from(settings.foodsToBuy);
-        }
-
-        if (items.length > 0) {
+        const foodsInput = (settings.foodsToBuy || "").trim();
+        if (foodsInput) {
+            const items = foodsInput.split(/[,\s、]+/).filter(item => item.trim() !== "");
             const enabledFoodsList = [];
             const enabledTagsList = [];
 
@@ -221,6 +215,50 @@ function filterUserFoods(foodList) {
     });
 }
 
+// ==================== 辅助函数：检查容量上限消息 ====================
+async function checkCapacityLimitMessage() {
+    let captureRegion = null;
+    let returnValue = false;
+    try {
+        await sleep(100);
+        captureRegion = captureGameRegion();
+        // 在指定区域进行 OCR 识别
+        let ocrObject = RecognitionObject.Ocr(1305, 860, 500, 100);
+        let ocrResult = captureRegion.Find(ocrObject);
+        if (ocrResult.isExist() && ocrResult.text.includes("当前物品在背包内的容量已达上限")) {
+            returnValue = true;
+        }
+    } catch (e) {
+        log.warn(`检查容量上限消息时出错: ${e.message}`);
+        returnValue = false;
+    } finally {
+        if (captureRegion) captureRegion.dispose();
+    }
+    return returnValue;
+}
+
+// ==================== 辅助函数：检查“已售罄”消息 ====================
+async function checkSoldOutMessage() {
+    let captureRegion = null;
+    let returnValue = false;
+    try {
+        await sleep(100);
+        captureRegion = captureGameRegion();
+        // 在指定区域进行 OCR 识别（与容量上限提示区域相同，也可根据需要调整）
+        let ocrObject = RecognitionObject.Ocr(1305, 860, 500, 100);
+        let ocrResult = captureRegion.Find(ocrObject);
+        if (ocrResult.isExist() && (ocrResult.text.includes("售罄"))) {
+            returnValue = true;
+        }
+    } catch (e) {
+        log.warn(`检查已售罄消息时出错: ${e.message}`);
+        returnValue = false;
+    } finally {
+        if (captureRegion) captureRegion.dispose();
+    }
+    return returnValue;
+}
+
 // ==================== 辅助函数：获取调整后的星期几（1-7，周一为1） ====================
 function getAdjustedDayOfWeek() {
     const now = new Date();
@@ -263,12 +301,16 @@ function getThursdayOfWeek(date) {
         d.setDate(d.getDate() - 1);
     }
     const day = d.getDay(); // 0=周日, 1=周一, 2=周二, 3=周三, 4=周四, 5=周五, 6=周六
-    // 目标周四：如果当前<=周四，则取本周四；否则取下周四
-    let targetDay = 4; // 周四对应的getDay值为4
-    if (day <= targetDay) {
+    let targetDay = 4;
+    if (day < targetDay) {
+        // 本周四
         d.setDate(d.getDate() + (targetDay - day));
-    } else {
+    } else if (day > targetDay) {
+        // 下周四
         d.setDate(d.getDate() + (7 - day + targetDay));
+    } else {
+        // 当天是周四，已经过了4点，返回下周四
+        d.setDate(d.getDate() + 7);
     }
     d.setHours(4, 0, 0, 0);
     return d;
@@ -359,15 +401,7 @@ const ignoreRecords = settings.ignoreRecords || false;
 const recordDebug = settings.recordDebug || false;
 
 // 解析禁用的标签列表
-let disabledTags = [];
-if (settings.disabledTagsList) {
-    disabledTags = Array.from(settings.disabledTagsList);
-} else if (typeof settings.disabledTags === 'string') {
-    disabledTags = (settings.disabledTags || "").split(/[,\s、]+/).filter(tag => tag.trim() !== "");
-} else if (settings.disabledTags) {
-    disabledTags = Array.from(settings.disabledTags);
-}
-
+const disabledTags = (settings.disabledTags || "").split(/[,\s、]+/).filter(tag => tag.trim() !== "");
 if (disabledTags.length > 0) {
     log.info(`已禁用标签: ${disabledTags.join(", ")}`);
 }
@@ -447,23 +481,15 @@ function updateNpcRecord(records, npcName, refreshType, purchasedItems) {
     }
 
     let record = getNpcRecord(records, npcName);
-
     if (!record) {
-        record = {
-            npcname: npcName,
-            "1d": [],
-            "1d_time": null,
-            "3d": [],
-            "3d_time": null,
-            "7d": [],
-            "7d_time": null,
-            "thu": [],
-            "thu_time": null,
-            "month": [],
-            "month_time": null
-        };
+        record = { npcname: npcName };
         records.push(record);
     }
+
+    // 合并已购商品（去重），而非覆盖
+    const existing = record[refreshType] || [];
+    const merged = [...new Set([...existing, ...purchasedItems])];
+    record[refreshType] = merged;
 
     const now = new Date();
     let refreshTime;
@@ -510,14 +536,11 @@ function updateNpcRecord(records, npcName, refreshType, purchasedItems) {
     } else if (refreshType === "thu") {
         // 周四刷新商品：下次刷新是下周四
         refreshTime = getThursdayOfWeek(now);
-        refreshTime.setDate(refreshTime.getDate() + 7);
     } else if (refreshType === "month") {
         // 每月1号刷新商品：下次刷新是下个月1号
         refreshTime = getNextMonthFirstDay(now);
     }
 
-    // 只更新实际购买的商品
-    record[refreshType] = purchasedItems;
     record[`${refreshType}_time`] = formatDateToLocalISO(refreshTime);
 
     // 计算下次刷新日期
@@ -568,7 +591,6 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
 
     // 首先检查禁用（此处假设之前已检查过，但为防止遗漏，可再加一道保险）
     // 实际上禁用检查在更外层（initNpcData 和主循环）已经处理，这里可以省略
-
     if (forceRefresh) {
         // 强制刷新：决定使用完整列表还是具体商品列表
         // 先判断是否命中标签
@@ -576,20 +598,24 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
         if (npc.tags && Array.isArray(npc.tags)) {
             useAll = npc.tags.some(tag => userTagsToBuy.has(tag));
         }
+
+        // 定义过滤函数
+        const filterCapacity = (list) => (list || []).filter(food => !capacityLimitedFoods.has(food));
+
         if (useAll) {
             // 标签商人：购买所有商品
-            if (npc._1d_foods) foodsToBuy["1d"] = npc._1d_foods;
-            if (npc._3d_foods) foodsToBuy["3d"] = npc._3d_foods;
-            if (npc._7d_foods) foodsToBuy["7d"] = npc._7d_foods;
-            if (npc._thu_foods) foodsToBuy["thu"] = npc._thu_foods;
-            if (npc._month_foods) foodsToBuy["month"] = npc._month_foods;
+            if (npc._1d_foods) foodsToBuy["1d"] = filterCapacity(npc._1d_foods);
+            if (npc._3d_foods) foodsToBuy["3d"] = filterCapacity(npc._3d_foods);
+            if (npc._7d_foods) foodsToBuy["7d"] = filterCapacity(npc._7d_foods);
+            if (npc._thu_foods) foodsToBuy["thu"] = filterCapacity(npc._thu_foods);
+            if (npc._month_foods) foodsToBuy["month"] = filterCapacity(npc._month_foods);
         } else {
             // 非标签商人：只购买用户明确指定的商品
-            if (npc._1d_foods) foodsToBuy["1d"] = filterUserFoods(npc._1d_foods);
-            if (npc._3d_foods) foodsToBuy["3d"] = filterUserFoods(npc._3d_foods);
-            if (npc._7d_foods) foodsToBuy["7d"] = filterUserFoods(npc._7d_foods);
-            if (npc._thu_foods) foodsToBuy["thu"] = filterUserFoods(npc._thu_foods);
-            if (npc._month_foods) foodsToBuy["month"] = filterUserFoods(npc._month_foods);
+            if (npc._1d_foods) foodsToBuy["1d"] = filterCapacity(filterUserFoods(npc._1d_foods));
+            if (npc._3d_foods) foodsToBuy["3d"] = filterCapacity(filterUserFoods(npc._3d_foods));
+            if (npc._7d_foods) foodsToBuy["7d"] = filterCapacity(filterUserFoods(npc._7d_foods));
+            if (npc._thu_foods) foodsToBuy["thu"] = filterCapacity(filterUserFoods(npc._thu_foods));
+            if (npc._month_foods) foodsToBuy["month"] = filterCapacity(filterUserFoods(npc._month_foods));
         }
         return foodsToBuy;
     }
@@ -607,6 +633,8 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
 
         // 确定要购买的候选商品列表
         let candidateList = useAll ? fullList : filterUserFoods(fullList);
+        // 过滤掉已标记容量上限的商品
+        candidateList = candidateList.filter(food => !capacityLimitedFoods.has(food));
         if (candidateList.length === 0) return [];
 
         // 获取已购买列表
@@ -737,7 +765,7 @@ async function nextFoodsPage() {
 }
 
 // 快速购买
-async function qucikBuy() {
+async function quickBuy(itemName) {
     //设置脚本环境的游戏分辨率和DPI缩放
     setGameMetrics(3840, 2160, 1.5);
 
@@ -755,8 +783,22 @@ async function qucikBuy() {
         captureRegion.dispose();
 
         if (buyBtn.isEmpty()) {
-            log.warn("未找到购买按钮");
-            return false;
+            // 未找到购买按钮 -> 可能容量已满或售罄
+            let isCapacityFull = await checkCapacityLimitMessage();
+            if (isCapacityFull) {
+                capacityLimitedFoods.add(itemName);
+                log.info(`[容量上限] 商品 "${itemName}" 触发背包容量已达上限，后续将不再购买。`);
+                // 交互或拾取："XXXX"
+                await fakeLog(`${itemName} 已达上限`, false, false, 23333);
+                return 'capacity';
+            }
+            // 非容量问题，可能售罄导致按钮消失？仍尝试检测售罄消息
+            let isSoldOut = await checkSoldOutMessage();
+            if (isSoldOut) {
+                log.info(`[已售罄] 商品 "${itemName}" 已售罄`);
+                return 'sold_out';
+            }
+            return 'error';
         }
 
         // 点击购买按钮
@@ -785,10 +827,10 @@ async function qucikBuy() {
         click(buyBtnX, buyBtnY);
         await sleep(200);
 
-        return true;
+        return 'success';
     } catch (error) {
         log.error(`快速购买失败: ${error.message}`);
-        return false;
+        return 'error';
     }
 }
 
@@ -815,16 +857,18 @@ async function spikChat(npcName) {
 
         // 点击有什么卖的
         let captureRegion = captureGameRegion()
-        let resList = captureRegion.findMulti(RecognitionObject.ocrThis);
-        for (let i = 0; i < resList.count; i++) {
-            if (resList[i].text.includes("有什么卖的") || resList[i].text.includes("可以卖一些")) {
-                await sleep(500);
-                click(resList[i].x + 30, resList[i].y + 30); // 点击有什么卖的
-                await sleep(500);
-
-                // 使用完后释放资源
-                captureRegion.dispose();
+        try {
+            let resList = captureRegion.findMulti(RecognitionObject.ocrThis);
+            for (let i = 0; i < resList.count; i++) {
+                if (resList[i].text.includes("有什么卖的") || resList[i].text.includes("可以卖一些")) {
+                    await sleep(500);
+                    click(resList[i].x + 30, resList[i].y + 30);
+                    await sleep(500);
+                    break; // 找到后跳出循环
+                }
             }
+        } finally {
+            captureRegion.dispose();
         }
 
         await sleep(1500);
@@ -955,6 +999,11 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
 
         // 匹配商品
         for (let item of tempFoods) {
+            if (capacityLimitedFoods.has(item)) {
+                if (recordDebug) log.info(`[调试] 跳过已容量上限的商品: ${item}`);
+                continue;
+            }
+
             if (recordDebug) {
                 log.info(`[调试] 尝试购买: ${item}`);
             }
@@ -976,10 +1025,22 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
                 boughtFoods.add(item);
                 // 点击商品
                 click(res.x * 2 + res.width, res.y * 2 + res.height);
-                if (await qucikBuy()) {
-                    log.info(`购买成功: ${item}`);
-                    // 交互或拾取："XXXX"
-                    await fakeLog(item, false, false, 23333);
+                let buyResult = await quickBuy(item);
+                if (buyResult === 'success' || buyResult === 'sold_out') {
+                    if (buyResult === 'success') {
+                        log.info(`购买成功: ${item}`);
+                    } else {
+                        log.info(`商品已售罄，已记录CD: ${item}`);
+                    }
+                    // 交互或拾取提示（售罄时已在 quickBuy 中调用 fakeLog，此处避免重复）
+                    if (buyResult === 'success') {
+                        // 交互或拾取："XXXX"
+                        await fakeLog(item, false, false, 23333);
+                    } else if (buyResult === 'sold_out') {
+                        // 交互或拾取："XXXX 已销售"
+                        await fakeLog(`${item} 已销售`, false, false, 23333);
+                    }
+
 
                     // 记录购买的商品
                     purchasedFoods.push(item);
@@ -994,10 +1055,19 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
 
                     await sleep(1500);
                     // 重新截图
-                    captureRegion = captureGameRegion();
+                    captureRegion.dispose();           // 释放旧截图
+                    captureRegion = captureGameRegion(); // 重新截图
                 }
-                else {
+                else if (buyResult === 'capacity') {
                     log.info(`购买失败: ${item}, 背包已经满或商品已售罄`);
+                    // 如果失败是因为容量上限（quickBuy 内部已加入黑名单），立即从临时列表中移除
+                    if (capacityLimitedFoods.has(item)) {
+                        tempFoods = tempFoods.filter(f => f !== item);
+                        // 因为数组改变了，需要重新截图并跳出本次循环重新开始
+                        captureRegion.dispose();           // 释放旧截图
+                        captureRegion = captureGameRegion(); // 重新截图
+                        break;
+                    }
                 }
             }
         }
@@ -1020,9 +1090,9 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
     }
 
     if (purchasedFoods.length > 0) {
-        log.info(`${displayName} 购买完成，成功购买: ${purchasedFoods.join(", ")}`);
+        log.info(`${displayName} 购买完成，已购买: ${purchasedFoods.join(", ")}`);
     } else {
-        logConditional(`${displayName} 没有成功购买任何商品`);
+        logConditional(`${displayName} 没有购买任何商品`);
     }
 
     // 返回购买结果
@@ -1076,6 +1146,8 @@ async function initNpcData(records) {
 }
 
 (async function () {
+    // 重置容量限制集合
+    capacityLimitedFoods.clear();
     try {
         // ==================== 确定账号名 ====================
         let rawUserName = settings.userName ? settings.userName.trim() : "";
@@ -1150,6 +1222,21 @@ async function initNpcData(records) {
         let npcIndex = 0;
         for (let [key, npc] of Object.entries(npcData)) {
             if (npc.enable) {
+
+                // 动态检查：考虑当前黑名单后，是否还有商品需要购买
+                const npcRecord = getNpcRecord(npcRecords, npc.name);
+                const foodsToBuyNow = shouldBuyFoods(npc, npcRecord, currentPeriod, ignoreRecords);
+                const hasAnyToBuy = foodsToBuyNow["1d"].length > 0 ||
+                    foodsToBuyNow["3d"].length > 0 ||
+                    foodsToBuyNow["7d"].length > 0 ||
+                    foodsToBuyNow["thu"].length > 0 ||
+                    foodsToBuyNow["month"].length > 0;
+
+                if (!hasAnyToBuy) {
+                    logConditional(`跳过商人 ${getDisplayNameFromPath(npc.path)}：所有需要购买的商品均已被容量上限限制`);
+                    continue;
+                }
+
                 npcIndex++;
                 // 获取显示名称（从路径中提取）
                 const displayName = getDisplayNameFromPath(npc.path);
