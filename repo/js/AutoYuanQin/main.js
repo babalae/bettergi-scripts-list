@@ -22,6 +22,234 @@
     // }
 
     /**
+     * 简洁易用的OCR函数
+     * @param x
+     * @param y
+     * @param w
+     * @param h
+     * @param multi 是否使用FindMulti
+     * @returns {Promise<void>} 返回对应的OCR对象
+     */
+    async function Ocr(x, y, w, h, multi = false) {
+        let OcrRo = RecognitionObject.Ocr(x, y, w, h);
+        let gameRegion = captureGameRegion();
+        if (multi) {
+            let ocrResult = gameRegion.FindMulti(OcrRo);
+            gameRegion.dispose();
+            if (ocrResult.count !== 0) {
+                let resultList = [];
+                for (let i = 0; i < ocrResult.count; i++) {
+                    resultList.push(ocrResult[i]);
+                }
+                return resultList;
+            } else {
+                log.debug(`FindMulti为空: (${x}, ${y}, ${w}, ${h})`);
+                return false;
+            }
+        } else {
+            let ocrResult = gameRegion.Find(OcrRo);
+            gameRegion.dispose();
+            if (ocrResult.isExist()) {
+                return ocrResult;
+            } else {
+                log.debug(`Find为空: (${x}, ${y}, ${w}, ${h})`);
+                return false;
+            }
+        }
+    }
+
+    /**
+     * 在指定区域内OCR文本并返回OCR对象
+     * @param x
+     * @param y
+     * @param w
+     * @param h
+     * @param text 文本
+     * @returns {Promise<*>} 找到返回OCR对象，未找到返回false
+     * @see Ocr
+     */
+    async function ocr_find_area(x, y, w, h, text) {
+        const OcrResult = await Ocr(x, y, w, h, true);
+
+        if (OcrResult) {
+            let flag = true;
+            for (let i = 0; i < OcrResult.length; i++) {
+                if (OcrResult[i].text.includes(text)) {
+                    flag = false;
+                    await sleep(200);
+                    return OcrResult[i];
+                }
+            }
+            if (flag) {
+                log.debug(`区域(${x}, ${y}, ${w}, ${h})内未找到文本：${text}`);
+                return false;
+            }
+        } else {
+            log.error(`OCR错误，区域内未识别到文本: (${x}, ${y}, ${w}, ${h})`);
+            return false;
+        }
+    }
+
+    /**
+     * 向上/下滑动滑块一次（原理，点击紧贴滑块的上/下方）[以下，高/顶表示屏幕上方，低/底表示屏幕下方]
+     * @param x 滑块移动区域
+     * @param y 滑块移动区域
+     * @param w 滑块移动区域
+     * @param h 滑块移动区域
+     * @param max 滑块最高临界y值，若滑块y值小于此值则认为已经到顶
+     * @param min 滑块最低临界y值，若滑块y值大于此值则认为已经到底
+     * @param m_x 滑块区域的滑条中心x值
+     * @param direction 滑动方向(Up/Down)
+     * @param bg 背景颜色(白white/黑black)，black时滑块只能拖动
+     * @param distance 滑动一页滑块需要滑动的y方向的距离（适用于bg为black），必须大于4
+     * @returns {Promise<boolean>}
+     */
+    async function scroll_page(x, y, w, h, max, min, m_x, direction, bg = "white", distance = 140) {
+        let barUpRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${bg === "white" ? "slide_bar_main_up": "slide_bar_left_up"}.png`), x, y, w, h);
+        let barDownRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${bg === "white" ? "slide_bar_main_down": "slide_bar_left_down"}.png`), x, y, w, h);
+        barUpRo.threshold = 0.7;
+        barDownRo.threshold = 0.7;
+
+        let gameRegion = captureGameRegion();
+        if (direction.toLowerCase() === "up") {
+            let barUpper = gameRegion.Find(barUpRo);
+            gameRegion.dispose();
+            if (barUpper.isExist()) {
+                if (barUpper.y < max) { // 到顶了
+                    log.info(`滑块已经滑动到顶部(${barUpper.y})...`);
+                    return false;
+                } else {
+                    if (bg === "white") {
+                        click(m_x, barUpper.y - 15);
+                    } else {
+                        await mouseDrag(m_x, barUpper.y + 4, m_x, barUpper.y - (distance - 4));
+                    }
+
+                    log.debug(`将滑块向上调一格，当前位置: ${barUpper.y}`);
+                }
+            } else {
+                log.error("未找到滑块: Up");
+                return false;
+            }
+        } else {
+            let barLower = gameRegion.Find(barDownRo);
+            gameRegion.dispose();
+            if (barLower.isExist()) {
+                if (barLower.y > min) { // 到底了
+                    log.info(`滑块已经滑动到底部(${barLower.y})...`);
+                    return false;
+                } else {
+                    if (bg === "white") {
+                        click(m_x, barLower.y + 15);
+                    } else {
+                        await mouseDrag(m_x, barLower.y + 4, m_x, barLower.y + (distance + 4));
+                    }
+
+                    log.debug(`将滑块向下调一格，当前位置: ${barLower.y}`);
+                }
+            } else {
+                log.error("未找到滑块: Down");
+                return false;
+            }
+        }
+        await sleep(200);
+        return true;
+    }
+
+    /**
+     * 向上/下滑动滑块至顶部/底部（原理，点击紧贴滑块的上/下方）[以下，高/顶表示屏幕上方，低/底表示屏幕下方]
+     * @param x 滑块移动区域
+     * @param y 滑块移动区域
+     * @param w 滑块移动区域
+     * @param h 滑块移动区域
+     * @param max 滑块最高临界y值，若滑块y值小于此值则认为已经到顶
+     * @param min 滑块最低临界y值，若滑块y值大于此值则认为已经到底
+     * @param max_y 滑块移动区域的最高点y值
+     * @param min_y 滑块移动区域的最低点y值
+     * @param m_x 滑块区域的滑条中心x值
+     * @param side 滑动顶部或底部(Up/Down)
+     * @param bg 背景颜色(白white/黑black)
+     * @param distance 滑动一页滑块需要滑动的y方向的距离（适用于bg为black），必须大于4
+     * @returns {Promise<boolean>}
+     * @see scroll_page
+     */
+    async function scroll_bar_to_side(x, y, w, h, max, min, max_y, min_y, m_x, side, bg = "white", distance = 140) {
+        let barUpRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${bg === "white" ? "slide_bar_main_up": "slide_bar_left_up"}.png`), x, y, w, h);
+        let barDownRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${bg === "white" ? "slide_bar_main_down": "slide_bar_left_down"}.png`), x, y, w, h);
+        barUpRo.threshold = 0.7;
+        barDownRo.threshold = 0.7;
+        let barUpper_temp = 0;
+
+        while (true) {
+            await sleep(200);
+            log.debug(`将滑块滑动至 ${side} `);
+            let gameRegion = captureGameRegion();
+            if (side.toLowerCase() === "up") {
+                let barUpper = gameRegion.Find(barUpRo);
+                if (barUpper.y !== barUpper_temp) { // 防止卡死
+                    barUpper_temp = barUpper.y;
+                } else {
+                    break;
+                }
+                gameRegion.dispose();
+                if (barUpper.isExist()) {
+                    if (barUpper.y < max) { // 到顶了
+                        log.info(`滑块已经滑动到顶部(${barUpper.y})...`);
+                        break;
+                    } else {
+                        if (bg === "white") {
+                            click(m_x, barUpper.y - 15);
+                        } else {
+                            await mouseDrag(m_x, barUpper.y + 4, m_x, barUpper.y - (distance - 4));
+                        }
+                        log.debug(`将滑块向上调一格，当前位置: ${barUpper.y}`);
+                    }
+                } else {
+                    log.error("未找到滑块: Up");
+                    return false;
+                }
+            } else {
+                let barLower = gameRegion.Find(barDownRo);
+                gameRegion.dispose();
+                if (barLower.isExist()) {
+                    if (barLower.y > min) { // 到底了
+                        log.info(`滑块已经滑动到底部(${barLower.y})...`);
+                        break;
+                    } else {
+                        if (bg === "white") {
+                            click(m_x, barLower.y + 15);
+                        } else {
+                            await mouseDrag(m_x, barLower.y + 4, m_x, barLower.y + (distance + 4));
+                        }
+                        log.debug(`将滑块向下调一格，当前位置: ${barLower.y}`);
+                    }
+                } else {
+                    log.error("未找到滑块: Down");
+                    return false;
+                }
+            }
+        }
+        await sleep(200);
+        return true;
+    }
+
+    /**
+     *
+     * 按照原神物品名长度显示裁剪字符串[主物品显示界面适用]（用于OCR）
+     *
+     * @param string 原字符串
+     * @returns {Promise<*|string>} 处理后的字符串
+     */
+    async function deal_string(string) {
+        if (string.length <= 6) {
+            return string; // 如果字符串长度是6位或以下，原形返回
+        } else {
+            // return string.substring(0, 5) + '..'; // 如果字符串长度超过6位，保留前5位并加上'..'
+            return string.substring(0, 5); // 如果字符串长度超过6位，保留前5位
+        }
+    }
+
+    /**
      * 读取本地曲谱文件夹下的所有 .json 文件，并返回文件名列表。
      * 同时自动修正不合规的文件名：格式为 000X.任意字符.json（X 为四位数字，不足补零）。
      * 重命名规则：对于不合规文件，分配当前未使用的最小四位数字作为前缀，保留原文件名主体。
@@ -245,7 +473,7 @@
 
         MusicInfo.name = (music_msg_dic.name !== undefined) ? (music_msg_dic.name) : ("未知曲名");
         MusicInfo.author = (music_msg_dic.author !== undefined) ? (music_msg_dic.author) : ("未知作者");
-        MusicInfo.instrument = (music_msg_dic.instrument !== undefined) ? (music_msg_dic.instrument) : ("无建议乐器");
+        MusicInfo.instrument = (music_msg_dic.instrument !== undefined) ? (music_msg_dic.instrument) : ("风物之诗琴");
         MusicInfo.description = (music_msg_dic.description !== undefined) ? (music_msg_dic.description) : ("无描述");
         MusicInfo.composer = (music_msg_dic.composer !== undefined) ? (music_msg_dic.composer) : ("未知作曲者");
         MusicInfo.arranger = (music_msg_dic.arranger !== undefined) ? (music_msg_dic.arranger) : ("未知编曲者");
@@ -253,6 +481,7 @@
         MusicInfo.type = (music_msg_dic.type !== undefined) ? (music_msg_dic.type) : ("yuanqin");
         MusicInfo.bpm = (music_msg_dic.bpm !== undefined) ? (music_msg_dic.bpm) : (120);
         MusicInfo.time_signature = (music_msg_dic.time_signature !== undefined) ? (music_msg_dic.time_signature) : ("4/4");
+        MusicInfo.ticks = (music_msg_dic.ticks !== undefined) ? (music_msg_dic.ticks) : (480);
 
         if (music_msg_dic.notes === undefined) {
             log.error(`文件 ${music_name} 无乐曲信息`);
@@ -627,9 +856,10 @@
      * @param sheet_list {Object[][]} 解析后的乐谱
      * @param bpm BPM (240)
      * @param ts 拍号 (3/4)
+     * @param ticks ticks per beat （MIDI用）
      * @returns {Promise<void>}
      */
-    async function play_sheet(sheet_list, bpm, ts) {
+    async function play_sheet(sheet_list, bpm, ts, ticks = 480) {
         /**
          *
          * 计算当前音符的时长（检测音符后是否有装饰音）
@@ -679,10 +909,13 @@
         // 如果是midi转换的乐谱
         if (typeof(sheet_list) === "string") {
 			let play_sheet = sheet_list.split("|");
+            let base_time = 60000 / (bpm * ticks);  // second per beat - 每tick多少毫秒
             for (let i = 0; i < play_sheet.length; i++) {
-				let current_note = play_sheet[i].split("_");
-                log.info(`${play_sheet[i]}`);
-                await sleep(Math.round(current_note[2]));
+				let current_note = play_sheet[i];
+                log.debug(`${current_note[0]}-${current_note[1]}-${current_note.slice(2)}`);
+                let current_ticks = Math.round(current_note.slice(2));
+                let wait_time = Math.round(current_ticks * base_time);
+                await sleep(wait_time);
 				if (current_note[1] === "@") continue;
                 if (current_note[0] === "D") {
 					keyDown(current_note[1]);
@@ -860,6 +1093,90 @@
     }
 
     /**
+     *  检测并切换乐器
+     * @returns {Promise<void>}
+     */
+    async function autoSwitchInstrument(instrument) {
+        let switchFlag = true;
+        // 解析出需要更换的乐器 [DEBUG]多乐器未适配，目前仅选择第一个
+        if (instrument.includes(",")) {
+            instrument = instrument.split(",")[0]
+        }
+        // 确认是否已在正确的乐器界面
+        let sRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/setting.png`), 1578, 10, 80, 80);
+        let gameRegion = captureGameRegion();
+        let result = gameRegion.Find(sRo);
+        gameRegion.dispose();
+        if (result.isExist()) {
+            click(1618, 48);
+            for (let i = 0; i < 30; i++) {
+                let gameRegion = captureGameRegion();
+                let result = gameRegion.Find(sRo);
+                if (!(result.isExist())) {
+                    let insName = await Ocr(1035, 166, 254, 109);
+                    if (insName && insName.text.includes(instrument)) {  // 当前乐器正确
+                        log.info(`当前乐器：${insName.text} （期望：${instrument}）`);
+                        keyPress("Escape");
+                        switchFlag = false;
+                        break;
+                    } else if (insName && !(insName.text.includes(instrument))) {  // 当前乐器错误
+                        log.info(`当前乐器：${insName.text} （期望：${instrument}）`);
+                        await genshin.returnMainUi();
+                        break;
+                    } else {
+                        log.debug(`设置界面未识别到乐器文本... - ${i}`);
+                        await sleep(300);
+                        if (i === 29) {
+                            log.error("打开设置界面超时...");
+                        }
+                    }
+                }
+            }
+        } else {
+            await genshin.returnMainUi();
+        }
+
+        if (switchFlag) {
+            // 打开背包-小道具
+            keyPress("B");
+            await sleep(1000);
+            click(1054, 48);
+            await sleep(1000);
+            // 查找乐器
+            let insRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/instruments/${instrument}.png`), 97, 75, 1191, 891);
+            for (let i = 0; i < 5; i++) {
+                gameRegion = captureGameRegion();
+                result = gameRegion.Find(insRo);
+                if (result.isExist()) {
+                    await sleep(500);
+                    result.click();
+                    await sleep(500);
+                    let ocrText = await Ocr(1656, 993, 92, 47);
+                    if (ocrText && ocrText.text.includes("替换")) {
+                        click(1686, 1016);
+                        await sleep(300);
+                    }
+                    keyPress("Escape");
+                    log.info(`乐器更换完成(${instrument})，将在7s后开始演奏...`);
+                    await sleep(5000);
+                    keyPress("Z");
+                    await sleep(2000);
+                    return true;
+                } else {
+                    await scroll_page(1283, 113, 11, 837, 133, 931, 1288, "Down");
+                    await sleep(200);
+                }
+            }
+            log.error(`未找到乐器，请确保已经购买了乐器: ${instrument}`);
+            await sleep(10000);
+            return false;
+        } else {
+            log.info("将在3s后开始演奏...");
+            await sleep(3000);
+        }
+    }
+
+    /**
      * ------- 主程序 --------
      */
     async function main() {
@@ -885,13 +1202,18 @@
         // try {
             do {
                 for (const music_info of music_infos) {
+                    if (settings.auto_switch) {
+                        await autoSwitchInstrument(music_info.instrument);  // 检测并切换乐器
+                    } else {
+                        log.info(`建议演奏乐器：${music_info.instrument}`);
+                    }
                     log.info(`开始演奏: ${music_info.name} - ${music_info.author}`);
                     switch (music_info.type) {
                         case "yuanqin":
                             await play_sheet(music_info.notes, music_info.bpm, music_info.time_signature);
                             break;
                         case "midi":
-                            await play_sheet(music_info.notes, music_info.bpm, music_info.time_signature);
+                            await play_sheet(music_info.notes, music_info.bpm, music_info.time_signature, music_info.ticks);
                             break;
                         case "keyboard":
                             if (DEBUG) {
