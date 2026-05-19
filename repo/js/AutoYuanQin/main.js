@@ -1202,7 +1202,11 @@
         // try {
             do {
                 for (const music_info of music_infos) {
-                    await autoSwitchInstrument(music_info.instrument);  // 检测并切换乐器
+                    if (settings.auto_switch) {
+                        await autoSwitchInstrument(music_info.instrument);  // 检测并切换乐器
+                    } else {
+                        log.info(`建议演奏乐器：${music_info.instrument}`);
+                    }
                     log.info(`开始演奏: ${music_info.name} - ${music_info.author}`);
                     switch (music_info.type) {
                         case "yuanqin":
