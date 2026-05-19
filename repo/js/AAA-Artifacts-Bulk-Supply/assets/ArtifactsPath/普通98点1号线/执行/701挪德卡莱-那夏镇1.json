@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766650942697,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "701挪德卡莱-那夏镇1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9530.8125,
+      "y": 1630.1298828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9532.44140625,
+      "y": 1617.6533203125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1300",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9523.8369140625,
+      "y": 1589.52978515625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),j,wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.3),keypress(f);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 9526.53515625,
+      "y": 1591.10546875
+    }
+  ]
+}

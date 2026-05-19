@@ -1,0 +1,111 @@
+{
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
+  "info": {
+    "authors": [
+      {
+        "links": "https: //github.com/OhmyPaoPao",
+        "name": "海豹穹穹队"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "3个鳗肉；",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1773412475784,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D08-鳗肉-须弥-喀万驿-3个",
+    "order": 0,
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3864.01,
+      "y": -1658.38
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3876.874,
+      "y": -1684.3672
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3923.2129,
+      "y": -1693.8242
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3960.0029,
+      "y": -1701.8174
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3969.9951,
+      "y": -1715.2822
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3972.5176,
+      "y": -1721.6367
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3973.4453,
+      "y": -1716.0723
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3976.5801,
+      "y": -1718.6484
+    }
+  ]
+}

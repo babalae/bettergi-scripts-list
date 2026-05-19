@@ -1,0 +1,121 @@
+{
+  "info": {
+    "name": "E03-枫丹-枫丹廷区-枫丹庭西-5个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.54.0",
+    "tags": [],
+    "last_modified_time": 1752216203996,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4865.77,
+      "y": 3913.27,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4916.77,
+      "y": 3950.64,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4909.67,
+      "y": 3991.43,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4957.41,
+      "y": 3999.63,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(w),wait(0.5),dash,wait(3),keyup(w),wait(3)",
+      "type": "orientation"
+    },
+    {
+      "id": 5,
+      "x": 4964.21,
+      "y": 4011.85,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4966.24,
+      "y": 4011.96,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 4972.09,
+      "y": 4011.79,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4972.5,
+      "y": 4008.76,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);纳西妲 attack(0.08),e;",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 4964.84,
+      "y": 4021.85,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 10,
+      "x": 4964.84,
+      "y": 4021.85,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 4961.54,
+      "y": 4022.02,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f);纳西妲 attack(0.08),e;",
+      "type": "target"
+    }
+  ]
+}

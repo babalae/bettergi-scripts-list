@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "稻妻-垂钓点-海祇岛珊瑚宫北",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.2",
+    "description": "地区: 稻妻\n类型: 垂钓点\n详细位置: 海祇岛珊瑚宫北\n鱼类: 花鳉、琉璃花鳉、擒霞客、水晶宴、肺棘鱼、流纹京紫蝶鱼\n饵类: 果酿饵、赤糜饵、蠕虫假饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -765.91,
+      "y": -3557.28,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -770.16,
+      "y": -3565.21,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -831.89,
+      "y": -3637.24,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(2),attack(0.1)"
+    },
+    {
+      "id": 4,
+      "x": -817.84,
+      "y": -3637.46,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

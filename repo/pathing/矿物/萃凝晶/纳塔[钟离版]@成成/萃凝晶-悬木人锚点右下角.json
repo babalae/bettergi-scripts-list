@@ -1,0 +1,125 @@
+{
+  "info": {
+    "name": "萃凝晶-悬木人锚点右下角",
+    "type": "collect",
+    "version": "1.0",
+    "description": "需要钟离，有纳西妲可以顺便采集周围的植物\n",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "成成"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8372.15,
+      "y": -2196.24,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8392.16,
+      "y": -2245.33,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "纳西妲 e(hold)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8449.47,
+      "y": -2254.33,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8470.77,
+      "y": -2250.12,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "200",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 8470.77,
+      "y": -2250.12,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 e(hold)",
+      "type": "orientation"
+    },
+    {
+      "id": 6,
+      "x": 8467.65,
+      "y": -2252.72,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 8462.04,
+      "y": -2252.68,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 8461.5,
+      "y": -2251.08,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 8469.55,
+      "y": -2252.08,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 8472.99,
+      "y": -2257.92,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 8476.51,
+      "y": -2257.93,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 8471.58,
+      "y": -2251.18,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgiVersion": "0.35.1",
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769188951576,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "309稻妻-猫岛3",
+    "tags": [],
+    "type": "collect",
+    "version": ""
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3704.0693359375,
+      "y": -4694.578125
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3720.130859375,
+      "y": -4711.158203125
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3741.812081634451,
+      "y": -4745.37740226592
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3729.125984305714,
+      "y": -4749.042059224143
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "target",
+      "x": -3712.4375,
+      "y": -4748.2811172015245
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);万叶 wait(0.2),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -3711.656124490335,
+      "y": -4747.062690834209
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.55.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769359130207,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "06-澄晶实-远古圣山-分流识海-6个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 196.3074,
+      "y": 207.7584
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 210.5433,
+      "y": 170.1947
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 215.3422,
+      "y": 138.1656
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.02);纳西妲 e;",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 215.7085,
+      "y": 132.4299
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 217.2732,
+      "y": 132.3784
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 226.6597,
+      "y": 127.2855
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.17),moveby(0,500),wait(0.75),keypress(t),wait(0.2),keypress(t),wait(0.2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 230.8149,
+      "y": 124.8085
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 240.5758,
+      "y": 128.3011
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 306.7153,
+      "y": 156.498
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(Q),wait(1),keyup(Q),wait(0.1),attack,wait(1)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 309.848,
+      "y": 161.7828
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 313.5343,
+      "y": 170.0439
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);纳西妲 e;",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 309.7823,
+      "y": 174.3359
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4);",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 309.141,
+      "y": 176.29
+    }
+  ]
+}

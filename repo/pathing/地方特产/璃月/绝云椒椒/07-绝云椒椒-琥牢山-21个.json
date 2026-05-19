@@ -1,0 +1,402 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763587377012,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "07-绝云椒椒-琥牢山-21个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1794.4873,
+      "y": 717.7334
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1790.3105,
+      "y": 733.208
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1786.6904,
+      "y": 784.6934
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 4,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 1761.9121,
+      "y": 849.6133
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1761.5137,
+      "y": 854.4521
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 1759.3936,
+      "y": 862.439
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1759.3936,
+      "y": 862.439
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1758.0762,
+      "y": 864.5664
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.3)",
+      "id": 9,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 1750.0439,
+      "y": 857.2769
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 1750.0439,
+      "y": 857.2769
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 11,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1724.3027,
+      "y": 790.1348
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1724.0137,
+      "y": 786.9292
+    },
+    {
+      "action": "combat_script",
+      "action_params": "芙宁娜 e",
+      "id": 13,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1711.3994,
+      "y": 790.0518
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1672.2607,
+      "y": 795.8872
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 1646.7559,
+      "y": 799.7925
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1667.541,
+      "y": 797.9355
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1661.79,
+      "y": 762.0928
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1650.4336,
+      "y": 752.6904
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1642.4951,
+      "y": 752.2471
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1634.4336,
+      "y": 731.9067
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1632.7061,
+      "y": 729.4062
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1664.1367,
+      "y": 753.0635
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1667.3428,
+      "y": 774.9795
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1660.4482,
+      "y": 814.0312
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1668.4736,
+      "y": 839.1738
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1686.8799,
+      "y": 844.4849
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 27,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1700.0908,
+      "y": 885.4834
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 28,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1689.9717,
+      "y": 891.4941
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 29,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1677.3496,
+      "y": 893.2295
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 30,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1662.2119,
+      "y": 909.0469
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 31,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1655.2871,
+      "y": 906.4731
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 32,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1670.8242,
+      "y": 915.7246
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 33,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1684.4736,
+      "y": 936.248
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 34,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1684.5068,
+      "y": 941.2734
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 35,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1696.8252,
+      "y": 953.0591
+    },
+    {
+      "action": "combat_script",
+      "action_params": "芙宁娜 e",
+      "id": 36,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1689.541,
+      "y": 968.1562
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 37,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1654.8262,
+      "y": 1030.0713
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.8)",
+      "id": 38,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 1655.4141,
+      "y": 1073.7979
+    }
+  ]
+}

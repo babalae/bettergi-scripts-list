@@ -1,0 +1,131 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.54.1-alpha.2",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765696527241,
+    "map_match_method": "",
+    "map_name": "SeaOfBygoneEras",
+    "name": "E06-崇高大道左侧-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4045.4744,
+      "y": 1425.1104
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,200)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4045.4744,
+      "y": 1425.1104
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4026.9758,
+      "y": 1462.6049
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4039.5449,
+      "y": 1481.7133
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4044.3137,
+      "y": 1487.592
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4044.5906,
+      "y": 1498.9692
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4045.8396,
+      "y": 1492.1388
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4052.9016,
+      "y": 1488.3553
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4036.2595,
+      "y": 1500.8666
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4034.0608,
+      "y": 1518.224
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4041.6069,
+      "y": 1523.7535
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4045.1016,
+      "y": 1527.1794
+    }
+  ]
+}

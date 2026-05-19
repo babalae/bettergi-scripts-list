@@ -1,0 +1,607 @@
+{
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
+  "info": {
+    "authors": [
+      {
+        "links": "https: //github.com/OhmyPaoPao",
+        "name": "海豹穹穹队"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "需开通隐藏锚点，沙漠探索百分百解锁底下迷宫地图。沙漠鳗鱼采集，队伍里必须由早柚/瑶瑶",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1765232102639,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A06-鳗肉-须弥-舍身步道陷坑-8条",
+    "order": 0,
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4692.77,
+      "y": -2348.93
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(E)",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4680.207,
+      "y": -2340.1133
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "target",
+      "x": 4653.0703,
+      "y": -2327.7607
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "target",
+      "x": 4633.9082,
+      "y": -2317.4844
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4608.3125,
+      "y": -2306.3828
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "target",
+      "x": 4575.877,
+      "y": -2298.1465
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4559.3086,
+      "y": -2307.5957
+    },
+    {
+      "action": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4552.3643,
+      "y": -2319.3447
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4538.5762,
+      "y": -2345.0557
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4514.2295,
+      "y": -2363.0684
+    },
+    {
+      "action": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4502.3711,
+      "y": -2373.6719
+    },
+    {
+      "action": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4497.4521,
+      "y": -2375.1387
+    },
+    {
+      "action": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4490.2949,
+      "y": -2377.9678
+    },
+    {
+      "action": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4488.9336,
+      "y": -2378.1377
+    },
+    {
+      "action": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4488.0449,
+      "y": -2378.9932
+    },
+    {
+      "action": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4487.8857,
+      "y": -2379.9736
+    },
+    {
+      "action": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4488.7314,
+      "y": -2381.4033
+    },
+    {
+      "action": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4487.3926,
+      "y": -2381.4102
+    },
+    {
+      "action": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4486.2891,
+      "y": -2379.543
+    },
+    {
+      "action": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4377.7891,
+      "y": -2097.1729
+    },
+    {
+      "action": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4370.1348,
+      "y": -2104.6641
+    },
+    {
+      "action": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4360.3828,
+      "y": -2114.207
+    },
+    {
+      "action": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4349.5518,
+      "y": -2124.8154
+    },
+    {
+      "action": "",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4341.5938,
+      "y": -2132.5898
+    },
+    {
+      "action": "",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4328.5869,
+      "y": -2145.3271
+    },
+    {
+      "action": "",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4318.0068,
+      "y": -2155.665
+    },
+    {
+      "action": "",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4310.2188,
+      "y": -2163.292
+    },
+    {
+      "action": "",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4305.3945,
+      "y": -2168.0156
+    },
+    {
+      "action": "",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4302.3594,
+      "y": -2175.4688
+    },
+    {
+      "action": "",
+      "id": 30,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4299.498,
+      "y": -2180.0957
+    },
+    {
+      "action": "",
+      "id": 31,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4297.4531,
+      "y": -2182.8848
+    },
+    {
+      "action": "",
+      "id": 32,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4296.5127,
+      "y": -2184.1611
+    },
+    {
+      "action": "",
+      "id": 33,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4296.5107,
+      "y": -2185.8555
+    },
+    {
+      "action": "",
+      "id": 34,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4293.502,
+      "y": -2182.6152
+    },
+    {
+      "action": "",
+      "id": 35,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4288.9492,
+      "y": -2187.458
+    },
+    {
+      "action": "",
+      "id": 36,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4276.6523,
+      "y": -2197.9639
+    },
+    {
+      "action": "",
+      "id": 37,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4271.1338,
+      "y": -2203.1504
+    },
+    {
+      "action": "",
+      "id": 38,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4271.1338,
+      "y": -2203.1504
+    },
+    {
+      "action": "",
+      "id": 39,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4266.2344,
+      "y": -2209.1562
+    },
+    {
+      "action": "",
+      "id": 40,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4261.7246,
+      "y": -2213.7715
+    },
+    {
+      "action": "",
+      "id": 41,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4257.6689,
+      "y": -2216.3418
+    },
+    {
+      "action": "",
+      "id": 42,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4247.6455,
+      "y": -2225.6465
+    },
+    {
+      "action": "",
+      "id": 43,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4240.4121,
+      "y": -2234.3096
+    },
+    {
+      "action": "",
+      "id": 44,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4230.3027,
+      "y": -2244.8037
+    },
+    {
+      "action": "",
+      "id": 45,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4230.0293,
+      "y": -2254.0908
+    },
+    {
+      "action": "",
+      "id": 46,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4234.5205,
+      "y": -2258.0059
+    },
+    {
+      "action": "",
+      "id": 47,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4234.7324,
+      "y": -2263.0605
+    },
+    {
+      "action": "",
+      "id": 48,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4233.0332,
+      "y": -2266.6963
+    },
+    {
+      "action": "",
+      "id": 49,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4233.6055,
+      "y": -2267.9062
+    },
+    {
+      "action": "",
+      "id": 50,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4234.3438,
+      "y": -2265.833
+    },
+    {
+      "action": "",
+      "id": 51,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4237.5811,
+      "y": -2263.4678
+    },
+    {
+      "action": "",
+      "id": 52,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4239.3242,
+      "y": -2261.9795
+    },
+    {
+      "action": "",
+      "id": 53,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4242.9014,
+      "y": -2257.7256
+    },
+    {
+      "action": "",
+      "id": 54,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4243.4473,
+      "y": -2256.8447
+    },
+    {
+      "action": "",
+      "id": 55,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4244.1572,
+      "y": -2255.4551
+    },
+    {
+      "action": "",
+      "id": 56,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4241.8301,
+      "y": -2254.1621
+    },
+    {
+      "action": "",
+      "id": 57,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4453.34,
+      "y": -2463.63
+    },
+    {
+      "action": "",
+      "id": 58,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4462.708,
+      "y": -2460.624
+    },
+    {
+      "action": "",
+      "id": 59,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4471.2109,
+      "y": -2467.7432
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 60,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4482.8418,
+      "y": -2484.9463
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(W)",
+      "id": 61,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4488.666,
+      "y": -2486.8418
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 62,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 4497.3486,
+      "y": -2498.3809
+    },
+    {
+      "action": "",
+      "id": 63,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4497.6211,
+      "y": -2499.1396
+    },
+    {
+      "action": "",
+      "id": 64,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4501.9277,
+      "y": -2514.1729
+    },
+    {
+      "action": "",
+      "id": 65,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4513.2471,
+      "y": -2527.4434
+    },
+    {
+      "action": "",
+      "id": 66,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4520.6924,
+      "y": -2538.0791
+    },
+    {
+      "action": "",
+      "id": 67,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4520.8428,
+      "y": -2540.082
+    },
+    {
+      "action": "",
+      "id": 68,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4521.0,
+      "y": -2535.0654
+    },
+    {
+      "action": "",
+      "id": 69,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4524.2246,
+      "y": -2538.9385
+    },
+    {
+      "action": "",
+      "id": 70,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4523.627,
+      "y": -2538.1387
+    }
+  ]
+}

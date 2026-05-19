@@ -1,0 +1,95 @@
+[
+  {
+    "name": "runMode",
+    "type": "select",
+    "label": "运行模式",
+    "options": [
+      "扫描文件夹更新可选材料列表",
+      "采集选中的材料"
+    ],
+    "default": "扫描文件夹更新可选材料列表"
+  },
+  {
+    "name": "filterPathByKeywords",
+    "type": "input-text",
+    "label": "按关键词筛选材料路线（使用空格分隔，默认为黑名单模式）",
+    "default": "低成功率 不建议"
+  },
+  {
+    "name": "partyName",
+    "type": "input-text",
+    "label": "设置首选队伍名称（留空则不进行切换）"
+  },
+  {
+    "name": "partyName2nd",
+    "type": "input-text",
+    "label": "设置备选队伍名称（首选队伍缺少对应的采集角色时使用）"
+  },
+  {
+    "name": "excludeTimeRange",
+    "type": "input-text",
+    "label": "不在以下时间段内运行（HH:mm-HH:mm，24小时制）："
+  },
+  {
+    "name": "targetCountOfSelected",
+    "type": "input-text",
+    "label": "物品采集数量目标（可使用csv为不同物品设置不同数量）"
+  },
+  {
+    "name": "manualSetAccountName",
+    "type": "input-text",
+    "label": "使用指定的账号名保存运行记录"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "label": "\n【常用采集选项】\n\n按大类选择",
+    "type": "multi-checkbox",
+    "name": "selectByCategory",
+    "options": [
+      "地方特产",
+      "矿物",
+      "食材与炼金"
+    ]
+  },
+  {
+    "label": "按地区选择地方特产",
+    "type": "multi-checkbox",
+    "name": "selectLocalSpecialtyByCountry",
+    "options": [
+      "蒙德",
+      "璃月",
+      "稻妻",
+      "须弥",
+      "枫丹",
+      "纳塔",
+      "挪德卡莱"
+    ]
+  },
+  {
+    "label": "矿物",
+    "type": "multi-checkbox",
+    "name": "selectForgingOre",
+    "options": [
+      "白铁块",
+      "水晶块",
+      "星银矿石",
+      "紫晶块",
+      "萃凝晶",
+      "虹滴晶"
+    ]
+  },
+  {
+    "label": "特殊物品",
+    "type": "multi-checkbox",
+    "name": "selectMiscellaneous",
+    "options": [
+      "晶蝶",
+      "沉玉仙茗"
+    ]
+  },
+  {
+    "type": "separator"
+  }
+]

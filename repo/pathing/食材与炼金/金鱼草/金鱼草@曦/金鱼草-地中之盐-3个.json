@@ -1,0 +1,89 @@
+{
+  "info": {
+    "name": "金鱼草-地中之盐-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "完成钟离传说任务后可用",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "曦",
+        "links": "https://github.com/cx05121"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -321.64,
+      "y": 1473.28,
+      "action": "",
+      "move_mode": "run",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -296.78,
+      "y": 1455.31,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -269.29,
+      "y": 1434.34,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -194.54,
+      "y": 1384.16,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -216.85,
+      "y": 1392.35,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -248.33,
+      "y": 1379.76,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": -263.33,
+      "y": 1380.42,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -279.11,
+      "y": 1363.06,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": -295.34,
+      "y": 1383.76,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

@@ -1,0 +1,332 @@
+{
+  "info": {
+    "name": "03-鱼肉-璃月-璃月港-西北-11",
+    "type": "collect",
+    "version": "1.0",
+    "description": "03-璃月港-西北-11",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "run",
+      "type": "teleport",
+      "x": 374.61,
+      "y": -515.06,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 390.0,
+      "y": -520.69,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 394.69,
+      "y": -516.56,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "combat_script",
+      "move_mode": "run",
+      "type": "target",
+      "x": 402.88,
+      "y": -507.81,
+      "action_params": "芙宁娜 attack,e"
+    },
+    {
+      "id": 5,
+      "x": 402.06,
+      "y": -492.69,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "combat_script",
+      "move_mode": "run",
+      "type": "path",
+      "x": 404.07,
+      "y": -490.81,
+      "action_params": "dash"
+    },
+    {
+      "id": 7,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 406.01,
+      "y": -489.31,
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 411.56,
+      "y": -491.73,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 405.66,
+      "y": -493.37,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 410.66,
+      "y": -481.75,
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 415.41,
+      "y": -484.22,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "action": "combat_script",
+      "move_mode": "run",
+      "type": "path",
+      "x": 421.95,
+      "y": -485.19,
+      "action_params": "芙宁娜 wait(1.2),e"
+    },
+    {
+      "id": 13,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 433.34,
+      "y": -493.62,
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 426.83,
+      "y": -497.69,
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 428.23,
+      "y": -502.15,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 420.89,
+      "y": -507.85,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 416.2,
+      "y": -509.06,
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": 412.75,
+      "y": -508.52,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 411.26,
+      "y": -501.5,
+      "action_params": ""
+    },
+    {
+      "id": 20,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 417.01,
+      "y": -495.56,
+      "action_params": ""
+    },
+    {
+      "id": 21,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 420.7,
+      "y": -486.25,
+      "action_params": ""
+    },
+    {
+      "id": 22,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 425.39,
+      "y": -484.56,
+      "action_params": ""
+    },
+    {
+      "id": 23,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 437.91,
+      "y": -483.62,
+      "action_params": ""
+    },
+    {
+      "id": 24,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 446.54,
+      "y": -481.0,
+      "action_params": "芙宁娜 e"
+    },
+    {
+      "id": 25,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 448.73,
+      "y": -480.12,
+      "action_params": ""
+    },
+    {
+      "id": 26,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 451.1,
+      "y": -475.62,
+      "action_params": ""
+    },
+    {
+      "id": 27,
+      "x": 448.21,
+      "y": -473.71,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 28,
+      "x": 453.12,
+      "y": -474.92,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 29,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 454.71,
+      "y": -479.38,
+      "action_params": ""
+    },
+    {
+      "id": 30,
+      "x": 467.98,
+      "y": -479.72,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芙宁娜 e"
+    },
+    {
+      "id": 31,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 462.97,
+      "y": -484.88,
+      "action_params": ""
+    },
+    {
+      "id": 32,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 465.35,
+      "y": -489.38,
+      "action_params": ""
+    },
+    {
+      "id": 33,
+      "x": 458.78,
+      "y": -486.61,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 34,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 457.09,
+      "y": -494.62,
+      "action_params": ""
+    },
+    {
+      "id": 35,
+      "x": 449.62,
+      "y": -481.94,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

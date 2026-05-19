@@ -1,0 +1,104 @@
+{
+  "info": {
+    "name": "000如果执行了这条路径说明你启用了错误的文件夹请阅读README",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2297.56,
+      "y": -824.57,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 2297.56,
+      "y": -824.57,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "log_output",
+      "action_params": "如果你看到这条文字，说明你启用了错误的文件夹请阅读README",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 2297.56,
+      "y": -824.57,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(60)"
+    },
+    {
+      "id": 4,
+      "x": 2297.56,
+      "y": -824.57,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "log_output",
+      "action_params": "如果你看到这条文字，说明你启用了错误的文件夹请阅读README",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 2297.56,
+      "y": -824.57,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(60)",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 2297.56,
+      "y": -824.57,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "log_output",
+      "action_params": "如果你看到这条文字，说明你启用了错误的文件夹请阅读README",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 2297.56,
+      "y": -824.57,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(60)",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 508.05,
+      "y": -630.48,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 497.74,
+      "y": -681.25,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "stop_flying",
+      "action_params": "60000"
+    }
+  ]
+}

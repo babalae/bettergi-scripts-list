@@ -1,0 +1,97 @@
+{
+  "info": {
+    "name": "中度冰寒-2",
+    "type": "collect",
+    "author": "云闲vsv",
+    "version": "1.0",
+    "description": "中度冰寒-2",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753369816097
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1023.310546875,
+      "y": 1174.50146484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1023.7392578125,
+      "y": 1173.435546875,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1028.9013671875,
+      "y": 1159.01318359375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1038.1923828125,
+      "y": 1132.416015625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1040.4521484375,
+      "y": 1122.48583984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1043.6005859375,
+      "y": 1118.802734375,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1062.5546875,
+      "y": 1098.322265625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1062.67578125,
+      "y": 1089.34130859375,
+      "action": "pyro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": -1062.67578125,
+      "y": 1089.34130859375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(4),wait(0.3),attack(4)",
+      "type": "path"
+    }
+  ]
+}

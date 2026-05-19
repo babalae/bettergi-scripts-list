@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "璃月-垂钓点-琼玑野归离原东北",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.2",
+    "description": "地区: 璃月\n类型: 垂钓点\n详细位置: 琼玑野归离原东北\n鱼类: 甜甜花鳉、斗棘鱼、赤魔王、金赤假龙、錆假龙、流纹褐蝶鱼\n饵类: 果酿饵、赤糜饵、蠕虫假饵、飞蝇假饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -57.42,
+      "y": 656.96,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -15.62,
+      "y": 650.45,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 28.93,
+      "y": 656.1,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 53.16,
+      "y": 650.85,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 60.75,
+      "y": 649.3,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 60.36,
+      "y": 647.31,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

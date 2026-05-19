@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1776964849197,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "35-苦种-翘枝崖-七天神像-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9839.8223,
+      "y": -1289.7266
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9812.4941,
+      "y": -1308.082
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9808.7295,
+      "y": -1309.998
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9805.7539,
+      "y": -1298.4766
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9805.3223,
+      "y": -1296.4092
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "info": {
+    "name": "12-劫波莲-无郁稠林东边-6个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "lifrom",
+        "links": "https://github.com/pkjsjq"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2415.5,
+      "y": 351.6
+    },
+    {
+      "id": 2,
+      "x": 2317.25,
+      "y": 337.58,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target",
+      "x": 2219.0,
+      "y": 323.55
+    },
+    {
+      "id": 4,
+      "x": 2202.5,
+      "y": 317.0,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 2186.0,
+      "y": 310.0,
+      "type": "path",
+      "move_mode": "climb",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 2169.12,
+      "y": 307.37,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "action": "",
+      "move_mode": "climb",
+      "type": "target",
+      "x": 2152.5,
+      "y": 305.31
+    },
+    {
+      "id": 8,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2144.5,
+      "y": 287.07
+    },
+    {
+      "id": 9,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2149.0,
+      "y": 216.35
+    },
+    {
+      "id": 10,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2164.25,
+      "y": 222.34
+    },
+    {
+      "id": 11,
+      "action": "",
+      "move_mode": "climb",
+      "type": "target",
+      "x": 2149.0,
+      "y": 216.35
+    },
+    {
+      "id": 12,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2155.25,
+      "y": 191.36
+    },
+    {
+      "id": 13,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2175.75,
+      "y": 181.11
+    },
+    {
+      "id": 14,
+      "action": "",
+      "move_mode": "climb",
+      "type": "target",
+      "x": 2185.75,
+      "y": 121.63
+    },
+    {
+      "id": 15,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2200.5,
+      "y": 120.88
+    }
+  ]
+}

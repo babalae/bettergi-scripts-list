@@ -1,0 +1,89 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 蒙德\n类型: 垂钓点\n详细位置: 明冠山地风龙废墟南\n鱼类: 花鳉、蓝染花鳉、擒霞客、流纹茶蝶鱼\n饵类: 果酿饵、蠕虫假饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764526053059,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蒙德-垂钓点-明冠山地风龙废墟南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 36.79,
+      "y": 2380.88
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 43.66,
+      "y": 2402.59
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 64.42,
+      "y": 2458.77
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 69.64,
+      "y": 2461.92
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 120.44,
+      "y": 2483.32
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 129.21,
+      "y": 2484.56
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 127.23,
+      "y": 2488.91
+    }
+  ]
+}
