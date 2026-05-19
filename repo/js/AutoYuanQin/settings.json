@@ -50,6 +50,12 @@
     ]
   },
   {
+  "name": "auto_switch",
+  "type": "checkbox",
+  "label": "演奏前自动更换推荐乐器",
+  "default": true
+  },
+  {
     "name": "music_queue",
     "type": "input-text",
     "label": "队列执行（填写数字[乐曲前的序号]，空格隔开，不填默认不启用）"
