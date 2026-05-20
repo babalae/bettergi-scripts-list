@@ -145,7 +145,7 @@
 
 ### v0.11 - [RJFAC](https://github.com/RJFAC)
 * 新增BGI通知
-* 新增月之七版本圣遗物秘境山风的荆冕
+* 新增月之七版本圣遗物秘境「山风的荆冕」
 
 ### v0.10 - [RJFAC](https://github.com/RJFAC)
 * 调整战斗策略设置方式
