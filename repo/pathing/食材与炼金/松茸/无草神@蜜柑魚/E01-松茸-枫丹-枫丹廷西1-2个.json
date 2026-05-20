@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777395606545,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E01-松茸-枫丹-枫丹廷西1-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4824.0156,
+      "y": 3628.9951
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4806.6973,
+      "y": 3633.6182
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4767.7217,
+      "y": 3622.2812
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4751.0391,
+      "y": 3626.4102
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4730.6465,
+      "y": 3631.7319
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4733.3223,
+      "y": 3628.5361
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4728.6221,
+      "y": 3629.1348
+    }
+  ]
+}

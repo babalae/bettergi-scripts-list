@@ -6,9 +6,12 @@
         "default": "默认账户"
     },
     {
+        "type": "separator"
+    },
+    {
         "name": "foodsToBuy",
         "type": "input-text",
-        "label": "要购买的商品（多个商品用空格分隔）\n示例：\"小麦 黑麦\"\n\n支援的 商人与商品详细 请前往 README.md 查看\n建议直接复制商品名称贴上输入栏",
+        "label": "支援的 商人与商品详细 请前往 README.md 查看\n建议直接复制商品名称贴上输入栏\n\n要购买的商品（多个商品用空格分隔）\n示例：\"小麦 黑麦\"",
         "default": "小麦 黑麦"
     },
     {
@@ -34,6 +37,9 @@
         "default": "卡琵莉亚"
     },
     {
+        "type": "separator"
+    },
+    {
         "name": "skip",
         "type": "checkbox",
         "label": "跳过调整时间动画",
@@ -42,7 +48,7 @@
     {
         "name": "ignoreRecords",
         "type": "checkbox",
-        "label": "-----------------\n无视记录强制购买（不推荐）",
+        "label": "无视记录强制购买（不推荐）",
         "default": false
     },
     {
@@ -51,5 +57,4 @@
         "label": "调试模式（显示详细日志）",
         "default": false
     }
-
 ]

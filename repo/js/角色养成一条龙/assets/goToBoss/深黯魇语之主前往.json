@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -7,12 +7,12 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "深黯魇语之主",
+    "description": "深黯魇语之主前往",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1768743207205,
-    "map_match_method": "",
+    "last_modified_time": 1778509379992,
+    "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "深黯魇语之主",
+    "name": "深黯魇语之主前往",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,8 +24,26 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 10291.00922739374,
-      "y": 6345
+      "x": 10288.62109375,
+      "y": 6357.51220703125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10334.7607421875,
+      "y": 6388.36572265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10359.5234375,
+      "y": 6405.48046875
     }
   ]
 }

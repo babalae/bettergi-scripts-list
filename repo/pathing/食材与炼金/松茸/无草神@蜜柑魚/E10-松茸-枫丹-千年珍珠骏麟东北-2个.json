@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777452093344,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E10-松茸-枫丹-千年珍珠骏麟东北-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4624.5547,
+      "y": 4952.0337
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4607.1289,
+      "y": 4991.7734
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4605.0674,
+      "y": 4998.127
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4620.9609,
+      "y": 5004.4189
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4629.0488,
+      "y": 5009.6445
+    }
+  ]
+}

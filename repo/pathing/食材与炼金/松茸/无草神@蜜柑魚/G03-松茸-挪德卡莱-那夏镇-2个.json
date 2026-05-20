@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777223860534,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "G03-松茸-挪德卡莱-那夏镇-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9529.1787,
+      "y": 1628.8706
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9536.9785,
+      "y": 1624.502
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9569.0117,
+      "y": 1557.3677
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9551.9678,
+      "y": 1545.4199
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9553.3369,
+      "y": 1540.6626
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9545.8545,
+      "y": 1534.8145
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9550.2852,
+      "y": 1528.9312
+    }
+  ]
+}

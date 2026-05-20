@@ -1,0 +1,148 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777054320762,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-苦种-彩石顶西-6个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8372.4297,
+      "y": -2195.9521
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8380.749,
+      "y": -2208.9434
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8426.4102,
+      "y": -2277.3418
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),attack(0.1),wait(0.3)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8434.0723,
+      "y": -2284.7373
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),attack(0.1),wait(0.3)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8436.0869,
+      "y": -2292.1504
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8484.3389,
+      "y": -2294.6582
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8531.9082,
+      "y": -2284.4785
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),attack(0.1),wait(1)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8531.1445,
+      "y": -2284.1816
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8562.9023,
+      "y": -2254.0381
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8586.0889,
+      "y": -2260.6992
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8588.1025,
+      "y": -2261.1807
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8591.1211,
+      "y": -2261.8818
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),attack(0.1),wait(0.3)",
+      "id": 13,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8643.4258,
+      "y": -2261.335
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 14,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8622.2266,
+      "y": -2304.3232
+    }
+  ]
+}

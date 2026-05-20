@@ -151,6 +151,107 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
     }
     return { success: false };
 }
+
+function normalizeOcrText(text) {
+    return String(text || "").replace(/\s+/g, "");
+}
+
+function levenshteinDistance(a, b) {
+    const rows = a.length + 1;
+    const cols = b.length + 1;
+    const dp = Array.from({ length: rows }, () => Array(cols).fill(0));
+
+    for (let i = 0; i < rows; i++) dp[i][0] = i;
+    for (let j = 0; j < cols; j++) dp[0][j] = j;
+
+    for (let i = 1; i < rows; i++) {
+        for (let j = 1; j < cols; j++) {
+            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+            dp[i][j] = Math.min(
+                dp[i - 1][j] + 1,
+                dp[i][j - 1] + 1,
+                dp[i - 1][j - 1] + cost
+            );
+        }
+    }
+
+    return dp[a.length][b.length];
+}
+
+function ocrSimilarity(actual, target) {
+    actual = normalizeOcrText(actual);
+    target = normalizeOcrText(target);
+
+    if (!actual || !target) return 0;
+    if (actual.includes(target) || target.includes(actual)) return 1;
+
+    let best = 1 - levenshteinDistance(actual, target) / Math.max(actual.length, target.length);
+    if (actual.length > target.length) {
+        for (let i = 0; i <= actual.length - target.length; i++) {
+            const part = actual.substring(i, i + target.length);
+            best = Math.max(best, 1 - levenshteinDistance(part, target) / target.length);
+        }
+    }
+
+    return best;
+}
+
+function rectToOcrObject(rect) {
+    if (!rect) return RecognitionObject.ocrThis;
+
+    const x = rect.X != null ? rect.X : (rect.x != null ? rect.x : 0);
+    const y = rect.Y != null ? rect.Y : (rect.y != null ? rect.y : 0);
+    const width = rect.Width != null ? rect.Width : (rect.width != null ? rect.width : 0);
+    const height = rect.Height != null ? rect.Height : (rect.height != null ? rect.height : 0);
+
+    if (x === 0 && y === 0 && width === 0 && height === 0) {
+        return RecognitionObject.ocrThis;
+    }
+
+    return RecognitionObject.Ocr(x, y, width, height);
+}
+
+function ocrMatch(target, rect = null, threshold = null) {
+    const actualThreshold = threshold != null ? threshold : 0.75;
+    const targetText = normalizeOcrText(target);
+    const captureRegion = captureGameRegion();
+    try {
+        const resultList = captureRegion.findMulti(rectToOcrObject(rect));
+        const texts = [];
+
+        for (let result of resultList) {
+            const text = normalizeOcrText(result.text);
+            if (!text) continue;
+            if (ocrSimilarity(text, targetText) >= actualThreshold) {
+                return true;
+            }
+            texts.push(text);
+        }
+
+        return ocrSimilarity(texts.join(""), targetText) >= actualThreshold;
+    } finally {
+        captureRegion.dispose();
+    }
+}
+
+async function waitForOcrMatch(target, rect = null, threshold = null, timeout = null) {
+    const actualTimeout = timeout != null ? timeout : 10000;
+    const interval = 1000;
+    const start = Date.now();
+    let retryCount = 0;
+
+    while (Date.now() - start < actualTimeout) {
+        if (ocrMatch(target, rect, threshold)) {
+            return true;
+        }
+
+        retryCount++;
+        await sleep(interval);
+    }
+
+    log.warn(`【OCR】等待文字匹配超时: ${target} | 重试次数: ${retryCount} | 耗时: ${Date.now() - start}ms`);
+    return false;
+}
 // 切换账号OCR模式
 // ======================================================
 
@@ -510,12 +611,12 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             await stateReturnToGenshinGate();
             await sleep(1000);
         }
-        await page.WaitForOcrMatch("开始游戏");
+        await waitForOcrMatch("开始游戏");
         await matchImgAndClick(login_out_account, "登录页的右下角退出按钮");
-        await page.WaitForOcrMatch("切换账号");
+        await waitForOcrMatch("切换账号");
         await matchImgAndClick(confirm_switch_account, "确认切换账号");
         // 检测是否弹出保存登陆记录弹框
-        if (await page.WaitForOcrMatch("退出并", new OpenCvSharp.OpenCvSharp.Rect(0, 0, 1920, 1080), 0.8, 1000)) {
+        if (await waitForOcrMatch("退出并", new OpenCvSharp.OpenCvSharp.Rect(0, 0, 1920, 1080), 0.8, 1000)) {
             await matchImgAndClick(save_login_info, "保留登陆记录");
             await sleep(500);
             await matchImgAndClick(confirm_switch_account, "确认切换账号");
@@ -525,7 +626,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         await sleep(500);
         // 换服务器操作
         if (settings.Servers && (settings.Servers !== "不切换服务器" || settings.Servers == "")) {
-            await page.WaitForOcrMatch("开始游戏");
+            await waitForOcrMatch("开始游戏");
             log.info("正在更换服务器")
             await matchImgAndClick(switch_server, "更换服务器");
             let serversMatched = true;
@@ -546,11 +647,11 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             }
         }
         await keyPress("VK_ESCAPE");
-        await page.WaitForOcrMatch("开始游戏");
+        await waitForOcrMatch("开始游戏");
         await click(960, 640);
         await page.Wait(5000);
         log.info('等待提瓦特大门加载');
-        await page.WaitForOcrMatch("点击进入");
+        await waitForOcrMatch("点击进入");
         await click(960, 640);
         // 可能登录账号的时候出现月卡提醒，则先点击一次月卡。
         await genshin.blessingOfTheWelkinMoon();
@@ -748,12 +849,12 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
         try {
             await matchImgAndClick(pm_out, "左下角退出门");
             await matchImgAndClick(out_to_login, "退出至登陆页面");
-            await page.WaitForOcrMatch("开始游戏");
+            await waitForOcrMatch("开始游戏");
             await matchImgAndClick(login_out_account, "登录页的右下角退出按钮");
-            await page.WaitForOcrMatch("切换账号");
+            await waitForOcrMatch("切换账号");
             await matchImgAndClick(confirm_switch_account, "确认切换账号");
             // 检测是否弹出保存登陆记录弹框
-            if (await page.WaitForOcrMatch("退出并", new OpenCvSharp.OpenCvSharp.Rect(0, 0, 1920, 1080), 0.8, 1000)) {
+            if (await waitForOcrMatch("退出并", new OpenCvSharp.OpenCvSharp.Rect(0, 0, 1920, 1080), 0.8, 1000)) {
                 await matchImgAndClick(save_login_info, "保留登陆记录");
                 await sleep(500);
                 await matchImgAndClick(confirm_switch_account, "确认切换账号");
@@ -783,7 +884,7 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
             }
             // 换服务器操作
             if (settings.Servers && (settings.Servers !== "不切换服务器" || settings.Servers == "")) {
-                await page.WaitForOcrMatch("开始游戏");
+                await waitForOcrMatch("开始游戏");
                 log.info("正在更换服务器")
                 await matchImgAndClick(switch_server, "更换服务器");
                 let serversMatched = true;
@@ -804,11 +905,11 @@ async function recognizeTextAndClick(targetText, ocrRegion, timeout = 8000) {
                 }
             }
             await keyPress("VK_ESCAPE");
-            await page.WaitForOcrMatch("开始游戏");
+            await waitForOcrMatch("开始游戏");
             await click(960, 640);
             await page.Wait(5000);
             log.info('等待提瓦特大门加载');
-            await page.WaitForOcrMatch("点击进入");
+            await waitForOcrMatch("点击进入");
             await click(960, 640);
             // 可能登录账号的时候出现月卡提醒，则先点击一次月卡。
             await genshin.blessingOfTheWelkinMoon();
