@@ -1,6 +1,22 @@
-// Version: 1.7
-// Modified Date: 2026-04-11
+// Version: 1.8
+// Modified Date: 2026-04-20
 (async function () {
+    let SCRIPT_START_TIME = Date.now();
+
+    function safeNotify(type, message) {
+        try {
+            if (typeof notification !== "undefined") {
+                if (type === "error") {
+                    notification.Error(message);
+                } else {
+                    notification.Send(message);
+                }
+            }
+        } catch (e) {
+            log.warn("[通知] 傳送通知失敗: " + e.message);
+        }
+    }
+
     // =========================================================================
     // 0. 动态加载数据 (基于 Genshin_Domains_SC_Live_Source.json)
     // =========================================================================
@@ -176,6 +192,7 @@
     if (materialInfo.type === 'artifact') {
         pDomainName = materialInfo.domain;
         log.info(`【圣遗物模式】目标：${pTargetMaterial}`);
+        safeNotify("info", `排程啟動：已自動切換目標秘境為【${pDomainName} - ${pTargetMaterial}】。`);
     } else {
         let requiredIdx = materialInfo.idx;
         pDomainName = materialInfo.domain;
@@ -202,6 +219,8 @@
             log.error(`【停止运行】今日非该素材开放日。若需强制运行，请在设置中勾选。`);
             return;
         }
+
+        safeNotify("info", `排程啟動：今日為遊戲內星期${dayStr}，已自動切換目標秘境為【${pDomainName} - ${pTargetMaterial}】。`);
     }
 
     // =========================================================================
@@ -258,6 +277,14 @@
                 log.info(`[脚本] 任务结束，等待 ${pFightEndDelay} 秒...`);
                 await sleep(pFightEndDelay * 1000);
             }
+
+            let totalTimeMs = Date.now() - SCRIPT_START_TIME;
+            let totalMins = Math.floor(totalTimeMs / 60000);
+            let totalSecs = Math.floor((totalTimeMs % 60000) / 1000);
+            let timeStr = `${totalMins}分${totalSecs}秒`;
+            let extraStr = pAutoArtifactSalvage ? " (已完成聖遺物自動分解)" : "";
+            safeNotify("info", `排程完成：今日自動秘境已全數執行完畢！總耗時：${timeStr}。${extraStr}`);
+
             break; 
         } catch (ex) {
             let msg = ex.message || "";
@@ -267,6 +294,7 @@
                 if (taskParam.CombatStrategyPath && taskParam.CombatStrategyPath !== "") {
                     log.warn(`[脚本] 找不到指定的战斗策略档案！`);
                     log.warn(`[脚本] 已触发降级机制：退回【根据队伍自动选择】模式，3 秒后重新启动任务...`);
+                    safeNotify("info", `警告：找不到指定的戰鬥策略檔案，已觸發降級機制，改以【自動匹配隊伍】模式接續執行。`);
                     
                     // 调用底层方法正确切换为目录路径，并将回传值賦予屬性
                     taskParam.CombatStrategyPath = taskParam.SetCombatStrategyPath(""); 
@@ -275,12 +303,14 @@
                     continue; 
                 } else {
                     log.error("[脚本] 自动匹配战斗脚本失败：请检查 User/AutoFight 目录下是否有 txt 脚本，且脚本内角色是否符合当前队伍。");
+                    safeNotify("error", "異常中斷：自動匹配戰鬥腳本失敗，請檢查 User/AutoFight 目錄下的配置，任務已強制停止。");
                     break;
                 }
             }
 
             if (msg.includes("背包物品已满") || msg.includes("未检测到秘境结束")) {
                 log.warn(`[脚本] 任务可能已完成，但检测到: ${msg}`);
+                safeNotify("error", `異常中斷：背包物品可能已滿，或無法偵測秘境結束狀態，自動排程已強制停止。`);
                 break; 
             } else if (msg.includes("复苏")) {
                 log.warn(`[脚本] 角色死亡，5秒后重试...`);
@@ -291,9 +321,11 @@
                 break;
             } else if (msg.includes("未找到对应的秘境")) {
                 log.error("请等待BetterGI本体更新支援新秘境");
+                safeNotify("error", "異常中斷：未找到對應的秘境，請等待 BetterGI 更新支援。");
                 throw ex;
             } else {
                 log.error(`[脚本] 错误: ${msg}`);
+                safeNotify("error", `異常中斷：發生未知的腳本錯誤，任務已強制停止。\n詳細訊息: ${msg.substring(0, 100)}`);
                 throw ex; 
             }
         }

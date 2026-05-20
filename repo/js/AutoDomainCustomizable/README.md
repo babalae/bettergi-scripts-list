@@ -14,7 +14,7 @@
 
 没有附上日志纪录的问题将被 **无视** 。
 
-日志预设位置在`BetterGI\log\`。
+日志预设位置在 `BetterGI\log\` 。
 
 ---
 
@@ -143,6 +143,9 @@
 
 ## 📜 更新日志
 
+### v0.11 - [RJFAC](https://github.com/RJFAC)
+* 新增BGI通知
+* 新增月之七版本圣遗物秘境山风的荆冕
 
 ### v0.10 - [RJFAC](https://github.com/RJFAC)
 * 调整战斗策略设置方式
