@@ -1,4 +1,4 @@
-import {config, initConfig, initSettings, LoadType} from './config/config';
+import {buildInitConfigSettings, config, initConfig, initSettings, LoadType} from './config/config';
 import {ocrUid} from './utils/uid';
 import {getDayOfWeek, outDomainUI, outStygianOnslaughtUI, throwError,toMainUi} from './utils/tool';
 import {pullJsonConfig, pushAllCountryConfig, pushAllJsonConfig} from './utils/bgi_tools';
@@ -653,6 +653,7 @@ async function initRunOrderList(domainConfig) {
  * 该函数用于执行初始化操作，使用async/await处理异步操作
  */
 async function init() {
+    await buildInitConfigSettings()
     // 调用initConfig函数并等待其完成
     // 这是一个异步初始化配置的步骤
     await initSettings()

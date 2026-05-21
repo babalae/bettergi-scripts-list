@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758399401303,
+    "last_modified_time": 1777879105520,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A29-萃凝晶-枫丹-卡布狄斯堡遗迹（火神赶路-有战斗-12个)",
@@ -29,7 +29,7 @@
       "move_mode": "walk",
       "type": "teleport",
       "x": 3259.5,
-      "y": 2955
+      "y": 2955.0
     },
     {
       "action": "combat_script",
@@ -38,7 +38,7 @@
       "locked": false,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 3278,
+      "x": 3278.0,
       "y": 3046.3
     },
     {
@@ -48,14 +48,14 @@
       "locked": false,
       "move_mode": "run",
       "type": "path",
-      "x": 3278,
-      "y": 3046.3
+      "x": 3276.0957,
+      "y": 3041.2979
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 4,
-      "locked": false,
+      "locked": true,
       "move_mode": "run",
       "type": "path",
       "x": 3270.9219,
@@ -198,7 +198,7 @@
       "locked": false,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 3454,
+      "x": 3454.0,
       "y": 2929.3076
     },
     {
@@ -249,7 +249,7 @@
       "move_mode": "walk",
       "type": "teleport",
       "x": 3259.5,
-      "y": 2955
+      "y": 2955.0
     },
     {
       "action": "combat_script",

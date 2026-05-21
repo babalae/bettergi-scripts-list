@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777231023413,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "A25-松茸-蒙德-荆夫港北-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -218.2383,
+      "y": 3787.8164
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -198.1035,
+      "y": 3766.7671
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "4000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -141.8594,
+      "y": 3704.7358
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -146.7383,
+      "y": 3701.4863
+    }
+  ]
+}

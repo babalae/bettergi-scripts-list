@@ -1,39 +1,102 @@
 /*********************** 配置与常量 ***********************/
 
 // 用户配置
+let notice = settings.notice ?? false;                          // 通知状态
+let forgedOrNot = (settings.forgedOrNot && settings.forgedOrNot.trim() !== "") ? settings.forgedOrNot : "是"; // 是否锻造
+let model = settings.model || "模式一";                         // 模式选择
 let smithyName = settings.smithyName ?? "枫丹铁匠铺";           // 铁匠铺地区
+
 let CondessenceCrystal = settings.CondessenceCrystal ?? "1";   // 萃凝晶
 let CrystalChunk = settings.CrystalChunk ?? "2";               // 水晶块
 let AmethystLump = settings.AmethystLump ?? "3";               // 紫晶块 
 let RainbowdropCrystal = settings.RainbowdropCrystal ?? "4";   // 虹滴晶
+/*
+
+*新增示例：
+
+let 【新矿石英文】 = settings.【新矿石英文】 ?? "【5】";   // 新矿石
+
+*/
 
 
-let notice = settings.notice ?? false;                          // 通知状态
-let forgedOrNot = (settings.forgedOrNot && settings.forgedOrNot.trim() !== "") ? settings.forgedOrNot : "是"; // 是否锻造
-let model = settings.model || "模式一";                         // 模式选择
 
 // 矿石图像与中文名称映射
-const ingredientImageMap = {
-    萃凝晶: "assets/Picture/CondessenceCrystal.png",
-    水晶块: "assets/Picture/CrystalChunk.png",
-    紫晶块: "assets/Picture/AmethystLump.png",
-    虹滴晶: "assets/Picture/RainbowdropCrystal.png",
-
-    星银矿石: "assets/Picture/Starsilver.png",
-    白铁块: "assets/Picture/WhiteIronChunk.png",
-    铁块: "assets/Picture/IronChunk.png",
-};
-
 const OreChineseMap = {
     萃凝晶: "萃凝晶",
     水晶块: "水晶块",
     紫晶块: "紫晶块",
     虹滴晶: "虹滴晶",
+    /*新增示例：
 
+    新矿石: "新矿石",
+
+    */
     星银矿石: "星银矿石",
     白铁块: "白铁块",
     铁块: "铁块",
 };
+
+
+// 定义优先级配置和昵称顺序。读取 settings.json 里的矿石优先级配置，转为数字
+const orePriorityConfig = {
+    "萃凝晶": Number(CondessenceCrystal) ?? 0,
+    "水晶块": Number(CrystalChunk) ?? 0,
+    "紫晶块": Number(AmethystLump) ?? 0,
+    "虹滴晶": Number(RainbowdropCrystal) ?? 0//新增时，此处记着添加【,】标点符
+    /*
+    新增示例：
+
+    "【新矿石】": Number(【新矿石英文】) ?? 0
+
+    */
+};
+//定义昵称顺序，用于优先级相同时的排序。
+const nicknameOrder = ["萃凝晶", "水晶块", "紫晶块", "虹滴晶"];
+
+
+//锻造界面物品图标
+const ingredientImageMap = {
+    萃凝晶: "assets/Picture/CondessenceCrystal.png",
+    水晶块: "assets/Picture/CrystalChunk.png",
+    紫晶块: "assets/Picture/AmethystLump.png",
+    虹滴晶: "assets/Picture/RainbowdropCrystal.png",
+    /*新增示例：
+
+    【新矿石】: "assets/Picture/【新矿石英文】.png",
+
+    */
+    星银矿石: "assets/Picture/Starsilver.png",
+    白铁块: "assets/Picture/WhiteIronChunk.png",
+    铁块: "assets/Picture/IronChunk.png",
+};
+
+
+//背包界面物品图标
+const CondessenceCrystalRo = RecognitionObject.TemplateMatch(
+    file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/CondessenceCrystal.png"),
+    115, 115, 1300, 955
+); // 【萃凝晶】
+const CrystalChunkRo = RecognitionObject.TemplateMatch(
+    file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/CrystalChunk.png"),
+    115, 115, 1300, 955
+); // 【水晶块】
+const AmethystLumpRo = RecognitionObject.TemplateMatch(
+    file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/AmethystLump.png"),
+    115, 115, 1300, 955
+); // 【紫晶块】
+const RainbowdropCrystalRo = RecognitionObject.TemplateMatch(
+    file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/RainbowdropCrystal.png"),
+    115, 115, 1300, 955
+); // 【虹滴晶】
+/*新增示例：
+
+const 【新矿石英文】Ro = RecognitionObject.TemplateMatch(
+    file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/【新矿石英文】.png"),
+    115, 115, 1300, 955
+); // 【新矿石】
+
+*/
+
 
 const smithyMap = {
     "蒙德铁匠铺": { x: -869, y: 2278, country: "蒙德" },
@@ -42,8 +105,14 @@ const smithyMap = {
     "须弥铁匠铺": { x: 2786, y: -503, country: "须弥" },
     "枫丹铁匠铺": { x: 4507, y: 3630, country: "枫丹" },
     "纳塔铁匠铺": { x: 9085, y: -1964, country: "纳塔" },
-    "挪德卡莱铁匠铺": { x: 9458, y: 1660, country: "挪德卡莱" }
+    "挪德卡莱铁匠铺": { x: 9458, y: 1660, country: "挪德卡莱" }//新增时，此处记着添加【,】标点符
+    /*新增示例：
+
+    "冰国铁匠铺": { x: , y: , country: "冰国" }//x,y坐标为录制路径时传送点的坐标，country为铁匠铺所属国家名称
+
+*/
 };
+
 
 // 模板识别对象
 //游戏界面
@@ -65,6 +134,35 @@ const ForgingInterFaceRo = RecognitionObject.TemplateMatch(
 ); // 锻造界面图标
 
 
+//对话框图标
+const ForgeRo = RecognitionObject.TemplateMatch(
+    file.ReadImageMatSync("Assets/RecognitionObject/DialogueInterface/Forge.png"),
+    1260, 300, 600, 600
+); // 对话框中的锻造图标
+
+
+//综合性图标
+const ConfirmDeployButtonRo = RecognitionObject.TemplateMatch(
+    file.ReadImageMatSync("Assets/RecognitionObject/Icon/ConfirmDeployButton.png"),
+    0, 870, 1920, 210
+); // 确定按钮
+const ClaimAllRo = RecognitionObject.TemplateMatch(
+    file.ReadImageMatSync("Assets/RecognitionObject/Icon/全部领取.png"),
+    0, 900, 1920, 180
+);
+
+
+//地图界面图标
+const MapRo = RecognitionObject.TemplateMatch(
+    file.ReadImageMatSync("Assets/RecognitionObject/icon/右上角巨诗.png"),
+    945, 20, 975, 50
+); // 地图右上角【识别用】图标
+const MapForgeRo = RecognitionObject.TemplateMatch(
+    file.ReadImageMatSync("Assets/RecognitionObject/icon/MapForge.png"),
+    0, 0, 400, 625
+); // 地图左上角【锻造】图标
+
+
 //锻造界面物品图标-未使用这部分代码
 const CondessenceCrystalForgeRo = RecognitionObject.TemplateMatch(
     file.ReadImageMatSync("Assets/Picture/CondessenceCrystal.png"),
@@ -83,62 +181,6 @@ const RainbowdropCrystalForgeRo = RecognitionObject.TemplateMatch(
     40, 200, 770, 720
 ); // 【虹滴晶】
 
-
-
-//背包界面物品图标
-const CondessenceCrystalRo = RecognitionObject.TemplateMatch(
-    file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/CondessenceCrystal.png"),
-    115, 115, 1300, 955
-); // 【萃凝晶】
-const CrystalChunkRo = RecognitionObject.TemplateMatch(
-    file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/CrystalChunk.png"),
-    115, 115, 1300, 955
-); // 【水晶块】
-const AmethystLumpRo = RecognitionObject.TemplateMatch(
-    file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/AmethystLump.png"),
-    115, 115, 1300, 955
-); // 【紫晶块】
-const RainbowdropCrystalRo = RecognitionObject.TemplateMatch(
-    file.ReadImageMatSync("Assets/RecognitionObject/ItemImage/RainbowdropCrystal.png"),
-    115, 115, 1300, 955
-); // 【虹滴晶】
-
-
-//对话框图标
-const ForgeRo = RecognitionObject.TemplateMatch(
-    file.ReadImageMatSync("Assets/RecognitionObject/DialogueInterface/Forge.png"),
-    1260, 300, 600, 600
-); // 对话框中的锻造图标
-
-//图标
-const ConfirmDeployButtonRo = RecognitionObject.TemplateMatch(
-    file.ReadImageMatSync("Assets/RecognitionObject/Icon/ConfirmDeployButton.png"),
-    0, 870, 1920, 210
-); // 确定按钮
-const ClaimAllRo = RecognitionObject.TemplateMatch(
-    file.ReadImageMatSync("Assets/RecognitionObject/Icon/全部领取.png"),
-    0, 900, 1920, 180
-);
-//地图界面图标
-const MapRo = RecognitionObject.TemplateMatch(
-    file.ReadImageMatSync("Assets/RecognitionObject/icon/右上角巨诗.png"),
-    945, 20, 975, 50
-); // 地图右上角【识别用】图标
-const MapForgeRo = RecognitionObject.TemplateMatch(
-    file.ReadImageMatSync("Assets/RecognitionObject/icon/MapForge.png"),
-    0, 0, 400, 625
-); // 地图左上角【锻造】图标
-
-
-// 定义优先级配置和昵称顺序。读取 settings.json 里的矿石优先级配置，转为数字
-const orePriorityConfig = {
-    "萃凝晶": Number(CondessenceCrystal) ?? 0,
-    "水晶块": Number(CrystalChunk) ?? 0,
-    "紫晶块": Number(AmethystLump) ?? 0,
-    "虹滴晶": Number(RainbowdropCrystal) ?? 0
-};
-//定义昵称顺序，用于优先级相同时的排序。
-const nicknameOrder = ["萃凝晶", "水晶块", "紫晶块", "虹滴晶"];
 
 
 
@@ -451,7 +493,12 @@ async function getMaxOreType() {
             { name: "水晶块", ro: CrystalChunkRo },
             { name: "紫晶块", ro: AmethystLumpRo },
             { name: "萃凝晶", ro: CondessenceCrystalRo },
-            { name: "虹滴晶", ro: RainbowdropCrystalRo }
+            { name: "虹滴晶", ro: RainbowdropCrystalRo }//新增时，此处记着添加【,】标点符
+            /*新增示例：
+
+            { name: "【新矿石】", ro: 【新矿石英文】Ro }
+            
+            */
         ];
 
         // 定义日志收集对象
@@ -690,7 +737,7 @@ async function forgeOre(smithyName, maxOre = null) {
             interval: 500,
             postClickDelay: 1000,
             singleAttempt: true
-        })) {            
+        })) {
             await sleep(1000);
             await click(960, 1042);
             await findAndInteract(ForgeRo, {

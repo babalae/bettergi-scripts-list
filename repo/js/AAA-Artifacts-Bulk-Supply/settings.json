@@ -39,11 +39,6 @@
     "label": "强制收尾路线交替执行"
   },
   {
-    "name": "onlyActivate",
-    "type": "checkbox",
-    "label": "只激活收尾和额外路线，不执行\n用于联机收尾获取更高收益\n【不跑联机狗粮别勾】"
-  },
-  {
     "name": "fastMode",
     "type": "checkbox",
     "label": "急速模式，不激活，不准备，速度最快但收益下降"
@@ -96,5 +91,15 @@
     "type": "input-text",
     "label": "识别间隔(毫秒)\n两次检测f图标之间等待时间",
     "default": "100"
+  },
+  {
+    "name": "onlyActivate",
+    "type": "checkbox",
+    "label": "只激活收尾和额外路线，不执行\n用于联机收尾获取更高收益\n【不跑联机狗粮别勾】"
+  },
+  {
+    "name": "autoOnline",
+    "type": "input-text",
+    "label": "自动上线，勾选上一个选项后生效\n尝试使用下面填写的游戏名称-uid-目标房间上线\n仅在需要跑联机时触发\n需要配合mojang使用\n如：汐姐姐-114514-大澡堂\n【不跑联机狗粮别填】"
   }
 ]

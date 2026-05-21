@@ -33,6 +33,7 @@ let blacklistSet = new Set();
 let gameRegion;
 let state = { running: true };
 state.runPickupLog = [];   // 本次路线运行中拾取/交互的物品明细
+let routeRunCount = {};          // 全局路线执行次数记录 { routeName: count }
 let pickupRecordFile;
 let firstCook = true;
 let firstsettime = true;
@@ -56,6 +57,13 @@ let subFolderPath;
 let recordFilePath;
 let name2Other;
 let alias2Names;
+const GAME_REGION_CACHE_SIZE = 5; // 游戏区域截图缓存大小上限
+const gameRegionManager = {
+    cache: [], // 缓存队列，保存近GAME_REGION_CACHE_SIZE张截图
+    lastCapture: new Date(),
+    isDisposing: false,
+    isCapturing: false
+};
 
 /* ===== 5. 待定分区（后续手动分类） ===== */
 let materialCdMap = {};
@@ -74,7 +82,6 @@ let materialCdMap = {};
 
     // ==================== 路径组循环 ====================
     await processPathGroups();
-
 })();
 
 /**
@@ -103,13 +110,11 @@ let materialCdMap = {};
  */
 async function recognizeAndInteract() {
     let lastcenterYF = 0, lastItemName = "", thisMoveUpTime = 0, lastMoveDown = 0;
-    gameRegion = captureGameRegion();
     let lastCheckItemFull = new Date();
     let checkTask = null;
 
     while (state.running) {
-        gameRegion.dispose();
-        gameRegion = captureGameRegion();
+        gameRegion = await getGameRegion();
 
         if (new Date() - lastCheckItemFull > 2500 && !checkTask) {
             lastCheckItemFull = new Date();
@@ -285,7 +290,7 @@ async function performTemplateMatch(centerYF) {
  */
 async function isMainUI() {
     for (let i = 0; i < 1 && state.running; i++) {
-        if (!gameRegion) gameRegion = captureGameRegion();
+        gameRegion = await getGameRegion();
         try {
             if (gameRegion.find(mainUiRo).isExist()) {
                 return true;
@@ -876,7 +881,7 @@ async function ingredientProcessing() {
         return;
     }
 
-    const rg = captureGameRegion();
+    const rg = await getGameRegion();
     const foodItems = [];
     try {
         for (const flag of ['已加工0个', '已加工1个']) {
@@ -887,7 +892,9 @@ async function ingredientProcessing() {
             }
             mat.dispose();
         }
-    } finally { rg.dispose(); }
+    } catch (error) {
+        log.error(error.message);
+    }
 
     log.info(`识别到${foodItems.length}个加工中食材`);
 
@@ -896,7 +903,7 @@ async function ingredientProcessing() {
         click(item.x, item.y); await sleep(3 * checkInterval);
 
         for (let round = 0; round < 5; round++) {
-            const rg = captureGameRegion();
+            const rg = await getGameRegion();
             try {
                 let hit = false;
 
@@ -930,7 +937,6 @@ async function ingredientProcessing() {
 
                 if (hit) break;            // 本轮已命中，跳出 round
             } finally {
-                rg.dispose();
             }
         }
     }
@@ -1680,7 +1686,7 @@ async function findAndClick(target,
         let found = null;
 
         while (Date.now() - start <= timeout) {
-            const gameRegion = captureGameRegion();
+            const gameRegion = await getGameRegion();
             try {
                 // 依次尝试每一个 ro
                 for (const ro of ros) {
@@ -1697,7 +1703,6 @@ async function findAndClick(target,
                 }
                 if (found) break;                  // 成功即跳出 while
             } finally {
-                gameRegion.dispose();
             }
             await sleep(interval);                 // 没找到时等待
         }
@@ -1708,6 +1713,69 @@ async function findAndClick(target,
     } catch (error) {
         log.error(`执行通用识图时出现错误：${error.message}`);
         return retType === 0 ? false : null;
+    }
+}
+
+/**
+ * 获取游戏区域截图，根据时间间隔决定是否重新捕获
+ * 
+ * @param {number} [minInterval=17] - 最小截图间隔（毫秒），默认17ms（约60fps）
+ * @param {boolean} [asyncDispose=false] - 是否异步释放旧截图，默认false
+ * @returns {Promise<Object>} 游戏区域截图对象
+ * 
+ * @description
+ * 使用 gameRegionManager 对象管理以下属性：
+ * - cache: 缓存队列，保存近5张截图
+ * - lastCapture: 上一次捕获游戏区域的时间戳
+ * - isDisposing: 标记是否正在释放旧截图，用于安全锁
+ * - isCapturing: 标记是否正在执行截图操作，用于全局锁
+ */
+async function getGameRegion(minInterval = 17, asyncDispose = false) {
+    async function disposeOldGameRegion() {
+        gameRegionManager.isDisposing = true;
+        try {
+            // 当缓存队列超过GAME_REGION_CACHE_SIZE个时，销毁最旧的截图
+            while (gameRegionManager.cache.length > GAME_REGION_CACHE_SIZE) {
+                const oldestRegion = gameRegionManager.cache.shift();
+                if (oldestRegion) {
+                    oldestRegion.dispose();
+                }
+            }
+        } catch (error) {
+            log.error(`释放旧游戏区域截图失败: ${error.message}`);
+        } finally {
+            gameRegionManager.isDisposing = false;
+        }
+    }
+
+    // 等待其他任务完成截图
+    while (gameRegionManager.isCapturing) {
+        await sleep(1);
+    }
+
+    gameRegionManager.isCapturing = true;
+    try {
+        if (new Date() - gameRegionManager.lastCapture >= minInterval || gameRegionManager.cache.length === 0) {
+            while (gameRegionManager.isDisposing) {
+                await sleep(1);
+            }
+            gameRegionManager.lastCapture = new Date();
+            const newRegion = captureGameRegion();
+            gameRegionManager.cache.push(newRegion);
+
+            // 根据参数决定是否等待释放完成
+            if (asyncDispose) {
+                disposeOldGameRegion();
+            } else {
+                await disposeOldGameRegion();
+            }
+        }
+    } catch (error) {
+        log.error(`获取游戏区域截图失败: ${error.message}`);
+    } finally {
+        gameRegionManager.isCapturing = false;
+        // 返回最新的截图
+        return gameRegionManager.cache[gameRegionManager.cache.length - 1];
     }
 }
 
@@ -1783,12 +1851,8 @@ function isArrivedAtEndPoint(fullPath) {
  */
 async function hasScroll(maxDuration = 10) {
     const start = Date.now();
-    let dodispose = false;
     while (Date.now() - start < maxDuration) {
-        if (!gameRegion) {
-            gameRegion = captureGameRegion();
-            dodispose = true;
-        }
+        gameRegion = await getGameRegion();
         try {
             const result = gameRegion.find(scrollRo);
             if (result.isExist()) return true;
@@ -1797,10 +1861,6 @@ async function hasScroll(maxDuration = 10) {
             return false;          // 一旦出现异常直接退出，不再重试
         }
         await sleep(findFInterval);   // 识别间隔
-        if (dodispose) {
-            gameRegion.dispose();
-            dodispose = false;     // 已经释放，标记避免重复 dispose
-        }
     }
     /* 超时仍未识别到，返回失败 */
     return false;
@@ -1874,6 +1934,13 @@ async function buildSettingsJson() {
             "执行任务（若不存在索引文件则自动创建）",
             "重新生成索引文件（用于强制刷新CD）"
         ]
+    });
+
+    /* 5.2.1 循环模式 */
+    newSettings.push({
+        name: "loopCollect",
+        type: "checkbox",
+        label: "勾选后，路径组中每条路线完成后从头开始重新检查"
     });
 
     /* 5.3 固定尾部节点（原样照搬） */
@@ -2304,9 +2371,9 @@ async function processPriorityItems() {
         }
         /* ================================= */
 
-        const runOnce = [];
         /* ---------- 3. 主循环 ---------- */
         while (priorityList.length > 0) {
+            const maxRunCount = 1;
 
             /* 1. 先把用户填的字面名（可能是别名）全部弄进来 */
             const priorityItemSet = new Set(priorityList.map(p => p.itemName));
@@ -2367,7 +2434,7 @@ async function processPriorityItems() {
             const candidateRoutes = allFiles
                 .filter(f => {
                     return f._priorityEff >= 0 &&
-                        !runOnce.includes(f.fileName);     // 本轮没跑过
+                        (routeRunCount[f.fileName] || 0) < maxRunCount;     // 未超过执行上限
                 })
                 .sort((a, b) => b._priorityEff - a._priorityEff);
             if (candidateRoutes.length === 0 && priorityList.length > 0) {
@@ -2392,7 +2459,7 @@ async function processPriorityItems() {
 
             await handleTimeAdjustment(timeNow);
             await fakeLog(fileName, false, true, 0);
-            runOnce.push(fullName);
+            routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
 
             /* ========== 历史拾取物前置排序 ========== */
             targetItems = prioritizeHistoricalItems(targetItems, cdMap, fullName);
@@ -2485,13 +2552,16 @@ async function processPriorityItems() {
  */
 async function processPathGroups() {
     let loopattempts = 0;
-    while (loopattempts < 2) {
+    const maxLoopAttempts = 2;
+
+    while (loopattempts < maxLoopAttempts) {
         loopattempts++;
         if (await isTimeRestricted(settings.timeRule, 10)) break;
-        for (let i = 1; i <= groupCount; i++) {
+        let i = 1;
+        while (i <= groupCount) {
             if (await isTimeRestricted(settings.timeRule, 10)) break;
             const currentCdType = settings[`pathGroup${i}CdType`] || "";
-            if (!currentCdType) continue;
+            if (!currentCdType) { i++; continue; }
 
             const folder = folderNames[i - 1] || `路径组${i}`;
             const targetFolder = `pathing/${folder} `;
@@ -2539,11 +2609,18 @@ async function processPathGroups() {
                         const fullName = fileName + '.json';
                         const targetObj = cdMap.get(fullName);
                         const nextCD = targetObj ? new Date(targetObj.cdTime) : new Date(0);
+                        const maxRunCount = settings.loopCollect ? 3 : 1;
 
                         const startTime = new Date();
                         if (startTime <= nextCD) {
-                            log.info(`当前任务 ${fileName} 未刷新，跳过任务`);
+                            if (!settings.loopCollect) {
+                                log.info(`当前任务 ${fileName} 未刷新，跳过任务`);
+                            }
                             continue;   // 跳过，不写回
+                        }
+                        if ((routeRunCount[fullName] || 0) >= maxRunCount) {
+                            log.info(`当前任务 ${fileName} 已达执行上限，跳过`);
+                            continue;
                         }
                         if (await isTimeRestricted(settings.timeRule, 10)) break;
 
@@ -2605,13 +2682,21 @@ async function processPathGroups() {
 
                             /* ---------- 3. 统一写文件 & 清空日志 ---------- */
                             await saveRecordAndClearLog(cdMap, recordFilePath, routeResult.runPickupLog);
+                            routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
+
+                            if (settings.loopCollect) {
+                                i = 0;
+                                break;
+                            } else {
+                                log.info(`路径组${groupNumber} 执行完毕`);
+                            }
                         }
                     }
-                    log.info(`路径组${groupNumber} 的所有任务运行完成`);
                 } catch (error) {
                     log.error(`读取路径组文件时出错: ${error}`);
                 }
             }
+            i++;
         }
         await sleep(1000);
     }
