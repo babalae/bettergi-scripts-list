@@ -2,14 +2,14 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/this-Fish",
+        "links": "",
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1777311415278,
+    "last_modified_time": 1779442789869,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B03-松茸-璃月-归离原-1个",
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 338.5938,
-      "y": 543.3975
+      "x": 338.59375,
+      "y": 543.3974609375
     },
     {
       "action": "",
@@ -33,8 +33,8 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 306.2939,
-      "y": 510.6621
+      "x": 334.8095703125,
+      "y": 541.1572265625
     },
     {
       "action": "",
@@ -42,8 +42,8 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 253.0938,
-      "y": 492.6748
+      "x": 306.2939453125,
+      "y": 510.662109375
     },
     {
       "action": "",
@@ -51,17 +51,26 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 245.8311,
+      "x": 253.09375,
+      "y": 492.6748046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 245.8310546875,
       "y": 491.8125
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.321)",
-      "id": 5,
+      "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 246.6758,
-      "y": 487.7471
+      "x": 246.67578125,
+      "y": 487.7470703125
     }
   ]
 }
