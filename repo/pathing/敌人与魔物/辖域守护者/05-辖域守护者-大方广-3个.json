@@ -1,0 +1,121 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.61.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1779626127952,
+    "map_match_method": "SIFT",
+    "map_name": "TempleOfSpace",
+    "name": "05-辖域守护者-大方广-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 800.446,
+      "y": -21.8303
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 818.9937,
+      "y": -37.9438
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 820.8802,
+      "y": -47.1687
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1078.1064,
+      "y": -194.6033
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1079.985,
+      "y": -194.2837
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(T),wait(1)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1080.9795,
+      "y": -201.2686
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(space),wait(9),keyup(space)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1082.7393,
+      "y": -224.6912
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1123.3203,
+      "y": -205.2407
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1136.9716,
+      "y": -206.5017
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1145.6963,
+      "y": -207.0632
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1157.2671,
+      "y": -189.9268
+    }
+  ]
+}
