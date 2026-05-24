@@ -151,7 +151,7 @@
 ### v0.10 - [RJFAC](https://github.com/RJFAC)
 * 调整战斗策略设置方式
 * 在显示日志中新增说明
-* 自述文件排版
+* 说明文档排版
 * 调试模式新增显示传入参数
 
 ### v0.8 - [风铃](https://github.com/zephyr-bell)
