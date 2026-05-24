@@ -1,57 +1,71 @@
 {
   "info": {
-    "name": "06-绯樱绣球-荒海(砂流)-2个",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.0",
     "authors": [
       {
-        "name": "起个名字好难的喵",
-        "links": "https://github.com/MisakaAldrich"
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1779597907505,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "06-绯樱绣球-荒海(砂流)-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -4407.88,
       "y": -2397.98
     },
     {
+      "action": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": -4405.28,
-      "y": -2393.24,
-      "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "y": -2393.24
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": -4374.47,
-      "y": -2377.53,
-      "type": "target",
       "move_mode": "walk",
-      "action": "electro_collect"
-    },
-    {
-      "id": 4,
-      "x": -4369.14,
-      "y": -2372.85,
       "type": "path",
-      "move_mode": "walk",
-      "action": ""
+      "x": -4390.685546875,
+      "y": -2380.29296875
     },
     {
-      "id": 5,
-      "x": -4336.71,
-      "y": -2342.27,
+      "action": "electro_collect",
+      "id": 4,
+      "move_mode": "walk",
       "type": "target",
+      "x": -4374.47,
+      "y": -2377.53
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4369.14,
+      "y": -2372.85
+    },
+    {
+      "action": "electro_collect",
+      "id": 6,
       "move_mode": "fly",
-      "action": "electro_collect"
+      "type": "target",
+      "x": -4336.71,
+      "y": -2342.27
     }
   ]
 }
