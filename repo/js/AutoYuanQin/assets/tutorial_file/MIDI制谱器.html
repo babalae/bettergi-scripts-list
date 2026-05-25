@@ -1032,13 +1032,58 @@
         jsonOutput.textContent = JSON.stringify(outputJson, null, 2);
     });
 
-    // 下载 JSON
+    // 新增：将给定的notes字符串按照指定规则合并相邻代码项（从Python实现转换而来）
+    function mergeCodes(s) {
+        if (typeof s !== 'string') return s;
+        const pattern = /^([DU])([A-Z]+)(\d+)$/;
+        const codes = s.split('|');
+        const merged = [];
+
+        for (let code of codes) {
+            const m = code.match(pattern);
+            if (!m) {
+                // 非匹配项直接保留原始字符串
+                merged.push({ raw: code });
+                continue;
+            }
+            const prefix = m[1];
+            const middle = m[2];
+            const numStr = m[3];
+            const num = parseInt(numStr, 10);
+
+            if (merged.length > 0 && merged[merged.length - 1].prefix === prefix) {
+                const last = merged[merged.length - 1];
+                const lastNum = parseInt(last.numStr, 10);
+                if ((lastNum === 0 || lastNum === 1) && (num === 0 || num === 1)) {
+                    // 合并：保留首字母(prefix)，拼接中间字母，数字取右侧项的数字
+                    last.middle = last.middle + middle;
+                    last.numStr = numStr;
+                    continue;
+                }
+            }
+
+            merged.push({ prefix: prefix, middle: middle, numStr: numStr });
+        }
+
+        const resultParts = merged.map(item => {
+            if (item.raw !== undefined) return item.raw;
+            return `${item.prefix}${item.middle}${item.numStr}`;
+        });
+
+        return resultParts.join('|');
+    }
+
+    // 下载 JSON（在提供下载前先对notes字段做mergeCodes处理）
     downloadBtn.addEventListener('click', () => {
         if (!lastGeneratedJson) {
             alert('请先生成JSON');
             return;
         }
-        const jsonStr = JSON.stringify(lastGeneratedJson, null, 2);
+        // 在下载前处理notes字段
+        const processedNotes = mergeCodes(lastGeneratedJson.notes);
+        const jsonObjForDownload = Object.assign({}, lastGeneratedJson, { notes: processedNotes });
+
+        const jsonStr = JSON.stringify(jsonObjForDownload, null, 2);
         const blob = new Blob([jsonStr], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
