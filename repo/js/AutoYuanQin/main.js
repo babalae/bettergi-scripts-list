@@ -933,8 +933,8 @@
 			let play_sheet = sheet_list.split("|");
             let base_time = 60000 / (bpm * ticks);  // second per beat - 每tick多少毫秒
             for (let i = 0; i < play_sheet.length; i++) {
-                // 正则表达式：首字母（A-Z），中间字母串（A-Z），数字部分（0-9）
-                const regex = /^([A-Z])([A-Z]+)(\d+)$/;
+                // 正则表达式：首字母（A-Z），中间字母串（A-Z@），数字部分（0-9）
+                const regex = /^([A-Z])([A-Z@]+)(\d+)$/;
 
                 let current_note = play_sheet[i];
 
