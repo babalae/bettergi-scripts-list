@@ -952,7 +952,7 @@
                 } else if (status === "D"){
                     await sleep(4);
                 }
-				if (notes === "@") continue; // 理论上不会执行
+				if (notes === "@") continue;
 
                 if (status === "D") {
                     if (notes.length > 1) {
