@@ -1,0 +1,121 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "古古"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1779704567435,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "鹤关002",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2859.008030003828,
+      "y": -6291.7541583643215
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2855.4756929613795,
+      "y": -6276.305603271501
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2848.226054673265,
+      "y": -6268.782554052119
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2854.8433430741316,
+      "y": -6245.687202973977
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(E),wait(0.8),keyup(E)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2855.5005787390146,
+      "y": -6240.499346542749
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -2842.8748914864336,
+      "y": -6245.4988713011135
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2827.4820590905438,
+      "y": -6253.775425427568
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2812.486399633155,
+      "y": -6233.765920594831
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2802.5007234237673,
+      "y": -6230.623930706317
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -2797.5003617118855,
+      "y": -6231.876485130115
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -2785.1264830187247,
+      "y": -6224.4985742750905
+    }
+  ]
+}

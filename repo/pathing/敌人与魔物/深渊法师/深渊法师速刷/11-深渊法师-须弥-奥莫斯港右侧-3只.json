@@ -1,0 +1,58 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "古古"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1779699326310,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "须弥",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2243.134846190438,
+      "y": -1685.1763146472404
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2316.995514772636,
+      "y": -1815.2384753903098
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2296.7518809017984,
+      "y": -1838.7501188104088
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2304.4911742300246,
+      "y": -1825.4907327880828
+    }
+  ]
+}
