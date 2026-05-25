@@ -1,0 +1,85 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "古古"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1779703988881,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "鹤关001",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2843.215565028622,
+      "y": -6286.298118215722
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(E),wait(0.8),keyup(E)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2819.9983361253326,
+      "y": -6322.747386170999
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2845.248842521971,
+      "y": -6303.502257397775
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2854.5012298204056,
+      "y": -6289.753089070638
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2854.750217027129,
+      "y": -6279.751663345729
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2887.499312747419,
+      "y": -6282.625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2859.008030003828,
+      "y": -6291.7541583643215
+    }
+  ]
+}
