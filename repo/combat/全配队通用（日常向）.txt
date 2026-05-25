@@ -1,7 +1,8 @@
 // 作者:CLIIICL 
 // 描述:个人一直使用的通用战斗配队文件,仍在慢慢优化中【订阅即用，没有问题就可以不用自行修改】
-//【修修补补不包含全部角色，但包含绝大部分常见角色，且大部分战斗流程仔细测试过，但不一定对所有人都是最优解，如果缺少角色或流程不对可参考其他相似流程角色自行添加修改】
-//版本：v1.2
+//【修修补补不包含全部角色，但包含绝大部分常见角色，且大部分战斗流程仔细测试过，但不一定对所有人都是最优解】
+//【如果缺少角色或流程不对可参考其他相似流程角色自行添加修改，然后修改战斗配置的文件名防止更新覆盖】
+//版本：v1.3
 
 // 本配队为日常向，通用向。
 //【适合日常副本，脚本锄地，剧诗关卡，N5以下幽境，12层及以下深渊。】
@@ -27,6 +28,7 @@
 
 //盾辅 水 火 冰 雷 风 岩 草    开盾确保生存或者不被打断。
 
+尼可 w(0.05),wait(0.3),keypress(e),wait(0.4),keypress(q),wait(0.1),attack(0.2),wait(0.1),keypress(q)
 托马 w(0.05),wait(0.4),keypress(e),wait(0.5),keypress(q),wait(0.5),keypress(q)
 辛焱 wait(0.3),keypress(e),wait(0.5),keypress(q),wait(0.5),keypress(q)
 茜特菈莉 wait(0.3),keypress(e),wait(0.3),keypress(q),wait(0.3),keypress(q)
@@ -65,7 +67,7 @@
 菲谢尔 w(0.05),e,wait(0.5),keypress(q),wait(0.5),keypress(q)
 阿贝多 keydown(d),wait(0.2),keyup(d),wait(0.2),keydown(e),wait(0.3),keyup(e),wait(0.5),keypress(q)
 娜维娅 w(0.05),wait(0.5),keypress(q)
-菈乌玛 e(hold),wait(0.5),keypress(q),wait(0.5),keypress(q)
+菈乌玛 e(hold),wait(0.2),keypress(q),wait(0.3),keypress(q)
 纳西妲 e(hold),wait(0.5),keypress(q),wait(0.5),keypress(q)
 
 //副C 水 火 冰 雷 风 岩 草    这里的位置可能会因为没吃到拐导致副C输出降低
@@ -113,6 +115,7 @@
 香菱 e,wait(0.3),keypress(q),wait(0.3),keypress(q),wait(0.3),keypress(q)
 凯亚 e,wait(0.3),keypress(q),wait(0.3),keypress(q)
 伊安珊 e, wait(0.5), s(0.4),click(middle), attack(0.3),keypress(q), wait(0.5), keypress(q)
+布伦妮 wait(0.3),keypress(e),wait(0.5),keypress(q), wait(0.7), keypress(e)
 千织 wait(0.3),keypress(e),wait(0.2),keypress(e),wait(0.2),keypress(e),wait(0.5),keypress(q),wait(0.2),keypress(q)
 
 //站场 水 火 冰 雷 风 岩 草    正式开启输出
@@ -155,8 +158,10 @@
 
 //停止判断    切回队伍第一个角色 防止处于角色大招动画时触发战斗结束判断
 钟离 w(0.05)
-茜特菈莉 w(0.05),wait(0.1),keypress(e)
-伊涅芙 w(0.05),wait(0.1),keypress(e)
+茜特菈莉 w(0.05),wait(0.1),keypress(e),wait(0.2)
+伊涅芙 w(0.05),wait(0.1),keypress(e),wait(0.2)
+尼可 w(0.05),wait(0.1),keypress(e),wait(0.2)
 
 //更新：v1.1【添加并测试了迪卢克 凝光 烟绯 伊法 嘉明 鹿野苑平藏的站场策略，添加了雅珂达 基尼奇 莉奈娅(暂时注释掉)的战斗策略】   
 //更新：v1.2【添加了莉奈娅 九条裟罗的战斗策略】   
+//更新：v1.3【添加了布伦妮 尼可的战斗策略】
