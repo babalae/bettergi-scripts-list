@@ -72,23 +72,34 @@ var numberReplaceMap = {
 async function recognizeText(ocrRegion, timeout = 100, retryInterval = 20, maxAttempts = 10, maxFailures = 3, ra = null) {
     let startTime = Date.now();
     let retryCount = 0;
-    let failureCount = 0; // 用于记录连续失败的次数
-    // const results = [];
-    const frequencyMap = {}; // 用于记录每个结果的出现次数
+    let failureCount = 0;
+    const frequencyMap = {};
+
+    if (debugLog) {
+        log.debug(`OCR开始识别: 区域=(${ocrRegion.x}, ${ocrRegion.y}, ${ocrRegion.width}x${ocrRegion.height}), 超时=${timeout}ms`);
+    }
 
     while (Date.now() - startTime < timeout && retryCount < maxAttempts) {
         let ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
-        ocrObject.threshold = 0.85; // 适当降低阈值以提高速度
+        ocrObject.threshold = 0.85;
         let resList = ra.findMulti(ocrObject);
 
         if (resList.count === 0) {
             failureCount++;
+            if (debugLog) {
+                log.debug(`OCR第${retryCount + 1}次尝试: 未识别到文本, 连续失败${failureCount}次`);
+            }
             if (failureCount >= maxFailures) {
-                ocrRegion.x += 3; // 每次缩小6像素
-                ocrRegion.width -= 6; // 每次缩小6像素
+                ocrRegion.x += 3;
+                ocrRegion.width -= 6;
                 retryInterval += 10;
 
+                if (debugLog) {
+                    log.debug(`OCR缩小区域: 新区域=(${ocrRegion.x}, ${ocrRegion.y}, ${ocrRegion.width}x${ocrRegion.height})`);
+                }
+
                 if (ocrRegion.width <= 12) {
+                    if (debugLog) log.debug(`OCR区域过小，放弃识别`);
                     return false;
                 }
             }
@@ -100,7 +111,10 @@ async function recognizeText(ocrRegion, timeout = 100, retryInterval = 20, maxAt
         for (let res of resList) {
             let text = res.text;
             text = text.split('').map(char => numberReplaceMap[char] || char).join('');
-            // results.push(text);
+            
+            if (debugLog) {
+                log.debug(`OCR识别到文本: "${res.text}" -> 转换后: "${text}"`);
+            }
 
             if (!frequencyMap[text]) {
                 frequencyMap[text] = 0;
@@ -108,6 +122,7 @@ async function recognizeText(ocrRegion, timeout = 100, retryInterval = 20, maxAt
             frequencyMap[text]++;
 
             if (frequencyMap[text] >= 2) {
+                if (debugLog) log.debug(`OCR识别成功: "${text}" (出现${frequencyMap[text]}次)`);
                 return text;
             }
         }
@@ -117,13 +132,20 @@ async function recognizeText(ocrRegion, timeout = 100, retryInterval = 20, maxAt
 
     const sortedResults = Object.keys(frequencyMap).sort((a, b) => frequencyMap[b] - frequencyMap[a]);
     if (sortedResults.length === 0) {
+        if (debugLog) log.debug(`OCR无结果，尝试模板匹配`);
         const templateMatchResult = await recognizeNumberByTemplate(ra, ocrRegion);
         if (templateMatchResult) {
+            if (debugLog) log.debug(`模板匹配成功: "${templateMatchResult}"`);
             return templateMatchResult;
         }
         saveFailedOcrRegion(ra, ocrRegion);
     }
-    return sortedResults.length > 0 ? sortedResults[0] : false;
+    
+    const finalResult = sortedResults.length > 0 ? sortedResults[0] : false;
+    if (debugLog) {
+        log.debug(`OCR最终结果: "${finalResult}", 所有候选: ${JSON.stringify(sortedResults)}`);
+    }
+    return finalResult;
 }
 
 // 模板匹配识别数字
@@ -199,12 +221,18 @@ async function parallelTemplateMatch(ra, materials, x, y, width, height, thresho
             try {
                 const recognitionObject = RecognitionObject.TemplateMatch(mat, x, y, width, height);
                 recognitionObject.threshold = threshold;
-                // recognitionObject.Use3Channels = true;
                 
                 const result = ra.find(recognitionObject);
                 if (result.isExist() && result.x !== 0 && result.y !== 0) {
+                    if (debugLog) {
+                        log.debug(`模板匹配成功 [${name}]: 坐标=(${result.x}, ${result.y}), 阈值=${threshold}`);
+                    }
+                    
                     if (enableColorCheck && typeof compareColor === 'function') {
                         const colorCheck = compareColor(mat, ra, result);
+                        if (debugLog) {
+                            log.debug(`颜色验证 [${name}]: isMatch=${colorCheck.isMatch}, avgDiff=${JSON.stringify(colorCheck.avgDiff)}, stdDiff=${JSON.stringify(colorCheck.stdDiff)}`);
+                        }
                         if (!colorCheck.isMatch) {
                             if (debugLog) log.debug(`颜色验证失败 [${name}]: avgDiff=${JSON.stringify(colorCheck.avgDiff)}, stdDiff=${JSON.stringify(colorCheck.stdDiff)}`);
                             resolve({ name, result: null });
@@ -216,6 +244,9 @@ async function parallelTemplateMatch(ra, materials, x, y, width, height, thresho
                     }
                     resolve({ name, result });
                 } else {
+                    if (debugLog) {
+                        log.debug(`模板匹配失败 [${name}]: 未找到匹配, 阈值=${threshold}, 搜索区域=(${x}, ${y}, ${width}x${height})`);
+                    }
                     resolve({ name, result: null });
                 }
             } catch (error) {
@@ -656,6 +687,9 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
             
             // 处理OCR结果
             for (const { name, result } of ocrResults) {
+                if (debugLog) {
+                    log.debug(`材料[${name}] OCR识别结果: ${result}`);
+                }
                 materialInfo.push({ name, count: result || "?" });
             }
             
