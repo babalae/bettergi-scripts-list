@@ -28,8 +28,8 @@
 
 //盾辅 水 火 冰 雷 风 岩 草    开盾确保生存或者不被打断。
 
-尼可 w(0.05),wait(0.3),keypress(e),wait(0.4),keypress(q),wait(0.1),attack(0.2),wait(0.1),keypress(q)
-托马 w(0.05),wait(0.4),keypress(e),wait(0.5),keypress(q),wait(0.5),keypress(q)
+尼可 w(0.05),wait(0.1),keypress(e),attack(0.2),wait(0.5),keypress(q),wait(0.1),attack(0.2),wait(0.1),keypress(q)
+托马 w(0.05),wait(0.3),keypress(e),wait(0.5),keypress(q),wait(0.5),keypress(q)
 辛焱 wait(0.3),keypress(e),wait(0.5),keypress(q),wait(0.5),keypress(q)
 茜特菈莉 wait(0.3),keypress(e),wait(0.3),keypress(q),wait(0.3),keypress(q)
 迪奥娜 e(hold),wait(0.3),keypress(q),wait(0.3),keypress(q)
