@@ -111,7 +111,7 @@ async function openCodeUI() {
 
     // 2. 检验设置用户名
     async function getUsername() {
-        const uid = await ocrUID()
+        const uid = await genshin.uid()
         if (uid === 0) {
             username = username.trim();
             // 只允许 中文 / 英文 / 数字，长度 1~20
