@@ -414,19 +414,32 @@ async function performFullColumnScan(ra, materialCategories, materialImages, rec
             .filter(Boolean);
         
         if (materialsToMatch.length > 0) {
-            const matchResults = await parallelTemplateMatch(ra, materialsToMatch, scanX, startY, columnWidth, columnHeight, 0.85);
+            const matchResults = await parallelTemplateMatch(ra, materialsToMatch, scanX, startY, columnWidth, columnHeight, 0.8);
             
+            const positionGroups = new Map();
             for (const { name, result } of matchResults) {
                 if (result) {
-                    recognizedMaterials.add(name);
-                    const ocrRegion = {
-                        x: result.x - tolerance,
-                        y: result.y + 97 - tolerance,
-                        width: 66 + 2 * tolerance,
-                        height: 22 + 2 * tolerance
-                    };
-                    ocrRegions.push({ region: ocrRegion, name });
+                    const positionKey = `${Math.floor(result.x / 10)},${Math.floor(result.y / 10)}`;
+                    if (!positionGroups.has(positionKey)) {
+                        positionGroups.set(positionKey, []);
+                    }
+                    positionGroups.get(positionKey).push({ name, result });
                 }
+            }
+            
+            for (const group of positionGroups.values()) {
+                if (group.length > 1) {
+                    if (debugLog) log.debug(`位置冲突: ${group.map(g => g.name).join(', ')}, 只保留 ${group[0].name}`);
+                }
+                const { name, result } = group[0];
+                recognizedMaterials.add(name);
+                const ocrRegion = {
+                    x: result.x - tolerance,
+                    y: result.y + 97 - tolerance,
+                    width: 66 + 2 * tolerance,
+                    height: 22 + 2 * tolerance
+                };
+                ocrRegions.push({ region: ocrRegion, name });
             }
         }
     }
