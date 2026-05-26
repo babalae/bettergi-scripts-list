@@ -1,19 +1,26 @@
-﻿{
+{
   "info": {
     "authors": [
       {
-        "links": "https://github.com/zaodonganqi",
-        "name": "躁动的氨气"
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
       }
     ],
     "bgi_version": "0.60.2",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1777628877185,
+    "last_modified_time": 1778075169912,
     "map_match_method": "TemplateMatch",
     "map_name": "Teyvat",
-    "name": "G06-莉奈娅一条龙-蓝珀胡左上",
+<<<<<<< HEAD:repo/pathing/矿物/莉奈娅一条龙/G12-莉奈娅一条龙-挪德卡莱-苔古荒原地下.json
+    "name": "G12-莉奈娅一条龙-挪德卡莱-苔古荒原地下",
     "tags": [ "莉奈娅" ],
+=======
+    "name": "G12-莉奈娅一条龙-苔古荒原地下",
+    "tags": [
+      "莉奈娅"
+    ],
+>>>>>>> 619efcf87ff1346b6211112a3d54aae1a13b0425:repo/pathing/矿物/莉奈娅一条龙/G12-莉奈娅一条龙-苔古荒原地下.json
     "type": "collect",
     "version": "1.0"
   },
@@ -24,17 +31,17 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9248.2344,
-      "y": 2350.249
+      "x": 9885.5391,
+      "y": 1718.5908
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "stop_flying",
+      "action_params": "1500",
       "id": 2,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": 9260.7783,
-      "y": 2338.3604
+      "x": 9900.1553,
+      "y": 1673.7388
     },
     {
       "action": "",
@@ -42,8 +49,8 @@
       "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": 9289.5928,
-      "y": 2344.4766
+      "x": 9870.6484,
+      "y": 1668.3237
     },
     {
       "action": "",
@@ -51,44 +58,35 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 9306.5869,
-      "y": 2337.0376
+      "x": 9864.4805,
+      "y": 1670.8047
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": 9314.6748,
-      "y": 2336.5464
+      "x": 9856.0586,
+      "y": 1676.4336
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(3)",
+      "action": "",
+      "action_params": "",
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 9342.2812,
-      "y": 2291.1875
+      "x": 9848.5859,
+      "y": 1680.3892
     },
     {
       "action": "linnea_mining",
-      "action_params": "2,4",
+      "action_params": "",
       "id": 7,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 9338.3525,
-      "y": 2293.9131
+      "x": 9838.6865,
+      "y": 1687.6445
     }
   ]
 }
-
-
-
-
-
-
-
-
-

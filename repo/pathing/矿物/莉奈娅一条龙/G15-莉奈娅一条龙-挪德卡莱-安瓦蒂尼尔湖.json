@@ -1,19 +1,26 @@
-﻿{
+{
   "info": {
     "authors": [
       {
-        "links": "https://github.com/zaodonganqi",
-        "name": "躁动的氨气"
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
       }
     ],
     "bgi_version": "0.60.2",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1778831651151,
+    "last_modified_time": 1778831710025,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "G08-莉奈娅一条龙-星砂滩左侧",
+<<<<<<< HEAD:repo/pathing/矿物/莉奈娅一条龙/G15-莉奈娅一条龙-挪德卡莱-安瓦蒂尼尔湖.json
+    "name": "G15-莉奈娅一条龙-挪德卡莱-安瓦蒂尼尔湖",
     "tags": [ "莉奈娅" ],
+=======
+    "name": "G15-莉奈娅一条龙-安瓦蒂尼尔湖",
+    "tags": [
+      "莉奈娅"
+    ],
+>>>>>>> 619efcf87ff1346b6211112a3d54aae1a13b0425:repo/pathing/矿物/莉奈娅一条龙/G15-莉奈娅一条龙-安瓦蒂尼尔湖.json
     "type": "collect",
     "version": "1.0"
   },
@@ -24,44 +31,44 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9746.3359,
-      "y": 1916.6543
+      "x": 9668.7988,
+      "y": 6045.8135
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
-      "type": "target",
-      "x": 9748.2793,
-      "y": 1986.4746
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9674.166,
+      "y": 6042.3652
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": 9742.8496,
-      "y": 1995.2305
+      "x": 9699.3057,
+      "y": 6036.1201
     },
     {
-      "action": "linnea_mining",
+      "action": "stop_flying",
       "action_params": "",
       "id": 4,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 9742.9609,
-      "y": 2000.4443
+      "move_mode": "fly",
+      "type": "target",
+      "x": 9724.5059,
+      "y": 6050.3369
     },
     {
       "action": "linnea_mining",
-      "action_params": "",
+      "action_params": "2.2",
       "id": 5,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 9753.9727,
-      "y": 1998.6973
+      "x": 9734.1484,
+      "y": 6047.8975
     },
     {
       "action": "",
@@ -69,44 +76,44 @@
       "id": 6,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9749.4492,
-      "y": 1916.9326
+      "x": 9668.791,
+      "y": 6045.7822
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
-      "x": 9816.6055,
-      "y": 1927.1992
+      "x": 9633.9443,
+      "y": 6034.9756
     },
     {
       "action": "",
       "action_params": "",
       "id": 8,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": 9829.3516,
-      "y": 1923.7344
+      "x": 9560.5625,
+      "y": 6018.125
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 9,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 9837.7754,
-      "y": 1927.7876
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9486.6523,
+      "y": 6018.2959
     },
     {
       "action": "linnea_mining",
-      "action_params": "2,5",
+      "action_params": "2,2",
       "id": 10,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "orientation",
-      "x": 9843.3828,
-      "y": 1925.6094
+      "x": 9490.3457,
+      "y": 6027.9712
     },
     {
       "action": "",
@@ -114,17 +121,17 @@
       "id": 11,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9746.3359,
-      "y": 1916.6543
+      "x": 9545.2607,
+      "y": 6259.9229
     },
     {
       "action": "",
       "action_params": "",
       "id": 12,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
-      "x": 9710.3818,
-      "y": 1916.5586
+      "x": 9565.7031,
+      "y": 6205.9067
     },
     {
       "action": "linnea_mining",
@@ -132,17 +139,8 @@
       "id": 13,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 9703.832,
-      "y": 1908.5225
+      "x": 9573.9863,
+      "y": 6203.7153
     }
   ]
 }
-
-
-
-
-
-
-
-
-
