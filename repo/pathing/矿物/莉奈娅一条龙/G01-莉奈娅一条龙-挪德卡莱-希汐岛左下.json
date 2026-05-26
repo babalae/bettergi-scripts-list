@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/Tooltingsu",
-        "name": "Tool_tingsu"
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
       }
     ],
-    "bgi_version": "0.60.1",
+    "bgi_version": "0.60.2",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1775718655304,
+    "last_modified_time": 1778831597556,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A08-莉奈娅挖矿一条龙-蒙德-低语森林",
+    "name": "G01-莉奈娅一条龙-挪德卡莱-希汐岛左下",
     "tags": [
       "莉奈娅"
     ],
@@ -24,74 +24,73 @@
       "action": "",
       "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -1167.1172,
-      "y": 2133.6284
+      "x": 11060.8975,
+      "y": 1592.3135
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": -1188.4258,
-      "y": 2111.4253
+      "x": 11045.252,
+      "y": 1608.9297
     },
     {
-      "action": "mining",
+      "action": "stop_flying",
       "action_params": "",
       "id": 3,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": -1224.4297,
-      "y": 2127.7031
+      "x": 11032.167,
+      "y": 1612.7764
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -1167.1172,
-      "y": 2133.6284
+      "move_mode": "run",
+      "type": "path",
+      "x": 11026.9268,
+      "y": 1603.7539
     },
     {
-      "action": "",
+      "action": "linnea_mining",
       "action_params": "",
       "id": 5,
       "move_mode": "walk",
-      "type": "path",
-      "x": -1144.3594,
-      "y": 2120.4775
+      "type": "orientation",
+      "x": 11033.1875,
+      "y": 1576.5312
     },
     {
-      "action": "",
+      "action": "linnea_mining",
       "action_params": "",
       "id": 6,
       "move_mode": "walk",
-      "type": "path",
-      "x": -1133.1973,
-      "y": 2102.4814
+      "type": "orientation",
+      "x": 11025.1533,
+      "y": 1624.5928
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
       "move_mode": "walk",
-      "type": "path",
-      "x": -1127.4961,
-      "y": 2086.4775
+      "type": "teleport",
+      "x": 10973.5127,
+      "y": 1682.4473
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": -1107.8945,
-      "y": 2059.5312
+      "x": 10985.5244,
+      "y": 1673.5088
     },
     {
       "action": "",
@@ -99,53 +98,53 @@
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": -1099.8105,
-      "y": 2065.8906
+      "x": 10979.4043,
+      "y": 1663.1636
     },
     {
-      "action": "",
+      "action": "linnea_mining",
       "action_params": "",
       "id": 10,
       "move_mode": "walk",
-      "type": "path",
-      "x": -1087.5039,
-      "y": 2057.5601
+      "type": "orientation",
+      "x": 11000.5313,
+      "y": 1634.625
     },
     {
       "action": "",
       "action_params": "",
       "id": 11,
       "move_mode": "walk",
-      "type": "path",
-      "x": -1081.0195,
-      "y": 2074.1587
+      "type": "teleport",
+      "x": 11060.9111,
+      "y": 1592.3213
     },
     {
       "action": "",
       "action_params": "",
       "id": 12,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": -1082.7246,
-      "y": 2087.3213
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 13,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -1094.2832,
-      "y": 2115.6782
+      "x": 11076.9082,
+      "y": 1575.1826
     },
     {
       "action": "",
       "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 11104.6953,
+      "y": 1578.7207
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "2,3",
       "id": 14,
       "move_mode": "walk",
-      "type": "teleport",
-      "x": -1120.6445,
-      "y": 2190.832
+      "type": "orientation",
+      "x": 11105.5469,
+      "y": 1588.3047
     },
     {
       "action": "",
@@ -153,89 +152,89 @@
       "id": 15,
       "move_mode": "walk",
       "type": "path",
-      "x": -1120.3945,
-      "y": 2199.3384
+      "x": 11117.915,
+      "y": 1579.6895
     },
     {
       "action": "",
       "action_params": "",
       "id": 16,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": -1117.9062,
-      "y": 2228.1904
+      "x": 11137.4033,
+      "y": 1581.9521
     },
     {
-      "action": "mining",
+      "action": "stop_flying",
       "action_params": "",
       "id": 17,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": -1134.6914,
-      "y": 2231.3652
+      "x": 11138.8359,
+      "y": 1595.0981
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "linnea_mining",
+      "action_params": "2,3",
       "id": 18,
       "move_mode": "walk",
-      "type": "path",
-      "x": -1136.2344,
-      "y": 2236.9985
+      "type": "orientation",
+      "x": 11137.9453,
+      "y": 1603.1719
     },
     {
       "action": "",
       "action_params": "",
       "id": 19,
-      "move_mode": "jump",
+      "move_mode": "walk",
       "type": "path",
-      "x": -1146.1426,
-      "y": 2233.7539
+      "x": 11137.8721,
+      "y": 1605.9644
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 20,
       "move_mode": "walk",
       "type": "path",
-      "x": -1146.1426,
-      "y": 2233.7539
+      "x": 11118.085,
+      "y": 1628.1523
     },
     {
       "action": "",
       "action_params": "",
       "id": 21,
-      "move_mode": "jump",
+      "move_mode": "walk",
       "type": "path",
-      "x": -1145.873,
-      "y": 2244.2598
+      "x": 11103.5703,
+      "y": 1637.2031
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 22,
       "move_mode": "walk",
       "type": "path",
-      "x": -1146.8613,
-      "y": 2244.2559
+      "x": 11097.1826,
+      "y": 1648.626
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 23,
       "move_mode": "walk",
       "type": "path",
-      "x": -1141.0781,
-      "y": 2246.96
+      "x": 11100.1328,
+      "y": 1657.0547
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 24,
       "move_mode": "walk",
       "type": "path",
-      "x": -1134.6973,
-      "y": 2294.4053
+      "x": 11103.2656,
+      "y": 1666.6504
     },
     {
       "action": "",
@@ -243,17 +242,17 @@
       "id": 25,
       "move_mode": "walk",
       "type": "path",
-      "x": -1143.6172,
-      "y": 2310.3838
+      "x": 11108.4688,
+      "y": 1676.9922
     },
     {
-      "action": "",
+      "action": "linnea_mining",
       "action_params": "",
       "id": 26,
-      "move_mode": "jump",
-      "type": "path",
-      "x": -1153.082,
-      "y": 2305.6133
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11112.875,
+      "y": 1685.6104
     },
     {
       "action": "",
@@ -261,17 +260,26 @@
       "id": 27,
       "move_mode": "walk",
       "type": "path",
-      "x": -1161.793,
-      "y": 2292.6191
+      "x": 11125.6562,
+      "y": 1677.7656
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 28,
-      "move_mode": "walk",
+      "move_mode": "jump",
       "type": "path",
-      "x": -1168.8125,
-      "y": 2285.8892
+      "x": 11132.2021,
+      "y": 1673.3096
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 11137.0215,
+      "y": 1667.2622
     }
   ]
 }

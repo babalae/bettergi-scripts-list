@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/Tooltingsu",
-        "name": "Tool_tingsu"
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
       }
     ],
-    "bgi_version": "0.60.1",
+    "bgi_version": "0.60.2",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1775976122703,
-    "map_match_method": "",
+    "last_modified_time": 1778390589087,
+    "map_match_method": "TemplateMatch",
     "map_name": "Teyvat",
-    "name": "B02-莉奈娅挖矿一条龙-璃月-地中之盐",
+    "name": "G11-莉奈娅一条龙-挪德卡莱-叮铃哐啷蛋卷工坊",
     "tags": [
       "莉奈娅"
     ],
@@ -26,8 +26,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -164.2656,
-      "y": 1182.7939
+      "x": 9955.292,
+      "y": 1640.8062
     },
     {
       "action": "",
@@ -35,8 +35,8 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": -170.0684,
-      "y": 1198.0386
+      "x": 9965.3281,
+      "y": 1650.0078
     },
     {
       "action": "",
@@ -44,8 +44,8 @@
       "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": -175.0059,
-      "y": 1211.0586
+      "x": 9980.3857,
+      "y": 1656.6528
     },
     {
       "action": "",
@@ -53,8 +53,8 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": -169.6367,
-      "y": 1224.7549
+      "x": 9992.4336,
+      "y": 1672.1748
     },
     {
       "action": "",
@@ -62,8 +62,8 @@
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": -162.8672,
-      "y": 1241.6538
+      "x": 10009.6748,
+      "y": 1666.6787
     },
     {
       "action": "",
@@ -71,17 +71,17 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": -133.918,
-      "y": 1260.5513
+      "x": 10018.667,
+      "y": 1669.6602
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "linnea_mining",
+      "action_params": "2",
       "id": 7,
       "move_mode": "walk",
-      "type": "path",
-      "x": -124.4062,
-      "y": 1250.5654
+      "type": "orientation",
+      "x": 10024.0684,
+      "y": 1667.9219
     },
     {
       "action": "",
@@ -89,8 +89,8 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": -105.2676,
-      "y": 1230.0918
+      "x": 10055.4277,
+      "y": 1648.9512
     },
     {
       "action": "",
@@ -98,17 +98,17 @@
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": -97.1953,
-      "y": 1214.145
+      "x": 10075.293,
+      "y": 1645.5791
     },
     {
-      "action": "mining",
-      "action_params": "",
+      "action": "linnea_mining",
+      "action_params": "2,3",
       "id": 10,
       "move_mode": "walk",
-      "type": "target",
-      "x": -90.5254,
-      "y": 1214.1709
+      "type": "orientation",
+      "x": 10083.2617,
+      "y": 1649.7373
     }
   ]
 }

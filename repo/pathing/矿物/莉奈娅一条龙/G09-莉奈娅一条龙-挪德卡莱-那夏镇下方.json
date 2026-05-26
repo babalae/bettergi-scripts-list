@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/Tooltingsu",
-        "name": "Tool_tingsu"
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
       }
     ],
-    "bgi_version": "0.60.1",
+    "bgi_version": "0.60.2",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1775711842101,
-    "map_match_method": "",
+    "last_modified_time": 1778390565171,
+    "map_match_method": "TemplateMatch",
     "map_name": "Teyvat",
-    "name": "A01-莉奈娅挖矿一条龙-蒙德-望风角",
+    "name": "G09-莉奈娅一条龙-挪德卡莱-那夏镇下方",
     "tags": [
       "莉奈娅"
     ],
@@ -26,8 +26,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -1629.418,
-      "y": 2834.3311
+      "x": 9367.126,
+      "y": 1435.6396
     },
     {
       "action": "",
@@ -35,17 +35,17 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": -1605.9199,
-      "y": 2880.1348
+      "x": 9379.959,
+      "y": 1420.165
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "fly",
+      "move_mode": "walk",
       "type": "path",
-      "x": -1613.1191,
-      "y": 2912.1704
+      "x": 9400.5957,
+      "y": 1438.8447
     },
     {
       "action": "",
@@ -53,17 +53,26 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": -1625.5645,
-      "y": 2902.834
+      "x": 9407.2344,
+      "y": 1450.1187
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9506.0605,
+      "y": 1474.3286
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "2,4",
+      "id": 6,
       "move_mode": "walk",
-      "type": "target",
-      "x": -1628.0957,
-      "y": 2906.0596
+      "type": "orientation",
+      "x": 9511.085,
+      "y": 1483.8521
     }
   ]
 }
