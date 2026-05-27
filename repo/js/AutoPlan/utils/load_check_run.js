@@ -62,7 +62,7 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
                 // 处理输入字符串：去除首尾空格，将中文逗号替换为英文逗号，然后按逗号分割
                 runConfig.trim().replaceAll('，', ',').split(",").forEach(
                     item => {
-                        let {arr, index, runType, autoOrder} = buildOrder(item);
+                        let {arr, index, runType, autoOrder} = Base.buildOrder(item);
 
                         if (!config.user.runTypes.includes(runType)) {
                             throwError(`运行类型${runType}输入错误`)
@@ -189,45 +189,7 @@ export async function initRunOrderList(domainConfig) {
     log.debug(`from:{0}`, JSON.stringify(from))
     return from;
 }
-/*===========================================[build]===========================================*/
-export function buildOrder(item) {
-    // 将当前项按"|"分割成数组
-    let arr = item.split("|")
-    // 类型|执行日期|执行顺序
-    let index = 0
-    let runType = arr[index]; // 解析运行类型
-    index++
-    const rawDays = arr[index];
-    let days = (rawDays != null && String(rawDays).trim() !== "")
-        ? String(rawDays).split('/').map(d => parseInt(d.trim(), 10)).filter(d => !isNaN(d))
-        : [];
-    // let days = arr[index].trim() !== ""
-    //     ? arr[index].split('/').map(d => parseInt(d.trim())).filter(d => !isNaN(d))
-    //     : [];
-    index++
-    // 解析顺序值，处理可能的无效值
-    let order = (() => {
-        const rawOrder = arr[index]; // 获取原始值
-        if (rawOrder == null || String(rawOrder).trim() === "") {
-            return 0; // 若为空或无效值，默认返回 0
-        }
-        const parsedOrder = parseInt(String(rawOrder).trim(), 10); // 转换为整数
-        return isNaN(parsedOrder) ? 0 : parsedOrder; // 若转换失败，返回默认值 0
-    })();
-    index++
 
-    // 创建秘境顺序对象
-    let autoOrder = {
-        order: order,      // 顺序值
-        // day: day,// 执行日期
-        runType: runType,  // 运行类型
-        days: days,        // 执行日期（数组）
-        autoFight: undefined, // 秘境信息对象
-        autoLeyLineOutcrop: undefined, // 地脉信息对象
-        autoStygianOnslaught: undefined // 幽境信息对象
-    }
-    return {arr, index, runType, autoOrder};
-}
 /**
  * 自动执行列表处理函数
  * @param {Array} autoRunOrderList - 包含自动配置的数组
@@ -247,6 +209,44 @@ export async function autoRunList(autoRunOrderList) {
 }
 /*===========================================[class]===========================================*/
 class Base{
+    static buildOrder(item) {
+        // 将当前项按"|"分割成数组
+        let arr = item.split("|")
+        // 类型|执行日期|执行顺序
+        let index = 0
+        let runType = arr[index]; // 解析运行类型
+        index++
+        const rawDays = arr[index];
+        let days = (rawDays != null && String(rawDays).trim() !== "")
+            ? String(rawDays).split('/').map(d => parseInt(d.trim(), 10)).filter(d => !isNaN(d))
+            : [];
+        // let days = arr[index].trim() !== ""
+        //     ? arr[index].split('/').map(d => parseInt(d.trim())).filter(d => !isNaN(d))
+        //     : [];
+        index++
+        // 解析顺序值，处理可能的无效值
+        let order = (() => {
+            const rawOrder = arr[index]; // 获取原始值
+            if (rawOrder == null || String(rawOrder).trim() === "") {
+                return 0; // 若为空或无效值，默认返回 0
+            }
+            const parsedOrder = parseInt(String(rawOrder).trim(), 10); // 转换为整数
+            return isNaN(parsedOrder) ? 0 : parsedOrder; // 若转换失败，返回默认值 0
+        })();
+        index++
+
+        // 创建秘境顺序对象
+        let autoOrder = {
+            order: order,      // 顺序值
+            // day: day,// 执行日期
+            runType: runType,  // 运行类型
+            days: days,        // 执行日期（数组）
+            autoFight: undefined, // 秘境信息对象
+            autoLeyLineOutcrop: undefined, // 地脉信息对象
+            autoStygianOnslaught: undefined // 幽境信息对象
+        }
+        return {arr, index, runType, autoOrder};
+    }
     static build(arr, index) {
         throw new Error("未实现build方法");
     }
