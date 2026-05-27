@@ -67,18 +67,18 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
                         if (!config.user.runTypes.includes(runType)) {
                             throwError(`运行类型${runType}输入错误`)
                         } else if (config.user.runTypes[0] === runType) {
-                            const __ret = buildDomain(arr, index);
+                            const __ret = Domain.build(arr, index);
                             let autoFight = __ret.autoFight;
                             index = __ret.index;
                             autoOrder.autoFight = autoFight // 将秘境信息对象添加到秘境顺序对象中
                         } else if (config.user.runTypes[1] === runType) {
-                            const __ret = buildLeyLineOutcrop(arr, index);
+                            const __ret = LeyLineOutcrop.build(arr, index);
                             let autoLeyLineOutcrop = __ret.autoLeyLineOutcrop;
                             index = __ret.index;
 
                             autoOrder.autoLeyLineOutcrop = autoLeyLineOutcrop // 将地脉信息对象添加到顺序对象中
                         } else if (config.user.runTypes[2] === runType) {
-                            const __ret = buildStygianOnslaught(arr,index);
+                            const __ret = StygianOnslaught.build(arr,index);
                             let autoStygianOnslaught = __ret.autoStygianOnslaught;
                             index = __ret.index;
                             autoOrder.autoStygianOnslaught = autoStygianOnslaught
@@ -228,43 +228,6 @@ export function buildOrder(item) {
     }
     return {arr, index, runType, autoOrder};
 }
-export function buildDomain(arr, index) {
-    return Domain.build(arr, index)
-}
-export function buildLeyLineOutcrop(arr, index) {
-   return LeyLineOutcrop.build(arr, index)
-}
-export function buildStygianOnslaught(arr,index) {
-    return StygianOnslaught.build(arr, index)
-}
-/*===========================================[run]===========================================*/
-/**
- * 自动执行秘境任务的异步函数
- * @param {Object} autoFight - 包含秘境自动配置参数的对象
- * @returns {Promise<void>} - 执行完成后返回的Promise
- */
-export async function autoDomain(autoFight) {
-   await Domain.run(autoFight);
-}
-
-/**
- * 自动执行地脉花任务的异步函数
- * @param autoLeyLineOutcrop
- * @returns {Promise<void>}
- */
-export async function autoLeyLineOutcrop(autoLeyLineOutcrop) {
-    await LeyLineOutcrop.run(autoLeyLineOutcrop);
-}
-
-/**
- * 自动执行幽境危战任务的异步函数
- * @param autoStygianOnslaught
- * @returns {Promise<void>}
- */
-export async function autoStygianOnslaught(autoStygianOnslaught) {
-    await StygianOnslaught.run(autoStygianOnslaught);
-}
-
 /**
  * 自动执行列表处理函数
  * @param {Array} autoRunOrderList - 包含自动配置的数组
@@ -274,11 +237,11 @@ export async function autoRunList(autoRunOrderList) {
     for (const item of autoRunOrderList) {
         await sleep(3000)
         if (item.runType === config.user.runTypes[0]) {
-            await autoDomain(item.autoFight);
+            await Domain.run(item.autoFight);
         } else if (item.runType === config.user.runTypes[1]) {
-            await autoLeyLineOutcrop(item.autoLeyLineOutcrop);
+            await LeyLineOutcrop.run(item.autoLeyLineOutcrop);
         } else if (item.runType === config.user.runTypes[2]) {
-            await autoStygianOnslaught(item.autoStygianOnslaught);
+            await StygianOnslaught.run(item.autoStygianOnslaught);
         }
     }
 }
