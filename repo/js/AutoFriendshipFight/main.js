@@ -73,6 +73,8 @@ let runTimes = parseNumericSetting(settings.runTimes, 10);
 let enemyType = settings.enemyType || "盗宝团";
 const ocrTimeout = parseNumericSetting(settings.ocrTimeout, 10);
 const fightTimeout = parseNumericSetting(settings.fightTimeout, 120);
+const NO_TASK_MISS_CONFIRMATION_MS = 5000;
+const BATTLE_POINT_CONFIRMATION_MS = 5000;
 (async function () {
     const startTime = Date.now();
     await switchPartyIfNeeded(settings.partyName);
@@ -260,19 +262,7 @@ function CalculateEstimatedCompletion(startTime, current, total) {
  * @returns {Promise<void>}
  */
 async function navigateToTriggerPoint() {
-    const path = `assets/AutoPath/${enemyType}-触发点.json`;
-    let triggerPoint = null;
-
-    try {
-        const content = await file.readText(path);
-        const data = JSON.parse(content);
-        if (data.positions && Array.isArray(data.positions) && data.positions.length > 0) {
-            const lastPosition = data.positions[data.positions.length - 1];
-            triggerPoint = { x: lastPosition.x, y: lastPosition.y };
-        }
-    } catch (error) {
-        log.warn(`读取触发点配置失败: ${error.message}`);
-    }
+    const triggerPoint = await getAutoPathEndCoords(`${enemyType}-触发点`, "触发点");
 
     if (!triggerPoint) {
         log.warn(`未配置 ${enemyType} 的 triggerPoint，跳过触发点距离校验`);
@@ -290,7 +280,7 @@ async function navigateToTriggerPoint() {
         const pos = safeGetPositionFromMap();
 
         if (pos) {
-            const distance = Math.sqrt(Math.pow(pos.x - triggerPoint.x, 2) + Math.pow(pos.y - triggerPoint.y, 2));
+            const distance = getDistanceBetweenPositions(pos, triggerPoint);
             if (distance <= 8) {
                 log.info(`已到达触发点附近，距离: ${distance.toFixed(2)}米`);
                 return;
@@ -305,23 +295,99 @@ async function navigateToTriggerPoint() {
 }
 
 /**
- * 导航到战斗点
- * @returns {Promise<void>}
+ * 读取 AutoPath 文件末端坐标。
+ * @param {string} locationName
+ * @param {string} label
+ * @returns {Promise<{x:number,y:number}|null>}
  */
-async function navigateToBattlePoint() {
-    const path = `assets/AutoPath/${enemyType}-战斗点.json`;
-    let battlePoint = null;
+async function getAutoPathEndCoords(locationName, label) {
+    const path = `assets/AutoPath/${locationName}.json`;
 
     try {
         const content = await file.readText(path);
         const data = JSON.parse(content);
         if (data.positions && Array.isArray(data.positions) && data.positions.length > 0) {
             const lastPosition = data.positions[data.positions.length - 1];
-            battlePoint = { x: lastPosition.x, y: lastPosition.y };
+            const x = Number(lastPosition.x);
+            const y = Number(lastPosition.y);
+            if (Number.isFinite(x) && Number.isFinite(y)) {
+                return { x, y };
+            }
         }
     } catch (error) {
-        log.warn(`读取战斗点配置失败: ${error.message}`);
+        log.warn(`读取${label}配置失败: ${error.message}`);
     }
+
+    return null;
+}
+
+/**
+ * 计算两个坐标点之间的距离。
+ * @param {{x:number,y:number}} posA
+ * @param {{x:number,y:number}} posB
+ * @returns {number}
+ */
+function getDistanceBetweenPositions(posA, posB) {
+    const dx = Number(posA.x) - Number(posB.x);
+    const dy = Number(posA.y) - Number(posB.y);
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+/**
+ * 读取战斗点坐标。
+ * @returns {Promise<{x:number,y:number}|null>}
+ */
+async function getBattlePointCoords() {
+    return getAutoPathEndCoords(`${enemyType}-战斗点`, "战斗点");
+}
+
+/**
+ * 判断当前位置是否仍在战斗点附近。
+ * @param {number} [distanceThreshold=25]
+ * @returns {Promise<boolean>}
+ */
+async function isNearBattlePoint(distanceThreshold = 25) {
+    const battlePointCoords = await getBattlePointCoords();
+    if (!battlePointCoords) {
+        return false;
+    }
+
+    const pos = safeGetPositionFromMap();
+    if (!pos || typeof pos !== "object") {
+        return false;
+    }
+
+    const dist = getDistanceBetweenPositions(pos, battlePointCoords);
+    return Number.isFinite(dist) && dist <= distanceThreshold;
+}
+
+/**
+ * 连续确认当前位置仍在战斗点附近。
+ * @param {number} [durationMs=5000]
+ * @param {number} [distanceThreshold=25]
+ * @returns {Promise<boolean>}
+ */
+async function confirmNearBattlePoint(durationMs = BATTLE_POINT_CONFIRMATION_MS, distanceThreshold = 25) {
+    const pollIntervalMs = 500;
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < durationMs) {
+        if (!await isNearBattlePoint(distanceThreshold)) {
+            return false;
+        }
+
+        try { await sleep(pollIntervalMs); } catch (e) { return false; }
+    }
+
+    return true;
+}
+
+/**
+ * 导航到战斗点
+ * @returns {Promise<void>}
+ */
+async function navigateToBattlePoint() {
+    const battlePoint = await getBattlePointCoords();
 
     if (!battlePoint) {
         log.warn(`未配置 ${enemyType} 的 battlePoint，跳过战斗点距离校验`);
@@ -464,7 +530,7 @@ async function waitForBattleResult(cts = null) {
     const failureKeywords = ["失败"];
     const eventKeywords = getOcrKeywords(enemyType);
     const pollIntervalMs = 500;
-    let notFind = 0;
+    let notFindStartTime = 0;
 
     while (Date.now() - fightStartTime < timeout) {
         try { await sleep(1) } catch (e) { break; }
@@ -520,25 +586,17 @@ async function waitForBattleResult(cts = null) {
                 }
 
                 if (find === 0) {
-                    notFind++;
-                    log.info("未检测到任务触发关键词：{0} 次", notFind);
+                    if (notFindStartTime === 0) {
+                        notFindStartTime = Date.now();
+                    }
+                    const notFindDuration = Date.now() - notFindStartTime;
+                    log.info("未检测到任务触发关键词：已持续 {0} 毫秒", notFindDuration);
                 } else {
-                    notFind = 0;
+                    notFindStartTime = 0;
                 }
 
-                if (notFind > 10) {
-                    let nearBattlePoint = false;
-                    if (battlePointCoords && Number.isFinite(Number(battlePointCoords.x)) && Number.isFinite(Number(battlePointCoords.y))) {
-                        const pos = safeGetPositionFromMap();
-                        if (pos && typeof pos === "object") {
-                            const dx = Number(pos.x) - Number(battlePointCoords.x);
-                            const dy = Number(pos.y) - Number(battlePointCoords.y);
-                            const dist = Math.sqrt(dx * dx + dy * dy);
-                            nearBattlePoint = Number.isFinite(dist) && dist <= 25;
-                        }
-                    }
-
-                    if (nearBattlePoint) {
+                if (notFindStartTime > 0 && Date.now() - notFindStartTime >= NO_TASK_MISS_CONFIRMATION_MS) {
+                    if (await isNearBattlePoint()) {
                         log.info("触发关键词消失但仍在战斗点附近，视为本轮结束");
                         try { cts.cancel(); } catch { } // 取消任务
                         return "success";
@@ -609,6 +667,12 @@ async function executeSingleFriendshipRound(roundIndex) {
         ocrStatus = await detectTaskTrigger();
     }
     if (!ocrStatus) {
+        if (await confirmNearBattlePoint()) {
+            log.info("未识别到突发任务，但当前位置已连续 5 秒仍在战斗点附近，视为本轮成功结束");
+            await runPostBattle();
+            return true;
+        }
+
         // 本轮未检测到突发任务：按设计直接结束整个脚本循环
         notification.send(`未识别到突发任务，${enemyType}好感结束`);
         log.info(`未识别到突发任务，${enemyType}好感结束`);
