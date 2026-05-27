@@ -103,6 +103,8 @@
         ],
         // 类型支持。  秘境、地脉、幽境
         "runType": "秘境",
+        //记录
+        "record": true,
         // 秘境信息对象,
         "autoFight": {
           //树脂开启和使用顺序
@@ -214,6 +216,7 @@
         "days": [
           0
         ],
+        "record": false,
         "runType": "秘境",
         "autoFight": {
           "physical": [
@@ -247,6 +250,7 @@
       {
         "order": 2,
         "days": [],
+        "record": true,
         "runType": "地脉",
         "autoLeyLineOutcrop": {
           "count": 1,
