@@ -1,5 +1,5 @@
 import {config, LoadType} from "../config/config";
-import {countAllResin} from "./physical";
+import {Physical} from "./physical";
 import {getDayOfWeek, outDomainUI, outStygianOnslaughtUI, parseInteger, throwError,toMainUi} from "./tool";
 import {findStygianOnslaught} from "./activity";
 import {pullJsonConfig} from "./bgi_tools";
@@ -362,7 +362,7 @@ class Domain extends Base{
         // config.user.physical.current = physicalOcr.current
         // config.user.physical.min = physicalOcr.min
 
-        const currentPhysical = await countAllResin()
+        const currentPhysical = await Physical.countAllResin()
         config.user.physical.current = currentPhysical.originalResinCount;
 
         const physical = config.user.physical
@@ -689,7 +689,7 @@ class StygianOnslaught extends Base{
         // const physicalOcr = await ocrPhysical(true, true)
         // config.user.physical.current = physicalOcr.current
         // config.user.physical.min = physicalOcr.min
-        const currentPhysical = await countAllResin()
+        const currentPhysical = await Physical.countAllResin()
         config.user.physical.current = currentPhysical.originalResinCount;
 
         const physical = config.user.physical

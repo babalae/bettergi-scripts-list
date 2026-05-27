@@ -6,7 +6,7 @@ import {
 } from './config/config';
 import {outDomainUI} from './utils/tool';
 import {pullJsonConfig, pushAllCountryConfig, pushAllJsonConfig} from './utils/bgi_tools';
-import { countAllResin} from "./utils/physical";
+import {countAllResin, Physical} from "./utils/physical";
 import {
     autoRunList,
     initRunOrderList,
@@ -58,7 +58,7 @@ async function main() {
             if (config.run.loop_plan) {
                 // 重新获取当前体力值
                 // const physicalOcr = await ocrPhysical(true, true);
-                const currentPhysical = await countAllResin()
+                const currentPhysical = await Physical.countAllResin()
                 config.user.physical.current = currentPhysical.originalResinCount;
                 //循环
                 if (config.user.physical.current < config.user.physical.min) {
