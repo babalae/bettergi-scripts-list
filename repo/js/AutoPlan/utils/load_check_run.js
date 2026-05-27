@@ -1,6 +1,6 @@
 import {config, LoadType} from "../config/config";
 import {Physical} from "./physical";
-import {getDayOfWeek, outDomainUI, outStygianOnslaughtUI, parseInteger, throwError,toMainUi} from "./tool";
+import {getDayOfWeek, outDomainUI, outStygianOnslaughtUI, parseInteger, throwError, toMainUi} from "./tool";
 import {findStygianOnslaught} from "./activity";
 import {pullJsonConfig} from "./bgi_tools";
 
@@ -78,7 +78,7 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
 
                             autoOrder.autoLeyLineOutcrop = autoLeyLineOutcrop // 将地脉信息对象添加到顺序对象中
                         } else if (config.user.runTypes[2] === runType) {
-                            const __ret = StygianOnslaught.build(arr,index);
+                            const __ret = StygianOnslaught.build(arr, index);
                             let autoStygianOnslaught = __ret.autoStygianOnslaught;
                             index = __ret.index;
                             autoOrder.autoStygianOnslaught = autoStygianOnslaught
@@ -207,8 +207,69 @@ export async function autoRunList(autoRunOrderList) {
         }
     }
 }
+
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
 /*===========================================[class]===========================================*/
-class Base{
+class Record {
+    /**
+     * 读取指定路径的记录文件
+     * @param {string} path - 记录文件的路径
+     * @returns {Array} 解析后的记录数组，若文件为空或解析失败则返回空数组
+     */
+    static read(path) {
+        // a = {
+        //     uid: 1,
+        //     time: "yyyy-mm-dd",
+        //     key: "type:value"
+        // }
+        const parse = JSON.parse(file.readTextSync(path)) || []
+        return parse
+    }
+    /**
+     * 检查指定记录是否存在
+     * @param {string} path - 记录文件的路径
+     * @param {Object} item - 用于匹配的记录项，包含 key, time, uid 属性
+     * @returns {Object|null} 如果存在则返回第一条匹配的记录，否则返回 null
+     */
+    static exist(path,item){
+        const ts = Record.read(path).filter(i=> i.key === item.key && i.time === item.time && i.uid === item.uid);
+        return ts!== null && ts.length > 0 ? ts[0] : null
+    }
+    /**
+     * 将记录列表写入指定路径的文件
+     * @param {string} path - 目标文件的路径
+     * @param {Array} list - 要写入的记录列表
+     * @returns {*} 返回 parse 变量（注：当前代码中 parse 未在此函数内定义）
+     */
+    static write(path, list) {
+        file.writeTextSync(path, JSON.stringify(list))
+        return parse
+    }
+}
+
+class Base {
+    /**
+     * 构建记录的唯一标识键对象
+     * @param {Object} item - 包含 runType, days, order 属性的任务项
+     * @returns {Promise<Object>} 返回包含 uid, key, time 的 JSON 对象
+     */
+    static async buildKey(item) {
+        let time = new Date()
+        time.setHours(time.getHours() - 4)
+        const json = {
+            uid: config.user.uid || await genshin.uid(),
+            key: `${item.runType}|${item.days}|${item.order}`,
+            time: formatDate(time)
+        }
+        return json
+    }
+
     static buildOrder(item) {
         // 将当前项按"|"分割成数组
         let arr = item.split("|")
@@ -247,6 +308,7 @@ class Base{
         }
         return {arr, index, runType, autoOrder};
     }
+
     static build(arr, index) {
         throw new Error("未实现build方法");
     }
@@ -255,17 +317,24 @@ class Base{
         throw new Error("未实现run方法");
     }
 }
+
 /**
  * Domain类，用于处理秘境相关的操作
  */
-class Domain extends Base{
+class Domain extends Base {
+    static async buildKey(item) {
+        const json = await super.buildKey(item);
+        json.key = `${json.key}|${item.domainName}|${item.partyName}|${item.domainRoundNum}|${item.sundaySelectedValue}`
+        return json
+    }
+
     /**
      * 构建秘境信息对象
      * @param {Array} arr - 包含秘境信息的数组
      * @param {number} index - 当前解析的位置索引
      * @returns {Object} 返回包含秘境信息对象和更新后的索引
      */
-   static build(arr, index) {
+    static build(arr, index) {
         // 创建秘境信息对象，初始化默认值
         let autoFight = {
             domainName: undefined,//秘境名称
@@ -310,6 +379,7 @@ class Domain extends Base{
         autoFight.sundaySelectedValue = sundaySelectedValue // 周日|限时选择的值
         return {autoFight, index};
     }
+
     /**
      * 执行秘境任务
      * @param {Object} autoFight - 包含秘境信息的对象
@@ -429,7 +499,22 @@ class Domain extends Base{
  * 地脉刷取任务类
  * 用于处理地脉刷取任务的构建和执行
  */
-class LeyLineOutcrop extends Base{
+class LeyLineOutcrop extends Base {
+    static async buildKey(item) {
+        const json = await super.buildKey(item);
+        json.key = json.key +
+            "|" + json.country +
+            "|" + json.leyLineOutcropType +
+            "|" + json.useAdventurerHandbook +
+            "|" + json.friendshipTeam +
+            "|" + json.team +
+            "|" + json.timeout +
+            "|" + json.isGoToSynthesizer +
+            "|" + json.useFragileResin +
+            "|" + json.useTransientResin +
+            "|" + json.isNotification
+        return json
+    }
     /**
      * 构建地脉刷取任务参数
      * @param {Array} arr - 输入参数数组，包含队伍名称、国家、刷取轮数等信息
@@ -485,6 +570,7 @@ class LeyLineOutcrop extends Base{
             autoLeyLineOutcrop.timeout = parseInteger(arr[index])
         return {autoLeyLineOutcrop, index};
     }
+
     static async run(autoLeyLineOutcrop) {
         // autoLeyLineOutcrop = {
         //     "count": 0,
@@ -549,14 +635,25 @@ class LeyLineOutcrop extends Base{
 /**
  * StygianOnslaught 类，用于处理幽境任务的相关操作
  */
-class StygianOnslaught extends Base{
+class StygianOnslaught extends Base {
+
+    static async buildKey(item) {
+        const json = await super.buildKey(item);
+        json.key = json.key +
+            "|" + json.bossNum +
+            "|" + json.fightTeamName +
+            "|" + json.specifyResinUse +
+            "|" + json.physical.join('<->')
+        return json
+    }
+
     /**
      * 构建幽境任务参数
      * @param {Array} arr - 输入参数数组
      * @param {number} index - 当前处理的参数索引
      * @returns {Object} 包含构建的参数和更新后的索引
      */
-    static build(arr,index) {
+    static build(arr, index) {
         // 初始化幽境任务配置对象
         let autoStygianOnslaught = {
             bossNum: undefined,//boss1-3
@@ -622,6 +719,7 @@ class StygianOnslaught extends Base{
         }
         return {autoStygianOnslaught, index};
     }
+
     static async run(autoStygianOnslaught) {
         // autoStygianOnslaught = {
         //     /**boss 名字 1~3 */
