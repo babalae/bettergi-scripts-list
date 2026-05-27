@@ -195,15 +195,51 @@ export async function initRunOrderList(domainConfig) {
  * @param {Array} autoRunOrderList - 包含自动配置的数组
  */
 export async function autoRunList(autoRunOrderList) {
+    let RecordList = Record.read(config.path.record);
     //计划执行
     for (const item of autoRunOrderList) {
         await sleep(3000)
+        let key = undefined
         if (item.runType === config.user.runTypes[0]) {
+            if (item?.record) {
+                key = await Domain.buildKey(item)
+                const exist = Record.exist(RecordList,item);
+                if (exist) {
+                    // 记录已执行
+                    log.info(`[{0}-{1}]已执行，跳过`, key, item.autoFight.domainName)
+                   continue
+                }
+            }
+
             await Domain.run(item.autoFight);
         } else if (item.runType === config.user.runTypes[1]) {
-            await LeyLineOutcrop.run(item.autoLeyLineOutcrop);
+            if (item?.record) {
+                key = await LeyLineOutcrop.buildKey(item)
+                const exist = Record.exist(RecordList,item);
+                if (exist) {
+                    // 记录已执行
+                    log.info(`[{0}-{1}]已执行，跳过`, key, item.autoFight.domainName)
+                    continue
+                }
+            }
+
+            await LeyLineOutcrop.run(item.autoLeyLineOutcrop)
         } else if (item.runType === config.user.runTypes[2]) {
-            await StygianOnslaught.run(item.autoStygianOnslaught);
+            if (item?.record) {
+                key = await StygianOnslaught.buildKey(item)
+                const exist = Record.exist(RecordList,item);
+                if (exist) {
+                    // 记录已执行
+                    log.info(`[{0}-{1}]已执行，跳过`, key, item.autoFight.domainName)
+                    continue
+                }
+            }
+
+            await StygianOnslaught.run(item.autoStygianOnslaught)
+        }
+
+        if (key) {
+            Record.write(config.path.record, RecordList)
         }
     }
 }
@@ -231,15 +267,26 @@ class Record {
         const parse = JSON.parse(file.readTextSync(path)) || []
         return parse
     }
+
     /**
      * 检查指定记录是否存在
      * @param {string} path - 记录文件的路径
      * @param {Object} item - 用于匹配的记录项，包含 key, time, uid 属性
-     * @returns {Object|null} 如果存在则返回第一条匹配的记录，否则返回 null
+     * @returns {boolean}
      */
-    static exist(path,item){
-        const ts = Record.read(path).filter(i=> i.key === item.key && i.time === item.time && i.uid === item.uid);
-        return ts!== null && ts.length > 0 ? ts[0] : null
+    static exist(path, item) {
+        const ts = Record.read(path).filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
+        return ts !== null && ts.length > 0
+    }
+    /**
+     * 在列表中检查指定记录是否存在
+     * @param {Array} list - 记录列表，默认为空数组
+     * @param {Object} item - 用于匹配的记录项，包含 key, time, uid 属性
+     * @returns {boolean}
+     */
+    static exist(list=[], item) {
+        const ts = list.filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
+        return ts !== null && ts.length > 0
     }
     /**
      * 将记录列表写入指定路径的文件
@@ -249,7 +296,6 @@ class Record {
      */
     static write(path, list) {
         file.writeTextSync(path, JSON.stringify(list))
-        return parse
     }
 }
 
@@ -300,6 +346,7 @@ class Base {
         let autoOrder = {
             order: order,      // 顺序值
             // day: day,// 执行日期
+            record: settings.open_record===undefined?settings.open_record:false,  // 记录状态
             runType: runType,  // 运行类型
             days: days,        // 执行日期（数组）
             autoFight: undefined, // 秘境信息对象
@@ -515,6 +562,7 @@ class LeyLineOutcrop extends Base {
             "|" + json.isNotification
         return json
     }
+
     /**
      * 构建地脉刷取任务参数
      * @param {Array} arr - 输入参数数组，包含队伍名称、国家、刷取轮数等信息
