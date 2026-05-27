@@ -1,7 +1,4 @@
-import {ocrUid} from "../utils/uid";
-import {getDayOfWeek, parseInteger} from "../utils/tool";
-import {pullJsonConfig} from "../utils/bgi_tools";
-import {findStygianOnslaught} from "../utils/activity";
+import {toMainUi} from "../utils/tool";
 /*===========================================[config]===========================================*/
 export let config = {
     //setting设置放在这个json
@@ -247,8 +244,9 @@ export async function initConfig() {
     // const physical = await ocrPhysical(true, true)
     // config.user.physical.current = physical.current
     // config.user.physical.min = physical.min
+    await toMainUi()
     // 初始化uid
-    config.user.uid = await ocrUid()
+    config.user.uid = await genshin.uid()
     // config.run.retry_count = (settings.retry_count ? parseInt(settings.retry_count) : config.run.retry_count)
 
     const retryCount = Number.parseInt(String(settings.retry_count ?? ""), 10);

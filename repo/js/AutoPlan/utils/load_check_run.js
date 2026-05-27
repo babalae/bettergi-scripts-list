@@ -2,7 +2,6 @@ import {config, LoadType} from "../config/config";
 import {countAllResin} from "./physical";
 import {getDayOfWeek, outDomainUI, outStygianOnslaughtUI, parseInteger, throwError,toMainUi} from "./tool";
 import {findStygianOnslaught} from "./activity";
-import {ocrUid} from "./uid";
 import {pullJsonConfig} from "./bgi_tools";
 
 /*===========================================[check]===========================================*/
@@ -93,9 +92,9 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
             break
 
         case LoadType.uid:
-
+            await toMainUi()
             // 通过UID方式加载配置
-            const uid = config.user.uid || (await ocrUid()) // 获取用户UID，如果未配置则通过OCR识别获取
+            const uid = config.user.uid || (await genshin.uid()) // 获取用户UID，如果未配置则通过OCR识别获取
             // const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.runConfig)) || new Map() // 读取本地配置文件并转换为Map对象
             // const uidConfigList = configAutoFightOrderMap.get(uid + "") || []; // 获取当前UID对应的配置列表
 
