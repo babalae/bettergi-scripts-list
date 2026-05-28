@@ -203,11 +203,11 @@ export async function autoRunList(autoRunOrderList) {
         if (item.runType === config.user.runTypes[0]) {
             if (item?.record) {
                 key = await Domain.buildKey(item)
-                const exist = Record.exist(RecordList,item);
+                const exist = Record.exist(RecordList, item);
                 if (exist) {
                     // 记录已执行
                     log.info(`[{0}-{1}]已执行，跳过`, key, item.autoFight.domainName)
-                   continue
+                    continue
                 }
             }
 
@@ -215,7 +215,7 @@ export async function autoRunList(autoRunOrderList) {
         } else if (item.runType === config.user.runTypes[1]) {
             if (item?.record) {
                 key = await LeyLineOutcrop.buildKey(item)
-                const exist = Record.exist(RecordList,item);
+                const exist = Record.exist(RecordList, item);
                 if (exist) {
                     // 记录已执行
                     log.info(`[{0}-{1}]已执行，跳过`, key, item.autoFight.domainName)
@@ -227,7 +227,7 @@ export async function autoRunList(autoRunOrderList) {
         } else if (item.runType === config.user.runTypes[2]) {
             if (item?.record) {
                 key = await StygianOnslaught.buildKey(item)
-                const exist = Record.exist(RecordList,item);
+                const exist = Record.exist(RecordList, item);
                 if (exist) {
                     // 记录已执行
                     log.info(`[{0}-{1}]已执行，跳过`, key, item.autoFight.domainName)
@@ -278,16 +278,18 @@ class Record {
         const ts = Record.read(path).filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
         return ts !== null && ts.length > 0
     }
+
     /**
      * 在列表中检查指定记录是否存在
      * @param {Array} list - 记录列表，默认为空数组
      * @param {Object} item - 用于匹配的记录项，包含 key, time, uid 属性
      * @returns {boolean}
      */
-    static exist(list=[], item) {
+    static exist(list = [], item) {
         const ts = list.filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
         return ts !== null && ts.length > 0
     }
+
     /**
      * 将记录列表写入指定路径的文件
      * @param {string} path - 目标文件的路径
@@ -341,12 +343,13 @@ class Base {
             return isNaN(parsedOrder) ? 0 : parsedOrder; // 若转换失败，返回默认值 0
         })();
         index++
-
+        const record = arr[index]?.trim() === '' ? false : true
+        index++
         // 创建秘境顺序对象
         let autoOrder = {
             order: order,      // 顺序值
             // day: day,// 执行日期
-            record: settings.open_record===undefined?settings.open_record:false,  // 记录状态
+            record: record,  // 记录状态
             runType: runType,  // 运行类型
             days: days,        // 执行日期（数组）
             autoFight: undefined, // 秘境信息对象

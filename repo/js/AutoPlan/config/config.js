@@ -128,7 +128,9 @@ export async function getValueByMultiCheckboxName(name) {
  * 检查密钥是否正确
  */
 export async function checkKey(key = "") {
-    if (config?.info?.manifest?.key !== key?.trim()) {
+    if (config?.info?.manifest?.last_key?.trim()!==config?.info?.manifest?.key?.trim()&&config?.info?.manifest?.last_key?.trim()=== key?.trim()){
+        throw new Error("脚本更新，密钥已经变更。(重大结构变更请前往文档查看)");
+    }else if (config?.info?.manifest?.key?.trim() !== key?.trim()) {
         throw new Error("密钥错误");
     }
 }
