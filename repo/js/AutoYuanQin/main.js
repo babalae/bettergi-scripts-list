@@ -509,24 +509,46 @@
      * 执行单音
      *
      * @param key {string}
+     * @param status 按键模式 press down up
      *
      */
-    async function play_note(key) {
-        keyDown(key);
-        keyUp(key);
+    async function play_note(key, status = "press") {
+        if (status === "press") {
+            keyDown(key);
+            keyUp(key);
+        } else if (status === "down") {
+            keyDown(key);
+        } else if (status === "up") {
+            keyUp(key);
+            await sleep(4);
+        }
+
     }
 
     /**
      *
      * 执行和弦
      *
-     * @param keys {Array.string}
+     * @param keys {string}
+     * @param status 按键模式 press down up
      *
      */
-    async function play_chord(keys) {
-        for (const key of keys) {
-            play_note(key);
+    async function play_chord(keys, status = "press") {
+        if (status === "press") {
+            for (const key of keys) {
+                play_note(key, status);
+            }
+        } else if (status === "down") {
+            for (const key of keys) {
+                keyDown(key);
+            }
+        } else if (status === "up") {
+            for (const key of keys) {
+                keyUp(key);
+            }
+            await sleep(4);
         }
+
     }
 
     /**
@@ -911,16 +933,39 @@
 			let play_sheet = sheet_list.split("|");
             let base_time = 60000 / (bpm * ticks);  // second per beat - 每tick多少毫秒
             for (let i = 0; i < play_sheet.length; i++) {
-				let current_note = play_sheet[i];
-                log.debug(`${current_note[0]}-${current_note[1]}-${current_note.slice(2)}`);
-                let current_ticks = Math.round(current_note.slice(2));
-                let wait_time = Math.round(current_ticks * base_time);
-                await sleep(wait_time);
-				if (current_note[1] === "@") continue;
-                if (current_note[0] === "D") {
-					keyDown(current_note[1]);
+                // 正则表达式：首字母（A-Z），中间字母串（A-Z@），数字部分（0-9）
+                const regex = /^([A-Z])([A-Z@]+)(\d+)$/;
+
+                let current_note = play_sheet[i];
+
+                const match = current_note.match(regex);
+                const status = match[1];
+                const notes = match[2];
+                const ticks = Math.round(match[3]);
+
+                if (settings.debug_mode === "启用") {
+                    log.info(`${status}-${notes}-${ticks}`);
+                }
+                let wait_time = Math.round(ticks * base_time);
+                if (wait_time >= 2) {
+                    await sleep(wait_time);
+                } else if (status === "D"){
+                    await sleep(4);
+                }
+				if (notes === "@") continue;
+
+                if (status === "D") {
+                    if (notes.length > 1) {
+                        await play_chord(notes, "down");
+                    } else {
+                        await play_note(notes, "down");
+                    }
                 } else {
-                    keyUp(current_note[1]);
+                    if (notes.length > 1) {
+                        await play_chord(notes, "up");
+                    } else {
+                        await play_note(notes, "up");
+                    }
                 }
             }
         } else {
@@ -940,19 +985,25 @@
                     log.info(`${sheet_list[i]["note"]}[${sheet_list[i]["type"]}-${sheet_list[i]["spl"]}]`);
                 }
                 if (sheet_list[i]["spl"] === 'none') { // 单音、休止符或和弦
+                    let sleep_time = cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i);
+
                     if (sheet_list[i]["chord"]) {
-                        await play_chord(sheet_list[i]["note"]); // 和弦
+                        await play_chord(sheet_list[i]["note"], "down"); // 和弦
+                        await sleep(i !== sheet_list.length - 1 ? sleep_time: 0);
+                        await play_chord(sheet_list[i]["note"], "up");
                     } else {
                         if (sheet_list[i]["note"] === '@') { // 休止符
-                            // pass
+                            await sleep(i !== sheet_list.length - 1 ? sleep_time: 0);
                         } else {
-                            await play_note(sheet_list[i]["note"]); // 单音
+                            await play_note(sheet_list[i]["note"], "down"); // 单音
+                            await sleep(i !== sheet_list.length - 1 ? sleep_time: 0);
+                            await play_note(sheet_list[i]["note"], "up");
                         }
                     }
 
-                    if (i !== sheet_list.length - 1) {
-                        await sleep(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i));
-                    }
+                    // if (i !== sheet_list.length - 1) {
+                    //     await sleep(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i));
+                    // }
                 } else if (sheet_list[i]["spl"] === '#') { // 装饰音（不会包含休止符），时值为symbol的时值的1/16
                     if (sheet_list[i]["chord"]) {
                         await play_chord(sheet_list[i]["note"]); // 和弦
@@ -987,45 +1038,66 @@
                         for (let j = 0; j < temp_legato.length; j++) {
                             // 当前音符时长
                             let time_current = Math.round(time_legato * (1 / parseInt(temp_legato[j]["spl"].split(/\./)[0], 0)) / time_all);
-
-                            if (temp_legato[j]["chord"]) {
-                                await play_chord(temp_legato[j]["note"]); // 和弦
-                            } else {
-                                if (temp_legato[j]["note"] === '@') { // 休止符
-                                    // pass
-                                } else {
-                                    await play_note(temp_legato[j]["note"]); // 单音
-                                }
-                            }
+                            let sleep_time = 0;
                             if (count < temp_legato.length) {
-                                await sleep(time_current);
+                                sleep_time = time_current;
                             } else if (count === temp_legato.length - 1) {
                                 if (i !== sheet_list.length - 1) {
                                     // 计算连音的最后一个音的时值（计算装饰音）
-                                    await sleep(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i, time_current));
+                                    sleep_time = cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i, time_current);
                                 }
                             } else if (i !== sheet_list.length - 1) {
-                                await sleep(time_current);
+                                sleep_time = time_current;
                             }
+
+                            if (temp_legato[j]["chord"]) {
+                                await play_chord(temp_legato[j]["note"], "down"); // 和弦
+                                await sleep(sleep_time);
+                                await play_chord(temp_legato[j]["note"], "up");
+                            } else {
+                                if (temp_legato[j]["note"] === '@') { // 休止符
+                                    await sleep(sleep_time);
+                                } else {
+                                    await play_note(temp_legato[j]["note"], "down"); // 单音
+                                    await sleep(sleep_time);
+                                    await play_note(temp_legato[j]["note"], "up");
+                                }
+                            }
+                            // if (count < temp_legato.length) {
+                            //     await sleep(time_current);
+                            // } else if (count === temp_legato.length - 1) {
+                            //     if (i !== sheet_list.length - 1) {
+                            //         // 计算连音的最后一个音的时值（计算装饰音）
+                            //         await sleep(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i, time_current));
+                            //     }
+                            // } else if (i !== sheet_list.length - 1) {
+                            //     await sleep(time_current);
+                            // }
                             count += 1;
                         }
                         // 重置连音缓存区
                         temp_legato = [];
                     }
                 } else if (sheet_list[i]["spl"] === '*') { // 附点音符
+                    let sleep_time = cal_time_ornament(sheet_list, symbol_time * 1.5, symbol, sheet_list[i]["type"], i);
+
                     if (sheet_list[i]["chord"]) {
-                        await play_chord(sheet_list[i]["note"]); // 和弦
+                        await play_chord(sheet_list[i]["note"], "down"); // 和弦
+                        await sleep(i !== sheet_list.length - 1 ? sleep_time: 0);
+                        await play_chord(sheet_list[i]["note"], "up");
                     } else {
                         if (sheet_list[i]["note"] === '@') { // 休止符
-                            // pass
+                            await sleep(i !== sheet_list.length - 1 ? sleep_time: 0);
                         } else {
-                            await play_note(sheet_list[i]["note"]); // 单音
+                            await play_note(sheet_list[i]["note"], "down"); // 单音
+                            await sleep(i !== sheet_list.length - 1 ? sleep_time: 0);
+                            await play_note(sheet_list[i]["note"], "up");
                         }
                     }
-                    // 排除尾音
-                    if (i !== sheet_list.length - 1) {
-                        await sleep(cal_time_ornament(sheet_list, symbol_time * 1.5, symbol, sheet_list[i]["type"], i));
-                    }
+                    // // 排除尾音
+                    // if (i !== sheet_list.length - 1) {
+                    //     await sleep(cal_time_ornament(sheet_list, symbol_time * 1.5, symbol, sheet_list[i]["type"], i));
+                    // }
                 } else {
                     log.info(`错误: ${sheet_list[i]["spl"]}`);
                     return null;
