@@ -185,7 +185,8 @@ export async function buildInitConfigSettings() {
             manifest: "manifest.json",
             domain: "config/domain.json",
             runConfig: "config/run_config.json",
-            countryList: "config/countryList.json"
+            countryList: "config/countryList.json",
+            record: "record/"
         },
         //所有秘境信息
         domainList: [],
@@ -345,12 +346,3 @@ export async function initConfig() {
     loads.sort((a, b) => a.order - b.order)
     config.run.loads = loads
 }
-
-// export {
-//     config, LoadType, LoadMap,
-//     checkKey,
-//     initSettings,
-//     getMultiCheckboxMap,
-//     getValueByMultiCheckboxName,
-//     initConfig
-// }

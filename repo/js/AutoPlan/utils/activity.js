@@ -370,7 +370,7 @@ export class Ocr{
     }
 }
 
-async function findStygianOnslaught() {
+export async function findStygianOnslaught() {
     const findActivity = {
         name: "幽境危战",
         key: "紊乱爆发期",
@@ -383,8 +383,4 @@ async function findStygianOnslaught() {
     }
     //正常模式
     return true
-}
-
-export {
-    findStygianOnslaught
 }

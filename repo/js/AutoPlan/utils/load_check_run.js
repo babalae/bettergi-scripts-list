@@ -95,8 +95,6 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
             await toMainUi()
             // 通过UID方式加载配置
             const uid = config.user.uid || (await genshin.uid()) // 获取用户UID，如果未配置则通过OCR识别获取
-            // const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.runConfig)) || new Map() // 读取本地配置文件并转换为Map对象
-            // const uidConfigList = configAutoFightOrderMap.get(uid + "") || []; // 获取当前UID对应的配置列表
 
             const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.runConfig)) || {} // 读取本地配置文件
             const uidConfigList = configAutoFightOrderMap[uid + ""] || []; // 获取当前UID对应的配置列表
@@ -104,13 +102,8 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
                 uidConfigList.forEach(item => {
                     // 将秘境顺序对象添加到列表中
-                    // 主逻辑优化
-                    // if (item.day !== undefined) {
-                    //     item.day = parseInteger(item.day);
-                    // }
                     if (item.days && item.days.length > 0) {
                         item.days = item.days.map(day => parseInteger(day))
-                        // item.day = parseInteger(item.day);
                     }
                     autoOrderSet.add(item)
                 })
@@ -124,10 +117,8 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
                 uidConfigListBgiTools.forEach(item => {
                     // 将秘境顺序对象添加到列表中
-                    // 主逻辑优化
                     if (item.days && item.days.length > 0) {
                         item.days = item.days.map(day => parseInteger(day))
-                        // item.day = parseInteger(item.day);
                     }
                     autoOrderSet.add(item)
                 })
@@ -156,7 +147,6 @@ export async function initRunOrderList(domainConfig) {
                 domainRoundNum: undefined,//副本轮数
             } // 秘境信息对象
         }*/
-    // let Load = LoadType.uid
 
     for (const Load of config.run.loads) {
         await loadMode(Load.load, autoFightOrderSet, domainConfig);
@@ -174,9 +164,6 @@ export async function initRunOrderList(domainConfig) {
         //过滤掉不执行的秘境
         .filter(item => config.user.runTypes.includes(item.runType))
         .filter(item => {
-            // if (item.day) {
-            //     return item.day === dayOfWeek.day
-            // }
             log.debug(`[{1}]item.days.length:{0}`, dayOfWeek.day, item?.days?.length || 0)
             if (item.days && item.days.length > 0) {
                 const includes = item.days.includes(dayOfWeek.day);
@@ -329,9 +316,6 @@ class Base {
         let days = (rawDays != null && String(rawDays).trim() !== "")
             ? String(rawDays).split('/').map(d => parseInt(d.trim(), 10)).filter(d => !isNaN(d))
             : [];
-        // let days = arr[index].trim() !== ""
-        //     ? arr[index].split('/').map(d => parseInt(d.trim())).filter(d => !isNaN(d))
-        //     : [];
         index++
         // 解析顺序值，处理可能的无效值
         let order = (() => {
@@ -477,10 +461,6 @@ class Domain extends Base {
         //   /** 使用脆弱树脂次数 */
         //   fragileResinUseCount: number;
         await sleep(1000)
-        //流程->返回主页 打开地图 返回主页
-        // const physicalOcr = await ocrPhysical(true, true)
-        // config.user.physical.current = physicalOcr.current
-        // config.user.physical.min = physicalOcr.min
 
         const currentPhysical = await Physical.countAllResin()
         config.user.physical.current = currentPhysical.originalResinCount;
@@ -641,15 +621,7 @@ class LeyLineOutcrop extends Base {
 
 
         log.info(`{0}`, "开始执行地脉任务")
-        // if (true) {
-        //     log.warn("地脉 暂不支持")
-        //     return
-        // }
         let param = new AutoLeyLineOutcropParam(parseInteger(autoLeyLineOutcrop.count + ""), autoLeyLineOutcrop.country, autoLeyLineOutcrop.leyLineOutcropType);
-        // let param = new AutoLeyLineOutcropParam();
-        // param.count = parseInteger(autoLeyLineOutcrop.count+"");
-        // param.country = autoLeyLineOutcrop.country;
-        // param.leyLineOutcropType = autoLeyLineOutcrop.leyLineOutcropType;
         //和本体保持一致
         param.useAdventurerHandbook = !autoLeyLineOutcrop.useAdventurerHandbook;
         param.friendshipTeam = autoLeyLineOutcrop.friendshipTeam;
@@ -834,10 +806,6 @@ class StygianOnslaught extends Base {
         //   /** 使用脆弱树脂次数 */
         //   fragileResinUseCount: number;
         await sleep(1000)
-        //流程->返回主页 打开地图 返回主页
-        // const physicalOcr = await ocrPhysical(true, true)
-        // config.user.physical.current = physicalOcr.current
-        // config.user.physical.min = physicalOcr.min
         const currentPhysical = await Physical.countAllResin()
         config.user.physical.current = currentPhysical.originalResinCount;
 
