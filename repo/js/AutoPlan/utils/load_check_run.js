@@ -193,14 +193,14 @@ export async function autoRunList(autoRunOrderList) {
         await sleep(3000)
         let key = undefined
         const handler = typeMap[item.runType];
-        
+
         if (!handler) continue;
-        
+
         if (item?.record) {
             key = await handler.buildKey(item);
             const exist = Record.exist(RecordList, item);
             if (exist) {
-                log.info(`[{0}-{1}]已执行，跳过`, key, item.autoFight?.domainName || item.autoLeyLineOutcrop?.name || item.autoStygianOnslaught?.name)
+                log.info(`[{0}-{1}]已执行，跳过`,item.runType, key)
                 continue
             }
         }
