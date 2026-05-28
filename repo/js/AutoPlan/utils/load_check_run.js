@@ -45,6 +45,7 @@ export async function checkAndFilterStygianOnslaught(list) {
             await toMainUi()
         }
     }
+    return list
 }
 
 /*===========================================[load]===========================================*/
