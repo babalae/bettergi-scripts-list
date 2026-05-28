@@ -183,47 +183,29 @@ export async function initRunOrderList(domainConfig) {
  */
 export async function autoRunList(autoRunOrderList) {
     let RecordList = Record.read(config.path.record);
-    //计划执行
+    const typeMap = {
+        [config.user.runTypes[0]]: { buildKey: Domain.buildKey, run: Domain.run, target: 'autoFight' },
+        [config.user.runTypes[1]]: { buildKey: LeyLineOutcrop.buildKey, run: LeyLineOutcrop.run, target: 'autoLeyLineOutcrop' },
+        [config.user.runTypes[2]]: { buildKey: StygianOnslaught.buildKey, run: StygianOnslaught.run, target: 'autoStygianOnslaught' }
+    };
+
     for (const item of autoRunOrderList) {
         await sleep(3000)
         let key = undefined
-        if (item.runType === config.user.runTypes[0]) {
-            if (item?.record) {
-                key = await Domain.buildKey(item)
-                const exist = Record.exist(RecordList, item);
-                if (exist) {
-                    // 记录已执行
-                    log.info(`[{0}-{1}]已执行，跳过`, key, item.autoFight.domainName)
-                    continue
-                }
+        const handler = typeMap[item.runType];
+        
+        if (!handler) continue;
+        
+        if (item?.record) {
+            key = await handler.buildKey(item);
+            const exist = Record.exist(RecordList, item);
+            if (exist) {
+                log.info(`[{0}-{1}]已执行，跳过`, key, item.autoFight?.domainName || item.autoLeyLineOutcrop?.name || item.autoStygianOnslaught?.name)
+                continue
             }
-
-            await Domain.run(item.autoFight);
-        } else if (item.runType === config.user.runTypes[1]) {
-            if (item?.record) {
-                key = await LeyLineOutcrop.buildKey(item)
-                const exist = Record.exist(RecordList, item);
-                if (exist) {
-                    // 记录已执行
-                    log.info(`[{0}-{1}]已执行，跳过`, key, item.autoFight.domainName)
-                    continue
-                }
-            }
-
-            await LeyLineOutcrop.run(item.autoLeyLineOutcrop)
-        } else if (item.runType === config.user.runTypes[2]) {
-            if (item?.record) {
-                key = await StygianOnslaught.buildKey(item)
-                const exist = Record.exist(RecordList, item);
-                if (exist) {
-                    // 记录已执行
-                    log.info(`[{0}-{1}]已执行，跳过`, key, item.autoFight.domainName)
-                    continue
-                }
-            }
-
-            await StygianOnslaught.run(item.autoStygianOnslaught)
         }
+
+        await handler.run(item[handler.target]);
 
         if (key) {
             Record.write(config.path.record, RecordList)
@@ -327,7 +309,7 @@ class Base {
             return isNaN(parsedOrder) ? 0 : parsedOrder; // 若转换失败，返回默认值 0
         })();
         index++
-        const record = arr[index]?.trim() === '' ? false : true
+        const record = arr[index]?.trim() !== ''
         index++
         // 创建秘境顺序对象
         let autoOrder = {
