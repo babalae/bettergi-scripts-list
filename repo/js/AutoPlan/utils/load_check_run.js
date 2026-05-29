@@ -214,9 +214,12 @@ export async function autoRunList(autoRunOrderList) {
                 continue
             }
         }
+        await handler.run(item[handler.target]);
+
         try {
-            await handler.run(item[handler.target]);
-        } catch (e) {
+            //防止手动取消写入记录
+            await sleep(1)
+        }catch (e){
             throwError(e.message)
         }
 
