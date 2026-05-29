@@ -176,6 +176,16 @@ export class Physical {
 
             log.debug(`[OCR原粹树脂]识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
             let text = res.text.split('/')[0]
+
+            if (!res.text.includes('/')){
+                //识别异常处理 误识别 /200 => 1200
+                const match = res.text.match(/(\d+)200/);
+                if (match) {
+                    text = match[1];
+                }
+            }
+
+
             let current = await Physical.saveOnlyNumber(text)
             let execute = (current - minPhysical) >= 0
             log.debug(`最小可执行原粹树脂:{min},原粹树脂:{key}`, minPhysical, current,)
