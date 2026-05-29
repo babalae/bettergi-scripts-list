@@ -214,12 +214,15 @@ export async function autoRunList(autoRunOrderList) {
                 continue
             }
         }
-
-        await handler.run(item[handler.target]);
+        try {
+            await handler.run(item[handler.target]);
+        } catch (e) {
+            throwError(e.message)
+        }
 
         if (keyJson) {
             RecordList.push(keyJson)
-            log.info(`写入记录[{0}-{1}]==>{2}已执行`, item.runType, keyJson,config.path.record)
+            log.info(`写入记录[{0}-{1}]==>{2}已执行`, item.runType, keyJson, config.path.record)
             await Record.write(config.path.record, RecordList)
         }
     }
@@ -299,7 +302,7 @@ class Base {
         const json = {
             id: item?.id,
             uid: config.user.uid || await genshin.uid(),
-            key: `${item.runType}|${item.days}|${item.order}`,
+            key: `${item.runType}|${item.days}|${item.order}|${item.record}`,
             time: formatDate(time)
         }
         return json
@@ -358,7 +361,8 @@ class Base {
 class Domain extends Base {
     static async buildKey(item) {
         const json = await super.buildKey(item);
-        json.key = `${json.key}|${item.domainName}|${item.partyName}|${item.domainRoundNum}|${item.sundaySelectedValue}`
+        const auto = item.autoFight;
+        json.key = `${json.key}|${auto.domainName}|${auto.partyName}|${auto.domainRoundNum}|${auto.sundaySelectedValue}`
         return json
     }
 
@@ -532,17 +536,18 @@ class Domain extends Base {
 class LeyLineOutcrop extends Base {
     static async buildKey(item) {
         const json = await super.buildKey(item);
+        const auto = item.autoLeyLineOutcrop;
         json.key = json.key +
-            "|" + json.country +
-            "|" + json.leyLineOutcropType +
-            "|" + json.useAdventurerHandbook +
-            "|" + json.friendshipTeam +
-            "|" + json.team +
-            "|" + json.timeout +
-            "|" + json.isGoToSynthesizer +
-            "|" + json.useFragileResin +
-            "|" + json.useTransientResin +
-            "|" + json.isNotification
+            "|" + auto.country +
+            "|" + auto.leyLineOutcropType +
+            "|" + auto.useAdventurerHandbook +
+            "|" + auto.friendshipTeam +
+            "|" + auto.team +
+            "|" + auto.timeout +
+            "|" + auto.isGoToSynthesizer +
+            "|" + auto.useFragileResin +
+            "|" + auto.useTransientResin +
+            "|" + auto.isNotification
         return json
     }
 
@@ -662,11 +667,12 @@ class StygianOnslaught extends Base {
 
     static async buildKey(item) {
         const json = await super.buildKey(item);
+        const auto = item.autoStygianOnslaught;
         json.key = json.key +
-            "|" + json.bossNum +
-            "|" + json.fightTeamName +
-            "|" + json.specifyResinUse +
-            "|" + json.physical.join('<->')
+            "|" + auto.bossNum +
+            "|" + auto.fightTeamName +
+            "|" + auto.specifyResinUse +
+            "|" + auto.physical.join('<->')
         return json
     }
 
