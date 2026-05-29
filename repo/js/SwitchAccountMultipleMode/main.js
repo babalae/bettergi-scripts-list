@@ -1,5 +1,7 @@
 // ======================================================
 // 切换账号OCR模式
+import {check} from "./utils/tool";
+
 const author = "彩虹QQ人";
 // 图像识别资源
 const pm_out = {
@@ -78,7 +80,7 @@ const login_verification = {
 
 // 判断temporaryAccount是否为空，如果为空则赋值‘否’
 const Account = settings.temporaryAccount || "否";
-eval(file.readTextSync('utils/uid.js'))
+
 
 // 点击区域中心
 async function clickCenter(x, y, width, height) {
@@ -566,7 +568,7 @@ async function waitForOcrMatch(target, rect = null, threshold = null, timeout = 
     // ======================================================
     // Main flow
 
-    if (await uidUtil.check()) {
+    if (await check()) {
         log.info("当前UID与设置UID相同，无需切换账号。");
         return
     }
