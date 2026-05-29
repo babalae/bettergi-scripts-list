@@ -185,31 +185,42 @@ export async function initRunOrderList(domainConfig) {
 export async function autoRunList(autoRunOrderList) {
     let RecordList = Record.read(config.path.record);
     const typeMap = {
-        [config.user.runTypes[0]]: { buildKey: Domain.buildKey, run: Domain.run, target: 'autoFight' },
-        [config.user.runTypes[1]]: { buildKey: LeyLineOutcrop.buildKey, run: LeyLineOutcrop.run, target: 'autoLeyLineOutcrop' },
-        [config.user.runTypes[2]]: { buildKey: StygianOnslaught.buildKey, run: StygianOnslaught.run, target: 'autoStygianOnslaught' }
+        [config.user.runTypes[0]]: {buildKey: Domain.buildKey, run: Domain.run, target: 'autoFight'},
+        [config.user.runTypes[1]]: {
+            buildKey: LeyLineOutcrop.buildKey,
+            run: LeyLineOutcrop.run,
+            target: 'autoLeyLineOutcrop'
+        },
+        [config.user.runTypes[2]]: {
+            buildKey: StygianOnslaught.buildKey,
+            run: StygianOnslaught.run,
+            target: 'autoStygianOnslaught'
+        }
     };
 
     for (const item of autoRunOrderList) {
         await sleep(3000)
-        let key = undefined
+        let keyJson = undefined
         const handler = typeMap[item.runType];
 
         if (!handler) continue;
 
         if (item?.record) {
-            key = await handler.buildKey(item);
+            keyJson = await handler.buildKey(item);
+            log.debug(`检查记录[{0}-{1}]`, item.runType, keyJson)
             const exist = Record.exist(RecordList, item);
             if (exist) {
-                log.info(`[{0}-{1}]已执行，跳过`,item.runType, key)
+                log.info(`[{0}-{1}]已执行，跳过`, item.runType, keyJson)
                 continue
             }
         }
 
         await handler.run(item[handler.target]);
 
-        if (key) {
-            Record.write(config.path.record, RecordList)
+        if (keyJson) {
+            RecordList.push(keyJson)
+            log.info(`写入记录[{0}-{1}]==>{2}已执行`, item.runType, keyJson,config.path.record)
+            await Record.write(config.path.record, RecordList)
         }
     }
 }
@@ -234,8 +245,13 @@ class Record {
         //     time: "yyyy-mm-dd",
         //     key: "type:value"
         // }
-        const parse = JSON.parse(file.readTextSync(path)) || []
-        return parse
+        let list = []
+        try {
+            list = JSON.parse(file.readTextSync(path))
+        } catch (e) {
+            log.warn(`(账号未运行过无记录文件 请忽略该异常),读取记录文件失败，{0}`, e.message)
+        }
+        return list
     }
 
     /**
@@ -256,7 +272,7 @@ class Record {
      * @returns {boolean}
      */
     static exist(list = [], item) {
-        const ts = list.filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
+        const ts = item?.id ? list.filter(i => i.id === item.id && i.time === item.time && i.uid === item.uid) : list.filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
         return ts !== null && ts.length > 0
     }
 
@@ -281,6 +297,7 @@ class Base {
         let time = new Date()
         time.setHours(time.getHours() - 4)
         const json = {
+            id: item?.id,
             uid: config.user.uid || await genshin.uid(),
             key: `${item.runType}|${item.days}|${item.order}`,
             time: formatDate(time)

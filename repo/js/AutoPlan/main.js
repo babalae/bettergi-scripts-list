@@ -6,7 +6,7 @@ import {
 } from './config/config';
 import {outDomainUI} from './utils/tool';
 import {pullJsonConfig, pushAllCountryConfig, pushAllJsonConfig} from './utils/bgi_tools';
-import {countAllResin, Physical} from "./utils/physical";
+import { Physical} from "./utils/physical";
 import {
     autoRunList,
     initRunOrderList,
