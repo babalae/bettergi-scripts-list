@@ -177,7 +177,7 @@ export class Physical {
             let res = region3.find(recognitionObjectOcr);
 
             log.debug(`[OCR原粹树脂]识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
-            let text = res.text.split('/')[0]
+            let text = "0"
 
             if (!res.text.includes('/')){
                 //识别异常处理 误识别 /200 => 1200 (/被误识别为1)
@@ -188,6 +188,8 @@ export class Physical {
                     //2.移除 误识别 /=>1
                     text = match[1].substring(0, match[1].length - 1);
                 }
+            }else {
+                text = res.text.split('/')[0]
             }
 
 
