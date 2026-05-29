@@ -252,6 +252,34 @@ async function checkFeed() {
     }
 }
 
+async function moveToEventTriggerArea() {
+    let miniMapPosition;
+
+    try {
+        for (let index = 0; index < 3; index++) {
+            await pathingScript.runFile("assets/pathing/鸡腿好感_初始化.json");
+            for (let index = 0; index < 2; index++) {
+                miniMapPosition = genshin.getPositionFromMap("Teyvat");
+                if (miniMapPosition) { break; }
+                await sleep(500);
+            }
+            if (miniMapPosition) {
+                const distance = Math.sqrt(
+                    Math.pow(miniMapPosition.x + 4529, 2) +
+                    Math.pow(miniMapPosition.y + 3084, 2)
+                );
+                if (distance < 5) { return true; }
+            }
+            log.warn("偏离目标点过远，重试一次该路线");
+        }
+        log.warn("多次尝试前往事件触发位置失败，任务结束");
+        return false;
+    } catch {
+        log.warn("前往事件触发点出错，任务结束");
+        return false;
+    }
+}
+
 async function main() {
     let retry;
 
@@ -262,7 +290,7 @@ async function main() {
     // 判断是否为联机模式，通过模拟点击回到单人模式
     while (!(await ensureSinglePlayerMode())) { await sleep(500); }
     // 移动到任务刷新点
-    await pathingScript.runFile("assets/pathing/鸡腿好感_初始化.json");
+    if (!(await moveToEventTriggerArea())) { return false; }
     // 判断是否设置了好感队，切换队伍
     await switchPartyIfNeeded(settings.partyName);
     retry = 0;

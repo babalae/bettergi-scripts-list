@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1768638159856,
+    "last_modified_time": 1778866842198,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "620纳塔-悠悠集市南8",
@@ -105,8 +105,8 @@
       "id": 10,
       "move_mode": "climb",
       "type": "path",
-      "x": 13823.724609375,
-      "y": 225.51123046875
+      "x": 13825.73046875,
+      "y": 226.3671875
     },
     {
       "action": "combat_script",
@@ -130,7 +130,6 @@
       "action": "",
       "action_params": "",
       "id": 13,
-      "locked": false,
       "move_mode": "dash",
       "type": "orientation",
       "x": 13833.2890625,
@@ -227,22 +226,22 @@
       "y": 102.361328125
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "keypress(x)",
       "id": 24,
       "move_mode": "dash",
       "type": "target",
-      "x": 13783.759765625,
-      "y": 94.4052734375
+      "x": 13783.056640625,
+      "y": 93.537109375
     },
     {
-      "action": "combat_script",
-      "action_params": "keypress(x)",
+      "action": "",
+      "action_params": "",
       "id": 25,
       "move_mode": "climb",
       "type": "target",
-      "x": 13781.828125,
-      "y": 92.900390625
+      "x": 13780.1923828125,
+      "y": 92.7802734375
     },
     {
       "action": "",

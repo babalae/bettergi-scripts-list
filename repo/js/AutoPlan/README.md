@@ -310,6 +310,15 @@
 ## 版本历史（简要）
 
 ---
+### 0.0.7 2026.05.27
+
+- 重构配置模块：使用新的 UID 获取方法 `genshin.uid()` 替代 OCR 识别
+- 移除对 `ocrUid`、`getDayOfWeek`、`parseInteger`、`pullJsonConfig` 和 `findStygianOnslaught` 的导入
+- 添加对 `toMainUi` 的导入，在初始化时调用确保回到主界面
+- 更新最低 BetterGI 版本要求从 0.58.0 到 0.61.0
+- 删除 utils/uid.js 文件中的 `ocrUid` 函数实现
+- 优化 UID 获取逻辑，提升稳定性和准确性
+
 ### 0.0.6 2026.04.23
 
  - 限制单例模式配置

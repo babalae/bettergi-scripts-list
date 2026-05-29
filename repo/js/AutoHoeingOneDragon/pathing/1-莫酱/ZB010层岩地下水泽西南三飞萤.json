@@ -15,7 +15,7 @@
     "description": "  路线信息：该路线预计用时43秒，包含以下怪物：3只水萤。",
     "enable_monster_loot_split": false,
     "hash_res": "53430333",
-    "last_modified_time": 1769264521110,
+    "last_modified_time": 1776360887358,
     "map_match_method": "",
     "map_name": "TheChasm",
     "name": "ZB010层岩地下水泽西南三飞萤",
@@ -43,22 +43,22 @@
       "y": 717.2578125
     },
     {
-      "action": "combat_script",
-      "action_params": "attack(0.3)",
+      "action": "",
+      "action_params": "",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 635.1497802734375,
-      "y": 704.3260498046875
+      "x": 639.5067138671875,
+      "y": 712.434326171875
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 4,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 639.3680419921875,
-      "y": 702.947998046875
+      "move_mode": "fly",
+      "type": "path",
+      "x": 640.4093017578125,
+      "y": 698.5970458984375
     },
     {
       "action": "",
@@ -66,8 +66,8 @@
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": 646.9473876953125,
-      "y": 699.391357421875
+      "x": 647.0810546875,
+      "y": 701.0887451171875
     },
     {
       "action": "fight",

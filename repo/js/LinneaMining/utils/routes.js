@@ -5,18 +5,18 @@
  * @returns {string[]} 所有 JSON 文件的完整路径数组
  */
 function readRouteFiles(folderPath) {
-  const files = [];
-  const entries = file.ReadPathSync(folderPath);
+  const files = []
+  const entries = file.ReadPathSync(folderPath)
 
   for (const entry of entries) {
     if (file.IsFolder(entry)) {
-      files.push(...readRouteFiles(entry));
+      files.push(...readRouteFiles(entry))
     } else if (entry.endsWith(".json")) {
-      files.push(entry);
+      files.push(entry)
     }
   }
 
-  return files;
+  return files
 }
 
 /**
@@ -26,10 +26,10 @@ function readRouteFiles(folderPath) {
  */
 function getRoutes() {
   try {
-    return readRouteFiles("paths");
+    return readRouteFiles("paths")
   } catch (err) {
-    log.error("获取路线文件时出错:", err);
-    return [];
+    log.error("获取路线文件时出错:", err)
+    return []
   }
 }
 
@@ -41,19 +41,19 @@ function getRoutes() {
  * @returns {string[]} 过滤后的路线文件路径数组
  */
 function filterByTags(routePaths, excludedTags) {
-  if (!excludedTags || excludedTags.length === 0) return routePaths;
+  if (!excludedTags || excludedTags.length === 0) return routePaths
 
   return routePaths.filter(routePath => {
     try {
-      const raw = file.readTextSync(routePath);
-      const data = JSON.parse(raw);
-      const tags = data.info?.tags;
-      if (!tags || tags.length === 0) return true;
-      return tags.some(tag => !excludedTags.includes(tag));
+      const raw = file.readTextSync(routePath)
+      const data = JSON.parse(raw)
+      const tags = data.info?.tags
+      if (!tags || tags.length === 0) return true
+      return tags.some(tag => !excludedTags.includes(tag))
     } catch {
-      return true;
+      return true
     }
-  });
+  })
 }
 
 /**
@@ -64,14 +64,18 @@ function filterByTags(routePaths, excludedTags) {
  * @returns {string[]} 过滤后的路线文件路径数组
  */
 function filterByRegion(routePaths, excludedRegions) {
-  if (!excludedRegions || excludedRegions.length === 0) return routePaths;
+  if (!excludedRegions || excludedRegions.length === 0) return routePaths
 
   return routePaths.filter(routePath => {
-    const parts = routePath.replace(/\\/g, '/').split('/');
-    const regionIdx = parts.indexOf("paths") + 1;
-    if (regionIdx >= parts.length) return true;
-    return !excludedRegions.includes(parts[regionIdx]);
-  });
+    const parts = routePath.replace(/\\/g, '/').split('/')
+    const regionIdx = parts.indexOf("paths") + 1
+    if (regionIdx >= parts.length) return true
+    return !excludedRegions.includes(parts[regionIdx])
+  })
 }
 
-export { getRoutes, filterByTags, filterByRegion };
+export {
+  getRoutes,
+  filterByTags,
+  filterByRegion
+}

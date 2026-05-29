@@ -270,6 +270,14 @@
                 await keyMouseScript.runFile(`assets/npc/${area}-${type}-GCM.json`);
                 await sleep(500);
             }
+            if (type === "锅") {
+                click(143, 1018); // 筛选
+                await sleep(500);
+                click(143, 1018); // 重置
+                await sleep(500);
+                click(493, 1025); // 确认筛选
+                await sleep(500)
+            }
         }
 
         return await enter_store();
@@ -494,6 +502,7 @@
         let barDownRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${bg === "white" ? "slide_bar_main_down": "slide_bar_left_down"}.png`), x, y, w, h);
         barUpRo.threshold = 0.7;
         barDownRo.threshold = 0.7;
+        let barUpper_temp = 0;
 
         while (true) {
             await sleep(200);
@@ -501,6 +510,11 @@
             let gameRegion = captureGameRegion();
             if (side.toLowerCase() === "up") {
                 let barUpper = gameRegion.Find(barUpRo);
+                if (barUpper.y !== barUpper_temp) { // 防止卡死
+                    barUpper_temp = barUpper.y;
+                } else {
+                    break;
+                }
                 gameRegion.dispose();
                 if (barUpper.isExist()) {
                     if (barUpper.y < max) { // 到顶了
@@ -732,16 +746,17 @@
         click(493, 1025); // 确认筛选
         await sleep(500)
 
-        let food_name = await Ocr(116, 243, 125, 30);
-        if (food_name) {
-            food_name.Click();
+        let food_name_ocr = await Ocr(116, 243, 125, 30);
+        if (food_name_ocr) {
+            food_name_ocr.Click();
             await sleep(500);
             // 寻找对应的料理
             let matchList = [];
             for (let i = 0; i < Object.keys(food_msg).length; i++) {
                 matchList.push(await deal_string(Object.keys(food_msg)[i]));
             }
-            food_name = await findClosestMatch(food_name.text, matchList);
+            let food_name = await findClosestMatch(food_name_ocr.text, matchList);
+            food_name = Object.keys(food_msg)[matchList.indexOf(food_name)]; // 使用料理的完整名称
             log.info(`当前料理: ${food_name}`);
             // let formula_num = Object.keys(food_msg["formula"]).length;
             click(1686, 1018); // 制作

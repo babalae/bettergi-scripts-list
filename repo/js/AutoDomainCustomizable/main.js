@@ -1,6 +1,22 @@
-// Version: 1.7
-// Modified Date: 2026-04-11
+// Version: 1.9
+// Modified Date: 2026-05-24
 (async function () {
+    let SCRIPT_START_TIME = Date.now();
+
+    function safeNotify(type, message) {
+        try {
+            if (typeof notification !== "undefined") {
+                if (type === "error") {
+                    notification.Error(message);
+                } else {
+                    notification.Send(message);
+                }
+            }
+        } catch (e) {
+            log.warn("[通知] 发送通知失败: " + e.message);
+        }
+    }
+
     // =========================================================================
     // 0. 动态加载数据 (基于 Genshin_Domains_SC_Live_Source.json)
     // =========================================================================
@@ -53,9 +69,9 @@
     let userConfig = settings;
     let enableDebug = userConfig.EnableDebug;
 
-    // --- 调试模式输出所有使用者设定参数 ---
+    // --- 调试模式输出所有用户设置参数 ---
     if (enableDebug) {
-        log.info("[DEBUG] ====== 收到使用者设定参数 (User Config) ======");
+        log.info("[DEBUG] ====== 收到用户设置参数 (User Config) ======");
         for (let key in userConfig) {
             log.info(`[DEBUG] ${key}: ${userConfig[key]}`);
         }
@@ -103,7 +119,7 @@
         if (!pSpecifiedCombatStrategy) {
             log.warn("【配置警告】您选择了'指定战斗策略'但未填写策略名称，系统将自动退回'根据队伍自动选择'。");
         } else if (/[\\/:*?"<>|]/.test(pSpecifiedCombatStrategy)) {
-            log.warn(`【配置警告】指定的战斗策略名称包含非法字元: ${pSpecifiedCombatStrategy}，系统将自动退回'根据队伍自动选择'。`);
+            log.warn(`【配置警告】指定的战斗策略名称包含非法字符: ${pSpecifiedCombatStrategy}，系统将自动退回'根据队伍自动选择'。`);
         } else {
             pCombatStrategyPath = pSpecifiedCombatStrategy;
         }
@@ -176,6 +192,7 @@
     if (materialInfo.type === 'artifact') {
         pDomainName = materialInfo.domain;
         log.info(`【圣遗物模式】目标：${pTargetMaterial}`);
+        safeNotify("info", `任务启动：已自动切换目标秘境为【${pDomainName} - ${pTargetMaterial}】。`);
     } else {
         let requiredIdx = materialInfo.idx;
         pDomainName = materialInfo.domain;
@@ -202,6 +219,8 @@
             log.error(`【停止运行】今日非该素材开放日。若需强制运行，请在设置中勾选。`);
             return;
         }
+
+        safeNotify("info", `任务启动：今日为游戏内星期${dayStr}，已自动切换目标秘境为【${pDomainName} - ${pTargetMaterial}】。`);
     }
 
     // =========================================================================
@@ -214,12 +233,12 @@
     taskParam.MaxArtifactStar = pMaxArtifactStar;
     taskParam.SundaySelectedValue = pSundaySelectedValue;
     
-    // 调用底层方法以支持路径转换，并将回传值賦予屬性
+    // 调用底层方法以支持路径转换，并将返回值赋予属性
     taskParam.CombatStrategyPath = taskParam.SetCombatStrategyPath(pCombatStrategyPath); 
     
     taskParam.SpecifyResinUse = !pRunUntilDepleted;
     
-    // 樹脂數量與警告邏輯
+    // 树脂数量与警告逻辑
     if (!pRunUntilDepleted) {
         taskParam.OriginalResin20UseCount = pOriginal20;
         taskParam.OriginalResin40UseCount = pOriginal40;
@@ -243,7 +262,7 @@
         }
     }
 
-    // 統一由 priorityList 決定刷取順序 (包含耗盡模式)
+    // 统一由 priorityList 决定刷取顺序 (包含耗尽模式)
     if (priorityList.length > 0) {
         taskParam.SetResinPriorityList(...priorityList);
     } else {
@@ -258,29 +277,40 @@
                 log.info(`[脚本] 任务结束，等待 ${pFightEndDelay} 秒...`);
                 await sleep(pFightEndDelay * 1000);
             }
+
+            let totalTimeMs = Date.now() - SCRIPT_START_TIME;
+            let totalMins = Math.floor(totalTimeMs / 60000);
+            let totalSecs = Math.floor((totalTimeMs % 60000) / 1000);
+            let timeStr = `${totalMins}分${totalSecs}秒`;
+            let extraStr = pAutoArtifactSalvage ? " (已完成圣遗物自动分解)" : "";
+            safeNotify("info", `任务完成：今日自动秘境已全数执行完毕！总耗时：${timeStr}。${extraStr}`);
+
             break; 
         } catch (ex) {
             let msg = ex.message || "";
             
-            // --- 战斗策略档案不存在的降级重试逻辑 ---
+            // --- 战斗策略文件不存在的降级重试逻辑 ---
             if (msg.includes("战斗脚本文件不存在")) {
                 if (taskParam.CombatStrategyPath && taskParam.CombatStrategyPath !== "") {
-                    log.warn(`[脚本] 找不到指定的战斗策略档案！`);
+                    log.warn(`[脚本] 找不到指定的战斗策略文件！`);
                     log.warn(`[脚本] 已触发降级机制：退回【根据队伍自动选择】模式，3 秒后重新启动任务...`);
+                    safeNotify("info", `警告：找不到指定的战斗策略文件，已触发降级机制，改以【自动匹配队伍】模式接续执行。`);
                     
-                    // 调用底层方法正确切换为目录路径，并将回传值賦予屬性
+                    // 调用底层方法正确切换为目录路径，并将返回值赋予属性
                     taskParam.CombatStrategyPath = taskParam.SetCombatStrategyPath(""); 
                     
                     await sleep(3000);
                     continue; 
                 } else {
                     log.error("[脚本] 自动匹配战斗脚本失败：请检查 User/AutoFight 目录下是否有 txt 脚本，且脚本内角色是否符合当前队伍。");
+                    safeNotify("error", "异常中断：自动匹配战斗脚本失败，请检查 User/AutoFight 目录下的配置，任务已强制停止。");
                     break;
                 }
             }
 
             if (msg.includes("背包物品已满") || msg.includes("未检测到秘境结束")) {
                 log.warn(`[脚本] 任务可能已完成，但检测到: ${msg}`);
+                safeNotify("error", `异常中断：背包物品可能已满，或无法检测秘境结束状态，自动任务已强制停止。`);
                 break; 
             } else if (msg.includes("复苏")) {
                 log.warn(`[脚本] 角色死亡，5秒后重试...`);
@@ -290,10 +320,12 @@
                 log.info("[脚本] 任务已取消。");
                 break;
             } else if (msg.includes("未找到对应的秘境")) {
-                log.error("请等待BetterGI本体更新支援新秘境");
+                log.error("请等待BetterGI本体更新支持新秘境");
+                safeNotify("error", "异常中断：未找到对应的秘境，请等待 BetterGI 更新支持。");
                 throw ex;
             } else {
                 log.error(`[脚本] 错误: ${msg}`);
+                safeNotify("error", `异常中断：发生未知的脚本错误，任务已强制停止。\n详细信息: ${msg.substring(0, 100)}`);
                 throw ex; 
             }
         }

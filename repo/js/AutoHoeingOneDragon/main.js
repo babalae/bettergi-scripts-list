@@ -839,15 +839,11 @@ async function printGroupSummary() {
         const m = Math.floor((time % 3600) / 60);
         const s = time % 60;
 
-        // 获取该组的标签配置
-        const tagsKey = `tagsForGroup${g}`;
-        const groupTags = settings[tagsKey] || '';
-        const tagType = g === 1 ? "排除的标签" : "选择的标签";
-
         // 构建输出内容
+        const tagLine = g === 1 ? "  未能进入其他组的留在路径组一" : `  选择的标签:【${settings[`tagsForGroup${g}`] || ''}】`;
         const outputLines = [
-            `${groupNames[g - 1]} 总计：`,
-            `  ${tagType}:【${groupTags}】`,
+            `第${g}组 总计：`,
+            tagLine,
             `  路线条数: ${groupPath.length}`,
             `  精英怪数: ${elites.toFixed(0)}`,
             `  被忽视精英数: ${ignoredElites.toFixed(0)}`,
