@@ -52,7 +52,9 @@ export async function checkHolyRelicsKey(threshold = 400) {
     log.debug(`diff:${diff}`)  // 记录剩余空间数量
 
     if (diff <= threshold) {  // 如果剩余空间小于等于阈值
-        log.info(`背包圣遗物数量：${count}/${total}，相差${diff}个，<=${threshold}个，提醒清理`)  // 记录需要清理的信息
+        await toMainUi()
+        let uid = await genshin.uid()
+        log.info(`UID:${uid}\n背包圣遗物数量：${count}/${total}，相差${diff}个，<=${threshold}个，提醒清理`)  // 记录需要清理的信息
         // 发送提醒消息
         await sendText(`背包圣遗物 剩余空间不足(设置阈值):${threshold},剩余:${diff},请前往清理!`, "背包圣遗物剩余空间检查")  // 发送提醒文本
     }

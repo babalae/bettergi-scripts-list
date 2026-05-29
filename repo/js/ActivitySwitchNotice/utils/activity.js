@@ -1,5 +1,4 @@
 import {sendNotice,sendText} from "./notice";
-import {ocrUID} from "./uid";
 const config_name = "config"
 const json_path = {
     activity: `${config_name}/activity.json`
@@ -466,9 +465,11 @@ async function init() {
  */
 export async function activityMain(newActivityNotice = true) {
     await init();
+    await toMainUi()
+    let uid = await genshin.uid()
     const ms = 1000;
     await sleep(ms);
-    let uid = await ocrUID()
+
     let activityData=[]
     let activitySetLast = new Set()
     try {
