@@ -208,12 +208,14 @@ export async function autoRunList(autoRunOrderList) {
         if (item?.record) {
             keyJson = await handler.buildKey(item);
             log.debug(`检查记录[{0}-{1}]`, item.runType, keyJson)
-            const exist = Record.exist(RecordList, keyJson);
+            const exist = Record.existInList(RecordList, keyJson);
             if (exist) {
-                log.info(`[{0}-{1}]已执行，跳过`, item.runType, keyJson)
-                continue
+                log.info(`[本日已执行，跳过]==>[{0}-{1}]`, item.runType, keyJson)
+                continue;
             }
+
         }
+        log.debug(`[开始执行]==>[{0}-{1}]`, item.runType, keyJson)
         await handler.run(item[handler.target]);
 
         try {
@@ -261,6 +263,17 @@ class Record {
     }
 
     /**
+     * 在列表中检查指定记录是否存在
+     * @param {Array} list - 记录列表，默认为空数组
+     * @param {Object} item - 用于匹配的记录项，包含 key, time, uid 属性
+     * @returns {boolean}
+     */
+    static existInList(list = [], item) {
+        const ts = item?.id ? list.filter(i => i.id === item.id && i.time === item.time && i.uid === item.uid) : list.filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
+        return ts !== null && ts.length > 0
+    }
+
+    /**
      * 检查指定记录是否存在
      * @param {string} path - 记录文件的路径
      * @param {Object} item - 用于匹配的记录项，包含 key, time, uid 属性
@@ -268,17 +281,6 @@ class Record {
      */
     static exist(path, item) {
         const ts = Record.read(path).filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
-        return ts !== null && ts.length > 0
-    }
-
-    /**
-     * 在列表中检查指定记录是否存在
-     * @param {Array} list - 记录列表，默认为空数组
-     * @param {Object} item - 用于匹配的记录项，包含 key, time, uid 属性
-     * @returns {boolean}
-     */
-    static exist(list = [], item) {
-        const ts = item?.id ? list.filter(i => i.id === item.id && i.time === item.time && i.uid === item.uid) : list.filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
         return ts !== null && ts.length > 0
     }
 
