@@ -208,7 +208,7 @@ export async function autoRunList(autoRunOrderList) {
         if (item?.record) {
             keyJson = await handler.buildKey(item);
             log.debug(`检查记录[{0}-{1}]`, item.runType, keyJson)
-            const exist = Record.exist(RecordList, item);
+            const exist = Record.exist(RecordList, keyJson);
             if (exist) {
                 log.info(`[{0}-{1}]已执行，跳过`, item.runType, keyJson)
                 continue
