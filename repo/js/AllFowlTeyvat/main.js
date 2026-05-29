@@ -387,11 +387,11 @@
                 // 禁用战斗路线
                 if (setting_msg["check_fight"] && path_msg["addition"] === "战斗") continue;
                 // 排除小型鸟类
-                if (setting_msg["check_one"] && path_msg["objects"].keys().includes("1")) continue;
+                if (setting_msg["check_one"] && Object.keys(path_msg["objects"]).includes("1")) continue;
                 // 排除中型鸟类
-                if (setting_msg["check_two"] && path_msg["objects"].keys().includes("2")) continue;
+                if (setting_msg["check_two"] && Object.keys(path_msg["objects"]).includes("2")) continue;
                 // 排除大型鸟类
-                if (setting_msg["check_three"] && path_msg["objects"].keys().includes("3")) continue;
+                if (setting_msg["check_three"] && Object.keys(path_msg["objects"]).includes("3")) continue;
                 // 自动领取空月祝福
                 if (!setting_msg["check_welkin_moon"]) {
                     welkin_moon()

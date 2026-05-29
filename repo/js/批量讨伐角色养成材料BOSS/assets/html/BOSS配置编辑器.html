@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boss讨伐配置编辑器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .main-container {
+            display: flex;
+            /* 宽度由子元素决定 */
+            width: fit-content;
+            height: 70vh;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            left: 40%;
+        }
+
+        .left-panel {
+            width: 280px;
+            min-width: 220px;
+            background-color: rgba(30, 30, 30, 0.85);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .left-panel-header {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .boss-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .boss-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            margin-bottom: 6px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            border: 1px solid transparent;
+            color: #ddd;
+        }
+
+        .boss-item:hover {
+            background-color: rgba(26, 115, 232, 0.2);
+            color: #fff;
+        }
+
+        .boss-item.selected {
+            border-color: #1a73e8;
+            background-color: rgba(26, 115, 232, 0.3);
+            color: #fff;
+        }
+
+        .boss-item.dragging {
+            opacity: 0.5;
+            background-color: rgba(26, 115, 232, 0.2);
+        }
+
+        .boss-item.drag-over {
+            border-color: #1a73e8;
+            border-style: dashed;
+        }
+
+        .drag-handle {
+            cursor: grab;
+            font-size: 1rem;
+            color: #888;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .boss-name {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .left-panel-bottom {
+            padding: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .add-boss-btn {
+            margin-bottom: 8px;
+            padding: 10px;
+            background-color: rgba(26, 115, 232, 0.2);
+            color: #4da6ff;
+            border: 1px dashed rgba(26, 115, 232, 0.5);
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: block;
+        }
+
+        .add-boss-btn:hover {
+            background-color: rgba(26, 115, 232, 0.3);
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background-color 0.2s;
+        }
+
+        .save-btn:hover {
+            background-color: #218838;
+        }
+
+        .right-panel {
+            background-color: rgba(30, 30, 30, 0.85);
+            padding: 20px;
+            width: 650px;
+            overflow-y: auto;
+        }
+
+        .edit-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #888;
+            font-size: 1rem;
+        }
+
+        .edit-form {
+            display: none;
+            max-width: 600px;
+        }
+
+        .edit-form.active {
+            display: block;
+        }
+
+        .form-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+
+        .delete-btn {
+            padding: 6px 14px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #ccc;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+
+        .form-group input:disabled,
+        .form-group select:disabled {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .form-group optgroup {
+            font-weight: 600;
+            color: #1a73e8;
+        }
+
+        .form-group option {
+            background-color: #2a2a2a;
+            color: #fff;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            accent-color: #1a73e8;
+        }
+
+        /* 去掉数字输入框的箭头增减按钮 */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .checkbox-group label {
+            color: #ccc;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .status-bar {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: rgba(26, 115, 232, 0.2);
+            border-radius: 5px;
+            font-size: 0.85rem;
+            color: #4da6ff;
+            display: none;
+        }
+
+        .status-bar.error {
+            background-color: rgba(217, 48, 37, 0.2);
+            color: #ff6b6b;
+        }
+
+        .no-support-warning {
+            color: #f57c00;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .strategy-hint {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .cascade-input-wrapper {
+            position: relative;
+        }
+
+        .cascade-input {
+            width: 100%;
+            padding: 10px 36px 10px 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .cascade-input:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .cascade-input:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+
+        .cascade-arrow {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        .cascade-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            background: #2a2a2a;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            min-width: 320px;
+            max-height: 300px;
+        }
+
+        .cascade-dropdown.show {
+            display: flex;
+        }
+
+        .cascade-region-list {
+            width: 90px;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .cascade-boss-list {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+        .cascade-region-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #ccc;
+            transition: all 0.15s;
+            border-left: 2px solid transparent;
+        }
+
+        .cascade-region-item:hover {
+            background-color: rgba(26, 115, 232, 0.2);
+        }
+
+        .cascade-region-item.active {
+            background-color: rgba(26, 115, 232, 0.3);
+            color: #4da6ff;
+            border-left-color: #1a73e8;
+            font-weight: 500;
+        }
+
+        .cascade-boss-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #ddd;
+            transition: all 0.15s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .cascade-boss-item:last-child {
+            border-bottom: none;
+        }
+
+        .cascade-boss-item:hover {
+            background-color: rgba(26, 115, 232, 0.2);
+            color: #4da6ff;
+        }
+
+        /* 策略选择弹窗样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: rgba(28, 28, 40, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            width: 420px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            border-bottom: 2px solid #1a73e8;
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            color: #888;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: all 0.15s;
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .modal-body {
+            padding: 12px 18px;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .strategy-tree-view {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 6px;
+        }
+
+        .strategy-tree-view::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .strategy-tree-view::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+        }
+
+        .strategy-tree-view::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .strategy-node {
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.15s;
+            user-select: none;
+        }
+
+        .strategy-node:hover {
+            background: rgba(26, 115, 232, 0.2);
+        }
+
+        .strategy-node.folder {
+            color: #f0ad4e;
+        }
+
+        .strategy-node.file {
+            color: #ddd;
+        }
+
+        .strategy-node.file.selected {
+            background: rgba(26, 115, 232, 0.4);
+            color: #fff;
+        }
+
+        .strategy-node .toggle {
+            width: 14px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #888;
+            flex-shrink: 0;
+        }
+
+        .strategy-node .icon {
+            flex-shrink: 0;
+        }
+
+        .strategy-children {
+            padding-left: 18px;
+        }
+
+        .strategy-children.collapsed {
+            display: none;
+        }
+
+        .strategy-loading {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        .strategy-error {
+            text-align: center;
+            padding: 10px;
+            color: #ff6b6b;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="left-panel">
+            <div class="left-panel-header">Boss讨伐配置编辑器</div>
+
+            <div class="boss-list" id="bossList"></div>
+
+            <div class="left-panel-bottom">
+                <div class="add-boss-btn" id="addBossBtn">添加Boss</div>
+                <button class="save-btn" id="saveAndCloseBtn">保存并关闭</button>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="edit-placeholder" id="editPlaceholder">
+                请从左侧选择一个Boss进行编辑
+            </div>
+
+            <div class="edit-form" id="editForm">
+                <div class="form-title">
+                    <span id="formTitle">编辑Boss</span>
+                    <button class="delete-btn" id="deleteBossBtn">删除</button>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bossNameInput">Boss名称</label>
+                        <div class="cascade-input-wrapper">
+                            <input type="text" id="bossNameInput" class="cascade-input" placeholder="点击选择Boss" readonly>
+                            <span class="cascade-arrow">▼</span>
+                            <div class="cascade-dropdown" id="cascadeDropdown">
+                                <div class="cascade-region-list" id="cascadeRegionList"></div>
+                                <div class="cascade-boss-list" id="cascadeBossList"></div>
+                            </div>
+                        </div>
+                        <div class="no-support-warning" id="noSupportWarning" style="display: none;">此Boss暂未支持自动寻路</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team">队伍名称</label>
+                        <input type="text" id="team" value="不切换" placeholder="输入队伍名称">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="farmMode">刷取模式</label>
+                        <select id="farmMode">
+                            <option value="一次性">一次性</option>
+                            <option value="一次性-每日限量" selected>一次性-每日限量</option>
+                            <option value="每日重置">每日重置</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timeout">战斗超时时间（秒）</label>
+                        <input type="number" id="timeout" min="30" value="240">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="totalCount">总讨伐次数</label>
+                        <input type="number" id="totalCount" min="1" value="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="remainingCount">剩余次数</label>
+                        <input type="number" id="remainingCount" min="0" value="20">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dailyLimitCount">每日限量次数</label>
+                        <input type="number" id="dailyLimitCount" min="1" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="dailyRemainingCount">今日剩余次数</label>
+                        <input type="number" id="dailyRemainingCount" min="0" value="1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="returnToStatueAfterEachRound">
+                        <label for="returnToStatueAfterEachRound"
+                            style="display: inline; margin-bottom: 0;">每轮结束后回到七天神像回血</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="strategyName">战斗策略（可选）</label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="strategyName" placeholder="如: 群友分享/仆人纯火 或 直接留空使用根据队伍自动选择" style="flex: 1;">
+                        <button id="openStrategyPickerBtn" style="padding: 6px 12px; background: rgba(26, 115, 232, 0.2); border: 1px solid rgba(26, 115, 232, 0.5); color: #4da6ff; border-radius: 4px; cursor: pointer; white-space: nowrap;">点击选择</button>
+                    </div>
+                    <div class="strategy-hint">策略文件位于 BetterGI\User\AutoFight\ 目录，子文件夹需保留路径</div>
+                </div>
+        </div>
+    </div>
+
+    <!-- 策略选择弹窗 -->
+    <div class="modal-overlay" id="strategyModalOverlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>选择策略文件</span>
+                <button class="modal-close-btn" id="closeStrategyModalBtn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="strategy-tree-view" id="strategyTreeView">
+                    <div class="strategy-loading">加载中...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let BOSS_CASCADE_DATA = {};
+        let UNSUPPORTED_BOSSES = [];
+        let bossConfigs = [];
+        let selectedIndex = -1;
+        let selectedRegion = '';
+        
+        // 策略文件浏览器相关状态
+        let strategyTreeData = null;
+        let currentSelectedStrategy = '';
+
+        function isUnsupported(bossName) {
+            var baseName = bossName.replace(/（未支持）$/, '');
+            return UNSUPPORTED_BOSSES.some(function(unsupported) {
+                return baseName === unsupported || bossName.includes(unsupported);
+            });
+        }
+
+        const bossList = document.getElementById('bossList');
+        const editPlaceholder = document.getElementById('editPlaceholder');
+        const editForm = document.getElementById('editForm');
+        const addBossBtn = document.getElementById('addBossBtn');
+        const saveAndCloseBtn = document.getElementById('saveAndCloseBtn');
+        const statusBar = document.getElementById('statusBar');
+        const noSupportWarning = document.getElementById('noSupportWarning');
+        const bossNameInput = document.getElementById('bossNameInput');
+        const cascadeDropdown = document.getElementById('cascadeDropdown');
+        const cascadeRegionList = document.getElementById('cascadeRegionList');
+        const cascadeBossList = document.getElementById('cascadeBossList');
+
+        // 策略文件浏览器DOM元素
+        const strategyTreeView = document.getElementById('strategyTreeView');
+        const refreshStrategyBtn = document.getElementById('refreshStrategyBtn');
+        const strategySelectedDisplay = document.getElementById('strategySelectedDisplay');
+        const manualStrategyPath = document.getElementById('manualStrategyPath');
+        const applyManualStrategy = document.getElementById('applyManualStrategy');
+
+        const totalCountInput = document.getElementById('totalCount');
+        const remainingCountInput = document.getElementById('remainingCount');
+        const dailyLimitCountInput = document.getElementById('dailyLimitCount');
+        const dailyRemainingCountInput = document.getElementById('dailyRemainingCount');
+        const farmModeSelect = document.getElementById('farmMode');
+
+        function updateFormDisabledState() {
+            const farmMode = farmModeSelect.value;
+
+            if (farmMode === '一次性') {
+                totalCountInput.disabled = false;
+                remainingCountInput.disabled = false;
+                dailyLimitCountInput.disabled = true;
+                dailyRemainingCountInput.disabled = true;
+            } else if (farmMode === '每日重置') {
+                totalCountInput.disabled = true;
+                remainingCountInput.disabled = true;
+                dailyLimitCountInput.disabled = false;
+                dailyRemainingCountInput.disabled = false;
+            } else {
+                totalCountInput.disabled = false;
+                remainingCountInput.disabled = false;
+                dailyLimitCountInput.disabled = false;
+                dailyRemainingCountInput.disabled = false;
+            }
+        }
+
+        farmModeSelect.addEventListener('change', () => {
+            updateFormDisabledState();
+            autoSave();
+        });
+
+        function renderRegionList() {
+            cascadeRegionList.innerHTML = '';
+            const regions = Object.keys(BOSS_CASCADE_DATA);
+
+            regions.forEach(region => {
+                const item = document.createElement('div');
+                item.className = 'cascade-region-item' + (region === selectedRegion ? ' active' : '');
+                item.textContent = region;
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    selectedRegion = region;
+                    renderRegionList();
+                    renderCascadeBossList();
+                });
+                cascadeRegionList.appendChild(item);
+            });
+        }
+
+        function renderCascadeBossList() {
+            cascadeBossList.innerHTML = '';
+            const bosses = BOSS_CASCADE_DATA[selectedRegion] || [];
+
+            bosses.forEach(boss => {
+                const item = document.createElement('div');
+                item.className = 'cascade-boss-item';
+                item.textContent = boss;
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    selectBossFromCascade(boss);
+                });
+                cascadeBossList.appendChild(item);
+            });
+        }
+
+        function selectBossFromCascade(bossName) {
+            bossNameInput.value = bossName;
+            closeCascade();
+
+            if (isUnsupported(bossName)) {
+                noSupportWarning.style.display = 'block';
+            } else {
+                noSupportWarning.style.display = 'none';
+            }
+
+            autoSave();
+        }
+
+        function openCascade() {
+            const currentBossName = bossNameInput.value;
+
+            if (currentBossName) {
+                for (const [region, bosses] of Object.entries(BOSS_CASCADE_DATA)) {
+                    if (bosses.includes(currentBossName)) {
+                        selectedRegion = region;
+                        break;
+                    }
+                }
+            }
+
+            renderRegionList();
+            renderCascadeBossList();
+
+            cascadeDropdown.classList.add('show');
+        }
+
+        function closeCascade() {
+            cascadeDropdown.classList.remove('show');
+        }
+
+        bossNameInput.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (cascadeDropdown.classList.contains('show')) {
+                closeCascade();
+            } else {
+                openCascade();
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!cascadeDropdown.contains(e.target) && !bossNameInput.contains(e.target)) {
+                closeCascade();
+            }
+        });
+
+        function loadConfigFromData(data) {
+            try {
+                if (typeof data === 'string') {
+                    bossConfigs = JSON.parse(data);
+                } else {
+                    bossConfigs = data;
+                }
+
+                if (!Array.isArray(bossConfigs)) {
+                    bossConfigs = [];
+                }
+
+                renderBossList();
+                showStatus('配置文件加载成功！', false);
+            } catch (err) {
+                showStatus('加载配置文件失败: ' + err.message, true);
+            }
+        }
+
+        function autoSave() {
+            if (selectedIndex < 0 || selectedIndex >= bossConfigs.length) return;
+
+            const name = bossNameInput.value;
+            let parsedTotal = parseInt(document.getElementById('totalCount').value, 10);
+            const totalCount = Number.isNaN(parsedTotal) ? 20 : parsedTotal;
+            let parsedRemaining = parseInt(document.getElementById('remainingCount').value, 10);
+            const remainingCount = Number.isNaN(parsedRemaining) ? 20 : parsedRemaining;
+            const team = document.getElementById('team').value || '不切换';
+            const farmMode = document.getElementById('farmMode').value;
+            let parsedDailyLimit = parseInt(document.getElementById('dailyLimitCount').value, 10);
+            const dailyLimitCount = Number.isNaN(parsedDailyLimit) ? 1 : parsedDailyLimit;
+            let parsedDailyRemaining = parseInt(document.getElementById('dailyRemainingCount').value, 10);
+            const dailyRemainingCount = Number.isNaN(parsedDailyRemaining) ? 1 : parsedDailyRemaining;
+            let parsedTimeout = parseInt(document.getElementById('timeout').value, 10);
+            const timeout = Number.isNaN(parsedTimeout) ? 240 : parsedTimeout;
+            const returnToStatueAfterEachRound = document.getElementById('returnToStatueAfterEachRound').checked;
+
+            const strategyNameInput = document.getElementById('strategyName').value.trim();
+            const strategyName = strategyNameInput || '根据队伍自动选择';
+
+            bossConfigs[selectedIndex] = {
+                name: name,
+                totalCount: totalCount,
+                remainingCount: remainingCount,
+                team: team,
+                returnToStatueAfterEachRound: returnToStatueAfterEachRound,
+                farmMode: farmMode,
+                lastFarmTime: bossConfigs[selectedIndex].lastFarmTime || null,
+                dailyLimitCount: dailyLimitCount,
+                dailyRemainingCount: dailyRemainingCount,
+                fightParam: {
+                    timeout: timeout,
+                    strategyName: strategyName
+                }
+            };
+
+            if (isUnsupported(name)) {
+                noSupportWarning.style.display = 'block';
+            } else {
+                noSupportWarning.style.display = 'none';
+            }
+
+            document.getElementById('formTitle').textContent = `编辑: ${name}`;
+            renderBossList();
+        }
+
+        ['bossNameInput', 'team', 'totalCount', 'remainingCount', 'dailyLimitCount', 'dailyRemainingCount', 'strategyName', 'timeout', 'returnToStatueAfterEachRound'].forEach(id => {
+            const el = document.getElementById(id);
+            el.addEventListener('input', autoSave);
+            el.addEventListener('change', autoSave);
+        });
+
+        function renderBossList() {
+            bossList.innerHTML = '';
+
+            bossConfigs.forEach((config, index) => {
+                const item = document.createElement('div');
+                item.className = 'boss-item' + (index === selectedIndex ? ' selected' : '');
+                item.draggable = true;
+                item.dataset.index = index;
+
+                const dragHandle = document.createElement('span');
+                dragHandle.className = 'drag-handle';
+                dragHandle.textContent = '|||';
+
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'boss-name';
+                nameSpan.textContent = config.name;
+
+                item.appendChild(dragHandle);
+                item.appendChild(nameSpan);
+
+                item.addEventListener('click', () => selectBoss(index));
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+                item.addEventListener('dragover', handleDragOver);
+                item.addEventListener('drop', handleDrop);
+                item.addEventListener('dragleave', handleDragLeave);
+
+                bossList.appendChild(item);
+            });
+        }
+
+        function selectBoss(index) {
+            selectedIndex = index;
+            renderBossList();
+
+            if (index >= 0 && index < bossConfigs.length) {
+                const config = bossConfigs[index];
+                bossNameInput.value = config.name;
+                let parsedTotal = parseInt(config.totalCount, 10);
+                document.getElementById('totalCount').value = Number.isNaN(parsedTotal) ? 20 : parsedTotal;
+                let parsedRemaining = parseInt(config.remainingCount, 10);
+                document.getElementById('remainingCount').value = Number.isNaN(parsedRemaining) ? 20 : parsedRemaining;
+                document.getElementById('team').value = config.team || '不切换';
+                document.getElementById('farmMode').value = config.farmMode || '一次性-每日限量';
+                let parsedDailyLimit = parseInt(config.dailyLimitCount, 10);
+                document.getElementById('dailyLimitCount').value = Number.isNaN(parsedDailyLimit) ? 1 : parsedDailyLimit;
+                let parsedDailyRemaining = parseInt(config.dailyRemainingCount, 10);
+                document.getElementById('dailyRemainingCount').value = Number.isNaN(parsedDailyRemaining) ? 1 : parsedDailyRemaining;
+                let parsedTimeout = parseInt(config.fightParam?.timeout, 10);
+                document.getElementById('timeout').value = Number.isNaN(parsedTimeout) ? 240 : parsedTimeout;
+                document.getElementById('returnToStatueAfterEachRound').checked = config.returnToStatueAfterEachRound || false;
+
+                const strategyName = config.fightParam?.strategyName || '';
+                document.getElementById('strategyName').value = strategyName;
+
+                updateFormDisabledState();
+
+                if (isUnsupported(config.name)) {
+                    noSupportWarning.style.display = 'block';
+                } else {
+                    noSupportWarning.style.display = 'none';
+                }
+
+                document.getElementById('formTitle').textContent = `编辑: ${config.name}`;
+                editPlaceholder.style.display = 'none';
+                editForm.classList.add('active');
+            }
+        }
+
+        addBossBtn.addEventListener('click', () => {
+            const newBoss = {
+                name: '急冻树',
+                totalCount: 20,
+                remainingCount: 20,
+                team: '不切换',
+                returnToStatueAfterEachRound: false,
+                farmMode: '一次性-每日限量',
+                lastFarmTime: null,
+                dailyLimitCount: 1,
+                dailyRemainingCount: 1,
+                fightParam: {
+                    timeout: 240,
+                    strategyName: '根据队伍自动选择'
+                }
+            };
+
+            bossConfigs.push(newBoss);
+            selectBoss(bossConfigs.length - 1);
+            showStatus('已添加新Boss', false);
+        });
+
+        document.getElementById('deleteBossBtn').addEventListener('click', () => {
+            if (selectedIndex < 0 || selectedIndex >= bossConfigs.length) return;
+
+            const name = bossConfigs[selectedIndex].name;
+            bossConfigs.splice(selectedIndex, 1);
+
+            if (selectedIndex >= bossConfigs.length) {
+                selectedIndex = bossConfigs.length - 1;
+            }
+
+            if (bossConfigs.length === 0) {
+                selectedIndex = -1;
+                editPlaceholder.style.display = 'flex';
+                editForm.classList.remove('active');
+            } else {
+                selectBoss(selectedIndex);
+            }
+
+            renderBossList();
+            showStatus(`已删除Boss: ${name}`, false);
+        });
+
+        let draggedIndex = -1;
+
+        function handleDragStart(e) {
+            e.stopPropagation();
+            draggedIndex = parseInt(e.currentTarget.dataset.index);
+            e.currentTarget.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragEnd(e) {
+            e.stopPropagation();
+            e.currentTarget.classList.remove('dragging');
+            document.querySelectorAll('.boss-item').forEach(item => {
+                item.classList.remove('drag-over');
+            });
+            draggedIndex = -1;
+        }
+
+        function handleDragOver(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            const item = e.target.closest('.boss-item');
+            if (item && parseInt(item.dataset.index) !== draggedIndex) {
+                item.classList.add('drag-over');
+            }
+        }
+
+        function handleDragLeave(e) {
+            e.stopPropagation();
+            const item = e.target.closest('.boss-item');
+            if (item) {
+                item.classList.remove('drag-over');
+            }
+        }
+
+        function handleDrop(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            const item = e.target.closest('.boss-item');
+            if (!item) return;
+
+            const dropIndex = parseInt(item.dataset.index);
+
+            if (draggedIndex !== -1 && draggedIndex !== dropIndex) {
+                const draggedItem = bossConfigs[draggedIndex];
+                bossConfigs.splice(draggedIndex, 1);
+                bossConfigs.splice(dropIndex, 0, draggedItem);
+
+                if (selectedIndex === draggedIndex) {
+                    selectedIndex = dropIndex;
+                } else if (draggedIndex < selectedIndex && dropIndex >= selectedIndex) {
+                    selectedIndex--;
+                } else if (draggedIndex > selectedIndex && dropIndex <= selectedIndex) {
+                    selectedIndex++;
+                }
+
+                renderBossList();
+                showStatus('Boss顺序已更新', false);
+            }
+
+            item.classList.remove('drag-over');
+        }
+
+        saveAndCloseBtn.addEventListener('click', () => {
+            var jsonContent = JSON.stringify(bossConfigs, null, 4);
+
+            if (window.htmlMask) {
+                window.htmlMask.request('/saveAndClose', { content: jsonContent })
+                    .then(function () {
+                        showStatus('配置已保存，正在关闭...', false);
+                    })
+                    .catch(function (err) {
+                        showStatus('保存失败: ' + err, true);
+                    });
+            } else {
+                showStatus('未在 htmlMask 环境中运行', true);
+            }
+        });
+
+        function showStatus(message, isError) {
+            if (!statusBar) return;
+            statusBar.textContent = message;
+            statusBar.style.display = 'block';
+            statusBar.className = 'status-bar' + (isError ? ' error' : '');
+        }
+
+        // ==================== 策略选择弹窗功能 ====================
+        
+        const strategyModalOverlay = document.getElementById('strategyModalOverlay');
+        const openStrategyPickerBtn = document.getElementById('openStrategyPickerBtn');
+        const closeStrategyModalBtn = document.getElementById('closeStrategyModalBtn');
+        let expandedFolders = {}; // 记录已展开的文件夹路径
+
+        /**
+         * 格式化策略名显示
+         * @param {string} strategyPath - 完整策略路径（如 "群友分享/仆人纯火"）
+         * @returns {string} 格式化后的显示文本
+         */
+        function formatStrategyDisplay(strategyPath) {
+            if (!strategyPath) return '';
+            // 去掉目录路径，只保留文件名
+            var fileName = strategyPath.split('/').pop() || strategyPath;
+            // 限制12字上限
+            if (fileName.length > 12) {
+                return fileName.substring(0, 4) + '...' + fileName.substring(fileName.length - 4);
+            }
+            return fileName;
+        }
+
+        // 打开弹窗
+        openStrategyPickerBtn.addEventListener('click', function () {
+            strategyModalOverlay.style.display = 'flex';
+            expandedFolders = {}; // 重置展开状态
+            loadRootStrategyTree();
+        });
+
+        // 关闭弹窗
+        closeStrategyModalBtn.addEventListener('click', function () {
+            strategyModalOverlay.style.display = 'none';
+        });
+
+        // 点击遮罩关闭
+        strategyModalOverlay.addEventListener('click', function (e) {
+            if (e.target === strategyModalOverlay) {
+                strategyModalOverlay.style.display = 'none';
+            }
+        });
+
+        /**
+         * 加载根目录策略树（全量加载，用于首次打开）
+         */
+        function loadRootStrategyTree() {
+            strategyTreeView.innerHTML = '<div class="strategy-loading">加载中...</div>';
+            if (window.htmlMask) {
+                window.htmlMask.request('/loadStrategyTree', {}).catch(function () {});
+            }
+        }
+
+        /**
+         * 加载指定目录的子节点（动态加载）
+         * @param {string} path - 目录路径
+         * @param {HTMLElement} childrenContainer - 子节点容器元素
+         */
+        function loadChildrenForFolder(path, childrenContainer) {
+            childrenContainer.innerHTML = '<div class="strategy-loading">加载中...</div>';
+            if (window.htmlMask) {
+                window.htmlMask.request('/loadStrategyChildren', { path: path }).catch(function () {});
+            }
+        }
+
+        /**
+         * 渲染全量策略树（根目录数据）
+         */
+        function renderStrategyTree(data) {
+            strategyTreeView.innerHTML = '';
+            
+            if (!data || !data.children || data.children.length === 0) {
+                strategyTreeView.innerHTML = '<div class="strategy-error">未找到策略文件</div>';
+                return;
+            }
+            
+            const rootContainer = document.createElement('div');
+            renderStrategyNodes(data.children, rootContainer, '');
+            strategyTreeView.appendChild(rootContainer);
+        }
+
+        /**
+         * 渲染子节点列表（动态加载结果）
+         * @param {Array} children - 子节点数组
+         * @param {HTMLElement} container - 容器
+         * @param {string} parentPath - 父目录路径
+         */
+        function renderChildrenList(children, container, parentPath) {
+            container.innerHTML = '';
+            
+            if (!children || children.length === 0) {
+                container.innerHTML = '<div class="strategy-error" style="padding:8px;">目录为空</div>';
+                return;
+            }
+
+            renderStrategyNodes(children, container, parentPath);
+        }
+
+        /**
+         * 渲染一组策略节点
+         */
+        function renderStrategyNodes(nodes, container, parentPath) {
+            nodes.forEach(function (child) {
+                // child.name 已经是相对于根目录的完整路径
+                const nodePath = child.name;
+                
+                if (child.type === 'folder') {
+                    const folderNode = createFolderNode(nodePath, container);
+                    container.appendChild(folderNode);
+                } else if (child.type === 'file') {
+                    const fileNode = createFileNode(nodePath);
+                    container.appendChild(fileNode);
+                }
+            });
+        }
+
+        /**
+         * 创建文件夹节点（支持动态加载）
+         */
+        function createFolderNode(path, parentContainer) {
+            const nodeWrapper = document.createElement('div');
+            
+            const folderDiv = document.createElement('div');
+            folderDiv.className = 'strategy-node folder';
+            
+            const folderName = path.split('/').pop() || path;
+            
+            const toggle = document.createElement('span');
+            toggle.className = 'toggle';
+            toggle.textContent = '▶';
+            
+            const icon = document.createElement('span');
+            icon.className = 'icon';
+            icon.textContent = '📁';
+            
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = folderName;
+            
+            folderDiv.appendChild(toggle);
+            folderDiv.appendChild(icon);
+            folderDiv.appendChild(nameSpan);
+            
+            const childrenContainer = document.createElement('div');
+            childrenContainer.className = 'strategy-children collapsed';
+            childrenContainer.dataset.folderPath = path; // 存储路径用于匹配
+            
+            var isLoaded = false;
+            var isExpanded = false;
+            
+            folderDiv.addEventListener('click', function () {
+                isExpanded = !isExpanded;
+                childrenContainer.classList.toggle('collapsed');
+                toggle.textContent = isExpanded ? '▼' : '▶';
+                
+                if (isExpanded && !isLoaded) {
+                    isLoaded = true;
+                    loadChildrenForFolder(path, childrenContainer);
+                }
+            });
+            
+            nodeWrapper.appendChild(folderDiv);
+            nodeWrapper.appendChild(childrenContainer);
+            
+            return nodeWrapper;
+        }
+
+        /**
+         * 创建文件节点
+         */
+        function createFileNode(path) {
+            const fileDiv = document.createElement('div');
+            fileDiv.className = 'strategy-node file';
+            
+            const fileName = path.split('/').pop() || path;
+            
+            const icon = document.createElement('span');
+            icon.className = 'icon';
+            icon.textContent = '📄';
+            
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = fileName;
+            
+            fileDiv.appendChild(icon);
+            fileDiv.appendChild(nameSpan);
+            
+            fileDiv.addEventListener('click', function () {
+                // 选中策略（去掉后缀名）
+                var strategyPath = path.replace(/\.txt$/i, '').replace(/\.json$/i, '');
+                
+                // 更新输入框
+                document.getElementById('strategyName').value = strategyPath;
+                
+                // 高亮选中
+                document.querySelectorAll('.strategy-node.file.selected').forEach(function (el) {
+                    el.classList.remove('selected');
+                });
+                fileDiv.classList.add('selected');
+                
+                // 关闭弹窗并触发保存
+                strategyModalOverlay.style.display = 'none';
+                autoSave();
+                
+                // 显示格式化后的策略名
+                showStatus('已选择策略: ' + formatStrategyDisplay(strategyPath), false);
+            });
+            
+            return fileDiv;
+        }
+
+        /**
+         * 处理策略树数据（全量）
+         */
+        function handleStrategyTreeData(data) {
+            renderStrategyTree(data);
+        }
+
+        /**
+         * 处理策略子目录数据（动态加载）
+         */
+        function handleStrategyChildrenData(data) {
+            var targetPath = data.path;
+            var children = data.children || [];
+            
+            // 通过 data-folderPath 属性找到目标容器
+            var targetContainer = strategyTreeView.querySelector('[data-folder-path="' + targetPath + '"]');
+            
+            if (targetContainer) {
+                renderChildrenList(children, targetContainer, targetPath);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', function () {
+            if (window.htmlMask) {
+                showStatus('正在加载配置文件...', false);
+
+                window.htmlMask.onMessage = function (message) {
+                    if (message.url === '/loadConfig') {
+                        var configData = message.data.data || message.data;
+                        loadConfigFromData(configData);
+                    } else if (message.url === '/bossList') {
+                        var data = message.data.data || message.data;
+                        BOSS_CASCADE_DATA = data.bossList || {};
+                        UNSUPPORTED_BOSSES = data.unsupportedBosses || [];
+                        selectedRegion = Object.keys(BOSS_CASCADE_DATA)[0] || '';
+                        renderRegionList();
+                        renderCascadeBossList();
+                    } else if (message.url === '/toggleVisibility') {
+                        var container = document.querySelector('.main-container');
+                        if (container) {
+                            container.style.display = message.data.visible ? 'flex' : 'none';
+                        }
+                        document.body.style.backgroundColor = message.data.visible
+                            ? 'rgba(0, 0, 0, 0.3)'
+                            : 'rgba(0, 0, 0, 0)';
+                    } else if (message.url === '/strategyTreeData') {
+                        var treeData = message.data.data || message.data;
+                        handleStrategyTreeData(treeData);
+                    } else if (message.url === '/strategyChildrenData') {
+                        var childrenData = message.data.data || message.data;
+                        handleStrategyChildrenData(childrenData);
+                    }
+                };
+
+                window.htmlMask.request('/loadConfig', {}).catch(function () {});
+            }
+        });
+    </script>
+</body>
+
+</html>

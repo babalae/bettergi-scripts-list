@@ -1102,16 +1102,7 @@ if(afterStamina< 20) skipCheckStamina = 0;
                      await pathingScript.runFile(`assets/goToBoss/${bossName}前往.json`);
                  	 if(bossName=="超重型陆巡舰·机动战垒"){
 					 keyDown("w");
-					 await sleep(13000);
-					 keyUp("w");
-					 }
-					 else if(bossName=="深黯魇语之主"){
-					 keyDown("w");
-					 await sleep(2000);
-					 keyPress("VK_SPACE");
-					 await sleep(500);
-					 keyPress("VK_SPACE");
-					 await sleep(13000);
+					 await sleep(16000);
 					 keyUp("w");
 					 }
                      await sleep(500);
@@ -1125,18 +1116,10 @@ if(afterStamina< 20) skipCheckStamina = 0;
                          await pathingScript.runFile(`assets/goToBoss/${bossName}前往.json`);
                          if(bossName=="超重型陆巡舰·机动战垒"){
 					     keyDown("w");
-					     await sleep(15000);
+					     await sleep(16000);
 					     keyUp("w");
 					     }
-					     else if(bossName=="深黯魇语之主"){
-					     keyDown("w");
-					     await sleep(2000);
-					     keyPress("VK_SPACE");
-					     await sleep(500);
-					     keyPress("VK_SPACE");
-					     await sleep(13000);
-					     keyUp("w");
-					     }
+				 
                          await dispatcher.runTask(new SoloTask("AutoFight"));
                      }
                      await sleep(1000);

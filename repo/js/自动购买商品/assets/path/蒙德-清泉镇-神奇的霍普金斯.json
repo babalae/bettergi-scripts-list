@@ -1,35 +1,49 @@
 ﻿{
   "info": {
-    "name": "神奇的霍普金斯",
-    "type": "collect",
-    "authors": [],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1755552575866,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1775689234271,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蒙德-清泉镇-神奇的霍普金斯",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
-      "id": 1,
       "action": "",
+      "action_params": "",
+      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
       "x": -867.2578125,
-      "y": 1992.55078125,
-      "action_params": ""
+      "y": 1992.55078125
     },
     {
-      "id": 2,
-      "x": -874.9453125,
-      "y": 1974.10888671875,
-      "type": "target",
-      "move_mode": "dash",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -872.0007201646076,
+      "y": 1981.375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -874.9453125,
+      "y": 1974.10888671875
     }
   ]
 }

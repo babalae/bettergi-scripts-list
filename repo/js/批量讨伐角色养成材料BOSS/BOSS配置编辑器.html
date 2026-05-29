@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boss讨伐配置编辑器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .left-panel {
+            width: 280px;
+            background-color: #ffffff;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .left-panel-top {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .file-buttons-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .select-config-btn {
+            flex: 1;
+            padding: 8px 12px;
+            background-color: #ffffff;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .select-config-btn:hover {
+            background-color: #f5f5f5;
+            border-color: #bbb;
+        }
+
+        .select-config-btn.active {
+            background-color: #e3f2fd;
+            border-color: #1a73e8;
+            color: #1a73e8;
+        }
+
+        .file-path {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 8px;
+            word-break: break-all;
+        }
+
+        .left-panel-header {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .boss-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .boss-item {
+            background-color: #f8f9fa;
+            margin-bottom: 6px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            border: 1px solid transparent;
+        }
+
+        .boss-item:hover {
+            background-color: #e8f0fe;
+        }
+
+        .boss-item.selected {
+            border-color: #1a73e8;
+            background-color: #e3f2fd;
+        }
+
+        .boss-item.dragging {
+            opacity: 0.5;
+            background-color: #e8f0fe;
+        }
+
+        .boss-item.drag-over {
+            border-color: #1a73e8;
+            border-style: dashed;
+        }
+
+        .drag-handle {
+            cursor: grab;
+            font-size: 1rem;
+            color: #999;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .boss-name {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .left-panel-bottom {
+            padding: 8px;
+            border-top: 1px solid #eee;
+        }
+
+        .add-boss-btn {
+            margin-bottom: 8px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            color: #1a73e8;
+            border: 1px dashed #1a73e8;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: none;
+        }
+
+        .add-boss-btn.show {
+            display: block;
+        }
+
+        .add-boss-btn:hover {
+            background-color: #e3f2fd;
+        }
+
+        .export-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background-color 0.2s;
+            display: none;
+        }
+
+        .export-btn.show {
+            display: block;
+        }
+
+        .export-btn:hover {
+            background-color: #218838;
+        }
+
+        .export-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .right-panel {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .edit-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #999;
+            font-size: 1rem;
+        }
+
+        .edit-form {
+            display: none;
+            max-width: 600px;
+        }
+
+        .edit-form.active {
+            display: block;
+        }
+
+        .form-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #333;
+        }
+
+        .delete-btn {
+            padding: 6px 14px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+
+        .form-group input:disabled,
+        .form-group select:disabled {
+            background-color: #f5f5f5;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .form-group optgroup {
+            font-weight: 600;
+            color: #1a73e8;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            color: #555;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .status-bar {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #e3f2fd;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            color: #1a73e8;
+            display: none;
+        }
+
+        .status-bar.error {
+            background-color: #fce8e6;
+            color: #d93025;
+        }
+
+        .no-support-warning {
+            color: #f57c00;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .strategy-hint {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .cascade-input-wrapper {
+            position: relative;
+        }
+
+        .cascade-input {
+            width: 100%;
+            padding: 10px 36px 10px 12px;
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .cascade-input:hover {
+            border-color: #bbb;
+        }
+
+        .cascade-input:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+
+        .cascade-arrow {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .cascade-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            width: 100%;
+            min-width: 320px;
+            max-height: 300px;
+        }
+
+        .cascade-dropdown.show {
+            display: flex;
+        }
+
+        .cascade-region-list {
+            width: 90px;
+            border-right: 1px solid #eee;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+        }
+
+        .cascade-boss-list {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+        .cascade-region-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #555;
+            transition: all 0.15s;
+            border-left: 2px solid transparent;
+        }
+
+        .cascade-region-item:hover {
+            background-color: #e8f0fe;
+        }
+
+        .cascade-region-item.active {
+            background-color: #e3f2fd;
+            color: #1a73e8;
+            border-left-color: #1a73e8;
+            font-weight: 500;
+        }
+
+        .cascade-boss-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #333;
+            transition: all 0.15s;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .cascade-boss-item:last-child {
+            border-bottom: none;
+        }
+
+        .cascade-boss-item:hover {
+            background-color: #e8f0fe;
+            color: #1a73e8;
+        }
+
+        .drop-zone {
+            display: none;
+            padding: 20px;
+            border: 2px dashed #1a73e8;
+            border-radius: 8px;
+            background-color: #e3f2fd;
+            text-align: center;
+            color: #1a73e8;
+            margin: 8px;
+            font-size: 0.85rem;
+        }
+
+        .drop-zone.active {
+            display: block;
+        }
+
+        .save-hint {
+            margin-top: 8px;
+            padding: 8px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            display: none;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .save-hint.show {
+            display: flex;
+        }
+
+        .save-hint.direct {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .save-hint.saveas {
+            background-color: #fff3e0;
+            color: #e65100;
+            border: 1px solid #ffe0b2;
+        }
+
+        .save-hint-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="left-panel">
+            <div class="left-panel-top">
+                <div class="file-buttons-row">
+                    <button class="select-config-btn" id="selectConfigBtn">选择配置文件</button>
+                    <button class="select-config-btn" id="newConfigBtn">新建配置文件</button>
+                </div>
+                <div class="file-path" id="configPath">未选择配置文件</div>
+                <div class="status-bar" id="statusBar"></div>
+                <div class="drop-zone" id="dropZone">
+                    拖放配置文件到此处
+                </div>
+            </div>
+
+            <div class="left-panel-header">Boss列表</div>
+            <div class="boss-list" id="bossList"></div>
+            <div class="left-panel-bottom">
+                <div class="add-boss-btn" id="addBossBtn">添加Boss</div>
+                <button class="export-btn" id="exportBtn" disabled>导出保存config.json</button>
+                <div class="save-hint" id="saveHint">
+                    <span class="save-hint-icon" id="saveHintIcon"></span>
+                    <span id="saveHintText"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="edit-placeholder" id="editPlaceholder">
+                请从左侧选择一个Boss进行编辑
+            </div>
+
+            <div class="edit-form" id="editForm">
+                <div class="form-title">
+                    <span id="formTitle">编辑Boss</span>
+                    <button class="delete-btn" id="deleteBossBtn">删除</button>
+                </div>
+
+                <div class="form-group">
+                    <label for="bossNameInput">Boss名称</label>
+                    <div class="cascade-input-wrapper">
+                        <input type="text" id="bossNameInput" class="cascade-input" placeholder="点击选择Boss" readonly>
+                        <span class="cascade-arrow">▼</span>
+                        <div class="cascade-dropdown" id="cascadeDropdown">
+                            <div class="cascade-region-list" id="cascadeRegionList"></div>
+                            <div class="cascade-boss-list" id="cascadeBossList"></div>
+                        </div>
+                    </div>
+                    <div class="no-support-warning" id="noSupportWarning" style="display: none;">此Boss暂未支持自动寻路</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="team">队伍名称</label>
+                    <input type="text" id="team" value="不切换" placeholder="输入队伍名称">
+                </div>
+
+                <div class="form-group">
+                    <label for="farmMode">刷取模式</label>
+                    <select id="farmMode">
+                        <option value="一次性">一次性</option>
+                        <option value="一次性-每日限量" selected>一次性-每日限量</option>
+                        <option value="每日重置">每日重置</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="totalCount">总讨伐次数</label>
+                        <input type="number" id="totalCount" min="1" value="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="remainingCount">剩余次数</label>
+                        <input type="number" id="remainingCount" min="0" value="20">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dailyLimitCount">每日限量次数</label>
+                        <input type="number" id="dailyLimitCount" min="1" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="dailyRemainingCount">今日剩余次数</label>
+                        <input type="number" id="dailyRemainingCount" min="0" value="1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="strategyName">战斗策略（可选）</label>
+                    <input type="text" id="strategyName" placeholder="如: 群友分享\仆人纯火 或 直接留空使用根据队伍自动选择">
+                    <div class="strategy-hint">策略文件位于 BetterGI\User\AutoFight\ 目录，子文件夹需保留路径</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="timeout">战斗超时时间（秒）</label>
+                    <input type="number" id="timeout" min="30" value="240">
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="returnToStatueAfterEachRound">
+                        <label for="returnToStatueAfterEachRound" style="display: inline; margin-bottom: 0;">每轮结束后回到七天神像回血</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const BOSS_CASCADE_DATA = {
+            '蒙德': ['急冻树', '无相之雷', '无相之风（未支持）', '无相之冰（未支持）', '守望者·堕天'],
+            '璃月': ['爆炎树', '纯水精灵', '古岩龙蜥', '无相之岩', '遗迹巨蛇', '隐山猊兽'],
+            '稻妻': ['无相之火', '恒常机关阵列', '雷音权现', '魔偶剑鬼', '无相之水', '黄金王兽（未支持）', '深海龙蜥之群（未支持）'],
+            '须弥': ['掣电树', '半永恒统辖矩阵', '翠翎恐蕈', '风蚀沙虫', '无相之草', '深罪浸礼者', '兆载永劫龙兽'],
+            '枫丹': ['歌裴莉娅的葬送', '科培琉司的劫罚', '实验性场力发生装置', '魔像督军', '千年珍珠骏麟', '水形幻人', '铁甲熔火帝皇'],
+            '纳塔': ['金焰绒翼龙暴君', '灵觉隐修的迷者', '秘源机兵·构型械', '秘源机兵·统御械', '熔岩辉龙像', '深邃摹结株', '贪食匿叶龙山王'],
+            '挪德卡莱': ['蕴光月守宫', '深黯魇语之主', '超重型陆巡舰·机动战垒', '霜夜巡天灵主', '蕴光月幻蝶', '重拳出击鸭']
+        };
+
+        const UNSUPPORTED_BOSSES = [
+            '无相之风', '无相之风（未支持）',
+            '黄金王兽', '黄金王兽（未支持）',
+            '无相之冰', '无相之冰（未支持）',
+            '深海龙蜥之群', '深海龙蜥之群（未支持）'
+        ];
+
+        let bossConfigs = [];
+        let selectedIndex = -1;
+        let configFileHandle = null;
+        let canDirectSave = false;
+        let currentFileName = 'config.json';
+        let selectedRegion = Object.keys(BOSS_CASCADE_DATA)[0];
+
+        const bossList = document.getElementById('bossList');
+        const editPlaceholder = document.getElementById('editPlaceholder');
+        const editForm = document.getElementById('editForm');
+        const selectConfigBtn = document.getElementById('selectConfigBtn');
+        const configPathEl = document.getElementById('configPath');
+        const exportBtn = document.getElementById('exportBtn');
+        const statusBar = document.getElementById('statusBar');
+        const noSupportWarning = document.getElementById('noSupportWarning');
+        const bossNameInput = document.getElementById('bossNameInput');
+        const cascadeDropdown = document.getElementById('cascadeDropdown');
+        const cascadeRegionList = document.getElementById('cascadeRegionList');
+        const cascadeBossList = document.getElementById('cascadeBossList');
+        const dropZone = document.getElementById('dropZone');
+        const saveHint = document.getElementById('saveHint');
+        const saveHintIcon = document.getElementById('saveHintIcon');
+        const saveHintText = document.getElementById('saveHintText');
+
+        const totalCountInput = document.getElementById('totalCount');
+        const remainingCountInput = document.getElementById('remainingCount');
+        const dailyLimitCountInput = document.getElementById('dailyLimitCount');
+        const dailyRemainingCountInput = document.getElementById('dailyRemainingCount');
+        const farmModeSelect = document.getElementById('farmMode');
+
+        function updateFormDisabledState() {
+            const farmMode = farmModeSelect.value;
+
+            if (farmMode === '一次性') {
+                totalCountInput.disabled = false;
+                remainingCountInput.disabled = false;
+                dailyLimitCountInput.disabled = true;
+                dailyRemainingCountInput.disabled = true;
+            } else if (farmMode === '每日重置') {
+                totalCountInput.disabled = true;
+                remainingCountInput.disabled = true;
+                dailyLimitCountInput.disabled = false;
+                dailyRemainingCountInput.disabled = false;
+            } else {
+                totalCountInput.disabled = false;
+                remainingCountInput.disabled = false;
+                dailyLimitCountInput.disabled = false;
+                dailyRemainingCountInput.disabled = false;
+            }
+        }
+
+        farmModeSelect.addEventListener('change', () => {
+            updateFormDisabledState();
+            autoSave();
+        });
+
+        function renderRegionList() {
+            cascadeRegionList.innerHTML = '';
+            const regions = Object.keys(BOSS_CASCADE_DATA);
+
+            regions.forEach(region => {
+                const item = document.createElement('div');
+                item.className = 'cascade-region-item' + (region === selectedRegion ? ' active' : '');
+                item.textContent = region;
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    selectedRegion = region;
+                    renderRegionList();
+                    renderCascadeBossList();
+                });
+                cascadeRegionList.appendChild(item);
+            });
+        }
+
+        function renderCascadeBossList() {
+            cascadeBossList.innerHTML = '';
+            const bosses = BOSS_CASCADE_DATA[selectedRegion] || [];
+
+            bosses.forEach(boss => {
+                const item = document.createElement('div');
+                item.className = 'cascade-boss-item';
+                item.textContent = boss;
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    selectBossFromCascade(boss);
+                });
+                cascadeBossList.appendChild(item);
+            });
+        }
+
+        function selectBossFromCascade(bossName) {
+            bossNameInput.value = bossName;
+            closeCascade();
+
+            if (UNSUPPORTED_BOSSES.includes(bossName)) {
+                noSupportWarning.style.display = 'block';
+            } else {
+                noSupportWarning.style.display = 'none';
+            }
+
+            autoSave();
+        }
+
+        function openCascade() {
+            const currentBossName = bossNameInput.value;
+
+            if (currentBossName) {
+                for (const [region, bosses] of Object.entries(BOSS_CASCADE_DATA)) {
+                    if (bosses.includes(currentBossName)) {
+                        selectedRegion = region;
+                        break;
+                    }
+                }
+            }
+
+            renderRegionList();
+            renderCascadeBossList();
+
+            cascadeDropdown.classList.add('show');
+        }
+
+        function closeCascade() {
+            cascadeDropdown.classList.remove('show');
+        }
+
+        bossNameInput.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (cascadeDropdown.classList.contains('show')) {
+                closeCascade();
+            } else {
+                openCascade();
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!cascadeDropdown.contains(e.target) && !bossNameInput.contains(e.target)) {
+                closeCascade();
+            }
+        });
+
+        function updateSaveHint() {
+            saveHint.classList.add('show');
+            exportBtn.classList.add('show');
+            document.getElementById('addBossBtn').classList.add('show');
+            
+            if (canDirectSave) {
+                saveHint.className = 'save-hint show direct';
+                saveHintIcon.textContent = '✓';
+                saveHintText.textContent = '可直接保存回原文件';
+                exportBtn.textContent = '保存回原文件';
+            } else {
+                saveHint.className = 'save-hint show saveas';
+                saveHintIcon.textContent = '⚠';
+                saveHintText.textContent = '需保存后手动覆盖';
+                exportBtn.textContent = '另存为';
+            }
+        }
+
+        function loadConfigFromContent(content, fileName, directSave) {
+            try {
+                bossConfigs = JSON.parse(content);
+
+                if (!Array.isArray(bossConfigs)) {
+                    bossConfigs = [];
+                }
+
+                configFileHandle = directSave ? configFileHandle : null;
+                canDirectSave = directSave;
+                currentFileName = fileName;
+
+                configPathEl.textContent = `配置文件: ${fileName}`;
+                selectConfigBtn.classList.add('active');
+                exportBtn.disabled = false;
+                updateSaveHint();
+                renderBossList();
+                showStatus('配置文件加载成功！', false);
+            } catch (err) {
+                showStatus('加载配置文件失败: ' + err.message, true);
+            }
+        }
+
+        function autoSave() {
+            if (selectedIndex < 0 || selectedIndex >= bossConfigs.length) return;
+
+            const name = bossNameInput.value;
+            let parsedTotal = parseInt(document.getElementById('totalCount').value, 10);
+            const totalCount = Number.isNaN(parsedTotal) ? 20 : parsedTotal;
+            let parsedRemaining = parseInt(document.getElementById('remainingCount').value, 10);
+            const remainingCount = Number.isNaN(parsedRemaining) ? 20 : parsedRemaining;
+            const team = document.getElementById('team').value || '不切换';
+            const farmMode = document.getElementById('farmMode').value;
+            let parsedDailyLimit = parseInt(document.getElementById('dailyLimitCount').value, 10);
+            const dailyLimitCount = Number.isNaN(parsedDailyLimit) ? 1 : parsedDailyLimit;
+            let parsedDailyRemaining = parseInt(document.getElementById('dailyRemainingCount').value, 10);
+            const dailyRemainingCount = Number.isNaN(parsedDailyRemaining) ? 1 : parsedDailyRemaining;
+            let parsedTimeout = parseInt(document.getElementById('timeout').value, 10);
+            const timeout = Number.isNaN(parsedTimeout) ? 240 : parsedTimeout;
+            const returnToStatueAfterEachRound = document.getElementById('returnToStatueAfterEachRound').checked;
+
+            const strategyNameInput = document.getElementById('strategyName').value.trim();
+            const strategyName = strategyNameInput || '根据队伍自动选择';
+
+            bossConfigs[selectedIndex] = {
+                name: name,
+                totalCount: totalCount,
+                remainingCount: remainingCount,
+                team: team,
+                returnToStatueAfterEachRound: returnToStatueAfterEachRound,
+                farmMode: farmMode,
+                lastFarmTime: bossConfigs[selectedIndex].lastFarmTime || null,
+                dailyLimitCount: dailyLimitCount,
+                dailyRemainingCount: dailyRemainingCount,
+                fightParam: {
+                    timeout: timeout,
+                    strategyName: strategyName
+                }
+            };
+
+            if (UNSUPPORTED_BOSSES.includes(name)) {
+                noSupportWarning.style.display = 'block';
+            } else {
+                noSupportWarning.style.display = 'none';
+            }
+
+            document.getElementById('formTitle').textContent = `编辑: ${name}`;
+            renderBossList();
+        }
+
+        ['bossNameInput', 'team', 'totalCount', 'remainingCount', 'dailyLimitCount', 'dailyRemainingCount', 'strategyName', 'timeout', 'returnToStatueAfterEachRound'].forEach(id => {
+            const el = document.getElementById(id);
+            el.addEventListener('input', autoSave);
+            el.addEventListener('change', autoSave);
+        });
+
+        document.getElementById('newConfigBtn').addEventListener('click', () => {
+            bossConfigs = [];
+            configFileHandle = null;
+            canDirectSave = false;
+            currentFileName = 'config.json';
+            selectedIndex = -1;
+
+            selectConfigBtn.classList.remove('active');
+            exportBtn.disabled = false;
+            configPathEl.textContent = '配置文件: config.json';
+            updateSaveHint();
+            renderBossList();
+
+            editPlaceholder.style.display = 'flex';
+            editForm.classList.remove('active');
+            showStatus('已创建新配置文件，请添加Boss', false);
+        });
+
+        selectConfigBtn.addEventListener('click', async () => {
+            try {
+                const [handle] = await window.showOpenFilePicker({
+                    types: [{
+                        description: 'JSON Files',
+                        accept: { 'application/json': ['.json'] }
+                    }]
+                });
+                configFileHandle = handle;
+                const file = await handle.getFile();
+                const content = await file.text();
+                loadConfigFromContent(content, handle.name, true);
+            } catch (err) {
+                if (err.name !== 'AbortError') {
+                    showStatus('加载配置文件失败: ' + err.message, true);
+                }
+            }
+        });
+
+        document.addEventListener('dragover', (e) => {
+            const isBossList = e.target.closest('.boss-list') || e.target.closest('.left-panel-bottom');
+            if (!isBossList) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'copy';
+                dropZone.classList.add('active');
+            }
+        });
+
+        document.addEventListener('dragleave', (e) => {
+            if (e.relatedTarget === null || !document.body.contains(e.relatedTarget)) {
+                dropZone.classList.remove('active');
+                dropZone.classList.remove('dragging');
+            }
+        });
+
+        document.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('active');
+            dropZone.classList.remove('dragging');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.name.endsWith('.json')) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        loadConfigFromContent(event.target.result, file.name, false);
+                    };
+                    reader.readAsText(file);
+                } else {
+                    showStatus('请拖入 .json 格式的配置文件', true);
+                }
+            }
+        });
+
+        function renderBossList() {
+            bossList.innerHTML = '';
+
+            bossConfigs.forEach((config, index) => {
+                const item = document.createElement('div');
+                item.className = 'boss-item' + (index === selectedIndex ? ' selected' : '');
+                item.draggable = true;
+                item.dataset.index = index;
+
+                const dragHandle = document.createElement('span');
+                dragHandle.className = 'drag-handle';
+                dragHandle.textContent = '|||';
+
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'boss-name';
+                nameSpan.textContent = config.name;
+
+                item.appendChild(dragHandle);
+                item.appendChild(nameSpan);
+
+                item.addEventListener('click', () => selectBoss(index));
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+                item.addEventListener('dragover', handleDragOver);
+                item.addEventListener('drop', handleDrop);
+                item.addEventListener('dragleave', handleDragLeave);
+
+                bossList.appendChild(item);
+            });
+        }
+
+        function selectBoss(index) {
+            selectedIndex = index;
+            renderBossList();
+
+            if (index >= 0 && index < bossConfigs.length) {
+                const config = bossConfigs[index];
+                bossNameInput.value = config.name;
+                let parsedTotal = parseInt(config.totalCount, 10);
+                document.getElementById('totalCount').value = Number.isNaN(parsedTotal) ? 20 : parsedTotal;
+                let parsedRemaining = parseInt(config.remainingCount, 10);
+                document.getElementById('remainingCount').value = Number.isNaN(parsedRemaining) ? 20 : parsedRemaining;
+                document.getElementById('team').value = config.team || '不切换';
+                document.getElementById('farmMode').value = config.farmMode || '一次性-每日限量';
+                let parsedDailyLimit = parseInt(config.dailyLimitCount, 10);
+                document.getElementById('dailyLimitCount').value = Number.isNaN(parsedDailyLimit) ? 1 : parsedDailyLimit;
+                let parsedDailyRemaining = parseInt(config.dailyRemainingCount, 10);
+                document.getElementById('dailyRemainingCount').value = Number.isNaN(parsedDailyRemaining) ? 1 : parsedDailyRemaining;
+                let parsedTimeout = parseInt(config.fightParam?.timeout, 10);
+                document.getElementById('timeout').value = Number.isNaN(parsedTimeout) ? 240 : parsedTimeout;
+                document.getElementById('returnToStatueAfterEachRound').checked = config.returnToStatueAfterEachRound || false;
+
+                const strategyName = config.fightParam?.strategyName || '';
+                document.getElementById('strategyName').value = strategyName;
+
+                updateFormDisabledState();
+
+                if (UNSUPPORTED_BOSSES.includes(config.name)) {
+                    noSupportWarning.style.display = 'block';
+                } else {
+                    noSupportWarning.style.display = 'none';
+                }
+
+                document.getElementById('formTitle').textContent = `编辑: ${config.name}`;
+                editPlaceholder.style.display = 'none';
+                editForm.classList.add('active');
+            }
+        }
+
+        document.getElementById('addBossBtn').addEventListener('click', () => {
+            const newBoss = {
+                name: '急冻树',
+                totalCount: 20,
+                remainingCount: 20,
+                team: '不切换',
+                returnToStatueAfterEachRound: false,
+                farmMode: '一次性-每日限量',
+                lastFarmTime: null,
+                dailyLimitCount: 1,
+                dailyRemainingCount: 1,
+                fightParam: {
+                    timeout: 240,
+                    strategyName: '根据队伍自动选择'
+                }
+            };
+
+            bossConfigs.push(newBoss);
+            selectBoss(bossConfigs.length - 1);
+            showStatus('已添加新Boss', false);
+        });
+
+        document.getElementById('deleteBossBtn').addEventListener('click', () => {
+            if (selectedIndex < 0 || selectedIndex >= bossConfigs.length) return;
+
+            const name = bossConfigs[selectedIndex].name;
+            bossConfigs.splice(selectedIndex, 1);
+
+            if (selectedIndex >= bossConfigs.length) {
+                selectedIndex = bossConfigs.length - 1;
+            }
+
+            if (bossConfigs.length === 0) {
+                selectedIndex = -1;
+                editPlaceholder.style.display = 'flex';
+                editForm.classList.remove('active');
+            } else {
+                selectBoss(selectedIndex);
+            }
+
+            renderBossList();
+            showStatus(`已删除Boss: ${name}`, false);
+        });
+
+        let draggedIndex = -1;
+
+        function handleDragStart(e) {
+            e.stopPropagation();
+            draggedIndex = parseInt(e.currentTarget.dataset.index);
+            e.currentTarget.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragEnd(e) {
+            e.stopPropagation();
+            e.currentTarget.classList.remove('dragging');
+            document.querySelectorAll('.boss-item').forEach(item => {
+                item.classList.remove('drag-over');
+            });
+            draggedIndex = -1;
+        }
+
+        function handleDragOver(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            const item = e.target.closest('.boss-item');
+            if (item && parseInt(item.dataset.index) !== draggedIndex) {
+                item.classList.add('drag-over');
+            }
+        }
+
+        function handleDragLeave(e) {
+            e.stopPropagation();
+            const item = e.target.closest('.boss-item');
+            if (item) {
+                item.classList.remove('drag-over');
+            }
+        }
+
+        function handleDrop(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            const item = e.target.closest('.boss-item');
+            if (!item) return;
+
+            const dropIndex = parseInt(item.dataset.index);
+
+            if (draggedIndex !== -1 && draggedIndex !== dropIndex) {
+                const draggedItem = bossConfigs[draggedIndex];
+                bossConfigs.splice(draggedIndex, 1);
+                bossConfigs.splice(dropIndex, 0, draggedItem);
+
+                if (selectedIndex === draggedIndex) {
+                    selectedIndex = dropIndex;
+                } else if (draggedIndex < selectedIndex && dropIndex >= selectedIndex) {
+                    selectedIndex--;
+                } else if (draggedIndex > selectedIndex && dropIndex <= selectedIndex) {
+                    selectedIndex++;
+                }
+
+                renderBossList();
+                showStatus('Boss顺序已更新', false);
+            }
+
+            item.classList.remove('drag-over');
+        }
+
+        exportBtn.addEventListener('click', async () => {
+            const jsonContent = JSON.stringify(bossConfigs, null, 4);
+            
+            try {
+                if (canDirectSave && configFileHandle) {
+                    const writable = await configFileHandle.createWritable();
+                    await writable.write(jsonContent);
+                    await writable.close();
+                    showStatus('配置文件已保存', false);
+                } else {
+                    try {
+                        const handle = await window.showSaveFilePicker({
+                            suggestedName: currentFileName,
+                            types: [{
+                                description: 'JSON Files',
+                                accept: { 'application/json': ['.json'] }
+                            }]
+                        });
+                        const writable = await handle.createWritable();
+                        await writable.write(jsonContent);
+                        await writable.close();
+                        showStatus('文件已保存: ' + handle.name, false);
+                    } catch (err) {
+                        if (err.name !== 'AbortError') {
+                            throw err;
+                        }
+                    }
+                }
+            } catch (err) {
+                if (err.name !== 'AbortError') {
+                    showStatus('保存失败: ' + err.message, true);
+                }
+            }
+        });
+
+        function showStatus(message, isError) {
+            statusBar.textContent = message;
+            statusBar.style.display = 'block';
+            statusBar.className = 'status-bar' + (isError ? ' error' : '');
+        }
+    </script>
+</body>
+</html>
