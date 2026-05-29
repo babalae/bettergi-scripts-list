@@ -49,10 +49,10 @@ async function main() {
         || (item.runType === config.user.runTypes[1] && parseInt(item?.autoLeyLineOutcrop.count || "0") > 0) 
         || (item.runType === config.user.runTypes[2])
     )
-    log.info("|test1==>list:{1}", JSON.stringify(list))
+    // log.info("|test1==>list:{1}", JSON.stringify(list))
     list = await checkAndFilterStygianOnslaught(list)
-    log.info("|test2==>list:{1}", JSON.stringify(list))
-    log.info("|test3==>list?.length:{1}", list?.length)
+    // log.info("|test2==>list:{1}", JSON.stringify(list))
+    // log.info("|test3==>list?.length:{1}", list?.length)
     if (list?.length > 0) {
         //循环跑
         while (true) {
