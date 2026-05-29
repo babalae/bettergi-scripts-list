@@ -180,7 +180,7 @@ export class Physical {
             let text = res.text.split('/')[0]
 
             if (!res.text.includes('/')){
-                //识别异常处理 误识别 /200 => 1200 (/1)
+                //识别异常处理 误识别 /200 => 1200 (/被误识别为1)
                 const regExp=`(\\d+)${PHYSICAL.MAX}`
                 //1.移除200
                 const match = res.text.match(regExp);
