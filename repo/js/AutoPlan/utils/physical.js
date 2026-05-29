@@ -41,7 +41,9 @@ const CONFIG = {
         OTHER_RESIN: {width: 0, height: 60}  // width会根据图标宽度动态设置
     }
 };
-
+const PHYSICAL={
+    MAX:200
+}
 //====================================================
 export class Physical {
     /**
@@ -178,10 +180,13 @@ export class Physical {
             let text = res.text.split('/')[0]
 
             if (!res.text.includes('/')){
-                //识别异常处理 误识别 /200 => 1200
-                const match = res.text.match(/(\d+)200/);
+                //识别异常处理 误识别 /200 => 1200 (/1)
+                const regExp=`(\\d+)${PHYSICAL.MAX}`
+                //1.移除200
+                const match = res.text.match(regExp);
                 if (match) {
-                    text = match[1];
+                    //2.移除 误识别 /=>1
+                    text = match[1].substring(0, match[1].length - 1);
                 }
             }
 
