@@ -1,6 +1,6 @@
 import {config, LoadType} from "../config/config";
 import {Physical} from "./physical";
-import {getDayOfWeek, outDomainUI, outStygianOnslaughtUI, parseInteger, throwError,toMainUi} from "./tool";
+import {getDayOfWeek, outDomainUI, outStygianOnslaughtUI, parseInteger, throwError, toMainUi} from "./tool";
 import {findStygianOnslaught} from "./activity";
 import {pullJsonConfig} from "./bgi_tools";
 
@@ -45,6 +45,7 @@ export async function checkAndFilterStygianOnslaught(list) {
             await toMainUi()
         }
     }
+    return list
 }
 
 /*===========================================[load]===========================================*/
@@ -78,7 +79,7 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
 
                             autoOrder.autoLeyLineOutcrop = autoLeyLineOutcrop // 将地脉信息对象添加到顺序对象中
                         } else if (config.user.runTypes[2] === runType) {
-                            const __ret = StygianOnslaught.build(arr,index);
+                            const __ret = StygianOnslaught.build(arr, index);
                             let autoStygianOnslaught = __ret.autoStygianOnslaught;
                             index = __ret.index;
                             autoOrder.autoStygianOnslaught = autoStygianOnslaught
@@ -95,8 +96,6 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
             await toMainUi()
             // 通过UID方式加载配置
             const uid = config.user.uid || (await genshin.uid()) // 获取用户UID，如果未配置则通过OCR识别获取
-            // const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.runConfig)) || new Map() // 读取本地配置文件并转换为Map对象
-            // const uidConfigList = configAutoFightOrderMap.get(uid + "") || []; // 获取当前UID对应的配置列表
 
             const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.runConfig)) || {} // 读取本地配置文件
             const uidConfigList = configAutoFightOrderMap[uid + ""] || []; // 获取当前UID对应的配置列表
@@ -104,13 +103,8 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
                 uidConfigList.forEach(item => {
                     // 将秘境顺序对象添加到列表中
-                    // 主逻辑优化
-                    // if (item.day !== undefined) {
-                    //     item.day = parseInteger(item.day);
-                    // }
                     if (item.days && item.days.length > 0) {
                         item.days = item.days.map(day => parseInteger(day))
-                        // item.day = parseInteger(item.day);
                     }
                     autoOrderSet.add(item)
                 })
@@ -124,10 +118,8 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
                 uidConfigListBgiTools.forEach(item => {
                     // 将秘境顺序对象添加到列表中
-                    // 主逻辑优化
                     if (item.days && item.days.length > 0) {
                         item.days = item.days.map(day => parseInteger(day))
-                        // item.day = parseInteger(item.day);
                     }
                     autoOrderSet.add(item)
                 })
@@ -156,7 +148,6 @@ export async function initRunOrderList(domainConfig) {
                 domainRoundNum: undefined,//副本轮数
             } // 秘境信息对象
         }*/
-    // let Load = LoadType.uid
 
     for (const Load of config.run.loads) {
         await loadMode(Load.load, autoFightOrderSet, domainConfig);
@@ -174,9 +165,6 @@ export async function initRunOrderList(domainConfig) {
         //过滤掉不执行的秘境
         .filter(item => config.user.runTypes.includes(item.runType))
         .filter(item => {
-            // if (item.day) {
-            //     return item.day === dayOfWeek.day
-            // }
             log.debug(`[{1}]item.days.length:{0}`, dayOfWeek.day, item?.days?.length || 0)
             if (item.days && item.days.length > 0) {
                 const includes = item.days.includes(dayOfWeek.day);
@@ -195,20 +183,136 @@ export async function initRunOrderList(domainConfig) {
  * @param {Array} autoRunOrderList - 包含自动配置的数组
  */
 export async function autoRunList(autoRunOrderList) {
-    //计划执行
+    let RecordList = Record.read(config.path.record);
+    const typeMap = {
+        [config.user.runTypes[0]]: {buildKey: Domain.buildKey, run: Domain.run, target: 'autoFight'},
+        [config.user.runTypes[1]]: {
+            buildKey: LeyLineOutcrop.buildKey,
+            run: LeyLineOutcrop.run,
+            target: 'autoLeyLineOutcrop'
+        },
+        [config.user.runTypes[2]]: {
+            buildKey: StygianOnslaught.buildKey,
+            run: StygianOnslaught.run,
+            target: 'autoStygianOnslaught'
+        }
+    };
+
     for (const item of autoRunOrderList) {
         await sleep(3000)
-        if (item.runType === config.user.runTypes[0]) {
-            await Domain.run(item.autoFight);
-        } else if (item.runType === config.user.runTypes[1]) {
-            await LeyLineOutcrop.run(item.autoLeyLineOutcrop);
-        } else if (item.runType === config.user.runTypes[2]) {
-            await StygianOnslaught.run(item.autoStygianOnslaught);
+        let keyJson = undefined
+        const handler = typeMap[item.runType];
+
+        if (!handler) continue;
+
+        if (item?.record) {
+            keyJson = await handler.buildKey(item);
+            log.debug(`检查记录[{0}-{1}]`, item.runType, keyJson)
+            const exist = Record.existInList(RecordList, keyJson);
+            if (exist) {
+                log.info(`[本日已执行，跳过]==>[{0}-{1}]`, item.runType, keyJson)
+                continue;
+            }
+
+        }
+        log.debug(`[开始执行]==>[{0}-{1}]`, item.runType, keyJson)
+        await handler.run(item[handler.target]);
+
+        try {
+            //防止手动取消写入记录
+            await sleep(1)
+        }catch (e){
+            throwError(e.message)
+        }
+
+        if (keyJson) {
+            RecordList.push(keyJson)
+            log.info(`写入记录[{0}-{1}]==>{2}已执行`, item.runType, keyJson, config.path.record)
+            await Record.write(config.path.record, RecordList)
         }
     }
 }
+
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
 /*===========================================[class]===========================================*/
-class Base{
+class Record {
+    /**
+     * 读取指定路径的记录文件
+     * @param {string} path - 记录文件的路径
+     * @returns {Array} 解析后的记录数组，若文件为空或解析失败则返回空数组
+     */
+    static read(path) {
+        // a = {
+        //     uid: 1,
+        //     time: "yyyy-mm-dd",
+        //     key: "type:value"
+        // }
+        let list = []
+        try {
+            list = JSON.parse(file.readTextSync(path))
+        } catch (e) {
+            log.warn(`(账号未运行过无记录文件 请忽略该异常),读取记录文件失败，{0}`, e.message)
+        }
+        return list
+    }
+
+    /**
+     * 在列表中检查指定记录是否存在
+     * @param {Array} list - 记录列表，默认为空数组
+     * @param {Object} item - 用于匹配的记录项，包含 key, time, uid 属性
+     * @returns {boolean}
+     */
+    static existInList(list = [], item) {
+        const ts = item?.id ? list.filter(i => i.id === item.id && i.time === item.time && i.uid === item.uid) : list.filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
+        return ts !== null && ts.length > 0
+    }
+
+    /**
+     * 检查指定记录是否存在
+     * @param {string} path - 记录文件的路径
+     * @param {Object} item - 用于匹配的记录项，包含 key, time, uid 属性
+     * @returns {boolean}
+     */
+    static exist(path, item) {
+        const ts = Record.read(path).filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
+        return ts !== null && ts.length > 0
+    }
+
+    /**
+     * 将记录列表写入指定路径的文件
+     * @param {string} path - 目标文件的路径
+     * @param {Array} list - 要写入的记录列表
+     * @returns {*} 返回 parse 变量（注：当前代码中 parse 未在此函数内定义）
+     */
+    static write(path, list) {
+        file.writeTextSync(path, JSON.stringify(list))
+    }
+}
+
+class Base {
+    /**
+     * 构建记录的唯一标识键对象
+     * @param {Object} item - 包含 runType, days, order 属性的任务项
+     * @returns {Promise<Object>} 返回包含 uid, key, time 的 JSON 对象
+     */
+    static async buildKey(item) {
+        let time = new Date()
+        time.setHours(time.getHours() - 4)
+        const json = {
+            id: item?.id,
+            uid: config.user.uid || await genshin.uid(),
+            key: `${item.runType}|${item.days}|${item.order}|${item.record}`,
+            time: formatDate(time)
+        }
+        return json
+    }
+
     static buildOrder(item) {
         // 将当前项按"|"分割成数组
         let arr = item.split("|")
@@ -220,9 +324,6 @@ class Base{
         let days = (rawDays != null && String(rawDays).trim() !== "")
             ? String(rawDays).split('/').map(d => parseInt(d.trim(), 10)).filter(d => !isNaN(d))
             : [];
-        // let days = arr[index].trim() !== ""
-        //     ? arr[index].split('/').map(d => parseInt(d.trim())).filter(d => !isNaN(d))
-        //     : [];
         index++
         // 解析顺序值，处理可能的无效值
         let order = (() => {
@@ -234,11 +335,13 @@ class Base{
             return isNaN(parsedOrder) ? 0 : parsedOrder; // 若转换失败，返回默认值 0
         })();
         index++
-
+        const record = arr[index]?.trim() !== ''
+        index++
         // 创建秘境顺序对象
         let autoOrder = {
             order: order,      // 顺序值
             // day: day,// 执行日期
+            record: record,  // 记录状态
             runType: runType,  // 运行类型
             days: days,        // 执行日期（数组）
             autoFight: undefined, // 秘境信息对象
@@ -247,6 +350,7 @@ class Base{
         }
         return {arr, index, runType, autoOrder};
     }
+
     static build(arr, index) {
         throw new Error("未实现build方法");
     }
@@ -255,17 +359,25 @@ class Base{
         throw new Error("未实现run方法");
     }
 }
+
 /**
  * Domain类，用于处理秘境相关的操作
  */
-class Domain extends Base{
+class Domain extends Base {
+    static async buildKey(item) {
+        const json = await super.buildKey(item);
+        const auto = item.autoFight;
+        json.key = `${json.key}|${auto.domainName}|${auto.partyName}|${auto.domainRoundNum}|${auto.sundaySelectedValue}`
+        return json
+    }
+
     /**
      * 构建秘境信息对象
      * @param {Array} arr - 包含秘境信息的数组
      * @param {number} index - 当前解析的位置索引
      * @returns {Object} 返回包含秘境信息对象和更新后的索引
      */
-   static build(arr, index) {
+    static build(arr, index) {
         // 创建秘境信息对象，初始化默认值
         let autoFight = {
             domainName: undefined,//秘境名称
@@ -310,6 +422,7 @@ class Domain extends Base{
         autoFight.sundaySelectedValue = sundaySelectedValue // 周日|限时选择的值
         return {autoFight, index};
     }
+
     /**
      * 执行秘境任务
      * @param {Object} autoFight - 包含秘境信息的对象
@@ -357,10 +470,6 @@ class Domain extends Base{
         //   /** 使用脆弱树脂次数 */
         //   fragileResinUseCount: number;
         await sleep(1000)
-        //流程->返回主页 打开地图 返回主页
-        // const physicalOcr = await ocrPhysical(true, true)
-        // config.user.physical.current = physicalOcr.current
-        // config.user.physical.min = physicalOcr.min
 
         const currentPhysical = await Physical.countAllResin()
         config.user.physical.current = currentPhysical.originalResinCount;
@@ -429,7 +538,24 @@ class Domain extends Base{
  * 地脉刷取任务类
  * 用于处理地脉刷取任务的构建和执行
  */
-class LeyLineOutcrop extends Base{
+class LeyLineOutcrop extends Base {
+    static async buildKey(item) {
+        const json = await super.buildKey(item);
+        const auto = item.autoLeyLineOutcrop;
+        json.key = json.key +
+            "|" + auto.country +
+            "|" + auto.leyLineOutcropType +
+            "|" + auto.useAdventurerHandbook +
+            "|" + auto.friendshipTeam +
+            "|" + auto.team +
+            "|" + auto.timeout +
+            "|" + auto.isGoToSynthesizer +
+            "|" + auto.useFragileResin +
+            "|" + auto.useTransientResin +
+            "|" + auto.isNotification
+        return json
+    }
+
     /**
      * 构建地脉刷取任务参数
      * @param {Array} arr - 输入参数数组，包含队伍名称、国家、刷取轮数等信息
@@ -485,6 +611,7 @@ class LeyLineOutcrop extends Base{
             autoLeyLineOutcrop.timeout = parseInteger(arr[index])
         return {autoLeyLineOutcrop, index};
     }
+
     static async run(autoLeyLineOutcrop) {
         // autoLeyLineOutcrop = {
         //     "count": 0,
@@ -504,15 +631,7 @@ class LeyLineOutcrop extends Base{
 
 
         log.info(`{0}`, "开始执行地脉任务")
-        // if (true) {
-        //     log.warn("地脉 暂不支持")
-        //     return
-        // }
         let param = new AutoLeyLineOutcropParam(parseInteger(autoLeyLineOutcrop.count + ""), autoLeyLineOutcrop.country, autoLeyLineOutcrop.leyLineOutcropType);
-        // let param = new AutoLeyLineOutcropParam();
-        // param.count = parseInteger(autoLeyLineOutcrop.count+"");
-        // param.country = autoLeyLineOutcrop.country;
-        // param.leyLineOutcropType = autoLeyLineOutcrop.leyLineOutcropType;
         //和本体保持一致
         param.useAdventurerHandbook = !autoLeyLineOutcrop.useAdventurerHandbook;
         param.friendshipTeam = autoLeyLineOutcrop.friendshipTeam;
@@ -549,14 +668,26 @@ class LeyLineOutcrop extends Base{
 /**
  * StygianOnslaught 类，用于处理幽境任务的相关操作
  */
-class StygianOnslaught extends Base{
+class StygianOnslaught extends Base {
+
+    static async buildKey(item) {
+        const json = await super.buildKey(item);
+        const auto = item.autoStygianOnslaught;
+        json.key = json.key +
+            "|" + auto.bossNum +
+            "|" + auto.fightTeamName +
+            "|" + auto.specifyResinUse +
+            "|" + auto.physical.join('<->')
+        return json
+    }
+
     /**
      * 构建幽境任务参数
      * @param {Array} arr - 输入参数数组
      * @param {number} index - 当前处理的参数索引
      * @returns {Object} 包含构建的参数和更新后的索引
      */
-    static build(arr,index) {
+    static build(arr, index) {
         // 初始化幽境任务配置对象
         let autoStygianOnslaught = {
             bossNum: undefined,//boss1-3
@@ -622,6 +753,7 @@ class StygianOnslaught extends Base{
         }
         return {autoStygianOnslaught, index};
     }
+
     static async run(autoStygianOnslaught) {
         // autoStygianOnslaught = {
         //     /**boss 名字 1~3 */
@@ -685,10 +817,6 @@ class StygianOnslaught extends Base{
         //   /** 使用脆弱树脂次数 */
         //   fragileResinUseCount: number;
         await sleep(1000)
-        //流程->返回主页 打开地图 返回主页
-        // const physicalOcr = await ocrPhysical(true, true)
-        // config.user.physical.current = physicalOcr.current
-        // config.user.physical.min = physicalOcr.min
         const currentPhysical = await Physical.countAllResin()
         config.user.physical.current = currentPhysical.originalResinCount;
 

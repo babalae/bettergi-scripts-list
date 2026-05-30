@@ -42,7 +42,8 @@ export let config = {
         manifest: "manifest.json",
         domain: "config/domain.json",
         runConfig: "config/run_config.json",
-        countryList: "config/countryList.json"
+        countryList: "config/countryList.json",
+        record: "record/"
     },
     //所有秘境信息
     domainList: [],
@@ -121,22 +122,26 @@ export async function getValueByMultiCheckboxName(name) {
     log.debug("values={key}", JSON.stringify(values))
     return values
 }
+
 /*===========================================[check]===========================================*/
 /**
  * 检查密钥是否正确
  */
 export async function checkKey(key = "") {
-    if (config?.info?.manifest?.key !== key?.trim()) {
+    if (config?.info?.manifest?.last_key?.trim()!==config?.info?.manifest?.key?.trim()&&config?.info?.manifest?.last_key?.trim()=== key?.trim()){
+        throw new Error("脚本更新，密钥已经变更。(重大结构变更请前往文档查看)");
+    }else if (config?.info?.manifest?.key?.trim() !== key?.trim()) {
         throw new Error("密钥错误");
     }
 }
+
 /*===========================================[init]===========================================*/
 /**
  * 构建初始化配置设置函数
  * 该函数用于创建并返回一个包含各种配置项的对象
  * @returns {Object} 包含所有配置项的对象
  */
-export async function buildInitConfigSettings(){
+export async function buildInitConfigSettings() {
     // 初始化配置对象，包含运行设置、工具配置、信息、用户、路径等
     config = {
         //setting设置放在这个json
@@ -180,7 +185,8 @@ export async function buildInitConfigSettings(){
             manifest: "manifest.json",
             domain: "config/domain.json",
             runConfig: "config/run_config.json",
-            countryList: "config/countryList.json"
+            countryList: "config/countryList.json",
+            record: "record/"
         },
         //所有秘境信息
         domainList: [],
@@ -196,6 +202,7 @@ export async function buildInitConfigSettings(){
         domainItemsMap: new Map(),
     }
 }
+
 /**
  * 初始化设置函数
  * 从配置文件中读取设置信息并返回
@@ -233,6 +240,7 @@ export async function initSettings() {
     // 返回设置对象
     return settingsJson
 }
+
 /**
  * 初始化秘境配置
  * @returns {Promise<void>}
@@ -248,13 +256,14 @@ export async function initConfig() {
     // 初始化uid
     config.user.uid = await genshin.uid()
     // config.run.retry_count = (settings.retry_count ? parseInt(settings.retry_count) : config.run.retry_count)
-
+    config.path.record = config.path.record + config.user.uid + ".json"
+    //
     const retryCount = Number.parseInt(String(settings.retry_count ?? ""), 10);
     config.run.retry_count = Number.isFinite(retryCount) && retryCount > 0
         ? retryCount
         : config.run.retry_count;
 
-    config.run.exclude_run_exception=settings.exclude_run_exception
+    config.run.exclude_run_exception = settings.exclude_run_exception
 
     config.run.loop_plan = settings.loop_plan !== undefined ? settings.loop_plan : config.run.loop_plan
     const bgi_tools_token = settings.bgi_tools_token || "Authorization= "
@@ -337,12 +346,3 @@ export async function initConfig() {
     loads.sort((a, b) => a.order - b.order)
     config.run.loads = loads
 }
-
-// export {
-//     config, LoadType, LoadMap,
-//     checkKey,
-//     initSettings,
-//     getMultiCheckboxMap,
-//     getValueByMultiCheckboxName,
-//     initConfig
-// }

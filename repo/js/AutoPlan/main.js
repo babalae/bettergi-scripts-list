@@ -6,7 +6,7 @@ import {
 } from './config/config';
 import {outDomainUI} from './utils/tool';
 import {pullJsonConfig, pushAllCountryConfig, pushAllJsonConfig} from './utils/bgi_tools';
-import {countAllResin, Physical} from "./utils/physical";
+import { Physical} from "./utils/physical";
 import {
     autoRunList,
     initRunOrderList,
@@ -45,12 +45,14 @@ async function main() {
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|周几执行(0-6)不填默认执行|执行顺序,..."
     const autoRunOrderList = await initRunOrderList(runConfig);
     let list = autoRunOrderList.filter(item =>
-        (item.runType === config.user.runTypes[0] && item?.autoFight.domainRoundNum > 0)
-        || (item.runType === config.user.runTypes[1] && item?.autoLeyLineOutcrop.count > 0) || (item.runType === config.user.runTypes[2])
+        (item.runType === config.user.runTypes[0] && parseInt(item?.autoFight.domainRoundNum || "0") > 0)
+        || (item.runType === config.user.runTypes[1] && parseInt(item?.autoLeyLineOutcrop.count || "0") > 0) 
+        || (item.runType === config.user.runTypes[2])
     )
-
+    // log.info("|test1==>list:{1}", JSON.stringify(list))
     list = await checkAndFilterStygianOnslaught(list)
-
+    // log.info("|test2==>list:{1}", JSON.stringify(list))
+    // log.info("|test3==>list?.length:{1}", list?.length)
     if (list?.length > 0) {
         //循环跑
         while (true) {
