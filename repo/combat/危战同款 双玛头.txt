@@ -1,0 +1,38 @@
+//作者：一时兴起
+//参考自：火山老师万能策略
+
+//免责声明：动作跟危战同款，因配队不同，伤害并不同
+//特别提醒：本策略建议只用来锄地，用于危战会丢伤害（火神大招很难融化）
+
+尼可 e, attack(0.1), check, wait(0.3), keypress(q), wait(0.1), keypress(q), wait(0.1), keypress(q), wait(0.3), ready, check
+茜特菈莉 e, attack(0.1), check, wait(0.3), keypress(q), wait(0.1), keypress(q), wait(0.1), keypress(q), attack(0.3), ready,check
+
+玛薇卡 attack(0.08), wait(0.2), keydown(E), wait(0.4), wait(0.01), keyup(E), click(middle), wait(0.1), wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.3),mouseup(left),wait(0.1),keypress(q), wait(1.7), mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(1),mouseup(left),wait(0.27),wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(1),mouseup(left),wait(0.27),wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(1),mouseup(left),wait(0.27),wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.35),mouseup(left),wait(0.1)
+//双玛头，q前1轮、q后3.5轮
+
+//芙宁娜 e,attack(0.2), e, keypress(q), wait(0.2), attack(0.2), keydown(s), attack(0.2), wait(0.1), keyup(s), attack(0.2),wait(0.1), keydown(w),attack(0.33),keyup(w), wait(0.1), keypress(q)
+//满命芙芙用上边一行↑（自己换），非满命芙芙用下边一行↓（不用动）
+芙宁娜 e,attack(0.2), e, keypress(q), wait(0.2), keypress(q), attack(0.08),ready,check
+
+枫原万叶 attack(0.08),keypress(q),wait(0.1),keypress(q),ready,wait(0.45),e(hold),wait(0.25),attack,wait(0.5),attack(0.1)
+
+
+
+
+//双玛头：q前1轮q后3.5轮
+
+//建议一命火神及以上，零命火时常卡大招（勉强可用）
+//其他位置命座，均无要求（芙芙看命座选不同行策略）
+
+//建议带两个盾位，火神战场时间长，一个盾有可能保不住
+//带上奶奶，更好循环；不带奶奶，火神有概率开不出大招
+//最佳体验队伍：尼可、奶奶、火神、万叶/芙芙
+//其他备选队伍：必带火神，剩余3人从尼可、奶奶、芙芙、万叶中，4选3
+
+
+
+//奶奶和尼可都在队伍里，奶奶带勇者，武器试作金珀，治疗头/精通头均可，充能尽量高些
+//只有奶奶无尼可的情况，奶奶用千岩，武器试作金珀，精通头，充能尽量高些，200以上最好
+
+//打开快速检测，用来打断双玛头，避免空转
+//如用火神赶路，经常火神出场时e在CD，可尝试关掉火神赶路
