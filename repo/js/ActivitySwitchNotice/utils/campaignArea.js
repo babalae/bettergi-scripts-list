@@ -1,6 +1,5 @@
 import {findTextAndClick,getDayOfWeek} from "./tool";
 import {sendText} from "./notice";
-import {ocrUID} from "./uid";
 function settingsParseInt(str, defaultValue) {
     try {
         return str ? parseInt('' + str) : defaultValue;
@@ -147,7 +146,8 @@ export async function campaignAreaMain(openKey = true) {
 
     // 如果有剩余次数，则记录日志并发送通知
     if (weekJson.count > 0) {
-        let uid = await ocrUID()
+        await toMainUi()
+        let uid = await genshin.uid()
         log.info(`本周剩余消耗减半次数:${weekJson.count}`)
         await sendText(`>|本周剩余消耗减半次数:${weekJson.count}`, `UID:${uid}\n秘境征讨`)
     }
@@ -183,7 +183,8 @@ export async function dailyCommissionMain(openKey = true) {
     if (re.daily.total > re.daily.use
         || re.physical.total > re.physical.use
     ) {
-        let uid = await ocrUID()
+        await toMainUi()
+        let uid = await genshin.uid()
         await sendText(`>|每日委托奖励:${re.daily.use}/${re.daily.total}\n>|原粹树脂消耗:${re.physical.use}/${re.physical.total}`, `UID:${uid}\n每日委托`)
     }
 }
