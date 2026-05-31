@@ -1,4 +1,3 @@
-import {ocrUID} from "./utils/uid";
 let username = settings.username || "default";
 let use_bgi_code_source = settings.use_bgi_code_source || false;
 
