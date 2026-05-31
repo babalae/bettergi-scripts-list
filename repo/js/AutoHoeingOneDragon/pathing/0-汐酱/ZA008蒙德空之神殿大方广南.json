@@ -1,0 +1,59 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": " 路线信息：该路线预计用时55秒，包含以下怪物：1辖域守护者。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1780254365076,
+    "map_match_method": "",
+    "map_name": "TempleOfSpace",
+    "name": "ZA008蒙德空之神殿大方广南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1077.9369,
+      "y": -194.4927
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.15),keypress(t),wait(2.3),keydown(VK_SPACE),wait(3),keyup(VK_SPACE)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 1083.8612,
+      "y": -257.2705
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_RBUTTON),wait(2),keydown(q),wait(0.8),keyup(q),keyup(VK_RBUTTON),wait(0.1),j",
+      "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 1083.8612,
+      "y": -257.2705
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1083.8612,
+      "y": -257.2705
+    }
+  ]
+}
