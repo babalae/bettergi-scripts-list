@@ -3,7 +3,20 @@
   "name": "FightTeam",
   "type": "input-text",
   "label": "默认：不填则不更换队伍，队伍不要有生僻字或特殊符号"
-}, 
+},
+    {
+        "name": "CombatStrategyType",
+        "type": "select",
+        "label": "战斗策略选择",
+        "options": ["根据队伍自动选择(指定策略无效)", "指定战斗策略"],
+        "default": "根据队伍自动选择(指定策略无效)"
+    },
+    {
+        "name": "SpecifiedCombatStrategy",
+        "type": "input-text",
+        "label": "指定战斗策略名称 (不含.txt)",
+        "default": "四神队(进阶版)"
+    },
 {
   "name": "Artifacts",
   "type": "select",
@@ -68,8 +81,7 @@
       "6"
   ],
   "default": "0"
-},
-    {
+},    {
         "name": "Fighttimeout",
         "type": "input-text",
         "label": "最长战斗超时时间，单位秒，默认240秒",
