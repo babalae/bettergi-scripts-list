@@ -2,242 +2,8 @@
 let fightCts = null;
 let isFighting = false;
 
-// ========== 全局变量 - 圣遗物图片映射 ==========
-const artifactImageMap = {
-    "天之美赐 / 影中沉凝的幻灭": "assets/Artifacts/artifact_20.bmp",
-    "晨星与月的晓歌 / 风起之日": "assets/Artifacts/artifact_19.bmp",
-    "穹境示现之夜 / 纺月的夜歌": "assets/Artifacts/artifact_0.bmp",
-    "长夜之誓 / 深廊终曲": "assets/Artifacts/artifact_1.bmp",
-    "黑曜秘典 / 烬城勇者绘卷": "assets/Artifacts/artifact_2.bmp",
-    "谐律异想断章 / 未竟的遐思": "assets/Artifacts/artifact_3.bmp",
-    "回声之林夜话 / 昔时之歌": "assets/Artifacts/artifact_4.bmp",
-    "逐影猎人 / 黄金剧团": "assets/Artifacts/artifact_5.bmp",
-    "水仙之梦 / 花海甘露之光": "assets/Artifacts/artifact_6.bmp",
-    "乐园遗落之花 / 沙上楼阁史话": "assets/Artifacts/artifact_7.bmp",
-    "深林的记忆 / 饰金之梦": "assets/Artifacts/artifact_8.bmp",
-    "来歆余响 / 辰砂往生录": "assets/Artifacts/artifact_9.bmp",
-    "华馆梦醒形骸记 / 海染砗磲": "assets/Artifacts/artifact_10.bmp",
-    "绝缘之旗印 / 追忆之注连": "assets/Artifacts/artifact_11.bmp",
-    "昔日宗室之仪 / 染血的骑士道": "assets/Artifacts/artifact_12.bmp",
-    "渡过烈火的贤人 / 炽烈的炎之魔女": "assets/Artifacts/artifact_13.bmp",
-    "悠古的磐岩 / 逆飞的流星": "assets/Artifacts/artifact_14.bmp",
-    "千岩牢固 / 苍白之火": "assets/Artifacts/artifact_15.bmp",
-    "冰风迷途的勇士 / 沉沦之心": "assets/Artifacts/artifact_16.bmp",
-    "翠绿之影 / 被怜爱的少女": "assets/Artifacts/artifact_17.bmp",
-    "如雷的盛怒 / 平息鸣雷的尊者": "assets/Artifacts/artifact_18.bmp"
-};
-
-// ========== 全局函数 - 进入秘境入口 ==========
-async function VeinEntrance() {
-    for (let i = 0; i < 2; i++) {
-        let JIECHU = await Textocr("F", 2, 2, 0, 1095, 519, 41, 36);
-        if (JIECHU.found) {
-            await keyPress("F");
-            await keyPress("F");
-            break;
-        } else {
-            if (i == 1) {
-                log.warn("没找入口，尝试强制转圈寻找...");
-                await keyDown("W"); keyPress("F"); await sleep(500); keyPress("F"); await keyUp("W");
-                await keyDown("D"); keyPress("F"); await sleep(500); keyPress("F"); await keyUp("D");
-                await keyDown("S"); keyPress("F"); await sleep(500); keyPress("F"); await keyUp("S");
-                await keyDown("A"); keyPress("F"); await sleep(500); keyPress("F"); await keyUp("A");
-                await keyDown("W"); keyPress("F"); await sleep(500); keyPress("F"); await keyUp("W");
-                break;
-            }
-        }
-        await sleep(1000);
-    }
-}
-
-// ========== 全局函数 - 圣遗物奖励更换 ==========
-async function selectionHolyRelics(artifactName) {
-    let artifactImagePath = artifactImageMap[artifactName];
-    if (!artifactImagePath) {
-        throw new Error(`未找到与圣遗物值'${artifactName}'对应的图片路径`);
-    }
-    let modifiedPath = artifactImagePath.slice(0, -4);
-    let newImagePath = modifiedPath + "in.bmp";
-
-    await sleep(500);
-    await click(116, 980);
-    await sleep(100);
-    await click(116, 980);
-    await sleep(100);
-
-    let rewardSettings = await Textocr("奖励设置", 15, 0, 0, 882, 34, 161, 52);
-    if (!rewardSettings.found) {
-        await genshin.returnMainUi();
-        return false;
-    }
-    await click(1642, 159);
-    await sleep(100);
-    await click(1642, 159);
-    await sleep(100);
-
-    let YOffset = 0;
-    await moveMouseTo(1642, 159);
-    await sleep(100);
-    await leftButtonDown();
-    await sleep(100);
-    await moveMouseTo(1642, 155);
-
-    const maxRetries = 9;
-    let retries = 0;
-    while (retries < maxRetries) {
-        let result = await imageRecognition(newImagePath, 1, 0, 0, 1166, 141, 210, 857);
-        if (result.found) {
-            await leftButtonUp();
-            await sleep(500);
-            await click(result.x - 500, result.y);
-            await sleep(1000);
-            await keyPress("VK_ESCAPE");
-            return true;
-        }
-        retries++;
-        YOffset += 100;
-        if (retries === maxRetries || 155 + YOffset > 1080) {
-            await leftButtonUp();
-            await sleep(100);
-            await keyPress("VK_ESCAPE");
-            await genshin.returnMainUi();
-            return false;
-        }
-        await moveMouseTo(1642, 155 + YOffset);
-        await sleep(500);
-    }
-    return true;
-}
-
-// ========== 全局函数 - 文字识别封装 ==========
-async function Textocr(wenzi="空参数", chaotime=10, clickocr=0, debugcode=0, x=0, y=0, w=1920, h=1080) {
-    const startTime = new Date();
-    for (let ii = 0; ii < 10; ii++) {
-        let captureRegion = captureGameRegion();
-        let res1;
-        let resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
-        for (let i = 0; i < resList.count; i++) {
-            let res = resList[i];
-            res1 = res.text;
-            if (res.text === wenzi) {
-                log.info(`识别到 ·${res1}·`);
-                if (debugcode === 1) {
-                    if (x === 0 && y === 0) {
-                        log.info("全图代码位置：({x},{y},{h},{w})", res.x - 10, res.y - 10, res.width + 10, res.Height + 10);
-                    }
-                    captureRegion.dispose();
-                    return { text: res.text, x: res.x, y: res.y, found: true };
-                } else {
-                    if (x === 0 && y === 0) {
-                        log.info("文本OCR完成'{text}'", res.text);
-                    }
-                }
-                if (clickocr === 1) {
-                    await sleep(1000);
-                    await click(res.x, res.y);
-                }
-                if (clickocr === 2) {
-                    await sleep(100);
-                    await keyPress("F");
-                }
-                captureRegion.dispose();
-                return { text: res.text, x: res.x, y: res.y, found: true };
-            }
-            if (debugcode === 2 && !res.isEmpty()) {
-                captureRegion.dispose();
-                return { text: res.text, x: res.x, y: res.y, found: true };
-            }
-        }
-        const NowTime = new Date();
-        if (Math.abs(NowTime - startTime) > chaotime * 1000) {
-            if (x === 0 && y === 0) {
-                log.info(`${chaotime}秒超时退出，"${wenzi}"未找到`);
-            }
-            captureRegion.dispose();
-            return { found: false };
-        } else {
-            ii = 8;
-            if (x !== 861 && debugcode !== 3) {
-                await keyPress("VK_W");
-            }
-        }
-        await sleep(100);
-    }
-}
-
-// ========== 全局函数 - 图片识别封装 ==========
-async function imageRecognition(imagefilePath="空参数", timeout=10, afterBehavior=0, debugmodel=0, xa=0, ya=0, wa=1920, ha=1080, tt=0.8) {
-    const startTime = new Date();
-    const Imagidentify = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagefilePath), true);
-    if (tt !== 0.8) {
-        Imagidentify.Threshold = tt;
-        Imagidentify.InitTemplate();
-    }
-
-    for (let ii = 0; ii < 10; ii++) {
-        let captureRegion = captureGameRegion();
-        let res = captureRegion.DeriveCrop(xa, ya, wa, ha).Find(Imagidentify);
-        if (res.isEmpty()) {
-            if (debugmodel === 1 && xa === 0 && ya === 0) {
-                log.info("未识别页面元素");
-            }
-        } else {
-            if (afterBehavior === 1) {
-                if (xa === 0 && ya === 0) {
-                    log.info("点击模式:开");
-                }
-                await sleep(1000);
-                click(res.x + xa, res.y + ya);
-            } else {
-                if (debugmodel === 1 && xa === 0 && ya === 0) {
-                    log.info("点击模式:关");
-                }
-            }
-            if (afterBehavior === 2) {
-                if (xa === 0 && ya === 0) {
-                    log.info("F模式:开");
-                }
-                await sleep(1000);
-                keyPress("F");
-            } else {
-                if (debugmodel === 1 && xa === 0 && ya === 0) {
-                    log.info("F模式:关");
-                }
-            }
-            if (debugmodel === 1 && xa === 0 && ya === 0) {
-                log.info("全图代码位置：({x},{y},{h},{w})", res.x + xa, res.y + ya, res.width, res.Height);
-            } else {
-                log.info("识别到页面元素");
-            }
-            captureRegion.dispose();
-            return { x: res.x + xa, y: res.y + ya, w: res.width, h: res.Height, found: true };
-        }
-        const NowTime = new Date();
-        if ((NowTime - startTime) > timeout * 1000) {
-            if (debugmodel === 1 && xa === 0 && ya === 0) {
-                log.info(`${timeout}秒超时退出，未找到图片`);
-            }
-            captureRegion.dispose();
-            return { found: false };
-        } else {
-            ii = 8;
-        }
-        await sleep(200);
-    }
-    await sleep(1200);
-}
-
 (async function () {
-    // ========== API模式开关 ==========
-    // true = 使用API，false = 使用自定义逻辑
-    const useApiMode = settings.UseApiMode === true;
-    
-    if (useApiMode) {
-        log.info("【API模式】使用BetterGI原生API执行幽境危战");
-        await runWithApi();
-        return;
-    }
-    
+
         var Threshold = genshin.width > 2560 ? 0.65 
         : genshin.width > 1920 ? 0.7 
         : 0.8;
@@ -304,6 +70,31 @@ async function imageRecognition(imagefilePath="空参数", timeout=10, afterBeha
 
         var Artifacts = settings.Artifacts ? settings.Artifacts : "保持圣遗物奖励不变"; 
 
+        //映射所有圣遗物对应需要识别的图片
+        var artifactImageMap = {
+            "天之美赐 / 影中沉凝的幻灭": "assets/Artifacts/artifact_20.bmp",
+            "晨星与月的晓歌 / 风起之日": "assets/Artifacts/artifact_19.bmp",
+            "穹境示现之夜 / 纺月的夜歌": "assets/Artifacts/artifact_0.bmp",             
+            "长夜之誓 / 深廊终曲": "assets/Artifacts/artifact_1.bmp",
+            "黑曜秘典 / 烬城勇者绘卷": "assets/Artifacts/artifact_2.bmp",
+            "谐律异想断章 / 未竟的遐思": "assets/Artifacts/artifact_3.bmp",
+            "回声之林夜话 / 昔时之歌": "assets/Artifacts/artifact_4.bmp",
+            "逐影猎人 / 黄金剧团": "assets/Artifacts/artifact_5.bmp",
+            "水仙之梦 / 花海甘露之光": "assets/Artifacts/artifact_6.bmp",
+            "乐园遗落之花 / 沙上楼阁史话": "assets/Artifacts/artifact_7.bmp",
+            "深林的记忆 / 饰金之梦": "assets/Artifacts/artifact_8.bmp",
+            "来歆余响 / 辰砂往生录": "assets/Artifacts/artifact_9.bmp",
+            "华馆梦醒形骸记 / 海染砗磲": "assets/Artifacts/artifact_10.bmp",
+            "绝缘之旗印 / 追忆之注连": "assets/Artifacts/artifact_11.bmp",
+            "昔日宗室之仪 / 染血的骑士道": "assets/Artifacts/artifact_12.bmp",
+            "渡过烈火的贤人 / 炽烈的炎之魔女": "assets/Artifacts/artifact_13.bmp",
+            "悠古的磐岩 / 逆飞的流星": "assets/Artifacts/artifact_14.bmp",
+            "千岩牢固 / 苍白之火": "assets/Artifacts/artifact_15.bmp",
+            "冰风迷途的勇士 / 沉沦之心": "assets/Artifacts/artifact_16.bmp",
+            "翠绿之影 / 被怜爱的少女": "assets/Artifacts/artifact_17.bmp",
+            "如雷的盛怒 / 平息鸣雷的尊者": "assets/Artifacts/artifact_18.bmp"        
+        };
+
         //树脂识别图片
         var condensedResin = "assets/condensed_resin_count.png";
         var originalResin = "assets/original_resin_count.png";
@@ -340,6 +131,81 @@ async function imageRecognition(imagefilePath="空参数", timeout=10, afterBeha
                 log.info(`战斗策略路径: "${CombatStrategyPath}"`);
             }
         }
+
+    //文字识别封装函数
+    async function Textocr(wenzi="空参数",chaotime=10,clickocr=0,debugcode=0,x=0,y=0,w=1920,h=1080) {
+        const startTime = new Date();
+        for (let ii = 0; ii < 10; ii++) 
+        {    
+            // 获取一张截图
+            let captureRegion = captureGameRegion();
+            let  res1
+            // 对整个区域进行 OCR
+            let resList = captureRegion.findMulti(RecognitionObject.ocr(x,y,w,h));
+            //log.info("OCR 全区域识别结果数量 {len}", resList.count);   
+            for (let i = 0; i < resList.count; i++) 
+            { // 遍历的是 C# 的 List 对象，所以要用 count，而不是 length
+                let res = resList[i];
+                res1=res.text
+                if (res.text===wenzi) {
+                    log.info(`识别到 ·${res1}·`);
+                    if (debugcode===1){if (x===0 & y===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);
+                    captureRegion.dispose();
+                    return result = { text: res.text, x: res.x, y: res.y, found: true }}}else{if (x===0 & y===0){log.info("文本OCR完成'{text}'", res.text);}}
+                    if (clickocr===1){await sleep(1000);await click(res.x, res.y);}else{}  
+                    if (clickocr===2){await sleep(100);await keyPress("F");}else{}
+                    captureRegion.dispose();
+                    return result = { text: res.text, x: res.x, y: res.y, found: true }
+                }
+                if (debugcode===2 && !res.isEmpty()){
+                    // log.info("({x},{y},{h},{w})", res.x-10, res.y-10, res.width+10, res.Height+10);
+                    captureRegion.dispose();
+                    return result = { text: res.text, x: res.x, y: res.y, found: true }
+                }
+            }
+            const NowTime = new Date();
+            if (Math.abs(NowTime - startTime)>chaotime*1000){if (x===0 & y===0){log.info(`${chaotime}秒超时退出，"${wenzi}"未找到`);}
+            captureRegion.dispose();
+            return result = {found: false };}else{ii=8;if (x !== 861){if(debugcode!==3){await keyPress("VK_W");}};}
+            await sleep(100);
+        }   
+    }
+
+    // 图片识别封装函数
+    async function imageRecognition(imagefilePath="空参数",timeout=10,afterBehavior=0,debugmodel=0,xa=0,ya=0,wa=1920,ha=1080,tt=0.8) {
+        const startTime = new Date();
+
+        const Imagidentify = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagefilePath),true);
+        if (tt !== 0.8){
+            Imagidentify.Threshold=tt;
+            Imagidentify.InitTemplate();        
+        }
+
+        // Imagidentify.Name = "测试";
+        // Imagidentify.DrawOnWindow=true;
+        // Imagidentify.InitTemplate(); 
+                
+
+        for (let ii = 0; ii < 10; ii++) {    
+            captureRegion = captureGameRegion();  // 获取一张截图
+            res = captureRegion.DeriveCrop(xa, ya, wa, ha).Find(Imagidentify);
+        if (res.isEmpty()) {
+            if (debugmodel===1 & xa===0 & ya===0){log.info("未识别页面元素")};
+        } else {
+          if (afterBehavior===1){if (xa===0 & ya===0){log.info("点击模式:开");}await sleep(1000);click(res.x+xa, res.y+ya);}else{if (debugmodel===1 & xa===0 & ya===0){log.info("点击模式:关")}}
+          if (afterBehavior===2){if (xa===0 & ya===0){log.info("F模式:开");}await sleep(1000);keyPress("F");}else{if (debugmodel===1 & xa===0 & ya===0){log.info("F模式:关")}}
+          if (debugmodel===1 & xa===0 & ya===0){log.info("全图代码位置：({x},{y},{h},{w})", res.x+xa, res.y+ya, res.width, res.Height);}else{ log.info("识别到页面元素");}
+          captureRegion.dispose();
+          return result = { x: res.x+xa, y: res.y+ya, w:res.width,h:res.Height,found: true }
+        }
+        const NowTime = new Date();
+        if ((NowTime - startTime)>timeout*1000){if (debugmodel===1 & xa===0 & ya===0){log.info(`${timeout}秒超时退出，未找到图片`);}
+        captureRegion.dispose();
+        return result = {found: false };}else{ii=8}
+        await sleep(200); 
+        }
+        await sleep(1200); 
+    }
 
     //树脂数量获取函数
     async function getRemainResinStatus() {
@@ -664,6 +530,68 @@ async function imageRecognition(imagefilePath="空参数", timeout=10, afterBeha
         });
     } 
     
+    //圣遗物奖励更换函数
+    async function selectionHolyRelics() { 
+
+        let artifactImagePath = artifactImageMap[Artifacts];
+        // 检查artifactImagePath是否存在
+        if (!artifactImagePath) {
+            throw new Error(`未找到与Artifacts值'${Artifacts}'对应的图片路径`);
+        }
+        let modifiedPath = artifactImagePath.slice(0, -4);
+        let newImagePath = modifiedPath + "in.bmp";
+
+        await sleep(500);
+        await click(116,980) // 领取奖励切换按钮
+        await sleep(100);
+        await click(116,980) // 领取奖励切换按钮
+        await sleep(100);
+        
+        let rewardSettings  = await Textocr("奖励设置",15,0,0,882,34,161,52);//这个时候有人申请进入世界会遮住，真是尴尬啊，不过不影响大局。
+        if (!rewardSettings.found) {await genshin.returnMainUi();return false;}
+        await click(1642,159);
+        await sleep(100);
+        await click(1642,159);
+        await sleep(100);
+        
+        let YOffset = 0; // Y轴偏移量，根据需要调整
+
+         //滚轮预操作
+         await moveMouseTo(1642,159);
+         await sleep(100);
+         await leftButtonDown();
+         await sleep(100);
+         await moveMouseTo(1642,155);
+         
+         const maxRetries = 9; // 最大重试次数
+         let retries = 0; // 当前重试次数
+         while (retries < maxRetries) {
+             let result1 = await imageRecognition(newImagePath,1, 0, 0,1166,141,210,857);//
+             if (result1.found) {
+                 await leftButtonUp();
+                 await sleep(500);
+                 await click(result.x-500,result.y); 
+                 await sleep(1000);
+                 await  keyPress("VK_ESCAPE");
+                 return true   
+             }
+             retries++; // 重试次数加1
+             //滚轮操作
+             YOffset += 100;
+             if (retries === maxRetries || 155+YOffset > 1080) {
+                await leftButtonUp();
+                await sleep(100); 
+                await  keyPress("VK_ESCAPE");
+                await genshin.returnMainUi(); 
+                return false;
+            }
+             await moveMouseTo(1642,155+YOffset);
+             await sleep(500);              
+         }              
+
+        return true;
+    }
+
     // 领取奖励函数
     async function claimRewards() {
         // log.info(`尝试领取奖励，优先${onerewards}'`);
@@ -809,6 +737,31 @@ async function imageRecognition(imagefilePath="空参数", timeout=10, afterBeha
         return false;           
     }
 
+    // 进入秘境入口函数
+    async function VeinEntrance() {
+        for (let i = 0;i < 2;i++) {
+            let JIECHU = await Textocr("F",2,2,0,1095,519,41,36);
+            if (JIECHU.found)
+            {
+                await keyPress("F");
+                await keyPress("F");
+                break;
+            }
+            else
+            {
+                if(i == 1){
+                log.warn("没找入口，尝试强制转圈寻找...");  
+                await keyDown("W");keyPress("F");await sleep(500);keyPress("F");await keyUp("W"); 
+                await keyDown("D");keyPress("F");await sleep(500);keyPress("F");await keyUp("D");
+                await keyDown("S");keyPress("F");await sleep(500);keyPress("F");await keyUp("S");
+                await keyDown("A");keyPress("F");await sleep(500);keyPress("F");await keyUp("A");
+                await keyDown("W");keyPress("F");await sleep(500);keyPress("F");await keyUp("W");
+                break;
+                }
+            }
+        }
+    }  
+   
     //秘境内退出函数
     async function getOut() {
 
@@ -941,7 +894,7 @@ async function imageRecognition(imagefilePath="空参数", timeout=10, afterBeha
                     let artifact = await imageRecognition(artifactImageMap[Artifacts],0.2,0,0,186,972,71,71);
                     if (!artifact.found) {
                         log.warn("圣遗物奖励和设定不一致，尝试切换...")
-                        if (!await selectionHolyRelics(Artifacts)){await genshin.returnMainUi();throw new Error("圣遗物奖励设置错误，停止执行...")}
+                        if (!await selectionHolyRelics()){await genshin.returnMainUi();throw new Error("圣遗物奖励设置错误，停止执行...")}
                     }
                     else{    
                         log.warn("圣遗物奖励一致，无需切换 {0} ", Artifacts)                 
@@ -1148,163 +1101,3 @@ async function imageRecognition(imagefilePath="空参数", timeout=10, afterBeha
         log.error(`脚本执行异常: ${error.message}`);
     }
 });
-
-// ========== API模式 ==========
-/**
- * 使用BetterGI幽境危战API
- * 
- * 【API模式独有功能】
- * ✅ 指定树脂刷取次数（原粹/浓缩/须臾/脆弱）
- * ✅ 结束后自动分解圣遗物
- * 
- * 【API模式不支持的功能】
- * ❌ 树脂优先级排序（API调用有这个功能，但是尝试了发现不生效）
- * ❌ 挑战次数限制
- * ❌ 原石购买体力
- * ❌ 战斗超时时间设置
- * ❌ 开始战斗后移动时间设置
- */
-async function runWithApi() {
-    try {
-        // ========== 配置解析 ==========
-        log.info("自动幽境危战 - API模式");
-        
-        // Boss配置
-        const bossNum = parseInt(settings.challengeName);
-        if (isNaN(bossNum) || bossNum < 1 || bossNum > 3) {
-            throw new Error("Boss选择无效，请设置1~3");
-        }
-        
-        // 树脂刷取次数
-        const originalResinUseCount = settings.OriginalResinUseCount === undefined || settings.OriginalResinUseCount === "" ? 5 : parseInt(settings.OriginalResinUseCount);
-        const condensedResinUseCount = settings.CondensedResinUseCount === undefined || settings.CondensedResinUseCount === "" ? 5 : parseInt(settings.CondensedResinUseCount);
-        const transientResinUseCount = settings.TransientResinUseCount === undefined || settings.TransientResinUseCount === "" ? 0 : parseInt(settings.TransientResinUseCount);
-        const fragileResinUseCount = settings.FragileResinUseCount === undefined || settings.FragileResinUseCount === "" ? 0 : parseInt(settings.FragileResinUseCount);
-        
-        // 判断是否为指定次数模式
-        const isSpecifyResinUse = originalResinUseCount > 0 || 
-                                  condensedResinUseCount > 0 || 
-                                  transientResinUseCount > 0 || 
-                                  fragileResinUseCount > 0;
-        
-        // 战斗队伍
-        const fightTeamName = settings.FightTeam || "";
-        
-        // 战斗策略
-        const combatStrategyType = settings.CombatStrategyType || "根据队伍自动选择(指定策略无效)";
-        const specifiedCombatStrategy = (settings.SpecifiedCombatStrategy || "").trim();
-        
-        // 自动分解圣遗物
-        const autoArtifactSalvage = settings.AutoArtifactSalvage === "true";
-        
-        // ========== 圣遗物奖励设置（如果需要）===========
-        const artifacts = settings.Artifacts || "保持圣遗物奖励不变";
-        if (artifacts !== "保持圣遗物奖励不变") {
-            log.info(`设置圣遗物奖励: ${artifacts}`);
-            
-            // 返回主界面
-            await genshin.returnMainUi();
-            
-            // 运行路径脚本进入幽境危战
-            await pathingScript.runFile(`assets/全自动幽境危战.json`);
-            
-            // 进入入口
-            await VeinEntrance();
-            await sleep(2000);
-            
-            // 难度确认和选择
-            let intoAction = await Textocr("单人挑战", 20, 0, 0, 1554, 970, 360, 105);
-            if (!intoAction.found) {
-                await genshin.returnMainUi();
-                throw new Error("未进入挑战页面，停止执行...");
-            }
-            
-            // 判断爆发期
-            let rewardsButton = "assets/rewards.png";
-            let rewardsBu = await imageRecognition(rewardsButton, 0.1, 0, 0, 63, 949, 87, 80);
-            if (!rewardsBu.found) {
-                await genshin.returnMainUi();
-                throw new Error("未在爆发期内，停止执行...");
-            }
-            
-            // 切换至危挑战
-            let adjustmentType = await Textocr("至危挑战", 1, 0, 0, 797, 144, 223, 84);
-            if (adjustmentType.found) {
-                log.warn("找到至危挑战，尝试切换...");
-                await sleep(500);
-                await click(adjustmentType.x, adjustmentType.y);
-                await sleep(500);
-            }
-            
-            // 困难模式确认
-            let hardMode = await Textocr("困难", 0.3, 0, 0, 1049, 157, 72, 47);
-            let hardMode2 = await Textocr("困难", 0.2, 0, 0, 805, 156, 83, 47);
-            if (hardMode.found || hardMode2.found) {
-                log.warn("确认困难模式...");
-            }
-            
-            // 圣遗物选择
-            await selectionHolyRelics(artifacts);
-            
-            // 返回主界面
-            log.info("圣遗物奖励设置完成，返回主界面...");
-            await keyPress("VK_ESCAPE");
-            await sleep(1000);
-            await genshin.returnMainUi();
-            await sleep(1000);
-        }
-        
-        // ========== 构建原生API参数 ==========
-        const param = new AutoStygianOnslaughtParam();
-        
-        // 基础配置
-        param.bossNum = bossNum;
-        param.fightTeamName = fightTeamName;
-        
-        // 树脂配置
-        param.specifyResinUse = isSpecifyResinUse;
-        
-        // 指定次数模式：设置各树脂具体次数
-        if (isSpecifyResinUse) {
-            param.originalResinUseCount = originalResinUseCount;
-            param.condensedResinUseCount = condensedResinUseCount;
-            param.transientResinUseCount = transientResinUseCount;
-            param.fragileResinUseCount = fragileResinUseCount;
-        }
-        
-        // 战斗策略配置
-        if (combatStrategyType === "指定战斗策略" && specifiedCombatStrategy) {
-            param.setCombatStrategyPath(specifiedCombatStrategy);
-            log.info(`使用指定战斗策略: ${specifiedCombatStrategy}`);
-        } else {
-            log.info("使用自动匹配战斗策略模式");
-        }
-        
-        // 自动分解圣遗物
-        param.autoArtifactSalvage = autoArtifactSalvage;
-        
-        // 打印配置信息
-        log.info(`配置信息：Boss ${bossNum}`);
-        log.info(`树脂次数限制：原粹(${originalResinUseCount}) 浓缩(${condensedResinUseCount}) 须臾(${transientResinUseCount}) 脆弱(${fragileResinUseCount})`);
-        if (fightTeamName) log.info(`战斗队伍: ${fightTeamName}`);
-        if (autoArtifactSalvage) log.info("自动分解圣遗物: 开启");
-        
-        // ========== 调用原生API执行任务 ==========
-        const linkedCt = dispatcher.getLinkedCancellationToken();
-        
-        try {
-            await dispatcher.runAutoStygianOnslaughtTask(param, linkedCt);
-            log.info("自动幽境危战执行完成");
-        } catch (error) {
-            if (error.message.includes("取消") || error.message.includes("canceled") || error.message.includes("Canceled")) {
-                log.info("用户已取消任务");
-            } else {
-                throw error;
-            }
-        }
-        
-    } catch (error) {
-        log.error(`API模式执行错误: ${error.message}`);
-        throw error;
-    }
-}
