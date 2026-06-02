@@ -1,3 +1,7 @@
+// 战斗取消令牌和状态
+let fightCts = null;
+let isFighting = false;
+
 (async function () {
 
         var Threshold = genshin.width > 2560 ? 0.65 
@@ -68,6 +72,8 @@
 
         //映射所有圣遗物对应需要识别的图片
         var artifactImageMap = {
+            "天之美赐 / 影中沉凝的幻灭": "assets/Artifacts/artifact_20.bmp",
+            "晨星与月的晓歌 / 风起之日": "assets/Artifacts/artifact_19.bmp",
             "穹境示现之夜 / 纺月的夜歌": "assets/Artifacts/artifact_0.bmp",             
             "长夜之誓 / 深廊终曲": "assets/Artifacts/artifact_1.bmp",
             "黑曜秘典 / 烬城勇者绘卷": "assets/Artifacts/artifact_2.bmp",
@@ -107,6 +113,24 @@
         ];
 
         FightTeam = settings.FightTeam;
+
+        // 战斗策略配置
+        let CombatStrategyType = settings.CombatStrategyType || "根据队伍自动选择(指定策略无效)";
+        let SpecifiedCombatStrategy = (settings.SpecifiedCombatStrategy || "").toString().trim();
+        let CombatStrategyPath = "";
+
+        if (CombatStrategyType === "指定战斗策略") {
+            if (!SpecifiedCombatStrategy) {
+                log.warn("【配置警告】您选择了'指定战斗策略'但未填写策略名称，系统将自动退回'根据队伍自动选择'。");
+            } else if (/[:*?"<>|]/.test(SpecifiedCombatStrategy)) {
+                // 只禁止除反斜杠外的非法字符（反斜杠是合法路径分隔符）
+                log.warn(`【配置警告】指定的战斗策略名称包含非法字符: ${SpecifiedCombatStrategy}，系统将自动退回'根据队伍自动选择'。`);
+            } else {
+                // 将单反斜杠转换为双反斜杠（处理转义问题）
+                CombatStrategyPath = SpecifiedCombatStrategy.replace(/\\/g, "\\\\");
+                log.info(`战斗策略路径: "${CombatStrategyPath}"`);
+            }
+        }
 
     //文字识别封装函数
     async function Textocr(wenzi="空参数",chaotime=10,clickocr=0,debugcode=0,x=0,y=0,w=1920,h=1080) {
@@ -406,14 +430,49 @@
 
     //异步检测战斗执行函数，来自D捣蛋&秋云佬的全自动地脉花的代码
     async function autoFight(timeout) {
-        const cts = new CancellationTokenSource();
+        fightCts = new CancellationTokenSource();
+        isFighting = true;
         log.info("开始战斗");
-        dispatcher.RunTask(new SoloTask("AutoFight"), cts);
-        let fightResult = await recognizeTextInRegion(timeout);
-        logFightResult = fightResult ? "成功" : "失败";
-        log.info(`战斗结束，战斗结果：${logFightResult}`);
-        cts.cancel();
-        return fightResult;
+        
+        try {
+            // 如果指定了战斗策略，使用带参数的方式
+            if (CombatStrategyPath && CombatStrategyPath !== "") {
+                log.info(`使用指定战斗策略: ${CombatStrategyPath}`);
+                
+                // 使用AutoFightParam配置自动战斗
+                const autoFightParam = new AutoFightParam(CombatStrategyPath);
+
+                // 设置战斗超时（秒）
+                autoFightParam.Timeout = timeout / 1000;
+                
+                // 禁用内置战斗结束检测
+                autoFightParam.FightFinishDetectEnabled = false;
+
+                // 使用runAutoFightTask执行带参数的自动战斗
+                dispatcher.runAutoFightTask(autoFightParam, fightCts.Token);
+            } else {
+                // 使用原始方式，不带参数
+                dispatcher.RunTask(new SoloTask("AutoFight"), fightCts.Token);
+            }
+            
+            // OCR检测战斗结束
+            let fightResult = await recognizeTextInRegion(timeout);
+            logFightResult = fightResult ? "成功" : "失败";
+            log.info(`战斗结束，战斗结果：${logFightResult}`);
+            
+            return fightResult;
+        } finally {
+            // 确保战斗结束后取消任务
+            isFighting = false;
+            if (fightCts) {
+                try {
+                    fightCts.cancel();
+                } catch (e) {
+                    log.warn(`取消战斗任务时出错: ${e.message}`);
+                }
+                fightCts = null;
+            }
+        }
     }
 
     //异步检测战斗结果函数
@@ -1024,4 +1083,21 @@
         }
     }
 
-})();
+})().catch(error => {
+    // 捕获取消任务异常（停止脚本执行）
+    if (error.message.includes("取消") || error.message.includes("canceled") || error.message.includes("Canceled")) {
+        // 如果当前在战斗中，取消战斗线程
+        if (isFighting && fightCts) {
+            try {
+                log.info("正在取消战斗任务...");
+                fightCts.cancel();
+                log.info("已取消战斗任务");
+            } catch (e) {
+                log.warn(`取消战斗任务时出错: ${e.message}`);
+            }
+        }
+        log.info("用户已停止脚本执行");
+    } else {
+        log.error(`脚本执行异常: ${error.message}`);
+    }
+});
