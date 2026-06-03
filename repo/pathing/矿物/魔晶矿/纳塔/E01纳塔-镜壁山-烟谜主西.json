@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/vulgar-rustic",
+        "name": "下流山汉"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1780151447525,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E01纳塔-镜壁山-烟谜主西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9971.4336,
+      "y": -1605.0762
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9983.3115,
+      "y": -1562.6123
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9983.3115,
+      "y": -1562.6123
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9995.2119,
+      "y": -1524.3271
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9971.0459,
+      "y": -1485.6289
+    },
+    {
+      "action": "fight",
+      "action_params": "walk",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9880.3262,
+      "y": -1418.9551
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9880.3262,
+      "y": -1418.9551
+    }
+  ]
+}
