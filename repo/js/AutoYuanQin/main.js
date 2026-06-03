@@ -949,8 +949,11 @@
                 let wait_time = Math.round(ticks * base_time);
                 if (wait_time >= 2) {
                     await sleep(wait_time);
-                } else if (status === "D"){
-                    await sleep(4);
+                } else if (i > 0) { //对相邻同音的按下/抬起对添加补偿延迟，避免无差别强制sleep导致流畅度下降
+                    const prev_match = play_sheet[i - 1].match(regex);
+                    if (prev_match && prev_match[2] === notes && prev_match[1] !== status) {
+                        await sleep(4);
+                    }
                 }
 				if (notes === "@") continue;
 
