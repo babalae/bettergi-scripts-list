@@ -414,7 +414,7 @@
                     }
                 });
             }
-            Settings.debug = (typeof (settings.debug) === 'undefined') ? (false) : (settings.debug === "启用");
+            Settings.debug = (typeof (settings.debug_mode) === 'undefined') ? (false) : (settings.debug_mode === "启用");
             return Settings;
 
         } catch (error) {
@@ -522,7 +522,7 @@
             keyDown(key);
         } else if (status === "up") {
             keyUp(key);
-            await sleep(4);
+            await sleep(5);
         }
 
     }
@@ -548,7 +548,7 @@
             for (const key of keys) {
                 keyUp(key);
             }
-            await sleep(4);
+            await sleep(5);
         }
 
     }
@@ -938,14 +938,16 @@
         // 如果是midi转换的乐谱
         if (typeof(sheet_list) === "string") {
 			let play_sheet = sheet_list.split("|");
+            let base_time = 60000 / (bpm * ticks);  // second per beat - 每tick多少毫秒
             for (let i = 0; i < play_sheet.length; i++) {
-                let base_time = 60000 / (bpm * ticks);  // second per beat - 每tick多少毫秒
                 // 变速标记
                 if (play_sheet[i][0] === "*") {
                     const bpm_new = Number(play_sheet[i].slice(1));
                     music_infos[index]["bpm"] = bpm_new;
                     bpm = bpm_new;
-                    if (settings.debug_mode === "启用") {
+                    // 重新计算
+                    base_time = 60000 / (bpm * ticks);
+                    if (DEBUG) {
                         log.info(`变速：${bpm_new}`);
                     }
                     continue;
@@ -960,16 +962,16 @@
                 const notes = match[2];
                 const note_ticks = Math.round(match[3]);
 
-                if (settings.debug_mode === "启用") {
+                if (DEBUG) {
                     log.info(`${status}-${notes}-${note_ticks}`);
                 }
                 let wait_time = Math.round(note_ticks * base_time);
-                if (wait_time >= 4) {
+                if (wait_time >= 5) {
                     await sleep(wait_time);
                 } else if (i > 0) { //对相邻同音的按下/抬起对添加补偿延迟，避免无差别强制sleep导致流畅度下降
                     const prev_match = play_sheet[i - 1].match(regex);
                     if (prev_match && prev_match[2] === notes && prev_match[1] !== status) {
-                        await sleep(4);
+                        await sleep(5);
                     }
                 }
 				if (notes === "@") continue;
@@ -993,13 +995,13 @@
             let symbol = parseInt(ts.split("/")[1], 10);
             // 存储连音
             let temp_legato = [];
+            // 每拍所需的时间
+            let symbol_time = Math.round(60000 / bpm);
+            // 装饰音时长
+            let ornament_time = Math.round(symbol_time / 16)
 
             // test 需要额外计算装饰音时值的影响
             for (let i = 0; i < sheet_list.length; i++) {
-                // 每拍所需的时间
-                let symbol_time = Math.round(60000 / bpm);
-                // 装饰音时长
-                let ornament_time = Math.round(symbol_time / 16)
 
                 // 显示正在演奏的音符
                 if (DEBUG) {
@@ -1123,7 +1125,10 @@
                     const bpm_new = Number(sheet_list[i]["type"]);
                     music_infos[index]["bpm"] = bpm_new;
                     bpm = bpm_new;
-                    if (settings.debug_mode === "启用") {
+                    // 重新计算
+                    symbol_time = Math.round(60000 / bpm);
+                    ornament_time = Math.round(symbol_time / 16)
+                    if (DEBUG) {
                         log.info(`变速：${bpm_new}`);
                     }
                 } else {
