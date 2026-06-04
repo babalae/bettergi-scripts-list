@@ -938,8 +938,8 @@
         // 如果是midi转换的乐谱
         if (typeof(sheet_list) === "string") {
 			let play_sheet = sheet_list.split("|");
-            let base_time = 60000 / (bpm * ticks);  // second per beat - 每tick多少毫秒
             for (let i = 0; i < play_sheet.length; i++) {
+                let base_time = 60000 / (bpm * ticks);  // second per beat - 每tick多少毫秒
                 // 变速标记
                 if (play_sheet[i][0] === "*") {
                     const bpm_new = Number(play_sheet[i].slice(1));
@@ -958,12 +958,12 @@
                 const match = current_note.match(regex);
                 const status = match[1];
                 const notes = match[2];
-                const ticks = Math.round(match[3]);
+                const note_ticks = Math.round(match[3]);
 
                 if (settings.debug_mode === "启用") {
-                    log.info(`${status}-${notes}-${ticks}`);
+                    log.info(`${status}-${notes}-${note_ticks}`);
                 }
-                let wait_time = Math.round(ticks * base_time);
+                let wait_time = Math.round(note_ticks * base_time);
                 if (wait_time >= 4) {
                     await sleep(wait_time);
                 } else if (i > 0) { //对相邻同音的按下/抬起对添加补偿延迟，避免无差别强制sleep导致流畅度下降
@@ -991,15 +991,16 @@
         } else {
             // 确定是以几分音符为一拍
             let symbol = parseInt(ts.split("/")[1], 10);
-            // 每拍所需的时间
-            let symbol_time = Math.round(60000 / bpm);
-            // 装饰音时长
-            let ornament_time = Math.round(symbol_time / 16)
             // 存储连音
             let temp_legato = [];
 
             // test 需要额外计算装饰音时值的影响
             for (let i = 0; i < sheet_list.length; i++) {
+                // 每拍所需的时间
+                let symbol_time = Math.round(60000 / bpm);
+                // 装饰音时长
+                let ornament_time = Math.round(symbol_time / 16)
+
                 // 显示正在演奏的音符
                 if (DEBUG) {
                     log.info(`${sheet_list[i]["note"]}[${sheet_list[i]["type"]}-${sheet_list[i]["spl"]}]`);
