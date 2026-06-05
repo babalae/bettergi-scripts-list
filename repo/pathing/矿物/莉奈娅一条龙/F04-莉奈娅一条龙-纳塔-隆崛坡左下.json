@@ -1,0 +1,231 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1780046794347,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F04-莉奈娅一条龙-纳塔-隆崛坡左下",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8179.7148,
+      "y": -1867.8213
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8190.9131,
+      "y": -1864.7646
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8220.2627,
+      "y": -1883.8076
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8227.6318,
+      "y": -1922.666
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-1000)",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8219.0889,
+      "y": -1933.6182
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "2,5",
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8219.0889,
+      "y": -1933.6182
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8258.1777,
+      "y": -1916.6973
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8290.585,
+      "y": -1902.5508
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8307.2822,
+      "y": -1867.6367
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8296.1904,
+      "y": -1849.0859
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "2,5",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8293.8379,
+      "y": -1850.7266
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8285.208,
+      "y": -1842.752
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8253.7969,
+      "y": -1811.7793
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8233.9014,
+      "y": -1772.2715
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8209.4473,
+      "y": -1762.0312
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8182.7061,
+      "y": -1773.4326
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8157.7061,
+      "y": -1774.9834
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8163.5742,
+      "y": -1777.2217
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8165.8789,
+      "y": -1784.1006
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8163.0,
+      "y": -1788.248
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8158.4746,
+      "y": -1792.4639
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8145.9404,
+      "y": -1791.7207
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8153.3848,
+      "y": -1784.2148
+    }
+  ]
+}
