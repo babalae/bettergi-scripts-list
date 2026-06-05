@@ -9,10 +9,10 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780627726016,
+    "last_modified_time": 1780627448264,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A04纳塔-坚岩溢谷上",
+    "name": "A05纳塔-坚岩溢谷",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -28,59 +28,40 @@
       "y": -1557.3252
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "action_params": "",
       "id": 2,
       "move_mode": "fly",
       "type": "path",
-      "x": 8079.7109,
-      "y": -1527.6133
+      "x": 8083.7793,
+      "y": -1527.9014
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 3,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": 8094.7441,
-      "y": -1510.7803
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 4,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 8143.3594,
-      "y": -1498.8477
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 8143.3594,
-      "y": -1498.8477
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 8141.5957,
-      "y": -1444.4258
+      "x": 8069.8467,
+      "y": -1495.3633
     },
     {
       "action": "mining",
       "action_params": "",
-      "id": 7,
+      "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 8137.1641,
-      "y": -1451.2344
+      "x": 8075.0859,
+      "y": -1484.7734
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8079.9805,
+      "y": -1478.1055
     }
   ]
 }

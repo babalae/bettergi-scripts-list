@@ -6,13 +6,13 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.45.0",
+    "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780627726016,
+    "last_modified_time": 1780624928014,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A04纳塔-坚岩溢谷上",
+    "name": "A08蒙德-废墟右下",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,63 +24,45 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 7973.9932,
-      "y": -1557.3252
+      "x": 122.8818,
+      "y": 2657.9492
     },
     {
       "action": "stop_flying",
       "action_params": "",
       "id": 2,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
-      "x": 8079.7109,
-      "y": -1527.6133
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 8094.7441,
-      "y": -1510.7803
+      "x": 20.4141,
+      "y": 2604.9463
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 4,
-      "locked": false,
-      "move_mode": "walk",
+      "id": 3,
+      "move_mode": "fly",
       "type": "path",
-      "x": 8143.3594,
-      "y": -1498.8477
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 8143.3594,
-      "y": -1498.8477
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 8141.5957,
-      "y": -1444.4258
+      "x": 20.4141,
+      "y": 2604.9463
     },
     {
       "action": "mining",
       "action_params": "",
-      "id": 7,
+      "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 8137.1641,
-      "y": -1451.2344
+      "x": 31.001,
+      "y": 2610.418
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 29.4443,
+      "y": 2622.083
     }
   ]
 }
