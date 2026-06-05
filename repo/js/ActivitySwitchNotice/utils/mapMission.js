@@ -1,4 +1,5 @@
 import {sendText} from "./notice";
+import {toMainUi} from "./tool";
 const ocrRegionConfig = {
     mapMission: {x: 6, y: 8, width: 395, height: 977},//地图任务识别区域坐标和尺寸
 }
@@ -7,7 +8,7 @@ const ocrRegionConfig = {
 /**
  * OCR地图任务识别函数
  * 通过OCR技术识别游戏界面中的任务名称，并与预设的任务名称列表进行匹配
- * @param {Array<string>} [missionNameList=[]] - 需要识别的任务名称列表
+ * @param {Array<string>} [missionNameList=[]] - 需要识别的任务名称列表toMainUi
  * @param {Object} [regionConfig=ocrRegionConfig.mapMission] - OCR识别区域配置对象，包含x、y、width、height属性
  * @returns {Promise<Array<Object>>} 返回识别结果数组，每个元素包含ok(boolean)和text(string)属性
  */

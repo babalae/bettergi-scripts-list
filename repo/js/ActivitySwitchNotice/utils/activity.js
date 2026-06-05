@@ -1,4 +1,5 @@
 import {sendNotice,sendText} from "./notice";
+import {toMainUi} from "./tool";
 const config_name = "config"
 const json_path = {
     activity: `${config_name}/activity.json`
