@@ -1,4 +1,4 @@
-import {findTextAndClick,getDayOfWeek} from "./tool";
+import {findTextAndClick,getDayOfWeek,toMainUi} from "./tool";
 import {sendText} from "./notice";
 function settingsParseInt(str, defaultValue) {
     try {
