@@ -1493,10 +1493,7 @@ async function dumper(pathFilePath, map_name) {
         //6.3强制使用sift的地图不开启泥头车
         const info = parsedContent.info;
         const map_match_method = info.map_match_method || "";
-        if (map_match_method && map_match_method === "SIFT") {
-            disableDumper = true;
-        }
-
+        
         if (!disableDumper) {
             while (state.running) {
                 //log.info("调试-泥头车循环");
@@ -1513,7 +1510,9 @@ async function dumper(pathFilePath, map_name) {
                     let dumperDistance = 0;
                     try {
                         let shouldPressKeys = false;
-                        const currentPosition = await genshin.getPositionFromMap(map_name, map_match_method || undefined);
+                        const currentPosition = map_match_method && map_match_method !== ""
+                            ? await genshin.getPositionFromMapWithMatchingMethod(map_name, map_match_method)
+                            : await genshin.getPositionFromMap(map_name);
                         if (!currentPosition) {
                             continue;
                         }
@@ -1694,7 +1693,9 @@ async function processPathingsByGroup(pathings, accountName) {
     if (settings.enableCoordCheck) {
         try {
             await genshin.returnMainUi();
-            const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name, pathing.map_match_method || undefined);
+            const miniMapPosition = pathing.map_match_method && pathing.map_match_method !== ""
+                ? await genshin.getPositionFromMapWithMatchingMethod(pathing.map_name, pathing.map_match_method)
+                : await genshin.getPositionFromMap(pathing.map_name);
             if (miniMapPosition) {
                 // 更新坐标
                 lastX = miniMapPosition.X;
@@ -1839,7 +1840,9 @@ async function processPathingsByGroup(pathings, accountName) {
             if (settings.enableCoordCheck) {
                 try {
                     await genshin.returnMainUi();
-                    const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name, pathing.map_match_method || undefined);
+                    const miniMapPosition = pathing.map_match_method && pathing.map_match_method !== ""
+                        ? await genshin.getPositionFromMapWithMatchingMethod(pathing.map_name, pathing.map_match_method)
+                        : await genshin.getPositionFromMap(pathing.map_name);
                     if (miniMapPosition) {
                         const diffX = Math.abs(lastX - miniMapPosition.X);
                         const diffY = Math.abs(lastY - miniMapPosition.Y);
