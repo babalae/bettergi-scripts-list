@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": " 路线信息：该路线预计用时55秒，包含以下怪物：2辖域守护者。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1780515679340,
+    "map_match_method": "SIFT",
+    "map_name": "TempleOfSpace",
+    "name": "ZA008蒙德空之神殿大方广西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1077.9369,
+      "y": -194.4927
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.15),keypress(t),wait(1)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 1083.8612,
+      "y": -257.2705
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(11),keyup(VK_SPACE)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 1118.2727,
+      "y": -203.4812
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1118.2727,
+      "y": -203.4812
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1146.125,
+      "y": -208.8749
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1154.9214,
+      "y": -191.5237
+    }
+  ]
+}

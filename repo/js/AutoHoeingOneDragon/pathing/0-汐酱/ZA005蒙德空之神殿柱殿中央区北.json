@@ -1,0 +1,95 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": " 路线信息：该路线预计用时55秒，包含以下怪物：4辖域守护者。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1780515546186,
+    "map_match_method": "SIFT",
+    "map_name": "TempleOfSpace",
+    "name": "ZA005蒙德空之神殿柱殿中央区北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 525.8167,
+      "y": 345.0627
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 537.2007,
+      "y": 352.4803
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 540.005,
+      "y": 349.4694
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 552.7517,
+      "y": 322.8888
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.1),keypress(t)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 552.7517,
+      "y": 322.8888
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 614.4675,
+      "y": 372.907
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_RBUTTON),wait(5),keydown(q),wait(0.8),keyup(q),keyup(VK_RBUTTON),wait(0.1),j",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 614.4675,
+      "y": 372.907
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 611.7498,
+      "y": 394.4227
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时55秒，包含以下怪物：4辖域守护者。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1780514417110,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "A035蒙德疗养院西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -529.1855,
+      "y": 3876.4316
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -524.6426,
+      "y": 3882.2949
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.15),keypress(t)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -501.248,
+      "y": 3909.0986
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -346.8125,
+      "y": 3808.7246
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_RBUTTON),wait(11),keyup(VK_RBUTTON),wait(0.1),j,wait(1),attack(0.3)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -346.8125,
+      "y": 3808.7246
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -346.8125,
+      "y": 3808.7246
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -351.4395,
+      "y": 3803.5845
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -358.7324,
+      "y": 3791.9902
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -356.1758,
+      "y": 3780.9541
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -357.3535,
+      "y": 3783.7412
+    }
+  ]
+}
