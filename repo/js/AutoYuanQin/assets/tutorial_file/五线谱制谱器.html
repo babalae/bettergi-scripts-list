@@ -293,8 +293,14 @@
                     <option value=".">连音</option>
 					<option value="$">连音(末尾)</option>
 					<option value="#">装饰音·倚音</option>
+                    <option value="%">BPM变更</option>
                 </select>
-				<label for="dropdown_all" class="textarea" style="display: none;" id="dropdown_all_text">连音总时值: </label>
+
+                <!-- BPM变更输入（仅在选择 % 时显示）-->
+                <label for="bpm_change_input" class="textarea" id="bpm_change_text" style="display: none">BPM 值:</label>
+                <input type="number" id="bpm_change_input" class="input-text-bpm" value="60" min="1" max="1000" style="display: none">
+
+                <label for="dropdown_all" class="textarea" style="display: none;" id="dropdown_all_text">连音总时值: </label>
 				<select id="dropdown_all" class="dropdown" style="display: none;">
 					<option value="0.25">4个全音符</option>
 					<option value="0.375">3个全音符</option>
@@ -356,6 +362,8 @@
 			var dropdownAllText = document.getElementById('dropdown_all_text');
 			var dropdownAll = document.getElementById('dropdown_all');
 			var dropdownLong = document.getElementById('dropdown_long_text');
+            var bpmChangeInput = document.getElementById('bpm_change_input');
+            var bpmChangeLabel = document.getElementById('bpm_change_text');
 			
 			const fileInput = document.getElementById('file_input');
 			const readButton = document.getElementById('read_button');
@@ -369,13 +377,23 @@
 			
 			/*设置连音时值下拉菜单的可见性和音符时值文本*/
 			dropdownType.addEventListener('change', function() {
+                const val = dropdownType.value;
 				if (dropdownType.value === "." || dropdownType.value === "$") { // 显示连音总时值
 					dropdownAll.style.display = 'inline-block'; 
 					dropdownAllText.style.display = 'inline-block';
 					dropdownLong.textContent = "连音中当前音符时值: ";
-				} else {
+				} else if (val === '%') {
+                    // 显示 BPM 控件，隐藏连音控件
+                    if (bpmChangeInput) bpmChangeInput.style.display = 'inline-block';
+                    if (bpmChangeLabel) bpmChangeLabel.style.display = 'inline-block';
+                    dropdownAll.style.display = 'none';
+                    dropdownAllText.style.display = 'none';
+                    dropdownLong.textContent = '音符时值: ';
+                } else {
 					dropdownAll.style.display = 'none'; // 隐藏
 					dropdownAllText.style.display = 'none';
+                    bpmChangeInput.style.display = 'none';
+                    bpmChangeLabel.style.display = 'none';
 					dropdownLong.textContent = "音符时值: ";
 //					// 重置音符类型下拉菜单为默认选项
 //					dropdownAll.selectedIndex = 0; 
@@ -479,31 +497,53 @@
 		}
 		
 		/*根据所选完善音符*/
-		function btn_confirm() {
-			const codeArea = document.getElementById('code-area');
-			let content = codeArea.value;
-			if (!content.endsWith("[]")) {
-				alert("未检测到空音符，请先添加音符！");
-				return null;
-			}
-			const dropdownType = document.getElementById('dropdown_type');
-			const score_type = dropdownType.value;
-			const dropdownLong = document.getElementById('dropdown_long');
-			const dropdownAll = document.getElementById('dropdown_all');
-			const regex_detail = /(?<=\[)[\s\S]*?(?=\])/g // 匹配 [] test
-			
-			if (score_type === "none") { // 普通音符
-				content = `${content.slice(0, -2)}[${dropdownLong.value}]`;
-			} else if (score_type === ".") { // 连音(默认使用3)
-				content = `${content.slice(0, -2)}[${dropdownAll.value}-${dropdownLong.value}.3]`;
-			} else if (score_type === "$") { // 连音(末尾)
-				content = `${content.slice(0, -2)}[${dropdownAll.value}-${dropdownLong.value}.$]`;
-			} else { // 附点音符或装饰音·倚音
-				content = `${content.slice(0, -2)}[${dropdownLong.value}-${dropdownType.value}]`;
-			}
-			codeArea.value = content;
-			
-		}
+        function btn_confirm() {
+            const codeArea = document.getElementById('code-area');
+            let content = codeArea.value;
+            const dropdownType = document.getElementById('dropdown_type');
+            const score_type = dropdownType.value;
+            const dropdownLong = document.getElementById('dropdown_long');
+            const dropdownAll = document.getElementById('dropdown_all');
+            const bpmControl = document.getElementById('bpm_change_input');
+
+            // 检测未完成的空音符（匹配 A[] 或 (AD)[] 之前的未完成段）
+            const regex_empty_note = /(^|(?<=\])|(?<=\n))[^][^\n]*(?=\[\])/;
+
+            // BPM 特例：不允许在存在未完成空音符时插入
+            if (score_type === '%') {
+                if (regex_empty_note.test(content) || content.endsWith('[]')) {
+                    alert('存在未完成的空音符，无法添加BPM标记！');
+                    return null;
+                }
+                let bpmVal = 60;
+                if (bpmControl) {
+                    const v = parseInt(bpmControl.value, 10);
+                    if (!isNaN(v) && v > 0) bpmVal = v;
+                }
+                // 追加 %[<bpm>]
+                content = content + `%[${bpmVal}-%]`;
+                codeArea.value = content;
+                return;
+            }
+
+            // 其余类型仍需末尾有空音符 []
+            if (!content.endsWith("[]")) {
+                alert("未检测到空音符，请先添加音符！");
+                return null;
+            }
+
+            if (score_type === 'none') {
+                content = `${content.slice(0, -2)}[${dropdownLong.value}]`;
+            } else if (score_type === '.') {
+                content = `${content.slice(0, -2)}[${dropdownAll.value}-${dropdownLong.value}.3]`;
+            } else if (score_type === '$') {
+                content = `${content.slice(0, -2)}[${dropdownAll.value}-${dropdownLong.value}.$]`;
+            } else {
+                content = `${content.slice(0, -2)}[${dropdownLong.value}-${dropdownType.value}]`;
+            }
+
+            codeArea.value = content;
+        }
        
 		/*导出乐谱文件*/
 		function btn_output() {

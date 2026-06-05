@@ -8,6 +8,8 @@
         QueueMusicRepeat: 3, // 队列循环执行
     };
     let DEBUG = false;
+
+    let music_infos = [];
     /**
      * -------- 工具函数 --------
      */
@@ -412,7 +414,7 @@
                     }
                 });
             }
-            Settings.debug = (typeof (settings.debug) === 'undefined') ? (false) : (settings.debug === "启用");
+            Settings.debug = (typeof (settings.debug_mode) === 'undefined') ? (false) : (settings.debug_mode === "启用");
             return Settings;
 
         } catch (error) {
@@ -520,7 +522,7 @@
             keyDown(key);
         } else if (status === "up") {
             keyUp(key);
-            await sleep(4);
+            await sleep(5);
         }
 
     }
@@ -546,7 +548,7 @@
             for (const key of keys) {
                 keyUp(key);
             }
-            await sleep(4);
+            await sleep(5);
         }
 
     }
@@ -835,6 +837,10 @@
                         // 处理休止符
                         note = '@';
                         i++;
+                    } else if (bar[i] === '%') {
+                        // 处理BPM标记
+                        note = '%';
+                        i++;
                     } else {
                         note = bar[i];
                         i++;
@@ -875,13 +881,14 @@
      *
      * 根据解析后的乐谱进行演奏
      *
+     * @param index
      * @param sheet_list {Object[][]} 解析后的乐谱
      * @param bpm BPM (240)
      * @param ts 拍号 (3/4)
      * @param ticks ticks per beat （MIDI用）
      * @returns {Promise<void>}
      */
-    async function play_sheet(sheet_list, bpm, ts, ticks = 480) {
+    async function play_sheet(index, sheet_list, bpm, ts, ticks = 480) {
         /**
          *
          * 计算当前音符的时长（检测音符后是否有装饰音）
@@ -933,6 +940,18 @@
 			let play_sheet = sheet_list.split("|");
             let base_time = 60000 / (bpm * ticks);  // second per beat - 每tick多少毫秒
             for (let i = 0; i < play_sheet.length; i++) {
+                // 变速标记
+                if (play_sheet[i][0] === "*") {
+                    const bpm_new = Number(play_sheet[i].slice(1));
+                    music_infos[index]["bpm"] = bpm_new;
+                    bpm = bpm_new;
+                    // 重新计算
+                    base_time = 60000 / (bpm * ticks);
+                    if (DEBUG) {
+                        log.info(`变速：${bpm_new}`);
+                    }
+                    continue;
+                }
                 // 正则表达式：首字母（A-Z），中间字母串（A-Z@），数字部分（0-9）
                 const regex = /^([A-Z])([A-Z@]+)(\d+)$/;
 
@@ -941,18 +960,18 @@
                 const match = current_note.match(regex);
                 const status = match[1];
                 const notes = match[2];
-                const ticks = Math.round(match[3]);
+                const note_ticks = Math.round(match[3]);
 
-                if (settings.debug_mode === "启用") {
-                    log.info(`${status}-${notes}-${ticks}`);
+                if (DEBUG) {
+                    log.info(`${status}-${notes}-${note_ticks}`);
                 }
-                let wait_time = Math.round(ticks * base_time);
-                if (wait_time >= 2) {
+                let wait_time = Math.round(note_ticks * base_time);
+                if (wait_time >= 5) {
                     await sleep(wait_time);
                 } else if (i > 0) { //对相邻同音的按下/抬起对添加补偿延迟，避免无差别强制sleep导致流畅度下降
                     const prev_match = play_sheet[i - 1].match(regex);
                     if (prev_match && prev_match[2] === notes && prev_match[1] !== status) {
-                        await sleep(4);
+                        await sleep(5);
                     }
                 }
 				if (notes === "@") continue;
@@ -974,15 +993,16 @@
         } else {
             // 确定是以几分音符为一拍
             let symbol = parseInt(ts.split("/")[1], 10);
+            // 存储连音
+            let temp_legato = [];
             // 每拍所需的时间
             let symbol_time = Math.round(60000 / bpm);
             // 装饰音时长
             let ornament_time = Math.round(symbol_time / 16)
-            // 存储连音
-            let temp_legato = [];
 
             // test 需要额外计算装饰音时值的影响
             for (let i = 0; i < sheet_list.length; i++) {
+
                 // 显示正在演奏的音符
                 if (DEBUG) {
                     log.info(`${sheet_list[i]["note"]}[${sheet_list[i]["type"]}-${sheet_list[i]["spl"]}]`);
@@ -1101,6 +1121,16 @@
                     // if (i !== sheet_list.length - 1) {
                     //     await sleep(cal_time_ornament(sheet_list, symbol_time * 1.5, symbol, sheet_list[i]["type"], i));
                     // }
+                } else if (sheet_list[i]["spl"] === '%') { // BPM标记
+                    const bpm_new = Number(sheet_list[i]["type"]);
+                    music_infos[index]["bpm"] = bpm_new;
+                    bpm = bpm_new;
+                    // 重新计算
+                    symbol_time = Math.round(60000 / bpm);
+                    ornament_time = Math.round(symbol_time / 16)
+                    if (DEBUG) {
+                        log.info(`变速：${bpm_new}`);
+                    }
                 } else {
                     log.info(`错误: ${sheet_list[i]["spl"]}`);
                     return null;
@@ -1261,7 +1291,6 @@
         DEBUG = settings_msg.debug;
         console.log(`${settings_msg}`)
 
-        const music_infos = [];
         for (const music_name of settings_msg.musicQueue) {
             const music_info = getMusicInfo(music_name);
             if (music_info === null) {
@@ -1276,7 +1305,9 @@
         await waitTargetTime(settings_msg.startTime);
         // try {
             do {
-                for (const music_info of music_infos) {
+                for (let i = 0; i < music_infos.length; i++) {
+                    let music_info = music_infos[i];
+
                     if (settings.auto_switch) {
                         await autoSwitchInstrument(music_info.instrument);  // 检测并切换乐器
                     } else {
@@ -1285,10 +1316,10 @@
                     log.info(`开始演奏: ${music_info.name} - ${music_info.author}`);
                     switch (music_info.type) {
                         case "yuanqin":
-                            await play_sheet(music_info.notes, music_info.bpm, music_info.time_signature);
+                            await play_sheet(i, music_info.notes, music_info.bpm, music_info.time_signature);
                             break;
                         case "midi":
-                            await play_sheet(music_info.notes, music_info.bpm, music_info.time_signature, music_info.ticks);
+                            await play_sheet(i, music_info.notes, music_info.bpm, music_info.time_signature, music_info.ticks);
                             break;
                         case "keyboard":
                             if (DEBUG) {

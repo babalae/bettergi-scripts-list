@@ -580,6 +580,7 @@
     let tracksInfo = [];               // 存储每个轨道的事件/音符（带绝对时间）
     let mergedNotes = [];              // 存储合并后的音符（使用ticks：startTick/endTick）
     let lastGeneratedJson = null;
+    let tempoEvents = []; // 每项 { tick: Number, bpm: Number }
 
     // 全局元数据 (从MIDI提取)
     let globalBpm = 120;
@@ -650,31 +651,45 @@
     // 辅助函数：从MIDI提取BPM和拍号并更新显示
     function updateGlobalMetaFromMidi() {
         if (!currentMidi) return;
-        // 提取BPM
+        // 提取BPM并收集 tempo 事件
         let bpm = 120;
-        for (let track of currentMidi.tracks) {
+        tempoEvents = [];
+
+        // 遍历所有轨道，累加 delta 以获得绝对 tick（parser 已经在事件上设置 absTime，但我们双保险）
+        for (let t = 0; t < currentMidi.tracks.length; t++) {
+            const track = currentMidi.tracks[t];
+            let abs = 0;
             for (let ev of track.events) {
+                // 使用 parser 的 absTime 优先，否则累加 delta
+                const tick = (typeof ev.absTime === 'number') ? ev.absTime : (abs += ev.delta || 0, abs);
                 if (ev.meta && ev.type === 0x51 && ev.tempo) {
-                    let microPerBeat = ev.tempo;
-                    bpm = Math.round(60000000 / microPerBeat);
-                    break;
-            }}
-        }
-        // 提取拍号
-        let timesig = '4/4';
-        for (let track of currentMidi.tracks) {
-            for (let ev of track.events) {
+                    // ev.tempo 是 microseconds per quarter note (3 bytes)
+                    const microPerBeat = ev.tempo;
+                    const foundBpm = Math.round(60000000 / microPerBeat);
+                    tempoEvents.push({ tick: tick, bpm: foundBpm });
+                    if (tempoEvents.length === 1) bpm = foundBpm; // 首个 tempo 作为全局默认
+                }
                 if (ev.meta && ev.type === 0x58 && ev.numerator && ev.denominator) {
-                    timesig = `${ev.numerator}/${ev.denominator}`;
-                    break;
-            }}
+                    // 直接更新拍号（若在多个轨道出现，优先第一个遇到的）
+                    globalTimeSig = `${ev.numerator}/${ev.denominator}`;
+                }
+            }
         }
+
+        // 去重：移除相邻重复的 tempo，只保留真正变化点（保持出现顺序）
+        if (tempoEvents.length > 1) {
+            const uniq = [tempoEvents[0]];
+            for (let i = 1; i < tempoEvents.length; i++) {
+                if (tempoEvents[i].bpm !== uniq[uniq.length - 1].bpm) uniq.push(tempoEvents[i]);
+            }
+            tempoEvents = uniq;
+        }
+
         globalBpm = bpm;
-        globalTimeSig = timesig;
-        metaBpmSpan.textContent = globalBpm;          // 隐藏的span仍然更新
-        bpmInput.value = globalBpm;                   // 可编辑输入框同步
-        metaTimesigSpan.textContent = globalTimeSig;
-        // 显示MIDI头部的 ticks-per-beat（JSON 中的 ticks 字段）
+        // 更新 UI（原文件存在这些元素）
+        if (metaBpmSpan) metaBpmSpan.textContent = globalBpm;
+        if (bpmInput) bpmInput.value = globalBpm;
+        if (metaTimesigSpan) metaTimesigSpan.textContent = globalTimeSig;
         const headerTicks = (currentMidi && currentMidi.header && currentMidi.header.ticksPerBeat) ? currentMidi.header.ticksPerBeat : '—';
         if (metaTicksSpan) metaTicksSpan.textContent = headerTicks;
     }
@@ -958,12 +973,14 @@
     playPreviewBtn.addEventListener('click', playPreview);
     stopPreviewBtn.addEventListener('click', stopPreview);
 
-    // 生成notes字符串（使用tick差值作为等待）
+    // 生成 notes 字符串并在 tempo 变化处插入 *<BPM> 标记（纯数字），bpm 字段保持不变
     function generateNotesString() {
         if (mergedNotes.length === 0) return 'D@0';
 
         const shift = getCurrentOctaveShift();
         let events = [];
+
+        // 收集按键事件
         mergedNotes.forEach(n => {
             const shiftedPitch = n.pitch + shift * 12;
             const validPitch = mapPitchToValid(shiftedPitch);
@@ -972,20 +989,37 @@
             events.push({ tick: n.endTick, type: 'U', key: keyChar });
         });
 
-        events.sort((a, b) => {
-            if (a.tick !== b.tick) return a.tick - b.tick;
-            return a.type === 'U' ? -1 : 1;
+        // 将 tempoEvents 插入事件流（若 tempoEvents 非空）
+        (tempoEvents || []).forEach(te => {
+            // 仅在有意义的 tick 范围内插入（可选，但通常安全）
+            events.push({ tick: te.tick, type: '*', bpm: te.bpm });
         });
 
-        let result = [];
+        // 排序：按 tick 升序；相同 tick 时顺序 U -> D -> *（确保节拍变更通常出现在音符释放之后）
+        events.sort((a, b) => {
+            if (a.tick !== b.tick) return a.tick - b.tick;
+            const order = { 'U': 0, 'D': 1, '*': 2 };
+            const oa = order[a.type] !== undefined ? order[a.type] : 3;
+            const ob = order[b.type] !== undefined ? order[b.type] : 3;
+            return oa - ob;
+        });
+
+        // 构建字符串：对于 * 类型输出 "*<BPM>"（不附带等待数字），其它按原格式 D/U + key + wait
+        let resultParts = [];
         let prevTick = 0;
         events.forEach(ev => {
             const wait = Math.max(0, Math.round(ev.tick - prevTick));
-            result.push(`${ev.type}${ev.key}${wait}`); // e.g. DQ13
-            prevTick = ev.tick;
+            if (ev.type === '*') {
+                // 插入节拍标记（纯数字），不附带等待数
+                resultParts.push(`*${ev.bpm}`);
+                prevTick = ev.tick;
+            } else {
+                resultParts.push(`${ev.type}${ev.key}${wait}`); // 例如 DQ13
+                prevTick = ev.tick;
+            }
         });
 
-        return result.join('|');
+        return resultParts.join('|');
     }
 
     // 转换按钮：生成JSON，保持原结构但ticks来源于MIDI头部ticks-per-beat
