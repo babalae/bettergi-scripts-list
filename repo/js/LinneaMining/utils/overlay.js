@@ -25,7 +25,6 @@ function showOverlay(initialData) {
   if (!useMask) return
   try {
     progressWinId = htmlMask.show("assets/progress-mask.html", "linnea-progress")
-    log.info(`号码${progressWinId}`)
     if (progressWinId && initialData) {
       htmlMask.send(progressWinId, "/progress", JSON.stringify(initialData))
     }
@@ -72,4 +71,37 @@ function closeOverlay() {
   progressWinId = null
 }
 
-export { initOverlay, showOverlay, sendProgress, closeOverlay }
+// ===== N 键切换面板最小化 =====
+
+let keyHook = null
+
+/**
+ * 初始化快捷键监听：按 N 键切换面板最小化状态
+ */
+function initKeyHook() {
+  if (!useMask) return
+  try {
+    keyHook = new KeyMouseHook()
+    keyHook.OnKeyDown((key) => {
+      if (key === 'N' && progressWinId && htmlMask.exists(progressWinId)) {
+        htmlMask.send(progressWinId, '/toggle', '{}')
+      }
+    })
+  } catch (e) {
+    // kmCallback 不可用时静默跳过
+  }
+}
+
+/**
+ * 释放快捷键监听资源
+ */
+function disposeKeyHook() {
+  try {
+    if (keyHook) keyHook.dispose()
+  } catch (e) {
+    // 静默忽略
+  }
+  keyHook = null
+}
+
+export { initOverlay, showOverlay, sendProgress, closeOverlay, initKeyHook, disposeKeyHook }
