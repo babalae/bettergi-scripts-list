@@ -12,7 +12,7 @@
         <span class="corner corner-bl"></span>
         <span class="corner corner-br"></span>
 
-        <div class="panel-inner">
+        <div class="panel-inner full" v-show="!minimized">
           <div class="panel-body">
             <!-- 左侧信息区 -->
             <div class="panel-info">
@@ -72,14 +72,20 @@
 
               <!-- 状态 -->
               <div class="status-row" ref="statusEl">
-                <span class="status-dot" ref="statusDot">▶</span>
-                <span>{{ status }}</span>
+                <span>
+                  <span class="status-dot" ref="statusDot">▶</span>
+                  <span>{{ status }}</span>
+                </span>
+                <span class="hint-text">点按 N 隐藏面板</span>
               </div>
             </div>
 
             <!-- 右侧像素小人 -->
             <LinneaSprite :src="currentSprite"/>
           </div>
+        </div>
+        <div class="panel-inner panel-mini" v-show="minimized">
+          <span class="hint-text">点按 N 开启面板</span>
         </div>
       </div>
     </div>
@@ -92,7 +98,7 @@
  * 组合 DebrisField、LinneaSprite 子组件与 useMiningProgress、usePixelAnimations composable
  */
 
-import {ref, computed, onMounted, onUnmounted} from 'vue'
+import {computed, onMounted, onUnmounted, ref} from 'vue'
 
 // 子组件
 import DebrisField from './components/DebrisField.vue'
@@ -102,8 +108,10 @@ import LinneaSprite from './components/LinneaSprite.vue'
 import {useMiningProgress} from './composables/useMiningProgress'
 import {usePixelAnimations} from './composables/usePixelAnimations'
 
+import gsap from 'gsap'
+
 // 常量
-import {debrisData, SPRITE_MAP, SPRITE_STATES, DEFAULT_SPRITE, SEGMENT_COUNT} from './constants'
+import {debrisData, DEFAULT_SPRITE, SEGMENT_COUNT, SPRITE_MAP, SPRITE_STATES} from './constants'
 
 // ===== Composable 实例 =====
 
@@ -137,6 +145,65 @@ const debrisFieldRef = ref(null)
 /** 进度条段块 refs */
 const segmentRefs = ref([])
 
+// ===== 面板最小化 =====
+
+/** 面板最小化状态（持久化到 localStorage） */
+const minimized = ref(localStorage.getItem('linnea-panel-mini') === '1')
+
+/** 动画进行中防重入 */
+let animating = false
+
+/** 隐藏面板左移量基准值，越大越靠左。运行时按分辨率自动缩放 */
+const OFFSET_BASE = 360
+let offsetX = 0
+
+/**
+ * 切换面板最小化状态，GSAP 宽度动画 + 内容淡入淡出
+ * 宽度从 300px ↔ 100px，平滑缩放无抖动
+ */
+function toggleMinimized() {
+  if (animating) return
+  animating = true
+
+  const toMini = !minimized.value
+  const pixel = panelOuter.value
+  const panel = pixel?.querySelector('.panel-outer')
+  const fullInner = panel?.querySelector('.panel-inner.full')
+  const miniInner = panel?.querySelector('.panel-inner.panel-mini')
+  if (!pixel || !panel || !fullInner || !miniInner) {
+    minimized.value = toMini
+    animating = false
+    return
+  }
+
+  const dur = 0.5
+  const miniW = 100
+
+  const tl = gsap.timeline({
+    onComplete: () => {
+      minimized.value = toMini
+      localStorage.setItem('linnea-panel-mini', toMini ? '1' : '0')
+      animating = false
+    }
+  })
+
+  if (toMini) {
+    // 收：先淡出大内容，再缩宽+移位，最后淡入小提示
+    tl.to(fullInner, { opacity: 0, duration: 0.2 }, 0)
+    tl.to(panel, { width: miniW, duration: dur, ease: 'power2.inOut' }, 0)
+    tl.to(pixel, { x: -offsetX, duration: dur, ease: 'power2.inOut' }, 0)
+    tl.call(() => { fullInner.style.display = 'none'; miniInner.style.display = '' }, null, dur * 0.5)
+    tl.fromTo(miniInner, { opacity: 0 }, { opacity: 1, duration: 0.2 }, dur * 0.6)
+  } else {
+    // 展：切回大内容(它渲染在最终宽度上) → 展宽+移回 → 淡入
+    tl.call(() => { miniInner.style.display = 'none'; fullInner.style.display = '' })
+    tl.set(fullInner, { opacity: 0 })
+    tl.to(panel, { width: 300, duration: dur, ease: 'power2.inOut' }, 0)
+    tl.to(pixel, { x: 0, duration: dur, ease: 'power2.inOut' }, 0)
+    tl.to(fullInner, { opacity: 1, duration: 0.25 }, dur * 0.5)
+  }
+}
+
 // ===== Sprite 状态 =====
 
 /** 当前 sprite 动画状态名 */
@@ -151,8 +218,7 @@ let spriteTimer = null
 /** 启动 sprite 状态随机切换（每 4 秒） */
 function startSpriteCycle() {
   spriteTimer = setInterval(() => {
-    const next = SPRITE_STATES[Math.floor(Math.random() * SPRITE_STATES.length)]
-    spriteState.value = next
+    spriteState.value = SPRITE_STATES[Math.floor(Math.random() * SPRITE_STATES.length)]
   }, 4000)
 }
 
@@ -177,6 +243,17 @@ function onComplete() {
 onMounted(() => {
   // DPI 补偿
   applyDpiScale(panelOuter.value)
+
+  // 分辨率适配左移量（以 2560 宽为基准等比缩放）
+  const w = window.innerWidth
+  offsetX = Math.round(OFFSET_BASE * w / 2560)
+
+  // 初始最小化状态
+  if (minimized.value) {
+    const panel = document.querySelector('.panel-outer')
+    if (panel) panel.style.width = '100px'
+    gsap.set(panelOuter.value, { x: -offsetX })
+  }
 
   // 初始化消息处理或进入 Demo 模式
   const hasHandler = initMessageHandler({onProgressUpdate, onComplete})
@@ -205,6 +282,18 @@ onMounted(() => {
 
   // sprite 随机切换
   startSpriteCycle()
+
+  // 面板最小化切换：接收 /toggle 消息，包裹已有 handler
+  if (window.htmlMask) {
+    const prev = window.htmlMask.onMessage
+    window.htmlMask.onMessage = (msg) => {
+      if (msg.url === '/toggle') {
+        toggleMinimized()
+        return
+      }
+      if (prev) prev(msg)
+    }
+  }
 })
 
 onUnmounted(() => {
@@ -485,6 +574,9 @@ body {
 
 /* ===== 状态行 ===== */
 .status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   color: #aaaaaa;
   font-size: 9px;
 }
@@ -494,5 +586,25 @@ body {
   margin-right: 3px;
   font-size: 6px;
   display: inline-block;
+}
+
+/* ===== 呼吸提示文字 ===== */
+.hint-text {
+  color: #ffcc00;
+  font-size: 7px;
+  animation: hint-breathe 2s ease-in-out infinite;
+}
+
+@keyframes hint-breathe {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* ===== 最小化提示面板 ===== */
+.panel-mini {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 6px;
 }
 </style>

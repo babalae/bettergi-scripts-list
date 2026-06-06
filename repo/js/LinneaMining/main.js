@@ -24,7 +24,7 @@ import {
 //   formatInventory
 // } from "./utils/inventory.js"
 import {startMonthCardWatcher} from "../../../packages/utils/tool"
-import { initOverlay, showOverlay, sendProgress, closeOverlay } from "./utils/overlay.js"
+import { initOverlay, showOverlay, sendProgress, closeOverlay, initKeyHook, disposeKeyHook } from "./utils/overlay.js"
 
 // 切换队伍
 async function switchParty(partyName) {
@@ -68,6 +68,7 @@ async function runRoute(routePath) {
   }
 
   initOverlay(version)
+  initKeyHook()
 
   setGameMetrics(1920, 1080, 1)
   await genshin.returnMainUi()
@@ -210,5 +211,6 @@ async function runRoute(routePath) {
   // log.info("当前背包：" + formatInventory(latestInventory))
   // log.info(summary)
 
+  disposeKeyHook()
   await watcher.cancel()
 })()
