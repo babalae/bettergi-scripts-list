@@ -78,7 +78,7 @@ const findSearchWonderlandInput = () => {
 };
 //! 房间：查找奇域搜索输入框清除按钮
 const findClearInputBtn = () => {
-  return findTextWithinBounds("清除", 0, 120, 1920, 60);
+  return findTextWithinBounds("清除", 0, 120, 1920, 60, { contains: true });
 };
 //! 房间：查找搜索奇域按钮
 const findSearchWonderlandBtn = () => {
