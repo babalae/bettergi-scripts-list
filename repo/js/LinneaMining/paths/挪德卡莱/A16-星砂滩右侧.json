@@ -24,7 +24,7 @@
     "description": "",
     "enable_monster_loot_split": false,
     "items": [],
-    "last_modified_time": 1778390948061,
+    "last_modified_time": 1780761506412,
     "map_match_method": "TemplateMatch",
     "map_name": "Teyvat",
     "name": "A16-星砂滩右侧",
@@ -174,7 +174,6 @@
       "action": "combat_script",
       "action_params": "wait(4)",
       "id": 8,
-      "locked": false,
       "move_mode": "walk",
       "point_ext_params": {
         "description": "",
@@ -211,24 +210,22 @@
       "y": 2159.4561
     },
     {
-      "action": "linnea_mining",
-      "action_params": "3,6",
+      "action": "mining",
+      "action_params": "",
       "id": 10,
       "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "enable_monster_loot_split": false,
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        }
-      },
+      "type": "target",
+      "x": 9354.8916,
+      "y": 2155.8955
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "2,4",
+      "id": 11,
+      "move_mode": "walk",
       "type": "orientation",
-      "x": 9356.416,
-      "y": 2156.167
+      "x": 9357.6416,
+      "y": 2166.2192
     }
   ]
 }
