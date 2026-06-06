@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node -e \"require('fs').copyFileSync('dist/index.html','../assets/progress-mask.html')\"",
+    "build": "vite build && node -e \"const s='dist',d='../assets';require('fs').cpSync(s,d,{recursive:true})\"",
     "preview": "vite preview"
   },
   "dependencies": {
