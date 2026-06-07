@@ -1,8 +1,5 @@
 <template>
   <div class="overlay">
-    <!-- 散乱像素装饰 -->
-    <DebrisField :data="debrisData" ref="debrisFieldRef"/>
-
     <!-- DPI 补偿缩放容器 -->
     <div class="pixel-scale" ref="panelOuter">
       <div class="panel-outer">
@@ -101,7 +98,6 @@
 import {computed, onMounted, onUnmounted, ref} from 'vue'
 
 // 子组件
-import DebrisField from './components/DebrisField.vue'
 import LinneaSprite from './components/LinneaSprite.vue'
 
 // Composable
@@ -111,7 +107,7 @@ import {usePixelAnimations} from './composables/usePixelAnimations'
 import gsap from 'gsap'
 
 // 常量
-import {debrisData, DEFAULT_SPRITE, SEGMENT_COUNT, SPRITE_MAP, SPRITE_STATES} from './constants'
+import {DEFAULT_SPRITE, SEGMENT_COUNT, SPRITE_MAP, SPRITE_STATES} from './constants'
 
 // ===== Composable 实例 =====
 
@@ -124,7 +120,7 @@ const {
 
 const {
   applyDpiScale, playEntranceAnimation, animateFilledSegments,
-  startBlink, startDebrisAnimations, playCompleteAnimation,
+  startBlink, playCompleteAnimation,
   cleanup: cleanupAnimations,
 } = usePixelAnimations()
 
@@ -140,8 +136,6 @@ const routeNameEl = ref(null)
 const timeRow = ref(null)
 const statusEl = ref(null)
 const statusDot = ref(null)
-const debrisFieldRef = ref(null)
-
 /** 进度条段块 refs */
 const segmentRefs = ref([])
 
@@ -206,10 +200,14 @@ function toggleMinimized() {
 
 // ===== Sprite 状态 =====
 
-/** 当前 sprite 动画状态名 */
+/**
+ * 当前 sprite 动画状态名
+ */
 const spriteState = ref('idle')
 
-/** 当前 sprite GIF URL */
+/**
+ * 当前 sprite GIF URL
+ */
 const currentSprite = computed(() => SPRITE_MAP[spriteState.value] || DEFAULT_SPRITE)
 
 /** sprite 随机切换定时器 */
@@ -233,7 +231,6 @@ function onProgressUpdate(pct) {
 function onComplete() {
   playCompleteAnimation({
     panelOuter: panelOuter.value,
-    debrisRefs: debrisFieldRef.value?.debrisRefs?.filter(Boolean) ?? [],
     segmentRefs: segmentRefs.value,
   })
 }
@@ -241,6 +238,9 @@ function onComplete() {
 // ===== 生命周期 =====
 
 onMounted(() => {
+  // 通知 JS 侧遮罩已就绪
+  try { window.htmlMask.request('/ready', '{}') } catch {}
+
   // DPI 补偿
   applyDpiScale(panelOuter.value)
 
@@ -270,15 +270,11 @@ onMounted(() => {
     routeNameEl: routeNameEl.value,
     timeRow: timeRow.value,
     statusEl: statusEl.value,
-    debrisRefs: debrisFieldRef.value?.debrisRefs?.filter(Boolean) ?? [],
     segmentRefs: segmentRefs.value.filter(Boolean),
   })
 
   // 状态点闪烁
   startBlink(statusDot.value)
-
-  // 碎片循环动画
-  startDebrisAnimations(debrisFieldRef.value?.debrisRefs?.filter(Boolean) ?? [])
 
   // sprite 随机切换
   startSpriteCycle()

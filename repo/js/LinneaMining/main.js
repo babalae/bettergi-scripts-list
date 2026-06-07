@@ -133,7 +133,7 @@ async function runRoute(routePath) {
 
   const scriptStartTime = Date.now()
 
-  showOverlay({
+  await showOverlay({
     percentage: 0,
     current: 0,
     total: runnableRoutes.length,
