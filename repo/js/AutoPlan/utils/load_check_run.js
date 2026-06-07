@@ -472,6 +472,7 @@ class Domain extends Base {
         await sleep(1000)
 
         const currentPhysical = await Physical.countAllResin()
+        config.user.physical.currentJson = currentPhysical;
         config.user.physical.current = currentPhysical.originalResinCount;
 
         const physical = config.user.physical
@@ -818,6 +819,7 @@ class StygianOnslaught extends Base {
         //   fragileResinUseCount: number;
         await sleep(1000)
         const currentPhysical = await Physical.countAllResin()
+        config.user.physical.current = currentPhysical.originalResinCount;
         config.user.physical.current = currentPhysical.originalResinCount;
 
         const physical = config.user.physical
