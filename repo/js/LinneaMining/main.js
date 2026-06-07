@@ -61,7 +61,7 @@ async function runRoute(routePath) {
   const watcher = startMonthCardWatcher()
 
   const version = getVersion()
-  const minVersion = '0.60.2-alpha.5'
+  const minVersion = '0.61.0'
 
   if (!checkVersion(version, minVersion)) {
     log.warn(`当前 BetterGI 版本(${version})低于最低要求(${minVersion})，出现异常为正常情况`)
@@ -127,8 +127,6 @@ async function runRoute(routePath) {
     const minutes = Math.round((runUntilTime - Date.now()) / 60 / 1000)
     log.info(`将在 ${minutes} 分钟后停止运行`)
   }
-
-  dispatcher.addTimer(new RealtimeTimer("AutoPick"))
 
   // const originalInventory = await getInventory()
   // log.info("当前背包：" + formatInventory(originalInventory))
