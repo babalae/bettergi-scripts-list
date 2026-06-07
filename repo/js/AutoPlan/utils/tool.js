@@ -236,7 +236,7 @@ export async function outDomainUI() {
         }
         index += 1
     }
-    if ((!tryMax) && (!inMainUI) && await isInOutDomainUI()) {
+    if ((!tryMax) && (!inMainUI) && await UI.isInOutDomainUI()) {
         try {
             //点击确认按钮
             await findTextAndClick('确认', ocrRegion.x, ocrRegion.y, ocrRegion.w, ocrRegion.h)
@@ -471,4 +471,38 @@ export function parseInteger(str) {
     }
     const parsedInt = parseInt(String(str).trim(), 10);
     return isNaN(parsedInt) ? undefined : parsedInt; // 非法数字返回 undefined
+}
+/**
+ * 字符串格式化函数，支持类似C语言的格式化占位符
+ * @param {string} format - 格式化字符串，包含%占位符
+ * @param {...*} args - 可变参数，用于替换格式化字符串中的占位符
+ * @returns {string} 格式化后的字符串
+ */
+export function StringFormat(format, ...args) {
+    let argIndex = 0; // 当前使用的参数索引
+    // 使用正则表达式匹配格式化占位符，如%s, %d, %f等
+    return format.replace(/%(\d*\.?\d*[sdf%])/g, (match, pattern) => {
+        // 如果匹配到的是%%，则返回%
+        if (pattern === '%') return '%';
+        // 如果参数已用完，返回原始匹配字符串
+        if (argIndex >= args.length) return match;
+
+        // 获取当前参数
+        const val = args[argIndex++];
+        // 获取格式化类型（s, d, f）
+        const type = pattern.slice(-1);
+        // 获取数字格式（如%.2f中的2）
+        const numPattern = pattern.slice(0, -1);
+
+        // 根据类型进行格式化
+        switch (type) {
+            case 's': return String(val);
+            case 'd': return parseInt(val).toString();
+            case 'f':
+                const dotIdx = numPattern.indexOf('.');
+                const fixed = dotIdx > -1 ? Number(numPattern.slice(dotIdx + 1)) : 6;
+                return Number(val).toFixed(fixed);
+            default: return match;
+        }
+    });
 }

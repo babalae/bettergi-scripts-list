@@ -62,6 +62,7 @@ async function main() {
                 // 重新获取当前体力值
                 // const physicalOcr = await ocrPhysical(true, true);
                 const currentPhysical = await Physical.countAllResin()
+                config.user.physical.currentJson = currentPhysical;
                 config.user.physical.current = currentPhysical.originalResinCount;
                 //循环
                 if (config.user.physical.current < config.user.physical.min) {
