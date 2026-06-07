@@ -2,7 +2,7 @@ import {config, LoadType} from "../config/config";
 import {Physical} from "./physical";
 import {getDayOfWeek, outDomainUI, outStygianOnslaughtUI, parseInteger, throwError, toMainUi} from "./tool";
 import {findStygianOnslaught} from "./activity";
-import {pullJsonConfig} from "./bgi_tools";
+import {BgiTools} from "./bgi_tools";
 
 /*===========================================[check]===========================================*/
 /**
@@ -113,7 +113,7 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
         case LoadType.bgi_tools:
             // 通过bgi_tools方式加载配置
             log.info(`开始拉取bgi_tools配置`)
-            const uidConfigListBgiTools = await pullJsonConfig(config.user.uid + '', config.bgi_tools.api.httpPullJsonConfig) || []
+            const uidConfigListBgiTools = await BgiTools.pullJsonConfig(config.user.uid + '', config.bgi_tools.api.httpPullJsonConfig) || []
             if (uidConfigListBgiTools?.length > 0) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
                 uidConfigListBgiTools.forEach(item => {
