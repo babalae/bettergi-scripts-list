@@ -9,10 +9,10 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780848831251,
+    "last_modified_time": 1780845365294,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "C05稻妻-八酝岛-蛇骨矿洞右",
+    "name": "C06稻妻-八酝岛-绯木村右",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,44 +24,44 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -2405.4785,
-      "y": -3912.6357
+      "x": -2215.7539,
+      "y": -3709.165
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "fly",
+      "move_mode": "run",
       "type": "path",
-      "x": -2436.084,
-      "y": -3941.877
+      "x": -2240.7988,
+      "y": -3727.8506
     },
     {
-      "action": "stop_flying",
+      "action": "mining",
       "action_params": "",
       "id": 3,
-      "move_mode": "fly",
+      "move_mode": "run",
       "type": "path",
-      "x": -2491.9277,
-      "y": -4028.0605
+      "x": -2270.4023,
+      "y": -3759.2109
     },
     {
       "action": "mining",
       "action_params": "",
       "id": 4,
-      "move_mode": "fly",
+      "move_mode": "walk",
       "type": "path",
-      "x": -2491.9277,
-      "y": -4028.0605
+      "x": -2275.9687,
+      "y": -3767.6279
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": -2498.7305,
-      "y": -4020.5332
+      "x": -2271.5605,
+      "y": -3778.9355
     },
     {
       "action": "mining",
@@ -69,8 +69,8 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": -2494.1191,
-      "y": -4024.3613
+      "x": -2272.3262,
+      "y": -3779.8799
     }
   ]
 }
