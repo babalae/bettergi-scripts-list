@@ -21,10 +21,14 @@ function initOverlay(version) {
  * 显示进度遮罩
  * @param {Object} initialData - 初始进度数据
  */
-function showOverlay(initialData) {
+async function showOverlay(initialData) {
   if (!useMask) return
   try {
     progressWinId = htmlMask.show("assets/progress-mask.html", "linnea-progress")
+    if (progressWinId) {
+      // 等遮罩发来 /ready 确认 Vue 已挂载
+      await htmlMask.receive(progressWinId, 10000)
+    }
     if (progressWinId && initialData) {
       htmlMask.send(progressWinId, "/progress", JSON.stringify(initialData))
     }

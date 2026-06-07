@@ -4,7 +4,7 @@
  */
 
 import gsap from 'gsap'
-import { SEGMENT_COUNT, BASE_SCALE, debrisData, pseudoRandom } from '../constants'
+import { SEGMENT_COUNT, BASE_SCALE } from '../constants'
 
 export function usePixelAnimations() {
   // ===== GSAP Timeline 实例 =====
@@ -18,8 +18,7 @@ export function usePixelAnimations() {
   /** 状态点闪烁时间线 */
   let blinkTl = null
 
-  /** 碎片动画时间线数组 */
-  let debrisTls = []
+  // (碎片动画已移除)
 
   // ===== DPI 补偿 =====
 
@@ -44,22 +43,10 @@ export function usePixelAnimations() {
     const {
       panelOuter, titleRow, dividerEl,
       statsRow, routeNameEl, timeRow, statusEl,
-      debrisRefs, segmentRefs,
+      segmentRefs,
     } = refs
 
     entranceTl = gsap.timeline()
-
-    // 碎片先随机闪现
-    entranceTl.add(() => {
-      const els = debrisRefs.filter(Boolean)
-      gsap.from(els, {
-        opacity: 0,
-        scale: 0,
-        duration: 0.05,
-        stagger: { each: 0.02, from: 'random' },
-        ease: 'steps(1)',
-      })
-    })
 
     // 面板滑入
     entranceTl.from(panelOuter, {
@@ -169,76 +156,20 @@ export function usePixelAnimations() {
     blinkTl.to(dotEl, { opacity: 1, duration: 0.4, ease: 'steps(1)' })
   }
 
-  // ===== 碎片循环动画 =====
-
-  /**
-   * 启动所有碎片的循环动画（闪烁 / 漂移 / 呼吸）
-   * @param {HTMLElement[]} refs - 碎片 DOM 元素数组
-   */
-  function startDebrisAnimations(refs) {
-    const els = refs.filter(Boolean)
-    els.forEach((el, i) => {
-      const d = debrisData[i]
-      if (!d) return
-
-      // 设置初始颜色和透明度
-      gsap.set(el, { backgroundColor: d.color, opacity: pseudoRandom(i, 0.6) + 0.2 })
-
-      const tl = gsap.timeline({ repeat: -1, delay: pseudoRandom(i + 50, 3) })
-
-      if (d.type === 0) {
-        // 闪烁型：随机开关
-        const onDuration = 0.3 + pseudoRandom(i + 10, 1.5)
-        const offDuration = 0.5 + pseudoRandom(i + 20, 3)
-        tl.to(el, { opacity: 0, duration: 0.05, ease: 'steps(1)' })
-          .to(el, { opacity: 0, duration: offDuration })
-          .to(el, { opacity: pseudoRandom(i + 30, 0.5) + 0.3, duration: 0.05, ease: 'steps(1)' })
-          .to(el, { opacity: pseudoRandom(i + 30, 0.5) + 0.3, duration: onDuration })
-      } else if (d.type === 1) {
-        // 漂移型：机械式顿挫移动
-        const dx = (pseudoRandom(i + 40, 6) - 3)
-        const dy = (pseudoRandom(i + 45, 4) - 2)
-        tl.to(el, { x: dx, y: dy, duration: 0.1, ease: 'steps(3)' })
-          .to(el, { duration: 0.8 + pseudoRandom(i + 55, 2) })
-          .to(el, { x: 0, y: 0, duration: 0.08, ease: 'steps(2)' })
-          .to(el, { duration: 1 + pseudoRandom(i + 65, 3) })
-      } else {
-        // 呼吸型：离散缩放
-        tl.to(el, { scale: 1.5, duration: 0.15, ease: 'steps(2)' })
-          .to(el, { duration: 0.6 + pseudoRandom(i + 70, 1) })
-          .to(el, { scale: 1, duration: 0.1, ease: 'steps(1)' })
-          .to(el, { scale: 0.5, duration: 0.15, ease: 'steps(2)' })
-          .to(el, { duration: 0.8 + pseudoRandom(i + 80, 2) })
-          .to(el, { scale: 1, duration: 0.1, ease: 'steps(1)' })
-      }
-
-      debrisTls.push(tl)
-    })
-  }
-
   // ===== 完成动画 =====
 
   /**
    * 播放挖矿全部完成时的庆祝动画
-   * 碎片爆发 → 进度条闪烁 → 面板弹跳 → 边框高亮
+   * 进度条闪烁 → 面板弹跳 → 边框高亮
    * @param {Object} refs - DOM 元素引用集合
    */
   function playCompleteAnimation(refs) {
-    const { panelOuter, debrisRefs, segmentRefs } = refs
+    const { panelOuter, segmentRefs } = refs
 
     if (blinkTl) blinkTl.kill()
 
     const segments = segmentRefs.filter(Boolean)
-    const debrisEls = debrisRefs.filter(Boolean)
     completeTl = gsap.timeline()
-
-    // 碎片爆发
-    completeTl.to(debrisEls, {
-      opacity: 1, scale: 2, duration: 0.1, ease: 'steps(2)',
-    }, 0)
-    completeTl.to(debrisEls, {
-      opacity: 0.3, scale: 1, duration: 0.15, ease: 'steps(2)',
-    })
 
     // 进度条闪烁
     for (let n = 0; n < 3; n++) {
@@ -255,11 +186,6 @@ export function usePixelAnimations() {
     completeTl.to(panelOuter, {
       borderColor: '#ffe066', duration: 0.12, ease: 'steps(1)', yoyo: true, repeat: 3,
     }, '-=0.3')
-
-    // 碎片恢复
-    completeTl.to(debrisEls, {
-      opacity: 0.5, duration: 0.3, ease: 'steps(3)',
-    }, '-=0.4')
   }
 
   // ===== 清理 =====
@@ -269,8 +195,6 @@ export function usePixelAnimations() {
     if (entranceTl) entranceTl.kill()
     if (completeTl) completeTl.kill()
     if (blinkTl) blinkTl.kill()
-    debrisTls.forEach(tl => tl.kill())
-    debrisTls = []
   }
 
   return {
@@ -278,7 +202,6 @@ export function usePixelAnimations() {
     playEntranceAnimation,
     animateFilledSegments,
     startBlink,
-    startDebrisAnimations,
     playCompleteAnimation,
     cleanup,
   }
