@@ -24,6 +24,7 @@ import {
 //   formatInventory
 // } from "./utils/inventory.js"
 import {startMonthCardWatcher} from "../../../packages/utils/tool"
+import { initOverlay, showOverlay, sendProgress, closeOverlay, initKeyHook, disposeKeyHook } from "./utils/overlay.js"
 
 // 切换队伍
 async function switchParty(partyName) {
@@ -60,11 +61,14 @@ async function runRoute(routePath) {
   const watcher = startMonthCardWatcher()
 
   const version = getVersion()
-  const minVersion = '0.60.2-alpha.5'
+  const minVersion = '0.61.0'
 
   if (!checkVersion(version, minVersion)) {
     log.warn(`当前 BetterGI 版本(${version})低于最低要求(${minVersion})，出现异常为正常情况`)
   }
+
+  initOverlay(version)
+  initKeyHook()
 
   setGameMetrics(1920, 1080, 1)
   await genshin.returnMainUi()
@@ -124,46 +128,80 @@ async function runRoute(routePath) {
     log.info(`将在 ${minutes} 分钟后停止运行`)
   }
 
-  dispatcher.addTimer(new RealtimeTimer("AutoPick"))
-
   // const originalInventory = await getInventory()
   // log.info("当前背包：" + formatInventory(originalInventory))
 
   const scriptStartTime = Date.now()
 
-  for (let i = 0; i < runnableRoutes.length; i++) {
-    if (isTimeUp(runUntilTime)) {
-      log.info("已到达运行时长限制，停止运行")
-      break
-    }
-    const route = runnableRoutes[i]
-    const fileName = route.split('\\').pop()
+  await showOverlay({
+    percentage: 0,
+    current: 0,
+    total: runnableRoutes.length,
+    routeName: '',
+    status: '准备中...',
+    estimatedTime: formatDuration(estimateRoutesDuration(runnableRoutes, refreshData)),
+    elapsedTime: '00分00秒'
+  })
 
-    const remaining = runnableRoutes.slice(i)
-    const remainingEst = estimateRoutesDuration(remaining, refreshData)
-    const thisRouteEst = getRouteDuration(route, refreshData)
+  try {
+    for (let i = 0; i < runnableRoutes.length; i++) {
+      if (isTimeUp(runUntilTime)) {
+        log.info("已到达运行时长限制，停止运行")
+        break
+      }
+      const route = runnableRoutes[i]
+      const fileName = route.split('\\').pop()
 
-    if (thisRouteEst !== null) {
-      log.info(`路线 ${i + 1}/${runnableRoutes.length}: ${fileName}（预计需要时间： ${formatDuration(thisRouteEst)}，剩余时间： ${formatDuration(remainingEst)}）`)
-    } else {
-      log.info(`路线 ${i + 1}/${runnableRoutes.length}: ${fileName}（预计剩余时间： ${formatDuration(remainingEst)}）`)
+      const remaining = runnableRoutes.slice(i)
+      const remainingEst = estimateRoutesDuration(remaining, refreshData)
+      const thisRouteEst = getRouteDuration(route, refreshData)
+
+      if (thisRouteEst !== null) {
+        log.info(`路线 ${i + 1}/${runnableRoutes.length}: ${fileName}（预计需要时间： ${formatDuration(thisRouteEst)}，剩余时间： ${formatDuration(remainingEst)}）`)
+      } else {
+        log.info(`路线 ${i + 1}/${runnableRoutes.length}: ${fileName}（预计剩余时间： ${formatDuration(remainingEst)}）`)
+      }
+
+      const pct = Math.round(i / runnableRoutes.length * 100)
+      const elapsed = (Date.now() - scriptStartTime) / 1000
+      sendProgress({
+        percentage: pct,
+        current: i + 1,
+        total: runnableRoutes.length,
+        routeName: fileName,
+        status: '挖矿中',
+        estimatedTime: formatDuration(remainingEst),
+        elapsedTime: formatDuration(elapsed)
+      })
+
+      const startTime = Date.now()
+      await sleep(10)
+      const res = await runRoute(route)
+      if (res) {
+        const duration = (Date.now() - startTime) / 1000
+        recordRoute(route, refreshData, duration)
+      }
+
+      // 最后一条路线，给一定时间缓冲
+      if (i === runnableRoutes.length - 1) {
+        await sleep(2000)
+      }
     }
 
-    const startTime = Date.now()
-    await sleep(10)
-    const res = await runRoute(route)
-    if (res) {
-      const duration = (Date.now() - startTime) / 1000
-      recordRoute(route, refreshData, duration)
-    }
-
-    // 最后一条路线，给一定时间缓冲
-    if (i === runnableRoutes.length - 1) {
-      await sleep(2000)
-    }
+    log.info("所有路线运行完成")
+    sendProgress({
+      percentage: 100,
+      current: runnableRoutes.length,
+      total: runnableRoutes.length,
+      routeName: '',
+      status: '全部完成！',
+      estimatedTime: '00分00秒',
+      elapsedTime: formatDuration((Date.now() - scriptStartTime) / 1000)
+    })
+    await sleep(3000)
+  } finally {
+    closeOverlay()
   }
-
-  log.info("所有路线运行完成")
 
   // const latestInventory = await getInventory()
   // const runningMinutes = (Date.now() - scriptStartTime) / 1000 / 60
@@ -171,5 +209,6 @@ async function runRoute(routePath) {
   // log.info("当前背包：" + formatInventory(latestInventory))
   // log.info(summary)
 
+  disposeKeyHook()
   await watcher.cancel()
 })()
