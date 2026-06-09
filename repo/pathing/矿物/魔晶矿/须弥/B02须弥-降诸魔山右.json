@@ -6,10 +6,10 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780197944352,
+    "last_modified_time": 1780967052773,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B02须弥-降诸魔山右",
@@ -40,7 +40,6 @@
       "action": "stop_flying",
       "action_params": "",
       "id": 3,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 2220.0742,
@@ -63,6 +62,15 @@
       "type": "path",
       "x": 2218.041,
       "y": -1408.335
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2216.9414,
+      "y": -1407.0332
     }
   ]
 }
