@@ -3,9 +3,7 @@ async function keyMaintain(key, duration) {
   await sleep(duration);
   keyUp(key);
 }
-ifAutoEatFood
 
-isHealthRed
 /**
  * 检测指定图片是否存在
  * @param {string} imagePath - 图片路径（自动添加assets/前缀和.png后缀）
