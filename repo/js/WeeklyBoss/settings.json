@@ -2,7 +2,7 @@
   {
     "name": "monsterName",
     "type": "select",
-    "label": "周本Boss名称",
+    "label": "周本Boss名称\n(世界树博士需要单独录制二阶段键鼠脚本！！！)",
     "options": [
       "北风狼",
       "风魔龙",
@@ -16,7 +16,8 @@
       "仆人",
       "源焰之主",   
       "门扉前的弈局",
-      "博士"
+      "博士",
+      "世界树博士",
     ]
   },
   {
@@ -54,7 +55,13 @@
   {
     "name": "recoveryFoodName",
     "type": "input-text",
-    "label": "请输入回血料理名称 "
+    "label": "请输入回血料理名称（复活后会使用此料理） "
+  },
+  {
+    "name": "ifAutoEatFood",
+    "type": "checkbox",
+    "label": "战斗中红血自动吃药\n（请自行确保装备的4个小道具中有食物袋）",
+    "default": false
   },
   {
     "name": "energyMax",
