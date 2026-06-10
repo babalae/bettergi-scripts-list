@@ -6,10 +6,10 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780310974461,
+    "last_modified_time": 1781069091106,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B06B07B08璃月-孤云阁下",
@@ -130,7 +130,6 @@
       "action": "fight",
       "action_params": "",
       "id": 13,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": -834.8008,
@@ -160,13 +159,22 @@
       "id": 16,
       "move_mode": "walk",
       "type": "path",
+      "x": -817.6816,
+      "y": -428.2422
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
       "x": -817.4609,
       "y": -430.0176
     },
     {
       "action": "mining",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "walk",
       "type": "path",
       "x": -816.3633,
@@ -175,7 +183,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "walk",
       "type": "path",
       "x": -834.8008,
@@ -184,8 +192,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 19,
-      "locked": false,
+      "id": 20,
       "move_mode": "walk",
       "type": "path",
       "x": -813.6836,
@@ -194,7 +201,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 20,
+      "id": 21,
       "move_mode": "walk",
       "type": "path",
       "x": -821.7207,
@@ -203,11 +210,20 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 21,
+      "id": 22,
       "move_mode": "walk",
       "type": "path",
       "x": -812.1797,
       "y": -456.9434
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -812.043,
+      "y": -458.2559
     }
   ]
 }
