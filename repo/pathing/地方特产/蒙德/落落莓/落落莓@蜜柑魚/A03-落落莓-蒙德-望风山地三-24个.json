@@ -1,0 +1,256 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1781035778138,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A03-落落莓-蒙德-望风山地三-24个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1278.5762,
+      "y": 2720.3779
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1285.5723,
+      "y": 2694.7993
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);迪希雅 keypress(VK_E),wait(0.2),keypress(VK_E);",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1303.6758,
+      "y": 2673.7397
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.35)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1307.9551,
+      "y": 2674.9141
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1322.0723,
+      "y": 2674.4063
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -1330.4551,
+      "y": 2675.6719
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1367.8926,
+      "y": 2681.1226
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.35)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1368.7539,
+      "y": 2685.4297
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1391.207,
+      "y": 2672.9531
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);迪希雅 keypress(VK_E),wait(0.2),keypress(VK_E);",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1418.6562,
+      "y": 2673.5635
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1.5)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1417.4121,
+      "y": 2678.418
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1419.0859,
+      "y": 2686.9028
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1428.4883,
+      "y": 2682.0459
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.35)",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -1443.9629,
+      "y": 2672.937
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1485.418,
+      "y": 2659.5771
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.35)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1487.8594,
+      "y": 2668.8408
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1461.457,
+      "y": 2714.3789
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1445.2891,
+      "y": 2746.251
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1425.0156,
+      "y": 2743.127
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);迪希雅 keypress(VK_E),wait(0.2),keypress(VK_E);",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1419.2734,
+      "y": 2746.5303
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.35)",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1416.8984,
+      "y": 2749.6777
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1414.2344,
+      "y": 2745.6997
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 23,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1399.6797,
+      "y": 2779.0166
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1408.9766,
+      "y": 2812.6416
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1416.5293,
+      "y": 2819.3984
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 26,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -1454.7363,
+      "y": 2841.2036
+    }
+  ]
+}
