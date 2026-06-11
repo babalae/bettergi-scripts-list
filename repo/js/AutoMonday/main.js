@@ -936,6 +936,8 @@
                 await AutoPath("全自动质变仪");
             } else if (chargingMethod == "法器角色充能") {
                 await genshin.tp(-874.724609375, 2276.950439453125);
+                await genshin.returnMainUi();
+                await sleep(1000);
             }
 
             const deployed = await deployTransformer();//部署质变仪
