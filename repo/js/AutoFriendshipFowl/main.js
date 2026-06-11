@@ -298,7 +298,11 @@ async function main() {
     // 任务循环
     task: while (!finished) {
         // 重新登陆，刷新任务
-        await genshin.relogin();
+        if (settings.miliastraWonderland) {
+            await genshin.wonderlandCycle();
+        } else {
+            await genshin.relogin();
+        }
         // 检测“动物密友”任务是否触发，若未触发则重新登陆触发
         if (!(await randomEventTriggered())) {
             if (++retry > 5) {
