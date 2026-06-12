@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1781036635478,
+    "last_modified_time": 1781198100842,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A04-落落莓-蒙德-望风角-16个",
@@ -154,9 +154,10 @@
       "y": 2907.9434
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.01)",
+      "action": "",
+      "action_params": "",
       "id": 16,
+      
       "move_mode": "dash",
       "type": "path",
       "x": -1854.293,
@@ -166,6 +167,24 @@
       "action": "",
       "action_params": "",
       "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1856.0293,
+      "y": 2913.9795
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1853.3066,
+      "y": 2911.1826
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
       "move_mode": "run",
       "type": "path",
       "x": -1855.9062,
@@ -174,7 +193,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 20,
       "move_mode": "dash",
       "type": "path",
       "x": -1863.543,
@@ -183,7 +202,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
+      "id": 21,
       "move_mode": "run",
       "type": "path",
       "x": -1851.8867,
@@ -192,7 +211,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.1);迪希雅 keypress(VK_E),wait(0.2),keypress(VK_E);",
-      "id": 20,
+      "id": 22,
       "move_mode": "dash",
       "type": "path",
       "x": -1846.5703,
@@ -201,7 +220,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
-      "id": 21,
+      "id": 23,
       "move_mode": "walk",
       "type": "target",
       "x": -1846.6172,

@@ -9,7 +9,7 @@
     "bgi_version": "0.61.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1781037570171,
+    "last_modified_time": 1781200103844,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "A06-落落莓-蒙德-明冠峡西北二-8个",
@@ -29,7 +29,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "moveby(0,-3000),wait(0.25),keypress(t),wait(0.15),keypress(t),moveby(0,-1500),wait(0.25),keypress(t),wait(0.15),keypress(t),click(middle),wait(0.2)",
+      "action_params": "w(0.17),moveby(0,-3000),wait(0.25),keypress(t),wait(0.15),keypress(t),moveby(0,-1500),wait(0.25),keypress(t),wait(0.15),keypress(t),click(middle),wait(0.2)",
       "id": 2,
       "move_mode": "walk",
       "type": "orientation",
@@ -37,8 +37,8 @@
       "y": 2893.9131
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
       "id": 3,
       "move_mode": "walk",
       "type": "orientation",
@@ -73,22 +73,40 @@
       "y": 2913.9995
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.35)",
+      "action": "",
+      "action_params": "",
       "id": 7,
       "move_mode": "dash",
+      "type": "path",
+      "x": -858.5937,
+      "y": 2906.5352
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.35)",
+      "id": 8,
+      "move_mode": "walk",
       "type": "target",
-      "x": -859.4238,
-      "y": 2904.0918
+      "x": -859.5391,
+      "y": 2903.7813
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": -868.5547,
+      "y": 2906.7578
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
-      "id": 8,
+      "id": 10,
       "move_mode": "walk",
       "type": "target",
-      "x": -872.0508,
-      "y": 2908.3052
+      "x": -872.877,
+      "y": 2908.2114
     }
   ]
 }
