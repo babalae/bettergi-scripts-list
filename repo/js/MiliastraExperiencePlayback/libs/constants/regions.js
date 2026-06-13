@@ -172,6 +172,10 @@ const findDeleteExternalSaveChecked = (colPos) => {
 const findDeleteStageSaveBtn = () => {
   return findTextWithinBounds("删除所选", 1220, 980, 700, 100);
 };
+/** 关卡：查找结算跳过按钮 */
+const findSkipBtn = () => {
+  return findTextWithinBounds("跳过", 1720, 0, 200, 100, { contains: true });
+};
 /** 关卡：查找关卡退出按钮 */
 const findStageEscBtn = () => {
   const iro = findImageWithinBounds("assets/UI_Icon_Leave.png", 0, 0, 100, 100, {
@@ -183,7 +187,7 @@ const findStageEscBtn = () => {
 };
 /** 关卡：查找中断挑战按钮 */
 const findExitStageBtn = () => {
-  return findTextWithinBounds("中断挑战", 576, 324, 768, 432);
+  return findTextWithinBounds("中断挑战", 576, 324, 768, 432, { contains: true });
 };
 /** 退出：查找返回提瓦特按钮 */
 const findGotTeyvatBtn = () => {
@@ -255,6 +259,7 @@ export {
   findSearchWonderlandBtn,
   findSearchWonderlandInput,
   findSearchWonderlandThrottleMsg,
+  findSkipBtn,
   findStageEscBtn,
   findUidText,
 };

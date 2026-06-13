@@ -24,7 +24,7 @@ const userConfig = {
     .map((str) => str.trim())
     .filter(Boolean),
   dailyPlaybacks: (
-    settings.dailyPlaybacks || "通关回放1.json,通关回放2.json;30秒按1通关.json;30秒按2通关.json"
+    settings.dailyPlaybacks || "通关回放1.json,通关回放2.json;30秒按1通关.json;30秒按4通关.json"
   )
     .replace(/，/g, ",")
     .replace(/；/g, ";")
@@ -39,6 +39,9 @@ const userConfig = {
       if (files.length > 0) arr.push(files);
       return arr;
     }, []),
+  dailyRewards: settings.dailyRewards
+    ? [...settings.dailyRewards]
+    : ["诸界纪游", "绮衣珍赏", "奇趣盛邀", "星境彩馈"],
   dailyLimit: Math.max(1, Number(settings.dailyLimit || "1")),
   dailyForce: settings.dailyForce ?? false,
   closeStageDialog: settings.closeStageDialog ?? true,
