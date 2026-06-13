@@ -374,6 +374,10 @@ declare const genshin: {
    * @param skip 是否跳过动画（默认 false）
    */
   setTime(hour: string, minute: string, skip?: boolean): Promise<void>;
+  /**
+   * 获取 UID
+   */
+  uid(): number;
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   readonly Width: typeof genshin.width;
   readonly Height: typeof genshin.height;
@@ -402,6 +406,7 @@ declare const genshin: {
   Relogin: typeof genshin.relogin;
   WonderlandCycle: typeof genshin.wonderlandCycle;
   SetTime: typeof genshin.setTime;
+  Uid: typeof genshin.uid;
   // ==== END AUTO-GENERATED ALIASES ====;
 };
 
