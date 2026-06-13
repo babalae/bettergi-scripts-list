@@ -9,7 +9,7 @@
     "bgi_version": "0.61.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1781037347141,
+    "last_modified_time": 1781198777728,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "A05-落落莓-蒙德-明冠峡西北一-12个",
@@ -29,7 +29,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "moveby(0,-3000),wait(0.25),keypress(t),wait(0.15),keypress(t),moveby(0,-1500),wait(0.25),keypress(t),wait(0.15),keypress(t),click(middle),wait(0.2)",
+      "action_params": "w(0.17),moveby(0,-3000),wait(0.25),keypress(t),wait(0.15),keypress(t),moveby(0,-1500),wait(0.25),keypress(t),wait(0.15),keypress(t),click(middle),wait(0.2)",
       "id": 2,
       "move_mode": "walk",
       "type": "orientation",
@@ -64,8 +64,8 @@
       "y": 2865.623
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.1)",
+      "action": "",
+      "action_params": "",
       "id": 6,
       "move_mode": "jump",
       "type": "path",
@@ -73,36 +73,54 @@
       "y": 2862.2744
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -607.2187,
+      "y": 2857
+    },
+    {
       "action": "combat_script",
       "action_params": "wait(0.35)",
-      "id": 7,
+      "id": 8,
       "move_mode": "walk",
       "type": "target",
       "x": -605.0059,
       "y": 2854.5107
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": -588.4766,
+      "y": 2875.5474
+    },
+    {
       "action": "combat_script",
       "action_params": "wait(0.35)",
-      "id": 8,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -586.7539,
-      "y": 2878.1772
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -587.3555,
+      "y": 2877.3433
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 9,
+      "id": 11,
       "move_mode": "dash",
       "type": "path",
-      "x": -582.7539,
-      "y": 2883.728
+      "x": -582.6719,
+      "y": 2884.1323
     },
     {
       "action": "",
       "action_params": "",
-      "id": 10,
+      "id": 12,
       "move_mode": "walk",
       "type": "path",
       "x": -597.1152,
@@ -111,7 +129,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.1);迪希雅 keypress(VK_E),wait(0.2),keypress(VK_E);",
-      "id": 11,
+      "id": 13,
       "move_mode": "run",
       "type": "path",
       "x": -622.1016,
@@ -120,7 +138,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
-      "id": 12,
+      "id": 14,
       "move_mode": "dash",
       "type": "target",
       "x": -624.3672,
