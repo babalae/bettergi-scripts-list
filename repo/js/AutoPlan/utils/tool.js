@@ -97,7 +97,7 @@ export function getJsonPath(key) {
     return commonMap.get(key); // 通过commonMap的get方法获取指定键对应的值
 }
 
-class UI{
+export class UI{
     /**
      * 检查当前是否在主界面
      * @returns {boolean} 如果在主界面则返回true，否则返回false
@@ -220,7 +220,7 @@ export async function outDomainUI() {
     await sleep(ms);
     //点击确认按钮
     await findTextAndClick('地脉异常')
-    await sleep(ms);
+    await sleep(ms*2);
     while (!await UI.isInOutDomainUI()) {
         if (UI.isInMainUI()) {
             inMainUI = true
@@ -236,7 +236,7 @@ export async function outDomainUI() {
         }
         index += 1
     }
-    if ((!tryMax) && (!inMainUI) && await isInOutDomainUI()) {
+    if ((!tryMax) && (!inMainUI) && await UI.isInOutDomainUI()) {
         try {
             //点击确认按钮
             await findTextAndClick('确认', ocrRegion.x, ocrRegion.y, ocrRegion.w, ocrRegion.h)
