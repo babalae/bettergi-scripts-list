@@ -19,7 +19,7 @@ let isFighting = false;
         let challengeName = settings.challengeName;//挑战BOSS
         if (challengeName === undefined || challengeName === ""){throw new Error("挑战Boss未配置，请在JS配置中选择...")}//初始化处理
         let Startforward = settings.Startforward*1000 ? settings.Startforward*1000 : 1000;//开始战斗的前进时间
-        var Fighttimeout = settings.timeout * 1000 ? settings.timeout * 1000 : 240000;//战斗超时时间，默认为240秒
+        var Fighttimeout = settings.Fighttimeout * 1000 ? settings.Fighttimeout * 1000 : 240000;//战斗超时时间，默认为240秒
         const ocrRegion1 = { x: 643, y: 58, width: 800, height: 800 };   // 上方挑战成功区域
         const ocrRegion2 = { x: 780, y: 406, width: 370, height: 135 };   // 中间挑战失败区域
         const ocrRo1 = RecognitionObject.ocr(ocrRegion1.x, ocrRegion1.y, ocrRegion1.width, ocrRegion1.height);//上方挑战成功区域OCR对象
@@ -432,6 +432,7 @@ let isFighting = false;
     async function autoFight(timeout) {
         fightCts = new CancellationTokenSource();
         isFighting = true;
+        let fightTask = null;
         log.info("开始战斗");
         
         try {
@@ -449,10 +450,10 @@ let isFighting = false;
                 autoFightParam.FightFinishDetectEnabled = false;
 
                 // 使用runAutoFightTask执行带参数的自动战斗
-                dispatcher.runAutoFightTask(autoFightParam, fightCts.Token);
+                fightTask = dispatcher.runAutoFightTask(autoFightParam, fightCts.Token);
             } else {
                 // 使用原始方式，不带参数
-                dispatcher.RunTask(new SoloTask("AutoFight"), fightCts.Token);
+                fightTask = dispatcher.RunTask(new SoloTask("AutoFight"), fightCts.Token);
             }
             
             // OCR检测战斗结束
@@ -471,6 +472,9 @@ let isFighting = false;
                     log.warn(`取消战斗任务时出错: ${e.message}`);
                 }
                 fightCts = null;
+            }
+            if (fightTask) {
+                await fightTask.catch(e => log.warn(`战斗任务结束异常: ${e?.message || e}`));
             }
         }
     }
@@ -837,7 +841,7 @@ let isFighting = false;
     
     }
 
-    log.warn("自动幽境危战版本：v2.1");
+    log.warn("自动幽境危战版本：v2.2");
     log.warn("请保证队伍战斗实力，战斗失败或执行错误，会重试两次...");
     log.warn("使用前请在 <<幽境危战>> 中配置好战斗队伍...");
     log.info("使用树脂顺序：{0} ", golbalRewardText.join(" ->"))     
@@ -1085,7 +1089,10 @@ let isFighting = false;
 
 })().catch(error => {
     // 捕获取消任务异常（停止脚本执行）
-    if (error.message.includes("取消") || error.message.includes("canceled") || error.message.includes("Canceled")) {
+    const msg = (error && typeof error === "object" && "message" in error)
+        ? String(error.message)
+        : String(error ?? "");
+    if (/取消|canceled|cancelled/i.test(msg)) {
         // 如果当前在战斗中，取消战斗线程
         if (isFighting && fightCts) {
             try {
@@ -1098,6 +1105,6 @@ let isFighting = false;
         }
         log.info("用户已停止脚本执行");
     } else {
-        log.error(`脚本执行异常: ${error.message}`);
+        log.error(`脚本执行异常: ${msg}`);
     }
 });
