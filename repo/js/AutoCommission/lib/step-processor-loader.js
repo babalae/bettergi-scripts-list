@@ -58,18 +58,22 @@ var StepProcessorLoader = {
   // 备用加载方式（如果动态扫描失败）
   loadStepProcessorsFallback: function() {
     var stepFiles = [
-      "map-tracking.js",
-      "wait.js",
+      "auto-fight.js",
+      "auto-skip.js",
+      "auto-task.js",
+      "base.js",
+      "commission-description-detection.js",
       "commission-tracking.js",
+      "dialog.js",
       "key-mouse-script.js",
       "key-press.js",
-      "teleport.js",
-      "wait-main-ui.js",
       "location-detection.js",
-      "commission-description-detection.js",
+      "map-tracking.js",
       "switch-role.js",
       "switch-team.js",
-      "auto-task.js"
+      "teleport.js",
+      "wait-main-ui.js",
+      "wait.js"
     ];
 
     // 加载所有步骤处理器文件

@@ -404,6 +404,8 @@ async function processPathings() {
         pathing.tags = [...new Set(pathing.tags)];
         // 处理 map_name 属性
         pathing.map_name = parsedContent.info?.map_name || "Teyvat"; // 如果有 map_name，则使用其值，否则默认为 "Teyvat"
+        // 处理 map_match_method 属性
+        pathing.map_match_method = parsedContent.info?.map_match_method || ""; // 如果有 map_match_method，则使用其值，否则默认为空字符串
     }
 
     for (const pathing of pathings) {
@@ -765,9 +767,9 @@ async function validateTeamAndConfig() {
             await sleep(5000);
             haveProblem = true;
         }
-        if (!['茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '绮良良', '迪希雅', '迪奥娜']
+        if (!['茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '绮良良', '迪希雅', '迪奥娜', '尼可']
             .some(n => avatars.includes(n))) {
-            log.warn("未携带合适的抗打断角色（'茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '绮良良', '迪希雅', '迪奥娜'）");
+            log.warn("未携带合适的抗打断角色（'茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '绮良良', '迪希雅', '迪奥娜', '尼可'）");
             await sleep(5000);
             haveProblem = true;
         }
@@ -1490,10 +1492,8 @@ async function dumper(pathFilePath, map_name) {
 
         //6.3强制使用sift的地图不开启泥头车
         const info = parsedContent.info;
-        if (info.map_match_method && info.map_match_method === "SIFT") {
-            disableDumper = true;
-        }
-
+        const map_match_method = info.map_match_method || "";
+        
         if (!disableDumper) {
             while (state.running) {
                 //log.info("调试-泥头车循环");
@@ -1510,7 +1510,9 @@ async function dumper(pathFilePath, map_name) {
                     let dumperDistance = 0;
                     try {
                         let shouldPressKeys = false;
-                        const currentPosition = await genshin.getPositionFromMap(map_name);
+                        const currentPosition = map_match_method && map_match_method !== ""
+                            ? await genshin.getPositionFromMapWithMatchingMethod(map_name, map_match_method)
+                            : await genshin.getPositionFromMap(map_name);
                         if (!currentPosition) {
                             continue;
                         }
@@ -1691,7 +1693,9 @@ async function processPathingsByGroup(pathings, accountName) {
     if (settings.enableCoordCheck) {
         try {
             await genshin.returnMainUi();
-            const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name);
+            const miniMapPosition = pathing.map_match_method && pathing.map_match_method !== ""
+                ? await genshin.getPositionFromMapWithMatchingMethod(pathing.map_name, pathing.map_match_method)
+                : await genshin.getPositionFromMap(pathing.map_name);
             if (miniMapPosition) {
                 // 更新坐标
                 lastX = miniMapPosition.X;
@@ -1836,7 +1840,9 @@ async function processPathingsByGroup(pathings, accountName) {
             if (settings.enableCoordCheck) {
                 try {
                     await genshin.returnMainUi();
-                    const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name);
+                    const miniMapPosition = pathing.map_match_method && pathing.map_match_method !== ""
+                        ? await genshin.getPositionFromMapWithMatchingMethod(pathing.map_name, pathing.map_match_method)
+                        : await genshin.getPositionFromMap(pathing.map_name);
                     if (miniMapPosition) {
                         const diffX = Math.abs(lastX - miniMapPosition.X);
                         const diffY = Math.abs(lastY - miniMapPosition.Y);

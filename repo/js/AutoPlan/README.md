@@ -314,25 +314,24 @@
 | 0.0.6 | oiJbmjU2R0NniiwiZxh |           0.0.6+           |
 | 0.0.7 | oiJbmjU2R0NniiwiZxh |           0.0.6+           |
 | 0.0.8 | yHlw8FHjTJAPEtpp9O+ |           0.1.3+           |
+| 0.0.9 | yHlw8FHjTJAPEtpp9O+ |           0.1.3+           |
 
 ## 版本历史（简要）
 
 ---
+### 0.0.9 2026.06.12
+- 修复bug
 ### 0.0.8 2026.05.29
-
 - 新增执行记录功能(支持多次执行计划时单个配置只执行一次)
 - ![record](md/record.jpg)
 ### 0.0.7 2026.05.27
-
 - 重构配置模块：使用新的 UID 获取方法 `genshin.uid()` 替代 OCR 识别
 - 移除对 `ocrUid`、`getDayOfWeek`、`parseInteger`、`pullJsonConfig` 和 `findStygianOnslaught` 的导入
 - 添加对 `toMainUi` 的导入，在初始化时调用确保回到主界面
 - 更新最低 BetterGI 版本要求从 0.58.0 到 0.61.0
 - 删除 utils/uid.js 文件中的 `ocrUid` 函数实现
 - 优化 UID 获取逻辑，提升稳定性和准确性
-
 ### 0.0.6 2026.04.23
-
  - 限制单例模式配置
 ### 0.0.5 2026.04.11
 - 调整幽境危战 查找结果判断条件，增加名称不存在的情况处理

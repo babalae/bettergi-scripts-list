@@ -12,6 +12,7 @@ const collectAbility = {
     pyro_collect: "火",
     nahida_collect: "纳西妲",
 };
+const specialCategoryWithoutTarget = ["莉奈娅一条龙", "爱可菲", "纳塔食材一条龙", "提瓦特食材一条龙", "瓦雷莎家的果园"];
 
 let stopAtTime = null;
 let currentParty = null;
@@ -91,7 +92,12 @@ async function runScanMode() {
 
     // 扫描食材与炼金材料
     const otherJsonFiles = scanAndFilterJsonFiles("pathing/食材与炼金");
-    const otherMaterialByName = await groupByMaterialName(otherJsonFiles);
+    const otherMaterialByNameAll = await groupByMaterialName(otherJsonFiles);
+    // 过滤掉特殊类别
+    const otherMaterialByName = Object.keys(otherMaterialByNameAll).reduce((acc, k) => {
+        if (!specialCategoryWithoutTarget.includes(k)) acc[k] = otherMaterialByNameAll[k];
+        return acc;
+    }, {});
     const cfgOtherMaterial = {
         label: "\n【食材与炼金】",
         type: "multi-checkbox",
@@ -101,8 +107,8 @@ async function runScanMode() {
     const miscEntry = config.find((entry) => entry.name === "selectMiscellaneous");
     const miscOptions = miscEntry && miscEntry.options ? miscEntry.options : [];
     configMap["selectMiscellaneous"] = miscOptions.reduce((acc, k) => {
-        if (k in otherMaterialByName) {
-            acc[k] = otherMaterialByName[k];
+        if (k in otherMaterialByNameAll) {
+            acc[k] = otherMaterialByNameAll[k];
         }
         return acc;
     }, {});
@@ -120,8 +126,8 @@ async function runScanMode() {
     const allMaterials = {
         ...flattenedSpecialties,
         ...forgingOreByname,
-        ...(otherMaterialByName["晶蝶"] ? { 晶蝶: otherMaterialByName["晶蝶"] } : {}),
-        ...otherMaterialByName,
+        ...(otherMaterialByNameAll["晶蝶"] ? { 晶蝶: otherMaterialByNameAll["晶蝶"] } : {}),
+        ...otherMaterialByNameAll,
     };
 
     // 生成按大类选择的配置数据
@@ -317,7 +323,7 @@ function scanAndFilterJsonFiles(folderPath) {
     );
 
     if (result.excluded.length > 0) {
-        log.info(`{0}扫描完成：根据配置排除了${result.excluded.length}条路线，详见日志`, basename(folderPath));
+        log.info(`{0}扫描完成：根据配置排除了${result.excluded.length}条路线，详见日志文件`, basename(folderPath));
         log.debug("过滤配置: {0}, 排除的文件:\n" + result.excluded.join("\n"), filterConfig);
     }
     return result.passed;
@@ -425,6 +431,14 @@ function updateTargetCountOfTasks(groupedTasks, configMap, account, targetCount)
             for (const info of Object.values(groupedTasks)) {
                 info.target = fixedCount;
             }
+        }
+        // 一条龙等特殊类型的采集任务，不支持设置采集数量，因此排除这类任务
+        const selectedButInSkip = Object.keys(groupedTasks).filter((name) => specialCategoryWithoutTarget.includes(name));
+        if (selectedButInSkip.length > 0) {
+            log.info("忽略特殊任务的采集数量目标: {0}", selectedButInSkip.join(", "));
+            selectedButInSkip.forEach((name) => {
+                groupedTasks[name].target = null;
+            });
         }
     } else {
         log.info("未设置采集目标数量");
@@ -1029,7 +1043,8 @@ function getSelectedMaterials(configMap) {
         if (!entry.name || entry.type !== "multi-checkbox") return;
 
         const { name, label } = entry;
-        const options = settings[name] ? Array.from(settings[name]) : [];
+        // settings中多选项的顺序和用户打钩的先后顺序有关，因此需要排序
+        const options = settings[name] ? Array.from(settings[name]).sort((a, b) => a.localeCompare(b, "zh")) : [];
 
         // 2. 处理 selectLocalSpecialtyByCountry
         if (name === "selectByCategory") {

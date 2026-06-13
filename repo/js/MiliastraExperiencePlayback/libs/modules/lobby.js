@@ -11,11 +11,11 @@ import {
 } from "../constants/regions.js";
 
 //#region src/modules/lobby.ts
-//! 判断是否处于奇域大厅
+/** 判断是否处于奇域大厅 */
 const isInLobby = () => findPaimon() !== void 0 && findBeyondHallBtn() !== void 0;
-//! 判断是否处于提瓦特大陆
+/** 判断是否处于提瓦特大陆 */
 const isInTeyvat = () => findPaimon() !== void 0 && findElementViewBtn() !== void 0;
-//! 退出大厅返回提瓦特大陆
+/** 退出大厅返回提瓦特大陆 */
 const exitLobbyToTeyvat = async () => {
   if (!userConfig.goToTeyvat) return;
   if (isInTeyvat()) {
