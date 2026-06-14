@@ -1,0 +1,68 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/vulgar-rustic",
+        "name": "下流山汉"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1780624928014,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A08蒙德-废墟右下",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 122.8818,
+      "y": 2657.9492
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 20.4141,
+      "y": 2604.9463
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 20.4141,
+      "y": 2604.9463
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 31.001,
+      "y": 2610.418
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 29.4443,
+      "y": 2622.083
+    }
+  ]
+}
