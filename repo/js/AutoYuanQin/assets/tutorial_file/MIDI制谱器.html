@@ -694,7 +694,7 @@
         if (metaTicksSpan) metaTicksSpan.textContent = headerTicks;
     }
 
-    // 重写：精准合并选中音轨的音符（保留ticks，不转换为毫秒）
+    // 精准合并选中音轨的音符，并通过时长比例检测跳音
     function mergeSelectedTrackNotes() {
         if (selectedTrackIndexes.length === 0 || !currentMidi || currentMidi.tracks.length === 0) {
             mergedNotes = [];
@@ -731,7 +731,11 @@
                             allNotes.push({
                                 pitch: noteNum,
                                 startTick: startTicks,
-                                endTick: endTicks
+                                endTick: endTicks,
+                                channel: channel,
+                                trackIndex: idx,
+                                isStaccato: false,
+                                fullDuration: 0
                             });
                         }
                         pendingNotes.delete(key);
@@ -741,12 +745,47 @@
 
             // 将未关闭的音符也视为有效（截至轨道末尾）
             pendingNotes.forEach((startTicks, key) => {
-                allNotes.push({ pitch: parseInt(key.split('-')[1],10), startTick: startTicks, endTick: startTicks + ticksPerBeat });
+                allNotes.push({
+                    pitch: parseInt(key.split('-')[1], 10),
+                    startTick: startTicks,
+                    endTick: startTicks + ticksPerBeat,
+                    trackIndex: idx,
+                    channel: parseInt(key.split('-')[0], 10),
+                    isStaccato: false,
+                    fullDuration: 0
+                });
             });
         });
 
-        // 按开始tick排序，确保时间轴有序
-        mergedNotes = allNotes.sort((a, b) => a.startTick - b.startTick);
+        // 按开始tick排序
+        allNotes.sort((a, b) => a.startTick - b.startTick);
+
+        // 按 channel + trackIndex 分组
+        const sequenceMap = {};
+        allNotes.forEach(n => {
+            const k = `${n.trackIndex}-${n.channel}-${n.pitch}`;
+            if (!sequenceMap[k]) sequenceMap[k] = [];
+            sequenceMap[k].push(n);
+        });
+
+        Object.values(sequenceMap).forEach(seq => {
+          seq.sort((a, b) => a.startTick - b.startTick);
+          for (let i = 0; i < seq.length - 1; i++) {
+            const curr = seq[i];
+            const next = seq[i + 1];
+            const slot = next.startTick - curr.startTick;
+            const duration = curr.endTick - curr.startTick;
+            if (slot > 0 && duration > 0 && duration < slot * 0.8) {
+              const ratioNum = duration / slot;
+              if (ratioNum >= 0.3 && ratioNum <= 0.7) {
+                curr.isStaccato = true;
+                curr.fullDuration = slot;
+              }
+            }
+           }
+         });
+
+        mergedNotes = allNotes;
     }
 
     // 根据复选框状态获取实际要使用的偏移量
@@ -756,10 +795,11 @@
         return computeBestOctaveShift(mergedNotes);
     }
 
-    // 更新UI上关于偏移的显示
+    // 更新UI上关于偏移的显示，并增加跳音统计
     function updateShiftDisplay() {
         const enabled = autoShiftCheckbox.checked;
         const shift = enabled ? computeBestOctaveShift(mergedNotes) : 0;
+        const staccatoCount = mergedNotes.filter(n => n.isStaccato).length;
 
         if (mergedNotes.length > 0) {
             const pitches = mergedNotes.map(n => n.pitch);
@@ -772,7 +812,7 @@
             noteRangeAdjSpan.textContent = `${adjustedMin} ~ ${adjustedMax} (限制36-71)`;
 
             const shiftStr = shift === 0 ? '0 (原调)' : (shift > 0 ? `+${shift} 八度` : `${shift} 八度`);
-            bestShiftSpan.textContent = shiftStr;
+            bestShiftSpan.textContent = `${shiftStr} | 跳音: ${staccatoCount} 个`;
         } else {
             noteRangeOrigSpan.textContent = '—';
             noteRangeAdjSpan.textContent = '—';
@@ -786,7 +826,7 @@
     // 信息图标点击事件：弹出说明
     shiftInfoIcon.addEventListener('click', function (e) {
         e.stopPropagation();
-        alert('所选音轨已基于全局绝对ticks合并，生成的JSON的notes部分使用事件之间的ticks差值（非毫秒）。JSON.ticks字段来源于MIDI头部的ticks-per-beat。超出27键的音会替换为@占位符，保留时长。');
+        alert('所选音轨已基于全局绝对ticks合并，生成的JSON的notes部分使用事件之间的ticks差值（非毫秒）。JSON.ticks字段来源于MIDI头部的ticks-per-beat。超出27键的音会替换为@占位符，保留时长。若MIDI中某音符的实际发声时长明显小于其到下一同通道音符起点的间隔（约30%~70%，典型50%），则自动识别为跳音，并在标准占位结束点插入D@休止占位，确保总拍长不变。');
     });
 
     // 处理文件选择
@@ -825,7 +865,7 @@
         reader.readAsArrayBuffer(file);
     });
 
-    // 修复2：修复复选框逻辑（无选中时不提示上限）+ 显示正确的音符数量
+    // 修复复选框逻辑（无选中时不提示上限）+ 显示正确的音符数量
     function renderTrackList() {
         trackContainer.innerHTML = '';
         if (!currentMidi) return;
@@ -878,13 +918,15 @@
         }
 
         let msg = `已选中 ${selectedTrackIndexes.length} 个音轨：\n`;
-        let totalNotes = 0;
+        let totalStaccato = 0;
         selectedTrackIndexes.forEach(idx => {
             const noteCount = tracksInfo[idx]?.noteCount || 0;
             msg += `- 音轨 ${idx}: ${noteCount} 个音符\n`;
-            totalNotes += noteCount;
         });
+        const totalNotes = mergedNotes.length;
+        totalStaccato = mergedNotes.filter(n => n.isStaccato).length;
         msg += `\n合并后总音符数: ${totalNotes}`;
+        msg += `\n识别到跳音: ${totalStaccato} 个`;
         msg += `\n当前八度偏移: ${getCurrentOctaveShift()}`;
         alert(msg);
     });
@@ -973,7 +1015,7 @@
     playPreviewBtn.addEventListener('click', playPreview);
     stopPreviewBtn.addEventListener('click', stopPreview);
 
-    // 生成 notes 字符串并在 tempo 变化处插入 *<BPM> 标记（纯数字），bpm 字段保持不变
+    // 生成 notes 字符串，支持跳音处理（D@ 休止占位）
     function generateNotesString() {
         if (mergedNotes.length === 0) return 'D@0';
 
@@ -985,8 +1027,21 @@
             const shiftedPitch = n.pitch + shift * 12;
             const validPitch = mapPitchToValid(shiftedPitch);
             const keyChar = validPitch ? KEY_MAP[validPitch] : '@';
+
+            // 按下
             events.push({ tick: n.startTick, type: 'D', key: keyChar });
-            events.push({ tick: n.endTick, type: 'U', key: keyChar });
+
+            if (n.isStaccato && n.fullDuration > 0) {
+                // 实际抬起（发声结束，已提前）
+                events.push({ tick: n.endTick, type: 'U', key: keyChar });
+                // 在标准占位结束点插入 D@ 休止占位，确保总拍长
+                const placeholderTick = n.startTick + n.fullDuration;
+                if (placeholderTick > n.endTick) {
+                    events.push({ tick: placeholderTick, type: 'D', key: '@' });
+                }
+            } else {
+                events.push({ tick: n.endTick, type: 'U', key: keyChar });
+            }
         });
 
         // 将 tempoEvents 插入事件流（若 tempoEvents 非空）
@@ -1033,7 +1088,8 @@
             return;
         }
 
-        const notesStr = generateNotesString();
+        let notesStr = generateNotesString();
+        notesStr = mergeCodes(notesStr);
         const nameValue = scoreName.value.trim() || '默认曲谱';
         const instrumentValue = scoreInstrument.value;
         const descValue = scoreDescription.value.trim() || '曲谱信息';
@@ -1067,6 +1123,7 @@
     });
 
     // 新增：将给定的notes字符串按照指定规则合并相邻代码项（从Python实现转换而来）
+    // mergeCodes 保持不变
     function mergeCodes(s) {
         if (typeof s !== 'string') return s;
         const pattern = /^([DU])([A-Z]+)(\d+)$/;
