@@ -30,11 +30,21 @@
 
 ## 更新日志
 
-### v3.0
+### v3.1
 
-* 重构代码结构，增加重试机制和错误恢复
-* 增加任务开关配置
-* 支持多地区选择
+* 问题 1：maxRetries 可能为负数导致 lastError 未定义
+
+&#x20;  修复：配置解析时添加非负校验
+
+* 问题 2：withTimeout 未真正强制执行超时
+
+&#x20;  修复：由于 BGI ClearScript 不支持 setTimeout，无法真正实现异步超时中断。已移除 withTimeout 和   withRetryAndTimeout 函数（它们只是日志警告，无实际超时效果），仅保留 withRetry。
+
+* &#x20;问题 3：taskClaimMail 异常时分辨率未恢复
+
+&#x20;   修复：使用 try-finally 确保分辨率恢复
+
+
 
 ## 作者
 

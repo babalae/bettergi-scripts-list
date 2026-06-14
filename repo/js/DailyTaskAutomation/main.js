@@ -1,7 +1,7 @@
 // ==========================================
-// BetterGI 每日任务自动化脚本 - v3.0 重构版
+// BetterGI 每日任务自动化脚本 - v3.1
 // 单文件结构（BGI ClearScript 不支持 require/setTimeout）
-// 支持重试/超时/配置化
+// 支持重试/配置化/任务开关
 // ==========================================
 
 (async function () {
@@ -61,7 +61,7 @@
     /**
      * 带重试的异步操作
      * @param {Function} operation - 异步操作函数
-     * @param {number} maxRetries - 最大重试次数
+     * @param {number} maxRetries - 最大重试次数（>= 0）
      * @param {string} desc - 操作描述
      */
     async function withRetry(operation, maxRetries, desc) {
@@ -79,45 +79,6 @@
             }
         }
         throw new Error("[" + desc + "] 重试 " + (maxRetries + 1) + " 次后仍失败: " + lastError.message);
-    }
-
-    /**
-     * 带超时的异步操作（使用 sleep 轮询，非 setTimeout）
-     * @param {Function} operation - 异步操作函数（需自行控制执行时间）
-     * @param {number} timeoutSec - 超时时间（秒）
-     * @param {string} desc - 操作描述
-     */
-    async function withTimeout(operation, timeoutSec, desc) {
-        // BGI 不支持 setTimeout，使用 sleep 做简单超时保护
-        // 注意：此实现依赖 operation 内部使用 sleep，无法强制中断长时间运行的操作
-        const startTime = Date.now();
-        try {
-            const result = await operation();
-            const elapsed = (Date.now() - startTime) / 1000;
-            if (elapsed > timeoutSec) {
-                log.warn("[" + desc + "] 执行耗时 " + elapsed.toFixed(1) + " 秒，超过设定超时 " + timeoutSec + " 秒");
-            }
-            return result;
-        } catch (e) {
-            const elapsed = (Date.now() - startTime) / 1000;
-            if (elapsed > timeoutSec) {
-                throw new Error("[" + desc + "] 执行超时（" + timeoutSec + "秒）- " + e.message);
-            }
-            throw e;
-        }
-    }
-
-    /**
-     * 组合：带重试 + 超时的异步操作
-     */
-    async function withRetryAndTimeout(operation, maxRetries, timeoutSec, desc) {
-        return withRetry(
-            function() {
-                return withTimeout(operation, timeoutSec, desc);
-            },
-            maxRetries,
-            desc
-        );
     }
 
     // ==================== 任务模块 ====================
@@ -203,16 +164,18 @@
         setGameMetrics(3840, 2160, DEFAULT_DPI);
         await sleep(200);
 
-        await safeKey("Escape", "打开菜单", TIME_LONG);
-        await safeClick(COORDS.MAIL.MAIL_BUTTON.x, COORDS.MAIL.MAIL_BUTTON.y, "打开邮件", TIME_LONG);
-        await safeClick(COORDS.MAIL.CLAIM_ALL_BUTTON.x, COORDS.MAIL.CLAIM_ALL_BUTTON.y, "一键领取", TIME_MEDIUM);
+        try {
+            await safeKey("Escape", "打开菜单", TIME_LONG);
+            await safeClick(COORDS.MAIL.MAIL_BUTTON.x, COORDS.MAIL.MAIL_BUTTON.y, "打开邮件", TIME_LONG);
+            await safeClick(COORDS.MAIL.CLAIM_ALL_BUTTON.x, COORDS.MAIL.CLAIM_ALL_BUTTON.y, "一键领取", TIME_MEDIUM);
 
-        await safeKey("Escape", "关闭邮件", TIME_MEDIUM);
-        await safeKey("Escape", "关闭菜单", TIME_MEDIUM);
-
-        // 恢复默认分辨率
-        log.info("恢复默认分辨率");
-        await enforceResolution();
+            await safeKey("Escape", "关闭邮件", TIME_MEDIUM);
+            await safeKey("Escape", "关闭菜单", TIME_MEDIUM);
+        } finally {
+            // 确保分辨率恢复，即使任务失败
+            log.info("恢复默认分辨率");
+            await enforceResolution();
+        }
 
         log.info("<<< 结束: 领取邮件");
     }
@@ -221,12 +184,22 @@
 
     async function main() {
         log.info("=======================================");
-        log.info("每日任务自动化脚本 - v3.0 重构版");
+        log.info("每日任务自动化脚本 - v3.1");
         log.info("=======================================");
 
-        // 解析配置
-        const retryCount = parseInt(settings.globalRetryCount, 10) || 3;
-        const timeoutSec = parseInt(settings.globalTimeoutSec, 10) || 60;
+        // 解析配置，确保非负
+        let retryCount = parseInt(settings.globalRetryCount, 10);
+        if (isNaN(retryCount) || retryCount < 0) {
+            log.warn("重试次数配置无效，使用默认值 3");
+            retryCount = 3;
+        }
+
+        let timeoutSec = parseInt(settings.globalTimeoutSec, 10);
+        if (isNaN(timeoutSec) || timeoutSec < 0) {
+            log.warn("超时时间配置无效，使用默认值 60");
+            timeoutSec = 60;
+        }
+
         const enableCraftResin = settings.enableCraftResin !== false;
         const enableBattlePass = settings.enableBattlePass !== false;
         const enableMail = settings.enableMail !== false;
