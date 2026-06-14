@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "古古"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1779705289401,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "09-深渊法师-渊下宫-蛇心之地-2只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 392.5211,
+      "y": -334.3449
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 356.7454,
+      "y": -314.2537
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(E),wait(0.8),keyup(E)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 336.7495,
+      "y": -304.2507
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 333.6248,
+      "y": -306.5023
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 329.0236,
+      "y": -298.9712
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 317.2928,
+      "y": -291.3245
+    }
+  ]
+}
