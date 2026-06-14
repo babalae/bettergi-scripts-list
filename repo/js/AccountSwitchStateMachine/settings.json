@@ -1,0 +1,32 @@
+[
+  {
+    "name": "targetUid",
+    "type": "input-text",
+    "label": "要切换到的账号UID"
+  },
+  {
+    "name": "account",
+    "type": "input-text",
+    "label": "账号（非必要，查找不到账号图片时备用）"
+  },
+  {
+    "name": "password",
+    "type": "input-text",
+    "label": "密码（非必要，查找不到账号图片时备用）"
+  },
+  {
+    "name": "skipSearch",
+    "type": "checkbox",
+    "label": "勾选后不尝试查找账号图片，直接使用账号密码登录"
+  },
+  {
+    "name": "verifyUid",
+    "type": "checkbox",
+    "label": "勾选后在切换前后检查当前账号UID，辅助判断切换是否成功"
+  },
+  {
+    "name": "screenshotMode",
+    "type": "checkbox",
+    "label": "勾选后进入截图模式，自动截图保存对应UID的账号图片"
+  }
+]

@@ -1,0 +1,65 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759297629169,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "503枫丹-芒索斯山东麓2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4984.80859375,
+      "y": 4463.0029296875
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4965.32470703125,
+      "y": 4454.4130859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4957.3447265625,
+      "y": 4452.0078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f)",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 4957.3447265625,
+      "y": 4452.0078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),s(0.3);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 4947.6875,
+      "y": 4458.312433600762
+    }
+  ]
+}

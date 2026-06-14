@@ -1,0 +1,178 @@
+{
+  "info": {
+    "name": "A06-蒙德-风啸山坡-达达乌帕谷-8个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.54.0",
+    "tags": [],
+    "last_modified_time": 1752214558491,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1435.89,
+      "y": 1461.4,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1495.04,
+      "y": 1447.77,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1512.84,
+      "y": 1441.21,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1512.84,
+      "y": 1441.21,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(6)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1527.01,
+      "y": 1444.48,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1552.24,
+      "y": 1427.84,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1588.99,
+      "y": 1408.23,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1602.96,
+      "y": 1389.06,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": -1602.96,
+      "y": 1389.06,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(6)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": -1602.96,
+      "y": 1389.06,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -1435.89,
+      "y": 1461.4,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 12,
+      "x": -1440.51,
+      "y": 1448.05,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -1445.79,
+      "y": 1433.53,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -1463.94,
+      "y": 1395.22,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -1464.5,
+      "y": 1380.42,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 16,
+      "x": -1464.5,
+      "y": 1380.42,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(6)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 17,
+      "x": -1464.5,
+      "y": 1380.42,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766174654705,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "兽肉1-1-灵濛山东-3肉×1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1725.7441,
+      "y": 2115.2598
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1728.877,
+      "y": 2115.0601
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1739.4219,
+      "y": 2093.9209
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1748.4756,
+      "y": 2088.022
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1755.7627,
+      "y": 2083.7732
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1760.9521,
+      "y": 2080.6201
+    }
+  ]
+}

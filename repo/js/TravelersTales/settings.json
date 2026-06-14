@@ -1,0 +1,57 @@
+[
+  {
+    "name": "resetOnStart",
+    "type": "checkbox",
+    "label": "启动时重置所有进度\n仅推荐在切换账号后使用！",
+    "default": false
+  },
+  {
+    "name": "confirmBeforeReset",
+    "type": "checkbox",
+    "label": "重置前需要确认",
+    "default": true
+  },
+  {
+    "name": "progressUpdateInterval",
+    "type": "select",
+    "label": "进度更新间隔（次数）",
+    "options": ["1", "3", "5", "10", "20"],
+    "default": "3"
+  },
+  {
+    "name": "showRemainingCharacters",
+    "type": "checkbox",
+    "label": "显示剩余角色列表",
+    "default": true
+  },
+  {
+    "name": "enableProgressLogs",
+    "type": "checkbox",
+    "label": "启用进度日志",
+    "default": true
+  },
+  {
+    "name": "enableDetailedLogs",
+    "type": "checkbox",
+    "label": "启用详细日志",
+    "default": true
+  },
+  {
+    "name": "showStatistics",
+    "type": "checkbox",
+    "label": "显示统计信息",
+    "default": true
+  },
+  {
+    "name": "maxRuns",
+    "type": "input-text",
+    "label": "最大运行次数\n每天刷新一个逸闻，不推荐设置的太高",
+    "default": "1"
+  },
+  {
+    "name": "skipCompletedCharacters",
+    "type": "checkbox",
+    "label": "跳过已完成的角色",
+    "default": true
+  }
+]

@@ -1,0 +1,61 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "约46秒/6个",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763841011927,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-枣椰-活力之家(死域)-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "nahida_collect",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4036.2251,
+      "y": -2465.1035
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_X);迪希雅 wait(0.5),keypress(VK_E),wait(0.2);",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3945.7598,
+      "y": -2453.3359
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3945.7598,
+      "y": -2453.3359
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_X);迪希雅 wait(0.02)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3945.7598,
+      "y": -2453.3359
+    }
+  ]
+}

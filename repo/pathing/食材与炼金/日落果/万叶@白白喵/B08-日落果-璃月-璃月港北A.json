@@ -1,0 +1,273 @@
+{
+  "info": {
+    "name": "B08-日落果-璃月-璃月港北A",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ],
+    "version": "1.0",
+    "description": "带万叶采集",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754732919810,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 54.584,
+      "y": 139.6006,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 62.6973,
+      "y": 149.729,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 74.2051,
+      "y": 156.7607,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 118.3809,
+      "y": 158.2402,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 144.7832,
+      "y": 148.8369,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 144.7832,
+      "y": 148.8369,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5),j,wait(0.5),j,wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 136.0391,
+      "y": 117.293,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 130.2197,
+      "y": 110.8433,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 129.3896,
+      "y": 106.9521,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 wait(0.2),e(hold),attack,wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 134.1621,
+      "y": 100.792,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 141.8613,
+      "y": 103.3662,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 138.4717,
+      "y": 86.4502,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 132.2051,
+      "y": 82.0361,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4)",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 142.0645,
+      "y": 91.0215,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 136.4629,
+      "y": 94.2324,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 129.6084,
+      "y": 85.7822,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 122.3652,
+      "y": 74.6875,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 117.7559,
+      "y": 59.959,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 97.1455,
+      "y": 59.73,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 109.9912,
+      "y": 44.626,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 102.0723,
+      "y": 16.1602,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 91.9531,
+      "y": 2.209,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": 108.8877,
+      "y": -3.8545,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 wait(0.2),e(hold),attack,wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": 107.543,
+      "y": -6.3994,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 25,
+      "x": 58.5059,
+      "y": 5.6152,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(0.8)",
+      "type": "path"
+    },
+    {
+      "id": 26,
+      "x": 28.1172,
+      "y": -39.5479,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 27,
+      "x": 23.7441,
+      "y": -64.8774,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 28,
+      "x": 16.9805,
+      "y": -75.0981,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(0.2),e(hold),attack,wait(3)"
+    }
+  ]
+}

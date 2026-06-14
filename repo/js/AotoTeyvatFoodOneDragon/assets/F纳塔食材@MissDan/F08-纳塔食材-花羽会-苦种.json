@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759830834950,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F08-纳塔食材-花羽会-苦种",
+    "tags": [],
+    "type": "collect",
+    "version": "2.11"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9485.5615234375,
+      "y": -1205.16455078125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9501.7099609375,
+      "y": -1212.869140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9481.53515625,
+      "y": -1213.3955078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9491.5283203125,
+      "y": -1210.9453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9488.908203125,
+      "y": -1184.8740234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9492.9638671875,
+      "y": -1173.78857421875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9484.6865234375,
+      "y": -1160.68359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.8)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 9456.8115234375,
+      "y": -1162.78857421875
+    }
+  ]
+}

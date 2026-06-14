@@ -1,0 +1,41 @@
+{
+  "info": {
+    "name": "14-鬼兜虫-八酝岛(西北侧龙骨北)-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2404.9,
+      "y": -3921.68,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2252.73,
+      "y": -3876.15,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -2257.77,
+      "y": -3885.98,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

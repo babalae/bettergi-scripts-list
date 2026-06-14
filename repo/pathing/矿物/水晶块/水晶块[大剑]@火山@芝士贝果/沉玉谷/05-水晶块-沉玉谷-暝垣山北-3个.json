@@ -1,0 +1,90 @@
+{
+  "info": {
+    "name": "05-水晶块-沉玉谷-暝垣山北-3个",
+    "type": "collect",
+    "version": "1.1",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2614.23,
+      "y": 2375.4,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2615.04,
+      "y": 2380.66,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2621.04,
+      "y": 2393.49,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2616.97,
+      "y": 2517.26,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "3500",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 2620.68,
+      "y": 2510.82,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 2619.5,
+      "y": 2504.97,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 2616.05,
+      "y": 2503.2,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 2615.96,
+      "y": 2502.1,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "info": {
+    "name": "夏洛蒂-1",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750327464492
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4610.97021484375,
+      "y": 3601.181640625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4605.48583984375,
+      "y": 3587.205810546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4607.0400390625,
+      "y": 3555.32470703125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4618.89013671875,
+      "y": 3516.02392578125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2000"
+    },
+    {
+      "id": 5,
+      "x": 4618.59521484375,
+      "y": 3518.6279296875,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(w)"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "info": {
+    "name": "07-松果-轻策庄-9个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "玛卡巴卡"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 801.6,
+      "y": 1796.07,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 808.51,
+      "y": 1795.69,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 808.47,
+      "y": 1814.11,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 807.12,
+      "y": 1838.63,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 806.8,
+      "y": 1845.54,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

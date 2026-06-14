@@ -1,0 +1,125 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 奥奇卡纳塔西\n鱼类: 深潜斗士急流鱼、繁花斗士急流鱼、伪装鲨鲨独角鱼\n饵类: 澄晶果粒饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764510388395,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔-垂钓点-奥奇卡纳塔西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.4"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10165.79,
+      "y": -395.63
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10199.27,
+      "y": -416.33
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 10224.55,
+      "y": -423.99
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10254.72,
+      "y": -431.42
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10259.89,
+      "y": -453.22
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10270.64,
+      "y": -485.59
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10276.17,
+      "y": -482.59
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10280.81,
+      "y": -479.83
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10295.81,
+      "y": -479.8
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10321.28,
+      "y": -488.3
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10327.2,
+      "y": -489.55
+    }
+  ]
+}

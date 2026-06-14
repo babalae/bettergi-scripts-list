@@ -1,0 +1,84 @@
+{
+    "info": {
+        "name": "稻妻-野伏众-鸣神岛刃连岛崖上-4个",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "野伏众-4个\n稻妻-鸣神岛刃连岛崖上",
+        "bgi_version": "0.39.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": -4122.26,
+            "y": -1774.45,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": -4162.99,
+            "y": -1846.24,
+            "action": "",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": -4182.19,
+            "y": -1874.1,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": -4246.61,
+            "y": -1897.13,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 5,
+            "x": -4281.0,
+            "y": -1888.87,
+            "action": "combat_script",
+            "move_mode": "walk",
+            "action_params": "wait(0.5),keypress(f),wait(0.5),keypress(t),wait(0.5),keypress(t),wait(0.5),keypress(t)",
+            "type": "path"
+        },
+        {
+            "id": 6,
+            "x": -4225.6,
+            "y": -1873.12,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 7,
+            "x": -4217.5,
+            "y": -1869.0,
+            "action": "fight",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 8,
+            "x": -4192.08,
+            "y": -1854.61,
+            "action": "fight",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "target"
+        }
+    ]
+}

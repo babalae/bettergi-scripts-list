@@ -1,0 +1,76 @@
+{
+  "info": {
+    "name": "纳塔-垂钓点-安饶之野东",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.0",
+    "description": "地区: 纳塔\n类型: 垂钓点\n详细位置: 安饶之野东\n鱼类: 花鳉、繁花斗士急流鱼、青浪翻车鲀、晚霞翻车鲀、伪装鲨鲨独角鱼\n饵类: 果酿饵、澄晶果粒饵\n附加信息: 普通",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9812.73,
+      "y": -2852.58,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9801.26,
+      "y": -2861.62,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9804.77,
+      "y": -2881.04,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9795.77,
+      "y": -2899.3,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9805.4,
+      "y": -2962.4,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 9803.43,
+      "y": -2985.43,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9793.29,
+      "y": -2985.36,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "target"
+    }
+  ]
+}

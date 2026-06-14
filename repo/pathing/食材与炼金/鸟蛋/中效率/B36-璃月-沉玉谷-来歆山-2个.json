@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.54.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767598933484,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B36-璃月-沉玉谷-来歆山-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2870.3037,
+      "y": 1503.6753
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2886.0947,
+      "y": 1494.7251
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2893.4766,
+      "y": 1474.2148
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2929.7109,
+      "y": 1406.5845
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2981.6221,
+      "y": 1364.5405
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 2976.7139,
+      "y": 1368.3418
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2974.0186,
+      "y": 1370.9966
+    }
+  ]
+}

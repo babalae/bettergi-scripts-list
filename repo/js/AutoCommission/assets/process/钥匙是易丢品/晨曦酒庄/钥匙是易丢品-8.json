@@ -1,0 +1,58 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "11"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758272781446,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "钥匙是易丢品-8",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -474.76171875,
+      "y": 1713.13330078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -488.828125,
+      "y": 1722.822265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.8)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -492.58203125,
+      "y": 1724.30517578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2),w(0.2),wait(0.3),keypress(F)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -493.541015625,
+      "y": 1724.74267578125
+    }
+  ]
+}
