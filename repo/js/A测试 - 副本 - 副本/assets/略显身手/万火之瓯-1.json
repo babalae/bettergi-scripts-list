@@ -1,0 +1,62 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760865827269,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "万火之瓯",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8909.1103515625,
+      "y": -1638.7841796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8883.724609375,
+      "y": -1640.056640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8853.541015625,
+      "y": -1640.1650390625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(F)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8847.08203125,
+      "y": -1640.84912109375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8847.091796875,
+      "y": -1640.859375
+    }
+  ]
+}

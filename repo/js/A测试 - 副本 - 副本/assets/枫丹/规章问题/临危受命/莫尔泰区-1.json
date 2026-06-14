@@ -1,0 +1,80 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760763056087,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "莫尔泰",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3815.3740234375,
+      "y": 2337.307373046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(F)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3815.36328125,
+      "y": 2337.30078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3790.455078125,
+      "y": 2321.807373046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3756.38671875,
+      "y": 2300.001220703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3747.029296875,
+      "y": 2275.5517578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3737.283203125,
+      "y": 2252.76220703125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3736.55078125,
+      "y": 2248.853515625
+    }
+  ]
+}

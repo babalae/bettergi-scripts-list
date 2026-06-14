@@ -1,0 +1,71 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762076844663,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "龙与山-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8019.4248046875,
+      "y": -1910.078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8020.55078125,
+      "y": -1909.26806640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8021.703125,
+      "y": -1914.21240234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1),keypress(VK_T)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8015.9365234375,
+      "y": -1912.13720703125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),click(middle),wait(0.5),moveby(0,-4500),wait(1.5),keypress(VK_E),wait(1),keypress(VK_E),wait(2),click(middle),wait(1.5),moveby(200,-5000),wait(2),keypress(VK_E),wait(2),,keypress(VK_E),wait(2),walk(s,0.1),wait(0.5),click(middle),wait(3),,moveby(450,-1250),wait(1.5),,keypress(VK_E),wait(1)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8005.111328125,
+      "y": -1909.912109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),walk(w,2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7950.06640625,
+      "y": -1927.0068359375
+    }
+  ]
+}

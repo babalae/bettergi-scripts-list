@@ -1,0 +1,43 @@
+[
+  {
+    "type": "地图追踪",
+    "data": "小小人儿快长大-1.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 5,
+      "priorityOptions": [ "观察力" ],
+      "note": "优先选“观察力”等选项，且只与白名单 NPC 交互"
+    }
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待返回主界面"
+  },
+  {
+    "type": "委托描述检测",
+    "data": {
+      "description": "观察",
+      "executeFile": "前置.json",
+      "runType": "process",
+      "useKeyword": true
+    },
+    "note": "检测委托描述并执行后续步骤"
+  },
+  {
+    "type": "委托描述检测",
+    "data": {
+      "description": "营救",
+      "executeFile": "后续.json",
+      "runType": "process",
+      "useKeyword": true
+    },
+    "note": "检测委托描述并执行后续步骤"
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待返回主界面"
+  }
+]

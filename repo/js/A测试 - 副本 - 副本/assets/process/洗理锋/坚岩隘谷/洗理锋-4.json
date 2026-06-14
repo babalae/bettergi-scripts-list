@@ -1,0 +1,53 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762541157807,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "洗理锋-4",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7740.736328125,
+      "y": -1541.8330078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7743.05078125,
+      "y": -1550.9521484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7735.7890625,
+      "y": -1550.3330078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(25)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7725.1650390625,
+      "y": -1565.318359375
+    }
+  ]
+}
