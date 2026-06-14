@@ -1088,7 +1088,8 @@
             return;
         }
 
-        const notesStr = generateNotesString();
+        let notesStr = generateNotesString();
+        notesStr = mergeCodes(notesStr);
         const nameValue = scoreName.value.trim() || '默认曲谱';
         const instrumentValue = scoreInstrument.value;
         const descValue = scoreDescription.value.trim() || '曲谱信息';
