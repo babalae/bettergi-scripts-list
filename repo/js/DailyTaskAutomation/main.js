@@ -38,15 +38,13 @@
 
     // ==================== 工具函数 ====================
 
-    async function safeClick(x, y, desc, delayMs) {
-        delayMs = delayMs || TIME_SHORT;
+    async function safeClick(x, y, desc, delayMs = TIME_SHORT) {
         log.info("点击: " + desc + " (" + x + ", " + y + ")");
         click(x, y);
         await sleep(delayMs);
     }
 
-    async function safeKey(key, desc, delayMs) {
-        delayMs = delayMs || TIME_SHORT;
+    async function safeKey(key, desc, delayMs = TIME_SHORT) {
         log.info("按键: " + desc + " [" + key + "]");
         keyPress(key);
         await sleep(delayMs);
@@ -96,15 +94,13 @@
         const domainName = settings.domainName;
         let mode = PERMISSION_MODES[domainName];
         if (!mode) {
+            log.warn("未知权限配置: " + domainName + "，回退到'不允许加入'");
             mode = PERMISSION_MODES["不允许加入"];
         }
 
         await safeClick(COORDS.PERMISSION.WORLD_PERMISSION_BUTTON.x, mode.y, "权限设置: " + mode.text, 500);
-
-        if (mode.text === "不允许加入") {
-            await sleep(2000);
-            await safeKey("Escape", "关闭界面", 500);
-        }
+        await sleep(500);
+        await safeKey("Escape", "关闭多人游戏界面", 500);
 
         log.info("<<< 结束: 设置世界权限");
     }
@@ -145,12 +141,8 @@
     async function taskClaimBattlePass() {
         log.info(">>> 开始: 领取纪行奖励");
 
-        try {
-            await genshin.claimBattlePassRewards();
-            log.info("纪行奖励领取完成");
-        } catch (e) {
-            log.warn("领取纪行失败: " + e.message);
-        }
+        await genshin.claimBattlePassRewards();
+        log.info("纪行奖励领取完成");
 
         log.info("<<< 结束: 领取纪行奖励");
     }
@@ -187,24 +179,32 @@
         log.info("每日任务自动化脚本 - v3.1");
         log.info("=======================================");
 
-        // 解析配置，确保非负
+        // 解析配置，确保非负且不超过上限
         let retryCount = parseInt(settings.globalRetryCount, 10);
-        if (isNaN(retryCount) || retryCount < 0) {
-            log.warn("重试次数配置无效，使用默认值 3");
+        if (isNaN(retryCount) || retryCount < 0 || retryCount > 10) {
+            log.warn("重试次数配置无效（" + settings.globalRetryCount + "），使用默认值 3");
             retryCount = 3;
         }
 
         let timeoutSec = parseInt(settings.globalTimeoutSec, 10);
-        if (isNaN(timeoutSec) || timeoutSec < 0) {
-            log.warn("超时时间配置无效，使用默认值 60");
+        if (isNaN(timeoutSec) || timeoutSec < 0 || timeoutSec > 300) {
+            log.warn("超时时间配置无效（" + settings.globalTimeoutSec + "），使用默认值 60");
             timeoutSec = 60;
         }
 
-        const enableCraftResin = settings.enableCraftResin !== false;
-        const enableBattlePass = settings.enableBattlePass !== false;
-        const enableMail = settings.enableMail !== false;
+        // 兼容字符串 "false" 和布尔值 false
+        function parseBool(value) {
+            if (typeof value === "boolean") return value;
+            if (typeof value === "string") return value.toLowerCase() !== "false";
+            return Boolean(value);
+        }
 
-        log.info("配置: 重试=" + retryCount + ", 超时=" + timeoutSec + "秒");
+        const enableCraftResin = parseBool(settings.enableCraftResin);
+        const enableBattlePass = parseBool(settings.enableBattlePass);
+        const enableMail = parseBool(settings.enableMail);
+
+        log.info("配置: 重试=" + retryCount + "次");
+        log.info("注意: 超时时间（" + timeoutSec + "秒）当前仅用于日志提示，BGI 环境暂不支持强制中断超时任务");
         log.info("树脂合成: " + (enableCraftResin ? "启用" : "跳过"));
         log.info("纪行奖励: " + (enableBattlePass ? "启用" : "跳过"));
         log.info("邮件领取: " + (enableMail ? "启用" : "跳过"));
@@ -253,7 +253,7 @@
                     await genshin.returnMainUi();
                     log.info("已尝试返回主界面恢复状态");
                 } catch (e) {
-                    log.warn("返回主界面失败: " + e.message);
+                    log.error("返回主界面失败: " + e.message);
                 }
             }
         }
@@ -266,7 +266,7 @@
             await genshin.returnMainUi();
             log.info("已返回主界面");
         } catch (e) {
-            log.warn("返回主界面失败: " + e.message);
+            log.error("返回主界面失败: " + e.message);
         }
 
         log.info("脚本执行完毕");
