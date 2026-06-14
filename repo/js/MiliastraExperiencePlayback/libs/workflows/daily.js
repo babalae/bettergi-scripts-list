@@ -52,17 +52,16 @@ const execDailyTask = async () => {
     }
   /** 计算需要进行的尝试次数 */
   let attempts = userConfig.dailyLimit - store.daily.attempts;
-  attempts = attempts > 0 ? attempts : 1;
+  attempts = attempts > 0 ? attempts : userConfig.dailyForce ? userConfig.dailyLimit : 0;
   /** 创建进度追踪器 */
   const tracker = new ProgressTracker(attempts * userConfig.dailyRooms.length);
-  /** 迭代奇域关卡列表 */
+  /** 迭代尝试 */
   try {
-    for (let i = 0; i < attempts; i++) {
-      /** 迭代尝试 */
+    for (const room of userConfig.dailyRooms) {
       try {
-        for (const room of userConfig.dailyRooms) {
-          /** 离开当前所在房间（如果存在） */
-          await leaveRoom();
+        /** 离开当前所在房间（如果存在） */
+        await leaveRoom();
+        for (let i = 0; i < attempts; i++) {
           tracker.print(`开始 ${store.uid} 当日第 ${store.daily.attempts + 1} 次奇域挑战...`);
           /** 进入房间 */
           await enterRoom(room);
