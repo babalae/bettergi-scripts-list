@@ -950,8 +950,10 @@
             await waitTransformer(deployed)//等待质变完成
             log.info("任务执行完成！！！");
 
-            // 更新CD记录（设置为七天后）
-            updatedRecords[routeName] = getSevenDaysLater();
+            // 更新CD记录（设置为6天22小时后）
+            const now = new Date();
+            const sevenDaysLater = new Date(now.getTime() + ((6 * 24 + 22) * 3600000)); // 当前时间 + 6天22小时
+            updatedRecords[routeName] = sevenDaysLater.toISOString();
             await writeCDRecords(updatedRecords);
             log.info("本周质变仪&爱可菲任务已完成！");
         } catch (error) {
