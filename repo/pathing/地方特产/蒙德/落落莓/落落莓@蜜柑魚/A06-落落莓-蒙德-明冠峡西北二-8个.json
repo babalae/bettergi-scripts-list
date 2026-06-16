@@ -47,7 +47,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keydown(VK_RBUTTON),wait(9),keydown(q),wait(0.8),keyup(q),keyup(VK_RBUTTON),wait(0.1),attack(0.3)",
+      "action_params": "wait(0.1),keydown(VK_RBUTTON),wait(9),keydown(q),wait(0.8),keyup(q),keyup(VK_RBUTTON),wait(0.1),attack(0.3)",
       "id": 4,
       "move_mode": "walk",
       "type": "orientation",
