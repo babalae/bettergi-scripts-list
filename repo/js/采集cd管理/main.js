@@ -33,6 +33,7 @@ let blacklistSet = new Set();
 let gameRegion;
 let state = { running: true };
 state.runPickupLog = [];   // 本次路线运行中拾取/交互的物品明细
+let routeRunCount = {};          // 全局路线执行次数记录 { routeName: count }
 let pickupRecordFile;
 let firstCook = true;
 let firstsettime = true;
@@ -81,7 +82,6 @@ let materialCdMap = {};
 
     // ==================== 路径组循环 ====================
     await processPathGroups();
-
 })();
 
 /**
@@ -1936,6 +1936,13 @@ async function buildSettingsJson() {
         ]
     });
 
+    /* 5.2.1 循环模式 */
+    newSettings.push({
+        name: "loopCollect",
+        type: "checkbox",
+        label: "勾选后，路径组中每条路线完成后从头开始重新检查"
+    });
+
     /* 5.3 固定尾部节点（原样照搬） */
     newSettings.push(
         {
@@ -2364,9 +2371,9 @@ async function processPriorityItems() {
         }
         /* ================================= */
 
-        const runOnce = [];
         /* ---------- 3. 主循环 ---------- */
         while (priorityList.length > 0) {
+            const maxRunCount = 1;
 
             /* 1. 先把用户填的字面名（可能是别名）全部弄进来 */
             const priorityItemSet = new Set(priorityList.map(p => p.itemName));
@@ -2427,7 +2434,7 @@ async function processPriorityItems() {
             const candidateRoutes = allFiles
                 .filter(f => {
                     return f._priorityEff >= 0 &&
-                        !runOnce.includes(f.fileName);     // 本轮没跑过
+                        (routeRunCount[f.fileName] || 0) < maxRunCount;     // 未超过执行上限
                 })
                 .sort((a, b) => b._priorityEff - a._priorityEff);
             if (candidateRoutes.length === 0 && priorityList.length > 0) {
@@ -2452,7 +2459,7 @@ async function processPriorityItems() {
 
             await handleTimeAdjustment(timeNow);
             await fakeLog(fileName, false, true, 0);
-            runOnce.push(fullName);
+            routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
 
             /* ========== 历史拾取物前置排序 ========== */
             targetItems = prioritizeHistoricalItems(targetItems, cdMap, fullName);
@@ -2545,13 +2552,16 @@ async function processPriorityItems() {
  */
 async function processPathGroups() {
     let loopattempts = 0;
-    while (loopattempts < 2) {
+    const maxLoopAttempts = 2;
+
+    while (loopattempts < maxLoopAttempts) {
         loopattempts++;
         if (await isTimeRestricted(settings.timeRule, 10)) break;
-        for (let i = 1; i <= groupCount; i++) {
+        let i = 1;
+        while (i <= groupCount) {
             if (await isTimeRestricted(settings.timeRule, 10)) break;
             const currentCdType = settings[`pathGroup${i}CdType`] || "";
-            if (!currentCdType) continue;
+            if (!currentCdType) { i++; continue; }
 
             const folder = folderNames[i - 1] || `路径组${i}`;
             const targetFolder = `pathing/${folder} `;
@@ -2599,11 +2609,18 @@ async function processPathGroups() {
                         const fullName = fileName + '.json';
                         const targetObj = cdMap.get(fullName);
                         const nextCD = targetObj ? new Date(targetObj.cdTime) : new Date(0);
+                        const maxRunCount = settings.loopCollect ? 3 : 1;
 
                         const startTime = new Date();
                         if (startTime <= nextCD) {
-                            log.info(`当前任务 ${fileName} 未刷新，跳过任务`);
+                            if (!settings.loopCollect) {
+                                log.info(`当前任务 ${fileName} 未刷新，跳过任务`);
+                            }
                             continue;   // 跳过，不写回
+                        }
+                        if ((routeRunCount[fullName] || 0) >= maxRunCount) {
+                            log.info(`当前任务 ${fileName} 已达执行上限，跳过`);
+                            continue;
                         }
                         if (await isTimeRestricted(settings.timeRule, 10)) break;
 
@@ -2665,13 +2682,21 @@ async function processPathGroups() {
 
                             /* ---------- 3. 统一写文件 & 清空日志 ---------- */
                             await saveRecordAndClearLog(cdMap, recordFilePath, routeResult.runPickupLog);
+                            routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
+
+                            if (settings.loopCollect) {
+                                i = 0;
+                                break;
+                            } else {
+                                log.info(`路径组${groupNumber} 执行完毕`);
+                            }
                         }
                     }
-                    log.info(`路径组${groupNumber} 的所有任务运行完成`);
                 } catch (error) {
                     log.error(`读取路径组文件时出错: ${error}`);
                 }
             }
+            i++;
         }
         await sleep(1000);
     }

@@ -214,6 +214,11 @@ function get_some_tasks(hints) {
     if (hints.target_running_seconds) {
         log.debug("Schedule with target runnning seconds {a}", hints.target_running_seconds);
     }
+    let running_time_scale = 1.0;
+    if (hints.running_time_scale) {
+        log.debug("Schedule with running time scale {a}", hints.running_time_scale);
+        running_time_scale = hints.running_time_scale;
+    }
     const exclude_tags = new Set(get_exclude_tags());
     let filtered_statistics = [];
     for (const [key, value] of Object.entries(statistics)) {
@@ -239,7 +244,7 @@ function get_some_tasks(hints) {
             log.debug("{name} not respawned, skip", key);
             continue;
         }
-        value.statistics.avg_yield_per_min = value.statistics.avg_yield / value.statistics.avg_time_consumed * 60;
+        value.statistics.avg_yield_per_min = value.statistics.avg_yield / value.statistics.avg_time_consumed * 60 / running_time_scale;
         filtered_statistics.push([key, value]);
     }
     filtered_statistics.sort((a, b) =>
@@ -251,7 +256,7 @@ function get_some_tasks(hints) {
     for (const [key, value] of filtered_statistics) {
         candidates.push([key, value]);
         sum_yield += value.statistics.avg_yield;
-        sum_running_seconds += value.statistics.avg_time_consumed;
+        sum_running_seconds += value.statistics.avg_time_consumed * running_time_scale;
         if (hints.target_yield !== null && sum_yield >= hints.target_yield) {
             break;
         }
@@ -272,7 +277,7 @@ function get_some_tasks(hints) {
         }
         candidate_groups[group_name].tasks.push(key);
         candidate_groups[group_name].sum_yield += value.statistics.avg_yield;
-        candidate_groups[group_name].sum_running_seconds += value.statistics.avg_time_consumed;
+        candidate_groups[group_name].sum_running_seconds += value.statistics.avg_time_consumed * running_time_scale;
     }
     for (const i of Object.values(candidate_groups)) {
         i.avg_yield_per_min = sum_yield / sum_running_seconds * 60;
@@ -286,7 +291,7 @@ function get_some_tasks(hints) {
         const s = statistics[i]
         log_content += `    ${s.statistics.avg_yield_per_min.toFixed(2)} ${i}\n`;
         sum_yield += s.statistics.avg_yield;
-        sum_running_seconds += s.statistics.avg_time_consumed;
+        sum_running_seconds += s.statistics.avg_time_consumed * running_time_scale;
     }
     log.debug(log_content);
     log.debug("Expected yield {a}, time {b} min", sum_yield, sum_running_seconds / 60);
@@ -407,6 +412,8 @@ async function modify_script_for_linnea(json_content, override_config) {
     const additional_sleep_time_before_teleport = 1.2;
     let pinned_mining_points = null;
     let fallback_mining_points = null;
+    let follow_original_way_points = null;
+    let wait_before_mining_points = null;
 
     if (override_config) {
         if (override_config.hasOwnProperty("file")) {
@@ -420,6 +427,12 @@ async function modify_script_for_linnea(json_content, override_config) {
         }
         if (override_config.hasOwnProperty("fallback_mining_points") && fallback_mining_action !== null) {
             fallback_mining_points = override_config["fallback_mining_points"];
+        }
+        if (override_config.hasOwnProperty("follow_original_way_points")) {
+            follow_original_way_points = override_config["follow_original_way_points"];
+        }
+        if (override_config.hasOwnProperty("wait_before_mining_points")) {
+            wait_before_mining_points = override_config["wait_before_mining_points"];
         }
     }
 
@@ -520,7 +533,11 @@ async function modify_script_for_linnea(json_content, override_config) {
                         break;
                     }
                 }
-                for (let k = i + 1; k < j; ++k) {
+                let follow_original_way_points_count = 0;
+                if (follow_original_way_points && follow_original_way_points.includes(wi.internal.mining_point_id)) {
+                    follow_original_way_points_count = 1;
+                }
+                for (let k = i + 1 + follow_original_way_points_count; k < j; ++k) {
                     if (!segment[k].internal) {
                         segment[k].internal = {};
                     }
@@ -541,15 +558,35 @@ async function modify_script_for_linnea(json_content, override_config) {
                     i.action = "combat_script";
                     i.action_params = fallback_mining_action;
                 } else {
-                    i.action = "combat_script";
-                    i.action_params = linnea_mining_action;
-                    if (additional_sleep_time_before_teleport > 0.0 && id === segment.length - 1) {
-                        i.action_params += `;wait(${additional_sleep_time_before_teleport})`;
+                    if (id > 0 && i.type === "target") {
+                        let ext_dist = 0.75;
+                        if (json_obj.info.map_name === "AncientSacredMountain") {
+                            ext_dist = 2.0;
+                        }
+                        const x1 = segment[id - 1].x;
+                        const y1 = segment[id - 1].y;
+                        const x2 = i.x;
+                        const y2 = i.y;
+                        if (x1 !== x2 || y1 !== y2) {
+                            const x3 = x2 + ext_dist * (x2 - x1) / Math.hypot(x2 - x1, y2 - y1);
+                            const y3 = y2 + ext_dist * (y2 - y1) / Math.hypot(x2 - x1, y2 - y1);
+                            i.type = "path";
+                            i.x = x3;
+                            i.y = y3;
+                        }
                     }
+                    i.action = "combat_script";
+                    let action_params = linnea_mining_action;
+                    if (wait_before_mining_points && wait_before_mining_points.includes(i.internal.mining_point_id)) {
+                        action_params = "wait(4);" + action_params;
+                    }
+                    if (additional_sleep_time_before_teleport > 0.0 && id === segment.length - 1) {
+                        action_params += `;wait(${additional_sleep_time_before_teleport})`;
+                    }
+                    i.action_params = action_params;
                 }
             }
         }
-
     };
 
     const patched_positions = [];
@@ -779,6 +816,9 @@ async function main() {
             if (!hints.target_running_seconds || target_running_seconds2 < hints.target_running_seconds) {
                 hints.target_running_seconds = target_running_seconds2;
             }
+        }
+        if (mining_character === linnea_chs_name) {
+            hints.running_time_scale = 0.75;
         }
         const tasks = get_some_tasks(hints);
         if (tasks.length === 0) {

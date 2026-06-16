@@ -1,10 +1,16 @@
 ﻿const ocrRegion1 = { x: 0, y: 230, width: 500, height: 100 };
+const RESULT_MASK_ID = "guess-character-result-mask";
+const RESULT_MASK_URL = "assets/guess-result.html";
+let resultMaskWindowId = "";
+let resultMaskDisabled = false;
+let resultMaskWarned = false;
 
 (async function () {
   const data = loadData();
   const kmHook = new KeyMouseHook();
   const skipKey = (typeof settings !== "undefined" && settings && settings.skipKey) ? settings.skipKey : "R";
   const autoRecognize = (typeof settings !== "undefined" && settings && typeof settings.autoRecognize !== "undefined") ? settings.autoRecognize : true;
+  const useHtmlMask = isSettingEnabled("useHtmlMask", false);
   let skipWait = false;
   kmHook.OnKeyDown((key) => {
     if (key === skipKey) {
@@ -25,6 +31,10 @@
   };
   log.info("按 {0} 可跳过等待并立刻识别", skipKey);
   log.info("自动识别: {0}", autoRecognize ? "开启" : "关闭");
+  log.info("HTML遮罩显示结果: {0}", useHtmlMask ? "开启" : "关闭");
+  if (useHtmlMask) {
+    clearResultMask();
+  }
   try {
   let emptyCount = 0;
   let lastTextKey = "";
@@ -67,6 +77,7 @@
     let parsedList = parseOcrTexts(texts);
     if (parsedList.length === 0) {
       log.info("未获取到可用台词内容，继续识别");
+      clearResultMask();
       await sleepOrSkip(1000);
       continue;
     }
@@ -77,6 +88,7 @@
       let matches = findCharactersByLine(parsed, data);
       if (matches.length === 0) {
         log.info(`未命中台词: ${parsed.content}`);
+        clearResultMask();
         continue;
       }
       logMatches(matches);
@@ -85,9 +97,125 @@
     await sleepOrSkip(5000);
   }
   } finally {
+    closeResultMask();
     kmHook.Dispose();
   }
 })();
+
+function isSettingEnabled(name, defaultValue) {
+  if (typeof settings === "undefined" || !settings || typeof settings[name] === "undefined") {
+    return defaultValue;
+  }
+  let value = settings[name];
+  if (typeof value === "boolean") {
+    return value;
+  }
+  if (typeof value === "string") {
+    let normalized = value.trim().toLowerCase();
+    if (normalized === "true") {
+      return true;
+    }
+    if (normalized === "false") {
+      return false;
+    }
+  }
+  return !!value;
+}
+
+function getNumericSetting(name, defaultValue, minValue, maxValue) {
+  if (typeof settings === "undefined" || !settings || typeof settings[name] === "undefined") {
+    return defaultValue;
+  }
+  let value = Number(settings[name]);
+  if (!isFinite(value)) {
+    return defaultValue;
+  }
+  if (typeof minValue === "number" && value < minValue) {
+    return minValue;
+  }
+  if (typeof maxValue === "number" && value > maxValue) {
+    return maxValue;
+  }
+  return value;
+}
+
+function isHtmlMaskResultEnabled() {
+  return isSettingEnabled("useHtmlMask", false);
+}
+
+function warnResultMaskFallback(message) {
+  if (resultMaskWarned) {
+    return;
+  }
+  resultMaskWarned = true;
+  log.warn(message);
+}
+
+function ensureResultMask() {
+  if (!isHtmlMaskResultEnabled() || resultMaskDisabled) {
+    return "";
+  }
+  if (typeof htmlMask === "undefined" || !htmlMask) {
+    resultMaskDisabled = true;
+    warnResultMaskFallback("HTML遮罩不可用，已回退到日志显示结果");
+    return "";
+  }
+
+  try {
+    if (resultMaskWindowId && htmlMask.exists(resultMaskWindowId)) {
+      return resultMaskWindowId;
+    }
+    if (htmlMask.exists(RESULT_MASK_ID)) {
+      resultMaskWindowId = RESULT_MASK_ID;
+      return resultMaskWindowId;
+    }
+    resultMaskWindowId = htmlMask.show(RESULT_MASK_URL, RESULT_MASK_ID);
+    return resultMaskWindowId;
+  } catch (error) {
+    resultMaskDisabled = true;
+    warnResultMaskFallback(`HTML遮罩启动失败，已回退到日志显示结果: ${error}`);
+    return "";
+  }
+}
+
+function sendResultMask(url, payload) {
+  let winId = ensureResultMask();
+  if (!winId) {
+    return false;
+  }
+  try {
+    htmlMask.send(winId, url, JSON.stringify(payload));
+    return true;
+  } catch (error) {
+    resultMaskDisabled = true;
+    warnResultMaskFallback(`HTML遮罩通信失败，已回退到日志显示结果: ${error}`);
+    return false;
+  }
+}
+
+function clearResultMask() {
+  if (!isHtmlMaskResultEnabled()) {
+    return false;
+  }
+  return sendResultMask("/guess-character/clear", { time: Date.now() });
+}
+
+function closeResultMask() {
+  if (typeof htmlMask === "undefined" || !htmlMask) {
+    return;
+  }
+  let winId = resultMaskWindowId || RESULT_MASK_ID;
+  if (!winId) {
+    return;
+  }
+  try {
+    if (htmlMask.exists(winId)) {
+      htmlMask.close(winId);
+    }
+  } catch (error) {
+    log.warn(`关闭HTML遮罩失败: ${error}`);
+  }
+}
 
 /* 加载数据
 * @returns {Object} - 返回解析后的数据对象
@@ -160,7 +288,8 @@ function parseOcrTexts(texts) {
     let content = cleaned.slice(colonIndex + 1).trim();
     if (!content) {
       continue;
-    }    let category = detectCategory(prefix);
+    }
+    let category = detectCategory(prefix);
     // 没有“前两字/首字”标记时，认为是完整台词
     let isFull = prefix.indexOf("（前两字）") < 0
       && prefix.indexOf("(前两字)") < 0
@@ -194,6 +323,21 @@ function detectCategory(prefix) {
   if (p.includes("天赋")) {
     return "talent";
   }
+  if (p.includes("传说任务") || p.includes("个人任务")) {
+    return "legendQuest";
+  }
+  if (p.includes("特殊料理")) {
+    return "specialDish";
+  }
+  if (p.includes("拾枝杂谈")) {
+    return "miscellany";
+  }
+  if (p === "PV" || p.includes("角色PV")) {
+    return "pv";
+  }
+  if (p === "EP" || p.includes("角色EP")) {
+    return "ep";
+  }
   return "unknown";
 }
 
@@ -210,10 +354,36 @@ function isDialogueKey(key) {
     || key.indexOf("语音") >= 0
     || key.indexOf("命之座") >= 0
     || key.indexOf("天赋") >= 0
+    || key.indexOf("传说任务") >= 0
+    || key.indexOf("特殊料理") >= 0
+    || key.indexOf("拾枝杂谈") >= 0
+    || key === "PV"
+    || key === "EP"
     || key.indexOf("鍙拌瘝") >= 0;
 }
 
+function isDisplayInfoKey(key) {
+  return key.indexOf("角色") >= 0
+    || key === "性别"
+    || key === "星级"
+    || key === "武器类型"
+    || key === "国家"
+    || key === "元素类型"
+    || key.indexOf("瑙掕壊") >= 0
+    || key.indexOf("鎬у埆") >= 0
+    || key.indexOf("鏄熺骇") >= 0
+    || key.indexOf("姝﹀櫒") >= 0
+    || key.indexOf("鍥藉") >= 0
+    || key.indexOf("鍏冪礌") >= 0;
+}
+
 function getName(item) {
+  if (item && typeof item["角色名"] === "string" && item["角色名"]) {
+    return item["角色名"];
+  }
+  if (item && item["信息"] && typeof item["信息"]["角色名"] === "string" && item["信息"]["角色名"]) {
+    return item["信息"]["角色名"];
+  }
   let keys = Object.keys(item || {});
   for (let i = 0; i < keys.length; i++) {
     let k = keys[i];
@@ -226,8 +396,23 @@ function getName(item) {
 
 function buildCharacterInfo(item) {
   let info = {};
+  if (item && item["信息"] && typeof item["信息"] === "object") {
+    for (let key in item["信息"]) {
+      if (isDisplayInfoKey(key)) {
+        info[key] = item["信息"][key];
+      }
+    }
+    if (!info["角色名"] && item["角色名"]) {
+      info["角色名"] = item["角色名"];
+    }
+    return info;
+  }
+
   for (let key in item) {
     if (isDialogueKey(key)) {
+      continue;
+    }
+    if (!isDisplayInfoKey(key)) {
       continue;
     }
     info[key] = item[key];
@@ -303,47 +488,131 @@ function lcsLength(a, b) {
   }
   return prev[n];
 }
+
+function addLineValues(out, values) {
+  if (Array.isArray(values)) {
+    for (let i = 0; i < values.length; i++) {
+      addLineValues(out, values[i]);
+    }
+    return;
+  }
+  if (typeof values === "string" && values.trim()) {
+    out.push(values);
+  }
+}
+
+function addNestedLines(out, item, category) {
+  if (!item || typeof item !== "object") {
+    return;
+  }
+
+  let voice = item["台词"];
+  if (voice && typeof voice === "object") {
+    if (category === "elementSkill" || category === "unknown") {
+      addLineValues(out, voice["元素战技"]);
+    }
+    if (category === "elementBurst" || category === "unknown") {
+      addLineValues(out, voice["元素爆发"]);
+    }
+    if (category === "joinVoice" || category === "unknown") {
+      addLineValues(out, voice["入队语音"]);
+    }
+    if (category === "fallVoice" || category === "unknown") {
+      addLineValues(out, voice["倒下语音"]);
+    }
+    if (category === "chestVoice" || category === "unknown") {
+      addLineValues(out, voice["宝箱语音"]);
+    }
+  }
+
+  if (category === "constellation" || category === "unknown") {
+    addLineValues(out, item["命之座"]);
+  }
+  if (category === "talent" || category === "unknown") {
+    addLineValues(out, item["天赋"]);
+  }
+
+  let info = item["信息"];
+  if (info && typeof info === "object") {
+    if (category === "legendQuest" || category === "unknown") {
+      addLineValues(out, info["传说任务"]);
+    }
+    if (category === "specialDish" || category === "unknown") {
+      addLineValues(out, info["特殊料理"]);
+    }
+    if (category === "miscellany" || category === "unknown") {
+      addLineValues(out, info["拾枝杂谈"]);
+    }
+    if (category === "pv" || category === "unknown") {
+      addLineValues(out, info["PV"]);
+    }
+    if (category === "ep" || category === "unknown") {
+      addLineValues(out, info["EP"]);
+    }
+  }
+}
+
+function allowLegacyKey(key, category) {
+  if (!key || !isDialogueKey(key)) {
+    return false;
+  }
+  switch (category) {
+    case "elementSkill":
+      return key.indexOf("元素战技台词") >= 0;
+    case "elementBurst":
+      return key.indexOf("元素爆发台词") >= 0;
+    case "joinVoice":
+      return key.indexOf("入队语音") >= 0;
+    case "fallVoice":
+      return key.indexOf("倒下语音") >= 0;
+    case "chestVoice":
+      return key.indexOf("宝箱语音") >= 0;
+    case "constellation":
+      return key.indexOf("命之座") >= 0;
+    case "talent":
+      return key.indexOf("天赋") >= 0;
+    case "legendQuest":
+      return key.indexOf("传说任务") >= 0;
+    case "specialDish":
+      return key.indexOf("特殊料理") >= 0;
+    case "miscellany":
+      return key.indexOf("拾枝杂谈") >= 0;
+    case "pv":
+      return key === "PV";
+    case "ep":
+      return key === "EP";
+    default:
+      return true;
+  }
+}
+
+function getCandidateLines(item, category) {
+  let lines = [];
+  addNestedLines(lines, item, category);
+
+  for (let key in item) {
+    if (!allowLegacyKey(key, category)) {
+      continue;
+    }
+    addLineValues(lines, item[key]);
+  }
+
+  return lines;
+}
+
 function findCharactersByLine(parsed, data) {
   let matches = [];
   if (!parsed || !parsed.content || !data) {
     return matches;
   }
-  let allowKey = (key) => {
-    if (!key || !isDialogueKey(key)) {
-      return false;
-    }
-    switch (parsed.category) {
-      case "elementSkill":
-        return key.indexOf("元素战技台词") >= 0;
-      case "elementBurst":
-        return key.indexOf("元素爆发台词") >= 0;
-      case "joinVoice":
-        return key.indexOf("入队语音") >= 0;
-      case "fallVoice":
-        return key.indexOf("倒下语音") >= 0;
-      case "chestVoice":
-        return key.indexOf("宝箱语音") >= 0;
-      case "constellation":
-        return key.indexOf("命之座") >= 0;
-      case "talent":
-        return key.indexOf("天赋") >= 0;
-      default:
-        return true;
-    }
-  };
 
   let collectMatches = (isFullFlag) => {
     let out = [];
     for (let i = 0; i < data.length; i++) {
       let item = data[i];
-      for (let key in item) {
-        if (!allowKey(key)) {
-          continue;
-        }
-        let val = item[key];
-        if (typeof val !== "string" || !val) {
-          continue;
-        }
+      let lines = getCandidateLines(item, parsed.category);
+      for (let j = 0; j < lines.length; j++) {
+        let val = lines[j];
         if (isMatch(parsed.content, val, isFullFlag)) {
           out.push({
             name: getName(item),
@@ -387,8 +656,80 @@ function findCharactersByLine(parsed, data) {
   return matches;
 }
 
+function getDisplayEntries(info, name) {
+  let entries = [];
+  let hasName = false;
+  for (let key in info) {
+    let value = info[key];
+    if (isNameKey(key)) {
+      value = name || value;
+      hasName = true;
+    }
+    if (value === undefined || value === null || String(value).trim() === "") {
+      continue;
+    }
+    entries.push({ key, value: String(value) });
+  }
+  if (!hasName && name) {
+    entries.unshift({ key: "角色名", value: String(name) });
+  }
+  return entries;
+}
+
+function getBriefParts(info, name) {
+  let parts = [];
+  for (let key in info) {
+    let value = info[key];
+    if (isNameKey(key)) {
+      continue;
+    }
+    if (value === undefined || value === null || String(value).trim() === "") {
+      continue;
+    }
+    parts.push(String(value));
+  }
+  return parts;
+}
+
+function buildResultPayload(matches) {
+  let onlyName = isSettingEnabled("onlyName", false);
+  let mode = onlyName ? "name" : (matches.length < 3 ? "full" : "brief");
+  let items = [];
+  for (let i = 0; i < matches.length; i++) {
+    let m = matches[i];
+    let info = m.info || {};
+    items.push({
+      name: String(m.name || ""),
+      details: getDisplayEntries(info, m.name),
+      brief: getBriefParts(info, m.name)
+    });
+  }
+  return {
+    mode,
+    count: matches.length,
+    easterEgg: matches.length > 20 ? "不是哥们？这我猜集贸啊？" : "",
+    backgroundOpacity: getNumericSetting("maskBackgroundOpacity", 0.78, 0, 1),
+    matches: items,
+    time: Date.now()
+  };
+}
+
+function showMatchesInResultMask(matches) {
+  if (!matches || matches.length === 0) {
+    return false;
+  }
+  return sendResultMask("/guess-character/result", buildResultPayload(matches));
+}
+
 function logMatches(matches) {
   if (!matches || matches.length === 0) {
+    return;
+  }
+
+  if (showMatchesInResultMask(matches)) {
+    if (matches.length > 20) {
+      log.info("不是哥们？这我猜集贸啊？");
+    }
     return;
   }
 
@@ -416,6 +757,9 @@ function logMatches(matches) {
 
   if (matches.length >= 2) {
     log.info(`命中数量: ${matches.length}`);
+  }
+  if (matches.length > 20) {
+    log.info("不是哥们？这我猜集贸啊？");
   }
 }
 

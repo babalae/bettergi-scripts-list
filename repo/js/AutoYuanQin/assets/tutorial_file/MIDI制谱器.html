@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MIDI制谱器 · AutoYuanQin 智能适配</title>
+    <title>MIDI制谱器 · AutoYuanQin 适配</title>
     <style>
         * {
             box-sizing: border-box;
@@ -423,12 +423,12 @@
 </head>
 <body>
 <div class="card">
-    <h1>🎹 MIDI制谱器 <small>for JS脚本: AutoYuanQin</small></h1>
+    <h1>MIDI制谱器<small>for JS脚本: AutoYuanQin</small></h1>
     <div class="sub">支持多音轨勾选合并，独立八度偏移</div>
 
     <!-- 文件上传区 -->
     <div class="upload-area">
-        <label for="midiFile" class="file-label">📂 选择 MIDI 文件</label>
+        <label for="midiFile" class="file-label">选择 MIDI 文件</label>
         <input type="file" id="midiFile" accept=".mid,.midi" style="display: none;">
         <span id="file-name">未选择任何文件</span>
     </div>
@@ -437,15 +437,15 @@
     <div class="two-cols">
         <!-- 左侧：通道选择 + 预览控制 + 八度偏移显示 + 自动偏移开关 -->
         <div class="track-panel">
-            <div class="section-title"><span>🎶 音轨通道</span><span class="badge" id="track-count">0</span></div>
+            <div class="section-title"><span>音轨通道</span><span class="badge" id="track-count">0</span></div>
             <div id="track-list-container" class="track-list">
                 <!-- 动态生成轨道选项 -->
             </div>
-            <div style="color:#a2bbd3; font-size:0.85rem; padding:6px 0;"> ☑️ 勾选需要合并的音轨（多选）</div>
+            <div style="color:#a2bbd3; font-size:0.85rem; padding:6px 0;"> 勾选需要合并的音轨（多选）</div>
             <div style="margin-top:10px; background:#1d3140; border-radius:30px; padding:8px 12px; color:#bad2eb;">
-                <span>📊 原始范围: </span><span id="note-range-orig">—</span><br>
-                <span>🔁 合并偏移: </span><span id="best-shift">各轨独立计算</span><br>
-                <span>🎯 调整后范围: </span><span id="note-range-adjusted">—</span>
+                <span>原始范围: </span><span id="note-range-orig">—</span><br>
+                <span>合并偏移: </span><span id="best-shift">各轨独立计算</span><br>
+                <span>调整后范围: </span><span id="note-range-adjusted">—</span>
             </div>
             <!-- 独立偏移详细列表 -->
             <div id="shift-detail-container" class="shift-detail" style="display: none;"></div>
@@ -453,21 +453,21 @@
             <!-- 自动八度偏移开关 + 信息图标 -->
             <div class="shift-option">
                 <input type="checkbox" id="auto-shift-checkbox" checked>
-                <label for="auto-shift-checkbox">✨ 启用自动八度偏移 (各轨独立优化)</label>
-                <span class="info-icon" id="shift-info-icon" title="点击查看说明">ⓘ</span>
+                <label for="auto-shift-checkbox">启用自动八度偏移 (各轨独立优化)</label>
+                <span class="info-icon" id="shift-info-icon" title="点击查看说明">?</span>
             </div>
 
             <!-- 预览控制按钮组 -->
             <div class="preview-controls">
-                <button class="preview-btn play" id="play-preview-btn">▶ 播放</button>
-                <button class="preview-btn stop" id="stop-preview-btn">⏹ 停止</button>
+                <button class="preview-btn play" id="play-preview-btn">播放</button>
+                <button class="preview-btn stop" id="stop-preview-btn">停止</button>
             </div>
             <div class="shift-indicator" id="shift-info">自动八度偏移已启用（各轨独立）</div>
         </div>
 
         <!-- 右侧：曲谱元信息编辑 + 只读元数据显示 -->
         <div class="info-panel">
-            <div class="section-title">✏️ 曲谱元信息</div>
+            <div class="section-title">曲谱元信息</div>
             <div class="input-grid">
                 <label>歌曲名</label>
                 <input type="text" id="score-name" value="默认曲谱" placeholder="自定义曲谱名称">
@@ -482,7 +482,7 @@
                     <option value="晚风圆号">晚风圆号</option>
                     <option value="聚聚鼓">聚聚鼓</option>
                     <option value="悠可琴">悠可琴</option>
-                    <option value="「余音」">「余音」</option>
+                    <option value="余音">「余音」</option>
                     <option value="跃律琴">跃律琴</option>
                     <option value="谐律键琴">谐律键琴</option>
                 </select>
@@ -504,6 +504,7 @@
             <div class="meta-readonly">
                 <span><strong>BPM:</strong> <input type="number" id="bpm-input" min="1" max="400" value="120" style="width:80px; background:#1d2e3b; color:white; border:1px solid #4f6c84; border-radius:20px; padding:4px 8px; text-align:center;"> <span id="meta-bpm" style="display:none;">120</span></span>
                 <span><strong>拍号:</strong> <span id="meta-timesig">4/4</span></span>
+                <span><strong>Ticks:</strong> <span id="meta-ticks">—</span></span>
                 <span><strong>类型:</strong> midi</span>
             </div>
         </div>
@@ -511,15 +512,15 @@
 
     <!-- 操作按钮组 (按钮文字已修改) -->
     <div class="action-buttons">
-        <button class="btn" id="preview-btn">🎧 预览选中轨道</button>
-        <button class="btn btn-primary" id="convert-btn">⚡ 生成 JSON 曲谱</button>
+        <button class="btn" id="preview-btn">预览选中轨道</button>
+        <button class="btn btn-primary" id="convert-btn">生成 JSON 曲谱</button>
     </div>
 
     <!-- 预览与下载 -->
     <div class="preview-area">
         <div class="preview-header">
-            <span>🔍 预览输出的JSON文件</span>
-            <button class="download-btn" id="download-btn">⬇️ 下载 JSON</button>
+            <span>预览输出的JSON文件</span>
+            <button class="download-btn" id="download-btn">下载 JSON</button>
         </div>
         <div id="json-output">点击「生成」查看结果</div>
     </div>
@@ -577,8 +578,9 @@
     let currentMidi = null;           // 解析后的midi对象
     let selectedTrackIndexes = [];    // 存储选中的多个音轨索引
     let tracksInfo = [];               // 存储每个轨道的事件/音符（带绝对时间）
-    let mergedNotes = [];              // 存储合并后的音符（绝对时间轴）
+    let mergedNotes = [];              // 存储合并后的音符（使用ticks：startTick/endTick）
     let lastGeneratedJson = null;
+    let tempoEvents = []; // 每项 { tick: Number, bpm: Number }
 
     // 全局元数据 (从MIDI提取)
     let globalBpm = 120;
@@ -606,13 +608,12 @@
     const shiftInfoSpan = document.getElementById('shift-info');
     const metaBpmSpan = document.getElementById('meta-bpm');
     const metaTimesigSpan = document.getElementById('meta-timesig');
+    const metaTicksSpan = document.getElementById('meta-ticks');
     const autoShiftCheckbox = document.getElementById('auto-shift-checkbox');
     const shiftInfoIcon = document.getElementById('shift-info-icon');
 
-    // 新增BPM输入框
+    // 输入控件
     const bpmInput = document.getElementById('bpm-input');
-
-    // UI 输入字段（新增作者）
     const scoreName = document.getElementById('score-name');
     const scoreInstrument = document.getElementById('score-instrument');
     const scoreDescription = document.getElementById('score-description');
@@ -624,7 +625,7 @@
     function countTrackNotes(track) {
         let noteCount = 0;
         let pendingNotes = new Map(); // key: channel-note, value: startTicks
-        
+
         track.events.forEach(ev => {
             if (ev.noteOn && ev.noteOn.velocity > 0) {
                 const key = `${ev.noteOn.channel}-${ev.noteOn.noteNumber}`;
@@ -633,69 +634,83 @@
                 const noteNum = ev.noteOff ? ev.noteOff.noteNumber : ev.noteOn.noteNumber;
                 const channel = ev.noteOff ? ev.noteOff.channel : ev.noteOn.channel;
                 const key = `${channel}-${noteNum}`;
-                
+
                 if (pendingNotes.has(key)) {
                     noteCount++;
                     pendingNotes.delete(key);
                 }
             }
         });
-        
+
         // 统计未关闭的音符（MIDI文件可能不完整）
         noteCount += pendingNotes.size;
-        
+
         return noteCount;
     }
 
     // 辅助函数：从MIDI提取BPM和拍号并更新显示
     function updateGlobalMetaFromMidi() {
         if (!currentMidi) return;
-        // 提取BPM
+        // 提取BPM并收集 tempo 事件
         let bpm = 120;
-        for (let track of currentMidi.tracks) {
+        tempoEvents = [];
+
+        // 遍历所有轨道，累加 delta 以获得绝对 tick（parser 已经在事件上设置 absTime，但我们双保险）
+        for (let t = 0; t < currentMidi.tracks.length; t++) {
+            const track = currentMidi.tracks[t];
+            let abs = 0;
             for (let ev of track.events) {
+                // 使用 parser 的 absTime 优先，否则累加 delta
+                const tick = (typeof ev.absTime === 'number') ? ev.absTime : (abs += ev.delta || 0, abs);
                 if (ev.meta && ev.type === 0x51 && ev.tempo) {
-                    let microPerBeat = ev.tempo;
-                    bpm = Math.round(60000000 / microPerBeat);
-                    break;
-            }}
-        }
-        // 提取拍号
-        let timesig = '4/4';
-        for (let track of currentMidi.tracks) {
-            for (let ev of track.events) {
+                    // ev.tempo 是 microseconds per quarter note (3 bytes)
+                    const microPerBeat = ev.tempo;
+                    const foundBpm = Math.round(60000000 / microPerBeat);
+                    tempoEvents.push({ tick: tick, bpm: foundBpm });
+                    if (tempoEvents.length === 1) bpm = foundBpm; // 首个 tempo 作为全局默认
+                }
                 if (ev.meta && ev.type === 0x58 && ev.numerator && ev.denominator) {
-                    timesig = `${ev.numerator}/${ev.denominator}`;
-                    break;
-            }}
+                    // 直接更新拍号（若在多个轨道出现，优先第一个遇到的）
+                    globalTimeSig = `${ev.numerator}/${ev.denominator}`;
+                }
+            }
         }
+
+        // 去重：移除相邻重复的 tempo，只保留真正变化点（保持出现顺序）
+        if (tempoEvents.length > 1) {
+            const uniq = [tempoEvents[0]];
+            for (let i = 1; i < tempoEvents.length; i++) {
+                if (tempoEvents[i].bpm !== uniq[uniq.length - 1].bpm) uniq.push(tempoEvents[i]);
+            }
+            tempoEvents = uniq;
+        }
+
         globalBpm = bpm;
-        globalTimeSig = timesig;
-        metaBpmSpan.textContent = globalBpm;          // 隐藏的span仍然更新
-        bpmInput.value = globalBpm;                   // 可编辑输入框同步
-        metaTimesigSpan.textContent = globalTimeSig;
+        // 更新 UI（原文件存在这些元素）
+        if (metaBpmSpan) metaBpmSpan.textContent = globalBpm;
+        if (bpmInput) bpmInput.value = globalBpm;
+        if (metaTimesigSpan) metaTimesigSpan.textContent = globalTimeSig;
+        const headerTicks = (currentMidi && currentMidi.header && currentMidi.header.ticksPerBeat) ? currentMidi.header.ticksPerBeat : '—';
+        if (metaTicksSpan) metaTicksSpan.textContent = headerTicks;
     }
 
-    // 修复1：精准合并选中音轨的音符（基于全局绝对时间轴）
+    // 精准合并选中音轨的音符，并通过时长比例检测跳音
     function mergeSelectedTrackNotes() {
-        if (selectedTrackIndexes.length === 0 || !currentMidi || tracksInfo.length === 0) {
+        if (selectedTrackIndexes.length === 0 || !currentMidi || currentMidi.tracks.length === 0) {
             mergedNotes = [];
             return;
         }
 
-        // 统一的时间基准：基于MIDI的ticksPerBeat和全局BPM
-        const ticksPerBeat = currentMidi.header.ticksPerBeat || 480;
-        const microPerBeat = 60000000 / globalBpm; // 微秒/拍
-        const secPerTick = microPerBeat / 1000000 / ticksPerBeat; // 秒/tick
+        const ticksPerBeat = currentMidi.header.ticksPerBeat || 480; // 用于预览转换
 
-        // 收集所有选中音轨的音符（转换为全局绝对时间）
+        // 收集所有选中音轨的音符（使用轨道内绝对ticks）
         let allNotes = [];
         selectedTrackIndexes.forEach(idx => {
             const track = currentMidi.tracks[idx];
             if (!track) return;
 
             let trackAbsTicks = 0; // 轨道内绝对ticks
-            let pendingNotes = new Map(); // key: channel-note, value: startTicks
+            let pendingNotes = new Map(); // key: channel-note, value: startTick
 
             track.events.forEach(ev => {
                 trackAbsTicks += ev.delta; // 累加delta得到轨道内绝对ticks
@@ -707,30 +722,70 @@
                     const noteNum = ev.noteOff ? ev.noteOff.noteNumber : ev.noteOn.noteNumber;
                     const channel = ev.noteOff ? ev.noteOff.channel : ev.noteOn.channel;
                     const key = `${channel}-${noteNum}`;
-                    
+
                     if (pendingNotes.has(key)) {
                         const startTicks = pendingNotes.get(key);
                         const endTicks = trackAbsTicks;
-                        
-                        // 转换为全局绝对时间（毫秒）
-                        const startMs = Math.round(startTicks * secPerTick * 1000);
-                        const endMs = Math.round(endTicks * secPerTick * 1000);
 
-                        if (endMs > startMs) { // 过滤无效音符
+                        if (endTicks > startTicks) { // 过滤无效音符
                             allNotes.push({
                                 pitch: noteNum,
-                                startMs: startMs,
-                                endMs: endMs
+                                startTick: startTicks,
+                                endTick: endTicks,
+                                channel: channel,
+                                trackIndex: idx,
+                                isStaccato: false,
+                                fullDuration: 0
                             });
                         }
                         pendingNotes.delete(key);
                     }
                 }
             });
+
+            // 将未关闭的音符也视为有效（截至轨道末尾）
+            pendingNotes.forEach((startTicks, key) => {
+                allNotes.push({
+                    pitch: parseInt(key.split('-')[1], 10),
+                    startTick: startTicks,
+                    endTick: startTicks + ticksPerBeat,
+                    trackIndex: idx,
+                    channel: parseInt(key.split('-')[0], 10),
+                    isStaccato: false,
+                    fullDuration: 0
+                });
+            });
         });
 
-        // 按开始时间排序，确保时间轴有序
-        mergedNotes = allNotes.sort((a, b) => a.startMs - b.startMs);
+        // 按开始tick排序
+        allNotes.sort((a, b) => a.startTick - b.startTick);
+
+        // 按 channel + trackIndex 分组
+        const sequenceMap = {};
+        allNotes.forEach(n => {
+            const k = `${n.trackIndex}-${n.channel}-${n.pitch}`;
+            if (!sequenceMap[k]) sequenceMap[k] = [];
+            sequenceMap[k].push(n);
+        });
+
+        Object.values(sequenceMap).forEach(seq => {
+          seq.sort((a, b) => a.startTick - b.startTick);
+          for (let i = 0; i < seq.length - 1; i++) {
+            const curr = seq[i];
+            const next = seq[i + 1];
+            const slot = next.startTick - curr.startTick;
+            const duration = curr.endTick - curr.startTick;
+            if (slot > 0 && duration > 0 && duration < slot * 0.8) {
+              const ratioNum = duration / slot;
+              if (ratioNum >= 0.3 && ratioNum <= 0.7) {
+                curr.isStaccato = true;
+                curr.fullDuration = slot;
+              }
+            }
+           }
+         });
+
+        mergedNotes = allNotes;
     }
 
     // 根据复选框状态获取实际要使用的偏移量
@@ -740,37 +795,38 @@
         return computeBestOctaveShift(mergedNotes);
     }
 
-    // 更新UI上关于偏移的显示
+    // 更新UI上关于偏移的显示，并增加跳音统计
     function updateShiftDisplay() {
         const enabled = autoShiftCheckbox.checked;
         const shift = enabled ? computeBestOctaveShift(mergedNotes) : 0;
-        
+        const staccatoCount = mergedNotes.filter(n => n.isStaccato).length;
+
         if (mergedNotes.length > 0) {
             const pitches = mergedNotes.map(n => n.pitch);
             const minPitch = Math.min(...pitches);
             const maxPitch = Math.max(...pitches);
             const adjustedMin = minPitch + shift * 12;
             const adjustedMax = maxPitch + shift * 12;
-            
+
             noteRangeOrigSpan.textContent = `${minPitch} ~ ${maxPitch}`;
             noteRangeAdjSpan.textContent = `${adjustedMin} ~ ${adjustedMax} (限制36-71)`;
-            
+
             const shiftStr = shift === 0 ? '0 (原调)' : (shift > 0 ? `+${shift} 八度` : `${shift} 八度`);
-            bestShiftSpan.textContent = shiftStr;
+            bestShiftSpan.textContent = `${shiftStr} | 跳音: ${staccatoCount} 个`;
         } else {
             noteRangeOrigSpan.textContent = '—';
             noteRangeAdjSpan.textContent = '—';
             bestShiftSpan.textContent = '0';
         }
-        
-        shiftInfoSpan.textContent = enabled ? '✨ 自动八度偏移已启用' : '⛔ 自动八度偏移已禁用';
-        playPreviewBtn.textContent = enabled ? '▶ 播放' : '▶ 播放(原调)';
+
+        shiftInfoSpan.textContent = enabled ? '自动八度偏移已启用' : '自动八度偏移已禁用';
+        playPreviewBtn.textContent = enabled ? '播放' : '播放(原调)';
     }
 
     // 信息图标点击事件：弹出说明
-    shiftInfoIcon.addEventListener('click', function(e) {
-        e.stopPropagation(); 
-        alert('双音轨已基于全局绝对时间轴合并，预览/生成的JSON中两个音轨的音符会按实际时间同时播放；超出27键的音会替换为@占位符，保留时长。');
+    shiftInfoIcon.addEventListener('click', function (e) {
+        e.stopPropagation();
+        alert('所选音轨已基于全局绝对ticks合并，生成的JSON的notes部分使用事件之间的ticks差值（非毫秒）。JSON.ticks字段来源于MIDI头部的ticks-per-beat。超出27键的音会替换为@占位符，保留时长。若MIDI中某音符的实际发声时长明显小于其到下一同通道音符起点的间隔（约30%~70%，典型50%），则自动识别为跳音，并在标准占位结束点插入D@休止占位，确保总拍长不变。');
     });
 
     // 处理文件选择
@@ -788,10 +844,10 @@
             const uint8 = new Uint8Array(arrayBuffer);
             try {
                 currentMidi = window.MidiParser.parse(uint8);
-                updateGlobalMetaFromMidi();  
+                updateGlobalMetaFromMidi();
                 // 初始化轨道信息（统计每个轨道的音符数量）
-                tracksInfo = currentMidi.tracks.map((track, idx) => ({ 
-                    index: idx, 
+                tracksInfo = currentMidi.tracks.map((track, idx) => ({
+                    index: idx,
                     notes: [],
                     noteCount: countTrackNotes(track) // 统计音符数量
                 }));
@@ -809,7 +865,7 @@
         reader.readAsArrayBuffer(file);
     });
 
-    // 修复2：修复复选框逻辑（无选中时不提示上限）+ 显示正确的音符数量
+    // 修复复选框逻辑（无选中时不提示上限）+ 显示正确的音符数量
     function renderTrackList() {
         trackContainer.innerHTML = '';
         if (!currentMidi) return;
@@ -822,28 +878,19 @@
             div.innerHTML = `
                 <input type="checkbox" name="trackCheckbox" value="${idx}" ${isSelected ? 'checked' : ''}>
                 <span>音轨 ${idx}</span>
-                <span class="badge">🎵 ${noteCount} 音符</span>
+                <span class="badge">${noteCount} 音符</span>
             `;
-
             div.addEventListener('click', (e) => {
                 const checkbox = div.querySelector('input');
                 if (e.target.tagName !== 'INPUT') {
                     checkbox.checked = !checkbox.checked;
                 }
 
-                // 核心修复：先判断当前状态，再处理上限
+                // 支持多音轨选择：移除对最多两个音轨的限制，允许任意数量的选择
                 const willCheck = checkbox.checked;
                 if (willCheck) {
-                    // 勾选时才判断上限
-                    if (selectedTrackIndexes.length >= 2) {
-                        alert('最多只能选择两个音轨！');
-                        checkbox.checked = false;
-                        return;
-                    }
-                    // 新增选中
-                    selectedTrackIndexes.push(idx);
+                    if (!selectedTrackIndexes.includes(idx)) selectedTrackIndexes.push(idx);
                 } else {
-                    // 取消勾选：直接移除
                     selectedTrackIndexes = selectedTrackIndexes.filter(i => i !== idx);
                 }
 
@@ -869,15 +916,17 @@
             alert('请选择至少一个音轨');
             return;
         }
-        
+
         let msg = `已选中 ${selectedTrackIndexes.length} 个音轨：\n`;
-        let totalNotes = 0;
+        let totalStaccato = 0;
         selectedTrackIndexes.forEach(idx => {
             const noteCount = tracksInfo[idx]?.noteCount || 0;
             msg += `- 音轨 ${idx}: ${noteCount} 个音符\n`;
-            totalNotes += noteCount;
         });
+        const totalNotes = mergedNotes.length;
+        totalStaccato = mergedNotes.filter(n => n.isStaccato).length;
         msg += `\n合并后总音符数: ${totalNotes}`;
+        msg += `\n识别到跳音: ${totalStaccato} 个`;
         msg += `\n当前八度偏移: ${getCurrentOctaveShift()}`;
         alert(msg);
     });
@@ -913,8 +962,18 @@
         const shift = getCurrentOctaveShift();
         const oscs = [];
 
-        // 找出最晚结束时间
-        let maxEndMs = Math.max(...mergedNotes.map(n => n.endMs));
+        // 需要从ticks转换为秒
+        const ticksPerBeat = currentMidi.header.ticksPerBeat || 480;
+        const currentBpm = parseInt(bpmInput.value, 10) || globalBpm;
+        const microPerBeat = 60000000 / currentBpm; // 微秒/拍
+        const secPerTick = microPerBeat / 1000000 / ticksPerBeat; // 秒/tick
+
+        // 找出最晚结束时间（ms）
+        let maxEndMs = 0;
+        mergedNotes.forEach(n => {
+            const endMs = Math.round(n.endTick * secPerTick * 1000);
+            if (endMs > maxEndMs) maxEndMs = endMs;
+        });
 
         mergedNotes.forEach(n => {
             // 应用八度偏移
@@ -924,19 +983,21 @@
 
             // 计算频率
             const freq = 440 * Math.pow(2, (validPitch - 69) / 12);
-            
+
             const osc = audioCtx.createOscillator();
             osc.type = 'sine';
             osc.frequency.value = freq;
-            
+
             const gain = audioCtx.createGain();
             gain.gain.value = 0.08;
             osc.connect(gain).connect(audioCtx.destination);
 
-            // 基于绝对时间播放
-            const startSec = startTime + (n.startMs / 1000);
-            const endSec = startTime + (n.endMs / 1000);
-            
+            // 基于ticks->毫秒转换播放
+            const startMs = Math.round(n.startTick * secPerTick * 1000);
+            const endMs = Math.round(n.endTick * secPerTick * 1000);
+            const startSec = startTime + (startMs / 1000);
+            const endSec = startTime + (endMs / 1000);
+
             try {
                 osc.start(startSec);
                 osc.stop(endSec);
@@ -954,44 +1015,69 @@
     playPreviewBtn.addEventListener('click', playPreview);
     stopPreviewBtn.addEventListener('click', stopPreview);
 
-    // 修复3：生成notes字符串（修改on/off为D/U）
+    // 生成 notes 字符串，支持跳音处理（D@ 休止占位）
     function generateNotesString() {
-        if (mergedNotes.length === 0) return 'D_@_0';
+        if (mergedNotes.length === 0) return 'D@0';
 
         const shift = getCurrentOctaveShift();
-        // 生成所有音符的on/off事件
         let events = [];
+
+        // 收集按键事件
         mergedNotes.forEach(n => {
             const shiftedPitch = n.pitch + shift * 12;
             const validPitch = mapPitchToValid(shiftedPitch);
             const keyChar = validPitch ? KEY_MAP[validPitch] : '@';
 
-            // 按下事件 (on → D)
-            events.push({ timeMs: n.startMs, type: 'D', key: keyChar });
-            // 释放事件 (off → U)
-            events.push({ timeMs: n.endMs, type: 'U', key: keyChar });
+            // 按下
+            events.push({ tick: n.startTick, type: 'D', key: keyChar });
+
+            if (n.isStaccato && n.fullDuration > 0) {
+                // 实际抬起（发声结束，已提前）
+                events.push({ tick: n.endTick, type: 'U', key: keyChar });
+                // 在标准占位结束点插入 D@ 休止占位，确保总拍长
+                const placeholderTick = n.startTick + n.fullDuration;
+                if (placeholderTick > n.endTick) {
+                    events.push({ tick: placeholderTick, type: 'D', key: '@' });
+                }
+            } else {
+                events.push({ tick: n.endTick, type: 'U', key: keyChar });
+            }
         });
 
-        // 按绝对时间排序（关键：确保事件时间轴正确）
+        // 将 tempoEvents 插入事件流（若 tempoEvents 非空）
+        (tempoEvents || []).forEach(te => {
+            // 仅在有意义的 tick 范围内插入（可选，但通常安全）
+            events.push({ tick: te.tick, type: '*', bpm: te.bpm });
+        });
+
+        // 排序：按 tick 升序；相同 tick 时顺序 U -> D -> *（确保节拍变更通常出现在音符释放之后）
         events.sort((a, b) => {
-            if (a.timeMs !== b.timeMs) return a.timeMs - b.timeMs;
-            // 同时间先释放再按下，避免冲突
-            return a.type === 'U' ? -1 : 1;
+            if (a.tick !== b.tick) return a.tick - b.tick;
+            const order = { 'U': 0, 'D': 1, '*': 2 };
+            const oa = order[a.type] !== undefined ? order[a.type] : 3;
+            const ob = order[b.type] !== undefined ? order[b.type] : 3;
+            return oa - ob;
         });
 
-        // 转换为相对时间（原神脚本需要的格式）
-        let result = [];
-        let prevTime = 0;
+        // 构建字符串：对于 * 类型输出 "*<BPM>"（不附带等待数字），其它按原格式 D/U + key + wait
+        let resultParts = [];
+        let prevTick = 0;
         events.forEach(ev => {
-            const wait = Math.max(0, Math.round(ev.timeMs - prevTime));
-            result.push(`${ev.type}_${ev.key}_${wait}`);
-            prevTime = ev.timeMs;
+            const wait = Math.max(0, Math.round(ev.tick - prevTick));
+            if (ev.type === '*') {
+                // 插入节拍标记（纯数字），不附带等待数
+                resultParts.push(`*${ev.bpm}`);
+                prevTick = ev.tick;
+            } else {
+                resultParts.push(`${ev.type}${ev.key}${wait}`); // 例如 DQ13
+                prevTick = ev.tick;
+            }
         });
 
-        return result.join('|');
+        return resultParts.join('|');
     }
 
-    // 转换按钮（修改JSON格式：新增bpm字段，按钮文字已改）
+    // 转换按钮：生成JSON，保持原结构但ticks来源于MIDI头部ticks-per-beat
     convertBtn.addEventListener('click', () => {
         if (!currentMidi || selectedTrackIndexes.length === 0) {
             alert('请先选择MIDI文件并勾选音轨');
@@ -1002,13 +1088,8 @@
             return;
         }
 
-        // 计算选中音轨的总音符数
-        let totalTicks = 0;
-        selectedTrackIndexes.forEach(idx => {
-            totalTicks += tracksInfo[idx]?.noteCount || 0;
-        });
-
-        const notesStr = generateNotesString();
+        let notesStr = generateNotesString();
+        notesStr = mergeCodes(notesStr);
         const nameValue = scoreName.value.trim() || '默认曲谱';
         const instrumentValue = scoreInstrument.value;
         const descValue = scoreDescription.value.trim() || '曲谱信息';
@@ -1020,7 +1101,9 @@
         const currentBpm = parseInt(bpmInput.value, 10);
         const finalBpm = (currentBpm && !isNaN(currentBpm)) ? currentBpm : globalBpm;
 
-        // 修改后的JSON格式：新增bpm字段，ticks保持原有逻辑（音符数之和）
+        // ticks来自MIDI头部的ticksPerBeat
+        const headerTicks = currentMidi.header.ticksPerBeat || 480;
+
         const outputJson = {
             name: nameValue,
             author: authorValue,
@@ -1030,8 +1113,8 @@
             time_signature: globalTimeSig,
             composer: composerValue,
             arranger: arrangerValue,
-            bpm: finalBpm,                     // 新增bpm键
-            ticks: totalTicks,                  // 保持原意：选中音轨音符数之和
+            bpm: finalBpm,
+            ticks: headerTicks, // 改为MIDI header中的ticks-per-beat
             notes: notesStr
         };
 
@@ -1039,13 +1122,59 @@
         jsonOutput.textContent = JSON.stringify(outputJson, null, 2);
     });
 
-    // 下载 JSON
+    // 新增：将给定的notes字符串按照指定规则合并相邻代码项（从Python实现转换而来）
+    // mergeCodes 保持不变
+    function mergeCodes(s) {
+        if (typeof s !== 'string') return s;
+        const pattern = /^([DU])([A-Z]+)(\d+)$/;
+        const codes = s.split('|');
+        const merged = [];
+
+        for (let code of codes) {
+            const m = code.match(pattern);
+            if (!m) {
+                // 非匹配项直接保留原始字符串
+                merged.push({ raw: code });
+                continue;
+            }
+            const prefix = m[1];
+            const middle = m[2];
+            const numStr = m[3];
+            const num = parseInt(numStr, 10);
+
+            if (merged.length > 0 && merged[merged.length - 1].prefix === prefix) {
+                const last = merged[merged.length - 1];
+                const lastNum = parseInt(last.numStr, 10);
+                if ((lastNum === 0 || lastNum === 1) && (num === 0 || num === 1)) {
+                    // 合并：保留首字母(prefix)，拼接中间字母，数字取右侧项的数字
+                    last.middle = last.middle + middle;
+                    last.numStr = numStr;
+                    continue;
+                }
+            }
+
+            merged.push({ prefix: prefix, middle: middle, numStr: numStr });
+        }
+
+        const resultParts = merged.map(item => {
+            if (item.raw !== undefined) return item.raw;
+            return `${item.prefix}${item.middle}${item.numStr}`;
+        });
+
+        return resultParts.join('|');
+    }
+
+    // 下载 JSON（在提供下载前先对notes字段做mergeCodes处理）
     downloadBtn.addEventListener('click', () => {
         if (!lastGeneratedJson) {
             alert('请先生成JSON');
             return;
         }
-        const jsonStr = JSON.stringify(lastGeneratedJson, null, 2);
+        // 在下载前处理notes字段
+        const processedNotes = mergeCodes(lastGeneratedJson.notes);
+        const jsonObjForDownload = Object.assign({}, lastGeneratedJson, { notes: processedNotes });
+
+        const jsonStr = JSON.stringify(jsonObjForDownload, null, 2);
         const blob = new Blob([jsonStr], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
