@@ -1,0 +1,61 @@
+//作者：一时兴起
+//参考：火山老师万能策略
+
+
+//公版BGI设置要求
+//自动检测战斗结束：开启
+//更快检查结束战斗：关闭（一定要关闭！！）
+
+//旋转寻找敌人位置：开启（旋转速度条先拉到最右，再往左一格）
+//Q 前检测：开启
+//尝试面向敌人：开启
+
+//检查战斗结束的延时：设置为 0.4
+//按键触发后检查延时：设置为 0.4
+
+
+//茶包版BGI设置要求
+//自动检测战斗结束：开启
+//更快检查结束战斗：关闭（一定要关闭！！）
+
+//旋转寻找敌人位置：开启（旋转速度条先拉到最右，再往左一格）
+//Q 前检测：开启
+//尝试面向敌人：开启
+//单次接近敌人行走时间(毫秒）：500
+//不等待旋转结束：开启
+
+//派蒙检测模式：开启，值：0.1（低配电脑调为0.15）
+//派蒙二次检查：关闭
+
+//要求60帧
+
+
+尼可 attack(0.1), keypress(q), wait(0.1), keypress(q), wait(0.1), keypress(q), wait(0.3), ready,check
+//盾奶位=尼可，用上边↑↑（不用动）；无盾奶位，用下边↓↓（自己替换）
+//尼可 e, wait(0.3), keypress(q), wait(0.1), keypress(q), wait(0.1), keypress(q), wait(0.3), ready,check
+
+茜特菈莉 e, wait(0.3), keypress(q), wait(0.1), keypress(q), wait(0.1), keypress(q), attack(0.3), ready,check
+
+玛薇卡 attack(0.08), wait(0.2), keydown(E), wait(0.4), wait(0.01), keyup(E), click(middle), wait(0.1), wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.3),mouseup(left),wait(0.1),keypress(q),wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),keypress(q),mousedown(left),wait(0.18),keypress(q),mousedown(right),wait(0.05),keypress(q),mouseup(right),wait(0.05),keypress(q),mouseup(left),wait(0.05),keypress(q),mousedown(left),wait(0.18),keypress(q),mousedown(right),wait(0.05),keypress(q),mouseup(right), wait(0.42),keypress(q),mouseup(left),wait(0.2),mousedown(left),wait(0.33),mouseup(left),wait(0.05),keypress(q),mousedown(left),wait(0.18),keypress(q),mousedown(right),wait(0.05),keypress(q),mouseup(right),wait(0.05),keypress(q),mouseup(left),wait(0.05),keypress(q),mousedown(left),wait(0.18),keypress(q),mousedown(right),wait(0.05),keypress(q),mouseup(right), wait(0.45),keypress(q),wait(0.55),keypress(q),mouseup(left),wait(0.2),wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(1),mouseup(left),wait(0.2),wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(1),mouseup(left),wait(0.2),wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.35),mouseup(left),wait(0.1)
+//双玛头，q前半轮、q里半轮、q后3轮半
+
+
+芙宁娜 e,attack(0.2), e, keypress(q), wait(0.2), keypress(q), attack(0.08),ready,check
+//非满命芙芙用上边↑↑（不用动）；满命芙芙用下边↓↓（自己替换）
+//芙宁娜 e,attack(0.2), e, keypress(q), wait(0.2), attack(0.2), keydown(s), attack(0.2), wait(0.1), keyup(s), attack(0.2),wait(0.1), keydown(w),attack(0.33),keyup(w), wait(0.1), keypress(q)
+
+
+枫原万叶 attack(0.08),keypress(q),wait(0.1),keypress(q),ready,wait(0.45),e(hold),wait(0.2),attack,wait(0.5),attack(0.1)
+
+
+//对于命座，均无要求（芙芙看命座选不同行策略）
+
+//建议带两个盾位，火神站场时间久，一盾难保
+//最佳体验队伍：尼可、奶奶、火神、万叶
+//其他备选队伍：必带火神，剩余3人从尼可、奶奶、芙芙、万叶中，4选3
+
+//奶奶和尼可都进队，奶奶带勇者，武器试作金珀，圣遗物精精精，充能尽量高些
+//只有奶奶而无尼可，奶奶用千岩，武器试作金珀，圣遗物精精精，充能尽量高些，200以上最好
+
+//免责声明：动作跟危战同款，因配队不同，伤害不同
+//特别提醒：本策略建议用来锄地，用于危战会丢伤害（火神大招难融化）
