@@ -63,6 +63,7 @@
      * @param {string} desc - 操作描述
      */
     async function withRetry(operation, maxRetries, desc) {
+        maxRetries = Math.max(0, maxRetries);
         let lastError;
         for (let attempt = 0; attempt <= maxRetries; attempt++) {
             try {
