@@ -1,0 +1,204 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1781617719752,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "21-绯樱绣球-影向山山底-5个",
+    "tags": [
+      "丽莎"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4377.85,
+      "y": -2501.14
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4372.6113,
+      "y": -2506.7158
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "5000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4383.38,
+      "y": -2603.49
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4383.89,
+      "y": -2620.81
+    },
+    {
+      "action": "combat_script",
+      "action_params": "芭芭拉 e;丽莎 attack,wait(0.5),attack,wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE);瓦雷莎 wait(0.15),charge,wait(0.55),attack(0.1),wait(1.5);八重神子 charge;",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4386.6738,
+      "y": -2631.291
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1),keypress(VK_SPACE),wait(1),keypress(VK_SPACE);瓦雷莎 wait(0.15),charge,wait(0.55),attack(0.1),wait(1.5);八重神子 charge;",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4386.6738,
+      "y": -2631.291
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4387.09,
+      "y": -2633.23
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),j,wait(0.8),j,wait(0.8),j,wait(0.8),j,wait(0.8),j,wait(0.2)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4387.09,
+      "y": -2633.23
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -4387.09,
+      "y": -2633.23
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -4362.02,
+      "y": -2673.33
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4333.0,
+      "y": -2633.65
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4312.34,
+      "y": -2624.69
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4312.34,
+      "y": -2624.69
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4375.67,
+      "y": -2498.13
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";白术 wait(0.3),e,wait(0.2),e,wait(0.2),e,wait(0.2); ;",
+      "id": 15,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": -4396.46,
+      "y": -2505.98
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4396.46,
+      "y": -2505.98
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "5000",
+      "id": 17,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -4407.22,
+      "y": -2584.41
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4405.2578,
+      "y": -2583.3008
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4406.98,
+      "y": -2583.19
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4406.98,
+      "y": -2583.19
+    }
+  ]
+}
