@@ -1,0 +1,22 @@
+{
+  "manifest_version": 1,
+  "name": "防休眠倒计时",
+  "version": "1.0",
+  "bgi_version": "0.60.0",
+  "description": "在游戏主界面等待/倒计时，期间每隔一段时间轻晃镜头防止电脑自动休眠或熄屏，到点后脚本结束、由调度器自动执行下一个任务。支持「相对倒计时」与「等到指定时钟时间」两种模式。适合等到版本更新/整点后再自动开始日常。",
+  "tags": [
+    "防休眠",
+    "保持唤醒",
+    "倒计时",
+    "定时",
+    "等待"
+  ],
+  "authors": [
+    {
+      "name": "Zongyeeeee",
+      "links": "https://github.com/Zongyeeeee"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}
