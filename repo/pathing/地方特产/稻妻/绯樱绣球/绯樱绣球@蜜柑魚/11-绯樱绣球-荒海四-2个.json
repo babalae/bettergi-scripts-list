@@ -1,0 +1,117 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1780758693560,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "11-绯樱绣球-荒海四-2个",
+    "tags": [
+      "久岐忍"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4041.6562,
+      "y": -2658.8701
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4217.63,
+      "y": -2397.2
+    },
+    {
+      "action": "combat_script",
+      "action_params": "; ;白术 wait(0.3),e,wait(0.2),e,wait(0.2),e,wait(0.2);",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": -4236,
+      "y": -2353
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4236,
+      "y": -2353
+    },
+    {
+      "action": "electro_collect",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4237.95,
+      "y": -2346.99
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.099)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4237.95,
+      "y": -2346.99
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4229.9258,
+      "y": -2351.5117
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4218.3633,
+      "y": -2344.2187
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4218.3633,
+      "y": -2344.2187
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4218.33,
+      "y": -2343.69
+    }
+  ]
+}

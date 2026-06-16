@@ -1,0 +1,90 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1775315678925,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "06-绯樱绣球-绀田村一-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4124.869999999999,
+      "y": -2755.130000000001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4129.9453125,
+      "y": -2775.919921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4132.499829573626,
+      "y": -2794.0625
+    },
+    {
+      "action": "electro_collect",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -4110.950000000001,
+      "y": -2804.5
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.099)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4110.950000000001,
+      "y": -2804.5
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4151.9000000000015,
+      "y": -2784.76
+    },
+    {
+      "action": "electro_collect",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -4231.189999999999,
+      "y": -2796.5
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4231.189999999999,
+      "y": -2796.5
+    }
+  ]
+}

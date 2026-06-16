@@ -1,0 +1,99 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774624517688,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "04-绯樱绣球-白狐之野一-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4231.96,
+      "y": -3001.52
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4226.31,
+      "y": -2990.79
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4152.04,
+      "y": -2962.98
+    },
+    {
+      "action": "electro_collect",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4147.71875,
+      "y": -2956.58984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.099)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4147.63,
+      "y": -2956.3
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4173.45703125,
+      "y": -2939.1962890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 7,
+      "move_mode": "run",
+      "type": "target",
+      "x": -4217.29296875,
+      "y": -2913.25
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4217.29296875,
+      "y": -2913.25
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4217.29296875,
+      "y": -2913.25
+    }
+  ]
+}

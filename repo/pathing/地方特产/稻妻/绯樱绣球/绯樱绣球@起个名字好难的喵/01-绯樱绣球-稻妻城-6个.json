@@ -1,0 +1,219 @@
+{
+  "info": {
+    "name": "01-绯樱绣球-稻妻城-6个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "丽莎、八重神子、瓦雷莎(不稳定)可采第4个，久歧忍漏第4个(大部分路径是久岐忍(二命行走/治疗位)可采集全，可带雷法器角色之一和久歧忍，久岐忍序号排前)",
+    "bgi_version": "0.42.3",
+    "tags": [
+      "丽莎",
+      "八重神子",
+      "瓦雷莎"
+    ],
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4491.99,
+      "y": -3208.13,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4478.3,
+      "y": -3187.97,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4490.61,
+      "y": -3142.67,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -4495.88,
+      "y": -3124.97,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -4505.82,
+      "y": -3109.25,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -4496.36,
+      "y": -3102.9,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -4500.59,
+      "y": -3083.18,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": -4400.83,
+      "y": -3051.08,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 9,
+      "x": -4394.18,
+      "y": -3052.0,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -4386.63,
+      "y": -3047.4,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -4379.58,
+      "y": -3054.82,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": -4400.83,
+      "y": -3051.08,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 13,
+      "x": -4407.75,
+      "y": -3055.28,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -4442.71,
+      "y": -3029.77,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -4451.89,
+      "y": -3025.76,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 16,
+      "x": -4436.73,
+      "y": -2995.93,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -4418.54,
+      "y": -2987.94,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1);瓦雷莎 charge,wait(2);八重神子 charge",
+      "type": "target"
+    },
+    {
+      "id": 18,
+      "x": -4418.54,
+      "y": -2987.94,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 19,
+      "x": -4418.54,
+      "y": -2987.94,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(VK_SPACE),wait(1),keypress(VK_SPACE)",
+      "type": "target"
+    },
+    {
+      "id": 20,
+      "x": -4400.37,
+      "y": -2982.41,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": -4397.42,
+      "y": -2985.83,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 22,
+      "x": -4379.24,
+      "y": -2979.88,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": -4363.31,
+      "y": -2983.12,
+      "action": "electro_collect",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

@@ -1,0 +1,341 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774445971374,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "13-绯樱绣球-神里屋敷-10个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4582.87890625,
+      "y": -2580.3232421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4565.025390625,
+      "y": -2548.7509765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2.5)",
+      "id": 3,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4509.228515625,
+      "y": -2514.681640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4499.2109375,
+      "y": -2507.2861328125
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4498.56640625,
+      "y": -2504.7734375
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4494.140625,
+      "y": -2507.6396484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4480.494140625,
+      "y": -2497.4765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4470.537109375,
+      "y": -2491.212890625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4471.76171875,
+      "y": -2477.201171875
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4468.9375,
+      "y": -2474.40234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4472.64453125,
+      "y": -2477.265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4486.36328125,
+      "y": -2481.5419921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4497.537109375,
+      "y": -2486.98046875
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 14,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4505.927734375,
+      "y": -2491.083984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.099)",
+      "id": 15,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4505.927734375,
+      "y": -2491.083984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4480.1953125,
+      "y": -2512.248046875
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 17,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4476.146484375,
+      "y": -2513.818359375
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 18,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4482.98828125,
+      "y": -2535.6484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4485.421875,
+      "y": -2533.19921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4508.66015625,
+      "y": -2547.8701171875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1200",
+      "id": 21,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4566.28125,
+      "y": -2492.333984375
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 22,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4571.66015625,
+      "y": -2488.658203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4591.98828125,
+      "y": -2483.90625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1200",
+      "id": 24,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4613.236328125,
+      "y": -2472.5712890625
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 25,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4617.052734375,
+      "y": -2476.890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4626.1171875,
+      "y": -2500.162109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 27,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4643.671875,
+      "y": -2526.8876953125
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 28,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4647.037109375,
+      "y": -2544.935546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 29,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4646.421875,
+      "y": -2551.056640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 30,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4637.134765625,
+      "y": -2572.8232421875
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 31,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -4629.138671875,
+      "y": -2589.7734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 32,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4629.138671875,
+      "y": -2589.7734375
+    }
+  ]
+}

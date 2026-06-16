@@ -1,0 +1,158 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774464474411,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "23-绯樱绣球-鸣神岛东北-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4578.546875,
+      "y": -2577.4619140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4573.63671875,
+      "y": -2536.70703125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4593.874815816449,
+      "y": -2485.25
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4737.029296875,
+      "y": -2359.42578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4746.162109375,
+      "y": -2357.07421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4800.1328125,
+      "y": -2332.5703125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4832.05859375,
+      "y": -2313.291015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4836.5234375,
+      "y": -2306.470703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4852.70703125,
+      "y": -2251.791015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2.5)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4860.66015625,
+      "y": -2234.734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4872.0234375,
+      "y": -2229.83203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4908.810546875,
+      "y": -2214.8095703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4923.78125,
+      "y": -2215.27734375
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 14,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4926.88671875,
+      "y": -2217.3173828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4926.88671875,
+      "y": -2217.3173828125
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774459574775,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "15-绯樱绣球-镇守之森二-5个",
+    "tags": [
+      "丽莎"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4429.1171875,
+      "y": -2801.0537109375
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "run",
+      "type": "target",
+      "x": -4432.6875,
+      "y": -2762.8134765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4412.01953125,
+      "y": -2791.3623046875
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4405.90625,
+      "y": -2793.2724609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4390.4453125,
+      "y": -2796.947265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4379.140625,
+      "y": -2794.97265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4375.671875,
+      "y": -2847.79296875
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4378.076171875,
+      "y": -2849.6162109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.099)",
+      "id": 9,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4378.076171875,
+      "y": -2849.6162109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4350.09765625,
+      "y": -2824.8916015625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4325.5546875,
+      "y": -2821.533203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4322.61328125,
+      "y": -2820.4599609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),j,wait(0.8),j,wait(0.8),j,wait(0.8),j,wait(0.8),j,wait(0.2)",
+      "id": 13,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4314.232421875,
+      "y": -2820.130859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4287.908203125,
+      "y": -2813.05078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4309.791015625,
+      "y": -2781.1572265625
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 16,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -4304.6875,
+      "y": -2761.689453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 17,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4304.6875,
+      "y": -2761.689453125
+    }
+  ]
+}
