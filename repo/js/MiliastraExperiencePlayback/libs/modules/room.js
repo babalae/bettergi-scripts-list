@@ -3,7 +3,6 @@ import { assertRegionAppearing, sleepSync, waitForAction } from "../@bettergi+ut
 import {
   clickToChooseFirstSearchResult,
   findAllWonderlandsBtn,
-  findBeyondHallBtn,
   findClearInputBtn,
   findConfirmBtn,
   findCreateRoomBtn,
@@ -153,17 +152,18 @@ const leaveRoom = async () => {
         keyPress("VK_P");
       },
     );
-    /** 离开房间 */
-    await assertRegionAppearing(
-      findBeyondHallBtn,
-      "离开房间超时",
-      async () => {
-        findLeaveRoomBtn()?.click();
-        await sleep(1e3);
-        findConfirmBtn()?.click();
-      },
-      { maxAttempts: 5 },
-    );
+    if (
+      !(await waitForAction(
+        isInLobby,
+        async () => {
+          findLeaveRoomBtn()?.click();
+          await sleep(1e3);
+          findConfirmBtn()?.click();
+        },
+        { maxAttempts: 5 },
+      ))
+    )
+      throw new Error("离开房间超时");
   }
 };
 

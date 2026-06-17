@@ -60,8 +60,8 @@ const findElementViewBtn = () => {
   return iro;
 };
 /** 查找奇域大厅按钮（判断处于奇域大厅） */
-const findBeyondHallBtn = () => {
-  const iro = findImageWithinBounds("assets/UI_BtnIcon_Beyond_Hall.png", 200, 0, 150, 100, {
+const findMiliastraBtn = () => {
+  const iro = findImageWithinBounds("assets/UI_BtnIcon_Miliastra.png", 960, 0, 960, 80, {
     useMask: true,
     threshold: 0.75,
   });
@@ -233,7 +233,6 @@ export {
   findBeyondBattlepassBtn,
   findBeyondBattlepassPopup,
   findBeyondFavoritesBtn,
-  findBeyondHallBtn,
   findBottomBtnText,
   findClearInputBtn,
   findCloseDialog,
@@ -253,6 +252,7 @@ export {
   findHeaderTitle,
   findLeaveRoomBtn,
   findManageStagesBtn,
+  findMiliastraBtn,
   findPaimon,
   findPrepareMsg,
   findSaveToDeletePos,
