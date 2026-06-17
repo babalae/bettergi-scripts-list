@@ -156,6 +156,23 @@
     }
 
     // ===== 结束处理 =====
+    // 可选：领取「空月祝福（月卡）」奖励。
+    // 在每日重置后，购买月卡的账号会弹出领取窗口，若下一个任务不处理会被卡住。
+    // genshin.blessingOfTheWelkinMoon() 为 BGI 官方函数，内部用图像识别完成
+    // “双击领取 + 点击空白离开”，未购买月卡时也能安全跳过。
+    let claimWelkin = (settings.claim_welkin != undefined ? settings.claim_welkin : '否') === '是';
+    if (claimWelkin) {
+        try {
+            log.info("尝试领取空月祝福（月卡）奖励...");
+            await sleep(5000); // 给更新后的领取弹窗一点出现/渲染时间
+            await genshin.blessingOfTheWelkinMoon();
+            await genshin.returnMainUi(); // 领取后回到主界面，确保不卡住下一个任务
+            log.info("空月祝福处理完成");
+        } catch (e) {
+            log.warn("领取空月祝福失败（可能未购买月卡或界面异常），已跳过：{0}", e);
+        }
+    }
+
     log.info(endMessage);
 
     if (sendNotify === '是') {

@@ -62,5 +62,18 @@
     "type": "input-text",
     "default": "倒计时结束，进入下一个任务",
     "label": "结束提示文字（用于日志与通知）"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "claim_welkin",
+    "type": "select",
+    "default": "否",
+    "label": "结束后领取「空月祝福（月卡）」奖励。\n      适用于等到每日重置后第一时间领月卡，避免领取弹窗卡住下一个任务。未购买月卡可保持「否」。",
+    "options": [
+      "否",
+      "是"
+    ]
   }
 ]
