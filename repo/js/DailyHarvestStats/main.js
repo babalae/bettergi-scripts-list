@@ -207,15 +207,15 @@ if (typeof module === 'undefined') (async function () {
         try { var old = file.readTextSync(MAIN); if (old) file.writeTextSync(BAK, old, false); } catch (e) { }
         try { file.writeTextSync(MAIN, json, false); } catch (e) { log.error('写盘失败：' + e); return false; }
         try { JSON.parse(file.readTextSync(MAIN)); } catch (e) { log.error('写盘回读校验失败：' + e); return false; }
-        try { writeReadableReport(obj); } catch (e) { log.warn('生成可读报告失败：' + e); } // 给人看的 txt
+        try { writeReadableReport(obj); } catch (e) { log.warn('生成可读报告失败：' + e); } // 方便小白阅读的 txt
         return true;
     }
 
-    // 生成「给人看」的可读报告 local/harvest_report.txt（json 是给程序用的）
+    // 生成方便小白阅读的报告 local/harvest_report.txt（json 是给程序用的）
     function writeReadableReport(store) {
         var L = [];
         L.push('========== 每日收获统计 ==========');
-        L.push('（本文件是给人看的报告，会自动刷新；harvest_stats.json 是程序用的，请勿手动改）');
+        L.push('（本报告方便小白阅读，会自动刷新；harvest_stats.json 是程序用的，请勿手动改）');
         var keys = Object.keys(store);
         for (var ki = 0; ki < keys.length; ki++) {
             var st = store[keys[ki]];
