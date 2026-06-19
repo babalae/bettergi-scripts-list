@@ -37,6 +37,10 @@
     let keepAliveInterval = toInt(settings.keepalive_interval, 60);
     if (keepAliveInterval < 5) keepAliveInterval = 5; // 防止过于频繁
 
+    // 「等到指定时间」时，若目标时刻今天已过/已到，是否等到明天同一时间。
+    // 默认「否」：立即结束等待并继续后续任务，避免脚本启动稍晚就误等约 24 小时。
+    let allowNextDay = (settings.allow_next_day != undefined ? settings.allow_next_day : '否') === '是';
+
     // 防休眠动作：在游戏主界面轻微晃动镜头再晃回。
     // 仅改变视角、不移动角色、不打开任何菜单，用于刷新系统空闲计时器防止休眠/熄屏。
     // 坐标按 1920x1080 游戏窗口的中心点（960,540），与本仓库其它脚本一致。
@@ -62,23 +66,37 @@
     // 兼容中文冒号
     clockStr = clockStr.replace("：", ":");
 
-    if (clockStr.length > 0 && clockStr.indexOf(":") > 0) {
+    if (clockStr.length > 0) {
         // ---- 模式 A：等到指定时钟时间（如 04:00）----
-        let parts = clockStr.split(":");
-        let hh = toInt(parts[0], -1);
-        let mm = toInt(parts[1], -1);
+        // 严格校验格式，避免 "04:00:30" 这类输入被静默当成 04:00。
+        let m = clockStr.match(/^(\d{1,2}):(\d{1,2})$/);
+        if (!m) {
+            log.error("目标时间格式错误：{0}，应为 HH:mm（如 04:00）。脚本退出。", clockStr);
+            return;
+        }
+        let hh = toInt(m[1], -1);
+        let mm = toInt(m[2], -1);
 
         if (hh < 0 || hh > 23 || mm < 0 || mm > 59) {
-            log.error("目标时间格式错误：{0}，应为 HH:mm（如 04:00）。脚本退出。", clockStr);
+            log.error("目标时间超出范围：{0}，时应为 0-23、分应为 0-59。脚本退出。", clockStr);
             return;
         }
 
         let d = new Date();
         d.setHours(hh, mm, 0, 0);
         targetTime = d.getTime();
-        // 若目标时刻今天已过（或正好是此刻），顺延到明天
+        // 若目标时刻今天已过（或正好是此刻）：
+        //  - allowNextDay=是：顺延到明天同一时间；
+        //  - allowNextDay=否（默认）：保持过去值，下面的等待循环会立即退出，
+        //    直接继续后续处理/任务，避免“启动稍晚就误等约 24 小时”的悬崖问题。
         if (targetTime <= now) {
-            targetTime += 24 * 3600 * 1000;
+            if (allowNextDay) {
+                d.setDate(d.getDate() + 1); // 按日历加一天，避免夏令时(DST)切换日 +24h 偏差
+                targetTime = d.getTime();
+                log.warn("目标时间 {0} 今天已过/已到，按设置等待到【明天】同一时间", clockStr);
+            } else {
+                log.warn("目标时间 {0} 今天已过/已到，不等到明天，立即结束等待并继续后续任务", clockStr);
+            }
         }
         mode = "clock";
         log.info("模式：等到指定时间 {0}（本机时间）", clockStr);
