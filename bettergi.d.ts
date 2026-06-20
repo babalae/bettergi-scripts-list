@@ -1206,6 +1206,58 @@ declare class AutoFightParam {
   // ==== END AUTO-GENERATED ALIASES ====
 }
 
+/**
+ * 自动首领讨伐任务参数，供独立任务、一条龙和 JS 调用统一传递配置。
+ */
+declare class AutoBossParam {
+  constructor(path: string);
+  /** 需要讨伐的 Boss 名称。*/
+  bossName: string;
+  /** UI 中选择的战斗策略名称；当没有自定义策略路径时会同步更新 <see cref="CombatStrategyPath"/>。*/
+  strategyName: string;
+  /** 实际用于解析自动战斗脚本的路径。JS 可直接设置该路径来覆盖 UI 选择。*/
+  combatStrategyPath: string;
+  /** 讨伐前需要切换到的队伍名称；为空时保持当前队伍。*/
+  teamName: string;
+  /** 是否启用“指定讨伐次数”模式；关闭时刷取至原粹树脂耗尽。*/
+  specifyRunCount: boolean;
+  /** 指定模式下成功领取奖励的目标次数。*/
+  runCount: number;
+  /** 指定讨伐次数模式下，原粹树脂不足时是否允许使用须臾树脂补充。*/
+  useTransientResin: boolean;
+  /** 指定讨伐次数模式下，原粹树脂不足时是否允许使用脆弱树脂补充。*/
+  useFragileResin: boolean;
+  /** 检测到角色死亡后，回神像恢复并重试当前首领讨伐的最大次数。*/
+  rviveRetryCount: number;
+  /** 每轮领奖后是否先返回七天神像，再重新前往 Boss。*/
+  returnToStatueAfterEachRound: boolean;
+  /** 是否启用奖励名称识别。默认关闭。*/
+  rewardRecognitionEnabled: boolean;
+  /**
+   * 设置默认值
+   */
+  setDefault(): void;
+  /**
+   * 设置战斗策略路径
+   * @param strategyName 策略名称
+   */
+  setCombatStrategyPath(strategyName?: string): void;
+
+  // ==== BEGIN AUTO-GENERATED ALIASES ====
+  declare CombatStrategyPath: typeof AutoBossParam.prototype.combatStrategyPath;
+  declare BossName: typeof AutoBossParam.prototype.bossName;
+  declare StrategyName: typeof AutoBossParam.prototype.strategyName;
+  declare TeamName: typeof AutoBossParam.prototype.teamName;
+  declare SpecifyRunCount: typeof AutoBossParam.prototype.specifyRunCount;
+  declare RunCount: typeof AutoBossParam.prototype.runCount;
+  declare UseTransientResin: typeof AutoBossParam.prototype.useTransientResin;
+  declare UseFragileResin: typeof AutoBossParam.prototype.useFragileResin;
+  declare RviveRetryCount: typeof AutoBossParam.prototype.rviveRetryCount;
+  declare ReturnToStatueAfterEachRound: typeof AutoBossParam.prototype.returnToStatueAfterEachRound;
+  declare RewardRecognitionEnabled: typeof AutoBossParam.prototype.rewardRecognitionEnabled;
+  declare SetDefault: typeof AutoBossParam.prototype.setDefault;
+  declare SetCombatStrategyPath: typeof AutoBossParam.prototype.setCombatStrategyPath;
+}
 // ==================== 识图相关类型 ====================
 
 /**
