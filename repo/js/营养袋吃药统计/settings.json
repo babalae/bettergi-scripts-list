@@ -69,5 +69,23 @@
     "type": "input-text",
     "label": "操作间隔延迟\n用于OCR前和输入药名前的短暂等待（默认500，单位毫秒）",
     "default": "500"
+  },
+  {
+    "name": "autoRefillRecovery",
+    "type": "checkbox",
+    "label": "开启自动补充回血药\n需要解锁自动烹饪功能",
+    "default": false
+  },
+  {
+    "name": "refillThreshold",
+    "type": "input-text",
+    "label": "回血药低于多少自动补充\n设置触发自动补充的阈值数量",
+    "default": "100"
+  },
+  {
+    "name": "refillCount",
+    "type": "input-text",
+    "label": "补充数量（1-99之间）\n每次自动补充的药品数量",
+    "default": "20"
   }
 ]

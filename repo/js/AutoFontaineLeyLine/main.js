@@ -199,7 +199,7 @@
     : genshin.width > 1920 ? 0.8
     : 0.9;
 
-    log.warn(`全自动枫丹地脉花: v4.3 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
+    log.warn(`全自动枫丹地脉花: v4.4 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
     log.warn(`使用树脂类型数量：${rewards.length}`);
     log.warn(`使用树脂顺序：${golbalRewardText.join(" ->")}`); 
 
@@ -925,7 +925,7 @@
         }  
 
         //脆弱树脂
-        var originalResinCountRa = await imageRecognition(originalResin,0.1, 0, 0,1325,0,100,500,Threshold,true);
+        var originalResinCountRa = await imageRecognition(originalResin,0.1, 0, 0,960,0,960,150,Threshold,true);
         if (originalResinCountRa.found) {  
             // await moveMouseTo(originalResinCountRa.x,originalResinCountRa.y);   
             let countArea = await Textocr("",0.5, 0, 2,originalResinCountRa.x+originalResinCountRa.w,originalResinCountRa.y,originalResinCountRa.w*3,originalResinCountRa.h);//

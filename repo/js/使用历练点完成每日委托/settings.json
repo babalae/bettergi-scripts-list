@@ -5,6 +5,11 @@
         "label": "需要领取好感的队伍名称(不填写则不切换队伍)"
     },
     {
+        "name": "movePartyName",
+        "type": "input-text",
+        "label": "（可选）移动专用队伍名称（用于前往冒险家协会寻路）\n若填写，则先切至此队寻路，再切回原队领奖"
+    },
+    {
         "name": "disableGoStatue",
         "type": "checkbox",
         "label": "关闭前往七天神像"
