@@ -195,6 +195,11 @@ export async function autoRunList(autoRunOrderList) {
             buildKey: StygianOnslaught.buildKey,
             run: StygianOnslaught.run,
             target: 'autoStygianOnslaught'
+        },
+        [config.user.runTypes[3]]: {
+            buildKey: Boss.buildKey,
+            run: Boss.run,
+            target: 'autoBoss'
         }
     };
 
@@ -221,7 +226,7 @@ export async function autoRunList(autoRunOrderList) {
         try {
             //防止手动取消写入记录
             await sleep(1)
-        }catch (e){
+        } catch (e) {
             throwError(e.message)
         }
 
@@ -757,7 +762,7 @@ class StygianOnslaught extends Base {
 
     static async run(autoStygianOnslaught) {
         // autoStygianOnslaught = {
-        //     /**boss 名字 1~3 */
+        //     /**Boss 名字 1~3 */
         //     bossNum: 1,
         //     /**结束后是否自动分解圣遗物*/
         //     autoArtifactSalvage: false,
@@ -863,4 +868,182 @@ class StygianOnslaught extends Base {
         }
     }
 
+}
+
+/**
+ * 首领讨伐
+ */
+class Boss extends Base {
+    static async buildKey(item) {
+        const json = await super.buildKey(item);
+        let auto = item?.autoBoss
+
+        json.key = json.key +
+            "|" + auto.bossName +
+            "|" + auto.strategyName +
+            "|" + auto.combatStrategyPath +
+            "|" + auto.teamName +
+            "|" + auto.specifyRunCount +
+            "|" + auto.runCount +
+            "|" + auto.useTransientResin +
+            "|" + auto.useFragileResin +
+            "|" + auto.rviveRetryCount +
+            "|" + auto.returnToStatueAfterEachRound +
+            "|" + auto.rewardRecognitionEnabled
+
+        return json;
+    }
+
+    static build(arr, index) {
+        let autoBoss = {
+            /** 需要讨伐的 Boss 名称。*/
+            bossName: "",
+            /** UI 中选择的战斗策略名称；当没有自定义策略路径时会同步更新 <see cref="CombatStrategyPath"/>。*/
+            strategyName: "",
+            /** 实际用于解析自动战斗脚本的路径。JS 可直接设置该路径来覆盖 UI 选择。*/
+            combatStrategyPath: "",
+            /** 讨伐前需要切换到的队伍名称；为空时保持当前队伍。*/
+            teamName: "",
+            /** 是否启用“指定讨伐次数”模式；关闭时刷取至原粹树脂耗尽。*/
+            specifyRunCount: true,
+            /** 指定模式下成功领取奖励的目标次数。*/
+            runCount: 1,
+            /** 指定讨伐次数模式下，原粹树脂不足时是否允许使用须臾树脂补充。*/
+            useTransientResin: false,
+            /** 指定讨伐次数模式下，原粹树脂不足时是否允许使用脆弱树脂补充。*/
+            useFragileResin: false,
+            /** 检测到角色死亡后，回神像恢复并重试当前首领讨伐的最大次数。*/
+            rviveRetryCount: 3,
+            /** 每轮领奖后是否先返回七天神像，再重新前往 Boss。*/
+            returnToStatueAfterEachRound: false,
+            /** 是否启用奖励名称识别。默认关闭。*/
+            rewardRecognitionEnabled: false,
+        }
+
+        if (index <= arr.length - 1) {
+            autoBoss.bossName = arr[index]
+        }
+        index++
+        if (index <= arr.length - 1) {
+            autoBoss.strategyName = arr[index]
+        }
+        index++
+        if (index <= arr.length - 1) {
+            autoBoss.combatStrategyPath = arr[index]
+        }
+        index++
+        if (index <= arr.length - 1) {
+            autoBoss.teamName = arr[index]
+        }
+        index++
+        if (index <= arr.length - 1) {
+            const rawValue = (arr[index] || '').trim().toLowerCase();
+            const temp = rawValue === 'true';
+            autoBoss.specifyRunCount = temp
+        }
+        index++
+        if (index <= arr.length - 1) {
+            autoBoss.runCount = parseInteger(arr[index])
+        }
+        index++
+        if (index <= arr.length - 1) {
+            const rawValue = (arr[index] || '').trim().toLowerCase();
+            const temp = rawValue === 'true';
+            autoBoss.useTransientResin = temp
+        }
+        index++
+        if (index <= arr.length - 1) {
+            const rawValue = (arr[index] || '').trim().toLowerCase();
+            const temp = rawValue === 'true';
+            autoBoss.useFragileResin = temp
+        }
+        index++
+        if (index <= arr.length - 1) {
+            autoBoss.rviveRetryCount = parseInteger(arr[index])
+        }
+        index++
+        if (index <= arr.length - 1) {
+            const rawValue = (arr[index] || '').trim().toLowerCase();
+            const temp = rawValue === 'true';
+            autoBoss.returnToStatueAfterEachRound = temp
+        }
+        index++
+        if (index <= arr.length - 1) {
+            const rawValue = (arr[index] || '').trim().toLowerCase();
+            const temp = rawValue === 'true';
+            autoBoss.rewardRecognitionEnabled = temp
+        }
+        // index++
+
+        return {autoBoss, index}
+    }
+
+    static async run(autoBoss) {
+        const originalResin = config.user.physical.currentJson.originalResinCount;
+        if (originalResin < (config.user.physical.min *2)){
+            log.warn(`{0}`, "Boss挑战原粹树脂不足")
+            return
+        }
+        // let autoBoss = {
+        //     /** 需要讨伐的 Boss 名称。*/
+        //     bossName: "",
+        //     /** UI 中选择的战斗策略名称；当没有自定义策略路径时会同步更新 <see cref="CombatStrategyPath"/>。*/
+        //     strategyName: "",
+        //     /** 实际用于解析自动战斗脚本的路径。JS 可直接设置该路径来覆盖 UI 选择。*/
+        //     combatStrategyPath: "",
+        //     /** 讨伐前需要切换到的队伍名称；为空时保持当前队伍。*/
+        //     teamName: "",
+        //     /** 是否启用“指定讨伐次数”模式；关闭时刷取至原粹树脂耗尽。*/
+        //     specifyRunCount: true,
+        //     /** 指定模式下成功领取奖励的目标次数。*/
+        //     runCount: 1,
+        //     /** 指定讨伐次数模式下，原粹树脂不足时是否允许使用须臾树脂补充。*/
+        //     useTransientResin: false,
+        //     /** 指定讨伐次数模式下，原粹树脂不足时是否允许使用脆弱树脂补充。*/
+        //     useFragileResin: false,
+        //     /** 检测到角色死亡后，回神像恢复并重试当前首领讨伐的最大次数。*/
+        //     rviveRetryCount: 3,
+        //     /** 每轮领奖后是否先返回七天神像，再重新前往 Boss。*/
+        //     returnToStatueAfterEachRound: false,
+        //     /** 是否启用奖励名称识别。默认关闭。*/
+        //     rewardRecognitionEnabled: false,
+        // }
+        let param = new AutoBossParam()
+        if (autoBoss.combatStrategyPath && autoBoss.combatStrategyPath.trim() !== ""){
+            param.setCombatStrategyPath(autoBoss.combatStrategyPath)
+        }
+        param.bossName=autoBoss.bossName
+        param.teamName=autoBoss.teamName
+        param.strategyName=autoBoss.strategyName
+        param.specifyRunCount=autoBoss.specifyRunCount
+        param.runCount=autoBoss.runCount
+        param.useTransientResin=autoBoss.useTransientResin
+        param.useFragileResin=autoBoss.useFragileResin
+        // param.rviveRetryCount=autoBoss.rviveRetryCount
+        param.returnToStatueAfterEachRound=autoBoss.returnToStatueAfterEachRound
+        param.rewardRecognitionEnabled=autoBoss.rewardRecognitionEnabled
+
+        let retry_count = config.run.retry_count + autoBoss.rviveRetryCount
+        await sleep(1000)
+        try {
+            // 复活重试
+            for (let i = 0; i < retry_count; i++) {
+                try {
+                    await dispatcher.RunAutoStygianOnslaughtTask(param)
+                    // 其他场景不重试
+                    break;
+                } catch (e) {
+                    const errorMessage = e.message
+                    if (errorMessage.includes("复活")) {
+                        continue;
+                    }
+                    if (!config.run.exclude_run_exception || config.run.loop_plan) {//排除异常 与循环计划互斥
+                        throw e;
+                    }
+                }
+            }
+        } finally {
+            log.info(`{0}`, "执行完成")
+        }
+    }
 }
