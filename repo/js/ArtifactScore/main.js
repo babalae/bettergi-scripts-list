@@ -7,7 +7,7 @@
  *
  * 所有坐标均基于 BetterGI 的 1920x1080 标准截图。
  */
-import { findImg, findText } from "../../../packages/utils/tool.js"
+import { findImg, findText, ocrRegion } from "../../../packages/utils/tool.js"
 import scoreData, {
   analyzeArtifact,
   calcArtifactScore,
@@ -18,7 +18,7 @@ const MASK_PATH = "assets/score-mask.html"
 const MASK_ID_PREFIX = "artiscope-score"
 const BACK_TEMPLATE = "assets/images/back.png"
 const POLL_INTERVAL = 500
-const TYPE_SETTLE_DELAY = 300
+const TYPE_SETTLE_DELAY = 50
 const CHARACTER_SCAN_BUDGET = 2000
 
 const REGIONS = {
@@ -48,7 +48,6 @@ const SUB_STAT_NAMES = [
   "暴击率", "暴击伤害", "攻击力", "防御力", "生命值",
   "元素精通", "元素充能效率"
 ]
-const DIGITS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 const CHARACTER_NAMES = Object.keys(scoreData.usefulAttr).sort((a, b) => b.length - a.length)
 const CHARACTER_ELEMENT_MAP = scoreData.charElemMap || {}
 const ELEMENTS = [
@@ -163,6 +162,12 @@ async function findAnyText(keywords, region) {
   return null
 }
 
+/** 将一次区域 OCR 的结果与候选词匹配，不再为每个候选词重复 OCR。 */
+function matchKnownText(text, candidates) {
+  const normalized = String(text || "").replace(/\s/g, "")
+  return candidates.find(candidate => normalized.includes(candidate.replace(/\s/g, ""))) || ""
+}
+
 /**
  * 分批扫描角色名。单轮达到时间预算后保存索引，下一轮继续，
  * 防止较慢电脑一次执行上百次 OCR 时表现为长时间卡死。
@@ -188,12 +193,13 @@ async function scanCharacterNames(region) {
 
 /** 读取圣遗物部位，并转换为评分模块使用的 0~4 索引。 */
 async function readArtifactPosition() {
-  const result = await findAnyText(POSITION_NAMES, REGIONS.position)
-  if (!result) return null
+  const text = await ocrRegion(...REGIONS.position, 1, 0)
+  const name = matchKnownText(text, POSITION_NAMES)
+  if (!name) return null
 
   return {
-    name: result.keyword,
-    pos: POSITION_NAMES.indexOf(result.keyword)
+    name,
+    pos: POSITION_NAMES.indexOf(name)
   }
 }
 
@@ -340,8 +346,8 @@ function getSubStatKey(name, hasPercent) {
 
 /** 读取一条副词条；待激活和未识别项以 0 分占位。 */
 async function readSubStat(region, index) {
-  const pending = await findText("待激活", ...region, 1, 0)
-  if (pending) {
+  const text = await ocrRegion(...region, 1, 0)
+  if (text.includes("待激活")) {
     return {
       key: `待激活${index + 1}`,
       value: 0,
@@ -350,8 +356,8 @@ async function readSubStat(region, index) {
     }
   }
 
-  const stat = await findAnyText(SUB_STAT_NAMES, region)
-  if (!stat) {
+  const statName = matchKnownText(text, SUB_STAT_NAMES)
+  if (!statName) {
     return {
       key: `未识别${index + 1}`,
       value: 0,
@@ -360,35 +366,21 @@ async function readSubStat(region, index) {
     }
   }
 
-  let value = parseNumber(stat.text)
-  let valueText = stat.text
-  if (!Number.isFinite(value)) {
-    const numberResult = await findAnyText(DIGITS, region)
-    if (!numberResult) {
-      return {
-        key: `未识别${index + 1}`,
-        value: 0,
-        name: stat.keyword,
-        displayValue: "--"
-      }
-    }
-    valueText = numberResult.text
-    value = parseNumber(valueText)
-  }
+  const value = parseNumber(text)
   if (!Number.isFinite(value)) {
     return {
       key: `未识别${index + 1}`,
       value: 0,
-      name: stat.keyword,
+      name: statName,
       displayValue: "--"
     }
   }
 
-  const hasPercent = /[%％]/.test(`${stat.text}${valueText}`)
+  const hasPercent = /[%％]/.test(text)
   return {
-    key: getSubStatKey(stat.keyword, hasPercent),
+    key: getSubStatKey(statName, hasPercent),
     value,
-    name: stat.keyword,
+    name: statName,
     displayValue: formatStatValue(value, hasPercent, true)
   }
 }
@@ -398,11 +390,12 @@ async function readSubStat(region, index) {
  * 若前后不一致则丢弃本轮，防止切换动画混入新旧数据。
  */
 async function readArtifactFromOcr(position) {
-  const mainStat = await findAnyText(MAIN_STAT_NAMES, REGIONS.mainName)
-  const mainValueResult = await findAnyText(DIGITS, REGIONS.mainValue)
-  if (!mainStat || !mainValueResult) return null
+  const mainNameText = await ocrRegion(...REGIONS.mainName, 1, 0)
+  const mainName = matchKnownText(mainNameText, MAIN_STAT_NAMES)
+  const mainValueText = await ocrRegion(...REGIONS.mainValue, 1, 0)
+  if (!mainName || !mainValueText) return null
 
-  const mainValue = parseNumber(mainValueResult.text)
+  const mainValue = parseNumber(mainValueText)
   if (!Number.isFinite(mainValue)) return null
 
   const subs = {}
@@ -419,9 +412,9 @@ async function readArtifactFromOcr(position) {
 
   const artifact = {
     pos: position.pos,
-    main: mainStat.keyword,
+    main: mainName,
     value: mainValue,
-    mainDisplayValue: formatStatValue(mainValue, /[%％]/.test(mainValueResult.text)),
+    mainDisplayValue: formatStatValue(mainValue, /[%％]/.test(mainValueText)),
     subs,
     subStats
   }
