@@ -2,30 +2,23 @@
  * 工作流程：
  * 1. 在角色圣遗物页识别并缓存当前角色及元素。
  * 2. 通过返回按钮模板和“对比”文字确认圣遗物详情页。
- * 3. 按“部位 -> 主词条 -> 四条副词条 -> 部位复核”的顺序读取 OCR。
+ * 3. 对右侧详情区域做一次 OCR，并按坐标解析部位、主词条和四条副词条。
  * 4. 计算普通评分、当前角色评分和角色排行榜，再更新 HTML 遮罩。
- *
  * 所有坐标均基于 BetterGI 的 1920x1080 标准截图。
  */
-import { findImg, findText, ocrRegion } from "../../../packages/utils/tool.js"
-import scoreData, {
-  analyzeArtifact,
-  calcArtifactScore,
-  getMarkClass
-} from "./utils/artis-score-standalone.js"
+import scoreData, {analyzeArtifact, calcArtifactScore, getMarkClass} from "./utils/artis-score-standalone.js"
 
 const MASK_PATH = "assets/score-mask.html"
 const MASK_ID_PREFIX = "artiscope-score"
 const BACK_TEMPLATE = "assets/images/back.png"
-const POLL_INTERVAL = 500
-const TYPE_SETTLE_DELAY = 50
-const CHARACTER_SCAN_BUDGET = 2000
+const POLL_INTERVAL = 200
 
 const REGIONS = {
   back: [1780, 0, 140, 105],
   compare: [1600, 10, 210, 75],
   characterHeader: [105, 10, 310, 75],
   artifactTab: [90, 245, 250, 100],
+  artifactPanel: [1450, 150, 430, 345],
   position: [1450, 160, 230, 48],
   mainName: [1450, 205, 230, 52],
   mainValue: [1680, 205, 210, 52],
@@ -80,9 +73,61 @@ const SUB_KEYS = {
 let maskWindowId = null
 let maskInstanceNumber = 0
 let cachedCharacter = null
-let characterScanIndex = 0
+let backTemplateMat = null
 
-/** 安全检查遮罩句柄；UI 线程正在关闭窗口时按不存在处理。 */
+function getBackTemplateMat() {
+  if (!backTemplateMat) backTemplateMat = file.readImageMatSync(BACK_TEMPLATE)
+  return backTemplateMat
+}
+
+function findBackButton() {
+  const gameRegion = captureGameRegion()
+  try {
+    const ro = RecognitionObject.TemplateMatch(getBackTemplateMat(), ...REGIONS.back)
+    const result = gameRegion.find(ro)
+    return !result.isEmpty()
+  } finally {
+    gameRegion.dispose()
+  }
+}
+
+function readOcrItems(x, y, w, h) {
+  const gameRegion = captureGameRegion()
+  try {
+    const ro = RecognitionObject.Ocr(x, y, w, h)
+    const results = gameRegion.findMulti(ro)
+    const items = []
+
+    for (let index = 0; index < results.count; index++) {
+      const result = results[index]
+      if (!result.isExist() || !result.text) continue
+      items.push({
+        text: result.text.trim(),
+        x: result.x,
+        y: result.y,
+        width: result.width,
+        height: result.height
+      })
+    }
+
+    return items.sort((a, b) => (a.y - b.y) || (a.x - b.x))
+  } finally {
+    gameRegion.dispose()
+  }
+}
+
+function readOcrText(x, y, w, h) {
+  return readOcrItems(x, y, w, h).map(item => item.text).join(" ")
+}
+
+function hasOcrText(keyword, region) {
+  const candidates = Array.isArray(keyword) ? keyword : [keyword]
+  return !!matchKnownText(readOcrText(...region), candidates)
+}
+
+/**
+ * 安全检查遮罩句柄；UI 线程正在关闭窗口时按不存在处理。
+ */
 function scoreMaskExists() {
   if (!maskWindowId) return false
   try {
@@ -93,7 +138,9 @@ function scoreMaskExists() {
   }
 }
 
-/** 创建评分遮罩；已经存在时复用原窗口。 */
+/**
+ * 创建评分遮罩；已经存在时复用原窗口。
+ */
 async function showScoreMask() {
   if (scoreMaskExists()) {
     try {
@@ -129,7 +176,9 @@ function hideScoreMask() {
   }
 }
 
-/** 将一次完整评分结果发送给遮罩。 */
+/**
+ * 将一次完整评分结果发送给遮罩。
+ */
 function sendMaskData(data) {
   try {
     if (!scoreMaskExists()) return false
@@ -141,7 +190,9 @@ function sendMaskData(data) {
   }
 }
 
-/** 仅在脚本结束时关闭遮罩，关闭后不得再次调用 show。 */
+/**
+ * 仅在脚本结束时关闭遮罩，关闭后不得再次调用 show。
+ */
 function closeScoreMask() {
   const windowId = maskWindowId
   maskWindowId = null
@@ -153,47 +204,37 @@ function closeScoreMask() {
   }
 }
 
-/** 在一组已知关键词中依次查找第一个 OCR 命中项。 */
-async function findAnyText(keywords, region) {
-  for (const keyword of keywords) {
-    const result = await findText(keyword, ...region, 1, 0)
-    if (result && result.text) return { keyword, text: result.text }
-  }
-  return null
-}
-
-/** 将一次区域 OCR 的结果与候选词匹配，不再为每个候选词重复 OCR。 */
+/**
+ * 将一次区域 OCR 的结果与候选词匹配，不再为每个候选词重复 OCR。
+ */
 function matchKnownText(text, candidates) {
   const normalized = String(text || "").replace(/\s/g, "")
   return candidates.find(candidate => normalized.includes(candidate.replace(/\s/g, ""))) || ""
 }
 
-/**
- * 分批扫描角色名。单轮达到时间预算后保存索引，下一轮继续，
- * 防止较慢电脑一次执行上百次 OCR 时表现为长时间卡死。
- */
-async function scanCharacterNames(region) {
-  const startedAt = Date.now()
-  let checked = 0
-
-  while (checked < CHARACTER_NAMES.length && Date.now() - startedAt < CHARACTER_SCAN_BUDGET) {
-    const name = CHARACTER_NAMES[characterScanIndex]
-    characterScanIndex = (characterScanIndex + 1) % CHARACTER_NAMES.length
-    checked++
-
-    const result = await findText(name, ...region, 1, 0)
-    if (result?.text) {
-      characterScanIndex = 0
-      return { keyword: name, text: result.text }
-    }
+function readArtifactSnapshot() {
+  const items = readOcrItems(...REGIONS.artifactPanel)
+  return {
+    items,
+    text: items.map(item => item.text).join(" ")
   }
-
-  return null
 }
 
-/** 读取圣遗物部位，并转换为评分模块使用的 0~4 索引。 */
-async function readArtifactPosition() {
-  const text = await ocrRegion(...REGIONS.position, 1, 0)
+function rowText(items, [x, y, w, h], options = {}) {
+  const { minX = x, maxX = x + w } = options
+  return items
+    .filter(item => {
+      const centerX = item.x + item.width / 2
+      const centerY = item.y + item.height / 2
+      return centerX >= minX && centerX <= maxX && centerY >= y && centerY <= y + h
+    })
+    .sort((a, b) => a.x - b.x)
+    .map(item => item.text)
+    .join(" ")
+}
+
+function readArtifactPositionFromSnapshot(snapshot) {
+  const text = rowText(snapshot.items, REGIONS.position)
   const name = matchKnownText(text, POSITION_NAMES)
   if (!name) return null
 
@@ -203,15 +244,45 @@ async function readArtifactPosition() {
   }
 }
 
-/** 返回按钮模板和“对比”文字必须同时存在，才视为详情页。 */
-async function isArtifactPage() {
-  const back = await findImg(BACK_TEMPLATE, ...REGIONS.back, 100, 50)
-  if (!back) return false
-
-  return !!(await findText("对比", ...REGIONS.compare, 1, 0))
+/**
+ * 从一次标题 OCR 结果中匹配角色名，避免对每个候选角色重复截图和识别。
+ */
+async function scanCharacterNames(region) {
+  const text = readOcrText(...region)
+  const keyword = matchKnownText(text, CHARACTER_NAMES)
+  return keyword ? { keyword, text } : null
 }
 
-/** 从“元素 / 角色名”OCR 文本中截取角色名。 */
+/**
+ * 读取圣遗物部位，并转换为评分模块使用的 0~4 索引。
+ */
+async function readArtifactPosition(snapshot = null) {
+  if (snapshot) return readArtifactPositionFromSnapshot(snapshot)
+
+  const text = readOcrText(...REGIONS.position)
+  const name = matchKnownText(text, POSITION_NAMES)
+  if (!name) return null
+
+  return {
+    name,
+    pos: POSITION_NAMES.indexOf(name)
+  }
+}
+
+/**
+ * 返回按钮模板和“对比”文字用于确认详情页；已确认后可跳过文字复核以降低 OCR 频率。
+ */
+async function isArtifactPage(skipCompareCheck = false) {
+  const hasBackButton = findBackButton()
+  if (!hasBackButton) return false
+  if (skipCompareCheck) return true
+
+  return hasOcrText("对比", REGIONS.compare)
+}
+
+/**
+ * 从“元素 / 角色名”OCR 文本中截取角色名。
+ */
 function parseHeaderCharacter(text, element = null) {
   const compact = String(text || "").replace(/\s/g, "")
   const knownName = CHARACTER_NAMES.find(name => compact.includes(name))
@@ -228,7 +299,9 @@ function parseHeaderCharacter(text, element = null) {
   return suffix
 }
 
-/** 写入角色缓存，并在角色或元素变化时输出一条必要信息。 */
+/**
+ * 写入角色缓存，并在角色或元素变化时输出一条必要信息。
+ */
 function saveCharacterCache(characterName, element = null, ocrName = characterName) {
   if (characterName === "空" || characterName === "荧") characterName = "旅行者"
 
@@ -252,13 +325,16 @@ function saveCharacterCache(characterName, element = null, ocrName = characterNa
   return true
 }
 
-/** 兼容“圣遗物 / 角色名”的圣遗物角色选择页。 */
+/**
+ * 兼容“圣遗物 / 角色名”的圣遗物角色选择页。
+ */
 async function updateCharacterFromSelectionPage(headerResult) {
   let characterName = parseHeaderCharacter(headerResult.text)
 
   if (!characterName && cachedCharacter) {
-    const cachedResult = await findText(cachedCharacter.ocrName, ...REGIONS.characterHeader, 1, 0)
-    if (cachedResult) characterName = cachedCharacter.name
+    if (matchKnownText(headerResult.text, [cachedCharacter.ocrName])) {
+      characterName = cachedCharacter.name
+    }
   }
 
   if (!characterName) {
@@ -276,30 +352,36 @@ async function updateCharacterFromSelectionPage(headerResult) {
   return saveCharacterCache(characterName, element)
 }
 
-/** 在角色圣遗物页刷新角色缓存；未识别到新角色时保留旧缓存。 */
+/**
+ * 在角色圣遗物页刷新角色缓存；未识别到新角色时保留旧缓存。
+ */
 async function updateCachedCharacter() {
-  const selectionHeader = await findText("圣遗物", ...REGIONS.characterHeader, 1, 0)
-  if (selectionHeader) return updateCharacterFromSelectionPage(selectionHeader)
+  const headerText = readOcrText(...REGIONS.characterHeader)
+  if (matchKnownText(headerText, ["圣遗物"])) {
+    return updateCharacterFromSelectionPage({ text: headerText })
+  }
 
-  if (!await findText("圣遗物", ...REGIONS.artifactTab, 1, 0)) return false
+  const tabText = readOcrText(...REGIONS.artifactTab)
+  if (!matchKnownText(tabText, ["圣遗物"])) return false
 
-  const elementResult = await findAnyText(ELEMENTS.map(item => item.label), REGIONS.characterHeader)
-  if (!elementResult) return false
+  const elementKeyword = matchKnownText(headerText, ELEMENTS.map(item => item.label))
+  if (!elementKeyword) return false
 
-  const element = ELEMENTS.find(item => item.label === elementResult.keyword)
-  let characterName = parseHeaderCharacter(elementResult.text, element)
+  const element = ELEMENTS.find(item => item.label === elementKeyword)
+  let characterName = parseHeaderCharacter(headerText, element)
   let travelerAlias = null
 
   if (!characterName && cachedCharacter) {
     if (cachedCharacter.name === "旅行者") {
-      const aliasResult = await findAnyText(["空", "荧"], REGIONS.characterHeader)
-      if (aliasResult) {
-        travelerAlias = aliasResult.keyword
+      const aliasKeyword = matchKnownText(headerText, ["空", "荧"])
+      if (aliasKeyword) {
+        travelerAlias = aliasKeyword
         characterName = "旅行者"
       }
     } else {
-      const cachedResult = await findText(cachedCharacter.ocrName, ...REGIONS.characterHeader, 1, 0)
-      if (cachedResult) characterName = cachedCharacter.name
+      if (matchKnownText(headerText, [cachedCharacter.ocrName])) {
+        characterName = cachedCharacter.name
+      }
     }
   }
 
@@ -309,9 +391,9 @@ async function updateCachedCharacter() {
   }
 
   if (!characterName) {
-    const aliasResult = await findAnyText(["空", "荧"], REGIONS.characterHeader)
-    if (aliasResult) {
-      travelerAlias = aliasResult.keyword
+    const aliasKeyword = matchKnownText(headerText, ["空", "荧"])
+    if (aliasKeyword) {
+      travelerAlias = aliasKeyword
       characterName = "旅行者"
     }
   }
@@ -320,7 +402,9 @@ async function updateCachedCharacter() {
   return saveCharacterCache(characterName, element, travelerAlias || characterName)
 }
 
-/** 将 OCR 数字常见误识别（O/〇、千位逗号）归一化后转为数值。 */
+/**
+ * 将 OCR 数字常见误识别（O/〇、千位逗号）归一化后转为数值。
+ */
 function parseNumber(text) {
   const normalized = String(text || "")
     .replace(/[Oo〇○]/g, "0")
@@ -329,14 +413,18 @@ function parseNumber(text) {
   return match ? Number.parseFloat(match[0]) : Number.NaN
 }
 
-/** 生成与游戏界面接近的词条数值文本。 */
+/**
+ * 生成与游戏界面接近的词条数值文本。
+ */
 function formatStatValue(value, hasPercent = false, showPlus = false) {
   if (!Number.isFinite(value)) return "--"
   const sign = showPlus && value >= 0 ? "+" : ""
   return `${sign}${value}${hasPercent ? "%" : ""}`
 }
 
-/** 区分攻击/防御/生命的百分比词条与固定值词条。 */
+/**
+ * 区分攻击/防御/生命的百分比词条与固定值词条。
+ */
 function getSubStatKey(name, hasPercent) {
   if (name === "攻击力") return hasPercent ? "大攻击" : "小攻击"
   if (name === "防御力") return hasPercent ? "大防御" : "小防御"
@@ -344,9 +432,13 @@ function getSubStatKey(name, hasPercent) {
   return name
 }
 
-/** 读取一条副词条；待激活和未识别项以 0 分占位。 */
-async function readSubStat(region, index) {
-  const text = await ocrRegion(...region, 1, 0)
+/**
+ * 读取一条副词条；待激活和未识别项以 0 分占位。
+ */
+async function readSubStat(region, index, snapshot = null) {
+  const text = snapshot
+    ? rowText(snapshot.items, region)
+    : readOcrText(...region)
   if (text.includes("待激活")) {
     return {
       key: `待激活${index + 1}`,
@@ -386,13 +478,13 @@ async function readSubStat(region, index) {
 }
 
 /**
- * 按固定顺序读取一件圣遗物。结束时再次读取部位，
- * 若前后不一致则丢弃本轮，防止切换动画混入新旧数据。
+ * 从同一次右侧详情区域 OCR 结果中解析一件圣遗物。
  */
-async function readArtifactFromOcr(position) {
-  const mainNameText = await ocrRegion(...REGIONS.mainName, 1, 0)
+async function readArtifactFromOcr(position, snapshot) {
+  const mainRowText = rowText(snapshot.items, [REGIONS.mainName[0], REGIONS.mainName[1], REGIONS.artifactPanel[2], REGIONS.mainName[3]])
+  const mainNameText = rowText(snapshot.items, REGIONS.mainName, { maxX: REGIONS.mainValue[0] - 1 }) || mainRowText
   const mainName = matchKnownText(mainNameText, MAIN_STAT_NAMES)
-  const mainValueText = await ocrRegion(...REGIONS.mainValue, 1, 0)
+  const mainValueText = rowText(snapshot.items, REGIONS.mainValue, { minX: REGIONS.mainValue[0] - 10 }) || mainRowText
   if (!mainName || !mainValueText) return null
 
   const mainValue = parseNumber(mainValueText)
@@ -401,16 +493,12 @@ async function readArtifactFromOcr(position) {
   const subs = {}
   const subStats = []
   for (let index = 0; index < REGIONS.subStats.length; index++) {
-    const subStat = await readSubStat(REGIONS.subStats[index], index)
+    const subStat = await readSubStat(REGIONS.subStats[index], index, snapshot)
     subs[subStat.key] = subStat.value
     subStats.push({ name: subStat.name, value: subStat.displayValue })
   }
 
-  // 属性识别耗时较长，结束时复核部位，防止切换过程中拼出新旧混合数据。
-  const confirmedPosition = await readArtifactPosition()
-  if (!confirmedPosition || confirmedPosition.pos !== position.pos) return null
-
-  const artifact = {
+  return {
     pos: position.pos,
     main: mainName,
     value: mainValue,
@@ -418,10 +506,11 @@ async function readArtifactFromOcr(position) {
     subs,
     subStats
   }
-  return artifact
 }
 
-/** 将 OCR 结构转换为角色定向评分 API 所需的标准键名。 */
+/**
+ * 将 OCR 结构转换为角色定向评分 API 所需的标准键名。
+ */
 function toCalculatorArtifact(artifact) {
   const mainKey = artifact.pos === 0
     ? "hpPlus"
@@ -443,12 +532,16 @@ function toCalculatorArtifact(artifact) {
   }
 }
 
-/** 保留给数据传输使用；当前遮罩不直接渲染该文本。 */
+/**
+ * 保留给数据传输使用；当前遮罩不直接渲染该文本。
+ */
 function formatArtifactMeta(artifact) {
   return [POSITION_NAMES[artifact.pos], artifact.main].filter(Boolean).join(" · ")
 }
 
-/** 计算当前圣遗物对指定角色及元素的单件分数。 */
+/**
+ * 计算当前圣遗物对指定角色及元素的单件分数。
+ */
 function scoreForCharacter(characterName, artifact, elem = "") {
   const result = calcArtifactScore(
     characterName,
@@ -458,13 +551,33 @@ function scoreForCharacter(characterName, artifact, elem = "") {
   return result.artifacts[0]?.score || 0
 }
 
-/** 计算评分并一次性更新遮罩，避免各字段分批刷新。 */
+function isSupportedCharacter(character) {
+  if (!character) return false
+  return Boolean(scoreData.usefulAttr?.[character.name])
+}
+
+function getDisplayStateKey(artifact) {
+  return JSON.stringify({
+    artifact,
+    character: cachedCharacter
+      ? {
+          name: cachedCharacter.name,
+          displayName: cachedCharacter.displayName,
+          elem: cachedCharacter.elem
+        }
+      : null
+  })
+}
+
+/**
+ * 计算评分并一次性更新遮罩，避免各字段分批刷新。
+ */
 async function displayArtifactScore(artifact) {
   const result = analyzeArtifact(artifact, {
     topN: 10,
     travelerElem: cachedCharacter?.name === "旅行者" ? cachedCharacter.elem : ""
   })
-  const character = cachedCharacter
+  const character = isSupportedCharacter(cachedCharacter)
     ? {
         name: cachedCharacter.displayName,
         score: scoreForCharacter(cachedCharacter.name, artifact, cachedCharacter.elem)
@@ -487,53 +600,57 @@ async function displayArtifactScore(artifact) {
   })
 }
 
-/** 持续监控页面并按稳定顺序刷新评分，直到调度器请求取消。 */
+/**
+ * 持续监控页面并按稳定顺序刷新评分，直到调度器请求取消。
+ */
 async function runScoreLoop(cancellationToken) {
-  let lastArtifactJson = ""
+  let lastDisplayStateKey = ""
   let lastPosition = null
+  let wasArtifactPage = false
 
   while (!cancellationToken.isCancellationRequested) {
-    await sleep(50)
-    const artifactPage = await isArtifactPage()
+    const artifactPage = await isArtifactPage(wasArtifactPage)
 
     if (!artifactPage) {
       await updateCachedCharacter()
-      lastArtifactJson = ""
+      lastDisplayStateKey = ""
       lastPosition = null
+      wasArtifactPage = false
       hideScoreMask()
       await sleep(POLL_INTERVAL)
       continue
     }
+    wasArtifactPage = true
 
-    let position = await readArtifactPosition()
+    let snapshot = readArtifactSnapshot()
+    let position = await readArtifactPosition(snapshot)
     if (!position) {
+      if (!await isArtifactPage(false)) {
+        await updateCachedCharacter()
+        lastDisplayStateKey = ""
+        lastPosition = null
+        wasArtifactPage = false
+        hideScoreMask()
+      }
       await sleep(POLL_INTERVAL)
       continue
     }
 
-    // 部位优先：发现类型变化后先等待界面稳定，再确认一次才读取其他属性。
     if (position.pos !== lastPosition) {
-      await sleep(TYPE_SETTLE_DELAY)
-      const confirmedPosition = await readArtifactPosition()
-      if (!confirmedPosition || confirmedPosition.pos !== position.pos) {
-        await sleep(POLL_INTERVAL)
-        continue
-      }
-      position = confirmedPosition
       lastPosition = position.pos
-      lastArtifactJson = ""
+      lastDisplayStateKey = ""
     }
 
-    const artifact = await readArtifactFromOcr(position)
+    const artifact = await readArtifactFromOcr(position, snapshot)
     if (!artifact) {
       await sleep(POLL_INTERVAL)
       continue
     }
 
-    const artifactJson = JSON.stringify(artifact)
+    const displayStateKey = getDisplayStateKey(artifact)
     const maskClosed = !scoreMaskExists()
-    if (artifactJson !== lastArtifactJson || maskClosed) {
-      lastArtifactJson = artifactJson
+    if (displayStateKey !== lastDisplayStateKey || maskClosed) {
+      lastDisplayStateKey = displayStateKey
       await displayArtifactScore(artifact)
     }
 

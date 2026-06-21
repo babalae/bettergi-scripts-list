@@ -62,6 +62,16 @@ async function poolLimit(tasks, limit = 10) {
   return results
 }
 
+function compareNames(a, b) {
+  return a.localeCompare(b, 'zh-Hans-CN') || (a > b ? 1 : a < b ? -1 : 0)
+}
+
+function sortObjectByName(obj) {
+  return Object.fromEntries(
+    Object.entries(obj).sort(([a], [b]) => compareNames(a, b))
+  )
+}
+
 // ============================================================
 //  Parsers
 // ============================================================
@@ -1051,7 +1061,7 @@ async function main() {
 
   // ---- Phase 2: Parse core data ----
   console.log('\n[2/5] Parsing core data...')
-  const usefulAttr = parseUsefulAttr(artisMarkText)
+  const usefulAttr = sortObjectByName(parseUsefulAttr(artisMarkText))
   console.log(`  usefulAttr: ${Object.keys(usefulAttr).length} characters`)
 
   const attrMapBase = parseExportValue(extraText, 'attrMap')
@@ -1062,52 +1072,68 @@ async function main() {
   console.log(`  attrMap: ${Object.keys(attrMapBase).length} stats`)
   console.log(`  basicNum: ${basicNum}`)
 
-  const { weaponCfg, xifengRegex } = parseWeaponCfg(weaponCfgText)
+  const { weaponCfg: rawWeaponCfg, xifengRegex } = parseWeaponCfg(weaponCfgText)
+  const weaponCfg = sortObjectByName(rawWeaponCfg)
   console.log(`  weaponCfg: ${Object.keys(weaponCfg).length} weapons`)
 
   // ---- Phase 3: Character data (concurrent) ----
   console.log(`\n[3/5] Fetching character data for ${Object.keys(usefulAttr).length} characters...`)
-  const charNames = Object.keys(usefulAttr)
+  const charNames = Object.keys(usefulAttr).sort(compareNames)
   let dataJsonFetched = 0, dataJsonFailed = 0
   let artisJsFetched = 0, artisJsSkipped = 0
+
+  // Build fetch tasks for all characters
+  const tasks = charNames.map(name => async () => {
+    const encoded = encodeURIComponent(name)
+    const result = { name, baseAttr: null, elem: '', code: '', defWeights: null }
+
+    // Fetch data.json
+    const dj = await fetchJson(`resources/meta-gs/character/${encoded}/data.json`)
+    if (dj?.['baseAttr']) {
+      result.baseAttr = dj['baseAttr']
+      result.elem = dj['elem'] || ''
+    }
+
+    // Fetch artis.js
+    const artisSrc = await fetchRaw(`resources/meta-gs/character/${encoded}/artis.js`)
+    if (artisSrc) {
+      const { code, defWeights } = transformArtisJs(artisSrc, name)
+      result.code = code || ''
+      result.defWeights = defWeights || null
+    }
+
+    return result
+  })
+
+  // Run with limited concurrency
+  const charResults = (await poolLimit(tasks, 15))
+    .filter(result => result && !result._error)
+    .sort((a, b) => compareNames(a.name, b.name))
 
   const baseAttrMap = {}
   const charElemMap = {}
   const artisDefaultWeights = {}
   const charRulesEntries = []
 
-  // Build fetch tasks for all characters
-  const tasks = charNames.map(name => async () => {
-    const encoded = encodeURIComponent(name)
-
-    // Fetch data.json
-    const dj = await fetchJson(`resources/meta-gs/character/${encoded}/data.json`)
-    if (dj?.['baseAttr']) {
-      baseAttrMap[name] = dj['baseAttr']
-      if (dj['elem']) charElemMap[name] = dj['elem']
+  for (const result of charResults) {
+    if (result.baseAttr) {
+      baseAttrMap[result.name] = result.baseAttr
+      if (result.elem) charElemMap[result.name] = result.elem
       dataJsonFetched++
     } else {
       dataJsonFailed++
     }
 
-    // Fetch artis.js
-    const artisSrc = await fetchRaw(`resources/meta-gs/character/${encoded}/artis.js`)
-    if (artisSrc) {
+    if (result.code) {
       artisJsFetched++
-      const { code, defWeights } = transformArtisJs(artisSrc, name)
-      if (code) {
-        charRulesEntries.push(code)
-      }
-      if (defWeights) {
-        artisDefaultWeights[name] = defWeights
+      charRulesEntries.push(result.code)
+      if (result.defWeights) {
+        artisDefaultWeights[result.name] = result.defWeights
       }
     } else {
       artisJsSkipped++
     }
-  })
-
-  // Run with limited concurrency
-  await poolLimit(tasks, 15)
+  }
 
   console.log(`  data.json: ${dataJsonFetched} ok, ${dataJsonFailed} skipped`)
   console.log(`  artis.js:  ${artisJsFetched} found, ${artisJsSkipped} skipped`)
