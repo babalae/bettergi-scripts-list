@@ -302,6 +302,13 @@
 				<label for="bpm_change_input" class="textarea" id="bpm_change_text" style="display: none">BPM 值:</label>
 				<input type="number" id="bpm_change_input" class="input-text-bpm" value="60" min="1" max="1000" style="display: none">
 
+				<label for="key_mode" class="textarea">按键模式:</label>
+				<select id="key_mode" class="dropdown">
+					<option value="press">按键（默认）</option>
+					<option value="down">按下</option>
+					<option value="up">抬起</option>
+				</select>
+
 				<label for="dropdown_all" class="textarea" style="display: none;" id="dropdown_all_text">连音总时值: </label>
 				<select id="dropdown_all" class="dropdown" style="display: none;">
 					<option value="0.25">4个全音符</option>
@@ -341,6 +348,8 @@
     </div>
 
     <script>
+		let keyModeWarned = false;
+
 		document.addEventListener("keydown", function(event) {
 		  if (event.key === "Enter") {
 			const activeElement = document.activeElement;
@@ -402,6 +411,14 @@
 				}
 			});
 
+			/*按下/抬起逻辑*/
+			document.getElementById("key_mode").addEventListener("change", function() {
+				const mode = this.value;
+				if (!keyModeWarned && (mode === "down" || mode === "up")) {
+					alert("提示：按下/抬起模式下，音符会自动变成和弦格式，并在前面加上 ^ 或 &。按下后记得写抬起。");
+					keyModeWarned = true;
+				}
+			});
 
 			/*点击“读取JSON文件”按钮时触发*/
 			readButton.addEventListener('click', () => {
@@ -507,6 +524,7 @@
 			const dropdownLong = document.getElementById('dropdown_long');
 			const dropdownAll = document.getElementById('dropdown_all');
 			const bpmControl = document.getElementById('bpm_change_input');
+			const keyMode = document.getElementById('key_mode').value; // 按键模式
 
 			// 检测未完成的空音符（匹配 A[] 或 (AD)[] 之前的未完成段）
 			const regex_empty_note = /(^|(?<=\])|(?<=\n))[^][^\n]*(?=\[\])/;
@@ -534,7 +552,9 @@
 				return null;
 			}
 
-			if (score_type === 'none') {
+			if (keyMode !== 'press') {
+				content = `${content.slice(0, -2)}[${keyMode === 'down' ? '^': '&'}]`;
+			} else if (score_type === 'none') {
 				content = `${content.slice(0, -2)}[${dropdownLong.value}]`;
 			} else if (score_type === '.') {
 				content = `${content.slice(0, -2)}[${dropdownAll.value}-${dropdownLong.value}.3]`;
