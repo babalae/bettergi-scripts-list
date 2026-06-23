@@ -1,5 +1,11 @@
 [
   {
+    "name": "key_interval",
+    "type": "input-text",
+    "label": "按键间隔(ms)\n注：如果出现漏音请适当调大该值",
+    "default": "5"
+  },
+  {
     "name": "music_start",
     "type": "input-text",
     "label": "定时启动时间（示例 19:19:10 默认：不启用）"

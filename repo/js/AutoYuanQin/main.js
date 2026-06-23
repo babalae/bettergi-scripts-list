@@ -522,7 +522,7 @@
             keyDown(key);
         } else if (status === "up") {
             keyUp(key);
-            await sleep(5);
+            await sleep(Number(settings.key_interval));
         }
 
     }
@@ -548,7 +548,7 @@
             for (const key of keys) {
                 keyUp(key);
             }
-            await sleep(5);
+            await sleep(Number(settings.key_interval));
         }
 
     }
@@ -861,6 +861,8 @@
                         let splIndex = type.indexOf('-');
                         spl = type.slice(splIndex + 1);
                         type = parseInt(type.slice(0, splIndex), 10);
+                    } else if (type === "^" || type === "&") {
+                        spl = type
                     }
 
                     // 将解析结果添加到parsedNotes数组中
@@ -966,12 +968,12 @@
                     log.info(`${status}-${notes}-${note_ticks}`);
                 }
                 let wait_time = Math.round(note_ticks * base_time);
-                if (wait_time >= 5) {
+                if (wait_time >= Number(settings.key_interval)) {
                     await sleep(wait_time);
                 } else if (i > 0) { //对相邻同音的按下/抬起对添加补偿延迟，避免无差别强制sleep导致流畅度下降
                     const prev_match = play_sheet[i - 1].match(regex);
                     if (prev_match && prev_match[2] === notes && prev_match[1] !== status) {
-                        await sleep(5);
+                        await sleep(Number(settings.key_interval));
                     }
                 }
 				if (notes === "@") continue;
@@ -1130,6 +1132,26 @@
                     ornament_time = Math.round(symbol_time / 16)
                     if (DEBUG) {
                         log.info(`变速：${bpm_new}`);
+                    }
+                } else if (sheet_list[i]["spl"] === '^' || sheet_list[i]["spl"] === '&') { // 抬起/按下
+                    if (sheet_list[i]["chord"]) {
+                        if (sheet_list[i]["spl"] === '^') {
+                            for (const key of sheet_list[i]["note"]) {
+                                keyDown(key);
+                            }
+                        } else {
+                            for (const key of sheet_list[i]["note"]) {
+                                keyUp(key);
+                            }
+                            await sleep(Number(settings.key_interval));
+                        }
+                    } else {
+                        if (sheet_list[i]["spl"] === '^') {
+                            keyDown(sheet_list[i]["note"]);
+                        } else {
+                            keyUp(sheet_list[i]["note"]);
+                            await sleep(Number(settings.key_interval));
+                        }
                     }
                 } else {
                     log.info(`错误: ${sheet_list[i]["spl"]}`);
