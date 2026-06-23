@@ -3,8 +3,9 @@ import { getNextDay4AM, getNextMonday4AM, useStoreWithDefaults } from "../@bette
 import { findUidText } from "./regions.js";
 
 //#region src/constants/store.ts
-//! 脚本数据存储
+/** 脚本数据存储 */
 const store = (() => {
+  /** 识别UID */
   const uid = findUidText()?.text.replace(/\D/g, "");
   if (!uid) throw new Error("创建用户数据存储失败: 无法识别UID");
   return useStoreWithDefaults(uid, {

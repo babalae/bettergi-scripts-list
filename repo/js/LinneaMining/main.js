@@ -56,6 +56,13 @@ async function runRoute(routePath) {
   }
 }
 
+// 运行结束，进行释放
+async function disposeAll(watcher) {
+  closeOverlay()
+  disposeKeyHook()
+  await watcher.cancel()
+}
+
 (async function () {
   // 开启月卡监听
   const watcher = startMonthCardWatcher()
@@ -110,6 +117,7 @@ async function runRoute(routePath) {
   const runnableRoutes = filterRunnableRoutes(routes, refreshData)
   if (runnableRoutes.length === 0) {
     log.info("所有路线均未刷新，无需运行")
+    await disposeAll(watcher)
     return
   }
 
@@ -199,8 +207,8 @@ async function runRoute(routePath) {
       elapsedTime: formatDuration((Date.now() - scriptStartTime) / 1000)
     })
     await sleep(3000)
-  } finally {
-    closeOverlay()
+  } catch (e) {
+    log.error(e.toString())
   }
 
   // const latestInventory = await getInventory()
@@ -209,6 +217,5 @@ async function runRoute(routePath) {
   // log.info("当前背包：" + formatInventory(latestInventory))
   // log.info(summary)
 
-  disposeKeyHook()
-  await watcher.cancel()
+  await disposeAll(watcher)
 })()

@@ -1,0 +1,28 @@
+{
+  "manifest_version": 1,
+  "name": "每日收获统计",
+  "version": "1.0",
+  "bgi_version": "0.60.0",
+  "description": "统计采集脚本期间的摩拉与狗粮经验收获：在采集任务前后各放一次（采集前记起点、采集后结算），只算采集窗口内的收获、排除手动花费。跨天累计与日均，支持多账号、抗中断；结果同时输出为方便小白阅读的 harvest_report.txt。",
+  "tags": [
+    "统计",
+    "摩拉",
+    "狗粮",
+    "收获",
+    "锄地"
+  ],
+  "authors": [
+    {
+      "name": "Zongyeeeee",
+      "links": "https://github.com/Zongyeeeee"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "local/harvest_stats.json",
+    "local/harvest_stats.bak.json",
+    "local/harvest_report.txt",
+    "local/harvest_report.html"
+  ]
+}

@@ -4,24 +4,48 @@ const path = require('path');
 // ================= 使用说明 =================
 // 1. 请确保你是以bettergi-script-list完整仓库的环境运行此脚本
 // 2. 请确保你本地配置了node.js环境
-// 3. 运行: node build/dev_deploy.js 脚本文件夹名 BGI目录。例：node build/dev_deploy.js test E:\BetterGIProject\BetterGI
+// 3. 运行: node build/dev_deploy.js 脚本文件夹名 BGI目录。路径含空格时可加引号，脚本也会兼容未加引号的路径
+//    例：node build/dev_deploy.js test "E:\Better GI Project\BetterGI"
 // 4. 脚本自动导入，会删除原有packages后导入新的packages，其他文件覆盖式导入
 // ===========================================
 
-// 脚本名称（repo/js 下的文件夹名）
-const SCRIPT_NAME = process.argv[2];
+const REPO_ROOT = path.resolve(__dirname, '..');
 
-// BetterGI 软件根目录（包含 User 文件夹）
-const BETTERGI_ROOT = process.argv[3];
-
-if (!SCRIPT_NAME || !BETTERGI_ROOT) {
-    console.error('❌ 参数不足。');
-    console.error('用法: node dev_deploy.js <script_folder_name> <bettergi_root_path>');
-    process.exit(1);
+function trimWrappingQuotes(value) {
+    if (!value || value.length < 2) return value;
+    const first = value[0];
+    const last = value[value.length - 1];
+    return ((first === '"' && last === '"') || (first === "'" && last === "'"))
+        ? value.slice(1, -1)
+        : value;
 }
 
+/**
+ * 解析部署参数。命令行未给含空格路径加引号时，Node 会将其拆成多个参数，
+ * 此处通过已存在的 repo/js 脚本目录确定分界，并将剩余部分还原为 BetterGI 路径。
+ * @param {string[]} args process.argv.slice(2)
+ */
+function parseArguments(args) {
+    if (args.length < 2) return { scriptName: '', bettergiRoot: '' };
+
+    let scriptArgCount = 1;
+    for (let count = 1; count < args.length; count++) {
+        const candidate = trimWrappingQuotes(args.slice(0, count).join(' '));
+        const candidateDir = path.join(REPO_ROOT, 'repo', 'js', candidate);
+        if (fs.existsSync(candidateDir) && fs.statSync(candidateDir).isDirectory()) {
+            scriptArgCount = count;
+        }
+    }
+
+    return {
+        scriptName: trimWrappingQuotes(args.slice(0, scriptArgCount).join(' ')),
+        bettergiRoot: trimWrappingQuotes(args.slice(scriptArgCount).join(' '))
+    };
+}
+
+const { scriptName: SCRIPT_NAME, bettergiRoot: BETTERGI_ROOT } = parseArguments(process.argv.slice(2));
+
 // 路径定义
-const REPO_ROOT = path.resolve(__dirname, '..');
 const SOURCE_SCRIPT_DIR = path.join(REPO_ROOT, 'repo', 'js', SCRIPT_NAME);
 const TARGET_SCRIPT_DIR = path.join(
   path.resolve(BETTERGI_ROOT),
@@ -34,6 +58,13 @@ const PROCESSED_PACKAGES = new Set();
 const PROCESSED_FILES = new Set(); // 避免循环扫描
 
 function main() {
+    if (!SCRIPT_NAME || !BETTERGI_ROOT) {
+        console.error('❌ 参数不足。');
+        console.error('用法: node dev_deploy.js <script_folder_name> <bettergi_root_path>');
+        console.error('路径含空格时建议使用引号，例如: node dev_deploy.js test "E:\\Better GI\\BetterGI"');
+        process.exit(1);
+    }
+
     console.log(`📂 源目录: ${SOURCE_SCRIPT_DIR}`);
     console.log(`📂 目标目录: ${TARGET_SCRIPT_DIR}`);
 
@@ -186,4 +217,8 @@ function copyDir(src, dest) {
     }
 }
 
-main();
+if (require.main === module) {
+    main();
+}
+
+module.exports = { parseArguments };

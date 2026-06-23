@@ -1,5 +1,6 @@
 let notify = settings.notify
 let account = settings.userName || "默认账户";
+let countTimePoint = settings.countTimePoint || "未知";
 (async function () {
     // 设置分辨率和缩放
     setGameMetrics(1920, 1080, 1);
@@ -112,7 +113,8 @@ let account = settings.userName || "默认账户";
     
     // 构建通知消息
     let message = `📦 圣遗物经验统计\n`;
-    message += `👤 账户名：${userName}\n`;;
+    message += `👤 账户名：${userName}\n`;
+    message += `⏰ 统计时间点：${countTimePoint}\n`;
     message += `\n`;
     message += `📊 [狗粮数量统计]\n`;
     message += `📦 总数量：${totalCount} 个\n`;
@@ -133,7 +135,7 @@ let account = settings.userName || "默认账户";
     const localData = await getLocalData(recordPath);
     
     // 更新记录
-    await updateRecord(recordPath, initialValue, parseInt(smallBottle || 0), parseInt(bigBottle || 0), starCounts, totalExp);
+    await updateRecord(recordPath, initialValue, parseInt(smallBottle || 0), parseInt(bigBottle || 0), starCounts, totalExp, countTimePoint);
     
     // 构建基础日志信息
     const formattedExpStarsLog = await formatExp(expStars);
@@ -143,11 +145,11 @@ let account = settings.userName || "默认账户";
     const formattedTotalExpLog = await formatExp(totalExp);
     const baseLog = `狗粮:${totalCount}个(1★${starCounts.star1} 2★${starCounts.star2} 3★${starCounts.star3} 4★${starCounts.star4}) | 狗粮经验:${formattedExpStarsLog} | 小瓶:${formattedExpSmallLog} 大瓶:${formattedExpBigLog} 储存:${initialValue} | 库存经验:${formattedExpStockLog} | 总计:${formattedTotalExpLog}`;
 
-    // 计算变化量并添加到通知消息
+    // 计算变化量并添加到通知消息（只比对统计时间点相同的数据）
     let logMessage = baseLog;
     if (localData.initialized.initialValue && localData.initialized.smallBottle && localData.initialized.bigBottle && 
         localData.initialized.star1 && localData.initialized.star2 && localData.initialized.star3 && localData.initialized.star4 &&
-        localData.initialized.totalExp) {
+        localData.initialized.totalExp && localData.countTimePoint === countTimePoint) {
         // 计算本地记录中的狗粮经验合计
         const localExpStar1 = localData.starCounts.star1 * 420;
         const localExpStar2 = localData.starCounts.star2 * 840;
@@ -159,8 +161,9 @@ let account = settings.userName || "默认账户";
         const diffTotalExp = totalExp - localData.totalExp;
         const diffExpStars = expStars - localExpStars;
         
-        // 添加变化量到通知消息
+        // 添加变化量到通知消息（对比上个相同时间点）
         message += `\n`;
+        message += `🔄 对比上次【${localData.countTimePoint}】：\n`;
         if (diffTotalExp !== 0 || diffExpStars !== 0) {
             if (diffTotalExp !== 0) {
                 const totalChangeDesc = diffTotalExp > 0 ? '增加' : '减少';
@@ -404,6 +407,7 @@ let account = settings.userName || "默认账户";
                 star4: null
             },
             totalExp: null,
+            countTimePoint: null,
             initialized: {
                 initialValue: false,
                 smallBottle: false,
@@ -412,7 +416,8 @@ let account = settings.userName || "默认账户";
                 star2: false,
                 star3: false,
                 star4: false,
-                totalExp: false
+                totalExp: false,
+                countTimePoint: false
             }
         };
 
@@ -432,6 +437,7 @@ let account = settings.userName || "默认账户";
             const star3Regex = /3星狗粮-(\d+)/;
             const star4Regex = /4星狗粮-(\d+)/;
             const totalExpRegex = /总经验-(\d+)/;
+            const countTimePointRegex = /统计时间点-(.+)/;
 
             // 遍历前几条记录，寻找最新的一组完整数据
             for (const line of lines) {
@@ -507,6 +513,15 @@ let account = settings.userName || "默认账户";
                     }
                 }
 
+                // 匹配统计时间点
+                if (!result.initialized.countTimePoint) {
+                    const match = line.match(countTimePointRegex);
+                    if (match) {
+                        result.countTimePoint = match[1];
+                        result.initialized.countTimePoint = true;
+                    }
+                }
+
                 // 所有数据都找到，提前终止遍历
                 if (result.initialized.initialValue && 
                     result.initialized.smallBottle && 
@@ -519,9 +534,19 @@ let account = settings.userName || "默认账户";
                     break;
                 }
             }
+            
+            // 兼容旧记录，没有统计时间点时默认设置为"未知"
+            if (result.countTimePoint === null) {
+                result.countTimePoint = "未知";
+            }
+            
             return result;
         } catch (error) {
             // 文件不存在或读取错误时返回空结果
+            // 兼容旧记录，没有统计时间点时默认设置为"未知"
+            if (result.countTimePoint === null) {
+                result.countTimePoint = "未知";
+            }
             return result;
         }
     }
@@ -534,8 +559,9 @@ let account = settings.userName || "默认账户";
      * @param {number} bigBottle - 大经验瓶数量
      * @param {object} starCounts - 狗粮数量
      * @param {number} totalExp - 总经验值
+     * @param {string} countTimePoint - 统计时间点
      */
-    async function updateRecord(filePath, initialValue, smallBottle, bigBottle, starCounts, totalExp) {
+    async function updateRecord(filePath, initialValue, smallBottle, bigBottle, starCounts, totalExp, countTimePoint) {
         // 生成当前时间字符串
         const now = new Date();
         const timeStr = `${now.getFullYear()}/${
@@ -555,10 +581,10 @@ let account = settings.userName || "默认账户";
             `时间:${timeStr}-已储存经验-${initialValue}`,
             `时间:${timeStr}-小经验瓶-${smallBottle}`,
             `时间:${timeStr}-大经验瓶-${bigBottle}`,
-            `时间:${timeStr}-1星狗粮-${starCounts.star1}`,
-            `时间:${timeStr}-2星狗粮-${starCounts.star2}`,
-            `时间:${timeStr}-3星狗粮-${starCounts.star3}`,
-            `时间:${timeStr}-4星狗粮-${starCounts.star4}`,
+            `时间:${timeStr}-1星狗粮-${starCounts.star1}-统计时间点-${countTimePoint}`,
+            `时间:${timeStr}-2星狗粮-${starCounts.star2}-统计时间点-${countTimePoint}`,
+            `时间:${timeStr}-3星狗粮-${starCounts.star3}-统计时间点-${countTimePoint}`,
+            `时间:${timeStr}-4星狗粮-${starCounts.star4}-统计时间点-${countTimePoint}`,
             `时间:${timeStr}-总经验-${totalExp}`
         ];
 
@@ -571,8 +597,6 @@ let account = settings.userName || "默认账户";
                 await file.writeText(filePath, records.join('\n'));
                 return true;
             }
-
-
 
             // 添加新记录到最前面
             lines.unshift(...records);

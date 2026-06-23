@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>圣遗物评分</title>
+  <style>
+      * {
+          box-sizing: border-box;
+      }
+
+      html, body {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          overflow: hidden;
+          background: transparent;
+      }
+
+      body {
+          color: #f7f1df;
+          font-family: "Microsoft YaHei", sans-serif;
+      }
+
+      .panel-anchor {
+          position: fixed;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          pointer-events: none;
+      }
+
+      .panel {
+          width: calc(100% - 36px);
+          max-width: 420px;
+          padding: 21px;
+          transform: scale(var(--dpi-scale, 1));
+          transform-origin: center;
+          pointer-events: auto;
+          border: 1.5px solid rgba(231, 202, 132, .72);
+          border-radius: 24px;
+          background: linear-gradient(145deg, rgba(38, 42, 55, .94), rgba(21, 24, 33, .92));
+          box-shadow: 0 21px 57px rgba(0, 0, 0, .42), inset 0 1.5px rgba(255, 255, 255, .08);
+      }
+
+      .header {
+          text-align: center;
+      }
+
+      .title {
+          color: #ead8a5;
+          font-size: 28px;
+          font-weight: 700;
+          letter-spacing: 3px;
+      }
+
+      .score-row {
+          margin: 18px 0 15px;
+          text-align: center;
+      }
+
+      .score {
+          color: #fff2ba;
+          font-size: 69px;
+          font-weight: 800;
+          line-height: 1;
+          text-shadow: 0 3px 18px rgba(232, 202, 120, .25);
+      }
+
+      .score.with-character {
+          font-size: 37px;
+          line-height: 1.25;
+      }
+
+      .grade {
+          display: inline-block;
+          margin-top: 11px;
+          padding: 5px 15px;
+          border: 1.5px solid currentColor;
+          border-radius: 999px;
+          color: #e8ca78;
+          font-size: 21px;
+          font-weight: 700;
+      }
+
+      .stats {
+          margin-bottom: 14px;
+          padding: 12px;
+          border: 1px solid rgba(234, 216, 165, .22);
+          border-radius: 10px;
+          background: rgba(255, 255, 255, .035);
+      }
+
+      .stats-title {
+          margin-bottom: 7px;
+          color: #aeb7c9;
+          font-size: 16px;
+          text-align: center;
+      }
+
+      .stat-row {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) auto;
+          gap: 10px;
+          padding: 4px 6px;
+          border-radius: 5px;
+          font-size: 17px;
+      }
+
+      .stat-row:nth-child(odd) {
+          background: rgba(255, 255, 255, .03);
+      }
+
+      .stat-row.main-stat {
+          margin-bottom: 4px;
+          color: #fff2ba;
+          font-weight: 700;
+      }
+
+      .stat-name {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+
+      .stat-value {
+          color: #ead8a5;
+          font-variant-numeric: tabular-nums;
+      }
+
+      .stat-row.unrecognized .stat-name, .stat-row.unrecognized .stat-value {
+          color: #d99898;
+      }
+
+      .stat-row.pending .stat-name, .stat-row.pending .stat-value {
+          color: #aeb7c9;
+      }
+
+      .characters {
+          border-top: 1.5px solid rgba(255, 255, 255, .12);
+          padding-top: 14px;
+      }
+
+      .characters-title {
+          margin-bottom: 8px;
+          color: #aeb7c9;
+          font-size: 17px;
+          text-align: center;
+      }
+
+      .character {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) auto;
+          gap: 12px;
+          padding: 5px 3px;
+          border-radius: 6px;
+          font-size: 19px;
+      }
+
+      .character:nth-child(odd) {
+          background: rgba(255, 255, 255, .025);
+      }
+
+      .character span:first-child {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+
+      .character-score {
+          color: #ead8a5;
+          font-variant-numeric: tabular-nums;
+      }
+
+      .empty {
+          padding: 23px 0 9px;
+          color: #aeb7c9;
+          text-align: center;
+          font-size: 19px;
+      }
+  </style>
+</head>
+<body>
+<div class="panel-anchor">
+<main class="panel">
+  <div class="header">
+    <div class="title">圣遗物评分</div>
+  </div>
+  <div id="empty" class="empty">请打开圣遗物详情界面</div>
+  <section id="result" hidden>
+    <div class="score-row">
+      <div id="score" class="score">0.0</div>
+      <div id="grade" class="grade">D</div>
+    </div>
+    <div class="stats">
+      <div class="stats-title">识别词条</div>
+      <div id="main-stat"></div>
+      <div id="sub-stat-list"></div>
+    </div>
+    <div class="characters">
+      <div class="characters-title">适配角色</div>
+      <div id="character-list"></div>
+    </div>
+  </section>
+</main>
+</div>
+<script>
+  const byId = (id) => document.getElementById(id)
+  const escapeHtml = (value) => String(value ?? '')
+    .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;').replaceAll("'", '&#039;')
+
+  // BetterGI 的 HTML 遮罩会继承系统 DPI；反向缩放可保持面板物理尺寸稳定。
+  function applyDpiScale() {
+    const dpr = window.devicePixelRatio || 1
+    document.documentElement.style.setProperty('--dpi-scale', String(1 / dpr))
+  }
+
+  applyDpiScale()
+  window.addEventListener('resize', applyDpiScale)
+
+  function render(data) {
+    if (!data || data.waiting) {
+      byId('empty').hidden = false
+      byId('result').hidden = true
+      return
+    }
+
+    const score = byId('score')
+    score.classList.toggle('with-character', Boolean(data.character))
+    score.textContent = data.character
+      ? `${data.character.name}：${Number(data.character.score || 0).toFixed(1)}`
+      : Number(data.score || 0).toFixed(1)
+    byId('grade').textContent = data.grade || '-'
+    const stats = data.artifactStats || {main: {}, subs: []}
+    byId('main-stat').innerHTML = `<div class="stat-row main-stat"><span class="stat-name">${escapeHtml(stats.main?.name || '主词条未识别')}</span><span class="stat-value">${escapeHtml(stats.main?.value || '--')}</span></div>`
+    byId('sub-stat-list').innerHTML = (stats.subs || []).map((item) => {
+      const stateClass = item.name === '未识别' ? ' unrecognized' : item.name === '待激活' ? ' pending' : ''
+      return `<div class="stat-row${stateClass}"><span class="stat-name">${escapeHtml(item.name)}</span><span class="stat-value">${escapeHtml(item.value)}</span></div>`
+    }).join('')
+    byId('character-list').innerHTML = (data.characters || []).map((item) =>
+      `<div class="character"><span>${escapeHtml(item.name)}</span><span class="character-score">${Number(item.score || 0).toFixed(1)}</span></div>`
+    ).join('') || '<div class="empty">暂无适配角色</div>'
+    byId('empty').hidden = true
+    byId('result').hidden = false
+  }
+
+  if (window.htmlMask) {
+    window.htmlMask.onMessage = (message) => {
+      if (message.url === '/score') render(message.data?.data || message.data)
+      if (message.url === '/visibility') {
+        const data = message.data?.data || message.data
+        document.body.style.display = data?.visible === false ? 'none' : ''
+      }
+    }
+  }
+</script>
+</body>
+</html>

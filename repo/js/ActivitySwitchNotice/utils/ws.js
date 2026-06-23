@@ -1,4 +1,4 @@
-import {toMainUi} from "./utils/tool";
+import {toMainUi} from "./tool";
 const actionType = Object.freeze({
     send_private_msg: 'send_private_msg',//私聊
     send_group_msg: 'send_group_msg',//群聊
