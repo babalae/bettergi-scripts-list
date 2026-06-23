@@ -522,7 +522,7 @@
             keyDown(key);
         } else if (status === "up") {
             keyUp(key);
-            await sleep(Math.floor(Math.random() * (30 - 20 + 20)) + 20);
+            await sleep(20);
 
         }
 
@@ -549,7 +549,7 @@
             for (const key of keys) {
                 keyUp(key);
             }
-            await sleep(Math.floor(Math.random() * (30 - 20 + 20)) + 20);
+            await sleep(20);
         }
 
     }
@@ -969,12 +969,12 @@
                     log.info(`${status}-${notes}-${note_ticks}`);
                 }
                 let wait_time = Math.round(note_ticks * base_time);
-                if (wait_time >= 30) {
+                if (wait_time >= 20) {
                     await sleep(wait_time);
                 } else if (i > 0) { //对相邻同音的按下/抬起对添加补偿延迟，避免无差别强制sleep导致流畅度下降
                     const prev_match = play_sheet[i - 1].match(regex);
                     if (prev_match && prev_match[2] === notes && prev_match[1] !== status) {
-                        await sleep(Math.floor(Math.random() * (30 - 20 + 20)) + 20);
+                        await sleep(20);
                     }
                 }
 				if (notes === "@") continue;
@@ -1144,14 +1144,14 @@
                             for (const key of sheet_list[i]["note"]) {
                                 keyUp(key);
                             }
-                            await sleep(Math.floor(Math.random() * (30 - 20 + 20)) + 20);
+                            await sleep(20);
                         }
                     } else {
                         if (sheet_list[i]["spl"] === '^') {
                             keyDown(sheet_list[i]["note"]);
                         } else {
                             keyUp(sheet_list[i]["note"]);
-                            await sleep(Math.floor(Math.random() * (30 - 20 + 20)) + 20);
+                            await sleep(20);
                         }
                     }
                 } else {
