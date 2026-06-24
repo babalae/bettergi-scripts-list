@@ -7,6 +7,13 @@
  * 所有坐标均基于 BetterGI 的 1920x1080 标准截图。
  */
 import scoreData, {analyzeArtifact, calcArtifactScore, getMarkClass} from "./utils/artis-score-standalone.js"
+import {
+  estimateSubStatRolls,
+  formatRollCount,
+  formatScore,
+  getArtifactScoreBreakdown,
+  getAttrUseState
+} from "./utils/artis-score-utils.js"
 
 const MASK_PATH = "assets/score-mask.html"
 const MASK_ID_PREFIX = "artiscope-score"
@@ -442,6 +449,7 @@ async function readSubStat(region, index, snapshot = null) {
   if (text.includes("待激活")) {
     return {
       key: `待激活${index + 1}`,
+      statKey: "",
       value: 0,
       name: "待激活",
       displayValue: "0"
@@ -452,6 +460,7 @@ async function readSubStat(region, index, snapshot = null) {
   if (!statName) {
     return {
       key: `未识别${index + 1}`,
+      statKey: "",
       value: 0,
       name: "未识别",
       displayValue: "--"
@@ -462,6 +471,7 @@ async function readSubStat(region, index, snapshot = null) {
   if (!Number.isFinite(value)) {
     return {
       key: `未识别${index + 1}`,
+      statKey: "",
       value: 0,
       name: statName,
       displayValue: "--"
@@ -469,8 +479,10 @@ async function readSubStat(region, index, snapshot = null) {
   }
 
   const hasPercent = /[%％]/.test(text)
+  const key = getSubStatKey(statName, hasPercent)
   return {
-    key: getSubStatKey(statName, hasPercent),
+    key,
+    statKey: SUB_KEYS[key] || "",
     value,
     name: statName,
     displayValue: formatStatValue(value, hasPercent, true)
@@ -495,7 +507,12 @@ async function readArtifactFromOcr(position, snapshot) {
   for (let index = 0; index < REGIONS.subStats.length; index++) {
     const subStat = await readSubStat(REGIONS.subStats[index], index, snapshot)
     subs[subStat.key] = subStat.value
-    subStats.push({ name: subStat.name, value: subStat.displayValue })
+    subStats.push({
+      key: subStat.statKey,
+      name: subStat.name,
+      value: subStat.displayValue,
+      rawValue: subStat.value
+    })
   }
 
   return {
@@ -539,18 +556,6 @@ function formatArtifactMeta(artifact) {
   return [POSITION_NAMES[artifact.pos], artifact.main].filter(Boolean).join(" · ")
 }
 
-/**
- * 计算当前圣遗物对指定角色及元素的单件分数。
- */
-function scoreForCharacter(characterName, artifact, elem = "") {
-  const result = calcArtifactScore(
-    characterName,
-    [toCalculatorArtifact(artifact)],
-    { elem }
-  )
-  return result.artifacts[0]?.score || 0
-}
-
 function isSupportedCharacter(character) {
   if (!character) return false
   return Boolean(scoreData.usefulAttr?.[character.name])
@@ -569,6 +574,37 @@ function getDisplayStateKey(artifact) {
   })
 }
 
+function enrichArtifactStats(artifact, scoreBreakdown = null) {
+  const subDetailMap = new Map((scoreBreakdown?.subs || []).map(item => [item.key, item]))
+  const main = {
+    name: artifact.main,
+    value: artifact.mainDisplayValue,
+    score: scoreBreakdown?.main ? formatScore(scoreBreakdown.main.score) : "",
+    state: scoreBreakdown?.main ? getAttrUseState(scoreBreakdown.main.weight) : ""
+  }
+  const subs = artifact.subStats.map(item => {
+    const detail = item.key ? subDetailMap.get(item.key) : null
+    const estimate = item.key ? estimateSubStatRolls(item.key, item.rawValue) : null
+    const state = item.name === "未识别"
+      ? "unrecognized"
+      : item.name === "待激活"
+        ? "pending"
+        : detail
+          ? getAttrUseState(detail.weight)
+          : ""
+    return {
+      ...item,
+      score: detail ? formatScore(detail.score) : "",
+      rollCount: estimate && estimate.count > 1 ? String(estimate.count - 1) : "",
+      rollText: formatRollCount(estimate),
+      effective: estimate ? estimate.effective.toFixed(1) : "",
+      state
+    }
+  })
+
+  return { main, subs }
+}
+
 /**
  * 计算评分并一次性更新遮罩，避免各字段分批刷新。
  */
@@ -577,13 +613,39 @@ async function displayArtifactScore(artifact) {
     topN: 10,
     travelerElem: cachedCharacter?.name === "旅行者" ? cachedCharacter.elem : ""
   })
-  const character = isSupportedCharacter(cachedCharacter)
-    ? {
-        name: cachedCharacter.displayName,
-        score: scoreForCharacter(cachedCharacter.name, artifact, cachedCharacter.elem)
-      }
-    : null
-  const displayScore = character ? character.score : result.score
+  const calcArtifact = toCalculatorArtifact(artifact)
+
+  // 角色定向评分；未识别到角色时用通用权重兜底，保证词条分始终有值
+  let scoreBreakdown
+  let character
+  let displayScore
+
+  if (isSupportedCharacter(cachedCharacter)) {
+    scoreBreakdown = getArtifactScoreBreakdown({
+      calcArtifactScore,
+      scoreData,
+      charName: cachedCharacter.name,
+      artifact: calcArtifact,
+      options: { elem: cachedCharacter.elem }
+    })
+    character = {
+      name: cachedCharacter.displayName,
+      score: scoreBreakdown.score
+    }
+    displayScore = character.score
+  } else {
+    // 无角色或角色未收录时，使用通用基准角色计算词条分
+    const elem = cachedCharacter?.elem || ""
+    scoreBreakdown = getArtifactScoreBreakdown({
+      calcArtifactScore,
+      scoreData,
+      charName: "香菱",
+      artifact: calcArtifact,
+      options: { elem }
+    })
+    character = null
+    displayScore = result.score
+  }
 
   await showScoreMask()
   sendMaskData({
@@ -592,10 +654,7 @@ async function displayArtifactScore(artifact) {
     score: result.score,
     grade: getMarkClass(displayScore),
     character,
-    artifactStats: {
-      main: { name: artifact.main, value: artifact.mainDisplayValue },
-      subs: artifact.subStats
-    },
+    artifactStats: enrichArtifactStats(artifact, scoreBreakdown),
     characters: result.characters
   })
 }
