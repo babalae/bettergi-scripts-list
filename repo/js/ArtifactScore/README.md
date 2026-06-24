@@ -6,7 +6,7 @@
 
 ## 效果展示
 
-<img src="assets/images/show.webp" alt=""/>
+<img src="assets/images/readme/show.webp" style="width: 60%" alt=""/>
 
 ## 使用要求
 
@@ -20,7 +20,7 @@
 1. 启动“圣遗物实时评分”脚本。
 2. 如图，打开角色界面的圣遗物页。  
 
-<img src="assets/images/role.webp" style="width: 80%" alt=""/>
+<img src="assets/images/readme/role.webp" style="width: 80%" alt=""/>
 
 3. 等待片刻，评分遮罩会自动出现。
 4. 切换圣遗物后，脚本会重新确认部位和词条，更新结果。
@@ -36,7 +36,7 @@
 - `水元素 / 珊瑚宫心海`
 - `圣遗物 / 珊瑚宫心海`
 
-<img src="assets/images/get-role.webp" style="width: 80%" alt=""/>
+<img src="assets/images/readme/get-role.webp" style="width: 80%" alt=""/>
 
 识别成功后，浮窗的大分数会显示为“角色名：分数”。该分数会按角色的有效词条、元素及特殊评分规则计算。
 
@@ -63,10 +63,12 @@
 
 ## 开发者说明
 
-评分模块 `utils/artis-score-standalone.js` 完全由以下命令生成，请勿直接编辑生成文件：
+评分规则模块 `utils/artis-score-standalone.js` 完全由以下命令生成，请勿直接编辑生成文件：
 
 ```bash
 node tools/crawl-standalone.js
 ```
 
-可使用 `--branch` 指定 miao-plugin 分支。
+可使用 `--branch` 指定 miao-plugin 分支。这个爬虫只用于更新来自 miao-plugin 的角色评分规则、权重、基础属性和特殊规则。
+
+单条得分拆分、有效/无效标色、词条数估算等基本稳定的展示逻辑维护在 `utils/artis-score-utils.js`，不放进爬虫模板，避免更新角色规则时误覆盖。

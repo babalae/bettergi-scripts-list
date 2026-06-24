@@ -103,8 +103,9 @@
           display: grid;
           grid-template-columns: minmax(0, 1fr) auto;
           gap: 10px;
-          padding: 4px 6px;
-          border-radius: 5px;
+          align-items: center;
+          padding: 4px 7px;
+          border-radius: 6px;
           font-size: 17px;
       }
 
@@ -113,30 +114,111 @@
       }
 
       .stat-row.main-stat {
-          margin-bottom: 4px;
+          margin-bottom: 6px;
+          padding: 6px 7px;
           color: #fff2ba;
+          font-size: 19px;
           font-weight: 700;
       }
 
+      .stat-row.great {
+          background: rgba(232, 202, 120, .18);
+      }
+
+      .stat-row.useful {
+          background: rgba(232, 202, 120, .10);
+      }
+
+      .stat-row.nouse {
+          background: rgba(232, 202, 120, .045);
+      }
+
+      .stat-left, .stat-right {
+          display: inline-flex;
+          align-items: center;
+          min-width: 0;
+      }
+
+      .stat-left {
+          gap: 6px;
+      }
+
+      .stat-right {
+          justify-content: flex-end;
+          gap: 5px;
+          color: #ead8a5;
+          font-variant-numeric: tabular-nums;
+          white-space: nowrap;
+      }
+
       .stat-name {
+          min-width: 0;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
       }
 
-      .stat-value {
-          color: #ead8a5;
+      .score-chip {
+          flex: 0 0 auto;
+          min-width: 30px;
+          padding: 1px 7px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, .08);
+          color: #cdd4e1;
+          font-size: 12px;
+          font-weight: 700;
+          line-height: 1.35;
+          text-align: center;
           font-variant-numeric: tabular-nums;
       }
 
-      .stat-row.unrecognized .stat-name, .stat-row.unrecognized .stat-value {
+      .main-stat .score-chip {
+          font-size: 13px;
+      }
+
+      #sub-stat-list {
+          display: grid;
+          gap: 5px;
+      }
+
+      .roll-badge {
+          display: inline-grid;
+          place-items: center;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: rgba(234, 216, 165, .24);
+          color: #fff2ba;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 1;
+      }
+
+      .stat-row.great .score-chip, .stat-row.great .roll-badge {
+          background: rgba(255, 224, 128, .28);
+          color: #ffe080;
+      }
+
+      .stat-row.useful .score-chip, .stat-row.useful .roll-badge {
+          background: rgba(234, 216, 165, .18);
+          color: #ead8a5;
+      }
+
+      .stat-row.nouse .score-chip, .stat-row.nouse .roll-badge {
+          background: rgba(232, 202, 120, .10);
+      }
+
+      .stat-row.nouse .stat-name, .stat-row.nouse .score-chip, .stat-row.nouse .roll-badge {
+          color: #b3bac8;
+      }
+
+      .stat-row.unrecognized .stat-name, .stat-row.unrecognized .stat-right {
           color: #d99898;
       }
 
-      .stat-row.pending .stat-name, .stat-row.pending .stat-value {
+      .stat-row.pending .stat-name, .stat-row.pending .stat-right {
           color: #aeb7c9;
       }
-
       .characters {
           border-top: 1.5px solid rgba(255, 255, 255, .12);
           padding-top: 14px;
@@ -234,10 +316,16 @@
       : Number(data.score || 0).toFixed(1)
     byId('grade').textContent = data.grade || '-'
     const stats = data.artifactStats || {main: {}, subs: []}
-    byId('main-stat').innerHTML = `<div class="stat-row main-stat"><span class="stat-name">${escapeHtml(stats.main?.name || '主词条未识别')}</span><span class="stat-value">${escapeHtml(stats.main?.value || '--')}</span></div>`
+    const mainStateClass = stats.main?.state ? ` ${stats.main.state}` : ''
+    const showMainMarkers = stats.main?.state !== 'unrecognized' && stats.main?.state !== 'pending'
+    const mainScore = showMainMarkers && stats.main?.score ? `<span class="score-chip">${escapeHtml(stats.main.score)}</span>` : ''
+    byId('main-stat').innerHTML = `<div class="stat-row main-stat${mainStateClass}"><span class="stat-left"><span class="stat-name">${escapeHtml(stats.main?.name || '主词条未识别')}</span>${mainScore}</span><span class="stat-right"><span class="stat-result">${escapeHtml(stats.main?.value || '--')}</span></span></div>`
     byId('sub-stat-list').innerHTML = (stats.subs || []).map((item) => {
-      const stateClass = item.name === '未识别' ? ' unrecognized' : item.name === '待激活' ? ' pending' : ''
-      return `<div class="stat-row${stateClass}"><span class="stat-name">${escapeHtml(item.name)}</span><span class="stat-value">${escapeHtml(item.value)}</span></div>`
+      const stateClass = item.state ? ` ${item.state}` : item.name === '未识别' ? ' unrecognized' : item.name === '待激活' ? ' pending' : ''
+      const showMarkers = item.state !== 'unrecognized' && item.state !== 'pending' && item.name !== '未识别' && item.name !== '待激活'
+      const scoreChip = showMarkers && item.score ? `<span class="score-chip">${escapeHtml(item.score)}</span>` : ''
+      const rollBadge = showMarkers && item.rollCount ? `<span class="roll-badge" title="${escapeHtml(item.rollText || '')}">${escapeHtml(item.rollCount)}</span>` : ''
+      return `<div class="stat-row${stateClass}"><span class="stat-left"><span class="stat-name">${escapeHtml(item.name)}</span>${scoreChip}</span><span class="stat-right">${rollBadge}<span class="stat-result">${escapeHtml(item.value)}</span></span></div>`
     }).join('')
     byId('character-list').innerHTML = (data.characters || []).map((item) =>
       `<div class="character"><span>${escapeHtml(item.name)}</span><span class="character-score">${Number(item.score || 0).toFixed(1)}</span></div>`
