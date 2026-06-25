@@ -1126,34 +1126,40 @@
     // mergeCodes 保持不变
     function mergeCodes(s) {
         if (typeof s !== 'string') return s;
-        const pattern = /^([DU])([A-Z]+)(\d+)$/;
+        const pattern = /^([DU])([A-Z@]+)(\d+)$/;  // 中间部分允许包含 @
         const codes = s.split('|');
         const merged = [];
 
         for (let code of codes) {
             const m = code.match(pattern);
             if (!m) {
-                // 非匹配项直接保留原始字符串
+                // 非匹配项（比如 *110）原样保留
                 merged.push({ raw: code });
                 continue;
             }
-            const prefix = m[1];
-            const middle = m[2];
+
+            const prefix = m[1];   // D 或 U
+            const middle = m[2];   // 字母串（可能含 @）
             const numStr = m[3];
             const num = parseInt(numStr, 10);
 
-            if (merged.length > 0 && merged[merged.length - 1].prefix === prefix) {
-                const last = merged[merged.length - 1];
-                const lastNum = parseInt(last.numStr, 10);
-                if ((lastNum === 0 || lastNum === 1) && (num === 0 || num === 1)) {
-                    // 合并：保留首字母(prefix)，拼接中间字母，数字取右侧项的数字
-                    last.middle = last.middle + middle;
-                    last.numStr = numStr;
-                    continue;
+            const last = merged.length > 0 ? merged[merged.length - 1] : null;
+
+            // 规则：相同前缀、当前 tick 为 0 → 向前合并
+            if (last && last.prefix === prefix && num === 0) {
+                // 拼接中间字母
+                last.middle += middle;
+
+                // 如果合并后包含休止符 @，且已经有其他字母，则去掉 @
+                if (last.middle.includes('@') && last.middle.length > 1) {
+                    last.middle = last.middle.replace('@', '');
                 }
+                // tick 保持 last 的 numStr 不变
+                continue;
             }
 
-            merged.push({ prefix: prefix, middle: middle, numStr: numStr });
+            // 否则作为新段加入
+            merged.push({ prefix, middle, numStr });
         }
 
         const resultParts = merged.map(item => {
