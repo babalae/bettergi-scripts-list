@@ -73,6 +73,8 @@ const execWeeklyTask = async () => {
       if (isHostException(err)) throw err;
       /** 发生脚本流程异常，尝试退出关卡（如果在关卡中） */
       await exitStage();
+      /** 发生脚本流程异常，尝试返回主界面 */
+      await genshin.returnMainUi();
       log.error("脚本执行出错: {error}", getErrorMessage(err));
     }
   await genshin.returnMainUi();

@@ -127,7 +127,7 @@ const clickToPrepare = () => {
 };
 /** 房间：查找加入准备区提示 */
 const findPrepareMsg = () => {
-  return findTextWithinBounds("加入准备", 576, 432, 768, 216, { contains: true });
+  return findTextWithinBounds("准备", 576, 432, 768, 216, { contains: true });
 };
 /** 存档：查找奇域收藏 */
 const findBeyondFavoritesBtn = () => {
