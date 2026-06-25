@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -6,7 +6,7 @@
         "name": "起个名字好难的喵"
       }
     ],
-    "bgi_version": "0.45.0",
+    "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
     "last_modified_time": 1774967918664,
@@ -18,110 +18,109 @@
     "version": "1.0"
   },
   "positions": [
-    
     {
+      "id": 1,
       "action": "",
-      "id": 2,
       "move_mode": "walk",
       "type": "teleport",
       "x": -4375.73,
       "y": -2498.13
     },
     {
+      "id": 2,
       "action": "",
-      "id": 3,
       "move_mode": "dash",
       "type": "path",
       "x": -4395.45,
       "y": -2504.42
     },
     {
+      "id": 3,
       "action": "",
-      "id": 4,
       "move_mode": "fly",
       "type": "path",
       "x": -4450.85,
       "y": -2586.64
     },
     {
+      "id": 4,
       "action": "",
-      "id": 5,
       "move_mode": "fly",
       "type": "path",
       "x": -4454.95,
       "y": -2586.98
     },
     {
+      "id": 5,
       "action": "electro_collect",
-      "id": 6,
       "move_mode": "walk",
       "type": "target",
       "x": -4455.75,
       "y": -2587.43
     },
     {
+      "id": 6,
       "action": "",
-      "id": 7,
       "move_mode": "walk",
       "type": "path",
       "x": -4463.11,
       "y": -2585.75
     },
     {
+      "id": 7,
       "action": "electro_collect",
-      "id": 8,
       "move_mode": "walk",
       "type": "target",
       "x": -4468.08,
       "y": -2586.83
     },
     {
+      "id": 8,
       "action": "",
-      "id": 9,
       "move_mode": "fly",
       "type": "path",
       "x": -4466.47,
       "y": -2594.66
     },
     {
+      "id": 9,
       "action": "electro_collect",
-      "id": 10,
       "move_mode": "walk",
       "type": "target",
       "x": -4465.27,
       "y": -2597.38
     },
     {
+      "id": 10,
       "action": "stop_flying",
       "action_params": "3000",
-      "id": 11,
       "move_mode": "fly",
       "type": "path",
-      "x": -4498.4453125,
-      "y": -2604.53125
+      "x": -4498.4453,
+      "y": -2604.5312
     },
     {
+      "id": 11,
       "action": "stop_flying",
       "action_params": "1200",
-      "id": 12,
       "move_mode": "fly",
       "type": "path",
       "x": -4494.74,
       "y": -2627.58
     },
     {
+      "id": 12,
       "action": "electro_collect",
       "action_params": "",
-      "id": 13,
       "move_mode": "walk",
       "type": "target",
       "x": -4487.48,
       "y": -2628.9
     },
     {
+      "id": 13,
       "action": "combat_script",
       "action_params": "wait(0.3)",
-      "id": 14,
       "move_mode": "walk",
       "type": "path",
       "x": -4487.48,
