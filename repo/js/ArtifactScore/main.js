@@ -18,7 +18,7 @@ import {
 const MASK_PATH = "assets/score-mask.html"
 const MASK_ID_PREFIX = "artiscope-score"
 const BACK_TEMPLATE = "assets/images/back.png"
-const POLL_INTERVAL = 200
+const POLL_INTERVAL = 1000
 
 const REGIONS = {
   back: [1780, 0, 140, 105],

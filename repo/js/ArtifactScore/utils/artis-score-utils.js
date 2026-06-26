@@ -65,8 +65,8 @@ export function estimateSubStatRolls(key, value) {
         best = { count, value: candidate.sum, rolls: candidate.combo, error }
         continue
       }
-      // 误差在 0.15 以内视为相近，优先取更保守的估计（更多次数）
-      if (Math.abs(error - best.error) <= 0.1) {
+      // 误差在 0 以内视为相近，优先取更保守的估计（更多次数）
+      if (Math.abs(error - best.error) <= 0) {
         if (count > best.count) {
           best = { count, value: candidate.sum, rolls: candidate.combo, error }
         }
