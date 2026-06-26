@@ -18,6 +18,7 @@ let targetMonsterNum;
 let curiosityFactor;
 let ignoreRate;
 let partyName;
+let validateTeamMembers;
 let groupSettings;
 let groupTags;
 
@@ -73,7 +74,11 @@ const gameRegionManager = {
         switchPartyTask = switchPartyIfNeeded(partyName);
     }
     if (settings.disableAsync) {
-        await switchPartyTask;
+        const switchSuccess = await switchPartyTask;
+        if (!switchSuccess) {
+            log.error("队伍切换失败，脚本终止");
+            return;
+        }
     }
     targetItems = await loadTargetItems();
     localeTimeSupported = await checkLocaleTimeSupport();
@@ -86,7 +91,11 @@ const gameRegionManager = {
         await filterPathingsByTargetMonsters();
         await updateRecords(pathings, accountName);
         if (!settings.disableAsync) {
-            await switchPartyTask;
+            const switchSuccess = await switchPartyTask;
+            if (!switchSuccess) {
+                log.error("队伍切换失败，脚本终止");
+                return;
+            }
         }
         await processPathingsByGroup(pathings, accountName);
         return;
@@ -109,7 +118,11 @@ const gameRegionManager = {
             await updateRecords(pathings, accountName);
         } else if (operationMode === "运行锄地路线") {
             if (!settings.disableAsync) {
-                await switchPartyTask;
+                const switchSuccess = await switchPartyTask;
+                if (!switchSuccess) {
+                    log.error("队伍切换失败，脚本终止");
+                    return;
+                }
             }
             await validateTeamAndConfig();
             log.info("开始运行锄地路线");
@@ -230,6 +243,10 @@ async function loadConfig() {
     ignoreRate = parseNumericSetting(settings.ignoreRate, -1);
 
     partyName = settings.partyName ?? "";
+    validateTeamMembers = (settings.validateTeamMembers ?? '')
+        .split('，')
+        .map(name => name.trim())
+        .filter(name => name.length > 0);
     groupSettings = Array.from({ length: 10 }, (_, i) =>
         settings[`tagsForGroup${i + 1}`] ?? ''
     );
@@ -1084,6 +1101,43 @@ async function runPath(fullPath, map_name, pm, pe) {
         let doLogMonsterCount = true;
         log.info(`开始执行路线: ${fileName}`);
         await fakeLog(`${fileName}`, true);
+
+        // 晶蝶辅助传送
+        const catcherCoord = settings.useCrystalflyCatcher;
+        if (catcherCoord && currentPathing) {
+            try {
+                await genshin.returnMainUi();
+                const currentPos = currentPathing.map_match_method && currentPathing.map_match_method !== ""
+                    ? await genshin.getPositionFromMapWithMatchingMethod(map_name, currentPathing.map_match_method)
+                    : await genshin.getPositionFromMap(map_name);
+                if (currentPos && !(currentPos.X === 0 && currentPos.Y === 0)) {
+                    // 获取路线起点坐标
+                    let routeStartX = 0, routeStartY = 0;
+                    try {
+                        const raw = file.readTextSync(fullPath);
+                        const json = JSON.parse(raw);
+                        if (Array.isArray(json.positions) && json.positions.length > 0) {
+                            const firstPos = json.positions[0];
+                            routeStartX = firstPos.x ?? firstPos.X ?? 0;
+                            routeStartY = firstPos.y ?? firstPos.Y ?? 0;
+                        }
+                    } catch (e) {
+                        log.error(`读取路线文件获取起点坐标失败：${e.message}`);
+                    }
+
+                    // 晶蝶诱捕装置定位
+                    await crystalflyAssistedTeleport(currentPos, fullPath);
+
+                    // 使用TP传送到路线起点
+                    if (routeStartX !== 0 || routeStartY !== 0) {
+                        await genshin.tp(routeStartX, routeStartY, map_name, false);
+                    }
+                }
+            } catch (error) {
+                log.error(`晶蝶辅助传送获取坐标失败：${error.message}`);
+            }
+        }
+
         try {
             await pathingScript.runFile(fullPath);
         } catch (error) {
@@ -1453,6 +1507,77 @@ async function recognizeAndInteract() {
 }
 
 /**
+ * CrystalflyAssistedTeleport
+ * 根据晶蝶诱捕装置配置，判断是否需要使用传送功能
+ * @param {Object} currentPos - 当前角色坐标 {X, Y}
+ * @param {string} pathFilePath - 路线文件路径
+ * 依赖全局：settings.useCrystalflyCatcher
+ */
+async function crystalflyAssistedTeleport(currentPos, pathFilePath) {
+    // 获取晶蝶诱捕装置配置
+    const catcherCoord = settings.useCrystalflyCatcher;
+
+    // 获取路线初始坐标
+    let routeStartX = 0, routeStartY = 0;
+    try {
+        const raw = file.readTextSync(pathFilePath);
+        const json = JSON.parse(raw);
+        if (Array.isArray(json.positions) && json.positions.length > 0) {
+            const firstPos = json.positions[0];
+            // 支持大小写 x/X 和 y/Y
+            routeStartX = firstPos.x ?? firstPos.X ?? 0;
+            routeStartY = firstPos.y ?? firstPos.Y ?? 0;
+        }
+    } catch (e) {
+        log.error(`读取路线文件获取初始坐标失败：${e.message}`);
+        return;
+    }
+
+    // 解析晶蝶诱捕装置坐标（格式：123.45，789.0 中文逗号分隔）
+    const coordParts = catcherCoord.split('，');
+    if (coordParts.length !== 2) {
+        log.error(`晶蝶诱捕装置坐标格式错误：${catcherCoord}，正确格式应为"X，Y"（中文逗号分隔）`);
+        return;
+    }
+    const catcherX = parseFloat(coordParts[0].trim());
+    const catcherY = parseFloat(coordParts[1].trim());
+    if (isNaN(catcherX) || isNaN(catcherY)) {
+        log.error(`晶蝶诱捕装置坐标解析失败：${catcherCoord}`);
+        return;
+    }
+
+    // 计算当前位置到路线起点的距离
+    const currentDist = Math.sqrt(
+        Math.pow(currentPos.X - routeStartX, 2) +
+        Math.pow(currentPos.Y - routeStartY, 2)
+    );
+
+    // 计算晶蝶装置到路线起点的距离
+    const catcherDist = Math.sqrt(
+        Math.pow(catcherX - routeStartX, 2) +
+        Math.pow(catcherY - routeStartY, 2)
+    );
+
+    // 判断是否启用辅助传送：晶蝶装置比当前位置近500以上，且晶蝶装置距离起点小于2200
+    if (currentDist - catcherDist > 500 && catcherDist < 2200) {
+        log.info(`启用晶蝶辅助传送，当前位置距离起点: ${currentDist.toFixed(1)}，晶蝶装置距离起点: ${catcherDist.toFixed(1)}`);
+
+        // 打开地图
+        keyPress("M");
+        await sleep(200);
+
+        // 点击晶蝶装置图标（识别区域：0,0,450,540）
+        const crystalFlyRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/晶蝶装置.png"), 0, 0, 450, 540);
+        crystalFlyRo.Threshold = 0.85;
+        await findAndClick(crystalFlyRo, true, 500);
+
+        await sleep(200);
+        keyPress("VK_ESCAPE");
+        await sleep(200);
+    }
+}
+
+/**
  * 泥头车自动放 E
  * 读取当前路线坐标，若检测到即将进入战斗点（5-30 像素）且路线未使用按键 T，
  * 则按 dumpers 列表循环切人放 E，CD 10 秒；若检测到复活界面则立即退出
@@ -1493,7 +1618,7 @@ async function dumper(pathFilePath, map_name) {
         //6.3强制使用sift的地图不开启泥头车
         const info = parsedContent.info;
         const map_match_method = info.map_match_method || "";
-        
+
         if (!disableDumper) {
             while (state.running) {
                 //log.info("调试-泥头车循环");
@@ -1524,8 +1649,8 @@ async function dumper(pathFilePath, map_name) {
                             }
 
                             const distance = Math.sqrt(
-                                Math.pow(currentPosition.x - fightPos.x, 2) +
-                                Math.pow(currentPosition.y - fightPos.y, 2)
+                                Math.pow(currentPosition.X - fightPos.x, 2) +
+                                Math.pow(currentPosition.Y - fightPos.y, 2)
                             );
 
                             if (distance <= 30) {
@@ -1690,22 +1815,6 @@ async function processPathingsByGroup(pathings, accountName) {
     let lastX = 0;
     let lastY = 0;
 
-    if (settings.enableCoordCheck) {
-        try {
-            await genshin.returnMainUi();
-            const miniMapPosition = pathing.map_match_method && pathing.map_match_method !== ""
-                ? await genshin.getPositionFromMapWithMatchingMethod(pathing.map_name, pathing.map_match_method)
-                : await genshin.getPositionFromMap(pathing.map_name);
-            if (miniMapPosition) {
-                // 更新坐标
-                lastX = miniMapPosition.X;
-                lastY = miniMapPosition.Y;
-            }
-        } catch (error) {
-            log.error(`获取坐标时发生错误：${error.message}`);
-        }
-    }
-
     // 定义路径组名称到组号的映射（10 个）
     const groupMapping = {
         "路径组一": 1,
@@ -1800,6 +1909,22 @@ async function processPathingsByGroup(pathings, accountName) {
             // 输出路径已刷新并开始处理的信息
             log.info(`该路线已刷新，开始处理。`);
 
+            // 获取当前坐标作为起点参考
+            if (settings.enableCoordCheck) {
+                try {
+                    await genshin.returnMainUi();
+                    const miniMapPosition = pathing.map_match_method && pathing.map_match_method !== ""
+                        ? await genshin.getPositionFromMapWithMatchingMethod(pathing.map_name, pathing.map_match_method)
+                        : await genshin.getPositionFromMap(pathing.map_name);
+                    if (miniMapPosition) {
+                        lastX = miniMapPosition.X;
+                        lastY = miniMapPosition.Y;
+                    }
+                } catch (error) {
+                    log.error(`获取坐标时发生错误：${error.message}`);
+                }
+            }
+
             // 调用 runPath 函数处理路径
             await runPath(pathing.fullPath, pathing.map_name, pathing.m, pathing.e);
             try {
@@ -1848,9 +1973,6 @@ async function processPathingsByGroup(pathings, accountName) {
                         const diffY = Math.abs(lastY - miniMapPosition.Y);
                         const endDiffX = Math.abs(fileEndX - miniMapPosition.X);
                         const endDiffY = Math.abs(fileEndY - miniMapPosition.Y);
-
-                        lastX = miniMapPosition.X;
-                        lastY = miniMapPosition.Y;
 
                         if ((diffX + diffY) < 5 || (endDiffX + endDiffY) > 30) {
                             coordAbnormal = true;
@@ -2020,24 +2142,89 @@ function parseNumericSetting(value, defaultVal) {
 /**
  * 切换队伍
  * @param {string} partyName 目标队伍名称，若为空则仅返回主界面
+ * @returns {Promise<boolean>} true 表示成功，false 表示失败
  */
 async function switchPartyIfNeeded(partyName) {
     if (!partyName) {
         await genshin.returnMainUi();
-        return;
+        return true;
     }
-    try {
-        log.info("正在尝试切换至" + partyName);
-        if (!await genshin.switchParty(partyName)) {
-            log.info("切换队伍失败，前往七天神像重试");
-            await genshin.tpToStatueOfTheSeven();
-            await genshin.switchParty(partyName);
+
+    // 如果没有配置队伍校验，使用原有逻辑
+    if (!validateTeamMembers || validateTeamMembers.length === 0) {
+        try {
+            log.info("正在尝试切换至" + partyName);
+            if (!await genshin.switchParty(partyName)) {
+                log.info("切换队伍失败，前往七天神像重试");
+                await genshin.tpToStatueOfTheSeven();
+                await genshin.switchParty(partyName);
+            }
+        } catch {
+            log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
+            notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
+            await genshin.returnMainUi();
         }
-    } catch {
-        log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
-        notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
-        await genshin.returnMainUi();
+        return true;
     }
+
+    // 有队伍校验配置，执行校验逻辑
+    const maxRetries = 3;
+    let lastValidationResult = null;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+            log.info(`正在尝试切换至${partyName}（第${attempt}次）`);
+            if (!await genshin.switchParty(partyName)) {
+                log.info("切换队伍失败，前往七天神像重试");
+                await genshin.tpToStatueOfTheSeven();
+                await genshin.switchParty(partyName);
+            }
+
+            // 校验队伍成员
+            const validationResult = await validateTeamMembersInParty(validateTeamMembers);
+            lastValidationResult = validationResult;
+            if (validationResult.success) {
+                log.info("队伍校验通过：" + validationResult.currentTeam.join("、"));
+                return true;
+            } else {
+                const expectedStr = validateTeamMembers.join("、");
+                const actualStr = validationResult.currentTeam.join("、");
+                log.warn(`队伍${partyName}预期包含角色${expectedStr}，实际包含角色${actualStr}，与预期不符（第${attempt}次）`);
+                if (attempt < maxRetries) {
+                    log.warn("将重新尝试切换队伍...");
+                    await sleep(1000);
+                }
+            }
+        } catch (error) {
+            log.error(`队伍切换或校验异常（第${attempt}次）：${error.message}`);
+            if (attempt < maxRetries) {
+                await sleep(1000);
+            }
+        }
+    }
+
+    // 3次重试后仍失败
+    const expectedStr = validateTeamMembers.join("、");
+    const actualStr = lastValidationResult?.currentTeam?.join("、") || "未知";
+    const errorMsg = `队伍${partyName}预期包含角色${expectedStr}，实际包含角色${actualStr}，与预期不符（已重试${maxRetries}次）`;
+    log.error(errorMsg);
+    notification.error(errorMsg);
+    return false;
+}
+
+/**
+ * 校验队伍成员是否都在当前队伍中
+ * @param {string[]} requiredMembers 需要校验的角色列表
+ * @returns {Promise<{success: boolean, currentTeam: string[], missing: string[]}>}
+ */
+async function validateTeamMembersInParty(requiredMembers) {
+    const avatars = Array.from(getAvatars?.() || []);
+    const missing = requiredMembers.filter(name => !avatars.includes(name));
+
+    return {
+        success: missing.length === 0,
+        currentTeam: avatars,
+        missing: missing
+    };
 }
 
 /**
