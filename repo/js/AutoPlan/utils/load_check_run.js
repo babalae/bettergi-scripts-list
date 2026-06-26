@@ -49,6 +49,33 @@ export async function checkAndFilterStygianOnslaught(list) {
 }
 
 /*===========================================[load]===========================================*/
+// 任务处理器映射表，放在模块顶层，以便各个函数共享
+export const taskHandlerMap = {
+    [config.user.runTypes[0]]: {
+        build: Domain.build,
+        buildKey: Domain.buildKey,
+        run: Domain.run,
+        target: Domain.key() //'autoFight'
+    },
+    [config.user.runTypes[1]]: {
+        build: LeyLineOutcrop.build,
+        buildKey: LeyLineOutcrop.buildKey,
+        run: LeyLineOutcrop.run,
+        target: LeyLineOutcrop.key() //'autoLeyLineOutcrop'
+    },
+    [config.user.runTypes[2]]: {
+        build: StygianOnslaught.build,
+        buildKey: StygianOnslaught.buildKey,
+        run: StygianOnslaught.run,
+        target: StygianOnslaught.key() //'autoStygianOnslaught'
+    },
+    [config.user.runTypes[3]]: {
+        build: Boss.build,
+        buildKey: Boss.buildKey,
+        run: Boss.run,
+        target: Boss.key() //'autoBoss'
+    }
+};
 /**
  * 根据不同的加载方式加载秘境配置
  * @param {string} Load - 加载方式类型，如uid或input
@@ -67,22 +94,13 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
 
                         if (!config.user.runTypes.includes(runType)) {
                             throwError(`运行类型${runType}输入错误`)
-                        } else if (config.user.runTypes[0] === runType) {
-                            const __ret = Domain.build(arr, index);
-                            let autoFight = __ret.autoFight;
-                            index = __ret.index;
-                            autoOrder.autoFight = autoFight // 将秘境信息对象添加到秘境顺序对象中
-                        } else if (config.user.runTypes[1] === runType) {
-                            const __ret = LeyLineOutcrop.build(arr, index);
-                            let autoLeyLineOutcrop = __ret.autoLeyLineOutcrop;
-                            index = __ret.index;
-
-                            autoOrder.autoLeyLineOutcrop = autoLeyLineOutcrop // 将地脉信息对象添加到顺序对象中
-                        } else if (config.user.runTypes[2] === runType) {
-                            const __ret = StygianOnslaught.build(arr, index);
-                            let autoStygianOnslaught = __ret.autoStygianOnslaught;
-                            index = __ret.index;
-                            autoOrder.autoStygianOnslaught = autoStygianOnslaught
+                        } else  {
+                            const handler = taskHandlerMap[runType];
+                            if (handler) {
+                                const __ret = handler.build(arr, index);
+                                index = __ret.index;
+                                autoOrder[handler.target] = __ret[handler.target]; // 动态赋值，如 autoOrder.autoFight
+                            }
                         }
 
                         // 将秘境顺序对象添加到列表中
@@ -184,29 +202,11 @@ export async function initRunOrderList(domainConfig) {
  */
 export async function autoRunList(autoRunOrderList) {
     let RecordList = Record.read(config.path.record);
-    const typeMap = {
-        [config.user.runTypes[0]]: {buildKey: Domain.buildKey, run: Domain.run, target: 'autoFight'},
-        [config.user.runTypes[1]]: {
-            buildKey: LeyLineOutcrop.buildKey,
-            run: LeyLineOutcrop.run,
-            target: 'autoLeyLineOutcrop'
-        },
-        [config.user.runTypes[2]]: {
-            buildKey: StygianOnslaught.buildKey,
-            run: StygianOnslaught.run,
-            target: 'autoStygianOnslaught'
-        },
-        [config.user.runTypes[3]]: {
-            buildKey: Boss.buildKey,
-            run: Boss.run,
-            target: 'autoBoss'
-        }
-    };
 
     for (const item of autoRunOrderList) {
         await sleep(3000)
         let keyJson = undefined
-        const handler = typeMap[item.runType];
+        const handler = taskHandlerMap[item.runType];
 
         if (!handler) continue;
 
@@ -317,7 +317,9 @@ class Base {
         }
         return json
     }
-
+    static key(){
+       return "key"
+    }
     static buildOrder(item) {
         // 将当前项按"|"分割成数组
         let arr = item.split("|")
@@ -375,7 +377,9 @@ class Domain extends Base {
         json.key = `${json.key}|${auto.domainName}|${auto.partyName}|${auto.domainRoundNum}|${auto.sundaySelectedValue}`
         return json
     }
-
+     static key(){
+        return "autoFight"
+     }
     /**
      * 构建秘境信息对象
      * @param {Array} arr - 包含秘境信息的数组
@@ -562,6 +566,9 @@ class LeyLineOutcrop extends Base {
         return json
     }
 
+    static key(){
+        return 'autoLeyLineOutcrop'
+    }
     /**
      * 构建地脉刷取任务参数
      * @param {Array} arr - 输入参数数组，包含队伍名称、国家、刷取轮数等信息
@@ -686,7 +693,9 @@ class StygianOnslaught extends Base {
             "|" + auto.physical.join('<->')
         return json
     }
-
+    static key(){
+        return 'autoStygianOnslaught'
+    }
     /**
      * 构建幽境任务参数
      * @param {Array} arr - 输入参数数组
@@ -892,6 +901,10 @@ class Boss extends Base {
             "|" + auto.rewardRecognitionEnabled
 
         return json;
+    }
+
+    static key(){
+        return 'autoBoss'
     }
 
     static build(arr, index) {
