@@ -657,6 +657,13 @@ declare const dispatcher: {
    * @param customCt 自定义取消令牌（可选）
    */
   runAutoStygianOnslaughtTask(param: AutoStygianOnslaughtParam, customCt?: CancellationToken | null): Promise<void>;
+  /**
+   * 运行自动BOSS任务
+   * @param param
+   * @param customCt
+   */
+  runAutoBossTask(param: AutoBossParam, customCt?: CancellationToken | null): Promise<void>;
+
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   AddTimer: typeof dispatcher.addTimer;
   AddTrigger: typeof dispatcher.addTrigger;
@@ -668,6 +675,7 @@ declare const dispatcher: {
   RunAutoFightTask: typeof dispatcher.runAutoFightTask;
   RunAutoLeyLineOutcropTask: typeof dispatcher.runAutoLeyLineOutcropTask;
   RunAutoStygianOnslaughtTask: typeof dispatcher.runAutoStygianOnslaughtTask;
+  RunAutoBossTask: typeof dispatcher.runAutoBossTask;
   // ==== END AUTO-GENERATED ALIASES ====;
 };
 
