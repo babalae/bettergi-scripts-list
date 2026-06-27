@@ -848,6 +848,8 @@ class Boss extends Base {
         rewardRecognitionEnabled: false
     }) {
         log.info(`{0}==>{1}`, "开始执行Boss任务", autoBoss.bossName)
+        //先去安全点回血
+        await genshin.tpToStatueOfTheSeven();
         log.debug(`Boss Json:{0}`, JSON.stringify(autoBoss))
         const currentPhysical = await Physical.countAllResin()
         config.user.physical.currentJson = currentPhysical;
@@ -893,29 +895,32 @@ class Boss extends Base {
         param.runCount = autoBoss.runCount
         param.useTransientResin = autoBoss.useTransientResin
         param.useFragileResin = autoBoss.useFragileResin
-        param.reviveRetryCount = autoBoss.reviveRetryCount
+        param.reviveRetryCount = Math.max(autoBoss.reviveRetryCount,config.run.retry_count)
         param.returnToStatueAfterEachRound = autoBoss.returnToStatueAfterEachRound
         param.rewardRecognitionEnabled = autoBoss.rewardRecognitionEnabled
 
         await sleep(1000)
         try {
-            // 复活重试
-            for (let i = 0; i < config.run.retry_count; i++) {
-                try {
-                    await dispatcher.RunAutoBossTask(param)
-                    // 其他场景不重试
-                    break;
-                } catch (e) {
-                    const errorMessage = e.message
-                    if (errorMessage.includes("复活")) {
-                        continue;
-                    }
-                    if (!config.run.exclude_run_exception || config.run.loop_plan) {//排除异常 与循环计划互斥
-                        throw e;
-                    }
-                }
-            }
+            //自带复活重试配置，不需要再for
+            await dispatcher.RunAutoBossTask(param)
+            // // 复活重试
+            // for (let i = 0; i < config.run.retry_count; i++) {
+            //     try {
+            //         await dispatcher.RunAutoBossTask(param)
+            //         // 其他场景不重试
+            //         break;
+            //     } catch (e) {
+            //         const errorMessage = e.message
+            //         if (errorMessage.includes("复活")) {
+            //             continue;
+            //         }
+            //         if (!config.run.exclude_run_exception || config.run.loop_plan) {//排除异常 与循环计划互斥
+            //             throw e;
+            //         }
+            //     }
+            // }
         } finally {
+            await genshin.tpToStatueOfTheSeven();
             log.info(`{0}`, "执行完成")
         }
     }
