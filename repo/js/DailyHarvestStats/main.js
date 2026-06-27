@@ -304,7 +304,7 @@ function buildHtmlReport(store, nowTs) {
     function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
     function fmt(n) { return (n == null) ? '--' : Math.round(n).toLocaleString('en-US'); }
     function wan(n) { if (n == null) return ''; let a = Math.abs(n); return a >= 10000 ? ('约 ' + (Math.round(a / 1000) / 10) + ' 万') : (a + ''); }
-    function md(ts) { let d = new Date(ts); return (d.getMonth() + 1) + '/' + d.getDate(); }
+    function md(dayKey) { const d = new Date(dayKey * 86400000); return (d.getUTCMonth() + 1) + '/' + d.getUTCDate(); } // 按服务日(dayKey)标日期，与 04:00 重置一致；不用 ts 以免跨午夜错位
     function pct(v) { return (v < 0 ? '−' : '+') + Math.abs(v).toFixed(1) + '%'; }
 
     let blocks = '', reportsJs = [], keys = Object.keys(store), bi = 0;
@@ -315,7 +315,7 @@ function buildHtmlReport(store, nowTs) {
         const recs = st.records, idx = bi;
         // 衍生统计
         let peakM = -1, peakDate = '';
-        for (let pi = 0; pi < recs.length; pi++) { if (recs[pi].moraGain > peakM) { peakM = recs[pi].moraGain; peakDate = md(recs[pi].ts); } }
+        for (let pi = 0; pi < recs.length; pi++) { if (recs[pi].moraGain > peakM) { peakM = recs[pi].moraGain; peakDate = md(recs[pi].dayKey); } }
         const tvAvg = (rep.mora && rep.mora.avg) ? (rep.today.mora - rep.mora.avg) / rep.mora.avg * 100 : 0;
         const ratio = (rep.fodder && rep.fodder.total > 0) ? ('≈ ' + Math.round((rep.mora ? rep.mora.total : 0) / rep.fodder.total) + ' : 1') : '—';
         const firstDate = st.firstTs ? new Date(st.firstTs).toLocaleDateString() : '—';
@@ -358,7 +358,7 @@ function buildHtmlReport(store, nowTs) {
             const pCell = hasP ? ('<td class="n primo' + (hasPg ? '' : ' na') + '">' + (hasPg ? fmt(rr.primogemGain) : '—') + '</td>') : '';
             const pAttr = hasP ? (' data-p="' + (hasPg ? rr.primogemGain : -1) + '"') : '';
             rows += '<tr data-i="' + r2 + '" data-m="' + rr.moraGain + '" data-f="' + rr.fodderGain + '"' + pAttr + ' data-d="' + dv.toFixed(2) + '"' + (isPk ? ' class="peak"' : '') + '>'
-                + '<td class="date">' + md(rr.ts) + (isPk ? '<span class="tag">峰值</span>' : '') + '</td>'
+                + '<td class="date">' + md(rr.dayKey) + (isPk ? '<span class="tag">峰值</span>' : '') + '</td>'
                 + '<td class="n mora">' + fmt(rr.moraGain) + '</td><td class="n food">' + fmt(rr.fodderGain) + '</td>'
                 + pCell
                 + '<td class="n delta' + (dv < 0 ? ' neg' : '') + '">' + pct(dv) + '</td></tr>';
@@ -371,7 +371,7 @@ function buildHtmlReport(store, nowTs) {
         blocks += '<div class="block" data-idx="' + idx + '"><div class="block-head">账户 <b>' + esc(keys[ki]) + '</b> · 起算 ' + esc(firstDate) + ' · ' + rep.days + ' 个采集日</div><div class="layout">' + rail + main + '</div></div>';
 
         const sj = [];
-        for (let sj2 = 0; sj2 < recs.length; sj2++) sj.push('{d:"' + md(recs[sj2].ts) + '",m:' + recs[sj2].moraGain + ',f:' + recs[sj2].fodderGain + ',p:' + (recs[sj2].primogemGain || 0) + '}');
+        for (let sj2 = 0; sj2 < recs.length; sj2++) sj.push('{d:"' + md(recs[sj2].dayKey) + '",m:' + recs[sj2].moraGain + ',f:' + recs[sj2].fodderGain + ',p:' + (recs[sj2].primogemGain || 0) + '}');
         reportsJs.push('{avg:{mora:' + mAvg + ',food:' + fAvg + ',primogem:' + pAvg + '},hasP:' + (hasP ? 'true' : 'false') + ',series:[' + sj.join(',') + ']}');
         bi++;
     }
@@ -509,8 +509,8 @@ if (typeof module === 'undefined') (async function () {
             if (recs.length) {
                 L.push('  近期明细（最新在上）：');
                 for (let ri = 0; ri < recs.length; ri++) {
-                    let r = recs[ri], d = new Date(r.ts);
-                    let line = '    ' + (d.getMonth() + 1) + '/' + d.getDate() + '   摩拉 +' + formatMora(r.moraGain) + '   狗粮 +' + formatExp(r.fodderGain);
+                    let r = recs[ri], d = new Date(r.dayKey * 86400000);
+                    let line = '    ' + (d.getUTCMonth() + 1) + '/' + d.getUTCDate() + '   摩拉 +' + formatMora(r.moraGain) + '   狗粮 +' + formatExp(r.fodderGain);
                     if (r.primogemGain) line += '   原石 +' + formatMora(r.primogemGain);
                     L.push(line);
                 }
@@ -529,6 +529,20 @@ if (typeof module === 'undefined') (async function () {
     // ===================== 摩拉测量（复刻 OcrFreeMora&Primogem：背包贵重物品页 + 模板数字） =====================
     // 在「贵重物品」页一次性读 摩拉 + 原石。返回 {mora, primogem}。
     // 摩拉读不到 → mora=null（关键指标，会触发整窗跳过）；原石读不到 → primogem=undefined（软指标，不影响）。
+    // 连读取数兜底：同一画面连读多次，要求「连续 2 次完全一致」才采信；中间不一致就重读，
+    // 始终凑不齐就返回 -1（判为读数失败 → 跳过本窗，绝不把一次性误读写进统计，例如 1148万/114万 这种立刻被否）。
+    async function readStable(label, reader) {
+        let prev = null, agree = 0;
+        for (let i = 0; i < 6; i++) {
+            const v = await reader();
+            if (v >= 0 && v === prev) { agree++; if (agree >= 2) return v; }
+            else { agree = v >= 0 ? 1 : 0; prev = v >= 0 ? v : null; }
+            await sleep(150);
+        }
+        log.warn(label + '：多次读数对不上或失败，本次放弃以免污染统计');
+        return -1;
+    }
+
     async function measureValuables() {
         const out = { mora: null, primogem: undefined };
         try {
@@ -547,8 +561,8 @@ if (typeof module === 'undefined') (async function () {
             let moraX = 336, moraY = 1004;
             const rg = captureGameRegion();
             try { const r = rg.find(moraRo); if (r.isExist()) { moraX = r.x; moraY = r.y; } } catch (e) { } finally { rg.dispose(); }
-            let moraRes = -1, a = 0;
-            while (moraRes < 0 && a < 5) { a++; moraRes = await numberTemplateMatch('assets/bag_mora_digits', moraX, moraY, 300, 40, 0.95, 0.85, 10); }
+            // 连读校验：框宽 300→420 适配千万级 8~9 位数；连续 2 次读到同值才采信，对不上就重读，凑不齐返回 -1 判失败
+            const moraRes = await readStable('摩拉', function () { return numberTemplateMatch('assets/bag_mora_digits', moraX, moraY, 420, 40, 0.95, 0.85, 10); });
             out.mora = moraRes < 0 ? null : moraRes;
             if (out.mora === null) log.warn('摩拉识别失败');
             // 原石（软）：原石图标 + 加号 框定数值区，同字体数字模板；失败设 undefined 不影响窗口
@@ -561,9 +575,8 @@ if (typeof module === 'undefined') (async function () {
                     const pr = rg2.find(pgRo); if (pr.isExist()) { pgX = pr.x; pgY = pr.y; }
                     const plr = rg2.find(plusRo); if (plr.isExist()) { plusX = plr.x; }
                 } catch (e) { } finally { rg2.dispose(); }
-                let w = Math.max(60, plusX - pgX);
-                let pgRes = -1, b = 0;
-                while (pgRes < 0 && b < 5) { b++; pgRes = await numberTemplateMatch('assets/bag_mora_digits', pgX + 28, pgY, w, 40, 0.95, 0.85, 10); }
+                const w = Math.max(60, plusX - pgX);
+                const pgRes = await readStable('原石', function () { return numberTemplateMatch('assets/bag_mora_digits', pgX + 28, pgY, w, 40, 0.95, 0.85, 10); });
                 if (pgRes >= 0) out.primogem = pgRes;
             } catch (e) { log.warn('原石识别异常(忽略)：' + e); }
             return out;
