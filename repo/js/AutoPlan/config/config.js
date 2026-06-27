@@ -190,7 +190,7 @@ export async function buildInitConfigSettings() {
                 },
                 names: ["原粹树脂", "浓缩树脂", "须臾树脂", "脆弱树脂"]
             },
-            runTypes: ['秘境', '地脉', '幽境']
+            runTypes: ['秘境', '地脉', '幽境','Boss']
         },
         //
         path: {

@@ -75,11 +75,13 @@ export class BgiTools {
      */
     static async pullJsonConfig(http_api, uid) {
         // 构建完整的API URL，添加uid和enable参数
-        http_api += "?uid=" + uid + "&enable=" + true
-
+ // const url= http_api+"?uid=" + uid + "&enable=" + true
+        log.debug(`pullJsonConfig==>url_api:{1}`, http_api)
+        const url =`${http_api}?uid=${uid}&enable=true`
+        log.debug(`pullJsonConfig==>url:{1}`, url)
         // 发送GET请求获取配置信息
         // 注释掉的代码原本用于设置请求头Content-Type为application/json
-        const res = await http.request("GET", http_api
+        const res = await http.request("GET", url
         // , JSON.stringify({"Content-Type": "application/json"})
         )
         log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
