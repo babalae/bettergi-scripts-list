@@ -1210,7 +1210,7 @@ declare class AutoFightParam {
  * 自动首领讨伐任务参数，供独立任务、一条龙和 JS 调用统一传递配置。
  */
 declare class AutoBossParam {
-  constructor(path: string);
+  constructor(path?: string);
   /** 需要讨伐的 Boss 名称。*/
   bossName: string;
   /** UI 中选择的战斗策略名称；当没有自定义策略路径时会同步更新 <see cref="CombatStrategyPath"/>。*/
