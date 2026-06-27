@@ -969,6 +969,7 @@
                     }
                     check_count += 1;
                 }
+                return note_time;
             } catch (error) {
                 log.error(`出错(cal_time_ornament): ${error}`);
             }
@@ -1077,11 +1078,11 @@
                         let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                         if (flag) {
                             let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
-                            if (settings.debug_mode === "启用") {
-                                log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
-                            }
                             if (wait_time >= 1) {
-                                sleep_time = wait_time
+                                sleep_time = wait_time;
+                                if (settings.debug_mode === "启用") {
+                                    log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
+                                }
                             }
                         }
                         await sleep(sleep_time);
@@ -1094,11 +1095,11 @@
                             let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                             if (flag) {
                                 let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
-                                if (settings.debug_mode === "启用") {
-                                    log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
-                                }
                                 if (wait_time >= 1) {
-                                    sleep_time = wait_time
+                                    sleep_time = wait_time;
+                                    if (settings.debug_mode === "启用") {
+                                        log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
+                                    }
                                 }
                             }
                             await sleep(sleep_time);
@@ -1115,11 +1116,11 @@
                         let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                         if (flag) {
                             let wait_time = ornament_time - lowest_latency; // 提前去lowest_latency
-                            if (settings.debug_mode === "启用") {
-                                log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${ornament_time} ms)`: `正常抬起：预期时长 ${ornament_time} ms`);
-                            }
                             if (wait_time >= 1) {
-                                ornament_time = wait_time
+                                ornament_time = wait_time;
+                                if (settings.debug_mode === "启用") {
+                                    log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${ornament_time} ms)`: `正常抬起：预期时长 ${ornament_time} ms`);
+                                }
                             }
                         }
                         await sleep(ornament_time);
@@ -1129,11 +1130,11 @@
                         let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                         if (flag) {
                             let wait_time = ornament_time - lowest_latency; // 提前去lowest_latency
-                            if (settings.debug_mode === "启用") {
-                                log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${ornament_time} ms)`: `正常抬起：预期时长 ${ornament_time} ms`);
-                            }
                             if (wait_time >= 1) {
-                                ornament_time = wait_time
+                                ornament_time = wait_time;
+                                if (settings.debug_mode === "启用") {
+                                    log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${ornament_time} ms)`: `正常抬起：预期时长 ${ornament_time} ms`);
+                                }
                             }
                         }
                         await sleep(ornament_time);
@@ -1181,11 +1182,11 @@
                                 let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                                 if (flag) {
                                     let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
-                                    if (settings.debug_mode === "启用") {
-                                        log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
-                                    }
                                     if (wait_time >= 1) {
-                                        sleep_time = wait_time
+                                        sleep_time = wait_time;
+                                        if (settings.debug_mode === "启用") {
+                                            log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
+                                        }
                                     }
                                 }
                                 await sleep(sleep_time);
@@ -1198,11 +1199,11 @@
                                     let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                                     if (flag) {
                                         let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
-                                        if (settings.debug_mode === "启用") {
-                                            log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
-                                        }
                                         if (wait_time >= 1) {
-                                            sleep_time = wait_time
+                                            sleep_time = wait_time;
+                                            if (settings.debug_mode === "启用") {
+                                                log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
+                                            }
                                         }
                                     }
                                     await sleep(sleep_time);
@@ -1232,11 +1233,11 @@
                         let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                         if (flag) {
                             let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
-                            if (settings.debug_mode === "启用") {
-                                log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
-                            }
                             if (wait_time >= 1) {
-                                sleep_time = wait_time
+                                sleep_time = wait_time;
+                                if (settings.debug_mode === "启用") {
+                                    log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
+                                }
                             }
                         }
                         await sleep(sleep_time);
@@ -1249,11 +1250,11 @@
                             let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                             if (flag) {
                                 let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
-                                if (settings.debug_mode === "启用") {
-                                    log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
-                                }
                                 if (wait_time >= 1) {
-                                    sleep_time = wait_time
+                                    sleep_time = wait_time;
+                                    if (settings.debug_mode === "启用") {
+                                        log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
+                                    }
                                 }
                             }
                             await sleep(sleep_time);
