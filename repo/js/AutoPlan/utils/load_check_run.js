@@ -739,7 +739,7 @@ class Boss extends Base {
             "|" + auto.runCount +
             "|" + auto.useTransientResin +
             "|" + auto.useFragileResin +
-            "|" + auto.rviveRetryCount +
+            "|" + auto.reviveRetryCount +
             "|" + auto.returnToStatueAfterEachRound +
             "|" + auto.rewardRecognitionEnabled
 
@@ -769,7 +769,7 @@ class Boss extends Base {
             /** 指定讨伐次数模式下，原粹树脂不足时是否允许使用脆弱树脂补充。*/
             useFragileResin: false,
             /** 检测到角色死亡后，回神像恢复并重试当前首领讨伐的最大次数。*/
-            rviveRetryCount: 3,
+            reviveRetryCount: 3,
             /** 每轮领奖后是否先返回七天神像，再重新前往 Boss。*/
             returnToStatueAfterEachRound: false,
             /** 是否启用奖励名称识别。默认关闭。*/
@@ -815,7 +815,7 @@ class Boss extends Base {
         }
         index++
         if (index <= arr.length - 1) {
-            autoBoss.rviveRetryCount = parseInteger(arr[index])
+            autoBoss.reviveRetryCount = parseInteger(arr[index])
         }
         index++
         if (index <= arr.length - 1) {
@@ -843,7 +843,7 @@ class Boss extends Base {
         runCount: 1,
         useTransientResin: false,
         useFragileResin: false,
-        rviveRetryCount: 3,
+        reviveRetryCount: 3,
         returnToStatueAfterEachRound: false,
         rewardRecognitionEnabled: false
     }) {
@@ -876,7 +876,7 @@ class Boss extends Base {
         //     /** 指定讨伐次数模式下，原粹树脂不足时是否允许使用脆弱树脂补充。*/
         //     useFragileResin: false,
         //     /** 检测到角色死亡后，回神像恢复并重试当前首领讨伐的最大次数。*/
-        //     rviveRetryCount: 3,
+        //     reviveRetryCount: 3,
         //     /** 每轮领奖后是否先返回七天神像，再重新前往 Boss。*/
         //     returnToStatueAfterEachRound: false,
         //     /** 是否启用奖励名称识别。默认关闭。*/
