@@ -48,7 +48,7 @@ async function main() {
     let list = autoRunOrderList.filter(item =>
         (item.runType === config.user.runTypes[0] && parseInt(item?.autoFight.domainRoundNum || "0") > 0)
         || (item.runType === config.user.runTypes[1] && parseInt(item?.autoLeyLineOutcrop.count || "0") > 0) 
-        || (item.runType === config.user.runTypes[2])
+        || (item.runType === config.user.runTypes[2]) || (item.runType === config.user.runTypes[3])
     )
     // log.info("|test1==>list:{1}", JSON.stringify(list))
     list = await checkAndFilterStygianOnslaught(list)
@@ -107,7 +107,7 @@ async function test1() {
     // log.info("list:{1}",list)
     log.info("httpPullJsonConfig:{1}", config.bgi_tools.api.httpPullJsonConfig)
     log.info("|test==>config.bgi_tools:{1}", JSON.stringify(config.bgi_tools))
-    const list = await BgiTools.pullJsonConfig(config.user.uid, config.bgi_tools.api.httpPullJsonConfig)
+    const list = await BgiTools.pullJsonConfig( config.bgi_tools.api.httpPullJsonConfig,config.user.uid+'')
     log.info("list:{1}", JSON.stringify(list))
 }
 
