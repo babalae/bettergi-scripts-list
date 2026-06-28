@@ -335,9 +335,12 @@ async function processPathings() {
         if (monsterMatch) {
             const monsterList = monsterMatch[1].split('、');
             monsterList.forEach(monsterStr => {
-                const [countStr, monsterName] = monsterStr.split('只');
-                const count = Math.ceil(parseFloat(countStr.trim()) || 0);
-                routeInfo.monsterInfo[monsterName.trim()] = count;
+                if (!monsterStr) return; // 跳过空字符串（如末尾多余的顿号）
+                const parts = monsterStr.split('只');
+                if (parts.length < 2) return; // 缺少"只"，格式不合法，跳过
+                const count = Math.ceil(parseFloat(parts[0].trim()) || 0);
+                const name = parts[1].trim();
+                if (name) routeInfo.monsterInfo[name] = count;
             });
         }
 
