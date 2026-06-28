@@ -63,7 +63,7 @@ function migrate(state) {
 }
 
 function weekKey(dayKey) { return Math.floor((dayKey + 3) / 7); }      // 按「周一」对齐分桶（epoch 是周四，+3 让周一成为桶首；契合原神周一 04:00 周常重置）
-function monthKey(ts) { let d = new Date(ts); return d.getFullYear() * 12 + d.getMonth(); }
+function monthKey(dayKey) { const d = new Date(dayKey * 86400000); return d.getUTCFullYear() * 12 + d.getUTCMonth(); } // 按服务日归月，与 04:00 重置一致（凌晨跑的不会算错月）
 
 // 连续采集天数：从最近一条往前数 dayKey 连续(相差1)的天数
 function computeStreak(records) {
@@ -117,8 +117,8 @@ function computeEnd(prev, cur, nowTs, opts) {
             return { action: 'skip', reason: 'abnormal', state: state, badMetric: METRICS[j], badValue: g };
     }
 
-    const mg = gains.mora != null ? gains.mora : 0;
-    const fg = gains.fodderExp != null ? gains.fodderExp : 0;
+    const mg = gains.mora;       // null = 该指标本次未启用（关掉）→ 不累加、不写字段、不算有效天
+    const fg = gains.fodderExp;
     // 原石（软指标）：仅在「本窗真正测得有效值」时才计；未测得/异常 → 不写该天字段、不累加。
     // 关键约定：记录里「有没有这个字段」== 那天到底统计没统计这个指标。后加入的指标在旧天数里没有该字段，
     // 因此不会被当成「0 的有效一天」拉低日均（分母见 computeReport 的 dayCount）。今后新增物品指标一律照此办理。
@@ -127,7 +127,8 @@ function computeEnd(prev, cur, nowTs, opts) {
         let p = cur.primogem - start.primogem;
         if (p >= 0 && p <= pgMax) { pg = p; pgMeasured = true; }
     }
-    state.totalMora += mg; state.totalFodder += fg;
+    if (mg != null) state.totalMora += mg;
+    if (fg != null) state.totalFodder += fg;
     if (pgMeasured) state.totalPrimogem += pg;
     const curDay = serviceDay(nowTs);
     const recs = state.records;
@@ -136,17 +137,15 @@ function computeEnd(prev, cur, nowTs, opts) {
     if (!last) { recs.push(rec); state.totalDays += 1; if (state.firstTs == null) state.firstTs = nowTs; }
     rec.ts = nowTs;
     // 各指标按天计数：仅在该指标当天「首次」写入记录时 +1（同日多窗合并不重复计数；缺字段=那天没统计该指标）
-    if (!('moraGain' in rec)) state.dayCounts.mora += 1;
-    rec.moraGain = (rec.moraGain || 0) + mg;
-    if (!('fodderGain' in rec)) state.dayCounts.fodderExp += 1;
-    rec.fodderGain = (rec.fodderGain || 0) + fg;
+    if (mg != null) { if (!('moraGain' in rec)) state.dayCounts.mora += 1; rec.moraGain = (rec.moraGain || 0) + mg; }
+    if (fg != null) { if (!('fodderGain' in rec)) state.dayCounts.fodderExp += 1; rec.fodderGain = (rec.fodderGain || 0) + fg; }
     if (pgMeasured) {
         if (!('primogemGain' in rec)) state.dayCounts.primogem += 1;
         rec.primogemGain = (rec.primogemGain || 0) + pg;
     }
     state.records = recs; // 保留全部历史（每个服务日至多 1 条、体量极小）；累计/天数另由全时计数器维护
     state.schema = 5;
-    return { action: 'end', state: state, moraGain: mg, fodderGain: fg, primogemGain: pg };
+    return { action: 'end', state: state, moraGain: mg != null ? mg : 0, fodderGain: fg != null ? fg : 0, primogemGain: pg };
 }
 
 // 报告：累计/日均/今天 + 原石 + 连续天数 + 本周/本月 + 今天vs昨天 + 周环比。
@@ -169,14 +168,14 @@ function computeReport(state, nowTs) {
         out.today.mora = last.moraGain; out.today.fodder = last.fodderGain; out.today.primogem = last.primogemGain || 0;
     }
     out.streak = computeStreak(recs);
-    const cw = weekKey(curDay), cm = monthKey(nowTs);
+    const cw = weekKey(curDay), cm = monthKey(curDay);
     function agg(fn) {
         let m = 0, f = 0, p = 0, d = 0;
         for (let i = 0; i < recs.length; i++) if (fn(recs[i])) { m += recs[i].moraGain; f += recs[i].fodderGain; p += (recs[i].primogemGain || 0); d++; }
         return d ? { moraTotal: m, fodderTotal: f, primogemTotal: p, days: d, moraAvg: Math.round(m / d), fodderAvg: Math.round(f / d) } : null;
     }
     out.week = agg(function (r) { return weekKey(r.dayKey) === cw; });
-    out.month = agg(function (r) { return monthKey(r.ts) === cm; });
+    out.month = agg(function (r) { return monthKey(r.dayKey) === cm; });
     let ytd = null;
     for (let y = 0; y < recs.length; y++) if (recs[y].dayKey === curDay - 1) ytd = recs[y];
     if (last && last.dayKey === curDay && ytd && ytd.moraGain) out.dod = (last.moraGain - ytd.moraGain) / ytd.moraGain * 100;
@@ -241,14 +240,16 @@ function initBlock(blk){
  function val(p,m){return m==="mora"?p.m:m==="food"?p.f:p.p;}
  function buildChart(metric){
   const full=data.series,total=full.length;if(!total){chartEl.innerHTML="";return;}
-  const start=curRange>0?Math.max(0,total-curRange):0,s=full.slice(start),n=s.length; // 按所选范围截取，data-i 用原始下标以便与明细表联动
-  const vals=s.map(function(p){return val(p,metric);}),avg=metric==="mora"?data.avg.mora:metric==="food"?data.avg.food:data.avg.primogem;
+  const start=curRange>0?Math.max(0,total-curRange):0;
+  const s=full.slice(start).map(function(p,i){return{p:p,oi:start+i};}).filter(function(it){return val(it.p,metric)!=null;}); // 剔除缺测点(如原石未统计的旧天=null)，不画成0；oi=原始下标，与明细表联动
+  const n=s.length;if(!n){chartEl.innerHTML="";return;}
+  const vals=s.map(function(it){return val(it.p,metric);}),avg=metric==="mora"?data.avg.mora:metric==="food"?data.avg.food:data.avg.primogem;
   const min=Math.min.apply(null,vals),max=Math.max.apply(null,vals),range=(max-min)||(max||1);
   let lo=Math.min(min-range*0.5,avg-range*0.2),hi=Math.max(max+range*0.5,avg+range*0.2);if(hi<=lo)hi=lo+1;
   const W=640,H=210,padL=12,padR=14,padT=16,padB=30,pw=W-padL-padR,ph=H-padT-padB;
   const X=function(i){return padL+(n===1?pw/2:i*pw/(n-1));},Y=function(v){return padT+(1-(v-lo)/(hi-lo))*ph;};
   const c=metric==="mora"?cssVar("--gold"):metric==="food"?cssVar("--green"):cssVar("--primo"),surf=cssVar("--surface");
-  const lp=s.map(function(p,i){return X(i).toFixed(1)+","+Y(val(p,metric)).toFixed(1);});
+  const lp=s.map(function(it,i){return X(i).toFixed(1)+","+Y(val(it.p,metric)).toFixed(1);});
   const line="M"+lp.join(" L"),area="M"+X(0).toFixed(1)+","+(padT+ph)+" L"+lp.join(" L")+" L"+X(n-1).toFixed(1)+","+(padT+ph)+" Z";
   const ay=Y(avg).toFixed(1),gid="g"+blk.getAttribute("data-idx")+metric,dots=n<=60,lblEvery=Math.max(1,Math.ceil(n/8)); // 点多(>60)只画线、X轴标签取约8个，避免拥挤
   let svg='<svg viewBox="0 0 '+W+' '+H+'" class="chart-svg" role="img" aria-label="每日趋势">';
@@ -256,9 +257,9 @@ function initBlock(blk){
   svg+='<line x1="'+padL+'" y1="'+ay+'" x2="'+(W-padR)+'" y2="'+ay+'" stroke="'+c+'" stroke-opacity=".3" stroke-width="1" stroke-dasharray="4 4"></line>';
   svg+='<text class="axis" x="'+(W-padR)+'" y="'+(ay-5)+'" text-anchor="end">日均 '+fmt(avg)+'</text>';
   svg+='<path d="'+area+'" fill="url(#'+gid+')"></path><path d="'+line+'" fill="none" stroke="'+c+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>';
-  s.forEach(function(p,i){const cx=X(i).toFixed(1),cy=Y(val(p,metric)).toFixed(1);
-   if(dots)svg+='<circle class="pt" data-i="'+(start+i)+'" cx="'+cx+'" cy="'+cy+'" r="3.2" fill="'+surf+'" stroke="'+c+'" stroke-width="2"></circle>';
-   if(i%lblEvery===0||i===n-1)svg+='<text class="xlab" x="'+cx+'" y="'+(H-9)+'" text-anchor="middle">'+p.d+'</text>';});
+  s.forEach(function(it,i){const cx=X(i).toFixed(1),cy=Y(val(it.p,metric)).toFixed(1);
+   if(dots)svg+='<circle class="pt" data-i="'+it.oi+'" cx="'+cx+'" cy="'+cy+'" r="3.2" fill="'+surf+'" stroke="'+c+'" stroke-width="2"></circle>';
+   if(i%lblEvery===0||i===n-1)svg+='<text class="xlab" x="'+cx+'" y="'+(H-9)+'" text-anchor="middle">'+it.p.d+'</text>';});
   svg+='</svg>';chartEl.innerHTML=svg;
   if(dots)Array.prototype.forEach.call(chartEl.querySelectorAll(".pt"),function(pt){const i=+pt.getAttribute("data-i");
    pt.addEventListener("mouseenter",function(){hoverIn(i,metric);});pt.addEventListener("mousemove",moveTip);pt.addEventListener("mouseleave",function(){hoverOut(i);});});
@@ -371,7 +372,7 @@ function buildHtmlReport(store, nowTs) {
         blocks += '<div class="block" data-idx="' + idx + '"><div class="block-head">账户 <b>' + esc(keys[ki]) + '</b> · 起算 ' + esc(firstDate) + ' · ' + rep.days + ' 个采集日</div><div class="layout">' + rail + main + '</div></div>';
 
         const sj = [];
-        for (let sj2 = 0; sj2 < recs.length; sj2++) sj.push('{d:"' + md(recs[sj2].dayKey) + '",m:' + recs[sj2].moraGain + ',f:' + recs[sj2].fodderGain + ',p:' + (recs[sj2].primogemGain || 0) + '}');
+        for (let sj2 = 0; sj2 < recs.length; sj2++) sj.push('{d:"' + md(recs[sj2].dayKey) + '",m:' + recs[sj2].moraGain + ',f:' + recs[sj2].fodderGain + ',p:' + (typeof recs[sj2].primogemGain === 'number' ? recs[sj2].primogemGain : 'null') + '}'); // 缺测原石写 null（非 0），趋势图据此剔除该点
         reportsJs.push('{avg:{mora:' + mAvg + ',food:' + fAvg + ',primogem:' + pAvg + '},hasP:' + (hasP ? 'true' : 'false') + ',series:[' + sj.join(',') + ']}');
         bi++;
     }
