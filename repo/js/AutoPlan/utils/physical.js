@@ -374,11 +374,14 @@ export class Physical {
     }
 
 
-
     /**
      * 统计游戏中的所有树脂类型的数量
      * 包括原粹树脂、浓缩树脂、须臾树脂和脆弱树脂
-     * @returns {Promise<Object>} 返回包含各种树脂数量的对象
+     * @returns {Promise<{originalResinCount: 0,// 原粹树脂数量
+     *     condensedResinCount: 0,// 浓缩树脂数量
+     *     transientResinCount: 0,// 须臾树脂数量
+     *      fragileResinCount: 0// 脆弱树脂数量
+     *      }>} 返回包含各种树脂数量的对象
      */
     static async countAllResin() {
         let shouldRestoreMainUi = false // 标记是否需要恢复主界面

@@ -856,8 +856,14 @@ class Boss extends Base {
         config.user.physical.current = currentPhysical.originalResinCount;
 
         const originalResin = config.user.physical.currentJson.originalResinCount;
-        if (originalResin < (config.user.physical.min * 2)) {
-            log.warn(`{0}`, "Boss挑战原粹树脂不足")
+        if (
+            (originalResin < (config.user.physical.min * 2))
+            ||
+            (autoBoss.useFragileResin && currentPhysical?.fragileResinCount < 0)
+            ||
+            (autoBoss.useTransientResin && currentPhysical?.transientResinCount < 0)
+        ) {
+            log.warn(`{0}`, "Boss挑战树脂不足")
             return
         }
         // let autoBoss = {
