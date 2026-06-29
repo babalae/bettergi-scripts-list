@@ -1088,15 +1088,13 @@
                     if (sheet_list[i]["chord"]) {
                         await play_chord(sheet_list[i]["note"], "down"); // 和弦
                         let flag = false;
-                        if (settings.note_latency) {
-                            flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
-                            if (flag) {
-                                let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
-                                if (wait_time >= 1) {
-                                    sleep_time = wait_time;
-                                    if (DEBUG) {
-                                        log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
-                                    }
+                        flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                        if (flag) {
+                            let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
+                            if (wait_time >= 1) {
+                                sleep_time = wait_time;
+                                if (DEBUG) {
+                                    log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
                                 }
                             }
                         }
@@ -1108,15 +1106,13 @@
                         } else {
                             await play_note(sheet_list[i]["note"], "down"); // 单音
                             let flag = false;
-                            if (settings.note_latency) {
-                                flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
-                                if (flag) {
-                                    let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
-                                    if (wait_time >= 1) {
-                                        sleep_time = wait_time;
-                                        if (DEBUG) {
-                                            log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
-                                        }
+                            flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                            if (flag) {
+                                let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
+                                if (wait_time >= 1) {
+                                    sleep_time = wait_time;
+                                    if (DEBUG) {
+                                        log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
                                     }
                                 }
                             }
@@ -1132,15 +1128,13 @@
                     if (sheet_list[i]["chord"]) {
                         await play_chord(sheet_list[i]["note"], "down"); // 和弦
                         let flag = false;
-                        if (settings.note_latency) {
-                            flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
-                            if (flag) {
-                                let wait_time = ornament_time - lowest_latency; // 提前去lowest_latency
-                                if (wait_time >= 1) {
-                                    ornament_time = wait_time;
-                                    if (DEBUG) {
-                                        log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${ornament_time} ms)`: `正常抬起：预期时长 ${ornament_time} ms`);
-                                    }
+                        flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                        if (flag) {
+                            let wait_time = ornament_time - lowest_latency; // 提前去lowest_latency
+                            if (wait_time >= 1) {
+                                ornament_time = wait_time;
+                                if (DEBUG) {
+                                    log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${ornament_time} ms)`: `正常抬起：预期时长 ${ornament_time} ms`);
                                 }
                             }
                         }
@@ -1149,15 +1143,13 @@
                     } else {
                         await play_note(sheet_list[i]["note"], "down"); // 单音
                         let flag = false;
-                        if (settings.note_latency) {
-                            flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
-                            if (flag) {
-                                let wait_time = ornament_time - lowest_latency; // 提前去lowest_latency
-                                if (wait_time >= 1) {
-                                    ornament_time = wait_time;
-                                    if (DEBUG) {
-                                        log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${ornament_time} ms)`: `正常抬起：预期时长 ${ornament_time} ms`);
-                                    }
+                        flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                        if (flag) {
+                            let wait_time = ornament_time - lowest_latency; // 提前去lowest_latency
+                            if (wait_time >= 1) {
+                                ornament_time = wait_time;
+                                if (DEBUG) {
+                                    log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${ornament_time} ms)`: `正常抬起：预期时长 ${ornament_time} ms`);
                                 }
                             }
                         }
@@ -1204,15 +1196,13 @@
                             if (temp_legato[j]["chord"]) {
                                 await play_chord(temp_legato[j]["note"], "down"); // 和弦
                                 let flag = false;
-                                if (settings.note_latency) {
-                                    flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
-                                    if (flag) {
-                                        let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
-                                        if (wait_time >= 1) {
-                                            sleep_time = wait_time;
-                                            if (DEBUG) {
-                                                log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
-                                            }
+                                flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                                if (flag) {
+                                    let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
+                                    if (wait_time >= 1) {
+                                        sleep_time = wait_time;
+                                        if (DEBUG) {
+                                            log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
                                         }
                                     }
                                 }
@@ -1224,15 +1214,13 @@
                                 } else {
                                     await play_note(temp_legato[j]["note"], "down"); // 单音
                                     let flag = false;
-                                    if (settings.note_latency) {
-                                        flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
-                                        if (flag) {
-                                            let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
-                                            if (wait_time >= 1) {
-                                                sleep_time = wait_time;
-                                                if (DEBUG) {
-                                                    log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
-                                                }
+                                    flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                                    if (flag) {
+                                        let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
+                                        if (wait_time >= 1) {
+                                            sleep_time = wait_time;
+                                            if (DEBUG) {
+                                                log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
                                             }
                                         }
                                     }
@@ -1261,15 +1249,13 @@
                     if (sheet_list[i]["chord"]) {
                         await play_chord(sheet_list[i]["note"], "down"); // 和弦
                         let flag = false;
-                        if (settings.note_latency) {
-                            flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
-                            if (flag) {
-                                let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
-                                if (wait_time >= 1) {
-                                    sleep_time = wait_time;
-                                    if (DEBUG) {
-                                        log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
-                                    }
+                        flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                        if (flag) {
+                            let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
+                            if (wait_time >= 1) {
+                                sleep_time = wait_time;
+                                if (DEBUG) {
+                                    log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
                                 }
                             }
                         }
@@ -1281,15 +1267,13 @@
                         } else {
                             await play_note(sheet_list[i]["note"], "down"); // 单音
                             let flag = false;
-                            if (settings.note_latency) {
-                                flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
-                                if (flag) {
-                                    let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
-                                    if (wait_time >= 1) {
-                                        sleep_time = wait_time;
-                                        if (DEBUG) {
-                                            log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
-                                        }
+                            flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                            if (flag) {
+                                let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
+                                if (wait_time >= 1) {
+                                    sleep_time = wait_time;
+                                    if (DEBUG) {
+                                        log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
                                     }
                                 }
                             }
