@@ -1,6 +1,6 @@
 import {toMainUi} from "../utils/tool";
 /*===========================================[config]===========================================*/
-export let config = {
+const defaultConfig={
     //setting设置放在这个json
     run: {
         exclude_run_exception: false,//忽略运行异常
@@ -65,6 +65,19 @@ export let config = {
     domainItemsMap: new Map(),
 }
 
+export let config = defaultConfig
+/**
+ * 构建记录文件路径的函数
+ * @param {string} uid - 用户唯一标识符
+ * @param {string} [record=config.path.record] - 记录文件的基础路径，默认为config.path.record
+ * @returns {string} 完整的记录文件路径
+ */
+function buildRecord(uid,record=config.path.record){
+    // 将用户ID添加到基础路径后，形成完整的文件路径
+    record+=uid+".json"
+    // 返回构建好的完整记录文件路径
+    return record
+}
 /*===========================================[enum]===========================================*/
 export const LoadType = Object.freeze({
     uid: 'uid',//uid加载
@@ -149,70 +162,7 @@ export async function checkKey(key = "") {
  */
 export async function buildInitConfigSettings() {
     // 初始化配置对象，包含运行设置、工具配置、信息、用户、路径等
-    config = {
-        //setting设置放在这个json
-        run: {
-            exclude_run_exception: false,//忽略运行异常
-            loop_plan: false,//启用循环体力计划
-            retry_count: 3,//复活重试次数
-            config: '',
-            // load_uid_config: false,
-            loads: [],//加载方式list
-        },
-        bgi_tools: {
-            //授权token
-            token: {
-                name: 'Authorization',
-                value: ''
-            },
-            api: {
-                httpPullJsonConfig: undefined,
-                httpPushAllJsonConfig: undefined,
-                httpPushAllCountryConfig: undefined,
-            },
-            open: {open_push: false}
-        },
-        info: {
-            key: undefined,//密钥
-            manifest: {},
-            settings: undefined
-        },
-        user: {
-            uid: undefined,
-            physical: {
-                min: 20,//最小体力
-                current: 0,//当前体力
-                currentJson:{ // 返回包含各种树脂数量的对象
-                    originalResinCount: 0, // 原粹树脂数量
-                    condensedResinCount: 0, // 浓缩树脂数量
-                    transientResinCount: 0, // 须臾树脂数量
-                    fragileResinCount: 0 // 脆弱树脂数量
-                },
-                names: ["原粹树脂", "浓缩树脂", "须臾树脂", "脆弱树脂"]
-            },
-            runTypes: ['秘境', '地脉', '幽境','Boss']
-        },
-        //
-        path: {
-            manifest: "manifest.json",
-            domain: "config/domain.json",
-            runConfig: "config/run_config.json",
-            countryList: "config/countryList.json",
-            record: "record/"
-        },
-        //所有秘境信息
-        domainList: [],
-        //所有秘境名称
-        domainNames: new Set(),
-        //物品名称(只记录顶级的名称->金色物品名称)
-        itemNames: new Set(),
-        //秘境名称映射物品列表
-        domainMap: new Map(),
-        //秘境名称映射秘境列表顺序
-        domainOrderMap: new Map(),
-        //物品名称映射秘境名称
-        domainItemsMap: new Map(),
-    }
+    config = defaultConfig
 }
 
 /**
@@ -268,8 +218,7 @@ export async function initConfig() {
     // 初始化uid
     config.user.uid = await genshin.uid()
     // config.run.retry_count = (settings.retry_count ? parseInt(settings.retry_count) : config.run.retry_count)
-    config.path.record = config.path.record + config.user.uid + ".json"
-    //
+    config.path.record = buildRecord(config.user.uid,config.path.record)
     const retryCount = Number.parseInt(String(settings.retry_count ?? ""), 10);
     config.run.retry_count = Number.isFinite(retryCount) && retryCount > 0
         ? retryCount
