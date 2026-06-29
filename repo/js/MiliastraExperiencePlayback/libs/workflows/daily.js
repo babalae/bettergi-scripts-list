@@ -75,6 +75,8 @@ const execDailyTask = async () => {
         if (isHostException(err)) throw err;
         /** 发生脚本流程异常，尝试退出关卡（如果在关卡中） */
         await exitStage();
+        /** 发生脚本流程异常，尝试返回主界面 */
+        await genshin.returnMainUi();
         log.error("脚本执行出错: {error}", getErrorMessage(err));
       }
       /** 一轮关卡执行结束，更新数据存储 */

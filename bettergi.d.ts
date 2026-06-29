@@ -657,6 +657,13 @@ declare const dispatcher: {
    * @param customCt 自定义取消令牌（可选）
    */
   runAutoStygianOnslaughtTask(param: AutoStygianOnslaughtParam, customCt?: CancellationToken | null): Promise<void>;
+  /**
+   * 运行自动BOSS任务
+   * @param param
+   * @param customCt
+   */
+  runAutoBossTask(param: AutoBossParam, customCt?: CancellationToken | null): Promise<void>;
+
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   AddTimer: typeof dispatcher.addTimer;
   AddTrigger: typeof dispatcher.addTrigger;
@@ -668,6 +675,7 @@ declare const dispatcher: {
   RunAutoFightTask: typeof dispatcher.runAutoFightTask;
   RunAutoLeyLineOutcropTask: typeof dispatcher.runAutoLeyLineOutcropTask;
   RunAutoStygianOnslaughtTask: typeof dispatcher.runAutoStygianOnslaughtTask;
+  RunAutoBossTask: typeof dispatcher.runAutoBossTask;
   // ==== END AUTO-GENERATED ALIASES ====;
 };
 
@@ -1210,7 +1218,7 @@ declare class AutoFightParam {
  * 自动首领讨伐任务参数，供独立任务、一条龙和 JS 调用统一传递配置。
  */
 declare class AutoBossParam {
-  constructor(path: string);
+  constructor(path?: string);
   /** 需要讨伐的 Boss 名称。*/
   bossName: string;
   /** UI 中选择的战斗策略名称；当没有自定义策略路径时会同步更新 <see cref="CombatStrategyPath"/>。*/
