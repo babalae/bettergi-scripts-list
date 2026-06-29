@@ -431,7 +431,7 @@
                     }
                 });
             }
-            Settings.debug = (typeof (settings.debug_mode) === 'undefined') ? (false) : (settings.debug_mode === "启用");
+            Settings.debug = (typeof (settings.debug_mode) === 'undefined') ? false : settings.debug_mode === "启用";
             return Settings;
 
         } catch (error) {
@@ -541,9 +541,9 @@
             keyDown(key);
         } else if (status === "up") {
             keyUp(key);
-            await sleep(lowest_latency);
             if (extra_wait) {
-                if (settings.debug_mode === "启用") {
+                await sleep(lowest_latency);
+                if (DEBUG) {
                     log.info(`补足延迟：预期用时 ${lowest_latency} ms`);
                 }
                 await sleep(lowest_latency);
@@ -566,7 +566,7 @@
             for (const key of keys) {
                 await play_note(key, status);
                 if (extra_wait) {
-                    if (settings.debug_mode === "启用") {
+                    if (DEBUG) {
                         log.info(`补足延迟：预期用时 ${lowest_latency} ms`);
                     }
                     await sleep(lowest_latency);
@@ -581,7 +581,7 @@
                 keyUp(key);
             }
             if (extra_wait) {
-                if (settings.debug_mode === "启用") {
+                if (DEBUG) {
                     log.info(`补足延迟：预期用时 ${lowest_latency} ms`);
                 }
                 await sleep(lowest_latency);
@@ -980,6 +980,7 @@
 			let play_sheet = sheet_list.split("|");
             let base_time = 60000 / (bpm * ticks);  // second per beat - 每tick多少毫秒
 
+            let midi_start_time = Date.now();
             for (let i = 0; i < play_sheet.length; i++) {
                 // 预期用时
                 let expected_usage = 0;
@@ -1013,11 +1014,14 @@
                 if (i > 0) {
                     if (wait_time >= lowest_latency) {
                         if (i + 1 < play_sheet.length) {
-                            if (play_sheet[i][0] !== "*" || play_sheet[i + 1][0] !== "*") {
+                            if (play_sheet[i][0] !== "*" && play_sheet[i + 1][0] !== "*") {
                                 const next_match = play_sheet[i + 1].match(regex);
                                 if (next_match && hasCommonChar(next_match[2], notes) && next_match[1] === 'D' && 'D' !== status) {
                                     let r_wait_time = wait_time - lowest_latency; // 正常时长减去 下一个音的额外延迟+延迟补偿
                                     await sleep(r_wait_time);
+                                    if (DEBUG) {
+                                        log.info(`提前抬起：${r_wait_time}`);
+                                    }
                                 } else {
                                     await sleep(wait_time);
                                 }
@@ -1026,10 +1030,13 @@
                             await sleep(wait_time);
                         }
                     } else { //对相邻同音的按下/抬起对添加补偿延迟，避免无差别强制sleep导致流畅度下降
-                        if (play_sheet[i - 1][0] !== "*" || play_sheet[i][0] !== "*") {
+                        if (play_sheet[i - 1][0] !== "*" && play_sheet[i][0] !== "*") {
                             const prev_match = play_sheet[i - 1].match(regex);
                             if (prev_match && hasCommonChar(prev_match[2], notes) && prev_match[1] === 'U' && 'U' !== status) {
                                 await sleep(lowest_latency); // 额外延迟 防止丢音
+                                if (DEBUG) {
+                                    log.info(`补足延迟：${lowest_latency}`);
+                                }
                             }
                         }
                     }
@@ -1053,6 +1060,10 @@
                     }
                 }
             }
+            let midi_end_time = Date.now();
+            if (DEBUG) {
+                log.info(`总计用时：${midi_end_time - midi_start_time}ms`);
+            }
         } else {
             // 确定是以几分音符为一拍
             let symbol = parseInt(ts.split("/")[1], 10);
@@ -1063,6 +1074,7 @@
             // 装饰音时长
             let ornament_time = Math.round(symbol_time / 16)
 
+            let yq_start_time = Date.now();
             // test 需要额外计算装饰音时值的影响
             for (let i = 0; i < sheet_list.length; i++) {
 
@@ -1075,12 +1087,13 @@
 
                     if (sheet_list[i]["chord"]) {
                         await play_chord(sheet_list[i]["note"], "down"); // 和弦
-                        let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                        let flag = false;
+                        flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                         if (flag) {
                             let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
                             if (wait_time >= 1) {
                                 sleep_time = wait_time;
-                                if (settings.debug_mode === "启用") {
+                                if (DEBUG) {
                                     log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
                                 }
                             }
@@ -1092,12 +1105,13 @@
                             await sleep(sleep_time);
                         } else {
                             await play_note(sheet_list[i]["note"], "down"); // 单音
-                            let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                            let flag = false;
+                            flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                             if (flag) {
                                 let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
                                 if (wait_time >= 1) {
                                     sleep_time = wait_time;
-                                    if (settings.debug_mode === "启用") {
+                                    if (DEBUG) {
                                         log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
                                     }
                                 }
@@ -1113,12 +1127,13 @@
                 } else if (sheet_list[i]["spl"] === '#') { // 装饰音（不会包含休止符），时值为symbol的时值的1/16
                     if (sheet_list[i]["chord"]) {
                         await play_chord(sheet_list[i]["note"], "down"); // 和弦
-                        let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                        let flag = false;
+                        flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                         if (flag) {
                             let wait_time = ornament_time - lowest_latency; // 提前去lowest_latency
                             if (wait_time >= 1) {
                                 ornament_time = wait_time;
-                                if (settings.debug_mode === "启用") {
+                                if (DEBUG) {
                                     log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${ornament_time} ms)`: `正常抬起：预期时长 ${ornament_time} ms`);
                                 }
                             }
@@ -1127,12 +1142,13 @@
                         await play_chord(sheet_list[i]["note"], "up", flag);
                     } else {
                         await play_note(sheet_list[i]["note"], "down"); // 单音
-                        let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                        let flag = false;
+                        flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                         if (flag) {
                             let wait_time = ornament_time - lowest_latency; // 提前去lowest_latency
                             if (wait_time >= 1) {
                                 ornament_time = wait_time;
-                                if (settings.debug_mode === "启用") {
+                                if (DEBUG) {
                                     log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${ornament_time} ms)`: `正常抬起：预期时长 ${ornament_time} ms`);
                                 }
                             }
@@ -1153,7 +1169,7 @@
                         // 连音的总时长
                         let time_legato = Math.round(symbol_time * (symbol / sheet_list[i]["type"]));
                         // 当前音符类型
-                        let current_type = parseInt(sheet_list[i]["spl"].split(/\./)[0])
+                        let current_type = parseInt(sheet_list[i]["spl"].split(/\./)[0]);
                         // 连音的音符数值总和（用于计算当前音符时长）
                         let time_all = 0;
                         for (let j = 0; j < temp_legato.length; j++) {
@@ -1179,12 +1195,13 @@
 
                             if (temp_legato[j]["chord"]) {
                                 await play_chord(temp_legato[j]["note"], "down"); // 和弦
-                                let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                                let flag = false;
+                                flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                                 if (flag) {
                                     let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
                                     if (wait_time >= 1) {
                                         sleep_time = wait_time;
-                                        if (settings.debug_mode === "启用") {
+                                        if (DEBUG) {
                                             log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
                                         }
                                     }
@@ -1196,12 +1213,13 @@
                                     await sleep(sleep_time);
                                 } else {
                                     await play_note(temp_legato[j]["note"], "down"); // 单音
-                                    let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                                    let flag = false;
+                                    flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                                     if (flag) {
                                         let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
                                         if (wait_time >= 1) {
                                             sleep_time = wait_time;
-                                            if (settings.debug_mode === "启用") {
+                                            if (DEBUG) {
                                                 log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
                                             }
                                         }
@@ -1230,12 +1248,13 @@
 
                     if (sheet_list[i]["chord"]) {
                         await play_chord(sheet_list[i]["note"], "down"); // 和弦
-                        let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                        let flag = false;
+                        flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                         if (flag) {
                             let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
                             if (wait_time >= 1) {
                                 sleep_time = wait_time;
-                                if (settings.debug_mode === "启用") {
+                                if (DEBUG) {
                                     log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
                                 }
                             }
@@ -1247,12 +1266,13 @@
                             await sleep(sleep_time);
                         } else {
                             await play_note(sheet_list[i]["note"], "down"); // 单音
-                            let flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
+                            let flag = false;
+                            flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                             if (flag) {
                                 let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
                                 if (wait_time >= 1) {
                                     sleep_time = wait_time;
-                                    if (settings.debug_mode === "启用") {
+                                    if (DEBUG) {
                                         log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
                                     }
                                 }
@@ -1299,6 +1319,10 @@
                     log.info(`错误: ${sheet_list[i]["spl"]}`);
                     return null;
                 }
+            }
+            let yq_end_time = Date.now();
+            if (DEBUG) {
+                log.info(`总计用时：${yq_end_time - yq_start_time}ms`);
             }
         }
     }

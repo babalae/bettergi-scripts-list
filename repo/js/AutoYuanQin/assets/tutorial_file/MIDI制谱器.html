@@ -799,7 +799,6 @@
     function updateShiftDisplay() {
         const enabled = autoShiftCheckbox.checked;
         const shift = enabled ? computeBestOctaveShift(mergedNotes) : 0;
-        const staccatoCount = mergedNotes.filter(n => n.isStaccato).length;
 
         if (mergedNotes.length > 0) {
             const pitches = mergedNotes.map(n => n.pitch);
@@ -812,7 +811,7 @@
             noteRangeAdjSpan.textContent = `${adjustedMin} ~ ${adjustedMax} (限制36-71)`;
 
             const shiftStr = shift === 0 ? '0 (原调)' : (shift > 0 ? `+${shift} 八度` : `${shift} 八度`);
-            bestShiftSpan.textContent = `${shiftStr} | 跳音: ${staccatoCount} 个`;
+            bestShiftSpan.textContent = shiftStr;
         } else {
             noteRangeOrigSpan.textContent = '—';
             noteRangeAdjSpan.textContent = '—';
@@ -918,15 +917,12 @@
         }
 
         let msg = `已选中 ${selectedTrackIndexes.length} 个音轨：\n`;
-        let totalStaccato = 0;
         selectedTrackIndexes.forEach(idx => {
             const noteCount = tracksInfo[idx]?.noteCount || 0;
             msg += `- 音轨 ${idx}: ${noteCount} 个音符\n`;
         });
         const totalNotes = mergedNotes.length;
-        totalStaccato = mergedNotes.filter(n => n.isStaccato).length;
         msg += `\n合并后总音符数: ${totalNotes}`;
-        msg += `\n识别到跳音: ${totalStaccato} 个`;
         msg += `\n当前八度偏移: ${getCurrentOctaveShift()}`;
         alert(msg);
     });
@@ -1191,9 +1187,6 @@
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     });
-
-    // 初始化点击上传区
-    document.querySelector('.file-label').addEventListener('click', () => fileInput.click());
 
 })();
 </script>
