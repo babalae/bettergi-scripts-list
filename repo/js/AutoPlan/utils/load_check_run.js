@@ -1076,7 +1076,17 @@ export async function initRunOrderList(domainConfig) {
             }
             return true
         })
-    from.sort((a, b) => b.order - a.order)
+    from.sort((a, b) => {
+        // 将 cultivate 转换为数值，true 为 1，false 为 0
+        let cultivateA = (a?.cultivate || false) ? 1 : 0;
+        let cultivateB = (b?.cultivate || false) ? 1 : 0;
+        // 优先按 cultivate 降序（true 在前）
+        if (cultivateB !== cultivateA) {
+            return cultivateB - cultivateA;
+        }
+        // 当 cultivate 相同时，按 order 降序排列
+      return b.order - a.order
+    })
     log.debug(`from:{0}`, JSON.stringify(from))
     return from;
 }
