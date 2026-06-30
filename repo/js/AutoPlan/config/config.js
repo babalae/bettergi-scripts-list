@@ -20,6 +20,7 @@ const defaultConfig={
             httpPullJsonConfig: undefined,
             httpPushAllJsonConfig: undefined,
             httpPushAllCountryConfig: undefined,
+            httpPushAllBossConfig: undefined,
         },
         open: {open_push: false}
     },
@@ -49,6 +50,7 @@ const defaultConfig={
         domain: "config/domain.json",
         runConfig: "config/run_config.json",
         countryList: "config/countryList.json",
+        bossList: "config/bossList.json",
         record: "record/"
     },
     //所有秘境信息
@@ -245,6 +247,7 @@ export async function initConfig() {
     config.bgi_tools.api.httpPullJsonConfig = settings.bgi_tools_http_pull_json_config
     config.bgi_tools.api.httpPushAllJsonConfig = settings.bgi_tools_http_push_all_json_config
     config.bgi_tools.api.httpPushAllCountryConfig = settings.bgi_tools_http_push_all_country_config
+    config.bgi_tools.api.httpPushAllBossConfig = settings.bgi_tools_http_push_all_boss_config
     config.bgi_tools.open.open_push = settings.bgi_tools_open_push
     log.debug(`|bgi_tools:{1}`, JSON.stringify(config.bgi_tools))
     // const text = file.readTextSync(config.path.domain);
