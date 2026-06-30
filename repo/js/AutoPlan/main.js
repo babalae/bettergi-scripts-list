@@ -27,8 +27,11 @@ async function init() {
     if (config.bgi_tools.open.open_push) {
         log.info(`开始推送bgi_tools配置`)
 
+        if (config.bgi_tools.api.httpPushAllJsonConfig?.trim())
         await BgiTools.pushAllDomainConfig(JSON.parse(file.readTextSync(config.path.domain)), config.bgi_tools.api.httpPushAllJsonConfig, config.bgi_tools.token)
+        if (config.bgi_tools.api.httpPushAllCountryConfig?.trim())
         await BgiTools.pushAllCountryConfig(JSON.parse(file.readTextSync(config.path.countryList)), config.bgi_tools.api.httpPushAllCountryConfig, config.bgi_tools.token)
+        if (config.bgi_tools.api.httpPushAllBossConfig?.trim())
         await BgiTools.pushAllBossConfig(JSON.parse(file.readTextSync(config.path.bossList)), config.bgi_tools.api.httpPushAllBossConfig, config.bgi_tools.token)
     }
 }
