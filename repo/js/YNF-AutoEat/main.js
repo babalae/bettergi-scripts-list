@@ -696,7 +696,7 @@
           
           while (retries < maxRetries) {
                const ifFood = await imageRecognitionEnhanced(currentFoodPath, 1, 0, 0, 115, 120, 1150, 880);//识别当前食物图片
-               const clcikDelay = settings.clcikDelay;
+               const clickDelay = parseInt(settings.clickDelay, 10); // 第二个参数10指定十进制
                
                if (ifFood.found) {
                     await leftButtonUp();
@@ -711,7 +711,7 @@
                     
                     for (let i = 0; i < currentFoodCount; i++) {
                          click(1251, 630);
-                         await sleep(clcikDelay);
+                         await sleep(clickDelay);
                     }
 
                     await click(1180, 770);//点击确认
