@@ -14,12 +14,31 @@ const TemplateOrcJson = {x: 1568, y: 16, width: 225, height: 60,}
 
 // 树脂图标识别对象
 const RESIN_ICONS = {
-    ORIGINAL: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/original_resin.png")),
-    // CONDENSED: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/condensed_resin.png")),
-    // FRAGILE: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/fragile_resin.png")),
-    // TRANSIENT: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/transient_resin.png")),
-    // REPLENISH_BUTTON: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/replenish_resin_button.png"))
+    ORIGINAL: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/resin/original_resin.png")),
+    CONDENSED: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/resin/condensed_resin.png")),
+    FRAGILE: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/resin/fragile_resin.png")),
+    TRANSIENT: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/resin/transient_resin.png")),
+    REPLENISH_BUTTON: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/replenish_resin_button.png"))
 };
+
+// 普通数字识别对象（1-4）
+const NUMBER_ICONS = [
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/num/num1.png")), value: 1},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/num/num2.png")), value: 2},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/num/num3.png")), value: 3},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/num/num4.png")), value: 4}
+];
+
+// 白色数字识别对象（0-5，用于浓缩树脂）
+const WHITE_NUMBER_ICONS = [
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/num/num0_white.png")), value: 0},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/num/num1_white.png")), value: 1},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/num/num2_white.png")), value: 2},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/num/num3_white.png")), value: 3},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/num/num4_white.png")), value: 4},
+    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/num/num5_white.png")), value: 5}
+];
+
 // 配置常量
 const CONFIG = {
     RECOGNITION_TIMEOUT: 2000,      // 图像识别超时时间（毫秒）
@@ -41,9 +60,10 @@ const CONFIG = {
         OTHER_RESIN: {width: 0, height: 60}  // width会根据图标宽度动态设置
     }
 };
-const PHYSICAL={
-    MAX:200
+const PHYSICAL = {
+    MAX: 200
 }
+
 //====================================================
 export class Physical {
     /**
@@ -60,10 +80,11 @@ export class Physical {
         try {
             return parseInt(str.match(/\d+/g).join(''));
         } catch (e) {
-        // 如果发生异常（例如输入不是字符串或无法匹配数字），返回默认值
+            // 如果发生异常（例如输入不是字符串或无法匹配数字），返回默认值
             return defaultValue
         }
     }
+
     /**
      * 识别游戏中原粹树脂（体力）的功能函数
      * @param {boolean} [opToMainUi=false] - 是否操作返回主界面
@@ -84,13 +105,13 @@ export class Physical {
         }
         log.debug(`===开始识别原粹树脂===`)
         let ms = 1000  // 定义操作延迟时间（毫秒）
-    // 如果需要操作返回主界面
+        // 如果需要操作返回主界面
         if (opToMainUi) {
             await sleep(ms)
             await toMainUi();  // 切换到主界面
         }
 
-    // 如果需要打开地图界面
+        // 如果需要打开地图界面
         if (openMap) {
             await sleep(ms)
             //打开地图界面
@@ -179,16 +200,16 @@ export class Physical {
             log.debug(`[OCR原粹树脂]识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
             let text = "0"
 
-            if (!res.text.includes('/')){
+            if (!res.text.includes('/')) {
                 //识别异常处理 误识别 /200 => 1200 (/被误识别为1)
-                const regExp=`(\\d+)${PHYSICAL.MAX}`
+                const regExp = `(\\d+)${PHYSICAL.MAX}`
                 //1.移除200
                 const match = res.text.match(regExp);
                 if (match) {
                     //2.移除 误识别 /=>1
                     text = match[1].substring(0, match[1].length - 1);
                 }
-            }else {
+            } else {
                 text = res.text.split('/')[0]
             }
 
@@ -244,9 +265,123 @@ export class Physical {
     }
 
     /**
+     * 统计浓缩树脂数量
+     * @returns {number} 浓缩树脂数量
+     */
+    static async countCondensedResin() {
+        const condensedResin = await Physical.recognizeImage(RESIN_ICONS.CONDENSED);
+        if (!condensedResin) {
+            log.warn(`未找到浓缩树脂图标`);
+            return 0;
+        }
+
+        const ocrRegion = {
+            x: condensedResin.x,
+            y: condensedResin.y,
+            width: CONFIG.OCR_REGIONS.CONDENSED_RESIN.width,
+            height: CONFIG.OCR_REGIONS.CONDENSED_RESIN.height
+        };
+
+        // 首先尝试OCR识别
+        const ocrCount = await Physical.recognizeNumberByOCR(ocrRegion, /\d+/);
+        if (ocrCount !== null) {
+            log.info(`浓缩树脂数量: ${ocrCount}`);
+            return ocrCount;
+        }
+
+        // OCR识别失败，尝试白色数字图片识别
+        log.info(`OCR识别浓缩树脂失败，尝试白色数字图片识别`);
+        const imageCount = await Physical.recognizeWhiteNumberByImage(ocrRegion);
+        if (imageCount !== null) {
+            log.info(`浓缩树脂数量(白色数字图片识别): ${imageCount}`);
+            return imageCount;
+        }
+
+        log.info(`白色数字图片识别识别浓缩树脂失败，尝试在说明界面获取`);
+        // 点击浓缩树脂打开说明界面统计
+        condensedResin.click();
+        await sleep(CONFIG.UI_DELAY);
+        let captureRegion = captureGameRegion();
+        let textList = null;
+        try {
+            // OCR识别整个界面的文本
+            let ocrRo = RecognitionObject.Ocr(0, 0, captureRegion.width, captureRegion.height);
+            textList = captureRegion.findMulti(ocrRo);
+
+            for (const res of textList) {
+                if (res.text.includes("当前拥有")) {
+                    const match = res.text.match(/当前拥有\s*([0-5ss])/);
+                    if (match && match[1]) {
+                        const count = parseInt(match[1]);
+                        log.info(`浓缩树脂数量(说明界面): ${count}`);
+                        keyPress("ESCAPE");
+                        await sleep(CONFIG.UI_DELAY);
+                        return count;
+                    }
+                }
+            }
+        } finally {
+            if (textList && typeof textList.dispose === 'function') {
+                textList?.dispose();
+            }
+            captureRegion?.dispose();
+        }
+
+        log.warn(`未能识别浓缩树脂数量`);
+        return 0;
+    }
+
+    /**
+     * 统计须臾树脂数量
+     * @returns {number} 须臾树脂数量
+     */
+    static async countTransientResin() {
+        const transientResin = await Physical.recognizeImage(RESIN_ICONS.TRANSIENT);
+        if (!transientResin) {
+            log.warn(`未找到须臾树脂图标`);
+            return 0;
+        }
+
+        const ocrRegion = {
+            x: transientResin.x,
+            y: transientResin.y + transientResin.height,
+            width: transientResin.width,
+            height: CONFIG.OCR_REGIONS.OTHER_RESIN.height
+        };
+
+        return await Physical.countResinWithFallback(ocrRegion, "须臾树脂", Physical.recognizeNumberByImage);
+    }
+
+    /**
+     * 统计脆弱树脂数量
+     * @returns {number} 脆弱树脂数量
+     */
+    static async  countFragileResin() {
+        const fragileResin = await Physical.recognizeImage(RESIN_ICONS.FRAGILE);
+        if (!fragileResin) {
+            log.warn(`未找到脆弱树脂图标`);
+            return 0;
+        }
+
+        const ocrRegion = {
+            x: fragileResin.x,
+            y: fragileResin.y + fragileResin.height,
+            width: fragileResin.width,
+            height: CONFIG.OCR_REGIONS.OTHER_RESIN.height
+        };
+
+        return await Physical.countResinWithFallback(ocrRegion, "脆弱树脂", Physical.recognizeNumberByImage);
+    }
+
+
+    /**
      * 统计游戏中的所有树脂类型的数量
      * 包括原粹树脂、浓缩树脂、须臾树脂和脆弱树脂
-     * @returns {Promise<Object>} 返回包含各种树脂数量的对象
+     * @returns {Promise<{originalResinCount: 0,// 原粹树脂数量
+     *     condensedResinCount: 0,// 浓缩树脂数量
+     *     transientResinCount: 0,// 须臾树脂数量
+     *      fragileResinCount: 0// 脆弱树脂数量
+     *      }>} 返回包含各种树脂数量的对象
      */
     static async countAllResin() {
         let shouldRestoreMainUi = false // 标记是否需要恢复主界面
@@ -255,9 +390,9 @@ export class Physical {
             // log.info("开始统计树脂数量"); // 记录开始统计的日志
             let resinCounts = { // 存储各种树脂数量的对象
                 original: 0, // 原粹树脂数量
-                transient: undefined, // 须臾树脂数量
-                fragile: undefined, // 脆弱树脂数量
-                condensed: undefined // 浓缩树脂数量
+                transient: 0, // 须臾树脂数量
+                fragile: 0, // 脆弱树脂数量
+                condensed: 0 // 浓缩树脂数量
             }
             await toMainUi(); // 切换到主界面
             await sleep(CONFIG.UI_DELAY); // 等待界面加载
@@ -271,9 +406,9 @@ export class Physical {
                 resinCounts.original = await Physical.countOriginalResin(false, false); // 统计原粹树脂数量
                 moveMouseTo(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y) // 移动鼠标到指定位置
                 await sleep(500); // 等待500毫秒
-                // resinCounts.transient = await countTransientResin(); // 统计须臾树脂数量
-                // resinCounts.fragile = await countFragileResin(); // 统计脆弱树脂数量
-                // log.info("[完成]统计补充树脂界面中的树脂"); // 记录完成统计的日志
+                resinCounts.transient = await Physical.countTransientResin(); // 统计须臾树脂数量
+                resinCounts.fragile = await Physical.countFragileResin(); // 统计脆弱树脂数量
+                log.info("[完成]统计补充树脂界面中的树脂"); // 记录完成统计的日志
                 // 点击避免选中效果影响统计
                 click(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y); // 点击指定位置
             } catch (e) {
@@ -286,20 +421,20 @@ export class Physical {
                 await Physical.switchtoCountrySelection(CONFIG.COORDINATES.MONDSTADT.x, CONFIG.COORDINATES.MONDSTADT.y) // 切换到蒙德
                 resinCounts.original = await Physical.countOriginalResin(!tryPass); // 重新统计原粹树脂数量
             }
-            // resinCounts.condensed = await countCondensedResin(); // 统计浓缩树脂数量
-            // if (!tryPass) {
-            // 打开补充树脂界面统计须臾/脆弱树脂
-            // await openReplenishResinUi(); // 打开补充树脂界面
-            // await sleep(CONFIG.UI_DELAY); // 等待界面加载
+            resinCounts.condensed = await Physical.countCondensedResin(); // 统计浓缩树脂数量
+            if (!tryPass) {
+                // 打开补充树脂界面统计须臾/脆弱树脂
+                await Physical.openReplenishResinUi(); // 打开补充树脂界面
+                await sleep(CONFIG.UI_DELAY); // 等待界面加载
 
-            // 点击避免选中效果影响统计
-            // click(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y); // 点击指定位置
-            // await sleep(500); // 等待500毫秒
+                // 点击避免选中效果影响统计
+                click(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y); // 点击指定位置
+                await sleep(500); // 等待500毫秒
 
-            // log.info("开始统计补充树脂界面中的树脂"); // 记录开始统计的日志
-            // resinCounts.transient = await countTransientResin(); // 统计须臾树脂数量
-            // resinCounts.fragile = await countFragileResin(); // 统计脆弱树脂数量
-            // }
+                log.info("开始统计补充树脂界面中的树脂"); // 记录开始统计的日志
+                resinCounts.transient = await Physical.countTransientResin(); // 统计须臾树脂数量
+                resinCounts.fragile = await Physical.countFragileResin(); // 统计脆弱树脂数量
+            }
             // 显示结果
             Physical.displayResults(resinCounts); // 显示统计结果
 
@@ -340,7 +475,21 @@ export class Physical {
         await sleep(CONFIG.UI_DELAY);
     }
 
-    static  displayResults(results) {
+    /**
+     * 打开补充树脂界面
+     */
+    static async openReplenishResinUi() {
+        log.info("尝试打开补充树脂界面");
+        const replenishResinButton = await Physical.recognizeImage(RESIN_ICONS.REPLENISH_BUTTON);
+        if (replenishResinButton) {
+            replenishResinButton.Click();
+            log.info("成功打开补充树脂界面");
+        } else {
+            log.warn("未找到补充树脂按钮");
+        }
+    }
+
+    static displayResults(results) {
         const resultText = `原粹:${results.original} 浓缩:${results.condensed} 须臾:${results.transient} 脆弱:${results.fragile}`;
 
         log.info(`============ 树脂统计结果 ============`);
@@ -398,14 +547,60 @@ export class Physical {
         return 0;
     }
 
+    /**
+     * 通用树脂计数函数（带图片识别回退）
+     * @param {Object} ocrRegion - OCR识别区域
+     * @param {string} resinType - 树脂类型名称
+     * @param {Function} fallbackFunction - 回退识别函数
+     * @returns {number} 树脂数量
+     */
+    static async countResinWithFallback(ocrRegion, resinType, fallbackFunction) {
+        // 首先尝试OCR识别
+        const ocrCount = await Physical.recognizeNumberByOCR(ocrRegion, /\d+/);
+        if (ocrCount !== null) {
+            log.info(`${resinType}数量: ${ocrCount}`);
+            return ocrCount;
+        }
+
+        // OCR识别失败，尝试图片识别
+        log.info(`OCR识别${resinType}失败，尝试图片识别`);
+        const imageCount = await fallbackFunction(ocrRegion);
+        if (imageCount !== null) {
+            log.info(`${resinType}数量(图片识别): ${imageCount}`);
+            return imageCount;
+        }
+
+        log.warn(`未能识别${resinType}数量`);
+        return 0;
+    }
+
+    /**
+     * 检查点是否在指定区域内
+     * @param {Object} point - 点坐标 {x, y}
+     * @param {Object} region - 区域 {x, y, width, height}
+     * @returns {boolean} 是否在区域内
+     */
+    static isPointInRegion(point, region) {
+        return point.x >= region.x &&
+            point.x <= region.x + region.width &&
+            point.y >= region.y &&
+            point.y <= region.y + region.height;
+    }
+
+    /**
+     * 异步识别图像
+     * @param {Object} recognitionObject - 识别对象，包含图像特征信息
+     * @param {number} [timeout=CONFIG.RECOGNITION_TIMEOUT] - 识别超时时间（毫秒）
+     * @returns {Promise<Object|null>} 识别结果对象，若超时或失败则返回 null
+     */
     static async recognizeImage(recognitionObject, timeout = CONFIG.RECOGNITION_TIMEOUT) {
         const startTime = Date.now();
 
+        // 在超时时间内循环尝试识别
         while (Date.now() - startTime < timeout) {
             let gameRegion = undefined
             try {
                 gameRegion = captureGameRegion();
-                // 直接链式调用，不保存gameRegion变量，避免内存管理问题
                 const imageResult = gameRegion.find(recognitionObject);
                 if (imageResult.isExist()) {
                     return imageResult;
@@ -413,6 +608,7 @@ export class Physical {
             } catch (error) {
                 log.error(`识别图像时发生异常: ${error.message}`);
             } finally {
+                // 确保游戏区域资源被正确释放
                 if (gameRegion) {
                     gameRegion.dispose();
                 }
@@ -462,5 +658,51 @@ export class Physical {
                 captureRegion.dispose();
             }
         }
+    }
+
+    /**
+     * 在指定区域内识别数字图片
+     * @param {Object} ocrRegion - OCR识别区域
+     * @param {Array} numberIcons - 数字图标数组
+     * @param {string} logPrefix - 日志前缀
+     * @returns {number|null} 识别到的数字或null
+     */
+    static async recognizeNumberInRegion(ocrRegion, numberIcons, logPrefix = "") {
+        try {
+            for (const numObj of numberIcons) {
+                try {
+                    // 直接链式调用，避免内存管理问题
+                    const numResult = captureGameRegion().find(numObj.ro);
+                    if (numResult && Physical.isPointInRegion(numResult, ocrRegion)) {
+                        log.info(`${logPrefix}通过图片识别到数字: ${numObj.value}`);
+                        return numObj.value;
+                    }
+                } catch (error) {
+                    log.error(`${logPrefix}识别数字图片时发生异常: ${error.message}`);
+                }
+            }
+        } catch (error) {
+            log.error(`${logPrefix}识别数字区域时发生异常: ${error.message}`);
+        }
+        return null;
+    }
+
+
+    /**
+     * 普通数字图片识别函数
+     * @param {Object} ocrRegion - OCR识别区域
+     * @returns {number|null} 识别到的数字或null
+     */
+    static async recognizeNumberByImage(ocrRegion) {
+        return await Physical.recognizeNumberInRegion(ocrRegion, NUMBER_ICONS, "普通数字 - ");
+    }
+
+    /**
+     * 白色数字图片识别函数（用于浓缩树脂）
+     * @param {Object} ocrRegion - OCR识别区域
+     * @returns {number|null} 识别到的数字或null
+     */
+    static async recognizeWhiteNumberByImage(ocrRegion) {
+        return await Physical.recognizeNumberInRegion(ocrRegion, WHITE_NUMBER_ICONS, "白色数字 - ");
     }
 }
