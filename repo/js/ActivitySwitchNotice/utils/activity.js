@@ -1,5 +1,5 @@
 import {sendNotice,sendText} from "./notice";
-import {toMainUi} from "./tool";
+import {Record, toMainUi} from "./tool";
 const config_name = "config"
 const json_path = {
     activity: `${config_name}/activity.json`
@@ -475,7 +475,8 @@ export async function activityMain(newActivityNotice = true) {
     let activitySetLast = new Set()
     try {
         // 读取活动配置文件并转换为Set
-        activityData = JSON.parse(file.readTextSync(json_path.activity));
+        // activityData = JSON.parse(file.readTextSync(json_path.activity));
+        activityData = Record.read(json_path.activity)
         const uidActivity = (Array.isArray(activityData) ? activityData : []).filter(item => item?.uid === uid).find(item => item)
         activitySetLast = new Set(uidActivity.activityNames);
     } catch (e) {
@@ -770,7 +771,8 @@ export async function activityMain(newActivityNotice = true) {
                         [...(item.activityNames || [])]
                 }));
                 // 发送成功后更新配置文件
-                file.writeTextSync(json_path.activity, JSON.stringify(finalSerializableData));
+                // file.writeTextSync(json_path.activity, JSON.stringify(finalSerializableData));
+                Record.write(json_path.activity, finalSerializableData)
                 log.debug("活动配置文件已更新");
 
             } catch (e) {

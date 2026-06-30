@@ -348,3 +348,56 @@ export async function openBag() {
     }
     await sleep(50);
 }
+export class Record {
+    /**
+     * 读取指定路径的记录文件
+     * @param {string} path - 记录文件的路径
+     * @returns {Array} 解析后的记录数组，若文件为空或解析失败则返回空数组
+     */
+    static read(path) {
+        // a = {
+        //     uid: 1,
+        //     time: "yyyy-mm-dd",
+        //     key: "type:value"
+        // }
+        let list = []
+        try {
+            list = JSON.parse(file.readTextSync(path))
+        } catch (e) {
+            log.warn(`(账号未运行过无记录文件 请忽略该异常),读取记录文件失败，{0}`, e.message)
+        }
+        return list
+    }
+
+    /**
+     * 在列表中检查指定记录是否存在
+     * @param {Array} list - 记录列表，默认为空数组
+     * @param {Object} item - 用于匹配的记录项，包含 key, time, uid 属性
+     * @returns {boolean}
+     */
+    static existInList(list = [], item) {
+        const ts = item?.id ? list.filter(i => i.id === item.id && i.time === item.time && i.uid === item.uid) : list.filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
+        return ts !== null && ts.length > 0
+    }
+
+    /**
+     * 检查指定记录是否存在
+     * @param {string} path - 记录文件的路径
+     * @param {Object} item - 用于匹配的记录项，包含 key, time, uid 属性
+     * @returns {boolean}
+     */
+    static exist(path, item) {
+        const ts = Record.read(path).filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
+        return ts !== null && ts.length > 0
+    }
+
+    /**
+     * 将记录列表写入指定路径的文件
+     * @param {string} path - 目标文件的路径
+     * @param {Array} list - 要写入的记录列表
+     * @returns {*} 返回 parse 变量（注：当前代码中 parse 未在此函数内定义）
+     */
+    static write(path, list) {
+        file.writeTextSync(path, JSON.stringify(list))
+    }
+}

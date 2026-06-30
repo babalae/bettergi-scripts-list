@@ -148,8 +148,16 @@ export async function campaignAreaMain(openKey = true) {
     if (weekJson.count > 0) {
         await toMainUi()
         let uid = await genshin.uid()
+        const json={
+            uid: uid,
+            date: formatDate(new Date()),
+            text: "",
+            title: "",
+        }
         log.info(`本周剩余消耗减半次数:${weekJson.count}`)
-        await sendText(`>|本周剩余消耗减半次数:${weekJson.count}`, `UID:${uid}\n秘境征讨`)
+        const noticeText = `>|本周剩余消耗减半次数:${weekJson.count}`;
+        const title = `UID:${uid}\n秘境征讨`;
+        await sendText(noticeText, title)
     }
 
 }
@@ -185,7 +193,9 @@ export async function dailyCommissionMain(openKey = true) {
     ) {
         await toMainUi()
         let uid = await genshin.uid()
-        await sendText(`>|每日委托奖励:${re.daily.use}/${re.daily.total}\n>|原粹树脂消耗:${re.physical.use}/${re.physical.total}`, `UID:${uid}\n每日委托`)
+        const noticeText = `>|每日委托奖励:${re.daily.use}/${re.daily.total}\n>|原粹树脂消耗:${re.physical.use}/${re.physical.total}`;
+        const title = `UID:${uid}\n每日委托`;
+        await sendText(noticeText, title)
     }
 }
 
