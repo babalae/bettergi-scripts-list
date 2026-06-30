@@ -121,7 +121,7 @@ class Base {
         const json = {
             id: item?.id,
             uid: config.user.uid || await genshin.uid(),
-            key: `(${item?.cultivate?'培养':'日常'})${item.runType}|${item.days}|${item.order}|${item.record}`,
+            key: `(${(item?.cultivate??false)?'培养':'日常'})${item.runType}|${item.days}|${item.order}|${item.record}`,
             time: formatDate(time)
         }
         return json
