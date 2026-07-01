@@ -696,7 +696,8 @@
           
           while (retries < maxRetries) {
                const ifFood = await imageRecognitionEnhanced(currentFoodPath, 1, 0, 0, 115, 120, 1150, 880);//识别当前食物图片
-               const clickDelay = parseInt(settings.clickDelay, 10); // 第二个参数10指定十进制
+               const clickDelayNum = settings.clickDelay;
+               const clickDelay = parseInt(clickDelayNum, 10); 
                
                if (ifFood.found) {
                     await leftButtonUp();
