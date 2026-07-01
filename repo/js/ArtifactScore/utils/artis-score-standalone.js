@@ -148,7 +148,7 @@ const travelerElements = {
 
 // ============================================================================
 //  2. 角色默认词条权重 (from artis-mark.js)
-//     116 个角色
+//     117 个角色
 // ============================================================================
 
 const usefulAttr = {
@@ -1034,7 +1034,7 @@ const usefulAttr = {
     "cpct": 100,
     "cdmg": 100,
     "mastery": 30,
-    "dmg": 80,
+    "dmg": 85,
     "phy": 0,
     "recharge": 40,
     "heal": 0
@@ -1097,6 +1097,18 @@ const usefulAttr = {
     "dmg": 100,
     "phy": 0,
     "recharge": 55,
+    "heal": 0
+  },
+  "桑多涅": {
+    "hp": 0,
+    "atk": 100,
+    "def": 0,
+    "cpct": 100,
+    "cdmg": 100,
+    "mastery": 75,
+    "dmg": 0,
+    "phy": 0,
+    "recharge": 40,
     "heal": 0
   },
   "砂糖": {
@@ -1579,7 +1591,7 @@ const baseAttrMap = {
     "def": 642.16
   },
   "八重神子": {
-    "hp": 11110,
+    "hp": 11109.5,
     "atk": 416.05,
     "def": 609.15
   },
@@ -1599,7 +1611,7 @@ const baseAttrMap = {
     "def": 824.6
   },
   "北斗": {
-    "hp": 13953,
+    "hp": 13952.57,
     "atk": 282.58,
     "def": 693.25
   },
@@ -1614,7 +1626,7 @@ const baseAttrMap = {
     "def": 872.57
   },
   "迪奥娜": {
-    "hp": 10232,
+    "hp": 10231.89,
     "atk": 266.59,
     "def": 642.16
   },
@@ -1759,7 +1771,7 @@ const baseAttrMap = {
     "def": 716.17
   },
   "莱欧斯利": {
-    "hp": 14559,
+    "hp": 14559.08,
     "atk": 380.89,
     "def": 817.42
   },
@@ -1839,7 +1851,7 @@ const baseAttrMap = {
     "def": 847.87
   },
   "梦见月瑞希": {
-    "hp": 13641,
+    "hp": 13640.94,
     "atk": 263.69,
     "def": 810.83
   },
@@ -1899,7 +1911,7 @@ const baseAttrMap = {
     "def": 627.57
   },
   "七七": {
-    "hp": 13247,
+    "hp": 13247.45,
     "atk": 351.59,
     "def": 987.81
   },
@@ -1929,7 +1941,7 @@ const baseAttrMap = {
     "def": 823.18
   },
   "赛诺": {
-    "hp": 13379,
+    "hp": 13378.62,
     "atk": 389.68,
     "def": 920.31
   },
@@ -1937,6 +1949,11 @@ const baseAttrMap = {
     "hp": 10464,
     "atk": 285.25,
     "def": 598.38
+  },
+  "桑多涅": {
+    "hp": 14165.6,
+    "atk": 418.98,
+    "def": 805.89
   },
   "砂糖": {
     "hp": 9883,
@@ -2205,6 +2222,7 @@ const charElemMap = {
   "琴": "anemo",
   "赛诺": "electro",
   "赛索斯": "electro",
+  "桑多涅": "cryo",
   "砂糖": "anemo",
   "珊瑚宫心海": "hydro",
   "申鹤": "cryo",
@@ -2396,6 +2414,32 @@ const charSpecialRules = {
     }
     return null
   },
+  '爱可菲': ({ weaponName, weaponAffix, charAttrs }) => {
+    let title = []
+    let particularAttr = {...usefulAttr['爱可菲']}
+    if (weaponName === '西风长枪' && (charAttrs?.recharge || 0) >= 230) {
+      title = [] 
+      title.push('西风纯辅')
+      particularAttr.atk = 0
+      particularAttr.cpct = 100
+      particularAttr.cdmg = 0
+      particularAttr.recharge = 100
+      particularAttr.dmg = 0
+    }
+    if (weaponName === '香韵奏者' && (charAttrs?.recharge || 0) >= 230) {
+      title = [] 
+      title.push('餐叉纯辅')
+      particularAttr.atk = 0
+      particularAttr.cpct = 0
+      particularAttr.cdmg = 0
+      particularAttr.recharge = 100
+      particularAttr.dmg = 0
+    }
+    if (title.length > 0) {
+      return { title: `爱可菲-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+    }
+    return null
+  },
   '芭芭拉': ({ charAttrs, artisSets, artifacts }) => {
     if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 180 && ((artifacts||[]).find(a=>a.pos===3)?.mainKey||'') && (artifacts.find(a=>a.pos===3).mainKey==='dmg'||isElem(artifacts.find(a=>a.pos===3).mainKey||''))) {
       return { title: '芭芭拉-暴力', attrWeight: { hp: 50, atk: 75, cpct: 100, cdmg: 100, mastery: 75, dmg: 100, recharge: 30, heal: 50 }, useDefaultPipeline: false }
@@ -2449,20 +2493,50 @@ const charSpecialRules = {
     }
     return null
   },
-  '芙宁娜': ({ cons, weaponName, weaponAffix }) => {
-      let title = []
-      let particularAttr = {...usefulAttr['芙宁娜']}
-      if (cons >= 4) {
-          title.push('高命')
-          particularAttr.recharge = 60
-          if (cons == 6) {
-              particularAttr.mastery = 45
-          }
+  '芙宁娜': ({ cons, weaponName, weaponAffix, charAttrs }) => {
+    let title = []
+    let particularAttr = {...usefulAttr['芙宁娜']}
+    if (cons >= 4) {
+      title.push('高命')
+      particularAttr.recharge = 60
+      if (cons == 6) {
+        particularAttr.mastery = 45
       }
-      if (title.length > 0) {
-          return { title: `芙宁娜-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
-      }
-      return null
+    }
+    if (weaponName === '西风剑' && (charAttrs?.recharge || 0) >= 250) {
+      title = [] 
+      title.push('西风纯辅')
+      particularAttr.hp = 0
+      particularAttr.mastery = 0
+      particularAttr.cpct = 100
+      particularAttr.cdmg = 0
+      particularAttr.recharge = 100
+      particularAttr.dmg = 0
+    }
+    if (weaponName === '苍古自由之誓' && (charAttrs?.recharge || 0) >= 220) {
+      title = [] 
+      title.push('苍古纯辅')
+      particularAttr.hp = 0
+      particularAttr.mastery = 0
+      particularAttr.cpct = 0
+      particularAttr.cdmg = 0
+      particularAttr.recharge = 100
+      particularAttr.dmg = 0
+    }
+    if (weaponName === '圣显之钥' && (charAttrs?.recharge || 0) >= 220) {
+      title = [] 
+      title.push('板砖纯辅')
+      particularAttr.hp = 100
+      particularAttr.mastery = 0
+      particularAttr.cpct = 0
+      particularAttr.cdmg = 0
+      particularAttr.recharge = 100
+      particularAttr.dmg = 0
+    }
+    if (title.length > 0) {
+      return { title: `芙宁娜-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+    }
+    return null
   },
   '甘雨': ({ artisSets, artifacts }) => {
     if ((artisSets||[]).includes('冰套')) {
@@ -2587,6 +2661,32 @@ const charSpecialRules = {
     }
     if (title.length > 0) {
       return { title: `玛薇卡-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+    }
+    return null
+  },
+  '莫娜': ({ weaponName, weaponAffix }) => {
+    let title = []
+    let particularAttr = {...usefulAttr['莫娜']}
+    if (weaponName === '西风秘典') {
+      title.push('西风')
+      particularAttr.atk = 0
+      particularAttr.mastery = 0
+      particularAttr.cpct = 100
+      particularAttr.cdmg = 0
+      particularAttr.recharge = 100
+      particularAttr.dmg = 0
+    }
+    if (weaponName === '讨龙英杰谭') {
+      title.push('讨龙')
+      particularAttr.atk = 0
+      particularAttr.mastery = 0
+      particularAttr.cpct = 0
+      particularAttr.cdmg = 0
+      particularAttr.recharge = 100
+      particularAttr.dmg = 0
+    }
+    if (title.length > 0) {
+      return { title: `莫娜-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
     }
     return null
   },
