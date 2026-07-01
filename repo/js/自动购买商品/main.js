@@ -1,4 +1,4 @@
-//3.3.6
+//3.4.601
 
 // fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
 // 在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
@@ -669,6 +669,7 @@ const othrtRo = {
         "file": "assets/images/buyBtn.png"
     }
 }
+const store_Page_Tags_Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/images/store_Page_Tags.png"), 50, 30, 60, 55)
 
 // 获取游戏内时间（考虑4点刷新）
 function getGameTime() {
@@ -871,18 +872,51 @@ async function spikChat(npcName) {
             captureRegion.dispose();
         }
 
-        await sleep(1500);
-        keyPress("VK_F");
-        await sleep(1500);
-        keyPress("VK_F");
-        await sleep(1500);
+        // 等待购买页面出现
+        if (await waitForPurchasePage(6)) {
+            logConditional(`已进入 ${npcName} 的购买页面`);
+        } else {
+            log.warn(`未能进入 ${npcName} 的购买页面，尝试继续...`);
+        }
+        return;
     } else {
-        for (let i = 0; i < count; i++) {
-            keyPress("VK_F");
-            await sleep(1500);
+        // 通用NPC：按F与NPC交互，然后循环检测
+        keyPress("VK_F");
+        await sleep(1000);
+
+        if (await waitForPurchasePage(8)) {
+            logConditional(`已进入 ${npcName} 的购买页面`);
+        } else {
+            log.warn(`未能进入 ${npcName} 的购买页面，脚本可能无法正常购买`);
         }
     }
 }
+
+// ==================== 辅助函数：等待进入购买页面 ====================
+async function waitForPurchasePage(maxAttempts = 8) {
+    // 强制使用 1080P 坐标系（与模板截图一致）
+    setGameMetrics(1920, 1080, 1);
+
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        // 检测是否已在购买页面
+        let capture = captureGameRegion();
+        try {
+            let result = capture.Find(store_Page_Tags_Ro);
+            if (result.isExist()) {
+                return true;//已進入
+            }
+        } finally {
+            capture.dispose();
+        }
+
+        // 未进入，按 F 推进对话
+        keyPress("VK_F");
+        await sleep(800); // 等待界面响应
+    }
+    return false;
+}
+
+
 
 // ==================== 商品识别对象映射表 ====================
 let foodROMap = {}; // 键为商品名（中文），值为 RecognitionObject
