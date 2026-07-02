@@ -1,0 +1,80 @@
+[
+  {
+    "type": "地图追踪",
+    "data": "提米，对不起-1.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "自动任务",
+    "data": {
+      "action": "enable",
+      "taskType": "AutoSkip"
+    },
+    "note": "开启自动剧情"
+  },
+  {
+    "type": "按键",
+    "data": "F",
+    "note": "对话"
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待返回主界面"
+  },
+  {
+  "type": "自动任务",
+  "data": {
+    "action": "enable",
+    "taskType": "AutoPick"
+  },
+  "note": "启用自动拾取"
+},
+   {
+    "type": "地图追踪",
+    "data": "05-慕风蘑菇-蒙德城3-5个.json",
+    "note": "执行第二个地图追踪步骤寻找慕风蘑菇"
+  },
+   {
+  "type": "自动任务",
+  "data": {
+    "action": "disable"
+  },
+  "note": "取消所有自动任务"
+},
+  {
+    "type": "地图追踪",
+    "data": "提米，对不起-1.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+    {
+    "type": "自动任务",
+    "data": {
+      "action": "enable",
+      "taskType": "AutoSkip"
+    },
+    "note": "开启自动剧情"
+  },
+   {
+    "type": "按键",
+    "data": "F",
+    "note": "对话"
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待返回主界面"
+  },
+  {
+    "type": "地图追踪",
+    "data": "提米，对不起-2.json",
+    "note": "执行第2个地图追踪步骤"
+  },
+   {
+    "type": "按键",
+    "data": "F",
+    "note": "对话"
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待返回主界面"
+  }
+]

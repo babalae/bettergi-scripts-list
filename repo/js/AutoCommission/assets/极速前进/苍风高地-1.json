@@ -1,0 +1,213 @@
+{
+  "info": {
+    "name": "极速前进-1",
+    "type": "collect",
+    "author": "星野",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752243918114
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -578.7626953125,
+      "y": 1853.47314453125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -605.33,
+      "y": 1885.12,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(2)",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": -562.892578125,
+      "y": 1957.0341796875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -562.892578125,
+      "y": 1957.0341796875,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -545.7497191838229,
+      "y": 1976.125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -539.1250401165962,
+      "y": 1978.5,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -509.2216796875,
+      "y": 1990.3891601562505,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -508.2216796875,
+      "y": 1990.3891601562505,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -461.2216796875,
+      "y": 1996.8916015625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -460.2216796875,
+      "y": 1996.8916015625,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -442.2510229732179,
+      "y": 1990.375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -441.75102297321786,
+      "y": 1986.125,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1),attack,wait(0.3),keypress(Space),wait(0.15),keypress(Space),wait(0.15),keypress(Space),wait(0.15),keypress(Space),",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -417.96875,
+      "y": 1948.9755859375,
+      "action": "stop_flying",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -388.7021484375,
+      "y": 1920.91064453125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -388.7021484375,
+      "y": 1920.91064453125,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -377.810546875,
+      "y": 1911.63330078125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -369.71875,
+      "y": 1907.26416015625,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -319.4765625,
+      "y": 1888.70068359375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": -316.4765625,
+      "y": 1886.70068359375,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": -304.83203125,
+      "y": 1870.14453125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": -302.966796875,
+      "y": 1865.37890625,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": -271.287109375,
+      "y": 1796.84423828125,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

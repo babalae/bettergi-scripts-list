@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "盗宝团-03天衡山左侧",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "曦",
+        "links": "https://github.com/cx05121"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 524.16,
+      "y": -624.55
+    },
+    {
+      "id": 2,
+      "x": 564.44,
+      "y": -626.34,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 683.07,
+      "y": -685.11,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": 671.54,
+      "y": -667.9,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 680.63,
+      "y": -653.87,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 682.01,
+      "y": -645.91,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

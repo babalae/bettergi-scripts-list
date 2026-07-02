@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "08-莲蓬-遁玉陵-7个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 978.73,
+      "y": -353.57
+    },
+    {
+      "id": 2,
+      "x": 978.72,
+      "y": -353.61,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 850.58,
+      "y": -258.37,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": 847.76,
+      "y": -250.29,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 5,
+      "x": 823.45,
+      "y": -232.83,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 810.45,
+      "y": -199.63,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 816.3,
+      "y": -171.61,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": 825.29,
+      "y": -171.13,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "冒险家，安娜！-蒙德城-4",
+    "type": "collect",
+    "author": "11",
+    "version": "1.0",
+    "description": "冒险家，安娜！-蒙德城-4",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751120736421
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1335.1162109375,
+      "y": 2277.6474609375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1295.25390625,
+      "y": 2251.385498046875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1272.208984375,
+      "y": 2230.57666015625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1263.212890625,
+      "y": 2233.782470703125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": -1263.212890625,
+      "y": 2233.782470703125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "attack,wait(0.3),attack(2.5),",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": -1263.212890625,
+      "y": 2233.782470703125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "attack,wait(0.3),attack(2.5),",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": -1263.212890625,
+      "y": 2233.782470703125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "attack,wait(0.3),attack(2.5),"
+    }
+  ]
+}

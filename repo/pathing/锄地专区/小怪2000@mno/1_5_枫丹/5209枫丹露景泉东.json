@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "5209枫丹露景泉东",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3468.82,
+      "y": 3550.14,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3460.05,
+      "y": 3553.84,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3451.16,
+      "y": 3582.32,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3436.84,
+      "y": 3598.24,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3436.84,
+      "y": 3598.24,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "orientation"
+    }
+  ]
+}

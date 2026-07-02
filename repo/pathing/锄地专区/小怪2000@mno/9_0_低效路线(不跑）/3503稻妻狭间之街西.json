@@ -1,0 +1,130 @@
+{
+  "info": {
+    "name": "3503稻妻狭间之街西",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 718.82,
+      "y": 476.74,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 770.22,
+      "y": 502.54,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 787.33,
+      "y": 510.73,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 787.33,
+      "y": 510.73,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    },
+    {
+      "id": 5,
+      "x": 852.41,
+      "y": 550.47,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 813.71,
+      "y": 542.06,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 819.8,
+      "y": 542.69,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 852.41,
+      "y": 550.46,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 877.32,
+      "y": 513.28,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    },
+    {
+      "id": 10,
+      "x": 879.71,
+      "y": 524.03,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1000"
+    },
+    {
+      "id": 11,
+      "x": 881.2,
+      "y": 529.35,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 881.2,
+      "y": 529.35,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

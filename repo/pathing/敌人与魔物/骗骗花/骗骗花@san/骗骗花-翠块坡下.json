@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "骗骗花-翠块坡下",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "san"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 838.0,
+      "y": 237.49,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 854.0,
+      "y": 197.25,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": 886.0,
+      "y": 213.48,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path"
+    }
+  ]
+}

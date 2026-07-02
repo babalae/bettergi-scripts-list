@@ -1,0 +1,180 @@
+{
+  "info": {
+    "name": "3403稻妻海祇岛南",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -755.57,
+      "y": -4001.08,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -711.09,
+      "y": -4057.81,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -695.19,
+      "y": -4068.79,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -693.72,
+      "y": -4075.74,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -665.47,
+      "y": -4077.39,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -658.91,
+      "y": -4066.49,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -660.91,
+      "y": -4053.49,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -662.26,
+      "y": -4040.55,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0,1),dash",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -650.04,
+      "y": -4015.04,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -650.04,
+      "y": -4015.04,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -639.88,
+      "y": -4010.66,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -634.59,
+      "y": -3986.79,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -630.56,
+      "y": -3995.44,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -636.33,
+      "y": -3986.4,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -578.73,
+      "y": -3990.04,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -561.34,
+      "y": -3990.05,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -566.35,
+      "y": -3995.2,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -566.35,
+      "y": -3995.2,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

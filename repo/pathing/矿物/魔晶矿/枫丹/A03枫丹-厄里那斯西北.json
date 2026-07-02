@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/vulgar-rustic",
+        "name": "下流山汉"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1780150867935,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A03枫丹-厄里那斯西北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5113.6,
+      "y": 2998.22
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5095.62,
+      "y": 2981.76
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "target",
+      "x": 5088.25,
+      "y": 2956.09
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 5101.873,
+      "y": 2950.7544
+    }
+  ]
+}

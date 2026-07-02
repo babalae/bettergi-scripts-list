@@ -1,0 +1,130 @@
+{
+  "info": {
+    "name": "B01-璃月-云來海-璃月港-东北-3只",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751723842242,
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 25.94,
+      "y": -112.29,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -7.34,
+      "y": -106.6,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -53.01,
+      "y": -109.35,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -53.01,
+      "y": -109.35,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -86.36,
+      "y": -97.07,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -120.11,
+      "y": -88.35,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -171.17,
+      "y": -75.5,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -170.17,
+      "y": -101.5,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": -172.5,
+      "y": -124.5,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": -172.5,
+      "y": -124.5,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -161.75,
+      "y": -65.58,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -161.76,
+      "y": -65.56,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1771281465170,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "枫丹-枫丹廷-路易",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4649.1728515625,
+      "y": 3467.025390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4632.396484375,
+      "y": 3471.94970703125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4603.3974609375,
+      "y": 3480.7109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4591.146484375,
+      "y": 3471.0068359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4588.537109375,
+      "y": 3474.55908203125
+    }
+  ]
+}

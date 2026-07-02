@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 须弥\n类型: 垂钓点\n详细位置: 下风蚀地活力之家西南\n鱼类: 花鳉、擒霞客、赤魔王、真果角鲀、青金斧枪鱼\n饵类: 果酿饵、赤糜饵、甘露饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766919041771,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "须弥-垂钓点-下风蚀地活力之家西南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4036.27,
+      "y": -2464.92
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4043.97,
+      "y": -2471.61
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(1.5),attack(0.1)",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4176.8926,
+      "y": -2479.8369
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4187.01,
+      "y": -2484.1
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4187.125,
+      "y": -2487.0312
+    }
+  ]
+}

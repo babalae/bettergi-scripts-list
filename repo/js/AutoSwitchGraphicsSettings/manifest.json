@@ -1,0 +1,24 @@
+{
+  "manifest_version": 1,
+  "name": "自动修改画质与音量",
+  "version": "1.2.1",
+  "bgi_version": "0.57.0",
+  "description": "自动调整画质和音量，用于便捷切换锄地省电画质和游戏体验画质",
+
+  "authors": [
+    {
+      "name": "OvOAuto",
+      "link": "https://github.com/OvOAuto"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+		"assets/*"
+  ],
+  "library": [
+    ".",
+    "src",
+    "./module"
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/evildoer12138",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758007174631,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蕴光异兽07-蓝珀湖（4）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9231.5,
+      "y": 2238.4401
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9237.0,
+      "y": 2218.9365
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9240.0,
+      "y": 2196.9325
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "target",
+      "x": 9203.0,
+      "y": 2154.9974
+    },
+    {
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9146.0,
+      "y": 2163.4955
+    },
+    {
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9088.5,
+      "y": 2165.9996
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "target",
+      "x": 9043.0,
+      "y": 2209.9979
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9005.25,
+      "y": 2153.7476
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8997.75,
+      "y": 2166.7501
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8932.5,
+      "y": 2178.501
+    }
+  ]
+}

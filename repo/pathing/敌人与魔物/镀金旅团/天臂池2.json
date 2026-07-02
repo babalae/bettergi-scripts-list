@@ -1,0 +1,74 @@
+{
+  "info": {
+    "name": "天臂池2",
+    "type": "collect",
+    "version": "1.0",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "baixi",
+        "links": "https://github.com/baixi232310"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3097.22,
+      "y": -355.96,
+      "type": "teleport",
+      "move_mode": "walk"
+    },
+    {
+      "id": 2,
+      "x": 3121.47,
+      "y": -352.09,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 3,
+      "x": 3139.39,
+      "y": -344.13,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 4,
+      "x": 3151.04,
+      "y": -373.82,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 5,
+      "x": 3141.83,
+      "y": -381.65,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 6,
+      "x": 3141.21,
+      "y": -411.49,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 7,
+      "x": 3116.71,
+      "y": -428.82,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 8,
+      "x": 3111.55,
+      "y": -467.05,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/vulgar-rustic",
+        "name": "下流山汉"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1780373482482,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E06稻妻-清籁岛-天云峠下",
+    "tags": [
+      "双手剑"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4251.584,
+      "y": -4785.1748
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4337.3223,
+      "y": -4986.8047
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4337.3223,
+      "y": -4986.8047
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4344.1406,
+      "y": -4981.376
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4340.9316,
+      "y": -5003.4043
+    }
+  ]
+}

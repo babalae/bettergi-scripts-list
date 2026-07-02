@@ -1,0 +1,294 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.54.1-alpha.3",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766404926144,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "C04-萃凝晶-远古圣山-聚火祭验所下层（7个）",
+    "tags": [
+      "精英怪"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -81.759,
+      "y": -247.0212
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -92.4531,
+      "y": -225.8877
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE):wait(1);keypress(VK_SPACE)",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -89.6116,
+      "y": -217.1711
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -102.4082,
+      "y": -242.1335
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": -109.2141,
+      "y": -256.4622
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -114.7561,
+      "y": -249.1604
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -118.1138,
+      "y": -243.4553
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -109.2898,
+      "y": -245.1345
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -116.1697,
+      "y": -241.3
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -109.2532,
+      "y": -234.7979
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(T)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -115.9509,
+      "y": -227.105
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -126.5295,
+      "y": -213.5881
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -154.1194,
+      "y": -225.1055
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -177.1257,
+      "y": -242.3469
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -215.8547,
+      "y": -262.6299
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -250.5566,
+      "y": -274.8179
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -266.7937,
+      "y": -292.8093
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -266.9006,
+      "y": -320.4602
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -233.3914,
+      "y": -340.3269
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(Q);wait(2);keyup(Q)",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -221.4087,
+      "y": -397.873
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -221.7102,
+      "y": -407.4226
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -215.7717,
+      "y": -404.0925
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "run",
+      "type": "path",
+      "x": -209.8628,
+      "y": -417.0547
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "run",
+      "type": "path",
+      "x": -226.3584,
+      "y": -436.7842
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -218.1177,
+      "y": -435.6785
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -219.8513,
+      "y": -441.6965
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -224.2793,
+      "y": -438.0989
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -225.6899,
+      "y": -443.147
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -225.6133,
+      "y": -436.2944
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 30,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -228.4258,
+      "y": -443.6746
+    }
+  ]
+}

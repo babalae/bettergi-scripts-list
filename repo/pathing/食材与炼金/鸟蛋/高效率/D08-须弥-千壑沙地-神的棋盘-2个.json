@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "D08-须弥-千壑沙地-神的棋盘-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.54.0",
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5419.74,
+      "y": -1463.19,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 5452.11,
+      "y": -1474.74,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

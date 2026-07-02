@@ -1,0 +1,130 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759648286286,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "29-汐藻-自体自身之塔上方-6个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3660.6064,
+      "y": 2926.1536
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(2),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3645.7529,
+      "y": 2876.0642
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3644.0928,
+      "y": 2861.4038
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(2),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3606.041,
+      "y": 2827.3762
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3587.3838,
+      "y": 2830.3123
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3542.7969,
+      "y": 2781.7563
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3660.6064,
+      "y": 2926.1536
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3724.9912,
+      "y": 2826.8591
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3746.293,
+      "y": 2805.3728
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(10),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3740.4062,
+      "y": 2780.0898
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(2),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3750.2266,
+      "y": 2766.2107
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(1),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3743.4336,
+      "y": 2757.7581
+    }
+  ]
+}

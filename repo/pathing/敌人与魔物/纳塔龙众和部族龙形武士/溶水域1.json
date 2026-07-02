@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "溶水域1",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "雕茂"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8286.8,
+      "y": -2521.68
+    },
+    {
+      "id": 2,
+      "x": 8343.89,
+      "y": -2561.9,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 8409.02,
+      "y": -2615.93,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 4,
+      "x": 8424.47,
+      "y": -2554.1,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

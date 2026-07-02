@@ -1,0 +1,102 @@
+{
+  "info": {
+    "name": "13-水晶块-层岩巨渊·地下矿区-崎岖石厅-南2(有战斗,小怪)-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 357.89,
+      "y": 176.59,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 357.93,
+      "y": 176.58,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 379.85,
+      "y": 161.78,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 426.37,
+      "y": 130.19,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1500"
+    },
+    {
+      "id": 5,
+      "x": 424.79,
+      "y": 137.2,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(3)",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 424.79,
+      "y": 137.2,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "史莱姆",
+        "monster_tag": "normal"
+      }
+    },
+    {
+      "id": 7,
+      "x": 421.03,
+      "y": 126.26,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 425.18,
+      "y": 121.65,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "珊瑚宫心海-1",
+    "type": "collect",
+    "author": "ddaodan",
+    "version": "1.0",
+    "description": "",
+    "bgiVersion": "0.35.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -755.6337890625,
+      "y": -4001.0458984375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -734.4404296875,
+      "y": -3961.970703125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -704.578125,
+      "y": -3955.6162109375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -698.083984375,
+      "y": -3975.2802734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -699.63671875,
+      "y": -3978.990234375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "E06-枫丹-伊黎耶林区-优兰尼娅湖左-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.54.0",
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3618.29,
+      "y": 4057.92,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3641.58,
+      "y": 4053.7,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.54.1-alpha.2",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765684837322,
+    "map_match_method": "",
+    "map_name": "SeaOfBygoneEras",
+    "name": "28-海露花-旧日之海-卡皮托林山上方-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3640.8264,
+      "y": 1551.3149
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,1000)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3626.2578,
+      "y": 1566.0841
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);keydown(VK_LSHIFT);wait(6);keyup(VK_LSHIFT);keyup(VK_LCONTROL);click(middle);wait(0.5);",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3578.9331,
+      "y": 1609.3759
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3563.0781,
+      "y": 1604.6776
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3560.8115,
+      "y": 1596.8278
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3559.2351,
+      "y": 1590.0779
+    }
+  ]
+}

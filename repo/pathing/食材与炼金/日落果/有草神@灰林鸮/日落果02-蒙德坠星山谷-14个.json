@@ -1,0 +1,154 @@
+{
+  "info": {
+    "name": "日落果02-蒙德坠星山谷-14个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "需携带纳西妲，部分危险路径刚需盾位",
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.0",
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1642.52,
+      "y": 2681.34,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1616.44,
+      "y": 2636.85,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1609.58,
+      "y": 2623.33,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1605.8,
+      "y": 2617.88,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1572.97,
+      "y": 2597.06,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1565.39,
+      "y": 2598.02,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": -1565.39,
+      "y": 2598.02,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -1502.19,
+      "y": 2609.21,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -1489.78,
+      "y": 2598.73,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -1470.89,
+      "y": 2566.61,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -1452.26,
+      "y": 2561.65,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -1418.83,
+      "y": 2549.4,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -1350.55,
+      "y": 2473.27,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": -1359.48,
+      "y": 2460.96,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": -1362.75,
+      "y": 2458.2,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

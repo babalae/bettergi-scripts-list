@@ -1,0 +1,91 @@
+{
+  "info": {
+    "name": "日落果31-须弥化城郭-9个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "需携带纳西妲，部分危险路径刚需盾位",
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.0",
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2701.52,
+      "y": -761.84,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2695.25,
+      "y": -766.35,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2650.74,
+      "y": -833.99,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 2645.39,
+      "y": -839.11,
+      "action": "nahida_collect",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 2627.71,
+      "y": -849.81,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 2701.5,
+      "y": -761.9,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 2745.68,
+      "y": -731.13,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 2745.68,
+      "y": -731.13,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

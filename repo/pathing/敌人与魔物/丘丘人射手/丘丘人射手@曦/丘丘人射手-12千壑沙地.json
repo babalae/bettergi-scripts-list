@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "丘丘人射手-12千壑沙地",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "曦",
+        "links": "https://github.com/cx05121"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4592.26,
+      "y": -647.52
+    },
+    {
+      "id": 2,
+      "x": 4596.41,
+      "y": -675.3,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 4596.54,
+      "y": -675.46,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 4,
+      "x": 4590.03,
+      "y": -652.3,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 4621.67,
+      "y": -642.85,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 6,
+      "x": 4637.66,
+      "y": -639.24,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "info": {
+    "name": "日落果05-15个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "纳西妲",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "今天下雨w",
+        "links": "https://github.com/aqing11520"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1999.05,
+      "y": 1434.89,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1986.91,
+      "y": 1423.88,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1979.49,
+      "y": 1411.75,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -1979.49,
+      "y": 1411.75,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1971.26,
+      "y": 1414.55,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1936.7,
+      "y": 1434.64,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1921.84,
+      "y": 1448.42,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -1936.74,
+      "y": 1494.32,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -1998.97,
+      "y": 1435.24,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -1999.83,
+      "y": 1443.1,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -2004.0,
+      "y": 1484.81,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

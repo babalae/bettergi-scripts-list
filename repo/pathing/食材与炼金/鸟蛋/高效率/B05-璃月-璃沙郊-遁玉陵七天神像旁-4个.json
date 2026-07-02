@@ -1,0 +1,95 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.54.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767526724344,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B05-璃月-璃沙郊-遁玉陵七天神像旁-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 978.9951,
+      "y": -353.2734
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 995.4072,
+      "y": -345.3101
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1002.8906,
+      "y": -346.1812
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1008.2549,
+      "y": -343.7827
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1011.2881,
+      "y": -344.2354
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1020.1484,
+      "y": -342.0444
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1041.1768,
+      "y": -343.7432
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1041.1768,
+      "y": -343.7432
+    }
+  ]
+}
