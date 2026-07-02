@@ -696,6 +696,9 @@
           
           while (retries < maxRetries) {
                const ifFood = await imageRecognitionEnhanced(currentFoodPath, 1, 0, 0, 115, 120, 1150, 880);//识别当前食物图片
+               const clickDelayNum = settings.clickDelay;
+               const clickDelay = parseInt(clickDelayNum, 10); 
+               
                if (ifFood.found) {
                     await leftButtonUp();
                     await sleep(500);
@@ -706,10 +709,10 @@
 
                     await imageRecognitionEnhanced(zjz, 3, 1, 0, 625, 290, 700, 360, true);//点击伊涅芙证件照,确保吃食物的是伊涅芙
                     await sleep(500);
-
+                    
                     for (let i = 0; i < currentFoodCount; i++) {
                          click(1251, 630);
-                         await sleep(150);
+                         await sleep(clickDelay);
                     }
 
                     await click(1180, 770);//点击确认
