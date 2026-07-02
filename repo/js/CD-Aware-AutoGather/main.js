@@ -567,8 +567,8 @@ async function groupByMaterialName(jsonFiles) {
         }
     }
     if (missingCdInfo.size > 0) {
-        log.warn("未获取到以下物品的CD信息: {0}", Array.from(missingCdInfo).join(", "));
-        await sleep(200);
+        log.info("未获取到以下物品的CD信息: {0}", Array.from(missingCdInfo).join(", "));
+        await sleep(100);
     }
     return materialPathMap;
 }
