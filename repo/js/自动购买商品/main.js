@@ -1,4 +1,4 @@
-//3.4.601
+//3.41.601
 
 // fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
 // 在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
@@ -911,7 +911,7 @@ async function waitForPurchasePage(maxAttempts = 8) {
 
         // 未进入，按 F 推进对话
         keyPress("VK_F");
-        await sleep(800); // 等待界面响应
+        await sleep(1250); // 等待界面响应
     }
     return false;
 }
