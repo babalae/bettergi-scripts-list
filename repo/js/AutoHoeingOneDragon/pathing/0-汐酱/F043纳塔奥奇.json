@@ -8,10 +8,10 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时47秒，包含以下怪物：1只遗迹重机、1只暝视龙。",
+    "description": "  路线信息：该路线预计用时47秒，包含以下怪物：1只遗迹重机。",
     "enable_monster_loot_split": false,
     "hash_res": "92891237",
-    "last_modified_time": 1774339125864,
+    "last_modified_time": 1781631989800,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "F043纳塔奥奇",
@@ -27,25 +27,34 @@
       "move_mode": "walk",
       "type": "teleport",
       "x": 10070.24,
-      "y": 25.659999999999854
+      "y": 25.66
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";钟离 a(0.1),e(hold);茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E); ;",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10052.2402,
+      "y": 63.1328
     },
     {
       "action": "",
       "action_params": "",
-      "id": 2,
+      "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 10060.249877547429,
-      "y": 79.25051537075797
+      "x": 10032.4805,
+      "y": 111.8237
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 3,
+      "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 10045.73828125,
-      "y": 101.4130859375
+      "x": 10039.1338,
+      "y": 101.6938
     }
   ]
 }
