@@ -104,31 +104,6 @@ const isHostException = (err) => {
 };
 
 //#endregion
-//#region node_modules/@bettergi/utils/dist/misc.js
-/**
- * 深度合并多个对象
- * @param objects 多个对象
- * @returns 合并后的对象副本
- */
-const deepMerge = (...objects) => {
-  const isPlainObject = (input) => input?.constructor === Object;
-  return objects.reduce((result, obj) => {
-    return Object.entries(obj).reduce((acc, [key, value]) => {
-      acc[key] =
-        isPlainObject(acc[key]) && isPlainObject(value) ? deepMerge(acc[key], value) : value;
-      return acc;
-    }, result);
-  }, {});
-};
-/**
- * 同步休眠执行指定时长
- * @param duration - 休眠时长（毫秒）
- */
-const sleepSync = (duration) => {
-  duration > 0 && Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, duration);
-};
-
-//#endregion
 //#region node_modules/@bettergi/utils/dist/mouse.js
 /** 使用回放脚本模拟滚动 */
 const simulateScroll = async (wheelDelta, times) => {
@@ -333,6 +308,31 @@ const findTextWithinListView = async (
     retryOptions,
     threshold,
   );
+};
+
+//#endregion
+//#region node_modules/@bettergi/utils/dist/misc.js
+/**
+ * 深度合并多个对象
+ * @param objects 多个对象
+ * @returns 合并后的对象副本
+ */
+const deepMerge = (...objects) => {
+  const isPlainObject = (input) => input?.constructor === Object;
+  return objects.reduce((result, obj) => {
+    return Object.entries(obj).reduce((acc, [key, value]) => {
+      acc[key] =
+        isPlainObject(acc[key]) && isPlainObject(value) ? deepMerge(acc[key], value) : value;
+      return acc;
+    }, result);
+  }, {});
+};
+/**
+ * 同步休眠执行指定时长
+ * @param duration - 休眠时长（毫秒）
+ */
+const sleepSync = (duration) => {
+  duration > 0 && Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, duration);
 };
 
 //#endregion

@@ -54,16 +54,19 @@
     "default": false
   },
   {
+    "type": "separator"
+  },
+  {
     "type": "input-text",
     "name": "dailyRooms",
     "label": "每日奇域关卡关键词或关卡GUID（逗号分隔）",
-    "default": "24429042323,28644538672,33030477060"
+    "default": "24429042323,28644538672,45694132064"
   },
   {
     "type": "input-text",
     "name": "dailyPlaybacks",
     "label": "每日通关回放文件随机池（同一关卡逗号分隔，不同关卡分号分隔）",
-    "default": "通关回放1.json,通关回放2.json;30秒按1通关.json;30秒按4通关.json"
+    "default": "通关回放1.json,通关回放2.json;30秒按1通关.json;轰鸣木桩结算.json"
   },
   {
     "type": "multi-checkbox",
@@ -93,6 +96,9 @@
     "name": "dailyForce",
     "label": "忽略每日单个关卡通关上限",
     "default": false
+  },
+  {
+    "type": "separator"
   },
   {
     "type": "checkbox",

@@ -6,12 +6,14 @@ import {
 } from "../@bettergi+utils.js";
 import { userConfig } from "../constants/config.js";
 import {
+  clickToChooseFirstCharacter,
   clickToContinue,
   clickToPrepare,
   findBottomBtnText,
   findCloseDialog,
   findExitStageBtn,
-  findPrepareMsg,
+  findPromptText,
+  findSetupFilterBtn,
   findSkipBtn,
   findStageEscBtn,
 } from "../constants/regions.js";
@@ -31,10 +33,30 @@ const playStage = async (playbacks) => {
         /** 「经典模式」关卡，点击 “开始挑战” 按钮 */
         findBottomBtnText("开始", true)?.click();
         /** 判断是否已经加入准备区 */
+        const findPrepareMsg = () => findPromptText("请先加入") || findPromptText("准备");
         if (findPrepareMsg()) {
           log.info("加入准备区...");
           await assertRegionDisappearing(findPrepareMsg, "等待加入准备区提示消失超时");
           clickToPrepare();
+        }
+        /** 判断是否需要快速编队 */
+        const findSetupMsg = () => findPromptText("至少") || findPromptText("角色");
+        if (findSetupMsg()) {
+          log.info("快速编队...");
+          await assertRegionDisappearing(findSetupMsg, "等待未编队提示消失超时");
+          await assertRegionAppearing(findSetupFilterBtn, "等待快速编队界面出现超时", () => {
+            findBottomBtnText("快速", true)?.click();
+          });
+          /** 编入第一位角色 */
+          const findSaveBtn = () => findBottomBtnText("保存", true) || findPromptText("配置");
+          await assertRegionAppearing(findSaveBtn, "快速编队超时", () => {
+            clickToChooseFirstCharacter();
+          });
+          /** 保存配置 */
+          await assertRegionDisappearing(findSetupFilterBtn, "保存编队配置超时", () => {
+            log.info("保存编队配置...");
+            findSaveBtn()?.click();
+          });
         }
       },
       { maxAttempts: 60 },
