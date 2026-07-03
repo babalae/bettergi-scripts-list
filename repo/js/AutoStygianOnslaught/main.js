@@ -858,6 +858,7 @@ let isFighting = false;
     if (!(FightTeam === undefined || FightTeam === "")){log.info("配置战斗队伍为：{0}", FightTeam)}
 
     //重试两次
+    var shouldStop = false;
     for (let j = 0;j < 2;j++) {  
 
         resinAgain = false; //重试标志
@@ -874,26 +875,32 @@ let isFighting = false;
                 let _pollStart = new Date();
                 while (true) {
                     let _cap = captureGameRegion();
-                    let _resList = _cap.findMulti(RecognitionObject.ocr(1554, 970, 360, 105));
-                    for (let _ri = 0; _ri < _resList.count; _ri++) {
-                        if (_resList[_ri].text === "单人挑战") {
-                            intoAction = { text: _resList[_ri].text, x: _resList[_ri].x, y: _resList[_ri].y, found: true };
-                            break;
+                    try {
+                        let _resList = _cap.findMulti(RecognitionObject.ocr(1554, 970, 360, 105));
+                        for (let _ri = 0; _ri < _resList.count; _ri++) {
+                            if (_resList[_ri].text === "单人挑战") {
+                                intoAction = { text: _resList[_ri].text, x: _resList[_ri].x, y: _resList[_ri].y, found: true };
+                                break;
+                            }
                         }
+                    } finally {
+                        _cap.dispose();
                     }
-                    _cap.dispose();
                     if (intoAction) break;
                     await sleep(100);
 
                     _cap = captureGameRegion();
-                    _resList = _cap.findMulti(RecognitionObject.ocr(861, 426, 197, 70));
-                    for (let _ri = 0; _ri < _resList.count; _ri++) {
-                        if (_resList[_ri].text === "紊乱平息") {
-                            isNonBurst = true;
-                            break;
+                    try {
+                        let _resList = _cap.findMulti(RecognitionObject.ocr(861, 426, 197, 70));
+                        for (let _ri = 0; _ri < _resList.count; _ri++) {
+                            if (_resList[_ri].text === "紊乱平息") {
+                                isNonBurst = true;
+                                break;
+                            }
                         }
+                    } finally {
+                        _cap.dispose();
                     }
-                    _cap.dispose();
                     if (isNonBurst) break;
 
                     if (new Date() - _pollStart > 20000) {
@@ -905,7 +912,7 @@ let isFighting = false;
 
                 if (isNonBurst) {
                     await genshin.returnMainUi();
-                    resinAgain = false;
+                    shouldStop = true;
                     throw new Error("当前处于非爆发期（紊乱平息），停止执行...")
                 }
 
@@ -913,7 +920,7 @@ let isFighting = false;
                 let rewardsBu  = await imageRecognition(rewardsButton,0.1, 0, 0,63,949,87,80);
                 if (!rewardsBu.found){
                     await genshin.returnMainUi();
-                    resinAgain = false;
+                    shouldStop = true;
                     throw new Error("未在爆发期内，停止执行...")
                 }
 
@@ -1121,7 +1128,7 @@ let isFighting = false;
         catch (error) {
             //9.执行错误，重试处理            
             log.error(`执行过程中发生错误：${error.message}`);
-            if (resinAgain === false) {
+            if (shouldStop === true) {
                 break;
             }
             resinAgain = true;
