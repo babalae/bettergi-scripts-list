@@ -911,7 +911,7 @@ async function waitForPurchasePage(maxAttempts = 8) {
 
         // 未进入，按 F 推进对话
         keyPress("VK_F");
-        await sleep(800); // 等待界面响应
+        await sleep(1000); // 等待界面响应
     }
     return false;
 }
