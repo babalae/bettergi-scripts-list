@@ -122,12 +122,21 @@ let isFighting = false;
         if (CombatStrategyType === "指定战斗策略") {
             if (!SpecifiedCombatStrategy) {
                 log.warn("【配置警告】您选择了'指定战斗策略'但未填写策略名称，系统将自动退回'根据队伍自动选择'。");
-            } else if (/[:*?"<>|]/.test(SpecifiedCombatStrategy)) {
+            } else if (/[/:*?"<>|]/.test(SpecifiedCombatStrategy)) {
                 // 只禁止除反斜杠外的非法字符（反斜杠是合法路径分隔符）
                 log.warn(`【配置警告】指定的战斗策略名称包含非法字符: ${SpecifiedCombatStrategy}，系统将自动退回'根据队伍自动选择'。`);
             } else {
-                // 将单反斜杠转换为双反斜杠（处理转义问题）
-                CombatStrategyPath = SpecifiedCombatStrategy.replace(/\\/g, "\\\\");
+                let strategyName = SpecifiedCombatStrategy;
+                // 自动去除 .txt 后缀（无论用户是否填写，底层都会追加）
+                if (strategyName.toLowerCase().endsWith(".txt")) {
+                    strategyName = strategyName.substring(0, strategyName.length - 4);
+                }
+                // 路径分隔符标准化：单反斜杠 → 双反斜杠，已转义则跳过
+                if (strategyName.includes("\\") && !strategyName.includes("\\\\")) {
+                    CombatStrategyPath = strategyName.replace(/\\/g, "\\\\");
+                } else {
+                    CombatStrategyPath = strategyName;
+                }
                 log.info(`战斗策略路径: "${CombatStrategyPath}"`);
             }
         }
@@ -841,7 +850,7 @@ let isFighting = false;
     
     }
 
-    log.warn("自动幽境危战版本：v2.2");
+    log.warn("自动幽境危战版本：v2.3");
     log.warn("请保证队伍战斗实力，战斗失败或执行错误，会重试两次...");
     log.warn("使用前请在 <<幽境危战>> 中配置好战斗队伍...");
     log.info("使用树脂顺序：{0} ", golbalRewardText.join(" ->"))     
@@ -859,17 +868,52 @@ let isFighting = false;
                 await pathingScript.runFile(`assets/全自动幽境危战.json`);
                 await VeinEntrance();             
 
-                //2.难度确认和选择
-                let intoAction  = await Textocr("单人挑战",20,0,0,1554,970,360, 105);
-                if (!intoAction.found){
+                //2.难度确认和选择（同时检测非爆发期界面）
+                let intoAction = null;
+                let isNonBurst = false;
+                let _pollStart = new Date();
+                while (true) {
+                    let _cap = captureGameRegion();
+                    let _resList = _cap.findMulti(RecognitionObject.ocr(1554, 970, 360, 105));
+                    for (let _ri = 0; _ri < _resList.count; _ri++) {
+                        if (_resList[_ri].text === "单人挑战") {
+                            intoAction = { text: _resList[_ri].text, x: _resList[_ri].x, y: _resList[_ri].y, found: true };
+                            break;
+                        }
+                    }
+                    _cap.dispose();
+                    if (intoAction) break;
+                    await sleep(100);
+
+                    _cap = captureGameRegion();
+                    _resList = _cap.findMulti(RecognitionObject.ocr(861, 426, 197, 70));
+                    for (let _ri = 0; _ri < _resList.count; _ri++) {
+                        if (_resList[_ri].text === "紊乱平息") {
+                            isNonBurst = true;
+                            break;
+                        }
+                    }
+                    _cap.dispose();
+                    if (isNonBurst) break;
+
+                    if (new Date() - _pollStart > 20000) {
+                        await genshin.returnMainUi();
+                        throw new Error("未进入挑战页面，停止执行...")
+                    }
+                    await sleep(100);
+                }
+
+                if (isNonBurst) {
                     await genshin.returnMainUi();
-                    throw new Error("未进入挑战页面，停止执行...")
+                    resinAgain = false;
+                    throw new Error("当前处于非爆发期（紊乱平息），停止执行...")
                 }
 
                 //2.5 判断爆发期
                 let rewardsBu  = await imageRecognition(rewardsButton,0.1, 0, 0,63,949,87,80);
                 if (!rewardsBu.found){
                     await genshin.returnMainUi();
+                    resinAgain = false;
                     throw new Error("未在爆发期内，停止执行...")
                 }
 
@@ -1077,6 +1121,9 @@ let isFighting = false;
         catch (error) {
             //9.执行错误，重试处理            
             log.error(`执行过程中发生错误：${error.message}`);
+            if (resinAgain === false) {
+                break;
+            }
             resinAgain = true;
             await genshin.returnMainUi(); 
             continue;

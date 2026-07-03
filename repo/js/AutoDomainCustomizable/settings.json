@@ -1,8 +1,13 @@
 [
   {
+    "name": "separator",
+    "type": "separator",
+    "label": "                             素材选择区（自动判定日期）\n                三个选项默认互相冲突，请只选一个刷取目标"
+  },
+  {
     "name": "TargetTalentMaterialName",
     "type": "select",
-    "label": "【角色天赋素材】(自动判定日期，若选此项请勿选其他两项)",
+    "label": "【角色天赋素材】",
     "options": [
       "",
       "=== 蒙德 ===",
@@ -25,7 +30,7 @@
   {
     "name": "TargetWeaponMaterialName",
     "type": "select",
-    "label": "【武器升级素材】(自动判定日期，若选此项请勿选其他两项)",
+    "label": "【武器升级素材】",
     "options": [
       "",
       "=== 蒙德 ===",
@@ -48,7 +53,7 @@
   {
     "name": "TargetArtifactName",
     "type": "select",
-    "label": "【圣遗物】(每日开放，若选此项请勿选其他两项)",
+    "label": "【圣遗物】",
     "options": [
       "",
       "=== 蒙德 ===",
@@ -81,10 +86,19 @@
     ],
     "default": ""
   },
+{
+    "type":"separator"
+  },
   {
-    "name": "ForceRunMode",
+    "name": "AutoDetectLimitedOpen",
     "type": "checkbox",
-    "label": "【风险】强制运行 (仅在有限时全开活动时勾选)",
+    "label": "识别限时全开",
+    "default": false
+  },
+  {
+    "name": "AutoSwitchToArtifactWhenNotMatch",
+    "type": "checkbox",
+    "label": "闲时刷取圣遗物\n(材料本未开放时自动刷取圣遗物,开启后可以同时选择素材与圣遗物进行刷取)",
     "default": false
   },
   {
@@ -155,7 +169,7 @@
   {
     "name": "SpecifiedCombatStrategy",
     "type": "input-text",
-    "label": "指定战斗策略名称 (不含.txt)",
+    "label": "指定战斗策略名称",
     "default": ""
   },
   {
@@ -169,6 +183,12 @@
     "type": "input-text",
     "label": "秘境刷取轮数 (0表示9999轮)",
     "default": "0"
+  },
+  {
+    "name": "ForceRunMode",
+    "type": "checkbox",
+    "label": "【风险】强制运行 (仅在有限时全开识别有问题时勾选)",
+    "default": false
   },
   {
     "name": "EnableDebug",
