@@ -6,10 +6,10 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780369572524,
+    "last_modified_time": 1783089291986,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C03稻妻-八酝岛-无想刃狭间",
@@ -40,7 +40,6 @@
       "action": "stop_flying",
       "action_params": "",
       "id": 3,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": -2398.3008,
@@ -68,6 +67,16 @@
       "action": "mining",
       "action_params": "",
       "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2396.6074,
+      "y": -3672.7363
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 7,
       "move_mode": "walk",
       "type": "path",
       "x": -2396.6074,

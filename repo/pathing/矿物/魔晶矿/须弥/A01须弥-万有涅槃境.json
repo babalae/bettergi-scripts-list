@@ -6,10 +6,10 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.42.3",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780150837067,
+    "last_modified_time": 1783090267775,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A01须弥-万有涅槃境",
@@ -49,6 +49,16 @@
       "action": "mining",
       "action_params": "",
       "id": 4,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 2849.8105,
+      "y": 158.8286
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 5,
       "move_mode": "fly",
       "type": "target",
       "x": 2849.8105,

@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780196948582,
+    "last_modified_time": 1783088931783,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B06须弥-禅那园右下",
+    "name": "B04璃月-翠玦坡东",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 2964.9219,
-      "y": -1452.2812
+      "x": 837.48,
+      "y": 235.16
     },
     {
       "action": "",
@@ -33,63 +33,63 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 2969.2148,
-      "y": -1444.4736
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 3034.8652,
-      "y": -1313.2578
+      "x": 802.19,
+      "y": 245.44
     },
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 4,
-      "locked": false,
+      "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 3049.623,
-      "y": -1261.9199
+      "x": 685.7,
+      "y": 286.01
     },
     {
       "action": "mining",
       "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 688.25,
+      "y": 287.68
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": 3046.2861,
-      "y": -1258.1777
+      "x": 684.33,
+      "y": 296.85
     },
     {
       "action": "mining",
       "action_params": "",
       "id": 6,
       "move_mode": "walk",
-      "type": "path",
-      "x": 3053.0156,
-      "y": -1263.3301
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 3060.2109,
-      "y": -1281.8018
+      "type": "target",
+      "x": 685.88,
+      "y": 299.56
     },
     {
       "action": "mining",
       "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 677.1436,
+      "y": 295.6748
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 3064.1172,
-      "y": -1280.0918
+      "x": 677.1436,
+      "y": 295.6748
     }
   ]
 }

@@ -6,13 +6,13 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780277309137,
+    "last_modified_time": 1783088602149,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A11枫丹-秘境上",
+    "name": "A08枫丹-秘境上",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -40,6 +40,16 @@
       "action": "mining",
       "action_params": "",
       "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4728.4814,
+      "y": 1895.4126
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 4,
       "move_mode": "walk",
       "type": "path",
       "x": 4728.4814,

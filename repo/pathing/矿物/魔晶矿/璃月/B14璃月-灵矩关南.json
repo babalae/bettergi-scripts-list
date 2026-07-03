@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780534605349,
+    "last_modified_time": 1783088865763,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B14璃月-灵矩关南",
@@ -120,18 +120,9 @@
       "y": -656.33
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(2)",
       "id": 11,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 1086.72,
-      "y": -663.5
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 12,
       "move_mode": "walk",
       "type": "path",
       "x": 1092.7725,

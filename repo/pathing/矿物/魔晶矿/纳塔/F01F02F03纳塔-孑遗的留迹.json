@@ -6,10 +6,10 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1781069704138,
+    "last_modified_time": 1783089611596,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "F01F02F03纳塔-孑遗的留迹",
@@ -123,7 +123,7 @@
       "id": 12,
       "move_mode": "run",
       "type": "path",
-      "x": 10406.0,
+      "x": 10406,
       "y": -3302.73
     },
     {
@@ -133,7 +133,7 @@
       "move_mode": "run",
       "type": "path",
       "x": 10422.81,
-      "y": -3306.0
+      "y": -3306
     },
     {
       "action": "",
@@ -184,6 +184,16 @@
       "action": "mining",
       "action_params": "",
       "id": 19,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10480.0439,
+      "y": -3205.0127
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 20,
       "move_mode": "walk",
       "type": "path",
       "x": 10480.0439,

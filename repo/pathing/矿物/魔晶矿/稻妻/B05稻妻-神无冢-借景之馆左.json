@@ -6,10 +6,10 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780625830247,
+    "last_modified_time": 1783089257500,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B05稻妻-神无冢-借景之馆左",
@@ -58,6 +58,16 @@
       "action": "mining",
       "action_params": "",
       "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3173.207,
+      "y": -3895.1973
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 6,
       "move_mode": "walk",
       "type": "path",
       "x": -3173.207,

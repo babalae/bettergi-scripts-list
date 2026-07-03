@@ -6,13 +6,13 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.42.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1783088930323,
+    "last_modified_time": 1783090348661,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B18璃月-青墟浦",
+    "name": "C02须弥-禅那园左下",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,54 +24,45 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1128.46,
-      "y": -984.33
+      "x": 3397.9336,
+      "y": -1174.2295
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "fly",
+      "move_mode": "run",
       "type": "path",
-      "x": 1337.5049,
-      "y": -883.7393
+      "x": 3372.7012,
+      "y": -1070.0371
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 3,
       "move_mode": "run",
       "type": "path",
-      "x": 1291.1729,
-      "y": -879.2432
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "run",
-      "type": "path",
-      "x": 1272.8701,
-      "y": -875.1367
+      "x": 3385.4453,
+      "y": -1004.5664
     },
     {
       "action": "mining",
       "action_params": "",
-      "id": 5,
+      "id": 4,
       "locked": false,
       "move_mode": "walk",
-      "type": "target",
-      "x": 1272.8701,
-      "y": -875.1367
+      "type": "path",
+      "x": 3376.8506,
+      "y": -1003.9082
     },
     {
       "action": "combat_script",
       "action_params": "wait(2)",
-      "id": 6,
+      "id": 5,
       "move_mode": "walk",
-      "type": "target",
-      "x": 1272.8701,
-      "y": -875.1367
+      "type": "path",
+      "x": 3376.8506,
+      "y": -1003.9082
     }
   ]
 }
