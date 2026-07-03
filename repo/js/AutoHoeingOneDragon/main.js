@@ -47,6 +47,8 @@ let img = new ImageRegion(imageMat, 0, 0);
 let revivalMedicineRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/复活药.png"));
 
 //全局通用变量声明
+let coordCache = { X: 0, Y: 0 };   // 坐标缓存，供 ① ② ④ 复用
+let needRefreshCoord = true;       // 强制刷新坐标缓存
 let targetItems;
 let shouldSwitchFurina = false;
 let lastRollTime = new Date();
@@ -215,7 +217,12 @@ async function loadConfig() {
     //加载自定义配置
     pickup_Mode = settings.pickup_Mode || "模板匹配拾取，拾取狗粮和怪物材料";
     dumpers = settings.activeDumperMode
-        ? settings.activeDumperMode.split('，').map(Number).filter(num => [1, 2, 3, 4].includes(num))
+        ? settings.activeDumperMode.split('，').map(item => item.trim()).filter(Boolean).map(item => {
+            const num = Number(item);
+            return [1, 2, 3, 4].includes(num) ? { type: 'number', value: num }
+                 : !isNaN(num)                 ? null
+                 :                               { type: 'name', value: item };
+        }).filter(Boolean)
         : [];
 
     findFInterval = Math.max(16, Math.min(200, parseNumericSetting(settings.findFInterval, 100)));
@@ -1110,9 +1117,7 @@ async function runPath(fullPath, map_name, pm, pe) {
         if (catcherCoord && currentPathing) {
             try {
                 await genshin.returnMainUi();
-                const currentPos = currentPathing.map_match_method && currentPathing.map_match_method !== ""
-                    ? await genshin.getPositionFromMapWithMatchingMethod(map_name, currentPathing.map_match_method)
-                    : await genshin.getPositionFromMap(map_name);
+                const currentPos = await getCachedPosition(map_name, currentPathing.map_match_method);
                 if (currentPos && !(currentPos.X === 0 && currentPos.Y === 0)) {
                     // 获取路线起点坐标
                     let routeStartX = 0, routeStartY = 0;
@@ -1128,11 +1133,9 @@ async function runPath(fullPath, map_name, pm, pe) {
                         log.error(`读取路线文件获取起点坐标失败：${e.message}`);
                     }
 
-                    // 晶蝶诱捕装置定位
-                    await crystalflyAssistedTeleport(currentPos, fullPath);
+                    const usedCrystalfly = await crystalflyAssistedTeleport(currentPos, fullPath);
 
-                    // 使用TP传送到路线起点
-                    if (routeStartX !== 0 || routeStartY !== 0) {
+                    if (usedCrystalfly && routeStartX !== 0 && routeStartY !== 0) {
                         await genshin.tp(routeStartX, routeStartY, map_name, false);
                     }
                 }
@@ -1141,6 +1144,7 @@ async function runPath(fullPath, map_name, pm, pe) {
             }
         }
 
+        needRefreshCoord = true;
         try {
             await pathingScript.runFile(fullPath);
         } catch (error) {
@@ -1517,59 +1521,50 @@ async function recognizeAndInteract() {
  * 依赖全局：settings.useCrystalflyCatcher
  */
 async function crystalflyAssistedTeleport(currentPos, pathFilePath) {
-    // 获取晶蝶诱捕装置配置
     const catcherCoord = settings.useCrystalflyCatcher;
 
-    // 获取路线初始坐标
     let routeStartX = 0, routeStartY = 0;
     try {
         const raw = file.readTextSync(pathFilePath);
         const json = JSON.parse(raw);
         if (Array.isArray(json.positions) && json.positions.length > 0) {
             const firstPos = json.positions[0];
-            // 支持大小写 x/X 和 y/Y
             routeStartX = firstPos.x ?? firstPos.X ?? 0;
             routeStartY = firstPos.y ?? firstPos.Y ?? 0;
         }
     } catch (e) {
         log.error(`读取路线文件获取初始坐标失败：${e.message}`);
-        return;
+        return false;
     }
 
-    // 解析晶蝶诱捕装置坐标（格式：123.45，789.0 中文逗号分隔）
     const coordParts = catcherCoord.split('，');
     if (coordParts.length !== 2) {
         log.error(`晶蝶诱捕装置坐标格式错误：${catcherCoord}，正确格式应为"X，Y"（中文逗号分隔）`);
-        return;
+        return false;
     }
     const catcherX = parseFloat(coordParts[0].trim());
     const catcherY = parseFloat(coordParts[1].trim());
     if (isNaN(catcherX) || isNaN(catcherY)) {
         log.error(`晶蝶诱捕装置坐标解析失败：${catcherCoord}`);
-        return;
+        return false;
     }
 
-    // 计算当前位置到路线起点的距离
     const currentDist = Math.sqrt(
         Math.pow(currentPos.X - routeStartX, 2) +
         Math.pow(currentPos.Y - routeStartY, 2)
     );
 
-    // 计算晶蝶装置到路线起点的距离
     const catcherDist = Math.sqrt(
         Math.pow(catcherX - routeStartX, 2) +
         Math.pow(catcherY - routeStartY, 2)
     );
 
-    // 判断是否启用辅助传送：晶蝶装置比当前位置近500以上，且晶蝶装置距离起点小于2200
     if (currentDist - catcherDist > 500 && catcherDist < 2200) {
         log.info(`启用晶蝶辅助传送，当前位置距离起点: ${currentDist.toFixed(1)}，晶蝶装置距离起点: ${catcherDist.toFixed(1)}`);
 
-        // 打开地图
         keyPress("M");
         await sleep(200);
 
-        // 点击晶蝶装置图标（识别区域：0,0,450,540）
         const crystalFlyRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/晶蝶装置.png"), 0, 0, 450, 540);
         crystalFlyRo.Threshold = 0.85;
         await findAndClick(crystalFlyRo, true, 500);
@@ -1577,7 +1572,9 @@ async function crystalflyAssistedTeleport(currentPos, pathFilePath) {
         await sleep(200);
         keyPress("VK_ESCAPE");
         await sleep(200);
+        return true;
     }
+    return false;
 }
 
 /**
@@ -1671,16 +1668,25 @@ async function dumper(pathFilePath, map_name) {
 
                         if (shouldPressKeys) {
                             log.info(`距离下个战斗地点距离${dumperDistance.toFixed(2)}，启用泥头车`);
-                            for (const key of dumpers) {
-                                log.info(`[泥头车]:尝试切换${key}号角色施放e技能`)
-                                keyPress(String(key));
-                                await sleep(400);
-                                keyPress('e');
-                                await sleep(400);
-                                keyPress('e');
-                                await sleep(400);
-                                keyPress('e');
-                                await sleep(400);
+                            for (const item of dumpers) {
+                                if (item.type === 'number') {
+                                    log.info(`[泥头车]:尝试切换${item.value}号角色施放e技能`);
+                                    keyPress(String(item.value));
+                                    await sleep(400);
+                                    keyPress('e');
+                                    await sleep(400);
+                                    keyPress('e');
+                                    await sleep(400);
+                                    keyPress('e');
+                                    await sleep(400);
+                                } else {
+                                    log.info(`[泥头车]:尝试使用角色[${item.value}]施放e技能`);
+                                    try {
+                                        await dispatcher.RunCombatScript("e,e,e", item.value);
+                                    } catch (error) {
+                                        log.warn("js调用简易策略异常");
+                                    }
+                                }
                             }
 
                             for (let i = 0; i < 10; i++) {
@@ -1916,9 +1922,7 @@ async function processPathingsByGroup(pathings, accountName) {
             if (settings.enableCoordCheck) {
                 try {
                     await genshin.returnMainUi();
-                    const miniMapPosition = pathing.map_match_method && pathing.map_match_method !== ""
-                        ? await genshin.getPositionFromMapWithMatchingMethod(pathing.map_name, pathing.map_match_method)
-                        : await genshin.getPositionFromMap(pathing.map_name);
+                    const miniMapPosition = await getCachedPosition(pathing.map_name, pathing.map_match_method);
                     if (miniMapPosition) {
                         lastX = miniMapPosition.X;
                         lastY = miniMapPosition.Y;
@@ -1968,9 +1972,7 @@ async function processPathingsByGroup(pathings, accountName) {
             if (settings.enableCoordCheck) {
                 try {
                     await genshin.returnMainUi();
-                    const miniMapPosition = pathing.map_match_method && pathing.map_match_method !== ""
-                        ? await genshin.getPositionFromMapWithMatchingMethod(pathing.map_name, pathing.map_match_method)
-                        : await genshin.getPositionFromMap(pathing.map_name);
+                    const miniMapPosition = await getCachedPosition(pathing.map_name, pathing.map_match_method);
                     if (miniMapPosition) {
                         const diffX = Math.abs(lastX - miniMapPosition.X);
                         const diffY = Math.abs(lastY - miniMapPosition.Y);
@@ -2129,6 +2131,33 @@ async function loadBlacklist(merge = false) {
  * 负责：队伍切换、时间规则判断、模板匹配点击、OCR、日志伪造、目录递归读取等
  * 供以上各模块随时调用
  * =========================================================== */
+
+/**
+ * 获取缓存的坐标，避免重复调用 getPositionFromMap
+ * 仅当 needRefreshCoord 为 true 时重新获取
+ */
+async function getCachedPosition(map_name, map_match_method) {
+    if (needRefreshCoord) {
+        try {
+            const pos = map_match_method && map_match_method !== ""
+                ? await genshin.getPositionFromMapWithMatchingMethod(map_name, map_match_method)
+                : await genshin.getPositionFromMap(map_name);
+            if (pos && typeof pos.X === 'number' && typeof pos.Y === 'number'
+                && !isNaN(pos.X) && !isNaN(pos.Y) && !(pos.X === 0 && pos.Y === 0)) {
+                coordCache = pos;
+            } else {
+                coordCache = { X: 0, Y: 0 };
+            }
+            log.info(`更新当前坐标为 ${coordCache.X},${coordCache.Y}`);
+            needRefreshCoord = false;
+        } catch (e) {
+            coordCache = { X: 0, Y: 0 };
+            log.info(`更新当前坐标为 ${coordCache.X},${coordCache.Y}`);
+            needRefreshCoord = false;
+        }
+    }
+    return coordCache;
+}
 
 /**
  * 解析数值类型配置项
