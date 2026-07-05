@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+            background: transparent;
+            font-family: sans-serif;
+            width: 100%;
+            height: 100vh;
+        }
+        .content {
+            display: grid;
+            grid-template-rows: 10% 1fr;
+            width: 100%;
+            height: 100%;
+        }
+        .top {
+            background: transparent;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 0;
+        }
+        .control-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            width: 50%;
+            border-radius: 18px;
+            background: rgba(0, 0, 0, 0.48);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+        }
+        .ctrl-btn {
+            width: 46px;
+            min-width: 46px;
+            height: 46px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(44,62,80,0.86);
+            color: #fff;
+            cursor: pointer;
+            font-size: 1.4rem;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            opacity: 0.94;
+            transition: opacity 200ms ease, box-shadow 200ms ease, filter 200ms ease, background-color 200ms ease;
+        }
+        .ctrl-right {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 92px;
+            min-width: 92px;
+            height: 46px;
+            box-sizing: border-box;
+        }
+        #durationDisplay {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            color: #fff;
+            font-size: 1.6rem;
+            line-height: 46px;
+            text-align: center;
+            background: transparent;
+            white-space: nowrap;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        #hideBtn .iconfont {
+            font-size: 1.6rem;
+        }
+        /* sci-fi blue breathing glow animation (visual only) */
+        @keyframes ctrl-breathe {
+            0% {
+                box-shadow: 0 0 10px rgba(0,170,255,0.18), 0 0 0 rgba(0,170,255,0.00);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(0,170,255,0.48), 0 0 16px rgba(0,170,255,0.20);
+            }
+            100% {
+                box-shadow: 0 0 10px rgba(0,170,255,0.18), 0 0 0 rgba(0,170,255,0.00);
+            }
+        }
+
+        /* hover: stronger glow and full opacity (visual only) */
+        .ctrl-btn:hover {
+            opacity: 1;
+            background: rgba(44,62,80,0.98);
+            animation: ctrl-breathe 2.2s ease-in-out infinite;
+            /* stronger bluish glow */
+            box-shadow: 0 0 18px rgba(0,170,255,0.32), 0 0 40px rgba(0,170,255,0.18);
+        }
+
+        /* active: slight scale down + inset shadow to simulate press (visual only) */
+        .ctrl-btn:active {
+            animation: none;
+            box-shadow: inset 0 6px 14px rgba(0,0,0,0.48);
+            background: rgba(36,50,64,0.98);
+            opacity: 1;
+            transform: scale(0.98);
+        }
+
+        /* allow smooth transform when active */
+        .ctrl-btn {
+            min-width: 72px;
+            height: 46px;
+            border: none;
+            border-radius: 999px;
+            background: rgba(44,62,80,0.86);
+            color: #fff;
+            cursor: pointer;
+            font-size: 1.84rem;
+            padding: 0 18px;
+            white-space: nowrap;
+            /* visual-only transitions (no layout changes) */
+            opacity: 0.94;
+            transition: opacity 160ms ease, box-shadow 160ms ease, filter 160ms ease, background-color 160ms ease, transform 120ms ease;
+        }
+        .file-display {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            min-width: 140px;
+            max-width: 42vw;
+            flex: 1 1 auto;
+            height: 46px;
+            padding: 0 14px;
+            border-radius: 999px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.096);
+        }
+        .file-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 42%;
+            background: rgba(255, 255, 255, 0.216);
+            transition: width 0.2s ease;
+        }
+        .file-name {
+            position: relative;
+            z-index: 1;
+            color: #f5f5f5;
+            font-size: 1.1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .exit-btn {
+            position: absolute;
+            right: 4.7vh;
+            top: 4.45vh;
+            transform: translateY(-50%);
+            width: 5vh;
+            height: 5vh;
+            padding: 0;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 1);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.14);
+        }
+        .exit-btn.iconfont {
+            font-size: 2vh;
+        }
+        .exit-btn:hover {
+            background: #8b2f23;
+        }
+        .bottom {
+            display: grid;
+            grid-template-columns: 25% 1fr;
+            width: 100%;
+            height: 100%;
+            gap: 16px;
+            padding: 12px 16px 16px;
+            box-sizing: border-box;
+        }
+        .ensemble-area {
+            background: transparent;
+        }
+        .file-list-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.48);
+            border-radius: 24px;
+            padding: 18px 16px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+            /* default: make texts inside list unselectable */
+            user-select: none;
+        }
+        .search-row {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            padding-bottom: 0;
+        }
+        .file-search {
+            width: 100%;
+            height: 46px;
+            padding: 0 44px 0 16px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.168);
+            background: rgba(255, 255, 255, 0.096);
+            color: #f5f5f5;
+            /* allow text selection in the search input */
+            user-select: text;
+            /* keep baseline font-size (will be scaled by parent font-size) */
+            font-size: 1.2rem;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .file-search::placeholder {
+            color: rgba(245, 245, 245, 0.6);
+        }
+        .clear-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.14);
+            color: #f5f5f5;
+            cursor: pointer;
+            font-size: 1rem;
+            line-height: 1;
+        }
+        .clear-btn:hover {
+            background: rgba(255, 255, 255, 0.24);
+        }
+        .iconfont {
+            font-family: "iconfont" !important;
+            font-style: normal;
+            font-size: 1.2rem;
+            line-height: 1;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        /* file-grid and file-card styles moved to lib/gridview.css */
+    </style>
+    <script src="polyfill/mask-send.js"></script>
+    <script src="lib/stately.js"></script>
+    <link rel="stylesheet" href="lib/gridview.css">
+    <link rel="stylesheet" href="font/iconfont.css">
+    <script src="lib/gridview.js"></script>
+</head>
+<body>
+    <div class="content">
+        <div class="top">
+            <!-- 播放控制栏 -->
+            <div class="control-bar">
+                <button class="ctrl-btn" id="playBtn" aria-label="播放"><i class="iconfont icon-play" aria-hidden="true"></i></button>
+                <button class="ctrl-btn" id="stopBtn" aria-label="停止"><i class="iconfont icon-stop" aria-hidden="true"></i></button>
+                <div class="file-display">
+                    <div class="file-progress" id="fileProgress"></div>
+                    <span class="file-name" id="currentFileName">请选择曲谱...</span>
+                </div>
+                <div class="ctrl-right">
+                    <button class="ctrl-btn" id="hideBtn" aria-label="隐藏"><i class="iconfont icon-eyeclose-fill" aria-hidden="true"></i></button>
+                    <span id="durationDisplay">00:00</span>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="ensemble-area"></div>
+            <!-- 文件展示区域 -->
+            <div class="file-list-panel">
+                <div class="search-row">
+                    <input id="fileSearch" class="file-search" type="text" placeholder="搜索文件名">
+                    <button id="clearSearch" class="clear-btn" type="button" aria-label="清空搜索">×</button>
+                </div>
+                <div class="file-grid" id="fileGrid"></div>
+            </div>
+        </div>
+    </div>
+    <button class="exit-btn iconfont icon-exit" id="exitBtn" aria-label="退出"></button>
+
+    <script>
+        const byId = (id) => document.getElementById(id);
+
+        function hideBottomArea() {
+            const bottomEl = document.querySelector('.bottom');
+            if (bottomEl) {
+                bottomEl.style.display = 'none';
+            }
+        };
+
+        function showBottomArea() {
+            const bottomEl = document.querySelector('.bottom');
+            if (bottomEl) {
+                bottomEl.style.display = '';
+            }
+        };
+
+        
+
+        // 控制栏状态机
+        const controlFSM = Stately.machine({
+            'READY': {
+                play: function(){
+                    byId('durationDisplay').style.display = 'inline'; // show duration display when playing
+                    byId('hideBtn').style.display = 'none'; // show hide button when playing
+                    byId('exitBtn').style.display = 'none'; // hide exit button when playing
+                    hideBottomArea();
+                    return this.PLAYING;
+                },
+            },
+            'PLAYING': {
+                pause: 'PAUSED',
+                stop: function() {
+                    byId('durationDisplay').style.display = 'none'; // hide duration display when stopped
+                    byId('hideBtn').style.display = 'inline-flex'; // show hide button when stopped
+                    byId('exitBtn').style.display = ''; // show exit button when stopped
+                    showBottomArea();
+                    return this.READY;
+                },
+            },
+            'PAUSED': {
+                resume: 'PLAYING',
+                stop: function() {
+                    byId('durationDisplay').style.display = 'none'; // hide duration display when stopped
+                    byId('hideBtn').style.display = 'inline-flex'; // show hide button when stopped
+                    byId('exitBtn').style.display = ''; // show exit button when stopped
+                    showBottomArea();
+                    return this.READY;
+                },
+            },
+        }, 'READY');
+
+        let selectedFilename = null;
+        const fileProgressEl = byId('fileProgress');
+        function updateProgress(value) {
+            const ratio = Math.max(0, Math.min(1, Number(value) || 0));
+            if (fileProgressEl) {
+                fileProgressEl.style.width = `${ratio * 100}%`;
+            }
+        }
+
+        // 播放控制状态锁，防止重复点击导致的多次请求。当播放控制栏向宿主发送请求后，锁定状态为 true，直到宿主返回了解锁信号，才会解锁。这样可以避免在播放过程中重复点击播放按钮导致的多次请求。
+        let controlLocked = false;
+        let playOrPause = 0;
+        // 更新播放按钮的文本内容，根据当前的播放状态来显示“播放”或“暂停”。
+        function updatePlayButtonState() {
+            const playBtn = byId('playBtn');
+            if (!playBtn) {
+                return;
+            }
+            const iconClass = playOrPause === 0 ? 'icon-play' : 'icon-pause';
+            playBtn.innerHTML = `<i class="iconfont ${iconClass}" aria-hidden="true"></i>`;
+        };
+        updatePlayButtonState();
+
+        // Initialize GridView and hook into htmlMask messages
+        const currentFileNameEl = byId('currentFileName');
+        const gridView = new GridView({ rootView: '#fileGrid' });
+        gridView.onSelect((index, name) => {
+            if (currentFileNameEl) {
+                currentFileNameEl.textContent = name || '请选择曲谱...';
+            }
+            selectedFilename = name;
+        });
+
+        // wire up search/filter in the main page to keep GridView generic
+        const fileSearch = byId('fileSearch');
+        const clearSearch = byId('clearSearch');
+        let scoreList = [];
+
+        function debounce(fn, wait) {
+            let timer = null;
+            return function(...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn.apply(this, args), wait);
+            };
+        }
+
+        function updateClearButton() {
+            clearSearch.style.display = fileSearch.value.trim() ? 'inline-flex' : 'none';
+        }
+
+        function applyFilter() {
+            const q = fileSearch.value.trim().toLowerCase();
+            if (!q) gridView.setDatasource(scoreList);
+            else gridView.setDatasource(scoreList.filter(s => s.toLowerCase().includes(q)));
+        }
+
+        const debouncedApplyFilter = debounce(applyFilter, 500);
+        fileSearch.addEventListener('input', function(){ updateClearButton(); debouncedApplyFilter(); });
+        clearSearch.addEventListener('click', function(){ fileSearch.value=''; fileSearch.focus(); updateClearButton(); gridView.setDatasource(scoreList); });
+
+        /**
+         * 格式化时间
+         * @param {number} seconds - 时间（秒）
+         * @returns {string} 格式化后的时间字符串
+         */
+        function formatTime(seconds) {
+            if (isNaN(seconds) || seconds < 0) {
+                return "00:00";
+            }
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        // 接收 JS 推送，返回值自动回传给 JS 的 request
+        window.htmlMask.onMessage = function(msg) {
+            if (msg.url === '/visibility') {
+                document.body.style.display = msg.data?.visible === false ? 'none' : '';
+            }
+            else if (msg.url === '/init') {
+                controlLocked = false; // reset lock on init
+                updateProgress(0);
+                byId('durationDisplay').style.display = 'none'; // hide duration display on init
+
+                if (msg.data?.scoreList) {
+                    // store full list for page-level filtering, then populate GridView
+                    scoreList = Array.isArray(msg.data.scoreList) ? Array.from(msg.data.scoreList) : [];
+                    gridView.setDatasource(scoreList);
+                    // ensure clear button visibility is correct after init
+                    try { updateClearButton(); } catch (e) { /* ignore */ }
+                }
+            }
+            else if (msg.url === '/control') {
+                const action = msg.data?.action;
+                if (action === 'unlock') {
+                    controlLocked = false;
+                }
+                else if (action === 'change_state') {
+                    const nextState = msg.data?.nextState;
+                    // Handle state change logic here
+                    if (nextState === 'playing') {
+                        playOrPause = 1; // Set to pause state
+                        controlFSM.play();
+                    } else if (nextState === 'paused') {
+                        playOrPause = 0; // Set to play state
+                        controlFSM.pause();
+                    }
+                    else if (nextState === 'ready') {
+                        playOrPause = 0;
+                        controlFSM.stop();
+                    }
+                    updatePlayButtonState();
+                }
+                else if (action === 'update_duration') {
+                    // 歌曲时长（单位：秒）
+                    const duration = msg.data?.duration;
+                    byId('durationDisplay').style.display = 'inline'; // show duration display when updated
+                    byId('durationDisplay').textContent = formatTime(duration);
+                    // Handle duration update logic here if needed
+                }
+            }
+            else if (msg.url === '/progress') {
+                const progress = msg.data?.value;
+                updateProgress(progress);
+            }
+            return null;
+        };
+
+        // 播放按钮点击事件
+        byId('playBtn').addEventListener('click', function() {
+            if (selectedFilename) {
+                if (! controlLocked) {
+                    controlLocked = true;
+                    if (playOrPause === 0) {
+                        // 当前操作是播放
+                        window.htmlMask.send("/control", { action: 'play', filename: selectedFilename });
+                    } else {
+                        // 当前操作是暂停
+                        window.htmlMask.send("/control", { action: 'pause' });
+                    }
+                }
+            } else {
+                // alert('请先选择一个曲谱文件！');
+            }
+        });
+
+        // 停止按钮点击事件
+        byId('stopBtn').addEventListener('click', function() {
+            if (! controlLocked) {
+                controlLocked = true;
+                window.htmlMask.send("/control", { action: 'stop' });
+            }
+        });
+
+        // 隐藏按钮点击事件
+        byId('hideBtn').addEventListener('click', function() {
+            // 只有READY状态时，才响应隐藏按钮
+            if (controlFSM.getMachineState() === 'READY') {
+                window.htmlMask.send("/control", { action: 'hide' });
+            }
+            
+        });
+
+        // 退出按钮点击事件
+        byId('exitBtn').addEventListener('click', function() {
+            // 只有READY状态时，才响应退出按钮
+            if (controlFSM.getMachineState() === 'READY') {
+                window.htmlMask.send("/control", { action: 'exit' });
+            }
+            
+        });
+    </script>
+</body>
+</html>
