@@ -154,6 +154,12 @@
         let imageExitRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Exit.png"));
         let location_flag = false;
 
+        if (captureGameRegion().Find(imageExitRo).isExist()) {
+            log.info("已进入商店界面");
+            await sleep(500);
+            return true;
+        }
+
         for (let i = 0; i < 3; i++) {
             await sleep(500);
             let gameRegion = captureGameRegion();
@@ -169,9 +175,9 @@
         }
         if (location_flag) {
             while (!(captureGameRegion().Find(imageExitRo).isExist())) { // [DEBUG] 可能陷入死循环？
-                await sleep(500);
                 keyPress("F");
                 log.debug("按F直到进入商店界面");
+                await sleep(500);
             }
             log.info("已进入商店界面");
             await sleep(500);
