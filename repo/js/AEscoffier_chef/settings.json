@@ -2,14 +2,14 @@
   {
     "name": "EULA",
     "type": "checkbox",
-    "label": "启用脚本\n注意：勾选前需要阅读README并设置好时延，具体步骤看README",
+    "label": "启用脚本\n注意：勾选前需要阅读README并设置好时延，具体步骤看README\n<-全局设置位于底部->",
     "default": false
   },
   {
-    "name": "segmentTime",
+    "name": "extraTime",
     "type": "input-text",
-    "label": "时延(各星级使用空格隔开，只填一个值则应用到全部星级)",
-    "default": "92 85 96 86 86"
+    "label": "额外烹饪时间(ms)",
+    "default": "0"
   },
   {
     "name": "title_1",
@@ -650,7 +650,7 @@
     "type": "select",
     "label": "手动烹饪方式",
     "options": [
-      "定制模式(需要手动配置 时延 )",
+      "定制模式(需要手动配置 额外烹饪时间 )",
       "BGI本体的自动烹饪方法"
     ],
     "default": "BGI本体的自动烹饪方法"
