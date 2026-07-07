@@ -154,6 +154,12 @@
         let imageExitRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Exit.png"));
         let location_flag = false;
 
+        if (captureGameRegion().Find(imageExitRo).isExist()) {
+            log.info("已进入商店界面");
+            await sleep(500);
+            return true;
+        }
+
         for (let i = 0; i < 3; i++) {
             await sleep(500);
             let gameRegion = captureGameRegion();
@@ -169,9 +175,9 @@
         }
         if (location_flag) {
             while (!(captureGameRegion().Find(imageExitRo).isExist())) { // [DEBUG] 可能陷入死循环？
-                await sleep(500);
                 keyPress("F");
                 log.debug("按F直到进入商店界面");
+                await sleep(500);
             }
             log.info("已进入商店界面");
             await sleep(500);
@@ -591,68 +597,44 @@
 
     /**
      *
-     * 自动执行手动烹饪(源于JS脚本: 烹饪熟练度一键拉满-(柒叶子-https://github.com/511760049))
+     * 自动执行手动烹饪(源于JS脚本: 烹饪熟练度一键拉满-(柒叶子-https://github.com/5117600049))
      * @param price 料理星级
      * @returns {Promise<number>}
      */
     async function auto_cooking_bgi(price = "1") {
-        if (settings.cookPattern === "定制模式(需要手动配置 时延 )") {
-            let segmentTime = settings.segmentTime;
-            if (segmentTime.includes(" ")) {
-                let segList = segmentTime.split(" ");
-                if (segList.length === 5) {
-                    segmentTime = parseInt(segList[parseInt(price, 10) - 1]); // 取对应星级的时延（默认settings内提供的时延从1星开始）
-                } else if (segList.length < 5) {
-                    log.warn(`JS脚本配置内未位置全部的5个星级的独立时延，将根据已提供的时延自动选择...`);
-                    await sleep(3000);
-                    if (segList.length > parseInt(price, 10)) {
-                        segmentTime = parseInt(segList[parseInt(price, 10) - 1]); // 取对应星级的时延（默认settings内提供的时延从1星开始）
-                        log.info(`${segmentTime} | ${parseInt(segList[parseInt(price, 10) - 1])}`);
-                    } else {
-                        segmentTime = parseInt(segList[segList.length - 1], 10); // 取最后一个值（settings内提供的最后一个值）
-                    }
-                } else {
-                    log.warn("JS脚本配置内的 时延 设置错误，建议检查后继续，任务将在10s后使用默认时延继续...");
-                    await sleep(5000);
-                    segmentTime = 86;
-                }
-            } else {
-                if (segmentTime !== "" && parseInt(segmentTime, 10) !== 0) {
-                    segmentTime = parseInt(segmentTime, 10);
-                }
-            }
-
-            await sleep(350);
-            await click(1005, 1011); // 点击手动烹饪
-            await sleep(1000); // 等待画面稳定
+        if (settings.cookPattern === "定制模式(需要手动配置 额外烹饪时间 )") {
+            click(1080, 1015);//手动烹饪
+            await sleep(1000);//等待画面稳定
+            let extraTime = parseInt(settings.extraTime, 10) || 0; // 如果转换失败，默认 0
+            extraTime = extraTime+300;
             const checkPoints = [
-                {x: 741, y: 772}, // 原始点1
-                {x: 758, y: 766}, // 中间点1-2
-                {x: 776, y: 760}, // 原始点2
-                {x: 793, y: 755}, // 中间点2-3
-                {x: 810, y: 751}, // 原始点3
-                {x: 827, y: 747}, // 中间点3-4
-                {x: 845, y: 744}, // 原始点4
-                {x: 861, y: 742}, // 中间点4-5
-                {x: 878, y: 740}, // 原始点5
-                {x: 897, y: 737}, // 中间点5-6
-                {x: 916, y: 735}, // 原始点6
-                {x: 933, y: 735}, // 中间点6-7
-                {x: 950, y: 736}, // 原始点7
-                {x: 968, y: 736}, // 中间点7-8
-                {x: 986, y: 737}, // 原始点8
-                {x: 1002, y: 738}, // 中间点8-9
-                {x: 1019, y: 740}, // 原始点9
-                {x: 1038, y: 742}, // 中间点9-10
-                {x: 1057, y: 744}, // 原始点10
-                {x: 1074, y: 748}, // 中间点10-11
-                {x: 1092, y: 752}, // 原始点11
-                {x: 1107, y: 757}, // 中间点11-12
-                {x: 1122, y: 762}, // 原始点12
-                {x: 1138, y: 766}, // 中间点12-13
-                {x: 1154, y: 770}, // 原始点13
-                {x: 1170, y: 774}, // 中间点13-14
-                {x: 1193, y: 779} // 原始点14
+                {x: 741, y: 772},    // 原始点1
+                {x: 758, y: 766},    // 中间点1-2
+                {x: 776, y: 760},    // 原始点2
+                {x: 793, y: 755},    // 中间点2-3
+                {x: 810, y: 751},    // 原始点3
+                {x: 827, y: 747},    // 中间点3-4
+                {x: 845, y: 744},    // 原始点4
+                {x: 861, y: 742},    // 中间点4-5
+                {x: 878, y: 740},    // 原始点5
+                {x: 897, y: 737},    // 中间点5-6
+                {x: 916, y: 735},    // 原始点6
+                {x: 933, y: 735},    // 中间点6-7
+                {x: 950, y: 736},    // 原始点7
+                {x: 968, y: 736},    // 中间点7-8
+                {x: 986, y: 737},    // 原始点8
+                {x: 1002, y: 738},   // 中间点8-9
+                {x: 1019, y: 740},   // 原始点9
+                {x: 1038, y: 742},   // 中间点9-10
+                {x: 1057, y: 744},   // 原始点10
+                {x: 1074, y: 748},   // 中间点10-11
+                {x: 1092, y: 752},   // 原始点11
+                {x: 1107, y: 757},   // 中间点11-12
+                {x: 1122, y: 762},   // 原始点12
+                {x: 1138, y: 766},   // 中间点12-13
+                {x: 1154, y: 770},    // 原始点13
+                {x: 1170, y: 774},    // 中间点13-14
+                {x: 1193, y: 779}   // 原始点14
             ];
 
             // 区域大小
@@ -663,10 +645,11 @@
             const templateMat1 = file.readImageMatSync("assets/best1.png");
             const templateMat2 = file.readImageMatSync("assets/best2.png");
 
+
             // 创建模板匹配识别对象
-            const templateRo0 = RecognitionObject.TemplateMatch(templateMat0);
-            const templateRo1 = RecognitionObject.TemplateMatch(templateMat1);
-            const templateRo2 = RecognitionObject.TemplateMatch(templateMat2);
+            const templateRo0 = RecognitionObject.templateMatch(templateMat0);
+            const templateRo1 = RecognitionObject.templateMatch(templateMat1);
+            const templateRo2 = RecognitionObject.templateMatch(templateMat2);
             templateRo0.threshold = 0.9;
             templateRo0.Use3Channels = true;
             templateRo1.threshold = 0.9;
@@ -696,26 +679,22 @@
                 } else {
                     result = region.find(templateRo1);
                 }
-                region.dispose();
 
                 if (!result.isEmpty()) {
-                    // const segmentTime = 66;
-                    const waitTime = Math.round(i * segmentTime);
+
+                    const segmentTime = 66;
+
+
+                    const waitTime = Math.round(i * segmentTime+extraTime);
                     log.info(`找到点位${i}号区域`);
                     await sleep(waitTime);
                     keyPress("VK_SPACE");
-                    await sleep(500);
-                    keyPress("Escape");
-                    gameRegion.dispose();
+                    await sleep(500); // [DEBUG] 如果500ms后还没弹出制作完成窗口会导致报错退出
+                    click(973, 908);
                     return 0;
                 }
+
             }
-            gameRegion.dispose();
-            // log.info(`未找到点位区域，烹饪结束`);
-            // keyPress("ESCAPE");
-            // await sleep(1000);
-            // keyPress("ESCAPE");
-            // throw new Error("人家才不是错误呢>_<");
         } else {
             await dispatcher.runTask(new SoloTask("AutoCook"));
         }
@@ -746,16 +725,17 @@
         click(493, 1025); // 确认筛选
         await sleep(500)
 
-        let food_name = await Ocr(116, 243, 125, 30);
-        if (food_name) {
-            food_name.Click();
+        let food_name_ocr = await Ocr(116, 243, 125, 30);
+        if (food_name_ocr) {
+            food_name_ocr.Click();
             await sleep(500);
             // 寻找对应的料理
             let matchList = [];
             for (let i = 0; i < Object.keys(food_msg).length; i++) {
                 matchList.push(await deal_string(Object.keys(food_msg)[i]));
             }
-            food_name = await findClosestMatch(food_name.text, matchList);
+            let food_name = await findClosestMatch(food_name_ocr.text, matchList);
+            food_name = Object.keys(food_msg)[matchList.indexOf(food_name)]; // 使用料理的完整名称
             log.info(`当前料理: ${food_name}`);
             // let formula_num = Object.keys(food_msg["formula"]).length;
             click(1686, 1018); // 制作
@@ -1888,14 +1868,15 @@
     }
 
     async function main() {
+
         // EULA检测
         if (!(settings.EULA)) {
             log.error("请阅读README后，在JS脚本配置启用脚本...");
             return null;
         }
         // 烹饪方式配置项检测
-        if (settings.cookPattern === "定制模式(需要手动配置 时延 )" && settings.segmentTime === "92 85 96 86 86") {
-            log.warn("检测到JS脚本配置 时延 未进行更改，请确保已经正确设置!\n将在10s后继续...");
+        if (settings.cookPattern === "定制模式(需要手动配置 额外烹饪时间 )" && settings.segmentTime === "0") {
+            log.warn("检测到JS脚本配置 额外烹饪时间 未进行更改，请确保已经正确设置!\n将在5s后继续...");
             await sleep(5000);
         }
 

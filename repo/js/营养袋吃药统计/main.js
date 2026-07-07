@@ -5,6 +5,10 @@ let resurrectionFoodName = settings.resurrectionFoodName || "";
 let attackFoodName = settings.attackFoodName || "";
 let defenseFoodName = settings.defenseFoodName || "";
 let otherFoodName = settings.otherFoodName || "";
+// 自动补充回血药设置
+const autoRefillRecovery = settings.autoRefillRecovery || false;
+const refillThreshold = parseInt(settings.refillThreshold) || 100;
+const refillCount = settings.refillCount || "20";
 const ocrRegion = {
         x: 1422,
         y: 586,
@@ -20,6 +24,24 @@ const ocrRegion1 = {
 const ocrRegion2 = {
         x: 105,
         y: 242,
+        width: 140,
+        height: 40
+    };
+const ocrRegion3 = {
+        x: 810,
+        y: 574,
+        width: 140,
+        height: 40
+    };
+const ocrRegion4 = {
+        x: 961,
+        y: 577,
+        width: 140,
+        height: 40
+    };
+const ocrRegion5 = {
+        x: 892,
+        y: 580,
         width: 140,
         height: 40
     };
@@ -506,7 +528,7 @@ function escapeRegExp(string) {
             try {
                 // 使用numberTemplateMatch函数识别数字
                 const count = await numberTemplateMatch(
-                    'assets/背包数字', // 数字模板文件夹路径
+                    'assets/RecognitionObject/背包数字', // 数字模板文件夹路径
                     ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height
                 );
                 const digits = count === -1 ? '' : count.toString();
@@ -584,7 +606,7 @@ function escapeRegExp(string) {
 
     async function clickPNG(png, maxAttempts = 20, doClick=true) {
         //log.info(`调试-点击目标${png},重试次数${maxAttempts}`);
-        const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${png}.png`));
+        const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
         pngRo.Threshold = 0.95;
         pngRo.InitTemplate();
         return await findAndClick(pngRo, doClick, maxAttempts);
@@ -793,6 +815,124 @@ function escapeRegExp(string) {
         await genshin.returnMainUi();
         return { recoveryNumber, resurrectionNumber, attackNumber, defenseNumber, otherNumber };
     }
+
+    /**
+     * 自动补充回血药功能
+     * 当回血药数量低于阈值时，自动前往烹饪锅制作回血药
+     * @param {number} currentRecovery - 当前回血药数量
+     */
+    async function autoRefillRecoveryFood(currentRecovery) {
+        if (!autoRefillRecovery) {
+            return false;
+        }
+
+        if (!recoveryFoodName.trim()) {
+            log.warn("未设置回血药名称，无法自动补充");
+            return false;
+        }
+
+        if (currentRecovery >= refillThreshold) {
+            log.info(`回血药数量(${currentRecovery})高于阈值(${refillThreshold})，无需补充`);
+            return false;
+        }
+
+        if (initRecovery <= currentRecovery) {
+            log.info(`回血药无消耗(初始:${initRecovery}, 当前:${currentRecovery})，无需补充`);
+            return false;
+        }
+
+        log.info(`回血药有消耗，同时数量(${currentRecovery})低于阈值(${refillThreshold})，开始自动补充，补充数量：${refillCount}`);
+        
+        const stove = "蒙德炉子";
+        log.info(`正在前往${stove}进行料理制作`);
+
+        try {
+            let filePath = `assets/${stove}.json`;
+            await pathingScript.runFile(filePath);
+        } catch (error) {
+            log.error(`执行 ${stove} 路径时发生错误`);
+            return;
+        }
+
+        const res1 = await clickPNG("交互烹饪锅",20,false);
+        if (res1) {
+            keyPress("F");
+        } else {
+            log.warn("烹饪按钮未找到，正在寻找……");
+            let attempts = 0;
+            const maxAttempts = 3;
+            let foundInRetry = false;
+            while (attempts < maxAttempts) {
+                log.info(`第${attempts + 1}次尝试寻找烹饪按钮`);
+                keyPress("W");
+                const res2 = await clickPNG("交互烹饪锅",20,false);
+                if (res2) {
+                    keyPress("F");
+                    foundInRetry = true;
+                    break;
+                } else {
+                    attempts++;
+                    await sleep(500);
+                }
+            }
+            if (!foundInRetry) {
+                log.error("多次未找到烹饪按钮，放弃");
+                return;
+            }
+        }
+        await clickPNG("料理制作",20,false);
+        //搜索回血药
+        await clickPNG('筛选1', 1);
+        await clickPNG('筛选2', 1);
+        await clickPNG('重置');
+        await sleep(stepDelay);
+        await clickPNG('搜索');
+        await sleep(loadDelay);
+        // 去除前缀
+        let searchName = recoveryFoodName.replace(/^.+的/, '');
+        log.info(`搜索${searchName}`);
+        inputText(searchName);
+        await clickPNG('确认筛选');
+        await sleep(loadDelay);
+        await clickPNG('制作');
+        await sleep(loadDelay);
+        await clickPNG('自动烹饪');
+        await sleep(stepDelay);
+        await clickPNG('选择烹饪数量',20,false);
+        await sleep(stepDelay);
+        await clickPNG('烹饪输入框');
+        await sleep(stepDelay);
+        inputText(refillCount);
+        await clickPNG('确认按钮');
+        await clickPNG('烹饪完成',20,false);
+        // 识别烹饪数量
+        let baseCount = 0;
+        let extraCount = 0;
+        let specialCount = 0;
+        const hasExtra = await clickPNG('额外物品', 20, false);
+        if (hasExtra) {
+            baseCount = await getFoodCount('基础料理', ocrRegion3);
+            extraCount = await getFoodCount('额外物品', ocrRegion4);
+        } else {
+            const hasSpecial = await clickPNG('多个物品', 20, false);
+            if (hasSpecial) {
+                baseCount = await getFoodCount('基础料理', ocrRegion3);
+                specialCount = await getFoodCount('特殊料理', ocrRegion4);
+            } else {
+                baseCount = await getFoodCount('料理', ocrRegion5);
+            }
+        }
+        log.info(`烹饪完成，基础回血药：${baseCount}个${extraCount > 0 ? `，额外回血药：${extraCount}个` : ''}${specialCount > 0 ? `，特殊回血药：${specialCount}个` : ''}`);
+        
+        notification.send(`【营养袋吃药统计】\n\n✅ 自动补充回血药完成\n\n📊 补充前数量：${currentRecovery}个\n📊 制作基础回血药：${baseCount}个${extraCount > 0 ? `\n📊 制作额外回血药：${extraCount}个` : ''}${specialCount > 0 ? `\n📊 制作特殊回血药：${specialCount}个` : ''}\n📊 目标回血药：${recoveryFoodName}`);
+        
+        await genshin.returnMainUi();
+        //往后走一步，防止被火烧
+        await keyDown("S");
+        await sleep(300);
+        await keyUp("S");
+        }
+
     // 主执行流程
     userName = await getUserName();
     const recordPath = `assets/${userName}.txt`;
@@ -1033,5 +1173,10 @@ function escapeRegExp(string) {
         
         // 添加简单格式的日志记录
         log.info(`${userName}：识别异常，未更新记录|当前库存：无`);
+    }
+
+    // 自动补充回血药
+    if (autoRefillRecovery && shouldWriteRecord) {
+        await autoRefillRecoveryFood(recoveryNumber);
     }
 })();

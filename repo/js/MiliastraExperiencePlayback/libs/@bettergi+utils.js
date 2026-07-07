@@ -498,20 +498,16 @@ const useStore = (name) => {
           : value;
       },
       set: (target, key, value) => {
-        const success = Reflect.set(target, key, value);
-        if (success)
-          Promise.resolve().then(() => {
-            file.writeTextSync(filePath, JSON.stringify(storeData, null, 2));
-          });
-        return success;
+        return (
+          Reflect.set(target, key, value) &&
+          file.writeTextSync(filePath, JSON.stringify(storeData, null, 2))
+        );
       },
       deleteProperty: (target, key) => {
-        const success = Reflect.deleteProperty(target, key);
-        if (success)
-          Promise.resolve().then(() => {
-            file.writeTextSync(filePath, JSON.stringify(storeData, null, 2));
-          });
-        return success;
+        return (
+          Reflect.deleteProperty(target, key) &&
+          file.writeTextSync(filePath, JSON.stringify(storeData, null, 2))
+        );
       },
     });
   };
