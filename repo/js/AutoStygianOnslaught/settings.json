@@ -8,8 +8,8 @@
         "name": "CombatStrategyType",
         "type": "select",
         "label": "战斗策略选择",
-        "options": ["根据队伍自动选择(指定策略无效)", "指定战斗策略"],
-        "default": "根据队伍自动选择(指定策略无效)"
+        "options": ["使用BetterGI战斗配置(下方指定策略无效)", "指定战斗策略"],
+        "default": "使用BetterGI战斗配置(下方指定策略无效)"
     },
     {
         "name": "SpecifiedCombatStrategy",

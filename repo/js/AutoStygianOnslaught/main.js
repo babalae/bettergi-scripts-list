@@ -115,16 +115,16 @@ let isFighting = false;
         FightTeam = settings.FightTeam;
 
         // 战斗策略配置
-        let CombatStrategyType = settings.CombatStrategyType || "根据队伍自动选择(指定策略无效)";
+        let CombatStrategyType = settings.CombatStrategyType || "使用BetterGI战斗配置(下方指定策略无效)";
         let SpecifiedCombatStrategy = (settings.SpecifiedCombatStrategy || "").toString().trim();
         let CombatStrategyPath = "";
 
         if (CombatStrategyType === "指定战斗策略") {
             if (!SpecifiedCombatStrategy) {
-                log.warn("【配置警告】您选择了'指定战斗策略'但未填写策略名称，系统将自动退回'根据队伍自动选择'。");
+                log.warn("【配置警告】您选择了'指定战斗策略'但未填写策略名称，系统将自动退回'使用BetterGI战斗配置'。");
             } else if (/[/:*?"<>|]/.test(SpecifiedCombatStrategy)) {
                 // 只禁止除反斜杠外的非法字符（反斜杠是合法路径分隔符）
-                log.warn(`【配置警告】指定的战斗策略名称包含非法字符: ${SpecifiedCombatStrategy}，系统将自动退回'根据队伍自动选择'。`);
+                log.warn(`【配置警告】指定的战斗策略名称包含非法字符: ${SpecifiedCombatStrategy}，系统将自动退回'使用BetterGI战斗配置'。`);
             } else {
                 let strategyName = SpecifiedCombatStrategy;
                 // 自动去除 .txt 后缀（无论用户是否填写，底层都会追加）
