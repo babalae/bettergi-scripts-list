@@ -5,7 +5,7 @@ import {
     initSettings,
 } from './config/config';
 import {outDomainUI} from './utils/tool';
-import {pullJsonConfig, pushAllCountryConfig, pushAllJsonConfig} from './utils/bgi_tools';
+import {BgiTools} from './utils/bgi_tools';
 import { Physical} from "./utils/physical";
 import {
     autoRunList,
@@ -26,8 +26,9 @@ async function init() {
 
     if (config.bgi_tools.open.open_push) {
         log.info(`开始推送bgi_tools配置`)
-        await pushAllJsonConfig(JSON.parse(file.readTextSync(config.path.domain)), config.bgi_tools.api.httpPushAllJsonConfig, config.bgi_tools.token)
-        await pushAllCountryConfig(JSON.parse(file.readTextSync(config.path.countryList)), config.bgi_tools.api.httpPushAllCountryConfig, config.bgi_tools.token)
+
+        await BgiTools.pushAllJsonConfig(JSON.parse(file.readTextSync(config.path.domain)), config.bgi_tools.api.httpPushAllJsonConfig, config.bgi_tools.token)
+        await BgiTools.pushAllCountryConfig(JSON.parse(file.readTextSync(config.path.countryList)), config.bgi_tools.api.httpPushAllCountryConfig, config.bgi_tools.token)
     }
 }
 
@@ -47,7 +48,7 @@ async function main() {
     let list = autoRunOrderList.filter(item =>
         (item.runType === config.user.runTypes[0] && parseInt(item?.autoFight.domainRoundNum || "0") > 0)
         || (item.runType === config.user.runTypes[1] && parseInt(item?.autoLeyLineOutcrop.count || "0") > 0) 
-        || (item.runType === config.user.runTypes[2])
+        || (item.runType === config.user.runTypes[2]) || (item.runType === config.user.runTypes[3])
     )
     // log.info("|test1==>list:{1}", JSON.stringify(list))
     list = await checkAndFilterStygianOnslaught(list)
@@ -61,6 +62,7 @@ async function main() {
                 // 重新获取当前体力值
                 // const physicalOcr = await ocrPhysical(true, true);
                 const currentPhysical = await Physical.countAllResin()
+                config.user.physical.currentJson = currentPhysical;
                 config.user.physical.current = currentPhysical.originalResinCount;
                 //循环
                 if (config.user.physical.current < config.user.physical.min) {
@@ -95,7 +97,7 @@ async function test() {
     // log.info("list:{1}",list)
     log.info("httpPullJsonConfig:{1}", config.bgi_tools.api.httpPushAllJsonConfig)
     log.info("|test==>config.bgi_tools:{1}", JSON.stringify(config.bgi_tools))
-    await pushAllJsonConfig(list, config.bgi_tools.api.httpPushAllJsonConfig)
+    await BgiTools.pushAllJsonConfig(list, config.bgi_tools.api.httpPushAllJsonConfig)
 }
 
 
@@ -105,7 +107,7 @@ async function test1() {
     // log.info("list:{1}",list)
     log.info("httpPullJsonConfig:{1}", config.bgi_tools.api.httpPullJsonConfig)
     log.info("|test==>config.bgi_tools:{1}", JSON.stringify(config.bgi_tools))
-    const list = await pullJsonConfig(config.user.uid, config.bgi_tools.api.httpPullJsonConfig)
+    const list = await BgiTools.pullJsonConfig( config.bgi_tools.api.httpPullJsonConfig,config.user.uid+'')
     log.info("list:{1}", JSON.stringify(list))
 }
 
