@@ -1,5 +1,18 @@
-import {findTextAndClick,getDayOfWeek,toMainUi} from "./tool";
+import {findTextAndClick, formatDate, getDayOfWeek, Record, toMainUi} from "./tool";
 import {sendText} from "./notice";
+
+const config_name = "config"
+const keyJsonPath = {
+    campaignArea: {
+        path: `${config_name}/campaignArea.json`,
+        type: "campaignArea"
+    },
+    dailyCommission: {
+        path: `${config_name}/dailyCommission.json`,
+        type: "dailyCommission"
+    },
+}
+
 function settingsParseInt(str, defaultValue) {
     try {
         return str ? parseInt('' + str) : defaultValue;
@@ -20,7 +33,7 @@ const config = {
 }
 const ocrRegionConfig = {
     weeklyCount: {x: 809, y: 258, width: 277, height: 37},//征讨领域减半次数识别区域坐标和尺寸
-    campaignArea:{x:433, y:215, width:306, height:697},//征讨领域识别区域
+    campaignArea: {x: 433, y: 215, width: 306, height: 697},//征讨领域识别区域
     dailyCommission: {x: 630, y: 312, width: 105, height: 118},//每日委托识别区域坐标和尺寸
 }
 const xyConfig = {
@@ -113,8 +126,8 @@ export async function campaignAreaMain(openKey = true) {
     let dayOfWeek = await getDayOfWeek();
     // 如果不是周日(0代表周日)，则直接返回
     // const bool = dayOfWeek.day != config.campaignAreaReminderDay;
-    log.info(`秘境征讨提醒日:{0}`,JSON.stringify(config.campaignAreaReminderDays))
-    const bool =!config.campaignAreaReminderDays.includes(dayOfWeek.dayOfWeek)
+    log.info(`秘境征讨提醒日:{0}`, JSON.stringify(config.campaignAreaReminderDays))
+    const bool = !config.campaignAreaReminderDays.includes(dayOfWeek.dayOfWeek)
     // log.info(`bool={0}`,bool)
     // 记录开始执行秘境征讨提醒的日志
     log.info(`[{dayOfWeek.dayOfWeek}]，${bool ? "跳过" : "开始"}执行秘境征讨剩余次数提醒`, dayOfWeek.dayOfWeek)
@@ -136,7 +149,7 @@ export async function campaignAreaMain(openKey = true) {
     // 点击秘境征讨坐标
     // await click(xyConfig.campaignArea.x, xyConfig.campaignArea.y)
     const find = await findTextAndClick("征讨领域");
-    if (find===null){
+    if (find === null) {
         log.warn("未找到征讨领域")
         return
     }
@@ -144,13 +157,40 @@ export async function campaignAreaMain(openKey = true) {
     // 使用OCR识别本周秘境征讨剩余次数
     let weekJson = await ocrWeeklyCount();
 
+    const {path, type} = keyJsonPath.campaignArea;
+
+    let date = new Date();
+    date.setHours(date.getHours() - 4)
+    let uid = await genshin.uid()
+
+    const json = {
+        uid: uid,
+        date: formatDate(date),
+        type: type,
+        text: "",
+        title: "",
+    }
+    let readList = Record.read(path);
+    const findItem = readList.find((i) => i.uid === json.uid && i.type === json.type && i.date === json.date);
+    let title = `UID:${uid}\n秘境征讨`;
+    let noticeText = `>|本周剩余消耗减半次数:${weekJson.count}`;
+
     // 如果有剩余次数，则记录日志并发送通知
     if (weekJson.count > 0) {
         await toMainUi()
-        let uid = await genshin.uid()
         log.info(`本周剩余消耗减半次数:${weekJson.count}`)
-        await sendText(`>|本周剩余消耗减半次数:${weekJson.count}`, `UID:${uid}\n秘境征讨`)
+        json.text = noticeText
+        json.title = title
+        readList.push(json)
+        await sendText(noticeText, title)
+    } else if (findItem && findItem.text !== noticeText && findItem.title !== title) {
+        title= "[重复通知-产生消耗]==>"+title
+        json.text = noticeText
+        json.title = title
+        await sendText(noticeText, title)
     }
+
+    Record.write(path, readList)
 
 }
 
@@ -164,7 +204,7 @@ export async function dailyCommissionMain(openKey = true) {
     let dayOfWeek = await getDayOfWeek();
     // 如果不是周日(0代表周日)，
     // const bool = dayOfWeek.day != config.campaignAreaReminderDay;
-    const bool =config.campaignAreaReminderDays.includes(dayOfWeek.dayOfWeek)
+    const bool = config.campaignAreaReminderDays.includes(dayOfWeek.dayOfWeek)
     // 设置操作间隔时间(毫秒)
     let ms = 600
     // 等待一段时间
@@ -179,14 +219,40 @@ export async function dailyCommissionMain(openKey = true) {
     await sleep(ms * 2)
     const re = await ocrDailyCommission();
     log.debug(`dailyCommission:{re}`, re)
+
+    const {path, type} = keyJsonPath.dailyCommission;
+
+    let date = new Date();
+    date.setHours(date.getHours() - 4)
+    let uid = await genshin.uid()
+
+    const json = {
+        uid: uid,
+        date: formatDate(date),
+        type: type,
+        text: "",
+        title: "",
+    }
+    let readList = Record.read(path);
+    const findItem = readList.find((i) => i.uid === json.uid && i.type === json.type && i.date === json.date);
+
+    let noticeText = `>|每日委托奖励:${re.daily.use}/${re.daily.total}\n>|原粹树脂消耗:${re.physical.use}/${re.physical.total}`;
+    let title = `UID:${uid}\n每日委托`;
+
     // 如果有每日未完成/领取，则记录日志并发送通知
     if (re.daily.total > re.daily.use
         || re.physical.total > re.physical.use
     ) {
         await toMainUi()
-        let uid = await genshin.uid()
-        await sendText(`>|每日委托奖励:${re.daily.use}/${re.daily.total}\n>|原粹树脂消耗:${re.physical.use}/${re.physical.total}`, `UID:${uid}\n每日委托`)
+        await sendText(noticeText, title)
+    }else if (findItem && findItem.text !== noticeText && findItem.title !== title) {
+        title= "[重复通知-产生消耗]==>"+title
+        json.text = noticeText
+        json.title = title
+        await sendText(noticeText, title)
     }
+
+    Record.write(path, readList)
 }
 
 // export {

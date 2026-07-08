@@ -13,6 +13,10 @@ import { deleteStageSave } from "../modules/save.js";
 
 //#region src/workflows/weekly.ts
 const execWeeklyTask = async () => {
+  if (!userConfig.weeklyEnabled) {
+    log.warn("未启用执行每周通关任务，跳过");
+    return;
+  }
   /** 确保通关回放文件存在 */
   const files = availablePlaybackFiles();
   const playbacks = userConfig.playbacks
