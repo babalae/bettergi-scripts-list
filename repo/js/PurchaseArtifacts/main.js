@@ -156,6 +156,7 @@ let userName = settings.userName || "默认账户";
             }else{
                 res = captureRegion.Find(shopDialogueRo);
             }
+            captureRegion.dispose();
             if (res.isEmpty()) {
               keyPress("F");
               await sleep(1000);
