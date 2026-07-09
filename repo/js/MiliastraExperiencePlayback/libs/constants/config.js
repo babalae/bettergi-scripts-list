@@ -4,6 +4,7 @@ import { __name } from "../rolldown-runtime.js";
 /** 用户脚本设置 */
 const userConfig = {
   /** 每周任务相关设置 */
+  weeklyEnabled: settings.weeklyEnabled ?? true,
   room: settings.room || "20031486040",
   playbacks: (settings.playbacks || "美景音乐播放器结算.json")
     .replace(/，/g, ",")

@@ -2,7 +2,7 @@ import {config, LoadType} from "../config/config";
 import {Physical} from "./physical";
 import {getDayOfWeek, outDomainUI, outStygianOnslaughtUI, parseInteger, throwError, toMainUi} from "./tool";
 import {findStygianOnslaught} from "./activity";
-import {pullJsonConfig} from "./bgi_tools";
+import {BgiTools} from "./bgi_tools";
 
 /*===========================================[check]===========================================*/
 /**
@@ -48,199 +48,10 @@ export async function checkAndFilterStygianOnslaught(list) {
     return list
 }
 
-/*===========================================[load]===========================================*/
-/**
- * 根据不同的加载方式加载秘境配置
- * @param {string} Load - 加载方式类型，如uid或input
- * @param {Set} autoOrderSet - 用于存储秘境顺序的Set集合
- * @param {string} runConfig - 输入的配置字符串，仅在Load为input时使用
- */
-export async function loadMode(Load, autoOrderSet, runConfig) {
-    switch (Load) {
-        case LoadType.input:
-            // 通过输入字符串方式加载配置
-            if (runConfig) {
-                // 处理输入字符串：去除首尾空格，将中文逗号替换为英文逗号，然后按逗号分割
-                runConfig.trim().replaceAll('，', ',').split(",").forEach(
-                    item => {
-                        let {arr, index, runType, autoOrder} = Base.buildOrder(item);
-
-                        if (!config.user.runTypes.includes(runType)) {
-                            throwError(`运行类型${runType}输入错误`)
-                        } else if (config.user.runTypes[0] === runType) {
-                            const __ret = Domain.build(arr, index);
-                            let autoFight = __ret.autoFight;
-                            index = __ret.index;
-                            autoOrder.autoFight = autoFight // 将秘境信息对象添加到秘境顺序对象中
-                        } else if (config.user.runTypes[1] === runType) {
-                            const __ret = LeyLineOutcrop.build(arr, index);
-                            let autoLeyLineOutcrop = __ret.autoLeyLineOutcrop;
-                            index = __ret.index;
-
-                            autoOrder.autoLeyLineOutcrop = autoLeyLineOutcrop // 将地脉信息对象添加到顺序对象中
-                        } else if (config.user.runTypes[2] === runType) {
-                            const __ret = StygianOnslaught.build(arr, index);
-                            let autoStygianOnslaught = __ret.autoStygianOnslaught;
-                            index = __ret.index;
-                            autoOrder.autoStygianOnslaught = autoStygianOnslaught
-                        }
-
-                        // 将秘境顺序对象添加到列表中
-                        autoOrderSet.add(autoOrder)
-                    }
-                )
-            }
-            break
-
-        case LoadType.uid:
-            await toMainUi()
-            // 通过UID方式加载配置
-            const uid = config.user.uid || (await genshin.uid()) // 获取用户UID，如果未配置则通过OCR识别获取
-
-            const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.runConfig)) || {} // 读取本地配置文件
-            const uidConfigList = configAutoFightOrderMap[uid + ""] || []; // 获取当前UID对应的配置列表
-            if (uidConfigList?.length > 0) {
-                // 如果配置列表不为空，遍历并添加到结果集合中
-                uidConfigList.forEach(item => {
-                    // 将秘境顺序对象添加到列表中
-                    if (item.days && item.days.length > 0) {
-                        item.days = item.days.map(day => parseInteger(day))
-                    }
-                    autoOrderSet.add(item)
-                })
-            }
-            break
-        case LoadType.bgi_tools:
-            // 通过bgi_tools方式加载配置
-            log.info(`开始拉取bgi_tools配置`)
-            const uidConfigListBgiTools = await pullJsonConfig(config.user.uid + '', config.bgi_tools.api.httpPullJsonConfig) || []
-            if (uidConfigListBgiTools?.length > 0) {
-                // 如果配置列表不为空，遍历并添加到结果集合中
-                uidConfigListBgiTools.forEach(item => {
-                    // 将秘境顺序对象添加到列表中
-                    if (item.days && item.days.length > 0) {
-                        item.days = item.days.map(day => parseInteger(day))
-                    }
-                    autoOrderSet.add(item)
-                })
-            }
-            break
-        default:
-            throw new Error("请先配置加载方式");
-        // break;
-    }
-}
-
-/**
- * 初始化执行顺序列表
- * @param {string} domainConfig - 输入的字符串，包含秘境顺序信息
- * @returns {Array} 返回处理后的秘境顺序列表
- */
-export async function initRunOrderList(domainConfig) {
-    const autoFightOrderSet = new Set() // 存储秘境顺序列表的数组
-    /*    let te = {
-            order: 1,      // 顺序值
-            day: 0,// 执行日期
-            autoFight: {
-                domainName: undefined,//秘境名称
-                partyName: undefined,//队伍名称
-                sundaySelectedValue: undefined,//周日|限时选择的值
-                domainRoundNum: undefined,//副本轮数
-            } // 秘境信息对象
-        }*/
-
-    for (const Load of config.run.loads) {
-        await loadMode(Load.load, autoFightOrderSet, domainConfig);
-    }
-
-    // 检查是否已配置秘境
-    if (!autoFightOrderSet || autoFightOrderSet.size <= 0) {
-        throw new Error("请先配置体力配置");
-    }
-    // 返回处理后的秘境顺序列表
-    let from = Array.from(autoFightOrderSet);
-    let dayOfWeek = await getDayOfWeek();
-    log.debug(`old-from:{0}`, JSON.stringify(from))
-    from = from
-        //过滤掉不执行的秘境
-        .filter(item => config.user.runTypes.includes(item.runType))
-        .filter(item => {
-            log.debug(`[{1}]item.days.length:{0}`, dayOfWeek.day, item?.days?.length || 0)
-            if (item.days && item.days.length > 0) {
-                const includes = item.days.includes(dayOfWeek.day);
-                log.debug(`[{1}]item.days:{0}`, dayOfWeek.day, JSON.stringify(item.days))
-                return includes;
-            }
-            return true
-        })
-    from.sort((a, b) => b.order - a.order)
-    log.debug(`from:{0}`, JSON.stringify(from))
-    return from;
-}
-
-/**
- * 自动执行列表处理函数
- * @param {Array} autoRunOrderList - 包含自动配置的数组
- */
-export async function autoRunList(autoRunOrderList) {
-    let RecordList = Record.read(config.path.record);
-    const typeMap = {
-        [config.user.runTypes[0]]: {buildKey: Domain.buildKey, run: Domain.run, target: 'autoFight'},
-        [config.user.runTypes[1]]: {
-            buildKey: LeyLineOutcrop.buildKey,
-            run: LeyLineOutcrop.run,
-            target: 'autoLeyLineOutcrop'
-        },
-        [config.user.runTypes[2]]: {
-            buildKey: StygianOnslaught.buildKey,
-            run: StygianOnslaught.run,
-            target: 'autoStygianOnslaught'
-        }
-    };
-
-    for (const item of autoRunOrderList) {
-        await sleep(3000)
-        let keyJson = undefined
-        const handler = typeMap[item.runType];
-
-        if (!handler) continue;
-
-        if (item?.record) {
-            keyJson = await handler.buildKey(item);
-            log.debug(`检查记录[{0}-{1}]`, item.runType, keyJson)
-            const exist = Record.existInList(RecordList, keyJson);
-            if (exist) {
-                log.info(`[本日已执行，跳过]==>[{0}-{1}]`, item.runType, keyJson)
-                continue;
-            }
-
-        }
-        log.debug(`[开始执行]==>[{0}-{1}]`, item.runType, keyJson)
-        await handler.run(item[handler.target]);
-
-        try {
-            //防止手动取消写入记录
-            await sleep(1)
-        }catch (e){
-            throwError(e.message)
-        }
-
-        if (keyJson) {
-            RecordList.push(keyJson)
-            log.info(`写入记录[{0}-{1}]==>{2}已执行`, item.runType, keyJson, config.path.record)
-            await Record.write(config.path.record, RecordList)
-        }
-    }
-}
-
-function formatDate(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-}
-
 /*===========================================[class]===========================================*/
+/**
+ * 记录类
+ */
 class Record {
     /**
      * 读取指定路径的记录文件
@@ -295,6 +106,9 @@ class Record {
     }
 }
 
+/**
+ * 任务处理类
+ */
 class Base {
     /**
      * 构建记录的唯一标识键对象
@@ -311,6 +125,10 @@ class Base {
             time: formatDate(time)
         }
         return json
+    }
+
+    static key() {
+        return "key"
     }
 
     static buildOrder(item) {
@@ -371,6 +189,10 @@ class Domain extends Base {
         return json
     }
 
+    static key() {
+        return "autoFight"
+    }
+
     /**
      * 构建秘境信息对象
      * @param {Array} arr - 包含秘境信息的数组
@@ -427,7 +249,12 @@ class Domain extends Base {
      * 执行秘境任务
      * @param {Object} autoFight - 包含秘境信息的对象
      */
-    static async run(autoFight) {
+    static async run(autoFight = {
+        domainName: undefined,//秘境名称
+        partyName: undefined,//队伍名称
+        sundaySelectedValue: 1,//周日|限时选择的值，默认为1
+        domainRoundNum: 0,//副本轮数，默认为0
+    }) {
         log.info(`{0}`, "开始执行秘境任务")
         log.warn(`{0}`, "非体力耗尽情况下(受本体限制),等待退出秘境时间较长")
         // 创建秘境参数对象，初始化值为0
@@ -472,6 +299,7 @@ class Domain extends Base {
         await sleep(1000)
 
         const currentPhysical = await Physical.countAllResin()
+        config.user.physical.currentJson = currentPhysical;
         config.user.physical.current = currentPhysical.originalResinCount;
 
         const physical = config.user.physical
@@ -556,6 +384,10 @@ class LeyLineOutcrop extends Base {
         return json
     }
 
+    static key() {
+        return 'autoLeyLineOutcrop'
+    }
+
     /**
      * 构建地脉刷取任务参数
      * @param {Array} arr - 输入参数数组，包含队伍名称、国家、刷取轮数等信息
@@ -612,7 +444,19 @@ class LeyLineOutcrop extends Base {
         return {autoLeyLineOutcrop, index};
     }
 
-    static async run(autoLeyLineOutcrop) {
+    static async run(autoLeyLineOutcrop = {
+        count: 0,                        // 刷几次（0=自动/无限）
+        country: undefined,                     // 国家地区
+        leyLineOutcropType: undefined, // 需映射为经验/摩拉
+        useAdventurerHandbook: false,    // 是否使用冒险之证
+        friendshipTeam: "",              // 好感队伍ID
+        team: "",                        // 主队伍ID
+        timeout: 120,                      // 超时时间（秒）
+        isGoToSynthesizer: false,        // 是否前往合成台
+        useFragileResin: false,          // 使用脆弱树脂
+        useTransientResin: false,        // 使用须臾树脂（须臾=Transient）
+        isNotification: false            // 是否通知
+    }) {
         // autoLeyLineOutcrop = {
         //     "count": 0,
         //     "country": "country_cb3d792be8db",
@@ -679,6 +523,10 @@ class StygianOnslaught extends Base {
             "|" + auto.specifyResinUse +
             "|" + auto.physical.join('<->')
         return json
+    }
+
+    static key() {
+        return 'autoStygianOnslaught'
     }
 
     /**
@@ -754,9 +602,19 @@ class StygianOnslaught extends Base {
         return {autoStygianOnslaught, index};
     }
 
-    static async run(autoStygianOnslaught) {
+    static async run(autoStygianOnslaught = {
+        bossNum: undefined,//boss1-3
+        fightTeamName: "",//队伍名称
+        specifyResinUse: undefined,//自定义树脂使用
+        physical: [
+            {order: 0, name: config.user.physical.names[1], open: true, count: 1},
+            {order: 1, name: config.user.physical.names[0], open: true, count: 1},
+            {order: 2, name: config.user.physical.names[2], open: false, count: 1},
+            {order: 3, name: config.user.physical.names[3], open: false, count: 1}
+        ],//副本轮数
+    }) {
         // autoStygianOnslaught = {
-        //     /**boss 名字 1~3 */
+        //     /**Boss 名字 1~3 */
         //     bossNum: 1,
         //     /**结束后是否自动分解圣遗物*/
         //     autoArtifactSalvage: false,
@@ -818,6 +676,7 @@ class StygianOnslaught extends Base {
         //   fragileResinUseCount: number;
         await sleep(1000)
         const currentPhysical = await Physical.countAllResin()
+        config.user.physical.currentJson = currentPhysical;
         config.user.physical.current = currentPhysical.originalResinCount;
 
         const physical = config.user.physical
@@ -862,3 +721,412 @@ class StygianOnslaught extends Base {
     }
 
 }
+
+/**
+ * 首领讨伐
+ */
+class Boss extends Base {
+    static async buildKey(item) {
+        const json = await super.buildKey(item);
+        let auto = item?.autoBoss
+
+        json.key = json.key +
+            "|" + auto.bossName +
+            "|" + auto.strategyName +
+            "|" + auto.combatStrategyPath +
+            "|" + auto.teamName +
+            "|" + auto.specifyRunCount +
+            "|" + auto.runCount +
+            "|" + auto.useTransientResin +
+            "|" + auto.useFragileResin +
+            "|" + auto.reviveRetryCount +
+            "|" + auto.returnToStatueAfterEachRound +
+            "|" + auto.rewardRecognitionEnabled
+
+        return json;
+    }
+
+    static key() {
+        return 'autoBoss'
+    }
+
+    static build(arr, index) {
+        let autoBoss = {
+            /** 需要讨伐的 Boss 名称。*/
+            bossName: "",
+            /** UI 中选择的战斗策略名称；当没有自定义策略路径时会同步更新 <see cref="CombatStrategyPath"/>。*/
+            strategyName: "",
+            /** 实际用于解析自动战斗脚本的路径。JS 可直接设置该路径来覆盖 UI 选择。*/
+            combatStrategyPath: "",
+            /** 讨伐前需要切换到的队伍名称；为空时保持当前队伍。*/
+            teamName: "",
+            /** 是否启用“指定讨伐次数”模式；关闭时刷取至原粹树脂耗尽。*/
+            specifyRunCount: true,
+            /** 指定模式下成功领取奖励的目标次数。*/
+            runCount: 1,
+            /** 指定讨伐次数模式下，原粹树脂不足时是否允许使用须臾树脂补充。*/
+            useTransientResin: false,
+            /** 指定讨伐次数模式下，原粹树脂不足时是否允许使用脆弱树脂补充。*/
+            useFragileResin: false,
+            /** 检测到角色死亡后，回神像恢复并重试当前首领讨伐的最大次数。*/
+            reviveRetryCount: 3,
+            /** 每轮领奖后是否先返回七天神像，再重新前往 Boss。*/
+            returnToStatueAfterEachRound: false,
+            /** 是否启用奖励名称识别。默认关闭。*/
+            rewardRecognitionEnabled: false,
+        }
+
+        if (index <= arr.length - 1) {
+            autoBoss.bossName = arr[index]
+        }
+        index++
+        if (index <= arr.length - 1) {
+            autoBoss.strategyName = arr[index]
+        }
+        index++
+        if (index <= arr.length - 1) {
+            autoBoss.combatStrategyPath = arr[index]
+        }
+        index++
+        if (index <= arr.length - 1) {
+            autoBoss.teamName = arr[index]
+        }
+        index++
+        if (index <= arr.length - 1) {
+            const rawValue = (arr[index] || '').trim().toLowerCase();
+            const temp = rawValue === 'true';
+            autoBoss.specifyRunCount = temp
+        }
+        index++
+        if (index <= arr.length - 1) {
+            autoBoss.runCount = parseInteger(arr[index])
+        }
+        index++
+        if (index <= arr.length - 1) {
+            const rawValue = (arr[index] || '').trim().toLowerCase();
+            const temp = rawValue === 'true';
+            autoBoss.useTransientResin = temp
+        }
+        index++
+        if (index <= arr.length - 1) {
+            const rawValue = (arr[index] || '').trim().toLowerCase();
+            const temp = rawValue === 'true';
+            autoBoss.useFragileResin = temp
+        }
+        index++
+        if (index <= arr.length - 1) {
+            autoBoss.reviveRetryCount = parseInteger(arr[index])
+        }
+        index++
+        if (index <= arr.length - 1) {
+            const rawValue = (arr[index] || '').trim().toLowerCase();
+            const temp = rawValue === 'true';
+            autoBoss.returnToStatueAfterEachRound = temp
+        }
+        index++
+        if (index <= arr.length - 1) {
+            const rawValue = (arr[index] || '').trim().toLowerCase();
+            const temp = rawValue === 'true';
+            autoBoss.rewardRecognitionEnabled = temp
+        }
+        // index++
+
+        return {autoBoss, index}
+    }
+
+    static async run(autoBoss = {
+        bossName: "",
+        strategyName: "",
+        combatStrategyPath: "",
+        teamName: "",
+        specifyRunCount: true,
+        runCount: 1,
+        useTransientResin: false,
+        useFragileResin: false,
+        reviveRetryCount: 3,
+        returnToStatueAfterEachRound: false,
+        rewardRecognitionEnabled: false
+    }) {
+        log.info(`{0}==>{1}`, "开始执行Boss任务", autoBoss.bossName)
+        //先去安全点回血
+        await genshin.tpToStatueOfTheSeven();
+        log.debug(`Boss Json:{0}`, JSON.stringify(autoBoss))
+        const currentPhysical = await Physical.countAllResin()
+        config.user.physical.currentJson = currentPhysical;
+        config.user.physical.current = currentPhysical.originalResinCount;
+
+        const originalResin = config.user.physical.currentJson.originalResinCount;
+        if (
+            (originalResin < (config.user.physical.min * 2))
+            ||
+            (autoBoss.useFragileResin && (currentPhysical.fragileResinCount || 0) < 1)
+            ||
+            (autoBoss.useTransientResin && (currentPhysical.transientResinCount || 0) < 1)
+        ) {
+            log.warn(`{0}`, "Boss挑战树脂不足")
+            return
+        }
+        // let autoBoss = {
+        //     /** 需要讨伐的 Boss 名称。*/
+        //     bossName: "",
+        //     /** UI 中选择的战斗策略名称；当没有自定义策略路径时会同步更新 <see cref="CombatStrategyPath"/>。*/
+        //     strategyName: "",
+        //     /** 实际用于解析自动战斗脚本的路径。JS 可直接设置该路径来覆盖 UI 选择。*/
+        //     combatStrategyPath: "",
+        //     /** 讨伐前需要切换到的队伍名称；为空时保持当前队伍。*/
+        //     teamName: "",
+        //     /** 是否启用“指定讨伐次数”模式；关闭时刷取至原粹树脂耗尽。*/
+        //     specifyRunCount: true,
+        //     /** 指定模式下成功领取奖励的目标次数。*/
+        //     runCount: 1,
+        //     /** 指定讨伐次数模式下，原粹树脂不足时是否允许使用须臾树脂补充。*/
+        //     useTransientResin: false,
+        //     /** 指定讨伐次数模式下，原粹树脂不足时是否允许使用脆弱树脂补充。*/
+        //     useFragileResin: false,
+        //     /** 检测到角色死亡后，回神像恢复并重试当前首领讨伐的最大次数。*/
+        //     reviveRetryCount: 3,
+        //     /** 每轮领奖后是否先返回七天神像，再重新前往 Boss。*/
+        //     returnToStatueAfterEachRound: false,
+        //     /** 是否启用奖励名称识别。默认关闭。*/
+        //     rewardRecognitionEnabled: false,
+        // }
+        let param = new AutoBossParam()
+        if (autoBoss.combatStrategyPath && autoBoss.combatStrategyPath.trim() !== "") {
+            param.setCombatStrategyPath(autoBoss.combatStrategyPath)
+        }
+        param.bossName = autoBoss.bossName
+        param.teamName = autoBoss.teamName
+        param.strategyName = autoBoss.strategyName
+        param.specifyRunCount = autoBoss.specifyRunCount
+        param.runCount = autoBoss.runCount
+        param.useTransientResin = autoBoss.useTransientResin
+        param.useFragileResin = autoBoss.useFragileResin
+        param.reviveRetryCount = Math.max(autoBoss.reviveRetryCount,config.run.retry_count)
+        param.returnToStatueAfterEachRound = autoBoss.returnToStatueAfterEachRound
+        param.rewardRecognitionEnabled = autoBoss.rewardRecognitionEnabled
+
+        await sleep(1000)
+        try {
+            //自带复活重试配置，不需要再for
+            await dispatcher.RunAutoBossTask(param)
+            // // 复活重试
+            // for (let i = 0; i < config.run.retry_count; i++) {
+            //     try {
+            //         await dispatcher.RunAutoBossTask(param)
+            //         // 其他场景不重试
+            //         break;
+            //     } catch (e) {
+            //         const errorMessage = e.message
+            //         if (errorMessage.includes("复活")) {
+            //             continue;
+            //         }
+            //         if (!config.run.exclude_run_exception || config.run.loop_plan) {//排除异常 与循环计划互斥
+            //             throw e;
+            //         }
+            //     }
+            // }
+        } finally {
+            await genshin.tpToStatueOfTheSeven();
+            log.info(`{0}`, "执行完成")
+        }
+    }
+}
+
+/*===========================================[load]===========================================*/
+// 任务处理器映射表，放在模块顶层，以便各个函数共享
+export const taskHandlerMap = {
+    [config.user.runTypes[0]]: {
+        build: Domain.build,
+        buildKey: Domain.buildKey,
+        run: Domain.run,
+        target: Domain.key() //'autoFight'
+    },
+    [config.user.runTypes[1]]: {
+        build: LeyLineOutcrop.build,
+        buildKey: LeyLineOutcrop.buildKey,
+        run: LeyLineOutcrop.run,
+        target: LeyLineOutcrop.key() //'autoLeyLineOutcrop'
+    },
+    [config.user.runTypes[2]]: {
+        build: StygianOnslaught.build,
+        buildKey: StygianOnslaught.buildKey,
+        run: StygianOnslaught.run,
+        target: StygianOnslaught.key() //'autoStygianOnslaught'
+    },
+    [config.user.runTypes[3]]: {
+        build: Boss.build,
+        buildKey: Boss.buildKey,
+        run: Boss.run,
+        target: Boss.key() //'autoBoss'
+    }
+};
+
+/**
+ * 根据不同的加载方式加载秘境配置
+ * @param {string} Load - 加载方式类型，如uid或input
+ * @param {Set} autoOrderSet - 用于存储秘境顺序的Set集合
+ * @param {string} runConfig - 输入的配置字符串，仅在Load为input时使用
+ */
+export async function loadMode(Load, autoOrderSet, runConfig) {
+    switch (Load) {
+        case LoadType.input:
+            // 通过输入字符串方式加载配置
+            if (runConfig) {
+                // 处理输入字符串：去除首尾空格，将中文逗号替换为英文逗号，然后按逗号分割
+                runConfig.trim().replaceAll('，', ',').split(",").forEach(
+                    item => {
+                        let {arr, index, runType, autoOrder} = Base.buildOrder(item);
+
+                        if (!config.user.runTypes.includes(runType)) {
+                            throwError(`运行类型${runType}输入错误`)
+                        } else {
+                            const handler = taskHandlerMap[runType];
+                            if (handler) {
+                                const __ret = handler.build(arr, index);
+                                index = __ret.index;
+                                autoOrder[handler.target] = __ret[handler.target]; // 动态赋值，如 autoOrder.autoFight
+                            }
+                        }
+
+                        // 将秘境顺序对象添加到列表中
+                        autoOrderSet.add(autoOrder)
+                    }
+                )
+            }
+            break
+
+        case LoadType.uid:
+            await toMainUi()
+            // 通过UID方式加载配置
+            const uid = config.user.uid || (await genshin.uid()) // 获取用户UID，如果未配置则通过OCR识别获取
+
+            const configAutoFightOrderMap = JSON.parse(file.readTextSync(config.path.runConfig)) || {} // 读取本地配置文件
+            const uidConfigList = configAutoFightOrderMap[uid + ""] || []; // 获取当前UID对应的配置列表
+            if (uidConfigList?.length > 0) {
+                // 如果配置列表不为空，遍历并添加到结果集合中
+                uidConfigList.forEach(item => {
+                    // 将秘境顺序对象添加到列表中
+                    if (item.days && item.days.length > 0) {
+                        item.days = item.days.map(day => parseInteger(day))
+                    }
+                    autoOrderSet.add(item)
+                })
+            }
+            break
+        case LoadType.bgi_tools:
+            // 通过bgi_tools方式加载配置
+            log.info(`开始拉取bgi_tools配置`)
+            const uidConfigListBgiTools = await BgiTools.pullJsonConfig(config.bgi_tools.api.httpPullJsonConfig, config.user.uid + '') || []
+            if (uidConfigListBgiTools?.length > 0) {
+                // 如果配置列表不为空，遍历并添加到结果集合中
+                uidConfigListBgiTools.forEach(item => {
+                    // 将秘境顺序对象添加到列表中
+                    if (item.days && item.days.length > 0) {
+                        item.days = item.days.map(day => parseInteger(day))
+                    }
+                    autoOrderSet.add(item)
+                })
+            }
+            break
+        default:
+            throw new Error("请先配置加载方式");
+        // break;
+    }
+}
+
+/**
+ * 初始化执行顺序列表
+ * @param {string} domainConfig - 输入的字符串，包含秘境顺序信息
+ * @returns {Array} 返回处理后的秘境顺序列表
+ */
+export async function initRunOrderList(domainConfig) {
+    const autoFightOrderSet = new Set() // 存储秘境顺序列表的数组
+    /*    let te = {
+            order: 1,      // 顺序值
+            day: 0,// 执行日期
+            autoFight: {
+                domainName: undefined,//秘境名称
+                partyName: undefined,//队伍名称
+                sundaySelectedValue: undefined,//周日|限时选择的值
+                domainRoundNum: undefined,//副本轮数
+            } // 秘境信息对象
+        }*/
+
+    for (const Load of config.run.loads) {
+        await loadMode(Load.load, autoFightOrderSet, domainConfig);
+    }
+
+    // 检查是否已配置秘境
+    if (!autoFightOrderSet || autoFightOrderSet.size <= 0) {
+        throw new Error("请先配置体力配置");
+    }
+    // 返回处理后的秘境顺序列表
+    let from = Array.from(autoFightOrderSet);
+    let dayOfWeek = await getDayOfWeek();
+    log.debug(`old-from:{0}`, JSON.stringify(from))
+    from = from
+        //过滤掉不执行的秘境
+        .filter(item => config.user.runTypes.includes(item.runType))
+        .filter(item => {
+            log.debug(`[{1}]item.days.length:{0}`, dayOfWeek.day, item?.days?.length || 0)
+            if (item.days && item.days.length > 0) {
+                const includes = item.days.includes(dayOfWeek.day);
+                log.debug(`[{1}]item.days:{0}`, dayOfWeek.day, JSON.stringify(item.days))
+                return includes;
+            }
+            return true
+        })
+    from.sort((a, b) => b.order - a.order)
+    log.debug(`from:{0}`, JSON.stringify(from))
+    return from;
+}
+
+/**
+ * 自动执行列表处理函数
+ * @param {Array} autoRunOrderList - 包含自动配置的数组
+ */
+export async function autoRunList(autoRunOrderList) {
+    let RecordList = Record.read(config.path.record);
+
+    for (const item of autoRunOrderList) {
+        await sleep(3000)
+        let keyJson = undefined
+        const handler = taskHandlerMap[item.runType];
+
+        if (!handler) continue;
+
+        if (item?.record) {
+            keyJson = await handler.buildKey(item);
+            log.debug(`检查记录[{0}-{1}]`, item.runType, keyJson)
+            const exist = Record.existInList(RecordList, keyJson);
+            if (exist) {
+                log.info(`[本日已执行，跳过]==>[{0}-{1}]`, item.runType, keyJson)
+                continue;
+            }
+
+        }
+        log.debug(`[开始执行]==>[{0}-{1}]`, item.runType, keyJson)
+        await handler.run(item[handler.target]);
+
+        try {
+            //防止手动取消写入记录
+            await sleep(1)
+        } catch (e) {
+            throwError(e.message)
+        }
+
+        if (keyJson) {
+            RecordList.push(keyJson)
+            log.info(`写入记录[{0}-{1}]==>{2}已执行`, item.runType, keyJson, config.path.record)
+            await Record.write(config.path.record, RecordList)
+        }
+    }
+}
+
+function formatDate(date = new Date()) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+

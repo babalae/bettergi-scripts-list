@@ -33,9 +33,15 @@ export let config = {
         physical: {
             min: 20,//最小体力
             current: 0,//当前体力
+            currentJson:{ // 返回包含各种树脂数量的对象
+                originalResinCount: 0, // 原粹树脂数量
+                condensedResinCount: 0, // 浓缩树脂数量
+                transientResinCount: 0, // 须臾树脂数量
+                fragileResinCount: 0 // 脆弱树脂数量
+            },
             names: ["原粹树脂", "浓缩树脂", "须臾树脂", "脆弱树脂"]
         },
-        runTypes: ['秘境', '地脉', '幽境']
+        runTypes: ['秘境', '地脉', '幽境','Boss']
     },
     //
     path: {
@@ -176,9 +182,15 @@ export async function buildInitConfigSettings() {
             physical: {
                 min: 20,//最小体力
                 current: 0,//当前体力
+                currentJson:{ // 返回包含各种树脂数量的对象
+                    originalResinCount: 0, // 原粹树脂数量
+                    condensedResinCount: 0, // 浓缩树脂数量
+                    transientResinCount: 0, // 须臾树脂数量
+                    fragileResinCount: 0 // 脆弱树脂数量
+                },
                 names: ["原粹树脂", "浓缩树脂", "须臾树脂", "脆弱树脂"]
             },
-            runTypes: ['秘境', '地脉', '幽境']
+            runTypes: ['秘境', '地脉', '幽境','Boss']
         },
         //
         path: {
