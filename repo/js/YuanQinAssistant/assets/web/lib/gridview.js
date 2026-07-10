@@ -37,6 +37,7 @@
     };
 
     GridView.prototype.setDatasource = function(list) {
+        // 不尝试在变更datasource的时候保留选中项，因为在输入中文的过程中，文本框的内容随时在变，会导致达不到预期的表现
         this.dataSource = Array.isArray(list) ? Array.from(list) : [];
         this.selectedIndex = -1;
         this.render();
