@@ -11,10 +11,10 @@
     "description": "",
     "enable_monster_loot_split": false,
     "hash_res": "39595940",
-    "last_modified_time": 1783089923367,
+    "last_modified_time": 1783695504985,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A05A06A07-蒙德风龙废墟南？",
+    "name": "A05A06A07-蒙德风龙废墟南",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -96,15 +96,25 @@
       "action": "mining",
       "action_params": "",
       "id": 9,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 255.6172,
       "y": 2427.4346
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 252.585,
+      "y": 2425.9521
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
       "move_mode": "walk",
       "type": "path",
       "x": 255.04,
@@ -113,7 +123,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(3),keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(3),keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(1.5)",
-      "id": 11,
+      "id": 12,
       "move_mode": "walk",
       "type": "path",
       "x": 252.96,
@@ -122,7 +132,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 12,
+      "id": 13,
       "move_mode": "fly",
       "type": "path",
       "x": 225.88,
@@ -131,7 +141,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 13,
+      "id": 14,
       "move_mode": "fly",
       "type": "path",
       "x": 226.44,
@@ -140,7 +150,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
+      "id": 15,
       "move_mode": "walk",
       "type": "path",
       "x": 144.9238,
@@ -149,7 +159,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 15,
+      "id": 16,
       "move_mode": "fly",
       "type": "path",
       "x": 141.5625,
@@ -158,7 +168,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 16,
+      "id": 17,
       "move_mode": "walk",
       "type": "path",
       "x": 157.7715,
@@ -167,17 +177,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
-      "move_mode": "run",
-      "type": "path",
-      "x": 102.1543,
-      "y": 2387.6768
-    },
-    {
-      "action": "mining",
-      "action_params": "",
       "id": 18,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
       "x": 102.1543,
       "y": 2387.6768
@@ -188,14 +189,22 @@
       "id": 19,
       "move_mode": "walk",
       "type": "path",
+      "x": 102.1543,
+      "y": 2387.6768
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
       "x": 98.5723,
       "y": 2391.4277
     },
     {
       "action": "mining",
       "action_params": "",
-      "id": 20,
-      "locked": false,
+      "id": 21,
       "move_mode": "walk",
       "type": "path",
       "x": 95.4756,
@@ -204,7 +213,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(2)",
-      "id": 21,
+      "id": 22,
       "move_mode": "walk",
       "type": "path",
       "x": 95.4756,
