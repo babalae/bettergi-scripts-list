@@ -1,6 +1,6 @@
 export class BgiTools {
     /**
-     * 推送所有国家配置信息到服务器
+     * 推送所有国家常量信息到服务器
      * @param {Array} list - 国家配置列表，默认为空数组
      * @param {Object} http_api - HTTP API请求对象
      * @param {Object} token - 认证令牌对象，包含name和value属性，默认为{name: "Authorization", value: ''}
@@ -29,14 +29,43 @@ export class BgiTools {
     }
 
     /**
-     * 批量推送JSON配置的异步函数
+     * 推送所有Boss常量信息到服务器
+     * @param list
+     * @param http_api
+     * @param token
+     * @returns {Promise<undefined|*>}
+     */
+    static async pushAllBossConfig(list = [], http_api, token = {name: "Authorization", value: ''}) {
+        // 记录请求参数日志
+        log.info(`list:{1},http:{2}`, list, http_api)
+        // 设置请求头信息
+        let value = {
+            "Content-Type": "application/json",  // 设置内容类型为JSON
+            [token.name]: token.value            // 设置认证令牌
+        };
+
+        const res = await http.request("POST", http_api, JSON.stringify({json: JSON.stringify(list)}), JSON.stringify(value))
+
+        log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
+        if (res.status_code === 200 && res.body) {
+            let result_json = JSON.parse(res.body);
+            if (result_json?.code === 200) {
+                return result_json?.data
+            }
+            throw new Error("请求失败,error:" + result_json?.message)
+        }
+        return undefined
+    }
+
+    /**
+     * 批量推送秘境常量配置的异步函数
      * @param {Array} list - 要推送的配置列表，默认为空数组
      * @param {string} http_api - HTTP API的URL
      * @param {Object} token - 认证令牌对象，包含name和value属性
      * @returns {Promise<any>} 返回解析后的响应数据
      * @throws {Error} 当请求失败或响应状态码非200时抛出错误
      */
-    static async pushAllJsonConfig(list = [], http_api, token = {name: "Authorization", value: ''}) {
+    static async pushAllDomainConfig(list = [], http_api, token = {name: "Authorization", value: ''}) {
         // 记录请求信息，包括列表内容和API地址
         log.info(`list:{1},http:{2}`, list, http_api)
         // 设置请求头，包括Content-Type和认证信息

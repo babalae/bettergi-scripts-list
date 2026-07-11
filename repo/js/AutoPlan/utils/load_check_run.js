@@ -121,7 +121,7 @@ class Base {
         const json = {
             id: item?.id,
             uid: config.user.uid || await genshin.uid(),
-            key: `${item.runType}|${item.days}|${item.order}|${item.record}`,
+            key: `(${(item?.cultivate ?? false) ? '培养' : '日常'})${item.runType}|${item.days}|${item.order}|${item.record}`,
             time: formatDate(time)
         }
         return json
@@ -901,7 +901,7 @@ class Boss extends Base {
         param.runCount = autoBoss.runCount
         param.useTransientResin = autoBoss.useTransientResin
         param.useFragileResin = autoBoss.useFragileResin
-        param.reviveRetryCount = Math.max(autoBoss.reviveRetryCount,config.run.retry_count)
+        param.reviveRetryCount = Math.max(autoBoss.reviveRetryCount, config.run.retry_count)
         param.returnToStatueAfterEachRound = autoBoss.returnToStatueAfterEachRound
         param.rewardRecognitionEnabled = autoBoss.rewardRecognitionEnabled
 
@@ -1076,7 +1076,17 @@ export async function initRunOrderList(domainConfig) {
             }
             return true
         })
-    from.sort((a, b) => b.order - a.order)
+    from.sort((a, b) => {
+        // 将 cultivate 转换为数值，true 为 1，false 为 0
+        let cultivateA = (a?.cultivate || false) ? 1 : 0;
+        let cultivateB = (b?.cultivate || false) ? 1 : 0;
+        // 优先按 cultivate 降序（true 在前）
+        if (cultivateB !== cultivateA) {
+            return cultivateB - cultivateA;
+        }
+        // 当 cultivate 相同时，按 order 降序排列
+        return b.order - a.order
+    })
     log.debug(`from:{0}`, JSON.stringify(from))
     return from;
 }
@@ -1105,7 +1115,7 @@ export async function autoRunList(autoRunOrderList) {
             }
 
         }
-        log.debug(`[开始执行]==>[{0}-{1}]`, item.runType, keyJson)
+        log.debug(`[开始执行]<==[{0}]==>[{1}-{2}]`, ((item?.cultivate ?? false) ? "培养计划" : "日常计划"), item.runType, keyJson)
         await handler.run(item[handler.target]);
 
         try {

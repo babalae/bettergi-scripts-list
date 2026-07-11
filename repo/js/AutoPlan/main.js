@@ -27,8 +27,12 @@ async function init() {
     if (config.bgi_tools.open.open_push) {
         log.info(`开始推送bgi_tools配置`)
 
-        await BgiTools.pushAllJsonConfig(JSON.parse(file.readTextSync(config.path.domain)), config.bgi_tools.api.httpPushAllJsonConfig, config.bgi_tools.token)
+        if (config.bgi_tools.api.httpPushAllJsonConfig?.trim())
+        await BgiTools.pushAllDomainConfig(JSON.parse(file.readTextSync(config.path.domain)), config.bgi_tools.api.httpPushAllJsonConfig, config.bgi_tools.token)
+        if (config.bgi_tools.api.httpPushAllCountryConfig?.trim())
         await BgiTools.pushAllCountryConfig(JSON.parse(file.readTextSync(config.path.countryList)), config.bgi_tools.api.httpPushAllCountryConfig, config.bgi_tools.token)
+        if (config.bgi_tools.api.httpPushAllBossConfig?.trim())
+        await BgiTools.pushAllBossConfig(JSON.parse(file.readTextSync(config.path.bossList)), config.bgi_tools.api.httpPushAllBossConfig, config.bgi_tools.token)
     }
 }
 
@@ -97,7 +101,7 @@ async function test() {
     // log.info("list:{1}",list)
     log.info("httpPullJsonConfig:{1}", config.bgi_tools.api.httpPushAllJsonConfig)
     log.info("|test==>config.bgi_tools:{1}", JSON.stringify(config.bgi_tools))
-    await BgiTools.pushAllJsonConfig(list, config.bgi_tools.api.httpPushAllJsonConfig)
+    await BgiTools.pushAllDomainConfig(list, config.bgi_tools.api.httpPushAllJsonConfig)
 }
 
 

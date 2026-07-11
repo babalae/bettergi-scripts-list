@@ -58,14 +58,20 @@
     {
       "name": "bgi_tools_http_push_all_json_config",
       "type": "input-text",
-      "label": "bgi_tools推送全部配置api(去看文档)",
+      "label": "bgi_tools推送秘境常量api(去看文档)",
       "default": "http://127.0.0.1:8081/bgi/auto/plan/domain/json/all"
     },
     {
       "name": "bgi_tools_http_push_all_country_config",
       "type": "input-text",
-      "label": "bgi_tools推送全部国家配置api(去看文档)",
+      "label": "bgi_tools推送国家常量api(去看文档)",
       "default": "http://127.0.0.1:8081/bgi/auto/plan/country/json/all"
+    },
+    {
+      "name": "bgi_tools_http_push_all_boss_config",
+      "type": "input-text",
+      "label": "bgi_tools推送Boss常量api(去看文档)",
+      "default": "http://127.0.0.1:8081/bgi/auto/plan/boss/json/all"
     },
     {
       "name": "bgi_tools_token",
