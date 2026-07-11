@@ -1,4 +1,4 @@
-﻿(async function () { // 待解决问题: yuanqin演奏未进行延迟补偿
+﻿(async function () { // 待新增功能：添加UI界面方便选歌
     const base_path = "assets/score_file/";
     const regex_name = /(?<=score_file\\)[\s\S]*?(?=.json)/;
     const PlayType = {
