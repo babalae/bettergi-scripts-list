@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>传送点检测进度</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: transparent; }
+    body { color: #f5f1e7; font-family: "Microsoft YaHei", sans-serif; letter-spacing: 0; }
+    .panel {
+      position: fixed; left: 24px; bottom: 108px; width: 360px; padding: 14px 16px;
+      border: 1px solid rgba(229, 207, 151, .62); border-radius: 6px;
+      background: rgba(27, 32, 41, .91); box-shadow: 0 8px 24px rgba(0, 0, 0, .3);
+    }
+    .heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+    .phase { color: #ead8a5; font-size: 17px; font-weight: 700; }
+    .progress-text { color: #c7cbd3; font-size: 14px; font-variant-numeric: tabular-nums; }
+    .name { min-height: 40px; margin: 9px 0 10px; font-size: 15px; line-height: 20px; overflow-wrap: anywhere; }
+    .track { height: 4px; overflow: hidden; border-radius: 2px; background: rgba(255, 255, 255, .13); }
+    .bar { width: 0; height: 100%; background: #e6c66f; transition: width .2s ease; }
+    .footer { display: grid; grid-template-columns: repeat(3, 1fr) auto; gap: 10px; margin-top: 11px; font-size: 13px; }
+    .passed { color: #9ed8b1; }
+    .slow { color: #f0c26b; }
+    .failed { color: #ec9292; }
+    .elapsed { color: #d7d9df; text-align: right; font-variant-numeric: tabular-nums; }
+    @media (max-width: 700px) {
+      .panel { left: 12px; bottom: 80px; width: min(340px, calc(100% - 24px)); }
+    }
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <div class="heading">
+      <div id="phase" class="phase">准备检测</div>
+      <div id="progress-text" class="progress-text">0 / 0</div>
+    </div>
+    <div id="name" class="name">正在载入传送点数据</div>
+    <div class="track"><div id="bar" class="bar"></div></div>
+    <div class="footer">
+      <span id="passed" class="passed">通过 0</span>
+      <span id="slow" class="slow">较慢 0</span>
+      <span id="failed" class="failed">失败 0</span>
+      <span id="elapsed" class="elapsed"></span>
+    </div>
+  </main>
+  <script>
+    const byId = (id) => document.getElementById(id);
+
+    function render(data) {
+      if (!data) return;
+      const current = Math.max(0, Number(data.current) || 0);
+      const total = Math.max(0, Number(data.phaseTotal) || 0);
+      const percent = total > 0 ? Math.min(100, current / total * 100) : 0;
+      byId("phase").textContent = data.phase || "检测中";
+      byId("progress-text").textContent = `${current} / ${total}`;
+      byId("name").textContent = data.name || "";
+      byId("bar").style.width = `${percent}%`;
+      byId("passed").textContent = `通过 ${Number(data.passed) || 0}`;
+      byId("slow").textContent = `较慢 ${Number(data.slow) || 0}`;
+      byId("failed").textContent = `失败 ${Number(data.failed) || 0}`;
+      byId("elapsed").textContent = data.elapsedMs > 0 ? `${(data.elapsedMs / 1000).toFixed(2)} 秒` : "";
+    }
+
+    if (window.htmlMask) {
+      window.htmlMask.onMessage = (message) => {
+        if (message.url === "/status") {
+          render(message.data?.data || message.data);
+        }
+      };
+    }
+  </script>
+</body>
+</html>
