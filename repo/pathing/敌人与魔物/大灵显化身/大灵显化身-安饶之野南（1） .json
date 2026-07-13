@@ -1,10 +1,10 @@
 {
   "info": {
-    "name": "dd04祖遗庙宇上（3）",
+    "name": "大灵显化身-安饶之野南（1） ",
     "type": "collect",
     "version": "1.0",
     "description": "",
-    "bgi_version": "0.42.0",
+    "bgi_version": "0.52.0",
     "authors": [
       {
         "name": "下流山汉",
@@ -13,7 +13,6 @@
     ]
   },
   "positions": [
-
     {
       "id": 1,
       "x": 10363.73,
@@ -23,9 +22,8 @@
       "action_params": "",
       "type": "teleport"
     },
-
     {
-      "id": 12,
+      "id": 2,
       "x": 10360.73,
       "y": -3320.83,
       "action": "",
@@ -34,32 +32,31 @@
       "type": "path"
     },
     {
-      "id": 2,
-"x":10356.8125,"y":-3426.142578125,
+      "id": 3,
+      "x": 10356.8125,
+      "y": -3426.1426,
       "type": "path",
       "move_mode": "fly",
       "action": "stop_flying",
       "action_params": ""
     },
-
     {
       "id": 4,
-"x":10356.8125,"y":-3426.142578125,
+      "x": 10356.8125,
+      "y": -3426.1426,
       "type": "path",
       "move_mode": "walk",
       "action": "fight",
       "action_params": ""
     },
-
     {
       "id": 5,
-"x":10358.5810546875,"y":-3444.767578125,
+      "x": 10358.5811,
+      "y": -3444.7676,
       "type": "path",
       "move_mode": "walk",
       "action": "fight",
       "action_params": ""
     }
-
-
   ]
 }
