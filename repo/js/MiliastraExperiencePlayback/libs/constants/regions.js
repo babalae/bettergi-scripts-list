@@ -90,17 +90,20 @@ const findClearInputBtn = () => {
 const findSearchWonderlandBtn = () => {
   return findTextWithinBounds("搜索", 0, 120, 1920, 60, { contains: true });
 };
-/** 房间：查找搜索过于频繁提示 */
-const findSearchWonderlandThrottleMsg = () => {
-  return findTextWithinBounds("过于频繁", 0, 0, 1920, 300, { contains: true });
-};
 /** 房间：查找第一个奇域搜索结果名称 */
 const findFirstSearchResultText = () => {
   const ir = captureGameRegion();
   const ro = RecognitionObject.ocr(240, 475, 300, 50);
   return (() => {
     const list = ir.findMulti(ro);
-    for (let i = 0; i < list.count; i++) if (list[i] && list[i].isExist()) return list[i].text;
+    for (let i = 0; i < list.count; i++)
+      if (list[i] && list[i].isExist()) {
+        const text = list[i].text.trim();
+        if (text) {
+          list[i].drawSelf("group_text");
+          return text;
+        }
+      }
   })();
 };
 /** 房间：点击选择第一个搜索结果位置 */
@@ -273,7 +276,6 @@ export {
   findSaveToDeletePos,
   findSearchWonderlandBtn,
   findSearchWonderlandInput,
-  findSearchWonderlandThrottleMsg,
   findSetupFilterBtn,
   findSkipBtn,
   findStageEscBtn,
