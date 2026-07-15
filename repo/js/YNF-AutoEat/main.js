@@ -12,8 +12,12 @@
      let autoCalculateRuns = false; //是否自动计算运行次数
      let currentCount = 0; //当前食物数量
      let eatNumbers = []; //每次要吃的食物数量数组
+     let eatPlan = []; //显式进食批次计划：[{ name, amount }]
      let currentFoodIndex = 0; //当前正在处理的食物索引
      let foodInfos = []; //食物信息数组，包含每种食物的数量和计划
+     let reuseCurrentLife = false; //食材耗尽切换时，不重复执行跳楼流程
+     let planInitialized = false; //剩余数量模式的批次计划只初始化一次
+     let eatenByFood = {}; //按食材记录实际成功确认的数量
      
      // 获取特定食材的剩余数量
      function getRemainingFood(foodName) {
@@ -516,25 +520,35 @@
 
      // 伊涅芙跳楼机
      async function doit(dieCount) {
-          const randomNumber = Math.floor(Math.random() * 3) + 1;
-          if (randomNumber == 1) { log.info("即使分离，我们的心始终相连"); }
-          if (randomNumber == 2) { log.info("再见了伊涅芙，希望你喜欢这几分钟的戏份"); }
-          if (randomNumber == 3) { log.info("离别不是结束，而是为了更好的重逢"); }
+          const reuseCurrentState = reuseCurrentLife;
+          reuseCurrentLife = false;
 
-          keyDown("A");
-          await sleep(3500);
-          keyUp("A");
+          if (!reuseCurrentState) {
+               const randomNumber = Math.floor(Math.random() * 3) + 1;
+               if (randomNumber == 1) { log.info("即使分离，我们的心始终相连"); }
+               if (randomNumber == 2) { log.info("再见了伊涅芙，希望你喜欢这几分钟的戏份"); }
+               if (randomNumber == 3) { log.info("离别不是结束，而是为了更好的重逢"); }
 
-          await sleep(2500);
-          let FH = await returnMijingUi();
-          if (!FH) {
-               for (let i = 0; i < 8; i++) {
-                    FH = await returnMijingUi();
-                    if (FH) {
-                         break;
-                    }
-                    await sleep(1000);
+               keyDown("A");
+               try {
+                    await sleep(3500);
+               } finally {
+                    keyUp("A");
                }
+
+               await sleep(2500);
+               let FH = await returnMijingUi();
+               if (!FH) {
+                    for (let i = 0; i < 8; i++) {
+                         FH = await returnMijingUi();
+                         if (FH) {
+                              break;
+                         }
+                         await sleep(1000);
+                    }
+               }
+          } else {
+               await returnMijingUi();
           }
 
           await keyPress("B");
@@ -576,7 +590,7 @@
           const maxRetries = 20; // 最大重试次数
           let retries = 0; // 当前重试次数
 
-          if (dieCount == 0) {
+          if (dieCount == 0 || reuseCurrentState) {
                await click(165, 1015);
                await sleep(800);
                await click(165, 1015);
@@ -598,10 +612,12 @@
           let currentFoodPath = `assets/${currentFood}.png`; // 当前食物的图片路径
           
           // 只在第一次运行时获取当前食物数量并计算所有运行参数
-          if (dieCount === 0 && autoCalculateRuns) {
+          if (!planInitialized && autoCalculateRuns) {
+               planInitialized = true;
                // 重置食物信息数组
                foodInfos = [];
                eatNumbers = [];
+               eatPlan = [];
                
                // 获取所有选中食物的数量
                for (let i = 0; i < foods.length; i++) {
@@ -645,6 +661,9 @@
                               
                               // 将当前食物的计划添加到总计划中
                               eatNumbers = eatNumbers.concat(currentEatNumbers);
+                              eatPlan = eatPlan.concat(
+                                   currentEatNumbers.map(amount => ({ name: currentFoodName, amount: amount }))
+                              );
                               
                               //log.info(`当前${currentFoodName}数量为${currentCount}，目标剩余${currentRemainingFood}个，需要消耗${needToEat}个。`);
                               //log.info(`计划分批次吃的数量列表为：${currentEatNumbers.join('、')}`);
@@ -659,43 +678,42 @@
                // 如果没有需要吃的食物，退出
                if (eatNumbers.length === 0) {
                     log.info("所有选中的食物都已经等于或低于填写的剩余数量，不需要再吃了！");
-                    n = 1;
+                    n = 0;
                     await returnMijingUi();
-                    return;
+                    return false;
                }
                
                // 设置运行次数
-               n = eatNumbers.length;
+               n = eatPlan.length;
                //log.info(`总共需要分${n}次完成所有食物的消耗。`);
                
                // 设置第一次要吃的食物和数量
                currentFoodIndex = 0;
-               currentFood = foodInfos[0].name;
+               currentFood = eatPlan[0].name;
                currentFoodPath = `assets/${currentFood}.png`;
-               currentFoodNumber = foodInfos[0].eatNumbers[0];
+               currentFoodNumber = eatPlan[0].amount;
                currentFoodCount = currentFoodNumber - 1;
                foodInfos[0].currentIndex = 1;
           } else if (autoCalculateRuns) {
-               // 非第一次运行，确定当前要吃的食物和数量
-               let totalProcessed = 0;
-               for (let i = 0; i < foodInfos.length; i++) {
-                    const foodInfo = foodInfos[i];
-                    if (dieCount < totalProcessed + foodInfo.eatNumbers.length) {
-                         currentFoodIndex = i;
-                         currentFood = foodInfo.name;
-                         currentFoodPath = `assets/${currentFood}.png`;
-                         currentFoodNumber = foodInfo.eatNumbers[dieCount - totalProcessed];
-                         currentFoodCount = currentFoodNumber - 1;
-                         foodInfo.currentIndex = dieCount - totalProcessed + 1;
-                         break;
-                    }
-                    totalProcessed += foodInfo.eatNumbers.length;
+               // 非第一次运行，直接读取显式批次计划，避免轮次与食材错位
+               const currentBatch = eatPlan[dieCount];
+               if (!currentBatch) {
+                    n = eatPlan.length;
+                    await returnMijingUi();
+                    return false;
                }
+               currentFood = currentBatch.name;
+               currentFoodPath = `assets/${currentFood}.png`;
+               currentFoodNumber = currentBatch.amount;
+               currentFoodCount = currentFoodNumber - 1;
           }
 
           
           while (retries < maxRetries) {
                const ifFood = await imageRecognitionEnhanced(currentFoodPath, 1, 0, 0, 115, 120, 1150, 880);//识别当前食物图片
+               const clickDelayNum = settings.clickDelay;
+               const clickDelay = parseInt(clickDelayNum, 10); 
+               
                if (ifFood.found) {
                     await leftButtonUp();
                     await sleep(500);
@@ -706,10 +724,10 @@
 
                     await imageRecognitionEnhanced(zjz, 3, 1, 0, 625, 290, 700, 360, true);//点击伊涅芙证件照,确保吃食物的是伊涅芙
                     await sleep(500);
-
+                    
                     for (let i = 0; i < currentFoodCount; i++) {
                          click(1251, 630);
-                         await sleep(150);
+                         await sleep(clickDelay);
                     }
 
                     await click(1180, 770);//点击确认
@@ -717,11 +735,12 @@
 
                     log.info("看我一口气吃掉" + currentFoodNumber + "个" + currentFood + "！");
                     totalFoodEaten += currentFoodNumber;
+                    eatenByFood[currentFood] = (eatenByFood[currentFood] || 0) + currentFoodNumber;
 
                     await returnMijingUi();
                     await sleep(10);
 
-                    return;
+                    return true;
                }
                retries++; // 重试次数加1
                //滚轮操作
@@ -732,6 +751,17 @@
                     await sleep(100);
                     await moveMouseTo(1287, 131);
                     await genshin.returnMainUi();
+                    if (autoCalculateRuns) {
+                         // 当前食材已经耗尽或不再存在：删除其尚未执行的批次，
+                         // 保持 dieCount 不变，使下一轮读取同一位置上的下一种食材。
+                         eatPlan = eatPlan.filter((batch, index) =>
+                              index < dieCount || batch.name !== currentFood
+                         );
+                         n = eatPlan.length;
+                         reuseCurrentLife = true;
+                         log.warn(`未找到${currentFood}，视为该食材已耗尽，自动切换到下一种食材。`);
+                         return false;
+                    }
                     throw new Error("没有找到指定的食物：" + currentFood + "，请检查背包中该食材数量是否足够！");
                }
                await moveMouseTo(1287, 161 + YOffset);
@@ -788,9 +818,14 @@
           await fuben();//进入副本
 
           let dieCount = 0;
-          // 循环控制运行次数
-          for (let i = 0; i < n; i++) {
-               await doit(dieCount);
+          // 循环控制运行次数。未吃到食材时不推进 dieCount，
+          // 由更新后的 eatPlan 在同一位置切换到下一种食材。
+          while (dieCount < n) {
+               const ateSuccessfully = await doit(dieCount);
+               if (!ateSuccessfully) {
+                    if (dieCount >= n) break;
+                    continue;
+               }
                dieCount++;
                
                // 在剩余数量模式下，显示当前正在处理的食物名称
@@ -805,9 +840,9 @@
                          }
                          totalProcessed += foodInfo.eatNumbers.length;
                     }
-                    log.warn(`当前进度：第${i + 1}轮 / 共${n}轮 ｜ 已吃 ${totalFoodEaten} 个食物`);
+                    log.warn(`当前进度：第${dieCount}轮 / 共${n}轮 ｜ 已吃 ${totalFoodEaten} 个食物`);
                } else {
-                    log.warn(`当前进度：第${i + 1}轮 / 共${n}轮 ｜ 已吃 ${totalFoodEaten} 个${food}`);
+                    log.warn(`当前进度：第${dieCount}轮 / 共${n}轮 ｜ 已吃 ${totalFoodEaten} 个${food}`);
                }
           }
      } catch (error) {
@@ -829,7 +864,9 @@
                // 构建包含每种食物名字和个数的字符串
                let foodDetails = "";
                if (autoCalculateRuns && foodInfos.length > 0) {
-                    foodDetails = foodInfos.map(info => `${info.name}: ${info.needToEat}个`).join('、');
+                    foodDetails = Object.entries(eatenByFood)
+                         .map(([name, count]) => `${name}: ${count}个`)
+                         .join('、');
                } else {
                     foodDetails = `${food}: ${totalFoodEaten}个`;
                }
