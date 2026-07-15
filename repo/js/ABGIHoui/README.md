@@ -23,6 +23,8 @@
       "更换联机房间"，[参数为：房间名字+任意密钥，Ps:【古叉别断网-GUYOUSHIGEHAOREN】] 
       "等待时间"，[参数为：多少秒，Ps:【5000】]
       "红血检测"，[参数为：启动/关闭，Ps:【启动】]
+      "启动1Remote多用户"，[参数为：xxx-xxx，Ps:【GUYOU-XIAOBAITU】]
+      "注销1Remote多用户"，[参数为：xxx-xxx，Ps:【GUYOU-XIAOBAITU】]
 ------
 
  #### 原理解释

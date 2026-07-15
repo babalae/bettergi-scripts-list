@@ -8,7 +8,7 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时103.25秒，包含以下怪物：4只玄文兽。",
+    "description": "  路线信息：该路线预计用时91秒，包含以下怪物：4只玄文兽。",
     "enable_monster_loot_split": false,
     "hash_res": "16423305",
     "last_modified_time": 1774335938008,
@@ -22,6 +22,7 @@
   "positions": [
     {
       "action": "",
+      "action_params": "",
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
@@ -30,6 +31,7 @@
     },
     {
       "action": "",
+      "action_params": "",
       "id": 2,
       "move_mode": "dash",
       "type": "path",
@@ -38,6 +40,7 @@
     },
     {
       "action": "fight",
+      "action_params": "",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
@@ -84,18 +87,8 @@
       "action": "fight",
       "action_params": "",
       "id": 8,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 2643.05,
-      "y": 1954.11
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 9,
-      "move_mode": "dash",
-      "type": "orientation",
       "x": 2643.05,
       "y": 1954.11
     }

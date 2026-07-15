@@ -8,7 +8,7 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时96.02秒，包含以下怪物：1只打手丘丘人、2只冲锋丘丘人、1只岩盾丘丘人、3只雷箭丘丘人、2只冰箭丘丘人、1只丘丘岩盔王、1只岩丘丘萨满。",
+    "description": "  路线信息：该路线预计用时77秒，包含以下怪物：1只打手丘丘人、2只冲锋丘丘人、1只岩盾丘丘人、3只雷箭丘丘人、2只冰箭丘丘人、1只丘丘岩盔王、1只岩丘丘萨满。",
     "enable_monster_loot_split": false,
     "hash_res": "16343844",
     "last_modified_time": 1768317658498,
@@ -31,7 +31,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "action_params": "keypress(x);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 2,
       "move_mode": "run",
       "type": "path",
@@ -58,7 +58,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "action_params": "keypress(x);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 5,
       "move_mode": "run",
       "type": "path",
@@ -76,7 +76,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "action_params": "keypress(x);茜特菈莉 e;莱依拉 e;芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 7,
       "move_mode": "dash",
       "type": "orientation",
@@ -98,15 +98,6 @@
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": 1048.498046875,
-      "y": 1122.41796875
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 10,
-      "move_mode": "walk",
-      "type": "orientation",
       "x": 1048.498046875,
       "y": 1122.41796875
     }

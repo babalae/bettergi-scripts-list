@@ -11,7 +11,7 @@
     "version": "1.0",
     "description": "",
     "map_name": "Enkanomiya",
-    "bgi_version": "0.45.0",
+    "bgi_version": "0.52.0",
     "tags": [
       "双手剑"
     ],
@@ -76,15 +76,6 @@
     },
     {
       "id": 7,
-      "x": -391.84,
-      "y": 560.32,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.5)",
-      "type": "path"
-    },
-    {
-      "id": 8,
       "x": -393.88,
       "y": 560.05,
       "action": "",
@@ -93,7 +84,7 @@
       "type": "path"
     },
     {
-      "id": 9,
+      "id": 8,
       "x": -396.91,
       "y": 561.0,
       "action": "mining",
@@ -102,16 +93,7 @@
       "type": "target"
     },
     {
-      "id": 10,
-      "x": -396.91,
-      "y": 561.0,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.5)",
-      "type": "path"
-    },
-    {
-      "id": 11,
+      "id": 9,
       "x": -396.0,
       "y": 560.23,
       "action": "",
@@ -120,7 +102,7 @@
       "type": "path"
     },
     {
-      "id": 12,
+      "id": 10,
       "x": -409.12,
       "y": 575.24,
       "action": "",
@@ -129,7 +111,7 @@
       "type": "teleport"
     },
     {
-      "id": 13,
+      "id": 11,
       "x": -392.83,
       "y": 563.14,
       "action": "",
@@ -138,7 +120,7 @@
       "type": "path"
     },
     {
-      "id": 14,
+      "id": 12,
       "x": -341.13,
       "y": 504.7,
       "action": "combat_script",
@@ -147,7 +129,7 @@
       "type": "target"
     },
     {
-      "id": 15,
+      "id": 13,
       "x": -341.13,
       "y": 504.7,
       "action": "stop_flying",
@@ -156,7 +138,7 @@
       "type": "path"
     },
     {
-      "id": 16,
+      "id": 14,
       "x": -342.5,
       "y": 510.01,
       "action": "",
@@ -165,7 +147,7 @@
       "type": "path"
     },
     {
-      "id": 17,
+      "id": 15,
       "x": -344.08,
       "y": 506.0,
       "action": "combat_script",
@@ -174,7 +156,7 @@
       "type": "target"
     },
     {
-      "id": 18,
+      "id": 16,
       "x": -344.08,
       "y": 506.0,
       "action": "mining",
@@ -183,16 +165,16 @@
       "type": "target"
     },
     {
-      "id": 19,
+      "id": 17,
       "x": -344.5,
       "y": 506.0,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.5)",
+      "action_params": "wait(0.249)",
       "type": "path"
     },
     {
-      "id": 20,
+      "id": 18,
       "x": -344.04,
       "y": 506.35,
       "action": "",
@@ -201,7 +183,7 @@
       "type": "path"
     },
     {
-      "id": 21,
+      "id": 19,
       "x": -330.07,
       "y": 528.62,
       "action": "",
@@ -210,7 +192,7 @@
       "type": "path"
     },
     {
-      "id": 22,
+      "id": 20,
       "x": -309.97,
       "y": 534.18,
       "action": "",
@@ -219,7 +201,7 @@
       "type": "path"
     },
     {
-      "id": 23,
+      "id": 21,
       "x": -307.57,
       "y": 537.1,
       "type": "path",
@@ -228,7 +210,7 @@
       "action_params": ""
     },
     {
-      "id": 24,
+      "id": 22,
       "x": -311.8,
       "y": 538.12,
       "action": "mining",
@@ -237,16 +219,7 @@
       "type": "target"
     },
     {
-      "id": 25,
-      "x": -311.8,
-      "y": 538.12,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.5)",
-      "type": "path"
-    },
-    {
-      "id": 26,
+      "id": 23,
       "x": -311.7,
       "y": 538.1,
       "action": "",

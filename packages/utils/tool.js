@@ -197,6 +197,49 @@ async function findText(
 }
 
 /**
+ * 读取指定区域内的全部 OCR 文本。
+ * 与 findText 不同，本方法不要求预先提供关键词，适合先识别再在内存中匹配候选项。
+ *
+ * @param {number} [x=0] OCR 区域左上角 X
+ * @param {number} [y=0] OCR 区域左上角 Y
+ * @param {number} [w=1920] OCR 区域宽度
+ * @param {number} [h=1080] OCR 区域高度
+ * @param {number} [attempts=1] OCR 尝试次数
+ * @param {number} [interval=50] 每次 OCR 之间的等待间隔（毫秒）
+ * @returns {Promise<string>} 按识别顺序拼接的文本，未识别到内容时返回空字符串
+ */
+async function ocrRegion(
+  x = 0,
+  y = 0,
+  w = 1920,
+  h = 1080,
+  attempts = 1,
+  interval = 50
+) {
+  for (let i = 0; i < attempts; i++) {
+    const gameRegion = captureGameRegion();
+    try {
+      const ro = RecognitionObject.Ocr(x, y, w, h);
+      const results = gameRegion.findMulti(ro);
+      const texts = [];
+
+      for (let j = 0; j < results.count; j++) {
+        const result = results[j];
+        if (result.isExist() && result.text) texts.push(result.text.trim());
+      }
+
+      if (texts.length > 0) return texts.join(' ');
+    } finally {
+      gameRegion.dispose();
+    }
+
+    if (i < attempts - 1) await sleep(interval);
+  }
+
+  return '';
+}
+
+/**
  * 通用找文本并点击（OCR）
  * @param {string|string[]} text 目标文本（单个文本或文本列表，列表时需全部匹配）
  * @param {number} [x=0] OCR 区域左上角 X
@@ -498,6 +541,37 @@ async function openBag() {
   await sleep(50);
 }
 
+/**
+ * 语义化版本比对，判断当前版本是否满足最低要求
+ * 支持带预发布标识的版本号（如 0.60.2-alpha.2）
+ * 规则：前缀相同时，有预发布标识的版本 < 无预发布标识的版本
+ *
+ * @param {string} version - 当前版本号
+ * @param {string} minVersion - 最低要求版本号
+ * @returns {boolean} 当前版本是否 >= 最低要求版本
+ */
+function checkVersion(version, minVersion) {
+  const re = /^(\d+)\.(\d+)\.(\d+)(?:[-.](.+))?$/
+
+  const pick = (/** @type {string} */ v, /** @type {number} */ i) => Number(v.match(re)?.[i] ?? 0)
+  const pre = (/** @type {string} */ v) => v.match(re)?.[4] ?? null
+
+  for (const i of [1, 2, 3]) {
+    if (pick(version, i) > pick(minVersion, i)) return true
+    if (pick(version, i) < pick(minVersion, i)) return false
+  }
+
+  const a = pre(version), b = pre(minVersion)
+  if (a === null && b === null) return true
+  if (a === null) return true
+  if (b === null) return false
+
+  return a >= b
+}
+
+export { checkVersion }
+
+
 // /**
 //  * 修改分辨率为1080p(会导致截图器重启，任务全部清空，暂时无法使用，仅供参考)
 //  * @return {Promise<void>}
@@ -557,6 +631,7 @@ export {
   findImg,
   findImgAndClick,
   findText,
+  ocrRegion,
   findTextAndClick,
   waitUntilImgAppear,
   waitUntilImgDisappear,

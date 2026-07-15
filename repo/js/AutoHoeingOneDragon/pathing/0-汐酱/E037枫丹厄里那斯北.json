@@ -8,7 +8,7 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时246.63秒，包含以下怪物：1只射手丘丘人、1只丘丘雷兜王、1只丘丘岩盔王、2只大型碎石隙境原体、3只碎石隙境原体、2只大型狂蔓隙境原体、1只狂蔓隙境原体、1只压制特化型机关、1只歼灭特化型机关。",
+    "description": "  路线信息：该路线预计用时209秒，包含以下怪物：1只射手丘丘人、1只丘丘雷兜王、1只丘丘岩盔王、2只大型碎石隙境原体、3只碎石隙境原体、2只大型狂蔓隙境原体、1只狂蔓隙境原体、1只压制特化型机关、1只歼灭特化型机关。",
     "enable_monster_loot_split": false,
     "hash_res": "10796441",
     "last_modified_time": 1774468073650,
@@ -85,7 +85,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;wait(2)",
+      "action_params": "keypress(x);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;wait(2)",
       "id": 8,
       "move_mode": "dash",
       "type": "path",
@@ -123,7 +123,6 @@
       "action": "stop_flying",
       "action_params": "",
       "id": 12,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 4966.92,
@@ -139,18 +138,9 @@
       "y": 2997.05
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 14,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 4963.92,
-      "y": 2998.05
-    },
-    {
       "action": "",
       "action_params": "",
-      "id": 15,
+      "id": 14,
       "move_mode": "walk",
       "type": "teleport",
       "x": 5113.59,
@@ -159,7 +149,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 15,
       "move_mode": "run",
       "type": "path",
       "x": 5103.63,
@@ -168,7 +158,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 17,
+      "id": 16,
       "move_mode": "fly",
       "type": "path",
       "x": 5105.63,
@@ -177,7 +167,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 18,
+      "id": 17,
       "move_mode": "dash",
       "type": "path",
       "x": 5086.54,
@@ -186,7 +176,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
+      "id": 18,
       "move_mode": "run",
       "type": "path",
       "x": 5092.49,
@@ -195,18 +185,9 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 20,
+      "id": 19,
       "move_mode": "dash",
       "type": "path",
-      "x": 5165.23,
-      "y": 3122.2
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 21,
-      "move_mode": "dash",
-      "type": "orientation",
       "x": 5165.23,
       "y": 3122.2
     }

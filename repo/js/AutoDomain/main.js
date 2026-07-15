@@ -278,6 +278,16 @@
             "description": "Domain",
             "name": "无光的深都",
             "position": [1832.2, 0, 9967.05]
+        },
+        {
+            "description": "Domain",
+            "name": "月童的库藏",
+            "position": [5945.359, 200.3035, 10043.97]
+        },
+        {
+            "description": "Domain",
+            "name": "山风的荆冕",
+            "position": [3266.666, 290.28, 47.39246]
         }
     ]
 

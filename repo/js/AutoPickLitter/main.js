@@ -1,11 +1,23 @@
-// 初始化相关变量
+/* --------------------------初始变量区----------------------- */
 let gameRegion;  // 游戏截图区域
 const dialogZone = { x: { min: 900, max: 1700 }, y: { min: 450, max: 880 } };   // 对话识别区域
 let record = {}; // record 记录内容
-let recordsNum = 0; // 写入内容次数
-let sticksTime = false; // 判定是否可以上香
+
+// 判定是否可以运行子任务
+let recordsTime = {
+    "waterTime": false,
+    "sticksTime": false,
+    "lotsTime": false,
+    "conchsTime": false,
+    "mealTime": false,
+    "eggsTime": false,
+    "turntableTime": false,
+    "todayLuckTime": false,
+    "sweetStatueTime": false
+}; 
+
 //六龙蛋位置
-const coordinates = [
+const eggCoordinates = [
     [565, 150],  // 山
     [568, 723],  // 飞
     [1088, 161],  // 圣
@@ -14,8 +26,9 @@ const coordinates = [
     [1339, 358]  // 菲
 ];
 
-// 通用方法区域
-//切换队伍
+
+/* --------------------------封装函数区----------------------- */
+// 切换队伍
 async function switchPartyIfNeeded() {
     if (!settings.partyName) {
         await genshin.returnMainUi();
@@ -137,7 +150,6 @@ async function clickLongTalk() {
     do {
         leftButtonClick();
         isMainUi = await findImgIcon("assets/RecognitionObject/PaiMonMenu.png", { min: 15, max: 112 }, { min: 0, max: 84 }, false, 0.8, 500);
-        // log.info(`你看嘛: ${isMainUi.success}`);
     } while (!isMainUi.success);    
 };
 
@@ -171,15 +183,15 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
     leftButtonUp();
     // 等待100ms
     await sleep(100);
-}
+};
 
-//fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
-//在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
-//在js结尾处伪造该js开始运行的日志信息，如 await fakeLog("js脚本", true, false, 2333);
-//duration项目仅在伪造结束信息时有效，且无实际作用，可以任意填写，当你需要在日志中输出特定值时才需要，单位为毫秒
-//在调用地图追踪前伪造该地图追踪开始运行的日志信息，如 await fakeLog(`地图追踪.json`, false, true, 0);
-//在调用地图追踪后伪造该地图追踪结束运行的日志信息，如 await fakeLog(`地图追踪.json`, false, false, 0);
-//如此便可以在js运行过程中伪造地图追踪的日志信息，可以在日志分析等中查看
+/* fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
+在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
+在js结尾处伪造该js开始运行的日志信息，如 await fakeLog("js脚本", true, false, 2333);
+duration项目仅在伪造结束信息时有效，且无实际作用，可以任意填写，当你需要在日志中输出特定值时才需要，单位为毫秒
+在调用地图追踪前伪造该地图追踪开始运行的日志信息，如 await fakeLog(`地图追踪.json`, false, true, 0);
+在调用地图追踪后伪造该地图追踪结束运行的日志信息，如 await fakeLog(`地图追踪.json`, false, false, 0);
+如此便可以在js运行过程中伪造地图追踪的日志信息，可以在日志分析等中查看 */
 async function fakeLog(name, isJs, isStart, duration) {
     await sleep(10);
     const currentTime = Date.now();
@@ -300,7 +312,15 @@ async function recordForFile(judge) {
         /* ---------- 初始化记录对象 ---------- */
         record = {
             lastRunDate: "1970/01/01",
-            lastActivateTime: new Date("1970-01-01T20:00:00.000Z"),
+            lastWaterTime: new Date("1970-01-01 20:00"),
+            lastSticksTime: new Date("1970-01-01 20:00"),
+            lastLotsTime: new Date("1970-01-01 20:00"),
+            lastConchsTime: new Date("1970-01-01 20:00"),
+            lastMealTime: new Date("1970-01-01 20:00"),
+            lastEggsTime: new Date("1970-01-01 20:00"),
+            lastTurntableTime: new Date("1970-01-01 20:00"),
+            lastTodayLuckTime: new Date("1970-01-01 20:00"),
+            lastSweetStatueTime: new Date("1970-01-01 20:00"),
             lastDragonEggsNum: "【山之血：0，飞澜鲨鲨：0，圣龙君临：0，太阳的轰鸣：0，献给小酒杯：0，菲耶蒂娜：0】",
             records: new Array(51).fill(""),
             version: ""
@@ -328,15 +348,112 @@ async function recordForFile(judge) {
                 record.lastRunDate = line.slice("上次运行日期:".length).trim();
             };
 
-            /* 上次上香时间 */
-            let timeStr = null;
-            if (line.startsWith("上次上香时间:")) {
-                timeStr = line.slice("上次上香时间:".length).trim();
+            /* 上次取水时间 */
+            let waterTime = null;
+            if (line.startsWith("上次取水时间:")) {
+                waterTime = line.slice("上次取水时间:".length).trim();
             };
-            if (timeStr) {
-                const d = new Date(timeStr);
+            if (waterTime) {
+                const d = new Date(waterTime);
                 if (!isNaN(d.getTime())) {
-                    record.lastActivateTime = d;   // 保持 Date 对象
+                    record.lastWaterTime = d;   // 保持 Date 对象
+                };
+            };
+
+            /* 上次上香时间 */
+            let sticksTime = null;
+            if (line.startsWith("上次上香时间:")) {
+                sticksTime = line.slice("上次上香时间:".length).trim();
+            };
+            if (sticksTime) {
+                const d = new Date(sticksTime);
+                if (!isNaN(d.getTime())) {
+                    record.lastSticksTime = d;   // 保持 Date 对象
+                };
+            };
+
+            /* 上次抽签时间 */
+            let lotsTime = null;
+            if (line.startsWith("上次抽签时间:")) {
+                lotsTime = line.slice("上次抽签时间:".length).trim();
+            };
+            if (lotsTime) {
+                const d = new Date(lotsTime);
+                if (!isNaN(d.getTime())) {
+                    record.lastLotsTime = d;   // 保持 Date 对象
+                };
+            };
+
+            /* 上次拾螺时间 */
+            let conchsTime = null;
+            if (line.startsWith("上次拾螺时间:")) {
+                conchsTime = line.slice("上次拾螺时间:".length).trim();
+            };
+            if (conchsTime) {
+                const d = new Date(conchsTime);
+                if (!isNaN(d.getTime())) {
+                    record.lastConchsTime = d;   // 保持 Date 对象
+                };
+            };
+
+            /* 上次探监时间 */
+            let mealTime = null;
+            if (line.startsWith("上次探监时间:")) {
+                mealTime = line.slice("上次探监时间:".length).trim();
+            };
+            if (mealTime) {
+                const d = new Date(mealTime);
+                if (!isNaN(d.getTime())) {
+                    record.lastMealTime = d;   // 保持 Date 对象
+                };
+            };
+
+            /* 上次拾蛋时间 */
+            let eggsTime = null;
+            if (line.startsWith("上次拾蛋时间:")) {
+                eggsTime = line.slice("上次拾蛋时间:".length).trim();
+            };
+            if (eggsTime) {
+                const d = new Date(eggsTime);
+                if (!isNaN(d.getTime())) {
+                    record.lastEggsTime = d;   // 保持 Date 对象
+                };
+            };
+
+            /* 上次转盘时间 */
+            let turntableTime = null;
+            if (line.startsWith("上次转盘时间:")) {
+                turntableTime = line.slice("上次转盘时间:".length).trim();
+            };
+            if (turntableTime) {
+                const d = new Date(turntableTime);
+                if (!isNaN(d.getTime())) {
+                    record.lastTurntableTime = d;   // 保持 Date 对象
+                };
+            };
+
+            /* 上次领菜时间 */
+            let todayLuckTime = null;
+            if (line.startsWith("上次领菜时间:")) {
+                todayLuckTime = line.slice("上次领菜时间:".length).trim();
+            };
+            if (todayLuckTime) {
+                const d = new Date(todayLuckTime);
+                if (!isNaN(d.getTime())) {
+                    record.lastTodayLuckTime = d;   // 保持 Date 对象
+                };
+            };
+
+            /* 上次领糖时间 */
+            let sweetStatueTime = null;
+            if (line.startsWith("上次领糖时间:")) {
+                sweetStatueTime = line.slice("上次领糖时间:".length).trim();
+            };
+            if (sweetStatueTime) {
+                
+                const d = new Date(sweetStatueTime);
+                if (!isNaN(d.getTime())) {
+                    record.lastSweetStatueTime = d;   // 保持 Date 对象
                 };
             };
 
@@ -363,7 +480,6 @@ async function recordForFile(judge) {
         };
 
         log.info(`上次运行日期: ${record.lastRunDate}`);
-        log.info(`上次上香开始时间: ${record.lastActivateTime.toLocaleString()}`);
 
         /* ---------- 读取 manifest 版本 ---------- */
         try {
@@ -374,28 +490,139 @@ async function recordForFile(judge) {
             log.error("读取或解析 manifest.json 失败:", err);
         };
 
-        /* ---------- 判断上香时间 ---------- */
-        if (settings.sticks) {
-            const now = Date.now();        // 当前毫秒时间戳
-            const aimActivateTime = new Date(record.lastActivateTime.getTime() + 24 * 60 * 60 * 1000).getTime();
-            /* ---------- 计算下次可上香时间 ---------- */
-            if (aimActivateTime - now > 0) {
-                log.info(`上香时间还未到！！！`);
-                sticksTime = false;
+        /* ---------- 判断取水时间 ---------- */
+        if (settings.water) {
+            const now = Date.now();
+            const aimWaterTime = getNextRefreshTime(record.lastWaterTime);
+            if (aimWaterTime - now > 0) {
+                log.info(`取水时间还未到！！！`);
+                recordsTime.waterTime = false;
             } else {
-                log.info(`上香时间已到，请准备上香！`);
-                sticksTime = true;
+                log.info(`取水时间已到，请准备取水！`);
+                recordsTime.waterTime = true;
             };
         };
+
+        /* ---------- 判断上香时间 ---------- */
+        if (settings.sticks) {
+            const now = Date.now();
+            const aimSticksTime = getNextRefreshTime(record.lastSticksTime);
+            if (aimSticksTime - now > 0) {
+                log.info(`上香时间还未到！！！`);
+                recordsTime.sticksTime = false;
+            } else {
+                log.info(`上香时间已到，请准备上香！`);
+                recordsTime.sticksTime = true;
+            };
+        };
+
+        /* ---------- 判断抽签时间 ---------- */
+        if (settings.lots) {
+            const now = Date.now();
+            const aimLotsTime = getNextRefreshTime(record.lastLotsTime);
+            if (aimLotsTime - now > 0) {
+                log.info(`抽签时间还未到！！！`);
+                recordsTime.lotsTime = false;
+            } else {
+                log.info(`抽签时间已到，请准备抽签！`);
+                recordsTime.lotsTime = true;
+            };
+        };
+
+        /* ---------- 判断拾螺时间 ---------- */
+        if (settings.conchs) {
+            const now = Date.now();
+            const aimConchsTime = getNextRefreshTime(record.lastConchsTime);
+            if (aimConchsTime - now > 0) {
+                log.info(`拾螺时间还未到！！！`);
+                recordsTime.conchsTime = false;
+            } else {
+                log.info(`拾螺时间已到，请准备拾螺！`);
+                recordsTime.conchsTime = true;
+            };
+        };
+
+        /* ---------- 判断探监时间 ---------- */
+        if (settings.meal) {
+            const now = Date.now();
+            const aimMealTime = getNextRefreshTime(record.lastMealTime);
+            if (aimMealTime - now > 0) {
+                log.info(`探监时间还未到！！！`);
+                recordsTime.mealTime = false;
+            } else {
+                log.info(`探监时间已到，请准备探监！`);
+                recordsTime.mealTime = true;
+            };
+        };
+
+        /* ---------- 判断拾蛋时间 ---------- */
+        if (settings.eggs) {
+            const now = Date.now();
+            const aimEggsTime = getNextRefreshTime(record.lastEggsTime);
+            if (aimEggsTime - now > 0) {
+                log.info(`拾蛋时间还未到！！！`);
+                recordsTime.eggsTime = false;
+            } else {
+                log.info(`拾蛋时间已到，请准备拾蛋！`);
+                recordsTime.eggsTime = true;
+            };
+        };
+
+        /* ---------- 判断转盘时间 ---------- */
+        if (settings.turntable) {
+            const now = Date.now();
+            const aimTurntableTime = getNextRefreshTime(record.lastTurntableTime);
+            if (aimTurntableTime - now > 0) {
+                log.info(`转盘时间还未到！！！`);
+                recordsTime.turntableTime = false;
+            } else {
+                log.info(`转盘时间已到，请准备转盘！`);
+                recordsTime.turntableTime = true;
+            };
+        };
+
+        /* ---------- 判断领菜时间 ---------- */
+        if (settings.todayLuck) {
+            const now = Date.now();
+            const aimTodayLuckTime = getNextRefreshTime(record.lastTodayLuckTime);
+            if (aimTodayLuckTime - now > 0) {
+                log.info(`领菜时间还未到！！！`);
+                recordsTime.todayLuckTime = false;
+            } else {
+                log.info(`领菜时间已到，请准备领菜！`);
+                recordsTime.todayLuckTime = true;
+            };
+        };
+
+        /* ---------- 判断领糖时间 ---------- */
+        if (settings.sweetStatue) {
+            const now = Date.now();
+            const aimSweetStatueTime = getNextRefreshTime(record.lastSweetStatueTime);
+            if (aimSweetStatueTime - now > 0) {
+                log.info(`领糖时间还未到！！！`);
+                recordsTime.sweetStatueTime = false;
+            } else {
+                log.info(`领糖时间已到，请准备领糖！`);
+                recordsTime.sweetStatueTime = true;
+            };
+        };
+
     } else {
         let recordFilePath = `records/${accountName}.txt`;
         let lines = [
             `上次运行日期: ${record.lastRunDate}`,
-            `上次上香时间: ${record.lastActivateTime.toISOString()}`,
+            `上次取水时间: ${record.lastWaterTime.toISOString().slice(0, 10) + ' ' + record.lastWaterTime.toTimeString().slice(0, 8)}`,
+            `上次上香时间: ${record.lastSticksTime.toISOString().slice(0, 10) + ' ' + record.lastSticksTime.toTimeString().slice(0, 8)}`,
+            `上次抽签时间: ${record.lastLotsTime.toISOString().slice(0, 10) + ' ' + record.lastLotsTime.toTimeString().slice(0, 8)}`,
+            `上次拾螺时间: ${record.lastConchsTime.toISOString().slice(0, 10) + ' ' + record.lastConchsTime.toTimeString().slice(0, 8)}`,
+            `上次探监时间: ${record.lastMealTime.toISOString().slice(0, 10) + ' ' + record.lastMealTime.toTimeString().slice(0, 8)}`,
+            `上次拾蛋时间: ${record.lastEggsTime.toISOString().slice(0, 10) + ' ' + record.lastEggsTime.toTimeString().slice(0, 8)}`,
+            `上次转盘时间: ${record.lastTurntableTime.toISOString().slice(0, 10) + ' ' + record.lastTurntableTime.toTimeString().slice(0, 8)}`,
+            `上次领菜时间: ${record.lastTodayLuckTime.toISOString().slice(0, 10) + ' ' + record.lastTodayLuckTime.toTimeString().slice(0, 8)}`,
+            `上次领糖时间: ${record.lastSweetStatueTime.toISOString().slice(0, 10) + ' ' + record.lastSweetStatueTime.toTimeString().slice(0, 8)}`,
             `背包龙蛋数目: ${record.lastDragonEggsNum}`,
             ...record.records.filter(Boolean)
         ];
-
         let content = lines.join('\n');
 
         try {
@@ -405,6 +632,24 @@ async function recordForFile(judge) {
             log.error(`写入 ${recordFilePath} 失败:`, e);
         };
     };
+};
+
+/* ---------- 工具函数：计算【下次4点刷新时间】 ---------- */
+async function getNextRefreshTime(lastTime) {
+    const now = new Date();
+    // 取“最近一次已过去的 04:00”作为当前刷新周期的起点
+    const lastBoundary = new Date(now);
+    lastBoundary.setHours(4, 0, 0, 0);
+    if (now.getTime() < lastBoundary.getTime()) {
+        lastBoundary.setDate(lastBoundary.getDate() - 1);
+    };
+    const ONE_DAY = 24 * 60 * 60 * 1000;
+    // lastTime 在当前周期之前 → 当前周期起点即可刷新（立即可执行）
+    // lastTime 已在当前周期内 → 下次刷新为当前周期起点 + 24h
+    return lastTime.getTime() < lastBoundary.getTime()
+        ? lastBoundary.getTime()
+        : lastBoundary.getTime() + ONE_DAY;
+
 };
 
 // 检查背包龙蛋数目
@@ -433,7 +678,7 @@ async function chcekDragonEggs() {
                 //         { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 }, true);
                 //     // log.info(`第二次识别到的数字：${ocrEggNum.text}`);
                 // };
-                let eggNum = await numberTemplateMatch('assets/backpackNumber', DragonEgg.coordinates[0]-46, DragonEgg.coordinates[1]+56, 80, 27);
+                let eggNum = await numberTemplateMatch('assets/backpackNumber', { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 });
                 log.info(`识别到的数字：${eggNum}`);
                 DragonEggs[index] = Number(eggNum);
             }else{
@@ -446,10 +691,7 @@ async function chcekDragonEggs() {
             for (let index = 0; index < 6; index++) {
                 let DragonEgg = await findImgIcon(`assets/RecognitionObject/DragonEgg${index}.png`, { min: 99, max: 1295 }, { min: 104, max: 967 }, true, 0.95);
                 if (DragonEgg.success) {
-                    let eggNum = await numberTemplateMatch('assets/backpackNumber', DragonEgg.coordinates[0]-46, DragonEgg.coordinates[1]+56, 80, 27);
-                    if (eggNum == "") {
-                        eggNum = 1;
-                    };
+                    let eggNum = await numberTemplateMatch('assets/backpackNumber', { min: DragonEgg.coordinates[0]-46, max: DragonEgg.coordinates[0]+34 }, { min: DragonEgg.coordinates[1]+56, max: DragonEgg.coordinates[1]+83 });
                     DragonEggs[index] = eggNum;
                 }else{
                     DragonEggs[index] = 0;
@@ -528,12 +770,13 @@ async function checkExpire() {
  * @returns {number} 识别出的整数；若没有任何有效数字框则返回 -1
  *
  * @example
- * const mora = await numberTemplateMatch('摩拉数字', 860, 70, 200, 40);
+ * const mora = await numberTemplateMatch('摩拉数字', { min: 1482, max: 1630 }, { min: 912, max: 957 });
  * if (mora >= 0) console.log(`当前摩拉：${mora}`);
  */
 async function numberTemplateMatch(
     numberPngFilePath,
-    x = 0, y = 0, w = 1920, h = 1080,
+    xRange = { min: 0, max: 1920 }, 
+    yRange = { min: 0, max: 1080 },
     maxThreshold = 0.95,
     minThreshold = 0.8,
     splitCount = 3,
@@ -542,7 +785,7 @@ async function numberTemplateMatch(
     let ros = [];
     for (let i = 0; i <= 9; i++) {
         ros[i] = RecognitionObject.TemplateMatch(
-            file.ReadImageMatSync(`${numberPngFilePath}/${i}.png`), x, y, w, h);
+            file.ReadImageMatSync(`${numberPngFilePath}/${i}.png`), xRange.min, yRange.min, xRange.max - xRange.min, yRange.max - yRange.min);
     };
 
     function setThreshold(roArr, newThreshold) {
@@ -624,6 +867,8 @@ async function numberTemplateMatch(
         return 0;
     };
     await setGameMetrics(1920,1080,1);
+    await dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
+    await dispatcher.clearAllTriggers();
     // 判定文件名的合法性，以及初始化相关文件
     await recordForFile(true);
     // 更新日期信息
@@ -632,11 +877,12 @@ async function numberTemplateMatch(
         .replace(/\//g, '/');
     await recordForFile(false);
     // 蒙德清泉镇圣水
-    if (settings.water) {
+    if (recordsTime.waterTime) {
         await fakeLog("蒙德清泉镇圣水", false, true, 0);
         await genshin.returnMainUi();
+        await pathingScript.runFile("assets/调为白天.json");
         await pathingScript.runFile("assets/蒙德清泉镇路线.json");
-        await genshin.setTime(8,0);
+        await keyMouseScript.runFile("assets/滚动滚轮.json");
         await sleep(700);
         //识别对话位置，并点击
         let ocrResults = await performOcr("神奇的", dialogZone.x, dialogZone.y, false);
@@ -649,7 +895,7 @@ async function numberTemplateMatch(
             if (ocrOver.success) {
                 log.info("已售罄！！！");
             } else {
-                const mora = await numberTemplateMatch('assets/moraNumber', 1600, 30, 180, 30);
+                const mora = await numberTemplateMatch('assets/moraNumber', { min: 1600, max: 1780 }, { min: 30, max: 60 });
                 if (BigInt(mora) >= 300) {
                     await sleep(800);
                     await click(1636,1019);
@@ -661,18 +907,21 @@ async function numberTemplateMatch(
                 };
             };
         };
+        record.lastWaterTime = new Date();;
+        await recordForFile(false);
         await genshin.returnMainUi();
         await fakeLog("蒙德清泉镇圣水", false, false, 0);
     };
 
     // 璃月璃沙娇上香
-    if (sticksTime) {
+    if (recordsTime.sticksTime) {
         await fakeLog("璃月璃沙娇上香", false, true, 0);
         await genshin.returnMainUi();
         // 更新上香时间
         record.lastActivateTime = new Date();
         await recordForFile(false);
         await pathingScript.runFile("assets/璃月璃沙娇路线.json");
+        await keyMouseScript.runFile("assets/滚动滚轮.json");
         await sleep(1000);
         // 识别区域
         let ocrResults = await performOcr("王平安", dialogZone.x, dialogZone.y, false);
@@ -695,15 +944,18 @@ async function numberTemplateMatch(
         } else {
             log.error(`识别图像时发生异常: ${error.message}`);
         };
+        record.lastSticksTime = new Date();;
+        await recordForFile(false);
         await genshin.returnMainUi();
         await fakeLog("璃月璃沙娇上香", false, false, 0);
     };
 
     // 稻妻鸣神大社抽签
-    if (settings.lots) {
+    if (recordsTime.lotsTime) {
         await fakeLog("稻妻鸣神大社抽签", false, true, 0)
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/稻妻鸣神大社路线.json");
+        await keyMouseScript.runFile("assets/滚动滚轮.json");
         await sleep(1000);
         // 识别对话位置，并点击
         let ocrResults = await performOcr("御神签箱", dialogZone.x, dialogZone.y, false);
@@ -842,15 +1094,18 @@ async function numberTemplateMatch(
             log.error(`识别图像时发生异常: ${error.message}`);
             // await genshin.returnMainUi();
         };
+        record.lastLotsTime = new Date();;
+        await recordForFile(false);
         await genshin.returnMainUi();
         await fakeLog("稻妻鸣神大社抽签", false, true, 0)
     };
 
     // 稻妻踏鞴砂海螺
-    if (settings.conchs) {
+    if (recordsTime.conchsTime) {
         await fakeLog("稻妻踏鞴砂海螺", false, true, 0)
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/稻妻踏鞴砂路线.json");
+        await keyMouseScript.runFile("assets/滚动滚轮.json");
         await sleep(1000);
         if (settings.doYouOpen) {
             await pathingScript.runFile("assets/阿敬.json");
@@ -890,15 +1145,18 @@ async function numberTemplateMatch(
                 log.error(`识别图像时发生异常: ${error.message}`);
             };
         };
+        record.lastConchsTime = new Date();;
+        await recordForFile(false);
         await genshin.returnMainUi();
         await fakeLog("稻妻踏鞴砂海螺", false, false, 0)
     };
 
     //枫丹梅洛彼得堡福利餐
-    if(settings.meal){
+    if(recordsTime.mealTime){
         await fakeLog("枫丹梅洛彼得堡福利餐", false, true, 0)
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/枫丹梅洛彼得堡路线.json");
+        await keyMouseScript.runFile("assets/滚动滚轮.json");
         await sleep(1500);
         let ocrResults = await performOcr("布兰", dialogZone.x, dialogZone.y, false);
         if (ocrResults.success) {
@@ -979,7 +1237,8 @@ async function numberTemplateMatch(
                 record.records[0] = `幸运签内容: ${text}`;
                 if (settings.notify) {
                     notification.Send(`幸运签内容: ${text}`);
-                }
+                };
+                record.lastMealTime = new Date();;
                 await recordForFile(false);// 修改记录文件
                 
             };
@@ -992,7 +1251,7 @@ async function numberTemplateMatch(
     };
 
     // 纳塔悠悠集市龙蛋
-    if(settings.eggs){
+    if(recordsTime.eggsTime){
         await fakeLog("纳塔悠悠集市龙蛋", false, true, 0)
         // 保留打开背包识别龙蛋信息
         let nowDragonEggsNum = record.lastDragonEggsNum;
@@ -1003,6 +1262,7 @@ async function numberTemplateMatch(
         let nowDragonEggs = nowDragonEggsNum.match(/\d+/g).map(Number);
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/纳塔悠悠集市路线.json");
+        await keyMouseScript.runFile("assets/滚动滚轮.json");
         let ocrResults = await performOcr("察尔瓦", dialogZone.x, dialogZone.y, false);
         if (ocrResults.success) {
             await sleep(700);
@@ -1102,7 +1362,7 @@ async function numberTemplateMatch(
                 settings.dragonEggsNum = `${nowDragonEggs[0]}-${nowDragonEggs[1]}-${nowDragonEggs[2]}-${nowDragonEggs[3]}-${nowDragonEggs[4]}-${nowDragonEggs[5]}`;
                 record.lastDragonEggsNum = `【山之血：${nowDragonEggs[0]}，飞澜鲨鲨：${nowDragonEggs[1]}，圣龙君临：${nowDragonEggs[2]}，太阳的轰鸣：${nowDragonEggs[3]}，献给小酒杯：${nowDragonEggs[4]}，菲耶蒂娜：${nowDragonEggs[5]}】`;
                 await recordForFile(false);
-                moveMouseTo(coordinates[figure][0],coordinates[figure][1]);
+                moveMouseTo(eggCoordinates[figure][0],eggCoordinates[figure][1]);
                 await sleep(100);
                 leftButtonClick();
                 await sleep(3000);
@@ -1112,16 +1372,18 @@ async function numberTemplateMatch(
         } else {
             log.error(`识别图像时发生异常: ${error.message}`);
         };
-
+        record.lastEggsTime = new Date();;
+        await recordForFile(false);
         await genshin.returnMainUi();
         await fakeLog("纳塔悠悠集市龙蛋", false, false, 0)
     };
 
     //挪德卡莱那夏镇好运转盘
-    if (settings.turntable) {
+    if (recordsTime.turntableTime) {
         await fakeLog("挪德卡莱那夏镇好运转盘", false, true, 0)
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/挪德卡莱那夏镇好运转盘路线.json");
+        await keyMouseScript.runFile("assets/滚动滚轮.json");
         await sleep(1500);
 
         let text = "";
@@ -1142,7 +1404,6 @@ async function numberTemplateMatch(
                         ocrText = await performOcr("", { min: 555, max: 1365 }, { min: 902, max: 1000 }, true);
                     };
                     log.info(`转盘运势:${ocrText.text}`);
-                    // writeContentToFile(`转盘的运势:${recognizedText}\n`, false);
                     text = ocrText.text.replace(/\r\n|\n|\r/g, "");
                     switch (settings.selectLuckTendency) {
                         case "林狼啸月，魔物环伺":
@@ -1248,16 +1509,18 @@ async function numberTemplateMatch(
         if (settings.notify) {
             notification.Send(`转盘的运势: ${text}`);
         };
+        record.lastTurntableTime = new Date();;
         await recordForFile(false);// 修改记录文件
         await genshin.returnMainUi();
         await fakeLog("挪德卡莱那夏镇好运转盘", false, false, 0)
     };
 
     // 挪德卡莱那夏镇今日收获
-    if (settings.todayLuck) {
+    if (recordsTime.todayLuckTime) {
         await fakeLog("挪德卡莱那夏镇美味的今日收获", false, true, 0)
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/挪德卡莱那夏镇美味的今日收获路线.json");
+        await keyMouseScript.runFile("assets/滚动滚轮.json");
         await sleep(1000);
             let ocrResults = await performOcr("莉莉希", dialogZone.x, dialogZone.y, false);
             if (ocrResults.success) {
@@ -1281,14 +1544,17 @@ async function numberTemplateMatch(
             } else {
                 log.error(`识别图像时发生异常: ${error.message}`);
             };
+        record.lastTodayLuckTime = new Date();;
+        await recordForFile(false);
         await genshin.returnMainUi();
         await fakeLog("挪德卡莱那夏镇美味的今日收获", false, false, 0)
     };
 
     // 挪德卡莱那夏镇糖雕
-    if (settings.sweetStatue) {
+    if (recordsTime.sweetStatueTime) {
         await fakeLog("挪德卡莱那夏镇糖雕", false, true, 0)
         await pathingScript.runFile("assets/挪德卡莱那夏镇糖雕路线.json");
+        await keyMouseScript.runFile("assets/滚动滚轮.json");
         await sleep(1000);
         if (settings.partyName == "") {
             let ocrResults = await performOcr("乌娜亚塔", dialogZone.x, dialogZone.y, false);
@@ -1389,6 +1655,8 @@ async function numberTemplateMatch(
                 };
             };
         };
+        record.lastSweetStatueTime = new Date();;
+        await recordForFile(false);
         await genshin.returnMainUi();
         await fakeLog("挪德卡莱那夏镇糖雕", false, false, 0)
     };
@@ -1403,4 +1671,3 @@ async function numberTemplateMatch(
 
 
 })();
-

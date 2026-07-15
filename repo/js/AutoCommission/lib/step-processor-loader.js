@@ -43,15 +43,11 @@ var StepProcessorLoader = {
       for (var i = 0; i < stepFiles.length; i++) {
         var fileName = stepFiles[i];
         try {
-          log.info("正在加载步骤处理器: {file}", fileName);
           eval(file.readTextSync("lib/steps/" + fileName));
-          log.debug("步骤处理器 {file} 加载成功", fileName);
         } catch (error) {
           log.error("加载步骤处理器 {file} 失败: {error}", fileName, error.message);
         }
       }
-      
-      log.info("步骤处理器动态加载完成，共注册 {count} 个处理器", Object.keys(this.processors).length);
     } catch (error) {
       log.error("动态扫描步骤处理器目录失败: {error}", error.message);
       log.warn("将使用备用的固定文件列表加载方式");
@@ -62,18 +58,22 @@ var StepProcessorLoader = {
   // 备用加载方式（如果动态扫描失败）
   loadStepProcessorsFallback: function() {
     var stepFiles = [
-      "map-tracking.js",
-      "wait.js",
+      "auto-fight.js",
+      "auto-skip.js",
+      "auto-task.js",
+      "base.js",
+      "commission-description-detection.js",
       "commission-tracking.js",
+      "dialog.js",
       "key-mouse-script.js",
       "key-press.js",
-      "teleport.js",
-      "wait-main-ui.js",
       "location-detection.js",
-      "commission-description-detection.js",
+      "map-tracking.js",
       "switch-role.js",
       "switch-team.js",
-      "auto-task.js"
+      "teleport.js",
+      "wait-main-ui.js",
+      "wait.js"
     ];
 
     // 加载所有步骤处理器文件

@@ -1,49 +1,58 @@
-{
+﻿{
   "info": {
-    "name": "餐品订单-1",
-    "type": "collect",
-    "author": "小鹰划船不用桨",
-    "version": "1.0",
+    "authors": [
+      {
+        "links": "",
+        "name": "小鹰划船不用桨"
+      }
+    ],
+    "bgi_version": "0.45.0",
     "description": "寻路",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1771747226066,
+    "map_match_method": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0"
+    "name": "餐品订单-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -867.693359375,
-      "y": 2281.361572265625,
-      "action": "",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
+      "type": "teleport",
+      "x": -867.693359375,
+      "y": 2281.361572265625
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
       "x": -880.0439453125,
-      "y": 2268.28662109375,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "y": 2268.28662109375
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": -889.107421875,
-      "y": 2246.7099609375,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": -888.0629187322411,
+      "y": 2247
     },
     {
-      "id": 4,
-      "x": -888.232421875,
-      "y": 2241.43359375,
       "action": "",
-      "move_mode": "dash",
       "action_params": "",
-      "type": "path"
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -887.58984375,
+      "y": 2241.4951171875
     }
   ]
 }

@@ -7,7 +7,7 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时62.71秒，包含以下怪物：1只丘丘人、1只打手丘丘人、1只丘丘岩盔王。",
+    "description": "  路线信息：该路线预计用时59秒，包含以下怪物：1只丘丘人、1只打手丘丘人、1只丘丘岩盔王。",
     "enable_monster_loot_split": false,
     "hash_res": "60799840",
     "last_modified_time": 1769181451110,
@@ -32,7 +32,6 @@
       "action": "combat_script",
       "action_params": "wait(2),",
       "id": 2,
-      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
       "x": 5518.0205078125,
@@ -71,15 +70,6 @@
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 5435.7890625,
-      "y": -2092.107421875
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 7,
-      "move_mode": "dash",
-      "type": "orientation",
       "x": 5435.7890625,
       "y": -2092.107421875
     }

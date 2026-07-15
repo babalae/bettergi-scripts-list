@@ -1,6 +1,6 @@
-import {ocrUid} from "../utils/uid";
-
-const config = {
+import {toMainUi} from "../utils/tool";
+/*===========================================[config]===========================================*/
+const defaultConfig={
     //setting设置放在这个json
     run: {
         exclude_run_exception: false,//忽略运行异常
@@ -20,6 +20,7 @@ const config = {
             httpPullJsonConfig: undefined,
             httpPushAllJsonConfig: undefined,
             httpPushAllCountryConfig: undefined,
+            httpPushAllBossConfig: undefined,
         },
         open: {open_push: false}
     },
@@ -33,16 +34,24 @@ const config = {
         physical: {
             min: 20,//最小体力
             current: 0,//当前体力
+            currentJson:{ // 返回包含各种树脂数量的对象
+                originalResinCount: 0, // 原粹树脂数量
+                condensedResinCount: 0, // 浓缩树脂数量
+                transientResinCount: 0, // 须臾树脂数量
+                fragileResinCount: 0 // 脆弱树脂数量
+            },
             names: ["原粹树脂", "浓缩树脂", "须臾树脂", "脆弱树脂"]
         },
-        runTypes: ['秘境', '地脉', '幽境']
+        runTypes: ['秘境', '地脉', '幽境','Boss']
     },
     //
     path: {
         manifest: "manifest.json",
         domain: "config/domain.json",
         runConfig: "config/run_config.json",
-        countryList: "config/countryList.json"
+        countryList: "config/countryList.json",
+        bossList: "config/bossList.json",
+        record: "record/"
     },
     //所有秘境信息
     domainList: [],
@@ -58,7 +67,21 @@ const config = {
     domainItemsMap: new Map(),
 }
 
-const LoadType = Object.freeze({
+export let config = defaultConfig
+/**
+ * 构建记录文件路径的函数
+ * @param {string} uid - 用户唯一标识符
+ * @param {string} [record=config.path.record] - 记录文件的基础路径，默认为config.path.record
+ * @returns {string} 完整的记录文件路径
+ */
+function buildRecord(uid,record=config.path.record){
+    // 将用户ID添加到基础路径后，形成完整的文件路径
+    record+=uid+".json"
+    // 返回构建好的完整记录文件路径
+    return record
+}
+/*===========================================[enum]===========================================*/
+export const LoadType = Object.freeze({
     uid: 'uid',//uid加载
     input: 'input',//input加载
     bgi_tools: 'bgi_tools',//bgi_tools加载
@@ -66,18 +89,90 @@ const LoadType = Object.freeze({
         return Object.keys(this).find(key => this[key] === value);
     }
 })
-const LoadMap = new Map([
+export const LoadMap = new Map([
     ['UID加载', LoadType.uid],
     ['输入加载', LoadType.input],
     ['bgi_tools加载', LoadType.bgi_tools],
 ])
+
+/*===========================================[tool]===========================================*/
+/**
+ * 获取多复选框的映射表
+ * 该函数会从初始化的设置中提取所有类型为"multi-checkbox"的条目，
+ * 并将这些条目的名称和对应的选项值存储在一个Map对象中返回
+ * @returns {Promise<Map>} 返回一个Promise对象，解析为包含多复选框配置的Map
+ */
+export async function getMultiCheckboxMap() {
+    // 如果configSettings存在则使用它，否则调用initSettings()函数获取
+    const settingsJson = config.info.settings ? config.info.settings : await initSettings();
+    // 创建一个新的Map对象用于存储多复选框的配置
+    // Map结构为: {名称: 选项数组}
+    let multiCheckboxMap = new Map();
+    // 遍历设置JSON中的每个条目
+    settingsJson.forEach((entry) => {
+        // 如果条目没有name属性或者类型不是"multi-checkbox"，则跳过该条目
+        if (!entry.name || entry.type !== "multi-checkbox") return;
+        // 解构条目中的name和label属性，便于后续使用
+        const {name, label} = entry;
+        // 获取当前name对应的设置值，如果存在则转换为数组，否则使用空数组
+        const options = settings[name] ? Array.from(settings[name]) : [];
+        // 记录调试信息，包含名称、标签、选项和选项数量
+        log.debug("name={key1},label={key2},options={key3},length={key4}", name, label, JSON.stringify(options), options.length);
+        // 将名称和对应的选项数组存入Map
+        multiCheckboxMap.set(name, options);
+    })
+    // 返回包含多复选框配置的Map
+    return multiCheckboxMap
+}
+
+/**
+ * 根据复选框组名称获取对应的值
+ * 这是一个异步函数，用于从复选框映射中获取指定名称的值
+ * @param {string} name - 复选框组的名称
+ * @returns {Promise<any>} 返回一个Promise，解析为复选框组对应的值
+ */
+export async function getValueByMultiCheckboxName(name) {
+    // 获取复选框映射表，这是一个异步操作
+    let multiCheckboxMap = await getMultiCheckboxMap()
+    // log.debug("multiCheckboxMap={key}", JSON.stringify(multiCheckboxMap))
+    // multiCheckboxMap.entries().forEach(([name, options]) => {
+    //     log.debug("name={key1},options={key2}", name, JSON.stringify(options))
+    // })
+    // 从映射表中获取并返回指定名称对应的值
+    let values = multiCheckboxMap.get(name);
+    log.debug("values={key}", JSON.stringify(values))
+    return values
+}
+
+/*===========================================[check]===========================================*/
+/**
+ * 检查密钥是否正确
+ */
+export async function checkKey(key = "") {
+    if (config?.info?.manifest?.last_key?.trim()!==config?.info?.manifest?.key?.trim()&&config?.info?.manifest?.last_key?.trim()=== key?.trim()){
+        throw new Error("脚本更新，密钥已经变更。(重大结构变更请前往文档查看)");
+    }else if (config?.info?.manifest?.key?.trim() !== key?.trim()) {
+        throw new Error("密钥错误");
+    }
+}
+
+/*===========================================[init]===========================================*/
+/**
+ * 构建初始化配置设置函数
+ * 该函数用于创建并返回一个包含各种配置项的对象
+ * @returns {Object} 包含所有配置项的对象
+ */
+export async function buildInitConfigSettings() {
+    // 初始化配置对象，包含运行设置、工具配置、信息、用户、路径等
+    config = defaultConfig
+}
 
 /**
  * 初始化设置函数
  * 从配置文件中读取设置信息并返回
  * @returns {Object} 返回解析后的JSON设置对象
  */
-async function initSettings() {
+export async function initSettings() {
     // 默认设置文件路径
     let settings_ui = "settings.json";
     try {
@@ -111,83 +206,27 @@ async function initSettings() {
 }
 
 /**
- * 获取多复选框的映射表
- * 该函数会从初始化的设置中提取所有类型为"multi-checkbox"的条目，
- * 并将这些条目的名称和对应的选项值存储在一个Map对象中返回
- * @returns {Promise<Map>} 返回一个Promise对象，解析为包含多复选框配置的Map
- */
-async function getMultiCheckboxMap() {
-    // 如果configSettings存在则使用它，否则调用initSettings()函数获取
-    const settingsJson = config.info.settings ? config.info.settings : await initSettings();
-    // 创建一个新的Map对象用于存储多复选框的配置
-    // Map结构为: {名称: 选项数组}
-    let multiCheckboxMap = new Map();
-    // 遍历设置JSON中的每个条目
-    settingsJson.forEach((entry) => {
-        // 如果条目没有name属性或者类型不是"multi-checkbox"，则跳过该条目
-        if (!entry.name || entry.type !== "multi-checkbox") return;
-        // 解构条目中的name和label属性，便于后续使用
-        const {name, label} = entry;
-        // 获取当前name对应的设置值，如果存在则转换为数组，否则使用空数组
-        const options = settings[name] ? Array.from(settings[name]) : [];
-        // 记录调试信息，包含名称、标签、选项和选项数量
-        log.debug("name={key1},label={key2},options={key3},length={key4}", name, label, JSON.stringify(options), options.length);
-        // 将名称和对应的选项数组存入Map
-        multiCheckboxMap.set(name, options);
-    })
-    // 返回包含多复选框配置的Map
-    return multiCheckboxMap
-}
-
-/**
- * 根据复选框组名称获取对应的值
- * 这是一个异步函数，用于从复选框映射中获取指定名称的值
- * @param {string} name - 复选框组的名称
- * @returns {Promise<any>} 返回一个Promise，解析为复选框组对应的值
- */
-async function getValueByMultiCheckboxName(name) {
-    // 获取复选框映射表，这是一个异步操作
-    let multiCheckboxMap = await getMultiCheckboxMap()
-    // log.debug("multiCheckboxMap={key}", JSON.stringify(multiCheckboxMap))
-    // multiCheckboxMap.entries().forEach(([name, options]) => {
-    //     log.debug("name={key1},options={key2}", name, JSON.stringify(options))
-    // })
-    // 从映射表中获取并返回指定名称对应的值
-    let values = multiCheckboxMap.get(name);
-    log.debug("values={key}", JSON.stringify(values))
-    return values
-}
-
-/**
- * 检查密钥是否正确
- */
-async function checkKey(key = "") {
-    if (config?.info?.manifest?.key !== key?.trim()) {
-        throw new Error("密钥错误");
-    }
-}
-
-/**
  * 初始化秘境配置
  * @returns {Promise<void>}
  */
-async function initConfig() {
+export async function initConfig() {
     config.info.key = settings.key || config.info.key
     await checkKey(config.info.key)
     // //流程->返回主页 打开地图 返回主页
     // const physical = await ocrPhysical(true, true)
     // config.user.physical.current = physical.current
     // config.user.physical.min = physical.min
+    await toMainUi()
     // 初始化uid
-    config.user.uid = await ocrUid()
+    config.user.uid = await genshin.uid()
     // config.run.retry_count = (settings.retry_count ? parseInt(settings.retry_count) : config.run.retry_count)
-
+    config.path.record = buildRecord(config.user.uid,config.path.record)
     const retryCount = Number.parseInt(String(settings.retry_count ?? ""), 10);
     config.run.retry_count = Number.isFinite(retryCount) && retryCount > 0
         ? retryCount
         : config.run.retry_count;
 
-    config.run.exclude_run_exception=settings.exclude_run_exception
+    config.run.exclude_run_exception = settings.exclude_run_exception
 
     config.run.loop_plan = settings.loop_plan !== undefined ? settings.loop_plan : config.run.loop_plan
     const bgi_tools_token = settings.bgi_tools_token || "Authorization= "
@@ -208,6 +247,7 @@ async function initConfig() {
     config.bgi_tools.api.httpPullJsonConfig = settings.bgi_tools_http_pull_json_config
     config.bgi_tools.api.httpPushAllJsonConfig = settings.bgi_tools_http_push_all_json_config
     config.bgi_tools.api.httpPushAllCountryConfig = settings.bgi_tools_http_push_all_country_config
+    config.bgi_tools.api.httpPushAllBossConfig = settings.bgi_tools_http_push_all_boss_config
     config.bgi_tools.open.open_push = settings.bgi_tools_open_push
     log.debug(`|bgi_tools:{1}`, JSON.stringify(config.bgi_tools))
     // const text = file.readTextSync(config.path.domain);
@@ -269,14 +309,4 @@ async function initConfig() {
     })
     loads.sort((a, b) => a.order - b.order)
     config.run.loads = loads
-}
-
-
-export {
-    config, LoadType, LoadMap,
-    checkKey,
-    initSettings,
-    getMultiCheckboxMap,
-    getValueByMultiCheckboxName,
-    initConfig
 }

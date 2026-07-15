@@ -1,8 +1,13 @@
 [
   {
+    "name": "separator",
+    "type": "separator",
+    "label": "                             素材选择区（自动判定日期）\n                三个选项默认互相冲突，请只选一个刷取目标"
+  },
+  {
     "name": "TargetTalentMaterialName",
     "type": "select",
-    "label": "【角色天赋素材】(自动判定日期，若选此项请勿选其他两项)",
+    "label": "【角色天赋素材】",
     "options": [
       "",
       "=== 蒙德 ===",
@@ -25,7 +30,7 @@
   {
     "name": "TargetWeaponMaterialName",
     "type": "select",
-    "label": "【武器升级素材】(自动判定日期，若选此项请勿选其他两项)",
+    "label": "【武器升级素材】",
     "options": [
       "",
       "=== 蒙德 ===",
@@ -48,13 +53,14 @@
   {
     "name": "TargetArtifactName",
     "type": "select",
-    "label": "【圣遗物】(每日开放，若选此项请勿选其他两项)",
+    "label": "【圣遗物】",
     "options": [
       "",
       "=== 蒙德 ===",
       "如雷的盛怒 / 平息雷鸣的尊者",
       "翠绿之影 / 被怜爱的少女",
       "沉沦之心 / 冰风迷途的勇士",
+      "天之美赐 / 影中沉凝的幻灭",
       "=== 璃月 ===",
       "炽烈的炎之魔女 / 渡过烈火的贤人",
       "昔日宗室之仪 / 染血的骑士道",
@@ -80,10 +86,19 @@
     ],
     "default": ""
   },
+{
+    "type":"separator"
+  },
   {
-    "name": "ForceRunMode",
+    "name": "AutoDetectLimitedOpen",
     "type": "checkbox",
-    "label": "【风险】强制运行 (仅在有限时全开活动时勾选)",
+    "label": "识别限时全开",
+    "default": false
+  },
+  {
+    "name": "AutoSwitchToArtifactWhenNotMatch",
+    "type": "checkbox",
+    "label": "闲时刷取圣遗物\n(材料本未开放时自动刷取圣遗物,开启后可以同时选择素材与圣遗物进行刷取)",
     "default": false
   },
   {
@@ -95,7 +110,7 @@
   {
     "name": "RunUntilResinDepleted",
     "type": "checkbox",
-    "label": "刷取至树脂耗尽 (优先用原粹后用浓缩)",
+    "label": "刷取至树脂耗尽 (依树脂刷取顺序)",
     "default": false
   },
   {
@@ -145,6 +160,19 @@
     "default": "4"
   },
   {
+    "name": "CombatStrategyType",
+    "type": "select",
+    "label": "战斗策略选择",
+    "options": ["根据队伍自动选择(指定策略无效)", "指定战斗策略"],
+    "default": "根据队伍自动选择(指定策略无效)"
+  },
+  {
+    "name": "SpecifiedCombatStrategy",
+    "type": "input-text",
+    "label": "指定战斗策略名称",
+    "default": ""
+  },
+  {
     "name": "FightEndDelay",
     "type": "input-text",
     "label": "战斗完成后等待时间 (秒)",
@@ -155,6 +183,12 @@
     "type": "input-text",
     "label": "秘境刷取轮数 (0表示9999轮)",
     "default": "0"
+  },
+  {
+    "name": "ForceRunMode",
+    "type": "checkbox",
+    "label": "【风险】强制运行 (仅在有限时全开识别有问题时勾选)",
+    "default": false
   },
   {
     "name": "EnableDebug",

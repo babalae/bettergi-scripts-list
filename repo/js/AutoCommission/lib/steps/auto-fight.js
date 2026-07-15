@@ -12,7 +12,7 @@
       let teamRO = null;      // 模板匹配识别对象
 
       try {
-        team = file.readImageMatSync("Data/team.png");
+        team = file.readImageMatSync("Data/RecognitionObject/team.png");
         teamRO = RecognitionObject.TemplateMatch(team);
         teamRO.useMask = true; // 忽略绿色区域 (RGB: 0,255,0)
 

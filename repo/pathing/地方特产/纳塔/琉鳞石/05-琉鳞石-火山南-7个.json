@@ -1,125 +1,103 @@
 {
   "info": {
-    "name": "05-琉鳞石-火山南-7个",
-    "type": "collect",
-    "version": "1.1",
-    "description": "1.1 调整可能卡住的点位",
-    "bgi_version": "0.43.5",
     "authors": [
       {
-        "name": "ddaodan",
-        "links": "https://github.com/ddaodan"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774898302102,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "05-琉鳞石-火山南-7个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
   },
   "positions": [
     {
-      "id": 1,
-      "x": 10363.73,
-      "y": -3315.85,
       "action": "force_tp",
-      "move_mode": "walk",
       "action_params": "",
-      "type": "teleport"
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10369.4277,
+      "y": -3319.5479
     },
     {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),click(middle),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T)",
       "id": 2,
-      "x": 10350.37,
-      "y": -3313.54,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10341.1152,
+      "y": -3316.9121
     },
     {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
       "id": 3,
-      "x": 10347.83,
-      "y": -3311.79,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "climb",
+      "type": "target",
+      "x": 10348.5029,
+      "y": -3313.1328
     },
     {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
       "id": 4,
-      "x": 10344.98,
-      "y": -3324.63,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
+      "move_mode": "dash",
+      "type": "target",
+      "x": 10346.8984,
+      "y": -3322.6602
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 5,
-      "x": 10345.62,
-      "y": -3319.07,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "climb",
+      "type": "path",
+      "x": 10332.0508,
+      "y": -3318.1367
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "x": 10295.02,
-      "y": -3321.68,
-      "action": "",
       "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 10267.2822,
+      "y": -3324.5098
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 7,
-      "x": 10280.51,
-      "y": -3321.72,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "climb",
+      "type": "target",
+      "x": 10251.1953,
+      "y": -3324.6133
     },
     {
+      "action": "combat_script",
+      "action_params": "w(0.7),keydown(e),attack(1.8),keyup(e)",
       "id": 8,
-      "x": 10271.31,
-      "y": -3323.94,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10247.4238,
+      "y": -3324.1309
     },
     {
+      "action": "combat_script",
+      "action_params": "attack(0.3),wait(1)",
       "id": 9,
-      "x": 10250.48,
-      "y": -3326.71,
-      "action": "electro_collect",
       "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 10,
-      "x": 10247.33,
-      "y": -3322.99,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 11,
-      "x": 10246.3,
-      "y": -3325.07,
-      "action": "electro_collect",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "target"
-    },
-    {
-      "id": 12,
-      "x": 10249.45,
-      "y": -3327.08,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "path"
+      "type": "path",
+      "x": 10245.4805,
+      "y": -3323.5156
     }
   ]
 }

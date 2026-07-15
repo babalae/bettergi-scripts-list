@@ -1,3 +1,7 @@
+// 战斗取消令牌和状态
+let fightCts = null;
+let isFighting = false;
+
 (async function () {
 
         var Threshold = genshin.width > 2560 ? 0.65 
@@ -15,7 +19,7 @@
         let challengeName = settings.challengeName;//挑战BOSS
         if (challengeName === undefined || challengeName === ""){throw new Error("挑战Boss未配置，请在JS配置中选择...")}//初始化处理
         let Startforward = settings.Startforward*1000 ? settings.Startforward*1000 : 1000;//开始战斗的前进时间
-        var Fighttimeout = settings.timeout * 1000 ? settings.timeout * 1000 : 240000;//战斗超时时间，默认为240秒
+        var Fighttimeout = settings.Fighttimeout * 1000 ? settings.Fighttimeout * 1000 : 240000;//战斗超时时间，默认为240秒
         const ocrRegion1 = { x: 643, y: 58, width: 800, height: 800 };   // 上方挑战成功区域
         const ocrRegion2 = { x: 780, y: 406, width: 370, height: 135 };   // 中间挑战失败区域
         const ocrRo1 = RecognitionObject.ocr(ocrRegion1.x, ocrRegion1.y, ocrRegion1.width, ocrRegion1.height);//上方挑战成功区域OCR对象
@@ -68,6 +72,8 @@
 
         //映射所有圣遗物对应需要识别的图片
         var artifactImageMap = {
+            "天之美赐 / 影中沉凝的幻灭": "assets/Artifacts/artifact_20.bmp",
+            "晨星与月的晓歌 / 风起之日": "assets/Artifacts/artifact_19.bmp",
             "穹境示现之夜 / 纺月的夜歌": "assets/Artifacts/artifact_0.bmp",             
             "长夜之誓 / 深廊终曲": "assets/Artifacts/artifact_1.bmp",
             "黑曜秘典 / 烬城勇者绘卷": "assets/Artifacts/artifact_2.bmp",
@@ -107,6 +113,33 @@
         ];
 
         FightTeam = settings.FightTeam;
+
+        // 战斗策略配置
+        let CombatStrategyType = settings.CombatStrategyType || "使用BetterGI战斗配置(下方指定策略无效)";
+        let SpecifiedCombatStrategy = (settings.SpecifiedCombatStrategy || "").toString().trim();
+        let CombatStrategyPath = "";
+
+        if (CombatStrategyType === "指定战斗策略") {
+            if (!SpecifiedCombatStrategy) {
+                log.warn("【配置警告】您选择了'指定战斗策略'但未填写策略名称，系统将自动退回'使用BetterGI战斗配置'。");
+            } else if (/[/:*?"<>|]/.test(SpecifiedCombatStrategy)) {
+                // 只禁止除反斜杠外的非法字符（反斜杠是合法路径分隔符）
+                log.warn(`【配置警告】指定的战斗策略名称包含非法字符: ${SpecifiedCombatStrategy}，系统将自动退回'使用BetterGI战斗配置'。`);
+            } else {
+                let strategyName = SpecifiedCombatStrategy;
+                // 自动去除 .txt 后缀（无论用户是否填写，底层都会追加）
+                if (strategyName.toLowerCase().endsWith(".txt")) {
+                    strategyName = strategyName.substring(0, strategyName.length - 4);
+                }
+                // 路径分隔符标准化：单反斜杠 → 双反斜杠，已转义则跳过
+                if (strategyName.includes("\\") && !strategyName.includes("\\\\")) {
+                    CombatStrategyPath = strategyName.replace(/\\/g, "\\\\");
+                } else {
+                    CombatStrategyPath = strategyName;
+                }
+                log.info(`战斗策略路径: "${CombatStrategyPath}"`);
+            }
+        }
 
     //文字识别封装函数
     async function Textocr(wenzi="空参数",chaotime=10,clickocr=0,debugcode=0,x=0,y=0,w=1920,h=1080) {
@@ -406,14 +439,53 @@
 
     //异步检测战斗执行函数，来自D捣蛋&秋云佬的全自动地脉花的代码
     async function autoFight(timeout) {
-        const cts = new CancellationTokenSource();
+        fightCts = new CancellationTokenSource();
+        isFighting = true;
+        let fightTask = null;
         log.info("开始战斗");
-        dispatcher.RunTask(new SoloTask("AutoFight"), cts);
-        let fightResult = await recognizeTextInRegion(timeout);
-        logFightResult = fightResult ? "成功" : "失败";
-        log.info(`战斗结束，战斗结果：${logFightResult}`);
-        cts.cancel();
-        return fightResult;
+        
+        try {
+            // 如果指定了战斗策略，使用带参数的方式
+            if (CombatStrategyPath && CombatStrategyPath !== "") {
+                log.info(`使用指定战斗策略: ${CombatStrategyPath}`);
+                
+                // 使用AutoFightParam配置自动战斗
+                const autoFightParam = new AutoFightParam(CombatStrategyPath);
+
+                // 设置战斗超时（秒）
+                autoFightParam.Timeout = timeout / 1000;
+                
+                // 禁用内置战斗结束检测
+                autoFightParam.FightFinishDetectEnabled = false;
+
+                // 使用runAutoFightTask执行带参数的自动战斗
+                fightTask = dispatcher.runAutoFightTask(autoFightParam, fightCts.Token);
+            } else {
+                // 使用原始方式，不带参数
+                fightTask = dispatcher.RunTask(new SoloTask("AutoFight"), fightCts.Token);
+            }
+            
+            // OCR检测战斗结束
+            let fightResult = await recognizeTextInRegion(timeout);
+            logFightResult = fightResult ? "成功" : "失败";
+            log.info(`战斗结束，战斗结果：${logFightResult}`);
+            
+            return fightResult;
+        } finally {
+            // 确保战斗结束后取消任务
+            isFighting = false;
+            if (fightCts) {
+                try {
+                    fightCts.cancel();
+                } catch (e) {
+                    log.warn(`取消战斗任务时出错: ${e.message}`);
+                }
+                fightCts = null;
+            }
+            if (fightTask) {
+                await fightTask.catch(e => log.warn(`战斗任务结束异常: ${e?.message || e}`));
+            }
+        }
     }
 
     //异步检测战斗结果函数
@@ -778,7 +850,7 @@
     
     }
 
-    log.warn("自动幽境危战版本：v2.1");
+    log.warn("自动幽境危战版本：v2.3");
     log.warn("请保证队伍战斗实力，战斗失败或执行错误，会重试两次...");
     log.warn("使用前请在 <<幽境危战>> 中配置好战斗队伍...");
     log.info("使用树脂顺序：{0} ", golbalRewardText.join(" ->"))     
@@ -786,6 +858,7 @@
     if (!(FightTeam === undefined || FightTeam === "")){log.info("配置战斗队伍为：{0}", FightTeam)}
 
     //重试两次
+    var shouldStop = false;
     for (let j = 0;j < 2;j++) {  
 
         resinAgain = false; //重试标志
@@ -796,17 +869,58 @@
                 await pathingScript.runFile(`assets/全自动幽境危战.json`);
                 await VeinEntrance();             
 
-                //2.难度确认和选择
-                let intoAction  = await Textocr("单人挑战",20,0,0,1554,970,360, 105);
-                if (!intoAction.found){
+                //2.难度确认和选择（同时检测非爆发期界面）
+                let intoAction = null;
+                let isNonBurst = false;
+                let _pollStart = new Date();
+                while (true) {
+                    let _cap = captureGameRegion();
+                    try {
+                        let _resList = _cap.findMulti(RecognitionObject.ocr(1554, 970, 360, 105));
+                        for (let _ri = 0; _ri < _resList.count; _ri++) {
+                            if (_resList[_ri].text === "单人挑战") {
+                                intoAction = { text: _resList[_ri].text, x: _resList[_ri].x, y: _resList[_ri].y, found: true };
+                                break;
+                            }
+                        }
+                    } finally {
+                        _cap.dispose();
+                    }
+                    if (intoAction) break;
+                    await sleep(100);
+
+                    _cap = captureGameRegion();
+                    try {
+                        let _resList = _cap.findMulti(RecognitionObject.ocr(861, 426, 197, 70));
+                        for (let _ri = 0; _ri < _resList.count; _ri++) {
+                            if (_resList[_ri].text === "紊乱平息") {
+                                isNonBurst = true;
+                                break;
+                            }
+                        }
+                    } finally {
+                        _cap.dispose();
+                    }
+                    if (isNonBurst) break;
+
+                    if (new Date() - _pollStart > 20000) {
+                        await genshin.returnMainUi();
+                        throw new Error("未进入挑战页面，停止执行...")
+                    }
+                    await sleep(100);
+                }
+
+                if (isNonBurst) {
                     await genshin.returnMainUi();
-                    throw new Error("未进入挑战页面，停止执行...")
+                    shouldStop = true;
+                    throw new Error("当前处于非爆发期（紊乱平息），停止执行...")
                 }
 
                 //2.5 判断爆发期
                 let rewardsBu  = await imageRecognition(rewardsButton,0.1, 0, 0,63,949,87,80);
                 if (!rewardsBu.found){
                     await genshin.returnMainUi();
+                    shouldStop = true;
                     throw new Error("未在爆发期内，停止执行...")
                 }
 
@@ -1014,6 +1128,9 @@
         catch (error) {
             //9.执行错误，重试处理            
             log.error(`执行过程中发生错误：${error.message}`);
+            if (shouldStop === true) {
+                break;
+            }
             resinAgain = true;
             await genshin.returnMainUi(); 
             continue;
@@ -1024,4 +1141,24 @@
         }
     }
 
-})();
+})().catch(error => {
+    // 捕获取消任务异常（停止脚本执行）
+    const msg = (error && typeof error === "object" && "message" in error)
+        ? String(error.message)
+        : String(error ?? "");
+    if (/取消|canceled|cancelled/i.test(msg)) {
+        // 如果当前在战斗中，取消战斗线程
+        if (isFighting && fightCts) {
+            try {
+                log.info("正在取消战斗任务...");
+                fightCts.cancel();
+                log.info("已取消战斗任务");
+            } catch (e) {
+                log.warn(`取消战斗任务时出错: ${e.message}`);
+            }
+        }
+        log.info("用户已停止脚本执行");
+    } else {
+        log.error(`脚本执行异常: ${msg}`);
+    }
+});

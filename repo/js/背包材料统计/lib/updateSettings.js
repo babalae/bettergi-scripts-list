@@ -7,9 +7,8 @@ function updateSettingsOptions() {
     log.info("开始更新settings.json...");
     try {
         var settingsContent = file.readTextSync(SETTINGS_FILE);
-        log.info("settings.json内容长度: " + settingsContent.length);
         var settings = JSON.parse(settingsContent);
-        log.info("settings.json解析成功，配置项数量: " + settings.length);
+        if (debugLog) log.info("settings.json解析成功，配置项数量: " + settings.length);
         
         var hasChanges = false;
         
@@ -27,7 +26,6 @@ function updateSettingsOptions() {
                 return basename(dirPath);
             })
             .sort();
-        log.info("扫描到弹窗目录数量: " + popupDirs.length);
         
         var cdCategories = readAllFilePaths("materialsCD", 0, 1, ['.txt'])
             .map(function(filePath) {
@@ -56,9 +54,7 @@ function updateSettingsOptions() {
             }
         }
         if (popupSetting) {
-            log.info("找到PopupNames配置项");
             var existingOptions = popupSetting.options || [];
-            log.info("现有options数量: " + existingOptions.length);
             
             var existingSet = {};
             for (var k = 0; k < existingOptions.length; k++) {
@@ -83,23 +79,20 @@ function updateSettingsOptions() {
                 }
             }
             
-            log.info("新增options数量: " + newOptions.length);
-            log.info("删除options数量: " + removedOptions.length);
-            
             if (newOptions.length > 0 || removedOptions.length > 0) {
                 popupSetting.options = popupDirs;
                 hasChanges = true;
                 if (newOptions.length > 0) {
-                    log.info("PopupNames新增选项: " + newOptions.join(', '));
+                    log.info("PopupNames新增: " + newOptions.join('、'));
                 }
                 if (removedOptions.length > 0) {
-                    log.info("PopupNames删除选项: " + removedOptions.join(', '));
+                    log.info("PopupNames删除: " + removedOptions.join('、'));
                 }
             } else {
-                log.info("PopupNames无新增选项");
+                if (debugLog) log.info("PopupNames（现有" + existingOptions.length + "个）无需更新");
             }
         } else {
-            log.info("未找到PopupNames配置项");
+            log.warn("未找到PopupNames配置项");
         }
         
         if (cdSetting) {

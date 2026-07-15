@@ -154,6 +154,12 @@
         let imageExitRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Exit.png"));
         let location_flag = false;
 
+        if (captureGameRegion().Find(imageExitRo).isExist()) {
+            log.info("已进入商店界面");
+            await sleep(500);
+            return true;
+        }
+
         for (let i = 0; i < 3; i++) {
             await sleep(500);
             let gameRegion = captureGameRegion();
@@ -169,9 +175,9 @@
         }
         if (location_flag) {
             while (!(captureGameRegion().Find(imageExitRo).isExist())) { // [DEBUG] 可能陷入死循环？
-                await sleep(500);
                 keyPress("F");
                 log.debug("按F直到进入商店界面");
+                await sleep(500);
             }
             log.info("已进入商店界面");
             await sleep(500);
@@ -269,6 +275,14 @@
                 await sleep(500);
                 await keyMouseScript.runFile(`assets/npc/${area}-${type}-GCM.json`);
                 await sleep(500);
+            }
+            if (type === "锅") {
+                click(143, 1018); // 筛选
+                await sleep(500);
+                click(143, 1018); // 重置
+                await sleep(500);
+                click(493, 1025); // 确认筛选
+                await sleep(500)
             }
         }
 
@@ -494,6 +508,7 @@
         let barDownRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${bg === "white" ? "slide_bar_main_down": "slide_bar_left_down"}.png`), x, y, w, h);
         barUpRo.threshold = 0.7;
         barDownRo.threshold = 0.7;
+        let barUpper_temp = 0;
 
         while (true) {
             await sleep(200);
@@ -501,6 +516,11 @@
             let gameRegion = captureGameRegion();
             if (side.toLowerCase() === "up") {
                 let barUpper = gameRegion.Find(barUpRo);
+                if (barUpper.y !== barUpper_temp) { // 防止卡死
+                    barUpper_temp = barUpper.y;
+                } else {
+                    break;
+                }
                 gameRegion.dispose();
                 if (barUpper.isExist()) {
                     if (barUpper.y < max) { // 到顶了
@@ -577,130 +597,107 @@
 
     /**
      *
-     * 自动执行手动烹饪(源于JS脚本: 烹饪熟练度一键拉满-(柒叶子-https://github.com/511760049))
+     * 自动执行手动烹饪(源于JS脚本: 烹饪熟练度一键拉满-(柒叶子-https://github.com/5117600049))
      * @param price 料理星级
      * @returns {Promise<number>}
      */
     async function auto_cooking_bgi(price = "1") {
-        let segmentTime = settings.segmentTime;
-        if (segmentTime.includes(" ")) {
-            let segList = segmentTime.split(" ");
-            if (segList.length === 5) {
-                segmentTime = parseInt(segList[parseInt(price, 10) - 1]); // 取对应星级的时延（默认settings内提供的时延从1星开始）
-            } else if (segList.length < 5) {
-                log.warn(`JS脚本配置内未位置全部的5个星级的独立时延，将根据已提供的时延自动选择...`);
-                await sleep(3000);
-                if (segList.length > parseInt(price, 10)) {
-                    segmentTime = parseInt(segList[parseInt(price, 10) - 1]); // 取对应星级的时延（默认settings内提供的时延从1星开始）
-                    log.info(`${segmentTime} | ${parseInt(segList[parseInt(price, 10) - 1])}`);
+        if (settings.cookPattern === "定制模式(需要手动配置 额外烹饪时间 )") {
+            click(1080, 1015);//手动烹饪
+            await sleep(1000);//等待画面稳定
+            let extraTime = parseInt(settings.extraTime, 10) || 0; // 如果转换失败，默认 0
+            extraTime = extraTime+300;
+            const checkPoints = [
+                {x: 741, y: 772},    // 原始点1
+                {x: 758, y: 766},    // 中间点1-2
+                {x: 776, y: 760},    // 原始点2
+                {x: 793, y: 755},    // 中间点2-3
+                {x: 810, y: 751},    // 原始点3
+                {x: 827, y: 747},    // 中间点3-4
+                {x: 845, y: 744},    // 原始点4
+                {x: 861, y: 742},    // 中间点4-5
+                {x: 878, y: 740},    // 原始点5
+                {x: 897, y: 737},    // 中间点5-6
+                {x: 916, y: 735},    // 原始点6
+                {x: 933, y: 735},    // 中间点6-7
+                {x: 950, y: 736},    // 原始点7
+                {x: 968, y: 736},    // 中间点7-8
+                {x: 986, y: 737},    // 原始点8
+                {x: 1002, y: 738},   // 中间点8-9
+                {x: 1019, y: 740},   // 原始点9
+                {x: 1038, y: 742},   // 中间点9-10
+                {x: 1057, y: 744},   // 原始点10
+                {x: 1074, y: 748},   // 中间点10-11
+                {x: 1092, y: 752},   // 原始点11
+                {x: 1107, y: 757},   // 中间点11-12
+                {x: 1122, y: 762},   // 原始点12
+                {x: 1138, y: 766},   // 中间点12-13
+                {x: 1154, y: 770},    // 原始点13
+                {x: 1170, y: 774},    // 中间点13-14
+                {x: 1193, y: 779}   // 原始点14
+            ];
+
+            // 区域大小
+            const regionSize = 60;
+
+            // 加载模板图片
+            const templateMat0 = file.readImageMatSync("assets/best0.png");
+            const templateMat1 = file.readImageMatSync("assets/best1.png");
+            const templateMat2 = file.readImageMatSync("assets/best2.png");
+
+
+            // 创建模板匹配识别对象
+            const templateRo0 = RecognitionObject.templateMatch(templateMat0);
+            const templateRo1 = RecognitionObject.templateMatch(templateMat1);
+            const templateRo2 = RecognitionObject.templateMatch(templateMat2);
+            templateRo0.threshold = 0.9;
+            templateRo0.Use3Channels = true;
+            templateRo1.threshold = 0.9;
+            templateRo1.Use3Channels = true;
+            templateRo2.threshold = 0.9;
+            templateRo2.Use3Channels = true;
+            // 捕获游戏区域
+            const gameRegion = captureGameRegion();
+
+            // 检查每个点
+            for (let i = 0; i < checkPoints.length; i++) {
+                const point = checkPoints[i];
+
+                // 裁剪出当前检测区域
+                const region = gameRegion.deriveCrop(
+                    point.x - regionSize/2,
+                    point.y - regionSize/2,
+                    regionSize,
+                    regionSize
+                );
+
+                let result;
+                if (i < 9) {
+                    result = region.find(templateRo0);
+                } else if (i >= 18) {
+                    result = region.find(templateRo2);
                 } else {
-                    segmentTime = parseInt(segList[segList.length - 1], 10); // 取最后一个值（settings内提供的最后一个值）
+                    result = region.find(templateRo1);
                 }
-            } else {
-                log.warn("JS脚本配置内的 时延 设置错误，建议检查后继续，任务将在10s后使用默认时延继续...");
-                await sleep(5000);
-                segmentTime = 86;
+
+                if (!result.isEmpty()) {
+
+                    const segmentTime = 66;
+
+
+                    const waitTime = Math.round(i * segmentTime+extraTime);
+                    log.info(`找到点位${i}号区域`);
+                    await sleep(waitTime);
+                    keyPress("VK_SPACE");
+                    await sleep(500); // [DEBUG] 如果500ms后还没弹出制作完成窗口会导致报错退出
+                    click(973, 908);
+                    return 0;
+                }
+
             }
         } else {
-            if (segmentTime !== "" && parseInt(segmentTime, 10) !== 0) {
-                segmentTime = parseInt(segmentTime, 10);
-            }
+            await dispatcher.runTask(new SoloTask("AutoCook"));
         }
-
-        await sleep(350);
-        await click(1005, 1011); // 点击手动烹饪
-        await sleep(1000); // 等待画面稳定
-        const checkPoints = [
-            {x: 741, y: 772}, // 原始点1
-            {x: 758, y: 766}, // 中间点1-2
-            {x: 776, y: 760}, // 原始点2
-            {x: 793, y: 755}, // 中间点2-3
-            {x: 810, y: 751}, // 原始点3
-            {x: 827, y: 747}, // 中间点3-4
-            {x: 845, y: 744}, // 原始点4
-            {x: 861, y: 742}, // 中间点4-5
-            {x: 878, y: 740}, // 原始点5
-            {x: 897, y: 737}, // 中间点5-6
-            {x: 916, y: 735}, // 原始点6
-            {x: 933, y: 735}, // 中间点6-7
-            {x: 950, y: 736}, // 原始点7
-            {x: 968, y: 736}, // 中间点7-8
-            {x: 986, y: 737}, // 原始点8
-            {x: 1002, y: 738}, // 中间点8-9
-            {x: 1019, y: 740}, // 原始点9
-            {x: 1038, y: 742}, // 中间点9-10
-            {x: 1057, y: 744}, // 原始点10
-            {x: 1074, y: 748}, // 中间点10-11
-            {x: 1092, y: 752}, // 原始点11
-            {x: 1107, y: 757}, // 中间点11-12
-            {x: 1122, y: 762}, // 原始点12
-            {x: 1138, y: 766}, // 中间点12-13
-            {x: 1154, y: 770}, // 原始点13
-            {x: 1170, y: 774}, // 中间点13-14
-            {x: 1193, y: 779} // 原始点14
-        ];
-
-        // 区域大小
-        const regionSize = 60;
-
-        // 加载模板图片
-        const templateMat0 = file.readImageMatSync("assets/best0.png");
-        const templateMat1 = file.readImageMatSync("assets/best1.png");
-        const templateMat2 = file.readImageMatSync("assets/best2.png");
-
-        // 创建模板匹配识别对象
-        const templateRo0 = RecognitionObject.TemplateMatch(templateMat0);
-        const templateRo1 = RecognitionObject.TemplateMatch(templateMat1);
-        const templateRo2 = RecognitionObject.TemplateMatch(templateMat2);
-        templateRo0.threshold = 0.9;
-        templateRo0.Use3Channels = true;
-        templateRo1.threshold = 0.9;
-        templateRo1.Use3Channels = true;
-        templateRo2.threshold = 0.9;
-        templateRo2.Use3Channels = true;
-        // 捕获游戏区域
-        const gameRegion = captureGameRegion();
-
-        // 检查每个点
-        for (let i = 0; i < checkPoints.length; i++) {
-            const point = checkPoints[i];
-
-            // 裁剪出当前检测区域
-            const region = gameRegion.deriveCrop(
-                point.x - regionSize/2,
-                point.y - regionSize/2,
-                regionSize,
-                regionSize
-            );
-
-            let result;
-            if (i < 9) {
-                result = region.find(templateRo0);
-            } else if (i >= 18) {
-                result = region.find(templateRo2);
-            } else {
-                result = region.find(templateRo1);
-            }
-            region.dispose();
-
-            if (!result.isEmpty()) {
-                // const segmentTime = 66;
-                const waitTime = Math.round(i * segmentTime);
-                log.info(`找到点位${i}号区域`);
-                await sleep(waitTime);
-                keyPress("VK_SPACE");
-                await sleep(500);
-                keyPress("Escape");
-                gameRegion.dispose();
-                return 0;
-            }
-        }
-        gameRegion.dispose();
-        // log.info(`未找到点位区域，烹饪结束`);
-        // keyPress("ESCAPE");
-        // await sleep(1000);
-        // keyPress("ESCAPE");
-        // throw new Error("人家才不是错误呢>_<");
     }
 
     /**
@@ -728,16 +725,17 @@
         click(493, 1025); // 确认筛选
         await sleep(500)
 
-        let food_name = await Ocr(116, 243, 125, 30);
-        if (food_name) {
-            food_name.Click();
+        let food_name_ocr = await Ocr(116, 243, 125, 30);
+        if (food_name_ocr) {
+            food_name_ocr.Click();
             await sleep(500);
             // 寻找对应的料理
             let matchList = [];
             for (let i = 0; i < Object.keys(food_msg).length; i++) {
                 matchList.push(await deal_string(Object.keys(food_msg)[i]));
             }
-            food_name = await findClosestMatch(food_name.text, matchList);
+            let food_name = await findClosestMatch(food_name_ocr.text, matchList);
+            food_name = Object.keys(food_msg)[matchList.indexOf(food_name)]; // 使用料理的完整名称
             log.info(`当前料理: ${food_name}`);
             // let formula_num = Object.keys(food_msg["formula"]).length;
             click(1686, 1018); // 制作
@@ -1870,10 +1868,16 @@
     }
 
     async function main() {
+
         // EULA检测
         if (!(settings.EULA)) {
             log.error("请阅读README后，在JS脚本配置启用脚本...");
             return null;
+        }
+        // 烹饪方式配置项检测
+        if (settings.cookPattern === "定制模式(需要手动配置 额外烹饪时间 )" && settings.segmentTime === "0") {
+            log.warn("检测到JS脚本配置 额外烹饪时间 未进行更改，请确保已经正确设置!\n将在5s后继续...");
+            await sleep(5000);
         }
 
         // 返回主界面
@@ -1882,10 +1886,6 @@
         // 刷满熟练度
         if (settings.unlockAutoCooking) {
             log.info("当前模式为刷满熟练度...");
-            if (!(settings.segmentTime.includes(" ")) && settings.segmentTime === "92 85 96 203 86") {
-                log.warn("检测到JS脚本配置 时延 未进行更改，请确保已经正确设置!\n将在10s后继续...");
-                await sleep(5000);
-            }
             await sleep(5000);
             let flag = await go_and_interact("锅");
             if (!flag) {

@@ -62,11 +62,14 @@ switch (settings.monsterName) {
          await utils.weeklyBoss11();
     break;
   case "门扉前的弈局":
-         await utils.weeklyBoss12();
-    break;      
+         await utils.weeklyBoss12();	
+    break;
   case "博士":
          await utils.weeklyBoss13();	
     break;
+  case "世界树博士":
+         await utils.weeklyBoss14();	
+    break;	
   default:
     break;
 }

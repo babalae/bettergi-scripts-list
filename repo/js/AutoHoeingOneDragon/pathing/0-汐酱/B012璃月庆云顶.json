@@ -8,7 +8,7 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时126.58秒，包含以下怪物：2只狂风之核、1只岩龙蜥。",
+    "description": "  路线信息：该路线预计用时105秒，包含以下怪物：2只狂风之核、1只岩龙蜥。",
     "hash_res": "06786534",
     "enable_monster_loot_split": false,
     "last_modified_time": 1763014166007,
@@ -40,7 +40,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "action_params": "keypress(x);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
@@ -51,7 +51,6 @@
       "action": "stop_flying",
       "action_params": "",
       "id": 4,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 1446.5,
@@ -126,15 +125,6 @@
       "id": 12,
       "move_mode": "dash",
       "type": "path",
-      "x": 1439.76,
-      "y": 1150.53
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 13,
-      "move_mode": "dash",
-      "type": "orientation",
       "x": 1439.76,
       "y": 1150.53
     }

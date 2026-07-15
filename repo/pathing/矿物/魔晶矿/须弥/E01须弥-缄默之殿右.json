@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/vulgar-rustic",
+        "name": "下流山汉"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1780278071695,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E01须弥-缄默之殿右",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4036.585,
+      "y": -2464.6299
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4131.6816,
+      "y": -2413.1514
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4125.8682,
+      "y": -2411.8008
+    }
+  ]
+}

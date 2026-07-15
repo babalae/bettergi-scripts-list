@@ -8,7 +8,7 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时350.11秒，包含以下怪物：4只遗迹巡弋者、1只遗迹歼击者、13只遗迹防卫者、2只遗迹侦察者。",
+    "description": "  路线信息：该路线预计用时298秒，包含以下怪物：4只遗迹巡弋者、1只遗迹歼击者、13只遗迹防卫者、2只遗迹侦察者。",
     "enable_monster_loot_split": false,
     "hash_res": "94674885",
     "last_modified_time": 1774337880393,
@@ -49,6 +49,7 @@
     },
     {
       "action": "fight",
+      "action_params": "",
       "id": 4,
       "move_mode": "dash",
       "type": "path",
@@ -66,7 +67,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);玛薇卡 e;芙宁娜 e;伊涅芙 e;钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;",
+      "action_params": "keypress(x);玛薇卡 e;芙宁娜 e;伊涅芙 e;钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;",
       "id": 6,
       "move_mode": "dash",
       "type": "path",
@@ -75,6 +76,7 @@
     },
     {
       "action": "fight",
+      "action_params": "",
       "id": 7,
       "move_mode": "dash",
       "type": "path",
@@ -92,7 +94,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);玛薇卡 e;芙宁娜 e;伊涅芙 e;钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;",
+      "action_params": "keypress(x);玛薇卡 e;芙宁娜 e;伊涅芙 e;钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;",
       "id": 9,
       "move_mode": "dash",
       "type": "path",
@@ -101,6 +103,7 @@
     },
     {
       "action": "fight",
+      "action_params": "",
       "id": 10,
       "move_mode": "dash",
       "type": "path",
@@ -244,6 +247,7 @@
     },
     {
       "action": "",
+      "action_params": "",
       "id": 26,
       "move_mode": "dash",
       "type": "path",
@@ -252,6 +256,7 @@
     },
     {
       "action": "",
+      "action_params": "",
       "id": 27,
       "move_mode": "dash",
       "type": "path",
@@ -269,6 +274,7 @@
     },
     {
       "action": "",
+      "action_params": "",
       "id": 29,
       "move_mode": "dash",
       "type": "path",
@@ -297,18 +303,8 @@
       "action": "fight",
       "action_params": "",
       "id": 32,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": -4235,
-      "y": -4648.369999999999
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 33,
-      "move_mode": "dash",
-      "type": "orientation",
       "x": -4235,
       "y": -4648.369999999999
     }

@@ -138,7 +138,7 @@ function checkPathNameFrequency(resourceName, pathName, recordDir, isFood = fals
       if (line.startsWith('路径名: ')) {
         currentPathName = line.split('路径名: ')[1];
       } else if (line.startsWith('内容检测码: ')) {
-        recordContentCode = line.split('内容检测码: ')[1];
+        recordContentCode = line.split('内容检测码: ')[1].trim();
       } else if (line === '' && currentPathName && recordContentCode) {
         if (hasValidContentCode) {
           if (recordContentCode === currentContentCode) {
@@ -196,34 +196,58 @@ function recordRunTime(resourceName, pathName, startTime, endTime, runTime, reco
       const isMonsterPath = monsterToMaterials.hasOwnProperty(resourceName);
       if (isMonsterPath) {
         const monsterTargetMaterials = monsterToMaterials[resourceName] || [];
+        const gradeRatios = [3, 1, 1/3];
         let monsterMaterialsTotal = 0;
-        monsterTargetMaterials.forEach(targetMat => {
-          monsterMaterialsTotal += (materialCountDifferences[targetMat] || 0);
+        let monsterMaterialsConvertedTotal = 0;
+        monsterTargetMaterials.forEach((targetMat, index) => {
+          const count = materialCountDifferences[targetMat] || 0;
+          monsterMaterialsTotal += count;
+          monsterMaterialsConvertedTotal += count * (gradeRatios[index] || 1);
         });
-        if (monsterMaterialsTotal === 0) {
+        if (monsterMaterialsConvertedTotal === 0) {
           const zeroMonsterPath = `${recordDir}/${resourceName}${CONSTANTS.ZERO_COUNT_SUFFIX}`;
           const zeroMonsterContent = `路径名: ${pathName}\n内容检测码: ${contentCode}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: ${JSON.stringify(materialCountDifferences)}\n\n`;
           writeContentToFile(zeroMonsterPath, zeroMonsterContent);
-          log.warn(`${CONSTANTS.LOG_MODULES.RECORD}怪物【${resourceName}】对应材料总数量为0，已写入单独文件: ${zeroMonsterPath}`);
+          log.warn(`${CONSTANTS.LOG_MODULES.RECORD}怪物【${resourceName}】对应材料折算总数量为0，已写入单独文件: ${zeroMonsterPath}`);
         }
       }
 
-      for (const [material, count] of Object.entries(materialCountDifferences)) {
-        if (material === resourceName && count === 0) {
-          const zeroMaterialPath = `${recordDir}/${material}${CONSTANTS.ZERO_COUNT_SUFFIX}`;
-          const zeroMaterialContent = `路径名: ${pathName}\n内容检测码: ${contentCode}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: ${JSON.stringify(materialCountDifferences)}\n\n`;
-          writeContentToFile(zeroMaterialPath, zeroMaterialContent);
-          log.warn(`${CONSTANTS.LOG_MODULES.RECORD}材料数目为0，已写入单独文件: ${zeroMaterialPath}`);
+      if (!isMonsterPath) {
+        for (const [material, count] of Object.entries(materialCountDifferences)) {
+          if (material === resourceName && count === 0) {
+            const zeroMaterialPath = `${recordDir}/${material}${CONSTANTS.ZERO_COUNT_SUFFIX}`;
+            const zeroMaterialContent = `路径名: ${pathName}\n内容检测码: ${contentCode}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: ${JSON.stringify(materialCountDifferences)}\n\n`;
+            writeContentToFile(zeroMaterialPath, zeroMaterialContent);
+            log.warn(`${CONSTANTS.LOG_MODULES.RECORD}材料数目为0，已写入单独文件: ${zeroMaterialPath}`);
+          }
         }
       }
 
-      const hasZeroMaterial = Object.values(materialCountDifferences).includes(0);
+      let shouldWriteNormalRecord = false;
+      if (isMonsterPath) {
+        const monsterTargetMaterials = monsterToMaterials[resourceName] || [];
+        const gradeRatios = [3, 1, 1/3];
+        let monsterMaterialsConvertedTotal = 0;
+        monsterTargetMaterials.forEach((targetMat, index) => {
+          const count = materialCountDifferences[targetMat] || 0;
+          monsterMaterialsConvertedTotal += count * (gradeRatios[index] || 1);
+        });
+        shouldWriteNormalRecord = monsterMaterialsConvertedTotal > 0;
+      } else {
+        const targetCount = materialCountDifferences[resourceName] || 0;
+        shouldWriteNormalRecord = targetCount > 0;
+      }
 
-      if (!hasZeroMaterial) {
+      if (shouldWriteNormalRecord) {
         writeContentToFile(recordPath, normalContent);
       } else {
-        if (hasZeroMaterial) log.warn(`${CONSTANTS.LOG_MODULES.RECORD}存在材料数目为0的情况: ${JSON.stringify(materialCountDifferences)}`);
-        log.warn(`${CONSTANTS.LOG_MODULES.RECORD}未写入正常记录: ${recordPath}`);
+        if (isMonsterPath) {
+          log.warn(`${CONSTANTS.LOG_MODULES.RECORD}怪物路径折算总数为0，未写入正常记录: ${recordPath}`);
+        } else {
+          const hasZeroMaterial = Object.values(materialCountDifferences).includes(0);
+          if (hasZeroMaterial) log.warn(`${CONSTANTS.LOG_MODULES.RECORD}存在材料数目为0的情况: ${JSON.stringify(materialCountDifferences)}`);
+          log.warn(`${CONSTANTS.LOG_MODULES.RECORD}未写入正常记录: ${recordPath}`);
+        }
       }
     } else {
       log.warn(`${CONSTANTS.LOG_MODULES.RECORD}运行时间小于5秒，未满足记录条件: ${recordPath}`);
@@ -266,11 +290,11 @@ function getLastRunEndTime(resourceName, pathName, recordDir, noRecordDir, pathi
         
         blockLines.forEach(line => {
           if (line.startsWith('路径名: ')) {
-            blockPathName = line.split('路径名: ')[1];
+            blockPathName = line.split('路径名: ')[1].trim();
           } else if (line.startsWith('内容检测码: ')) {
-            blockContentCode = line.split('内容检测码: ')[1] || '00000000';
+            blockContentCode = line.split('内容检测码: ')[1].trim() || '00000000';
           } else if (line.startsWith('结束时间: ')) {
-            blockEndTime = line.split('结束时间: ')[1];
+            blockEndTime = line.split('结束时间: ')[1].trim();
           }
         });
         
@@ -308,7 +332,7 @@ function getLastRunEndTime(resourceName, pathName, recordDir, noRecordDir, pathi
  * @param {Object} cache - 缓存对象（单次路径处理周期内有效）
  * @returns {Array<Object>} 结构化记录列表（含runTime、quantityChange）
  */
-function getHistoricalPathRecords(resourceKey, pathName, recordDir, noRecordDir, isFood = false, cache = {}, pathingFilePath) {
+function getHistoricalPathRecords(resourceKey, pathName, recordDir, noRecordDir, isFood = false, cache = {}, pathingFilePath, filterExcessMaterials = false) {
   const contentCode = pathingFilePath ? generatePathContentCode(pathingFilePath) : null;
   const hasValidContentCode = contentCode && contentCode !== "00000000";
   
@@ -353,14 +377,14 @@ function getHistoricalPathRecords(resourceKey, pathName, recordDir, noRecordDir,
 
     blockLines.forEach(line => {
       if (line.startsWith('路径名: ')) {
-        const recordPathName = line.split('路径名: ')[1];
+        const recordPathName = line.split('路径名: ')[1].trim();
         const cleanRecordPathName = recordPathName.replace(/_[0-9a-fA-F]{8}\.json$/, '.json');
         if (cleanRecordPathName === cleanPathName) {
           isTargetPath = true;
         }
       }
       if (line.startsWith('内容检测码: ')) {
-        recordContentCode = line.split('内容检测码: ')[1] || "00000000";
+        recordContentCode = line.split('内容检测码: ')[1].trim() || "00000000";
       }
       if (line.startsWith('运行时间: ')) {
         runTime = parseInt(line.split('运行时间: ')[1].split('秒')[0], 10) || 0;
@@ -391,6 +415,35 @@ function getHistoricalPathRecords(resourceKey, pathName, recordDir, noRecordDir,
 
   cache[cacheKey] = records;
   if (debugLog) log.debug(`${CONSTANTS.LOG_MODULES.RECORD}读取记录并缓存：${cacheKey}（${records.length}条）`);
+  
+  if (filterExcessMaterials && excessMaterialNames.length > 0) {
+    const filteredRecords = records.filter(record => {
+      const { quantityChange } = record;
+      
+      if (isFood) {
+        return true;
+      }
+      
+      if (monsterToMaterials[resourceKey]) {
+        const monsterMaterials = monsterToMaterials[resourceKey];
+        const allExcess = monsterMaterials.every(mat => excessMaterialNames.includes(mat));
+        return !allExcess;
+      }
+      
+      if (quantityChange[resourceKey] !== undefined) {
+        return !excessMaterialNames.includes(resourceKey);
+      }
+      
+      return true;
+    });
+    
+    if (debugLog && filteredRecords.length !== records.length) {
+      log.debug(`${CONSTANTS.LOG_MODULES.RECORD}过滤超量材料记录：${records.length}条 -> ${filteredRecords.length}条`);
+    }
+    
+    return filteredRecords;
+  }
+  
   return records;
 }
 

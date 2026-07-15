@@ -6,7 +6,7 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.47.0",
+    "bgi_version": "0.52.0",
     "tags": [
       "双手剑"
     ],
@@ -62,7 +62,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": "wait(0.249)"
     },
     {
       "id": 6,
@@ -80,7 +80,7 @@
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": "wait(0.249)"
     },
     {
       "id": 8,
@@ -170,20 +170,10 @@
       "type": "target",
       "move_mode": "walk",
       "action": "mining",
-      "action_params": "",
-      "locked": false
+      "action_params": ""
     },
     {
       "id": 18,
-      "x": -1086.78,
-      "y": -3923.94,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "combat_script",
-      "action_params": "wait(0.5)"
-    },
-    {
-      "id": 19,
       "x": -1093.16,
       "y": -3921.26,
       "type": "path",
@@ -192,7 +182,7 @@
       "action_params": ""
     },
     {
-      "id": 20,
+      "id": 19,
       "x": -1089.95,
       "y": -3918.71,
       "type": "target",
@@ -201,16 +191,16 @@
       "action_params": ""
     },
     {
-      "id": 21,
+      "id": 20,
       "x": -1090.05,
       "y": -3918.67,
       "type": "path",
       "move_mode": "walk",
       "action": "combat_script",
-      "action_params": "wait(0.5)"
+      "action_params": "wait(0.249)"
     },
     {
-      "id": 22,
+      "id": 21,
       "x": -1092.74,
       "y": -3912.68,
       "type": "path",
@@ -219,7 +209,7 @@
       "action_params": ""
     },
     {
-      "id": 23,
+      "id": 22,
       "x": -1090.54,
       "y": -3910.98,
       "type": "path",
@@ -228,7 +218,7 @@
       "action_params": ""
     },
     {
-      "id": 24,
+      "id": 23,
       "x": -1090.2,
       "y": -3913.23,
       "type": "target",
@@ -237,7 +227,7 @@
       "action_params": ""
     },
     {
-      "id": 25,
+      "id": 24,
       "x": -1090.2,
       "y": -3913.23,
       "type": "path",

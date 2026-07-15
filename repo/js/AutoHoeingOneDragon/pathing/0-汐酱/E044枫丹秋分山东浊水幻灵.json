@@ -8,7 +8,7 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时155.8秒，包含以下怪物：1只浊水粉碎幻灵、2只浊水喷吐幻灵、1只愚人众·藏镜仕女、1只愚人众·风役人、1只愚人众·霜役人。",
+    "description": "  路线信息：该路线预计用时146秒，包含以下怪物：1只浊水粉碎幻灵、2只浊水喷吐幻灵、1只愚人众·藏镜仕女、1只愚人众·风役人、1只愚人众·霜役人。",
     "enable_monster_loot_split": false,
     "hash_res": "80277980",
     "last_modified_time": 1774338943826,
@@ -31,6 +31,7 @@
     },
     {
       "action": "",
+      "action_params": "",
       "id": 2,
       "move_mode": "dash",
       "type": "path",
@@ -95,18 +96,8 @@
       "action": "fight",
       "action_params": "",
       "id": 9,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 3941.95,
-      "y": 2733.3
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 10,
-      "move_mode": "dash",
-      "type": "orientation",
       "x": 3941.95,
       "y": 2733.3
     }

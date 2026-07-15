@@ -1,5 +1,5 @@
 import {sendNotice,sendText} from "./notice";
-import {ocrUID} from "./uid";
+import {Record, toMainUi} from "./tool";
 const config_name = "config"
 const json_path = {
     activity: `${config_name}/activity.json`
@@ -435,7 +435,24 @@ async function OcrKey(activityName, key = "剩余时间", ocrRegion = ocrRegionC
     }
 }
 
+async function buildInitConfigSettings() {
+    config = {
+        //剩余时间,白名单 启用`和`关系(默认`与`关系)
+        relationship: settings.relationship,
+        whiteActivityNameList: parseWhiteActivity(settings.whiteActivityNameList),
+        activityKey: (settings.activityKey ? settings.activityKey : 'F5'),
+        toTopCount: settingsParseInt(settings.toTopCount, 10),//滑动到顶最大尝试次数
+        scrollPageCount: settingsParseInt(settings.scrollPageCount, 4),//滑动次数/页
+        notifyHoursThreshold: settingsParseInt(settings.notifyHoursThreshold, 8760),//剩余时间阈值(默认 8760小时=365天)
+        // 黑名单活动名称列表，这些活动将被排除在识别和处理之外
+        // 通过 | 分隔多个活动名称，并过滤掉空白项
+        blackActivityMap: parseBlackActivity(settings.blackActivity, parseWhiteActivity(settings.whiteActivityNameList)),
+        // 同时确保黑名单中的活动名称不包含在白名单（whiteActivityNameList）中
+        blackActivityNameList: [],
+    }
+}
 async function init() {
+    await buildInitConfigSettings();
     log.debug(`[init-config]-[{config}]`, JSON.stringify(config));
     let blackActivityMap = config.blackActivityMap
     config.blackActivityNameList = blackActivityMap ? Array.from(blackActivityMap.keys()) : [];
@@ -447,16 +464,19 @@ async function init() {
 /**
  * 活动主函数：扫描所有活动页面，识别剩余时间，最后统一发送通知
  */
- async function activityMain(newActivityNotice = true) {
+export async function activityMain(newActivityNotice = true) {
     await init();
+    await toMainUi()
+    let uid = await genshin.uid()
     const ms = 1000;
     await sleep(ms);
-    let uid = await ocrUID()
+
     let activityData=[]
     let activitySetLast = new Set()
     try {
         // 读取活动配置文件并转换为Set
-        activityData = JSON.parse(file.readTextSync(json_path.activity));
+        // activityData = JSON.parse(file.readTextSync(json_path.activity));
+        activityData = Record.read(json_path.activity)
         const uidActivity = (Array.isArray(activityData) ? activityData : []).filter(item => item?.uid === uid).find(item => item)
         activitySetLast = new Set(uidActivity.activityNames);
     } catch (e) {
@@ -751,7 +771,8 @@ async function init() {
                         [...(item.activityNames || [])]
                 }));
                 // 发送成功后更新配置文件
-                file.writeTextSync(json_path.activity, JSON.stringify(finalSerializableData));
+                // file.writeTextSync(json_path.activity, JSON.stringify(finalSerializableData));
+                Record.write(json_path.activity, finalSerializableData)
                 log.debug("活动配置文件已更新");
 
             } catch (e) {
@@ -764,9 +785,4 @@ async function init() {
     }
 }
 
-// this.activityUtil = {
-//     // config,
-//     activityMain,
-//     // OcrRemainingTime,
-// }
-export {activityMain}
+// export {activityMain}

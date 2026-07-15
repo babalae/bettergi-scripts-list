@@ -164,16 +164,20 @@ var CommissionData = {
       var commissionsData;
       
       if (shouldUpdateExisting && existingData) {
-        // 只更新location为已完成的状态
+        // 只更新location为已完成的状态或原location为未知地点的委托
         for (var i = 0; i < existingData.commissions.length; i++) {
           const existingCommission = existingData.commissions[i];
           const newCommission = commissionsTable.find(c => c.name === existingCommission.name);
           
-          if (newCommission && newCommission.location === "已完成") {
-            existingCommission.location = "已完成";
-            existingCommission.type = newCommission.type;
-            existingCommission.supported = newCommission.supported;
-            // 保留其他原有字段
+          if (newCommission) {
+            if (existingCommission.location === "未知地点") {
+              // 原地点为未知：更新所有字段
+              existingCommission.location = newCommission.location;
+              existingCommission.type = newCommission.type;
+              existingCommission.supported = newCommission.supported;
+              existingCommission.country = newCommission.country;
+              existingCommission.CommissionPosition = newCommission.CommissionPosition;
+            }
           }
         }
         

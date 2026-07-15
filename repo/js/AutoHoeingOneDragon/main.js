@@ -1,5 +1,3 @@
-//当前js版本2.5.0
-
 //自定义配置变量预声明
 let accountName;
 let pickup_Mode;
@@ -17,7 +15,10 @@ let operationMode;
 let efficiencyIndex;
 let targetEliteNum;
 let targetMonsterNum;
+let curiosityFactor;
+let ignoreRate;
 let partyName;
+let validateTeamMembers;
 let groupSettings;
 let groupTags;
 
@@ -41,20 +42,31 @@ fIconRo.Threshold = 0.95;
 fIconRo.InitTemplate();
 const mainUIRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/MainUI.png"), 0, 0, 150, 150);
 const scrollRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/拾取滚轮.png"), 1017, 496, 1093 - 581, 581 - 496);
+let imageMat = file.ReadImageMatSync("assets/三色血条.png");
+let img = new ImageRegion(imageMat, 0, 0);
+let revivalMedicineRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/复活药.png"));
 
 //全局通用变量声明
-let gameRegion;
+let coordCache = { X: 0, Y: 0 };   // 坐标缓存，供 ① ② ④ 复用
+let needRefreshCoord = true;       // 强制刷新坐标缓存
 let targetItems;
-let doFurinaSwitch = false;
-let lastRoll = new Date();
+let shouldSwitchFurina = false;
+let lastRollTime = new Date();
 let blacklist = [];
 let blacklistSet = new Set();
 let state;
 let pathings;
-let localeWorks;
-let lastEatBuff = 0;
+let localeTimeSupported;
+let lastBuffTime = 0;
 let currentFood = "";
 let monsterInfoObject;
+const GAME_REGION_CACHE_SIZE = 5; // 游戏区域截图缓存大小上限
+const gameRegionManager = {
+    cache: [], // 缓存队列，保存近GAME_REGION_CACHE_SIZE张截图
+    lastCapture: new Date(),
+    isDisposing: false,
+    isCapturing: false
+};
 
 (async function () {
     //通用预处理
@@ -64,10 +76,14 @@ let monsterInfoObject;
         switchPartyTask = switchPartyIfNeeded(partyName);
     }
     if (settings.disableAsync) {
-        await switchPartyTask;
+        const switchSuccess = await switchPartyTask;
+        if (!switchSuccess) {
+            log.error("队伍切换失败，脚本终止");
+            return;
+        }
     }
     targetItems = await loadTargetItems();
-    localeWorks = await checkLocaleTimeSupport();
+    localeTimeSupported = await checkLocaleTimeSupport();
     dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
     await loadBlacklist(true);
     await rotateWarnIfAccountEmpty();
@@ -77,16 +93,20 @@ let monsterInfoObject;
         await filterPathingsByTargetMonsters();
         await updateRecords(pathings, accountName);
         if (!settings.disableAsync) {
-            await switchPartyTask;
+            const switchSuccess = await switchPartyTask;
+            if (!switchSuccess) {
+                log.error("队伍切换失败，脚本终止");
+                return;
+            }
         }
         await processPathingsByGroup(pathings, accountName);
         return;
 
     } else {
         //预处理路线并建立对象
-        pathings = await processPathings(groupTags);
+        pathings = await processPathings();
         //按照用户配置标记路线
-        await markPathings(pathings, groupTags, priorityTags, excludeTags);
+        await markPathings(pathings, priorityTags, excludeTags);
         //找出最优组合
         await findBestRouteGroups(pathings, efficiencyIndex, targetEliteNum, targetMonsterNum);
         //分配到不同路径组
@@ -100,7 +120,11 @@ let monsterInfoObject;
             await updateRecords(pathings, accountName);
         } else if (operationMode === "运行锄地路线") {
             if (!settings.disableAsync) {
-                await switchPartyTask;
+                const switchSuccess = await switchPartyTask;
+                if (!switchSuccess) {
+                    log.error("队伍切换失败，脚本终止");
+                    return;
+                }
             }
             await validateTeamAndConfig();
             log.info("开始运行锄地路线");
@@ -134,24 +158,23 @@ async function loadConfig() {
 
         /* -------- 1. 构造 10 个分组标签 + 其它字段的默认值 -------- */
         const buildCfgObj = () => ({
-            tagsForGroup1: settings.tagsForGroup1 || '',
-            tagsForGroup2: settings.tagsForGroup2 || '',
-            tagsForGroup3: settings.tagsForGroup3 || '',
-            tagsForGroup4: settings.tagsForGroup4 || '',
-            tagsForGroup5: settings.tagsForGroup5 || '',
-            tagsForGroup6: settings.tagsForGroup6 || '',
-            tagsForGroup7: settings.tagsForGroup7 || '',
-            tagsForGroup8: settings.tagsForGroup8 || '',
-            tagsForGroup9: settings.tagsForGroup9 || '',
-            tagsForGroup10: settings.tagsForGroup10 || '',
+            tagsForGroup2: settings.tagsForGroup2 ?? '',
+            tagsForGroup3: settings.tagsForGroup3 ?? '',
+            tagsForGroup4: settings.tagsForGroup4 ?? '',
+            tagsForGroup5: settings.tagsForGroup5 ?? '',
+            tagsForGroup6: settings.tagsForGroup6 ?? '',
+            tagsForGroup7: settings.tagsForGroup7 ?? '',
+            tagsForGroup8: settings.tagsForGroup8 ?? '',
+            tagsForGroup9: settings.tagsForGroup9 ?? '',
+            tagsForGroup10: settings.tagsForGroup10 ?? '',
             disableSelfOptimization: settings.disableSelfOptimization ?? false,
             efficiencyIndex: settings.efficiencyIndex ?? 0.25,
             curiosityFactor: settings.curiosityFactor ?? '0',
-            ignoreRate: settings.ignoreRate ?? 0,
+            ignoreRate: settings.ignoreRate ?? -1,
             targetEliteNum: settings.targetEliteNum ?? 400,
             targetMonsterNum: settings.targetMonsterNum ?? 2000,
             priorityTags: settings.priorityTags ?? '',
-            excludeTags: settings.excludeTags ?? ''
+            excludeTags: settings.excludeTags ?? '蕈兽，传奇，狭窄地形'
         });
 
         /* -------- 2. 关键词黑名单检查 -------- */
@@ -172,7 +195,7 @@ async function loadConfig() {
 
             const filePath = `settings/${accountName}.json`;
             file.writeText(filePath, cfgStr, false);
-        } else {
+        } else if (settings.groupIndex) {
             let cfg;
             try {
                 const raw = await file.readText(`settings/${accountName}.json`);
@@ -185,44 +208,56 @@ async function loadConfig() {
             for (const key in cfg) {
                 settings[key] = cfg[key];
             }
+        } else {
+            log.error(`你没打开过自定义配置，请阅读readme并按要求配置后再运行`);
+            await sleep(10000);
+            log.warn("超时未退出，尝试以默认配置运行,但仍建议阅读文档后再运行")
         }
     }
     //加载自定义配置
     pickup_Mode = settings.pickup_Mode || "模板匹配拾取，拾取狗粮和怪物材料";
     dumpers = settings.activeDumperMode
-        ? settings.activeDumperMode.split('，').map(Number).filter(num => [1, 2, 3, 4].includes(num))
+        ? settings.activeDumperMode.split('，').map(item => item.trim()).filter(Boolean).map(item => {
+            const num = Number(item);
+            return [1, 2, 3, 4].includes(num) ? { type: 'number', value: num }
+                 : !isNaN(num)                 ? null
+                 :                               { type: 'name', value: item };
+        }).filter(Boolean)
         : [];
 
-    findFInterval = Math.max(16, Math.min(200, +settings.findFInterval || 100));
+    findFInterval = Math.max(16, Math.min(200, parseNumericSetting(settings.findFInterval, 100)));
     checkDelay = Math.round(findFInterval / 2);
-    rollingDelay = (+settings.rollingDelay || 32);
-    pickupDelay = (+settings.pickupDelay || 100);
-    timeMove = (+settings.timeMove || 1000);
+    rollingDelay = parseNumericSetting(settings.rollingDelay, 32);
+    pickupDelay = parseNumericSetting(settings.pickupDelay, 100);
+    timeMove = parseNumericSetting(settings.timeMove, 1000);
     timeMoveUp = Math.round(timeMove * 0.45);
     timeMoveDown = Math.round(timeMove * 0.55);
 
-    priorityTags = (settings.priorityTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
-    excludeTags = (settings.excludeTags || "").split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
+    priorityTags = (settings.priorityTags ?? '').split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
+    excludeTags = (settings.excludeTags ?? '').split("，").map(tag => tag.trim()).filter(tag => tag.length > 0);
     if (!pickup_Mode.includes("模板匹配")) {
         excludeTags.push("沙暴");
         log.warn("拾取模式不是模板匹配，无法处理沙暴路线，自动排除所有沙暴路线");
     }
 
-    efficiencyIndex = settings.efficiencyIndex === undefined ? 0.25 :
-        isNaN(Number(settings.efficiencyIndex)) ||
-            String(Number(settings.efficiencyIndex)) !== String(settings.efficiencyIndex) ? 0.25 :
-            Number(settings.efficiencyIndex) < 0 ? 0 :
-                Number(settings.efficiencyIndex);
+    efficiencyIndex = parseNumericSetting(settings.efficiencyIndex, 0.25);
 
-    targetEliteNum = Math.max(0, +settings.targetEliteNum || 400) + 5; // 预留漏怪
-    targetMonsterNum = Math.max(0, +(settings.targetMonsterNum ?? 2000)) + 25; // 预留漏怪
+    let parsedElite = parseNumericSetting(settings.targetEliteNum, 400);
+    if (parsedElite === 0) parsedElite = 400;
+    targetEliteNum = Math.max(0, parsedElite) + 5; // 预留漏怪
+    targetMonsterNum = Math.max(0, parseNumericSetting(settings.targetMonsterNum, 2000)) + 25; // 预留漏怪
+    curiosityFactor = parseNumericSetting(settings.curiosityFactor, 0);
+    ignoreRate = parseNumericSetting(settings.ignoreRate, -1);
 
-    partyName = settings.partyName || "";
+    partyName = settings.partyName ?? "";
+    validateTeamMembers = (settings.validateTeamMembers ?? '')
+        .split('，')
+        .map(name => name.trim())
+        .filter(name => name.length > 0);
     groupSettings = Array.from({ length: 10 }, (_, i) =>
-        settings[`tagsForGroup${i + 1}`] || (i === 0 ? '蕈兽' : '')
+        settings[`tagsForGroup${i + 1}`] ?? ''
     );
     groupTags = groupSettings.map(str => str.split('，').filter(Boolean));
-    groupTags[0] = [...new Set(groupTags.flat())];
 }
 
 /**
@@ -271,12 +306,12 @@ async function rotateWarnIfAccountEmpty() {
  * 1. 读取 assets/monsterInfo.json 建立怪物-收益映射表
  * 2. 扫描 pathing/ 目录下所有 *.json 路线文件，反序列化 info.description
  *    提取「预计用时」与「怪物清单」并计算普通/精英怪数量及对应摩拉收益
- * 3. 根据 settings.ignoreRate 过滤高小怪占比路线；按 groupTags[0] 反查补 tag
+ * 3. 根据 settings.ignoreRate 过滤高小怪占比路线
  * 4. 若开启自我优化且存在历史运行时长，则对「预计用时」做削峰填谷取均值
  * 返回已附加 {t, m, e, mora_m, mora_e, tags, map_name, ...} 的完整路径对象数组
  * 依赖全局：settings、accountName、file、initializeCdTime、readFolder
  */
-async function processPathings(groupTags) {
+async function processPathings() {
     // 读取怪物信息
     const monsterInfoContent = await file.readText("assets/monsterInfo.json");
     monsterInfoObject = JSON.parse(monsterInfoContent);
@@ -307,9 +342,12 @@ async function processPathings(groupTags) {
         if (monsterMatch) {
             const monsterList = monsterMatch[1].split('、');
             monsterList.forEach(monsterStr => {
-                const [countStr, monsterName] = monsterStr.split('只');
-                const count = Math.ceil(parseFloat(countStr.trim()) || 0);
-                routeInfo.monsterInfo[monsterName.trim()] = count;
+                if (!monsterStr) return; // 跳过空字符串（如末尾多余的顿号）
+                const parts = monsterStr.split('只');
+                if (parts.length < 2) return; // 缺少"只"，格式不合法，跳过
+                const count = Math.ceil(parseFloat(parts[0].trim()) || 0);
+                const name = parts[1].trim();
+                if (name) routeInfo.monsterInfo[name] = count;
             });
         }
 
@@ -367,25 +405,22 @@ async function processPathings(groupTags) {
             }
         }
 
-        // ===== 根据 settings.ignoreRate 过滤 =====
-        const ignoreRate = Number(settings.ignoreRate) || 100;
-        if (Number.isInteger(ignoreRate) && ignoreRate > 0) {
+        // ===== 根据 ignoreRate 过滤 =====
+        if (ignoreRate >= 0) {
             const protectTags = ['精英高收益', '高危', '传奇'];
             const hasProtectTag = protectTags.some(tag => pathing.tags.includes(tag));
 
             if (!hasProtectTag && pathing.e > 0) {          // ① 先保证有精英
                 const ratio = pathing.m / pathing.e;        // ② 再计算比例（e 已 > 0）
-                if (ratio >= ignoreRate) {                  // ③ 比例达标才清零
+                if (ratio > ignoreRate) {                  // ③ 比例达标才清零
                     pathing.e = 0;
                     pathing.mora_e = 0;
                 }
             }
         }
 
-        const allTags = groupTags[0];          // 已经是 [...new Set(...)] 的结果
-        // 2. 待匹配文本：路径名 + 描述
+        const allTags = [...new Set(groupTags.slice(1).flat())];
         const textToMatch = (pathing.fullPath + " " + (description || ""));
-        // 3. 反查补 tag
         allTags.forEach(tag => {
             if (textToMatch.includes(tag)) {
                 pathing.tags.push(tag);
@@ -396,16 +431,16 @@ async function processPathings(groupTags) {
         pathing.tags = [...new Set(pathing.tags)];
         // 处理 map_name 属性
         pathing.map_name = parsedContent.info?.map_name || "Teyvat"; // 如果有 map_name，则使用其值，否则默认为 "Teyvat"
+        // 处理 map_match_method 属性
+        pathing.map_match_method = parsedContent.info?.map_match_method || ""; // 如果有 map_match_method，则使用其值，否则默认为空字符串
     }
 
     for (const pathing of pathings) {
         if (!settings.disableSelfOptimization && pathing.records) {
-            // 1. 安全解析 + 边界校验
-            let cf = 0; // 默认
-            if (settings?.curiosityFactor != null) {
-                const parsed = parseFloat(String(settings.curiosityFactor));
-                if (!Number.isNaN(parsed) && parsed >= 0 && parsed <= 1) cf = parsed;
-            }
+            // 好奇系数：全局已解析，此处仅做 0-1 边界限制
+            let cf = curiosityFactor;
+            if (cf < 0) cf = 0;
+            if (cf > 1) cf = 1;
 
             // 2. 构造 7 条内部样本
             const raw = Array.isArray(pathing.records) ? pathing.records.filter(v => v > 0) : [];
@@ -433,43 +468,32 @@ async function processPathings(groupTags) {
 
 /**
  * 路线打标与过滤
- * 1. 将「仅第 0 组独有」的标签视为互斥标签：路线一旦包含则直接置 unavailable
- * 2. 若路线文件名、已有标签或所含怪物名命中 excludeTags，同样置 unavailable
- * 3. 命中 priorityTags 的路线打上 prioritized 标记，后续选路时会被优先保留
- * 4. 最终给每条路线新增：
+ * 1. 若路线文件名、已有标签或所含怪物名命中 excludeTags，置 unavailable
+ * 2. 命中 priorityTags 的路线打上 prioritized 标记，后续选路时会被优先保留
+ * 3. 最终给每条路线新增：
  *    available（bool）- 是否可参与后续选路
  *    prioritized（bool）- 是否优先保留
- * 依赖：pathings、groupTags、priorityTags、excludeTags
+ * 依赖：pathings、priorityTags、excludeTags
  */
-async function markPathings(pathings, groupTags, priorityTags, excludeTags) {
-    // 取出第 0 组并剔除与其他 9 组重复的标签
-    const uniqueTags = groupTags[0].filter(tag =>
-        !groupTags.slice(1).some(arr => arr.includes(tag))
-    );
-
+async function markPathings(pathings, priorityTags, excludeTags) {
     pathings.forEach(pathing => {
         pathing.tags = pathing.tags || [];
         pathing.monsterInfo = pathing.monsterInfo || {};
         pathing.prioritized = false;
 
-        const containsUniqueTag = uniqueTags.some(uniqueTag => pathing.tags.includes(uniqueTag));
-
-        const containsExcludeTag = excludeTags.some(excludeTag => {
+        pathing.available = !excludeTags.some(excludeTag => {
             const fullPathContainsExcludeTag = pathing.fullPath && pathing.fullPath.includes(excludeTag);
             const tagsContainExcludeTag = pathing.tags.some(tag => tag.includes(excludeTag));
             const monsterInfoContainsExcludeTag = Object.keys(pathing.monsterInfo).some(monsterName => monsterName.includes(excludeTag));
             return fullPathContainsExcludeTag || tagsContainExcludeTag || monsterInfoContainsExcludeTag;
         });
 
-        const containsPriorityTag = priorityTags.some(priorityTag => {
+        pathing.prioritized = priorityTags.some(priorityTag => {
             const fullPathContainsPriorityTag = pathing.fullPath && pathing.fullPath.includes(priorityTag);
             const tagsContainPriorityTag = pathing.tags.some(tag => tag.includes(priorityTag));
             const monsterInfoContainsPriorityTag = Object.keys(pathing.monsterInfo).some(monsterName => monsterName.includes(priorityTag));
             return fullPathContainsPriorityTag || tagsContainPriorityTag || monsterInfoContainsPriorityTag;
         });
-
-        pathing.available = !(containsUniqueTag || containsExcludeTag);
-        pathing.prioritized = containsPriorityTag;
     });
 }
 
@@ -643,7 +667,7 @@ async function findBestRouteGroups(pathings, efficiencyIndex, targetEliteNum, ta
     log.info("路线组合结果如下：");
     log.info(`总精英怪数量: ${totalSelectedElites.toFixed(0)}`);
     log.info(`总普通怪数量: ${totalSelectedMonsters.toFixed(0)}`);
-    log.info(`总收益: ${totalGainCombined.toFixed(0)} 摩拉`);
+    log.info(`总收益: ${(totalGainCombined - 5 * 200 - 25 * 40.5).toFixed(0)} 摩拉`);
     const h = Math.floor(totalTimeCombined / 3600);
     const m = Math.floor((totalTimeCombined % 3600) / 60);
     const s = totalTimeCombined % 60;
@@ -657,27 +681,20 @@ async function findBestRouteGroups(pathings, efficiencyIndex, targetEliteNum, ta
 /**
  * 把已选路线分配到 10 个用户分组
  * 规则：
- * 1. 只处理 selected 的路线，其余保持 group=0
- * 2. 若路线不含第 0 组任何标签 → 直接分到组 1
- * 3. 否则按 groupTags[1]...groupTags[9] 顺序匹配，命中即分到对应组（2-10）
+ * 1. 只处理 selected 的路线
+ * 2. 按 groupTags[1]~groupTags[9] 顺序匹配，命中即分到对应组（2-10）
+ * 3. 若均不匹配则默认分到组 1（groupTags[0] 作为兜底）
  * 结果：pathing.group = 1..10，后续按组批量执行
  * 依赖：pathings（已有 selected & tags）、groupTags
  */
 async function assignGroups(pathings, groupTags) {
-    // 遍历 pathings 数组
     pathings.forEach(pathing => {
         if (pathing.selected) {
-            pathing.group = 0;
-
-            if (!groupTags[0].some(tag => pathing.tags.includes(tag))) {
-                pathing.group = 1;
-            } else {
-                // 依次判断 groupTags[1] ~ groupTags[9]
-                for (let i = 1; i <= 9; i++) {
-                    if (groupTags[i].some(tag => pathing.tags.includes(tag))) {
-                        pathing.group = i + 1;
-                        break;
-                    }
+            pathing.group = 1;
+            for (let i = 1; i <= 9; i++) {
+                if (groupTags[i].some(tag => pathing.tags.includes(tag))) {
+                    pathing.group = i + 1;
+                    break;
                 }
             }
         }
@@ -702,7 +719,7 @@ async function filterPathingsByTargetMonsters() {
     }
 
     // 2. 拆分成数组
-    const targetMonsters = (settings.targetMonsters || "")
+    const targetMonsters = (settings.targetMonsters ?? "")
         .split("，")        // 中文逗号
         .map(s => s.trim())
         .filter(Boolean);
@@ -714,7 +731,7 @@ async function filterPathingsByTargetMonsters() {
     const fakeGroupTags = Array.from({ length: 10 }, () => []);
 
     // 5. 预处理拿到完整路线
-    pathings = await processPathings(fakeGroupTags);
+    pathings = await processPathings();
 
     // 6. 逐路线匹配 description 与文件名
     for (const p of pathings) {
@@ -772,14 +789,14 @@ async function validateTeamAndConfig() {
             await sleep(5000);
             haveProblem = true;
         }
-        if (!['芙宁娜', '爱可菲'].some(n => avatars.includes(n))) {
-            log.warn("未携带合适的输出角色（芙宁娜/爱可菲），建议重新阅读 readme 相关部分");
+        if (!['芙宁娜', '爱可菲', '莉奈娅'].some(n => avatars.includes(n))) {
+            log.warn("未携带合适的输出角色（芙宁娜/爱可菲/莉奈娅），建议重新阅读 readme 相关部分");
             await sleep(5000);
             haveProblem = true;
         }
-        if (!['茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '琦良良', '迪希雅', '迪奥娜']
+        if (!['茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '绮良良', '迪希雅', '迪奥娜', '尼可']
             .some(n => avatars.includes(n))) {
-            log.warn("未携带合适的抗打断角色（茜特菈莉/伊涅芙/莱依拉/蓝砚/白术/琦良良/迪希雅/迪奥娜）");
+            log.warn("未携带合适的抗打断角色（'茜特菈莉', '伊涅芙', '莱依拉', '蓝砚', '绮良良', '迪希雅', '迪奥娜', '尼可'）");
             await sleep(5000);
             haveProblem = true;
         }
@@ -851,15 +868,11 @@ async function printGroupSummary() {
         const m = Math.floor((time % 3600) / 60);
         const s = time % 60;
 
-        // 获取该组的标签配置
-        const tagsKey = `tagsForGroup${g}`;
-        const groupTags = settings[tagsKey] || '';
-        const tagType = g === 1 ? "排除的标签" : "选择的标签";
-
         // 构建输出内容
+        const tagLine = g === 1 ? "  未能进入其他组的留在路径组一" : `  选择的标签:【${settings[`tagsForGroup${g}`] || ''}】`;
         const outputLines = [
-            `${groupNames[g - 1]} 总计：`,
-            `  ${tagType}:【${groupTags}】`,
+            `第${g}组 总计：`,
+            tagLine,
             `  路线条数: ${groupPath.length}`,
             `  精英怪数: ${elites.toFixed(0)}`,
             `  被忽视精英数: ${ignoredElites.toFixed(0)}`,
@@ -892,17 +905,17 @@ async function printGroupSummary() {
     resultText += `  总精英怪: ${totalElites.toFixed(0)}\n`;
     resultText += `  被忽视精英怪数: ${totalIgnoredElites.toFixed(0)}\n`;
     resultText += `  总小怪数: ${totalMonsters.toFixed(0)}\n`;
-    resultText += `  总收益  : ${totalGain.toFixed(0)} 摩拉\n`;
+    resultText += `  总收益  : ${(totalGain - 5 * 200 - 25 * 40.5).toFixed(0)} 摩拉\n`;
     resultText += `  总用时  : ${totalH} 时 ${totalM} 分 ${totalS.toFixed(0)} 秒\n`;
     resultText += "=".repeat(50) + "\n\n";
 
     // 其他配置信息
     resultText += "配置参数：\n";
-    resultText += `  摩拉/耗时权衡因数: ${settings.efficiencyIndex || 0.25}\n`;
-    resultText += `  好奇系数: ${settings.curiosityFactor || 0}\n`;
-    resultText += `  忽略比例: ${settings.ignoreRate || 0}\n`;
-    resultText += `  目标精英数: ${settings.targetEliteNum || 400}\n`;
-    resultText += `  目标小怪数: ${settings.targetMonsterNum ?? 2000}\n`;
+    resultText += `  摩拉/耗时权衡因数: ${settings.efficiencyIndex ?? ''}\n`;
+    resultText += `  好奇系数: ${settings.curiosityFactor ?? ''}\n`;
+    resultText += `  忽略比例: ${settings.ignoreRate ?? ''}\n`;
+    resultText += `  目标精英数: ${settings.targetEliteNum ?? ''}\n`;
+    resultText += `  目标小怪数: ${settings.targetMonsterNum ?? ''}\n`;
     resultText += `  优先级标签: ${settings.priorityTags || ''}\n`;
     resultText += `  排除标签: ${settings.excludeTags || ''}\n\n`;
 
@@ -954,17 +967,17 @@ async function copyPathingsByGroup(pathings) {
  *    - blacklistTask：背包满时OCR识别并拉黑多余物品
  *    - dumperTask（可选）：接近战斗坐标时自动切人放E
  * 3. 全部子任务完成后返回，state.running 被置 false
- * 依赖全局：settings、state、pathings、targetItems、dumpers、doFurinaSwitch、lastEatBuff 等
+ * 依赖全局：settings、state、pathings、targetItems、dumpers、shouldSwitchFurina、lastBuffTime 等
  */
 async function runPath(fullPath, map_name, pm, pe) {
     //当需要切换芙宁娜形态时，执行一次强制黑芙
-    if (doFurinaSwitch) {
+    if (shouldSwitchFurina) {
         log.info("上条路线识别到白芙，开始强制切换黑芙")
-        doFurinaSwitch = false;
+        shouldSwitchFurina = false;
         await pathingScript.runFile("assets/强制黑芙.json");
     }
     if (settings.eatBuff) {
-        if (new Date() - lastEatBuff > 300 * 1000) {
+        if (new Date() - lastBuffTime > 300 * 1000) {
             // 1. 数据预处理：分割、去空、去重
             let res = settings.eatBuff
                 .split('，')
@@ -1007,7 +1020,7 @@ async function runPath(fullPath, map_name, pm, pe) {
                 await findAndClick("assets/使用.png");
             }
             await genshin.returnMainUi();
-            lastEatBuff = new Date();
+            lastBuffTime = new Date();
         }
 
     }
@@ -1098,6 +1111,40 @@ async function runPath(fullPath, map_name, pm, pe) {
         let doLogMonsterCount = true;
         log.info(`开始执行路线: ${fileName}`);
         await fakeLog(`${fileName}`, true);
+
+        // 晶蝶辅助传送
+        const catcherCoord = settings.useCrystalflyCatcher;
+        if (catcherCoord && currentPathing) {
+            try {
+                await genshin.returnMainUi();
+                const currentPos = await getCachedPosition(map_name, currentPathing.map_match_method);
+                if (currentPos && !(currentPos.X === 0 && currentPos.Y === 0)) {
+                    // 获取路线起点坐标
+                    let routeStartX = 0, routeStartY = 0;
+                    try {
+                        const raw = file.readTextSync(fullPath);
+                        const json = JSON.parse(raw);
+                        if (Array.isArray(json.positions) && json.positions.length > 0) {
+                            const firstPos = json.positions[0];
+                            routeStartX = firstPos.x ?? firstPos.X ?? 0;
+                            routeStartY = firstPos.y ?? firstPos.Y ?? 0;
+                        }
+                    } catch (e) {
+                        log.error(`读取路线文件获取起点坐标失败：${e.message}`);
+                    }
+
+                    const usedCrystalfly = await crystalflyAssistedTeleport(currentPos, fullPath);
+
+                    if (usedCrystalfly && routeStartX !== 0 && routeStartY !== 0) {
+                        await genshin.tp(routeStartX, routeStartY, map_name, false);
+                    }
+                }
+            } catch (error) {
+                log.error(`晶蝶辅助传送获取坐标失败：${error.message}`);
+            }
+        }
+
+        needRefreshCoord = true;
         try {
             await pathingScript.runFile(fullPath);
         } catch (error) {
@@ -1127,6 +1174,59 @@ async function runPath(fullPath, map_name, pm, pe) {
         }
     })();
 
+    const eatMedecineTask = (async () => {
+        if (settings.detectRevival || settings.detectHealthBar) {
+            let eatRevivalMedecineCount = 0;
+            let eatHealthBarMedecineCount = 0;
+            let eatRevivalMedecineconfirmCount = 0;
+            let eatHealthBarMedecineconfirmCount = 0;
+            let clearCount = 0;
+            while (state.running) {
+                try { await sleep(25) } catch (e) { break; }
+                clearCount++;
+                if (clearCount >= 120) {
+                    eatRevivalMedecineCount = 0;
+                    eatHealthBarMedecineCount = 0;
+                    clearCount = 0;
+                }
+                let loopCount = 0;
+                while (state.running) {
+                    try { await sleep(25) } catch (e) { break; }
+                    loopCount++;
+                    if (loopCount >= 10) {
+                        break;
+                    }
+                }
+                if (!await isMainUI(10)) continue;//不在主界面不判定吃药
+                let shouldTakeMedicineRes = await shouldTakeMedicine(settings.detectRevival && settings.detectRevival > 0, settings.detectHealthBar && settings.detectHealthBar > 0);
+                if (shouldTakeMedicineRes.shouldTake) {
+                    if (shouldTakeMedicineRes.medicineType === "revival") {
+                        eatRevivalMedecineconfirmCount++;
+                    } else {
+                        eatRevivalMedecineconfirmCount = 0;
+                    }
+                    if (shouldTakeMedicineRes.medicineType === "heal") {
+                        eatHealthBarMedecineconfirmCount++;
+                    } else {
+                        eatHealthBarMedecineconfirmCount = 0;
+                    }
+                }
+                if (eatRevivalMedecineconfirmCount >= 3 && eatRevivalMedecineCount < settings.detectRevival) {
+                    keyPress("Z");
+                    log.info(`交互或拾取："使用复活料理"`);
+                    eatRevivalMedecineconfirmCount = 0;
+                    eatRevivalMedecineCount++;
+                }
+                if (eatHealthBarMedecineconfirmCount >= 3 && eatHealthBarMedecineCount < settings.detectHealthBar) {
+                    keyPress("Z");
+                    log.info(`交互或拾取："使用回血料理"`);
+                    eatHealthBarMedecineconfirmCount = 0;
+                    eatHealthBarMedecineCount++;
+                }
+            }
+        }
+    })();
+
     const errorProcessTask = (async () => {
         let errorProcessCount = 0;
         while (state.running) {
@@ -1140,10 +1240,10 @@ async function runPath(fullPath, map_name, pm, pe) {
                     }
                     continue;
                 }
-                if (!doFurinaSwitch) {
+                if (!shouldSwitchFurina) {
                     if (await findAndClick(whiteFurinaRo, false, 2, 3)) {
                         log.info("检测到白芙，本路线运行结束后切换芙宁娜形态");
-                        doFurinaSwitch = true;
+                        shouldSwitchFurina = true;
                         continue;
                     }
                 }
@@ -1173,9 +1273,7 @@ async function runPath(fullPath, map_name, pm, pe) {
             let attempts = 0;
             while (attempts < maxAttempts && state.running) {
                 try {
-                    gameRegion.dispose();
-                    gameRegion = captureGameRegion();
-                    const result = gameRegion.find(itemFullRo);
+                    const result = (await getGameRegion()).find(itemFullRo);
                     if (result.isExist()) {
                         return true;
                     }
@@ -1223,7 +1321,7 @@ async function runPath(fullPath, map_name, pm, pe) {
                     const TEXT_X = 560, TEXT_Y = 450, TEXT_W = 1360 - 560, TEXT_H = 620 - 450;
                     let ocrText = null;
                     try {
-                        const resList = gameRegion.findMulti(
+                        const resList = (await getGameRegion()).findMulti(
                             RecognitionObject.ocr(TEXT_X, TEXT_Y, TEXT_W, TEXT_H)
                         );
                         if (resList.count) {
@@ -1285,6 +1383,7 @@ async function runPath(fullPath, map_name, pm, pe) {
         pickupTask,
         errorProcessTask,
         blacklistTask,
+        eatMedecineTask,
         dumperTask
     ].filter(Boolean));
 }
@@ -1302,18 +1401,15 @@ async function recognizeAndInteract() {
     let lastItemName = "";
     let thisMoveUpTime = 0;
     let lastMoveDown = 0;
-    gameRegion = captureGameRegion();
     let itemName;
     //主循环
     while (state.running) {
         //log.info("调试-交互拾取进行中");
-        gameRegion.dispose();
-        gameRegion = captureGameRegion();
         let centerYF = await findFIcon();
 
         if (!centerYF) {
-            if (new Date() - lastRoll >= 200) {
-                lastRoll = new Date();
+            if (new Date() - lastRollTime >= 200) {
+                lastRollTime = new Date();
                 if (await hasScroll()) {
                     await keyMouseScript.runFile(`assets/滚轮下翻.json`);
                 }
@@ -1352,7 +1448,6 @@ async function recognizeAndInteract() {
             }
         } else {
             //log.warn("未识别到结果");
-            //await refreshTargetItems(centerYF);
             lastItemName = "";
         }
         if (!foundTarget) {
@@ -1373,36 +1468,20 @@ async function recognizeAndInteract() {
     }
 
     async function performTemplateMatch(centerYF) {
-        /* 一次性切 6 种宽度（0-5 汉字） */
-        const regions = [];
-        for (let cn = 0; cn <= 5; cn++) {   // 0~5 共 6 档
-            const w = 12 + 28 * Math.min(cn, 5) + 2;
-            regions[cn] = gameRegion.DeriveCrop(1219, centerYF - 15, w, 30);
-        }
-
+        const w = 12 + 28 * 5 + 2;
+        regionPerformTemplateMatch = (await getGameRegion()).DeriveCrop(1219, centerYF - 15, w, 30);
         try {
             let firstMatch = null;
             for (const it of targetItems) {
                 if (!it.enabled) continue;
-                const cnLen = Math.min(
-                    [...it.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length,
-                    5
-                ); // 0-5
-
-                if (regions[cnLen].find(it.roi).isExist()) {
+                if (regionPerformTemplateMatch.find(it.roi).isExist()) {
                     firstMatch = it;
                     break;
                 }
             }
-
             if (!firstMatch) return null;
-
             if (!settings.disableSecondCheck) {
-                const cnLen = Math.min(
-                    [...firstMatch.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length,
-                    5
-                );
-                if (regions[cnLen].find(firstMatch.roi).isExist()) {
+                if (regionPerformTemplateMatch.find(firstMatch.roi).isExist()) {
                     return firstMatch.itemName;
                 }
                 return null;
@@ -1412,14 +1491,14 @@ async function recognizeAndInteract() {
         } catch (e) {
             log.error(`performTemplateMatch: ${e.message}`);
         } finally {
-            regions.forEach(r => r.dispose());
+            regionPerformTemplateMatch.dispose();
         }
         return null;
     }
 
     async function findFIcon() {
         try {
-            let result = gameRegion.find(fIconRo);
+            let result = (await getGameRegion()).find(fIconRo);
             if (result.isExist()) {
                 return Math.round(result.y + result.height / 2);
             }
@@ -1432,6 +1511,70 @@ async function recognizeAndInteract() {
         return null;
     }
 
+}
+
+/**
+ * CrystalflyAssistedTeleport
+ * 根据晶蝶诱捕装置配置，判断是否需要使用传送功能
+ * @param {Object} currentPos - 当前角色坐标 {X, Y}
+ * @param {string} pathFilePath - 路线文件路径
+ * 依赖全局：settings.useCrystalflyCatcher
+ */
+async function crystalflyAssistedTeleport(currentPos, pathFilePath) {
+    const catcherCoord = settings.useCrystalflyCatcher;
+
+    let routeStartX = 0, routeStartY = 0;
+    try {
+        const raw = file.readTextSync(pathFilePath);
+        const json = JSON.parse(raw);
+        if (Array.isArray(json.positions) && json.positions.length > 0) {
+            const firstPos = json.positions[0];
+            routeStartX = firstPos.x ?? firstPos.X ?? 0;
+            routeStartY = firstPos.y ?? firstPos.Y ?? 0;
+        }
+    } catch (e) {
+        log.error(`读取路线文件获取初始坐标失败：${e.message}`);
+        return false;
+    }
+
+    const coordParts = catcherCoord.split('，');
+    if (coordParts.length !== 2) {
+        log.error(`晶蝶诱捕装置坐标格式错误：${catcherCoord}，正确格式应为"X，Y"（中文逗号分隔）`);
+        return false;
+    }
+    const catcherX = parseFloat(coordParts[0].trim());
+    const catcherY = parseFloat(coordParts[1].trim());
+    if (isNaN(catcherX) || isNaN(catcherY)) {
+        log.error(`晶蝶诱捕装置坐标解析失败：${catcherCoord}`);
+        return false;
+    }
+
+    const currentDist = Math.sqrt(
+        Math.pow(currentPos.X - routeStartX, 2) +
+        Math.pow(currentPos.Y - routeStartY, 2)
+    );
+
+    const catcherDist = Math.sqrt(
+        Math.pow(catcherX - routeStartX, 2) +
+        Math.pow(catcherY - routeStartY, 2)
+    );
+
+    if (currentDist - catcherDist > 500 && catcherDist < 2200) {
+        log.info(`启用晶蝶辅助传送，当前位置距离起点: ${currentDist.toFixed(1)}，晶蝶装置距离起点: ${catcherDist.toFixed(1)}`);
+
+        keyPress("M");
+        await sleep(200);
+
+        const crystalFlyRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/晶蝶装置.png"), 0, 0, 450, 540);
+        crystalFlyRo.Threshold = 0.85;
+        await findAndClick(crystalFlyRo, true, 500);
+
+        await sleep(200);
+        keyPress("VK_ESCAPE");
+        await sleep(200);
+        return true;
+    }
+    return false;
 }
 
 /**
@@ -1474,9 +1617,7 @@ async function dumper(pathFilePath, map_name) {
 
         //6.3强制使用sift的地图不开启泥头车
         const info = parsedContent.info;
-        if (info.map_match_method && info.map_match_method === "SIFT") {
-            disableDumper = true;
-        }
+        const map_match_method = info.map_match_method || "";
 
         if (!disableDumper) {
             while (state.running) {
@@ -1494,7 +1635,9 @@ async function dumper(pathFilePath, map_name) {
                     let dumperDistance = 0;
                     try {
                         let shouldPressKeys = false;
-                        const currentPosition = await genshin.getPositionFromMap(map_name);
+                        const currentPosition = map_match_method && map_match_method !== ""
+                            ? await genshin.getPositionFromMapWithMatchingMethod(map_name, map_match_method)
+                            : await genshin.getPositionFromMap(map_name);
                         if (!currentPosition) {
                             continue;
                         }
@@ -1506,8 +1649,8 @@ async function dumper(pathFilePath, map_name) {
                             }
 
                             const distance = Math.sqrt(
-                                Math.pow(currentPosition.x - fightPos.x, 2) +
-                                Math.pow(currentPosition.y - fightPos.y, 2)
+                                Math.pow(currentPosition.X - fightPos.x, 2) +
+                                Math.pow(currentPosition.Y - fightPos.y, 2)
                             );
 
                             if (distance <= 30) {
@@ -1525,16 +1668,25 @@ async function dumper(pathFilePath, map_name) {
 
                         if (shouldPressKeys) {
                             log.info(`距离下个战斗地点距离${dumperDistance.toFixed(2)}，启用泥头车`);
-                            for (const key of dumpers) {
-                                log.info(`[泥头车]:尝试切换${key}号角色施放e技能`)
-                                keyPress(String(key));
-                                await sleep(400);
-                                keyPress('e');
-                                await sleep(400);
-                                keyPress('e');
-                                await sleep(400);
-                                keyPress('e');
-                                await sleep(400);
+                            for (const item of dumpers) {
+                                if (item.type === 'number') {
+                                    log.info(`[泥头车]:尝试切换${item.value}号角色施放e技能`);
+                                    keyPress(String(item.value));
+                                    await sleep(400);
+                                    keyPress('e');
+                                    await sleep(400);
+                                    keyPress('e');
+                                    await sleep(400);
+                                    keyPress('e');
+                                    await sleep(400);
+                                } else {
+                                    log.info(`[泥头车]:尝试使用角色[${item.value}]施放e技能`);
+                                    try {
+                                        await dispatcher.RunCombatScript("e,e,e", item.value);
+                                    } catch (error) {
+                                        log.warn("js调用简易策略异常");
+                                    }
+                                }
                             }
 
                             for (let i = 0; i < 10; i++) {
@@ -1576,14 +1728,9 @@ async function dumper(pathFilePath, map_name) {
         const maxAttempts = 10;
 
         let attempts = 0;
-        let dodispose = false;
         while (attempts < maxAttempts && state.running) {
             try {
-                if (!gameRegion) {
-                    gameRegion = captureGameRegion();
-                    dodispose = true;
-                }
-                let result = gameRegion.find(recognitionObject);
+                let result = (await getGameRegion()).find(recognitionObject);
                 if (result.isExist()) {
                     return true; // 如果找到图标，返回 true
                 }
@@ -1593,12 +1740,71 @@ async function dumper(pathFilePath, map_name) {
             }
             attempts++; // 增加尝试次数
             await sleep(200); // 每次检测间隔 200 毫秒
-            if (dodispose) {
-                gameRegion.dispose();
-            }
         }
         return false; // 如果尝试次数达到上限或取消，返回 false
     }
+}
+
+/**
+ * 检查是否需要使用药品
+ * @param {boolean} useRevivalMedicine 是否检测复活药
+ * @param {boolean} useHealMedicine 是否检测回血药
+ * @returns {Object} 包含是否应该吃药以及药品种类的对象
+ * @returns {boolean} return.shouldTake 是否应该吃药
+ * @returns {string|null} return.medicineType 药品种类，可能的值：'revival'（复活药）、'heal'（回血药）、null（不需要吃药）
+ */
+async function shouldTakeMedicine(useRevivalMedicine = false, useHealMedicine = false) {
+    // 检测复活药逻辑
+    if (useRevivalMedicine) {
+        let res2 = (await getGameRegion()).find(revivalMedicineRo);
+        if (!res2.isEmpty()) {
+            return {
+                shouldTake: true,
+                medicineType: 'revival'
+            };
+        }
+    }
+
+    // 检测回血药逻辑
+    if (useHealMedicine) {
+        //识别血条类型
+        let toCheckRegion = (await getGameRegion()).DeriveCrop(824 - 9, 1014 - 9, 8, 8);
+        let toCheckMat = toCheckRegion.SrcMat;
+        let ro = RecognitionObject.TemplateMatch(toCheckMat);
+        ro.use3Channels = true;
+        ro.Threshold = 0.4;
+        ro.InitTemplate();
+        try {
+            let res = img.find(ro);
+            if (!res.isEmpty()) {
+                let color;
+                if (res.x > 30) {
+                    color = "黄";
+                }
+                else if (res.x > 14) {
+                    color = "绿";
+                }
+                else {
+                    color = "红";
+                }
+                //log.info(`识别到血条颜色${color}`);
+                if (color === "红") {
+                    return {
+                        shouldTake: true,
+                        medicineType: 'heal'
+                    };
+                }
+            }
+        } catch (error) {
+            log.error(`识别血条时出现错误${error.message}`);
+        } finally {
+            toCheckRegion.dispose();
+        }
+    }
+    return {
+        shouldTake: false,
+        medicineType: null
+    };
 }
 
 /* ========================= ⑤ 批量调度与数据持久化 =========================
@@ -1617,20 +1823,6 @@ async function dumper(pathFilePath, map_name) {
 async function processPathingsByGroup(pathings, accountName) {
     let lastX = 0;
     let lastY = 0;
-
-    if (settings.enableCoordCheck) {
-        try {
-            await genshin.returnMainUi();
-            const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name);
-            if (miniMapPosition) {
-                // 更新坐标
-                lastX = miniMapPosition.X;
-                lastY = miniMapPosition.Y;
-            }
-        } catch (error) {
-            log.error(`获取坐标时发生错误：${error.message}`);
-        }
-    }
 
     // 定义路径组名称到组号的映射（10 个）
     const groupMapping = {
@@ -1726,6 +1918,20 @@ async function processPathingsByGroup(pathings, accountName) {
             // 输出路径已刷新并开始处理的信息
             log.info(`该路线已刷新，开始处理。`);
 
+            // 获取当前坐标作为起点参考
+            if (settings.enableCoordCheck) {
+                try {
+                    await genshin.returnMainUi();
+                    const miniMapPosition = await getCachedPosition(pathing.map_name, pathing.map_match_method);
+                    if (miniMapPosition) {
+                        lastX = miniMapPosition.X;
+                        lastY = miniMapPosition.Y;
+                    }
+                } catch (error) {
+                    log.error(`获取坐标时发生错误：${error.message}`);
+                }
+            }
+
             // 调用 runPath 函数处理路径
             await runPath(pathing.fullPath, pathing.map_name, pathing.m, pathing.e);
             try {
@@ -1766,15 +1972,12 @@ async function processPathingsByGroup(pathings, accountName) {
             if (settings.enableCoordCheck) {
                 try {
                     await genshin.returnMainUi();
-                    const miniMapPosition = await genshin.getPositionFromMap(pathing.map_name);
+                    const miniMapPosition = await getCachedPosition(pathing.map_name, pathing.map_match_method);
                     if (miniMapPosition) {
                         const diffX = Math.abs(lastX - miniMapPosition.X);
                         const diffY = Math.abs(lastY - miniMapPosition.Y);
                         const endDiffX = Math.abs(fileEndX - miniMapPosition.X);
                         const endDiffY = Math.abs(fileEndY - miniMapPosition.Y);
-
-                        lastX = miniMapPosition.X;
-                        lastY = miniMapPosition.Y;
 
                         if ((diffX + diffY) < 5 || (endDiffX + endDiffY) > 30) {
                             coordAbnormal = true;
@@ -1809,7 +2012,7 @@ async function processPathingsByGroup(pathings, accountName) {
             }
             // 更新路径的 cdTime
             pathing.cdTime = newCDTime.toLocaleString();
-            if (!localeWorks) pathing.cdTime = newCDTime.toISOString();
+            if (!localeTimeSupported) pathing.cdTime = newCDTime.toISOString();
 
             await updateRecords(pathings, accountName);
         }
@@ -1822,7 +2025,7 @@ async function processPathingsByGroup(pathings, accountName) {
  *   - 为每条路线赋予 cdTime（本地或UTC）与最近7次运行时长
  *   - 拾取历史仅保留最后20个不重复项
  * 若记录文件缺失则初始化为7条-1
- * 依赖：file、accountName、localeWorks
+ * 依赖：file、accountName、localeTimeSupported
  */
 async function initializeCdTime(pathings, accountName) {
     try {
@@ -1843,7 +2046,7 @@ async function initializeCdTime(pathings, accountName) {
                 ? new Date(entry.cdTime).toLocaleString()
                 : new Date(0).toLocaleString();
 
-            if (!localeWorks) pathing.cdTime = entry
+            if (!localeTimeSupported) pathing.cdTime = entry
                 ? new Date(entry.cdTime).toISOString()
                 : new Date(0).toISOString();
             // 确保当前 records 是数组
@@ -1865,7 +2068,7 @@ async function initializeCdTime(pathings, accountName) {
             pathing.cdTime = new Date(0).toLocaleString();
             pathing.records = new Array(7).fill(-1);
         });
-        if (!localeWorks) pathings.forEach(pathing => {
+        if (!localeTimeSupported) pathings.forEach(pathing => {
             pathing.cdTime = new Date(0).toISOString();
             pathing.records = new Array(7).fill(-1);
         });
@@ -1929,50 +2132,149 @@ async function loadBlacklist(merge = false) {
  * 供以上各模块随时调用
  * =========================================================== */
 
-//切换队伍
+/**
+ * 获取缓存的坐标，避免重复调用 getPositionFromMap
+ * 仅当 needRefreshCoord 为 true 时重新获取
+ */
+async function getCachedPosition(map_name, map_match_method) {
+    if (needRefreshCoord) {
+        try {
+            const pos = map_match_method && map_match_method !== ""
+                ? await genshin.getPositionFromMapWithMatchingMethod(map_name, map_match_method)
+                : await genshin.getPositionFromMap(map_name);
+            if (pos && typeof pos.X === 'number' && typeof pos.Y === 'number'
+                && !isNaN(pos.X) && !isNaN(pos.Y) && !(pos.X === 0 && pos.Y === 0)) {
+                coordCache = pos;
+            } else {
+                coordCache = { X: 0, Y: 0 };
+            }
+            log.info(`更新当前坐标为 ${coordCache.X},${coordCache.Y}`);
+            needRefreshCoord = false;
+        } catch (e) {
+            coordCache = { X: 0, Y: 0 };
+            log.info(`更新当前坐标为 ${coordCache.X},${coordCache.Y}`);
+            needRefreshCoord = false;
+        }
+    }
+    return coordCache;
+}
+
+/**
+ * 解析数值类型配置项
+ * @param {*} value    配置原始值（可能是字符串、数字、undefined、null）
+ * @param {number} defaultVal 默认值
+ * @returns {number} 若 value 为空字符串/undefined/null 或转换后为 NaN，返回 defaultVal；否则返回转换后的数值（包含 0）
+ */
+function parseNumericSetting(value, defaultVal) {
+    if (value === undefined || value === null || value === '') return defaultVal;
+    const n = Number(value);
+    return isNaN(n) ? defaultVal : n;
+}
+
+/**
+ * 切换队伍
+ * @param {string} partyName 目标队伍名称，若为空则仅返回主界面
+ * @returns {Promise<boolean>} true 表示成功，false 表示失败
+ */
 async function switchPartyIfNeeded(partyName) {
     if (!partyName) {
         await genshin.returnMainUi();
-        return;
+        return true;
     }
-    try {
-        log.info("正在尝试切换至" + partyName);
-        if (!await genshin.switchParty(partyName)) {
-            log.info("切换队伍失败，前往七天神像重试");
-            await genshin.tpToStatueOfTheSeven();
-            await genshin.switchParty(partyName);
+
+    // 如果没有配置队伍校验，使用原有逻辑
+    if (!validateTeamMembers || validateTeamMembers.length === 0) {
+        try {
+            log.info("正在尝试切换至" + partyName);
+            if (!await genshin.switchParty(partyName)) {
+                log.info("切换队伍失败，前往七天神像重试");
+                await genshin.tpToStatueOfTheSeven();
+                await genshin.switchParty(partyName);
+            }
+        } catch {
+            log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
+            notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
+            await genshin.returnMainUi();
         }
-    } catch {
-        log.error("队伍切换失败，可能处于联机模式或其他不可切换状态");
-        notification.error(`队伍切换失败，可能处于联机模式或其他不可切换状态`);
-        await genshin.returnMainUi();
+        return true;
     }
+
+    // 有队伍校验配置，执行校验逻辑
+    const maxRetries = 3;
+    let lastValidationResult = null;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+            log.info(`正在尝试切换至${partyName}（第${attempt}次）`);
+            if (!await genshin.switchParty(partyName)) {
+                log.info("切换队伍失败，前往七天神像重试");
+                await genshin.tpToStatueOfTheSeven();
+                await genshin.switchParty(partyName);
+            }
+
+            // 校验队伍成员
+            const validationResult = await validateTeamMembersInParty(validateTeamMembers);
+            lastValidationResult = validationResult;
+            if (validationResult.success) {
+                log.info("队伍校验通过：" + validationResult.currentTeam.join("、"));
+                return true;
+            } else {
+                const expectedStr = validateTeamMembers.join("、");
+                const actualStr = validationResult.currentTeam.join("、");
+                log.warn(`队伍${partyName}预期包含角色${expectedStr}，实际包含角色${actualStr}，与预期不符（第${attempt}次）`);
+                if (attempt < maxRetries) {
+                    log.warn("将重新尝试切换队伍...");
+                    await sleep(1000);
+                }
+            }
+        } catch (error) {
+            log.error(`队伍切换或校验异常（第${attempt}次）：${error.message}`);
+            if (attempt < maxRetries) {
+                await sleep(1000);
+            }
+        }
+    }
+
+    // 3次重试后仍失败
+    const expectedStr = validateTeamMembers.join("、");
+    const actualStr = lastValidationResult?.currentTeam?.join("、") || "未知";
+    const errorMsg = `队伍${partyName}预期包含角色${expectedStr}，实际包含角色${actualStr}，与预期不符（已重试${maxRetries}次）`;
+    log.error(errorMsg);
+    notification.error(errorMsg);
+    return false;
+}
+
+/**
+ * 校验队伍成员是否都在当前队伍中
+ * @param {string[]} requiredMembers 需要校验的角色列表
+ * @returns {Promise<{success: boolean, currentTeam: string[], missing: string[]}>}
+ */
+async function validateTeamMembersInParty(requiredMembers) {
+    const avatars = Array.from(getAvatars?.() || []);
+    const missing = requiredMembers.filter(name => !avatars.includes(name));
+
+    return {
+        success: missing.length === 0,
+        currentTeam: avatars,
+        missing: missing
+    };
 }
 
 /**
  * 判断当前是否位于主界面
- * @param {number} maxDuration 最大允许耗时（毫秒）
+ * @param {number} [maxDuration=10] 最大允许耗时（毫秒）
+ * @returns {Promise<boolean>} 是否在主界面
  */
 async function isMainUI(maxDuration = 10) {
     const start = Date.now();
-    let dodispose = false;
     while (Date.now() - start < maxDuration) {
-        if (!gameRegion) {
-            gameRegion = captureGameRegion();
-            dodispose = true;
-        }
         try {
-            const result = gameRegion.find(mainUIRo);
+            const result = (await getGameRegion()).find(mainUIRo);
             if (result.isExist()) return true;
         } catch (error) {
             log.error(`识别图像时发生异常: ${error.message}`);
             return false;          // 一旦出现异常直接退出，不再重试
         }
         await sleep(checkDelay);   // 识别间隔
-        if (dodispose) {
-            gameRegion.dispose();
-            dodispose = false;     // 已经释放，标记避免重复 dispose
-        }
     }
     /* 超时仍未识别到，返回失败 */
     return false;
@@ -1980,36 +2282,31 @@ async function isMainUI(maxDuration = 10) {
 
 /**
  * 判断当前是否存在拾取滚轮图标
- * @param {number} maxDuration 最大允许耗时（毫秒）
+ * @param {number} [maxDuration=10] 最大允许耗时（毫秒）
+ * @returns {Promise<boolean>} 是否存在滚轮图标
  */
 async function hasScroll(maxDuration = 10) {
     const start = Date.now();
-    let dodispose = false;
     while (Date.now() - start < maxDuration) {
-        if (!gameRegion) {
-            gameRegion = captureGameRegion();
-            dodispose = true;
-        }
         try {
-            const result = gameRegion.find(scrollRo);
+            const result = (await getGameRegion()).find(scrollRo);
             if (result.isExist()) return true;
         } catch (error) {
             log.error(`识别图像时发生异常: ${error.message}`);
             return false;          // 一旦出现异常直接退出，不再重试
         }
         await sleep(checkDelay);   // 识别间隔
-        if (dodispose) {
-            gameRegion.dispose();
-            dodispose = false;     // 已经释放，标记避免重复 dispose
-        }
     }
     /* 超时仍未识别到，返回失败 */
     return false;
 }
 
-// 加载拾取物图片
+/**
+ * 加载拾取物模板图片
+ * 根据 pickup_Mode 决定加载的目录：完整狗粮+材料 / 仅狗粮 / 其他
+ * @returns {Promise<Object[]|null>} 模板对象数组，加载失败返回 null
+ */
 async function loadTargetItems() {
-
     let targetItemPath;
     if (pickup_Mode === "模板匹配拾取，拾取狗粮和怪物材料") {
         targetItemPath = "assets/targetItems/";
@@ -2048,12 +2345,17 @@ async function loadTargetItems() {
     return items;
 }
 
+/**
+ * OCR 识别指定区域文本
+ * @param {number} centerYF 屏幕 Y 中心坐标（像素）
+ * @returns {Promise<string|null>} 识别到的最长文本，失败返回 null
+ */
 async function performOcr(centerYF) {
     const TEXT_X = 1210, TEXT_W = 250;   // 1210 ~ 1460
     const TEXT_Y = centerYF - 30, TEXT_H = 60;
 
     try {
-        const resList = gameRegion.findMulti(
+        const resList = (await getGameRegion()).findMulti(
             RecognitionObject.ocr(TEXT_X, TEXT_Y, TEXT_W, TEXT_H)
         );
         if (!resList.count) return null;
@@ -2069,55 +2371,6 @@ async function performOcr(centerYF) {
         log.error(`OCR异常: ${e.message}`);
         return null;
     }
-}
-
-async function refreshTargetItems(centerYF) {
-    const TARGET_DIR = 'assets/targetItems';
-
-    /* 1. 一次截屏 */
-    const rawText = await performOcr(centerYF);
-    if (!rawText) { log.warn('未识别到文字'); return; }
-
-    const itemName = rawText.replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, '');
-    if (!itemName) { log.warn('未提取到有效物品名'); return; }
-
-    const CAP_X = 1220;                       // 左侧固定
-    let CAP_W = 12 + 28 * (itemName.length);  // 动态宽度
-    if (itemName.length > 4) {
-        CAP_W = 32 + 30 * 4;//过长时只取前五个字的区域
-    }
-    const CAP_Y = centerYF - 14;
-    const CAP_H = 28;
-
-    const mat = gameRegion.DeriveCrop(CAP_X, CAP_Y, CAP_W, CAP_H).SrcMat;
-
-    /* 2. 纯 for 循环重名检测 */
-    let finalName = itemName;
-    let seq = 1;
-    while (true) {
-        let hit = false;
-        for (let i = 0; i < targetItems.length; i++) {
-            if (targetItems[i].itemName === finalName) {
-                hit = true;
-                break;
-            }
-        }
-        if (!hit) break;          // 没找到重名，可用
-        finalName = itemName + '(' + seq + ')';
-        seq++;
-    }
-
-    /* 3. 保存 & 入库 */
-    const fullPath = TARGET_DIR + '/' + finalName + '.png';
-    file.WriteImageSync(fullPath, mat);
-    targetItems.push({
-        fullPath: fullPath,
-        fileName: finalName + '.png',
-        itemName: finalName,
-        template: file.ReadImageMatSync(fullPath)
-    });
-
-    log.info('已新增拾取物：' + finalName);
 }
 
 /**
@@ -2339,25 +2592,21 @@ async function findAndClick(target,
         let found = null;
 
         while (Date.now() - start <= timeout) {
-            const gameRegion = captureGameRegion();
-            try {
-                // 依次尝试每一个 ro
-                for (const ro of ros) {
-                    const res = gameRegion.find(ro);
-                    if (!res.isEmpty()) {          // 找到
-                        found = res;
-                        if (doClick) {
-                            await sleep(preClickDelay);
-                            res.click();
-                            await sleep(postClickDelay);
-                        }
-                        break;                     // 成功即跳出 for
+            try { await sleep(1); } catch (error) { break; }
+            // 依次尝试每一个 ro
+            for (const ro of ros) {
+                const res = (await getGameRegion()).find(ro);
+                if (!res.isEmpty()) {          // 找到
+                    found = res;
+                    if (doClick) {
+                        await sleep(preClickDelay);
+                        res.click();
+                        await sleep(postClickDelay);
                     }
+                    break;                     // 成功即跳出 for
                 }
-                if (found) break;                  // 成功即跳出 while
-            } finally {
-                gameRegion.dispose();
             }
+            if (found) break;                  // 成功即跳出 while
             await sleep(interval);                 // 没找到时等待
         }
 
@@ -2367,5 +2616,68 @@ async function findAndClick(target,
     } catch (error) {
         log.error(`执行通用识图时出现错误：${error.message}`);
         return retType === 0 ? false : null;
+    }
+}
+
+/**
+ * 获取游戏区域截图，根据时间间隔决定是否重新捕获
+ * 
+ * @param {number} [minInterval=17] - 最小截图间隔（毫秒），默认17ms（约60fps）
+ * @param {boolean} [asyncDispose=false] - 是否异步释放旧截图，默认false
+ * @returns {Promise<Object>} 游戏区域截图对象
+ * 
+ * @description
+ * 使用 gameRegionManager 对象管理以下属性：
+ * - cache: 缓存队列，保存近5张截图
+ * - lastCapture: 上一次捕获游戏区域的时间戳
+ * - isDisposing: 标记是否正在释放旧截图，用于安全锁
+ * - isCapturing: 标记是否正在执行截图操作，用于全局锁
+ */
+async function getGameRegion(minInterval = 17, asyncDispose = false) {
+    async function disposeOldGameRegion() {
+        gameRegionManager.isDisposing = true;
+        try {
+            // 当缓存队列超过GAME_REGION_CACHE_SIZE个时，销毁最旧的截图
+            while (gameRegionManager.cache.length > GAME_REGION_CACHE_SIZE) {
+                const oldestRegion = gameRegionManager.cache.shift();
+                if (oldestRegion) {
+                    oldestRegion.dispose();
+                }
+            }
+        } catch (error) {
+            log.error(`释放旧游戏区域截图失败: ${error.message}`);
+        } finally {
+            gameRegionManager.isDisposing = false;
+        }
+    }
+
+    // 等待其他任务完成截图
+    while (gameRegionManager.isCapturing) {
+        await sleep(1);
+    }
+
+    gameRegionManager.isCapturing = true;
+    try {
+        if (new Date() - gameRegionManager.lastCapture >= minInterval || gameRegionManager.cache.length === 0) {
+            while (gameRegionManager.isDisposing) {
+                await sleep(1);
+            }
+            gameRegionManager.lastCapture = new Date();
+            const newRegion = captureGameRegion();
+            gameRegionManager.cache.push(newRegion);
+
+            // 根据参数决定是否等待释放完成
+            if (asyncDispose) {
+                disposeOldGameRegion();
+            } else {
+                await disposeOldGameRegion();
+            }
+        }
+    } catch (error) {
+        log.error(`获取游戏区域截图失败: ${error.message}`);
+    } finally {
+        gameRegionManager.isCapturing = false;
+        // 返回最新的截图
+        return gameRegionManager.cache[gameRegionManager.cache.length - 1];
     }
 }

@@ -8,7 +8,7 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时144.55秒，包含以下怪物：2只木盾丘丘人、2只雷斧丘丘暴徒、1只丘丘雷兜王、1只水丘丘萨满、2只雷深渊法师、1只遗迹侦察者。",
+    "description": "  路线信息：该路线预计用时134秒，包含以下怪物：2只木盾丘丘人、2只雷斧丘丘暴徒、1只丘丘雷兜王、1只水丘丘萨满、2只雷深渊法师、1只遗迹侦察者。",
     "hash_res": "62061409",
     "enable_monster_loot_split": false,
     "last_modified_time": 1763193030159,
@@ -40,7 +40,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "action_params": "keypress(x);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
@@ -134,15 +134,6 @@
       "id": 13,
       "move_mode": "dash",
       "type": "path",
-      "x": -441.908203125,
-      "y": -3984.443359375
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 14,
-      "move_mode": "dash",
-      "type": "orientation",
       "x": -441.908203125,
       "y": -3984.443359375
     }

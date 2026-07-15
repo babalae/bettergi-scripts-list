@@ -5,6 +5,11 @@
         "label": "需要领取好感的队伍名称(不填写则不切换队伍)"
     },
     {
+        "name": "movePartyName",
+        "type": "input-text",
+        "label": "（可选）移动专用队伍名称（用于前往冒险家协会寻路）\n若填写，则先切至此队寻路，再切回原队领奖"
+    },
+    {
         "name": "disableGoStatue",
         "type": "checkbox",
         "label": "关闭前往七天神像"
@@ -18,7 +23,7 @@
     {
         "name": "appointFriendName",
         "type": "input-text",
-        "label": "---好友尘歌壶双倍好感设置---\n\n(选填)指定好友名称"
+        "label": "---好友尘歌壶双倍好感设置---\n\n(选填)指定好友名称，多个用英文逗号分隔，如: 张三,李四,王五"
     },
     {
         "name": "request_times",

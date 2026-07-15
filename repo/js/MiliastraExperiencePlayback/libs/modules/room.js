@@ -3,7 +3,6 @@ import { assertRegionAppearing, waitForAction } from "../@bettergi+utils.js";
 import {
   clickToChooseFirstSearchResult,
   findAllWonderlandsBtn,
-  findBeyondHallBtn,
   findClearInputBtn,
   findConfirmBtn,
   findCreateRoomBtn,
@@ -14,13 +13,12 @@ import {
   findLeaveRoomBtn,
   findSearchWonderlandBtn,
   findSearchWonderlandInput,
-  findSearchWonderlandThrottleMsg,
 } from "../constants/regions.js";
 import { isInLobby } from "./lobby.js";
 
 //#region src/modules/room.ts
 const isInRoom = () => findHeaderTitle("房间", true) !== void 0;
-//! 打开人气奇域
+/** 打开人气奇域 */
 const goToRecommendedWonderlands = async () => {
   log.info("打开人气奇域界面...");
   await assertRegionAppearing(
@@ -31,7 +29,7 @@ const goToRecommendedWonderlands = async () => {
     },
   );
 };
-//! 创建并进入奇域房间
+/** 创建并进入奇域房间 */
 const createRoom = async (room) => {
   await goToRecommendedWonderlands();
   log.info("打开搜索奇域界面...");
@@ -42,20 +40,17 @@ const createRoom = async (room) => {
       findAllWonderlandsBtn()?.click();
     },
   );
-  //! 减少网络影响带来的影响
-  log.info("等待奇域列表加载完成...");
-  await sleep(1500);
-  //! 记录搜索前的第一个奇域名称
-  let iwnt;
-  let wi = 0;
-  while (iwnt === void 0) {
-    if (wi > 20) break;
-    iwnt = findFirstSearchResultText();
-    await sleep(500);
-    wi += 1;
-  }
+  /** 帮助函数：获取第一个奇域名称 */
+  const firstWonderlandName = async (maxAttempts = 5, retryInterval = 2e3) => {
+    for (let i = 0; i < maxAttempts; i++) {
+      await sleep(retryInterval);
+      const text = findFirstSearchResultText();
+      if (text) return text;
+    }
+  };
+  const iwnt = await firstWonderlandName();
   if (iwnt === void 0) throw new Error("奇域列表加载超时");
-  log.info("搜索前的第一个奇域名称: {iwnt}", iwnt);
+  log.info("搜索前的首个奇域关卡名称: {iwnt}", iwnt);
   log.info("粘贴奇域关卡文本: {room}", room);
   await assertRegionAppearing(findClearInputBtn, "粘贴关卡文本超时", () => {
     const input = findSearchWonderlandInput();
@@ -64,30 +59,26 @@ const createRoom = async (room) => {
       inputText(room);
     }
   });
-  //! 等待搜索结果变化
-  let fswnt;
+  /** 等待搜索结果变化 */
+  let lwnt;
   log.info("搜索奇域关卡: {room}", room);
   await waitForAction(
     () => {
-      if (fswnt === void 0) return false;
-      //! 检测搜索过于频繁提示
-      if (findSearchWonderlandThrottleMsg()) return true;
-      //! 检测搜索结果是否变化
-      return fswnt.toLocaleLowerCase().trim() !== iwnt.toLocaleLowerCase().trim();
+      if (lwnt === void 0) return false;
+      const isChanged = lwnt.toLowerCase().trim() !== iwnt.toLowerCase().trim();
+      if (isChanged) log.info("首个奇域关卡名称已变化: {lwnt}，搜索完成", lwnt);
+      return isChanged;
     },
     async () => {
       const searchBtn = findSearchWonderlandBtn();
       if (searchBtn) {
         searchBtn.click();
-        await sleep(200);
-        searchBtn.click();
+        lwnt = await firstWonderlandName();
       }
-      await sleep(500);
-      fswnt = findFirstSearchResultText();
     },
     {
-      maxAttempts: 30,
-      retryInterval: 200,
+      maxAttempts: 10,
+      retryInterval: 1e3,
     },
   );
   log.info("打开奇域介绍...");
@@ -116,7 +107,7 @@ const createRoom = async (room) => {
     { maxAttempts: 60 },
   );
 };
-//! 进入奇域房间
+/** 进入奇域房间 */
 const enterRoom = async (room) => {
   if (isInLobby()) {
     if (findEnterRoomShortcut()) {
@@ -134,12 +125,12 @@ const enterRoom = async (room) => {
   log.info("当前不在房间内，创建房间...", room);
   await createRoom(room);
 };
-//! 离开房间
+/** 离开房间 */
 const leaveRoom = async () => {
-  //! 当前在大厅，且存在房间
+  /** 当前在大厅，且存在房间 */
   if ((isInLobby() && findEnterRoomShortcut() !== void 0) || isInRoom()) {
     log.info("当前存在房间，离开房间...");
-    //! 先进入房间
+    /** 先进入房间 */
     await assertRegionAppearing(
       () => findHeaderTitle("房间", true),
       "进入房间超时",
@@ -147,17 +138,18 @@ const leaveRoom = async () => {
         keyPress("VK_P");
       },
     );
-    //! 离开房间
-    await assertRegionAppearing(
-      findBeyondHallBtn,
-      "离开房间超时",
-      async () => {
-        findLeaveRoomBtn()?.click();
-        await sleep(1e3);
-        findConfirmBtn()?.click();
-      },
-      { maxAttempts: 5 },
-    );
+    if (
+      !(await waitForAction(
+        isInLobby,
+        async () => {
+          findLeaveRoomBtn()?.click();
+          await sleep(1e3);
+          findConfirmBtn()?.click();
+        },
+        { maxAttempts: 5 },
+      ))
+    )
+      throw new Error("离开房间超时");
   }
 };
 

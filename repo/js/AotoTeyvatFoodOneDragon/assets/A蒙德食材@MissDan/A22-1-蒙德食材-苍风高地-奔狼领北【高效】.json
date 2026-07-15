@@ -1,0 +1,184 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个甜甜花；1个薄荷；3个苹果；2个鸟蛋；4个松果；2个小灯草；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762333270594,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A22-1-蒙德食材-苍风高地-奔狼领北【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -385.9277,
+      "y": 2297.9185
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -366.0352,
+      "y": 2289.417
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -363.8242,
+      "y": 2276.958
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -365.5508,
+      "y": 2276.0317
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -393.3945,
+      "y": 2274.5054
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -396.3203,
+      "y": 2273.8596
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -421.4844,
+      "y": 2258.1099
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -433.4141,
+      "y": 2252.1016
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -430.5898,
+      "y": 2237.1089
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -430.1035,
+      "y": 2237.1218
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -428.5645,
+      "y": 2227.0293
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -432.4668,
+      "y": 2213.5454
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -432.1387,
+      "y": 2210.5942
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -437.3965,
+      "y": 2218.3303
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -444.5391,
+      "y": 2221.3809
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "run",
+      "type": "path",
+      "x": -463.5488,
+      "y": 2193.7476
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -478.5059,
+      "y": 2207.5898
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -478.5059,
+      "y": 2207.5898
+    }
+  ]
+}

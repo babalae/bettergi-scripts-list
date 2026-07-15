@@ -11,7 +11,7 @@
     "version": "1.0",
     "description": "",
     "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
+    "bgi_version": "0.52.0",
     "tags": [
       "双手剑"
     ],
@@ -61,7 +61,7 @@
       "y": -4050.48,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.5)",
+      "action_params": "wait(0.249)",
       "type": "path"
     },
     {
@@ -124,7 +124,7 @@
       "y": -4034.31,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.5)",
+      "action_params": "wait(0.249)",
       "type": "path"
     },
     {
@@ -147,15 +147,6 @@
     },
     {
       "id": 15,
-      "x": -2277.76,
-      "y": -4010.11,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.5)",
-      "type": "path"
-    },
-    {
-      "id": 16,
       "x": -2292.65,
       "y": -4001.38,
       "action": "",
@@ -164,7 +155,7 @@
       "type": "path"
     },
     {
-      "id": 17,
+      "id": 16,
       "x": -2298.45,
       "y": -3983.27,
       "action": "",
@@ -173,7 +164,7 @@
       "type": "target"
     },
     {
-      "id": 18,
+      "id": 17,
       "x": -2297.68,
       "y": -3986.02,
       "action": "mining",
@@ -182,16 +173,7 @@
       "type": "target"
     },
     {
-      "id": 19,
-      "x": -2297.68,
-      "y": -3986.02,
-      "action": "combat_script",
-      "move_mode": "walk",
-      "action_params": "wait(0.5)",
-      "type": "path"
-    },
-    {
-      "id": 20,
+      "id": 18,
       "x": -2283.93,
       "y": -3970.98,
       "action": "",
@@ -200,7 +182,7 @@
       "type": "path"
     },
     {
-      "id": 21,
+      "id": 19,
       "x": -2282.45,
       "y": -3966.4,
       "action": "",
@@ -209,7 +191,7 @@
       "type": "path"
     },
     {
-      "id": 22,
+      "id": 20,
       "x": -2279.0527,
       "y": -3965.1865,
       "type": "target",
@@ -218,7 +200,7 @@
       "action_params": ""
     },
     {
-      "id": 23,
+      "id": 21,
       "x": -2281.91,
       "y": -3964.75,
       "action": "mining",
@@ -227,16 +209,16 @@
       "type": "target"
     },
     {
-      "id": 24,
+      "id": 22,
       "x": -2281.77,
       "y": -3964.57,
       "action": "combat_script",
       "move_mode": "walk",
-      "action_params": "wait(0.5)",
+      "action_params": "wait(0.249)",
       "type": "path"
     },
     {
-      "id": 25,
+      "id": 23,
       "x": -2277.13,
       "y": -3960.75,
       "action": "mining",
@@ -245,7 +227,7 @@
       "type": "target"
     },
     {
-      "id": 26,
+      "id": 24,
       "x": -2277.12,
       "y": -3960.72,
       "action": "combat_script",

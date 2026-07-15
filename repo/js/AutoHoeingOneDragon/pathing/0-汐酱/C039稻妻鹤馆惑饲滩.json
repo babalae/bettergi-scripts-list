@@ -8,10 +8,10 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时344.25秒，包含以下怪物：1只水史莱姆、2只丘丘人、0.5只射手丘丘人、2只雷斧丘丘暴徒、1只丘丘雷兜王、1只水丘丘萨满、2只嗜雷·兽境幼兽、2只嗜岩·兽境猎犬、3只遗迹巡弋者、1只遗迹歼击者、0.5只嗜雷·兽境猎犬。",
+    "description": "  路线信息：该路线预计用时285秒，包含以下怪物：1只水史莱姆、3只丘丘人、1只射手丘丘人、1只雷箭丘丘人、2只雷斧丘丘暴徒、1只丘丘雷兜王、1只水丘丘萨满、2只嗜雷·兽境幼兽、2只嗜岩·兽境猎犬、3只遗迹巡弋者、1只遗迹歼击者、2只嗜雷·兽境猎犬、2只遗迹守卫。",
     "enable_monster_loot_split": false,
     "hash_res": "23912835",
-    "last_modified_time": 1774337987602,
+    "last_modified_time": 1775575072867,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C039稻妻鹤馆惑饲滩",
@@ -53,8 +53,8 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": -2675.1100000000006,
-      "y": -6493.27
+      "x": -2676.8757594790404,
+      "y": -6492.062060808985
     },
     {
       "action": "",
@@ -75,18 +75,9 @@
       "y": -6472.5
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 7,
-      "move_mode": "dash",
-      "type": "orientation",
-      "x": -2785,
-      "y": -6472.5
-    },
-    {
       "action": "",
       "action_params": "",
-      "id": 8,
+      "id": 7,
       "move_mode": "walk",
       "type": "teleport",
       "x": -2612.380000000001,
@@ -95,7 +86,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 8,
       "move_mode": "walk",
       "type": "path",
       "x": -2626.5600000000013,
@@ -104,7 +95,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 10,
+      "id": 9,
       "move_mode": "fly",
       "type": "path",
       "x": -2643.4399999999987,
@@ -113,29 +104,40 @@
     {
       "action": "",
       "action_params": "",
-      "id": 11,
+      "id": 10,
       "move_mode": "dash",
       "type": "path",
       "x": -2677.5200000000004,
       "y": -6524.33
     },
     {
+      "action": "combat_script",
+      "action_params": "attack(0.1)",
+      "id": 11,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2706.15625,
+      "y": -6596.7578125
+    },
+    {
       "action": "fight",
       "action_params": "",
       "id": 12,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": -2702.3100000000013,
-      "y": -6597.310000000001
+      "x": -2706.15625,
+      "y": -6596.7578125
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.2)",
+      "action_params": "wait(0.1)",
       "id": 13,
       "move_mode": "dash",
       "type": "orientation",
-      "x": -2702.3100000000013,
-      "y": -6597.310000000001
+      "x": -2706.15625,
+      "y": -6596.7578125
     },
     {
       "action": "",
@@ -285,18 +287,8 @@
       "action": "fight",
       "action_params": "",
       "id": 30,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": -2422.630000000001,
-      "y": -6186.860000000001
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 31,
-      "move_mode": "dash",
-      "type": "orientation",
       "x": -2422.630000000001,
       "y": -6186.860000000001
     }

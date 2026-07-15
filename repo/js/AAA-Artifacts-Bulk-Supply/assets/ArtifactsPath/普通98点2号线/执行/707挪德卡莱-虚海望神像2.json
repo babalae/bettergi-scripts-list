@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1772805690993,
+    "last_modified_time": 1777646123330,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "707挪德卡莱-虚海望神像2",
@@ -29,7 +29,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.5);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f),attack(0.03);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.5);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 2,
       "move_mode": "dash",
       "type": "target",
@@ -42,8 +42,8 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 9742.4951171875,
-      "y": 4954.1611328125
+      "x": 9738.640625,
+      "y": 4952.52197265625
     },
     {
       "action": "",
@@ -51,12 +51,12 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 9716.10546875,
-      "y": 4966.1357421875
+      "x": 9717.16796875,
+      "y": 4967.23828125
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.5);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": "keypress(f),attack(0.03);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.5);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
       "id": 5,
       "move_mode": "dash",
       "type": "target",

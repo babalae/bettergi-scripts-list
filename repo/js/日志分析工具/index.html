@@ -1,4 +1,4 @@
-<!--20260306-->
+<!--20260707-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -990,10 +990,6 @@
                 padding: 6px 4px;
             }
 
-            #fileUploadContainer {
-                display: block;
-            }
-
             #mobileControls {
                 flex-wrap: wrap;
                 max-height: 88px;
@@ -1533,18 +1529,24 @@
             const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-            // 如果是移动设备，添加移动设备类并显示文件上传区域
-            if (isMobileDevice || hasTouchScreen) {
-                document.body.classList.add('mobile-device');
+            // 优先使用 URL 参数 LBox 控制显示状态
+            if (boxParam === "true") {
+                // 强制显示上传区域
                 document.getElementById('fileUploadContainer').classList.add('visible');
+                uploadContainerVisible = true;
+            } else if (boxParam === "false") {
+                // 强制隐藏上传区域
+                document.getElementById('fileUploadContainer').classList.remove('visible');
+                uploadContainerVisible = false;
             } else {
-                // 电脑设备：如果参数指定显示，则显示；否则保持隐藏
-                if (boxParam === "true") {
+                // 未指定 LBox 参数时，按移动设备检测决定
+                if (isMobileDevice || hasTouchScreen) {
+                    document.body.classList.add('mobile-device');
                     document.getElementById('fileUploadContainer').classList.add('visible');
-                    uploadContainerVisible = true; // 根据参数设置显示，变量设为true
+                    uploadContainerVisible = true;
                 } else {
                     document.getElementById('fileUploadContainer').classList.remove('visible');
-                    uploadContainerVisible = false; // 根据参数设置隐藏，变量设为false
+                    uploadContainerVisible = false;
                 }
             }
 
@@ -2959,11 +2961,61 @@
                     }
                 }
 
+                function finalizeGroup(group, endTime) {
+                    if (!group.endTime) {
+                        group.endTime = endTime;
+                    }
+                    // 检查是否有有效任务（可复用 hasTaskActualContent 逻辑）
+                    let hasValidTasks = false;
+                    group.tasks.forEach(task => {
+                        if (hasTaskActualContent(task)) hasValidTasks = true;
+                    });
+                    if (!hasValidTasks) {
+                        group.skipped = true;
+                        return; // 跳过的组不处理角色信息
+                    }
+                    // 汇总配置组角色信息（原代码中“配置组结束”部分的处理）
+                    const groupSurvivalRoles = new Map();
+                    const groupWalkRoles = new Map();
+                    const groupDashRoles = new Map();
+                    group.tasks.forEach(task => {
+                        if (task.survivalRoles && task.survivalRoles.length > 0) {
+                            const main = task.survivalRoles[0];
+                            groupSurvivalRoles.set(main, (groupSurvivalRoles.get(main) || 0) + 1);
+                        }
+                        if (task.walkRoles && task.walkRoles.length > 0) {
+                            const main = task.walkRoles[0];
+                            groupWalkRoles.set(main, (groupWalkRoles.get(main) || 0) + 1);
+                        }
+                        if (task.dashRoles && task.dashRoles.length > 0) {
+                            const main = task.dashRoles[0];
+                            groupDashRoles.set(main, (groupDashRoles.get(main) || 0) + 1);
+                        }
+                    });
+                    const sortedSurvival = Array.from(groupSurvivalRoles.entries()).sort((a, b) => b[1] - a[1]);
+                    group.survivalRoles = sortedSurvival.length > 0 ? [sortedSurvival[0][0]] : [];
+                    const sortedWalk = Array.from(groupWalkRoles.entries()).sort((a, b) => b[1] - a[1]);
+                    group.walkRoles = sortedWalk.length > 0 ? [sortedWalk[0][0]] : [];
+                    const sortedDash = Array.from(groupDashRoles.entries()).sort((a, b) => b[1] - a[1]);
+                    group.dashRoles = sortedDash.length > 0 ? [sortedDash[0][0]] : [];
+                }
+
                 // 解析配置组
                 let match = line.match(/配置组 "(.+?)" 加载完成/);
                 if (match) {
                     const groupName = match[1];
-                    let group = parsingContext.activeGroups.get(groupName) || {
+                    // 强制结束当前活跃的配置组（无论名称是否相同）
+                    const activeGroupsList = Array.from(parsingContext.activeGroups.values());
+                    if (activeGroupsList.length > 0) {
+                        // 通常只有一个活跃组，取最后一个（即当前正在运行的组）
+                        const currentActiveGroup = activeGroupsList[activeGroupsList.length - 1];
+                        finalizeGroup(currentActiveGroup, parseTime(prevLine, fileDate));
+                        parsingContext.allGroups.push(currentActiveGroup);
+                        parsingContext.activeGroups.delete(currentActiveGroup.name);
+                    }
+
+                    // 创建新配置组
+                    let group = {
                         name: groupName,
                         startTime: parseTime(prevLine, fileDate),
                         endTime: null,
@@ -2971,18 +3023,18 @@
                         picks: new Map(),
                         lastActive: null,
                         teamRoles: new Set(),
-                        survivalRoles: [], // 生存位
-                        walkRoles: [],     // 行走位
-                        dashRoles: [],      // 赶路位
-                        hasRotationTargeting: false  // 旋转索敌标记
+                        survivalRoles: [],
+                        walkRoles: [],
+                        dashRoles: [],
+                        hasRotationTargeting: false
                     };
                     group.lastActive = parseTime(prevLine, fileDate);
                     parsingContext.activeGroups.set(groupName, group);
-                    battleCount = 0; // 重置战斗计数器
-                    lastCoordForRevive = null; // 重置坐标跟踪
-                    lastCoordForStuck = null;  // 重置坐标跟踪
 
-                    // 重置角色统计
+                    // 重置各种计数器
+                    battleCount = 0;
+                    lastCoordForRevive = null;
+                    lastCoordForStuck = null;
                     survivalWeights.clear();
                     walkWeights.clear();
                     lastSwitchedRole = null;
@@ -2990,7 +3042,6 @@
                     nahidaCollect = false;
                     kazuhaCollect = false;
 
-                    // 更新当前组
                     currentGroup = group;
                 }
 
@@ -2999,65 +3050,7 @@
                 if (match) {
                     const group = parsingContext.activeGroups.get(match[1]);
                     if (group) {
-                        group.endTime = parseTime(prevLine, fileDate);
-
-                        // 检查配置组是否只有跳过的任务
-                        let hasValidTasks = false;
-                        group.tasks.forEach(task => {
-                            // 检查任务是否有实际执行内容
-                            if (hasTaskActualContent(task)) {
-                                hasValidTasks = true;
-                            }
-                        });
-
-                        // 如果没有有效任务，标记为跳过
-                        if (!hasValidTasks) {
-                            group.skipped = true;
-                        } else {
-                            // 汇总配置组的角色信息
-                            const groupSurvivalRoles = new Map();
-                            const groupWalkRoles = new Map();
-                            const groupDashRoles = new Map(); // 赶路位汇总
-
-                            group.tasks.forEach(task => {
-                                // 汇总生存位 - 只取每个任务的主要生存位
-                                if (task.survivalRoles && task.survivalRoles.length > 0) {
-                                    const mainSurvivalRole = task.survivalRoles[0];
-                                    const count = groupSurvivalRoles.get(mainSurvivalRole) || 0;
-                                    groupSurvivalRoles.set(mainSurvivalRole, count + 1);
-                                }
-
-                                // 汇总行走位 - 只取每个任务的主要行走位
-                                if (task.walkRoles && task.walkRoles.length > 0) {
-                                    const mainWalkRole = task.walkRoles[0];
-                                    const count = groupWalkRoles.get(mainWalkRole) || 0;
-                                    groupWalkRoles.set(mainWalkRole, count + 1);
-                                }
-                                // 汇总赶路位 - 只取每个任务的主要赶路位
-                                if (task.dashRoles && task.dashRoles.length > 0) {
-                                    const mainDashRole = task.dashRoles[0];
-                                    const count = groupDashRoles.get(mainDashRole) || 0;
-                                    groupDashRoles.set(mainDashRole, count + 1);
-                                }
-                            });
-
-                            // 确定最终的配置组角色
-                            // 生存位：取出现次数最多的一个
-                            const sortedSurvival = Array.from(groupSurvivalRoles.entries())
-                                .sort((a, b) => b[1] - a[1]);
-                            group.survivalRoles = sortedSurvival.length > 0 ? [sortedSurvival[0][0]] : [];
-
-                            // 行走位：取出现次数最多的一个
-                            const sortedWalk = Array.from(groupWalkRoles.entries())
-                                .sort((a, b) => b[1] - a[1]);
-                            group.walkRoles = sortedWalk.length > 0 ? [sortedWalk[0][0]] : [];
-
-                            // 赶路位：取出现次数最多的一个
-                            const sortedDash = Array.from(groupDashRoles.entries())
-                                .sort((a, b) => b[1] - a[1]);
-                            group.dashRoles = sortedDash.length > 0 ? [sortedDash[0][0]] : [];
-                        }
-
+                        finalizeGroup(group, parseTime(prevLine, fileDate));
                         parsingContext.allGroups.push(group);
                         parsingContext.activeGroups.delete(match[1]);
 
@@ -3271,7 +3264,7 @@
                         }
 
                         if (line.includes("当前角色血量过低")) currentTask.faults.revive = currentTask.faults.revive - 0.9;
-                        if (line.match(/传送失败，重试 (\d+) 次/))
+                        if (line.match(/传送失败，重试 (\d+) 次/) || line.includes("多次尝试未移动到目标传送点，传送失败"))
                             currentTask.faults.teleport = parseInt(RegExp.$1);
                         // if (line.includes("重试一次路线")) currentTask.faults.retry++;
                         if (line.includes("记录恢复点位，地图追踪将到达上次点位之前将跳过走路之外的操作")) currentTask.faults.retry++;
@@ -3299,8 +3292,8 @@
                             currentTask.faults.too_far_skip++;
                         }
 
-                        if (line.includes("，重试多次后仍然失败，放弃此路径点！") || line.includes("执行超时，放弃此次追踪")) {
-                            const message = '路径识别失败，放弃路径';
+                        if (line.includes("，重试多次后仍然失败，放弃此路径点！")) {
+                            const message = '路径识别失败，放弃部份路径';
                             const type = 'abnormal-alert';
                             if (currentTask.specialAlerts.has(message)) {
                                 const existing = currentTask.specialAlerts.get(message);
@@ -3421,10 +3414,24 @@
                             }
                         }
 
+                        // 5.5 策略脚本action_params内容为空
+                        if (
+                            line.includes('策略脚本action_params内容为空')) {
+                            const message = '路徑中策略脚本内容为空';
+                            const type = 'purple-alert';
+                            if (currentTask.specialAlerts.has(message)) {
+                                const existing = currentTask.specialAlerts.get(message);
+                                existing.count++;
+                            } else {
+                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            }
+                        }
+
                         // 6. 战斗脚本设置错误
                         if (
-                            line.includes('执行脚本时发生异常: "未匹配到任何战斗脚本"')
-                            || line.includes('执行地图追踪时候发生错误: "未匹配到任何战斗脚本"')
+                            // line.includes('执行脚本时发生异常: "未匹配到任何战斗脚本"')
+                            // || line.includes('执行地图追踪时候发生错误: "未匹配到任何战斗脚本"')
+                            line.includes('未匹配到任何战斗脚本')
                             || line.includes('执行地图追踪时候发生错误: "战斗策略文件不存在"')) {
                             const message = '未匹配到任何战斗脚本';
                             const type = 'combat-script-error';
@@ -3442,6 +3449,21 @@
                             if (match) {
                                 const message = `队伍缺少 ${match[1]} 元素采集角色`;
                                 const type = 'element-missing';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+                        }
+
+                        // 7.5 切人失败,无法进行"X"元素采集
+                        if (line.includes('切人失败,无法进行"') && line.includes('元素采集')) {
+                            const match = line.match(/切人失败,无法进行"(.+?)"元素采集/);
+                            if (match) {
+                                const message = `切人失败,无法进行 ${match[1]} 元素采集`;
+                                const type = 'purple-alert';
                                 if (currentTask.specialAlerts.has(message)) {
                                     const existing = currentTask.specialAlerts.get(message);
                                     existing.count++;
@@ -3536,8 +3558,20 @@
                         }
 
                         // 13. 选项列表不存在传送点  重试
-                        if (line.includes("选项列表不存在传送点  重试") || line.includes("传送点未激活或不存在  重试")) {
+                        if (line.includes("选项列表不存在传送点  重试") || line.includes("传送点未激活或不存在  重试") || line.match(/选项列表不存在传送点/)) {
                             const message = '传送点不存在';
+                            const type = 'abnormal-alert';
+                            if (currentTask.specialAlerts.has(message)) {
+                                const existing = currentTask.specialAlerts.get(message);
+                                existing.count++;
+                            } else {
+                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            }
+                        }
+
+                        // 13.5 执行地图追踪时候发生错误: "传送失败"
+                        if (line.includes("执行地图追踪时候发生错误: \"传送失败\"")) {
+                            const message = '传送失败，跳过路径';
                             const type = 'abnormal-alert';
                             if (currentTask.specialAlerts.has(message)) {
                                 const existing = currentTask.specialAlerts.get(message);
@@ -3578,6 +3612,18 @@
                         if (line.includes('执行地图追踪时候发生错误: "未能返回主界面"')) {
                             const message = '未能返回主界面';
                             const type = 'abnormal-alert';
+                            if (currentTask.specialAlerts.has(message)) {
+                                const existing = currentTask.specialAlerts.get(message);
+                                existing.count++;
+                            } else {
+                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            }
+                        }
+
+                        // 16.5. 检测到其他界面
+                        if (line.includes('检测到其他界面')) {
+                            const message = '检测到其他界面，关闭其他界面';
+                            const type = 'purple-alert';
                             if (currentTask.specialAlerts.has(message)) {
                                 const existing = currentTask.specialAlerts.get(message);
                                 existing.count++;
@@ -3783,9 +3829,51 @@
                             }
                         }
 
-                        // 997. 检测到空月祝福界面，自动点击
-                        if (line.includes('检测到空月祝福界面，自动点击')) {
-                            const message = '领取空月祝福';
+                        // 32. 游戏窗口分辨率错误
+                        if (line.includes('游戏窗口分辨率小于 1920x1080 ！无法使用地图追踪功能！') || line.includes('执行脚本时发生异常: "游戏窗口分辨率不是 16:9"')) {
+                            const message = '游戏窗口分辨率错误';
+                            const type = 'abnormal-alert';
+                            if (currentTask.specialAlerts.has(message)) {
+                                const existing = currentTask.specialAlerts.get(message);
+                                existing.count++;
+                            } else {
+                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            }
+                        }
+
+                        // 33.鋤地一條龍2.8.0(使用复活料理 & 使用回血料理)
+                        if (line.match(/交互或拾取："使用(复活|回血)料理"/)) {
+                            const match = line.match(/交互或拾取："使用(复活|回血)料理"/);
+                            if (match) {
+                                const foodType = match[1]; // 获取捕获组中的 '复活' 或 '回血'
+                                const message = `使用${foodType}料理`;
+                                const type = 'auto-potion';
+
+                                // 优化 Map 的更新逻辑
+                                const existing = currentTask.specialAlerts.get(message);
+                                if (existing) {
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+                        }
+
+                        // 34.切换角色卡住，执行脱困
+                        if (line.includes('切换角色卡住，执行脱困')) {
+                            const message = '切换角色卡住，执行脱困';
+                            const type = 'purple-alert';
+                            if (currentTask.specialAlerts.has(message)) {
+                                const existing = currentTask.specialAlerts.get(message);
+                                existing.count++;
+                            } else {
+                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            }
+                        }
+
+                        // 35.处于限制时间内
+                        if (line.includes('处于限制时间内')) {
+                            const message = '处于限制时间内';
                             const type = 'purple-alert';
                             if (currentTask.specialAlerts.has(message)) {
                                 const existing = currentTask.specialAlerts.get(message);
@@ -3808,8 +3896,44 @@
                             }
                         }
 
+                        // 995. 执行超时，放弃此次追踪
+                        if (line.includes("执行超时，放弃此次追踪")) {
+                            const message = '路径点执行超时，放弃整条路径';
+                            const type = 'abnormal-alert';
+                            if (currentTask.specialAlerts.has(message)) {
+                                const existing = currentTask.specialAlerts.get(message);
+                                existing.count++;
+                            } else {
+                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            }
+                        }
+
+                        // 996. 进入剧情，自动点击剧情直到结束
+                        if (line.includes('进入剧情')) {
+                            const message = '进入剧情';
+                            const type = 'purple-alert';
+                            if (currentTask.specialAlerts.has(message)) {
+                                const existing = currentTask.specialAlerts.get(message);
+                                existing.count++;
+                            } else {
+                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            }
+                        }
+
+                        // 997. 检测到空月祝福界面，自动点击
+                        if (line.includes('检测到空月祝福界面，自动点击')) {
+                            const message = '领取空月祝福';
+                            const type = 'purple-alert';
+                            if (currentTask.specialAlerts.has(message)) {
+                                const existing = currentTask.specialAlerts.get(message);
+                                existing.count++;
+                            } else {
+                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            }
+                        }
+
                         // 998. 用户取消，终止运行
-                        if (line.includes('用户取消，终止运行') || line.includes('取消自动任务')) {
+                        if (line.includes('用户取消，终止运行') || line.includes('取消自动任务') || line.includes('检测到您配置的停止快捷键"')) {
                             const message = '用户终止运行';
                             const type = 'abnormal-alert';
                             if (currentTask.specialAlerts.has(message)) {
@@ -3823,6 +3947,18 @@
                         // 999. 此追踪脚本未正常走完！
                         if (line.includes('此追踪脚本未正常走完！')) {
                             const message = '脚本未正常走完';
+                            const type = 'abnormal-alert';
+                            if (currentTask.specialAlerts.has(message)) {
+                                const existing = currentTask.specialAlerts.get(message);
+                                existing.count++;
+                            } else {
+                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            }
+                        }
+
+                        // 1000. 游戏窗口大小发生变化
+                        if (line.includes('游戏窗口大小发生变化')) {
+                            const message = '游戏窗口大小发生变化';
                             const type = 'abnormal-alert';
                             if (currentTask.specialAlerts.has(message)) {
                                 const existing = currentTask.specialAlerts.get(message);
@@ -5937,10 +6073,11 @@
                 return; // 用户取消或输入为空
             }
 
-            // 小彩蛋-统计鍵快捷標記
+            // 统计鍵快捷標記
             if (input == "/1") { input = "战狂,游医,教官,流放者" }
             if (input == "/2") { input = "拉扯结束" }
             if (input == "/3") { input = "小怪" }
+            if (input == "/4") { input = "使用回血料理,使用复活料理" }
 
             const itemsToCount = input.split(',')
                 .map(item => item.trim())
@@ -5981,8 +6118,11 @@
                     return; // 跳过汇总行
                 }
 
-                // 获取拾取物文本
-                const text = cell.textContent.trim();
+                // 克隆单元格并移除特殊事件提示（如 <span class="abnormal-alert">用户终止运行 (7)</span>）
+                const cellClone = cell.cloneNode(true);
+                cellClone.querySelectorAll('.abnormal-alert, .auto-potion, .warning, .info').forEach(span => span.remove());
+
+                const text = cellClone.textContent.trim();
                 if (text === '无' || text === '') {
                     return; // 跳过无拾取物的单元格
                 }

@@ -8,7 +8,7 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时74.84秒，包含以下怪物：1只幼岩龙蜥、1只岩龙蜥。",
+    "description": "  路线信息：该路线预计用时56秒，包含以下怪物：1只幼岩龙蜥、1只岩龙蜥。",
     "enable_monster_loot_split": false,
     "last_modified_time": 1768831136716,
     "map_match_method": "",
@@ -57,7 +57,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "action_params": "芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 5,
       "move_mode": "dash",
       "type": "path",
@@ -70,15 +70,6 @@
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 1273.6689453125,
-      "y": 103.78125
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 7,
-      "move_mode": "dash",
-      "type": "orientation",
       "x": 1273.6689453125,
       "y": 103.78125
     }
