@@ -1,4 +1,4 @@
-(async function () { // activate0图片缺失，后续需补全1920x1080状态下图片
+(async function () {
     const downRolls = "{ \"macroEvents\": [ { \"type\": 6, \"mouseX\": 0, \"mouseY\": -120, \"time\": 0 }, { \"type\": 6, \"mouseX\": 0, \"mouseY\": 0, \"time\": 5 } ], \"info\": { \"name\": \"\", \"description\": \"\", \"x\": 0, \"y\": 0, \"width\": 1920, \"height\": 1080, \"recordDpi\": 1 } }"
 
     /**
@@ -105,13 +105,14 @@
      * 进入奇域，并检查是否完成绮衣珍赏任务
      * @returns {Promise<boolean>} 若已完成则返回true,否则false
      */
-    async function enter_stage_check_state() {
+    async function enter_stage_check_state(extra_flag = false) {
         const finish_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Finish.png"), 1552, 352, 94, 94);
-        // const active0_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/active0.png"), 1552, 352, 94, 94);
+        const active0_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/active0.png"), 1552, 352, 94, 94);
         const active1_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/active1.png"), 1552, 352, 94, 94);
         finish_pic.threshold = 0.8;
-        // active0_pic.threshold = 0.8;
+        active0_pic.threshold = 0.8;
         active1_pic.threshold = 0.8;
+        let capture;
 
         await check_world(false);
         await genshin.returnMainUi();
@@ -119,30 +120,64 @@
 
         keyPress("F6");
         await sleep(1500);
-        // 检查任务完成情况
-        click(1051, 48);
-        await sleep(1500);
-        let capture = captureGameRegion();
-        if (capture.Find(finish_pic).isExist()) { // 已领取
+        if (!extra_flag) {
+            // 检查任务完成情况
+            click(1051, 48);
+            await sleep(1500);
+            capture = captureGameRegion();
+        }
+
+        if (extra_flag) {
+            log.debug("额外执行...");
+        } else if (capture.Find(finish_pic).isExist()) { // 已领取
             capture.dispose();
             log.info(`当日绮衣珍赏奖励状态：已领取`);
+            notification.send("当日绮衣珍赏奖励状态：已领取");
+            if (settings.extra_count !== "0") {
+                // 查找关卡
+                click(1703, 48);
+                await sleep(1500);
+                click(1088, 143);
+                await sleep(600);
+                inputText(`${settings.g_uid}`);
+                await sleep(800);
+                keyPress("RETURN");
+                await sleep(1000);
+                // 点开奇域界面
+                click(413, 396);
+                await sleep(1000);
+            }
             return false;
-        }
-        // else if (capture.Find(active0_pic).isExist()) { // 未完成
-        //     capture.dispose();
-        //     log.info(`当日绮衣珍赏奖励状态：未完成`);
-        // }
-        else if (capture.Find(active1_pic).isExist()) { // 待领取
+        } else if (capture.Find(active0_pic).isExist()) { // 未完成
+            capture.dispose();
+            log.info(`当日绮衣珍赏奖励状态：未完成`);
+            notification.send("当日绮衣珍赏奖励状态：未完成");
+        } else if (capture.Find(active1_pic).isExist()) { // 待领取
             capture.dispose();
             log.info(`当日绮衣珍赏奖励状态：待领取`);
             click(1598, 398);
             await sleep(500);
             click(1869, 623);
             await sleep(500);
+            notification.send("当日绮衣珍赏奖励状态：已领取");
+            if (settings.extra_count !== "0") {
+                // 查找关卡
+                click(1703, 48);
+                await sleep(1500);
+                click(1088, 143);
+                await sleep(600);
+                inputText(`${settings.g_uid}`);
+                await sleep(800);
+                keyPress("RETURN");
+                await sleep(1000);
+                // 点开奇域界面
+                click(413, 396);
+                await sleep(1000);
+            }
             return false;
         } else {
             capture.dispose();
-            log.info(`当日绮衣珍赏奖励状态：未完成`);
+            log.error(`当日绮衣珍赏奖励状态：未识别`);
         }
 
         // 查找关卡
@@ -209,17 +244,24 @@
     }
 
     async function main() {
+        let extra_flag = false;
+        if (settings.extra_count !== "0") {
+            extra_flag = true;
+        }
+
         // 进入奇域并检查完成状态
         let state_result = await enter_stage_check_state();
-        if (!state_result) {
+        if (!state_result && settings.extra_count === "0") {
             log.info("已完成...");
             await check_world(true);
             return null;
         }
 
         const f_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/F.png"), 1094, 334, 50, 426);
-        let check_flag_page = false;
+        let check_flag_page = extra_flag;
         let check_flag_win = false;
+        let check_flag_extra_count = false;
+        let extra_count = Number(settings.extra_count);
 
         while (true) {
 
@@ -317,10 +359,22 @@
             } else if (current_ui === "奇域界面") {
                 if (check_flag_page) {
                     check_flag_page = false;
-                    let state_result = await enter_stage_check_state();
-                    if (!state_result) {
+                    let state_result = await enter_stage_check_state(extra_flag);
+                    if (!state_result && settings.extra_count === "0") {
                         log.info("已完成...");
                         break;
+                    }
+                    if (!check_flag_extra_count && extra_count) {
+                        check_flag_extra_count = true;
+                    }
+                    if (check_flag_extra_count) {
+                        log.info(`执行额外刷取：剩余${extra_count}次`);
+                        notification.send(`执行额外刷取：剩余${extra_count}次`);
+                        if (extra_count <= 0) {
+                            log.info("已完成...");
+                            break;
+                        }
+                        extra_count--;
                     }
                 }
                 await sleep(1000);
@@ -331,6 +385,8 @@
             await sleep(100);
         }
 
+        log.info(`正在返回提瓦特`);
+        notification.send(`已完成，正在返回提瓦特`);
         await check_world(true);
     }
 
