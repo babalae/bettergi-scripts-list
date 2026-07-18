@@ -138,9 +138,15 @@ async function configureArtifactSet(setConfig, uiCoords, overwriteExisting) {
     log.debug("开始配置第 {index} 个方案", planIndex + 1);
 
     // 如果不是第一个方案，需要切换到方案2
-    if (planIndex > 0) {
+    if (planIndex == 1) {
       log.info("步骤：切换到方案 {index}", planIndex + 1);
       click(129, 265);
+      await sleep(DELAY_LONG);
+    }
+    // 如果不是第一个方案，需要切换到方案3
+    if (planIndex == 2) {
+      log.info("步骤：切换到方案 {index}", planIndex + 1);
+      click(129, 365);
       await sleep(DELAY_LONG);
     }
 
