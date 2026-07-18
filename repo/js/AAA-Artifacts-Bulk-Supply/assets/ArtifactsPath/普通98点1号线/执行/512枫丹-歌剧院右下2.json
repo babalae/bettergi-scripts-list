@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1776449925403,
+    "last_modified_time": 1784402984666,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "512枫丹-歌剧院右下2",
@@ -21,10 +21,11 @@
     {
       "action": "",
       "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3595.5517578125,
-      "y": 3254.333251953125
+      "x": 3595.5518,
+      "y": 3254.3333
     },
     {
       "action": "combat_script",
@@ -33,7 +34,7 @@
       "move_mode": "dash",
       "type": "path",
       "x": 3618.25,
-      "y": 3271.2815155056996
+      "y": 3271.2815
     },
     {
       "action": "combat_script",
@@ -41,8 +42,8 @@
       "id": 3,
       "move_mode": "swim",
       "type": "target",
-      "x": 3614.84375,
-      "y": 3277.156305332699
+      "x": 3614.8438,
+      "y": 3277.1563
     },
     {
       "action": "combat_script",
@@ -50,8 +51,8 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 3586.4443359375,
-      "y": 3288.72314453125
+      "x": 3586.4443,
+      "y": 3288.7231
     },
     {
       "action": "combat_script",
@@ -59,8 +60,16 @@
       "id": 5,
       "move_mode": "climb",
       "type": "target",
-      "x": 3584.98828125,
-      "y": 3289.309326171875
+      "x": 3584.9883,
+      "y": 3289.3093
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3595.5518,
+      "y": 3254.3333
     }
   ]
 }
