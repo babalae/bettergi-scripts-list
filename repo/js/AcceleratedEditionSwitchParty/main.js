@@ -12,7 +12,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 
 const parsedOperationDelayMs = parseInt(settings.operationDelayMs, 10);
 const operationDelayMs = Number.isFinite(parsedOperationDelayMs)
-	? Math.min(Math.max(parsedOperationDelayMs, 500), 10000)
+	? Math.min(Math.max(parsedOperationDelayMs, 500), 20000)
 	: 1500;
 
 /**
