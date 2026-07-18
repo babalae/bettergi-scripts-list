@@ -1,5 +1,433 @@
 [
   {
+    "set_name": "影中沉凝的幻灭",
+    "enable_recommended_scheme": true,
+    "plans": [
+      {
+        "plan_name": "方案一",
+        "index": 0,
+        "enabled": true,
+        "positions": [
+          {
+            "position_name": "生之花",
+            "enabled": true,
+            "main_attrs": [
+              "生命值"
+            ],
+            "sub_attrs": [
+              "攻击力百分比",
+              "元素精通",
+              "暴击率"
+            ],
+            "min_count": 2,
+            "necessary_sub_attrs": [
+              "暴击率"
+            ]
+          },
+          {
+            "position_name": "死之羽",
+            "enabled": true,
+            "main_attrs": [
+              "攻击力"
+            ],
+            "sub_attrs": [
+              "攻击力百分比",
+              "元素精通",
+              "暴击率"
+            ],
+            "min_count": 2,
+            "necessary_sub_attrs": [
+              "暴击率"
+            ]
+          },
+          {
+            "position_name": "时之沙",
+            "enabled": true,
+            "main_attrs": [
+              "攻击力百分比"
+            ],
+            "sub_attrs": [
+              "攻击力",
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          },
+          {
+            "position_name": "空之杯",
+            "enabled": true,
+            "main_attrs": [
+              "雷元素伤害加成",
+              "冰元素伤害加成",
+              "攻击力百分比"
+            ],
+            "sub_attrs": [
+              "攻击力",
+              "攻击力百分比",
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          },
+          {
+            "position_name": "理之冠",
+            "enabled": true,
+            "main_attrs": [
+              "攻击力百分比",
+              "暴击率",
+              "暴击伤害"
+            ],
+            "sub_attrs": [
+              "攻击力",
+              "攻击力百分比",
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          }
+        ]
+      },
+      {
+        "plan_name": "方案二",
+        "index": 1,
+        "enabled": true,
+        "positions": [
+          {
+            "position_name": "生之花",
+            "enabled": true,
+            "main_attrs": [
+              "生命值"
+            ],
+            "sub_attrs": [
+              "攻击力百分比",
+              "元素精通",
+              "暴击伤害"
+            ],
+            "min_count": 2,
+            "necessary_sub_attrs": [
+              "暴击伤害"
+            ]
+          },
+          {
+            "position_name": "死之羽",
+            "enabled": true,
+            "main_attrs": [
+              "攻击力"
+            ],
+            "sub_attrs": [
+              "攻击力百分比",
+              "元素精通",
+              "暴击伤害"
+            ],
+            "min_count": 2,
+            "necessary_sub_attrs": [
+              "暴击伤害"
+            ]
+          },
+          {
+            "position_name": "时之沙",
+            "enabled": true,
+            "main_attrs": [
+              "元素充能效率",
+              "元素精通"
+            ],
+            "sub_attrs": [
+              "生命值百分比",
+              "攻击力百分比",
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          },
+          {
+            "position_name": "空之杯",
+            "enabled": true,
+            "main_attrs": [
+              "元素精通"
+            ],
+            "sub_attrs": [
+              "生命值百分比",
+              "攻击力百分比",
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          },
+          {
+            "position_name": "理之冠",
+            "enabled": true,
+            "main_attrs": [
+              "元素精通"
+            ],
+            "sub_attrs": [
+              "生命值百分比",
+              "攻击力百分比",
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "set_name": "天之美赐",
+    "enable_recommended_scheme": true,
+    "plans": [
+      {
+        "plan_name": "方案一",
+        "index": 0,
+        "enabled": true,
+        "positions": [
+          {
+            "position_name": "生之花",
+            "enabled": true,
+            "main_attrs": [
+              "生命值"
+            ],
+            "sub_attrs": [
+              "生命值百分比",
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          },
+          {
+            "position_name": "死之羽",
+            "enabled": true,
+            "main_attrs": [
+              "攻击力"
+            ],
+            "sub_attrs": [
+              "生命值百分比",
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          },
+          {
+            "position_name": "时之沙",
+            "enabled": true,
+            "main_attrs": [
+              "生命值百分比",
+              "防御力百分比"
+            ],
+            "sub_attrs": [
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          },
+          {
+            "position_name": "空之杯",
+            "enabled": true,
+            "main_attrs": [
+              "生命值百分比",
+              "防御力百分比"
+            ],
+            "sub_attrs": [
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          },
+          {
+            "position_name": "理之冠",
+            "enabled": true,
+            "main_attrs": [
+              "生命值百分比",
+              "防御力百分比"
+            ],
+            "sub_attrs": [
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          }
+        ]
+      },
+      {
+        "plan_name": "方案二",
+        "index": 1,
+        "enabled": true,
+        "positions": [
+          {
+            "position_name": "生之花",
+            "enabled": true,
+            "main_attrs": [
+              "生命值"
+            ],
+            "sub_attrs": [
+              "攻击力百分比",
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          },
+          {
+            "position_name": "死之羽",
+            "enabled": true,
+            "main_attrs": [
+              "攻击力"
+            ],
+            "sub_attrs": [
+              "攻击力百分比",
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          },
+          {
+            "position_name": "时之沙",
+            "enabled": true,
+            "main_attrs": [
+              "元素充能效率",
+              "元素精通"
+            ],
+            "sub_attrs": [
+              "生命值百分比",
+              "攻击力百分比",
+              "防御力百分比",
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          },
+          {
+            "position_name": "空之杯",
+            "enabled": true,
+            "main_attrs": [
+              "元素伤害加成",
+              "物理伤害加成"
+            ],
+            "sub_attrs": [
+              "暴击率",
+              "暴击伤害"
+            ],
+            "min_count": 1,
+            "necessary_sub_attrs": []
+          },
+          {
+            "position_name": "理之冠",
+            "enabled": true,
+            "main_attrs": [
+              "元素精通"
+            ],
+            "sub_attrs": [
+              "生命值百分比",
+              "攻击力百分比",
+              "防御力百分比",
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          }
+        ]
+      },
+      {
+        "plan_name": "方案三",
+        "index": 1,
+        "enabled": true,
+        "positions": [
+          {
+            "position_name": "生之花",
+            "enabled": true,
+            "main_attrs": [
+              "生命值"
+            ],
+            "sub_attrs": [
+              "防御力百分比",
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          },
+          {
+            "position_name": "死之羽",
+            "enabled": true,
+            "main_attrs": [
+              "攻击力"
+            ],
+            "sub_attrs": [
+              "防御力百分比",
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 3,
+            "necessary_sub_attrs": []
+          },
+          {
+            "position_name": "空之杯",
+            "enabled": true,
+            "main_attrs": [
+              "元素精通"
+            ],
+            "sub_attrs": [
+              "生命值百分比",
+              "攻击力百分比",
+              "防御力百分比",
+              "暴击率",
+              "暴击伤害",
+              "元素充能效率",
+              "元素精通"
+            ],
+            "min_count": 1,
+            "necessary_sub_attrs": []
+          }
+        ]
+      }
+    ]
+  },
+  {
     "set_name": "风起之日",
     "enable_recommended_scheme": true,
     "plans": [
