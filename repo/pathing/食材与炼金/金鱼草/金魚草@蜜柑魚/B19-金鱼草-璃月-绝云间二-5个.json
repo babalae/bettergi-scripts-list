@@ -1,0 +1,147 @@
+{
+  "info": {
+    "name": "B19-金鱼草-璃月-绝云间二-5个",
+    "type": "collect",
+    "version": "47.2",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753016977951,
+    "enable_monster_loot_split": false,
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 9,
+      "x": 1433.6943,
+      "y": 837.3862,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 10,
+      "x": 1430.9502,
+      "y": 829.8306,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 1428.0293,
+      "y": 828.6758,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 1350.3906,
+      "y": 800.4155,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 1342.1514,
+      "y": 794.5249,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(space),wait(4.5),attack(0.1),wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 1344.458,
+      "y": 800.3799,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 1321.5,
+      "y": 812.8818,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 1319.749,
+      "y": 802.002,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 1284.6914,
+      "y": 767.4805,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 1291.9367,
+      "y": 770.5,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 1304.5439,
+      "y": 760.2173,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 1334.5205,
+      "y": 755.2983,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 1328.6777,
+      "y": 749.5503,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 1323.4258,
+      "y": 746.1577,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.345)",
+      "type": "path"
+    }
+  ]
+}

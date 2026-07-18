@@ -1,0 +1,48 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.42.3",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784400148578,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B12-金鱼草-璃月-归离原东-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 174.1768,
+      "y": 389.7847
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 167.9297,
+      "y": 447.9238
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.25)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 172.374,
+      "y": 463.7422
+    }
+  ]
+}

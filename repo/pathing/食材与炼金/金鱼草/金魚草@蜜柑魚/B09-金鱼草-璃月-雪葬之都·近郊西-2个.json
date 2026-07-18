@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784397812783,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B09-金鱼草-璃月-雪葬之都·近郊西-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -410.5312,
+      "y": 1161.5942
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -402.1328,
+      "y": 1138.749
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -386.541,
+      "y": 1110.0635
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -354.0195,
+      "y": 1085.1494
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -334.3086,
+      "y": 1094.2236
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -305.1523,
+      "y": 1074.501
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": -295.8281,
+      "y": 1089.856
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.25)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -293.7676,
+      "y": 1093.0898
+    }
+  ]
+}

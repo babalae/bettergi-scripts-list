@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.61.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784393558880,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "A08-金鱼草-蒙德-果酒湖二-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -745.0215,
+      "y": 2881.8022
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.17),moveby(0,-3000),wait(0.25),keypress(t),wait(0.15),keypress(t),moveby(0,-1500),wait(0.25),keypress(t),wait(0.15),keypress(t),click(middle),wait(0.2)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -727.8555,
+      "y": 2893.9131
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -727.5625,
+      "y": 2796.3638
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(VK_RBUTTON),wait(8),keydown(q),wait(0.6),keyup(q),keyup(VK_RBUTTON),wait(0.1),attack(0.3)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -727.5625,
+      "y": 2796.3638
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -727.5625,
+      "y": 2796.3638
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -686.4023,
+      "y": 2665.7788
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -679.5879,
+      "y": 2661.9761
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.21)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -672.6348,
+      "y": 2639.7861
+    }
+  ]
+}
