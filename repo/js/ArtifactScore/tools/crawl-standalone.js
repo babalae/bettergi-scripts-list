@@ -23,17 +23,77 @@ const BRANCH = process.argv.includes('--branch')
   ? process.argv[process.argv.indexOf('--branch') + 1] : 'master'
 
 // ============================================================
+//  本地覆盖
+//
+//  上游 miao-plugin 的数据不一定完全符合预期，比如某个角色的默认
+//  流派选得不对、权重有争议等等。这里可以覆盖 usefulAttr 的权重
+//  或者直接替换整条特殊规则，重新生成时会自动合入，不用担心被冲掉。
+// ============================================================
+
+const LOCAL_OVERRIDES = {
+  // 角色基础权重（只写需要改的字段即可，其余沿用上游）
+  weights: {
+    // 玛薇卡默认应该是蒸发/融化精通流，而不是纯火
+    '玛薇卡': { mastery: 100 }
+  },
+  // 角色特殊规则（会完全替换上游的 artis.js 转换结果）
+  rules: {
+    '玛薇卡': `'玛薇卡': ({ charAttrs }) => {
+    let particularAttr = {...usefulAttr['玛薇卡']}
+    // 只有面板精通明确很低的时候才切到纯火/超载
+    if ((charAttrs?.mastery || 0) > 0 && (charAttrs?.mastery || 0) < 40) {
+      particularAttr.atk = 85
+      particularAttr.mastery = 0
+      return { title: '玛薇卡-纯火/超载', attrWeight: particularAttr, useDefaultPipeline: false }
+    }
+    // 其他情况一律按精通流处理
+    particularAttr.mastery = 100
+    return { title: '玛薇卡-精通', attrWeight: particularAttr, useDefaultPipeline: false }
+  }`
+  }
+}
+
+// ============================================================
 //  HTTP helpers
 // ============================================================
 
-async function fetchRaw(path) {
+const RETRY_MAX = 3
+const RETRY_DELAY_MS = 1000
+
+async function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+/**
+ * 带重试的 fetch。404 不重试，网络错误和服务端错误（5xx / 429）退避重试。
+ */
+async function fetchRaw(path, retries = RETRY_MAX) {
   const url = `${BASE}/${BRANCH}/${path}`
-  const res = await fetch(url)
-  if (!res.ok) {
-    if (res.status === 404) return null
-    throw new Error(`HTTP ${res.status} for ${path}`)
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const res = await fetch(url)
+      if (res.ok) return res.text()
+      if (res.status === 404) return null
+
+      // 服务端错误或限流，可重试
+      if (attempt < retries) {
+        const delay = RETRY_DELAY_MS * Math.pow(2, attempt - 1)
+        console.warn(`  HTTP ${res.status} for ${path}, retry ${attempt}/${retries} after ${delay}ms`)
+        await sleep(delay)
+      } else {
+        console.warn(`  HTTP ${res.status} for ${path}, exhausted retries, skipping`)
+      }
+    } catch (e) {
+      if (attempt < retries) {
+        const delay = RETRY_DELAY_MS * Math.pow(2, attempt - 1)
+        console.warn(`  Network error for ${path}, retry ${attempt}/${retries} after ${delay}ms`)
+        await sleep(delay)
+      } else {
+        console.warn(`  Network error for ${path}, exhausted retries, skipping`)
+      }
+    }
   }
-  return res.text()
+  return null
 }
 
 async function fetchJson(path) {
@@ -1069,6 +1129,14 @@ async function main() {
   const usefulAttr = sortObjectByName(parseUsefulAttr(artisMarkText))
   console.log(`  usefulAttr: ${Object.keys(usefulAttr).length} characters`)
 
+  // 合入本地权重覆盖
+  for (const [name, patch] of Object.entries(LOCAL_OVERRIDES.weights)) {
+    if (usefulAttr[name]) {
+      Object.assign(usefulAttr[name], patch)
+      console.log(`  本地覆盖权重: ${name} ${JSON.stringify(patch)}`)
+    }
+  }
+
   const attrMapBase = parseExportValue(extraText, 'attrMap')
   const attrPct = parseExportValue(extraText, 'attrPct')
   const basicNum = parseExportValue(extraText, 'basicNum')
@@ -1092,19 +1160,23 @@ async function main() {
     const encoded = encodeURIComponent(name)
     const result = { name, baseAttr: null, elem: '', code: '', defWeights: null }
 
-    // Fetch data.json
-    const dj = await fetchJson(`resources/meta-gs/character/${encoded}/data.json`)
-    if (dj?.['baseAttr']) {
-      result.baseAttr = dj['baseAttr']
-      result.elem = dj['elem'] || ''
-    }
+    try {
+      // Fetch data.json
+      const dj = await fetchJson(`resources/meta-gs/character/${encoded}/data.json`)
+      if (dj?.['baseAttr']) {
+        result.baseAttr = dj['baseAttr']
+        result.elem = dj['elem'] || ''
+      }
 
-    // Fetch artis.js
-    const artisSrc = await fetchRaw(`resources/meta-gs/character/${encoded}/artis.js`)
-    if (artisSrc) {
-      const { code, defWeights } = transformArtisJs(artisSrc, name)
-      result.code = code || ''
-      result.defWeights = defWeights || null
+      // Fetch artis.js
+      const artisSrc = await fetchRaw(`resources/meta-gs/character/${encoded}/artis.js`)
+      if (artisSrc) {
+        const { code, defWeights } = transformArtisJs(artisSrc, name)
+        result.code = code || ''
+        result.defWeights = defWeights || null
+      }
+    } catch (e) {
+      console.warn(`  角色 ${name} 数据拉取/转换失败: ${e.message}，保留现有数据`)
     }
 
     return result
@@ -1129,7 +1201,15 @@ async function main() {
       dataJsonFailed++
     }
 
-    if (result.code) {
+    // 本地有覆盖就用本地的，否则用上游转换结果
+    const overrideRule = LOCAL_OVERRIDES.rules[result.name]
+    if (overrideRule) {
+      artisJsFetched++
+      charRulesEntries.push(overrideRule)
+      if (result.defWeights) {
+        artisDefaultWeights[result.name] = result.defWeights
+      }
+    } else if (result.code) {
       artisJsFetched++
       charRulesEntries.push(result.code)
       if (result.defWeights) {
