@@ -1,14 +1,19 @@
 [
   {
-    "name": "diskCount",
-    "type": "input-text",
-    "label": "汉诺塔阶数",
-    "default": "3"
+    "name": "difficulty",
+    "type": "select",
+    "label": "难度",
+    "options": [
+      "简单",
+      "普通",
+      "困难"
+    ],
+    "default": "简单"
   },
   {
     "name": "clickDelayMs",
     "type": "input-text",
-    "label": "每次点击后的等待毫秒",
-    "default": "300"
+    "label": "点击延迟",
+    "default": "50"
   }
 ]
