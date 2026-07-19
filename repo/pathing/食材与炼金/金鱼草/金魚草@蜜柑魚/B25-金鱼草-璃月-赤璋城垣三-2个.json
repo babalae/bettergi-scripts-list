@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1775941173063,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B25-金鱼草-璃月-赤璋城垣三-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "47.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2207.3418,
+      "y": 1253.4702
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2231.9697,
+      "y": 1336.2026
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2233.9824,
+      "y": 1339.2583
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2245.7275,
+      "y": 1340.6714
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.23)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2249.2461,
+      "y": 1343.1152
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784392112375,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A06-金鱼草-蒙德-奔狼领-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "47.1.4"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -521.3174,
+      "y": 2181.6494
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -523.6367,
+      "y": 2197.8213
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -524.1699,
+      "y": 2220.5444
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -526.3779,
+      "y": 2229.271
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -523.8477,
+      "y": 2236.8799
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.23)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -521.668,
+      "y": 2244.5598
+    }
+  ]
+}

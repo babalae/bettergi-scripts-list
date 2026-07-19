@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784373591559,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "ZB01-金鱼草-层岩巨渊·地下矿区-临时主矿道-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 664.0515,
+      "y": 1058.9938
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 650.7499,
+      "y": 1036.2336
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 691.0917,
+      "y": 1048.8962
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 713.1066,
+      "y": 1041.9595
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 736.2574,
+      "y": 1013.4182
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 758.97,
+      "y": 1022.2935
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 769.8754,
+      "y": 1013.125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.23)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 781.1246,
+      "y": 997.9375
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784393775973,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B17-金鱼草-璃月-翘英庄-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "47.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1468.4053,
+      "y": 1998.3213
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1459.2061,
+      "y": 1996.709
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1448.9072,
+      "y": 2002.0342
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1402.3447,
+      "y": 1934.6445
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1378.9121,
+      "y": 1918.0435
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1362.6553,
+      "y": 1888.228
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1336.1836,
+      "y": 1851.7139
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1299.4277,
+      "y": 1833.8652
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1311.2598,
+      "y": 1816.5732
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.23)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1311.9697,
+      "y": 1811.3789
+    }
+  ]
+}
