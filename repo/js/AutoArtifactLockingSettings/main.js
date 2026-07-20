@@ -120,7 +120,9 @@ async function configureArtifactSet(setConfig, uiCoords, overwriteExisting) {
   }
 
   // 获取所有启用的方案
-  let enabledPlans = setConfig.plans.filter(p => p.enabled);
+  let enabledPlans = setConfig.plans
+    .map((plan, index) => ({ plan, tabIndex: index + 1 }))
+    .filter(item => item.plan.enabled);
   if (enabledPlans.length === 0) {
     log.warn("套装「{name}」未找到启用的方案，跳过", setConfig.set_name);
     // 点击返回按钮
@@ -133,16 +135,15 @@ async function configureArtifactSet(setConfig, uiCoords, overwriteExisting) {
 
   // 遍历所有启用的方案
   for (let planIndex = 0; planIndex < enabledPlans.length; planIndex++) {
-    let plan = enabledPlans[planIndex];
+    let { plan, tabIndex } = enabledPlans[planIndex];
 
-    log.debug("开始配置第 {index} 个方案", planIndex + 1);
+    log.debug("开始配置第 {index} 个方案", tabIndex);
 
-    // 如果不是第一个方案，需要切换到方案2
-    if (planIndex > 0) {
-      log.info("步骤：切换到方案 {index}", planIndex + 1);
-      click(129, 265);
-      await sleep(DELAY_LONG);
-    }
+    // 根据方案在 plans 数组中的位置切换到对应方案页签
+    let planTab = uiCoords.plan_tabs.find(tab => tab.index === tabIndex);
+    log.info("步骤：切换到方案 {index}", tabIndex);
+    click(planTab.x, planTab.y);
+    await sleep(DELAY_LONG);
 
     // 检查是否存在旧方案
     let noConfigResult = findTextInRegion(1004, 499, 1253, 549, "暂无方案配置");
@@ -189,7 +190,7 @@ async function configureArtifactSet(setConfig, uiCoords, overwriteExisting) {
     // 配置当前方案
     await configurePlan(plan, uiCoords);
 
-    log.debug("第 {index} 个方案配置完成", planIndex + 1);
+    log.debug("第 {index} 个方案配置完成", tabIndex);
   }
 
   // 点击返回按钮
