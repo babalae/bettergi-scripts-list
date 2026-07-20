@@ -1,44 +1,62 @@
 {
   "info": {
-    "name": "[枫丹] 椴木x9 + 悬铃木x9",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "Ayaka-Main",
-        "links": "https://github.com/Patrick-Ze"
+        "links": "https://github.com/Patrick-Ze",
+        "name": "Ayaka-Main"
       }
-    ]
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784333153094,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "[枫丹] 椴木x9 + 悬铃木x9",
+    "tags": [
+      "王树瑞佑",
+      "伐木"
+    ],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 3383.19,
-      "y": 2692.22,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 3383.19,
+      "y": 2692.22
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 3367.97,
-      "y": 2700.93,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 3367.97,
+      "y": 2700.93
     },
     {
-      "id": 3,
-      "x": 3249.28,
-      "y": 2761.1,
-      "type": "target",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": "1000"
+      "action_params": "1000",
+      "id": 3,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3249.28,
+      "y": 2761.1
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3250.1113,
+      "y": 2760.8525
     }
   ]
 }

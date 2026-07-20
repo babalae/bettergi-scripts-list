@@ -1,53 +1,97 @@
 {
   "info": {
-    "name": "[纳塔] 白栗栎木x9",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "Ayaka-Main",
-        "links": "https://github.com/Patrick-Ze"
+        "links": "https://github.com/Patrick-Ze",
+        "name": "Ayaka-Main"
       }
-    ]
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784352603681,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "[纳塔] 白栗栎木x9",
+    "tags": [
+      "王树瑞佑",
+      "伐木"
+    ],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 8058.86,
-      "y": -2372.6,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 8058.86,
+      "y": -2372.6
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 8068.01,
-      "y": -2379.64,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -2379.64
     },
     {
-      "id": 3,
-      "x": 8086.94,
-      "y": -2394.72,
-      "type": "path",
-      "move_mode": "fly",
       "action": "stop_flying",
-      "action_params": ""
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8086.94,
+      "y": -2394.72
     },
     {
+      "action": "use_gadget",
+      "action_params": "",
       "id": 4,
-      "x": 8146.47,
-      "y": -2439.99,
-      "type": "target",
       "move_mode": "walk",
+      "type": "target",
+      "x": 8146.47,
+      "y": -2439.99
+    },
+    {
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8147.5098,
+      "y": -2424.2705
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8154.6279,
+      "y": -2417.5645
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8159.3867,
+      "y": -2428.833
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8220.2578,
+      "y": -2440.0391
     }
   ]
 }
