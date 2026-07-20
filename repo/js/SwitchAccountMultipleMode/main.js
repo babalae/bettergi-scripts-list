@@ -254,6 +254,22 @@ async function waitForOcrMatch(target, rect = null, threshold = null, timeout = 
     log.warn(`【OCR】等待文字匹配超时: ${target} | 重试次数: ${retryCount} | 耗时: ${Date.now() - start}ms`);
     return false;
 }
+
+// 账号列表 OCR 可能混淆英文字母大小写，只对 ASCII 字母做显式归一化。
+const accountOcrGlyphMap = Object.freeze({
+    A: "a", B: "b", C: "c", D: "d", E: "e", F: "f", G: "g",
+    H: "h", I: "i", J: "j", K: "k", L: "l", M: "m", N: "n",
+    O: "o", P: "p", Q: "q", R: "r", S: "s", T: "t", U: "u",
+    V: "v", W: "w", X: "x", Y: "y", Z: "z",
+    a: "a", b: "b", c: "c", d: "d", e: "e", f: "f", g: "g",
+    h: "h", i: "i", j: "j", k: "k", l: "l", m: "m", n: "n",
+    o: "o", p: "p", q: "q", r: "r", s: "s", t: "t", u: "u",
+    v: "v", w: "w", x: "x", y: "y", z: "z"
+});
+
+function normalizeAccountOcrText(text) {
+    return Array.from(String(text || ""), glyph => accountOcrGlyphMap[glyph] || glyph).join("");
+}
 // 切换账号OCR模式
 // ======================================================
 
@@ -278,10 +294,13 @@ async function waitForOcrMatch(target, rect = null, threshold = null, timeout = 
     };
     u.matchUser = function (text, username) {
         if (typeof text !== "string" || typeof username !== "string") return false;
-        if (text.length !== username.length) return false;
-        for (let i = 0; i < text.length; i++) {
-            const a = text[i];
-            const b = username[i];
+
+        const pattern = normalizeAccountOcrText(text);
+        const target = normalizeAccountOcrText(username);
+        if (pattern.length !== target.length) return false;
+        for (let i = 0; i < pattern.length; i++) {
+            const a = pattern[i];
+            const b = target[i];
             if (a === '*' || b === '*') continue;
             if (a !== b) return false;
         }
@@ -290,23 +309,23 @@ async function waitForOcrMatch(target, rect = null, threshold = null, timeout = 
     u.matchUserRelaxed = function (text, username) {
         if (typeof text !== "string" || typeof username !== "string") return false;
 
-        // 1. 规范化：将连续的 '*' 替换为单个 '*'
-        const pattern = text.replace(/\*+/g, '*');
-        const target = username.replace(/\*+/g, '*');
+        // OCR 可能把相同字形的大小写字母识别成另一种大小写，先统一到映射表中的形式。
+        const pattern = normalizeAccountOcrText(text).replace(/\*+/g, '*');
+        const target = normalizeAccountOcrText(username).replace(/\*+/g, '*');
 
-        // 2. 如果规范化后没有通配符，则进行全等匹配
+        // 如果规范化后没有通配符，则进行全等匹配
         if (!pattern.includes('*')) {
             return pattern === target;
         }
 
-        // 3. 获取前缀和后缀
+        // 获取前缀和后缀
         // split('*') 会将 "abc*def" 拆分为 ["abc", "def"]
         // 如果是 "*abc"，拆分为 ["", "abc"]；如果是 "abc*"，拆分为 ["abc", ""]
         const parts = pattern.split('*');
         const prefix = parts[0];
         const suffix = parts[parts.length - 1];
 
-        // 4. 匹配逻辑：
+        // 匹配逻辑：
         // - 目标字符串必须以 prefix 开头
         // - 目标字符串必须以 suffix 结尾
         // - 目标字符串的长度必须足以容纳 prefix 和 suffix (避免重叠部分的逻辑错误)
