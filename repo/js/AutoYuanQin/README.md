@@ -20,8 +20,12 @@
 
 #### 2. 自行上传
 1. 首先注册一个Github账号，根据[PR教程](https://www.bettergi.com/dev/pr.html#fork-%E5%A4%8D%E5%88%B6)自行上传至[脚本仓库](https://github.com/babalae/bettergi-scripts-list)
-1. 上传前请检查以下文件正确进行了更改，manifest.json(将version的版本号最后一位+1)、assets/score_file文件夹内已经放入了曲谱文件并且测试正常、settings.json(曲谱文件放入score_file文件夹以后运行一遍程序会自动更改settings.json)、README.md(也就是本文件，更改最下方的更新日志，按照历史的格式添加本次更新内容)
-1. 如果你还没有把自己的作者信息补全，请确保曲谱的`author`内已填入你的作者名，并在manifest.json文件的authors列表补全作者信息
+1. 上传前请检查以下文件正确进行了更改
+   - manifest.json(将version的版本号最后一位+1)
+   - assets/score_file文件夹内已经放入了曲谱文件并且测试正常
+   - settings.json(曲谱文件放入score_file文件夹以后运行一遍程序会自动更改settings.json)
+   - README.md(也就是本文件，更改最下方的更新日志，按照历史的格式添加本次更新内容)
+1. 如果你还没有把自己的作者信息补全，请确保每首曲谱的`author`内已填入你的作者名，并在manifest.json文件的authors列表补全作者信息
 
 ## MIDI制谱器 <a id="MIDI制谱器"></a>
 1. 翻谱器位于`AutoYuanQin/assets/tutorial_file/MIDI制谱器.html`,请使用浏览器打开
