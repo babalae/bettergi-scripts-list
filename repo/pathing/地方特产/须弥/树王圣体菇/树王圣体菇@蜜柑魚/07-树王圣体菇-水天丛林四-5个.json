@@ -1,0 +1,180 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784725908267,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "07-树王圣体菇-水天丛林四-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3431.7441,
+      "y": -1461.7031
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3430.1055,
+      "y": -1455.623
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3427.0195,
+      "y": -1437.7559
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3430.0918,
+      "y": -1441.0469
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3433.0889,
+      "y": -1444.7939
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3430.0918,
+      "y": -1441.0469
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3427.1631,
+      "y": -1438.293
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3428.0234,
+      "y": -1438.873
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 9,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3429.9854,
+      "y": -1438.6406
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "locked": true,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3430.0566,
+      "y": -1434.4258
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3440.0664,
+      "y": -1432.0479
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 12,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3444.2334,
+      "y": -1432.6543
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 13,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3444.1133,
+      "y": -1437.4238
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 14,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3453.5342,
+      "y": -1415.5312
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 15,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3444.1504,
+      "y": -1418.7803
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 16,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3441.8027,
+      "y": -1421.3457
+    }
+  ]
+}

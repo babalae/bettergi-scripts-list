@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784636438350,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "05-树王圣体菇-水天丛林二-2个",
+    "tags": [],
+    "type": "collect",
+    "version": ""
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3436.0059,
+      "y": -1470.3096
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3370.6621,
+      "y": -1533.4658
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3361.4873,
+      "y": -1530.7422
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3359.7969,
+      "y": -1530.1797
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3351.5352,
+      "y": -1527.1484
+    }
+  ]
+}

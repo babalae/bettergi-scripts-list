@@ -1,0 +1,148 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784743307801,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "15-树王圣体菇-翠翎恐蕈的巢窟二-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3926.2207,
+      "y": -163.9785
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3924.7295,
+      "y": -159.7354
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3932.2305,
+      "y": -199.834
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3926.9336,
+      "y": -224.5762
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3944.1602,
+      "y": -259.752
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3944.1094,
+      "y": -274.8672
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.17)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3955.6611,
+      "y": -288.9922
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3955.6611,
+      "y": -288.9922
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "jump",
+      "type": "target",
+      "x": 3956.7881,
+      "y": -290.1396
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3955.0352,
+      "y": -287.9941
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.39)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3954.3672,
+      "y": -285.3408
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.6)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3954.2168,
+      "y": -285.4238
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(x),j,wait(0.1),j,wait(0.55),keypress(x)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3950.4473,
+      "y": -281.1982
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),keypress(x),wait(0.1),j,wait(3.5)",
+      "id": 14,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 3947.7393,
+      "y": -277.2812
+    }
+  ]
+}
