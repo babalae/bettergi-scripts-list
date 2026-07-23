@@ -1,0 +1,102 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784816170119,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "04-须弥-帕蒂沙兰-觉王之殿下方-3朵",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "fly",
+      "type": "teleport",
+      "x": 3592,
+      "y": -787.3306
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3584,
+      "y": -754.75
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3582.0723,
+      "y": -716.9102
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3587.459,
+      "y": -712.334
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3595.1465,
+      "y": -702.2539
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3619,
+      "y": -709.2627
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3621.7783,
+      "y": -710.542
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3620.7764,
+      "y": -716.8125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3621.9619,
+      "y": -710.0889
+    }
+  ]
+}

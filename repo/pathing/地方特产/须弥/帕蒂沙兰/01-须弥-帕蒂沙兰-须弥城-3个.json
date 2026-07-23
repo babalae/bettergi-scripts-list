@@ -1,0 +1,80 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784831520565,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-须弥-帕蒂沙兰-须弥城-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2694.08,
+      "y": -416.44
+    },
+    {
+      "action": "stop_flying",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 2711.64,
+      "y": -409.25
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2711.64,
+      "y": -409.25
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2724.9,
+      "y": -411.28
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2743.21,
+      "y": -429.44
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2751.72,
+      "y": -431.19
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.15)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2753.54,
+      "y": -428.45
+    }
+  ]
+}
