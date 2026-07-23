@@ -6,6 +6,10 @@ on:
     - cron: '0 10 * * *'
   workflow_dispatch: # 允许手动触发
 
+concurrency:
+  group: release-build
+  cancel-in-progress: false
+
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
@@ -19,6 +23,7 @@ jobs:
     - name: 📥 检出代码仓库
       uses: actions/checkout@v4
       with:
+        ref: main
         path: bettergi-scripts-list
         fetch-depth: 0
     
@@ -34,6 +39,20 @@ jobs:
         echo "📦 执行构建脚本 (强制模式 + Gzip压缩)"
         node ./build/build.js --force --gzip
         echo "✅ 项目构建完成"
+
+    - name: 📤 回传构建结果到 Main 分支
+      working-directory: bettergi-scripts-list
+      run: |
+        if git diff --quiet -- repo.json; then
+          echo "repo.json 没有变化，无需提交"
+          exit 0
+        fi
+
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add repo.json
+        git commit -m "update repo.json [skip ci]"
+        git push origin HEAD:main
     
     - name: 📋 复制生成的文件到工作目录
       run: |
