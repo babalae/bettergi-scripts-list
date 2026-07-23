@@ -9,13 +9,11 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780373482482,
+    "last_modified_time": 1783089454521,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "E06稻妻-清籁岛-天云峠下",
-    "tags": [
-      "双手剑"
-    ],
+    "tags": [],
     "type": "collect",
     "version": "1.0"
   },
@@ -60,6 +58,15 @@
       "action": "mining",
       "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4340.9316,
+      "y": -5003.4043
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 6,
       "move_mode": "walk",
       "type": "path",
       "x": -4340.9316,

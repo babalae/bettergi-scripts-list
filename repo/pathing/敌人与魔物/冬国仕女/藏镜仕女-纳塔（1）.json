@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780280109430,
+    "last_modified_time": 1781570865016,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B4璃月-翠玦坡东",
+    "name": "藏镜仕女-纳塔（1）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,62 +24,53 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 837.48,
-      "y": 235.16
+      "x": 7845.06,
+      "y": -2047.42
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 802.19,
-      "y": 245.44
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 685.7,
-      "y": 286.01
+      "x": 7753.791,
+      "y": -2022.1885
     },
     {
-      "action": "mining",
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7724.5723,
+      "y": -2037.9902
+    },
+    {
+      "action": "",
       "action_params": "",
       "id": 4,
       "move_mode": "walk",
-      "type": "target",
-      "x": 688.25,
-      "y": 287.68
+      "type": "path",
+      "x": 7711.1861,
+      "y": -2032.4979
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": 684.33,
-      "y": 296.85
+      "x": 7688.3574,
+      "y": -2019.0293
     },
     {
-      "action": "mining",
+      "action": "fight",
       "action_params": "",
       "id": 6,
       "move_mode": "walk",
-      "type": "target",
-      "x": 685.88,
-      "y": 299.56
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "walk",
       "type": "path",
-      "x": 677.1436,
-      "y": 295.6748
+      "x": 7684.3762,
+      "y": -2016.6865
     }
   ]
 }

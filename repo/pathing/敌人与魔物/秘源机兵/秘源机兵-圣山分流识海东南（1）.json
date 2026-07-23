@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "  路线信息：该路线预计用时38秒，包含以下怪物：1只秘源机兵·寻捕械、1只幼突角龙、1只突角龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767735776178,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "秘源机兵-圣山分流识海东南（1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 185.3328,
+      "y": -43.5044
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack;芙宁娜 e",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 183.4169,
+      "y": -36.1978
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 182.5173,
+      "y": -59.4282
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 182.5173,
+      "y": -59.4282
+    }
+  ]
+}

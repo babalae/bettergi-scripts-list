@@ -1,0 +1,223 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/vulgar-rustic",
+        "name": "下流山汉"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "hash_res": "39595940",
+    "last_modified_time": 1783695504985,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A05A06A07-蒙德风龙废墟南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 338.23,
+      "y": 2581.15
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 303,
+      "y": 2533
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 284.32,
+      "y": 2508.65
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 295.82,
+      "y": 2460.07
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 296.61,
+      "y": 2450.41
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 296.53,
+      "y": 2439.81
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 267.44,
+      "y": 2434.88
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 260.8848,
+      "y": 2427.4214
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 255.6172,
+      "y": 2427.4346
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 252.585,
+      "y": 2425.9521
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 255.04,
+      "y": 2431.88
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(3),keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(3),keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(1.5)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 252.96,
+      "y": 2431.48
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 225.88,
+      "y": 2418.05
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 226.44,
+      "y": 2410.56
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 144.9238,
+      "y": 2399.0161
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 141.5625,
+      "y": 2405.9219
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 157.7715,
+      "y": 2409.1367
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "run",
+      "type": "path",
+      "x": 102.1543,
+      "y": 2387.6768
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 102.1543,
+      "y": 2387.6768
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 98.5723,
+      "y": 2391.4277
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 95.4756,
+      "y": 2388.5088
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 95.4756,
+      "y": 2388.5088
+    }
+  ]
+}

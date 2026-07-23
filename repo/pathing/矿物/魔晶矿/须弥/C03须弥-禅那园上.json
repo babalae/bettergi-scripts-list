@@ -6,10 +6,10 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780115693743,
+    "last_modified_time": 1783090352660,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C03须弥-禅那园上",
@@ -31,7 +31,6 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 3248.2744,
@@ -54,6 +53,34 @@
       "type": "path",
       "x": 3246.1953,
       "y": -974.6357
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3248.3838,
+      "y": -976.5371
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3246.8545,
+      "y": -975.125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3246.8545,
+      "y": -975.125
     }
   ]
 }

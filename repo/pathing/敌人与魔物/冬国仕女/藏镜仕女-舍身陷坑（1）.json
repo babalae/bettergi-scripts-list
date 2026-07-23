@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780196948582,
+    "last_modified_time": 1781570983600,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B06须弥-禅那园右下",
+    "name": "藏镜仕女-舍身陷坑（1）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 2964.9219,
-      "y": -1452.2812
+      "x": 4410.0205,
+      "y": -1874.2998
     },
     {
       "action": "",
@@ -33,63 +33,35 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 2969.2148,
-      "y": -1444.4736
+      "x": 4429.0254,
+      "y": -1902.3984
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "dash",
+      "move_mode": "fly",
       "type": "path",
-      "x": 3034.8652,
-      "y": -1313.2578
+      "x": 4574.791,
+      "y": -2098.6562
     },
     {
       "action": "stop_flying",
       "action_params": "",
       "id": 4,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
-      "x": 3049.623,
-      "y": -1261.9199
+      "x": 4674.791,
+      "y": -2198.6562
     },
     {
-      "action": "mining",
+      "action": "fight",
       "action_params": "",
       "id": 5,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": 3046.2861,
-      "y": -1258.1777
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 3053.0156,
-      "y": -1263.3301
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 3060.2109,
-      "y": -1281.8018
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 3064.1172,
-      "y": -1280.0918
+      "x": 4674.791,
+      "y": -2198.6562
     }
   ]
 }

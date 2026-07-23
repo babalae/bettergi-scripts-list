@@ -6,10 +6,10 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780069806113,
+    "last_modified_time": 1783088030643,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B02挪德卡莱-霜月之纺左下",
@@ -31,7 +31,6 @@
       "action": "stop_flying",
       "action_params": "",
       "id": 2,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 10484.1689,
@@ -59,6 +58,15 @@
       "action": "mining",
       "action_params": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10521.416,
+      "y": 1664.833
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 6,
       "move_mode": "walk",
       "type": "path",
       "x": 10521.416,

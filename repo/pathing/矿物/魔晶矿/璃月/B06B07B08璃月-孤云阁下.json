@@ -6,10 +6,10 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1781069091106,
+    "last_modified_time": 1783088790769,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B06B07B08璃月-孤云阁下",
@@ -220,6 +220,16 @@
       "action": "mining",
       "action_params": "",
       "id": 23,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -812.043,
+      "y": -458.2559
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 24,
       "move_mode": "walk",
       "type": "path",
       "x": -812.043,

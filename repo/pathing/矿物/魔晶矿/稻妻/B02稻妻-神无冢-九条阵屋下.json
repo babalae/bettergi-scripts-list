@@ -6,10 +6,10 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780116258103,
+    "last_modified_time": 1783089206468,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B02稻妻-神无冢-九条阵屋下",
@@ -31,7 +31,6 @@
       "action": "stop_flying",
       "action_params": "",
       "id": 2,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": -3420.8262,
@@ -50,6 +49,16 @@
       "action": "mining",
       "action_params": "",
       "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3415.6719,
+      "y": -3316.1523
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 5,
       "move_mode": "walk",
       "type": "path",
       "x": -3415.6719,

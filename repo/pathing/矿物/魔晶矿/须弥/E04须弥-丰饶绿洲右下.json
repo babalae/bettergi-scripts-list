@@ -6,10 +6,10 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780281905148,
+    "last_modified_time": 1783090400997,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "E04须弥-丰饶绿洲右下",
@@ -40,6 +40,16 @@
       "action": "mining",
       "action_params": "",
       "id": 3,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4650.0029,
+      "y": -2674.1895
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 4,
       "move_mode": "run",
       "type": "path",
       "x": 4650.0029,

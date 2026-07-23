@@ -6,10 +6,10 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780060121729,
+    "last_modified_time": 1783089614670,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "G01纳塔-彩彩崖",
@@ -40,6 +40,17 @@
       "action": "mining",
       "action_params": "",
       "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13840.1094,
+      "y": 797.9307
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 4,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 13840.1094,

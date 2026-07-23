@@ -6,11 +6,11 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
     "hash_res": "80824249",
-    "last_modified_time": 1780848735890,
+    "last_modified_time": 1783090409051,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "E0607须弥-沙漠赤王陵东岩窟",
@@ -131,6 +131,16 @@
       "action": "mining",
       "action_params": "",
       "id": 13,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5275.7344,
+      "y": -2731.5049
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 14,
       "move_mode": "walk",
       "type": "path",
       "x": 5275.7344,

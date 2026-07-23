@@ -6,10 +6,10 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780071375600,
+    "last_modified_time": 1783090271120,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A03须弥-卡萨扎莱宫右下",
@@ -40,7 +40,6 @@
       "action": "",
       "action_params": "",
       "id": 3,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 2397.5859,
@@ -77,6 +76,16 @@
       "action": "mining",
       "action_params": "",
       "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2387.6846,
+      "y": -99.1445
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 8,
       "move_mode": "walk",
       "type": "path",
       "x": 2387.6846,

@@ -6,10 +6,10 @@
         "name": "下流山汉"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780108216736,
+    "last_modified_time": 1783088163209,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C01枫丹-伊黎耶林区右",
@@ -40,6 +40,16 @@
       "action": "mining",
       "action_params": "",
       "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2852.5156,
+      "y": 3675.8193
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 4,
       "move_mode": "walk",
       "type": "path",
       "x": 2852.5156,
