@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784375931451,
-    "map_match_method": "SIFT",
+    "last_modified_time": 1784465690672,
+    "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A10-金鱼草-蒙德-荆夫港-1个",
+    "name": "14-树王圣体菇-翠翎恐蕈的巢窟一-1个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,17 +24,17 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -202.2695,
-      "y": 3498.8501
+      "x": 3926.2207,
+      "y": -163.9785
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
       "id": 2,
-      "move_mode": "run",
-      "type": "path",
-      "x": -196.5527,
-      "y": 3494.8389
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3924.7295,
+      "y": -159.7354
     },
     {
       "action": "",
@@ -42,17 +42,17 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": -201.3364,
-      "y": 3487.4375
+      "x": 3920.8691,
+      "y": -152.2588
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.7)",
+      "action": "stop_flying",
+      "action_params": "",
       "id": 4,
-      "move_mode": "run",
+      "move_mode": "fly",
       "type": "path",
-      "x": -145.5801,
-      "y": 3449.3926
+      "x": 3911.1201,
+      "y": -131.833
     },
     {
       "action": "",
@@ -60,27 +60,26 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": -135.6562,
-      "y": 3464.3662
+      "x": 3889.4375,
+      "y": -112.4297
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "action_params": "",
       "id": 6,
-      "locked": false,
-      "move_mode": "fly",
-      "type": "target",
-      "x": -102.6836,
-      "y": 3477.4932
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3886.6191,
+      "y": -104.6865
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.23)",
+      "action_params": "wait(0.1)",
       "id": 7,
-      "move_mode": "fly",
-      "type": "path",
-      "x": -102.6836,
-      "y": 3477.4932
+      "move_mode": "dash",
+      "type": "target",
+      "x": 3881.8896,
+      "y": -106.5684
     }
   ]
 }
