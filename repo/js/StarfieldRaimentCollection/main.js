@@ -346,22 +346,27 @@
 
                 if (check_flag_win) {
                     log.info("进入结算...");
-                    // keyPress("Escape");
-                    // await sleep(1000);
-                    // click(968, 460);
-                    // await sleep(1000);
-                    // check_flag_win = false;
-                    for (let i = 0; i < 50; i++) {
-                        keyDown("S");
-                        await sleep(100);
-                        keyUp("S");
-                        await sleep(100);
-                        if (captureGameRegion().Find(f_pic).isExist()) {
-                            break;
+                    check_flag_win = false;
+                    const exp = await Ocr(1338, 19, 143, 40);
+
+                    if (exp && exp.text === "0") {
+                        keyPress("Escape");
+                        await sleep(1000);
+                        click(968, 460);
+                        await sleep(1000);
+                    } else {
+                        for (let i = 0; i < 50; i++) {
+                            keyDown("S");
+                            await sleep(100);
+                            keyUp("S");
+                            await sleep(100);
+                            if (captureGameRegion().Find(f_pic).isExist()) {
+                                break;
+                            }
                         }
+                        await sleep(200);
+                        keyPress("F");
                     }
-                    await sleep(200);
-                    keyPress("F");
                     continue;
                 }
                 keyDown("W");
