@@ -15,13 +15,12 @@
     "name": "05-须弥-帕蒂沙兰-须弥城左上-3个",
     "tags": [],
     "type": "collect",
-    "version": "1.0"
+    "version": "2.0"
   },
   "positions": [
     {
       "action": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 2877.02,
@@ -39,7 +38,6 @@
       "action": "combat_script",
       "action_params": "keydown(w),dash(1.45),keyup(w),wait(1.5),keypress(x)",
       "id": 3,
-      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
       "x": 2869.8496,
