@@ -1,0 +1,100 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784816834696,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "05-须弥-帕蒂沙兰-须弥城左上-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2877.02,
+      "y": -292.13
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2877.36,
+      "y": -285.81
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),dash(1.45),keyup(w),wait(1.5),keypress(x)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 2869.8496,
+      "y": -272.9316
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2869.793,
+      "y": -272.8223
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2877.02,
+      "y": -292.13
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2811.6924,
+      "y": -292.0713
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 2782.8613,
+      "y": -287.9512
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2770.0898,
+      "y": -284.9238
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.15)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2767.0332,
+      "y": -287.3594
+    }
+  ]
+}
