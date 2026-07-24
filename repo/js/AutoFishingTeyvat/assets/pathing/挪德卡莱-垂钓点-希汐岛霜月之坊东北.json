@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 挪德卡莱\n类型: 垂钓点\n详细位置: 希汐岛霜月之坊东北\n鱼类: 冷冽巨斧鱼、蓝昼明眼鱼、夜色明眼鱼、虹光凶凶鲨\n饵类: 槲梭饵、清白饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757699361714,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "挪德卡莱-垂钓点-希汐岛霜月之坊东北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10391.68,
+      "y": 1854.53
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10357.53,
+      "y": 1848.05
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10325.89,
+      "y": 1831.46
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10291.5,
+      "y": 1818.56
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10286.75,
+      "y": 1817.25
+    }
+  ]
+}

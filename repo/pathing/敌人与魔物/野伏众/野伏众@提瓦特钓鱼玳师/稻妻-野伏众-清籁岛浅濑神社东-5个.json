@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-清籁岛浅濑神社东-5个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "野伏众-5个\n稻妻-清籁岛浅濑神社东",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4170.26,
+      "y": -4570.69,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3989.22,
+      "y": -4624.19,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(space),wait(5),attack(0.1),wait(3)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -3989.01,
+      "y": -4623.48,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -3966.21,
+      "y": -4684.23,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "info": {
+    "name": "荒岛朝圣指南_路线5",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750600181461,
+    "authors": [
+      {
+        "name": "花见木易",
+        "links": "https://github.com/Flower-MUYi"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2405.79,
+      "y": -3912.96,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -2390.64,
+      "y": -3915.61,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2300.23,
+      "y": -3910.74,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -2300.23,
+      "y": -3910.74,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "log_output",
+      "action_params": "此处需要与一旁NPC对话，然后再参拜。需要重复四次。"
+    }
+  ]
+}

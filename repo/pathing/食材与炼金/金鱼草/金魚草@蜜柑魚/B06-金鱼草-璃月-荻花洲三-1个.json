@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "B06-金鱼草-璃月-荻花洲三-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "tags": [],
+    "last_modified_time": 1752991190892,
+    "enable_monster_loot_split": false,
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 253.3867,
+      "y": 1285.4248,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 287.4707,
+      "y": 1300.6465,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 322.6602,
+      "y": 1299.5088,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.345)"
+    }
+  ]
+}

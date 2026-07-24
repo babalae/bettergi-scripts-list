@@ -1,0 +1,205 @@
+{
+  "info": {
+    "name": "纳塔龙众-万火之瓯7",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "老马RYO"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8669.57,
+      "y": -2057.17,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 8672.25,
+      "y": -2036.5,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "target",
+      "x": 8667.25,
+      "y": -2034.25,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8705.25,
+      "y": -1999.5,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 8738.0,
+      "y": -2012.49,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8772.75,
+      "y": -1993.0,
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "action": "",
+      "move_mode": "climb",
+      "type": "path",
+      "x": 8785.54,
+      "y": -2026.68,
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 8817.5,
+      "y": -2057.5,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8853.0,
+      "y": -2086.5,
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8885.08,
+      "y": -2136.43,
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8877.25,
+      "y": -2147.25,
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8895.32,
+      "y": -2155.67,
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "action": "",
+      "move_mode": "climb",
+      "type": "path",
+      "x": 8911.5,
+      "y": -2152.75,
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8927.0,
+      "y": -2154.75,
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9056.25,
+      "y": -2159.0,
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9059.76,
+      "y": -2188.25,
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9149.75,
+      "y": -2217.25,
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9147.55,
+      "y": -2205.18,
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9136.56,
+      "y": -2177.95,
+      "action_params": ""
+    },
+    {
+      "id": 20,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9121.75,
+      "y": -2154.0,
+      "action_params": ""
+    },
+    {
+      "id": 21,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9173.26,
+      "y": -2134.0,
+      "action_params": ""
+    }
+  ]
+}

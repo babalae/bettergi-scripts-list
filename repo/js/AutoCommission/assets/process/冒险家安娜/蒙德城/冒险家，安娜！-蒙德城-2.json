@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "11"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758179995995,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "冒险家，安娜！-蒙德城-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1505.8955078125,
+      "y": 2296.281982421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1500.24609375,
+      "y": 2300.671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1474.3984375,
+      "y": 2302.00537109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1339.2468535868247,
+      "y": 2286.999724652793
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.25)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1332.201171875,
+      "y": 2285.01318359375
+    }
+  ]
+}

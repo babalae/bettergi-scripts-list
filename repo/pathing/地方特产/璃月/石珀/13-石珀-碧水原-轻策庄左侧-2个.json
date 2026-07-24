@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "13-石珀-碧水原-轻策庄左侧-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "爱凑热闹"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 799.57,
+      "y": 1790.76,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 793.55,
+      "y": 1788.25,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 781.7,
+      "y": 1785.54,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 772.46,
+      "y": 1785.47,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 772.46,
+      "y": 1785.47,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 772.4,
+      "y": 1785.5,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784400014613,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B11-金鱼草-璃月-渌华池-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 489.6279,
+      "y": 222.5508
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 513.6211,
+      "y": 188.0137
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 513.6211,
+      "y": 188.0137
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.25)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 520.0156,
+      "y": 214.3105
+    }
+  ]
+}

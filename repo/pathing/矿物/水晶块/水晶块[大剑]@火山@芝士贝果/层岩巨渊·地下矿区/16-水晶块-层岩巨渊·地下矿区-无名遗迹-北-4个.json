@@ -1,0 +1,109 @@
+{
+  "info": {
+    "name": "16-水晶块-层岩巨渊·地下矿区-无名遗迹-北-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 524.74,
+      "y": 525.43,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 513.89,
+      "y": 526.83,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 509.37,
+      "y": 532.34,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(1),keypress(VK_SPACE),wait(2.5),keypress(VK_SPACE)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 510.56,
+      "y": 558.56,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "500",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 510.03,
+      "y": 551.41,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 506.73,
+      "y": 562.72,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 511.14,
+      "y": 566.82,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 517.24,
+      "y": 562.04,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 518.53,
+      "y": 562.78,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 518.53,
+      "y": 562.78,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(2)",
+      "type": "target"
+    }
+  ]
+}

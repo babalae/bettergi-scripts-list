@@ -1,0 +1,116 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 璃月\n类型: 垂钓点\n详细位置: 珉林天遒谷\n鱼类: 花鳉、水晶宴、斗棘鱼\n饵类: 果酿饵、赤糜饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764506611763,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "璃月-垂钓点-珉林天遒谷",
+    "tags": [],
+    "type": "collect",
+    "version": "1.4"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1152.65,
+      "y": 141.64
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1240.85,
+      "y": 144.33
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1256.84,
+      "y": 147.91
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1305.18,
+      "y": 146.47
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1321.18,
+      "y": 154.93
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(15)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1336.02,
+      "y": 158.56
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1325.25,
+      "y": 156.61
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1332.65,
+      "y": 156.56
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1334.08,
+      "y": 158.18
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1333.87,
+      "y": 153.96
+    }
+  ]
+}

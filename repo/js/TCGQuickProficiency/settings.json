@@ -1,0 +1,17 @@
+[
+  {
+    "name": "runMode",
+    "type": "select",
+    "label": "运行模式",
+    "options": [
+      "作为主账号：速刷熟练度",
+      "作为辅助账号：快速投降",
+      "扫描当前账号卡牌熟练度"
+    ]
+  },
+  {
+    "name": "targetProficiency",
+    "type": "input-text",
+    "label": "目标熟练度 （未设置时默认刷到30）"
+  }
+]

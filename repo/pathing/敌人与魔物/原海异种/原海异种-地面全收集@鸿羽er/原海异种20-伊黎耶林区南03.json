@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "原海异种20-伊黎耶林区南03",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3374.0,
+      "y": 3287.61,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 3403.5,
+      "y": 3280.57,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3399.5,
+      "y": 3254.08,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": 3369.5,
+      "y": 3190.6,
+      "action_params": ""
+    }
+  ]
+}

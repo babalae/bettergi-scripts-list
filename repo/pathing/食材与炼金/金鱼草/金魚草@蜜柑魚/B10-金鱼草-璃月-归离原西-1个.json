@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784400376772,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B10-金鱼草-璃月-归离原西-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 341.5088,
+      "y": 548.4893
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 363.2539,
+      "y": 560.2515
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 445.8906,
+      "y": 583.2236
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 470.4063,
+      "y": 588.0972
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 546.0664,
+      "y": 593.9629
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.25)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 554.9619,
+      "y": 590.2334
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 稻妻\n类型: 垂钓点\n详细位置: 八酝岛名椎滩北\n鱼类: 花鳉、肺棘鱼、流纹京紫蝶鱼、苦炮鲀\n饵类: 果酿饵、赤糜饵、蠕虫假饵、飞蝇假饵\n附加信息: 战斗",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764501968718,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "稻妻-垂钓点-八酝岛名椎滩北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.6"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2738.32,
+      "y": -3414.58
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2722.58,
+      "y": -3402.62
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2674.26,
+      "y": -3417.0
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2677.35,
+      "y": -3428.53
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2637.1,
+      "y": -3405.04
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.2),wait(2),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2632.18,
+      "y": -3401.66
+    }
+  ]
+}

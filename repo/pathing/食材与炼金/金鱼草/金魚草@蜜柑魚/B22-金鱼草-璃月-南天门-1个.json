@@ -1,0 +1,40 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784399842220,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B22-金鱼草-璃月-南天门-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1666.1191,
+      "y": 386.8486
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.25)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1682.2305,
+      "y": 370.9238
+    }
+  ]
+}

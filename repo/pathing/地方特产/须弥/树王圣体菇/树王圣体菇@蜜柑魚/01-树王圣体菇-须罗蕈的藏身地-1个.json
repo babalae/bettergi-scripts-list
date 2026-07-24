@@ -1,0 +1,119 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784459134461,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-树王圣体菇-须罗蕈的藏身地-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2297.8887,
+      "y": -824.2432
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2284.0361,
+      "y": -776.2168
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2282.3242,
+      "y": -768.5273
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),dash(1.75),keyup(w),wait(0.5),keypress(x)",
+      "id": 4,
+      "locked": false,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 2283.0527,
+      "y": -738.4766
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2275.8984,
+      "y": -703.002
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2282.2793,
+      "y": -679.4463
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2281.3887,
+      "y": -622.2129
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2281.7158,
+      "y": -589.333
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2280.7227,
+      "y": -568.3652
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2274.0215,
+      "y": -562.6406
+    }
+  ]
+}

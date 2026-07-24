@@ -1,0 +1,70 @@
+{
+  "info": {
+    "name": "05-禅那园西-3只",
+    "type": "collect",
+    "author": "jay",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "驮兽",
+      "兽肉",
+      "愚人众",
+      "镀金旅团"
+    ],
+    "last_modified_time": 1754396596737,
+    "authors": [
+      {
+        "name": "jay"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3397.6338,
+      "y": -1174.5562,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3446.2139,
+      "y": -1075.6841,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3488.3799,
+      "y": -1042.3984,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3515.1406,
+      "y": -1047.3462,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(VK_SPACE),wait(1.5),attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3515.0332,
+      "y": -1047.8823,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

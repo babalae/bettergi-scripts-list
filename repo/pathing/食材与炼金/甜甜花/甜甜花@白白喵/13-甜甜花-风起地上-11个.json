@@ -1,0 +1,189 @@
+{
+  "info": {
+    "name": "13-甜甜花-风起地上-11个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1505.9336,
+      "y": 2296.2581,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1506.4199,
+      "y": 2312.7246,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1481.7783,
+      "y": 2329.0625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1463.5703,
+      "y": 2323.2244,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1427.8467,
+      "y": 2320.9507,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 6,
+      "x": -1428.5742,
+      "y": 2349.8135,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 7,
+      "x": -1409.5977,
+      "y": 2312.0073,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -1381.5632,
+      "y": 2278.8115,
+      "type": "target",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -1393.251,
+      "y": 2265.8411,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 10,
+      "x": -1381.7295,
+      "y": 2253.2043,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 11,
+      "x": -1371.9993,
+      "y": 2230.9956,
+      "move_mode": "run",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -1360.4707,
+      "y": 2189.3225,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 13,
+      "x": -1359.1166,
+      "y": 2159.7436,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": -1332.6699,
+      "y": 2102.3467,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 15,
+      "x": -1356.7593,
+      "y": 2119.2442,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": -1409.1436,
+      "y": 2110.7678,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 17,
+      "x": -1460.508,
+      "y": 2081.751,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": -1536.5664,
+      "y": 2057.2241,
+      "type": "target",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": -1557.7842,
+      "y": 2099.7065,
+      "type": "target",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "info": {
+    "name": "璃月-B01",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751298878387
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 207.4755859375,
+      "y": 1573.0087890625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 195.421875,
+      "y": 1563.53564453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 191.7216796875,
+      "y": 1560.53564453125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 188.88671875,
+      "y": 1558.38671875,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(w),wait(1); 荧 attack,keypress(e);空 attack,keypress(e);",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 188.88671875,
+      "y": 1558.38671875,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(3),keypress(space),wait(0.1),keypress(space),wait(4)"
+    },
+    {
+      "id": 6,
+      "x": 151.0537109375,
+      "y": 1527.0341796875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 139.6162109375,
+      "y": 1531.6689453125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 117.0078125,
+      "y": 1501.20947265625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 112.42578125,
+      "y": 1490.9873046875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

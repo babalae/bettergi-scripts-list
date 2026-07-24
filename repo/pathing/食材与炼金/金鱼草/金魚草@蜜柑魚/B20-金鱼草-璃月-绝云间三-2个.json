@@ -1,0 +1,84 @@
+{
+  "info": {
+    "name": "B20-金鱼草-璃月-绝云间三-2个",
+    "type": "collect",
+    "version": "47.2",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "tags": [],
+    "last_modified_time": 1753016977951,
+    "enable_monster_loot_split": false,
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1167.9785,
+      "y": 662.7373,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1162.625,
+      "y": 662.4717,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1122.8525,
+      "y": 671.3633,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1117.4697,
+      "y": 664.6318,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1126.3643,
+      "y": 658.3652,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1143.2002,
+      "y": 653.3384,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1139.4961,
+      "y": 649.5581,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.345)",
+      "type": "path"
+    }
+  ]
+}

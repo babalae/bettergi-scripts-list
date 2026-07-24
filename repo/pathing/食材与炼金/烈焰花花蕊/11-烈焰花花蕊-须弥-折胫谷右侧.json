@@ -1,0 +1,97 @@
+{
+  "info": {
+    "name": "11-烈焰花花蕊-须弥-折胫谷右侧",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "ran"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5689.81,
+      "y": -707.22,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 5700.21,
+      "y": -730.63,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 5690.82,
+      "y": -732.53,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 5689.28,
+      "y": -748.33,
+      "type": "target",
+      "move_mode": "run",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 5698.83,
+      "y": -767.15,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 5689.96,
+      "y": -707.05,
+      "type": "teleport",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 5670.09,
+      "y": -707.83,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 5643.64,
+      "y": -679.92,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 5631.04,
+      "y": -672.6,
+      "type": "target",
+      "move_mode": "run",
+      "action": "hydro_collect",
+      "action_params": ""
+    }
+  ]
+}

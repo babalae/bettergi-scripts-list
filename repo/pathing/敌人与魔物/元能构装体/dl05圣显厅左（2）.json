@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "dl05圣显厅左（2）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "下流山汉",
+        "links": "https://github.com/vulgar-rustic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4777.31,
+      "y": -1434.56,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4810.74,
+      "y": -1428.94,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4836.99,
+      "y": -1427.84,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

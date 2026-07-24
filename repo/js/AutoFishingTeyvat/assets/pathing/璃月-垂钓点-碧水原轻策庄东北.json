@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "璃月-垂钓点-碧水原轻策庄东北",
+    "type": "collect",
+    "author": "提瓦特钓鱼玳师",
+    "version": "1.2",
+    "description": "地区: 璃月\n类型: 垂钓点\n详细位置: 碧水原轻策庄东北\n鱼类: 甜甜花鳉、擒霞客、水晶宴、斗棘鱼、流纹褐蝶鱼、苦炮鲀\n饵类: 果酿饵、赤糜饵、蠕虫假饵、飞蝇假饵\n附加信息: 普通",
+    "bgi_version": "0.42.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 548.38,
+      "y": 1767.06,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 543.8,
+      "y": 1763.76,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 497.21,
+      "y": 1778.69,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 492.01,
+      "y": 1783.56,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 456.39,
+      "y": 1814.77,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(4.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

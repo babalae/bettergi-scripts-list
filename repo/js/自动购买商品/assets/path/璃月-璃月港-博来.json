@@ -1,0 +1,118 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774602380360,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "璃月-璃月港-博来",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 371.73828125,
+      "y": -506.1943359375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 354.98828125,
+      "y": -490
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 301.8955078125,
+      "y": -541.38671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 294.1103515625,
+      "y": -535.107421875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 285.8876953125,
+      "y": -531.1552734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.17)",
+      "id": 6,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": 296.0654296875,
+      "y": -522.509765625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 296.0654296875,
+      "y": -522.509765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 309.7470703125,
+      "y": -510.3427734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 317.4140625,
+      "y": -508.48046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 320.6533203125,
+      "y": -510.5029296875
+    }
+  ]
+}

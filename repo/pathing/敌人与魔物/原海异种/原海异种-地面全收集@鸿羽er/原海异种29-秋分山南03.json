@@ -1,0 +1,89 @@
+{
+  "info": {
+    "name": "原海异种29-秋分山南03",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4402.5,
+      "y": 2280.26,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 4399.75,
+      "y": 2298.25,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 4340.5,
+      "y": 2282.76,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": 4314.75,
+      "y": 2224.49,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4286.0,
+      "y": 2221.0,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4260.0,
+      "y": 2307.49,
+      "move_mode": "run",
+      "action": "",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4231.25,
+      "y": 2315.0,
+      "action": "fight",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "target",
+      "x": 4208.0,
+      "y": 2317.25,
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "骗骗花-誓言峡",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "san"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2004.0,
+      "y": 1441.2
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -1970.0,
+      "y": 1466.25
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1937.5,
+      "y": 1470.96
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": -1949.0,
+      "y": 1497.01
+    }
+  ]
+}

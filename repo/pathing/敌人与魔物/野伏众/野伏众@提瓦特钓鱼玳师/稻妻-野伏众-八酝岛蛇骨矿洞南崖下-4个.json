@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-八酝岛蛇骨矿洞南崖下-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "野伏众-4个\n稻妻-八酝岛蛇骨矿洞南崖下",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2399.54,
+      "y": -4127.87,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2359.27,
+      "y": -4137.68,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "target",
+      "x": -2356.27,
+      "y": -4126.68,
+      "action_params": ""
+    }
+  ]
+}
