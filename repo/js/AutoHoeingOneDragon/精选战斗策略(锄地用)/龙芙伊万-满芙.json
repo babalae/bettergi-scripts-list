@@ -1,0 +1,153 @@
+{
+  "info": {
+    "name": "龙芙伊万-满芙",
+    "author": "mno",
+    "description": "zako，zako",
+    "config": {},
+    "preActions": []
+  },
+  "actions": [
+    {
+      "name": "5秒内有角色红血标志",
+      "character": "",
+      "action": "",
+      "condition": {
+        "expression": "low-hp && since>3"
+      },
+      "ensureCast": false,
+      "index": 1
+    },
+    {
+      "name": "伊涅芙-开盾",
+      "character": "伊涅芙",
+      "action": "e",
+      "condition": {
+        "expression": "e-ready && since>16"
+      },
+      "ensureCast": true,
+      "index": 10
+    },
+    {
+      "name": "检查战斗结束",
+      "character": "",
+      "action": "check",
+      "condition": {
+        "expression": "since>1 && t>1.5"
+      },
+      "ensureCast": false,
+      "index": 20
+    },
+    {
+      "name": "芙芙-e",
+      "character": "芙宁娜",
+      "action": "e",
+      "condition": {
+        "expression": "since>28 && e-ready"
+      },
+      "ensureCast": false,
+      "index": 21,
+      "morePriorities": [
+        {
+          "expression": "e-ready",
+          "priority": 32
+        }
+      ]
+    },
+    {
+      "name": "龙王-喷水",
+      "character": "那维莱特",
+      "action": "click(middle),wait(0.05),keydown(VK_LBUTTON),wait(0.25),keyup(VK_LBUTTON),wait(0.15),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),keydown(VK_LBUTTON),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,2300),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,2300),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,2300),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),click(middle),j,wait(0.05),keyup(VK_LBUTTON),wait(0.4)",
+      "condition": {
+        "expression": "count(31, t-15, t) + count(100, t-15, t) * 2 - count(30, t-15, t) > 0"
+      },
+      "ensureCast": false,
+      "index": 30
+    },
+    {
+      "name": "龙王-e",
+      "character": "那维莱特",
+      "action": "e,e",
+      "condition": {
+        "expression": "e-ready && since>15"
+      },
+      "ensureCast": true,
+      "index": 31
+    },
+    {
+      "name": "满芙普攻",
+      "character": "芙宁娜",
+      "action": "keydown(w),wait(0.05),keyup(w),wait(0.05),click,wait(0.05),click,wait(0.20),click,wait(0.05),click,wait(0.25),keydown(s),wait(0.05),click,wait(0.05),click,wait(0.6),keyup(s)",
+      "condition": {
+        "expression": "(since(21)<10) && (count(32, t-10, t)<2)"
+      },
+      "ensureCast": false,
+      "index": 32,
+      "morePriorities": [
+        {
+          "expression": "since(1)<5&&(since(21)<10) && (count(32, t-10, t)<2)",
+          "priority": 11
+        }
+      ]
+    },
+    {
+      "name": "芙芙-q",
+      "character": "",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready"
+      },
+      "ensureCast": false,
+      "index": 35
+    },
+    {
+      "name": "万叶-e",
+      "character": "枫原万叶",
+      "action": "attack,keydown(E),wait(0.48),keyup(E),attack(0.3),wait(0.2)",
+      "condition": {
+        "expression": "since>8 || since > since(38)"
+      },
+      "ensureCast": false,
+      "index": 36
+    },
+    {
+      "name": "伊涅芙-q",
+      "character": "伊涅芙",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready"
+      },
+      "ensureCast": false,
+      "index": 37
+    },
+    {
+      "name": "万叶-Q",
+      "character": "枫原万叶",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready"
+      },
+      "ensureCast": false,
+      "index": 38
+    },
+    {
+      "name": "龙王-q",
+      "character": "那维莱特",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && since>18"
+      },
+      "ensureCast": false,
+      "index": 100
+    },
+    {
+      "name": "等待",
+      "character": "",
+      "action": "wait(0.2)",
+      "condition": {
+        "expression": ""
+      },
+      "ensureCast": false,
+      "index": 999
+    }
+  ]
+}

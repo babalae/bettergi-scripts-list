@@ -1,0 +1,316 @@
+{
+  "info": {
+    "name": "公式化锄地-满芙",
+    "author": "mno",
+    "description": "配队公式：芙+盾位（茜/机/尼/莱）+其他（火/万/莉/爱/少）用于普通精英/小怪锄地",
+    "config": {},
+    "preActions": []
+  },
+  "actions": [
+    {
+      "name": "检查战斗结束",
+      "character": "",
+      "action": "check,w(0.05),click(middle),scroll(10)",
+      "condition": {
+        "expression": "t>1.5 && since>0.7"
+      },
+      "ensureCast": false,
+      "index": 1
+    },
+    {
+      "name": "奶奶-开盾",
+      "character": "茜特菈莉",
+      "action": "attack,e",
+      "condition": {
+        "expression": "e-ready"
+      },
+      "ensureCast": true,
+      "index": 10
+    },
+    {
+      "name": "伊涅芙-开盾",
+      "character": "伊涅芙",
+      "action": "e",
+      "condition": {
+        "expression": "e-ready"
+      },
+      "ensureCast": true,
+      "index": 11
+    },
+    {
+      "name": "尼可-开盾",
+      "character": "尼可",
+      "action": "e",
+      "condition": {
+        "expression": "e-ready"
+      },
+      "ensureCast": false,
+      "index": 12
+    },
+    {
+      "name": "莱依拉-开盾",
+      "character": "莱依拉",
+      "action": "e",
+      "condition": {
+        "expression": "e-ready"
+      },
+      "ensureCast": false,
+      "index": 13
+    },
+    {
+      "name": "爱可菲-q",
+      "character": "爱可菲",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "(low-hp || since(41)<3) && q-ready"
+      },
+      "ensureCast": false,
+      "index": 20,
+      "morePriorities": [
+        {
+          "expression": "q-ready",
+          "priority": 43
+        }
+      ]
+    },
+    {
+      "name": "芙芙-e",
+      "character": "芙宁娜",
+      "action": "e,wait(0.3)",
+      "condition": {
+        "expression": "since>28 && e-ready"
+      },
+      "ensureCast": false,
+      "index": 21,
+      "morePriorities": [
+        {
+          "expression": "since>20 && e-ready",
+          "priority": 30
+        }
+      ]
+    },
+    {
+      "name": "火神-e",
+      "character": "玛薇卡",
+      "action": "attack,e",
+      "condition": {
+        "expression": "e-ready && since>15"
+      },
+      "ensureCast": false,
+      "index": 22
+    },
+    {
+      "name": "莉奈娅-大锤",
+      "character": "莉奈娅",
+      "action": "keypress(e),wait(0.08),keypress(e),wait(0.08),keypress(e),wait(0.08),keypress(e),wait(0.08),keypress(e),wait(0.08),keypress(e),wait(0.08),keypress(e),wait(0.08),keypress(e),wait(0.08),keypress(e),wait(0.08),keypress(e),wait(0.08)",
+      "condition": {
+        "expression": "e-ready && since>17"
+      },
+      "ensureCast": false,
+      "index": 23
+    },
+    {
+      "name": "爱可菲-e",
+      "character": "爱可菲",
+      "action": "e,attack(0.01),keypress(e)",
+      "condition": {
+        "expression": "e-ready"
+      },
+      "ensureCast": false,
+      "index": 24
+    },
+    {
+      "name": "少女-e",
+      "character": "哥伦比娅",
+      "action": "e",
+      "condition": {
+        "expression": "e-ready"
+      },
+      "ensureCast": false,
+      "index": 25
+    },
+    {
+      "name": "火神-q",
+      "character": "玛薇卡",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready"
+      },
+      "ensureCast": false,
+      "index": 26
+    },
+    {
+      "name": "满芙普攻",
+      "character": "芙宁娜",
+      "action": "keydown(w),wait(0.05),keyup(w),wait(0.05),click,wait(0.05),click,wait(0.20),click,wait(0.05),click,wait(0.25),keydown(s),wait(0.05),click,wait(0.05),click,wait(0.6),keyup(s)",
+      "condition": {
+        "expression": "(since(21)<10) && (count(27, t-10, t)<2)"
+      },
+      "ensureCast": false,
+      "index": 27
+    },
+    {
+      "name": "木偶-喷冰4.15",
+      "character": "桑多涅",
+      "action": "charge(4.15)",
+      "condition": {
+        "expression": "count=0 || since(38)>since(44)"
+      },
+      "ensureCast": false,
+      "index": 38
+    },
+    {
+      "name": "草神-破水盾",
+      "character": "纳西妲",
+      "action": "e,attack(1.2),charge(0.7),j,attack(0.8)",
+      "condition": {
+        "expression": "e-ready"
+      },
+      "ensureCast": false,
+      "index": 39
+    },
+    {
+      "name": "草神-q",
+      "character": "纳西妲",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready"
+      },
+      "ensureCast": false,
+      "index": 40,
+      "morePriorities": [
+        {
+          "expression": "low-hp",
+          "priority": 0
+        }
+      ]
+    },
+    {
+      "name": "芙芙-q",
+      "character": "芙宁娜",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready"
+      },
+      "ensureCast": false,
+      "index": 41
+    },
+    {
+      "name": "木偶-q",
+      "character": "桑多涅",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && since>18"
+      },
+      "ensureCast": false,
+      "index": 42
+    },
+    {
+      "name": "万叶-中e",
+      "character": "枫原万叶",
+      "action": "attack,keydown(E),wait(0.48),keyup(E),attack(0.3),wait(0.2)",
+      "condition": {
+        "expression": "since>8 || since>since(45)"
+      },
+      "ensureCast": false,
+      "index": 43
+    },
+    {
+      "name": "木偶-e",
+      "character": "桑多涅",
+      "action": "keypress(e),attack",
+      "condition": {
+        "expression": "since>5"
+      },
+      "ensureCast": false,
+      "index": 44,
+      "morePriorities": []
+    },
+    {
+      "name": "万叶-q",
+      "character": "枫原万叶",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready"
+      },
+      "ensureCast": false,
+      "index": 45
+    },
+    {
+      "name": "莉奈娅-q",
+      "character": "莉奈娅",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready"
+      },
+      "ensureCast": false,
+      "index": 46,
+      "morePriorities": [
+        {
+          "expression": "low-hp&&q-ready",
+          "priority": 20
+        }
+      ]
+    },
+    {
+      "name": "少女-q",
+      "character": "哥伦比娅",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready"
+      },
+      "ensureCast": false,
+      "index": 47
+    },
+    {
+      "name": "伊涅芙-q",
+      "character": "伊涅芙",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready"
+      },
+      "ensureCast": false,
+      "index": 48
+    },
+    {
+      "name": "奶奶-q",
+      "character": "茜特菈莉",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready"
+      },
+      "ensureCast": false,
+      "index": 49
+    },
+    {
+      "name": "莱依拉-q",
+      "character": "莱依拉",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready"
+      },
+      "ensureCast": false,
+      "index": 50
+    },
+    {
+      "name": "尼可-q",
+      "character": "尼可",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready"
+      },
+      "ensureCast": false,
+      "index": 51
+    },
+    {
+      "name": "等待",
+      "character": "",
+      "action": "wait(0.2)",
+      "condition": {
+        "expression": ""
+      },
+      "ensureCast": false,
+      "index": 999
+    }
+  ]
+}
