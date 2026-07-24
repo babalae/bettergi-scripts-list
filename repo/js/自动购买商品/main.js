@@ -408,17 +408,15 @@ if (disabledTags.length > 0) {
 const disabledTagsSet = new Set(disabledTags);
 
 // 修改AKF设置处理
-const AKFValue = parseInt(settings.AKF) || 1;
-let AFKDay = null;
-let followSystem = false;
 
+const AKFValue = parseInt(settings.AKF) || 0; // 默认0（跟随系统）
+let followSystem = false;
 if (AKFValue === 0) {
-    // 0 表示跟随系统判定
     followSystem = true;
     log.info("每周商品购买: 跟随系统判定");
 } else {
-    AFKDay = AKFValue === 7 ? 0 : AKFValue;
-    log.info(`每周商品购买: 每周${AFKDay === 0 ? "日" : AFKDay}购买`);
+    const dayNames = ["一", "二", "三", "四", "五", "六", "日"];
+    log.info(`每周商品购买: 每周${dayNames[AKFValue - 1]}购买`);
 }
 
 // 获取账号记录路径
@@ -590,50 +588,61 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
         "month": []
     };
 
-    // 过滤函数：排除容量已满和禁用商品
-    const filterAvailable = (list) => (list || []).filter(food =>
-        !capacityLimitedFoods.has(food) && !disabledTagsSet.has(food)
-    );
+    // 获取当前星期几（1=周一，7=周日），已考虑4点刷新
+    const currentDay = getAdjustedDayOfWeek();
 
-    if (forceRefresh) {
-        if (npc._1d_foods) foodsToBuy["1d"] = filterAvailable(npc._1d_foods);
-        if (npc._3d_foods) foodsToBuy["3d"] = filterAvailable(npc._3d_foods);
-        if (npc._7d_foods) foodsToBuy["7d"] = filterAvailable(npc._7d_foods);
-        if (npc._thu_foods) foodsToBuy["thu"] = filterAvailable(npc._thu_foods);
-        if (npc._month_foods) foodsToBuy["month"] = filterAvailable(npc._month_foods);
-        return foodsToBuy;
-    }
-
-    function processType(type, fullList) {
+    // 辅助函数：根据用户设置获取候选商品列表（过滤禁用和容量上限）
+    function getCandidates(fullList) {
         if (!fullList || fullList.length === 0) return [];
+        // 判断是否匹配标签
         let useAll = false;
         if (npc.tags && Array.isArray(npc.tags)) {
             useAll = npc.tags.some(tag => userTagsToBuy.has(tag));
         }
         let candidateList = useAll ? fullList : filterUserFoods(fullList);
         // 过滤容量上限和禁用商品
-        candidateList = candidateList.filter(food => !capacityLimitedFoods.has(food) && !disabledTagsSet.has(food));
-        if (candidateList.length === 0) return [];
-
-        const purchasedList = npcRecord && npcRecord[type] ? npcRecord[type] : [];
-        const notPurchased = candidateList.filter(food => !purchasedList.includes(food));
-
-        if (!npcRecord || !npcRecord[`${type}_time`]) {
-            return candidateList;
-        }
-        const nextRefreshTime = new Date(npcRecord[`${type}_time`]);
-        if (now >= nextRefreshTime) {
-            return candidateList;
-        } else {
-            return notPurchased;
-        }
+        candidateList = candidateList.filter(food => 
+            !capacityLimitedFoods.has(food) && !disabledTagsSet.has(food)
+        );
+        return candidateList;
     }
 
-    foodsToBuy["1d"] = processType("1d", npc._1d_foods);
-    foodsToBuy["3d"] = processType("3d", npc._3d_foods);
-    foodsToBuy["7d"] = processType("7d", npc._7d_foods);
-    foodsToBuy["thu"] = processType("thu", npc._thu_foods);
-    foodsToBuy["month"] = processType("month", npc._month_foods);
+    // 处理每种刷新类型
+    const types = ["1d", "3d", "7d", "thu", "month"];
+    for (const type of types) {
+        const fullList = npc[`_${type}_foods`];
+        if (!fullList) continue;
+
+        // ===== 新增：对 7d 和 thu 类型进行日期过滤 =====
+        if ((type === "7d" || type === "thu") && AKFValue !== 0) {
+            if (currentDay !== AKFValue) {
+                continue; // 今天不是用户指定的购买日，跳过该类型
+            }
+        }
+
+        let candidates = getCandidates(fullList);
+        if (candidates.length === 0) continue;
+
+        if (forceRefresh) {
+            // 强制刷新：忽略记录，全部尝试购买（但仍受用户过滤约束）
+            foodsToBuy[type] = candidates;
+        } else {
+            // 正常模式：检查购买记录和刷新时间
+            const purchasedList = npcRecord && npcRecord[type] ? npcRecord[type] : [];
+            const notPurchased = candidates.filter(food => !purchasedList.includes(food));
+
+            if (!npcRecord || !npcRecord[`${type}_time`]) {
+                foodsToBuy[type] = candidates;
+            } else {
+                const nextRefreshTime = new Date(npcRecord[`${type}_time`]);
+                if (now >= nextRefreshTime) {
+                    foodsToBuy[type] = candidates;
+                } else {
+                    foodsToBuy[type] = notPurchased;
+                }
+            }
+        }
+    }
 
     return foodsToBuy;
 }
