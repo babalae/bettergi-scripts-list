@@ -1,97 +1,95 @@
-﻿{
-    "info":  {
-                 "authors":  [
-                                 {
-                                     "links":  "https://github.com/zhy0070",
-                                     "name":  "烤鱼"
-                                 }
-                             ],
-                 "bgi_version":  "0.45.0",
-                 "description":  "",
-                 "enable_monster_loot_split":  false,
-                 "last_modified_time":  1783089585342,
-                 "map_match_method":  "",
-                 "map_name":  "Teyvat",
-                 "name":  "A04纳塔-坚岩溢谷上",
-                 "tags":  [
-
-                          ],
-                 "type":  "collect",
-                 "version":  "1.0"
-             },
-    "positions":  [
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  1,
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  7973.9932,
-                          "y":  -1557.3252
-                      },
-                      {
-                          "action":  "stop_flying",
-                          "action_params":  "",
-                          "id":  2,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  8079.7109,
-                          "y":  -1527.6133
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  3,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  8094.7441,
-                          "y":  -1510.7803
-                      },
-                      {
-                          "action":  "fight",
-                          "action_params":  "",
-                          "id":  4,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  8143.3594,
-                          "y":  -1498.8477
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  5,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  8143.3594,
-                          "y":  -1498.8477
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  6,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  8141.5957,
-                          "y":  -1444.4258
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  7,
-                          "locked":  false,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  8137.1641,
-                          "y":  -1451.2344
-                      },
-                      {
-                          "action":  "combat_script",
-                          "action_params":  "wait(2)",
-                          "id":  8,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  8137.1641,
-                          "y":  -1451.2344
-                      }
-                  ]
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1783089585342,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A04纳塔-坚岩溢谷上",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7973.9932,
+      "y": -1557.3252
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8079.7109,
+      "y": -1527.6133
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8094.7441,
+      "y": -1510.7803
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8143.3594,
+      "y": -1498.8477
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8143.3594,
+      "y": -1498.8477
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8141.5957,
+      "y": -1444.4258
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8137.1641,
+      "y": -1451.2344
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8137.1641,
+      "y": -1451.2344
+    }
+  ]
 }

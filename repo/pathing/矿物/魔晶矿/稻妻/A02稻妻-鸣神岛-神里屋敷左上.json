@@ -1,97 +1,95 @@
-﻿{
-    "info":  {
-                 "authors":  [
-                                 {
-                                     "links":  "https://github.com/zhy0070",
-                                     "name":  "烤鱼"
-                                 }
-                             ],
-                 "bgi_version":  "0.45.0",
-                 "description":  "",
-                 "enable_monster_loot_split":  false,
-                 "last_modified_time":  1783089138175,
-                 "map_match_method":  "",
-                 "map_name":  "Teyvat",
-                 "name":  "A02稻妻-鸣神岛-神里屋敷左上",
-                 "tags":  [
-
-                          ],
-                 "type":  "collect",
-                 "version":  "1.0"
-             },
-    "positions":  [
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  1,
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  -4578.543,
-                          "y":  -2577.4648
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  2,
-                          "move_mode":  "run",
-                          "type":  "path",
-                          "x":  -4557.0859,
-                          "y":  -2448.1943
-                      },
-                      {
-                          "action":  "stop_flying",
-                          "action_params":  "",
-                          "id":  3,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  -4564.5332,
-                          "y":  -2439.4893
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  4,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -4560.2656,
-                          "y":  -2446.8379
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  5,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -4569.1172,
-                          "y":  -2450.1934
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  6,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -4562.4883,
-                          "y":  -2437.3027
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  7,
-                          "locked":  false,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -4565.543,
-                          "y":  -2444.5186
-                      },
-                      {
-                          "action":  "combat_script",
-                          "action_params":  "wait(2)",
-                          "id":  8,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -4565.543,
-                          "y":  -2444.5186
-                      }
-                  ]
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1783089138175,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A02稻妻-鸣神岛-神里屋敷左上",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4578.543,
+      "y": -2577.4648
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4557.0859,
+      "y": -2448.1943
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4564.5332,
+      "y": -2439.4893
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4560.2656,
+      "y": -2446.8379
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4569.1172,
+      "y": -2450.1934
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4562.4883,
+      "y": -2437.3027
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4565.543,
+      "y": -2444.5186
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4565.543,
+      "y": -2444.5186
+    }
+  ]
 }

@@ -1,79 +1,77 @@
-﻿{
-    "info":  {
-                 "authors":  [
-                                 {
-                                     "links":  "https://github.com/zhy0070",
-                                     "name":  "烤鱼"
-                                 }
-                             ],
-                 "bgi_version":  "0.45.0",
-                 "description":  "",
-                 "enable_monster_loot_split":  false,
-                 "last_modified_time":  1783089257500,
-                 "map_match_method":  "",
-                 "map_name":  "Teyvat",
-                 "name":  "B05稻妻-神无冢-借景之馆左",
-                 "tags":  [
-
-                          ],
-                 "type":  "collect",
-                 "version":  "1.0"
-             },
-    "positions":  [
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  1,
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  -3156.2773,
-                          "y":  -3885.8623
-                      },
-                      {
-                          "action":  "stop_flying",
-                          "action_params":  "",
-                          "id":  2,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  -3163.1035,
-                          "y":  -3902.7803
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  3,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -3162.8926,
-                          "y":  -3906.8564
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  4,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -3171.7676,
-                          "y":  -3903.1406
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  5,
-                          "locked":  false,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -3173.207,
-                          "y":  -3895.1973
-                      },
-                      {
-                          "action":  "combat_script",
-                          "action_params":  "wait(2)",
-                          "id":  6,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -3173.207,
-                          "y":  -3895.1973
-                      }
-                  ]
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1783089257500,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B05稻妻-神无冢-借景之馆左",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3156.2773,
+      "y": -3885.8623
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3163.1035,
+      "y": -3902.7803
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3162.8926,
+      "y": -3906.8564
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3171.7676,
+      "y": -3903.1406
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3173.207,
+      "y": -3895.1973
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3173.207,
+      "y": -3895.1973
+    }
+  ]
 }

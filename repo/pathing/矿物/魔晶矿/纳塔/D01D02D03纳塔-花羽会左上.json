@@ -1,107 +1,105 @@
-﻿{
-    "info":  {
-                 "authors":  [
-                                 {
-                                     "links":  "https://github.com/zhy0070",
-                                     "name":  "烤鱼"
-                                 }
-                             ],
-                 "bgi_version":  "0.45.0",
-                 "description":  "",
-                 "enable_monster_loot_split":  false,
-                 "last_modified_time":  1783089593390,
-                 "map_match_method":  "",
-                 "map_name":  "Teyvat",
-                 "name":  "D01D02D03纳塔-花羽会左上",
-                 "tags":  [
-
-                          ],
-                 "type":  "collect",
-                 "version":  "1.0"
-             },
-    "positions":  [
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  1,
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  9719.5469,
-                          "y":  -851.6494
-                      },
-                      {
-                          "action":  "stop_flying",
-                          "action_params":  "",
-                          "id":  2,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  9528.8779,
-                          "y":  -790.7959
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  3,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  9528.8779,
-                          "y":  -790.7959
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  4,
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  9719.5469,
-                          "y":  -851.6494
-                      },
-                      {
-                          "action":  "stop_flying",
-                          "action_params":  "",
-                          "id":  5,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  9649.8662,
-                          "y":  -994.7637
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  6,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  9649.8662,
-                          "y":  -994.7637
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  7,
-                          "move_mode":  "run",
-                          "type":  "path",
-                          "x":  9566.2148,
-                          "y":  -976.1777
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  8,
-                          "locked":  false,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  9566.2148,
-                          "y":  -976.1777
-                      },
-                      {
-                          "action":  "combat_script",
-                          "action_params":  "wait(2)",
-                          "id":  9,
-                          "locked":  false,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  9566.2148,
-                          "y":  -976.1777
-                      }
-                  ]
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1783089593390,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D01D02D03纳塔-花羽会左上",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9719.5469,
+      "y": -851.6494
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9528.8779,
+      "y": -790.7959
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9528.8779,
+      "y": -790.7959
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9719.5469,
+      "y": -851.6494
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9649.8662,
+      "y": -994.7637
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9649.8662,
+      "y": -994.7637
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9566.2148,
+      "y": -976.1777
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9566.2148,
+      "y": -976.1777
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 9,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9566.2148,
+      "y": -976.1777
+    }
+  ]
 }
