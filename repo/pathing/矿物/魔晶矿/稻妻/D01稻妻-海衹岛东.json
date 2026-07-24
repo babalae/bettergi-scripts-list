@@ -1,86 +1,88 @@
-{
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.52.0",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1783089327152,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "D01稻妻-海衹岛东",
-    "tags": [],
-    "type": "collect",
-    "version": "1.0"
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -1057.77,
-      "y": -3946.09
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "fly",
-      "type": "path",
-      "x": -1184.7969,
-      "y": -3851.5146
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -1184.7969,
-      "y": -3851.5146
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -1194.6914,
-      "y": -3845.0801
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -1201.9727,
-      "y": -3851.1084
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 6,
-      "locked": false,
-      "move_mode": "jump",
-      "type": "target",
-      "x": -1202.5527,
-      "y": -3841.9268
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 7,
-      "move_mode": "jump",
-      "type": "target",
-      "x": -1202.5527,
-      "y": -3841.9268
-    }
-  ]
+﻿{
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.52.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1783089327152,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "D01稻妻-海衹岛东",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.0"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  -1057.77,
+                          "y":  -3946.09
+                      },
+                      {
+                          "action":  "stop_flying",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  -1184.7969,
+                          "y":  -3851.5146
+                      },
+                      {
+                          "action":  "fight",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -1184.7969,
+                          "y":  -3851.5146
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  4,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  -1194.6914,
+                          "y":  -3845.0801
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  5,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -1201.9727,
+                          "y":  -3851.1084
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  6,
+                          "locked":  false,
+                          "move_mode":  "jump",
+                          "type":  "target",
+                          "x":  -1202.5527,
+                          "y":  -3841.9268
+                      },
+                      {
+                          "action":  "combat_script",
+                          "action_params":  "wait(2)",
+                          "id":  7,
+                          "move_mode":  "jump",
+                          "type":  "target",
+                          "x":  -1202.5527,
+                          "y":  -3841.9268
+                      }
+                  ]
 }

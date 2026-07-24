@@ -1,186 +1,188 @@
-{
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.42.0",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1783088905555,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "B17璃月-青墟浦右下",
-    "tags": [],
-    "type": "collect",
-    "version": ""
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 1128.46,
-      "y": -984.33
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "climb",
-      "type": "path",
-      "x": 1125.57,
-      "y": -976.94
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 1118.83,
-      "y": -976.19
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 1106.96,
-      "y": -971.29
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 1098.06,
-      "y": -970.19
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 1090.85,
-      "y": -970.46
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 1076.19,
-      "y": -968.26
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 1052.33,
-      "y": -966.88
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 9,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 1030.04,
-      "y": -951.51
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 10,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 1009.77,
-      "y": -941.38
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 11,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 985.23,
-      "y": -928.71
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 12,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 969.26,
-      "y": -912.38
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 13,
-      "move_mode": "run",
-      "type": "path",
-      "x": 975.72,
-      "y": -908.47
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 14,
-      "move_mode": "run",
-      "type": "path",
-      "x": 993.22,
-      "y": -904.11
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 15,
-      "move_mode": "run",
-      "type": "path",
-      "x": 1009.64,
-      "y": -900.85
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 16,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 1022.1816,
-      "y": -897.6055
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 17,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 1028.4961,
-      "y": -889.5078
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 18,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 1028.4961,
-      "y": -889.5078
-    }
-  ]
+﻿{
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.42.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1783088905555,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "B17璃月-青墟浦右下",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  ""
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  1128.46,
+                          "y":  -984.33
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "climb",
+                          "type":  "path",
+                          "x":  1125.57,
+                          "y":  -976.94
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  1118.83,
+                          "y":  -976.19
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  4,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  1106.96,
+                          "y":  -971.29
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  5,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  1098.06,
+                          "y":  -970.19
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  6,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  1090.85,
+                          "y":  -970.46
+                      },
+                      {
+                          "action":  "stop_flying",
+                          "action_params":  "",
+                          "id":  7,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  1076.19,
+                          "y":  -968.26
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  8,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  1052.33,
+                          "y":  -966.88
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  9,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  1030.04,
+                          "y":  -951.51
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  10,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  1009.77,
+                          "y":  -941.38
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  11,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  985.23,
+                          "y":  -928.71
+                      },
+                      {
+                          "action":  "stop_flying",
+                          "action_params":  "",
+                          "id":  12,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  969.26,
+                          "y":  -912.38
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  13,
+                          "move_mode":  "run",
+                          "type":  "path",
+                          "x":  975.72,
+                          "y":  -908.47
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  14,
+                          "move_mode":  "run",
+                          "type":  "path",
+                          "x":  993.22,
+                          "y":  -904.11
+                      },
+                      {
+                          "action":  "fight",
+                          "action_params":  "",
+                          "id":  15,
+                          "move_mode":  "run",
+                          "type":  "path",
+                          "x":  1009.64,
+                          "y":  -900.85
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  16,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  1022.1816,
+                          "y":  -897.6055
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  17,
+                          "locked":  false,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  1028.4961,
+                          "y":  -889.5078
+                      },
+                      {
+                          "action":  "combat_script",
+                          "action_params":  "wait(2)",
+                          "id":  18,
+                          "locked":  false,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  1028.4961,
+                          "y":  -889.5078
+                      }
+                  ]
 }

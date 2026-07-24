@@ -1,132 +1,134 @@
-{
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.52.0",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1783088865763,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "B14璃月-灵矩关南",
-    "tags": [],
-    "type": "collect",
-    "version": ""
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 1043.19,
-      "y": -558.04
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 1045.77,
-      "y": -567.9
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "500",
-      "id": 3,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 1099.93,
-      "y": -656.1
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 1098.82,
-      "y": -647.33
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "史莱姆",
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        },
-        "monster_tag": "normal"
-      },
-      "type": "path",
-      "x": 1098.73,
-      "y": -660.17
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 1098.73,
-      "y": -660.17
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "dash",
-      "type": "target",
-      "x": 1092.86,
-      "y": -652.76
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 1092.66,
-      "y": -653.25
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 9,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 1091.5,
-      "y": -655.87
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 10,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 1090.6,
-      "y": -656.33
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 11,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 1092.7725,
-      "y": -663.7583
-    }
-  ]
+﻿{
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.52.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1783088865763,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "B14璃月-灵矩关南",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  ""
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  1043.19,
+                          "y":  -558.04
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  1045.77,
+                          "y":  -567.9
+                      },
+                      {
+                          "action":  "stop_flying",
+                          "action_params":  "500",
+                          "id":  3,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  1099.93,
+                          "y":  -656.1
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  4,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  1098.82,
+                          "y":  -647.33
+                      },
+                      {
+                          "action":  "fight",
+                          "action_params":  "",
+                          "id":  5,
+                          "move_mode":  "walk",
+                          "point_ext_params":  {
+                                                   "description":  "史莱姆",
+                                                   "misidentification":  {
+                                                                             "arrival_time":  0,
+                                                                             "handling_mode":  "previousDetectedPoint",
+                                                                             "type":  [
+                                                                                          "unrecognized"
+                                                                                      ]
+                                                                         },
+                                                   "monster_tag":  "normal"
+                                               },
+                          "type":  "path",
+                          "x":  1098.73,
+                          "y":  -660.17
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  6,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  1098.73,
+                          "y":  -660.17
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  7,
+                          "move_mode":  "dash",
+                          "type":  "target",
+                          "x":  1092.86,
+                          "y":  -652.76
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  8,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  1092.66,
+                          "y":  -653.25
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  9,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  1091.5,
+                          "y":  -655.87
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  10,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  1090.6,
+                          "y":  -656.33
+                      },
+                      {
+                          "action":  "combat_script",
+                          "action_params":  "wait(2)",
+                          "id":  11,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  1092.7725,
+                          "y":  -663.7583
+                      }
+                  ]
 }

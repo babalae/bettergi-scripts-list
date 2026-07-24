@@ -1,59 +1,61 @@
-{
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.45.0",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1783088277505,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "B02枫丹-科学院上",
-    "tags": [],
-    "type": "collect",
-    "version": "1.0"
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 4301.6299,
-      "y": 4765.248
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 4314.9268,
-      "y": 4776.1436
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 3,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 4296.125,
-      "y": 4840.7744
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 4296.125,
-      "y": 4840.7744
-    }
-  ]
+﻿{
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.45.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1783088277505,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "B02枫丹-科学院上",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.0"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  4301.6299,
+                          "y":  4765.248
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  4314.9268,
+                          "y":  4776.1436
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  3,
+                          "locked":  false,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  4296.125,
+                          "y":  4840.7744
+                      },
+                      {
+                          "action":  "combat_script",
+                          "action_params":  "wait(2)",
+                          "id":  4,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  4296.125,
+                          "y":  4840.7744
+                      }
+                  ]
 }

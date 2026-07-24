@@ -1,68 +1,70 @@
-{
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.45.0",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1783090361007,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "D02须弥-谒颂幽境下左",
-    "tags": [],
-    "type": "collect",
-    "version": "1.0"
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 3639.9111,
-      "y": -1417.1953
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 3672.0049,
-      "y": -1426.9258
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 3691.7676,
-      "y": -1443.8379
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 4,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 3688.2734,
-      "y": -1438.6133
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 5,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 3688.2734,
-      "y": -1438.6133
-    }
-  ]
+﻿{
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.45.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1783090361007,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "D02须弥-谒颂幽境下左",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.0"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  3639.9111,
+                          "y":  -1417.1953
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  3672.0049,
+                          "y":  -1426.9258
+                      },
+                      {
+                          "action":  "stop_flying",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  3691.7676,
+                          "y":  -1443.8379
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  4,
+                          "locked":  false,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  3688.2734,
+                          "y":  -1438.6133
+                      },
+                      {
+                          "action":  "combat_script",
+                          "action_params":  "wait(2)",
+                          "id":  5,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  3688.2734,
+                          "y":  -1438.6133
+                      }
+                  ]
 }

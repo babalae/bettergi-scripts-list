@@ -1,77 +1,79 @@
-{
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.45.0",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1783090269370,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "A02须弥-卡萨扎莱宫下",
-    "tags": [],
-    "type": "collect",
-    "version": "1.0"
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 2532.25,
-      "y": -144.375
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 2639.7822,
-      "y": -117.4365
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 2639.7822,
-      "y": -117.4365
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 2653.252,
-      "y": -125.418
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 5,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 2644.459,
-      "y": -135.041
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 2644.459,
-      "y": -135.041
-    }
-  ]
+﻿{
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.45.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1783090269370,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "A02须弥-卡萨扎莱宫下",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.0"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  2532.25,
+                          "y":  -144.375
+                      },
+                      {
+                          "action":  "stop_flying",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  2639.7822,
+                          "y":  -117.4365
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  2639.7822,
+                          "y":  -117.4365
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  4,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  2653.252,
+                          "y":  -125.418
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  5,
+                          "locked":  false,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  2644.459,
+                          "y":  -135.041
+                      },
+                      {
+                          "action":  "combat_script",
+                          "action_params":  "wait(2)",
+                          "id":  6,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  2644.459,
+                          "y":  -135.041
+                      }
+                  ]
 }

@@ -1,104 +1,106 @@
-{
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.52.0",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1783089434906,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "E04E05稻妻-清籁岛-越石村左",
-    "tags": [],
-    "type": "collect",
-    "version": "1.0"
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -3891.2305,
-      "y": -4389.54
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "fly",
-      "type": "path",
-      "x": -3817.8379,
-      "y": -4434.3213
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "fly",
-      "type": "path",
-      "x": -3817.8379,
-      "y": -4434.3213
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -3831.4414,
-      "y": -4424.8467
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -3852.7969,
-      "y": -4400.1055
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -3852.0859,
-      "y": -4386.0459
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -3825.7695,
-      "y": -4413.9062
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 8,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -3821.1895,
-      "y": -4415.1504
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 9,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -3821.1895,
-      "y": -4415.1504
-    }
-  ]
+﻿{
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.52.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1783089434906,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "E04E05稻妻-清籁岛-越石村左",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.0"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  -3891.2305,
+                          "y":  -4389.54
+                      },
+                      {
+                          "action":  "stop_flying",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  -3817.8379,
+                          "y":  -4434.3213
+                      },
+                      {
+                          "action":  "fight",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  -3817.8379,
+                          "y":  -4434.3213
+                      },
+                      {
+                          "action":  "fight",
+                          "action_params":  "",
+                          "id":  4,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -3831.4414,
+                          "y":  -4424.8467
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  5,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -3852.7969,
+                          "y":  -4400.1055
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  6,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -3852.0859,
+                          "y":  -4386.0459
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  7,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -3825.7695,
+                          "y":  -4413.9062
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  8,
+                          "locked":  false,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -3821.1895,
+                          "y":  -4415.1504
+                      },
+                      {
+                          "action":  "combat_script",
+                          "action_params":  "wait(2)",
+                          "id":  9,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -3821.1895,
+                          "y":  -4415.1504
+                      }
+                  ]
 }

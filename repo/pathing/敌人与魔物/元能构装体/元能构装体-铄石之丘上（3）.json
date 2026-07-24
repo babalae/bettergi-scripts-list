@@ -1,112 +1,114 @@
-{
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.52.0",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1781261172257,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "元能构装体-铄石之丘上（3）",
-    "tags": [],
-    "type": "collect",
-    "version": "1.0"
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "mapRecognition",
-          "type": [
-            "unrecognized"
-          ]
-        },
-        "monster_tag": ""
-      },
-      "type": "teleport",
-      "x": 5744.166,
-      "y": -2665.6191
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 2,
-      "locked": false,
-      "move_mode": "fly",
-      "point_ext_params": {
-        "description": "",
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "mapRecognition",
-          "type": [
-            "unrecognized"
-          ]
-        },
-        "monster_tag": ""
-      },
-      "type": "path",
-      "x": 5712.2725,
-      "y": -2636.6426
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "fly",
-      "point_ext_params": {
-        "description": "",
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "mapRecognition",
-          "type": [
-            "unrecognized"
-          ]
-        },
-        "monster_tag": ""
-      },
-      "type": "path",
-      "x": 5712.2725,
-      "y": -2636.6426
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "point_ext_params": {
-        "description": "",
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "mapRecognition",
-          "type": [
-            "unrecognized"
-          ]
-        },
-        "monster_tag": ""
-      },
-      "type": "path",
-      "x": 5643.4473,
-      "y": -2616.5508
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 5626.752,
-      "y": -2615.0439
-    }
-  ]
+﻿{
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.52.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1781261172257,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "元能构装体-铄石之丘上（3）",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.0"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "point_ext_params":  {
+                                                   "description":  "",
+                                                   "misidentification":  {
+                                                                             "arrival_time":  0,
+                                                                             "handling_mode":  "mapRecognition",
+                                                                             "type":  [
+                                                                                          "unrecognized"
+                                                                                      ]
+                                                                         },
+                                                   "monster_tag":  ""
+                                               },
+                          "type":  "teleport",
+                          "x":  5744.166,
+                          "y":  -2665.6191
+                      },
+                      {
+                          "action":  "stop_flying",
+                          "action_params":  "",
+                          "id":  2,
+                          "locked":  false,
+                          "move_mode":  "fly",
+                          "point_ext_params":  {
+                                                   "description":  "",
+                                                   "misidentification":  {
+                                                                             "arrival_time":  0,
+                                                                             "handling_mode":  "mapRecognition",
+                                                                             "type":  [
+                                                                                          "unrecognized"
+                                                                                      ]
+                                                                         },
+                                                   "monster_tag":  ""
+                                               },
+                          "type":  "path",
+                          "x":  5712.2725,
+                          "y":  -2636.6426
+                      },
+                      {
+                          "action":  "fight",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "fly",
+                          "point_ext_params":  {
+                                                   "description":  "",
+                                                   "misidentification":  {
+                                                                             "arrival_time":  0,
+                                                                             "handling_mode":  "mapRecognition",
+                                                                             "type":  [
+                                                                                          "unrecognized"
+                                                                                      ]
+                                                                         },
+                                                   "monster_tag":  ""
+                                               },
+                          "type":  "path",
+                          "x":  5712.2725,
+                          "y":  -2636.6426
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  4,
+                          "move_mode":  "walk",
+                          "point_ext_params":  {
+                                                   "description":  "",
+                                                   "misidentification":  {
+                                                                             "arrival_time":  0,
+                                                                             "handling_mode":  "mapRecognition",
+                                                                             "type":  [
+                                                                                          "unrecognized"
+                                                                                      ]
+                                                                         },
+                                                   "monster_tag":  ""
+                                               },
+                          "type":  "path",
+                          "x":  5643.4473,
+                          "y":  -2616.5508
+                      },
+                      {
+                          "action":  "fight",
+                          "action_params":  "",
+                          "id":  5,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  5626.752,
+                          "y":  -2615.0439
+                      }
+                  ]
 }

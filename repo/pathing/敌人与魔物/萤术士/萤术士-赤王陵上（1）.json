@@ -1,85 +1,87 @@
-{
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.52.0",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1780981275792,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "萤术士-赤王陵上（1）",
-    "tags": [],
-    "type": "collect",
-    "version": "1.0"
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 5540.8984,
-      "y": -2052.5117
-    },
-    {
-      "action": "up_down_grab_leaf",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 5555.1709,
-      "y": -2065.3271
-    },
-    {
-      "action": "up_down_grab_leaf",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 5568.4736,
-      "y": -2096.4053
-    },
-    {
-      "action": "up_down_grab_leaf",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 5568.6025,
-      "y": -2096.3789
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "run",
-      "type": "path",
-      "x": 5568.5713,
-      "y": -2146.0898
-    },
-    {
-      "action": "up_down_grab_leaf",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 5551.9121,
-      "y": -2162.8184
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 5542.5273,
-      "y": -2173.0293
-    }
-  ]
+﻿{
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.52.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1780981275792,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "萤术士-赤王陵上（1）",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.0"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  5540.8984,
+                          "y":  -2052.5117
+                      },
+                      {
+                          "action":  "up_down_grab_leaf",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "walk",
+                          "type":  "orientation",
+                          "x":  5555.1709,
+                          "y":  -2065.3271
+                      },
+                      {
+                          "action":  "up_down_grab_leaf",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "walk",
+                          "type":  "orientation",
+                          "x":  5568.4736,
+                          "y":  -2096.4053
+                      },
+                      {
+                          "action":  "up_down_grab_leaf",
+                          "action_params":  "",
+                          "id":  4,
+                          "move_mode":  "walk",
+                          "type":  "orientation",
+                          "x":  5568.6025,
+                          "y":  -2096.3789
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  5,
+                          "move_mode":  "run",
+                          "type":  "path",
+                          "x":  5568.5713,
+                          "y":  -2146.0898
+                      },
+                      {
+                          "action":  "up_down_grab_leaf",
+                          "action_params":  "",
+                          "id":  6,
+                          "move_mode":  "walk",
+                          "type":  "orientation",
+                          "x":  5551.9121,
+                          "y":  -2162.8184
+                      },
+                      {
+                          "action":  "fight",
+                          "action_params":  "",
+                          "id":  7,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  5542.5273,
+                          "y":  -2173.0293
+                      }
+                  ]
 }

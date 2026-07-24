@@ -1,86 +1,88 @@
-{
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.45.0",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1783087848850,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "A03挪德卡莱-空寂走廊",
-    "tags": [],
-    "type": "collect",
-    "version": "1.0"
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 9191.6787,
-      "y": 2852.1094
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 9176.8867,
-      "y": 2851.0254
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 9116.7549,
-      "y": 2848.8589
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 9143.627,
-      "y": 2809.5996
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "run",
-      "type": "path",
-      "x": 9133.1445,
-      "y": 2741.3916
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 6,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 9105.7354,
-      "y": 2699.3164
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 7,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 9105.7354,
-      "y": 2699.3164
-    }
-  ]
+﻿{
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.45.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1783087848850,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "A03挪德卡莱-空寂走廊",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.0"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  9191.6787,
+                          "y":  2852.1094
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  9176.8867,
+                          "y":  2851.0254
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  9116.7549,
+                          "y":  2848.8589
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  4,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  9143.627,
+                          "y":  2809.5996
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  5,
+                          "move_mode":  "run",
+                          "type":  "path",
+                          "x":  9133.1445,
+                          "y":  2741.3916
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  6,
+                          "locked":  false,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  9105.7354,
+                          "y":  2699.3164
+                      },
+                      {
+                          "action":  "combat_script",
+                          "action_params":  "wait(2)",
+                          "id":  7,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  9105.7354,
+                          "y":  2699.3164
+                      }
+                  ]
 }

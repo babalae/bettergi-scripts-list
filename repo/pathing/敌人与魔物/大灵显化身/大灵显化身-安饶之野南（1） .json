@@ -1,62 +1,62 @@
-{
-  "info": {
-    "name": "大灵显化身-安饶之野南（1） ",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.52.0",
-    "authors": [
-      {
-        "name": "下流山汉",
-        "links": "https://github.com/vulgar-rustic"
-      }
-    ]
-  },
-  "positions": [
-    {
-      "id": 1,
-      "x": 10363.73,
-      "y": -3315.83,
-      "action": "",
-      "move_mode": "walk",
-      "action_params": "",
-      "type": "teleport"
-    },
-    {
-      "id": 2,
-      "x": 10360.73,
-      "y": -3320.83,
-      "action": "",
-      "move_mode": "dash",
-      "action_params": "",
-      "type": "path"
-    },
-    {
-      "id": 3,
-      "x": 10356.8125,
-      "y": -3426.1426,
-      "type": "path",
-      "move_mode": "fly",
-      "action": "stop_flying",
-      "action_params": ""
-    },
-    {
-      "id": 4,
-      "x": 10356.8125,
-      "y": -3426.1426,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": 10358.5811,
-      "y": -3444.7676,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "fight",
-      "action_params": ""
-    }
-  ]
+﻿{
+    "info":  {
+                 "name":  "大灵显化身-安饶之野南（1） ",
+                 "type":  "collect",
+                 "version":  "1.0",
+                 "description":  "",
+                 "bgi_version":  "0.52.0",
+                 "authors":  [
+                                 {
+                                     "name":  "烤鱼",
+                                     "links":  "https://github.com/zhy0070"
+                                 }
+                             ]
+             },
+    "positions":  [
+                      {
+                          "id":  1,
+                          "x":  10363.73,
+                          "y":  -3315.83,
+                          "action":  "",
+                          "move_mode":  "walk",
+                          "action_params":  "",
+                          "type":  "teleport"
+                      },
+                      {
+                          "id":  2,
+                          "x":  10360.73,
+                          "y":  -3320.83,
+                          "action":  "",
+                          "move_mode":  "dash",
+                          "action_params":  "",
+                          "type":  "path"
+                      },
+                      {
+                          "id":  3,
+                          "x":  10356.8125,
+                          "y":  -3426.1426,
+                          "type":  "path",
+                          "move_mode":  "fly",
+                          "action":  "stop_flying",
+                          "action_params":  ""
+                      },
+                      {
+                          "id":  4,
+                          "x":  10356.8125,
+                          "y":  -3426.1426,
+                          "type":  "path",
+                          "move_mode":  "walk",
+                          "action":  "fight",
+                          "action_params":  ""
+                      },
+                      {
+                          "id":  5,
+                          "x":  10358.5811,
+                          "y":  -3444.7676,
+                          "type":  "path",
+                          "move_mode":  "walk",
+                          "action":  "fight",
+                          "action_params":  ""
+                      }
+                  ]
 }

@@ -1,86 +1,88 @@
-{
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.45.0",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1783089216329,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "B03稻妻-神无冢-踏鞴砂右上",
-    "tags": [],
-    "type": "collect",
-    "version": "1.0"
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -3392.8555,
-      "y": -3555.707
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "fly",
-      "type": "path",
-      "x": -3365.3008,
-      "y": -3506.665
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -3362.7656,
-      "y": -3503.3828
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -3369.6641,
-      "y": -3497.4824
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -3371.6211,
-      "y": -3490.4785
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 6,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -3368.9023,
-      "y": -3489.7187
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 7,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -3368.9023,
-      "y": -3489.7187
-    }
-  ]
+﻿{
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.45.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1783089216329,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "B03稻妻-神无冢-踏鞴砂右上",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.0"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  -3392.8555,
+                          "y":  -3555.707
+                      },
+                      {
+                          "action":  "stop_flying",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  -3365.3008,
+                          "y":  -3506.665
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -3362.7656,
+                          "y":  -3503.3828
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  4,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -3369.6641,
+                          "y":  -3497.4824
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  5,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -3371.6211,
+                          "y":  -3490.4785
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  6,
+                          "locked":  false,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -3368.9023,
+                          "y":  -3489.7187
+                      },
+                      {
+                          "action":  "combat_script",
+                          "action_params":  "wait(2)",
+                          "id":  7,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -3368.9023,
+                          "y":  -3489.7187
+                      }
+                  ]
 }

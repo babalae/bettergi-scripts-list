@@ -1,59 +1,61 @@
-{
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.42.3",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1783088336241,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "A04枫丹-厄里那斯北",
-    "tags": [],
-    "type": "collect",
-    "version": "1.0"
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 5113.6,
-      "y": 2998.22
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 4925.9023,
-      "y": 3056.792
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 3,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 4925.9023,
-      "y": 3056.792
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 4925.9023,
-      "y": 3056.792
-    }
-  ]
+﻿{
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.42.3",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1783088336241,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "A04枫丹-厄里那斯北",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.0"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  5113.6,
+                          "y":  2998.22
+                      },
+                      {
+                          "action":  "stop_flying",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  4925.9023,
+                          "y":  3056.792
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  3,
+                          "locked":  false,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  4925.9023,
+                          "y":  3056.792
+                      },
+                      {
+                          "action":  "combat_script",
+                          "action_params":  "wait(2)",
+                          "id":  4,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  4925.9023,
+                          "y":  3056.792
+                      }
+                  ]
 }
