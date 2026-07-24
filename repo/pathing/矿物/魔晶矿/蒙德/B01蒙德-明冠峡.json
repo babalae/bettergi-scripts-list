@@ -1,58 +1,81 @@
 {
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.52.0",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1780151126369,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "B01蒙德-明冠峡",
-    "tags": [],
-    "type": "collect",
-    "version": "1.0"
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -440.18,
-      "y": 2580.94
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -469.82,
-      "y": 2628.61
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "1500",
-      "id": 3,
-      "move_mode": "fly",
-      "type": "path",
-      "x": -485.06,
-      "y": 2670.78
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -485.06,
-      "y": 2670.78
-    }
-  ]
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.52.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1783089914962,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "B01蒙德-明冠峡",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.0"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  -440.18,
+                          "y":  2580.94
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -469.82,
+                          "y":  2628.61
+                      },
+                      {
+                          "action":  "stop_flying",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "fly",
+                          "point_ext_params":  {
+                                                   "description":  "",
+                                                   "misidentification":  {
+                                                                             "arrival_time":  0,
+                                                                             "handling_mode":  "previousDetectedPoint",
+                                                                             "type":  [
+
+                                                                                      ]
+                                                                         },
+                                                   "monster_tag":  ""
+                                               },
+                          "type":  "path",
+                          "x":  -485.06,
+                          "y":  2670.78
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  4,
+                          "locked":  false,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  -485.06,
+                          "y":  2670.78
+                      },
+                      {
+                          "action":  "combat_script",
+                          "action_params":  "wait(2)",
+                          "id":  5,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  -485.06,
+                          "y":  2670.78
+                      }
+                  ]
 }

@@ -2,14 +2,14 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780115046773,
+    "last_modified_time": 1783090375545,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "D05须弥-茶诃之座右下",
@@ -31,7 +31,6 @@
       "action": "stop_flying",
       "action_params": "",
       "id": 2,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 3505.2412,
@@ -41,6 +40,16 @@
       "action": "mining",
       "action_params": "",
       "id": 3,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3505.2412,
+      "y": -1969.2998
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 4,
       "move_mode": "fly",
       "type": "path",
       "x": 3505.2412,

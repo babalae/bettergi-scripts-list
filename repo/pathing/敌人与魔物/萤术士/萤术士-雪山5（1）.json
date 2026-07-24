@@ -1,0 +1,51 @@
+{
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.52.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1780981279233,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "萤术士-雪山5（1）",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.0"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  -1331.0781,
+                          "y":  828.6504
+                      },
+                      {
+                          "action":  "fight",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "run",
+                          "type":  "path",
+                          "x":  -1235.7969,
+                          "y":  877.4658
+                      },
+                      {
+                          "action":  "fight",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -1224.1836,
+                          "y":  879.4131
+                      }
+                  ]
+}

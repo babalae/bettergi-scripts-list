@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780280109430,
+    "last_modified_time": 1783090344573,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B4璃月-翠玦坡东",
+    "name": "C01须弥-禅那园上",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 837.48,
-      "y": 235.16
+      "x": 3205.0,
+      "y": -911.3066
     },
     {
       "action": "",
@@ -33,8 +33,8 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 802.19,
-      "y": 245.44
+      "x": 3251.8965,
+      "y": -874.5078
     },
     {
       "action": "stop_flying",
@@ -42,44 +42,27 @@
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 685.7,
-      "y": 286.01
+      "x": 3278.667,
+      "y": -879.8379
     },
     {
       "action": "mining",
       "action_params": "",
       "id": 4,
+      "locked": false,
       "move_mode": "walk",
-      "type": "target",
-      "x": 688.25,
-      "y": 287.68
+      "type": "path",
+      "x": 3276.4072,
+      "y": -879.3535
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(2)",
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": 684.33,
-      "y": 296.85
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 685.88,
-      "y": 299.56
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 677.1436,
-      "y": 295.6748
+      "x": 3276.4072,
+      "y": -879.3535
     }
   ]
 }

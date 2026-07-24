@@ -1,0 +1,60 @@
+{
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.52.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1781570860920,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "藏镜仕女-镔铁沙丘（1）",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.0"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  4272.97,
+                          "y":  -520.61
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "dash",
+                          "type":  "path",
+                          "x":  4216.2354,
+                          "y":  -547.209
+                      },
+                      {
+                          "action":  "fight",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  4214.1465,
+                          "y":  -583.3555
+                      },
+                      {
+                          "action":  "fight",
+                          "action_params":  "",
+                          "id":  4,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  4216.4766,
+                          "y":  -587.4189
+                      }
+                  ]
+}
