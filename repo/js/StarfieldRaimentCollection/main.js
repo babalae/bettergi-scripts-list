@@ -47,6 +47,9 @@
         let ocrResult_result = await Ocr(459, 290, 284, 91);
         let final_text = await Ocr(454, 280, 300, 110);
         const close_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/close_btn.png"), 1659, 82, 119, 105);
+        const exit_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Exit.png"), 23, 11, 69, 69);
+        const tr_close = captureGameRegion().Find(close_pic);
+        const tr_exit = captureGameRegion().Find(exit_pic);
         // log.info(`${ocrResult_top.text}`);
         if (ocrResult_top && ocrResult_top.text.includes("能力")) {
             return "能力";
@@ -59,18 +62,18 @@
             }
         } else if (ocrResult_top && ocrResult_top.text.includes("弓箭传说")) {
             return "结算界面";
-        } else if (captureGameRegion().Find(close_pic).isExist()) {
+        } else if (tr_close.isExist()) {
+            tr_close.dispose();
             return "奇域界面";
         } else {
-            const exit_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Exit.png"), 23, 11, 69, 69);
-            if (captureGameRegion().Find(exit_pic).isExist() && !(ocrResult_result && ocrResult_result.text.includes("挑战"))) {
+            if (tr_exit.isExist() && !(ocrResult_result && ocrResult_result.text.includes("挑战"))) {
+                tr_close.dispose();
+                tr_exit.dispose();
                 if (final_text && final_text.text.includes("通关")) {
                     return "奖励";
                 } else {
                     return "主界面";
                 }
-
-
             } else {
                 return "未知界面";
             }
@@ -326,9 +329,12 @@
                     await sleep(200);
                     keyUp("D");
                     await sleep(100);
-                    if (captureGameRegion().Find(f_pic).isExist()) {
+                    const capture = captureGameRegion();
+                    if (capture.Find(f_pic).isExist()) {
+                        capture.dispose();
                         break;
                     }
+                    capture.dispose();
                 }
                 await sleep(1000);
                 await keyMouseScript.run(downRolls);
@@ -360,9 +366,12 @@
                             await sleep(100);
                             keyUp("S");
                             await sleep(100);
-                            if (captureGameRegion().Find(f_pic).isExist()) {
+                            const capture = captureGameRegion();
+                            if (capture.Find(f_pic).isExist()) {
+                                capture.dispose();
                                 break;
                             }
+                            capture.dispose();
                         }
                         await sleep(200);
                         keyPress("F");
@@ -378,9 +387,12 @@
                     await sleep(100);
                     keyUp("W");
                     await sleep(100);
-                    if (captureGameRegion().Find(f_pic).isExist()) {
+                    const capture = captureGameRegion();
+                    if (capture.Find(f_pic).isExist()) {
+                        capture.dispose();
                         break;
                     }
+                    capture.dispose();
                 }
                 for (let i = 0; i < Number(settings.difficulty); i++) { // 2困难 3无尽
                     await keyMouseScript.run(downRolls);
