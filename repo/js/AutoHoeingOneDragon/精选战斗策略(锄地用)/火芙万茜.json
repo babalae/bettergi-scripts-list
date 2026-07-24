@@ -1,0 +1,171 @@
+{
+  "info": {
+    "name": "火芙万茜",
+    "author": "mno",
+    "config": {},
+    "preActions": [],
+    "description": "奶奶q留着火神q好了或者红血时释放，火神q将跟随奶奶q释放，或火神q就绪3秒后奶奶q仍然没有就绪时释放。等待动作添加判断，优先使用万叶进行等待动作，其次芙芙，当对应角色低血量时，10秒内不使用对应角色进行等待动作,奶奶q后解除（认为已经回血）"
+  },
+  "actions": [
+    {
+      "name": "标记-火神q就绪",
+      "character": "",
+      "action": "",
+      "condition": {
+        "expression": "q-ready(玛薇卡) && since>18"
+      },
+      "ensureCast": false,
+      "index": 1
+    },
+    {
+      "name": "标记-万叶低血量",
+      "character": "",
+      "action": "",
+      "condition": {
+        "expression": "(since(104)<1 || since(999)<1 || since(105)<1) && low-hp && (since>10 || since(102)<since)"
+      },
+      "ensureCast": false,
+      "index": 2
+    },
+    {
+      "name": "标记-芙芙低血量",
+      "character": "",
+      "action": "",
+      "condition": {
+        "expression": "(since(40)<1 || since(103)<1 || since(1000)<1) && low-hp && (since>10 || since(102)<since)"
+      },
+      "ensureCast": false,
+      "index": 3
+    },
+    {
+      "name": "奶奶-E",
+      "character": "茜特菈莉",
+      "action": "attack,e",
+      "condition": {
+        "expression": "e-ready"
+      },
+      "ensureCast": true,
+      "index": 10
+    },
+    {
+      "name": "循环检查战斗结束",
+      "character": "",
+      "action": "check",
+      "condition": {
+        "expression": "battle-time(2) && last-exec(1)"
+      },
+      "ensureCast": false,
+      "index": 30
+    },
+    {
+      "name": "火神-Q后2次3重闪",
+      "character": "玛薇卡",
+      "action": "wait(0.2),mousedown(left),wait(0.265),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.2),mouseup(right),wait(0.03),mouseup(left),wait(0.03),mousedown(left),wait(0.15),mousedown(right),wait(0.1),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mouseup(left),wait(0.05),mouseup(left),wait(0.05),mouseup(left),wait(0.05),keydown(space),wait(0.1),keyup(space),attack(0.2),wait(0.7),mousedown(left),wait(0.18),mousedown(right),wait(0.2),mouseup(right),wait(0.03),mouseup(left),wait(0.03),mousedown(left),wait(0.15),mousedown(right),wait(0.1),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mouseup(left),wait(0.05),mouseup(left),wait(0.05),mouseup(left),wait(0.05),keydown(space),wait(0.1),keyup(space),attack(0.2),,wait(0.7),mousedown(left),wait(0.18),mousedown(right),wait(0.2),mouseup(right),wait(0.03),mouseup(left),wait(0.03),mousedown(left),wait(0.15),mousedown(right),wait(0.1),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mouseup(left),wait(0.05),mouseup(left),wait(0.05),mouseup(left),wait(0.05),keydown(space),wait(0.1),keyup(space),attack(0.2),check,wait(0.3)",
+      "condition": {
+        "expression": "since(51)<1 && last-exec(18)"
+      },
+      "ensureCast": false,
+      "index": 31
+    },
+    {
+      "name": "芙芙-E",
+      "character": "芙宁娜",
+      "action": "e",
+      "condition": {
+        "expression": "e-ready"
+      },
+      "ensureCast": false,
+      "index": 40
+    },
+    {
+      "name": "玛薇卡-E",
+      "character": "玛薇卡",
+      "action": "e",
+      "condition": {
+        "expression": "e-ready && since>15"
+      },
+      "ensureCast": false,
+      "index": 50
+    },
+    {
+      "name": "火神-Q",
+      "character": "玛薇卡",
+      "action": "attack(0.08),q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && ((since(102)<5) || since(1)>5)"
+      },
+      "ensureCast": true,
+      "index": 51
+    },
+    {
+      "name": "奶奶-Q",
+      "character": "茜特菈莉",
+      "action": "attack(0.08),q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && (low-hp || q-ready(玛薇卡))"
+      },
+      "ensureCast": false,
+      "index": 102
+    },
+    {
+      "name": "芙宁娜-Q",
+      "character": "芙宁娜",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "since > 20 && q-ready"
+      },
+      "ensureCast": false,
+      "index": 103
+    },
+    {
+      "name": "万叶-中E",
+      "character": "枫原万叶",
+      "action": "attack,keydown(E),wait(0.48),keyup(E),attack(0.3),wait(0.2)",
+      "condition": {
+        "expression": "since>8 || since > since(105)"
+      },
+      "ensureCast": false,
+      "index": 104
+    },
+    {
+      "name": "万叶-Q",
+      "character": "枫原万叶",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready"
+      },
+      "ensureCast": false,
+      "index": 105
+    },
+    {
+      "name": "等待-万叶",
+      "character": "枫原万叶",
+      "action": "wait(0.2)",
+      "condition": {
+        "expression": "since(2)>10 || since(2)>since(102)"
+      },
+      "ensureCast": false,
+      "index": 999
+    },
+    {
+      "name": "等待-芙宁娜",
+      "character": "芙宁娜",
+      "action": "wait(0.2)",
+      "condition": {
+        "expression": "since(2)<10 && (since(3)>10 || since(3)>since(102))"
+      },
+      "ensureCast": false,
+      "index": 1000
+    },
+    {
+      "name": "等待-奶奶兜底",
+      "character": "茜特菈莉",
+      "action": "wait(0.2)",
+      "condition": {
+        "expression": ""
+      },
+      "ensureCast": false,
+      "index": 1001
+    }
+  ]
+}
