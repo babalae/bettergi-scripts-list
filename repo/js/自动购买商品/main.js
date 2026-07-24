@@ -1,4 +1,4 @@
-//3.41.601
+//3.5.601
 
 // fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
 // 在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
@@ -403,21 +403,20 @@ const recordDebug = settings.recordDebug || false;
 // 解析禁用的标签列表
 const disabledTags = (settings.disabledTags || "").split(/[,\s、]+/).filter(tag => tag.trim() !== "");
 if (disabledTags.length > 0) {
-    log.info(`已禁用标签: ${disabledTags.join(", ")}`);
+    log.info(`已禁用标签或商品: ${disabledTags.join(", ")}`);
 }
+const disabledTagsSet = new Set(disabledTags);
 
 // 修改AKF设置处理
-const AKFValue = parseInt(settings.AKF) || 1;
-let AFKDay = null;
-let followSystem = false;
 
+const AKFValue = parseInt(settings.AKF) || 0; // 默认0（跟随系统）
+let followSystem = false;
 if (AKFValue === 0) {
-    // 0 表示跟随系统判定
     followSystem = true;
     log.info("每周商品购买: 跟随系统判定");
 } else {
-    AFKDay = AKFValue === 7 ? 0 : AKFValue;
-    log.info(`每周商品购买: 每周${AFKDay === 0 ? "日" : AFKDay}购买`);
+    const dayNames = ["一", "二", "三", "四", "五", "六", "日"];
+    log.info(`每周商品购买: 每周${dayNames[AKFValue - 1]}购买`);
 }
 
 // 获取账号记录路径
@@ -589,76 +588,61 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
         "month": []
     };
 
-    // 首先检查禁用（此处假设之前已检查过，但为防止遗漏，可再加一道保险）
-    // 实际上禁用检查在更外层（initNpcData 和主循环）已经处理，这里可以省略
-    if (forceRefresh) {
-        // 强制刷新：决定使用完整列表还是具体商品列表
-        // 先判断是否命中标签
-        let useAll = false;
-        if (npc.tags && Array.isArray(npc.tags)) {
-            useAll = npc.tags.some(tag => userTagsToBuy.has(tag));
-        }
+    // 获取当前星期几（1=周一，7=周日），已考虑4点刷新
+    const currentDay = getAdjustedDayOfWeek();
 
-        // 定义过滤函数
-        const filterCapacity = (list) => (list || []).filter(food => !capacityLimitedFoods.has(food));
-
-        if (useAll) {
-            // 标签商人：购买所有商品
-            if (npc._1d_foods) foodsToBuy["1d"] = filterCapacity(npc._1d_foods);
-            if (npc._3d_foods) foodsToBuy["3d"] = filterCapacity(npc._3d_foods);
-            if (npc._7d_foods) foodsToBuy["7d"] = filterCapacity(npc._7d_foods);
-            if (npc._thu_foods) foodsToBuy["thu"] = filterCapacity(npc._thu_foods);
-            if (npc._month_foods) foodsToBuy["month"] = filterCapacity(npc._month_foods);
-        } else {
-            // 非标签商人：只购买用户明确指定的商品
-            if (npc._1d_foods) foodsToBuy["1d"] = filterCapacity(filterUserFoods(npc._1d_foods));
-            if (npc._3d_foods) foodsToBuy["3d"] = filterCapacity(filterUserFoods(npc._3d_foods));
-            if (npc._7d_foods) foodsToBuy["7d"] = filterCapacity(filterUserFoods(npc._7d_foods));
-            if (npc._thu_foods) foodsToBuy["thu"] = filterCapacity(filterUserFoods(npc._thu_foods));
-            if (npc._month_foods) foodsToBuy["month"] = filterCapacity(filterUserFoods(npc._month_foods));
-        }
-        return foodsToBuy;
-    }
-
-    // 辅助函数：处理单个类型，根据是否命中标签决定使用完整列表还是过滤列表
-    function processType(type, fullList) {
+    // 辅助函数：根据用户设置获取候选商品列表（过滤禁用和容量上限）
+    function getCandidates(fullList) {
         if (!fullList || fullList.length === 0) return [];
-
-        // 判断该商人是否命中用户标签（只需判断一次，可在外层缓存结果）
-        // 此处简单处理：每次调用都判断，但实际可优化
+        // 判断是否匹配标签
         let useAll = false;
         if (npc.tags && Array.isArray(npc.tags)) {
             useAll = npc.tags.some(tag => userTagsToBuy.has(tag));
         }
-
-        // 确定要购买的候选商品列表
         let candidateList = useAll ? fullList : filterUserFoods(fullList);
-        // 过滤掉已标记容量上限的商品
-        candidateList = candidateList.filter(food => !capacityLimitedFoods.has(food));
-        if (candidateList.length === 0) return [];
-
-        // 获取已购买列表
-        const purchasedList = npcRecord && npcRecord[type] ? npcRecord[type] : [];
-        // 找出未购买的商品
-        const notPurchased = candidateList.filter(food => !purchasedList.includes(food));
-
-        if (!npcRecord || !npcRecord[`${type}_time`]) {
-            return candidateList; // 从未买过，全部尝试
-        }
-
-        const nextRefreshTime = new Date(npcRecord[`${type}_time`]);
-        if (now >= nextRefreshTime) {
-            return candidateList; // 已刷新，全部尝试
-        } else {
-            return notPurchased;   // 未刷新，只尝试未购买过的
-        }
+        // 过滤容量上限和禁用商品
+        candidateList = candidateList.filter(food => 
+            !capacityLimitedFoods.has(food) && !disabledTagsSet.has(food)
+        );
+        return candidateList;
     }
 
-    foodsToBuy["1d"] = processType("1d", npc._1d_foods);
-    foodsToBuy["3d"] = processType("3d", npc._3d_foods);
-    foodsToBuy["7d"] = processType("7d", npc._7d_foods);
-    foodsToBuy["thu"] = processType("thu", npc._thu_foods);
-    foodsToBuy["month"] = processType("month", npc._month_foods);
+    // 处理每种刷新类型
+    const types = ["1d", "3d", "7d", "thu", "month"];
+    for (const type of types) {
+        const fullList = npc[`_${type}_foods`];
+        if (!fullList) continue;
+
+        // ===== 新增：对 7d 和 thu 类型进行日期过滤 =====
+        if ((type === "7d" || type === "thu") && AKFValue !== 0) {
+            if (currentDay !== AKFValue) {
+                continue; // 今天不是用户指定的购买日，跳过该类型
+            }
+        }
+
+        let candidates = getCandidates(fullList);
+        if (candidates.length === 0) continue;
+
+        if (forceRefresh) {
+            // 强制刷新：忽略记录，全部尝试购买（但仍受用户过滤约束）
+            foodsToBuy[type] = candidates;
+        } else {
+            // 正常模式：检查购买记录和刷新时间
+            const purchasedList = npcRecord && npcRecord[type] ? npcRecord[type] : [];
+            const notPurchased = candidates.filter(food => !purchasedList.includes(food));
+
+            if (!npcRecord || !npcRecord[`${type}_time`]) {
+                foodsToBuy[type] = candidates;
+            } else {
+                const nextRefreshTime = new Date(npcRecord[`${type}_time`]);
+                if (now >= nextRefreshTime) {
+                    foodsToBuy[type] = candidates;
+                } else {
+                    foodsToBuy[type] = notPurchased;
+                }
+            }
+        }
+    }
 
     return foodsToBuy;
 }
