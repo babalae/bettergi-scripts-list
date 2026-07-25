@@ -742,6 +742,7 @@ class Boss extends Base {
             "|" + auto.reviveRetryCount +
             "|" + auto.returnToStatueAfterEachRound +
             "|" + auto.rewardRecognitionEnabled
+            "|" + auto.timeout
 
         return json;
     }
@@ -829,8 +830,10 @@ class Boss extends Base {
             const temp = rawValue === 'true';
             autoBoss.rewardRecognitionEnabled = temp
         }
-        // index++
-
+        index++
+        if (index <= arr.length - 1) {
+            autoBoss.timeout = parseInteger(arr[index])|| 240
+        }
         return {autoBoss, index}
     }
 
@@ -904,6 +907,7 @@ class Boss extends Base {
         param.reviveRetryCount = Math.max(autoBoss.reviveRetryCount, config.run.retry_count)
         param.returnToStatueAfterEachRound = autoBoss.returnToStatueAfterEachRound
         param.rewardRecognitionEnabled = autoBoss.rewardRecognitionEnabled
+        param.timeout = autoBoss.timeout
 
         await sleep(1000)
         try {
