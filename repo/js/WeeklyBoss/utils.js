@@ -5,6 +5,126 @@ async function keyMaintain(key, duration) {
 }
 
 /**
+ * 在指定区域内查找并点击指定文字
+ * @param {string} targetText - 要点击的目标文字
+ * @param {number} x - 识别区域的左上角X坐标
+ * @param {number} y - 识别区域的左上角Y坐标
+ * @param {number} width - 识别区域的宽度
+ * @param {number} height - 识别区域的高度
+ * @param {object} options - 可选参数
+ * @param {boolean} options.trimText - 是否对OCR结果进行trim处理，默认true
+ * @param {boolean} options.clickCenter - 是否点击文字区域中心，默认true
+ * @param {number} options.retryCount - 重试次数，默认3
+ * @param {number} options.retryInterval - 重试间隔(毫秒)，默认500
+ * @returns {Promise<boolean>} 是否找到并点击了文字
+ */
+async function clickTextInRegion(targetText, x=0, y=0, width=1920, height=1080, options = {}) {
+    const {
+        trimText = true,
+        clickCenter = true,
+        retryCount = 3,
+        retryInterval = 400,
+		ifClick = true,
+    } = options;
+
+    for (let attempt = 0; attempt <= retryCount; attempt++) {
+        let captureRegion = null;
+        let ocrRo = null;
+        let results = null;
+        
+        try {
+            // 获取游戏区域截图
+            captureRegion = captureGameRegion();
+
+            // 创建OCR识别对象，限定识别区域
+            ocrRo = RecognitionObject.ocr(x, y, width, height);
+            
+            // 在限定区域内进行OCR识别
+            results = captureRegion.findMulti(ocrRo);
+
+            // 遍历OCR结果
+            for (let i = 0; i < results.count; i++) {
+                const res = results[i];
+                let detectedText = res.text;
+                
+                // 可选：去除前后空白字符
+                if (trimText) {
+                    detectedText = detectedText.trim();
+                }
+
+                // 检查是否匹配目标文字
+                if (detectedText === targetText) {
+                    //log.info(`找到目标文字: "${targetText}"，位置: (${res.x}, ${res.y}, ${res.width}, ${res.height})`);
+                    
+                    if (clickCenter && ifClick) {
+                        // 点击文字区域中心
+                        await sleep(300);
+                        keyDown("VK_LMENU");
+                        await sleep(400);
+                        res.click();
+                        await sleep(300);
+                        keyUp("VK_LMENU");
+                        log.info(`已点击文字中心: "${targetText}"`);
+
+                    } else {
+                        // 点击文字区域的左上角
+                        //res.clickTo(0, 0);
+                        //log.info(`已点击文字偏移位置: "${targetText}"`);
+                    }
+                    
+                    // 释放资源
+                    if (captureRegion) {
+                        captureRegion.Dispose();
+                    }
+                    if (res) {
+                        res.Dispose();
+                    }
+                    
+                    return true;
+                }
+                
+                // 释放当前遍历的结果对象
+                if (res) {
+                    res.Dispose();
+                }
+            }
+
+            // 如果当前尝试未找到，且还有重试机会，则等待后重试
+            if (attempt < retryCount) {
+                
+                await sleep(retryInterval);
+            }
+        } catch (error) {
+            log.error(`点击文字"${targetText}"时发生错误: ${error.message}`);
+            if (attempt < retryCount) {
+                await sleep(retryInterval);
+            }
+        } finally {
+            // 确保每次尝试都释放资源
+            if (captureRegion) {
+                captureRegion.Dispose();
+            }
+            if (results) {
+                // 如果还有未释放的结果对象
+                for (let i = 0; i < results.count; i++) {
+                    const res = results[i];
+                    if (res && typeof res.Dispose === 'function') {
+                        try {
+                            res.Dispose();
+                        } catch (e) {
+                            // 忽略释放错误
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    log.info(`未找到文字: "${targetText}"，已尝试${retryCount + 1}次`);
+    return false;
+}
+
+/**
  * 检测指定图片是否存在
  * @param {string} imagePath - 图片路径（自动添加assets/前缀和.png后缀）
  * @param {number} [x=0] - 检测区域X坐标（可选）
@@ -200,7 +320,7 @@ const waitAndClickImage = async (
 			if(ifScroll){
                 for (let i = 0; i < scrollNum; i++) {
                 await keyMouseScript.runFile("assets/滚轮下滑.json");
-				await sleep(800);
+				await sleep(50);
                 }						
 			}
         }
@@ -212,6 +332,21 @@ const waitAndClickImage = async (
     }
     
     throw new Error(`等待图片 ${imageName} 超时`);
+}
+
+async function earlyChallage() {
+	await genshin.returnMainUi();
+	await sleep(2000);
+	keyPress("F1");
+	await sleep(800);
+	await clickTextInRegion("秘境",0,0,370,900);//左上角
+	await clickTextInRegion("征讨领域",0,0,740,990);//左上角
+	await sleep(800);
+	moveMouseTo(1600,335);
+	await sleep(800);
+	await waitAndClickImage(settings.monsterName,true,50000,300,0,true,8);
+	await clickTextInRegion("传送",960,540,960,540);//左上角
+	await sleep(5000);
 }
 
 /**
@@ -1051,7 +1186,11 @@ async function goToChallenge() {
   //前往充满能量
   if (settings.energyMax) await restoredEnergy();
   else await genshin.tp(2297.6201171875, -824.5869140625);//传送到神像回血
-  switch (settings.monsterName) {
+  if(settings.ifEarlyChallage){
+    await earlyChallage();
+  }
+  else {
+    switch (settings.monsterName) {
     case "风魔龙":
       await genshin.tp(122.626, 2657.63,);//传送到周本
       break;
@@ -1099,6 +1238,7 @@ async function goToChallenge() {
   await sleep(500);
   keyPress("F");
   await sleep(2000);
+  }
   await repeatOperationUntilTextFound({
     x: 1650,
     y: 1000,
