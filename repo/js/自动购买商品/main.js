@@ -1,4 +1,4 @@
-//3.5.601
+//3.6.601
 
 // fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
 // 在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
@@ -97,6 +97,28 @@ async function fakeLog(name, isJs, isStart, duration) {
     if (duration == 23333) {
         log.info(`交互或拾取："${name}"`);
     }
+}
+
+// ==================== 时区修复：获取服务器时间 ====================
+// [时区修复] 使用 BetterGI 官方 ServerTime API 获取服务器时区偏移量
+let serverTimeOffset = 0;
+try {
+    serverTimeOffset = ServerTime.getServerTimeZoneOffset();
+    log.info(`服务器时区偏移量: ${serverTimeOffset} 毫秒`);
+    log.info(`当前服务器时间 : ${formatDateToLocalISO(getServerNow())}`);
+    log.info(`本地机器时间: ${formatDateToLocalISO(new Date())}`)
+} catch (e) {
+    log.warn("无法获取服务器时区偏移量，将使用本地时间（可能导致购买判断错误）");
+    // 降级为本地时间（偏移量 0）
+    serverTimeOffset = 0;
+}
+function getServerNow() {
+    // 获取本地时区偏移（毫秒），getTimezoneOffset() 返回分钟，正值表示 UTC-，负值表示 UTC+
+    const localOffsetMs = -new Date().getTimezoneOffset() * 60 * 1000;
+    // 服务器时区偏移（来自 ServerTime API，相对 UTC）
+    const serverOffsetMs = serverTimeOffset; // 例如 28800000
+    // 构造服务器本地时间的 Date 对象
+    return new Date(Date.now() + serverOffsetMs - localOffsetMs);
 }
 
 // ==================== 日志辅助函数 ====================
@@ -261,11 +283,11 @@ async function checkSoldOutMessage() {
 
 // ==================== 辅助函数：获取调整后的星期几（1-7，周一为1） ====================
 function getAdjustedDayOfWeek() {
-    const now = new Date();
+    const now = getServerNow(); // 原 new Date()
     let dayOfWeek = now.getDay(); // 0-6 (0是周日)
     const hours = now.getHours();
 
-    // 如果时间在00:00~04:00之间，视为前一天
+    // 如果时间在 00:00~04:00 之间，视为前一天
     if (hours < 4) {
         dayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // 前一天
         if (recordDebug) {
@@ -275,7 +297,7 @@ function getAdjustedDayOfWeek() {
         log.info(`[调试] 当前时间 ${now.getHours()}:${now.getMinutes()}，使用当天（周 ${dayOfWeek === 0 ? 7 : dayOfWeek}）`);
     }
 
-    // 转换为1-7格式（7代表周日）
+    // 转换为 1-7 格式（7 代表周日）
     return dayOfWeek === 0 ? 7 : dayOfWeek;
 }
 
@@ -408,7 +430,6 @@ if (disabledTags.length > 0) {
 const disabledTagsSet = new Set(disabledTags);
 
 // 修改AKF设置处理
-
 const AKFValue = parseInt(settings.AKF) || 0; // 默认0（跟随系统）
 let followSystem = false;
 if (AKFValue === 0) {
@@ -490,7 +511,7 @@ function updateNpcRecord(records, npcName, refreshType, purchasedItems) {
     const merged = [...new Set([...existing, ...purchasedItems])];
     record[refreshType] = merged;
 
-    const now = new Date();
+    const now = getServerNow(); // 原 new Date()
     let refreshTime;
 
     if (refreshType === "1d") {
@@ -579,7 +600,7 @@ function getBasePeriod(currentDate) {
 
 // ==================== 判断是否需要购买 ====================
 function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
-    const now = new Date();
+    const now = getServerNow(); // 原 new Date()
     const foodsToBuy = {
         "1d": [],
         "3d": [],
@@ -655,18 +676,14 @@ const othrtRo = {
 }
 const store_Page_Tags_Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/images/store_Page_Tags.png"), 50, 30, 60, 55)
 
-// 获取游戏内时间（考虑4点刷新）
+// ==================== 获取游戏内时间（考虑4点刷新） ====================
 function getGameTime() {
-    const now = new Date();
-    const utcNowMs = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
-    const gmt8Ms = utcNowMs + 8 * 60 * 60 * 1000;
-    const gmt8Date = new Date(gmt8Ms);
-
+    const now = getServerNow(); // 直接获取服务器时间（UTC+8）
     // 如果还没到凌晨4点，算作前一天
+    const gmt8Date = new Date(now);
     if (gmt8Date.getHours() < 4) {
         gmt8Date.setDate(gmt8Date.getDate() - 1);
     }
-
     return gmt8Date;
 }
 
