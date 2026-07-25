@@ -406,6 +406,7 @@
                 click(1723, 1023);
                 check_flag_page = true;
             } else if (current_ui === "奇域界面") {
+                check_flag_win = false;
                 if (check_flag_page) {
                     check_flag_page = false;
                     let state_result = await enter_stage_check_state(extra_flag);
