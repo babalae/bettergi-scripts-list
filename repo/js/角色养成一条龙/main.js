@@ -713,7 +713,6 @@ await tpEndDetection();
 await sleep(3000);//枫丹天赋材料本门口有水晶碟，可能影响
 await repeatOperationUntilTextFound();
 keyPress("F");
-await repeatOperationUntilTextFound({x: 1650,y: 1000,width: 160,height: 45,targetText: "单人挑战",stepDuration: 0,waitTime: 100});//等待点击单人挑战
 await dispatcher.runTask(new SoloTask("AutoDomain", {  SpecifyResinUse: true,  
 // 原粹树脂刷取次数  
 OriginalResinUseCount: 1,   
