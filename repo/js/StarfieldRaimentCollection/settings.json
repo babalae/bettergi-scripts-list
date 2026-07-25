@@ -16,5 +16,17 @@
     "type": "input-text",
     "label": "难度（0简单1困难2地狱3无尽）",
     "default": "0"
+  },
+  {
+    "name": "notification_1",
+    "type": "checkbox",
+    "label": "启用 绮衣珍赏状态 通知",
+    "default": true
+  },
+  {
+    "name": "notification_2",
+    "type": "checkbox",
+    "label": "启用 剩余额外刷取次数 通知",
+    "default": true
   }
 ]
