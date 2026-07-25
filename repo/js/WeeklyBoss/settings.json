@@ -33,6 +33,12 @@
     "default": "4"
   },
   {
+    "name": "ifEarlyChallage",
+    "type": "checkbox",
+    "label": "地图未解锁，提前挑战请勾选",
+    "default": false
+  },
+  {
     "name": "challengeTime",
     "type": "input-text",
     "label": "请输入战斗脚本一轮所运行的时间"
