@@ -265,7 +265,7 @@ function getAdjustedDayOfWeek() {
     let dayOfWeek = now.getDay(); // 0-6 (0是周日)
     const hours = now.getHours();
 
-    // 如果时间在00:00~04:00之间，视为前一天
+    // 如果时间在 00:00~04:00 之间，视为前一天
     if (hours < 4) {
         dayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // 前一天
         if (recordDebug) {
@@ -275,7 +275,7 @@ function getAdjustedDayOfWeek() {
         log.info(`[调试] 当前时间 ${now.getHours()}:${now.getMinutes()}，使用当天（周 ${dayOfWeek === 0 ? 7 : dayOfWeek}）`);
     }
 
-    // 转换为1-7格式（7代表周日）
+    // 转换为 1-7 格式（7 代表周日）
     return dayOfWeek === 0 ? 7 : dayOfWeek;
 }
 
@@ -408,7 +408,6 @@ if (disabledTags.length > 0) {
 const disabledTagsSet = new Set(disabledTags);
 
 // 修改AKF设置处理
-
 const AKFValue = parseInt(settings.AKF) || 0; // 默认0（跟随系统）
 let followSystem = false;
 if (AKFValue === 0) {
