@@ -1,6 +1,8 @@
 (async function () {
+    const guidList = (settings.g_uid).split(",");
+    let uidSwitch = true;
     const downRolls = "{ \"macroEvents\": [ { \"type\": 6, \"mouseX\": 0, \"mouseY\": -120, \"time\": 0 }, { \"type\": 6, \"mouseX\": 0, \"mouseY\": 0, \"time\": 5 } ], \"info\": { \"name\": \"\", \"description\": \"\", \"x\": 0, \"y\": 0, \"width\": 1920, \"height\": 1080, \"recordDpi\": 1 } }"
-
+    const f_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/F.png"), 1094, 334, 50, 426);
     /**
      * 简洁易用的OCR函数
      * @param x
@@ -168,7 +170,7 @@
     }
 
     /**
-     * 查找并进入奇域
+     * 查找并奇域
      * @returns {Promise<void>}
      */
     async function enter_stage() {
@@ -185,15 +187,31 @@
         await sleep(1500);
         click(1088, 143);
         await sleep(1000);
-        inputText(`${settings.g_uid}`);
+        if (uidSwitch) {
+            inputText(`${guidList[0]}`);
+            uidSwitch = false;
+        } else {
+            inputText(`${guidList[1]}`);
+            uidSwitch = true;
+        }
         await sleep(1000);
         keyPress("RETURN");
         await sleep(1000);
         // 点开奇域界面
         click(413, 396);
         await sleep(1000);
-        click(1590, 934);
-        await sleep(5000);
+        // 进入奇域
+        const ocrList = await Ocr(1123, 902, 616, 67);
+        for (let i = 0; i < ocrList.length; i++) {
+            if (ocrList[i].text.includes("单人挑战") || ocrList[i].text.includes("开始游戏")) {
+                ocrList[i].Click();
+            } else {
+                click(1233, 935);
+                await sleep(500);
+                click(1590, 934);
+            }
+            await sleep(5000);
+        }
     }
 
     async function main() {
@@ -214,8 +232,6 @@
             await check_world(true);
             return null;
         }
-
-        const f_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/F.png"), 1094, 334, 50, 426);
 
         while (true) {
 
@@ -254,35 +270,28 @@
                     break;
                 case "奇域：游玩界面":
                     log.info("开始等待...")
-                    if (state_result === "false") {
-                        await sleep(320000); // 等待300s
-                    } else {
-                        await sleep(65000); // 等待60s
-                    }
-
-                    keyDown("W");
-                    await sleep(6200);
-                    keyUp("W");
-                    keyDown("A");
-                    await sleep(500);
-                    keyUp("A");
-
-                    for (let i = 0; i < 50; i++) {
-                        keyDown("W");
-                        await sleep(100);
-                        keyUp("W");
-                        await sleep(100);
-                        const capture = captureGameRegion();
-                        if (capture.Find(f_pic).isExist()) {
+                    if (uidSwitch) {
+                        await sleep(41000); // 等待40s
+                        keyDown("D");
+                        await sleep(700);
+                        keyUp("D");
+                        for (let i = 0; i < 5; i++) {
+                            await sleep(100);
+                            const capture = captureGameRegion();
+                            if (capture.Find(f_pic).isExist()) {
+                                keyPress("F");
+                                capture.dispose();
+                                break;
+                            }
                             capture.dispose();
-                            break;
                         }
-                        capture.dispose();
+                    } else {
+                        await sleep(61000); // 等待60s
+                        keyPress("Escape");
+                        await sleep(1000);
+                        click(978, 601);
+                        await sleep(1000);
                     }
-
-                    keyPress("F");
-                    await sleep(5000);
-
                     break;
                 case "结算界面":
                     extra_count--;
