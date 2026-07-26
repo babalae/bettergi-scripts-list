@@ -254,11 +254,7 @@
                     break;
                 case "奇域：游玩界面":
                     log.info("开始等待...")
-                    if (state_result === "false") {
-                        await sleep(320000); // 等待300s
-                    } else {
-                        await sleep(65000); // 等待60s
-                    }
+                    await sleep(65000); // 等待60s
 
                     keyDown("W");
                     await sleep(6200);
