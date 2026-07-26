@@ -199,19 +199,12 @@
         await sleep(1000);
         // 点开奇域界面
         click(413, 396);
-        await sleep(1000);
+        await sleep(2000);
         // 进入奇域
-        const ocrList = await Ocr(1123, 902, 616, 67);
-        for (let i = 0; i < ocrList.length; i++) {
-            if (ocrList[i].text.includes("单人挑战") || ocrList[i].text.includes("开始游戏")) {
-                ocrList[i].Click();
-            } else {
-                click(1233, 935);
-                await sleep(500);
-                click(1590, 934);
-            }
-            await sleep(5000);
-        }
+        click(1233, 935);
+        await sleep(500);
+        click(1590, 934);
+        await sleep(5000);
     }
 
     async function main() {
