@@ -2,14 +2,14 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/this-Fish",
+        "links": "",
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784467572539,
+    "last_modified_time": 1784921129490,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "16-树王圣体菇-法莎洞-2个",
@@ -40,10 +40,9 @@
       "action": "stop_flying",
       "action_params": "1200",
       "id": 3,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
-      "x": 3860.0,
+      "x": 3860,
       "y": -307.4996
     },
     {
@@ -225,6 +224,15 @@
       "type": "path",
       "x": 3930.1982,
       "y": -426.292
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3705.8809,
+      "y": -497.123
     }
   ]
 }
