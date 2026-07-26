@@ -468,7 +468,10 @@
         const intervalTime = 3000;
 
         if (akfChargingMethod == "电气水晶充能") {
-            await AutoPath("全自动爱可菲");
+            const pathCompleted = await AutoPath("全自动爱可菲");
+            if (!pathCompleted) {
+                throw new Error("爱可菲未能到达电气水晶");
+            }
         } else if (akfChargingMethod == "法器角色充能") {
             const ifakfIn = await includes("爱可菲");
             if (!ifakfIn) { throw new Error("队伍中未包含角色:爱可菲"); }
@@ -637,8 +640,10 @@
         try {
             let filePath = `assets/${locationName}.json`;
             await pathingScript.runFile(filePath);
+            return true;
         } catch (error) {
-            log.error(`执行 ${locationName} 路径时发生错误`);
+            log.error(`执行 ${locationName} 路径时发生错误: ${error.message}`);
+            return false;
         }
     }
 
