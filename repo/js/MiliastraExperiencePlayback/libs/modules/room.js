@@ -7,12 +7,12 @@ import {
   findConfirmBtn,
   findCreateRoomBtn,
   findEnterRoomShortcut,
-  findFirstSearchResultText,
   findGoToLobbyBtn,
   findHeaderTitle,
   findLeaveRoomBtn,
   findSearchWonderlandBtn,
   findSearchWonderlandInput,
+  findTopNSearchResultTexts,
 } from "../constants/regions.js";
 import { isInLobby } from "./lobby.js";
 
@@ -40,17 +40,17 @@ const createRoom = async (room) => {
       findAllWonderlandsBtn()?.click();
     },
   );
-  /** 帮助函数：获取第一个奇域名称 */
-  const firstWonderlandName = async (maxAttempts = 5, retryInterval = 2e3) => {
+  /** 帮助函数：获取首行奇域名称 */
+  const findTopWonderlandNames = async (maxAttempts = 5, retryInterval = 2e3) => {
     for (let i = 0; i < maxAttempts; i++) {
       await sleep(retryInterval);
-      const text = findFirstSearchResultText();
-      if (text) return text;
+      const texts = findTopNSearchResultTexts(4);
+      if (texts.some((t) => t !== void 0)) return texts;
     }
   };
-  const iwnt = await firstWonderlandName();
-  if (iwnt === void 0) throw new Error("奇域列表加载超时");
-  log.info("搜索前的首个奇域关卡名称: {iwnt}", iwnt);
+  const iwnts = await findTopWonderlandNames();
+  if (iwnts === void 0) throw new Error("奇域列表加载超时");
+  log.info("搜索前的奇域关卡名称: {iwnt}", iwnts.join(", "));
   log.info("粘贴奇域关卡文本: {room}", room);
   await assertRegionAppearing(findClearInputBtn, "粘贴关卡文本超时", () => {
     const input = findSearchWonderlandInput();
@@ -60,20 +60,20 @@ const createRoom = async (room) => {
     }
   });
   /** 等待搜索结果变化 */
-  let lwnt;
+  let lwnts;
   log.info("搜索奇域关卡: {room}", room);
   await waitForAction(
     () => {
-      if (lwnt === void 0) return false;
-      const isChanged = lwnt.toLowerCase().trim() !== iwnt.toLowerCase().trim();
-      if (isChanged) log.info("首个奇域关卡名称已变化: {lwnt}，搜索完成", lwnt);
+      if (lwnts === void 0) return false;
+      const isChanged = lwnts.some((text, i) => text?.toLowerCase() !== iwnts[i]?.toLowerCase());
+      if (isChanged) log.info("奇域关卡名称已变化: {lwnt}，搜索完成", lwnts[0]);
       return isChanged;
     },
     async () => {
       const searchBtn = findSearchWonderlandBtn();
       if (searchBtn) {
         searchBtn.click();
-        lwnt = await firstWonderlandName();
+        lwnts = await findTopWonderlandNames();
       }
     },
     {
