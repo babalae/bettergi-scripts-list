@@ -7,7 +7,7 @@
 - 可设置一个或多个不运行的时间段
 - 采集过程自动切换合适的队伍
 
-**若脚本有问题，可[点击此处进行反馈](https://github.com/babalae/bettergi-scripts-list/issues/new?template=bug_report.yml&script-name=CD-Aware-AutoGather:2.5.0&additional-info=保留此行以便通知作者:%20@Patrick-Ze%0A%0A---%0A)**
+**若脚本有问题，可[点击此处进行反馈](https://github.com/babalae/bettergi-scripts-list/issues/new?template=bug_report.yml&script-name=CD-Aware-AutoGather:2.6.0&additional-info=保留此行以便通知作者:%20@Patrick-Ze%0A%0A---%0A)**
 
 # 使用前准备
 
@@ -119,7 +119,7 @@
 
 如果你的目标比较简单，比如想把地方特产都设为168，矿物都设为100，那只要在调度器中重复添加本脚本，然后分别设置不同的数量目标即可。
 
-如果你有更细致的需要，请将该选项设置为`csv`，然后执行一次材料扫描模式。扫描完成后，在record下找到对应账号的子文件夹。打开这个子文件夹，会找到一个`采集目标.csv`的csv文件。
+如果你有更细致的需要，请将该选项设置为`csv`，然后打开record文件夹下对应账号的子文件夹，会找到一个名为`采集目标`的csv文件。
 
 你可以用Excel或者WPS等打开此csv文件，打开后就是一个表格（如果你了解csv文件格式，也可以用任意文本编辑器打开，不过不推荐）。表格内容示例如下：
 
