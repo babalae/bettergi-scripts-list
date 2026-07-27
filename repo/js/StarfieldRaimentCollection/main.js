@@ -121,9 +121,11 @@
         const finish_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Finish.png"), 1552, 352, 94, 94);
         const active0_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/active0.png"), 1552, 352, 94, 94);
         const active1_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/active1.png"), 1552, 352, 94, 94);
+        const target_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/targetIcon.png"), 708, 1, 512, 86);
         finish_pic.threshold = 0.8;
         active0_pic.threshold = 0.8;
         active1_pic.threshold = 0.8;
+        target_pic.threshold = 0.8;
         let capture;
 
         await check_world(false);
@@ -132,10 +134,17 @@
 
         keyPress("F6");
         await sleep(1500);
-        // 检查任务完成情况
-        click(1051, 48);
-        await sleep(1500);
         capture = captureGameRegion();
+        await sleep(500);
+        const targetIcon = capture.Find(target_pic);
+        // 检查任务完成情况
+        if (targetIcon.isExist()) {
+            targetIcon.Click();
+        } else {
+            click(1051, 48);
+        }
+        await sleep(1500);
+
 
         if (capture.Find(finish_pic).isExist()) { // 已领取
             capture.dispose();
