@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784392051350,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A05-金鱼草-蒙德-清泉镇西北-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -867.2344,
+      "y": 1992.5391
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -850.3125,
+      "y": 2018.4165
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -836.9609,
+      "y": 2033.4688
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -830.6074,
+      "y": 2031.8311
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -826.0039,
+      "y": 2029.1807
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -769.3496,
+      "y": 2039.8223
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.23)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -732.3477,
+      "y": 2074.6436
+    }
+  ]
+}
