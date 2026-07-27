@@ -264,7 +264,7 @@ notes 字段中包含的是乐谱内容音符**必须**使用**大写字母**, �
 <details>
 <summary>点击展开</summary>
 
-- ver 3.6.0
+- ver 3.6.1
 
 1. 添加了一首单曲《Nod-Krai》-谐律键琴
 
