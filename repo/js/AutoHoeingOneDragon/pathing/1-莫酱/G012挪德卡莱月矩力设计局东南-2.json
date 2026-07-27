@@ -10,7 +10,7 @@
     "description": "  路线信息：该路线预计用时97秒，包含以下怪物：2只巡陆艇·尖端全能斥候型、2只巡陆艇·尖端火力地效型。",
     "enable_monster_loot_split": false,
     "hash_res": "75306089",
-    "last_modified_time": 1767444400744,
+    "last_modified_time": 1776973405705,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "G012挪德卡莱月矩力设计局东南-2",
@@ -33,9 +33,9 @@
       "action_params": "",
       "id": 2,
       "move_mode": "dash",
-      "type": "target",
-      "x": 9570.078125,
-      "y": 3105.393798828125
+      "type": "path",
+      "x": 9546.8720703125,
+      "y": 3120.69775390625
     },
     {
       "action": "",
@@ -43,41 +43,50 @@
       "id": 3,
       "move_mode": "jump",
       "type": "path",
-      "x": 9579.7705078125,
-      "y": 3116.25439453125
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(f),wait(0.2),keypress(f),wait(3)",
-      "id": 4,
-      "move_mode": "dash",
-      "type": "target",
-      "x": 9577.814453125,
-      "y": 3148.953125
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 9577.9033203125,
-      "y": 3138.46728515625
+      "x": 9550.099609375,
+      "y": 3124.5625
     },
     {
       "action": "",
       "action_params": "",
-      "id": 6,
+      "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 9577.9033203125,
-      "y": 3138.46728515625
+      "x": 9555.5625,
+      "y": 3131.21923828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9567.052734375,
+      "y": 3133.36474609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(3)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 9577.96875,
+      "y": 3150.21533203125
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 7,
-      "move_mode": "walk",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9577.9033203125,
+      "y": 3138.46728515625
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
       "type": "path",
       "x": 9593.1025390625,
       "y": 3154.80029296875
@@ -85,7 +94,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1)",
-      "id": 8,
+      "id": 9,
       "move_mode": "walk",
       "type": "orientation",
       "x": 9593.1025390625,
