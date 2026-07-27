@@ -8,7 +8,8 @@
         QueueMusicRepeat: 3, // 队列循环执行
     };
     const lowest_latency = 30;
-    let DEBUG = false;
+    let DEBUG;
+    let settings_msg = get_settings();
 
     let music_infos = [];
     /**
@@ -23,6 +24,20 @@
     //     const localMusicList = scoreFiles.map(path => path.match(regex_name)[0]);
     //     return localMusicList;
     // }
+
+    /**
+     * 读取每个曲谱的乐器信息并返回字典
+     * @returns {Promise<void>}
+     */
+    async function get_sheet_ins() {
+        let settingsJson = JSON.parse(file.readTextSync("settings.json"));
+        let sheetDic = {};
+        for (const name of settingsJson[2].options) {
+            sheetDic[name] = (JSON.parse(file.readTextSync(`assets\\score_file\\${name}.json`)).instrument).split(",");
+        }
+        settingsJson[2].options = sheetDic
+        return settingsJson;
+    }
 
     /**
      *
@@ -348,6 +363,7 @@
      * @property {Number} startTime - 目标时间的时间戳
      * @property {Number} playType - 播放模式，使用PlayType枚举
      * @property {Array[String]} musicQueue - 乐曲队列，包含乐曲文件名的数组
+     * @property {Boolean} autoSwitch - 开始演奏前是否自动切换乐器
      * @property {Number} queueInterval - 乐曲队列间隔时间，单位为秒
      * @property {Number} repeatTimes - 循环执行次数
      * @property {Number} repeatInterval - 循环间隔时间，单位为秒
@@ -359,6 +375,7 @@
             startTime: 0,
             playType: undefined,
             musicQueue: [],
+            autoSwitch: false,
             queueInterval: 0,
             repeatTimes: 1,
             repeatInterval: 0,
@@ -407,7 +424,8 @@
                     Settings.playType = PlayType.SingleMusicOnce;
                     break;
             }
-
+            // 读取切换乐器
+            Settings.autoSwitch = settings.auto_switch;
             // 读取队列间隔时间
             Settings.queueInterval = (typeof (settings.music_interval) === 'undefined') ? (0) : parseInt(settings.music_interval, 10);
             // 读取循环次数
@@ -416,10 +434,10 @@
             Settings.repeatInterval = (typeof (settings.repeat_interval) === 'undefined') ? (0) : parseInt(settings.repeat_interval, 10);
             // 读取乐曲队列 Array[musicName]
             if (Settings.playType === PlayType.SingleMusicOnce || Settings.playType === PlayType.singleRepeat) {
-                Settings.musicQueue.push((typeof (settings.music_selector) === 'undefined') ? (undefined) : (settings.music_selector));
+                Settings.musicQueue.push((typeof (settings.music_selector) === 'undefined') ? undefined : (settings.music_selector));
             }
             else {
-                let music_queue = (typeof (settings.music_queue) === 'undefined') ? (undefined) : (settings.music_queue);
+                let music_queue = (typeof (settings.music_queue) === 'undefined') ? undefined : (settings.music_queue);
                 if (music_queue === undefined) throw new Error("队列执行无序号");
                 let musicIndex = Array.from(new Set(music_queue.split(' ').filter(item => item !== ""))); // 去重
                 musicList().forEach(music => {
@@ -432,6 +450,8 @@
                 });
             }
             Settings.debug = (typeof (settings.debug_mode) === 'undefined') ? false : settings.debug_mode === "启用";
+
+            DEBUG = Settings.debug;
             return Settings;
 
         } catch (error) {
@@ -1341,9 +1361,10 @@
     /**
      * 检查本地曲谱文件与主程序配置是否一致，并自动修正配置settings文件。
      *
-     * @returns {boolean} 如果一致返回 true，否则返回 false。
+     * @param winId
+     * @returns {Promise<boolean>} 如果一致返回 true，否则返回 false。
      */
-    function checkSheetFile() {
+    const checkSheetFile = async (winId) => {
         try {
             // 1. 读取本地所有JSON曲谱文件
             const localMusicList = musicList();
@@ -1372,14 +1393,17 @@
                 const updatedSettings = [...settings];
                 updatedSettings[indexOfMusicSelector].options = localMusicList;
                 file.writeTextSync("settings.json", JSON.stringify(updatedSettings, null, 2));
-                log.warn("检测到曲谱文件不一致, 已自动修改settings(以本地曲谱文件为基准)...");
-                log.warn("JS脚本配置已更新, 请重新运行脚本!");
+                log.warn("检测到曲谱文件不一致, 已自动适配(以本地曲谱文件为基准)...");
+                log.warn("JS脚本配置已更新!");
+                htmlMask.send(winId, "/config/update", JSON.stringify({ status: "update", msg: "JS脚本配置已更新!", settings: await get_sheet_ins() }));
                 return false;
             }
-
+            log.info("未检测到新增曲谱文件，当前已是最新...");
+            htmlMask.send(winId, "/config/update", JSON.stringify({ status: "latest", msg: "未检测到新增曲谱文件，当前已是最新...", settings: await get_sheet_ins() }));
             return true;
         } catch (error) {
             log.error("检查曲谱文件时发生错误:", error);
+            htmlMask.send(winId, "/config/update", JSON.stringify({ status: "error", msg: `检查曲谱文件时发生错误:${error}`, settings: await get_sheet_ins() }));
             return false;
         }
     }
@@ -1468,16 +1492,10 @@
         }
     }
 
-    /**
-     * ------- 主程序 --------
-     */
-    async function main() {
-        if (!checkSheetFile()) return;
+    async function play(winId) {
+        if (!checkSheetFile(winId)) return;
 
-        let settings_msg = get_settings();
-        DEBUG = settings_msg.debug;
         console.log(`${settings_msg}`)
-
         for (const music_name of settings_msg.musicQueue) {
             const music_info = getMusicInfo(music_name);
             if (music_info === null) {
@@ -1490,51 +1508,77 @@
 
         const alwaysRepeat = ((settings_msg.playType === PlayType.SingleMusicRepeat || settings_msg.playType === PlayType.QueueMusicRepeat) && (settings_msg.repeatTimes === 0));
         await waitTargetTime(settings_msg.startTime);
-        // try {
-            do {
-                for (let i = 0; i < music_infos.length; i++) {
-                    let music_info = music_infos[i];
+        do {
+            for (let i = 0; i < music_infos.length; i++) {
+                let music_info = music_infos[i];
 
-                    if (settings.auto_switch) {
-                        await autoSwitchInstrument(music_info.instrument);  // 检测并切换乐器
-                    } else {
-                        log.info(`建议演奏乐器：${music_info.instrument}`);
-                    }
-                    log.info(`开始演奏: ${music_info.name} - ${music_info.author}`);
-                    switch (music_info.type) {
-                        case "yuanqin":
-                            await play_sheet(i, music_info.notes, music_info.bpm, music_info.time_signature);
-                            break;
-                        case "midi":
-                            await play_sheet(i, music_info.notes, music_info.bpm, music_info.time_signature, music_info.ticks);
-                            break;
-                        case "keyboard":
-                            if (DEBUG) {
-                                log.info(`乐曲已打印至${music_info.name}.json`)
-                                let info = []
-                                music_info.notes.forEach((note, index) => {
-                                    info.push([index, ...note]);
-                                });
-                                file.writeTextSync(`${music_info.name}.json`, `${JSON.stringify(info)}`);
-                            }
-                            await listNotePlay(music_info.notes, (60000 / music_info.bpm));
-                            break;
-                        default:
-                            break;
-                    }
-                    if (settings_msg.queueInterval > 0) await sleep(settings_msg.queueInterval * 1000);
+                if (settings_msg.autoSwitch) {
+                    await autoSwitchInstrument(music_info.instrument);  // 检测并切换乐器
+                } else {
+                    log.info(`建议演奏乐器：${music_info.instrument}`);
                 }
-                if (settings_msg.repeatInterval > 0) await sleep(settings_msg.repeatInterval * 1000);
-            } while (alwaysRepeat || --settings_msg.repeatTimes > 0);
-        // } catch (error) {
-        //     if (DEBUG) {
-        //         log.error(`脚本执行错误 ${error} erron.txt 已打印`)
-        //         file.writeTextSync("erron.txt", `${error.stack}`);
-        //     }
-        //     else {
-        //         log.error(`脚本执行错误 ${error}`)
-        //     }
-        // }
+                log.info(`开始演奏: ${music_info.name} - ${music_info.author}`);
+                switch (music_info.type) {
+                    case "yuanqin":
+                        await play_sheet(i, music_info.notes, music_info.bpm, music_info.time_signature);
+                        break;
+                    case "midi":
+                        await play_sheet(i, music_info.notes, music_info.bpm, music_info.time_signature, music_info.ticks);
+                        break;
+                    case "keyboard":
+                        if (DEBUG) {
+                            log.info(`乐曲已打印至${music_info.name}.json`)
+                            let info = []
+                            music_info.notes.forEach((note, index) => {
+                                info.push([index, ...note]);
+                            });
+                            file.writeTextSync(`${music_info.name}.json`, `${JSON.stringify(info)}`);
+                        }
+                        await listNotePlay(music_info.notes, (60000 / music_info.bpm));
+                        break;
+                    default:
+                        break;
+                }
+                if (settings_msg.queueInterval > 0) await sleep(settings_msg.queueInterval * 1000);
+            }
+            if (settings_msg.repeatInterval > 0) await sleep(settings_msg.repeatInterval * 1000);
+        } while (alwaysRepeat || --settings_msg.repeatTimes > 0);
+    }
+
+    /**
+     * ------- 主程序 --------
+     */
+    async function main() {
+        const winId = htmlMask.show("assets/index.html");
+        htmlMask.setClickThrough(winId, false);
+
+        // 持续接收 HTML 消息
+        while (htmlMask.exists(winId)) {
+            const msg = await htmlMask.receive(winId);
+            if (msg) {
+                const parsed = JSON.parse(msg);
+
+                switch (parsed.url) {
+                    case "/event/click":
+                        htmlMask.close(winId);
+                        settings_msg = parsed.data;
+                        await play();
+                        return null;
+                    case "/config/update":
+                        await checkSheetFile(winId);
+                        break;
+                    case "/window/close":
+                        return null;
+                    case "/config/settings":
+                        await checkSheetFile(winId);
+                        htmlMask.send(winId, "/config/settings", JSON.stringify(settings_msg));
+                        break;
+
+                }
+            }
+        }
+
+        htmlMask.close(winId);
     }
     await main();
 

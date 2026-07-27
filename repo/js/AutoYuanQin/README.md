@@ -3,7 +3,7 @@
 ## 播放演奏脚本
 1. 在全自动 - 调度器中 新建配置组/选择已有的组 将*AutoYuanQin*添加至配置组中
 1. 右键原琴 - 修改脚本自定义配置 按照说明填写
-1. 点击运行开始播放音乐
+1. 点击运行打开HTML遮罩界面，选择乐曲后再下方点击开始播放
 - tips:
   - `AutoYuanQin/assets/tutorial_file`文件夹下的制谱软件(`五线谱制谱器.html` `简谱制谱器.html`)为有一定五线谱和简谱基础的用户提供，这两个制谱器制作出的谱子是最精确还原原谱的，但是需要花费一定的时间和精力去录谱
   - 现在有更自动化的`AutoYuanQin/assets/tutorial_file/MIDI制谱器.html`提供自动的MIDI文件转*AutoYuanQin*格式的乐谱，改方案转换的谱子在精准度上略有瑕疵，尽量使用只有两个及以下通道的midi文件，录谱花费的时间和精力非常小
@@ -16,9 +16,9 @@
 #### 1. 由脚本作者代你上传
 1. 将你的JSON曲谱放在`AutoYuanQin/assets/score_file`目录下(文件名会自动适配)，运行脚本检查无误后将`0001.小星星.json`格式的JSON文件保存，完成后请联系作者(提瓦特钓鱼玳师)更新JS脚本
 1. 加入BetterGI v7(1029539994)群，让群主帮你更新到仓库
-1. (推荐)发送邮件到*hijiwos@hotmail.com*并说明, 你的谱子将会在一段时间后更新到仓库
+1. 发送邮件到*hijiwos@hotmail.com*并说明, 你的谱子将会在一段时间后更新到仓库（发送至邮箱可能导致延误）
 
-#### 2. 自行上传
+#### 2. 自行上传（推荐）
 1. 首先注册一个Github账号，根据[PR教程](https://www.bettergi.com/dev/pr.html#fork-%E5%A4%8D%E5%88%B6)自行上传至[脚本仓库](https://github.com/babalae/bettergi-scripts-list)
 1. 上传前请检查以下文件正确进行了更改
    - manifest.json(将version的版本号最后一位+1)
@@ -263,6 +263,11 @@ notes 字段中包含的是乐谱内容音符**必须**使用**大写字母**, �
 
 <details>
 <summary>点击展开</summary>
+
+- ver 3.6.0
+
+1. 添加了HTML遮罩界面
+2. JS脚本配置内单曲选择功能已移动到HTML遮罩界面，其他配置项不受影响
 
 - ver 3.5.12
 
