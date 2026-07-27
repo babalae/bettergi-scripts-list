@@ -2,14 +2,14 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/this-Fish",
+        "links": "",
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784640777625,
+    "last_modified_time": 1785159709480,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "19-树王圣体菇-无郁稠林二-3个",
@@ -39,8 +39,8 @@
       "y": 339.5869
     },
     {
-      "action": "up_down_grab_leaf",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "w(0.2),wait(0.5),click(middle),wait(0.5),moveby(0,-700),wait(0.5),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t)",
       "id": 3,
       "locked": false,
       "move_mode": "walk",
@@ -132,6 +132,7 @@
       "action": "stop_flying",
       "action_params": "",
       "id": 12,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 2310.9229,
@@ -141,6 +142,7 @@
       "action": "combat_script",
       "action_params": "wait(0.3)",
       "id": 13,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 2313.4277,
