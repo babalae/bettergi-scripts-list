@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784729815321,
+    "last_modified_time": 1784977274041,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "21-树王圣体菇-无郁稠林四-7个",
@@ -244,22 +244,41 @@
       "y": 155.3252
     },
     {
+      "action": "combat_script",
+      "action_params": "w(0.2)",
+      "id": 26,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 2286.6553,
+      "y": 169.1489
+    },
+    {
       "action": "up_down_grab_leaf",
       "action_params": "",
-      "id": 26,
+      "id": 27,
       "move_mode": "fly",
-      "type": "path",
+      "type": "orientation",
       "x": 2286.6553,
       "y": 169.1489
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.5)",
-      "id": 27,
+      "action_params": "wait(0.3)",
+      "id": 28,
       "move_mode": "walk",
       "type": "target",
       "x": 2285.709,
       "y": 169.2031
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2342.6191,
+      "y": -4.3867
     }
   ]
 }

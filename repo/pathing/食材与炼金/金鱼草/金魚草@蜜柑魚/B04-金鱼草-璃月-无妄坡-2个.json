@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/taotao568685",
-        "name": "白白喵"
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1775941314000,
+    "last_modified_time": 1784399342064,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B13-金鱼草-璃月-荻花洲-2个",
+    "name": "B04-金鱼草-璃月-无妄坡-2个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 730.4883,
-      "y": 1062.46
+      "x": 490.0723,
+      "y": 1435.3999
     },
     {
       "action": "",
@@ -33,62 +33,80 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 712.2969,
-      "y": 1050.5361
+      "x": 492.5439,
+      "y": 1437.5181
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 708.1348,
-      "y": 1050.7158
+      "x": 461.833,
+      "y": 1530.2305
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "walk",
+      "move_mode": "jump",
       "type": "path",
-      "x": 676.3672,
-      "y": 1035.2686
+      "x": 453.5771,
+      "y": 1530.9258
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 642.4873,
-      "y": 1005.5015
+      "x": 453.1191,
+      "y": 1572.3218
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 627.665,
-      "y": 983.2256
+      "x": 448.5635,
+      "y": 1602.4561
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 621.9619,
-      "y": 973.2148
+      "x": 475.9883,
+      "y": 1603.876
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 518.6992,
+      "y": 1603.4473
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 520.041,
+      "y": 1638.7754
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.345)",
-      "id": 8,
-      "move_mode": "walk",
+      "action_params": "wait(0.25)",
+      "id": 10,
+      "move_mode": "dash",
       "type": "path",
-      "x": 626.0771,
-      "y": 974.0605
+      "x": 512.9785,
+      "y": 1644.4932
     }
   ]
 }

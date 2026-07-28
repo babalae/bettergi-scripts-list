@@ -2,20 +2,20 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/taotao568685",
-        "name": "白白喵"
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1775941173063,
+    "last_modified_time": 1785182277081,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B25-金鱼草-璃月-赤璋城垣三-2个",
+    "name": "B22-金鱼草-璃月-绝云间四-2个",
     "tags": [],
     "type": "collect",
-    "version": "47.2"
+    "version": "1"
   },
   "positions": [
     {
@@ -24,26 +24,26 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 2207.3418,
-      "y": 1253.4702
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 2231.9697,
-      "y": 1336.2026
+      "x": 1182.9775,
+      "y": 626.355
     },
     {
       "action": "",
       "action_params": "",
-      "id": 3,
-      "move_mode": "walk",
+      "id": 2,
+      "move_mode": "dash",
       "type": "path",
-      "x": 2233.9824,
-      "y": 1339.2583
+      "x": 1194.9268,
+      "y": 606.2002
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1203.7559,
+      "y": 584.7612
     },
     {
       "action": "",
@@ -51,17 +51,26 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 2245.7275,
-      "y": 1340.6714
+      "x": 1204.7061,
+      "y": 588.2373
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.23)",
+      "action": "",
+      "action_params": "",
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": 2249.2461,
-      "y": 1343.1152
+      "x": 1201.459,
+      "y": 590.7344
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1205.5654,
+      "y": 586.1343
     }
   ]
 }

@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784399342064,
+    "last_modified_time": 1784397812783,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B02-金鱼草-璃月-无妄坡-2个",
+    "name": "B11-金鱼草-璃月-雪葬之都·近郊西-2个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,35 +24,35 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 490.0723,
-      "y": 1435.3999
+      "x": -410.5312,
+      "y": 1161.5942
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": 492.5439,
-      "y": 1437.5181
+      "x": -402.1328,
+      "y": 1138.749
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
-      "x": 461.833,
-      "y": 1530.2305
+      "x": -386.541,
+      "y": 1110.0635
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "jump",
+      "move_mode": "dash",
       "type": "path",
-      "x": 453.5771,
-      "y": 1530.9258
+      "x": -354.0195,
+      "y": 1085.1494
     },
     {
       "action": "",
@@ -60,53 +60,35 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 453.1191,
-      "y": 1572.3218
+      "x": -334.3086,
+      "y": 1094.2236
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 448.5635,
-      "y": 1602.4561
+      "x": -305.1523,
+      "y": 1074.501
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
-      "x": 475.9883,
-      "y": 1603.876
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 518.6992,
-      "y": 1603.4473
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 9,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 520.041,
-      "y": 1638.7754
+      "x": -295.8281,
+      "y": 1089.856
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.25)",
-      "id": 10,
+      "id": 8,
       "move_mode": "dash",
       "type": "path",
-      "x": 512.9785,
-      "y": 1644.4932
+      "x": -293.7676,
+      "y": 1093.0898
     }
   ]
 }

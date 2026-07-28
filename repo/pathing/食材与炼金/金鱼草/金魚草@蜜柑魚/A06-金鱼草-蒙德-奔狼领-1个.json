@@ -9,13 +9,13 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784392112375,
+    "last_modified_time": 1785176540046,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A06-金鱼草-蒙德-奔狼领-1个",
     "tags": [],
     "type": "collect",
-    "version": "47.1.4"
+    "version": ""
   },
   "positions": [
     {
@@ -55,13 +55,13 @@
       "y": 2229.271
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.01)",
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": -523.8477,
-      "y": 2236.8799
+      "x": -523.7344,
+      "y": 2236.625
     },
     {
       "action": "combat_script",

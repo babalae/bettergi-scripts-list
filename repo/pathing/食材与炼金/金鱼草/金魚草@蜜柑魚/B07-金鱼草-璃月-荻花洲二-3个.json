@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784397812783,
+    "last_modified_time": 1785179797220,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B09-金鱼草-璃月-雪葬之都·近郊西-2个",
+    "name": "B07-金鱼草-璃月-荻花洲二-3个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,35 +24,35 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -410.5312,
-      "y": 1161.5942
+      "x": 253.3906,
+      "y": 1285.4214
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": -402.1328,
-      "y": 1138.749
+      "x": 226.1533,
+      "y": 1329.1519
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
-      "x": -386.541,
-      "y": 1110.0635
+      "x": 140.3789,
+      "y": 1336.1602
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
       "id": 4,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": -354.0195,
-      "y": 1085.1494
+      "x": 172.1162,
+      "y": 1269.9063
     },
     {
       "action": "",
@@ -60,35 +60,17 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": -334.3086,
-      "y": 1094.2236
+      "x": 163.1211,
+      "y": 1223.748
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1)",
+      "action_params": "wait(0.234)",
       "id": 6,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": -305.1523,
-      "y": 1074.501
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "run",
-      "type": "path",
-      "x": -295.8281,
-      "y": 1089.856
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.25)",
-      "id": 8,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -293.7676,
-      "y": 1093.0898
+      "x": 159.958,
+      "y": 1219.1753
     }
   ]
 }

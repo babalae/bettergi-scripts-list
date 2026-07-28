@@ -9,94 +9,95 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784816170119,
+    "last_modified_time": 1785181332964,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "04-须弥-帕蒂沙兰-觉王之殿下方-3朵",
+    "name": "B19-金鱼草-璃月-绝云间一-4个",
     "tags": [],
     "type": "collect",
-    "version": "2.0"
+    "version": "1"
   },
   "positions": [
     {
       "action": "",
       "action_params": "",
       "id": 1,
-      "move_mode": "fly",
+      "move_mode": "walk",
       "type": "teleport",
-      "x": 3592.0,
-      "y": -787.3306
+      "x": 1451.75,
+      "y": 1028.8491
     },
     {
       "action": "",
-      "id": 2,
-      "move_mode": "run",
-      "type": "path",
-      "x": 3584.0,
-      "y": -754.75
-    },
-    {
-      "action": "stop_flying",
       "action_params": "",
-      "id": 3,
-      "move_mode": "fly",
+      "id": 2,
+      "move_mode": "walk",
       "type": "path",
-      "x": 3582.0723,
-      "y": -716.9102
+      "x": 1458.6719,
+      "y": 1032.4604
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.05)",
-      "id": 4,
+      "action_params": "wait(0.001)",
+      "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": 3587.459,
-      "y": -712.334
+      "x": 1461.7148,
+      "y": 1034.1611
     },
     {
-      "action": "",
-      "action_params": "",
-      "id": 5,
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 4,
       "move_mode": "run",
       "type": "path",
-      "x": 3595.1465,
-      "y": -702.2539
+      "x": 1433.7324,
+      "y": 1007.79
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1409.2295,
+      "y": 999.7979
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 3619.0,
-      "y": -709.2627
+      "x": 1371.5156,
+      "y": 1003.1816
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.05)",
+      "action_params": "wait(0.001)",
       "id": 7,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 3621.7783,
-      "y": -710.542
+      "x": 1361.3379,
+      "y": 994.9341
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.05)",
+      "action_params": "wait(0.001)",
       "id": 8,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 3620.7764,
-      "y": -716.8125
+      "x": 1348.6104,
+      "y": 977.7383
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.1)",
       "id": 9,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 3621.9619,
-      "y": -710.0889
+      "x": 1341.2578,
+      "y": 963.8457
     }
   ]
 }

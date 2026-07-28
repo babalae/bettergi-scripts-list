@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1785175329815,
+    "last_modified_time": 1785182545255,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A02-金鱼草-蒙德-低语森林南-3个",
+    "name": "B26-金鱼草-璃月-赤璋城垣三-2个",
     "tags": [],
     "type": "collect",
     "version": "1"
@@ -25,57 +25,44 @@
       "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -1120.6445,
-      "y": 2190.832
+      "x": 2207.3418,
+      "y": 1253.4702
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 2,
-      "locked": false,
-      "move_mode": "dash",
+      "move_mode": "fly",
       "type": "path",
-      "x": -1091.043,
-      "y": 2207.6455
+      "x": 2231.9697,
+      "y": 1336.2026
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "locked": false,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -1089.4785,
-      "y": 2229.9424
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.15)",
-      "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": -1087.457,
-      "y": 2236.4551
+      "x": 2233.9824,
+      "y": 1339.2583
     },
     {
       "action": "",
       "action_params": "",
-      "id": 5,
-      "locked": true,
-      "move_mode": "run",
+      "id": 4,
+      "move_mode": "walk",
       "type": "path",
-      "x": -1088.0391,
-      "y": 2258.6548
+      "x": 2245.7275,
+      "y": 1340.6714
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.19)",
-      "id": 6,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -1087.6387,
-      "y": 2262.4219
+      "action_params": "wait(0.321)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 2251.084,
+      "y": 1344.6846
     }
   ]
 }

@@ -9,13 +9,13 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784395078527,
+    "last_modified_time": 1785180137286,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B26-金鱼草-璃月-赤望台东北-2个",
+    "name": "B09-金鱼草-璃月-荻花洲四-2个",
     "tags": [],
     "type": "collect",
-    "version": ""
+    "version": "1.0"
   },
   "positions": [
     {
@@ -24,71 +24,62 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 2462.9883,
-      "y": 1801.9287
+      "x": 328.958,
+      "y": 873.6382
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 2476.5078,
-      "y": 1803.3179
+      "x": 313.7871,
+      "y": 887.5815
     },
     {
       "action": "stop_flying",
-      "action_params": "1000",
+      "action_params": "",
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 2515.7383,
-      "y": 1811.939
+      "x": 182.1621,
+      "y": 929.3955
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.01)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 166.6738,
+      "y": 931.4287
     },
     {
       "action": "",
       "action_params": "",
-      "id": 4,
+      "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 2563.291,
-      "y": 1809.1382
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 2628.7109,
-      "y": 1783.2739
+      "x": 176.6875,
+      "y": 952.3955
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 2641.3809,
-      "y": 1779.6553
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 7,
       "move_mode": "run",
       "type": "path",
-      "x": 2702.8311,
-      "y": 1801.6973
+      "x": 152.9375,
+      "y": 974.9922
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1)",
-      "id": 8,
-      "move_mode": "dash",
-      "type": "target",
-      "x": 2705.9492,
-      "y": 1799.2778
+      "action_params": "wait(0.2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 139.8223,
+      "y": 978.2075
     }
   ]
 }
