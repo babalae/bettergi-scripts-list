@@ -1949,7 +1949,7 @@ async function processPathingsByGroup(pathings, accountName) {
             const remaininghours = Math.floor(predictRemainingTime / 3600);
             const remainingminutes = Math.floor((predictRemainingTime % 3600) / 60);
             const remainingseconds = predictRemainingTime % 60;
-            log.info(`当前进度：第 ${targetGroup} 组第 ${groupPathCount}/${totalPathsInGroup} 个  ${pathing.fileName}已完成，该组预计剩余: ${remaininghours} 时 ${remainingminutes} 分 ${remainingseconds.toFixed(0)} 秒`);
+            log.info(`第 ${targetGroup} 组第 ${groupPathCount}/${totalPathsInGroup} 个  ${pathing.fileName}已完成，该组预计剩余: ${remaininghours} 时 ${remainingminutes} 分 ${remainingseconds.toFixed(0)} 秒`);
 
             let fileEndX = 0, fileEndY = 0;
             try {

@@ -2701,7 +2701,7 @@ async function processPathGroups() {
                         targetItems = prioritizeHistoricalItems(targetItems, cdMap, fullName);
                         /* ======================================= */
 
-                        log.info(`当前进度：执行路线 ${fileName}，路径组${i} ${folder} 第 ${groupFiles.indexOf(filePath) + 1}/${groupFiles.length} 个`);
+                        log.info(`执行路线 ${fileName}，路径组${i} ${folder} 第 ${groupFiles.indexOf(filePath) + 1}/${groupFiles.length} 个`);
                         log.info(`当前路线分均效率为 ${(filePath._efficiency ?? 0).toFixed(2)}`);
 
                         state.runPickupLog = [];          // 新路线开始前清空

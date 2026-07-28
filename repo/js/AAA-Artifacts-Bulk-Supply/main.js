@@ -1012,7 +1012,7 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
         }
         const pathInfo = await parsePathing(Path.fullPath);
         try {
-            log.info(`当前进度：${Path.fileName}为${folderFilePath}第${i + 1}/${Paths.length}个`);
+            log.info(`${Path.fileName}为${folderFilePath}第${i + 1}/${Paths.length}个`);
             await runPath(Path.fullPath, null);
             await sleep(1);
         } catch (error) {
