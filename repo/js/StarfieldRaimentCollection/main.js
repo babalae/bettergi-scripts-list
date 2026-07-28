@@ -141,7 +141,11 @@
         if (targetIcon.isExist()) {
             targetIcon.Click();
         } else {
-            click(1051, 48);
+            log.error(`未找到 绮衣珍赏 活动`);
+            if (settings.notification_1) {
+                notification.send("未找到 绮衣珍赏 活动");
+            }
+            return "error";
         }
         await sleep(1500);
 
@@ -173,8 +177,20 @@
             return "true";
         } else {
             capture.dispose();
-            log.error(`当日绮衣珍赏奖励状态：未识别`);
-            return "error";
+            const ocrResult = await Ocr(954, 334, 147, 33);
+            if (ocrResult && ocrResult.text.includes("已完成所有任务")) {
+                log.info(`当日绮衣珍赏奖励状态：已领取`);
+                if (settings.notification_1) {
+                    notification.send("当日绮衣珍赏奖励状态：已领取");
+                }
+                return "true";
+            } else {
+                log.error(`当日绮衣珍赏奖励状态：未识别`);
+                if (settings.notification_1) {
+                    notification.send("当日绮衣珍赏奖励状态：未识别");
+                }
+                return "error";
+            }
         }
     }
 
@@ -231,6 +247,9 @@
         let state_result = await check_state();
         if (state_result === "true" && settings.extra_count === "0") {
             log.info("已完成...");
+            await check_world(true);
+            return null;
+        } else if (state_result === "error") {
             await check_world(true);
             return null;
         }
@@ -299,6 +318,9 @@
                     extra_count--;
                     click(1378, 1018);
                     await sleep(3000);
+                    if (state_result !== "true") {
+                        state_result = await check_state();
+                    }
                     break;
             }
 
