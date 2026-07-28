@@ -315,7 +315,9 @@
                     }
                     break;
                 case "结算界面":
-                    extra_count--;
+                    if (state_result === "true") {
+                        extra_count--;
+                    }
                     click(1378, 1018);
                     await sleep(3000);
                     if (state_result !== "true") {
@@ -324,7 +326,7 @@
                     break;
             }
 
-            if (state_result === "true" && !extra_count) {
+            if (state_result === "true" && extra_count <= 0) {
                 break;
             }
 
