@@ -1,44 +1,70 @@
 {
   "info": {
-    "name": "[蒙德] 萃华木x6 + 垂香木x3",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "Ayaka-Main",
-        "links": "https://github.com/Patrick-Ze"
+        "links": "https://github.com/Patrick-Ze",
+        "name": "Ayaka-Main"
       }
-    ]
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784353551230,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "[蒙德] 萃华木x6 + 垂香木x3",
+    "tags": [
+      "王树瑞佑",
+      "伐木"
+    ],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": -1120.86,
-      "y": 2190.61,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": -1120.86,
+      "y": 2190.61
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": -1152.71,
-      "y": 2170.24,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": -1152.71,
+      "y": 2170.24
     },
     {
+      "action": "use_gadget",
+      "action_params": "",
       "id": 3,
-      "x": -1155.9,
-      "y": 2175.07,
-      "type": "target",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "target",
+      "x": -1155.9,
+      "y": 2175.07
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1130.8965,
+      "y": 2170.1431
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1109.2051,
+      "y": 2171.8467
     }
   ]
 }

@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785181332964,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B19-金鱼草-璃月-绝云间一-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1451.75,
+      "y": 1028.8491
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1458.6719,
+      "y": 1032.4604
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1461.7148,
+      "y": 1034.1611
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1433.7324,
+      "y": 1007.79
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1409.2295,
+      "y": 999.7979
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1371.5156,
+      "y": 1003.1816
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1361.3379,
+      "y": 994.9341
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1348.6104,
+      "y": 977.7383
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1341.2578,
+      "y": 963.8457
+    }
+  ]
+}

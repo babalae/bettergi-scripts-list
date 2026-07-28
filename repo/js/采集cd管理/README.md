@@ -96,13 +96,108 @@
 ---
 
 ### 五、**📞 联系方式**
-- **QQ群**：1057307824
+- **QQ群**：1057307824（备用1071793282）
   - 测测莫酱（有其他问题也行）
-  - 茶包版bgi具有许多公版bgi没有的功能，想要测测茶包也可以加群
+- 不接受github渠道的问题反馈，只接受加群处理
 
 ---
 
-### 六、**📦 莫酱全家桶（部分）**
+### 六、**📋 Schedule 执行**
+<details>
+<summary>点击查看详情</summary>
+
+#### 功能说明
+
+采集cd管理支持执行 schedule 文件，可以将多个地图追踪或js脚本按顺序执行。
+
+#### 文件格式
+
+```json
+{
+  "schedule": [
+    { "action": "start", "task": "任务名", "count": 1 },
+    { "action": "wait", "task": "任务名" }
+  ],
+  "tasks": [
+    {
+      "name": "任务名",
+      "type": "autopathing",
+      "filePath": "路径/地图追踪.json"
+    }
+  ]
+}
+```
+
+#### schedule 数组
+
+定义任务执行顺序：
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `action` | string | 是 | 动作类型：`start` 或 `wait` |
+| `task` | string | 是 | 任务名称，对应 tasks 中的 name |
+| `count` | number | 否 | 执行次数，仅 start 有效，默认 1 |
+
+**action 类型：**
+- `start`: 启动任务，任务是否异步等待由 tasks 中 `async` 字段控制（默认 false，同步等待完成）
+- `wait`: 等待异步任务完成
+
+#### tasks 数组
+
+定义所有可用的任务：
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `name` | string | 是 | 任务名称，唯一标识 |
+| `type` | string | 是 | 任务类型 |
+| `filePath` | string | 是 | 文件路径，相对于采集cd管理目录 |
+| `settings` | object | 否 | 传递给任务的配置参数（仅 js 类型有效，传入脚本入口函数） |
+| `async` | boolean | 否 | 是否异步执行，默认 false。设为 true 后 start 不等待完成，需搭配 schedule 中的 `wait` action |
+
+**type 类型（大小写不敏感）：**
+
+| 值 | 说明 | filePath 示例 |
+|------|------|------|
+| `autopathing` | 地图追踪 | `pathing/挖矿/水晶矿.json` |
+| `js` | 子脚本 | `subJs/脚本文件夹/` |
+| `keymousescript` | 键鼠脚本 | `assets/滚轮下翻.json` |
+
+#### 示例
+
+```json
+{
+  "schedule": [
+    { "action": "start", "task": "采集任务" },
+    { "action": "start", "task": "锄地任务" }
+  ],
+  "tasks": [
+    {
+      "name": "采集任务",
+      "type": "autopathing",
+      "filePath": "pathing/水晶矿.json"
+    },
+    {
+      "name": "锄地任务",
+      "type": "js",
+      "filePath": "subJs/AutoHoeingOneDragon/",
+      "settings": {}
+    }
+  ]
+}
+```
+
+#### 注意事项
+
+1. **路径格式**：`filePath` 路径使用正斜杠 `/`
+2. **识别逻辑**：读取 JSON 文件后，如果包含 `schedule` 和 `tasks` 字段，则视为 schedule 文件执行
+3. **拾取支持**：执行 schedule 期间会全程执行模板匹配交互和拾取
+4. **settings 格式**：`settings` 对象格式与配置组文件中相同，建议在配置组中配好子 js 的自定义配置后，复制配置组中的部分
+
+</details>
+
+---
+
+### 七、**📦 莫酱全家桶（部分）**
 - 日常使用
   - 锄地一条龙：一站式解决自动化锄地，支持只拾取狗粮
   - AAA狗粮批发：自动卡时间拿狗粮，收益最大化
@@ -117,7 +212,7 @@
 
 ---
 
-### 七、**📋 更新日志**
+### 八、**📋 更新日志**
 
 <details>
 <summary>点击查看历史更新</summary>

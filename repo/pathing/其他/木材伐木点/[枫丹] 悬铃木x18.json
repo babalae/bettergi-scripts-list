@@ -1,44 +1,65 @@
 {
   "info": {
-    "name": "[枫丹] 悬铃木x18",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "Ayaka-Main",
-        "links": "https://github.com/Patrick-Ze"
+        "links": "https://github.com/Patrick-Ze",
+        "name": "Ayaka-Main"
+      },
+      {
+        "links": "",
+        "name": "溜派蒙"
       }
-    ]
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784332979371,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "[枫丹] 悬铃木x18",
+    "tags": [
+      "王树瑞佑",
+      "伐木"
+    ],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 4683.8,
-      "y": 2426.12,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 4683.8,
+      "y": 2426.12
     },
     {
+      "action": "use_gadget",
+      "action_params": "",
       "id": 2,
-      "x": 4597.63,
-      "y": 2353.39,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 4627.4609,
+      "y": 2384.29
     },
     {
+      "action": "use_gadget",
+      "action_params": "",
       "id": 3,
-      "x": 4569.02,
-      "y": 2341.5,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4597.5684,
+      "y": 2347.2773
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4569.9648,
+      "y": 2340.771
     }
   ]
 }

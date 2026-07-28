@@ -853,7 +853,7 @@ const usefulAttr = {
     "def": 0,
     "cpct": 100,
     "cdmg": 100,
-    "mastery": 85,
+    "mastery": 100,
     "dmg": 100,
     "phy": 0,
     "recharge": 0,
@@ -2414,32 +2414,6 @@ const charSpecialRules = {
     }
     return null
   },
-  '爱可菲': ({ weaponName, weaponAffix, charAttrs }) => {
-    let title = []
-    let particularAttr = {...usefulAttr['爱可菲']}
-    if (weaponName === '西风长枪' && (charAttrs?.recharge || 0) >= 230) {
-      title = [] 
-      title.push('西风纯辅')
-      particularAttr.atk = 0
-      particularAttr.cpct = 100
-      particularAttr.cdmg = 0
-      particularAttr.recharge = 100
-      particularAttr.dmg = 0
-    }
-    if (weaponName === '香韵奏者' && (charAttrs?.recharge || 0) >= 230) {
-      title = [] 
-      title.push('餐叉纯辅')
-      particularAttr.atk = 0
-      particularAttr.cpct = 0
-      particularAttr.cdmg = 0
-      particularAttr.recharge = 100
-      particularAttr.dmg = 0
-    }
-    if (title.length > 0) {
-      return { title: `爱可菲-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
-    }
-    return null
-  },
   '芭芭拉': ({ charAttrs, artisSets, artifacts }) => {
     if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 180 && ((artifacts||[]).find(a=>a.pos===3)?.mainKey||'') && (artifacts.find(a=>a.pos===3).mainKey==='dmg'||isElem(artifacts.find(a=>a.pos===3).mainKey||''))) {
       return { title: '芭芭拉-暴力', attrWeight: { hp: 50, atk: 75, cpct: 100, cdmg: 100, mastery: 75, dmg: 100, recharge: 30, heal: 50 }, useDefaultPipeline: false }
@@ -2527,6 +2501,17 @@ const charSpecialRules = {
       title = [] 
       title.push('板砖纯辅')
       particularAttr.hp = 100
+      particularAttr.mastery = 0
+      particularAttr.cpct = 0
+      particularAttr.cdmg = 0
+      particularAttr.recharge = 100
+      particularAttr.dmg = 0
+    }
+    if (weaponName === '岩峰巡歌' && (charAttrs?.recharge || 0) >= 220) {
+      title = [] 
+      title.push('岩峰纯辅')
+      particularAttr.hp = 0
+      particularAttr.def = 100
       particularAttr.mastery = 0
       particularAttr.cpct = 0
       particularAttr.cdmg = 0
@@ -2652,18 +2637,17 @@ const charSpecialRules = {
     return null
   },
   '玛薇卡': ({ charAttrs }) => {
-    let title = []
-    let particularAttr = {...usefulAttr['玛薇卡']}
-    if ((charAttrs?.mastery || 0) < 50) {
-      title.push('纯火/超载')
-      particularAttr.atk = 85
-      particularAttr.mastery = 0
-    }
-    if (title.length > 0) {
-      return { title: `玛薇卡-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
-    }
-    return null
-  },
+      let particularAttr = {...usefulAttr['玛薇卡']}
+      // 只有面板精通明确很低的时候才切到纯火/超载
+      if ((charAttrs?.mastery || 0) > 0 && (charAttrs?.mastery || 0) < 40) {
+        particularAttr.atk = 85
+        particularAttr.mastery = 0
+        return { title: '玛薇卡-纯火/超载', attrWeight: particularAttr, useDefaultPipeline: false }
+      }
+      // 其他情况一律按精通流处理
+      particularAttr.mastery = 100
+      return { title: '玛薇卡-精通', attrWeight: particularAttr, useDefaultPipeline: false }
+    },
   '莫娜': ({ weaponName, weaponAffix }) => {
     let title = []
     let particularAttr = {...usefulAttr['莫娜']}

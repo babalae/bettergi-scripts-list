@@ -1,62 +1,97 @@
 {
   "info": {
-    "name": "[须弥] 证悟木x18 + 业果木x6",
-    "type": "collect",
-    "version": "1.0",
-    "description": "",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "Ayaka-Main",
-        "links": "https://github.com/Patrick-Ze"
+        "links": "https://github.com/Patrick-Ze",
+        "name": "Ayaka-Main"
       }
-    ]
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784354125376,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "[须弥] 证悟木x18 + 业果木x6",
+    "tags": [
+      "王树瑞佑",
+      "伐木"
+    ],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 3135.69,
-      "y": -1079.64,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 3135.69,
+      "y": -1079.64
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3149.05,
-      "y": -1088.24,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -1088.24
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 3149.9,
-      "y": -1104.67,
-      "type": "path",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "y": -1104.67
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 3164.4,
-      "y": -1127.83,
-      "type": "path",
       "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 3164.4,
+      "y": -1127.83
     },
     {
+      "action": "use_gadget",
+      "action_params": "",
       "id": 5,
-      "x": 3158.82,
-      "y": -1138.74,
-      "type": "target",
       "move_mode": "walk",
+      "type": "target",
+      "x": 3158.127,
+      "y": -1131.9453
+    },
+    {
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3180.6592,
+      "y": -1138.9062
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3193.8467,
+      "y": -1152.4092
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3231.8955,
+      "y": -1158.8154
     }
   ]
 }
