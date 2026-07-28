@@ -149,7 +149,7 @@
         }
         await sleep(1500);
 
-
+        capture = captureGameRegion();
         if (capture.Find(finish_pic).isExist()) { // 已领取
             capture.dispose();
             log.info(`当日绮衣珍赏奖励状态：已领取`);
