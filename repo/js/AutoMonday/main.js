@@ -77,6 +77,10 @@
     const tasks = [
         { condition: ifZBY, func: autoZhibian, name: "质变仪" },
         { condition: ifAkf, func: autoAkf, name: "爱可菲" },
+        { condition: ifCooking, func: Cooking, name: "做菜", cdRouteName: "每周做菜", skipWhenBattlePassFull: skipCookingWhenBattlePassFull },
+        { condition: ifduanZao, func: duanZao, name: "锻造", cdRouteName: "每周锻造", skipWhenBattlePassFull: skipForgingWhenBattlePassFull },
+        { condition: ifShouling, func: hitBoss, name: "首领", cdRouteName: "每周首领", skipWhenBattlePassFull: skipBossWhenBattlePassFull },
+        { condition: ifMijing, func: AutoDomain, name: "秘境", cdRouteName: "每周秘境", skipWhenBattlePassFull: skipDomainWhenBattlePassFull },
         { condition: ifCooking, func: Cooking, name: "做菜", skipWhenBattlePassFull: skipCookingWhenBattlePassFull },
         { condition: ifduanZao, func: duanZao, name: "锻造", skipWhenBattlePassFull: skipForgingWhenBattlePassFull },
         { condition: ifShouling, func: hitBoss, name: "首领", skipWhenBattlePassFull: skipBossWhenBattlePassFull },
@@ -468,6 +472,10 @@
         const intervalTime = 3000;
 
         if (akfChargingMethod == "电气水晶充能") {
+            const pathCompleted = await AutoPath("全自动爱可菲");
+            if (!pathCompleted) {
+                throw new Error("爱可菲未能到达电气水晶");
+            }
             await AutoPath("全自动爱可菲");
         } else if (akfChargingMethod == "法器角色充能") {
             const ifakfIn = await includes("爱可菲");
@@ -637,8 +645,10 @@
         try {
             let filePath = `assets/${locationName}.json`;
             await pathingScript.runFile(filePath);
+            return true;
         } catch (error) {
-            log.error(`执行 ${locationName} 路径时发生错误`);
+            log.error(`执行 ${locationName} 路径时发生错误: ${error.message}`);
+            return false;
         }
     }
 
@@ -720,6 +730,21 @@
                         const [name, timestamp] = line.split('::');
                         records[name] = timestamp;
                     }
+                }
+
+                // 迁移旧版本共用的“质变仪&爱可菲”CD记录。
+                // 已存在的新记录优先，避免迁移时覆盖较新的独立CD。
+                const legacyRouteName = "质变仪&爱可菲";
+                if (records[legacyRouteName]) {
+                    if (!records["质变仪"]) {
+                        records["质变仪"] = records[legacyRouteName];
+                    }
+                    if (!records["爱可菲"]) {
+                        records["爱可菲"] = records[legacyRouteName];
+                    }
+                    delete records[legacyRouteName];
+                    await writeCDRecords(records);
+                    log.info("已迁移并移除旧版质变仪&爱可菲CD记录");
                 }
             } catch (e) {
                 log.error(`读取CD记录失败: ${e}`);
@@ -913,6 +938,32 @@
             updatedRecords[routeName] = sevenDaysLater.toISOString();
             await writeCDRecords(updatedRecords);
             log.info("本周质变仪任务已完成！");
+        } catch (error) {
+            if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
+            log.error("执行质变仪任务过程中出现错误: {error}", error.message);
+        }
+    }
+
+    // 爱可菲
+    async function autoAkf() {
+        try {
+            const cdRecords = await readCDRecords();
+            let updatedRecords = { ...cdRecords };
+            const routeName = "爱可菲";
+
+            if (!isRouteAvailable(routeName, cdRecords)) {
+                log.info(routeName + "CD未刷新，跳过本次执行");
+                return;
+            }
+
+            await switchPartyIfNeeded(akfTeam);
+            const completed = await runAkfMachine();
+            if (!completed) { return; }
+
+            const now = new Date();
+            updatedRecords[routeName] = new Date(now.getTime() + ((6 * 24 + 22) * 3600000)).toISOString();
+            await writeCDRecords(updatedRecords);
+            log.info("本周爱可菲任务已完成！");
         } catch (error) {
             if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
             log.error("执行质变仪任务过程中出现错误: {error}", error.message);
@@ -1478,6 +1529,9 @@
             if (task.condition) {
                 if (battlePassFull && task.skipWhenBattlePassFull) {
                     log.info("本期纪行已满，按配置跳过任务：{name}", task.name);
+                    const cdRecords = await readCDRecords();
+                    cdRecords[task.cdRouteName] = getNextMonday4AMISO();
+                    await writeCDRecords(cdRecords);
                     continue;
                 }
                 log.info("开始执行任务：{name}", task.name);
