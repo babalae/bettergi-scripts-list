@@ -287,7 +287,7 @@
                     if (state_result === "false") {
                         enter_flag = await enter_stage();
                     } else if (state_result === "error") {
-                        break;
+                        return null;
                     } else if (extra_count) {
                         log.info(`额外刷取剩余 ${extra_count} 次...`)
                         enter_flag = await enter_stage();
@@ -321,15 +321,15 @@
                     await genshin.returnMainUi();
                     break;
                 case "奇域：配队界面":
-                    let c1Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/c1.png"), 134, 93, 46, 51);
-                    let filterRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/filterIcon.png"), 20, 16, 70, 70);
+                    const c1Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/c1.png"), 134, 93, 46, 51);
+                    const filterRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/filterIcon.png"), 20, 16, 70, 70);
                     click(1695, 1021);
                     await sleep(3000);
                     let capture = captureGameRegion();
                     if (capture.Find(filterRo).isExist()) {
                         capture.dispose();
                         await sleep(500);
-                        while (true) {
+                        for (let i = 0; i < 10; i++) {
                             await sleep(500);
                             capture = captureGameRegion();
                             if (capture.Find(filterRo).isExist() && capture.Find(c1Ro).isExist()) {
@@ -385,6 +385,9 @@
                     await sleep(3000);
                     if (state_result !== "true") {
                         state_result = await check_state();
+                        if (state_result === "error") {
+                            return null;
+                        }
                     }
                     break;
             }

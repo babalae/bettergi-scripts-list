@@ -1613,7 +1613,7 @@
                             htmlMask.send(winId, "/frame/minimize", "minimize");
                             htmlMask.setClickThrough(winId, true);
                             settings_msg = parsed.data;
-                            await play();
+                            await play(winId);
                             htmlMask.send(winId, "/frame/restore", "restore");
                             htmlMask.setClickThrough(winId, false);
                             break;
@@ -1633,7 +1633,7 @@
 
             htmlMask.close(winId);
         } else {
-            await play();
+            await play(winId);
         }
 
     }
