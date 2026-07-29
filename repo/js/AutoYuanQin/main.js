@@ -1633,7 +1633,7 @@
 
             htmlMask.close(winId);
         } else {
-            await play(winId);
+            await play();
         }
 
     }
