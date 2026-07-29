@@ -62,10 +62,10 @@
         const result_page = result_page_ocr && result_page_ocr.text.includes("返回大厅");
         let current_ui = "未知界面";
 
-        if (mainUI) { // 主界面
-            current_ui = "主界面"
-        } else if (page_close) { // 奇域界面
-            current_ui = "奇域界面";
+        if (page_close) { // 奇域界面
+            current_ui = "奇域界面"
+        } else if (mainUI) { // 主界面
+            current_ui = "主界面";
         } else if (search_page) { // 奇域搜索界面
             current_ui = "奇域搜索界面";
         } else if (base_close) { // 奇域浏览界面
@@ -137,15 +137,20 @@
         capture = captureGameRegion();
         await sleep(500);
         const targetIcon = capture.Find(target_pic);
+        capture.dispose();
         // 检查任务完成情况
         if (targetIcon.isExist()) {
             targetIcon.Click();
         } else {
-            click(1051, 48);
+            log.error(`未找到 绮衣珍赏 活动`);
+            if (settings.notification_1) {
+                notification.send("未找到 绮衣珍赏 活动");
+            }
+            return "error";
         }
         await sleep(1500);
 
-
+        capture = captureGameRegion();
         if (capture.Find(finish_pic).isExist()) { // 已领取
             capture.dispose();
             log.info(`当日绮衣珍赏奖励状态：已领取`);
@@ -173,14 +178,26 @@
             return "true";
         } else {
             capture.dispose();
-            log.error(`当日绮衣珍赏奖励状态：未识别`);
-            return "error";
+            const ocrResult = await Ocr(954, 334, 147, 33);
+            if (ocrResult && ocrResult.text.includes("已完成所有任务")) {
+                log.info(`当日绮衣珍赏奖励状态：已领取`);
+                if (settings.notification_1) {
+                    notification.send("当日绮衣珍赏奖励状态：已领取");
+                }
+                return "true";
+            } else {
+                log.error(`当日绮衣珍赏奖励状态：未识别`);
+                if (settings.notification_1) {
+                    notification.send("当日绮衣珍赏奖励状态：未识别");
+                }
+                return "error";
+            }
         }
     }
 
     /**
      * 查找并奇域
-     * @returns {Promise<void>}
+     * @returns {Promise<boolean>} false 从千星进入 true 从提瓦特进入（奇域界面需要再次点击进入）
      */
     async function enter_stage() {
         // 回到主界面
@@ -210,10 +227,26 @@
         click(413, 396);
         await sleep(2000);
         // 进入奇域
+        const ocrResult = await Ocr(1110, 889, 637, 91, true);
+        if (ocrResult) {
+            for (let i = 0; i < ocrResult.length; i++) {
+                if (ocrResult[i].text.includes("开始游戏") || ocrResult[i].text.includes("单人挑战")) {
+                    ocrResult[i].Click();
+                    await sleep(5000);
+                    return false;
+                } else if (ocrResult[i].text.includes("前往大厅")) {
+                    ocrResult[i].Click();
+                    await sleep(5000);
+                    return true;
+                }
+            }
+        }
+
         click(1233, 935);
         await sleep(500);
         click(1590, 934);
         await sleep(5000);
+        return false;
     }
 
     async function main() {
@@ -233,7 +266,12 @@
             log.info("已完成...");
             await check_world(true);
             return null;
+        } else if (state_result === "error") {
+            await check_world(true);
+            return null;
         }
+
+        let enter_flag = false;
 
         while (true) {
 
@@ -247,17 +285,33 @@
                     break;
                 case "主界面":
                     if (state_result === "false") {
-                        await enter_stage();
+                        enter_flag = await enter_stage();
                     } else if (state_result === "error") {
-                        break;
+                        return null;
                     } else if (extra_count) {
                         log.info(`额外刷取剩余 ${extra_count} 次...`)
-                        await enter_stage();
+                        enter_flag = await enter_stage();
                     } else if (!extra_count) {
                         break;
                     }
                     break;
                 case "奇域界面":
+                    if (enter_flag) {
+                        click(1233, 935);
+                        await sleep(500);
+                        click(1590, 934);
+                        await sleep(5000);
+                        enter_flag = false;
+                        break;
+                    }
+                    if (extra_count) {
+                        log.info(`额外刷取剩余 ${extra_count} 次...`)
+                        click(1233, 935);
+                        await sleep(500);
+                        click(1590, 934);
+                        await sleep(5000);
+                        break;
+                    }
                     await genshin.returnMainUi();
                     break;
                 case "奇域搜索界面":
@@ -267,8 +321,35 @@
                     await genshin.returnMainUi();
                     break;
                 case "奇域：配队界面":
+                    const c1Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/c1.png"), 134, 93, 46, 51);
+                    const filterRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/filterIcon.png"), 20, 16, 70, 70);
                     click(1695, 1021);
-                    await sleep(5000);
+                    await sleep(3000);
+                    let capture = captureGameRegion();
+                    if (capture.Find(filterRo).isExist()) {
+                        capture.dispose();
+                        await sleep(500);
+                        for (let i = 0; i < 10; i++) {
+                            await sleep(500);
+                            capture = captureGameRegion();
+                            if (capture.Find(filterRo).isExist() && capture.Find(c1Ro).isExist()) {
+                                capture.dispose();
+                                break;
+                            } else {
+                                click(99, 183);
+                            }
+                            capture.dispose();
+                        }
+                        let ocrResult = await Ocr(352, 997, 146, 46);
+                        if (ocrResult && ocrResult.text.includes("保存配置")) {
+                            ocrResult.Click();
+                        }
+                        await sleep(500);
+                        click(1695, 1021);
+                        await sleep(500);
+                        click(1695, 1021);
+                        await sleep(5000);
+                    }
                     break;
                 case "奇域：游玩界面":
                     log.info("开始等待...")
@@ -296,13 +377,22 @@
                     }
                     break;
                 case "结算界面":
-                    extra_count--;
-                    click(1378, 1018);
+                    if (state_result === "true") {
+                        extra_count--;
+                    }
+                    // click(1378, 1018);  // 返回大厅
+                    click(1729, 1025);  // 返回奇域界面
                     await sleep(3000);
+                    if (state_result !== "true") {
+                        state_result = await check_state();
+                        if (state_result === "error") {
+                            return null;
+                        }
+                    }
                     break;
             }
 
-            if (state_result === "true" && !extra_count) {
+            if (state_result === "true" && extra_count <= 0) {
                 break;
             }
 
