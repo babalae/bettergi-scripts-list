@@ -6,12 +6,14 @@ import {
 } from './config/config';
 import {outDomainUI} from './utils/tool';
 import {BgiTools} from './utils/bgi_tools';
-import { Physical} from "./utils/physical";
+import {Physical} from "./utils/physical";
 import {
     autoRunList,
     initRunOrderList,
     checkAndFilterStygianOnslaught
 } from './utils/load_check_run'
+import {Record} from "../ActivitySwitchNotice/utils/tool";
+import {checkHolyRelicsKey} from "./utils/HolyRelics";
 
 /**
  * 初始化函数
@@ -28,15 +30,59 @@ async function init() {
         log.info(`开始推送bgi_tools配置`)
 
         if (config.bgi_tools.api.httpPushAllJsonConfig?.trim())
-        await BgiTools.pushAllDomainConfig(JSON.parse(file.readTextSync(config.path.domain)), config.bgi_tools.api.httpPushAllJsonConfig, config.bgi_tools.token)
+            await BgiTools.pushAllDomainConfig(JSON.parse(file.readTextSync(config.path.domain)), config.bgi_tools.api.httpPushAllJsonConfig, config.bgi_tools.token)
         if (config.bgi_tools.api.httpPushAllCountryConfig?.trim())
-        await BgiTools.pushAllCountryConfig(JSON.parse(file.readTextSync(config.path.countryList)), config.bgi_tools.api.httpPushAllCountryConfig, config.bgi_tools.token)
+            await BgiTools.pushAllCountryConfig(JSON.parse(file.readTextSync(config.path.countryList)), config.bgi_tools.api.httpPushAllCountryConfig, config.bgi_tools.token)
         if (config.bgi_tools.api.httpPushAllBossConfig?.trim())
-        await BgiTools.pushAllBossConfig(JSON.parse(file.readTextSync(config.path.bossList)), config.bgi_tools.api.httpPushAllBossConfig, config.bgi_tools.token)
+            await BgiTools.pushAllBossConfig(JSON.parse(file.readTextSync(config.path.bossList)), config.bgi_tools.api.httpPushAllBossConfig, config.bgi_tools.token)
     }
 }
 
-
+/**
+ * 检查并过滤掉不需要的任务
+ * @param list
+ * @returns {Promise<Array>}
+ */
+async function checkFilterMain(list = []) {
+    const auto_check = Array.from(settings.auto_check)
+    const runTypes = config.user.runTypes
+    
+    // 通用过滤函数
+    const filterList = (items, excludeDomains = []) => items.filter(item =>
+        (item.runType === runTypes[0] && parseInt(item?.autoFight.domainRoundNum || "0") > 0 && !excludeDomains.includes(item.domainName))
+        || (item.runType === runTypes[1] && parseInt(item?.autoLeyLineOutcrop.count || "0") > 0)
+        || (item.runType === runTypes[2]) || (item.runType === runTypes[3])
+    )
+    
+    let checkList = filterList(list)
+    
+    // 1.秘境圣遗物过滤(检查圣遗物背包中剩余空间是否达到阈值)
+    if (auto_check.includes("圣遗物空间检查")) {
+        const domainList = (Record.read(config.path.domain) || [])
+            .filter(item => !item.hasOrder)
+            .map(item => item.name)
+        
+        const hasHolyRelicDomain = checkList.some(item =>
+            item.runType === runTypes[0] && item.domainName && domainList.includes(item.domainName)
+        )
+        
+        if (hasHolyRelicDomain) {
+            const threshold = parseInt((settings.holy_relic_threshold || '').replace(/[^\d]/g, '') || '100')
+            await toMainUi()
+            if (await checkHolyRelicsKey(threshold)) {
+                checkList = filterList(list, domainList)
+            }
+            await toMainUi()
+        }
+    }
+    
+    // 2.幽境过滤
+    if (auto_check.includes("幽境检查")) {
+        checkList = await checkAndFilterStygianOnslaught(checkList)
+    }
+    
+    return checkList
+}
 
 /**
  * 主函数，用于执行秘境自动刷取任务
@@ -49,15 +95,7 @@ async function main() {
     let runConfig = config.run.config;
     //"队伍名称|秘境名称/刷取物品名称|刷几轮|限时/周日|周几执行(0-6)不填默认执行|执行顺序,..."
     const autoRunOrderList = await initRunOrderList(runConfig);
-    let list = autoRunOrderList.filter(item =>
-        (item.runType === config.user.runTypes[0] && parseInt(item?.autoFight.domainRoundNum || "0") > 0)
-        || (item.runType === config.user.runTypes[1] && parseInt(item?.autoLeyLineOutcrop.count || "0") > 0) 
-        || (item.runType === config.user.runTypes[2]) || (item.runType === config.user.runTypes[3])
-    )
-    // log.info("|test1==>list:{1}", JSON.stringify(list))
-    list = await checkAndFilterStygianOnslaught(list)
-    // log.info("|test2==>list:{1}", JSON.stringify(list))
-    // log.info("|test3==>list?.length:{1}", list?.length)
+    let list = await checkFilterMain(autoRunOrderList)
     if (list?.length > 0) {
         //循环跑
         while (true) {
@@ -111,7 +149,7 @@ async function test1() {
     // log.info("list:{1}",list)
     log.info("httpPullJsonConfig:{1}", config.bgi_tools.api.httpPullJsonConfig)
     log.info("|test==>config.bgi_tools:{1}", JSON.stringify(config.bgi_tools))
-    const list = await BgiTools.pullJsonConfig( config.bgi_tools.api.httpPullJsonConfig,config.user.uid+'')
+    const list = await BgiTools.pullJsonConfig(config.bgi_tools.api.httpPullJsonConfig, config.user.uid + '')
     log.info("list:{1}", JSON.stringify(list))
 }
 
