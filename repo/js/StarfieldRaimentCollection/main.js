@@ -137,6 +137,7 @@
         capture = captureGameRegion();
         await sleep(500);
         const targetIcon = capture.Find(target_pic);
+        capture.dispose();
         // 检查任务完成情况
         if (targetIcon.isExist()) {
             targetIcon.Click();
