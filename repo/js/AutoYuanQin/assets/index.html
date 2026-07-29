@@ -787,9 +787,9 @@
         // 6. musicQueue: 根据播放模式构建
         const isSingleMode = (result.playType === 0 || result.playType === 1); // 单曲模式
         if (isSingleMode) {
-            // 单曲模式：使用当前选中的乐曲
-            if (selectedMusic) {
-                result.musicQueue = [selectedMusic.id + '.' + selectedMusic.name];
+            const selector = settings.music_selector || '';
+            if (selector) {
+                result.musicQueue = [selector];
             } else {
                 result.musicQueue = [];
             }
@@ -833,6 +833,24 @@
         window.htmlMask.onMessage = function(msg) {
             const url = msg.url;
             const data = msg.data;
+
+            if (url === '/frame/minimize') {
+                try {
+                    minimizePanel();
+                } catch (e) {
+                    console.error('[onMessage] /frame/minimize 解析失败:', e);
+                    return JSON.stringify({ status: 'error', message: e.message });
+                }
+            }
+
+            if (url === '/frame/restore') {
+                try {
+                    restorePanel();
+                } catch (e) {
+                    console.error('[onMessage] /frame/restore 解析失败:', e);
+                    return JSON.stringify({ status: 'error', message: e.message });
+                }
+            }
 
             if (url === '/config/update') {
                 try {
