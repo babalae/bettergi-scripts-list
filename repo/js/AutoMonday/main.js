@@ -81,10 +81,6 @@
         { condition: ifduanZao, func: duanZao, name: "锻造", cdRouteName: "每周锻造", skipWhenBattlePassFull: skipForgingWhenBattlePassFull },
         { condition: ifShouling, func: hitBoss, name: "首领", cdRouteName: "每周首领", skipWhenBattlePassFull: skipBossWhenBattlePassFull },
         { condition: ifMijing, func: AutoDomain, name: "秘境", cdRouteName: "每周秘境", skipWhenBattlePassFull: skipDomainWhenBattlePassFull },
-        { condition: ifCooking, func: Cooking, name: "做菜", skipWhenBattlePassFull: skipCookingWhenBattlePassFull },
-        { condition: ifduanZao, func: duanZao, name: "锻造", skipWhenBattlePassFull: skipForgingWhenBattlePassFull },
-        { condition: ifShouling, func: hitBoss, name: "首领", skipWhenBattlePassFull: skipBossWhenBattlePassFull },
-        { condition: ifMijing, func: AutoDomain, name: "秘境", skipWhenBattlePassFull: skipDomainWhenBattlePassFull },
         { condition: ifbuyNet, func: buyNet, name: "购买四方八方之网" },
         { condition: ifbuyTzq, func: buyTzq, name: "购买投资券" },
         { condition: ifChange, func: getPinkandBlue, name: "粉球篮球兑换" }
@@ -938,32 +934,6 @@
             updatedRecords[routeName] = sevenDaysLater.toISOString();
             await writeCDRecords(updatedRecords);
             log.info("本周质变仪任务已完成！");
-        } catch (error) {
-            if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
-            log.error("执行质变仪任务过程中出现错误: {error}", error.message);
-        }
-    }
-
-    // 爱可菲
-    async function autoAkf() {
-        try {
-            const cdRecords = await readCDRecords();
-            let updatedRecords = { ...cdRecords };
-            const routeName = "爱可菲";
-
-            if (!isRouteAvailable(routeName, cdRecords)) {
-                log.info(routeName + "CD未刷新，跳过本次执行");
-                return;
-            }
-
-            await switchPartyIfNeeded(akfTeam);
-            const completed = await runAkfMachine();
-            if (!completed) { return; }
-
-            const now = new Date();
-            updatedRecords[routeName] = new Date(now.getTime() + ((6 * 24 + 22) * 3600000)).toISOString();
-            await writeCDRecords(updatedRecords);
-            log.info("本周爱可菲任务已完成！");
         } catch (error) {
             if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
             log.error("执行质变仪任务过程中出现错误: {error}", error.message);
