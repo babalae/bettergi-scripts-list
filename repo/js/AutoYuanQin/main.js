@@ -33,8 +33,13 @@
 
         switch (type) {
             case 'keyboard': {
-                // 使用 keySheetSerialization 解析获得 bar_list
-                const bar_list = keySheetSerialization(music_info.notes);
+                // 如果 notes 已经是解析好的数组（由 getMusicInfo 预处理），直接使用；否则进行序列化
+                let bar_list;
+                if (Array.isArray(music_info.notes)) {
+                    bar_list = music_info.notes;
+                } else {
+                    bar_list = keySheetSerialization(music_info.notes);
+                }
                 const gap = 60000 / music_info.bpm; // 每拍毫秒数
                 let totalBeats = 0;
                 for (const bar of bar_list) {
@@ -76,33 +81,23 @@
             }
 
             case 'yuanqin': {
-                // yuanqin 格式：music_info.notes 是 parseMusicSheet 返回的数组
                 const sheet = music_info.notes;
                 const bpm = music_info.bpm || 120;
-                const symbol = parseInt(music_info.time_signature.split('/')[1], 10); // 以几分音符为一拍
-                let symbolTime = 60000 / bpm; // 每拍毫秒数
+                const symbol = parseInt(music_info.time_signature.split('/')[1], 10);
+                let symbolTime = 60000 / bpm;
                 let currentBpm = bpm;
 
-                // 辅助函数：计算单个音符的理论持续时间（不含随机偏移）
                 function calcNoteTime(noteObj, count, symbolTimeLocal, symbolLocal) {
-                    // 对于普通音符、休止符、和弦，使用 cal_time_ornament 类似逻辑
-                    // 但 cal_time_ornament 依赖 sheet 和 count 来检测装饰音，这里直接实现简化版
                     const type = parseInt(noteObj.type, 10);
                     if (isNaN(type) || type <= 0) return 0;
-
                     let baseDuration = Math.round(symbolTimeLocal * (symbolLocal / type));
-
-                    // 为简洁，这里采用遍历后续音符检测装饰音的方式。
                     let ornamentCount = 0;
                     let idx = count + 1;
                     while (idx < sheet.length) {
-                        const next = sheet[idx];
-                        if (next.spl === '#') {
+                        if (sheet[idx].spl === '#') {
                             ornamentCount++;
                             idx++;
-                        } else {
-                            break;
-                        }
+                        } else break;
                     }
                     const ornamentTime = Math.round(symbolTimeLocal / 16);
                     if (ornamentCount > 0 && ornamentTime * ornamentCount < baseDuration) {
@@ -115,7 +110,7 @@
                 while (i < sheet.length) {
                     const note = sheet[i];
                     const spl = note.spl;
-                    // 处理变速标记
+
                     if (spl === '%') {
                         const newBpm = Number(note.type);
                         if (!isNaN(newBpm) && newBpm > 0) {
@@ -126,54 +121,40 @@
                         continue;
                     }
 
-                    // 处理普通音符、休止符、和弦（spl === 'none' 或 '#', '*', '^', '&'）
                     if (spl === 'none' || spl === '#' || spl === '*') {
-                        // 计算理论持续时间
                         let duration = 0;
                         if (spl === '#') {
-                            duration = Math.round(symbolTime / 16); // 装饰音固定为 1/16 拍
+                            duration = Math.round(symbolTime / 16);
                         } else if (spl === '*') {
-                            // 附点音符，时长 ×1.5
                             const base = calcNoteTime(note, i, symbolTime, symbol);
                             duration = Math.round(base * 1.5);
                         } else {
-                            // 普通音符或休止符
                             const type = parseInt(note.type, 10);
                             if (!isNaN(type) && type > 0) {
                                 duration = calcNoteTime(note, i, symbolTime, symbol);
-                            } else {
-                                duration = 0; // 未知类型
                             }
                         }
                         totalMs += duration;
                         i++;
-                    }
-                    // 处理连音（spl 包含 '.3' 或 '.$' 等）
-                    else if (/\.([36$])/.test(spl)) {
-                        // 收集连音组
+                    } else if (/\.([36$])/.test(spl)) {
                         let legatoGroup = [];
-                        let startIdx = i;
                         while (i < sheet.length && /\.([36$])/.test(sheet[i].spl)) {
                             legatoGroup.push(sheet[i]);
-                            if (sheet[i].spl.includes('$')) break;
+                            if (sheet[i].spl.includes('$')) {
+                                i++;    // ✅ 修复死循环
+                                break;
+                            }
                             i++;
                         }
-                        // 此时 i 指向连音组最后一个音符的下一个
-                        // 计算整个连音的总时长
                         const firstNote = legatoGroup[0];
                         const type = parseInt(firstNote.type, 10);
                         if (!isNaN(type) && type > 0) {
                             let totalLegatoTime = Math.round(symbolTime * (symbol / type));
-                            // 简化：直接累加 totalLegatoTime，因为连音组内所有音符的总时长就是 totalLegatoTime。
                             totalMs += totalLegatoTime;
                         }
-                    }
-                    else if (spl === '^' || spl === '&') {
-                        // 无等待，跳过
+                    } else if (spl === '^' || spl === '&') {
                         i++;
-                    }
-                    else {
-                        // 其他未知 spl，跳过
+                    } else {
                         i++;
                     }
                 }
@@ -184,7 +165,6 @@
                 log.warn(`calculateMusicDuration: 未知的曲谱类型 ${type}`);
                 return 0;
         }
-
         return Math.round(totalMs);
     }
 
@@ -366,7 +346,10 @@
         let ms_index = settingsJson.findIndex(item => item.name === 'music_selector');
         let sheetDic = {};
         for (const name of settingsJson[ms_index].options) {
-            sheetDic[name] = (JSON.parse(file.readTextSync(`assets\\score_file\\${name}.json`)).instrument).split(",")
+            sheetDic[name] = {
+                "instruments": (JSON.parse(file.readTextSync(`assets\\score_file\\${name}.json`)).instrument).split(","),
+                "duration": calculateMusicDuration(getMusicInfo(name))
+            }
         }
         settingsJson[ms_index].options = sheetDic;
         return settingsJson;

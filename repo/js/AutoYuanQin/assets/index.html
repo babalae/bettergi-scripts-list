@@ -66,6 +66,7 @@
         .float-ball:hover { transform: scale(1.08); }
         .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: rgba(20, 20, 28, 0.92); backdrop-filter: blur(8px); padding: 10px 24px; border-radius: 30px; font-size: 13px; color: #d0d0dc; border: 1px solid rgba(255, 255, 255, 0.06); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; white-space: nowrap; z-index: 999; }
         .toast.show { opacity: 1; }
+        .item-duration {font-size: 11px;color: rgba(255, 255, 255, 0.35);margin-left: 6px;font-variant-numeric: tabular-nums;}
         @media (max-width: 500px) { .panel { padding: 16px 14px; border-radius: 16px; } .header h1 { font-size: 17px; } .actions button { min-width: 60px; font-size: 13px; padding: 8px 10px; } .switch { width: 38px; height: 22px; } .switch .slider::before { height: 16px; width: 16px; left: 3px; bottom: 3px; } .switch input:checked+.slider::before { transform: translateX(16px); } .music-list { max-height: 120px; } .filter-tag { font-size: 11px; padding: 2px 10px; } .float-ball { width: 48px; height: 48px; font-size: 22px; bottom: 20px; right: 20px; } }
     </style>
 </head>
@@ -190,6 +191,18 @@
     //  ★★ 工具函数 ★★
     // ================================================================
 
+    function formatDuration(ms) {
+        if (!ms || ms < 0) return '';
+        const totalSec = Math.floor(ms / 1000);
+        const hours = Math.floor(totalSec / 3600);
+        const minutes = Math.floor((totalSec % 3600) / 60);
+        const seconds = totalSec % 60;
+        if (hours > 0) {
+            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
     function showToast(msg, duration) {
         duration = duration || 2000;
         toastEl.textContent = msg;
@@ -230,33 +243,48 @@
 
         if (Array.isArray(opts)) {
             allMusicItems = opts.map(opt => {
-                // [NEW] 格式为 "曲名 - 8位hash"，用 " - " 分割
-                const id = opt;
-                let name = id;
-                const dashIndex = id.lastIndexOf(' - ');
-                if (dashIndex > 0) {
-                    name = id.substring(0, dashIndex);
+                let id, name, instruments = [], duration = null;
+                if (typeof opt === 'string') {
+                    id = opt;
+                    name = id;
+                    const dashIndex = id.lastIndexOf(' - ');
+                    if (dashIndex > 0) name = id.substring(0, dashIndex);
+                } else if (typeof opt === 'object' && opt !== null) {
+                    id = opt.id || opt.name || String(opt);
+                    name = opt.name || id;
+                    if (opt.instruments) {
+                        instruments = Array.isArray(opt.instruments) ? opt.instruments : [opt.instruments];
+                    }
+                    if (typeof opt.duration === 'number') duration = opt.duration;
                 }
-                return { id, name, instruments: [] };
+                return { id, name, instruments, duration };
             });
         } else if (typeof opts === 'object' && opts !== null) {
             allMusicItems = Object.keys(opts).map(key => {
                 const id = key;
                 let name = id;
                 const dashIndex = id.lastIndexOf(' - ');
-                if (dashIndex > 0) {
-                    name = id.substring(0, dashIndex);
+                if (dashIndex > 0) name = id.substring(0, dashIndex);
+
+                const val = opts[key];
+                let instruments = [];
+                let duration = null;
+
+                if (Array.isArray(val)) {
+                    instruments = val;
+                } else if (typeof val === 'object' && val !== null) {
+                    // 新格式：{ instruments: [...], duration: 1234 }
+                    if (val.instruments) {
+                        instruments = Array.isArray(val.instruments) ? val.instruments : [val.instruments];
+                    }
+                    if (typeof val.duration === 'number') duration = val.duration;
+                } else if (val) {
+                    instruments = [val];
                 }
-                const instList = opts[key];
-                return {
-                    id,
-                    name,
-                    instruments: Array.isArray(instList) ? instList : (instList ? [instList] : [])
-                };
+                return { id, name, instruments, duration };
             });
         }
 
-        // [NEW] 按曲名字母顺序排序（更友好）
         allMusicItems.sort((a, b) => a.name.localeCompare(b.name));
     }
 
@@ -352,10 +380,12 @@
             const instStr = (item.instruments && item.instruments.length > 0) ?
                 '🎵 ' + item.instruments.slice(0, 3).join(', ') + (item.instruments.length > 3 ? ' …' : '') :
                 '';
+            const durationStr = item.duration ? formatDuration(item.duration) : '';
+            const nameHtml = `${escapeHtml(item.name)}${durationStr ? ` <span class="item-duration">${durationStr}</span>` : ''}`;
             html += `<div class="music-item ${selectedClass}" data-id="${escapeHtml(item.id)}" data-name="${escapeHtml(item.name)}" data-instruments="${escapeHtml(JSON.stringify(item.instruments || []))}">
-                            <span>${escapeHtml(item.name)}</span>
-                            ${instStr ? `<span class="item-instruments">${instStr}</span>` : ''}
-                        </div>`;
+                <span>${nameHtml}</span>
+                ${instStr ? `<span class="item-instruments">${instStr}</span>` : ''}
+            </div>`;
         });
         listContainer.innerHTML = html;
 
