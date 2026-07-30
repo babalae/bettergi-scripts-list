@@ -20,19 +20,21 @@
 
 脚本通过以下界面配置项进行设置（对应 settings.json）：
 
-| 配置项                                     | 类型             | 说明                                                                                                          | 示例值                                      |
-|-----------------------------------------|----------------|-------------------------------------------------------------------------------------------------------------|------------------------------------------|
-| **key**                                 | input-text     | 版本密钥（必填，仔细看本文档）                                                                                             | xxxx                                     |
-| **auto_load**                           | multi-checkbox | 加载模式（可多选）<br>・输入加载：使用下方 run_config 字段<br>・UID加载：读取 config/run_config.json（每个UID独立）<br>・bgi_tools加载：从远程API拉取 | 默认：["输入加载","UID加载"]                      |
-| **run_config**                          | input-text     | 自动秘境计划配置（当选择“输入加载”时生效）<br>格式见下方“计划配置语法”                                                                     | 速刷\|苍白的遗荣\|3\|1-3\|0,6\|9<br>（多条用英文逗号分隔） |
-| **loop_plan**                           | checkbox       | 启用循环体力计划                                                                                                    |                                          |
-| **retry_count**                         | select         | 复活重试次数                                                                                                      |                                          |
-| **bgi_tools_http_pull_json_config**     | input-text     | bgi_tools 拉取配置的 API 地址（当选择 bgi_tools加载 时生效）                                                                 | https://example.com/api/pull             |
-| **bgi_tools_open_push**                 | checkbox       | 是否在脚本结束时推送当前全部配置给 bgi_tools（用于同步/备份）                                                                        | 勾选 = 开启推送                                |
-| **bgi_tools_http_push_all_json_config** | input-text     | bgi_tools 推送秘境常量的 API 地址（当开启推送时使用）                                                                          | https://example.com/api/push-all         |
+| 配置项                                        | 类型             | 说明                                                                                                          | 示例值                                      |
+|--------------------------------------------|----------------|-------------------------------------------------------------------------------------------------------------|------------------------------------------|
+| **key**                                    | input-text     | 版本密钥（必填，仔细看本文档）                                                                                             | xxxx                                     |
+| **auto_load**                              | multi-checkbox | 加载模式（可多选）<br>・输入加载：使用下方 run_config 字段<br>・UID加载：读取 config/run_config.json（每个UID独立）<br>・bgi_tools加载：从远程API拉取 | 默认：["输入加载","UID加载"]                      |
+| **auto_check**                             | multi-checkbox | 检查（可多选）<br>・"幽境检查"=>检查幽境是否开启,"圣遗物空间检查"=>检查圣遗物背包空间                                                           | 默认：["幽境检查","圣遗物空间检查"]                    |
+| **holy_relic_threshold**                   | input-text  | 圣遗物空间检查设置剩余阈值 如:2300/2400剩余阈值100,2409/2400剩余阈值9                                                             |                 |
+| **run_config**                             | input-text     | 自动秘境计划配置（当选择“输入加载”时生效）<br>格式见下方“计划配置语法”                                                                     | 速刷\|苍白的遗荣\|3\|1-3\|0,6\|9<br>（多条用英文逗号分隔） |
+| **loop_plan**                              | checkbox       | 启用循环体力计划                                                                                                    |                                          |
+| **retry_count**                            | select         | 复活重试次数                                                                                                      |                                          |
+| **bgi_tools_http_pull_json_config**        | input-text     | bgi_tools 拉取配置的 API 地址（当选择 bgi_tools加载 时生效）                                                                 | https://example.com/api/pull             |
+| **bgi_tools_open_push**                    | checkbox       | 是否在脚本结束时推送当前全部配置给 bgi_tools（用于同步/备份）                                                                        | 勾选 = 开启推送                                |
+| **bgi_tools_http_push_all_json_config**    | input-text     | bgi_tools 推送秘境常量的 API 地址（当开启推送时使用）                                                                          | https://example.com/api/push-all         |
 | **bgi_tools_http_push_all_country_config** | input-text     | bgi_tools 推送国家常量的 API 地址（当开启推送时使用）                                                                          | https://example.com/api/push-all         |
-| **bgi_tools_http_push_all_boss_config** | input-text     | bgi_tools 推送Boss常量的 API 地址（当开启推送时使用）                                                                        | https://example.com/api/push-all         |
-| **bgi_tools_token**                     | input-text     | bgi_tools授权token 语法:tokenName=tokenValue                                                                    | tokenName=tokenValue                     |
+| **bgi_tools_http_push_all_boss_config**    | input-text     | bgi_tools 推送Boss常量的 API 地址（当开启推送时使用）                                                                        | https://example.com/api/push-all         |
+| **bgi_tools_token**                        | input-text     | bgi_tools授权token 语法:tokenName=tokenValue                                                                    | tokenName=tokenValue                     |
 
 ### 计划配置语法（run_config 字段）
 
