@@ -907,8 +907,11 @@ class Boss extends Base {
         param.reviveRetryCount = Math.max(autoBoss.reviveRetryCount, config.run.retry_count)
         param.returnToStatueAfterEachRound = autoBoss.returnToStatueAfterEachRound
         param.rewardRecognitionEnabled = autoBoss.rewardRecognitionEnabled
-        param.timeout = autoBoss.timeout
-
+        if ('timeout' in param && autoBoss.timeout != null) {
+            param.timeout = autoBoss.timeout
+        }else {
+            log.debug(`旧版本无自定义timeout设置`)
+        }
         await sleep(1000)
         try {
             //自带复活重试配置，不需要再for
@@ -1019,7 +1022,6 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
             break
         case LoadType.bgi_tools:
             // 通过bgi_tools方式加载配置
-            log.info(`开始拉取bgi_tools配置`)
             const uidConfigListBgiTools = await BgiTools.pullJsonConfig(config.bgi_tools.api.httpPullJsonConfig, config.user.uid + '') || []
             if (uidConfigListBgiTools?.length > 0) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
