@@ -1453,23 +1453,34 @@
         }
 
         if (switchFlag) {
-            // 打开背包-小道具
-            keyPress("B");
+            // 确保在主界面
+            await genshin.returnMainUi();
+            // 检查当前世界是提瓦特还是千星奇域
+            await sleep(500);
+            keyPress("Escape");
             await sleep(1000);
-            click(1054, 48);
-            await sleep(1000);
-            // 查找乐器
-            let insRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/instruments/${instrument}.png`), 97, 75, 1191, 891);
-            for (let i = 0; i < 5; i++) {
+            let ocrResult_btn = await Ocr(1663, 997, 168, 47);
+            await genshin.returnMainUi();
+            if (ocrResult_btn && ocrResult_btn.text.includes("提瓦特")) { // 千星奇域
+                // 进入乐器选择界面
+                keyDown("Z");
+                await sleep(1500);
+                keyUp("Z");
+                await sleep(1000);
+                // 查找乐器
+                let insRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/instruments/${instrument}.png`), 97, 75, 1191, 891);
+                insRo.threshold = 0.8;
                 gameRegion = captureGameRegion();
                 result = gameRegion.Find(insRo);
+                let ocrResult = await Ocr(1333, 122, 441, 48);
+                gameRegion.dispose();
                 if (result.isExist()) {
                     await sleep(500);
                     result.click();
                     await sleep(500);
-                    let ocrText = await Ocr(1656, 993, 92, 47);
-                    if (ocrText && ocrText.text.includes("替换")) {
-                        click(1686, 1016);
+                    let ocrText = await Ocr(1633, 985, 142, 67);
+                    if (ocrText && ocrText.text.includes("装备")) {
+                        click(1692, 1016);
                         await sleep(300);
                     }
                     keyPress("Escape");
@@ -1478,14 +1489,56 @@
                     keyPress("Z");
                     await sleep(2000);
                     return true;
-                } else {
-                    await scroll_page(1283, 113, 11, 837, 133, 931, 1288, "Down");
-                    await sleep(200);
+                } else if (ocrResult && ocrResult.text.includes(instrument)) {
+                    keyPress("Escape");
+                    log.info(`已经装备乐器(${instrument})，将在7s后开始演奏...`);
+                    await sleep(5000);
+                    keyPress("Z");
+                    await sleep(2000);
+                    return true;
+                }else {
+                    log.error(`未找到乐器，请确保千星奇域支持该乐器：(${instrument})...`);
+                    await sleep(10000);
+                    return false;
+
                 }
+            } else { // 提瓦特
+                // 打开背包-小道具
+                keyPress("B");
+                await sleep(1000);
+                click(1054, 48);
+                await sleep(1000);
+                // 查找乐器
+                let insRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/instruments/${instrument}.png`), 97, 75, 1191, 891);
+                for (let i = 0; i < 5; i++) {
+                    gameRegion = captureGameRegion();
+                    result = gameRegion.Find(insRo);
+                    gameRegion.dispose();
+                    if (result.isExist()) {
+                        await sleep(500);
+                        result.click();
+                        await sleep(500);
+                        let ocrText = await Ocr(1656, 993, 92, 47);
+                        if (ocrText && ocrText.text.includes("替换")) {
+                            click(1686, 1016);
+                            await sleep(300);
+                        }
+                        keyPress("Escape");
+                        log.info(`乐器更换完成(${instrument})，将在7s后开始演奏...`);
+                        await sleep(5000);
+                        keyPress("Z");
+                        await sleep(2000);
+                        return true;
+                    } else {
+                        await scroll_page(1283, 113, 11, 837, 133, 931, 1288, "Down");
+                        await sleep(200);
+                    }
+                }
+                log.error(`未找到乐器，请确保已经购买了乐器: ${instrument}`);
+                await sleep(10000);
+                return false;
             }
-            log.error(`未找到乐器，请确保已经购买了乐器: ${instrument}`);
-            await sleep(10000);
-            return false;
+
         } else {
             log.info("将在3s后开始演奏...");
             await sleep(3000);
