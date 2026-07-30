@@ -1,0 +1,220 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.42.3",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785332242092,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "04-莲蓬-璃月-采樵谷-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1657.0645,
+      "y": -283.9355
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1680.0254,
+      "y": -267.5703
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1652.668,
+      "y": -202.791
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.75)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1663.8955,
+      "y": -161.8535
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 1663.3721,
+      "y": -154.9434
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1665.2656,
+      "y": -129.7578
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1673.2256,
+      "y": -107.0918
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1683.8809,
+      "y": -70.0586
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1677.4756,
+      "y": -26.5205
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.75)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1674.2764,
+      "y": 17.6787
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1680.6152,
+      "y": 48.8462
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1663.9121,
+      "y": 81.1367
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.75)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1648.5059,
+      "y": 111.5615
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1640.1152,
+      "y": 104.8237
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1632.6084,
+      "y": 110.1221
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1587.3965,
+      "y": 106.8799
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1578.6787,
+      "y": 80.1953
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1578.1465,
+      "y": 70.1807
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1562.958,
+      "y": 81.1113
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.75)",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1544.542,
+      "y": 69.7344
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1550.2773,
+      "y": 60.2324
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.15)",
+      "id": 22,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 1546.1289,
+      "y": 57.0723
+    }
+  ]
+}
