@@ -4,7 +4,7 @@ import {
     initConfig,
     initSettings,
 } from './config/config';
-import {outDomainUI} from './utils/tool';
+import {outDomainUI,toMainUi} from './utils/tool';
 import {BgiTools} from './utils/bgi_tools';
 import {Physical} from "./utils/physical";
 import {
@@ -49,28 +49,31 @@ async function checkFilterMain(list = []) {
     
     // 通用过滤函数
     const filterList = (items, excludeDomains = []) => items.filter(item =>
-        (item.runType === runTypes[0] && parseInt(item?.autoFight.domainRoundNum || "0") > 0 && !excludeDomains.includes(item.domainName))
+        (item.runType === runTypes[0] && parseInt(item?.autoFight.domainRoundNum || "0") > 0 && !excludeDomains.includes(item?.autoFight.domainName))
         || (item.runType === runTypes[1] && parseInt(item?.autoLeyLineOutcrop.count || "0") > 0)
         || (item.runType === runTypes[2]) || (item.runType === runTypes[3])
     )
     
     let checkList = filterList(list)
-    
+    log.debug("auto_check:{1}", JSON.stringify(auto_check))
     // 1.秘境圣遗物过滤(检查圣遗物背包中剩余空间是否达到阈值)
     if (auto_check.includes("圣遗物空间检查")) {
+        log.info(`开始检查圣遗物背包剩余空间`)
         const domainList = (Record.read(config.path.domain) || [])
             .filter(item => !item.hasOrder)
             .map(item => item.name)
-        
+        // log.debug("domainList:{1}", JSON.stringify(domainList))
         const hasHolyRelicDomain = checkList.some(item =>
-            item.runType === runTypes[0] && item.domainName && domainList.includes(item.domainName)
+            item.runType === runTypes[0] && item.autoFight.domainName && domainList.includes(item.autoFight.domainName)
         )
-        
+        log.debug("hasHolyRelicDomain:{1}", hasHolyRelicDomain)
         if (hasHolyRelicDomain) {
             const threshold = parseInt((settings.holy_relic_threshold || '').replace(/[^\d]/g, '') || '100')
             await toMainUi()
             if (await checkHolyRelicsKey(threshold)) {
+                log.info(`圣遗物背包剩余空间不足{1}，已过滤掉秘境圣遗物任务`,threshold)
                 checkList = filterList(list, domainList)
+                log.debug("checkList:{1}", JSON.stringify(checkList))
             }
             await toMainUi()
         }
@@ -78,6 +81,7 @@ async function checkFilterMain(list = []) {
     
     // 2.幽境过滤
     if (auto_check.includes("幽境检查")) {
+        log.info(`开始检查幽境`)
         checkList = await checkAndFilterStygianOnslaught(checkList)
     }
     
