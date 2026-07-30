@@ -77,10 +77,10 @@
     const tasks = [
         { condition: ifZBY, func: autoZhibian, name: "质变仪" },
         { condition: ifAkf, func: autoAkf, name: "爱可菲" },
-        { condition: ifCooking, func: Cooking, name: "做菜", skipWhenBattlePassFull: skipCookingWhenBattlePassFull },
-        { condition: ifduanZao, func: duanZao, name: "锻造", skipWhenBattlePassFull: skipForgingWhenBattlePassFull },
-        { condition: ifShouling, func: hitBoss, name: "首领", skipWhenBattlePassFull: skipBossWhenBattlePassFull },
-        { condition: ifMijing, func: AutoDomain, name: "秘境", skipWhenBattlePassFull: skipDomainWhenBattlePassFull },
+        { condition: ifCooking, func: Cooking, name: "做菜", cdRouteName: "每周做菜", skipWhenBattlePassFull: skipCookingWhenBattlePassFull },
+        { condition: ifduanZao, func: duanZao, name: "锻造", cdRouteName: "每周锻造", skipWhenBattlePassFull: skipForgingWhenBattlePassFull },
+        { condition: ifShouling, func: hitBoss, name: "首领", cdRouteName: "每周首领", skipWhenBattlePassFull: skipBossWhenBattlePassFull },
+        { condition: ifMijing, func: AutoDomain, name: "秘境", cdRouteName: "每周秘境", skipWhenBattlePassFull: skipDomainWhenBattlePassFull },
         { condition: ifbuyNet, func: buyNet, name: "购买四方八方之网" },
         { condition: ifbuyTzq, func: buyTzq, name: "购买投资券" },
         { condition: ifChange, func: getPinkandBlue, name: "粉球篮球兑换" }
@@ -468,6 +468,10 @@
         const intervalTime = 3000;
 
         if (akfChargingMethod == "电气水晶充能") {
+            const pathCompleted = await AutoPath("全自动爱可菲");
+            if (!pathCompleted) {
+                throw new Error("爱可菲未能到达电气水晶");
+            }
             await AutoPath("全自动爱可菲");
         } else if (akfChargingMethod == "法器角色充能") {
             const ifakfIn = await includes("爱可菲");
@@ -637,8 +641,10 @@
         try {
             let filePath = `assets/${locationName}.json`;
             await pathingScript.runFile(filePath);
+            return true;
         } catch (error) {
-            log.error(`执行 ${locationName} 路径时发生错误`);
+            log.error(`执行 ${locationName} 路径时发生错误: ${error.message}`);
+            return false;
         }
     }
 
@@ -720,6 +726,21 @@
                         const [name, timestamp] = line.split('::');
                         records[name] = timestamp;
                     }
+                }
+
+                // 迁移旧版本共用的“质变仪&爱可菲”CD记录。
+                // 已存在的新记录优先，避免迁移时覆盖较新的独立CD。
+                const legacyRouteName = "质变仪&爱可菲";
+                if (records[legacyRouteName]) {
+                    if (!records["质变仪"]) {
+                        records["质变仪"] = records[legacyRouteName];
+                    }
+                    if (!records["爱可菲"]) {
+                        records["爱可菲"] = records[legacyRouteName];
+                    }
+                    delete records[legacyRouteName];
+                    await writeCDRecords(records);
+                    log.info("已迁移并移除旧版质变仪&爱可菲CD记录");
                 }
             } catch (e) {
                 log.error(`读取CD记录失败: ${e}`);
@@ -1478,6 +1499,9 @@
             if (task.condition) {
                 if (battlePassFull && task.skipWhenBattlePassFull) {
                     log.info("本期纪行已满，按配置跳过任务：{name}", task.name);
+                    const cdRecords = await readCDRecords();
+                    cdRecords[task.cdRouteName] = getNextMonday4AMISO();
+                    await writeCDRecords(cdRecords);
                     continue;
                 }
                 log.info("开始执行任务：{name}", task.name);
