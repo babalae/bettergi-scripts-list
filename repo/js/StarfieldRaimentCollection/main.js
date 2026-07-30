@@ -323,7 +323,8 @@
                 case "奇域：配队界面":
                     const c1Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/c1.png"), 134, 93, 46, 51);
                     const filterRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/filterIcon.png"), 20, 16, 70, 70);
-                    click(1695, 1021);
+                    // click(1695, 1021);
+                    click(1380, 1021);
                     await sleep(3000);
                     let capture = captureGameRegion();
                     if (capture.Find(filterRo).isExist()) {
