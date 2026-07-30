@@ -2,14 +2,14 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/this-Fish",
+        "links": "",
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784921129490,
+    "last_modified_time": 1785320930460,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "16-树王圣体菇-法莎洞-2个",
@@ -42,7 +42,7 @@
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 3860.0,
+      "x": 3860,
       "y": -307.4996
     },
     {
@@ -184,6 +184,15 @@
       "action": "",
       "action_params": "",
       "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3913.6089,
+      "y": -426.5859
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
       "move_mode": "dash",
       "type": "path",
       "x": 3921.2246,
@@ -192,7 +201,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.1)",
-      "id": 20,
+      "id": 21,
       "move_mode": "walk",
       "type": "path",
       "x": 3926.1309,
@@ -201,7 +210,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.1)",
-      "id": 21,
+      "id": 22,
       "move_mode": "walk",
       "type": "path",
       "x": 3932.6406,
@@ -210,7 +219,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 22,
+      "id": 23,
       "move_mode": "dash",
       "type": "path",
       "x": 3936.877,
@@ -219,7 +228,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.3)",
-      "id": 23,
+      "id": 24,
       "move_mode": "walk",
       "type": "path",
       "x": 3930.1982,
@@ -228,7 +237,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 24,
+      "id": 25,
       "move_mode": "walk",
       "type": "teleport",
       "x": 2483.1211,

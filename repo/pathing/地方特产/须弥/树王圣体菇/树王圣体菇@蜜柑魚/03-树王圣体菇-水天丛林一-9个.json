@@ -2,14 +2,14 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/this-Fish",
+        "links": "",
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784976975936,
+    "last_modified_time": 1785158685947,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "03-树王圣体菇-水天丛林一-9个",
@@ -31,7 +31,6 @@
       "action": "combat_script",
       "action_params": "wait(0.4)",
       "id": 2,
-      "locked": false,
       "move_mode": "dash",
       "type": "orientation",
       "x": 3128.751,
@@ -299,8 +298,8 @@
       "y": -1643.041
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.2),keypress(x),wait(0.2),keypress(x)",
       "id": 32,
       "move_mode": "fly",
       "type": "target",

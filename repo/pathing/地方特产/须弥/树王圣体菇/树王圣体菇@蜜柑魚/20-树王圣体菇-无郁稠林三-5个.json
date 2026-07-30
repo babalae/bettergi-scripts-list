@@ -2,14 +2,14 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/this-Fish",
+        "links": "",
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1785160232914,
+    "last_modified_time": 1785428906437,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "20-树王圣体菇-无郁稠林三-5个",
@@ -49,7 +49,6 @@
       "action": "combat_script",
       "action_params": "w(0.2),wait(0.5),click(middle),wait(0.5),moveby(0,-1200),wait(0.5),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t)",
       "id": 4,
-      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
       "x": 2277.252,
@@ -86,7 +85,6 @@
       "action": "combat_script",
       "action_params": "moveby(0,-1500),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t)",
       "id": 8,
-      "locked": false,
       "move_mode": "fly",
       "type": "orientation",
       "x": 2216.8652,
@@ -132,7 +130,6 @@
       "action": "combat_script",
       "action_params": "w(0.2),wait(0.5),click(middle),wait(0.5),moveby(0,-1200),wait(0.5),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t)",
       "id": 13,
-      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
       "x": 2206.5781,
@@ -169,7 +166,6 @@
       "action": "combat_script",
       "action_params": "w(0.2),wait(0.5),click(middle),wait(0.5),wait(0.5),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t)",
       "id": 17,
-      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
       "x": 2234.082,
@@ -195,7 +191,7 @@
     },
     {
       "action": "stop_flying",
-      "action_params": "1500",
+      "action_params": "1000",
       "id": 20,
       "move_mode": "fly",
       "type": "path",
