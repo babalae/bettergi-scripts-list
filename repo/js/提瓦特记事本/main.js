@@ -150,6 +150,44 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
     return null; // 如果未识别到文字，返回 null
 }
 
+async function recognizeWishResourceValue(templatePath, valueOffsetX, valueWidth) {
+    const template = RecognitionObject.TemplateMatch(
+        file.ReadImageMatSync(templatePath),
+        0, 0, 1920, 1080
+    );
+    template.Threshold = 0.72;
+    template.InitTemplate();
+
+    for (let attempt = 0; attempt < 10; attempt++) {
+        const gameRegion = captureGameRegion();
+        try {
+            const iconResult = gameRegion.find(template);
+            if (iconResult && iconResult.isExist()) {
+                const valueResult = gameRegion.find(
+                    RecognitionObject.ocr(
+                        iconResult.x + valueOffsetX,
+                        Math.max(0, iconResult.y - 8),
+                        valueWidth,
+                        50
+                    )
+                );
+                const digits = valueResult && valueResult.text
+                    ? valueResult.text
+                        .replace(/[Oo〇○]/g, "0")
+                        .replace(/\D/g, "")
+                    : "";
+                if (digits) {
+                    return digits;
+                }
+            }
+        } finally {
+            gameRegion.dispose();
+        }
+        await sleep(100);
+    }
+    return null;
+}
+
 
     setGameMetrics(1920, 1080, 1);
     await genshin.returnMainUi();
@@ -204,12 +242,17 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
 
     // 如果识别到了“常驻祈愿”图标，则识别“原石以及纠缠之缘到数值”
     if (recognized) {
-        //原石
-        let ocrRegionYuanShi = { x: 1470, y: 25, width: 180, height: 46 }; // 设置对应的识别区域
-        let recognizedText1 = await recognizeTextInRegion(ocrRegionYuanShi);
-        //纠缠之缘
-        let ocrRegionInterwinedFate = { x: 1650, y: 25, width: 140, height: 46 }; // 设置对应的识别区域
-        let recognizedText2 = await recognizeTextInRegion(ocrRegionInterwinedFate);
+        // 先定位资源图标，再按图标的相对位置读取数值，适配资源栏位置变化。
+        let recognizedText1 = await recognizeWishResourceValue(
+            "assets/WishResources/原石图标.png",
+            40,
+            78
+        );
+        let recognizedText2 = await recognizeWishResourceValue(
+            "assets/WishResources/纠缠之缘图标.png",
+            42,
+            65
+        );
 
 
         if (recognizedText1 && recognizedText2) {
@@ -446,7 +489,7 @@ async function runCharacterExpBookStats() {
     async function recognizeBookCount(book) {
         const template = RecognitionObject.TemplateMatch(
             file.ReadImageMatSync(book.templatePath),
-            80, 100, 1200, 190
+            0, 0, 1920, 1080
         );
         template.Threshold = 0.75;
         template.InitTemplate();
