@@ -1,123 +1,135 @@
 {
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.52.0",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1780204938154,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "B02B03蒙德-奔狼领北",
-    "tags": [],
-    "type": "collect",
-    "version": "1.1"
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -386.26,
-      "y": 2297.6
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "dash",
-      "type": "target",
-      "x": -421.29,
-      "y": 2306.51
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -430.9,
-      "y": 2302.89
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -386.3,
-      "y": 2297.61
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 5,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -367.37,
-      "y": 2342.32
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "dash",
-      "point_ext_params": {
-        "description": "丘丘暴徒",
-        "misidentification": {
-          "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
-          "type": [
-            "unrecognized"
-          ]
-        },
-        "monster_tag": "elite"
-      },
-      "type": "path",
-      "x": -342,
-      "y": 2364
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -332.03,
-      "y": 2376.68
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -332.53,
-      "y": 2378.55
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 9,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -331.02,
-      "y": 2378.6
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 10,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -334.43,
-      "y": 2383.42
-    }
-  ]
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.52.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1783089910656,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "B02B03蒙德-奔狼领北",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.1"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  -386.26,
+                          "y":  2297.6
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "dash",
+                          "type":  "target",
+                          "x":  -421.29,
+                          "y":  2306.51
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  -430.9,
+                          "y":  2302.89
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  4,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  -386.3,
+                          "y":  2297.61
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  5,
+                          "move_mode":  "dash",
+                          "type":  "path",
+                          "x":  -367.37,
+                          "y":  2342.32
+                      },
+                      {
+                          "action":  "fight",
+                          "action_params":  "",
+                          "id":  6,
+                          "move_mode":  "dash",
+                          "point_ext_params":  {
+                                                   "description":  "丘丘暴徒",
+                                                   "misidentification":  {
+                                                                             "arrival_time":  0,
+                                                                             "handling_mode":  "previousDetectedPoint",
+                                                                             "type":  [
+                                                                                          "unrecognized"
+                                                                                      ]
+                                                                         },
+                                                   "monster_tag":  "elite"
+                                               },
+                          "type":  "path",
+                          "x":  -342,
+                          "y":  2364
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  7,
+                          "move_mode":  "dash",
+                          "type":  "path",
+                          "x":  -332.03,
+                          "y":  2376.68
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  8,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -332.53,
+                          "y":  2378.55
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  9,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  -331.02,
+                          "y":  2378.6
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  10,
+                          "locked":  false,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  -334.43,
+                          "y":  2383.42
+                      },
+                      {
+                          "action":  "combat_script",
+                          "action_params":  "wait(2)",
+                          "id":  11,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  -334.43,
+                          "y":  2383.42
+                      }
+                  ]
 }
