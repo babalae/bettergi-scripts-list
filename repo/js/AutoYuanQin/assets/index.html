@@ -136,7 +136,7 @@
     }, {
         "name": "music_queue",
         "type": "input-text",
-        "label": "队列执行（填写数字[乐曲前的序号]，空格隔开，不填默认不启用）"
+        "label": "队列执行（输入曲名或文件名，空格隔开，不填默认不启用）"  // [NEW] 提示改为曲名
     }, {
         "name": "music_interval",
         "type": "input-text",
@@ -189,6 +189,7 @@
     // ================================================================
     //  ★★ 工具函数 ★★
     // ================================================================
+
     function showToast(msg, duration) {
         duration = duration || 2000;
         toastEl.textContent = msg;
@@ -220,7 +221,7 @@
     }
 
     // ================================================================
-    //  ★★ 解析乐曲列表（支持数组和对象） ★★
+    //  ★★ 解析乐曲列表（支持数组和对象） - 适配新格式 ★★
     // ================================================================
     function parseMusicOptions() {
         const schemaItem = CONFIG_SCHEMA.find(item => item.name === 'music_selector');
@@ -229,23 +230,22 @@
 
         if (Array.isArray(opts)) {
             allMusicItems = opts.map(opt => {
-                const dotIndex = opt.indexOf('.');
-                let id = opt,
-                    name = opt;
-                if (dotIndex > 0) {
-                    id = opt.substring(0, dotIndex);
-                    name = opt.substring(dotIndex + 1);
+                // [NEW] 格式为 "曲名 - 8位hash"，用 " - " 分割
+                const id = opt;
+                let name = id;
+                const dashIndex = id.lastIndexOf(' - ');
+                if (dashIndex > 0) {
+                    name = id.substring(0, dashIndex);
                 }
                 return { id, name, instruments: [] };
             });
         } else if (typeof opts === 'object' && opts !== null) {
             allMusicItems = Object.keys(opts).map(key => {
-                const dotIndex = key.indexOf('.');
-                let id = key,
-                    name = key;
-                if (dotIndex > 0) {
-                    id = key.substring(0, dotIndex);
-                    name = key.substring(dotIndex + 1);
+                const id = key;
+                let name = id;
+                const dashIndex = id.lastIndexOf(' - ');
+                if (dashIndex > 0) {
+                    name = id.substring(0, dashIndex);
                 }
                 const instList = opts[key];
                 return {
@@ -256,11 +256,8 @@
             });
         }
 
-        allMusicItems.sort((a, b) => {
-            const na = parseInt(a.id, 10) || 0;
-            const nb = parseInt(b.id, 10) || 0;
-            return na - nb;
-        });
+        // [NEW] 按曲名字母顺序排序（更友好）
+        allMusicItems.sort((a, b) => a.name.localeCompare(b.name));
     }
 
     // ================================================================
@@ -391,7 +388,8 @@
             };
         }
 
-        settings.music_selector = selectedMusic.id + '.' + selectedMusic.name;
+        // [NEW] 直接使用完整文件名（id）存入 settings.music_selector
+        settings.music_selector = selectedMusic.id;
 
         const display = document.getElementById('selectedMusicDisplay');
         if (display) {
@@ -488,7 +486,7 @@
                             <label>选择乐曲（单曲模式中有效）</label>
                             <div class="music-search-area">
                                 <div class="search-input-wrapper">
-                                    <input type="text" id="musicSearchInput" placeholder="搜索乐曲名称或ID..." />
+                                    <input type="text" id="musicSearchInput" placeholder="搜索乐曲名称..." />
                                     <button class="clear-btn" id="clearSearchBtn">✕</button>
                                 </div>
                                 <div id="filterTagsContainer" class="filter-tags"></div>
@@ -504,7 +502,7 @@
                             <label>选择乐曲（单曲模式中有效）</label>
                             <div class="music-search-area">
                                 <div class="search-input-wrapper">
-                                    <input type="text" id="musicSearchInput" placeholder="搜索乐曲名称或ID..." />
+                                    <input type="text" id="musicSearchInput" placeholder="搜索乐曲名称..." />
                                     <button class="clear-btn" id="clearSearchBtn">✕</button>
                                 </div>
                                 <div id="filterTagsContainer" class="filter-tags"></div>
@@ -572,16 +570,10 @@
 
         // 恢复已选乐曲
         if (settings.music_selector) {
-            const parts = settings.music_selector.split('.');
-            const id = parts[0];
-            const found = allMusicItems.find(item => item.id === id);
+            // [NEW] settings.music_selector 现在是完整文件名
+            const found = allMusicItems.find(item => item.id === settings.music_selector);
             if (found) {
                 selectMusic(found);
-            } else {
-                const foundByName = allMusicItems.find(item =>
-                    (item.id + '.' + item.name) === settings.music_selector
-                );
-                if (foundByName) selectMusic(foundByName);
             }
         }
 
@@ -636,7 +628,7 @@
             }
         });
         if (selectedMusic) {
-            settings.music_selector = selectedMusic.id + '.' + selectedMusic.name;
+            settings.music_selector = selectedMusic.id;   // [NEW] 存储完整文件名
         } else {
             settings.music_selector = '';
         }
@@ -794,17 +786,23 @@
                 result.musicQueue = [];
             }
         } else {
-            // 队列模式：解析 music_queue 中的序号
+            // [NEW] 队列模式：输入曲名或文件名，模糊匹配
             const queueInput = settings.music_queue || '';
-            const numbers = queueInput.split(/\s+/).filter(s => s !== '');
+            const tokens = queueInput.split(/\s+/).filter(s => s !== '');
             const queue = [];
-            numbers.forEach(num => {
-                // 在 allMusicItems 中查找匹配的 id（字符串比较）
-                const item = allMusicItems.find(m => String(m.id) === String(num));
-                if (item) {
-                    queue.push(item.id + '.' + item.name);
-                } else {
-                    console.warn(`[musicQueue] 未找到序号 ${num} 对应的乐曲`);
+            const used = new Set();
+            tokens.forEach(token => {
+                // 精确匹配完整文件名
+                let matched = allMusicItems.find(m => m.id === token);
+                if (!matched) {
+                    // 模糊匹配：曲名或文件名包含 token
+                    matched = allMusicItems.find(m => m.name.includes(token) || m.id.includes(token));
+                }
+                if (matched && !used.has(matched.id)) {
+                    queue.push(matched.id);
+                    used.add(matched.id);
+                } else if (!matched) {
+                    console.warn(`[musicQueue] 未匹配到: "${token}"`);
                 }
             });
             result.musicQueue = queue;
@@ -827,7 +825,7 @@
     }
 
     // ================================================================
-    //  ★★ 接收来自后端的消息（onMessage）—— 重点修改部分 ★★
+    //  ★★ 接收来自后端的消息（onMessage） ★★
     // ================================================================
     if (window.htmlMask) {
         window.htmlMask.onMessage = function(msg) {
@@ -877,7 +875,7 @@
                             target: 'music_start',
                             transform: (val) => {
                                 const date = new Date(val);
-                                if (isNaN(date.getTime())) return null; // 无效时间戳
+                                if (isNaN(date.getTime())) return null;
                                 const pad = n => String(n).padStart(2, '0');
                                 return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
                             }
@@ -889,10 +887,9 @@
                                 return map[val] || '单曲单次执行';
                             }
                         },
-                        // +++ 新增：autoSwitch 映射到 auto_switch 控件
                         autoSwitch: {
                             target: 'auto_switch',
-                            transform: (val) => !!val  // 转为布尔值
+                            transform: (val) => !!val
                         },
                         queueInterval: { target: 'music_interval', transform: String },
                         repeatTimes: { target: 'music_repeat', transform: String },
@@ -910,32 +907,27 @@
                         const mapping = fieldMap[backendKey];
                         const fieldName = mapping.target;
                         const value = mapping.transform(parsedData[backendKey]);
-                        if (value === null) return; // 跳过无效值
+                        if (value === null) return;
 
-                        // 获取 DOM 元素
                         const el = document.getElementById(fieldName);
                         if (!el) {
                             console.warn(`[settings] 控件 #${fieldName} 不存在`);
                             return;
                         }
 
-                        // 根据控件类型设置值
                         if (el.type === 'checkbox') {
                             el.checked = !!value;
-                            // 更新开关标签文字
                             const wrapper = el.closest('.switch-wrapper');
                             if (wrapper) {
                                 const label = wrapper.querySelector('.switch-label');
                                 if (label) label.textContent = el.checked ? '已启用' : '已禁用';
                             }
-                            // 同步 settings
                             settings[fieldName] = el.checked;
                         } else {
                             el.value = value;
                             settings[fieldName] = value;
                         }
 
-                        // 触发 change 事件，保证其他监听器响应
                         el.dispatchEvent(new Event('change', { bubbles: true }));
                     });
 
