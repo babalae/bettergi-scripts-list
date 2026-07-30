@@ -1,5 +1,11 @@
 [
   {
+    "name": "EULA",
+    "type": "checkbox",
+    "label": "启用脚本(确保已经阅读了README)",
+    "default": false
+  },
+  {
     "name": "extra_count",
     "type": "input-text",
     "label": "额外通关次数",
@@ -8,13 +14,19 @@
   {
     "name": "g_uid",
     "type": "input-text",
-    "label": "关卡GUID(请勿更改)\n目前仅适配：《弓箭传说：元素肉鸽》",
-    "default": "118782821495"
+    "label": "关卡GUID(请勿更改)",
+    "default": "45694132064,24339714898"
   },
   {
-    "name": "difficulty",
-    "type": "input-text",
-    "label": "难度（0简单1困难2地狱3无尽）",
-    "default": "0"
+    "name": "notification_1",
+    "type": "checkbox",
+    "label": "启用 绮衣珍赏状态 通知",
+    "default": true
+  },
+  {
+    "name": "notification_2",
+    "type": "checkbox",
+    "label": "启用 剩余额外刷取次数 通知",
+    "default": true
   }
 ]

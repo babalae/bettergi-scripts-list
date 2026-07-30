@@ -12,12 +12,12 @@
   {
     "name": "ifZBY",
     "type": "checkbox",
-    "label": "+++++++++++++++++++++++++++++++++++++++\n\n是否执行质变仪&爱可菲任务"
+    "label": "+++++++++++++++++++++++++++++++++++++++\n\n是否执行质变仪任务"
   },
   {
     "name": "ifAkf",
     "type": "checkbox",
-    "label": "是否拥有爱可菲"
+    "label": "+++++++++++++++++++++++++++++++++++++++\n\n是否执行爱可菲任务"
   },
   {
     "name": "Material",
@@ -41,9 +41,9 @@
     "default": "薄荷"
   },
   {
-    "name": "chargingMethod",
+    "name": "zbyChargingMethod",
     "type": "select",
-    "label": "请选择质变仪&爱可菲的充能方法",
+    "label": "请选择质变仪的充能方法",
     "options": [
       "电气水晶充能",
       "法器角色充能"
@@ -51,14 +51,44 @@
     "default": "电气水晶充能"
   },
   {
-    "name": "TEAMname",
+    "name": "ZBYTeamName",
     "type": "input-text",
-    "label": "质变队伍\n选择“拥有爱可菲”或“法器角色充能”时必填"
+    "label": "质变仪队伍\n选择“法器角色充能”时必填"
   },
   {
-    "name": "ifYB",
+    "name": "akfChargingMethod",
+    "type": "select",
+    "label": "请选择爱可菲的充能方法",
+    "options": [
+      "电气水晶充能",
+      "法器角色充能"
+    ],
+    "default": "电气水晶充能"
+  },
+  {
+    "name": "AKFTeamName",
+    "type": "input-text",
+    "label": "爱可菲队伍\n执行爱可菲任务时必填"
+  },
+  {
+    "name": "skipCookingWhenBattlePassFull",
     "type": "checkbox",
-    "label": "+++++++++++++++++++++++++++++++++++++++\n\n是否执行晶蝶诱捕装置任务"
+    "label": "+++++++++++++++++++++++++++++++++++++++\n\n纪行满级时跳过每周做菜"
+  },
+  {
+    "name": "skipForgingWhenBattlePassFull",
+    "type": "checkbox",
+    "label": "纪行满级时跳过每周锻造"
+  },
+  {
+    "name": "skipBossWhenBattlePassFull",
+    "type": "checkbox",
+    "label": "纪行满级时跳过每周首领"
+  },
+  {
+    "name": "skipDomainWhenBattlePassFull",
+    "type": "checkbox",
+    "label": "纪行满级时跳过每周秘境"
   },
   {
     "name": "ifCooking",

@@ -43,10 +43,6 @@ const findCloseDialog = () => {
 const clickToContinue = () => {
   click(960, 1070);
 };
-/** 查找UID文本 */
-const findUidText = () => {
-  return findTextWithinBounds("UID", 1580, 1050, 340, 30, { contains: true });
-};
 /** 查找派蒙图标（判断处于奇域大世界/大厅） */
 const findPaimon = () => {
   const iro = findImageWithinBounds("assets/UI_Icon_Paimon.png", 0, 0, 100, 100, {
@@ -80,7 +76,9 @@ const findAllWonderlandsBtn = () => {
 };
 /** 房间：查找奇域搜索输入框 */
 const findSearchWonderlandInput = () => {
-  return findTextWithinBounds("搜索", 0, 120, 1920, 60, { contains: true });
+  const txt = findTextWithinBounds("搜索", 0, 120, 1920, 60, { contains: true });
+  txt?.drawSelf("group_text");
+  return txt;
 };
 /** 房间：查找奇域搜索输入框清除按钮 */
 const findClearInputBtn = () => {
@@ -90,21 +88,27 @@ const findClearInputBtn = () => {
 const findSearchWonderlandBtn = () => {
   return findTextWithinBounds("搜索", 0, 120, 1920, 60, { contains: true });
 };
-/** 房间：查找第一个奇域搜索结果名称 */
-const findFirstSearchResultText = () => {
+/** 房间：查找首行前N个奇域搜索结果名称 */
+const findTopNSearchResultTexts = (n) => {
+  const boundsN = (n) => [240 + n * 360, 475, 300, 50];
   const ir = captureGameRegion();
-  const ro = RecognitionObject.ocr(240, 475, 300, 50);
-  return (() => {
-    const list = ir.findMulti(ro);
-    for (let i = 0; i < list.count; i++)
-      if (list[i] && list[i].isExist()) {
-        const text = list[i].text.trim();
-        if (text) {
-          list[i].drawSelf("group_text");
-          return text;
-        }
-      }
-  })();
+  return [...Array(n).keys()]
+    .reverse()
+    .map((i) => {
+      return (() => {
+        const ro = RecognitionObject.ocr(...boundsN(i));
+        const list = ir.findMulti(ro);
+        for (let i = 0; i < list.count; i++)
+          if (list[i] && list[i].isExist()) {
+            const text = list[i].text.trim();
+            if (text) {
+              list[i].drawSelf("group_text");
+              return text;
+            }
+          }
+      })();
+    })
+    .reverse();
 };
 /** 房间：点击选择第一个搜索结果位置 */
 const clickToChooseFirstSearchResult = () => {
@@ -112,7 +116,9 @@ const clickToChooseFirstSearchResult = () => {
 };
 /** 房间：查找进入房间快捷键按钮 */
 const findEnterRoomShortcut = () => {
-  return findTextWithinBounds("房间", 1580, 110, 320, 390, { contains: true });
+  const txt = findTextWithinBounds("房间", 1580, 110, 320, 390, { contains: true });
+  txt?.drawSelf("group_text");
+  return txt;
 };
 /** 房间：查找退出房间按钮 */
 const findLeaveRoomBtn = () => {
@@ -128,7 +134,9 @@ const findGoToLobbyBtn = () => {
 };
 /** 房间：查找创建房间按钮 */
 const findCreateRoomBtn = () => {
-  return findTextWithinBounds("房间", 960, 95, 960, 70, { contains: true });
+  const txt = findTextWithinBounds("房间", 960, 95, 960, 70, { contains: true });
+  txt?.drawSelf("group_text");
+  return txt;
 };
 /** 房间：点击加入准备区位置 */
 const clickToPrepare = () => {
@@ -174,7 +182,9 @@ const findSaveToDeletePos = (keyword) =>
   );
 /** 存档：查找局外存档列头 */
 const findExternalSaveColumnPos = () => {
-  return findTextWithinBounds("局外", 55, 190, 1810, 50, { contains: true });
+  const txt = findTextWithinBounds("局外", 55, 190, 1810, 50, { contains: true });
+  txt?.drawSelf("group_text");
+  return txt;
 };
 /** 存档：查找删除局外存档复选框已选中状态 */
 const findDeleteExternalSaveChecked = (colPos) => {
@@ -191,7 +201,9 @@ const findDeleteStageSaveBtn = () => {
 };
 /** 关卡：查找结算跳过按钮 */
 const findSkipBtn = () => {
-  return findTextWithinBounds("跳过", 1720, 0, 200, 100, { contains: true });
+  const txt = findTextWithinBounds("跳过", 1720, 0, 200, 100, { contains: true });
+  txt?.drawSelf("group_text");
+  return txt;
 };
 /** 关卡：查找关卡退出按钮 */
 const findStageEscBtn = () => {
@@ -208,7 +220,9 @@ const findExitStageBtn = () => {
 };
 /** 退出：查找返回提瓦特按钮 */
 const findGotTeyvatBtn = () => {
-  return findTextWithinBounds("返回", 1500, 0, 300, 95, { contains: true });
+  const txt = findTextWithinBounds("返回", 1500, 0, 300, 95, { contains: true });
+  txt?.drawSelf("group_text");
+  return txt;
 };
 /** 纪游：查找诸界纪游按钮 */
 const findBeyondBattlepassBtn = () => {
@@ -264,7 +278,6 @@ export {
   findExitStageBtn,
   findExternalSaveColumnPos,
   findFetchRewardBtn,
-  findFirstSearchResultText,
   findGoToLobbyBtn,
   findGotTeyvatBtn,
   findHeaderTitle,
@@ -279,5 +292,5 @@ export {
   findSetupFilterBtn,
   findSkipBtn,
   findStageEscBtn,
-  findUidText,
+  findTopNSearchResultTexts,
 };

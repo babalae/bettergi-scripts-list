@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自动演奏 - 配置面板</title>
+    <style>
+        /* ===== 全局样式（不变） ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: transparent !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; pointer-events: none; }
+        .panel { pointer-events: auto; width: 100%; max-width: 760px; max-height: 95vh; background: rgba(30, 30, 40, 0.92); border-radius: 20px; padding: 24px 28px 28px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06); color: #e8e8f0; overflow-y: auto; transition: opacity 0.3s ease, transform 0.3s ease; position: relative; }
+        .panel.hidden { opacity: 0; transform: scale(0.96); pointer-events: none; }
+        .panel::-webkit-scrollbar { width: 4px; }
+        .panel::-webkit-scrollbar-track { background: transparent; }
+        .panel::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.07); }
+        .header h1 { font-size: 20px; font-weight: 600; letter-spacing: 0.3px; background: linear-gradient(135deg, #f0e6d0, #c8b8a0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .header-actions { display: flex; gap: 10px; }
+        .header-actions button { background: rgba(255, 255, 255, 0.06); border: none; color: rgba(255, 255, 255, 0.6); width: 32px; height: 32px; border-radius: 8px; font-size: 18px; cursor: pointer; transition: background 0.2s, color 0.2s; display: flex; align-items: center; justify-content: center; line-height: 1; }
+        .header-actions button:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 500; color: #c8c8d8; margin-bottom: 4px; letter-spacing: 0.2px; }
+        input[type="text"], input[type="number"], select { width: 100%; padding: 8px 14px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.10); border-radius: 10px; color: #f0f0f8; font-size: 14px; font-family: inherit; transition: border-color 0.2s, background 0.2s; outline: none; }
+        input:focus, select:focus { border-color: rgba(200, 180, 160, 0.5); background: rgba(255, 255, 255, 0.08); }
+        input::placeholder { color: rgba(255, 255, 255, 0.25); }
+        select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; cursor: pointer; }
+        select option { background: #2a2a38; color: #f0f0f8; }
+        .switch-wrapper { display: flex; align-items: center; gap: 12px; padding: 4px 0; }
+        .switch { position: relative; width: 44px; height: 26px; flex-shrink: 0; cursor: pointer; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .switch .slider { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255, 255, 255, 0.12); border-radius: 30px; transition: background 0.25s ease; }
+        .switch .slider::before { content: ""; position: absolute; height: 20px; width: 20px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: transform 0.25s ease; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); }
+        .switch input:checked+.slider { background: linear-gradient(135deg, #b8a890, #9a8a78); }
+        .switch input:checked+.slider::before { transform: translateX(18px); }
+        .switch-label { font-size: 14px; color: #d0d0dc; }
+        .music-search-area { background: rgba(255, 255, 255, 0.03); border-radius: 12px; padding: 12px 14px; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .search-input-wrapper { position: relative; }
+        .search-input-wrapper input { padding-right: 36px; }
+        .search-input-wrapper .clear-btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: rgba(255, 255, 255, 0.3); font-size: 18px; cursor: pointer; display: none; }
+        .search-input-wrapper .clear-btn.visible { display: block; }
+        .filter-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; margin-bottom: 8px; }
+        .filter-tag { background: rgba(255, 255, 255, 0.05); padding: 4px 12px; border-radius: 20px; font-size: 12px; color: rgba(255, 255, 255, 0.6); cursor: pointer; transition: background 0.2s, color 0.2s; border: 1px solid transparent; user-select: none; }
+        .filter-tag.active { background: rgba(200, 180, 160, 0.25); color: #f0e6d0; border-color: rgba(200, 180, 160, 0.3); }
+        .filter-tag:hover { background: rgba(255, 255, 255, 0.10); }
+        .filter-tag.inactive { opacity: 0.4; }
+        .music-list { max-height: 160px; overflow-y: auto; margin-top: 8px; border-radius: 8px; background: rgba(0, 0, 0, 0.2); }
+        .music-list::-webkit-scrollbar { width: 3px; }
+        .music-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+        .music-item { padding: 6px 12px; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid rgba(255, 255, 255, 0.03); font-size: 13px; color: #d0d0dc; display: flex; justify-content: space-between; align-items: center; }
+        .music-item:hover { background: rgba(255, 255, 255, 0.06); }
+        .music-item.selected { background: rgba(200, 180, 160, 0.15); color: #f0e6d0; }
+        .music-item .item-instruments { font-size: 11px; color: rgba(255, 255, 255, 0.35); margin-left: 8px; flex-shrink: 0; }
+        .no-result { padding: 16px; text-align: center; color: rgba(255, 255, 255, 0.25); font-size: 13px; }
+        .selected-music-display { margin-top: 6px; font-size: 13px; color: #b8a890; }
+        .actions { display: flex; gap: 12px; margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.06); flex-wrap: wrap; }
+        .actions button { flex: 1; min-width: 80px; padding: 10px 16px; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.2s, transform 0.1s; letter-spacing: 0.3px; }
+        .actions button:active { transform: scale(0.97); }
+        .btn-play { background: linear-gradient(135deg, #e8c8a0, #d4b088); color: #1a1a24; flex: 2; font-size: 16px; }
+        .btn-play:hover { background: linear-gradient(135deg, #f0d8b0, #dcc098); }
+        .btn-save { background: linear-gradient(135deg, #b8a890, #a0907e); color: #1a1a24; }
+        .btn-save:hover { background: linear-gradient(135deg, #c8b8a0, #b0a08e); }
+        .btn-reset { background: rgba(255, 255, 255, 0.06); color: #b0b0c0; border: 1px solid rgba(255, 255, 255, 0.08); }
+        .btn-reset:hover { background: rgba(255, 255, 255, 0.10); }
+        .float-ball { position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #b8a890, #8a7a68); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; font-size: 26px; color: #1a1a24; cursor: pointer; transition: transform 0.2s, opacity 0.3s; z-index: 9999; border: none; pointer-events: auto; opacity: 0; transform: scale(0.8); user-select: none; }
+        .float-ball.visible { opacity: 1; transform: scale(1); }
+        .float-ball:hover { transform: scale(1.08); }
+        .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: rgba(20, 20, 28, 0.92); backdrop-filter: blur(8px); padding: 10px 24px; border-radius: 30px; font-size: 13px; color: #d0d0dc; border: 1px solid rgba(255, 255, 255, 0.06); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; white-space: nowrap; z-index: 999; }
+        .toast.show { opacity: 1; }
+        @media (max-width: 500px) { .panel { padding: 16px 14px; border-radius: 16px; } .header h1 { font-size: 17px; } .actions button { min-width: 60px; font-size: 13px; padding: 8px 10px; } .switch { width: 38px; height: 22px; } .switch .slider::before { height: 16px; width: 16px; left: 3px; bottom: 3px; } .switch input:checked+.slider::before { transform: translateX(16px); } .music-list { max-height: 120px; } .filter-tag { font-size: 11px; padding: 2px 10px; } .float-ball { width: 48px; height: 48px; font-size: 22px; bottom: 20px; right: 20px; } }
+    </style>
+</head>
+<body>
+
+<div id="toast" class="toast"></div>
+<button id="floatBall" class="float-ball" title="显示自动演奏面板">🎵</button>
+
+<div class="panel" id="app">
+
+    <div class="header">
+        <h1>🎵 自动演奏配置</h1>
+        <div class="header-actions">
+            <button class="btn-minimize" id="btnMinimize" title="最小化">─</button>
+            <button class="btn-close" id="btnClose" title="关闭">✕</button>
+        </div>
+    </div>
+
+    <div id="formContainer"></div>
+
+    <div class="actions">
+        <button class="btn-play" id="btnPlay">▶ 演奏</button>
+        <button class="btn-save" id="btnSave">🔄 更新曲谱文件</button>
+        <button class="btn-reset" id="btnReset">↺ 重置</button>
+    </div>
+</div>
+
+<script>
+    'use strict';
+
+    // ================================================================
+    //  ★★ 配置项定义（与 settings.json 一致） ★★
+    // ================================================================
+    const CONFIG_SCHEMA = [{
+        "name": "music_start",
+        "type": "input-text",
+        "label": "定时启动时间（示例 19:19:10 默认：不启用）"
+    }, {
+        "name": "type_select",
+        "type": "select",
+        "label": "播放模式（默认：单曲单次执行）",
+        "options": [
+            "单曲单次执行",
+            "单曲循环",
+            "队列单次执行",
+            "队列循环"
+        ]
+    }, {
+        "name": "instrument",
+        "type": "select",
+        "label": "选择乐器",
+        "options": [
+            "风物之诗琴", "老旧的诗琴", "镜花之琴",
+            "荒泷·盛世豪鼓", "绮筵之鼓", "晚风圆号",
+            "聚聚鼓", "悠可琴", "余音",
+            "跃律琴", "谐律键琴"
+        ]
+    }, {
+        "name": "music_selector",
+        "type": "hidden",
+        "label": "选择的乐曲",
+        "options": []
+    }, {
+        "name": "auto_switch",
+        "type": "checkbox",
+        "label": "演奏前自动更换推荐乐器",
+        "default": true
+    }, {
+        "name": "music_queue",
+        "type": "input-text",
+        "label": "队列执行（填写数字[乐曲前的序号]，空格隔开，不填默认不启用）"
+    }, {
+        "name": "music_interval",
+        "type": "input-text",
+        "label": "队列内间隔时间（单位：s, 队列模式中有效）"
+    }, {
+        "name": "music_repeat",
+        "type": "input-text",
+        "label": "循环执行次数（值为0时无限循环 默认：1）"
+    }, {
+        "name": "repeat_interval",
+        "type": "input-text",
+        "label": "循环间隔时间（单位：s, 循环模式下生效，默认：0s）"
+    }, {
+        "name": "debug_mode",
+        "type": "select",
+        "label": "调试模式（默认：禁用）",
+        "options": ["禁用", "启用"]
+    }];
+
+    // ================================================================
+    //  ★★ 常量：乐器列表（用于UI展示） ★★
+    // ================================================================
+    const INSTRUMENTS = [
+        "风物之诗琴", "老旧的诗琴", "镜花之琴",
+        "荒泷·盛世豪鼓", "绮筵之鼓", "晚风圆号",
+        "聚聚鼓", "悠可琴", "余音",
+        "跃律琴", "谐律键琴"
+    ];
+
+    // ================================================================
+    //  ★★ 状态管理 ★★
+    // ================================================================
+    let settings = {};
+    let selectedMusic = null;
+    let activeFilters = [];
+    let allMusicItems = [];
+
+    const formContainer = document.getElementById('formContainer');
+    const toastEl = document.getElementById('toast');
+    const panel = document.getElementById('app');
+    const floatBall = document.getElementById('floatBall');
+    const btnMinimize = document.getElementById('btnMinimize');
+    const btnClose = document.getElementById('btnClose');
+    const btnPlay = document.getElementById('btnPlay');
+    const btnSave = document.getElementById('btnSave');
+    const btnReset = document.getElementById('btnReset');
+    let isMinimized = false;
+    let isInitialDataLoaded = false;
+
+    // ================================================================
+    //  ★★ 工具函数 ★★
+    // ================================================================
+    function showToast(msg, duration) {
+        duration = duration || 2000;
+        toastEl.textContent = msg;
+        toastEl.classList.add('show');
+        clearTimeout(toastEl._timer);
+        toastEl._timer = setTimeout(function() {
+            toastEl.classList.remove('show');
+        }, duration);
+    }
+
+    function getDefaultValue(item) {
+        if (item.type === 'checkbox') return item.default !== undefined ? item.default : false;
+        if (item.type === 'select') return item.options && item.options.length > 0 ? item.options[0] : '';
+        return '';
+    }
+
+    function initSettings() {
+        CONFIG_SCHEMA.forEach(function(item) {
+            settings[item.name] = getDefaultValue(item);
+        });
+        settings.music_selector = '';
+    }
+    initSettings();
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+            .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // ================================================================
+    //  ★★ 解析乐曲列表（支持数组和对象） ★★
+    // ================================================================
+    function parseMusicOptions() {
+        const schemaItem = CONFIG_SCHEMA.find(item => item.name === 'music_selector');
+        const opts = schemaItem?.options || [];
+        allMusicItems = [];
+
+        if (Array.isArray(opts)) {
+            allMusicItems = opts.map(opt => {
+                const dotIndex = opt.indexOf('.');
+                let id = opt,
+                    name = opt;
+                if (dotIndex > 0) {
+                    id = opt.substring(0, dotIndex);
+                    name = opt.substring(dotIndex + 1);
+                }
+                return { id, name, instruments: [] };
+            });
+        } else if (typeof opts === 'object' && opts !== null) {
+            allMusicItems = Object.keys(opts).map(key => {
+                const dotIndex = key.indexOf('.');
+                let id = key,
+                    name = key;
+                if (dotIndex > 0) {
+                    id = key.substring(0, dotIndex);
+                    name = key.substring(dotIndex + 1);
+                }
+                const instList = opts[key];
+                return {
+                    id,
+                    name,
+                    instruments: Array.isArray(instList) ? instList : (instList ? [instList] : [])
+                };
+            });
+        }
+
+        allMusicItems.sort((a, b) => {
+            const na = parseInt(a.id, 10) || 0;
+            const nb = parseInt(b.id, 10) || 0;
+            return na - nb;
+        });
+    }
+
+    // ================================================================
+    //  ★★ 构建乐器筛选标签 ★★
+    // ================================================================
+    function buildFilterTags() {
+        const container = document.getElementById('filterTagsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+
+        const allInstruments = new Set();
+        allMusicItems.forEach(item => {
+            if (item.instruments && Array.isArray(item.instruments)) {
+                item.instruments.forEach(ins => {
+                    if (ins && typeof ins === 'string') allInstruments.add(ins.trim());
+                });
+            }
+        });
+
+        if (allInstruments.size === 0) {
+            const span = document.createElement('span');
+            span.className = 'filter-tag inactive';
+            span.textContent = '暂无乐器数据';
+            container.appendChild(span);
+            return;
+        }
+
+        const sortedInstruments = [];
+        INSTRUMENTS.forEach(ins => {
+            if (allInstruments.has(ins)) {
+                sortedInstruments.push(ins);
+                allInstruments.delete(ins);
+            }
+        });
+        const remaining = Array.from(allInstruments).sort();
+        sortedInstruments.push(...remaining);
+
+        sortedInstruments.forEach(function(instr) {
+            const span = document.createElement('span');
+            span.className = 'filter-tag';
+            span.dataset.value = instr;
+            span.textContent = instr;
+            if (activeFilters.includes(instr)) {
+                span.classList.add('active');
+            }
+            span.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const val = this.dataset.value;
+                if (this.classList.contains('active')) {
+                    if (!activeFilters.includes(val)) activeFilters.push(val);
+                } else {
+                    activeFilters = activeFilters.filter(f => f !== val);
+                }
+                renderMusicList();
+            });
+            container.appendChild(span);
+        });
+    }
+
+    // ================================================================
+    //  ★★ 渲染乐曲列表（搜索 + 乐器筛选） ★★
+    // ================================================================
+    function renderMusicList() {
+        const searchInput = document.getElementById('musicSearchInput');
+        const listContainer = document.getElementById('musicListContainer');
+        if (!listContainer) return;
+
+        const keyword = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+        let filtered = allMusicItems.filter(item =>
+            item.name.toLowerCase().includes(keyword) ||
+            (item.id && item.id.toLowerCase().includes(keyword))
+        );
+
+        if (activeFilters.length > 0) {
+            filtered = filtered.filter(item => {
+                if (item.instruments && Array.isArray(item.instruments) && item.instruments.length > 0) {
+                    return activeFilters.some(ins => item.instruments.includes(ins));
+                }
+                return true;
+            });
+        }
+
+        if (filtered.length === 0) {
+            listContainer.innerHTML = '<div class="no-result">没有找到匹配的乐曲</div>';
+            return;
+        }
+
+        let html = '';
+        filtered.forEach(item => {
+            const selectedClass = (selectedMusic && selectedMusic.id === item.id) ? 'selected' : '';
+            const instStr = (item.instruments && item.instruments.length > 0) ?
+                '🎵 ' + item.instruments.slice(0, 3).join(', ') + (item.instruments.length > 3 ? ' …' : '') :
+                '';
+            html += `<div class="music-item ${selectedClass}" data-id="${escapeHtml(item.id)}" data-name="${escapeHtml(item.name)}" data-instruments="${escapeHtml(JSON.stringify(item.instruments || []))}">
+                            <span>${escapeHtml(item.name)}</span>
+                            ${instStr ? `<span class="item-instruments">${instStr}</span>` : ''}
+                        </div>`;
+        });
+        listContainer.innerHTML = html;
+
+        listContainer.querySelectorAll('.music-item').forEach(el => {
+            el.addEventListener('click', function() {
+                const id = this.dataset.id;
+                const name = this.dataset.name;
+                let instruments = [];
+                try {
+                    const raw = this.dataset.instruments;
+                    if (raw) instruments = JSON.parse(raw);
+                } catch (_) { /* ignore */ }
+                selectMusic({ id, name, instruments });
+            });
+        });
+    }
+
+    // ================================================================
+    //  ★★ 选择乐曲 ★★
+    // ================================================================
+    function selectMusic(item) {
+        const fullItem = allMusicItems.find(i => i.id === item.id);
+        if (fullItem) {
+            selectedMusic = { ...fullItem };
+        } else {
+            selectedMusic = {
+                id: item.id,
+                name: item.name,
+                instruments: item.instruments || []
+            };
+        }
+
+        settings.music_selector = selectedMusic.id + '.' + selectedMusic.name;
+
+        const display = document.getElementById('selectedMusicDisplay');
+        if (display) {
+            const instStr = (selectedMusic.instruments && selectedMusic.instruments.length > 0) ?
+                ` (${selectedMusic.instruments.join(', ')})` :
+                '';
+            display.textContent = '当前选择：' + selectedMusic.name + instStr;
+        }
+
+        renderMusicList();
+
+        const hiddenEl = document.getElementById('music_selector');
+        if (hiddenEl) {
+            hiddenEl.value = settings.music_selector;
+            hiddenEl.dispatchEvent(new Event('change'));
+        }
+    }
+
+    // ================================================================
+    //  ★★ 渲染表单（完全重建） ★★
+    // ================================================================
+    function renderForm() {
+        formContainer.innerHTML = '';
+
+        CONFIG_SCHEMA.forEach(function(item) {
+            if (item.type === 'hidden') {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.id = item.name;
+                input.name = item.name;
+                input.value = settings[item.name] || '';
+                formContainer.appendChild(input);
+                return;
+            }
+            const div = document.createElement('div');
+            div.className = 'form-group';
+            const label = document.createElement('label');
+            label.htmlFor = item.name;
+            label.textContent = item.label || item.name;
+            div.appendChild(label);
+
+            if (item.type === 'input-text') {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = item.name;
+                input.name = item.name;
+                input.value = settings[item.name] !== undefined ? settings[item.name] : getDefaultValue(item);
+                input.placeholder = item.label || '';
+                div.appendChild(input);
+            } else if (item.type === 'select') {
+                const select = document.createElement('select');
+                select.id = item.name;
+                select.name = item.name;
+                (item.options || []).forEach(function(opt) {
+                    const option = document.createElement('option');
+                    option.value = opt;
+                    option.textContent = opt;
+                    if (opt === (settings[item.name] || getDefaultValue(item))) {
+                        option.selected = true;
+                    }
+                    select.appendChild(option);
+                });
+                div.appendChild(select);
+            } else if (item.type === 'checkbox') {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'switch-wrapper';
+                const switchLabel = document.createElement('label');
+                switchLabel.className = 'switch';
+                const input = document.createElement('input');
+                input.type = 'checkbox';
+                input.id = item.name;
+                input.name = item.name;
+                input.checked = settings[item.name] !== undefined ? settings[item.name] : getDefaultValue(item);
+                switchLabel.appendChild(input);
+                const slider = document.createElement('span');
+                slider.className = 'slider';
+                switchLabel.appendChild(slider);
+                wrapper.appendChild(switchLabel);
+                const labelSpan = document.createElement('span');
+                labelSpan.className = 'switch-label';
+                labelSpan.textContent = input.checked ? '已启用' : '已禁用';
+                wrapper.appendChild(labelSpan);
+                div.appendChild(wrapper);
+            }
+            formContainer.appendChild(div);
+        });
+
+        // ---- 插入乐曲搜索组件 ----
+        const instrumentGroup = formContainer.querySelector('.form-group:has(#instrument)');
+        if (instrumentGroup) {
+            const searchDiv = document.createElement('div');
+            searchDiv.className = 'form-group';
+            searchDiv.innerHTML = `
+                            <label>选择乐曲（单曲模式中有效）</label>
+                            <div class="music-search-area">
+                                <div class="search-input-wrapper">
+                                    <input type="text" id="musicSearchInput" placeholder="搜索乐曲名称或ID..." />
+                                    <button class="clear-btn" id="clearSearchBtn">✕</button>
+                                </div>
+                                <div id="filterTagsContainer" class="filter-tags"></div>
+                                <div id="musicListContainer" class="music-list"></div>
+                                <div id="selectedMusicDisplay" class="selected-music-display">当前选择：无</div>
+                            </div>
+                        `;
+            instrumentGroup.parentNode.insertBefore(searchDiv, instrumentGroup.nextSibling);
+        } else {
+            const searchDiv = document.createElement('div');
+            searchDiv.className = 'form-group';
+            searchDiv.innerHTML = `
+                            <label>选择乐曲（单曲模式中有效）</label>
+                            <div class="music-search-area">
+                                <div class="search-input-wrapper">
+                                    <input type="text" id="musicSearchInput" placeholder="搜索乐曲名称或ID..." />
+                                    <button class="clear-btn" id="clearSearchBtn">✕</button>
+                                </div>
+                                <div id="filterTagsContainer" class="filter-tags"></div>
+                                <div id="musicListContainer" class="music-list"></div>
+                                <div id="selectedMusicDisplay" class="selected-music-display">当前选择：无</div>
+                            </div>
+                        `;
+            formContainer.appendChild(searchDiv);
+        }
+
+        // 绑定表单事件
+        formContainer.querySelectorAll('input:not([type="checkbox"]):not([type="hidden"]), select').forEach(function(el) {
+            el.addEventListener('change', function() {
+                settings[this.name] = this.value;
+            });
+            if (el.tagName !== 'SELECT') {
+                el.addEventListener('input', function() {
+                    settings[this.name] = this.value;
+                });
+            }
+        });
+
+        formContainer.querySelectorAll('.switch-wrapper input[type="checkbox"]').forEach(function(cb) {
+            cb.addEventListener('change', function() {
+                const wrapper = this.closest('.switch-wrapper');
+                const labelSpan = wrapper.querySelector('.switch-label');
+                if (labelSpan) {
+                    labelSpan.textContent = this.checked ? '已启用' : '已禁用';
+                }
+                settings[this.name] = this.checked;
+            });
+        });
+
+        // 搜索框
+        const searchInput = document.getElementById('musicSearchInput');
+        const clearBtn = document.getElementById('clearSearchBtn');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const val = this.value;
+                clearBtn.classList.toggle('visible', val.length > 0);
+                renderMusicList();
+            });
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    this.value = '';
+                    clearBtn.classList.remove('visible');
+                    renderMusicList();
+                }
+            });
+        }
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function() {
+                const input = document.getElementById('musicSearchInput');
+                if (input) {
+                    input.value = '';
+                    this.classList.remove('visible');
+                    renderMusicList();
+                    input.focus();
+                }
+            });
+        }
+
+        buildFilterTags();
+        renderMusicList();
+
+        // 恢复已选乐曲
+        if (settings.music_selector) {
+            const parts = settings.music_selector.split('.');
+            const id = parts[0];
+            const found = allMusicItems.find(item => item.id === id);
+            if (found) {
+                selectMusic(found);
+            } else {
+                const foundByName = allMusicItems.find(item =>
+                    (item.id + '.' + item.name) === settings.music_selector
+                );
+                if (foundByName) selectMusic(foundByName);
+            }
+        }
+
+        const hiddenEl = document.getElementById('music_selector');
+        if (hiddenEl) {
+            hiddenEl.addEventListener('change', function() {
+                settings.music_selector = this.value;
+            });
+        }
+    }
+
+    // ================================================================
+    //  ★★ 对外接口（供后端调用） ★★
+    // ================================================================
+    window.updateSettings = function(newSettings) {
+        if (!newSettings || typeof newSettings !== 'object') return;
+
+        newSettings.forEach(function(item) {
+            const name = item.name;
+            const schemaItem = CONFIG_SCHEMA.find(s => s.name === name);
+            if (schemaItem && item.options !== undefined) {
+                schemaItem.options = item.options;
+            }
+            if (name === 'music_selector') return;
+            if (settings.hasOwnProperty(name)) {
+                settings[name] = item.value !== undefined ? item.value : getDefaultValue(item);
+            }
+        });
+
+        parseMusicOptions();
+        renderForm();
+        // showToast('配置已更新');
+    };
+
+    window.getSettings = function() {
+        return JSON.parse(JSON.stringify(settings));
+    };
+
+    window.getSetting = function(key) {
+        return settings.hasOwnProperty(key) ? settings[key] : undefined;
+    };
+
+    // ================================================================
+    //  ★★ 收集表单数据 ★★
+    // ================================================================
+    function collectSettingsFromDOM() {
+        document.querySelectorAll('#formContainer input, #formContainer select').forEach(function(el) {
+            if (el.type === 'checkbox') {
+                settings[el.name] = el.checked;
+            } else {
+                settings[el.name] = el.value;
+            }
+        });
+        if (selectedMusic) {
+            settings.music_selector = selectedMusic.id + '.' + selectedMusic.name;
+        } else {
+            settings.music_selector = '';
+        }
+    }
+
+    // ================================================================
+    //  ★★ 按钮事件 ★★
+    // ================================================================
+
+    btnPlay.addEventListener('click', function() {
+        collectSettingsFromDOM();
+        showToast('开始运行');
+        const settingsObj = getUISettingsForBackend();
+        if (window.chrome && window.chrome.webview) {
+            window.chrome.webview.postMessage(JSON.stringify({
+                url: "/event/click",
+                data: settingsObj
+            }));
+        } else {
+            console.warn('[HTML] chrome.webview 不可用，无法发送 run 事件');
+        }
+    });
+
+    btnSave.addEventListener('click', function() {
+        collectSettingsFromDOM();
+
+        (async function() {
+            try {
+                if (window.htmlMask && window.htmlMask.request) {
+                    const result = await window.htmlMask.request('/config/update', "refactor");
+                    const data = JSON.parse(result.data);
+                    if (data.msg) {
+                        showToast(data.msg);
+                    } else {
+                        showToast('曲谱文件已更新');
+                    }
+                } else {
+                    showToast('后端接口不可用');
+                }
+            } catch (e) {
+                console.error('[btnSave] 请求失败:', e);
+                showToast('更新失败: ' + e.message);
+            }
+        })();
+    });
+
+    btnReset.addEventListener('click', function() {
+        CONFIG_SCHEMA.forEach(function(item) {
+            settings[item.name] = getDefaultValue(item);
+        });
+        selectedMusic = null;
+        renderForm();
+        showToast('已重置为默认配置');
+    });
+
+    btnMinimize.addEventListener('click', function() {
+        minimizePanel();
+    });
+
+    btnClose.addEventListener('click', function() {
+        if (window.chrome && window.chrome.webview) {
+            window.chrome.webview.postMessage(JSON.stringify({
+                url: "/window/close",
+                data: "close"
+            }));
+        } else {
+            minimizePanel();
+        }
+    });
+
+    floatBall.addEventListener('click', function() {
+        restorePanel();
+    });
+
+    // ================================================================
+    //  ★★ 最小化 / 恢复 ★★
+    // ================================================================
+    function minimizePanel() {
+        isMinimized = true;
+        panel.classList.add('hidden');
+        floatBall.classList.add('visible');
+        if (window.htmlMask && window.htmlMask.send && window.__maskId__) {
+            window.htmlMask.send(window.__maskId__, '/panel/minimize', JSON.stringify({ minimized: true }));
+        }
+    }
+
+    function restorePanel() {
+        isMinimized = false;
+        panel.classList.remove('hidden');
+        floatBall.classList.remove('visible');
+        if (window.htmlMask && window.htmlMask.send && window.__maskId__) {
+            window.htmlMask.send(window.__maskId__, '/panel/restore', JSON.stringify({ minimized: false }));
+        }
+    }
+
+    // ================================================================
+    //  ★★ 工具：时间字符串转当天时间戳 ★★
+    // ================================================================
+    function calTargetTimeStamp(timeString) {
+        const [hours, minutes, seconds] = timeString.replace(/[^0-9:]/g, "").split(':').map(Number);
+        const now = new Date();
+        const localDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, seconds);
+        return localDate.getTime();
+    }
+
+    // ================================================================
+    //  ★★ 读取 UI 配置，返回与后端 Settings 一致的对象 ★★
+    // ================================================================
+    function getUISettingsForBackend() {
+        // 确保 settings 与 UI 同步
+        collectSettingsFromDOM();
+
+        const result = {
+            startTime: 0,
+            playType: 0,
+            musicQueue: [],
+            autoSwitch: false,
+            queueInterval: 0,
+            repeatTimes: 1,
+            repeatInterval: 0,
+            debug: false
+        };
+
+        // 1. startTime: 从 music_start 转换
+        const timeStr = settings.music_start || "00:00:00";
+        result.startTime = calTargetTimeStamp(timeStr);
+
+        // 2. playType: type_select -> 枚举 (0~3)
+        const typeMap = {
+            '单曲单次执行': 0,
+            '单曲循环': 1,
+            '队列单次执行': 2,
+            '队列循环': 3
+        };
+        result.playType = typeMap[settings.type_select] !== undefined ? typeMap[settings.type_select] : 0;
+
+        // 3. autoSwitch: 布尔值
+        result.autoSwitch = settings.auto_switch || false;
+
+        // 4. 数值字段
+        result.queueInterval = parseInt(settings.music_interval, 10) || 0;
+        result.repeatTimes = parseInt(settings.music_repeat, 10) || 1;
+        result.repeatInterval = parseInt(settings.repeat_interval, 10) || 0;
+
+        // 5. debug: 布尔值
+        result.debug = settings.debug_mode === '启用';
+
+        // 6. musicQueue: 根据播放模式构建
+        const isSingleMode = (result.playType === 0 || result.playType === 1); // 单曲模式
+        if (isSingleMode) {
+            const selector = settings.music_selector || '';
+            if (selector) {
+                result.musicQueue = [selector];
+            } else {
+                result.musicQueue = [];
+            }
+        } else {
+            // 队列模式：解析 music_queue 中的序号
+            const queueInput = settings.music_queue || '';
+            const numbers = queueInput.split(/\s+/).filter(s => s !== '');
+            const queue = [];
+            numbers.forEach(num => {
+                // 在 allMusicItems 中查找匹配的 id（字符串比较）
+                const item = allMusicItems.find(m => String(m.id) === String(num));
+                if (item) {
+                    queue.push(item.id + '.' + item.name);
+                } else {
+                    console.warn(`[musicQueue] 未找到序号 ${num} 对应的乐曲`);
+                }
+            });
+            result.musicQueue = queue;
+        }
+
+        return result;
+    }
+
+    // ================================================================
+    //  ★★ 向后端发送 UI 配置 ★★
+    // ================================================================
+    function sendUISettingsToBackend() {
+        const settingsObj = getUISettingsForBackend();
+        const jsonStr = JSON.stringify(settingsObj);
+
+        (async function() {
+            const result = await window.htmlMask.request('/config/settings/save', jsonStr);
+            console.log('JS响应:', result.data);
+        })();
+    }
+
+    // ================================================================
+    //  ★★ 接收来自后端的消息（onMessage）—— 重点修改部分 ★★
+    // ================================================================
+    if (window.htmlMask) {
+        window.htmlMask.onMessage = function(msg) {
+            const url = msg.url;
+            const data = msg.data;
+
+            if (url === '/frame/minimize') {
+                try {
+                    minimizePanel();
+                } catch (e) {
+                    console.error('[onMessage] /frame/minimize 解析失败:', e);
+                    return JSON.stringify({ status: 'error', message: e.message });
+                }
+            }
+
+            if (url === '/frame/restore') {
+                try {
+                    restorePanel();
+                } catch (e) {
+                    console.error('[onMessage] /frame/restore 解析失败:', e);
+                    return JSON.stringify({ status: 'error', message: e.message });
+                }
+            }
+
+            if (url === '/config/update') {
+                try {
+                    const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
+                    const settingsData = parsedData.settings ?
+                        (typeof parsedData.settings === 'string' ? JSON.parse(parsedData.settings) :
+                            parsedData.settings) :
+                        parsedData;
+                    window.updateSettings(settingsData);
+                    return JSON.stringify({ status: 'ok', message: '配置已更新' });
+                } catch (e) {
+                    console.error('[onMessage] /config/update 解析失败:', e);
+                    return JSON.stringify({ status: 'error', message: e.message });
+                }
+            }
+
+            if (url === '/config/settings') {
+                try {
+                    const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
+
+                    // 定义字段映射：后端字段名 -> 前端字段名 + 转换函数
+                    const fieldMap = {
+                        startTime: {
+                            target: 'music_start',
+                            transform: (val) => {
+                                const date = new Date(val);
+                                if (isNaN(date.getTime())) return null; // 无效时间戳
+                                const pad = n => String(n).padStart(2, '0');
+                                return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+                            }
+                        },
+                        playType: {
+                            target: 'type_select',
+                            transform: (val) => {
+                                const map = ['单曲单次执行', '单曲循环', '队列单次执行', '队列循环'];
+                                return map[val] || '单曲单次执行';
+                            }
+                        },
+                        // +++ 新增：autoSwitch 映射到 auto_switch 控件
+                        autoSwitch: {
+                            target: 'auto_switch',
+                            transform: (val) => !!val  // 转为布尔值
+                        },
+                        queueInterval: { target: 'music_interval', transform: String },
+                        repeatTimes: { target: 'music_repeat', transform: String },
+                        repeatInterval: { target: 'repeat_interval', transform: String },
+                        debug: {
+                            target: 'debug_mode',
+                            transform: (val) => val ? '启用' : '禁用'
+                        }
+                    };
+
+                    // 遍历映射，更新 UI 和 settings
+                    Object.keys(fieldMap).forEach((backendKey) => {
+                        if (parsedData[backendKey] === undefined) return;
+
+                        const mapping = fieldMap[backendKey];
+                        const fieldName = mapping.target;
+                        const value = mapping.transform(parsedData[backendKey]);
+                        if (value === null) return; // 跳过无效值
+
+                        // 获取 DOM 元素
+                        const el = document.getElementById(fieldName);
+                        if (!el) {
+                            console.warn(`[settings] 控件 #${fieldName} 不存在`);
+                            return;
+                        }
+
+                        // 根据控件类型设置值
+                        if (el.type === 'checkbox') {
+                            el.checked = !!value;
+                            // 更新开关标签文字
+                            const wrapper = el.closest('.switch-wrapper');
+                            if (wrapper) {
+                                const label = wrapper.querySelector('.switch-label');
+                                if (label) label.textContent = el.checked ? '已启用' : '已禁用';
+                            }
+                            // 同步 settings
+                            settings[fieldName] = el.checked;
+                        } else {
+                            el.value = value;
+                            settings[fieldName] = value;
+                        }
+
+                        // 触发 change 事件，保证其他监听器响应
+                        el.dispatchEvent(new Event('change', { bubbles: true }));
+                    });
+
+                    // 注意：musicQueue 忽略，不更新任何 UI
+
+                    showToast('本地设置已加载', 1500);
+                    return JSON.stringify({ status: 'ok', message: '本地设置已加载' });
+
+                } catch (e) {
+                    console.error('[onMessage] /config/settings 处理失败:', e);
+                    return JSON.stringify({ status: 'error', message: e.message });
+                }
+            }
+
+            if (url === '/config/get') {
+                collectSettingsFromDOM();
+                return JSON.stringify(settings);
+            }
+
+            if (url === '/config/getone') {
+                try {
+                    const key = typeof data === 'string' ? JSON.parse(data) : data;
+                    if (typeof key === 'string' && settings.hasOwnProperty(key)) {
+                        return JSON.stringify({ key: key, value: settings[key] });
+                    }
+                    return JSON.stringify({ error: 'key not found' });
+                } catch (e) {
+                    return JSON.stringify({ error: e.message });
+                }
+            }
+
+            if (url === '/panel/minimize') {
+                minimizePanel();
+                return JSON.stringify({ status: 'ok' });
+            }
+            if (url === '/panel/restore') {
+                restorePanel();
+                return JSON.stringify({ status: 'ok' });
+            }
+
+            return JSON.stringify({ status: 'unknown', url: url });
+        };
+    }
+
+    // ================================================================
+    //  ★★ 初始化 ★★
+    // ================================================================
+    parseMusicOptions();
+    renderForm();
+
+    window.addEventListener('load', function() {
+        if (window.htmlMask && window.htmlMask.send && window.__maskId__) {
+            try {
+                window.htmlMask.send(
+                    window.__maskId__,
+                    '/page/ready',
+                    JSON.stringify({ status: 'ready', timestamp: Date.now() })
+                );
+            } catch (e) { /* ignore */ }
+        }
+
+        if (window.htmlMask && window.htmlMask.request) {
+            (async function() {
+                try {
+                    const result = await window.htmlMask.request('/config/settings', "update");
+                    const data = JSON.parse(result.data);
+                    if (data.msg) {
+                        console.log('[初始化] 配置已更新:', data.msg);
+                    }
+                    isInitialDataLoaded = true;
+                } catch (e) {
+                    console.error('[初始化] 请求配置失败:', e);
+                    if (allMusicItems.length === 0) {
+                        showToast('加载配置失败，请点击"更新曲谱文件"重试', 3000);
+                    }
+                }
+            })();
+        } else {
+            console.warn('[初始化] window.htmlMask.request 不可用');
+            if (allMusicItems.length === 0) {
+                showToast('后端接口不可用，无法加载乐曲数据', 3000);
+            }
+        }
+    });
+
+    window.__maskId__ = window.__maskId__ || null;
+    console.log('[HTML] 自动演奏面板已加载。支持从后端加载配置并更新UI。');
+</script>
+
+</body>
+</html>
