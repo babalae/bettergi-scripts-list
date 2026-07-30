@@ -1,0 +1,70 @@
+[
+  {
+    "name": "wishRecordItems",
+    "type": "multi-checkbox",
+    "label": "抽卡资源",
+    "options": [
+      "原石",
+      "纠缠之缘",
+      "抽卡资源总价值",
+      "可用抽数"
+    ],
+    "default": []
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "moraRecordItems",
+    "type": "multi-checkbox",
+    "label": "摩拉",
+    "options": [
+      "摩拉"
+    ],
+    "default": []
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "characterExpRecordItems",
+    "type": "multi-checkbox",
+    "label": "角色经验书",
+    "options": [
+      "流浪者的经验数量",
+      "冒险家的经验数量",
+      "大英雄的经验数量",
+      "经验书总经验"
+    ],
+    "default": []
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "artifactRecordItems",
+    "type": "multi-checkbox",
+    "label": "圣遗物经验",
+    "options": [
+      "小经验瓶数量",
+      "大经验瓶数量",
+      "圣遗物总经验"
+    ],
+    "default": []
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "userName",
+    "type": "input-text",
+    "label": "账户名称\\n所有统计记录将写入 record/账户名.txt",
+    "default": "默认账户"
+  },
+  {
+    "name": "notify",
+    "type": "checkbox",
+    "label": "发送统计通知",
+    "default": true
+  }
+]

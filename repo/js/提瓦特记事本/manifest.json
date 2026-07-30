@@ -1,0 +1,19 @@
+{
+  "manifest_version": 1,
+  "name": "提瓦特记事本",
+  "version": "1.0.2",
+  "bgi_version": "0.55",
+  "description": "统计抽卡资源、摩拉、角色经验书与圣遗物经验，并支持通知及本地记录",
+  "authors": [
+    {
+      "name": "爱丽丝",
+      "links": "https://github.com/itslyh"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "allow_js_notification": true,
+  "saved_files": [
+    "record/*.txt"
+  ]
+}
