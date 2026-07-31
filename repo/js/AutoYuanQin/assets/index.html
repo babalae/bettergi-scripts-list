@@ -137,7 +137,7 @@
     }, {
         "name": "music_queue",
         "type": "input-text",
-        "label": "队列执行（输入曲名或文件名，空格隔开，不填默认不启用）"  // [NEW] 提示改为曲名
+        "label": "队列执行（输入曲名或文件名，空格隔开，不填默认不启用）"
     }, {
         "name": "music_interval",
         "type": "input-text",
@@ -273,7 +273,6 @@
                 if (Array.isArray(val)) {
                     instruments = val;
                 } else if (typeof val === 'object' && val !== null) {
-                    // 新格式：{ instruments: [...], duration: 1234 }
                     if (val.instruments) {
                         instruments = Array.isArray(val.instruments) ? val.instruments : [val.instruments];
                     }
@@ -418,7 +417,6 @@
             };
         }
 
-        // [NEW] 直接使用完整文件名（id）存入 settings.music_selector
         settings.music_selector = selectedMusic.id;
 
         const display = document.getElementById('selectedMusicDisplay');
@@ -600,7 +598,6 @@
 
         // 恢复已选乐曲
         if (settings.music_selector) {
-            // [NEW] settings.music_selector 现在是完整文件名
             const found = allMusicItems.find(item => item.id === settings.music_selector);
             if (found) {
                 selectMusic(found);
@@ -635,7 +632,6 @@
 
         parseMusicOptions();
         renderForm();
-        // showToast('配置已更新');
     };
 
     window.getSettings = function() {
@@ -658,7 +654,7 @@
             }
         });
         if (selectedMusic) {
-            settings.music_selector = selectedMusic.id;   // [NEW] 存储完整文件名
+            settings.music_selector = selectedMusic.id;
         } else {
             settings.music_selector = '';
         }
@@ -684,7 +680,6 @@
 
     btnSave.addEventListener('click', function() {
         collectSettingsFromDOM();
-
         (async function() {
             try {
                 if (window.htmlMask && window.htmlMask.request) {
@@ -694,6 +689,13 @@
                         showToast(data.msg);
                     } else {
                         showToast('曲谱文件已更新');
+                    }
+                    // ★ 更新完成后，主动请求最新配置，以便同步单曲选择
+                    if (window.chrome && window.chrome.webview) {
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            url: "/config/settings",
+                            data: "refresh"
+                        }));
                     }
                 } else {
                     showToast('后端接口不可用');
@@ -768,7 +770,6 @@
     //  ★★ 读取 UI 配置，返回与后端 Settings 一致的对象 ★★
     // ================================================================
     function getUISettingsForBackend() {
-        // 确保 settings 与 UI 同步
         collectSettingsFromDOM();
 
         const result = {
@@ -782,11 +783,9 @@
             debug: false
         };
 
-        // 1. startTime: 从 music_start 转换
         const timeStr = settings.music_start || "00:00:00";
         result.startTime = calTargetTimeStamp(timeStr);
 
-        // 2. playType: type_select -> 枚举 (0~3)
         const typeMap = {
             '单曲单次执行': 0,
             '单曲循环': 1,
@@ -795,37 +794,26 @@
         };
         result.playType = typeMap[settings.type_select] !== undefined ? typeMap[settings.type_select] : 0;
 
-        // 3. autoSwitch: 布尔值
         result.autoSwitch = settings.auto_switch || false;
 
-        // 4. 数值字段
         result.queueInterval = parseInt(settings.music_interval, 10) || 0;
         result.repeatTimes = parseInt(settings.music_repeat, 10) || 1;
         result.repeatInterval = parseInt(settings.repeat_interval, 10) || 0;
 
-        // 5. debug: 布尔值
         result.debug = settings.debug_mode === '启用';
 
-        // 6. musicQueue: 根据播放模式构建
-        const isSingleMode = (result.playType === 0 || result.playType === 1); // 单曲模式
+        const isSingleMode = (result.playType === 0 || result.playType === 1);
         if (isSingleMode) {
             const selector = settings.music_selector || '';
-            if (selector) {
-                result.musicQueue = [selector];
-            } else {
-                result.musicQueue = [];
-            }
+            result.musicQueue = selector ? [selector] : [];
         } else {
-            // [NEW] 队列模式：输入曲名或文件名，模糊匹配
             const queueInput = settings.music_queue || '';
             const tokens = queueInput.split(/\s+/).filter(s => s !== '');
             const queue = [];
             const used = new Set();
             tokens.forEach(token => {
-                // 精确匹配完整文件名
                 let matched = allMusicItems.find(m => m.id === token);
                 if (!matched) {
-                    // 模糊匹配：曲名或文件名包含 token
                     matched = allMusicItems.find(m => m.name.includes(token) || m.id.includes(token));
                 }
                 if (matched && !used.has(matched.id)) {
@@ -839,19 +827,6 @@
         }
 
         return result;
-    }
-
-    // ================================================================
-    //  ★★ 向后端发送 UI 配置 ★★
-    // ================================================================
-    function sendUISettingsToBackend() {
-        const settingsObj = getUISettingsForBackend();
-        const jsonStr = JSON.stringify(settingsObj);
-
-        (async function() {
-            const result = await window.htmlMask.request('/config/settings/save', jsonStr);
-            console.log('JS响应:', result.data);
-        })();
     }
 
     // ================================================================
@@ -899,7 +874,7 @@
                 try {
                     const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
 
-                    // 定义字段映射：后端字段名 -> 前端字段名 + 转换函数
+                    // 字段映射
                     const fieldMap = {
                         startTime: {
                             target: 'music_start',
@@ -930,21 +905,18 @@
                         }
                     };
 
-                    // 遍历映射，更新 UI 和 settings
+                    // 更新常规字段
                     Object.keys(fieldMap).forEach((backendKey) => {
                         if (parsedData[backendKey] === undefined) return;
-
                         const mapping = fieldMap[backendKey];
                         const fieldName = mapping.target;
                         const value = mapping.transform(parsedData[backendKey]);
                         if (value === null) return;
-
                         const el = document.getElementById(fieldName);
                         if (!el) {
                             console.warn(`[settings] 控件 #${fieldName} 不存在`);
                             return;
                         }
-
                         if (el.type === 'checkbox') {
                             el.checked = !!value;
                             const wrapper = el.closest('.switch-wrapper');
@@ -957,11 +929,50 @@
                             el.value = value;
                             settings[fieldName] = value;
                         }
-
                         el.dispatchEvent(new Event('change', { bubbles: true }));
                     });
 
-                    // 注意：musicQueue 忽略，不更新任何 UI
+                    // ★★★ 新增：处理 musicQueue，更新单曲选择或队列输入 ★★★
+                    if (parsedData.musicQueue !== undefined && Array.isArray(parsedData.musicQueue)) {
+                        const musicQueue = parsedData.musicQueue;
+                        // 使用已更新的 playType（或直接从 parsedData 获取）
+                        const playType = parsedData.playType !== undefined ? parsedData.playType : settings.playType;
+                        const isSingle = (playType === 0 || playType === 1);
+                        if (isSingle) {
+                            // 单曲模式：取第一个作为选中的乐曲
+                            if (musicQueue.length > 0) {
+                                const filename = musicQueue[0];
+                                const found = allMusicItems.find(item => item.id === filename);
+                                if (found) {
+                                    selectMusic(found);
+                                } else {
+                                    // 若本地列表中没有，则创建一个临时项（仅用于显示）
+                                    selectMusic({ id: filename, name: filename, instruments: [] });
+                                }
+                                settings.music_selector = filename;
+                            } else {
+                                selectedMusic = null;
+                                settings.music_selector = '';
+                                const display = document.getElementById('selectedMusicDisplay');
+                                if (display) display.textContent = '当前选择：无';
+                                renderMusicList();
+                            }
+                            // 同步 hidden input
+                            const hiddenEl = document.getElementById('music_selector');
+                            if (hiddenEl) {
+                                hiddenEl.value = settings.music_selector;
+                                hiddenEl.dispatchEvent(new Event('change'));
+                            }
+                        } else {
+                            // 队列模式：将数组转为空格分隔的字符串
+                            const queueStr = musicQueue.join(' ');
+                            const queueInput = document.getElementById('music_queue');
+                            if (queueInput) {
+                                queueInput.value = queueStr;
+                                settings.music_queue = queueStr;
+                            }
+                        }
+                    }
 
                     showToast('本地设置已加载', 1500);
                     return JSON.stringify({ status: 'ok', message: '本地设置已加载' });
@@ -1009,6 +1020,7 @@
     renderForm();
 
     window.addEventListener('load', function() {
+        // 通知后端页面已就绪
         if (window.htmlMask && window.htmlMask.send && window.__maskId__) {
             try {
                 window.htmlMask.send(
@@ -1019,24 +1031,14 @@
             } catch (e) { /* ignore */ }
         }
 
-        if (window.htmlMask && window.htmlMask.request) {
-            (async function() {
-                try {
-                    const result = await window.htmlMask.request('/config/settings', "update");
-                    const data = JSON.parse(result.data);
-                    if (data.msg) {
-                        console.log('[初始化] 配置已更新:', data.msg);
-                    }
-                    isInitialDataLoaded = true;
-                } catch (e) {
-                    console.error('[初始化] 请求配置失败:', e);
-                    if (allMusicItems.length === 0) {
-                        showToast('加载配置失败，请点击"更新曲谱文件"重试', 3000);
-                    }
-                }
-            })();
+        // ★ 主动请求后端配置（使用 postMessage，与 /event/click 保持一致）
+        if (window.chrome && window.chrome.webview) {
+            window.chrome.webview.postMessage(JSON.stringify({
+                url: "/config/settings",
+                data: "init"
+            }));
         } else {
-            console.warn('[初始化] window.htmlMask.request 不可用');
+            console.warn('[初始化] chrome.webview 不可用，无法请求配置');
             if (allMusicItems.length === 0) {
                 showToast('后端接口不可用，无法加载乐曲数据', 3000);
             }
@@ -1044,7 +1046,7 @@
     });
 
     window.__maskId__ = window.__maskId__ || null;
-    console.log('[HTML] 自动演奏面板已加载。支持从后端加载配置并更新UI。');
+    console.log('[HTML] 自动演奏面板已加载（支持单曲选择同步）。');
 </script>
 
 </body>
