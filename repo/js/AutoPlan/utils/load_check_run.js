@@ -907,11 +907,13 @@ class Boss extends Base {
         param.reviveRetryCount = Math.max(autoBoss.reviveRetryCount, config.run.retry_count)
         param.returnToStatueAfterEachRound = autoBoss.returnToStatueAfterEachRound
         param.rewardRecognitionEnabled = autoBoss.rewardRecognitionEnabled
-        if ('timeout' in param && autoBoss.timeout != null) {
+        try{
             param.timeout = autoBoss.timeout
-        }else {
-            log.debug(`旧版本无自定义timeout设置`)
+        }catch(e){
+            //log.warn(`{0}`,e)
+            log.debug(`旧版本无timeout设置`)
         }
+
         await sleep(1000)
         try {
             //自带复活重试配置，不需要再for
