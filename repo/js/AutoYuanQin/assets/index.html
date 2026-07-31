@@ -66,6 +66,7 @@
         .float-ball:hover { transform: scale(1.08); }
         .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: rgba(20, 20, 28, 0.92); backdrop-filter: blur(8px); padding: 10px 24px; border-radius: 30px; font-size: 13px; color: #d0d0dc; border: 1px solid rgba(255, 255, 255, 0.06); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; white-space: nowrap; z-index: 999; }
         .toast.show { opacity: 1; }
+        .item-duration {font-size: 11px;color: rgba(255, 255, 255, 0.35);margin-left: 6px;font-variant-numeric: tabular-nums;}
         @media (max-width: 500px) { .panel { padding: 16px 14px; border-radius: 16px; } .header h1 { font-size: 17px; } .actions button { min-width: 60px; font-size: 13px; padding: 8px 10px; } .switch { width: 38px; height: 22px; } .switch .slider::before { height: 16px; width: 16px; left: 3px; bottom: 3px; } .switch input:checked+.slider::before { transform: translateX(16px); } .music-list { max-height: 120px; } .filter-tag { font-size: 11px; padding: 2px 10px; } .float-ball { width: 48px; height: 48px; font-size: 22px; bottom: 20px; right: 20px; } }
     </style>
 </head>
@@ -136,7 +137,7 @@
     }, {
         "name": "music_queue",
         "type": "input-text",
-        "label": "队列执行（填写数字[乐曲前的序号]，空格隔开，不填默认不启用）"
+        "label": "队列执行（输入曲名或文件名，空格隔开，不填默认不启用）"
     }, {
         "name": "music_interval",
         "type": "input-text",
@@ -189,6 +190,19 @@
     // ================================================================
     //  ★★ 工具函数 ★★
     // ================================================================
+
+    function formatDuration(ms) {
+        if (!ms || ms < 0) return '';
+        const totalSec = Math.floor(ms / 1000);
+        const hours = Math.floor(totalSec / 3600);
+        const minutes = Math.floor((totalSec % 3600) / 60);
+        const seconds = totalSec % 60;
+        if (hours > 0) {
+            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
     function showToast(msg, duration) {
         duration = duration || 2000;
         toastEl.textContent = msg;
@@ -220,7 +234,7 @@
     }
 
     // ================================================================
-    //  ★★ 解析乐曲列表（支持数组和对象） ★★
+    //  ★★ 解析乐曲列表（支持数组和对象） - 适配新格式 ★★
     // ================================================================
     function parseMusicOptions() {
         const schemaItem = CONFIG_SCHEMA.find(item => item.name === 'music_selector');
@@ -229,38 +243,48 @@
 
         if (Array.isArray(opts)) {
             allMusicItems = opts.map(opt => {
-                const dotIndex = opt.indexOf('.');
-                let id = opt,
-                    name = opt;
-                if (dotIndex > 0) {
-                    id = opt.substring(0, dotIndex);
-                    name = opt.substring(dotIndex + 1);
+                let id, name, instruments = [], duration = null;
+                if (typeof opt === 'string') {
+                    id = opt;
+                    name = id;
+                    const dashIndex = id.lastIndexOf(' - ');
+                    if (dashIndex > 0) name = id.substring(0, dashIndex);
+                } else if (typeof opt === 'object' && opt !== null) {
+                    id = opt.id || opt.name || String(opt);
+                    name = opt.name || id;
+                    if (opt.instruments) {
+                        instruments = Array.isArray(opt.instruments) ? opt.instruments : [opt.instruments];
+                    }
+                    if (typeof opt.duration === 'number') duration = opt.duration;
                 }
-                return { id, name, instruments: [] };
+                return { id, name, instruments, duration };
             });
         } else if (typeof opts === 'object' && opts !== null) {
             allMusicItems = Object.keys(opts).map(key => {
-                const dotIndex = key.indexOf('.');
-                let id = key,
-                    name = key;
-                if (dotIndex > 0) {
-                    id = key.substring(0, dotIndex);
-                    name = key.substring(dotIndex + 1);
+                const id = key;
+                let name = id;
+                const dashIndex = id.lastIndexOf(' - ');
+                if (dashIndex > 0) name = id.substring(0, dashIndex);
+
+                const val = opts[key];
+                let instruments = [];
+                let duration = null;
+
+                if (Array.isArray(val)) {
+                    instruments = val;
+                } else if (typeof val === 'object' && val !== null) {
+                    if (val.instruments) {
+                        instruments = Array.isArray(val.instruments) ? val.instruments : [val.instruments];
+                    }
+                    if (typeof val.duration === 'number') duration = val.duration;
+                } else if (val) {
+                    instruments = [val];
                 }
-                const instList = opts[key];
-                return {
-                    id,
-                    name,
-                    instruments: Array.isArray(instList) ? instList : (instList ? [instList] : [])
-                };
+                return { id, name, instruments, duration };
             });
         }
 
-        allMusicItems.sort((a, b) => {
-            const na = parseInt(a.id, 10) || 0;
-            const nb = parseInt(b.id, 10) || 0;
-            return na - nb;
-        });
+        allMusicItems.sort((a, b) => a.name.localeCompare(b.name));
     }
 
     // ================================================================
@@ -355,10 +379,12 @@
             const instStr = (item.instruments && item.instruments.length > 0) ?
                 '🎵 ' + item.instruments.slice(0, 3).join(', ') + (item.instruments.length > 3 ? ' …' : '') :
                 '';
+            const durationStr = item.duration ? formatDuration(item.duration) : '';
+            const nameHtml = `${escapeHtml(item.name)}${durationStr ? ` <span class="item-duration">${durationStr}</span>` : ''}`;
             html += `<div class="music-item ${selectedClass}" data-id="${escapeHtml(item.id)}" data-name="${escapeHtml(item.name)}" data-instruments="${escapeHtml(JSON.stringify(item.instruments || []))}">
-                            <span>${escapeHtml(item.name)}</span>
-                            ${instStr ? `<span class="item-instruments">${instStr}</span>` : ''}
-                        </div>`;
+                <span>${nameHtml}</span>
+                ${instStr ? `<span class="item-instruments">${instStr}</span>` : ''}
+            </div>`;
         });
         listContainer.innerHTML = html;
 
@@ -391,7 +417,7 @@
             };
         }
 
-        settings.music_selector = selectedMusic.id + '.' + selectedMusic.name;
+        settings.music_selector = selectedMusic.id;
 
         const display = document.getElementById('selectedMusicDisplay');
         if (display) {
@@ -488,7 +514,7 @@
                             <label>选择乐曲（单曲模式中有效）</label>
                             <div class="music-search-area">
                                 <div class="search-input-wrapper">
-                                    <input type="text" id="musicSearchInput" placeholder="搜索乐曲名称或ID..." />
+                                    <input type="text" id="musicSearchInput" placeholder="搜索乐曲名称..." />
                                     <button class="clear-btn" id="clearSearchBtn">✕</button>
                                 </div>
                                 <div id="filterTagsContainer" class="filter-tags"></div>
@@ -504,7 +530,7 @@
                             <label>选择乐曲（单曲模式中有效）</label>
                             <div class="music-search-area">
                                 <div class="search-input-wrapper">
-                                    <input type="text" id="musicSearchInput" placeholder="搜索乐曲名称或ID..." />
+                                    <input type="text" id="musicSearchInput" placeholder="搜索乐曲名称..." />
                                     <button class="clear-btn" id="clearSearchBtn">✕</button>
                                 </div>
                                 <div id="filterTagsContainer" class="filter-tags"></div>
@@ -572,16 +598,9 @@
 
         // 恢复已选乐曲
         if (settings.music_selector) {
-            const parts = settings.music_selector.split('.');
-            const id = parts[0];
-            const found = allMusicItems.find(item => item.id === id);
+            const found = allMusicItems.find(item => item.id === settings.music_selector);
             if (found) {
                 selectMusic(found);
-            } else {
-                const foundByName = allMusicItems.find(item =>
-                    (item.id + '.' + item.name) === settings.music_selector
-                );
-                if (foundByName) selectMusic(foundByName);
             }
         }
 
@@ -613,7 +632,6 @@
 
         parseMusicOptions();
         renderForm();
-        // showToast('配置已更新');
     };
 
     window.getSettings = function() {
@@ -636,7 +654,7 @@
             }
         });
         if (selectedMusic) {
-            settings.music_selector = selectedMusic.id + '.' + selectedMusic.name;
+            settings.music_selector = selectedMusic.id;
         } else {
             settings.music_selector = '';
         }
@@ -662,7 +680,6 @@
 
     btnSave.addEventListener('click', function() {
         collectSettingsFromDOM();
-
         (async function() {
             try {
                 if (window.htmlMask && window.htmlMask.request) {
@@ -672,6 +689,13 @@
                         showToast(data.msg);
                     } else {
                         showToast('曲谱文件已更新');
+                    }
+                    // ★ 更新完成后，主动请求最新配置，以便同步单曲选择
+                    if (window.chrome && window.chrome.webview) {
+                        window.chrome.webview.postMessage(JSON.stringify({
+                            url: "/config/settings",
+                            data: "refresh"
+                        }));
                     }
                 } else {
                     showToast('后端接口不可用');
@@ -746,7 +770,6 @@
     //  ★★ 读取 UI 配置，返回与后端 Settings 一致的对象 ★★
     // ================================================================
     function getUISettingsForBackend() {
-        // 确保 settings 与 UI 同步
         collectSettingsFromDOM();
 
         const result = {
@@ -760,11 +783,9 @@
             debug: false
         };
 
-        // 1. startTime: 从 music_start 转换
         const timeStr = settings.music_start || "00:00:00";
         result.startTime = calTargetTimeStamp(timeStr);
 
-        // 2. playType: type_select -> 枚举 (0~3)
         const typeMap = {
             '单曲单次执行': 0,
             '单曲循环': 1,
@@ -773,38 +794,33 @@
         };
         result.playType = typeMap[settings.type_select] !== undefined ? typeMap[settings.type_select] : 0;
 
-        // 3. autoSwitch: 布尔值
         result.autoSwitch = settings.auto_switch || false;
 
-        // 4. 数值字段
         result.queueInterval = parseInt(settings.music_interval, 10) || 0;
         result.repeatTimes = parseInt(settings.music_repeat, 10) || 1;
         result.repeatInterval = parseInt(settings.repeat_interval, 10) || 0;
 
-        // 5. debug: 布尔值
         result.debug = settings.debug_mode === '启用';
 
-        // 6. musicQueue: 根据播放模式构建
-        const isSingleMode = (result.playType === 0 || result.playType === 1); // 单曲模式
+        const isSingleMode = (result.playType === 0 || result.playType === 1);
         if (isSingleMode) {
             const selector = settings.music_selector || '';
-            if (selector) {
-                result.musicQueue = [selector];
-            } else {
-                result.musicQueue = [];
-            }
+            result.musicQueue = selector ? [selector] : [];
         } else {
-            // 队列模式：解析 music_queue 中的序号
             const queueInput = settings.music_queue || '';
-            const numbers = queueInput.split(/\s+/).filter(s => s !== '');
+            const tokens = queueInput.split(/\s+/).filter(s => s !== '');
             const queue = [];
-            numbers.forEach(num => {
-                // 在 allMusicItems 中查找匹配的 id（字符串比较）
-                const item = allMusicItems.find(m => String(m.id) === String(num));
-                if (item) {
-                    queue.push(item.id + '.' + item.name);
-                } else {
-                    console.warn(`[musicQueue] 未找到序号 ${num} 对应的乐曲`);
+            const used = new Set();
+            tokens.forEach(token => {
+                let matched = allMusicItems.find(m => m.id === token);
+                if (!matched) {
+                    matched = allMusicItems.find(m => m.name.includes(token) || m.id.includes(token));
+                }
+                if (matched && !used.has(matched.id)) {
+                    queue.push(matched.id);
+                    used.add(matched.id);
+                } else if (!matched) {
+                    console.warn(`[musicQueue] 未匹配到: "${token}"`);
                 }
             });
             result.musicQueue = queue;
@@ -814,20 +830,7 @@
     }
 
     // ================================================================
-    //  ★★ 向后端发送 UI 配置 ★★
-    // ================================================================
-    function sendUISettingsToBackend() {
-        const settingsObj = getUISettingsForBackend();
-        const jsonStr = JSON.stringify(settingsObj);
-
-        (async function() {
-            const result = await window.htmlMask.request('/config/settings/save', jsonStr);
-            console.log('JS响应:', result.data);
-        })();
-    }
-
-    // ================================================================
-    //  ★★ 接收来自后端的消息（onMessage）—— 重点修改部分 ★★
+    //  ★★ 接收来自后端的消息（onMessage） ★★
     // ================================================================
     if (window.htmlMask) {
         window.htmlMask.onMessage = function(msg) {
@@ -871,13 +874,13 @@
                 try {
                     const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
 
-                    // 定义字段映射：后端字段名 -> 前端字段名 + 转换函数
+                    // 字段映射
                     const fieldMap = {
                         startTime: {
                             target: 'music_start',
                             transform: (val) => {
                                 const date = new Date(val);
-                                if (isNaN(date.getTime())) return null; // 无效时间戳
+                                if (isNaN(date.getTime())) return null;
                                 const pad = n => String(n).padStart(2, '0');
                                 return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
                             }
@@ -889,10 +892,9 @@
                                 return map[val] || '单曲单次执行';
                             }
                         },
-                        // +++ 新增：autoSwitch 映射到 auto_switch 控件
                         autoSwitch: {
                             target: 'auto_switch',
-                            transform: (val) => !!val  // 转为布尔值
+                            transform: (val) => !!val
                         },
                         queueInterval: { target: 'music_interval', transform: String },
                         repeatTimes: { target: 'music_repeat', transform: String },
@@ -903,43 +905,74 @@
                         }
                     };
 
-                    // 遍历映射，更新 UI 和 settings
+                    // 更新常规字段
                     Object.keys(fieldMap).forEach((backendKey) => {
                         if (parsedData[backendKey] === undefined) return;
-
                         const mapping = fieldMap[backendKey];
                         const fieldName = mapping.target;
                         const value = mapping.transform(parsedData[backendKey]);
-                        if (value === null) return; // 跳过无效值
-
-                        // 获取 DOM 元素
+                        if (value === null) return;
                         const el = document.getElementById(fieldName);
                         if (!el) {
                             console.warn(`[settings] 控件 #${fieldName} 不存在`);
                             return;
                         }
-
-                        // 根据控件类型设置值
                         if (el.type === 'checkbox') {
                             el.checked = !!value;
-                            // 更新开关标签文字
                             const wrapper = el.closest('.switch-wrapper');
                             if (wrapper) {
                                 const label = wrapper.querySelector('.switch-label');
                                 if (label) label.textContent = el.checked ? '已启用' : '已禁用';
                             }
-                            // 同步 settings
                             settings[fieldName] = el.checked;
                         } else {
                             el.value = value;
                             settings[fieldName] = value;
                         }
-
-                        // 触发 change 事件，保证其他监听器响应
                         el.dispatchEvent(new Event('change', { bubbles: true }));
                     });
 
-                    // 注意：musicQueue 忽略，不更新任何 UI
+                    // ★★★ 新增：处理 musicQueue，更新单曲选择或队列输入 ★★★
+                    if (parsedData.musicQueue !== undefined && Array.isArray(parsedData.musicQueue)) {
+                        const musicQueue = parsedData.musicQueue;
+                        // 使用已更新的 playType（或直接从 parsedData 获取）
+                        const playType = parsedData.playType !== undefined ? parsedData.playType : settings.playType;
+                        const isSingle = (playType === 0 || playType === 1);
+                        if (isSingle) {
+                            // 单曲模式：取第一个作为选中的乐曲
+                            if (musicQueue.length > 0) {
+                                const filename = musicQueue[0];
+                                const found = allMusicItems.find(item => item.id === filename);
+                                if (found) {
+                                    selectMusic(found);
+                                } else {
+                                    // 若本地列表中没有，则创建一个临时项（仅用于显示）
+                                    selectMusic({ id: filename, name: filename, instruments: [] });
+                                }
+                                settings.music_selector = filename;
+                            } else {
+                                selectedMusic = null;
+                                settings.music_selector = '';
+                                const display = document.getElementById('selectedMusicDisplay');
+                                if (display) display.textContent = '当前选择：无';
+                                renderMusicList();
+                            }
+                            // 同步 hidden input
+                            const hiddenEl = document.getElementById('music_selector');
+                            if (hiddenEl) {
+                                hiddenEl.value = settings.music_selector;
+                                hiddenEl.dispatchEvent(new Event('change'));
+                            }
+                        } else {
+                            // 队列模式：将数组转为空格分隔的字符串
+                            const queueStr = musicQueue.join(' ');
+                            const queueInput = document.getElementById('music_queue');
+                            if (queueInput) {
+                                queueInput.value = queueStr;
+                                settings.music_queue = queueStr;
+                            }
+                        }
+                    }
 
                     showToast('本地设置已加载', 1500);
                     return JSON.stringify({ status: 'ok', message: '本地设置已加载' });
@@ -987,6 +1020,7 @@
     renderForm();
 
     window.addEventListener('load', function() {
+        // 通知后端页面已就绪
         if (window.htmlMask && window.htmlMask.send && window.__maskId__) {
             try {
                 window.htmlMask.send(
@@ -997,24 +1031,14 @@
             } catch (e) { /* ignore */ }
         }
 
-        if (window.htmlMask && window.htmlMask.request) {
-            (async function() {
-                try {
-                    const result = await window.htmlMask.request('/config/settings', "update");
-                    const data = JSON.parse(result.data);
-                    if (data.msg) {
-                        console.log('[初始化] 配置已更新:', data.msg);
-                    }
-                    isInitialDataLoaded = true;
-                } catch (e) {
-                    console.error('[初始化] 请求配置失败:', e);
-                    if (allMusicItems.length === 0) {
-                        showToast('加载配置失败，请点击"更新曲谱文件"重试', 3000);
-                    }
-                }
-            })();
+        // ★ 主动请求后端配置（使用 postMessage，与 /event/click 保持一致）
+        if (window.chrome && window.chrome.webview) {
+            window.chrome.webview.postMessage(JSON.stringify({
+                url: "/config/settings",
+                data: "init"
+            }));
         } else {
-            console.warn('[初始化] window.htmlMask.request 不可用');
+            console.warn('[初始化] chrome.webview 不可用，无法请求配置');
             if (allMusicItems.length === 0) {
                 showToast('后端接口不可用，无法加载乐曲数据', 3000);
             }
@@ -1022,7 +1046,7 @@
     });
 
     window.__maskId__ = window.__maskId__ || null;
-    console.log('[HTML] 自动演奏面板已加载。支持从后端加载配置并更新UI。');
+    console.log('[HTML] 自动演奏面板已加载（支持单曲选择同步）。');
 </script>
 
 </body>
