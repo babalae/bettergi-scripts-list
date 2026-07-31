@@ -1,0 +1,68 @@
+name: Question / 使用咨询
+description: 咨询脚本使用、配置或脚本仓库相关问题
+title: "[question] "
+labels:
+  - question
+body:
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: 提交确认
+      options:
+        - label: 我已搜索现有 Issue
+          required: true
+        - label: 我已阅读相关脚本 README 和 BetterGI 文档
+          required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: 涉及范围
+      options:
+        - JS 脚本
+        - 地图追踪
+        - 战斗策略
+        - 七圣召唤
+        - 脚本仓库与分发
+        - 不确定
+    validations:
+      required: true
+
+  - type: input
+    id: bettergi-version
+    attributes:
+      label: BetterGI 版本号
+      placeholder: 例如：0.62.0
+
+  - type: input
+    id: script-name
+    attributes:
+      label: 相关脚本名称与版本
+
+  - type: input
+    id: script-path
+    attributes:
+      label: 脚本链接或仓库路径
+      placeholder: 例如：repo/js/LinneaMining
+
+  - type: textarea
+    id: question
+    attributes:
+      label: 问题描述
+      placeholder: 请具体说明想了解的内容。
+    validations:
+      required: true
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: 已尝试内容
+      description: 已检查的配置、文档、日志和排查结果。
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志与附件
+      description: 可拖入日志、截图或录屏；请先移除 UID、路径等隐私信息。
