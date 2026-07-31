@@ -1,3 +1,5 @@
+// 3.0.3
+
 /* ===== 1. 自定义配置 ===== */
 const timeMoveUp = Math.round((settings.timeMove || 1000) * 0.45);
 const timeMoveDown = Math.round((settings.timeMove || 1000) * 0.55);
@@ -14,6 +16,13 @@ const fullRoi = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/it
 const FiconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/F_Dialogue.png"), 1102, 335, 34, 400);
 FiconRo.Threshold = 0.9;
 FiconRo.InitTemplate();
+const frozenRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/解除冰冻.png"), 1379, 574, 1463 - 1379, 613 - 574);
+const revivalRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/复苏.png"), 755, 915, 1117 - 755, 1037 - 915);
+revivalRo.Threshold = 0.9;
+revivalRo.InitTemplate();
+const revival_2_Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/复苏_联机.png"), 930, 1000, 100, 50);
+revival_2_Ro.Threshold = 0.9;
+revival_2_Ro.InitTemplate();
 const scrollRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/拾取滚轮.png"), 1017, 496, 1093 - 581, 581 - 496);
 
 /* ===== 3. 全局通用常量 ===== */
@@ -111,10 +120,26 @@ let materialCdMap = {};
 async function recognizeAndInteract() {
     let lastcenterYF = 0, lastItemName = "", thisMoveUpTime = 0, lastMoveDown = 0;
     let lastCheckItemFull = new Date();
+    let lastFreezeCheck = new Date();
+    let lastRevivalCheck = new Date();
     let checkTask = null;
+    let freezeTask = null;
+    let revivalTask = null;
 
     while (state.running) {
         gameRegion = await getGameRegion();
+
+        // === 解除冰冻检测（每250毫秒） ===
+        if (new Date() - lastFreezeCheck > 250 && !freezeTask) {
+            lastFreezeCheck = new Date();
+            freezeTask = checkAndBreakFreeze();
+        }
+
+        // === 复苏检测（每500毫秒） ===
+        if (new Date() - lastRevivalCheck > 500 && !revivalTask) {
+            lastRevivalCheck = new Date();
+            revivalTask = checkAndClickRevival();
+        }
 
         if (new Date() - lastCheckItemFull > 2500 && !checkTask) {
             lastCheckItemFull = new Date();
@@ -129,6 +154,17 @@ async function recognizeAndInteract() {
                 if (await hasScroll()) {
                     await keyMouseScript.runFile(`assets/滚轮下翻.json`);
                 }
+            }
+            // 处理并发的冰冻检测
+            if (freezeTask) {
+                try { await freezeTask; }
+                catch (e) { log.error('冰冻检测异常:', e); }
+                finally { freezeTask = null; }
+            }
+            if (revivalTask) {
+                try { await revivalTask; }
+                catch (e) { log.error('复苏检测异常:', e); }
+                finally { revivalTask = null; }
             }
             if (checkTask) {
                 try { await checkTask; }
@@ -182,6 +218,16 @@ async function recognizeAndInteract() {
             await keyMouseScript.runFile(`assets/滚轮上翻.json`);
         }
         await sleep(rollingDelay);
+        if (freezeTask) {
+            try { await freezeTask; }
+            catch (e) { log.error('冰冻检测异常:', e); }
+            finally { freezeTask = null; }
+        }
+        if (revivalTask) {
+            try { await revivalTask; }
+            catch (e) { log.error('复苏检测异常:', e); }
+            finally { revivalTask = null; }
+        }
         if (checkTask) {
             try { await checkTask; }
             catch (e) { log.error('背包满检查异常:', e); }
@@ -233,7 +279,8 @@ async function performTemplateMatch(centerYF) {
     /* 一次性切 6 种宽度（0-5 汉字） */
     const regions = [];
     for (let cn = 0; cn <= 6; cn++) {   // 0~5 共 6 档
-        const w = 12 + 28 * Math.min(cn, 5) + 2;
+        // 增加 20 像素，兼容化种匣的括号/种子后缀
+        const w = 12 + 28 * Math.min(cn, 5) + 2 + 20;
         regions[cn] = gameRegion.DeriveCrop(1219, centerYF - 15, w, 30);
     }
 
@@ -299,6 +346,46 @@ async function isMainUI() {
             log.error(`isMainUI:${e.message}`);
         }
         await sleep(findFInterval);
+    }
+    return false;
+}
+
+/**
+ * 检测并挣脱冰冻状态
+ */
+async function checkAndBreakFreeze() {
+    try {
+        if (gameRegion.find(frozenRo).isExist()) {
+            log.info("检测到冻结，尝试挣脱");
+            for (let m = 0; m < 3; m++) {
+                keyPress("VK_SPACE");
+                await sleep(30);
+            }
+        }
+    } catch (error) {
+        // 忽略识别错误
+    }
+}
+
+/**
+ * 检测并点击复苏按钮
+ * 当角色死亡出现复苏界面时，自动点击复苏按钮
+ * @returns {Promise<boolean>} 是否检测到并点击了复苏按钮
+ */
+async function checkAndClickRevival() {
+    try {
+        const rg = await getGameRegion();
+        const roList = [revivalRo, revival_2_Ro];
+        for (const ro of roList) {
+            const res = rg.find(ro);
+            if (res.isExist()) {
+                log.info("检测到复苏按钮，点击");
+                res.click();
+                return true;
+            }
+        }
+    } catch (error) {
+        // 忽略识别错误
     }
     return false;
 }
@@ -1412,6 +1499,17 @@ function calculateRouteCD(cdType, startTime) {
         case "46小时刷新":
             newTimestamp = new Date(startTime.getTime() + 46 * 60 * 60 * 1000);
             break;
+        case "每天一次":
+            const hour = startTime.getHours();
+            if (hour >= 4 && hour < 16) {
+                // 在 04:00 ~ 15:59 之间采集 → 第二天 04:00
+                newTimestamp.setHours(4, 0, 0, 0);
+                if (newTimestamp <= startTime) newTimestamp.setDate(newTimestamp.getDate() + 1);
+            } else {
+                // 在 16:00 ~ 03:59 之间采集 → 当前时间 + 12 小时
+                newTimestamp = new Date(startTime.getTime() + 12 * 60 * 60 * 1000);
+            }
+            break;
         default:
             newTimestamp = startTime;
             break;
@@ -1609,9 +1707,9 @@ async function appendDailyPickup(pickupLog) {
         if (txt) oldArr = JSON.parse(txt);
     } catch (_) { /* 文件不存在或解析失败 */ }
 
-    // 统一按 UTC+8 的 4 点划分日期
-    const utc8_4am = new Date(Date.now() + 8 * 3600_000 - 4 * 3600_000);
-    const today = utc8_4am.toISOString().slice(0, 10); // "YYYY-MM-DD"
+    // 统一按 UTC+8 的 0 点划分日期
+    const utc8 = new Date(Date.now() + 8 * 3600_000);
+    const today = utc8.toISOString().slice(0, 10); // "YYYY-MM-DD"
 
     let todayItem = oldArr.find(e => e.date === today);
     if (!todayItem) {
@@ -1849,10 +1947,15 @@ function isArrivedAtEndPoint(fullPath) {
         }
         if (endX === 0 && endY === 0) return false;   // 没找到有效点
 
-        /* 2. 取当前人物坐标 */
+        /* 2. 取当前人物坐标與地图匹配方法 */
 
         const mapName = (json.info?.map_name && json.info.map_name.trim()) ? json.info.map_name : 'Teyvat';
-        const pos = genshin.getPositionFromMap(mapName, 3000);
+        const map_match_method = json.info?.map_match_method || "";
+
+        let pos = map_match_method && map_match_method !== ""
+            ? genshin.getPositionFromMapWithMatchingMethod(mapName, map_match_method, 3000)
+            : genshin.getPositionFromMap(mapName, 3000);
+
         const curX = pos.X;
         const curY = pos.Y;
 
@@ -2121,7 +2224,8 @@ async function buildSettingsJson() {
                 "4点刷新",
                 "12小时刷新",
                 "24小时刷新",
-                "46小时刷新"
+                "46小时刷新",
+                "每天一次"
             ]
         });
 
@@ -2150,6 +2254,7 @@ async function buildSettingsJson() {
     // 仅刷新模式检查
     if (settings.onlyRefresh) {
         settings.onlyRefresh = false;
+        log.info(`交互或拾取："刷新自定义配置"`);
         return false;
     }
     return true;
