@@ -5,21 +5,24 @@ const timeMoveUp = Math.round((settings.timeMove || 1000) * 0.45);
 const timeMoveDown = Math.round((settings.timeMove || 1000) * 0.55);
 const accountName = settings.infoFileName || "默认账户";
 const operationMode = settings.operationMode || "执行任务（若不存在索引文件则自动创建）";
-let loopCollect = 1; // 默认不循环
-// ---- loopCollect 配置迁移 ----
-const rawLoop = settings.loopCollect;
+let loopMode = 1; // 默认不循环
+// ---- loopMode 配置迁移 ----
+let rawLoop = settings.loopMode; // 新字段优先
+if (rawLoop === undefined && settings.loopCollect !== undefined) {
+    rawLoop = settings.loopCollect; // 兼容旧字段
+}
 if (typeof rawLoop === 'boolean') {
-    loopCollect = rawLoop ? 3 : 1;  // true→全局循环(3)，false→不循环(1)
+    loopMode = rawLoop ? 3 : 1;  // true→全局循环(3)，false→不循环(1)
 } else if (typeof rawLoop === 'string') {
     // 新配置存储的是中文，映射为数字
     switch (rawLoop) {
-        case "不循环": loopCollect = 1; break;
-        case "每组重试": loopCollect = 2; break;
-        case "全局循环": loopCollect = 3; break;
-        default: loopCollect = 1;
+        case "不循环": loopMode = 1; break;
+        case "每组重试": loopMode = 2; break;
+        case "全局循环": loopMode = 3; break;
+        default: loopMode = 1;
     }
 } else {
-    loopCollect = 1; // 未定义或非预期，默认不循环
+    loopMode = 1; // 默认不循环
 }
 const disableJsons = settings.disableJsons || "";
 let processingIngredient = settings.processingIngredient;
@@ -2092,7 +2095,7 @@ async function buildSettingsJson() {
 
     /* 5.2.1 循环模式 */
     newSettings.push({
-        name: "loopCollect",
+        name: "loopMode",
         type: "select",
         label: "选择循环模式",
         options: [
@@ -2783,11 +2786,11 @@ async function processPathGroups() {
                         const fullName = fileName + '.json';
                         const targetObj = cdMap.get(fullName);
                         const nextCD = targetObj ? new Date(targetObj.cdTime) : new Date(0);
-                        const maxRunCount = loopCollect;  // 1、2、3
+                        const maxRunCount = loopMode;  // 1、2、3
 
                         const startTime = new Date();
                         if (startTime <= nextCD) {
-                            if (loopCollect !== 3) {
+                            if (loopMode !== 3) {
                                 log.info(`当前任务 ${fileName} 未刷新，跳过任务`);
                             }
                             continue;   // 跳过，不写回
@@ -2867,7 +2870,7 @@ async function processPathGroups() {
                             await saveRecordAndClearLog(cdMap, recordFilePath, correctedLog);
                             routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
 
-                            if (loopCollect === 3) {
+                            if (loopMode === 3) {
                                 i = 0;
                                 break;
                             } else {
