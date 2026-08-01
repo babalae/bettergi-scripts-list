@@ -79,20 +79,22 @@ class Record {
      * @param {Object} item - 用于匹配的记录项，包含 key, time, uid 属性
      * @returns {boolean}
      */
-    static existInList(list = [], item) {
-        const ts = item?.id ? list.filter(i => i.id === item.id && i.time === item.time && i.uid === item.uid) : list.filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
-        return ts !== null && ts.length > 0
+    static existInList(list = [], item, comparator) {
+        const predicate = (comparator && typeof comparator === 'function')
+            ? comparator
+            : (i) => JSON.stringify(i) === JSON.stringify(item);
+        return list.some(predicate);
     }
 
     /**
      * 检查指定记录是否存在
      * @param {string} path - 记录文件的路径
      * @param {Object} item - 用于匹配的记录项，包含 key, time, uid 属性
+     * @param {Function} [comparator] - 自定义比较函数，接收列表中的每一项，返回 boolean
      * @returns {boolean}
      */
-    static exist(path, item) {
-        const ts = Record.read(path).filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
-        return ts !== null && ts.length > 0
+    static exist(path, item, comparator) {
+        return this.existInList(this.read(path), item, comparator);
     }
 
     /**
@@ -101,8 +103,29 @@ class Record {
      * @param {Array} list - 要写入的记录列表
      * @returns {*} 返回 parse 变量（注：当前代码中 parse 未在此函数内定义）
      */
-    static write(path, list) {
-        file.writeTextSync(path, JSON.stringify(list))
+    static write(path, list,throwError=false) {
+        try {
+            file.writeTextSync(path, JSON.stringify(list));
+        } catch (e) {
+            log.error(`[Record] 写入记录文件失败，路径: {0}，错误: {1}`, path, e.message);
+            if (throwError) throw e; // 视业务需求决定是否重新抛出
+        }
+    }
+
+    /**
+     * 将列表中尚不存在的记录项追加写入记录文件（去重追加）
+     * @param {string} path - 记录文件路径
+     * @param {Array} [list=[]] - 待追加的记录项列表
+     * @param {Function} [filterFn] - 自定义过滤函数，接收 list 中的每个项，返回 true 表示应追加，false 则忽略。
+     */
+    static writeAdd(path, list = [], filterFn, existComparator) {
+        const readList = this.read(path);
+
+        // 默认谓词：仅保留 readList 中不存在的项
+        const shouldAdd = typeof filterFn === 'function' ? filterFn : (item) => !Record.existInList(readList, item, ((existComparator && typeof existComparator === 'function') ? existComparator : (i) => JSON.stringify(i) === JSON.stringify(item)));
+
+        const disList = list.filter(shouldAdd)
+        this.write(path, readList.concat(disList));
     }
 }
 
@@ -184,7 +207,8 @@ class Base {
 class Domain extends Base {
     static async buildKey(item) {
         const json = await super.buildKey(item);
-        const auto = item.autoFight;
+        // const auto = item.autoFight;
+        const auto = item[this.key()];
         json.key = `${json.key}|${auto.domainName}|${auto.partyName}|${auto.domainRoundNum}|${auto.sundaySelectedValue}`
         return json
     }
@@ -369,7 +393,8 @@ class Domain extends Base {
 class LeyLineOutcrop extends Base {
     static async buildKey(item) {
         const json = await super.buildKey(item);
-        const auto = item.autoLeyLineOutcrop;
+        // const auto = item.autoLeyLineOutcrop;
+        const auto = item[this.key()];
         json.key = json.key +
             "|" + auto.country +
             "|" + auto.leyLineOutcropType +
@@ -516,7 +541,8 @@ class StygianOnslaught extends Base {
 
     static async buildKey(item) {
         const json = await super.buildKey(item);
-        const auto = item.autoStygianOnslaught;
+        // const auto = item.autoStygianOnslaught;
+        const auto = item[this.key()];
         json.key = json.key +
             "|" + auto.bossNum +
             "|" + auto.fightTeamName +
@@ -728,7 +754,8 @@ class StygianOnslaught extends Base {
 class Boss extends Base {
     static async buildKey(item) {
         const json = await super.buildKey(item);
-        let auto = item?.autoBoss
+        // let auto = item.autoBoss
+        let auto = item[this.key()]
 
         json.key = json.key +
             "|" + auto.bossName +
@@ -1024,6 +1051,7 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
             break
         case LoadType.bgi_tools:
             // 通过bgi_tools方式加载配置
+            log.info(`开始拉取bgi_tools配置`)
             const uidConfigListBgiTools = await BgiTools.pullJsonConfig(config.bgi_tools.api.httpPullJsonConfig, config.user.uid + '') || []
             if (uidConfigListBgiTools?.length > 0) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
@@ -1105,18 +1133,25 @@ export async function initRunOrderList(domainConfig) {
  */
 export async function autoRunList(autoRunOrderList) {
     let RecordList = Record.read(config.path.record);
-
     for (const item of autoRunOrderList) {
         await sleep(3000)
         let keyJson = undefined
+        let RecordJson={id:undefined,time: undefined,uid: undefined,key: undefined}
+
         const handler = taskHandlerMap[item.runType];
 
         if (!handler) continue;
 
         if (item?.record) {
             keyJson = await handler.buildKey(item);
-            log.debug(`检查记录[{0}-{1}]`, item.runType, keyJson)
-            const exist = Record.existInList(RecordList, keyJson);
+
+            RecordJson.id=keyJson.id
+            RecordJson.time=keyJson.time
+            RecordJson.uid=keyJson.uid
+            RecordJson.key=keyJson.key
+
+            log.debug(`检查记录[{0}-{1}]`, item.runType, RecordJson)
+            const exist = Record.existInList(RecordList, RecordJson);
             if (exist) {
                 log.info(`[本日已执行，跳过]==>[{0}-{1}]`, item.runType, keyJson)
                 continue;
@@ -1134,7 +1169,7 @@ export async function autoRunList(autoRunOrderList) {
         }
 
         if (keyJson) {
-            RecordList.push(keyJson)
+            RecordList.push(RecordJson)
             log.info(`写入记录[{0}-{1}]==>{2}已执行`, item.runType, keyJson, config.path.record)
             await Record.write(config.path.record, RecordList)
         }
