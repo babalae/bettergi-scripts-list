@@ -13,6 +13,8 @@ if (rawLoop === undefined && settings.loopCollect !== undefined) {
 }
 if (typeof rawLoop === 'boolean') {
     loopMode = rawLoop ? 3 : 1;  // true→全局循环(3)，false→不循环(1)
+    // 写入兼容后的字符串，防止 UI 面板回显空白
+    settings.loopMode = rawLoop ? "全局循环" : "不循环";
 } else if (typeof rawLoop === 'string') {
     // 新配置存储的是中文，映射为数字
     switch (rawLoop) {
