@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785412971351,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "14-莲蓬-璃月-墟散人离之处-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 174.1777,
+      "y": 389.7847
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 128.4609,
+      "y": 366.8921
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 96.5176,
+      "y": 338.1924
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 92.7051,
+      "y": 334.7114
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 84.2598,
+      "y": 326.3901
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.21)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 81.7559,
+      "y": 323.8291
+    }
+  ]
+}
