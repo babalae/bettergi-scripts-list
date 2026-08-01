@@ -39,12 +39,6 @@ body:
     attributes:
       label: 相关脚本名称与版本
 
-  - type: input
-    id: script-path
-    attributes:
-      label: 脚本链接或仓库路径
-      placeholder: 例如：repo/js/LinneaMining
-
   - type: textarea
     id: question
     attributes:
@@ -64,5 +58,5 @@ body:
   - type: textarea
     id: logs
     attributes:
-      label: 日志与附件
-      description: 可拖入日志、截图或录屏；请先移除 UID、路径等隐私信息。
+      label: 日志、截图或录屏
+      description: 支持拖入 .log/.txt、截图或录屏

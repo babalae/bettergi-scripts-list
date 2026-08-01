@@ -48,13 +48,6 @@ body:
     validations:
       required: true
 
-  - type: input
-    id: script-path
-    attributes:
-      label: 脚本链接或仓库路径
-      description: 填写准确路径可帮助 AI 直接读取相关源码。
-      placeholder: 例如：repo/js/LinneaMining
-
   - type: textarea
     id: environment
     attributes:
@@ -95,10 +88,10 @@ body:
     id: logs-and-media
     attributes:
       label: 日志、截图或录屏
-      description: 支持拖入 .log/.txt、截图或录屏，请注明发生时间，并再次确认附件中不含隐私信息。
+      description: 支持拖入 .log/.txt、截图或录屏
 
   - type: textarea
     id: additional-info
     attributes:
       label: 其他信息
-      description: 如果由脚本网站跳转而来，请保留已预填的脚本作者通知信息；也可补充其他有助于定位问题的内容。
+      description: 补充其他有助于定位问题的内容
