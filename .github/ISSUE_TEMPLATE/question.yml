@@ -39,12 +39,6 @@ body:
     attributes:
       label: 相关脚本名称与版本
 
-  - type: input
-    id: script-path
-    attributes:
-      label: 脚本链接或仓库路径
-      placeholder: 例如：repo/js/LinneaMining
-
   - type: textarea
     id: question
     attributes:
