@@ -14,7 +14,7 @@ if (typeof rawLoop === 'boolean') {
     // 新配置存储的是中文，映射为数字
     switch (rawLoop) {
         case "不循环": loopCollect = 1; break;
-        case "每組重试": loopCollect = 2; break;
+        case "每组重试": loopCollect = 2; break;
         case "全局循环": loopCollect = 3; break;
         default: loopCollect = 1;
     }
@@ -2097,7 +2097,7 @@ async function buildSettingsJson() {
         label: "选择循环模式",
         options: [
             "不循环",
-            "每組重试",
+            "每组重试",
             "全局循环"
         ],
         default: "不循环"
