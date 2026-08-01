@@ -5,6 +5,22 @@ const timeMoveUp = Math.round((settings.timeMove || 1000) * 0.45);
 const timeMoveDown = Math.round((settings.timeMove || 1000) * 0.55);
 const accountName = settings.infoFileName || "默认账户";
 const operationMode = settings.operationMode || "执行任务（若不存在索引文件则自动创建）";
+let loopCollect = 1; // 默认不循环
+// ---- loopCollect 配置迁移 ----
+const rawLoop = settings.loopCollect;
+if (typeof rawLoop === 'boolean') {
+    loopCollect = rawLoop ? 3 : 1;  // true→全局循环(3)，false→不循环(1)
+} else if (typeof rawLoop === 'string') {
+    // 新配置存储的是中文，映射为数字
+    switch (rawLoop) {
+        case "不循环": loopCollect = 1; break;
+        case "每組重试": loopCollect = 2; break;
+        case "全局循环": loopCollect = 3; break;
+        default: loopCollect = 1;
+    }
+} else {
+    loopCollect = 1; // 未定义或非预期，默认不循环
+}
 const disableJsons = settings.disableJsons || "";
 let processingIngredient = settings.processingIngredient;
 let findFInterval = Math.max(16, Math.min(200, parseInt(settings.findFInterval) || 100));
@@ -1707,9 +1723,9 @@ async function appendDailyPickup(pickupLog) {
         if (txt) oldArr = JSON.parse(txt);
     } catch (_) { /* 文件不存在或解析失败 */ }
 
-    // 统一按 UTC+8 的 0 点划分日期
-    const utc8 = new Date(Date.now() + 8 * 3600_000);
-    const today = utc8.toISOString().slice(0, 10); // "YYYY-MM-DD"
+    // 统一按 UTC+8 的 4 点划分日期
+    const utc8_4am = new Date(Date.now() + 8 * 3600_000 - 4 * 3600_000);
+    const today = utc8_4am.toISOString().slice(0, 10); // "YYYY-MM-DD"
 
     let todayItem = oldArr.find(e => e.date === today);
     if (!todayItem) {
@@ -2077,8 +2093,14 @@ async function buildSettingsJson() {
     /* 5.2.1 循环模式 */
     newSettings.push({
         name: "loopCollect",
-        type: "checkbox",
-        label: "勾选后，路径组中每条路线完成后从头开始重新检查"
+        type: "select",
+        label: "选择循环模式",
+        options: [
+            "不循环",
+            "每組重试",
+            "全局循环"
+        ],
+        default: "不循环"
     });
 
     /* 5.3 固定尾部节点（原样照搬） */
@@ -2592,7 +2614,7 @@ async function processPriorityItems() {
             /* ---------- 智能选队：按路线所在文件夹反查路径组 ---------- */
             await selectPartyByRoutePath(bestRoute.fullPath, "优先采集阶段");
 
-            log.info(`执行路线 ${fileName}，剩余优先材料：${remaining}`);
+            log.info(`当前进度：执行路线 ${fileName}，剩余优先材料：${remaining}`);
 
             let timeNow = new Date();
             await handleIngredientProcessing(timeNow);
@@ -2761,11 +2783,11 @@ async function processPathGroups() {
                         const fullName = fileName + '.json';
                         const targetObj = cdMap.get(fullName);
                         const nextCD = targetObj ? new Date(targetObj.cdTime) : new Date(0);
-                        const maxRunCount = settings.loopCollect ? 3 : 1;
+                        const maxRunCount = loopCollect;  // 1、2、3
 
                         const startTime = new Date();
                         if (startTime <= nextCD) {
-                            if (!settings.loopCollect) {
+                            if (loopCollect !== 3) {
                                 log.info(`当前任务 ${fileName} 未刷新，跳过任务`);
                             }
                             continue;   // 跳过，不写回
@@ -2845,7 +2867,7 @@ async function processPathGroups() {
                             await saveRecordAndClearLog(cdMap, recordFilePath, correctedLog);
                             routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
 
-                            if (settings.loopCollect) {
+                            if (loopCollect === 3) {
                                 i = 0;
                                 break;
                             } else {
@@ -2873,13 +2895,13 @@ function loadSubJS(jsFilePath) {
     const normalizedBasePath = jsFilePath
         .replace(/[\\/]+/g, '/')
         .replace(/\/+$/, '') + '/';
-    
+
     try {
         // ========== 1.1 读取 manifest.json ==========
         const manifestPath = `${normalizedBasePath}manifest.json`;
         const manifestContent = file.readTextSync(manifestPath);
         const manifest = JSON.parse(manifestContent);
-        
+
         // 获取入口文件名
         const mainFileName = manifest.main || 'main.js';
         const filePath = `${normalizedBasePath}${mainFileName}`;
@@ -2918,11 +2940,11 @@ function loadSubJS(jsFilePath) {
         // 将子脚本中的唯一外层 async IIFE 改为命名函数，并在最后 await 它
         const trimmedCode = rawCode.trim();
         const asyncIifeCount = (trimmedCode.match(/\(async function\s*\(/g) || []).length;
-        
+
         if (asyncIifeCount === 1) {
             // 找到唯一的 async IIFE
             const asyncIifeStart = trimmedCode.indexOf('(async function');
-            
+
             // 找到这个 IIFE 的结束位置（需要匹配括号）
             let braceCount = 0;
             let foundFirstBrace = false;
@@ -2943,7 +2965,7 @@ function loadSubJS(jsFilePath) {
                     }
                 }
             }
-            
+
             if (asyncIifeStart >= 0 && iifeEnd > asyncIifeStart) {
                 const beforeIife = trimmedCode.substring(0, asyncIifeStart).trim();
                 const iifeCode = trimmedCode.substring(asyncIifeStart, iifeEnd);
@@ -2951,7 +2973,7 @@ function loadSubJS(jsFilePath) {
                 const lastBrace = iifeCode.lastIndexOf('}');
                 const iifeBody = iifeCode.substring(firstBrace + 1, lastBrace).trim();
                 const afterIife = trimmedCode.substring(iifeEnd).trim();
-                
+
                 rawCode = `return (async function() {\n${beforeIife}\n${afterIife}\nasync function __subJsMain__() {\n${iifeBody}\n}\nawait __subJsMain__();\n})();`;
             } else {
                 rawCode = `return (async function() {\n${rawCode}\n})();`;
@@ -3151,7 +3173,7 @@ async function executeSchedule(schedulePath) {
                 log.error(`任务配置不完整，缺少 name 或 filePath: ${JSON.stringify(task)}`);
                 return false;
             }
-            
+
             // 根据 type 字段判断任务类型（大小写不敏感）
             const taskTypeRaw = (task.type || 'js').toLowerCase();
             let taskType;
@@ -3165,17 +3187,17 @@ async function executeSchedule(schedulePath) {
                 log.error(`未知的任务类型: ${task.type}`);
                 return false;
             }
-            
+
             const filePath = task.filePath;
             log.info(`加载任务: ${task.name} (${filePath}, 类型: ${taskType})`);
-            
+
             let taskInfo;
             if (taskType === 'subJS') {
                 taskInfo = loadSubJS(filePath);
             } else {
                 taskInfo = { filePath: filePath, type: taskType };
             }
-            
+
             taskMap.set(task.name, {
                 ...task,
                 taskType: taskType,
@@ -3190,9 +3212,9 @@ async function executeSchedule(schedulePath) {
         // 按顺序执行 schedule 中的每个动作
         for (const action of actions) {
             // 检测任务终止标志
-            try { await sleep(1); } catch (e) { 
+            try { await sleep(1); } catch (e) {
                 log.info('检测到任务终止信号，停止执行');
-                return false; 
+                return false;
             }
 
             const { action: actionType, task: taskName, count = 1 } = action;
@@ -3218,7 +3240,7 @@ async function executeSchedule(schedulePath) {
                     log.info(`执行任务: ${taskName} (第 ${i + 1}/${count} 次)`);
 
                     let executionPromise;
-                    
+
                     if (taskType === 'subJS') {
                         executionPromise = executeSubJS(taskInfo, settings);
                     } else if (taskType === 'pathing') {
