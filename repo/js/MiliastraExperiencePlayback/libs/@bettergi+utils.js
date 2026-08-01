@@ -471,6 +471,7 @@ const useStore = (name) => {
   const filePath = `store/${name}.json`;
   const storeData = (() => {
     try {
+      if (file.isExists && !file.isExists(filePath)) throw new Error("File does not exist");
       if (
         ![...file.readPathSync("store")].map((path) => path.replace(/\\/g, "/")).includes(filePath)
       )
