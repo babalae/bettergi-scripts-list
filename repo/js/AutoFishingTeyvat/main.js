@@ -1114,6 +1114,9 @@
 
             let current_msg = `${path_msg["area"]}-${path_msg["detail"]}`
             log.info(`当前垂钓点: ${current_msg}(进度: ${i + 1}/${path_filter.length})`);
+            if (settings.notification) {
+                notification.send(`当前垂钓点: ${current_msg}(进度: ${i + 1}/${path_filter.length})`);
+            }
             // For ABGI only
             log.debug(`当前进度：${current_msg}(进度: ${i + 1}/${path_filter.length})`);
             if (path_continue === current_msg) {
