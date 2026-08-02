@@ -2281,7 +2281,8 @@ async function buildSettingsJson() {
     // 仅刷新模式检查
     if (settings.onlyRefresh) {
         settings.onlyRefresh = false;
-        log.info(`交互或拾取："刷新自定义配置"`);
+        log.info(`刷新自定义配置`);
+        log.debug(`交互或拾取："刷新自定义配置"`);
         return false;
     }
     return true;
