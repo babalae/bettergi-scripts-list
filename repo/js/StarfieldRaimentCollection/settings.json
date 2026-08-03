@@ -12,9 +12,15 @@
     "default": "0"
   },
   {
+    "name": "self_set",
+    "type": "checkbox",
+    "label": "自定义奇域（自行在下方输入guid）\n注：确保奇域为进入等待2分钟后通过左上角退出可以胜利结算（支持进入前需要配队的奇域）",
+    "default": false
+  },
+  {
     "name": "g_uid",
     "type": "input-text",
-    "label": "关卡GUID(请勿更改)",
+    "label": "关卡GUID(未勾选 自定义奇域 时请勿更改)\n格式：两个guid中间使用单个英文逗号,隔开",
     "default": "45694132064,24339714898"
   },
   {

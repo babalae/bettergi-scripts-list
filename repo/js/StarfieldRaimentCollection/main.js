@@ -104,11 +104,11 @@
             } else {
                 keyPress("Escape");
             }
-            await sleep(500);
+            await sleep(1000);
             return "千星奇域";
         } else {
             keyPress("Escape");
-            await sleep(500);
+            await sleep(1500);
             return "提瓦特";
         }
     }
@@ -335,6 +335,11 @@
                             capture = captureGameRegion();
                             if (capture.Find(filterRo).isExist() && capture.Find(c1Ro).isExist()) {
                                 capture.dispose();
+                                // 确保出现 保存配置 按钮
+                                click(102, 188);
+                                await sleep(500);
+                                click(102, 188);
+                                await sleep(500);
                                 break;
                             } else {
                                 click(99, 183);
@@ -355,6 +360,14 @@
                 case "奇域：游玩界面":
                     log.info("开始等待...")
                     if (uidSwitch) {
+                        if (settings.self_set) {
+                            await sleep(121000); // 等待120s
+                            keyPress("Escape");
+                            await sleep(1000);
+                            click(978, 601);
+                            await sleep(1000);
+                            break;
+                        }
                         await sleep(41000); // 等待40s
                         keyDown("D");
                         await sleep(700);
@@ -370,6 +383,14 @@
                             capture.dispose();
                         }
                     } else {
+                        if (settings.self_set) {
+                            await sleep(121000); // 等待120s
+                            keyPress("Escape");
+                            await sleep(1000);
+                            click(978, 601);
+                            await sleep(1000);
+                            break;
+                        }
                         await sleep(61000); // 等待60s
                         keyPress("Escape");
                         await sleep(1000);
