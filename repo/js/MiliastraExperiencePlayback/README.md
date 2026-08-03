@@ -55,6 +55,11 @@
 - 脚本运行期间，请保持较为良好的网络环境。
 - 建议提前设置好快捷键，便于在需要时快速暂停或终止脚本。
 
+### 🗂️ 历史版本
+
+- [历史版本](https://github.com/breadgrocery/miliastra-experience-playback/tree/main/versions)
+- [更新日志](https://github.com/breadgrocery/miliastra-experience-playback/blob/main/CHANGELOG.md)
+
 ## 🐛 问题反馈
 
 [breadgrocery](https://github.com/breadgrocery/miliastra-experience-playback)
