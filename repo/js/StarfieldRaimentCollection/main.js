@@ -104,11 +104,11 @@
             } else {
                 keyPress("Escape");
             }
-            await sleep(500);
+            await sleep(1000);
             return "千星奇域";
         } else {
             keyPress("Escape");
-            await sleep(500);
+            await sleep(1500);
             return "提瓦特";
         }
     }
