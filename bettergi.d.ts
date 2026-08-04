@@ -1033,7 +1033,7 @@ declare class AutoLeyLineOutcropParam {
     isResinExhaustionMode: boolean;
     /** 耗尽模式取小值 */
     openModeCountMin: boolean;
-    /** 是否使用冒险之证寻找地脉花 */
+    /** 不使用冒险之证寻路（启用后改用内置路线，不通过冒险之证定位地脉花） */
     useAdventurerHandbook: boolean;
     /** 好感队名称 */
     friendshipTeam: string;
