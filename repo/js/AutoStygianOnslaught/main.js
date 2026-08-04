@@ -470,6 +470,7 @@ let shouldForceStop = false;
              //监听战斗线程错误，设置停止标志（不阻塞主流程）
             fightTask.catch(e => {
                 shouldForceStop = true;
+                shouldStop = true; // 同时设置外层循环终止标志
                 log.error(`战斗任务执行失败: ${e?.message || e}`);
             });
             
@@ -1135,6 +1136,7 @@ let shouldForceStop = false;
     for (let j = 0;j < 2;j++) {  
 
         resinAgain = false; //重试标志
+        shouldForceStop = false; // 重置强制停止标志
 
         try{    
                 //1.导航进入页面
@@ -1143,7 +1145,7 @@ let shouldForceStop = false;
                 // 根据开关选择导航方式
                 let activityResult = false;
                 if (settings.useNewPath) {
-                    activityResult = await navigateViaActivity(false);
+                    activityResult = await navigateViaActivity(settings.devMode);
                     
                     if (activityResult === "non_burst") {
                         log.warn("[新版寻路] 检测到不在爆发期，停止执行");
@@ -1153,6 +1155,7 @@ let shouldForceStop = false;
                     
                     if (!activityResult) {
                         log.warn("[新版寻路] 失败，回退到路径追踪");
+                        await genshin.returnMainUi(); // 先恢复主界面
                         await pathingScript.runFile(`assets/全自动幽境危战.json`);
                         await VeinEntrance();
                     }
@@ -1325,7 +1328,7 @@ let shouldForceStop = false;
                                 {
                                     // 战斗线程异常，强制停止
                                     if (shouldForceStop) {
-                                        return; // 直接退出async function
+                                        throw new Error("战斗线程异常，强制停止脚本...");
                                     }
                                     let Again = await Textocr("再次挑战",20,1,0,1059,920,177,65);
                                     if (!Again.found)break;                                     
@@ -1340,6 +1343,10 @@ let shouldForceStop = false;
                                 break;
                             }
                         } catch (error) {
+                            // 如果是强制停止，直接向上抛出
+                            if (shouldForceStop) {
+                                throw error;
+                            }
                             if (fightCount < 2)continue;
                             else break;
                         }   
@@ -1439,6 +1446,7 @@ let shouldForceStop = false;
             await genshin.returnMainUi(); 
             continue;
         }finally{
+            //10.结束脚本 
             // 如果是强制停止，不执行returnMainUi（避免反复按ESC）
             if (!shouldForceStop) {
                 await genshin.returnMainUi();
