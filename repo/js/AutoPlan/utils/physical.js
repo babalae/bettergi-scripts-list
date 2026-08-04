@@ -1,4 +1,4 @@
-import {getJsonPath, toMainUi, throwError, findImgAndClick} from "./tool";
+import {getJsonPath, toMainUi, throwError, findImgAndClick, Log} from "./tool";
 //====================================================
 const genshinJson = {
     width: 1920,//genshin.width,
@@ -96,14 +96,14 @@ export class Physical {
     static async ocrPhysical(opToMainUi = false, openMap = false, minPhysical = 20, isResinExhaustionMode = true) {
         // 检查是否启用体力识别功能，如果未启用则直接返回默认结果
         if (!isResinExhaustionMode) {
-            log.info(`===未启用===`)
+            Log.info(`===未启用===`)
             return {
                 ok: true,
                 min: 0,
                 current: 0,
             }
         }
-        log.debug(`===开始识别原粹树脂===`)
+        Log.debug(`===开始识别原粹树脂===`)
         let ms = 1000  // 定义操作延迟时间（毫秒）
         // 如果需要操作返回主界面
         if (opToMainUi) {
@@ -118,7 +118,7 @@ export class Physical {
             await keyPress('M')
         }
         await sleep(ms)
-        log.debug(`===[点击+]===`)
+        Log.debug(`===[点击+]===`)
         // //点击+ 按钮 x=1264,y=39,width=18,height=19
         let add_buttonJSON = getJsonPath('add_button');
         let add_objJson = {
@@ -137,7 +137,7 @@ export class Physical {
         //
         //     await sleep(ms)
         //     if (!buttonA.isExist()) {
-        //         log.error(`${add_objJson.path}匹配异常`)
+        //         Log.error(`${add_objJson.path}匹配异常`)
         //         throwError(`${add_objJson.path}匹配异常`)
         //     }
         //     await buttonA.click()
@@ -147,12 +147,12 @@ export class Physical {
         // }
         const addClick = await findImgAndClick(`${add_objJson.path}`, 1248, 21, 50, 50);
         if (addClick === null) {
-            log.error(`${add_objJson.path}匹配异常`)
+            Log.error(`${add_objJson.path}匹配异常`)
             return undefined
         }
         await sleep(ms)
 
-        log.debug(`===[定位原粹树脂]===`)
+        Log.debug(`===[定位原粹树脂]===`)
         //定位月亮
         let jsonPath = getJsonPath('yue');
         let tmJson = {
@@ -169,7 +169,7 @@ export class Physical {
             button = region.find(templateMatchButtonRo);
             await sleep(ms)
             if ((!button) || !button.isExist()) {
-                log.error(`${tmJson.path} 匹配异常`)
+                Log.error(`${tmJson.path} 匹配异常`)
                 // throwError(`${tmJson.path} 匹配异常`)
                 return undefined
             }
@@ -178,7 +178,7 @@ export class Physical {
         }
 
 
-        log.debug(`===[识别原粹树脂]===`)
+        Log.debug(`===[识别原粹树脂]===`)
         //识别体力 x=1625,y=31,width=79,height=30 / x=1689,y=35,width=15,height=26
         let ocr_obj = {
             // x: 1623,
@@ -190,14 +190,14 @@ export class Physical {
             height: 26
         }
 
-        log.debug(`ocr_obj: x={x},y={y},width={width},height={height}`, ocr_obj.x, ocr_obj.y, ocr_obj.width, ocr_obj.height)
+        Log.debug(`ocr_obj: x={x},y={y},width={width},height={height}`, ocr_obj.x, ocr_obj.y, ocr_obj.width, ocr_obj.height)
         let region3 = captureGameRegion()
 
         try {
             let recognitionObjectOcr = RecognitionObject.ocr(ocr_obj.x, ocr_obj.y, ocr_obj.width, ocr_obj.height);
             let res = region3.find(recognitionObjectOcr);
 
-            log.debug(`[OCR原粹树脂]识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
+            Log.debug(`[OCR原粹树脂]识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
             let text = "0"
 
             if (!res.text.includes('/')) {
@@ -216,7 +216,7 @@ export class Physical {
 
             let current = await Physical.saveOnlyNumber(text)
             let execute = (current - minPhysical) >= 0
-            log.debug(`最小可执行原粹树脂:{min},原粹树脂:{key}`, minPhysical, current,)
+            Log.debug(`最小可执行原粹树脂:{min},原粹树脂:{key}`, minPhysical, current,)
 
             // await keyPress('VK_ESCAPE')
             return {
@@ -226,7 +226,7 @@ export class Physical {
             }
         } catch (e) {
             // throwError(`识别失败,err:${e.message}`)
-            log.error(`识别失败,err:${e.message}`)
+            Log.error(`识别失败,err:${e.message}`)
             return undefined
         } finally {
             region3.dispose()
@@ -244,7 +244,7 @@ export class Physical {
      */
     static async openMap() {
         // 记录日志信息，表示正在打开地图界面
-        log.info("打开地图界面");
+        Log.info("打开地图界面");
         // 模拟按下M键打开地图
         await keyPress("M");
         // 等待UI界面加载完成，等待时间由配置文件中的UI_DELAY决定
@@ -261,7 +261,7 @@ export class Physical {
 
         // 设置地图缩放级别，排除识别干扰
         await genshin.setBigMapZoomLevel(CONFIG.MAP_ZOOM_LEVEL);
-        log.info("地图界面设置完成");
+        Log.info("地图界面设置完成");
     }
 
     /**
@@ -271,7 +271,7 @@ export class Physical {
     static async countCondensedResin() {
         const condensedResin = await Physical.recognizeImage(RESIN_ICONS.CONDENSED);
         if (!condensedResin) {
-            log.warn(`未找到浓缩树脂图标`);
+            Log.warn(`未找到浓缩树脂图标`);
             return 0;
         }
 
@@ -285,19 +285,19 @@ export class Physical {
         // 首先尝试OCR识别
         const ocrCount = await Physical.recognizeNumberByOCR(ocrRegion, /\d+/);
         if (ocrCount !== null) {
-            log.info(`浓缩树脂数量: ${ocrCount}`);
+            Log.info(`浓缩树脂数量: ${ocrCount}`);
             return ocrCount;
         }
 
         // OCR识别失败，尝试白色数字图片识别
-        log.info(`OCR识别浓缩树脂失败，尝试白色数字图片识别`);
+        Log.info(`OCR识别浓缩树脂失败，尝试白色数字图片识别`);
         const imageCount = await Physical.recognizeWhiteNumberByImage(ocrRegion);
         if (imageCount !== null) {
-            log.info(`浓缩树脂数量(白色数字图片识别): ${imageCount}`);
+            Log.info(`浓缩树脂数量(白色数字图片识别): ${imageCount}`);
             return imageCount;
         }
 
-        log.info(`白色数字图片识别识别浓缩树脂失败，尝试在说明界面获取`);
+        Log.info(`白色数字图片识别识别浓缩树脂失败，尝试在说明界面获取`);
         // 点击浓缩树脂打开说明界面统计
         condensedResin.click();
         await sleep(CONFIG.UI_DELAY);
@@ -313,7 +313,7 @@ export class Physical {
                     const match = res.text.match(/当前拥有\s*([0-5ss])/);
                     if (match && match[1]) {
                         const count = parseInt(match[1]);
-                        log.info(`浓缩树脂数量(说明界面): ${count}`);
+                        Log.info(`浓缩树脂数量(说明界面): ${count}`);
                         keyPress("ESCAPE");
                         await sleep(CONFIG.UI_DELAY);
                         return count;
@@ -327,7 +327,7 @@ export class Physical {
             captureRegion?.dispose();
         }
 
-        log.warn(`未能识别浓缩树脂数量`);
+        Log.warn(`未能识别浓缩树脂数量`);
         return 0;
     }
 
@@ -338,7 +338,7 @@ export class Physical {
     static async countTransientResin() {
         const transientResin = await Physical.recognizeImage(RESIN_ICONS.TRANSIENT);
         if (!transientResin) {
-            log.warn(`未找到须臾树脂图标`);
+            Log.warn(`未找到须臾树脂图标`);
             return 0;
         }
 
@@ -359,7 +359,7 @@ export class Physical {
     static async  countFragileResin() {
         const fragileResin = await Physical.recognizeImage(RESIN_ICONS.FRAGILE);
         if (!fragileResin) {
-            log.warn(`未找到脆弱树脂图标`);
+            Log.warn(`未找到脆弱树脂图标`);
             return 0;
         }
 
@@ -387,7 +387,7 @@ export class Physical {
         let shouldRestoreMainUi = false // 标记是否需要恢复主界面
         try {
             // setGameMetrics(1920, 1080, 1); // 设置游戏显示参数
-            // log.info("开始统计树脂数量"); // 记录开始统计的日志
+            // Log.info("开始统计树脂数量"); // 记录开始统计的日志
             let resinCounts = { // 存储各种树脂数量的对象
                 original: 0, // 原粹树脂数量
                 transient: 0, // 须臾树脂数量
@@ -402,20 +402,20 @@ export class Physical {
             await sleep(CONFIG.UI_DELAY); // 等待界面加载
             let tryPass = true; // 标记第一次尝试是否成功
             try {
-                // log.info("[开始]统计补充树脂界面中的树脂"); // 记录开始统计的日志
+                // Log.info("[开始]统计补充树脂界面中的树脂"); // 记录开始统计的日志
                 resinCounts.original = await Physical.countOriginalResin(false, false); // 统计原粹树脂数量
                 moveMouseTo(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y) // 移动鼠标到指定位置
                 await sleep(500); // 等待500毫秒
                 resinCounts.transient = await Physical.countTransientResin(); // 统计须臾树脂数量
                 resinCounts.fragile = await Physical.countFragileResin(); // 统计脆弱树脂数量
-                log.info("[完成]统计补充树脂界面中的树脂"); // 记录完成统计的日志
+                Log.info("[完成]统计补充树脂界面中的树脂"); // 记录完成统计的日志
                 // 点击避免选中效果影响统计
                 click(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y); // 点击指定位置
             } catch (e) {
                 tryPass = false // 如果发生异常，标记第一次尝试失败
             }
             await sleep(CONFIG.UI_DELAY); // 等待界面加载
-            log.info("开始统计地图界面中的树脂"); // 记录开始统计的日志
+            Log.info("开始统计地图界面中的树脂"); // 记录开始统计的日志
             if (!tryPass) {
                 // 如果第一次尝试失败，则切换到蒙德
                 await Physical.switchtoCountrySelection(CONFIG.COORDINATES.MONDSTADT.x, CONFIG.COORDINATES.MONDSTADT.y) // 切换到蒙德
@@ -431,7 +431,7 @@ export class Physical {
                 click(CONFIG.COORDINATES.AVOID_SELECTION.x, CONFIG.COORDINATES.AVOID_SELECTION.y); // 点击指定位置
                 await sleep(500); // 等待500毫秒
 
-                log.info("开始统计补充树脂界面中的树脂"); // 记录开始统计的日志
+                Log.info("开始统计补充树脂界面中的树脂"); // 记录开始统计的日志
                 resinCounts.transient = await Physical.countTransientResin(); // 统计须臾树脂数量
                 resinCounts.fragile = await Physical.countFragileResin(); // 统计脆弱树脂数量
             }
@@ -442,7 +442,7 @@ export class Physical {
             await genshin.returnMainUi(); // 返回主界面
             await sleep(CONFIG.UI_DELAY); // 等待界面加载
 
-            log.info("树脂统计完成"); // 记录完成统计的日志
+            Log.info("树脂统计完成"); // 记录完成统计的日志
             return { // 返回包含各种树脂数量的对象
                 originalResinCount: resinCounts.original, // 原粹树脂数量
                 condensedResinCount: resinCounts.condensed, // 浓缩树脂数量
@@ -451,7 +451,7 @@ export class Physical {
             };
 
         } catch (error) { // 捕获异常
-            log.error(`统计树脂数量时发生异常: ${error.message}`); // 记录错误信息
+            Log.error(`统计树脂数量时发生异常: ${error.message}`); // 记录错误信息
             throw error; // 抛出异常
         } finally { // 无论是否发生异常都会执行
             if (shouldRestoreMainUi) { // 如果需要恢复主界面
@@ -479,36 +479,36 @@ export class Physical {
      * 打开补充树脂界面
      */
     static async openReplenishResinUi() {
-        log.info("尝试打开补充树脂界面");
+        Log.info("尝试打开补充树脂界面");
         const replenishResinButton = await Physical.recognizeImage(RESIN_ICONS.REPLENISH_BUTTON);
         if (replenishResinButton) {
             replenishResinButton.Click();
-            log.info("成功打开补充树脂界面");
+            Log.info("成功打开补充树脂界面");
         } else {
-            log.warn("未找到补充树脂按钮");
+            Log.warn("未找到补充树脂按钮");
         }
     }
 
     static displayResults(results) {
         const resultText = `原粹:${results.original} 浓缩:${results.condensed} 须臾:${results.transient} 脆弱:${results.fragile}`;
 
-        log.info(`============ 树脂统计结果 ============`);
-        log.info(`原粹树脂数量: ${results.original}`);
-        log.info(`浓缩树脂数量: ${results.condensed}`);
-        log.info(`须臾树脂数量: ${results.transient}`);
-        log.info(`脆弱树脂数量: ${results.fragile}`);
-        log.info(`====================================`);
+        Log.info(`============ 树脂统计结果 ============`);
+        Log.info(`原粹树脂数量: ${results.original}`);
+        Log.info(`浓缩树脂数量: ${results.condensed}`);
+        Log.info(`须臾树脂数量: ${results.transient}`);
+        Log.info(`脆弱树脂数量: ${results.fragile}`);
+        Log.info(`====================================`);
     }
 
     static async countOriginalResin(tryOriginalMode, opToMainUi, openMap) {
         if (tryOriginalMode) {
-            log.info("尝试使用原始模式");
+            Log.info("尝试使用原始模式");
             return await Physical.countOriginalResinBackup()
         } else {
-            log.info('尝试使用优化模式');
+            Log.info('尝试使用优化模式');
             let ocr_physical = await Physical.ocrPhysical(opToMainUi, openMap);
 
-            log.debug(`ocrPhysical: {0}`, JSON.stringify(ocr_physical))
+            Log.debug(`ocrPhysical: {0}`, JSON.stringify(ocr_physical))
             await sleep(600)
             // ocrPhysical = false//模拟异常
             if (ocr_physical/* && ocrPhysical.ok*/) {
@@ -516,7 +516,7 @@ export class Physical {
             } else {
                 //异常 退出至地图 尝试使用原始模式
                 // await keyPress("VK_ESCAPE")
-                log.error(`ocrPhysical error`);
+                Log.error(`ocrPhysical error`);
                 throw new Error("ocrPhysical error");
             }
         }
@@ -525,7 +525,7 @@ export class Physical {
     static async countOriginalResinBackup() {
         const originalResin = await Physical.recognizeImage(RESIN_ICONS.ORIGINAL);
         if (!originalResin) {
-            log.warn(`未找到原粹树脂图标`);
+            Log.warn(`未找到原粹树脂图标`);
             return 0;
         }
 
@@ -539,11 +539,11 @@ export class Physical {
         // 匹配 xxx/200 格式中的第一个数字（1-3位）
         const count = await Physical.recognizeNumberByOCR(ocrRegion, /(\d{1,3})\/\d+/);
         if (count !== null) {
-            log.info(`原粹树脂数量: ${count}`);
+            Log.info(`原粹树脂数量: ${count}`);
             return count;
         }
 
-        log.warn(`未能识别原粹树脂数量`);
+        Log.warn(`未能识别原粹树脂数量`);
         return 0;
     }
 
@@ -558,19 +558,19 @@ export class Physical {
         // 首先尝试OCR识别
         const ocrCount = await Physical.recognizeNumberByOCR(ocrRegion, /\d+/);
         if (ocrCount !== null) {
-            log.info(`${resinType}数量: ${ocrCount}`);
+            Log.info(`${resinType}数量: ${ocrCount}`);
             return ocrCount;
         }
 
         // OCR识别失败，尝试图片识别
-        log.info(`OCR识别${resinType}失败，尝试图片识别`);
+        Log.info(`OCR识别${resinType}失败，尝试图片识别`);
         const imageCount = await fallbackFunction(ocrRegion);
         if (imageCount !== null) {
-            log.info(`${resinType}数量(图片识别): ${imageCount}`);
+            Log.info(`${resinType}数量(图片识别): ${imageCount}`);
             return imageCount;
         }
 
-        log.warn(`未能识别${resinType}数量`);
+        Log.warn(`未能识别${resinType}数量`);
         return 0;
     }
 
@@ -606,7 +606,7 @@ export class Physical {
                     return imageResult;
                 }
             } catch (error) {
-                log.error(`识别图像时发生异常: ${error.message}`);
+                Log.error(`识别图像时发生异常: ${error.message}`);
             } finally {
                 // 确保游戏区域资源被正确释放
                 if (gameRegion) {
@@ -616,7 +616,7 @@ export class Physical {
             await sleep(CONFIG.SLEEP_INTERVAL);
         }
 
-        log.warn(`经过多次尝试，仍然无法识别图像`);
+        Log.warn(`经过多次尝试，仍然无法识别图像`);
         return null;
     }
 
@@ -629,7 +629,7 @@ export class Physical {
             resList = captureRegion.findMulti(ocrRo);
 
             if (!resList || resList.length === 0) {
-                log.warn("OCR未识别到任何文本");
+                Log.warn("OCR未识别到任何文本");
                 return null;
             }
 
@@ -648,7 +648,7 @@ export class Physical {
             }
             return null;
         } catch (error) {
-            log.error(`OCR识别时发生异常: ${error.message}`);
+            Log.error(`OCR识别时发生异常: ${error.message}`);
             return null;
         } finally {
             if (resList && typeof resList.dispose === 'function') {
@@ -664,25 +664,25 @@ export class Physical {
      * 在指定区域内识别数字图片
      * @param {Object} ocrRegion - OCR识别区域
      * @param {Array} numberIcons - 数字图标数组
-     * @param {string} logPrefix - 日志前缀
+     * @param {string} LogPrefix - 日志前缀
      * @returns {number|null} 识别到的数字或null
      */
-    static async recognizeNumberInRegion(ocrRegion, numberIcons, logPrefix = "") {
+    static async recognizeNumberInRegion(ocrRegion, numberIcons, LogPrefix = "") {
         try {
             for (const numObj of numberIcons) {
                 try {
                     // 直接链式调用，避免内存管理问题
                     const numResult = captureGameRegion().find(numObj.ro);
                     if (numResult && Physical.isPointInRegion(numResult, ocrRegion)) {
-                        log.info(`${logPrefix}通过图片识别到数字: ${numObj.value}`);
+                        Log.info(`${LogPrefix}通过图片识别到数字: ${numObj.value}`);
                         return numObj.value;
                     }
                 } catch (error) {
-                    log.error(`${logPrefix}识别数字图片时发生异常: ${error.message}`);
+                    Log.error(`${LogPrefix}识别数字图片时发生异常: ${error.message}`);
                 }
             }
         } catch (error) {
-            log.error(`${logPrefix}识别数字区域时发生异常: ${error.message}`);
+            Log.error(`${LogPrefix}识别数字区域时发生异常: ${error.message}`);
         }
         return null;
     }

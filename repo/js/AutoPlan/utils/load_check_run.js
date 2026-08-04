@@ -1,6 +1,6 @@
 import {config, LoadType} from "../config/config";
 import {Physical} from "./physical";
-import {getDayOfWeek, outDomainUI, outStygianOnslaughtUI, parseInteger, throwError, toMainUi} from "./tool";
+import {getDayOfWeek, Log, outDomainUI, outStygianOnslaughtUI, parseInteger, throwError, toMainUi} from "./tool";
 import {findStygianOnslaught} from "./activity";
 import {BgiTools} from "./bgi_tools";
 
@@ -15,7 +15,7 @@ export async function checkAndFilterStygianOnslaught(list) {
     const hasStygianOnslaught = list.some(item => item.runType === config.user.runTypes[2]);
     if (hasStygianOnslaught) {
         // 记录日志：检查幽境危战紊乱爆发期开放
-        log.info(`{0}`, `检查幽境危战紊乱爆发期开放`)
+        Log.info(`{0}`, `检查幽境危战紊乱爆发期开放`)
         try {
             // 切换到主界面
             await toMainUi()
@@ -35,9 +35,9 @@ export async function checkAndFilterStygianOnslaught(list) {
                     })
                     list.sort((item1, item2) => item2.order - item1.order)
                 }
-                log.info(`{0}`, `幽境危战紊乱爆发期已开启`)
+                Log.info(`{0}`, `幽境危战紊乱爆发期已开启`)
             } else {
-                log.info(`{0}`, `幽境危战紊乱爆发期已结束`)
+                Log.info(`{0}`, `幽境危战紊乱爆发期已结束`)
                 list = list.filter(item => item.runType !== config.user.runTypes[2])
             }
             return list
@@ -68,7 +68,7 @@ class Record {
         try {
             list = JSON.parse(file.readTextSync(path))
         } catch (e) {
-            log.warn(`(账号未运行过无记录文件 请忽略该异常),读取记录文件失败，{0}`, e.message)
+            Log.warn(`(账号未运行过无记录文件 请忽略该异常),读取记录文件失败，{0}`, e.message)
         }
         return list
     }
@@ -107,7 +107,7 @@ class Record {
         try {
             file.writeTextSync(path, JSON.stringify(list));
         } catch (e) {
-            log.error(`[Record] 写入记录文件失败，路径: {0}，错误: {1}`, path, e.message);
+            Log.error(`[Record] 写入记录文件失败，路径: {0}，错误: {1}`, path, e.message);
             if (throwError) throw e; // 视业务需求决定是否重新抛出
         }
     }
@@ -279,8 +279,8 @@ class Domain extends Base {
         sundaySelectedValue: 1,//周日|限时选择的值，默认为1
         domainRoundNum: 0,//副本轮数，默认为0
     }) {
-        log.info(`{0}`, "开始执行秘境任务")
-        log.warn(`{0}`, "非体力耗尽情况下(受本体限制),等待退出秘境时间较长")
+        Log.info(`{0}`, "开始执行秘境任务")
+        Log.warn(`{0}`, "非体力耗尽情况下(受本体限制),等待退出秘境时间较长")
         // 创建秘境参数对象，初始化值为0
         let domainParam = new AutoDomainParam();
         //关闭榨干原粹树脂
@@ -338,28 +338,28 @@ class Domain extends Base {
         if (resinPriorityList.length > 0) {
             domainParam.SetResinPriorityList(...resinPriorityList)
         }
-        // log.debug(`开始执行秘境任务`)
+        // Log.debug(`开始执行秘境任务`)
         //秘境名称
         domainParam.DomainName = autoFight.domainName || domainParam.DomainName;
-        log.debug(`秘境名称:${domainParam.DomainName}`)
+        Log.debug(`秘境名称:${domainParam.DomainName}`)
 
         //队伍名称
         domainParam.PartyName = autoFight.partyName || domainParam.PartyName;
-        log.debug(`队伍名称:${domainParam.PartyName}`)
+        Log.debug(`队伍名称:${domainParam.PartyName}`)
 
         if (autoFight.sundaySelectedValue) {
             //周日|限时选择的值
             domainParam.SundaySelectedValue = "" + (autoFight.sundaySelectedValue || domainParam.SundaySelectedValue);
         }
-        log.debug(`周日|限时选择的值:${domainParam.SundaySelectedValue}`)
+        Log.debug(`周日|限时选择的值:${domainParam.SundaySelectedValue}`)
         //副本轮数
         try {
             domainParam.DomainRoundNum = parseInt((autoFight.domainRoundNum || domainParam.DomainRoundNum) + "");
         } catch (e) {
-            log.debug(`副本轮数:${autoFight.domainRoundNum}`)
+            Log.debug(`副本轮数:${autoFight.domainRoundNum}`)
             throwError(e.message)
         }
-        log.debug(`副本轮数:${domainParam.DomainRoundNum}`)
+        Log.debug(`副本轮数:${domainParam.DomainRoundNum}`)
         try {
             // 复活重试
             for (let i = 0; i < config.run.retry_count; i++) {
@@ -379,7 +379,7 @@ class Domain extends Base {
                 }
             }
         } finally {
-            log.info(`{0}`, "执行完成")
+            Log.info(`{0}`, "执行完成")
             // 退出秘境
             await outDomainUI()
         }
@@ -499,7 +499,7 @@ class LeyLineOutcrop extends Base {
         // }
 
 
-        log.info(`{0}`, "开始执行地脉任务")
+        Log.info(`{0}`, "开始执行地脉任务")
         let param = new AutoLeyLineOutcropParam(parseInteger(autoLeyLineOutcrop.count + ""), autoLeyLineOutcrop.country, autoLeyLineOutcrop.leyLineOutcropType);
         //和本体保持一致
         param.useAdventurerHandbook = !autoLeyLineOutcrop.useAdventurerHandbook;
@@ -618,7 +618,7 @@ class StygianOnslaught extends Base {
                         try {
                             item.count = counts[index] || 1;
                         } catch (e) {
-                            log.warn(`解析${item.name}数量失败`)
+                            Log.warn(`解析${item.name}数量失败`)
                             throwError(`解析${item.name}数量失败`)
                         }
                     });
@@ -659,8 +659,8 @@ class StygianOnslaught extends Base {
         //     /**指定战斗队伍*/
         //     fightTeamName: undefined
         // }
-        log.debug(`autoStygianOnslaught ={0}`, JSON.stringify(autoStygianOnslaught))
-        log.info(`{0}`, "开始执行幽境任务")
+        Log.debug(`autoStygianOnslaught ={0}`, JSON.stringify(autoStygianOnslaught))
+        Log.info(`{0}`, "开始执行幽境任务")
         let param = new AutoStygianOnslaughtParam()
         param.specifyResinUse = autoStygianOnslaught?.specifyResinUse || param.specifyResinUse
 
@@ -740,7 +740,7 @@ class StygianOnslaught extends Base {
                 }
             }
         } finally {
-            log.info(`{0}`, "执行完成")
+            Log.info(`{0}`, "执行完成")
             // 退出危战
             await outStygianOnslaughtUI()
         }
@@ -877,10 +877,10 @@ class Boss extends Base {
         returnToStatueAfterEachRound: false,
         rewardRecognitionEnabled: false
     }) {
-        log.info(`{0}==>{1}`, "开始执行Boss任务", autoBoss.bossName)
+        Log.info(`{0}==>{1}`, "开始执行Boss任务", autoBoss.bossName)
         //先去安全点回血
         await genshin.tpToStatueOfTheSeven();
-        log.debug(`Boss Json:{0}`, JSON.stringify(autoBoss))
+        Log.debug(`Boss Json:{0}`, JSON.stringify(autoBoss))
         const currentPhysical = await Physical.countAllResin()
         config.user.physical.currentJson = currentPhysical;
         config.user.physical.current = currentPhysical.originalResinCount;
@@ -893,7 +893,7 @@ class Boss extends Base {
             ||
             (autoBoss.useTransientResin && (currentPhysical.transientResinCount || 0) < 1)
         ) {
-            log.warn(`{0}`, "Boss挑战树脂不足")
+            Log.warn(`{0}`, "Boss挑战树脂不足")
             return
         }
         // let autoBoss = {
@@ -937,8 +937,8 @@ class Boss extends Base {
         try{
             param.timeout = autoBoss.timeout
         }catch(e){
-            //log.warn(`{0}`,e)
-            log.debug(`旧版本无timeout设置`)
+            //Log.warn(`{0}`,e)
+            Log.debug(`旧版本无timeout设置`)
         }
 
         await sleep(1000)
@@ -963,7 +963,7 @@ class Boss extends Base {
             // }
         } finally {
             await genshin.tpToStatueOfTheSeven();
-            log.info(`{0}`, "执行完成")
+            Log.info(`{0}`, "执行完成")
         }
     }
 }
@@ -1051,7 +1051,7 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
             break
         case LoadType.bgi_tools:
             // 通过bgi_tools方式加载配置
-            log.info(`开始拉取bgi_tools配置`)
+            Log.info(`开始拉取bgi_tools配置`)
             const uidConfigListBgiTools = await BgiTools.pullJsonConfig(config.bgi_tools.api.httpPullJsonConfig, config.user.uid + '') || []
             if (uidConfigListBgiTools?.length > 0) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
@@ -1099,15 +1099,15 @@ export async function initRunOrderList(domainConfig) {
     // 返回处理后的秘境顺序列表
     let from = Array.from(autoFightOrderSet);
     let dayOfWeek = await getDayOfWeek();
-    log.debug(`old-from:{0}`, JSON.stringify(from))
+    Log.debug(`old-from:{0}`, JSON.stringify(from))
     from = from
         //过滤掉不执行的秘境
         .filter(item => config.user.runTypes.includes(item.runType))
         .filter(item => {
-            log.debug(`[{1}]item.days.length:{0}`, dayOfWeek.day, item?.days?.length || 0)
+            Log.debug(`[{1}]item.days.length:{0}`, dayOfWeek.day, item?.days?.length || 0)
             if (item.days && item.days.length > 0) {
                 const includes = item.days.includes(dayOfWeek.day);
-                log.debug(`[{1}]item.days:{0}`, dayOfWeek.day, JSON.stringify(item.days))
+                Log.debug(`[{1}]item.days:{0}`, dayOfWeek.day, JSON.stringify(item.days))
                 return includes;
             }
             return true
@@ -1123,7 +1123,7 @@ export async function initRunOrderList(domainConfig) {
         // 当 cultivate 相同时，按 order 降序排列
         return b.order - a.order
     })
-    log.debug(`from:{0}`, JSON.stringify(from))
+    Log.debug(`from:{0}`, JSON.stringify(from))
     return from;
 }
 
@@ -1150,15 +1150,15 @@ export async function autoRunList(autoRunOrderList) {
             RecordJson.uid=keyJson.uid
             RecordJson.key=keyJson.key
 
-            log.debug(`检查记录[{0}-{1}]`, item.runType, RecordJson)
+            Log.debug(`检查记录[{0}-{1}]`, item.runType, RecordJson)
             const exist = Record.existInList(RecordList, RecordJson);
             if (exist) {
-                log.info(`[本日已执行，跳过]==>[{0}-{1}]`, item.runType, keyJson)
+                Log.info(`[本日已执行，跳过]==>[{0}-{1}]`, item.runType, keyJson)
                 continue;
             }
 
         }
-        log.debug(`[开始执行]<==[{0}]==>[{1}-{2}]`, ((item?.cultivate ?? false) ? "培养计划" : "日常计划"), item.runType, keyJson)
+        Log.debug(`[开始执行]<==[{0}]==>[{1}-{2}]`, ((item?.cultivate ?? false) ? "培养计划" : "日常计划"), item.runType, keyJson)
         await handler.run(item[handler.target]);
 
         try {
@@ -1170,7 +1170,7 @@ export async function autoRunList(autoRunOrderList) {
 
         if (keyJson) {
             RecordList.push(RecordJson)
-            log.info(`写入记录[{0}-{1}]==>{2}已执行`, item.runType, keyJson, config.path.record)
+            Log.info(`写入记录[{0}-{1}]==>{2}已执行`, item.runType, keyJson, config.path.record)
             await Record.write(config.path.record, RecordList)
         }
     }
