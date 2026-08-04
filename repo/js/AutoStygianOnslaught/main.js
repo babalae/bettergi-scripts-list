@@ -467,11 +467,18 @@ let shouldForceStop = false;
                 fightTask = dispatcher.RunTask(new SoloTask("AutoFight"), fightCts.Token);
             }
             
-             //监听战斗线程错误，设置停止标志（不阻塞主流程）
+             //监听战斗线程错误，白名单机制：仅对致命错误设置停止标志
             fightTask.catch(e => {
-                shouldForceStop = true;
-                shouldStop = true; // 同时设置外层循环终止标志
-                log.error(`战斗任务执行失败: ${e?.message || e}`);
+                const errorMsg = e?.message || String(e);
+                // 白名单：只有这两种错误才触发强制停止
+                if (errorMsg.includes("战斗策略文件不存在") || errorMsg.includes("未匹配到任何战斗脚本")) {
+                    shouldForceStop = true;
+                    shouldStop = true;
+                    log.error(`战斗任务执行失败（致命错误）: ${errorMsg}`);
+                } else {
+                    // 其他错误只记录日志，不触发停止
+                    log.warn(`战斗任务执行异常（非致命）: ${errorMsg}`);
+                }
             });
             
             // OCR检测战斗结束
