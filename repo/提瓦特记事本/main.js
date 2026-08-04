@@ -502,22 +502,24 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
         let ocrRegionMora = { x: 1606, y: 28, width: 164, height: 40 }; // 设置对应的识别区域
         let recognizedText = await recognizeTextInRegion(ocrRegionMora);
         if (recognizedText) {
-            recognizedText = recognizedText.replace(/\D/g, '');
-            log.info(`提瓦特记事本-摩拉-${recognizedText}`);
-            if (recognizedText) {
-                sendNotebookNotification(`摩拉-${recognizedText}`);
-            }
+            const moraValue = recognizedText.replace(/\D/g, '');
+            if (/^\d+$/.test(moraValue)) {
+                log.info(`提瓦特记事本-摩拉-${moraValue}`);
+                sendNotebookNotification(`摩拉-${moraValue}`);
 
-            // 写入本地文件
-            if (shouldWriteLocalRecord("recordMora")) {
-                const filePath = unifiedRecordPath;
-                const logContent = `提瓦特记事本-摩拉-${recognizedText}\n`;
-                const result = file.WriteTextSync(filePath, logContent, true);
-                if (result) {
-                    log.info("成功将摩拉数值写入日志文件");
-                } else {
-                    log.error("写入日志文件失败");
+                // 写入本地文件
+                if (shouldWriteLocalRecord("recordMora")) {
+                    const filePath = unifiedRecordPath;
+                    const logContent = `提瓦特记事本-摩拉-${moraValue}\n`;
+                    const result = file.WriteTextSync(filePath, logContent, true);
+                    if (result) {
+                        log.info("成功将摩拉数值写入日志文件");
+                    } else {
+                        log.error("写入日志文件失败");
+                    }
                 }
+            } else {
+                log.warn(`摩拉 OCR 结果不包含有效数字，已跳过通知和记录。原始结果：${recognizedText}`);
             }
         } else {
             log.warn("未能识别到摩拉数值。");
@@ -738,12 +740,12 @@ let countTimePoint = "提瓦特记事本";
     await sleep(1000);
     // 识别已储存经验（1570-880-1650-930）
     const digits = await numberTemplateMatch("assets/已储存经验数字", 1573, 885, 74, 36);
-    let initialValue = 0;
+    let initialValue = null;
     if (digits >= 0) {
         initialValue = digits;
         log.info(`已储存经验识别成功: ${initialValue}`);
     } else {
-        log.warn(`已储存经验值识别失败，使用默认值0`);
+        log.warn(`已储存经验值识别失败`);
     }
     await clickPNG("快速选择");
     await sleep(500);
@@ -755,15 +757,27 @@ let countTimePoint = "提瓦特记事本";
         { star: 4, y: 340 }
     ];
     const starCounts = {};
+    let starCountRecognitionFailed = false;
     for (const { star, y } of starPositions) {
         const count = await numberTemplateMatch("assets/选中狗粮数字", 570, y, 60, 50);
         if (count < 0) {
             log.warn(`在${star}星狗粮位置未识别到有效数字`);
-            starCounts[`star${star}`] = 0; // 设置默认值为0
+            starCountRecognitionFailed = true;
         }else{
             starCounts[`star${star}`] = count;
             log.info(`${star}星狗粮识别到${count}个`);
         }
+    }
+
+    const failedComponents = [];
+    if (initialValue === null) failedComponents.push("已储存经验");
+    if (smallBottle === '') failedComponents.push("小经验瓶");
+    if (bigBottle === '') failedComponents.push("大经验瓶");
+    if (starCountRecognitionFailed) failedComponents.push("狗粮星级数量");
+    if (failedComponents.length > 0) {
+        log.error(`圣遗物经验识别不完整（${failedComponents.join('、')}），已跳过本次聚合、记录和通知`);
+        await genshin.returnMainUi();
+        return;
     }
     // 计算狗粮经验值
     const expStar1 = starCounts.star1 * 420;
