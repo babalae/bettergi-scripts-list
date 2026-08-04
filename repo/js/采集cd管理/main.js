@@ -1973,9 +1973,21 @@ function isArrivedAtEndPoint(fullPath) {
         const mapName = (json.info?.map_name && json.info.map_name.trim()) ? json.info.map_name : 'Teyvat';
         const map_match_method = json.info?.map_match_method || "";
 
-        let pos = map_match_method && map_match_method !== ""
-            ? genshin.getPositionFromMapWithMatchingMethod(mapName, map_match_method, 3000)
-            : genshin.getPositionFromMap(mapName, 3000);
+        let pos = null;
+
+        if (map_match_method && map_match_method !== "") {
+            try {
+                // 尝试使用传入的方法名称获取座标
+                pos = genshin.getPositionFromMapWithMatchingMethod(mapName, map_match_method, 3000);
+            } catch (e) {
+                // 若 map_match_method 不是合法的匹配方法，抛出例外时自动退回预设方法
+                log.warn(`无法使用匹配方法 "${map_match_method}"，退回预设匹配模式`);
+                pos = genshin.getPositionFromMap(mapName, 3000);
+            }
+        } else {
+            // map_match_method 為空時直接使用預設方法
+            pos = genshin.getPositionFromMap(mapName, 3000);
+        }
 
         const curX = pos.X;
         const curY = pos.Y;
