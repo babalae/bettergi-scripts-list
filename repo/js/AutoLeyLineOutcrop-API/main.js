@@ -186,6 +186,16 @@ async function detectLeyLineSurgeFlow() {
 
         // 1. 加载设置（BetterGI 会自动处理 settings.json 中的 default 值）
         const timesValue = parseInt(settings.timesValue);
+        const timeout = parseInt(settings.timeout);
+
+        // 校验数值设置
+        if (isNaN(timesValue) || timesValue <= 0) {
+            throw new Error("刷取次数必须是正整数");
+        }
+        if (isNaN(timeout) || timeout <= 0) {
+            throw new Error("战斗超时时间必须是正整数");
+        }
+
         let country = settings.country;
         const leyLineOutcropType = settings.leyLineOutcropType;
         const isResinExhaustionMode = settings.isResinExhaustionMode;
@@ -194,7 +204,6 @@ async function detectLeyLineSurgeFlow() {
         const useAdventurerHandbook = !settings.useAdventurerHandbook;
         const team = settings.team;
         const friendshipTeam = settings.friendshipTeam;
-        const timeout = parseInt(settings.timeout);
         const isGoToSynthesizer = settings.isGoToSynthesizer;
         const useFragileResin = settings.useFragileResin;
         const useTransientResin = settings.useTransientResin;

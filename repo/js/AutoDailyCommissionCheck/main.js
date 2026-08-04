@@ -234,7 +234,7 @@ async function checkDailyCommissionFlow(isNotification, isDebug) {
     } catch (ex) {
         log.warn(`[每日委托] 检测异常: ${ex.message}`);
         if (isNotification) {
-            notification.Send("错误：每日委托检查失败");
+            notification.Error("每日委托检查失败");
         }
         try { await genshin.returnMainUi(); } catch(e2) { log.warn(`[每日委托] 异常后还原主界面失败: ${e2.message}`); }
         await sleep(500);
