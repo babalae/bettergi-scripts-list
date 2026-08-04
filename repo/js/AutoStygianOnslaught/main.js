@@ -1009,8 +1009,10 @@ let shouldForceStop = false;
                 return false;
             }
 
-            log.info('[新版寻路] 识别到传送，按F传送');
-            await keyPress("F");
+            log.info('[新版寻路] 识别到传送，点击传送按钮');
+            const teleportX = Math.round(teleportHit.x / s + teleportHit.width / s / 2);
+            const teleportY = Math.round(teleportHit.y / s + teleportHit.height / s / 2);
+            GameCaptureRegion.gameRegion1080PPosClick(teleportX, teleportY);
             await sleep(5000);
 
             // 识别"幽境危战"交互按钮并按F
@@ -1020,13 +1022,18 @@ let shouldForceStop = false;
                 log.info('[新版寻路] 首次识别失败，验证上一步元素...');
                 const teleportCheck = wipOcrCheckText(teleportRoi, ["传送"], "新版寻路-验证传送", isDebug);
                 if (teleportCheck) {
-                    log.info('[新版寻路] 传送按钮仍存在，重新按F');
-                    await keyPress("F");
+                    log.info('[新版寻路] 传送按钮仍存在，重新点击传送按钮');
+                    const reTeleportX = Math.round(teleportCheck.x / s + teleportCheck.width / s / 2);
+                    const reTeleportY = Math.round(teleportCheck.y / s + teleportCheck.height / s / 2);
+                    GameCaptureRegion.gameRegion1080PPosClick(reTeleportX, reTeleportY);
                     await sleep(5000);
                     interactHit = wipOcrCheckText(stygianInteractRoi, ["幽境危战"], "新版寻路-交互-retry", isDebug);
                 }
                 if (!interactHit) {
-                    log.info('[新版寻路] 上一步已失效，继续重试...');
+                    log.info('[新版寻路] 上一步已失效，按F备用传送');
+                    await keyPress("F");
+                    await sleep(5000);
+                    interactHit = wipOcrCheckText(stygianInteractRoi, ["幽境危战"], "新版寻路-交互-retry-f", isDebug);
                 }
             }
             let interactRetries = 0;
@@ -1050,7 +1057,7 @@ let shouldForceStop = false;
             return true;
 
         } catch (ex) {
-            log.warn(`[新版寻路] 检测异常: ${ex.message}`);
+            log.warn(`[新版寻路] 检测异常: ${ex?.message || ex}`);
             try { await genshin.returnMainUi(); } catch(e2) {}
             return false;
         }
