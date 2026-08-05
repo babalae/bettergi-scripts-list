@@ -398,6 +398,8 @@ async function runLeyLineChallenges() {
             // 开书双倍检测未通过，提前退出
             if (findResult && findResult.noSurge) {
                 log.info("[双倍检测] 开书未检测到双倍产出，脚本结束");
+                // 确保返回主界面（此时可能在冒险之证菜单）
+                try { await genshin.returnMainUi(); } catch(e) {}
                 return;
             }
         } else {

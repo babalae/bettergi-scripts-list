@@ -76,24 +76,27 @@ async function detectDoubleRewardWithRetry(initialTexts) {
 
     async function retryParseDoubleTimes() {
         const captureRegion = captureGameRegion();
-        const ocrRo = RecognitionObject.Ocr(
-            DOUBLE_TIMES_OCR_REGION.x,
-            DOUBLE_TIMES_OCR_REGION.y,
-            DOUBLE_TIMES_OCR_REGION.width,
-            DOUBLE_TIMES_OCR_REGION.height
-        );
-        const areaTexts = captureRegion.findMulti(ocrRo);
-        captureRegion.dispose();
-        if (areaTexts.length > 0) {
-            const result = parseDoubleRemainingTimes(areaTexts);
-            if (result.found) {
-                doubleTimesParsed = true;
-                doubleRemainingTimes = result.count;
-                log.info(`[双倍检测] 剩余双倍次数: ${doubleRemainingTimes}`);
-                return true;
+        try {
+            const ocrRo = RecognitionObject.Ocr(
+                DOUBLE_TIMES_OCR_REGION.x,
+                DOUBLE_TIMES_OCR_REGION.y,
+                DOUBLE_TIMES_OCR_REGION.width,
+                DOUBLE_TIMES_OCR_REGION.height
+            );
+            const areaTexts = captureRegion.findMulti(ocrRo);
+            if (areaTexts.length > 0) {
+                const result = parseDoubleRemainingTimes(areaTexts);
+                if (result.found) {
+                    doubleTimesParsed = true;
+                    doubleRemainingTimes = result.count;
+                    log.info(`[双倍检测] 剩余双倍次数: ${doubleRemainingTimes}`);
+                    return true;
+                }
             }
+            return false;
+        } finally {
+            captureRegion.dispose();
         }
-        return false;
     }
 
     if (!hasDoubleReward) {
@@ -132,14 +135,14 @@ this.clickWithVerification = async function(x, y, targetText, maxRetries = 20) {
     for (let i = 0; i < maxRetries; i++) {
         keyUp("LBUTTON");
         click(x, y);
-        await sleep(400); 
-        
+        await sleep(400);
+
         // 验证目标文字是否消失
         let captureRegion = captureGameRegion();
         let resList = captureRegion.findMulti(ocrRoThis);
         captureRegion.dispose();
         let textFound = false;
-        
+
         if (resList && resList.count > 0) {
             for (let j = 0; j < resList.count; j++) {
                 if (resList[j].text.includes(targetText)) {
@@ -148,7 +151,7 @@ this.clickWithVerification = async function(x, y, targetText, maxRetries = 20) {
                 }
             }
         }
-        
+
         // 如果文字消失了，说明点击成功
         if (!textFound) {
             return true;
@@ -173,7 +176,7 @@ this.verifyRewardPage = async function() {
         // 使用OCR识别上半区域
         let ocrRo = RecognitionObject.Ocr(0, 0, captureRegion.width, captureRegion.height / 2);
         let textList = captureRegion.findMulti(ocrRo);
-        
+
         let isValid = false;
         if (textList && textList.count > 0) {
             for (let i = 0; i < textList.count; i++) {
@@ -394,18 +397,21 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
             if (hasCondensedResin && sortedButtons.length >= 1) {
                 choice = {
                     type: "使用1个浓缩树脂（原粹耗尽）",
+                    resinAmount: 40,
                     button: sortedButtons[0],
                     buttonIndex: 0
                 };
             } else if (hasTransientResin && sortedButtons.length >= 1 && settings.useTransientResin) {
                 choice = {
                     type: "使用1个须臾树脂（原粹耗尽）",
+                    resinAmount: 40,
                     button: sortedButtons[0],
                     buttonIndex: 0
                 };
             } else if (hasFragileResin && sortedButtons.length >= 1 && settings.useFragileResin) {
                 choice = {
                     type: "使用1个脆弱树脂（原粹耗尽）",
+                    resinAmount: 40,
                     button: sortedButtons[0],
                     buttonIndex: 0
                 };
@@ -433,12 +439,14 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
                     if (switchSuccess) {
                         choice = {
                             type: "使用40个原粹树脂（从20切换，双倍产出）",
+                            resinAmount: 40,
                             button: sortedButtons[0],
                             buttonIndex: 0
                         };
                     } else {
                         choice = {
                             type: "使用20个原粹树脂（双倍产出）",
+                            resinAmount: 20,
                             button: sortedButtons[0],
                             buttonIndex: 0
                         };
@@ -447,12 +455,14 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
                     // 怪物素材模式已经切换到20，直接使用20
                     choice = {
                         type: "使用20个原粹树脂（怪物素材模式，双倍产出）",
+                        resinAmount: 20,
                         button: sortedButtons[0],
                         buttonIndex: 0
                     };
                 } else {
                     choice = {
                         type: hasOriginalResin40 ? "使用40个原粹树脂（双倍产出）" : "使用20个原粹树脂（双倍产出）",
+                        resinAmount: hasOriginalResin40 ? 40 : 20,
                         button: sortedButtons[0],
                         buttonIndex: 0
                     };
@@ -462,6 +472,7 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
             else if (hasCondensedResin && sortedButtons.length >= 2) {
                 choice = {
                     type: "使用1个浓缩树脂",
+                    resinAmount: 40,
                     button: sortedButtons[1],
                     buttonIndex: 1
                 };
@@ -470,6 +481,7 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
             else if (hasTransientResin && settings.useTransientResin && sortedButtons.length >= 2) {
                 choice = {
                     type: "使用1个须臾树脂",
+                    resinAmount: 40,
                     button: sortedButtons[1],
                     buttonIndex: 1
                 };
@@ -482,6 +494,7 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
                     // 如果实际次数不足3次，最多多跑一个节点，会被兜底逻辑捕获
                     choice = {
                         type: hasOriginalResin20 ? "使用20个原粹树脂（20树脂模式）" : "使用40个原粹树脂（20树脂模式）",
+                        resinAmount: hasOriginalResin20 ? 20 : 40,
                         button: sortedButtons[0],
                         buttonIndex: 0
                     };
@@ -491,6 +504,7 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
                         let switchSuccess = await trySwitch40To20Resin();
                         if (switchSuccess) {
                             choice.type = "使用20个原粹树脂（20树脂模式）";
+                            choice.resinAmount = 20;  // 更新树脂量
                             log.info("20树脂模式：已切换到20个原粹树脂");
                         } else {
                             log.warn("20树脂模式：无法切换到20，继续使用40");
@@ -548,12 +562,14 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
                     if ((isNow40Resin || hasOriginalResin40) && !forceUse20ForLastSurge) {
                         choice = {
                             type: "使用40个原粹树脂（默认模式）",
+                            resinAmount: 40,
                             button: sortedButtons[0],
                             buttonIndex: 0
                         };
                     } else {
                         choice = {
                             type: forceUse20ForLastSurge ? "使用20个原粹树脂（最后1次双倍优化）" : "使用20个原粹树脂（默认模式）",
+                            resinAmount: 20,
                             button: sortedButtons[0],
                             buttonIndex: 0
                         };
@@ -564,6 +580,7 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
             else if (hasFragileResin && settings.useFragileResin && sortedButtons.length >= 2) {
                 choice = {
                     type: "使用1个脆弱树脂",
+                    resinAmount: 40,
                     button: sortedButtons[1],
                     buttonIndex: 1
                 };
@@ -575,12 +592,14 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
                     let switchSuccess = await trySwitch20To40Resin();
                     choice = {
                         type: switchSuccess ? "默认使用40个原粹树脂（从20切换）" : "默认使用20个原粹树脂",
+                        resinAmount: switchSuccess ? 40 : 20,
                         button: sortedButtons[0],
                         buttonIndex: 0
                     };
                 } else {
                     choice = {
                         type: "默认使用原粹树脂",
+                        resinAmount: hasOriginalResin40 ? 40 : (hasOriginalResin20 ? 20 : 40),
                         button: sortedButtons[0],
                         buttonIndex: 0
                     };
@@ -594,12 +613,13 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
 
         if (settings.onlySurgeMode) {
             // 判断本次消耗多少双倍次数（20树脂=1次，40树脂=2次）
-            let consumeTimes = 0;
-            if (choice && choice.type.includes("40")) {
-                consumeTimes = 2;
-            } else if (choice && choice.type.includes("20")) {
-                consumeTimes = 1;
-            }
+        // 使用显式的 resinAmount 数值字段，避免字符串匹配的歧义问题
+        let consumeTimes = 0;
+        if (choice && choice.resinAmount === 40) {
+            consumeTimes = 2;
+        } else if (choice && choice.resinAmount === 20) {
+            consumeTimes = 1;
+        }
 
             if (consumeTimes > 0) {
                 // 初始化或更新计数器
