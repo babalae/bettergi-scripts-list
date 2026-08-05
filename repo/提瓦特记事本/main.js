@@ -677,6 +677,9 @@ let notify = settings.notify
 let account = settings.userName || "默认账户";
 // 固定记录类型，仅用于写入圣遗物历史文件，不参与数据对比。
 let countTimePoint = "提瓦特记事本";
+    const shouldRecordSmallBottle = shouldWriteLocalRecord("recordSmallArtifactBottle");
+    const shouldRecordBigBottle = shouldWriteLocalRecord("recordBigArtifactBottle");
+    const shouldRecordTotalExp = shouldWriteLocalRecord("recordArtifactTotalExp");
 
     // 设置分辨率和缩放
     setGameMetrics(1920, 1080, 1);
@@ -770,49 +773,57 @@ let countTimePoint = "提瓦特记事本";
     }
 
     const failedComponents = [];
-    if (initialValue === null) failedComponents.push("已储存经验");
-    if (smallBottle === '') failedComponents.push("小经验瓶");
-    if (bigBottle === '') failedComponents.push("大经验瓶");
-    if (starCountRecognitionFailed) failedComponents.push("狗粮星级数量");
+    if ((shouldRecordSmallBottle || shouldRecordTotalExp) && smallBottle === '') {
+        failedComponents.push("小经验瓶");
+    }
+    if ((shouldRecordBigBottle || shouldRecordTotalExp) && bigBottle === '') {
+        failedComponents.push("大经验瓶");
+    }
+    if (shouldRecordTotalExp && initialValue === null) failedComponents.push("已储存经验");
+    if (shouldRecordTotalExp && starCountRecognitionFailed) failedComponents.push("狗粮星级数量");
     if (failedComponents.length > 0) {
         log.error(`圣遗物经验识别不完整（${failedComponents.join('、')}），已跳过本次聚合、记录和通知`);
         await genshin.returnMainUi();
         return;
     }
-    // 计算狗粮经验值
-    const expStar1 = starCounts.star1 * 420;
-    const expStar2 = starCounts.star2 * 840;
-    const expStar3 = starCounts.star3 * 1260;
-    const expStar4 = starCounts.star4 * 2520;
-    const expStars = expStar1 + expStar2 + expStar3 + expStar4;
-    // 库存经验值
-    const expSmall = parseInt(smallBottle || 0) * 2500;
-    const expBig = parseInt(bigBottle || 0) * 10000;
-    const expStock = expSmall + expBig + initialValue;
-    // 合计
-    const totalExp = expStars + expStock;
-    const totalCount = starCounts.star1 + starCounts.star2 + starCounts.star3 + starCounts.star4;
-    
-    // 预计算所有需要格式化的值
-    const formattedTotalExp = await formatExp(totalExp);
+    const smallBottleCount = smallBottle === '' ? null : parseInt(smallBottle, 10);
+    const bigBottleCount = bigBottle === '' ? null : parseInt(bigBottle, 10);
+    let totalExp = null;
+    if (shouldRecordTotalExp) {
+        const expStars =
+            starCounts.star1 * 420 +
+            starCounts.star2 * 840 +
+            starCounts.star3 * 1260 +
+            starCounts.star4 * 2520;
+        const expStock = smallBottleCount * 2500 + bigBottleCount * 10000 + initialValue;
+        totalExp = expStars + expStock;
+    }
 
     // 记录保存功能
     const userName = await getUserName();
     const recordPath = unifiedRecordPath;
     
     // 圣遗物数据合并为一条通知，避免通知数量过多。
-    const message =
-        `小经验瓶-${smallBottle || 0} | ` +
-        `大经验瓶-${bigBottle || 0} | ` +
-        `圣遗物总经验-${formattedTotalExp}`;
+    const messageParts = [];
+    if (shouldRecordSmallBottle) messageParts.push(`小经验瓶-${smallBottleCount}`);
+    if (shouldRecordBigBottle) messageParts.push(`大经验瓶-${bigBottleCount}`);
+    if (shouldRecordTotalExp) messageParts.push(`圣遗物总经验-${await formatExp(totalExp)}`);
     
     // 只追加本次统计记录，不读取或对比历史数据
-    await updateRecord(recordPath, parseInt(smallBottle || 0), parseInt(bigBottle || 0), totalExp);
+    const recordWritten = await updateRecord(
+        recordPath,
+        smallBottleCount,
+        bigBottleCount,
+        totalExp
+    );
+    if (!recordWritten) {
+        throw new Error("圣遗物经验统计写入记录失败");
+    }
     
-    sendNotebookNotification(message);
-    log.info(`提瓦特记事本-小经验瓶-${smallBottle || 0}`);
-    log.info(`提瓦特记事本-大经验瓶-${bigBottle || 0}`);
-    log.info(`提瓦特记事本-圣遗物总经验-${totalExp}`);
+    sendNotebookNotification(messageParts.join(' | '));
+    if (shouldRecordSmallBottle) log.info(`提瓦特记事本-小经验瓶-${smallBottleCount}`);
+    if (shouldRecordBigBottle) log.info(`提瓦特记事本-大经验瓶-${bigBottleCount}`);
+    if (shouldRecordTotalExp) log.info(`提瓦特记事本-圣遗物总经验-${totalExp}`);
     await genshin.returnMainUi();
 
     // 格式化经验值显示
@@ -992,7 +1003,8 @@ let countTimePoint = "提瓦特记事本";
             }
             if (i < 5 - 1) await sleep(50);
         }
-        return ''; // 未找到时返回空字符串
+        log.info(`未找到${itemName}图标，确认库存数量为0`);
+        return '0';
     }
 
     // 检验账户名
@@ -1196,6 +1208,17 @@ let countTimePoint = "提瓦特记事本";
 
 }
 
+function isCancellationError(error) {
+    if (!error) {
+        return false;
+    }
+
+    const detail = [error.name, error.message, String(error)]
+        .filter(Boolean)
+        .join(" ");
+    return /TaskCanceledException|OperationCanceledException|AbortError|a task was canceled|operation (?:was )?cancel(?:l)?ed|操作已取消|任务已取消/i.test(detail);
+}
+
 async function runStatItem(name, enabled, task) {
     if (!enabled) {
         log.info(`已跳过：${name}`);
@@ -1208,6 +1231,9 @@ async function runStatItem(name, enabled, task) {
         await task();
         log.info(`完成：${name}`);
     } catch (error) {
+        if (isCancellationError(error)) {
+            throw error;
+        }
         const detail = error && (error.stack || error.message)
             ? (error.stack || error.message)
             : String(error);
