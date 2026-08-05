@@ -154,7 +154,7 @@ async function recognizeTextInRegion(ocrRegion, timeout = 5000) {
     return null; // 如果未识别到文字，返回 null
 }
 
-async function recognizeWishResourceValue(templatePath, valueOffsetX, valueWidth) {
+async function recognizeWishResourceValue(resourceName, templatePath, valueOffsetX, valueWidth) {
     const template = RecognitionObject.TemplateMatch(
         file.ReadImageMatSync(templatePath),
         0, 0, 1920, 1080
@@ -168,6 +168,8 @@ async function recognizeWishResourceValue(templatePath, valueOffsetX, valueWidth
             digitTemplates[digit] = RecognitionObject.TemplateMatch(
                 file.ReadImageMatSync(`assets/祈愿资源数字含背景/${digit}.png`), x, y, width, height
             );
+            // 数字模板保留了资源栏的彩色背景，使用三通道可减少灰度下 1/7、1/8 等误匹配。
+            digitTemplates[digit].Use3Channels = true;
         }
 
         const candidates = [];
@@ -183,29 +185,47 @@ async function recognizeWishResourceValue(templatePath, valueOffsetX, valueWidth
                 const matches = gameRegion.findMulti(digitTemplates[digit]);
                 for (let i = 0; i < matches.count; i++) {
                     const box = matches[i];
-                    candidates.push({ digit, x: box.x, y: box.y, width: box.width, height: box.height });
+                    candidates.push({
+                        digit,
+                        x: box.x,
+                        y: box.y,
+                        width: box.width,
+                        height: box.height,
+                        threshold
+                    });
                 }
             }
         }
 
-        candidates.sort((a, b) => a.x - b.x);
+        // 同一位置可能同时命中多个数字模板（例如 8 的局部轮廓命中 1）。
+        // 去重前优先高阈值结果；阈值相同时优先保留更完整的大框。
+        candidates.sort((a, b) => {
+            const thresholdDiff = b.threshold - a.threshold;
+            if (thresholdDiff !== 0) return thresholdDiff;
+            return (b.width * b.height) - (a.width * a.height);
+        });
         const adopted = [];
         for (const candidate of candidates) {
             const isDuplicate = adopted.some((item) => {
                 const xOverlap = Math.max(0, Math.min(candidate.x + candidate.width, item.x + item.width) - Math.max(candidate.x, item.x));
                 const yOverlap = Math.max(0, Math.min(candidate.y + candidate.height, item.y + item.height) - Math.max(candidate.y, item.y));
-                return xOverlap > 2 && yOverlap > 2;
+                const xOverlapRatio = xOverlap / Math.min(candidate.width, item.width);
+                const yOverlapRatio = yOverlap / Math.min(candidate.height, item.height);
+                // 含背景模板的相邻字符框会轻微重叠；只有主体区域高度重合才视为同一字符。
+                return xOverlapRatio >= 0.5 && yOverlapRatio >= 0.6;
             });
             if (!isDuplicate) {
                 adopted.push(candidate);
             }
         }
+        adopted.sort((a, b) => a.x - b.x);
         return adopted.length > 0
             ? adopted.reduce((value, item) => value * 10 + item.digit, 0)
             : -1;
     }
 
-    for (let attempt = 0; attempt < 10; attempt++) {
+    const readings = [];
+    for (let attempt = 0; attempt < 3; attempt++) {
         const gameRegion = captureGameRegion();
         try {
             const iconResult = gameRegion.find(template);
@@ -218,14 +238,25 @@ async function recognizeWishResourceValue(templatePath, valueOffsetX, valueWidth
                     50
                 );
                 if (value >= 0) {
-                    return String(value);
+                    readings.push(value);
                 }
             }
         } finally {
             gameRegion.dispose();
         }
-        await sleep(100);
+        if (attempt < 2) await sleep(100);
     }
+
+    for (const value of readings) {
+        if (readings.filter(candidate => candidate === value).length >= 2) {
+            if (!readings.every(candidate => candidate === value)) {
+                log.warn(`${resourceName}多帧识别结果为 [${readings.join(', ')}]，采用多数结果 ${value}`);
+            }
+            return String(value);
+        }
+    }
+
+    log.warn(`${resourceName}多帧识别未形成一致结果：[${readings.join(', ')}]`);
     return null;
 }
 
@@ -290,11 +321,13 @@ async function recognizeWishResourceValue(templatePath, valueOffsetX, valueWidth
     if (recognized) {
         // 先定位资源图标，再按图标的相对位置读取数值，适配资源栏位置变化。
         let recognizedText1 = await recognizeWishResourceValue(
+            "原石",
             "assets/WishResources/原石图标.png",
             40,
             78
         );
         let recognizedText2 = await recognizeWishResourceValue(
+            "纠缠之缘",
             "assets/WishResources/纠缠之缘图标.png",
             42,
             65
