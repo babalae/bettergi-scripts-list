@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785956992528,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "05-堇瓜-清籁岛-淺瀨神社-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3703.8906,
+      "y": -4694.3281
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3725.6289,
+      "y": -4661.375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3755.5098,
+      "y": -4634.8906
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3782.0488,
+      "y": -4603.2324
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2.5)",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3793.168,
+      "y": -4555.7031
+    }
+  ]
+}

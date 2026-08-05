@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785955658677,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "26-堇瓜-八酝岛-无明砦-6个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1314.8867,
+      "y": -3775.8867
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1335.4961,
+      "y": -3761.8164
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1330.5879,
+      "y": -3756.252
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1372.7246,
+      "y": -3705.0762
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -1377.2852,
+      "y": -3676.8926
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(1),wait(25)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -1383.1855,
+      "y": -3675.6885
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1633.9121,
+      "y": -3603.6699
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2.5)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1639.1934,
+      "y": -3603.2578
+    }
+  ]
+}

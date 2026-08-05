@@ -1,0 +1,50 @@
+{
+  "info": {
+    
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785950530508,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "14-堇瓜-神无冢-踏鞴砂一-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3288.12,
+      "y": -3652.53
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3321.832,
+      "y": -3691.9756
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2.5)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3320.4941,
+      "y": -3684.7383
+    }
+  ]
+}

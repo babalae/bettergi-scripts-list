@@ -1,0 +1,185 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785953415930,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "15-堇瓜-神无冢-踏鞴砂二-15个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3156.2773,
+      "y": -3885.8623
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3125.3574,
+      "y": -3863.3066
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3096.9902,
+      "y": -3846.2168
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3058.6367,
+      "y": -3837.9697
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3045.2227,
+      "y": -3830.1982
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3046.2695,
+      "y": -3836.4248
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3031.0029,
+      "y": -3863.6562
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3046.3477,
+      "y": -3907.9268
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3038.1953,
+      "y": -3903.2686
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3032.2754,
+      "y": -3933.0098
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -3021.8105,
+      "y": -3939.8838
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3016.9258,
+      "y": -3950.6426
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2981.8848,
+      "y": -3961.4687
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2)",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2985.1387,
+      "y": -3969.3916
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2978.7344,
+      "y": -3956.0762
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2.5)",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2970.1191,
+      "y": -3968.5605
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2978.7344,
+      "y": -3956.0762
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2)",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2971.7754,
+      "y": -3949.7549
+    }
+  ]
+}
