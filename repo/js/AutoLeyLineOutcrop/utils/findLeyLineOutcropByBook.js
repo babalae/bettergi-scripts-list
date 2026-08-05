@@ -1,13 +1,52 @@
 // 齿轮图标识别对象
 const mapSettingButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/map_setting_button.bmp"));
 
+// OCR 检测辅助函数（用于地脉移涌检测）
+function wipOcrCheckText(roi1080, keywords, label) {
+    let ra = null;
+    try {
+        const s = genshin.scaleTo1080PRatio;
+        const x = Math.round(roi1080[0] * s);
+        const y = Math.round(roi1080[1] * s);
+        const w = Math.round(roi1080[2] * s);
+        const h = Math.round(roi1080[3] * s);
+
+        ra = captureGameRegion();
+        const resList = ra.findMulti(RecognitionObject.ocr(x, y, w, h));
+        const count = resList.length !== undefined ? resList.length : resList.count;
+
+        if (typeof enableDebug !== "undefined" && enableDebug) {
+            log.info(`[DEBUG][${label}] ROI(1080P)=(${roi1080.join(',')}) 当前=(${x},${y},${w},${h}) 段数=${count}`);
+            for (let i = 0; i < count; i++) {
+                const r = resList[i];
+                if (r) log.info(`[DEBUG][${label}] #${i+1} text="${r.text}" pos=(${r.x},${r.y},${r.width},${r.height})`);
+            }
+        }
+
+        for (let i = 0; i < count; i++) {
+            const r = resList[i];
+            if (!r || !r.text) continue;
+            for (let k = 0; k < keywords.length; k++) {
+                if (r.text.includes(keywords[k])) return r;
+            }
+        }
+        return null;
+    } catch (e) {
+        log.warn(`[DEBUG][${label}] OCR异常: ${e.message}`);
+        return null;
+    } finally {
+        if (ra) ra.dispose();
+    }
+}
+
 /**
  * 通过冒险之证查找地脉花位置
  * @param {string} country - 国家名称
  * @param {string} type - 地脉花类型
- * @returns {Promise<void>}
+ * @param {boolean} checkSurge - 是否检测双倍产出
+ * @returns {Promise<{found: boolean, hasSurge?: boolean}>} 返回查找结果和双倍状态
  */
-this.findLeyLineOutcropByBook = async function (country, type) {
+this.findLeyLineOutcropByBook = async function (country, type, checkSurge = false) {
   await genshin.returnMainUi();
   await sleep(1000);
   log.info("使用冒险之证寻找地脉花");
@@ -30,6 +69,33 @@ this.findLeyLineOutcropByBook = async function (country, type) {
     click(500, 350); // 点击摩拉花
   }
   await sleep(1000);
+  
+  // 开书双倍检测：在选择花类型之后、点击推荐之前进行
+  if (checkSurge) {
+    log.info("[双倍检测] 开始识别两倍产出...");
+    const doubleLarge = [1041, 496, 170, 37];
+    let doubleHit = wipOcrCheckText(doubleLarge, ["2倍", "两倍", "双倍"], "双倍产出检测");
+    if (!doubleHit) {
+      log.info('[双倍检测] 识别失败，重试1...');
+      await sleep(1500);
+      doubleHit = wipOcrCheckText(doubleLarge, ["2倍", "两倍", "双倍"], "双倍产出检测-r1");
+    }
+    
+    // 正式版本：检测不到双倍时直接退出脚本
+    if (!doubleHit) {
+      log.info("[双倍检测] 开书未识别到两倍产出，脚本结束");
+      if (isNotification) {
+        notification.send("未识别到两倍产出，脚本结束");
+      }
+      return { found: true, noSurge: true };
+    } else {
+      log.info("[双倍检测] 开书识别到两倍产出");
+      if (isNotification) {
+        notification.send("识别到两倍产出");
+      }
+    }
+  }
+  
   click(1300, 800); // 点击推荐
   await sleep(1000);
 
@@ -69,6 +135,8 @@ this.findLeyLineOutcropByBook = async function (country, type) {
 
   // 取消追踪
   await this.cancelTrackingInMap();
+  
+  return { found: true, hasSurge: checkSurge ? true : undefined };
 };
 
 /**

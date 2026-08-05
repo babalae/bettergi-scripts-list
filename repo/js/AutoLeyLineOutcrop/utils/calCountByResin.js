@@ -541,24 +541,33 @@ this.calCountByResin = async function () {
         let count = 0;
         // 计算可刷取次数
         // 1. 原粹树脂：优先消耗40/次，不满40消耗20/次，不满20不消耗
+        // 怪物素材模式：每次消耗20/次
         let originalResinTimes = 0;
         let remainingOriginalResin = countResult.originalResinCount;
 
-        // 先计算40树脂的次数
-        if (remainingOriginalResin >= 40) {
-            const times40 = Math.floor(remainingOriginalResin / 40);
-            originalResinTimes += times40;
-            remainingOriginalResin = remainingOriginalResin - (times40 * 40);
-        }
+        if (settings.monsterMaterialMode) {
+            // 怪物素材模式：每次20体力
+            originalResinTimes = Math.floor(remainingOriginalResin / 20);
+            remainingOriginalResin = remainingOriginalResin % 20;
+            log.info(`原粹树脂可刷取次数（怪物素材模式，20/次）: ${originalResinTimes}`);
+        } else {
+            // 正常模式：优先40/次
+            // 先计算40树脂的次数
+            if (remainingOriginalResin >= 40) {
+                const times40 = Math.floor(remainingOriginalResin / 40);
+                originalResinTimes += times40;
+                remainingOriginalResin = remainingOriginalResin - (times40 * 40);
+            }
 
-        // 再计算20树脂的次数
-        if (remainingOriginalResin >= 20) {
-            const times20 = Math.floor(remainingOriginalResin / 20);
-            originalResinTimes += times20;
-            remainingOriginalResin = remainingOriginalResin - (times20 * 20);
-        }
+            // 再计算20树脂的次数
+            if (remainingOriginalResin >= 20) {
+                const times20 = Math.floor(remainingOriginalResin / 20);
+                originalResinTimes += times20;
+                remainingOriginalResin = remainingOriginalResin - (times20 * 20);
+            }
 
-        log.info(`原粹树脂可刷取次数: ${originalResinTimes}`);
+            log.info(`原粹树脂可刷取次数: ${originalResinTimes}`);
+        }
 
         // 2. 浓缩树脂：每个计算为1次
         let condensedResinTimes = countResult.condensedResinCount;

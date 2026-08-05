@@ -125,12 +125,28 @@ async function checkDailyCommissionFlow(isNotification, isDebug) {
         // 第三步：识别"委托"
         log.info("[每日委托] 第三步: 识别委托");
         const commissionSmall = [249, 300, 110, 84], commissionLarge = [98, 346, 651, 708];
-        
+
         let commissionHit = wipOcrCheckText(commissionSmall, ["委托"], "每日委托-委托", isDebug);
-        if (!commissionHit) { log.info('[每日委托] 委托识别失败，重试1...'); await sleep(1500); commissionHit = wipOcrCheckText(commissionSmall, ["委托"], "每日委托-委托-r1", isDebug); }
-        if (!commissionHit) { log.info('[每日委托] 委托识别失败，重试2...'); await sleep(1500); commissionHit = wipOcrCheckText(commissionSmall, ["委托"], "每日委托-委托-r2", isDebug); }
-        if (!commissionHit) { log.info('[每日委托] 小范围失败，尝试大范围...'); commissionHit = wipOcrCheckText(commissionLarge, ["委托"], "每日委托-委托-large", isDebug); }
-        if (!commissionHit) { log.info('[每日委托] 大范围失败，重试...'); await sleep(1500); commissionHit = wipOcrCheckText(commissionLarge, ["委托"], "每日委托-委托-large2", isDebug); }
+        if (!commissionHit) {
+            log.info('[每日委托] 委托识别失败，验证上一步是否生效...');
+
+            // 【回退验证】检查是否还在ESC菜单（说明点击冒险之证没生效）
+            const menuCheck = wipOcrCheckText(smallRoi, ["冒险之证"], "每日委托-验证冒险之证", isDebug);
+            if (menuCheck) {
+                log.info('[每日委托] 检测到仍在菜单界面，重新点击冒险之证...');
+                const reBookX = Math.round(menuCheck.x / genshin.scaleTo1080PRatio + menuCheck.width / genshin.scaleTo1080PRatio / 2);
+                const reBookY = Math.round(menuCheck.y / genshin.scaleTo1080PRatio + menuCheck.height / genshin.scaleTo1080PRatio / 2) - 50;
+                GameCaptureRegion.gameRegion1080PPosClick(reBookX, reBookY);
+                await sleep(2500);
+                commissionHit = wipOcrCheckText(commissionSmall, ["委托"], "每日委托-委托-retry", isDebug);
+            }
+
+            // 如果还是找不到，继续原有重试逻辑
+            if (!commissionHit) { log.info('[每日委托] 委托识别失败，重试1...'); await sleep(1500); commissionHit = wipOcrCheckText(commissionSmall, ["委托"], "每日委托-委托-r1", isDebug); }
+            if (!commissionHit) { log.info('[每日委托] 委托识别失败，重试2...'); await sleep(1500); commissionHit = wipOcrCheckText(commissionSmall, ["委托"], "每日委托-委托-r2", isDebug); }
+            if (!commissionHit) { log.info('[每日委托] 小范围失败，尝试大范围...'); commissionHit = wipOcrCheckText(commissionLarge, ["委托"], "每日委托-委托-large", isDebug); }
+            if (!commissionHit) { log.info('[每日委托] 大范围失败，重试...'); await sleep(1500); commissionHit = wipOcrCheckText(commissionLarge, ["委托"], "每日委托-委托-large2", isDebug); }
+        }
 
         if (commissionHit) {
             const s = genshin.scaleTo1080PRatio;
@@ -148,11 +164,29 @@ async function checkDailyCommissionFlow(isNotification, isDebug) {
         log.info("[每日委托] 第四步: 识别奖励状态");
         const rewardRoi = [438, 827, 231, 49];
         const progressRoi = [667, 340, 66, 50];
-        
+
         // 先获取原始文本
-        const rawText = wipOcrGetRawText(rewardRoi, "每日委托-奖励状态-原始文本", isDebug);
+        let rawText = wipOcrGetRawText(rewardRoi, "每日委托-奖励状态-原始文本", isDebug);
         if (isDebug) {
             log.info(`[每日委托] 原始识别文本: "${rawText}"`);
+        }
+
+        // 【回退验证】如果首次识别不到奖励相关文字，检查是否还在冒险之证界面（说明点击委托没生效）
+        if (!rawText.includes("今日奖励已领取") && !rawText.includes("领取奖励")) {
+            log.info('[每日委托] 奖励状态识别失败，验证上一步是否生效...');
+
+            const bookPageCheck = wipOcrCheckText(commissionSmall, ["委托"], "每日委托-验证委托标签", isDebug);
+            if (bookPageCheck) {
+                log.info('[每日委托] 检测到仍在冒险之证界面，重新点击委托...');
+                const reCommissionX = Math.round(bookPageCheck.x / genshin.scaleTo1080PRatio + bookPageCheck.width / genshin.scaleTo1080PRatio / 2);
+                const reCommissionY = Math.round(bookPageCheck.y / genshin.scaleTo1080PRatio + bookPageCheck.height / genshin.scaleTo1080PRatio / 2);
+                GameCaptureRegion.gameRegion1080PPosClick(reCommissionX, reCommissionY);
+                await sleep(1500);
+                rawText = wipOcrGetRawText(rewardRoi, "每日委托-奖励状态-原始文本-retry", isDebug);
+                if (isDebug) {
+                    log.info(`[每日委托] 重试后识别文本: "${rawText}"`);
+                }
+            }
         }
 
         // 判断逻辑
@@ -173,14 +207,14 @@ async function checkDailyCommissionFlow(isNotification, isDebug) {
                 resultText = "每日委托奖励未领取";
             }
         } else {
-            // 都没识别到，重试
+            // 都没识别到，重试（原有逻辑）
             log.info('[每日委托] 奖励状态识别失败，重试1...');
             await sleep(1000);
             const rawText2 = wipOcrGetRawText(rewardRoi, "每日委托-奖励状态-原始文本-r1", isDebug);
             if (isDebug) {
                 log.info(`[每日委托] 原始识别文本: "${rawText2}"`);
             }
-            
+
             if (rawText2.includes("今日奖励已领取")) {
                 resultText = "每日委托奖励已领取";
             } else if (rawText2.includes("领取奖励")) {
@@ -202,7 +236,7 @@ async function checkDailyCommissionFlow(isNotification, isDebug) {
                 if (isDebug) {
                     log.info(`[每日委托] 原始识别文本: "${rawText3}"`);
                 }
-                
+
                 if (rawText3.includes("今日奖励已领取")) {
                     resultText = "每日委托奖励已领取";
                 } else if (rawText3.includes("领取奖励")) {

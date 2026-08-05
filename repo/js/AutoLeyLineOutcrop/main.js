@@ -17,6 +17,7 @@ let recheckCount = 0;     // 树脂重新检查次数（防止无限递归）
 const MAX_RECHECK_COUNT = 3; // 最大重新检查次数
 let consecutiveFailureCount = 0; // 连续战斗失败次数
 const MAX_CONSECUTIVE_FAILURES = 5; // 最大连续失败次数，超过后终止脚本
+let doubleSurgeCounter = 0; // 双倍剩余次数计数器（0=未知/未初始化，>0=剩余次数）
 const ocrRegion1 = {x: 800, y: 200, width: 300, height: 100};   // 中心区域
 const ocrRegion2 = {x: 0, y: 200, width: 300, height: 300};     // 追踪任务区域
 const ocrRegion3 = {x: 1200, y: 520, width: 300, height: 300};  // 拾取区域
@@ -65,7 +66,14 @@ const ocrRoThis = RecognitionObject.ocrThis;
  */
 async function runLeyLineOutcropScript() {
     // 初始化加载配置和设置并校验
-    initialize();
+    await initialize();
+
+    // 如果开启"只刷双倍"模式，双倍检测在两个位置进行：
+    // 1. 开书时快速检测（如果开启冒险之证）
+    // 2. 打完地脉花后在奖励界面兜底检测（带区域重试）
+    if (settings.onlySurgeMode) {
+        log.info("开启只刷双倍模式，双倍检测将在开书时进行");
+    }
 
     // 处理树脂耗尽模式（如果开启）
     let runTimesValue = await handleResinExhaustionMode();
@@ -118,9 +126,13 @@ async function initialize() {
     // 2. 加载配置文件
     try {
         config = JSON.parse(file.readTextSync("config.json"));
-        loadSettings();
     } catch (error) {
         throw new Error("配置文件加载失败，请检查config.json文件是否存在");
+    }
+    try {
+        loadSettings();
+    } catch (error) {
+        throw new Error(error.message);
     }
     try {
         // 3. 检查脚本更新
@@ -160,6 +172,9 @@ async function checkUpdate() {
     } catch (error) {
         throw new Error(`检查脚本更新时出错: ${error.message}`);
     }
+    
+    // 重置双倍次数计数器
+    doubleSurgeCounter = 0;
 }
 
 
@@ -376,7 +391,15 @@ async function runLeyLineChallenges() {
         // 寻找地脉花位置
         // 数据保存在全局变量中 leyLineX，leyLineY
         if (settings.useAdventurerHandbook) {
-            await findLeyLineOutcropByBook(settings.country, settings.leyLineOutcropType);
+            // 仅在第一次循环且开启双倍模式时检测双倍
+            const checkSurge = settings.onlySurgeMode && currentRunTimes === 0;
+            const findResult = await findLeyLineOutcropByBook(settings.country, settings.leyLineOutcropType, checkSurge);
+            
+            // 开书双倍检测未通过，提前退出
+            if (findResult && findResult.noSurge) {
+                log.info("[双倍检测] 开书未检测到双倍产出，脚本结束");
+                return;
+            }
         } else {
             await findLeyLineOutcrop(settings.country, settings.leyLineOutcropType);
         }
@@ -647,9 +670,19 @@ async function executePath(path) {
     await processLeyLineOutcrop(settings.timeout, targetPath);
 
     // 尝试领取奖励，如果失败则抛出异常停止执行
-    const rewardSuccess = await attemptReward();
-    if (!rewardSuccess) {
+    const rewardResult = await attemptReward();
+    if (!rewardResult || !rewardResult.success) {
         throw new Error("无法领取奖励，树脂不足或其他原因");
+    }
+    
+    // 根据双倍剩余次数决定是否继续
+    if (settings.onlySurgeMode && rewardResult.willFinishDoubleTimes) {
+        log.info("[双倍次数] 双倍次数已刷完，脚本结束");
+        // 设置运行次数为目标值，终止while循环
+        currentRunTimes = settings.timesValue;
+        return;
+    } else if (settings.onlySurgeMode && rewardResult.doubleRemainingTimes !== undefined) {
+        log.info(`[双倍次数] 还有 ${rewardResult.doubleRemainingTimes} 次双倍，继续下一个地脉花`);
     }
 
     // 成功完成地脉花挑战，重置连续失败计数器
