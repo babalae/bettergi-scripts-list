@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/this-Fish",
+        "links": "",
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
     "last_modified_time": 1781692969503,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "21-绯樱绣球-影向山山底-5个",
+    "name": "21-绯樱绣球-影向山山底-4个",
     "tags": [
       "丽莎"
     ],
@@ -125,7 +125,7 @@
       "id": 12,
       "move_mode": "dash",
       "type": "path",
-      "x": -4333.0,
+      "x": -4333,
       "y": -2633.65
     },
     {
@@ -145,69 +145,6 @@
       "type": "path",
       "x": -4312.34,
       "y": -2624.69
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 15,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -4375.67,
-      "y": -2498.13
-    },
-    {
-      "action": "combat_script",
-      "action_params": ";白术 wait(0.3),e,wait(0.2),e,wait(0.2),e,wait(0.2); ;",
-      "id": 16,
-      "move_mode": "run",
-      "type": "orientation",
-      "x": -4396.46,
-      "y": -2505.98
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 17,
-      "move_mode": "run",
-      "type": "path",
-      "x": -4396.46,
-      "y": -2505.98
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "5000",
-      "id": 18,
-      "move_mode": "fly",
-      "type": "target",
-      "x": -4407.22,
-      "y": -2584.41
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.1)",
-      "id": 19,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -4405.2578,
-      "y": -2583.3008
-    },
-    {
-      "action": "electro_collect",
-      "action_params": "",
-      "id": 20,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -4406.98,
-      "y": -2583.19
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(0.3)",
-      "id": 21,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -4406.98,
-      "y": -2583.19
     }
   ]
 }
