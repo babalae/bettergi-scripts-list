@@ -285,6 +285,49 @@ export async function outStygianOnslaughtUI() {
         }
     }
 }
+
+/**
+ * 打开背包（检测过期物品）
+ */
+export async function openBag() {
+    const openBagKey = settings.openBagKey || "B";
+    await toMainUi();
+    await keyPress(openBagKey);
+    await sleep(500);
+    const expiredText = await findText("物品过期", 870, 280, 170, 40, 2);
+    if (expiredText) {
+        log.info("检测到过期物品，关闭弹窗");
+        await sleep(500);
+        await click(980, 750);
+    }
+    await sleep(50);
+}
+
+/**
+ * 使用OCR技术在指定区域内查找文本
+ * @param {number} x - 区域左上角x坐标
+ * @param {number} y - 区域左上角y坐标
+ * @param {number} width - 区域宽度
+ * @param {number} height - 区域高度
+ * @returns {Promise<Region|null>} 返回找到的文本，如果没有找到则返回null
+ */
+export async function OcrFind(x, y, width, height) {
+    let captureRegion = captureGameRegion(); // 获取游戏区域截图
+    try {
+        // 创建OCR识别对象，指定识别区域
+        const recognitionObject = RecognitionObject.Ocr(x, y, width, height);
+        // 在截图上执行OCR识别
+        const result = captureRegion.find(recognitionObject);
+        // 返回识别到的文本，如果未识别到则返回undefined
+        return result
+    } finally {
+        // 确保截图资源被正确释放，防止内存泄漏
+        if (captureRegion) {
+            captureRegion.dispose(); // 释放截图资源
+        }
+    }
+}
+
 /**
  * 在指定区域内查找文本内容
  * @param {string} text - 要查找的文本内容

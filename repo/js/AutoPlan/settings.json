@@ -5,6 +5,25 @@
       "label": "密钥(去看文档)"
     },
     {
+      "name": "auto_check",
+      "type": "multi-checkbox",
+      "label": "检查",
+      "options": ["幽境检查","圣遗物空间检查"] ,
+      "default": ["幽境检查","圣遗物空间检查"]
+    },
+    {
+      "name": "holy_relic_threshold",
+      "type": "input-text",
+      "label": "圣遗物空间检查设置剩余阈值(请不要输入非数字)",
+      "default": "100"
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "type": "separator"
+    },
+    {
       "name": "auto_load",
       "type": "multi-checkbox",
       "label": "加载模式\n说明太长 去看文档",
