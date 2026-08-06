@@ -815,10 +815,10 @@
             const dirPath = entry.slice(0, entry.length - fileName.length);
             const base = fileName.replace(/\.json$/, '');
 
-            // 读取内容并计算 hash
+            // 读取内容并计算 hash (使用notes)
             let content;
             try {
-                content = file.readTextSync(fullPath);
+                content = JSON.parse(file.readTextSync(fullPath)).notes;
             } catch (e) {
                 log.error(`读取文件失败: ${fullPath}, 错误: ${e}`);
                 return;
@@ -1965,7 +1965,7 @@
         let gameRegion = captureGameRegion();
         let result = gameRegion.Find(sRo);
         gameRegion.dispose();
-        if (result.isExist()) {
+        if (result.isExist()) { // 当前处于乐器演奏界面
             click(1618, 48);
             for (let i = 0; i < 30; i++) {
                 let gameRegion = captureGameRegion();
@@ -1990,7 +1990,7 @@
                     }
                 }
             }
-        } else {
+        } else { // 不处于乐器界面则退回到主界面
             await genshin.returnMainUi();
         }
 
@@ -2070,6 +2070,12 @@
                         await sleep(5000);
                         keyPress("Z");
                         await sleep(2000);
+                        // 检测是否需要选择 联机合奏
+                        let ocrResult = await Ocr(867, 272, 185, 57);
+                        if (ocrResult && ocrResult.text.includes("联机合奏")) {
+                            click(758, 761);
+                            await sleep(2000);
+                        }
                         return true;
                     } else {
                         await scroll_page(1283, 113, 11, 837, 133, 931, 1288, "Down");
@@ -2117,6 +2123,17 @@
                 } else {
                     log.info(`建议演奏乐器：${music_info.instrument}`);
                 }
+
+                // 检查是否处于乐器界面
+                let sRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/setting.png`), 1578, 10, 80, 80);
+                let gameRegion = captureGameRegion();
+                let result = gameRegion.Find(sRo);
+                gameRegion.dispose();
+                if (!(result.isExist())) {
+                    log.error("当前未处于乐器界面...");
+                    return null;
+                }
+
                 log.info(`开始演奏: ${music_info.name} - ${music_info.author}`);
                 switch (music_info.type) {
                     case "yuanqin":

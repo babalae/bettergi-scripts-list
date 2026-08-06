@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785949115503,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-堇瓜-鸣神岛-稻妻城东-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4494.5566,
+      "y": -3219.3252
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4498.2754,
+      "y": -3208.0723
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4547.1699,
+      "y": -3198.4893
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4595.056,
+      "y": -3193.0
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4633.6016,
+      "y": -3211.5205
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4697.2266,
+      "y": -3234.0703
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2.5)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4751.4258,
+      "y": -3210.5527
+    }
+  ]
+}
