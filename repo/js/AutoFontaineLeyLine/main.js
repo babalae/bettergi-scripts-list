@@ -199,7 +199,7 @@
     : genshin.width > 1920 ? 0.8
     : 0.9;
 
-    log.warn(`全自动枫丹地脉花: v4.4 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
+    log.warn(`全自动枫丹地脉花: v4.5 - ${SHUV}.${color}.${rawTimes}`);//调试LOG
     log.warn(`使用树脂类型数量：${rewards.length}`);
     log.warn(`使用树脂顺序：${golbalRewardText.join(" ->")}`); 
 
@@ -213,6 +213,7 @@
     var fragileResin = "assets/model/fragile_resin_count.png";
     var momentResin = "assets/model/moment_resin_count.png";
     var cilun = "assets/model/cilun.bmp";
+    var mwk = "assets/model/mwk.png";
 
     var resinImages = [
         "assets/model/zero.png",
@@ -636,6 +637,12 @@
 
     //寻找地脉溢口，文字识别不到转圈寻找，不管有没找到都执行战斗，最后领取奖励判断是否继续执行
     async function VeinEntrance() {
+                
+        //防止玛薇卡摩托
+        await keyPress("1");
+        await sleep(50);
+        await keyPress("2");
+
         for (let i = 0;i < 2;i++) {
             let JIECHU = await Textocr("接触地脉溢口",1,2,0,1187,358,200,400);
             if (JIECHU.found)
@@ -813,8 +820,8 @@
                     log.info(`${resinTypeMap[rewards[i]]} ...`);
                     let dimai2 = await Textocr("地脉之花",1, 0, 0, 840,225, 230, 125);        
                     if (!dimai2.found) { await keyPress("F");await sleep(700);await keyPress("F");await sleep(700);await keyPress("F") ; } 
-                    await click(SHU.x+550,SHU.y) 
-                    await click(SHU.x+550,SHU.y)                   
+                    await click(SHU.x+550,SHU.y+20) 
+                    await click(SHU.x+550,SHU.y+20)                   
                     
                     if (shouldExit) 
                     {
@@ -1286,6 +1293,11 @@
 
             shouldContinueChecking = true;
             dispatcher.ClearAllTriggers();
+
+            //防止玛薇卡摩托
+            await keyPress("1");
+            await sleep(50);
+            await keyPress("2");
 
             //执行到地脉花地点的寻路脚本
             let pathDic = JSON.parse(file.readTextSync(`${selectedFolder}${jsonFile2}`));
