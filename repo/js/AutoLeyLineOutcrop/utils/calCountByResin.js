@@ -50,7 +50,7 @@ const CONFIG = {
     // OCR识别区域配置
     OCR_REGIONS: {
         ORIGINAL_RESIN: {width: 200, height: 40},
-        CONDENSED_RESIN: {width: 90, height: 40},
+        CONDENSED_RESIN: {width: 90, height: 40}, // 调用位置（L269）已改为硬编码，如果确认无用可删除
         OTHER_RESIN: {width: 0, height: 60}  // width会根据图标宽度动态设置
     }
 };
@@ -159,11 +159,11 @@ async function recognizeNumberByOCR(ocrRegion, pattern) {
     let resList = null;
     let captureRegion = null;
     try {
-        const ocrRo = RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
+        const ocrRo = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
         captureRegion = captureGameRegion();
         resList = captureRegion.findMulti(ocrRo);
 
-        if (!resList || resList.length === 0) {
+        if (!resList || resList.Count === 0) {
             log.warn("OCR未识别到任何文本");
             return null;
         }
@@ -256,6 +256,9 @@ async function countOriginalResinBackup() {
  * @returns {number} 浓缩树脂数量
  */
 async function countCondensedResin() {
+    keyPress("ESCAPE"); // 关闭上一步的补充原萃树脂界面
+    await sleep(CONFIG.UI_DELAY);
+
     const condensedResin = await recognizeImage(RESIN_ICONS.CONDENSED);
     if (!condensedResin) {
         log.warn(`未找到浓缩树脂图标`);
@@ -263,20 +266,25 @@ async function countCondensedResin() {
     }
 
     const ocrRegion = {
-        x: condensedResin.x,
-        y: condensedResin.y,
-        width: CONFIG.OCR_REGIONS.CONDENSED_RESIN.width,
-        height: CONFIG.OCR_REGIONS.CONDENSED_RESIN.height
+        // 调用处的坐标范围不对，正常来说应该改偏移或者去源头看看问题，但是这样改简单粗暴，能用就行
+        // x: condensedResin.x,
+        // y: condensedResin.y,
+        // width: CONFIG.OCR_REGIONS.CONDENSED_RESIN.width,
+        // height: CONFIG.OCR_REGIONS.CONDENSED_RESIN.height
+        x: 1140,
+        y: 26,
+        width: 45,
+        height: 41
     };
 
-    // 首先尝试OCR识别
+        // 首先尝试OCR识别
     const ocrCount = await recognizeNumberByOCR(ocrRegion, /\d+/);
     if (ocrCount !== null) {
         log.info(`浓缩树脂数量: ${ocrCount}`);
         return ocrCount;
     }
 
-    // OCR识别失败，尝试白色数字图片识别
+        // OCR识别失败，尝试白色数字图片识别
     log.info(`OCR识别浓缩树脂失败，尝试白色数字图片识别`);
     const imageCount = await recognizeWhiteNumberByImage(ocrRegion);
     if (imageCount !== null) {
@@ -288,30 +296,33 @@ async function countCondensedResin() {
     // 点击浓缩树脂打开说明界面统计
     condensedResin.click();
     await sleep(CONFIG.UI_DELAY);
-    let captureRegion = captureGameRegion();
-    let textList = null;
+    let captureRegion = null;
     try {
-        // OCR识别整个界面的文本
+                // OCR识别整个界面的文本
+        captureRegion = captureGameRegion();
         let ocrRo = RecognitionObject.Ocr(0, 0, captureRegion.width, captureRegion.height);
-        textList = captureRegion.findMulti(ocrRo);
+        let textList = captureRegion.findMulti(ocrRo);
 
-        for (const res of textList) {
-            if (res.text.includes("当前拥有")) {
-                const match = res.text.match(/当前拥有\s*([0-5ss])/);
-                if (match && match[1]) {
-                    const count = parseInt(match[1]);
-                    log.info(`浓缩树脂数量(说明界面): ${count}`);
-                    keyPress("ESCAPE");
-                    await sleep(CONFIG.UI_DELAY);
-                    return count;
+        if (textList && textList.Count > 0) {
+            for (let i = 0; i < textList.Count; i++) {
+                if (textList[i].text.includes("当前拥有")) {
+                    const match = textList[i].text.match(/当前拥有\s*([0-5ss])/);
+                    if (match && match[1]) {
+                        const count = parseInt(match[1]);
+                        log.info(`浓缩树脂数量(说明界面): ${count}`);
+                        keyPress("ESCAPE");
+                        await sleep(CONFIG.UI_DELAY);
+                        return count;
+                    }
                 }
             }
         }
+    } catch (error) {
+        log.error(`说明界面OCR出错: ${error.message}`);
     } finally {
-        if (textList && typeof textList.dispose === 'function') {
-            textList.dispose();
+        if (captureRegion) {
+            captureRegion.dispose();
         }
-        captureRegion.dispose();
     }
 
     log.warn(`未能识别浓缩树脂数量`);
@@ -541,15 +552,15 @@ this.calCountByResin = async function () {
         let count = 0;
         // 计算可刷取次数
         // 1. 原粹树脂：优先消耗40/次，不满40消耗20/次，不满20不消耗
-        // 怪物素材模式：每次消耗20/次
+        // 20树脂模式：每次消耗20/次
         let originalResinTimes = 0;
         let remainingOriginalResin = countResult.originalResinCount;
 
         if (settings.monsterMaterialMode) {
-            // 怪物素材模式：每次20体力
+            // 20树脂模式：每次20体力
             originalResinTimes = Math.floor(remainingOriginalResin / 20);
             remainingOriginalResin = remainingOriginalResin % 20;
-            log.info(`原粹树脂可刷取次数（怪物素材模式，20/次）: ${originalResinTimes}`);
+            log.info(`原粹树脂可刷取次数（20树脂模式，20/次）: ${originalResinTimes}`);
         } else {
             // 正常模式：优先40/次
             // 先计算40树脂的次数

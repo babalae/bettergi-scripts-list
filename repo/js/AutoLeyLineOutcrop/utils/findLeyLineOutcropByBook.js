@@ -81,16 +81,16 @@ this.findLeyLineOutcropByBook = async function (country, type, checkSurge = fals
       doubleHit = wipOcrCheckText(doubleLarge, ["2倍", "两倍", "双倍"], "双倍产出检测-r1");
     }
 
-    // 调试备注：检测不到双倍时不提前退出，继续走后续流程以测试奖励界面兜底逻辑
     if (!doubleHit) {
-      log.info("[双倍检测] 开书未识别到两倍产出（调试模式：继续执行以测试兜底）");
+      log.warn("[双倍检测] 开书未识别到两倍产出，脚本将提前退出");
       if (isNotification) {
-        notification.send("未识别到两倍产出");
+        notification.send("⚠️ 未识别到两倍产出，脚本已终止");
       }
+      return { found: false, noSurge: true };
     } else {
-      log.info("[双倍检测] 开书识别到两倍产出");
+      log.info("[双倍检测] 开书识别到两倍产出，继续执行");
       if (isNotification) {
-        notification.send("识别到两倍产出");
+        notification.send("✅ 识别到两倍产出");
       }
     }
   }
@@ -135,7 +135,7 @@ this.findLeyLineOutcropByBook = async function (country, type, checkSurge = fals
   // 取消追踪
   await this.cancelTrackingInMap();
   
-  return { found: true, hasSurge: checkSurge ? true : undefined };
+  return { found: true, hasSurge: checkSurge ? !!doubleHit : undefined };
 };
 
 /**

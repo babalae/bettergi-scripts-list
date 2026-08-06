@@ -364,11 +364,11 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
             if (hasOriginalResin20 && !hasOriginalResin40) {
                 // 界面已经是20树脂，直接使用
                 monsterMaterialSwitched = true;
-                log.info("怪物素材模式：界面已是20树脂，无需切换");
+                log.info("20树脂模式：界面已是20树脂，无需切换");
             } else if (hasOriginalResin40) {
                 let switchSuccess = await trySwitch40To20Resin();
                 if (switchSuccess) {
-                    log.info("怪物素材模式：成功切换到20个原粹树脂");
+                    log.info("20树脂模式：成功切换到20个原粹树脂");
                     monsterMaterialSwitched = true;
                     // 重新识别树脂类型
                     allTexts = await captureAllTexts();
@@ -381,7 +381,7 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
                         (t.text.includes("40个") && t.text.includes("原粹树脂"))
                     );
                 } else {
-                    log.warn("怪物素材模式：未能切换到20个原粹树脂，将使用40个");
+                    log.warn("20树脂模式：未能切换到20个原粹树脂，将使用40个");
                 }
             }
         }
@@ -433,39 +433,78 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
             
             // 优先级1: 如果有双倍产出，优先使用原粹树脂
             if (hasDoubleReward && (hasOriginalResin20 || hasOriginalResin40)) {
-                // 如果当前是20个原粹树脂，且不是怪物素材模式刚切过来的，尝试切换到40个
-                if (hasOriginalResin20 && !hasOriginalResin40 && !monsterMaterialSwitched) {
-                    let switchSuccess = await trySwitch20To40Resin();
-                    if (switchSuccess) {
+                if (settings.monsterMaterialMode) {
+                    // ===== 20树脂模式：使用20树脂 =====
+                    if (!monsterMaterialSwitched && hasOriginalResin40) {
+                        let switchSuccess = await trySwitch40To20Resin();
+                        if (switchSuccess) {
+                            log.info("20树脂模式（双倍）：成功切换到20个原粹树脂");
+                            monsterMaterialSwitched = true;
+                        } else {
+                            log.warn("20树脂模式（双倍）：未能切换到20，将使用40个");
+                        }
+                    }
+                    choice = {
+                        type: monsterMaterialSwitched || hasOriginalResin20 ? "使用20个原粹树脂（20树脂模式，双倍产出）" : "使用40个原粹树脂（20树脂模式，双倍产出）",
+                        resinAmount: monsterMaterialSwitched || hasOriginalResin20 ? 20 : 40,
+                        button: sortedButtons[0],
+                        buttonIndex: 0
+                    };
+                } else {
+                    // ===== 默认模式：智能优化 =====
+                    let isNow40Resin = hasOriginalResin40;
+
+                    if (hasOriginalResin20 && !hasOriginalResin40) {
+                        let switchSuccess = await trySwitch20To40Resin();
+                        if (switchSuccess) {
+                            isNow40Resin = true;
+                            log.info("默认模式（双倍）：已从20切换到40个原粹树脂");
+                        } else {
+                            log.warn("默认模式（双倍）：无法切换到40，保持20树脂");
+                        }
+                    }
+
+                    if (settings.onlySurgeMode && isNow40Resin) {
+                        log.info(`[双倍检测] 在40树脂界面下精确识别双倍消耗次数（仅只刷双倍模式）...`);
+                        allTexts = await captureAllTexts();
+                        const reDetectResult = await detectDoubleRewardWithRetry(allTexts);
+                        doubleRemainingTimes = reDetectResult.doubleRemainingTimes;
+                        doubleTimesParsed = reDetectResult.doubleTimesParsed;
+
+                        if (doubleTimesParsed) {
+                            log.info(`[双倍检测] 精确识别结果: 本次将消耗${doubleRemainingTimes}次`);
+                        } else {
+                            log.warn("[双倍检测] 未能解析消耗次数，将使用默认值");
+                        }
+                    }
+
+                    let forceUse20ForLastSurge = false;
+                    if (settings.onlySurgeMode && isNow40Resin && doubleRemainingTimes === 1) {
+                        log.info("[双倍优化] 检测到仅剩1次双倍，尝试切换回20树脂以节省体力");
+                        let switchBackSuccess = await trySwitch40To20Resin();
+                        if (switchBackSuccess) {
+                            forceUse20ForLastSurge = true;
+                            log.info("[双倍优化] 成功切回20树脂，将用20体力完成最后一次双倍");
+                        } else {
+                            log.warn("[双倍优化] 无法切回20，继续使用40树脂");
+                        }
+                    }
+
+                    if ((isNow40Resin || hasOriginalResin40) && !forceUse20ForLastSurge) {
                         choice = {
-                            type: "使用40个原粹树脂（从20切换，双倍产出）",
+                            type: "使用40个原粹树脂（双倍产出）",
                             resinAmount: 40,
                             button: sortedButtons[0],
                             buttonIndex: 0
                         };
                     } else {
                         choice = {
-                            type: "使用20个原粹树脂（双倍产出）",
+                            type: forceUse20ForLastSurge ? "使用20个原粹树脂（最后1次双倍优化）" : "使用20个原粹树脂（双倍产出）",
                             resinAmount: 20,
                             button: sortedButtons[0],
                             buttonIndex: 0
                         };
                     }
-                } else if (monsterMaterialSwitched) {
-                    // 怪物素材模式已经切换到20，直接使用20
-                    choice = {
-                        type: "使用20个原粹树脂（怪物素材模式，双倍产出）",
-                        resinAmount: 20,
-                        button: sortedButtons[0],
-                        buttonIndex: 0
-                    };
-                } else {
-                    choice = {
-                        type: hasOriginalResin40 ? "使用40个原粹树脂（双倍产出）" : "使用20个原粹树脂（双倍产出）",
-                        resinAmount: hasOriginalResin40 ? 40 : 20,
-                        button: sortedButtons[0],
-                        buttonIndex: 0
-                    };
                 }
             }
             // 优先级2: 优先使用浓缩树脂
@@ -813,7 +852,7 @@ async function trySwitch20To40Resin() {
 }
 
 /**
- * 尝试将40个原粹树脂切换到20个原粹树脂（怪物素材模式）
+ * 尝试将40个原粹树脂切换到20个原粹树脂（20树脂模式）
  * @returns {Promise<boolean>} 是否成功切换
  */
 async function trySwitch40To20Resin() {

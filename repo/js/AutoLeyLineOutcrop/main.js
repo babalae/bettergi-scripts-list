@@ -14,6 +14,7 @@ let currentRunTimes = 0;  // 当前运行次数
 let isNotification = false; // 是否发送通知
 let config = {};          // 全局配置对象
 let recheckCount = 0;     // 树脂重新检查次数（防止无限递归）
+let originalResinCount = 0; // 原始识别到的树脂可刷取次数（用于判断是否需要重检）
 const MAX_RECHECK_COUNT = 3; // 最大重新检查次数
 let consecutiveFailureCount = 0; // 连续战斗失败次数
 const MAX_CONSECUTIVE_FAILURES = 5; // 最大连续失败次数，超过后终止脚本
@@ -88,7 +89,20 @@ async function runLeyLineOutcropScript() {
 
     // 如果是树脂耗尽模式，执行完毕后再次检查是否还有树脂
     if (settings.isResinExhaustionMode) {
-        await recheckResinAndContinue();
+        // 判断是否需要重新检查：
+        // 1. 非取小值模式 → 需要重检（确保真刷完）
+        // 2. 取小值模式但设定次数≥识别次数 → 用户想刷光 → 需要重检
+        // 3. 取小值模式且设定次数<识别次数 → 用户只想刷设定次数 → 不需要重检
+        const needRecheck = !physical.OpenModeCountMin || settings.timesValue >= originalResinCount;
+
+        if (needRecheck) {
+            await recheckResinAndContinue();
+        } else {
+            log.info(`[取小值模式] 已完成设定的 ${settings.timesValue} 次（可刷 ${originalResinCount} 次），结束运行`);
+            if (isNotification) {
+                notification.send(`树脂耗尽模式（取小值）：已完成 ${settings.timesValue} 次运行，脚本结束`);
+            }
+        }
     }
 }
 
@@ -214,6 +228,9 @@ async function handleResinExhaustionMode() {
             // 使用统计到的次数替换设置中的刷取次数
             settings.timesValue = resinResult.count;
         }
+
+        // 保存原始识别到的树脂次数，用于后续判断是否需要重检
+        originalResinCount = resinResult.count;
 
         physical.NeedRunsCount = settings.timesValue;
         log.info(`树脂统计成功：`);
