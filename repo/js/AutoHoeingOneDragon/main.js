@@ -75,7 +75,7 @@ const gameRegionManager = {
     if (["运行锄地路线", "启用仅指定怪物模式"].includes(operationMode)) {
         switchPartyTask = switchPartyIfNeeded(partyName);
     }
-    if (settings.disableAsync) {
+    if (settings.disableAsync && switchPartyTask) {
         const switchSuccess = await switchPartyTask;
         if (!switchSuccess) {
             log.error("队伍切换失败，脚本终止");
