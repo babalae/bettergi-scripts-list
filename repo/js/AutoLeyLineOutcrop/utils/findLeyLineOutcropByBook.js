@@ -71,10 +71,11 @@ this.findLeyLineOutcropByBook = async function (country, type, checkSurge = fals
   await sleep(1000);
   
   // 开书双倍检测：在选择花类型之后、点击推荐之前进行
+  let doubleHit = null;
   if (checkSurge) {
     log.info("[双倍检测] 开始识别两倍产出...");
     const doubleLarge = [1041, 496, 170, 37];
-    let doubleHit = wipOcrCheckText(doubleLarge, ["2倍", "两倍", "双倍"], "双倍产出检测");
+    doubleHit = wipOcrCheckText(doubleLarge, ["2倍", "两倍", "双倍"], "双倍产出检测");
     if (!doubleHit) {
       log.info('[双倍检测] 识别失败，重试1...');
       await sleep(1500);
