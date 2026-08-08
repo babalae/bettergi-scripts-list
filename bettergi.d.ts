@@ -3742,12 +3742,34 @@ declare class Color {
 }
 
 /**
- * 画笔
+ * 画笔 - 用于绘制线条和曲线的对象
  */
 declare class Pen {
     constructor(color: Color);
     constructor(color: Color, width: number);
+
+    /** 获取或设置画笔宽度 */
+    Width: number;
+
+    /** 创建此画笔的精确副本 */
+    Clone(): Pen;
+
+    /** 释放此画笔占用的资源 */
+    Dispose(): void;
+
+    /** 重置几何变换为单位矩阵 */
+    ResetTransform(): void;
+
+    /** 平移局部几何变换（默认 Prepend 顺序） */
+    TranslateTransform(dx: number, dy: number): void;
+
+    /** 缩放局部几何变换（默认 Prepend 顺序） */
+    ScaleTransform(sx: number, sy: number): void;
+
+    /** 旋转局部几何变换（默认 Prepend 顺序） */
+    RotateTransform(angle: number): void;
 }
+
 /**
  * 区域
  */
