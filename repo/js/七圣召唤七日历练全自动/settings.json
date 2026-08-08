@@ -16,6 +16,12 @@
     "default": "true"
   },
   {
+    "name": "enableCloudStatistic",
+    "type": "checkbox",
+    "label": "基于云端统计数据选择策略（启用后会上传打牌结果和耗时）",
+    "default": "false"
+  },
+  {
     "name": "minFallbackStrategyScore",
     "type": "input-text",
     "label": "仅使用胜率记录大于该值的备用策略 (0到1之间的小数)",
