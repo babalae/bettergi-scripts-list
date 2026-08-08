@@ -2,7 +2,7 @@
 // 描述:个人一直使用的通用战斗配队文件,仍在慢慢优化中【订阅即用，没有问题就可以不用自行修改】
 //【修修补补不包含全部角色，但包含绝大部分常见角色，且大部分战斗流程仔细测试过，但不一定对所有人都是最优解】
 //【如果缺少角色或流程不对可参考其他相似流程角色自行添加修改，然后修改战斗配置的文件名防止更新覆盖】
-//版本：v1.3
+//版本：v1.4
 
 // 本配队为日常向，通用向。
 //【适合日常副本，脚本锄地，剧诗关卡，N5以下幽境，12层及以下深渊。】
@@ -129,6 +129,8 @@
 宵宫 w(0.05),e,attack(5.5)
 胡桃 w(0.05),wait(0.3),keypress(e),wait(0.3),keypress(e),wait(0.5),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),j,wait(0.52),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),j,wait(0.52),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),j,wait(0.52),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),dash,wait(0.1),charge(0.3),wait(0.1),j,wait(0.5),keypress(q),wait(0.5),keypress(q)
 迪卢克 w(0.05),wait(0.3),keypress(q),ready,wait(0.6),keypress(e),wait(0.4),attack(1.4),wait(0.3),keypress(e),wait(0.4),attack(1.4),wait(0.3),keypress(e),wait(0.6),attack(3)
+洛恩 w(0.05),keypress(e),wait(0.3),attack(2),keypress(e),wait(0.3),attack(2),keypress(e),wait(0.3),attack(2),keypress(e),wait(0.3),attack(2),keypress(e),wait(0.3),attack(2),w(0.05),keypress(q),wait(0.2),keypress(q),wait(0.2)
+桑多涅 w(0.05),wait(0.2),keypress(e),wait(0.15),charge(4.2),w(0.05),keypress(e),wait(0.15),charge(4.2),w(0.05),keypress(e),wait(0.15),charge(4.2),wait(0.15),keypress(q),wait(0.2),keypress(q),wait(0.2)
 丝柯克 w(0.05),e,wait(0.3),click(left),wait(0.1),click(left),wait(0.2),click(left),wait(0.2),click(left),wait(0.2),keypress(q),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),keypress(e),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),wait(0.2),keypress(q),wait(0.2),click(left),wait(0.03),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),keypress(e),wait(0.2),wait(0.1),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),mousedown(right),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.03),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.03),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1),click(left),wait(0.1)
 神里绫华 wait(0.1),dash,wait(0.3),e,wait(0.6),charge,wait(0.6),charge,wait(0.4),dash,wait(0.6),charge,wait(0.6),charge,wait(0.4),keypress(q),wait(0.4),keypress(q)
 莱欧斯利 w(0.05),e,attack(1.25),wait(0.2),keypress(e),wait(0.2),attack(1.25),charge,attack(1.25),wait(0.2),keypress(e),wait(0.2),attack(1.25),charge,attack(1.25),wait(0.2),keypress(e),wait(0.2),attack(1.25),charge,wait(0.5),keypress(q),wait(0.2),keypress(q)
@@ -162,6 +164,6 @@
 伊涅芙 w(0.05),wait(0.1),keypress(e),wait(0.2)
 尼可 w(0.05),wait(0.1),keypress(e),wait(0.2)
 
-//更新：v1.1【添加并测试了迪卢克 凝光 烟绯 伊法 嘉明 鹿野苑平藏的站场策略，添加了雅珂达 基尼奇 莉奈娅(暂时注释掉)的战斗策略】   
+//更新：v1.4【添加了洛恩（我并未持有），桑多涅的战斗策略】   
 //更新：v1.2【添加了莉奈娅 九条裟罗的战斗策略】   
 //更新：v1.3【添加了布伦妮 尼可的战斗策略】
