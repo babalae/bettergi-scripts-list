@@ -1,6 +1,8 @@
 // 战斗取消令牌和状态
 let fightCts = null;
 let isFighting = false;
+// 脚本强制停止标志（替代异常传递）
+let shouldForceStop = false;
 
 (async function () {
 
@@ -465,6 +467,20 @@ let isFighting = false;
                 fightTask = dispatcher.RunTask(new SoloTask("AutoFight"), fightCts.Token);
             }
             
+             //监听战斗线程错误，白名单机制：仅对致命错误设置停止标志
+            fightTask.catch(e => {
+                const errorMsg = e?.message || String(e);
+                // 白名单：只有这两种错误才触发强制停止
+                if (errorMsg.includes("战斗策略文件不存在") || errorMsg.includes("未匹配到任何战斗脚本")) {
+                    shouldForceStop = true;
+                    shouldStop = true;
+                    log.error(`战斗任务执行失败（致命错误）: ${errorMsg}`);
+                } else {
+                    // 其他错误只记录日志，不触发停止
+                    log.warn(`战斗任务执行异常（非致命）: ${errorMsg}`);
+                }
+            });
+            
             // OCR检测战斗结束
             let fightResult = await recognizeTextInRegion(timeout);
             logFightResult = fightResult ? "成功" : "失败";
@@ -499,6 +515,12 @@ let isFighting = false;
 
                     // 循环检测直到超时
                     while (Date.now() - startTime < timeout) {
+                        // 检查是否被强制停止
+                        if (shouldForceStop) {
+                            resolve(false);
+                            return;
+                        }
+
                         try {
                             let captureRegion = captureGameRegion();
                             let result = captureRegion.find(ocrRo1);
@@ -775,6 +797,272 @@ let isFighting = false;
         }
     }  
    
+    // OCR 检测函数（活动入口寻路用）
+    function wipOcrCheckText(roi1080, keywords, label, isDebug) {
+        let ra = null;
+        try {
+            const s = genshin.scaleTo1080PRatio;
+            const x = Math.round(roi1080[0] * s);
+            const y = Math.round(roi1080[1] * s);
+            const w = Math.round(roi1080[2] * s);
+            const h = Math.round(roi1080[3] * s);
+
+            ra = captureGameRegion();
+            const resList = ra.findMulti(RecognitionObject.ocr(x, y, w, h));
+            const count = resList.length !== undefined ? resList.length : resList.count;
+
+            if (isDebug) {
+                log.info(`[DEBUG][${label}] ROI(1080P)=(${roi1080.join(',')}) 当前=(${x},${y},${w},${h}) 段数=${count}`);
+                for (let i = 0; i < count; i++) {
+                    const r = resList[i];
+                    if (r) log.info(`[DEBUG][${label}] #${i+1} text="${r.text}" pos=(${r.x},${r.y},${r.width},${r.height})`);
+                }
+            }
+
+            for (let i = 0; i < count; i++) {
+                const r = resList[i];
+                if (!r || !r.text) continue;
+                for (let k = 0; k < keywords.length; k++) {
+                    if (r.text.includes(keywords[k])) return r;
+                }
+            }
+            return null;
+        } catch (e) {
+            if (isDebug) {
+                log.warn(`[DEBUG][${label}] OCR异常: ${e.message}`);
+            }
+            return null;
+        } finally {
+            if (ra) ra.dispose();
+        }
+    }
+
+    // 新版寻路：通过活动入口进入幽境危战（失败时返回false，回退到pathingScript）
+    async function navigateViaActivity(isDebug) {
+        log.info("[新版寻路] 开始通过活动入口进入幽境危战");
+        const s = genshin.scaleTo1080PRatio;
+        
+        try {
+            // 返回主界面
+            try { await genshin.returnMainUi(); } catch(e) { log.warn(`[新版寻路] 返回主界面失败: ${e.message}`); }
+            await sleep(100);
+
+            // ESC打开菜单 → OCR识别"活动" → 点击
+            keyPress("VK_ESCAPE");
+            await sleep(2000);
+
+            let activityHit = null;
+            const smallRoi = [633, 718, 62, 42], largeRoi = [98, 346, 651, 708];
+
+            activityHit = wipOcrCheckText(smallRoi, ["活动"], "新版寻路-活动", isDebug);
+            if (!activityHit) { log.info('[新版寻路] 活动识别失败，重试1...'); await sleep(2500); activityHit = wipOcrCheckText(smallRoi, ["活动"], "新版寻路-活动-r1", isDebug); }
+            if (!activityHit) { log.info('[新版寻路] 活动识别失败，重试2...'); await sleep(2500); activityHit = wipOcrCheckText(smallRoi, ["活动"], "新版寻路-活动-r2", isDebug); }
+            if (!activityHit) { log.info('[新版寻路] 小范围失败，尝试大范围...'); activityHit = wipOcrCheckText(largeRoi, ["活动"], "新版寻路-活动-large", isDebug); }
+            if (!activityHit) { log.info('[新版寻路] 大范围失败，重新打开ESC...'); try { await genshin.returnMainUi(); await sleep(1000); } catch(e) {} keyPress("VK_ESCAPE"); await sleep(2000); activityHit = wipOcrCheckText(largeRoi, ["活动"], "新版寻路-活动-esc", isDebug); }
+
+            if (activityHit) {
+                const activityX = Math.round(activityHit.x / s + activityHit.width / s / 2);
+                const activityY = Math.round(activityHit.y / s + activityHit.height / s / 2) - 50;
+                GameCaptureRegion.gameRegion1080PPosClick(activityX, activityY);
+                await sleep(2500);
+            } else {
+                log.warn('[新版寻路] 活动识别失败，尝试F5快捷键');
+                try { await genshin.returnMainUi(); await sleep(1000); } catch(e) {}
+                keyPress("VK_F5");
+                await sleep(2000);
+            }
+
+            // 识别"幽境危战"并点击
+            const stygianRoi = [260, 341, 118, 45];
+            
+            let stygianHit = wipOcrCheckText(stygianRoi, ["幽境危战"], "新版寻路-幽境危战", isDebug);
+            
+            if (!stygianHit) {
+                log.info('[新版寻路] 首次识别失败，验证上一步元素...');
+                const activityCheck = wipOcrCheckText(smallRoi, ["活动"], "新版寻路-验证活动", isDebug);
+                if (activityCheck) {
+                    const reClickX = Math.round(activityCheck.x / s + activityCheck.width / s / 2);
+                    const reClickY = Math.round(activityCheck.y / s + activityCheck.height / s / 2) - 50;
+                    GameCaptureRegion.gameRegion1080PPosClick(reClickX, reClickY);
+                    await sleep(2500);
+                    stygianHit = wipOcrCheckText(stygianRoi, ["幽境危战"], "新版寻路-幽境危战-retry", isDebug);
+                }
+                if (!stygianHit) {
+                    log.info('[新版寻路] 上一步已失效，滚动页面重试...');
+                    await keyDown("VK_W"); await sleep(2000); await keyUp("VK_W");
+                    await sleep(1000);
+                    stygianHit = wipOcrCheckText(stygianRoi, ["幽境危战"], "新版寻路-幽境危战-r1", isDebug);
+                }
+            }
+            
+            if (!stygianHit) {
+                log.info('[新版寻路] 滚动后仍未识别，再次滚动...');
+                await keyDown("VK_W"); await sleep(1000); await keyUp("VK_W");
+                await sleep(1000);
+                stygianHit = wipOcrCheckText(stygianRoi, ["幽境危战"], "新版寻路-幽境危战-r2", isDebug);
+            }
+
+            if (!stygianHit) {
+                log.warn('[新版寻路] 活动界面未找到幽境危战，回退到路径追踪');
+                return false;
+            }
+
+            const stygianX = Math.round(stygianHit.x / s + stygianHit.width / s / 2);
+            const stygianY = Math.round(stygianHit.y / s + stygianHit.height / s / 2);
+            GameCaptureRegion.gameRegion1080PPosClick(stygianX, stygianY);
+            await sleep(2000);
+            
+            // 识别"前往挑战"
+            const challengeRoi = [1524, 786, 131, 50];
+            
+            let challengeHit = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-前往挑战", isDebug);
+            if (!challengeHit) {
+                log.info('[新版寻路] 首次识别失败，验证上一步元素...');
+                const stygianCheck = wipOcrCheckText(stygianRoi, ["幽境危战"], "新版寻路-验证幽境危战", isDebug);
+                if (stygianCheck) {
+                    const reClickX = Math.round(stygianCheck.x / s + stygianCheck.width / s / 2);
+                    const reClickY = Math.round(stygianCheck.y / s + stygianCheck.height / s / 2);
+                    GameCaptureRegion.gameRegion1080PPosClick(reClickX, reClickY);
+                    await sleep(2000);
+                    challengeHit = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-前往挑战-retry", isDebug);
+                }
+                if (!challengeHit) {
+                    log.info('[新版寻路] 上一步已失效，重试1...');
+                    await sleep(1500);
+                    challengeHit = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-前往挑战-r1", isDebug);
+                }
+            }
+            if (!challengeHit) {
+                log.info('[新版寻路] 前往挑战识别失败，重试2...');
+                await sleep(1500);
+                challengeHit = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-前往挑战-r2", isDebug);
+            }
+
+            if (!challengeHit) {
+                log.warn('[新版寻路] 未识别到前往挑战，回退到路径追踪');
+                return false;
+            }
+
+            // 检查爆发期状态
+            // 当前逻辑：检测"紊乱爆发期已结束"（非爆发期文本），检测不到则视为在爆发期
+            // 爆发期期间改为直接检测爆发期关键词（如"紊乱爆发期"），加快识别效率
+            // 不改也能用，两次识别不到非爆发期文本也会被视为在爆发期
+            const burstRoi = [659, 765, 180, 32];
+            
+            let burstHit = wipOcrCheckText(burstRoi, ["紊乱爆发期已结束"], "新版寻路-爆发期", isDebug);
+            if (!burstHit) {
+                log.info('[新版寻路] 爆发期识别失败，重试1...');
+                await sleep(1000);
+                burstHit = wipOcrCheckText(burstRoi, ["紊乱爆发期已结束"], "新版寻路-爆发期-r1", isDebug);
+            }
+            if (!burstHit) {
+                log.info('[新版寻路] 爆发期识别失败，重试2...');
+                await sleep(1000);
+                burstHit = wipOcrCheckText(burstRoi, ["紊乱爆发期已结束"], "新版寻路-爆发期-r2", isDebug);
+            }
+
+            if (burstHit) {
+                if (settings.devMode) {
+                    log.warn('[新版寻路][开发模式] 检测到"紊乱爆发期已结束"，但继续执行');
+                } else {
+                    log.warn('[新版寻路] 检测到"紊乱爆发期已结束"，当前不在爆发期');
+                    try { await genshin.returnMainUi(); } catch(e) {}
+                    return "non_burst";
+                }
+            } else {
+                log.info('[新版寻路] 未检测到爆发期结束提示，视为在爆发期内');
+            }
+
+            // 点击"前往挑战"
+            const challengeX = Math.round(challengeHit.x / s + challengeHit.width / s / 2);
+            const challengeY = Math.round(challengeHit.y / s + challengeHit.height / s / 2);
+            GameCaptureRegion.gameRegion1080PPosClick(challengeX, challengeY);
+            await sleep(2000);
+
+            // 识别"传送"并按F
+            const teleportRoi = [1645, 974, 93, 67];
+            let teleportHit = wipOcrCheckText(teleportRoi, ["传送"], "新版寻路-传送", isDebug);
+            if (!teleportHit) {
+                log.info('[新版寻路] 首次识别失败，验证上一步元素...');
+                const challengeCheck = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-验证前往挑战", isDebug);
+                if (challengeCheck) {
+                    const reClickX = Math.round(challengeCheck.x / s + challengeCheck.width / s / 2);
+                    const reClickY = Math.round(challengeCheck.y / s + challengeCheck.height / s / 2);
+                    GameCaptureRegion.gameRegion1080PPosClick(reClickX, reClickY);
+                    await sleep(2000);
+                    teleportHit = wipOcrCheckText(teleportRoi, ["传送"], "新版寻路-传送-retry", isDebug);
+                }
+                if (!teleportHit) {
+                    log.info('[新版寻路] 上一步已失效，重试1...');
+                    await sleep(1500);
+                    teleportHit = wipOcrCheckText(teleportRoi, ["传送"], "新版寻路-传送-r1", isDebug);
+                }
+            }
+            if (!teleportHit) {
+                log.info('[新版寻路] 传送识别失败，重试2...');
+                await sleep(1500);
+                teleportHit = wipOcrCheckText(teleportRoi, ["传送"], "新版寻路-传送-r2", isDebug);
+            }
+
+            if (!teleportHit) {
+                log.warn('[新版寻路] 未识别到传送按钮，回退到路径追踪');
+                return false;
+            }
+
+            log.info('[新版寻路] 识别到传送，点击传送按钮');
+            const teleportX = Math.round(teleportHit.x / s + teleportHit.width / s / 2);
+            const teleportY = Math.round(teleportHit.y / s + teleportHit.height / s / 2);
+            GameCaptureRegion.gameRegion1080PPosClick(teleportX, teleportY);
+            await sleep(5000);
+
+            // 识别"幽境危战"交互按钮并按F
+            const stygianInteractRoi = [1213, 510, 171, 56];
+            let interactHit = wipOcrCheckText(stygianInteractRoi, ["幽境危战"], "新版寻路-交互", isDebug);
+            if (!interactHit) {
+                log.info('[新版寻路] 首次识别失败，验证上一步元素...');
+                const teleportCheck = wipOcrCheckText(teleportRoi, ["传送"], "新版寻路-验证传送", isDebug);
+                if (teleportCheck) {
+                    log.info('[新版寻路] 传送按钮仍存在，重新点击传送按钮');
+                    const reTeleportX = Math.round(teleportCheck.x / s + teleportCheck.width / s / 2);
+                    const reTeleportY = Math.round(teleportCheck.y / s + teleportCheck.height / s / 2);
+                    GameCaptureRegion.gameRegion1080PPosClick(reTeleportX, reTeleportY);
+                    await sleep(5000);
+                    interactHit = wipOcrCheckText(stygianInteractRoi, ["幽境危战"], "新版寻路-交互-retry", isDebug);
+                }
+                if (!interactHit) {
+                    log.info('[新版寻路] 上一步已失效，按F备用传送');
+                    await keyPress("F");
+                    await sleep(5000);
+                    interactHit = wipOcrCheckText(stygianInteractRoi, ["幽境危战"], "新版寻路-交互-retry-f", isDebug);
+                }
+            }
+            let interactRetries = 0;
+            while (!interactHit && interactRetries < 4) {
+                interactRetries++;
+                log.info(`[新版寻路] 交互按钮识别失败，重试${interactRetries}...`);
+                await sleep(3000);
+                interactHit = wipOcrCheckText(stygianInteractRoi, ["幽境危战"], `新版寻路-交互-r${interactRetries}`, isDebug);
+            }
+
+            if (!interactHit) {
+                log.warn('[新版寻路] 多次重试后仍未识别到幽境危战交互按钮，回退到路径追踪');
+                return false;
+            }
+
+            log.info('[新版寻路] 识别到幽境危战交互按钮，按F进入');
+            await keyPress("F");
+            await sleep(2000);
+
+            log.info('[新版寻路] 寻路成功');
+            return true;
+
+        } catch (ex) {
+            log.warn(`[新版寻路] 检测异常: ${ex?.message || ex}`);
+            try { await genshin.returnMainUi(); } catch(e2) {}
+            return false;
+        }
+    }
+
     //秘境内退出函数
     async function getOut() {
 
@@ -850,7 +1138,7 @@ let isFighting = false;
     
     }
 
-    log.warn("自动幽境危战版本：v2.3");
+    log.warn("自动幽境危战版本：v2.4");
     log.warn("请保证队伍战斗实力，战斗失败或执行错误，会重试两次...");
     log.warn("使用前请在 <<幽境危战>> 中配置好战斗队伍...");
     log.info("使用树脂顺序：{0} ", golbalRewardText.join(" ->"))     
@@ -862,12 +1150,33 @@ let isFighting = false;
     for (let j = 0;j < 2;j++) {  
 
         resinAgain = false; //重试标志
+        shouldForceStop = false; // 重置强制停止标志
 
         try{    
                 //1.导航进入页面
-                await genshin.returnMainUi(); 
-                await pathingScript.runFile(`assets/全自动幽境危战.json`);
-                await VeinEntrance();             
+                await genshin.returnMainUi();
+                
+                // 根据开关选择导航方式
+                let activityResult = false;
+                if (settings.useNewPath) {
+                    activityResult = await navigateViaActivity(settings.devMode);
+                    
+                    if (activityResult === "non_burst") {
+                        log.warn("[新版寻路] 检测到不在爆发期，停止执行");
+                        shouldStop = true;
+                        throw new Error("当前处于非爆发期，停止执行...");
+                    }
+                    
+                    if (!activityResult) {
+                        log.warn("[新版寻路] 失败，回退到路径追踪");
+                        await genshin.returnMainUi(); // 先恢复主界面
+                        await pathingScript.runFile(`assets/全自动幽境危战.json`);
+                        await VeinEntrance();
+                    }
+                } else {
+                    await pathingScript.runFile(`assets/全自动幽境危战.json`);
+                    await VeinEntrance();
+                }             
 
                 //2.难度确认和选择（同时检测非爆发期界面）
                 let intoAction = null;
@@ -911,17 +1220,25 @@ let isFighting = false;
                 }
 
                 if (isNonBurst) {
-                    await genshin.returnMainUi();
-                    shouldStop = true;
-                    throw new Error("当前处于非爆发期（紊乱平息），停止执行...")
+                    if (settings.devMode) {
+                        log.warn("[开发模式] 检测到紊乱平息，但继续执行");
+                    } else {
+                        await genshin.returnMainUi();
+                        shouldStop = true;
+                        throw new Error("当前处于非爆发期（紊乱平息），停止执行...")
+                    }
                 }
 
                 //2.5 判断爆发期
                 let rewardsBu  = await imageRecognition(rewardsButton,0.1, 0, 0,63,949,87,80);
                 if (!rewardsBu.found){
-                    await genshin.returnMainUi();
-                    shouldStop = true;
-                    throw new Error("未在爆发期内，停止执行...")
+                    if (settings.devMode) {
+                        log.warn("[开发模式] 未检测到爆发期标志，但继续执行");
+                    } else {
+                        await genshin.returnMainUi();
+                        shouldStop = true;
+                        throw new Error("未在爆发期内，停止执行...")
+                    }
                 }
 
                 let adjustmentType  = await Textocr("至危挑战", 1, 0, 0,797,144,223,84);
@@ -1022,9 +1339,13 @@ let isFighting = false;
                                     break;
                                 }
                                 else
-                                {                                    
+                                {
+                                    // 战斗线程异常，强制停止
+                                    if (shouldForceStop) {
+                                        throw new Error("战斗线程异常，强制停止脚本...");
+                                    }
                                     let Again = await Textocr("再次挑战",20,1,0,1059,920,177,65);
-                                    if (!Again.found)break;                                       
+                                    if (!Again.found)break;                                     
                                     await sleep(1000); 
                                     log.warn("战斗失败，第 {0} 次重试...", fightCount+1)  
                                     throw new Error(`战斗失败，第 ${fightCount+1} 次重试...`)
@@ -1035,7 +1356,11 @@ let isFighting = false;
                                 resinAgain= false;
                                 break;
                             }
-                        } catch (error) {                            
+                        } catch (error) {
+                            // 如果是强制停止，直接向上抛出
+                            if (shouldForceStop) {
+                                throw error;
+                            }
                             if (fightCount < 2)continue;
                             else break;
                         }   
@@ -1136,7 +1461,10 @@ let isFighting = false;
             continue;
         }finally{
             //10.结束脚本 
-            await genshin.returnMainUi();
+            // 如果是强制停止，不执行returnMainUi（避免反复按ESC）
+            if (!shouldForceStop) {
+                await genshin.returnMainUi();
+            }
             if (resinAgain == false) log.info(`Auto自动幽境危战结束...`);
         }
     }
