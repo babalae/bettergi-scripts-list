@@ -1,0 +1,51 @@
+{
+  "info": {
+    "name": "C03-清水玉-灵濛山-北侧-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1977.29,
+      "y": 2340.99
+    },
+    {
+      "id": 2,
+      "x": 2029.55,
+      "y": 2374.27,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 2029.7,
+      "y": 2374.24,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2029.71,
+      "y": 2374.23,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": "3"
+    }
+  ]
+}

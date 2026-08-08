@@ -1,0 +1,169 @@
+{
+  "info": {
+    "name": "06-松茸",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "曦",
+        "links": "https://github.com/cx05121"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4434.33,
+      "y": 5091.75,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4428.55,
+      "y": 5050.13,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4427.93,
+      "y": 5045.27,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4428.94,
+      "y": 5026.94,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4429.2,
+      "y": 5009.69,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4430.57,
+      "y": 4998.18,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4430.64,
+      "y": 4980.25,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4432.19,
+      "y": 4963.79,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4431.97,
+      "y": 4964.53,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4439.2,
+      "y": 4958.92,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 4469.38,
+      "y": 4943.17,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 4472.31,
+      "y": 4942.0,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 4472.77,
+      "y": 4928.97,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 4472.46,
+      "y": 4919.63,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 4457.31,
+      "y": 4881.95,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 4442.56,
+      "y": 4865.59,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 4436.32,
+      "y": 4864.07,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 4434.15,
+      "y": 4868.78,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 4419.49,
+      "y": 4877.59,
+      "action": "nahida_collect",
+      "move_mode": "fly",
+      "type": "path"
+    }
+  ]
+}

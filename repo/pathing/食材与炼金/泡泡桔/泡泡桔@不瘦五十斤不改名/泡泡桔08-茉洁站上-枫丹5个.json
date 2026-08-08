@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "泡泡桔08-茉洁站上-枫丹5个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3923.06,
+      "y": 4233.83
+    },
+    {
+      "id": 2,
+      "x": 3915.47,
+      "y": 4245.74,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 3893.87,
+      "y": 4267.54,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 3834.87,
+      "y": 4267.54,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 3824.71,
+      "y": 4265.38,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+[
+    {
+        "name": "woodInventory",
+        "type": "checkbox",
+        "label": "开启背包木材检测，开启后砍伐识别到的木材",
+        "default": false
+    },
+    {
+        "name": "woodInventoryNumber",
+        "type": "input-text",
+        "label": "砍伐目标数目：默认2000(背包木材检测专用)",
+        "default": "2000"
+    },
+    {
+        "name": "woodsMultiCheckbox",
+        "type": "multi-checkbox",
+        "label": "木材种类：不勾选默认全部支持木材",
+        "options": [
+            "桦木",
+            "萃华木",
+            "松木",
+            "却砂木",
+            "竹节",
+            "垂香木",
+            "杉木",
+            "梦见木",
+            "枫木",
+            "孔雀木",
+            "御伽木",
+            "辉木",
+            "业果木",
+            "证悟木",
+            "刺葵木",
+            "柽木",
+            "悬铃木",
+            "椴木",
+            "白梣木",
+            "香柏木",
+            "炬木",
+            "白栗栎木",
+            "灰灰楼林木",
+            "燃爆木",
+            "桃椰子木",
+            "银冷杉木",
+            "榛木",
+            "夏栎木",
+            "桤木"
+        ]
+    },
+    {
+        "name": "numbers",
+        "type": "input-text",
+        "label": "砍伐数目：空格分隔，不填默认2000，\n只填一个值表示每种都是，开启背包木材检测后失效",
+        "default": "2000"
+    },
+    {
+        "name": "hasItto",
+        "type": "checkbox",
+        "label": "队伍中是否有荒泷一斗（按20%保底算）"
+    },
+    {
+        "name": "theBoonOfTheElderTree",
+        "type": "checkbox",
+        "label": "开启装备王树瑞佑检查",
+        "default": true
+    }
+]

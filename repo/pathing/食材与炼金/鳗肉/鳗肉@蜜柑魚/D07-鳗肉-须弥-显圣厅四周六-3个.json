@@ -1,0 +1,152 @@
+{
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
+  "info": {
+    "authors": [
+      {
+        "links": "https: //github.com/OhmyPaoPao",
+        "name": "海豹穹穹队"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "3个鳗肉；",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1773414787677,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D07-鳗肉-须弥-显圣厅四周六-3个",
+    "order": 0,
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4403.17,
+      "y": -1867.46
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4381.7607,
+      "y": -1861.9009
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4371.9443,
+      "y": -1858.0088
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 4366.8057,
+      "y": -1855.0269
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 4365.8359,
+      "y": -1853.3208
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": 4368.8252,
+      "y": -1823.8765
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4366.3066,
+      "y": -1814.5186
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4309.0723,
+      "y": -1813.2168
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4276.9902,
+      "y": -1813.9131
+    },
+    {
+      "action": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4266.7168,
+      "y": -1816.1069
+    },
+    {
+      "action": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4262.4619,
+      "y": -1824.4941
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1),j",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4250.1016,
+      "y": -1833.8828
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.6)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4250.1602,
+      "y": -1834.5596
+    }
+  ]
+}

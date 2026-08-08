@@ -1,0 +1,39 @@
+[
+  {
+    "name": "userName",
+    "type": "input-text",
+    "label": "账户名称\n用于多账户运行时区分不同账户",
+    "default": "默认账户"
+  },
+  {
+    "name": "select9",
+    "type": "checkbox",
+    "label": "取消运行限制",
+    "default": false
+  },
+  {
+    "name": "merchants",
+    "type": "multi-checkbox",
+    "label": "选择购买的商人",
+    "options": [
+      "蒙德商人",
+      "璃月商人1",
+      "璃月商人2",
+      "稻妻商人",
+      "须弥商人",
+      "枫丹商人",
+      "纳塔商人",
+      "挪德卡莱商人"
+    ],
+    "default": [
+      "蒙德商人",
+      "璃月商人1",
+      "璃月商人2",
+      "稻妻商人",
+      "须弥商人",
+      "枫丹商人",
+      "纳塔商人",
+      "挪德卡莱商人"
+    ]
+  }
+]

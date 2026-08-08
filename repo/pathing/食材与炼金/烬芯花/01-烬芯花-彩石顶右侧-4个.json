@@ -1,0 +1,90 @@
+{
+  "info": {
+    "name": "01-烬芯花-彩石顶右侧-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "感谢 @曦 老师的路线脚本",
+    "bgi_version": "0.42.3",
+    "tags": [
+      "单手剑角色",
+      "大剑角色",
+      "长枪角色"
+    ],
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8372.12,
+      "y": -2196.22,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8340.36,
+      "y": -2189.4,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8292.65,
+      "y": -2162.88,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8205.27,
+      "y": -2073.58,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 8202.88,
+      "y": -2053.22,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 8207.05,
+      "y": -2057.62,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 8217.49,
+      "y": -2049.99,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "attack(0.2)"
+    },
+    {
+      "id": 8,
+      "x": 8158.69,
+      "y": -2052.07,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(0.2)",
+      "type": "target"
+    }
+  ]
+}

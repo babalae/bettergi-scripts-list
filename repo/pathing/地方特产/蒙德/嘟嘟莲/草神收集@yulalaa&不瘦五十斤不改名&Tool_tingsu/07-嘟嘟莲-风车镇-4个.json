@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.60.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1775652755064,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "07-嘟嘟莲-风车镇-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -156.4062,
+      "y": 3091.3882
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -156.8418,
+      "y": 3098.1494
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -156.3574,
+      "y": 3109.9932
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -171.4258,
+      "y": 3115.1948
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -186.6328,
+      "y": 3109.543
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -203.5078,
+      "y": 3100.0225
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -217.834,
+      "y": 3099.6924
+    }
+  ]
+}

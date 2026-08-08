@@ -1,0 +1,50 @@
+[
+  {
+    "name": "runJS",
+    "type": "checkbox",
+    "label": "我已阅读说明中的免责声明",
+    "default": false
+  },
+  {
+    "type": "input-text",
+    "name": "room",
+    "label": "奇域关卡关键词或关卡GUID\n（仅支持单个，默认为作者特供地图）",
+    "default": "37135473336"
+  },
+  {
+    "name": "achievementMode",
+    "type": "checkbox",
+    "label": "成就模式（请确保地图有成就）",
+    "default": true
+  },
+  {
+    "name": "starMode",
+    "type": "checkbox",
+    "label": "收藏模式（请确保地图未失效）",
+    "default": false
+  },
+  {
+    "type": "input-text",
+    "name": "starRoomName",
+    "label": "使用的地图名称（不是房间ID，是地图名字）",
+    "default": "碰碰墙"
+  },
+  {
+    "type": "input-text",
+    "name": "thisAttempts",
+    "label": "指定通关次数",
+    "default": "0"
+  },
+  {
+    "type": "input-text",
+    "name": "weekMaxExp",
+    "label": "每周可获取的经验值上限",
+    "default": "4000"
+  },
+  {
+    "type": "input-text",
+    "name": "singleExp",
+    "label": "每次通关获取的经验值数量",
+    "default": "270"
+  }
+]

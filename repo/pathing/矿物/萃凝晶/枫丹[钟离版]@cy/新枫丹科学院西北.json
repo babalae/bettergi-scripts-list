@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "新枫丹科学院西北",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "cy"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4620.0,
+      "y": 4936.0,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4608.1,
+      "y": 5017.77,
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4610.53,
+      "y": 5025.01,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4608.92,
+      "y": 5026.39,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4607.17,
+      "y": 5011.61,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4612.17,
+      "y": 5023.61,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "name": "operationMode",
+    "type": "select",
+    "label": "操作模式",
+    "options": [
+      "寻找宝藏位置并记录",
+      "导航至宝藏地点"
+    ],
+    "default": "寻找宝藏位置并记录"
+  },
+  {
+    "name": "partyName",
+    "type": "input-text",
+    "label": "运行使用的队伍名称，最好有战斗能力"
+  },
+  {
+    "name": "accountName",
+    "type": "input-text",
+    "label": "账户名称，用于多用户运行时区分不同账户\n单用户时无需修改",
+    "default": "默认账户"
+  },
+  {
+    "name": "timeRule",
+    "type": "input-text",
+    "label": "输入不运行的时间或时间段的小时，以本地时间为准\n将提前10分钟结束路线，并等待到对应时间\n允许填入时间如4表示4点不运行，或4-6表示4点到6点都不运行\n允许多项，由中文逗号分隔"
+  },
+  {
+    "name": "disableMondstadt",
+    "type": "checkbox",
+    "label": "是否禁用蒙德路线"
+  },
+  {
+    "name": "disableLiyue",
+    "type": "checkbox",
+    "label": "是否禁用璃月路线"
+  },
+  {
+    "name": "disableInazuma",
+    "type": "checkbox",
+    "label": "是否禁用稻妻路线"
+  },
+  {
+    "name": "disableSumeru",
+    "type": "checkbox",
+    "label": "是否禁用须弥路线"
+  },
+  {
+    "name": "disableFontaine",
+    "type": "checkbox",
+    "label": "是否禁用枫丹路线"
+  },
+  {
+    "name": "disableNatlan",
+    "type": "checkbox",
+    "label": "是否禁用纳塔路线"
+  }
+]

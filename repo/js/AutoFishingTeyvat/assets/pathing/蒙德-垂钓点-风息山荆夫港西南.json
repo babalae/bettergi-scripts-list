@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "地区: 蒙德\\n类型: 垂钓点\\n详细位置: 风息山荊夫港西南\\n鱼类: 蓝染花鳉、擒霞客、水晶宴、綦假龙\\n饵类: 果酿饵、飞蝇假饵\\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1776017614272,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "蒙德-垂钓点-风息山荆夫港西南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -204.05,
+      "y": 3504.65
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -195.84,
+      "y": 3496.63
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -201.75,
+      "y": 3484.8
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -147.89,
+      "y": 3452.15
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -156.25,
+      "y": 3442.87
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -163.8,
+      "y": 3429.9
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -181.82,
+      "y": 3403.2
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -179.3,
+      "y": 3397.74
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -177.38,
+      "y": 3394.88
+    }
+  ]
+}

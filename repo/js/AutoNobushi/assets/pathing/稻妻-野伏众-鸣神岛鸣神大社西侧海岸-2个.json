@@ -1,0 +1,39 @@
+{
+    "info": {
+        "name": "稻妻-野伏众-鸣神岛鸣神大社西侧海岸-2个",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "野伏众-2个\n稻妻-鸣神岛鸣神大社西侧海岸",
+        "bgi_version": "0.39.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": -4223.06,
+            "y": -2399.06,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": -4114.97,
+            "y": -2518.03,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": -4114.99,
+            "y": -2518.12,
+            "action": "fight",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "target"
+        }
+    ]
+}

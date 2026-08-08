@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个薄荷；2个鸟蛋；1个茉洁草；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762498198098,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E23-1-枫丹食材-伊黎耶林区-优兰尼娅湖【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 3618.29,
+      "y": 4057.92
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3633.25,
+      "y": 4055.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3642.2588,
+      "y": 4031.3342
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "target",
+      "x": 3640.3887,
+      "y": 4026.7424
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3654.5312,
+      "y": 4021.5898
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3668.0078,
+      "y": 4045.668
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个甜甜花；2个薄荷；3个树莓；2个蘑菇；4个墩墩桃；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762362668201,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D28-2-须弥食材-善见地-河谷黯道",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2965.7363,
+      "y": -1452.6621
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2947.2949,
+      "y": -1466.2725
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2950.6143,
+      "y": -1488.0391
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2940.0098,
+      "y": -1508.9331
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2918.2676,
+      "y": -1517.4414
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2916.5723,
+      "y": -1511.4346
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2924.5977,
+      "y": -1506.9624
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2920.5996,
+      "y": -1493.479
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2924.7578,
+      "y": -1478.5698
+    }
+  ]
+}

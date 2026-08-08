@@ -1,0 +1,79 @@
+{
+  "info": {
+    "name": "天云峠上3只",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "baixi",
+        "links": "https://github.com/baixi232310"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4185.91,
+      "y": -4383.6,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4179.55,
+      "y": -4393.21,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4171.87,
+      "y": -4403.87,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4172.99,
+      "y": -4426.24,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -4203.44,
+      "y": -4451.93,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -4184.2,
+      "y": -4468.19,
+      "type": "path",
+      "move_mode": "swim",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -4190.1,
+      "y": -4486.13,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

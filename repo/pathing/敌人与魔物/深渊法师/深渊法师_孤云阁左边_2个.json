@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "深渊法师_孤云阁左边_2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "深渊法师",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "FuYeqi",
+        "links": "https://github.com/FuYeqi"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 15.8,
+      "y": -133.0,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -50.17,
+      "y": -103.0,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -200.12,
+      "y": -109.0,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -220.0,
+      "y": -140.0,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

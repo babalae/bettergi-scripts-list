@@ -1,0 +1,141 @@
+{
+  "info": {
+    "name": "禽肉6-7-纳塔辉龙像下-2肉×6",
+    "type": "collect",
+    "version": "1.0",
+    "description": "1、砂糖行走位，且队伍里带着绮良良或埃洛伊。别带双风跑图；2、不需要生存位，生存位放技能容易惊动鸟；3、运行其它地图追踪会吓跑这里的鸟，建议优先运行此追踪；4、杀死的鸟在12小时后刷新，被吓跑的鸟0点或12点刷新，1肉鸟和2肉鸟每日上限各200只。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "tags": [
+      "砂糖",
+      "禽肉",
+      "绮良良",
+      "埃洛伊"
+    ],
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9838.07,
+      "y": -2365.14,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9871.37,
+      "y": -2395.59,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9895.53,
+      "y": -2385.54,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "砂糖 e",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9896.53,
+      "y": -2385.54,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.5),keypress(t),wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9905.68,
+      "y": -2383.8,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 9898.81,
+      "y": -2381.62,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9900.28,
+      "y": -2387.13,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 9904.28,
+      "y": -2381.13,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 9905.28,
+      "y": -2384.13,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(0.2),keydown(w),keydown(q),wait(0.6),keyup(q),keyup(w)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 9912.34,
+      "y": -2403.88,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 9903.6,
+      "y": -2438.37,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "砂糖 e",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 9904.71,
+      "y": -2446.37,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 9900.0,
+      "y": -2441.17,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

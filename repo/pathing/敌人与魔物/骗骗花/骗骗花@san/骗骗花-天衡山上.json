@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "骗骗花-天衡山上",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "san"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 622.0,
+      "y": -298.48
+    },
+    {
+      "id": 2,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 594.0,
+      "y": -345.5
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": 593.75,
+      "y": -356.75
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "info": {
+    "name": "璃月-B034",
+    "type": "collect",
+    "author": "Tool_tingsu",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751696230945
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1433.69921875,
+      "y": 837.3916015625,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1423.771484375,
+      "y": 852.2587890625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1355.7646484375,
+      "y": 870.677734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1286.9765625,
+      "y": 875.626953125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2000"
+    },
+    {
+      "id": 5,
+      "x": 1283.466796875,
+      "y": 874.73876953125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "info": {
+    "name": "3404稻妻海祇岛北",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -765.39,
+      "y": -3557.89,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -733.29,
+      "y": -3562.86,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -733.29,
+      "y": -3562.86,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -732.0,
+      "y": -3557.0,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -681.73,
+      "y": -3572.12,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -658.43,
+      "y": -3560.97,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -647.0,
+      "y": -3589.2,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -634.11,
+      "y": -3592.34,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -652.2,
+      "y": -3581.44,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -652.2,
+      "y": -3581.44,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -610.49,
+      "y": -3574.76,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.1),keypress(f),wait(0.1),dash",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": -607.46,
+      "y": -3570.21,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.1),keypress(f),wait(0.1),dash",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -605.73,
+      "y": -3573.74,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.1),keypress(f),wait(0.1),dash",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -613.12,
+      "y": -3566.7,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 15,
+      "x": -613.12,
+      "y": -3566.7,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -620.47,
+      "y": -3534.12,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -638.92,
+      "y": -3531.63,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -638.92,
+      "y": -3531.63,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

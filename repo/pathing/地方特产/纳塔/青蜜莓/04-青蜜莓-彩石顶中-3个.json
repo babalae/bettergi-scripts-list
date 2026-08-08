@@ -1,0 +1,33 @@
+{
+  "info": {
+    "name": "04-青蜜莓-彩石顶中-3个",
+    "type": "collect",
+    "author": "黎歌",
+    "version": "1.0",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "黎歌"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8372.21,
+      "y": -2196.23,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 8352.73,
+      "y": -2230.94,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.345)"
+    }
+  ]
+}

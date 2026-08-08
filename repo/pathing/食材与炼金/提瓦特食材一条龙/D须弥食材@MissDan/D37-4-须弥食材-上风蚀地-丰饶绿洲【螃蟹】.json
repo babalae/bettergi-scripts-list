@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "4个鳗肉；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762453501130,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D37-4-须弥食材-上风蚀地-丰饶绿洲【螃蟹】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4810.6289,
+      "y": -2732.6572
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4806.2744,
+      "y": -2767.501
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4771.3271,
+      "y": -2800.8926
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "target",
+      "x": 4730.6934,
+      "y": -2809.5664
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4726.1787,
+      "y": -2811.8955
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4727.6641,
+      "y": -2807.0332
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757015986343,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "强制白芙",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -762.078125,
+      "y": -3798.2978515625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.25),dash,wait(1.5),attack(0.3),wait(3),keyup(w),wait(1)",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": -821.607421875,
+      "y": -3831.3037109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 370.740234375,
+      "y": -505.421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 attack(0.08),e,wait(0.6),charge;",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 349.337890625,
+      "y": -499.35302734375
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758215730611,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E16-螃蟹-纳塔-烟谜主左-5只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10013.2744,
+      "y": -1626.1777
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10015.9199,
+      "y": -1628.0703
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10090.7793,
+      "y": -1588.625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10107.123,
+      "y": -1573.3252
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10120.3555,
+      "y": -1581.6436
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10132.5146,
+      "y": -1591.6846
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10116.3438,
+      "y": -1577.979
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10117.1875,
+      "y": -1563.9189
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10130.5049,
+      "y": -1553.7168
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10134.2666,
+      "y": -1553.2988
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10115.4648,
+      "y": -1537.5732
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10101.9609,
+      "y": -1525.1948
+    }
+  ]
+}

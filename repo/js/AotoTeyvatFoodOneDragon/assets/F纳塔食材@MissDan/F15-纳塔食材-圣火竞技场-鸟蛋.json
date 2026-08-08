@@ -1,0 +1,89 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "芝麻糊"
+      },
+      {
+        "links": "",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759830896031,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F15-纳塔食材-圣火竞技场-鸟蛋",
+    "tags": [],
+    "type": "collect",
+    "version": "2.11"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 8978.337890625,
+      "y": -1872.32177734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.75)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8940.3505859375,
+      "y": -1847.2041015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8934.1181640625,
+      "y": -1840.302734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 8930.896484375,
+      "y": -1838.1494140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8913.09375,
+      "y": -1832.26953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8901.423828125,
+      "y": -1830.55078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8897.7734375,
+      "y": -1829.9990234375
+    }
+  ]
+}

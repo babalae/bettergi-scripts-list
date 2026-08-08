@@ -1,0 +1,116 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "芝麻糊"
+      },
+      {
+        "links": "",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759830987215,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F26-纳塔食材-祖遗庙宇-鸟蛋",
+    "tags": [],
+    "type": "collect",
+    "version": "2.11"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7746.8466796875,
+      "y": -2250.294921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7715.6904296875,
+      "y": -2199.5859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7675.013671875,
+      "y": -2149.3740234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7669.435546875,
+      "y": -2148.6630859375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7668.6220703125,
+      "y": -2143.9052734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7656.392578125,
+      "y": -2150.572265625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7620.11328125,
+      "y": -2127.201171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7576.958984375,
+      "y": -2168.7724609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7571.77734375,
+      "y": -2169.7373046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7570.380859375,
+      "y": -2166.0615234375
+    }
+  ]
+}

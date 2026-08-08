@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "稻妻铁匠铺",
+    "type": "collect",
+    "author": "寒露",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4400.716796875,
+      "y": -3050.6962890625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4401.98046875,
+      "y": -3049.376953125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4367.287109375,
+      "y": -3005.3388671875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4352.150390625,
+      "y": -3010.88671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -4358.37890625,
+      "y": -3019.78125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -4355.751953125,
+      "y": -3017.388671875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

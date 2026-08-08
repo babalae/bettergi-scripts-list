@@ -1,0 +1,79 @@
+{
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.52.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1783089932136,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "A01蒙德-风龙废墟上",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.0"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  265.709,
+                          "y":  2914.8882
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "run",
+                          "type":  "path",
+                          "x":  138.5859,
+                          "y":  2968.7344
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  128.2793,
+                          "y":  3009.623
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  4,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  119.6689,
+                          "y":  3007.5576
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  5,
+                          "locked":  false,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  131.2412,
+                          "y":  3011.2598
+                      },
+                      {
+                          "action":  "combat_script",
+                          "action_params":  "wait(2)",
+                          "id":  6,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  131.2412,
+                          "y":  3011.2598
+                      }
+                  ]
+}

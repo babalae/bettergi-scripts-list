@@ -1,0 +1,73 @@
+{
+  "info": {
+    "name": "遗迹守卫08",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "XS",
+        "links": "https://github.com/xwsqy6"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4217.94,
+      "y": -2397.84,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4224.44,
+      "y": -2360.71,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4185.91,
+      "y": -2323.22,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -4185.7,
+      "y": -2322.38,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -4194.49,
+      "y": -2318.51,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -4225.09,
+      "y": -2301.44,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -4243.41,
+      "y": -2290.99,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}

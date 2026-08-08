@@ -1,0 +1,176 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时123秒，包含3只精英与5只小怪，预计收入1283.5摩拉，包含以下怪物：3只风史莱姆、2只大型风史莱姆、1只狂风之核、1只木盾丘丘暴徒、1只火斧丘丘暴徒。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758985740751,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "107蒙德风龙废墟南（600_1，200_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 338.23,
+      "y": 2581.15
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 303,
+      "y": 2533
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 284.32,
+      "y": 2508.65
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 295.82,
+      "y": 2460.07
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 296.61,
+      "y": 2450.41
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 296.53,
+      "y": 2439.81
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 267.44,
+      "y": 2434.88
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 255.04,
+      "y": 2431.88
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(3),keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(3),keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(1.5)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 252.96,
+      "y": 2431.48
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 225.88,
+      "y": 2418.05
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 226.44,
+      "y": 2410.56
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 283.53,
+      "y": 2385.82
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 346.25,
+      "y": 2421.44
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "run",
+      "type": "path",
+      "x": 361.68,
+      "y": 2448.93
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "run",
+      "type": "path",
+      "x": 379.77,
+      "y": 2433.81
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 400.17,
+      "y": 2417.04
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 400.93,
+      "y": 2416.1
+    }
+  ]
+}

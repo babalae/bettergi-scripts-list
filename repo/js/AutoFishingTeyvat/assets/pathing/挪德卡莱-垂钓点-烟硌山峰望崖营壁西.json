@@ -1,0 +1,94 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768791625113,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "挪德卡莱-垂钓点-烟硌山峰望崖营壁西-无奇巨斧鱼_冷冽巨斧鱼_素素凶凶鲨_虹光凶凶鲨_蓝昼明眼鱼_夜色明眼鱼-槲梭饵_清白饵-普通",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10043.1875,
+      "y": 5938.0673828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10021.193359375,
+      "y": 5947.9990234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10014.96484375,
+      "y": 5960.52978515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10066.197265625,
+      "y": 6020.537109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10102.96875,
+      "y": 6019.38916015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10140.962890625,
+      "y": 6026.20703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10145.77734375,
+      "y": 6020.8837890625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10143.6171875,
+      "y": 6016.19580078125
+    }
+  ]
+}

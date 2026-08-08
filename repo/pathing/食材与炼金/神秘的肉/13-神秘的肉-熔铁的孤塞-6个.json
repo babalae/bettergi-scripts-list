@@ -1,0 +1,156 @@
+{
+  "info": {
+    "name": "13-神秘的肉-熔铁的孤塞-6个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Sabersunny",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "tags": [],
+    "last_modified_time": 1753528885499,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 6055.0033,
+      "y": -85.0062,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 6063.2528,
+      "y": -89.2525,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 6095.6256,
+      "y": -110.3777,
+      "action": "up_down_grab_leaf",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 6120.2512,
+      "y": -131.5054,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "500",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 6120.2512,
+      "y": -131.5054,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "雷电将军 e",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 6120.2512,
+      "y": -131.5054,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 6121.1475,
+      "y": -133.7271,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 6117.1279,
+      "y": -136.332,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 6120.4326,
+      "y": -139.7217,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 6127.4189,
+      "y": -140.812,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 6185.9997,
+      "y": -103.5323,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "雷电将军 e",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 6185.9997,
+      "y": -103.5323,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 6188.4126,
+      "y": -112.06,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 6184.6328,
+      "y": -110.0602,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 6189.1311,
+      "y": -107.9042,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

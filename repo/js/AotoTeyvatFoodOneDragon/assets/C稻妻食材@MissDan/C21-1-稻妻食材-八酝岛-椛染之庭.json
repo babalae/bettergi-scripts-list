@@ -1,0 +1,130 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个甜甜花；4个电气水晶；3个堇瓜；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762342962919,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C21-1-稻妻食材-八酝岛-椛染之庭",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2365.668,
+      "y": -3769.1914
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2356.5977,
+      "y": -3749.5576
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2331.582,
+      "y": -3746.1084
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e(wait)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2321.3672,
+      "y": -3768.2559
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2318.5391,
+      "y": -3768.6885
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2316.9883,
+      "y": -3772.0166
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2312.6406,
+      "y": -3775.1797
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2315.6953,
+      "y": -3771.3525
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2314.1562,
+      "y": -3769.1699
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2309.1152,
+      "y": -3771.7549
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2317.3887,
+      "y": -3787.7266
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 12,
+      "move_mode": "run",
+      "type": "target",
+      "x": -2289.6152,
+      "y": -3789.9287
+    }
+  ]
+}

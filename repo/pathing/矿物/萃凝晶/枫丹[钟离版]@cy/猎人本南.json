@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "猎人本南",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "cy"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4722.2,
+      "y": 1854.68,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 4697.75,
+      "y": 1850.41,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 4725.52,
+      "y": 1814.31,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 4749.68,
+      "y": 1796.61,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 5,
+      "x": 4755.29,
+      "y": 1798.06,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 4745.11,
+      "y": 1798.15,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 4737.82,
+      "y": 1781.04,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 8,
+      "x": 4734.5,
+      "y": 1786.23,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "原海异种10-枫丹科学院南03",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3847.5,
+      "y": 4646.43,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 3908.5,
+      "y": 4629.43,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3934.5,
+      "y": 4611.92,
+      "action_params": ""
+    }
+  ]
+}

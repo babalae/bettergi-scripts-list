@@ -1,0 +1,195 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/cheese-bagel",
+        "name": "芝士贝果"
+      }
+    ],
+    "bgi_version": "0.54.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767844613457,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F08-纳塔-悠悠度假村-浪浪湾较左边-9个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14733.1445,
+      "y": 724.6162
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 14633.7472,
+      "y": 736.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14624.1211,
+      "y": 741.2539
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(4)",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 14608.1787,
+      "y": 735.1299
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 14606.9238,
+      "y": 733.8774
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14610.0352,
+      "y": 726.7852
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 14613.125,
+      "y": 730.9297
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14607.6592,
+      "y": 730.853
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 14590.6084,
+      "y": 739.2988
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14590.6084,
+      "y": 739.2988
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14733.1416,
+      "y": 724.6143
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": 14633.7472,
+      "y": 736.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14622.3945,
+      "y": 733.9326
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 14574.4004,
+      "y": 737.438
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 14566.2949,
+      "y": 740.6807
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 14559.1426,
+      "y": 742.0244
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 14554.2754,
+      "y": 744.0283
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 14555.5225,
+      "y": 743.6123
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 14555.8555,
+      "y": 744.0083
+    }
+  ]
+}

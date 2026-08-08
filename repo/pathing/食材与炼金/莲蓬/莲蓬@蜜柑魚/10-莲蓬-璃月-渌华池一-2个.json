@@ -1,0 +1,86 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785418319340,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "10-莲蓬-璃月-渌华池一-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 526.25,
+      "y": 106.49
+    },
+    {
+      "action": "combat_script",
+      "action_params": "j,wait(0.15),j,wait(0.5)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 528.416,
+      "y": 106.1152
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 534.5293,
+      "y": 75.7529
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 518.2197,
+      "y": 48.0771
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 515.3252,
+      "y": 45.2764
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 518.5957,
+      "y": 30.6699
+    },
+    {
+      "action": "combat_script",
+      "action_params": "j,wait(0.3)",
+      "id": 7,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 524.9424,
+      "y": 19.1553
+    }
+  ]
+}
