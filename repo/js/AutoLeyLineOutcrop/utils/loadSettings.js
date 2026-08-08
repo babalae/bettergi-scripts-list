@@ -25,6 +25,10 @@ function () {
             throw new Error("未配置战斗队伍！当配置了好感队时必须配置战斗队伍！");
         }
 
+        if (settings.isResinExhaustionMode && settings.onlySurgeMode) {
+            throw new Error("树脂耗尽模式和只刷双倍模式是互斥选项，不能同时开启！\n请根据需求选择其中一种模式");
+        }
+
         // 为了向后兼容，确保某些设置有默认值
         //settings.timeout = settings.timeout * 1000 || 120000;
 
@@ -60,6 +64,8 @@ function () {
         }
         if (settings.isResinExhaustionMode) {
             log.warn("树脂耗尽模式已开启，若统计成功将覆盖设置的刷取次数");
+        } else if (settings.onlySurgeMode) {
+            log.info(`只刷双倍模式已开启（双倍次数用尽后将提前退出）`);
         } else {
             log.info(`刷取次数：${settings.timesValue}`);
         }
@@ -70,11 +76,34 @@ function () {
         // 设置一条龙模式
         oneDragonMode = settings.oneDragonMode;
 
+        // 设置拾取材料时间
+        if (!settings.pickDropsSeconds || !/^\d+$/.test(settings.pickDropsSeconds) || parseInt(settings.pickDropsSeconds) < 1) {
+            settings.pickDropsSecondsValue = 25;
+            if (settings.pickDropsSeconds && !/^\d+$/.test(settings.pickDropsSeconds)) {
+                log.warn(`拾取时间 "${settings.pickDropsSeconds}" 不是有效数字，已使用默认值 25 秒`);
+            } else if (settings.pickDropsSeconds && parseInt(settings.pickDropsSeconds) < 1) {
+                log.warn(`拾取时间 ${settings.pickDropsSeconds} 小于 1，已使用默认值 25 秒`);
+            }
+        } else {
+            settings.pickDropsSecondsValue = parseInt(settings.pickDropsSeconds);
+        }
+
+        if (settings.pickDropsAfterReward) {
+            log.info(`战斗后拾取材料：开启，拾取时间 ${settings.pickDropsSecondsValue} 秒`);
+        }
+
+        if (settings.monsterMaterialMode) {
+            log.info(`20树脂模式：开启`);
+        }
+
+        if (settings.onlySurgeMode && !settings.isResinExhaustionMode) {
+            log.info(`只刷双倍模式：开启（建议配合"使用冒险之证寻找地脉花"选项）`);
+        }
+
         if (isNotification) {
             notification.send(`全自动地脉花开始运行，以下是本次运行的配置：\n\n地脉花类型：${settings.leyLineOutcropType}\n国家：${settings.country}\n刷取次数：${settings.timesValue}`);
         }
     } catch (error) {
-        log.error(`加载设置失败: ${error.message}`);
         throw error;
     }
 }
