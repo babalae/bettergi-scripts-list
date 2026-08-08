@@ -1,0 +1,20 @@
+{
+  "manifest_version": 1,
+  "name": "角色一键养成",
+  "version": "0.9.0",
+  "bgi_version": "0.62.0",
+  "description": "选择角色、天赋和武器后，自动读取背包、扣除已有及可合成材料，安排七天刷取计划并调用 BetterGI 执行当天任务。周本材料只提示手动获取。",
+  "authors": [
+    {
+      "name": "yunxi",
+      "links": "https://github.com/yunxi001"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "record/*.json",
+    "data/user-targets.json",
+    "data/route-overrides.json"
+  ]
+}
