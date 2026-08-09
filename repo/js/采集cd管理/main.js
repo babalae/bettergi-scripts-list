@@ -1,8 +1,31 @@
+// 3.0.3
+
 /* ===== 1. 自定义配置 ===== */
 const timeMoveUp = Math.round((settings.timeMove || 1000) * 0.45);
 const timeMoveDown = Math.round((settings.timeMove || 1000) * 0.55);
 const accountName = settings.infoFileName || "默认账户";
 const operationMode = settings.operationMode || "执行任务（若不存在索引文件则自动创建）";
+let loopMode = 1; // 默认不循环
+// ---- loopMode 配置迁移 ----
+let rawLoop = settings.loopMode; // 新字段优先
+if (rawLoop === undefined && settings.loopCollect !== undefined) {
+    rawLoop = settings.loopCollect; // 兼容旧字段
+}
+if (typeof rawLoop === 'boolean') {
+    loopMode = rawLoop ? 3 : 1;  // true→全局循环(3)，false→不循环(1)
+    // 写入兼容后的字符串，防止 UI 面板回显空白
+    settings.loopMode = rawLoop ? "全局循环" : "不循环";
+} else if (typeof rawLoop === 'string') {
+    // 新配置存储的是中文，映射为数字
+    switch (rawLoop) {
+        case "不循环": loopMode = 1; break;
+        case "每组重试": loopMode = 2; break;
+        case "全局循环": loopMode = 3; break;
+        default: loopMode = 1;
+    }
+} else {
+    loopMode = 1; // 默认不循环
+}
 const disableJsons = settings.disableJsons || "";
 let processingIngredient = settings.processingIngredient;
 let findFInterval = Math.max(16, Math.min(200, parseInt(settings.findFInterval) || 100));
@@ -14,6 +37,13 @@ const fullRoi = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/it
 const FiconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/F_Dialogue.png"), 1102, 335, 34, 400);
 FiconRo.Threshold = 0.9;
 FiconRo.InitTemplate();
+const frozenRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/解除冰冻.png"), 1379, 574, 1463 - 1379, 613 - 574);
+const revivalRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/复苏.png"), 755, 915, 1117 - 755, 1037 - 915);
+revivalRo.Threshold = 0.9;
+revivalRo.InitTemplate();
+const revival_2_Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/复苏_联机.png"), 930, 1000, 100, 50);
+revival_2_Ro.Threshold = 0.9;
+revival_2_Ro.InitTemplate();
 const scrollRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/拾取滚轮.png"), 1017, 496, 1093 - 581, 581 - 496);
 
 /* ===== 3. 全局通用常量 ===== */
@@ -111,10 +141,26 @@ let materialCdMap = {};
 async function recognizeAndInteract() {
     let lastcenterYF = 0, lastItemName = "", thisMoveUpTime = 0, lastMoveDown = 0;
     let lastCheckItemFull = new Date();
+    let lastFreezeCheck = new Date();
+    let lastRevivalCheck = new Date();
     let checkTask = null;
+    let freezeTask = null;
+    let revivalTask = null;
 
     while (state.running) {
         gameRegion = await getGameRegion();
+
+        // === 解除冰冻检测（每250毫秒） ===
+        if (new Date() - lastFreezeCheck > 250 && !freezeTask) {
+            lastFreezeCheck = new Date();
+            freezeTask = checkAndBreakFreeze();
+        }
+
+        // === 复苏检测（每500毫秒） ===
+        if (new Date() - lastRevivalCheck > 500 && !revivalTask) {
+            lastRevivalCheck = new Date();
+            revivalTask = checkAndClickRevival();
+        }
 
         if (new Date() - lastCheckItemFull > 2500 && !checkTask) {
             lastCheckItemFull = new Date();
@@ -129,6 +175,17 @@ async function recognizeAndInteract() {
                 if (await hasScroll()) {
                     await keyMouseScript.runFile(`assets/滚轮下翻.json`);
                 }
+            }
+            // 处理并发的冰冻检测
+            if (freezeTask) {
+                try { await freezeTask; }
+                catch (e) { log.error('冰冻检测异常:', e); }
+                finally { freezeTask = null; }
+            }
+            if (revivalTask) {
+                try { await revivalTask; }
+                catch (e) { log.error('复苏检测异常:', e); }
+                finally { revivalTask = null; }
             }
             if (checkTask) {
                 try { await checkTask; }
@@ -182,6 +239,16 @@ async function recognizeAndInteract() {
             await keyMouseScript.runFile(`assets/滚轮上翻.json`);
         }
         await sleep(rollingDelay);
+        if (freezeTask) {
+            try { await freezeTask; }
+            catch (e) { log.error('冰冻检测异常:', e); }
+            finally { freezeTask = null; }
+        }
+        if (revivalTask) {
+            try { await revivalTask; }
+            catch (e) { log.error('复苏检测异常:', e); }
+            finally { revivalTask = null; }
+        }
         if (checkTask) {
             try { await checkTask; }
             catch (e) { log.error('背包满检查异常:', e); }
@@ -233,7 +300,8 @@ async function performTemplateMatch(centerYF) {
     /* 一次性切 6 种宽度（0-5 汉字） */
     const regions = [];
     for (let cn = 0; cn <= 6; cn++) {   // 0~5 共 6 档
-        const w = 12 + 28 * Math.min(cn, 5) + 2;
+        // 增加 20 像素，兼容化种匣的括号/种子后缀
+        const w = 12 + 28 * Math.min(cn, 5) + 2 + 20;
         regions[cn] = gameRegion.DeriveCrop(1219, centerYF - 15, w, 30);
     }
 
@@ -299,6 +367,46 @@ async function isMainUI() {
             log.error(`isMainUI:${e.message}`);
         }
         await sleep(findFInterval);
+    }
+    return false;
+}
+
+/**
+ * 检测并挣脱冰冻状态
+ */
+async function checkAndBreakFreeze() {
+    try {
+        if (gameRegion.find(frozenRo).isExist()) {
+            log.info("检测到冻结，尝试挣脱");
+            for (let m = 0; m < 3; m++) {
+                keyPress("VK_SPACE");
+                await sleep(30);
+            }
+        }
+    } catch (error) {
+        // 忽略识别错误
+    }
+}
+
+/**
+ * 检测并点击复苏按钮
+ * 当角色死亡出现复苏界面时，自动点击复苏按钮
+ * @returns {Promise<boolean>} 是否检测到并点击了复苏按钮
+ */
+async function checkAndClickRevival() {
+    try {
+        const rg = await getGameRegion();
+        const roList = [revivalRo, revival_2_Ro];
+        for (const ro of roList) {
+            const res = rg.find(ro);
+            if (res.isExist()) {
+                log.info("检测到复苏按钮，点击");
+                res.click();
+                return true;
+            }
+        }
+    } catch (error) {
+        // 忽略识别错误
     }
     return false;
 }
@@ -1412,6 +1520,17 @@ function calculateRouteCD(cdType, startTime) {
         case "46小时刷新":
             newTimestamp = new Date(startTime.getTime() + 46 * 60 * 60 * 1000);
             break;
+        case "每天一次":
+            const hour = startTime.getHours();
+            if (hour >= 4 && hour < 16) {
+                // 在 04:00 ~ 15:59 之间采集 → 第二天 04:00
+                newTimestamp.setHours(4, 0, 0, 0);
+                if (newTimestamp <= startTime) newTimestamp.setDate(newTimestamp.getDate() + 1);
+            } else {
+                // 在 16:00 ~ 03:59 之间采集 → 当前时间 + 12 小时
+                newTimestamp = new Date(startTime.getTime() + 12 * 60 * 60 * 1000);
+            }
+            break;
         default:
             newTimestamp = startTime;
             break;
@@ -1849,10 +1968,27 @@ function isArrivedAtEndPoint(fullPath) {
         }
         if (endX === 0 && endY === 0) return false;   // 没找到有效点
 
-        /* 2. 取当前人物坐标 */
+        /* 2. 取当前人物坐标與地图匹配方法 */
 
         const mapName = (json.info?.map_name && json.info.map_name.trim()) ? json.info.map_name : 'Teyvat';
-        const pos = genshin.getPositionFromMap(mapName, 3000);
+        const map_match_method = json.info?.map_match_method || "";
+
+        let pos = null;
+
+        if (map_match_method && map_match_method !== "") {
+            try {
+                // 尝试使用传入的方法名称获取座标
+                pos = genshin.getPositionFromMapWithMatchingMethod(mapName, map_match_method, 3000);
+            } catch (e) {
+                // 若 map_match_method 不是合法的匹配方法，抛出例外时自动退回预设方法
+                log.warn(`无法使用匹配方法 "${map_match_method}"，退回预设匹配模式`);
+                pos = genshin.getPositionFromMap(mapName, 3000);
+            }
+        } else {
+            // map_match_method 為空時直接使用預設方法
+            pos = genshin.getPositionFromMap(mapName, 3000);
+        }
+
         const curX = pos.X;
         const curY = pos.Y;
 
@@ -1973,9 +2109,15 @@ async function buildSettingsJson() {
 
     /* 5.2.1 循环模式 */
     newSettings.push({
-        name: "loopCollect",
-        type: "checkbox",
-        label: "勾选后，路径组中每条路线完成后从头开始重新检查"
+        name: "loopMode",
+        type: "select",
+        label: "选择循环模式",
+        options: [
+            "不循环",
+            "每组重试",
+            "全局循环"
+        ],
+        default: "不循环"
     });
 
     /* 5.3 固定尾部节点（原样照搬） */
@@ -2121,7 +2263,8 @@ async function buildSettingsJson() {
                 "4点刷新",
                 "12小时刷新",
                 "24小时刷新",
-                "46小时刷新"
+                "46小时刷新",
+                "每天一次"
             ]
         });
 
@@ -2150,6 +2293,8 @@ async function buildSettingsJson() {
     // 仅刷新模式检查
     if (settings.onlyRefresh) {
         settings.onlyRefresh = false;
+        log.info(`刷新自定义配置`);
+        log.debug(`交互或拾取："刷新自定义配置"`);
         return false;
     }
     return true;
@@ -2487,7 +2632,7 @@ async function processPriorityItems() {
             /* ---------- 智能选队：按路线所在文件夹反查路径组 ---------- */
             await selectPartyByRoutePath(bestRoute.fullPath, "优先采集阶段");
 
-            log.info(`执行路线 ${fileName}，剩余优先材料：${remaining}`);
+            log.info(`当前进度：执行路线 ${fileName}，剩余优先材料：${remaining}`);
 
             let timeNow = new Date();
             await handleIngredientProcessing(timeNow);
@@ -2656,11 +2801,11 @@ async function processPathGroups() {
                         const fullName = fileName + '.json';
                         const targetObj = cdMap.get(fullName);
                         const nextCD = targetObj ? new Date(targetObj.cdTime) : new Date(0);
-                        const maxRunCount = settings.loopCollect ? 3 : 1;
+                        const maxRunCount = loopMode;  // 1、2、3
 
                         const startTime = new Date();
                         if (startTime <= nextCD) {
-                            if (!settings.loopCollect) {
+                            if (loopMode !== 3) {
                                 log.info(`当前任务 ${fileName} 未刷新，跳过任务`);
                             }
                             continue;   // 跳过，不写回
@@ -2740,7 +2885,7 @@ async function processPathGroups() {
                             await saveRecordAndClearLog(cdMap, recordFilePath, correctedLog);
                             routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
 
-                            if (settings.loopCollect) {
+                            if (loopMode === 3) {
                                 i = 0;
                                 break;
                             } else {
@@ -2768,13 +2913,13 @@ function loadSubJS(jsFilePath) {
     const normalizedBasePath = jsFilePath
         .replace(/[\\/]+/g, '/')
         .replace(/\/+$/, '') + '/';
-    
+
     try {
         // ========== 1.1 读取 manifest.json ==========
         const manifestPath = `${normalizedBasePath}manifest.json`;
         const manifestContent = file.readTextSync(manifestPath);
         const manifest = JSON.parse(manifestContent);
-        
+
         // 获取入口文件名
         const mainFileName = manifest.main || 'main.js';
         const filePath = `${normalizedBasePath}${mainFileName}`;
@@ -2813,11 +2958,11 @@ function loadSubJS(jsFilePath) {
         // 将子脚本中的唯一外层 async IIFE 改为命名函数，并在最后 await 它
         const trimmedCode = rawCode.trim();
         const asyncIifeCount = (trimmedCode.match(/\(async function\s*\(/g) || []).length;
-        
+
         if (asyncIifeCount === 1) {
             // 找到唯一的 async IIFE
             const asyncIifeStart = trimmedCode.indexOf('(async function');
-            
+
             // 找到这个 IIFE 的结束位置（需要匹配括号）
             let braceCount = 0;
             let foundFirstBrace = false;
@@ -2838,7 +2983,7 @@ function loadSubJS(jsFilePath) {
                     }
                 }
             }
-            
+
             if (asyncIifeStart >= 0 && iifeEnd > asyncIifeStart) {
                 const beforeIife = trimmedCode.substring(0, asyncIifeStart).trim();
                 const iifeCode = trimmedCode.substring(asyncIifeStart, iifeEnd);
@@ -2846,7 +2991,7 @@ function loadSubJS(jsFilePath) {
                 const lastBrace = iifeCode.lastIndexOf('}');
                 const iifeBody = iifeCode.substring(firstBrace + 1, lastBrace).trim();
                 const afterIife = trimmedCode.substring(iifeEnd).trim();
-                
+
                 rawCode = `return (async function() {\n${beforeIife}\n${afterIife}\nasync function __subJsMain__() {\n${iifeBody}\n}\nawait __subJsMain__();\n})();`;
             } else {
                 rawCode = `return (async function() {\n${rawCode}\n})();`;
@@ -3046,7 +3191,7 @@ async function executeSchedule(schedulePath) {
                 log.error(`任务配置不完整，缺少 name 或 filePath: ${JSON.stringify(task)}`);
                 return false;
             }
-            
+
             // 根据 type 字段判断任务类型（大小写不敏感）
             const taskTypeRaw = (task.type || 'js').toLowerCase();
             let taskType;
@@ -3060,17 +3205,17 @@ async function executeSchedule(schedulePath) {
                 log.error(`未知的任务类型: ${task.type}`);
                 return false;
             }
-            
+
             const filePath = task.filePath;
             log.info(`加载任务: ${task.name} (${filePath}, 类型: ${taskType})`);
-            
+
             let taskInfo;
             if (taskType === 'subJS') {
                 taskInfo = loadSubJS(filePath);
             } else {
                 taskInfo = { filePath: filePath, type: taskType };
             }
-            
+
             taskMap.set(task.name, {
                 ...task,
                 taskType: taskType,
@@ -3085,9 +3230,9 @@ async function executeSchedule(schedulePath) {
         // 按顺序执行 schedule 中的每个动作
         for (const action of actions) {
             // 检测任务终止标志
-            try { await sleep(1); } catch (e) { 
+            try { await sleep(1); } catch (e) {
                 log.info('检测到任务终止信号，停止执行');
-                return false; 
+                return false;
             }
 
             const { action: actionType, task: taskName, count = 1 } = action;
@@ -3113,7 +3258,7 @@ async function executeSchedule(schedulePath) {
                     log.info(`执行任务: ${taskName} (第 ${i + 1}/${count} 次)`);
 
                     let executionPromise;
-                    
+
                     if (taskType === 'subJS') {
                         executionPromise = executeSubJS(taskInfo, settings);
                     } else if (taskType === 'pathing') {
