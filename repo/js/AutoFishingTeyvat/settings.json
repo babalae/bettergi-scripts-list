@@ -212,6 +212,12 @@
         "default": "⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬"
     },
     {
+        "name": "notification",
+        "type": "checkbox",
+        "label": "启用通知(进度更新时进行通知)",
+        "default": true
+    },
+    {
         "name": "auto_pick",
         "type": "checkbox",
         "label": "启用自动拾取",

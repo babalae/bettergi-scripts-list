@@ -2,14 +2,14 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780151091008,
+    "last_modified_time": 1783090302129,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A08须弥-禅那园右上",
@@ -49,6 +49,16 @@
       "action": "mining",
       "action_params": "",
       "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3002.2139,
+      "y": -948.7227
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 5,
       "move_mode": "walk",
       "type": "target",
       "x": 3002.2139,

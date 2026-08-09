@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785342117904,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-莲蓬-璃月-华池岩岫-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1436.6113,
+      "y": 1290.1953
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1452.2607,
+      "y": 1258.7544
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1458.3623,
+      "y": 1257.5464
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1459.5869,
+      "y": 1255.2241
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1461.1396,
+      "y": 1252.5776
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 1468.999,
+      "y": 1243.3477
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1470.6328,
+      "y": 1240.8052
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.23)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1473.7471,
+      "y": 1241.3071
+    }
+  ]
+}

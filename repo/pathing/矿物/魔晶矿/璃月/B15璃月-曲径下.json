@@ -1,86 +1,97 @@
 {
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.52.0",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1780534515189,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "B15璃月-曲径下",
-    "tags": [],
-    "type": "collect",
-    "version": ""
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": 891.2168,
-      "y": -592.0625
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 885.0771,
-      "y": -641.7773
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 882.7578,
-      "y": -698.0098
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 4,
-      "locked": false,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 871.1592,
-      "y": -658.832
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 871.1592,
-      "y": -658.832
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 881.6064,
-      "y": -660.0986
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 875.9824,
-      "y": -668.0937
-    }
-  ]
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.52.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1783088871350,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "B15璃月-曲径下",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  ""
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  891.2168,
+                          "y":  -592.0625
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  885.0771,
+                          "y":  -641.7773
+                      },
+                      {
+                          "action":  "stop_flying",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  882.7578,
+                          "y":  -698.0098
+                      },
+                      {
+                          "action":  "stop_flying",
+                          "action_params":  "",
+                          "id":  4,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  871.1592,
+                          "y":  -658.832
+                      },
+                      {
+                          "action":  "fight",
+                          "action_params":  "",
+                          "id":  5,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  871.1592,
+                          "y":  -658.832
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  6,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  881.6064,
+                          "y":  -660.0986
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  7,
+                          "locked":  false,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  875.9824,
+                          "y":  -668.0937
+                      },
+                      {
+                          "action":  "combat_script",
+                          "action_params":  "wait(2)",
+                          "id":  8,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  875.9824,
+                          "y":  -668.0937
+                      }
+                  ]
 }

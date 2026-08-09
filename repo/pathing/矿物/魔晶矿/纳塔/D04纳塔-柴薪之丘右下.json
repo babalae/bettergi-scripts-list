@@ -2,14 +2,14 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780849216975,
+    "last_modified_time": 1783089604156,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "D04纳塔-柴薪之丘右下",
@@ -49,6 +49,16 @@
       "action": "mining",
       "action_params": "",
       "id": 4,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8835.7871,
+      "y": -1458.9131
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 5,
       "move_mode": "run",
       "type": "path",
       "x": 8835.7871,

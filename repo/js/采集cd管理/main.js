@@ -1,8 +1,31 @@
+// 3.0.3
+
 /* ===== 1. 自定义配置 ===== */
 const timeMoveUp = Math.round((settings.timeMove || 1000) * 0.45);
 const timeMoveDown = Math.round((settings.timeMove || 1000) * 0.55);
 const accountName = settings.infoFileName || "默认账户";
 const operationMode = settings.operationMode || "执行任务（若不存在索引文件则自动创建）";
+let loopMode = 1; // 默认不循环
+// ---- loopMode 配置迁移 ----
+let rawLoop = settings.loopMode; // 新字段优先
+if (rawLoop === undefined && settings.loopCollect !== undefined) {
+    rawLoop = settings.loopCollect; // 兼容旧字段
+}
+if (typeof rawLoop === 'boolean') {
+    loopMode = rawLoop ? 3 : 1;  // true→全局循环(3)，false→不循环(1)
+    // 写入兼容后的字符串，防止 UI 面板回显空白
+    settings.loopMode = rawLoop ? "全局循环" : "不循环";
+} else if (typeof rawLoop === 'string') {
+    // 新配置存储的是中文，映射为数字
+    switch (rawLoop) {
+        case "不循环": loopMode = 1; break;
+        case "每组重试": loopMode = 2; break;
+        case "全局循环": loopMode = 3; break;
+        default: loopMode = 1;
+    }
+} else {
+    loopMode = 1; // 默认不循环
+}
 const disableJsons = settings.disableJsons || "";
 let processingIngredient = settings.processingIngredient;
 let findFInterval = Math.max(16, Math.min(200, parseInt(settings.findFInterval) || 100));
@@ -14,6 +37,13 @@ const fullRoi = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/it
 const FiconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/F_Dialogue.png"), 1102, 335, 34, 400);
 FiconRo.Threshold = 0.9;
 FiconRo.InitTemplate();
+const frozenRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/解除冰冻.png"), 1379, 574, 1463 - 1379, 613 - 574);
+const revivalRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/复苏.png"), 755, 915, 1117 - 755, 1037 - 915);
+revivalRo.Threshold = 0.9;
+revivalRo.InitTemplate();
+const revival_2_Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/复苏_联机.png"), 930, 1000, 100, 50);
+revival_2_Ro.Threshold = 0.9;
+revival_2_Ro.InitTemplate();
 const scrollRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/拾取滚轮.png"), 1017, 496, 1093 - 581, 581 - 496);
 
 /* ===== 3. 全局通用常量 ===== */
@@ -111,10 +141,26 @@ let materialCdMap = {};
 async function recognizeAndInteract() {
     let lastcenterYF = 0, lastItemName = "", thisMoveUpTime = 0, lastMoveDown = 0;
     let lastCheckItemFull = new Date();
+    let lastFreezeCheck = new Date();
+    let lastRevivalCheck = new Date();
     let checkTask = null;
+    let freezeTask = null;
+    let revivalTask = null;
 
     while (state.running) {
         gameRegion = await getGameRegion();
+
+        // === 解除冰冻检测（每250毫秒） ===
+        if (new Date() - lastFreezeCheck > 250 && !freezeTask) {
+            lastFreezeCheck = new Date();
+            freezeTask = checkAndBreakFreeze();
+        }
+
+        // === 复苏检测（每500毫秒） ===
+        if (new Date() - lastRevivalCheck > 500 && !revivalTask) {
+            lastRevivalCheck = new Date();
+            revivalTask = checkAndClickRevival();
+        }
 
         if (new Date() - lastCheckItemFull > 2500 && !checkTask) {
             lastCheckItemFull = new Date();
@@ -129,6 +175,17 @@ async function recognizeAndInteract() {
                 if (await hasScroll()) {
                     await keyMouseScript.runFile(`assets/滚轮下翻.json`);
                 }
+            }
+            // 处理并发的冰冻检测
+            if (freezeTask) {
+                try { await freezeTask; }
+                catch (e) { log.error('冰冻检测异常:', e); }
+                finally { freezeTask = null; }
+            }
+            if (revivalTask) {
+                try { await revivalTask; }
+                catch (e) { log.error('复苏检测异常:', e); }
+                finally { revivalTask = null; }
             }
             if (checkTask) {
                 try { await checkTask; }
@@ -182,6 +239,16 @@ async function recognizeAndInteract() {
             await keyMouseScript.runFile(`assets/滚轮上翻.json`);
         }
         await sleep(rollingDelay);
+        if (freezeTask) {
+            try { await freezeTask; }
+            catch (e) { log.error('冰冻检测异常:', e); }
+            finally { freezeTask = null; }
+        }
+        if (revivalTask) {
+            try { await revivalTask; }
+            catch (e) { log.error('复苏检测异常:', e); }
+            finally { revivalTask = null; }
+        }
         if (checkTask) {
             try { await checkTask; }
             catch (e) { log.error('背包满检查异常:', e); }
@@ -233,7 +300,8 @@ async function performTemplateMatch(centerYF) {
     /* 一次性切 6 种宽度（0-5 汉字） */
     const regions = [];
     for (let cn = 0; cn <= 6; cn++) {   // 0~5 共 6 档
-        const w = 12 + 28 * Math.min(cn, 5) + 2;
+        // 增加 20 像素，兼容化种匣的括号/种子后缀
+        const w = 12 + 28 * Math.min(cn, 5) + 2 + 20;
         regions[cn] = gameRegion.DeriveCrop(1219, centerYF - 15, w, 30);
     }
 
@@ -299,6 +367,46 @@ async function isMainUI() {
             log.error(`isMainUI:${e.message}`);
         }
         await sleep(findFInterval);
+    }
+    return false;
+}
+
+/**
+ * 检测并挣脱冰冻状态
+ */
+async function checkAndBreakFreeze() {
+    try {
+        if (gameRegion.find(frozenRo).isExist()) {
+            log.info("检测到冻结，尝试挣脱");
+            for (let m = 0; m < 3; m++) {
+                keyPress("VK_SPACE");
+                await sleep(30);
+            }
+        }
+    } catch (error) {
+        // 忽略识别错误
+    }
+}
+
+/**
+ * 检测并点击复苏按钮
+ * 当角色死亡出现复苏界面时，自动点击复苏按钮
+ * @returns {Promise<boolean>} 是否检测到并点击了复苏按钮
+ */
+async function checkAndClickRevival() {
+    try {
+        const rg = await getGameRegion();
+        const roList = [revivalRo, revival_2_Ro];
+        for (const ro of roList) {
+            const res = rg.find(ro);
+            if (res.isExist()) {
+                log.info("检测到复苏按钮，点击");
+                res.click();
+                return true;
+            }
+        }
+    } catch (error) {
+        // 忽略识别错误
     }
     return false;
 }
@@ -1208,6 +1316,17 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
 
     const raw = file.readTextSync(filePath);
     const json = JSON.parse(raw);
+
+    // 检测是否为 schedule 文件（包含 schedule 和 tasks 字段）
+    if (json.schedule && json.tasks) {
+        log.info(`检测到 schedule 文件: ${fileName}，使用 schedule 模式执行`);
+        const pickupTask = recognizeAndInteract();
+        await executeSchedule(filePath);
+        state.running = false;
+        await pickupTask;
+        return { success: true, lastMapName: "", runPickupLog: [], isSchedule: true };
+    }
+
     const mapName = (json.info?.map_name && json.info.map_name.trim()) ? json.info.map_name : 'Teyvat';
     await handleUnderwaterRoute(mapName, filePath, lastMapName);
     lastMapName = mapName;
@@ -1401,6 +1520,17 @@ function calculateRouteCD(cdType, startTime) {
         case "46小时刷新":
             newTimestamp = new Date(startTime.getTime() + 46 * 60 * 60 * 1000);
             break;
+        case "每天一次":
+            const hour = startTime.getHours();
+            if (hour >= 4 && hour < 16) {
+                // 在 04:00 ~ 15:59 之间采集 → 第二天 04:00
+                newTimestamp.setHours(4, 0, 0, 0);
+                if (newTimestamp <= startTime) newTimestamp.setDate(newTimestamp.getDate() + 1);
+            } else {
+                // 在 16:00 ~ 03:59 之间采集 → 当前时间 + 12 小时
+                newTimestamp = new Date(startTime.getTime() + 12 * 60 * 60 * 1000);
+            }
+            break;
         default:
             newTimestamp = startTime;
             break;
@@ -1457,16 +1587,28 @@ function calculateRouteEfficiency(files, cdMap, options = {}) {
                 continue;
             }
 
+            // 解析路线声明（【】格式）
+            const dec = parseDeclaration(file.description);
+
             // 计算仅看优先材料的分均效率
             let eff = -2; // 未知标记
             if (rec?.history && rec.history.length >= 3) {
                 const effList = rec.history.map(log => {
-                    const total = Object.entries(log.items)
+                    const mergedItems = { ...log.items, ...(dec.declaredMaterials || {}) };
+                    const total = Object.entries(mergedItems)
                         .filter(([name]) => priorityItemSet.has(name))
                         .reduce((sum, [, cnt]) => sum + cnt, 0);
                     return (total / log.durationSec) * 60;
                 });
                 eff = effList.reduce((a, b) => a + b, 0) / effList.length;
+            } else if (dec.declaredDuration || dec.declaredMaterials) {
+                // 历史不足 3 条，但有声明：用声明时间 + 声明数量覆盖历史
+                const duration = dec.declaredDuration || rec?.history?.[0]?.durationSec || 60;
+                const mergedItems = { ...(rec?.history?.[0]?.items || {}), ...(dec.declaredMaterials || {}) };
+                const total = Object.entries(mergedItems)
+                    .filter(([name]) => priorityItemSet.has(name))
+                    .reduce((sum, [, cnt]) => sum + cnt, 0);
+                eff = (total / duration) * 60;
             }
             file._priorityEff = eff;
         }
@@ -1497,16 +1639,28 @@ function calculateRouteEfficiency(files, cdMap, options = {}) {
             const fullName = basename(p.fullPath);
             const obj = cdMap.get(fullName);
             let avgEff = -1; // 先标记为"未知"
+            const dec = parseDeclaration(p.description);
 
             if (obj && obj.history && obj.history.length >= 3) {
+                // 历史 ≥3 条：用历史时间，但声明中的材料数量覆盖历史
                 const effList = obj.history.map(log => {
-                    const total = Object.entries(log.items).reduce((sum, [name, cnt]) => {
+                    const mergedItems = { ...log.items, ...(dec.declaredMaterials || {}) };
+                    const total = Object.entries(mergedItems).reduce((sum, [name, cnt]) => {
                         const w = blacklistSet.has(name) ? 0 : (weightMap.get(name) ?? 1);
                         return sum + cnt * w;
                     }, 0);
                     return (total / log.durationSec) * 60;
                 });
                 avgEff = effList.reduce((a, b) => a + b, 0) / effList.length;
+            } else if (dec.declaredDuration || dec.declaredMaterials) {
+                // 历史不足 3 条，但有声明：用声明时间 + 声明数量覆盖历史
+                const duration = dec.declaredDuration || obj?.history?.[0]?.durationSec || 60;
+                const mergedItems = { ...(obj?.history?.[0]?.items || {}), ...(dec.declaredMaterials || {}) };
+                const total = Object.entries(mergedItems).reduce((sum, [name, cnt]) => {
+                    const w = blacklistSet.has(name) ? 0 : (weightMap.get(name) ?? 1);
+                    return sum + cnt * w;
+                }, 0);
+                avgEff = (total / duration) * 60;
             }
             p._efficiency = avgEff; // 已知路线存真实效率，未知路线存 -1
         });
@@ -1814,10 +1968,27 @@ function isArrivedAtEndPoint(fullPath) {
         }
         if (endX === 0 && endY === 0) return false;   // 没找到有效点
 
-        /* 2. 取当前人物坐标 */
+        /* 2. 取当前人物坐标與地图匹配方法 */
 
         const mapName = (json.info?.map_name && json.info.map_name.trim()) ? json.info.map_name : 'Teyvat';
-        const pos = genshin.getPositionFromMap(mapName, 3000);
+        const map_match_method = json.info?.map_match_method || "";
+
+        let pos = null;
+
+        if (map_match_method && map_match_method !== "") {
+            try {
+                // 尝试使用传入的方法名称获取座标
+                pos = genshin.getPositionFromMapWithMatchingMethod(mapName, map_match_method, 3000);
+            } catch (e) {
+                // 若 map_match_method 不是合法的匹配方法，抛出例外时自动退回预设方法
+                log.warn(`无法使用匹配方法 "${map_match_method}"，退回预设匹配模式`);
+                pos = genshin.getPositionFromMap(mapName, 3000);
+            }
+        } else {
+            // map_match_method 為空時直接使用預設方法
+            pos = genshin.getPositionFromMap(mapName, 3000);
+        }
+
         const curX = pos.X;
         const curY = pos.Y;
 
@@ -1938,9 +2109,15 @@ async function buildSettingsJson() {
 
     /* 5.2.1 循环模式 */
     newSettings.push({
-        name: "loopCollect",
-        type: "checkbox",
-        label: "勾选后，路径组中每条路线完成后从头开始重新检查"
+        name: "loopMode",
+        type: "select",
+        label: "选择循环模式",
+        options: [
+            "不循环",
+            "每组重试",
+            "全局循环"
+        ],
+        default: "不循环"
     });
 
     /* 5.3 固定尾部节点（原样照搬） */
@@ -2086,7 +2263,8 @@ async function buildSettingsJson() {
                 "4点刷新",
                 "12小时刷新",
                 "24小时刷新",
-                "46小时刷新"
+                "46小时刷新",
+                "每天一次"
             ]
         });
 
@@ -2115,6 +2293,8 @@ async function buildSettingsJson() {
     // 仅刷新模式检查
     if (settings.onlyRefresh) {
         settings.onlyRefresh = false;
+        log.info(`刷新自定义配置`);
+        log.debug(`交互或拾取："刷新自定义配置"`);
         return false;
     }
     return true;
@@ -2459,6 +2639,15 @@ async function processPriorityItems() {
 
             await handleTimeAdjustment(timeNow);
             await fakeLog(fileName, false, true, 0);
+
+            // 优先采集模式不支持 schedule 任务，静默跳过
+            try {
+                const routeJson = JSON.parse(file.readTextSync(filePath));
+                if (routeJson.schedule && routeJson.tasks) {
+                    continue;
+                }
+            } catch (e) { /* ignore */ }
+
             routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
 
             /* ========== 历史拾取物前置排序 ========== */
@@ -2471,7 +2660,10 @@ async function processPriorityItems() {
                 continue;
             }
             lastMapName = routeResult.lastMapName;
-            routeResult.runPickupLog.forEach(name => {
+            /* ===== 用声明材料数量修正拾取日志 ===== */
+            const correctedLog = correctPickupLogByDeclaration(routeResult.runPickupLog, bestRoute.fullPath);
+            /* ===================================== */
+            correctedLog.forEach(name => {
                 /* 就地展开：别名→本名数组，再把所有相关名称都计数 */
                 const realNames = alias2Names.get(name) || [name]; // 可能是多个本名
                 for (const rn of realNames) {
@@ -2509,8 +2701,8 @@ async function processPriorityItems() {
 
             /* ================================================ */
 
-            /* ---------- 3. 统一写文件 & 清空日志 ---------- */
-            await saveRecordAndClearLog(cdMap, recordFilePath, routeResult.runPickupLog);
+            /* ---------- 3. 统一写文件 & 清空日志（用声明修正后的日志） ---------- */
+            await saveRecordAndClearLog(cdMap, recordFilePath, correctedLog);
             if (priorityList.length <= 0) {
                 log.info('每日优先材料已达标，退出优先采集阶段');
                 notification.send('每日优先材料已达标，退出优先采集阶段');
@@ -2609,11 +2801,11 @@ async function processPathGroups() {
                         const fullName = fileName + '.json';
                         const targetObj = cdMap.get(fullName);
                         const nextCD = targetObj ? new Date(targetObj.cdTime) : new Date(0);
-                        const maxRunCount = settings.loopCollect ? 3 : 1;
+                        const maxRunCount = loopMode;  // 1、2、3
 
                         const startTime = new Date();
                         if (startTime <= nextCD) {
-                            if (!settings.loopCollect) {
+                            if (loopMode !== 3) {
                                 log.info(`当前任务 ${fileName} 未刷新，跳过任务`);
                             }
                             continue;   // 跳过，不写回
@@ -2673,18 +2865,27 @@ async function processPathGroups() {
                         const timeDiff = endTime.getTime() - startTime.getTime();
                         if (timeDiff > 10000) {
                             /* ---------- 2. 仅当 pathRes === true 才计算并更新 CD ---------- */
-                            let pathRes = isArrivedAtEndPoint(filePath.fullPath);
-                            if (pathRes) {
-                                const newTimestamp = calculateRouteCD(currentCdType, startTime);
+                            if (routeResult.isSchedule) {
+                                // Schedule 任务使用路径组配置的 CD 类型，未配置时默认"1次0点刷新"
+                                const cdType = currentCdType || "1次0点刷新";
+                                const newTimestamp = calculateRouteCD(cdType, startTime);
                                 targetObj.cdTime = newTimestamp.toISOString();
-                                log.info(`本任务cd信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
+                                log.info(`schedule任务CD信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
+                            } else {
+                                let pathRes = isArrivedAtEndPoint(filePath.fullPath);
+                                if (pathRes) {
+                                    const newTimestamp = calculateRouteCD(currentCdType, startTime);
+                                    targetObj.cdTime = newTimestamp.toISOString();
+                                    log.info(`本任务cd信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
+                                }
                             }
 
-                            /* ---------- 3. 统一写文件 & 清空日志 ---------- */
-                            await saveRecordAndClearLog(cdMap, recordFilePath, routeResult.runPickupLog);
+                            /* ---------- 3. 用声明材料数量修正拾取日志后统一写文件 ---------- */
+                            const correctedLog = correctPickupLogByDeclaration(routeResult.runPickupLog, filePath.fullPath);
+                            await saveRecordAndClearLog(cdMap, recordFilePath, correctedLog);
                             routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
 
-                            if (settings.loopCollect) {
+                            if (loopMode === 3) {
                                 i = 0;
                                 break;
                             } else {
@@ -2699,5 +2900,504 @@ async function processPathGroups() {
             i++;
         }
         await sleep(1000);
+    }
+}
+
+/**
+ * 加载并处理子JS脚本，返回处理后的代码（不执行）
+ * @param {string} jsFilePath - 子脚本所在文件夹路径
+ * @returns {Object} { code: 处理后的代码字符串, basePath: 标准化后的基础路径, scriptName: 脚本名称 }
+ */
+function loadSubJS(jsFilePath) {
+    // ========== 1. 基础配置 ==========
+    const normalizedBasePath = jsFilePath
+        .replace(/[\\/]+/g, '/')
+        .replace(/\/+$/, '') + '/';
+
+    try {
+        // ========== 1.1 读取 manifest.json ==========
+        const manifestPath = `${normalizedBasePath}manifest.json`;
+        const manifestContent = file.readTextSync(manifestPath);
+        const manifest = JSON.parse(manifestContent);
+
+        // 获取入口文件名
+        const mainFileName = manifest.main || 'main.js';
+        const filePath = `${normalizedBasePath}${mainFileName}`;
+
+        // ========== 2. 读取子JS ==========
+        let rawCode = file.readTextSync(filePath);
+
+        // ========== 3. 替换API名称 ==========
+        const apiReplaceMap = {
+            'file.ReadPathSync': '_file_ReadPathSync',
+            'file.readTextSync': '_file_readTextSync',
+            'file.readText': '_file_readText',
+            'file.ReadImageMatSync': '_file_ReadImageMatSync',
+            'file.writeTextSync': '_file_writeTextSync',
+            'file.writeText': '_file_writeText',
+            'file.WriteImageSync': '_file_WriteImageSync',
+            'file.IsFolder': '_file_IsFolder',
+            'pathingScript.runFile': '_pathingScript_runFile',
+            'keyMouseScript.runFile': '_keyMouseScript_runFile'
+        };
+        Object.keys(apiReplaceMap).sort((a, b) => b.length - a.length).forEach(originalApi => {
+            const customApi = apiReplaceMap[originalApi];
+            // 构建大小写不敏感的正则表达式
+            // 将每个字符转换为可选大小写的形式，例如 "file" 变为 "[fF][iI][lL][eE]"
+            const caseInsensitiveApi = originalApi.split('').map(char => {
+                if (char.match(/[a-zA-Z]/)) {
+                    return `[${char.toLowerCase()}${char.toUpperCase()}]`;
+                }
+                return char === '.' ? '\\.' : char;
+            }).join('');
+            const regex = new RegExp(`\\b(${caseInsensitiveApi})\\b`, 'g');
+            rawCode = rawCode.replace(regex, customApi);
+        });
+
+        // ========== 4. 处理脚本执行模式 ==========
+        // 将子脚本中的唯一外层 async IIFE 改为命名函数，并在最后 await 它
+        const trimmedCode = rawCode.trim();
+        const asyncIifeCount = (trimmedCode.match(/\(async function\s*\(/g) || []).length;
+
+        if (asyncIifeCount === 1) {
+            // 找到唯一的 async IIFE
+            const asyncIifeStart = trimmedCode.indexOf('(async function');
+
+            // 找到这个 IIFE 的结束位置（需要匹配括号）
+            let braceCount = 0;
+            let foundFirstBrace = false;
+            let iifeEnd = -1;
+            for (let i = asyncIifeStart; i < trimmedCode.length; i++) {
+                if (trimmedCode[i] === '{') {
+                    braceCount++;
+                    foundFirstBrace = true;
+                } else if (trimmedCode[i] === '}') {
+                    braceCount--;
+                }
+                // 当找到配对的 } 后，再往后找 })();
+                if (foundFirstBrace && braceCount === 0) {
+                    const nextChars = trimmedCode.substring(i, i + 5);
+                    if (nextChars === '})();') {
+                        iifeEnd = i + 5;
+                        break;
+                    }
+                }
+            }
+
+            if (asyncIifeStart >= 0 && iifeEnd > asyncIifeStart) {
+                const beforeIife = trimmedCode.substring(0, asyncIifeStart).trim();
+                const iifeCode = trimmedCode.substring(asyncIifeStart, iifeEnd);
+                const firstBrace = iifeCode.indexOf('{');
+                const lastBrace = iifeCode.lastIndexOf('}');
+                const iifeBody = iifeCode.substring(firstBrace + 1, lastBrace).trim();
+                const afterIife = trimmedCode.substring(iifeEnd).trim();
+
+                rawCode = `return (async function() {\n${beforeIife}\n${afterIife}\nasync function __subJsMain__() {\n${iifeBody}\n}\nawait __subJsMain__();\n})();`;
+            } else {
+                rawCode = `return (async function() {\n${rawCode}\n})();`;
+            }
+        } else {
+            // 没有或有多个 async IIFE，直接包裹整个脚本
+            rawCode = `return (async function() {\n${rawCode}\n})();`;
+        }
+
+        // ========== 5. 构建自定义API代码 ==========
+        const customApiLines = [
+            '"use strict";',
+            `const basePath = ${JSON.stringify(normalizedBasePath)};`,
+            '',
+            'function _joinPath(pathArg) {',
+            '    if (typeof pathArg !== "string") return pathArg;',
+            '    // 确保不会重复添加 basePath（大小写不敏感）',
+            '    if (pathArg.toLowerCase().startsWith(basePath.toLowerCase())) return pathArg;',
+            '    // 确保路径格式正确',
+            '    const joined = basePath + pathArg.replace(/^[\\/]?/, "");',
+            '    return joined.replace(/[\\/]+/g, "/");',
+            '}',
+            '',
+            'function _file_ReadPathSync(...args) {',
+            '    try {',
+            '        // 对输入路径参数添加 basePath 前缀',
+            '        const processedArgs = args.map(arg => _joinPath(arg));',
+            '        const results = file.ReadPathSync(...processedArgs);',
+            '        const newResults = [];',
+            '        if (results) {',
+            '            for (const res of results) {',
+            '                // 按正反斜杠划分路径，去空，去除base的部分，再重新构建',
+            '                const pathParts = res.split(/[\\\\/]/).filter(part => part !== "");',
+            '                const baseParts = basePath.split(/[\\\\/]/).filter(part => part !== "");',
+            '                let processedParts = [];',
+            '                let inBasePath = true;',
+            '                ',
+            '                for (const part of pathParts) {',
+            '                    if (inBasePath && baseParts.length > 0) {',
+            '                        if (part.toLowerCase() === baseParts[0].toLowerCase()) {',
+            '                            baseParts.shift();',
+            '                        } else {',
+            '                            inBasePath = false;',
+            '                            processedParts.push(part);',
+            '                        }',
+            '                    } else {',
+            '                        processedParts.push(part);',
+            '                    }',
+            '                }',
+            '                ',
+            '                const processedRes = processedParts.join("\\\\");',
+            '                newResults.push(processedRes);',
+            '            }',
+            '        }',
+            '        return newResults;',
+            '    } catch (e) {',
+            '        log.error(`_file_ReadPathSync 执行失败：${e.message}`);',
+            '        return [];',
+            '    }',
+            '}',
+            '',
+            'async function _file_readText(...args) { return await file.readText(...args.map(arg => _joinPath(arg))); }',
+            'function _file_readTextSync(...args) { return file.readTextSync(...args.map(arg => _joinPath(arg))); }',
+            'function _file_WriteImageSync(...args) { return file.WriteImageSync(...args.map(arg => _joinPath(arg))); }',
+            'function _file_IsFolder(...args) { return file.IsFolder(...args.map(arg => _joinPath(arg))); }',
+            'function _pathingScript_runFile(...args) { return pathingScript.runFile(...args.map(arg => _joinPath(arg))); }',
+            'function _keyMouseScript_runFile(...args) { return keyMouseScript.runFile(...args.map(arg => _joinPath(arg))); }',
+            '',
+            'function _file_ReadImageMatSync(...args) {',
+            '    try {',
+            '        const processedArgs = args.map(arg => {',
+            '            const j = _joinPath(arg);',
+            '            return typeof j === "string" && !j.match(/\.(png|jpg|jpeg|bmp)$/i) ? j + ".png" : j;',
+            '        });',
+            '        const result = file.ReadImageMatSync(...processedArgs);',
+            '        return result;',
+            '    } catch (e) {',
+            '        log.error(`_file_ReadImageMatSync 执行失败：${e.message}`);',
+            '        throw e;',
+            '    }',
+            '}',
+            '',
+            'function _file_writeText(filePath, content, append) { file.writeText(_joinPath(filePath), content, append); return true; }',
+            'function _file_writeTextSync(filePath, content, append = false) { file.writeTextSync(_joinPath(filePath), content, append); return true; }',
+            ''
+        ];
+
+        // ========== 6. 组合代码 ==========
+        let fullCode = [...customApiLines, ...rawCode.split('\n')].join('\n');
+
+        // ========== 7. 返回处理后的代码、路径信息和原始路径 ==========
+        return {
+            code: fullCode,
+            basePath: normalizedBasePath,
+            jsFilePath: jsFilePath
+        };
+
+    } catch (e) {
+        log.error(`loadSubJS执行失败：${e.message}\n错误堆栈：${e.stack}`);
+        throw e;
+    }
+}
+
+/**
+ * 在正确上下文中执行处理后的子脚本代码
+ * 使用 new Function 创建独立作用域，避免全局变量污染
+ * @param {Object} subJS - loadSubJS 返回的对象 { code, basePath, jsFilePath }
+ * @param {Object} settings - 传入的配置对象
+ * @returns {Promise<boolean>} 执行结果，true=成功，false=失败
+ */
+async function executeSubJS(subJS, settings) {
+    const logName = subJS.jsFilePath.split(/[\\/]/).filter(p => p).pop() || subJS.jsFilePath;
+
+    try {
+        log.info(`子js：${logName} 开始执行`);
+
+        // JavaScript 内置对象列表（需要排除）
+        const builtInSet = new Set([
+            'Object', 'Function', 'Array', 'String', 'Boolean', 'Number', 'Symbol', 'BigInt',
+            'Math', 'Date', 'RegExp', 'Error', 'JSON', 'Map', 'Set', 'WeakMap', 'WeakSet',
+            'Promise', 'Proxy', 'Reflect', 'ArrayBuffer', 'DataView', 'Int8Array', 'Uint8Array',
+            'Int16Array', 'Uint16Array', 'Int32Array', 'Uint32Array', 'Float32Array', 'Float64Array',
+            'BigInt64Array', 'BigUint64Array', 'globalThis', 'console', 'setTimeout', 'setInterval',
+            'clearTimeout', 'clearInterval', 'parseInt', 'parseFloat', 'isNaN', 'isFinite',
+            'encodeURI', 'decodeURI', 'encodeURIComponent', 'decodeURIComponent', 'eval',
+            'Infinity', 'NaN', 'undefined', 'settings'
+        ]);
+
+        // 自动获取所有全局 API（排除内置对象，同时排除 settings 避免重复）
+        const apis = Object.keys(globalThis).filter(key => !builtInSet.has(key));
+        const values = apis.map(api => globalThis[api]);
+
+        // 创建隔离作用域的执行函数，将 settings 作为第一个参数注入
+        const execFunc = new Function('settings', ...apis, subJS.code);
+
+        const result = execFunc(settings, ...values);
+
+        // 如果返回的是 Promise，等待它完成
+        if (result && typeof result.then === 'function') {
+            await result;
+        }
+
+        log.info(`子js：${logName} 执行结束`);
+        return true;
+    } catch (e) {
+        log.error(`子js：${logName} 执行异常: ${e.message}`);
+        return false;
+    }
+}
+
+/**
+ * 执行 schedule 文件
+ * @param {string} schedulePath - schedule JSON 文件路径
+ * @returns {Promise<boolean>} 执行结果，true=全部成功，false=有任务失败
+ */
+async function executeSchedule(schedulePath) {
+    try {
+        log.info(`===== 开始执行 Schedule: ${schedulePath} =====`);
+
+        // 读取并解析 schedule 文件
+        let scheduleContent;
+        try {
+            scheduleContent = file.readTextSync(schedulePath);
+        } catch (e) {
+            log.error(`读取 schedule 文件失败: ${schedulePath}`);
+            log.error(`错误信息: ${e.message}`);
+            return false;
+        }
+
+        let scheduleData;
+        try {
+            scheduleData = JSON.parse(scheduleContent);
+        } catch (e) {
+            log.error(`解析 schedule 文件失败: ${schedulePath}`);
+            log.error(`错误信息: ${e.message}`);
+            return false;
+        }
+
+        const { schedule: actions, tasks } = scheduleData;
+
+        // 防御性检查
+        if (!actions || !Array.isArray(actions)) {
+            log.error('schedule 文件缺少 schedule 数组或格式不正确');
+            return false;
+        }
+        if (!tasks || !Array.isArray(tasks)) {
+            log.error('schedule 文件缺少 tasks 数组或格式不正确');
+            return false;
+        }
+
+        // 预加载所有任务
+        log.info(`预加载 ${tasks.length} 个任务...`);
+        const taskMap = new Map();
+        for (const task of tasks) {
+            // 检查任务配置完整性
+            if (!task.name || !task.filePath) {
+                log.error(`任务配置不完整，缺少 name 或 filePath: ${JSON.stringify(task)}`);
+                return false;
+            }
+
+            // 根据 type 字段判断任务类型（大小写不敏感）
+            const taskTypeRaw = (task.type || 'js').toLowerCase();
+            let taskType;
+            if (taskTypeRaw === 'js') {
+                taskType = 'subJS';
+            } else if (taskTypeRaw === 'autopathing') {
+                taskType = 'pathing';
+            } else if (taskTypeRaw === 'keymousescript') {
+                taskType = 'keyMouse';
+            } else {
+                log.error(`未知的任务类型: ${task.type}`);
+                return false;
+            }
+
+            const filePath = task.filePath;
+            log.info(`加载任务: ${task.name} (${filePath}, 类型: ${taskType})`);
+
+            let taskInfo;
+            if (taskType === 'subJS') {
+                taskInfo = loadSubJS(filePath);
+            } else {
+                taskInfo = { filePath: filePath, type: taskType };
+            }
+
+            taskMap.set(task.name, {
+                ...task,
+                taskType: taskType,
+                taskInfo: taskInfo
+            });
+        }
+        log.info('所有任务加载完成');
+
+        // 存储正在运行的异步任务
+        const runningTasks = new Map();
+
+        // 按顺序执行 schedule 中的每个动作
+        for (const action of actions) {
+            // 检测任务终止标志
+            try { await sleep(1); } catch (e) {
+                log.info('检测到任务终止信号，停止执行');
+                return false;
+            }
+
+            const { action: actionType, task: taskName, count = 1 } = action;
+
+            if (actionType === 'start') {
+                // 查找任务配置
+                const taskConfig = taskMap.get(taskName);
+                if (!taskConfig) {
+                    log.error(`未找到任务: ${taskName}`);
+                    return false;
+                }
+
+                const { taskType, taskInfo, async: isAsync, settings } = taskConfig;
+
+                // 检查异步任务是否已在运行
+                if (isAsync && runningTasks.has(taskName)) {
+                    log.warn(`任务 ${taskName} 正在执行中，不要重复启动`);
+                    continue;
+                }
+
+                // 执行指定次数
+                for (let i = 0; i < count; i++) {
+                    log.info(`执行任务: ${taskName} (第 ${i + 1}/${count} 次)`);
+
+                    let executionPromise;
+
+                    if (taskType === 'subJS') {
+                        executionPromise = executeSubJS(taskInfo, settings);
+                    } else if (taskType === 'pathing') {
+                        executionPromise = pathingScript.runFile(taskInfo.filePath);
+                    } else if (taskType === 'keyMouse') {
+                        executionPromise = keyMouseScript.runFile(taskInfo.filePath);
+                    } else {
+                        log.error(`未知的任务类型: ${taskType}`);
+                        return false;
+                    }
+
+                    if (isAsync) {
+                        // 异步执行，不等待完成
+                        runningTasks.set(taskName, executionPromise);
+                        log.info(`任务 ${taskName} 已异步启动`);
+                    } else {
+                        // 同步执行，等待完成
+                        const result = await executionPromise;
+                        if (taskType === 'subJS' && !result) {
+                            log.error(`任务 ${taskName} 执行失败`);
+                            return false;
+                        }
+                    }
+                }
+            } else if (actionType === 'wait') {
+                // 等待指定任务完成
+                if (runningTasks.has(taskName)) {
+                    log.info(`等待任务完成: ${taskName}`);
+                    const result = await runningTasks.get(taskName);
+                    runningTasks.delete(taskName);
+                    const taskConfig = taskMap.get(taskName);
+                    if (taskConfig && taskConfig.taskType === 'subJS' && !result) {
+                        log.error(`任务 ${taskName} 执行失败`);
+                        return false;
+                    }
+                    log.info(`任务 ${taskName} 已完成`);
+                } else {
+                    log.warn(`任务 ${taskName} 未在运行中，无需等待`);
+                }
+            } else {
+                log.error(`未知的 action 类型: ${actionType}`);
+                return false;
+            }
+        }
+
+        // 等待所有剩余的异步任务完成
+        if (runningTasks.size > 0) {
+            log.info(`等待 ${runningTasks.size} 个异步任务完成...`);
+            const taskEntries = Array.from(runningTasks.entries());
+            const promises = taskEntries.map(([_, promise]) => promise);
+            const results = await Promise.all(promises);
+            for (let i = 0; i < taskEntries.length; i++) {
+                const [name, _] = taskEntries[i];
+                if (!results[i]) {
+                    log.error(`异步任务 ${name} 执行失败`);
+                    return false;
+                }
+            }
+        }
+
+        log.info(`===== Schedule 执行完成: ${schedulePath} =====`);
+        return true;
+    } catch (e) {
+        log.error(`执行 Schedule 失败: ${e.message}`);
+        log.error(`错误堆栈: ${e.stack}`);
+        return false;
+    }
+}
+
+/**
+ * 从路线 description 中解析材料数量和时间
+ * 支持两种格式：
+ *   1. 【用时60秒，甜甜花*12，枫木*5】
+ *   2. 2个薄荷；3个日落果；11个蘑菇；（老格式，无时间）
+ * @param {string} description 路线 info.description
+ * @returns {{ declaredMaterials: Object|null, declaredDuration: number|null }}
+ */
+function parseDeclaration(description) {
+    try {
+        if (!description) return { declaredMaterials: null, declaredDuration: null };
+
+        let declaredDuration = null;
+        const declaredMaterials = {};
+
+        // 格式1: 【用时60秒，甜甜花*12】
+        const m = description.match(/【([^】]+)】/);
+        if (m) {
+            m[1].split('，').forEach(part => {
+                part = part.trim();
+                if (!part) return;
+                const tm = part.match(/^用时(\d+)秒$/);
+                if (tm) { declaredDuration = parseInt(tm[1]); return; }
+                const im = part.match(/^(.+)\*(\d+)$/);
+                if (im) { declaredMaterials[im[1].trim()] = parseInt(im[2]); }
+            });
+        } else {
+            // 格式2: 2个薄荷；3个日落果；（老格式，无时间信息）
+            const oldRe = /(\d+)个([^；\s]+)/g;
+            let match;
+            while ((match = oldRe.exec(description)) !== null) {
+                declaredMaterials[match[2].trim()] = parseInt(match[1]);
+            }
+        }
+
+        return { declaredMaterials: Object.keys(declaredMaterials).length > 0 ? declaredMaterials : null, declaredDuration };
+    } catch (e) {
+        return { declaredMaterials: null, declaredDuration: null };
+    }
+}
+
+/**
+ * 用路线声明材料数量修正拾取日志
+ * 声明中涉及的材料，其出现次数替换为声明值；未涉及的材料保留实际检测值
+ * 用于保证每日记录和优先扣减使用完整的产量，而非模板匹配漏检后的不完整数据
+ * 
+ * @param {string[]} pickupLog - 原始拾取日志（模板匹配实际命中的结果）
+ * @param {string} routeFilePath - 路线 json 文件完整路径
+ * @returns {string[]} 修正后的拾取日志（声明材料按声明值，其余保留原始值）
+ */
+function correctPickupLogByDeclaration(pickupLog, routeFilePath) {
+    try {
+        const raw = file.readTextSync(routeFilePath);
+        const json = JSON.parse(raw);
+        const dec = parseDeclaration(json.info?.description || '');
+        if (!dec.declaredMaterials) return pickupLog;
+
+        const declaredSet = new Set(Object.keys(dec.declaredMaterials));
+        // 未在声明中涉及的材料，保留原始拾取值
+        const nonDeclared = pickupLog.filter(name => !declaredSet.has(name));
+
+        // 声明材料用声明值
+        const corrected = [...nonDeclared];
+        for (const [name, count] of Object.entries(dec.declaredMaterials)) {
+            for (let i = 0; i < count; i++) {
+                corrected.push(name);
+            }
+        }
+        return corrected;
+    } catch (e) {
+        return pickupLog; // 任何异常都回退到原始日志
     }
 }

@@ -1,0 +1,76 @@
+name: Feature Request / 功能与改进建议
+description: 提议新脚本能力、现有脚本改进或仓库分发优化
+title: "[feature] "
+labels:
+  - enhancement
+body:
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: 提交确认
+      options:
+        - label: 我已搜索现有 Issue
+          required: true
+        - label: 我已确认当前脚本或仓库尚无等价能力
+          required: true
+        - label: 该需求不仅是个人操作习惯
+          required: true
+        - label: 我理解需求可能受兼容性和维护成本限制
+          required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: 涉及范围
+      options:
+        - JS 脚本
+        - 地图追踪
+        - 战斗策略
+        - 七圣召唤
+        - 脚本仓库与分发
+        - 不确定
+    validations:
+      required: true
+
+  - type: input
+    id: script-name
+    attributes:
+      label: 相关脚本名称与版本
+
+  - type: textarea
+    id: request
+    attributes:
+      label: 需求或建议
+      placeholder: 清晰描述希望新增或改进的能力。
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: 使用场景
+      placeholder: 描述谁会在什么情况下使用，以及当前流程有什么不足。
+    validations:
+      required: true
+
+  - type: textarea
+    id: benefits
+    attributes:
+      label: 预期收益
+      placeholder: 描述该改动能够带来的效率、稳定性或体验提升。
+    validations:
+      required: true
+
+  - type: textarea
+    id: constraints
+    attributes:
+      label: 影响与约束
+      description: 兼容性、维护成本、使用门槛；没有则填写“无”。
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: 补充信息
+      description: 可附示意图、参考实现或相关 Issue。

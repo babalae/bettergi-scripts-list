@@ -4,7 +4,7 @@
 
 //公版BGI设置要求
 //自动检测战斗结束：开启
-//更快检查结束战斗：关闭（一定要关闭！！）
+//更快检查结束战斗：关闭
 
 //旋转寻找敌人位置：开启（旋转速度条先拉到最右，再往左一格）
 //Q 前检测：开启
@@ -16,7 +16,7 @@
 
 //茶包版BGI设置要求
 //自动检测战斗结束：开启
-//更快检查结束战斗：关闭（一定要关闭！！）
+//更快检查结束战斗：关闭
 
 //旋转寻找敌人位置：开启（旋转速度条先拉到最右，再往左一格）
 //Q 前检测：开启
@@ -34,9 +34,9 @@
 //盾奶位=尼可，用上边↑↑（不用动）；无盾奶位，用下边↓↓（自己替换）
 //尼可 e, wait(0.3), keypress(q), wait(0.1), keypress(q), wait(0.1), keypress(q), wait(0.3), ready,check
 
-茜特菈莉 e, wait(0.3), keypress(q), wait(0.1), keypress(q), wait(0.1), keypress(q), attack(0.3), ready,check
+茜特菈莉 e, wait(0.3), keypress(q), wait(0.1), keypress(q), wait(0.1), keypress(q), wait(0.3), keypress(e), ready,check
 
-玛薇卡 attack(0.08), wait(0.2), keydown(E), wait(0.4), wait(0.01), keyup(E), click(middle), wait(0.1), wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.3),mouseup(left),wait(0.1),keypress(q),wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),keypress(q),mousedown(left),wait(0.18),keypress(q),mousedown(right),wait(0.05),keypress(q),mouseup(right),wait(0.05),keypress(q),mouseup(left),wait(0.05),keypress(q),mousedown(left),wait(0.18),keypress(q),mousedown(right),wait(0.05),keypress(q),mouseup(right), wait(0.42),keypress(q),mouseup(left),wait(0.2),mousedown(left),wait(0.33),mouseup(left),wait(0.05),keypress(q),mousedown(left),wait(0.18),keypress(q),mousedown(right),wait(0.05),keypress(q),mouseup(right),wait(0.05),keypress(q),mouseup(left),wait(0.05),keypress(q),mousedown(left),wait(0.18),keypress(q),mousedown(right),wait(0.05),keypress(q),mouseup(right), wait(0.45),keypress(q),wait(0.55),keypress(q),mouseup(left),wait(0.2),wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(1),mouseup(left),wait(0.2),wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(1),mouseup(left),wait(0.2),wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.35),mouseup(left),wait(0.1)
+玛薇卡 attack(0.08),wait(0.2),e,wait(0.15),e,click(middle),wait(0.1), wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.3),mouseup(left),wait(0.1),keypress(q),wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),keypress(q),mousedown(left),wait(0.18),keypress(q),mousedown(right),wait(0.05),keypress(q),mouseup(right),wait(0.05),keypress(q),mouseup(left),wait(0.05),keypress(q),mousedown(left),wait(0.18),keypress(q),mousedown(right),wait(0.05),keypress(q),mouseup(right), wait(0.42),keypress(q),mouseup(left),wait(0.2),mousedown(left),wait(0.33),mouseup(left),wait(0.05),keypress(q),mousedown(left),wait(0.18),keypress(q),mousedown(right),wait(0.05),keypress(q),mouseup(right),wait(0.05),keypress(q),mouseup(left),wait(0.05),keypress(q),mousedown(left),wait(0.18),keypress(q),mousedown(right),wait(0.05),keypress(q),mouseup(right), wait(0.45),keypress(q),wait(0.55),keypress(q),mouseup(left),wait(0.2),wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(1),mouseup(left),wait(0.2),wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(1),mouseup(left),wait(0.2),wait(0.03),mousedown(left),wait(0.33),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.05),mouseup(left),wait(0.05),mousedown(left),wait(0.18),mousedown(right),wait(0.05),mouseup(right),wait(0.35),mouseup(left),wait(0.1)
 //双玛头，q前半轮、q里半轮、q后3轮半
 
 
@@ -48,7 +48,7 @@
 枫原万叶 attack(0.08),keypress(q),wait(0.1),keypress(q),ready,wait(0.45),e(hold),wait(0.2),attack,wait(0.5),attack(0.1)
 
 
-//对于命座，均无要求（芙芙看命座选不同行策略）
+//命座建议：火神1命(方便放大招，0命也勉强可用)，其他角色命座无要求（芙芙看命座选不同行策略）
 
 //建议带两个盾位，火神站场时间久，一盾难保
 //最佳体验队伍：尼可、奶奶、火神、万叶

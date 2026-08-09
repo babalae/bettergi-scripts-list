@@ -2,14 +2,14 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1781069239265,
+    "last_modified_time": 1783090396501,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "E02E03须弥-舍身陷坑下",
@@ -85,7 +85,6 @@
       "action": "fight",
       "action_params": "",
       "id": 8,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 4637.7012,
@@ -113,6 +112,16 @@
       "action": "mining",
       "action_params": "",
       "id": 11,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4635.8145,
+      "y": -2257.2051
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 12,
       "move_mode": "walk",
       "type": "path",
       "x": 4635.8145,

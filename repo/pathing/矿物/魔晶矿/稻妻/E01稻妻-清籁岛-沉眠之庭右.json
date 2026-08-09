@@ -1,130 +1,142 @@
 {
-  "info": {
-    "authors": [
-      {
-        "links": "https://github.com/vulgar-rustic",
-        "name": "下流山汉"
-      }
-    ],
-    "bgi_version": "0.52.0",
-    "description": "",
-    "enable_monster_loot_split": false,
-    "last_modified_time": 1780373550347,
-    "map_match_method": "",
-    "map_name": "Teyvat",
-    "name": "E01稻妻-清籁岛-沉眠之庭右",
-    "tags": [],
-    "type": "collect",
-    "version": "1.0"
-  },
-  "positions": [
-    {
-      "action": "",
-      "action_params": "",
-      "id": 1,
-      "move_mode": "walk",
-      "type": "teleport",
-      "x": -4209.32,
-      "y": -4304.07
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -4218.48,
-      "y": -4315.18
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -4229.23,
-      "y": -4306.72
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -4231.51,
-      "y": -4292.14
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -4236.92,
-      "y": -4286.17
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "jump",
-      "type": "path",
-      "x": -4241.38,
-      "y": -4296.33
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -4251.84,
-      "y": -4291.74
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "fly",
-      "type": "path",
-      "x": -4268.68,
-      "y": -4300.38
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 9,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -4301.59,
-      "y": -4314.02
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 10,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -4312.28,
-      "y": -4307.94
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 11,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -4306.3,
-      "y": -4304.28
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 12,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -4298.9023,
-      "y": -4308.0879
-    }
-  ]
+    "info":  {
+                 "authors":  [
+                                 {
+                                     "links":  "https://github.com/zhy0070",
+                                     "name":  "烤鱼"
+                                 }
+                             ],
+                 "bgi_version":  "0.52.0",
+                 "description":  "",
+                 "enable_monster_loot_split":  false,
+                 "last_modified_time":  1783089402208,
+                 "map_match_method":  "",
+                 "map_name":  "Teyvat",
+                 "name":  "E01稻妻-清籁岛-沉眠之庭右",
+                 "tags":  [
+
+                          ],
+                 "type":  "collect",
+                 "version":  "1.0"
+             },
+    "positions":  [
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  1,
+                          "move_mode":  "walk",
+                          "type":  "teleport",
+                          "x":  -4209.32,
+                          "y":  -4304.07
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  2,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -4218.48,
+                          "y":  -4315.18
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  3,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -4229.23,
+                          "y":  -4306.72
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  4,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -4231.51,
+                          "y":  -4292.14
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  5,
+                          "move_mode":  "dash",
+                          "type":  "path",
+                          "x":  -4236.92,
+                          "y":  -4286.17
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  6,
+                          "move_mode":  "jump",
+                          "type":  "path",
+                          "x":  -4241.38,
+                          "y":  -4296.33
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  7,
+                          "move_mode":  "dash",
+                          "type":  "path",
+                          "x":  -4251.84,
+                          "y":  -4291.74
+                      },
+                      {
+                          "action":  "stop_flying",
+                          "action_params":  "",
+                          "id":  8,
+                          "move_mode":  "fly",
+                          "type":  "path",
+                          "x":  -4268.68,
+                          "y":  -4300.38
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  9,
+                          "move_mode":  "dash",
+                          "type":  "path",
+                          "x":  -4301.59,
+                          "y":  -4314.02
+                      },
+                      {
+                          "action":  "",
+                          "action_params":  "",
+                          "id":  10,
+                          "move_mode":  "dash",
+                          "type":  "path",
+                          "x":  -4312.28,
+                          "y":  -4307.94
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  11,
+                          "move_mode":  "walk",
+                          "type":  "target",
+                          "x":  -4306.3,
+                          "y":  -4304.28
+                      },
+                      {
+                          "action":  "mining",
+                          "action_params":  "",
+                          "id":  12,
+                          "locked":  false,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -4298.9023,
+                          "y":  -4308.0879
+                      },
+                      {
+                          "action":  "combat_script",
+                          "action_params":  "wait(2)",
+                          "id":  13,
+                          "move_mode":  "walk",
+                          "type":  "path",
+                          "x":  -4298.9023,
+                          "y":  -4308.0879
+                      }
+                  ]
 }

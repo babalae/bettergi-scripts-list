@@ -1,78 +1,97 @@
-name: Bug Report / 问题反馈
-description: 反馈使用 BetterGI 脚本时遇到的问题
-title: "[Bug]: 简短描述你遇到的问题"
-labels: ["bug", "needs-triage"]
+name: Bug Report / 脚本问题反馈
+description: 反馈 BetterGI 脚本、脚本仓库或分发相关问题
+title: "[bug] "
+labels:
+  - bug
 body:
-  - type: markdown
+  - type: checkboxes
+    id: confirmations
     attributes:
-      value: |
-        请仔细填写以下信息，以便我们能快速定位并解决问题。
-        （必填项已标记）
-  
-  # BetterGI 版本 (必填)
+      label: 提交确认
+      options:
+        - label: 我已搜索现有 Issue，确认没有相同问题
+          required: true
+        - label: 我已阅读相关脚本的 README 或使用说明
+          required: true
+        - label: 我已确认问题来自脚本或脚本仓库；BetterGI 本体问题应提交到主仓库
+          required: true
+        - label: 我已移除日志、截图中的 UID、路径等隐私信息
+          required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: 涉及范围
+      options:
+        - JS 脚本
+        - 地图追踪
+        - 战斗策略
+        - 七圣召唤
+        - 脚本仓库与分发
+        - 不确定
+    validations:
+      required: true
+
   - type: input
     id: bettergi-version
     attributes:
-      label: BetterGI 版本 (必填)
-      description: 请填写你正在使用的 BetterGI 的版本号。
-      # 使用一个不存在的版本作为占位符，以便对用户进行简单验证
-      placeholder: 例如：0.53.9
+      label: BetterGI 版本号
+      placeholder: 例如：0.62.0
     validations:
       required: true
 
-  # 脚本名称 (必填)
   - type: input
     id: script-name
     attributes:
-      label: 脚本名称 (必填)
-      description: 请填写你出现问题的具体脚本的名称。
-      placeholder: 例如：自动日常, 自动锄大地 等
+      label: 相关脚本名称与版本
+      placeholder: 例如：莉奈娅挖矿一条龙 0.2.5
     validations:
       required: true
-      
-  # 问题描述 (必填)
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: 运行环境与关键配置
+      description: Windows 版本、游戏服务器与语言、分辨率、相关脚本设置等。
+      placeholder: 请填写能够影响问题复现的环境和配置。
+    validations:
+      required: true
+
   - type: textarea
     id: problem-description
     attributes:
-      label: 问题描述 (必填)
-      description: 请清晰、简洁地描述你遇到的问题，例如“脚本执行到XX步骤后崩溃” 或 “XX功能没有按预期工作”。
-      placeholder: 请在此处具体描述遇到的问题...
+      label: 问题描述
+      placeholder: 描述实际现象、报错和影响。
     validations:
       required: true
 
-  # 复现步骤 (可选)
+  - type: textarea
+    id: expected-result
+    attributes:
+      label: 期望结果
+      placeholder: 描述正常情况下应该发生什么。
+    validations:
+      required: true
+
   - type: textarea
     id: reproduction-steps
     attributes:
-      label: 复现步骤 (可选)
-      description: 如果可能，请提供重现该问题的详细步骤。这将极大地帮助我们。
+      label: 复现步骤
       placeholder: |
-        例如：
-        1. 添加XX脚本
-        2. 设置参数 A=值, B=值
-        3. 点击“运行”
-        4. 问题发生，现象为xxx
+        1. 添加脚本……
+        2. 设置……
+        3. 运行……
     validations:
-      required: false
+      required: true
 
-  # 日志文件或录屏 (可选，并附带安全提示)
   - type: textarea
-    id: logs-and-video
+    id: logs-and-media
     attributes:
-      label: 日志文件或录屏 (可选)
-      description: |
-        请附上相关的日志文件（如 `.log` 文件）或问题发生的录屏。
-        
-        **⚠️ 重要提示:** 在上传日志、截图或录像前，请务必检查其中是否包含任何**个人敏感信息**（如用户UID等）。如果有，请将其**移除或打码**后再上传。
-      placeholder: 确认没有泄露个人信息或者UID后，你可以将文件拖动到此处完成上传
-    validations:
-      required: false
+      label: 日志、截图或录屏
+      description: 支持拖入 .log/.txt、截图或录屏
 
-  # 其他信息（可选）
   - type: textarea
     id: additional-info
     attributes:
-      label: 其他信息 (可选)
-      description: 你认为对解决问题有帮助的任何其他信息，例如脚本版本、操作系统版本、网络环境等。
-    validations:
-      required: false
+      label: 其他信息
+      description: 补充其他有助于定位问题的内容

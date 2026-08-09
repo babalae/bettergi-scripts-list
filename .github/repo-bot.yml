@@ -1,0 +1,240 @@
+runtime:
+  languageMode: auto
+  dryRun: false
+
+providers:
+  openAiCompatible:
+    enabled: true
+    baseUrl: https://api.openai.com/v1
+    model: gpt-5.4
+    apiStyle: responses
+    timeoutMs: 30000
+
+issues:
+  autoProcessing:
+    skipCreatedBefore: 2026-07-31T15:00:00Z
+  titleGeneration:
+    enabled: true
+    maxLength: 100
+    detectMismatch: true
+    mismatchConfidence: 0.9
+    placeholderTitles:
+      - bug
+      - feature
+      - question
+      - issue
+      - 问题
+      - 建议
+      - 咨询
+      - 请简要描述问题
+  validation:
+    enabled: true
+    fallbackTemplateKey: bug
+    commentAnchor: issue-bot:validation
+    templates:
+      - key: bug
+        detect:
+          markers:
+            - bug
+          titlePrefixes:
+            - "[bug]"
+        requiredSections:
+          - id: scope
+            aliases:
+              - 涉及范围
+          - id: bettergi-version
+            aliases:
+              - BetterGI 版本号
+          - id: script-name
+            aliases:
+              - 相关脚本名称与版本
+          - id: environment
+            aliases:
+              - 运行环境与关键配置
+          - id: description
+            aliases:
+              - 问题描述
+          - id: expected
+            aliases:
+              - 期望结果
+          - id: steps
+            aliases:
+              - 复现步骤
+        labels:
+          whenValid:
+            - bug
+          whenInvalid:
+            - 需要更多信息
+      - key: feature
+        detect:
+          markers:
+            - feature
+          titlePrefixes:
+            - "[feature]"
+        requiredSections:
+          - id: scope
+            aliases:
+              - 涉及范围
+          - id: request
+            aliases:
+              - 需求或建议
+          - id: scenario
+            aliases:
+              - 使用场景
+          - id: benefits
+            aliases:
+              - 预期收益
+          - id: constraints
+            aliases:
+              - 影响与约束
+        labels:
+          whenValid:
+            - enhancement
+          whenInvalid:
+            - 需要更多信息
+      - key: question
+        detect:
+          markers:
+            - question
+          titlePrefixes:
+            - "[question]"
+        requiredSections:
+          - id: scope
+            aliases:
+              - 涉及范围
+          - id: question
+            aliases:
+              - 问题描述
+          - id: tried
+            aliases:
+              - 已尝试内容
+        labels:
+          whenValid:
+            - question
+          whenInvalid:
+            - 需要更多信息
+    duplicateDetection:
+      enabled: true
+      bypassLabels:
+        - 跳过重复检测
+      duplicateLabel: duplicate
+      searchResultLimit: 50
+      candidateLimit: 20
+      aiReviewMaxCandidates: 3
+      thresholds:
+        exact: 0.995
+        highConfidence: 0.93
+        reviewMin: 0.82
+      similarityComment:
+        enabled: true
+        commentAnchor: issue-bot:similar-issues
+        minScore: 0.3
+        maxCandidates: 3
+  labeling:
+    enabled: true
+    autoCreateMissing: true
+    managed:
+      - bug
+      - enhancement
+      - question
+      - 需要更多信息
+      - duplicate
+    definitions:
+      bug:
+        color: d73a4a
+        description: 脚本、仓库或分发存在缺陷或异常行为。
+      enhancement:
+        color: a2eeef
+        description: 新功能建议或现有能力改进。
+      question:
+        color: d876e3
+        description: 脚本使用、配置或仓库相关咨询。
+      需要更多信息:
+        color: fbca04
+        description: Issue 缺少定位问题所需的必要信息。
+      duplicate:
+        color: cfd3d7
+        description: 已存在相同或高度相似的问题。
+    keywordRules: []
+    aiClassification:
+      enabled: false
+      maxLabels: 3
+      minConfidence: 0.65
+      include: []
+      exclude:
+        - duplicate
+      prompt: 优先识别具体脚本类别和使用场景，不要用流程状态标签替代问题类型。
+      sourceRepository:
+        owner: babalae
+        repo: bettergi-scripts-list
+  codeContext:
+    source: github
+    includeInAiHelp: true
+    includeInFix: true
+    indexPath: repo.json
+    indexRoot: repo
+    categorySectionAliases:
+      - 涉及范围
+    nameSectionAliases:
+      - 相关脚本名称与版本
+    pathSectionAliases:
+      - 脚本链接或仓库路径
+    categoryRoots:
+      JS 脚本:
+        - repo/js
+      地图追踪:
+        - repo/pathing
+      战斗策略:
+        - repo/combat
+      七圣召唤:
+        - repo/tcg
+      脚本仓库与分发:
+        - build
+        - .github/workflows
+        - bettergi.d.ts
+      不确定:
+        - repo/js
+        - repo/pathing
+        - repo/combat
+        - repo/tcg
+        - build
+        - .github/workflows
+        - bettergi.d.ts
+  aiHelp:
+    enabled: true
+    triggerLabels: []
+    commentAnchor: issue-bot:ai
+    projectContext:
+      enabled: true
+      includeRepositoryMetadata: true
+      includeReadme: true
+      readmeMaxChars: 3000
+      profile:
+        name: BetterGI Scripts
+        aliases:
+          - BetterGI 脚本仓库
+          - bettergi-scripts-list
+        summary: BetterGI 的社区脚本索引与分发仓库，包含 JS 脚本、地图追踪、战斗策略和七圣召唤策略。
+        techStack:
+          - JavaScript
+          - JSON
+          - GitHub Actions
+  commands:
+    enabled: true
+    mentions:
+      - "@bot"
+      - "@bettergi-repo-bot"
+    access: collaborators
+    fix:
+      enabled: true
+      commentAnchor: issue-bot:fix
+    refresh:
+      enabled: true
+
+pullRequests:
+  review:
+    enabled: false
+  labeling:
+    enabled: false
+  summary:
+    enabled: false

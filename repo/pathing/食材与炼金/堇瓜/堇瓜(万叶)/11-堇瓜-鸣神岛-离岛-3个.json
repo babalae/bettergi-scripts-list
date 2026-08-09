@@ -1,0 +1,121 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785765487974,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "11-堇瓜-鸣神岛-离岛-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3635.1523,
+      "y": -2529.4961
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3660.2344,
+      "y": -2542.8379
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3670.7656,
+      "y": -2551.7676
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2);纳西妲 e;",
+      "id": 4,
+      "move_mode": "run",
+      "type": "target",
+      "x": -3679.3828,
+      "y": -2542.0947
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3673.4766,
+      "y": -2554.6455
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3704.9082,
+      "y": -2567.8584
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3737.6211,
+      "y": -2569.5752
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3739.4121,
+      "y": -2592.3369
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3745.1699,
+      "y": -2592.1064
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3745.0781,
+      "y": -2589.0703
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);纳西妲 e;",
+      "id": 11,
+      "move_mode": "climb",
+      "type": "target",
+      "x": -3743.0039,
+      "y": -2589.1182
+    }
+  ]
+}

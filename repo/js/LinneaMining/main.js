@@ -3,7 +3,8 @@ import { checkAvatar } from "./utils/avatar.js"
 import {
   getRoutes,
   filterByTags,
-  filterByRegion
+  filterByRegion,
+  filterBattleRoutes
 } from "./utils/routes.js"
 import {
   loadRefreshData,
@@ -105,9 +106,10 @@ async function disposeAll(watcher) {
   }
 
   if (skipBattleRoutes) {
-    routes = filterByTags(routes, ["战斗"])
-    if (routes.length < allRoutes.length) {
-      log.info(`跳过战斗路线：排除 ${allRoutes.length - routes.length} 条路线`)
+    const beforeCount = routes.length
+    routes = filterBattleRoutes(routes)
+    if (routes.length < beforeCount) {
+      log.info(`跳过战斗路线：排除 ${beforeCount - routes.length} 条路线`)
     }
   }
 

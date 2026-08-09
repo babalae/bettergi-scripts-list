@@ -1,0 +1,175 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785952703637,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "19-堇瓜-神无冢-踏鞴砂六-7个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3016.4922,
+      "y": -3623.3906
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_F),wait(0.2),keypress(VK_F),wait(0.2),keypress(VK_F),wait(0.2),keypress(VK_F);迪希雅 wait(0.2),keypress(VK_E);",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -3038.4727,
+      "y": -3607.8154
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3037.6895,
+      "y": -3609.3262
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),keypress(VK_T),wait(0.2),keypress(VK_T),wait(0.2),keypress(VK_T),wait(0.2),keypress(VK_T),wait(0.2),keypress(VK_T),wait(0.2),keypress(VK_T),wait(0.2),keypress(VK_T),wait(0.2),keypress(VK_T)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3018.7441,
+      "y": -3634.9502
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3014.5586,
+      "y": -3639.5117
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3004.0684,
+      "y": -3677.208
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2988.7832,
+      "y": -3708.8486
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -2975.3848,
+      "y": -3732.4102
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2969.7578,
+      "y": -3719.9277
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2966.2129,
+      "y": -3716.4434
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2949.4062,
+      "y": -3737.3477
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2949.0195,
+      "y": -3729.793
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2932.8516,
+      "y": -3742.9189
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2895.9375,
+      "y": -3762.6768
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2867.9414,
+      "y": -3745.3906
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e;",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2861.0586,
+      "y": -3719.9531
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.22)",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2864.7539,
+      "y": -3718.1914
+    }
+  ]
+}

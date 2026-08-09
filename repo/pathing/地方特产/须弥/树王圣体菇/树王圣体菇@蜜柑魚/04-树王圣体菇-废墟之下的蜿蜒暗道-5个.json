@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784570556636,
+    "last_modified_time": 1785082830361,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "04-树王圣体菇-废墟之下的蜿蜒暗道-5个",
@@ -58,7 +58,6 @@
       "action": "combat_script",
       "action_params": "wait(0.5)",
       "id": 5,
-      "locked": false,
       "move_mode": "dash",
       "type": "orientation",
       "x": 3378.2813,
@@ -115,20 +114,20 @@
       "id": 11,
       "move_mode": "run",
       "type": "path",
-      "x": 3417.4258,
-      "y": -1787.5039
+      "x": 3416.4551,
+      "y": -1785.1836
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),j,wait(1.25),j,wait(0.2)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3419.8721,
+      "y": -1785.625
     },
     {
       "action": "stop_flying",
-      "action_params": "",
-      "id": 12,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 3432.6221,
-      "y": -1804.7744
-    },
-    {
-      "action": "",
       "action_params": "",
       "id": 13,
       "move_mode": "fly",

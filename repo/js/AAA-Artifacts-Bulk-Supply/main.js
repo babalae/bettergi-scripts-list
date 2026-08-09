@@ -968,8 +968,8 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
             log.info("已经到达预定时间");
             break;
         } else if ((new Date() >= (state.aimActivateTime - minIntervalTime * 60 * 1000)) && doStop) {
-            log.info(`即将到达预定时间，等待${state.aimActivateTime - new Date()}毫秒`);
-            await sleep(state.aimActivateTime - new Date())
+            log.info(`即将到达预定时间，等待${state.aimActivateTime - new Date()+1000}毫秒`);
+            await sleep(state.aimActivateTime - new Date()+1000)
             break;
         }
 
