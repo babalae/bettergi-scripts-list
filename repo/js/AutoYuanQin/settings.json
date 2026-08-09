@@ -11,6 +11,12 @@
     "label": "定时启动时间（示例 19:19:10 默认：不启用）"
   },
   {
+    "name": "pause_hotkey",
+    "type": "input-text",
+    "label": "暂停/继续快捷键（在游戏内面板点击录入，例如 Ctrl+Shift+P）",
+    "default": "F8"
+  },
+  {
     "name": "type_select",
     "type": "select",
     "label": "播放模式（默认：单曲单次执行）",
