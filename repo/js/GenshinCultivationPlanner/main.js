@@ -12,10 +12,17 @@ import { parseTargetText } from './core/target-input.js';
 import { resolvePlanningWeekday } from './core/server-weekday.js';
 import { buildCompletionEstimate } from './core/estimate.js';
 import { applyFinalRouteInventoryGains, buildRouteExecutionPlan, runSubscribedRouteFile } from './core/route-executor.js';
-import { buildBossExecutionConfig } from './core/boss-executor.js';
+import { buildBossExecutionConfig, isBossTaskEnabled } from './core/boss-executor.js';
 import { appendArtifactFallbackTask, buildArtifactDomainExecutionConfig } from './core/artifact-executor.js';
 import { switchPartyWithRecovery } from './core/party-switch.js';
 import { assertExecutionConfirmed, normalizeScriptSettings } from './core/settings.js';
+import { buildProfileSnapshot, formatProfileEntry } from './core/profile.js';
+import { loadAutomaticProfile } from './core/character-development.js';
+import { createTaskResult, EXECUTION_STATUS, runResinTaskQueue } from './core/execution-result.js';
+import {
+  applyExecutionPolicyToTasks, buildExecutionPolicy, createOriginalResinBudget,
+  limitBossRunCount, limitDomainResinPolicy,
+} from './core/execution-policy.js';
 
 async function main() {
   let scriptSettings;
@@ -32,7 +39,7 @@ async function main() {
   const materials = JSON.parse(file.readTextSync('data/materials.json'));
   const recipes = JSON.parse(file.readTextSync('data/crafting-recipes.json'));
   const rulebook = JSON.parse(file.readTextSync('data/rulebook.json'));
-  const targetData = loadTargets(scriptSettings, rulebook);
+  const targetData = await loadTargets(scriptSettings, rulebook);
   const sourceCandidates = JSON.parse(file.readTextSync('data/source-candidates.json'));
   const routeOverrides = JSON.parse(file.readTextSync('data/route-overrides.json'));
   const today = resolvePlanningWeekday({
@@ -46,6 +53,9 @@ async function main() {
   for (const target of targetData.targets ?? []) {
     log.info('[目标] {kind}：{name}', target.kind, target.name);
   }
+  for (const entry of targetData.profileSnapshot?.entries ?? []) {
+    log.info('[档案] {profile}', formatProfileEntry(entry));
+  }
 
   let inventory = targetData.inventory ?? {};
   let plan = createPlan({
@@ -55,6 +65,7 @@ async function main() {
     recipes,
     rulebook,
     today,
+    profileSnapshot: targetData.profileSnapshot,
   });
 
   // 兼容 BetterGI 已保存的旧设置：字段不存在时也默认开启读取。
@@ -68,6 +79,7 @@ async function main() {
       recipes,
       rulebook,
       today,
+      profileSnapshot: targetData.profileSnapshot,
     });
   } else {
     log.info('[背包] 已关闭自动读取，库存仅使用目标文件中的 inventory 字段');
@@ -102,6 +114,10 @@ async function main() {
 
   appendArtifactFallbackTask(plan, scriptSettings);
 
+  const executionPolicy = buildExecutionPolicy(scriptSettings);
+  applyPolicyToPlan(plan, executionPolicy);
+  for (const line of executionPolicy.previewLines) log.info('[规则预览] {line}', line);
+
   const executionWarnings = collectExecutionWarnings(plan, scriptSettings);
   for (const warning of executionWarnings) {
     log.warn('[执行前检查] {warning}', warning);
@@ -117,14 +133,22 @@ async function main() {
     domainResinPolicy.transientResinUseCount,
     domainResinPolicy.fragileResinUseCount);
   plan.domainResinPolicy = domainResinPolicy;
+  plan.executionPolicy = executionPolicy;
   const inventoryBeforeExecution = { ...inventory };
   const trackedMaterialIds = [...plan.crafting.scanMaterialIds];
 
   {
     let execution;
     const partySwitchState = { initialized: false };
+    const resinBudget = createOriginalResinBudget(executionPolicy);
+    let routeRecords = [];
+    if (executionPolicy.routeTiming === '树脂任务前' && scriptSettings.routeExecutionEnabled === true) {
+      routeRecords = await executeRoutesSafely(discoveredRoutes, scriptSettings, materials, recipes, partySwitchState);
+    }
     try {
-      execution = await executeFirstResinTask(plan, scriptSettings, domainResinPolicy, materials, inventory, partySwitchState);
+      execution = await executeResinTasks(
+        plan, scriptSettings, domainResinPolicy, executionPolicy, resinBudget, inventory, partySwitchState,
+      );
     } catch (error) {
       execution = {
         status: 'failed',
@@ -135,16 +159,11 @@ async function main() {
       log.error('[执行] 未开始或未完成秘境刷取：{error}', execution.reason);
     }
     plan.execution = execution;
-    if (execution.status !== 'failed' && scriptSettings.routeExecutionEnabled === true) {
-      try {
-        const routeExecution = await executeMatchedRoutes(discoveredRoutes, scriptSettings, materials, recipes, partySwitchState);
-        execution.routes = routeExecution.records;
-      } catch (error) {
-        const reason = error.message ?? String(error);
-        execution.routes = [{ name: '路线任务', type: 'route', status: 'failed', reason, paths: [], materials: [], gained: {} }];
-        log.error('[路线执行] 初始化或收尾失败，已停止路线并继续保存报告：{reason}', reason);
-      }
+    if (executionPolicy.routeTiming === '树脂任务后'
+      && execution.status !== 'failed' && scriptSettings.routeExecutionEnabled === true) {
+      routeRecords = await executeRoutesSafely(discoveredRoutes, scriptSettings, materials, recipes, partySwitchState);
     }
+    execution.routes = routeRecords;
 
     const hasExecutionAttempt = execution.status !== 'skipped' || (execution.routes?.length ?? 0) > 0;
     if (hasExecutionAttempt && scriptSettings.scanInventory !== false && trackedMaterialIds.length > 0) {
@@ -157,6 +176,13 @@ async function main() {
       );
       execution.inventoryChecked = true;
       execution.appliedGains = Object.keys(execution.trackedRewards).length > 0;
+      const hasTrackedResinTask = (execution.tasks ?? []).some((item) => (
+        item.evidence?.taskInvoked === true && item.task?.executionType !== 'artifactDomain'
+      ));
+      if (execution.status !== EXECUTION_STATUS.FAILED && hasTrackedResinTask) {
+        execution.status = execution.appliedGains ? EXECUTION_STATUS.COMPLETED : EXECUTION_STATUS.UNCONFIRMED;
+        execution.reason = execution.appliedGains ? null : '全部任务结束后的背包复核未确认到目标材料增长';
+      }
       if (execution.routes?.length > 0) {
         execution.routes = applyFinalRouteInventoryGains(
           execution.routes,
@@ -186,11 +212,15 @@ async function main() {
         recipes,
         rulebook,
         today,
+        profileSnapshot: targetData.profileSnapshot,
       });
       plan.routes = discoveredRoutes;
       applyMatchedRouteSupport(plan, discoveredRoutes);
+      appendArtifactFallbackTask(plan, scriptSettings);
+      applyPolicyToPlan(plan, executionPolicy);
       plan.weeklyStrategy = buildWeeklyStrategy(plan.weeklyPlan, today);
       plan.domainResinPolicy = domainResinPolicy;
+      plan.executionPolicy = executionPolicy;
       plan.execution = execution;
     }
   }
@@ -242,6 +272,7 @@ async function main() {
     inventoryAfter: inventory,
     execution: plan.execution,
     domainResinPolicy,
+    executionPolicy,
   });
   const updatedHistory = appendRunHistory(history, runRecord);
   await file.writeText('record/history.json', JSON.stringify(updatedHistory, null, 2), false);
@@ -272,32 +303,61 @@ async function main() {
   log.info('[完成] 已保存计划记录：record/latest-plan.json；{result}', finalResult);
 }
 
-function loadTargets(scriptSettings, rulebook) {
+async function loadTargets(scriptSettings, rulebook) {
+  if (scriptSettings.profileMode === '自动档案') {
+    log.info('[档案] 使用 BetterGI 角色养成接口读取当前等级、天赋与佩戴武器');
+    return loadAutomaticProfile({
+      api: typeof characterDevelopmentTask === 'undefined' ? null : characterDevelopmentTask,
+      selections: scriptSettings.automaticProfileSelections,
+      rulebook,
+    });
+  }
   if (scriptSettings.targetsText?.trim()) {
     const targets = parseTargetText(scriptSettings.targetsText, rulebook);
     log.info('[初始化] 使用设置页目标文本，共解析 {count} 项', targets.length);
-    return { targets, inventory: {} };
+    return { targets, inventory: {}, profileSnapshot: buildProfileSnapshot(targets) };
   }
   const targetFile = scriptSettings.targetFile || 'data/user-targets.json';
   log.info('[初始化] 读取高级目标文件：{path}', targetFile);
-  return JSON.parse(file.readTextSync(targetFile));
+  const targetData = JSON.parse(file.readTextSync(targetFile));
+  return { ...targetData, profileSnapshot: buildProfileSnapshot(targetData.targets ?? [], { source: 'target-file' }) };
 }
 
-async function executeFirstResinTask(plan, settings, resinPolicy, materials, inventory, partySwitchState) {
-  const task = plan.todayQueue.find((item) => (
-    item.status === 'supported' && isTaskExecutionEnabled(item, settings)
-  ));
-  if (!task) {
-    log.info('[执行] 今日没有已启用的树脂任务，本次不执行');
-    return { status: 'skipped', reason: '今日没有已启用的树脂任务', rewards: {}, appliedGains: false };
+async function executeResinTasks(plan, settings, resinPolicy, executionPolicy, resinBudget, inventory, partySwitchState) {
+  const execution = await runResinTaskQueue({
+    tasks: plan.todayQueue,
+    isEnabled: (task) => isTaskExecutionEnabled(task, settings),
+    executeTask: (task) => executeResinTask(
+      task, settings, resinPolicy, executionPolicy, resinBudget, inventory, partySwitchState,
+    ),
+  });
+  if (execution.tasks.length === 0) log.info('[执行] 今日没有可执行的树脂任务，本次不执行');
+  for (const result of execution.tasks.filter((item) => item.status === EXECUTION_STATUS.SKIPPED)) {
+    log.info('[执行] 已跳过“{name}”：{reason}', result.task?.bossName ?? result.task?.domainName ?? '树脂任务', result.reason);
   }
-  if (task.executionType === 'boss') return executeBossTask(task, settings, inventory, partySwitchState);
-  if (task.executionType === 'artifactDomain') return executeArtifactDomainTask(task, settings, resinPolicy, inventory, partySwitchState);
+  return execution;
+}
+
+async function executeResinTask(task, settings, resinPolicy, executionPolicy, resinBudget, inventory, partySwitchState) {
+  if (task.executionType === 'boss') {
+    return executeBossTask(task, settings, executionPolicy, resinBudget, inventory, partySwitchState);
+  }
+  const limitedResinPolicy = limitDomainResinPolicy(resinPolicy, task, executionPolicy, resinBudget);
+  if (limitedResinPolicy.priority.length === 0) {
+    return createTaskResult({
+      status: EXECUTION_STATUS.SKIPPED, task,
+      reason: '该类任务次数上限为 0，或原粹树脂预算已达到保留线',
+      evidence: { taskInvoked: false },
+    });
+  }
+  if (task.executionType === 'artifactDomain') {
+    return executeArtifactDomainTask(task, settings, limitedResinPolicy, inventory, partySwitchState);
+  }
   if (task.executionType !== 'domain') {
-    return { status: 'skipped', reason: `暂不支持执行任务类型：${task.executionType}`, rewards: {}, appliedGains: false };
+    return createTaskResult({ status: EXECUTION_STATUS.SKIPPED, task, reason: `暂不支持执行任务类型：${task.executionType}` });
   }
 
-  const config = buildDomainExecutionConfig(task, settings, resinPolicy);
+  const config = buildDomainExecutionConfig(task, settings, limitedResinPolicy);
   log.info('[执行] 准备刷取秘境“{domain}”，材料目标：{materials}', config.domainName,
     config.trackedMaterials.map((item) => `${item.materialName}×${item.shortage}`).join('、'));
 
@@ -326,19 +386,17 @@ async function executeFirstResinTask(plan, settings, resinPolicy, materials, inv
 
   await dispatcher.RunAutoDomainTask(param);
   log.info('[执行] 秘境“{domain}”任务调用结束；收益将在全部任务结束后统一读取背包确认', config.domainName);
-  return {
-    status: 'completed',
-    task,
-    rewards: {},
-    trackedRewards: {},
-    appliedGains: false,
-    inventoryBefore: inventory,
-  };
+  return createTaskResult({
+    status: EXECUTION_STATUS.UNCONFIRMED, task,
+    reason: '等待全部任务结束后的统一背包复核',
+    evidence: { taskInvoked: true, inventoryChecked: false },
+    details: { inventoryBefore: inventory },
+  });
 }
 
 /** 世界 Boss 机制与队伍需求差异大，必须由用户显式开启后才允许自动执行。 */
 function isTaskExecutionEnabled(task, scriptSettings) {
-  if (task.executionType === 'boss') return scriptSettings.bossExecutionEnabled === true;
+  if (task.executionType === 'boss') return isBossTaskEnabled(task, scriptSettings);
   return true;
 }
 
@@ -361,15 +419,25 @@ async function executeArtifactDomainTask(task, scriptSettings, resinPolicy, inve
   param.RewardRecognitionEnabled = false;
   await dispatcher.RunAutoDomainTask(param);
   log.info('[圣遗物] 任务调用结束；圣遗物收益不纳入培养材料计数');
-  return {
-    status: 'completed', task, rewards: {}, trackedRewards: {},
-    appliedGains: false,
-    inventoryBefore: inventory,
-  };
+  return createTaskResult({
+    status: EXECUTION_STATUS.COMPLETED, task,
+    reason: '圣遗物收益不纳入培养材料计数',
+    evidence: { taskInvoked: true, materialTrackingApplicable: false },
+    details: { inventoryBefore: inventory },
+  });
 }
 
-async function executeBossTask(task, scriptSettings, inventory, partySwitchState) {
+async function executeBossTask(task, scriptSettings, executionPolicy, resinBudget, inventory, partySwitchState) {
   const config = buildBossExecutionConfig(task, scriptSettings);
+  config.runCount = limitBossRunCount(task, executionPolicy, resinBudget, config.runCount);
+  config.specifyRunCount = true;
+  if (config.runCount <= 0) {
+    return createTaskResult({
+      status: EXECUTION_STATUS.SKIPPED, task,
+      reason: 'Boss 次数上限为 0，或原粹树脂预算已达到保留线',
+      evidence: { taskInvoked: false },
+    });
+  }
   log.info('[Boss] 准备刷取“{boss}”，材料目标：{materials}', config.bossName,
     config.trackedMaterials.map((item) => `${item.materialName}×${item.shortage}`).join('、'));
   const switched = await switchTaskParty(config.partyName, 'Boss', partySwitchState);
@@ -387,11 +455,12 @@ async function executeBossTask(task, scriptSettings, inventory, partySwitchState
   param.RewardRecognitionEnabled = false;
   await dispatcher.RunAutoBossTask(param);
   log.info('[Boss] 任务调用结束；收益将在全部任务结束后统一读取背包确认');
-  return {
-    status: 'completed', task, rewards: {}, trackedRewards: {},
-    appliedGains: false,
-    inventoryBefore: inventory,
-  };
+  return createTaskResult({
+    status: EXECUTION_STATUS.UNCONFIRMED, task,
+    reason: '等待全部任务结束后的统一背包复核',
+    evidence: { taskInvoked: true, inventoryChecked: false },
+    details: { inventoryBefore: inventory },
+  });
 }
 
 async function executeMatchedRoutes(routes, scriptSettings, materials, recipes, partySwitchState) {
@@ -452,6 +521,22 @@ async function executeMatchedRoutes(routes, scriptSettings, materials, recipes, 
     records.push(routeRecord);
   }
   return { records };
+}
+
+async function executeRoutesSafely(routes, scriptSettings, materials, recipes, partySwitchState) {
+  try {
+    const routeExecution = await executeMatchedRoutes(routes, scriptSettings, materials, recipes, partySwitchState);
+    return routeExecution.records;
+  } catch (error) {
+    const reason = error.message ?? String(error);
+    log.error('[路线执行] 初始化或收尾失败，已停止路线并继续保存报告：{reason}', reason);
+    return [{ name: '路线任务', type: 'route', status: 'failed', reason, paths: [], materials: [], gained: {} }];
+  }
+}
+
+function applyPolicyToPlan(plan, executionPolicy) {
+  plan.todayQueue = applyExecutionPolicyToTasks(plan.todayQueue, executionPolicy);
+  plan.weeklyPlan = plan.weeklyPlan.map((tasks) => applyExecutionPolicyToTasks(tasks, executionPolicy));
 }
 
 function buildSkippedRouteRecord(route, materials, reason) {

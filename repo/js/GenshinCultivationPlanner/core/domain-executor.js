@@ -16,8 +16,8 @@ export function buildDomainExecutionConfig(task, settings, resinPolicy) {
   const effectiveResinPolicy = testSingleRun
     ? {
       ...resinPolicy,
-      priority: ['原粹树脂'],
-      originalResinUseCount: 1,
+      priority: resinPolicy.budgetEnforced && resinPolicy.originalResinUseCount <= 0 ? [] : ['原粹树脂'],
+      originalResinUseCount: resinPolicy.budgetEnforced && resinPolicy.originalResinUseCount <= 0 ? 0 : 1,
       condensedResinUseCount: 0,
       transientResinUseCount: 0,
       fragileResinUseCount: 0,

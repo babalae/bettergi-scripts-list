@@ -10,18 +10,32 @@ export function discoverAutoPathingRoutes({ shortages, sourceCandidates = {}, pa
     const candidate = sourceCandidates[shortage.materialId] ?? inferLocalSpecialtyCandidate(shortage);
     if (!candidate || !['localSpecialty', 'monster'].includes(candidate.type)) continue;
 
-    const overridden = normalizeOverride(routeOverrides[shortage.materialId]);
-    const paths = overridden.length > 0 ? overridden : findSubscribedPaths(candidate, pathing);
+    const override = normalizeOverride(routeOverrides[shortage.materialId], candidate, pathing);
+    if (override.disabled) {
+      missing.push({
+        materialId: shortage.materialId, name: candidate.name, type: candidate.type,
+        shortage: shortage.shortage, paths: [], source: 'manualOverride', reason: '用户已在路线覆盖中单独禁用',
+      });
+      continue;
+    }
+    const paths = override.provided ? override.paths : findSubscribedPaths(candidate, pathing);
     const item = {
       materialId: shortage.materialId,
       name: candidate.name,
       type: candidate.type,
       shortage: shortage.shortage,
       paths,
-      source: overridden.length > 0 ? 'manualOverride' : 'autoDiscovered',
+      source: override.provided ? 'manualOverride' : 'autoDiscovered',
+      partyName: override.partyName,
+      requiredCharacters: override.requiredCharacters,
     };
     if (paths.length > 0) matched.push(item);
-    else missing.push({ ...item, reason: '未在已订阅的 AutoPathing 路线中找到同名目录' });
+    else missing.push({
+      ...item,
+      reason: override.error || (override.provided
+        ? '用户路线覆盖中没有可读取的 JSON 文件'
+        : '未在已订阅的 AutoPathing 路线中找到同名目录'),
+    });
   }
   return { matched, missing };
 }
@@ -97,10 +111,41 @@ function findFiles(folder, pathing, visited = new Set()) {
   });
 }
 
-function normalizeOverride(override) {
-  if (typeof override === 'string') return [override];
-  if (Array.isArray(override)) return override.filter((path) => typeof path === 'string' && path.trim());
-  return [];
+function normalizeOverride(override, candidate, pathing) {
+  if (override === undefined || override === null) return { provided: false, paths: [], requiredCharacters: [] };
+  const config = typeof override === 'object' && !Array.isArray(override)
+    ? override
+    : { paths: override };
+  if (config.type && config.type !== candidate.type) {
+    return {
+      provided: true, paths: [], requiredCharacters: [],
+      error: `路线覆盖类型“${config.type}”与材料类型“${candidate.type}”不一致`,
+    };
+  }
+  const inputs = typeof config.paths === 'string' ? [config.paths] : config.paths;
+  const invalid = [];
+  const paths = unique((Array.isArray(inputs) ? inputs : []).flatMap((value) => {
+    const entry = typeof value === 'string' ? value.trim() : '';
+    if (!entry) return [];
+    if (pathing?.isFile?.(entry)) {
+      if (entry.toLowerCase().endsWith('.json')) return [entry];
+      invalid.push(entry);
+      return [];
+    }
+    if (pathing?.isFolder?.(entry)) return findFiles(entry, pathing);
+    invalid.push(entry);
+    return [];
+  }));
+  return {
+    provided: true,
+    paths,
+    partyName: typeof config.partyName === 'string' ? config.partyName.trim() : '',
+    requiredCharacters: Array.isArray(config.requiredCharacters)
+      ? config.requiredCharacters.map((name) => String(name).trim()).filter(Boolean)
+      : [],
+    disabled: config.enabled === false,
+    error: invalid.length > 0 ? `以下覆盖路径不存在或不是 JSON：${invalid.join('、')}` : '',
+  };
 }
 
 function unique(values) {

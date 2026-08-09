@@ -1,3 +1,5 @@
+import { buildRouteYieldEstimate } from './route-estimate.js';
+
 const DAILY_RESIN_BUDGET = 180;
 
 // 最高难度培养秘境的社区统计均值，统一折算为最低阶材料等价值。
@@ -11,14 +13,29 @@ const DOMAIN_EXPECTED_BASE_YIELD = {
  * Boss 按 3 个保底加 10% 概率第 4 个，即 3.1 个/40 树脂；
  * 培养秘境按最高难度的公开统计均值；周本和圣遗物不显示预计天数。
  */
-export function buildCompletionEstimate({ plan, materials, recipes = {}, today, dailyResinBudget = DAILY_RESIN_BUDGET }) {
+export function buildCompletionEstimate({ plan, materials, recipes = {}, history = [], today, dailyResinBudget = DAILY_RESIN_BUDGET }) {
   const shortages = (plan.displayShortages ?? []).filter((item) => item.shortage > 0);
   if (shortages.length === 0) return { days: 0, reason: '材料已满足', details: [] };
 
   const groups = new Map();
+  const routeDetails = [];
   for (const shortage of shortages) {
     // 路线发现会为本次计划补充 executionType=route；优先使用计划内的动态来源信息。
     const material = shortage.material ?? materials[shortage.materialId];
+    if (material?.executionType === 'route') {
+      const route = (plan.routes?.matched ?? []).find((item) => String(item.materialId) === String(shortage.materialId));
+      const routeEstimate = buildRouteYieldEstimate({
+        route, materialId: shortage.materialId, shortage: shortage.shortage, history,
+      });
+      if (!routeEstimate.available) {
+        return { days: null, reason: `${material.name}：${routeEstimate.reason}`, details: [], routeDetails: [routeEstimate] };
+      }
+      routeDetails.push({
+        sourceType: 'route', sourceName: route.name, materialNames: [material.name],
+        ...routeEstimate,
+      });
+      continue;
+    }
     const policy = resolvePolicy(shortage.materialId, material);
     if (!policy) return { days: null, reason: buildUnsupportedReason(material), details: [] };
     const baseMaterialId = getBaseMaterialId(shortage.materialId, recipes);
@@ -36,10 +53,20 @@ export function buildCompletionEstimate({ plan, materials, recipes = {}, today, 
 
   const resinBudget = normalizeDailyResinBudget(dailyResinBudget);
   const details = [...groups.values()].map((group) => buildDetail(group, resinBudget, today));
+  if (routeDetails.length > 0) {
+    const maxRuns = Math.max(...routeDetails.map((item) => item.estimatedRuns));
+    return {
+      days: null,
+      reason: `路线材料按历史背包差值估算还需最多约 ${maxRuns} 轮；未纳入路线刷新周期，不换算自然日`,
+      details,
+      routeDetails,
+    };
+  }
   return {
     days: Math.max(...details.map((item) => item.estimatedDays)),
     reason: '按世界等级 9 与最高难度秘境掉落期望估算；不考虑双倍掉落',
     details,
+    routeDetails: [],
   };
 }
 

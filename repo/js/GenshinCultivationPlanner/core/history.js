@@ -7,7 +7,7 @@ export function appendRunHistory(history, record) {
 }
 
 /** 将本次运行中与复盘有关的数据固定为可持久化的 JSON。 */
-export function buildRunRecord({ executionEnabled, plan, inventoryBefore, inventoryAfter, execution, domainResinPolicy }) {
+export function buildRunRecord({ executionEnabled, plan, inventoryBefore, inventoryAfter, execution, domainResinPolicy, executionPolicy = null }) {
   return {
     timestamp: new Date().toISOString(),
     executionEnabled,
@@ -21,6 +21,19 @@ export function buildRunRecord({ executionEnabled, plan, inventoryBefore, invent
         materialName: execution.task.materialName,
         materials: execution.task.materials ?? [],
       } : null,
+      tasks: (execution.tasks ?? []).map((item) => ({
+        status: item.status,
+        reason: item.reason ?? null,
+        continueResinQueue: item.continueResinQueue,
+        evidence: item.evidence ?? {},
+        task: item.task ? {
+          executionType: item.task.executionType,
+          domainName: item.task.domainName ?? null,
+          bossName: item.task.bossName ?? null,
+          materialName: item.task.materialName,
+          materials: item.task.materials ?? [],
+        } : null,
+      })),
       trackedRewards: execution.trackedRewards ?? {},
       routes: execution.routes ?? [],
       appliedGains: execution.appliedGains === true,
@@ -28,6 +41,8 @@ export function buildRunRecord({ executionEnabled, plan, inventoryBefore, invent
       evidence: buildExecutionEvidence(execution),
     } : null,
     domainResinPolicy,
+    executionPolicy,
+    profileSnapshot: plan.profileSnapshot ?? null,
     inventoryBefore,
     inventoryAfter,
     remainingShortages: (plan.displayShortages ?? [])
@@ -48,6 +63,7 @@ function buildExecutionEvidence(execution) {
 function classifyExecutionResult(execution) {
   if (execution.status === 'failed') return 'failed';
   if (execution.status === 'skipped') return 'skipped';
+  if (execution.status === 'unconfirmed') return 'unconfirmed';
   if (execution.task?.executionType === 'artifactDomain') return 'completed-untracked';
   if (execution.inventoryChecked === true && execution.appliedGains === true) return 'completed-inventory-confirmed';
   return 'completed-unconfirmed';
