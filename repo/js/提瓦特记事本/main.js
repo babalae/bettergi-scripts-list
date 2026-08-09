@@ -595,8 +595,13 @@ async function runCharacterExpBookStats() {
         }
 
         const candidates = [];
-        for (const threshold of [0.95, 0.9, 0.85]) {
+        for (const threshold of [0.95, 0.9, 0.85, 0.8]) {
             for (let digit = 0; digit <= 9; digit++) {
+                // “1”模板只有 5px 宽，对不同物品格的亚像素渲染较敏感；
+                // 仅为“1”增加一档较低阈值，避免 310 被拼成 30。
+                if (threshold < 0.85 && digit !== 1) {
+                    continue;
+                }
                 templates[digit].Threshold = threshold;
                 templates[digit].InitTemplate();
                 const matches = gameRegion.findMulti(templates[digit]);
@@ -631,12 +636,14 @@ async function runCharacterExpBookStats() {
         );
         template.Threshold = 0.75;
         template.InitTemplate();
+        let iconFound = false;
 
         for (let attempt = 0; attempt < 10; attempt++) {
             const gameRegion = captureGameRegion();
             try {
                 const result = gameRegion.find(template);
                 if (result && result.isExist()) {
+                    iconFound = true;
                     const count = matchBookCountWithTemplates(
                         gameRegion,
                         Math.max(0, result.x - 15),
@@ -652,6 +659,11 @@ async function runCharacterExpBookStats() {
                 gameRegion.dispose();
             }
             await sleep(100);
+        }
+
+        if (!iconFound) {
+            log.info(`背包中没有${book.name}，数量按0统计。`);
+            return 0;
         }
 
         log.error(`无法识别${book.name}数量，已取消本次经验书统计。`);
