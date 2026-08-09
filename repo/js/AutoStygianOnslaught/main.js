@@ -470,8 +470,10 @@ let shouldForceStop = false;
              //监听战斗线程错误，白名单机制：仅对致命错误设置停止标志
             fightTask.catch(e => {
                 const errorMsg = e?.message || String(e);
-                // 白名单：只有这两种错误才触发强制停止
-                if (errorMsg.includes("战斗策略文件不存在") || errorMsg.includes("未匹配到任何战斗脚本")) {
+                // 白名单：只有这三种错误才触发强制停止
+                if (errorMsg.includes("战斗策略文件不存在") || 
+                    errorMsg.includes("战斗脚本文件不存在") || 
+                    errorMsg.includes("未匹配到任何战斗脚本")) {
                     shouldForceStop = true;
                     shouldStop = true;
                     log.error(`战斗任务执行失败（致命错误）: ${errorMsg}`);
@@ -1461,9 +1463,50 @@ let shouldForceStop = false;
             continue;
         }finally{
             //10.结束脚本 
-            // 如果是强制停止，不执行returnMainUi（避免反复按ESC）
-            if (!shouldForceStop) {
-                await genshin.returnMainUi();
+            // 白名单逻辑：只有严重错误（shouldForceStop=true）时才执行退出流程
+            if (shouldForceStop) {
+                let interruptFound = false;
+                for (let i = 0; i < 3; i++) {
+                    if (i > 0) {
+                        await keyPress("VK_ESCAPE");
+                        await sleep(800);
+                    } else {
+                        await keyPress("VK_ESCAPE");
+                        await sleep(800);
+                    }
+                    const interruptResult = await Textocr("中断挑战", 2, 1, 0, 0, 0, 1920, 1080);
+                    if (interruptResult.found) {
+                        interruptFound = true;
+                        break;
+                    }
+                }
+                
+                if (!interruptFound) {
+                    log.warn("未找到'中断挑战'按钮，直接返回主界面");
+                    await genshin.returnMainUi();
+                } else {
+                    await sleep(1000);
+                    
+                    let returnFound = false;
+                    for (let j = 0; j < 2; j++) {
+                        const returnResult = await Textocr("返回", 9, 1, 0, 0, 0, 1920, 1080);
+                        if (returnResult.found) {
+                            returnFound = true;
+                            break;
+                        }
+                        if (j === 0) {
+                            await sleep(500);
+                        }
+                    }
+                    
+                    if (!returnFound) {
+                        log.warn("未找到'返回'按钮，等待9秒后返回主界面");
+                        await sleep(9000);
+                    }
+                    
+                    await sleep(1500);
+                    await genshin.returnMainUi();
+                }
             }
             if (resinAgain == false) log.info(`Auto自动幽境危战结束...`);
         }
