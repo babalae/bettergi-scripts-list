@@ -1,88 +1,86 @@
-﻿{
-    "info":  {
-                 "authors":  [
-                                 {
-                                     "links":  "https://github.com/zhy0070",
-                                     "name":  "烤鱼"
-                                 }
-                             ],
-                 "bgi_version":  "0.45.0",
-                 "description":  "",
-                 "enable_monster_loot_split":  false,
-                 "last_modified_time":  1783090311295,
-                 "map_match_method":  "",
-                 "map_name":  "Teyvat",
-                 "name":  "B02须弥-降诸魔山右",
-                 "tags":  [
-
-                          ],
-                 "type":  "collect",
-                 "version":  "1.0"
-             },
-    "positions":  [
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  1,
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  2246.2949,
-                          "y":  -1680.082
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  2,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  2228.8379,
-                          "y":  -1628.9375
-                      },
-                      {
-                          "action":  "stop_flying",
-                          "action_params":  "",
-                          "id":  3,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  2220.0742,
-                          "y":  -1424.4961
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  4,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  2220.0742,
-                          "y":  -1424.4961
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  5,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  2218.041,
-                          "y":  -1408.335
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  6,
-                          "locked":  false,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  2216.9414,
-                          "y":  -1407.0332
-                      },
-                      {
-                          "action":  "combat_script",
-                          "action_params":  "wait(2)",
-                          "id":  7,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  2216.9414,
-                          "y":  -1407.0332
-                      }
-                  ]
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1783090311295,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B02须弥-降诸魔山右",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2246.2949,
+      "y": -1680.082
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2228.8379,
+      "y": -1628.9375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2220.0742,
+      "y": -1424.4961
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2220.0742,
+      "y": -1424.4961
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2218.041,
+      "y": -1408.335
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2216.9414,
+      "y": -1407.0332
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2216.9414,
+      "y": -1407.0332
+    }
+  ]
 }

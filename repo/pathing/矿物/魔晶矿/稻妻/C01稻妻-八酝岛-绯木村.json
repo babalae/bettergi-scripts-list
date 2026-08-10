@@ -1,97 +1,95 @@
-﻿{
-    "info":  {
-                 "authors":  [
-                                 {
-                                     "links":  "https://github.com/zhy0070",
-                                     "name":  "烤鱼"
-                                 }
-                             ],
-                 "bgi_version":  "0.45.0",
-                 "description":  "",
-                 "enable_monster_loot_split":  false,
-                 "last_modified_time":  1783089274712,
-                 "map_match_method":  "",
-                 "map_name":  "Teyvat",
-                 "name":  "C01稻妻-八酝岛-绯木村",
-                 "tags":  [
-
-                          ],
-                 "type":  "collect",
-                 "version":  "1.0"
-             },
-    "positions":  [
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  1,
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  -2215.7578,
-                          "y":  -3709.166
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  2,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  -2193.3984,
-                          "y":  -3715.6963
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  3,
-                          "move_mode":  "run",
-                          "type":  "path",
-                          "x":  -2128.082,
-                          "y":  -3745.5039
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  4,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -2109.0449,
-                          "y":  -3759.7607
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  5,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -2118.0898,
-                          "y":  -3762.3418
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  6,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -2114.8457,
-                          "y":  -3771.9932
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  7,
-                          "locked":  false,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -2123.7227,
-                          "y":  -3765.2695
-                      },
-                      {
-                          "action":  "combat_script",
-                          "action_params":  "wait(2)",
-                          "id":  8,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -2123.7227,
-                          "y":  -3765.2695
-                      }
-                  ]
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1783089274712,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C01稻妻-八酝岛-绯木村",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2215.7578,
+      "y": -3709.166
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2193.3984,
+      "y": -3715.6963
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2128.082,
+      "y": -3745.5039
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2109.0449,
+      "y": -3759.7607
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2118.0898,
+      "y": -3762.3418
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2114.8457,
+      "y": -3771.9932
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2123.7227,
+      "y": -3765.2695
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2123.7227,
+      "y": -3765.2695
+    }
+  ]
 }

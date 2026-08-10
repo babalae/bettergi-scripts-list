@@ -8,7 +8,8 @@
         QueueMusicRepeat: 3, // 队列循环执行
     };
     const lowest_latency = 30;
-    let DEBUG = false;
+    let DEBUG;
+    let settings_msg = get_settings();
 
     let music_infos = [];
     /**
@@ -23,6 +24,21 @@
     //     const localMusicList = scoreFiles.map(path => path.match(regex_name)[0]);
     //     return localMusicList;
     // }
+
+    /**
+     * 读取每个曲谱的乐器信息并返回字典
+     * @returns {Promise<void>}
+     */
+    async function get_sheet_ins() {
+        let settingsJson = JSON.parse(file.readTextSync("settings.json"));
+        let ms_index = settingsJson.findIndex(item => item.name === 'music_selector');
+        let sheetDic = {};
+        for (const name of settingsJson[ms_index].options) {
+            sheetDic[name] = (JSON.parse(file.readTextSync(`assets\\score_file\\${name}.json`)).instrument).split(",");
+        }
+        settingsJson[ms_index].options = sheetDic
+        return settingsJson;
+    }
 
     /**
      *
@@ -348,6 +364,7 @@
      * @property {Number} startTime - 目标时间的时间戳
      * @property {Number} playType - 播放模式，使用PlayType枚举
      * @property {Array[String]} musicQueue - 乐曲队列，包含乐曲文件名的数组
+     * @property {Boolean} autoSwitch - 开始演奏前是否自动切换乐器
      * @property {Number} queueInterval - 乐曲队列间隔时间，单位为秒
      * @property {Number} repeatTimes - 循环执行次数
      * @property {Number} repeatInterval - 循环间隔时间，单位为秒
@@ -359,6 +376,7 @@
             startTime: 0,
             playType: undefined,
             musicQueue: [],
+            autoSwitch: false,
             queueInterval: 0,
             repeatTimes: 1,
             repeatInterval: 0,
@@ -407,7 +425,8 @@
                     Settings.playType = PlayType.SingleMusicOnce;
                     break;
             }
-
+            // 读取切换乐器
+            Settings.autoSwitch = settings.auto_switch;
             // 读取队列间隔时间
             Settings.queueInterval = (typeof (settings.music_interval) === 'undefined') ? (0) : parseInt(settings.music_interval, 10);
             // 读取循环次数
@@ -416,10 +435,10 @@
             Settings.repeatInterval = (typeof (settings.repeat_interval) === 'undefined') ? (0) : parseInt(settings.repeat_interval, 10);
             // 读取乐曲队列 Array[musicName]
             if (Settings.playType === PlayType.SingleMusicOnce || Settings.playType === PlayType.singleRepeat) {
-                Settings.musicQueue.push((typeof (settings.music_selector) === 'undefined') ? (undefined) : (settings.music_selector));
+                Settings.musicQueue.push((typeof (settings.music_selector) === 'undefined') ? undefined : (settings.music_selector));
             }
             else {
-                let music_queue = (typeof (settings.music_queue) === 'undefined') ? (undefined) : (settings.music_queue);
+                let music_queue = (typeof (settings.music_queue) === 'undefined') ? undefined : (settings.music_queue);
                 if (music_queue === undefined) throw new Error("队列执行无序号");
                 let musicIndex = Array.from(new Set(music_queue.split(' ').filter(item => item !== ""))); // 去重
                 musicList().forEach(music => {
@@ -432,6 +451,8 @@
                 });
             }
             Settings.debug = (typeof (settings.debug_mode) === 'undefined') ? false : settings.debug_mode === "启用";
+
+            DEBUG = Settings.debug;
             return Settings;
 
         } catch (error) {
@@ -613,13 +634,14 @@
             const wait = note["offset"];
             const key = note["key"];
             const time = note["time"];
-            await sleep(Math.floor(wait * gap));
+            await sleep(RandomRhythmOffset(Math.floor(wait * gap))); // SleepTime
             keyDown(key);
-            await sleep(Math.floor(time * gap));
+            await sleep(RandomRhythmOffset(Math.floor(time * gap))); // SleepTime
             keyUp(key);
         }
         log.info(`总计 ${bar_list.length} 小节, 预计演奏时长 ${(bar_list.length * gap * bar_list[0][0] / 1000).toFixed(2)}秒`);
         for (let i = 0; i < bar_list.length; i++) {
+            if (Math.random() < 0.5) keyPress("I");  // AC
             let bar = bar_list[i];
             let barTime = bar[0];
             let notes = bar.slice(1);
@@ -982,6 +1004,7 @@
 
             let midi_start_time = Date.now();
             for (let i = 0; i < play_sheet.length; i++) {
+                if (Math.random() < 0.5) keyPress("I");  // AC
                 // 预期用时
                 let expected_usage = 0;
                 // 变速标记
@@ -1009,7 +1032,7 @@
                 if (DEBUG) {
                     log.info(`${status}-${notes}-${note_ticks}`);
                 }
-                let wait_time = Math.round(note_ticks * base_time);
+                let wait_time = RandomRhythmOffset(Math.round(note_ticks * base_time)); // SleepTime
 
                 if (i > 0) {
                     if (wait_time >= lowest_latency) {
@@ -1077,13 +1100,14 @@
             let yq_start_time = Date.now();
             // test 需要额外计算装饰音时值的影响
             for (let i = 0; i < sheet_list.length; i++) {
+                if (Math.random() < 0.5) keyPress("I"); // AC
 
                 // 显示正在演奏的音符
                 if (DEBUG) {
                     log.info(`${sheet_list[i]["note"]}[${sheet_list[i]["type"]}-${sheet_list[i]["spl"]}]`);
                 }
                 if (sheet_list[i]["spl"] === 'none') { // 单音、休止符或和弦
-                    let sleep_time = cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i);
+                    let sleep_time = RandomRhythmOffset(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i)); // SleepTime
 
                     if (sheet_list[i]["chord"]) {
                         await play_chord(sheet_list[i]["note"], "down"); // 和弦
@@ -1125,35 +1149,36 @@
                     //     await sleep(cal_time_ornament(sheet_list, symbol_time, symbol, sheet_list[i]["type"], i));
                     // }
                 } else if (sheet_list[i]["spl"] === '#') { // 装饰音（不会包含休止符），时值为symbol的时值的1/16
+                    let sleep_time = RandomRhythmOffset(ornament_time); // SleepTime
                     if (sheet_list[i]["chord"]) {
                         await play_chord(sheet_list[i]["note"], "down"); // 和弦
                         let flag = false;
                         flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                         if (flag) {
-                            let wait_time = ornament_time - lowest_latency; // 提前去lowest_latency
+                            let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
                             if (wait_time >= 1) {
-                                ornament_time = wait_time;
+                                sleep_time = wait_time;
                                 if (DEBUG) {
-                                    log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${ornament_time} ms)`: `正常抬起：预期时长 ${ornament_time} ms`);
+                                    log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
                                 }
                             }
                         }
-                        await sleep(ornament_time);
+                        await sleep(sleep_time);
                         await play_chord(sheet_list[i]["note"], "up", flag);
                     } else {
                         await play_note(sheet_list[i]["note"], "down"); // 单音
                         let flag = false;
                         flag = i + 1 < sheet_list.length && hasCommonChar(sheet_list[i]["note"], sheet_list[i + 1]["note"]);
                         if (flag) {
-                            let wait_time = ornament_time - lowest_latency; // 提前去lowest_latency
+                            let wait_time = sleep_time - lowest_latency; // 提前去lowest_latency
                             if (wait_time >= 1) {
-                                ornament_time = wait_time;
+                                sleep_time = wait_time;
                                 if (DEBUG) {
-                                    log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${ornament_time} ms)`: `正常抬起：预期时长 ${ornament_time} ms`);
+                                    log.info(wait_time >= 1 ? `提前抬起：预期时长 ${wait_time} ms (原值: ${sleep_time} ms)`: `正常抬起：预期时长 ${sleep_time} ms`);
                                 }
                             }
                         }
-                        await sleep(ornament_time);
+                        await sleep(sleep_time);
                         await play_note(sheet_list[i]["note"], "up", flag);
                     }
                 } else if (/\.([36$])/.test(sheet_list[i]["spl"])) { // 三连音/六连音（可能包含休止符）
@@ -1192,6 +1217,7 @@
                             } else if (i !== sheet_list.length - 1) {
                                 sleep_time = time_current;
                             }
+                            sleep_time = RandomRhythmOffset(sleep_time); // SleepTime
 
                             if (temp_legato[j]["chord"]) {
                                 await play_chord(temp_legato[j]["note"], "down"); // 和弦
@@ -1244,7 +1270,7 @@
                         temp_legato = [];
                     }
                 } else if (sheet_list[i]["spl"] === '*') { // 附点音符
-                    let sleep_time = cal_time_ornament(sheet_list, symbol_time * 1.5, symbol, sheet_list[i]["type"], i);
+                    let sleep_time = RandomRhythmOffset(cal_time_ornament(sheet_list, symbol_time * 1.5, symbol, sheet_list[i]["type"], i)); // SleepTime
 
                     if (sheet_list[i]["chord"]) {
                         await play_chord(sheet_list[i]["note"], "down"); // 和弦
@@ -1305,14 +1331,14 @@
                             for (const key of sheet_list[i]["note"]) {
                                 keyUp(key);
                             }
-                            await sleep(lowest_latency);
+                            await sleep(RandomRhythmOffset(lowest_latency)); // SleepTime
                         }
                     } else {
                         if (sheet_list[i]["spl"] === '^') {
                             keyDown(sheet_list[i]["note"]);
                         } else {
                             keyUp(sheet_list[i]["note"]);
-                            await sleep(lowest_latency);
+                            await sleep(RandomRhythmOffset(lowest_latency)); // SleepTime
                         }
                     }
                 } else {
@@ -1341,47 +1367,45 @@
     /**
      * 检查本地曲谱文件与主程序配置是否一致，并自动修正配置settings文件。
      *
-     * @returns {boolean} 如果一致返回 true，否则返回 false。
+     * @param winId
+     * @returns {Promise<boolean>} 如果一致返回 true，否则返回 false。
      */
-    function checkSheetFile() {
-        try {
-            // 1. 读取本地所有JSON曲谱文件
-            const localMusicList = musicList();
+    const checkSheetFile = async (winId) => {
+        // 1. 读取本地所有JSON曲谱文件
+        const localMusicList = musicList();
 
-            // 2. 读取JS脚本配置中的曲谱列表
-            const settings = JSON.parse(file.readTextSync("settings.json"));
-            let configMusicList = undefined;
-            let indexOfMusicSelector = -1;
-            for (let i = 0; i < settings.length; i++) {
-                if (settings[i].name === "music_selector") {
-                    indexOfMusicSelector = i;
-                    configMusicList = settings[i].options;
-                    break;
-                }
+        // 2. 读取JS脚本配置中的曲谱列表
+        const settings = JSON.parse(file.readTextSync("settings.json"));
+        let configMusicList = undefined;
+        let indexOfMusicSelector = -1;
+        for (let i = 0; i < settings.length; i++) {
+            if (settings[i].name === "music_selector") {
+                indexOfMusicSelector = i;
+                configMusicList = settings[i].options;
+                break;
             }
-            // 3. 核对两个列表是否相同
-            const areArraysEqual = (a, b) => {
-                if (a.length !== b.length) return false;
-                const sortedA = [...a].sort();
-                const sortedB = [...b].sort();
-                return sortedA.every((item, index) => item === sortedB[index]);
-            };
+        }
+        // 3. 核对两个列表是否相同
+        const areArraysEqual = (a, b) => {
+            if (a.length !== b.length) return false;
+            const sortedA = [...a].sort();
+            const sortedB = [...b].sort();
+            return sortedA.every((item, index) => item === sortedB[index]);
+        };
 
-            if (!areArraysEqual(localMusicList, configMusicList)) {
-                // 以本地曲谱为准更新配置
-                const updatedSettings = [...settings];
-                updatedSettings[indexOfMusicSelector].options = localMusicList;
-                file.writeTextSync("settings.json", JSON.stringify(updatedSettings, null, 2));
-                log.warn("检测到曲谱文件不一致, 已自动修改settings(以本地曲谱文件为基准)...");
-                log.warn("JS脚本配置已更新, 请重新运行脚本!");
-                return false;
-            }
-
-            return true;
-        } catch (error) {
-            log.error("检查曲谱文件时发生错误:", error);
+        if (!areArraysEqual(localMusicList, configMusicList)) {
+            // 以本地曲谱为准更新配置
+            const updatedSettings = [...settings];
+            updatedSettings[indexOfMusicSelector].options = localMusicList;
+            file.writeTextSync("settings.json", JSON.stringify(updatedSettings, null, 2));
+            log.warn("检测到曲谱文件不一致, 已自动适配(以本地曲谱文件为基准)...");
+            log.warn("JS脚本配置已更新!");
+            htmlMask.send(winId, "/config/update", JSON.stringify({ status: "update", msg: "JS脚本配置已更新!", settings: await get_sheet_ins() }));
             return false;
         }
+        log.info("未检测到新增曲谱文件，当前已是最新...");
+        htmlMask.send(winId, "/config/update", JSON.stringify({ status: "latest", msg: "未检测到新增曲谱文件，当前已是最新...", settings: await get_sheet_ins() }));
+        return true;
     }
 
     /**
@@ -1468,16 +1492,11 @@
         }
     }
 
-    /**
-     * ------- 主程序 --------
-     */
-    async function main() {
-        if (!checkSheetFile()) return;
+    async function play(winId) {
+        if (!checkSheetFile(winId)) return;
+        music_infos = [];
 
-        let settings_msg = get_settings();
-        DEBUG = settings_msg.debug;
         console.log(`${settings_msg}`)
-
         for (const music_name of settings_msg.musicQueue) {
             const music_info = getMusicInfo(music_name);
             if (music_info === null) {
@@ -1490,51 +1509,133 @@
 
         const alwaysRepeat = ((settings_msg.playType === PlayType.SingleMusicRepeat || settings_msg.playType === PlayType.QueueMusicRepeat) && (settings_msg.repeatTimes === 0));
         await waitTargetTime(settings_msg.startTime);
-        // try {
-            do {
-                for (let i = 0; i < music_infos.length; i++) {
-                    let music_info = music_infos[i];
+        do {
+            for (let i = 0; i < music_infos.length; i++) {
+                let music_info = music_infos[i];
 
-                    if (settings.auto_switch) {
-                        await autoSwitchInstrument(music_info.instrument);  // 检测并切换乐器
-                    } else {
-                        log.info(`建议演奏乐器：${music_info.instrument}`);
-                    }
-                    log.info(`开始演奏: ${music_info.name} - ${music_info.author}`);
-                    switch (music_info.type) {
-                        case "yuanqin":
-                            await play_sheet(i, music_info.notes, music_info.bpm, music_info.time_signature);
-                            break;
-                        case "midi":
-                            await play_sheet(i, music_info.notes, music_info.bpm, music_info.time_signature, music_info.ticks);
-                            break;
-                        case "keyboard":
-                            if (DEBUG) {
-                                log.info(`乐曲已打印至${music_info.name}.json`)
-                                let info = []
-                                music_info.notes.forEach((note, index) => {
-                                    info.push([index, ...note]);
-                                });
-                                file.writeTextSync(`${music_info.name}.json`, `${JSON.stringify(info)}`);
-                            }
-                            await listNotePlay(music_info.notes, (60000 / music_info.bpm));
-                            break;
-                        default:
-                            break;
-                    }
-                    if (settings_msg.queueInterval > 0) await sleep(settings_msg.queueInterval * 1000);
+                if (settings_msg.autoSwitch) {
+                    await autoSwitchInstrument(music_info.instrument);  // 检测并切换乐器
+                } else {
+                    log.info(`建议演奏乐器：${music_info.instrument}`);
                 }
-                if (settings_msg.repeatInterval > 0) await sleep(settings_msg.repeatInterval * 1000);
-            } while (alwaysRepeat || --settings_msg.repeatTimes > 0);
-        // } catch (error) {
-        //     if (DEBUG) {
-        //         log.error(`脚本执行错误 ${error} erron.txt 已打印`)
-        //         file.writeTextSync("erron.txt", `${error.stack}`);
-        //     }
-        //     else {
-        //         log.error(`脚本执行错误 ${error}`)
-        //     }
-        // }
+                log.info(`开始演奏: ${music_info.name} - ${music_info.author}`);
+                switch (music_info.type) {
+                    case "yuanqin":
+                        await play_sheet(i, music_info.notes, music_info.bpm, music_info.time_signature);
+                        break;
+                    case "midi":
+                        await play_sheet(i, music_info.notes, music_info.bpm, music_info.time_signature, music_info.ticks);
+                        break;
+                    case "keyboard":
+                        if (DEBUG) {
+                            log.info(`乐曲已打印至${music_info.name}.json`)
+                            let info = []
+                            music_info.notes.forEach((note, index) => {
+                                info.push([index, ...note]);
+                            });
+                            file.writeTextSync(`${music_info.name}.json`, `${JSON.stringify(info)}`);
+                        }
+                        await listNotePlay(music_info.notes, (60000 / music_info.bpm));
+                        break;
+                    default:
+                        break;
+                }
+                if (settings_msg.queueInterval > 0) await sleep(settings_msg.queueInterval * 1000);
+            }
+            if (settings_msg.repeatInterval > 0) await sleep(settings_msg.repeatInterval * 1000);
+        } while (alwaysRepeat || --settings_msg.repeatTimes > 0);
+    }
+
+    /**
+     * 随机节奏偏移（模拟真人演奏）
+     * 以一定概率对给定时长进行随机百分比偏移，达到“人性化”效果
+     * 仅在 DEBUG 模式下生效，配置从 settings.random_rhythm_offset 读取
+     * 配置格式："概率 范围百分比"，例如 "0.05 10" 表示 5% 概率 ±10% 偏移
+     *
+     * @param {number} duration - 原始时长，单位毫秒（正整数）
+     * @returns {number} 偏移后的时长（整数毫秒），若未触发或偏移后时长过小则返回原始时长
+     */
+    function RandomRhythmOffset(duration) {
+        // 仅在调试模式下启用此功能
+        if (!DEBUG) {
+            return duration;
+        }
+
+        // 解析配置，增加容错处理
+        const config = settings.random_rhythm_offset || "0.05 10";
+        const parts = config.split(/\s+/).filter(s => s !== '');
+        if (parts.length < 2) {
+            return duration; // 配置格式错误，直接返回原值
+        }
+        const probability = parseFloat(parts[0]);
+        const rangePercent = parseFloat(parts[1]);
+
+        // 校验参数合法性
+        if (isNaN(probability) || isNaN(rangePercent) || probability < 0 || probability > 1 || rangePercent < 0) {
+            return duration;
+        }
+
+        // 根据概率决定是否偏移
+        if (Math.random() < probability) {
+            // 生成 [-rangePercent%, +rangePercent%] 范围内的随机比例因子
+            const offsetFactor = (Math.random() * 2 - 1) * (rangePercent / 100);
+            let newDuration = Math.round(duration * (1 + offsetFactor));
+
+            if (newDuration >= 40) log.info(`触发概率: ${probability} 偏移量: ${offsetFactor.toFixed(2)} 时长: ${newDuration}|${duration}(原)`);
+
+            // 如果偏移后的时长小于 40ms，则舍弃偏移，返回原始时长
+            if (newDuration < 40) {
+                return duration;
+            }
+            return newDuration;
+        }
+
+        // 未触发，返回原始时长
+        return duration;
+    }
+
+    /**
+     * ------- 主程序 --------
+     */
+    async function main() {
+        if (settings.cover) {
+            const winId = htmlMask.show("assets/index.html");
+            htmlMask.setClickThrough(winId, false);
+
+            // 持续接收 HTML 消息
+            while (htmlMask.exists(winId)) {
+                const msg = await htmlMask.receive(winId);
+                if (msg) {
+                    const parsed = JSON.parse(msg);
+
+                    switch (parsed.url) {
+                        case "/event/click":
+                            htmlMask.send(winId, "/frame/minimize", "minimize");
+                            htmlMask.setClickThrough(winId, true);
+                            settings_msg = parsed.data;
+                            await play(winId);
+                            htmlMask.send(winId, "/frame/restore", "restore");
+                            htmlMask.setClickThrough(winId, false);
+                            break;
+                        case "/config/update":
+                            await checkSheetFile(winId);
+                            break;
+                        case "/window/close":
+                            return null;
+                        case "/config/settings":
+                            await checkSheetFile(winId);
+                            htmlMask.send(winId, "/config/settings", JSON.stringify(settings_msg));
+                            break;
+
+                    }
+                }
+            }
+
+            htmlMask.close(winId);
+        } else {
+            await play(winId);
+        }
+
     }
     await main();
 

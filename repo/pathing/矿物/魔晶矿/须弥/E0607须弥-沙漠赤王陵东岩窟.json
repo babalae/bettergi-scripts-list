@@ -1,152 +1,150 @@
-﻿{
-    "info":  {
-                 "authors":  [
-                                 {
-                                     "links":  "https://github.com/zhy0070",
-                                     "name":  "烤鱼"
-                                 }
-                             ],
-                 "bgi_version":  "0.45.0",
-                 "description":  "",
-                 "enable_monster_loot_split":  false,
-                 "hash_res":  "80824249",
-                 "last_modified_time":  1783090409051,
-                 "map_match_method":  "",
-                 "map_name":  "Teyvat",
-                 "name":  "E0607须弥-沙漠赤王陵东岩窟",
-                 "tags":  [
-
-                          ],
-                 "type":  "collect",
-                 "version":  "1.0"
-             },
-    "positions":  [
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  1,
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  5383.0566,
-                          "y":  -2456.3984
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  2,
-                          "move_mode":  "dash",
-                          "type":  "path",
-                          "x":  5382.5005,
-                          "y":  -2495.1543
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  3,
-                          "move_mode":  "dash",
-                          "type":  "path",
-                          "x":  5409.3984,
-                          "y":  -2524.627
-                      },
-                      {
-                          "action":  "fight",
-                          "action_params":  "",
-                          "id":  4,
-                          "move_mode":  "dash",
-                          "type":  "path",
-                          "x":  5398.5205,
-                          "y":  -2556.9307
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  5,
-                          "move_mode":  "dash",
-                          "type":  "path",
-                          "x":  5381.8008,
-                          "y":  -2589.6973
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  6,
-                          "move_mode":  "dash",
-                          "type":  "path",
-                          "x":  5364.0127,
-                          "y":  -2610.4316
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  7,
-                          "move_mode":  "walk",
-                          "type":  "target",
-                          "x":  5380.8564,
-                          "y":  -2636.7559
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  8,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  5306.9727,
-                          "y":  -2693.0762
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  9,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  5283.9502,
-                          "y":  -2706.0273
-                      },
-                      {
-                          "action":  "stop_flying",
-                          "action_params":  "",
-                          "id":  10,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  5279.4092,
-                          "y":  -2730.041
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  11,
-                          "move_mode":  "walk",
-                          "type":  "target",
-                          "x":  5279.4092,
-                          "y":  -2730.041
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  12,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  5279.5371,
-                          "y":  -2733.9434
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  13,
-                          "locked":  false,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  5275.7344,
-                          "y":  -2731.5049
-                      },
-                      {
-                          "action":  "combat_script",
-                          "action_params":  "wait(2)",
-                          "id":  14,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  5275.7344,
-                          "y":  -2731.5049
-                      }
-                  ]
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "hash_res": "80824249",
+    "last_modified_time": 1783090409051,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E0607须弥-沙漠赤王陵东岩窟",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5383.0566,
+      "y": -2456.3984
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5382.5005,
+      "y": -2495.1543
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5409.3984,
+      "y": -2524.627
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5398.5205,
+      "y": -2556.9307
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5381.8008,
+      "y": -2589.6973
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5364.0127,
+      "y": -2610.4316
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 5380.8564,
+      "y": -2636.7559
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5306.9727,
+      "y": -2693.0762
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5283.9502,
+      "y": -2706.0273
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5279.4092,
+      "y": -2730.041
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 5279.4092,
+      "y": -2730.041
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5279.5371,
+      "y": -2733.9434
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 13,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5275.7344,
+      "y": -2731.5049
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5275.7344,
+      "y": -2731.5049
+    }
+  ]
 }

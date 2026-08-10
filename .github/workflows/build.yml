@@ -4,12 +4,6 @@
 name: Build repo.json
 
 on:
-  push:
-    branches: [ "main" ]
-    paths:
-      - 'repo/**'
-      - 'build/build.js'
-      - '.github/workflows/**'
   workflow_dispatch:
     inputs:
       force_update:

@@ -1,109 +1,121 @@
 {
   "info": {
-    "author": "jbcaaa",
     "authors": [
       {
-        "name": "jbcaaa",
-        "links": "https://github.com/jbcaaa"
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1762229414465,
+    "last_modified_time": 1784813262628,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "02-须弥-帕蒂沙兰-须弥城右下-5个",
     "tags": [],
     "type": "collect",
-    "version": "1.0"
+    "version": "2.0"
   },
   "positions": [
     {
       "action": "",
+      "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 2651.43,
-      "y": -564.41
+      "x": 2651.043,
+      "y": -562.1172
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2648.3672,
+      "y": -543.748
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.4)",
-      "id": 2,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 2653.37,
-      "y": -530.61
-    },
-    {
-      "action": "",
+      "action_params": "wait(0.25)",
       "id": 3,
-      "locked": false,
-      "move_mode": "jump",
+      "move_mode": "dash",
       "type": "path",
-      "x": 2662.25,
-      "y": -518.0
+      "x": 2654.4375,
+      "y": -530.0146
     },
     {
       "action": "",
+      "action_params": "",
       "id": 4,
-      "locked": false,
       "move_mode": "run",
       "type": "path",
-      "x": 2698.04,
-      "y": -518.73
+      "x": 2652.8828,
+      "y": -523.2148
     },
     {
       "action": "",
+      "action_params": "",
       "id": 5,
-      "locked": false,
-      "move_mode": "walk",
+      "move_mode": "jump",
       "type": "path",
-      "x": 2708.54,
-      "y": -522.23
+      "x": 2661.7539,
+      "y": -513.8301
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2714.3965,
+      "y": -522.8018
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.4)",
-      "id": 6,
-      "locked": false,
+      "action_params": "wait(0.15)",
+      "id": 7,
       "move_mode": "walk",
       "type": "target",
-      "x": 2719.084,
-      "y": -522.9692
+      "x": 2718.4336,
+      "y": -523.0273
     },
     {
       "action": "combat_script",
-      "action_params": "w(4)",
-      "id": 7,
-      "locked": false,
+      "action_params": "keydown(w),dash(2.5),keyup(w),wait(0.5),keypress(x)",
+      "id": 8,
       "move_mode": "walk",
       "type": "orientation",
       "x": 2731.2471,
       "y": -518.6152
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2753.2529,
+      "y": -516.6309
+    },
+    {
       "action": "stop_flying",
       "action_params": "",
-      "id": 8,
-      "locked": false,
+      "id": 10,
       "move_mode": "fly",
-      "type": "target",
-      "x": 2787.25,
-      "y": -525.4
+      "type": "path",
+      "x": 2782.0195,
+      "y": -522.0723
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.4)",
-      "id": 9,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 2787.25,
-      "y": -525.4
+      "action_params": "wait(0.25)",
+      "id": 11,
+      "move_mode": "run",
+      "type": "target",
+      "x": 2787.2988,
+      "y": -525.0947
     }
   ]
 }

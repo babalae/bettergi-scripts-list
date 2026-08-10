@@ -46,14 +46,26 @@ class UserCancelled extends Error {
         const defaultRunMode = "扫描文件夹更新可选材料列表";
         log.warn("运行模式 未选择或无效: {0}，默认为{1}", runMode, defaultRunMode);
         runMode = defaultRunMode;
-        await sleep(3000);
+        await sleep(1000);
     }
 
     log.info("当前运行模式:{0}", runMode);
     if (runMode === "扫描文件夹更新可选材料列表") {
-        await runScanMode();
-        settings.runMode = "采集选中的材料";
-        log.info("扫描完成，自动更新设置：下次脚本将以{0}模式运行", settings.runMode);
+        const configMap = await runScanMode();
+        // 总是生成csv文件，以便需要csv模式时不必再重复运行脚本
+        const account = await getAccount();
+        updateTargetCountOfTasks({}, configMap, account, "csv");
+        const newRunMode = "采集选中的材料";
+        // 由于 https://github.com/babalae/better-genshin-impact/pull/3215
+        if (typeof settings.runMode === "undefined") {
+            // 如果用户从未打开过脚本配置页面，那么传递的设置是undefined，并且这种情况下脚本修改的设置无法被持久化
+            log.info("扫描完成，请在脚本配置中修改运行模式为{0}", newRunMode);
+        } else {
+            // 只要用户打开过脚本配置界面，即使点开后什么都没做，传递过来的也将是选项的default值，此时脚本修改的设置可以被持久化
+            log.info("扫描完成，自动更新设置：下次脚本将以{0}模式运行", newRunMode);
+        }
+        settings.runMode = newRunMode;
+        await sleep(2000);
     } else if (runMode === "采集选中的材料") {
         let startTime = logFakeScriptStart();
         await runGatherMode();
@@ -213,12 +225,7 @@ async function runGatherMode() {
     }
     log.info("共选中{0}种材料: {1}", materialNames.length, materialNames.join(", "));
 
-    let account = settings.manualSetAccountName || "";
-    if (!account) {
-        worldInfo = await getCoOpModeAndHostUid();
-        // 使用掩码后的UID作为账户名，避免浮窗和日志等意外暴露用户UID
-        account = worldInfo.maskUid;
-    }
+    let account = await getAccount();
 
     const groupedTasks = groupTasksByMaterialsName(selectedMaterials, account);
     const refreshedMaterials = Object.entries(groupedTasks)
@@ -279,6 +286,16 @@ async function runGatherMode() {
             throw e;
         }
     }
+}
+
+async function getAccount() {
+    let account = settings.manualSetAccountName || "";
+    if (!account) {
+        worldInfo = await getCoOpModeAndHostUid();
+        // 使用掩码后的UID作为账户名，避免浮窗和日志等意外暴露用户UID
+        account = worldInfo.maskUid;
+    }
+    return account;
 }
 
 function scanAndFilterJsonFiles(folderPath) {

@@ -1,61 +1,59 @@
-﻿{
-    "info":  {
-                 "authors":  [
-                                 {
-                                     "links":  "https://github.com/zhy0070",
-                                     "name":  "烤鱼"
-                                 }
-                             ],
-                 "bgi_version":  "0.45.0",
-                 "description":  "",
-                 "enable_monster_loot_split":  false,
-                 "last_modified_time":  1783089282270,
-                 "map_match_method":  "",
-                 "map_name":  "Teyvat",
-                 "name":  "C02稻妻-八酝岛-蛇骨矿洞左",
-                 "tags":  [
-
-                          ],
-                 "type":  "collect",
-                 "version":  "1.0"
-             },
-    "positions":  [
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  1,
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  -2220.7441,
-                          "y":  -4006.5811
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  2,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -2216.0977,
-                          "y":  -4046.2305
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  3,
-                          "locked":  false,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -2215.8652,
-                          "y":  -4052.8613
-                      },
-                      {
-                          "action":  "combat_script",
-                          "action_params":  "wait(2)",
-                          "id":  4,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -2215.8652,
-                          "y":  -4052.8613
-                      }
-                  ]
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1783089282270,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C02稻妻-八酝岛-蛇骨矿洞左",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2220.7441,
+      "y": -4006.5811
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2216.0977,
+      "y": -4046.2305
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2215.8652,
+      "y": -4052.8613
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2215.8652,
+      "y": -4052.8613
+    }
+  ]
 }

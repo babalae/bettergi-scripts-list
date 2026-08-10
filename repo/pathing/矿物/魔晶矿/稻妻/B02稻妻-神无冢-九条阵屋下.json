@@ -1,70 +1,68 @@
-﻿{
-    "info":  {
-                 "authors":  [
-                                 {
-                                     "links":  "https://github.com/zhy0070",
-                                     "name":  "烤鱼"
-                                 }
-                             ],
-                 "bgi_version":  "0.45.0",
-                 "description":  "",
-                 "enable_monster_loot_split":  false,
-                 "last_modified_time":  1783089206468,
-                 "map_match_method":  "",
-                 "map_name":  "Teyvat",
-                 "name":  "B02稻妻-神无冢-九条阵屋下",
-                 "tags":  [
-
-                          ],
-                 "type":  "collect",
-                 "version":  "1.0"
-             },
-    "positions":  [
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  1,
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  -3436.7617,
-                          "y":  -3319.5049
-                      },
-                      {
-                          "action":  "stop_flying",
-                          "action_params":  "",
-                          "id":  2,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  -3420.8262,
-                          "y":  -3314.293
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  3,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -3420.373,
-                          "y":  -3311.6973
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  4,
-                          "locked":  false,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -3415.6719,
-                          "y":  -3316.1523
-                      },
-                      {
-                          "action":  "combat_script",
-                          "action_params":  "wait(2)",
-                          "id":  5,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -3415.6719,
-                          "y":  -3316.1523
-                      }
-                  ]
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1783089206468,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B02稻妻-神无冢-九条阵屋下",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3436.7617,
+      "y": -3319.5049
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3420.8262,
+      "y": -3314.293
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3420.373,
+      "y": -3311.6973
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3415.6719,
+      "y": -3316.1523
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3415.6719,
+      "y": -3316.1523
+    }
+  ]
 }

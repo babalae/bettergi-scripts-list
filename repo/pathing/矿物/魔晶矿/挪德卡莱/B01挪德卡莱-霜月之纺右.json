@@ -1,60 +1,58 @@
-﻿{
-    "info":  {
-                 "authors":  [
-                                 {
-                                     "links":  "https://github.com/zhy0070",
-                                     "name":  "烤鱼"
-                                 }
-                             ],
-                 "bgi_version":  "0.45.0",
-                 "description":  "",
-                 "enable_monster_loot_split":  false,
-                 "last_modified_time":  1783088024051,
-                 "map_match_method":  "",
-                 "map_name":  "Teyvat",
-                 "name":  "B01挪德卡莱-霜月之纺右",
-                 "tags":  [
-
-                          ],
-                 "type":  "collect",
-                 "version":  "1.0"
-             },
-    "positions":  [
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  1,
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  10362.5273,
-                          "y":  1814.646
-                      },
-                      {
-                          "action":  "stop_flying",
-                          "action_params":  "",
-                          "id":  2,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  10325.2988,
-                          "y":  1770.4712
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  3,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  10330.418,
-                          "y":  1772.79
-                      },
-                      {
-                          "action":  "combat_script",
-                          "action_params":  "wait(2)",
-                          "id":  4,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  10330.418,
-                          "y":  1772.79
-                      }
-                  ]
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1783088024051,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B01挪德卡莱-霜月之纺右",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10362.5273,
+      "y": 1814.646
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10325.2988,
+      "y": 1770.4712
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10330.418,
+      "y": 1772.79
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10330.418,
+      "y": 1772.79
+    }
+  ]
 }

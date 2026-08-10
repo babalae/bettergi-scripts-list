@@ -1,52 +1,50 @@
-﻿{
-    "info":  {
-                 "authors":  [
-                                 {
-                                     "links":  "https://github.com/zhy0070",
-                                     "name":  "烤鱼"
-                                 }
-                             ],
-                 "bgi_version":  "0.45.0",
-                 "description":  "",
-                 "enable_monster_loot_split":  false,
-                 "last_modified_time":  1783089144565,
-                 "map_match_method":  "",
-                 "map_name":  "Teyvat",
-                 "name":  "A06稻妻-鸣神岛-白狐之野",
-                 "tags":  [
-
-                          ],
-                 "type":  "collect",
-                 "version":  "1.0"
-             },
-    "positions":  [
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  1,
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  -4231.9473,
-                          "y":  -3001.8545
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  2,
-                          "locked":  false,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -4211.4844,
-                          "y":  -2911.0742
-                      },
-                      {
-                          "action":  "combat_script",
-                          "action_params":  "wait(2)",
-                          "id":  3,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -4211.4844,
-                          "y":  -2911.0742
-                      }
-                  ]
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1783089144565,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A06稻妻-鸣神岛-白狐之野",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4231.9473,
+      "y": -3001.8545
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4211.4844,
+      "y": -2911.0742
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4211.4844,
+      "y": -2911.0742
+    }
+  ]
 }

@@ -1,154 +1,152 @@
-﻿{
-    "info":  {
-                 "author":  "this-Fish",
-                 "authors":  [
-                                 {
-                                     "links":  "https://github.com/zhy0070",
-                                     "name":  "烤鱼"
-                                 }
-                             ],
-                 "bgi_version":  "0.52.0",
-                 "description":  "",
-                 "enable_monster_loot_split":  false,
-                 "last_modified_time":  1783089391674,
-                 "map_match_method":  "",
-                 "map_name":  "Teyvat",
-                 "name":  "D07稻妻-海衹岛-望泷村左下",
-                 "tags":  [
-
-                          ],
-                 "type":  "collect",
-                 "version":  "1.0"
-             },
-    "positions":  [
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  1,
-                          "move_mode":  "walk",
-                          "type":  "teleport",
-                          "x":  -755.64,
-                          "y":  -4001.09
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  2,
-                          "move_mode":  "dash",
-                          "type":  "path",
-                          "x":  -748.59,
-                          "y":  -3999.47
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  3,
-                          "move_mode":  "dash",
-                          "type":  "path",
-                          "x":  -743.56,
-                          "y":  -3999
-                      },
-                      {
-                          "action":  "combat_script",
-                          "action_params":  "玛薇卡 wait(0.11),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(0.9),dash(0.1),e;",
-                          "id":  4,
-                          "move_mode":  "dash",
-                          "type":  "orientation",
-                          "x":  -650.84,
-                          "y":  -3988.36
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  5,
-                          "move_mode":  "dash",
-                          "type":  "path",
-                          "x":  -650.84,
-                          "y":  -3988.36
-                      },
-                      {
-                          "action":  "stop_flying",
-                          "action_params":  "",
-                          "id":  6,
-                          "move_mode":  "fly",
-                          "type":  "path",
-                          "x":  -633.07,
-                          "y":  -3992.22
-                      },
-                      {
-                          "action":  "fight",
-                          "action_params":  "",
-                          "id":  7,
-                          "move_mode":  "dash",
-                          "point_ext_params":  {
-                                                   "description":  "野伏众*3",
-                                                   "misidentification":  {
-                                                                             "arrival_time":  0,
-                                                                             "handling_mode":  "previousDetectedPoint",
-                                                                             "type":  [
-                                                                                          "unrecognized"
-                                                                                      ]
-                                                                         },
-                                                   "monster_tag":  "normal"
-                                               },
-                          "type":  "path",
-                          "x":  -636.6,
-                          "y":  -3990.82
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  8,
-                          "move_mode":  "walk",
-                          "type":  "path",
-                          "x":  -626.0625,
-                          "y":  -4000.6328
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  9,
-                          "move_mode":  "dash",
-                          "type":  "path",
-                          "x":  -620.73,
-                          "y":  -4016.79
-                      },
-                      {
-                          "action":  "",
-                          "action_params":  "",
-                          "id":  10,
-                          "move_mode":  "dash",
-                          "type":  "path",
-                          "x":  -627.28,
-                          "y":  -4026.45
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  11,
-                          "move_mode":  "walk",
-                          "type":  "target",
-                          "x":  -623.0391,
-                          "y":  -4029.3896
-                      },
-                      {
-                          "action":  "mining",
-                          "action_params":  "",
-                          "id":  12,
-                          "locked":  false,
-                          "move_mode":  "walk",
-                          "type":  "target",
-                          "x":  -622.5723,
-                          "y":  -4035.6973
-                      },
-                      {
-                          "action":  "combat_script",
-                          "action_params":  "wait(2)",
-                          "id":  13,
-                          "move_mode":  "walk",
-                          "type":  "target",
-                          "x":  -622.5723,
-                          "y":  -4035.6973
-                      }
-                  ]
+{
+  "info": {
+    "author": "this-Fish",
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1783089391674,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D07稻妻-海衹岛-望泷村左下",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -755.64,
+      "y": -4001.09
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -748.59,
+      "y": -3999.47
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -743.56,
+      "y": -3999
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 wait(0.11),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(0.9),dash(0.1),e;",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -650.84,
+      "y": -3988.36
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -650.84,
+      "y": -3988.36
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -633.07,
+      "y": -3992.22
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "point_ext_params": {
+        "description": "野伏众*3",
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        },
+        "monster_tag": "normal"
+      },
+      "type": "path",
+      "x": -636.6,
+      "y": -3990.82
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -626.0625,
+      "y": -4000.6328
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -620.73,
+      "y": -4016.79
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -627.28,
+      "y": -4026.45
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -623.0391,
+      "y": -4029.3896
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 12,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -622.5723,
+      "y": -4035.6973
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -622.5723,
+      "y": -4035.6973
+    }
+  ]
 }
