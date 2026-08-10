@@ -1123,7 +1123,7 @@ let shouldForceStop = false;
                 interactRetries++;
                 log.info(`[新版寻路] 交互按钮识别失败，重试${interactRetries}...`);
                 await sleep(3000);
-                interactHit = wipOcrCheckText(stygianInteractRoi, ["幽境危战"], `新版寻路-交互-r${interactRetries}`, isDebug);
+                interactHit = wipOcrCheckText(stygianInteractRoi_final, ["幽境危战"], `新版寻路-交互-r${interactRetries}`, isDebug);
             }
 
             if (!interactHit) {
