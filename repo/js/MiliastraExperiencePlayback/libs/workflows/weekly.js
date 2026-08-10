@@ -56,14 +56,16 @@ const execWeeklyTask = async () => {
     try {
       tracker.print(`开始 ${store.uid} 本周第 ${store.weekly.attempts + 1} 次奇域挑战...`);
       /** 删除关卡存档 */
-      await deleteStageSave();
+      const isDeleted = await deleteStageSave();
       /** 进入房间 */
       await enterRoom(userConfig.room);
       /** 游玩关卡 */
       await playStage(playbacks);
       /** 关卡结束，更新数据存储 */
       store.weekly.attempts += 1;
-      store.weekly.expGained += userConfig.expPerAttempt;
+      store.weekly.expGained += isDeleted
+        ? userConfig.expPerAttempt
+        : userConfig.expPerAttempt % 50;
       tracker.tick({ increment: 1 });
       /** 本周已获取经验值达到上限，跳出循环 */
       if (store.weekly.expGained >= userConfig.expWeeklyLimit) {
