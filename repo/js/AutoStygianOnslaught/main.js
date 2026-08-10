@@ -800,6 +800,31 @@ let shouldForceStop = false;
     }  
    
     // OCR 检测函数（活动入口寻路用）
+    /*
+     * 
+     * 【红框可视化调试】
+     * 在开发模式下会对大部分的OCR区域绘制红框，做到可视化调试
+     * 某些没有覆盖到的区域用的可能是老的OCR函数（Textocr），
+     * 那是历史代码，改动麻烦且参数复杂，暂时不想处理
+     * 
+     * 【红框回收问题】
+     * 目前还没找到正确的资源回收方法，所以在退出路径中是直接绘制一个1×1的红框直接顶掉上一个绘制
+     * 开发模式的玩意能用就行，别太较真
+     * 
+     * 【为什么不统一OCR逻辑】
+     * 1. Textocr() 是老代码，参数复杂（超时、点击、调试模式等）
+     * 2. 改动风险大，影响范围广（战斗/领奖/退出流程全用这个,主要还是炸了改起来麻烦）
+     * 3. wipOcrCheckText() 是新版寻路专用封装，接口更简洁
+     * 
+     * 【覆盖范围】
+     * ✅ 有红框：navigateViaActivity() 内的所有OCR（活动/幽境危战/传送等）
+     * ❌ 无红框：Textocr() 调用点（单人挑战后的战斗/领奖流程）
+     * 
+     * @param {Array} roi1080 - 识别区域 [x, y, width, height] (基于1080P坐标)
+     * @param {Array} keywords - 匹配关键词列表
+     * @param {string} label - 调试标签（用于日志标识）
+     * @param {boolean} isDebug - 是否启用调试模式（绘制红框+详细日志）
+     */
     function wipOcrCheckText(roi1080, keywords, label, isDebug) {
         let ra = null;
         try {
@@ -810,6 +835,17 @@ let shouldForceStop = false;
             const h = Math.round(roi1080[3] * s);
 
             ra = captureGameRegion();
+
+            // 开发模式：绘制识别区域红框（可视化调试）
+            if (isDebug) {
+                try {
+                    const drawRegion = ra.DeriveCrop(x, y, w, h);
+                    drawRegion.DrawSelf("rect");
+                } catch (drawErr) {
+                    log.warn(`[DEBUG][${label}] 红框绘制异常: ${drawErr.message}`);
+                }
+            }
+
             const resList = ra.findMulti(RecognitionObject.ocr(x, y, w, h));
             const count = resList.length !== undefined ? resList.length : resList.count;
 
@@ -851,7 +887,7 @@ let shouldForceStop = false;
 
             // ESC打开菜单 → OCR识别"活动" → 点击
             keyPress("VK_ESCAPE");
-            await sleep(2000);
+            await sleep(1400);
 
             let activityHit = null;
             const smallRoi = [633, 718, 62, 42], largeRoi = [98, 346, 651, 708];
@@ -866,7 +902,7 @@ let shouldForceStop = false;
                 const activityX = Math.round(activityHit.x / s + activityHit.width / s / 2);
                 const activityY = Math.round(activityHit.y / s + activityHit.height / s / 2) - 50;
                 GameCaptureRegion.gameRegion1080PPosClick(activityX, activityY);
-                await sleep(2500);
+                await sleep(2000);
             } else {
                 log.warn('[新版寻路] 活动识别失败，尝试F5快捷键');
                 try { await genshin.returnMainUi(); await sleep(1000); } catch(e) {}
@@ -875,12 +911,13 @@ let shouldForceStop = false;
             }
 
             // 识别"幽境危战"并点击
-            const stygianRoi = [260, 341, 118, 45];
-            
+            const stygianRoi = [192, 237, 308, 164], stygianLargeRoi = [189, 77, 295, 956];
+
             let stygianHit = wipOcrCheckText(stygianRoi, ["幽境危战"], "新版寻路-幽境危战", isDebug);
-            
+
             if (!stygianHit) {
-                log.info('[新版寻路] 首次识别失败，验证上一步元素...');
+                log.info('[新版寻路] 首次识别失败，等待界面加载');
+                await sleep(1300);
                 const activityCheck = wipOcrCheckText(smallRoi, ["活动"], "新版寻路-验证活动", isDebug);
                 if (activityCheck) {
                     const reClickX = Math.round(activityCheck.x / s + activityCheck.width / s / 2);
@@ -890,18 +927,22 @@ let shouldForceStop = false;
                     stygianHit = wipOcrCheckText(stygianRoi, ["幽境危战"], "新版寻路-幽境危战-retry", isDebug);
                 }
                 if (!stygianHit) {
-                    log.info('[新版寻路] 上一步已失效，滚动页面重试...');
+                    log.info('[新版寻路] 尝试大范围识别');
+                    stygianHit = wipOcrCheckText(stygianLargeRoi, ["幽境危战"], "新版寻路-幽境危战-large-pre", isDebug);
+                }
+                if (!stygianHit) {
+                    log.info('[新版寻路] 滚动页面重试');
                     await keyDown("VK_W"); await sleep(2000); await keyUp("VK_W");
-                    await sleep(1000);
-                    stygianHit = wipOcrCheckText(stygianRoi, ["幽境危战"], "新版寻路-幽境危战-r1", isDebug);
+                    await sleep(300);
+                    stygianHit = wipOcrCheckText(stygianLargeRoi, ["幽境危战"], "新版寻路-幽境危战-r1", isDebug);
                 }
             }
-            
+
             if (!stygianHit) {
-                log.info('[新版寻路] 滚动后仍未识别，再次滚动...');
+                log.info('[新版寻路] 未识别，再次滚动');
                 await keyDown("VK_W"); await sleep(1000); await keyUp("VK_W");
-                await sleep(1000);
-                stygianHit = wipOcrCheckText(stygianRoi, ["幽境危战"], "新版寻路-幽境危战-r2", isDebug);
+                await sleep(300);
+                stygianHit = wipOcrCheckText(stygianLargeRoi, ["幽境危战"], "新版寻路-幽境危战-r2", isDebug);
             }
 
             if (!stygianHit) {
@@ -963,16 +1004,27 @@ let shouldForceStop = false;
                 burstHit = wipOcrCheckText(burstRoi, ["紊乱爆发期已结束"], "新版寻路-爆发期-r2", isDebug);
             }
 
+            let isBurstPeriod = true;  // 记录是否在爆发期
             if (burstHit) {
                 if (settings.devMode) {
                     log.warn('[新版寻路][开发模式] 检测到"紊乱爆发期已结束"，但继续执行');
                 } else {
                     log.warn('[新版寻路] 检测到"紊乱爆发期已结束"，当前不在爆发期');
+                    isBurstPeriod = false;
                     try { await genshin.returnMainUi(); } catch(e) {}
                     return "non_burst";
                 }
             } else {
                 log.info('[新版寻路] 未检测到爆发期结束提示，视为在爆发期内');
+            }
+
+            // 获取剩余时间信息并合并报告（这里其实啥用没有，顺路获取一下信息）
+            const timeRemainingRoi = [1146, 353, 270, 34];
+            const timeRemainingHit = wipOcrCheckText(timeRemainingRoi, ["剩余时间"], "新版寻路-剩余时间", isDebug);
+            if (timeRemainingHit) {
+                const burstStatusText = isBurstPeriod ? '在爆发期内' : '不在爆发期';
+                // 直接用OCR识别的原始文本（已包含"剩余时间:XXX"），不再添加前缀
+                notification.send(`[新版寻路] 当前${burstStatusText}，${timeRemainingHit.text}`);
             }
 
             // 点击"前往挑战"
@@ -998,6 +1050,27 @@ let shouldForceStop = false;
                     log.info('[新版寻路] 上一步已失效，重试1...');
                     await sleep(1500);
                     teleportHit = wipOcrCheckText(teleportRoi, ["传送"], "新版寻路-传送-r1", isDebug);
+                    if (!teleportHit) {
+                        const escMenuRoi = [98, 346, 651, 708];
+                        const escMenuCheck = wipOcrCheckText(escMenuRoi, ["提升指南"], "新版寻路-检测ESC菜单", isDebug);
+                        if (escMenuCheck) {
+                            log.info('[新版寻路] 检测到仍在ESC菜单中，关闭菜单后查找交互按钮...');
+                            await keyPress("VK_ESCAPE");
+                            await sleep(1200);
+                            const stygianInteractRoi_skip = [1213, 510, 171, 56];
+                            interactHit = wipOcrCheckText(stygianInteractRoi_skip, ["幽境危战"], "新版寻路-交互-skip", isDebug);
+                            if (interactHit) {
+                                log.info('[新版寻路] 关闭ESC菜单后直接识别到交互按钮，跳转至按F步骤');
+                            }
+                        } else {
+                            log.info('[新版寻路] 不在ESC菜单中，尝试直接识别交互按钮...');
+                            const stygianInteractRoi_direct = [1213, 510, 171, 56];
+                            interactHit = wipOcrCheckText(stygianInteractRoi_direct, ["幽境危战"], "新版寻路-交互-direct", isDebug);
+                            if (interactHit) {
+                                log.info('[新版寻路] 直接识别到交互按钮（距离过近跳过传送），跳转至按F步骤');
+                            }
+                        }
+                    }
                 }
             }
             if (!teleportHit) {
@@ -1006,36 +1079,40 @@ let shouldForceStop = false;
                 teleportHit = wipOcrCheckText(teleportRoi, ["传送"], "新版寻路-传送-r2", isDebug);
             }
 
-            if (!teleportHit) {
+            if (!teleportHit && !interactHit) {
                 log.warn('[新版寻路] 未识别到传送按钮，回退到路径追踪');
                 return false;
             }
 
-            log.info('[新版寻路] 识别到传送，点击传送按钮');
-            const teleportX = Math.round(teleportHit.x / s + teleportHit.width / s / 2);
-            const teleportY = Math.round(teleportHit.y / s + teleportHit.height / s / 2);
-            GameCaptureRegion.gameRegion1080PPosClick(teleportX, teleportY);
-            await sleep(5000);
+            if (!interactHit) {
+                log.info('[新版寻路] 识别到传送，点击传送按钮');
+                const teleportX = Math.round(teleportHit.x / s + teleportHit.width / s / 2);
+                const teleportY = Math.round(teleportHit.y / s + teleportHit.height / s / 2);
+                GameCaptureRegion.gameRegion1080PPosClick(teleportX, teleportY);
+                await sleep(5000);
+            }
 
             // 识别"幽境危战"交互按钮并按F
-            const stygianInteractRoi = [1213, 510, 171, 56];
-            let interactHit = wipOcrCheckText(stygianInteractRoi, ["幽境危战"], "新版寻路-交互", isDebug);
+            const stygianInteractRoi_final = [1213, 510, 171, 56];
             if (!interactHit) {
-                log.info('[新版寻路] 首次识别失败，验证上一步元素...');
-                const teleportCheck = wipOcrCheckText(teleportRoi, ["传送"], "新版寻路-验证传送", isDebug);
-                if (teleportCheck) {
-                    log.info('[新版寻路] 传送按钮仍存在，重新点击传送按钮');
-                    const reTeleportX = Math.round(teleportCheck.x / s + teleportCheck.width / s / 2);
-                    const reTeleportY = Math.round(teleportCheck.y / s + teleportCheck.height / s / 2);
-                    GameCaptureRegion.gameRegion1080PPosClick(reTeleportX, reTeleportY);
-                    await sleep(5000);
-                    interactHit = wipOcrCheckText(stygianInteractRoi, ["幽境危战"], "新版寻路-交互-retry", isDebug);
-                }
+                interactHit = wipOcrCheckText(stygianInteractRoi_final, ["幽境危战"], "新版寻路-交互", isDebug);
                 if (!interactHit) {
-                    log.info('[新版寻路] 上一步已失效，按F备用传送');
-                    await keyPress("F");
-                    await sleep(5000);
-                    interactHit = wipOcrCheckText(stygianInteractRoi, ["幽境危战"], "新版寻路-交互-retry-f", isDebug);
+                    log.info('[新版寻路] 首次识别失败，验证上一步元素...');
+                    const teleportCheck = wipOcrCheckText(teleportRoi, ["传送"], "新版寻路-验证传送", isDebug);
+                    if (teleportCheck) {
+                        log.info('[新版寻路] 传送按钮仍存在，重新点击传送按钮');
+                        const reTeleportX = Math.round(teleportCheck.x / s + teleportCheck.width / s / 2);
+                        const reTeleportY = Math.round(teleportCheck.y / s + teleportCheck.height / s / 2);
+                        GameCaptureRegion.gameRegion1080PPosClick(reTeleportX, reTeleportY);
+                        await sleep(5000);
+                        interactHit = wipOcrCheckText(stygianInteractRoi_final, ["幽境危战"], "新版寻路-交互-retry", isDebug);
+                    }
+                    if (!interactHit) {
+                        log.info('[新版寻路] 上一步已失效，按F备用传送');
+                        await keyPress("F");
+                        await sleep(5000);
+                        interactHit = wipOcrCheckText(stygianInteractRoi_final, ["幽境危战"], "新版寻路-交互-retry-f", isDebug);
+                    }
                 }
             }
             let interactRetries = 0;
@@ -1462,6 +1539,23 @@ let shouldForceStop = false;
             await genshin.returnMainUi(); 
             continue;
         }finally{
+            // 开发模式：脚本退出时统一清除所有红框（覆盖所有退出路径）
+            if (settings.devMode) {
+                for (let i = 0; i < 3; i++) {
+                    try {
+                        const clearRa = captureGameRegion();
+                        // 使用左上角1x1区域覆盖来清除红框（极小，几乎不可见）
+                        const clearRegion = clearRa.DeriveCrop(0, 0, 1, 1);
+                        clearRegion.DrawSelf("rect");
+                        clearRa.dispose();
+                        break;
+                    } catch (clearErr) {
+                        log.warn(`[DEBUG] 清除红框尝试${i+1}失败: ${clearErr.message}`);
+                        await sleep(200);
+                    }
+                }
+            }
+
             //10.结束脚本 
             // 白名单逻辑：只有严重错误（shouldForceStop=true）时才执行退出流程
             if (shouldForceStop) {
