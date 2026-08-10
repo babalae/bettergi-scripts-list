@@ -183,20 +183,28 @@ const findManageStagesBtn = () => {
 const findEditStageSaveBtn = () => {
   return findTextWithinBounds("管理", 1220, 980, 700, 100);
 };
+/** 存档：查找存档时间占位符 */
+const saveListViewBounds = [210, 250, 1650, 710];
+const findSaveTimePlaceholder = () => {
+  const [x, y, w, h] = saveListViewBounds;
+  return findTextWithinBounds("1970年", x, y, w, h, { contains: true });
+};
 /** 存档：查找要删除的存档位置 */
-const findSaveToDeletePos = (keyword) =>
-  findTextWithinListView(
+const findSaveToDeletePos = (keyword) => {
+  const [x, y, w, h] = saveListViewBounds;
+  return findTextWithinListView(
     keyword,
     {
-      x: 210,
-      y: 250,
-      w: 1650,
-      h: 710,
+      x,
+      y,
+      w,
+      h,
       scrollLines: 7,
       lineHeight: 95,
     },
     { contains: true },
   );
+};
 /** 存档：查找局外存档列头 */
 const findExternalSaveColumnPos = () => {
   const txt = findTextWithinBounds("局外", 55, 190, 1810, 50, { contains: true });
@@ -206,7 +214,7 @@ const findExternalSaveColumnPos = () => {
 /** 存档：查找删除局外存档复选框已选中状态 */
 const findDeleteExternalSaveChecked = (colPos) => {
   const iro = findImageWithinBounds("assets/Checkbox_Checked.png", colPos, 250, 290, 710, {
-    threshold: 0.75,
+    threshold: 0.8,
     use3Channels: true,
   });
   iro?.drawSelf("group_img");
@@ -303,6 +311,7 @@ export {
   findMiliastraBtn,
   findPaimon,
   findPromptText,
+  findSaveTimePlaceholder,
   findSaveToDeletePos,
   findSearchWonderlandBtn,
   findSearchWonderlandInput,

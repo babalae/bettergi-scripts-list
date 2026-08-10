@@ -10,8 +10,207 @@
     const lowest_latency = 30;
     let DEBUG;
     let settings_msg = get_settings();
-
+    let playbackTask = null;
+    let playbackPaused = false;
+    let activePlaybackWindowId = null;
+    let lastPauseHotkeyAt = 0;
+    const activeMusicKeys = new Set();
+    const ignoredInjectedKeyDownUntil = new Map();
+    const ignoredInjectedKeyUpUntil = new Map();
+    let suspendedMusicKeys = [];
     let music_infos = [];
+
+    const pressedHotkeyKeys = new Set();
+    let pauseHotkeyLatched = false;
+
+    function keyCodeToHotkeyName(value) {
+        if (typeof value === "string" && !/^\d+$/.test(value)) {
+            if (/^[A-Z0-9]$/.test(value) || /^F(?:[1-9]|1[0-2])$/.test(value)) return value;
+            if (["Ctrl", "Alt", "Shift", "Backspace", "Tab", "Enter", "Space", "PageUp", "PageDown",
+                "End", "Home", "ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", "Insert", "Delete",
+                "Semicolon", "Equal", "Comma", "Minus", "Period", "Slash", "Backquote", "BracketLeft",
+                "Backslash", "BracketRight", "Quote"].includes(value)) return value;
+        }
+        const code = Number(value);
+        if (code >= 65 && code <= 90) return String.fromCharCode(code);
+        if (code >= 48 && code <= 57) return String.fromCharCode(code);
+        if (code >= 112 && code <= 123) return `F${code - 111}`;
+        if ([16, 160, 161].includes(code)) return "Shift";
+        if ([17, 162, 163].includes(code)) return "Ctrl";
+        if ([18, 164, 165].includes(code)) return "Alt";
+        const names = {
+            8: "Backspace", 9: "Tab", 13: "Enter", 32: "Space",
+            33: "PageUp", 34: "PageDown", 35: "End", 36: "Home",
+            37: "ArrowLeft", 38: "ArrowUp", 39: "ArrowRight", 40: "ArrowDown",
+            45: "Insert", 46: "Delete",
+            186: "Semicolon", 187: "Equal", 188: "Comma", 189: "Minus",
+            190: "Period", 191: "Slash", 192: "Backquote",
+            219: "BracketLeft", 220: "Backslash", 221: "BracketRight", 222: "Quote"
+        };
+        return names[code];
+    }
+
+    function normalizePauseHotkey(value) {
+        if (typeof value !== "string") return "F8";
+        const order = { Ctrl: 0, Alt: 1, Shift: 2 };
+        const unique = Array.from(new Set(value.split("+").map(part => part.trim()).filter(Boolean)));
+        const modifiers = unique.filter(part => Object.prototype.hasOwnProperty.call(order, part)).sort((a, b) => order[a] - order[b]);
+        const mainKeys = unique.filter(part => !Object.prototype.hasOwnProperty.call(order, part));
+        if (mainKeys.length !== 1) return "F8";
+        const mainKey = mainKeys[0];
+        const supported = /^[A-Z0-9]$/.test(mainKey)
+            || /^F(?:[1-9]|1[0-2])$/.test(mainKey)
+            || ["Backspace", "Tab", "Enter", "Space", "PageUp", "PageDown", "End", "Home",
+                "ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", "Insert", "Delete", "Semicolon",
+                "Equal", "Comma", "Minus", "Period", "Slash", "Backquote", "BracketLeft", "Backslash",
+                "BracketRight", "Quote"].includes(mainKey);
+        if (!supported || (modifiers.length === 0 && /^[A-Z]$/.test(mainKey))) return "F8";
+        return [...modifiers, mainKey].join("+");
+    }
+
+    function getPauseHotkey() {
+        const configured = settings_msg && settings_msg.pauseHotkey;
+        return normalizePauseHotkey(configured);
+    }
+
+    /**
+     * 等待暂停结束。使用短轮询让 HTML 控制面板可以及时恢复演奏。
+     */
+    async function waitWhilePaused() {
+        while (playbackPaused) {
+            await sleep(50);
+        }
+    }
+
+    /**
+     * 只计算实际演奏时间的 sleep；暂停所经过的时间不会消耗音符时值。
+     * @param {number} duration 等待时长（毫秒）
+     */
+    async function playbackSleep(duration) {
+        let remaining = Math.max(0, Math.round(Number(duration) || 0));
+        while (remaining > 0) {
+            await waitWhilePaused();
+            const slice = Math.min(remaining, 50);
+            const startedAt = Date.now();
+            await sleep(slice);
+            if (!playbackPaused) {
+                remaining -= Math.max(1, Date.now() - startedAt);
+            }
+        }
+        await waitWhilePaused();
+    }
+
+    function musicKeyDown(key) {
+        ignoredInjectedKeyDownUntil.set(key, Date.now() + 250);
+        keyDown(key);
+        activeMusicKeys.add(key);
+    }
+
+    function musicKeyUp(key) {
+        ignoredInjectedKeyUpUntil.set(key, Date.now() + 250);
+        keyUp(key);
+        activeMusicKeys.delete(key);
+    }
+
+    function scriptKeyPress(key) {
+        const ignoredUntil = Date.now() + 250;
+        ignoredInjectedKeyDownUntil.set(key, ignoredUntil);
+        ignoredInjectedKeyUpUntil.set(key, ignoredUntil);
+        keyPress(key);
+    }
+
+    function releaseAllMusicKeys() {
+        for (const key of activeMusicKeys) {
+            ignoredInjectedKeyUpUntil.set(key, Date.now() + 250);
+            keyUp(key);
+        }
+        activeMusicKeys.clear();
+    }
+
+    /**
+     * 切换演奏暂停状态。暂停时释放琴键，恢复时重新按下被暂停的长音。
+     */
+    function setPlaybackPaused(paused) {
+        const nextPaused = Boolean(paused);
+        if (nextPaused === playbackPaused) return;
+
+        if (nextPaused) {
+            suspendedMusicKeys = Array.from(activeMusicKeys);
+            releaseAllMusicKeys();
+            playbackPaused = true;
+            log.info("演奏已暂停");
+        } else {
+            playbackPaused = false;
+            for (const key of suspendedMusicKeys) {
+                musicKeyDown(key);
+            }
+            suspendedMusicKeys = [];
+            log.info("演奏已继续");
+        }
+    }
+
+    function resetPlaybackState() {
+        releaseAllMusicKeys();
+        suspendedMusicKeys = [];
+        playbackPaused = false;
+    }
+
+    function sendPlaybackState(message) {
+        if (activePlaybackWindowId !== null && htmlMask.exists(activePlaybackWindowId)) {
+            htmlMask.send(activePlaybackWindowId, "/playback/state", JSON.stringify({
+                playing: playbackTask !== null,
+                paused: playbackPaused,
+                hotkey: getPauseHotkey(),
+                message: message
+            }));
+        }
+    }
+
+    /**
+     * 注册全局暂停热键。即使 HTML 遮罩处于鼠标穿透状态也可使用，
+     * 因而不会影响玩家继续操作游戏。
+     */
+    function registerPauseHotkey() {
+        const hook = new KeyMouseHook();
+        hook.onKeyDown((keyCode) => {
+            const normalized = typeof keyCode === "object"
+                ? (keyCode.keyCode ?? keyCode.KeyCode ?? keyCode.code ?? keyCode.Code)
+                : keyCode;
+            const keyName = keyCodeToHotkeyName(normalized);
+            if (!keyName) return;
+            const ignoredUntil = ignoredInjectedKeyDownUntil.get(keyName) || 0;
+            if (ignoredUntil >= Date.now()) {
+                ignoredInjectedKeyDownUntil.delete(keyName);
+                return;
+            }
+            pressedHotkeyKeys.add(keyName);
+            const hotkeyParts = getPauseHotkey().split("+");
+            const mainHotkey = hotkeyParts[hotkeyParts.length - 1];
+            const isPauseHotkey = keyName === mainHotkey && hotkeyParts.every(part => pressedHotkeyKeys.has(part));
+            const now = Date.now();
+            if (!isPauseHotkey || pauseHotkeyLatched || playbackTask === null || now - lastPauseHotkeyAt < 300) return;
+
+            pauseHotkeyLatched = true;
+            lastPauseHotkeyAt = now;
+            setPlaybackPaused(!playbackPaused);
+            sendPlaybackState();
+        }, true);
+        hook.onKeyUp((keyCode) => {
+            const normalized = typeof keyCode === "object"
+                ? (keyCode.keyCode ?? keyCode.KeyCode ?? keyCode.code ?? keyCode.Code)
+                : keyCode;
+            const keyName = keyCodeToHotkeyName(normalized);
+            const ignoredUntil = keyName ? (ignoredInjectedKeyUpUntil.get(keyName) || 0) : 0;
+            if (keyName && ignoredUntil >= Date.now()) {
+                ignoredInjectedKeyUpUntil.delete(keyName);
+                return;
+            }
+            if (keyName) pressedHotkeyKeys.delete(keyName);
+            const hotkeyParts = getPauseHotkey().split("+");
+            if (!hotkeyParts.every(part => pressedHotkeyKeys.has(part))) pauseHotkeyLatched = false;
+        }, true);
+        return hook;
+    }
     /**
      * -------- 工具函数 --------
      */
@@ -703,7 +902,8 @@
             queueInterval: 0,
             repeatTimes: 1,
             repeatInterval: 0,
-            debug: false
+            debug: false,
+            pauseHotkey: "F8"
         }
 
 
@@ -784,6 +984,7 @@
                 Settings.musicQueue = matched;
             }
             Settings.debug = (typeof (settings.debug_mode) === 'undefined') ? false : settings.debug_mode === "启用";
+            Settings.pauseHotkey = normalizePauseHotkey(settings.pause_hotkey);
 
             DEBUG = Settings.debug;
             return Settings;
@@ -888,19 +1089,19 @@
      */
     async function play_note(key, status = "press", extra_wait = false) {
         if (status === "press") {
-            keyDown(key);
-            keyUp(key);
-            if (extra_wait) await sleep(lowest_latency);
+            musicKeyDown(key);
+            musicKeyUp(key);
+            if (extra_wait) await playbackSleep(lowest_latency);
         } else if (status === "down") {
-            keyDown(key);
+            musicKeyDown(key);
         } else if (status === "up") {
-            keyUp(key);
+            musicKeyUp(key);
             if (extra_wait) {
-                await sleep(lowest_latency);
+                await playbackSleep(lowest_latency);
                 if (DEBUG) {
                     log.info(`补足延迟：预期用时 ${lowest_latency} ms`);
                 }
-                await sleep(lowest_latency);
+                await playbackSleep(lowest_latency);
             }
         }
 
@@ -923,22 +1124,22 @@
                     if (DEBUG) {
                         log.info(`补足延迟：预期用时 ${lowest_latency} ms`);
                     }
-                    await sleep(lowest_latency);
+                    await playbackSleep(lowest_latency);
                 }
             }
         } else if (status === "down") {
             for (const key of keys) {
-                keyDown(key);
+                musicKeyDown(key);
             }
         } else if (status === "up") {
             for (const key of keys) {
-                keyUp(key);
+                musicKeyUp(key);
             }
             if (extra_wait) {
                 if (DEBUG) {
                     log.info(`补足延迟：预期用时 ${lowest_latency} ms`);
                 }
-                await sleep(lowest_latency);
+                await playbackSleep(lowest_latency);
             }
         }
 
@@ -967,14 +1168,15 @@
             const wait = note["offset"];
             const key = note["key"];
             const time = note["time"];
-            await sleep(RandomRhythmOffset(Math.floor(wait * gap))); // SleepTime
-            keyDown(key);
-            await sleep(RandomRhythmOffset(Math.floor(time * gap))); // SleepTime
-            keyUp(key);
+            await playbackSleep(RandomRhythmOffset(Math.floor(wait * gap))); // SleepTime
+            musicKeyDown(key);
+            await playbackSleep(RandomRhythmOffset(Math.floor(time * gap))); // SleepTime
+            musicKeyUp(key);
         }
         log.info(`总计 ${bar_list.length} 小节, 预计演奏时长 ${(bar_list.length * gap * bar_list[0][0] / 1000).toFixed(2)}秒`);
         for (let i = 0; i < bar_list.length; i++) {
-            if (Math.random() < 0.5) keyPress("I");  // AC
+            await waitWhilePaused();
+            if (Math.random() < 0.5) scriptKeyPress("I");  // AC
             let bar = bar_list[i];
             let barTime = bar[0];
             let notes = bar.slice(1);
@@ -985,9 +1187,9 @@
             if (DEBUG) {
                 log.info(`${i} / ${bar_list.length} ${(i / bar_list.length * 100).toFixed(2)}%`)
             }
-            await sleep(Math.floor(barTime * gap)); // 等待小节结束
+            await playbackSleep(Math.floor(barTime * gap)); // 等待小节结束
         }
-        await sleep(Math.floor(gap * 8)); // 额外等待
+        await playbackSleep(Math.floor(gap * 8)); // 额外等待
     }
 
     /**
@@ -1337,7 +1539,8 @@
 
             let midi_start_time = Date.now();
             for (let i = 0; i < play_sheet.length; i++) {
-                if (Math.random() < 0.5) keyPress("I");  // AC
+                await waitWhilePaused();
+                if (Math.random() < 0.5) scriptKeyPress("I");  // AC
                 // 预期用时
                 let expected_usage = 0;
                 // 变速标记
@@ -1374,22 +1577,22 @@
                                 const next_match = play_sheet[i + 1].match(regex);
                                 if (next_match && hasCommonChar(next_match[2], notes) && next_match[1] === 'D' && 'D' !== status) {
                                     let r_wait_time = wait_time - lowest_latency; // 正常时长减去 下一个音的额外延迟+延迟补偿
-                                    await sleep(r_wait_time);
+                                    await playbackSleep(r_wait_time);
                                     if (DEBUG) {
                                         log.info(`提前抬起：${r_wait_time}`);
                                     }
                                 } else {
-                                    await sleep(wait_time);
+                                    await playbackSleep(wait_time);
                                 }
                             }
                         } else {
-                            await sleep(wait_time);
+                            await playbackSleep(wait_time);
                         }
                     } else { //对相邻同音的按下/抬起对添加补偿延迟，避免无差别强制sleep导致流畅度下降
                         if (play_sheet[i - 1][0] !== "*" && play_sheet[i][0] !== "*") {
                             const prev_match = play_sheet[i - 1].match(regex);
                             if (prev_match && hasCommonChar(prev_match[2], notes) && prev_match[1] === 'U' && 'U' !== status) {
-                                await sleep(lowest_latency); // 额外延迟 防止丢音
+                                await playbackSleep(lowest_latency); // 额外延迟 防止丢音
                                 if (DEBUG) {
                                     log.info(`补足延迟：${lowest_latency}`);
                                 }
@@ -1397,7 +1600,7 @@
                         }
                     }
                 } else {
-                    await sleep(wait_time);
+                    await playbackSleep(wait_time);
                 }
 
 				if (notes === "@") continue;
@@ -1433,7 +1636,8 @@
             let yq_start_time = Date.now();
             // test 需要额外计算装饰音时值的影响
             for (let i = 0; i < sheet_list.length; i++) {
-                if (Math.random() < 0.5) keyPress("I"); // AC
+                await waitWhilePaused();
+                if (Math.random() < 0.5) scriptKeyPress("I"); // AC
 
                 // 显示正在演奏的音符
                 if (DEBUG) {
@@ -1455,11 +1659,11 @@
                                 }
                             }
                         }
-                        await sleep(sleep_time);
+                        await playbackSleep(sleep_time);
                         await play_chord(sheet_list[i]["note"], "up", flag);
                     } else {
                         if (sheet_list[i]["note"] === '@') { // 休止符
-                            await sleep(sleep_time);
+                            await playbackSleep(sleep_time);
                         } else {
                             await play_note(sheet_list[i]["note"], "down"); // 单音
                             let flag = false;
@@ -1473,7 +1677,7 @@
                                     }
                                 }
                             }
-                            await sleep(sleep_time);
+                            await playbackSleep(sleep_time);
                             await play_chord(sheet_list[i]["note"], "up", flag);
                         }
                     }
@@ -1496,7 +1700,7 @@
                                 }
                             }
                         }
-                        await sleep(sleep_time);
+                        await playbackSleep(sleep_time);
                         await play_chord(sheet_list[i]["note"], "up", flag);
                     } else {
                         await play_note(sheet_list[i]["note"], "down"); // 单音
@@ -1511,7 +1715,7 @@
                                 }
                             }
                         }
-                        await sleep(sleep_time);
+                        await playbackSleep(sleep_time);
                         await play_note(sheet_list[i]["note"], "up", flag);
                     }
                 } else if (/\.([36$])/.test(sheet_list[i]["spl"])) { // 三连音/六连音（可能包含休止符）
@@ -1565,11 +1769,11 @@
                                         }
                                     }
                                 }
-                                await sleep(sleep_time);
+                                await playbackSleep(sleep_time);
                                 await play_chord(temp_legato[j]["note"], "up", flag);
                             } else {
                                 if (temp_legato[j]["note"] === '@') { // 休止符
-                                    await sleep(sleep_time);
+                                    await playbackSleep(sleep_time);
                                 } else {
                                     await play_note(temp_legato[j]["note"], "down"); // 单音
                                     let flag = false;
@@ -1583,7 +1787,7 @@
                                             }
                                         }
                                     }
-                                    await sleep(sleep_time);
+                                    await playbackSleep(sleep_time);
                                     await play_note(temp_legato[j]["note"], "up", flag);
                                 }
                             }
@@ -1618,11 +1822,11 @@
                                 }
                             }
                         }
-                        await sleep(sleep_time);
+                        await playbackSleep(sleep_time);
                         await play_chord(sheet_list[i]["note"], "up", flag);
                     } else {
                         if (sheet_list[i]["note"] === '@') { // 休止符
-                            await sleep(sleep_time);
+                            await playbackSleep(sleep_time);
                         } else {
                             await play_note(sheet_list[i]["note"], "down"); // 单音
                             let flag = false;
@@ -1636,7 +1840,7 @@
                                     }
                                 }
                             }
-                            await sleep(sleep_time);
+                            await playbackSleep(sleep_time);
                             await play_note(sheet_list[i]["note"], "up", flag);
                         }
                     }
@@ -1658,20 +1862,20 @@
                     if (sheet_list[i]["chord"]) {
                         if (sheet_list[i]["spl"] === '^') {
                             for (const key of sheet_list[i]["note"]) {
-                                keyDown(key);
+                                musicKeyDown(key);
                             }
                         } else {
                             for (const key of sheet_list[i]["note"]) {
-                                keyUp(key);
+                                musicKeyUp(key);
                             }
-                            await sleep(RandomRhythmOffset(lowest_latency)); // SleepTime
+                            await playbackSleep(RandomRhythmOffset(lowest_latency)); // SleepTime
                         }
                     } else {
                         if (sheet_list[i]["spl"] === '^') {
-                            keyDown(sheet_list[i]["note"]);
+                            musicKeyDown(sheet_list[i]["note"]);
                         } else {
-                            keyUp(sheet_list[i]["note"]);
-                            await sleep(RandomRhythmOffset(lowest_latency)); // SleepTime
+                            musicKeyUp(sheet_list[i]["note"]);
+                            await playbackSleep(RandomRhythmOffset(lowest_latency)); // SleepTime
                         }
                     }
                 } else {
@@ -1952,9 +2156,9 @@
                     default:
                         break;
                 }
-                if (settings_msg.queueInterval > 0) await sleep(settings_msg.queueInterval * 1000);
+                if (settings_msg.queueInterval > 0) await playbackSleep(settings_msg.queueInterval * 1000);
             }
-            if (settings_msg.repeatInterval > 0) await sleep(settings_msg.repeatInterval * 1000);
+            if (settings_msg.repeatInterval > 0) await playbackSleep(settings_msg.repeatInterval * 1000);
         } while (alwaysRepeat || --settings_msg.repeatTimes > 0);
     }
 
@@ -2010,8 +2214,11 @@
      * ------- 主程序 --------
      */
     async function main() {
+        const pauseHotkey = registerPauseHotkey();
+        try {
         if (settings.cover) {
             const winId = htmlMask.show("assets/index.html");
+            activePlaybackWindowId = winId;
             htmlMask.setClickThrough(winId, false);
 
             // 持续接收 HTML 消息
@@ -2022,12 +2229,39 @@
 
                     switch (parsed.url) {
                         case "/event/click":
+                            if (playbackTask !== null) {
+                                htmlMask.send(winId, "/playback/state", JSON.stringify({ playing: true, paused: playbackPaused, hotkey: getPauseHotkey(), message: "已有乐曲正在演奏" }));
+                                break;
+                            }
                             htmlMask.send(winId, "/frame/minimize", "minimize");
+                            // 演奏时保持鼠标穿透，使用全局自定义热键暂停，不影响游戏操作。
                             htmlMask.setClickThrough(winId, true);
                             settings_msg = parsed.data;
-                            await play(winId);
-                            htmlMask.send(winId, "/frame/restore", "restore");
-                            htmlMask.setClickThrough(winId, false);
+                            resetPlaybackState();
+                            htmlMask.send(winId, "/playback/state", JSON.stringify({ playing: true, paused: false, hotkey: getPauseHotkey() }));
+                            playbackTask = (async () => {
+                                try {
+                                    await play(winId);
+                                } catch (error) {
+                                    log.error(`演奏过程中出错：${error}`);
+                                } finally {
+                                    resetPlaybackState();
+                                    playbackTask = null;
+                                    if (htmlMask.exists(winId)) {
+                                        htmlMask.send(winId, "/playback/state", JSON.stringify({ playing: false, paused: false, hotkey: getPauseHotkey() }));
+                                        htmlMask.send(winId, "/frame/restore", "restore");
+                                        htmlMask.setClickThrough(winId, false);
+                                    }
+                                }
+                            })();
+                            break;
+                        case "/playback/pause":
+                            if (playbackTask === null) {
+                                htmlMask.send(winId, "/playback/state", JSON.stringify({ playing: false, paused: false, hotkey: getPauseHotkey(), message: "当前没有正在演奏的乐曲" }));
+                                break;
+                            }
+                            setPlaybackPaused(parsed.data && typeof parsed.data.paused === "boolean" ? parsed.data.paused : !playbackPaused);
+                            htmlMask.send(winId, "/playback/state", JSON.stringify({ playing: true, paused: playbackPaused, hotkey: getPauseHotkey() }));
                             break;
                         case "/config/update":
                             await checkSheetFile(winId);
@@ -2047,10 +2281,21 @@
             }
 
             htmlMask.close(winId);
+            activePlaybackWindowId = null;
         } else {
-            await play();
+            resetPlaybackState();
+            playbackTask = play();
+            try {
+                await playbackTask;
+            } finally {
+                resetPlaybackState();
+                playbackTask = null;
+            }
         }
-
+        } finally {
+            pauseHotkey.removeAllListeners();
+            pauseHotkey.dispose();
+        }
     }
     await main();
 

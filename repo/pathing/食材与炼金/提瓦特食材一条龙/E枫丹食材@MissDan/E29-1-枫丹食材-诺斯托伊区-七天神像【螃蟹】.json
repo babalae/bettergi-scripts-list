@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "4个甜甜花；1个薄荷；7个螃蟹；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1762498667843,
+    "last_modified_time": 1779696321437,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "E29-1-枫丹食材-诺斯托伊区-七天神像【螃蟹】",
@@ -69,23 +69,14 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 4485.1836,
-      "y": 1273.2368
+      "x": 4482.3594,
+      "y": 1270.6997
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
       "move_mode": "walk",
-      "type": "target",
-      "x": 4485.3118,
-      "y": 1268.4377
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "dash",
       "type": "path",
       "x": 4454.3486,
       "y": 1254.5811
@@ -93,8 +84,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 9,
-      "move_mode": "dash",
+      "id": 8,
+      "move_mode": "walk",
       "type": "path",
       "x": 4438.1802,
       "y": 1237.9365
@@ -102,8 +93,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 10,
-      "move_mode": "dash",
+      "id": 9,
+      "move_mode": "walk",
       "type": "path",
       "x": 4415.6899,
       "y": 1240.7886
@@ -111,8 +102,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 11,
-      "move_mode": "dash",
+      "id": 10,
+      "move_mode": "walk",
       "type": "path",
       "x": 4381.9629,
       "y": 1253.2119
@@ -120,7 +111,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 12,
+      "id": 11,
       "move_mode": "walk",
       "type": "path",
       "x": 4378.1562,
@@ -129,7 +120,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 13,
+      "id": 12,
       "move_mode": "walk",
       "type": "path",
       "x": 4375.7501,
@@ -138,7 +129,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
+      "id": 13,
       "move_mode": "walk",
       "type": "path",
       "x": 4344.3721,
@@ -147,7 +138,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 15,
+      "id": 14,
       "move_mode": "walk",
       "type": "path",
       "x": 4342.2501,
@@ -156,7 +147,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 15,
       "move_mode": "walk",
       "type": "path",
       "x": 4334.8242,
@@ -165,7 +156,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 16,
       "move_mode": "walk",
       "type": "path",
       "x": 4328.6251,
@@ -174,7 +165,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 17,
       "move_mode": "walk",
       "type": "path",
       "x": 4328.5581,
@@ -183,8 +174,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
-      "move_mode": "dash",
+      "id": 18,
+      "move_mode": "walk",
       "type": "path",
       "x": 4314.3379,
       "y": 1310.3789
@@ -192,7 +183,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 20,
+      "id": 19,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 4320.0293,
@@ -201,7 +193,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 21,
+      "id": 20,
       "move_mode": "walk",
       "type": "path",
       "x": 4311.6426,
@@ -210,7 +202,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 22,
+      "id": 21,
       "move_mode": "walk",
       "type": "path",
       "x": 4309.4868,
@@ -219,7 +211,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 23,
+      "id": 22,
       "move_mode": "walk",
       "type": "path",
       "x": 4298.8135,
@@ -228,18 +220,18 @@
     {
       "action": "",
       "action_params": "",
-      "id": 24,
-      "move_mode": "dash",
+      "id": 23,
+      "move_mode": "walk",
       "type": "path",
       "x": 4267.918,
       "y": 1320.5796
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.4)",
-      "id": 25,
-      "move_mode": "run",
-      "type": "target",
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
       "x": 4264.7407,
       "y": 1320.3091
     }
