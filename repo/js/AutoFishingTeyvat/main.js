@@ -617,7 +617,7 @@
         }
     }
 
-    async function run_file(path_msg, time_out_throw, time_out_whole, is_con, developer_log, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid, is_time_kill, time_target, kill_hour, kill_minute) {
+    async function run_file(path_msg, time_out_throw, time_out_whole, is_con, developer_log, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid, is_time_kill, time_target, kill_hour, kill_minute, notification_msg) {
         const base_path_pathing = "assets/pathing/";
         const base_path_gcm = "assets/KeyMouseScript/";
         const base_path_statues = "assets/pathing_others/";
@@ -741,6 +741,9 @@
         if (is_time_kill && new Date() >= time_target) {
             let time_now_str = `${new Date().getHours()}:${new Date().getMinutes()}`;
             log.info(`预定时间(${kill_hour}:${kill_minute})已到(当前时间：${time_now_str})，终止运行...`);
+            if (settings.notification) {
+                notification.send(`预定时间(${kill_hour}:${kill_minute})已到(当前时间：${time_now_str})，终止运行...`);
+            }
             return "time_kill"; // 返回特殊标记
         }
 
@@ -760,10 +763,16 @@
                         if (now < critical_time) {
                             log.info(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
                             log.info(`${file_name}(白天) 已跳过...`);
+                            // if (settings.notification) {
+                            //     notification.send(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}\n${file_name}(白天) 已跳过...`);
+                            // }
                             daytime = false;
                             fishing_time = "夜晚";
                         } else {
                             log.info(`该垂钓点(白天)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
+                            if (settings.notification) {
+                                notification.send(`${notification_msg}\n该垂钓点(全天)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
+                            }
                         }
                     }
 
@@ -773,6 +782,9 @@
                         if (now < critical_time) {
                             log.info(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
                             log.info(`${file_name}(夜晚) 已跳过...`);
+                            // if (settings.notification) {
+                            //     notification.send(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}\n${file_name}(夜晚) 已跳过...`);
+                            // }
                             if (daytime) {
                                 fishing_time = "白天";
                             } else {
@@ -780,6 +792,9 @@
                             }
                         } else {
                             log.info(`该垂钓点(夜晚)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
+                            // if (settings.notification) {
+                            //     notification.send(`${notification_msg}\n该垂钓点(夜晚)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
+                            // }
                         }
                     }
                 } else if (fishing_time === "白天") {
@@ -789,9 +804,15 @@
                         if (now < critical_time) {
                             log.info(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
                             log.info(`${file_name}(白天) 已跳过...`);
+                            // if (settings.notification) {
+                            //     notification.send(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}\n${file_name}(白天) 已跳过...`);
+                            // }
                             return null;
                         } else {
                             log.info(`该垂钓点(白天)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
+                            if (settings.notification) {
+                                notification.send(`${notification_msg}\n该垂钓点(白天)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
+                            }
                         }
                     }
                 } else if (fishing_time === "夜晚") {
@@ -801,14 +822,23 @@
                         if (now < critical_time) {
                             log.info(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
                             log.info(`${file_name}(夜晚) 已跳过...`);
+                            // if (settings.notification) {
+                            //     notification.send(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}\n${file_name}(夜晚) 已跳过...`);
+                            // }
                             return null;
                         } else {
                             log.info(`该垂钓点(夜晚)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
+                            if (settings.notification) {
+                                notification.send(`${notification_msg}\n该垂钓点(夜晚)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
+                            }
                         }
                     }
                 }
             } else {
                 log.info(`本地不存在该垂钓点的CD记录: ${file_name}(${uid})\n该垂钓点将不会跳过...`);
+                if (settings.notification) {
+                    notification.send(`${notification_msg}\n本地不存在该垂钓点的CD记录: ${file_name}(${uid})\n该垂钓点将不会跳过...`);
+                }
             }
         }
 
@@ -1113,10 +1143,8 @@
             const path_msg = get_pathing_msg(path_filter[i]);
 
             let current_msg = `${path_msg["area"]}-${path_msg["detail"]}`
+            let notification_msg = `当前垂钓点: ${current_msg}(进度: ${i + 1}/${path_filter.length})`;
             log.info(`当前垂钓点: ${current_msg}(进度: ${i + 1}/${path_filter.length})`);
-            if (settings.notification) {
-                notification.send(`当前垂钓点: ${current_msg}(进度: ${i + 1}/${path_filter.length})`);
-            }
             // For ABGI only
             log.debug(`当前进度：${current_msg}(进度: ${i + 1}/${path_filter.length})`);
             if (path_continue === current_msg) {
@@ -1129,7 +1157,7 @@
                 continue;
             }
 
-            const run_result = await run_file(path_msg, time_out_throw, time_out_whole, is_con, developer_log, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid, is_time_kill, time_target, kill_hour, kill_minute);
+            const run_result = await run_file(path_msg, time_out_throw, time_out_whole, is_con, developer_log, block_gcm, block_fight, block_tsurumi, tsurumi_method, auto_skip, fishing_cd, uid, is_time_kill, time_target, kill_hour, kill_minute, notification_msg);
 
             // 新增：检查 run_file 是否因为到达终止时间而返回特殊标记
             if (run_result === "time_kill") {
