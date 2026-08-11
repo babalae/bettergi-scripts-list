@@ -990,6 +990,9 @@
             write_archive(file_name, fishing_time, Date.now(), uid);
         } else if (fishing_cd && !flag) {
             log.warn(`本次钓鱼异常，不计算垂钓点CD`);
+            if (settings.notification) {
+                notification.error(`本次钓鱼异常，不计算垂钓点CD`);
+            }
         }
     }
 
