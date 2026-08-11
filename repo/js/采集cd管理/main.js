@@ -1,4 +1,4 @@
-// 3.0.3
+// 3.0.5
 
 /* ===== 1. 自定义配置 ===== */
 const timeMoveUp = Math.round((settings.timeMove || 1000) * 0.45);
@@ -2796,14 +2796,127 @@ async function processPathGroups() {
                             break;
                     }
 
+                    // ===================== 按 loopMode 分支 =====================
+                    if (loopMode === 2) {
+                        // ----- 每组重试：反复遍历组内路线直到没有任何路线被执行 -----
+                        let anyExecuted = true;
+                        while (anyExecuted) {
+                            anyExecuted = false;
+                            // 检查时间管制
+                            if (await isTimeRestricted(settings.timeRule, 10)) break;
+
                     for (const filePath of groupFiles) {
+                                // 检查时间管制
+                                if (await isTimeRestricted(settings.timeRule, 10)) {
+                                    break; // 跳出 for，外层 while 会再次检测并 break
+                                }
+
                         const fileName = basename(filePath.fullPath).replace('.json', '');
                         const fullName = fileName + '.json';
                         const targetObj = cdMap.get(fullName);
                         const nextCD = targetObj ? new Date(targetObj.cdTime) : new Date(0);
-                        const maxRunCount = loopMode;  // 1、2、3
+                                const maxRunCount = 2; // loopMode=2 上限为2
+                                const startTime = new Date();
 
+                                if (startTime <= nextCD) {
+                                    continue;   // CD未到，跳过
+                                }
+                                if ((routeRunCount[fullName] || 0) >= maxRunCount) {
+                                    continue;   // 已达执行上限
+                                }
+
+                                // 禁用关键词检查
+                                let doSkip = false;
+                                for (const kw of disableArray) {
+                                    if (filePath.fullPath.includes(kw)) {
+                                        log.info(`路径文件 ${filePath.fullPath} 包含禁用关键词 "${kw}"，跳过任务 ${fileName}`);
+                                        doSkip = true;
+                                        break;
+                                    }
+                                }
+                                if (doSkip) continue;
+
+                                // ===== 临界效率过滤 =====
+                                const routeEff = filePath._efficiency ?? 0;
+                                const threshold = Number(settings[`pathGroup${i}thresholdEfficiency`]) || 0;
+                                if (routeEff < threshold) {
+                                    log.info(`路线 ${fileName} 分均效率为 ${routeEff.toFixed(2)}，低于设定的临界值 ${threshold}，跳过`);
+                                    continue;
+                                }
+
+                                // ----- 执行前处理 -----
+                                let timeNow = new Date();
+                                await handleIngredientProcessing(timeNow);
+                                await handleTimeAdjustment(timeNow);
+                                await switchPartyIfNeeded(partyNames[groupNumber - 1]);
+                                await fakeLog(fileName, false, true, 0);
+
+                                /* ========== 历史拾取物前置排序 ========== */
+                                targetItems = prioritizeHistoricalItems(targetItems, cdMap, fullName);
+                                /* ======================================= */
+
+                                log.info(`当前进度：执行路线 ${fileName}，路径组${i} ${folder} 第 ${groupFiles.indexOf(filePath) + 1}/${groupFiles.length} 个`);
+                                log.info(`当前路线分均效率为 ${(filePath._efficiency ?? 0).toFixed(2)}`);
+
+                                state.runPickupLog = [];
+                                // 路径组模式下，传入空的 priorityItemSet
+                                const routeResult = await executeRoute(filePath.fullPath, fileName, targetObj, startTime, lastMapName, new Set());
+                                if (!routeResult.success) {
+                                    continue;
+                                }
+                                lastMapName = routeResult.lastMapName;
+
+                                try { await sleep(1); }
+                                catch (error) { log.error(`发生错误: ${error}`); break; }
+
+                                // >>> 仅当 >10s 才记录 history；若同时 pathRes === true 再更新 CD <<<
+                                const endTime = new Date();
+                                const timeDiff = endTime.getTime() - startTime.getTime();
+                                if (timeDiff > 10000) {
+                                    if (routeResult.isSchedule) {
+                                        // Schedule 任务使用路径组配置的 CD 类型，未配置时默认"1次0点刷新"
+                                        const cdType = currentCdType || "1次0点刷新";
+                                        const newTimestamp = calculateRouteCD(cdType, startTime);
+                                        targetObj.cdTime = newTimestamp.toISOString();
+                                        log.info(`schedule任务CD信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
+                                    } else {
+                                        let pathRes = isArrivedAtEndPoint(filePath.fullPath);
+                                        if (pathRes) {
+                                            const newTimestamp = calculateRouteCD(currentCdType, startTime);
+                                            targetObj.cdTime = newTimestamp.toISOString();
+                                            log.info(`本任务cd信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
+                                        }
+                                    }
+
+                                    /* ---------- 3. 用声明材料数量修正拾取日志后统一写文件 ---------- */
+                                    const correctedLog = correctPickupLogByDeclaration(routeResult.runPickupLog, filePath.fullPath);
+                                    await saveRecordAndClearLog(cdMap, recordFilePath, correctedLog);
+                                    routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
+
+                                    // 标记本次有执行，继续 while 循环
+                                    anyExecuted = true;
+                                }
+                            } // end for
+
+                            // 如果因为时间管制跳出 for，则 while 也会检测到并退出
+                            if (await isTimeRestricted(settings.timeRule, 10)) break;
+                        } // end while
+
+                        // 组内重试结束（无论是否全部达标，只要无更多可执行路线就退出）
+                        log.info(`路径组${groupNumber} 执行完毕`);
+
+                    } else {
+                        for (const filePath of groupFiles) {
+                            // 检查时间管制
+                            if (await isTimeRestricted(settings.timeRule, 10)) break;
+
+                            const fileName = basename(filePath.fullPath).replace('.json', '');
+                            const fullName = fileName + '.json';
+                            const targetObj = cdMap.get(fullName);
+                            const nextCD = targetObj ? new Date(targetObj.cdTime) : new Date(0);
+                            const maxRunCount = loopMode;  // 1 或 3（但3通过全局跳转实现多次，这里单次上限仍为3，不影响）
                         const startTime = new Date();
+
                         if (startTime <= nextCD) {
                             if (loopMode !== 3) {
                                 log.info(`当前任务 ${fileName} 未刷新，跳过任务`);
@@ -2814,7 +2927,6 @@ async function processPathGroups() {
                             log.info(`当前任务 ${fileName} 已达执行上限，跳过`);
                             continue;
                         }
-                        if (await isTimeRestricted(settings.timeRule, 10)) break;
 
                         let doSkip = false;
                         for (const kw of disableArray) {
@@ -2885,14 +2997,17 @@ async function processPathGroups() {
                             await saveRecordAndClearLog(cdMap, recordFilePath, correctedLog);
                             routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
 
+                                // ==== 全局循环（loopMode=3）跳回第一个组 ====
                             if (loopMode === 3) {
                                 i = 0;
-                                break;
+                                    break;   // 跳出 for，外层 while(i<=groupCount) 因 i=0 重新开始
                             } else {
                                 log.info(`路径组${groupNumber} 执行完毕`);
                             }
                         }
-                    }
+                        } // end for
+                    } // end else (loopMode !== 2)
+
                 } catch (error) {
                     log.error(`读取路径组文件时出错: ${error}`);
                 }
