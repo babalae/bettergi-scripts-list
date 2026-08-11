@@ -1043,15 +1043,14 @@
             const player1Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/1P.png"));
             let imageExitRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/Exit.png"));
 
-            genshin.returnMainUi();
-            await sleep(1000);
-            keyPress("G");
-            while (!(captureGameRegion().Find(imageExitRo).isExist())) { // [DEBUG] 可能陷入死循环？
-                await sleep(500);
-                log.debug("等待直到进入教程界面");
-            }
-
             if (settings.archive_force === "") {
+                genshin.returnMainUi();
+                await sleep(1000);
+                keyPress("G");
+                while (!(captureGameRegion().Find(imageExitRo).isExist())) { // [DEBUG] 可能陷入死循环？
+                    await sleep(500);
+                    log.debug("等待直到进入教程界面");
+                }
                 let ocrUid = await Ocr(1679, 1048, 200, 28);
                 if (ocrUid && ocrUid.text !== "") uid = ocrUid.text.replace(/\D/g, '');
             } else {
