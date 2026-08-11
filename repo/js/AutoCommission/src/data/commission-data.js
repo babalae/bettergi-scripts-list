@@ -155,6 +155,9 @@ function normalizeData(data, activeUid = "") {
  * @returns {Object}
  */
 function readCommissionsData(activeUid = "") {
+    if (!file.isFile(PATHS.ACCOUNT_STATE)) {
+        return createEmptyData(activeUid);
+    }
     try {
         const data = normalizeData(JSON.parse(file.readTextSync(PATHS.ACCOUNT_STATE)), activeUid);
         for (const account of Object.values(data.accounts || {})) {

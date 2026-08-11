@@ -6,6 +6,9 @@ function baseName(path) {
 }
 
 function readSubDirectories(path) {
+    if (!file.isFolder(path)) {
+        return [];
+    }
     try {
         return Array.from(file.readPathSync(path) || []).filter((item) => file.isFolder(item));
     } catch (error) {
