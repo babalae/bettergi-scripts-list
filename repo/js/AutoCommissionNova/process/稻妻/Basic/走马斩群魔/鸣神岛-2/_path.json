@@ -1,0 +1,59 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/1004452714",
+        "name": "DarkFlameMaster"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784279173848,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "稻妻-鸣神岛3-走马斩群魔",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4216.9375,
+      "y": -2394.8125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4137.2324,
+      "y": -2587.8975
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4118.7227,
+      "y": -2611.9434
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4133.3281,
+      "y": -2641.4336
+    }
+  ]
+}
