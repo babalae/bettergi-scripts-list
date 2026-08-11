@@ -1,0 +1,69 @@
+{
+  "info": {
+    "name": "冒险就要勇于前进-2",
+    "type": "collect",
+    "author": "云闲vsv",
+    "version": "1.0",
+    "description": "冒险就要勇于前进-2",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750497921322
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1665.859375,
+      "y": 2366.588134765625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1656.3984375,
+      "y": 2364.759033203125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1651.7607421875,
+      "y": 2352.935302734375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1642.884765625,
+      "y": 2330.879150390625,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1638.3349609375,
+      "y": 2308.4287109375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1638.3349609375,
+      "y": 2308.4287109375,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
