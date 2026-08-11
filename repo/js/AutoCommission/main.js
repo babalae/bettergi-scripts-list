@@ -1,97 +1,67 @@
-// 原神每日委托自动执行脚本 - 模块化主文件
-// BGI兼容的模块化架构实现
+import { stepRegistry } from "./src/processors/registry.js";
+import { registerAllProcessors } from "./src/processors/index.js";
+import { registerAllProbes } from "./src/probes/index.js";
+import { executeMainProcess } from "./src/core/main-process.js";
+import { checkVersion } from "./src/version/check-version.js";
+import { runTestCommission } from "./src/core/test-runner.js";
+import { getSetting } from "./src/utils/settings-utils.js";
+import { openCommissionConfigEditor } from "./src/core/commission-config-editor.js";
+import { openDeveloperTestEditor } from "./src/core/developer-test-editor.js";
+import { openProcessEditor } from "./src/core/process-editor.js";
+import { openPathRecorder } from "./src/core/path-recorder.js";
+import { releaseAllTemplates } from "./src/vision/index.js";
+import { scanCommissionScopes } from "./src/loaders/process-scope.js";
+import { migrateLegacyAutoCommissionSettings } from "./src/migrations/legacy-settings-migration.js";
 
-// === 模块加载区域（顶层执行，BGI要求） ===
-eval(file.readTextSync("constants.js"));
-eval(file.readTextSync("lib/utils.js"));
-eval(file.readTextSync("lib/ui.js"));
-eval(file.readTextSync("lib/core.js"));
-eval(file.readTextSync("lib/execute.js"));
-eval(file.readTextSync("lib/dialog-processor.js"));
-eval(file.readTextSync("lib/commission-basic.js"));
-eval(file.readTextSync("lib/commission-recognition.js"));
-eval(file.readTextSync("lib/commission-data.js"));
-eval(file.readTextSync("lib/step-processor-loader.js"));
-eval(file.readTextSync("lib/checkVersion.js"));
-
-// === BGI标准脚本入口：匿名立即执行异步函数（必须是文件的最后一个表达式） ===
-// 测试用代码
-const test = async () => {
-  log.info("=== 开始测试执行脚本 ===");
-  try {
-    // 读取并解析 testScript/process.json 文件
-    const testScriptPath = "testScript/process.json";
-    const processContent = await file.readText(testScriptPath);
-    const processSteps = JSON.parse(processContent);
-    
-    log.info("成功加载测试脚本文件: {path}", testScriptPath);
-    log.info("测试步骤数量: {count}", processSteps.length);
-    
-    // 创建执行上下文
-    const context = {
-      commissionName: "测试委托",
-      location: "测试位置", 
-      processSteps: processSteps,
-      currentIndex: 0,
-      isInMainUI: UI.UIUtils.isInMainUI,
-      priorityOptions: [],
-      npcWhiteList: []
-    };
-    
-    // 执行测试流程中的每个步骤
-    for (let i = 0; i < processSteps.length; i++) {
-      const step = processSteps[i];
-      log.info("执行测试步骤 {step}: {type}", i + 1, step.type || step);
-      
-      context.currentIndex = i;
-      
-      // 处理步骤配置
-      const stepConfig = Execute.processStepConfiguration(
-        step,
-        context.priorityOptions,
-        context.npcWhiteList
-      );
-      context.priorityOptions = stepConfig.priorityOptions;
-      context.npcWhiteList = stepConfig.npcWhiteList;
-      
-      // 执行步骤
-      await Execute.processStep(step, context);
-      
-      // 步骤间等待
-      await sleep(1000);
-    }
-    
-    log.info("=== 测试执行脚本完成 ===");
-    return true;
-    
-  } catch (error) {
-    log.error("测试执行过程中发生错误: {error}", error.message);
-    return false;
-  }
-};
+registerAllProcessors(stepRegistry);
+registerAllProbes();
 
 (async function () {
-  try {
-    // 检查更新
-    await printVersion()
+    try {
+        setGameMetrics(1920, 1080, genshin.ScreenDpiScale); 
+        //检查版本
+        await checkVersion();
+        // 获取界面设置
+        const setting = getSetting();
 
-    // 加载步骤处理器
-    log.info("正在加载步骤处理器...");
-    StepProcessorLoader.loadStepProcessors();
+        if (setting.runMode === "编辑委托流程") {
+            await openProcessEditor(stepRegistry);
+            log.info("委托流程编辑器已关闭");
+            return;
+        }
 
-    // 执行主要流程
-    var mainStartTime = new Date();
-    await Core.executeMainProcess();
-    // await test();
+        if (setting.runMode === "录制地图路径") {
+            await openPathRecorder();
+            log.info("地图路径录制器已关闭");
+            return;
+        }
 
-    // 记录结束时间
-    var endTime = new Date();
-    var totalTime = Math.round((endTime - mainStartTime) / 1000);
-    log.info("脚本执行完成，总耗时: {time} 秒", totalTime);
+        await migrateLegacyAutoCommissionSettings(setting);
 
-    log.info("模块化主文件加载完成");
-  } catch (error) {
-    log.error("脚本执行过程中发生错误: {error}", error.message);
-    throw error;
-  }
+        //根据设置决定是否打开分支配置面板,阻塞至用户关闭
+        let developerTestConfig = null;
+        if (setting.showConfigEditor) {
+            const editorResult = await openCommissionConfigEditor();
+            if (editorResult?.action === "developer-test") {
+                developerTestConfig = await openDeveloperTestEditor();
+            }
+        }
+
+        if (developerTestConfig) {
+            await runTestCommission(developerTestConfig);
+        } else {
+            // 执行主流程
+            // 本次自动委托执行复用的流程目录快照。
+            const commissionScopes = scanCommissionScopes().list;
+            await executeMainProcess(stepRegistry, commissionScopes);
+        }
+
+        log.info("自动委托执行完毕");
+    } catch (error) {
+        log.error("自动委托执行过程中发生错误: {error}", error.message);
+        throw error;
+    } finally {
+        // 释放所有懒加载的 RO 模板 mat（脚本退出统一回收）
+        releaseAllTemplates();
+    }
 })();
