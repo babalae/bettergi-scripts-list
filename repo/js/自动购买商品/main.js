@@ -1,4 +1,4 @@
-//3.5.601
+//3.5.64
 
 // fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
 // 在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
@@ -911,7 +911,7 @@ async function initRo() {
             const imagePath = `assets/images/${foodName}.png`;
             try {
                 const ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagePath));
-                ro.Threshold = 0.75;
+                ro.Threshold = 0.85;
                 ro.Use3Channels = true;
                 foodROMap[foodName] = ro;
                 logConditional(`已启用商品: ${foodName}`);
