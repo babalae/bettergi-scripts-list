@@ -891,6 +891,9 @@
                     page_state = scroll_pages_main("down", 1);
                     if (page_state === false) { // [DEBUG]未拥有奇特的羽毛的情况暂未测试(不确定滑到底部未找到是否能触发)
                         log.warn("未找到小道具：奇特的羽毛，该点位已跳过...");
+                        if (settings.notification) {
+                            notification.error(`${notification_msg}\n未找到小道具：奇特的羽毛，该点位已跳过...`);
+                        }
                     }
                     return false;
                 }
@@ -919,6 +922,9 @@
                     keyPress("Z"); // 关闭快捷道具界面
                     await sleep(1000);
                     log.warn("快捷更换栏未找到小道具：奇特的羽毛，该点位已跳过...");
+                    if (settings.notification) {
+                        notification.error(`${notification_msg}\n快捷更换栏未找到小道具：奇特的羽毛，该点位已跳过...`);
+                    }
                     return false;
                 }
             }
