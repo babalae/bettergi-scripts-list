@@ -1096,7 +1096,7 @@
 
                 await genshin.returnMainUi;
 
-                log.info("当前为多人模式且并非房主，垂钓点CD统计将记录1P的CD(不影响单人模式的CD记录)");
+                log.info(`当前为多人模式且并非房主，垂钓点CD统计将记录1P(uid: ${ocrResult})的CD(不影响单人模式的CD记录)`);
             }
             mainUiCapture.dispose();
         }
