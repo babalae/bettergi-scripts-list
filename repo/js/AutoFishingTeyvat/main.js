@@ -763,15 +763,12 @@
                         if (now < critical_time) {
                             log.info(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
                             log.info(`${file_name}(白天) 已跳过...`);
-                            // if (settings.notification) {
-                            //     notification.send(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}\n${file_name}(白天) 已跳过...`);
-                            // }
                             daytime = false;
                             fishing_time = "夜晚";
                         } else {
                             log.info(`该垂钓点(白天)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
-                            if (settings.notification) {
-                                notification.send(`${notification_msg}\n该垂钓点(全天)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
+                            if (settings.notification) { // 全天时仅发送一次通知，将通知内容改为全天而非单独的白天和夜晚
+                                notification_msg = `${notification_msg}\n该垂钓点(全天)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`;
                             }
                         }
                     }
@@ -782,9 +779,6 @@
                         if (now < critical_time) {
                             log.info(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
                             log.info(`${file_name}(夜晚) 已跳过...`);
-                            // if (settings.notification) {
-                            //     notification.send(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}\n${file_name}(夜晚) 已跳过...`);
-                            // }
                             if (daytime) {
                                 fishing_time = "白天";
                             } else {
@@ -792,9 +786,6 @@
                             }
                         } else {
                             log.info(`该垂钓点(夜晚)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
-                            // if (settings.notification) {
-                            //     notification.send(`${notification_msg}\n该垂钓点(夜晚)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
-                            // }
                         }
                     }
                 } else if (fishing_time === "白天") {
@@ -804,14 +795,11 @@
                         if (now < critical_time) {
                             log.info(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
                             log.info(`${file_name}(白天) 已跳过...`);
-                            // if (settings.notification) {
-                            //     notification.send(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}\n${file_name}(白天) 已跳过...`);
-                            // }
                             return null;
                         } else {
                             log.info(`该垂钓点(白天)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
                             if (settings.notification) {
-                                notification.send(`${notification_msg}\n该垂钓点(白天)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
+                                notification_msg = `${notification_msg}\n该垂钓点(白天)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`;
                             }
                         }
                     }
@@ -822,14 +810,11 @@
                         if (now < critical_time) {
                             log.info(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
                             log.info(`${file_name}(夜晚) 已跳过...`);
-                            // if (settings.notification) {
-                            //     notification.send(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}\n${file_name}(夜晚) 已跳过...`);
-                            // }
                             return null;
                         } else {
                             log.info(`该垂钓点(夜晚)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
                             if (settings.notification) {
-                                notification.send(`${notification_msg}\n该垂钓点(夜晚)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
+                                notification_msg = `${notification_msg}\n该垂钓点(夜晚)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`;
                             }
                         }
                     }
@@ -837,7 +822,7 @@
             } else {
                 log.info(`本地不存在该垂钓点的CD记录: ${file_name}(${uid})\n该垂钓点将不会跳过...`);
                 if (settings.notification) {
-                    notification.send(`${notification_msg}\n本地不存在该垂钓点的CD记录: ${file_name}(${uid})\n该垂钓点将不会跳过...`);
+                    notification_msg = `${notification_msg}\n本地不存在该垂钓点的CD记录: ${file_name}(${uid})\n该垂钓点将不会跳过...`;
                 }
             }
         }
@@ -962,6 +947,11 @@
 
         // 回到主界面
         await genshin.returnMainUi();
+
+        // 发送通知
+        if (settings.notification) {
+            notification.send(`${notification_msg}`);
+        }
 
         // 记录钓鱼开始时间
         const time_start_fishing = Date.now();
