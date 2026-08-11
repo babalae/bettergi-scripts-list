@@ -8,7 +8,7 @@
 
 const DEFAULT_SETTING = {
     runMode: "运行自动每日委托",
-    showConfigEditor: true,
+    showConfigEditor: false,
     team: "",
     elementTeam: "",
     prepare: false,
@@ -28,8 +28,8 @@ export function getSetting() {
             runMode: ["编辑委托流程", "录制地图路径"].includes(settings.runMode)
                 ? settings.runMode
                 : "运行自动每日委托",
-            // 未设置时默认显示(与 settings.json 中的 default: true 保持一致)
-            showConfigEditor: settings.showConfigEditor !== false,
+            // 配置面板默认不显示，避免旧版配置迁移后阻塞主流程。
+            showConfigEditor: settings.showConfigEditor === true,
             // AutoCommission 0.98.x 兼容字段，仅供首次迁移使用。
             team: typeof settings.team === "string" ? settings.team.trim() : "",
             elementTeam: typeof settings.elementTeam === "string" ? settings.elementTeam.trim() : "",

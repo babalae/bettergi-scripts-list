@@ -36,11 +36,11 @@ registerAllProbes();
             return;
         }
 
-        await migrateLegacyAutoCommissionSettings(setting);
+        const migratedLegacySettings = await migrateLegacyAutoCommissionSettings(setting);
 
         //根据设置决定是否打开分支配置面板,阻塞至用户关闭
         let developerTestConfig = null;
-        if (setting.showConfigEditor) {
+        if (setting.showConfigEditor && !migratedLegacySettings) {
             const editorResult = await openCommissionConfigEditor();
             if (editorResult?.action === "developer-test") {
                 developerTestConfig = await openDeveloperTestEditor();
