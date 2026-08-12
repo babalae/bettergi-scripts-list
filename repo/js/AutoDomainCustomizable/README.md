@@ -166,7 +166,7 @@
       * 更新manifest.json中的version参数
       * 在manifest.json中的authors栏位填上您的名字与github账户链接
       * 更新README.md的更新日志栏位
-      * 在README.md关于作者栏位填上您的您的名字与github账户链接
+      * 在README.md关于作者栏位填上您的名字与github账户链接
 
 
 ---
