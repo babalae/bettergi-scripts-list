@@ -395,7 +395,7 @@ class LeyLineOutcrop extends Base {
     static async buildKey(item) {
         const json = await super.buildKey(item);
         // const auto = item.autoLeyLineOutcrop;
-        const auto = item[this.key()];
+        const auto = item[LeyLineOutcrop.key()];
         json.key = json.key +
             "|" + auto.country +
             "|" + auto.leyLineOutcropType +
@@ -544,7 +544,7 @@ class StygianOnslaught extends Base {
     static async buildKey(item) {
         const json = await super.buildKey(item);
         // const auto = item.autoStygianOnslaught;
-        const auto = item[this.key()];
+        const auto = item[StygianOnslaught.key()];
         json.key = json.key +
             "|" + auto.bossNum +
             "|" + auto.fightTeamName +
@@ -757,7 +757,7 @@ class Boss extends Base {
     static async buildKey(item) {
         const json = await super.buildKey(item);
         // let auto = item.autoBoss
-        let auto = item[this.key()]
+        let auto = item[Boss.key()]
 
         json.key = json.key +
             "|" + auto.bossName +
