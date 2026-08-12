@@ -6,26 +6,35 @@
         "name": "DarkFlameMaster"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784364623086,
+    "last_modified_time": 1786528552840,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "重拳出击鸭战斗后快速前往",
+    "name": "嵌合翼骏狮前往",
     "tags": [],
     "type": "collect",
     "version": "1.0"
   },
   "positions": [
     {
-      "action": "combat_script",
-      "action_params": "keypress(f),wait(3),keypress(f),wait(1.5),keypress(f),wait(1.5),keypress(f),wait(2)",
+      "action": "",
+      "action_params": "",
       "id": 1,
       "move_mode": "walk",
-      "type": "target",
-      "x": 10044.5068,
-      "y": 1473.1587
+      "type": "teleport",
+      "x": 8250.2588,
+      "y": 8158.9434
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8284.0762,
+      "y": 8123.4551
     }
   ]
 }
