@@ -214,7 +214,7 @@ class Domain extends Base {
     }
 
     static key() {
-        return "autoFight"
+        return "autoDomain"
     }
 
     /**
@@ -225,7 +225,7 @@ class Domain extends Base {
      */
     static build(arr, index) {
         // 创建秘境信息对象，初始化默认值
-        let autoFight = {
+        let autoDomain = {
             domainName: undefined,//秘境名称
             partyName: undefined,//队伍名称
             sundaySelectedValue: 1,//周日|限时选择的值，默认为1
@@ -262,18 +262,18 @@ class Domain extends Base {
         }
 
         // 设置秘境信息的各个属性
-        autoFight.partyName = partyName       // 队伍名称
-        autoFight.domainName = domainName      // 秘境名称
-        autoFight.domainRoundNum = domainRoundNum  // 副本轮数
-        autoFight.sundaySelectedValue = sundaySelectedValue // 周日|限时选择的值
-        return {autoFight, index};
+        autoDomain.partyName = partyName       // 队伍名称
+        autoDomain.domainName = domainName      // 秘境名称
+        autoDomain.domainRoundNum = domainRoundNum  // 副本轮数
+        autoDomain.sundaySelectedValue = sundaySelectedValue // 周日|限时选择的值
+        return {autoDomain: autoDomain, index};
     }
 
     /**
      * 执行秘境任务
-     * @param {Object} autoFight - 包含秘境信息的对象
+     * @param {Object} autoDomain - 包含秘境信息的对象
      */
-    static async run(autoFight = {
+    static async run(autoDomain = {
         domainName: undefined,//秘境名称
         partyName: undefined,//队伍名称
         sundaySelectedValue: 1,//周日|限时选择的值，默认为1
@@ -286,7 +286,7 @@ class Domain extends Base {
         //关闭榨干原粹树脂
         domainParam.specifyResinUse = true
         //定死做预留冗余 先不实现 不能指定次数 只能指定启用
-        let physical_domain = autoFight?.physical
+        let physical_domain = autoDomain?.physical
         //     || [
         //     {order: 0, name: config.user.physical.names[0], count: 1, open: true},
         //     {order: 1, name: config.user.physical.names[1], count: 0, open: false},
@@ -340,23 +340,23 @@ class Domain extends Base {
         }
         // Log.debug(`开始执行秘境任务`)
         //秘境名称
-        domainParam.DomainName = autoFight.domainName || domainParam.DomainName;
+        domainParam.DomainName = autoDomain.domainName || domainParam.DomainName;
         Log.debug(`秘境名称:${domainParam.DomainName}`)
 
         //队伍名称
-        domainParam.PartyName = autoFight.partyName || domainParam.PartyName;
+        domainParam.PartyName = autoDomain.partyName || domainParam.PartyName;
         Log.debug(`队伍名称:${domainParam.PartyName}`)
 
-        if (autoFight.sundaySelectedValue) {
+        if (autoDomain.sundaySelectedValue) {
             //周日|限时选择的值
-            domainParam.SundaySelectedValue = "" + (autoFight.sundaySelectedValue || domainParam.SundaySelectedValue);
+            domainParam.SundaySelectedValue = "" + (autoDomain.sundaySelectedValue || domainParam.SundaySelectedValue);
         }
         Log.debug(`周日|限时选择的值:${domainParam.SundaySelectedValue}`)
         //副本轮数
         try {
-            domainParam.DomainRoundNum = parseInt((autoFight.domainRoundNum || domainParam.DomainRoundNum) + "");
+            domainParam.DomainRoundNum = parseInt((autoDomain.domainRoundNum || domainParam.DomainRoundNum) + "");
         } catch (e) {
-            Log.debug(`副本轮数:${autoFight.domainRoundNum}`)
+            Log.debug(`副本轮数:${autoDomain.domainRoundNum}`)
             throwError(e.message)
         }
         Log.debug(`副本轮数:${domainParam.DomainRoundNum}`)
@@ -975,7 +975,7 @@ export const taskHandlerMap = {
         build: Domain.build,
         buildKey: Domain.buildKey,
         run: Domain.run,
-        target: Domain.key() //'autoFight'
+        target: Domain.key() //'autoDomain'
     },
     [config.user.runTypes[1]]: {
         build: LeyLineOutcrop.build,
