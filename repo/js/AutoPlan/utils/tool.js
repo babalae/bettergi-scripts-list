@@ -326,20 +326,20 @@ export async function openBag() {
  */
 export class Log{
     static info(message, ...args){
-        Log.info(message, ...args)
+        log.info(message, ...args)
     }
     static error(message, ...args){
-        Log.error(message, ...args)
+        log.error(message, ...args)
     }
     static debug(message, ...args){
         if (settings.debug){
-            Log.info(`[开发模式] [Debug] ${message}`, ...args)
+            log.info(`[开发模式] [Debug] ${message}`, ...args)
         }else {
-            Log.debug(message, ...args)
+            log.debug(message, ...args)
         }
     }
     static warn(message, ...args){
-        Log.warn(message, ...args)
+        log.warn(message, ...args)
     }
 }
 /**
