@@ -354,7 +354,7 @@ export async function OcrFind(x, y, width, height,pen=new Pen(Color.RoyalBlue, 2
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
     try {
         const Box={x:x, y:y, width:width, height:height}
-        await drawBoxDebug(settings.debug,Box,400,pen)
+        await drawBoxDebug(settings.debug,Box,100,pen)
         // 创建OCR识别对象，指定识别区域
         const recognitionObject = RecognitionObject.Ocr(x, y, width, height);
         // 在截图上执行OCR识别
@@ -579,11 +579,15 @@ export async function drawBoxDebug(show=true, result, delay = 1000, pen = new Pe
  * @param {Pen} [pen=new Pen(Color.Red, 2)] - 红框的画笔对象，默认红色实线
  * @returns {Promise<void>}
  */
-export async function drawAndClearBox(result, delay = 1000, pen = new Pen(Color.Red, 2)) {
+export async function drawAndClearBox(result, delay = 1000, pen ) {
     const ro1 = captureGameRegion();
     try {
         const drawRegion = ro1.DeriveCrop(result.x, result.y, result.width, result.height);
-        drawRegion.DrawSelf("icon", pen);
+        if (pen){
+            drawRegion.DrawSelf("icon", pen);
+        }else {
+            drawRegion.DrawSelf("icon",new Pen(Color.Red, 2));
+        }
     } finally {
         ro1.dispose();
     }
@@ -594,7 +598,11 @@ export async function drawAndClearBox(result, delay = 1000, pen = new Pen(Color.
     try {
         const drawRegion2 = ro2.DeriveCrop(result.x, result.y, result.width, result.height);
         try {
-            drawRegion2.DrawSelf("icon");
+            if (pen){
+                drawRegion2.DrawSelf("icon", pen);
+            }else {
+                drawRegion2.DrawSelf("icon",new Pen(Color.Red, 2));
+            }
         } finally {
             drawRegion2.dispose();
         }

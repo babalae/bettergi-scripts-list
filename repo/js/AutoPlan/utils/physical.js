@@ -1,4 +1,4 @@
-import {getJsonPath, toMainUi, throwError, findImgAndClick, Log} from "./tool";
+import {getJsonPath, toMainUi, throwError, findImgAndClick, Log, drawBoxDebug} from "./tool";
 //====================================================
 const genshinJson = {
     width: 1920,//genshin.width,
@@ -128,6 +128,7 @@ export class Physical {
             width: 52,
             height: 49,
         }
+        //1248, 21, 50, 50
         //
         // let templateMatchAddButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`${add_objJson.path}`), add_objJson.x, add_objJson.y, add_objJson.width, add_objJson.height);
         // let regionA = captureGameRegion()
@@ -145,7 +146,8 @@ export class Physical {
         //     // deriveCrop.dispose()
         //     regionA.dispose()
         // }
-        const addClick = await findImgAndClick(`${add_objJson.path}`, 1248, 21, 50, 50);
+        await drawBoxDebug(settings.debug, add_objJson,20)
+        const addClick = await findImgAndClick(`${add_objJson.path}`, add_objJson.x, add_objJson.y, add_objJson.width, add_objJson.height);
         if (addClick === null) {
             Log.error(`${add_objJson.path}匹配异常`)
             return undefined
