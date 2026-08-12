@@ -380,6 +380,8 @@ Boss||3||爆炎树||||false||||||                            # 最简单配置�
 | 0.0.9 | yHlw8FHjTJAPEtpp9O+ |           0.1.3+           |
 | 0.1.0 | yHlw8FHjTJAPEtpp9O+ |           0.1.4+           |
 | 0.1.1 | yHlw8FHjTJAPEtpp9O+ |           0.1.5+           |
+| 0.1.2 | yHlw8FHjTJAPEtpp9O+ |           0.1.6+           |
+| 0.1.3 | 2Cbayi1S2I41BlTXb/XAmw== |           0.1.8+           |
 ---
 ## 版本历史（简要）
 ### 0.1.2 2026.07.30

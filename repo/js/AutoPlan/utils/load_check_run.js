@@ -281,6 +281,7 @@ class Domain extends Base {
     }) {
         Log.info(`{0}`, "开始执行秘境任务")
         Log.warn(`{0}`, "非体力耗尽情况下(受本体限制),等待退出秘境时间较长")
+        Log.debug(`Object:{0}`,JSON.stringify(autoDomain))
         // 创建秘境参数对象，初始化值为0
         let domainParam = new AutoDomainParam();
         //关闭榨干原粹树脂
@@ -500,6 +501,7 @@ class LeyLineOutcrop extends Base {
 
 
         Log.info(`{0}`, "开始执行地脉任务")
+        Log.debug(`Object:{0}`,JSON.stringify(autoLeyLineOutcrop))
         let param = new AutoLeyLineOutcropParam(parseInteger(autoLeyLineOutcrop.count + ""), autoLeyLineOutcrop.country, autoLeyLineOutcrop.leyLineOutcropType);
         //和本体保持一致
         param.useAdventurerHandbook = !autoLeyLineOutcrop.useAdventurerHandbook;
@@ -659,8 +661,8 @@ class StygianOnslaught extends Base {
         //     /**指定战斗队伍*/
         //     fightTeamName: undefined
         // }
-        Log.debug(`autoStygianOnslaught ={0}`, JSON.stringify(autoStygianOnslaught))
         Log.info(`{0}`, "开始执行幽境任务")
+        Log.debug(`Object:{0}`,JSON.stringify(autoStygianOnslaught))
         let param = new AutoStygianOnslaughtParam()
         param.specifyResinUse = autoStygianOnslaught?.specifyResinUse || param.specifyResinUse
 
@@ -878,9 +880,9 @@ class Boss extends Base {
         rewardRecognitionEnabled: false
     }) {
         Log.info(`{0}==>{1}`, "开始执行Boss任务", autoBoss.bossName)
+        Log.debug(`Object:{0}`,JSON.stringify(autoBoss))
         //先去安全点回血
         await genshin.tpToStatueOfTheSeven();
-        Log.debug(`Boss Json:{0}`, JSON.stringify(autoBoss))
         const currentPhysical = await Physical.countAllResin()
         config.user.physical.currentJson = currentPhysical;
         config.user.physical.current = currentPhysical.originalResinCount;
