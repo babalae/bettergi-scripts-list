@@ -49,7 +49,7 @@ async function checkFilterMain(list = []) {
 
     // 通用过滤函数
     const filterList = (items, excludeDomains = [],excludeSelectedType) => items.filter(item =>
-        (item.runType === runTypes[0] && parseInt(item?.autoFight.domainRoundNum || "0") > 0 && (!excludeDomains.includes(item?.autoFight.domainName)||(excludeSelectedType&&item?.selectedType&&item?.selectedType!==excludeSelectedType)))
+        (item.runType === runTypes[0] && parseInt(item?.autoDomain.domainRoundNum || "0") > 0 && (!excludeDomains.includes(item?.autoDomain.domainName)||(excludeSelectedType&&item?.selectedType&&item?.selectedType!==excludeSelectedType)))
         || (item.runType === runTypes[1] && parseInt(item?.autoLeyLineOutcrop.count || "0") > 0)
         || (item.runType === runTypes[2]) || (item.runType === runTypes[3])
     )
@@ -65,7 +65,7 @@ async function checkFilterMain(list = []) {
             .map(item => item.name)
         // log.debug("domainList:{1}", JSON.stringify(domainList))
         const hasHolyRelicDomain = checkList.some(item =>
-            item.runType === runTypes[0] && item.autoFight.domainName && domainList.includes(item.autoFight.domainName)
+            item.runType === runTypes[0] && item.autoDomain.domainName && domainList.includes(item.autoDomain.domainName)
         )
         log.debug("hasHolyRelicDomain:{1}", hasHolyRelicDomain)
         if (hasHolyRelicDomain) {
