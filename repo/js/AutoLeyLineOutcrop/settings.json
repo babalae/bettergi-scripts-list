@@ -34,36 +34,36 @@
         "label": "树脂耗尽模式\n开启后会自动统计所有可用树脂并计算可刷取次数，替换上方设置的刷取次数\n注意：请同时设置树脂刷取次数，将在统计失败时使用"
     },
     {
-    "name": "openModeCountMin",
-    "type": "checkbox",
-    "label": "刷取次数取小值\n开启后树脂耗尽模式中计算可刷取次数，和上方设置的刷取次数取小值"
-  },
-  {
-    "name": "onlySurgeMode",
-    "type": "checkbox",
-    "label": "只刷双倍\n自动检查双倍地脉，没有就不刷,双倍次数用尽会退出(测试功能，可能不准,建议开启冒险之证找花)",
-    "default": false
-  },
-  {
-    "name": "pickDropsAfterReward",
-    "type": "checkbox",
-    "label": "战斗后拾取材料",
-    "default": false
-  },
-  {
-    "name": "pickDropsSeconds",
-    "type": "input-text",
-    "label": "拾取材料时间（秒）",
-    "default": "25"
-  },
-  {
-    "name": "monsterMaterialMode",
-    "type": "checkbox",
-    "label": "20树脂模式\n优先使用20树脂，建议配合战斗后拾取材料（低效率）",
-    "default": false
-  },
-  {
-    "name": "count",
+        "name": "openModeCountMin",
+        "type": "checkbox",
+        "label": "刷取次数取小值\n开启后树脂耗尽模式中计算可刷取次数，和上方设置的刷取次数取小值"
+    },
+    {
+        "name": "onlySurgeMode",
+        "type": "checkbox",
+        "label": "只刷双倍\n自动检查双倍地脉，没有就不刷,双倍次数用尽会退出(测试功能，可能不准,建议开启冒险之证找花)",
+        "default": false
+    },
+    {
+        "name": "pickDropsAfterReward",
+        "type": "checkbox",
+        "label": "战斗后拾取材料",
+        "default": false
+    },
+    {
+        "name": "pickDropsSeconds",
+        "type": "input-text",
+        "label": "拾取材料时间（秒）",
+        "default": "25"
+    },
+    {
+        "name": "monsterMaterialMode",
+        "type": "checkbox",
+        "label": "20树脂模式\n优先使用20树脂，建议配合战斗后拾取材料（低效率）",
+        "default": false
+    },
+    {
+        "name": "count",
         "type": "input-text",
         "label": "刷取次数，默认6次",
         "default": "6"
@@ -86,9 +86,9 @@
         "label": "战斗的队伍名称，不填表示不切换队伍"
     },
     {
-       "name": "friendshipTeam",
-       "type": "input-text",
-       "label": "好感队名称，不填表示不切换好感队" 
+        "name": "friendshipTeam",
+        "type": "input-text",
+        "label": "好感队名称，不填表示不切换好感队"
     },
     {
         "name": "timeout",
@@ -113,8 +113,8 @@
         "label": "一条龙模式\n开启后，会跳过开始的前往七天神像以及强制更新"
     },
     {
-            "name": "isGoToSynthesizer",
-            "type": "select",
-            "label": "是否前往合成台合成浓缩树脂\n 体力大于40时自动合成浓缩树脂【开发中】"
+        "name": "isGoToSynthesizer",
+        "type": "select",
+        "label": "是否前往合成台合成浓缩树脂\n 体力大于40时自动合成浓缩树脂【开发中】"
     }
 ]
