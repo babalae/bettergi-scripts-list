@@ -131,7 +131,7 @@ async function detectDoubleRewardWithRetry(initialTexts) {
  * @param {number} maxRetries - 最大重试次数，默认为10
  * @returns {Promise<boolean>} 是否成功
  */
-this.clickWithVerification = async function(x, y, targetText, maxRetries = 20) {
+this.clickWithVerification = async function (x, y, targetText, maxRetries = 20) {
     for (let i = 0; i < maxRetries; i++) {
         keyUp("LBUTTON");
         click(x, y);
@@ -157,7 +157,7 @@ this.clickWithVerification = async function(x, y, targetText, maxRetries = 20) {
             return true;
         }
     }
-    
+
     log.warn(`经过${maxRetries}次点击，文字"${targetText}"仍未消失`);
     return false;
 }
@@ -167,12 +167,12 @@ this.clickWithVerification = async function(x, y, targetText, maxRetries = 20) {
  * 使用OCR识别"地脉之花"或"激活地脉之花"文字，不受分辨率影响
  * @returns {Promise<boolean>}
  */
-this.verifyRewardPage = async function() {
+this.verifyRewardPage = async function () {
     let captureRegion = null;
-    
+
     try {
         captureRegion = captureGameRegion();
-        
+
         // 使用OCR识别上半区域
         let ocrRo = RecognitionObject.Ocr(0, 0, captureRegion.width, captureRegion.height / 2);
         let textList = captureRegion.findMulti(ocrRo);
@@ -190,12 +190,12 @@ this.verifyRewardPage = async function() {
                 }
             }
         }
-        
+
         // 已注释：减少日志输出
         // if (!isValid) {
         //     log.info(`奖励界面验证: 失败（未识别到关键文字）`);
         // }
-        
+
         return isValid;
     } catch (error) {
         log.error(`验证奖励界面失败: ${error.message}`);
@@ -238,25 +238,25 @@ async function findAndSortUseButtons() {
             log.warn("未找到任何文本");
             return [];
         }
-        
+
         // 查找只包含"使用"两个字的文本（真正的按钮）
         let buttons = [];
         for (let i = 0; i < textList.length; i++) {
             let textRegion = textList[i];
             let text = textRegion.text.trim();
-            
+
             if (text === "使用") {
                 let buttonX = Math.round(textRegion.x + textRegion.width / 2);
                 let buttonY = Math.round(textRegion.y + textRegion.height / 2);
                 let textY = textRegion.y;
                 let textContent = textRegion.text;
-                
+
                 let virtualButton = {
                     index: buttons.length,
                     region: {
                         x: buttonX,
                         y: buttonY,
-                        click: function() {
+                        click: function () {
                             click(buttonX, buttonY);
                         }
                     },
@@ -264,21 +264,21 @@ async function findAndSortUseButtons() {
                     y: textY,
                     text: textContent
                 };
-                
+
                 buttons.push(virtualButton);
             }
         }
-        
+
         if (buttons.length === 0) {
             log.warn("未找到包含'使用'的文本");
             return [];
         }
-        
+
         // 按Y坐标排序
         buttons.sort((a, b) => a.y - b.y);
-        
+
         log.info(`找到 ${buttons.length} 个使用按钮`);
-        
+
         return buttons;
     } catch (error) {
         log.error(`查找使用按钮失败: ${error.message}`);
@@ -294,7 +294,7 @@ async function findAndSortUseButtons() {
  */
 async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
     let captureRegion = null;
-    
+
     try {
         // OCR识别整个界面的文本
         let allTexts = await captureAllTexts();
@@ -324,32 +324,32 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
         }
 
         // 识别树脂类型（注意：如果原粹树脂耗尽，应该忽略这些识别）
-        let hasOriginalResin20 = !isOriginalResinEmpty && allTexts.some(t => 
+        let hasOriginalResin20 = !isOriginalResinEmpty && allTexts.some(t =>
             (t.text.includes("20") && t.text.includes("原粹树脂")) ||
             (t.text.includes("20个") && t.text.includes("原粹树脂"))
         );
-        
-        let hasOriginalResin40 = !isOriginalResinEmpty && allTexts.some(t => 
+
+        let hasOriginalResin40 = !isOriginalResinEmpty && allTexts.some(t =>
             (t.text.includes("40") && t.text.includes("原粹树脂")) ||
             (t.text.includes("40个") && t.text.includes("原粹树脂"))
         );
-        
-        let hasCondensedResin = allTexts.some(t => 
+
+        let hasCondensedResin = allTexts.some(t =>
             t.text.includes("浓缩树脂") || t.text.includes("浓缩")
         );
-        
-        let hasTransientResin = allTexts.some(t => 
+
+        let hasTransientResin = allTexts.some(t =>
             t.text.includes("须臾树脂") || t.text.includes("须臾")
         );
-        
-        let hasFragileResin = allTexts.some(t => 
+
+        let hasFragileResin = allTexts.some(t =>
             t.text.includes("脆弱树脂") || t.text.includes("脆弱")
         );
-        
-        let hasPrimogems = allTexts.some(t => 
+
+        let hasPrimogems = allTexts.some(t =>
             t.text.includes("原石") && t.text.includes("3次")
         );
-        
+
         // 输出识别到的树脂类型（调试用）
         log.info(`识别到的树脂类型 - 原粹20:${hasOriginalResin20}, 原粹40:${hasOriginalResin40}, 浓缩:${hasCondensedResin}, 须臾:${hasTransientResin}, 脆弱:${hasFragileResin}, 原石:${hasPrimogems}, 双倍:${hasDoubleReward}`);
 
@@ -393,7 +393,7 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
             // ===== 原粹树脂耗尽的情况 =====
             // 此时第一个"使用"按钮对应的是浓缩/须臾/脆弱树脂
             log.warn("原粹树脂已耗尽，检测是否有其他可用树脂");
-            
+
             if (hasCondensedResin && sortedButtons.length >= 1) {
                 choice = {
                     type: "使用1个浓缩树脂（原粹耗尽）",
@@ -430,7 +430,7 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
             // ===== 原粹树脂充足的情况 =====
             // 第一个"使用"按钮对应原粹树脂
             // 第二个"使用"按钮对应浓缩/须臾/脆弱树脂
-            
+
             // 优先级1: 如果有双倍产出，优先使用原粹树脂
             if (hasDoubleReward && (hasOriginalResin20 || hasOriginalResin40)) {
                 if (settings.monsterMaterialMode) {
@@ -652,13 +652,13 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
 
         if (settings.onlySurgeMode) {
             // 判断本次消耗多少双倍次数（20树脂=1次，40树脂=2次）
-        // 使用显式的 resinAmount 数值字段，避免字符串匹配的歧义问题
-        let consumeTimes = 0;
-        if (choice && choice.resinAmount === 40) {
-            consumeTimes = 2;
-        } else if (choice && choice.resinAmount === 20) {
-            consumeTimes = 1;
-        }
+            // 使用显式的 resinAmount 数值字段，避免字符串匹配的歧义问题
+            let consumeTimes = 0;
+            if (choice && choice.resinAmount === 40) {
+                consumeTimes = 2;
+            } else if (choice && choice.resinAmount === 20) {
+                consumeTimes = 1;
+            }
 
             if (consumeTimes > 0) {
                 // 初始化或更新计数器
@@ -759,73 +759,73 @@ async function trySwitchResin(targetAmount) {
     let currentCaptureRegion = null;
     let newCaptureRegion = null;
     const otherAmount = targetAmount === 20 ? 40 : 20;
-    
+
     try {
         // 步骤1: 先检查当前是否已经是目标值
         currentCaptureRegion = captureGameRegion();
         let textList = await captureAllTexts();
         let currentAmount = parseCurrentResinAmount(textList);
-        
+
         // 如果已经是目标值，直接返回成功
         if (currentAmount === targetAmount) {
             log.info(`当前已是${targetAmount}个原粹树脂，无需切换`);
             return true;
         }
-        
+
         // 如果识别失败，继续尝试切换（兼容旧逻辑）
         if (currentAmount === null) {
             log.warn(`未能识别当前树脂数量，尝试切换到${targetAmount}个`);
         } else {
             log.info(`当前是${currentAmount}个原粹树脂，尝试切换到${targetAmount}个`);
         }
-        
+
         // 步骤2: 检测切换按钮
         switchButtonIcon = file.ReadImageMatSync("assets/icon/switch_button.png");
         switchButtonRo = RecognitionObject.TemplateMatch(switchButtonIcon);
         switchButtonRo.threshold = 0.7;
-        
+
         let switchButtonPos = currentCaptureRegion.find(switchButtonRo);
-        
+
         if (!switchButtonPos || switchButtonPos.isEmpty()) {
             log.info(`未找到切换按钮（树脂不足${targetAmount}），保持使用${currentAmount || otherAmount}个原粹树脂`);
             return false;
         }
-        
+
         // 步骤3: 点击切换按钮
         log.info(`找到切换按钮，点击切换到${targetAmount}个原粹树脂`);
         switchButtonPos.click();
         await sleep(800); // 等待UI更新
-        
+
         // 步骤4: 验证是否切换成功（带重试）
         let switchSuccess = false;
         for (let retry = 0; retry < 2; retry++) {
             newCaptureRegion = captureGameRegion();
             let verifyTextList = await captureAllTexts();
-            
+
             if (verifyTextList.length > 0 && verifyResinAmount(verifyTextList, targetAmount)) {
                 log.info(`成功切换到${targetAmount}个原粹树脂`);
                 switchSuccess = true;
                 break;
             }
-            
+
             if (retry === 0) {
                 log.info(`[切换验证] 首次未识别到${targetAmount}，500ms后重试...`);
                 await sleep(500);
             }
-            
+
             if (newCaptureRegion) {
                 newCaptureRegion.dispose();
                 newCaptureRegion = null;
             }
         }
-        
+
         if (!switchSuccess) {
             log.warn(`点击切换按钮后，未能确认切换到${targetAmount}个原粹树脂`);
             return false;
         }
-        
+
         return true;
-        
+
     } catch (error) {
         log.error(`切换树脂数量失败: ${error.message}`);
         return false;
@@ -881,33 +881,33 @@ async function switchBackToCombatTeam() {
  * 循环检测并退出，直到确认不在奖励界面
  * @returns {Promise<void>}
  */
-this.ensureExitRewardPage = async function() {
+this.ensureExitRewardPage = async function () {
     const MAX_ATTEMPTS = 5;  // 最多尝试5次
     let attempts = 0;
-    
+
     try {
         log.info("检查是否需要退出奖励界面");
-        
+
         while (attempts < MAX_ATTEMPTS) {
             attempts++;
-            
+
             // 检测是否在奖励界面
             let isInRewardPage = await this.verifyRewardPage();
-            
+
             if (!isInRewardPage) {
                 log.info("已确认不在奖励界面");
                 return;
             }
-            
+
             // 还在奖励界面，按ESC退出
             log.info(`检测到仍在奖励界面，按ESC退出 (第${attempts}次)`);
             keyPress("VK_ESCAPE");
             await sleep(800);  // 等待界面关闭动画
         }
-        
+
         // 超过最大尝试次数
         log.warn(`已尝试${MAX_ATTEMPTS}次退出奖励界面，可能仍在界面中`);
-        
+
     } catch (error) {
         log.error(`退出奖励界面时出错: ${error.message}`);
     }
@@ -948,10 +948,10 @@ this.attemptReward = async function (retryCount = 0) {
     try {
         // 步骤2: 检查原粹树脂是否耗尽（通过"补充"按钮）
         isOriginalResinEmpty = await checkOriginalResinEmpty();
-        
+
         // 步骤3: 识别所有使用按钮并排序
         sortedButtons = await findAndSortUseButtons();
-        
+
         if (sortedButtons.length === 0) {
             log.error("未找到任何使用按钮");
             keyPress("VK_ESCAPE");
@@ -962,7 +962,7 @@ this.attemptReward = async function (retryCount = 0) {
 
         // 步骤4: 根据原粹树脂状态调整决策逻辑
         const result = await analyzeResinOptions(sortedButtons, isOriginalResinEmpty);
-        
+
         if (!result) {
             // analyzeResinOptions 返回 null（树脂耗尽且无可用树脂）
             keyPress("VK_ESCAPE");
@@ -970,12 +970,12 @@ this.attemptReward = async function (retryCount = 0) {
             await this.ensureExitRewardPage();
             return false;
         }
-        
+
         resinChoice = result.choice;
         shouldExitForSurge = result.shouldExitForSurge;
         doubleRemainingTimes = result.doubleRemainingTimes || 0;
         willFinishDoubleTimes = result.willFinishDoubleTimes || false;
-        
+
         if (!resinChoice) {
             // 已在 analyzeResinOptions 中输出详细错误信息，这里不再重复
             keyPress("VK_ESCAPE");
@@ -989,12 +989,12 @@ this.attemptReward = async function (retryCount = 0) {
         keyPress("VK_ESCAPE");
         await sleep(500);
         await this.ensureExitRewardPage();
-        
+
         // 未开启拾取模式时直接返回，不开启延迟报错
         if (!settings.pickDropsAfterReward) {
             return false;
         }
-        
+
         // 开启拾取模式时存储错误，延迟到拾取后抛出
         rewardError = error;
     }
@@ -1025,7 +1025,7 @@ this.attemptReward = async function (retryCount = 0) {
 
     // 确保完全退出奖励界面
     await this.ensureExitRewardPage();
-    
+
     if (settings.pickDropsAfterReward) {
         log.info(`[拾取材料] 开始执行自动拾取掉落物，拾取时间 ${settings.pickDropsSecondsValue} 秒...`);
         try {

@@ -17,20 +17,20 @@ const RESIN_ICONS = {
 
 // 普通数字识别对象（1-4）
 const NUMBER_ICONS = [
-    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num1.png")), value: 1},
-    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num2.png")), value: 2},
-    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num3.png")), value: 3},
-    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num4.png")), value: 4}
+    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num1.png")), value: 1 },
+    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num2.png")), value: 2 },
+    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num3.png")), value: 3 },
+    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num4.png")), value: 4 }
 ];
 
 // 白色数字识别对象（0-5，用于浓缩树脂）
 const WHITE_NUMBER_ICONS = [
-    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num0_white.png")), value: 0},
-    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num1_white.png")), value: 1},
-    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num2_white.png")), value: 2},
-    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num3_white.png")), value: 3},
-    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num4_white.png")), value: 4},
-    {ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num5_white.png")), value: 5}
+    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num0_white.png")), value: 0 },
+    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num1_white.png")), value: 1 },
+    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num2_white.png")), value: 2 },
+    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num3_white.png")), value: 3 },
+    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num4_white.png")), value: 4 },
+    { ro: RecognitionObject.TemplateMatch(file.ReadImageMatSync("RecognitionObject/num5_white.png")), value: 5 }
 ];
 
 // 配置常量
@@ -42,16 +42,16 @@ const CONFIG = {
 
     // 点击坐标
     COORDINATES: {
-        MAP_SWITCH: {x: 1840, y: 1020},    // 地图右下角切换按钮
-        MONDSTADT: {x: 1420, y: 180},      // 蒙德选择按钮
-        AVOID_SELECTION: {x: 1090, y: 450}  // 避免选中效果的点击位置
+        MAP_SWITCH: { x: 1840, y: 1020 },    // 地图右下角切换按钮
+        MONDSTADT: { x: 1420, y: 180 },      // 蒙德选择按钮
+        AVOID_SELECTION: { x: 1090, y: 450 }  // 避免选中效果的点击位置
     },
 
     // OCR识别区域配置
     OCR_REGIONS: {
-        ORIGINAL_RESIN: {width: 200, height: 40},
-        CONDENSED_RESIN: {width: 90, height: 40}, // 调用位置（L269）已改为硬编码，如果确认无用可删除
-        OTHER_RESIN: {width: 0, height: 60}  // width会根据图标宽度动态设置
+        ORIGINAL_RESIN: { width: 200, height: 40 },
+        CONDENSED_RESIN: { width: 90, height: 40 }, // 调用位置（L269）已改为硬编码，如果确认无用可删除
+        OTHER_RESIN: { width: 0, height: 60 }  // width会根据图标宽度动态设置
     }
 };
 
@@ -212,7 +212,7 @@ async function countOriginalResin(tryOriginalMode, opToMainUi, openMap) {
     } else {
         log.info('尝试使用优化模式');
         let ocrPhysical = await physical.ocrPhysical(opToMainUi, openMap);
-        log.debug(`ocrPhysical: {0}`,JSON.stringify(ocrPhysical))
+        log.debug(`ocrPhysical: {0}`, JSON.stringify(ocrPhysical))
         await sleep(600)
         // ocrPhysical = false//模拟异常
         if (ocrPhysical/* && ocrPhysical.ok*/) {
@@ -277,14 +277,14 @@ async function countCondensedResin() {
         height: 41
     };
 
-        // 首先尝试OCR识别
+    // 首先尝试OCR识别
     const ocrCount = await recognizeNumberByOCR(ocrRegion, /\d+/);
     if (ocrCount !== null) {
         log.info(`浓缩树脂数量: ${ocrCount}`);
         return ocrCount;
     }
 
-        // OCR识别失败，尝试白色数字图片识别
+    // OCR识别失败，尝试白色数字图片识别
     log.info(`OCR识别浓缩树脂失败，尝试白色数字图片识别`);
     const imageCount = await recognizeWhiteNumberByImage(ocrRegion);
     if (imageCount !== null) {
@@ -298,7 +298,7 @@ async function countCondensedResin() {
     await sleep(CONFIG.UI_DELAY);
     let captureRegion = null;
     try {
-                // OCR识别整个界面的文本
+        // OCR识别整个界面的文本
         captureRegion = captureGameRegion();
         let ocrRo = RecognitionObject.Ocr(0, 0, captureRegion.width, captureRegion.height);
         let textList = captureRegion.findMulti(ocrRo);

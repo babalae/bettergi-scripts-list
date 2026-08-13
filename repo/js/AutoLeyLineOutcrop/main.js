@@ -19,9 +19,9 @@ const MAX_RECHECK_COUNT = 3; // 最大重新检查次数
 let consecutiveFailureCount = 0; // 连续战斗失败次数
 const MAX_CONSECUTIVE_FAILURES = 5; // 最大连续失败次数，超过后终止脚本
 let doubleSurgeCounter = 0; // 双倍剩余次数计数器（0=未知/未初始化，>0=剩余次数）
-const ocrRegion1 = {x: 800, y: 200, width: 300, height: 100};   // 中心区域
-const ocrRegion2 = {x: 0, y: 200, width: 300, height: 300};     // 追踪任务区域
-const ocrRegion3 = {x: 1200, y: 520, width: 300, height: 300};  // 拾取区域
+const ocrRegion1 = { x: 800, y: 200, width: 300, height: 100 };   // 中心区域
+const ocrRegion2 = { x: 0, y: 200, width: 300, height: 300 };     // 追踪任务区域
+const ocrRegion3 = { x: 1200, y: 520, width: 300, height: 300 };  // 拾取区域
 
 // 预定义识别对象
 const openRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/open.png"));
@@ -164,7 +164,7 @@ async function checkUpdate() {
     try {
         // 发送GET请求
         const response = await http.request("GET", "https://cnb.cool/bettergi/bettergi-scripts-list/-/git/raw/release/repo/js/AutoLeyLineOutcrop/manifest.json",
-            JSON.stringify({"Content-Type": "text/plain; charset=utf-8"})
+            JSON.stringify({ "Content-Type": "text/plain; charset=utf-8" })
         );
         const latestManifest = JSON.parse(response.body);
         const manifest = JSON.parse(file.readTextSync("manifest.json"));
@@ -186,7 +186,7 @@ async function checkUpdate() {
     } catch (error) {
         throw new Error(`检查脚本更新时出错: ${error.message}`);
     }
-    
+
     // 重置双倍次数计数器
     doubleSurgeCounter = 0;
 }
@@ -411,12 +411,12 @@ async function runLeyLineChallenges() {
             // 仅在第一次循环且开启双倍模式时检测双倍
             const checkSurge = settings.onlySurgeMode && currentRunTimes === 0;
             const findResult = await findLeyLineOutcropByBook(settings.country, settings.leyLineOutcropType, checkSurge);
-            
+
             // 开书双倍检测未通过，提前退出
             if (findResult && findResult.noSurge) {
                 log.info("[双倍检测] 开书未检测到双倍产出，脚本结束");
                 // 确保返回主界面（此时可能在冒险之证菜单）
-                try { await genshin.returnMainUi(); } catch(e) {}
+                try { await genshin.returnMainUi(); } catch (e) { }
                 return;
             }
         } else {
@@ -693,7 +693,7 @@ async function executePath(path) {
     if (!rewardResult || !rewardResult.success) {
         throw new Error("无法领取奖励，树脂不足或其他原因");
     }
-    
+
     // 根据双倍剩余次数决定是否继续
     if (settings.onlySurgeMode && rewardResult.willFinishDoubleTimes) {
         log.info("[双倍次数] 双倍次数已刷完，脚本结束");
