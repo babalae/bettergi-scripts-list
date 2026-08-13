@@ -68,10 +68,13 @@ export function buildRunSummary(plan, materials, {
       : execution?.status === 'skipped'
         ? `未执行：${execution.reason || '没有可执行任务'}`
         : taskResult.status;
+  const inventoryIssueNames = execution?.inventoryUnrecognizedNames ?? [];
   const confirmedGainFallback = execution?.task?.executionType === 'artifactDomain'
     ? '圣遗物收益不纳入培养材料计数'
+    : execution?.inventoryRecognitionFailed === true
+      ? `奖励结果未知（背包未识别：${inventoryIssueNames.join('、') || '目标材料'}）`
     : execution?.task
-      ? '未确认目标材料增长'
+      ? '背包复核未发现目标材料增长'
       : '无';
   const sections = [
     '<b>养成材料调度摘要</b>',
@@ -103,10 +106,19 @@ function formatTaskResult(execution) {
   if (task.executionType === 'artifactDomain') {
     return { status: '圣遗物任务调用结束；收益不纳入培养材料统计', tasks };
   }
+  if (execution.inventoryRecognitionFailed === true) {
+    const names = (execution.inventoryUnrecognizedNames ?? []).join('、') || '目标材料';
+    return {
+      status: execution.appliedGains === true
+        ? `已确认部分收益；部分材料背包识别失败（${names}）`
+        : `任务调用结束；奖励结果未知（背包未识别：${names}）`,
+      tasks,
+    };
+  }
   if (execution.inventoryChecked === true && execution.appliedGains === true) {
     return { status: '已完成并由背包差值确认收益', tasks };
   }
-  return { status: '任务调用结束；未确认是否成功领奖', tasks };
+  return { status: '任务调用结束；背包复核未发现目标材料增长', tasks };
 }
 
 function formatTask(task) {

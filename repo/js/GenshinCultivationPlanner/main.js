@@ -148,7 +148,14 @@ async function main() {
 
     const hasExecutionAttempt = execution.status !== 'skipped' || (execution.routes?.length ?? 0) > 0;
     if (hasExecutionAttempt && scriptSettings.scanInventory !== false && trackedMaterialIds.length > 0) {
-      inventory = await scanInventoryItemIds(trackedMaterialIds, inventory, materials, '全部任务结束后', { preserveDecreases: true });
+      const finalInventoryScan = await scanInventoryItemIds(
+        trackedMaterialIds,
+        inventory,
+        materials,
+        '全部任务结束后',
+        { preserveDecreases: true, notFoundAsUnknown: true },
+      );
+      inventory = finalInventoryScan.inventory;
       execution.trackedRewards = buildTrackedInventoryGains(
         inventoryBeforeExecution,
         inventory,
@@ -156,6 +163,8 @@ async function main() {
         materials,
       );
       execution.inventoryChecked = true;
+      execution.inventoryRecognitionFailed = finalInventoryScan.issueNames.length > 0;
+      execution.inventoryUnrecognizedNames = finalInventoryScan.issueNames;
       execution.appliedGains = Object.keys(execution.trackedRewards).length > 0;
       if (execution.routes?.length > 0) {
         execution.routes = applyFinalRouteInventoryGains(
@@ -167,10 +176,16 @@ async function main() {
           log.warn('[路线执行] “{name}”在全部任务结束后的背包复核中未确认到材料增长', route.name);
         }
       }
-      if (execution.appliedGains) {
+      if (execution.appliedGains && execution.inventoryRecognitionFailed) {
+        log.warn('[执行] 已确认部分目标材料收益，但以下材料未能完成背包复核：{names}。请确认 BetterGI 已切换到 OCR V6 后重试',
+          execution.inventoryUnrecognizedNames.join('、'));
+      } else if (execution.appliedGains) {
         log.info('[执行] 已按整次运行的背包前后差值确认目标材料收益：{rewards}', JSON.stringify(execution.trackedRewards));
       } else if (execution.task?.executionType === 'artifactDomain' && !(execution.routes?.length > 0)) {
         log.info('[执行] 圣遗物填充不按目标培养材料的背包差值统计收益');
+      } else if (execution.inventoryRecognitionFailed) {
+        log.warn('[执行] 任务已调用，但以下材料未能完成结束背包复核，奖励结果未知：{names}。请确认 BetterGI 已切换到 OCR V6 后重试',
+          execution.inventoryUnrecognizedNames.join('、'));
       } else if (execution.routes?.length > 0) {
         log.warn('[执行] 全部任务结束后未确认到目标材料增长，可能是路线未获得材料或背包 OCR 失败');
       } else {
@@ -484,13 +499,15 @@ async function switchTaskParty(partyName, taskLabel, partySwitchState) {
 }
 
 async function scanInventoryMaterials(plan, inventory, materials, phase) {
-  return scanInventoryItemIds(plan.crafting.scanMaterialIds, inventory, materials, phase);
+  const result = await scanInventoryItemIds(plan.crafting.scanMaterialIds, inventory, materials, phase);
+  return result.inventory;
 }
 
 async function scanInventoryItemIds(materialIds, inventory, materials, phase, options = {}) {
   const scanGroups = buildInventoryScanGroups(materialIds, materials);
   const scanCount = Object.values(scanGroups).reduce((total, items) => total + items.length, 0);
   let updatedInventory = inventory;
+  const issueNames = new Set();
   log.info('[背包] {phase}读取 {count} 个本次目标材料及可合成低阶材料', phase, scanCount);
   for (const [tabName, scanItems] of Object.entries(scanGroups)) {
     const param = new CountInventoryItemParam();
@@ -504,19 +521,27 @@ async function scanInventoryItemIds(materialIds, inventory, materials, phase, op
       const applied = applyInventoryScanResult(updatedInventory, scanItems, counts, options);
       updatedInventory = applied.inventory;
       if (applied.failedNames.length > 0) {
+        for (const name of applied.failedNames) issueNames.add(name);
         log.warn('[背包] {phase}以下材料 OCR 失败，将不用于收益统计：{names}。请确认 BetterGI 已切换到 OCR V6 后重试',
           phase, applied.failedNames.join('、'));
       }
+      if (applied.unrecognizedNames.length > 0) {
+        for (const name of applied.unrecognizedNames) issueNames.add(name);
+        log.warn('[背包] {phase}未识别到以下材料，已保留执行前数量且不会据此判断为零收益：{names}。请确认 BetterGI 已切换到 OCR V6 后重试',
+          phase, applied.unrecognizedNames.join('、'));
+      }
       if (applied.decreasedNames.length > 0) {
+        for (const name of applied.decreasedNames) issueNames.add(name);
         log.warn('[背包] {phase}以下材料返回值低于执行前；本脚本不会消耗培养材料，已保留原库存：{names}',
           phase, applied.decreasedNames.join('、'));
       }
     } catch (error) {
+      for (const item of scanItems) issueNames.add(item.name);
       log.error('[背包] {phase}读取“{tab}”页失败，相关材料将保留原值：{error}。请确认 BetterGI 已切换到 OCR V6 后重试',
         phase, tabName, error.message ?? String(error));
     }
   }
-  return updatedInventory;
+  return { inventory: updatedInventory, issueNames: [...issueNames] };
 }
 
 await main();

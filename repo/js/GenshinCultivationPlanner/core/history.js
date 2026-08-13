@@ -24,6 +24,8 @@ export function buildRunRecord({ executionEnabled, plan, inventoryBefore, invent
       trackedRewards: execution.trackedRewards ?? {},
       routes: execution.routes ?? [],
       appliedGains: execution.appliedGains === true,
+      inventoryRecognitionFailed: execution.inventoryRecognitionFailed === true,
+      inventoryUnrecognizedNames: execution.inventoryUnrecognizedNames ?? [],
       result: classifyExecutionResult(execution),
       evidence: buildExecutionEvidence(execution),
     } : null,
@@ -41,6 +43,8 @@ function buildExecutionEvidence(execution) {
   return {
     inventoryChecked: execution.inventoryChecked === true,
     inventoryGainConfirmed: execution.inventoryChecked === true && execution.appliedGains === true,
+    inventoryRecognitionFailed: execution.inventoryRecognitionFailed === true,
+    inventoryUnrecognizedNames: execution.inventoryUnrecognizedNames ?? [],
     materialTrackingApplicable,
   };
 }
@@ -49,6 +53,7 @@ function classifyExecutionResult(execution) {
   if (execution.status === 'failed') return 'failed';
   if (execution.status === 'skipped') return 'skipped';
   if (execution.task?.executionType === 'artifactDomain') return 'completed-untracked';
+  if (execution.inventoryRecognitionFailed === true) return 'completed-inventory-unrecognized';
   if (execution.inventoryChecked === true && execution.appliedGains === true) return 'completed-inventory-confirmed';
   return 'completed-unconfirmed';
 }
