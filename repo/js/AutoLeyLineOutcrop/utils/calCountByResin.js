@@ -159,11 +159,11 @@ async function recognizeNumberByOCR(ocrRegion, pattern) {
     let resList = null;
     let captureRegion = null;
     try {
-        const ocrRo = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
+        const ocrRo = RecognitionObject.ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
         captureRegion = captureGameRegion();
         resList = captureRegion.findMulti(ocrRo);
 
-        if (!resList || resList.Count === 0) {
+        if (!resList || resList.count === 0) {
             log.warn("OCR未识别到任何文本");
             return null;
         }
@@ -303,8 +303,8 @@ async function countCondensedResin() {
         let ocrRo = RecognitionObject.Ocr(0, 0, captureRegion.width, captureRegion.height);
         let textList = captureRegion.findMulti(ocrRo);
 
-        if (textList && textList.Count > 0) {
-            for (let i = 0; i < textList.Count; i++) {
+        if (textList && textList.count > 0) {
+            for (let i = 0; i < textList.count; i++) {
                 if (textList[i].text.includes("当前拥有")) {
                     const match = textList[i].text.match(/当前拥有\s*([0-5ss])/);
                     if (match && match[1]) {
