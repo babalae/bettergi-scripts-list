@@ -663,13 +663,6 @@ declare const dispatcher: {
    * @param customCt
    */
   runAutoBossTask(param: AutoBossParam, customCt?: CancellationToken | null): Promise<void>;
-  /**
-   * 运行背包物品计数任务
-   * @param param 背包物品计数参数
-   * @param customCt 自定义取消令牌（可选）
-   * @returns 单物品数量、多物品名称到数量的映射，或空结果
-   */
-  runCountInventoryItemTask(param: CountInventoryItemParam, customCt?: CancellationToken | null): Promise<number | Record<string, number> | null>;
 
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   AddTimer: typeof dispatcher.addTimer;
@@ -683,7 +676,6 @@ declare const dispatcher: {
   RunAutoLeyLineOutcropTask: typeof dispatcher.runAutoLeyLineOutcropTask;
   RunAutoStygianOnslaughtTask: typeof dispatcher.runAutoStygianOnslaughtTask;
   RunAutoBossTask: typeof dispatcher.runAutoBossTask;
-  RunCountInventoryItemTask: typeof dispatcher.runCountInventoryItemTask;
   // ==== END AUTO-GENERATED ALIASES ====;
 };
 
@@ -911,56 +903,6 @@ declare class ServerTime {
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   declare static GetServerTimeZoneOffset: typeof ServerTime.getServerTimeZoneOffset;
 
-  // ==== END AUTO-GENERATED ALIASES ====
-}
-
-/**
- * 背包网格页签
- */
-declare enum GridScreenName {
-  Weapons = 0,
-  Artifacts = 1,
-  CharacterDevelopmentItems = 2,
-  Food = 3,
-  Materials = 4,
-  Gadget = 5,
-  Quest = 6,
-  PreciousItems = 7,
-  Furnishings = 8,
-  ArtifactSalvage = 9,
-  ArtifactSetFilter = 10,
-  Crafting = 11,
-  PartySetupCharacters = 12,
-}
-
-/**
- * 物品图标识别模式
- */
-declare enum ItemIconRecognitionMode {
-  GridIcon = 0,
-  Item = 1,
-}
-
-/**
- * 背包物品计数任务参数
- */
-declare class CountInventoryItemParam {
-  constructor();
-
-  /** 背包网格页签 */
-  gridScreenName: GridScreenName;
-  /** 单个物品名称；不能与 itemNames 同时设置 */
-  itemName?: string | null;
-  /** 多个物品名称；不能与 itemName 同时设置 */
-  itemNames: string[];
-  /** 物品图标识别模式 */
-  iconRecognitionMode: ItemIconRecognitionMode;
-
-  // ==== BEGIN AUTO-GENERATED ALIASES ====
-  declare GridScreenName: typeof CountInventoryItemParam.prototype.gridScreenName;
-  declare ItemName: typeof CountInventoryItemParam.prototype.itemName;
-  declare ItemNames: typeof CountInventoryItemParam.prototype.itemNames;
-  declare IconRecognitionMode: typeof CountInventoryItemParam.prototype.iconRecognitionMode;
   // ==== END AUTO-GENERATED ALIASES ====
 }
 

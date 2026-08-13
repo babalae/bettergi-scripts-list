@@ -5,9 +5,9 @@ export function buildRouteExecutionPlan(routes, settings, recipes = {}) {
   const groupedByRoute = new Map();
   for (const route of routes?.matched ?? []) {
     if (!isRouteTypeEnabled(route.type, settings)) continue;
-    const partyName = route.partyName?.trim() || (route.type === 'localSpecialty'
+    const partyName = route.type === 'localSpecialty'
       ? settings.gatheringTeamName?.trim()
-      : settings.monsterTeamName?.trim());
+      : settings.monsterTeamName?.trim();
     if (!partyName) {
       const label = route.type === 'localSpecialty' ? '采集队伍' : '怪物材料队伍';
       throw new Error(`路线“${route.name}”未配置${label}`);
@@ -28,12 +28,9 @@ export function buildRouteExecutionPlan(routes, settings, recipes = {}) {
         partyName,
         paths: [...pathsByNormalizedName.values()],
         materialMap: new Map(),
-        requiredCharacters: new Set(),
       });
     }
-    const group = groupedByRoute.get(key);
-    for (const name of route.requiredCharacters ?? []) group.requiredCharacters.add(name);
-    group.materialMap.set(route.materialId, {
+    groupedByRoute.get(key).materialMap.set(route.materialId, {
       materialId: route.materialId,
       name: route.name,
       shortage: route.shortage,
@@ -50,7 +47,6 @@ export function buildRouteExecutionPlan(routes, settings, recipes = {}) {
       materials,
       name: materials.map((item) => item.name).join('、'),
       scanMaterialIds: collectCraftingMaterialIds(requirements, recipes),
-      requiredCharacters: [...group.requiredCharacters],
     };
   });
 }

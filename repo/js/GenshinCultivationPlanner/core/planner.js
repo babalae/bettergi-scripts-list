@@ -7,7 +7,7 @@ import { buildPlan } from './scheduler.js';
 /**
  * 纯函数入口，供 BetterGI 脚本与 Node 测试共同使用。
  */
-export function createPlan({ targets, inventory, materials, recipes = {}, rulebook, today, profileSnapshot = null }) {
+export function createPlan({ targets, inventory, materials, recipes = {}, rulebook, today }) {
   const requirements = mergeRequirements(expandTargets(targets, rulebook ?? {}));
   const normalizedInventory = normalizeInventory(inventory, materials);
   const craftableRequirements = new Map([...requirements].filter(([materialId]) => materials[materialId]?.status !== 'excluded'));
@@ -20,8 +20,6 @@ export function createPlan({ targets, inventory, materials, recipes = {}, rulebo
   const displayShortages = buildDisplayShortages(requirements, normalizedInventory, recipes, materials);
   return {
     today,
-    targets,
-    profileSnapshot,
     requirements: Object.fromEntries(requirements),
     farmRequirements: Object.fromEntries(farmRequirements),
     crafting,

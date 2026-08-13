@@ -1,11 +1,12 @@
+import { isBossTaskEnabled } from './boss-executor.js';
+
 /**
  * 当天没有培养树脂任务时，构造用户主动启用的圣遗物秘境填充任务。
  * 不根据角色自动推断圣遗物套装，避免替用户做配装决策。
  */
 export function appendArtifactFallbackTask(plan, settings) {
   if (settings.artifactDomainEnabled !== true || !settings.artifactDomainName?.trim()) return plan;
-  if (settings.artifactFillCondition !== '始终放在队列末尾'
-    && plan.todayQueue.some((task) => task.status === 'supported' && task.executionType !== 'artifactDomain')) return plan;
+  if (plan.todayQueue.some((task) => isExecutableCultivationTask(task, settings))) return plan;
   if (plan.todayQueue.some((task) => task.executionType === 'artifactDomain')) return plan;
   plan.todayQueue.push({
     materialId: `artifact:${settings.artifactDomainName.trim()}`,
@@ -22,6 +23,13 @@ export function appendArtifactFallbackTask(plan, settings) {
   return plan;
 }
 
+function isExecutableCultivationTask(task, settings) {
+  if (task.status !== 'supported') return false;
+  if (task.executionType === 'domain') return true;
+  if (task.executionType === 'boss') return isBossTaskEnabled(task, settings);
+  return false;
+}
+
 /** 构造圣遗物秘境执行配置，沿用普通秘境树脂规则且默认不自动分解。 */
 export function buildArtifactDomainExecutionConfig(task, settings, resinPolicy) {
   if (task?.executionType !== 'artifactDomain' || !task.domainName) {
@@ -35,14 +43,13 @@ export function buildArtifactDomainExecutionConfig(task, settings, resinPolicy) 
   const effectiveResinPolicy = testSingleRun
     ? {
       ...resinPolicy,
-      priority: resinPolicy.budgetEnforced && resinPolicy.originalResinUseCount <= 0 ? [] : ['原粹树脂'],
-      originalResinUseCount: resinPolicy.budgetEnforced && resinPolicy.originalResinUseCount <= 0 ? 0 : 1,
+      priority: ['原粹树脂'],
+      originalResinUseCount: 1,
       condensedResinUseCount: 0,
       transientResinUseCount: 0,
       fragileResinUseCount: 0,
     }
     : resinPolicy;
-  if (effectiveResinPolicy.priority.length === 0) throw new Error('当前原粹树脂预算不足以执行圣遗物单次测试');
   return {
     domainName: task.domainName,
     partyName,

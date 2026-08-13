@@ -1,3 +1,5 @@
+import { isBossTaskEnabled } from './boss-executor.js';
+
 /** 实际执行前的配置检查。 */
 export function collectExecutionWarnings(plan, settings) {
   const warnings = [];
@@ -12,8 +14,16 @@ export function collectExecutionWarnings(plan, settings) {
     && settings.domainTestSingleRun !== true) {
     warnings.push('今日有秘境候选任务，但所有允许使用的树脂类型均已关闭');
   }
-  if (types.has('boss') && settings.bossExecutionEnabled === true && !settings.bossTeamName?.trim()) {
-    warnings.push('今日有 Boss 候选任务，但尚未配置 Boss 队伍名称');
+  const enabledBossTasks = plan.todayQueue.filter((task) => (
+    task.executionType === 'boss'
+    && task.status === 'supported'
+    && isBossTaskEnabled(task, settings)
+  ));
+  const bossWithoutParty = enabledBossTasks.filter((task) => (
+    !settings.bossOverrides?.[task.bossName]?.partyName?.trim() && !settings.bossTeamName?.trim()
+  ));
+  if (bossWithoutParty.length > 0) {
+    warnings.push(`今日有 Boss 候选任务，但尚未配置可用队伍：${bossWithoutParty.map((task) => task.bossName).join('、')}`);
   }
   if (types.has('boss') && settings.bossExecutionEnabled !== true) {
     warnings.push('今日有世界 Boss 候选任务；Boss 自动执行默认关闭，确认首领机制与队伍后再手动开启');
