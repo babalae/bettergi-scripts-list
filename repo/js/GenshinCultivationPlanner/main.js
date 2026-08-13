@@ -337,10 +337,10 @@ async function executeFirstResinTask(plan, settings, resinPolicy, materials, inv
   param.CondensedResinUseCount = config.resinPolicy.condensedResinUseCount;
   param.TransientResinUseCount = config.resinPolicy.transientResinUseCount;
   param.FragileResinUseCount = config.resinPolicy.fragileResinUseCount;
-  param.RewardRecognitionEnabled = false;
+  param.RewardRecognitionEnabled = true;
 
   await dispatcher.RunAutoDomainTask(param);
-  log.info('[执行] 秘境“{domain}”任务调用结束；收益将在全部任务结束后统一读取背包确认', config.domainName);
+  log.info('[执行] 秘境“{domain}”任务调用结束；已启用 BetterGI 奖励识别，最终收益仍以全部任务结束后的背包复核为准', config.domainName);
   return {
     status: 'completed',
     task,
@@ -373,9 +373,9 @@ async function executeArtifactDomainTask(task, scriptSettings, resinPolicy, inve
   param.FragileResinUseCount = config.resinPolicy.fragileResinUseCount;
   param.AutoArtifactSalvage = config.autoArtifactSalvage;
   param.MaxArtifactStar = config.maxArtifactStar;
-  param.RewardRecognitionEnabled = false;
+  param.RewardRecognitionEnabled = true;
   await dispatcher.RunAutoDomainTask(param);
-  log.info('[圣遗物] 任务调用结束；圣遗物收益不纳入培养材料计数');
+  log.info('[圣遗物] 任务调用结束；已启用 BetterGI 奖励识别，圣遗物收益不纳入培养材料计数');
   return {
     status: 'completed', task, rewards: {}, trackedRewards: {},
     appliedGains: false,
@@ -399,9 +399,9 @@ async function executeBossTask(task, scriptSettings, inventory, partySwitchState
   param.UseFragileResin = false;
   param.ReviveRetryCount = config.reviveRetryCount;
   param.ReturnToStatueAfterEachRound = false;
-  param.RewardRecognitionEnabled = false;
+  param.RewardRecognitionEnabled = true;
   await dispatcher.RunAutoBossTask(param);
-  log.info('[Boss] 任务调用结束；收益将在全部任务结束后统一读取背包确认');
+  log.info('[Boss] 任务调用结束；已启用 BetterGI 奖励识别，最终收益仍以全部任务结束后的背包复核为准');
   return {
     status: 'completed', task, rewards: {}, trackedRewards: {},
     appliedGains: false,
