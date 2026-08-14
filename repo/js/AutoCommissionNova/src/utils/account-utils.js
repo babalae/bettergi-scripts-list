@@ -1,5 +1,5 @@
 import { THRESHOLDS } from "../config/index.js";
-import { loadGlobalConfig } from "../loaders/global-config.js";
+import { listAccountUids, loadUserConfig } from "../loaders/user-config.js";
 import { calculateSimilarity } from "../recognition/text-similarity.js";
 
 let cachedCurrentUid = "";
@@ -13,7 +13,16 @@ function normalizeUidCandidates(candidates) {
 }
 
 export function getConfiguredUids() {
-    return normalizeUidCandidates(loadGlobalConfig().uids || []);
+    return normalizeUidCandidates(listAccountUids());
+}
+
+export function getActiveAccountUid() {
+    return cachedCurrentUid;
+}
+
+export function requireActiveAccountUid() {
+    if (!cachedCurrentUid) throw new Error("当前运行尚未确认 UID");
+    return cachedCurrentUid;
 }
 
 export function matchUidCandidate(recognizedUid, candidates) {
@@ -95,4 +104,14 @@ export async function getCurrentUid(options = {}) {
 
     cachedCurrentUid = recognizedUid;
     return recognizedUid;
+}
+
+export async function initializeCurrentAccount(options = {}) {
+    const uid = await getCurrentUid();
+    if (!uid) {
+        if (options.required !== false) throw new Error("无法确认当前 UID，请检查游戏主界面的 UID 显示或先在配置页新增该 UID");
+        return "";
+    }
+    loadUserConfig(uid, { create: true });
+    return uid;
 }

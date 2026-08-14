@@ -91,7 +91,7 @@ export const PATHS = {
     PROCESS_ROOT: "process",
     COMMISSION_CATALOG: "config/commission-catalog.json",
     NPC_PROCESS_BASE: "process/蒙德/NPC",
-    ACCOUNT_STATE: "Data/account-state.json",
+    ACCOUNT_CONFIG_DIR: "Data/user-config",
     HAS_NO_RESULT_IMAGE: "Data/RecognitionObject/hasNoResult.png",
     COMPLETED_IMAGE: "Data/RecognitionObject/Completed.png",
     UNCOMPLETED_IMAGE: "Data/RecognitionObject/UnCompleted.png",
@@ -107,7 +107,6 @@ export const PATHS = {
     MOON_LIGHT_ICON: "Data/RecognitionObject/MoonLightIcon.png",
     TRACK_IMAGE: "Data/RecognitionObject/TrackButton.png",
     AVATAR_STRATEGIES: "config/avatar-strategies.json",
-    USER_CONFIG: "Data/user-config.json",
     /** 委托分支配置目录。每个委托一个文件：{委托名}.json
      *  内存视图（branchConfigCache / UI 编辑器）是合并后的 { 委托名: config }，
      *  磁盘按委托名拆分存储，新增委托加文件即可，零冲突 */
