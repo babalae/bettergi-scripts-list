@@ -5,7 +5,7 @@ import { buildRunSummary } from './core/report.js';
 import { collectExecutionWarnings } from './core/preflight.js';
 import { buildDomainResinPolicy } from './core/resin.js';
 import { buildDomainExecutionConfig } from './core/domain-executor.js';
-import { buildTrackedInventoryGains } from './core/execution-progress.js';
+import { normalizeRewardMap, reconcileRewardEvidence } from './core/rewards.js';
 import { buildWeeklyStrategy } from './core/scheduler.js';
 import { appendRunHistory, buildRunRecord } from './core/history.js';
 import { parseTargetText } from './core/target-input.js';
@@ -130,6 +130,7 @@ async function main() {
         status: 'failed',
         reason: error.message ?? String(error),
         rewards: {},
+        taskRecognizedRewards: {},
         appliedGains: false,
       };
       log.error('[执行] 未开始或未完成秘境刷取：{error}', execution.reason);
@@ -155,17 +156,35 @@ async function main() {
         '全部任务结束后',
         { preserveDecreases: true, notFoundAsUnknown: true },
       );
-      inventory = finalInventoryScan.inventory;
-      execution.trackedRewards = buildTrackedInventoryGains(
-        inventoryBeforeExecution,
-        inventory,
+      const rewardEvidence = reconcileRewardEvidence({
+        inventoryBefore: inventoryBeforeExecution,
+        inventoryAfter: finalInventoryScan.inventory,
         trackedMaterialIds,
         materials,
-      );
+        inventoryIssueNames: finalInventoryScan.issueNames,
+        taskRecognizedRewards: execution.taskRecognizedRewards,
+        taskExecutionType: execution.task?.executionType,
+      });
+      execution.inventoryObservedAfter = finalInventoryScan.inventory;
+      inventory = rewardEvidence.inventory;
+      execution.inventoryTrackedRewards = rewardEvidence.inventoryTrackedRewards;
+      execution.taskTrackedRewards = rewardEvidence.taskTrackedRewards;
+      execution.trackedRewards = rewardEvidence.trackedRewards;
+      execution.gainSources = rewardEvidence.gainSources;
+      execution.rewardDiscrepancies = rewardEvidence.rewardDiscrepancies;
       execution.inventoryChecked = true;
       execution.inventoryRecognitionFailed = finalInventoryScan.issueNames.length > 0;
       execution.inventoryUnrecognizedNames = finalInventoryScan.issueNames;
       execution.appliedGains = Object.keys(execution.trackedRewards).length > 0;
+      const taskFallbackNames = Object.entries(execution.gainSources)
+        .filter(([, source]) => source === 'task-recognition')
+        .map(([name]) => name);
+      if (execution.rewardDiscrepancies.length > 0) {
+        for (const item of execution.rewardDiscrepancies) {
+          log.warn('[奖励] “{name}”的背包差值为 {inventory}，任务奖励识别为 {task}；按规则采用背包差值',
+            item.name, item.inventoryGain, item.taskGain);
+        }
+      }
       if (execution.routes?.length > 0) {
         execution.routes = applyFinalRouteInventoryGains(
           execution.routes,
@@ -176,20 +195,23 @@ async function main() {
           log.warn('[路线执行] “{name}”在全部任务结束后的背包复核中未确认到材料增长', route.name);
         }
       }
-      if (execution.appliedGains && execution.inventoryRecognitionFailed) {
-        log.warn('[执行] 已确认部分目标材料收益，但以下材料未能完成背包复核：{names}。请确认 BetterGI 已切换到 OCR V6 后重试',
+      if (taskFallbackNames.length > 0) {
+        log.info('[执行] 结束背包未识别到部分材料，已使用 BetterGI 任务奖励确认收益：{rewards}',
+          JSON.stringify(Object.fromEntries(taskFallbackNames.map((name) => [name, execution.trackedRewards[name]]))));
+      } else if (execution.appliedGains && execution.inventoryRecognitionFailed) {
+        log.warn('[执行] 已确认部分目标材料收益，但以下材料未能完成背包复核：{names}。请查看前述 ItemV2 图标或数量 OCR 日志',
           execution.inventoryUnrecognizedNames.join('、'));
       } else if (execution.appliedGains) {
         log.info('[执行] 已按整次运行的背包前后差值确认目标材料收益：{rewards}', JSON.stringify(execution.trackedRewards));
       } else if (execution.task?.executionType === 'artifactDomain' && !(execution.routes?.length > 0)) {
         log.info('[执行] 圣遗物填充不按目标培养材料的背包差值统计收益');
       } else if (execution.inventoryRecognitionFailed) {
-        log.warn('[执行] 任务已调用，但以下材料未能完成结束背包复核，奖励结果未知：{names}。请确认 BetterGI 已切换到 OCR V6 后重试',
+        log.warn('[执行] 任务已调用，但以下材料未能完成结束背包复核，奖励结果未知：{names}。请查看前述 ItemV2 图标或数量 OCR 日志',
           execution.inventoryUnrecognizedNames.join('、'));
       } else if (execution.routes?.length > 0) {
         log.warn('[执行] 全部任务结束后未确认到目标材料增长，可能是路线未获得材料或背包 OCR 失败');
       } else {
-        log.warn('[执行] 树脂任务调用结束，但最终背包差值未确认到目标材料增长');
+        log.warn('[执行] 树脂任务调用结束，但任务奖励识别为空且最终背包未确认到目标材料增长；可能未领奖或奖励识别失败');
       }
     }
 
@@ -304,12 +326,12 @@ async function executeFirstResinTask(plan, settings, resinPolicy, materials, inv
   ));
   if (!task) {
     log.info('[执行] 今日没有已启用的树脂任务，本次不执行');
-    return { status: 'skipped', reason: '今日没有已启用的树脂任务', rewards: {}, appliedGains: false };
+    return { status: 'skipped', reason: '今日没有已启用的树脂任务', rewards: {}, taskRecognizedRewards: {}, appliedGains: false };
   }
   if (task.executionType === 'boss') return executeBossTask(task, settings, inventory, partySwitchState);
   if (task.executionType === 'artifactDomain') return executeArtifactDomainTask(task, settings, resinPolicy, inventory, partySwitchState);
   if (task.executionType !== 'domain') {
-    return { status: 'skipped', reason: `暂不支持执行任务类型：${task.executionType}`, rewards: {}, appliedGains: false };
+    return { status: 'skipped', reason: `暂不支持执行任务类型：${task.executionType}`, rewards: {}, taskRecognizedRewards: {}, appliedGains: false };
   }
 
   const config = buildDomainExecutionConfig(task, settings, resinPolicy);
@@ -339,12 +361,14 @@ async function executeFirstResinTask(plan, settings, resinPolicy, materials, inv
   param.FragileResinUseCount = config.resinPolicy.fragileResinUseCount;
   param.RewardRecognitionEnabled = true;
 
-  await dispatcher.RunAutoDomainTask(param);
+  const taskRecognizedRewards = normalizeRewardMap(await dispatcher.RunAutoDomainTask(param));
+  logTaskRecognizedRewards('执行', taskRecognizedRewards);
   log.info('[执行] 秘境“{domain}”任务调用结束；已启用 BetterGI 奖励识别，最终收益仍以全部任务结束后的背包复核为准', config.domainName);
   return {
     status: 'completed',
     task,
-    rewards: {},
+    rewards: taskRecognizedRewards,
+    taskRecognizedRewards,
     trackedRewards: {},
     appliedGains: false,
     inventoryBefore: inventory,
@@ -374,10 +398,11 @@ async function executeArtifactDomainTask(task, scriptSettings, resinPolicy, inve
   param.AutoArtifactSalvage = config.autoArtifactSalvage;
   param.MaxArtifactStar = config.maxArtifactStar;
   param.RewardRecognitionEnabled = true;
-  await dispatcher.RunAutoDomainTask(param);
+  const taskRecognizedRewards = normalizeRewardMap(await dispatcher.RunAutoDomainTask(param));
+  logTaskRecognizedRewards('圣遗物', taskRecognizedRewards);
   log.info('[圣遗物] 任务调用结束；已启用 BetterGI 奖励识别，圣遗物收益不纳入培养材料计数');
   return {
-    status: 'completed', task, rewards: {}, trackedRewards: {},
+    status: 'completed', task, rewards: taskRecognizedRewards, taskRecognizedRewards, trackedRewards: {},
     appliedGains: false,
     inventoryBefore: inventory,
   };
@@ -400,10 +425,11 @@ async function executeBossTask(task, scriptSettings, inventory, partySwitchState
   param.ReviveRetryCount = config.reviveRetryCount;
   param.ReturnToStatueAfterEachRound = false;
   param.RewardRecognitionEnabled = true;
-  await dispatcher.RunAutoBossTask(param);
+  const taskRecognizedRewards = normalizeRewardMap(await dispatcher.RunAutoBossTask(param));
+  logTaskRecognizedRewards('Boss', taskRecognizedRewards);
   log.info('[Boss] 任务调用结束；已启用 BetterGI 奖励识别，最终收益仍以全部任务结束后的背包复核为准');
   return {
-    status: 'completed', task, rewards: {}, trackedRewards: {},
+    status: 'completed', task, rewards: taskRecognizedRewards, taskRecognizedRewards, trackedRewards: {},
     appliedGains: false,
     inventoryBefore: inventory,
   };
@@ -503,6 +529,14 @@ async function scanInventoryMaterials(plan, inventory, materials, phase) {
   return result.inventory;
 }
 
+function logTaskRecognizedRewards(scope, rewards) {
+  if (Object.keys(rewards).length > 0) {
+    log.info('[{scope}] BetterGI 累计奖励识别结果：{rewards}', scope, JSON.stringify(rewards));
+  } else {
+    log.warn('[{scope}] BetterGI 奖励识别结果为空；可能未领奖或奖励识别失败', scope);
+  }
+}
+
 async function scanInventoryItemIds(materialIds, inventory, materials, phase, options = {}) {
   const scanGroups = buildInventoryScanGroups(materialIds, materials);
   const scanCount = Object.values(scanGroups).reduce((total, items) => total + items.length, 0);
@@ -511,6 +545,7 @@ async function scanInventoryItemIds(materialIds, inventory, materials, phase, op
   log.info('[背包] {phase}读取 {count} 个本次目标材料及可合成低阶材料', phase, scanCount);
   for (const [tabName, scanItems] of Object.entries(scanGroups)) {
     const param = new CountInventoryItemParam();
+    param.IconRecognitionMode = ItemIconRecognitionMode.Item;
     param.GridScreenName = tabName === 'CharacterDevelopmentItems'
       ? GridScreenName.CharacterDevelopmentItems
       : GridScreenName.Materials;
@@ -522,12 +557,12 @@ async function scanInventoryItemIds(materialIds, inventory, materials, phase, op
       updatedInventory = applied.inventory;
       if (applied.failedNames.length > 0) {
         for (const name of applied.failedNames) issueNames.add(name);
-        log.warn('[背包] {phase}以下材料 OCR 失败，将不用于收益统计：{names}。请确认 BetterGI 已切换到 OCR V6 后重试',
+        log.warn('[背包] {phase}以下材料的数量 OCR 失败，将不用于收益统计：{names}。请确认 BetterGI 已切换到 OCR V6 后重试',
           phase, applied.failedNames.join('、'));
       }
       if (applied.unrecognizedNames.length > 0) {
         for (const name of applied.unrecognizedNames) issueNames.add(name);
-        log.warn('[背包] {phase}未识别到以下材料，已保留执行前数量且不会据此判断为零收益：{names}。请确认 BetterGI 已切换到 OCR V6 后重试',
+        log.warn('[背包] {phase}的 ItemV2 图标模型未匹配到以下材料，已保留执行前数量且不会据此判断为零收益：{names}',
           phase, applied.unrecognizedNames.join('、'));
       }
       if (applied.decreasedNames.length > 0) {
@@ -537,7 +572,7 @@ async function scanInventoryItemIds(materialIds, inventory, materials, phase, op
       }
     } catch (error) {
       for (const item of scanItems) issueNames.add(item.name);
-      log.error('[背包] {phase}读取“{tab}”页失败，相关材料将保留原值：{error}。请确认 BetterGI 已切换到 OCR V6 后重试',
+      log.error('[背包] {phase}读取“{tab}”页失败，相关材料将保留原值：{error}。请检查背包界面、BetterGI 版本；若是数量文字异常，再确认 OCR V6',
         phase, tabName, error.message ?? String(error));
     }
   }

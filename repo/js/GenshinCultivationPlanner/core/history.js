@@ -21,7 +21,13 @@ export function buildRunRecord({ executionEnabled, plan, inventoryBefore, invent
         materialName: execution.task.materialName,
         materials: execution.task.materials ?? [],
       } : null,
+      taskRecognizedRewards: execution.taskRecognizedRewards ?? {},
+      inventoryObservedAfter: execution.inventoryObservedAfter ?? null,
+      inventoryTrackedRewards: execution.inventoryTrackedRewards ?? {},
+      taskTrackedRewards: execution.taskTrackedRewards ?? {},
       trackedRewards: execution.trackedRewards ?? {},
+      gainSources: execution.gainSources ?? {},
+      rewardDiscrepancies: execution.rewardDiscrepancies ?? [],
       routes: execution.routes ?? [],
       appliedGains: execution.appliedGains === true,
       inventoryRecognitionFailed: execution.inventoryRecognitionFailed === true,
@@ -40,9 +46,14 @@ export function buildRunRecord({ executionEnabled, plan, inventoryBefore, invent
 
 function buildExecutionEvidence(execution) {
   const materialTrackingApplicable = execution.task != null && execution.task.executionType !== 'artifactDomain';
+  const gainSources = Object.values(execution.gainSources ?? {});
+  const hasLegacyConfirmedGain = gainSources.length === 0
+    && execution.inventoryChecked === true
+    && execution.appliedGains === true;
   return {
     inventoryChecked: execution.inventoryChecked === true,
-    inventoryGainConfirmed: execution.inventoryChecked === true && execution.appliedGains === true,
+    inventoryGainConfirmed: gainSources.includes('inventory') || hasLegacyConfirmedGain,
+    taskRecognitionGainConfirmed: gainSources.includes('task-recognition'),
     inventoryRecognitionFailed: execution.inventoryRecognitionFailed === true,
     inventoryUnrecognizedNames: execution.inventoryUnrecognizedNames ?? [],
     materialTrackingApplicable,
@@ -53,6 +64,7 @@ function classifyExecutionResult(execution) {
   if (execution.status === 'failed') return 'failed';
   if (execution.status === 'skipped') return 'skipped';
   if (execution.task?.executionType === 'artifactDomain') return 'completed-untracked';
+  if (Object.values(execution.gainSources ?? {}).includes('task-recognition')) return 'completed-task-recognition-confirmed';
   if (execution.inventoryRecognitionFailed === true) return 'completed-inventory-unrecognized';
   if (execution.inventoryChecked === true && execution.appliedGains === true) return 'completed-inventory-confirmed';
   return 'completed-unconfirmed';

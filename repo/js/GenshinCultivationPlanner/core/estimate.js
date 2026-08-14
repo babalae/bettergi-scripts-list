@@ -16,11 +16,15 @@ export function buildCompletionEstimate({ plan, materials, recipes = {}, today, 
   if (shortages.length === 0) return { days: 0, reason: '材料已满足', details: [] };
 
   const groups = new Map();
+  const unestimatedReasons = new Set();
   for (const shortage of shortages) {
     // 路线发现会为本次计划补充 executionType=route；优先使用计划内的动态来源信息。
     const material = shortage.material ?? materials[shortage.materialId];
     const policy = resolvePolicy(shortage.materialId, material);
-    if (!policy) return { days: null, reason: buildUnsupportedReason(material), details: [] };
+    if (!policy) {
+      unestimatedReasons.add(buildUnsupportedReason(material));
+      continue;
+    }
     const baseMaterialId = getBaseMaterialId(shortage.materialId, recipes);
     const key = `${policy.sourceType}:${policy.sourceName}:${baseMaterialId}`;
     const group = groups.get(key) ?? {
@@ -34,12 +38,20 @@ export function buildCompletionEstimate({ plan, materials, recipes = {}, today, 
     groups.set(key, group);
   }
 
+  if (groups.size === 0) {
+    return { days: null, reason: [...unestimatedReasons].join('；'), details: [], unestimatedReasons: [...unestimatedReasons] };
+  }
+
   const resinBudget = normalizeDailyResinBudget(dailyResinBudget);
   const details = [...groups.values()].map((group) => buildDetail(group, resinBudget, today));
+  const baseReason = '按世界等级 9 与最高难度秘境掉落期望估算；不考虑双倍掉落';
   return {
     days: Math.max(...details.map((item) => item.estimatedDays)),
-    reason: '按世界等级 9 与最高难度秘境掉落期望估算；不考虑双倍掉落',
+    reason: unestimatedReasons.size > 0
+      ? `${baseReason}；${[...unestimatedReasons].join('；')}`
+      : baseReason,
     details,
+    unestimatedReasons: [...unestimatedReasons],
   };
 }
 

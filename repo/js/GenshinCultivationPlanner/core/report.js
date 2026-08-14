@@ -69,12 +69,13 @@ export function buildRunSummary(plan, materials, {
         ? `未执行：${execution.reason || '没有可执行任务'}`
         : taskResult.status;
   const inventoryIssueNames = execution?.inventoryUnrecognizedNames ?? [];
+  const hasTaskRecognitionGain = Object.values(execution?.gainSources ?? {}).includes('task-recognition');
   const confirmedGainFallback = execution?.task?.executionType === 'artifactDomain'
     ? '圣遗物收益不纳入培养材料计数'
-    : execution?.inventoryRecognitionFailed === true
+    : execution?.inventoryRecognitionFailed === true && !hasTaskRecognitionGain
       ? `奖励结果未知（背包未识别：${inventoryIssueNames.join('、') || '目标材料'}）`
     : execution?.task
-      ? '背包复核未发现目标材料增长'
+      ? '未确认领取到目标材料，可能是树脂不足或奖励识别为空'
       : '无';
   const sections = [
     '<b>养成材料调度摘要</b>',
@@ -86,9 +87,9 @@ export function buildRunSummary(plan, materials, {
       ? `<br><br><b>需手动获取的周本材料</b>${formatItems(manualWeekly, '无')}`
       : '',
     `<br><br><b>仍缺材料</b>${formatItems(missing, '无')}`,
+    `<br><br><b>${estimate}</b>`,
     `<br><br><b>下一步候选</b>${formatItems(planned, '无')}`,
     `<br><br><b>本周循环策略</b>${formatItems(weekly, '本周无可执行树脂任务')}`,
-    `<br><br><b>${estimate}</b>`,
   ];
   let summary = '';
   for (const section of sections) {
@@ -106,6 +107,9 @@ function formatTaskResult(execution) {
   if (task.executionType === 'artifactDomain') {
     return { status: '圣遗物任务调用结束；收益不纳入培养材料统计', tasks };
   }
+  if (Object.values(execution.gainSources ?? {}).includes('task-recognition')) {
+    return { status: '已由 BetterGI 奖励识别确认收益；结束背包未识别到部分材料', tasks };
+  }
   if (execution.inventoryRecognitionFailed === true) {
     const names = (execution.inventoryUnrecognizedNames ?? []).join('、') || '目标材料';
     return {
@@ -116,9 +120,9 @@ function formatTaskResult(execution) {
     };
   }
   if (execution.inventoryChecked === true && execution.appliedGains === true) {
-    return { status: '已完成并由背包差值确认收益', tasks };
+    return { status: '已由背包差值确认收益', tasks };
   }
-  return { status: '任务调用结束；背包复核未发现目标材料增长', tasks };
+  return { status: '未确认领取到目标材料，可能是树脂不足或奖励识别为空', tasks };
 }
 
 function formatTask(task) {
@@ -135,6 +139,9 @@ function formatEstimate(days, reason, details) {
   if (!Number.isFinite(days)) return `预计完成：${reason || '等待累计实际掉落数据'}`;
   if (details.length === 1) {
     const detail = details[0];
+    if (detail.sourceType === 'boss') {
+      return `预计完成：约${detail.estimatedClaims}次领奖、${detail.estimatedResin}树脂；按每日树脂预算约${detail.requiredOpenDays}天（${reason || '按掉落期望估算'}）`;
+    }
     const calendar = days === 0 ? '最早今天' : `从现在起最早约${days}个自然日`;
     return `预计完成：约${detail.estimatedClaims}次领奖、${detail.estimatedResin}树脂、${detail.requiredOpenDays}个开放日；${calendar}（${reason || '按掉落期望估算'}）`;
   }
