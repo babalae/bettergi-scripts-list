@@ -1,5 +1,6 @@
 import { buildCommissionScope, buildCommissionScopeFromContext } from "./process-scope.js";
 import { deleteUserPartyScope, getUserPartyScope, loadUserConfig, setUserPartyScope, writeUserConfig } from "./user-config.js";
+import { requireActiveAccountUid } from "../utils/account-utils.js";
 
 export const DEFAULT_BATTLE_STRATEGY = "根据队伍自动选择";
 
@@ -120,10 +121,10 @@ function shouldPersistScopeConfig(config) {
         || (collectCustom && hasTeamSelectionValue(normalized.collect));
 }
 
-export function loadGlobalPartyConfig() {
+export function loadGlobalPartyConfig(uid = requireActiveAccountUid()) {
     try {
-        const userConfig = loadUserConfig();
-        const json = userConfig.party.global;
+        const userConfig = loadUserConfig(uid);
+        const json = userConfig.settings.party.global;
         if (!json) {
             return normalizeGlobalPartyConfig({});
         }
@@ -134,9 +135,9 @@ export function loadGlobalPartyConfig() {
     }
 }
 
-export function loadScopePartyConfig(scope) {
+export function loadScopePartyConfig(scope, uid = requireActiveAccountUid()) {
     try {
-        const userConfig = loadUserConfig();
+        const userConfig = loadUserConfig(uid);
         const json = getUserPartyScope(userConfig, buildCommissionScope(scope));
         if (!json) {
             return normalizeScopePartyConfig({});
@@ -208,27 +209,27 @@ export function resolveBattleStrategy(configBundle) {
         : (globalConfig.battleStrategy || DEFAULT_BATTLE_STRATEGY);
 }
 
-export function createPartyConfigView(scopesByCommission) {
+export function createPartyConfigView(scopesByCommission, uid = requireActiveAccountUid()) {
     const view = {};
-    const global = loadGlobalPartyConfig();
+    const global = loadGlobalPartyConfig(uid);
 
     for (const [commissionName, scopes] of Object.entries(scopesByCommission || {})) {
         view[commissionName] = (scopes || []).map((scope) => ({
             ...scope,
-            config: loadScopePartyConfig(scope),
+            config: loadScopePartyConfig(scope, uid),
         })).sort((a, b) => a.label.localeCompare(b.label, "zh-CN"));
     }
 
     return { global, scopesByCommission: view };
 }
 
-export function writePartyConfigView(view) {
+export function writePartyConfigView(view, uid = requireActiveAccountUid()) {
     if (!isPlainObject(view)) {
         return;
     }
 
     const scopesByCommission = isPlainObject(view.scopesByCommission) ? view.scopesByCommission : {};
-    const userConfig = loadUserConfig();
+    const userConfig = loadUserConfig(uid);
     let changed = false;
 
     for (const scopeList of Object.values(scopesByCommission)) {
@@ -254,7 +255,7 @@ export function writePartyConfigView(view) {
     }
 
     if (isPlainObject(view.global)) {
-        userConfig.party.global = normalizeGlobalPartyConfig(view.global);
+        userConfig.settings.party.global = normalizeGlobalPartyConfig(view.global);
         changed = true;
     }
     if (changed) writeUserConfig(userConfig);

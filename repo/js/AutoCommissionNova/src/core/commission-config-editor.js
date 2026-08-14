@@ -15,13 +15,14 @@ import { createBranchConfigView, getBranchConfigUids, loadAllBranchConfigs, merg
 import { loadGlobalConfig, writeGlobalConfig } from "../loaders/global-config.js";
 import { createPartyConfigView, writePartyConfigView } from "../loaders/party-config.js";
 import { scanCommissionScopes } from "../loaders/process-scope.js";
-import { loadKnownCommissionUids } from "../data/index.js";
-import { getCurrentUid } from "../utils/account-utils.js";
+import { getActiveAccountUid, getCurrentUid } from "../utils/account-utils.js";
+import { listAccountUids, loadUserConfig, normalizeUid, writeUserConfig } from "../loaders/user-config.js";
 import { PATHS } from "../config/index.js";
 
 // Vue 单文件产物由 BetterGI 直接通过 file:// 加载。
 const HTML_PATH = "web/commission-config/index.html";
 const WINDOW_TAG = "commission-config";
+const IDLE_TIMEOUT_MS = 30_000;
 
 function normalizeStrategyPath(path) {
     return String(path || "").replace(/\\/g, "/");
@@ -98,24 +99,21 @@ export async function openCommissionConfigEditor() {
         log.warn("打开委托配置面板失败: {0}", err.message);
         return;
     }
-
     htmlMask.setClickThrough(windowId, false);
     log.info("委托配置面板已打开,按 ~ 键切换显示,点击关闭按钮继续主流程");
 
     const initialBranchConfig = loadAllBranchConfigs();
-    const initialGlobalConfig = loadGlobalConfig();
-    const knownUids = Array.from(new Set([
-        ...(initialGlobalConfig.uids || []),
-        ...getBranchConfigUids(initialBranchConfig),
-        ...loadKnownCommissionUids(),
-    ]));
-    const accountUid = await getCurrentUid({ knownUids });
+    const knownUids = Array.from(new Set([...listAccountUids(), ...getBranchConfigUids(initialBranchConfig)]));
+    const accountUid = getActiveAccountUid() || (await getCurrentUid({ knownUids }));
     if (!accountUid) {
         log.warn("无法确认当前UID，委托配置面板不会更新账号分支完成进度");
     }
+    const idleDeadlineAt = Date.now() + IDLE_TIMEOUT_MS;
 
     const hook = new KeyMouseHook();
     let isVisible = true;
+    let idleActive = true;
+    let lastCountdownSecond = null;
 
     hook.onKeyDown(function (keyCode) {
         if (keyCode !== "Oem3") return;
@@ -142,6 +140,24 @@ export async function openCommissionConfigEditor() {
             if (cancelToken.isCancellationRequested) {
                 htmlMask.close(windowId);
                 break;
+            }
+
+            if (idleActive) {
+                const remainingMs = idleDeadlineAt - Date.now();
+                if (remainingMs <= 0) {
+                    log.info("委托配置面板 30 秒无操作，已自动关闭并继续主流程");
+                    htmlMask.close(windowId);
+                    break;
+                }
+
+                const remainingSeconds = Math.ceil(remainingMs / 1000);
+                if (remainingSeconds !== lastCountdownSecond) {
+                    htmlMask.send(windowId, "/idleCountdown", JSON.stringify({
+                        active: true,
+                        remainingSeconds,
+                    }));
+                    lastCountdownSecond = remainingSeconds;
+                }
             }
 
             let raw;
@@ -172,12 +188,28 @@ export async function openCommissionConfigEditor() {
 
             if (!msg || !msg.url) continue;
 
-            if (msg.url === "/loadConfig") {
+            if (msg.url === "/activity") {
+                idleActive = false;
+                if (msg.requestId) {
+                    sendHtmlMaskResponse(windowId, "/activity", msg.requestId, { status: "ok" });
+                }
+            } else if (msg.url === "/loadConfig") {
                 try {
-                    const globalView = loadGlobalConfig();
-                    const branchView = createBranchConfigView(loadAllBranchConfigs(), accountUid);
-                    const partyView = createPartyConfigView(scanCommissionScopes().byName);
-                    sendHtmlMaskResponse(windowId, "/loadConfig", msg.requestId, { global: globalView, branches: branchView, party: partyView });
+                    const requestedUid = normalizeUid(msg.data?.uid) || accountUid || listAccountUids()[0] || "";
+                    if (!requestedUid || !listAccountUids().includes(requestedUid)) {
+                        throw new Error("请选择有效的 UID 配置档案");
+                    }
+                    const globalView = loadGlobalConfig(requestedUid);
+                    const branchView = createBranchConfigView(loadAllBranchConfigs(), requestedUid);
+                    const partyView = createPartyConfigView(scanCommissionScopes().byName, requestedUid);
+                    sendHtmlMaskResponse(windowId, "/loadConfig", msg.requestId, {
+                        uids: listAccountUids(),
+                        selectedUid: requestedUid,
+                        currentUid: accountUid,
+                        global: globalView,
+                        branches: branchView,
+                        party: partyView,
+                    });
                     log.debug("已发送委托配置到面板（{n} 个分支配置委托）", Object.keys(branchView).length);
                 } catch (err) {
                     if (isCancellationError(err)) {
@@ -192,6 +224,10 @@ export async function openCommissionConfigEditor() {
                 let errMsg = "";
                 try {
                     const content = msg.data && msg.data.content;
+                    const requestedUid = normalizeUid(msg.data?.uid);
+                    if (!requestedUid || !listAccountUids().includes(requestedUid)) {
+                        throw new Error("缺少有效的 UID 配置档案");
+                    }
                     if (typeof content !== "string") {
                         throw new Error("缺少 content 字段");
                     }
@@ -202,22 +238,22 @@ export async function openCommissionConfigEditor() {
 
                     if (viewComposite.global || viewComposite.branches || viewComposite.party) {
                         if (Object.prototype.hasOwnProperty.call(viewComposite, "global")) {
-                            writeGlobalConfig(viewComposite.global || {});
+                            writeGlobalConfig(viewComposite.global || {}, requestedUid);
                         }
                         const branchComposite = mergeBranchConfigView(
                             viewComposite.branches || {},
-                            accountUid,
+                            requestedUid,
                             loadAllBranchConfigs()
                         );
                         if (Object.prototype.hasOwnProperty.call(viewComposite, "branches")) {
                             writeAllBranchConfigs(branchComposite);
                         }
                         if (Object.prototype.hasOwnProperty.call(viewComposite, "party")) {
-                            writePartyConfigView(viewComposite.party || {});
+                            writePartyConfigView(viewComposite.party || {}, requestedUid);
                         }
                         log.debug("委托配置已保存（{n} 个分支配置委托）", Object.keys(branchComposite).length);
                     } else {
-                        const legacyComposite = mergeBranchConfigView(viewComposite, accountUid, loadAllBranchConfigs());
+                        const legacyComposite = mergeBranchConfigView(viewComposite, requestedUid, loadAllBranchConfigs());
                         writeAllBranchConfigs(legacyComposite);
                         log.debug("已按旧格式保存分支配置（{n} 个委托）", Object.keys(legacyComposite).length);
                     }
@@ -241,6 +277,21 @@ export async function openCommissionConfigEditor() {
                         log.debug("回复保存结果失败: {0}", err.message);
                     }
                 }
+            } else if (msg.url === "/createAccount") {
+                const response = { status: "ok", message: "", uid: "", uids: [] };
+                try {
+                    const requestedUid = normalizeUid(msg.data?.uid);
+                    if (!requestedUid) throw new Error("UID 必须为纯数字");
+                    if (!listAccountUids().includes(requestedUid)) {
+                        writeUserConfig(loadUserConfig(requestedUid));
+                    }
+                    response.uid = requestedUid;
+                    response.uids = listAccountUids();
+                } catch (err) {
+                    response.status = "error";
+                    response.message = err.message;
+                }
+                if (msg.requestId) sendHtmlMaskResponse(windowId, "/createAccount", msg.requestId, response);
             } else if (msg.url === "/loadStrategyTree") {
                 const response = { children: [], error: "" };
                 try {

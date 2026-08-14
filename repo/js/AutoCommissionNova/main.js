@@ -11,6 +11,7 @@ import { openProcessEditor } from "./src/core/process-editor.js";
 import { openPathRecorder } from "./src/core/path-recorder.js";
 import { releaseAllTemplates } from "./src/vision/index.js";
 import { scanCommissionScopes } from "./src/loaders/process-scope.js";
+import { initializeCurrentAccount } from "./src/utils/account-utils.js";
 
 registerAllProcessors(stepRegistry);
 registerAllProbes();
@@ -38,6 +39,8 @@ registerAllProbes();
         //根据设置决定是否打开分支配置面板,阻塞至用户关闭
         let developerTestConfig = null;
         if (setting.showConfigEditor) {
+            // 配置页允许在当前 UID 尚未登记时先打开已有档案并新增账号。
+            await initializeCurrentAccount({ required: false });
             const editorResult = await openCommissionConfigEditor();
             if (editorResult?.action === "developer-test") {
                 developerTestConfig = await openDeveloperTestEditor();
@@ -47,6 +50,8 @@ registerAllProbes();
         if (developerTestConfig) {
             await runTestCommission(developerTestConfig);
         } else {
+            // 正式执行前必须固定有效 UID，后续同步加载始终读取同一账号文件。
+            await initializeCurrentAccount();
             // 执行主流程
             // 本次自动委托执行复用的流程目录快照。
             const commissionScopes = scanCommissionScopes().list;
