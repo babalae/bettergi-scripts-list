@@ -208,7 +208,7 @@ class Domain extends Base {
     static async buildKey(item) {
         const json = await super.buildKey(item);
         // const auto = item.autoFight;
-        const auto = item[this.key()];
+        const auto = item[Domain.key()];
         json.key = `${json.key}|${auto.domainName}|${auto.partyName}|${auto.domainRoundNum}|${auto.sundaySelectedValue}`
         return json
     }
