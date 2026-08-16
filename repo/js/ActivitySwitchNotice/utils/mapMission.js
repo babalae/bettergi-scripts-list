@@ -110,7 +110,7 @@ export async function ocrMapMission(missionNameList = [], regionConfig = ocrRegi
                 await sleep(2);
             }
              // 等待页面稳定（可根据实际情况调整）
-
+            await sleep(200);
         } finally {
             if (region) {
                 region.dispose();   // 释放截图资源
