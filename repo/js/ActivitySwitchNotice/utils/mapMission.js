@@ -14,10 +14,7 @@ const ocrRegionConfig = {
  */
 export async function ocrMapMission(missionNameList = [], regionConfig = ocrRegionConfig.mapMission) {
     let jsonList = [];
-    let previousNameList = [];  // 上一次识别到的文本列表
-    let currentNameList = [];   // 当前识别到的文本列表
 
-    let region = null;
     await drawBox(settings.debug,regionConfig,200,new Pen(Color.Cyan, 2))
     const mapRegion={
         x: 20+20,
@@ -25,35 +22,72 @@ export async function ocrMapMission(missionNameList = [], regionConfig = ocrRegi
     }
     log.info(`move to {x}, {y}`, mapRegion.x, mapRegion.y)
     await moveMouseTo(mapRegion.x, mapRegion.y)
-    try {
-        do{
+// ==================== 循环前需定义的变量 ====================
+    let previousPageNames = new Set();   // 上一页识别到的所有文本
+    let scannedPages = 0;
+    const maxPages = 25;                 // 安全上限，防止死循环
+    const overlapThreshold = 1;        // 重合率阈值，超过视为重复页
+
+// ==================== 主循环 ====================
+    while (scannedPages < maxPages) {
+        await sleep(200);
+        scannedPages++;
+        log.info(`正在扫描第 {scannedPages} 页`, scannedPages);
+
+        let region = null;
+        try {
             // 捕获游戏区域并创建OCR识别对象
             region = captureGameRegion();
-            let recognitionObject = RecognitionObject.Ocr(regionConfig.x, regionConfig.y, regionConfig.width, regionConfig.height);
+            let recognitionObject = RecognitionObject.Ocr(
+                regionConfig.x, regionConfig.y,
+                regionConfig.width, regionConfig.height
+            );
             // 执行多目标OCR识别
             let resList = region.findMulti(recognitionObject);
-            // if (!resList || !resList.length) {
-            //     return jsonList;
-            // }
-            // 清空当前列表，准备收集本次识别结果
-            currentNameList = [];
-            // 遍历识别结果并匹配任务名称
+
+            // 如果本页没有识别到任何文本，说明可能已到底部
+            if (!resList || resList.count === 0) {
+                log.info("当前页未识别到任何内容，视为已到页面底部");
+                break;
+            }
+
+            // 收集本页所有识别文本
+            const currentPageNames = new Set();
             for (let i = 0; i < resList.count; i++) {
                 let res = resList[i];
-                log.debug(`[-]识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y},width:${res.width},height:${res.height}`);
-                // 记录本次识别到的原始文本，用于尾部对比
-                currentNameList.push(res.text);
-                let json = {
-                    ok: false,
-                    text: undefined
-                };
+                currentPageNames.add(res.text.trim());
+            }
+
+            // 计算与上一页的重合率，判断是否为重复页
+            if (previousPageNames.size > 0) {
+                let overlapCount = 0;
+                for (let name of currentPageNames) {
+                    if (previousPageNames.has(name)) overlapCount++;
+                }
+                const overlapRatio = overlapCount / previousPageNames.size;
+
+                if (overlapRatio >= overlapThreshold) {
+                    log.info(`检测到当前页与上一页高度重复（重合率 ${Math.round(overlapRatio * 100)}%），已到底部，停止扫描`);
+                    break;
+                }
+            }
+
+            // 更新上一页记录
+            previousPageNames = currentPageNames;
+            log.debug(`当前页识别到的任务名称: {currentPageNames}`,Array.from(currentPageNames).join(", "));
+            // 遍历识别结果，匹配任务名称并生成 jsonList
+            for (let i = 0; i < resList.count; i++) {
+                let res = resList[i];
+                log.debug(`[-]识别结果: ${res.text}, 原始坐标: x=${res.x}, y=${res.y}, width:${res.width}, height:${res.height}`);
+
+                let json = { ok: false, text: undefined };
 
                 // 检查当前识别文本是否包含任一任务名称
                 let matchedMission = null;
                 for (const missionName of missionNameList) {
                     if (res.text.trim().includes(missionName)) {
                         matchedMission = missionName;
-                       /* break;*/
+                        // 注意：此处未 break，会匹配最后一个符合条件的任务名，可根据需求调整
                     }
                 }
 
@@ -62,33 +96,25 @@ export async function ocrMapMission(missionNameList = [], regionConfig = ocrRegi
                     json.ok = true;
                     json.text = res.text.trim();
                 }
-
-                jsonList.push(json);
-
-            }
-            // 判断是否到底：如果上一次列表存在，且当前列表最后一个元素与上一次列表最后一个元素相同，说明滚动后内容未变化
-            if (previousNameList.length > 0 && currentNameList.length > 0 &&
-                currentNameList[currentNameList.length - 1] === previousNameList[previousNameList.length - 1]) {
-                log.info(`识别到相同结果，退出循环`);
-                break;
+                // 去重：如果列表中不存在相同 text 的项，才添加
+                const isExist = jsonList.some(item => item.text === json.text);
+                if (!isExist) {
+                    jsonList.push(json);
+                }
             }
 
-            // 保存当前列表为“上一次列表”，供下一次循环比较使用
-            previousNameList = [...currentNameList];
-            log.info(`鼠标滚轮滚动...`);
-            // 滑动鼠标滚轮，继续查看下方内容
-            for (let i = 0; i < 4; i++) {
-                log.debug(`scroll ${i}`);
+            // 向下滚动一页（一次滚动4格）
+            log.info("鼠标滚轮向下滚动4格...");
+            for (let i = 0; i <4 ; i++) {
                 await verticalScroll(-1);
+                await sleep(2);
             }
-        } while (true); // 退出由break控制
-    } catch (e) {
-        log.error('OCR识别过程出错:', e.message);
-        throw e;
-    } finally {
-        // 确保资源始终被释放
-        if (region) {
-            region.Dispose();
+             // 等待页面稳定（可根据实际情况调整）
+
+        } finally {
+            if (region) {
+                region.dispose();   // 释放截图资源
+            }
         }
     }
 
