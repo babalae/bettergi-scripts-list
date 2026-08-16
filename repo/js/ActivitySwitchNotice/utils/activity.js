@@ -193,7 +193,6 @@ async function scrollPage(totalDistance, isUp = false, waitCount = 6, stepDistan
     await sleep(ms);
 }
 
-
 /**
  * 根据活动页面进行滚动操作
  * @param {boolean} isUp - 滚动方向，true表示向上滚动，false表示向下滚动
@@ -503,6 +502,7 @@ export async function activityMain(newActivityNotice = true) {
     let sameBottomCount = 0;           // 连续出现相同底部活动名的次数
     let scannedPages = 0;
     const maxPages = 25;               // 防止意外死循环的安全上限
+    const overlapThreshold = 0.7;
     let sameBottomCountMax = 1;         // 连续相同底部活动名的最大次数
     let currentActivityJson = {uid: uid, activityNames: new Set()}
     // 4. 主循环：逐页向下扫描
@@ -547,7 +547,7 @@ export async function activityMain(newActivityNotice = true) {
                 const overlapRatio = overlapCount / previousPageActivities.size;
 
                 // 如果重合率 >= 70%（可调整），认为滚动未生效，是重复页
-                if (overlapRatio >= 0.7) {
+                if (overlapRatio >= overlapThreshold) {
                     log.info(`检测到当前页与上一页高度重复（重合率 ${Math.round(overlapRatio * 100)}%），已到达底部，停止扫描`);
                     break;
                 }
