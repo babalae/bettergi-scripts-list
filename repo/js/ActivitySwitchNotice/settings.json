@@ -1,5 +1,11 @@
 [
     {
+        "name": "debug",
+        "type": "checkbox",
+        "label": "启用开发者模式",
+        "default": false
+    },
+    {
         "name": "toMainUi",
         "type": "checkbox",
         "label": "启用先返回主界面后执行切换",

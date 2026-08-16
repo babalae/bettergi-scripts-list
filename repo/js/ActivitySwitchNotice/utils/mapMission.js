@@ -1,5 +1,5 @@
 import {sendText} from "./notice";
-import {toMainUi} from "./tool";
+import {drawBox, toMainUi} from "./tool";
 const ocrRegionConfig = {
     mapMission: {x: 6, y: 8, width: 395, height: 977},//地图任务识别区域坐标和尺寸
 }
@@ -15,7 +15,7 @@ const ocrRegionConfig = {
 export async function ocrMapMission(missionNameList = [], regionConfig = ocrRegionConfig.mapMission) {
     let jsonList = [];
     let region = null;
-
+    await drawBox(settings.debug,regionConfig,200,new Pen(Color.Cyan, 2))
     try {
         // 捕获游戏区域并创建OCR识别对象
         region = captureGameRegion();

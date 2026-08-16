@@ -1,5 +1,5 @@
 import {sendNotice,sendText} from "./notice";
-import {Record, toMainUi} from "./tool";
+import {drawBox, Record, toMainUi} from "./tool";
 const config_name = "config"
 const json_path = {
     activity: `${config_name}/activity.json`
@@ -233,7 +233,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
     const requiredSameCount = 1;        // 需要连续几次相同才确认到顶（推荐 2~3）
     let attemptIndex = 0;                // 总尝试次数计数器
     const maxAttempts = config.toTopCount;  // 可配置，默认为15次
-
+   await drawBox(settings.debug, ocrRegion, 200,new Pen(Color.FromArgb(255,209,87,255), 2));
     log.info("开始滚动到活动页面顶部...");
 
     while (attemptIndex < maxAttempts) {
