@@ -403,8 +403,6 @@ function transformArtisJs(source, charName) {
 
   // 3. 替换 property accesses
   code = code.replace(/attr\.(\w+)/g, '(charAttrs?.$1 || 0)')
-  code = code.replace(/weapon\.name/g, 'weaponName')
-  code = code.replace(/weapon\.affix/g, 'weaponAffix')
 
   // 4. 替换 artis.is() 调用
   code = replaceArtisIs(code)
@@ -420,7 +418,8 @@ function transformArtisJs(source, charName) {
     () => 'return null'
   )
 
-  // 7. 清理多余空行
+  // 7. 清理上游源码中的行尾空白和多余空行
+  code = code.replace(/[ \t]+$/gm, '')
   code = code.replace(/\n{3,}/g, '\n\n')
 
   return { code: code.trim(), defWeights }
@@ -446,9 +445,13 @@ function transformSignature(code, charName) {
   // 构建新参数列表
   const newParams = []
   if (hasCons) newParams.push('cons')
-  if (hasWeapon) { newParams.push('weaponName'); newParams.push('weaponAffix') }
+  // 保留完整 weapon 对象。上游规则除 name/affix 外还可能读取 bonusKey 等字段，
+  // 将它拆成固定的标量参数会导致新字段在生成结果中变成未定义变量。
+  if (hasWeapon) newParams.push('weapon')
   if (hasAttr) newParams.push('charAttrs')
-  if (hasArtis) { newParams.push('artisSets'); newParams.push('artifacts') }
+  // 同时传入兼容上游结构的 artis 对象和独立计算器使用的扁平参数。
+  // replaceArtisIs() 会使用后两者，未被转换的 names/artis 等属性则继续读取前者。
+  if (hasArtis) { newParams.push('artis'); newParams.push('artisSets'); newParams.push('artifacts') }
   if (hasElem) newParams.push('elem')
 
   const newSig = `'${charName}': ({ ${newParams.join(', ')} }) =>`
@@ -696,8 +699,27 @@ function isElem(key) {
 // ============================================================================
 
 function getAttrWeight(charName, options = {}) {
-  const { cons = 0, weaponName = '', weaponAffix = 1,
-          charAttrs = {}, artisSets = [], artifacts = [], elem = '' } = options
+  const { cons = 0, charAttrs = {}, artisSets = [], artifacts = [], elem = '' } = options
+  const rawWeapon = options.weapon || {}
+  const weaponName = options.weaponName || rawWeapon.name || ''
+  const weaponAffix = options.weaponAffix ?? rawWeapon.affix ?? 1
+  const weapon = { ...rawWeapon, name: weaponName, affix: weaponAffix }
+  const rawArtis = options.artis || {}
+  const artisByPos = {}
+  artifacts.forEach((artifact, index) => {
+    const pos = artifact.pos ?? index
+    artisByPos[String(pos + 1)] = {
+      ...artifact,
+      main: artifact.main && typeof artifact.main === 'object'
+        ? artifact.main
+        : artifact.mainKey ? { key: artifact.mainKey, value: artifact.mainValue } : null
+    }
+  })
+  const artis = {
+    ...rawArtis,
+    names: rawArtis.names || artisSets,
+    artis: rawArtis.artis || artisByPos
+  }
 
   let baseWeight
   let title
@@ -705,7 +727,7 @@ function getAttrWeight(charName, options = {}) {
   // 8a. 角色特殊规则 (rule() 路径)
   const specialRule = charSpecialRules[charName]
   if (specialRule) {
-    const result = specialRule({ cons, weaponName, weaponAffix, charAttrs, artisSets, artifacts, elem })
+    const result = specialRule({ cons, weapon, weaponName, weaponAffix, charAttrs, artis, artisSets, artifacts, elem })
     if (result && !result.useDefaultPipeline) {
       return { title: result.title, attrWeight: result.attrWeight }
     }
@@ -869,13 +891,10 @@ function getMark(charCfg, idx, arti, elem = '', charId = 0) {
 
 export function calcArtifactScore(charName, artifacts = [], options = {}) {
   const {
-    cons = 0, weaponName = '', weaponAffix = 1,
-    charAttrs = {}, artisSets = [], elem = '', charId = 0
+    elem = '', charId = 0
   } = options
 
-  const { title, attrWeight } = getAttrWeight(charName, {
-    cons, weaponName, weaponAffix, charAttrs, artisSets, artifacts, elem
-  })
+  const { title, attrWeight } = getAttrWeight(charName, { ...options, artifacts })
 
   const charBaseAttr = baseAttrMap[charName] || { hp: 14000, atk: 230, def: 700 }
 
