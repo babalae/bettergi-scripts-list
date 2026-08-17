@@ -255,20 +255,24 @@ async function waitForOcrMatch(target, rect = null, threshold = null, timeout = 
     return false;
 }
 
-// 账号列表 OCR 可能混淆英文字母大小写，只对 ASCII 字母做显式归一化。
+// 账号列表 OCR 形近字符映射。先统一大小写，再处理常见的字母/数字混淆。
 const accountOcrGlyphMap = Object.freeze({
-    A: "a", B: "b", C: "c", D: "d", E: "e", F: "f", G: "g",
-    H: "h", I: "i", J: "j", K: "k", L: "l", M: "m", N: "n",
-    O: "o", P: "p", Q: "q", R: "r", S: "s", T: "t", U: "u",
-    V: "v", W: "w", X: "x", Y: "y", Z: "z",
-    a: "a", b: "b", c: "c", d: "d", e: "e", f: "f", g: "g",
-    h: "h", i: "i", j: "j", k: "k", l: "l", m: "m", n: "n",
-    o: "o", p: "p", q: "q", r: "r", s: "s", t: "t", u: "u",
-    v: "v", w: "w", x: "x", y: "y", z: "z"
+    "0": "o", "o": "o",
+    "1": "l", "i": "l", "l": "l", "|": "l",
+    "2": "z", "z": "z",
+    "5": "s", "s": "s",
+    "8": "b", "b": "b",
+    "＊": "*", "•": "*", "·": "*", "●": "*",
+    "＠": "@", "．": ".", "。": "."
 });
 
 function normalizeAccountOcrText(text) {
-    return Array.from(String(text || ""), glyph => accountOcrGlyphMap[glyph] || glyph).join("");
+    let normalized = String(text || "");
+    if (typeof normalized.normalize === "function") {
+        normalized = normalized.normalize("NFKC");
+    }
+    normalized = normalized.toLowerCase().replace(/\s+/g, "");
+    return Array.from(normalized, glyph => accountOcrGlyphMap[glyph] || glyph).join("");
 }
 // 切换账号OCR模式
 // ======================================================
@@ -309,7 +313,7 @@ function normalizeAccountOcrText(text) {
     u.matchUserRelaxed = function (text, username) {
         if (typeof text !== "string" || typeof username !== "string") return false;
 
-        // OCR 可能把相同字形的大小写字母识别成另一种大小写，先统一到映射表中的形式。
+        // OCR 可能混淆大小写、形近字母/数字和掩码符号，先统一到映射表中的形式。
         const pattern = normalizeAccountOcrText(text).replace(/\*+/g, '*');
         const target = normalizeAccountOcrText(username).replace(/\*+/g, '*');
 
@@ -535,11 +539,11 @@ function normalizeAccountOcrText(text) {
         }
 
         u.logi("开始从下拉列表选择账号");
-        var selectedUser = null;
+        let selectedUser = null;
+        const recognizedUserTexts = [];
         {
             const start = Date.now();
-            let lastLog = start;
-            // 超时8秒直接跳出让下一步报错
+            // 最多识别8秒，超时后输出候选文本并明确报错。
             while (selectedUser == null && Date.now() - start <= 8000) {
                 await sleep(500);
 
@@ -548,16 +552,28 @@ function normalizeAccountOcrText(text) {
                 captureRegion.dispose();
                 for (let i = 0; i < resList.count; i++) {
                     let res = resList[i];
-                    let user = u.matchUserRelaxed(res.text, targetUser) || u.matchUser(res.text, targetUser);
+                    const recognizedText = typeof res.text === "string" ? res.text : "";
+                    if (recognizedText && !recognizedUserTexts.includes(recognizedText)) {
+                        recognizedUserTexts.push(recognizedText);
+                    }
+
+                    let user = u.matchUserRelaxed(recognizedText, targetUser) || u.matchUser(recognizedText, targetUser);
                     if (user) {
                         selectedUser = res;
                         break;
                     } else {
-                        u.logw("当前匹配文本：{0}", res.text);
-                        lastLog = Date.now();
+                        u.logw("当前匹配文本：{0}", recognizedText);
                     }
                 }
             }
+        }
+
+        if (selectedUser == null) {
+            const candidateText = recognizedUserTexts.length > 0 ? recognizedUserTexts.join(" | ") : "未识别到任何账号文本";
+            const errorMessage = `未在下拉列表中识别到目标账号，OCR候选：${candidateText}`;
+            log.error(`[下拉列表切换账号]${errorMessage}`);
+            notification.error(errorMessage);
+            throw new Error(errorMessage);
         }
 
         u.logi("识别到目标账号：{0}", selectedUser.text);
