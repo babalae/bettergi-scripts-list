@@ -8,6 +8,84 @@ let userName = settings.userName || "默认账户";
         await sleep(500); // 释放按键后等待 500 毫秒
     }
 
+    async function close_expired_stuff_popup_window() {
+        const game_region = captureGameRegion();
+        const text_x = 850;
+        const text_y = 273;
+        const text_w = 225;
+        const text_h = 51;
+        const ocr_res = game_region.find(RecognitionObject.ocr(text_x, text_y, text_w, text_h));
+        if (ocr_res) {
+            if (ocr_res.text.includes("物品过期")) {
+                log.info("检测到物品过期");
+                click(1000, 750);
+                await sleep(1000);
+            }
+        }
+        game_region.dispose();
+    }
+
+    // 打开背包并识别圣遗物数量
+    async function getArtifactsCount() {
+        log.info("开始识别圣遗物数量");
+        
+        await genshin.returnMainUi();
+        await sleep(1000);
+        
+        keyPress("B");
+        await sleep(1500);
+        
+        // 检测并关闭背包过期物品弹窗
+        await close_expired_stuff_popup_window();
+        
+        click(627, 66);
+        await sleep(1000);
+        
+        const ra = captureGameRegion();
+        const ocrRegion = {
+            x: 1679,
+            y: 31,
+            width: 1797 - 1679,
+            height: 65 - 31
+        };
+        
+        let count = 0;
+        const maxAttempts = 5;
+        
+        for (let i = 0; i < maxAttempts; i++) {
+            try {
+                const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
+                ocrObject.threshold = 0.85;
+                const resList = ra.findMulti(ocrObject);
+                
+                for (let j = 0; j < resList.count; j++) {
+                    const res = resList[j];
+                    const text = res.text.trim();
+                    log.debug(`OCR识别结果: ${text}`);
+                    
+                    const match = text.match(/(\d+)\/\d+/);
+                    if (match && match[1]) {
+                        count = parseInt(match[1], 10);
+                        log.info(`识别到圣遗物数量: ${count}`);
+                        ra.dispose();
+                        await genshin.returnMainUi();
+                        await sleep(1000);
+                        return count;
+                    }
+                }
+            } catch (error) {
+                log.error(`OCR识别异常: ${error.message}`);
+            }
+            await sleep(500);
+        }
+        
+        ra.dispose();
+        await genshin.returnMainUi();
+        await sleep(1000);
+        log.warn("未能识别到圣遗物数量，返回0");
+        return 0;
+    }
+
     // 检验账户名
     async function getUserName() {
         userName = userName.trim();
@@ -151,7 +229,7 @@ let userName = settings.userName || "默认账户";
             // 最多 F 5次
             let captureRegion = captureGameRegion();  // 获取一张截图
             let res;
-            if (locationName=='璃月购买狗粮2'){
+            if (locationName=='璃月-璃月港-琳琅'){
                 res = captureRegion.Find(guDong);
             }else{
                 res = captureRegion.Find(shopDialogueRo);
@@ -182,7 +260,7 @@ let userName = settings.userName || "默认账户";
             }
             await sleep(500);
         }
-        if (locationName=='稻妻购买狗粮'){
+        if (locationName=='稻妻-离岛-山城健太'){
             click(200, 400); await sleep(500); // 选择狗粮
         }
         // 购买狗粮
@@ -214,8 +292,8 @@ let userName = settings.userName || "默认账户";
 
     // 完整的购买流程（包含寻路）
     async function purChase(locationName) {
+        log.info(`开始前往: ${locationName}`);
         // 寻路
-        log.info(`加载路径文件: ${locationName}`);
         let filePath = `assets/Pathing/${locationName}.json`;
         await pathingScript.runFile(filePath);
         await sleep(1000);
@@ -225,13 +303,13 @@ let userName = settings.userName || "默认账户";
     }
 
     // 检查函数，如果未买完则重新对话购买
-    async function checkAndPurchase(locationName) {
+    async function checkAndPurchase(locationName, locationIndex, totalLocations, merchantName) {
         let maxRetries = 2; // 最大重试次数（加上第一次共3次）
         let retryCount = 0;
         let totalPurchased = 0;
 
         // 第一次执行完整的购买流程（包含寻路）
-        log.info(`开始执行 ${locationName} 的完整购买流程`);
+        log.info(`当前进度: ${locationIndex}/${totalLocations}`);
         let purchaseResult = await purChase(locationName);
         let purchasedCount = purchaseResult.purchasedCount;
         let failureReason = purchaseResult.failureReason;
@@ -243,7 +321,7 @@ let userName = settings.userName || "默认账户";
         if (purchasedCount === 0) {
             if (failureReason === "npc_not_found" || !aligned) {
                 // NPC对齐失败，重新执行一次完整购买流程
-                log.info(`${locationName} NPC对齐失败，重新执行完整购买流程`);
+                log.info(`${merchantName} 路线对话对齐失败，重新执行完整购买流程`);
                 await genshin.returnMainUi();
                 await sleep(2000);
 
@@ -254,12 +332,12 @@ let userName = settings.userName || "默认账户";
                 totalPurchased = purchasedCount; // 重置总购买数
 
                 if (purchasedCount === 0 && (failureReason === "npc_not_found" || !aligned)) {
-                    log.warn(`${locationName} 第二次完整购买仍然NPC对齐失败，跳过此地点`);
+                    log.warn(`${merchantName} 第二次完整购买仍然对话对齐失败，跳过此路线`);
                     return 0;
                 }
             } else if (failureReason === "sold_out") {
                 // 商店已售罄，说明之前已经买过了
-                log.info(`${locationName} 商店已售罄，之前已完整购买过`);
+                log.info(`${merchantName} 路线商品已售罄，之前已完整购买过`);
                 return 0;
             }
         }
@@ -267,14 +345,14 @@ let userName = settings.userName || "默认账户";
         // 如果第一次没买完（且数量大于0），尝试重新对话购买
         while (totalPurchased < 5 && retryCount < maxRetries) {
             retryCount++;
-            log.info(`第 ${retryCount} 次重试购买 ${locationName}，已购买 ${totalPurchased} 个`);
+            log.info(`第 ${retryCount} 次重试购买 ${merchantName} 路线的圣遗物，已购买 ${totalPurchased} 个圣遗物`);
 
             // 返回主界面
             await genshin.returnMainUi();
             await sleep(2000);
 
             // 重新执行购买（不包含寻路）
-            log.info(`重新执行 ${locationName} 的购买流程（不包含寻路）`);
+            log.info(`重新执行 ${merchantName} 路线的购买流程（不包含寻路）`);
             purchaseResult = await purchaseOnly(locationName, true);
             purchasedCount = purchaseResult.purchasedCount;
             failureReason = purchaseResult.failureReason;
@@ -282,10 +360,10 @@ let userName = settings.userName || "默认账户";
             // 如果重新购买时数量为0，检查失败原因
             if (purchasedCount === 0) {
                 if (failureReason === "npc_not_found") {
-                    log.info(`${locationName} 重试时NPC对齐失败，停止重试`);
+                    log.info(`${merchantName} 路线重试时对话对齐失败，停止重试`);
                     break;
                 } else if (failureReason === "sold_out") {
-                    log.info(`${locationName} 重试时已无圣遗物可购买，停止重试`);
+                    log.info(`${merchantName} 路线重试时已无圣遗物可购买，停止重试`);
                     break;
                 }
             }
@@ -293,15 +371,15 @@ let userName = settings.userName || "默认账户";
             totalPurchased += purchasedCount;
 
             if (totalPurchased >= 5) {
-                log.info(`成功购买 ${locationName} 的所有圣遗物`);
+                log.info(`成功购买 ${merchantName} 的所有圣遗物`);
                 break;
             }
         }
 
         if (totalPurchased < 5 && totalPurchased > 0) {
-            log.warn(`购买 ${locationName} 未完成，只购买了 ${totalPurchased} 个圣遗物`);
+            log.warn(`${merchantName} 路线购买部分完成，只购买了 ${totalPurchased} 个圣遗物`);
         } else if (totalPurchased === 0) {
-            log.info(`${locationName} 无圣遗物可购买`);
+            log.info(`${merchantName} 无圣遗物可购买`);
         }
 
         return totalPurchased;
@@ -309,40 +387,60 @@ let userName = settings.userName || "默认账户";
 
     async function main() {
         await genshin.returnMainUi();
-        // 使用数组存储要执行的地点
-        const purchaseTasks = [
-            { enabled: settings.select1, name: '蒙德购买狗粮' },
-            { enabled: settings.select2, name: '璃月购买狗粮1' },
-            { enabled: settings.select3, name: '璃月购买狗粮2', time: { hour: 19, minute: 0 } },
-            { enabled: settings.select4, name: '稻妻购买狗粮' },
-            { enabled: settings.select5, name: '须弥购买狗粮' },
-            { enabled: settings.select6, name: '枫丹购买狗粮' },
-            { enabled: settings.select7, name: '纳塔购买狗粮' },
-            { enabled: settings.select8, name: '挪德卡莱购买狗粮' }
-        ];
+        
+        // 购买前识别背包中的圣遗物数量
+        const initialCount = await getArtifactsCount();
+        log.info(`购买前背包中圣遗物数量: ${initialCount}`);
+        
+        // 商人选项与购买任务的映射
+        const merchantTaskMap = {
+            '蒙德商人': { merchant: '蒙德商人', name: '蒙德-蒙德城-石榴' },
+            '璃月商人1': { merchant: '璃月商人1', name: '璃月-璃月港-张顺' },
+            '璃月商人2': { merchant: '璃月商人2', name: '璃月-璃月港-琳琅', time: { hour: 19, minute: 0 } },
+            '稻妻商人': { merchant: '稻妻商人', name: '稻妻-离岛-山城健太' },
+            '须弥商人': { merchant: '须弥商人', name: '须弥-须弥城-阿夫辛' },
+            '枫丹商人': { merchant: '枫丹商人', name: '枫丹-枫丹廷-灰河-克洛莎' },
+            '纳塔商人': { merchant: '纳塔商人', name: '纳塔-圣火竞技场-艾库瓦' },
+            '挪德卡莱商人': { merchant: '挪德卡莱商人', name: '挪德卡莱-那夏镇-雷科' }
+        };
+
+        // 根据多选设置构建购买任务列表（仅包含勾选的商人）
+        const merchantOrder = ['蒙德商人', '璃月商人1', '璃月商人2', '稻妻商人', '须弥商人', '枫丹商人', '纳塔商人', '挪德卡莱商人'];
+        const selectedMerchants = Array.from(settings.merchants || [])
+            .sort((a, b) => merchantOrder.indexOf(a) - merchantOrder.indexOf(b));
+        const purchaseTasks = selectedMerchants
+            .map(merchant => merchantTaskMap[merchant])
+            .filter(task => task);
 
         let totalPurchased = 0;
 
-        for (const task of purchaseTasks) {
-            if (task.enabled) {
-                // 如果有时间设置，先设置时间
-                if (task.time) {
-                    await genshin.setTime(task.time.hour, task.time.minute)
-                }
-
-                // 执行检查并购买
-                let count = await checkAndPurchase(task.name);
-                totalPurchased += count;
-
-                log.info(`${task.name} 完成，购买了 ${count} 个圣遗物`);
-
-                // 返回主界面准备下一个任务
-                await genshin.returnMainUi();
-                await sleep(1000);
+        for (let i = 0; i < purchaseTasks.length; i++) {
+            const task = purchaseTasks[i];
+            // 如果有时间设置，先设置时间
+            if (task.time) {
+                await genshin.setTime(task.time.hour, task.time.minute)
             }
+
+            // 执行检查并购买
+            let count = await checkAndPurchase(task.name, i + 1, purchaseTasks.length, task.merchant);
+            totalPurchased += count;
+
+            log.info(`${task.merchant} 路线完成，购买了 ${count} 个圣遗物`);
+
+            // 返回主界面准备下一个任务
+            await genshin.returnMainUi();
+            await sleep(1000);
         }
 
-        notification.send(`所有任务完成，总共购买了 ${totalPurchased} 个圣遗物`);
+        // 购买后识别背包中的圣遗物数量
+        const finalCount = await getArtifactsCount();
+        log.info(`购买后背包中圣遗物数量: ${finalCount}`);
+        
+        // 计算实际购买数量
+        const actualPurchased = finalCount - initialCount;
+        log.info(`本次购买实际获得圣遗物数量: ${actualPurchased}`);
+
+        notification.send(`任务完成，总共购买了 ${totalPurchased} 个圣遗物，背包中圣遗物数量变化: ${initialCount} → ${finalCount}（+${actualPurchased}）`);
 
         await file.writeText(recordPath, new Date().toISOString());
     }

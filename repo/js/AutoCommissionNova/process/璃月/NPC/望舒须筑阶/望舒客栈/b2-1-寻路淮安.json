@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "b2-1-寻路淮安"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1783550429022,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "未命名路径",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 328.958,
+      "y": 873.6382
+    },
+    {
+      "action": "log_output",
+      "action_params": "多绕一下只为降低高度，使用空格不稳定",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 324.6963,
+      "y": 838.6533
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 359.0996,
+      "y": 876.5215
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 351.4873,
+      "y": 886.8828
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 350.4014,
+      "y": 888.0366
+    }
+  ]
+}

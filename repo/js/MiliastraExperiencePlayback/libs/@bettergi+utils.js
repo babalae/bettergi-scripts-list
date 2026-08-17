@@ -16,10 +16,10 @@ const defaultRetryInterval = 1e3;
 const waitForAction = async (condition, retryAction, options) => {
   const { maxAttempts = defaultMaxAttempts, retryInterval = defaultRetryInterval } = options || {};
   for (let i = 0; i < maxAttempts; i++) {
-    if (i === 0 && condition()) return true;
+    if (i === 0 && (await condition())) return true;
     await retryAction?.();
     await sleep(retryInterval);
-    if (condition()) return true;
+    if (await condition()) return true;
   }
   return false;
 };
@@ -33,8 +33,8 @@ const waitForAction = async (condition, retryAction, options) => {
  */
 const waitForRegionAppear = async (regionProvider, retryAction, options) => {
   return waitForAction(
-    () => {
-      const region = regionProvider();
+    async () => {
+      const region = await regionProvider();
       return region != null && region.isExist();
     },
     retryAction,
@@ -51,8 +51,8 @@ const waitForRegionAppear = async (regionProvider, retryAction, options) => {
  */
 const waitForRegionDisappear = async (regionProvider, retryAction, options) => {
   return waitForAction(
-    () => {
-      const region = regionProvider();
+    async () => {
+      const region = await regionProvider();
       return !region || !region.isExist();
     },
     retryAction,

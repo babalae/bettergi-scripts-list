@@ -24,6 +24,16 @@ const BOSS_NO_PATHING_SUPPORT = [
 ];
 
 /**
+ * 战斗后必须完整重新执行前往路线的 Boss 列表
+ * (不支持仅使用路径最后一个位置点重定位)
+ * @readonly
+ * @type {string[]}
+ */
+const BOSS_FULL_REPATH_AFTER_FIGHT = [
+    "不灭衍生造物"
+];
+
+/**
  * 导航到指定 Boss 位置
  * @description 根据 Boss 类型选择正确的寻路方式：
  * - 未支持自动寻路的 Boss：使用强制传送 + 键鼠前往
@@ -46,6 +56,7 @@ async function navigateToBoss(bossName) {
  * @description 根据 Boss 类型执行正确的重定位策略：
  * - 需要对话交互的 Boss：执行战斗后快速前往路径
  * - 未支持自动寻路的 Boss：重新执行强制传送 + 键鼠前往
+ * - 必须完整重新寻路的 Boss：重新执行完整前往路径
  * - 其他 Boss：读取前往路径文件，只执行最后一个位置点
  * @param {BossConfig} boss - Boss 配置对象，包含 name 和 remainingCount
  * @param {boolean} goToBoss - 当前是否需要重新前往（false 时才需要重定位）
@@ -66,6 +77,10 @@ async function repositionAfterFight(boss, goToBoss) {
         await pathingScript.runFile(`assets/Pathing/${boss.name}强制传送.json`);
         await keyMouseScript.runFile(`assets/Pathing/${boss.name}键鼠前往.json`);
 
+    } else if (BOSS_FULL_REPATH_AFTER_FIGHT.includes(boss.name)) {
+        //无法通过最后一个位置点重定位，重新执行完整前往路线
+        await pathingScript.runFile(`assets/Pathing/${boss.name}前往.json`);
+
     } else {
         log.info("重新靠近BOSS位置并等待4s");
         // 读取boss前往路径文件，获取最后一个位置点
@@ -78,29 +93,7 @@ async function repositionAfterFight(boss, goToBoss) {
 
 }
 
-/**
- * 判断 Boss 是否需要战斗后重新对话交互
- * @param {string} bossName - Boss 名称
- * @returns {boolean}
- */
-function isTalkToStartBoss(bossName) {
-    return BOSS_TALK_TO_START.includes(bossName);
-}
-
-/**
- * 判断 Boss 是否未支持地图自动寻路
- * @param {string} bossName - Boss 名称
- * @returns {boolean}
- */
-function isNoPathingSupportBoss(bossName) {
-    return BOSS_NO_PATHING_SUPPORT.includes(bossName);
-}
-
 export {
-    BOSS_TALK_TO_START,
-    BOSS_NO_PATHING_SUPPORT,
     navigateToBoss,
-    repositionAfterFight,
-    isTalkToStartBoss,
-    isNoPathingSupportBoss
+    repositionAfterFight
 };

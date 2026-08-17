@@ -3194,12 +3194,12 @@ declare class GameCaptureRegion extends ImageRegion {
    * @param pen 画笔（可选）
    * @param name 绘制名称（可选）
    */
-  convertToRectDrawable(x: number, y: number, w: number, h: number, pen?: any, name?: string): any;
+  convertToRectDrawable(x: number, y: number, w: number, h: number, pen?: Pen, name?: string): any;
 
   /**
    * 转换为线条绘制对象（游戏坐标）
    */
-  convertToLineDrawable(x1: number, y1: number, x2: number, y2: number, pen?: any, name?: string): any;
+  convertToLineDrawable(x1: number, y1: number, x2: number, y2: number, pen?: Pen, name?: string): any;
 
   /**
    * 裁剪派生为 1080P 区域（使用自身区域）
@@ -3325,6 +3325,452 @@ declare class ImageRegion extends Region {
 }
 
 /**
+ * 颜色
+ * 表示一个 ARGB（Alpha、Red、Green、Blue）颜色
+ * 对应 C# System.Drawing.Color (readonly struct)
+ */
+declare class Color {
+    /** 表示一个 null 颜色（未初始化） */
+    static readonly Empty: Color;
+
+    /** Alpha 通道值 (0-255) */
+    readonly A: number;
+    /** 红色通道值 (0-255) */
+    readonly R: number;
+    /** 绿色通道值 (0-255) */
+    readonly G: number;
+    /** 蓝色通道值 (0-255) */
+    readonly B: number;
+    /** 颜色名称 */
+    readonly Name: string;
+    /** 是否为未初始化颜色 */
+    readonly IsEmpty: boolean;
+    /** 是否为预定义颜色（KnownColor） */
+    readonly IsKnownColor: boolean;
+    /** 是否为命名颜色或 KnownColor 枚举成员 */
+    readonly IsNamedColor: boolean;
+    /** 是否为系统颜色 */
+    readonly IsSystemColor: boolean;
+
+    // ─────────────── 静态预定义颜色 ───────────────
+
+    /** 爱丽丝蓝 #FFF0F8FF */
+    static readonly AliceBlue: Color;
+    /** 古董白 #FFFAEBD7 */
+    static readonly AntiqueWhite: Color;
+    /** 青色/水色 #FF00FFFF */
+    static readonly Aqua: Color;
+    /** 碧绿色 #FF7FFFD4 */
+    static readonly Aquamarine: Color;
+    /** 天蓝色/蔚蓝色 #FFF0FFFF */
+    static readonly Azure: Color;
+    /** 米色 #FFF5F5DC */
+    static readonly Beige: Color;
+    /** 桔黄色/ bisque #FFFFE4C4 */
+    static readonly Bisque: Color;
+    /** 黑色 #FF000000 */
+    static readonly Black: Color;
+    /** 白杏色 #FFFFEBCD */
+    static readonly BlanchedAlmond: Color;
+    /** 蓝色 #FF0000FF */
+    static readonly Blue: Color;
+    /** 蓝紫色 #FF8A2BE2 */
+    static readonly BlueViolet: Color;
+    /** 棕色 #FFA52A2A */
+    static readonly Brown: Color;
+    /** 硬木色 #FFDEB887 */
+    static readonly BurlyWood: Color;
+    /** 军蓝色 #FF5F9EA0 */
+    static readonly CadetBlue: Color;
+    /** 黄绿色 #FF7FFF00 */
+    static readonly Chartreuse: Color;
+    /** 巧克力色 #FFD2691E */
+    static readonly Chocolate: Color;
+    /** 珊瑚色 #FFFF7F50 */
+    static readonly Coral: Color;
+    /** 矢车菊蓝 #FF6495ED */
+    static readonly CornflowerBlue: Color;
+    /** 玉米丝色 #FFFFF8DC */
+    static readonly Cornsilk: Color;
+    /** 深红色/猩红色 #FFDC143C */
+    static readonly Crimson: Color;
+    /** 蓝绿色/氰色 #FF00FFFF */
+    static readonly Cyan: Color;
+    /** 暗蓝色 #FF00008B */
+    static readonly DarkBlue: Color;
+    /** 暗青色 #FF008B8B */
+    static readonly DarkCyan: Color;
+    /** 暗金菊色 #FFB8860B */
+    static readonly DarkGoldenrod: Color;
+    /** 暗灰色 #FFA9A9A9 */
+    static readonly DarkGray: Color;
+    /** 暗绿色 #FF006400 */
+    static readonly DarkGreen: Color;
+    /** 暗卡其色 #FFBDB76B */
+    static readonly DarkKhaki: Color;
+    /** 暗洋红色 #FF8B008B */
+    static readonly DarkMagenta: Color;
+    /** 暗橄榄绿色 #FF556B2F */
+    static readonly DarkOliveGreen: Color;
+    /** 暗橙色 #FFFF8C00 */
+    static readonly DarkOrange: Color;
+    /** 暗兰花紫 #FF9932CC */
+    static readonly DarkOrchid: Color;
+    /** 暗红色 #FF8B0000 */
+    static readonly DarkRed: Color;
+    /** 暗鲑鱼色 #FFE9967A */
+    static readonly DarkSalmon: Color;
+    /** 暗海绿色 #FF8FBC8B */
+    static readonly DarkSeaGreen: Color;
+    /** 暗岩蓝色 #FF483D8B */
+    static readonly DarkSlateBlue: Color;
+    /** 暗岩灰色 #FF2F4F4F */
+    static readonly DarkSlateGray: Color;
+    /** 暗绿松石色 #FF00CED1 */
+    static readonly DarkTurquoise: Color;
+    /** 暗紫罗兰色 #FF9400D3 */
+    static readonly DarkViolet: Color;
+    /** 深粉色 #FFFF1493 */
+    static readonly DeepPink: Color;
+    /** 深天蓝色 #FF00BFFF */
+    static readonly DeepSkyBlue: Color;
+    /** 暗灰色 #FF696969 */
+    static readonly DimGray: Color;
+    /** 道奇蓝 #FF1E90FF */
+    static readonly DodgerBlue: Color;
+    /** 耐火砖色 #FFB22222 */
+    static readonly Firebrick: Color;
+    /** 花白色 #FFFFFAF0 */
+    static readonly FloralWhite: Color;
+    /** 森林绿 #FF228B22 */
+    static readonly ForestGreen: Color;
+    /** 紫红色/品红色 #FFFF00FF */
+    static readonly Fuchsia: Color;
+    /** 庚斯博罗灰 #FFDCDCDC */
+    static readonly Gainsboro: Color;
+    /** 幽灵白 #FFF8F8FF */
+    static readonly GhostWhite: Color;
+    /** 金色 #FFFFD700 */
+    static readonly Gold: Color;
+    /** 金菊色 #FFDAA520 */
+    static readonly Goldenrod: Color;
+    /** 灰色 #FF808080 */
+    static readonly Gray: Color;
+    /** 绿色 #FF008000 */
+    static readonly Green: Color;
+    /** 绿黄色 #FFADFF2F */
+    static readonly GreenYellow: Color;
+    /** 蜜瓜色 #FFF0FFF0 */
+    static readonly Honeydew: Color;
+    /** 热粉色 #FFFF69B4 */
+    static readonly HotPink: Color;
+    /** 印度红 #FFCD5C5C */
+    static readonly IndianRed: Color;
+    /** 靛蓝色 #FF4B0082 */
+    static readonly Indigo: Color;
+    /** 象牙白 #FFFFFFF0 */
+    static readonly Ivory: Color;
+    /** 卡其色 #FFF0E68C */
+    static readonly Khaki: Color;
+    /** 薰衣草色 #FFE6E6FA */
+    static readonly Lavender: Color;
+    /** 薰衣草紫红 #FFFFF0F5 */
+    static readonly LavenderBlush: Color;
+    /** 草绿色 #FF7CFC00 */
+    static readonly LawnGreen: Color;
+    /** 柠檬绸色 #FFFFFACD */
+    static readonly LemonChiffon: Color;
+    /** 浅蓝色 #FFADD8E6 */
+    static readonly LightBlue: Color;
+    /** 浅珊瑚色 #FFF08080 */
+    static readonly LightCoral: Color;
+    /** 浅青色 #FFE0FFFF */
+    static readonly LightCyan: Color;
+    /** 浅金菊黄色 #FFFAFAD2 */
+    static readonly LightGoldenrodYellow: Color;
+    /** 浅灰色 #FFD3D3D3 */
+    static readonly LightGray: Color;
+    /** 浅绿色 #FF90EE90 */
+    static readonly LightGreen: Color;
+    /** 浅粉色 #FFFFB6C1 */
+    static readonly LightPink: Color;
+    /** 浅鲑鱼色 #FFFFA07A */
+    static readonly LightSalmon: Color;
+    /** 浅海绿色 #FF20B2AA */
+    static readonly LightSeaGreen: Color;
+    /** 浅天蓝色 #FF87CEFA */
+    static readonly LightSkyBlue: Color;
+    /** 浅岩灰色 #FF778899 */
+    static readonly LightSlateGray: Color;
+    /** 浅钢蓝色 #FFB0C4DE */
+    static readonly LightSteelBlue: Color;
+    /** 浅黄色 #FFFFFFE0 */
+    static readonly LightYellow: Color;
+    /** 酸橙色/亮绿色 #FF00FF00 */
+    static readonly Lime: Color;
+    /** 酸橙绿色 #FF32CD32 */
+    static readonly LimeGreen: Color;
+    /** 亚麻色 #FFFAF0E6 */
+    static readonly Linen: Color;
+    /** 洋红色/品红色 #FFFF00FF */
+    static readonly Magenta: Color;
+    /** 栗色/褐红色 #FF800000 */
+    static readonly Maroon: Color;
+    /** 中碧绿色 #FF66CDAA */
+    static readonly MediumAquamarine: Color;
+    /** 中蓝色 #FF0000CD */
+    static readonly MediumBlue: Color;
+    /** 中兰花紫 #FFBA55D3 */
+    static readonly MediumOrchid: Color;
+    /** 中紫色 #FF9370DB */
+    static readonly MediumPurple: Color;
+    /** 中海绿色 #FF3CB371 */
+    static readonly MediumSeaGreen: Color;
+    /** 中岩蓝色 #FF7B68EE */
+    static readonly MediumSlateBlue: Color;
+    /** 中春绿色 #FF00FA9A */
+    static readonly MediumSpringGreen: Color;
+    /** 中绿松石色 #FF48D1CC */
+    static readonly MediumTurquoise: Color;
+    /** 中紫罗兰红 #FFC71585 */
+    static readonly MediumVioletRed: Color;
+    /** 午夜蓝 #FF191970 */
+    static readonly MidnightBlue: Color;
+    /** 薄荷奶油色 #FFF5FFFA */
+    static readonly MintCream: Color;
+    /** 薄雾玫瑰 #FFFFE4E1 */
+    static readonly MistyRose: Color;
+    /** 鹿皮色 #FFFFE4B5 */
+    static readonly Moccasin: Color;
+    /** 纳瓦霍白 #FFFFDEAD */
+    static readonly NavajoWhite: Color;
+    /** 海军蓝 #FF000080 */
+    static readonly Navy: Color;
+    /** 旧蕾丝色 #FFFDF5E6 */
+    static readonly OldLace: Color;
+    /** 橄榄色 #FF808000 */
+    static readonly Olive: Color;
+    /** 橄榄褐色 #FF6B8E23 */
+    static readonly OliveDrab: Color;
+    /** 橙色 #FFFFA500 */
+    static readonly Orange: Color;
+    /** 橙红色 #FFFF4500 */
+    static readonly OrangeRed: Color;
+    /** 兰花紫色 #FFDA70D6 */
+    static readonly Orchid: Color;
+    /** 灰金菊色 #FFEEE8AA */
+    static readonly PaleGoldenrod: Color;
+    /** 苍绿色 #FF98FB98 */
+    static readonly PaleGreen: Color;
+    /** 苍绿松石色 #FFAFEEEE */
+    static readonly PaleTurquoise: Color;
+    /** 苍紫罗兰红 #FFDB7093 */
+    static readonly PaleVioletRed: Color;
+    /** 番木瓜白 #FFFFEFD5 */
+    static readonly PapayaWhip: Color;
+    /** 桃色 #FFFFDAB9 */
+    static readonly PeachPuff: Color;
+    /** 秘鲁色 #FFCD853F */
+    static readonly Peru: Color;
+    /** 粉色 #FFFFC0CB */
+    static readonly Pink: Color;
+    /** 梅色/浅紫 #FFDDA0DD */
+    static readonly Plum: Color;
+    /** 粉蓝色 #FFB0E0E6 */
+    static readonly PowderBlue: Color;
+    /** 紫色 #FF800080 */
+    static readonly Purple: Color;
+    /** 丽贝卡紫 #FF663399 */
+    static readonly RebeccaPurple: Color;
+    /** 红色 #FFFF0000 */
+    static readonly Red: Color;
+    /** 玫瑰棕色 #FFBC8F8F */
+    static readonly RosyBrown: Color;
+    /** 皇家蓝 #FF4169E1 */
+    static readonly RoyalBlue: Color;
+    /** 马鞍棕色 #FF8B4513 */
+    static readonly SaddleBrown: Color;
+    /** 鲑鱼色 #FFFA8072 */
+    static readonly Salmon: Color;
+    /** 沙棕色 #FFF4A460 */
+    static readonly SandyBrown: Color;
+    /** 海绿色 #FF2E8B57 */
+    static readonly SeaGreen: Color;
+    /** 贝壳白 #FFFFF5EE */
+    static readonly SeaShell: Color;
+    /** 赭色 #FFA0522D */
+    static readonly Sienna: Color;
+    /** 银色 #FFC0C0C0 */
+    static readonly Silver: Color;
+    /** 天蓝色 #FF87CEEB */
+    static readonly SkyBlue: Color;
+    /** 岩蓝色 #FF6A5ACD */
+    static readonly SlateBlue: Color;
+    /** 岩灰色 #FF708090 */
+    static readonly SlateGray: Color;
+    /** 雪白色 #FFFFFAFA */
+    static readonly Snow: Color;
+    /** 春绿色 #FF00FF7F */
+    static readonly SpringGreen: Color;
+    /** 钢蓝色 #FF4682B4 */
+    static readonly SteelBlue: Color;
+    /** 棕褐色 #FFD2B48C */
+    static readonly Tan: Color;
+    /** 凫色/水鸭色 #FF008080 */
+    static readonly Teal: Color;
+    /** 蓟色 #FFD8BFD8 */
+    static readonly Thistle: Color;
+    /** 番茄色 #FFFF6347 */
+    static readonly Tomato: Color;
+    /** 透明色 */
+    static readonly Transparent: Color;
+    /** 绿松石色 #FF40E0D0 */
+    static readonly Turquoise: Color;
+    /** 紫罗兰色 #FFEE82EE */
+    static readonly Violet: Color;
+    /** 小麦色 #FFF5DEB3 */
+    static readonly Wheat: Color;
+    /** 白色 #FFFFFFFF */
+    static readonly White: Color;
+    /** 白烟色 #FFF5F5F5 */
+    static readonly WhiteSmoke: Color;
+    /** 黄色 #FFFFFF00 */
+    static readonly Yellow: Color;
+    /** 黄绿色 #FF9ACD32 */
+    static readonly YellowGreen: Color;
+
+    // ─────────────── 静态工厂方法 ───────────────
+
+    /**
+     * 从 32 位 ARGB 值创建 Color
+     * @param argb 32 位 ARGB 值
+     */
+    static FromArgb(argb: number): Color;
+
+    /**
+     * 从指定颜色和新的 alpha 值创建 Color
+     * @param alpha Alpha 值 (0-255)
+     * @param baseColor 基础颜色
+     * @throws alpha < 0 或 > 255 时抛出异常
+     */
+    static FromArgb(alpha: number, baseColor: Color): Color;
+
+    /**
+     * 从 RGB 分量创建 Color（alpha 默认为 255）
+     * @param red 红色分量 (0-255)
+     * @param green 绿色分量 (0-255)
+     * @param blue 蓝色分量 (0-255)
+     * @throws 任一分量 < 0 或 > 255 时抛出异常
+     */
+    static FromArgb(red: number, green: number, blue: number): Color;
+
+    /**
+     * 从 ARGB 四个分量创建 Color
+     * @param alpha Alpha 分量 (0-255)
+     * @param red 红色分量 (0-255)
+     * @param green 绿色分量 (0-255)
+     * @param blue 蓝色分量 (0-255)
+     * @throws 任一分量 < 0 或 > 255 时抛出异常
+     */
+    static FromArgb(alpha: number, red: number, green: number, blue: number): Color;
+
+    /**
+     * 从预定义颜色（KnownColor 枚举）创建 Color
+     * @param color KnownColor 枚举值
+     */
+    static FromKnownColor(color: number): Color;
+
+    /**
+     * 从预定义颜色名称创建 Color
+     * @param name 预定义颜色名称（与 KnownColor 枚举名一致）
+     */
+    static FromName(name: string): Color;
+
+    // ─────────────── 实例方法 ───────────────
+
+    /**
+     * 判断当前颜色是否与另一个 Color 相等
+     * @param other 要比较的 Color
+     */
+    Equals(other: Color): boolean;
+
+    /**
+     * 判断指定对象是否为等价的 Color
+     * @param obj 要比较的对象
+     */
+    EqualsObj(obj: any): boolean;
+
+    /**
+     * 获取 HSL 亮度值
+     * @returns 亮度值，范围 0.0（黑）~ 1.0（白）
+     */
+    GetBrightness(): number;
+
+    /**
+     * 获取 HSL 色相值
+     * @returns 色相值（度），范围 0.0 ~ 360.0
+     */
+    GetHue(): number;
+
+    /**
+     * 获取 HSL 饱和度值
+     * @returns 饱和度值，范围 0.0（灰度）~ 1.0（最饱和）
+     */
+    GetSaturation(): number;
+
+    /**
+     * 获取 32 位 ARGB 值
+     */
+    ToArgb(): number;
+
+    /**
+     * 获取 KnownColor 枚举值
+     * @returns 如果是预定义颜色返回对应枚举值，否则返回 0
+     */
+    ToKnownColor(): number;
+
+    /**
+     * 转换为可读字符串
+     * @returns 预定义颜色返回名称，否则返回 ARGB 分量描述
+     */
+    ToString(): string;
+
+    /**
+     * 获取哈希码
+     */
+    GetHashCode(): number;
+}
+
+/**
+ * 画笔 - 用于绘制线条和曲线的对象
+ */
+declare class Pen {
+    constructor(color: Color);
+    constructor(color: Color, width: number);
+
+    /** 获取或设置画笔宽度 */
+    Width: number;
+
+    /** 创建此画笔的精确副本 */
+    Clone(): Pen;
+
+    /** 释放此画笔占用的资源 */
+    Dispose(): void;
+
+    /** 重置几何变换为单位矩阵 */
+    ResetTransform(): void;
+
+    /** 平移局部几何变换（默认 Prepend 顺序） */
+    TranslateTransform(dx: number, dy: number): void;
+
+    /** 缩放局部几何变换（默认 Prepend 顺序） */
+    ScaleTransform(sx: number, sy: number): void;
+
+    /** 旋转局部几何变换（默认 Prepend 顺序） */
+    RotateTransform(angle: number): void;
+}
+
+/**
  * 区域
  */
 declare class Region {
@@ -3408,7 +3854,7 @@ declare class Region {
    * @param name 绘制名称
    * @param pen 画笔（可选）
    */
-  drawSelf(name: string, pen?: any): void;
+  drawSelf(name: string, pen?: Pen): void;
 
   /**
    * 在窗口绘制指定区域（使用 Rect）
@@ -3416,7 +3862,7 @@ declare class Region {
    * @param name 绘制名称
    * @param pen 画笔（可选）
    */
-  drawRect(rect: any, name: string, pen?: any): void;
+  drawRect(rect: any, name: string, pen?: Pen): void;
 
   /**
    * 在窗口绘制指定区域
@@ -3427,14 +3873,14 @@ declare class Region {
    * @param name 绘制名称
    * @param pen 画笔（可选）
    */
-  drawRect(x: number, y: number, w: number, h: number, name: string, pen?: any): void;
+  drawRect(x: number, y: number, w: number, h: number, name: string, pen?: Pen): void;
 
   /**
    * 自身转为矩形绘制对象
    * @param name 绘制名称
    * @param pen 画笔（可选）
    */
-  selfToRectDrawable(name: string, pen?: any): any;
+  selfToRectDrawable(name: string, pen?: Pen): any;
 
   /**
    * 转为矩形绘制对象（使用 Rect）
@@ -3442,7 +3888,7 @@ declare class Region {
    * @param name 绘制名称
    * @param pen 画笔
    */
-  toRectDrawable(rect: any, name: string, pen?: any): any;
+  toRectDrawable(rect: any, name: string, pen?: Pen): any;
 
   /**
    * 转为矩形绘制对象
@@ -3453,7 +3899,7 @@ declare class Region {
    * @param name 绘制名称
    * @param pen 画笔（可选）
    */
-  toRectDrawable(x: number, y: number, w: number, h: number, name: string, pen?: any): any;
+  toRectDrawable(x: number, y: number, w: number, h: number, name: string, pen?: Pen): any;
 
   /**
    * 转为线条绘制对象
@@ -3464,7 +3910,7 @@ declare class Region {
    * @param name 绘制名称
    * @param pen 画笔（可选）
    */
-  toLineDrawable(x1: number, y1: number, x2: number, y2: number, name: string, pen?: any): any;
+  toLineDrawable(x1: number, y1: number, x2: number, y2: number, name: string, pen?: Pen): any;
 
   /**
    * 在窗口绘制线条
@@ -3475,7 +3921,7 @@ declare class Region {
    * @param name 绘制名称
    * @param pen 画笔（可选）
    */
-  drawLine(x1: number, y1: number, x2: number, y2: number, name: string, pen?: any): void;
+  drawLine(x1: number, y1: number, x2: number, y2: number, name: string, pen?: Pen): void;
 
   /**
    * 转换自身位置到游戏捕获区域坐标

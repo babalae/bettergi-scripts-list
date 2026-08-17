@@ -7,7 +7,7 @@ import { isCancellationError } from "./utils.js";
  * 1. 调整为俯视视角
  * 2. 通过识别宝箱图标来调整方向和前进
  * 3. 检测攀爬状态并尝试脱离
- * 4. 当检测到"接触征讨之花"文字时停止
+ * 4. 检测到"接触征讨之花"时进行交互，进入领奖界面后停止
  * 
  * @async
  * @function autoNavigateToReward
@@ -24,6 +24,7 @@ async function autoNavigateToReward() {
         const boxIconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/box.png"));
 
         const rewardRect = new Rect(1210, 515, 200, 50);
+        const useRect = new Rect(850, 740, 250, 35);
         const climbRect = new Rect(1686, 1030, 60, 23);
 
         let advanceNum = 0;
@@ -38,10 +39,19 @@ async function autoNavigateToReward() {
         log.info("开始领奖");
         
         while (true) {
-            // 1. 优先检查是否已到达领奖点
-            if (await page.Locator("接触征讨之花", rewardRect).isExist()) {
-                log.info("已到达领奖点，检测到文字：接触征讨之花");
+            // 1. 进入征讨之花领奖界面后停止寻路
+            if (await page.Locator("使用原粹树脂", useRect).isExist()
+                || await page.Locator("补充原粹树脂", useRect).isExist()) {
+                log.info("已进入征讨之花领奖界面");
                 return;
+            }
+
+            // 到达征讨之花后进行交互，继续等待领奖界面出现
+            if (await page.Locator("接触征讨之花", rewardRect).isExist()) {
+                log.info("检测到接触征讨之花，按 F 键交互");
+                keyPress("F");
+                await sleep(300);
+                continue;
             }
             
             if (advanceNum > 40) {
@@ -112,11 +122,10 @@ async function autoNavigateToReward() {
  * 领取讨伐奖励
  * 
  * 该函数通过以下步骤实现奖励领取：
- * 1. 识别并交互"接触征讨之花"（按 F 键）
- * 2. 处理脆弱树脂不足的情况（检测"补充"文字）
- * 3. 使用脆弱树脂领取奖励（检测"使用"文字）
- * 4. 关闭奖励界面（检测"点击"文字）
- * 5. 确认回到主界面后结束
+ * 1. 处理脆弱树脂不足的情况（检测"补充"文字）
+ * 2. 使用脆弱树脂领取奖励（检测"使用"文字）
+ * 3. 关闭奖励界面（检测"点击"文字）
+ * 4. 确认回到主界面后结束
  * 
  * @async
  * @function takeReward
@@ -133,17 +142,9 @@ async function takeReward(isInsufficientResin) {
         const Rect = OpenCvSharp.OpenCvSharp.Rect;
         const page = new BvPage();
 
-        const rewardRect = new Rect(1210, 515, 200, 50);    //地脉花交互
         const useRect = new Rect(850, 740, 250, 35);    //补充原粹树脂 or 使用原粹树脂
         const closeRect = new Rect(850, 960, 220, 35);    //关闭掉落奖励列表
         const mainUiRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/mainUi.png"));
-
-        await page.Locator("接触征讨之花", rewardRect)
-            .withRetryAction(async () => {
-                log.info("检测到接触征讨之花，按 F 键交互");
-                keyPress("F");
-            })
-            .WaitForDisappear();
 
         try {
             await page.Locator("使用原粹树脂", useRect).ClickUntilDisappears(3000)

@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785949837639,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "09-堇瓜-鸣神岛-绀田村四-8个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4124.54,
+      "y": -2759.85
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -4115.02,
+      "y": -2755.64
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4106.89,
+      "y": -2766.65
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -4103.94,
+      "y": -2768.95
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.15)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4102.8789,
+      "y": -2769.6582
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4108.08,
+      "y": -2771.63
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4095.83,
+      "y": -2791.62
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2)",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4079.0957,
+      "y": -2795.7529
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2.5)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4040.5215,
+      "y": -2800.3691
+    }
+  ]
+}

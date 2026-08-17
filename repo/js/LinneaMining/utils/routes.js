@@ -57,6 +57,26 @@ function filterByTags(routePaths, excludedTags) {
 }
 
 /**
+ * 排除包含战斗 tag 的路线，只要路线有"战斗" tag 就跳过
+ *
+ * @param {string[]} routePaths - 路线文件路径数组
+ * @returns {string[]} 过滤后的路线文件路径数组
+ */
+function filterBattleRoutes(routePaths) {
+  return routePaths.filter(routePath => {
+    try {
+      const raw = file.readTextSync(routePath)
+      const data = JSON.parse(raw)
+      const tags = data.info?.tags
+      if (!tags || tags.length === 0) return true
+      return !tags.includes("战斗")
+    } catch {
+      return true
+    }
+  })
+}
+
+/**
  * 根据地区目录名过滤路线
  *
  * @param {string[]} routePaths - 路线文件路径数组
@@ -77,5 +97,6 @@ function filterByRegion(routePaths, excludedRegions) {
 export {
   getRoutes,
   filterByTags,
-  filterByRegion
+  filterByRegion,
+  filterBattleRoutes
 }
