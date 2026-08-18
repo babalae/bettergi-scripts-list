@@ -7,10 +7,12 @@
  * @returns {Promise<string|null>} 返回识别到的文本内容，如果识别失败则返回null
  */
 export async function ocrRegion(x = 0,
-                         y = 0,
-                         w = 1920,
-                         h = 1080) {
+                                y = 0,
+                                w = 1920,
+                                h = 1080) {
     // 创建OCR识别对象，使用指定的坐标和尺寸
+    const Box={x:x, y:y, width:w, height:h}
+    await drawBoxDebug(settings.debug,Box, 400)
     let recognitionObjectOcr = RecognitionObject.Ocr(x, y, w, h);
     // 捕获游戏区域图像
     let region3 = captureGameRegion()
@@ -21,7 +23,7 @@ export async function ocrRegion(x = 0,
         return res?.text
     } catch (e) {
         // 捕获并记录错误信息
-        log.error("识别异常:{1}", e.message)
+        Log.error("识别异常:{1}", e.message)
         return null
     } finally {
         // 确保释放区域资源
@@ -46,8 +48,8 @@ export async function getDayOfWeek(calibrationGameRefreshTime = true) {
     const weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
     let weekDay = `${weekDays[day]}`;
 
-    log.debug(`今天是[{day}]`, day)
-    log.debug(`今天是[{weekDays}]`, weekDay)
+    Log.debug(`今天是[{day}]`, day)
+    Log.debug(`今天是[{weekDays}]`, weekDay)
     // 返回包含星期数字和对应星期名称的对象
     return {
         day: day,
@@ -97,12 +99,12 @@ export function getJsonPath(key) {
     return commonMap.get(key); // 通过commonMap的get方法获取指定键对应的值
 }
 
-export class UI{
+export class UI {
     /**
      * 检查当前是否在主界面
      * @returns {boolean} 如果在主界面则返回true，否则返回false
      */
-    static isInMainUI(){
+    static isInMainUI() {
         // let name = '主界面'  // 注释掉的变量定义，可能是用于调试的临时变量
         let main_ui = getJsonPath('main_ui');  // 获取主界面的配置信息，包括路径、名称和类型
         // 定义识别对象，使用模板匹配方法来检测主界面特征
@@ -137,8 +139,10 @@ export class UI{
             w: 901,
             h: 563
         }
+        const Box={x:ocrRegion.x, y:ocrRegion.y, width:ocrRegion.w, height:ocrRegion.h}
+        await drawBoxDebug(settings.debug,Box, 400,new Pen(Color.Lime, 2))
         const find = await findText(text, ocrRegion.x, ocrRegion.y, ocrRegion.w, ocrRegion.h)
-        log.debug("识别结果:{1}", find)
+        Log.debug("识别结果:{1}", find)
         return find && find.includes(text)
     }
 
@@ -156,8 +160,10 @@ export class UI{
             w: 901,
             h: 563
         }
+        const Box={x:ocrRegion.x, y:ocrRegion.y, width:ocrRegion.w, height:ocrRegion.h}
+        await drawBoxDebug(settings.debug,Box, 400,new Pen(Color.MediumBlue, 2))
         const find = await findText(text, ocrRegion.x, ocrRegion.y, ocrRegion.w, ocrRegion.h)
-        log.debug("识别结果:{1}", find)
+        Log.debug("识别结果:{1}", find)
         return find && find.includes(text)
     }
 
@@ -176,10 +182,13 @@ export class UI{
             w: 901,  // 区域宽度
             h: 563   // 区域高度
         }
+        const Box={x:ocrRegion.x, y:ocrRegion.y, width:ocrRegion.w, height:ocrRegion.h}
+        await drawBoxDebug(settings.debug,Box, 400,new Pen(Color.MediumSlateBlue, 2))
+
         // 在指定区域内查找文本，并等待识别结果
         const find = await findText(text, ocrRegion.x, ocrRegion.y, ocrRegion.w, ocrRegion.h)
         // 输出识别结果到调试日志
-        log.debug("识别结果:{1}", find)
+        Log.debug("识别结果:{1}", find)
         // 返回识别结果中是否包含目标文本
         return find && find.includes(text)
     }
@@ -206,7 +215,7 @@ export async function toMainUi() {
  * 该函数用于处理退出秘境界面的相关操作，包括点击确认按钮和检测界面状态
  */
 export async function outDomainUI() {
-    log.info(`{0}`,"退出秘境");
+    Log.info(`{0}`, "退出秘境");
     const ocrRegion = {
         x: 509,
         y: 259,
@@ -220,7 +229,7 @@ export async function outDomainUI() {
     await sleep(ms);
     //点击确认按钮
     await findTextAndClick('地脉异常')
-    await sleep(ms*2);
+    await sleep(ms * 2);
     while (!await UI.isInOutDomainUI()) {
         if (UI.isInMainUI()) {
             inMainUI = true
@@ -230,7 +239,7 @@ export async function outDomainUI() {
         await keyPress("ESCAPE");
         await sleep(ms * 2);
         if (index > 3) {
-            log.error(`多次尝试匹配退出秘境界面失败 假定已经退出处理`);
+            Log.error(`多次尝试匹配退出秘境界面失败 假定已经退出处理`);
             tryMax = true
             break
         }
@@ -238,10 +247,13 @@ export async function outDomainUI() {
     }
     if ((!tryMax) && (!inMainUI) && await UI.isInOutDomainUI()) {
         try {
+            const Box={x:ocrRegion.x, y:ocrRegion.y, width:ocrRegion.w, height:ocrRegion.h}
+            await drawBoxDebug(settings.debug,Box, 400,new Pen(Color.NavajoWhite, 2))
+
             //点击确认按钮
             await findTextAndClick('确认', ocrRegion.x, ocrRegion.y, ocrRegion.w, ocrRegion.h)
         } catch (e) {
-            // log.error(`多次尝试点击确认失败 假定已经退出处理`);
+            // Log.error(`多次尝试点击确认失败 假定已经退出处理`);
         }
     }
 
@@ -249,7 +261,7 @@ export async function outDomainUI() {
 }
 
 export async function outStygianOnslaughtUI() {
-    log.info(`{0}`,"退出挑战");
+    Log.info(`{0}`, "退出挑战");
     const ocrRegion = {
         x: 509,
         y: 259,
@@ -270,7 +282,7 @@ export async function outStygianOnslaughtUI() {
         await keyPress("ESCAPE");
         await sleep(ms * 2);
         if (index > 3) {
-            log.error(`多次尝试匹配退出秘境界面失败 假定已经退出处理`);
+            Log.error(`多次尝试匹配退出秘境界面失败 假定已经退出处理`);
             tryMax = true
             break
         }
@@ -278,10 +290,13 @@ export async function outStygianOnslaughtUI() {
     }
     if ((!tryMax) && (!inMainUI) && await UI.isInOutStygianOnslaughtUI()) {
         try {
+            const Box={x:ocrRegion.x, y:ocrRegion.y, width:ocrRegion.w, height:ocrRegion.h}
+            await drawBoxDebug(settings.debug,Box, 400,new Pen(Color.PaleVioletRed, 2))
+
             //点击确认按钮
             await findTextAndClick('退出挑战', ocrRegion.x, ocrRegion.y, ocrRegion.w, ocrRegion.h)
         } catch (e) {
-            // log.error(`多次尝试点击确认失败 假定已经退出处理`);
+            // Log.error(`多次尝试点击确认失败 假定已经退出处理`);
         }
     }
 }
@@ -294,15 +309,39 @@ export async function openBag() {
     await toMainUi();
     await keyPress(openBagKey);
     await sleep(500);
-    const expiredText = await findText("物品过期", 870, 280, 170, 40, 2);
+    const Box={x:870, y:280, width:170, height:40}
+    await drawBoxDebug(settings.debug,Box, 400,new Pen(Color.PowderBlue, 2))
+
+    const expiredText = await findText("物品过期", Box.x, Box.y, Box.width, Box.height, 2);
     if (expiredText) {
-        log.info("检测到过期物品，关闭弹窗");
+        Log.info("检测到过期物品，关闭弹窗");
         await sleep(500);
         await click(980, 750);
     }
     await sleep(50);
 }
 
+/**
+ * 日志工具类
+ */
+export class Log{
+    static info(message, ...args){
+        log.info(message, ...args)
+    }
+    static error(message, ...args){
+        log.error(message, ...args)
+    }
+    static debug(message, ...args){
+        if (settings.debug){
+            log.info(`[开发模式] [Debug] ${message}`, ...args)
+        }else {
+            log.debug(message, ...args)
+        }
+    }
+    static warn(message, ...args){
+        log.warn(message, ...args)
+    }
+}
 /**
  * 使用OCR技术在指定区域内查找文本
  * @param {number} x - 区域左上角x坐标
@@ -311,9 +350,11 @@ export async function openBag() {
  * @param {number} height - 区域高度
  * @returns {Promise<Region|null>} 返回找到的文本，如果没有找到则返回null
  */
-export async function OcrFind(x, y, width, height) {
+export async function OcrFind(x, y, width, height,pen=new Pen(Color.RoyalBlue, 2)) {
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
     try {
+        const Box={x:x, y:y, width:width, height:height}
+        await drawBoxDebug(settings.debug,Box,100,pen)
         // 创建OCR识别对象，指定识别区域
         const recognitionObject = RecognitionObject.Ocr(x, y, width, height);
         // 在截图上执行OCR识别
@@ -349,7 +390,6 @@ export async function findText(
     interval = 50,
 ) {
     const keyword = text.toLowerCase(); // 将搜索关键字转换为小写，实现不区分大小写的搜索
-
     for (let i = 0; i < attempts; i++) { // 循环尝试查找文本，最多尝试attempts次
         const gameRegion = captureGameRegion(); // 捕获游戏区域图像
         try {
@@ -405,7 +445,6 @@ export async function findTextAndClick(
     postClickDelay = 50
 ) {
     const keyword = text.toLowerCase();
-
     for (let i = 0; i < attempts; i++) {
         const gameRegion = captureGameRegion();
         try {
@@ -434,6 +473,7 @@ export async function findTextAndClick(
 
     return null;
 }
+
 /**
  * 通用找图并点击（支持图片文件路径、Mat）
  * @param {string|Mat} target 图片路径或已构造的 Mat
@@ -492,6 +532,7 @@ export async function findImgAndClick(
 
     return null;
 }
+
 /**
  * 抛出错误函数
  * 该函数用于显示错误通知并抛出错误对象
@@ -515,6 +556,61 @@ export function parseInteger(str) {
     const parsedInt = parseInt(String(str).trim(), 10);
     return isNaN(parsedInt) ? undefined : parsedInt; // 非法数字返回 undefined
 }
+
+/**
+ * 
+ * @param {boolean} show - 是否显示调试信息
+ * @param {Object} result - 目标区域坐标对象，包含 x、y、width、height 属性
+ * @param {number} [delay=1000] - 红框显示的延时（毫秒），默认1000ms
+ * @param {Pen} [pen=new Pen(Color.Red, 2)] - 红框的画笔对象，默认红色实线
+ * @returns {Promise<void>}
+ */
+export async function drawBoxDebug(show=true, result, delay = 1000, pen = new Pen(Color.Red, 2)){
+    if (show) {
+        await drawAndClearBox(result, delay, pen);
+    }
+}
+
+/**
+ * 在游戏画面上绘制红框并在延时后自动清除
+ * 通过截取游戏区域并绘制图标来实现红框标记效果，延时结束后通过重绘同一区域来清除红框
+ * @param {Object} result - 目标区域坐标对象，包含 x、y、width、height 属性
+ * @param {number} [delay=1000] - 红框显示的延时（毫秒），默认1000ms
+ * @param {Pen} [pen=new Pen(Color.Red, 2)] - 红框的画笔对象，默认红色实线
+ * @returns {Promise<void>}
+ */
+export async function drawAndClearBox(result, delay = 1000, pen ) {
+    const ro1 = captureGameRegion();
+    try {
+        const drawRegion = ro1.DeriveCrop(result.x, result.y, result.width, result.height);
+        if (pen){
+            drawRegion.DrawSelf("icon", pen);
+        }else {
+            drawRegion.DrawSelf("icon",new Pen(Color.Red, 2));
+        }
+    } finally {
+        ro1.dispose();
+    }
+
+    await sleep(delay);
+
+    const ro2 = captureGameRegion();
+    try {
+        const drawRegion2 = ro2.DeriveCrop(result.x, result.y, result.width, result.height);
+        try {
+            if (pen){
+                drawRegion2.DrawSelf("icon", pen);
+            }else {
+                drawRegion2.DrawSelf("icon",new Pen(Color.Red, 2));
+            }
+        } finally {
+            drawRegion2.dispose();
+        }
+    } finally {
+        ro2.dispose();
+    }
+}
+
 /**
  * 字符串格式化函数，支持类似C语言的格式化占位符
  * @param {string} format - 格式化字符串，包含%占位符
@@ -539,13 +635,16 @@ export function StringFormat(format, ...args) {
 
         // 根据类型进行格式化
         switch (type) {
-            case 's': return String(val);
-            case 'd': return parseInt(val).toString();
+            case 's':
+                return String(val);
+            case 'd':
+                return parseInt(val).toString();
             case 'f':
                 const dotIdx = numPattern.indexOf('.');
                 const fixed = dotIdx > -1 ? Number(numPattern.slice(dotIdx + 1)) : 6;
                 return Number(val).toFixed(fixed);
-            default: return match;
+            default:
+                return match;
         }
     });
 }
