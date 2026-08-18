@@ -128,6 +128,8 @@ async function runScanMode() {
 
     const forgingOreJsonFiles = scanAndFilterJsonFiles("矿物");
     const forgingOreByname = await groupByMaterialName(forgingOreJsonFiles);
+    // 魔晶矿的刷新机制特殊，需要与铁匠对话后人工判定，暂不支持
+    delete forgingOreByname["魔晶矿"];
     configMap["selectForgingOre"] = forgingOreByname;
     const flattenedSpecialties = Object.assign({}, ...Object.values(localSpecialtyByCountry));
     const allMaterials = {
@@ -173,7 +175,7 @@ async function runScanMode() {
         const firstPaths = Object.values(groupMap)[0][0]; // 假设 groupMap 的值是路径数组
         const items = firstPaths.split("\\");
         const mIndex = items.indexOf(material);
-        const tip_items = items.slice(1, mIndex + 1);
+        const tip_items = items.slice(0, mIndex + 1);
         const name = "selectRoute_" + material;
         configMap[name] = groupMap;
         return {
