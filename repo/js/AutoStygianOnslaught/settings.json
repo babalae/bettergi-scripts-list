@@ -106,5 +106,11 @@
         "type": "checkbox",
         "label": "开发模式（开启后即使不在爆发期也继续执行，方便测试后续逻辑）",
         "default": false
+    },
+    {
+        "name": "burstCacheEnabled",
+        "type": "checkbox",
+        "label": "爆发期时间缓存（⚠测试功能，目前未完成）缓存爆发期/紊乱平息的时间信息，下次运行时跳过OCR检测直接判断状态",
+        "default": false
     }
 ]
