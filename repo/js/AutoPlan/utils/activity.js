@@ -85,22 +85,27 @@ export class scroll {
      * @returns {Promise<void>}
      * @throws {Error} 当超过最大尝试次数仍未回到顶部时抛出错误
      */
-    static async pagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) {
+    static async pagesByActivityToTop(ocrRegion = ocrRegionConfig.activity,toTopCount) {
         let ms = 800;  // 等待时间，单位毫秒
         let topActivityName = null;         // 上一次检测到的顶部活动名称
         let sameTopCount = 0;               // 连续出现相同顶部名称的次数
         const requiredSameCount = 1;        // 需要连续几次相同才确认到顶（推荐 2~3）
         let attemptIndex = 0;                // 总尝试次数计数器
-        const maxAttempts = config.toTopCount;  // 可配置，默认为15次
-
+        const maxAttempts = toTopCount||15;  // 可配置，默认为15次
+const  ScrollPage=4*3
         Log.debug("开始滚动到活动页面顶部...");
-
+        let actionRegion={
+            x: 225,
+            y: 73+200
+        }
+        await drawBoxDebug(settings.debug,ocrRegion,400,new Pen(Color.FromArgb(255,0,0,255),2))
         while (attemptIndex < maxAttempts) {
             attemptIndex++;
             Log.debug(`第 {attemptIndex} 次尝试回顶`, attemptIndex);
-
+            await sleep(ms*2);
             // 移动鼠标到安全位置，避免干扰截图
-            await moveMouseTo(0, 20);
+            await moveMouseTo(actionRegion.x, actionRegion.y)
+            await click(actionRegion.x, actionRegion.y)
 
             // 截图 + OCR 识别活动列表区域
             let captureRegion = null;
@@ -124,7 +129,7 @@ export class scroll {
                     // 再尝试一次向上滚大距离
                     // await scrollPagesByActivity(true);  // true = 向上
                     // await scroll.pagesByActivity(true, 80 * 4, 6, 60, 1);
-                    for (let i = 0; i <12 ; i++) {
+                    for (let i = 0; i <ScrollPage ; i++) {
                         await verticalScroll(1);
                         await sleep(2);
                     }
@@ -156,11 +161,11 @@ export class scroll {
                 // 这里使用更大滚动距离确保能快速回顶
                 // await scrollPagesByActivity(true);  // true = 向上
                 // await scroll.pagesByActivity(true, 80 * 4, 6, 60, 1);
-                for (let i = 0; i <12 ; i++) {
+                for (let i = 0; i <ScrollPage ; i++) {
                     await verticalScroll(1);
                     await sleep(2);
                 }
-                await sleep(ms);  // 给页面滚动和渲染留时间
+                await sleep(ms*2);  // 给页面滚动和渲染留时间
             } finally {
                 // 确保资源被正确释放
                 if (captureRegion) {
@@ -211,6 +216,7 @@ export class scroll {
         let scannedPages = 0;  // 已扫描页数计数
         const maxPages = 25;  // 最大扫描页数限制
         const overlapThreshold = 1;  // 最大扫描页数限制
+        const  ScrollPage=4*3
         let previousPageActivities = new Set();  // 存储上一页所有活动名称
         const activity= ocrRegionConfig.activity
         let actionRegion={
@@ -224,7 +230,7 @@ export class scroll {
             await scroll.pagesByActivityToTop();  // 滚动到页面顶部
             await sleep(ms);  // 等待1秒确保滚动完成
         } catch (e) {
-            Log.warn("回到顶部失败，但继续尝试执行");  // 捕获并处理异常
+            Log.warn("回到顶部失败，但继续尝试执行,err:{err}" , e.message);  // 捕获并处理异常
         }
         // 4. 主循环：逐页向下扫描
         while (scannedPages < maxPages) {
@@ -283,7 +289,7 @@ export class scroll {
                 for (let res of resList) {
                     const activityName = res.text.trim();  // 获取活动名称
                     currentPageBottomName = activityName;  // 更新底部活动名
-
+                    Log.debug(`[OCR]-activityName:{activityName}`,activityName)
                     // 【关键修改】检查是否是目标活动名称（精确匹配）
                     if (activityName.includes(name)) {
                         findActivity.name = true;  // 找到活动名称
@@ -339,7 +345,7 @@ export class scroll {
 
                 // 6. 向下滑动一页，继续下一轮
                 // await scroll.pagesByActivity(false);
-                for (let i = 0; i <12 ; i++) {
+                for (let i = 0; i <ScrollPage ; i++) {
                     await verticalScroll(-1);
                     await sleep(2);
                 }
