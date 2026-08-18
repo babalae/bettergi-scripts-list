@@ -394,21 +394,21 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
             // 此时第一个"使用"按钮对应的是浓缩/须臾/脆弱树脂
             log.warn("原粹树脂已耗尽，检测是否有其他可用树脂");
 
-            if (hasCondensedResin && sortedButtons.length >= 1) {
+            if (hasCondensedResin && sortedButtons.length >= 1 && !settings.onlySurgeMode) {
                 choice = {
                     type: "使用1个浓缩树脂（原粹耗尽）",
                     resinAmount: 40,
                     button: sortedButtons[0],
                     buttonIndex: 0
                 };
-            } else if (hasTransientResin && sortedButtons.length >= 1 && settings.useTransientResin) {
+            } else if (hasTransientResin && sortedButtons.length >= 1 && settings.useTransientResin && !settings.onlySurgeMode) {
                 choice = {
                     type: "使用1个须臾树脂（原粹耗尽）",
                     resinAmount: 40,
                     button: sortedButtons[0],
                     buttonIndex: 0
                 };
-            } else if (hasFragileResin && sortedButtons.length >= 1 && settings.useFragileResin) {
+            } else if (hasFragileResin && sortedButtons.length >= 1 && settings.useFragileResin && !settings.onlySurgeMode) {
                 choice = {
                     type: "使用1个脆弱树脂（原粹耗尽）",
                     resinAmount: 40,
@@ -417,7 +417,9 @@ async function analyzeResinOptions(sortedButtons, isOriginalResinEmpty) {
                 };
             } else {
                 // 输出详细的调试信息
-                if (hasTransientResin && !settings.useTransientResin) {
+                if (settings.onlySurgeMode) {
+                    return { choice: null, shouldExitForSurge: true, willFinishDoubleTimes: false, doubleRemainingTimes: 0, surgeModeResinEmpty: true };
+                } else if (hasTransientResin && !settings.useTransientResin) {
                     log.warn(`原粹树脂耗尽，检测到须臾树脂但配置禁止使用（settings.useTransientResin=${settings.useTransientResin}）`);
                 } else if (hasFragileResin && !settings.useFragileResin) {
                     log.warn(`原粹树脂耗尽，检测到脆弱树脂但配置禁止使用（settings.useFragileResin=${settings.useFragileResin}）`);
@@ -940,7 +942,8 @@ this.attemptReward = async function (retryCount = 0) {
     let isOriginalResinEmpty = false;
     let sortedButtons = [];
     let resinChoice = null;
-    let shouldExitForSurge = false; // 提前声明
+    let shouldExitForSurge = false;
+    let hasRewardError = false;
     let rewardError = null; // 存储奖励领取阶段的错误（仅拾取模式启用时延迟抛出）
     let doubleRemainingTimes = 0; // 双倍剩余次数
     let willFinishDoubleTimes = false; // 是否会刷完双倍
@@ -953,22 +956,18 @@ this.attemptReward = async function (retryCount = 0) {
         sortedButtons = await findAndSortUseButtons();
 
         if (sortedButtons.length === 0) {
-            log.error("未找到任何使用按钮");
-            keyPress("VK_ESCAPE");
-            await sleep(500);
-            await this.ensureExitRewardPage();
-            return false;
+            throw new Error("未找到任何使用按钮");
         }
 
         // 步骤4: 根据原粹树脂状态调整决策逻辑
         const result = await analyzeResinOptions(sortedButtons, isOriginalResinEmpty);
 
         if (!result) {
-            // analyzeResinOptions 返回 null（树脂耗尽且无可用树脂）
-            keyPress("VK_ESCAPE");
-            await sleep(500);
-            await this.ensureExitRewardPage();
-            return false;
+            throw new Error("无法选择合适的树脂类型（所有树脂已耗尽）");
+        }
+
+        if (result.surgeModeResinEmpty) {
+            throw new Error("只刷双倍模式：原粹树脂耗尽,使用ESC退出");
         }
 
         resinChoice = result.choice;
@@ -977,15 +976,11 @@ this.attemptReward = async function (retryCount = 0) {
         willFinishDoubleTimes = result.willFinishDoubleTimes || false;
 
         if (!resinChoice) {
-            // 已在 analyzeResinOptions 中输出详细错误信息，这里不再重复
-            keyPress("VK_ESCAPE");
-            await sleep(500);
-            await this.ensureExitRewardPage();
-            return false;
+            throw new Error("树脂决策结果为空");
         }
 
     } catch (error) {
-        log.error(`处理奖励界面时出错: ${error.message}`);
+        log.warn(`处理奖励界面时遇到情况: ${error.message}`);
         keyPress("VK_ESCAPE");
         await sleep(500);
         await this.ensureExitRewardPage();
@@ -997,34 +992,37 @@ this.attemptReward = async function (retryCount = 0) {
 
         // 开启拾取模式时存储错误，延迟到拾取后抛出
         rewardError = error;
+        hasRewardError = true;
     }
 
     // 步骤5: 点击对应的使用按钮（或无双倍时按ESC退出）
-    if (shouldExitForSurge) {
-        // 双倍检测兜底：未检测到双倍产出，用ESC代替领取奖励
-        log.warn("[双倍兜底] 未检测到双倍产出，使用ESC关闭界面（不领取奖励）");
-        keyPress("VK_ESCAPE");
-        await sleep(800);
-    } else if (resinChoice) {
-        // 正常流程：点击使用按钮领取奖励
-        log.info(`选择: ${resinChoice.type}，点击按钮 (X=${resinChoice.button.x}, Y=${resinChoice.button.y})`);
+    // 仅在无错误时执行领取奖励操作（catch中的错误已按ESC退出，无需再点击）
+    if (!hasRewardError) {
+        if (shouldExitForSurge) {
+            // 双倍检测兜底：未检测到双倍产出，用ESC代替领取奖励
+            log.warn("[双倍兜底] 未检测到双倍产出，使用ESC关闭界面（不领取奖励）");
+            keyPress("VK_ESCAPE");
+            await sleep(800);
+        } else if (resinChoice) {
+            // 正常流程：点击使用按钮领取奖励
+            log.info(`选择: ${resinChoice.type}，点击按钮 (X=${resinChoice.button.x}, Y=${resinChoice.button.y})`);
 
-        // 点击使用按钮
-        resinChoice.button.region.click();
+            // 点击使用按钮
+            resinChoice.button.region.click();
 
-        await sleep(1000);
+            await sleep(1000);
+        }
+
+        // 等待领奖动画/道具到账
+        await sleep(1200);
+
+        // 确保完全退出奖励界面
+        await this.ensureExitRewardPage();
     }
-
     // 步骤6: 如果需要切换回战斗队伍
     if (settings.friendshipTeam) {
         await switchBackToCombatTeam();
     }
-
-    // 等待领奖动画/道具到账
-    await sleep(1200);
-
-    // 确保完全退出奖励界面
-    await this.ensureExitRewardPage();
 
     if (settings.pickDropsAfterReward) {
         log.info(`[拾取材料] 开始执行自动拾取掉落物，拾取时间 ${settings.pickDropsSecondsValue} 秒...`);

@@ -57,6 +57,14 @@ const ocrRoThis = RecognitionObject.ocrThis;
             // 任何时候都确保自定义标记处于打开状态
             await openCustomMarks();
         }
+
+        // 确保返回主界面（防止拾取等操作后停留在意外界面）
+        try {
+            await genshin.returnMainUi();
+        } catch (mainUiError) {
+            log.warn(`返回主界面时出错: ${mainUiError.message}`);
+        }
+
         log.info("全自动地脉花运行结束");
     }
 })();
