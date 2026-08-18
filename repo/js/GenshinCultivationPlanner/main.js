@@ -6,6 +6,7 @@ import { collectExecutionWarnings } from './core/preflight.js';
 import { buildDomainResinPolicy } from './core/resin.js';
 import { buildDomainExecutionConfig } from './core/domain-executor.js';
 import { normalizeRewardMap, reconcileRewardEvidence } from './core/rewards.js';
+import { runBossTaskWithSafeExit } from './core/boss-safety.js';
 import { buildWeeklyStrategy } from './core/scheduler.js';
 import { appendRunHistory, buildRunRecord } from './core/history.js';
 import { parseTargetText } from './core/target-input.js';
@@ -425,7 +426,12 @@ async function executeBossTask(task, scriptSettings, inventory, partySwitchState
   param.ReviveRetryCount = config.reviveRetryCount;
   param.ReturnToStatueAfterEachRound = false;
   param.RewardRecognitionEnabled = true;
-  const taskRecognizedRewards = normalizeRewardMap(await dispatcher.RunAutoBossTask(param));
+  const rawRewards = await runBossTaskWithSafeExit({
+    runTask: () => dispatcher.RunAutoBossTask(param),
+    teleportToStatue: () => genshin.TpToStatueOfTheSeven(),
+    logger: log,
+  });
+  const taskRecognizedRewards = normalizeRewardMap(rawRewards);
   logTaskRecognizedRewards('Boss', taskRecognizedRewards);
   log.info('[Boss] 任务调用结束；已启用 BetterGI 奖励识别，最终收益仍以全部任务结束后的背包复核为准');
   return {

@@ -14,7 +14,8 @@ export function collectCraftingMaterialIds(requirements, recipes) {
 }
 
 /**
- * 将高阶目标按 3:1 等合成配方逐级展开。
+ * 将高阶目标按基础配方逐级展开，仅采用确定的 3:1 等消耗。
+ * 角色天赋带来的概率返还或额外产出不提前计入，实际收益由下一次背包读取反映。
  * 仅在整条合成链库存都已确认时使用合成结果；否则保留原始需求，避免凭空假定库存为零。
  */
 export function buildCraftingPlan(requirements, inventory, recipes) {

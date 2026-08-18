@@ -6,7 +6,23 @@ export function normalizeRewardMap(rawRewards) {
 
   const result = {};
   if (rawRewards.Keys) {
-    for (const key of rawRewards.Keys) addReward(result, key, rawRewards[key]);
+    for (const key of rawRewards.Keys) {
+      const value = typeof rawRewards.get_Item === 'function'
+        ? rawRewards.get_Item(key)
+        : rawRewards[key];
+      addReward(result, key, value);
+    }
+    if (Object.keys(result).length > 0 || typeof rawRewards.GetEnumerator !== 'function') return result;
+  }
+  if (typeof rawRewards.GetEnumerator === 'function') {
+    const enumerator = rawRewards.GetEnumerator();
+    try {
+      while (enumerator.MoveNext()) {
+        addReward(result, enumerator.Current?.Key, enumerator.Current?.Value);
+      }
+    } finally {
+      if (typeof enumerator.Dispose === 'function') enumerator.Dispose();
+    }
     return result;
   }
   for (const [name, count] of Object.entries(rawRewards)) {
