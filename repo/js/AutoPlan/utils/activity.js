@@ -123,7 +123,11 @@ export class scroll {
                     Log.warn("顶部OCR未识别到任何活动条目，可能是页面为空或识别失败");
                     // 再尝试一次向上滚大距离
                     // await scrollPagesByActivity(true);  // true = 向上
-                    await scroll.pagesByActivity(true, 80 * 4, 6, 60, 1);
+                    // await scroll.pagesByActivity(true, 80 * 4, 6, 60, 1);
+                    for (let i = 0; i <12 ; i++) {
+                        await verticalScroll(1);
+                        await sleep(2);
+                    }
                     await sleep(ms);
                     continue;
                 }
@@ -151,8 +155,11 @@ export class scroll {
                 // 未达到稳定状态，继续向上滚动一页（可根据实际情况调整滚动距离）
                 // 这里使用更大滚动距离确保能快速回顶
                 // await scrollPagesByActivity(true);  // true = 向上
-                await scroll.pagesByActivity(true, 80 * 4, 6, 60, 1);
-
+                // await scroll.pagesByActivity(true, 80 * 4, 6, 60, 1);
+                for (let i = 0; i <12 ; i++) {
+                    await verticalScroll(1);
+                    await sleep(2);
+                }
                 await sleep(ms);  // 给页面滚动和渲染留时间
             } finally {
                 // 确保资源被正确释放
@@ -181,13 +188,7 @@ export class scroll {
         // 1. 打开活动页面（默认 F5）
         await keyPress(activityKey);  // 模拟按键打开活动页面
         await sleep(ms * 2);  // 等待2秒确保页面加载完成
-        // 2. 先强制滚动到最顶部（非常重要！）
-        try {
-            await scroll.pagesByActivityToTop();  // 滚动到页面顶部
-            await sleep(ms);  // 等待1秒确保滚动完成
-        } catch (e) {
-            Log.warn("回到顶部失败，但继续尝试执行");  // 捕获并处理异常
-        }
+
     // 初始化查找结果对象
         let findActivity = {
             name: false,
@@ -209,14 +210,29 @@ export class scroll {
         const sameBottomCountMax = 1;  // 最大连续相同次数
         let scannedPages = 0;  // 已扫描页数计数
         const maxPages = 25;  // 最大扫描页数限制
+        const overlapThreshold = 1;  // 最大扫描页数限制
         let previousPageActivities = new Set();  // 存储上一页所有活动名称
         const activity= ocrRegionConfig.activity
+        let actionRegion={
+            x: 225,
+            y: 73+200
+        }
+        await moveMouseTo(actionRegion.x, actionRegion.y)
+        await click(actionRegion.x, actionRegion.y)
+        // 2. 先强制滚动到最顶部（非常重要！）
+        try {
+            await scroll.pagesByActivityToTop();  // 滚动到页面顶部
+            await sleep(ms);  // 等待1秒确保滚动完成
+        } catch (e) {
+            Log.warn("回到顶部失败，但继续尝试执行");  // 捕获并处理异常
+        }
         // 4. 主循环：逐页向下扫描
         while (scannedPages < maxPages) {
             scannedPages++;
             Log.debug(`正在扫描第 ${scannedPages} 页`);
 
-            await moveMouseTo(0, 20);  // 移动鼠标到页面顶部
+            // await moveMouseTo(0, 20);
+            await moveMouseTo(actionRegion.x, actionRegion.y) // 移动鼠标到页面顶部
 
             let captureRegion = null;  // 初始化屏幕捕获区域
             try {
@@ -252,7 +268,7 @@ export class scroll {
                     const overlapRatio = overlapCount / previousPageActivities.size;
 
                 // 如果重合度超过70%，认为已到底部
-                    if (overlapRatio >= 0.7) {
+                    if (overlapRatio >= overlapThreshold) {
                         Log.debug(`检测到当前页与上一页高度重复（重合率 ${Math.round(overlapRatio * 100)}%），已到达底部，停止扫描`);
                         break;
                     }
@@ -322,7 +338,11 @@ export class scroll {
                 lastPageBottomName = currentPageBottomName;
 
                 // 6. 向下滑动一页，继续下一轮
-                await scroll.pagesByActivity(false);
+                // await scroll.pagesByActivity(false);
+                for (let i = 0; i <12 ; i++) {
+                    await verticalScroll(-1);
+                    await sleep(2);
+                }
                 await sleep(ms);
             } finally {
                 if (captureRegion) {
