@@ -98,7 +98,7 @@ const  ScrollPage=4*3
             x: 225,
             y: 73+200
         }
-        await drawBoxDebug(settings.debug,ocrRegion,400,new Pen(Color.FromArgb(255,0,0,255),2))
+        await drawBoxDebug(settings.debug,ocrRegion,400,new Pen(Color.FromArgb(255,209,87,255), 2))
         while (attemptIndex < maxAttempts) {
             attemptIndex++;
             Log.debug(`第 {attemptIndex} 次尝试回顶`, attemptIndex);
