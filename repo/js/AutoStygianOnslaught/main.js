@@ -1229,12 +1229,14 @@ function wipOcrCheckText(roi1080, keywords, label, isDebug, returnSegments) {
             const timeRemainingHit = wipOcrCheckText(timeRemainingRoi, ["剩余时间"], "新版寻路-剩余时间", isDebug);
             if (timeRemainingHit) {
                 const burstStatusText = isBurstPeriod === true ? '在爆发期内' : isBurstPeriod === false ? '不在爆发期' : '状态未知';
-                notification.send(`[新版寻路] 当前${burstStatusText}，${timeRemainingHit.text}`);
+                notification.Send(`[新版寻路] 当前${burstStatusText}，${timeRemainingHit.text}`);
                 if (isBurstPeriod === false) {
                     const verifiedMs = await ocrTimeWithVerify(
                         () => {
-                            const hit = wipOcrCheckText(timeRemainingRoi, ["剩余时间"], "新版寻路-剩余时间验证", isDebug);
-                            return hit ? parseTimeToMillis(hit.text) : null;
+                            const hit = wipOcrCheckText(timeRemainingRoi, [], "新版寻路-剩余时间验证", isDebug, true);
+                            if (!hit) return null;
+                            const seg = (hit.segments || []).find(s => /\d+\s*(天|小时|分钟)/.test(s.text));
+                            return seg ? parseTimeToMillis(seg.text) : null;
                         },
                         "新版寻路-非爆发期"
                     );
@@ -1453,25 +1455,24 @@ function wipOcrCheckText(roi1080, keywords, label, isDebug, returnSegments) {
         if (cache && cache.burstEndAt !== null && cache.nextBurstAt !== null) {
             log.warn("[缓存判断] 数据异常：burstEndAt 和 nextBurstAt 不应同时有值，清除缓存");
             clearBurstCache();
-        }
-        if (cache) {
+        } else if (cache) {
             const now = Date.now();
-            let clamped = false;
+            let invalid = false;
             if (cache.nextBurstAt !== null) {
                 const remainDays = (cache.nextBurstAt - now) / (24 * 3600000);
                 if (remainDays > 42) {
                     log.warn(`[缓存判断] 非爆发期剩余 ${remainDays.toFixed(1)} 天，超出上限（42天），视为无效数据`);
-                    clamped = true;
+                    invalid = true;
                 }
             }
             if (cache.burstEndAt !== null) {
                 const remainDays = (cache.burstEndAt - now) / (24 * 3600000);
                 if (remainDays > 15) {
                     log.warn(`[缓存判断] 紊乱平息剩余 ${remainDays.toFixed(1)} 天，超出上限（15天），视为无效数据`);
-                    clamped = true;
+                    invalid = true;
                 }
             }
-            if (clamped) {
+            if (invalid) {
                 clearBurstCache();
             }
         }
