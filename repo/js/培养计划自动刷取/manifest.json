@@ -1,0 +1,23 @@
+{
+  "manifest_version": 1,
+  "name": "培养计划自动刷取",
+  "version": "0.1.0",
+  "bgi_version": "0.63.0",
+  "description": "自动读取原神冒险之证-秘境-提升指南页面中培养计划标注的材料需求，记录后按来源规划刷取。仅支持武器与角色天赋副本，需将角色加入培养计划",
+  "authors": [
+    {
+      "name": "锦瑟",
+      "links": "https://github.com/achenjins"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "plan_needs.json",
+    "domain_rewards.json"
+  ],
+  "library": [
+    "."
+  ],
+  "allow_js_notification": true
+}
