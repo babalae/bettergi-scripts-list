@@ -58,8 +58,8 @@ function updateBurstCache(options) {
     if (!settings.burstCacheEnabled) return;
     const existing = readBurstCache();
     const resolvedStatus = options.status ?? existing?.status ?? null;
-    const resolvedBurstEndAt = resolveTimeField(options.burstEndAt, existing?.burstEndAt);
-    const resolvedNextBurstAt = resolveTimeField(options.nextBurstAt, existing?.nextBurstAt);
+    const resolvedBurstEndAt = resolveTimeField(options.burstEndAt, null);
+    const resolvedNextBurstAt = resolveTimeField(options.nextBurstAt, null);
     const finalBurstEndAt = resolvedNextBurstAt !== null ? null : resolvedBurstEndAt;
     const finalNextBurstAt = resolvedBurstEndAt !== null ? null : resolvedNextBurstAt;
     writeBurstCache(resolvedStatus, finalBurstEndAt, finalNextBurstAt);
@@ -115,7 +115,31 @@ function parseTimeToMillis(text) {
     return matched ? totalMs : null;
 }
 
-function wipOcrCheckText(roi1080, keywords, label, isDebug) {
+const OCR_VERIFY_TOLERANCE_MS = 3 * 60 * 1000;
+const OCR_VERIFY_MAX_RETRIES = 3;
+
+async function ocrTimeWithVerify(ocrFn, label) {
+    const firstMs = ocrFn();
+    if (firstMs === null) return null;
+    for (let i = 0; i < OCR_VERIFY_MAX_RETRIES; i++) {
+        await sleep(50);
+        const nextMs = ocrFn();
+        if (nextMs === null) continue;
+        if (Math.abs(firstMs - nextMs) < OCR_VERIFY_TOLERANCE_MS) {
+            const absTimestamp = Date.now() + nextMs;
+            const remainDays = Math.floor(nextMs / (24 * 3600000));
+            const remainHours = Math.floor((nextMs % (24 * 3600000)) / 3600000);
+            const remainMins = Math.floor((nextMs % 3600000) / 60000);
+            log.info(`[${label}] 识别到时间：剩余 ${remainDays}天${remainHours}小时${remainMins}分钟`);
+            return absTimestamp;
+        }
+        log.info(`[${label}] 时间验证不一致（差值 ${Math.round(Math.abs(firstMs - nextMs) / 60000)} 分钟），重试${i + 1}...`);
+    }
+    log.warn(`[${label}] 多次OCR时间验证不一致，放弃写入`);
+    return null;
+}
+
+function wipOcrCheckText(roi1080, keywords, label, isDebug, returnSegments) {
     let ra = null;
     try {
         const s = genshin.scaleTo1080PRatio;
@@ -146,25 +170,60 @@ function wipOcrCheckText(roi1080, keywords, label, isDebug) {
             }
         }
 
+        const buildResult = (text, r) => {
+            const result = {
+                text: text,
+                x: r.x,
+                y: r.y,
+                width: r.width,
+                height: r.height,
+                centerX: Math.round(r.x / s + r.width / s / 2),
+                centerY: Math.round(r.y / s + r.height / s / 2)
+            };
+            if (returnSegments) {
+                result.segments = [];
+                for (let i = 0; i < count; i++) {
+                    const seg = resList[i];
+                    if (seg && seg.text) {
+                        result.segments.push({
+                            text: seg.text,
+                            x: seg.x,
+                            y: seg.y,
+                            width: seg.width,
+                            height: seg.height,
+                            centerX: Math.round(seg.x / s + seg.width / s / 2),
+                            centerY: Math.round(seg.y / s + seg.height / s / 2)
+                        });
+                    }
+                }
+            }
+            return result;
+        };
+
+        if (keywords.length === 0 && count > 0) {
+            let allText = "";
+            let firstR = null;
+            for (let i = 0; i < count; i++) {
+                const r = resList[i];
+                if (!r || !r.text) continue;
+                if (!firstR) firstR = r;
+                allText += (allText ? " " : "") + r.text;
+            }
+            if (firstR) {
+                return buildResult(allText, firstR);
+            }
+            return null;
+        }
+
         for (let i = 0; i < count; i++) {
             const r = resList[i];
             if (!r || !r.text) continue;
-            let matched = keywords.length === 0;
-            if (!matched) {
-                for (let k = 0; k < keywords.length; k++) {
-                    if (r.text.includes(keywords[k])) { matched = true; break; }
-                }
+            let matched = false;
+            for (let k = 0; k < keywords.length; k++) {
+                if (r.text.includes(keywords[k])) { matched = true; break; }
             }
             if (matched) {
-                return {
-                    text: r.text,
-                    x: r.x,
-                    y: r.y,
-                    width: r.width,
-                    height: r.height,
-                    centerX: Math.round(r.x / s + r.width / s / 2),
-                    centerY: Math.round(r.y / s + r.height / s / 2)
-                };
+                return buildResult(r.text, r);
             }
         }
         return null;
@@ -178,17 +237,6 @@ function wipOcrCheckText(roi1080, keywords, label, isDebug) {
     }
 }
 
-function ocrCalmPeriodTime(isDebug) {
-    const roi = [627, 582, 661, 47];
-    const hit = wipOcrCheckText(roi, [], "紊乱平息-时间", isDebug);
-    if (hit) {
-        const timeMs = parseTimeToMillis(hit.text);
-        if (timeMs !== null) {
-            return Date.now() + timeMs;
-        }
-    }
-    return null;
-}
 
 (async function () {
 
@@ -280,7 +328,8 @@ function ocrCalmPeriodTime(isDebug) {
             "千岩牢固 / 苍白之火": "assets/Artifacts/artifact_15.bmp",
             "冰风迷途的勇士 / 沉沦之心": "assets/Artifacts/artifact_16.bmp",
             "翠绿之影 / 被怜爱的少女": "assets/Artifacts/artifact_17.bmp",
-            "如雷的盛怒 / 平息鸣雷的尊者": "assets/Artifacts/artifact_18.bmp"        
+            "如雷的盛怒 / 平息鸣雷的尊者": "assets/Artifacts/artifact_18.bmp",
+            "血红之证 / 炉火熔炼之心": "assets/Artifacts/artifact_21.bmp"        
         };
 
         //树脂识别图片
@@ -1122,66 +1171,87 @@ function ocrCalmPeriodTime(isDebug) {
                 return false;
             }
 
-            // 检查爆发期状态
-            // 当前逻辑：检测"紊乱爆发期已结束"（非爆发期文本），检测不到则视为在爆发期
-            // 爆发期期间改为直接检测爆发期关键词（如"紊乱爆发期"），加快识别效率
-            // 不改也能用，两次识别不到非爆发期文本也会被视为在爆发期
-            const burstRoi = [659, 765, 180, 32];
-            
-            let burstHit = wipOcrCheckText(burstRoi, ["紊乱爆发期已结束"], "新版寻路-爆发期", isDebug);
-            if (!burstHit) {
-                log.info('[新版寻路] 爆发期识别失败，重试1...');
-                await sleep(1000);
-                burstHit = wipOcrCheckText(burstRoi, ["紊乱爆发期已结束"], "新版寻路-爆发期-r1", isDebug);
-            }
-            if (!burstHit) {
-                log.info('[新版寻路] 爆发期识别失败，重试2...');
-                await sleep(1000);
-                burstHit = wipOcrCheckText(burstRoi, ["紊乱爆发期已结束"], "新版寻路-爆发期-r2", isDebug);
+            // 检查爆发期状态（三态识别：爆发期 / 非爆发期 / 未知）
+            // 爆发期：含"紊乱爆发期"且不含"已结束"，或含时间文本（兜底OCR漏字）
+            // 非爆发期：含"已结束"
+            // 未知：既无"紊乱爆发期"也无时间文本，重试3次后放弃
+            const burstRoi = [648, 738, 223, 69];
+
+            let burstOcrHit = null;
+            for (let burstRetry = 0; burstRetry < 3; burstRetry++) {
+                burstOcrHit = wipOcrCheckText(burstRoi, [], `新版寻路-爆发期${burstRetry > 0 ? '-r' + burstRetry : ''}`, isDebug, true);
+                if (burstOcrHit) break;
+                if (burstRetry < 2) {
+                    log.info(`[新版寻路] 爆发期识别失败，重试${burstRetry + 1}...`);
+                    await sleep(1000);
+                }
             }
 
-            let isBurstPeriod = true;  // 记录是否在爆发期
-            if (burstHit) {
-                isBurstPeriod = false;
-            } else {
-                log.info('[新版寻路] 未检测到爆发期结束提示，视为在爆发期内');
-                // TODO: 爆发期时间缓存（预更新，当前无法测试）
-                // 爆发期时对爆发期识别区域再做一次OCR，尝试提取爆发期剩余时间
-                // 等确认爆发期界面文本后，将 burstRoi 和关键词替换为实际值，并与上方爆发期判断合并为一次OCR
-                const burstTimeHit = wipOcrCheckText(burstRoi, [], "新版寻路-爆发期时间", isDebug);
-                if (burstTimeHit) {
-                    const timeMs = parseTimeToMillis(burstTimeHit.text);
-                    if (timeMs !== null) {
-                        updateBurstCache({
-                            status: BURST_STATUS.BURST,
-                            burstEndAt: burstTimeHit.text,
-                            source: "新版寻路-爆发期"
-                        });
+            let isBurstPeriod = null;
+            if (burstOcrHit) {
+                const segments = burstOcrHit.segments || [];
+                const allText = segments.map(s => s.text).join(" ");
+                const hasEnded = allText.includes("已结束");
+                const hasBurstLabel = allText.includes("紊乱爆发期");
+                const hasTimeText = /\d+\s*(天|小时|分钟)/.test(allText);
+
+                if (hasEnded) {
+                    isBurstPeriod = false;
+                } else if (hasBurstLabel || hasTimeText) {
+                    isBurstPeriod = true;
+                    const timeText = segments.find(s => /\d+\s*(天|小时|分钟)/.test(s.text));
+                    if (timeText) {
+                        const verifiedMs = await ocrTimeWithVerify(
+                            () => {
+                                const hit = wipOcrCheckText(burstRoi, [], "新版寻路-爆发期验证", isDebug, true);
+                                if (!hit) return null;
+                                const seg = (hit.segments || []).find(s => /\d+\s*(天|小时|分钟)/.test(s.text));
+                                return seg ? parseTimeToMillis(seg.text) : null;
+                            },
+                            "新版寻路-爆发期"
+                        );
+                        if (verifiedMs !== null) {
+                            updateBurstCache({
+                                status: BURST_STATUS.BURST,
+                                burstEndAt: verifiedMs,
+                                source: "新版寻路-爆发期"
+                            });
+                        }
                     }
                 }
+            }
+
+            if (isBurstPeriod === null) {
+                log.warn('[新版寻路] 爆发期状态未知（未识别到有效文本），继续执行');
             }
 
             const timeRemainingRoi = [1146, 353, 270, 34];
             const timeRemainingHit = wipOcrCheckText(timeRemainingRoi, ["剩余时间"], "新版寻路-剩余时间", isDebug);
             if (timeRemainingHit) {
-                const burstStatusText = isBurstPeriod ? '在爆发期内' : '不在爆发期';
+                const burstStatusText = isBurstPeriod === true ? '在爆发期内' : isBurstPeriod === false ? '不在爆发期' : '状态未知';
                 notification.send(`[新版寻路] 当前${burstStatusText}，${timeRemainingHit.text}`);
-                if (!isBurstPeriod) {
-                    const timeMs = parseTimeToMillis(timeRemainingHit.text);
+                if (isBurstPeriod === false) {
+                    const verifiedMs = await ocrTimeWithVerify(
+                        () => {
+                            const hit = wipOcrCheckText(timeRemainingRoi, ["剩余时间"], "新版寻路-剩余时间验证", isDebug);
+                            return hit ? parseTimeToMillis(hit.text) : null;
+                        },
+                        "新版寻路-非爆发期"
+                    );
                     updateBurstCache({
-                        status: timeMs !== null ? BURST_STATUS.CALM_WITH_TIME : BURST_STATUS.CALM_NO_TIME,
-                        nextBurstAt: timeMs !== null ? timeRemainingHit.text : null,
+                        status: verifiedMs !== null ? BURST_STATUS.CALM_WITH_TIME : BURST_STATUS.CALM_NO_TIME,
+                        nextBurstAt: verifiedMs !== null ? verifiedMs : null,
                         source: "新版寻路"
                     });
                 }
-            } else if (!isBurstPeriod) {
+            } else if (isBurstPeriod === false) {
                 updateBurstCache({
                     status: BURST_STATUS.CALM_NO_TIME,
                     source: "新版寻路"
                 });
             }
 
-            if (!isBurstPeriod) {
+            if (isBurstPeriod === false) {
                 if (settings.devMode) {
                     log.warn('[新版寻路][开发模式] 检测到"紊乱爆发期已结束"，但继续执行');
                 } else {
@@ -1376,10 +1446,34 @@ function ocrCalmPeriodTime(isDebug) {
 
     log.warn("自动幽境危战版本：v2.4");
     if (settings.burstCacheEnabled) {
+        if (!settings.useNewPath) {
+            log.warn("[缓存判断] 未启用新版寻路，无法识别非爆发期剩余时间，缓存功能将受限");
+        }
         const cache = readBurstCache();
         if (cache && cache.burstEndAt !== null && cache.nextBurstAt !== null) {
             log.warn("[缓存判断] 数据异常：burstEndAt 和 nextBurstAt 不应同时有值，清除缓存");
             clearBurstCache();
+        }
+        if (cache) {
+            const now = Date.now();
+            let clamped = false;
+            if (cache.nextBurstAt !== null) {
+                const remainDays = (cache.nextBurstAt - now) / (24 * 3600000);
+                if (remainDays > 42) {
+                    log.warn(`[缓存判断] 非爆发期剩余 ${remainDays.toFixed(1)} 天，超出上限（42天），视为无效数据`);
+                    clamped = true;
+                }
+            }
+            if (cache.burstEndAt !== null) {
+                const remainDays = (cache.burstEndAt - now) / (24 * 3600000);
+                if (remainDays > 15) {
+                    log.warn(`[缓存判断] 紊乱平息剩余 ${remainDays.toFixed(1)} 天，超出上限（15天），视为无效数据`);
+                    clamped = true;
+                }
+            }
+            if (clamped) {
+                clearBurstCache();
+            }
         }
         const cacheCheck = isBurstPeriodFromCache();
         if (cacheCheck === false) {
@@ -1474,10 +1568,16 @@ function ocrCalmPeriodTime(isDebug) {
                 }
 
                 if (isNonBurst) {
-                    const nextBurstAt = ocrCalmPeriodTime(settings.devMode);
+                    const verifiedMs = await ocrTimeWithVerify(
+                        () => {
+                            const hit = wipOcrCheckText([627, 582, 661, 47], [], "紊乱平息-时间验证", settings.devMode);
+                            return hit ? parseTimeToMillis(hit.text) : null;
+                        },
+                        "紊乱平息"
+                    );
                     updateBurstCache({
-                        status: nextBurstAt !== null ? BURST_STATUS.CALM_WITH_TIME : BURST_STATUS.CALM_NO_TIME,
-                        nextBurstAt: nextBurstAt,
+                        status: verifiedMs !== null ? BURST_STATUS.CALM_WITH_TIME : BURST_STATUS.CALM_NO_TIME,
+                        nextBurstAt: verifiedMs !== null ? verifiedMs : null,
                         source: "紊乱平息"
                     });
                     await genshin.returnMainUi();
@@ -1496,21 +1596,8 @@ function ocrCalmPeriodTime(isDebug) {
                         throw new Error("未在爆发期内，停止执行...")
                     }
                 } else {
-                    // TODO: 爆发期时间缓存（预更新，当前无法测试）
-                    // 检测到爆发期标志后，OCR尝试提取爆发期剩余时间
-                    // 等确认爆发期界面文本后，替换下方ROI和关键词为挑战页面实际值
-                    // 注意：此界面可能也有活动的总剩余时间，如有则需要额外处理，否则不走新版寻路的用户会缺少非爆发期缓存
-                    const burstTimeHit2 = wipOcrCheckText([63, 949, 87, 80], [], "挑战页面-爆发期时间", isDebug);
-                    if (burstTimeHit2) {
-                        const timeMs = parseTimeToMillis(burstTimeHit2.text);
-                        if (timeMs !== null) {
-                            updateBurstCache({
-                                status: BURST_STATUS.BURST,
-                                burstEndAt: burstTimeHit2.text,
-                                source: "挑战页面-爆发期"
-                            });
-                        }
-                    }
+                    // 挑战页面确认在爆发期内，但此界面无法获取爆发期剩余时间
+                    // 只有紊乱平息页面才可能有时间文本，此处不再追加OCR识别
                 }
 
                 let adjustmentType  = await Textocr("至危挑战", 1, 0, 0,797,144,223,84);
