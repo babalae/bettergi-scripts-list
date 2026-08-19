@@ -3,7 +3,6 @@ import { isCancellationError } from "../utils/error-utils.js";
 import { scanCommissionScopes } from "../loaders/process-scope.js";
 import { parseStepLoc } from "../processors/commission-loc-utils.js";
 import { collectImpregnableDefensePaths } from "../processors/impregnable-defense-config.js";
-import { parseLocationDir } from "../utils/location-dir.js";
 import { openPathRecorder } from "./path-recorder.js";
 import { PATHS } from "../config/index.js";
 import { loadAllBranchConfigs } from "../loaders/branch-config.js";
@@ -129,10 +128,6 @@ function ensureParentDir(path) {
     if (!file.isFolder(parent) && !file.createDirectory(parent)) throw new Error("无法创建目录：" + parent);
 }
 
-function baseName(path) {
-    return String(path || "").replace(/\\/g, "/").split("/").pop();
-}
-
 function readRecentFiles() {
     if (!file.isFile(RECENT_PATH)) return [];
     try {
@@ -186,24 +181,7 @@ function resolveNewScope(scope) {
     const typeDir = scope?.typeDir === "Basic" ? "Basic" : scope?.typeDir === "NPC" ? "NPC" : "";
     if (!typeDir) throw new Error("委托类型只能是 Basic 或 NPC");
     const commissionName = safePart(scope?.commissionName, "委托名");
-    const requestedLocation = safePart(scope?.locationDir, "地点");
-    const location = parseLocationDir(requestedLocation).location;
-    const parent = ["process", country, typeDir, commissionName].join("/");
-    const existing = file.isFolder(parent)
-        ? Array.from(file.readPathSync(parent) || [])
-            .filter(entry => file.isFolder(entry) && file.isFile(String(entry).replace(/\\/g, "/") + "/process.json"))
-            .map(baseName)
-        : [];
-    const duplicates = existing.filter(name => parseLocationDir(name).location === location);
-    let locationDir = location;
-    if (duplicates.length > 0) {
-        const ordinals = duplicates.map(name => parseLocationDir(name).ordinal).filter(value => value !== null);
-        locationDir = location + "-" + (ordinals.length ? Math.max(...ordinals) + 1 : 1);
-        while (existing.includes(locationDir)) {
-            const current = parseLocationDir(locationDir).ordinal || 0;
-            locationDir = location + "-" + (current + 1);
-        }
-    }
+    const locationDir = safePart(scope?.locationDir, "地点");
     return { country, typeDir, commissionName, locationDir };
 }
 
@@ -684,6 +662,10 @@ export async function openProcessEditor(registry) {
                     try { parsed = JSON.parse(String(message.data?.content || "")); }
                     catch (error) { throw new Error("JSON 格式错误：" + error.message); }
                     const scope = message.data?.create ? resolveNewScope(message.data?.scope) : message.data?.scope;
+                    const path = buildPath(scope, message.data?.fileName);
+                    if (message.url === "/save" && message.data?.create && file.isFile(path)) {
+                        throw new Error("目标流程已存在，请从“现有委托”中打开后再保存：" + path);
+                    }
                     const diagnostics = validateSteps(parsed, registry, scope, message.data?.fileName);
                     if (message.url === "/validate") {
                         respond(windowId, message.requestId, {
@@ -693,7 +675,7 @@ export async function openProcessEditor(registry) {
                         });
                     } else {
                         if (diagnostics.errors.length) throw new Error(diagnostics.errors.join("\n"));
-                        const path = buildPath(scope, message.data?.fileName);
+                        ensureParentDir(path);
                         const content = JSON.stringify(parsed.map(step => orderedStep(step, registry)), null, 4) + "\r\n";
                         if (!file.writeTextSync(path, content, false)) throw new Error("写入失败：" + path);
                         respond(windowId, message.requestId, { status: "ok", path, content, scope, warnings: diagnostics.warnings });

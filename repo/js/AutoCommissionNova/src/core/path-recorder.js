@@ -361,15 +361,6 @@ function safeFileName(value) {
     return name;
 }
 
-function uniqueFileName(directory, requested) {
-    const name = safeFileName(requested);
-    if (!file.isFile(directory + "/" + name)) return name;
-    const stem = name.slice(0, -5);
-    let index = 2;
-    while (file.isFile(directory + "/" + stem + "-" + index + ".json")) index++;
-    return stem + "-" + index + ".json";
-}
-
 function roundCoordinate(value) {
     return Math.round(value * 10000) / 10000;
 }
@@ -735,10 +726,17 @@ export async function openPathRecorder(options = {}) {
                     if (session.phase === "recording") throw new Error("请先结束录制");
                     session.points = message.data?.points;
                     const meta = normalizeRouteMeta(message.data, session.settings);
-                    const name = existingPath ? suggestedFileName : uniqueFileName(targetDir, message.data?.fileName || suggestedFileName);
+                    const name = safeFileName(message.data?.fileName);
+                    const path = targetDir + "/" + name;
+                    const isCurrentFile = [existingPath, session.savedPath]
+                        .filter(Boolean)
+                        .some(currentPath => currentPath.toLowerCase() === path.toLowerCase());
+                    if (file.isFile(path) && !isCurrentFile && message.data?.overwrite !== true) {
+                        respond(windowId, message.requestId, { status: "confirm_overwrite", path, fileName: name });
+                        continue;
+                    }
                     const output = buildPathingFile(name, session.points, meta, 0, existingData);
                     if (!file.isFolder(targetDir) && !file.createDirectory(targetDir)) throw new Error("无法创建保存目录：" + targetDir);
-                    const path = existingPath || targetDir + "/" + name;
                     if (!file.writeTextSync(path, stringifyPathingFile(output, 4) + "\r\n", false)) throw new Error("路径文件写入失败：" + path);
                     session.savedPath = path;
                     session.phase = "saved";
