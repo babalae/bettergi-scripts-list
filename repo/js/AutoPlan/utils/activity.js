@@ -92,7 +92,7 @@ export class scroll {
         const requiredSameCount = 1;        // 需要连续几次相同才确认到顶（推荐 2~3）
         let attemptIndex = 0;                // 总尝试次数计数器
         const maxAttempts = toTopCount||15;  // 可配置，默认为15次
-const  ScrollPage=4*3
+        const ScrollPage=4*3
         Log.debug("开始滚动到活动页面顶部...");
         let actionRegion={
             x: 225,
@@ -216,7 +216,7 @@ const  ScrollPage=4*3
         let scannedPages = 0;  // 已扫描页数计数
         const maxPages = 25;  // 最大扫描页数限制
         const overlapThreshold = 1;  // 最大扫描页数限制
-        const  ScrollPage=4*3
+        const ScrollPage=4*3
         let previousPageActivities = new Set();  // 存储上一页所有活动名称
         const activity= ocrRegionConfig.activity
         let actionRegion={
