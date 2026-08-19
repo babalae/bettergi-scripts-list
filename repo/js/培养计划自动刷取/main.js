@@ -6,7 +6,7 @@
 const MARKER_PATH = "assets/RecognitionObject/guide_marker_green.png";
 
 // 弹窗整体 OCR 区域：扩大覆盖弹窗可能出现的范围
-const POPUP_OCR_RECT = { x: 500, y: 120, w: 1210, h: 950 };
+const POPUP_OCR_RECT = { x: 710, y: 55, w: 500, h: 960 };
 
 // 右半屏搜索区域
 const MARKER_ROI = { x: 900, y: 280, w: 1020, h: 600 };
