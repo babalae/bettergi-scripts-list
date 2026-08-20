@@ -1360,6 +1360,8 @@ async function recognizeAndInteract() {
                 await sleep(pickupDelay);
             }
         } else {
+            // 识别失败：等待一帧，让出事件循环，避免同步紧密循环饿死 pathingTask
+            await sleep(checkDelay);
             /*
             log.info("识别失败，尝试截图");
             await refreshTargetItems(centerYF);
