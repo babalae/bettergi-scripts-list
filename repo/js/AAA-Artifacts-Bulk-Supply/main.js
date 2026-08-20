@@ -1333,7 +1333,8 @@ async function recognizeAndInteract() {
         gameRegion = captureGameRegion();
         let centerYF = await findFIcon();
         if (!centerYF) {
-            if (new Date() - lastRoll >= 200) {
+            // 原版拾取模式下不执行滚轮动作（拾取由 BetterGI AutoPick 完成）
+            if (pickup_Mode !== "bgi原版拾取" && new Date() - lastRoll >= 200) {
                 lastRoll = new Date();
                 if (await hasScroll()) {
                     await keyMouseScript.runFile(`assets/滚轮下翻.json`);
@@ -1366,7 +1367,8 @@ async function recognizeAndInteract() {
             */
         }
 
-        if (!foundTarget) {
+        if (!foundTarget && pickup_Mode !== "bgi原版拾取") {
+            // 原版拾取模式下不执行滚轮动作（拾取由 BetterGI AutoPick 完成）
             //log.info(`调试-执行滚轮动作`);
             const currentTime = new Date().getTime();
             if (currentTime - lastMoveDown > timeMoveUp) {
