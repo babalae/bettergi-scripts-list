@@ -1171,6 +1171,26 @@ async function runPath(fullPath, map_name, pm, pe) {
     const pickupTask = (async () => {
         if (pickup_Mode.includes("模板匹配")) {
             await recognizeAndInteract();
+        } else if (pickup_Mode === "bgi原版拾取") {
+            // 原版拾取模式：拾取由 BetterGI 的 AutoPick 实时触发器完成（见 processPathingsByGroup 中的 addTimer("AutoPick")）
+            // 通过 dispatcher.getPickRecords() 周期性取回本路线的拾取历史（仅莫版拾取路径产生记录；
+            // 旧版 C# 无此方法时返回空数组/抛异常，用可选链 + try 安全降级）
+            const routePickHistory = [];
+            while (state.running) {
+                try {
+                    const records = dispatcher.getPickRecords?.() ?? [];
+                    for (const r of records) {
+                        routePickHistory.push(r);
+                        log.info(`拾取历史：${r.Name} @ ${r.Time}`);
+                    }
+                } catch (e) {
+                    break; // 旧版 C# 不支持 getPickRecords，降级停止轮询
+                }
+                await sleep(100);
+            }
+            if (routePickHistory.length > 0) {
+                log.info(`本路线拾取历史（共${routePickHistory.length}条）：${routePickHistory.map(r => r.Name).join('、')}`);
+            }
         }
     })();
 
