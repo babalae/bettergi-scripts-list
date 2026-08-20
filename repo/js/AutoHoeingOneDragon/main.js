@@ -1978,7 +1978,7 @@ async function processPathingsByGroup(pathings, accountName) {
 
             let fileEndX = 0, fileEndY = 0;
             let coordAbnormal = false;
-            if (pathRes !== undefined) {
+            if (pathRes !== undefined && typeof pathRes.success === 'boolean') {
                 // 新版本BGI：直接使用返回值判定路线是否成功
                 if (pathRes.success) {
                     log.info("路线运行成功");

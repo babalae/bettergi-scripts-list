@@ -1396,7 +1396,7 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
     /* 4-4 计算CD（掉落材料决定）*/
     const timeDiff = new Date() - startTime;
     let pathRes;
-    if (runRes !== undefined) {
+    if (runRes !== undefined && typeof runRes.success === 'boolean') {
         // 新版本BGI：直接使用返回值判定路线是否成功
         if (runRes.success) {
             log.info("路线运行成功");
@@ -1405,7 +1405,7 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
         }
         pathRes = runRes.success;
     } else {
-        // 旧版本BGI：静默回退到坐标校验
+        // 旧版本BGI（无返回值）：静默回退到坐标校验
         pathRes = isArrivedAtEndPoint(filePath);
     }
 

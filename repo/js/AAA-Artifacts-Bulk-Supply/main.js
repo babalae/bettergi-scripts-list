@@ -1049,7 +1049,7 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
             success = false;
             break;
         }
-        if (pathRes !== undefined) {
+        if (pathRes !== undefined && typeof pathRes.success === 'boolean') {
             // 新版本BGI：直接使用返回值判定路线是否成功
             if (pathRes.success) {
                 log.info("路线运行成功");
