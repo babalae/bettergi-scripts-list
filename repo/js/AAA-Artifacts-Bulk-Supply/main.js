@@ -1034,9 +1034,10 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
             autoSalvageCount++;
         }
         const pathInfo = await parsePathing(Path.fullPath);
+        let pathRes;
         try {
             log.info(`当前进度：${Path.fileName}为${folderFilePath}第${i + 1}/${Paths.length}个`);
-            await runPath(Path.fullPath, null);
+            pathRes = await runPath(Path.fullPath, null);
             await sleep(1);
         } catch (error) {
             skiprecord = true;
@@ -1048,7 +1049,18 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
             success = false;
             break;
         }
-        if (pathInfo.ok) {
+        if (pathRes !== undefined) {
+            // 新版本BGI：直接使用返回值判定路线是否成功
+            if (pathRes.success) {
+                log.info("路线运行成功");
+            } else {
+                log.error(`路线运行失败：${pathRes.message}`);
+                failcount++;
+                skiprecord = true;
+                await sleep(5000);
+            }
+        } else if (pathInfo.ok) {
+            // 旧版本BGI：静默回退到坐标校验
             await genshin.returnMainUi();
             await sleep(500);
 
@@ -1245,9 +1257,16 @@ async function runPath(fullPath, targetItemPath = null) {
     const pathingTask = (async () => {
         log.info(`开始执行路线: ${fullPath}`);
         await fakeLog(fullPath, false, true, 0);
-        await pathingScript.runFile(fullPath);
+        let runRes;
+        try {
+            runRes = await pathingScript.runFile(fullPath);
+        } catch (error) {
+            log.error(`执行路线 ${fullPath} 时发生错误：${error.message}`);
+            runRes = undefined;
+        }
         await fakeLog(fullPath, false, false, 0);
         state.running = false;
+        return runRes;
     })();
 
     /* ---------- 伴随任务 ---------- */
@@ -1276,7 +1295,9 @@ async function runPath(fullPath, targetItemPath = null) {
     })();
 
     /* ---------- 并发等待 ---------- */
-    await Promise.allSettled([pathingTask, pickupTask, errorProcessTask]);
+    const results = await Promise.allSettled([pathingTask, pickupTask, errorProcessTask]);
+    // 返回地图追踪执行结果（旧版本BGI无返回值时返回 undefined）
+    return results[0].status === "fulfilled" ? results[0].value : undefined;
 }
 
 //加载拾取物图片

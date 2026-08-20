@@ -1361,6 +1361,7 @@ async function handleIngredientProcessing(timeNow) {
  */
 async function executeRoute(filePath, fileName, targetObj, startTime, lastMapName, priorityItemSet) {
     state.running = true;
+    let runRes;
 
     const raw = file.readTextSync(filePath);
     const json = JSON.parse(raw);
@@ -1381,7 +1382,7 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
     const pickupTask = startPickupTask();
 
     try {
-        await pathingScript.runFile(filePath);
+        runRes = await pathingScript.runFile(filePath);
     } catch (e) {
         log.error(`路线执行失败: ${filePath}`);
         state.running = false;
@@ -1394,7 +1395,19 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
 
     /* 4-4 计算CD（掉落材料决定）*/
     const timeDiff = new Date() - startTime;
-    let pathRes = isArrivedAtEndPoint(filePath);
+    let pathRes;
+    if (runRes !== undefined) {
+        // 新版本BGI：直接使用返回值判定路线是否成功
+        if (runRes.success) {
+            log.info("路线运行成功");
+        } else {
+            log.error(`路线运行失败：${runRes.message}`);
+        }
+        pathRes = runRes.success;
+    } else {
+        // 旧版本BGI：静默回退到坐标校验
+        pathRes = isArrivedAtEndPoint(filePath);
+    }
 
     // >>> 仅当 >10s 才记录 history；若同时 pathRes === true 再更新 CD <<<
     if (timeDiff > 10000) {
@@ -1434,7 +1447,7 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
         }
     }
 
-    return { success: true, lastMapName, runPickupLog: state.runPickupLog };
+    return { success: true, lastMapName, runPickupLog: state.runPickupLog, pathRes };
 }
 
 /**
@@ -2940,7 +2953,8 @@ async function processPathGroups() {
                                         targetObj.cdTime = newTimestamp.toISOString();
                                         log.info(`schedule任务CD信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
                                     } else {
-                                        let pathRes = isArrivedAtEndPoint(filePath.fullPath);
+                                        // executeRoute 内部已用返回值或坐标校验完成路线成败判定，此处直接复用
+                                        let pathRes = routeResult.pathRes;
                                         if (pathRes) {
                                             const newTimestamp = calculateRouteCD(currentCdType, startTime);
                                             targetObj.cdTime = newTimestamp.toISOString();
