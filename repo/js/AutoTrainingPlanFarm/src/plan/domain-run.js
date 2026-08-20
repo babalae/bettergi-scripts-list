@@ -60,25 +60,17 @@ export async function runDomainPhase(entries, rowY) {
 
   let totalRounds = 0;
   for (let batchIndex = 1; totalRounds < maxRounds; batchIndex++) {
-    // 每次在提升指南页上，第一步先 OCR 树脂，再决定这一批怎么刷
+    // 缺口 >160 直接耗尽模式，不检查树脂；其余先 OCR 树脂再决定本批
     await ensureGuidePage();
-    const resin = await readResin();
     const d = checkPlan(stopPlan, zeroCounts).deficitLowUnits;
 
-    // 缺口决定本批：>160 耗尽模式；<160 三刷一查，<120 两刷一查，<50 一刷一查
     let modeName;
     let exhaust = false;
     let roundsThisBatch;
-
-    if (resin.rounds <= 0) {
-      log.info("树脂不足，自动停止刷取");
-      try { notification.send("树脂不足，停止刷取：" + item.domainName); } catch (e) { }
-      stopScript = true;
-      break;
-    }
+    let resin = null;
 
     if (d > 160) {
-      // 缺口 >160：耗尽模式，一把刷完并结束整体流程
+      // 缺口 >160：直接耗尽模式，一把刷完并结束整体流程
       modeName = "树脂耗尽模式";
       exhaust = true;
       roundsThisBatch = maxRounds - totalRounds;
@@ -87,6 +79,13 @@ export async function runDomainPhase(entries, rowY) {
       param.OriginalResin40UseCount = 0;
       param.OriginalResinUseCount = 0;
     } else {
+      resin = await readResin();
+      if (resin.rounds <= 0) {
+        log.info("树脂不足，自动停止刷取");
+        try { notification.send("树脂不足，停止刷取：" + item.domainName); } catch (e) { }
+        stopScript = true;
+        break;
+      }
       const need = d >= 120 ? 3 : (d >= 50 ? 2 : 1);
       if (need >= 2 && resin.rounds < need) {
         // 树脂不够 2/3 刷：也走耗尽模式
@@ -112,8 +111,8 @@ export async function runDomainPhase(entries, rowY) {
 
     totalRounds += roundsThisBatch;
     if (exhaust) {
-      log.info("[批次] {batch}：{mode}（刷到树脂耗尽），缺口 {d}，树脂 浓缩{c}/原粹{o}",
-        batchIndex, d, resin.condensed, resin.original);
+      log.info("[批次] {batch}：{mode}（刷到树脂耗尽），缺口 {d}",
+        batchIndex, d);
     } else {
       log.info("[批次] {batch}：{mode}，缺口 {d}，树脂 浓缩{c}/原粹{o}，本批 {n} 轮，累计 {total}/{max}",
         batchIndex, modeName, d, resin.condensed, resin.original, roundsThisBatch, totalRounds, maxRounds);

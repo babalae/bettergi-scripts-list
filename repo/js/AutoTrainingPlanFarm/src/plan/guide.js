@@ -1,5 +1,6 @@
 // 提升指南页面：导航、行扫描、秘境名识别、校准滑动、刷新
-import { sX, sY, parkMouse, canonicalName, levDistance, touchActivity, assertAlive } from "../core/common.js";
+import { sX, sY, scaleX, scaleY, parkMouse, canonicalName, levDistance, touchActivity, assertAlive } from "../core/common.js";
+import { debugFrameStart, debugBox } from "../core/debug-overlay.js";
 import { guideMarkerCount, scanRowMarkers, disposeMarkers } from "../core/markers.js";
 import { ocrText, clickTextInRegion, clickGuideButton, processMarker } from "./popup.js";
 
@@ -16,6 +17,80 @@ const KNOWN_DOMAINS = [
   "霜凝的机枢", "失落的月庭", "月童的库藏", "山风的荆冕", "荒坠的圣迹", "逆悬的冰河",
   "妄念的创痕"
 ];
+
+// 树脂图标模板：透明背景已转纯绿 (0,255,0)，useMask=true 时绿色不参与匹配
+const RESIN_CONDENSED_PATH = "assets/RecognitionObject/resin_condensed.png";
+const RESIN_ORIGINAL_PATH = "assets/RecognitionObject/resin_original.png";
+const RESIN_TEMPLATE_THRESHOLD = 0.9;
+
+let resinCondensedMat = null;
+let resinCondensedRo = null;
+let resinOriginalMat = null;
+let resinOriginalRo = null;
+let resinDigitRos = null;
+
+function ensureResinTemplates() {
+  if (resinCondensedRo && resinOriginalRo && resinDigitRos) return;
+  const loadResized = (path) => {
+    let m = file.readImageMatSync(path);
+    if (!m || m.empty() || m.width <= 0 || m.height <= 0) {
+      throw new Error("树脂图标模板读取失败: " + path);
+    }
+    const tw = Math.max(4, Math.round(m.width * scaleX));
+    const th = Math.max(4, Math.round(m.height * scaleY));
+    if (tw !== m.width || th !== m.height) {
+      const resized = new Mat();
+      OpenCvSharp.OpenCvSharp.Cv2.Resize(m, resized, new OpenCvSharp.OpenCvSharp.Size(tw, th));
+      try { m.dispose(); } catch (e) { }
+      m = resized;
+    }
+    return m;
+  };
+  resinCondensedMat = loadResized(RESIN_CONDENSED_PATH);
+  resinOriginalMat = loadResized(RESIN_ORIGINAL_PATH);
+  resinCondensedRo = RecognitionObject.TemplateMatch(resinCondensedMat, true);
+  resinOriginalRo = RecognitionObject.TemplateMatch(resinOriginalMat, true);
+  resinCondensedRo.Threshold = RESIN_TEMPLATE_THRESHOLD;
+  resinOriginalRo.Threshold = RESIN_TEMPLATE_THRESHOLD;
+
+  // 浓缩数字用白色数字模板匹配（素材与 OCRCountResin 一致）
+  resinDigitRos = [];
+  for (let v = 0; v <= 5; v++) {
+    const mat = loadResized("assets/RecognitionObject/num" + v + "_white.png");
+    const ro = RecognitionObject.TemplateMatch(mat);
+    ro.Threshold = 0.8;
+    resinDigitRos.push({ ro, mat, value: v });
+  }
+}
+
+export function disposeResinResources() {
+  try {
+    if (resinCondensedRo) {
+      try { if (resinCondensedRo.TemplateImageGreyMat) resinCondensedRo.TemplateImageGreyMat.dispose(); } catch (e) { }
+      try { if (resinCondensedRo.MaskMat) resinCondensedRo.MaskMat.dispose(); } catch (e) { }
+      resinCondensedRo = null;
+    }
+  } catch (e) { }
+  try {
+    if (resinOriginalRo) {
+      try { if (resinOriginalRo.TemplateImageGreyMat) resinOriginalRo.TemplateImageGreyMat.dispose(); } catch (e) { }
+      try { if (resinOriginalRo.MaskMat) resinOriginalRo.MaskMat.dispose(); } catch (e) { }
+      resinOriginalRo = null;
+    }
+  } catch (e) { }
+  try { if (resinCondensedMat) resinCondensedMat.dispose(); } catch (e) { }
+  try { if (resinOriginalMat) resinOriginalMat.dispose(); } catch (e) { }
+  resinCondensedMat = null;
+  resinOriginalMat = null;
+  if (resinDigitRos) {
+    for (const d of resinDigitRos) {
+      try { if (d.ro.TemplateImageGreyMat) d.ro.TemplateImageGreyMat.dispose(); } catch (e) { }
+      try { if (d.ro.MaskMat) d.ro.MaskMat.dispose(); } catch (e) { }
+      try { if (d.mat) d.mat.dispose(); } catch (e) { }
+    }
+    resinDigitRos = null;
+  }
+}
 
 export function isGuidePage() {
   if (guideMarkerCount() > 0) return true;
@@ -164,20 +239,172 @@ export async function readDomainName(rowY) {
   return "";
 }
 
-// 提升指南页右上角树脂：浓缩（单个数）+ 原粹（X/200）；坐标 1920 基准，经 sX/sY 换算
+// 树脂：图标模板定位 + 数字条 OCR；图标没匹配到时回退固定坐标区域
+// 原淬白字预处理：单独截图，二值化 + 反色后 OCR（不污染主截图）
+function ocrWhiteDigits(x, y, w, h) {
+  let cap = null, crop = null, grey = null, bin = null, inv = null, bgr = null, res = null;
+  try {
+    cap = captureGameRegion();
+    crop = cap.deriveCrop(x, y, w, h);
+    grey = crop.srcMat.cvtColor(OpenCvSharp.OpenCvSharp.ColorConversionCodes.BGR2GRAY);
+    bin = grey.threshold(180, 255, OpenCvSharp.OpenCvSharp.ThresholdTypes.Binary);
+    inv = new Mat();
+    OpenCvSharp.OpenCvSharp.Cv2.BitwiseNot(bin, inv);
+    bgr = inv.cvtColor(OpenCvSharp.OpenCvSharp.ColorConversionCodes.GRAY2BGR);
+    bgr.copyTo(crop.srcMat, null);
+    res = crop.find(RecognitionObject.ocrThis);
+    if (res && !res.isEmpty()) return (res.text || "").trim();
+  } catch (e) {
+    // 预处理失败，回退普通 OCR
+  } finally {
+    try { if (res) res.dispose(); } catch (e) { }
+    try { if (bgr) bgr.dispose(); } catch (e) { }
+    try { if (inv) inv.dispose(); } catch (e) { }
+    try { if (bin) bin.dispose(); } catch (e) { }
+    try { if (grey) grey.dispose(); } catch (e) { }
+    try { if (crop) crop.dispose(); } catch (e) { }
+    try { if (cap) cap.dispose(); } catch (e) { }
+  }
+  return "";
+}
+
 export async function readResin() {
-  const condensedText = await ocrText(sX(1220), sY(200), sX(120), sY(50), "浓缩树脂OCR", "#ffc107");
-  const originalText = await ocrText(sX(1350), sY(200), sX(140), sY(50), "原粹树脂OCR", "#ffc107");
+  ensureResinTemplates();
+  debugFrameStart();
+
+  let condensed = 0;
+  let digitInfo = "未命中";
+  let originalText = "";
+  let cap = null;
+  let cRegion = null;
+  let oRegion = null;
+  let cScore = 0;
+  let oScore = 0;
+  try {
+    parkMouse();
+    cap = captureGameRegion();
+    // 用 findMulti 取最高有限分：单个 find 的 matchScore 可能缺失/Infinity，导致误判未命中
+    const pickBest = (ro) => {
+      let results = null;
+      let best = null;
+      try {
+        results = cap.findMulti(ro);
+        for (let k = 0; k < results.count; k++) {
+          const r = results[k];
+          const s = Number(r.matchScore);
+          if (!Number.isFinite(s)) {
+            try { r.dispose(); } catch (e) { }
+            continue;
+          }
+          if (!best || s > best.score) {
+            if (best) { try { best.region.dispose(); } catch (e) { } }
+            best = { score: s, region: r, x: r.x, y: r.y, w: r.width, h: r.height };
+          } else {
+            try { r.dispose(); } catch (e) { }
+          }
+        }
+      } catch (e) {
+        // 无候选
+      }
+      return best;
+    };
+    const cInfo = pickBest(resinCondensedRo);
+    const oInfo = pickBest(resinOriginalRo);
+    if (cInfo) {
+      cRegion = cInfo.region;
+      cScore = cInfo.score;
+    }
+    if (oInfo) {
+      oRegion = oInfo.region;
+      oScore = oInfo.score;
+    }
+
+    const readDigitsAt = (x, y, w, h) => {
+      let res = null;
+      try {
+        res = cap.find(RecognitionObject.ocr(x, y, w, h));
+        if (res && !res.isEmpty()) return (res.text || "").trim();
+      } catch (e) {
+        // 失败按空处理，外层回退
+      } finally {
+        try { if (res) res.dispose(); } catch (e) { }
+      }
+      return "";
+    };
+
+    if (cRegion && !cRegion.isEmpty()) {
+      log.info("[树脂定位] 浓缩图标 @({x},{y},{w},{h}) 分={s}",
+        cRegion.x, cRegion.y, cRegion.width, cRegion.height, cScore.toFixed(3));
+      // 浓缩数字：白色数字模板匹配，验证区=图标左上角起 90x40
+      const region = { x: cRegion.x, y: cRegion.y, w: sX(90), h: sY(40) };
+      debugBox("浓缩数字区", region.x, region.y, region.w, region.h, "#448aff");
+      let best = null;
+      for (const d of resinDigitRos) {
+        let r = null;
+        try { r = cap.find(d.ro); } catch (e) { }
+        if (!r || r.isEmpty()) {
+          try { if (r) r.dispose(); } catch (e) { }
+          continue;
+        }
+        const s = Number(r.matchScore);
+        const ok = Number.isFinite(s) &&
+          r.x >= region.x && r.x <= region.x + region.w &&
+          r.y >= region.y && r.y <= region.y + region.h;
+        if (!ok || (best && s <= best.score)) {
+          try { r.dispose(); } catch (e) { }
+          continue;
+        }
+        if (best) { try { best.region.dispose(); } catch (e) { } }
+        best = { score: s, region: r, value: d.value, x: r.x, y: r.y, w: r.width, h: r.height };
+      }
+      if (best) {
+        condensed = best.value;
+        digitInfo = "值=" + best.value + " 分=" + best.score.toFixed(3) +
+          " @(" + best.x + "," + best.y + "," + best.w + "," + best.h + ")";
+        debugBox("浓缩数字" + best.value, best.x, best.y, best.w, best.h, "#ff4081");
+        try { best.region.dispose(); } catch (e) { }
+      }
+    } else {
+      log.warn("[树脂] 浓缩图标未命中，浓缩按 0");
+    }
+
+    if (oRegion && !oRegion.isEmpty()) {
+      log.info("[树脂定位] 原淬图标 @({x},{y},{w},{h}) 分={s}",
+        oRegion.x, oRegion.y, oRegion.width, oRegion.height, oScore.toFixed(3));
+      // 数字起点在图标右缘左侧：左移 5px，130x50
+      const x = oRegion.x + oRegion.width - sX(5);
+      const y = Math.max(0, oRegion.y + Math.round((oRegion.height - sY(50)) / 2));
+      debugBox("原淬数字条", x, y, sX(130), sY(50), "#ffc107");
+      originalText = ocrWhiteDigits(x, y, sX(130), sY(50));
+      if (!originalText) originalText = readDigitsAt(x, y, sX(130), sY(50));
+    } else {
+      debugBox("原淬树脂OCR(回退)", sX(1350), sY(200), sX(140), sY(50), "#ffc107");
+      originalText = await ocrText(sX(1350), sY(200), sX(140), sY(50), "原粹树脂OCR", "#ffc107");
+    }
+  } finally {
+    try { if (cRegion) cRegion.dispose(); } catch (e) { }
+    try { if (oRegion) oRegion.dispose(); } catch (e) { }
+    try { if (cap) cap.dispose(); } catch (e) { }
+  }
+
+  // 抗干扰：只保留数字和斜杠
+  const cleanDigits = (t) => String(t || "").replace(/[^0-9/]/g, "");
   const firstInt = (t) => {
     const m = String(t || "").match(/\d+/);
     return m ? parseInt(m[0], 10) : 0;
   };
-  const condensed = firstInt(condensedText);
-  const original = firstInt(originalText);
+
+  let original = 0;
+  {
+    const raw = String(originalText || "").replace(/\s+/g, "");
+    const m = raw.match(/(\d+)\/(\d+)/) || cleanDigits(originalText).match(/(\d+)\/(\d+)/);
+    original = m ? parseInt(m[1], 10) : firstInt(cleanDigits(originalText));
+  }
+
   // 浓缩优先：1 个浓缩 = 1 次；原粹 40 一次
   const rounds = condensed + Math.floor(original / 40);
-  log.info("[树脂] 浓缩 {c}，原粹 {o}，可刷 {r} 轮（浓缩优先，原粹40/轮）",
-    condensed, original, rounds);
+  log.info("[树脂] 浓缩 {c}（{ci}），原淬 {o}（{ot}），可刷 {r} 轮（浓缩优先，原淬40/轮）",
+    condensed, digitInfo, original, originalText, rounds);
   return { condensed, original, rounds };
 }
 

@@ -1,8 +1,8 @@
-// 培养计划自动刷取 v0.1.8（坐标基准 1920x1080，运行时按分辨率缩放）
+// 培养计划自动刷取 v0.1.10（坐标基准 1920x1080，运行时按分辨率缩放）
 import { getS, setMetrics } from "./src/core/common.js";
 import { debugEnsureMask, debugSetCanvas } from "./src/core/debug-overlay.js";
 import { initMarkerTemplate, disposeMarkerResources, scanMarkersStable, dedupeMarkers, disposeMarkers, clusterRows } from "./src/core/markers.js";
-import { ensureGuidePage, isGuidePage, waitGuideMarkers, processRow } from "./src/plan/guide.js";
+import { ensureGuidePage, isGuidePage, waitGuideMarkers, processRow, disposeResinResources } from "./src/plan/guide.js";
 import { runDomainPhase } from "./src/plan/domain-run.js";
 
 (async function () {
@@ -143,5 +143,6 @@ import { runDomainPhase } from "./src/plan/domain-run.js";
     throw e;
   } finally {
     disposeMarkerResources();
+    disposeResinResources();
   }
 })();
