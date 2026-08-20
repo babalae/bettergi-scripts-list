@@ -13,6 +13,7 @@ let autoSalvage = settings.autoSalvage;//启用自动分解
 let notify = settings.notify;//启用通知
 let accountName = settings.accountName || "默认账户";//账户名
 let tmThreshold = +settings.TMthreshold || 0.9;//拾取阈值
+let pickup_Mode = settings.pickup_Mode || "模板匹配拾取";//拾取模式：模板匹配拾取（脚本自行识别） / bgi原版拾取（BetterGI自动拾取触发器）
 
 //文件路径
 const DeleteButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/DeleteButton.png"));
@@ -66,6 +67,11 @@ let lastsettimeTime = 0;
 (async function () {
     setGameMetrics(1920, 1080, 1);
     dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
+    if (pickup_Mode === "bgi原版拾取") {
+        // bgi原版拾取模式：物品拾取由 BetterGI AutoPick 实时触发器完成，
+        // 触发器由 setActivatePickUp 跟随 activatePickUp 开关启停（关闭时清空并恢复 AutoSkip）
+        log.info("拾取模式：bgi原版拾取（由 BetterGI AutoPick 触发器完成拾取）");
+    }
     targetItems = await loadTargetItems();
     state.activatePickUp = false;
     {
@@ -832,6 +838,23 @@ async function writeCDInfo(accountName) {
     await file.writeText(CDInfoFilePath, JSON.stringify(CDInfo), false);
 }
 
+/**
+ * 设置是否激活拾取（bgi原版拾取模式下同步启停 BetterGI AutoPick 实时触发器）
+ * - 开启（true）：添加 AutoPick 触发器，保留 AutoSkip
+ * - 关闭（false）：清除所有实时触发后重新开启 AutoSkip，防止 AutoPick 在非拾取路线误拾取
+ * 模板匹配拾取模式下无额外操作
+ */
+function setActivatePickUp(value) {
+    state.activatePickUp = value;
+    if (pickup_Mode !== "bgi原版拾取") return;
+    if (value) {
+        dispatcher.AddTrigger(new RealtimeTimer("AutoPick"));
+    } else {
+        dispatcher.clearAllTriggers();
+        dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
+    }
+}
+
 //运行普通路线
 async function runNormalPath(doStop) {
     if (settings.fastMode) { return; }
@@ -845,9 +868,9 @@ async function runNormalPath(doStop) {
         log.info("填写了清怪队伍，执行清怪路线");
         await runPaths(normalCombatPath, combatPartyName, doStop, "black");
     }
-    state.activatePickUp = true;
+    setActivatePickUp(true);
     await runPaths(normalExecutePath, artifactPartyName, doStop, "white");
-    state.activatePickUp = false;
+    setActivatePickUp(false);
 }
 
 async function runActivatePath() {
@@ -948,10 +971,10 @@ async function runEndingAndExtraPath() {
         }
         extraPath = "";
     }
-    state.activatePickUp = true;
+    setActivatePickUp(true);
     await runPaths(endingPath, artifactPartyName, false, "white");
     await runPaths(extraPath, artifactPartyName, false, "white");
-    state.activatePickUp = false;
+    setActivatePickUp(false);
 }
 
 async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "") {
@@ -1231,6 +1254,7 @@ async function runPath(fullPath, targetItemPath = null) {
 
     const pickupTask = (async () => {
         if (state.activatePickUp) {
+            // bgi原版拾取模式下 recognizeAndInteract 内部仅交互"调查"（拾取由 BGI AutoPick 完成）
             await recognizeAndInteract();
         }
     })();
@@ -1278,6 +1302,10 @@ async function recognizeAndInteract() {
     let lastMoveDown = 0;
 
     gameRegion = captureGameRegion();
+    // 原版拾取模式：物品拾取由 BetterGI AutoPick 完成，脚本维持交互循环但仅交互"调查"
+    const pickTargetItems = pickup_Mode === "bgi原版拾取"
+        ? targetItems.filter(it => it.itemName === "调查")
+        : targetItems;
     //主循环
     while (state.running) {
         gameRegion.dispose();
@@ -1338,7 +1366,7 @@ async function recognizeAndInteract() {
         try {
             let result;
             let itemName = null;
-            for (const targetItem of targetItems) {
+            for (const targetItem of pickTargetItems) {
                 //log.info(`正在尝试匹配${targetItem.itemName}`);
                 const cnLen = Math.min([...targetItem.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length, 5);
                 const recognitionObject = RecognitionObject.TemplateMatch(
