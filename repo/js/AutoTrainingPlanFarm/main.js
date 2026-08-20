@@ -1,7 +1,7 @@
 // 培养计划自动刷取 v0.1.10（坐标基准 1920x1080，运行时按分辨率缩放）
 import { getS, setMetrics } from "./src/core/common.js";
 import { debugEnsureMask, debugSetCanvas } from "./src/core/debug-overlay.js";
-import { initMarkerTemplate, disposeMarkerResources, scanMarkersStable, dedupeMarkers, disposeMarkers, clusterRows } from "./src/core/markers.js";
+import { initMarkerTemplate, disposeMarkerResources, scanMarkersStable, dedupeMarkers, disposeMarkers, clusterRows, ROW_Y_BOUNDS } from "./src/core/markers.js";
 import { ensureGuidePage, isGuidePage, waitGuideMarkers, processRow, disposeResinResources } from "./src/plan/guide.js";
 import { runDomainPhase } from "./src/plan/domain-run.js";
 
@@ -30,7 +30,11 @@ import { runDomainPhase } from "./src/plan/domain-run.js";
     throw new Error("markerThreshold 必须是 0~1 之间的数字");
   }
   const autoOpen = getS("autoOpenGuide", true);
-  const saveFile = String(getS("saveFile", "plan_needs.json"));
+  let saveFile = String(getS("saveFile", "plan_needs.json"));
+  if (!/^[^\\/:*?"<>|]+\.json$/i.test(saveFile)) {
+    log.warn("saveFile 非法（只允许 .json 文件名），已回退为 plan_needs.json");
+    saveFile = "plan_needs.json";
+  }
 
   // 读取模板并按当前分辨率缩放
   initMarkerTemplate(matchThreshold);
@@ -43,7 +47,10 @@ import { runDomainPhase } from "./src/plan/domain-run.js";
 
   // 页面动画可能尚未渲染完，等标注图标出现再继续
   if (!(await waitGuideMarkers(15000))) {
-    log.error("15 秒内未检测到标注图标");
+    log.warn("15 秒内未检测到标注图标，重试一次");
+    if (!(await waitGuideMarkers(15000))) {
+      throw new Error("30 秒内未检测到标注图标，请检查游戏状态");
+    }
   }
 
   const entries = [];
@@ -54,16 +61,14 @@ import { runDomainPhase } from "./src/plan/domain-run.js";
   log.info("[扫描] 识别到标注 {count} 个", visible.length);
 
   if (visible.length === 0) {
-    log.info("未识别到标注，脚本结束");
-    const emptySummary = { generatedAt: new Date().toISOString(), count: 0, items: [] };
-    file.writeTextSync(saveFile, JSON.stringify(emptySummary, null, 2));
+    log.warn("未识别到标注，保留已有清单，脚本结束");
     return;
   }
 
   const rows = clusterRows(visible).map((r, idx) => ({
     index: idx + 1,
-    y: Math.max(300, Math.min(850, Math.round(r.y))),
-    names: new Set(),
+    y: Math.max(ROW_Y_BOUNDS.min, Math.min(ROW_Y_BOUNDS.max, Math.round(r.y))),
+    names: new Map(),
     nextRank: 1
   }));
 
@@ -80,7 +85,10 @@ import { runDomainPhase } from "./src/plan/domain-run.js";
       log.info("[行] 切换到 y={y}", row.y);
       await ensureGuidePage();
       if (!(await waitGuideMarkers(15000))) {
-        log.error("切换行后 15 秒内未检测到标注图标");
+        log.warn("切换行后 15 秒内未检测到标注图标，重试一次");
+        if (!(await waitGuideMarkers(15000))) {
+          throw new Error("切换行后 30 秒内未检测到标注图标，请检查游戏状态");
+        }
       }
     }
 

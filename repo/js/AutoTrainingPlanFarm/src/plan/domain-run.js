@@ -39,6 +39,15 @@ export async function runDomainPhase(entries, rowY) {
   param.DomainName = item.domainName;
   // 不设置 DomainRoundNum：默认 9999，由指定树脂计数/树脂耗尽判定退出时机
   param.RewardRecognitionEnabled = false;
+  // AutoDomainParam 会继承 BGI 本体配置：显式清零，只允许本插件显式指定的树脂档
+  param.CondensedResinUseCount = 0;
+  param.OriginalResin20UseCount = 0;
+  param.OriginalResin40UseCount = 0;
+  param.OriginalResinUseCount = 0;
+  param.TransientResinUseCount = 0;
+  param.FragileResinUseCount = 0;
+  // 不执行 BGI 本体的圣遗物分解
+  param.AutoArtifactSalvage = false;
 
   // 周日/限时全开奖励序号：优先用图标x位置判断出的序号，其次用界面设置
   let sundayValue = "";
@@ -179,9 +188,8 @@ export async function runDomainPhase(entries, rowY) {
       if (String(e.message).includes("树脂不足") || String(e.message).includes("未找到可用的树脂")) {
         log.info("树脂耗尽，自动停止刷取");
         try { notification.send("树脂耗尽，停止刷取：" + item.domainName); } catch (e2) { }
-        if (exhaust) {
-          stopScript = true;
-        }
+        // 无论是否耗尽模式：树脂类错误都结束整体流程，避免逐行空转
+        stopScript = true;
       } else {
         log.error("第 {batch} 批自动秘境失败: {err}", batchIndex, e.message);
         try { notification.error("自动秘境失败：" + e.message); } catch (e2) { }

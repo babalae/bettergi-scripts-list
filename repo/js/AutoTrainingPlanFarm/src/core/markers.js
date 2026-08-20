@@ -7,6 +7,9 @@ const MARKER_PATH = "assets/RecognitionObject/guide_marker_green.png";
 // 右半屏搜索区域
 const MARKER_ROI = { x: 900, y: 280, w: 1020, h: 600 };
 
+// 行 y 合法范围（ROI 边界内留出模板高度余量）
+export const ROW_Y_BOUNDS = { min: 288, max: 848 };
+
 let markerMat = null;
 let markerRo = null;
 let matchThreshold = 0.9;
@@ -47,26 +50,26 @@ export function scanMarkers() {
     const arr = [];
     for (let i = 0; i < results.count; i++) {
       const r = results[i];
-      const score = (r.matchScore === undefined || r.matchScore === null) ? -1 : r.matchScore;
+      const drop = () => { try { r.dispose(); } catch (e) { } };
 
-      // 先过滤 Infinity/NaN，避免污染后续流程或日志
-      if (!Number.isFinite(Number(score))) {
-        continue;
-      }
+      // 分数缺失/非有限（含 Infinity/NaN）直接丢弃
+      if (r.matchScore === undefined || r.matchScore === null) { drop(); continue; }
+      const score = Number(r.matchScore);
+      if (!Number.isFinite(score)) { drop(); continue; }
 
       // 只保留右半屏目标区域（按分辨率缩放）
-      if (r.x < sX(MARKER_ROI.x) || r.y < sY(MARKER_ROI.y)) continue;
-      if (r.x + r.width > sX(MARKER_ROI.x) + sX(MARKER_ROI.w)) continue;
-      if (r.y + r.height > sY(MARKER_ROI.y) + sY(MARKER_ROI.h)) continue;
+      if (r.x < sX(MARKER_ROI.x) || r.y < sY(MARKER_ROI.y)) { drop(); continue; }
+      if (r.x + r.width > sX(MARKER_ROI.x) + sX(MARKER_ROI.w)) { drop(); continue; }
+      if (r.y + r.height > sY(MARKER_ROI.y) + sY(MARKER_ROI.h)) { drop(); continue; }
 
       // 尺寸过滤：模板 24x32，按分辨率缩放后允许一定容差
-      if (r.width < sX(16) || r.width > sX(40)) continue;
-      if (r.height < sY(20) || r.height > sY(48)) continue;
+      if (r.width < sX(16) || r.width > sX(40)) { drop(); continue; }
+      if (r.height < sY(20) || r.height > sY(48)) { drop(); continue; }
       const ratio = r.height / r.width;
-      if (ratio < 0.8 || ratio > 1.6) continue;
+      if (ratio < 0.8 || ratio > 1.6) { drop(); continue; }
 
       // 二次分数过滤（防止 ClearScript 属性赋值未生效）
-      if (score >= 0 && score < matchThreshold) continue;
+      if (score < matchThreshold) { drop(); continue; }
 
       debugBox("标记@" + r.x + "," + r.y, r.x, r.y, r.width, r.height, "#ff1744");
       touchActivity();

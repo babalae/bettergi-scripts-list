@@ -377,6 +377,13 @@ export async function readResin() {
       debugBox("原淬数字条", x, y, sX(130), sY(50), "#ffc107");
       originalText = ocrWhiteDigits(x, y, sX(130), sY(50));
       if (!originalText) originalText = readDigitsAt(x, y, sX(130), sY(50));
+      // 图标定位后的 OCR 为空时，回退 ResinCalibration 标定的固定区域（仅原淬）
+      if (!originalText) {
+        const oFx = sX(1350), oFy = sY(200), oFw = sX(140), oFh = sY(50);
+        log.info("[树脂] 原淬图标定位 OCR 为空，回退固定区域 ({x},{y},{w},{h})", oFx, oFy, oFw, oFh);
+        debugBox("原淬OCR(固定回退)", oFx, oFy, oFw, oFh, "#ffc107");
+        originalText = readDigitsAt(oFx, oFy, oFw, oFh);
+      }
     } else {
       debugBox("原淬树脂OCR(回退)", sX(1350), sY(200), sX(140), sY(50), "#ffc107");
       originalText = await ocrText(sX(1350), sY(200), sX(140), sY(50), "原粹树脂OCR", "#ffc107");
@@ -413,7 +420,7 @@ export async function refreshPlanFromGuide(entries, rowY) {
   await ensureGuidePage();
 
   // 与重开脚本完全一致：按 processRow 完整重扫该行
-  const row = { index: 0, y: rowY, names: new Set(), nextRank: 1, domainName: "" };
+  const row = { index: 0, y: rowY, names: new Map(), nextRank: 1, domainName: "" };
   const before = entries.length;
   try {
     await processRow(row, entries);
@@ -427,13 +434,11 @@ export async function refreshPlanFromGuide(entries, rowY) {
     }
   }
 
-  // 只保留本次重扫到的条目：没再出现的从清单移除（等价于重开脚本时它不存在）
-  const seen = entries.slice(before);
-  const seenByKey = new Map(seen.map(e => [canonicalName(e.material), e]));
+  // 该行重扫前的旧条目全部移除，以本次重扫结果为准（等价于重开脚本）
   for (let i = entries.length - 1; i >= 0; i--) {
     const e = entries[i];
     if (Number(e.rowY) !== rowY) continue;
-    if (seenByKey.get(canonicalName(e.material)) !== e) {
+    if (i < before) {
       entries.splice(i, 1);
     }
   }
@@ -445,20 +450,30 @@ export async function clickAndRecord(m, row, entries) {
   if (!info) return "";
 
   const key = canonicalName(info.name);
-  if (row.names.has(key)) {
-    log.info("[重复] {name} 已记录，跳过", info.name);
-    // 返回 key：本轮“识别到了”这个材料，只是不重复入库
-    return key;
-  }
-
-  row.names.add(key);
-  touchActivity();
-  // 品质按颜色绝对4档：金1/紫2/蓝3/绿4；颜色失败按点击顺序兜底
-  const orderRank = row.nextRank++;
+  const orderRank = row.nextRank;
   let rank = orderRank;
   if (info.colorRankTop && info.colorRankTop >= 1 && info.colorRankTop <= 4) {
     rank = info.colorRankTop;
   }
+
+  let dup = false;
+  for (const [k, rk] of row.names) {
+    // 完全同名无条件去重；错 1 字只有品质档位相同才算重复，避免把“一角/一片”这类不同档合并
+    if (k === key || (rk === rank && levDistance(k, key) <= 1)) {
+      dup = true;
+      break;
+    }
+  }
+  if (dup) {
+    log.info("[重复] {name} 已记录（含同档错1字），跳过", info.name);
+    // 返回 key：本轮“识别到了”这个材料，只是不重复入库
+    return key;
+  }
+
+  row.names.set(key, rank);
+  row.nextRank = orderRank + 1;
+  touchActivity();
+  // 品质按颜色绝对4档：金1/紫2/蓝3/绿4；颜色失败按点击顺序兜底
   const label = qualityLabelForRank(rank);
   entries.push({
     material: info.name,
