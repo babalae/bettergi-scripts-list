@@ -1,20 +1,18 @@
 {
   "info": {
-    "author": "汐",
     "authors": [
       {
-        "links": "https://github.com/jiegedabaobei",
+        "links": "",
         "name": "汐"
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时62.69秒，包含以下怪物：1只丘丘人、1只冲锋丘丘人、1只丘丘岩盔王。",
+    "description": "  路线信息：该路线预计用时55秒，包含以下怪物：1只丘丘雷兜王。",
     "enable_monster_loot_split": false,
-    "hash_res": "27749403",
-    "last_modified_time": 1784302119574,
-    "map_match_method": "",
+    "last_modified_time": 1787060732037,
+    "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "B014璃月珉林南",
+    "name": "H019至冬彩冰镇西南",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -26,17 +24,17 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1045.54,
-      "y": 950.62
+      "x": 6796.6514,
+      "y": 8522.168
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "attack(0.5)",
       "id": 2,
-      "move_mode": "dash",
+      "move_mode": "jump",
       "type": "path",
-      "x": 988.8857,
-      "y": 972.9199
+      "x": 6799.0801,
+      "y": 8536.4121
     },
     {
       "action": "",
@@ -44,8 +42,8 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 949.1875,
-      "y": 983.813
+      "x": 6795.9424,
+      "y": 8609.0537
     },
     {
       "action": "fight",
@@ -58,8 +56,8 @@
         }
       },
       "type": "path",
-      "x": 922.3594,
-      "y": 977.4502
+      "x": 6767.7568,
+      "y": 8681.1133
     }
   ]
 }

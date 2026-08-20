@@ -11,7 +11,7 @@
     "description": "  路线信息：该路线预计用时48秒，包含以下怪物：1只遗迹重机、1只木盾丘丘人。",
     "enable_monster_loot_split": false,
     "hash_res": "84542485",
-    "last_modified_time": 1775927590782,
+    "last_modified_time": 1784914668004,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "D012须弥沙漠沙虫隧道",
@@ -27,7 +27,7 @@
       "move_mode": "walk",
       "type": "teleport",
       "x": 4572.27,
-      "y": -1070.7700000000004
+      "y": -1070.77
     },
     {
       "action": "",
@@ -35,8 +35,8 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 4598.2294921875,
-      "y": -1036.787109375
+      "x": 4598.2295,
+      "y": -1036.7871
     },
     {
       "action": "combat_script",
@@ -45,16 +45,21 @@
       "move_mode": "fly",
       "type": "path",
       "x": 4609.1875,
-      "y": -1021.6250301677737
+      "y": -1021.625
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 4,
       "move_mode": "dash",
+      "point_ext_params": {
+        "auto_fight": {
+          "reward_type": "experience"
+        }
+      },
       "type": "path",
-      "x": 4649.369140625,
-      "y": -1003.609375
+      "x": 4649.3691,
+      "y": -1003.6094
     }
   ]
 }
