@@ -1,11 +1,9 @@
 {
   "metadata": {
-    "description": "原神经典/纳塔/挪德卡莱秘境掉落表 (全简体中文)",
-    "source_url": "https://wiki.biligame.com",
-    "maintenance_instruction": "【重要】AI在读取或更新此文件时，必须优先联网检索 wiki.biligame.com 的最新实时内容。严禁依懒 AI 模型内部的过时训练数据库进行推论或数据填充。",
-    "last_updated": "2026-01-18",
-    "game_version_context": "包含纳塔 (5.x) 与 挪德卡莱 (6.x/月之版本)",
-    "note": "掉落物名称统一使用最高稀有度（天赋书3星/武器素材5星）。周日全系列开放。"
+    "description": "原神秘境产出道具表 (全简体中文)",
+    "last_updated": "2026-08-12",
+    "genshin_game_version": "7.0",
+    "note": "掉落物名称统一使用最高稀有度（技能突破天赋书4星/武器突破素材5星）。周日全系列开放。"
   },
   "domains": {
     "talent_books": [
@@ -70,6 +68,15 @@
           "Mon_Thu": "「月光」的哲学",
           "Tue_Fri": "「乐园」的哲学",
           "Wed_Sat": "「浪迹」的哲学"
+        }
+      },
+      {
+        "region": "至冬",
+        "domain_name_sc": "荒坠的圣迹",
+        "schedule": {
+          "Mon_Thu": "「慈爱」的哲学",
+          "Tue_Fri": "「坚忍」的哲学",
+          "Wed_Sat": "「荣光」的哲学"
         }
       }
     ],
@@ -136,6 +143,15 @@
           "Tue_Fri": "长夜燧火的烈辉",
           "Wed_Sat": "终北遗嗣的煌熠"
         }
+      },
+      {
+        "region": "至冬",
+        "domain_name_sc": "妄念的创痕",
+        "schedule": {
+          "Mon_Thu": "苍星军势的征服",
+          "Tue_Fri": "藏窖灵浆的恣意",
+          "Wed_Sat": "凛雪帝皇的辞决"
+        }
       }
     ],
     "artifacts": [
@@ -168,6 +184,11 @@
         "region": "璃月",
         "domain_name_sc": "孤云凌霄之处",
         "drops": ["悠古的磐岩", "逆飞的流星"]
+      },
+      {
+        "region": "璃月",
+        "domain_name_sc": "山脊守望",
+        "drops": ["苍白之火", "千岩牢固"]
       },
       {
         "region": "璃月",
@@ -238,6 +259,11 @@
         "region": "蒙德",
         "domain_name_sc": "山风的荆冕",
         "drops": ["天之美赐", "影中沉凝的幻灭"]
+      },
+      {
+        "region": "至冬",
+        "domain_name_sc": "逆悬的冰河",
+        "drops": ["血红之证", "炉火融炼之心"]
       }
     ]
   }
