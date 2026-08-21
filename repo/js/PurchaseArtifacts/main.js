@@ -401,11 +401,12 @@ let userName = settings.userName || "默认账户";
             '须弥商人': { merchant: '须弥商人', name: '须弥-须弥城-阿夫辛' },
             '枫丹商人': { merchant: '枫丹商人', name: '枫丹-枫丹廷-灰河-克洛莎' },
             '纳塔商人': { merchant: '纳塔商人', name: '纳塔-圣火竞技场-艾库瓦' },
-            '挪德卡莱商人': { merchant: '挪德卡莱商人', name: '挪德卡莱-那夏镇-雷科' }
+            '挪德卡莱商人': { merchant: '挪德卡莱商人', name: '挪德卡莱-那夏镇-雷科' },
+            '至冬商人': { merchant: '至冬商人', name: '至冬-至冬堡-雅罗斯拉夫' }
         };
 
         // 根据多选设置构建购买任务列表（仅包含勾选的商人）
-        const merchantOrder = ['蒙德商人', '璃月商人1', '璃月商人2', '稻妻商人', '须弥商人', '枫丹商人', '纳塔商人', '挪德卡莱商人'];
+        const merchantOrder = ['蒙德商人', '璃月商人1', '璃月商人2', '稻妻商人', '须弥商人', '枫丹商人', '纳塔商人', '挪德卡莱商人','至冬商人'];
         const selectedMerchants = Array.from(settings.merchants || [])
             .sort((a, b) => merchantOrder.indexOf(a) - merchantOrder.indexOf(b));
         const purchaseTasks = selectedMerchants
