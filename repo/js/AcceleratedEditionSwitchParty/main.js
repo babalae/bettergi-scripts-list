@@ -10,12 +10,31 @@ const MiddleSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
 const RightSliderTopRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Slider Top.png"), 1750, 100, 100, 100);
 const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Slider Bottom.png"), 1750, 100, 100, 900);
 
+const parsedOperationDelayMs = parseInt(settings.operationDelayMs, 10);
+const operationDelayMs = Number.isFinite(parsedOperationDelayMs)
+	? Math.min(Math.max(parsedOperationDelayMs, 500), 20000)
+	: 1500;
 
 /**
  * @returns {Promise<void>}
  */
 
 (async function () {
+	async function findTemplateWithRetry(recognitionObject, attempts = 3) {
+		for (let attempt = 1; attempt <= attempts; attempt++) {
+			let captureRegion = captureGameRegion();
+			let result = captureRegion.find(recognitionObject);
+			captureRegion.dispose();
+			if (result.isExist()) {
+				return result;
+			}
+			if (attempt < attempts) {
+				await sleep(operationDelayMs);
+			}
+		}
+		return null;
+	}
+
 	// 翻页
 	async function pageDown(SliderBottomRo) {
 		let captureRegion = captureGameRegion();
@@ -26,7 +45,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			// log.info("滑块当前位置:({x},{y},{h},{w})", SliderBottom.x, SliderBottom.y, SliderBottom.Width, SliderBottom.Height);
 			click(Math.ceil(SliderBottom.x + SliderBottom.Width / 2), Math.ceil(SliderBottom.y + SliderBottom.Height * 2));
 			await moveMouseTo(0, 0);
-			await sleep(100);
+			await sleep(operationDelayMs);
 		}
 	}
 
@@ -42,7 +61,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 			await sleep(1000);
 			leftButtonUp();
 			await moveMouseTo(0, 0);
-			await sleep(100);
+			await sleep(operationDelayMs);
 		}
 	}
 
@@ -53,7 +72,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 		let foundQuickSetup = false;
 		for (let j = 0; j < 2; j++) {  // 尝试两次
 			keyPress("VK_L");
-			await sleep(2000);
+			await sleep(Math.max(2000, operationDelayMs));
 			for (let i = 0; i < 2; i++) {
 				let captureRegion = captureGameRegion();
 				let QuickSetupButton = captureRegion.find(QuickSetupButtonRo);
@@ -63,7 +82,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 					foundQuickSetup = true;
 					break;
 				} else {
-					await sleep(1000);
+					await sleep(operationDelayMs);
 				}
 			}
 			if (foundQuickSetup) {
@@ -88,20 +107,20 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 				log.info("当前队伍即为目标队伍，无需切换");
 				notification.send(`当前队伍即为目标队伍：${partyName}，无需切换`);
 				keyPress("VK_ESCAPE");
-				await sleep(500);
+				await sleep(operationDelayMs);
 				currentPartyFound = true;
 				break;
 			}
 		}
 		if (!currentPartyFound) {
-			await sleep(1000);
+			await sleep(operationDelayMs);
 			let captureRegion = captureGameRegion();
 			let ConfigureTeamButton = captureRegion.find(ConfigureTeamButtonRo);
 			captureRegion.dispose();
 			if (ConfigureTeamButton.isExist()) {
 				log.info("识别到配置队伍按钮");
 				ConfigureTeamButton.click();
-				await sleep(500);
+				await sleep(operationDelayMs);
 				await pageTop(LeftSliderTopRo);
 
 				for (let p = 0; p < 4; p++) {
@@ -119,26 +138,23 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 							click(Math.ceil(res.x + 360), res.y + Math.ceil(res.Height / 2));
 
 							// 找到目标队伍，点击确定、部署
-							await sleep(1500);
-							let ConfirmButtonCaptureRegion = captureGameRegion();
-							let ConfirmButton = ConfirmButtonCaptureRegion.find(ConfirmDeployButtonRo);
-							ConfirmButtonCaptureRegion.dispose();
-							if (ConfirmButton.isExist()) {
+							await sleep(operationDelayMs);
+							let ConfirmButton = await findTemplateWithRetry(ConfirmDeployButtonRo);
+							if (ConfirmButton) {
 								log.info("识别到确定按钮:({x},{y},{w},{h})", ConfirmButton.x, ConfirmButton.y, ConfirmButton.Width, ConfirmButton.Height);
 								ConfirmButton.click();
+								await sleep(operationDelayMs);
 							}
-							await sleep(1500);
-							let DeployButtonCaptureRegion = captureGameRegion();
-							let DeployButton = DeployButtonCaptureRegion.find(ConfirmDeployButtonRo);
-							DeployButtonCaptureRegion.dispose();
-							if (DeployButton.isExist()) {
+							let DeployButton = await findTemplateWithRetry(ConfirmDeployButtonRo);
+							if (DeployButton) {
 								log.info("识别到部署按钮:({x},{y},{w},{h})", DeployButton.x, DeployButton.y, DeployButton.Width, DeployButton.Height);
 								DeployButton.click();
-								await sleep(100);
+								await sleep(operationDelayMs);
 								notification.send(`寻找到目标队伍：${partyName}`);
 								ConfigureStatue = true;
 								break;
 							}
+							throw new Error(`已找到队伍【${partyName}】，但未能完成确定或部署`);
 						}
 					}
 					if (ConfigureStatue) {
@@ -177,7 +193,9 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 				log.info("强制传送到七天神像切换队伍");
 				await genshin.TpToStatueOfTheSeven();
 				log.info("正在尝试切换至" + settings.partyName);
-				await SwitchParty(settings.partyName);
+				if (!await SwitchParty(settings.partyName)) {
+					throw new Error(`未能切换至${settings.partyName}`);
+				}
 			} else {
 				// 先尝试在当前位置换队
 				await genshin.returnMainUi();
@@ -189,7 +207,9 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 					log.info("当前位置换队失败，传送到七天神像重试");
 					await genshin.TpToStatueOfTheSeven();
 					log.info("正在七天神像重新尝试切换至" + settings.partyName);
-					await SwitchParty(settings.partyName);
+					if (!await SwitchParty(settings.partyName)) {
+						throw new Error(`未能切换至${settings.partyName}`);
+					}
 				}
 			}
 			genshin.clearPartyCache();

@@ -13,5 +13,11 @@
         "name": "enableDebug",
         "type": "checkbox",
         "label": "开启Debug模式(队伍寻找过程中的识别内容)"
+    },
+    {
+        "name": "operationDelayMs",
+        "type": "input-text",
+        "label": "界面操作等待时间(毫秒)\n默认1500，性能较低或刚启动时建议10000-20000",
+        "default": "1500"
     }
 ]
