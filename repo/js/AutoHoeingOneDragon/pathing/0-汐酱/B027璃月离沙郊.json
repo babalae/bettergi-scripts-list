@@ -10,7 +10,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时78秒，包含以下怪物：1只丘丘人、1只射手丘丘人、1只火箭丘丘人、1只丘丘岩盔王、1只火深渊法师。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1774336905621,
+    "last_modified_time": 1784913111892,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B027璃月离沙郊",
@@ -25,8 +25,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 828.2800000000007,
-      "y": -583.3599999999997
+      "x": 828.28,
+      "y": -583.36
     },
     {
       "action": "",
@@ -34,8 +34,8 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 852.162109375,
-      "y": -579.68359375
+      "x": 852.1621,
+      "y": -579.6836
     },
     {
       "action": "stop_flying",
@@ -43,8 +43,8 @@
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 868.4130859375,
-      "y": -566.765625
+      "x": 868.4131,
+      "y": -566.7656
     },
     {
       "action": "",
@@ -52,8 +52,8 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 907.98828125,
-      "y": -541.6396484375
+      "x": 907.9883,
+      "y": -541.6396
     },
     {
       "action": "log_output",
@@ -61,8 +61,8 @@
       "id": 5,
       "move_mode": "dash",
       "type": "orientation",
-      "x": 907.98828125,
-      "y": -541.6396484375
+      "x": 907.9883,
+      "y": -541.6396
     },
     {
       "action": "stop_flying",
@@ -70,17 +70,17 @@
       "id": 6,
       "move_mode": "fly",
       "type": "path",
-      "x": 882.150390625,
-      "y": -506.0859375
+      "x": 882.1504,
+      "y": -506.0859
     },
     {
       "action": "combat_script",
-      "action_params": "茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;菈乌玛 e;attack(0.3)",
+      "action_params": "茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;爱可菲 e;菈乌玛 e;attack(0.3)",
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": 884.9033203125,
-      "y": -500.1171875
+      "x": 884.9033,
+      "y": -500.1172
     },
     {
       "action": "combat_script",
@@ -88,26 +88,25 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 903.9400000000005,
+      "x": 903.94,
       "y": -512.54
-    },
-    {
-      "action": "combat_script",
-      "action_params": "keypress(x);伊涅芙 e,wait(0.15),keypress(e);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;哥伦比娅 e;菈乌玛 e;",
-      "id": 9,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 931.9580078125,
-      "y": -495.66845703125
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 10,
+      "id": 9,
       "move_mode": "dash",
+      "point_ext_params": {
+        "auto_fight": {
+          "mora_values": [
+            600
+          ],
+          "reward_type": "mora"
+        }
+      },
       "type": "path",
-      "x": 919.3046875,
-      "y": -491.6240234375
+      "x": 931.958,
+      "y": -495.6685
     }
   ]
 }

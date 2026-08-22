@@ -8,10 +8,10 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时56秒，包含以下怪物：1只火箭丘丘人、1只丘丘岩盔王。",
-    "hash_res": "60639346",
+    "description": "  路线信息：该路线预计用时60.31秒，包含以下怪物：2只火箭丘丘人、1只丘丘岩盔王。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1759692282625,
+    "hash_res": "60639346",
+    "last_modified_time": 1784304762466,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "E045枫丹卡布狄斯堡",
@@ -31,30 +31,35 @@
     },
     {
       "action": "stop_flying",
-      "action_params": "",
+      "action_params": "1800",
       "id": 2,
       "move_mode": "fly",
       "type": "path",
-      "x": 3327.2199999999993,
-      "y": 2646.3500000000004
+      "x": 3309.75,
+      "y": 2634.3779
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(x);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "action_params": ";茜特菈莉 keypress(E);莱依拉 keypress(E);伊涅芙 keypress(E);尼可 keypress(E);芙宁娜 keypress(E);爱可菲 keypress(E);哥伦比娅  keypress(E); ;",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 3282.166015625,
-      "y": 2619.825439453125
+      "x": 3282.166,
+      "y": 2619.8254
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 4,
       "move_mode": "dash",
+      "point_ext_params": {
+        "auto_fight": {
+          "reward_type": "experience"
+        }
+      },
       "type": "path",
-      "x": 3265.2333984375,
-      "y": 2617.803466796875
+      "x": 3274.375,
+      "y": 2617.5313
     }
   ]
 }
