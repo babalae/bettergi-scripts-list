@@ -1,0 +1,107 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时80秒，包含2只精英与3只小怪，预计收入1321.5摩拉，包含以下怪物：1只黯色空壳·破阵、1只岩龙蜥。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757931791530,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "241璃月层岩地下狭光道（600_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 808.73,
+      "y": 339.39
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 814.07,
+      "y": 294.64
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 818.71,
+      "y": 293.39
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 808.73,
+      "y": 339.39
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 783.751,
+      "y": 314.0
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 762.2283,
+      "y": 291.156
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 726.5004,
+      "y": 321.25
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 733.8708,
+      "y": 352.2474
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 733.8708,
+      "y": 352.2474
+    }
+  ]
+}

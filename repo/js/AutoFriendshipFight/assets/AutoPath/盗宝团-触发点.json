@@ -1,0 +1,32 @@
+{
+  "info": {
+    "name": "盗宝团-触发点",
+    "type": "collect",
+    "author": "HZYgrandma",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2738.38,
+      "y": -3414.45,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    },
+    {
+      "id": 2,
+      "x": -2738.38,
+      "y": -3414.45,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport",
+      "locked": false
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "08-劫波莲-须弥城西边-7个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "lifrom",
+        "links": "https://github.com/pkjsjq"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3100.46,
+      "y": -354.62
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3169.55,
+      "y": -429.9
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target",
+      "x": 3183.28,
+      "y": -447.45
+    },
+    {
+      "id": 4,
+      "x": 3183.28,
+      "y": -447.45,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 5,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3176.27,
+      "y": -470.69
+    },
+    {
+      "id": 6,
+      "x": 3176.27,
+      "y": -470.69,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "info": {
+    "name": "08-劫波莲-维摩庄下方-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "jbcaaa",
+        "links": "https://github.com/jbcaaa"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2794.13,
+      "y": -1216.43
+    },
+    {
+      "id": 2,
+      "x": 2772.71,
+      "y": -1247.39,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 2751.3,
+      "y": -1278.35,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 2729.88,
+      "y": -1309.3,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 2708.47,
+      "y": -1340.26,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 6,
+      "x": 2716.36,
+      "y": -1334.08,
+      "type": "path",
+      "move_mode": "climb",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 2703.83,
+      "y": -1332.02,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 8,
+      "x": 2711.33,
+      "y": -1323.38,
+      "type": "path",
+      "move_mode": "climb",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": 2680.0,
+      "y": -1282.25,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    }
+  ]
+}

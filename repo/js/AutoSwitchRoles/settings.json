@@ -1,0 +1,40 @@
+[
+    {
+        "name": "switchPartyName",
+        "type": "input-text",
+        "label": "切换队伍（默认为当前配对）",
+        "default": ""
+    },
+    {
+        "name": "option",
+        "type": "select",
+        "label": "选择模式",
+        "options": ["推荐-非快速配对模式 @Tool_tingsu", 
+                             "存在bug-快速配对模式 @兩夢三醒"],
+        "default": "推荐-非快速配对模式 @Tool_tingsu"
+    },
+    {
+        "name": "position1",
+        "type": "input-text",
+        "label": "1号位（空选即不处理，支持别名）",
+        "default": ""
+    },
+    {
+        "name": "position2",
+        "type": "input-text",
+        "label": "2号位（空选即不处理，支持别名）",
+        "default": ""
+    },
+    {
+        "name": "position3",
+        "type": "input-text",
+        "label": "3号位（空选即不处理，支持别名）",
+        "default": ""
+    },
+    {
+        "name": "position4",
+        "type": "input-text",
+        "label": "4号位（空选即不处理，支持别名）",
+        "default": ""
+    }
+]

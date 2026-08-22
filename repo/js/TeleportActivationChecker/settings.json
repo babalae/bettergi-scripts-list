@@ -1,0 +1,52 @@
+[
+  {
+    "name": "runMode",
+    "type": "select",
+    "label": "运行模式",
+    "options": [
+      "继续上次检测",
+      "仅复测异常点",
+      "重新检测全部",
+      "查看检测报告"
+    ],
+    "default": "继续上次检测"
+  },
+  {
+    "name": "retestCount",
+    "type": "select",
+    "label": "每个异常点的复测次数",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "5",
+      "10"
+    ],
+    "default": "3"
+  },
+  {
+    "name": "slowThresholdSeconds",
+    "type": "input-text",
+    "label": "慢速点阈值（秒）",
+    "default": "10"
+  },
+  {
+    "name": "includeSlowPoints",
+    "type": "checkbox",
+    "label": "将超过慢速阈值的点加入异常复测",
+    "default": false
+  },
+  {
+    "name": "pointIntervalMs",
+    "type": "input-text",
+    "label": "每个点检测完成后的等待时间（毫秒）",
+    "default": "500"
+  },
+  {
+    "name": "showOverlay",
+    "type": "checkbox",
+    "label": "显示运行状态遮罩",
+    "default": true
+  }
+]

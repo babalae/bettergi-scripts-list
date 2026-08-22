@@ -1,0 +1,20 @@
+[
+    {
+        "name": "targetRoleName",
+        "type": "input-text",
+        "label": "目标角色名称",
+        "default": ""
+    },
+    {
+        "name": "targetRoleLevel",
+        "type": "input-text",
+        "label": "目标角色等级（2-90）",
+        "default": ""
+    },
+    {
+        "name": "experienceBookCalculation",
+        "type": "checkbox",
+        "label": "结合背包当前拥有的经验书计算",
+        "default": true
+    }
+]

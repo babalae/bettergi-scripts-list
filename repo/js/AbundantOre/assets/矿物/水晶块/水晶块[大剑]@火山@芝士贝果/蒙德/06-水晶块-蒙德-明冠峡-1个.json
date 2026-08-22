@@ -1,0 +1,55 @@
+{
+  "info": {
+    "name": "06-水晶块-蒙德-明冠峡-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -440.18,
+      "y": 2580.94,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -469.82,
+      "y": 2628.61,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -485.06,
+      "y": 2670.78,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1500",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -485.06,
+      "y": 2670.78,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    }
+  ]
+}

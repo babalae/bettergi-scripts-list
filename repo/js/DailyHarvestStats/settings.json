@@ -1,0 +1,43 @@
+[
+  {
+    "name": "phase",
+    "type": "select",
+    "default": "采集后(结算)",
+    "label": "运行阶段（同一脚本在调度组里放两次：采集任务【前】放一个，【后】放一个）",
+    "options": [ "采集前(记起点)", "采集后(结算)" ]
+  },
+  {
+    "name": "profile_id",
+    "type": "input-text",
+    "default": "",
+    "label": "账户标识（多账号区分，留空=默认账户）"
+  },
+  {
+    "name": "countMora",
+    "type": "select",
+    "default": "是",
+    "label": "统计摩拉",
+    "options": [ "是", "否" ]
+  },
+  {
+    "name": "countFodder",
+    "type": "select",
+    "default": "是",
+    "label": "统计狗粮经验（背包可分解狗粮折合总经验）",
+    "options": [ "是", "否" ]
+  },
+  {
+    "name": "reset",
+    "type": "select",
+    "default": "否",
+    "label": "清空本账户统计、从本次重新开始",
+    "options": [ "否", "是" ]
+  },
+  {
+    "name": "notify",
+    "type": "select",
+    "default": "是",
+    "label": "发送通知",
+    "options": [ "是", "否" ]
+  }
+]

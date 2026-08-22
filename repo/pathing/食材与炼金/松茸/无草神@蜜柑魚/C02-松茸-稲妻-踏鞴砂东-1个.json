@@ -1,0 +1,60 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777226751015,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C02-松茸-稲妻-踏鞴砂东-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3392.8555,
+      "y": -3555.707
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3434.3809,
+      "y": -3577.4023
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.65)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3434.3809,
+      "y": -3577.4023
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3392.8555,
+      "y": -3555.707
+    }
+  ]
+}

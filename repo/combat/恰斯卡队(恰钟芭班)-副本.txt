@@ -1,0 +1,31 @@
+// 作者：LinFei
+// 描述：恰斯卡战斗脚本, 可以应对复杂地形(如高低差), 与高成活率(恰斯卡飞天与满命芭芭拉复活), 推荐在非平地战斗时使用, 恰斯卡小毕业更佳.
+// 版本：v1.1
+// 可根据自己的角色替换盾位, 如果是满命恰斯卡可以从一直长按左键修改为分多长按左键
+
+// 盾位
+钟离 e(hold)
+// 水位
+芭芭拉 e,wait(0.2)
+// 火位
+班尼特 e,wait(0.2),q
+
+// 确定方向
+恰斯卡 attack,wait(0.2),keypress(VK_MBUTTON),keypress(VK_MBUTTON)
+
+// 清理近处敌人
+恰斯卡 e,wait(0.2),mousedown(left),wait(0.2), moveby(160,1200),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),mouseup(left),wait(0.2),e,wait(0.2),q
+
+
+// 盾位
+钟离 e(hold)
+// 水位
+芭芭拉 e,wait(0.2)
+// 火位
+班尼特 e,wait(0.2),q
+
+// 确定方向
+恰斯卡 attack,wait(0.2),keypress(VK_MBUTTON),keypress(VK_MBUTTON)
+
+// 清理远处敌人
+恰斯卡 e,wait(0.2),mousedown(left),moveby(160,100),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),moveby(220,10),wait(0.5),mouseup(left),wait(0.2),e,wait(0.2),q

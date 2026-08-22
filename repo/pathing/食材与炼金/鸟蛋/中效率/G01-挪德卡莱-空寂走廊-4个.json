@@ -1,0 +1,121 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ],
+    "bgi_version": "0.54.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758040473086,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "G01-挪德卡莱-空寂走廊-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8945.9004,
+      "y": 2498.9106
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8952.0459,
+      "y": 2523.2759
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8969.5557,
+      "y": 2569.957
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 8971.1387,
+      "y": 2575.6157
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8967.7432,
+      "y": 2638.0957
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8911.4961,
+      "y": 2761.6738
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8927.5127,
+      "y": 2768.7256
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8925.0889,
+      "y": 2772.855
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8922.5996,
+      "y": 2780.4194
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8930.2461,
+      "y": 2790.6755
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8929.4668,
+      "y": 2800.0215
+    }
+  ]
+}

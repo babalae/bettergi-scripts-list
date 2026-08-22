@@ -1,0 +1,39 @@
+{
+  "info": {
+    "name": "鳄鱼-准备",
+    "type": "collect",
+    "author": "秋云",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.45.1"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3705.53,
+      "y": -497.45,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3615.48,
+      "y": -521.27,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2500"
+    },
+    {
+      "id": 3,
+      "x": 3615.48,
+      "y": -521.27,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

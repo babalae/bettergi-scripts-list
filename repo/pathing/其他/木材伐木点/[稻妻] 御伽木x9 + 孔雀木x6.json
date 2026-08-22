@@ -1,0 +1,52 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Patrick-Ze",
+        "name": "Ayaka-Main"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784334520446,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "[稻妻] 御伽木x9 + 孔雀木x6",
+    "tags": [
+      "王树瑞佑",
+      "伐木"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4217.87,
+      "y": -2397.87
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -4185.4,
+      "y": -2430.16
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4185.4434,
+      "y": -2430.6201
+    }
+  ]
+}

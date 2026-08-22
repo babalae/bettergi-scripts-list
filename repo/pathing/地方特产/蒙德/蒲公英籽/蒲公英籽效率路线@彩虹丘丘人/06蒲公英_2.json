@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "06蒲公英_2",
+    "type": "collect",
+    "version": "1.0",
+    "description": "性价比路线，要求队伍：小草神+琴团长（琴可以换万叶，不建议法器角色，可能会攻击到怪）",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "彩虹QQ人",
+        "links": "https://github.com/KRdingsan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1999.1,
+      "y": 1434.98,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -2003.65,
+      "y": 1450.67,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2021.65,
+      "y": 1465.19,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "anemo_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -2030.2,
+      "y": 1455.72,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "anemo_collect",
+      "action_params": ""
+    }
+  ]
+}

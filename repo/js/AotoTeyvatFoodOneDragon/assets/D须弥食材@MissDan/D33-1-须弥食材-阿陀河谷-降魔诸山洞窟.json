@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个薄荷；4个墩墩桃；2个须弥蔷薇；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762452432064,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D33-1-须弥食材-阿陀河谷-降魔诸山洞窟",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2289.2119,
+      "y": -1598.9541
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2299.6533,
+      "y": -1619.5928
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2287.3438,
+      "y": -1616.147
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2271.0068,
+      "y": -1610.3442
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2275.2295,
+      "y": -1619.1714
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2500",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2286.6914,
+      "y": -1625.6655
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2296.5488,
+      "y": -1637.9438
+    }
+  ]
+}

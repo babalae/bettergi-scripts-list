@@ -1,0 +1,80 @@
+{
+  "info": {
+    "name": "09-鱼肉-稻妻-九条阵屋左-7",
+    "type": "collect",
+    "version": "1.0",
+    "description": "稻妻-九条阵屋左-7",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3436.91,
+      "y": -3319.62,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -3436.34,
+      "y": -3320.55,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3371.59,
+      "y": -3340.3,
+      "action_params": "芙宁娜 attack,wait(1.5), e"
+    },
+    {
+      "id": 4,
+      "action": "pick_around",
+      "move_mode": "run",
+      "type": "path",
+      "x": -3359.88,
+      "y": -3322.0,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "pick_around",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3355.25,
+      "y": -3323.12,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -3346.05,
+      "y": -3328.57,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -3351.58,
+      "y": -3338.01,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

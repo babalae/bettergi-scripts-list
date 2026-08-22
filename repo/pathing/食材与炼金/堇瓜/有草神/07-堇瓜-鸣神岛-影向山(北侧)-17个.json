@@ -1,0 +1,167 @@
+{
+  "info": {
+    "author": "起个名字好难的喵",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756505683054,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "07-堇瓜-鸣神岛-影向山(北侧)-17个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4403.84,
+      "y": -2481.96
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -4410.81,
+      "y": -2468.59
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4418.78,
+      "y": -2455.21
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4402.05,
+      "y": -2439.89
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4385.1,
+      "y": -2438.83
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -4385.6406,
+      "y": -2431.4707
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4375.5,
+      "y": -2427.79
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4396.94,
+      "y": -2413.05
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4396.95,
+      "y": -2413.04
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4396.95,
+      "y": -2413.04
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4396.95,
+      "y": -2413.04
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4374.08,
+      "y": -2398.96
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4363.12,
+      "y": -2394.02
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4336.97,
+      "y": -2400.4
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4408.87,
+      "y": -2395.34
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4416.97,
+      "y": -2398.43
+    }
+  ]
+}
