@@ -27,6 +27,8 @@ if (typeof rawLoop === 'boolean') {
     loopMode = 1; // 默认不循环
 }
 const disableJsons = settings.disableJsons || "";
+// 拾取模式：模板匹配拾取（JS自行识别，默认） / bgi原版拾取（由BetterGI AutoPick触发器拾取）
+let pickup_Mode;
 let processingIngredient = settings.processingIngredient;
 let findFInterval = Math.max(16, Math.min(200, parseInt(settings.findFInterval) || 100));
 let checkInterval = +settings.checkInterval || 50;
@@ -100,6 +102,15 @@ let materialCdMap = {};
 
 (async function () {
     dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
+    // ==================== 拾取模式 ====================
+    // 模板匹配拾取：JS 自行识别拾取（默认，产量记录完整）
+    // bgi原版拾取：由 BetterGI AutoPick 实时触发器完成拾取，JS 通过 dispatcher.getPickRecords() 取回拾取记录，
+    //              记录同样写入 runPickupLog，驱动 CD 计算、历史统计、每日拾取记录与优先材料扣减
+    pickup_Mode = settings.pickup_Mode || "模板匹配拾取";
+    if (pickup_Mode === "bgi原版拾取") {
+        dispatcher.AddTrigger(new RealtimeTimer("AutoPick"));
+        log.info("拾取模式：bgi原版拾取（由 BetterGI AutoPick 触发器完成拾取）");
+    }
     // ==================== 构建 settings.json ====================
     if (!await buildSettingsJson()) {
         return;
@@ -254,6 +265,43 @@ async function recognizeAndInteract() {
             catch (e) { log.error('背包满检查异常:', e); }
             finally { checkTask = null; }
         }
+    }
+}
+
+/**
+ * 启动拾取伴随任务（随路线执行并发运行，state.running 置 false 后结束）
+ * 根据拾取模式选择：
+ * - 模板匹配拾取：JS 自行识别拾取（recognizeAndInteract）
+ * - bgi原版拾取：轮询 dispatcher.getPickRecords() 取回 BetterGI 自动拾取的记录
+ * @returns {Promise<void>} 拾取任务 Promise，应在 state.running 置 false 后 await 其结束
+ */
+function startPickupTask() {
+    if (pickup_Mode === "bgi原版拾取") {
+        return pollPickRecordsTask();
+    }
+    return recognizeAndInteract();
+}
+
+/**
+ * 轮询取回 BetterGI 莫版拾取记录（bgi原版拾取模式专用）
+ * 拾取由 AutoPick 实时触发器完成，这里周期性调用 dispatcher.getPickRecords() 取回拾取历史，
+ * 写入 state.runPickupLog，与模板匹配拾取共用同一数据通道：
+ * 后续的 CD 计算（按材料取最晚刷新）、历史统计、每日拾取记录、优先材料扣减全部复用。
+ * 旧版 C# 无 getPickRecords 时通过可选链 + try 安全降级（不报错、不记录）。
+ * @returns {Promise<void>} 一直运行直到 state.running 为 false
+ */
+async function pollPickRecordsTask() {
+    while (state.running) {
+        try {
+            const records = dispatcher.getPickRecords?.() ?? [];
+            for (const r of records) {
+                state.runPickupLog.push(r.Name);
+                log.info(`交互或拾取："${r.Name}"`);
+            }
+        } catch (e) {
+            break; // 旧版 C# 不支持 getPickRecords，降级停止轮询
+        }
+        await sleep(100);
     }
 }
 
@@ -1313,6 +1361,7 @@ async function handleIngredientProcessing(timeNow) {
  */
 async function executeRoute(filePath, fileName, targetObj, startTime, lastMapName, priorityItemSet) {
     state.running = true;
+    let runRes;
 
     const raw = file.readTextSync(filePath);
     const json = JSON.parse(raw);
@@ -1320,7 +1369,7 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
     // 检测是否为 schedule 文件（包含 schedule 和 tasks 字段）
     if (json.schedule && json.tasks) {
         log.info(`检测到 schedule 文件: ${fileName}，使用 schedule 模式执行`);
-        const pickupTask = recognizeAndInteract();
+        const pickupTask = startPickupTask();
         await executeSchedule(filePath);
         state.running = false;
         await pickupTask;
@@ -1330,10 +1379,10 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
     const mapName = (json.info?.map_name && json.info.map_name.trim()) ? json.info.map_name : 'Teyvat';
     await handleUnderwaterRoute(mapName, filePath, lastMapName);
     lastMapName = mapName;
-    const pickupTask = recognizeAndInteract();
+    const pickupTask = startPickupTask();
 
     try {
-        await pathingScript.runFile(filePath);
+        runRes = await pathingScript.runFile(filePath);
     } catch (e) {
         log.error(`路线执行失败: ${filePath}`);
         state.running = false;
@@ -1346,7 +1395,19 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
 
     /* 4-4 计算CD（掉落材料决定）*/
     const timeDiff = new Date() - startTime;
-    let pathRes = isArrivedAtEndPoint(filePath);
+    let pathRes;
+    if (runRes !== undefined && typeof runRes.success === 'boolean') {
+        // 新版本BGI：直接使用返回值判定路线是否成功
+        if (runRes.success) {
+            log.info("路线运行成功");
+        } else {
+            log.error(`路线运行失败：${runRes.message}`);
+        }
+        pathRes = runRes.success;
+    } else {
+        // 旧版本BGI（无返回值）：静默回退到坐标校验
+        pathRes = isArrivedAtEndPoint(filePath);
+    }
 
     // >>> 仅当 >10s 才记录 history；若同时 pathRes === true 再更新 CD <<<
     if (timeDiff > 10000) {
@@ -1386,7 +1447,7 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
         }
     }
 
-    return { success: true, lastMapName, runPickupLog: state.runPickupLog };
+    return { success: true, lastMapName, runPickupLog: state.runPickupLog, pathRes };
 }
 
 /**
@@ -2105,6 +2166,18 @@ async function buildSettingsJson() {
             "执行任务（若不存在索引文件则自动创建）",
             "重新生成索引文件（用于强制刷新CD）"
         ]
+    });
+
+    /* 5.2.0 拾取模式 */
+    newSettings.push({
+        name: "pickup_Mode",
+        type: "select",
+        label: "选择拾取模式",
+        options: [
+            "模板匹配拾取",
+            "bgi原版拾取"
+        ],
+        default: "模板匹配拾取"
     });
 
     /* 5.2.1 循环模式 */
@@ -2880,7 +2953,8 @@ async function processPathGroups() {
                                         targetObj.cdTime = newTimestamp.toISOString();
                                         log.info(`schedule任务CD信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
                                     } else {
-                                        let pathRes = isArrivedAtEndPoint(filePath.fullPath);
+                                        // executeRoute 内部已用返回值或坐标校验完成路线成败判定，此处直接复用
+                                        let pathRes = routeResult.pathRes;
                                         if (pathRes) {
                                             const newTimestamp = calculateRouteCD(currentCdType, startTime);
                                             targetObj.cdTime = newTimestamp.toISOString();

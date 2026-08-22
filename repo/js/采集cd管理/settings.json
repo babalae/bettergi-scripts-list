@@ -15,5 +15,15 @@
     "name": "enableMoreSettings",
     "type": "checkbox",
     "label": "勾选后下次运行展开高级设置\n用于进行路线筛选和排序"
+  },
+  {
+    "name": "pickup_Mode",
+    "type": "select",
+    "label": "选择拾取模式",
+    "options": [
+      "模板匹配拾取",
+      "bgi原版拾取"
+    ],
+    "default": "模板匹配拾取"
   }
 ]
