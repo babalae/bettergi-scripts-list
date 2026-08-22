@@ -1140,30 +1140,40 @@ function wipOcrCheckText(roi1080, keywords, label, isDebug, returnSegments) {
 
             // 点击"幽境危战"
             GameCaptureRegion.gameRegion1080PPosClick(stygianHit.centerX, stygianHit.centerY);
-            await sleep(2000);
-            
-            // 识别"前往挑战"
+
+            // 识别"前往挑战"（循环检测，每150ms一次）
             const challengeRoi = [1524, 786, 131, 50];
-            
-            let challengeHit = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-前往挑战", isDebug);
+            let challengeHit = null;
+            let _challengeStart = new Date();
+            while (new Date() - _challengeStart < 3000) {
+                challengeHit = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-前往挑战", isDebug);
+                if (challengeHit) break;
+                await sleep(250);
+            }
+
             if (!challengeHit) {
                 log.info('[新版寻路] 首次识别失败，验证上一步元素...');
                 const stygianCheck = wipOcrCheckText(stygianRoi, ["幽境危战"], "新版寻路-验证幽境危战", isDebug);
                 if (stygianCheck) {
+                    log.info('[新版寻路] 幽境危战仍在，重新点击');
                     GameCaptureRegion.gameRegion1080PPosClick(stygianCheck.centerX, stygianCheck.centerY);
-                    await sleep(2000);
-                    challengeHit = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-前往挑战-retry", isDebug);
+                    _challengeStart = new Date();
+                    while (new Date() - _challengeStart < 2000) {
+                        challengeHit = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-前往挑战-retry", isDebug);
+                        if (challengeHit) break;
+                        await sleep(150);
+                    }
                 }
+
                 if (!challengeHit) {
-                    log.info('[新版寻路] 上一步已失效，重试1...');
-                    await sleep(1500);
-                    challengeHit = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-前往挑战-r1", isDebug);
+                    log.info('[新版寻路] 回退后仍未找到，最后尝试2秒...');
+                    _challengeStart = new Date();
+                    while (new Date() - _challengeStart < 2000) {
+                        challengeHit = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-前往挑战-final", isDebug);
+                        if (challengeHit) break;
+                        await sleep(150);
+                    }
                 }
-            }
-            if (!challengeHit) {
-                log.info('[新版寻路] 前往挑战识别失败，重试2...');
-                await sleep(1500);
-                challengeHit = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-前往挑战-r2", isDebug);
             }
 
             if (!challengeHit) {
@@ -1188,6 +1198,7 @@ function wipOcrCheckText(roi1080, keywords, label, isDebug, returnSegments) {
             }
 
             let isBurstPeriod = null;
+            let timeText = null;
             if (burstOcrHit) {
                 const segments = burstOcrHit.segments || [];
                 const allText = segments.map(s => s.text).join(" ");
@@ -1199,7 +1210,7 @@ function wipOcrCheckText(roi1080, keywords, label, isDebug, returnSegments) {
                     isBurstPeriod = false;
                 } else if (hasBurstLabel || hasTimeText) {
                     isBurstPeriod = true;
-                    const timeText = segments.find(s => /\d+\s*(天|小时|分钟)/.test(s.text));
+                    timeText = segments.find(s => /\d+\s*(天|小时|分钟)/.test(s.text));
                     if (timeText) {
                         const verifiedMs = await ocrTimeWithVerify(
                             () => {
@@ -1225,27 +1236,36 @@ function wipOcrCheckText(roi1080, keywords, label, isDebug, returnSegments) {
                 log.warn('[新版寻路] 爆发期状态未知（未识别到有效文本），继续执行');
             }
 
+            let burstTimeText = null;
+            if (isBurstPeriod === true && timeText) {
+                burstTimeText = timeText.text;
+            }
+
             const timeRemainingRoi = [1146, 353, 270, 34];
             const timeRemainingHit = wipOcrCheckText(timeRemainingRoi, ["剩余时间"], "新版寻路-剩余时间", isDebug);
-            if (timeRemainingHit) {
-                const burstStatusText = isBurstPeriod === true ? '在爆发期内' : isBurstPeriod === false ? '不在爆发期' : '状态未知';
-                notification.Send(`[新版寻路] 当前${burstStatusText}，${timeRemainingHit.text}`);
-                if (isBurstPeriod === false) {
-                    const verifiedMs = await ocrTimeWithVerify(
-                        () => {
-                            const hit = wipOcrCheckText(timeRemainingRoi, [], "新版寻路-剩余时间验证", isDebug, true);
-                            if (!hit) return null;
-                            const seg = (hit.segments || []).find(s => /\d+\s*(天|小时|分钟)/.test(s.text));
-                            return seg ? parseTimeToMillis(seg.text) : null;
-                        },
-                        "新版寻路-非爆发期"
-                    );
-                    updateBurstCache({
-                        status: verifiedMs !== null ? BURST_STATUS.CALM_WITH_TIME : BURST_STATUS.CALM_NO_TIME,
-                        nextBurstAt: verifiedMs !== null ? verifiedMs : null,
-                        source: "新版寻路"
-                    });
-                }
+            const burstStatusText = isBurstPeriod === true ? '在爆发期内' : isBurstPeriod === false ? '不在爆发期' : '状态未知';
+            let notifyMsg = `[新版寻路] 当前${burstStatusText}`;
+            if (burstTimeText) {
+                notifyMsg += `，爆发期剩余:${burstTimeText}`;
+            }
+            const activityTimeText = timeRemainingHit ? timeRemainingHit.text.replace(/^剩余时间[：:]/, '') : "未知";
+            notifyMsg += `，活动总剩余时间:${activityTimeText}`;
+            notification.Send(notifyMsg);
+            if (isBurstPeriod === false) {
+                const verifiedMs = await ocrTimeWithVerify(
+                    () => {
+                        const hit = wipOcrCheckText(timeRemainingRoi, [], "新版寻路-剩余时间验证", isDebug, true);
+                        if (!hit) return null;
+                        const seg = (hit.segments || []).find(s => /\d+\s*(天|小时|分钟)/.test(s.text));
+                        return seg ? parseTimeToMillis(seg.text) : null;
+                    },
+                    "新版寻路-非爆发期"
+                );
+                updateBurstCache({
+                    status: verifiedMs !== null ? BURST_STATUS.CALM_WITH_TIME : BURST_STATUS.CALM_NO_TIME,
+                    nextBurstAt: verifiedMs !== null ? verifiedMs : null,
+                    source: "新版寻路"
+                });
             } else if (isBurstPeriod === false) {
                 updateBurstCache({
                     status: BURST_STATUS.CALM_NO_TIME,
@@ -1530,36 +1550,30 @@ function wipOcrCheckText(roi1080, keywords, label, isDebug, returnSegments) {
                 //2.难度确认和选择（同时检测非爆发期界面）
                 let intoAction = null;
                 let isNonBurst = false;
+                const challengeRoi = [1554, 970, 360, 105];
+                const calmRoi = [861, 426, 197, 70];
+                const interactRoi_fallback = [1213, 510, 171, 56];
                 let _pollStart = new Date();
                 while (true) {
-                    let _cap = captureGameRegion();
-                    try {
-                        let _resList = _cap.findMulti(RecognitionObject.ocr(1554, 970, 360, 105));
-                        for (let _ri = 0; _ri < _resList.count; _ri++) {
-                            if (_resList[_ri].text === "单人挑战") {
-                                intoAction = { text: _resList[_ri].text, x: _resList[_ri].x, y: _resList[_ri].y, found: true };
-                                break;
-                            }
-                        }
-                    } finally {
-                        _cap.dispose();
+                    const soloHit = wipOcrCheckText(challengeRoi, ["单人挑战"], "挑战页-单人挑战", settings.devMode);
+                    if (soloHit) {
+                        intoAction = { text: soloHit.text, x: soloHit.centerX, y: soloHit.centerY, found: true };
+                        break;
                     }
-                    if (intoAction) break;
-                    await sleep(100);
 
-                    _cap = captureGameRegion();
-                    try {
-                        let _resList = _cap.findMulti(RecognitionObject.ocr(861, 426, 197, 70));
-                        for (let _ri = 0; _ri < _resList.count; _ri++) {
-                            if (_resList[_ri].text === "紊乱平息") {
-                                isNonBurst = true;
-                                break;
-                            }
-                        }
-                    } finally {
-                        _cap.dispose();
+                    const calmHit = wipOcrCheckText(calmRoi, ["紊乱平息"], "挑战页-紊乱平息", settings.devMode);
+                    if (calmHit) {
+                        isNonBurst = true;
+                        break;
                     }
-                    if (isNonBurst) break;
+
+                    const fallbackHit = wipOcrCheckText(interactRoi_fallback, ["「幽境危战」"], "挑战页-交互回退", settings.devMode);
+                    if (fallbackHit) {
+                        log.info('[挑战页] 检测到未打开交互面板，重新按F');
+                        await keyPress("F");
+                        await sleep(1000);
+                        continue;
+                    }
 
                     if (new Date() - _pollStart > 20000) {
                         await genshin.returnMainUi();
