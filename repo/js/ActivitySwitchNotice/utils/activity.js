@@ -1,5 +1,5 @@
 import {sendNotice,sendText} from "./notice";
-import {Record, toMainUi} from "./tool";
+import {drawBox, Record, toMainUi} from "./tool";
 const config_name = "config"
 const json_path = {
     activity: `${config_name}/activity.json`
@@ -193,7 +193,6 @@ async function scrollPage(totalDistance, isUp = false, waitCount = 6, stepDistan
     await sleep(ms);
 }
 
-
 /**
  * 根据活动页面进行滚动操作
  * @param {boolean} isUp - 滚动方向，true表示向上滚动，false表示向下滚动
@@ -233,7 +232,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
     const requiredSameCount = 1;        // 需要连续几次相同才确认到顶（推荐 2~3）
     let attemptIndex = 0;                // 总尝试次数计数器
     const maxAttempts = config.toTopCount;  // 可配置，默认为15次
-
+   await drawBox(settings.debug, ocrRegion, 200,new Pen(Color.FromArgb(255,209,87,255), 2));
     log.info("开始滚动到活动页面顶部...");
 
     while (attemptIndex < maxAttempts) {
@@ -241,7 +240,7 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
         log.info(`第 {attemptIndex} 次尝试回顶`, attemptIndex);
 
         // 移动鼠标到安全位置，避免干扰截图
-        await moveMouseTo(0, 20);
+        // await moveMouseTo(0, 20);
 
         // 截图 + OCR 识别活动列表区域
         let captureRegion = null;
@@ -264,7 +263,11 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
                 log.warn("顶部OCR未识别到任何活动条目，可能是页面为空或识别失败");
                 // 再尝试一次向上滚大距离
                 // await scrollPagesByActivity(true);  // true = 向上
-                await scrollPagesByActivity(true, 80 * 4, 6, 60, 1);
+                // await scrollPagesByActivity(true, 80 * 4, 6, 60, 1);
+                for (let i = 0; i <12 ; i++) {
+                    await verticalScroll(1);
+                    await sleep(2);
+                }
                 await sleep(ms);
                 continue;
             }
@@ -292,8 +295,11 @@ async function scrollPagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) 
             // 未达到稳定状态，继续向上滚动一页（可根据实际情况调整滚动距离）
             // 这里使用更大滚动距离确保能快速回顶
             // await scrollPagesByActivity(true);  // true = 向上
-            await scrollPagesByActivity(true, 80 * 4, 6, 60, 1);
-
+            // await scrollPagesByActivity(true, 80 * 4, 6, 60, 1);
+            for (let i = 0; i <12 ; i++) {
+                await verticalScroll(1);
+                await sleep(2);
+            }
             await sleep(ms);  // 给页面滚动和渲染留时间
         } finally {
             // 确保资源被正确释放
@@ -486,31 +492,36 @@ export async function activityMain(newActivityNotice = true) {
     // 1. 打开活动页面（默认 F5）
     await keyPress(config.activityKey);
     await sleep(ms * 2);  // 给活动页面多点加载时间
-
-    // 2. 先强制滚动到最顶部（非常重要！）
+    // let activityNameSet = new Set()
+    // 2. 初始化存储所有活动的 Map
+    let activityMap = new Map();  // key: 活动名称, value: 剩余时间文本
+    let previousPageActivities = new Set();  // 新增：记录上一页识别到的所有活动名称（用于重复页判断）
+    let lastPageBottomName = null;     // 上一次扫描到的页面最底部活动名
+    let sameBottomCount = 0;           // 连续出现相同底部活动名的次数
+    let scannedPages = 0;
+    const maxPages = 25;               // 防止意外死循环的安全上限
+    const overlapThreshold = 1;
+    let sameBottomCountMax = 1;         // 连续相同底部活动名的最大次数
+    let currentActivityJson = {uid: uid, activityNames: new Set()}
+    let actionRegion={
+        x: 225,
+        y: 73+200
+    }
+    await moveMouseTo(actionRegion.x, actionRegion.y)
+    await click(actionRegion.x, actionRegion.y)
+    // 3. 先强制滚动到最顶部（非常重要！）
     try {
         await scrollPagesByActivityToTop();
         await sleep(ms);
     } catch (e) {
         log.warn("回到顶部失败，但继续尝试执行");
     }
-    // let activityNameSet = new Set()
-    // 3. 初始化存储所有活动的 Map
-    let activityMap = new Map();  // key: 活动名称, value: 剩余时间文本
-    let previousPageActivities = new Set();  // 新增：记录上一页识别到的所有活动名称（用于重复页判断）
-
-    let lastPageBottomName = null;     // 上一次扫描到的页面最底部活动名
-    let sameBottomCount = 0;           // 连续出现相同底部活动名的次数
-    let scannedPages = 0;
-    const maxPages = 25;               // 防止意外死循环的安全上限
-    let sameBottomCountMax = 1;         // 连续相同底部活动名的最大次数
-    let currentActivityJson = {uid: uid, activityNames: new Set()}
     // 4. 主循环：逐页向下扫描
     while (scannedPages < maxPages) {
         scannedPages++;
         log.info(`正在扫描第 {scannedPages} 页`, scannedPages);
         // 移动鼠标到安全位置，避免干扰截图
-        await moveMouseTo(0, 20);
+        await moveMouseTo(actionRegion.x, actionRegion.y)
         // 获取当前页面活动列表区域截图并 OCR
         let captureRegion = null;
         try {
@@ -547,7 +558,7 @@ export async function activityMain(newActivityNotice = true) {
                 const overlapRatio = overlapCount / previousPageActivities.size;
 
                 // 如果重合率 >= 70%（可调整），认为滚动未生效，是重复页
-                if (overlapRatio >= 0.7) {
+                if (overlapRatio >= overlapThreshold) {
                     log.info(`检测到当前页与上一页高度重复（重合率 ${Math.round(overlapRatio * 100)}%），已到达底部，停止扫描`);
                     break;
                 }
@@ -696,7 +707,11 @@ export async function activityMain(newActivityNotice = true) {
             lastPageBottomName = currentPageBottomName;
 
             // 6. 向下滑动一页，继续下一轮
-            await scrollPagesByActivity(false);  // false = 向下滚动
+            // await scrollPagesByActivity(false);  // false = 向下滚动
+            for (let i = 0; i <12 ; i++) {
+                await verticalScroll(-1);
+                await sleep(2);
+            }
             await sleep(ms);
         } finally {
             if (captureRegion) {
