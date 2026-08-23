@@ -822,7 +822,7 @@ async function quickBuy(itemName) {
 async function spikChat(npcName) {
     let count = 6; // 添加let声明
     await sleep(1000);
-    if (npcName == "布纳马" || npcName == "杜拉夫") {
+    if (npcName == "布纳马" || npcName == "杜拉夫" || npcName == "齐良诺夫") {
         // 设置脚本环境的游戏分辨率和DPI缩放
         setGameMetrics(1920, 1080, 1);
 
@@ -830,7 +830,7 @@ async function spikChat(npcName) {
         let loop_count = 3;
         if (npcName == "布纳马") {
             loop_count = 3;
-        } else if (npcName == "杜拉夫") {
+        } else if (npcName == "杜拉夫" || npcName == "齐良诺夫") {
             loop_count = 2;
         }
 
@@ -844,7 +844,7 @@ async function spikChat(npcName) {
         try {
             let resList = captureRegion.findMulti(RecognitionObject.ocrThis);
             for (let i = 0; i < resList.count; i++) {
-                if (resList[i].text.includes("有什么卖的") || resList[i].text.includes("可以卖一些")) {
+                if (resList[i].text.includes("有什么卖的") || resList[i].text.includes("可以卖一些") || resList[i].text.includes("有什么喝的")) {
                     await sleep(500);
                     click(resList[i].x + 30, resList[i].y + 30);
                     await sleep(500);
