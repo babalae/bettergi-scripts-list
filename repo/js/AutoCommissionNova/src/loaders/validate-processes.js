@@ -577,25 +577,58 @@ function validatePartyModeConfig(config, filePath, fieldName, { allowStrategy })
 }
 
 function validatePartyConfig() {
-    const filePath = PATHS.USER_CONFIG;
-    let userConfig;
-    if (!file.isFile(filePath)) return 0;
-    try {
-        userConfig = JSON.parse(file.readTextSync(filePath));
-    } catch (error) {
-        log.debug("[{path}] 用户配置 JSON 解析失败: {error}", filePath, error.message);
+    if (!file.isFolder(PATHS.ACCOUNT_CONFIG_DIR)) return 0;
+    let errors = 0;
+    for (const filePath of Array.from(file.readPathSync(PATHS.ACCOUNT_CONFIG_DIR) || []).filter((path) => file.isFile(path))) {
+        const normalizedPath = String(filePath).replace(/\\/g, "/");
+        const fileName = normalizedPath.split("/").pop() || "";
+        if (!/^\d+\.json$/.test(fileName)) {
+            log.debug("[{path}] UID 配置文件名必须为纯数字 UID.json", filePath);
+            errors++;
+            continue;
+        }
+        let account;
+        try {
+            account = JSON.parse(file.readTextSync(filePath));
+        } catch (error) {
+            log.debug("[{path}] UID 配置 JSON 解析失败: {error}", filePath, error.message);
+            errors++;
+            continue;
+        }
+        const uid = fileName.slice(0, -5);
+        if (!account || typeof account !== "object" || Array.isArray(account)) {
+            log.debug("[{path}] UID 配置根节点必须是对象", filePath);
+            errors++;
+            continue;
+        }
+        if (account.uid !== uid) {
+            log.debug("[{path}] 文件名 UID 与内部 uid 不一致", filePath);
+            errors++;
+        }
+        if (!Array.isArray(account.commissions)) {
+            log.debug("[{path}] commissions 必须是数组", filePath);
+            errors++;
+        }
+        if (!account.branchCompleted || typeof account.branchCompleted !== "object" || Array.isArray(account.branchCompleted)) {
+            log.debug("[{path}] branchCompleted 必须是对象", filePath);
+            errors++;
+        }
+        errors += validateAccountPartyConfig(account.settings, filePath);
+    }
+    return errors;
+}
+
+function validateAccountPartyConfig(settings, filePath) {
+    if (!settings || typeof settings !== "object" || Array.isArray(settings)) {
+        log.debug("[{path}] settings 必须是对象", filePath);
         return 1;
     }
-    if (!userConfig || typeof userConfig !== "object" || Array.isArray(userConfig)) {
-        log.debug("[{path}] 用户配置根节点必须是对象", filePath);
-        return 1;
-    }
-    if (!userConfig.party || typeof userConfig.party !== "object" || Array.isArray(userConfig.party)) {
+    if (!settings.party || typeof settings.party !== "object" || Array.isArray(settings.party)) {
         log.debug("[{path}] party 必须是对象", filePath);
         return 1;
     }
     let errors = 0;
-    const global = userConfig.party.global;
+    const global = settings.party.global;
     if (!global || typeof global !== "object" || Array.isArray(global)) {
         log.debug("[{path}] party.global 必须是对象", filePath);
         errors++;
@@ -615,11 +648,11 @@ function validatePartyConfig() {
             }
         }
     }
-    if (!userConfig.party.scopes || typeof userConfig.party.scopes !== "object" || Array.isArray(userConfig.party.scopes)) {
+    if (!settings.party.scopes || typeof settings.party.scopes !== "object" || Array.isArray(settings.party.scopes)) {
         log.debug("[{path}] party.scopes 必须是对象", filePath);
         return errors + 1;
     }
-    for (const [scopeKey, config] of Object.entries(userConfig.party.scopes)) {
+    for (const [scopeKey, config] of Object.entries(settings.party.scopes)) {
         const scopePath = `${filePath}#party.scopes.${scopeKey}`;
         if (!scopeKey.split("/").every(Boolean) || scopeKey.split("/").length !== 4) {
             log.debug("[{path}] scope 键必须是 country/type/commission/location", scopePath);

@@ -97,5 +97,10 @@
       "type": "input-text",
       "label": "bgi_tools授权token 语法:tokenName=tokenValue(去看文档)",
       "default": "Authorization= "
+    },
+    {
+      "name": "debug",
+      "type": "checkbox",
+      "label": "开发者模式(用于调试)"
     }
 ]

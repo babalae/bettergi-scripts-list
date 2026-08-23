@@ -3,7 +3,7 @@
 //
 // 只统计「采集脚本运行期间」的收获：采集前读一次起点，采集后读一次终点，
 // 收获 = 终点 − 起点。中间你手动花费/分解狗粮的部分天然被排除。
-// 负收获（采集只会增，出现负值=读数异常）不计入。
+// 各指标独立、不连坐：某项测量失败/负收获/超上限只丢该项（负/超限会在通知里点名），其余指标照常记录。
 //
 // 结构：顶部纯逻辑（不引用 BGI 全局，可 Node 单测）；底部 IIFE 负责测量/持久化。
 // ============================================================================
@@ -78,7 +78,8 @@ function computeStreak(records) {
 // 【采集前】记录起点，打开本次采集窗口。
 // cur[k]: number=读到 / null=启用但失败 / undefined=未统计该项。
 function computeStart(prev, cur, nowTs) {
-    if (cur.mora === null || cur.fodderExp === null)
+    // 各指标独立、不连坐：只要 摩拉/狗粮 任一测到(number)就开窗；两者都没测到才算失败。失败/未启用的项在 session 记 null。
+    if (typeof cur.mora !== 'number' && typeof cur.fodderExp !== 'number')
         return { action: 'skip', reason: 'measure-fail', state: prev || freshState() };
     const state = migrate(prev); // 克隆并升级到 schema 5（补全时计数器）
     state.session = {
@@ -90,45 +91,46 @@ function computeStart(prev, cur, nowTs) {
     return { action: 'start', state: state };
 }
 
-// 【采集后】结算：收获 = 终点 − 起点；摩拉/狗粮负收获/超限→整窗不计；原石为软指标单独处理。
-// 返回 action: 'no-start' | 'skip'(reason) | 'end'
+// 【采集后】结算：收获 = 终点 − 起点。各指标独立、不连坐——某项测量失败/负收获/超限，只丢该项，其余照常记录。
+// 返回 action: 'no-start' | 'skip'(reason,dropped) | 'end'（均带 dropped=[{metric,value}] 列出「测得但异常、已单独跳过」的项）
 function computeEnd(prev, cur, nowTs, opts) {
     opts = opts || {};
     const max = opts.moraSanityMax || 50000000;
     const pgMax = opts.primogemSanityMax || 100000;
     if (!prev || !prev.session || !prev.session.open)
-        return { action: 'no-start', state: prev || freshState() };
+        return { action: 'no-start', state: prev || freshState(), dropped: [] };
 
     const state = migrate(prev); // 克隆并升级到 schema 5
-    state.session.open = false; // 无论结果如何，关闭本窗口
-
-    if (cur.mora === null || cur.fodderExp === null)
-        return { action: 'skip', reason: 'measure-fail', state: state };
-
+    state.session.open = false;  // 无论结果如何，关闭本窗口
     const start = prev.session;
-    const gains = {};
-    for (let i = 0; i < METRICS.length; i++) {
-        let k = METRICS[i];
-        gains[k] = (typeof cur[k] === 'number' && typeof start[k] === 'number') ? (cur[k] - start[k]) : null;
-    }
-    for (let j = 0; j < METRICS.length; j++) {
-        const g = gains[METRICS[j]];
-        if (g != null && (g < 0 || Math.abs(g) > max))
-            return { action: 'skip', reason: 'abnormal', state: state, badMetric: METRICS[j], badValue: g };
-    }
 
-    const mg = gains.mora;       // null = 该指标本次未启用（关掉）→ 不累加、不写字段、不算有效天
-    const fg = gains.fodderExp;
-    // 原石（软指标）：仅在「本窗真正测得有效值」时才计；未测得/异常 → 不写该天字段、不累加。
-    // 关键约定：记录里「有没有这个字段」== 那天到底统计没统计这个指标。后加入的指标在旧天数里没有该字段，
-    // 因此不会被当成「0 的有效一天」拉低日均（分母见 computeReport 的 dayCount）。今后新增物品指标一律照此办理。
+    // 硬指标(摩拉/狗粮)各自独立结算：
+    //   起点或终点缺一(非 number) → 该项不计、不报（测量失败/未启用，静默跳过）；
+    //   测得但 <0(负收获) 或 >上限 → 该项不计，并记入 dropped（异常，需提示）。互不连坐。
+    const dropped = [];
+    const gains = {}; // 只存「有效」增量(number)；无效项不入 gains == 那天不写该字段
+    for (let i = 0; i < METRICS.length; i++) {
+        const k = METRICS[i];
+        if (typeof cur[k] !== 'number' || typeof start[k] !== 'number') continue;
+        const g = cur[k] - start[k];
+        if (!Number.isFinite(g)) continue;            // NaN/±Infinity = 垃圾读数 → 当没测到静默跳过（与原石软指标一致地拒绝，绝不写成有效增量）
+        if (g < 0 || g > max) { dropped.push({ metric: k, value: g }); continue; }
+        gains[k] = g;
+    }
+    // 原石（软指标）：负/超限静默不计、不进 dropped。「记录里有无该字段 == 那天有没有统计该指标」的约定对所有指标一致，
+    // 缺字段的指标在 computeReport 里不进它的日均分母，也不会被当成「0 的有效一天」。
     let pg = 0, pgMeasured = false;
     if (typeof cur.primogem === 'number' && typeof start.primogem === 'number') {
-        let p = cur.primogem - start.primogem;
+        const p = cur.primogem - start.primogem;
         if (p >= 0 && p <= pgMax) { pg = p; pgMeasured = true; }
     }
-    if (mg != null) state.totalMora += mg;
-    if (fg != null) state.totalFodder += fg;
+
+    const hasMg = 'mora' in gains, hasFg = 'fodderExp' in gains;
+    if (!hasMg && !hasFg && !pgMeasured) // 三项都无有效值 → 不写记录（有异常项则 abnormal，纯失败则 measure-fail）
+        return { action: 'skip', reason: dropped.length ? 'abnormal' : 'measure-fail', state: state, dropped: dropped };
+
+    if (hasMg) state.totalMora += gains.mora;
+    if (hasFg) state.totalFodder += gains.fodderExp;
     if (pgMeasured) state.totalPrimogem += pg;
     const curDay = serviceDay(nowTs);
     const recs = state.records;
@@ -137,21 +139,18 @@ function computeEnd(prev, cur, nowTs, opts) {
     if (!last) { recs.push(rec); state.totalDays += 1; if (state.firstTs == null) state.firstTs = nowTs; }
     rec.ts = nowTs;
     // 各指标按天计数：仅在该指标当天「首次」写入记录时 +1（同日多窗合并不重复计数；缺字段=那天没统计该指标）
-    if (mg != null) { if (!('moraGain' in rec)) state.dayCounts.mora += 1; rec.moraGain = (rec.moraGain || 0) + mg; }
-    if (fg != null) { if (!('fodderGain' in rec)) state.dayCounts.fodderExp += 1; rec.fodderGain = (rec.fodderGain || 0) + fg; }
-    if (pgMeasured) {
-        if (!('primogemGain' in rec)) state.dayCounts.primogem += 1;
-        rec.primogemGain = (rec.primogemGain || 0) + pg;
-    }
+    if (hasMg) { if (!('moraGain' in rec)) state.dayCounts.mora += 1; rec.moraGain = (rec.moraGain || 0) + gains.mora; }
+    if (hasFg) { if (!('fodderGain' in rec)) state.dayCounts.fodderExp += 1; rec.fodderGain = (rec.fodderGain || 0) + gains.fodderExp; }
+    if (pgMeasured) { if (!('primogemGain' in rec)) state.dayCounts.primogem += 1; rec.primogemGain = (rec.primogemGain || 0) + pg; }
     state.records = recs; // 保留全部历史（每个服务日至多 1 条、体量极小）；累计/天数另由全时计数器维护
     state.schema = 5;
-    return { action: 'end', state: state, moraGain: mg != null ? mg : 0, fodderGain: fg != null ? fg : 0, primogemGain: pg };
+    return { action: 'end', state: state, moraGain: hasMg ? gains.mora : null, fodderGain: hasFg ? gains.fodderExp : null, primogemGain: pg, dropped: dropped };
 }
 
 // 报告：累计/日均/今天 + 原石 + 连续天数 + 本周/本月 + 今天vs昨天 + 周环比。
 function computeReport(state, nowTs) {
     const out = { days: 0, mora: null, fodder: null, primogem: null, today: { mora: 0, fodder: 0, primogem: 0 },
-        streak: 0, week: null, month: null, dod: null, wow: null };
+        todayHas: { mora: false, fodder: false, primogem: false }, streak: 0, week: null, month: null, dod: null, wow: null };
     state = migrate(state);
     const recs = state.records;
     if (!recs.length) return out;
@@ -165,22 +164,30 @@ function computeReport(state, nowTs) {
     const curDay = serviceDay(nowTs);
     const last = recs[recs.length - 1];
     if (last && last.dayKey === curDay) {
-        out.today.mora = last.moraGain; out.today.fodder = last.fodderGain; out.today.primogem = last.primogemGain || 0;
+        out.today.mora = last.moraGain || 0; out.today.fodder = last.fodderGain || 0; out.today.primogem = last.primogemGain || 0;
+        out.todayHas = { mora: typeof last.moraGain === 'number', fodder: typeof last.fodderGain === 'number', primogem: typeof last.primogemGain === 'number' };
     }
     out.streak = computeStreak(recs);
     const cw = weekKey(curDay), cm = monthKey(curDay);
     function agg(fn) {
-        let m = 0, f = 0, p = 0, d = 0;
-        for (let i = 0; i < recs.length; i++) if (fn(recs[i])) { m += recs[i].moraGain; f += recs[i].fodderGain; p += (recs[i].primogemGain || 0); d++; }
-        return d ? { moraTotal: m, fodderTotal: f, primogemTotal: p, days: d, moraAvg: Math.round(m / d), fodderAvg: Math.round(f / d) } : null;
+        let m = 0, f = 0, p = 0, d = 0, dm = 0, df = 0; // dm/df=各指标真正测得的天数，分别做日均分母，避免某天只测一项把另一项按 0 稀释
+        for (let i = 0; i < recs.length; i++) if (fn(recs[i])) {
+            const r = recs[i];
+            if (typeof r.moraGain === 'number') { m += r.moraGain; dm++; }
+            if (typeof r.fodderGain === 'number') { f += r.fodderGain; df++; }
+            p += (r.primogemGain || 0); d++;
+        }
+        // 某指标整段一天都没测到(dm/df===0)→该项 total/avg 置 null（不是 0），与整体 out.mora 的口径一致，避免伪造「0」和 −100%
+        return d ? { moraTotal: dm ? m : null, fodderTotal: df ? f : null, primogemTotal: p, days: d, moraAvg: dm ? Math.round(m / dm) : null, fodderAvg: df ? Math.round(f / df) : null } : null;
     }
     out.week = agg(function (r) { return weekKey(r.dayKey) === cw; });
     out.month = agg(function (r) { return monthKey(r.dayKey) === cm; });
     let ytd = null;
     for (let y = 0; y < recs.length; y++) if (recs[y].dayKey === curDay - 1) ytd = recs[y];
-    if (last && last.dayKey === curDay && ytd && ytd.moraGain) out.dod = (last.moraGain - ytd.moraGain) / ytd.moraGain * 100;
+    if (last && last.dayKey === curDay && typeof last.moraGain === 'number' && ytd && typeof ytd.moraGain === 'number' && ytd.moraGain)
+        out.dod = (last.moraGain - ytd.moraGain) / ytd.moraGain * 100;
     const lw = agg(function (r) { return weekKey(r.dayKey) === cw - 1; });
-    if (out.week && lw && lw.moraTotal) out.wow = (out.week.moraTotal - lw.moraTotal) / lw.moraTotal * 100;
+    if (out.week && out.week.moraTotal != null && lw && lw.moraTotal) out.wow = (out.week.moraTotal - lw.moraTotal) / lw.moraTotal * 100;
     return out;
 }
 
@@ -217,7 +224,7 @@ body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Segoe UI",s
 .chart{padding:6px 14px 8px;position:relative}.chart-svg{width:100%;height:auto;display:block;overflow:visible}.chart-svg .axis{fill:var(--ink-3);font-size:10px;font-weight:500}.chart-svg .xlab{fill:var(--ink-3);font-size:10px}.chart-svg .pt{cursor:pointer;transition:r .12s var(--ease)}.chart-svg .pt.hl{r:5.5}
 table{width:100%;border-collapse:collapse;margin-top:8px}thead th{font-size:11.5px;font-weight:600;color:var(--ink-3);letter-spacing:.2px;text-align:left;padding:10px 20px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border);transition:color .15s;white-space:nowrap}thead th:hover{color:var(--ink)}thead th:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}thead th.n{text-align:center}thead th .ar{opacity:0;font-size:9px;margin-left:4px}thead th.sorted .ar{opacity:.8}
 tbody td{font-size:13.5px;padding:11px 20px;border-bottom:1px solid var(--border);white-space:nowrap}tbody tr:last-child td{border-bottom:none}tbody tr{transition:background .12s}tbody tr:hover,tbody tr.hl{background:var(--hover)}
-.n{text-align:center}td.date{color:var(--ink-2);font-weight:600}td.mora{color:var(--gold-ink);font-weight:700}td.food{color:var(--green);font-weight:700}td.primo{color:var(--primo);font-weight:700}td.primo.na{color:var(--ink-3);font-weight:400;opacity:.6}td.delta{font-weight:700;color:var(--up)}td.delta.neg{color:var(--down)}
+.n{text-align:center}td.date{color:var(--ink-2);font-weight:600}td.mora{color:var(--gold-ink);font-weight:700}td.food{color:var(--green);font-weight:700}td.primo{color:var(--primo);font-weight:700}td.na{color:var(--ink-3);font-weight:400;opacity:.6}td.delta{font-weight:700;color:var(--up)}td.delta.neg{color:var(--down)}
 .tag{margin-left:8px;font-size:10px;font-weight:700;color:var(--gold-ink);background:var(--gold-soft);padding:1px 7px;border-radius:5px}tbody tr.peak{box-shadow:inset 2px 0 0 var(--gold)}
 .tooltip{position:fixed;z-index:20;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;background:var(--tip-bg);border:1px solid var(--border-2);border-radius:8px;padding:7px 11px;font-size:12px;box-shadow:0 8px 24px rgba(0,0,0,.4);white-space:nowrap;color:var(--ink)}.tooltip.show{opacity:1;transform:none}.tooltip .t-date{color:var(--ink-3);font-size:11px;margin-bottom:2px}.tooltip .t-val{font-weight:700}
 footer{margin-top:20px;text-align:center;font-size:11.5px;color:var(--ink-3);line-height:1.7}
@@ -333,36 +340,39 @@ function buildHtmlReport(store, nowTs) {
         const rail = '<aside class="rail">'
             + '<div class="ns"><div class="ns-cap"><span class="sw"></span>摩拉 · ' + esc(keys[ki]) + '</div>'
             + '<div class="ns-label">累计收获</div><div class="ns-num num">' + fmt(mTot) + '</div><div class="ns-sub">' + wan(mTot) + '</div>'
-            + '<div class="ns-row"><div><span>今天</span><b class="num">' + fmt(mToday) + '</b></div><div><span>日均</span><b class="num">' + fmt(mAvg) + '</b></div></div></div>'
+            + '<div class="ns-row"><div><span>今天</span><b class="num">' + (rep.todayHas.mora ? fmt(mToday) : '—') + '</b></div><div><span>日均</span><b class="num">' + fmt(mAvg) + '</b></div></div></div>'
             + '<div class="sec"><div class="sec-cap"><span class="sw"></span>狗粮经验 · 累计</div><div class="sec-num num">' + fmt(fTot) + '</div>'
-            + '<div class="sec-row"><span>今天 <b class="num">' + fmt(fToday) + '</b></span><span>日均 <b class="num">' + fmt(fAvg) + '</b>' + basis(rep.fodder) + '</span></div></div>'
+            + '<div class="sec-row"><span>今天 <b class="num">' + (rep.todayHas.fodder ? fmt(fToday) : '—') + '</b></span><span>日均 <b class="num">' + fmt(fAvg) + '</b>' + basis(rep.fodder) + '</span></div></div>'
             + (hasP ? ('<div class="sec sec-p"><div class="sec-cap"><span class="sw"></span>原石 · 累计</div><div class="sec-num num">' + fmt(pTot) + '</div>'
-                + '<div class="sec-row"><span>今天 <b class="num">' + fmt(pToday) + '</b></span><span>日均 <b class="num">' + fmt(pAvg) + '</b>' + basis(rep.primogem) + '</span></div></div>') : '')
+                + '<div class="sec-row"><span>今天 <b class="num">' + (rep.todayHas.primogem ? fmt(pToday) : '—') + '</b></span><span>日均 <b class="num">' + fmt(pAvg) + '</b>' + basis(rep.primogem) + '</span></div></div>') : '')
             + '<div class="facts">'
             + '<div class="fact"><span>连续采集</span><b class="gold num">' + rep.streak + ' <em>天</em></b></div>'
             + '<div class="fact"><span>总采集天数</span><b class="num">' + rep.days + ' <em>天</em></b></div>'
-            + '<div class="fact"><span>峰值单日 · 摩拉</span><b class="gold num">' + fmt(peakM) + ' <em>' + peakDate + '</em></b></div>'
-            + '<div class="fact"><span>今天 vs 日均</span><b class="' + (tvAvg < 0 ? 'down' : 'up') + ' num">' + pct(tvAvg) + '</b></div>'
+            + '<div class="fact"><span>峰值单日 · 摩拉</span><b class="gold num">' + (peakM < 0 ? '—' : fmt(peakM) + ' <em>' + peakDate + '</em>') + '</b></div>'
+            + (rep.todayHas.mora && rep.mora && rep.mora.avg ? ('<div class="fact"><span>今天 vs 日均</span><b class="' + (tvAvg < 0 ? 'down' : 'up') + ' num">' + pct(tvAvg) + '</b></div>') : '')
             + (rep.dod != null ? ('<div class="fact"><span>今天 vs 昨天</span><b class="' + (rep.dod < 0 ? 'down' : 'up') + ' num">' + pct(rep.dod) + '</b></div>') : '')
             + '<div class="fact"><span>摩拉 : 狗粮经验</span><b class="num">' + ratio + '</b></div></div>'
             + '<div class="facts"><div class="facts-cap">周期汇总 · 摩拉</div>'
-            + '<div class="fact"><span>本周</span><b class="num">' + (wk ? fmt(wk.moraTotal) : '—') + (wk ? ' <em>日均 ' + fmt(wk.moraAvg) + '</em>' : '') + '</b></div>'
+            + '<div class="fact"><span>本周</span><b class="num">' + (wk && wk.moraTotal != null ? fmt(wk.moraTotal) + ' <em>日均 ' + fmt(wk.moraAvg) + '</em>' : '—') + '</b></div>'
             + (rep.wow != null ? ('<div class="fact"><span>本周 vs 上周</span><b class="' + (rep.wow < 0 ? 'down' : 'up') + ' num">' + pct(rep.wow) + '</b></div>') : '')
-            + '<div class="fact"><span>本月</span><b class="num">' + (mo ? fmt(mo.moraTotal) : '—') + (mo ? ' <em>日均 ' + fmt(mo.moraAvg) + '</em>' : '') + '</b></div></div>'
+            + '<div class="fact"><span>本月</span><b class="num">' + (mo && mo.moraTotal != null ? fmt(mo.moraTotal) + ' <em>日均 ' + fmt(mo.moraAvg) + '</em>' : '—') + '</b></div></div>'
             + '</aside>';
 
         // 明细表（最新在上）。原石列仅在有原石数据时出现；上线前的旧天数显示「—」而非 0（与日均口径一致）
         let rows = '';
         for (let r2 = recs.length - 1; r2 >= 0; r2--) {
-            const rr = recs[r2], dv = (mAvg ? (rr.moraGain - mAvg) / mAvg * 100 : 0), isPk = rr.moraGain === peakM;
-            const hasPg = typeof rr.primogemGain === 'number';
+            const rr = recs[r2];
+            const hasMg = typeof rr.moraGain === 'number', hasFg = typeof rr.fodderGain === 'number', hasPg = typeof rr.primogemGain === 'number';
+            const dv = (hasMg && mAvg) ? (rr.moraGain - mAvg) / mAvg * 100 : null; // 缺当天摩拉→较日均无意义，显示「—」
+            const isPk = hasMg && rr.moraGain === peakM;
             const pCell = hasP ? ('<td class="n primo' + (hasPg ? '' : ' na') + '">' + (hasPg ? fmt(rr.primogemGain) : '—') + '</td>') : '';
-            const pAttr = hasP ? (' data-p="' + (hasPg ? rr.primogemGain : -1) + '"') : '';
-            rows += '<tr data-i="' + r2 + '" data-m="' + rr.moraGain + '" data-f="' + rr.fodderGain + '"' + pAttr + ' data-d="' + dv.toFixed(2) + '"' + (isPk ? ' class="peak"' : '') + '>'
+            rows += '<tr data-i="' + r2 + '" data-m="' + (hasMg ? rr.moraGain : -1) + '" data-f="' + (hasFg ? rr.fodderGain : -1) + '"'
+                + (hasP ? (' data-p="' + (hasPg ? rr.primogemGain : -1) + '"') : '') + ' data-d="' + (dv != null ? dv.toFixed(2) : -99999) + '"' + (isPk ? ' class="peak"' : '') + '>'
                 + '<td class="date">' + md(rr.dayKey) + (isPk ? '<span class="tag">峰值</span>' : '') + '</td>'
-                + '<td class="n mora">' + fmt(rr.moraGain) + '</td><td class="n food">' + fmt(rr.fodderGain) + '</td>'
+                + '<td class="n mora' + (hasMg ? '' : ' na') + '">' + (hasMg ? fmt(rr.moraGain) : '—') + '</td>'
+                + '<td class="n food' + (hasFg ? '' : ' na') + '">' + (hasFg ? fmt(rr.fodderGain) : '—') + '</td>'
                 + pCell
-                + '<td class="n delta' + (dv < 0 ? ' neg' : '') + '">' + pct(dv) + '</td></tr>';
+                + '<td class="n delta' + (dv != null && dv < 0 ? ' neg' : '') + (dv == null ? ' na' : '') + '">' + (dv != null ? pct(dv) : '—') + '</td></tr>';
         }
         const main = '<main class="main">'
             + '<section class="panel"><div class="panel-head"><h2>每日趋势</h2><div class="ctrls"><div class="seg range"><button class="seg-btn" data-range="7">7天</button><button class="seg-btn active" data-range="30">30天</button><button class="seg-btn" data-range="180">180天</button><button class="seg-btn" data-range="0">全部</button></div><div class="seg metric"><button class="seg-btn active" data-metric="mora">摩拉</button><button class="seg-btn food" data-metric="food">狗粮经验</button>' + (hasP ? '<button class="seg-btn primo" data-metric="primogem">原石</button>' : '') + '</div></div></div><div class="chart"></div></section>'
@@ -372,7 +382,7 @@ function buildHtmlReport(store, nowTs) {
         blocks += '<div class="block" data-idx="' + idx + '"><div class="block-head">账户 <b>' + esc(keys[ki]) + '</b> · 起算 ' + esc(firstDate) + ' · ' + rep.days + ' 个采集日</div><div class="layout">' + rail + main + '</div></div>';
 
         const sj = [];
-        for (let sj2 = 0; sj2 < recs.length; sj2++) sj.push('{d:"' + md(recs[sj2].dayKey) + '",m:' + recs[sj2].moraGain + ',f:' + recs[sj2].fodderGain + ',p:' + (typeof recs[sj2].primogemGain === 'number' ? recs[sj2].primogemGain : 'null') + '}'); // 缺测原石写 null（非 0），趋势图据此剔除该点
+        for (let sj2 = 0; sj2 < recs.length; sj2++) { const r = recs[sj2]; sj.push('{d:"' + md(r.dayKey) + '",m:' + (typeof r.moraGain === 'number' ? r.moraGain : 'null') + ',f:' + (typeof r.fodderGain === 'number' ? r.fodderGain : 'null') + ',p:' + (typeof r.primogemGain === 'number' ? r.primogemGain : 'null') + '}'); } // 任一指标缺测写 null（非 undefined/0），趋势图据此剔除该点、也不会破坏内联 JSON
         reportsJs.push('{avg:{mora:' + mAvg + ',food:' + fAvg + ',primogem:' + pAvg + '},hasP:' + (hasP ? 'true' : 'false') + ',series:[' + sj.join(',') + ']}');
         bi++;
     }
@@ -439,12 +449,13 @@ if (typeof module === 'undefined') (async function () {
         if (re.action === 'no-start') { announce('⚠️ 未找到采集起点，请把「采集前」的统计任务排在采集任务之前先运行。本次未结算。'); return; }
         if (re.action === 'skip') {
             store[profileKey] = re.state; saveStore(store); // 关闭窗口状态也要落盘
-            if (re.reason === 'abnormal') announce('⚠️ 检测到异常收获（' + re.badMetric + '=' + re.badValue + '，疑似读数错误或非采集变动），本段不计。');
-            else announce('⚠️ 采集后测量失败，本段不计。');
+            if (re.reason === 'abnormal') announce('⚠️ 本段各指标均异常（' + fmtDropped(re.dropped) + '，疑似读数错误或非采集变动），未计入。');
+            else announce('⚠️ 采集后测量失败，本段未计入。');
             return;
         }
         store[profileKey] = re.state;
         if (!saveStore(store)) { announce('⚠️ 写盘校验失败，本段未记录（旧记录已保留在备份）。'); return; }
+        if (re.dropped && re.dropped.length) announce('⚠️ 部分指标异常已单独跳过（' + fmtDropped(re.dropped) + '），其余指标已正常计入本段。');
         const rpt = computeReport(re.state, cur.ts);
         report(rpt, re.state);
     }
@@ -453,15 +464,20 @@ if (typeof module === 'undefined') (async function () {
     function fmtRead(v) { return v === null ? '失败' : (v === undefined ? '未统计' : v); }
     function fmtMoney(v) { return (typeof v === 'number') ? formatMora(v) : '--'; }
     function fmtFodder(v) { return (typeof v === 'number') ? formatExp(v) : '--'; }
+    function fmtDropped(dropped) { // 把 dropped 列成「摩拉=-3、狗粮经验=-50」
+        if (!dropped || !dropped.length) return '';
+        const name = { mora: '摩拉', fodderExp: '狗粮经验' };
+        return dropped.map(function (d) { return (name[d.metric] || d.metric) + '=' + d.value; }).join('、');
+    }
 
     function report(rpt, state) {
         const firstDate = state.firstTs ? new Date(state.firstTs).toLocaleDateString() : '--';
         let msg = '📊 每日收获统计 [账户: ' + profileKey + ']\n';
         msg += '⏱ 起算 ' + firstDate + '，已统计 ' + rpt.days + ' 个采集日 · 连续 ' + rpt.streak + ' 天\n';
-        if (countMora && rpt.mora) msg += '── 摩拉 ──\n已累计 ' + formatMora(rpt.mora.total) + ' / 今天 ' + formatMora(rpt.today.mora) + ' / 日均 ' + formatMora(rpt.mora.avg) + '\n';
-        if (countFodder && rpt.fodder) msg += '── 狗粮经验 ──\n已累计 ' + formatExp(rpt.fodder.total) + ' / 今天 ' + formatExp(rpt.today.fodder) + ' / 日均 ' + formatExp(rpt.fodder.avg) + '\n';
-        if (countMora && rpt.primogem && rpt.primogem.total > 0) msg += '── 原石 ──\n已累计 ' + formatMora(rpt.primogem.total) + ' / 今天 ' + formatMora(rpt.today.primogem) + ' / 日均 ' + formatMora(rpt.primogem.avg) + '\n';
-        if (rpt.week) { msg += '本周摩拉 ' + formatMora(rpt.week.moraTotal) + '（日均 ' + formatMora(rpt.week.moraAvg) + '）'; if (rpt.dod != null) msg += ' · 今天较昨天 ' + (rpt.dod < 0 ? '−' : '+') + Math.abs(rpt.dod).toFixed(1) + '%'; msg += '\n'; }
+        if (countMora && rpt.mora) msg += '── 摩拉 ──\n已累计 ' + formatMora(rpt.mora.total) + ' / 今天 ' + (rpt.todayHas.mora ? formatMora(rpt.today.mora) : '—') + ' / 日均 ' + formatMora(rpt.mora.avg) + '\n';
+        if (countFodder && rpt.fodder) msg += '── 狗粮经验 ──\n已累计 ' + formatExp(rpt.fodder.total) + ' / 今天 ' + (rpt.todayHas.fodder ? formatExp(rpt.today.fodder) : '—') + ' / 日均 ' + formatExp(rpt.fodder.avg) + '\n';
+        if (countMora && rpt.primogem && rpt.primogem.total > 0) msg += '── 原石 ──\n已累计 ' + formatMora(rpt.primogem.total) + ' / 今天 ' + (rpt.todayHas.primogem ? formatMora(rpt.today.primogem) : '—') + ' / 日均 ' + formatMora(rpt.primogem.avg) + '\n';
+        if (rpt.week && rpt.week.moraTotal != null) { msg += '本周摩拉 ' + formatMora(rpt.week.moraTotal) + '（日均 ' + formatMora(rpt.week.moraAvg) + '）'; if (rpt.dod != null) msg += ' · 今天较昨天 ' + (rpt.dod < 0 ? '−' : '+') + Math.abs(rpt.dod).toFixed(1) + '%'; msg += '\n'; }
         announce(msg);
     }
 
@@ -501,17 +517,19 @@ if (typeof module === 'undefined') (async function () {
             L.push('');
             L.push('【账户】' + keys[ki]);
             L.push('  起算 ' + firstDate + '，已统计 ' + rep.days + ' 个采集日（连续 ' + rep.streak + ' 天）');
-            if (rep.mora) L.push('  摩拉：    累计 ' + formatMora(rep.mora.total) + '  |  今天 ' + formatMora(rep.today.mora) + '  |  日均 ' + formatMora(rep.mora.avg));
-            if (rep.fodder) L.push('  狗粮经验：累计 ' + formatExp(rep.fodder.total) + '  |  今天 ' + formatExp(rep.today.fodder) + '  |  日均 ' + formatExp(rep.fodder.avg));
-            if (rep.primogem && rep.primogem.total > 0) { const pb = (rep.primogem.days && rep.primogem.days !== rep.days) ? '（按 ' + rep.primogem.days + ' 天）' : ''; L.push('  原石：    累计 ' + formatMora(rep.primogem.total) + '  |  今天 ' + formatMora(rep.today.primogem) + '  |  日均 ' + formatMora(rep.primogem.avg) + pb); }
-            if (rep.week) { let wl = '  本周：    摩拉 ' + formatMora(rep.week.moraTotal) + '（日均 ' + formatMora(rep.week.moraAvg) + '）'; if (rep.dod != null) wl += '  |  今天较昨天 ' + (rep.dod < 0 ? '−' : '+') + Math.abs(rep.dod).toFixed(1) + '%'; L.push(wl); }
-            if (rep.month) L.push('  本月：    摩拉 ' + formatMora(rep.month.moraTotal) + '（日均 ' + formatMora(rep.month.moraAvg) + '）');
+            if (rep.mora) L.push('  摩拉：    累计 ' + formatMora(rep.mora.total) + '  |  今天 ' + (rep.todayHas.mora ? formatMora(rep.today.mora) : '—') + '  |  日均 ' + formatMora(rep.mora.avg));
+            if (rep.fodder) L.push('  狗粮经验：累计 ' + formatExp(rep.fodder.total) + '  |  今天 ' + (rep.todayHas.fodder ? formatExp(rep.today.fodder) : '—') + '  |  日均 ' + formatExp(rep.fodder.avg));
+            if (rep.primogem && rep.primogem.total > 0) { const pb = (rep.primogem.days && rep.primogem.days !== rep.days) ? '（按 ' + rep.primogem.days + ' 天）' : ''; L.push('  原石：    累计 ' + formatMora(rep.primogem.total) + '  |  今天 ' + (rep.todayHas.primogem ? formatMora(rep.today.primogem) : '—') + '  |  日均 ' + formatMora(rep.primogem.avg) + pb); }
+            if (rep.week && rep.week.moraTotal != null) { let wl = '  本周：    摩拉 ' + formatMora(rep.week.moraTotal) + '（日均 ' + formatMora(rep.week.moraAvg) + '）'; if (rep.dod != null) wl += '  |  今天较昨天 ' + (rep.dod < 0 ? '−' : '+') + Math.abs(rep.dod).toFixed(1) + '%'; L.push(wl); }
+            if (rep.month && rep.month.moraTotal != null) L.push('  本月：    摩拉 ' + formatMora(rep.month.moraTotal) + '（日均 ' + formatMora(rep.month.moraAvg) + '）');
             const recs = st.records.slice(-10).reverse();
             if (recs.length) {
                 L.push('  近期明细（最新在上）：');
                 for (let ri = 0; ri < recs.length; ri++) {
-                    let r = recs[ri], d = new Date(r.dayKey * 86400000);
-                    let line = '    ' + (d.getUTCMonth() + 1) + '/' + d.getUTCDate() + '   摩拉 +' + formatMora(r.moraGain) + '   狗粮 +' + formatExp(r.fodderGain);
+                    const r = recs[ri], d = new Date(r.dayKey * 86400000);
+                    const mS = typeof r.moraGain === 'number' ? '+' + formatMora(r.moraGain) : '—'; // 缺该项(异常跳过/未测)显示「—」，不拼成「+--」
+                    const fS = typeof r.fodderGain === 'number' ? '+' + formatExp(r.fodderGain) : '—';
+                    let line = '    ' + (d.getUTCMonth() + 1) + '/' + d.getUTCDate() + '   摩拉 ' + mS + '   狗粮 ' + fS;
                     if (r.primogemGain) line += '   原石 +' + formatMora(r.primogemGain);
                     L.push(line);
                 }

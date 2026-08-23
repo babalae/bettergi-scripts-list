@@ -2,7 +2,7 @@
   {
     "name": "defaultPartyName",
     "type": "input-text",
-    "label": "默认使用的游戏牌组名称（'雷神柯莱刻晴'队所在的牌组）"
+    "label": "默认游戏牌组名称（'雷神柯莱刻晴'队所在的牌组）"
   },
   {
     "name": "overwritePartyName",
@@ -14,6 +14,12 @@
     "type": "checkbox",
     "label": "打牌失败时自动逐个尝试备用策略",
     "default": "true"
+  },
+  {
+    "name": "enableCloudStatistic",
+    "type": "checkbox",
+    "label": "基于云端统计数据选择策略（启用后会上传打牌结果和耗时）",
+    "default": "false"
   },
   {
     "name": "minFallbackStrategyScore",

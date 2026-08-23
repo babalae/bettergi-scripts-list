@@ -1,74 +1,142 @@
 // 齿轮图标识别对象
 const mapSettingButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/map_setting_button.bmp"));
 
+// OCR 检测辅助函数（用于地脉移涌检测）
+function wipOcrCheckText(roi1080, keywords, label) {
+    let ra = null;
+    try {
+        const s = genshin.scaleTo1080PRatio;
+        const x = Math.round(roi1080[0] * s);
+        const y = Math.round(roi1080[1] * s);
+        const w = Math.round(roi1080[2] * s);
+        const h = Math.round(roi1080[3] * s);
+
+        ra = captureGameRegion();
+        const resList = ra.findMulti(RecognitionObject.ocr(x, y, w, h));
+        const count = resList.length !== undefined ? resList.length : resList.count;
+
+        if (typeof enableDebug !== "undefined" && enableDebug) {
+            log.info(`[DEBUG][${label}] ROI(1080P)=(${roi1080.join(',')}) 当前=(${x},${y},${w},${h}) 段数=${count}`);
+            for (let i = 0; i < count; i++) {
+                const r = resList[i];
+                if (r) log.info(`[DEBUG][${label}] #${i + 1} text="${r.text}" pos=(${r.x},${r.y},${r.width},${r.height})`);
+            }
+        }
+
+        for (let i = 0; i < count; i++) {
+            const r = resList[i];
+            if (!r || !r.text) continue;
+            for (let k = 0; k < keywords.length; k++) {
+                if (r.text.includes(keywords[k])) return r;
+            }
+        }
+        return null;
+    } catch (e) {
+        log.warn(`[DEBUG][${label}] OCR异常: ${e.message}`);
+        return null;
+    } finally {
+        if (ra) ra.dispose();
+    }
+}
+
 /**
  * 通过冒险之证查找地脉花位置
  * @param {string} country - 国家名称
  * @param {string} type - 地脉花类型
- * @returns {Promise<void>}
+ * @param {boolean} checkSurge - 是否检测双倍产出
+ * @returns {Promise<{found: boolean, hasSurge?: boolean}>} 返回查找结果和双倍状态
  */
-this.findLeyLineOutcropByBook = async function (country, type) {
-  await genshin.returnMainUi();
-  await sleep(1000);
-  log.info("使用冒险之证寻找地脉花");
-  
-  // 确保运行时位于主界面
-  keyPress("F1");
-  // 开书等待时间延长至2.5s
-  await sleep(2500);
-  click(300, 550); // 点击讨伐
-  await sleep(1000);
-  click(500, 200); // 点击筛选
-  await sleep(1000);
-  click(500, 500); // 点击其他
-  await sleep(1000);
-  
-  // 选择地脉花类型
-  if (type === "蓝花（经验书）") {
-    click(700, 350); // 点击经验花
-  } else {
-    click(500, 350); // 点击摩拉花
-  }
-  await sleep(1000);
-  click(1300, 800); // 点击推荐
-  await sleep(1000);
-
-  // 查找并点击指定国家
-  await this.findAndClickCountry(country);
-  
-  // 查找并点击停止追踪按钮
-  await this.findAndCancelTrackingInBook();
-  
-  // 最多重试3次确保大地图正确打开
-  for (let retry = 0; retry < 3; retry++) {
+this.findLeyLineOutcropByBook = async function (country, type, checkSurge = false) {
+    await genshin.returnMainUi();
     await sleep(1000);
-    click(1500, 850);
-    // 等待大地图打开延长至 2.5s
+    log.info("使用冒险之证寻找地脉花");
+
+    // 确保运行时位于主界面
+    keyPress("F1");
+    // 开书等待时间延长至2.5s
     await sleep(2500);
-    
-    if (await this.checkBigMapOpened()) {
-      log.info("识别到大地图");
-      break; // 成功打开大地图
-    }
-    
-    if (retry < 2) { // 不是最后一次重试
-      log.info(`大地图未正确打开，第${retry + 1}次重试...`);
-      await genshin.returnMainUi();
-      await this.findAndClickCountry(country);
-      await this.findAndCancelTrackingInBook();
+    click(300, 550); // 点击讨伐
+    await sleep(1000);
+    click(500, 200); // 点击筛选
+    await sleep(1000);
+    click(500, 500); // 点击其他
+    await sleep(1000);
+
+    // 选择地脉花类型
+    if (type === "蓝花（经验书）") {
+        click(700, 350); // 点击经验花
     } else {
-      throw new Error("大地图打开失败，已重试3次");
+        click(500, 350); // 点击摩拉花
     }
-  }
+    await sleep(1000);
 
-  // 获取地脉花位置
-  const center = genshin.getPositionFromBigMap();
-  leyLineX = center.x;
-  leyLineY = center.y;
-  log.info(`找到地脉花的坐标：(${leyLineX}, ${leyLineY})`);
+    // 开书双倍检测：在选择花类型之后、点击推荐之前进行
+    let doubleHit = null;
+    if (checkSurge) {
+        log.info("[双倍检测] 开始识别两倍产出...");
+        const doubleLarge = [1041, 496, 170, 37];
+        doubleHit = wipOcrCheckText(doubleLarge, ["2倍", "两倍", "双倍"], "双倍产出检测");
+        if (!doubleHit) {
+            log.info('[双倍检测] 识别失败，重试1...');
+            await sleep(1500);
+            doubleHit = wipOcrCheckText(doubleLarge, ["2倍", "两倍", "双倍"], "双倍产出检测-r1");
+        }
 
-  // 取消追踪
-  await this.cancelTrackingInMap();
+        if (!doubleHit) {
+            log.warn("[双倍检测] 开书未识别到两倍产出，脚本将提前退出");
+            if (isNotification) {
+                notification.send("⚠️ 未识别到两倍产出，脚本已终止");
+            }
+            return { found: false, noSurge: true };
+        } else {
+            log.info("[双倍检测] 开书识别到两倍产出，继续执行");
+            if (isNotification) {
+                notification.send("✅ 识别到两倍产出");
+            }
+        }
+    }
+
+    click(1300, 800); // 点击推荐
+    await sleep(1000);
+
+    // 查找并点击指定国家
+    await this.findAndClickCountry(country);
+
+    // 查找并点击停止追踪按钮
+    await this.findAndCancelTrackingInBook();
+
+    // 最多重试3次确保大地图正确打开
+    for (let retry = 0; retry < 3; retry++) {
+        await sleep(1000);
+        click(1500, 850);
+        // 等待大地图打开延长至 2.5s
+        await sleep(2500);
+
+        if (await this.checkBigMapOpened()) {
+            log.info("识别到大地图");
+            break; // 成功打开大地图
+        }
+
+        if (retry < 2) { // 不是最后一次重试
+            log.info(`大地图未正确打开，第${retry + 1}次重试...`);
+            await genshin.returnMainUi();
+            await this.findAndClickCountry(country);
+            await this.findAndCancelTrackingInBook();
+        } else {
+            throw new Error("大地图打开失败，已重试3次");
+        }
+    }
+
+    // 获取地脉花位置
+    const center = genshin.getPositionFromBigMap();
+    leyLineX = center.x;
+    leyLineY = center.y;
+    log.info(`找到地脉花的坐标：(${leyLineX}, ${leyLineY})`);
+
+    // 取消追踪
+    await this.cancelTrackingInMap();
+
+    return { found: true, hasSurge: checkSurge ? !!doubleHit : undefined };
 };
 
 /**
@@ -76,14 +144,14 @@ this.findLeyLineOutcropByBook = async function (country, type) {
  * @returns {Promise<boolean>} 返回是否检测到齿轮图标
  * @private
  */
-this.checkBigMapOpened = async function() {
-  let captureRegion = captureGameRegion();
-  try {
-    const imageResult = captureGameRegion().find(mapSettingButtonRo);
-    return imageResult.isExist();
-  } finally {
-    captureRegion.dispose();
-  }
+this.checkBigMapOpened = async function () {
+    let captureRegion = captureGameRegion();
+    try {
+        const imageResult = captureGameRegion().find(mapSettingButtonRo);
+        return imageResult.isExist();
+    } finally {
+        captureRegion.dispose();
+    }
 };
 
 /**
@@ -92,30 +160,30 @@ this.checkBigMapOpened = async function() {
  * @private
  */
 this.findAndClickCountry = async function (country) {
-  // 挪德卡莱会被识别成挪德卡菜，需要特殊处理
-  let match_country = country;
-  if (country === "挪德卡莱") {
-    match_country = "挪德卡";
-  }
-  let captureRegion = captureGameRegion();
-  try {
-    let resList = captureRegion.findMulti(ocrRoThis);
-    let found = false;
-    for (let i = 0; i < resList.count; i++) {
-      let res = resList[i];
-      if (res.text.includes(match_country)) {
-        res.click();
-        found = true;
-        break;
-      }
+    // 挪德卡莱会被识别成挪德卡菜，需要特殊处理
+    let match_country = country;
+    if (country === "挪德卡莱") {
+        match_country = "挪德卡";
     }
-    if (!found) {
-      // 没找到国家
-      throw new Error("冒险之征中未找到国家：" + country + "，请检查该国家地图是否开启");
+    let captureRegion = captureGameRegion();
+    try {
+        let resList = captureRegion.findMulti(ocrRoThis);
+        let found = false;
+        for (let i = 0; i < resList.count; i++) {
+            let res = resList[i];
+            if (res.text.includes(match_country)) {
+                res.click();
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            // 没找到国家
+            throw new Error("冒险之征中未找到国家：" + country + "，请检查该国家地图是否开启");
+        }
+    } finally {
+        captureRegion.dispose();
     }
-  } finally {
-    captureRegion.dispose();
-  }
 };
 
 /**
@@ -123,28 +191,28 @@ this.findAndClickCountry = async function (country) {
  * @private
  */
 this.findAndCancelTrackingInBook = async function () {
-  let captureRegion = captureGameRegion();
-  try {
-    let resList = captureRegion.findMulti(ocrRoThis);
-    let stop = null;
-    for (let i = 0; i < resList.count; i++) {
-      let res = resList[i];
-      if (res.text.includes("停止")) {
-        stop = res;
-        break;
-      }
-    }
+    let captureRegion = captureGameRegion();
+    try {
+        let resList = captureRegion.findMulti(ocrRoThis);
+        let stop = null;
+        for (let i = 0; i < resList.count; i++) {
+            let res = resList[i];
+            if (res.text.includes("停止")) {
+                stop = res;
+                break;
+            }
+        }
 
-    if(stop) {
-      log.info("冒险之征中点击停止追踪并重新追踪获取坐标");
-      stop.click();
-    } else {
-      log.info("冒险之征中无需取消追踪");
+        if (stop) {
+            log.info("冒险之征中点击停止追踪并重新追踪获取坐标");
+            stop.click();
+        } else {
+            log.info("冒险之征中无需取消追踪");
+        }
+    } finally {
+        captureRegion.dispose();
     }
-  } finally {
-    captureRegion.dispose();
-  }
-  await sleep(1000);
+    await sleep(1000);
 };
 
 /**
@@ -152,39 +220,39 @@ this.findAndCancelTrackingInBook = async function () {
  * @private
  */
 this.cancelTrackingInMap = async function () {
-  // 点击地脉花(因为从书点击追踪后花会在屏幕正中间)
-  click(960, 540);
-  await sleep(1000);
-  
-  let captureRegion = captureGameRegion();
-  let stop = null;
-  let leyLine = null;
-  
-  try {
-    let resList = captureRegion.findMulti(ocrRoThis);
-    if (resList && resList.count > 0) {
-      for (let i = 0; i < resList.count; i++) {
-        let res = resList[i];
-        if (res.text.includes("停止")) {
-          stop = res;
-        } else if (res.text.includes("地脉") || res.text.includes("衍出")) {
-          leyLine = res;
+    // 点击地脉花(因为从书点击追踪后花会在屏幕正中间)
+    click(960, 540);
+    await sleep(1000);
+
+    let captureRegion = captureGameRegion();
+    let stop = null;
+    let leyLine = null;
+
+    try {
+        let resList = captureRegion.findMulti(ocrRoThis);
+        if (resList && resList.count > 0) {
+            for (let i = 0; i < resList.count; i++) {
+                let res = resList[i];
+                if (res.text.includes("停止")) {
+                    stop = res;
+                } else if (res.text.includes("地脉") || res.text.includes("衍出")) {
+                    leyLine = res;
+                }
+            }
         }
-      }
+    } finally {
+        captureRegion.dispose();
     }
-  } finally {
-    captureRegion.dispose();
-  }
-  
-  
-  if (stop) {
-    log.info("地图中点击取消追踪");
-    stop.click();
-  } else if (leyLine) {
-    log.info("在地图中选择地脉花后点击取消追踪");
-    leyLine.click();
-    await sleep(1000);
-    click(1700, 1010);
-    await sleep(1000);
-  }
+
+
+    if (stop) {
+        log.info("地图中点击取消追踪");
+        stop.click();
+    } else if (leyLine) {
+        log.info("在地图中选择地脉花后点击取消追踪");
+        leyLine.click();
+        await sleep(1000);
+        click(1700, 1010);
+        await sleep(1000);
+    }
 };

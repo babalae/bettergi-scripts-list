@@ -215,7 +215,7 @@ export function loadAllBranchConfigs() {
             const raw = file.readTextSync(p);
             const parsed = JSON.parse(raw);
             if (Object.prototype.hasOwnProperty.call(parsed, "completedByUid")) {
-                throw new Error("静态分支文件禁止包含 completedByUid，请将进度写入 Data/account-state.json");
+                throw new Error("静态分支文件禁止包含 completedByUid，请将进度写入对应 UID 账号文件");
             }
             composite[commissionName] = {
                 ...sanitizeStaticBranchConfig(parsed),

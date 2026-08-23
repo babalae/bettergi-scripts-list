@@ -10,7 +10,7 @@
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时56秒，包含以下怪物：1只幼岩龙蜥、1只岩龙蜥。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1768831136716,
+    "last_modified_time": 1784913530028,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B030璃月天遒谷-1",
@@ -25,8 +25,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1268.4099999999999,
-      "y": -64.10000000000036
+      "x": 1268.41,
+      "y": -64.1
     },
     {
       "action": "",
@@ -35,7 +35,7 @@
       "move_mode": "run",
       "type": "path",
       "x": 1290.25,
-      "y": -44.710000000000036
+      "y": -44.71
     },
     {
       "action": "fight",
@@ -43,8 +43,8 @@
       "id": 3,
       "move_mode": "run",
       "type": "path",
-      "x": 1292.2800000000007,
-      "y": -11.579999999999927
+      "x": 1292.28,
+      "y": -11.58
     },
     {
       "action": "",
@@ -57,21 +57,26 @@
     },
     {
       "action": "combat_script",
-      "action_params": "芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "action_params": "芙宁娜 e;爱可菲 e;伊涅芙 e;",
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 1292.7099999999991,
-      "y": 79.43000000000029
+      "x": 1292.71,
+      "y": 79.43
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 6,
       "move_mode": "dash",
+      "point_ext_params": {
+        "auto_fight": {
+          "reward_type": "experience"
+        }
+      },
       "type": "path",
-      "x": 1273.6689453125,
-      "y": 103.78125
+      "x": 1273.6689,
+      "y": 103.7813
     }
   ]
 }
