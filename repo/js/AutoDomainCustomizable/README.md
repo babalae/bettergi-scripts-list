@@ -167,7 +167,7 @@
       * 在manifest.json中的authors栏位填上您的名字与github账户链接
       * 更新README.md的更新日志栏位
       * 在README.md关于作者栏位填上您的名字与github账户链接
-
+  * 掉落物名称统一使用最高稀有度（技能突破天赋书4星/武器突破素材5星）。
 
 ---
 
