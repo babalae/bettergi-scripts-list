@@ -8,10 +8,10 @@
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时121秒，包含以下怪物：2只风史莱姆、2只大型风史莱姆、1只狂风之核、1只木盾丘丘暴徒、1只火斧丘丘暴徒。",
+    "description": "  路线信息：该路线预计用时151.19秒，包含以下怪物：2只大型风史莱姆、1只狂风之核。",
     "enable_monster_loot_split": false,
     "hash_res": "39595940",
-    "last_modified_time": 1774335818812,
+    "last_modified_time": 1786977482897,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A015蒙德风龙废墟南-2",
@@ -35,103 +35,76 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 303,
-      "y": 2533
+      "x": 256.3672,
+      "y": 2464.7816
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
       "id": 3,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 284.32,
-      "y": 2508.65
+      "x": 260.3203,
+      "y": 2449.7422
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "walk",
+      "move_mode": "jump",
       "type": "path",
-      "x": 295.82,
-      "y": 2460.07
+      "x": 258.1719,
+      "y": 2435.3051
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "jump",
+      "move_mode": "climb",
       "type": "path",
-      "x": 296.61,
-      "y": 2450.41
+      "x": 255.5078,
+      "y": 2434.1015
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "attack(0.05),j,wait(0.12),j,wait(3),j,wait(0.12),j,wait(3),j,wait(0.12),j,wait(1.5)",
       "id": 6,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 296.53,
-      "y": 2439.81
+      "move_mode": "climb",
+      "type": "target",
+      "x": 252.7129,
+      "y": 2432.5459
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": 267.44,
-      "y": 2434.88
+      "x": 223.5391,
+      "y": 2418.9764
     },
     {
       "action": "",
       "action_params": "",
       "id": 8,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": 255.04,
-      "y": 2431.88
+      "x": 221.3896,
+      "y": 2412.3755
     },
     {
-      "action": "combat_script",
-      "action_params": "keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(3),keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(3),keypress(VK_SPACE),wait(0.12),keypress(VK_SPACE),wait(1.5)",
+      "action": "",
+      "action_params": "",
       "id": 9,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 252.96,
-      "y": 2431.48
+      "x": 295.3115,
+      "y": 2390.6606
     },
     {
       "action": "",
       "action_params": "",
       "id": 10,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 225.88,
-      "y": 2418.05
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 11,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 226.44,
-      "y": 2410.56
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 12,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 283.53,
-      "y": 2385.82
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 13,
       "move_mode": "dash",
       "type": "path",
       "x": 346.25,
@@ -140,38 +113,11 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 14,
+      "id": 11,
       "move_mode": "dash",
       "type": "path",
-      "x": 361.68,
-      "y": 2448.93
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 15,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 379.77,
-      "y": 2433.81
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 16,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 400.17,
-      "y": 2417.04
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 17,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 400.93,
-      "y": 2416.1
+      "x": 364.5996,
+      "y": 2460.0771
     }
   ]
 }
