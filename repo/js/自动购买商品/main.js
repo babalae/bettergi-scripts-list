@@ -400,8 +400,15 @@ async function getUidFromGame() {
 const ignoreRecords = settings.ignoreRecords || false;
 const recordDebug = settings.recordDebug || false;
 
-// 解析禁用的标签列表
-const disabledTags = (settings.disabledTags || "").split(/[,\s、]+/).filter(tag => tag.trim() !== "");
+// 商人名称兼容映射（旧拼写 -> 新规范名）
+// 更名后仍能命中旧购买记录与旧禁用标签设置，避免重复购买
+const NPC_NAME_ALIASES = { "卯师父": "卯师傅" };
+function canonicalNpcName(name) {
+    return NPC_NAME_ALIASES[name] || name;
+}
+
+// 解析禁用的标签列表（同时归一到新规范名，使旧名禁用设置继续生效）
+const disabledTags = (settings.disabledTags || "").split(/[,\s、]+/).filter(tag => tag.trim() !== "").map(tag => canonicalNpcName(tag));
 if (disabledTags.length > 0) {
     log.info(`已禁用标签或商品: ${disabledTags.join(", ")}`);
 }
@@ -433,7 +440,25 @@ async function loadNpcRecords() {
     try {
         const content = await file.readText(recordPath);
         if (content.trim()) {
-            return JSON.parse(content);
+            const records = JSON.parse(content);
+            // 迁移旧商人名称到新规范名，避免更名后记录命中失败导致重复购买
+            let changed = false;
+            for (const record of records) {
+                const newName = canonicalNpcName(record.npcname);
+                if (newName !== record.npcname) {
+                    record.npcname = newName;
+                    changed = true;
+                }
+            }
+            if (changed) {
+                // 单独捕获落盘失败：写失败不应让本轮记录被当作空，否则会触发重复购买
+                try {
+                    await file.writeText(recordPath, JSON.stringify(records, null, 2));
+                } catch (e) {
+                    log.warn(`迁移记录落盘失败（内存记录仍可用）: ${e.message}`);
+                }
+            }
+            return records;
         }
     } catch (error) {
         // 文件不存在或格式错误，返回空数组
@@ -468,7 +493,8 @@ async function saveNpcRecords(records) {
 
 // ==================== 获取商人记录 ====================
 function getNpcRecord(records, npcName) {
-    return records.find(record => record.npcname === npcName);
+    // 兼容迁移前的旧名记录：将记录名归一到新规范名后再比较
+    return records.find(record => canonicalNpcName(record.npcname) === npcName);
 }
 
 // ==================== 更新商人记录 ====================
