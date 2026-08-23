@@ -4,8 +4,8 @@ import { debugFrameStart, debugBox } from "../core/debug-overlay.js";
 import { guideMarkerCount, scanRowMarkers, disposeMarkers } from "../core/markers.js";
 import { ocrText, clickTextInRegion, clickGuideButton, processMarker } from "./popup.js";
 
-// 自动滑动的 y 值（用户标定）
-const SWIPE_Y = 365;
+// 首行固定锚点 y（1920x1080 基准）：启动扫描用它判断“第一行区域”是否有标注
+export const FIRST_ROW_ANCHOR_Y = 365;
 
 // BGI 内置可传送秘境名（与 tp.json 一致），用于把行 OCR 到的文字标准化
 const KNOWN_DOMAINS = [
@@ -136,10 +136,16 @@ export async function ensureGuidePage() {
     await sleep(800);
   }
 
-  if (!(await waitGuideMarkers(30000))) {
-    throw new Error("点击后 30 秒内未检测到标注图标，请检查游戏状态");
+  // 页面可能没有任何标注：确认标题即可，不必等标注出现
+  const start = Date.now();
+  while (Date.now() - start < 10000) {
+    if (isGuidePage()) {
+      log.info("已进入提升指南页面");
+      return;
+    }
+    await sleep(500);
   }
-  log.info("已进入提升指南页面");
+  throw new Error("10 秒内未确认提升指南页面，请检查游戏状态");
 }
 
 export function qualityLabelForRank(rank) {
@@ -173,12 +179,21 @@ export async function swipeRowRight(captureY) {
     }
     leftButtonUp();
   } catch (e) {
+    try { leftButtonUp(); } catch (e2) { }
     log.error("[校准滑动] 失败: {err}", e.message);
   } finally {
     try { if (cap) cap.dispose(); } catch (e) { }
   }
   parkMouse();
   await sleep(1000);
+}
+
+// 启动阶段首行区域无标注时：对固定位置做一次校准（从左到右滑动两次）
+export async function calibrateFirstRow() {
+  const y = sY(FIRST_ROW_ANCHOR_Y);
+  log.info("[首行校准] 首行区域无标注，固定位置校准 y={y}", y);
+  await swipeRowRight(y);
+  await swipeRowRight(y);
 }
 
 export async function swipeRowPressHold(captureY) {
@@ -202,6 +217,7 @@ export async function swipeRowPressHold(captureY) {
     await sleep(400); // 划完不松手，保持0.4s
     leftButtonUp();
   } catch (e) {
+    try { leftButtonUp(); } catch (e2) { }
     log.error("[主力滑动] 失败: {err}", e.message);
   } finally {
     try { if (cap) cap.dispose(); } catch (e) { }
@@ -240,7 +256,7 @@ export async function readDomainName(rowY) {
 }
 
 // 树脂：图标模板定位 + 数字条 OCR；图标没匹配到时回退固定坐标区域
-// 原淬白字预处理：单独截图，二值化 + 反色后 OCR（不污染主截图）
+// 原粹白字预处理：单独截图，二值化 + 反色后 OCR（不污染主截图）
 function ocrWhiteDigits(x, y, w, h) {
   let cap = null, crop = null, grey = null, bin = null, inv = null, bgr = null, res = null;
   try {
@@ -369,23 +385,23 @@ export async function readResin() {
     }
 
     if (oRegion && !oRegion.isEmpty()) {
-      log.info("[树脂定位] 原淬图标 @({x},{y},{w},{h}) 分={s}",
+      log.info("[树脂定位] 原粹图标 @({x},{y},{w},{h}) 分={s}",
         oRegion.x, oRegion.y, oRegion.width, oRegion.height, oScore.toFixed(3));
       // 数字起点在图标右缘左侧：左移 5px，130x50
       const x = oRegion.x + oRegion.width - sX(5);
       const y = Math.max(0, oRegion.y + Math.round((oRegion.height - sY(50)) / 2));
-      debugBox("原淬数字条", x, y, sX(130), sY(50), "#ffc107");
+      debugBox("原粹数字条", x, y, sX(130), sY(50), "#ffc107");
       originalText = ocrWhiteDigits(x, y, sX(130), sY(50));
       if (!originalText) originalText = readDigitsAt(x, y, sX(130), sY(50));
-      // 图标定位后的 OCR 为空时，回退 ResinCalibration 标定的固定区域（仅原淬）
+      // 图标定位后的 OCR 为空时，回退 ResinCalibration 标定的固定区域（仅原粹）
       if (!originalText) {
         const oFx = sX(1350), oFy = sY(200), oFw = sX(140), oFh = sY(50);
-        log.info("[树脂] 原淬图标定位 OCR 为空，回退固定区域 ({x},{y},{w},{h})", oFx, oFy, oFw, oFh);
-        debugBox("原淬OCR(固定回退)", oFx, oFy, oFw, oFh, "#ffc107");
+        log.info("[树脂] 原粹图标定位 OCR 为空，回退固定区域 ({x},{y},{w},{h})", oFx, oFy, oFw, oFh);
+        debugBox("原粹OCR(固定回退)", oFx, oFy, oFw, oFh, "#ffc107");
         originalText = readDigitsAt(oFx, oFy, oFw, oFh);
       }
     } else {
-      debugBox("原淬树脂OCR(回退)", sX(1350), sY(200), sX(140), sY(50), "#ffc107");
+      debugBox("原粹树脂OCR(回退)", sX(1350), sY(200), sX(140), sY(50), "#ffc107");
       originalText = await ocrText(sX(1350), sY(200), sX(140), sY(50), "原粹树脂OCR", "#ffc107");
     }
   } finally {
@@ -408,22 +424,52 @@ export async function readResin() {
     original = m ? parseInt(m[1], 10) : firstInt(cleanDigits(originalText));
   }
 
-  // 浓缩优先：1 个浓缩 = 1 次；原粹 40 一次
-  const rounds = condensed + Math.floor(original / 40);
-  log.info("[树脂] 浓缩 {c}（{ci}），原淬 {o}（{ot}），可刷 {r} 轮（浓缩优先，原淬40/轮）",
+  // 浓缩优先：1 个浓缩 = 1 次；原粹每 40 可刷 1 次，
+  // 剩余 20-39 也算可刷 1 次（20 树脂档），BGI 指定使用时按 40 优先、最后 40 不够才用 20
+  const originalRounds = Math.floor(original / 40) + (original % 40 >= 20 ? 1 : 0);
+  const rounds = condensed + originalRounds;
+  log.info("[树脂] 浓缩 {c}（{ci}），原粹 {o}（{ot}），可刷 {r} 轮（浓缩优先，原粹40优先，余20-39补1次20）",
     condensed, digitInfo, original, originalText, rounds);
-  return { condensed, original, rounds };
+  return { condensed, original, originalRounds, rounds };
 }
 
-export async function refreshPlanFromGuide(entries, rowY) {
+export async function refreshPlanFromGuide(entries, rowY, expectedDomainName) {
   log.info("重新扫描培养计划");
   await ensureGuidePage();
+
+  // 原行身份校验：下方行上移后会占据原 y。
+  // 此处读到“不同的秘境名”说明当前行已完成消失，不要用下一行的材料冒充本行重扫结果。
+  if (expectedDomainName) {
+    const observed = await readDomainName(rowY);
+    if (observed && observed !== expectedDomainName &&
+        levDistance(canonicalName(observed), canonicalName(expectedDomainName)) > 1) {
+      log.info("[刷新] 原行已完成（位置秘境名变为 {obs}），视为本行完成，等待切换下一行", observed);
+      for (let i = entries.length - 1; i >= 0; i--) {
+        if (Number(entries[i].rowY) === rowY) entries.splice(i, 1);
+      }
+      return true;
+    }
+  }
 
   // 与重开脚本完全一致：按 processRow 完整重扫该行
   const row = { index: 0, y: rowY, names: new Map(), nextRank: 1, domainName: "" };
   const before = entries.length;
   try {
-    await processRow(row, entries);
+    const result = await processRow(row, entries);
+    if (result && result.status === "noDomain") {
+      // 读不到域名，再判断原行是真的消失了，还是有标注但无可刷秘境（周本）
+      const check = await scanRowMarkers(rowY, 1000);
+      const stillHasMarkers = check.length > 0;
+      disposeMarkers(check);
+      if (!stillHasMarkers) {
+        // 原行已无标注 = 需求已全部满足，继续走下方删旧条目并返回 true
+        log.info("[刷新] 原行已无标注，视为全部满足");
+      } else {
+        // 有标注但读不到秘境名：周本/不可刷，停止后续流程
+        log.info("[刷新] 该行有标注但无可刷秘境，停止后续处理");
+        return false;
+      }
+    }
   } catch (e) {
     if (String(e.message || "").includes("校准后仍识别不到标注")) {
       // 该行已无标注 = 需求已全部满足
@@ -447,7 +493,7 @@ export async function refreshPlanFromGuide(entries, rowY) {
 
 export async function clickAndRecord(m, row, entries) {
   const info = await processMarker(m);
-  if (!info) return "";
+  if (!info) return;
 
   const key = canonicalName(info.name);
   const orderRank = row.nextRank;
@@ -466,8 +512,7 @@ export async function clickAndRecord(m, row, entries) {
   }
   if (dup) {
     log.info("[重复] {name} 已记录（含同档错1字），跳过", info.name);
-    // 返回 key：本轮“识别到了”这个材料，只是不重复入库
-    return key;
+    return;
   }
 
   row.names.set(key, rank);
@@ -495,21 +540,22 @@ export async function clickAndRecord(m, row, entries) {
     clickY: Math.round(m.cy)
   });
   log.info("[品质] {name} {label}", info.name, label);
-  return key;
 }
 
 export async function processRow(row, entries) {
   log.info("[行] 第 {n} 行 y={y}", row.index, row.y);
   touchActivity();
 
-  // 0. 读该行秘境名，供后续自动秘境使用
+  // 读不到秘境名就重试一次；仍失败按周本/不可刷处理，返回 noDomain
   row.domainName = await readDomainName(row.y);
   if (!row.domainName) {
-    log.info("未识别秘境名，执行校准");
-    for (let i = 0; i < 3; i++) {
-      await swipeRowRight(sY(SWIPE_Y));
+    log.info("未识别秘境名，重试一次");
+    const retryDomain = await readDomainName(row.y);
+    if (!retryDomain) {
+      log.warn("该行有标注但秘境名读取失败，按周本/无可刷秘境处理");
+      return { status: "noDomain" };
     }
-    row.domainName = await readDomainName(row.y);
+    row.domainName = retryDomain;
   }
   log.info("[秘境] {domain}", row.domainName || "(未识别)");
 
@@ -523,7 +569,7 @@ export async function processRow(row, entries) {
   if (ms0.length === 0) {
     log.info("未识别标注，校准后重试");
     for (let i = 0; i < 3; i++) {
-      await swipeRowRight(sY(SWIPE_Y));
+      await swipeRowRight(row.y);
     }
     ms0 = await scanRowMarkers(row.y, 5000);
     if (ms0.length === 0) {
@@ -534,7 +580,6 @@ export async function processRow(row, entries) {
   log.info("[扫描] 识别到该行标注");
 
   // 点击该行可见标注（第 1 次识别）
-  const firstNames = new Set();
   {
     assertAlive();
     let ms = await scanRowMarkers(row.y);
@@ -543,18 +588,24 @@ export async function processRow(row, entries) {
       log.info("[扫描] 该行可见标注 {k} 个", ms.length);
       for (const m of ms) {
         assertAlive();
-        const key = await clickAndRecord(m, row, entries);
-        if (key) firstNames.add(key);
+        await clickAndRecord(m, row, entries);
       }
     } finally {
       disposeMarkers(ms);
     }
   }
 
-  // 两次主力滑动补扫；第 1 次滑动后识别到的材料与初始一致（含编辑距离≤1 的 OCR 错字）时，
-  // 跳过第 2 次滑动直接恢复校准
-  const sameSetFuzzy = (a, b) =>
-    a.size === b.size && [...a].every(x => [...b].some(y => levDistance(x, y) <= 1));
+  // 滑动结果要和第一次识别比“名称+品质”：数量相同、名称容错 1 字、品质档相同才算一致，
+  // 避免把“无垢之海的银杯/金杯”这种错 1 字但品质不同的材料当成同一批
+  const firstSeen = new Map([...row.names]);
+
+  const samePassFuzzy = (a, b) =>
+    a.size === b.size &&
+    [...a].every(([name, rank]) =>
+      [...b].some(([otherName, otherRank]) =>
+        rank === otherRank && levDistance(name, otherName) <= 1));
+
+  // 第 1 次滑动后与初始一致才跳过第 2 次，然后恢复校准
   for (let s = 1; s <= 2; s++) {
     assertAlive();
     await swipeRowPressHold(row.y);
@@ -567,14 +618,15 @@ export async function processRow(row, entries) {
       }
       ms.sort((a, b) => a.x - b.x);
       log.info("[滑动] 第 {s} 次后识别 {k} 个标注", s, ms.length);
-      const passNames = new Set();
       for (const m of ms) {
-        const key = await clickAndRecord(m, row, entries);
-        if (key) passNames.add(key);
+        await clickAndRecord(m, row, entries);
       }
-      if (s === 1 && firstNames.size > 0 && sameSetFuzzy(firstNames, passNames)) {
-        log.info("[滑动] 识别结果与初始一致，跳过第 2 次滑动");
+      if (s === 1 && firstSeen.size > 0 && samePassFuzzy(firstSeen, row.names)) {
+        log.info("[滑动] 识别结果与初始一致（名称+品质），跳过第 2 次滑动");
         break;
+      }
+      if (s === 1 && firstSeen.size > 0) {
+        log.info("[滑动] 识别结果包含新品质/新材料，继续第 2 次滑动");
       }
     } finally {
       disposeMarkers(ms);
@@ -586,5 +638,5 @@ export async function processRow(row, entries) {
   await swipeRowRight(row.y);
   await swipeRowRight(row.y);
 
-  return row.names.size;
+  return { status: "ok", count: row.names.size };
 }

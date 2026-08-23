@@ -9,12 +9,6 @@
     "default": false
   },
   {
-    "name": "autoOpenGuide",
-    "type": "checkbox",
-    "label": "自动打开冒险之证并切换到秘境(提升指南)页",
-    "default": true
-  },
-  {
     "name": "markerThreshold",
     "type": "input-text",
     "label": "标注图标匹配阈值(0~1，默认0.9)",
@@ -28,24 +22,6 @@
   },
   {
     "type": "separator"
-  },
-  {
-    "name": "runDomain",
-    "type": "checkbox",
-    "label": "扫描完后自动刷该行秘境（会消耗树脂，默认开启，不需要可关闭）",
-    "default": true
-  },
-  {
-    "name": "autoStopWhenEnough",
-    "type": "checkbox",
-    "label": "材料齐了自动停止树脂刷取",
-    "default": true
-  },
-  {
-    "name": "domainRoundNum",
-    "type": "input-text",
-    "label": "最大秘境轮数（默认9999；缺口>160树脂耗尽模式，<160三刷一查，<120两刷一查，<50一刷一查；树脂不够2/3刷时也走耗尽模式）",
-    "default": "9999"
   },
   {
     "name": "partyName",

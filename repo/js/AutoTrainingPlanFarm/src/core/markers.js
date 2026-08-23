@@ -13,6 +13,8 @@ export const ROW_Y_BOUNDS = { min: 288, max: 848 };
 let markerMat = null;
 let markerRo = null;
 let matchThreshold = 0.9;
+// 扫描异常日志节流：避免稳定扫描循环反复刷屏
+let lastScanErrorAt = 0;
 
 // 读取模板并按当前分辨率缩放；必须在 setMetrics 之后调用
 export function initMarkerTemplate(threshold) {
@@ -84,6 +86,10 @@ export function scanMarkers() {
     // results 集合由调用方通过 marker.region.dispose() 释放
     return arr;
   } catch (e) {
+    if (Date.now() - lastScanErrorAt > 10000) {
+      lastScanErrorAt = Date.now();
+      log.warn("[标记扫描] 异常，按无标注处理: {err}", e && e.message ? e.message : String(e));
+    }
     try {
       if (results) {
         for (let i = 0; i < results.count; i++) {

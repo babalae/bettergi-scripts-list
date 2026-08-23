@@ -1,9 +1,17 @@
 // 材料弹窗：OCR 读取、名称/需求/来源/可合成解析、品质颜色、点击 OCR 文本
-import { sX, sY, scaleX, scaleY, parkMouse, touchActivity, assertAlive } from "../core/common.js";
+import { sX, sY, scaleX, scaleY, parkMouse, touchActivity, assertAlive, levDistance } from "../core/common.js";
 import { debugFrameStart, debugBox } from "../core/debug-overlay.js";
 
 // 弹窗整块 OCR 区域
 const POPUP_OCR_RECT = { x: 710, y: 55, w: 500, h: 960 };
+
+// 材料弹窗 OCR 时把鼠标停到识别框（y 从约 55 开始）上方，避免遮挡文字/颜色取样
+function parkMouseAbovePopup() {
+  try {
+    const [gw] = getGameMetrics();
+    moveMouseTo(Math.round(gw / 2), 24);
+  } catch (e) { }
+}
 
 export function ocrText(x, y, w, h, label, color) {
   let cap = null;
@@ -32,7 +40,7 @@ export function readPopupLines() {
   try {
     debugFrameStart();
     debugBox("弹窗整块OCR", sX(POPUP_OCR_RECT.x), sY(POPUP_OCR_RECT.y), sX(POPUP_OCR_RECT.w), sY(POPUP_OCR_RECT.h), "#ffd600");
-    parkMouse();
+    parkMouseAbovePopup();
     cap = captureGameRegion();
     results = cap.findMulti(RecognitionObject.ocr(
       sX(POPUP_OCR_RECT.x), sY(POPUP_OCR_RECT.y), sX(POPUP_OCR_RECT.w), sY(POPUP_OCR_RECT.h)
@@ -67,6 +75,25 @@ export function findAnchorLine(lines, keyword) {
     if (l.text.includes(keyword)) return l;
   }
   return null;
+}
+
+// 可合成数量与数字同在一行：先精确匹配，标签错 1 字也认，最后取该行末尾数字
+function extractSynthCount(text) {
+  const t = String(text || "").replace(/\s+/g, "");
+  if (!t) return 0;
+
+  const exact = t.match(/可合成数量[:：]?(\d+)/);
+  if (exact) return parseInt(exact[1], 10) || 0;
+
+  const labels = ["可合成数量:", "可合成数量：", "可合成数量"];
+  const digits = t.match(/\d+/g) || [];
+  for (const d of digits) {
+    const prefix = t.slice(0, t.indexOf(d));
+    if (prefix && labels.some(label => levDistance(prefix, label) <= 1)) {
+      return parseInt(d, 10) || 0;
+    }
+  }
+  return digits.length > 0 ? (parseInt(digits[digits.length - 1], 10) || 0) : 0;
 }
 
 export function collectBelowAnchor(lines, anchor, maxDy, excludeRe) {
@@ -171,8 +198,7 @@ export async function clickTextInRegion(text, x, y, w, h, timeoutMs = 12000) {
     try {
       debugFrameStart();
       debugBox("点击OCR:" + text, x, y, w, h, "#ff9100");
-      // 识别区域偏左时停左下角，偏右时停右下角，避免光标挡字
-      parkMouse((x + w / 2) < 960 ? 'bl' : 'br');
+      parkMouse();
       cap = captureGameRegion();
       results = cap.findMulti(RecognitionObject.ocr(x, y, w, h));
       for (let i = 0; i < results.count; i++) {
@@ -313,6 +339,7 @@ export async function scrollPopupUp() {
     }
     leftButtonUp();
   } catch (e) {
+    try { leftButtonUp(); } catch (e2) { }
     log.error("弹窗向上滑动失败: {err}", e.message);
   } finally {
     try { if (cap) cap.dispose(); } catch (e) { }
@@ -342,12 +369,9 @@ export async function readPopup() {
   }
 
   const parsed = parseNeedFromLines(lines, needAnchor);
-  // 可合成数量：从「可合成数量：N」里取最后一个数字
-  let synthText = synthAnchor ? synthAnchor.text : "";
-  const synthBelow = synthAnchor ? collectBelowAnchor(lines, synthAnchor, 80, /来源|培养需求|可合成/) : "";
-  if (synthBelow) synthText += synthBelow;
-  const synthDigits0 = (synthText.match(/\d+/g) || []);
-  let synthCount = synthDigits0.length > 0 ? (parseInt(synthDigits0[synthDigits0.length - 1], 10) || 0) : 0;
+  // 数字与「可合成数量」标签同在一行：只取锚点行文本解析，不再拼接下方 80px 的其它行
+  const synthText = synthAnchor ? synthAnchor.text : "";
+  let synthCount = extractSynthCount(synthText);
   log.info("[可合成数量] {text} -> {n}", synthText, synthCount);
 
   // 类型行：顶部名称下方、y<360 的「XX素材」行
@@ -368,19 +392,15 @@ export async function readPopup() {
   const nameLine = popupNameLine(lines);
   const colorRankTop = qualityFromPopupColor(nameLine);
 
-  // rank1/2/3 且没识别到可合成数量：屏幕中心向上滑一下，停1秒后补识别。
-  // 滑动后材料名会移出屏幕，所以先在上面把名字等字段取完，这里只补可合成数量。
+  // rank1/2/3 且没识别到可合成数量时，向上滑一下补识别；名字等字段要先取完再滑
   if (colorRankTop >= 1 && colorRankTop <= 3 && synthCount === 0) {
     log.info("[可合成数量] 未识别，上滑补充 (rank{rank})", colorRankTop);
     await scrollPopupUp();
 
     const lines2 = readPopupLines();
     const synthAnchor2 = findAnchorLine(lines2, "可合成");
-    let synthText2 = synthAnchor2 ? synthAnchor2.text : "";
-    const synthBelow2 = synthAnchor2 ? collectBelowAnchor(lines2, synthAnchor2, 80, /来源|培养需求|可合成/) : "";
-    if (synthBelow2) synthText2 += synthBelow2;
-    const digits2 = (synthText2.match(/\d+/g) || []);
-    const count2 = digits2.length > 0 ? (parseInt(digits2[digits2.length - 1], 10) || 0) : 0;
+    const synthText2 = synthAnchor2 ? synthAnchor2.text : "";
+    const count2 = extractSynthCount(synthText2);
     log.info("[可合成数量] 补充识别 {text} -> {n}", synthText2, count2);
     if (count2 > 0) {
       synthText = synthText2;
@@ -436,7 +456,7 @@ export function qualityFromPopupColor(nameLine) {
   try {
     debugFrameStart();
     debugBox("品质颜色裁剪", x, y, w, h, "#e040fb");
-    parkMouse();
+    parkMouseAbovePopup();
     cap = captureGameRegion();
     crop = cap.deriveCrop(x, y, w, h);
     const cvt = OpenCvSharp.OpenCvSharp.ColorConversionCodes;

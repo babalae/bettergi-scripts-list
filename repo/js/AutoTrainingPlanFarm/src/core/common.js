@@ -25,7 +25,7 @@ export function assertAlive() {
   }
 }
 
-export function parkMouse(corner) {
+export function parkMouse() {
   try {
     const [gw, gh] = getGameMetrics();
     moveMouseTo(Math.round(gw / 2), Math.round(gh / 6));
