@@ -370,7 +370,7 @@ export async function readPopup() {
 
   const parsed = parseNeedFromLines(lines, needAnchor);
   // 数字与「可合成数量」标签同在一行：只取锚点行文本解析，不再拼接下方 80px 的其它行
-  const synthText = synthAnchor ? synthAnchor.text : "";
+  let synthText = synthAnchor ? synthAnchor.text : "";
   let synthCount = extractSynthCount(synthText);
   log.info("[可合成数量] {text} -> {n}", synthText, synthCount);
 
