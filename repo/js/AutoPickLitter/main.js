@@ -635,20 +635,24 @@ async function recordForFile(judge) {
 };
 
 /* ---------- 工具函数：计算【下次4点刷新时间】 ---------- */
-async function getNextRefreshTime(lastTime) {
+function getNextRefreshTime(lastTime) {
     const now = new Date();
     // 取“最近一次已过去的 04:00”作为当前刷新周期的起点
-    const lastBoundary = new Date(now);
-    lastBoundary.setHours(4, 0, 0, 0);
-    if (now.getTime() < lastBoundary.getTime()) {
-        lastBoundary.setDate(lastBoundary.getDate() - 1);
-    };
     const ONE_DAY = 24 * 60 * 60 * 1000;
+    const SYS_OFFSET = 8 * 60 * 60 * 1000;
+    const server_now = new Date(now.getTime() + SYS_OFFSET);
+    let lastBoundary = Date.UTC(server_now.getUTCFullYear(),
+                                server_now.getUTCMonth(), 
+                                server_now.getUTCDate(),
+                                4) - SYS_OFFSET;
+    if (now.getTime() < lastBoundary) {
+        lastBoundary -= ONE_DAY;
+    };
     // lastTime 在当前周期之前 → 当前周期起点即可刷新（立即可执行）
     // lastTime 已在当前周期内 → 下次刷新为当前周期起点 + 24h
-    return lastTime.getTime() < lastBoundary.getTime()
-        ? lastBoundary.getTime()
-        : lastBoundary.getTime() + ONE_DAY;
+    return lastTime.getTime() < lastBoundary
+        ? lastBoundary
+        : lastBoundary + ONE_DAY;
 
 };
 
