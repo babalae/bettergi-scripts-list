@@ -34,7 +34,7 @@ const findBottomBtnText = (text, contains) => {
 const findCloseDialog = () => {
   const iro = findImageWithinBounds("assets/UI_BtnIcon_Close.png", 410, 160, 1100, 660, {
     useMask: true,
-    threshold: 0.8,
+    threshold: 0.85,
   });
   iro?.drawSelf("group_img");
   return iro;
