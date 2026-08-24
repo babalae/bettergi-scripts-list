@@ -1,22 +1,22 @@
 {
   "info": {
-    "name": "D003【高危】须弥童梦的切片",
-    "type": "collect",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时168秒，包含以下怪物：1只丘丘雷兜王、1只旋转雷蕈兽。",
-    "hash_res": "67000516",
-    "map_name": "Teyvat",
-    "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1754765487889,
     "authors": [
       {
-        "name": "汐",
-        "links": ""
+        "links": "",
+        "name": "汐"
       }
     ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时168秒，包含以下怪物：1只丘丘雷兜王、1只旋转雷蕈兽。",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "hash_res": "67000516",
+    "last_modified_time": 1784915833717,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D003【高危】须弥童梦的切片",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
@@ -25,8 +25,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3202.12890625,
-      "y": -911.72509765625
+      "x": 3202.1289,
+      "y": -911.7251
     },
     {
       "action": "",
@@ -34,8 +34,8 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 3259.708984375,
-      "y": -895.095703125
+      "x": 3259.709,
+      "y": -895.0957
     },
     {
       "action": "stop_flying",
@@ -43,8 +43,8 @@
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 3290.8046875,
-      "y": -894.0927734375
+      "x": 3290.8047,
+      "y": -894.0928
     },
     {
       "action": "",
@@ -52,8 +52,8 @@
       "id": 4,
       "move_mode": "climb",
       "type": "path",
-      "x": 3299.16015625,
-      "y": -903.21728515625
+      "x": 3299.1602,
+      "y": -903.2173
     },
     {
       "action": "",
@@ -61,8 +61,8 @@
       "id": 5,
       "move_mode": "climb",
       "type": "target",
-      "x": 3299.16015625,
-      "y": -903.21728515625
+      "x": 3299.1602,
+      "y": -903.2173
     },
     {
       "action": "",
@@ -70,8 +70,8 @@
       "id": 6,
       "move_mode": "climb",
       "type": "target",
-      "x": 3295.9267578125,
-      "y": -907.69873046875
+      "x": 3295.9268,
+      "y": -907.6987
     },
     {
       "action": "combat_script",
@@ -79,8 +79,8 @@
       "id": 7,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 3295.9267578125,
-      "y": -907.69873046875
+      "x": 3295.9268,
+      "y": -907.6987
     },
     {
       "action": "",
@@ -88,8 +88,8 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 3292.53515625,
-      "y": -913.4716796875
+      "x": 3292.5352,
+      "y": -913.4717
     },
     {
       "action": "combat_script",
@@ -97,8 +97,8 @@
       "id": 9,
       "move_mode": "dash",
       "type": "orientation",
-      "x": 3275.6669921875,
-      "y": -920.248046875
+      "x": 3275.667,
+      "y": -920.248
     },
     {
       "action": "",
@@ -106,8 +106,8 @@
       "id": 10,
       "move_mode": "dash",
       "type": "path",
-      "x": 3275.6669921875,
-      "y": -920.248046875
+      "x": 3275.667,
+      "y": -920.248
     },
     {
       "action": "combat_script",
@@ -115,8 +115,8 @@
       "id": 11,
       "move_mode": "fly",
       "type": "path",
-      "x": 3261.5341796875,
-      "y": -903.16552734375
+      "x": 3261.5342,
+      "y": -903.1655
     },
     {
       "action": "stop_flying",
@@ -124,8 +124,8 @@
       "id": 12,
       "move_mode": "fly",
       "type": "path",
-      "x": 3227.9873046875,
-      "y": -906.3935546875
+      "x": 3227.9873,
+      "y": -906.3936
     },
     {
       "action": "",
@@ -133,8 +133,8 @@
       "id": 13,
       "move_mode": "dash",
       "type": "path",
-      "x": 3214.9580078125,
-      "y": -896.2138671875
+      "x": 3214.958,
+      "y": -896.2139
     },
     {
       "action": "",
@@ -142,17 +142,17 @@
       "id": 14,
       "move_mode": "dash",
       "type": "path",
-      "x": 3208.2119140625,
-      "y": -873.46484375
+      "x": 3208.2119,
+      "y": -873.4648
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(x);茜特菈莉 e,q;莱依拉 e;芙宁娜 e;爱可菲 e;恰斯卡 q;艾梅莉埃 e;流浪者 q;纳西妲 e;夜兰 e,q,attack(2);申鹤 e,q;万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);行秋 attack(0.2),e,q,attack(2);那维莱特 e,charge(3),j;莱欧斯利 e,q;attack(4.5)",
+      "action_params": "keypress(x);茜特菈莉 e,q;莱依拉 e;芙宁娜 e;爱可菲 e;恰斯卡 q;艾梅莉埃 e;流浪者 q;纳西妲 e;夜兰 e,q,attack(2);申鹤 e,q;万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),attack(0.2);行秋 attack(0.2),e,q,attack(2);那维莱特 e,charge(3),j;莱欧斯利 e,q;attack(4.5);尼可 keypress(E),wait(0.1),keypress(E);",
       "id": 15,
       "move_mode": "dash",
       "type": "path",
-      "x": 3205.244140625,
-      "y": -850.14697265625
+      "x": 3205.2441,
+      "y": -850.147
     },
     {
       "action": "",
@@ -160,8 +160,8 @@
       "id": 16,
       "move_mode": "dash",
       "type": "path",
-      "x": 3199.4248046875,
-      "y": -855.6103515625
+      "x": 3199.4248,
+      "y": -855.6104
     },
     {
       "action": "",
@@ -169,8 +169,8 @@
       "id": 17,
       "move_mode": "dash",
       "type": "path",
-      "x": 3195.1904296875,
-      "y": -827.47265625
+      "x": 3195.1904,
+      "y": -827.4727
     },
     {
       "action": "",
@@ -178,8 +178,8 @@
       "id": 18,
       "move_mode": "dash",
       "type": "orientation",
-      "x": 3199.4248046875,
-      "y": -855.6103515625
+      "x": 3199.4248,
+      "y": -855.6104
     },
     {
       "action": "combat_script",
@@ -187,17 +187,22 @@
       "id": 19,
       "move_mode": "dash",
       "type": "path",
-      "x": 3199.4248046875,
-      "y": -855.6103515625
+      "x": 3199.4248,
+      "y": -855.6104
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 20,
       "move_mode": "dash",
+      "point_ext_params": {
+        "auto_fight": {
+          "reward_type": "experience"
+        }
+      },
       "type": "path",
-      "x": 3212.0771484375,
-      "y": -851.87890625
+      "x": 3212.0771,
+      "y": -851.8789
     }
   ]
 }

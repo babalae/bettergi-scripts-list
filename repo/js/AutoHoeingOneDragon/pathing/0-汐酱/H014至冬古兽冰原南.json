@@ -1,19 +1,18 @@
 {
   "info": {
-    "author": "汐",
     "authors": [
       {
-        "links": "https://github.com/jiegedabaobei",
+        "links": "",
         "name": "汐"
       }
     ],
     "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时36秒，包含以下怪物：1只愚人众·雷莹术士、2只幼岩龙蜥。",
+    "description": "  路线信息：该路线预计用时55秒，包含以下怪物：1只丘丘雷兜王。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1774337428427,
-    "map_match_method": "",
+    "last_modified_time": 1786902685184,
+    "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "B031璃月天遒谷-2",
+    "name": "H014至冬古兽冰原南",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -25,17 +24,17 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1152.880000000001,
-      "y": 141.6300000000001
+      "x": 7462.4932,
+      "y": 7960.082
     },
     {
-      "action": "combat_script",
-      "action_params": "芙宁娜 e;爱可菲 e;伊涅芙 e;",
+      "action": "",
+      "action_params": "",
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 1139.0263671875,
-      "y": 113.17578125
+      "x": 7462.4219,
+      "y": 7983.2856
     },
     {
       "action": "fight",
@@ -43,8 +42,8 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 1078.4599999999991,
-      "y": 132.3199999999997
+      "x": 7382.249,
+      "y": 8069.4399
     }
   ]
 }
