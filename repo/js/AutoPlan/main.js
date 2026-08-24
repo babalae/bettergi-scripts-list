@@ -12,7 +12,7 @@ import {
     initRunOrderList,
     checkAndFilterStygianOnslaught
 } from './utils/load_check_run'
-import {Record} from "../ActivitySwitchNotice/utils/tool";
+import {Record} from "./utils/tool";
 import {checkHolyRelicsKey} from "./utils/HolyRelics";
 
 /**
