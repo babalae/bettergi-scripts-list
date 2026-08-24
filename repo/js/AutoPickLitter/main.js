@@ -611,15 +611,15 @@ async function recordForFile(judge) {
         let recordFilePath = `records/${accountName}.txt`;
         let lines = [
             `上次运行日期: ${record.lastRunDate}`,
-            `上次取水时间: ${record.lastWaterTime.toISOString().slice(0, 10) + ' ' + record.lastWaterTime.toTimeString().slice(0, 8)}`,
-            `上次上香时间: ${record.lastSticksTime.toISOString().slice(0, 10) + ' ' + record.lastSticksTime.toTimeString().slice(0, 8)}`,
-            `上次抽签时间: ${record.lastLotsTime.toISOString().slice(0, 10) + ' ' + record.lastLotsTime.toTimeString().slice(0, 8)}`,
-            `上次拾螺时间: ${record.lastConchsTime.toISOString().slice(0, 10) + ' ' + record.lastConchsTime.toTimeString().slice(0, 8)}`,
-            `上次探监时间: ${record.lastMealTime.toISOString().slice(0, 10) + ' ' + record.lastMealTime.toTimeString().slice(0, 8)}`,
-            `上次拾蛋时间: ${record.lastEggsTime.toISOString().slice(0, 10) + ' ' + record.lastEggsTime.toTimeString().slice(0, 8)}`,
-            `上次转盘时间: ${record.lastTurntableTime.toISOString().slice(0, 10) + ' ' + record.lastTurntableTime.toTimeString().slice(0, 8)}`,
-            `上次领菜时间: ${record.lastTodayLuckTime.toISOString().slice(0, 10) + ' ' + record.lastTodayLuckTime.toTimeString().slice(0, 8)}`,
-            `上次领糖时间: ${record.lastSweetStatueTime.toISOString().slice(0, 10) + ' ' + record.lastSweetStatueTime.toTimeString().slice(0, 8)}`,
+            `上次取水时间: ${record.lastWaterTime.toISOString()}`,
+            `上次上香时间: ${record.lastSticksTime.toISOString()}`,
+            `上次抽签时间: ${record.lastLotsTime.toISOString()}`,
+            `上次拾螺时间: ${record.lastConchsTime.toISOString()}`,
+            `上次探监时间: ${record.lastMealTime.toISOString()}`,
+            `上次拾蛋时间: ${record.lastEggsTime.toISOString()}`,
+            `上次转盘时间: ${record.lastTurntableTime.toISOString()}`,
+            `上次领菜时间: ${record.lastTodayLuckTime.toISOString()}`,
+            `上次领糖时间: ${record.lastSweetStatueTime.toISOString()}`,
             `背包龙蛋数目: ${record.lastDragonEggsNum}`,
             ...record.records.filter(Boolean)
         ];
