@@ -2,14 +2,13 @@
   "info": {
     "authors": [
       {
-        "name": "蜜柑魚",
-        "links": "https://github.com/this-Fish"
+        "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.42.3",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784400376772,
+    "last_modified_time": 1786466025080,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B12-金鱼草-璃月-归离原西-1个",
@@ -22,6 +21,7 @@
       "action": "",
       "action_params": "",
       "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 341.5088,
@@ -31,6 +31,7 @@
       "action": "",
       "action_params": "",
       "id": 2,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 363.2539,
@@ -40,6 +41,16 @@
       "action": "",
       "action_params": "",
       "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 364.9551,
+      "y": 566.1445
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 445.8906,
@@ -48,7 +59,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 4,
+      "id": 5,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 470.4063,
@@ -57,20 +69,30 @@
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 6,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 546.0664,
       "y": 593.9629
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.25)",
-      "id": 6,
+      "action": "",
+      "action_params": "",
+      "id": 7,
       "move_mode": "dash",
       "type": "path",
-      "x": 554.9619,
-      "y": 590.2334
+      "x": 552.7178,
+      "y": 591.2979
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.25)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 555.6387,
+      "y": 589.7422
     }
   ]
 }
