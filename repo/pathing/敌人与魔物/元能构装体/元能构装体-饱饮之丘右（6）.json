@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/zhy0070",
+        "links": "",
         "name": "烤鱼"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787740713306,
+    "last_modified_time": 1786192988872,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A04稻妻-鸣神岛-镇守之森上",
+    "name": "元能构装体-饱饮之丘右（6）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,17 +24,17 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -4429.5625,
-      "y": -2798.2812
+      "x": 5700.9824,
+      "y": -1800.0215
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": -4429.8184,
-      "y": -2781.5352
+      "x": 5705.3926,
+      "y": -1815.2051
     },
     {
       "action": "",
@@ -42,17 +42,17 @@
       "id": 3,
       "move_mode": "run",
       "type": "path",
-      "x": -4441.5781,
-      "y": -2753.125
+      "x": 5662.0703,
+      "y": -1833.4678
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 4,
       "move_mode": "run",
       "type": "path",
-      "x": -4444.3672,
-      "y": -2725.25
+      "x": 5643.7314,
+      "y": -1823.1699
     },
     {
       "action": "",
@@ -60,63 +60,62 @@
       "id": 5,
       "move_mode": "run",
       "type": "path",
-      "x": -4407.3066,
-      "y": -2669.1719
+      "x": 5637.2266,
+      "y": -1796.7314
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "fly",
+      "move_mode": "run",
       "type": "path",
-      "x": -4406.2324,
-      "y": -2642.7588
+      "x": 5671.5801,
+      "y": -1784.2129
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 7,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": -4405.2852,
-      "y": -2626.9404
+      "x": 5695.2324,
+      "y": -1779.7725
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 8,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": -4409.1484,
-      "y": -2621.0625
+      "x": 5710.4746,
+      "y": -1775.2129
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": -4396.9277,
-      "y": -2614.7891
+      "x": 5733.4473,
+      "y": -1765.5879
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 10,
-      "locked": false,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": -4396.9277,
-      "y": -2614.7891
+      "x": 5754.3574,
+      "y": -1762.7451
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(2)",
+      "action": "fight",
+      "action_params": "",
       "id": 11,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": -4396.9277,
-      "y": -2614.7891
+      "x": 5756.3027,
+      "y": -1774.2412
     }
   ]
 }

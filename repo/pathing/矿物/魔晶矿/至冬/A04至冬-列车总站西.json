@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/zhy0070",
+        "links": "",
         "name": "烤鱼"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787740711818,
-    "map_match_method": "",
+    "last_modified_time": 1787382593270,
+    "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "A05稻妻-鸣神岛-镇守之森左",
+    "name": "A04至冬-列车总站西",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -22,11 +22,10 @@
       "action": "",
       "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -4429.5684,
-      "y": -2798.2773
+      "x": 7163.7607,
+      "y": 9309.7148
     },
     {
       "action": "",
@@ -34,28 +33,27 @@
       "id": 2,
       "move_mode": "run",
       "type": "path",
-      "x": -4364.0859,
-      "y": -2774.2715
+      "x": 7212.0869,
+      "y": 9298.1641
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 3,
-      "locked": true,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": -4330.5547,
-      "y": -2742.8877
+      "x": 7216.2412,
+      "y": 9263.8184
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 4,
       "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": -4329.7187,
-      "y": -2735.7988
+      "x": 7219.4551,
+      "y": 9262.4717
     },
     {
       "action": "mining",
@@ -64,28 +62,17 @@
       "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": -4322.0937,
-      "y": -2743.4277
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 6,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -4325.5391,
-      "y": -2733.4678
+      "x": 7219.4551,
+      "y": 9262.4717
     },
     {
       "action": "combat_script",
       "action_params": "wait(2)",
-      "id": 7,
-      "locked": false,
+      "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": -4325.5391,
-      "y": -2733.4678
+      "x": 7219.4551,
+      "y": 9262.4717
     }
   ]
 }
