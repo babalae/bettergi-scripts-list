@@ -132,7 +132,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 					await sleep(500);
 					await pageTop(LeftSliderTopRo);
 
-					for (let p = 0; p < 4; p++) {
+					for (let p = 0; p < 5; p++) {
 						// 识别当前页
 						let captureRegion = captureGameRegion();
 						let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 100, 400, 900));
@@ -146,7 +146,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 								if (settings.enableDebug) {
 									log.info("目标队伍位置:({x},{y},{w},{h}), 识别结果：{text}", res.x, res.y, res.Width, res.Height, res.text);
 								}
-								click(res.x, Math.ceil(res.y + res.Height * 1.35));
+								click(Math.ceil(res.x + 360), res.y + Math.ceil(res.Height / 2));
 
 								// 找到目标队伍，点击确定、部署
 								await sleep(1500);
