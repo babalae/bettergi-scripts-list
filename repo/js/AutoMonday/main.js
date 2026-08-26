@@ -472,7 +472,6 @@
             if (!pathCompleted) {
                 throw new Error("爱可菲未能到达电气水晶");
             }
-            await AutoPath("全自动爱可菲");
         } else if (akfChargingMethod == "法器角色充能") {
             const ifakfIn = await includes("爱可菲");
             if (!ifakfIn) { throw new Error("队伍中未包含角色:爱可菲"); }

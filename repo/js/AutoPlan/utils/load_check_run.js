@@ -1,6 +1,6 @@
 import {config, LoadType} from "../config/config";
 import {Physical} from "./physical";
-import {getDayOfWeek, outDomainUI, outStygianOnslaughtUI, parseInteger, throwError, toMainUi} from "./tool";
+import {getDayOfWeek, Log, outDomainUI, outStygianOnslaughtUI, parseInteger, throwError, toMainUi} from "./tool";
 import {findStygianOnslaught} from "./activity";
 import {BgiTools} from "./bgi_tools";
 
@@ -15,7 +15,7 @@ export async function checkAndFilterStygianOnslaught(list) {
     const hasStygianOnslaught = list.some(item => item.runType === config.user.runTypes[2]);
     if (hasStygianOnslaught) {
         // 记录日志：检查幽境危战紊乱爆发期开放
-        log.info(`{0}`, `检查幽境危战紊乱爆发期开放`)
+        Log.info(`{0}`, `检查幽境危战紊乱爆发期开放`)
         try {
             // 切换到主界面
             await toMainUi()
@@ -35,9 +35,9 @@ export async function checkAndFilterStygianOnslaught(list) {
                     })
                     list.sort((item1, item2) => item2.order - item1.order)
                 }
-                log.info(`{0}`, `幽境危战紊乱爆发期已开启`)
+                Log.info(`{0}`, `幽境危战紊乱爆发期已开启`)
             } else {
-                log.info(`{0}`, `幽境危战紊乱爆发期已结束`)
+                Log.info(`{0}`, `幽境危战紊乱爆发期已结束`)
                 list = list.filter(item => item.runType !== config.user.runTypes[2])
             }
             return list
@@ -68,7 +68,7 @@ class Record {
         try {
             list = JSON.parse(file.readTextSync(path))
         } catch (e) {
-            log.warn(`(账号未运行过无记录文件 请忽略该异常),读取记录文件失败，{0}`, e.message)
+            Log.warn(`(账号未运行过无记录文件 请忽略该异常),读取记录文件失败，{0}`, e.message)
         }
         return list
     }
@@ -79,20 +79,22 @@ class Record {
      * @param {Object} item - 用于匹配的记录项，包含 key, time, uid 属性
      * @returns {boolean}
      */
-    static existInList(list = [], item) {
-        const ts = item?.id ? list.filter(i => i.id === item.id && i.time === item.time && i.uid === item.uid) : list.filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
-        return ts !== null && ts.length > 0
+    static existInList(list = [], item, comparator) {
+        const predicate = (comparator && typeof comparator === 'function')
+            ? comparator
+            : (i) => JSON.stringify(i) === JSON.stringify(item);
+        return list.some(predicate);
     }
 
     /**
      * 检查指定记录是否存在
      * @param {string} path - 记录文件的路径
      * @param {Object} item - 用于匹配的记录项，包含 key, time, uid 属性
+     * @param {Function} [comparator] - 自定义比较函数，接收列表中的每一项，返回 boolean
      * @returns {boolean}
      */
-    static exist(path, item) {
-        const ts = Record.read(path).filter(i => i.key === item.key && i.time === item.time && i.uid === item.uid);
-        return ts !== null && ts.length > 0
+    static exist(path, item, comparator) {
+        return this.existInList(this.read(path), item, comparator);
     }
 
     /**
@@ -101,8 +103,29 @@ class Record {
      * @param {Array} list - 要写入的记录列表
      * @returns {*} 返回 parse 变量（注：当前代码中 parse 未在此函数内定义）
      */
-    static write(path, list) {
-        file.writeTextSync(path, JSON.stringify(list))
+    static write(path, list,throwError=false) {
+        try {
+            file.writeTextSync(path, JSON.stringify(list));
+        } catch (e) {
+            Log.error(`[Record] 写入记录文件失败，路径: {0}，错误: {1}`, path, e.message);
+            if (throwError) throw e; // 视业务需求决定是否重新抛出
+        }
+    }
+
+    /**
+     * 将列表中尚不存在的记录项追加写入记录文件（去重追加）
+     * @param {string} path - 记录文件路径
+     * @param {Array} [list=[]] - 待追加的记录项列表
+     * @param {Function} [filterFn] - 自定义过滤函数，接收 list 中的每个项，返回 true 表示应追加，false 则忽略。
+     */
+    static writeAdd(path, list = [], filterFn, existComparator) {
+        const readList = this.read(path);
+
+        // 默认谓词：仅保留 readList 中不存在的项
+        const shouldAdd = typeof filterFn === 'function' ? filterFn : (item) => !Record.existInList(readList, item, ((existComparator && typeof existComparator === 'function') ? existComparator : (i) => JSON.stringify(i) === JSON.stringify(item)));
+
+        const disList = list.filter(shouldAdd)
+        this.write(path, readList.concat(disList));
     }
 }
 
@@ -184,13 +207,14 @@ class Base {
 class Domain extends Base {
     static async buildKey(item) {
         const json = await super.buildKey(item);
-        const auto = item.autoFight;
+        // const auto = item.autoFight;
+        const auto = item[Domain.key()];
         json.key = `${json.key}|${auto.domainName}|${auto.partyName}|${auto.domainRoundNum}|${auto.sundaySelectedValue}`
         return json
     }
 
     static key() {
-        return "autoFight"
+        return "autoDomain"
     }
 
     /**
@@ -201,7 +225,7 @@ class Domain extends Base {
      */
     static build(arr, index) {
         // 创建秘境信息对象，初始化默认值
-        let autoFight = {
+        let autoDomain = {
             domainName: undefined,//秘境名称
             partyName: undefined,//队伍名称
             sundaySelectedValue: 1,//周日|限时选择的值，默认为1
@@ -238,31 +262,32 @@ class Domain extends Base {
         }
 
         // 设置秘境信息的各个属性
-        autoFight.partyName = partyName       // 队伍名称
-        autoFight.domainName = domainName      // 秘境名称
-        autoFight.domainRoundNum = domainRoundNum  // 副本轮数
-        autoFight.sundaySelectedValue = sundaySelectedValue // 周日|限时选择的值
-        return {autoFight, index};
+        autoDomain.partyName = partyName       // 队伍名称
+        autoDomain.domainName = domainName      // 秘境名称
+        autoDomain.domainRoundNum = domainRoundNum  // 副本轮数
+        autoDomain.sundaySelectedValue = sundaySelectedValue // 周日|限时选择的值
+        return {autoDomain: autoDomain, index};
     }
 
     /**
      * 执行秘境任务
-     * @param {Object} autoFight - 包含秘境信息的对象
+     * @param {Object} autoDomain - 包含秘境信息的对象
      */
-    static async run(autoFight = {
+    static async run(autoDomain = {
         domainName: undefined,//秘境名称
         partyName: undefined,//队伍名称
         sundaySelectedValue: 1,//周日|限时选择的值，默认为1
         domainRoundNum: 0,//副本轮数，默认为0
     }) {
-        log.info(`{0}`, "开始执行秘境任务")
-        log.warn(`{0}`, "非体力耗尽情况下(受本体限制),等待退出秘境时间较长")
+        Log.info(`{0}`, "开始执行秘境任务")
+        Log.warn(`{0}`, "非体力耗尽情况下(受本体限制),等待退出秘境时间较长")
+        Log.debug(`Object:{0}`,JSON.stringify(autoDomain))
         // 创建秘境参数对象，初始化值为0
         let domainParam = new AutoDomainParam();
         //关闭榨干原粹树脂
         domainParam.specifyResinUse = true
         //定死做预留冗余 先不实现 不能指定次数 只能指定启用
-        let physical_domain = autoFight?.physical
+        let physical_domain = autoDomain?.physical
         //     || [
         //     {order: 0, name: config.user.physical.names[0], count: 1, open: true},
         //     {order: 1, name: config.user.physical.names[1], count: 0, open: false},
@@ -314,28 +339,28 @@ class Domain extends Base {
         if (resinPriorityList.length > 0) {
             domainParam.SetResinPriorityList(...resinPriorityList)
         }
-        // log.debug(`开始执行秘境任务`)
+        // Log.debug(`开始执行秘境任务`)
         //秘境名称
-        domainParam.DomainName = autoFight.domainName || domainParam.DomainName;
-        log.debug(`秘境名称:${domainParam.DomainName}`)
+        domainParam.DomainName = autoDomain.domainName || domainParam.DomainName;
+        Log.debug(`秘境名称:${domainParam.DomainName}`)
 
         //队伍名称
-        domainParam.PartyName = autoFight.partyName || domainParam.PartyName;
-        log.debug(`队伍名称:${domainParam.PartyName}`)
+        domainParam.PartyName = autoDomain.partyName || domainParam.PartyName;
+        Log.debug(`队伍名称:${domainParam.PartyName}`)
 
-        if (autoFight.sundaySelectedValue) {
+        if (autoDomain.sundaySelectedValue) {
             //周日|限时选择的值
-            domainParam.SundaySelectedValue = "" + (autoFight.sundaySelectedValue || domainParam.SundaySelectedValue);
+            domainParam.SundaySelectedValue = "" + (autoDomain.sundaySelectedValue || domainParam.SundaySelectedValue);
         }
-        log.debug(`周日|限时选择的值:${domainParam.SundaySelectedValue}`)
+        Log.debug(`周日|限时选择的值:${domainParam.SundaySelectedValue}`)
         //副本轮数
         try {
-            domainParam.DomainRoundNum = parseInt((autoFight.domainRoundNum || domainParam.DomainRoundNum) + "");
+            domainParam.DomainRoundNum = parseInt((autoDomain.domainRoundNum || domainParam.DomainRoundNum) + "");
         } catch (e) {
-            log.debug(`副本轮数:${autoFight.domainRoundNum}`)
+            Log.debug(`副本轮数:${autoDomain.domainRoundNum}`)
             throwError(e.message)
         }
-        log.debug(`副本轮数:${domainParam.DomainRoundNum}`)
+        Log.debug(`副本轮数:${domainParam.DomainRoundNum}`)
         try {
             // 复活重试
             for (let i = 0; i < config.run.retry_count; i++) {
@@ -355,7 +380,7 @@ class Domain extends Base {
                 }
             }
         } finally {
-            log.info(`{0}`, "执行完成")
+            Log.info(`{0}`, "执行完成")
             // 退出秘境
             await outDomainUI()
         }
@@ -369,7 +394,8 @@ class Domain extends Base {
 class LeyLineOutcrop extends Base {
     static async buildKey(item) {
         const json = await super.buildKey(item);
-        const auto = item.autoLeyLineOutcrop;
+        // const auto = item.autoLeyLineOutcrop;
+        const auto = item[LeyLineOutcrop.key()];
         json.key = json.key +
             "|" + auto.country +
             "|" + auto.leyLineOutcropType +
@@ -474,7 +500,8 @@ class LeyLineOutcrop extends Base {
         // }
 
 
-        log.info(`{0}`, "开始执行地脉任务")
+        Log.info(`{0}`, "开始执行地脉任务")
+        Log.debug(`Object:{0}`,JSON.stringify(autoLeyLineOutcrop))
         let param = new AutoLeyLineOutcropParam(parseInteger(autoLeyLineOutcrop.count + ""), autoLeyLineOutcrop.country, autoLeyLineOutcrop.leyLineOutcropType);
         //和本体保持一致
         param.useAdventurerHandbook = !autoLeyLineOutcrop.useAdventurerHandbook;
@@ -516,7 +543,8 @@ class StygianOnslaught extends Base {
 
     static async buildKey(item) {
         const json = await super.buildKey(item);
-        const auto = item.autoStygianOnslaught;
+        // const auto = item.autoStygianOnslaught;
+        const auto = item[StygianOnslaught.key()];
         json.key = json.key +
             "|" + auto.bossNum +
             "|" + auto.fightTeamName +
@@ -592,7 +620,7 @@ class StygianOnslaught extends Base {
                         try {
                             item.count = counts[index] || 1;
                         } catch (e) {
-                            log.warn(`解析${item.name}数量失败`)
+                            Log.warn(`解析${item.name}数量失败`)
                             throwError(`解析${item.name}数量失败`)
                         }
                     });
@@ -633,8 +661,8 @@ class StygianOnslaught extends Base {
         //     /**指定战斗队伍*/
         //     fightTeamName: undefined
         // }
-        log.debug(`autoStygianOnslaught ={0}`, JSON.stringify(autoStygianOnslaught))
-        log.info(`{0}`, "开始执行幽境任务")
+        Log.info(`{0}`, "开始执行幽境任务")
+        Log.debug(`Object:{0}`,JSON.stringify(autoStygianOnslaught))
         let param = new AutoStygianOnslaughtParam()
         param.specifyResinUse = autoStygianOnslaught?.specifyResinUse || param.specifyResinUse
 
@@ -714,7 +742,7 @@ class StygianOnslaught extends Base {
                 }
             }
         } finally {
-            log.info(`{0}`, "执行完成")
+            Log.info(`{0}`, "执行完成")
             // 退出危战
             await outStygianOnslaughtUI()
         }
@@ -728,7 +756,8 @@ class StygianOnslaught extends Base {
 class Boss extends Base {
     static async buildKey(item) {
         const json = await super.buildKey(item);
-        let auto = item?.autoBoss
+        // let auto = item.autoBoss
+        let auto = item[Boss.key()]
 
         json.key = json.key +
             "|" + auto.bossName +
@@ -742,6 +771,7 @@ class Boss extends Base {
             "|" + auto.reviveRetryCount +
             "|" + auto.returnToStatueAfterEachRound +
             "|" + auto.rewardRecognitionEnabled
+            "|" + auto.timeout
 
         return json;
     }
@@ -829,8 +859,10 @@ class Boss extends Base {
             const temp = rawValue === 'true';
             autoBoss.rewardRecognitionEnabled = temp
         }
-        // index++
-
+        index++
+        if (index <= arr.length - 1) {
+            autoBoss.timeout = parseInteger(arr[index])|| 240
+        }
         return {autoBoss, index}
     }
 
@@ -847,10 +879,10 @@ class Boss extends Base {
         returnToStatueAfterEachRound: false,
         rewardRecognitionEnabled: false
     }) {
-        log.info(`{0}==>{1}`, "开始执行Boss任务", autoBoss.bossName)
+        Log.info(`{0}==>{1}`, "开始执行Boss任务", autoBoss.bossName)
+        Log.debug(`Object:{0}`,JSON.stringify(autoBoss))
         //先去安全点回血
         await genshin.tpToStatueOfTheSeven();
-        log.debug(`Boss Json:{0}`, JSON.stringify(autoBoss))
         const currentPhysical = await Physical.countAllResin()
         config.user.physical.currentJson = currentPhysical;
         config.user.physical.current = currentPhysical.originalResinCount;
@@ -863,7 +895,7 @@ class Boss extends Base {
             ||
             (autoBoss.useTransientResin && (currentPhysical.transientResinCount || 0) < 1)
         ) {
-            log.warn(`{0}`, "Boss挑战树脂不足")
+            Log.warn(`{0}`, "Boss挑战树脂不足")
             return
         }
         // let autoBoss = {
@@ -904,6 +936,12 @@ class Boss extends Base {
         param.reviveRetryCount = Math.max(autoBoss.reviveRetryCount, config.run.retry_count)
         param.returnToStatueAfterEachRound = autoBoss.returnToStatueAfterEachRound
         param.rewardRecognitionEnabled = autoBoss.rewardRecognitionEnabled
+        try{
+            param.timeout = autoBoss.timeout
+        }catch(e){
+            //Log.warn(`{0}`,e)
+            Log.debug(`旧版本无timeout设置`)
+        }
 
         await sleep(1000)
         try {
@@ -927,7 +965,7 @@ class Boss extends Base {
             // }
         } finally {
             await genshin.tpToStatueOfTheSeven();
-            log.info(`{0}`, "执行完成")
+            Log.info(`{0}`, "执行完成")
         }
     }
 }
@@ -939,7 +977,7 @@ export const taskHandlerMap = {
         build: Domain.build,
         buildKey: Domain.buildKey,
         run: Domain.run,
-        target: Domain.key() //'autoFight'
+        target: Domain.key() //'autoDomain'
     },
     [config.user.runTypes[1]]: {
         build: LeyLineOutcrop.build,
@@ -1015,7 +1053,7 @@ export async function loadMode(Load, autoOrderSet, runConfig) {
             break
         case LoadType.bgi_tools:
             // 通过bgi_tools方式加载配置
-            log.info(`开始拉取bgi_tools配置`)
+            Log.info(`开始拉取bgi_tools配置`)
             const uidConfigListBgiTools = await BgiTools.pullJsonConfig(config.bgi_tools.api.httpPullJsonConfig, config.user.uid + '') || []
             if (uidConfigListBgiTools?.length > 0) {
                 // 如果配置列表不为空，遍历并添加到结果集合中
@@ -1063,15 +1101,15 @@ export async function initRunOrderList(domainConfig) {
     // 返回处理后的秘境顺序列表
     let from = Array.from(autoFightOrderSet);
     let dayOfWeek = await getDayOfWeek();
-    log.debug(`old-from:{0}`, JSON.stringify(from))
+    Log.debug(`old-from:{0}`, JSON.stringify(from))
     from = from
         //过滤掉不执行的秘境
         .filter(item => config.user.runTypes.includes(item.runType))
         .filter(item => {
-            log.debug(`[{1}]item.days.length:{0}`, dayOfWeek.day, item?.days?.length || 0)
+            Log.debug(`[{1}]item.days.length:{0}`, dayOfWeek.day, item?.days?.length || 0)
             if (item.days && item.days.length > 0) {
                 const includes = item.days.includes(dayOfWeek.day);
-                log.debug(`[{1}]item.days:{0}`, dayOfWeek.day, JSON.stringify(item.days))
+                Log.debug(`[{1}]item.days:{0}`, dayOfWeek.day, JSON.stringify(item.days))
                 return includes;
             }
             return true
@@ -1087,7 +1125,7 @@ export async function initRunOrderList(domainConfig) {
         // 当 cultivate 相同时，按 order 降序排列
         return b.order - a.order
     })
-    log.debug(`from:{0}`, JSON.stringify(from))
+    Log.debug(`from:{0}`, JSON.stringify(from))
     return from;
 }
 
@@ -1097,25 +1135,32 @@ export async function initRunOrderList(domainConfig) {
  */
 export async function autoRunList(autoRunOrderList) {
     let RecordList = Record.read(config.path.record);
-
     for (const item of autoRunOrderList) {
         await sleep(3000)
         let keyJson = undefined
+        let RecordJson={id:undefined,time: undefined,uid: undefined,key: undefined}
+
         const handler = taskHandlerMap[item.runType];
 
         if (!handler) continue;
 
         if (item?.record) {
             keyJson = await handler.buildKey(item);
-            log.debug(`检查记录[{0}-{1}]`, item.runType, keyJson)
-            const exist = Record.existInList(RecordList, keyJson);
+
+            RecordJson.id=keyJson.id
+            RecordJson.time=keyJson.time
+            RecordJson.uid=keyJson.uid
+            RecordJson.key=keyJson.key
+
+            Log.debug(`检查记录[{0}-{1}]`, item.runType, RecordJson)
+            const exist = Record.existInList(RecordList, RecordJson);
             if (exist) {
-                log.info(`[本日已执行，跳过]==>[{0}-{1}]`, item.runType, keyJson)
+                Log.info(`[本日已执行，跳过]==>[{0}-{1}]`, item.runType, keyJson)
                 continue;
             }
 
         }
-        log.debug(`[开始执行]<==[{0}]==>[{1}-{2}]`, ((item?.cultivate ?? false) ? "培养计划" : "日常计划"), item.runType, keyJson)
+        Log.debug(`[开始执行]<==[{0}]==>[{1}-{2}]`, ((item?.cultivate ?? false) ? "培养计划" : "日常计划"), item.runType, keyJson)
         await handler.run(item[handler.target]);
 
         try {
@@ -1126,8 +1171,8 @@ export async function autoRunList(autoRunOrderList) {
         }
 
         if (keyJson) {
-            RecordList.push(keyJson)
-            log.info(`写入记录[{0}-{1}]==>{2}已执行`, item.runType, keyJson, config.path.record)
+            RecordList.push(RecordJson)
+            Log.info(`写入记录[{0}-{1}]==>{2}已执行`, item.runType, keyJson, config.path.record)
             await Record.write(config.path.record, RecordList)
         }
     }

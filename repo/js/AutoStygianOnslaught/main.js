@@ -308,6 +308,7 @@ function wipOcrCheckText(roi1080, keywords, label, isDebug, returnSegments) {
 
         //映射所有圣遗物对应需要识别的图片
         var artifactImageMap = {
+			"血红之证 / 炉火融炼之心": "assets/Artifacts/artifact_21.bmp",
             "天之美赐 / 影中沉凝的幻灭": "assets/Artifacts/artifact_20.bmp",
             "晨星与月的晓歌 / 风起之日": "assets/Artifacts/artifact_19.bmp",
             "穹境示现之夜 / 纺月的夜歌": "assets/Artifacts/artifact_0.bmp",             

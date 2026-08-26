@@ -68,7 +68,7 @@ async function openBossEditor() {
     try {
         log.info("打开 BOSS 配置编辑器...");
 
-        const windowId = htmlMask.show("assets/html/BOSS配置编辑器.html", "boss-editor");
+        const windowId = htmlMask.show("assets/html/index.html", "boss-editor");
         log.debug("编辑器窗口已打开，窗口 ID: {0}", windowId);
 
         htmlMask.setClickThrough(windowId, false);

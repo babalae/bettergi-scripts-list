@@ -14,6 +14,7 @@ import {
   findEditStageSaveBtn,
   findExternalSaveColumnPos,
   findManageStagesBtn,
+  findSaveTimePlaceholder,
   findSaveToDeletePos,
 } from "../constants/regions.js";
 import { goToRecommendedWonderlands } from "./room.js";
@@ -37,12 +38,16 @@ const goToManageStageSave = async () => {
     },
     { maxAttempts: 5 },
   );
+  /** 等待 "1970年1月1日 08:00" 占位文本消失 */
+  await sleep(1e3);
+  await assertRegionDisappearing(findSaveTimePlaceholder, "等待存档时间占位文本消失超时");
 };
 /** 删除关卡存档 */
 const deleteStageSave = async () => {
+  let isDeleted = false;
   if (!userConfig.deleteStageSave || userConfig.deleteStageSaveKeyword.trim() === "") {
     log.info("未启用删除关卡存档，跳过");
-    return;
+    return isDeleted;
   }
   try {
     /** 进入管理关卡存档界面 */
@@ -51,13 +56,13 @@ const deleteStageSave = async () => {
     const stagePos = await findSaveToDeletePos(userConfig.deleteStageSaveKeyword);
     if (stagePos === void 0) {
       log.warn("未找到要删除的关卡存档，跳过");
-      return;
+      return isDeleted;
     }
     stagePos?.drawSelf("group_text");
     const colPos = findExternalSaveColumnPos();
     if (colPos === void 0) {
       log.warn("无法确定关卡的局外存档列位置，跳过");
-      return;
+      return isDeleted;
     }
     /** 进入编辑模式 */
     await assertRegionDisappearing(
@@ -98,6 +103,8 @@ const deleteStageSave = async () => {
       },
       { maxAttempts: 5 },
     );
+    /** 标记为已删除 */
+    isDeleted = true;
   } catch (err) {
     if (isHostException(err)) throw err;
     log.warn("删除关卡存档失败: {error}", getErrorMessage(err));
@@ -105,6 +112,7 @@ const deleteStageSave = async () => {
     /** 返回大厅 */
     await genshin.returnMainUi();
   }
+  return isDeleted;
 };
 
 //#endregion

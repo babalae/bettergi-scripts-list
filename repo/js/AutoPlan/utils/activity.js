@@ -1,3 +1,5 @@
+import {drawBoxDebug, Log} from "./tool";
+
 const ocrRegionConfig = {
     activity: {x: 267, y: 197, width: 226, height: 616},//活动识别区域坐标和尺寸
     remainingTime: {x: 497, y: 202, width: 1417, height: 670},//剩余时间识别区域坐标和尺寸
@@ -65,9 +67,9 @@ export class scroll {
         let x = isUp ? xyConfig.top.x : xyConfig.bottom.x;  // 根据滚动方向获取x坐标
         let y = isUp ? xyConfig.top.y : xyConfig.bottom.y;  // 根据滚动方向获取y坐标
         // 记录滑动方向
-        log.info(`活动页面-${isUp ? '向上' : '向下'}滑动`);
+        Log.debug(`活动页面-${isUp ? '向上' : '向下'}滑动`);
         // 注释：坐标信息已注释掉，避免日志过多
-        // log.info(`坐标:${x},${y}`);
+        // Log.debug(`坐标:${x},${y}`);
         // 根据配置的滑动次数执行循环
         for (let i = 0; i < scrollPageCount; i++) {
             // 移动到坐标位置
@@ -83,22 +85,27 @@ export class scroll {
      * @returns {Promise<void>}
      * @throws {Error} 当超过最大尝试次数仍未回到顶部时抛出错误
      */
-    static async pagesByActivityToTop(ocrRegion = ocrRegionConfig.activity) {
+    static async pagesByActivityToTop(ocrRegion = ocrRegionConfig.activity,toTopCount) {
         let ms = 800;  // 等待时间，单位毫秒
         let topActivityName = null;         // 上一次检测到的顶部活动名称
         let sameTopCount = 0;               // 连续出现相同顶部名称的次数
         const requiredSameCount = 1;        // 需要连续几次相同才确认到顶（推荐 2~3）
         let attemptIndex = 0;                // 总尝试次数计数器
-        const maxAttempts = config.toTopCount;  // 可配置，默认为15次
-
-        log.info("开始滚动到活动页面顶部...");
-
+        const maxAttempts = toTopCount||15;  // 可配置，默认为15次
+        const ScrollPage=4*3
+        Log.debug("开始滚动到活动页面顶部...");
+        let actionRegion={
+            x: 225,
+            y: 73+200
+        }
+        await drawBoxDebug(settings.debug,ocrRegion,400,new Pen(Color.FromArgb(255,209,87,255), 2))
         while (attemptIndex < maxAttempts) {
             attemptIndex++;
-            log.info(`第 {attemptIndex} 次尝试回顶`, attemptIndex);
-
+            Log.debug(`第 {attemptIndex} 次尝试回顶`, attemptIndex);
+            await sleep(ms*2);
             // 移动鼠标到安全位置，避免干扰截图
-            await moveMouseTo(0, 20);
+            await moveMouseTo(actionRegion.x, actionRegion.y)
+            await click(actionRegion.x, actionRegion.y)
 
             // 截图 + OCR 识别活动列表区域
             let captureRegion = null;
@@ -118,10 +125,14 @@ export class scroll {
 
                 // 如果完全没识别到任何活动，可能是页面异常或已在顶（极少情况）
                 if (resList.length === 0) {
-                    log.warn("顶部OCR未识别到任何活动条目，可能是页面为空或识别失败");
+                    Log.warn("顶部OCR未识别到任何活动条目，可能是页面为空或识别失败");
                     // 再尝试一次向上滚大距离
                     // await scrollPagesByActivity(true);  // true = 向上
-                    await scroll.pagesByActivity(true, 80 * 4, 6, 60, 1);
+                    // await scroll.pagesByActivity(true, 80 * 4, 6, 60, 1);
+                    for (let i = 0; i <ScrollPage ; i++) {
+                        await verticalScroll(1);
+                        await sleep(2);
+                    }
                     await sleep(ms);
                     continue;
                 }
@@ -129,15 +140,15 @@ export class scroll {
                 // 取当前识别到的最顶部活动名称（resList[0] 通常是列表最上面的）
                 const currentTopName = resList[0].text.trim();
 
-                log.info(`当前检测到的顶部活动: {currentTopName}`, currentTopName);
+                Log.debug(`当前检测到的顶部活动: {currentTopName}`, currentTopName);
 
                 // 判断是否与上一次相同
                 if (currentTopName === topActivityName) {
                     sameTopCount++;
-                    log.debug(`顶部活动连续相同 ${sameTopCount} 次`);
+                    Log.debug(`顶部活动连续相同 ${sameTopCount} 次`);
 
                     if (sameTopCount >= requiredSameCount) {
-                        log.info(`已连续 {sameTopCount} 次检测到相同顶部活动，确认回到页面最顶部！`, sameTopCount);
+                        Log.debug(`已连续 {sameTopCount} 次检测到相同顶部活动，确认回到页面最顶部！`, sameTopCount);
                         return;  // 成功回到顶部
                     }
                 } else {
@@ -149,9 +160,12 @@ export class scroll {
                 // 未达到稳定状态，继续向上滚动一页（可根据实际情况调整滚动距离）
                 // 这里使用更大滚动距离确保能快速回顶
                 // await scrollPagesByActivity(true);  // true = 向上
-                await scroll.pagesByActivity(true, 80 * 4, 6, 60, 1);
-
-                await sleep(ms);  // 给页面滚动和渲染留时间
+                // await scroll.pagesByActivity(true, 80 * 4, 6, 60, 1);
+                for (let i = 0; i <ScrollPage ; i++) {
+                    await verticalScroll(1);
+                    await sleep(2);
+                }
+                await sleep(ms*2);  // 给页面滚动和渲染留时间
             } finally {
                 // 确保资源被正确释放
                 if (captureRegion) {
@@ -174,18 +188,12 @@ export class scroll {
      * @param {string} activityKey - 默认为"F5"，用于打开活动页面的按键
      * @returns {Object} 返回一个包含查找结果的对象，包含name、key、value三个布尔值属性
      */
-    static async findActivity(name, key, value, activityKey = "F5") {
+    static async  findActivity(name, key, value, activityKey = "F5") {
         const ms = 1000;  // 定义时间单位，1秒
         // 1. 打开活动页面（默认 F5）
         await keyPress(activityKey);  // 模拟按键打开活动页面
         await sleep(ms * 2);  // 等待2秒确保页面加载完成
-        // 2. 先强制滚动到最顶部（非常重要！）
-        try {
-            await scroll.pagesByActivityToTop();  // 滚动到页面顶部
-            await sleep(ms);  // 等待1秒确保滚动完成
-        } catch (e) {
-            log.warn("回到顶部失败，但继续尝试执行");  // 捕获并处理异常
-        }
+
     // 初始化查找结果对象
         let findActivity = {
             name: false,
@@ -195,7 +203,7 @@ export class scroll {
 
     // 如果未指定活动名称，直接返回失败结果
         if (!name) {
-            log.warn("未指定活动名称，无法查找");
+            Log.warn("未指定活动名称，无法查找");
             return findActivity;
         }
 
@@ -207,14 +215,30 @@ export class scroll {
         const sameBottomCountMax = 1;  // 最大连续相同次数
         let scannedPages = 0;  // 已扫描页数计数
         const maxPages = 25;  // 最大扫描页数限制
+        const overlapThreshold = 1;  // 最大扫描页数限制
+        const ScrollPage=4*3
         let previousPageActivities = new Set();  // 存储上一页所有活动名称
-
+        const activity= ocrRegionConfig.activity
+        let actionRegion={
+            x: 225,
+            y: 73+200
+        }
+        await moveMouseTo(actionRegion.x, actionRegion.y)
+        await click(actionRegion.x, actionRegion.y)
+        // 2. 先强制滚动到最顶部（非常重要！）
+        try {
+            await scroll.pagesByActivityToTop();  // 滚动到页面顶部
+            await sleep(ms);  // 等待1秒确保滚动完成
+        } catch (e) {
+            Log.warn("回到顶部失败，但继续尝试执行,err:{err}" , e.message);  // 捕获并处理异常
+        }
         // 4. 主循环：逐页向下扫描
         while (scannedPages < maxPages) {
             scannedPages++;
-            log.info(`正在扫描第 ${scannedPages} 页`);
+            Log.debug(`正在扫描第 ${scannedPages} 页`);
 
-            await moveMouseTo(0, 20);  // 移动鼠标到页面顶部
+            // await moveMouseTo(0, 20);
+            await moveMouseTo(actionRegion.x, actionRegion.y) // 移动鼠标到页面顶部
 
             let captureRegion = null;  // 初始化屏幕捕获区域
             try {
@@ -222,16 +246,16 @@ export class scroll {
 
             // 创建OCR识别对象
                 const ocrObject = RecognitionObject.Ocr(
-                    ocrRegionConfig.activity.x,
-                    ocrRegionConfig.activity.y,
-                    ocrRegionConfig.activity.width,
-                    ocrRegionConfig.activity.height
+                    activity.x,
+                    activity.y,
+                    activity.width,
+                    activity.height
                 );
                 let resList = captureRegion.findMulti(ocrObject);  // 使用OCR识别活动
 
             // 如果当前页没有识别到任何活动，视为已到底部
                 if (resList.length === 0) {
-                    log.info("当前页未识别到任何活动，视为已到页面底部");
+                    Log.debug("当前页未识别到任何活动，视为已到页面底部");
                     break;
                 }
 
@@ -250,8 +274,8 @@ export class scroll {
                     const overlapRatio = overlapCount / previousPageActivities.size;
 
                 // 如果重合度超过70%，认为已到底部
-                    if (overlapRatio >= 0.7) {
-                        log.info(`检测到当前页与上一页高度重复（重合率 ${Math.round(overlapRatio * 100)}%），已到达底部，停止扫描`);
+                    if (overlapRatio >= overlapThreshold) {
+                        Log.debug(`检测到当前页与上一页高度重复（重合率 ${Math.round(overlapRatio * 100)}%），已到达底部，停止扫描`);
                         break;
                     }
                 }
@@ -265,18 +289,18 @@ export class scroll {
                 for (let res of resList) {
                     const activityName = res.text.trim();  // 获取活动名称
                     currentPageBottomName = activityName;  // 更新底部活动名
-
+                    Log.debug(`[OCR]-activityName:{activityName}`,activityName)
                     // 【关键修改】检查是否是目标活动名称（精确匹配）
                     if (activityName.includes(name)) {
                         findActivity.name = true;  // 找到活动名称
-                        log.info(`找到目标活动：${activityName}`);
+                        Log.debug(`找到目标活动：${activityName}`);
                         await click(res.x, res.y);  // 点击活动
                         await sleep(ms);  // 等待1秒
                         foundTarget = true;  // 设置找到目标标志
 
                         // 如果没有指定 key，找到活动名称就直接返回成功
                         if (!key) {
-                            log.info(`已找到指定活动 [${activityName}]，无需匹配关键字`);
+                            Log.debug(`已找到指定活动 [${activityName}]，无需匹配关键字`);
                             findActivity.key = true;
                             break;
                         }
@@ -284,16 +308,19 @@ export class scroll {
                         // 如果指定了 key，进行关键字匹配
                         const text = await Ocr.key(activityName, key);  // OCR识别关键字
                         if (text && text.includes(key)) {
-                            log.info(`已找到指定活动 [${activityName}] 且包含关键字 [${key}]`);
+                            let msg=`已找到指定活动 [${activityName}] 且包含关键字 [${key}]`
+                            // Log.debug(`已找到指定活动 [${activityName}] 且包含关键字 [${key}]`);
                             findActivity.key = true;  // 找到关键字
                             if (value) {
                                 findActivity.value = text.includes(value)  // 检查值
                             }
                             if (findActivity.value) {
-                                log.info(`已找到指定活动 [${activityName}] 且包含关键字 [${key}] 和值 [${value}]`);
+                                // Log.debug(`已找到指定活动 [${activityName}] 且包含关键字 [${key}] 和值 [${value}]`);
+                                msg=`${msg} 和值 [${value}]`
                             }
+                            Log.debug(msg);
                         } else {
-                            log.info(`活动 [${activityName}] 不包含关键字 [${key}]，继续查找`);
+                            Log.debug(`活动 [${activityName}] 不包含关键字 [${key}]，继续查找`);
                         }
                         break;
                     }
@@ -308,7 +335,7 @@ export class scroll {
                 if (currentPageBottomName && currentPageBottomName === lastPageBottomName) {
                     sameBottomCount++;
                     if (sameBottomCount >= sameBottomCountMax) {
-                        log.info(`连续 ${sameBottomCountMax} 次检测到相同底部活动，已确认到达页面最底部，扫描结束`);
+                        Log.debug(`连续 ${sameBottomCountMax} 次检测到相同底部活动，已确认到达页面最底部，扫描结束`);
                         break;
                     }
                 } else {
@@ -317,7 +344,11 @@ export class scroll {
                 lastPageBottomName = currentPageBottomName;
 
                 // 6. 向下滑动一页，继续下一轮
-                await scroll.pagesByActivity(false);
+                // await scroll.pagesByActivity(false);
+                for (let i = 0; i <ScrollPage ; i++) {
+                    await verticalScroll(-1);
+                    await sleep(2);
+                }
                 await sleep(ms);
             } finally {
                 if (captureRegion) {
@@ -341,24 +372,26 @@ export class Ocr{
      * @param {number} ocrRegion.height - 识别区域高度
      * @returns {string|null} 匹配到的文本列表（用'<-->'连接），未匹配到则返回null
      */
-    static key(activityName, key, ocrRegion = ocrRegionConfig.remainingTime) {
+    static async key(activityName, key, ocrRegion = ocrRegionConfig.remainingTime) {
         if (!key) {
             return null
         }
         let captureRegion = captureGameRegion();
         try {
             let list = new Array()
+            const Box = {x: ocrRegion.x, y: ocrRegion.y, width: ocrRegion.width, height: ocrRegion.height}
+            await drawBoxDebug(settings.debug,Box, 400,new Pen(Color.LightGoldenrodYellow, 2))
             const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
             let resList = captureRegion.findMulti(ocrObject);
-            
+
             for (let res of resList) {
-                log.debug(`[info][{key}]{activityName}--{time}`, key, activityName, res.text);
+                Log.debug(`[info][{key}]{activityName}--{time}`, key, activityName, res.text);
                 if (res.text.includes(key)) {
-                    log.debug(`[{key}][命中]{activityName}--{time}`, key, activityName, res.text);
+                    Log.debug(`[{key}][命中]{activityName}--{time}`, key, activityName, res.text);
                     list.push(res.text.trim())
                 }
             }
-            
+
             if (list.length > 0) {
                 return list.join('<-->')
             }

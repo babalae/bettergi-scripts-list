@@ -1,3 +1,5 @@
+import {Log} from "./tool";
+
 export class BgiTools {
     /**
      * 推送所有国家常量信息到服务器
@@ -7,8 +9,9 @@ export class BgiTools {
      * @returns {Object|undefined} 返回成功响应的数据，如果请求失败则抛出错误或返回undefined
      */
     static async pushAllCountryConfig(list = [], http_api, token = {name: "Authorization", value: ''}) {
+        Log.debug(`推送国家常量信息`)
         // 记录请求参数日志
-        log.info(`list:{1},http:{2}`, list, http_api)
+        Log.debug(`list:{1},http:{2}`, list, http_api)
         // 设置请求头信息
         let value = {
             "Content-Type": "application/json",  // 设置内容类型为JSON
@@ -17,7 +20,7 @@ export class BgiTools {
 
         const res = await http.request("POST", http_api, JSON.stringify({json: JSON.stringify(list)}), JSON.stringify(value))
 
-        log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
+        Log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
         if (res.status_code === 200 && res.body) {
             let result_json = JSON.parse(res.body);
             if (result_json?.code === 200) {
@@ -36,8 +39,9 @@ export class BgiTools {
      * @returns {Promise<undefined|*>}
      */
     static async pushAllBossConfig(list = [], http_api, token = {name: "Authorization", value: ''}) {
+        Log.debug(`推送Boss常量信息`)
         // 记录请求参数日志
-        log.info(`list:{1},http:{2}`, list, http_api)
+        Log.debug(`list:{1},http:{2}`, list, http_api)
         // 设置请求头信息
         let value = {
             "Content-Type": "application/json",  // 设置内容类型为JSON
@@ -46,7 +50,7 @@ export class BgiTools {
 
         const res = await http.request("POST", http_api, JSON.stringify({json: JSON.stringify(list)}), JSON.stringify(value))
 
-        log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
+        Log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
         if (res.status_code === 200 && res.body) {
             let result_json = JSON.parse(res.body);
             if (result_json?.code === 200) {
@@ -66,8 +70,9 @@ export class BgiTools {
      * @throws {Error} 当请求失败或响应状态码非200时抛出错误
      */
     static async pushAllDomainConfig(list = [], http_api, token = {name: "Authorization", value: ''}) {
+        Log.debug(`推送秘境常量信息`)
         // 记录请求信息，包括列表内容和API地址
-        log.info(`list:{1},http:{2}`, list, http_api)
+        Log.debug(`list:{1},http:{2}`, list, http_api)
         // 设置请求头，包括Content-Type和认证信息
         let value = {
             "Content-Type": "application/json",
@@ -78,7 +83,7 @@ export class BgiTools {
         const res = await http.request("POST", http_api, JSON.stringify({json: JSON.stringify(list)}), JSON.stringify(value))
 
         // 记录响应详情
-        log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
+        Log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
         // 检查响应状态码和响应体
         if (res.status_code === 200 && res.body) {
             // 解析响应体JSON
@@ -103,17 +108,18 @@ export class BgiTools {
      * @throws {Error} 当请求失败或返回状态码不为200时抛出错误
      */
     static async pullJsonConfig(http_api, uid) {
+        Log.debug(`开始拉取BGI_TOOLS计划配置`)
         // 构建完整的API URL，添加uid和enable参数
  // const url= http_api+"?uid=" + uid + "&enable=" + true
-        log.debug(`pullJsonConfig==>url_api:{1}`, http_api)
+        Log.debug(`pullJsonConfig==>url_api:{1}`, http_api)
         const url =`${http_api}?uid=${uid}&enable=true`
-        log.debug(`pullJsonConfig==>url:{1}`, url)
+        Log.debug(`pullJsonConfig==>url:{1}`, url)
         // 发送GET请求获取配置信息
         // 注释掉的代码原本用于设置请求头Content-Type为application/json
         const res = await http.request("GET", url
         // , JSON.stringify({"Content-Type": "application/json"})
         )
-        log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
+        Log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
         if (res.status_code === 200 && res.body) {
             let result_json = JSON.parse(res.body);
             if (result_json?.code === 200) {

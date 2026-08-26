@@ -23,6 +23,11 @@
         input[type="text"], input[type="number"], select { width: 100%; padding: 8px 14px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.10); border-radius: 10px; color: #f0f0f8; font-size: 14px; font-family: inherit; transition: border-color 0.2s, background 0.2s; outline: none; }
         input:focus, select:focus { border-color: rgba(200, 180, 160, 0.5); background: rgba(255, 255, 255, 0.08); }
         input::placeholder { color: rgba(255, 255, 255, 0.25); }
+        .hotkey-recorder { display: flex; gap: 8px; }
+        .hotkey-recorder input { cursor: pointer; text-align: center; font-weight: 600; letter-spacing: 0.5px; }
+        .hotkey-recorder input.recording { border-color: #e8c8a0; background: rgba(232, 200, 160, 0.12); box-shadow: 0 0 0 2px rgba(232, 200, 160, 0.12); }
+        .hotkey-clear { flex: 0 0 auto; padding: 0 14px; border: 1px solid rgba(255, 255, 255, 0.10); border-radius: 10px; background: rgba(255, 255, 255, 0.06); color: #c8c8d8; cursor: pointer; }
+        .hotkey-hint { margin-top: 5px; color: rgba(255, 255, 255, 0.38); font-size: 11px; line-height: 1.4; }
         select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; cursor: pointer; }
         select option { background: #2a2a38; color: #f0f0f8; }
         .switch-wrapper { display: flex; align-items: center; gap: 12px; padding: 4px 0; }
@@ -57,6 +62,9 @@
         .actions button:active { transform: scale(0.97); }
         .btn-play { background: linear-gradient(135deg, #e8c8a0, #d4b088); color: #1a1a24; flex: 2; font-size: 16px; }
         .btn-play:hover { background: linear-gradient(135deg, #f0d8b0, #dcc098); }
+        .btn-pause { background: linear-gradient(135deg, #d8b878, #b89458); color: #1a1a24; }
+        .btn-pause:hover { background: linear-gradient(135deg, #e4c68a, #c4a466); }
+        .actions button:disabled { opacity: 0.38; cursor: not-allowed; transform: none; }
         .btn-save { background: linear-gradient(135deg, #b8a890, #a0907e); color: #1a1a24; }
         .btn-save:hover { background: linear-gradient(135deg, #c8b8a0, #b0a08e); }
         .btn-reset { background: rgba(255, 255, 255, 0.06); color: #b0b0c0; border: 1px solid rgba(255, 255, 255, 0.08); }
@@ -64,16 +72,20 @@
         .float-ball { position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #b8a890, #8a7a68); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; font-size: 26px; color: #1a1a24; cursor: pointer; transition: transform 0.2s, opacity 0.3s; z-index: 9999; border: none; pointer-events: auto; opacity: 0; transform: scale(0.8); user-select: none; }
         .float-ball.visible { opacity: 1; transform: scale(1); }
         .float-ball:hover { transform: scale(1.08); }
+        .playback-control { position: fixed; bottom: 30px; right: 100px; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #e8c8a0, #b89458); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; color: #1a1a24; cursor: default; transition: transform 0.2s, opacity 0.3s; z-index: 10000; border: none; pointer-events: none; opacity: 0; transform: scale(0.8); user-select: none; }
+        .playback-control.visible { opacity: 1; transform: scale(1); }
+        .playback-control:hover { transform: scale(1.08); }
         .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: rgba(20, 20, 28, 0.92); backdrop-filter: blur(8px); padding: 10px 24px; border-radius: 30px; font-size: 13px; color: #d0d0dc; border: 1px solid rgba(255, 255, 255, 0.06); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; white-space: nowrap; z-index: 999; }
         .toast.show { opacity: 1; }
         .item-duration {font-size: 11px;color: rgba(255, 255, 255, 0.35);margin-left: 6px;font-variant-numeric: tabular-nums;}
-        @media (max-width: 500px) { .panel { padding: 16px 14px; border-radius: 16px; } .header h1 { font-size: 17px; } .actions button { min-width: 60px; font-size: 13px; padding: 8px 10px; } .switch { width: 38px; height: 22px; } .switch .slider::before { height: 16px; width: 16px; left: 3px; bottom: 3px; } .switch input:checked+.slider::before { transform: translateX(16px); } .music-list { max-height: 120px; } .filter-tag { font-size: 11px; padding: 2px 10px; } .float-ball { width: 48px; height: 48px; font-size: 22px; bottom: 20px; right: 20px; } }
+        @media (max-width: 500px) { .panel { padding: 16px 14px; border-radius: 16px; } .header h1 { font-size: 17px; } .actions button { min-width: 60px; font-size: 13px; padding: 8px 10px; } .switch { width: 38px; height: 22px; } .switch .slider::before { height: 16px; width: 16px; left: 3px; bottom: 3px; } .switch input:checked+.slider::before { transform: translateX(16px); } .music-list { max-height: 120px; } .filter-tag { font-size: 11px; padding: 2px 10px; } .float-ball, .playback-control { width: 48px; height: 48px; font-size: 22px; bottom: 20px; } .float-ball { right: 20px; } .playback-control { right: 80px; } }
     </style>
 </head>
 <body>
 
 <div id="toast" class="toast"></div>
 <button id="floatBall" class="float-ball" title="显示自动演奏面板">🎵</button>
+<button id="playbackControl" class="playback-control" title="按 F8 暂停或继续演奏">F8</button>
 
 <div class="panel" id="app">
 
@@ -89,6 +101,7 @@
 
     <div class="actions">
         <button class="btn-play" id="btnPlay">▶ 演奏</button>
+        <button class="btn-pause" id="btnPause" disabled>⏸ 暂停（F8）</button>
         <button class="btn-save" id="btnSave">🔄 更新曲谱文件</button>
         <button class="btn-reset" id="btnReset">↺ 重置</button>
     </div>
@@ -104,6 +117,11 @@
         "name": "music_start",
         "type": "input-text",
         "label": "定时启动时间（示例 19:19:10 默认：不启用）"
+    }, {
+        "name": "pause_hotkey",
+        "type": "hotkey",
+        "label": "暂停/继续快捷键",
+        "default": "F8"
     }, {
         "name": "type_select",
         "type": "select",
@@ -182,10 +200,14 @@
     const btnMinimize = document.getElementById('btnMinimize');
     const btnClose = document.getElementById('btnClose');
     const btnPlay = document.getElementById('btnPlay');
+    const btnPause = document.getElementById('btnPause');
+    const playbackControl = document.getElementById('playbackControl');
     const btnSave = document.getElementById('btnSave');
     const btnReset = document.getElementById('btnReset');
     let isMinimized = false;
     let isInitialDataLoaded = false;
+    let isPlaying = false;
+    let isPaused = false;
 
     // ================================================================
     //  ★★ 工具函数 ★★
@@ -439,6 +461,99 @@
     // ================================================================
     //  ★★ 渲染表单（完全重建） ★★
     // ================================================================
+    function keyboardEventKeyName(event) {
+        if (/^Key[A-Z]$/.test(event.code)) return event.code.slice(3);
+        if (/^Digit[0-9]$/.test(event.code)) return event.code.slice(5);
+        if (/^F(?:[1-9]|1[0-2])$/.test(event.code)) return event.code;
+        const codeNames = {
+            Backspace: 'Backspace', Tab: 'Tab', Enter: 'Enter', Space: 'Space',
+            PageUp: 'PageUp', PageDown: 'PageDown', End: 'End', Home: 'Home',
+            ArrowLeft: 'ArrowLeft', ArrowUp: 'ArrowUp', ArrowRight: 'ArrowRight', ArrowDown: 'ArrowDown',
+            Insert: 'Insert', Delete: 'Delete', Semicolon: 'Semicolon', Equal: 'Equal',
+            Comma: 'Comma', Minus: 'Minus', Period: 'Period', Slash: 'Slash',
+            Backquote: 'Backquote', BracketLeft: 'BracketLeft', Backslash: 'Backslash',
+            BracketRight: 'BracketRight', Quote: 'Quote'
+        };
+        return codeNames[event.code] || null;
+    }
+
+    function hotkeyModifiers(event) {
+        const modifiers = [];
+        if (event.ctrlKey) modifiers.push('Ctrl');
+        if (event.altKey) modifiers.push('Alt');
+        if (event.shiftKey) modifiers.push('Shift');
+        return modifiers;
+    }
+
+    function bindHotkeyRecorder(input, clearButton, hint) {
+        input.addEventListener('click', function() {
+            if (!input.classList.contains('recording')) {
+                input.dataset.previousValue = settings[input.name] || input.value || 'F8';
+            }
+            input.classList.add('recording');
+            input.value = '请按下快捷键…';
+            hint.textContent = '可使用 Ctrl / Alt / Shift 组合；按 Esc 取消录入。';
+            input.focus();
+        });
+
+        input.addEventListener('keydown', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (event.repeat) return;
+            if (event.code === 'Escape') {
+                input.value = input.dataset.previousValue || 'F8';
+                input.classList.remove('recording');
+                hint.textContent = '点击输入框后直接按下快捷键；单独的 A–Z 会与曲谱按键冲突。';
+                input.blur();
+                return;
+            }
+
+            const modifiers = hotkeyModifiers(event);
+            const modifierOnly = ['ControlLeft', 'ControlRight', 'AltLeft', 'AltRight', 'ShiftLeft', 'ShiftRight'].includes(event.code);
+            if (modifierOnly) {
+                input.value = modifiers.length ? `${modifiers.join('+')}+…` : '请继续按键…';
+                return;
+            }
+
+            const mainKey = keyboardEventKeyName(event);
+            if (!mainKey) {
+                input.value = '不支持此按键';
+                hint.textContent = '请改用字母、数字、功能键、方向键或常用编辑键。';
+                return;
+            }
+            if (modifiers.length === 0 && /^[A-Z]$/.test(mainKey)) {
+                input.value = '字母键必须搭配修饰键';
+                hint.textContent = '例如 Ctrl+P；单独字母会被曲谱演奏误触发。';
+                return;
+            }
+
+            const hotkey = [...modifiers, mainKey].join('+');
+            input.value = hotkey;
+            settings[input.name] = hotkey;
+            input.dataset.previousValue = hotkey;
+            input.classList.remove('recording');
+            hint.textContent = `已录入：${hotkey}。点击可重新录入。`;
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+            input.blur();
+        });
+
+        input.addEventListener('blur', function() {
+            if (!input.classList.contains('recording')) return;
+            input.value = input.dataset.previousValue || 'F8';
+            input.classList.remove('recording');
+            hint.textContent = '点击输入框后直接按下快捷键；单独的 A–Z 会与曲谱按键冲突。';
+        });
+
+        clearButton.addEventListener('click', function() {
+            input.value = 'F8';
+            input.dataset.previousValue = 'F8';
+            settings[input.name] = 'F8';
+            input.classList.remove('recording');
+            hint.textContent = '已恢复默认快捷键 F8。';
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+    }
+
     function renderForm() {
         formContainer.innerHTML = '';
 
@@ -467,6 +582,28 @@
                 input.value = settings[item.name] !== undefined ? settings[item.name] : getDefaultValue(item);
                 input.placeholder = item.label || '';
                 div.appendChild(input);
+            } else if (item.type === 'hotkey') {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'hotkey-recorder';
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.readOnly = true;
+                input.id = item.name;
+                input.name = item.name;
+                input.value = settings[item.name] || getDefaultValue(item) || 'F8';
+                input.title = '点击后按下快捷键';
+                const clearButton = document.createElement('button');
+                clearButton.type = 'button';
+                clearButton.className = 'hotkey-clear';
+                clearButton.textContent = '恢复 F8';
+                wrapper.appendChild(input);
+                wrapper.appendChild(clearButton);
+                div.appendChild(wrapper);
+                const hint = document.createElement('div');
+                hint.className = 'hotkey-hint';
+                hint.textContent = '点击输入框后直接按下快捷键；单独的 A–Z 会与曲谱按键冲突。';
+                div.appendChild(hint);
+                bindHotkeyRecorder(input, clearButton, hint);
             } else if (item.type === 'select') {
                 const select = document.createElement('select');
                 select.id = item.name;
@@ -664,7 +801,36 @@
     //  ★★ 按钮事件 ★★
     // ================================================================
 
+    function updatePlaybackUI(state) {
+        isPlaying = !!state.playing;
+        isPaused = isPlaying && !!state.paused;
+        const hotkey = state.hotkey || settings.pause_hotkey || 'F8';
+
+        btnPlay.disabled = isPlaying;
+        btnPause.disabled = !isPlaying;
+        btnPause.textContent = isPaused ? `▶ 继续（${hotkey}）` : `⏸ 暂停（${hotkey}）`;
+        playbackControl.textContent = isPaused ? '继续' : hotkey;
+        playbackControl.title = isPaused ? `按 ${hotkey} 继续演奏` : `按 ${hotkey} 暂停演奏`;
+        playbackControl.classList.toggle('visible', isPlaying);
+
+        if (state.message) showToast(state.message);
+    }
+
+    function requestPauseToggle() {
+        if (!isPlaying) {
+            showToast('当前没有正在演奏的乐曲');
+            return;
+        }
+        if (window.chrome && window.chrome.webview) {
+            window.chrome.webview.postMessage(JSON.stringify({
+                url: "/playback/pause",
+                data: { paused: !isPaused }
+            }));
+        }
+    }
+
     btnPlay.addEventListener('click', function() {
+        if (isPlaying) return;
         collectSettingsFromDOM();
         showToast('开始运行');
         const settingsObj = getUISettingsForBackend();
@@ -677,6 +843,8 @@
             console.warn('[HTML] chrome.webview 不可用，无法发送 run 事件');
         }
     });
+
+    btnPause.addEventListener('click', requestPauseToggle);
 
     btnSave.addEventListener('click', function() {
         collectSettingsFromDOM();
@@ -780,7 +948,8 @@
             queueInterval: 0,
             repeatTimes: 1,
             repeatInterval: 0,
-            debug: false
+            debug: false,
+            pauseHotkey: 'F8'
         };
 
         const timeStr = settings.music_start || "00:00:00";
@@ -801,6 +970,7 @@
         result.repeatInterval = parseInt(settings.repeat_interval, 10) || 0;
 
         result.debug = settings.debug_mode === '启用';
+        result.pauseHotkey = settings.pause_hotkey || 'F8';
 
         const isSingleMode = (result.playType === 0 || result.playType === 1);
         if (isSingleMode) {
@@ -855,6 +1025,23 @@
                 }
             }
 
+            if (url === '/playback/state') {
+                try {
+                    const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
+                    updatePlaybackUI(parsedData || { playing: false, paused: false });
+                    if (parsedData && parsedData.playing) {
+                        const hotkey = parsedData.hotkey || settings.pause_hotkey || 'F8';
+                        showToast(parsedData.paused ? `演奏已暂停，按 ${hotkey} 继续` : `演奏中，按 ${hotkey} 暂停`, 1800);
+                    } else {
+                        showToast('演奏已完成', 1500);
+                    }
+                    return JSON.stringify({ status: 'ok' });
+                } catch (e) {
+                    console.error('[onMessage] /playback/state 解析失败:', e);
+                    return JSON.stringify({ status: 'error', message: e.message });
+                }
+            }
+
             if (url === '/config/update') {
                 try {
                     const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
@@ -902,6 +1089,10 @@
                         debug: {
                             target: 'debug_mode',
                             transform: (val) => val ? '启用' : '禁用'
+                        },
+                        pauseHotkey: {
+                            target: 'pause_hotkey',
+                            transform: (val) => val || 'F8'
                         }
                     };
 

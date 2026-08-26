@@ -17,7 +17,11 @@
 - ✅ 支持活动黑名单过滤功能（0.0.5版本,新增支持为黑名单活动设置特定条件，只有满足条件时才过滤,注：特定条件为空默认没有条件）
 - ✅ 防重复检测机制
 - ✅ 异常处理和错误恢复
-- ✅ 自动提醒征讨领域减半剩余次数（默认`周日`提醒可配置）
+- ✅ 自动提醒征讨领域减半剩余次数（`0.1.1`版本起支持多选提醒日）
+- ✅ 每日委托奖励 / 原粹树脂 / 长期训练点提醒（`0.0.7`/`0.1.9`版本）
+- ✅ 地图识别任务提醒（`0.0.8`版本）
+- ✅ 圣遗物剩余空间检测提醒（`0.1.5`版本）
+- ✅ 新活动通知-存储活动名称列表进行历史对比（`0.1.0`版本）
 - ✅ 支持独立通知功能（`0.0.4`版本新增 因BGI不支持WebSocket,需搭配bettergi-scripts-tools+开启JS HTTP
   权限使用）[前往bettergi-scripts-tools部署](https://github.com/Kirito520Asuna/bettergi-scripts-tools)
 ## 核心思维导图
@@ -26,16 +30,18 @@
 graph TD
     A[主程序入口 main.js] --> B[初始化 init]
     B --> C[加载工具模块]
-    C --> D[uid.js, ws.js, notice.js, campaignArea.js, activity.js]
+    C --> D[tool.js, ws.js, notice.js, campaignArea.js, activity.js, mapMission.js, HolyRelics.js]
     D --> E[读取 manifest.json]
     E --> F[检查是否返回主界面]
     F --> G[toMainUi]
     G --> H[执行主功能 main]
-    H --> I[每日委托检查]
-    I --> J[征讨领域检查]
-    J --> K[活动页面扫描]
-    K --> L[返回主界面]
-    L --> M[程序结束]
+    H --> I[地图识别任务检查]
+    I --> J[圣遗物剩余空间检查]
+    J --> K[每日委托检查]
+    K --> L[征讨领域检查]
+    L --> M[活动页面扫描]
+    M --> N[返回主界面]
+    N --> O[程序结束]
 
 ```
 ### 活动扫描核心流程
@@ -125,28 +131,37 @@ graph LR
     subgraph "工具模块"
         A[activity.js - 活动处理]
         B[notice.js - 通知发送]
-        C[campaignArea.js - 征讨领域]
+        C[campaignArea.js - 征讨领域/每日委托]
         D[ws.js - WebSocket通信]
-        E[uid.js - UID识别]
+        E[tool.js - 通用工具/Record/主界面]
+        F[mapMission.js - 地图任务识别]
+        G[HolyRelics.js - 圣遗物空间检查]
     end
     
     subgraph "主控模块"
-        F[main.js - 主入口]
-        G[settings.json - 配置]
+        H[main.js - 主入口]
+        I[settings.json - 配置]
     end
     
-    F --> A
-    F --> B
-    F --> C
+    H --> A
+    H --> B
+    H --> C
+    H --> F
+    H --> G
     A --> B
-    A --> D
     A --> E
     C --> B
     C --> E
-    G -.-> A
-    G -.-> B
-    G -.-> C
-    G -.-> D
+    F --> B
+    F --> E
+    G --> B
+    G --> E
+    I -.-> A
+    I -.-> B
+    I -.-> C
+    I -.-> D
+    I -.-> F
+    I -.-> G
 
 ```
 ### 逻辑流程
@@ -230,25 +245,34 @@ sequenceDiagram
 
 在 [settings.json]() 中可以配置以下参数：
 
-| 设置项                       | 说明                                            |                     默认值                     | 开放 |
-|:--------------------------|:----------------------------------------------|:------|:--:|
-| `toMainUi`                | 执行前是否自动返回游戏主界面                                |                    true                     | v  |
-| `noticeType`              | 通知模式（默认BGI通知-使用独立通知需要开启JS HTTP权限）             |                    BGI通知                    | v  |
-| `relationship`            | 剩余时间与白名单启用`和`关系（默认`或`关系）                      |                    false                    | v  |
-| `whiteActivityNameList`   | 白名单活动名称（用\|分隔）                                |                  空（监控所有活动）                  | v  |
-| `blackActivity`   | 黑名单活动名称（用|分隔）- 支持条件语法：活动名-条件1,条件2                               |                  空（无黑名单活动）                  | v  |
-| `notifyHoursThreshold`    | 通知时间阈值（小时）                                    |                 8760（365天）                  | v  |
-| `activityKey`             | 打开活动页面的快捷键                                    |                     F5                      | v  |
-| `toTopCount`              | 滑动到顶最大尝试次数                                    |                     10                      | x  |
-| `scrollPageCount`         | 滑动次数/页                                        |                      4                      | x  |
-| `campaignAreaKey`         | 打开征讨领域页面的快捷键                                  |                     F1                      | v  |
-| `campaignAreaReminderDay` | 周本提醒日(0-6,0=周日,1=周一,2=周二,3=周三,4=周四,5=周五,6=周六) |                      0                      | v  |
-| `ws_proxy_url`            | WebSocket代理URL（独立通知配置）                        | http://127.0.0.1:8081/ws-proxy/message/send | v  |
-| `ws_url`                  | WebSocket客户端 URL（独立通知配置）                      |            ws://127.0.0.1:8080/             | v  |
-| `ws_token`                | WebSocket客户端 token（独立通知配置）                    |                      空                      | v  |
-| `action`                  | 发送类型（私聊/群聊）    （独立通知配置）                               |                     私聊                      | v  |
-| `send_id`                 | 发送ID（群号或QQ号，对应发送类型） （独立通知配置）                          |                      空                      | v  |
-| `at_list`                 | @某人列表使用,隔开（QQ号）      （独立通知配置）                         |                      空                      | v  |
+| 设置项                          | 说明                                                       |                     默认值                     |
+|:-----------------------------|:---------------------------------------------------------|:--------------------------------------------|
+| `debug`                      | 启用开发者模式（框选识别区域辅助调试）                                    |                   false                    |
+| `toMainUi`                   | 执行前是否自动返回游戏主界面                                          |                    true                    |
+| `noticeType`                 | 通知模式（BGI通知/独立通知/独立通知和BGI通知）                           |                  BGI通知                    |
+| `newActivityNotice`          | 启用新活动通知（存储活动名称列表-历史对比）                                |                    true                    |
+| `mapMissionKeys`             | 地图识别任务提醒（多选）                                           |      伴月纪闻任务,探索派遣奖励,每日委托奖励            |
+| `relationship`               | 剩余时间与白名单启用`和`关系（默认`或`关系）                              |                   false                    |
+| `whiteActivityNameList`      | 白名单活动名称（用\|分隔）                                          |                 空（监控所有活动）                |
+| `blackActivity`              | 黑名单活动名称（用\|分隔）- 支持条件语法：活动名-条件1,条件2                     |                空（无黑名单活动）                |
+| `notifyHoursThreshold`       | 通知剩余时间阈值（小时）                                            |                8760（365天）                 |
+| `activityKey`                | 打开活动页面的快捷键                                              |                     F5                     |
+| `campaignAreaReminderDays`   | 周本提醒日（多选）                                               |                  周六,周日                   |
+| `campaignAreaKey`            | 打开冒险之证的快捷键                                              |                     F1                     |
+| `openBagKey`                 | 打开背包的快捷键                                                |                     B                      |
+| `checkHolyRelic`             | 启用圣遗物空间提醒                                               |                   false                    |
+| `holyRelicsDiffCountThreshold` | 圣遗物剩余空间阈值                                              |                    400                     |
+| `wsNoticeType`               | 独立通知配置方式（自定义通知/bgi-tools通知）                            |                  自定义通知                   |
+| `http_api_access_ws_proxy`   | bgi-tools获取授权wsproxy api地址                                | http://127.0.0.1:8081/bgi/ws-proxy/access  |
+| `bgi_tools_token`            | bgi_tools授权token 语法:tokenName=tokenValue                    |               Authorization=                |
+| `ws_proxy_url`               | WebSocket代理URL（独立通知配置）                                   | http://127.0.0.1:8081/bgi/ws-proxy/message/send |
+| `ws_url`                     | WebSocket客户端 URL（独立通知配置）                                 |            ws://127.0.0.1:8080/            |
+| `ws_token`                   | WebSocket客户端 token（独立通知配置）                               |                     空                     |
+| `action`                     | 发送类型（私聊/群聊）（独立通知配置）                                    |                     私聊                    |
+| `send_id`                    | 发送ID（群号或QQ号，对应发送类型）（独立通知配置）                            |                     空                     |
+| `at_list`                    | @某人列表使用,隔开（QQ号）（独立通知配置）                                |                     空                     |
+
+> 注：`toTopCount`、`scrollPageCount` 已不再在设置界面开放（代码内部使用默认值 10 / 4）。
 
 ---
 
@@ -305,7 +329,7 @@ sequenceDiagram
 
 ---
 
-### 独立通知配置（0.0.4版本新增）
+### 独立通知配置（0.0.4版本新增，0.1.2版本支持bgi-tools授权）
 
 #### 配置项说明
 
@@ -314,8 +338,16 @@ sequenceDiagram
     - `独立通知`: 通过 WebSocket 发送通知
     - `独立通知和BGI通知`: 同时使用两种方式
 
-- **WebSocket 配置**:
-    - `ws_proxy_url`: WebSocket 代理 URL，默认为 `http://127.0.0.1:8081/ws-proxy/message/send`
+- **`wsNoticeType`（独立通知配置方式，0.1.2版本新增）**:
+    - `自定义通知`: 手动填写下方 WebSocket 相关参数
+    - `bgi-tools通知`: 从 bettergi-scripts-tools 拉取授权 wsproxy 信息（需配置 `http_api_access_ws_proxy` 与 `bgi_tools_token`）
+
+- **bgi-tools 授权配置（0.1.2版本新增）**:
+    - `http_api_access_ws_proxy`: 获取授权 wsproxy 的 api 地址，默认为 `http://127.0.0.1:8081/bgi/ws-proxy/access`
+    - `bgi_tools_token`: 授权 token，语法 `tokenName=tokenValue`（如 `Authorization=xxx`）
+
+- **WebSocket 配置（自定义通知）**:
+    - `ws_proxy_url`: WebSocket 代理 URL，默认为 `http://127.0.0.1:8081/bgi/ws-proxy/message/send`
     - `ws_url`: WebSocket 客户端 URL，默认为 `ws://127.0.0.1:8080/`
     - `ws_token`: WebSocket 客户端认证令牌（可选）
 
@@ -327,19 +359,35 @@ sequenceDiagram
 #### 使用要求
 
 1. **开启权限**: 需要开启 JS HTTP 权限才能使用独立通知功能
-2. **配置服务**: 需要搭建相应的 WebSocket 服务和代理服务器
+2. **配置服务**: 需要搭建相应的 WebSocket 服务和代理服务器（或部署 bettergi-scripts-tools）
 3. **网络连接**: 确保能够连接到配置的 WebSocket 服务器
 
 #### 配置示例
 
+自定义通知：
+
 ```json
 {
   "noticeType": "独立通知",
+  "wsNoticeType": "自定义通知",
   "ws_proxy_url": "http://127.0.0.1:8081/bgi/ws-proxy/message/send",
   "ws_url": "ws://127.0.0.1:8080/",
   "action": "群聊",
   "send_id": "123456789",
   "at_list": "987654321,111222333"
+}
+```
+
+bgi-tools通知：
+
+```json
+{
+  "noticeType": "独立通知",
+  "wsNoticeType": "bgi-tools通知",
+  "http_api_access_ws_proxy": "http://127.0.0.1:8081/bgi/ws-proxy/access",
+  "bgi_tools_token": "Authorization=xxx",
+  "action": "群聊",
+  "send_id": "123456789"
 }
 ```
 
@@ -419,9 +467,16 @@ docker run -d -p 8081:8081 -v /path/to/application-prod.yml:/app/application-pro
 ActivitySwitchNotice/
 ├── utils/
 │   ├── activity.js     # 核心活动处理逻辑
-│   ├── campaignArea.js # 征讨领域提醒功能
+│   ├── campaignArea.js # 征讨领域/每日委托提醒功能
+│   ├── mapMission.js   # 地图识别任务提醒功能
+│   ├── HolyRelics.js   # 圣遗物剩余空间检查功能
 │   ├── notice.js       # 通知发送功能
-│   └── ws.js           # WebSocket通知功能
+│   ├── ws.js           # WebSocket通知功能
+│   └── tool.js         # 通用工具（OCR/找图/Record/主界面判断等）
+├── assets/             # 模板图片资源
+│   ├── paimon_menu.png # 主界面判断模板
+│   └── holyRelics.jpg  # 圣遗物背包入口模板
+├── config/             # 运行时生成的记录文件（activity/campaignArea/dailyCommission）
 ├── main.js             # 主入口文件
 ├── manifest.json       # 插件配置文件
 ├── settings.json       # 用户设置界面定义
@@ -443,21 +498,42 @@ ActivitySwitchNotice/
 - `OcrKey()` - OCR识别剩余时间
 - `activityMain()` - 主流程控制函数
 
+### `campaignArea.js` - 征讨领域/每日委托模块
+
+- `ocrWeeklyCount()` - OCR识别征讨领域周次数
+- `ocrDailyCommission()` - OCR识别每日委托与体力
+- `ocrLongTermTrainingPoints()` - OCR识别长期训练点
+- `campaignAreaMain()` - 征讨领域提醒主函数
+- `dailyCommissionMain()` - 每日委托提醒主函数
+
+### `mapMission.js` - 地图识别任务模块
+
+- `ocrMapMission()` - OCR识别地图任务列表
+- `mapMission()` - 地图任务提醒主函数
+
+### `HolyRelics.js` - 圣遗物空间模块
+
+- `checkHolyRelicsKey()` - 检查圣遗物剩余空间并提醒
+
 ### `notice.js` - 通知模块
 
 - `sendNotice()` - 发送活动提醒通知，按剩余时间排序
 - `sendText()` - 发送普通通知
 
-### `campaignArea.js` - 征讨领域模块
-
-- `ocrWeeklyCount()` - OCR识别征讨领域周次数
-- `getDayOfWeek()` - 获取当前星期信息
-- `campaignAreaMain()` - 征讨领域提醒主函数
-
 ### `ws.js` - WebSocket通知模块
 
 - `send()` - 发送WebSocket消息
 - `sendText()` - 发送文本消息
+- `pullAccessWsProxyConfig()` - 从 bgi-tools 拉取授权 wsproxy 配置
+
+### `tool.js` - 通用工具模块
+
+- `findText()` / `findTextAndClick()` - 通用OCR找文本/找文本并点击
+- `findImg()` / `findImgAndClick()` - 通用找图/找图并点击
+- `getDayOfWeek()` - 获取当前星期信息（按游戏4点刷新校准）
+- `isInMainUI()` / `toMainUi()` - 主界面判断与返回
+- `openBag()` - 打开背包并处理过期物品
+- `Record` - 记录文件统一读写类
 
 ---
 
@@ -465,38 +541,51 @@ ActivitySwitchNotice/
 
 在 `settings.json` 中可配置以下参数：
 
-| 配置项                       |   类型    | 说明                                            |
-|:--------------------------|:-------:|:----------------------------------------------|
-| `toMainUi`                | Boolean | 是否先返回主界面再执行                                   |
-| `noticeType`              | String  | 通知模式（BGI通知/独立通知/两者都发送）                        |
-| `relationship`            | Boolean | 剩余时间与白名单启用`和`关系（默认`或`关系）                      |
-| `whiteActivityNameList`   | String  | 白名单活动名称（用\|分隔）                                |
-| `blackActivity`   | String  | 黑名单活动名称（用\|分隔）- 支持条件语法：活动名-条件1,条件2            |
-| `notifyHoursThreshold`    | Number  | 通知阈值（小时）                                      |
-| `activityKey`             | String  | 打开活动页面的快捷键                                    |
-| `toTopCount`              | Number  | 滑动到顶最大尝试次数                                    |
-| `scrollPageCount`         | Number  | 滑动次数/页                                        |
-| `campaignAreaKey`         | String  | 打开冒险之书页面的快捷键                                  |
-| `campaignAreaReminderDay` | Number  | 周本提醒日(0-6,0=周日,1=周一,2=周二,3=周三,4=周四,5=周五,6=周六) |
-| `ws_proxy_url`            | String  | WebSocket代理URL（独立通知配置）                        |
-| `ws_url`                  | String  | WebSocket客户端 URL（独立通知配置）                      |
-| `ws_token`                | String  | WebSocket客户端 token（独立通知配置）                    |
-| `action`                  | String  | 发送类型（私聊/群聊）（独立通知配置）                           |
-| `send_id`                 | String  | 发送ID（群号或QQ号，对应发送类型） （独立通知配置）                  |
-| `at_list`                 | String  | @某人列表使用,隔开（QQ号）      （独立通知配置）                 |
+| 配置项                          |      类型      | 说明                                            |
+|:-----------------------------|:------------:|:----------------------------------------------|
+| `debug`                      |   checkbox   | 启用开发者模式（框选识别区域辅助调试）                           |
+| `toMainUi`                   |   checkbox   | 是否先返回主界面再执行                                   |
+| `noticeType`                 |    select    | 通知模式（BGI通知/独立通知/独立通知和BGI通知）                  |
+| `newActivityNotice`          |   checkbox   | 启用新活动通知（存储活动名称列表-历史对比）                       |
+| `mapMissionKeys`             | multi-checkbox | 地图识别任务提醒（多选）                                |
+| `relationship`               |   checkbox   | 剩余时间与白名单启用`和`关系（默认`或`关系）                      |
+| `whiteActivityNameList`      |    String    | 白名单活动名称（用\|分隔）                                |
+| `blackActivity`              |    String    | 黑名单活动名称（用\|分隔）- 支持条件语法：活动名-条件1,条件2            |
+| `notifyHoursThreshold`       |    String    | 通知剩余时间阈值（小时）                                  |
+| `activityKey`                |    String    | 打开活动页面的快捷键                                    |
+| `campaignAreaReminderDays`   | multi-checkbox | 周本提醒日（多选，默认周六/周日）                           |
+| `campaignAreaKey`            |    String    | 打开冒险之证的快捷键                                    |
+| `openBagKey`                 |    String    | 打开背包的快捷键                                      |
+| `checkHolyRelic`             |   checkbox   | 启用圣遗物空间提醒                                     |
+| `holyRelicsDiffCountThreshold` |   String    | 圣遗物剩余空间阈值                                     |
+| `wsNoticeType`               |    select    | 独立通知配置方式（自定义通知/bgi-tools通知）                    |
+| `http_api_access_ws_proxy`   |    String    | bgi-tools获取授权wsproxy api地址                       |
+| `bgi_tools_token`            |    String    | bgi_tools授权token 语法:tokenName=tokenValue          |
+| `ws_proxy_url`               |    String    | WebSocket代理URL（独立通知配置）                        |
+| `ws_url`                     |    String    | WebSocket客户端 URL（独立通知配置）                      |
+| `ws_token`                   |    String    | WebSocket客户端 token（独立通知配置）                    |
+| `action`                     |    select    | 发送类型（私聊/群聊）（独立通知配置）                           |
+| `send_id`                    |    String    | 发送ID（群号或QQ号，对应发送类型） （独立通知配置）                  |
+| `at_list`                    |    String    | @某人列表使用,隔开（QQ号）      （独立通知配置）                 |
+
+> 注：`toTopCount`、`scrollPageCount` 已不再在设置界面开放（代码内部使用默认值 10 / 4）。
 
 ---
 
 ## 工作原理
 
 1. 自动返回游戏主界面
-2. 检查是否为设置的提醒日(默认周日)，如果是则执行征讨领域提醒功能
-3. 按配置快捷键打开活动页面
-4. 滚动到活动列表顶部
-5. 逐页扫描所有活动
-6. OCR识别每个活动的剩余时间
-7. 解析时间为小时数并过滤（包括黑名单过滤）
-8. 发送符合条件的活动提醒
+2. 执行地图识别任务提醒（按配置的多选任务项）
+3. 执行圣遗物剩余空间检查提醒（如启用）
+4. 执行每日委托奖励 / 体力 / 长期训练点提醒
+5. 检查是否为设置的提醒日(默认周六/周日)，如果是则执行征讨领域减半次数提醒
+6. 按配置快捷键打开活动页面
+7. 滚动到活动列表顶部
+8. 逐页扫描所有活动
+9. OCR识别每个活动的剩余时间
+10. 解析时间为小时数并过滤（包括白名单/黑名单过滤）
+11. 发送符合条件的活动提醒
+12. 对比历史记录，发送新增活动提醒
 
 ---
 
@@ -510,6 +599,19 @@ ActivitySwitchNotice/
 ---
 
 ## 版本历史
+### 0.1.9 (2026-08-16)
+- 新增 长期训练点识别功能（每日委托提醒中追加长期训练点与过期时间提醒）
+- 优化 地图任务 OCR 识别功能
+- 重构 OCR 任务识别逻辑，提高识别准确性
+- 优化 活动页面滚动扫描逻辑
+- 修复 任务切换通知中的页面稳定等待问题
+- 优化 活动页面滚动和鼠标操作策略
+- 更新 最低 BGI 版本依赖 0.61.0 → 0.63.0
+### 0.1.8 (2026-07-08)
+- 重构 活动配置文件读写逻辑（新增 `Record` 类统一数据读写）
+- 新增 配置文件管理和重复通知检测功能（秘境征讨/每日委托避免重复发送相同内容）
+- 新增 日期格式化功能（YYYY-MM-DD）
+- 优化 秘境征讨和每日委托的通知逻辑
 ### 0.1.7 (2026-06-05)
 - 修复bug
 ### 0.1.6 (2026-05-30)

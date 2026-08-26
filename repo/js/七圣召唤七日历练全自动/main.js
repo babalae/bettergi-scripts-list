@@ -1,6 +1,9 @@
+import { reportEffiency, queryEffiency, retryFailedReports } from "./effiency.js"
+
 const defaultReplacementMap = {
     监: "盐",
     卵: "卯",
+    刻睛: "刻晴",
 };
 
 // 存储挑战玩家信息
@@ -11,6 +14,7 @@ let fallbackStrategyList = [];
 const strategyRunRecordFile = "牌组策略/各策略胜败记录.json";
 let strategyRunRecord = {};
 let minFallbackStrategyScore = 0.25;
+const DEFAULT_STRATEGY = "雷神柯莱刻晴";
 
 /**
  * 查找模板图片并拖动到指定位置
@@ -82,7 +86,7 @@ async function switchCardTeam(Name, shareCode) {
     let captureRegion = captureGameRegion();
     let teamName = captureRegion.find(RecognitionObject.ocr(1305, 793, 206, 46));
     captureRegion.dispose();
-    log.info("当前队伍名称: {text}", teamName.text);
+    log.info("当前牌组名称: {text}", teamName.text);
 
     async function selectTargetTeam(targetTeam) {
         moveMouseTo(100, 200);
@@ -97,17 +101,29 @@ async function switchCardTeam(Name, shareCode) {
         await sleep(1000);
 
         captureRegion = captureGameRegion();
+        const ocrResults = [];
         for (let i = 0; i < 4; i++) {
             let x = 135 + 463 * i;
             let res = captureRegion.find(RecognitionObject.ocr(x, 762, 230, 46));
-            if (res.text == targetTeam) {
-                log.info("切换至队伍: {text}", res.text);
+            let correctedText = res.text.trim();
+            for (let [wrongChar, correctChar] of Object.entries(defaultReplacementMap)) {
+                correctedText = correctedText.replace(new RegExp(wrongChar, "g"), correctChar);
+            }
+            if (correctedText === targetTeam) {
+                log.info("切换至牌组: {text}", correctedText);
                 res.click();
                 await sleep(500);
                 break;
+            } else {
+                ocrResults.push(correctedText);
             }
         }
         captureRegion.dispose();
+        if (ocrResults.length === 4) {
+            log.error(`找不到目标牌组{0} (OCR结果: {1})。如果OCR结果中有误识别的字符，请使用字形简单的牌组名`, targetTeam, ocrResults.join(', '));
+            return false;
+        }
+        return true;
     }
 
     if (teamName.text != Name || settings.overwritePartyName == Name) {
@@ -164,7 +180,13 @@ async function switchCardTeam(Name, shareCode) {
 
     if (userDefault) {
         log.info("分享码导入的牌组无法出战，切换到默认牌组: {0}", settings.defaultPartyName);
-        await selectTargetTeam(settings.defaultPartyName);
+        const switchDefault = await selectTargetTeam(settings.defaultPartyName);
+        if (! switchDefault) {
+            log.error("切换到默认牌组失败，本次打牌无法继续");
+            keyPress("ESCAPE");
+            await sleep(1000);
+            return false;
+        }
     }
 
     click(1164, 1016); // 选择
@@ -294,7 +316,7 @@ async function isTaskRefreshed(filePath, options = {}) {
     }
 }
 
-//检查挑战结果   await checkChallengeResults();
+//检查挑战结果
 async function checkChallengeResults() {
     const region1 = RecognitionObject.ocr(785, 200, 380, 270); // 结果区域
     const region2 = RecognitionObject.ocr(1520, 170, 160, 40); // 退出位置
@@ -336,6 +358,7 @@ async function checkChallengeResults() {
         click(754, 915); //退出挑战
         await sleep(4000);
         await autoConversation();
+        success = null;
     }
     await sleep(1000);
     return success;
@@ -575,7 +598,7 @@ function updateRunRecord(charName, strategyName, win) {
 }
 
 function sortAndFilterStrategy(charName) {
-    const atLeastOne = ["雷神柯莱刻晴"];
+    const atLeastOne = [DEFAULT_STRATEGY];
     if (! settings.useFallbackStrategy) {
         return atLeastOne;
     }
@@ -608,6 +631,32 @@ function sortAndFilterStrategy(charName) {
     return sortedKeys;
 }
 
+// 辅助函数：数组随机打乱（Fisher-Yates Shuffle）
+function shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+/**
+ * 上报策略效率数据（含重试机制）
+ * @param {string} charName 角色名称
+ * @param {string} strategyName 策略名称
+ * @param {boolean} success 对战是否成功
+ * @param {number} duration 耗时
+ */
+async function reportEfficiencyIfEnabled(charName, strategyName, success, duration) {
+    // 1. 条件检查：未启用云端统计，duration为0或挑战异常中断时，直接跳过
+    if (!settings.enableCloudStatistic || !duration || success === null) {
+        return;
+    }
+
+    await reportEffiency(charName, strategyName, success, duration);
+}
+
 // 在桌子旁寻找牌手打牌
 async function searchCharAndPlayCards() {
     middleButtonClick();
@@ -620,6 +669,11 @@ async function searchCharAndPlayCards() {
     let charName = "";
     let charIndex = -1;
     let charOcrPos = null;
+
+    // 补报待上传的记录。不加await以利用角色行动时间，避免占用时长
+    if (settings.enableCloudStatistic) {
+        retryFailedReports();
+    }
 
     // 在桌子旁选一个牌手：此时不在乎选到谁（保持和原有逻辑一致）
     const captureRegion = captureGameRegion();
@@ -648,13 +702,59 @@ async function searchCharAndPlayCards() {
 
     // 调度策略进行打牌
     let success = false;
+    let duration = 0;
+
+    // 尝试角色专用策略
     const strategy = allStrategy[charName];
     if (strategy) {
         log.info("使用角色专用策略与{0}对战", charName);
-        success = await Playcards(strategy, settings.overwritePartyName, charOcrPos);
+        [success, duration] = await Playcards(strategy, settings.overwritePartyName, charOcrPos);
+        await reportEfficiencyIfEnabled(charName, charName, success, duration);
     }
-    const sortedStrategy = sortAndFilterStrategy(charName);
-    log.info("{0}共有{1}个分数≥{2}的可用策略", charName, sortedStrategy.length, minFallbackStrategyScore);
+    if (success) {
+        textArray.splice(charIndex, 1);
+        return true;
+    }
+
+    // 若无专用策略或专用策略对战失败，开启备用/云端策略调度
+    let sortedStrategy = [];
+    const cloudStrategySet = new Set(); // 用于记录哪些策略来自云端
+    if (settings.useFallbackStrategy && settings.enableCloudStatistic) {
+        let cloudStrategies = [];
+        try {
+            log.info("查询对手{0}的云端策略信息", charName);
+            const cloudRes = await queryEffiency(charName);
+            // 仅保留存在于 fallbackStrategyList 中的策略或默认策略
+            if (cloudRes && cloudRes.success && Array.isArray(cloudRes.data)) {
+                cloudStrategies = cloudRes.data
+                    .map((item) => item && item.task_config)
+                    .filter((name) => name && (fallbackStrategyList.includes(name) || name === DEFAULT_STRATEGY));
+            }
+        } catch (err) {
+            if (err.message && err.message.includes("JS HTTP权限")) {
+                log.error("请在调度器通用设置中启用JS HTTP权限");
+            } else {
+                log.error("查询云端策略失败: {0}", err);
+            }
+        }
+
+        // 判断云端是否返回了有效策略
+        if (cloudStrategies.length > 0) {
+            // 纯粹使用云端返回的策略列表
+            sortedStrategy = [...cloudStrategies];
+            log.info("成功获取{1}个{0}的云端策略: {2}", sortedStrategy.length, charName, sortedStrategy.join(", "));
+        } else {
+            // 仅当云端策略为空时，回退到 sortAndFilterStrategy （否则云端知道的必败策略还是会被本地使用）
+            log.warn("未获取到{0}的有效云端策略，回退使用本地策略排序", charName);
+            sortedStrategy = sortAndFilterStrategy(charName);
+            log.info("{0}共有{1}个分数≥{2}的可用策略", charName, sortedStrategy.length, minFallbackStrategyScore);
+        }
+    } else {
+        // 未启用云端统计/备用策略时，直接走本地逻辑
+        sortedStrategy = sortAndFilterStrategy(charName);
+        log.info("{0}共有{1}个分数≥{2}的可用策略", charName, sortedStrategy.length, minFallbackStrategyScore);
+    }
+
     for (const strategyName of sortedStrategy) {
         if (success) {
             break;  // 对战成功时跳出循环
@@ -680,14 +780,15 @@ async function searchCharAndPlayCards() {
             skipNum++;
             return false;
         }
-        // 开始对战
-        if (strategyName === "雷神柯莱刻晴") {
-            log.info("使用默认策略{0}与{1}对战", strategyName, charName);
-            success = await Playcards(allStrategy[strategyName], settings.defaultPartyName, charOcrPos);
-        } else {
-            log.info("使用备用策略{0}与{1}对战", strategyName, charName);
-            success = await Playcards(allStrategy[strategyName], settings.overwritePartyName, charOcrPos);
-        }
+
+        // 开始对战，接收 success 和 duration
+        const partyName = (strategyName === DEFAULT_STRATEGY) ? settings.defaultPartyName : settings.overwritePartyName;
+        log.info("使用{1}与{2}对战", strategyName, charName);
+        [success, duration] = await Playcards(allStrategy[strategyName], partyName, charOcrPos);
+
+        // 向云端汇报统计数据
+        await reportEfficiencyIfEnabled(charName, strategyName, success, duration);
+        // 仍然更新本地记录，以便用户随时能切换回本地模式
         updateRunRecord(charName, strategyName, success);
     }
 
@@ -797,7 +898,7 @@ async function gotoTavern() {
     await sleep(600);
     let region = captureGameRegion();
     let tavern = region.find(tavernRo);
-    clickIcon = tavern.isExist() ? tavern : region.find(adventurersRo);
+    const clickIcon = tavern.isExist() ? tavern : region.find(adventurersRo);
     region.dispose();
     if (clickIcon.isExist()) {
         clickIcon.click();
@@ -852,14 +953,17 @@ async function Playcards(strategy, teamName, pos) {
     if (!success) {
         keyPress("ESCAPE");
         await sleep(2000);
-        return null;
+        return [false, 0]; // 切换队伍失败，返回失败与0耗时
     }
     click(1610, 900); //点击挑战
     await waitOrCheckMaxCoin(8000);
+
+    const startTime = Date.now();
     await dispatcher.runTask(new SoloTask("AutoGeniusInvokation", { strategy: strategy.content }));
+    const duration = Number(((Date.now() - startTime) / 1000).toFixed(2));
     await sleep(3000);
     const win = await checkChallengeResults();
-    return win;
+    return [win, duration];
 }
 
 //前往一号桌

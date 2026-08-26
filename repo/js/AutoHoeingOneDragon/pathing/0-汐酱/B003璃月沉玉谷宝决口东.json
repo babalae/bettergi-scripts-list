@@ -1,18 +1,23 @@
 {
   "info": {
-    "name": "B003璃月沉玉谷宝决口东",
-    "type": "collect",
     "author": "汐",
-    "version": "1.0",
-    "description": "  路线信息：该路线预计用时76秒，包含以下怪物：1只岩龙蜥、2只玄文兽。",
-    "hash_res": "16365139",
-    "bgi_version": "0.42.3",
     "authors": [
       {
-        "name": "汐",
-        "links": "https://github.com/jiegedabaobei"
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
       }
-    ]
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时92.03秒，包含以下怪物：1只岩龙蜥、2只玄文兽。",
+    "enable_monster_loot_split": false,
+    "hash_res": "16365139",
+    "last_modified_time": 1784912848861,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B003璃月沉玉谷宝决口东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
@@ -28,10 +33,10 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 2055,
-      "y": 1797.69
+      "x": 2044.9844,
+      "y": 1793.094
     },
     {
       "action": "fight",
@@ -39,8 +44,8 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 2057.54,
-      "y": 1771.67
+      "x": 2049.6016,
+      "y": 1769.4004
     },
     {
       "action": "",
@@ -48,8 +53,8 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 2062.72,
-      "y": 1704
+      "x": 2047.8135,
+      "y": 1744.498
     },
     {
       "action": "",
@@ -57,26 +62,35 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 2103.71,
-      "y": 1716.5
+      "x": 2049.1846,
+      "y": 1723.9258
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 2108.69,
-      "y": 1715.88
+      "x": 2087.2656,
+      "y": 1718.242
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E);wait(2)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2102.6396,
+      "y": 1717.1523
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 7,
+      "id": 8,
       "move_mode": "dash",
       "type": "path",
-      "x": 2093.71,
-      "y": 1714.5
+      "x": 2110.5078,
+      "y": 1714.5845
     }
   ]
 }
