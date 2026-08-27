@@ -296,6 +296,7 @@ const removedCharacters4 = typeof (settings.removedCharacters4) === 'undefined' 
 	// 好友列表递增坐标进尘歌壶(仅第一页)
 	async function RequestToVisitSereniteaPot(total_clicks) {
 		let enterStatus = false;
+		await sleep(2000);
 		keyPress("VK_ESCAPE");
 		await sleep(2000);
 		let captureRegion = captureGameRegion();
