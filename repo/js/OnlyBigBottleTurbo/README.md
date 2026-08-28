@@ -3,9 +3,13 @@
 基于原作者 **mno** 的 BetterGI 脚本《只要大瓶》制作的高速版本，用于自动选择并分解圣遗物狗粮，尽量将储存经验转换为大瓶。
 
 - 作者：**Purfeather**
-- 版本：`1.0.0`
+- 版本：`1.0.1`
 - 适配：原神 `7.0`、BetterGI `0.64`
 - 原脚本：[bettergi-scripts-list / 只要大瓶](https://github.com/babalae/bettergi-scripts-list/tree/main/repo/js/%E5%8F%AA%E8%A6%81%E5%A4%A7%E7%93%B6)
+
+## 更新记录
+
+- `1.0.1`：采用更紧凑的默认点击延迟，少量提升点击速度。
 
 ## 脚本特点
 
