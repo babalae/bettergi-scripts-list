@@ -9,7 +9,7 @@
     "bgi_version": "0.64.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787822046448,
+    "last_modified_time": 1787855709008,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "01-冰醋栗-至冬-海屑镇-8个",
@@ -31,15 +31,24 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "dash",
-      "type": "target",
+      "move_mode": "run",
+      "type": "path",
+      "x": 7878.25,
+      "y": 9238.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7882.8955,
       "y": 9210.4795
     },
     {
       "action": "",
       "action_params": "",
-      "id": 3,
+      "id": 4,
       "move_mode": "run",
       "type": "target",
       "x": 7877.0254,
@@ -48,7 +57,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 4,
+      "id": 5,
       "move_mode": "run",
       "type": "path",
       "x": 7869.7129,
@@ -57,11 +66,11 @@
     {
       "action": "",
       "action_params": "",
-      "id": 5,
-      "move_mode": "run",
-      "type": "target",
-      "x": 7845.4854,
-      "y": 9188.3398
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7846.0957,
+      "y": 9188.3486
     }
   ]
 }
