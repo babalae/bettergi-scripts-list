@@ -53,12 +53,12 @@
         "name": "fastClickHoldMs",
         "type": "input-text",
         "label": "极速点击：鼠标按住时长（毫秒，10-100）",
-        "default": "20"
+        "default": "10"
     },
     {
         "name": "fastClickSettleMs",
         "type": "input-text",
         "label": "极速点击：点击后稳定等待（毫秒，20-200；漏点时优先调高）",
-        "default": "40"
+        "default": "20"
     }
 ]

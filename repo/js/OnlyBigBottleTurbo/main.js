@@ -41,10 +41,10 @@ let tempfourStarCount = 0;
 let tempInferredFirstCount = 0;
 
 // 点击速度参数来自自定义配置，并限制在安全范围内。
-// 默认值 2/20/40ms 在速度与稳定性之间取平衡。
+// 默认值 2/10/20ms 已通过实际点击测试。
 const FAST_CLICK_MOVE_DELAY_MS = readBoundedNumber(settings.fastClickMoveDelayMs, 2, 0, 100);
-const FAST_CLICK_HOLD_MS = readBoundedNumber(settings.fastClickHoldMs, 20, 10, 100);
-const FAST_CLICK_SETTLE_MS = readBoundedNumber(settings.fastClickSettleMs, 40, 20, 200);
+const FAST_CLICK_HOLD_MS = readBoundedNumber(settings.fastClickHoldMs, 10, 10, 100);
+const FAST_CLICK_SETTLE_MS = readBoundedNumber(settings.fastClickSettleMs, 20, 20, 200);
 
 const MAX_ALLOWED_STAR = Math.max(1, Math.min(4, +settings.maxStar || 1));
 
