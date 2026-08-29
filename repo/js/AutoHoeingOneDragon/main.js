@@ -1145,10 +1145,12 @@ async function runPath(fullPath, map_name, pm, pe) {
         }
 
         needRefreshCoord = true;
+        let runRes;
         try {
-            await pathingScript.runFile(fullPath);
+            runRes = await pathingScript.runFile(fullPath);
         } catch (error) {
             log.error(`执行地图追踪出现错误${error.message}`);
+            runRes = undefined;
         }
         try {
             await sleep(1);
@@ -1165,6 +1167,7 @@ async function runPath(fullPath, map_name, pm, pe) {
         }
         await fakeLog(`${fileName}`, false);
         state.running = false;
+        return runRes;
     })();
 
     /* ---------- 伴随任务 ---------- */
@@ -1172,6 +1175,31 @@ async function runPath(fullPath, map_name, pm, pe) {
         if (pickup_Mode.includes("模板匹配")) {
             await recognizeAndInteract();
         }
+        // bgi原版拾取：拾取由 BetterGI AutoPick 实时触发器完成（见 processPathingsByGroup 中的 AddTrigger("AutoPick")）。
+        // 拾取日志由 BGI 原版拾取自身输出，拾取历史对本脚本无用，无需轮询取回，原伴随任务代码已注释：
+        /*
+        else if (pickup_Mode === "bgi原版拾取") {
+            // 原版拾取模式：拾取由 BetterGI 的 AutoPick 实时触发器完成（见 processPathingsByGroup 中的 AddTrigger("AutoPick")）
+            // 通过 dispatcher.getPickRecords() 周期性取回本路线的拾取历史（仅莫版拾取路径产生记录；
+            // 旧版 C# 无此方法时返回空数组/抛异常，用可选链 + try 安全降级）
+            const routePickHistory = [];
+            while (state.running) {
+                try {
+                    const records = dispatcher.getPickRecords?.() ?? [];
+                    for (const r of records) {
+                        routePickHistory.push(r);
+                        log.info(`拾取历史：${r.Name} @ ${r.Time}`);
+                    }
+                } catch (e) {
+                    break; // 旧版 C# 不支持 getPickRecords，降级停止轮询
+                }
+                await sleep(100);
+            }
+            if (routePickHistory.length > 0) {
+                log.info(`本路线拾取历史（共${routePickHistory.length}条）：${routePickHistory.map(r => r.Name).join('、')}`);
+            }
+        }
+        */
     })();
 
     const eatMedecineTask = (async () => {
@@ -1378,7 +1406,7 @@ async function runPath(fullPath, map_name, pm, pe) {
     }
 
     /* ---------- 并发等待 ---------- */
-    await Promise.allSettled([
+    const results = await Promise.allSettled([
         pathingTask,
         pickupTask,
         errorProcessTask,
@@ -1386,6 +1414,8 @@ async function runPath(fullPath, map_name, pm, pe) {
         eatMedecineTask,
         dumperTask
     ].filter(Boolean));
+    // 返回地图追踪执行结果（旧版本BGI无返回值时返回 undefined）
+    return results[0].status === "fulfilled" ? results[0].value : undefined;
 }
 
 /**
@@ -1851,7 +1881,7 @@ async function processPathingsByGroup(pathings, accountName) {
     const totalPathsInGroup = pathings.filter(pathing => pathing.group === targetGroup).length;
 
     if (pickup_Mode === "bgi原版拾取") {
-        dispatcher.addTimer(new RealtimeTimer("AutoPick"));
+        dispatcher.AddTrigger(new RealtimeTimer("AutoPick"));
         rollingDelay = 160;
     }
 
@@ -1933,7 +1963,7 @@ async function processPathingsByGroup(pathings, accountName) {
             }
 
             // 调用 runPath 函数处理路径
-            await runPath(pathing.fullPath, pathing.map_name, pathing.m, pathing.e);
+            const pathRes = await runPath(pathing.fullPath, pathing.map_name, pathing.m, pathing.e);
             try {
                 await sleep(1);
             } catch (error) {
@@ -1952,24 +1982,34 @@ async function processPathingsByGroup(pathings, accountName) {
             log.info(`当前进度：第 ${targetGroup} 组第 ${groupPathCount}/${totalPathsInGroup} 个  ${pathing.fileName}已完成，该组预计剩余: ${remaininghours} 时 ${remainingminutes} 分 ${remainingseconds.toFixed(0)} 秒`);
 
             let fileEndX = 0, fileEndY = 0;
-            try {
-                const raw = file.readTextSync(pathing.fullPath);
-                const json = JSON.parse(raw);
-                if (Array.isArray(json.positions)) {
-                    for (let i = json.positions.length - 1; i >= 0; i--) {
-                        const p = json.positions[i];
-                        if (p.type !== 'orientation' &&
-                            typeof p.x === 'number' &&
-                            typeof p.y === 'number') {
-                            fileEndX = p.x;
-                            fileEndY = p.y;
-                            break;
+            let coordAbnormal = false;
+            if (pathRes !== undefined && typeof pathRes.success === 'boolean') {
+                // 新版本BGI：直接使用返回值判定路线是否成功
+                if (pathRes.success) {
+                    log.info("路线运行成功");
+                } else {
+                    log.error(`路线运行失败：${pathRes.message}`);
+                    notification.send(`路线${pathing.fileName}:路线未正常完成，不记录运行数据`);
+                    continue;
+                }
+            } else if (settings.enableCoordCheck) {
+                // 旧版本BGI：静默回退到坐标校验
+                try {
+                    const raw = file.readTextSync(pathing.fullPath);
+                    const json = JSON.parse(raw);
+                    if (Array.isArray(json.positions)) {
+                        for (let i = json.positions.length - 1; i >= 0; i--) {
+                            const p = json.positions[i];
+                            if (p.type !== 'orientation' &&
+                                typeof p.x === 'number' &&
+                                typeof p.y === 'number') {
+                                fileEndX = p.x;
+                                fileEndY = p.y;
+                                break;
+                            }
                         }
                     }
-                }
-            } catch (e) { /* 读文件失败就留 0,0 继续走后面逻辑 */ }
-            let coordAbnormal = false;
-            if (settings.enableCoordCheck) {
+                } catch (e) { /* 读文件失败就留 0,0 继续走后面逻辑 */ }
                 try {
                     await genshin.returnMainUi();
                     const miniMapPosition = await getCachedPosition(pathing.map_name, pathing.map_match_method);

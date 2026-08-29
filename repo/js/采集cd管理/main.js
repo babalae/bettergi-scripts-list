@@ -27,6 +27,8 @@ if (typeof rawLoop === 'boolean') {
     loopMode = 1; // 默认不循环
 }
 const disableJsons = settings.disableJsons || "";
+// 拾取模式：模板匹配拾取（JS自行识别，默认） / bgi原版拾取（由BetterGI AutoPick触发器拾取）
+let pickup_Mode;
 let processingIngredient = settings.processingIngredient;
 let findFInterval = Math.max(16, Math.min(200, parseInt(settings.findFInterval) || 100));
 let checkInterval = +settings.checkInterval || 50;
@@ -85,6 +87,28 @@ let partyNames;
 let subFolderName;
 let subFolderPath;
 let recordFilePath;
+// ===== 总运行限时（分钟）状态 =====
+let scriptStartTime = Date.now();            // 脚本启动时间，作为总运行限时的起算点
+let runtimeLimitReached = false;             // 是否已达运行限时
+
+/**
+ * 检测是否已达到总运行限时
+ * 读取 settings.maxRuntimeMinutes（0=不限时），从脚本启动起算；
+ * 由各阶段在完成任意路线后调用，超时返回 true 并一次性打印日志/通知
+ * @returns {boolean} 是否已超时
+ */
+function checkRuntimeLimit() {
+    const limit = parseInt(settings.maxRuntimeMinutes) || 0;
+    if (limit > 0 && Date.now() - scriptStartTime >= limit * 60000) {
+        if (!runtimeLimitReached) {
+            runtimeLimitReached = true;
+            log.info(`已达到总运行限时 ${limit} 分钟，结束脚本`);
+            notification.send(`已达到总运行限时 ${limit} 分钟，结束脚本`);
+        }
+        return true;
+    }
+    return false;
+}
 let name2Other;
 let alias2Names;
 const GAME_REGION_CACHE_SIZE = 5; // 游戏区域截图缓存大小上限
@@ -100,6 +124,15 @@ let materialCdMap = {};
 
 (async function () {
     dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
+    // ==================== 拾取模式 ====================
+    // 模板匹配拾取：JS 自行识别拾取（默认，产量记录完整）
+    // bgi原版拾取：由 BetterGI AutoPick 实时触发器完成拾取，JS 通过 dispatcher.getPickRecords() 取回拾取记录，
+    //              记录同样写入 runPickupLog，驱动 CD 计算、历史统计、每日拾取记录与优先材料扣减
+    pickup_Mode = settings.pickup_Mode || "模板匹配拾取";
+    if (pickup_Mode === "bgi原版拾取") {
+        dispatcher.AddTrigger(new RealtimeTimer("AutoPick"));
+        log.info("拾取模式：bgi原版拾取（由 BetterGI AutoPick 触发器完成拾取）");
+    }
     // ==================== 构建 settings.json ====================
     if (!await buildSettingsJson()) {
         return;
@@ -110,8 +143,15 @@ let materialCdMap = {};
     // ==================== 优先级材料前置采集 ====================
     await processPriorityItems();
 
+    // ==================== 一次性优先材料采集（优先级低于每日优先） ====================
+    if (!runtimeLimitReached) {
+        await processOneTimePriorityItems();
+    }
+
     // ==================== 路径组循环 ====================
-    await processPathGroups();
+    if (!runtimeLimitReached) {
+        await processPathGroups();
+    }
 })();
 
 /**
@@ -254,6 +294,47 @@ async function recognizeAndInteract() {
             catch (e) { log.error('背包满检查异常:', e); }
             finally { checkTask = null; }
         }
+    }
+}
+
+/**
+ * 启动拾取伴随任务（随路线执行并发运行，state.running 置 false 后结束）
+ * 根据拾取模式选择：
+ * - 模板匹配拾取：JS 自行识别拾取（recognizeAndInteract）
+ * - bgi原版拾取：轮询 dispatcher.getPickRecords() 取回 BetterGI 自动拾取的记录
+ * @returns {Promise<void>} 拾取任务 Promise，应在 state.running 置 false 后 await 其结束
+ */
+function startPickupTask() {
+    if (pickup_Mode === "bgi原版拾取") {
+        return pollPickRecordsTask();
+    }
+    return recognizeAndInteract();
+}
+
+/**
+ * 轮询取回 BetterGI 莫版拾取记录（bgi原版拾取模式专用）
+ * 拾取由 AutoPick 实时触发器完成，这里周期性调用 dispatcher.getPickRecords() 取回拾取历史，
+ * 写入 state.runPickupLog，与模板匹配拾取共用同一数据通道：
+ * 后续的 CD 计算（按材料取最晚刷新）、历史统计、每日拾取记录、优先材料扣减全部复用。
+ * 旧版 C# 无 getPickRecords 时通过可选链 + try 安全降级（不报错、不记录）。
+ * @returns {Promise<void>} 一直运行直到 state.running 为 false
+ */
+async function pollPickRecordsTask() {
+    // 启动时先取空一次拾取历史（取出即清空），防止上次运行残留记录混入本次统计
+    try {
+        dispatcher.getPickRecords?.();
+    } catch (e) { /* 旧版 C# 不支持 getPickRecords，忽略 */ }
+    while (state.running) {
+        try {
+            const records = dispatcher.getPickRecords?.() ?? [];
+            for (const r of records) {
+                state.runPickupLog.push(r.Name);
+                log.info(`交互或拾取："${r.Name}"`);
+            }
+        } catch (e) {
+            break; // 旧版 C# 不支持 getPickRecords，降级停止轮询
+        }
+        await sleep(100);
     }
 }
 
@@ -1313,6 +1394,7 @@ async function handleIngredientProcessing(timeNow) {
  */
 async function executeRoute(filePath, fileName, targetObj, startTime, lastMapName, priorityItemSet) {
     state.running = true;
+    let runRes;
 
     const raw = file.readTextSync(filePath);
     const json = JSON.parse(raw);
@@ -1320,25 +1402,25 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
     // 检测是否为 schedule 文件（包含 schedule 和 tasks 字段）
     if (json.schedule && json.tasks) {
         log.info(`检测到 schedule 文件: ${fileName}，使用 schedule 模式执行`);
-        const pickupTask = recognizeAndInteract();
+        const pickupTask = startPickupTask();
         await executeSchedule(filePath);
         state.running = false;
         await pickupTask;
-        return { success: true, lastMapName: "", runPickupLog: [], isSchedule: true };
+        // 返回实际拾取日志（含一次性优先扣减等下游依赖），而非空数组
+        return { success: true, lastMapName: "", runPickupLog: state.runPickupLog, isSchedule: true };
     }
 
     const mapName = (json.info?.map_name && json.info.map_name.trim()) ? json.info.map_name : 'Teyvat';
     await handleUnderwaterRoute(mapName, filePath, lastMapName);
     lastMapName = mapName;
-    const pickupTask = recognizeAndInteract();
+    const pickupTask = startPickupTask();
 
     try {
-        await pathingScript.runFile(filePath);
-    } catch (e) {
-        log.error(`路线执行失败: ${filePath}`);
-        state.running = false;
-        await pickupTask;
-        return { success: false, lastMapName };
+        runRes = await pathingScript.runFile(filePath);
+    } catch (error) {
+        // 与 AAA狗粮批发、锄地一条龙保持一致：异常时置 undefined，由下方判定统一降级到坐标校验
+        log.error(`执行路线 ${filePath} 时发生错误：${error.message}`);
+        runRes = undefined;
     }
     state.running = false;
     await pickupTask;
@@ -1346,7 +1428,19 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
 
     /* 4-4 计算CD（掉落材料决定）*/
     const timeDiff = new Date() - startTime;
-    let pathRes = isArrivedAtEndPoint(filePath);
+    let pathRes;
+    if (runRes !== undefined && typeof runRes.success === 'boolean') {
+        // 新版本BGI：直接使用返回值判定路线是否成功
+        if (runRes.success) {
+            log.info("路线运行成功");
+        } else {
+            log.error(`路线运行失败：${runRes.message}`);
+        }
+        pathRes = runRes.success;
+    } else {
+        // 旧版本BGI（无返回值）：静默回退到坐标校验
+        pathRes = isArrivedAtEndPoint(filePath);
+    }
 
     // >>> 仅当 >10s 才记录 history；若同时 pathRes === true 再更新 CD <<<
     if (timeDiff > 10000) {
@@ -1386,7 +1480,7 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
         }
     }
 
-    return { success: true, lastMapName, runPickupLog: state.runPickupLog };
+    return { success: true, lastMapName, runPickupLog: state.runPickupLog, pathRes };
 }
 
 /**
@@ -1425,6 +1519,60 @@ function prioritizeHistoricalItems(targetItems, cdMap, fullName) {
 }
 
 /**
+ * 扣除一次性优先采集材料的本次收入（全局收口）
+ * 在任意阶段（每日优先采集、一次性优先采集、路径组循环）完成路线后调用，
+ * 只要本次拾取日志/声明中命中了 settings.oneTimePriorityItems 中未清零的材料，
+ * 就会把剩余量扣减后直接写回 settings 对象（清零项自动删除，全部清零则置空串）。
+ *
+ * ⚠️ 注意：此功能依赖 JS 直接修改 settings 对象并持久化（settings.xxx = xxx）。
+ * 若该写回失效，说明 BGI 本体改动了对 settings 的注入/持久化机制，需同步适配。
+ *
+ * @param {string[]} correctedLog - 本次路线修正后的拾取日志（已按声明材料补充）
+ * @returns {void}
+ */
+function deductOneTimePriority(correctedLog) {
+    const raw = settings.oneTimePriorityItems;
+    if (!raw) return;
+
+    // ---- 解析当前剩余量 ----
+    const list = [];
+    const segments = String(raw).split('+').map(s => s.trim());
+    for (const seg of segments) {
+        const [itemName, countStr] = seg.split('*').map(s => s.trim());
+        if (itemName && countStr && !isNaN(Number(countStr))) {
+            list.push({ itemName, count: Number(countStr) });
+        }
+    }
+    if (list.length === 0) return;
+
+    // ---- 逐项统计本次命中（含别名双向展开，对同一日志项去重，与每日优先扣减逻辑一致）----
+    for (const task of list) {
+        // 三种命中关系合并，用 Set 对同一日志项去重，避免别名双向命中导致重复计数
+        const matched = new Set();
+        for (const name of correctedLog) {
+            // 1. 字面名相同
+            if (name === task.itemName) { matched.add(name); continue; }
+            // 2. 日志项是别名，其本名（们）含该字面名（多对一）：别名→本名
+            const realNames = alias2Names.get(name) || [];
+            if (realNames.includes(task.itemName)) { matched.add(name); continue; }
+            // 3. 日志项是该字面名的别名（字面名是本名）：本名→别名
+            const others = name2Other.get(task.itemName) || [];
+            if (others.includes(name)) { matched.add(name); continue; }
+        }
+        task.count = Math.max(0, task.count - matched.size);
+    }
+
+    // ---- 去空项并写回配置 ----
+    const remaining = list.filter(t => t.count > 0);
+    // 直接修改 settings 对象写回（见函数头注释的依赖说明）
+    settings.oneTimePriorityItems = remaining.map(t => `${t.itemName}*${t.count}`).join('+');
+    if (remaining.length < list.length) {
+        const cleared = list.filter(t => t.count <= 0).map(t => t.itemName);
+        log.info(`一次性优先材料已达标（清零）：${cleared.join('、')}`);
+    }
+}
+
+/**
  * 保存记录并清空日志
  * 
  * @param {Map} cdMap - CD时间映射
@@ -1434,9 +1582,12 @@ function prioritizeHistoricalItems(targetItems, cdMap, fullName) {
  * 
  * @依赖全局变量：
  * - state: 状态对象，包含 runPickupLog 日志数组
+ * - alias2Names: 别名到本名数组的映射
+ * - name2Other: 本名到别名数组的映射
  * 
  * @依赖辅助函数：
  * - appendDailyPickup: 追加每日拾取量函数
+ * - deductOneTimePriority: 扣除一次性优先材料收入函数
  */
 async function saveRecordAndClearLog(cdMap, recordFilePath, runPickupLog) {
     await file.writeText(
@@ -1444,6 +1595,8 @@ async function saveRecordAndClearLog(cdMap, recordFilePath, runPickupLog) {
         JSON.stringify(Array.from(cdMap.values()), null, 2)
     );
     await appendDailyPickup(runPickupLog);
+    // 全局扣减一次性优先材料（任何阶段拾取到都会在此自动扣除）
+    deductOneTimePriority(runPickupLog);
     state.runPickupLog = [];
 }
 
@@ -2107,6 +2260,18 @@ async function buildSettingsJson() {
         ]
     });
 
+    /* 5.2.0 拾取模式 */
+    newSettings.push({
+        name: "pickup_Mode",
+        type: "select",
+        label: "选择拾取模式\n【警告】「bgi原版拾取」依赖莫版BGI，在原版BGI下使用会导致物品计数功能失效",
+        options: [
+            "模板匹配拾取",
+            "bgi原版拾取"
+        ],
+        default: "模板匹配拾取"
+    });
+
     /* 5.2.1 循环模式 */
     newSettings.push({
         name: "loopMode",
@@ -2136,6 +2301,17 @@ async function buildSettingsJson() {
             "name": "priorityItems",
             "type": "input-text",
             "label": "优先采集材料，每天会尝试优先采集指定数量的目标物品，随后才执行路径组\n格式：材料名*数量，由加号+连接\n如萃凝晶*160+甜甜花*10"
+        },
+        {
+            "name": "oneTimePriorityItems",
+            "type": "input-text",
+            "label": "一次性优先采集材料，优先级低于每日优先采集，采完即止、不再按天重置\n采集到该材料时会自动扣减本配置，清零自动删除对应项\n格式：材料名*数量，由加号+连接\n如萃凝晶*160+甜甜花*10"
+        },
+        {
+            "name": "maxRuntimeMinutes",
+            "type": "input-text",
+            "label": "总运行限时（分钟），0=不限时\n从脚本启动开始计时，完成任意路线后检测，超时则结束脚本",
+            "default": "0"
         },
         {
             "name": "priorityItemsPartyName",
@@ -2707,9 +2883,130 @@ async function processPriorityItems() {
                 log.info('每日优先材料已达标，退出优先采集阶段');
                 notification.send('每日优先材料已达标，退出优先采集阶段');
             }
+
+            // 完成任意路线后检查总运行限时，超时则结束整个脚本
+            if (checkRuntimeLimit()) {
+                priorityList.length = 0;
+                break;
+            }
         }
         await sleep(1000);
     }
+}
+
+/**
+ * 处理一次性优先材料采集（优先级低于每日优先采集）
+ * 解析 settings.oneTimePriorityItems（当前剩余量，采完即止、不再按天重置），
+ * 计算路线效率，循环执行最高效率路线直到全部清零。
+ *
+ * 与每日优先不同：①不扣除今日已拾取（剩余量为持久化配置，跨运行累积）；
+ * ②扣减不在本函数内做，而是统一由 saveRecordAndClearLog 内的
+ * deductOneTimePriority 全局收口——因此每日优先、路径组拾取到也会同步扣减。
+ * 本函数每轮从 settings.oneTimePriorityItems 重新读取剩余量，为空即结束。
+ *
+ * @returns {Promise<void>} 无返回值
+ */
+async function processOneTimePriorityItems() {
+    if (!settings.oneTimePriorityItems) return;
+
+    const maxRunCount = 1;
+    while (settings.oneTimePriorityItems) {
+        // 重新解析当前剩余量（已被全局扣减更新）
+        const list = [];
+        const segments = String(settings.oneTimePriorityItems).split('+').map(s => s.trim());
+        for (const seg of segments) {
+            const [itemName, countStr] = seg.split('*').map(s => s.trim());
+            if (itemName && countStr && !isNaN(Number(countStr))) {
+                list.push({ itemName, count: Number(countStr) });
+            }
+        }
+        if (list.length === 0) break;
+
+        /* 1. 目标集合（双向别名展开） */
+        const priorityItemSet = new Set(list.map(p => p.itemName));
+        for (const a of [...priorityItemSet]) {
+            const others = name2Other.get(a) || [];
+            for (const o of others) priorityItemSet.add(o);
+            const realName = alias2Names.get(a) || [];
+            for (const r of realName) priorityItemSet.add(r);
+        }
+
+        /* 2. 扫描 + 效率计算 + CD 排除 */
+        const allFiles = await readFolder('pathing', true);
+        const rawRecord = await file.readText(`record/${subFolderName}/record.json`);
+        let recordArray = [];
+        try { recordArray = JSON.parse(rawRecord); } catch { /* 空记录 */ }
+        const cdMap = new Map(recordArray.map(it => [it.fileName, it]));
+        const now = new Date();
+        if (await isTimeRestricted(settings.timeRule, 10)) break;
+        if (checkRuntimeLimit()) break;
+
+        calculateRouteEfficiency(allFiles, cdMap, {
+            priorityItemSet,
+            disableArray,
+            isPriorityMode: true
+        });
+        const knownEff = allFiles
+            .filter(f => {
+                const rec = cdMap.get(f.fileName);
+                const nextCD = rec ? new Date(rec.cdTime) : new Date(0);
+                return f._priorityEff >= 0 && now > nextCD;
+            })
+            .map(f => f._priorityEff)
+            .sort((a, b) => a - b);
+        const defaultEff = calculateDefaultEfficiency(knownEff, settings.defaultEffPercentile, 1);
+        allFiles.forEach(f => {
+            if (f._priorityEff === -2) f._priorityEff = defaultEff;
+            const rec = cdMap.get(f.fileName);
+            const nextCD = rec ? new Date(rec.cdTime) : new Date(0);
+            if (now <= nextCD) f._priorityEff = -1;
+        });
+
+        /* 3. 只跑最高效率路线 */
+        const candidateRoutes = allFiles
+            .filter(f => f._priorityEff >= 0 && (routeRunCount[f.fileName] || 0) < maxRunCount)
+            .sort((a, b) => b._priorityEff - a._priorityEff);
+        if (candidateRoutes.length === 0) {
+            log.info('已无可用一次性优先路线（可能全部在CD），退出一次性优先采集阶段');
+            notification.send('已无可用一次性优先路线（可能全部在CD），退出一次性优先采集阶段');
+            break;
+        }
+        const bestRoute = candidateRoutes[0];
+        const filePath = bestRoute.fullPath;
+        const fileName = basename(filePath).replace('.json', '');
+        const fullName = fileName + '.json';
+        const targetObj = cdMap.get(fullName);
+        const startTime = new Date();
+
+        await selectPartyByRoutePath(bestRoute.fullPath, "一次性优先采集阶段");
+        log.info(`当前进度：执行路线 ${fileName}，剩余一次性优先材料：${list.map(t => `${t.itemName}*${t.count}`).join(', ')}`);
+
+        let timeNow = new Date();
+        await handleIngredientProcessing(timeNow);
+        await handleTimeAdjustment(timeNow);
+        await fakeLog(fileName, false, true, 0);
+
+        // 一次性优先采集同样不支持 schedule 任务，静默跳过（先计数，避免反复选中同一条 schedule 路线形成死循环）
+        routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
+        try {
+            const routeJson = JSON.parse(file.readTextSync(filePath));
+            if (routeJson.schedule && routeJson.tasks) continue;
+        } catch (e) { /* ignore */ }
+
+        targetItems = prioritizeHistoricalItems(targetItems, cdMap, fullName);
+
+        const routeResult = await executeRoute(filePath, fileName, targetObj, startTime, lastMapName, priorityItemSet);
+        if (!routeResult.success) continue;
+        lastMapName = routeResult.lastMapName;
+
+        const correctedLog = correctPickupLogByDeclaration(routeResult.runPickupLog, bestRoute.fullPath);
+        // saveRecordAndClearLog 内部会触发 deductOneTimePriority 全局扣减并写回配置
+        await saveRecordAndClearLog(cdMap, recordFilePath, correctedLog);
+
+        // 完成后检测是否超时（一次性阶段同样受总运行限时约束）
+        if (checkRuntimeLimit()) break;
+    }
+    await sleep(1000);
 }
 
 /**
@@ -2746,11 +3043,11 @@ async function processPathGroups() {
     let loopattempts = 0;
     const maxLoopAttempts = 2;
 
-    while (loopattempts < maxLoopAttempts) {
+    while (loopattempts < maxLoopAttempts && !runtimeLimitReached) {
         loopattempts++;
         if (await isTimeRestricted(settings.timeRule, 10)) break;
         let i = 1;
-        while (i <= groupCount) {
+        while (i <= groupCount && !runtimeLimitReached) {
             if (await isTimeRestricted(settings.timeRule, 10)) break;
             const currentCdType = settings[`pathGroup${i}CdType`] || "";
             if (!currentCdType) { i++; continue; }
@@ -2800,7 +3097,7 @@ async function processPathGroups() {
                     if (loopMode === 2) {
                         // ----- 每组重试：反复遍历组内路线直到没有任何路线被执行 -----
                         let anyExecuted = true;
-                        while (anyExecuted) {
+                        while (anyExecuted && !runtimeLimitReached) {
                             anyExecuted = false;
                             // 检查时间管制
                             if (await isTimeRestricted(settings.timeRule, 10)) break;
@@ -2880,7 +3177,8 @@ async function processPathGroups() {
                                         targetObj.cdTime = newTimestamp.toISOString();
                                         log.info(`schedule任务CD信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
                                     } else {
-                                        let pathRes = isArrivedAtEndPoint(filePath.fullPath);
+                                        // executeRoute 内部已用返回值或坐标校验完成路线成败判定，此处直接复用
+                                        let pathRes = routeResult.pathRes;
                                         if (pathRes) {
                                             const newTimestamp = calculateRouteCD(currentCdType, startTime);
                                             targetObj.cdTime = newTimestamp.toISOString();
@@ -2895,6 +3193,9 @@ async function processPathGroups() {
 
                                     // 标记本次有执行，继续 while 循环
                                     anyExecuted = true;
+
+                                    // 完成任意路线后检查总运行限时，超时则结束脚本
+                                    if (checkRuntimeLimit()) break;
                                 }
                             } // end for
 
@@ -2996,6 +3297,9 @@ async function processPathGroups() {
                             const correctedLog = correctPickupLogByDeclaration(routeResult.runPickupLog, filePath.fullPath);
                             await saveRecordAndClearLog(cdMap, recordFilePath, correctedLog);
                             routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
+
+                            // 完成任意路线后检查总运行限时，超时则结束脚本
+                            if (checkRuntimeLimit()) { break; }
 
                                 // ==== 全局循环（loopMode=3）跳回第一个组 ====
                             if (loopMode === 3) {
