@@ -28,5 +28,16 @@
     "name": "screenshotMode",
     "type": "checkbox",
     "label": "勾选后进入截图模式，自动截图保存对应UID的账号图片"
+  },
+  {
+    "name": "uidMismatchAutoStop",
+    "type": "checkbox",
+    "label": "当UID验证失败时尝试终止配置组（原理是模拟指定键盘按键，需提前去BetterGI设置）"
+  },
+  {
+    "name": "stopHotkey",
+    "type": "input-text",
+    "label": "终止配置组用的停止快捷键（需提前去BetterGI设置，与bgi停止快捷键需要一致）",
+    "default": "VK_F8"
   }
 ]
