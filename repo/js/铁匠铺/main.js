@@ -105,7 +105,10 @@ const smithyMap = {
     "须弥铁匠铺": { x: 2786, y: -503, country: "须弥" },
     "枫丹铁匠铺": { x: 4507, y: 3630, country: "枫丹" },
     "纳塔铁匠铺": { x: 9085, y: -1964, country: "纳塔" },
-    "挪德卡莱铁匠铺": { x: 9458, y: 1660, country: "挪德卡莱" }//新增时，此处记着添加【,】标点符
+    "挪德卡莱铁匠铺": { x: 9458, y: 1660, country: "挪德卡莱" },
+    "至冬铁匠铺": { x: 6689, y: 9624, country: "至冬" }
+
+    //新增时，此处记着添加【,】标点符
     /*新增示例：
 
     "冰国铁匠铺": { x: , y: , country: "冰国" }//x,y坐标为录制路径时传送点的坐标，country为铁匠铺所属国家名称
@@ -574,7 +577,7 @@ async function autoSmithy(smithyName) {
     await genshin.returnMainUi();
     await sleep(1000);
     log.info(`自动前往 ${smithyName}`);
-    try {
+    try {/*新版本纳塔【煅石之轮】已经可以使用传送，该部分代码注释
         if (smithyName === "纳塔铁匠铺") {
             keyPress("M"); await sleep(1000);
             click(1845, 1015); await sleep(250);
@@ -584,6 +587,7 @@ async function autoSmithy(smithyName) {
             click(1475, 1005); await sleep(250);
             await genshin.returnMainUi();// 通过返回主界面，等待传送完成
         }
+        */
         let filePath = `assets/Pathing/${smithyName}.json`;
         await pathingScript.runFile(filePath);
     } catch (error) {
