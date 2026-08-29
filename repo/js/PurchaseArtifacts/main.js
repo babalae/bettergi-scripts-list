@@ -406,8 +406,15 @@ let userName = settings.userName || "默认账户";
         };
 
         // 根据多选设置构建购买任务列表（仅包含勾选的商人）
-        const merchantOrder = ['蒙德商人', '璃月商人1', '璃月商人2', '稻妻商人', '须弥商人', '枫丹商人', '纳塔商人', '挪德卡莱商人','至冬商人'];
-        const selectedMerchants = Array.from(settings.merchants || [])
+        const merchantOrder = ['蒙德商人', '璃月商人1', '璃月商人2', '稻妻商人', '须弥商人', '枫丹商人', '纳塔商人', '挪德卡莱商人', '至冬商人'];
+        // BGI 只在用户打开过设置UI时才会写入 multi-checkbox 默认值；未打开时 settings.merchants 为 undefined，需回退到全部商人
+        let selectedMerchants = Array.from(settings.merchants || []);
+        if (selectedMerchants.length === 0) {
+            log.warn("未读取到已勾选的商人配置，使用默认全部9个商人");
+            selectedMerchants = [...merchantOrder];
+        }
+        selectedMerchants = selectedMerchants
+            .filter(m => merchantOrder.includes(m))
             .sort((a, b) => merchantOrder.indexOf(a) - merchantOrder.indexOf(b));
         const purchaseTasks = selectedMerchants
             .map(merchant => merchantTaskMap[merchant])
@@ -443,7 +450,12 @@ let userName = settings.userName || "默认账户";
 
         notification.send(`任务完成，总共购买了 ${totalPurchased} 个圣遗物，背包中圣遗物数量变化: ${initialCount} → ${finalCount}（+${actualPurchased}）`);
 
-        await file.writeText(recordPath, new Date().toISOString());
+        // 仅在实际购买到圣遗物时才记录完成时间，避免失败运行"毒化"刷新检查导致本周无法重试
+        if (totalPurchased > 0) {
+            await file.writeText(recordPath, new Date().toISOString());
+        } else {
+            log.warn("本次未购买到任何圣遗物，不记录完成时间");
+        }
     }
 
     userName = await getUserName();
