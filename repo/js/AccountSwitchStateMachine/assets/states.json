@@ -336,7 +336,7 @@
           }
         }
       ],
-      "logic": "(enterAccountAndPassword && phoneLogin) || (enterAccountAndPassword && forgotPassword) || (phoneLogin && forgotPassword) && !confirm"
+      "logic": "((enterAccountAndPassword && phoneLogin) || (enterAccountAndPassword && forgotPassword) || (phoneLogin && forgotPassword)) && !confirm"
     }
   },
   {
@@ -423,6 +423,26 @@
             "y": 826,
             "width": 439,
             "height": 116
+          }
+        },
+        {
+          "id": "phoneLogin",
+          "template": "assets/RecognitionObjects/LoginByPhone.png",
+          "region": {
+            "x": 547,
+            "y": 168,
+            "width": 825,
+            "height": 744
+          }
+        },
+        {
+          "id": "forgotPassword",
+          "template": "assets/RecognitionObjects/ForgotPassword.png",
+          "region": {
+            "x": 547,
+            "y": 168,
+            "width": 825,
+            "height": 744
           }
         }
       ],
