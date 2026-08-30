@@ -143,6 +143,20 @@ async function findImgIcon(imagePath, xRange, yRange, judge, threshold = 0.8, ti
     return { success: false};
 };
 
+// 等待进入物品交付界面
+async function waitForSubmitGoodsPage(timeout = 5000) {
+    const result = await findImgIcon(
+        "assets/RecognitionObject/SubmitExclamationIcon.png",
+        { min: 0, max: 1920 },
+        { min: 0, max: 270 },
+        false,
+        0.8,
+        timeout
+    );
+
+    return result.success;
+}
+
 // 长对话点击
 async function clickLongTalk() {
     // 识别是不是主界面
@@ -1114,13 +1128,22 @@ async function numberTemplateMatch(
         if (settings.doYouOpen) {
             await pathingScript.runFile("assets/阿敬.json");
             let figure = parseInt(settings.pickupTreasure);
+            let submitPageDetected = false;
+            let conchsTaskCompleted = false;
             let ocrResults = await performOcr("阿敬", dialogZone.x, dialogZone.y, false);
             if (ocrResults.success) {
                 await sleep(1000);
                 let ocrResults1 = await performOcr("想要", dialogZone.x, dialogZone.y, false);
                 if (ocrResults1.success) {
+                    log.info("已选择“想要开宝箱”");
                     await sleep(700);
                     leftButtonClick();
+                } else {
+                    log.info("未识别到“想要”选项，检查是否已进入物品交付界面");
+                };
+                submitPageDetected = await waitForSubmitGoodsPage();
+                if (submitPageDetected) {
+                    // 两条路径在这里汇合，后面的操作完全一样。
                     await sleep(1500);
                     //交互道具，直接选择位置点击
                     await click(111,184);
@@ -1138,6 +1161,7 @@ async function numberTemplateMatch(
                         log.info(`你即将开启${figure}号宝箱`);
                         await pathingScript.runFile(`assets/宝箱${figure}.json`);
                     };
+                    conchsTaskCompleted = true;
                 } else {
                     log.info("你开过了？look my eyes,回答我！！！");
                     await genshin.chooseTalkOption("再见");
@@ -1148,9 +1172,15 @@ async function numberTemplateMatch(
             } else {
                 log.error(`识别图像时发生异常: ${error.message}`);
             };
+            if (conchsTaskCompleted) {
+                record.lastConchsTime = new Date();
+                await recordForFile(false);
+            } else {
+                log.warn("海螺流程未确认完成，保留当天再次运行的机会");
+            };
+        } else {
+            log.info("未开启宝箱，跳过海螺交付与开箱");
         };
-        record.lastConchsTime = new Date();;
-        await recordForFile(false);
         await genshin.returnMainUi();
         await fakeLog("稻妻踏鞴砂海螺", false, false, 0)
     };
