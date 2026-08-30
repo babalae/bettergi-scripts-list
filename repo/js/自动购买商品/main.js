@@ -1,4 +1,4 @@
-//3.5.64
+//3.5.8
 
 // fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
 // 在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
@@ -1283,8 +1283,11 @@ async function initNpcData(records) {
                 npcIndex++;
                 // 获取显示名称（从路径中提取）
                 const displayName = getDisplayNameFromPath(npc.path);
+                // For ABGI only
+                log.debug(`当前进度：${displayName}(进度: ${npcIndex}/${enabledNpcs.length})`);
+                
                 log.info(`当前进度：${npcIndex}/${enabledNpcs.length}`);
-                log.info(`开始前往: ${displayName}`); // 修改这里
+                log.info(`开始前往: ${displayName}`); 
 
                 await genshin.returnMainUi();
 
