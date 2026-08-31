@@ -6,13 +6,13 @@
         "name": "烤鱼"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787619155833,
+    "last_modified_time": 1787707502729,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "12须弥-折胫谷右下-3个（沙暴）",
+    "name": "02须弥-折胫谷右下-3个（沙暴）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,40 +24,13 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4957.4043,
-      "y": -695.1816
-    },
-    {
-      "action": "log_output",
-      "action_params": "切换[沙暴]状态",
-      "id": 2,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 3069.0,
-      "y": -673.0145
-    },
-    {
-      "action": "combat_script",
-      "action_params": "w(0.5),attack(0.2),wait(1),s(1),dash,wait(0.7),keypress(f),wait(0.2),keypress(f),wait(5.5)",
-      "id": 3,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 3069.0,
-      "y": -673.0145
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "teleport",
       "x": 5690.25,
       "y": -706.6934
     },
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 2,
       "move_mode": "run",
       "type": "path",
       "x": 5669.7949,
@@ -66,7 +39,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 6,
+      "id": 3,
       "move_mode": "run",
       "type": "path",
       "x": 5676.835,
@@ -75,7 +48,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 7,
+      "id": 4,
       "move_mode": "run",
       "type": "path",
       "x": 5685.1758,
@@ -84,7 +57,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 8,
+      "id": 5,
       "move_mode": "climb",
       "type": "path",
       "x": 5671.4678,
@@ -93,7 +66,7 @@
     {
       "action": "up_down_grab_leaf",
       "action_params": "",
-      "id": 9,
+      "id": 6,
       "move_mode": "walk",
       "type": "orientation",
       "x": 5668.2285,
@@ -102,16 +75,25 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 10,
+      "id": 7,
       "move_mode": "dash",
       "type": "path",
       "x": 5643.0479,
       "y": -902.2217
     },
     {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5567.7344,
+      "y": -936.0635
+    },
+    {
       "action": "fight",
       "action_params": "",
-      "id": 11,
+      "id": 9,
       "move_mode": "walk",
       "type": "path",
       "x": 5567.7344,

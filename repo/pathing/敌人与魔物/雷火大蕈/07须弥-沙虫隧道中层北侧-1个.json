@@ -6,13 +6,13 @@
         "name": "烤鱼"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787044214305,
+    "last_modified_time": 1788141602415,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "06须弥-镔铁沙丘上左下-1个",
+    "name": "07须弥-沙虫隧道中层北侧-1个",
     "tags": [],
     "type": "collect",
     "version": "1.1"
@@ -46,49 +46,68 @@
       "y": -766.3545
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(6)",
+      "action": "stop_flying",
+      "action_params": "",
       "id": 4,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
-      "x": 4432.6875,
-      "y": -764.1094
+      "x": 4450.126,
+      "y": -769.2432
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 5,
       "move_mode": "fly",
       "type": "path",
-      "x": 4408.6582,
-      "y": -746.3203
+      "x": 4443.5391,
+      "y": -774.2412
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
-      "x": 4395.832,
-      "y": -731.9854
+      "x": 4454.79,
+      "y": -767.375
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4455.5146,
+      "y": -763.5635
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4459.6172,
+      "y": -729.4062
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
       "move_mode": "run",
       "type": "path",
-      "x": 4385.1641,
-      "y": -692.3398
+      "x": 4453.4678,
+      "y": -669.2402
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 8,
+      "id": 10,
       "move_mode": "run",
       "type": "path",
-      "x": 4441.8828,
-      "y": -672.3037
+      "x": 4428.8027,
+      "y": -677.8672
     }
   ]
 }
