@@ -1,0 +1,189 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时125.16秒，包含以下怪物：13只幼嫩的分节树。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1788185736692,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H013至冬不灭衍生造物南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7133.7188,
+      "y": 8962.916
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "sync_point_id": "strict_1",
+      "type": "path",
+      "x": 7149.0596,
+      "y": 8928.0303
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7187.3018,
+      "y": 8944.3506
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7179.1934,
+      "y": 8945.6875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7167.707,
+      "y": 8985.4492
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7176.2324,
+      "y": 9013.7705
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "sync_point_id": "strict_2",
+      "type": "path",
+      "x": 7225.3037,
+      "y": 9051.9111
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E);attack(1)",
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7212.2109,
+      "y": 9055.084
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7212.2109,
+      "y": 9055.084
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7243.5283,
+      "y": 9107.5078
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "sync_point_id": "strict_1",
+      "type": "path",
+      "x": 7245.5215,
+      "y": 9137.0791
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.1),keypress(f),w(0.1),keypress(f),wait(2)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 7252.5391,
+      "y": 9139.1641
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7252.5391,
+      "y": 9139.1641
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7241.8037,
+      "y": 9138.9297
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7231.1426,
+      "y": 9209.9082
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7204.2393,
+      "y": 9210.0732
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(1)",
+      "id": 17,
+      "move_mode": "dash",
+      "sync_point_id": "strict_1",
+      "type": "path",
+      "x": 7201.8008,
+      "y": 9176.6719
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7201.8008,
+      "y": 9176.6719
+    }
+  ]
+}

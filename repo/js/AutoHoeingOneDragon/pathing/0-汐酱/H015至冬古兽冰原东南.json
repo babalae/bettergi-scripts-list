@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时125.16秒，包含以下怪物：4只兽怪敲打者。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1788025426309,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H015至冬古兽冰原东南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7141.3369,
+      "y": 7900.1548
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7150.5313,
+      "y": 7940.2494
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7161.0977,
+      "y": 7955.8481
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7167.6836,
+      "y": 7959.5234
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5); ;",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7172.5166,
+      "y": 7962.0781
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7172.5166,
+      "y": 7962.0781
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7187.6152,
+      "y": 7967.0474
+    }
+  ]
+}
