@@ -48,8 +48,7 @@ let userName = settings.userName || "默认账户";
             width: 1797 - 1679,
             height: 65 - 31
         };
-        
-        let count = 0;
+        let ocrCount = -1;
         const maxAttempts = 5;
         
         for (let i = 0; i < maxAttempts; i++) {
@@ -63,23 +62,33 @@ let userName = settings.userName || "默认账户";
                     const text = res.text.trim();
                     log.debug(`OCR识别结果: ${text}`);
                     
-                    const match = text.match(/(\d+)\/\d+/);
-                    if (match && match[1]) {
-                        count = parseInt(match[1], 10);
-                        log.info(`识别到圣遗物数量: ${count}`);
-                        ra.dispose();
-                        await genshin.returnMainUi();
-                        await sleep(1000);
-                        return count;
+                    // 直接去掉末尾5个字符（斜杠/被误识别为7 + 4位总数），剩余即为当前数量
+                    // 适用于 XXXX/XXXX 且总数固定4位；斜杠被OCR误识别为7也能正确取值
+                    let numStr = '';
+                    if (text.length > 5) {
+                        numStr = text.slice(0, -5).replace(/\D/g, '');
+                    }
+                    if (numStr) {
+                        ocrCount = parseInt(numStr, 10);
+                        log.debug(`OCR识别到圣遗物数量: ${ocrCount}（原文: ${text}）`);
+                        break;
                     }
                 }
             } catch (error) {
                 log.error(`OCR识别异常: ${error.message}`);
             }
+            if (ocrCount >= 0) break;
             await sleep(500);
         }
         
         ra.dispose();
+
+        if (ocrCount >= 0) {
+            await genshin.returnMainUi();
+            await sleep(1000);
+            return ocrCount;
+        }
+
         await genshin.returnMainUi();
         await sleep(1000);
         log.warn("未能识别到圣遗物数量，返回0");
@@ -292,7 +301,6 @@ let userName = settings.userName || "默认账户";
 
     // 完整的购买流程（包含寻路）
     async function purChase(locationName) {
-        log.info(`开始前往: ${locationName}`);
         // 寻路
         let filePath = `assets/Pathing/${locationName}.json`;
         await pathingScript.runFile(filePath);
@@ -303,14 +311,23 @@ let userName = settings.userName || "默认账户";
     }
 
     // 检查函数，如果未买完则重新对话购买
+    // 返回 { count, failed }：failed=true 表示该路线未正常完成（购买失败/异常），售罄(sold_out)不算失败
     async function checkAndPurchase(locationName, locationIndex, totalLocations, merchantName) {
         let maxRetries = 2; // 最大重试次数（加上第一次共3次）
         let retryCount = 0;
         let totalPurchased = 0;
+        let failed = false; // 本路线是否为真失败（npc_not_found/异常），售罄不算失败
 
         // 第一次执行完整的购买流程（包含寻路）
         log.info(`当前进度: ${locationIndex}/${totalLocations}`);
-        let purchaseResult = await purChase(locationName);
+        log.info(`开始前往: ${locationName}`);
+        let purchaseResult;
+        try {
+            purchaseResult = await purChase(locationName);
+        } catch (error) {
+            log.error(`${merchantName} 路线执行出错：${error.message}`);
+            return { count: 0, failed: true };
+        }
         let purchasedCount = purchaseResult.purchasedCount;
         let failureReason = purchaseResult.failureReason;
         let aligned = purchaseResult.aligned;
@@ -325,7 +342,12 @@ let userName = settings.userName || "默认账户";
                 await genshin.returnMainUi();
                 await sleep(2000);
 
-                purchaseResult = await purChase(locationName);
+                try {
+                    purchaseResult = await purChase(locationName);
+                } catch (error) {
+                    log.error(`${merchantName} 路线第二次执行出错：${error.message}`);
+                    return { count: 0, failed: true };
+                }
                 purchasedCount = purchaseResult.purchasedCount;
                 failureReason = purchaseResult.failureReason;
                 aligned = purchaseResult.aligned;
@@ -333,12 +355,12 @@ let userName = settings.userName || "默认账户";
 
                 if (purchasedCount === 0 && (failureReason === "npc_not_found" || !aligned)) {
                     log.warn(`${merchantName} 第二次完整购买仍然对话对齐失败，跳过此路线`);
-                    return 0;
+                    return { count: 0, failed: true };
                 }
             } else if (failureReason === "sold_out") {
                 // 商店已售罄，说明之前已经买过了
                 log.info(`${merchantName} 路线商品已售罄，之前已完整购买过`);
-                return 0;
+                return { count: 0, failed: false };
             }
         }
 
@@ -361,9 +383,11 @@ let userName = settings.userName || "默认账户";
             if (purchasedCount === 0) {
                 if (failureReason === "npc_not_found") {
                     log.info(`${merchantName} 路线重试时对话对齐失败，停止重试`);
+                    failed = true;
                     break;
                 } else if (failureReason === "sold_out") {
                     log.info(`${merchantName} 路线重试时已无圣遗物可购买，停止重试`);
+                    failed = false;
                     break;
                 }
             }
@@ -382,7 +406,11 @@ let userName = settings.userName || "默认账户";
             log.info(`${merchantName} 无圣遗物可购买`);
         }
 
-        return totalPurchased;
+        // 买到东西即视为本路线完成（非失败）
+        if (totalPurchased > 0) {
+            failed = false;
+        }
+        return { count: totalPurchased, failed };
     }
 
     async function main() {
@@ -421,6 +449,7 @@ let userName = settings.userName || "默认账户";
             .filter(task => task);
 
         let totalPurchased = 0;
+        let hasRealFailure = false; // 是否存在未正常完成的路线（购买失败/异常，售罄不算）
 
         for (let i = 0; i < purchaseTasks.length; i++) {
             const task = purchaseTasks[i];
@@ -430,10 +459,15 @@ let userName = settings.userName || "默认账户";
             }
 
             // 执行检查并购买
-            let count = await checkAndPurchase(task.name, i + 1, purchaseTasks.length, task.merchant);
-            totalPurchased += count;
+            const result = await checkAndPurchase(task.name, i + 1, purchaseTasks.length, task.merchant);
+            totalPurchased += result.count;
+            // 记录是否存在购买失败/异常的路线（用于判断是否写入记录）
+            if (result.failed) {
+                hasRealFailure = true;
+                log.warn(`${task.merchant} 路线未正常完成（购买失败/异常）`);
+            }
 
-            log.info(`${task.merchant} 路线完成，购买了 ${count} 个圣遗物`);
+            log.info(`${task.merchant} 路线完成，购买了 ${result.count} 个圣遗物`);
 
             // 返回主界面准备下一个任务
             await genshin.returnMainUi();
@@ -451,8 +485,13 @@ let userName = settings.userName || "默认账户";
         notification.send(`任务完成，总共购买了 ${totalPurchased} 个圣遗物，背包中圣遗物数量变化: ${initialCount} → ${finalCount}（+${actualPurchased}）`);
 
         // 仅在实际购买到圣遗物时才记录完成时间，避免失败运行"毒化"刷新检查导致本周无法重试
+        // 购买数量为0时，仅当所有路线均为售罄（本周已买过、无购买失败）才记录完成时间
         if (totalPurchased > 0) {
             await file.writeText(recordPath, new Date().toISOString());
+        } else if (!hasRealFailure) {
+            // 购买数量为0但所有路线均售罄（本周已买过），记录完成时间避免反复重跑
+            await file.writeText(recordPath, new Date().toISOString());
+            log.info("所有路线均已售罄（本周已买过），已记录完成时间");
         } else {
             log.warn("本次未购买到任何圣遗物，不记录完成时间");
         }
@@ -460,8 +499,14 @@ let userName = settings.userName || "默认账户";
 
     userName = await getUserName();
     const recordPath = `assets/${userName}.txt`;
+    // 取消运行限制为一次性勾选，运行后自动取消勾选（参考角色养成一条龙 ifClearLog）
+    const forceRun = settings.select9;
+    if (forceRun) {
+        settings.select9 = false;
+        log.info("取消运行限制已勾选，跳过刷新检查，直接运行");
+    }
     //每周四4点刷新
-    if( await isTaskRefreshed(recordPath)|| settings.select9){
-    await main();
+    if (forceRun || await isTaskRefreshed(recordPath)) {
+        await main();
     }
 })();
