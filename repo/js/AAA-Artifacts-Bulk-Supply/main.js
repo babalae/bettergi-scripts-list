@@ -269,7 +269,7 @@ async function generateCommandFile() {
     }
 }
 
-async function readRecord(accountName) {
+async function readRecord(configuredAccountName) {
     /* ---------- 文件名合法性校验 ---------- */
     const illegalCharacters = /[\\/:*?"<>|]/;
     const reservedNames = [
@@ -278,21 +278,23 @@ async function readRecord(accountName) {
         "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
     ];
 
-    let finalAccountName = accountName;
+    let finalAccountName = configuredAccountName;
 
-    if (accountName === "" ||
-        accountName.startsWith(" ") ||
-        accountName.endsWith(" ") ||
-        illegalCharacters.test(accountName) ||
-        reservedNames.includes(accountName.toUpperCase()) ||
-        accountName.length > 255
+    if (configuredAccountName === "" ||
+        configuredAccountName.startsWith(" ") ||
+        configuredAccountName.endsWith(" ") ||
+        illegalCharacters.test(configuredAccountName) ||
+        reservedNames.includes(configuredAccountName.toUpperCase()) ||
+        configuredAccountName.length > 255
     ) {
-        log.error(`账户名 "${accountName}" 不合法，将使用默认值`);
+        log.error(`账户名 "${configuredAccountName}" 不合法，将使用默认值`);
         finalAccountName = "默认账户";
         await sleep(5000);
     } else {
-        log.info(`账户名 "${accountName}" 合法`);
+        log.info(`账户名 "${configuredAccountName}" 合法`);
     }
+
+    accountName = finalAccountName;
 
     /* ---------- 读取记录文件 ---------- */
     const recordFolderPath = "records/";
@@ -301,7 +303,7 @@ async function readRecord(accountName) {
     const filesInSubFolder = file.ReadPathSync(recordFolderPath);
     let fileExists = false;
     for (const filePath of filesInSubFolder) {
-        if (filePath === `records\\${accountName}.txt`) {
+        if (filePath === `records\\${finalAccountName}.txt`) {
             fileExists = true;
             break;
         }
@@ -980,6 +982,10 @@ async function runEndingAndExtraPath() {
 async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "") {
     if (state.cancel) return;
     if (folderFilePath === "") {
+        return;
+    }
+    // 路线目录按配置可选，目录不存在时直接跳过，不让 ReadPathSync 产生无意义的异常日志
+    if (!file.IsFolder(folderFilePath)) {
         return;
     }
     let Paths = await readFolder(folderFilePath, "json");
