@@ -6,13 +6,13 @@
         "name": "汐"
       }
     ],
-    "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时55秒，包含以下怪物：1只丘丘雷兜王。",
+    "bgi_version": "0.63.1",
+    "description": "  路线信息：该路线预计用时73秒，包含以下怪物：6只兽怪敲打者。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788025410120,
+    "last_modified_time": 1787935252273,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "H014至冬古兽冰原南",
+    "name": "H001至冬巡猎者木屋",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,26 +24,35 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 7462.4932,
-      "y": 7960.082
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 7462.4219,
-      "y": 7983.2856
+      "x": 7842.5771,
+      "y": 7607.8018
     },
     {
       "action": "fight",
       "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7944.5654,
+      "y": 7638.6084
+    },
+    {
+      "action": "",
+      "action_params": "",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 7382.249,
-      "y": 8069.4399
+      "x": 7991.2578,
+      "y": 7661.0205
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8016.915,
+      "y": 7664.6587
     }
   ]
 }

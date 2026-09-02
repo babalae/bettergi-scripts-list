@@ -6,13 +6,13 @@
         "name": "汐"
       }
     ],
-    "bgi_version": "0.45.0",
-    "description": "  路线信息：该路线预计用时55秒，包含以下怪物：1只丘丘雷兜王。",
+    "bgi_version": "0.63.1",
+    "description": "  路线信息：该路线预计用时42秒，包含以下怪物：3只兽怪敲打者。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788025410120,
+    "last_modified_time": 1787765940896,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "H014至冬古兽冰原南",
+    "name": "H007至冬逆悬的冰河东",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 7462.4932,
-      "y": 7960.082
+      "x": 7469.4453,
+      "y": 8916.2354
     },
     {
       "action": "",
@@ -33,8 +33,8 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 7462.4219,
-      "y": 7983.2856
+      "x": 7447.2979,
+      "y": 8903.1768
     },
     {
       "action": "fight",
@@ -42,8 +42,17 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 7382.249,
-      "y": 8069.4399
+      "x": 7425.2588,
+      "y": 8888.999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7433.043,
+      "y": 8881.2539
     }
   ]
 }

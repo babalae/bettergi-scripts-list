@@ -3285,7 +3285,7 @@ async function processPathGroups() {
                                 targetObj.cdTime = newTimestamp.toISOString();
                                 log.info(`schedule任务CD信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
                             } else {
-                                let pathRes = isArrivedAtEndPoint(filePath.fullPath);
+                                let pathRes = routeResult.pathRes;
                                 if (pathRes) {
                                     const newTimestamp = calculateRouteCD(currentCdType, startTime);
                                     targetObj.cdTime = newTimestamp.toISOString();
