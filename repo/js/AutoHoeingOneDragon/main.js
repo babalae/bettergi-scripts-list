@@ -1013,7 +1013,15 @@ async function runPath(fullPath, map_name, pm, pe) {
     if (shouldSwitchFurina) {
         log.info("上条路线识别到白芙，开始强制切换黑芙")
         shouldSwitchFurina = false;
-        await pathingScript.runFile("assets/强制黑芙.json");
+
+        // 判断当前地图是否为渊下宫（根据路线中的 map_name）
+        if (map_name.includes("Enkanomiya")) {
+            // 传送到指定七天神像强制黑芙
+            await genshin.tpToStatueOfTheSeven();
+        } else {
+            // 使用强制黑芙脚本传送至渊下宫切换黑芙
+            await pathingScript.runFile("assets/强制黑芙.json");
+        }
     }
     if (settings.eatBuff) {
         if (new Date() - lastBuffTime > BUFF_COOLDOWN_MS) {
