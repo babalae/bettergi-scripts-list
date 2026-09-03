@@ -1,0 +1,70 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "一只低熵体"
+      }
+    ],
+    "bgi_version": "0.64.0",
+    "description": "Point 08 未启用时，从 Point 07 结束点直达 Point 09 工位的完整备用路线",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1788416516144,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "point09_from07",
+    "tags": [
+      "备用路线",
+      "Point09"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7839.937,
+      "y": 8497.9844
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7811.322,
+      "y": 8468.8503
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7796.6094,
+      "y": 8470.6563
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7796.5229,
+      "y": 8474.4375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7789.0467,
+      "y": 8495.3203
+    }
+  ]
+}
