@@ -29,6 +29,7 @@ let coordCacheMapName;
 let coordCacheMatchMethod;
 let targetItems;
 let shouldSwitchFurina = false;
+let furinaDetectedMap = "";
 let lastRollTime = new Date();
 let blacklist = [];
 let blacklistSet = new Set();
@@ -203,6 +204,7 @@ const revivalMedicineRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(
         if (operationMode === "调试路线分配") {
             await printGroupSummary();
             log.info("开始复制并输出地图追踪文件\n请前往js文件夹查看");
+            log.info(`交互或拾取："调试路线分配"`);
             await copyPathingsByGroup(pathings);
             await updateRecords(pathings, accountName);
         } else if (operationMode === "运行锄地路线") {
@@ -1011,9 +1013,23 @@ async function copyPathingsByGroup(pathings) {
 async function runPath(fullPath, map_name, pm, pe) {
     //当需要切换芙宁娜形态时，执行一次强制黑芙
     if (shouldSwitchFurina) {
-        log.info("上条路线识别到白芙，开始强制切换黑芙")
         shouldSwitchFurina = false;
-        await pathingScript.runFile("assets/强制黑芙.json");
+        
+        // 检测到白芙的地图 和 即将执行的路线地图 不同 传送换图本身会重置形态 
+        // 因此只有检测到白芙的地图和即将执行的路线地图相同，才需要传送切换
+        if(furinaDetectedMap === map_name) {
+            log.info("上条路线识别到白芙，开始强制切换黑芙")
+            
+            // 使用保存的地图名判断
+            if (furinaDetectedMap && furinaDetectedMap.includes("Enkanomiya")) {
+                // 在渊下宫，传送到指定七天神像强制黑芙
+                await genshin.tpToStatueOfTheSeven();
+            } else {
+                // 使用强制黑芙脚本传送至渊下宫切换黑芙
+                await pathingScript.runFile("assets/强制黑芙.json");
+            }
+        }
+        furinaDetectedMap = "";
     }
     if (settings.eatBuff) {
         if (new Date() - lastBuffTime > BUFF_COOLDOWN_MS) {
@@ -1278,6 +1294,7 @@ async function runPath(fullPath, map_name, pm, pe) {
                     if (await findAndClick(whiteFurinaRo, false, FAST_MATCH_TIMEOUT_MS, FAST_MATCH_INTERVAL_MS)) {
                         log.info("检测到白芙，本路线运行结束后切换芙宁娜形态");
                         shouldSwitchFurina = true;
+                        furinaDetectedMap = map_name || ""; // 保存当前路线地图
                         continue;
                     }
                 }
@@ -1299,7 +1316,7 @@ async function runPath(fullPath, map_name, pm, pe) {
             errorProcessCount++;
             await sleep(ERROR_LOOP_DELAY_MS);
         }
-    })();
+    })(map_name);
 
     const blacklistTask = (async () => {
         async function checkItemFull() {
@@ -1671,7 +1688,6 @@ async function dumper(pathFilePath, map_name) {
             }
         }
 
-        //6.3强制使用sift的地图不开启泥头车
         const info = parsedContent.info;
         const map_match_method = info.map_match_method || "";
 
