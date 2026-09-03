@@ -1015,7 +1015,7 @@ async function runPath(fullPath, map_name, pm, pe) {
         shouldSwitchFurina = false;
 
         // 判断当前地图是否为渊下宫（根据路线中的 map_name）
-        if (map_name.includes("Enkanomiya")) {
+        if (map_name && map_name.includes("Enkanomiya")) {
             // 传送到指定七天神像强制黑芙
             await genshin.tpToStatueOfTheSeven();
         } else {
