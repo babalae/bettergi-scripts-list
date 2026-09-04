@@ -7,8 +7,8 @@
 | `restore.json` | 传送至固定七天神像，原地恢复热能 | — | 已解锁锚点 |
 | `point01.json` | 北国银行门口，3 名 NPC | 6 | 已解锁区域 |
 | `point02.json` | 印记商店门口，4 名 NPC | 8 | 已解锁区域 |
-| `point03.json` | 炉灰食堂门口，1 名 NPC | 2 | 已解锁区域 |
-| `point04.json` | 餐厅门口，2 名 NPC | 4 | 已解锁区域 |
+| `point03.json` | 炉灰食堂门口，2 名 NPC | 4 | 已解锁区域 |
+| `point04.json` | 餐厅门口，1 名 NPC | 2 | 已解锁区域 |
 | `point05.json` | 铁匠附近，1 名 NPC | 2 | 已解锁区域 |
 | `point06.json` | 曙光车站玩具附近，2 名 NPC | 4 | 完成“雪后曙光” |
 | `point07.json` | 车站餐厅，1 名 NPC | 2 | 完成“雪后曙光” |

@@ -7,17 +7,17 @@
       }
     ],
     "bgi_version": "0.64.0",
-    "description": "炉灰食堂门口1人",
+    "description": "炉灰食堂门口2人",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788414483785,
+    "last_modified_time": 1788491253964,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "point03",
     "tags": [
-      "点赞=2"
+      "点赞=4"
     ],
     "type": "collect",
-    "version": "2.0"
+    "version": "3.0"
   },
   "positions": [
     {
@@ -26,26 +26,35 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6866.9375,
-      "y": 9657.625
+      "x": 6864.9617,
+      "y": 9655.6484
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
       "move_mode": "walk",
-      "type": "target",
-      "x": 6864.1867,
-      "y": 9644.2188
+      "type": "path",
+      "x": 6860.751,
+      "y": 9644.3906
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
       "move_mode": "walk",
+      "type": "target",
+      "x": 6863.1557,
+      "y": 9635.625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
       "type": "orientation",
-      "x": 6862.4704,
-      "y": 9563.0938
+      "x": 6861.0985,
+      "y": 9565.1563
     }
   ]
 }
