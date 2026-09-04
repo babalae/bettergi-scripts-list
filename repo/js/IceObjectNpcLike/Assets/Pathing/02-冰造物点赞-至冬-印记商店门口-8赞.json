@@ -7,17 +7,17 @@
       }
     ],
     "bgi_version": "0.64.0",
-    "description": "炉灰食堂门口2人",
+    "description": "印记商店门口4人",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788491253964,
+    "last_modified_time": 1788414454217,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "point03",
+    "name": "02-冰造物点赞-至冬-印记商店门口-8赞",
     "tags": [
-      "点赞=4"
+      "点赞=8"
     ],
     "type": "collect",
-    "version": "3.0"
+    "version": "1.0"
   },
   "positions": [
     {
@@ -26,8 +26,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6864.9617,
-      "y": 9655.6484
+      "x": 6583.8818,
+      "y": 9576.1563
     },
     {
       "action": "",
@@ -35,26 +35,44 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 6860.751,
-      "y": 9644.3906
+      "x": 6581.7969,
+      "y": 9564.8125
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
       "move_mode": "walk",
-      "type": "target",
-      "x": 6863.1557,
-      "y": 9635.625
+      "type": "path",
+      "x": 6587.6406,
+      "y": 9543.3281
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
       "move_mode": "walk",
+      "type": "path",
+      "x": 6555.1563,
+      "y": 9535.7656
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6550.0007,
+      "y": 9528.5469
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
       "type": "orientation",
-      "x": 6861.0985,
-      "y": 9565.1563
+      "x": 6525.5932,
+      "y": 9475.2656
     }
   ]
 }

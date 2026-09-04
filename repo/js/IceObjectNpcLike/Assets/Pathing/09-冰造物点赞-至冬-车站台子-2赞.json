@@ -7,15 +7,14 @@
       }
     ],
     "bgi_version": "0.64.0",
-    "description": "Point 08 未启用时，从 Point 07 结束点直达 Point 09 工位的完整备用路线",
+    "description": "车站台子1人",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788416516144,
+    "last_modified_time": 1788415794723,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "point09_from07",
+    "name": "09-冰造物点赞-至冬-车站台子-2赞",
     "tags": [
-      "备用路线",
-      "Point09"
+      "点赞=2"
     ],
     "type": "collect",
     "version": "1.0"
@@ -27,8 +26,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "path",
-      "x": 7839.937,
-      "y": 8497.9844
+      "x": 7822.0635,
+      "y": 8455.875
     },
     {
       "action": "",
@@ -36,13 +35,22 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 7811.322,
-      "y": 8468.8503
+      "x": 7813.1378,
+      "y": 8455.875
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7811.7338,
+      "y": 8469.2696
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
       "move_mode": "walk",
       "type": "path",
       "x": 7796.6094,
@@ -51,7 +59,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 4,
+      "id": 5,
       "move_mode": "walk",
       "type": "target",
       "x": 7796.5229,
@@ -60,7 +68,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "walk",
       "type": "orientation",
       "x": 7789.0467,

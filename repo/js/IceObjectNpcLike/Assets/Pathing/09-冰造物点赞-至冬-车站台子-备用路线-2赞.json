@@ -7,17 +7,18 @@
       }
     ],
     "bgi_version": "0.64.0",
-    "description": "曙光车站玩具2人",
+    "description": "Point 08 未启用时，从 Point 07 结束点直达 Point 09 工位的完整备用路线",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788354846394,
+    "last_modified_time": 1788416516144,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "point06",
+    "name": "09-冰造物点赞-至冬-车站台子-备用路线-2赞",
     "tags": [
-      "点赞=4"
+      "备用路线",
+      "Point09"
     ],
     "type": "collect",
-    "version": "3.0"
+    "version": "1.0"
   },
   "positions": [
     {
@@ -25,9 +26,9 @@
       "action_params": "",
       "id": 1,
       "move_mode": "walk",
-      "type": "teleport",
-      "x": 7813.7715,
-      "y": 8520.4678
+      "type": "path",
+      "x": 7839.937,
+      "y": 8497.9844
     },
     {
       "action": "",
@@ -35,8 +36,8 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 7808.5151,
-      "y": 8513.9688
+      "x": 7811.322,
+      "y": 8468.8503
     },
     {
       "action": "",
@@ -44,8 +45,8 @@
       "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": 7793.3958,
-      "y": 8517.4063
+      "x": 7796.6094,
+      "y": 8470.6563
     },
     {
       "action": "",
@@ -53,8 +54,8 @@
       "id": 4,
       "move_mode": "walk",
       "type": "target",
-      "x": 7792.365,
-      "y": 8511.5625
+      "x": 7796.5229,
+      "y": 8474.4375
     },
     {
       "action": "",
@@ -62,8 +63,8 @@
       "id": 5,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 7727.0131,
-      "y": 8472.375
+      "x": 7789.0467,
+      "y": 8495.3203
     }
   ]
 }
