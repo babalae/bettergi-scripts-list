@@ -1,4 +1,4 @@
-//3.5.8
+//3.6.0
 
 // fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
 // 在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
@@ -937,7 +937,7 @@ async function initRo() {
             const imagePath = `assets/images/${foodName}.png`;
             try {
                 const ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagePath));
-                ro.Threshold = 0.85;
+                ro.Threshold = 0.8;
                 ro.Use3Channels = true;
                 foodROMap[foodName] = ro;
                 logConditional(`已启用商品: ${foodName}`);
@@ -1192,6 +1192,7 @@ async function initNpcData(records) {
     // 重置容量限制集合
     capacityLimitedFoods.clear();
     try {
+        await fakeLog(`当前版本 3.6.0`, false, false, 23333);
         // ==================== 确定账号名 ====================
         let rawUserName = settings.userName ? settings.userName.trim() : "";
         if (!rawUserName) {
