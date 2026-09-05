@@ -26,6 +26,7 @@ function accountPath(uid) {
 function emptySettings() {
     return {
         skipSafeTeleport: false,
+        checkEncounterPoints: false,
         party: { global: {}, scopes: {} },
     };
 }
@@ -57,6 +58,7 @@ export function normalizeAccountConfig(value, uid) {
         bgiVersion: typeof source.bgiVersion === "string" ? source.bgiVersion : "",
         settings: {
             skipSafeTeleport: settings.skipSafeTeleport === true,
+            checkEncounterPoints: settings.checkEncounterPoints === true,
             party: {
                 global: isPlainObject(party.global) ? party.global : {},
                 scopes: isPlainObject(party.scopes) ? party.scopes : {},
