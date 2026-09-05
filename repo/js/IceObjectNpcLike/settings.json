@@ -11,15 +11,6 @@
     "default": "按 Point 编号"
   },
   {
-    "name": "restoreEveryPoints",
-    "type": "input-text",
-    "label": "每完成几个 Point 恢复一次热能（1～6，推荐 4）",
-    "default": "4"
-  },
-  {
-    "type": "separator"
-  },
-  {
     "name": "point01Enabled",
     "type": "checkbox",
     "label": "启用 Point 01｜北国银行门口｜预计 6 赞",
@@ -77,135 +68,15 @@
     "type": "separator"
   },
   {
-    "name": "restoreInteractionEnabled",
-    "type": "checkbox",
-    "label": "恢复路线结束后按一次交互键（当前神像自动恢复，默认关闭）",
-    "default": false
-  },
-  {
-    "name": "restoreInteractionKey",
-    "type": "input-text",
-    "label": "热能恢复交互键（支持 F 或 VK_F）",
-    "default": "VK_F"
-  },
-  {
-    "name": "restoreDelay",
-    "type": "input-text",
-    "label": "传送落地后等待热能自动恢复（毫秒）",
-    "default": "1500"
-  },
-  {
-    "type": "separator"
-  },
-  {
-    "name": "pathSettleDelay",
-    "type": "input-text",
-    "label": "地图追踪和 orientation 完成后站稳等待（毫秒）",
-    "default": "1000"
-  },
-  {
-    "name": "cameraClampPasses",
-    "type": "input-text",
-    "label": "镜头向上归一化重复次数（实测推荐 4）",
-    "default": "4"
-  },
-  {
-    "name": "cameraClampPassDelay",
-    "type": "input-text",
-    "label": "每次向上推镜头之间的等待（毫秒）",
-    "default": "100"
-  },
-  {
-    "name": "cameraClampSettleDelay",
-    "type": "input-text",
-    "label": "镜头推到垂直上限后等待（毫秒）",
-    "default": "150"
-  },
-  {
-    "name": "defaultCameraOffsetX",
-    "type": "input-text",
-    "label": "所有 Point 默认镜头水平微调（orientation 正确时保持 0）",
-    "default": "0"
-  },
-  {
     "name": "defaultCameraPitchFromTop",
     "type": "input-text",
-    "label": "从镜头垂直上限向下移动量（实测推荐 7500）",
+    "label": "冰造物放置镜头角度（从垂直上限向下移动量，推荐 7500）",
     "default": "7500"
-  },
-  {
-    "name": "cameraOffsetXOverrides",
-    "type": "input-text",
-    "label": "特殊 Point 水平微调覆盖（可空；例：02=20,05=-10）",
-    "default": ""
-  },
-  {
-    "name": "cameraPitchFromTopOverrides",
-    "type": "input-text",
-    "label": "特殊 Point 垂直下移覆盖（可空；例：02=6100,05=5900）",
-    "default": ""
-  },
-  {
-    "name": "cameraSettleDelay",
-    "type": "input-text",
-    "label": "应用最终镜头标定后等待（毫秒）",
-    "default": "400"
-  },
-  {
-    "type": "separator"
   },
   {
     "name": "forceTDelayCompensationEnabled",
     "type": "checkbox",
-    "label": "非 4K 分辨率也强制启用下方 T 后额外等待",
+    "label": "强制启用 4K 时序补偿（非 4K 出现点击过早时开启）",
     "default": false
-  },
-  {
-    "name": "fourKExtraTDelay",
-    "type": "input-text",
-    "label": "每次按 T 后、左键前额外等待（4K 自动启用；毫秒）",
-    "default": "800"
-  },
-  {
-    "name": "enterCreationDelay",
-    "type": "input-text",
-    "label": "首次按 T 进入造物界面后等待（毫秒）",
-    "default": "500"
-  },
-  {
-    "name": "firstLikeDelay",
-    "type": "input-text",
-    "label": "第一次放置后的点赞安全等待（毫秒）",
-    "default": "800"
-  },
-  {
-    "name": "selectObjectDelay",
-    "type": "input-text",
-    "label": "再次按 T 自动选中造物后等待（毫秒）",
-    "default": "500"
-  },
-  {
-    "name": "deleteDelay",
-    "type": "input-text",
-    "label": "删除第一次造物后、第二次放置前等待（毫秒）",
-    "default": "400"
-  },
-  {
-    "name": "secondLikeDelay",
-    "type": "input-text",
-    "label": "第二次放置后的点赞安全等待（毫秒）",
-    "default": "800"
-  },
-  {
-    "name": "finalDeleteDelay",
-    "type": "input-text",
-    "label": "最终删除第二个造物后等待（毫秒）",
-    "default": "400"
-  },
-  {
-    "name": "exitCreationDelay",
-    "type": "input-text",
-    "label": "再次按 T 退出冰造物界面后等待（毫秒）",
-    "default": "500"
   }
 ]
