@@ -1,0 +1,50 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "  路线信息：该路线预计用时34秒，包含以下怪物：4只兽怪敲打者。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1787933364594,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H018至冬彩冰镇西北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6940.2275,
+      "y": 8727.251
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5); ;",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6948.5537,
+      "y": 8756.7246
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6948.5537,
+      "y": 8756.7246
+    }
+  ]
+}

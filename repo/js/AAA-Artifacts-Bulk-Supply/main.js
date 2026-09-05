@@ -13,6 +13,7 @@ let autoSalvage = settings.autoSalvage;//启用自动分解
 let notify = settings.notify;//启用通知
 let accountName = settings.accountName || "默认账户";//账户名
 let tmThreshold = +settings.TMthreshold || 0.9;//拾取阈值
+let pickup_Mode = settings.pickup_Mode || "模板匹配拾取";//拾取模式：模板匹配拾取（脚本自行识别） / bgi原版拾取（BetterGI自动拾取触发器）
 
 //文件路径
 const DeleteButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/DeleteButton.png"));
@@ -66,6 +67,11 @@ let lastsettimeTime = 0;
 (async function () {
     setGameMetrics(1920, 1080, 1);
     dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
+    if (pickup_Mode === "bgi原版拾取") {
+        // bgi原版拾取模式：物品拾取由 BetterGI AutoPick 实时触发器完成，
+        // 触发器由 setActivatePickUp 跟随 activatePickUp 开关启停（关闭时清空并恢复 AutoSkip）
+        log.info("拾取模式：bgi原版拾取（由 BetterGI AutoPick 触发器完成拾取）");
+    }
     targetItems = await loadTargetItems();
     state.activatePickUp = false;
     {
@@ -263,7 +269,7 @@ async function generateCommandFile() {
     }
 }
 
-async function readRecord(accountName) {
+async function readRecord(configuredAccountName) {
     /* ---------- 文件名合法性校验 ---------- */
     const illegalCharacters = /[\\/:*?"<>|]/;
     const reservedNames = [
@@ -272,21 +278,23 @@ async function readRecord(accountName) {
         "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
     ];
 
-    let finalAccountName = accountName;
+    let finalAccountName = configuredAccountName;
 
-    if (accountName === "" ||
-        accountName.startsWith(" ") ||
-        accountName.endsWith(" ") ||
-        illegalCharacters.test(accountName) ||
-        reservedNames.includes(accountName.toUpperCase()) ||
-        accountName.length > 255
+    if (configuredAccountName === "" ||
+        configuredAccountName.startsWith(" ") ||
+        configuredAccountName.endsWith(" ") ||
+        illegalCharacters.test(configuredAccountName) ||
+        reservedNames.includes(configuredAccountName.toUpperCase()) ||
+        configuredAccountName.length > 255
     ) {
-        log.error(`账户名 "${accountName}" 不合法，将使用默认值`);
+        log.error(`账户名 "${configuredAccountName}" 不合法，将使用默认值`);
         finalAccountName = "默认账户";
         await sleep(5000);
     } else {
-        log.info(`账户名 "${accountName}" 合法`);
+        log.info(`账户名 "${configuredAccountName}" 合法`);
     }
+
+    accountName = finalAccountName;
 
     /* ---------- 读取记录文件 ---------- */
     const recordFolderPath = "records/";
@@ -295,7 +303,7 @@ async function readRecord(accountName) {
     const filesInSubFolder = file.ReadPathSync(recordFolderPath);
     let fileExists = false;
     for (const filePath of filesInSubFolder) {
-        if (filePath === `records\\${accountName}.txt`) {
+        if (filePath === `records\\${finalAccountName}.txt`) {
             fileExists = true;
             break;
         }
@@ -832,6 +840,23 @@ async function writeCDInfo(accountName) {
     await file.writeText(CDInfoFilePath, JSON.stringify(CDInfo), false);
 }
 
+/**
+ * 设置是否激活拾取（bgi原版拾取模式下同步启停 BetterGI AutoPick 实时触发器）
+ * - 开启（true）：添加 AutoPick 触发器，保留 AutoSkip
+ * - 关闭（false）：清除所有实时触发后重新开启 AutoSkip，防止 AutoPick 在非拾取路线误拾取
+ * 模板匹配拾取模式下无额外操作
+ */
+function setActivatePickUp(value) {
+    state.activatePickUp = value;
+    if (pickup_Mode !== "bgi原版拾取") return;
+    if (value) {
+        dispatcher.AddTrigger(new RealtimeTimer("AutoPick"));
+    } else {
+        dispatcher.clearAllTriggers();
+        dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
+    }
+}
+
 //运行普通路线
 async function runNormalPath(doStop) {
     if (settings.fastMode) { return; }
@@ -845,9 +870,9 @@ async function runNormalPath(doStop) {
         log.info("填写了清怪队伍，执行清怪路线");
         await runPaths(normalCombatPath, combatPartyName, doStop, "black");
     }
-    state.activatePickUp = true;
+    setActivatePickUp(true);
     await runPaths(normalExecutePath, artifactPartyName, doStop, "white");
-    state.activatePickUp = false;
+    setActivatePickUp(false);
 }
 
 async function runActivatePath() {
@@ -948,15 +973,19 @@ async function runEndingAndExtraPath() {
         }
         extraPath = "";
     }
-    state.activatePickUp = true;
+    setActivatePickUp(true);
     await runPaths(endingPath, artifactPartyName, false, "white");
     await runPaths(extraPath, artifactPartyName, false, "white");
-    state.activatePickUp = false;
+    setActivatePickUp(false);
 }
 
 async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "") {
     if (state.cancel) return;
     if (folderFilePath === "") {
+        return;
+    }
+    // 路线目录按配置可选，目录不存在时直接跳过，不让 ReadPathSync 产生无意义的异常日志
+    if (!file.IsFolder(folderFilePath)) {
         return;
     }
     let Paths = await readFolder(folderFilePath, "json");
@@ -1011,9 +1040,10 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
             autoSalvageCount++;
         }
         const pathInfo = await parsePathing(Path.fullPath);
+        let pathRes;
         try {
             log.info(`当前进度：${Path.fileName}为${folderFilePath}第${i + 1}/${Paths.length}个`);
-            await runPath(Path.fullPath, null);
+            pathRes = await runPath(Path.fullPath, null);
             await sleep(1);
         } catch (error) {
             skiprecord = true;
@@ -1025,7 +1055,18 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
             success = false;
             break;
         }
-        if (pathInfo.ok) {
+        if (pathRes !== undefined && typeof pathRes.success === 'boolean') {
+            // 新版本BGI：直接使用返回值判定路线是否成功
+            if (pathRes.success) {
+                log.info("路线运行成功");
+            } else {
+                log.error(`路线运行失败：${pathRes.message}`);
+                failcount++;
+                skiprecord = true;
+                await sleep(5000);
+            }
+        } else if (pathInfo.ok) {
+            // 旧版本BGI：静默回退到坐标校验
             await genshin.returnMainUi();
             await sleep(500);
 
@@ -1222,15 +1263,23 @@ async function runPath(fullPath, targetItemPath = null) {
     const pathingTask = (async () => {
         log.info(`开始执行路线: ${fullPath}`);
         await fakeLog(fullPath, false, true, 0);
-        await pathingScript.runFile(fullPath);
+        let runRes;
+        try {
+            runRes = await pathingScript.runFile(fullPath);
+        } catch (error) {
+            log.error(`执行路线 ${fullPath} 时发生错误：${error.message}`);
+            runRes = undefined;
+        }
         await fakeLog(fullPath, false, false, 0);
         state.running = false;
+        return runRes;
     })();
 
     /* ---------- 伴随任务 ---------- */
 
     const pickupTask = (async () => {
         if (state.activatePickUp) {
+            // bgi原版拾取模式下 recognizeAndInteract 内部仅交互"调查"（拾取由 BGI AutoPick 完成）
             await recognizeAndInteract();
         }
     })();
@@ -1252,7 +1301,9 @@ async function runPath(fullPath, targetItemPath = null) {
     })();
 
     /* ---------- 并发等待 ---------- */
-    await Promise.allSettled([pathingTask, pickupTask, errorProcessTask]);
+    const results = await Promise.allSettled([pathingTask, pickupTask, errorProcessTask]);
+    // 返回地图追踪执行结果（旧版本BGI无返回值时返回 undefined）
+    return results[0].status === "fulfilled" ? results[0].value : undefined;
 }
 
 //加载拾取物图片
@@ -1278,13 +1329,18 @@ async function recognizeAndInteract() {
     let lastMoveDown = 0;
 
     gameRegion = captureGameRegion();
+    // 原版拾取模式：物品拾取由 BetterGI AutoPick 完成，脚本维持交互循环但仅交互"调查"
+    const pickTargetItems = pickup_Mode === "bgi原版拾取"
+        ? targetItems.filter(it => it.itemName === "调查")
+        : targetItems;
     //主循环
     while (state.running) {
         gameRegion.dispose();
         gameRegion = captureGameRegion();
         let centerYF = await findFIcon();
         if (!centerYF) {
-            if (new Date() - lastRoll >= 200) {
+            // 原版拾取模式下不执行滚轮动作（拾取由 BetterGI AutoPick 完成）
+            if (pickup_Mode !== "bgi原版拾取" && new Date() - lastRoll >= 200) {
                 lastRoll = new Date();
                 if (await hasScroll()) {
                     await keyMouseScript.runFile(`assets/滚轮下翻.json`);
@@ -1310,6 +1366,8 @@ async function recognizeAndInteract() {
                 await sleep(pickupDelay);
             }
         } else {
+            // 识别失败：等待一帧，让出事件循环，避免同步紧密循环饿死 pathingTask
+            await sleep(checkDelay);
             /*
             log.info("识别失败，尝试截图");
             await refreshTargetItems(centerYF);
@@ -1317,7 +1375,8 @@ async function recognizeAndInteract() {
             */
         }
 
-        if (!foundTarget) {
+        if (!foundTarget && pickup_Mode !== "bgi原版拾取") {
+            // 原版拾取模式下不执行滚轮动作（拾取由 BetterGI AutoPick 完成）
             //log.info(`调试-执行滚轮动作`);
             const currentTime = new Date().getTime();
             if (currentTime - lastMoveDown > timeMoveUp) {
@@ -1338,7 +1397,7 @@ async function recognizeAndInteract() {
         try {
             let result;
             let itemName = null;
-            for (const targetItem of targetItems) {
+            for (const targetItem of pickTargetItems) {
                 //log.info(`正在尝试匹配${targetItem.itemName}`);
                 const cnLen = Math.min([...targetItem.itemName].filter(c => c >= '\u4e00' && c <= '\u9fff').length, 5);
                 const recognitionObject = RecognitionObject.TemplateMatch(
