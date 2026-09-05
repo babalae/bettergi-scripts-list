@@ -147,9 +147,10 @@ async function loadExternalData() {
                     userTagsToBuy.add(item);
                     enabledTagsList.push(item);
                 } else {
-                    // 视为商品名
-                    userFoodsToBuy.add(item);
-                    enabledFoodsList.push(item);
+                    // 视为商品名 (归一化，忽略「」括号差异)
+                    const food = normalizeFoodName(item);
+                    userFoodsToBuy.add(food);
+                    enabledFoodsList.push(food);
                 }
             }
 
@@ -206,8 +207,8 @@ function filterUserFoods(foodList) {
     }
 
     return foodList.filter(food => {
-        // 直接检查商品名是否在用户要购买的商品集合中
-        const shouldBuy = userFoodsToBuy.has(food);
+        // 检查归一化后的商品名是否在用户要购买的商品集合中
+        const shouldBuy = userFoodsToBuy.has(normalizeFoodName(food));
         if (recordDebug && shouldBuy) {
             log.info(`[调试] 用户选择购买: ${food}`);
         }
@@ -407,8 +408,13 @@ function canonicalNpcName(name) {
     return NPC_NAME_ALIASES[name] || name;
 }
 
-// 解析禁用的标签列表（同时归一到新规范名，使旧名禁用设置继续生效）
-const disabledTags = (settings.disabledTags || "").split(/[,\s、]+/).filter(tag => tag.trim() !== "").map(tag => canonicalNpcName(tag));
+// 商品名称归一化：去掉「」括号，使用户输入与数据文件/图片文件名能互相匹配
+function normalizeFoodName(name) {
+    return String(name || "").replace(/[「」]/g, "").trim();
+}
+
+// 解析禁用的标签列表（同时归一到新规范名，使旧名禁用设置继续生效；商品名忽略「」括号差异）
+const disabledTags = (settings.disabledTags || "").split(/[,\s、]+/).filter(tag => tag.trim() !== "").map(tag => canonicalNpcName(normalizeFoodName(tag)));
 if (disabledTags.length > 0) {
     log.info(`已禁用标签或商品: ${disabledTags.join(", ")}`);
 }
@@ -625,9 +631,9 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
             useAll = npc.tags.some(tag => userTagsToBuy.has(tag));
         }
         let candidateList = useAll ? fullList : filterUserFoods(fullList);
-        // 过滤容量上限和禁用商品
-        candidateList = candidateList.filter(food => 
-            !capacityLimitedFoods.has(food) && !disabledTagsSet.has(food)
+        // 过滤容量上限和禁用商品（禁用匹配忽略「」括号差异）
+        candidateList = candidateList.filter(food =>
+            !capacityLimitedFoods.has(food) && !disabledTagsSet.has(normalizeFoodName(food))
         );
         return candidateList;
     }
@@ -934,15 +940,32 @@ let foodROMap = {}; // 键为商品名（中文），值为 RecognitionObject
 async function initRo() {
     try {
         for (let foodName of requiredFoods) {
-            const imagePath = `assets/images/${foodName}.png`;
-            try {
-                const ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagePath));
-                ro.Threshold = 0.8;
-                ro.Use3Channels = true;
-                foodROMap[foodName] = ro;
-                logConditional(`已启用商品: ${foodName}`);
-            } catch (e) {
-                log.error(`加载商品图片失败: ${imagePath}，请确保图片存在`);
+            // 依次尝试原始文件名与带「」括号的文件名（如「四方八方之网」.png）
+            const plainPath = `assets/images/${foodName}.png`;
+            const bracketedPath = `assets/images/「${normalizeFoodName(foodName)}」.png`;
+            let candidatePaths = plainPath === bracketedPath ? [plainPath] : [plainPath, bracketedPath];
+
+            if (typeof file.isExists === "function") {
+                // 预检文件是否存在，避免 ReadImageMatSync 读不到文件时框架打印错误日志
+                candidatePaths = candidatePaths.filter(p => file.isExists(p));
+            }
+
+            let loaded = false;
+            for (const imagePath of candidatePaths) {
+                try {
+                    const ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagePath));
+                    ro.Threshold = 0.8;
+                    ro.Use3Channels = true;
+                    foodROMap[foodName] = ro;
+                    loaded = true;
+                    logConditional(`已启用商品: ${foodName} (${imagePath})`);
+                    break;
+                } catch (e) {
+                    // 读取或创建识别对象失败，尝试下一个候选路径
+                }
+            }
+            if (!loaded) {
+                log.error(`加载商品图片失败: ${plainPath}，请确保图片存在`);
             }
         }
         for (let [key, item] of Object.entries(othrtRo)) {
@@ -1286,9 +1309,9 @@ async function initNpcData(records) {
                 const displayName = getDisplayNameFromPath(npc.path);
                 // For ABGI only
                 log.debug(`当前进度：${displayName}(进度: ${npcIndex}/${enabledNpcs.length})`);
-                
+
                 log.info(`当前进度：${npcIndex}/${enabledNpcs.length}`);
-                log.info(`开始前往: ${displayName}`); 
+                log.info(`开始前往: ${displayName}`);
 
                 await genshin.returnMainUi();
 
