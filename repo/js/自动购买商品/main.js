@@ -940,6 +940,11 @@ let foodROMap = {}; // 键为商品名（中文），值为 RecognitionObject
 async function initRo() {
     try {
         for (let foodName of requiredFoods) {
+            // 统一用归一化名称作键，保证与购买时的查找键一致
+            const roKey = normalizeFoodName(foodName);
+            if (foodROMap[roKey]) {
+                continue; // 同一商品的另一种写法（带/不带「」）已加载过
+            }
             // 依次尝试原始文件名与带「」括号的文件名（如「四方八方之网」.png）
             const plainPath = `assets/images/${foodName}.png`;
             const bracketedPath = `assets/images/「${normalizeFoodName(foodName)}」.png`;
@@ -956,7 +961,7 @@ async function initRo() {
                     const ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagePath));
                     ro.Threshold = 0.8;
                     ro.Use3Channels = true;
-                    foodROMap[foodName] = ro;
+                    foodROMap[roKey] = ro;
                     loaded = true;
                     logConditional(`已启用商品: ${foodName} (${imagePath})`);
                     break;
@@ -1074,8 +1079,8 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
                 log.info(`[调试] 尝试购买: ${item}`);
             }
 
-            // 直接从映射表中获取识别对象
-            const ro = foodROMap[item];
+            // 查找识别对象（键为归一化名称，兼容带/不带「」的商品名）
+            const ro = foodROMap[normalizeFoodName(item)];
             if (!ro) {
                 log.warn(`商品 "${item}" 未启用或没有识别对象，跳过`);
                 continue;
