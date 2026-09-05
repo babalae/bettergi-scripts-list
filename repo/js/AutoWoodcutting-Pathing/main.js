@@ -303,35 +303,32 @@
         await moveMouseBy(0, -114514);
         await moveMouseBy(0, -1919810);
         await sleep(1000);
-        if (woodsArray.length === 0) {
-            var resultDict = await dispatcher.runTask(new SoloTask("CountInventoryItem", { "gridScreenName": "Materials", "itemNames": woodType }));
-        } else {
-            var resultDict = await dispatcher.runTask(new SoloTask("CountInventoryItem", { "gridScreenName": "Materials", "itemNames": woodsArray }));
-        }
-
-        const keys = [];
-        const values = [];
 
         try {
-            for (const [key, value] of Object.entries(resultDict)) {
-                // 尝试将值转换为数字
+            // 使用新的 CountInventoryItemParam 参数类
+            const param = new CountInventoryItemParam();
+            param.GridScreenName = GridScreenName.Materials;      // 背包“材料”页签
+            const itemNames = woodsArray.length === 0 ? woodType : woodsArray;
+            for (const name of itemNames) {
+                param.ItemNames.Add(name);                        // 逐个添加物品名
+            }
+            param.IconRecognitionMode = ItemIconRecognitionMode.Item; // 按物品图标识别
+
+            // 调用 BGI 任务接口
+            const resultDict = await dispatcher.runCountInventoryItemTask(param);
+
+            // 处理返回结果，计算还需砍伐的数量
+            const keys = [];
+            const values = [];
+            for (const [key, value] of Object.entries(resultDict || {})) {
                 const numValue = Number(value);
-
-                // 检查是否为有效数字（NaN 表示不是数字）
-                if (isNaN(numValue)) {
-                    console.warn(`跳过无效值: key=${key}, value=${value}`);
-                    continue;
-                }
-
-                // 执行计算逻辑
-                const diff = Math.min(woodInventoryNumber, 9999) - numValue; // 限制不超过背包上限
+                if (isNaN(numValue)) continue;
+                const diff = Math.min(woodInventoryNumber, 9999) - numValue;
                 const result = diff > 0 ? diff : 0;
-
                 keys.push(key);
                 values.push(result);
             }
-            // log.info("成功检测到的木材" + keys.join(","));
-            // log.info("成功检测到的木材砍伐数量" + values.join(","));
+
             if (keys.length === 0) {
                 log.warn("未识别到任何木材，使用预设数据");
                 return [woodsArray, numbersArray];
@@ -339,7 +336,7 @@
                 return [keys, values];
             }
         } catch (err) {
-            log.warn("处理故障，使用预设数据")
+            log.warn(`处理故障，使用预设数据，错误：${err}`);
             return [woodsArray, numbersArray];
         }
     }
