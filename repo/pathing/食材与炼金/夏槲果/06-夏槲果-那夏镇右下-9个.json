@@ -1,0 +1,114 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769526712565,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "06-夏槲果-那夏镇右下-9个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 9367.1475,
+      "y": 1435.6475
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9384.4102,
+      "y": 1465.877
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.1),keypress(t)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9397.3535,
+      "y": 1506.5894
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-6000),moveby(0,-6000),wait(0.5),attack(0.3),wait(1.5)",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9353.168,
+      "y": 1520.4878
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9353.168,
+      "y": 1520.4878
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9342.1436,
+      "y": 1546.603
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9341.4033,
+      "y": 1545.1416
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9323.0557,
+      "y": 1517.686
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9318.2939,
+      "y": 1514.8037
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9312.2646,
+      "y": 1511.3306
+    }
+  ]
+}

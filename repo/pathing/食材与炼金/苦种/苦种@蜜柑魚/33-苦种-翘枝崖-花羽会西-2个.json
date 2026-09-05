@@ -1,0 +1,101 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1776965382391,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "33-苦种-翘枝崖-花羽会西-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9543.8359,
+      "y": -1113.7285
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9553.1914,
+      "y": -1110.3926
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.2)",
+      "id": 3,
+      "locked": true,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9557.1553,
+      "y": -1104.3657
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.4),j,wait(0.2)",
+      "id": 4,
+      "locked": false,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 9737.0771,
+      "y": -1117.2095
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_RBUTTON),wait(10.5),keyup(VK_RBUTTON),keyup(w)",
+      "id": 5,
+      "locked": false,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 9737.0771,
+      "y": -1117.2095
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LBUTTON),wait(5),keyup(VK_LBUTTON)",
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9721.4824,
+      "y": -1125.7217
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9733.3105,
+      "y": -1109.8374
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 8,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9753.4355,
+      "y": -1131.334
+    }
+  ]
+}

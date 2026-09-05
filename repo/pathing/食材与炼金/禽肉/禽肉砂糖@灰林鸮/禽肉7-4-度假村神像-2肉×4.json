@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766856707723,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "禽肉7-4-度假村神像-2肉×4",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 13613.7031,
+      "y": -157.1992
+    },
+    {
+      "action": "combat_script",
+      "action_params": "砂糖 e",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13648.9404,
+      "y": -128.9717
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13656.3291,
+      "y": -123.4531
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13654.668,
+      "y": -126.1284
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13653.0127,
+      "y": -123.5898
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13660.04,
+      "y": -99.3652
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13690.041,
+      "y": -61.2285
+    },
+    {
+      "action": "combat_script",
+      "action_params": "砂糖 e",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13724.6328,
+      "y": -51.0977
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13732.0,
+      "y": -48.0
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 13731.8994,
+      "y": -49.7261
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "03-冷鲜肉-龙脊雪山-2x2-4个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "必需使用 60級(突破后) 迪希雅 作為行走位",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "迪希雅"
+    ],
+    "last_modified_time": 1753171233794,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1006.9,
+      "y": 859.46,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1017.17,
+      "y": 842.26,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1046.73,
+      "y": 760.87,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.3),j,wait(2),j,attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1046.73,
+      "y": 760.87,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1034.66,
+      "y": 753.58,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "迪希雅 wait(0.8),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -1032.66,
+      "y": 753.75,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1017.88,
+      "y": 728.11,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1008.54,
+      "y": 686.33,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "迪希雅 wait(0.8),keypress(VK_E),wait(1.8),keypress(VK_E),wait(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": -1006.63,
+      "y": 686.34,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -1002.24,
+      "y": 684.74,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+[
+  {
+    "name": "show_info_title_1",
+    "type": "input-text",
+    "label": "[合成鱼饵]----------------------合成和原料----------------------",
+    "default": "⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬"
+  },
+  {
+    "name": "bait_select",
+    "type": "multi-checkbox",
+    "label": "选择鱼饵种类",
+    "options": ["果酿饵", "酸桔饵", "维护机关频闪诱饵", "甘露饵", "赤糜饵", "飞蝇假饵", "蠕虫假饵", "澄晶果粒饵", "温火饵", "槲梭饵", "清白饵"]
+  },
+  {
+    "name": "select_method",
+    "type": "select",
+    "label": "选择鱼饵数量的衡量方式\n该计算方式同样影响根据兑换物品合成鱼饵的模式",
+    "options": [
+      "期望的鱼饵数量(设置200则合成到200个)",
+      "合成的鱼饵数量(设置200则合成200个)"
+
+    ],
+    "default": "期望的鱼饵数量(设置200则合成到200个)"
+  },
+  {
+    "name": "bait_num",
+    "type": "input-text",
+    "label": "输入数量\n(使用单个空格隔开，只填一个则全部沿用该数量）",
+    "default": "200"
+  },
+  {
+    "name": "material_num",
+    "type": "input-text",
+    "label": "合成鱼饵后最低保留的原料数量(所有材料的最低余量一致)",
+    "default": "200"
+  },
+  {
+    "name": "use_pathing",
+    "type": "checkbox",
+    "label": "使用地图追踪补全不足的原料[暂不可用]",
+    "default": true
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "name": "show_info_title_2",
+    "type": "input-text",
+    "label": "[地图追踪]---------------------合成台和商人---------------------",
+    "default": "⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬"
+  },
+  {
+    "name": "timaeus_select",
+    "type": "select",
+    "label": "选择合成台",
+    "options": [
+      "蒙德",
+      "璃月",
+      "稻妻",
+      "须弥",
+      "枫丹",
+      "纳塔",
+      "挪德卡莱"
+    ],
+    "default": "枫丹"
+  },
+  {
+    "name": "use_mora",
+    "type": "checkbox",
+    "label": "使用摩拉购买原材料(主要涉及小麦、面粉)[暂不可用]",
+    "default": true
+  },
+  {
+    "name": "use_process",
+    "type": "checkbox",
+    "label": "使用食材加工获取原材料(主要涉及面粉)[暂不可用]",
+    "default": true
+  },
+  {
+    "name": "process_priority",
+    "type": "select",
+    "label": "加工和购买的优先级(对应方式启用后生效)[暂不可用]",
+    "options": [
+      "加工>购买",
+      "购买>加工",
+      "只购买",
+      "只加工"
+    ],
+    "default": "加工>购买"
+  },
+  {
+    "name": "mora_budget",
+    "type": "input-text",
+    "label": "预算(最多使用多少摩拉)[暂不可用]\n购买600小麦的原价为60000",
+    "default": "60000"
+  },
+  {
+    "name": "discount_select",
+    "type": "multi-checkbox",
+    "label": "选择已获得折扣的区域(用于计算预算，折扣为9折)[暂不可用]",
+    "options": ["蒙德", "璃月", "稻妻", "须弥", "枫丹", "纳塔", "挪德卡莱"]
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "name": "show_info_title_3",
+    "type": "input-text",
+    "label": "[特殊需求]-----------------------其他功能-----------------------",
+    "default": "⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬⏬"
+  },
+  {
+    "name": "material_select",
+    "type": "multi-checkbox",
+    "label": "根据要兑换的物品合成所需的鱼饵(精炼材料默认为4个)\n此处选择后通过[选择鱼饵种类]选择的鱼类将失效",
+    "options": [
+      "⚓风缠⚓（蒙德钓竿）",
+      "⚓愿者⚓（璃月钓竿）",
+      "⚓鸣川鹈饲⚓（稻妻钓竿）",
+      "⚓盘缘⚓（须弥钓竿）",
+      "⚓穿浪斗枪⚓（枫丹钓竿）",
+      "⚓长犀圆鸟和扁鱼⚓（纳塔钓竿）",
+      "⚓谧晖白枝⚓（挪德卡莱钓竿）",
+      "⚔渔获⚔（稻妻武器）",
+      "✞赤穗酒枡✞（稻妻精炼材料）",
+      "⚔竭泽⚔（须弥武器）",
+      "✞原海鱼油✞（须弥精练材料）",
+      "⚔灰河渡手⚔（枫丹武器）",
+      "✞马腾斯万能护养剂✞（枫丹精练材料）"
+      ]
+  },
+  {
+    "name": "use_levenshteinDistance",
+    "type": "checkbox",
+    "label": "优化OCR(建议启用)\n勾选后可以避免出现多类别识别相关的报错",
+    "default": false
+  },
+  {
+    "name": "accelerator_select",
+    "type": "multi-checkbox",
+    "label": "使用矿石加速食材加工[暂不可用]\n选择用于加速食材加工的矿石(不选或用尽则等待)\n注: 即便选择了加速，也只会在最后合成前使用矿石加速",
+    "options": [
+      "铁块: -20s",
+      "白铁块: -40s",
+      "水晶块: -60s",
+      "魔晶块: -60s",
+      "星银矿石: -40s",
+      "紫晶块: -60s",
+      "萃凝晶: -60s",
+      "虹滴晶: -60s"
+    ]
+  },
+  {
+    "name": "accelerator_remain",
+    "type": "input-text",
+    "label": "用于加速的矿石至少保留多少个(启用矿石加速后生效)",
+    "default": "500"
+  }
+]

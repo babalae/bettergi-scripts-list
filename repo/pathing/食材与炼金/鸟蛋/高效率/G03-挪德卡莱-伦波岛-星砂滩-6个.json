@@ -1,0 +1,137 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ],
+    "bgi_version": "0.54.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758041171433,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "G03-挪德卡莱-伦波岛-星砂滩-6个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9563.1172,
+      "y": 2135.2615
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9578.252,
+      "y": 2144.377
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9578.7295,
+      "y": 2144.792
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9543.1943,
+      "y": 2190.9272
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9542.6113,
+      "y": 2205.9788
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9508.8125,
+      "y": 2282.0984
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9538.2861,
+      "y": 2296.7549
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9536.7939,
+      "y": 2299.9106
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9528.1875,
+      "y": 2301.9373
+    },
+    {
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9524.8125,
+      "y": 2300.6588
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9516.8789,
+      "y": 2310.6201
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9512.8486,
+      "y": 2313.7266
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9518.2207,
+      "y": 2321.4443
+    }
+  ]
+}

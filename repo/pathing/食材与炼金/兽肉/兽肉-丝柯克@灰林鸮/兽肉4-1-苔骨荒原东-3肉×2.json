@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767114342386,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "兽肉4-1-苔骨荒原东-3肉×2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9222.4258,
+      "y": 1899.2026
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9222.7988,
+      "y": 1904.6738
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9204.3936,
+      "y": 1978.9141
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9202.0352,
+      "y": 2007.6348
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9206.4,
+      "y": 2009.6
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9204.8721,
+      "y": 2011.8047
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9198.834,
+      "y": 2011.6357
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9197.9062,
+      "y": 2010.373
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "517枫丹莫尔泰区 浊水幻灵（200_4）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "2丘丘暴徒 2浊水幻灵  路线信息：该路线预计用时105秒，包含4只精英与3只小怪，预计收入962摩拉，包含以下怪物：2只水史莱姆、1只大型水史莱姆、2只浊水粉碎幻灵、2只木盾丘丘暴徒。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3463.37,
+      "y": 2286.22,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 3473.94,
+      "y": 2254.46,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3485.2,
+      "y": 2238.14,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "click,wait(0.5),click,"
+    },
+    {
+      "id": 4,
+      "x": 3502.87,
+      "y": 2265.91,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3463.37,
+      "y": 2286.22,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3442.63,
+      "y": 2295.16,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 3344.23,
+      "y": 2326.37,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

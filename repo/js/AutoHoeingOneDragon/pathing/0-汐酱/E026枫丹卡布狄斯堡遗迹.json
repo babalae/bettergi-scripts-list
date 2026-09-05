@@ -1,0 +1,155 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时121秒，包含以下怪物：3只嗜岩·兽境猎犬、1只压制特化型机关。",
+    "enable_monster_loot_split": false,
+    "hash_res": "43333156",
+    "last_modified_time": 1786209906902,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E026枫丹卡布狄斯堡遗迹",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3352.1387,
+      "y": 2753.0698
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 3334.5361,
+      "y": 2783.575
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3334.5361,
+      "y": 2783.575
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3339.4424,
+      "y": 2802.4243
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3353.6943,
+      "y": 2844.8359
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),keyup(w),wait(5.3),dash",
+      "id": 6,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 3357.2148,
+      "y": 2846.3057
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "mapRecognition",
+          "type": [
+            "unrecognized",
+            "pathTooFar"
+          ]
+        },
+        "monster_tag": ""
+      },
+      "type": "path",
+      "x": 4707.3379,
+      "y": 2556.6104
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),keyup(w),wait(5)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 4706.2227,
+      "y": 2569.4048
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4796.4941,
+      "y": 2768.0786
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "fly",
+      "point_ext_params": {
+        "description": "",
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "mapRecognition",
+          "type": [
+            "unrecognized",
+            "pathTooFar"
+          ]
+        },
+        "monster_tag": ""
+      },
+      "type": "path",
+      "x": 4775.9063,
+      "y": 2747.1721
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4757.4805,
+      "y": 2747.2334
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4900.1904,
+      "y": 2426.0361
+    }
+  ]
+}

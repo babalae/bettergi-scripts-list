@@ -1,0 +1,23 @@
+[
+  {
+    "name": "ingredientProcessingFood",
+    "type": "input-text",
+    "label": "食材名称\n用中文逗号，分隔"
+  },
+  {
+    "name": "foodCount",
+    "type": "input-text",
+    "label": "食材数量\n数量对应上方的食材\n用中文逗号，分隔"
+  },
+  {
+    "name": "checkInterval",
+    "type": "input-text",
+    "label": "食材加工中的识别间隔(毫秒)，仅建议在设备反应较慢出现识别错误时适当调大",
+    "default": "50"
+  },
+  {
+    "name": "disableRetry",
+    "type": "checkbox",
+    "label": "勾选后禁用第二轮加工重试"
+  }
+]

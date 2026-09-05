@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: transparent; }
+        #status-panel {
+            position: fixed;
+            right: 1%;
+            bottom: 28%;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: #ffffff;
+            font-family: 'Microsoft YaHei', sans-serif;
+            font-size: 14px;
+            line-height: 1.8;
+            min-width: 200px;
+            pointer-events: none;
+            text-align: left;
+        }
+        #status-panel .line { margin: 2px 0; }
+        #status-panel .label { color: #aaa; }
+    </style>
+</head>
+<body>
+    <div id="status-panel">
+        <div class="line"><span class="label">刷取模式：</span><span id="farm-mode">--</span></div>
+        <div class="line"><span class="label">Boss：</span><span id="boss-name">--</span></div>
+        <div class="line"><span class="label">进度：</span><span id="progress">-- / --</span></div>
+        <div class="line"><span class="label">队伍：</span><span id="team">--</span></div>
+        <div class="line"><span class="label">策略：</span><span id="strategy">--</span></div>
+        <div class="line"><span class="label">回神像：</span><span id="return-statue">否</span></div>
+    </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            if (window.htmlMask) {
+                window.htmlMask.onMessage = function (message) {
+                    if (message.url === '/updateStatus') {
+                        var data = message.data.data || message.data;
+                        document.getElementById('farm-mode').textContent = data.farmMode;
+                        document.getElementById('boss-name').textContent = data.bossName;
+                        document.getElementById('progress').textContent = data.progress;
+                        document.getElementById('team').textContent = data.team;
+                        document.getElementById('strategy').textContent = data.strategy;
+                        document.getElementById('return-statue').textContent = data.returnStatue;
+                    }
+                };
+            }
+        });
+    </script>
+</body>
+</html>

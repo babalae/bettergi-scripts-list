@@ -1,0 +1,74 @@
+{
+  "info": {
+    "name": "蒙德-10-晨曦酒庄西-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "愚溪",
+        "links": "https://github.com/Kupder"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -201.02,
+      "y": 1861.82
+    },
+    {
+      "id": 2,
+      "x": -187.44,
+      "y": 1914.73,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -166.23,
+      "y": 1971.62,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -44.47,
+      "y": 2026.9,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -15.68,
+      "y": 2065.71,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": -39.4,
+      "y": 2071.39,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 7,
+      "x": -44.63,
+      "y": 2068.36,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "  路线信息：该路线预计用时58秒，包含以下怪物：4只兽怪敲打者。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1787933256861,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H016至冬荒坠的圣迹西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6892.624,
+      "y": 8387.3027
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7002.6748,
+      "y": 8417.8223
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5); ;",
+      "id": 3,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7034.8457,
+      "y": 8427.9014
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7034.8457,
+      "y": 8427.9014
+    }
+  ]
+}

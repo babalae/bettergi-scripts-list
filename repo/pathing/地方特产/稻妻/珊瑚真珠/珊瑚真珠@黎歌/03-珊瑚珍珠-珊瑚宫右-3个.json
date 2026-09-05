@@ -1,0 +1,55 @@
+{
+  "info": {
+    "name": "03-珊瑚珍珠-珊瑚宫右-3个",
+    "type": "collect",
+    "version": "1.0",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "黎歌"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -757.94,
+      "y": -3815.12,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": -868.26,
+      "y": -3775.23,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -868.24,
+      "y": -3775.28,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": -873.65,
+      "y": -3760.95,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -875.17,
+      "y": -3758.69,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

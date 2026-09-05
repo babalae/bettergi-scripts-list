@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777224361609,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "G05-松茸-挪德卡莱-月矩力试验设计局西-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10103.1973,
+      "y": 3142.1597
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10121.0,
+      "y": 3145.8555
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10140.0938,
+      "y": 3158.9473
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 10149.1133,
+      "y": 3162.9736
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10175.793,
+      "y": 3162.479
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10181.4512,
+      "y": 3181.3003
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10189.4668,
+      "y": 3184.6978
+    }
+  ]
+}

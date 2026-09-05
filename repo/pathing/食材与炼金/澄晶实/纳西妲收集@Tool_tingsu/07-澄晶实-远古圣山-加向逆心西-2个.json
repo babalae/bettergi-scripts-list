@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.55.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769359650372,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "07-澄晶实-远古圣山-加向逆心西-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 108.2365,
+      "y": 307.9119
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 135.2717,
+      "y": 320.8834
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 143.3997,
+      "y": 318.2343
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 158.3435,
+      "y": 323.0051
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";纳西妲 e;;纳西妲 e;wait(0.02);",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 157.0905,
+      "y": 317.0585
+    }
+  ]
+}

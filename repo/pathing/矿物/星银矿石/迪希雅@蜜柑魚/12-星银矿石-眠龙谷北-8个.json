@@ -1,0 +1,194 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774090801177,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "12-星银矿石-眠龙谷北-8个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -573.7324,
+      "y": 1458.9316
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.01)",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -593.8125,
+      "y": 1443.0225
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -620.7598,
+      "y": 1425.2695
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -632.9355,
+      "y": 1404.1675
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -635.4922,
+      "y": 1402.0469
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -632.3203,
+      "y": 1411.3828
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -634.9824,
+      "y": 1408.2041
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -685.1055,
+      "y": 1409.8955
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -713.1602,
+      "y": 1421.2002
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -751.2812,
+      "y": 1442.2529
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -770.4023,
+      "y": 1450.3984
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -770.7617,
+      "y": 1446.9624
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -762.2715,
+      "y": 1447.7295
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -764.1289,
+      "y": 1445.7031
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -752.5977,
+      "y": 1441.4502
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -756.377,
+      "y": 1440.1699
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -750.3086,
+      "y": 1426.1992
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 18,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -758.4414,
+      "y": 1430.4668
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.456)",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -758.4414,
+      "y": 1430.4668
+    }
+  ]
+}

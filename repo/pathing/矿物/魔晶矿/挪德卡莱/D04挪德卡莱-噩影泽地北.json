@@ -1,0 +1,68 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1787382417616,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "D04挪德卡莱-噩影泽地北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9681.1992,
+      "y": 5563.8335
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9647.0537,
+      "y": 5576.3169
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9585.6396,
+      "y": 5620.9541
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9599.416,
+      "y": 5623.085
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9599.416,
+      "y": 5623.085
+    }
+  ]
+}

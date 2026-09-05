@@ -1,0 +1,68 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时75秒，包含1只精英与2只小怪，预计收入890摩拉，包含以下怪物：2只火箭丘丘人、1只丘丘岩盔王。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759692282625,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "516枫丹卡布狄斯堡（600_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3383.84,
+      "y": 2692.99
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3327.22,
+      "y": 2646.35
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;芙宁娜 e;玛薇卡 e;爱可菲 e;",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3282.166,
+      "y": 2619.8254
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3265.2334,
+      "y": 2617.8035
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 5,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 3267.21,
+      "y": 2607.05
+    }
+  ]
+}

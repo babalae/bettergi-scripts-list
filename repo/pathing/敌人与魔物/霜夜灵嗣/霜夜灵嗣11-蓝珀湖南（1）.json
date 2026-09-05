@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/ZJYC",
+        "name": "ZJYC"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757909722208,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "霜夜灵嗣11-蓝珀湖南（1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9351.9482,
+      "y": 2104.0828
+    },
+    {
+      "id": 2,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9248.6602,
+      "y": 2067.6719
+    },
+    {
+      "id": 3,
+      "action": "",
+      "action_params": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9098.1016,
+      "y": 2078.0537
+    },
+    {
+      "id": 4,
+      "action": "stop_flying",
+      "action_params": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9187.1113,
+      "y": 2074.3779
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9198.8184,
+      "y": 2099.3293
+    }
+  ]
+}

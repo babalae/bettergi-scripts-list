@@ -1,0 +1,60 @@
+{
+  "info": {
+    "name": "禽肉5-1-枫丹新科学院左-2肉×1",
+    "type": "collect",
+    "version": "1.0",
+    "description": "1、砂糖行走位，且队伍里带着绮良良或埃洛伊。别带双风跑图；2、不需要生存位，生存位放技能容易惊动鸟；3、运行其它地图追踪会吓跑这里的鸟，建议优先运行此追踪；4、杀死的鸟在12小时后刷新，被吓跑的鸟0点或12点刷新，1肉鸟和2肉鸟每日上限各200只。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "tags": [
+      "砂糖",
+      "禽肉",
+      "绮良良",
+      "埃洛伊"
+    ],
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4498.17,
+      "y": 4710.79,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4481.52,
+      "y": 4675.83,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "砂糖 e"
+    },
+    {
+      "id": 3,
+      "x": 4478.6,
+      "y": 4667.95,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4477.88,
+      "y": 4672.21,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

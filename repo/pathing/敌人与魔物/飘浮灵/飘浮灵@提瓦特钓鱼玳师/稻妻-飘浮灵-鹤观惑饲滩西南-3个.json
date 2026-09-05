@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "稻妻-飘浮灵-鹤观惑饲滩西南-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "飘浮灵-3个\n稻妻-鹤观惑饲滩西南",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2598.39,
+      "y": -6690.47,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -2639.61,
+      "y": -6710.7,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2653.14,
+      "y": -6721.37,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -2653.14,
+      "y": -6721.37,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

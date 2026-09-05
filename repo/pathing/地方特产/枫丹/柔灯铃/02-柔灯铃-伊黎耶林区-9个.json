@@ -1,0 +1,47 @@
+{
+  "info": {
+    "name": "02-柔灯铃-伊黎耶林区-9个",
+    "type": "collect",
+    "version": "1.0",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "透明人"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3635.48,
+      "y": 3801.41,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 3676.76,
+      "y": 3810.29,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 3701.55,
+      "y": 3836.57,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": 3725.26,
+      "y": 3881.94,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

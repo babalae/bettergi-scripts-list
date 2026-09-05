@@ -1,0 +1,41 @@
+{
+  "info": {
+    "name": "丘丘人射手-14活力之家",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "曦",
+        "links": "https://github.com/cx05121"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4077.81,
+      "y": -2164.17
+    },
+    {
+      "id": 2,
+      "x": 4120.51,
+      "y": -2187.96,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 4144.22,
+      "y": -2192.51,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

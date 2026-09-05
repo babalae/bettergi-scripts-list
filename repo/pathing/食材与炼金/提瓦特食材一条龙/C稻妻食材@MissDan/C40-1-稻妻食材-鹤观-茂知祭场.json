@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个甜甜花；1个薄荷；3个树莓；3个松果；3个海草；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762349435112,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C40-1-稻妻食材-鹤观-茂知祭场",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3103.4883,
+      "y": -6268.291
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3125.6543,
+      "y": -6301.0
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3161.1641,
+      "y": -6303.3418
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3181.8184,
+      "y": -6298.0215
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3180.7051,
+      "y": -6282.9316
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3211.6484,
+      "y": -6274.9102
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -3214.7188,
+      "y": -6274.209
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -3215.0293,
+      "y": -6278.0674
+    }
+  ]
+}

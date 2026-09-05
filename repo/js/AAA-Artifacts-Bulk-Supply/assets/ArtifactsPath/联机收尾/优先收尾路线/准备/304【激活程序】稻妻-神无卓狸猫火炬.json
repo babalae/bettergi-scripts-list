@@ -1,0 +1,95 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767009814973,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "304【激活程序】稻妻-神无卓狸猫火炬",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3395.5859375,
+      "y": -3554.4365234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3414.119140625,
+      "y": -3552.6787109375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3470.689453125,
+      "y": -3548.7333984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3.5)",
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -3465.841796875,
+      "y": -3558.349609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.8)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3465.841796875,
+      "y": -3558.349609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3462.78125,
+      "y": -3566.46875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3473.24609375,
+      "y": -3575.1015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(x),;迪希雅 e,wait(0.3),e;玛薇卡 e;",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3474.28515625,
+      "y": -3571.3076171875
+    }
+  ]
+}

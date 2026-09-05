@@ -1,0 +1,78 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1787382593270,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "A04至冬-列车总站西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7163.7607,
+      "y": 9309.7148
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 7212.0869,
+      "y": 9298.1641
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 7216.2412,
+      "y": 9263.8184
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7219.4551,
+      "y": 9262.4717
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7219.4551,
+      "y": 9262.4717
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7219.4551,
+      "y": 9262.4717
+    }
+  ]
+}

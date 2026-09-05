@@ -1,0 +1,86 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.54.1-alpha.2",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765695397768,
+    "map_match_method": "",
+    "map_name": "SeaOfBygoneEras",
+    "name": "E03-雅努斯之门右下-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4381.4131,
+      "y": 1565.7863
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,600)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4381.4131,
+      "y": 1565.7863
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4403.2568,
+      "y": 1539.3416
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4406.5415,
+      "y": 1519.1863
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4405.8638,
+      "y": 1517.188
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4406.4092,
+      "y": 1512.9467
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4410.0591,
+      "y": 1512.8119
+    }
+  ]
+}

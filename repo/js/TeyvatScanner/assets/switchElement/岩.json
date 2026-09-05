@@ -1,0 +1,51 @@
+{
+  "info": {
+    "name": "岩",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751302360644
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 978.720703125,
+      "y": -353.53662109375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 984.4345703125,
+      "y": -351.3369140625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 985.9130859375,
+      "y": -348.8408203125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 986.513671875,
+      "y": -344.76611328125,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keypress(w);荧 attack,wait(2),keypress(f);空 attack,wait(2),keypress(f);"
+    }
+  ]
+}

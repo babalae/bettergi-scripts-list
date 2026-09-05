@@ -1,0 +1,72 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "4个鳗肉；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762454328912,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D44-2-须弥食材-千壑沙地-镔铁沙丘【螃蟹】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4272.89,
+      "y": -520.65
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4271.21,
+      "y": -516.97
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4264.21,
+      "y": -501.25
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4265.69,
+      "y": -474.04
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4268.78,
+      "y": -459.39
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4269.0645,
+      "y": -456.9277
+    }
+  ]
+}

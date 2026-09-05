@@ -1,0 +1,137 @@
+{
+  "info": {
+    "name": "04-水晶块-蒙德-奔狼领东(有战斗,小怪)-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -578.81,
+      "y": 1853.26,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -603.28,
+      "y": 1941.45,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(2.2)"
+    },
+    {
+      "id": 3,
+      "x": -618.36,
+      "y": 1991.79,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -633.66,
+      "y": 2024.66,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "attack"
+    },
+    {
+      "id": 5,
+      "x": -628.15,
+      "y": 2009.88,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "史莱姆",
+        "monster_tag": "normal"
+      }
+    },
+    {
+      "id": 6,
+      "x": -632.42,
+      "y": 2015.35,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -632.86,
+      "y": 2030.27,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -629.5,
+      "y": 2032.2,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -627.2,
+      "y": 2034.19,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -632.02,
+      "y": 2035.48,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -635.14,
+      "y": 2034.75,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -637.88,
+      "y": 2030.88,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}
