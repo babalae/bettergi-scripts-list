@@ -34,7 +34,8 @@ export default defineStep({
 
         const teamName = resolved.teamName;
         if (!teamName || teamName.trim() === "") {
-            throw new Error(`${step.data}队伍未配置队伍名称`);
+            log.warn("{kind}队伍未配置队伍名称，跳过切换队伍", step.data);
+            return true;
         }
 
         const success = await switchPartyByName(teamName);
