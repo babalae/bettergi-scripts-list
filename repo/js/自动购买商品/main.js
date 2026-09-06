@@ -1,4 +1,4 @@
-//3.6.0
+//3.6.1
 
 // fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
 // 在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
@@ -56,6 +56,11 @@ async function fakeLog(name, isJs, isStart, duration) {
     const durationMinutes = Math.floor(durationInSeconds / 60);
     const durationSeconds = (durationInSeconds % 60).toFixed(3); // 保留三位小数
 
+    // 交互或拾取："XXXX"
+    if (duration == 23333) {
+        log.info(`交互或拾取："${name}"`);
+        return;
+    }
     // 使用四个独立的 if 语句处理四种情况
     if (isJs && isStart) {
         // 处理 isJs = true 且 isStart = true 的情况
@@ -92,10 +97,6 @@ async function fakeLog(name, isJs, isStart, duration) {
             `[${formattedTime}] [INF] BetterGenshinImpact.Service.ScriptService\n` +
             `------------------------------`;
         log.debug(logMessage);
-    }
-    // 交互或拾取："XXXX"
-    if (duration == 23333) {
-        log.info(`交互或拾取："${name}"`);
     }
 }
 
@@ -850,42 +851,139 @@ async function quickBuy(itemName) {
     }
 }
 
-// 跳过对话
-async function spikChat(npcName) {
-    let count = 6; // 添加let声明
+// ==================== 检测交互选项并选择包含NPC名字的选项 ====================
+// 到达追踪点位后，OCR查找包含NPC名字的交互选项，
+// 按住Alt键呼出鼠标指针后点击该选项；
+// 未找到时重新执行路径并重试，连续失败则中止该商人的交互
+async function selectNpcDialogOption(npcName, npcPath) {
+    // 设置脚本环境的游戏分辨率和DPI缩放，与OCR坐标一致
+    setGameMetrics(1920, 1080, 1);
+
+    let selected = false;
+    let retryCount = 0;
+    const maxRetries = 2; // 最大重试次数
+
+    // OCR区域限制在交互选项列表所在区域，防止点击NPC头顶名字
+    const rightHalfOcr = RecognitionObject.Ocr(1150, 430, 250, 210);
+
     await sleep(1000);
-    if (npcName == "布纳马" || npcName == "杜拉夫" || npcName == "齐良诺夫") {
-        // 设置脚本环境的游戏分辨率和DPI缩放
-        setGameMetrics(1920, 1080, 1);
+    while (!selected && retryCount <= maxRetries) {
+        // 对交互选项区域进行 OCR
+        let captureRegion = captureGameRegion();
+        let resList = captureRegion.findMulti(rightHalfOcr);
+        captureRegion.dispose();
 
-        // 交互
-        let loop_count = 3;
-        if (npcName == "布纳马") {
-            loop_count = 3;
-        } else if (npcName == "杜拉夫" || npcName == "齐良诺夫") {
-            loop_count = 2;
+        for (let i = 0; i < resList.count; i++) {
+            if (resList[i].text.includes(npcName)) {
+                // 找到包含NPC名字的交互选项
+                log.info(`找到交互选项: ${resList[i].text.trim()}, 开始交互`);
+                keyDown("VK_MENU"); // Alt
+                await sleep(1000);
+                click(resList[i].x + 30, resList[i].y + 30); // 点击NPC选项
+                await sleep(1000);
+                keyUp("VK_MENU"); // Alt
+                await sleep(1000);
+                selected = true;
+                break; // 找到后跳出循环
+            }
         }
 
-        for (let i = 0; i < loop_count; i++) {
-            keyPress("VK_F");
-            await sleep(1500);
+        if (!selected) {
+            retryCount++;
+            if (retryCount <= maxRetries) {
+                log.warn(`未找到包含 "${npcName}" 的交互选项，进行第 (${retryCount}/${maxRetries}) 次重试`);
+                await sleep(1500);
+                if (npcPath) {
+                    // 重新执行路径
+                    await autoPath(npcPath);
+                }
+                await sleep(1000);
+            }
         }
+    }
 
-        // 点击有什么卖的
-        let captureRegion = captureGameRegion()
+    if (!selected) {
+        log.error(`连续${maxRetries}次未能找到包含 "${npcName}" 的交互选项`);
+    }
+    return selected;
+}
+
+// 在对话中点击特殊购买选项
+// 循环OCR检测对话：找到特殊选项立即鼠标点击；选项未出现时按F推进下一句。
+async function clickShopDialogOption(maxAttempts = 6) {
+    // 设置脚本环境的游戏分辨率和DPI缩放
+    setGameMetrics(1920, 1080, 1);
+
+    const keywords = ["有什么卖的", "可以卖一些", "有什么喝的"];
+
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        let captureRegion = captureGameRegion();
+        let target = null;
         try {
             let resList = captureRegion.findMulti(RecognitionObject.ocrThis);
             for (let i = 0; i < resList.count; i++) {
-                if (resList[i].text.includes("有什么卖的") || resList[i].text.includes("可以卖一些") || resList[i].text.includes("有什么喝的")) {
-                    await sleep(500);
-                    click(resList[i].x + 30, resList[i].y + 30);
-                    await sleep(500);
-                    break; // 找到后跳出循环
+                const text = resList[i].text || "";
+                if (keywords.some(k => text.includes(k))) {
+                    target = resList[i];
+                    break;
                 }
             }
         } finally {
             captureRegion.dispose();
         }
+
+        if (target) {
+            // 商店选项已出现：直接点击
+            await sleep(300);
+            click(target.x + 30, target.y + 30);
+            logConditional(`已点击商店对话选项: ${target.text.trim()}`);
+            await sleep(800);
+            return true;
+        }
+
+        // 商店选项尚未出现：按F推进下一句对话
+        keyPress("VK_F");
+        await sleep(1250);
+    }
+
+    log.warn("多次尝试后仍未找到商店对话选项");
+    return false;
+}
+
+// 跳过对话
+async function spikChat(npcName, npcPath) {
+    let count = 6; // 添加let声明
+
+    if (npcName == "齐良诺夫") {
+        // 目前仅"齐良诺夫"点位启用新逻辑
+        const selected = await selectNpcDialogOption(npcName, npcPath);
+        if (!selected) {
+            log.error(`未能与 ${npcName} 进入对话，跳过该商人`);
+            return false;
+        }
+
+    } else {
+        // 其余点位依旧按F对话
+        await sleep(1000);
+        keyPress("VK_F");
+        await sleep(1000);
+        if (npcName == "布纳马" || npcName == "杜拉夫") {
+            // 首次按F已在上方完成，这里推进剩余对话
+            const loop_count = (npcName == "布纳马") ? 2 : 1;
+            for (let i = 0; i < loop_count; i++) {
+                keyPress("VK_F");
+                await sleep(1500);
+            }
+        }
+    }
+
+    if (npcName == "布纳马" || npcName == "杜拉夫" || npcName == "齐良诺夫") {
+        // 设置脚本环境的游戏分辨率和DPI缩放
+        setGameMetrics(1920, 1080, 1);
+
+        // 循环检测并点击"有什么卖的/有什么喝的"商店选项：
+        // 选项已出现时直接鼠标点击；只有仍是问候语（选项未出现）时才按F推进
+        await clickShopDialogOption(6);
 
         // 等待购买页面出现
         if (await waitForPurchasePage(6)) {
@@ -893,17 +991,15 @@ async function spikChat(npcName) {
         } else {
             log.warn(`未能进入 ${npcName} 的购买页面，尝试继续...`);
         }
-        return;
+        return true;
     } else {
-        // 通用NPC：按F与NPC交互，然后循环检测
-        keyPress("VK_F");
-        await sleep(1000);
-
+        // 通用NPC：已按F进入对话，这里循环检测购买页面
         if (await waitForPurchasePage(8)) {
             logConditional(`已进入 ${npcName} 的购买页面`);
         } else {
             log.warn(`未能进入 ${npcName} 的购买页面，脚本可能无法正常购买`);
         }
+        return true;
     }
 }
 
@@ -1220,7 +1316,7 @@ async function initNpcData(records) {
     // 重置容量限制集合
     capacityLimitedFoods.clear();
     try {
-        await fakeLog(`当前版本 3.6.0`, false, false, 23333);
+        await fakeLog(`当前版本 3.6.1`, false, false, 23333);
         // ==================== 确定账号名 ====================
         let rawUserName = settings.userName ? settings.userName.trim() : "";
         if (!rawUserName) {
@@ -1334,7 +1430,16 @@ async function initNpcData(records) {
                 }
 
                 await autoPath(npc.path);
-                await spikChat(npc.name);
+                const chatOk = await spikChat(npc.name, npc.path);
+
+                if (!chatOk) {
+                    // 未能进入对话，跳过该商人
+                    log.error(`已跳过: ${displayName}`);
+                    await genshin.returnMainUi();
+                    // 伪造日志任务结束
+                    await fakeLog(displayName, false, false, 0);
+                    continue;
+                }
 
                 // 购买商品，传入当前记录和周期
                 const purchaseResult = await buyFoods(key, npcRecords, currentPeriod);
