@@ -12,6 +12,12 @@
         "default": "2000"
     },
     {
+        "name": "targetInventoryNumber",
+        "type": "input-text",
+        "label": "背包目标数目：默认9999(背包木材检测专用)",
+        "default": "9999"
+    },
+    {
         "name": "woodsMultiCheckbox",
         "type": "multi-checkbox",
         "label": "木材种类：不勾选默认全部支持木材",
