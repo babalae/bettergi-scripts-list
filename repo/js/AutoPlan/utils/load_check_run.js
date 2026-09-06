@@ -399,14 +399,14 @@ class LeyLineOutcrop extends Base {
         json.key = json.key +
             "|" + auto.country +
             "|" + auto.leyLineOutcropType +
-            "|" + auto.useAdventurerHandbook +
+            //"|" + auto.useAdventurerHandbook +
             "|" + auto.friendshipTeam +
             "|" + auto.team +
             "|" + auto.timeout +
             "|" + auto.isGoToSynthesizer +
             "|" + auto.useFragileResin +
-            "|" + auto.useTransientResin +
-            "|" + auto.isNotification
+            "|" + auto.useTransientResin
+            //+ "|" + auto.isNotification
         return json
     }
 
@@ -428,14 +428,14 @@ class LeyLineOutcrop extends Base {
             count: 0,                        // 刷几次（0=自动/无限）
             country: undefined,                     // 国家地区
             leyLineOutcropType: undefined, // 需映射为经验/摩拉
-            useAdventurerHandbook: false,    // 是否使用冒险之证
+            //useAdventurerHandbook: false,    // 是否使用冒险之证
             friendshipTeam: "",              // 好感队伍ID
             team: "",                        // 主队伍ID
             timeout: 120,                      // 超时时间（秒）
             isGoToSynthesizer: false,        // 是否前往合成台
             useFragileResin: false,          // 使用脆弱树脂
             useTransientResin: false,        // 使用须臾树脂（须臾=Transient）
-            isNotification: false            // 是否通知
+            //isNotification: false            // 是否通知
         }
         autoLeyLineOutcrop.team = arr[index]
         index++
@@ -457,12 +457,12 @@ class LeyLineOutcrop extends Base {
         index++
         if (index <= arr.length - 1)
             autoLeyLineOutcrop.isGoToSynthesizer = (arr[index] != null && arr[index].trim() !== "")
-        index++
-        if (index <= arr.length - 1)
-            autoLeyLineOutcrop.useAdventurerHandbook = (arr[index] != null && arr[index].trim() !== "")
-        index++
-        if (index <= arr.length - 1)
-            autoLeyLineOutcrop.isNotification = (arr[index] != null && arr[index].trim() !== "")
+        // index++
+        // if (index <= arr.length - 1)
+        //     autoLeyLineOutcrop.useAdventurerHandbook = (arr[index] != null && arr[index].trim() !== "")
+        // index++
+        // if (index <= arr.length - 1)
+        //     autoLeyLineOutcrop.isNotification = (arr[index] != null && arr[index].trim() !== "")
 
         index++
         if (index <= arr.length - 1)
@@ -474,14 +474,14 @@ class LeyLineOutcrop extends Base {
         count: 0,                        // 刷几次（0=自动/无限）
         country: undefined,                     // 国家地区
         leyLineOutcropType: undefined, // 需映射为经验/摩拉
-        useAdventurerHandbook: false,    // 是否使用冒险之证
+        //useAdventurerHandbook: false,    // 是否使用冒险之证
         friendshipTeam: "",              // 好感队伍ID
         team: "",                        // 主队伍ID
         timeout: 120,                      // 超时时间（秒）
         isGoToSynthesizer: false,        // 是否前往合成台
         useFragileResin: false,          // 使用脆弱树脂
         useTransientResin: false,        // 使用须臾树脂（须臾=Transient）
-        isNotification: false            // 是否通知
+        //isNotification: false            // 是否通知
     }) {
         // autoLeyLineOutcrop = {
         //     "count": 0,
@@ -504,14 +504,14 @@ class LeyLineOutcrop extends Base {
         Log.debug(`Object:{0}`,JSON.stringify(autoLeyLineOutcrop))
         let param = new AutoLeyLineOutcropParam(parseInteger(autoLeyLineOutcrop.count + ""), autoLeyLineOutcrop.country, autoLeyLineOutcrop.leyLineOutcropType);
         //和本体保持一致
-        param.useAdventurerHandbook = !autoLeyLineOutcrop.useAdventurerHandbook;
+        //param.useAdventurerHandbook = !autoLeyLineOutcrop.useAdventurerHandbook;
         param.friendshipTeam = autoLeyLineOutcrop.friendshipTeam;
         param.team = autoLeyLineOutcrop.team;
         param.timeout = autoLeyLineOutcrop.timeout;
         param.isGoToSynthesizer = autoLeyLineOutcrop.isGoToSynthesizer;
         param.useFragileResin = autoLeyLineOutcrop.useFragileResin;
         param.useTransientResin = autoLeyLineOutcrop.useTransientResin;
-        param.isNotification = autoLeyLineOutcrop.isNotification;
+        //param.isNotification = autoLeyLineOutcrop.isNotification;
 
         param.isResinExhaustionMode = true;
         param.openModeCountMin = true;
