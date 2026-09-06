@@ -7,12 +7,12 @@
       }
     ],
     "bgi_version": "0.63.1",
-    "description": "  路线信息：该路线预计用时58秒，包含以下怪物：4只兽怪敲打者。",
+    "description": "  路线信息：该路线预计用时49秒，包含以下怪物：3只兽怪敲打者。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787933256861,
+    "last_modified_time": 1787930062549,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "H016至冬荒坠的圣迹西",
+    "name": "H016至冬曙光车站东",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,17 +24,17 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6892.624,
-      "y": 8387.3027
+      "x": 7557.665,
+      "y": 8543.3535
     },
     {
       "action": "stop_flying",
-      "action_params": "1500",
+      "action_params": "",
       "id": 2,
       "move_mode": "fly",
       "type": "path",
-      "x": 7002.6748,
-      "y": 8417.8223
+      "x": 7573.9482,
+      "y": 8528.916
     },
     {
       "action": "combat_script",
@@ -43,8 +43,8 @@
       "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 7034.8457,
-      "y": 8427.9014
+      "x": 7633.4922,
+      "y": 8536.4746
     },
     {
       "action": "fight",
@@ -52,8 +52,8 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 7034.8457,
-      "y": 8427.9014
+      "x": 7633.4922,
+      "y": 8536.4746
     }
   ]
 }

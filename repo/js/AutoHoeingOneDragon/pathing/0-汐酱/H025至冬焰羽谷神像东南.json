@@ -7,12 +7,12 @@
       }
     ],
     "bgi_version": "0.63.1",
-    "description": "  路线信息：该路线预计用时127秒，包含以下怪物：6只兽怪敲打者。",
+    "description": "  路线信息：该路线预计用时84秒，包含以下怪物：4只兽怪敲打者、6只持戟羽骑士。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788285469835,
+    "last_modified_time": 1788025373798,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "H020至冬霜精的村落西南",
+    "name": "H025至冬焰羽谷神像东南",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6113.7725,
-      "y": 9030.8799
+      "x": 7895.7305,
+      "y": 9283.9971
     },
     {
       "action": "",
@@ -33,8 +33,8 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 6127.626,
-      "y": 9003.1221
+      "x": 7884.5166,
+      "y": 9250.1719
     },
     {
       "action": "",
@@ -42,8 +42,8 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 6161.2646,
-      "y": 8965.9863
+      "x": 7879.9473,
+      "y": 9193.5068
     },
     {
       "action": "",
@@ -51,8 +51,8 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 6175.2744,
-      "y": 8939.084
+      "x": 7840.9258,
+      "y": 9171.3105
     },
     {
       "action": "fight",
@@ -60,44 +60,26 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 6227.9092,
-      "y": 8872.5322
+      "x": 7811.8164,
+      "y": 9139.4199
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "dash",
+      "move_mode": "jump",
       "type": "path",
-      "x": 6239.4863,
-      "y": 8876.248
+      "x": 7824.2715,
+      "y": 9146.5703
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 7,
       "move_mode": "dash",
       "type": "path",
-      "x": 6268.208,
-      "y": 8894.1494
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 6289.4688,
-      "y": 8897.8867
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 9,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 6341.9121,
-      "y": 8926.2109
+      "x": 7824.2715,
+      "y": 9146.5703
     }
   ]
 }

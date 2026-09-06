@@ -3,16 +3,16 @@
     "authors": [
       {
         "links": "",
-        "name": "汐"
+        "name": "蜜柑魚"
       }
     ],
     "bgi_version": "0.63.1",
-    "description": "  路线信息：该路线预计用时53秒，包含以下怪物：4只兽怪敲打者。",
+    "description": "  路线信息：该路线预计用时42秒，包含以下怪物：3只嵌合梭地兽。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787933287380,
+    "last_modified_time": 1788462013656,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "H017至冬荒坠的圣迹北",
+    "name": "H008至冬彩冰镇西",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6940.8232,
-      "y": 8728.4834
+      "x": 6796.0313,
+      "y": 8521.7041
     },
     {
       "action": "",
@@ -33,27 +33,36 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 6949.5264,
-      "y": 8688.3281
+      "x": 6797.0127,
+      "y": 8530.5049
     },
     {
-      "action": "combat_script",
-      "action_params": ";万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5); ;",
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 6953.3779,
-      "y": 8581.4814
+      "x": 6789.0674,
+      "y": 8540.1211
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 4,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 6953.3779,
-      "y": 8581.4814
+      "x": 6739.1436,
+      "y": 8624.998
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 6739.1436,
+      "y": 8624.998
     }
   ]
 }

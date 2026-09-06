@@ -3,16 +3,16 @@
     "authors": [
       {
         "links": "",
-        "name": "汐"
+        "name": "蜜柑魚"
       }
     ],
     "bgi_version": "0.63.1",
-    "description": "  路线信息：该路线预计用时84秒，包含以下怪物：4只兽怪敲打者、6只持戟羽骑士。",
+    "description": "  路线信息：该路线预计用时42秒，包含以下怪物：1只嵌合鍪甲兽、1只嵌合角熊。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788025373798,
+    "last_modified_time": 1788452144091,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "H011至冬焰羽谷神像东南",
+    "name": "H027至冬谒圣山峡南",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 7895.7305,
-      "y": 9283.9971
+      "x": 5866.4053,
+      "y": 9398.8184
     },
     {
       "action": "",
@@ -33,17 +33,17 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 7884.5166,
-      "y": 9250.1719
+      "x": 5866.4639,
+      "y": 9380.3613
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 7879.9473,
-      "y": 9193.5068
+      "x": 5854.1543,
+      "y": 9360.2568
     },
     {
       "action": "",
@@ -51,35 +51,27 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 7840.9258,
-      "y": 9171.3105
+      "x": 5859.874,
+      "y": 9321.8721
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 5,
+      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 7811.8164,
-      "y": 9139.4199
+      "x": 5878.1367,
+      "y": 9292
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(1)",
       "id": 6,
-      "move_mode": "jump",
-      "type": "path",
-      "x": 7824.2715,
-      "y": 9146.5703
-    },
-    {
-      "action": "fight",
-      "action_params": "",
-      "id": 7,
       "move_mode": "dash",
-      "type": "path",
-      "x": 7824.2715,
-      "y": 9146.5703
+      "type": "orientation",
+      "x": 5878.1367,
+      "y": 9292
     }
   ]
 }

@@ -7,12 +7,12 @@
       }
     ],
     "bgi_version": "0.63.1",
-    "description": "  路线信息：该路线预计用时49秒，包含以下怪物：3只兽怪敲打者。",
+    "description": "  路线信息：该路线预计用时42秒，包含以下怪物：3只兽怪敲打者。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787930062549,
+    "last_modified_time": 1787765940896,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "H004至冬曙光车站东",
+    "name": "H020至冬逆悬的冰河东",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,36 +24,35 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 7557.665,
-      "y": 8543.3535
+      "x": 7469.4453,
+      "y": 8916.2354
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 7573.9482,
-      "y": 8528.916
-    },
-    {
-      "action": "combat_script",
-      "action_params": ";万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5); ;",
-      "id": 3,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 7633.4922,
-      "y": 8536.4746
+      "x": 7447.2979,
+      "y": 8903.1768
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 4,
+      "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 7633.4922,
-      "y": 8536.4746
+      "x": 7425.2588,
+      "y": 8888.999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7433.043,
+      "y": 8881.2539
     }
   ]
 }

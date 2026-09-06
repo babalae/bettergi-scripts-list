@@ -6,13 +6,13 @@
         "name": "汐"
       }
     ],
-    "bgi_version": "0.63.1",
-    "description": "  路线信息：该路线预计用时97秒，包含以下怪物：8只兽怪敲打者。",
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时100秒，包含以下怪物：4只兽怪敲打者、2只嵌合梭地兽、1只嵌合鍪甲兽、1只嵌合翼象兽、1只巡陆艇·尖端全能斥候型、2只愚人众特辖队·线列军。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788025388546,
+    "last_modified_time": 1788709734806,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "H012至冬逆悬的冰河北",
+    "name": "H012至冬荒坠的圣迹西",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,17 +24,17 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 7554.8086,
-      "y": 9219.7402
+      "x": 6892.624,
+      "y": 8387.3027
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "stop_flying",
+      "action_params": "1500",
       "id": 2,
-      "move_mode": "dash",
+      "move_mode": "fly",
       "type": "path",
-      "x": 7508.418,
-      "y": 9165.2305
+      "x": 7002.6748,
+      "y": 8417.8223
     },
     {
       "action": "combat_script",
@@ -42,8 +42,8 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 7495.79,
-      "y": 9143.5459
+      "x": 7034.8457,
+      "y": 8427.9014
     },
     {
       "action": "fight",
@@ -51,35 +51,36 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 7495.79,
-      "y": 9143.5459
+      "x": 7034.8457,
+      "y": 8427.9014
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "jump",
-      "type": "path",
-      "x": 7491.207,
-      "y": 9135.4863
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 7489.8711,
-      "y": 9123.165
+      "x": 7048.0547,
+      "y": 8427.833
     },
     {
       "action": "combat_script",
-      "action_params": ";茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E); ;",
+      "action_params": ";万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5); ;",
+      "id": 6,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7067.459,
+      "y": 8308.1689
+    },
+    {
+      "action": "fight",
+      "action_params": "",
       "id": 7,
       "move_mode": "dash",
       "type": "path",
-      "x": 7508.8975,
-      "y": 9050.3008
+      "x": 7067.459,
+      "y": 8308.1689
     },
     {
       "action": "",
@@ -87,26 +88,26 @@
       "id": 8,
       "move_mode": "dash",
       "type": "path",
-      "x": 7475.5225,
-      "y": 8979.8418
-    },
-    {
-      "action": "combat_script",
-      "action_params": ";万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5); ;",
-      "id": 9,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 7489.8135,
-      "y": 8989.415
+      "x": 7182.291,
+      "y": 8289.0938
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 10,
+      "id": 9,
       "move_mode": "dash",
       "type": "path",
-      "x": 7489.8135,
-      "y": 8989.415
+      "x": 7191.1543,
+      "y": 8282.5801
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 7191.1543,
+      "y": 8282.5801
     }
   ]
 }
