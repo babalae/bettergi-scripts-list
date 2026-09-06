@@ -148,8 +148,11 @@ async function loadExternalData() {
                     userTagsToBuy.add(item);
                     enabledTagsList.push(item);
                 } else {
-                    // 视为商品名 (归一化，忽略「」括号差异)
-                    const food = normalizeFoodName(item);
+                    // 视为商品名 (归一化，忽略「」括号差异，并兼容旧商品名)
+                    const food = canonicalFoodName(item);
+                    if (food !== normalizeFoodName(item)) {
+                        log.info(`商品名 "${item}" 已在新版本中更名为 "${food}"，已自动兼容`);
+                    }
                     userFoodsToBuy.add(food);
                     enabledFoodsList.push(food);
                 }
@@ -208,8 +211,8 @@ function filterUserFoods(foodList) {
     }
 
     return foodList.filter(food => {
-        // 检查归一化后的商品名是否在用户要购买的商品集合中
-        const shouldBuy = userFoodsToBuy.has(normalizeFoodName(food));
+        // 检查归一化（含旧名兼容）后的商品名是否在用户要购买的商品集合中
+        const shouldBuy = userFoodsToBuy.has(canonicalFoodName(food));
         if (recordDebug && shouldBuy) {
             log.info(`[调试] 用户选择购买: ${food}`);
         }
@@ -414,8 +417,16 @@ function normalizeFoodName(name) {
     return String(name || "").replace(/[「」]/g, "").trim();
 }
 
-// 解析禁用的标签列表（同时归一到新规范名，使旧名禁用设置继续生效；商品名忽略「」括号差异）
-const disabledTags = (settings.disabledTags || "").split(/[,\s、]+/).filter(tag => tag.trim() !== "").map(tag => canonicalNpcName(normalizeFoodName(tag)));
+// 商品名称兼容映射
+// 用户若仍在商品栏填写旧名，自动映射到新名，避免找不到图片而报错
+const FOOD_NAME_ALIASES = { "鱼肉2": "鱼肉" };
+function canonicalFoodName(name) {
+    const normalized = normalizeFoodName(name);
+    return FOOD_NAME_ALIASES[normalized] || normalized;
+}
+
+// 解析禁用的标签列表（同时归一到新规范名，使旧名禁用设置继续生效；商品名忽略「」括号差异并兼容旧商品名）
+const disabledTags = (settings.disabledTags || "").split(/[,\s、]+/).filter(tag => tag.trim() !== "").map(tag => canonicalNpcName(canonicalFoodName(tag)));
 if (disabledTags.length > 0) {
     log.info(`已禁用标签或商品: ${disabledTags.join(", ")}`);
 }
@@ -456,6 +467,24 @@ async function loadNpcRecords() {
                     record.npcname = newName;
                     changed = true;
                 }
+            }
+            // 清除记录中已废弃的旧商品名，避免脏数据残留
+            const removedFoodAliases = [];
+            for (const record of records) {
+                for (const type of ["1d", "3d", "7d", "thu", "month"]) {
+                    if (Array.isArray(record[type])) {
+                        const removed = record[type].filter(food => FOOD_NAME_ALIASES[normalizeFoodName(food)]);
+                        if (removed.length > 0) {
+                            record[type] = record[type].filter(food => !FOOD_NAME_ALIASES[normalizeFoodName(food)]);
+                            removedFoodAliases.push(...removed);
+                            changed = true;
+                        }
+                    }
+                }
+            }
+            if (removedFoodAliases.length > 0) {
+                const uniqueNames = [...new Set(removedFoodAliases.map(food => normalizeFoodName(food)))];
+                log.info(`已从购买记录中清除 ${removedFoodAliases.length} 条已废弃的旧商品名记录: ${uniqueNames.join(", ")}`);
             }
             if (changed) {
                 // 单独捕获落盘失败：写失败不应让本轮记录被当作空，否则会触发重复购买
@@ -632,9 +661,9 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
             useAll = npc.tags.some(tag => userTagsToBuy.has(tag));
         }
         let candidateList = useAll ? fullList : filterUserFoods(fullList);
-        // 过滤容量上限和禁用商品（禁用匹配忽略「」括号差异）
+        // 过滤容量上限和禁用商品（禁用匹配忽略「」括号差异，并兼容旧商品名）
         candidateList = candidateList.filter(food =>
-            !capacityLimitedFoods.has(food) && !disabledTagsSet.has(normalizeFoodName(food))
+            !capacityLimitedFoods.has(food) && !disabledTagsSet.has(canonicalFoodName(food))
         );
         return candidateList;
     }
@@ -1036,8 +1065,8 @@ let foodROMap = {}; // 键为商品名（中文），值为 RecognitionObject
 async function initRo() {
     try {
         for (let foodName of requiredFoods) {
-            // 统一用归一化名称作键，保证与购买时的查找键一致
-            const roKey = normalizeFoodName(foodName);
+            // 统一用归一化（含旧名兼容）名称作键，保证与购买时的查找键一致
+            const roKey = canonicalFoodName(foodName);
             if (foodROMap[roKey]) {
                 continue; // 同一商品的另一种写法（带/不带「」）已加载过
             }
@@ -1175,8 +1204,8 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
                 log.info(`[调试] 尝试购买: ${item}`);
             }
 
-            // 查找识别对象（键为归一化名称，兼容带/不带「」的商品名）
-            const ro = foodROMap[normalizeFoodName(item)];
+            // 查找识别对象（键为归一化名称，兼容带/不带「」及旧商品名）
+            const ro = foodROMap[canonicalFoodName(item)];
             if (!ro) {
                 log.warn(`商品 "${item}" 未启用或没有识别对象，跳过`);
                 continue;
