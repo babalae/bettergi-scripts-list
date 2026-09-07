@@ -13,7 +13,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788702202632,
+    "last_modified_time": 1788720510037,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "至冬-至冬堡-齐良诺夫",
@@ -45,9 +45,9 @@
       "action_params": "",
       "id": 3,
       "move_mode": "walk",
-      "type": "target",
-      "x": 6854.3213,
-      "y": 9636.8184
+      "type": "path",
+      "x": 6856.4893,
+      "y": 9634.7383
     },
     {
       "action": "",
@@ -55,17 +55,17 @@
       "id": 4,
       "move_mode": "walk",
       "type": "target",
-      "x": 6854.4785,
-      "y": 9634.959
+      "x": 6854.7539,
+      "y": 9634.5029
     },
     {
       "action": "combat_script",
-      "action_params": "w(0.3),wait(1.5)",
+      "action_params": "w(0.3),wait(0.3),j,w(0.3),wait(1.5)",
       "id": 5,
       "move_mode": "walk",
       "type": "orientation",
-      "x": 6848.126,
-      "y": 9634.5098
+      "x": 6847.7227,
+      "y": 9633.6924
     }
   ]
 }
