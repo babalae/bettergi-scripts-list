@@ -13,9 +13,9 @@
 - 设置执行优先级（数字越大越先跑）
 - 支持三种配置来源（输入 / UID专属 / bgi_tools远程）
 - 自动检测幽境开启状态
-  ![check](md/check.jpg)
+  ![check](assets/md/check.jpg)
 - 记录执行体力计划
-  ![record](md/record.jpg)
+  ![record](assets/md/record.jpg)
 ## 配置项说明
 
 脚本通过以下界面配置项进行设置（对应 settings.json）：
@@ -332,12 +332,12 @@ Boss||3||爆炎树||||false||||||                            # 最简单配置�
 
 ***`话不多说直接上图:`***
 
-![login](md/bgi-tools-login.jpg)
-![init](md/bgi-tools-config-ui-init.jpg)
-![init-api](md/bgi-tools-config-ui-init-api.jpg)
-![config](md/bgi-tools-config-ui.jpg)
-![config-01](md/bgi-tools-config-ui-01.jpg)
-![config-02](md/bgi-tools-config-ui-02.jpg)
+![login](assets/md/bgi-tools-login.jpg)
+![init](assets/md/bgi-tools-config-ui-init.jpg)
+![init-api](assets/md/bgi-tools-config-ui-init-api.jpg)
+![config](assets/md/bgi-tools-config-ui.jpg)
+![config-01](assets/md/bgi-tools-config-ui-01.jpg)
+![config-02](assets/md/bgi-tools-config-ui-02.jpg)
 
 ## 使用建议
 
@@ -386,7 +386,7 @@ Boss||3||爆炎树||||false||||||                            # 最简单配置�
 ### 0.1.2 2026.07.30
 - 分离幽境检查功能
 - 新增圣遗物背包剩余空间阈值检查
-- ![holy-relic-threshold](md/holy-relic-threshold.jpg)
+- ![holy-relic-threshold](assets/md/holy-relic-threshold.jpg)
 - Boss配置加自定义战斗超时
 ### 0.1.1 2026.06.30
 - Boss常量推送和培养计划支持。
@@ -396,7 +396,7 @@ Boss||3||爆炎树||||false||||||                            # 最简单配置�
 - 修复bug
 ### 0.0.8 2026.05.29
 - 新增执行记录功能(支持多次执行计划时单个配置只执行一次)
-- ![record](md/record.jpg)
+- ![record](assets/md/record.jpg)
 ### 0.0.7 2026.05.27
 - 重构配置模块：使用新的 UID 获取方法 `genshin.uid()` 替代 OCR 识别
 - 移除对 `ocrUid`、`getDayOfWeek`、`parseInteger`、`pullJsonConfig` 和 `findStygianOnslaught` 的导入
