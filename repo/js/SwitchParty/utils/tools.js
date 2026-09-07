@@ -315,7 +315,7 @@ export class Http{
             }
         });
         // 去掉末尾多余的 &
-        queryString = queryString.slice(0, -1);
+        queryString = queryString.trim() ? queryString.slice(0, -1) : '';
         return queryString;
     }
 
@@ -329,8 +329,8 @@ export class Http{
     static async get(url, params={}, headersJson) {
         const method = 'GET';
         const queryString = await Http.buildParams(params);
-        url += '?' + queryString;
-        return Http.request(method, url, null, headersJson)
+        url += queryString.trim() ? '?' + queryString : '';
+        return await Http.request(method, url, null, headersJson);
     }
 
     /**
@@ -342,7 +342,7 @@ export class Http{
      */
     static async post(url, body={}, headersJson) {
         const method = 'POST';
-        return Http.request(method, url, body, headersJson)
+        return await Http.request(method, url, body, headersJson)
     }
 
     /**
@@ -354,7 +354,7 @@ export class Http{
      */
     static async put(url, body={}, headersJson) {
         const method = 'PUT';
-        return Http.request(method, url, body, headersJson)
+        return await Http.request(method, url, body, headersJson)
     }
 
     /**
@@ -367,19 +367,35 @@ export class Http{
     static async delete(url, params={}, headersJson) {
         const method = 'DELETE';
         const queryString = await Http.buildParams(params);
-        url += '?' + queryString;
-        return Http.request(method, url, null, headersJson)
+        url += queryString.trim() ? '?' + queryString : '';
+        return await Http.request(method, url, null, headersJson)
     }
 
     /**
      * 发送HTTP请求
      * @param method
      * @param url
-     * @param body
+     * @param requestBody
      * @param headersJson
      * @returns {Promise<http.Response>}
      */
-    static async request(method, url, body, headersJson) {
-        return http.request(method, url, body, headersJson)
+    static async request(method, url, requestBody, headersJson) {
+        const { status_code, body } = await http.request(method, url, requestBody, headersJson);
+        Log.info(`发送HTTP请求, 方法: {method}, URL: {url}, 参数: {body}, 响应: {response}`,method,url,JSON.stringify(requestBody),JSON.stringify({ status_code, body }))
+
+        if (status_code !== 200) {
+            Log.error(`请求失败, HTTP状态码: {status_code}, 响应: {body}`,status_code,JSON.stringify(body));
+            throw new Error(`请求失败, HTTP状态码: ${status_code}, 响应: ${JSON.stringify(body)}`);
+        }
+
+        function safeParse(str) {
+            try {
+                return JSON.parse(str);
+            } catch {
+                return str;
+            }
+        }
+
+        return safeParse(body)
     }
 }

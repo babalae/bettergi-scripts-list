@@ -1,5 +1,50 @@
 import {Http, Log} from "./tools";
 
+/**
+ * 接口响应结果封装
+ * 结构参考：
+ * {
+ *   code: 200,          // 状态码，200 表示成功
+ *   message: "操作成功", // 提示信息
+ *   resultTime: 1788862644334, // 服务器时间戳
+ *   data: object        // 具体业务数据
+ * }
+ */
+export class Result{
+    /**
+     * @param {number} code 状态码
+     * @param {string} message 提示信息
+     * @param {number} resultTime 服务器时间戳
+     * @param {object|null} data 业务数据
+     */
+    constructor({ code = 0, message = '', resultTime = 0, data = null } = {}) {
+        this.code = code;
+        this.message = message;
+        this.resultTime = resultTime;
+        this.data = data;
+    }
+
+    /**
+     * 判断当前响应是否成功
+     * @returns {boolean}
+     */
+    isSuccess() {
+        return this.code === 200;
+    }
+
+    /**
+     * 从 JSON 字符串或对象创建一个 Result 实例
+     * @param {string|object} response 接口返回的 JSON 字符串或已解析的对象
+     * @returns {Result}
+     */
+    static fromJson(response) {
+        if (typeof response === 'string') {
+            response = JSON.parse(response);
+        }
+        return new Result(response || {});
+    }
+}
+
 export class BgiTools {
     /**
      * 获取团队信息
@@ -9,31 +54,19 @@ export class BgiTools {
      * @returns {id: string,uid: string,team: string,type: string}
      */
     static async getTeam(json={uid:undefined,type:undefined}, http_api, token = {name: "Authorization", value: ''}){
-        // 将 json 对象转换为 Map
-        const paramsMap = new Map(Object.entries(json));
-        // 遍历 Map 构造查询参数
-        let queryString = '';
-        paramsMap.forEach((value, key) => {
-            if (value !== undefined) {
-                queryString += `${key}=${value}&`;
-            }
-        });
-        // 去掉末尾多余的 &
-        queryString = queryString.slice(0, -1);
-        let result = {id: undefined, uid: undefined, team: undefined, type: undefined};
         const headersJson = JSON.stringify({"Content-Type": "application/json", [token.name]: token.value});
-        const url = `${http_api}?${queryString}`;
-        const {status_code, body} = Http.get(url, headersJson);
-        if (status_code !== 200) {
-            Log.error(`请求失败, HTTP状态码: {status_code}, 响应: {body}`,status_code,JSON.stringify(body));
-            return result
+        const url = `${http_api}`;
+        const  body = await Http.get(url,json, headersJson);
+        if (!body) {
+            throw new Error("请求失败");
         }
-        const { code, message, data } = body;
-        if (code === 200){
-            return data;
-        }else {
-            Log.error("请求失败,error:{error}", message)
-            return result
+        // 使用 Result 统一解析并判断成功
+        const result = Result.fromJson(body);
+        if (result.isSuccess()) {
+            return result.data;
+        } else {
+            Log.error("请求失败,error:{error}", result.message);
+            throw new Error("请求失败");
         }
     }
 }
