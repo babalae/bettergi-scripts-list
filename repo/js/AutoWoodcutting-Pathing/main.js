@@ -104,13 +104,7 @@
 
     function loadWoodCuttingRecords() {
         try {
-            if (!file.isFolder(recordDirectory)) {
-                return {};
-            }
-            const recordExists = file.readPathSync(recordDirectory).some(path => {
-                return path.replace(/\\/g, '/').split('/').pop() === 'record.json';
-            });
-            if (!recordExists) {
+            if (!file.isFile(recordPath)) {
                 return {};
             }
             const content = file.readTextSync(recordPath).trim();
