@@ -1,5 +1,11 @@
 [
     {
+        "name": "username",
+        "type": "input-text",
+        "label": "记录用户名：用于隔离每日伐木记录，默认 default",
+        "default": "default"
+    },
+    {
         "name": "woodInventory",
         "type": "checkbox",
         "label": "开启背包木材检测，开启后砍伐识别到的木材",

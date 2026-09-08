@@ -102,6 +102,116 @@
         return result;
     }
 
+    function loadWoodCuttingRecords() {
+        try {
+            if (!file.isFolder(recordDirectory)) {
+                return {};
+            }
+            const recordExists = file.readPathSync(recordDirectory).some(path => {
+                return path.replace(/\\/g, '/').split('/').pop() === 'record.json';
+            });
+            if (!recordExists) {
+                return {};
+            }
+            const content = file.readTextSync(recordPath).trim();
+            if (!content) {
+                return {};
+            }
+            const records = JSON.parse(content);
+            return records && typeof records === 'object' && !Array.isArray(records) ? records : {};
+        } catch (error) {
+            log.warn(`读取伐木记录失败，将使用空记录: ${error}`);
+            return {};
+        }
+    }
+
+    function saveWoodCuttingRecords() {
+        const success = file.writeTextSync(recordPath, JSON.stringify(woodCuttingRecords, null, 2));
+        if (!success) {
+            log.error(`保存伐木记录失败: ${recordPath}`);
+        }
+        return success;
+    }
+
+    // 参考 AutoPickLitter：北京时间减去 4 小时后取日期，
+    // 让 00:00~03:59 仍归入前一天的刷新周期。
+    function getWoodCuttingDate(timestamp = Date.now()) {
+        return new Date(timestamp - 4 * 60 * 60 * 1000)
+            .toLocaleDateString('zh-CN', {
+                timeZone: 'Asia/Shanghai',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            })
+            .replace(/\//g, '-');
+    }
+
+    function recordWoodGain(woodCount) {
+        const date = getWoodCuttingDate();
+        const dailyRecord = woodCuttingRecords[date] && typeof woodCuttingRecords[date] === 'object' && !Array.isArray(woodCuttingRecords[date])
+            ? woodCuttingRecords[date]
+            : {};
+        const bonusMultiplier = hasItto ? 1.2 : 1;
+        let changed = false;
+
+        woodCount.forEach((value, wood) => {
+            const gained = Math.ceil(Math.max(Number(value) || 0, 0) * bonusMultiplier);
+            if (gained <= 0) {
+                return;
+            }
+            const recorded = Math.max(Number(dailyRecord[wood]) || 0, 0);
+            const updated = Math.min(recorded + gained, 2000);
+            if (updated !== recorded) {
+                dailyRecord[wood] = updated;
+                changed = true;
+            }
+        });
+
+        if (changed) {
+            woodCuttingRecords[date] = dailyRecord;
+            saveWoodCuttingRecords();
+        }
+    }
+
+    function applyRecordedWoodLimit() {
+        const date = getWoodCuttingDate();
+        const dailyRecord = woodCuttingRecords[date] && typeof woodCuttingRecords[date] === 'object' && !Array.isArray(woodCuttingRecords[date])
+            ? woodCuttingRecords[date]
+            : {};
+
+        woodNumberMap.forEach((target, wood) => {
+            const recorded = Math.min(Math.max(Number(dailyRecord[wood]) || 0, 0), 2000);
+            if (target > 0 && recorded > 0) {
+                const recordedTarget = hasItto ? Math.ceil(recorded / 1.2) : recorded;
+                const remaining = Math.max(target - recordedTarget, 0);
+                woodNumberMap.set(wood, remaining);
+                log.info(`${wood} 今日已记录 ${recorded}，本次剩余目标 ${remaining}`);
+            }
+        });
+        woodNumberMapCopy = new Map(woodNumberMap);
+    }
+
+    function applyCompletedWoodCount(woodCount) {
+        woodCount.forEach((value, key) => {
+            woodNumberMap.set(key, woodNumberMap.get(key) - value);
+        });
+        recordWoodGain(woodCount);
+    }
+
+    function normalizeRecordUsername(value) {
+        let username = String(value ?? '').trim()
+            .replace(/[<>:"/\\|?*\x00-\x1F]/g, '_')
+            .replace(/[. ]+$/g, '')
+            .slice(0, 64);
+        if (!username || username === '.' || username === '..') {
+            return 'default';
+        }
+        if (/^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(username)) {
+            username = `_${username}`;
+        }
+        return username;
+    }
+
     async function runPathingNTimes(pathingName, wood, runTimes = null) {
         if ((runTimes === null && woodNumberMap.get(wood) <= 0) || (runTimes !== null && runTimes <= 0)) {
             return;
@@ -124,7 +234,7 @@
                 await fakeLog(`${pathing.fileName[0]}`, false, false, 0);
                 await sleep(1);
                 log.info(`完成 ${pathingName} 大循环路径, 获得${woodCountToStr(woodCount)}`);
-                woodCount.forEach((value, key) => { woodNumberMap.set(key, woodNumberMap.get(key) - value) });
+                applyCompletedWoodCount(woodCount);
             } catch (error) {
                 log.error(`在砍伐 ${pathingName} 时发生错误: ${error}`);
             }
@@ -157,6 +267,7 @@
                     await fakeLog(`${pathing.fileName}`, false, false, 0);
                     await sleep(1);
                 }
+                applyCompletedWoodCount(woodCount);
                 const jsTimeTaken = logTimeTaken(startTime);
                 const estimatedCompletion = calculateEstimatedCompletion(currentWoodStartTime, i + 1, runTimes);
                 log.info(`${pathingName} 第 ${i + 1}/${runTimes} 次循环执行完成`);
@@ -164,9 +275,6 @@
             }
             const jsTimeTaken = logTimeTaken(startTime);
             log.info(`完成 ${pathingName} 循环路径, 获得${woodCountToStr(woodCount, runTimes)}, ${jsTimeTaken}`);
-            woodCount.forEach((value, key) => {
-                woodNumberMap.set(key, woodNumberMap.get(key) - value * runTimes);
-            });
             log.info(`${pathingName} 伐木完成, 将执行下一个`);
             logRemainingItems();
         } catch (error) {
@@ -251,7 +359,6 @@
             if (unsupportedWoods.length !== 0) {
                 log.warn(`${unsupportedWoods.join(", ")} 暂不支持`);
             }
-            woodNumberMapCopy = new Map([...woodNumberMap]);
         }
     }
 
@@ -433,6 +540,11 @@
 
     const woodNumberMap = new Map(woodType.map(key => [key, 0]));
     let woodNumberMapCopy = new Map();
+    const recordUsername = normalizeRecordUsername(settings.username);
+    const recordDirectory = `records/${recordUsername}`;
+    const recordPath = `${recordDirectory}/record.json`;
+    const woodCuttingRecords = loadWoodCuttingRecords();
+    log.info(`每日伐木记录用户: ${recordUsername}`);
 
     // 修改路线：除了 垂香木-萃华木-香柏木，悬铃木-椴木 以外，其他木材基本都是单独路线，可以替换 \assets\AutoPath 中的路径追踪脚本，然后修改 pathingMap 中的文件名即可。
     // pathingMap 为木材路径追踪文件路径列表, 键名可以随意命名, 值的 fileName 属性为路线包含路径追踪文件名列表, 文件夹为'assets/AutoPath/', 如果还有子文件夹请添加 folderName 属性. 如果 fileName 数组中有两项以上, 并且第一个文件名包含 '大循环', 则会先执行一次大循环, 剩余的文件名视为循环路径, 将在每次循环中依次执行.
@@ -506,6 +618,7 @@
 
         // 将识别到的木材种类和所需数量转换为映射表，并计算需要砍伐的次数
         mapWoodsToNumbers(woodsInventory, woodCountInventory, hasItto);
+        applyRecordedWoodLimit();
         log.info('自动伐木开始...');
         await woodCutting();
     } else {
