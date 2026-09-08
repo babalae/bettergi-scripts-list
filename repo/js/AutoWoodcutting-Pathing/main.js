@@ -126,6 +126,10 @@
     }
 
     function saveWoodCuttingRecords() {
+        if (!file.isFolder(recordDirectory) && !file.createDirectory(recordDirectory)) {
+            log.error(`创建伐木记录目录失败: ${recordDirectory}`);
+            return false;
+        }
         const success = file.writeTextSync(recordPath, JSON.stringify(woodCuttingRecords, null, 2));
         if (!success) {
             log.error(`保存伐木记录失败: ${recordPath}`);
