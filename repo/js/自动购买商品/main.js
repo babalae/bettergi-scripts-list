@@ -340,63 +340,24 @@ function validateUserName(name) {
     return name.trim().replace(/[\\/:*?"<>|]/g, '_');
 }
 
+// 使用genshin.uid()获取当前角色UID
 async function getUidFromGame() {
-    // 设置脚本环境的游戏分辨率和DPI缩放
-    setGameMetrics(3840, 2160, 1.5);
-
-    // 确保回到主界面
-    await genshin.returnMainUi();
-    await sleep(1000);
-
-    // 打开派蒙菜单
-    keyPress("G");
-    await sleep(500);
-
-    // 加载退出按钮识别图（需要 assets/images/Exit.png 存在）
-    let imageExitRo;
     try {
-        imageExitRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/images/Exit.png"));
-        imageExitRo.Threshold = 0.8;
-    } catch (e) {
-        log.warn("无法加载 assets/Exit.png，将使用固定延时等待菜单打开");
-    }
+        // 确保回到主界面
+        await genshin.returnMainUi();
+        await sleep(1000);
 
-    if (imageExitRo) {
-        // 等待退出按钮出现，最多5秒
-        const startTime = Date.now();
-        while (Date.now() - startTime < 5000) {
-            let capture = captureGameRegion();
-            if (capture.Find(imageExitRo).isExist()) {
-                capture.dispose();
-                break;
-            }
-            capture.dispose();
-            await sleep(500);
+        // 通过OCR识别当前角色UID，识别失败返回0
+        const uidInt = await genshin.uid();
+        const uid = uidInt ? String(uidInt) : "";
+        if (uid.length >= 5) { // UID通常9位，至少5位
+            log.info(`从游戏获取到UID: ${uid}`);
+            return uid;
         }
-    } else {
-        await sleep(2000); // 无图片则直接等待2秒
-    }
-
-    // OCR识别UID
-    let gameRegion = captureGameRegion();
-    let ocrResult = gameRegion.Find(RecognitionObject.Ocr(1679, 1048, 200, 28));
-    gameRegion.dispose();
-
-    let uid = "";
-    if (ocrResult.isExist() && ocrResult.text) {
-        uid = ocrResult.text.replace(/\D/g, ''); // 只保留数字
-    }
-
-    // 关闭派蒙菜单
-    keyPress("ESCAPE");
-    await sleep(500);
-    await genshin.returnMainUi();
-
-    if (uid && uid.length >= 5) { // UID通常9位，至少5位
-        log.info(`从游戏获取到UID: ${uid}`);
-        return uid;
-    } else {
         log.warn("无法从游戏获取UID");
+        return null;
+    } catch (error) {
+        log.warn(`获取UID失败: ${error.message}`);
         return null;
     }
 }
