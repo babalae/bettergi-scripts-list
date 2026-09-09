@@ -144,6 +144,23 @@
             .replace(/\//g, '-');
     }
 
+    function cleanupOldWoodCuttingRecords() {
+        const currentDate = getWoodCuttingDate();
+        let dateChanged = false;
+
+        Object.keys(woodCuttingRecords).forEach(date => {
+            if (date !== currentDate) {
+                delete woodCuttingRecords[date];
+                dateChanged = true;
+            }
+        });
+
+        if (dateChanged) {
+            saveWoodCuttingRecords();
+            log.info(`已清理 ${currentDate} 之前的伐木记录`);
+        }
+    }
+
     function recordWoodGain(woodCount) {
         const date = getWoodCuttingDate();
         const dailyRecord = woodCuttingRecords[date] && typeof woodCuttingRecords[date] === 'object' && !Array.isArray(woodCuttingRecords[date])
@@ -542,6 +559,7 @@
     const recordDirectory = `records/${recordUsername}`;
     const recordPath = `${recordDirectory}/record.json`;
     const woodCuttingRecords = loadWoodCuttingRecords();
+    cleanupOldWoodCuttingRecords();
     log.info(`每日伐木记录用户: ${recordUsername}`);
 
     // 修改路线：除了 垂香木-萃华木-香柏木，悬铃木-椴木 以外，其他木材基本都是单独路线，可以替换 \assets\AutoPath 中的路径追踪脚本，然后修改 pathingMap 中的文件名即可。
