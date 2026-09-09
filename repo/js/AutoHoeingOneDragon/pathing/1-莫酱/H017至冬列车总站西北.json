@@ -9,7 +9,7 @@
     "bgi_version": "0.63.1",
     "description": "  路线信息：该路线预计用时42秒，包含以下怪物：1只兽怪敲打者、2只嵌合翼象兽、4只嵌合梭地兽、2只嵌合角熊。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788460321708,
+    "last_modified_time": 1788798502939,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "H017至冬列车总站西北",
@@ -37,47 +37,46 @@
       "y": 9494.0859
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.5)",
+      "action": "",
+      "action_params": "",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 7042.459,
-      "y": 9483.0576
+      "x": 7005.125,
+      "y": 9491.6895
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
       "id": 4,
       "move_mode": "dash",
+      "sync_point_id": "strict_1",
       "type": "path",
-      "x": 7090.1045,
-      "y": 9516.7539
+      "x": 7026.8682,
+      "y": 9500.7168
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7081.8777,
+      "y": 9533.0554
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 5,
-      "locked": false,
+      "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 7118.5225,
-      "y": 9564.4463
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "jump",
-      "type": "path",
-      "x": 7118.5225,
-      "y": 9564.4463
+      "x": 7125.7881,
+      "y": 9566.7646
     },
     {
       "action": "combat_script",
-      "action_params": ";茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E);",
+      "action_params": ";茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E);attack(0.5)",
       "id": 7,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 7169.8145,
@@ -85,13 +84,12 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(1)",
+      "action_params": ";万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2); ;",
       "id": 8,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
-      "x": 7204.1934,
-      "y": 9562.7637
+      "x": 7206.5332,
+      "y": 9559.3018
     },
     {
       "action": "fight",
@@ -99,72 +97,45 @@
       "id": 9,
       "move_mode": "dash",
       "type": "path",
-      "x": 7204.1934,
-      "y": 9562.7637
+      "x": 7206.5332,
+      "y": 9559.3018
     },
     {
       "action": "",
       "action_params": "",
       "id": 10,
       "move_mode": "dash",
+      "sync_point_id": "strict_2",
       "type": "path",
-      "x": 7212.7188,
-      "y": 9505.6846
+      "x": 7206.0005,
+      "y": 9505.4891
     },
     {
       "action": "stop_flying",
-      "action_params": "",
+      "action_params": "1000",
       "id": 11,
       "move_mode": "fly",
       "type": "path",
-      "x": 7212.7705,
-      "y": 9410.2109
+      "x": 7206.9346,
+      "y": 9483.168
     },
     {
       "action": "combat_script",
-      "action_params": ";茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E);",
+      "action_params": ";茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E);attack(0.5)",
       "id": 12,
       "move_mode": "dash",
       "type": "path",
-      "x": 7223.082,
-      "y": 9395.9912
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 13,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 7205.9941,
-      "y": 9389.8691
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 14,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 7209.0654,
-      "y": 9407.415
+      "x": 7208.7217,
+      "y": 9394.0918
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 15,
-      "locked": false,
+      "id": 13,
       "move_mode": "dash",
       "type": "path",
-      "x": 7212.9287,
-      "y": 9396.2871
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(1)",
-      "id": 16,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 7212.9287,
-      "y": 9396.2871
+      "x": 7208.7217,
+      "y": 9394.0918
     }
   ]
 }
