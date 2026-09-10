@@ -2,13 +2,13 @@
   {
     "name": "userName",
     "type": "input-text",
-    "label": "账户名称\n用于多账户运行时区分不同账户",
+    "label": "账户名称\n用于多账户运行时区分不同账户，\n此选项留空则自动识别游戏UID作为账户名",
     "default": "默认账户"
   },
   {
     "name": "select9",
     "type": "checkbox",
-    "label": "取消运行限制\n(勾选运行后，本选项会自动取消勾选)",
+    "label": "取消运行限制\n(无视记录强制重跑所有勾选商人，运行后本选项会自动取消勾选)",
     "default": false
   },
   {
