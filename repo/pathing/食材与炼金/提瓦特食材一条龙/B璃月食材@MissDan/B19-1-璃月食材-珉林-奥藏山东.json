@@ -7,12 +7,12 @@
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "4个螃蟹；2个海草；",
+    "description": "2个甜甜花；1个薄荷；4个日落果；2个鸟蛋；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1789019078399,
+    "last_modified_time": 1786301848847,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "C38-1-稻妻食材-清籁岛-天云峠东【螃蟹】",
+    "name": "B19-1-璃月食材-珉林-奥藏山东",
     "tags": [],
     "type": "collect",
     "version": "3.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -4472.1094,
-      "y": -4577.1406
+      "x": 1121.4453,
+      "y": 1190.6357
     },
     {
       "action": "",
@@ -33,44 +33,44 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": -4434.8203,
-      "y": -4556.5986
+      "x": 1106.7754,
+      "y": 1162.3008
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 3,
-      "move_mode": "dash",
+      "move_mode": "fly",
       "type": "path",
-      "x": -4413.5898,
-      "y": -4531.2686
+      "x": 1092.0977,
+      "y": 1142.8672
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(1.5)",
       "id": 4,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": -4379.5996,
-      "y": -4509.0254
+      "x": 1083.501,
+      "y": 1134.1045
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),wait(0.4)",
       "id": 5,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": -4370.6973,
-      "y": -4500.3945
+      "x": 1083.8574,
+      "y": 1131.9229
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": -4345.6328,
-      "y": -4499.0635
+      "x": 1079.0215,
+      "y": 1130.0957
     },
     {
       "action": "",
@@ -78,8 +78,8 @@
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": -4345.2383,
-      "y": -4502.4678
+      "x": 1075.9258,
+      "y": 1130.1533
     },
     {
       "action": "",
@@ -87,35 +87,17 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": -4343.8691,
-      "y": -4505.2598
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 9,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -4338.918,
-      "y": -4501.5625
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 10,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -4299.8438,
-      "y": -4524.9766
+      "x": 1070.2832,
+      "y": 1114.3086
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.2)",
-      "id": 11,
+      "action_params": "wait(0.4)",
+      "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": -4297.8711,
-      "y": -4525.6641
+      "x": 1070.8379,
+      "y": 1112.5859
     }
   ]
 }

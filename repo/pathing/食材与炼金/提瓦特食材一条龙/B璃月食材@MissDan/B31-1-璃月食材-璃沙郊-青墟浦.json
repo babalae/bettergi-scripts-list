@@ -7,12 +7,12 @@
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "4个螃蟹；2个海草；",
+    "description": "2个甜甜花；1个薄荷；3个日落果；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1789019078399,
+    "last_modified_time": 1789029582900,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "C38-1-稻妻食材-清籁岛-天云峠东【螃蟹】",
+    "name": "B31-1-璃月食材-璃沙郊-青墟浦",
     "tags": [],
     "type": "collect",
     "version": "3.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -4472.1094,
-      "y": -4577.1406
+      "x": 1128.791,
+      "y": -984.0635
     },
     {
       "action": "",
@@ -33,26 +33,26 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": -4434.8203,
-      "y": -4556.5986
+      "x": 1104.5508,
+      "y": -970.4014
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 3,
-      "move_mode": "dash",
+      "move_mode": "fly",
       "type": "path",
-      "x": -4413.5898,
-      "y": -4531.2686
+      "x": 1096.6465,
+      "y": -949.748
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
       "move_mode": "dash",
-      "type": "path",
-      "x": -4379.5996,
-      "y": -4509.0254
+      "type": "target",
+      "x": 1093.8848,
+      "y": -944.1553
     },
     {
       "action": "",
@@ -60,62 +60,44 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": -4370.6973,
-      "y": -4500.3945
+      "x": 1041.2891,
+      "y": -946.1797
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -4345.6328,
-      "y": -4499.0635
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": -4345.2383,
-      "y": -4502.4678
+      "x": 1039.291,
+      "y": -946.2178
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(1.5)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 992.0205,
+      "y": -889.1572
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": -4343.8691,
-      "y": -4505.2598
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 9,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -4338.918,
-      "y": -4501.5625
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 10,
-      "move_mode": "dash",
-      "type": "path",
-      "x": -4299.8438,
-      "y": -4524.9766
+      "x": 1014.0449,
+      "y": -875.8437
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 11,
+      "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": -4297.8711,
-      "y": -4525.6641
+      "x": 1020.791,
+      "y": -888.748
     }
   ]
 }

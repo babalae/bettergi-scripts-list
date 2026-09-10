@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "2个鸟蛋；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1763411923455,
+    "last_modified_time": 1789028713663,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B05-2-璃月食材-琼玑野-归离原南",
+    "name": "B29-3-璃月食材-璃沙郊-灵矩关",
     "tags": [],
     "type": "collect",
     "version": "3.0"
@@ -24,26 +24,26 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 489.6289,
-      "y": 222.5474
+      "x": 828.502,
+      "y": -583.1396
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "stop_flying",
+      "action_params": "2500",
       "id": 2,
-      "move_mode": "run",
-      "type": "path",
-      "x": 486.7646,
-      "y": 243.1147
+      "move_mode": "fly",
+      "type": "target",
+      "x": 853.9629,
+      "y": -522.417
     },
     {
       "action": "combat_script",
-      "action_params": "keydown(w),wait(1.5),keyup(w),wait(0.7),keypress(VK_SPACE),wait(0.7),keypress(VK_SPACE),wait(0.7),keypress(VK_SPACE),wait(0.7),keydown(w),wait(1),keyup(w)",
+      "action_params": "wait(0.2)",
       "id": 3,
       "move_mode": "walk",
-      "type": "orientation",
-      "x": 486.7305,
-      "y": 246.0293
+      "type": "target",
+      "x": 853.4473,
+      "y": -522.4707
     }
   ]
 }
