@@ -1,0 +1,10 @@
+// 作者:Siki
+// 描述:仅在副本-逆悬的冰河测试，奥黛塔、梦见月瑞希、珐露珊、七七、迪奥娜、万叶，奥黛塔和瑞希是必备角色
+七七 e,wait(0.5)
+迪奥娜 e(hold),wait(0.5)
+万叶 e(hold),attack,wait(0.5)
+珐露珊 e,wait(0.5),q,ready
+奥黛塔 e,wait(0.5),q,ready,e,wait(0.5),check
+梦见月瑞希 e,wait(0.5),keydown(A),wait(2),keyup(A),keydown(D),wait(4),keyup(D),check,keydown(A),wait(4),keyup(A),check,keydown(D),wait(2),keyup(D),check,q,ready
+
+
