@@ -6,10 +6,10 @@
         "name": "MissDan"
       }
     ],
-    "bgi_version": "0.52.0",
-    "description": "3个日落果；1个松茸；1个蘑菇；2个莲蓬；",
+    "bgi_version": "0.45.0",
+    "description": "3个日落果；1个松茸；1个蘑菇；1个金鱼草；2个莲蓬；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1763412059580,
+    "last_modified_time": 1786416515580,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B06-2-璃月食材-琼玑野-归离原【稀有】",
@@ -134,6 +134,33 @@
       "type": "path",
       "x": 233.2891,
       "y": 513.1943
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 174.1768,
+      "y": 389.7847
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 167.9297,
+      "y": 447.9238
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 172.374,
+      "y": 463.7422
     }
   ]
 }

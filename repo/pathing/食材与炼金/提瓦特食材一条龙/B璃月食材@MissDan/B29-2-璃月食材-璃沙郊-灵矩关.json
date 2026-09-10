@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "1个薄荷；3个日落果；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789027713116,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B29-2-璃月食材-璃沙郊-灵矩关",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 828.502,
+      "y": -583.1396
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 799.9873,
+      "y": -592.0908
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 765.5986,
+      "y": -613.7773
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 761.1973,
+      "y": -615.1035
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(2)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 764.6758,
+      "y": -603.7266
+    }
+  ]
+}

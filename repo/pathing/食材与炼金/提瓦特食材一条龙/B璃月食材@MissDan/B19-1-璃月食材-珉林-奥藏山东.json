@@ -6,13 +6,13 @@
         "name": "MissDan"
       }
     ],
-    "bgi_version": "0.52.0",
-    "description": "1个甜甜花；4个鸟蛋；",
+    "bgi_version": "0.45.0",
+    "description": "2个甜甜花；1个薄荷；4个日落果；2个鸟蛋；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1763413588421,
+    "last_modified_time": 1786301848847,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B15-1-璃月食材-碧水源-无妄坡南",
+    "name": "B19-1-璃月食材-珉林-奥藏山东",
     "tags": [],
     "type": "collect",
     "version": "3.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 490.0645,
-      "y": 1435.4014
+      "x": 1121.4453,
+      "y": 1190.6357
     },
     {
       "action": "",
@@ -33,53 +33,53 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 465.3584,
-      "y": 1455.7783
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 463.8291,
-      "y": 1457.0234
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 436.8857,
-      "y": 1461.5557
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 409.6562,
-      "y": 1486.4512
-    },
-    {
-      "action": "combat_script",
-      "action_params": "万叶 e(wait,hold),wait(0.4)",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 407.5225,
-      "y": 1488.6304
+      "x": 1106.7754,
+      "y": 1162.3008
     },
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 7,
+      "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 389.7314,
-      "y": 1461.1787
+      "x": 1092.0977,
+      "y": 1142.8672
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(1.5)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1083.501,
+      "y": 1134.1045
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),wait(0.4)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1083.8574,
+      "y": 1131.9229
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1079.0215,
+      "y": 1130.0957
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1075.9258,
+      "y": 1130.1533
     },
     {
       "action": "",
@@ -87,17 +87,17 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 367.1436,
-      "y": 1481.2275
+      "x": 1070.2832,
+      "y": 1114.3086
     },
     {
       "action": "combat_script",
-      "action_params": "keydown(w),wait(7),keyup(w)",
+      "action_params": "wait(0.4)",
       "id": 9,
-      "move_mode": "jump",
+      "move_mode": "walk",
       "type": "path",
-      "x": 366.7881,
-      "y": 1488.1025
+      "x": 1070.8379,
+      "y": 1112.5859
     }
   ]
 }

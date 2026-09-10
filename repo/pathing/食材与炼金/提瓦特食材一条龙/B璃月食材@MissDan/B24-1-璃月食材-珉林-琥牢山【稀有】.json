@@ -6,13 +6,13 @@
         "name": "MissDan"
       }
     ],
-    "bgi_version": "0.52.0",
-    "description": "2个甜甜花；2个日落果；2个螃蟹；1个冰雾花；2个金鱼草；1个鳅鳅宝玉；",
+    "bgi_version": "0.45.0",
+    "description": "1个甜甜花；4个鸟蛋；3个莲蓬；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1763413309574,
+    "last_modified_time": 1786391970368,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B10-3-璃月食材-碧水源-荻花洲【螃蟹】",
+    "name": "B24-1-璃月食材-珉林-琥牢山【稀有】",
     "tags": [],
     "type": "collect",
     "version": "3.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 253.3994,
-      "y": 1285.4424
+      "x": 1794.4863,
+      "y": 717.7339
     },
     {
       "action": "",
@@ -33,116 +33,107 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 242.7861,
-      "y": 1280.7837
+      "x": 1784.7793,
+      "y": 707.5225
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 3,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": 239.4873,
-      "y": 1275.5322
+      "x": 1725.8555,
+      "y": 591.7803
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1723.1367,
+      "y": 590.3623
     },
     {
       "action": "",
       "action_params": "",
-      "id": 4,
+      "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": 238.3105,
-      "y": 1273.7705
+      "x": 1724.6758,
+      "y": 590.5161
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.4)",
-      "id": 5,
-      "move_mode": "run",
-      "type": "path",
-      "x": 220.2168,
-      "y": 1252.5103
-    },
-    {
-      "action": "combat_script",
-      "action_params": "迪希雅 e(wait)",
+      "action_params": "attack(0.2),wait(0.2)",
       "id": 6,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 188.5967,
-      "y": 1249.0474
+      "move_mode": "fly",
+      "type": "target",
+      "x": 1743.2363,
+      "y": 606.0049
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": 185.5527,
-      "y": 1249.0078
+      "x": 1717.6045,
+      "y": 607.5464
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 8,
-      "move_mode": "dash",
+      "move_mode": "fly",
       "type": "path",
-      "x": 172.8945,
-      "y": 1268.3369
+      "x": 1719.1191,
+      "y": 579.0977
     },
     {
       "action": "",
       "action_params": "",
       "id": 9,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 171.7881,
-      "y": 1270.1362
+      "x": 1734.3594,
+      "y": 572.1367
     },
     {
       "action": "",
       "action_params": "",
       "id": 10,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 161.2988,
-      "y": 1221.728
+      "x": 1735.3613,
+      "y": 572.0811
     },
     {
       "action": "",
       "action_params": "",
       "id": 11,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 160.8027,
-      "y": 1219.6172
+      "x": 1730.5244,
+      "y": 549.3887
     },
     {
       "action": "",
       "action_params": "",
       "id": 12,
       "move_mode": "walk",
-      "type": "path",
-      "x": 157.79,
-      "y": 1221.8135
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 13,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 134.6875,
-      "y": 1197.3076
+      "type": "target",
+      "x": 1720.6123,
+      "y": 544.6421
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 14,
+      "id": 13,
       "move_mode": "walk",
-      "type": "path",
-      "x": 123.1758,
-      "y": 1202.8535
+      "type": "target",
+      "x": 1723.3457,
+      "y": 533.8965
     }
   ]
 }
