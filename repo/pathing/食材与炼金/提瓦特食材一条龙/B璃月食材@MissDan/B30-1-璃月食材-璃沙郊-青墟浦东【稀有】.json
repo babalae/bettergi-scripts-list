@@ -7,12 +7,12 @@
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "1个甜甜花；4个鸟蛋；1个蘑菇；",
+    "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1763412300875,
+    "last_modified_time": 1789028386077,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B07-1-璃月食材-琼玑野-七天神像",
+    "name": "B30-1-璃月食材-璃沙郊-青墟浦东【稀有】",
     "tags": [],
     "type": "collect",
     "version": "3.0"
@@ -24,17 +24,17 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -254.7754,
-      "y": 630.3955
+      "x": 828.502,
+      "y": -583.1396
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": -251.75,
-      "y": 623.7881
+      "x": 844.3457,
+      "y": -584.3906
     },
     {
       "action": "stop_flying",
@@ -42,71 +42,62 @@
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": -242.6406,
-      "y": 612.6045
+      "x": 892.5195,
+      "y": -656.498
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(1.5)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 897.6436,
+      "y": -657.5117
     },
     {
       "action": "",
       "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -249.6582,
-      "y": 614.3145
-    },
-    {
-      "action": "combat_script",
-      "action_params": "万叶 e(wait,hold),wait(0.4)",
       "id": 5,
-      "move_mode": "walk",
-      "type": "target",
-      "x": -249.9688,
-      "y": 613.0
+      "move_mode": "dash",
+      "type": "path",
+      "x": 915.0273,
+      "y": -656.6738
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "walk",
+      "move_mode": "jump",
       "type": "path",
-      "x": -248.8203,
-      "y": 611.0156
+      "x": 921.0498,
+      "y": -655.9062
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "fly",
+      "move_mode": "dash",
       "type": "path",
-      "x": -283.1035,
-      "y": 573.9834
+      "x": 929.459,
+      "y": -642.291
     },
     {
       "action": "",
       "action_params": "",
       "id": 8,
-      "move_mode": "walk",
+      "move_mode": "jump",
       "type": "path",
-      "x": -289.9512,
-      "y": 569.7354
+      "x": 935.9707,
+      "y": -632.9053
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(2)",
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": -291.4355,
-      "y": 568.2305
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 10,
-      "move_mode": "fly",
-      "type": "target",
-      "x": -303.8164,
-      "y": 554.3252
+      "x": 940.9922,
+      "y": -628.585
     }
   ]
 }
