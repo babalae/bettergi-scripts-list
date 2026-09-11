@@ -37,7 +37,7 @@ function loadContentCodeRecord() {
         return {};
     }
     try {
-        const txt = file.readTextSync(recordPath);
+        const txt = safeReadTextSync(recordPath);
         return JSON.parse(txt);
     } catch (e) {
         log.warn(`读取检测码记录失败，重置为空:${e.message}`);
@@ -52,7 +52,7 @@ function saveContentCodeRecord(recordObj) {
     const recordPath = "user/content_code_record.json";
     try {
         const str = JSON.stringify(recordObj, null, 2);
-        file.writeTextSync(recordPath, str, false);
+        writeFile(recordPath, str, false);
     } catch (e) {
         log.error(`保存检测码记录失败:${e.message}`);
     }
@@ -133,7 +133,7 @@ function readMaterialCategories(materialDir) {
     const materialFilePaths = readAllFilePaths(materialDir);
     const materialCategories = {};
     for (const filePath of materialFilePaths) {
-        const content = file.readTextSync(filePath);
+        const content = safeReadTextSync(filePath);
         if (!content) {
             log.error(`加载文件失败：${filePath}`);
             continue;
@@ -154,7 +154,7 @@ function recordRunTime(resourceName, pathName, startTime, endTime, runTime) {
     const content = `路径名: ${pathName}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n\n`;
     try {
         if (runTime >= 3) {
-            const result = file.writeTextSync(recordPath, content, true);
+            const result = writeFile(recordPath, content, true, 3650);
             if (result) {
                 log.info(`记录运行时间成功: ${recordPath}`);
             } else {
@@ -171,7 +171,7 @@ function recordRunTime(resourceName, pathName, startTime, endTime, runTime) {
 function getLastRunEndTime(resourceName, pathName) {
     const recordPath = `pathing_record/${resourceName}.txt`;
     try {
-        const content = file.readTextSync(recordPath);
+        const content = safeReadTextSync(recordPath);
         const lines = content.split('\n');
         for (let i = lines.length - 1; i >= 0; i--) {
             if (lines[i].startsWith('路径名: ')) {
@@ -279,7 +279,7 @@ async function convertMain() {
     const outputRoot = "user/output_combat_convert"; //输出目录迁移到user下
     const maxDepth = 5;
     const pathFiles = readAllFilePaths(sourceDir, 0, maxDepth, ['.json']);
-    const currentVK = settings.virtualKey ?? "VK_END";
+    const currentVK = settings.virtualKey // ?? "VK_END";
     log.info(`[战斗转换模块] 当前全局转换按键：${currentVK}，共找到${pathFiles.length}个路径文件待处理`);
     // 加载已有的检测码记录
     const oldCodeRecord = loadContentCodeRecord();
@@ -341,7 +341,7 @@ async function convertMain() {
             const outFullPath = `${outputRoot}/${afterPathing}`;
             const finalOutPath = getUniqueFilePath(outFullPath);
             const writeContent = JSON.stringify(convertedData, null, 2);
-            const writeResult = file.writeTextSync(finalOutPath, writeContent, false);
+            const writeResult = writeFile(finalOutPath, writeContent, false);
             if (writeResult) {
                 log.info(`✅ ${fileName} → ${finalOutPath}`);
                 successCount++;
@@ -454,6 +454,13 @@ async function runConvertedPath() {
 // ========================【入口函数】========================
 // 总入口：settings.noReload为true，跳过转换，直接运行
 (async function () {
+	// =========新增校验=========
+    if (!settings.virtualKey || settings.virtualKey.trim() === "") {
+		log.error("================================================");
+        log.error("请在自定义设置里填入BGI快捷键中的暂停键，未配置无法执行！");
+		log.error("================================================");
+        return;
+    }
     // noReload 为true，则不执行转换
     if (!settings.noReload) {
         await convertMain();
