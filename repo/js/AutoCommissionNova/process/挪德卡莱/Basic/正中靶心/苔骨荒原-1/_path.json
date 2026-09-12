@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/1004452714",
+        "name": "DarkFlameMaster"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784109912293,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "挪德卡莱-苔骨荒原-正中靶心",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9351.9453,
+      "y": 2103.9844
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9327.1357,
+      "y": 2004.4067
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(4)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9316.2891,
+      "y": 1998.1133
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-1200)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9319.5205,
+      "y": 1990.9067
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(t),wait(0.5),keypress(t)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9314.6094,
+      "y": 1972.3594
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(t),wait(0.5),keypress(t)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9330.9375,
+      "y": 1975.2813
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(t),wait(0.5),keypress(t)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9346.5781,
+      "y": 1980.0938
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "info": {
+    "name": "02-烈焰花花蕊-蒙德-誓言岬",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "ran"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1999.08,
+      "y": 1434.88,
+      "type": "teleport",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1989.57,
+      "y": 1469.49,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1986.46,
+      "y": 1478.54,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1991.22,
+      "y": 1489.49,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    }
+  ]
+}

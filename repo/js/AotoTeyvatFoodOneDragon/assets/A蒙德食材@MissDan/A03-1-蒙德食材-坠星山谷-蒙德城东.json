@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个薄荷；7个日落果；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762328925718,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A03-1-蒙德食材-坠星山谷-蒙德城东",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1120.6465,
+      "y": 2190.8335
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1150.2852,
+      "y": 2176.0327
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1156.8457,
+      "y": 2171.9702
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1158.7012,
+      "y": 2189.9302
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1177.1836,
+      "y": 2192.7007
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1183.2129,
+      "y": 2193.5012
+    }
+  ]
+}

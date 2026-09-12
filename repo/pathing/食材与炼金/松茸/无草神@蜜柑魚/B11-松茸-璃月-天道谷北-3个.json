@@ -1,0 +1,121 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777389448406,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B11-松茸-璃月-天道谷北-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1153.293,
+      "y": 143.1445
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1133.8555,
+      "y": 211.3516
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1137.6348,
+      "y": 226.6855
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1136.3906,
+      "y": 241.728
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1137.8711,
+      "y": 247.894
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1102.9814,
+      "y": 262.9014
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 wait(0.2),keypress(VK_E),wait(0.2),keypress(VK_E),wait(0.2); ;",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1054.3477,
+      "y": 310.46
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1054.2812,
+      "y": 316.0342
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1055.5244,
+      "y": 320.6016
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1051.6738,
+      "y": 315.5664
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.21)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1035.3926,
+      "y": 292.959
+    }
+  ]
+}

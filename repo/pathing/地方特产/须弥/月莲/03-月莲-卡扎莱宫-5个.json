@@ -1,0 +1,172 @@
+{
+  "info": {
+    "name": "03-月莲-卡扎莱宫-5个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芙宁娜"
+    ],
+    "last_modified_time": 1751164610186,
+    "authors": [
+      {
+        "name": "tignioj"
+      },
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2482.4,
+      "y": 5.86,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 2502.25,
+      "y": 19.59,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 2526.85,
+      "y": 30.76,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 2577.96,
+      "y": 30.89,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 2597.8,
+      "y": 25.27,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 2597.8,
+      "y": 25.27,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芙宁娜 attack,e(wait)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 2579.74,
+      "y": 61.62,
+      "action": "",
+      "move_mode": "dash",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 2596.43,
+      "y": 75.42,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 2595.04,
+      "y": 96.72,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 2600.7,
+      "y": 111.28,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芙宁娜 attack,e(wait)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 2611.65,
+      "y": 111.04,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 2614.21,
+      "y": 104.11,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 2630.52,
+      "y": 115.66,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": 2648.63,
+      "y": 120.73,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 15,
+      "x": 2677.88,
+      "y": 113.05,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 16,
+      "x": 2693.76,
+      "y": 88.38,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "locked": false
+    }
+  ]
+}

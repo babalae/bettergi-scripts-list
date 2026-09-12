@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759830850510,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F10-纳塔食材-花羽会-苦种",
+    "tags": [],
+    "type": "collect",
+    "version": "2.11"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9839.822265625,
+      "y": -1289.7265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9813.7744140625,
+      "y": -1307.91357421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.8)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9805.8203125,
+      "y": -1296.4189453125
+    }
+  ]
+}

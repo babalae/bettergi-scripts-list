@@ -1,0 +1,202 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777481578511,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E22-松茸-枫丹-湖中垂柳-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3032.9707,
+      "y": 3732.6992
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3014.1699,
+      "y": 3737.0386
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2996.8662,
+      "y": 3756.4722
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2960.0732,
+      "y": 3786.5059
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2950.21,
+      "y": 3798.1846
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2871.1562,
+      "y": 3808.3604
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2840.5596,
+      "y": 3804.6455
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2829.4824,
+      "y": 3775.5488
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),d(0.5),w(0.5)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2845.5908,
+      "y": 3775.9766
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2846.8789,
+      "y": 3781.7021
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2856.6748,
+      "y": 3779.9512
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2879.375,
+      "y": 3781.0264
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2885.2695,
+      "y": 3786.9546
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2893.3145,
+      "y": 3779.0488
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2905.7061,
+      "y": 3773.1562
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2922.123,
+      "y": 3758.8447
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2940.5352,
+      "y": 3775.6147
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2943.2295,
+      "y": 3782.2256
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2960.0059,
+      "y": 3769.4844
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2966.9443,
+      "y": 3772.3262
+    }
+  ]
+}

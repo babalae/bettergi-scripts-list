@@ -1,0 +1,37 @@
+{
+  "info": {
+    "name": "枫丹地脉花-路线2 秋分山-1：秋分山左下-1",
+    "type": "collect",
+    "author": "平面镜&LCB茶包",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.44.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4146.91162109375,
+      "y": 2606.272705078125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4191.60693359375,
+      "y": 2522.24609375,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4183.26953125,
+      "y": 2502.36962890625,
+      "type": "target",
+      "move_mode": "walk"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "05-劫波莲-水田丛林-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "jbcaaa",
+        "links": "https://github.com/jbcaaa"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3435.74,
+      "y": -1470.66
+    },
+    {
+      "id": 2,
+      "x": 3329.41,
+      "y": -1479.33,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 3329.4,
+      "y": -1485.36,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 3331.17,
+      "y": -1491.76,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 3335.74,
+      "y": -1492.34,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "3个甜甜花；6个树莓；4个须弥蔷薇；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762453134649,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D34-3-须弥食材-阿陀河谷-奥摩斯港",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2806.7949,
+      "y": -1790.1045
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2795.2705,
+      "y": -1770.7412
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2774.1367,
+      "y": -1729.8252
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2766.1758,
+      "y": -1691.9287
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2779.5244,
+      "y": -1683.5503
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2733.0537,
+      "y": -1640.4888
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2720.3438,
+      "y": -1653.0771
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2708.2969,
+      "y": -1680.1636
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2709.8887,
+      "y": -1685.874
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2691.5586,
+      "y": -1688.292
+    }
+  ]
+}

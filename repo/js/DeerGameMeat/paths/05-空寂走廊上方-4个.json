@@ -1,0 +1,165 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1761470596256,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "05-空寂走廊上方-4个",
+    "tags": [
+      "菈乌玛"
+    ],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9191.6806640625,
+      "y": 2852.104736328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9188.8583984375,
+      "y": 2842.18017578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9153.0966796875,
+      "y": 2847.89501953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9119.2890625,
+      "y": 2848.635009765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9087.998046875,
+      "y": 2848.405517578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9075.40625,
+      "y": 2827.694580078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(2),e(hold),wait(0.2),attack",
+      "id": 7,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9092.53125,
+      "y": 2786.375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9093.5,
+      "y": 2781.9375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9093.8125,
+      "y": 2780.40625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9095.34375,
+      "y": 2780.78125
+    },
+    {
+      "action": "",
+      "id": 11,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9094.3125,
+      "y": 2784.21875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9094.03125,
+      "y": 2790.4375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9090.1875,
+      "y": 2789.09375
+    },
+    {
+      "action": "",
+      "id": 14,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9090.875,
+      "y": 2784.21875
+    },
+    {
+      "action": "",
+      "id": 15,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9092.625,
+      "y": 2780.28125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9092.125,
+      "y": 2791.65625
+    }
+  ]
+}

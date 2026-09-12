@@ -1,0 +1,145 @@
+{
+  "info": {
+    "name": "06-堇瓜-鸣神岛-神里屋敷-9个",
+    "type": "collect",
+    "author": "起个名字好难的喵",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ],
+    "tags": []
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4578.77,
+      "y": -2577.67,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4589.25,
+      "y": -2620.92,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4576.69,
+      "y": -2645.52,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4571.67,
+      "y": -2653.41,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    },
+    {
+      "id": 5,
+      "x": -4571.67,
+      "y": -2653.41,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4578.76,
+      "y": -2577.66,
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -4559.7,
+      "y": -2535.33,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -4555.75,
+      "y": -2526.5,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -4553.16,
+      "y": -2518.25,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -4541.09,
+      "y": -2508.38,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -4536.13,
+      "y": -2494.52,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -4517.01,
+      "y": -2475.1,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -4501.7,
+      "y": -2467.57,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": -4496.45,
+      "y": -2464.91,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

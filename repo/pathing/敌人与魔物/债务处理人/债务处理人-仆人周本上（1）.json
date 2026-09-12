@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "债务处理人-仆人周本上（1）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "下流山汉",
+        "links": "https://github.com/vulgar-rustic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4935.02,
+      "y": 4183.41,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4929.61,
+      "y": 4208.42,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4915.58,
+      "y": 4238.26,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4907.11,
+      "y": 4267.36,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(3),click"
+    },
+    {
+      "id": 5,
+      "x": 4921.99,
+      "y": 4268.86,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

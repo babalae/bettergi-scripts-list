@@ -1,0 +1,142 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/1004452714",
+                "name": "DarkFlameMaster"
+            }
+        ],
+        "bgi_version": "0.52.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1784372880375,
+        "map_match_method": "SIFT",
+        "map_name": "Teyvat",
+        "name": "稻妻-踏鞴砂-3-雷野险踪",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 1,
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -3156.2773,
+            "y": -3885.8623
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 2,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -3178.1134,
+            "y": -3862.4531
+        },
+        {
+            "action": "stop_flying",
+            "action_params": "2000",
+            "id": 3,
+            "move_mode": "fly",
+            "type": "path",
+            "x": -3184.375,
+            "y": -3859.7441
+        },
+        {
+            "action": "anemo_collect",
+            "action_params": "",
+            "id": 4,
+            "locked": false,
+            "move_mode": "walk",
+            "type": "target",
+            "x": -3192.3965,
+            "y": -3861.4648
+        },
+        {
+            "action": "fight",
+            "action_params": "",
+            "id": 5,
+            "locked": false,
+            "move_mode": "walk",
+            "type": "target",
+            "x": -3192.3965,
+            "y": -3861.4648
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 6,
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -3156.2793,
+            "y": -3885.8682
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 7,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -3153.0098,
+            "y": -3830.7227
+        },
+        {
+            "action": "combat_script",
+            "action_params": "keypress(space),wait(2),keypress(space)",
+            "id": 8,
+            "move_mode": "fly",
+            "type": "path",
+            "x": -3154.6953,
+            "y": -3815.0137
+        },
+        {
+            "action": "stop_flying",
+            "action_params": "",
+            "id": 9,
+            "move_mode": "fly",
+            "type": "path",
+            "x": -3101.5742,
+            "y": -3812.3555
+        },
+        {
+            "action": "anemo_collect",
+            "action_params": "",
+            "id": 10,
+            "locked": false,
+            "move_mode": "walk",
+            "type": "target",
+            "x": -3098.2871,
+            "y": -3824.8301
+        },
+        {
+            "action": "fight",
+            "action_params": "",
+            "id": 11,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -3098.2871,
+            "y": -3824.8301
+        },
+        {
+            "action": "stop_flying",
+            "action_params": "",
+            "id": 12,
+            "move_mode": "fly",
+            "type": "path",
+            "x": -3125.3887,
+            "y": -3803.123
+        },
+        {
+            "action": "anemo_collect",
+            "action_params": "",
+            "id": 13,
+            "move_mode": "walk",
+            "type": "target",
+            "x": -3120.9941,
+            "y": -3803.5459
+        }
+    ]
+}

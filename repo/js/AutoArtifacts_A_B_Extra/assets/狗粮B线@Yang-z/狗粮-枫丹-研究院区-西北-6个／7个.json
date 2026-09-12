@@ -1,0 +1,204 @@
+{
+    "info": {
+        "name": "狗粮-枫丹-研究院区-西北-6个／7个",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": 4624.3583984375,
+            "y": 4951.76953125,
+            "type": "teleport"
+        },
+
+        {
+            "x": 4610.19580078125,
+            "y": 4933.4912109375,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 4605.03564453125,
+            "y": 4934.54052734375,
+            "type": "orientation"
+        },
+        {
+            "x": 4605.03564453125,
+            "y": 4934.54052734375,
+            "type": "target",
+            "move_mode": "run",
+            "action": "combat_script",
+            "action_params": "wait(0.8)",
+            "#": "1"
+        },
+        
+        {
+            "x": 4609.60595703125,
+            "y": 4937.71826171875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": 4695.14013671875,
+            "y": 4995.1630859375,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 4685.82080078125,
+            "y": 5006.54736328125,
+            "type": "path",
+            "move_mode": "run"
+        },
+
+        {
+            "x": 4677.62548828125,
+            "y": 4998.96630859375,
+            "type": "orientation"
+        },
+        {
+            "x": 4677.62548828125,
+            "y": 4998.96630859375,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.8)",
+            "#": "2"
+        },
+
+        {
+            "x": 4688.0302734375,
+            "y": 4989.86865234375,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 4731.576171875,
+            "y": 4946.5927734375,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 4726.74853515625,
+            "y": 4935.31982421875,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(0.2),click",
+            "//": "stop_flying"
+        },
+
+
+        {
+            "x": 4723.99169921875,
+            "y": 4932.6865234375,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "3"
+        },
+        {
+            "x": 4706.38916015625,
+            "y": 4924.84423828125,
+            "type": "path",
+            "move_mode": "run"
+        },
+
+        {
+            "x": 4722.03076171875,
+            "y": 4911.13134765625,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 4728.322265625,
+            "y": 4906.859375,
+            "type": "path",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": 4734.841796875,
+            "y": 4902.86572265625,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "4"
+        },
+        {
+            "x": 4735.62841796875,
+            "y": 4902.6748046875,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "4"
+        },
+
+        {
+            "x": 4746.90625,
+            "y": 4912.08740234375,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 4752.42041015625,
+            "y": 4912.71875,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.2),keypress(x)",
+            "//": "stop_climbing",
+            "#": "5"
+        },
+        {
+            "x": 4752.42041015625,
+            "y": 4912.71875,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.2),keypress(x)",
+            "//": "stop_climbing",
+            "#": "5"
+        },
+
+        {
+            "x": 4751.48681640625,
+            "y": 4912.39501953125,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 4747.041015625,
+            "y": 4906.857421875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": 4758.86865234375,
+            "y": 4899.99755859375,
+            "type": "orientation"
+        },
+        {
+            "x": 4758.86865234375,
+            "y": 4899.99755859375,
+            "type": "target",
+            "move_mode": "walk",
+            "#": "6"
+        },
+        {
+            "x": 4758.86865234375,
+            "y": 4899.99755859375,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(0.8)",
+            "#": "6"
+        }
+
+    ],
+
+    "positions_not_actived": [
+        { "#": "有一个不拿，有干扰（就没录）" }
+    ]
+}

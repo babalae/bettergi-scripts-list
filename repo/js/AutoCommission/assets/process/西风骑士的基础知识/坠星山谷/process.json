@@ -1,0 +1,36 @@
+[
+  {
+    "type": "地图追踪",
+    "data": "西风骑士的基础知识-1.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+ 
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 5,
+      "priorityOptions": [
+      "直接问吧"
+      
+       ],
+      "npcWhiteList": ["斯万"]
+    },
+    "note": "执行对话步骤，优先选择特定选项并与白名单NPC交互"
+  },
+ 
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 18,
+      "priorityOptions": [
+      "图书管理员",
+      "骑兵队长",
+      "侦察骑士",
+      "西风骑士团可真严格"
+       ],
+      "npcWhiteList": ["斯万"]
+    },
+    "note": "执行对话步骤，优先选择特定选项并与白名单NPC交互"
+  }
+  
+]

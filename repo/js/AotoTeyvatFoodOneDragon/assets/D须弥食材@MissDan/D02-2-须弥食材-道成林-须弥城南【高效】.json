@@ -1,0 +1,166 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "2个薄荷；4个日落果；2个香辛果；8个墩墩桃；2个须弥蔷薇；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762355596224,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D02-2-须弥食材-道成林-须弥城南【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2701.8516,
+      "y": -761.5688
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2713.1074,
+      "y": -776.9844
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2711.9766,
+      "y": -739.4424
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2738.6699,
+      "y": -741.8062
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2762.2793,
+      "y": -756.1558
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2740.9521,
+      "y": -781.9844
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2765.3633,
+      "y": -798.4316
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2740.9961,
+      "y": -813.0444
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 2739.3457,
+      "y": -816.4399
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 2737.1504,
+      "y": -827.2183
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2738.4121,
+      "y": -827.5249
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2733.9395,
+      "y": -836.0005
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2743.8223,
+      "y": -841.6841
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2760.373,
+      "y": -850.1333
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.6)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2770.9102,
+      "y": -868.6035
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2768.3398,
+      "y": -884.2891
+    }
+  ]
+}

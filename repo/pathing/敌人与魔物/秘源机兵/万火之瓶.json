@@ -1,0 +1,32 @@
+{
+  "info": {
+    "name": "万火之瓶",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "jsp"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8908.84,
+      "y": -1639.07
+    },
+    {
+      "id": 2,
+      "x": 8823.1,
+      "y": -1699.71,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

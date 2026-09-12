@@ -1,0 +1,43 @@
+{
+  "info": {
+    "name": "浊水幻灵-枫丹1-海露港2",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "无狐"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4722.14,
+      "y": 1854.59,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4706.57,
+      "y": 1860.07,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4594.03,
+      "y": 1815.93,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

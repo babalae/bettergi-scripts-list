@@ -1,0 +1,52 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "约16秒/2个",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763841779918,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "04-枣椰-阿如村-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "nahida_collect",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4096.0488,
+      "y": -2025.979
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4108.1113,
+      "y": -2000.1328
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 w(0.3),click(middle),wait(0.5),keydown(e),wait(0.75),moveby(0,-300),wait(0.75),keyup(e);",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4111.2686,
+      "y": -1980.917
+    }
+  ]
+}

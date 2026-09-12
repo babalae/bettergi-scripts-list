@@ -1,0 +1,130 @@
+{
+  "info": {
+    "name": "F01-纳塔-坚岩隘谷-隆崛坡-6个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.54.0",
+    "tags": [],
+    "last_modified_time": 1752216314888,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 7857.41,
+      "y": -1750.04,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 7864.34,
+      "y": -1732.06,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 7906.55,
+      "y": -1630.15,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 7902.6,
+      "y": -1595.37,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 7857.41,
+      "y": -1750.04,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": 7859.9,
+      "y": -1762.36,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 7919.01,
+      "y": -1802.38,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 7915.17,
+      "y": -1805.71,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "wait(1)",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 7912.19,
+      "y": -1807.94,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 7913.74,
+      "y": -1826.33,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 7917.79,
+      "y": -1828.74,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 7917.79,
+      "y": -1828.74,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

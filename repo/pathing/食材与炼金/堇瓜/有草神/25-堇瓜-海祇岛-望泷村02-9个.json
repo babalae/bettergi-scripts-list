@@ -1,0 +1,184 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756505043311,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "25-堇瓜-海祇岛-望泷村02-9个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -755.3184,
+      "y": -4000.8291
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -789.623,
+      "y": -3996.2705
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -798.6016,
+      "y": -4001.8423
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -807.5801,
+      "y": -4007.4141
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -816.3945,
+      "y": -4003.8066
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -819.6621,
+      "y": -4004.458
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -817.2617,
+      "y": -4006.4219
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -830.2,
+      "y": -4002.15
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -829.34,
+      "y": -4005.02
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -826.91,
+      "y": -4010.87
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -833.96,
+      "y": -4012.11
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -835.71,
+      "y": -4009.33
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -837.53,
+      "y": -4005.8
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -847.9922,
+      "y": -4008.0605
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "run",
+      "type": "path",
+      "x": -846.707,
+      "y": -4015.7773
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "run",
+      "type": "path",
+      "x": -855.1348,
+      "y": -4014.0332
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -859.502,
+      "y": -4030.4941
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -865.4941,
+      "y": -4033.9844
+    }
+  ]
+}

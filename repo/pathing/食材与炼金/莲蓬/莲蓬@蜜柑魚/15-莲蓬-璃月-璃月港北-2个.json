@@ -1,0 +1,105 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785349555437,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "15-莲蓬-璃月-璃月港北-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 256.3779,
+      "y": -12.9961
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 271.6191,
+      "y": -14.2871
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 269.3721,
+      "y": -96.4297
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 258.9404,
+      "y": -138.3936
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 263.6699,
+      "y": -138.3555
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.3)",
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 266.3818,
+      "y": -132.6738
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 266.3818,
+      "y": -132.6738
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.3)",
+      "id": 8,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 272.4648,
+      "y": -134.1797
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.25)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 272.4648,
+      "y": -134.1797
+    }
+  ]
+}

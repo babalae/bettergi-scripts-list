@@ -1,0 +1,35 @@
+[
+  {
+    "type": "地图追踪",
+    "data": "冒险就要勇于前进-1.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 5,
+      "priorityOptions": ["你们在吵什么呢","我知道了"],
+      "npcWhiteList": ["帕琪"]
+    },
+    "note": "执行对话步骤，优先选择特定选项并与白名单NPC交互"
+  },
+  {
+    "type": "地图追踪",
+    "data": "冒险就要勇于前进-2.json",
+    "note": "执行第二个地图追踪步骤，清理丘丘人"
+  },
+  {
+    "type": "地图追踪",
+    "data": "冒险就要勇于前进-3.json",
+    "note": "执行第三个地图追踪步骤与帕琪对话"
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 4,
+      "priorityOptions": ["清理掉了"],
+      "npcWhiteList": ["帕琪"]
+     },
+    "note": "执行对话步骤，优先选择特定选项并与白名单NPC交互"
+  }
+]

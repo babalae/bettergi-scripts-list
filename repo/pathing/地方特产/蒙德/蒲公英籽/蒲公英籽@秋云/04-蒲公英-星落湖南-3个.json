@@ -1,0 +1,73 @@
+{
+  "info": {
+    "name": "04-蒲公英-星落湖南-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "修复第二个蒲公英无法捡起来的情况。",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "秋云",
+        "links": "https://github.com/physligl"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1329.46,
+      "y": 2564.13,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1305.52,
+      "y": 2545.82,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1278.29,
+      "y": 2535.37,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1287.2,
+      "y": 2514.22,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1282.78,
+      "y": 2497.62,
+      "action": "anemo_collect",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1282.69,
+      "y": 2494.81,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "anemo_collect"
+    },
+    {
+      "id": 7,
+      "x": -1269.53,
+      "y": 2486.61,
+      "action": "anemo_collect",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}

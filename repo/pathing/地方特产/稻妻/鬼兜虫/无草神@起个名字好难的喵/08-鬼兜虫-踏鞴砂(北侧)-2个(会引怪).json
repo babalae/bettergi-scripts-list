@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "08-鬼兜虫-踏鞴砂(北侧)-2个(会引怪)",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3020.58,
+      "y": -3622.94
+    },
+    {
+      "id": 2,
+      "x": -3076.04,
+      "y": -3613.4,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -3091.72,
+      "y": -3592.88,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -3095.27,
+      "y": -3581.94,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

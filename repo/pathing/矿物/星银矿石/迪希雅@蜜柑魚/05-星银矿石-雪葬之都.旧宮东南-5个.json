@@ -1,0 +1,140 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774090660998,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "05-星银矿石-雪葬之都.旧宮东南-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1334.3379,
+      "y": 826.0063
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1317.7051,
+      "y": 832.2373
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1284.4707,
+      "y": 810.749
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1270.9844,
+      "y": 808.8516
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1230.3047,
+      "y": 878.125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1167.7344,
+      "y": 882.0273
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1170.1484,
+      "y": 910.6162
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1167.8926,
+      "y": 928.9443
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1166.8574,
+      "y": 934.2163
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1160.9727,
+      "y": 925.1953
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1162.0918,
+      "y": 928.0811
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 12,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1162.0938,
+      "y": 934.897
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.456)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -1162.0938,
+      "y": 934.897
+    }
+  ]
+}

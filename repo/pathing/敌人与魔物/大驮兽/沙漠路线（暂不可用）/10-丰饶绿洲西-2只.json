@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "10-丰饶绿洲西-2只",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "驮兽",
+      "兽肉",
+      "愚人众",
+      "镀金旅团",
+      "沙暴"
+    ],
+    "last_modified_time": 1754593397308,
+    "authors": [
+      {
+        "name": "jay",
+        "links": ""
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4795.6079,
+      "y": -2576.3789,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4923.9414,
+      "y": -2612.6982,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4913.25,
+      "y": -2571.0,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4863.75,
+      "y": -2516.25,
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "id": 5,
+      "x": 4886.1763,
+      "y": -2502.792,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

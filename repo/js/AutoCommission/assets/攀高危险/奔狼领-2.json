@@ -1,0 +1,162 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "1"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758606853328,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "奔狼领-2",
+    "tags": [],
+    "type": "collect",
+    "version": ""
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": -200.99,
+      "y": 1861.85
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -192.67,
+      "y": 1900.9
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -181.44,
+      "y": 1929.24
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": -173.08,
+      "y": 1948.51
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -164.96,
+      "y": 1966.61
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -149.92,
+      "y": 1978.28
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": -127.75,
+      "y": 1991.45
+    },
+    {
+      "action": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -111.92,
+      "y": 2000.33
+    },
+    {
+      "action": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -96.77,
+      "y": 2006.77
+    },
+    {
+      "action": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": -86.85,
+      "y": 2010.63
+    },
+    {
+      "action": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -78.28,
+      "y": 2019.24
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -63.1,
+      "y": 2038.01
+    },
+    {
+      "action": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -70.25,
+      "y": 2044.91
+    },
+    {
+      "action": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -65.8,
+      "y": 2048.8
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(3.5),wait(0.3),keypress(1),wait(0.3),keypress(E),wait(0.4),keypress(Q),wait(0.6),attack,wait(0.3),keypress(2),wait(0.3),keypress(E),wait(0.3),keypress(Q)",
+      "id": 15,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -40.5,
+      "y": 2039.56
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -40.5,
+      "y": 2039.56
+    },
+    {
+      "action": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -30.25,
+      "y": 2053.26
+    }
+  ]
+}

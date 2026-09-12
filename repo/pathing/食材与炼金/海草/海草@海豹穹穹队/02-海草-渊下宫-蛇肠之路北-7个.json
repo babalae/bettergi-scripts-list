@@ -1,0 +1,156 @@
+{
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
+  "info": {
+    "authors": [
+      {
+        "links": "https: //github.com/OhmyPaoPao",
+        "name": "海豹穹穹队"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "纳西妲收集",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1764015495181,
+    "map_match_method": "TemplateMatch",
+    "map_name": "Enkanomiya",
+    "name": "02-海草-渊下宫-蛇肠之路北-7个",
+    "order": 0,
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1581.1093,
+      "y": -112.447
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1578.9683,
+      "y": -114.6406
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1573.0552,
+      "y": -117.0615
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1563.6926,
+      "y": -118.1565
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1540.8608,
+      "y": -92.6045
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1536.2931,
+      "y": -88.9194
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1523.9661,
+      "y": -93.0205
+    },
+    {
+      "action": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1510.4491,
+      "y": -113.5864
+    },
+    {
+      "action": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1506.803,
+      "y": -118.9878
+    },
+    {
+      "action": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1496.0452,
+      "y": -134.0835
+    },
+    {
+      "action": "",
+      "id": 11,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1482.9878,
+      "y": -143.6792
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1461.7556,
+      "y": -150.3777
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(6)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1461.7556,
+      "y": -150.3777
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1461.7556,
+      "y": -150.3777
+    }
+  ]
+}

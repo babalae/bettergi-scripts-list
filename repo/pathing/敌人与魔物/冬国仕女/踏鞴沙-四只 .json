@@ -1,0 +1,134 @@
+{
+  "info": {
+    "name": "踏鞴沙-四只 ",
+    "type": "collect",
+    "version": "1.0",
+    "description": "此路线非常难打，且要做完前置任务，谨慎选择",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "Vicissitude"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3016.84,
+      "y": -3623.62,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -3036.86,
+      "y": -3648.04,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -3039.37,
+      "y": -3670.72,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -3082.59,
+      "y": -3661.25,
+      "type": "target",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -3100.37,
+      "y": -3652.31,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -3187.5,
+      "y": -3669.17,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -3188.63,
+      "y": -3696.32,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -3188.13,
+      "y": -3719.66,
+      "type": "path",
+      "move_mode": "swim",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -3185.89,
+      "y": -3765.26,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -3187.13,
+      "y": -3787.67,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -3016.88,
+      "y": -3623.61,
+      "type": "teleport",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -2947.71,
+      "y": -3623.87,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -2890.18,
+      "y": -3623.05,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

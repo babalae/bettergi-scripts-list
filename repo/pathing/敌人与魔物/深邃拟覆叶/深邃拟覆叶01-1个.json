@@ -1,0 +1,52 @@
+{
+  "info": {
+    "name": "深邃拟覆叶01-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "夜雨轩烛"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9757.94,
+      "y": -613.61,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9768.29,
+      "y": -602.66,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9794.0,
+      "y": -614.5,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(VK_SPACE),wait(2),click",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9823.5,
+      "y": -622.0,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

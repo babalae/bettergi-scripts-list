@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "漂浮灵-天云咔右 1",
+    "type": "collect",
+    "version": "1.0",
+    "description": "漂浮零",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "san"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4478.5,
+      "y": -4576.59
+    },
+    {
+      "id": 2,
+      "x": -4505.25,
+      "y": -4610.99,
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4507.25,
+      "y": -4615.24
+    },
+    {
+      "id": 4,
+      "x": -4502.75,
+      "y": -4617.25,
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -4498.5,
+      "y": -4606.75,
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -4459.75,
+      "y": -4588.75,
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -4421.75,
+      "y": -4590.25,
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4415.0,
+      "y": -4583.25
+    }
+  ]
+}

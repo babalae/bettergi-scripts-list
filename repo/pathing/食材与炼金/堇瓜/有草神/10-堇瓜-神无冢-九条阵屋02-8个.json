@@ -1,0 +1,113 @@
+{
+  "info": {
+    "author": "起个名字好难的喵",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756505133778,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "10-堇瓜-神无冢-九条阵屋02-8个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3436.84,
+      "y": -3320.07
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3468.08,
+      "y": -3327.59
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3486.14,
+      "y": -3327.52
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3534.19,
+      "y": -3334.68
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3534.23,
+      "y": -3334.67
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3534.23,
+      "y": -3334.67
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3534.23,
+      "y": -3334.67
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3532.83,
+      "y": -3336.32
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3519.52,
+      "y": -3351.72
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -3489.32,
+      "y": -3347.08
+    }
+  ]
+}

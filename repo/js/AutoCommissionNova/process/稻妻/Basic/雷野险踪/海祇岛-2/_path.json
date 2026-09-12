@@ -1,0 +1,76 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/1004452714",
+                "name": "DarkFlameMaster"
+            }
+        ],
+        "bgi_version": "0.52.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1784373284258,
+        "map_match_method": "SIFT",
+        "map_name": "Teyvat",
+        "name": "稻妻-海祇岛-2-雷野险踪",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 1,
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -757.6445,
+            "y": -3814.8066
+        },
+        {
+            "action": "stop_flying",
+            "action_params": "",
+            "id": 2,
+            "move_mode": "fly",
+            "type": "path",
+            "x": -828.4629,
+            "y": -3771.4541
+        },
+        {
+            "action": "anemo_collect",
+            "action_params": "",
+            "id": 3,
+            "move_mode": "walk",
+            "type": "target",
+            "x": -842.3027,
+            "y": -3768.1582
+        },
+        {
+            "action": "anemo_collect",
+            "action_params": "",
+            "id": 4,
+            "move_mode": "walk",
+            "type": "target",
+            "x": -838.748,
+            "y": -3804.4502
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 5,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -831.9922,
+            "y": -3807.1211
+        },
+        {
+            "action": "anemo_collect",
+            "action_params": "",
+            "id": 6,
+            "move_mode": "walk",
+            "type": "target",
+            "x": -817.6133,
+            "y": -3851.0615
+        }
+    ]
+}

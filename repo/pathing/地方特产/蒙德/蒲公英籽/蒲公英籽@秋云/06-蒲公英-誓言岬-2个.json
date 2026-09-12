@@ -1,0 +1,41 @@
+{
+  "info": {
+    "name": "06-蒲公英-誓言岬-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "秋云",
+        "links": "https://github.com/physligl"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1999.06,
+      "y": 1435.04,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": -2022.46,
+      "y": 1465.41,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "anemo_collect"
+    },
+    {
+      "id": 3,
+      "x": -2030.42,
+      "y": 1455.52,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "anemo_collect"
+    }
+  ]
+}

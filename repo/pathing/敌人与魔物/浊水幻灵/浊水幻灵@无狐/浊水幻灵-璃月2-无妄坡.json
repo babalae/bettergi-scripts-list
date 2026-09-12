@@ -1,0 +1,61 @@
+{
+  "info": {
+    "name": "浊水幻灵-璃月2-无妄坡",
+    "type": "collect",
+    "version": "1.0",
+    "description": "后面两只浊水幻灵距离有点尴尬，可能第一只战斗完之后，第二只的途径点没办法开启（还处于战斗中）。试了之后再优化看看。",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "无狐"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 385.85,
+      "y": 1688.63,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 360.8,
+      "y": 1706.06,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 332.06,
+      "y": 1708.99,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 317.45,
+      "y": 1717.04,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 301.55,
+      "y": 1698.69,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

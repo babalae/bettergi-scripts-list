@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-海祇岛北方最远处浅滩-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "野伏众-3个\n稻妻-海祇岛北方最远处浅滩",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -765.55,
+      "y": -3556.74,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -753.7,
+      "y": -3546.04,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": -737.19,
+      "y": -3459.5,
+      "action_params": ""
+    }
+  ]
+}

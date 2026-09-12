@@ -1,0 +1,129 @@
+{
+    "info": {
+        "name": "狗粮-稻妻-神无冢-堇色之庭-4个",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": -3931.2216796875,
+            "y": -3202.7919921875,
+            "type": "teleport",
+            "move_mode": "walk"
+        },
+        {
+            "x": -3934.5068359375,
+            "y": -3201.48046875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": -3939.6318359375,
+            "y": -3204.3203125,
+            "type": "path",
+            "move_mode": "fly"
+        },
+        {
+            "x": -3940.5126953125,
+            "y": -3205.3515625,
+            "type": "path",
+            "move_mode": "fly"
+        },
+
+        {
+            "x": -3953.9296875,
+            "y": -3198.4306640625,
+            "type": "path",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": -3958.9462890625,
+            "y": -3197.0888671875,
+            "type": "target",
+            "move_mode": "walk",
+            "#": 1
+        },
+        {
+            "x": -3958.9462890625,
+            "y": -3197.0888671875,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "click,wait(0.5),click,wait(0.5),click,wait(0.2)",
+            "#": 1
+        },
+
+        {
+            "x": -3958.546875,
+            "y": -3207.796875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": -3941.6845703125,
+            "y": -3224.412109375,
+            "type": "path",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": -3940.5361328125,
+            "y": -3219.451171875,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "#": 2
+        },
+        {
+            "x": -3940.5361328125,
+            "y": -3219.451171875,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "#": 2
+        },
+
+        {
+            "x": -3928.0673828125,
+            "y": -3239.0546875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": -3925.3115234375,
+            "y": -3264.466796875,
+            "type": "path",
+            "move_mode": "fly"
+        },
+
+        {
+            "x": -3929.943359375,
+            "y": -3269.751953125,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "#": 3
+        },
+        
+        {
+            "x": -3984.2021484375,
+            "y": -3242.8232421875,
+            "type": "path",
+            "move_mode": "fly"
+        },
+
+        {
+            "x": -3988.3955078125,
+            "y": -3228.4501953125,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "click,wait(0.5),click,wait(0.5),click,wait(0.2)",
+            "#": 4
+        }
+
+    ]
+}

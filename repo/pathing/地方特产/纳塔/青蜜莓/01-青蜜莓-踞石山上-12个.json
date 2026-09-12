@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "01-青蜜莓-踞石山上-12个",
+    "type": "collect",
+    "author": "黎歌",
+    "version": "1.0",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "黎歌"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 7845.1,
+      "y": -2047.38,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 7846.71,
+      "y": -2045.65,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 7855.83,
+      "y": -2018.21,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 7855.83,
+      "y": -2018.21,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 5,
+      "x": 7870.0,
+      "y": -2039.59,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 7869.01,
+      "y": -2054.92,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 7893.7,
+      "y": -2058.13,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": 7888.44,
+      "y": -2084.88,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.345)"
+    }
+  ]
+}

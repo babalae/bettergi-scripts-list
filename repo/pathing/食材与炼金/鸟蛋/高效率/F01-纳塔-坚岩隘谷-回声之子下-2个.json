@@ -1,0 +1,36 @@
+{
+  "info": {
+    "name": "F01-纳塔-坚岩隘谷-回声之子下-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.54.0",
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7633.81,
+      "y": -1646.65,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 7635.2,
+      "y": -1643.9,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

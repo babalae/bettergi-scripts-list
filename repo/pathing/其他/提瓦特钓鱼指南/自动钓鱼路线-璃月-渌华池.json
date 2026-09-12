@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "自动钓鱼路线-璃月-渌华池",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      },
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 524.0,
+      "y": 101.66,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 527.0,
+      "y": 106.75,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(2),keydown(Space),wait(0.1),keyup(Space),wait(0.2),keydown(Space),wait(0.1),keyup(Space),wait(5)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 530.78,
+      "y": 120.94,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 531.27,
+      "y": 127.31,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 532.79,
+      "y": 147.25,
+      "action": "fishing",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    }
+  ]
+}

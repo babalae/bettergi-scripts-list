@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ],
+    "bgi_version": "0.54.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758040656142,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "G01-挪德卡莱-伦波岛-北方训练场-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9885.5254,
+      "y": 1718.5879
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9873.0459,
+      "y": 1720.7437
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9860.9951,
+      "y": 1701.1787
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9846.1602,
+      "y": 1674.2583
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9827.4082,
+      "y": 1656.0312
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9820.4092,
+      "y": 1640.7231
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9793.4258,
+      "y": 1548.8086
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9789.7178,
+      "y": 1548.2812
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9786.1045,
+      "y": 1547.6621
+    }
+  ]
+}

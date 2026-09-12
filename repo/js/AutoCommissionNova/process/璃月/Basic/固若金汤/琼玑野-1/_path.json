@@ -1,0 +1,103 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/1004452714",
+                "name": "DarkFlameMaster"
+            }
+        ],
+        "bgi_version": "0.45.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1784025340609,
+        "map_match_method": "",
+        "map_name": "Teyvat",
+        "name": "璃月-琼玑野-1-固若金汤",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 1,
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -164.2617,
+            "y": 1182.7949
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 2,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -134.6191,
+            "y": 1141.2627
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 3,
+            "move_mode": "fly",
+            "type": "path",
+            "x": -114.7695,
+            "y": 1108.5986
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 4,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -82.7617,
+            "y": 1098.5801
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 5,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -52.3984,
+            "y": 1093.1909
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 6,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -12.1953,
+            "y": 1097.354
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 7,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 32.9668,
+            "y": 1060.5811
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 8,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 28.4746,
+            "y": 1028.4131
+        },
+        {
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)",
+            "id": 9,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 26.3418,
+            "y": 1015.3599
+        }
+    ]
+}

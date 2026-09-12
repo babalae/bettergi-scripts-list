@@ -1,0 +1,139 @@
+{
+  "info": {
+    "name": "07-青蜜莓-悬木人-15个",
+    "type": "collect",
+    "author": "黎歌",
+    "version": "1.0",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "黎歌"
+      }
+    ],
+    "description": "",
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754875470151,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8497.83,
+      "y": -2221.91,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8498.16,
+      "y": -2218.16,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8520.24,
+      "y": -2185.33,
+      "action": "combat_script",
+      "action_params": "j,wait(1.2)",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8520.24,
+      "y": -2185.33,
+      "action": "stop_flying",
+      "action_params": "",
+      "move_mode": "fly",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 8520.24,
+      "y": -2185.33,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 8522.7,
+      "y": -2191.11,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 8538.2,
+      "y": -2179.22,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 8539.5615,
+      "y": -2177.9512,
+      "type": "target",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 8540.22,
+      "y": -2175.71,
+      "action": "",
+      "move_mode": "dash",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 8538.2,
+      "y": -2179.22,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 8535.48,
+      "y": -2188.66,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 8547.56,
+      "y": -2191.33,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 8544.15,
+      "y": -2211.18,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": 8550.91,
+      "y": -2215.17,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "type": "target",
+      "action_params": "wait(0.1)"
+    }
+  ]
+}

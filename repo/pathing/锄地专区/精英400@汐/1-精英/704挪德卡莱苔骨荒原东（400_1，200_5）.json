@@ -1,0 +1,131 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时149秒，包含以下怪物：4只荒野幽徒、1只荒野狂狩士、1只蕴光刃犀。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759490607404,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "704挪德卡莱苔骨荒原东（400_1，200_5）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9222.2812,
+      "y": 1900.9121
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9195.9941,
+      "y": 1916.1406
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9206.1631,
+      "y": 1958.4009
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9220.873,
+      "y": 1992.4043
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "800",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9229.9775,
+      "y": 2017.9204
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9229.9775,
+      "y": 2017.9204
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9207.8682,
+      "y": 2045.8672
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9184.375,
+      "y": 2067.4965
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9151.8848,
+      "y": 2057.5349
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9091.998,
+      "y": 2048.1382
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9096.3896,
+      "y": 2058.3865
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9096.3896,
+      "y": 2058.3865
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Annijang",
+        "name": "Annijang"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1787159929354,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "04-异种合成魔兽-至冬-海屑镇东-11只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7840.6816,
+      "y": 7592.3809
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6937.1689,
+      "y": 9524.8945
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6952.7813,
+      "y": 9508.4043
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6977.5586,
+      "y": 9495.082
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7015.2598,
+      "y": 9483.6895
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(5)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7034.9268,
+      "y": 9491.0566
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "500",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7097.2021,
+      "y": 9549.8311
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7119.5615,
+      "y": 9560.9502
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7171.7832,
+      "y": 9539.9688
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7197.8086,
+      "y": 9556.9385
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7249.4863,
+      "y": 9525.7168
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7306.7656,
+      "y": 9502.0781
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7350.5498,
+      "y": 9476.1924
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7385.1865,
+      "y": 9480.5762
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7410.8213,
+      "y": 9474.8174
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7419.2109,
+      "y": 9525.7441
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7400.377,
+      "y": 9504.1602
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7377.6543,
+      "y": 9481.498
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3)",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7314.127,
+      "y": 9462.8682
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 20,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7254,
+      "y": 9429.2188
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7219.8584,
+      "y": 9415.667
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7201.4131,
+      "y": 9394.3701
+    }
+  ]
+}

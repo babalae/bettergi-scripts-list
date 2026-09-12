@@ -1,0 +1,116 @@
+{
+  "info": {
+    "name": "浊水幻灵-枫丹9-实验室",
+    "type": "collect",
+    "version": "1.0",
+    "description": "第2只需要采集薄荷触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "无狐"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3846.95,
+      "y": 4652.84,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3823.23,
+      "y": 4619.28,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3776.49,
+      "y": 4616.34,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3771.33,
+      "y": 4634.32,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 3744.98,
+      "y": 4678.95,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3721.79,
+      "y": 4697.04,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 3715.0,
+      "y": 4715.95,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 3715.0,
+      "y": 4715.95,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 3771.36,
+      "y": 4742.36,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 3818.67,
+      "y": 4760.49,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 3818.68,
+      "y": 4760.49,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

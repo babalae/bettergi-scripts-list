@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "C02-枫丹动能工程科学研究院区右侧-10个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.50.0",
+    "tags": [],
+    "last_modified_time": 1755602409214,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4139.4951,
+      "y": 4547.2334,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4030.9502,
+      "y": 4574.1787,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4028.9492,
+      "y": 4613.9668,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keydown(VK_LCONTROL);wait(9);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,571)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4028.9492,
+      "y": 4613.9668,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4028.3525,
+      "y": 4616.3501,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3978.5469,
+      "y": 4645.7471,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3971.1836,
+      "y": 4642.3389,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3968.7324,
+      "y": 4644.9219,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    }
+  ]
+}

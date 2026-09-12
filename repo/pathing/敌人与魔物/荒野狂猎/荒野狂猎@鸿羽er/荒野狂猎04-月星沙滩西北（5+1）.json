@@ -1,0 +1,54 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/evildoer12138",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758000340279,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "荒野狂猎04-月星沙滩西北（5+1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9561.9391,
+      "y": 2118.212
+    },
+    {
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9549.4922,
+      "y": 2162.5091
+    },
+    {
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9557.9888,
+      "y": 2221.5132
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9647.4979,
+      "y": 2386.0055
+    }
+  ]
+}

@@ -1,0 +1,249 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760361359303,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "03-阻勒隘左下-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6817.4922,
+      "y": 383.6958
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 6837.0801,
+      "y": 334.8027
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 6857.3184,
+      "y": 280.6338
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6862.8477,
+      "y": 268.9062
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "800",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 6871.625,
+      "y": 257.4048
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 6906.5879,
+      "y": 217.6382
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6909.1816,
+      "y": 213.4819
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6911.8398,
+      "y": 210.6997
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6912.3672,
+      "y": 215.7358
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6914.1289,
+      "y": 213.063
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "run",
+      "type": "path",
+      "x": 6904.3359,
+      "y": 243.9331
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": 6912.3809,
+      "y": 269.5371
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "run",
+      "type": "path",
+      "x": 6935.0508,
+      "y": 294.9658
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6931.1123,
+      "y": 307.6284
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 15,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6930.041,
+      "y": 310.5103
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6930.041,
+      "y": 310.5103
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6817.4932,
+      "y": 383.6895
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6810.9473,
+      "y": 382.8657
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1200",
+      "id": 19,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 6797.6387,
+      "y": 379.7344
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "run",
+      "type": "path",
+      "x": 6759.0479,
+      "y": 366.2671
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1600",
+      "id": 21,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 6750.8086,
+      "y": 366.5552
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6749.7627,
+      "y": 371.0459
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w);wait(2);keyup(w)",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 6777.3115,
+      "y": 379.2378
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6777.3115,
+      "y": 379.2378
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6774.0938,
+      "y": 382.25
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "type": "自动任务",
+    "data": {
+      "action": "enable",
+      "taskType": "AutoSkip"
+    },
+    "note": "开启自动剧情"
+  },
+ {
+    "type": "地图追踪",
+    "data": "应急补给-1.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "追踪委托",
+    "data": {
+    "npc": "里瑟",
+    "iconType": "task",
+    "autoTalk": true
+  }, 
+    "note": "追踪委托"
+  },
+   {
+     "type": "按键",
+     "data": "F",
+     "note": "对话"
+  },
+  {
+     "type": "等待返回主界面",
+     "note": "等待返回主界面"
+  }
+
+]

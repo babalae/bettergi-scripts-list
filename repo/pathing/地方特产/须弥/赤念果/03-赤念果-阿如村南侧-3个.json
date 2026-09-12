@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "03-赤念果-阿如村南侧-3个",
+    "type": "collect",
+    "country": "须弥",
+    "version": "1.0",
+    "description": "需要纳西妲",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "½",
+        "links": "https://github.com/Traveler07"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4077.27,
+      "y": -2164.65,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4135.32,
+      "y": -2156.67,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4169.65,
+      "y": -2149.6,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 4209.75,
+      "y": -2134.42,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4230.41,
+      "y": -2155.8,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4257.66,
+      "y": -2126.04,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

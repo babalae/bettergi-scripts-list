@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>传送点检测报告</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: transparent; }
+    body {
+      display: grid; place-items: center; padding: 28px; color: #f5f1e7;
+      background: rgba(7, 10, 15, .58); font-family: "Microsoft YaHei", sans-serif; letter-spacing: 0;
+    }
+    .panel {
+      display: grid; grid-template-rows: auto auto minmax(0, 1fr); width: min(860px, 100%); max-height: min(820px, 92vh);
+      border: 1px solid rgba(229, 207, 151, .62); border-radius: 6px;
+      background: rgba(27, 32, 41, .97); box-shadow: 0 18px 50px rgba(0, 0, 0, .42); overflow: hidden;
+    }
+    header { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px 14px; }
+    h1 { margin: 0; color: #ead8a5; font-size: 22px; font-weight: 700; }
+    .close {
+      width: 36px; height: 36px; border: 0; border-radius: 4px; color: #e7e9ed;
+      background: rgba(255, 255, 255, .08); font-size: 20px; cursor: pointer;
+    }
+    .close:hover { background: rgba(255, 255, 255, .16); }
+    .summary { display: grid; grid-template-columns: repeat(5, 1fr); border-block: 1px solid rgba(255, 255, 255, .1); }
+    .metric { padding: 13px 16px; border-right: 1px solid rgba(255, 255, 255, .08); }
+    .metric:last-child { border-right: 0; }
+    .metric-label { color: #aeb4bf; font-size: 12px; }
+    .metric-value { margin-top: 4px; font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .passed { color: #9ed8b1; }
+    .slow { color: #f0c26b; }
+    .failed { color: #ec9292; }
+    .content { min-height: 0; overflow-y: auto; padding: 4px 20px 18px; }
+    .section-title { position: sticky; top: 0; margin: 0; padding: 15px 0 10px; background: #1b2029; font-size: 16px; }
+    .empty { padding: 48px 12px; color: #9ed8b1; text-align: center; font-size: 18px; }
+    .point { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7px 18px; padding: 13px 2px; border-top: 1px solid rgba(255, 255, 255, .08); }
+    .point-name { min-width: 0; font-size: 15px; font-weight: 700; overflow-wrap: anywhere; }
+    .point-meta { color: #aeb4bf; font-size: 12px; font-variant-numeric: tabular-nums; }
+    .point-error { grid-column: 1 / -1; color: #e4b1b1; font-size: 13px; line-height: 1.45; overflow-wrap: anywhere; }
+    @media (max-width: 700px) {
+      body { padding: 12px; }
+      .summary { grid-template-columns: repeat(2, 1fr); }
+      .metric { border-bottom: 1px solid rgba(255, 255, 255, .08); }
+      .point { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <header>
+      <h1>传送点检测报告</h1>
+      <button id="close" class="close" type="button" title="关闭">&#10005;</button>
+    </header>
+    <section class="summary">
+      <div class="metric"><div class="metric-label">已检测</div><div id="checked" class="metric-value">0 / 0</div></div>
+      <div class="metric"><div class="metric-label">通过</div><div id="passed" class="metric-value passed">0</div></div>
+      <div class="metric"><div class="metric-label">较慢</div><div id="slow" class="metric-value slow">0</div></div>
+      <div class="metric"><div class="metric-label">最后失败</div><div id="failed" class="metric-value failed">0</div></div>
+      <div class="metric"><div class="metric-label">平均耗时</div><div id="average" class="metric-value">--</div></div>
+    </section>
+    <section class="content">
+      <h2 id="section-title" class="section-title">疑似未激活锚点</h2>
+      <div id="list"></div>
+    </section>
+  </main>
+  <script>
+    const byId = (id) => document.getElementById(id);
+    const escapeHtml = (value) => String(value ?? "")
+      .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+
+    function render(report) {
+      const points = report?.unactivatedPoints || [];
+      byId("checked").textContent = `${Number(report?.checkedPoints) || 0} / ${Number(report?.totalPoints) || 0}`;
+      byId("passed").textContent = Number(report?.passed) || 0;
+      byId("slow").textContent = Number(report?.slow) || 0;
+      byId("failed").textContent = points.length;
+      byId("average").textContent = report?.averageElapsedMs > 0
+        ? `${(report.averageElapsedMs / 1000).toFixed(2)} 秒`
+        : "--";
+      byId("section-title").textContent = `疑似未激活锚点（${points.length}）`;
+      byId("list").innerHTML = points.length === 0
+        ? '<div class="empty">没有发现最后一次尝试仍失败的传送点</div>'
+        : points.map((point) => `
+          <article class="point">
+            <div class="point-name">${escapeHtml(point.name)}</div>
+            <div class="point-meta">尝试 ${Number(point.attempts) || 0} 次 · ${(Number(point.elapsedMs) / 1000).toFixed(2)} 秒</div>
+            <div class="point-meta">${escapeHtml(point.pointKey)}</div>
+            <div class="point-error">${escapeHtml(point.error)}</div>
+          </article>
+        `).join("");
+    }
+
+    byId("close").addEventListener("click", () => {
+      if (window.htmlMask) {
+        void window.htmlMask.request("/close", {});
+      }
+    });
+
+    if (window.htmlMask) {
+      window.htmlMask.onMessage = (message) => {
+        if (message.url === "/report") {
+          render(message.data?.data || message.data);
+        }
+      };
+    }
+  </script>
+</body>
+</html>

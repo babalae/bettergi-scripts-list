@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "C07-日落果-须弥-二净甸-7个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4042.46,
+      "y": -238.48,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4035.37,
+      "y": -253.73,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3981.92,
+      "y": -352.75,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1500"
+    },
+    {
+      "id": 4,
+      "x": 3979.42,
+      "y": -355.57,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 3955.1,
+      "y": -361.68,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3936.83,
+      "y": -369.25,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.8),keypress(VK_SPACE),wait(0.8),keypress(VK_SPACE)"
+    }
+  ]
+}

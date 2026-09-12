@@ -1,0 +1,68 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "  路线信息：该路线预计用时52秒，包含以下怪物：1只先驱秘源统辖阵列。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1788285985316,
+    "map_match_method": "SIFT",
+    "map_name": "MoonCanon",
+    "name": "ZG004月球古月风暴研究所",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -543.585,
+      "y": -912.7041
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -524.1348,
+      "y": -881.5864
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E); ;",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -532.1504,
+      "y": -851.377
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -525.0283,
+      "y": -845.1733
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -521.8184,
+      "y": -843.7842
+    }
+  ]
+}

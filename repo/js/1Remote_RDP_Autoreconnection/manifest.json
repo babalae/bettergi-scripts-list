@@ -1,0 +1,15 @@
+{
+  "manifest_version": 1,
+  "name": "1Remote RDP 自动重连",
+  "version": "1.0",
+  "bgi_version": "0.39.1",
+  "description": "用于自动重连远程桌面连接的脚本。\n在连接断开时自动尝试重新连接。",
+  "authors": [
+    {
+      "name": "火山",
+      "links": "https://github.com/RRRR623"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}

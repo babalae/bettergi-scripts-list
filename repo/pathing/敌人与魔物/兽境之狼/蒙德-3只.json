@@ -1,0 +1,80 @@
+{
+  "info": {
+    "name": "蒙德-3只",
+    "type": "collect",
+    "version": "1.0",
+    "description": "兽境之狼采集，建议带回血",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "Vicissitude"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -251.63,
+      "y": 2256.56,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -242.48,
+      "y": 2238.47,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -243.51,
+      "y": 2218.43,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -244.89,
+      "y": 2211.43,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -246.1,
+      "y": 2205.35,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -253.85,
+      "y": 2184.96,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -245.5,
+      "y": 2105.6,
+      "type": "target",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

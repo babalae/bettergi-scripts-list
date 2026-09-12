@@ -1,0 +1,61 @@
+{
+  "info": {
+    "name": "06-烈焰花花蕊-璃月-南天门",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "ran"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1665.87,
+      "y": 386.56,
+      "type": "teleport",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1734.34,
+      "y": 371.7,
+      "type": "path",
+      "move_mode": "run",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1739.44,
+      "y": 364.87,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1745.74,
+      "y": 368.24,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 1742.92,
+      "y": 376.7,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    }
+  ]
+}

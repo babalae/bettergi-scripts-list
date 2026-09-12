@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/ddaodan",
+        "name": "ddaodan"
+      }
+    ],
+    "bgi_version": "0.60.0",
+    "description": "靠近神像的3个位置不固定，可能会漏",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1775620339367,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "02-空羽蛾-风息山七天神像-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -82.4824,
+      "y": 3309.48
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -81.123,
+      "y": 3307.9272
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -79.3691,
+      "y": 3305.1406
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -75.9434,
+      "y": 3307.3262
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -73.418,
+      "y": 3305.2578
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -68.5137,
+      "y": 3309.4575
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -62.7949,
+      "y": 3323.6504
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -59.1777,
+      "y": 3394.2871
+    }
+  ]
+}

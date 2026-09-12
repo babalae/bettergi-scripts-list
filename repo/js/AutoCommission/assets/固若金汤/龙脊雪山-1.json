@@ -1,0 +1,128 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758351566927,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "龙脊雪山-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -704.875,
+      "y": 926.36328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -698.94140625,
+      "y": 945.91015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -663.060546875,
+      "y": 944.998046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -659.103515625,
+      "y": 940.982421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.1),wait(1.3),keypress(F)",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -663.544921875,
+      "y": 940.94677734375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -661.75,
+      "y": 936.978515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -663.625,
+      "y": 943.7578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(3),wait(0.3),keypress(1),wait(0.3),keypress(E),wait(0.4),keypress(Q),wait(0.6),attack,wait(0.3),keypress(2),wait(0.3),keypress(E),wait(0.3),keypress(Q)",
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -674.693359375,
+      "y": 945.861328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(3),wait(0.3),keypress(3),wait(0.3),keypress(E),wait(0.4),keypress(Q),wait(0.6),attack,wait(0.3),keypress(4),wait(0.3),keypress(E),wait(0.3),keypress(Q)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -674.693359375,
+      "y": 945.861328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(2),wait(0.3),keypress(1),wait(0.3),keypress(E),wait(0.4),keypress(Q),wait(0.6),attack,wait(0.3),keypress(2),wait(0.3),keypress(E),wait(0.3),keypress(Q)",
+      "id": 10,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -676.5,
+      "y": 932.35986328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(2),wait(0.3),keypress(3),wait(0.3),keypress(E),wait(0.4),keypress(Q),wait(0.6),attack,wait(0.3),keypress(4),wait(0.3),keypress(E),wait(0.3),keypress(Q)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -676.5,
+      "y": 932.35986328125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -668.412109375,
+      "y": 935.82177734375
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "info": {
+    "name": "纳塔-安饶之野-路线18-19",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "终点处小地图无效",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750841209901
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 10184.7265625,
+      "y": -3017.64453125,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 10204.8076171875,
+      "y": -3003.544921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 10208.6904296875,
+      "y": -2984.5947265625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 10207.80796875,
+      "y": -2981.384765625,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "w(4.5)"
+    }
+  ]
+}

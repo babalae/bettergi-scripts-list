@@ -1,0 +1,95 @@
+{
+  "info": {
+    "author": "起个名字好难的喵",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756204840312,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "11-堇瓜-神无冢-踏鞴砂(右侧)-6个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3288.12,
+      "y": -3652.53
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3324.11,
+      "y": -3687.52
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3324.11,
+      "y": -3687.55
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3324.11,
+      "y": -3687.55
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3156.57,
+      "y": -3886.11
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2500",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3183.27,
+      "y": -3941.44
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3183.23,
+      "y": -3941.46
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3183.23,
+      "y": -3941.46
+    }
+  ]
+}

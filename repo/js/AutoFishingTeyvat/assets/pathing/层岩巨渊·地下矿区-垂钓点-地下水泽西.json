@@ -1,0 +1,107 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 层岩巨渊·地下矿区\n类型: 垂钓点\n详细位置: 地下水泽西\n鱼类: 花锵、斗棘鱼、赤魔王、流纹褐蝶鱼、苦炮鲀\n饵类: 果酿饵、赤糜饵、蠕虫假饵、飞蝇假饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764487299366,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "层岩巨渊·地下矿区-垂钓点-地下水泽西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 551.11,
+      "y": 950.87
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(3.5),attack(0.1),wait(0.5)",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 566.11,
+      "y": 933.14
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 561.94,
+      "y": 885.07
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 574.9,
+      "y": 859.3
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 604.15,
+      "y": 802.22
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(0.8),keypress(space)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 615.88,
+      "y": 784.32
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 662.78,
+      "y": 782.09
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 662.87,
+      "y": 780.87
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(-350,100),w(0.17),wait(5.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 659.82,
+      "y": 779.06
+    }
+  ]
+}

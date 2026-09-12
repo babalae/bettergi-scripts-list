@@ -1,0 +1,41 @@
+{
+  "info": {
+    "name": "丘丘人射手-16卡布狄斯堡02",
+    "type": "collect",
+    "version": "1.0",
+    "description": "存在大量炸药桶",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "曦",
+        "links": "https://github.com/cx05121"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3375.85,
+      "y": 2698.56
+    },
+    {
+      "id": 2,
+      "x": 3188.68,
+      "y": 2572.42,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 3151.47,
+      "y": 2551.72,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

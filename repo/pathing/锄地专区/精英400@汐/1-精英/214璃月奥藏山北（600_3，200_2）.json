@@ -1,0 +1,140 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时110秒，包含5只精英，预计收入2200摩拉，包含以下怪物：2只狂风之核、78只秘源机兵·构型械、2只幼岩龙蜥、1只岩龙蜥。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760871588127,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "214璃月奥藏山北（600_3，200_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1604.24,
+      "y": 1040.67
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1607.53,
+      "y": 1039.19
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 1611.38,
+      "y": 1043.94
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1624.79,
+      "y": 1057.96
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1629.31,
+      "y": 1102.85
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;伊涅芙 e;",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1613.31,
+      "y": 1152.85
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1617.3,
+      "y": 1192.05
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1623.67,
+      "y": 1214.56
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1602.94,
+      "y": 1233.91
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1623.6,
+      "y": 1270.91
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1598.97,
+      "y": 1304.39
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1565.73,
+      "y": 1283.77
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 1565.73,
+      "y": 1283.77
+    }
+  ]
+}

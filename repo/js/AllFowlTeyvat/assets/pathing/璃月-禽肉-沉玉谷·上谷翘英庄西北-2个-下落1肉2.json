@@ -1,0 +1,40 @@
+{
+    "info": {
+        "name": "璃月-禽肉-沉玉谷·上谷翘英庄西北-2个-下落1肉2",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "地区: 璃月\n类型: 禽肉\n详细位置: 沉玉谷·上谷翘英庄西北\n数目: 2\n附加信息: 1禽肉鸟共2只\n注意: 使用前请将游戏时间调到白天，跑图位建议使用绮良良或埃洛伊",
+        "bgi_version": "0.43.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 1746.68,
+            "y": 2325.17,
+            "type": "teleport",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 1782.42,
+            "y": 2397.24,
+            "type": "target",
+            "move_mode": "fly",
+            "action": "stop_flying",
+            "action_params": "",
+            "locked": false
+        },
+        {
+            "id": 3,
+            "x": 1782.42,
+            "y": 2397.24,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "pick_around",
+            "action_params": ""
+        }
+    ]
+}

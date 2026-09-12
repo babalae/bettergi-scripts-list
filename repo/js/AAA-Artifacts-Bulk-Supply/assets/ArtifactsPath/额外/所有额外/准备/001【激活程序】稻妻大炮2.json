@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765959061773,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "001【激活程序】稻妻大炮2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3472.9677734375,
+      "y": -3754.984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3471.005859375,
+      "y": -3743.349609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),w(0.3),keypress(f)",
+      "id": 3,
+      "move_mode": "run",
+      "type": "target",
+      "x": -3462.5361328125,
+      "y": -3726.7958984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "target",
+      "x": -3464.732421875,
+      "y": -3733.4462890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3061,
+      "y": -3674.498937612192
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.5),dash,w(0.5),w(0.5)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3061,
+      "y": -3674.498937612192
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(1),wait(1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(RETURN),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(w),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(d),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(d),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(d),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(RETURN),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(w),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(w),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(w),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(s),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(a),wait(0.1),keypress(ESCAPE)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3061,
+      "y": -3674.498937612192
+    },
+    {
+      "action": "log_output",
+      "action_params": "\n[激活路径]激活\"超限点\"不是不捡。\n[激活路径]是缓捡，慢捡，优捡，有次序的捡，让有条件的先捡，让有需求的先捡，才能先捡带动后捡，也要具体情况具体捡，不管早捡晚捡，能捡的都是好捡。\n[激活路径]汐酱大炮上上下下进进出出是对的!!!",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3285.267578125,
+      "y": -3731.4169921875
+    }
+  ]
+}

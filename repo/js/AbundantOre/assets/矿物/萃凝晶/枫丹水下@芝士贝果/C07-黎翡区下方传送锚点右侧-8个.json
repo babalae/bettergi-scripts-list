@@ -1,0 +1,149 @@
+{
+  "info": {
+    "name": "C07-黎翡区下方传送锚点右侧-8个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.50.0",
+    "tags": [],
+    "last_modified_time": 1755609773496,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4753.8594,
+      "y": 4498.9629,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4753.8594,
+      "y": 4498.9629,
+      "action_params": "click(middle)"
+    },
+    {
+      "id": 3,
+      "x": 4615.8184,
+      "y": 4502.2817,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(8);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,571)"
+    },
+    {
+      "id": 4,
+      "x": 4615.6416,
+      "y": 4507.7324,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 5,
+      "x": 4619.1201,
+      "y": 4509.6719,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 6,
+      "x": 4619.0684,
+      "y": 4558.7798,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4612.9512,
+      "y": 4565.3799,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 8,
+      "x": 4616.3887,
+      "y": 4570.3345,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 9,
+      "x": 4586.0625,
+      "y": 4509.4644,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 4561.209,
+      "y": 4491.2017,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 4502.3203,
+      "y": 4504.8696,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 4485.4854,
+      "y": 4516.1748,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 4465.2266,
+      "y": 4521.7515,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 4459.2666,
+      "y": 4522.7886,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e",
+      "locked": false
+    }
+  ]
+}

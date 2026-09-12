@@ -1,0 +1,123 @@
+{
+  "info": {
+    "name": "D03-卡布狄斯堡遗迹右侧水坑-8个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.50.0",
+    "tags": [],
+    "last_modified_time": 1755519898550,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3252.4619,
+      "y": 2963.7207,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3215.7285,
+      "y": 2866.2034,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3197.0146,
+      "y": 2846.9524,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(1);keyup(VK_LCONTROL);wait(1);attack",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 3197.0146,
+      "y": 2846.9524,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(4);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,571)"
+    },
+    {
+      "id": 5,
+      "x": 3197.1309,
+      "y": 2841.1787,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 6,
+      "x": 3196.2812,
+      "y": 2847.8337,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 7,
+      "x": 3196.7207,
+      "y": 2850.2981,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 3196.7207,
+      "y": 2850.2981,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE);wait(5);keyup(VK_SPACE)"
+    },
+    {
+      "id": 9,
+      "x": 3195.5215,
+      "y": 2857.5334,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL);wait(2);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,571)",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 3195.5215,
+      "y": 2857.5334,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    },
+    {
+      "id": 11,
+      "x": 3200.4131,
+      "y": 2858.4585,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "e"
+    }
+  ]
+}

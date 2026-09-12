@@ -1,0 +1,215 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/RRRR623",
+                "name": "火山"
+            }
+        ],
+        "bgi_version": "0.52.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1761139465151,
+        "map_match_method": "",
+        "map_name": "Teyvat",
+        "name": "17-水晶块-璃月-奥藏山(有战斗,精英600x1,200x1)-8个",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 1,
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 1602.39,
+            "y": 1040.24
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 2,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 1607.42,
+            "y": 1038.97
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 3,
+            "move_mode": "fly",
+            "type": "path",
+            "x": 1623.43,
+            "y": 1035.01
+        },
+        {
+            "action": "stop_flying",
+            "action_params": "5000",
+            "id": 4,
+            "move_mode": "fly",
+            "type": "path",
+            "x": 1656.37,
+            "y": 1067.66
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 5,
+            "move_mode": "dash",
+            "type": "path",
+            "x": 1635.69,
+            "y": 1094.78
+        },
+        {
+            "action": "fight",
+            "action_params": "",
+            "id": 6,
+            "move_mode": "dash",
+            "point_ext_params": {
+                "description": "幼岩龙蜥",
+                "misidentification": {
+                    "arrival_time": 0,
+                    "handling_mode": "previousDetectedPoint",
+                    "type": [
+                        "unrecognized"
+                    ]
+                },
+                "monster_tag": "elite"
+            },
+            "type": "path",
+            "x": 1645.4863,
+            "y": 1074.7461
+        },
+        {
+            "action": "combat_script",
+            "action_params": "wait(0.5)",
+            "id": 7,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 1655.96,
+            "y": 1073.79
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 8,
+            "move_mode": "dash",
+            "type": "target",
+            "x": 1631.46,
+            "y": 1092.95
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 9,
+            "move_mode": "dash",
+            "type": "target",
+            "x": 1618.17,
+            "y": 1092.6
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 10,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 1612.0,
+            "y": 1093.81
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 11,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 1615.44,
+            "y": 1099.13
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 12,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 1614.93,
+            "y": 1109.43
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 13,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 1618.38,
+            "y": 1112.04
+        },
+        {
+            "action": "fight",
+            "action_params": "",
+            "id": 14,
+            "move_mode": "dash",
+            "point_ext_params": {
+                "description": "岩龙蜥",
+                "misidentification": {
+                    "arrival_time": 0,
+                    "handling_mode": "previousDetectedPoint",
+                    "type": [
+                        "unrecognized"
+                    ]
+                },
+                "monster_tag": "elite"
+            },
+            "type": "path",
+            "x": 1643.06,
+            "y": 1092.18
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 15,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 1638.39,
+            "y": 1102.76
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 16,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 1645.06,
+            "y": 1107.69
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 17,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 1650.45,
+            "y": 1108.39
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 18,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 1652.16,
+            "y": 1103.67
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 19,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 1651.72,
+            "y": 1093.29
+        }
+    ]
+}

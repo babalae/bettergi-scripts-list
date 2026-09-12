@@ -1,0 +1,95 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "DarkFlameMaster",
+        "links": "https://github.com/1004452714"
+      }
+    ],
+    "bgi_version": "0.49.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757489982772,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-宿影花-蓝珀湖左下-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9224.416,
+      "y": 2246.3704
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9274.1211,
+      "y": 2228.6489
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9272.8857,
+      "y": 2223.6299
+    },
+    {
+      "action": "combat_script",
+      "action_params": "j",
+      "id": 4,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9263.6387,
+      "y": 2189.792
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9263.6387,
+      "y": 2189.792
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9263.2031,
+      "y": 2186.6262
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9261.9629,
+      "y": 2182.7583
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9254.6201,
+      "y": 2186.0994
+    }
+  ]
+}

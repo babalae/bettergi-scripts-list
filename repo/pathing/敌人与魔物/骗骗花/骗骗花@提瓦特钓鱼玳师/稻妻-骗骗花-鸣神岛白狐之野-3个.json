@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "稻妻-骗骗花-鸣神岛白狐之野-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-3个\n稻妻-鸣神岛白狐之野\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4223.6,
+      "y": -3004.37,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4222.88,
+      "y": -2971.0,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4210.81,
+      "y": -2961.64,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4213.13,
+      "y": -2932.01,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash"
+    },
+    {
+      "id": 5,
+      "x": -4216.17,
+      "y": -2929.93,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash"
+    },
+    {
+      "id": 6,
+      "x": -4213.6,
+      "y": -2928.41,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": -4213.6,
+      "y": -2928.41,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

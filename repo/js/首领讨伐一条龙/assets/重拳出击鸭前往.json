@@ -1,0 +1,49 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1761966719243,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "重拳出击鸭前往",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10018.3388671875,
+      "y": 1539.26171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10037.62109375,
+      "y": 1495.3544921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3),keypress(f),wait(3),click,wait(2),keypress(f),wait(2),click,wait(1.5)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10044.154296875,
+      "y": 1473.5791015625
+    }
+  ]
+}

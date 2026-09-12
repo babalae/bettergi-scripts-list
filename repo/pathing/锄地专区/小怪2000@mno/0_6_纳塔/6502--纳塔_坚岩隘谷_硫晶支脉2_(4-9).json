@@ -1,0 +1,148 @@
+{
+  "info": {
+    "author": "Demo&汐&mno",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时160.29秒，包含13只小怪，预计收入688.5摩拉，包含以下怪物：2只盗宝团·火之药剂师、1只盗宝团·雷之药剂师、1只盗宝团·神射手、1只盗宝团·拳术家、1只铸砂勇士·碎盾者、1只疾讯勇士·重刃讯使、1只嵴锋龙武士·破岩锐刃、1只幼嵴锋龙、3只嵴锋龙、1只幼匿叶龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759249127160,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6502--纳塔_坚岩隘谷_硫晶支脉2_(4-9)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8400.54,
+      "y": -1221.38
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8433.01,
+      "y": -1298.91
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8446.6777,
+      "y": -1280.1396
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8494.1924,
+      "y": -1300.2495
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8494.1924,
+      "y": -1300.2495
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8520.8535,
+      "y": -1286.791
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8517.28,
+      "y": -1240.54
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 8517.28,
+      "y": -1240.54
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8400.54,
+      "y": -1221.38
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8343.1,
+      "y": -1356.85
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3000",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8334.26,
+      "y": -1378.11
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8334.26,
+      "y": -1378.11
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8334.26,
+      "y": -1378.11
+    }
+  ]
+}
