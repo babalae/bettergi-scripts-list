@@ -1435,7 +1435,7 @@ async function initNpcData(records) {
     // 重置容量限制集合
     capacityLimitedFoods.clear();
     try {
-        await fakeLog(`当前版本 3.6.1`, false, false, 23333);
+        await fakeLog(`当前版本 3.6.2`, false, false, 23333);
         // ==================== 确定账号名 ====================
         let rawUserName = settings.userName ? settings.userName.trim() : "";
         if (!rawUserName) {
