@@ -1,4 +1,4 @@
-//3.6.0
+//3.6.2
 
 // fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
 // 在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
@@ -56,6 +56,11 @@ async function fakeLog(name, isJs, isStart, duration) {
     const durationMinutes = Math.floor(durationInSeconds / 60);
     const durationSeconds = (durationInSeconds % 60).toFixed(3); // 保留三位小数
 
+    // 交互或拾取："XXXX"
+    if (duration == 23333) {
+        log.info(`交互或拾取："${name}"`);
+        return;
+    }
     // 使用四个独立的 if 语句处理四种情况
     if (isJs && isStart) {
         // 处理 isJs = true 且 isStart = true 的情况
@@ -93,10 +98,6 @@ async function fakeLog(name, isJs, isStart, duration) {
             `------------------------------`;
         log.debug(logMessage);
     }
-    // 交互或拾取："XXXX"
-    if (duration == 23333) {
-        log.info(`交互或拾取："${name}"`);
-    }
 }
 
 // ==================== 日志辅助函数 ====================
@@ -117,6 +118,7 @@ let userTagsToBuy = new Set();    // 标签名
 let allTags = new Set();          // 所有可用标签（从 npcs.json 收集）
 let requiredFoods = new Set();  // 所有需要加载图片的商品
 let capacityLimitedFoods = new Set();  // 存储因背包容量已达上限而不再购买的商品名
+let debugNpcFoods = null;  // 调试指定：Map<npc名, Set<商品名>|null(全部商品)>，null 表示未启用
 
 async function loadExternalData() {
     try {
@@ -142,13 +144,29 @@ async function loadExternalData() {
             const enabledTagsList = [];
 
             for (const item of items) {
+                // 商品组合别名："狗粮"对应购买所有狗粮商品
+                if (FOOD_GROUP_ALIASES[item]) {
+                    const groupFoods = getGroupFoods(item);
+                    if (groupFoods.length === 0) {
+                        log.warn(`商品组合 "${item}" 未匹配到任何商品，请检查 npcs.json 数据`);
+                    }
+                    groupFoods.forEach(food => {
+                        userFoodsToBuy.add(food);
+                        enabledFoodsList.push(food);
+                    });
+                    log.info(`已启用商品组合 "${item}"：共 ${groupFoods.length} 种商品 (${groupFoods.join(", ")})`);
+                    continue;
+                }
                 if (allTags.has(item)) {
                     // 是标签
                     userTagsToBuy.add(item);
                     enabledTagsList.push(item);
                 } else {
-                    // 视为商品名 (归一化，忽略「」括号差异)
-                    const food = normalizeFoodName(item);
+                    // 视为商品名 (归一化，忽略「」括号差异，并兼容旧商品名)
+                    const food = canonicalFoodName(item);
+                    if (food !== normalizeFoodName(item)) {
+                        log.info(`商品名 "${item}" 已在新版本中更名为 "${food}"，已自动兼容`);
+                    }
                     userFoodsToBuy.add(food);
                     enabledFoodsList.push(food);
                 }
@@ -168,6 +186,9 @@ async function loadExternalData() {
             log.warn("用户未指定要购买的商品或标签");
         }
 
+        // 解析调试模式指定的NPC和商品
+        debugNpcFoods = parseDebugNpcFoods();
+
         // 计算所有需要加载图片的商品
         requiredFoods = new Set(userFoodsToBuy);
         for (let key in npcData) {
@@ -180,6 +201,14 @@ async function loadExternalData() {
                 if (npc._month_foods) npc._month_foods.forEach(food => requiredFoods.add(food));
             }
         }
+
+        // 调试模式下加载识别图片
+        if (debugNpcFoods) {
+            for (const foods of debugNpcFoods.values()) {
+                if (foods) foods.forEach(food => requiredFoods.add(food));
+            }
+        }
+
         logConditional(`需要加载图片的商品总数: ${requiredFoods.size}`);
 
         return true;
@@ -207,8 +236,8 @@ function filterUserFoods(foodList) {
     }
 
     return foodList.filter(food => {
-        // 检查归一化后的商品名是否在用户要购买的商品集合中
-        const shouldBuy = userFoodsToBuy.has(normalizeFoodName(food));
+        // 检查归一化（含旧名兼容）后的商品名是否在用户要购买的商品集合中
+        const shouldBuy = userFoodsToBuy.has(canonicalFoodName(food));
         if (recordDebug && shouldBuy) {
             log.info(`[调试] 用户选择购买: ${food}`);
         }
@@ -336,70 +365,32 @@ function validateUserName(name) {
     return name.trim().replace(/[\\/:*?"<>|]/g, '_');
 }
 
+// 使用genshin.uid()获取当前角色UID
 async function getUidFromGame() {
-    // 设置脚本环境的游戏分辨率和DPI缩放
-    setGameMetrics(3840, 2160, 1.5);
-
-    // 确保回到主界面
-    await genshin.returnMainUi();
-    await sleep(1000);
-
-    // 打开派蒙菜单
-    keyPress("G");
-    await sleep(500);
-
-    // 加载退出按钮识别图（需要 assets/images/Exit.png 存在）
-    let imageExitRo;
     try {
-        imageExitRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/images/Exit.png"));
-        imageExitRo.Threshold = 0.8;
-    } catch (e) {
-        log.warn("无法加载 assets/Exit.png，将使用固定延时等待菜单打开");
-    }
+        // 确保回到主界面
+        await genshin.returnMainUi();
+        await sleep(1000);
 
-    if (imageExitRo) {
-        // 等待退出按钮出现，最多5秒
-        const startTime = Date.now();
-        while (Date.now() - startTime < 5000) {
-            let capture = captureGameRegion();
-            if (capture.Find(imageExitRo).isExist()) {
-                capture.dispose();
-                break;
-            }
-            capture.dispose();
-            await sleep(500);
+        // 通过OCR识别当前角色UID，识别失败返回0
+        const uidInt = await genshin.uid();
+        const uid = uidInt ? String(uidInt) : "";
+        if (uid.length >= 5) { // UID通常9位，至少5位
+            log.info(`从游戏获取到UID: ${uid}`);
+            return uid;
         }
-    } else {
-        await sleep(2000); // 无图片则直接等待2秒
-    }
-
-    // OCR识别UID
-    let gameRegion = captureGameRegion();
-    let ocrResult = gameRegion.Find(RecognitionObject.Ocr(1679, 1048, 200, 28));
-    gameRegion.dispose();
-
-    let uid = "";
-    if (ocrResult.isExist() && ocrResult.text) {
-        uid = ocrResult.text.replace(/\D/g, ''); // 只保留数字
-    }
-
-    // 关闭派蒙菜单
-    keyPress("ESCAPE");
-    await sleep(500);
-    await genshin.returnMainUi();
-
-    if (uid && uid.length >= 5) { // UID通常9位，至少5位
-        log.info(`从游戏获取到UID: ${uid}`);
-        return uid;
-    } else {
         log.warn("无法从游戏获取UID");
+        return null;
+    } catch (error) {
+        log.warn(`获取UID失败: ${error.message}`);
         return null;
     }
 }
 
-// 确保设置变量存在
+// 确保设置变量存在（调试模式总开关：关闭时"显示详细日志"与"指定NPC和商品"均不生效）
+const debugMode = settings.debugMode || false;
 const ignoreRecords = settings.ignoreRecords || false;
-const recordDebug = settings.recordDebug || false;
+const recordDebug = debugMode && (settings.recordDebug || false);
 
 // 商人名称兼容映射（旧拼写 -> 新规范名）
 // 更名后仍能命中旧购买记录与旧禁用标签设置，避免重复购买
@@ -413,8 +404,100 @@ function normalizeFoodName(name) {
     return String(name || "").replace(/[「」]/g, "").trim();
 }
 
-// 解析禁用的标签列表（同时归一到新规范名，使旧名禁用设置继续生效；商品名忽略「」括号差异）
-const disabledTags = (settings.disabledTags || "").split(/[,\s、]+/).filter(tag => tag.trim() !== "").map(tag => canonicalNpcName(normalizeFoodName(tag)));
+// 商品名称兼容映射
+// 用户若仍在商品栏填写旧名，自动映射到新名，避免找不到图片而报错
+const FOOD_NAME_ALIASES = { "鱼肉2": "鱼肉" };
+
+// 商品组合别名：填写组合名一键购买一组商品
+// "狗粮" = 所有带"狗粮商人"标签商人的周四刷新商品
+const FOOD_GROUP_ALIASES = { "狗粮": { tag: "狗粮商人", types: ["thu"] } };
+
+// 收集商品组合包含的商品名
+function getGroupFoods(group) {
+    const conf = FOOD_GROUP_ALIASES[group];
+    const foods = new Set();
+    if (!conf) return [];
+    for (const key in npcData) {
+        const npc = npcData[key];
+        if (npc.tags && Array.isArray(npc.tags) && npc.tags.includes(conf.tag)) {
+            conf.types.forEach(type => {
+                const list = npc[`_${type}_foods`];
+                if (list) list.forEach(food => foods.add(food));
+            });
+        }
+    }
+    return [...foods];
+}
+
+// 按商人名查找 npcData 中的商人
+function findNpcByName(name) {
+    const canonical = canonicalNpcName(normalizeFoodName(name));
+    for (const [key, npc] of Object.entries(npcData)) {
+        if (canonicalNpcName(normalizeFoodName(key)) === canonical ||
+            canonicalNpcName(normalizeFoodName(npc.name || "")) === canonical) {
+            return npc;
+        }
+    }
+    return null;
+}
+
+// ==================== 调试模式：解析指定的NPC和商品 ====================
+// 格式如"布兰琪 盐，莎拉 面粉"：只运行指定NPC并只购买其指定商品（NPC和商品可多选）
+// 只填NPC名不填商品则购买该商人全部商品；遇到另一个商人名即开启新分组（逗号分隔）
+function parseDebugNpcFoods() {
+    const input = (settings.debugNpcFoods || "").trim();
+    if (!debugMode || !input) return null;
+
+    const tokens = input.split(/[，,\s]+/).filter(t => t !== "");
+    const result = new Map(); // npc.name -> Set(商品名) 或 null(全部商品)
+    let currentNpc = null;
+
+    for (const token of tokens) {
+        const npc = findNpcByName(token);
+        if (npc) {
+            // 遇到商人名：开启/复用该商人的分组
+            currentNpc = npc.name;
+            if (!result.has(currentNpc)) result.set(currentNpc, null);
+        } else if (currentNpc) {
+            // 商品名：加入当前商人分组（未填商品时先初始化为指定集合）
+            let foods = result.get(currentNpc);
+            if (foods === null) {
+                foods = new Set();
+                result.set(currentNpc, foods);
+            }
+            foods.add(canonicalFoodName(token));
+        } else {
+            log.warn(`[调试] "${token}" 不是有效商人名，已忽略`);
+        }
+    }
+
+    if (result.size === 0) return null;
+
+    // 输出调试配置，并校验指定商品是否存在于对应商人的商品列表
+    log.info(`[调试] 已指定运行商人: ${[...result.keys()].join(", ")}`);
+    for (const [npcName, foods] of result.entries()) {
+        if (!foods) {
+            log.info(`[调试]   ${npcName}: 全部商品`);
+            continue;
+        }
+        const npc = findNpcByName(npcName);
+        const all = npc ? getAllNpcFoods(npc).map(canonicalFoodName) : [];
+        const unknown = [...foods].filter(f => !all.includes(f));
+        if (unknown.length > 0) {
+            log.warn(`[调试] 商人 ${npcName} 不存在指定商品: ${unknown.join(", ")}`);
+        }
+        log.info(`[调试]   ${npcName}: ${[...foods].join(", ")}`);
+    }
+    return result;
+}
+
+function canonicalFoodName(name) {
+    const normalized = normalizeFoodName(name);
+    return FOOD_NAME_ALIASES[normalized] || normalized;
+}
+
+// 解析禁用的标签列表（同时归一到新规范名，使旧名禁用设置继续生效；商品名忽略「」括号差异并兼容旧商品名）
+const disabledTags = (settings.disabledTags || "").split(/[,\s、]+/).filter(tag => tag.trim() !== "").map(tag => canonicalNpcName(canonicalFoodName(tag)));
 if (disabledTags.length > 0) {
     log.info(`已禁用标签或商品: ${disabledTags.join(", ")}`);
 }
@@ -455,6 +538,24 @@ async function loadNpcRecords() {
                     record.npcname = newName;
                     changed = true;
                 }
+            }
+            // 清除记录中已废弃的旧商品名，避免脏数据残留
+            const removedFoodAliases = [];
+            for (const record of records) {
+                for (const type of ["1d", "3d", "7d", "thu", "month"]) {
+                    if (Array.isArray(record[type])) {
+                        const removed = record[type].filter(food => FOOD_NAME_ALIASES[normalizeFoodName(food)]);
+                        if (removed.length > 0) {
+                            record[type] = record[type].filter(food => !FOOD_NAME_ALIASES[normalizeFoodName(food)]);
+                            removedFoodAliases.push(...removed);
+                            changed = true;
+                        }
+                    }
+                }
+            }
+            if (removedFoodAliases.length > 0) {
+                const uniqueNames = [...new Set(removedFoodAliases.map(food => normalizeFoodName(food)))];
+                log.info(`已从购买记录中清除 ${removedFoodAliases.length} 条已废弃的旧商品名记录: ${uniqueNames.join(", ")}`);
             }
             if (changed) {
                 // 单独捕获落盘失败：写失败不应让本轮记录被当作空，否则会触发重复购买
@@ -631,9 +732,18 @@ function shouldBuyFoods(npc, npcRecord, currentPeriod, forceRefresh = false) {
             useAll = npc.tags.some(tag => userTagsToBuy.has(tag));
         }
         let candidateList = useAll ? fullList : filterUserFoods(fullList);
-        // 过滤容量上限和禁用商品（禁用匹配忽略「」括号差异）
+        // 调试模式指定NPC和商品：直接按指定商品购买（未填商品则购买该商人全部商品）
+        if (debugNpcFoods) {
+            const specified = debugNpcFoods.get(npc.name);
+            if (specified !== undefined) {
+                candidateList = specified === null
+                    ? [...fullList]
+                    : fullList.filter(food => specified.has(canonicalFoodName(food)));
+            }
+        }
+        // 过滤容量上限和禁用商品（禁用匹配忽略「」括号差异，并兼容旧商品名）
         candidateList = candidateList.filter(food =>
-            !capacityLimitedFoods.has(food) && !disabledTagsSet.has(normalizeFoodName(food))
+            !capacityLimitedFoods.has(food) && !disabledTagsSet.has(canonicalFoodName(food))
         );
         return candidateList;
     }
@@ -850,42 +960,139 @@ async function quickBuy(itemName) {
     }
 }
 
-// 跳过对话
-async function spikChat(npcName) {
-    let count = 6; // 添加let声明
+// ==================== 检测交互选项并选择包含NPC名字的选项 ====================
+// 到达追踪点位后，OCR查找包含NPC名字的交互选项，
+// 按住Alt键呼出鼠标指针后点击该选项；
+// 未找到时重新执行路径并重试，连续失败则中止该商人的交互
+async function selectNpcDialogOption(npcName, npcPath) {
+    // 设置脚本环境的游戏分辨率和DPI缩放，与OCR坐标一致
+    setGameMetrics(1920, 1080, 1);
+
+    let selected = false;
+    let retryCount = 0;
+    const maxRetries = 2; // 最大重试次数
+
+    // OCR区域限制在交互选项列表所在区域，防止点击NPC头顶名字
+    const rightHalfOcr = RecognitionObject.Ocr(1150, 430, 250, 210);
+
     await sleep(1000);
-    if (npcName == "布纳马" || npcName == "杜拉夫" || npcName == "齐良诺夫") {
-        // 设置脚本环境的游戏分辨率和DPI缩放
-        setGameMetrics(1920, 1080, 1);
+    while (!selected && retryCount <= maxRetries) {
+        // 对交互选项区域进行 OCR
+        let captureRegion = captureGameRegion();
+        let resList = captureRegion.findMulti(rightHalfOcr);
+        captureRegion.dispose();
 
-        // 交互
-        let loop_count = 3;
-        if (npcName == "布纳马") {
-            loop_count = 3;
-        } else if (npcName == "杜拉夫" || npcName == "齐良诺夫") {
-            loop_count = 2;
+        for (let i = 0; i < resList.count; i++) {
+            if (resList[i].text.includes(npcName)) {
+                // 找到包含NPC名字的交互选项
+                log.info(`找到交互选项: ${resList[i].text.trim()}, 开始交互`);
+                keyDown("VK_MENU"); // Alt
+                await sleep(1000);
+                click(resList[i].x + 30, resList[i].y + 30); // 点击NPC选项
+                await sleep(1000);
+                keyUp("VK_MENU"); // Alt
+                await sleep(1000);
+                selected = true;
+                break; // 找到后跳出循环
+            }
         }
 
-        for (let i = 0; i < loop_count; i++) {
-            keyPress("VK_F");
-            await sleep(1500);
+        if (!selected) {
+            retryCount++;
+            if (retryCount <= maxRetries) {
+                log.warn(`未找到包含 "${npcName}" 的交互选项，进行第 (${retryCount}/${maxRetries}) 次重试`);
+                await sleep(1500);
+                if (npcPath) {
+                    // 重新执行路径
+                    await autoPath(npcPath);
+                }
+                await sleep(1000);
+            }
         }
+    }
 
-        // 点击有什么卖的
-        let captureRegion = captureGameRegion()
+    if (!selected) {
+        log.error(`连续${maxRetries}次未能找到包含 "${npcName}" 的交互选项`);
+    }
+    return selected;
+}
+
+// 在对话中点击特殊购买选项
+// 循环OCR检测对话：找到特殊选项立即鼠标点击；选项未出现时按F推进下一句。
+async function clickShopDialogOption(maxAttempts = 6) {
+    // 设置脚本环境的游戏分辨率和DPI缩放
+    setGameMetrics(1920, 1080, 1);
+
+    const keywords = ["有什么卖的", "可以卖一些", "有什么喝的"];
+
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        let captureRegion = captureGameRegion();
+        let target = null;
         try {
             let resList = captureRegion.findMulti(RecognitionObject.ocrThis);
             for (let i = 0; i < resList.count; i++) {
-                if (resList[i].text.includes("有什么卖的") || resList[i].text.includes("可以卖一些") || resList[i].text.includes("有什么喝的")) {
-                    await sleep(500);
-                    click(resList[i].x + 30, resList[i].y + 30);
-                    await sleep(500);
-                    break; // 找到后跳出循环
+                const text = resList[i].text || "";
+                if (keywords.some(k => text.includes(k))) {
+                    target = resList[i];
+                    break;
                 }
             }
         } finally {
             captureRegion.dispose();
         }
+
+        if (target) {
+            // 商店选项已出现：直接点击
+            await sleep(300);
+            click(target.x + 30, target.y + 30);
+            logConditional(`已点击商店对话选项: ${target.text.trim()}`);
+            await sleep(800);
+            return true;
+        }
+
+        // 商店选项尚未出现：按F推进下一句对话
+        keyPress("VK_F");
+        await sleep(1250);
+    }
+
+    log.warn("多次尝试后仍未找到商店对话选项");
+    return false;
+}
+
+// 跳过对话
+async function spikChat(npcName, npcPath) {
+    let count = 6; // 添加let声明
+
+    if (npcName == "齐良诺夫") {
+        // 目前仅"齐良诺夫"点位启用新逻辑
+        const selected = await selectNpcDialogOption(npcName, npcPath);
+        if (!selected) {
+            log.error(`未能与 ${npcName} 进入对话，跳过该商人`);
+            return false;
+        }
+
+    } else {
+        // 其余点位依旧按F对话
+        await sleep(1000);
+        keyPress("VK_F");
+        await sleep(1000);
+        if (npcName == "布纳马" || npcName == "杜拉夫") {
+            // 首次按F已在上方完成，这里推进剩余对话
+            const loop_count = (npcName == "布纳马") ? 2 : 1;
+            for (let i = 0; i < loop_count; i++) {
+                keyPress("VK_F");
+                await sleep(1500);
+            }
+        }
+    }
+
+    if (npcName == "布纳马" || npcName == "杜拉夫" || npcName == "齐良诺夫") {
+        // 设置脚本环境的游戏分辨率和DPI缩放
+        setGameMetrics(1920, 1080, 1);
+
+        // 循环检测并点击"有什么卖的/有什么喝的"商店选项：
+        // 选项已出现时直接鼠标点击；只有仍是问候语（选项未出现）时才按F推进
+        await clickShopDialogOption(6);
 
         // 等待购买页面出现
         if (await waitForPurchasePage(6)) {
@@ -893,17 +1100,15 @@ async function spikChat(npcName) {
         } else {
             log.warn(`未能进入 ${npcName} 的购买页面，尝试继续...`);
         }
-        return;
+        return true;
     } else {
-        // 通用NPC：按F与NPC交互，然后循环检测
-        keyPress("VK_F");
-        await sleep(1000);
-
+        // 通用NPC：已按F进入对话，这里循环检测购买页面
         if (await waitForPurchasePage(8)) {
             logConditional(`已进入 ${npcName} 的购买页面`);
         } else {
             log.warn(`未能进入 ${npcName} 的购买页面，脚本可能无法正常购买`);
         }
+        return true;
     }
 }
 
@@ -940,8 +1145,8 @@ let foodROMap = {}; // 键为商品名（中文），值为 RecognitionObject
 async function initRo() {
     try {
         for (let foodName of requiredFoods) {
-            // 统一用归一化名称作键，保证与购买时的查找键一致
-            const roKey = normalizeFoodName(foodName);
+            // 统一用归一化（含旧名兼容）名称作键，保证与购买时的查找键一致
+            const roKey = canonicalFoodName(foodName);
             if (foodROMap[roKey]) {
                 continue; // 同一商品的另一种写法（带/不带「」）已加载过
             }
@@ -1079,8 +1284,8 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
                 log.info(`[调试] 尝试购买: ${item}`);
             }
 
-            // 查找识别对象（键为归一化名称，兼容带/不带「」的商品名）
-            const ro = foodROMap[normalizeFoodName(item)];
+            // 查找识别对象（键为归一化名称，兼容带/不带「」及旧商品名）
+            const ro = foodROMap[canonicalFoodName(item)];
             if (!ro) {
                 log.warn(`商品 "${item}" 未启用或没有识别对象，跳过`);
                 continue;
@@ -1180,8 +1385,18 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
 // 初始化商人商品
 async function initNpcData(records) {
     for (let [key, npc] of Object.entries(npcData)) {
-        // 检查是否通过标签禁用
-        if (npc.tags && Array.isArray(npc.tags)) {
+        // 调试模式：只运行指定的NPC（优先于商人开关与标签禁用）
+        if (debugNpcFoods) {
+            if (!debugNpcFoods.has(npc.name)) {
+                npc.enable = false;
+                if (recordDebug) log.info(`[调试] 跳过未指定的商人: ${npc.name}`);
+                continue;
+            }
+            npc.enable = true;
+        }
+
+        // 检查是否通过标签禁用（调试指定的商人不受标签禁用影响）
+        if (npc.tags && Array.isArray(npc.tags) && !(debugNpcFoods && debugNpcFoods.has(npc.name))) {
             const hasDisabledTag = npc.tags.some(tag => disabledTags.includes(tag));
             if (hasDisabledTag) {
                 npc.enable = false;
@@ -1220,7 +1435,7 @@ async function initNpcData(records) {
     // 重置容量限制集合
     capacityLimitedFoods.clear();
     try {
-        await fakeLog(`当前版本 3.6.0`, false, false, 23333);
+        await fakeLog(`当前版本 3.6.1`, false, false, 23333);
         // ==================== 确定账号名 ====================
         let rawUserName = settings.userName ? settings.userName.trim() : "";
         if (!rawUserName) {
@@ -1334,7 +1549,16 @@ async function initNpcData(records) {
                 }
 
                 await autoPath(npc.path);
-                await spikChat(npc.name);
+                const chatOk = await spikChat(npc.name, npc.path);
+
+                if (!chatOk) {
+                    // 未能进入对话，跳过该商人
+                    log.error(`已跳过: ${displayName}`);
+                    await genshin.returnMainUi();
+                    // 伪造日志任务结束
+                    await fakeLog(displayName, false, false, 0);
+                    continue;
+                }
 
                 // 购买商品，传入当前记录和周期
                 const purchaseResult = await buyFoods(key, npcRecords, currentPeriod);
