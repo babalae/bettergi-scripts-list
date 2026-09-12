@@ -1164,7 +1164,7 @@ async function initRo() {
             for (const imagePath of candidatePaths) {
                 try {
                     const ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagePath));
-                    ro.Threshold = 0.8;
+                    ro.Threshold = 0.84;
                     ro.Use3Channels = true;
                     foodROMap[roKey] = ro;
                     loaded = true;
