@@ -1,0 +1,44 @@
+[
+  {
+    "type": "separator"
+  },
+  {
+    "name": "debugShowBoxes",
+    "type": "checkbox",
+    "label": "调试：在游戏画面上叠加显示识别框（OCR区域/模板匹配/颜色裁剪）",
+    "default": false
+  },
+  {
+    "name": "markerThreshold",
+    "type": "input-text",
+    "label": "标注图标匹配阈值(0~1，默认0.9)",
+    "default": "0.9"
+  },
+  {
+    "name": "saveFile",
+    "type": "input-text",
+    "label": "需求清单保存文件名",
+    "default": "plan_needs.json"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "partyName",
+    "type": "input-text",
+    "label": "队伍名称（留空用 BGI 本体设置）",
+    "default": ""
+  },
+  {
+    "name": "sundaySelectedValue",
+    "type": "select",
+    "label": "周日/限时全开领哪个材料奖励，可自动识别，不建议改（1/2/3=上/中/下，留空用BGI本体设置）",
+    "options": [
+      "",
+      "1",
+      "2",
+      "3"
+    ],
+    "default": ""
+  }
+]
