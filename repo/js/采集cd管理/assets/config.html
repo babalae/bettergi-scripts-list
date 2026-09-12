@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>采集 CD 管理配置</title>
+  <script src="pinyin-pro.js"></script>
+  <style>
+    :root{color-scheme:light;--blue:#4c9bd1;--blue2:#eaf6ff;--ink:#244b66;--muted:#6d8ba0;--line:#b9dced;--danger:#b14a57}*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;font-family:"Segoe UI","Microsoft YaHei",sans-serif;color:var(--ink);background:transparent}body{display:flex;justify-content:center;align-items:flex-start;overflow:hidden}.page{width:min(1060px,calc(100% - 36px));max-height:calc(100vh - 56px);margin:28px auto}.panel{max-height:inherit;overflow:auto;border:1px solid var(--line);border-radius:20px;background:rgba(244,251,255,.97);box-shadow:0 18px 48px rgba(55,116,157,.18)}header{padding:22px 26px 14px;border-bottom:1px solid var(--line)}h1{margin:0 0 5px;font-size:23px;color:#245575}.hint{font-size:12px;color:var(--muted)}.tabs,.subtabs{display:flex;gap:3px;flex-wrap:wrap;border-bottom:1px solid var(--line)}.tabs{padding:10px 18px 0}.subtabs{margin-bottom:14px}.tab,.subtab{padding:9px 14px;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--muted);cursor:pointer;font-weight:650}.tab.active,.subtab.active{color:var(--blue);border-bottom-color:var(--blue);background:var(--blue2)}main{padding:18px 24px}.section,.info-pane{display:none}.section.active,.info-pane.active{display:block}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field.full{grid-column:1/-1}label{display:block;margin-bottom:6px;font-size:12px;font-weight:650;color:var(--muted)}input,select,textarea{width:100%;min-height:36px;padding:7px 10px;border:1px solid #cfe5f1;border-radius:8px;background:#fff;color:var(--ink);font:inherit}textarea{min-height:64px;resize:vertical}.check{display:inline-flex;align-items:center;margin:7px 16px 0 0;color:var(--ink);font-size:12px}.check input{width:16px;min-height:0;margin-right:6px;accent-color:var(--blue)}.card{padding:14px;margin-bottom:12px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(145deg,#fff,var(--blue2))}.card h3{margin:0 0 10px;font-size:14px;color:#3178aa}.btn{border:1px solid #a9d5ef;border-radius:7px;padding:6px 10px;background:#fff;color:#3178aa;cursor:pointer;font:inherit}.btn.primary{color:#fff;background:var(--blue)}.btn.danger{color:var(--danger);border-color:#ecc4ca}.layout{display:grid;grid-template-columns:1fr 250px;gap:16px}.task-list{max-height:500px;overflow:auto;padding:8px;border:1px solid var(--line);border-radius:10px;background:#fff}.task-item{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:9px;border-radius:7px;cursor:pointer}.task-item.active{background:var(--blue2);color:#3178aa;font-weight:700}.task-item small,.small{color:var(--muted);font-size:12px}.toolbar{display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap}.group-row{display:grid;grid-template-columns:1.05fr 1.15fr 1fr 1fr 1fr;gap:8px;align-items:end;margin-bottom:8px}.error{display:none;margin:0 24px 12px;padding:9px;border:1px solid #efc2c9;border-radius:8px;color:#b8324a;background:#fff1f3;white-space:pre-line;font-size:12px}.error.show{display:block}footer{display:flex;justify-content:flex-end;gap:8px;padding:14px 24px 20px;border-top:1px solid var(--line)}footer button{min-height:38px;padding:7px 16px}.material-suggest{position:fixed;z-index:9999;display:none;max-height:220px;overflow:auto;min-width:220px;border:1px solid var(--line);border-radius:8px;background:#fff;box-shadow:0 8px 20px rgba(55,116,157,.18)}.material-suggest.show{display:block}.material-suggest-item{padding:7px 10px;cursor:pointer;font-size:12px}.material-suggest-item:hover,.material-suggest-item.active{background:var(--blue2);color:#3178aa}.chart-wrap{width:100%;min-height:280px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:10px}.chart-wrap svg{display:block;width:100%;height:280px}.summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.summary{padding:12px;border:1px solid var(--line);border-radius:9px;background:#fff}.summary strong{display:block;font-size:22px;color:#3178aa}.table{width:100%;border-collapse:collapse;font-size:12px}.table th,.table td{padding:8px;border-bottom:1px solid #dcecf5;text-align:left}.route-layout{display:grid;grid-template-columns:340px 1fr;gap:14px}.route-browser,.route-detail{min-height:470px;max-height:570px;overflow:auto;border:1px solid var(--line);border-radius:10px;background:#fff;padding:10px}.route-tree details{margin-left:10px}.route-tree summary{padding:4px;cursor:pointer;color:#3178aa}.route-file{display:block;width:100%;padding:5px 8px;border:0;border-radius:5px;background:transparent;text-align:left;color:var(--ink);cursor:pointer;font:inherit;font-size:12px}.route-file:hover{background:var(--blue2)}.status-ok{color:#27815c}.status-wait{color:#b87318}.kv{display:grid;grid-template-columns:130px 1fr;gap:6px 10px;font-size:12px}.kv dt{color:var(--muted)}.kv dd{margin:0;word-break:break-all}.progress-list{display:grid;gap:10px}.empty{padding:40px;text-align:center;color:var(--muted)}.autosave-overlay{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(25,64,89,.34);backdrop-filter:blur(2px)}.autosave-overlay.show{display:flex}.autosave-dialog{width:min(420px,calc(100vw - 40px));padding:22px;border:1px solid var(--line);border-radius:14px;background:#f8fcff;box-shadow:0 18px 48px rgba(35,86,121,.28);text-align:center}.autosave-dialog h3{margin:0 0 10px;color:#3178aa}.autosave-dialog p{margin:8px 0 16px}.autosave-countdown{font-size:24px;color:var(--danger);font-weight:750}@media(max-width:800px){.grid,.layout,.route-layout{grid-template-columns:1fr}.group-row{grid-template-columns:1fr 1fr}.summary-grid{grid-template-columns:1fr 1fr}.page{width:calc(100% - 16px);margin:8px auto}}
+  </style>
+  <style>
+    /* 路径组字段统一从顶部排布，避免说明文字长度不同导致控件错位。 */
+    .group-row {
+      grid-template-columns:
+        minmax(140px, 1.05fr)
+        minmax(150px, 1.15fr)
+        minmax(170px, 1fr)
+        minmax(160px, 1fr)
+        minmax(180px, 1fr);
+      gap: 10px;
+      align-items: start;
+      margin-bottom: 12px;
+    }
+    .group-row > div {
+      min-width: 0;
+    }
+    .group-row > div > label {
+      display: flex;
+      align-items: flex-end;
+      min-height: 18px;
+      margin-bottom: 6px;
+      line-height: 18px;
+    }
+    .group-row input,
+    .group-row select {
+      height: 36px;
+      min-height: 36px;
+    }
+    .group-row .small {
+      margin-top: 6px;
+      line-height: 1.45;
+    }
+    .group-actions {
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 10px;
+      border-top: 1px solid rgba(185, 220, 237, .72);
+    }
+    @media (max-width: 800px) {
+      .group-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 520px) {
+      .group-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page"><div class="panel">
+  <header><h1>采集 CD 管理配置</h1><div class="hint">每执行完一条路线，都会从任务列表首项重新检查；完整一轮没有可执行路线时结束脚本。面板连续 1 分钟无操作时会提示，并在 10 秒后自动保存继续。信息展示为只读，日期统计以 UTC+8 凌晨 4 点为分界。</div></header>
+  <nav class="tabs">
+    <button class="tab active" data-tab="basic">基础设置</button><button class="tab" data-tab="tasks">任务编排</button><button class="tab" data-tab="groups">路径组</button><button class="tab" data-tab="processing">食材加工</button><button class="tab" data-tab="info">信息展示</button>
+  </nav>
+  <div id="error" class="error"></div>
+  <main>
+    <section class="section active" data-section="basic">
+      <div class="card"><h3>通用设置</h3><div class="grid">
+        <div class="field"><label>账户/记录名称</label><input data-setting="infoFileName"><div class="small">决定 record/&lt;账户&gt;/ 和 blacklists/&lt;账户&gt;.json 的数据归属。</div></div><div class="field"><label>默认队伍</label><input data-setting="priorityItemsPartyName"><div class="small">路径组未指定队伍时使用。</div></div>
+        <div class="field"><label>索引处理方式</label><select data-setting="operationMode"><option>执行任务（若不存在索引文件则自动创建）</option><option>重新生成索引文件（用于强制刷新CD）</option></select><div class="small">强制刷新会重置当前路线 CD；索引成功写回后自动恢复为普通执行模式。</div></div>
+        <div class="field full"><label>材料价值倍数（材料*倍数，中英文逗号分隔）</label><input data-setting="materialValue" data-material-input><div class="small">只影响效率计算；未配置材料按 1 倍计算，黑名单材料按 0 计算。</div></div>
+      </div></div>
+      <div class="card"><h3>拾取设置</h3><div class="grid">
+        <div class="field"><label>拾取模式</label><select data-setting="pickup_Mode"><option>模板匹配拾取</option><option>bgi原版拾取</option></select><div class="small">原版拾取需要 BetterGI 提供 getPickRecords 才能统计数量；缺少该接口时仍可能拾取，但脚本无法记录。</div></div><div class="field" data-template-pickup><label>识别间隔（毫秒，16–200）</label><input data-setting="findFInterval"></div>
+        <div class="field full"><label>黑名单（以当前账户本地文件为准；中英文分号、逗号或换行分隔）</label><textarea data-setting="blacklist" data-material-input></textarea><div class="small">模板匹配模式下阻止拾取；所有模式下用于路线排除及效率扣减；不会控制 BetterGI 原版拾取器。</div></div><div class="field full"><label>禁用名称关键词（仅路线排除；中英文分号、逗号或换行分隔）</label><textarea data-setting="disableNameKeywords"></textarea></div>
+        <div class="field full"><label class="check" data-template-pickup><input type="checkbox" data-setting="disableSecondCheck">禁用拾取二次校验</label><div class="small" data-template-pickup>仅模板匹配模式生效，可能提高误识别和误拾取概率。</div><label class="check"><input type="checkbox" data-setting="disableXYCheck">跳过路线终点坐标校验</label><div class="small">仅在 BetterGI 未返回路线成功状态、脚本回退坐标判断时生效；勾选后该回退会直接视为成功并记录 CD。</div></div>
+      </div></div>
+    </section>
+    <section class="section" data-section="tasks"><div class="layout"><div id="task-editor"></div><aside><div class="toolbar"><button class="btn primary" id="add-task">新增任务</button></div><div id="task-list" class="task-list"></div></aside></div></section>
+    <section class="section" data-section="groups"><div class="toolbar"><button class="btn primary" id="add-group">新增路径组</button></div><div id="group-editor"></div></section>
+    <section class="section" data-section="processing"><div class="grid"><div class="field full"><label>全局食材加工</label><div id="processing-options"></div><div class="small">只在准备执行路线时触发：首次路线前执行，之后约每 95 分钟检查一次；没有路线执行时不会单独加工。</div></div><div class="field"><label>食材加工识别间隔（毫秒）</label><input data-setting="checkInterval"></div></div></section>
+    <section class="section" data-section="info">
+      <nav class="subtabs"><button class="subtab active" data-info-tab="history">拾取历史</button><button class="subtab" data-info-tab="routes">路线浏览</button><button class="subtab" data-info-tab="taskStatus">任务预览</button><button class="subtab" data-info-tab="diagnostics">数据诊断</button></nav>
+      <div class="card small">信息页根据已保存配置和文件数据计算，当前未保存的材料价值、黑名单及其他修改不会即时生效。</div>
+      <div class="info-pane active" data-info-pane="history"><div class="field"><label>折线图筛选材料（留空统计全部，可输入多个材料）</label><input id="history-filter" data-material-input placeholder="例如：萃凝晶+水晶块"><div class="small">筛选只影响折线图；下方汇总表始终统计当前时间范围内的全部材料。</div></div><div id="history-chart" class="chart-wrap"></div><div id="history-table" class="card"></div></div>
+      <div class="info-pane" data-info-pane="routes"><div class="field"><label>搜索路线名称或路径</label><input id="route-search"></div><div class="route-layout"><div id="route-browser" class="route-browser"></div><div id="route-detail" class="route-detail"><div class="empty">从左侧选择路线查看详情</div></div></div></div>
+      <div class="info-pane" data-info-pane="taskStatus"><div class="card small">这是调度开始前的静态预览，不反映运行时停用或退出状态；路线数量未应用黑名单、目标相关性和效率阈值。</div><div id="task-status"></div></div>
+      <div class="info-pane" data-info-pane="diagnostics"><div id="diagnostics"></div></div>
+    </section>
+  </main>
+  <footer><button class="btn" id="cancel">取消</button><button class="btn primary" id="save">保存并继续</button></footer>
+</div></div>
+<div id="material-suggest" class="material-suggest"></div>
+<div id="autosave-overlay" class="autosave-overlay" role="dialog" aria-modal="true" aria-labelledby="autosave-title" aria-live="assertive">
+  <div class="autosave-dialog">
+    <h3 id="autosave-title">即将自动保存并继续</h3>
+    <p>配置面板已连续 1 分钟没有操作。</p>
+    <div><span id="autosave-countdown" class="autosave-countdown">10</span> 秒后自动保存当前配置并继续运行。</div>
+    <p class="small">进行任意操作即可取消本次倒计时，并重新开始空闲计时。</p>
+    <button id="continue-editing" class="btn primary" type="button">继续配置</button>
+  </div>
+</div>
+<script>
+const byId=id=>document.getElementById(id);const esc=v=>String(v??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');let model=null;let selectedTask=0;let loadedAccount='';let accountLoadPromise=Promise.resolve(true);const sorts=['文件顺序，按在文件夹中位置顺序运行','优先最早刷新，将优先执行最早刷新的路线','优先最高效率，将优先执行最高分均拾取物的路线'];
+const IDLE_SAVE_DELAY=60_000,IDLE_SAVE_COUNTDOWN=10_000;
+let idleSaveTimer=null,idleCountdownTimer=null,idleCountdownDeadline=0,idleTrackingStarted=false,autoSaveInProgress=false,lastActivitySignal=0;
+function reportStartupTiming(stage,elapsedMs,details=''){window.htmlMask.request('/diagnostic',{stage,elapsedMs,details}).catch(()=>{})}
+function updatePickupVisibility(){const template=model.settings.pickup_Mode==='模板匹配拾取';document.querySelectorAll('[data-template-pickup]').forEach(el=>el.style.display=template?'':'none')}function renderSettings(){document.querySelectorAll('[data-setting]').forEach(el=>{const value=model.settings[el.dataset.setting]??'';if(el.type==='checkbox')el.checked=!!value;else el.value=value});updatePickupVisibility()}
+function renderProcessing(){byId('processing-options').innerHTML=(model.processingOptions||[]).map(name=>`<label class="check"><input type="checkbox" data-food="${esc(name)}" ${(model.settings.processingIngredient||[]).includes(name)?'checked':''}>${esc(name)}</label>`).join('')}
+function syncTaskEditor(){const task=model.tasks[selectedTask];if(!task)return;byId('task-editor').querySelectorAll('[data-task]').forEach(el=>task[el.dataset.task]=el.type==='checkbox'?el.checked:el.value);const all=byId('task-all');if(all&&!all.checked)task.allowedGroups=[...byId('task-editor').querySelectorAll('[data-group-id]:checked')].map(el=>el.dataset.groupId).join(',')}
+function renderTasks(){
+  const list=byId('task-list');
+  list.innerHTML=model.tasks.map((task,index)=>`<div draggable="true" class="task-item ${index===selectedTask?'active':''}" data-index="${index}"><span>${esc(task.name)}</span><small>${task.enabled?'启用':'停用'}</small></div>`).join('');
+  list.querySelectorAll('.task-item').forEach(el=>{
+    el.onclick=()=>{syncTaskEditor();selectedTask=+el.dataset.index;renderTasks()};
+    el.ondragstart=e=>e.dataTransfer.setData('text/plain',el.dataset.index);
+    el.ondragover=e=>e.preventDefault();
+    el.ondrop=e=>{e.preventDefault();syncTaskEditor();const from=+e.dataTransfer.getData('text/plain'),to=+el.dataset.index;if(from!==to){const [item]=model.tasks.splice(from,1);model.tasks.splice(to,0,item);selectedTask=to;renderTasks()}};
+  });
+  const task=model.tasks[selectedTask];
+  if(!task){byId('task-editor').innerHTML='<div class="card empty">暂无任务，请先新增。</div>';return}
+  const checks=model.pathGroups.map(group=>`<label class="check"><input type="checkbox" data-group-id="${esc(group.id)}" ${(task.allowedGroups==='*'||String(task.allowedGroups||'').split(',').includes(group.id))?'checked':''}>${esc(group.name)}</label>`).join('');
+  byId('task-editor').innerHTML=`<div class="toolbar"><button class="btn danger" id="delete-task">删除当前任务</button></div>
+    <div class="card"><h3>任务基本信息</h3><div class="grid">
+      <div class="field"><label>名称</label><input data-task="name" value="${esc(task.name)}"></div>
+      <div class="field"><label>状态</label><label class="check"><input type="checkbox" data-task="enabled" ${task.enabled?'checked':''}>启用</label></div>
+      <div class="field"><label>允许再次开启</label><label class="check"><input type="checkbox" data-task="allowReopen" ${task.allowReopen?'checked':''}>退出后允许重新参与后续调度检查</label><div class="small">未勾选时，任务因条件满足或无可用路线退出后，本次脚本运行中停用。</div></div>
+      <div class="field"><label>仅执行相关路线</label><label class="check"><input type="checkbox" data-task="onlyRelatedRoutes" ${task.onlyRelatedRoutes?'checked':''}>存在未完成目标时筛选相关路线</label><div class="small">两个目标均为空时不筛选；每日已完成材料会自动剔除。</div></div>
+      <div class="field full"><label>允许路径组</label><label class="check"><input id="task-all" type="checkbox" ${task.allowedGroups==='*'?'checked':''}>全部路径组</label>${checks}<div class="small">全部路径组会自动包含以后新增的路径组；CD 类型为“不启用”的路径组不会参与。</div></div>
+      <div class="field"><label>路线排序</label><select data-task="sortMode">${sorts.map(x=>`<option ${x===task.sortMode?'selected':''}>${esc(x)}</option>`).join('')}</select><div class="small">“最早刷新”只在已到 CD 的路线之间按历史 CD 时间排序。</div></div>
+      <div class="field"><label>最低加权效率（拾取数/分钟）</label><input data-task="thresholdEfficiency" value="${esc(task.thresholdEfficiency)}"><div class="small">未知效率路线使用默认分位效率，且不会低于该阈值。</div></div>
+    </div></div>
+    <div class="card"><h3>采集目标与退出条件（任意一项满足即退出）</h3><div class="grid">
+      <div class="field"><label>每日目标</label><textarea data-task="dailyTarget" data-material-input>${esc(task.dailyTarget)}</textarea><div class="small">所有任务的拾取都参与当天计数；多种材料必须全部完成；日期以 UTC+8 04:00 分界。</div></div>
+      <div class="field"><label>一次性目标</label><textarea data-task="oneTimeTarget" data-material-input>${esc(task.oneTimeTarget)}</textarea><div class="small">所有任务的拾取都会扣减本任务目标；全部完成后保留“已完成”，不会清空。</div></div>
+      <div class="field"><label>任务级禁止运行时间</label><input data-task="timeRule" value="${esc(task.timeRule)}" placeholder="例如：8-11, 23:00-01:00"><div class="small">支持中英文逗号、冒号和跨日范围；单独小时表示完整一小时，单独时分表示该一分钟，范围包含结束分钟。</div></div>
+      <div class="field"><label>任务首次执行后的经过时长（分钟）</label><input data-task="durationMinutes" value="${esc(task.durationMinutes)}"><div class="small">按墙钟时间计算，会包含等待及其他任务的执行时间；0 表示不限时。</div></div>
+    </div></div>`;
+  byId('delete-task').onclick=()=>{model.tasks.splice(selectedTask,1);selectedTask=Math.max(0,selectedTask-1);renderTasks()};
+  byId('task-all').onchange=e=>{task.allowedGroups=e.target.checked?'*':'';renderTasks()};
+  byId('task-editor').querySelectorAll('[data-group-id]').forEach(el=>el.onchange=()=>{byId('task-all').checked=false;task.allowedGroups=[...byId('task-editor').querySelectorAll('[data-group-id]:checked')].map(input=>input.dataset.groupId).join(',')});
+  byId('task-editor').querySelectorAll('[data-task]').forEach(el=>el.onchange=()=>{task[el.dataset.task]=el.type==='checkbox'?el.checked:el.value});
+}
+function renderGroups(){
+  byId('group-editor').innerHTML=(model.pathGroups||[]).map((group,index)=>`<div class="card"><div class="group-row">
+    <div><label>名称</label><input data-group="name" data-index="${index}" value="${esc(group.name)}"></div>
+    <div><label>文件夹</label><select data-group="folder" data-index="${index}"><option value="">未选择</option>${model.pathFolders.map(x=>`<option ${x===group.folder?'selected':''}>${esc(x)}</option>`).join('')}</select></div>
+    <div><label>CD 类型</label><select data-group="cdType" data-index="${index}">${model.cdTypes.map(x=>`<option value="${esc(x)}" ${x===group.cdType?'selected':''}>${esc(x||'不启用')}</option>`).join('')}</select><div class="small">“不指定”时按本次相关拾取材料中最晚的 CD 自动判断；选择“不启用”后，该路径组不会向任何任务提供路线。</div></div>
+    <div><label>路径组队伍</label><input data-group="partyName" data-index="${index}" value="${esc(group.partyName)}"><div class="small">留空时使用基础设置中的默认队伍。</div></div>
+    <div><label>自动调节游戏时间</label><select data-group="setTimeMode" data-index="${index}">${model.timeModes.map(x=>`<option value="${esc(x)}" ${x===group.setTimeMode?'selected':''}>${esc(x)}</option>`).join('')}</select><div class="small">在路线执行前调节；同一模式最多每 10 分钟一次，昼夜模式变化时立即切换。</div></div>
+  </div><div class="group-actions"><button class="btn danger" data-remove-group="${index}">删除路径组</button></div></div>`).join('')||'<div class="card empty">暂无路径组。</div>';
+  byId('group-editor').querySelectorAll('[data-group]').forEach(el=>el.onchange=()=>{model.pathGroups[+el.dataset.index][el.dataset.group]=el.value;if(el.dataset.group==='name'){syncTaskEditor();renderTasks()}});
+  byId('group-editor').querySelectorAll('[data-remove-group]').forEach(el=>el.onclick=()=>{const index=+el.dataset.removeGroup,id=model.pathGroups[index].id;model.pathGroups.splice(index,1);model.tasks.forEach(task=>{if(task.allowedGroups!=='*')task.allowedGroups=String(task.allowedGroups||'').split(',').filter(x=>x!==id).join(',')});renderGroups();renderTasks()});
+}
+function materialNames(){const historyNames=(model.information?.pickupHistory||[]).flatMap(day=>Object.keys(day.items||{}));return [...new Set([...(model.materials||[]),...historyNames])]}function pinyin(name){try{return window.pinyinPro?pinyinPro.pinyin(name,{toneType:'none',type:'string'}).replace(/\s/g,'').toLowerCase():''}catch{return''}}function inputSegment(input){const value=input.value||'',pos=input.selectionStart??value.length;let start=pos-1;while(start>=0&&!/[+，,;；*\s]/.test(value[start]))start--;start++;let end=pos;while(end<value.length&&!/[+，,;；*\s]/.test(value[end]))end++;return{start,end,query:value.slice(start,pos)}}function hideSuggest(){byId('material-suggest').classList.remove('show')}function fillMaterial(input,segment,name){input.value=input.value.slice(0,segment.start)+name+input.value.slice(segment.end);const pos=segment.start+name.length;input.focus();input.setSelectionRange(pos,pos);input.dispatchEvent(new Event('input',{bubbles:true}));hideSuggest()}function showSuggest(input){const segment=inputSegment(input),query=segment.query.toLowerCase();if(!query){hideSuggest();return}const matches=materialNames().map(name=>({name,text:name.toLowerCase(),py:pinyin(name)})).filter(item=>item.text.includes(query)||item.py.includes(query)).sort((a,b)=>(a.text.startsWith(query)?0:a.py.startsWith(query)?1:2)-(b.text.startsWith(query)?0:b.py.startsWith(query)?1:2)||a.name.localeCompare(b.name,'zh-CN')).slice(0,8);const box=byId('material-suggest');if(!matches.length){hideSuggest();return}box.innerHTML='';matches.forEach((item,index)=>{const div=document.createElement('div');div.className='material-suggest-item'+(index?'':' active');div.textContent=item.name+(item.py.includes(query)?`（${item.py}）`:'');div.onmousedown=e=>{e.preventDefault();fillMaterial(input,segment,item.name)};box.appendChild(div)});const rect=input.getBoundingClientRect();box.style.left=rect.left+'px';box.style.top=(rect.bottom+2)+'px';box.style.width=Math.max(rect.width,220)+'px';box.classList.add('show')}
+function filteredDailyData(){const raw=byId('history-filter').value.trim();const names=raw?raw.split(/[+，,;；]/).map(x=>x.trim()).filter(Boolean):[];const source=model.information?.pickupHistory||[];if(!source.length)return[];const map=new Map(source.map(day=>[day.date,day.items||{}]));const start=new Date(source[0].date+'T00:00:00Z'),end=new Date(source[source.length-1].date+'T00:00:00Z'),result=[];for(let date=new Date(start);date<=end;date.setUTCDate(date.getUTCDate()+1)){const key=date.toISOString().slice(0,10),items=map.get(key)||{};const total=names.length?names.reduce((sum,name)=>sum+(Number(items[name])||0),0):Object.values(items).reduce((sum,value)=>sum+Number(value||0),0);result.push({date:key,total,items})}return result.slice(-30)}
+function renderHistory(){const data=filteredDailyData(),chart=byId('history-chart');if(!data.length){chart.innerHTML='<div class="empty">当前账户暂无拾取历史</div>';byId('history-table').innerHTML='';return}const width=900,height=250,pad={l:50,r:20,t:20,b:42},max=Math.max(1,...data.map(x=>x.total)),x=i=>pad.l+(data.length===1?0:(width-pad.l-pad.r)*i/(data.length-1)),y=v=>height-pad.b-(height-pad.t-pad.b)*v/max;const points=data.map((item,i)=>`${x(i)},${y(item.total)}`).join(' ');const dots=data.map((item,i)=>`<circle cx="${x(i)}" cy="${y(item.total)}" r="4"><title>${item.date}：${item.total}</title></circle>`).join('');const labels=data.map((item,i)=>i%Math.max(1,Math.ceil(data.length/7))===0?`<text x="${x(i)}" y="${height-16}" text-anchor="middle">${item.date.slice(5)}</text>`:'').join('');chart.innerHTML=`<svg viewBox="0 0 ${width} ${height}" role="img"><line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${height-pad.b}" stroke="#b9dced"/><line x1="${pad.l}" y1="${height-pad.b}" x2="${width-pad.r}" y2="${height-pad.b}" stroke="#b9dced"/><text x="8" y="${pad.t+5}">${max.toFixed(0)}</text><text x="28" y="${height-pad.b+5}">0</text><polyline fill="none" stroke="#4c9bd1" stroke-width="3" points="${points}"/>${dots}${labels}</svg>`;const totals={};data.forEach(day=>Object.entries(day.items).forEach(([name,count])=>totals[name]=(totals[name]||0)+Number(count||0)));const rows=Object.entries(totals).sort((a,b)=>b[1]-a[1]).slice(0,30);byId('history-table').innerHTML=`<h3>最近 ${data.length} 天材料汇总</h3><table class="table"><thead><tr><th>材料</th><th>总量</th><th>日均</th></tr></thead><tbody>${rows.map(([name,total])=>`<tr><td>${esc(name)}</td><td>${total}</td><td>${(total/data.length).toFixed(1)}</td></tr>`).join('')}</tbody></table>`}
+function routeTree(routes){const root={};routes.forEach(route=>{let node=root;const parts=route.relativePath.split('/');parts.forEach((part,index)=>{if(index===parts.length-1)(node.__files||(node.__files=[])).push(route);else node=node[part]||(node[part]={})})});return root}function renderTreeNode(node){const folders=Object.keys(node).filter(key=>key!=='__files').sort((a,b)=>a.localeCompare(b,'zh-CN'));return folders.map(name=>`<details><summary>${esc(name)}</summary>${renderTreeNode(node[name])}</details>`).join('')+(node.__files||[]).map(route=>`<button class="route-file" data-route-path="${esc(route.path)}"><span class="${route.available?'status-ok':'status-wait'}">●</span> ${esc(route.fileName)}</button>`).join('')}function renderRouteBrowser(){const query=byId('route-search').value.trim().toLowerCase();const routes=(model.information?.routes||[]).filter(route=>!query||route.relativePath.toLowerCase().includes(query));byId('route-browser').innerHTML=`<div class="small">${routes.length} 条路线</div><div class="route-tree">${renderTreeNode(routeTree(routes))}</div>`;byId('route-browser').querySelectorAll('[data-route-path]').forEach(button=>button.onclick=()=>loadRouteDetail(button.dataset.routePath))}
+function fmtTime(value){if(!value)return'无';const date=new Date(value);return Number.isNaN(date.getTime())?'无效时间':date.toLocaleString()}
+function itemsText(items){return Object.entries(items||{}).map(([name,count])=>`${name}×${count}`).join('、')||'无'}
+function asArray(value){return Array.isArray(value)?value:(value?[value]:[])}
+async function loadRouteDetail(path){
+  byId('route-detail').innerHTML='<div class="empty">正在读取路线…</div>';
+  const response=await window.htmlMask.request('/info/route',{path});
+  const result=normalizeResponse(response);
+  if(!result?.ok){byId('route-detail').innerHTML=`<div class="empty">${esc((result?.errors||['读取失败']).join('；'))}</div>`;return}
+  const d=result.detail,info=d.info||{};
+  byId('route-detail').innerHTML=`<div class="card"><h3>${esc(info.name||d.fileName)}</h3><dl class="kv"><dt>路径</dt><dd>${esc(d.relativePath)}</dd><dt>CD 状态</dt><dd class="${d.available?'status-ok':'status-wait'}">${d.available?'已到期':'CD 中'}</dd><dt>CD 时间</dt><dd>${esc(fmtTime(d.cdTime))}</dd><dt>效率</dt><dd>${d.efficiency==null?'未知':d.efficiency.toFixed(2)+'/分钟'}</dd><dt>所属路径组</dt><dd>${esc(d.group?.name||'未匹配')}</dd><dt>关联任务（含停用任务）</dt><dd>${esc(d.taskNames.join('、')||'无')}</dd><dt>地图</dt><dd>${esc(info.map_name||'未知')}</dd><dt>点位数量</dt><dd>${d.positionCount}</dd><dt>作者</dt><dd>${esc(asArray(info.authors).map(x=>x.name||x).join('、')||'未知')}</dd><dt>标签</dt><dd>${esc(asArray(info.tags).join('、')||'无')}</dd></dl><div class="small">CD 状态只表示记录时间是否到期，不代表经过黑名单、目标相关性和效率阈值等筛选后一定可运行。</div></div><div class="card"><h3>描述与声明</h3><div class="small">${esc(info.description||'无描述')}</div><p>声明材料：${esc(itemsText(d.declaration?.declaredMaterials))}<br>声明用时：${d.declaration?.declaredDuration||'未声明'} 秒</p></div><div class="card"><h3>最近历史（无执行时间戳）</h3>${d.history.length?`<table class="table"><thead><tr><th>次序</th><th>材料</th><th>用时</th><th>效率</th></tr></thead><tbody>${d.history.map(h=>`<tr><td>最近第 ${h.order} 次</td><td>${esc(itemsText(h.items))}</td><td>${h.durationSec}s</td><td>${h.efficiency==null?'未知':h.efficiency.toFixed(2)}</td></tr>`).join('')}</tbody></table>`:'<div class="small">暂无历史</div>'}</div>`;
+}
+function renderTaskStatus(){const tasks=model.information?.taskStatus||[];byId('task-status').innerHTML=tasks.map(task=>`<div class="card"><h3>${esc(task.name)} <span class="${task.enabled?'status-ok':'status-wait'}">${task.enabled?'启用':'停用'}</span></h3><dl class="kv"><dt>路径组</dt><dd>${esc(task.groupNames.join('、')||'无')}</dd><dt>路线数量</dt><dd>${task.routeCount}（CD 已就绪 ${task.availableCount}）</dd><dt>允许再次开启</dt><dd>${task.allowReopen?'是':'否'}</dd><dt>仅相关路线</dt><dd>${task.onlyRelatedRoutes?'是':'否'}</dd><dt>每日目标</dt><dd>${esc(task.dailyTarget||'未配置')}</dd><dt>每日剩余</dt><dd>${esc(task.dailyRemaining||'已完成或未配置')}</dd><dt>一次性目标</dt><dd>${esc(task.oneTimeTarget||'未配置')}</dd><dt>禁止时间</dt><dd>${esc(task.timeRule||'未配置')}</dd><dt>时长限制</dt><dd>${esc(task.durationMinutes||'0')} 分钟</dd></dl></div>`).join('')||'<div class="empty">暂无任务</div>'}
+function renderDiagnostics(){const d=model.information?.diagnostics||{};const cards=[['账户',d.account],['当前路线',d.routeFiles],['路线记录',d.routeRecords],['失效旧记录',d.staleRecords],['重名路线',d.duplicateRouteNames],['历史执行记录',d.historyEntries],['拾取记录天数',d.pickupDays],['材料种类',d.materialKinds],['黑名单',d.blacklistCount],['任务',d.taskCount],['路径组',d.pathGroupCount]];byId('diagnostics').innerHTML=`<div class="summary-grid">${cards.map(([name,value])=>`<div class="summary"><span class="small">${esc(name)}</span><strong>${esc(value??0)}</strong></div>`).join('')}</div><div class="card"><h3>说明</h3><p class="small">“失效旧记录”表示 record.json 中存在、但当前 pathing 中已找不到同名文件的记录；脚本会保留这些记录，不会在信息页中自动删除。</p></div>`}
+function renderInfo(){renderHistory();renderRouteBrowser();renderTaskStatus();renderDiagnostics()}
+function render(){renderSettings();renderProcessing();renderTasks();renderGroups();renderInfo()}
+function clearIdleSaveTimers(){
+  if(idleSaveTimer!==null){clearTimeout(idleSaveTimer);idleSaveTimer=null}
+  if(idleCountdownTimer!==null){clearInterval(idleCountdownTimer);idleCountdownTimer=null}
+}
+function hideIdleSaveWarning(){byId('autosave-overlay').classList.remove('show')}
+function updateIdleSaveCountdown(){
+  const remaining=Math.max(0,Math.ceil((idleCountdownDeadline-Date.now())/1000));
+  byId('autosave-countdown').textContent=String(remaining);
+  if(remaining>0)return;
+  clearIdleSaveTimers();
+  void saveAndContinue(true);
+}
+function showIdleSaveWarning(){
+  if(!idleTrackingStarted||autoSaveInProgress)return;
+  clearIdleSaveTimers();
+  idleCountdownDeadline=Date.now()+IDLE_SAVE_COUNTDOWN;
+  byId('autosave-overlay').classList.add('show');
+  updateIdleSaveCountdown();
+  idleCountdownTimer=setInterval(updateIdleSaveCountdown,250);
+}
+function scheduleIdleSave(){
+  if(!idleTrackingStarted||autoSaveInProgress)return;
+  clearIdleSaveTimers();
+  hideIdleSaveWarning();
+  idleSaveTimer=setTimeout(showIdleSaveWarning,IDLE_SAVE_DELAY);
+}
+function noteUserActivity(){
+  if(!idleTrackingStarted||autoSaveInProgress)return;
+  const now=Date.now();
+  const warningVisible=byId('autosave-overlay').classList.contains('show');
+  if(!warningVisible&&now-lastActivitySignal<500)return;
+  lastActivitySignal=now;
+  scheduleIdleSave();
+}
+async function saveAndContinue(isAutoSave=false){
+  if(autoSaveInProgress)return false;
+  byId('error').classList.remove('show');
+  if(isAutoSave){autoSaveInProgress=true;clearIdleSaveTimers()}
+  try{
+    const loaded=await queueAccountLoad();
+    const account=String(document.querySelector('[data-setting="infoFileName"]').value||'').trim();
+    if(!loaded||account!==loadedAccount){
+      showErrors([isAutoSave?'账户数据尚未加载完成，已取消自动保存，请操作页面后重试。':'账户数据尚未加载完成，请稍后重试。']);
+      return false;
+    }
+    const result=normalizeResponse(await window.htmlMask.request('/save',collect()));
+    if(!result?.ok){showErrors(result?.errors||['保存失败']);return false}
+    return true;
+  }catch(error){
+    showErrors([error?.message||'保存失败']);
+    return false;
+  }finally{
+    if(isAutoSave){autoSaveInProgress=false;hideIdleSaveWarning()}
+  }
+}
+function normalizeResponse(response){let value=response?.data??response;try{if(typeof value==='string')value=JSON.parse(value)}catch{}return value}
+function showErrors(errors){byId('error').textContent=(errors||['操作失败']).join('\n');byId('error').classList.add('show')}async function loadAccount(account){try{const response=await window.htmlMask.request('/info/account',{account});const result=normalizeResponse(response);if(!result?.ok){showErrors(result?.errors||['读取账户数据失败']);return false}loadedAccount=String(result.account||'').trim();const input=document.querySelector('[data-setting="infoFileName"]');if(String(input.value||'').trim()!==loadedAccount)return false;model.settings.infoFileName=loadedAccount;model.settings.blacklist=String(result.blacklist||'');model.information=result.information||{};document.querySelector('[data-setting="blacklist"]').value=model.settings.blacklist;renderInfo();return true}catch(error){showErrors([error?.message||'读取账户数据失败']);return false}}function queueAccountLoad(){const requested=String(document.querySelector('[data-setting="infoFileName"]').value||'').trim();accountLoadPromise=accountLoadPromise.catch(()=>false).then(()=>{const current=String(document.querySelector('[data-setting="infoFileName"]').value||'').trim();if(current!==requested)return false;if(current===loadedAccount)return true;return loadAccount(current)});return accountLoadPromise}
+function collect(){syncTaskEditor();document.querySelectorAll('[data-group]').forEach(el=>model.pathGroups[+el.dataset.index][el.dataset.group]=el.value);const settings={};document.querySelectorAll('[data-setting]').forEach(el=>settings[el.dataset.setting]=el.type==='checkbox'?el.checked:el.value);settings.processingIngredient=[...document.querySelectorAll('[data-food]:checked')].map(el=>el.dataset.food);return{settings,tasks:model.tasks,pathGroups:model.pathGroups}}
+document.querySelectorAll('.tab').forEach(tab=>tab.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===tab));document.querySelectorAll('.section').forEach(section=>section.classList.toggle('active',section.dataset.section===tab.dataset.tab))});document.querySelectorAll('.subtab').forEach(tab=>tab.onclick=()=>{document.querySelectorAll('.subtab').forEach(x=>x.classList.toggle('active',x===tab));document.querySelectorAll('.info-pane').forEach(pane=>pane.classList.toggle('active',pane.dataset.infoPane===tab.dataset.infoTab))});
+document.querySelector('[data-setting="pickup_Mode"]').onchange=event=>{model.settings.pickup_Mode=event.target.value;updatePickupVisibility()};
+byId('add-task').onclick=()=>{syncTaskEditor();model.tasks.push({id:'t'+Date.now().toString(36),name:'新任务',enabled:true,allowedGroups:'*',allowReopen:true,exitConditions:[],dailyTarget:'',oneTimeTarget:'',sortMode:sorts[0],thresholdEfficiency:'0',onlyRelatedRoutes:true,timeRule:'',durationMinutes:'0'});selectedTask=model.tasks.length-1;renderTasks()};
+byId('add-group').onclick=()=>{model.pathGroups.push({id:'pg'+Date.now().toString(36),name:'新路径组',folder:'',cdType:'1次0点刷新',partyName:'',setTimeMode:model.timeModes[0]});renderGroups();renderTasks()};
+byId('cancel').onclick=()=>window.htmlMask.request('/cancel',{});
+byId('continue-editing').onclick=noteUserActivity;
+document.querySelector('[data-setting="infoFileName"]').onchange=()=>{byId('error').classList.remove('show');queueAccountLoad()};
+byId('save').onclick=()=>void saveAndContinue(false);
+byId('history-filter').oninput=renderHistory;
+byId('route-search').oninput=renderRouteBrowser;
+for(const eventName of ['pointermove','pointerdown','keydown','input','change','wheel','scroll'])document.addEventListener(eventName,noteUserActivity,true);
+const suggestBox=byId('material-suggest');document.addEventListener('input',event=>{if(event.target.matches('[data-material-input]'))showSuggest(event.target)});document.addEventListener('click',event=>{if(event.target.matches('[data-material-input]'))showSuggest(event.target);else if(!suggestBox.contains(event.target))hideSuggest()});document.addEventListener('keydown',event=>{if(!event.target.matches('[data-material-input]'))return;if(event.key==='Tab'&&suggestBox.classList.contains('show')){const first=suggestBox.querySelector('.material-suggest-item');if(first){event.preventDefault();fillMaterial(event.target,inputSegment(event.target),first.textContent.replace(/（.*）$/,''))}}if(event.key==='Escape')hideSuggest()});document.addEventListener('blur',event=>{if(event.target.matches?.('[data-material-input]'))setTimeout(hideSuggest,180)},true);
+window.htmlMask.onMessage=message=>{if(message.url!=='/init')return;const receivedAt=Date.now();model=message.data?.data||message.data;const hostModelReadyAt=Number(model.startupDiagnostics?.hostModelReadyAt)||receivedAt;reportStartupTiming('首屏数据从模型生成完成到浏览器接收',receivedAt-hostModelReadyAt,`路线 ${model.information?.routes?.length||0} 条`);loadedAccount=String(model.settings.infoFileName||'').trim();accountLoadPromise=Promise.resolve(true);const renderStartedAt=Date.now();render();reportStartupTiming('渲染配置面板首屏',Date.now()-renderStartedAt,`路线 ${model.information?.routes?.length||0} 条，任务 ${model.tasks?.length||0} 个，路径组 ${model.pathGroups?.length||0} 个`);idleTrackingStarted=true;lastActivitySignal=Date.now();scheduleIdleSave()};
+</script>
+</body>
+</html>

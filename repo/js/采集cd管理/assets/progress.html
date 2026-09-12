@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>采集任务进度</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background: transparent;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        #design-space {
+            position: absolute;
+            width: 1920px;
+            height: 1080px;
+            transform-origin: left top;
+            pointer-events: none;
+        }
+
+        #progress-panel {
+            position: absolute;
+            left: 560px;
+            top: 750px;
+            width: 800px;
+            height: 200px;
+            padding: 18px 26px;
+            overflow: hidden;
+            border: 1px solid rgba(160, 213, 245, 0.72);
+            border-radius: 15px;
+            color: #eef8ff;
+            background: linear-gradient(135deg, rgba(19, 48, 71, 0.88), rgba(28, 70, 99, 0.80));
+            box-shadow: 0 8px 26px rgba(0, 15, 28, 0.34), inset 0 1px rgba(255, 255, 255, 0.12);
+            text-shadow: 0 1px 2px rgba(0, 12, 22, 0.8);
+        }
+
+        #progress-panel[hidden] {
+            display: none;
+        }
+
+        .header,
+        .footer {
+            display: flex;
+            align-items: center;
+            min-width: 0;
+        }
+
+        .header {
+            gap: 16px;
+            height: 34px;
+        }
+
+        .task-name {
+            flex: 0 1 auto;
+            max-width: 390px;
+            overflow: hidden;
+            color: #d9f2ff;
+            font-size: 24px;
+            font-weight: 700;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .route-name {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            color: rgba(224, 244, 255, 0.84);
+            font-size: 18px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .status {
+            flex: 0 0 auto;
+            max-width: 300px;
+            padding: 3px 12px;
+            overflow: hidden;
+            border: 1px solid rgba(157, 220, 255, 0.5);
+            border-radius: 999px;
+            color: #bce8ff;
+            background: rgba(95, 179, 226, 0.16);
+            font-size: 15px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .content {
+            display: grid;
+            grid-template-rows: repeat(2, 34px);
+            align-content: center;
+            height: 88px;
+            border-top: 1px solid rgba(183, 226, 251, 0.18);
+            border-bottom: 1px solid rgba(183, 226, 251, 0.18);
+        }
+
+        .progress-row {
+            display: flex;
+            align-items: center;
+            min-width: 0;
+            font-size: 19px;
+        }
+
+        .progress-row[hidden] {
+            display: none;
+        }
+
+        .label {
+            flex: 0 0 150px;
+            color: #94d8ff;
+        }
+
+        .value {
+            min-width: 0;
+            overflow: hidden;
+            color: #ffffff;
+            font-variant-numeric: tabular-nums;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .footer {
+            justify-content: flex-end;
+            height: 41px;
+            color: rgba(218, 241, 255, 0.82);
+            font-size: 18px;
+        }
+
+        .elapsed {
+            color: #c7efff;
+            font-variant-numeric: tabular-nums;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div id="design-space">
+        <section id="progress-panel" hidden>
+            <div class="header">
+                <div id="task-name" class="task-name">--</div>
+                <div id="route-name" class="route-name">路线：--</div>
+                <div id="status" class="status">运行中</div>
+            </div>
+            <div class="content">
+                <div id="daily-row" class="progress-row" hidden>
+                    <span class="label">每日目标</span>
+                    <span id="daily-value" class="value">--</span>
+                </div>
+                <div id="one-time-row" class="progress-row" hidden>
+                    <span class="label">一次性目标剩余</span>
+                    <span id="one-time-value" class="value">--</span>
+                </div>
+                <div id="route-row" class="progress-row" hidden>
+                    <span class="label">路线状态</span>
+                    <span id="route-value" class="value">--</span>
+                </div>
+            </div>
+            <div class="footer">
+                <span>任务累计执行时长：</span><span id="elapsed" class="elapsed">0分00秒</span>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const byId = id => document.getElementById(id);
+
+        function applyDesignScale() {
+            const scaleX = window.innerWidth / 1920;
+            const scaleY = window.innerHeight / 1080;
+            byId("design-space").style.transform = `scale(${scaleX}, ${scaleY})`;
+        }
+
+        function render(data) {
+            const panel = byId("progress-panel");
+            if (!data || data.visible !== true) {
+                panel.hidden = true;
+                return;
+            }
+
+            byId("task-name").textContent = data.taskName || "--";
+            byId("route-name").textContent = `路线：${data.routeName || "--"}`;
+            byId("status").textContent = data.status || (data.active ? "运行中" : "等待调度");
+            byId("elapsed").textContent = data.elapsed || "0分00秒";
+
+            const dailyTargets = Array.isArray(data.dailyTargets) ? data.dailyTargets : [];
+            const oneTimeTargets = Array.isArray(data.oneTimeTargets) ? data.oneTimeTargets : [];
+            byId("daily-row").hidden = dailyTargets.length === 0;
+            byId("daily-value").textContent = dailyTargets.map(item => `${item.name} ${item.current}/${item.target}`).join("　");
+            byId("one-time-row").hidden = data.hasOneTimeTarget !== true;
+            byId("one-time-value").textContent = oneTimeTargets.length
+                ? oneTimeTargets.map(item => `${item.name}*${item.count}`).join(" + ")
+                : "已完成";
+            byId("route-row").hidden = data.showRouteSummary !== true;
+            byId("route-value").textContent = `路线共 ${Number(data.routeCount) || 0} 条，CD中 ${Number(data.cdRouteCount) || 0} 条`;
+            panel.hidden = false;
+        }
+
+        applyDesignScale();
+        window.addEventListener("resize", applyDesignScale);
+
+        if (window.htmlMask) {
+            window.htmlMask.onMessage = message => {
+                if (message.url === "/progress") render(message.data?.data || message.data);
+            };
+        }
+    </script>
+</body>
+</html>

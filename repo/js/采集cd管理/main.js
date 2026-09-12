@@ -1,61 +1,78 @@
-// 3.0.5
+// 4.1.0
 
 /* ===== 1. 自定义配置 ===== */
-const timeMoveUp = Math.round((settings.timeMove || 1000) * 0.45);
-const timeMoveDown = Math.round((settings.timeMove || 1000) * 0.55);
-const accountName = settings.infoFileName || "默认账户";
-const operationMode = settings.operationMode || "执行任务（若不存在索引文件则自动创建）";
-let loopMode = 1; // 默认不循环
-// ---- loopMode 配置迁移 ----
-let rawLoop = settings.loopMode; // 新字段优先
-if (rawLoop === undefined && settings.loopCollect !== undefined) {
-    rawLoop = settings.loopCollect; // 兼容旧字段
-}
-if (typeof rawLoop === 'boolean') {
-    loopMode = rawLoop ? 3 : 1;  // true→全局循环(3)，false→不循环(1)
-    // 写入兼容后的字符串，防止 UI 面板回显空白
-    settings.loopMode = rawLoop ? "全局循环" : "不循环";
-} else if (typeof rawLoop === 'string') {
-    // 新配置存储的是中文，映射为数字
-    switch (rawLoop) {
-        case "不循环": loopMode = 1; break;
-        case "每组重试": loopMode = 2; break;
-        case "全局循环": loopMode = 3; break;
-        default: loopMode = 1;
-    }
-} else {
-    loopMode = 1; // 默认不循环
-}
-const disableJsons = settings.disableJsons || "";
+let timeMoveUp;
+let timeMoveDown;
+let accountName;
+let operationMode;
+let disableJsons;
 // 拾取模式：模板匹配拾取（JS自行识别，默认） / bgi原版拾取（由BetterGI AutoPick触发器拾取）
-let pickup_Mode;
+let pickupMode;
 let processingIngredient = settings.processingIngredient;
-let findFInterval = Math.max(16, Math.min(200, parseInt(settings.findFInterval) || 100));
-let checkInterval = +settings.checkInterval || 50;
-let groupCount;
+let findFInterval;
+let checkInterval;
+// 新版运行时配置（任务与路径组均以字符串键持久化）
+let runtimeConfig = { tasks: [], pathGroups: [] };
+let htmlInfoRoutePaths = new Set();
+let pathingRouteFiles = [];
+let pathingRoutesByGroup = new Map();
+let pathingRouteCacheReady = false;
+
 /* ===== 2. 使用的模板和识别对象 ===== */
-const mainUiRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/MainUI.png"), 0, 0, 150, 150);
-const fullRoi = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/itemFull.png"), 0, 0, 1920, 1080);
-const FiconRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/F_Dialogue.png"), 1102, 335, 34, 400);
-FiconRo.Threshold = 0.9;
-FiconRo.InitTemplate();
-const frozenRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/解除冰冻.png"), 1379, 574, 1463 - 1379, 613 - 574);
-const revivalRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/复苏.png"), 755, 915, 1117 - 755, 1037 - 915);
-revivalRo.Threshold = 0.9;
-revivalRo.InitTemplate();
-const revival_2_Ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/复苏_联机.png"), 930, 1000, 100, 50);
-revival_2_Ro.Threshold = 0.9;
-revival_2_Ro.InitTemplate();
-const scrollRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/拾取滚轮.png"), 1017, 496, 1093 - 581, 581 - 496);
+const mainUiRo = createTemplateRecognition("assets/MainUI.png", 0, 0, 150, 150);
+const fullRoi = createTemplateRecognition("assets/itemFull.png", 0, 0, 1920, 1080);
+const FiconRo = createTemplateRecognition("assets/F_Dialogue.png", 1102, 335, 34, 400, 0.9, true);
+const frozenRo = createTemplateRecognition("assets/解除冰冻.png", 1379, 574, 1463 - 1379, 613 - 574);
+const revivalRo = createTemplateRecognition("assets/复苏.png", 755, 915, 1117 - 755, 1037 - 915, 0.9, true);
+const revival_2_Ro = createTemplateRecognition("assets/复苏_联机.png", 930, 1000, 100, 50, 0.9, true);
+const scrollRo = createTemplateRecognition("assets/拾取滚轮.png", 1017, 496, 1093 - 581, 581 - 496);
 
 /* ===== 3. 全局通用常量 ===== */
 const targetItemPath = "assets/targetItems";
 const recordFolder = "record";
+const ROUTE_DESCRIPTION_INDEX_FILE = "route-index.json";
+const ROUTE_DESCRIPTION_INDEX_FORMAT = "collect-cd-route-index";
 const rollingDelay = 32;
 const pickupDelay = 100;
 const MAX_PICKUP_DAYS = 30;
 const cookInterval = 95 * 60 * 1000;
 const settimeInterval = 10 * 60 * 1000;
+const PROGRESS_PANEL_PATH = "assets/progress.html";
+const PROGRESS_PANEL_ID = "collect-cd-progress";
+const PROGRESS_PANEL_INTERVAL = 200;
+const STARTUP_TIMING_LOG_PREFIX = "[启动耗时]";
+const GAME_REGION_CACHE_SIZE = 5;
+const DEFAULT_SORT_MODE = "文件顺序，按在文件夹中位置顺序运行";
+const DEFAULT_CD_TYPE = "1次0点刷新";
+const HTML_CONFIG_CD_TYPES = [
+    "",
+    "不指定",
+    "1次0点刷新",
+    "2次0点刷新",
+    "3次0点刷新",
+    "4点刷新",
+    "12小时刷新",
+    "24小时刷新",
+    "46小时刷新",
+    "每天一次"
+];
+const HTML_CONFIG_SELECTS = {
+    operationMode: [
+        "执行任务（若不存在索引文件则自动创建）",
+        "重新生成索引文件（用于强制刷新CD）"
+    ],
+    setTimeMode: ["不调节时间", "尽量调为白天", "尽量调为夜晚"],
+    sortMode: [
+        "文件顺序，按在文件夹中位置顺序运行",
+        "优先最早刷新，将优先执行最早刷新的路线",
+        "优先最高效率，将优先执行最高分均拾取物的路线"
+    ]
+};
+const HTML_CONFIG_PROCESSING_OPTIONS = [
+    "面粉", "兽肉", "鱼肉", "神秘的肉", "黑麦粉", "奶油", "熏禽肉",
+    "黄油", "火腿", "糖", "香辛料", "酸奶油", "蟹黄", "果酱", "奶酪",
+    "培根", "香肠"
+];
 
 /* ===== 4. 全局通用变量 ===== */
 let currentParty = '';
@@ -63,96 +80,161 @@ let targetItems = [];
 let blacklist = [];
 let blacklistSet = new Set();
 let gameRegion;
-let state = { running: true };
-state.runPickupLog = [];   // 本次路线运行中拾取/交互的物品明细
-let routeRunCount = {};          // 全局路线执行次数记录 { routeName: count }
+let state = {
+    running: true,
+    runPickupLog: [] // 本次路线运行中拾取/交互的物品明细
+};
 let pickupRecordFile;
 let firstCook = true;
 let firstsettime = true;
 let lastCookTime = new Date();
 let lastsettimeTime = new Date();
+let lastSetTimeMode = "";
 let lastMapName = "";
 let disableArray = [];
-if (disableJsons) {
-    let tmp = disableJsons.split('；');
-    for (let k = 0; k < tmp.length; k++) {
-        let s = tmp[k].trim();
-        if (s) disableArray[disableArray.length] = s;
-    }
-}
 let lastRoll = new Date();
 let Foods = [];
-let folderNames;
-let partyNames;
 let subFolderName;
 let subFolderPath;
 let recordFilePath;
-// ===== 总运行限时（分钟）状态 =====
-let scriptStartTime = Date.now();            // 脚本启动时间，作为总运行限时的起算点
-let runtimeLimitReached = false;             // 是否已达运行限时
-
-/**
- * 检测是否已达到总运行限时
- * 读取 settings.maxRuntimeMinutes（0=不限时），从脚本启动起算；
- * 由各阶段在完成任意路线后调用，超时返回 true 并一次性打印日志/通知
- * @returns {boolean} 是否已超时
- */
-function checkRuntimeLimit() {
-    const limit = parseInt(settings.maxRuntimeMinutes) || 0;
-    if (limit > 0 && Date.now() - scriptStartTime >= limit * 60000) {
-        if (!runtimeLimitReached) {
-            runtimeLimitReached = true;
-            log.info(`已达到总运行限时 ${limit} 分钟，结束脚本`);
-            notification.send(`已达到总运行限时 ${limit} 分钟，结束脚本`);
-        }
-        return true;
-    }
-    return false;
-}
 let name2Other;
 let alias2Names;
-const GAME_REGION_CACHE_SIZE = 5; // 游戏区域截图缓存大小上限
+let progressPanelWindowId = null;
+let progressPanelRunning = false;
+let progressPanelTask = null;
+let progressPanelContext = null;
 const gameRegionManager = {
     cache: [], // 缓存队列，保存近GAME_REGION_CACHE_SIZE张截图
     lastCapture: new Date(),
     isDisposing: false,
     isCapturing: false
 };
-
-/* ===== 5. 待定分区（后续手动分类） ===== */
 let materialCdMap = {};
 
 (async function () {
-    dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
-    // ==================== 拾取模式 ====================
-    // 模板匹配拾取：JS 自行识别拾取（默认，产量记录完整）
-    // bgi原版拾取：由 BetterGI AutoPick 实时触发器完成拾取，JS 通过 dispatcher.getPickRecords() 取回拾取记录，
-    //              记录同样写入 runPickupLog，驱动 CD 计算、历史统计、每日拾取记录与优先材料扣减
-    pickup_Mode = settings.pickup_Mode || "模板匹配拾取";
-    if (pickup_Mode === "bgi原版拾取") {
-        dispatcher.AddTrigger(new RealtimeTimer("AutoPick"));
-        log.info("拾取模式：bgi原版拾取（由 BetterGI AutoPick 触发器完成拾取）");
-    }
-    // ==================== 构建 settings.json ====================
-    if (!await buildSettingsJson()) {
-        return;
-    }
-    // ==================== 初始化设置和记录文件 ====================
-    await initializeSetup();
+    const startupStartedAt = beginStartupTiming("脚本启动准备");
+    try {
+        await sleep(1);
+        const configStartedAt = beginStartupTiming("读取运行配置");
+        refreshRuntimeSettings();
+        refreshDisableArray();
+        loadRuntimeConfig();
+        finishStartupTiming("读取运行配置", configStartedAt, `任务 ${runtimeConfig.tasks.length} 个，路径组 ${runtimeConfig.pathGroups.length} 个`);
+        // 用户勾选入口开关时，先打开 HTML 配置面板，再初始化运行时变量。
+        if (!await openHtmlConfigPanel()) {
+            return;
+        }
+        refreshRuntimeSettings();
+        refreshDisableArray();
 
-    // ==================== 优先级材料前置采集 ====================
-    await processPriorityItems();
-
-    // ==================== 一次性优先材料采集（优先级低于每日优先） ====================
-    if (!runtimeLimitReached) {
-        await processOneTimePriorityItems();
-    }
-
-    // ==================== 路径组循环 ====================
-    if (!runtimeLimitReached) {
-        await processPathGroups();
+        try {
+            dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
+        } catch (error) {
+            log.warn(`启用自动跳过触发器失败，将继续执行：${error.message}`);
+        }
+        // ==================== 拾取模式 ====================
+        // 模板匹配拾取：JS 自行识别拾取（默认，产量记录完整）
+        // bgi原版拾取：由 BetterGI AutoPick 实时触发器完成拾取，JS 通过 dispatcher.getPickRecords() 取回拾取记录，
+        //              记录同样写入 runPickupLog，驱动 CD 计算、历史统计、每日拾取记录与任务目标扣减
+        pickupMode = settings.pickup_Mode || "模板匹配拾取";
+        if (pickupMode === "bgi原版拾取") {
+            try {
+                dispatcher.AddTrigger(new RealtimeTimer("AutoPick"));
+                log.info("拾取模式：bgi原版拾取（由 BetterGI AutoPick 触发器完成拾取）");
+            } catch (error) {
+                log.warn(`启用 BetterGI AutoPick 失败，将继续执行路线：${error.message}`);
+            }
+        }
+        // ==================== 初始化设置和记录文件 ====================
+        try {
+            const initializeStartedAt = beginStartupTiming("初始化运行数据");
+            await initializeSetup();
+            finishStartupTiming("初始化运行数据", initializeStartedAt, `路线 ${pathingRouteFiles.length} 条`);
+        } catch (error) {
+            await sleep(1);
+            log.error(`初始化采集 CD 管理失败，无法继续执行：${error.message}`);
+            return;
+        }
+        const progressPanelStartedAt = beginStartupTiming("打开运行进度面板");
+        await openProgressPanel();
+        finishStartupTiming("打开运行进度面板", progressPanelStartedAt);
+        finishStartupTiming("脚本启动准备", startupStartedAt);
+        // ==================== 统一任务调度 ====================
+        try {
+            await runTaskScheduler();
+        } catch (error) {
+            await sleep(1);
+            log.error(`任务调度异常结束：${error.message}`);
+        }
+    } catch (error) {
+        await sleep(1);
+        log.error(`采集 CD 管理异常结束：${error.message}`);
+    } finally {
+        await closeProgressPanel();
     }
 })();
+
+function beginStartupTiming(stage) {
+    const startedAt = Date.now();
+    log.info(`${STARTUP_TIMING_LOG_PREFIX} 开始：${stage}`);
+    return startedAt;
+}
+
+function finishStartupTiming(stage, startedAt, details = "") {
+    const elapsedMs = Math.max(0, Date.now() - Number(startedAt || Date.now()));
+    const suffix = details ? `，${details}` : "";
+    log.info(`${STARTUP_TIMING_LOG_PREFIX} 完成：${stage}，耗时 ${formatStartupTiming(elapsedMs)}${suffix}`);
+    return elapsedMs;
+}
+
+function formatStartupTiming(elapsedMs) {
+    return elapsedMs < 1000 ? `${elapsedMs} 毫秒` : `${(elapsedMs / 1000).toFixed(2)} 秒`;
+}
+
+/**
+ * 加载模板识别资源。单个可选资源损坏时返回 null，由对应功能自行降级。
+ */
+function createTemplateRecognition(imagePath, x, y, width, height, threshold, initialize = false) {
+    try {
+        const recognition = RecognitionObject.TemplateMatch(
+            file.ReadImageMatSync(imagePath),
+            x,
+            y,
+            width,
+            height
+        );
+        if (Number.isFinite(threshold)) recognition.Threshold = threshold;
+        if (initialize) recognition.InitTemplate();
+        return recognition;
+    } catch (error) {
+        log.warn(`加载识别资源失败，对应功能将停用：${imagePath}，${error.message}`);
+        return null;
+    }
+}
+
+/**
+ * 根据 settings 重新计算运行时派生配置。
+ * HTML 配置面板保存后必须调用此函数，避免继续使用启动时缓存的旧值。
+ */
+function refreshRuntimeSettings() {
+    timeMoveUp = Math.round((settings.timeMove || 1000) * 0.45);
+    timeMoveDown = Math.round((settings.timeMove || 1000) * 0.55);
+    accountName = settings.infoFileName || "默认账户";
+    operationMode = settings.operationMode || "执行任务（若不存在索引文件则自动创建）";
+    disableJsons = settings.disableNameKeywords || settings.disableJsons || "";
+    processingIngredient = settings.processingIngredient;
+    findFInterval = Math.max(16, Math.min(200, parseInt(settings.findFInterval) || 100));
+    checkInterval = +settings.checkInterval || 50;
+}
+
+function refreshDisableArray() {
+    disableArray = [];
+    if (!disableJsons) return;
+    for (const item of String(disableJsons).split(/[；;,\r\n]+/)) {
+        const value = item.trim();
+        if (value) disableArray.push(value);
+    }
+}
 
 /**
  * 识别并交互函数
@@ -188,6 +270,7 @@ async function recognizeAndInteract() {
     let revivalTask = null;
 
     while (state.running) {
+        await sleep(1);
         gameRegion = await getGameRegion();
 
         // === 解除冰冻检测（每250毫秒） ===
@@ -219,17 +302,17 @@ async function recognizeAndInteract() {
             // 处理并发的冰冻检测
             if (freezeTask) {
                 try { await freezeTask; }
-                catch (e) { log.error('冰冻检测异常:', e); }
+                catch (e) { await sleep(1); log.error('冰冻检测异常:', e); }
                 finally { freezeTask = null; }
             }
             if (revivalTask) {
                 try { await revivalTask; }
-                catch (e) { log.error('复苏检测异常:', e); }
+                catch (e) { await sleep(1); log.error('复苏检测异常:', e); }
                 finally { revivalTask = null; }
             }
             if (checkTask) {
                 try { await checkTask; }
-                catch (e) { log.error('背包满检查异常:', e); }
+                catch (e) { await sleep(1); log.error('背包满检查异常:', e); }
                 finally { checkTask = null; }
             }
             continue;
@@ -243,7 +326,7 @@ async function recognizeAndInteract() {
                 lastItemName = null;
                 if (checkTask) {
                     try { await checkTask; }
-                    catch (e) { log.error('背包满检查异常:', e); }
+                    catch (e) { await sleep(1); log.error('背包满检查异常:', e); }
                     finally { checkTask = null; }
                 }
                 continue;
@@ -281,17 +364,17 @@ async function recognizeAndInteract() {
         await sleep(rollingDelay);
         if (freezeTask) {
             try { await freezeTask; }
-            catch (e) { log.error('冰冻检测异常:', e); }
+            catch (e) { await sleep(1); log.error('冰冻检测异常:', e); }
             finally { freezeTask = null; }
         }
         if (revivalTask) {
             try { await revivalTask; }
-            catch (e) { log.error('复苏检测异常:', e); }
+            catch (e) { await sleep(1); log.error('复苏检测异常:', e); }
             finally { revivalTask = null; }
         }
         if (checkTask) {
             try { await checkTask; }
-            catch (e) { log.error('背包满检查异常:', e); }
+            catch (e) { await sleep(1); log.error('背包满检查异常:', e); }
             finally { checkTask = null; }
         }
     }
@@ -301,14 +384,41 @@ async function recognizeAndInteract() {
  * 启动拾取伴随任务（随路线执行并发运行，state.running 置 false 后结束）
  * 根据拾取模式选择：
  * - 模板匹配拾取：JS 自行识别拾取（recognizeAndInteract）
- * - bgi原版拾取：轮询 dispatcher.getPickRecords() 取回 BetterGI 自动拾取的记录
+ * - bgi原版拾取：轮询 dispatcher.getPickRecords() 取回 BetterGI 自动拾取的记录，
+ *                 并监控背包满提示以更新路线排除黑名单
  * @returns {Promise<void>} 拾取任务 Promise，应在 state.running 置 false 后 await 其结束
  */
 function startPickupTask() {
-    if (pickup_Mode === "bgi原版拾取") {
-        return pollPickRecordsTask();
+    if (pickupMode === "bgi原版拾取") {
+        return Promise.all([
+            pollPickRecordsTask(),
+            monitorItemFullTask()
+        ]);
     }
     return recognizeAndInteract();
+}
+
+/**
+ * 监控背包满提示（bgi原版拾取模式专用）
+ * 仅识别背包满提示并更新材料黑名单，不执行模板匹配拾取或 F 交互。
+ * @returns {Promise<void>} 一直运行直到 state.running 为 false
+ */
+async function monitorItemFullTask() {
+    let lastCheckItemFull = new Date();
+    while (state.running) {
+        await sleep(1);
+        if (new Date() - lastCheckItemFull > 2500) {
+            lastCheckItemFull = new Date();
+            try {
+                const region = await getGameRegion();
+                await checkItemFullAndOCR(region);
+            } catch (e) {
+                await sleep(1);
+                log.error('背包满检查异常:', e);
+            }
+        }
+        await sleep(100);
+    }
 }
 
 /**
@@ -316,6 +426,7 @@ function startPickupTask() {
  * 拾取由 AutoPick 实时触发器完成，这里周期性调用 dispatcher.getPickRecords() 取回拾取历史，
  * 写入 state.runPickupLog，与模板匹配拾取共用同一数据通道：
  * 后续的 CD 计算（按材料取最晚刷新）、历史统计、每日拾取记录、优先材料扣减全部复用。
+ * AutoPick 已输出拾取日志，此处只回收记录，不重复打印“交互或拾取”日志。
  * 旧版 C# 无 getPickRecords 时通过可选链 + try 安全降级（不报错、不记录）。
  * @returns {Promise<void>} 一直运行直到 state.running 为 false
  */
@@ -325,16 +436,29 @@ async function pollPickRecordsTask() {
         dispatcher.getPickRecords?.();
     } catch (e) { /* 旧版 C# 不支持 getPickRecords，忽略 */ }
     while (state.running) {
+        await sleep(1);
         try {
             const records = dispatcher.getPickRecords?.() ?? [];
             for (const r of records) {
+                await sleep(1);
                 state.runPickupLog.push(r.Name);
-                log.info(`交互或拾取："${r.Name}"`);
             }
         } catch (e) {
+            await sleep(1);
             break; // 旧版 C# 不支持 getPickRecords，降级停止轮询
         }
         await sleep(100);
+    }
+    // 路线结束到最后一次轮询之间仍可能产生拾取记录，退出前再取回一次。
+    try {
+        const records = dispatcher.getPickRecords?.() ?? [];
+        for (const r of records) {
+            await sleep(1);
+            state.runPickupLog.push(r.Name);
+        }
+    } catch (e) {
+        await sleep(1);
+        /* 旧版 C# 不支持 getPickRecords，保持静默降级 */
     }
 }
 
@@ -353,6 +477,10 @@ async function pollPickRecordsTask() {
  * - sleep: 延迟函数
  */
 async function findFIcon() {
+    if (!FiconRo) {
+        await sleep(findFInterval);
+        return null;
+    }
     try {
         const r = gameRegion.find(FiconRo);
         if (r.isExist()) return Math.round(r.y + r.height / 2);
@@ -378,15 +506,16 @@ async function findFIcon() {
  * 无
  */
 async function performTemplateMatch(centerYF) {
+    await sleep(1);
     /* 一次性切 6 种宽度（0-5 汉字） */
     const regions = [];
-    for (let cn = 0; cn <= 6; cn++) {   // 0~5 共 6 档
-        // 增加 20 像素，兼容化种匣的括号/种子后缀
-        const w = 12 + 28 * Math.min(cn, 5) + 2 + 20;
-        regions[cn] = gameRegion.DeriveCrop(1219, centerYF - 15, w, 30);
-    }
-
     try {
+        for (let cn = 0; cn <= 6; cn++) {   // 0~5 共 6 档
+            // 增加 20 像素，兼容化种匣的括号/种子后缀
+            const w = 12 + 28 * Math.min(cn, 5) + 2 + 20;
+            regions[cn] = gameRegion.DeriveCrop(1219, centerYF - 15, w, 30);
+        }
+
         let firstMatch = null;
         for (const it of targetItems) {
             const cnLen = Math.min(
@@ -417,45 +546,18 @@ async function performTemplateMatch(centerYF) {
     } catch (e) {
         log.error(`performTemplateMatch: ${e.message}`);
     } finally {
-        regions.forEach(r => r.dispose());
+        for (const region of regions) {
+            try { region?.dispose(); } catch { /* 单个裁剪区释放失败不影响其余资源 */ }
+        }
     }
     return null;
-}
-
-/**
- * 检查是否为主界面函数
- * 检查游戏是否处于主界面状态
- * 
- * @returns {Promise<boolean>} 返回是否为主界面，true 表示是主界面，false 表示不是
- * 
- * @依赖全局变量：
- * - gameRegion: 游戏区域对象
- * - mainUiRo: 主界面的识别对象
- * - state: 状态对象，包含 running 标志
- * - findFInterval: 识别间隔时间
- * 
- * @依赖辅助函数：
- * - sleep: 延迟函数
- */
-async function isMainUI() {
-    for (let i = 0; i < 1 && state.running; i++) {
-        gameRegion = await getGameRegion();
-        try {
-            if (gameRegion.find(mainUiRo).isExist()) {
-                return true;
-            }
-        } catch (e) {
-            log.error(`isMainUI:${e.message}`);
-        }
-        await sleep(findFInterval);
-    }
-    return false;
 }
 
 /**
  * 检测并挣脱冰冻状态
  */
 async function checkAndBreakFreeze() {
+    if (!frozenRo) return;
     try {
         if (gameRegion.find(frozenRo).isExist()) {
             log.info("检测到冻结，尝试挣脱");
@@ -465,6 +567,7 @@ async function checkAndBreakFreeze() {
             }
         }
     } catch (error) {
+        await sleep(1);
         // 忽略识别错误
     }
 }
@@ -477,7 +580,7 @@ async function checkAndBreakFreeze() {
 async function checkAndClickRevival() {
     try {
         const rg = await getGameRegion();
-        const roList = [revivalRo, revival_2_Ro];
+        const roList = [revivalRo, revival_2_Ro].filter(Boolean);
         for (const ro of roList) {
             const res = rg.find(ro);
             if (res.isExist()) {
@@ -487,6 +590,7 @@ async function checkAndClickRevival() {
             }
         }
     } catch (error) {
+        await sleep(1);
         // 忽略识别错误
     }
     return false;
@@ -496,6 +600,7 @@ async function checkAndClickRevival() {
  * 检查背包是否满并进行 OCR 识别函数
  * 检查游戏背包是否已满，并通过 OCR 识别物品名称，将满的物品加入黑名单
  * 
+ * @param {Object} [region=gameRegion] - 用于识别的游戏区域截图
  * @returns {Promise<void>} 无返回值
  * 
  * @依赖全局变量：
@@ -508,14 +613,15 @@ async function checkAndClickRevival() {
  * @依赖辅助函数：
  * - loadBlacklist: 加载黑名单函数
  */
-async function checkItemFullAndOCR() {
+async function checkItemFullAndOCR(region = gameRegion) {
+    if (!fullRoi || !region) return;
     try {
-        if (!gameRegion.find(fullRoi).isExist()) return;
+        if (!region.find(fullRoi).isExist()) return;
     } catch (e) { return; }
     const TEXT_X = 560, TEXT_Y = 450, TEXT_W = 800, TEXT_H = 170;
     let ocrText = null;
     try {
-        const list = gameRegion.findMulti(RecognitionObject.ocr(TEXT_X, TEXT_Y, TEXT_W, TEXT_H));
+        const list = region.findMulti(RecognitionObject.ocr(TEXT_X, TEXT_Y, TEXT_W, TEXT_H));
         if (list.count) {
             let longest = list[0];
             for (let i = 1;
@@ -578,10 +684,9 @@ async function checkItemFullAndOCR() {
  * - readFolder: 读取文件夹函数
  */
 async function loadTargetItems() {
-    const targetItemPath = "assets/targetItems/";
-
     const items = await readFolder(targetItemPath, false);
 
+    const loadedItems = [];
     for (const it of items) {
         try {
             it.template = file.ReadImageMatSync(it.fullPath);
@@ -612,17 +717,18 @@ async function loadTargetItems() {
             if (namePure && namePure !== it.itemName) otherNames.add(namePure);
 
             it.otherName = Array.from(otherNames);
+            loadedItems.push(it);
 
         } catch (error) {
             log.error(`[loadTargetItems] ${it.fullPath}: ${error.message}`);
         }
     }
-    return items;
+    return loadedItems;
 }
 
 /**
  * 加载黑名单函数
- * 从文件中加载黑名单，并将其合并到内存中的黑名单数组和集合中
+ * 仅从当前账户的本地文件加载黑名单，并将其合并到内存中的黑名单数组和集合中
  * 
  * @param {boolean} writeBack - 是否将黑名单写回文件
  * @returns {Promise<void>} 无返回值
@@ -631,36 +737,37 @@ async function loadTargetItems() {
  * - accountName: 账户名称
  * - blacklist: 黑名单数组
  * - blacklistSet: 黑名单集合
- * - settings: 设置对象
  * - disableArray: 禁用关键词数组
  * 
  * @依赖辅助函数：
  * 无
  */
 async function loadBlacklist(writeBack) {
-    try {
-        const raw = await file.readText(`blacklists/${accountName}.json`);
-        blacklist = [...new Set([...blacklist, ...JSON.parse(raw)])];
-    } catch { /* 文件不存在就跳过 */ }
-    blacklistSet = new Set(blacklist);
-
-    // 仅把 blacklist 中的中文部分合并到内存中的 settings.disableJsons
-    const chineseParts = blacklist
-        .map(name => name.replace(/[^\u4e00-\u9fa5]/g, ''))
-        .filter(Boolean);
-
-    const existing = settings.disableJsons
-        ? settings.disableJsons.split('；').map(s => s.trim()).filter(Boolean)
-        : [];
-
-    const merged = [...new Set([...existing, ...chineseParts])].sort().join('；');
-    settings.disableJsons = merged;
-
-    if (writeBack) {
-        await file.writeText(`blacklists/${accountName}.json`, JSON.stringify(blacklist, null, 2), false);
+    const blacklistFolder = "blacklists";
+    const blacklistPath = `${blacklistFolder}/${accountName}.json`;
+    if (!file.IsFolder(blacklistFolder)) file.CreateDirectory(blacklistFolder);
+    const blacklistFileExists = Array.from(file.ReadPathSync(blacklistFolder))
+        .some(path => basename(path) === `${accountName}.json`);
+    let canWrite = true;
+    if (blacklistFileExists) {
+        try {
+            const raw = await file.readText(blacklistPath);
+            const storedBlacklist = JSON.parse(raw);
+            if (!Array.isArray(storedBlacklist)) throw new Error("文件根节点不是数组");
+            blacklist = [...new Set([...blacklist, ...storedBlacklist])];
+        } catch (error) {
+            canWrite = false;
+            log.error(`读取黑名单失败，为避免覆盖原数据已跳过回写：${error.message}`);
+        }
     }
-    // 实时同步禁用关键词数组
-    disableArray = settings.disableJsons.split('；').map(s => s.trim()).filter(Boolean);
+    blacklistSet = materialNamesWithAliases(blacklist);
+
+    if (writeBack && canWrite) {
+        await file.writeText(blacklistPath, JSON.stringify(blacklist, null, 2), false);
+    }
+    // 黑名单与路线禁用关键词分离：disableNameKeywords 仅用于路线排除。
+    disableArray = String(settings.disableNameKeywords || "")
+        .split(/[；;,\r\n]+/).map(s => s.trim()).filter(Boolean);
 }
 
 /**
@@ -770,8 +877,12 @@ async function fakeLog(name, isJs, isStart, duration) {
  * 无
  */
 function basename(filePath) {
-    const lastSlashIndex = filePath.lastIndexOf('\\'); // 或者使用 '/'，取决于你的路径分隔符
-    return filePath.substring(lastSlashIndex + 1);
+    return String(filePath || "").split(/\\|\//).pop();
+}
+
+function isValidFirstLevelFolderName(value) {
+    const name = String(value || "").trim();
+    return Boolean(name) && name !== "." && name !== ".." && !/[\\/:*?"<>|\x00-\x1f]/.test(name);
 }
 
 /**
@@ -787,60 +898,289 @@ function basename(filePath) {
  * 
  * @依赖辅助函数：
  * 无
+ *
+ * 加载阶段不调用 sleep；正式进入任务调度后再通过运行循环检查手动终止。
  */
 async function readFolder(folderPath, onlyJson) {
+    if (onlyJson && normalizeRouteIndexPath(folderPath).toLowerCase() === "pathing") {
+        return ensurePathingRouteCache();
+    }
+
     const folderStack = [folderPath];
-    const files = [];
+    const visitedFolders = new Set();
+    const rawFiles = [];
 
     while (folderStack.length > 0) {
         const currentPath = folderStack.pop();
-        const filesInSubFolder = file.ReadPathSync(currentPath); // 同步读取
+        const folderKey = normalizeRouteIndexPath(currentPath).toLowerCase();
+        if (visitedFolders.has(folderKey)) continue;
+        visitedFolders.add(folderKey);
+        let filesInSubFolder;
+        try {
+            filesInSubFolder = file.ReadPathSync(currentPath); // 同步读取
+        } catch (error) {
+            log.warn(`读取文件夹失败，已跳过 ${currentPath}：${error.message}`);
+            continue;
+        }
         const subFolders = [];
 
         for (const filePath of filesInSubFolder) {
-            if (file.IsFolder(filePath)) {
-                subFolders.push(filePath);
+            try {
+                if (file.IsFolder(filePath)) {
+                    subFolders.push(filePath);
+                    continue;
+                }
+            } catch (error) {
+                log.warn(`检查文件类型失败，已跳过 ${filePath}：${error.message}`);
                 continue;
             }
 
             if (filePath.endsWith('.js')) continue; // 跳过 js
-
-            // 仅 json 模式
-            if (onlyJson) {
-                if (!filePath.endsWith('.json')) continue;
-
-                let description = '';
-                try {
-                    // 同步读文本，避免 async 传染
-                    const txt = file.readTextSync(filePath);
-                    const parsed = JSON.parse(txt);
-                    description = parsed?.info?.description ?? '';
-                } catch {
-                    /* 读盘或解析失败就留空串 */
-                }
-
-                const fileName = filePath.split('\\').pop();
-                const folderPathArray = filePath.split('\\').slice(0, -1);
-
-                files.push({
-                    fullPath: filePath,
-                    fileName,
-                    folderPathArray,
-                    description
-                });
-                continue;
-            }
-
-            const fileName = filePath.split('\\').pop();
-            const folderPathArray = filePath.split('\\').slice(0, -1);
-            files.push({ fullPath: filePath, fileName, folderPathArray });
+            rawFiles.push(String(filePath));
         }
 
         // 子文件夹按原顺序入栈（深度优先）
         folderStack.push(...subFolders.reverse());
     }
 
-    return files;
+    if (!onlyJson) {
+        return rawFiles.map(filePath => ({
+            fullPath: filePath,
+            fileName: filePath.split(/\\|\//).pop(),
+            folderPathArray: filePath.split(/\\|\//).slice(0, -1)
+        }));
+    }
+
+    const jsonFiles = rawFiles.filter(filePath => /\.json$/i.test(filePath) && !isRouteDescriptionIndexPath(filePath));
+    const result = [];
+    for (const filePath of jsonFiles) {
+        result.push(createRouteFileEntry(filePath, readRouteDescription(filePath)));
+    }
+    return result;
+}
+
+function normalizeRouteIndexPath(value) {
+    return String(value || '').replace(/\\/g, '/').replace(/\/+/g, '/').replace(/^\.\//, '').replace(/\/$/, '');
+}
+
+function isRouteDescriptionIndexPath(value) {
+    return /(?:^|\/)pathing\/[^/]+\/route-index\.json$/i.test(normalizeRouteIndexPath(value));
+}
+
+function pathingGroupPathInfo(filePath) {
+    const normalizedPath = normalizeRouteIndexPath(filePath);
+    const pathParts = normalizedPath.split('/');
+    if (pathParts.length < 3 || pathParts[0].toLowerCase() !== 'pathing' || !pathParts[1]) return null;
+    return {
+        groupKey: pathParts[1].toLowerCase(),
+        relativePath: pathParts.slice(2).join('/')
+    };
+}
+
+function createRouteFileEntry(filePath, description) {
+    return {
+        fullPath: filePath,
+        fileName: filePath.split(/\\|\//).pop(),
+        folderPathArray: filePath.split(/\\|\//).slice(0, -1),
+        description: description || ''
+    };
+}
+
+function readRouteDescription(filePath) {
+    try {
+        const parsed = JSON.parse(file.readTextSync(filePath));
+        return parsed?.info?.description ?? '';
+    } catch {
+        return '';
+    }
+}
+
+function readDirectoryEntries(folderPath) {
+    try {
+        return Array.from(file.ReadPathSync(folderPath));
+    } catch (error) {
+        log.warn(`读取文件夹失败，已跳过 ${folderPath}：${error.message}`);
+        return [];
+    }
+}
+
+function collectUnindexedRoutePaths(folderPath, initialEntries) {
+    const folderStack = [{ folderPath, entries: initialEntries }];
+    const visitedFolders = new Set();
+    const routePaths = [];
+    while (folderStack.length > 0) {
+        const current = folderStack.pop();
+        const folderKey = normalizeRouteIndexPath(current.folderPath).toLowerCase();
+        if (visitedFolders.has(folderKey)) continue;
+        visitedFolders.add(folderKey);
+        const entries = current.entries || readDirectoryEntries(current.folderPath);
+        const subFolders = [];
+        for (const entry of entries) {
+            if (isRouteDescriptionIndexPath(entry)) continue;
+            try {
+                if (file.IsFolder(entry)) {
+                    subFolders.push(entry);
+                } else if (/\.json$/i.test(entry)) {
+                    routePaths.push(String(entry));
+                }
+            } catch (error) {
+                log.warn(`检查文件类型失败，已跳过 ${entry}：${error.message}`);
+            }
+        }
+        folderStack.push(...subFolders.reverse().map(subFolder => ({ folderPath: subFolder, entries: null })));
+    }
+    return routePaths;
+}
+
+function parseRouteDescriptionIndex(indexPath, groupName) {
+    try {
+        const root = JSON.parse(file.readTextSync(indexPath));
+        if (root?.format !== ROUTE_DESCRIPTION_INDEX_FORMAT || root?.version !== 1 || !root.routes || Array.isArray(root.routes) || typeof root.routes !== 'object') {
+            log.warn(`路线声明文件格式无效，已回退读取实际路线：${indexPath}`);
+            return null;
+        }
+        if (root.group !== undefined && String(root.group).toLowerCase() !== groupName.toLowerCase()) {
+            log.warn(`路线声明文件的路径组不匹配，已回退读取实际路线：${indexPath}`);
+            return null;
+        }
+
+        const declaredRoutes = new Map();
+        const declaredFolders = new Set();
+        for (const [relativePath, description] of Object.entries(root.routes)) {
+            const normalizedRelative = normalizeRouteIndexPath(relativePath);
+            const pathParts = normalizedRelative.split('/');
+            if (!normalizedRelative || normalizedRelative.startsWith('/') || pathParts.some(part => !part || part === '.' || part === '..') || typeof description !== 'string') {
+                log.warn(`路线声明文件包含无效路径，已回退读取实际路线：${indexPath}`);
+                return null;
+            }
+            const routeKey = normalizedRelative.toLowerCase();
+            if (declaredRoutes.has(routeKey)) {
+                log.warn(`路线声明文件包含重复路径，已回退读取实际路线：${indexPath}`);
+                return null;
+            }
+            declaredRoutes.set(routeKey, description);
+            for (let depth = 1; depth < pathParts.length; depth++) {
+                declaredFolders.add(pathParts.slice(0, depth).join('/').toLowerCase());
+            }
+        }
+        return { declaredRoutes, declaredFolders };
+    } catch (error) {
+        log.warn(`读取路线声明文件失败，已回退读取实际路线：${indexPath}，${error.message}`);
+        return null;
+    }
+}
+
+function readIndexedPathingGroup(groupRoot, groupName, rootEntries, indexPath, index) {
+    const folderStack = [{ folderPath: groupRoot, entries: rootEntries }];
+    const visitedFolders = new Set();
+    const actualRoutes = new Map();
+    while (folderStack.length > 0) {
+        const current = folderStack.pop();
+        const folderKey = normalizeRouteIndexPath(current.folderPath).toLowerCase();
+        if (visitedFolders.has(folderKey)) continue;
+        visitedFolders.add(folderKey);
+        const entries = current.entries || readDirectoryEntries(current.folderPath);
+        const subFolders = [];
+        for (const entry of entries) {
+            if (normalizeRouteIndexPath(entry).toLowerCase() === normalizeRouteIndexPath(indexPath).toLowerCase()) continue;
+            const pathInfo = pathingGroupPathInfo(entry);
+            if (!pathInfo || pathInfo.groupKey !== groupName.toLowerCase()) continue;
+            const relativeKey = pathInfo.relativePath.toLowerCase();
+            if (index.declaredFolders.has(relativeKey)) {
+                subFolders.push(entry);
+                continue;
+            }
+            if (index.declaredRoutes.has(relativeKey)) {
+                actualRoutes.set(relativeKey, String(entry));
+                continue;
+            }
+            try {
+                if (file.IsFolder(entry)) {
+                    subFolders.push(entry);
+                } else if (/\.json$/i.test(entry)) {
+                    actualRoutes.set(relativeKey, String(entry));
+                }
+            } catch (error) {
+                log.warn(`检查未声明路径失败，已跳过 ${entry}：${error.message}`);
+            }
+        }
+        folderStack.push(...subFolders.reverse().map(subFolder => ({ folderPath: subFolder, entries: null })));
+    }
+
+    let matchedCount = 0;
+    const routes = [];
+    for (const [relativeKey, routePath] of actualRoutes) {
+        if (index.declaredRoutes.has(relativeKey)) {
+            matchedCount++;
+            routes.push(createRouteFileEntry(routePath, index.declaredRoutes.get(relativeKey)));
+        } else {
+            routes.push(createRouteFileEntry(routePath, readRouteDescription(routePath)));
+        }
+    }
+    if (matchedCount !== actualRoutes.size || matchedCount !== index.declaredRoutes.size) {
+        log.info(`路线声明与实际文件存在差异：${indexPath}（声明 ${index.declaredRoutes.size}，实际 ${actualRoutes.size}，命中 ${matchedCount}），未命中路线将按原逻辑读取`);
+    }
+    return routes;
+}
+
+function readPathingRoutes() {
+    const startedAt = beginStartupTiming("枚举并校验全部路线");
+    const routes = [];
+    let groupCount = 0;
+    let indexedGroupCount = 0;
+    let fallbackGroupCount = 0;
+    const rootEntries = readDirectoryEntries("pathing");
+    for (const entry of rootEntries) {
+        let isGroupFolder = false;
+        try {
+            isGroupFolder = file.IsFolder(entry);
+        } catch (error) {
+            log.warn(`检查路径组文件夹失败，已跳过 ${entry}：${error.message}`);
+        }
+        if (!isGroupFolder) continue;
+
+        groupCount++;
+        const groupStartedAt = beginStartupTiming(`校验路径组：${basename(entry)}`);
+        const normalizedGroupRoot = normalizeRouteIndexPath(entry);
+        const groupName = normalizedGroupRoot.split('/').pop();
+        const groupEntries = readDirectoryEntries(entry);
+        // 先读取声明并推导已知目录/文件，避免对每条已声明路线跨运行时调用 IsFolder。
+        const indexPath = groupEntries.find(item => isRouteDescriptionIndexPath(item));
+        const index = indexPath ? parseRouteDescriptionIndex(indexPath, groupName) : null;
+        if (indexPath && index) {
+            const groupRoutes = readIndexedPathingGroup(entry, groupName, groupEntries, indexPath, index);
+            routes.push(...groupRoutes);
+            indexedGroupCount++;
+            finishStartupTiming(`校验路径组：${groupName}`, groupStartedAt, `声明模式，路线 ${groupRoutes.length} 条`);
+            continue;
+        }
+        const routePaths = collectUnindexedRoutePaths(entry, groupEntries);
+        routes.push(...routePaths.map(routePath => createRouteFileEntry(routePath, readRouteDescription(routePath))));
+        fallbackGroupCount++;
+        finishStartupTiming(`校验路径组：${groupName}`, groupStartedAt, `回退读取正文，路线 ${routePaths.length} 条`);
+    }
+    finishStartupTiming("枚举并校验全部路线", startedAt, `路径组 ${groupCount} 个，声明模式 ${indexedGroupCount} 个，回退 ${fallbackGroupCount} 个，路线 ${routes.length} 条`);
+    return routes;
+}
+
+function cachePathingRoutes(routes) {
+    const groupedRoutes = new Map();
+    for (const route of routes) {
+        const pathInfo = pathingGroupPathInfo(route.fullPath);
+        if (!pathInfo) continue;
+        if (!groupedRoutes.has(pathInfo.groupKey)) groupedRoutes.set(pathInfo.groupKey, []);
+        groupedRoutes.get(pathInfo.groupKey).push(route);
+    }
+    pathingRouteFiles = routes;
+    pathingRoutesByGroup = groupedRoutes;
+    pathingRouteCacheReady = true;
+}
+
+function ensurePathingRouteCache() {
+    if (!pathingRouteCacheReady) {
+        cachePathingRoutes(readPathingRoutes());
+    }
+    return pathingRouteFiles;
 }
 
 /**
@@ -886,16 +1226,22 @@ async function switchPartyIfNeeded(partyName) {
             throw new Error('两次切换均失败');
         }
     } catch (e) {
+        await sleep(1);
         log.error('队伍切换失败，可能处于联机模式或其他不可切换状态');
         notification.error('队伍切换失败，可能处于联机模式或其他不可切换状态');
-        await genshin.returnMainUi();
+        try {
+            await genshin.returnMainUi();
+        } catch (returnError) {
+            await sleep(1);
+            log.warn(`返回主界面失败，将继续后续任务：${returnError.message}`);
+        }
     }
 }
 
 /**
  * 检查当前时间是否处于限制时间内或即将进入限制时间
  * 
- * @param {string} timeRule - 时间规则字符串，格式如 "8, 8-11, 23:11-23:55"
+ * @param {string} timeRule - 时间规则字符串，格式如 "8, 8-11, 23:11-23:55"；单值按小时或分钟，范围包含两端
  * @param {number} [threshold=5] - 接近限制时间的阈值（分钟）
  * @returns {Promise<boolean>} - 如果处于限制时间内或即将进入限制时间，则返回 true，否则返回 false
  * 
@@ -922,25 +1268,25 @@ async function isTimeRestricted(timeRule, threshold = 5) {
     for (const seg of ruleClean.split(',').map(s => s.trim())) {
         if (!seg) continue;
 
-        let startStr, endStr;
-        if (seg.includes('-')) {
-            [startStr, endStr] = seg.split('-').map(s => s.trim());
-        } else {
-            startStr = endStr = seg.trim();
-        }
+        const parts = seg.split('-').map(s => s.trim());
+        if (parts.length > 2 || parts.some(part => !part)) continue;
 
+        const isSingleValue = parts.length === 1;
+        const startStr = parts[0];
+        const endStr = isSingleValue ? parts[0] : parts[1];
         const parseTime = (str, isEnd) => {
-            if (str.includes(':')) {
-                const [h, m] = str.split(':').map(Number);
-                return { h, m };
-            }
-            // 单独小时：start 8→8:00，end 8→8:59
-            const h = Number(str);
-            return { h, m: isEnd ? 59 : 0 };
+            const match = /^(\d{1,2})(?::(\d{1,2}))?$/.exec(str);
+            if (!match) return null;
+            const h = Number(match[1]);
+            const hasMinute = match[2] !== undefined;
+            const m = hasMinute ? Number(match[2]) : (isEnd ? 59 : 0);
+            if (h < 0 || h > 23 || m < 0 || m > 59) return null;
+            return { h, m };
         };
 
         const start = parseTime(startStr, false);
         const end = parseTime(endStr, true);
+        if (!start || !end) continue;
 
         const startTotal = start.h * 60 + start.m;
         const endTotal = end.h * 60 + end.m;
@@ -948,8 +1294,8 @@ async function isTimeRestricted(timeRule, threshold = 5) {
         const effectiveEnd = endTotal >= startTotal ? endTotal : endTotal + 24 * 60;
 
         if (
-            (currentTotal >= startTotal && currentTotal < effectiveEnd) ||
-            (currentTotal + 24 * 60 >= startTotal && currentTotal + 24 * 60 < effectiveEnd)
+            (currentTotal >= startTotal && currentTotal <= effectiveEnd) ||
+            (currentTotal + 24 * 60 >= startTotal && currentTotal + 24 * 60 <= effectiveEnd)
         ) {
             log.warn("处于限制时间内");
             return true;
@@ -1008,6 +1354,7 @@ async function ingredientProcessing() {
         let filePath = `assets/${stove}.json`;
         await pathingScript.runFile(filePath);
     } catch (error) {
+        await sleep(1);
         log.error(`执行 ${stove} 路径时发生错误`);
         return;
     }
@@ -1021,6 +1368,7 @@ async function ingredientProcessing() {
         const maxAttempts = 3;
         let foundInRetry = false;
         while (attempts < maxAttempts) {
+            await sleep(1);
             log.info(`第${attempts + 1}次尝试寻找烹饪按钮`);
             keyPress("W");
             const res2 = await findPNG("交互烹饪锅");
@@ -1048,6 +1396,7 @@ async function ingredientProcessing() {
 
     let lastSuccess = true;
     for (let i = 0; i < tasks.length; i++) {
+        await sleep(1);
         if (!targetFoods.includes(tasks[i].name)) continue;
 
         const retry = lastSuccess ? 5 : 1;
@@ -1072,26 +1421,32 @@ async function ingredientProcessing() {
 
     const rg = await getGameRegion();
     const foodItems = [];
-    try {
-        for (const flag of ['已加工0个', '已加工1个']) {
-            const mat = file.ReadImageMatSync(`assets/RecognitionObject/${flag}.png`);
+    for (const flag of ['已加工0个', '已加工1个']) {
+        await sleep(1);
+        let mat = null;
+        try {
+            mat = file.ReadImageMatSync(`assets/RecognitionObject/${flag}.png`);
             const res = rg.findMulti(RecognitionObject.TemplateMatch(mat));
             for (let k = 0; k < res.count; ++k) {
                 foodItems.push({ x: res[k].x, y: res[k].y });
             }
-            mat.dispose();
+        } catch (error) {
+            await sleep(1);
+            log.warn(`扫描${flag}失败，已继续其他食材：${error.message}`);
+        } finally {
+            try { mat?.dispose(); } catch { /* 释放失败不影响后续识别 */ }
         }
-    } catch (error) {
-        log.error(error.message);
     }
 
     log.info(`识别到${foodItems.length}个加工中食材`);
 
     for (const item of foodItems) {
+        await sleep(1);
         click(item.x, item.y); await sleep(1 * checkInterval);
         click(item.x, item.y); await sleep(3 * checkInterval);
 
         for (let round = 0; round < 5; round++) {
+            await sleep(1);
             const rg = await getGameRegion();
             try {
                 let hit = false;
@@ -1125,7 +1480,9 @@ async function ingredientProcessing() {
                 }
 
                 if (hit) break;            // 本轮已命中，跳出 round
-            } finally {
+            } catch (error) {
+                await sleep(1);
+                log.warn(`识别加工食材失败，已跳过本轮：${error.message}`);
             }
         }
     }
@@ -1156,6 +1513,7 @@ async function collectCraftedItems() {
         let dowait = false;
         await sleep(4 * checkInterval);
         while (await findPNG("道具数量超过上限")) {
+            await sleep(1);
             await sleep(checkInterval * 4);
             log.info("识别到道具数量超过上限，等待消失");
             dowait = true;
@@ -1189,6 +1547,7 @@ async function handleCraftingError(errorType, itemName, removeFromList) {
     if (await findPNG(errorType, 1)) {
         log.warn(`检测到${itemName}${errorType}，等待图标消失`);
         while (await findPNG(errorType, 1)) {
+            await sleep(1);
             log.warn(`检测到${itemName}${errorType}，等待图标消失`);
             await sleep(300);
         }
@@ -1279,7 +1638,8 @@ function calculateDefaultEfficiency(knownEff, percentile, defaultThreshold) {
     if (knownEff.length === 0) {
         return defaultThreshold;
     } else {
-        const pct = Math.max(0, Math.min(1, percentile === "" ? 0.5 : Number(percentile)));
+        const parsedPercentile = Number(percentile);
+        const pct = Number.isFinite(parsedPercentile) ? Math.max(0, Math.min(1, parsedPercentile)) : 0.5;
         const idx = Math.ceil(pct * knownEff.length) - 1;
         const percentileEff = knownEff[Math.max(0, idx)];
         return Math.max(percentileEff, defaultThreshold);
@@ -1322,26 +1682,34 @@ async function handleUnderwaterRoute(mapName, filePath, lastMapName) {
  * 处理时间调节
  * 
  * @param {Date} timeNow - 当前时间
+ * @param {string} setTimeMode - 当前路线所属路径组的时间调节方式
  * @returns {Promise<void>} 无返回值
  * 
  * @依赖全局变量：
- * - settings: 设置对象
  * - firstsettime: 是否首次调节时间
  * - lastsettimeTime: 上次调节时间
+ * - lastSetTimeMode: 上次执行的时间调节方式
  * - settimeInterval: 时间调节间隔
  * 
  * @依赖辅助函数：
  * - pathingScript.runFile: 运行路径脚本函数
  */
-async function handleTimeAdjustment(timeNow) {
-    if (settings.setTimeMode && settings.setTimeMode != "不调节时间" && (((timeNow - lastsettimeTime) > settimeInterval) || firstsettime)) {
-        firstsettime = false;
-        if (settings.setTimeMode === "尽量调为白天") {
-            await pathingScript.runFile("assets/调为白天.json");
-        } else {
-            await pathingScript.runFile("assets/调为夜晚.json");
+async function handleTimeAdjustment(timeNow, setTimeMode) {
+    if (!["尽量调为白天", "尽量调为夜晚"].includes(setTimeMode)) return;
+    if (((timeNow - lastsettimeTime) > settimeInterval) || firstsettime || setTimeMode !== lastSetTimeMode) {
+        try {
+            if (setTimeMode === "尽量调为白天") {
+                await pathingScript.runFile("assets/调为白天.json");
+            } else {
+                await pathingScript.runFile("assets/调为夜晚.json");
+            }
+            firstsettime = false;
+            lastsettimeTime = new Date();
+            lastSetTimeMode = setTimeMode;
+        } catch (error) {
+            await sleep(1);
+            log.warn(`调节游戏时间失败，已继续执行当前任务：${error.message}`);
         }
-        lastsettimeTime = new Date();
     }
 }
 
@@ -1364,9 +1732,14 @@ async function handleTimeAdjustment(timeNow) {
 async function handleIngredientProcessing(timeNow) {
     if (Foods.length != 0 && (((timeNow - lastCookTime) > cookInterval) || firstCook)) {
         firstCook = false;
-        await ingredientProcessing();
-        lastCookTime = new Date();
-        lastMapName = "Teyvat";
+        try {
+            await ingredientProcessing();
+            lastCookTime = new Date();
+            lastMapName = "Teyvat";
+        } catch (error) {
+            await sleep(1);
+            log.warn(`食材加工失败，已继续执行当前任务：${error.message}`);
+        }
     }
 }
 
@@ -1403,11 +1776,15 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
     if (json.schedule && json.tasks) {
         log.info(`检测到 schedule 文件: ${fileName}，使用 schedule 模式执行`);
         const pickupTask = startPickupTask();
-        await executeSchedule(filePath);
-        state.running = false;
-        await pickupTask;
-        // 返回实际拾取日志（含一次性优先扣减等下游依赖），而非空数组
-        return { success: true, lastMapName: "", runPickupLog: state.runPickupLog, isSchedule: true };
+        let scheduleSuccess = false;
+        try {
+            scheduleSuccess = await executeSchedule(filePath);
+        } finally {
+            state.running = false;
+            await pickupTask;
+        }
+        // 返回实际拾取日志，供任务目标扣减、历史统计和 CD 等下游逻辑使用。
+        return { success: scheduleSuccess, lastMapName: "", runPickupLog: state.runPickupLog, isSchedule: true, pathRes: scheduleSuccess };
     }
 
     const mapName = (json.info?.map_name && json.info.map_name.trim()) ? json.info.map_name : 'Teyvat';
@@ -1418,15 +1795,17 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
     try {
         runRes = await pathingScript.runFile(filePath);
     } catch (error) {
+        await sleep(1);
         // 与 AAA狗粮批发、锄地一条龙保持一致：异常时置 undefined，由下方判定统一降级到坐标校验
         log.error(`执行路线 ${filePath} 时发生错误：${error.message}`);
         runRes = undefined;
+    } finally {
+        state.running = false;
+        await pickupTask;
     }
-    state.running = false;
-    await pickupTask;
     await fakeLog(fileName, false, false, 0);
 
-    /* 4-4 计算CD（掉落材料决定）*/
+    /* 4-4 暂按拾取材料计算 CD；新版调度器随后会按路径组 CD 类型写入最终值。 */
     const timeDiff = new Date() - startTime;
     let pathRes;
     if (runRes !== undefined && typeof runRes.success === 'boolean') {
@@ -1454,29 +1833,7 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
 
         /* ---------- 2. 仅当 pathRes === true 才计算并更新 CD ---------- */
         if (pathRes) {
-            /* 2-1 判定本次有没有优先材料 */
-            const hasPriority = state.runPickupLog.some(name => priorityItemSet.has(name));
-            let hitMaterials;
-            if (hasPriority) {
-                hitMaterials = [...new Set(state.runPickupLog.filter(n => priorityItemSet.has(n)))];
-            } else {
-                hitMaterials = [...new Set(state.runPickupLog)];
-            }
-
-            /* 2-2 按材料表取最晚 CD */
-            let latestCD = new Date(0);
-            hitMaterials.forEach(name => {
-                const cdType = materialCdMap[name] || "1次0点刷新";
-                const tmpDate = calculateRouteCD(cdType, startTime);
-                if (tmpDate > latestCD) latestCD = tmpDate;
-            });
-
-            /* 兜底：没有任何材料被识别到，按1次0点刷新 */
-            if (hitMaterials.length === 0) {
-                latestCD = calculateRouteCD("1次0点刷新", startTime);
-            }
-
-            targetObj.cdTime = latestCD.toISOString();
+            targetObj.cdTime = calculatePickupBasedRouteCD(state.runPickupLog, priorityItemSet, startTime).toISOString();
         }
     }
 
@@ -1484,45 +1841,9 @@ async function executeRoute(filePath, fileName, targetObj, startTime, lastMapNam
 }
 
 /**
- * 优先历史拾取物排序
- * 
- * @param {Array} targetItems - 目标物品数组
- * @param {Map} cdMap - CD时间映射
- * @param {string} fullName - 文件名
- * @returns {Array} - 排序后的物品数组，历史上出现过的物品放在前面
- * 
- * @依赖全局变量：
- * 无
- * 
- * @依赖辅助函数：
- * 无
- */
-function prioritizeHistoricalItems(targetItems, cdMap, fullName) {
-    // 0) 只有 history 里出现过的物品才需要前置
-    const historyItemSet = new Set();
-    const routeRec = cdMap.get(fullName);
-    if (routeRec?.history) {
-        routeRec.history.forEach(log => {
-            Object.keys(log.items).forEach(name => historyItemSet.add(name));
-        });
-    }
-
-    // 1) 把 targetItems 拆成「历史出现」+「未出现」两部分
-    const frontPart = [];
-    const backPart = [];
-    for (const it of targetItems) {
-        (historyItemSet.has(it.itemName) ? frontPart : backPart).push(it);
-    }
-
-    // 2) 合并后重新赋值，完成前置
-    return [...frontPart, ...backPart];
-}
-
-/**
- * 扣除一次性优先采集材料的本次收入（全局收口）
- * 在任意阶段（每日优先采集、一次性优先采集、路径组循环）完成路线后调用，
- * 只要本次拾取日志/声明中命中了 settings.oneTimePriorityItems 中未清零的材料，
- * 就会把剩余量扣减后直接写回 settings 对象（清零项自动删除，全部清零则置空串）。
+ * 同步本次拾取到所有任务的一次性目标。
+ * 任意任务执行路线所得材料都会扣减所有任务的未完成目标，
+ * 单个任务全部达标后保留“已完成”状态。
  *
  * ⚠️ 注意：此功能依赖 JS 直接修改 settings 对象并持久化（settings.xxx = xxx）。
  * 若该写回失效，说明 BGI 本体改动了对 settings 的注入/持久化机制，需同步适配。
@@ -1531,45 +1852,7 @@ function prioritizeHistoricalItems(targetItems, cdMap, fullName) {
  * @returns {void}
  */
 function deductOneTimePriority(correctedLog) {
-    const raw = settings.oneTimePriorityItems;
-    if (!raw) return;
-
-    // ---- 解析当前剩余量 ----
-    const list = [];
-    const segments = String(raw).split('+').map(s => s.trim());
-    for (const seg of segments) {
-        const [itemName, countStr] = seg.split('*').map(s => s.trim());
-        if (itemName && countStr && !isNaN(Number(countStr))) {
-            list.push({ itemName, count: Number(countStr) });
-        }
-    }
-    if (list.length === 0) return;
-
-    // ---- 逐项统计本次命中（含别名双向展开，对同一日志项去重，与每日优先扣减逻辑一致）----
-    for (const task of list) {
-        // 三种命中关系合并，用 Set 对同一日志项去重，避免别名双向命中导致重复计数
-        const matched = new Set();
-        for (const name of correctedLog) {
-            // 1. 字面名相同
-            if (name === task.itemName) { matched.add(name); continue; }
-            // 2. 日志项是别名，其本名（们）含该字面名（多对一）：别名→本名
-            const realNames = alias2Names.get(name) || [];
-            if (realNames.includes(task.itemName)) { matched.add(name); continue; }
-            // 3. 日志项是该字面名的别名（字面名是本名）：本名→别名
-            const others = name2Other.get(task.itemName) || [];
-            if (others.includes(name)) { matched.add(name); continue; }
-        }
-        task.count = Math.max(0, task.count - matched.size);
-    }
-
-    // ---- 去空项并写回配置 ----
-    const remaining = list.filter(t => t.count > 0);
-    // 直接修改 settings 对象写回（见函数头注释的依赖说明）
-    settings.oneTimePriorityItems = remaining.map(t => `${t.itemName}*${t.count}`).join('+');
-    if (remaining.length < list.length) {
-        const cleared = list.filter(t => t.count <= 0).map(t => t.itemName);
-        log.info(`一次性优先材料已达标（清零）：${cleared.join('、')}`);
-    }
+    syncOneTimeTargetsForAllTasks(correctedLog);
 }
 
 /**
@@ -1587,17 +1870,28 @@ function deductOneTimePriority(correctedLog) {
  * 
  * @依赖辅助函数：
  * - appendDailyPickup: 追加每日拾取量函数
- * - deductOneTimePriority: 扣除一次性优先材料收入函数
+ * - deductOneTimePriority: 同步所有任务一次性目标的兼容入口
  */
 async function saveRecordAndClearLog(cdMap, recordFilePath, runPickupLog) {
-    await file.writeText(
-        recordFilePath,
-        JSON.stringify(Array.from(cdMap.values()), null, 2)
-    );
+    try {
+        await file.writeText(
+            recordFilePath,
+            JSON.stringify(Array.from(cdMap.values()), null, 2)
+        );
+    } catch (error) {
+        await sleep(1);
+        log.error(`保存路线 CD 记录失败，将继续更新拾取目标：${error.message}`);
+    }
     await appendDailyPickup(runPickupLog);
-    // 全局扣减一次性优先材料（任何阶段拾取到都会在此自动扣除）
-    deductOneTimePriority(runPickupLog);
+    const latestPickedToday = progressPanelContext ? await readDailyPicked() : null;
+    // 任意任务拾取到的材料都会在此同步扣减所有任务的一次性目标。
+    try {
+        deductOneTimePriority(runPickupLog);
+    } catch (error) {
+        log.error(`更新一次性目标失败，将继续执行：${error.message}`);
+    }
     state.runPickupLog = [];
+    if (progressPanelContext && latestPickedToday) progressPanelContext.pickedToday = latestPickedToday;
 }
 
 /**
@@ -1608,8 +1902,8 @@ async function saveRecordAndClearLog(cdMap, recordFilePath, runPickupLog) {
  * @returns {Promise<void>} 无返回值
  * 
  * @依赖全局变量：
- * - settings: 设置对象，包含路径组和队伍配置
- * - groupCount: 路径组数量
+ * - settings: 设置对象，包含默认队伍配置
+ * - runtimeConfig: 当前任务与路径组配置
  * 
  * @依赖辅助函数：
  * - switchPartyIfNeeded: 切换队伍函数
@@ -1617,15 +1911,8 @@ async function saveRecordAndClearLog(cdMap, recordFilePath, runPickupLog) {
 async function selectPartyByRoutePath(routePath, stage) {
     const fullPath = routePath;                            // 例：pathing/须弥/xxx.json
     const folderName = fullPath.split(/\\|\//)[1];   // 索引 1 就是第二层
-    let targetParty = '';                                           // 最终要用的队伍名
-
-    for (let g = 1; g <= groupCount; g++) {                         // 遍历路径组
-        if (settings[`pathGroup${g}FolderName`] === folderName) {   // 找到归属组
-            targetParty = settings[`pathGroup${g}PartyName`] || '';
-            break;                                                  // 命中即停
-        }
-    }
-    if (!targetParty) targetParty = settings.priorityItemsPartyName || ''; // 回退
+    const group = runtimeConfig.pathGroups.find(g => g.folder === folderName);
+    const targetParty = group?.partyName || settings.defaultParty || settings.priorityItemsPartyName || '';
     if (targetParty) {
         await switchPartyIfNeeded(targetParty);
         log.info(`${stage}选用配队：${targetParty}（文件夹：${folderName}）`);
@@ -1692,6 +1979,27 @@ function calculateRouteCD(cdType, startTime) {
 }
 
 /**
+ * 按旧每日优先采集规则，根据本次拾取材料计算路线 CD。
+ * 命中目标材料时只取命中的目标材料，否则使用本次全部拾取材料；多个材料取最晚 CD。
+ * 未识别到材料或材料不在映射表中时，按“1次0点刷新”处理。
+ */
+function calculatePickupBasedRouteCD(pickupLog, priorityItemSet, startTime) {
+    const items = Array.isArray(pickupLog) ? pickupLog : [];
+    const priorities = priorityItemSet && typeof priorityItemSet.has === "function" ? priorityItemSet : new Set();
+    const hasPriority = items.some(name => priorities.has(name));
+    const hitMaterials = [...new Set(hasPriority ? items.filter(name => priorities.has(name)) : items)];
+    if (!hitMaterials.length) return calculateRouteCD(DEFAULT_CD_TYPE, startTime);
+
+    let latestCD = new Date(0);
+    for (const name of hitMaterials) {
+        const cdType = materialCdMap[name] || DEFAULT_CD_TYPE;
+        const currentCD = calculateRouteCD(cdType, startTime);
+        if (currentCD > latestCD) latestCD = currentCD;
+    }
+    return latestCD;
+}
+
+/**
  * 计算路线效率
  * 
  * @param {Array} files - 路线文件数组
@@ -1711,10 +2019,22 @@ function calculateRouteCD(cdType, startTime) {
  * - calculateDefaultEfficiency: 计算默认效率值函数
  */
 function calculateRouteEfficiency(files, cdMap, options = {}) {
-    const { groupIndex, priorityItemSet, disableArray, isPriorityMode = false } = options;
+    const {
+        groupIndex,
+        priorityItemSet,
+        disableArray,
+        isPriorityMode = false,
+        thresholdEfficiency,
+        ignorePriorityTags = false
+    } = options;
 
     if (isPriorityMode) {
         // 优先采集模式：只计算优先材料的效率
+        const valueMap = new Map();
+        String(settings.materialValue !== undefined ? settings.materialValue : (settings.weightedRule || "")).split(/[，,]/).forEach(rule => {
+            const [name, value] = rule.split("*").map(s => s.trim());
+            if (name && Number.isFinite(Number(value))) valueMap.set(name, Number(value));
+        });
         for (const file of files) {
             const fullName = file.fileName;
             const rec = cdMap.get(fullName);
@@ -1747,20 +2067,20 @@ function calculateRouteEfficiency(files, cdMap, options = {}) {
             let eff = -2; // 未知标记
             if (rec?.history && rec.history.length >= 3) {
                 const effList = rec.history.map(log => {
-                    const mergedItems = { ...log.items, ...(dec.declaredMaterials || {}) };
+                    const mergedItems = mergeItemsWithDeclaration(log.items, dec.declaredMaterials);
                     const total = Object.entries(mergedItems)
                         .filter(([name]) => priorityItemSet.has(name))
-                        .reduce((sum, [, cnt]) => sum + cnt, 0);
+                        .reduce((sum, [name, cnt]) => sum + cnt * (blacklistSet.has(name) ? 0 : materialValueFor(name, valueMap)), 0);
                     return (total / log.durationSec) * 60;
                 });
                 eff = effList.reduce((a, b) => a + b, 0) / effList.length;
             } else if (dec.declaredDuration || dec.declaredMaterials) {
                 // 历史不足 3 条，但有声明：用声明时间 + 声明数量覆盖历史
                 const duration = dec.declaredDuration || rec?.history?.[0]?.durationSec || 60;
-                const mergedItems = { ...(rec?.history?.[0]?.items || {}), ...(dec.declaredMaterials || {}) };
+                const mergedItems = mergeItemsWithDeclaration(rec?.history?.[0]?.items, dec.declaredMaterials);
                 const total = Object.entries(mergedItems)
                     .filter(([name]) => priorityItemSet.has(name))
-                    .reduce((sum, [, cnt]) => sum + cnt, 0);
+                    .reduce((sum, [name, cnt]) => sum + cnt * (blacklistSet.has(name) ? 0 : materialValueFor(name, valueMap)), 0);
                 eff = (total / duration) * 60;
             }
             file._priorityEff = eff;
@@ -1768,18 +2088,19 @@ function calculateRouteEfficiency(files, cdMap, options = {}) {
     } else {
         // 路径组模式：计算所有材料的效率，使用加权规则
         // 0) 解析优先关键词
-        const priorityKeywords = settings.priorityTags
+        const priorityKeywords = !ignorePriorityTags && settings.priorityTags
             ? settings.priorityTags.split('，').map(s => s.trim()).filter(Boolean)
             : [];
 
         // 1) 解析加权规则
         const weightMap = new Map();
-        if (settings.weightedRule) {
-            settings.weightedRule
-                .split('，')
+        const materialValueRule = settings.materialValue !== undefined ? settings.materialValue : settings.weightedRule;
+        if (materialValueRule) {
+            materialValueRule
+                .split(/[，,]/)
                 .map(s => s.trim())
                 .forEach(rule => {
-                    const [item, wStr] = rule.split('*');
+                    const [item, wStr] = rule.split('*').map(value => value.trim());
                     if (item && wStr) {
                         const w = Number(wStr);
                         weightMap.set(item, isNaN(w) ? 1 : w);
@@ -1797,9 +2118,9 @@ function calculateRouteEfficiency(files, cdMap, options = {}) {
             if (obj && obj.history && obj.history.length >= 3) {
                 // 历史 ≥3 条：用历史时间，但声明中的材料数量覆盖历史
                 const effList = obj.history.map(log => {
-                    const mergedItems = { ...log.items, ...(dec.declaredMaterials || {}) };
+                    const mergedItems = mergeItemsWithDeclaration(log.items, dec.declaredMaterials);
                     const total = Object.entries(mergedItems).reduce((sum, [name, cnt]) => {
-                        const w = blacklistSet.has(name) ? 0 : (weightMap.get(name) ?? 1);
+                        const w = blacklistSet.has(name) ? 0 : materialValueFor(name, weightMap);
                         return sum + cnt * w;
                     }, 0);
                     return (total / log.durationSec) * 60;
@@ -1808,9 +2129,9 @@ function calculateRouteEfficiency(files, cdMap, options = {}) {
             } else if (dec.declaredDuration || dec.declaredMaterials) {
                 // 历史不足 3 条，但有声明：用声明时间 + 声明数量覆盖历史
                 const duration = dec.declaredDuration || obj?.history?.[0]?.durationSec || 60;
-                const mergedItems = { ...(obj?.history?.[0]?.items || {}), ...(dec.declaredMaterials || {}) };
+                const mergedItems = mergeItemsWithDeclaration(obj?.history?.[0]?.items, dec.declaredMaterials);
                 const total = Object.entries(mergedItems).reduce((sum, [name, cnt]) => {
-                    const w = blacklistSet.has(name) ? 0 : (weightMap.get(name) ?? 1);
+                    const w = blacklistSet.has(name) ? 0 : materialValueFor(name, weightMap);
                     return sum + cnt * w;
                 }, 0);
                 avgEff = (total / duration) * 60;
@@ -1824,7 +2145,9 @@ function calculateRouteEfficiency(files, cdMap, options = {}) {
             .filter(e => e >= 0)          // 只保留已知路线
             .sort((a, b) => a - b);
 
-        const userThreshold = Number(settings[`pathGroup${groupIndex}thresholdEfficiency`]) || 0;
+        const userThreshold = thresholdEfficiency === undefined
+            ? (Number(settings[`pathGroup${groupIndex}thresholdEfficiency`]) || 0)
+            : (Number(thresholdEfficiency) || 0);
         const defaultEff = calculateDefaultEfficiency(knownEff, settings.defaultEffPercentile, userThreshold);
 
         // 4) 把 -1 的未知路线替换成默认效率
@@ -1876,10 +2199,26 @@ async function appendDailyPickup(pickupLog) {
     if (!pickupLog || !pickupLog.length) return;
 
     let oldArr = [];
+    let pickupFileExists = false;
     try {
-        const txt = await file.readText(pickupRecordFile);
-        if (txt) oldArr = JSON.parse(txt);
-    } catch (_) { /* 文件不存在或解析失败 */ }
+        pickupFileExists = Array.from(file.ReadPathSync(subFolderPath))
+            .some(path => basename(path) === basename(pickupRecordFile));
+    } catch (error) {
+        await sleep(1);
+        log.error(`检查每日拾取记录失败，已跳过本次写入：${error.message}`);
+        return;
+    }
+    if (pickupFileExists) {
+        try {
+            const txt = await file.readText(pickupRecordFile);
+            oldArr = txt ? JSON.parse(txt) : [];
+            if (!Array.isArray(oldArr)) throw new Error("文件根节点不是数组");
+        } catch (error) {
+            await sleep(1);
+            log.error(`读取每日拾取记录失败，为避免覆盖原数据已跳过本次写入：${error.message}`);
+            return;
+        }
+    }
 
     // 统一按 UTC+8 的 4 点划分日期
     const utc8_4am = new Date(Date.now() + 8 * 3600_000 - 4 * 3600_000);
@@ -1890,6 +2229,7 @@ async function appendDailyPickup(pickupLog) {
         todayItem = { date: today, items: {} };
         oldArr.push(todayItem);
     }
+    if (!todayItem.items || typeof todayItem.items !== "object") todayItem.items = {};
 
     const todayItems = todayItem.items;
     pickupLog.forEach(name => {
@@ -1904,6 +2244,7 @@ async function appendDailyPickup(pickupLog) {
     try {
         await file.writeText(pickupRecordFile, JSON.stringify(oldArr, null, 2), false);
     } catch (error) {
+        await sleep(1);
         log.error(`appendDailyPickup 写盘失败: ${error.message}`);
     }
 }
@@ -1923,10 +2264,16 @@ async function appendDailyPickup(pickupLog) {
  * - findAndClick: 通用找图并点击函数
  */
 async function clickPNG(png, maxAttempts = 20) {
-    const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
-    pngRo.Threshold = 0.95;
-    pngRo.InitTemplate();
-    return await findAndClick(pngRo, true, maxAttempts * checkInterval, checkInterval);
+    try {
+        const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
+        pngRo.Threshold = 0.95;
+        pngRo.InitTemplate();
+        return await findAndClick(pngRo, true, maxAttempts * checkInterval, checkInterval);
+    } catch (error) {
+        await sleep(1);
+        log.warn(`加载或识别图片失败，已跳过：${png}.png，${error.message}`);
+        return false;
+    }
 }
 
 /**
@@ -1944,10 +2291,16 @@ async function clickPNG(png, maxAttempts = 20) {
  * - findAndClick: 通用找图并点击函数
  */
 async function findPNG(png, maxAttempts = 20) {
-    const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
-    pngRo.Threshold = 0.95;
-    pngRo.InitTemplate();
-    return await findAndClick(pngRo, false, maxAttempts * checkInterval, checkInterval);
+    try {
+        const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
+        pngRo.Threshold = 0.95;
+        pngRo.InitTemplate();
+        return await findAndClick(pngRo, false, maxAttempts * checkInterval, checkInterval);
+    } catch (error) {
+        await sleep(1);
+        log.warn(`加载或识别图片失败，已跳过：${png}.png，${error.message}`);
+        return false;
+    }
 }
 
 /**
@@ -1988,29 +2341,29 @@ async function findAndClick(target,
                 ? RecognitionObject.TemplateMatch(file.ReadImageMatSync(target))
                 : target];
         }
+        ros = ros.filter(Boolean);
+        if (!ros.length) return retType === 0 ? false : null;
 
         const start = Date.now();
         let found = null;
 
         while (Date.now() - start <= timeout) {
+            await sleep(1);
             const gameRegion = await getGameRegion();
-            try {
-                // 依次尝试每一个 ro
-                for (const ro of ros) {
-                    const res = gameRegion.find(ro);
-                    if (!res.isEmpty()) {          // 找到
-                        found = res;
-                        if (doClick) {
-                            await sleep(preClickDelay);
-                            res.click();
-                            await sleep(postClickDelay);
-                        }
-                        break;                     // 成功即跳出 for
+            // 依次尝试每一个 ro
+            for (const ro of ros) {
+                const res = gameRegion.find(ro);
+                if (!res.isEmpty()) {          // 找到
+                    found = res;
+                    if (doClick) {
+                        await sleep(preClickDelay);
+                        res.click();
+                        await sleep(postClickDelay);
                     }
+                    break;                     // 成功即跳出 for
                 }
-                if (found) break;                  // 成功即跳出 while
-            } finally {
             }
+            if (found) break;                  // 成功即跳出 while
             await sleep(interval);                 // 没找到时等待
         }
 
@@ -2018,6 +2371,7 @@ async function findAndClick(target,
         return retType === 0 ? !!found : (found || null);
 
     } catch (error) {
+        await sleep(1);
         log.error(`执行通用识图时出现错误：${error.message}`);
         return retType === 0 ? false : null;
     }
@@ -2078,11 +2432,26 @@ async function getGameRegion(minInterval = 17, asyncDispose = false) {
             }
         }
     } catch (error) {
+        await sleep(1);
         log.error(`获取游戏区域截图失败: ${error.message}`);
     } finally {
         gameRegionManager.isCapturing = false;
-        // 返回最新的截图
-        return gameRegionManager.cache[gameRegionManager.cache.length - 1];
+    }
+    return gameRegionManager.cache[gameRegionManager.cache.length - 1];
+}
+
+/**
+ * 沿用旧版左上角派蒙图标模板判断当前是否处于游戏主界面。
+ * @returns {Promise<boolean>} true 表示当前为主界面
+ */
+async function isMainUI() {
+    if (!mainUiRo) return false;
+    const region = await getGameRegion();
+    try {
+        return Boolean(region && region.find(mainUiRo).isExist());
+    } catch (error) {
+        log.error(`isMainUI:${error.message}`);
+        return false;
     }
 }
 
@@ -2174,8 +2543,10 @@ function isArrivedAtEndPoint(fullPath) {
  * @依赖辅助函数：无
  */
 async function hasScroll(maxDuration = 10) {
+    if (!scrollRo) return false;
     const start = Date.now();
     while (Date.now() - start < maxDuration) {
+        await sleep(1);
         gameRegion = await getGameRegion();
         try {
             const result = gameRegion.find(scrollRo);
@@ -2190,290 +2561,556 @@ async function hasScroll(maxDuration = 10) {
     return false;
 }
 
-/**
- * 零基构建 settings.json 配置文件
- * 扫描 pathing 目录下的文件夹，动态生成包含路径组配置的 settings.json 文件
- * 
- * @returns {Promise<boolean>} 返回是否继续运行，仅刷新模式返回 false，否则返回 true
- * 
- * @依赖全局变量：
- * - settings: 用户设置对象
- * - groupCount: 路径组数量
- * 
- * @依赖辅助函数：无
- */
-async function buildSettingsJson() {
-    const SETTINGS_FILE = `settings.json`;
-    const PATHINGS_ROOT = `pathing`;
-
-    /* 1. 扫描 pathing 下第一层目录 */
-    const filesInFolder = file.ReadPathSync(PATHINGS_ROOT);
-    const subFolders = []; // 用于存储第一层文件夹路径
-    for (const filePath of filesInFolder) {
-        if (file.IsFolder(filePath)) {
-            // 如果是文件夹，先存储到临时数组中
-            subFolders.push(filePath);
+function htmlConfigFirstLevelFolders() {
+    const folders = [];
+    try {
+        if (!file.IsFolder("pathing")) file.CreateDirectory("pathing");
+        for (const entry of file.ReadPathSync("pathing")) {
+            if (!file.IsFolder(entry)) continue;
+            const name = String(entry).replace(/^pathing[\\/]/i, "").trim();
+            if (name) folders.push(name);
         }
+    } catch (error) {
+        log.warn(`无法读取 pathing 配置目录: ${error.message}`);
     }
+    return Array.from(new Set(folders)).sort((a, b) => a.localeCompare(b, "zh-CN"));
+}
 
-    /* 2. 提取文件夹名称 */
-    const firstLevelDirs = subFolders
-        .map(folderPath => folderPath.replace(`${PATHINGS_ROOT}/`, '').replace(`${PATHINGS_ROOT}\\`, '')) // 去掉前缀 `pathing/` 或 `pathing\`
-        .filter(Boolean); // 去掉空字符串
-
-    let uniqueDirs = Array.from(new Set(firstLevelDirs)); // 去重
-
-    /* 4. 路径组数量 */
-    groupCount = Math.min(99, Math.max(1, parseInt(settings.groupCount || '3')));
-
-    /* 5. 硬编码构建全新 JSON */
-    const newSettings = [];
-
-    /* 5.1 最前端：onlyRefresh + groupCount */
-    newSettings.push(
-        {
-            name: "onlyRefresh",
-            type: "checkbox",
-            label: "勾选后仅刷新自定义配置，不运行"
-        },
-        {
-            name: "groupCount",
-            type: "input-text",
-            label: "需要生成几个路径组配置（1-99）",
-            default: "3"
-        },
-        {
-            name: "enableMoreSettings",
-            type: "checkbox",
-            label: "勾选后下次运行展开高级设置\n用于进行路线筛选和排序"
-        }
-    );
-
-    /* 5.2 操作模式 */
-    newSettings.push({
-        name: "operationMode",
-        type: "select",
-        label: "选择操作模式",
-        options: [
-            "执行任务（若不存在索引文件则自动创建）",
-            "重新生成索引文件（用于强制刷新CD）"
-        ]
-    });
-
-    /* 5.2.0 拾取模式 */
-    newSettings.push({
-        name: "pickup_Mode",
-        type: "select",
-        label: "选择拾取模式\n【警告】「bgi原版拾取」依赖莫版BGI，在原版BGI下使用会导致物品计数功能失效",
-        options: [
-            "模板匹配拾取",
-            "bgi原版拾取"
-        ],
-        default: "模板匹配拾取"
-    });
-
-    /* 5.2.1 循环模式 */
-    newSettings.push({
-        name: "loopMode",
-        type: "select",
-        label: "选择循环模式",
-        options: [
-            "不循环",
-            "每组重试",
-            "全局循环"
-        ],
-        default: "不循环"
-    });
-
-    /* 5.3 固定尾部节点（原样照搬） */
-    newSettings.push(
-        {
-            "name": "timeRule",
-            "type": "input-text",
-            "label": "本地时间-不运行时段\n示例写法：\n  单个小时：8\n  连续区间：8-11 或 23:11-23:55（可省略分钟）\n  多项分隔：用中文逗号【，】\n规则：\n  只写小时：开始=整点，结束=59分；跨天自动识别\n  含分钟：按实际时分计算\n  提前10分钟结束并等待到限制时段开始\n留空=全天可运行"
-        },
-        {
-            "name": "infoFileName",
-            "type": "input-text",
-            "label": "输入用于存储信息的文件名，只在不同账号分别管理CD时填写"
-        },
-        {
-            "name": "priorityItems",
-            "type": "input-text",
-            "label": "优先采集材料，每天会尝试优先采集指定数量的目标物品，随后才执行路径组\n格式：材料名*数量，由加号+连接\n如萃凝晶*160+甜甜花*10"
-        },
-        {
-            "name": "oneTimePriorityItems",
-            "type": "input-text",
-            "label": "一次性优先采集材料，优先级低于每日优先采集，采完即止、不再按天重置\n采集到该材料时会自动扣减本配置，清零自动删除对应项\n格式：材料名*数量，由加号+连接\n如萃凝晶*160+甜甜花*10"
-        },
-        {
-            "name": "maxRuntimeMinutes",
-            "type": "input-text",
-            "label": "总运行限时（分钟），0=不限时\n从脚本启动开始计时，完成任意路线后检测，超时则结束脚本",
-            "default": "0"
-        },
-        {
-            "name": "priorityItemsPartyName",
-            "type": "input-text",
-            "label": "优先采集材料使用的备用配队名称\n在指定路线不存在对应文件夹指定的配队时使用"
-        },
-        {
-            "name": "disableJsons",
-            "type": "input-text",
-            "label": "填写需要禁用的路线的关键词，使用中文分号分隔\n文件路径含有相关关键词的路线会被禁用"
-        },
-        {
-            "name": "disableXYCheck",
-            "type": "checkbox",
-            "label": "勾选后跳过路线完成后的坐标校验\n【警告】运行卡死等未成功到达终点的路线也将进入cd"
-        },
-        {
-            "name": "findFInterval",
-            "type": "input-text",
-            "label": "识别间隔(毫秒)\n两次检测f图标之间等待时间",
-            "default": "100"
-        },
-        {
-            "name": "processingIngredient",
-            "type": "multi-checkbox",
-            "label": "要加工的食材种类",
-            "default": [],
-            "options": [
-                "面粉",
-                "兽肉",
-                "鱼肉",
-                "神秘的肉",
-                "黑麦粉",
-                "奶油",
-                "熏禽肉",
-                "黄油",
-                "火腿",
-                "糖",
-                "香辛料",
-                "酸奶油",
-                "蟹黄",
-                "果酱",
-                "奶酪",
-                "培根",
-                "香肠"
-            ]
-        },
-        {
-            "name": "checkInterval",
-            "type": "input-text",
-            "label": "食材加工中的识别间隔(毫秒)，设备反应较慢出现识别错误时适当调大",
-            "default": "50"
-        },
-        {
-            "name": "setTimeMode",
-            "type": "select",
-            "label": "尝试调节时间来获得移速加成\n队伍中含迪希雅、嘉明或塔利雅时选择白天\n队伍中含罗莎莉亚时选择夜晚",
-            "options": [
-                "不调节时间",
-                "尽量调为白天",
-                "尽量调为夜晚"
-            ],
-            "default": "不调节时间"
-        },
-        {
-            "name": "disableSecondCheck",
-            "type": "checkbox",
-            "label": "禁用识别到物品后的二次校验，可能增加误捡概率",
-            "default": false
-        }
-    );
-
-    if (settings.enableMoreSettings) {
-        newSettings.push(
-            {
-                "name": "priorityTags",
-                "type": "input-text",
-                "label": "优先关键词，文件名或拾取材料含关键词的路线会被视为最高效率\n不同关键词使用【中文逗号】分隔"
-            },
-            {
-                "name": "sortMode",
-                "type": "select",
-                "label": "选择同组路线排序模式",
-                "options": [
-                    "文件顺序，按在文件夹中位置顺序运行",
-                    "优先最早刷新，将优先执行最早刷新的路线",
-                    "优先最高效率，将优先执行最高分均拾取物的路线"
-                ],
-                "default": "文件顺序，按在文件夹中位置顺序运行"
-            },
-            {
-                "name": "defaultEffPercentile",
-                "type": "input-text",
-                "label": "默认效率指数，范围0-1\n数值越大时，未知效率的路线被视作的默认效率越高",
-                "default": "0.5"
-            },
-            {
-                "name": "weightedRule",
-                "type": "input-text",
-                "label": "加权规则，允许将特定物品视为多倍计算效率\n黑名单物品将自动视为0\n格式如下：\n物品名称*权重\n使用【中文逗号】分隔\n如：甜甜花*2，树莓*0"
+async function htmlConfigMaterials() {
+    try {
+        const files = await readFolder(targetItemPath, false);
+        const names = [];
+        if (!name2Other) name2Other = new Map();
+        if (!alias2Names) alias2Names = new Map();
+        for (const item of files.filter(entry => /\.png$/i.test(entry.fullPath))) {
+            await sleep(1);
+            const itemName = String(item.fileName || item.fullPath).replace(/\.png$/i, "");
+            if (!itemName) continue;
+            names.push(itemName);
+            const aliases = new Set();
+            for (const match of String(item.fullPath).matchAll(/\[(.*?)\]/g)) {
+                const pure = (match[1] || "").replace(/[^\u4e00-\u9fff]/g, "").trim();
+                if (pure) aliases.add(pure);
             }
-        );
+            const namePure = itemName.replace(/[^\u4e00-\u9fff]/g, "").trim();
+            if (namePure && namePure !== itemName) aliases.add(namePure);
+            name2Other.set(itemName, Array.from(aliases));
+            for (const alias of aliases) {
+                names.push(alias);
+                if (!alias2Names.has(alias)) alias2Names.set(alias, []);
+                if (!alias2Names.get(alias).includes(itemName)) alias2Names.get(alias).push(itemName);
+            }
+        }
+        return Array.from(new Set(names)).sort((a, b) => a.localeCompare(b, "zh-CN"));
+    } catch (error) {
+        await sleep(1);
+        log.debug(`HTML 配置面板读取材料列表失败: ${error.message}`);
+        return [];
     }
+}
 
-    /* 5.4 路径组节点（整体移到最后） */
-    for (let g = 1; g <= groupCount; g++) {
-        /* 文件夹 */
-        newSettings.push({
-            name: `pathGroup${g}FolderName`,
-            type: "select",
-            label: `#############################################\n选择路径组${g}文件夹（pathing下第一层）`,
-            options: ["", ...uniqueDirs]
-        });
+function htmlConfigMaterialExpressionValid(value) {
+    const text = String(value || "").trim();
+    if (!text) return true;
+    return text.split("+").every(part => {
+        const pieces = part.trim().split("*");
+        return pieces.length === 2 && pieces[0].trim() && /^\d+(?:\.\d+)?$/.test(pieces[1].trim());
+    });
+}
 
-        /* CD类型 */
-        newSettings.push({
-            name: `pathGroup${g}CdType`,
-            type: "select",
-            label: `选择路径组${g}CD类型，不选不运行该路径组`,
-            options: [
-                "",
-                "1次0点刷新",
-                "2次0点刷新",
-                "3次0点刷新",
-                "4点刷新",
-                "12小时刷新",
-                "24小时刷新",
-                "46小时刷新",
-                "每天一次"
-            ]
-        });
+function htmlConfigTimeRuleValid(value) {
+    const text = String(value || "").replace(/，/g, ",").replace(/：/g, ":").trim();
+    if (!text) return true;
+    const validTime = part => {
+        if (!/^\d{1,2}(?::\d{1,2})?$/.test(part)) return false;
+        const [hour, minute = "0"] = part.split(":");
+        return Number(hour) >= 0 && Number(hour) <= 23 && Number(minute) >= 0 && Number(minute) <= 59;
+    };
+    return text.split(",").every(segment => {
+        const parts = segment.trim().split("-").map(part => part.trim());
+        return (parts.length === 1 || parts.length === 2) && parts.every(validTime);
+    });
+}
 
-        /* 队伍名 */
-        newSettings.push({
-            name: `pathGroup${g}PartyName`,
-            type: "input-text",
-            label: `输入路径组${g}使用配队名称`
-        });
+/* 新版 HTML 面板模型与保存逻辑 */
+function htmlInfoNormalizePath(value) {
+    return String(value || "").replace(/\\/g, "/");
+}
 
-        if (settings.enableMoreSettings) {
-            newSettings.push({
-                "name": `pathGroup${g}thresholdEfficiency`,
-                "type": "input-text",
-                "label": `路径组${g}临界效率\n分均拾取个数效率低于临界效率的路线会被排除`,
-                "default": "0"
-            });
+function htmlInfoRelativeRoutePath(value) {
+    return htmlInfoNormalizePath(value).replace(/^.*?\/pathing\//i, "").replace(/^pathing\//i, "");
+}
+
+function htmlInfoWeightMap() {
+    const map = new Map();
+    const raw = settings.materialValue !== undefined ? settings.materialValue : (settings.weightedRule || "");
+    String(raw || "").split(/[，,]/).forEach(rule => {
+        const [name, value] = rule.split("*").map(x => x.trim());
+        if (name && Number.isFinite(Number(value))) map.set(name, Number(value));
+    });
+    return map;
+}
+
+function htmlInfoWeightedCount(items, weights, blocked) {
+    return Object.entries(items || {}).reduce((sum, [name, count]) =>
+        sum + Number(count || 0) * (blocked.has(name) ? 0 : materialValueFor(name, weights)), 0);
+}
+
+async function htmlInfoRouteFiles() {
+    const startedAt = beginStartupTiming("HTML 信息页：读取路线缓存");
+    const result = ensurePathingRouteCache().map(route => ({
+        fullPath: route.fullPath,
+        fileName: route.fileName
+    }));
+    finishStartupTiming("HTML 信息页：读取路线缓存", startedAt, `路线 ${result.length} 条`);
+    return result;
+}
+
+function htmlConfigAccountError(rawAccount) {
+    const account = String(rawAccount || "").trim();
+    if (!account) return "账户名称不能为空";
+    if (account === "." || account === ".." || /[\\/:*?"<>|\x00-\x1f]/.test(account) || /[. ]$/.test(account) || /^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\..*)?$/i.test(account)) {
+        return "账户名称不能包含路径符号、控制字符或 Windows 文件名保留名称";
+    }
+    return "";
+}
+
+async function readAccountBlacklist(account) {
+    let values = [];
+    try {
+        values = JSON.parse(await file.readText(`blacklists/${account}.json`));
+    } catch (error) {
+        log.debug(`读取账户「${account}」黑名单失败，信息页将按空列表展示：${error.message}`);
+    }
+    if (!Array.isArray(values)) return [];
+    return Array.from(new Set(values.map(value => String(value).trim()).filter(Boolean)));
+}
+
+async function collectHtmlInformation(account) {
+    const startedAt = beginStartupTiming("HTML 信息页：汇总账户与路线信息");
+    let pickupHistory = [];
+    let records = [];
+    let stepStartedAt = beginStartupTiming("HTML 信息页：读取拾取记录");
+    try {
+        pickupHistory = JSON.parse(await file.readText(`record/${account}/拾取记录.json`));
+    } catch (error) {
+        log.debug(`读取账户「${account}」拾取记录失败，信息页将按空记录展示：${error.message}`);
+    }
+    finishStartupTiming("HTML 信息页：读取拾取记录", stepStartedAt, `记录 ${Array.isArray(pickupHistory) ? pickupHistory.length : 0} 天`);
+    stepStartedAt = beginStartupTiming("HTML 信息页：读取路线记录");
+    try {
+        records = JSON.parse(await file.readText(`record/${account}/record.json`));
+    } catch (error) {
+        log.debug(`读取账户「${account}」路线记录失败，信息页将按空记录展示：${error.message}`);
+    }
+    finishStartupTiming("HTML 信息页：读取路线记录", stepStartedAt, `记录 ${Array.isArray(records) ? records.length : 0} 条`);
+    stepStartedAt = beginStartupTiming("HTML 信息页：读取账户黑名单");
+    const accountBlacklist = await readAccountBlacklist(account);
+    finishStartupTiming("HTML 信息页：读取账户黑名单", stepStartedAt, `材料 ${accountBlacklist.length} 种`);
+    if (!Array.isArray(pickupHistory)) pickupHistory = [];
+    if (!Array.isArray(records)) records = [];
+
+    const routeFiles = await htmlInfoRouteFiles();
+    stepStartedAt = beginStartupTiming("HTML 信息页：整理首屏数据");
+    const recordMap = new Map(records.map(item => [String(item.fileName || ""), item]));
+    const now = Date.now();
+    htmlInfoRoutePaths = new Set();
+    const routes = routeFiles.map(route => {
+        const relativePath = htmlInfoRelativeRoutePath(route.fullPath);
+        const requestPath = `pathing/${relativePath}`;
+        htmlInfoRoutePaths.add(requestPath.toLowerCase());
+        const record = recordMap.get(route.fileName);
+        const cdTime = record?.cdTime || "";
+        return {
+            path: requestPath,
+            relativePath,
+            fileName: route.fileName,
+            cdTime,
+            available: !cdTime || now > new Date(cdTime).getTime(),
+            hasRecord: Boolean(record),
+            historyCount: Array.isArray(record?.history) ? record.history.length : 0
+        };
+    });
+
+    const currentNames = new Set(routes.map(route => route.fileName));
+    const staleRecords = records.filter(record => !currentNames.has(String(record.fileName || ""))).length;
+    const duplicateNames = routeFiles.map(route => route.fileName)
+        .reduce((map, name) => map.set(name, (map.get(name) || 0) + 1), new Map());
+    const duplicateRouteNames = [...duplicateNames.values()].filter(count => count > 1).length;
+    const materialNames = new Set();
+    pickupHistory.forEach(day => Object.keys(day.items || {}).forEach(name => materialNames.add(name)));
+    const historyEntries = records.reduce((sum, record) => sum + (Array.isArray(record.history) ? record.history.length : 0), 0);
+
+    const todayKey = new Date(Date.now() + 8 * 3600_000 - 4 * 3600_000).toISOString().slice(0, 10);
+    const todayPicked = (pickupHistory.find(day => day.date === todayKey) || {}).items || {};
+    const taskStatus = runtimeConfig.tasks.map(task => {
+        const folders = taskAllowedFolders(task);
+        const taskRoutes = routes.filter(route => folders.some(folder => route.relativePath === folder || route.relativePath.startsWith(folder + "/")));
+        return {
+            id: task.id,
+            name: task.name,
+            enabled: task.enabled,
+            allowReopen: task.allowReopen,
+            allowedGroups: task.allowedGroups,
+            groupNames: task.allowedGroups === "*" ? ["全部已启用路径组"] : runtimeConfig.pathGroups.filter(g => g.cdType && parseIdList(task.allowedGroups).includes(g.id)).map(g => g.name),
+            dailyTarget: task.dailyTarget,
+            dailyRemaining: remainingTargetExpression(task.dailyTarget, todayPicked),
+            oneTimeTarget: task.oneTimeTarget,
+            timeRule: task.timeRule,
+            durationMinutes: task.durationMinutes,
+            onlyRelatedRoutes: task.onlyRelatedRoutes,
+            routeCount: taskRoutes.length,
+            availableCount: taskRoutes.filter(route => route.available).length
+        };
+    });
+
+    const information = {
+        pickupHistory: pickupHistory.sort((a, b) => String(a.date).localeCompare(String(b.date))),
+        routes,
+        taskStatus,
+        pathGroups: runtimeConfig.pathGroups.map(group => {
+            const groupRoutes = routes.filter(route => route.relativePath === group.folder || route.relativePath.startsWith(group.folder + "/"));
+            return { ...group, routeCount: groupRoutes.length, availableCount: groupRoutes.filter(route => route.available).length };
+        }),
+        diagnostics: {
+            account,
+            routeFiles: routes.length,
+            routeRecords: records.length,
+            staleRecords,
+            duplicateRouteNames,
+            historyEntries,
+            pickupDays: pickupHistory.length,
+            materialKinds: materialNames.size,
+            blacklistCount: accountBlacklist.length,
+            taskCount: runtimeConfig.tasks.length,
+            pathGroupCount: runtimeConfig.pathGroups.length
+        }
+    };
+    finishStartupTiming("HTML 信息页：整理首屏数据", stepStartedAt, `路线 ${routes.length} 条，任务 ${taskStatus.length} 个`);
+    finishStartupTiming("HTML 信息页：汇总账户与路线信息", startedAt);
+    return information;
+}
+
+async function collectHtmlRouteDetail(requestPath, account) {
+    const normalized = htmlInfoNormalizePath(requestPath);
+    if (!htmlInfoRoutePaths.has(normalized.toLowerCase())) throw new Error("路线不在当前 pathing 目录中");
+    const raw = file.readTextSync(normalized);
+    const json = JSON.parse(raw);
+    const fileName = normalized.split("/").pop();
+    let records = [];
+    try {
+        records = JSON.parse(await file.readText(`record/${account}/record.json`));
+    } catch (error) {
+        log.debug(`读取账户「${account}」路线详情记录失败，将仅展示路线文件信息：${error.message}`);
+    }
+    let record = null;
+    if (Array.isArray(records)) {
+        for (let index = records.length - 1; index >= 0; index--) {
+            if (records[index].fileName === fileName) { record = records[index]; break; }
         }
     }
+    const accountBlacklist = await readAccountBlacklist(account);
+    const blocked = materialNamesWithAliases(accountBlacklist);
+    const weights = htmlInfoWeightMap();
+    const declaration = parseDeclaration(json.info?.description || "");
+    const rawHistory = Array.isArray(record?.history) ? record.history : [];
+    const historyChronological = rawHistory.map((entry, index, all) => {
+        const merged = mergeItemsWithDeclaration(entry.items, declaration.declaredMaterials);
+        const weightedCount = htmlInfoWeightedCount(merged, weights, blocked);
+        return { order: all.length - index, items: merged, durationSec: Number(entry.durationSec || 0), weightedCount, efficiency: entry.durationSec ? weightedCount / entry.durationSec * 60 : null };
+    });
+    let efficiency = null;
+    if (historyChronological.length >= 3) efficiency = historyChronological.reduce((sum, item) => sum + Number(item.efficiency || 0), 0) / historyChronological.length;
+    else if (declaration.declaredDuration || declaration.declaredMaterials) {
+        const duration = declaration.declaredDuration || rawHistory[0]?.durationSec || 60;
+        const merged = mergeItemsWithDeclaration(rawHistory[0]?.items, declaration.declaredMaterials);
+        efficiency = htmlInfoWeightedCount(merged, weights, blocked) / duration * 60;
+    }
+    const history = historyChronological.reverse();
+    const relativePath = htmlInfoRelativeRoutePath(normalized);
+    const group = runtimeConfig.pathGroups.find(item => relativePath === item.folder || relativePath.startsWith(item.folder + "/"));
+    const taskNames = runtimeConfig.tasks.filter(task => group && group.cdType &&
+        (task.allowedGroups === "*" || parseIdList(task.allowedGroups).includes(group.id))).map(task => task.name);
+    const cdTime = record?.cdTime || "";
+    return {
+        path: normalized,
+        relativePath,
+        fileName,
+        info: json.info || {},
+        positionCount: Array.isArray(json.positions) ? json.positions.length : 0,
+        cdTime,
+        available: !cdTime || Date.now() > new Date(cdTime).getTime(),
+        group: group || null,
+        taskNames,
+        declaration,
+        efficiency,
+        history,
+        hasRecord: Boolean(record)
+    };
+}
 
-    /* 6. 一次性写入 & 日志 */
-    await file.writeText(SETTINGS_FILE, JSON.stringify(newSettings, null, 2), false);
-    log.info(`已全新生成 settings.json，共 ${groupCount} 个路径组配置。`);
-    log.info(`扫描到可供选择的文件夹：${uniqueDirs.join(' | ')}`);
+async function collectTaskHtmlModel() {
+    const startedAt = beginStartupTiming("HTML 配置面板：生成首屏模型");
+    let stepStartedAt = beginStartupTiming("HTML 配置面板：读取任务配置");
+    const cfg = loadRuntimeConfig();
+    finishStartupTiming("HTML 配置面板：读取任务配置", stepStartedAt, `任务 ${cfg.tasks.length} 个，路径组 ${cfg.pathGroups.length} 个`);
+    const account = String(runtimeSetting("infoFileName", "默认账户"));
+    stepStartedAt = beginStartupTiming("HTML 配置面板：读取黑名单");
+    const storedBlacklist = await readAccountBlacklist(account);
+    finishStartupTiming("HTML 配置面板：读取黑名单", stepStartedAt, `材料 ${storedBlacklist.length} 种`);
+    stepStartedAt = beginStartupTiming("HTML 配置面板：读取材料列表");
+    const materials = await htmlConfigMaterials();
+    finishStartupTiming("HTML 配置面板：读取材料列表", stepStartedAt, `名称及别名 ${materials.length} 个`);
+    const information = await collectHtmlInformation(account);
+    stepStartedAt = beginStartupTiming("HTML 配置面板：读取一级路径组目录");
+    const pathFolders = htmlConfigFirstLevelFolders();
+    finishStartupTiming("HTML 配置面板：读取一级路径组目录", stepStartedAt, `目录 ${pathFolders.length} 个`);
+    const model = {
+        settings: {
+            infoFileName: account,
+            priorityItemsPartyName: String(runtimeSetting("defaultParty", runtimeSetting("priorityItemsPartyName", ""))),
+            materialValue: String(runtimeSetting("materialValue", runtimeSetting("weightedRule", ""))),
+            operationMode: String(runtimeSetting("operationMode", HTML_CONFIG_SELECTS.operationMode[0])),
+            disableNameKeywords: String(runtimeSetting("disableNameKeywords", "")),
+            pickup_Mode: String(runtimeSetting("pickup_Mode", "模板匹配拾取")),
+            findFInterval: String(runtimeSetting("findFInterval", "100")),
+            checkInterval: String(runtimeSetting("checkInterval", "50")),
+            disableSecondCheck: parseBooleanValue(runtimeSetting("disableSecondCheck", false), false),
+            disableXYCheck: parseBooleanValue(runtimeSetting("disableXYCheck", false), false),
+            processingIngredient: typeof runtimeSetting("processingIngredient", []) === "string"
+                ? String(runtimeSetting("processingIngredient", "")).split(/[；;,]/).map(x => x.trim()).filter(Boolean)
+                : Array.from(runtimeSetting("processingIngredient", []) || []),
+            blacklist: storedBlacklist.join("；")
+        },
+        tasks: cfg.tasks,
+        pathGroups: cfg.pathGroups,
+        pathFolders,
+        cdTypes: HTML_CONFIG_CD_TYPES,
+        timeModes: HTML_CONFIG_SELECTS.setTimeMode,
+        sortModes: HTML_CONFIG_SELECTS.sortMode,
+        materials,
+        processingOptions: HTML_CONFIG_PROCESSING_OPTIONS,
+        information
+    };
+    finishStartupTiming("HTML 配置面板：生成首屏模型", startedAt, `路线 ${information.routes.length} 条`);
+    return model;
+}
 
-    // 仅刷新模式检查
-    if (settings.onlyRefresh) {
-        settings.onlyRefresh = false;
-        log.info(`刷新自定义配置`);
-        log.debug(`交互或拾取："刷新自定义配置"`);
+function validateTaskHtmlConfig(payload, model) {
+    const errors = [];
+    const data = payload && typeof payload === "object" ? payload : {};
+    const s = data.settings || {};
+    const account = String(s.infoFileName || "").trim();
+    const accountError = htmlConfigAccountError(account);
+    if (accountError) errors.push(accountError);
+    if (!["模板匹配拾取", "bgi原版拾取"].includes(String(s.pickup_Mode || ""))) errors.push("拾取模式无效");
+    if (!HTML_CONFIG_SELECTS.operationMode.includes(String(s.operationMode || ""))) errors.push("索引处理方式无效");
+    if (!Number.isFinite(Number(s.findFInterval)) || Number(s.findFInterval) < 16 || Number(s.findFInterval) > 200) errors.push("识别间隔必须是 16 到 200 之间的数字");
+    if (!Number.isFinite(Number(s.checkInterval)) || Number(s.checkInterval) <= 0) errors.push("食材加工识别间隔必须是正数");
+    if (s.materialValue && !String(s.materialValue).split(/[，,]/).every(x => /^\s*[^*]+\*\s*-?\d+(?:\.\d+)?\s*$/.test(x))) errors.push("材料价值格式应为“材料*倍数，材料*倍数”");
+    const groups = Array.isArray(data.pathGroups) ? data.pathGroups : [];
+    const folders = model.pathFolders || [];
+    const groupIds = new Set();
+    const selectedFolders = new Set();
+    groups.forEach(g => {
+        if (!g.id || groupIds.has(g.id)) errors.push("路径组 ID 重复或为空");
+        groupIds.add(g.id);
+        if (!String(g.name || "").trim()) errors.push("路径组名称不能为空");
+        if (g.folder && !folders.includes(g.folder)) errors.push(`路径组「${g.name || g.id}」文件夹不存在`);
+        if (g.folder && selectedFolders.has(g.folder)) errors.push(`文件夹「${g.folder}」不能同时属于多个路径组`);
+        if (g.folder) selectedFolders.add(g.folder);
+        if (!model.cdTypes.includes(g.cdType)) errors.push(`路径组「${g.name || g.id}」CD 类型无效`);
+        if (!model.timeModes.includes(g.setTimeMode)) errors.push(`路径组「${g.name || g.id}」自动调节时间方式无效`);
+    });
+    const tasks = Array.isArray(data.tasks) ? data.tasks : [];
+    const ids = new Set();
+    tasks.forEach(t => {
+        if (!t.id || ids.has(t.id)) errors.push("任务 ID 重复或为空");
+        ids.add(t.id);
+        if (!String(t.name || "").trim()) errors.push("任务名称不能为空");
+        if (!model.sortModes.includes(t.sortMode)) errors.push(`任务「${t.name}」排序方式无效`);
+        if (t.thresholdEfficiency !== "" && !Number.isFinite(Number(t.thresholdEfficiency))) errors.push(`任务「${t.name}」效率阈值必须是数字`);
+        if (!htmlConfigMaterialExpressionValid(t.dailyTarget)) errors.push(`任务「${t.name}」每日目标格式错误`);
+        if (String(t.oneTimeTarget || "").trim() !== "已完成" && !htmlConfigMaterialExpressionValid(t.oneTimeTarget)) errors.push(`任务「${t.name}」一次性目标格式错误`);
+        if (!htmlConfigTimeRuleValid(t.timeRule)) errors.push(`任务「${t.name}」禁止运行时间格式错误`);
+        if (t.durationMinutes !== "" && (!Number.isFinite(Number(t.durationMinutes)) || Number(t.durationMinutes) < 0)) errors.push(`任务「${t.name}」运行时长必须是非负数字`);
+    });
+    return errors;
+}
+
+async function applyTaskHtmlConfig(payload, model) {
+    const data = payload || {};
+    const s = data.settings || {};
+    const account = String(s.infoFileName || "默认账户").trim();
+    const names = Array.from(new Set(String(s.blacklist || "").split(/[；;,\r\n]+/).map(x => x.trim()).filter(Boolean)));
+    await file.writeText(`blacklists/${account}.json`, JSON.stringify(names, null, 2), false);
+    settings.blacklist = names.join("；");
+    settings.infoFileName = account;
+    settings.priorityItemsPartyName = String(s.priorityItemsPartyName || "");
+    settings.defaultParty = settings.priorityItemsPartyName;
+    settings.materialValue = String(s.materialValue || "");
+    settings.operationMode = String(s.operationMode || HTML_CONFIG_SELECTS.operationMode[0]);
+    // 全局时间条件已经迁移到任务级，不再让旧字段影响新版调度器。
+    settings.timeRule = null;
+    settings.maxRuntimeMinutes = null;
+    settings.disableNameKeywords = String(s.disableNameKeywords || "");
+    settings.pickup_Mode = String(s.pickup_Mode || "模板匹配拾取");
+    settings.findFInterval = String(s.findFInterval || "100");
+    settings.checkInterval = String(s.checkInterval || "50");
+    settings.disableSecondCheck = Boolean(s.disableSecondCheck);
+    settings.disableXYCheck = Boolean(s.disableXYCheck);
+    if (Array.isArray(s.processingIngredient)) {
+        const current = settings.processingIngredient;
+        if (current && typeof current.Clear === "function" && typeof current.Add === "function") { current.Clear(); s.processingIngredient.forEach(x => current.Add(x)); }
+        else settings.processingIngredient = s.processingIngredient.join("；");
+    }
+    const groups = Array.isArray(data.pathGroups) ? data.pathGroups : [];
+    const oldGroupIds = (model.pathGroups || []).map(g => g.id);
+    settings.pathGroupList = groups.map(g => `${g.id}=${encodeURIComponent(g.name || g.id)}`).join("|");
+    groups.forEach(g => savePathGroup(g));
+    oldGroupIds.filter(id => !groups.some(g => g.id === id)).forEach(id => {
+        for (const key of Object.keys(settings)) if (key.startsWith(`pathGroup-${id}-`)) settings[key] = null;
+    });
+    const tasks = Array.isArray(data.tasks) ? data.tasks : [];
+    const validGroupIds = new Set(groups.map(group => group.id));
+    tasks.forEach(task => {
+        if (task.allowedGroups !== "*") {
+            task.allowedGroups = parseIdList(task.allowedGroups).filter(id => validGroupIds.has(id)).join(",");
+        }
+    });
+    settings.taskList = encodeTaskList(tasks);
+    const oldIds = (model.tasks || []).map(t => t.id);
+    tasks.forEach(saveTaskConfig);
+    oldIds.filter(id => !tasks.some(t => t.id === id)).forEach(removeTaskConfig);
+    clearLegacySchedulerSettings();
+    loadRuntimeConfig(); refreshRuntimeSettings(); refreshDisableArray();
+    return { taskCount: tasks.length, pathGroupCount: groups.length };
+}
+
+/**
+ * 打开脚本级 HTML 配置面板。
+ * 返回 true 表示可以继续执行，false 表示用户取消或关闭了面板。
+ */
+async function openHtmlConfigPanel() {
+    if (!parseBooleanValue(settings.openHtmlConfig, false)) return true;
+    if (typeof htmlMask === "undefined") {
+        log.error("当前 BetterGI 未提供 HTML 配置面板能力，请升级到 0.62.0 或更高版本");
         return false;
     }
-    return true;
+
+    await sleep(1);
+
+    const startedAt = beginStartupTiming("HTML 配置面板：打开并发送首屏");
+    let model = null;
+    let panelAccount = "";
+    let windowId = null;
+    try {
+        model = await collectTaskHtmlModel();
+        panelAccount = String(model.settings.infoFileName || "").trim();
+        let stepStartedAt = beginStartupTiming("HTML 配置面板：返回主界面");
+        await genshin.returnMainUi();
+        finishStartupTiming("HTML 配置面板：返回主界面", stepStartedAt);
+        stepStartedAt = beginStartupTiming("HTML 配置面板：创建窗口");
+        windowId = htmlMask.show("assets/config.html", "collect-cd-config");
+        htmlMask.setClickThrough(windowId, false);
+        finishStartupTiming("HTML 配置面板：创建窗口", stepStartedAt);
+        model.startupDiagnostics = { hostModelReadyAt: Date.now() };
+        stepStartedAt = beginStartupTiming("HTML 配置面板：序列化首屏数据");
+        const serializedModel = JSON.stringify(model);
+        finishStartupTiming("HTML 配置面板：序列化首屏数据", stepStartedAt, `字符 ${serializedModel.length} 个`);
+        stepStartedAt = beginStartupTiming("HTML 配置面板：发送首屏数据");
+        htmlMask.send(windowId, "/init", serializedModel);
+        finishStartupTiming("HTML 配置面板：发送首屏数据", stepStartedAt);
+        finishStartupTiming("HTML 配置面板：打开并发送首屏", startedAt);
+
+        while (htmlMask.exists(windowId)) {
+            await sleep(1);
+            const raw = await htmlMask.receive(windowId, 500);
+            if (!raw) continue;
+
+            let message;
+            try {
+                message = JSON.parse(raw);
+            } catch {
+                continue;
+            }
+
+            if (message.url === "/diagnostic") {
+                const diagnosticStage = String(message.data?.stage || "未知阶段");
+                const elapsedMs = Math.max(0, Number(message.data?.elapsedMs) || 0);
+                const details = String(message.data?.details || "").trim();
+                log.info(`${STARTUP_TIMING_LOG_PREFIX} HTML 浏览器端：${diagnosticStage}，耗时 ${formatStartupTiming(elapsedMs)}${details ? `，${details}` : ""}`);
+                htmlMask.respond(windowId, message.requestId, JSON.stringify({ ok: true }));
+                continue;
+            }
+            if (message.url === "/cancel") {
+                htmlMask.close(windowId);
+                return false;
+            }
+            if (message.url === "/info/route") {
+                try {
+                    const detail = await collectHtmlRouteDetail(message.data?.path, panelAccount);
+                    htmlMask.respond(windowId, message.requestId, JSON.stringify({ ok: true, detail }));
+                } catch (error) {
+                    await sleep(1);
+                    htmlMask.respond(windowId, message.requestId, JSON.stringify({ ok: false, errors: [error.message] }));
+                }
+                continue;
+            }
+            if (message.url === "/info/account") {
+                const account = String(message.data?.account || "").trim();
+                const accountError = htmlConfigAccountError(account);
+                if (accountError) {
+                    htmlMask.respond(windowId, message.requestId, JSON.stringify({ ok: false, errors: [accountError] }));
+                    continue;
+                }
+                try {
+                    const accountBlacklist = await readAccountBlacklist(account);
+                    const information = await collectHtmlInformation(account);
+                    panelAccount = account;
+                    htmlMask.respond(windowId, message.requestId, JSON.stringify({ ok: true, account, blacklist: accountBlacklist.join("；"), information }));
+                } catch (error) {
+                    await sleep(1);
+                    htmlMask.respond(windowId, message.requestId, JSON.stringify({ ok: false, errors: [error.message] }));
+                }
+                continue;
+            }
+            if (message.url !== "/save") continue;
+
+            const requestedAccount = String(message.data?.settings?.infoFileName || "").trim();
+            if (requestedAccount !== panelAccount) {
+                htmlMask.respond(windowId, message.requestId, JSON.stringify({ ok: false, errors: ["账户数据尚未加载完成，请稍后重试"] }));
+                continue;
+            }
+
+            const errors = validateTaskHtmlConfig(message.data, model);
+            if (errors.length > 0) {
+                htmlMask.respond(windowId, message.requestId, JSON.stringify({ ok: false, errors }));
+                continue;
+            }
+
+            try {
+                const result = await applyTaskHtmlConfig(message.data, model);
+                htmlMask.respond(windowId, message.requestId, JSON.stringify({ ok: true, result }));
+                await sleep(80);
+                htmlMask.close(windowId);
+                log.info("HTML 配置面板已保存配置");
+                return true;
+            } catch (error) {
+                await sleep(1);
+                log.warn(`保存 HTML 配置失败: ${error.message}`);
+                htmlMask.respond(windowId, message.requestId, JSON.stringify({ ok: false, errors: [`保存配置失败: ${error.message}`] }));
+            }
+        }
+        return false;
+    } catch (error) {
+        if (windowId) {
+            try { htmlMask.close(windowId); } catch { /* 窗口已关闭 */ }
+        }
+        await sleep(1);
+        log.error(`打开 HTML 配置面板失败: ${error.message}`);
+        return false;
+    }
 }
 
 /**
@@ -2484,9 +3121,6 @@ async function buildSettingsJson() {
  * 
  * @依赖全局变量：
  * - settings: 用户设置对象
- * - groupCount: 路径组数量
- * - folderNames: 文件夹名称数组
- * - partyNames: 配队名称数组
  * - accountName: 账户名称
  * - recordFolder: 记录文件夹路径
  * - subFolderName: 子文件夹名称
@@ -2509,20 +3143,667 @@ async function buildSettingsJson() {
  * - readFolder: 读取文件夹函数
  * - basename: 获取文件基本名函数
  */
-async function initializeSetup() {
-    /* ===== 读取新 settings ===== */
-    groupCount = Math.min(99, Math.max(1, parseInt(settings.groupCount || '3')));
-    folderNames = [];
-    partyNames = [];
-    for (let g = 1; g <= groupCount; g++) {
-        folderNames.push(settings[`pathGroup${g}FolderName`] || '');
-        partyNames.push(settings[`pathGroup${g}PartyName`] || '');
+function runtimeSetting(name, fallback = "") {
+    const value = settings[name];
+    return value === undefined || value === null ? fallback : value;
+}
+
+function parseTaskListValue(raw) {
+    return String(raw || "").split("|").map(s => s.trim()).filter(Boolean).map(part => {
+        const i = part.indexOf("=");
+        if (i < 0) return { id: part, name: part };
+        const encodedName = part.slice(i + 1) || part.slice(0, i);
+        let name = encodedName;
+        try {
+            name = decodeURIComponent(encodedName);
+        } catch { /* 旧配置可能不是 URI 编码，保留原名称 */ }
+        return { id: part.slice(0, i), name };
+    }).filter(t => t.id);
+}
+
+function encodeTaskList(tasks) {
+    return tasks.map(t => `${t.id}=${encodeURIComponent(t.name || t.id)}`).join("|");
+}
+
+function parseIdList(raw) {
+    return String(raw || "").split(",").map(s => s.trim()).filter(Boolean);
+}
+
+function parseBooleanValue(value, fallback = false) {
+    if (value === undefined || value === null || value === "") return fallback;
+    if (typeof value === "string") return !["false", "0", "否", "禁用"].includes(value.trim().toLowerCase());
+    return Boolean(value);
+}
+
+function loadTaskConfig(id, name = id) {
+    const p = `task-${id}-`;
+    const read = (key, fallback = "") => runtimeSetting(p + key, fallback);
+    let exitConditions = [];
+    try { exitConditions = JSON.parse(read("exitConditions", "[]")); } catch { exitConditions = []; }
+    if (!Array.isArray(exitConditions)) exitConditions = [];
+    return {
+        id, name,
+        enabled: parseBooleanValue(read("enabled", true), true),
+        allowedGroups: String(read("allowedGroups", "*")),
+        allowReopen: parseBooleanValue(read("allowReopen", true), true),
+        exitConditions,
+        dailyTarget: String(read("dailyTarget", "")),
+        oneTimeTarget: String(read("oneTimeTarget", "")),
+        sortMode: String(read("sortMode", DEFAULT_SORT_MODE)),
+        thresholdEfficiency: String(read("thresholdEfficiency", "0")),
+        onlyRelatedRoutes: parseBooleanValue(read("onlyRelatedRoutes", true), true),
+        timeRule: String(read("timeRule", "")),
+        durationMinutes: String(read("durationMinutes", "0")),
+        elapsedMs: 0,
+        activeStartedAt: 0
+    };
+}
+
+function saveTaskConfig(task) {
+    const p = `task-${task.id}-`;
+    settings[p + "enabled"] = Boolean(task.enabled);
+    settings[p + "allowedGroups"] = String(task.allowedGroups === undefined || task.allowedGroups === null ? "*" : task.allowedGroups);
+    settings[p + "allowReopen"] = Boolean(task.allowReopen);
+    settings[p + "exitConditions"] = JSON.stringify(Array.isArray(task.exitConditions) ? task.exitConditions : []);
+    settings[p + "dailyTarget"] = String(task.dailyTarget || "").trim();
+    settings[p + "oneTimeTarget"] = String(task.oneTimeTarget || "").trim();
+    settings[p + "sortMode"] = String(task.sortMode || DEFAULT_SORT_MODE);
+    settings[p + "thresholdEfficiency"] = String(task.thresholdEfficiency ?? "0").trim();
+    settings[p + "onlyRelatedRoutes"] = Boolean(task.onlyRelatedRoutes);
+    settings[p + "timeRule"] = String(task.timeRule || "").trim();
+    settings[p + "durationMinutes"] = String(task.durationMinutes || "0").trim();
+}
+
+function savePathGroup(group) {
+    const p = `pathGroup-${group.id}-`;
+    settings[p + "name"] = String(group.name || group.id);
+    settings[p + "folder"] = String(group.folder || "");
+    settings[p + "cdType"] = String(group.cdType === undefined || group.cdType === null ? DEFAULT_CD_TYPE : group.cdType);
+    settings[p + "partyName"] = String(group.partyName || "");
+    settings[p + "setTimeMode"] = HTML_CONFIG_SELECTS.setTimeMode.includes(String(group.setTimeMode || "")) ? String(group.setTimeMode) : HTML_CONFIG_SELECTS.setTimeMode[0];
+}
+
+function migrateLegacyConfig() {
+    if (!runtimeSetting("disableNameKeywords", "") && runtimeSetting("disableJsons", "")) settings.disableNameKeywords = String(runtimeSetting("disableJsons", ""));
+    const legacyTimeRule = String(runtimeSetting("timeRule", ""));
+    const oldSetTimeMode = String(runtimeSetting("setTimeMode", HTML_CONFIG_SELECTS.setTimeMode[0]));
+    const legacySetTimeMode = HTML_CONFIG_SELECTS.setTimeMode.includes(oldSetTimeMode) ? oldSetTimeMode : HTML_CONFIG_SELECTS.setTimeMode[0];
+    // 旧版全局总时长不再参与新版调度；后续由各任务的 durationMinutes 独立配置。
+    settings.maxRuntimeMinutes = null;
+    if (settings.materialValue === undefined && settings.weightedRule !== undefined) settings.materialValue = String(settings.weightedRule || "");
+    const pathGroups = [];
+    const hasLegacyGroupConfig = settings.groupCount !== undefined && settings.groupCount !== null;
+    const oldCount = Math.min(99, Math.max(0, parseInt(runtimeSetting("groupCount", "0")) || 0));
+    for (let i = 1; i <= oldCount; i++) {
+        const folder = String(runtimeSetting(`pathGroup${i}FolderName`, ""));
+        if (!folder) continue;
+        const id = `pg${i}`;
+        pathGroups.push({ id, name: `路径组${i}`, folder, cdType: String(runtimeSetting(`pathGroup${i}CdType`, "")), partyName: String(runtimeSetting(`pathGroup${i}PartyName`, "")), setTimeMode: legacySetTimeMode, legacyIndex: i });
+        savePathGroup(pathGroups[pathGroups.length - 1]);
     }
+    if (!pathGroups.length && !hasLegacyGroupConfig) {
+        const folders = htmlConfigFirstLevelFolders();
+        folders.forEach((folder, i) => { const g = { id: `pg${i + 1}`, name: folder, folder, cdType: DEFAULT_CD_TYPE, partyName: "", setTimeMode: legacySetTimeMode }; pathGroups.push(g); savePathGroup(g); });
+    }
+    settings.pathGroupList = pathGroups.map(g => `${g.id}=${encodeURIComponent(g.name)}`).join("|");
+
+    const tasks = [];
+    const addTask = (id, name, patch = {}) => { const t = { id, name, enabled: true, allowedGroups: "*", allowReopen: true, exitConditions: [], dailyTarget: "", oneTimeTarget: "", sortMode: String(runtimeSetting("sortMode", DEFAULT_SORT_MODE) || DEFAULT_SORT_MODE), thresholdEfficiency: "0", onlyRelatedRoutes: true, timeRule: legacyTimeRule, durationMinutes: "0", ...patch }; tasks.push(t); saveTaskConfig(t); };
+    const daily = String(runtimeSetting("priorityItems", "")).trim();
+    const oneTime = String(runtimeSetting("oneTimePriorityItems", "")).trim();
+    addTask("daily", "每日采集", { dailyTarget: daily, onlyRelatedRoutes: true, allowReopen: true, enabled: Boolean(daily), sortMode: HTML_CONFIG_SELECTS.sortMode[2] });
+    addTask("once", "一次性采集", { oneTimeTarget: oneTime, onlyRelatedRoutes: true, allowReopen: false, enabled: Boolean(oneTime), sortMode: HTML_CONFIG_SELECTS.sortMode[2] });
+    const legacyLoopMode = String(runtimeSetting("loopMode", runtimeSetting("loopCollect", "不循环")));
+    const legacyAllowReopen = !["", "false", "0", "不循环"].includes(legacyLoopMode);
+    pathGroups.forEach((g, i) => addTask(`route${i + 1}`, g.name, { allowedGroups: g.id, allowReopen: legacyAllowReopen, thresholdEfficiency: String(runtimeSetting(`pathGroup${g.legacyIndex ?? (i + 1)}thresholdEfficiency`, "0")) }));
+    if (!tasks.length && pathGroups.length) pathGroups.forEach((g, i) => addTask(`route${i + 1}`, g.name, { allowedGroups: g.id }));
+    settings.taskList = encodeTaskList(tasks);
+    clearLegacySchedulerSettings();
+}
+
+function loadRuntimeConfig() {
+    if (settings.pathGroupList === undefined || settings.taskList === undefined) migrateLegacyConfig();
+    const oldSetTimeMode = String(runtimeSetting("setTimeMode", HTML_CONFIG_SELECTS.setTimeMode[0]));
+    const legacySetTimeMode = HTML_CONFIG_SELECTS.setTimeMode.includes(oldSetTimeMode) ? oldSetTimeMode : HTML_CONFIG_SELECTS.setTimeMode[0];
+    const groups = parseTaskListValue(runtimeSetting("pathGroupList", "")).map(g => {
+        const settingName = `pathGroup-${g.id}-setTimeMode`;
+        const setTimeMode = String(runtimeSetting(settingName, legacySetTimeMode));
+        if (settings[settingName] === undefined || settings[settingName] === null) settings[settingName] = setTimeMode;
+        return { id: g.id, name: g.name, folder: String(runtimeSetting(`pathGroup-${g.id}-folder`, "")), cdType: String(runtimeSetting(`pathGroup-${g.id}-cdType`, DEFAULT_CD_TYPE)), partyName: String(runtimeSetting(`pathGroup-${g.id}-partyName`, "")), setTimeMode };
+    });
+    settings.setTimeMode = null;
+    const tasks = parseTaskListValue(runtimeSetting("taskList", "")).map(t => loadTaskConfig(t.id, t.name));
+    const legacyTimeRule = String(runtimeSetting("timeRule", ""));
+    if (legacyTimeRule) {
+        for (const task of tasks) {
+            if (!task.timeRule) { task.timeRule = legacyTimeRule; saveTaskConfig(task); }
+        }
+        settings.timeRule = null;
+    }
+    runtimeConfig = { pathGroups: groups, tasks };
+    return runtimeConfig;
+}
+
+function removeTaskConfig(id) {
+    const prefix = `task-${id}-`;
+    for (const key of Object.keys(settings)) if (key.startsWith(prefix)) settings[key] = null;
+}
+
+function clearLegacySchedulerSettings() {
+    for (const name of [
+        "priorityItems", "oneTimePriorityItems", "maxRuntimeMinutes", "timeRule",
+        "loopMode", "loopCollect", "sortMode", "groupCount", "weightedRule", "setTimeMode",
+        "disableJsons", "priorityTags", "enableMoreSettings", "onlyRefresh"
+    ]) settings[name] = null;
+    for (const key of Object.keys(settings)) {
+        if (/^pathGroup\d+(FolderName|CdType|PartyName|thresholdEfficiency)$/.test(key)) settings[key] = null;
+    }
+}
+
+function parseMaterialTarget(raw) {
+    if (!raw || raw === "已完成") return [];
+    return String(raw).split("+").map(s => s.trim()).map(seg => { const [name, count] = seg.split("*").map(x => x.trim()); return { name, count: Number(count) }; }).filter(x => x.name && Number.isFinite(x.count) && x.count > 0);
+}
+
+async function readDailyPicked() {
+    let arr = [];
+    try { arr = JSON.parse(await file.readText(pickupRecordFile)); } catch { return {}; }
+    if (!Array.isArray(arr)) return {};
+    const key = new Date(Date.now() + 8 * 3600_000 - 4 * 3600_000).toISOString().slice(0, 10);
+    return (arr.find(x => x.date === key) || {}).items || {};
+}
+
+function materialNamesForTarget(targets) {
+    const set = new Set();
+    for (const item of parseMaterialTarget(targets)) {
+        set.add(item.name); (name2Other?.get(item.name) || []).forEach(x => set.add(x)); (alias2Names?.get(item.name) || []).forEach(x => set.add(x));
+    }
+    return set;
+}
+
+function pickedCountForTarget(itemName, picked) {
+    let count = picked[itemName] || 0;
+    (name2Other?.get(itemName) || []).forEach(alias => count += picked[alias] || 0);
+    (alias2Names?.get(itemName) || []).forEach(name => count += picked[name] || 0);
+    return count;
+}
+
+function targetSatisfied(raw, picked) {
+    const list = parseMaterialTarget(raw);
+    if (raw === "已完成") return true;
+    if (!list.length) return false;
+    return list.every(item => pickedCountForTarget(item.name, picked) >= item.count);
+}
+
+function remainingTargetExpression(raw, picked) {
+    if (!raw || raw === "已完成") return "";
+    return parseMaterialTarget(raw).map(item => {
+        const got = pickedCountForTarget(item.name, picked);
+        return `${item.name}*${Math.max(0, item.count - got)}`;
+    }).filter(x => Number(x.split("*").pop()) > 0).join("+");
+}
+
+function formatTaskElapsed(milliseconds) {
+    const totalSeconds = Math.max(0, Math.floor(milliseconds / 1000));
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor(totalSeconds % 3600 / 60);
+    const seconds = totalSeconds % 60;
+    if (hours > 0) return `${hours}时${String(minutes).padStart(2, "0")}分${String(seconds).padStart(2, "0")}秒`;
+    return `${minutes}分${String(seconds).padStart(2, "0")}秒`;
+}
+
+function taskElapsedMilliseconds(task) {
+    if (!task) return 0;
+    const activeElapsed = task.activeStartedAt ? Date.now() - task.activeStartedAt : 0;
+    return Math.max(0, Number(task.elapsedMs) || 0) + Math.max(0, activeElapsed);
+}
+
+function startTaskExecutionTimer(task) {
+    if (task && !task.activeStartedAt) task.activeStartedAt = Date.now();
+}
+
+function stopTaskExecutionTimer(task) {
+    if (!task || !task.activeStartedAt) return;
+    task.elapsedMs = taskElapsedMilliseconds(task);
+    task.activeStartedAt = 0;
+}
+
+function formatTaskProgress(task, pickedToday, routeCount, cdRouteCount) {
+    const parts = [];
+    const dailyTargets = parseMaterialTarget(task.dailyTarget);
+    const oneTimeTargets = parseMaterialTarget(task.oneTimeTarget);
+    if (dailyTargets.length) {
+        const progress = dailyTargets.map(item => `${item.name} ${pickedCountForTarget(item.name, pickedToday)}/${item.count}`).join("、");
+        parts.push(`每日目标：${progress}`);
+    }
+    if (oneTimeTargets.length) {
+        parts.push(`一次性目标剩余：${oneTimeTargets.map(item => `${item.name}*${item.count}`).join("+")}`);
+    }
+    if (!parts.length) parts.push(`路线共 ${routeCount} 条，CD中 ${cdRouteCount} 条`);
+    parts.push(`任务累计执行时长：${formatTaskElapsed(taskElapsedMilliseconds(task))}`);
+    return parts.join("；");
+}
+
+function setProgressPanelContext(task, routeName, pickedToday, routeCount, cdRouteCount) {
+    progressPanelContext = {
+        task,
+        routeName: String(routeName || ""),
+        pickedToday: { ...(pickedToday || {}) },
+        routeCount,
+        cdRouteCount,
+        status: "运行中"
+    };
+}
+
+function markProgressPanelTaskCompleted(task, exitCondition) {
+    if (!progressPanelContext || progressPanelContext.task?.id !== task.id) return;
+    progressPanelContext.status = `已完成：${exitCondition}`;
+}
+
+function livePickedToday() {
+    const picked = { ...(progressPanelContext?.pickedToday || {}) };
+    for (const name of state.runPickupLog || []) picked[name] = (picked[name] || 0) + 1;
+    return picked;
+}
+
+function liveOneTimeTargets(task) {
+    const targets = parseMaterialTarget(task?.oneTimeTarget).map(item => ({ ...item }));
+    for (const name of state.runPickupLog || []) {
+        for (const target of targets) {
+            if (target.count > 0 && materialNamesEquivalent(name, target.name)) target.count--;
+        }
+    }
+    return targets.filter(item => item.count > 0);
+}
+
+function buildProgressPanelPayload(visible) {
+    const context = progressPanelContext;
+    if (!context?.task) return { visible: false };
+    const task = context.task;
+    const picked = livePickedToday();
+    const dailyTargets = parseMaterialTarget(task.dailyTarget).map(item => ({
+        name: item.name,
+        current: pickedCountForTarget(item.name, picked),
+        target: item.count
+    }));
+    const oneTimeTargets = liveOneTimeTargets(task);
+    const hasOneTimeTarget = Boolean(String(task.oneTimeTarget || "").trim());
+    return {
+        visible: Boolean(visible),
+        taskName: task.name,
+        routeName: context.routeName,
+        status: context.status,
+        active: Boolean(task.activeStartedAt),
+        elapsed: formatTaskElapsed(taskElapsedMilliseconds(task)),
+        dailyTargets,
+        oneTimeTargets,
+        hasOneTimeTarget,
+        routeCount: context.routeCount,
+        cdRouteCount: context.cdRouteCount,
+        showRouteSummary: dailyTargets.length === 0 && !hasOneTimeTarget
+    };
+}
+
+function progressPanelExists() {
+    if (!progressPanelWindowId) return false;
+    try {
+        return htmlMask.exists(progressPanelWindowId);
+    } catch {
+        return false;
+    }
+}
+
+async function runProgressPanelLoop() {
+    try {
+        while (progressPanelRunning && progressPanelExists()) {
+            await sleep(1);
+            const visible = Boolean(progressPanelContext) && await isMainUI();
+            htmlMask.send(progressPanelWindowId, "/progress", JSON.stringify(buildProgressPanelPayload(visible)));
+            await sleep(PROGRESS_PANEL_INTERVAL);
+        }
+    } catch (error) {
+        await sleep(1);
+        if (progressPanelRunning) {
+            log.warn(`运行进度面板已停止更新：${error.message}`);
+        }
+    } finally {
+        progressPanelRunning = false;
+    }
+}
+
+async function openProgressPanel() {
+    if (typeof htmlMask === "undefined") {
+        log.warn("当前 BetterGI 未提供 HTML 遮罩能力，跳过运行进度面板");
+        return;
+    }
+    try {
+        progressPanelWindowId = htmlMask.show(PROGRESS_PANEL_PATH, PROGRESS_PANEL_ID);
+        if (!progressPanelWindowId) throw new Error("无法创建窗口");
+        htmlMask.setClickThrough(progressPanelWindowId, true);
+        progressPanelRunning = true;
+        progressPanelTask = runProgressPanelLoop();
+    } catch (error) {
+        if (progressPanelWindowId) {
+            try { htmlMask.close(progressPanelWindowId); } catch { /* 创建未完成时无需处理 */ }
+        }
+        progressPanelWindowId = null;
+        log.warn(`打开运行进度面板失败：${error.message}`);
+    }
+}
+
+async function closeProgressPanel() {
+    progressPanelRunning = false;
+    let updateError = null;
+    if (progressPanelTask) {
+        try {
+            await progressPanelTask;
+        } catch (error) {
+            updateError = error;
+        }
+        progressPanelTask = null;
+    }
+    const windowId = progressPanelWindowId;
+    progressPanelWindowId = null;
+    progressPanelContext = null;
+    if (windowId) {
+        try {
+            if (htmlMask.exists(windowId)) htmlMask.close(windowId);
+        } catch { /* 窗口可能已被用户或宿主关闭 */ }
+    }
+    if (updateError) {
+        await sleep(1);
+        log.warn(`等待运行进度面板结束时发生错误：${updateError.message}`);
+    }
+}
+
+function routeExcluded(route) {
+    // 声明材料（【材料*数量】）不属于普通描述，黑名单仅检查路径、文件名及去除声明后的描述。
+    const description = String(route.description || "").replace(/【[^】]*】/g, "").replace(/\d+个[^；\s]+[；]?/g, "");
+    const text = `${route.fullPath || ""} ${route.fileName || ""} ${description}`;
+    return blacklist.some(x => x && text.includes(x)) || disableArray.some(x => x && text.includes(x));
+}
+
+function taskAllowedFolders(task) {
+    if (task.allowedGroups === "*") return runtimeConfig.pathGroups.filter(g => g.cdType).map(g => g.folder).filter(Boolean);
+    const ids = parseIdList(task.allowedGroups);
+    return runtimeConfig.pathGroups.filter(g => g.cdType && ids.includes(g.id)).map(g => g.folder).filter(Boolean);
+}
+
+function pathGroupForRoute(routePath) {
+    const folder = String(routePath).split(/\\|\//)[1] || "";
+    return runtimeConfig.pathGroups.find(g => g.folder === folder) || null;
+}
+
+async function evaluateTaskExitConditions(task) {
+    // 兼容面板之外写入的条件数组，条件之间同样采用 OR。
+    for (const condition of Array.isArray(task.exitConditions) ? task.exitConditions : []) {
+        await sleep(1);
+        if (!condition || !condition.type) continue;
+        if (condition.type === "timeRule" && condition.value && await isTimeRestricted(String(condition.value), 0)) return `进入禁止运行时间：${condition.value}`;
+        if (condition.type === "dailyTarget" && targetSatisfied(String(condition.value || ""), await readDailyPicked())) return `每日目标已完成：${condition.value}`;
+        if (condition.type === "oneTimeTarget" && String(condition.value || "") === "已完成") return "一次性目标已完成";
+        if (condition.type === "durationMinutes" && Number(condition.value) > 0 && taskElapsedMilliseconds(task) >= Number(condition.value) * 60000) return `运行时长达到 ${condition.value} 分钟`;
+    }
+    if (task.timeRule && await isTimeRestricted(task.timeRule, 0)) return `进入禁止运行时间：${task.timeRule}`;
+    const picked = await readDailyPicked();
+    if (targetSatisfied(task.dailyTarget, picked)) return `每日目标已完成：${task.dailyTarget}`;
+    if (task.oneTimeTarget === "已完成") return "一次性目标已完成";
+    const duration = Number(task.durationMinutes) || 0;
+    if (duration > 0 && taskElapsedMilliseconds(task) >= duration * 60000) return `运行时长达到 ${task.durationMinutes} 分钟`;
+    return "";
+}
+
+function syncOneTimeTargetsForAllTasks(correctedLog) {
+    if (!correctedLog || !correctedLog.length) return;
+    for (const task of runtimeConfig.tasks) {
+        if (task.oneTimeTarget === "已完成") continue;
+        const list = parseMaterialTarget(task.oneTimeTarget);
+        if (!list.length) continue;
+        for (const item of list) {
+            let matchedCount = 0;
+            for (const name of correctedLog) {
+                if (materialNamesEquivalent(name, item.name)) matchedCount++;
+            }
+            item.count = Math.max(0, item.count - matchedCount);
+        }
+        if (list.every(x => x.count <= 0)) task.oneTimeTarget = "已完成";
+        else task.oneTimeTarget = list.filter(x => x.count > 0).map(x => `${x.name}*${x.count}`).join("+");
+        saveTaskConfig(task);
+    }
+}
+
+async function runTaskScheduler() {
+    const runtimeDisabledTasks = new Set();
+    const notifiedTasks = new Set();
+    const tasksWithExecutedRoutes = new Set();
+    const completeTask = (task, exitCondition) => {
+        markProgressPanelTaskCompleted(task, exitCondition);
+        if (tasksWithExecutedRoutes.has(task.id) && !notifiedTasks.has(task.id)) {
+            const message = `${task.name}任务已完成，退出条件：${exitCondition}`;
+            log.info(message);
+            try {
+                notification.send(message);
+            } catch (error) {
+                log.warn(`发送任务完成通知失败，将继续调度：${error.message}`);
+            }
+            notifiedTasks.add(task.id);
+        }
+        if (!task.allowReopen) runtimeDisabledTasks.add(task.id);
+    };
+    const routeCache = new Map();
+    const failedRoutes = new Set();
+    for (const group of runtimeConfig.pathGroups) {
+        await sleep(1);
+        if (!group.folder || !group.cdType || routeCache.has(group.folder)) continue;
+        if (!isValidFirstLevelFolderName(group.folder)) {
+            log.error(`路径组「${group.name}」的文件夹名称无效，已跳过：${group.folder}`);
+            routeCache.set(group.folder, []);
+            continue;
+        }
+        routeCache.set(group.folder, pathingRoutesByGroup.get(group.folder.toLowerCase()) || []);
+    }
+
+    while (true) {
+        await sleep(1);
+        let executed = false;
+        for (const task of runtimeConfig.tasks) {
+            await sleep(1);
+            try {
+                if (!task.enabled || runtimeDisabledTasks.has(task.id)) continue;
+                const exitCondition = await evaluateTaskExitConditions(task);
+                if (exitCondition) {
+                    completeTask(task, exitCondition);
+                    continue;
+                }
+
+                const folders = taskAllowedFolders(task);
+                let routes = [];
+                for (const folder of folders) {
+                    await sleep(1);
+                    routes.push(...(routeCache.get(folder) || []));
+                }
+                if (routes.length > 1) {
+                    const seenPaths = new Set();
+                    routes = routes.filter(route => !seenPaths.has(route.fullPath) && seenPaths.add(route.fullPath));
+                }
+
+                const taskRouteCount = routes.length;
+                const taskRoutes = routes.slice();
+                routes = routes.filter(route => !failedRoutes.has(route.fullPath));
+                if (!routes.length) {
+                    completeTask(task, folders.length ? "没有可用路线" : "没有可用路径组");
+                    continue;
+                }
+
+                let recordArray;
+                try {
+                    recordArray = JSON.parse(await file.readText(recordFilePath));
+                } catch (error) {
+                    log.error(`读取路线 CD 记录失败，已跳过任务「${task.name}」：${error.message}`);
+                    continue;
+                }
+                if (!Array.isArray(recordArray)) {
+                    log.error(`路线 CD 记录格式无效，已跳过任务「${task.name}」`);
+                    continue;
+                }
+
+                const cdMap = new Map(recordArray.map(item => [item.fileName, item]));
+                const pickedToday = await readDailyPicked();
+                const related = materialNamesForTarget(`${remainingTargetExpression(task.dailyTarget, pickedToday)}+${task.oneTimeTarget}`);
+                routes = routes.filter(route => !routeExcluded(route));
+                if (!routes.length) {
+                    completeTask(task, "路线均被排除");
+                    continue;
+                }
+                if (task.onlyRelatedRoutes && related.size) {
+                    routes = routes.filter(route => {
+                        const record = cdMap.get(basename(route.fullPath));
+                        const historyHit = record?.history?.some(history =>
+                            Object.keys(history.items || {}).some(name => related.has(name))
+                        );
+                        const declarationHit = [...related].some(name =>
+                            (route.fullPath || "").includes(name) || (route.description || "").includes(name)
+                        );
+                        return declarationHit || historyHit;
+                    });
+                }
+                if (!routes.length) {
+                    completeTask(task, "没有与目标相关的可用路线");
+                    continue;
+                }
+
+                const now = new Date();
+                const taskCdRouteCount = taskRoutes.filter(route => {
+                    const record = cdMap.get(basename(route.fullPath));
+                    return record && now <= new Date(record.cdTime);
+                }).length;
+                routes = routes.filter(route => {
+                    const record = cdMap.get(basename(route.fullPath));
+                    return !record || now > new Date(record.cdTime);
+                });
+                if (!routes.length) {
+                    completeTask(task, "所有候选路线均在CD中");
+                    continue;
+                }
+
+                const threshold = Number(task.thresholdEfficiency) || 0;
+                const isPriorityMode = Boolean(task.onlyRelatedRoutes && related.size);
+                routes.forEach(route => {
+                    delete route._priorityEff;
+                    delete route._efficiency;
+                });
+                calculateRouteEfficiency(routes, cdMap, {
+                    groupIndex: 0,
+                    priorityItemSet: related,
+                    disableArray,
+                    isPriorityMode,
+                    thresholdEfficiency: threshold,
+                    ignorePriorityTags: true
+                });
+                if (isPriorityMode) {
+                    const known = routes.map(route => route._priorityEff).filter(value => value >= 0).sort((a, b) => a - b);
+                    const fallback = calculateDefaultEfficiency(known, runtimeSetting("defaultEffPercentile", "0.5"), threshold);
+                    routes.forEach(route => {
+                        if (route._priorityEff === -2) route._priorityEff = fallback;
+                    });
+                }
+
+                const efficiencyOf = route => isPriorityMode ? (route._priorityEff ?? 0) : (route._efficiency ?? 0);
+                routes = routes.filter(route => efficiencyOf(route) >= threshold);
+                if (!routes.length) {
+                    completeTask(task, `所有候选路线均低于最低效率 ${threshold}`);
+                    continue;
+                }
+                if (task.sortMode === "优先最高效率，将优先执行最高分均拾取物的路线") {
+                    routes.sort((a, b) => efficiencyOf(b) - efficiencyOf(a));
+                } else if (task.sortMode === "优先最早刷新，将优先执行最早刷新的路线") {
+                    routes.sort((a, b) =>
+                        new Date(cdMap.get(basename(a.fullPath))?.cdTime || 0) -
+                        new Date(cdMap.get(basename(b.fullPath))?.cdTime || 0)
+                    );
+                }
+
+                const route = routes[0];
+                const fullName = basename(route.fullPath);
+                const targetObj = cdMap.get(fullName) || {
+                    fileName: fullName,
+                    cdTime: new Date(0).toISOString(),
+                    history: []
+                };
+                if (!cdMap.has(fullName)) cdMap.set(fullName, targetObj);
+                const group = pathGroupForRoute(route.fullPath);
+                state.runPickupLog = [];
+                const routeDisplayName = fullName.replace(/\.json$/i, "");
+                startTaskExecutionTimer(task);
+                setProgressPanelContext(task, routeDisplayName, pickedToday, taskRouteCount, taskCdRouteCount);
+                try {
+                    await selectPartyByRoutePath(route.fullPath, `任务「${task.name}」`);
+                    await handleIngredientProcessing(new Date());
+                    await handleTimeAdjustment(new Date(), group?.setTimeMode);
+                    log.info(`当前进度：任务「${task.name}」，执行路线「${routeDisplayName}」；${formatTaskProgress(task, pickedToday, taskRouteCount, taskCdRouteCount)}`);
+                    await fakeLog(routeDisplayName, false, true, 0);
+                    const routeStartTime = new Date();
+                    let result;
+                    try {
+                        result = await executeRoute(route.fullPath, routeDisplayName, targetObj, routeStartTime, lastMapName, related);
+                        tasksWithExecutedRoutes.add(task.id);
+                    } catch (error) {
+                        await sleep(1);
+                        state.running = false;
+                        failedRoutes.add(route.fullPath);
+                        log.error(`任务「${task.name}」执行路线 ${route.fullPath} 失败: ${error.message}`);
+                        continue;
+                    }
+
+                    lastMapName = result.lastMapName;
+                    const corrected = correctPickupLogByDeclaration(result.runPickupLog, route.fullPath);
+                    if (!result.success) {
+                        failedRoutes.add(route.fullPath);
+                        await saveRecordAndClearLog(cdMap, recordFilePath, corrected);
+                        continue;
+                    }
+                    if (result.pathRes && group) {
+                        const nextCD = group.cdType === "不指定"
+                            ? calculatePickupBasedRouteCD(result.runPickupLog, related, routeStartTime)
+                            : calculateRouteCD(group.cdType || DEFAULT_CD_TYPE, routeStartTime);
+                        targetObj.cdTime = nextCD.toISOString();
+                    } else if (result.pathRes === false) {
+                        failedRoutes.add(route.fullPath);
+                    }
+                    await saveRecordAndClearLog(cdMap, recordFilePath, corrected);
+                    executed = true;
+                    break;
+                } finally {
+                    stopTaskExecutionTimer(task);
+                    if (progressPanelContext?.task?.id === task.id && progressPanelContext.status === "运行中") {
+                        progressPanelContext.status = "等待调度";
+                    }
+                }
+            } catch (error) {
+                await sleep(1);
+                state.running = false;
+                stopTaskExecutionTimer(task);
+                log.error(`任务「${task.name}」处理失败，已跳过并继续其他任务：${error.message}`);
+            }
+        }
+        if (!executed) break;
+    }
+}
+
+async function initializeSetup() {
+    let stepStartedAt = beginStartupTiming("运行初始化：准备账户记录目录");
+    loadRuntimeConfig();
+    /* ===== 新版路径组已由 loadRuntimeConfig 载入 ===== */
+    const accountError = htmlConfigAccountError(accountName);
+    if (accountError) throw new Error(`账户名称无效：${accountError}`);
 
     // 获取子文件夹路径
     subFolderName = accountName;
     subFolderPath = `${recordFolder}/${subFolderName}`;
     pickupRecordFile = `${recordFolder}/${subFolderName}/拾取记录.json`;
+
+    if (!file.IsFolder(recordFolder)) file.CreateDirectory(recordFolder);
+    if (!file.IsFolder(subFolderPath)) file.CreateDirectory(subFolderPath);
 
     // 读取子文件夹中的所有文件路径
     const filesInSubFolder = file.ReadPathSync(subFolderPath);
@@ -2542,15 +3823,18 @@ async function initializeSetup() {
             useJson = false;
         }
     }
+    finishStartupTiming("运行初始化：准备账户记录目录", stepStartedAt, `已有索引 ${indexDoExist ? (useJson ? "record.json" : "record.txt") : "无"}`);
 
-    if (operationMode === "重新生成索引文件（用于强制刷新CD）") {
+    const shouldRebuildIndex = operationMode === "重新生成索引文件（用于强制刷新CD）";
+    if (shouldRebuildIndex) {
         log.info("重新生成索引文件模式，将覆盖现有索引文件");
     }
     if (!indexDoExist) {
         log.info("文件不存在，将尝试生成索引文件");
     }
 
-    /* 禁用BGI原生拾取，强制模板匹配 */
+    /* 加载材料模板并建立名称/别名索引；实际拾取方式由 pickupMode 决定。 */
+    stepStartedAt = beginStartupTiming("运行初始化：加载材料识别模板");
     targetItems = await loadTargetItems();
     /* ===== 别名索引 ===== */
     name2Other = new Map();      // 本名 → 别名数组
@@ -2563,24 +3847,36 @@ async function initializeSetup() {
             alias2Names.get(a).push(it.itemName);   // 一个别名可指向多个本名
         }
     }
+    finishStartupTiming("运行初始化：加载材料识别模板", stepStartedAt, `模板 ${targetItems.length} 个`);
 
+    stepStartedAt = beginStartupTiming("运行初始化：加载黑名单");
     await loadBlacklist(true);
+    finishStartupTiming("运行初始化：加载黑名单", stepStartedAt, `材料 ${blacklist.length} 种`);
     state.running = true;
 
+    stepStartedAt = beginStartupTiming("运行初始化：写入脚本开始记录");
     await fakeLog("采集cd管理", true, false, 1000);
+    finishStartupTiming("运行初始化：写入脚本开始记录", stepStartedAt);
 
     // 统一的 record.json 文件路径
     recordFilePath = `${subFolderPath}/record.json`;
 
-    // 读取 pathing 文件夹下的所有 .json 文件
-    const pathingFolder = "pathing";
-    const files = await readFolder(pathingFolder, true);
+    // 启动时仅遍历一次 pathing；初始化与后续调度共用同一份路线快照。
+    stepStartedAt = beginStartupTiming("运行初始化：加载路线索引");
+    const cacheWasReady = pathingRouteCacheReady;
+    const files = ensurePathingRouteCache();
     const filePaths = files.map(file => file.fullPath);
+    finishStartupTiming("运行初始化：加载路线索引", stepStartedAt, `${cacheWasReady ? "复用缓存" : "首次加载"}，路线 ${filePaths.length} 条，路径组缓存 ${pathingRoutesByGroup.size} 个`);
 
     // ① 先加载已有记录（整对象）
+    stepStartedAt = beginStartupTiming("运行初始化：合并并写回路线记录");
     let recordArray = [];
     if (indexDoExist && useJson) {
-        try { recordArray = JSON.parse(await file.readText(recordFilePath)); } catch (e) { }
+        try {
+            recordArray = JSON.parse(await file.readText(recordFilePath));
+        } catch (error) {
+            throw new Error(`读取现有路线记录失败，为避免覆盖原记录已停止初始化：${error.message}`);
+        }
     } else if (indexDoExist && !useJson) {
         try {
             const txt = await file.readText(`${subFolderPath}/record.txt`);
@@ -2588,7 +3884,12 @@ async function initializeSetup() {
                 const [n, t] = line.trim().split('::');
                 if (n && t) recordArray.push({ fileName: n + '.json', cdTime: t });
             });
-        } catch (e) { }
+        } catch (error) {
+            throw new Error(`读取旧版路线记录失败，为避免生成错误索引已停止初始化：${error.message}`);
+        }
+    }
+    if (!Array.isArray(recordArray)) {
+        throw new Error("现有路线记录不是数组，为避免覆盖原记录已停止初始化");
     }
 
     // ② 建 Map<fileName, 原对象>  确保 history 存在
@@ -2604,9 +3905,7 @@ async function initializeSetup() {
         if (!fileName.endsWith('.json')) continue;
 
         const old = existMap.get(fileName) || {};
-        const newCd = (indexDoExist &&
-            operationMode !== "重新生成索引文件（用于强制刷新CD）" &&
-            old.cdTime)
+        const newCd = (indexDoExist && !shouldRebuildIndex && old.cdTime)
             ? old.cdTime
             : defaultTime;
 
@@ -2624,702 +3923,39 @@ async function initializeSetup() {
 
     if (writeResult) {
         log.info(`信息已成功写入: ${recordFilePath}`);
+        if (shouldRebuildIndex) {
+            settings.operationMode = HTML_CONFIG_SELECTS.operationMode[0];
+            operationMode = settings.operationMode;
+            log.info("索引文件已重新生成，索引处理方式已自动恢复为普通执行模式");
+        }
     } else {
         log.error(`写入文件失败: ${recordFilePath}`);
     }
+    finishStartupTiming("运行初始化：合并并写回路线记录", stepStartedAt, `记录 ${existMap.size} 条`);
 
     // 初始化食材加工列表
     try {
-        Foods = Array.from(processingIngredient);
-    } catch (e) { Foods = []; }
+        Foods = typeof processingIngredient === "string"
+            ? processingIngredient.split(/[；;,]/).map(x => x.trim()).filter(Boolean)
+            : Array.from(processingIngredient || []);
+    } catch (error) {
+        Foods = [];
+        log.warn(`解析食材加工配置失败，已停用本次食材加工：${error.message}`);
+    }
 
     // 加载材料CD映射表
+    stepStartedAt = beginStartupTiming("运行初始化：加载材料 CD 映射");
     try {
         const cdMapText = await file.readText('assets/materialCdMap.json');
         const cdMapObj = JSON.parse(cdMapText);
         materialCdMap = { ...cdMapObj['46h特产'], ...cdMapObj['12h素材'], ...cdMapObj['4点刷新'], ...cdMapObj['0点刷新'] };
         log.info(`材料CD映射表加载完成，共 ${Object.keys(materialCdMap).length} 条记录`);
     } catch (e) {
+        await sleep(1);
         log.error(`加载材料CD映射表失败: ${e.message}`);
         materialCdMap = {};
     }
-}
-
-/**
- * 处理优先级材料采集
- * 解析用户设置的优先采集材料，计算路线效率，循环执行最高效率路线直到达标
- * 
- * @returns {Promise<void>} 无返回值
- * 
- * @依赖全局变量：
- * - settings: 用户设置对象
- * - pickupRecordFile: 拾取记录文件路径
- * - alias2Names: 别名到本名数组的映射
- * - name2Other: 本名到别名数组的映射
- * - subFolderName: 子文件夹名称
- * - lastMapName: 上次地图名称
- * - targetItems: 目标物品数组
- * - disableArray: 禁用关键词数组
- * - materialCdMap: 材料CD映射表
- * 
- * @依赖辅助函数：
- * - readFolder: 读取文件夹函数
- * - isTimeRestricted: 判断时间是否受限函数
- * - calculateRouteEfficiency: 计算路线效率函数
- * - calculateDefaultEfficiency: 计算默认效率函数
- * - selectPartyByRoutePath: 根据路线路径选择配队函数
- * - handleIngredientProcessing: 处理食材加工函数
- * - handleTimeAdjustment: 处理时间调整函数
- * - fakeLog: 模拟日志函数
- * - prioritizeHistoricalItems: 历史拾取物优先排序函数
- * - executeRoute: 执行路线函数
- * - saveRecordAndClearLog: 保存记录并清空日志函数
- * - basename: 获取文件基本名函数
- */
-async function processPriorityItems() {
-    if (settings.priorityItems) {
-        /* ---------- 1. 解析 ---------- */
-        const priorityList = [];
-        const segments = settings.priorityItems.split('+').map(s => s.trim());
-        for (const seg of segments) {
-            const [itemName, countStr] = seg.split('*').map(s => s.trim());
-            if (itemName && countStr && !isNaN(Number(countStr))) {
-                priorityList.push({ itemName, count: Number(countStr) });
-            }
-        }
-        log.info(`优先级材料解析完成: ${priorityList.map(e => `${e.itemName}*${e.count}`).join(', ')}`);
-        /* ===== 追加：扣除今日已拾取（UTC+8 0 点分界） ===== */
-        const utc8 = new Date(Date.now() + 8 * 3600_000);   // 手动+8小时
-        const today = utc8.toISOString().slice(0, 10);      // "YYYY-MM-DD"
-        let todayPicked = {};                                // 今日已拾取数量
-        try {
-            const txt = await file.readText(pickupRecordFile);
-            if (txt) {
-                const arr = JSON.parse(txt);
-                const todayItem = arr.find(it => it.date === today);
-                if (todayItem) todayPicked = todayItem.items || {};
-            }
-        } catch (_) { /* 文件不存在或解析失败 */ }
-
-        /* 扣除今日已拾取：双向扣除 */
-        for (let i = priorityList.length - 1; i >= 0; i--) {
-            const task = priorityList[i];
-            let got = 0;
-
-            /* 1. 字面名（可能是别名）直接扣 */
-            got += todayPicked[task.itemName] || 0;
-            /* 2. 如果字面名是别名，把对应本名也扣一遍 */
-            const realNames = alias2Names.get(task.itemName) || [];   // 现在是数组
-
-            for (const n of realNames) got += todayPicked[n] || 0;
-
-            /* 3. 如果字面名是本名，把所有别名再扣一遍 */
-            const others = name2Other.get(task.itemName) || [];
-            for (const a of others) got += todayPicked[a] || 0;
-
-            task.count -= got;
-            if (task.count <= 0) priorityList.splice(i, 1);
-        }
-
-        if (priorityList.length === 0) {
-            log.info("今日优先材料已达标，跳过优先采集阶段");
-            notification.send("今日优先材料已达标，跳过优先采集阶段");
-        }
-        /* ================================= */
-
-        /* ---------- 3. 主循环 ---------- */
-        while (priorityList.length > 0) {
-            const maxRunCount = 1;
-
-            /* 1. 先把用户填的字面名（可能是别名）全部弄进来 */
-            const priorityItemSet = new Set(priorityList.map(p => p.itemName));
-
-            /* 2. 双向扩：本名↔别名 */
-            for (const a of [...priorityItemSet]) {          // 复制一份避免遍历过程中增长
-                // 2.1 如果 a 是“本名”，把它的所有别名加进来（原来就有的逻辑）
-                const others = name2Other.get(a) || [];
-                for (const o of others) priorityItemSet.add(o);
-
-                // 2.2 如果 a 是“别名”，把对应的本名加进来（新增反向）
-                const realName = alias2Names.get(a) || [];
-                for (const r of realName) priorityItemSet.add(r);
-            }
-
-            const pickedCounter = {};
-            priorityItemSet.forEach(n => pickedCounter[n] = 0);
-            /* ===== 剩余物品 ===== */
-            let remaining = priorityList.map(t => `${t.itemName}*${t.count}`).join(', ');
-            /* 4-1 扫描 + 读 record + 前置过滤（禁用/时间/材料相关）+ 计算效率 + CD后置排除 */
-            const allFiles = await readFolder('pathing', true);
-            const rawRecord = await file.readText(`record/${subFolderName}/record.json`);
-            let recordArray = [];
-            try { recordArray = JSON.parse(rawRecord); } catch { /* 空记录 */ }
-            const cdMap = new Map(recordArray.map(it => [it.fileName, it]));
-            const now = new Date();
-            /* 时间管制 */
-            if (await isTimeRestricted(settings.timeRule, 10)) { priorityList.length = 0; break; }
-
-            /* ---- 先算效率（不判CD）---- */
-            calculateRouteEfficiency(allFiles, cdMap, {
-                priorityItemSet,
-                disableArray,
-                isPriorityMode: true
-            });
-
-            /* ---- 用可运行路线算分位默认值 ---- */
-            const knownEff = allFiles
-                .filter(f => {
-                    const rec = cdMap.get(f.fileName);
-                    const nextCD = rec ? new Date(rec.cdTime) : new Date(0);
-                    return f._priorityEff >= 0 && now > nextCD;
-                })
-                .map(f => f._priorityEff)
-                .sort((a, b) => a - b);
-            const defaultEff = calculateDefaultEfficiency(knownEff, settings.defaultEffPercentile, 1);
-            /* 回填未知 + 排除CD */
-            allFiles.forEach(f => {
-                if (f._priorityEff === -2) f._priorityEff = defaultEff;
-                const rec = cdMap.get(f.fileName);
-                const nextCD = rec ? new Date(rec.cdTime) : new Date(0);
-                if (now <= nextCD) f._priorityEff = -1;
-            });
-
-            if (priorityList.length === 0) break;
-
-            /* 4-2 只跑最高效率路线 */
-            const candidateRoutes = allFiles
-                .filter(f => {
-                    return f._priorityEff >= 0 &&
-                        (routeRunCount[f.fileName] || 0) < maxRunCount;     // 未超过执行上限
-                })
-                .sort((a, b) => b._priorityEff - a._priorityEff);
-            if (candidateRoutes.length === 0 && priorityList.length > 0) {
-                log.info('已无可用优先路线（可能全部在CD），退出优先采集阶段');
-                notification.send('已无可用优先路线（可能全部在CD），退出优先采集阶段');
-                break;
-            }
-            const bestRoute = candidateRoutes[0];
-            const filePath = bestRoute.fullPath;
-            const fileName = basename(filePath).replace('.json', '');
-            const fullName = fileName + '.json';
-            const targetObj = cdMap.get(fullName);
-            const startTime = new Date();
-
-            /* ---------- 智能选队：按路线所在文件夹反查路径组 ---------- */
-            await selectPartyByRoutePath(bestRoute.fullPath, "优先采集阶段");
-
-            log.info(`当前进度：执行路线 ${fileName}，剩余优先材料：${remaining}`);
-
-            let timeNow = new Date();
-            await handleIngredientProcessing(timeNow);
-
-            await handleTimeAdjustment(timeNow);
-            await fakeLog(fileName, false, true, 0);
-
-            // 优先采集模式不支持 schedule 任务，静默跳过
-            try {
-                const routeJson = JSON.parse(file.readTextSync(filePath));
-                if (routeJson.schedule && routeJson.tasks) {
-                    continue;
-                }
-            } catch (e) { /* ignore */ }
-
-            routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
-
-            /* ========== 历史拾取物前置排序 ========== */
-            targetItems = prioritizeHistoricalItems(targetItems, cdMap, fullName);
-            /* ================================= */
-
-            /* ================================= */
-            const routeResult = await executeRoute(filePath, fileName, targetObj, startTime, lastMapName, priorityItemSet);
-            if (!routeResult.success) {
-                continue;
-            }
-            lastMapName = routeResult.lastMapName;
-            /* ===== 用声明材料数量修正拾取日志 ===== */
-            const correctedLog = correctPickupLogByDeclaration(routeResult.runPickupLog, bestRoute.fullPath);
-            /* ===================================== */
-            correctedLog.forEach(name => {
-                /* 就地展开：别名→本名数组，再把所有相关名称都计数 */
-                const realNames = alias2Names.get(name) || [name]; // 可能是多个本名
-                for (const rn of realNames) {
-                    if (priorityItemSet.has(name) || priorityItemSet.has(rn)) {
-                        pickedCounter[rn] = (pickedCounter[rn] || 0) + 1;
-                    }
-                }
-            });
-
-            /* ===== 追加：立即把 pickedCounter 回写到 priorityList（双向扣减）===== */
-            for (const task of priorityList) {
-                let picked = 0;
-
-                /* 1. 字面名（可能是别名）直接扣 */
-                picked += pickedCounter[task.itemName] || 0;
-
-                /* 2. 别名→本名反向扣（多对一） */
-                const realNames = alias2Names.get(task.itemName) || [];
-                for (const rn of realNames) picked += pickedCounter[rn] || 0;
-
-                /* 3. 本名→别名顺向扣 */
-                const others = name2Other.get(task.itemName) || [];
-                for (const a of others) picked += pickedCounter[a] || 0;
-
-                task.count = Math.max(0, task.count - picked);
-            }
-
-            /* 倒序删除已达标项 */
-            for (let i = priorityList.length - 1; i >= 0; i--) {
-                if (priorityList[i].count <= 0) {
-                    log.info(`优先材料已达标: ${priorityList[i].itemName}`);
-                    priorityList.splice(i, 1);
-                }
-            }
-
-            /* ================================================ */
-
-            /* ---------- 3. 统一写文件 & 清空日志（用声明修正后的日志） ---------- */
-            await saveRecordAndClearLog(cdMap, recordFilePath, correctedLog);
-            if (priorityList.length <= 0) {
-                log.info('每日优先材料已达标，退出优先采集阶段');
-                notification.send('每日优先材料已达标，退出优先采集阶段');
-            }
-
-            // 完成任意路线后检查总运行限时，超时则结束整个脚本
-            if (checkRuntimeLimit()) {
-                priorityList.length = 0;
-                break;
-            }
-        }
-        await sleep(1000);
-    }
-}
-
-/**
- * 处理一次性优先材料采集（优先级低于每日优先采集）
- * 解析 settings.oneTimePriorityItems（当前剩余量，采完即止、不再按天重置），
- * 计算路线效率，循环执行最高效率路线直到全部清零。
- *
- * 与每日优先不同：①不扣除今日已拾取（剩余量为持久化配置，跨运行累积）；
- * ②扣减不在本函数内做，而是统一由 saveRecordAndClearLog 内的
- * deductOneTimePriority 全局收口——因此每日优先、路径组拾取到也会同步扣减。
- * 本函数每轮从 settings.oneTimePriorityItems 重新读取剩余量，为空即结束。
- *
- * @returns {Promise<void>} 无返回值
- */
-async function processOneTimePriorityItems() {
-    if (!settings.oneTimePriorityItems) return;
-
-    const maxRunCount = 1;
-    while (settings.oneTimePriorityItems) {
-        // 重新解析当前剩余量（已被全局扣减更新）
-        const list = [];
-        const segments = String(settings.oneTimePriorityItems).split('+').map(s => s.trim());
-        for (const seg of segments) {
-            const [itemName, countStr] = seg.split('*').map(s => s.trim());
-            if (itemName && countStr && !isNaN(Number(countStr))) {
-                list.push({ itemName, count: Number(countStr) });
-            }
-        }
-        if (list.length === 0) break;
-
-        /* 1. 目标集合（双向别名展开） */
-        const priorityItemSet = new Set(list.map(p => p.itemName));
-        for (const a of [...priorityItemSet]) {
-            const others = name2Other.get(a) || [];
-            for (const o of others) priorityItemSet.add(o);
-            const realName = alias2Names.get(a) || [];
-            for (const r of realName) priorityItemSet.add(r);
-        }
-
-        /* 2. 扫描 + 效率计算 + CD 排除 */
-        const allFiles = await readFolder('pathing', true);
-        const rawRecord = await file.readText(`record/${subFolderName}/record.json`);
-        let recordArray = [];
-        try { recordArray = JSON.parse(rawRecord); } catch { /* 空记录 */ }
-        const cdMap = new Map(recordArray.map(it => [it.fileName, it]));
-        const now = new Date();
-        if (await isTimeRestricted(settings.timeRule, 10)) break;
-        if (checkRuntimeLimit()) break;
-
-        calculateRouteEfficiency(allFiles, cdMap, {
-            priorityItemSet,
-            disableArray,
-            isPriorityMode: true
-        });
-        const knownEff = allFiles
-            .filter(f => {
-                const rec = cdMap.get(f.fileName);
-                const nextCD = rec ? new Date(rec.cdTime) : new Date(0);
-                return f._priorityEff >= 0 && now > nextCD;
-            })
-            .map(f => f._priorityEff)
-            .sort((a, b) => a - b);
-        const defaultEff = calculateDefaultEfficiency(knownEff, settings.defaultEffPercentile, 1);
-        allFiles.forEach(f => {
-            if (f._priorityEff === -2) f._priorityEff = defaultEff;
-            const rec = cdMap.get(f.fileName);
-            const nextCD = rec ? new Date(rec.cdTime) : new Date(0);
-            if (now <= nextCD) f._priorityEff = -1;
-        });
-
-        /* 3. 只跑最高效率路线 */
-        const candidateRoutes = allFiles
-            .filter(f => f._priorityEff >= 0 && (routeRunCount[f.fileName] || 0) < maxRunCount)
-            .sort((a, b) => b._priorityEff - a._priorityEff);
-        if (candidateRoutes.length === 0) {
-            log.info('已无可用一次性优先路线（可能全部在CD），退出一次性优先采集阶段');
-            notification.send('已无可用一次性优先路线（可能全部在CD），退出一次性优先采集阶段');
-            break;
-        }
-        const bestRoute = candidateRoutes[0];
-        const filePath = bestRoute.fullPath;
-        const fileName = basename(filePath).replace('.json', '');
-        const fullName = fileName + '.json';
-        const targetObj = cdMap.get(fullName);
-        const startTime = new Date();
-
-        await selectPartyByRoutePath(bestRoute.fullPath, "一次性优先采集阶段");
-        log.info(`当前进度：执行路线 ${fileName}，剩余一次性优先材料：${list.map(t => `${t.itemName}*${t.count}`).join(', ')}`);
-
-        let timeNow = new Date();
-        await handleIngredientProcessing(timeNow);
-        await handleTimeAdjustment(timeNow);
-        await fakeLog(fileName, false, true, 0);
-
-        // 一次性优先采集同样不支持 schedule 任务，静默跳过（先计数，避免反复选中同一条 schedule 路线形成死循环）
-        routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
-        try {
-            const routeJson = JSON.parse(file.readTextSync(filePath));
-            if (routeJson.schedule && routeJson.tasks) continue;
-        } catch (e) { /* ignore */ }
-
-        targetItems = prioritizeHistoricalItems(targetItems, cdMap, fullName);
-
-        const routeResult = await executeRoute(filePath, fileName, targetObj, startTime, lastMapName, priorityItemSet);
-        if (!routeResult.success) continue;
-        lastMapName = routeResult.lastMapName;
-
-        const correctedLog = correctPickupLogByDeclaration(routeResult.runPickupLog, bestRoute.fullPath);
-        // saveRecordAndClearLog 内部会触发 deductOneTimePriority 全局扣减并写回配置
-        await saveRecordAndClearLog(cdMap, recordFilePath, correctedLog);
-
-        // 完成后检测是否超时（一次性阶段同样受总运行限时约束）
-        if (checkRuntimeLimit()) break;
-    }
-    await sleep(1000);
-}
-
-/**
- * 处理路径组循环执行
- * 按照用户设置的路径组配置，依次执行各路径组中的路线，支持多种排序模式和CD管理
- * 
- * @returns {Promise<void>} 无返回值
- * 
- * @依赖全局变量：
- * - settings: 用户设置对象
- * - groupCount: 路径组数量
- * - folderNames: 文件夹名称数组
- * - partyNames: 配队名称数组
- * - recordFilePath: 记录文件路径
- * - operationMode: 操作模式
- * - lastMapName: 上次地图名称
- * - disableArray: 禁用关键词数组
- * 
- * @依赖辅助函数：
- * - isTimeRestricted: 判断时间是否受限函数
- * - readFolder: 读取文件夹函数
- * - calculateRouteEfficiency: 计算路线效率函数
- * - basename: 获取文件基本名函数
- * - handleIngredientProcessing: 处理食材加工函数
- * - handleTimeAdjustment: 处理时间调整函数
- * - switchPartyIfNeeded: 按需切换配队函数
- * - fakeLog: 模拟日志函数
- * - executeRoute: 执行路线函数
- * - isArrivedAtEndPoint: 判断是否到达终点函数
- * - calculateRouteCD: 计算路线CD函数
- * - saveRecordAndClearLog: 保存记录并清空日志函数
- */
-async function processPathGroups() {
-    let loopattempts = 0;
-    const maxLoopAttempts = 2;
-
-    while (loopattempts < maxLoopAttempts && !runtimeLimitReached) {
-        loopattempts++;
-        if (await isTimeRestricted(settings.timeRule, 10)) break;
-        let i = 1;
-        while (i <= groupCount && !runtimeLimitReached) {
-            if (await isTimeRestricted(settings.timeRule, 10)) break;
-            const currentCdType = settings[`pathGroup${i}CdType`] || "";
-            if (!currentCdType) { i++; continue; }
-
-            const folder = folderNames[i - 1] || `路径组${i}`;
-            const targetFolder = `pathing/${folder} `;
-
-            log.info(`开始执行路径组${i} 文件夹：${folder}`);
-            notification.send(`开始执行路径组${i} 文件夹：${folder}`);
-
-            /* 运行期同样用 Map<fileName, 原对象> 只改 cdTime */
-            const rawRecord = await file.readText(recordFilePath);
-            let recordArray = JSON.parse(rawRecord);
-            const cdMap = new Map(recordArray.map(it => [it.fileName, it]));
-
-            const groupFiles = await readFolder(targetFolder, true);
-
-            if (operationMode === "执行任务（若不存在索引文件则自动创建）") {
-                const groupNumber = i;
-                await genshin.returnMainUi();
-
-                try {
-                    /* ================== 提前计算分均效率（所有模式通用） ================== */
-                    calculateRouteEfficiency(groupFiles, cdMap, { groupIndex: i });
-                    switch (settings.sortMode) {
-                        case "优先最早刷新，将优先执行最早刷新的路线":
-                            groupFiles.sort((a, b) => {
-                                const nameA = basename(a.fullPath);
-                                const nameB = basename(b.fullPath);
-                                const timeA = cdMap.has(nameA) ? new Date(cdMap.get(nameA).cdTime) : new Date(0);
-                                const timeB = cdMap.has(nameB) ? new Date(cdMap.get(nameB).cdTime) : new Date(0);
-                                return timeA - timeB;   // 越早刷新越靠前
-                            });
-                            break;
-
-                        case "优先最高效率，将优先执行最高分均拾取物的路线":
-                            // 直接复用提前算好的 _efficiency
-                            groupFiles.sort((a, b) => (b._efficiency || 0) - (a._efficiency || 0));
-                            break;
-
-                        default:
-                            // 保持原有顺序，不做任何排序
-                            break;
-                    }
-
-                    // ===================== 按 loopMode 分支 =====================
-                    if (loopMode === 2) {
-                        // ----- 每组重试：反复遍历组内路线直到没有任何路线被执行 -----
-                        let anyExecuted = true;
-                        while (anyExecuted && !runtimeLimitReached) {
-                            anyExecuted = false;
-                            // 检查时间管制
-                            if (await isTimeRestricted(settings.timeRule, 10)) break;
-
-                    for (const filePath of groupFiles) {
-                                // 检查时间管制
-                                if (await isTimeRestricted(settings.timeRule, 10)) {
-                                    break; // 跳出 for，外层 while 会再次检测并 break
-                                }
-
-                        const fileName = basename(filePath.fullPath).replace('.json', '');
-                        const fullName = fileName + '.json';
-                        const targetObj = cdMap.get(fullName);
-                        const nextCD = targetObj ? new Date(targetObj.cdTime) : new Date(0);
-                                const maxRunCount = 2; // loopMode=2 上限为2
-                                const startTime = new Date();
-
-                                if (startTime <= nextCD) {
-                                    continue;   // CD未到，跳过
-                                }
-                                if ((routeRunCount[fullName] || 0) >= maxRunCount) {
-                                    continue;   // 已达执行上限
-                                }
-
-                                // 禁用关键词检查
-                                let doSkip = false;
-                                for (const kw of disableArray) {
-                                    if (filePath.fullPath.includes(kw)) {
-                                        log.info(`路径文件 ${filePath.fullPath} 包含禁用关键词 "${kw}"，跳过任务 ${fileName}`);
-                                        doSkip = true;
-                                        break;
-                                    }
-                                }
-                                if (doSkip) continue;
-
-                                // ===== 临界效率过滤 =====
-                                const routeEff = filePath._efficiency ?? 0;
-                                const threshold = Number(settings[`pathGroup${i}thresholdEfficiency`]) || 0;
-                                if (routeEff < threshold) {
-                                    log.info(`路线 ${fileName} 分均效率为 ${routeEff.toFixed(2)}，低于设定的临界值 ${threshold}，跳过`);
-                                    continue;
-                                }
-
-                                // ----- 执行前处理 -----
-                                let timeNow = new Date();
-                                await handleIngredientProcessing(timeNow);
-                                await handleTimeAdjustment(timeNow);
-                                await switchPartyIfNeeded(partyNames[groupNumber - 1]);
-                                await fakeLog(fileName, false, true, 0);
-
-                                /* ========== 历史拾取物前置排序 ========== */
-                                targetItems = prioritizeHistoricalItems(targetItems, cdMap, fullName);
-                                /* ======================================= */
-
-                                log.info(`当前进度：执行路线 ${fileName}，路径组${i} ${folder} 第 ${groupFiles.indexOf(filePath) + 1}/${groupFiles.length} 个`);
-                                log.info(`当前路线分均效率为 ${(filePath._efficiency ?? 0).toFixed(2)}`);
-
-                                state.runPickupLog = [];
-                                // 路径组模式下，传入空的 priorityItemSet
-                                const routeResult = await executeRoute(filePath.fullPath, fileName, targetObj, startTime, lastMapName, new Set());
-                                if (!routeResult.success) {
-                                    continue;
-                                }
-                                lastMapName = routeResult.lastMapName;
-
-                                try { await sleep(1); }
-                                catch (error) { log.error(`发生错误: ${error}`); break; }
-
-                                // >>> 仅当 >10s 才记录 history；若同时 pathRes === true 再更新 CD <<<
-                                const endTime = new Date();
-                                const timeDiff = endTime.getTime() - startTime.getTime();
-                                if (timeDiff > 10000) {
-                                    if (routeResult.isSchedule) {
-                                        // Schedule 任务使用路径组配置的 CD 类型，未配置时默认"1次0点刷新"
-                                        const cdType = currentCdType || "1次0点刷新";
-                                        const newTimestamp = calculateRouteCD(cdType, startTime);
-                                        targetObj.cdTime = newTimestamp.toISOString();
-                                        log.info(`schedule任务CD信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
-                                    } else {
-                                        // executeRoute 内部已用返回值或坐标校验完成路线成败判定，此处直接复用
-                                        let pathRes = routeResult.pathRes;
-                                        if (pathRes) {
-                                            const newTimestamp = calculateRouteCD(currentCdType, startTime);
-                                            targetObj.cdTime = newTimestamp.toISOString();
-                                            log.info(`本任务cd信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
-                                        }
-                                    }
-
-                                    /* ---------- 3. 用声明材料数量修正拾取日志后统一写文件 ---------- */
-                                    const correctedLog = correctPickupLogByDeclaration(routeResult.runPickupLog, filePath.fullPath);
-                                    await saveRecordAndClearLog(cdMap, recordFilePath, correctedLog);
-                                    routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
-
-                                    // 标记本次有执行，继续 while 循环
-                                    anyExecuted = true;
-
-                                    // 完成任意路线后检查总运行限时，超时则结束脚本
-                                    if (checkRuntimeLimit()) break;
-                                }
-                            } // end for
-
-                            // 如果因为时间管制跳出 for，则 while 也会检测到并退出
-                            if (await isTimeRestricted(settings.timeRule, 10)) break;
-                        } // end while
-
-                        // 组内重试结束（无论是否全部达标，只要无更多可执行路线就退出）
-                        log.info(`路径组${groupNumber} 执行完毕`);
-
-                    } else {
-                        for (const filePath of groupFiles) {
-                            // 检查时间管制
-                            if (await isTimeRestricted(settings.timeRule, 10)) break;
-
-                            const fileName = basename(filePath.fullPath).replace('.json', '');
-                            const fullName = fileName + '.json';
-                            const targetObj = cdMap.get(fullName);
-                            const nextCD = targetObj ? new Date(targetObj.cdTime) : new Date(0);
-                            const maxRunCount = loopMode;  // 1 或 3（但3通过全局跳转实现多次，这里单次上限仍为3，不影响）
-                        const startTime = new Date();
-
-                        if (startTime <= nextCD) {
-                            if (loopMode !== 3) {
-                                log.info(`当前任务 ${fileName} 未刷新，跳过任务`);
-                            }
-                            continue;   // 跳过，不写回
-                        }
-                        if ((routeRunCount[fullName] || 0) >= maxRunCount) {
-                            log.info(`当前任务 ${fileName} 已达执行上限，跳过`);
-                            continue;
-                        }
-
-                        let doSkip = false;
-                        for (const kw of disableArray) {
-                            if (filePath.fullPath.includes(kw)) {
-                                log.info(`路径文件 ${filePath.fullPath} 包含禁用关键词 "${kw}"，跳过任务 ${fileName}`);
-                                doSkip = true; break;
-                            }
-                        }
-                        if (doSkip) continue;
-
-                        // ===== 临界效率过滤 =====
-                        const routeEff = filePath._efficiency ?? 0;          // 提前算好的分均效率
-                        const threshold = Number(settings[`pathGroup${i}thresholdEfficiency`]) || 0;
-                        if (routeEff < threshold) {
-                            log.info(`路线 ${fileName} 分均效率为 ${routeEff.toFixed(2)}，低于设定的临界值 ${threshold}，跳过`);
-                            continue;
-                        }
-
-                        let timeNow = new Date();
-                        await handleIngredientProcessing(timeNow);
-
-                        await handleTimeAdjustment(timeNow);
-
-                        await switchPartyIfNeeded(partyNames[groupNumber - 1]);
-
-                        await fakeLog(fileName, false, true, 0);
-
-                        /* ========== 历史拾取物前置排序 ========== */
-                        targetItems = prioritizeHistoricalItems(targetItems, cdMap, fullName);
-                        /* ======================================= */
-
-                        log.info(`当前进度：执行路线 ${fileName}，路径组${i} ${folder} 第 ${groupFiles.indexOf(filePath) + 1}/${groupFiles.length} 个`);
-                        log.info(`当前路线分均效率为 ${(filePath._efficiency ?? 0).toFixed(2)}`);
-
-                        state.runPickupLog = [];          // 新路线开始前清空
-                        // 路径组模式下，传入空的 priorityItemSet
-                        const routeResult = await executeRoute(filePath.fullPath, fileName, targetObj, startTime, lastMapName, new Set());
-                        if (!routeResult.success) {
-                            continue;
-                        }
-                        lastMapName = routeResult.lastMapName;
-
-                        try { await sleep(1); }
-                        catch (error) { log.error(`发生错误: ${error}`); break; }
-
-                        // >>> 仅当 >10s 才记录 history；若同时 pathRes === true 再更新 CD <<<
-                        const endTime = new Date();
-                        const timeDiff = endTime.getTime() - startTime.getTime();
-                        if (timeDiff > 10000) {
-                            /* ---------- 2. 仅当 pathRes === true 才计算并更新 CD ---------- */
-                            if (routeResult.isSchedule) {
-                                // Schedule 任务使用路径组配置的 CD 类型，未配置时默认"1次0点刷新"
-                                const cdType = currentCdType || "1次0点刷新";
-                                const newTimestamp = calculateRouteCD(cdType, startTime);
-                                targetObj.cdTime = newTimestamp.toISOString();
-                                log.info(`schedule任务CD信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
-                            } else {
-                                let pathRes = routeResult.pathRes;
-                                if (pathRes) {
-                                    const newTimestamp = calculateRouteCD(currentCdType, startTime);
-                                    targetObj.cdTime = newTimestamp.toISOString();
-                                    log.info(`本任务cd信息已更新，下一次可用时间为 ${newTimestamp.toLocaleString()}`);
-                                }
-                            }
-
-                            /* ---------- 3. 用声明材料数量修正拾取日志后统一写文件 ---------- */
-                            const correctedLog = correctPickupLogByDeclaration(routeResult.runPickupLog, filePath.fullPath);
-                            await saveRecordAndClearLog(cdMap, recordFilePath, correctedLog);
-                            routeRunCount[fullName] = (routeRunCount[fullName] || 0) + 1;
-
-                            // 完成任意路线后检查总运行限时，超时则结束脚本
-                            if (checkRuntimeLimit()) { break; }
-
-                                // ==== 全局循环（loopMode=3）跳回第一个组 ====
-                            if (loopMode === 3) {
-                                i = 0;
-                                    break;   // 跳出 for，外层 while(i<=groupCount) 因 i=0 重新开始
-                            } else {
-                                log.info(`路径组${groupNumber} 执行完毕`);
-                            }
-                        }
-                        } // end for
-                    } // end else (loopMode !== 2)
-
-                } catch (error) {
-                    log.error(`读取路径组文件时出错: ${error}`);
-                }
-            }
-            i++;
-        }
-        await sleep(1000);
-    }
+    finishStartupTiming("运行初始化：加载材料 CD 映射", stepStartedAt, `记录 ${Object.keys(materialCdMap).length} 条`);
 }
 
 /**
@@ -3556,6 +4192,7 @@ async function executeSubJS(subJS, settings) {
         log.info(`子js：${logName} 执行结束`);
         return true;
     } catch (e) {
+        await sleep(1);
         log.error(`子js：${logName} 执行异常: ${e.message}`);
         return false;
     }
@@ -3605,6 +4242,7 @@ async function executeSchedule(schedulePath) {
         log.info(`预加载 ${tasks.length} 个任务...`);
         const taskMap = new Map();
         for (const task of tasks) {
+            await sleep(1);
             // 检查任务配置完整性
             if (!task.name || !task.filePath) {
                 log.error(`任务配置不完整，缺少 name 或 filePath: ${JSON.stringify(task)}`);
@@ -3648,11 +4286,7 @@ async function executeSchedule(schedulePath) {
 
         // 按顺序执行 schedule 中的每个动作
         for (const action of actions) {
-            // 检测任务终止标志
-            try { await sleep(1); } catch (e) {
-                log.info('检测到任务终止信号，停止执行');
-                return false;
-            }
+            await sleep(1);
 
             const { action: actionType, task: taskName, count = 1 } = action;
 
@@ -3674,6 +4308,7 @@ async function executeSchedule(schedulePath) {
 
                 // 执行指定次数
                 for (let i = 0; i < count; i++) {
+                    await sleep(1);
                     log.info(`执行任务: ${taskName} (第 ${i + 1}/${count} 次)`);
 
                     let executionPromise;
@@ -3730,6 +4365,7 @@ async function executeSchedule(schedulePath) {
             const promises = taskEntries.map(([_, promise]) => promise);
             const results = await Promise.all(promises);
             for (let i = 0; i < taskEntries.length; i++) {
+                await sleep(1);
                 const [name, _] = taskEntries[i];
                 if (!results[i]) {
                     log.error(`异步任务 ${name} 执行失败`);
@@ -3741,10 +4377,57 @@ async function executeSchedule(schedulePath) {
         log.info(`===== Schedule 执行完成: ${schedulePath} =====`);
         return true;
     } catch (e) {
+        await sleep(1);
         log.error(`执行 Schedule 失败: ${e.message}`);
         log.error(`错误堆栈: ${e.stack}`);
         return false;
     }
+}
+
+/**
+ * 判断两个材料名称是否为同一材料或互为已知别名。
+ */
+function materialNamesEquivalent(left, right) {
+    if (left === right) return true;
+    if ((alias2Names?.get(left) || []).includes(right)) return true;
+    if ((alias2Names?.get(right) || []).includes(left)) return true;
+    if ((name2Other?.get(left) || []).includes(right)) return true;
+    if ((name2Other?.get(right) || []).includes(left)) return true;
+    return false;
+}
+
+function materialNamesWithAliases(names) {
+    const result = new Set();
+    for (const name of names || []) {
+        if (!name) continue;
+        result.add(name);
+        for (const alias of name2Other?.get(name) || []) result.add(alias);
+        for (const realName of alias2Names?.get(name) || []) result.add(realName);
+    }
+    return result;
+}
+
+function materialValueFor(name, valueMap) {
+    if (valueMap.has(name)) return valueMap.get(name);
+    for (const [configuredName, value] of valueMap) {
+        if (materialNamesEquivalent(name, configuredName)) return value;
+    }
+    return 1;
+}
+
+/**
+ * 用声明数量覆盖历史中的同名材料及别名，避免实际识别值与声明值重复计数。
+ */
+function mergeItemsWithDeclaration(items, declaredMaterials) {
+    const merged = { ...(items || {}) };
+    if (!declaredMaterials) return merged;
+    for (const declaredName of Object.keys(declaredMaterials)) {
+        for (const historyName of Object.keys(merged)) {
+            if (materialNamesEquivalent(historyName, declaredName)) delete merged[historyName];
+        }
+        merged[declaredName] = declaredMaterials[declaredName];
+    }
+    return merged;
 }
 
 /**
@@ -3804,9 +4487,9 @@ function correctPickupLogByDeclaration(pickupLog, routeFilePath) {
         const dec = parseDeclaration(json.info?.description || '');
         if (!dec.declaredMaterials) return pickupLog;
 
-        const declaredSet = new Set(Object.keys(dec.declaredMaterials));
-        // 未在声明中涉及的材料，保留原始拾取值
-        const nonDeclared = pickupLog.filter(name => !declaredSet.has(name));
+        const declaredNames = Object.keys(dec.declaredMaterials);
+        // 未在声明中涉及的材料，保留原始拾取值；同一材料的别名也视为已声明。
+        const nonDeclared = pickupLog.filter(name => !declaredNames.some(declared => materialNamesEquivalent(name, declared)));
 
         // 声明材料用声明值
         const corrected = [...nonDeclared];
