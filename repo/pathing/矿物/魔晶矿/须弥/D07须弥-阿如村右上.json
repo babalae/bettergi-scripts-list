@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1783090384869,
+    "last_modified_time": 1789181478009,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "D07须弥-阿如村右上",
@@ -37,7 +37,7 @@
       "y": -1716.1914
     },
     {
-      "action": "up_down_grab_leaf",
+      "action": "",
       "action_params": "",
       "id": 3,
       "move_mode": "walk",
@@ -51,13 +51,22 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 4087.541,
-      "y": -1764.7246
+      "x": 4103.875,
+      "y": -1714.3125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4064.6875,
+      "y": -1753.5
     },
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "fly",
       "type": "path",
       "x": 4065.2705,
@@ -66,18 +75,17 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 6,
-      "locked": false,
-      "move_mode": "fly",
+      "id": 7,
+      "move_mode": "walk",
       "type": "path",
       "x": 4065.2705,
       "y": -1781.2861
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 7,
-      "move_mode": "fly",
+      "action": "mining",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
       "type": "path",
       "x": 4065.2705,
       "y": -1781.2861

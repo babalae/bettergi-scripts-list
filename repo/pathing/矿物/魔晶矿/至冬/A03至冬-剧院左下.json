@@ -40,7 +40,7 @@
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "run",
+      "move_mode": "fly",
       "type": "path",
       "x": 6527.4844,
       "y": 9342.75
@@ -50,7 +50,7 @@
       "action_params": "",
       "id": 4,
       "locked": true,
-      "move_mode": "run",
+      "move_mode": "fly",
       "type": "path",
       "x": 6540.4805,
       "y": 9329.9238
@@ -93,6 +93,15 @@
       "type": "path",
       "x": 6717.7324,
       "y": 9155.9102
+  },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6713.8213,
+      "y": 9157.0361
     }
   ]
 }
