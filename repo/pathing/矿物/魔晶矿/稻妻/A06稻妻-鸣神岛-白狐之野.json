@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1783089144565,
+    "last_modified_time": 1789382068636,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A06稻妻-鸣神岛-白狐之野",
@@ -28,19 +28,27 @@
       "y": -3001.8545
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 2,
-      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4208.1055,
+      "y": -2919.6572
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": -4211.4844,
-      "y": -2911.0742
+      "x": -4210.3223,
+      "y": -2912.9961
     },
     {
       "action": "combat_script",
       "action_params": "wait(2)",
-      "id": 3,
+      "id": 4,
       "move_mode": "walk",
       "type": "path",
       "x": -4211.4844,
