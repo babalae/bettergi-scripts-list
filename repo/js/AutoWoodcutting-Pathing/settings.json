@@ -1,5 +1,11 @@
 [
     {
+        "name": "username",
+        "type": "input-text",
+        "label": "用户名标识，默认为default",
+        "default": "default"
+    },
+    {
         "name": "woodInventory",
         "type": "checkbox",
         "label": "开启背包木材检测，开启后砍伐识别到的木材",
@@ -10,6 +16,12 @@
         "type": "input-text",
         "label": "砍伐目标数目：默认2000(背包木材检测专用)",
         "default": "2000"
+    },
+    {
+        "name": "targetInventoryNumber",
+        "type": "input-text",
+        "label": "背包目标数目：默认9999(背包木材检测专用)",
+        "default": "9999"
     },
     {
         "name": "woodsMultiCheckbox",
@@ -44,7 +56,11 @@
             "银冷杉木",
             "榛木",
             "夏栎木",
-            "桤木"
+            "桤木",
+            "雪杨木",
+            "白桦木",
+            "青榉木",
+            "落叶松木"
         ]
     },
     {

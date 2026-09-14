@@ -5,7 +5,16 @@ let messageBuffer = '';
 function addNotification(message) {
     messageBuffer += message + '\n';
 }
-
+if (settings.ifClearLog) {
+    // 清空文件内容（覆盖写入空字符串）
+    file.writeTextSync("completed_tasks.json", "");
+    
+    // 或者使用异步方式：
+    // await file.writeText("completed_tasks.json", "");
+    
+    settings.ifClearLog = false;
+}
+ 
 // 发送累积的消息
 function sendBufferedNotifications() {
     if (messageBuffer.trim()) {
@@ -52,6 +61,99 @@ async function addCompletedTask(materialType, materialName, requireCounts) {
     log.info(`已标记 ${materialName} 为完成`);
 }
 
+/**
+ * 等待图片出现并点击
+ * @param {string} imageName 图片名称（不带.png后缀且在assets文件中）
+ * @param {number} [timeout=20000] 超时时间（毫秒），默认20秒
+ * @param {number} [checkInterval=500] 检查间隔（毫秒），默认500毫秒
+ * @returns {Promise<void>}
+ * @throws 如果超时未找到图片则抛出错误
+ */
+// 使用示例：
+// await waitAndClickImage1("paimon_menu");
+// await waitAndClickImage1("confirm_button",false,9000);
+//
+// (2) 自定义偏移量和是否点击，可以用于检测是否有图片
+// await waitAndClickImage1("confirm_button",false,7000);
+//滚动查询偏移点击
+// await waitAndClickImage1("confirm_button",true,20000,758,60,true,1);
+const waitAndClickImage1 = async (
+    imageName,
+	ifClick = true,
+    timeout = 20000,
+    extraWidth = 10,
+    extraHeight = 10,
+	ifScroll = false,
+	scrollNum = 5,
+    checkInterval = 500,
+    threshold = 0.9 // 新增阈值参数，默认值0.8
+) => {
+    const startTime = Date.now();
+    const imagePath = `assets/${imageName}.png`;
+    
+    // 读取模板图片
+    const templateMat = file.ReadImageMatSync(imagePath);
+    const recognitionObj = RecognitionObject.TemplateMatch(templateMat, 0, 0, 1920, 1080);
+    recognitionObj.threshold = threshold;
+    
+    // 使用 try-finally 确保模板图像被释放
+    try {
+        while (Date.now() - startTime < timeout) {
+            // 捕获游戏区域
+
+
+            const captureRegion = captureGameRegion();
+            
+            // 使用 try-finally 确保每次循环的资源被释放
+            try {
+                // 查找图片
+                const result = captureRegion.Find(recognitionObj);
+                
+                // 使用 try-finally 确保结果对象被释放
+                try {
+                    if (!result.isEmpty()) {
+                        
+						await sleep(400); // 点击前稍作等待
+                        if (ifClick){
+						    click(result.x+extraWidth, result.y+extraHeight);
+						    log.info(`找到图片 ${imageName}，位置(${result.x}, ${result.y})，正在点击...`);
+						} 
+						else log.info(`找到图片 ${imageName}，位置(${result.x}, ${result.y})`);
+                        await sleep(200); // 点击后稍作等待
+                        return true;
+                    }
+                } finally {
+                    // 释放结果对象
+                    if (result && result.Dispose) {
+                        result.Dispose();
+                    }
+                }
+            } finally {
+                // 释放捕获区域
+                if (captureRegion && captureRegion.Dispose) {
+                    captureRegion.Dispose();
+                }
+            }
+            
+            await sleep(checkInterval);
+			
+			if(ifScroll){
+                for (let i = 0; i < scrollNum; i++) {
+                await keyMouseScript.runFile("assets/滚轮下滑.json");
+				await sleep(80);
+                }						
+			}
+        }
+    } finally {
+        // 释放模板图像
+        if (templateMat && templateMat.Dispose) {
+            templateMat.Dispose();
+        }
+    }
+    
+    throw new Error(`等待图片 ${imageName} 超时`);
+}
+
 async function isTaskCompleted(materialType, materialName, currentRequireCounts) {
     const tasks = await loadCompletedTasks();
     const taskKey = `${materialType}_${materialName}`;
@@ -68,6 +170,7 @@ async function isTaskCompleted(materialType, materialName, currentRequireCounts)
         return previousRequireCounts === currentRequireCounts;
     }
 }
+
 /**
  * 在指定区域内查找并点击指定文字
  * @param {string} targetText - 要点击的目标文字
@@ -186,6 +289,7 @@ async function clickTextInRegion(targetText, x=0, y=0, width=1920, height=1080, 
     log.info(`未找到文字: "${targetText}"，已尝试${retryCount + 1}次`);
     return false;
 }
+
 //获取BOSS材料数量
 async function getBossMaterialCount(bossName) {
 await genshin.returnMainUi();
@@ -228,17 +332,6 @@ log.info(`正在查询数量`);
         }
 }
 
-/**
- * 寻找特定图片并点击，未找到则滚动画面
- * @param {RecognitionObject} targetRo - 要寻找并点击的目标图片识别对象
- * @param {RecognitionObject} stopRo - 终止条件的图片识别对象(遇到此图片则停止)
- * @param {Object} options - 配置选项
- * @param {number} [options.maxAttempts=10] - 最大尝试次数
- * @param {number} [options.scrollDelay=1000] - 滚动后的等待时间(毫秒)
- * @param {number} [options.clickDelay=500] - 点击后的等待时间(毫秒)
- * @returns {Promise<void>}
- * @throws {Error} 当达到最大尝试次数或遇到终止图片时抛出错误
- */
 async function findAndClickWithScroll(targetRo, stopRo, options = {}) {
     const {
         maxAttempts = 10,
@@ -250,28 +343,31 @@ async function findAndClickWithScroll(targetRo, stopRo, options = {}) {
         // 1. 捕获当前游戏区域
         const captureRegion = captureGameRegion();
         
-        // 3. 寻找目标图片
-        const targetResult = captureRegion.find(targetRo);
-        if (!targetResult.isEmpty()) {
-            // 找到目标，点击并返回
-            log.info(`找到目标图片，位置: (${targetResult.x}, ${targetResult.y})`);
-            targetResult.click();
+        try {
+            // 3. 寻找目标图片
+            const targetResult = captureRegion.find(targetRo);
+            if (!targetResult.isEmpty()) {
+                // 找到目标，点击并返回
+                log.info(`找到目标图片，位置: (${targetResult.x}, ${targetResult.y})`);
+                targetResult.click();
+                await sleep(clickDelay);
+                return;
+            }
+            
+            // 4. 未找到目标，滚动画面
+            log.info(`第 ${attempt + 1} 次尝试未找到目标图片，将滚动画面...`);
+            for (let i = 0; i < scrollNum; i++) {
+                await keyMouseScript.runFile("assets/滚轮下滑.json");
+            }
+
+            // 2. 检查是否遇到终止图片
+            const stopResult = captureRegion.find(stopRo);
+            if (!stopResult.isEmpty()) {
+                throw new Error(`遇到终止图片，停止寻找目标图片。终止位置: (${stopResult.x}, ${stopResult.y})`);
+            }
+        } finally {
+            // 释放captureRegion占用的资源
             captureRegion.dispose();
-            await sleep(clickDelay);
-            return;
-        }
-
-        // 4. 未找到目标，滚动画面
-        log.info(`第 ${attempt + 1} 次尝试未找到目标图片，将滚动画面...`);
-        for (let i = 0; i < scrollNum; i++) {
-            await keyMouseScript.runFile("assets/滚轮下滑.json");
-        }
-
-        // 2. 检查是否遇到终止图片
-        const stopResult = captureRegion.find(stopRo);
-        captureRegion.dispose();
-        if (!stopResult.isEmpty()) {
-            throw new Error(`遇到终止图片，停止寻找目标图片。终止位置: (${stopResult.x}, ${stopResult.y})`);
         }
     }
     
@@ -319,11 +415,9 @@ let challengeTime = 0;
             await sleep(500);
             leftButtonClick();
             await sleep(100);
-            let ro = captureGameRegion();
-            let res = ro.find(RecognitionObject.ocr(840, 935, 230, 40));
-            ro.dispose();
+            let res = captureGameRegion().find(RecognitionObject.ocr(840, 935, 230, 40));
             if (res.text.includes("自动退出")) {
-                     log.info("检测到挑战成功");
+                     log.info("检测到挑战成功");           
                      return;
                 }
             }
@@ -365,50 +459,44 @@ const autoNavigateToReward = async () => {
         if (rewardResult.text == "接触征讨之花") {
             log.info(`总计前进第${advanceNum}次`);
             log.info("已到达领奖点，检测到文字: " + rewardResult.text);
-            captureRegion.dispose();
             return;
         }
         else if(advanceNum > 150){
-            log.info(`总计前进第${advanceNum}次`);
-            captureRegion.dispose();
-            throw new Error('前进时间超时');
+        log.info(`总计前进第${advanceNum}次`);
+        throw new Error('前进时间超时');
         }
         // 2. 未到达领奖点，则调整视野
         for(let i = 0; i < 100; i++){
-            captureRegion = captureGameRegion();
-            let iconRes = captureRegion.Find(boxIconRo);
-            let climbTextArea = captureRegion.DeriveCrop(1685, 1030, 65, 25);
-            let climbResult = climbTextArea.find(RecognitionObject.ocrThis);
-            captureRegion.dispose();
-            climbTextArea.dispose();
-            // 检查是否处于攀爬状态
-            if (climbResult.text == "Space"){
-            log.info("检侧进入攀爬状态，尝试脱离");
-            keyPress("x");
-            await sleep(1000);
-            keyDown("a");
-            await sleep(800);
-            keyUp("a");
-            keyDown("w");
-            await sleep(800);
-            keyUp("w");
-            }
-            if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {
-                advanceNum++;
-                break;
-            } else {
-                // 小幅度调整
-                if(iconRes.y >= 520)  moveMouseBy(0, 920);
-                let adjustAmount = iconRes.x < 920 ? -20 : 20;
-                let distanceToCenter = Math.abs(iconRes.x - 920); // 计算与920的距离
-                let scaleFactor = Math.max(1, Math.floor(distanceToCenter / 50)); // 根据距离缩放，最小为1
-                let adjustAmount2 = iconRes.y < 540 ? scaleFactor : 10;
-                moveMouseBy(adjustAmount * adjustAmount2, 0);
-                await sleep(100);
-            }
-            if(i > 20) {
-                throw new Error('视野调整超时');
-            }
+        captureRegion = captureGameRegion();
+        let iconRes = captureRegion.Find(boxIconRo);
+        let climbTextArea = captureRegion.DeriveCrop(1685, 1030, 65, 25);
+        let climbResult = climbTextArea.find(RecognitionObject.ocrThis);
+        // 检查是否处于攀爬状态
+        if (climbResult.text == "Space"){
+        log.info("检侧进入攀爬状态，尝试脱离");
+        keyPress("x");
+        await sleep(1000);
+        keyDown("a");
+        await sleep(800);
+        keyUp("a");
+        keyDown("w");
+        await sleep(800);
+        keyUp("w");
+        }
+        if (iconRes.x >= 920 && iconRes.x <= 980 && iconRes.y <= 540) {    
+            advanceNum++;
+            break;
+        } else {
+            // 小幅度调整
+            if(iconRes.y >= 520)  moveMouseBy(0, 920);
+            let adjustAmount = iconRes.x < 920 ? -20 : 20;
+            let distanceToCenter = Math.abs(iconRes.x - 920); // 计算与920的距离
+            let scaleFactor = Math.max(1, Math.floor(distanceToCenter / 50)); // 根据距离缩放，最小为1
+            let adjustAmount2 = iconRes.y < 540 ? scaleFactor : 10;
+            moveMouseBy(adjustAmount * adjustAmount2, 0);
+            await sleep(100);
+        }     
+  if(i > 20) throw new Error('视野调整超时');
     }
         // 3. 前进一小步
         keyDown("w");
@@ -429,12 +517,12 @@ function positiveIntegerJudgment(testNumber) {
     
     // 检查是否为有效的数字
     if (typeof testNumber !== 'number' || isNaN(testNumber)) {
-        throw new Error(`无效的值: ${testNumber} (必须为数字)`);
+        return 0;
     }
     
     // 检查是否为整数
     if (!Number.isInteger(testNumber)) {
-        throw new Error(`必须为整数: ${testNumber}`);
+        return 0;
     }
     
     return testNumber;
@@ -445,14 +533,13 @@ async function queryStaminaValue() {
         await genshin.returnMainUi();
         await sleep(2500);
         keyPress("F1"); 
-        await sleep(1800);
-        click(300, 540);
+        await sleep(1000);
+	    await clickTextInRegion("讨伐",0,0,700,1000);
         await sleep(500);
         click(1570, 203);
         await sleep(800);
         let captureRegion = captureGameRegion();
         let stamina = captureRegion.find(RecognitionObject.ocr(1580, 20, 210, 55));
-        captureRegion.dispose();
         log.info(`OCR原始文本：${stamina.text}`);
         const staminaText = stamina.text.replace(/\s/g, ''); // 移除所有空格
          const standardMatch = staminaText.match(/(\d+)/);
@@ -462,7 +549,7 @@ async function queryStaminaValue() {
                 if (validatedStamina > 11200) validatedStamina = (validatedStamina-1200)/10000;
            log.info(`返回体力值：${validatedStamina}`);
            return validatedStamina;
-            }
+            }       
     } catch (error) {
         log.error(`体力识别失败：${error.message}，默认为零`);
         await genshin.returnMainUi();
@@ -482,14 +569,13 @@ async function tpEndDetection() {
         let capture = captureGameRegion();
         let res1 = capture.find(region1);
         let res2 = capture.find(region2);
-        capture.dispose();
         if (!res1.isEmpty()|| !res2.isEmpty()){
             log.info("传送完成");
             await sleep(1000);//传送结束后有僵直
             click(960, 810);//点击任意处
             await sleep(500);
             return;
-        }
+        } 
         tpTime++;
         await sleep(100);
     }
@@ -550,8 +636,6 @@ const repeatOperationUntilTextFound = async ({
         
         // 2. 执行OCR识别
         const ocrResult = textArea.find(RecognitionObject.ocrThis);
-        captureRegion.dispose();
-        textArea.dispose();
         
         const hasAnyText = ocrResult.text.trim().length > 0;
         const matchesTarget = targetText === null 
@@ -564,7 +648,7 @@ const repeatOperationUntilTextFound = async ({
             if (ifClick) click(Math.round(x + width / 2), Math.round(y + height / 2));
             return true;
         }
-
+        
         // 4. 检查步数限制
         if (stepsTaken >= maxSteps) {
             throw new Error(`检查次数超过最大限制: ${maxSteps}，未查询到文字"${targetText}"`);
@@ -616,7 +700,6 @@ threshold = 0.8 // 新增阈值参数，默认值0.8
         const captureRegion = captureGameRegion();
         // 查找图片
         const result = captureRegion.Find(recognitionObj);
-        captureRegion.dispose();
         
         if (!result.isEmpty()) {
             log.info(`找到图片 ${imageName}，位置(${result.x}, ${result.y})，正在点击...`);
@@ -624,7 +707,7 @@ threshold = 0.8 // 新增阈值参数，默认值0.8
             await sleep(300); // 点击后稍作等待
             return true;
         }
-
+        
         await sleep(checkInterval);
     }
     
@@ -652,7 +735,6 @@ async function findImageAndOCR(imagePath, ocrWidth, ocrHeight, offsetX, offsetY)
         
         if (foundRegion.isEmpty()) {
             log.info(`未找到模板图片: ${imagePath}`);
-            captureRegion.dispose();
             return false;
         }
         
@@ -665,7 +747,6 @@ async function findImageAndOCR(imagePath, ocrWidth, ocrHeight, offsetX, offsetY)
         // 4. 创建OCR识别对象并识别
         const ocrRo = RecognitionObject.Ocr(ocrX, ocrY, ocrWidth, ocrHeight);
         const ocrResult = captureRegion.Find(ocrRo);
-        captureRegion.dispose();
         
         if (ocrResult.isEmpty() || !ocrResult.text || ocrResult.text.trim() === "") {
             log.info("OCR未识别到内容");
@@ -685,20 +766,18 @@ async function findImageAndOCR(imagePath, ocrWidth, ocrHeight, offsetX, offsetY)
 //前往刷天赋书或者武器(必须保证在材料介绍页面)await gotoAutoDomain(imageName = "weaponDomain");
 async function gotoAutoDomain(imageName = "bookDomain") {
 await sleep(1000);
-
- //拖动操作，避免文本描述太长，导致副本传送图标消失
 moveMouseTo(960, 580);//重置鼠标位置,居中
 leftButtonDown();
-await sleep(500);
-moveMouseTo(965, 700);
-await sleep(500);
-moveMouseTo(961, 300);
-await sleep(500);
-leftButtonUp();
-await sleep(500);
-moveMouseTo(50, 50);//移动鼠标到左上角，避免检测失败
-await sleep(400);
-    
+            await sleep(500);
+            moveMouseTo(965, 700);
+            await sleep(500);
+            moveMouseTo(961, 300);
+            await sleep(500);
+            leftButtonUp();
+            await sleep(500);
+            moveMouseTo(50, 50);//移动鼠标到左上角，避免检测失败
+            await sleep(400);
+
 await waitAndClickImage(imageName);
     try {
  await repeatOperationUntilTextFound({x: 1640,y: 960,width: 200,height: 100,targetText: "传送",stepDuration: 0, maxSteps:25, waitTime:100,ifClick: true});//用来等待点击文字,10s等待
@@ -713,6 +792,7 @@ await tpEndDetection();
 await sleep(3000);//枫丹天赋材料本门口有水晶碟，可能影响
 await repeatOperationUntilTextFound();
 keyPress("F");
+await sleep(2000);
 await dispatcher.runTask(new SoloTask("AutoDomain", {  SpecifyResinUse: true,  
 // 原粹树脂刷取次数  
 OriginalResinUseCount: 1,   
@@ -753,8 +833,11 @@ const bookToPosition = {
     //挪德卡莱
     "浪迹": {country: "挪德卡莱天赋", row: 2},
     "乐园": {country: "挪德卡莱天赋", row: 1},
-    "月光": {country: "挪德卡莱天赋", row: 0}
-
+    "月光": {country: "挪德卡莱天赋", row: 0},
+    // 至冬
+    "慈爱": {country: "至冬天赋", row: 0},
+    "坚忍": {country: "至冬天赋", row: 1},
+    "荣光": {country: "至冬天赋", row: 2},
 };
 
 // 品质对应的列位置
@@ -793,7 +876,12 @@ const weaponMaterialToPosition = {
     //挪德卡莱
     "终北遗嗣": {country: "挪德卡莱武器", row: 2},
     "长夜燧火": {country: "挪德卡莱武器", row: 1},
-    "奇巧秘器": {country: "挪德卡莱武器", row: 0}
+    "奇巧秘器": {country: "挪德卡莱武器", row: 0},
+    // 至冬
+    "苍星军势": {country: "至冬武器", row: 0},
+    "藏窖灵浆": {country: "至冬武器", row: 1},
+    "凛雪帝皇": {country: "至冬武器", row: 2},	
+	
 };
 
 // 武器材料品质对应的列位置和品质名称（4种品质）
@@ -828,21 +916,8 @@ async function getMaterialCount(bookName) {
 		await clickTextInRegion("天赋突破素材",510,0,960,1000);
         // 1. 进入对应国家的副本
         log.info(`正在点击${country}副本...`);
-        try {
-        await waitAndClickImage(country, 700, 35, true, 1000);
-        } catch (error) {
-        await sleep(500);
-        moveMouseTo(1600, 300);
-        leftButtonDown();
-        await sleep(500);
-       moveMouseTo(1600, 700);
-        await sleep(500);
-        moveMouseTo(1600, 500);
-        await sleep(100);
-        leftButtonUp();
-        await sleep(1000);
-        await waitAndClickImage(country, 700, 35, true, 3000);
-        }
+        moveMouseTo(1600, 320);
+	    await waitAndClickImage1(country,true,30000,700,35,true,10);
         // 等待加载
         await sleep(500);
         
@@ -912,21 +987,8 @@ async function getWeaponMaterialCount(materialName) {
 		await clickTextInRegion("武器突破素材",510,0,960,1000);
         // 1. 进入对应国家的副本
         log.info(`正在点击${country}副本...`);
-        try {
-        await waitAndClickImage(country, 700, 35, true, 1000);
-        } catch (error) {
-        await sleep(500);
-        moveMouseTo(1600, 300);
-        leftButtonDown();
-        await sleep(500);
-       moveMouseTo(1600, 700);
-        await sleep(500);
-        moveMouseTo(1600, 500);
-        await sleep(100);
-        leftButtonUp();
-        await sleep(1000);
-        await waitAndClickImage(country, 700, 35, true, 3000);
-        }
+		moveMouseTo(1600, 320);
+	    await waitAndClickImage1(country,true,30000,700,35,true,10);
         // 等待加载
         await sleep(500);
         
@@ -1077,6 +1139,11 @@ if(afterStamina< 20) skipCheckStamina = 0;
 }
 }
 
+const bossNameSum = [
+    "超重型陆巡舰·机动战垒",
+    "不灭衍生造物",
+];
+
 //去刷boss材料
 async function getBossMaterial(bossName,bossRequireCounts) {
 while(1){
@@ -1094,17 +1161,17 @@ if(afterStamina< 20) skipCheckStamina = 0;
                      log.info(`${bossName}还差${res}个材料没有刷取`);
                      if(!settings.teamName) throw new Error('未输入队伍名称');
                      await genshin.returnMainUi();
-                     await genshin.switchParty(settings.teamName);
+					
                      if(settings.energyMax) await restoredEnergy();
                      else await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
+					 await genshin.switchParty(settings.teamName);
+					 await sleep(1000);
                      log.info(`前往讨伐${bossName}`);
                      await pathingScript.runFile(`assets/goToBoss/${bossName}前往.json`);
-                 	 if(bossName=="超重型陆巡舰·机动战垒"){
-					 keyDown("w");
-					 await sleep(16000);
-					 keyUp("w");
-					 }
-                     await sleep(500);
+					 if (bossNameSum.includes(bossName)) await keyMouseScript.runFile(`assets/goToBoss/${bossName}前往键鼠.json`);
+					
+					 
+                     await sleep(100);
                      log.info(`开始战斗`);
                      try {
                          await dispatcher.runTask(new SoloTask("AutoFight"));
@@ -1113,12 +1180,7 @@ if(afterStamina< 20) skipCheckStamina = 0;
                          log.info(`挑战失败，再来一次`);
                          await genshin.tp(2297.6201171875,-824.5869140625);//传送到神像回血
                          await pathingScript.runFile(`assets/goToBoss/${bossName}前往.json`);
-                         if(bossName=="超重型陆巡舰·机动战垒"){
-					     keyDown("w");
-					     await sleep(16000);
-					     keyUp("w");
-					     }
-				 
+                         if (bossNameSum.includes(bossName)) await keyMouseScript.runFile(`assets/goToBoss/${bossName}前往键鼠.json`);
                          await dispatcher.runTask(new SoloTask("AutoFight"));
                      }
                      await sleep(1000);
@@ -1250,7 +1312,4 @@ else log.info(`没有选择挑战首领${i+1}，跳过执行`);
 sendBufferedNotifications();//发送累积的完成信息
 
 })();
-
-
-
 

@@ -4,10 +4,26 @@
  */
 import { COMMISSION_TYPE, COMMISSION_STATUS, OCR_REGIONS, UI_REGIONS } from "../config/index.js";
 import { bvPageOcrRegion, bvPageOcrRegionText, pageScroll, detectCommissionStatusByImage } from "../vision/index.js";
+import { drawBox } from "../vision/draw-utils.js";
 import { standardizeCommissionName, standardizeCommissionLocation } from "./commission-standardizer.js";
 import { getCommissionPosition, clickCommissionAndOpenMap, resolveCommissionNameOcrRegions } from "./commission-scanner.js";
 import { isCancellationError } from "../utils/error-utils.js";
 import { RO } from "../vision/index.js";
+
+/** 读取当前委托页面上的冒险历练点数。 */
+export async function ocrEncounterPoints() {
+    await drawBox(true, UI_REGIONS.ENCOUNTER_POINTS, 200, new Pen(Color.FromArgb(255, 0, 255, 178), 2));
+    const result = bvPageOcrRegionText(UI_REGIONS.ENCOUNTER_POINTS);
+    const filteredText = result.replace(/[^0-9.]/g, "");
+    return parseFloat(filteredText) || 0;
+}
+
+/** 判断当前委托页面的冒险历练点数是否达到执行阈值。 */
+export async function checkEncounterPoints(minPointNumber = 4) {
+    const pointNumber = await ocrEncounterPoints();
+    log.info("当前历练点: {pointNumber}", pointNumber);
+    return pointNumber >= minPointNumber;
+}
 
 /**
  * 输出单个委托完成识别后的紧凑摘要。

@@ -9,6 +9,7 @@ export function normalizeGlobalConfig(config) {
     const next = isPlainObject(config) ? config : {};
     return {
         skipSafeTeleport: next.skipSafeTeleport === true,
+        checkEncounterPoints: next.checkEncounterPoints === true,
     };
 }
 

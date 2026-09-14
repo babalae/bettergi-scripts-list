@@ -3,13 +3,13 @@
     "authors": [
       {
         "links": "",
-        "name": "Leeon_666"
+        "name": "蜜柑魚"
       }
     ],
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787463718403,
+    "last_modified_time": 1789059491713,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "至冬-曙光车站-哲列兹诺夫",
@@ -50,9 +50,18 @@
       "action_params": "",
       "id": 4,
       "move_mode": "walk",
+      "type": "path",
+      "x": 7831.04,
+      "y": 8488.0088
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 5,
+      "move_mode": "walk",
       "type": "target",
-      "x": 7829.8447,
-      "y": 8491.667
+      "x": 7830.7861,
+      "y": 8492.8262
     }
   ]
 }

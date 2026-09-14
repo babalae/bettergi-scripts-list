@@ -3,7 +3,7 @@
  * 脚本的主入口逻辑
  */
 import { loadSupportedCommissions, saveCommissionsData } from "../data/index.js";
-import { recognizeCommissions, initCommissionReferenceData } from "../recognition/index.js";
+import { recognizeCommissions, initCommissionReferenceData, checkEncounterPoints } from "../recognition/index.js";
 import { executeCommissionTracking } from "./commission-executor.js";
 import { enterCommissionScreen } from "../vision/index.js";
 import { loadGlobalConfig } from "../loaders/global-config.js";
@@ -12,7 +12,7 @@ import { scanCommissionScopes } from "../loaders/process-scope.js";
 /**
  * 委托识别主函数
  * @param {Array} [commissionScopes] - 可复用的流程范围快照；不传时扫描一次流程目录
- * @returns {Promise<Array>} 识别到的委托列表；失败时返回 []
+ * @returns {Promise<{commissions: Array, skippedByEncounterPoints: boolean}>}
  */
 export async function identification(commissionScopes) {
     try {
@@ -26,7 +26,15 @@ export async function identification(commissionScopes) {
 
         await initCommissionReferenceData(supportedCommissions, scopes);
 
-        await enterCommissionScreen();
+        if (!await enterCommissionScreen()) {
+            return { commissions: [], skippedByEncounterPoints: false };
+        }
+
+        const globalConfig = loadGlobalConfig();
+        if (globalConfig.checkEncounterPoints && await checkEncounterPoints()) {
+            log.info("历练点充足，跳过本次委托");
+            return { commissions: [], skippedByEncounterPoints: true };
+        }
 
         const commissions = await recognizeCommissions(supportedCommissions);
 
@@ -37,11 +45,11 @@ export async function identification(commissionScopes) {
         } else {
             throw new Error("委托识别失败或未识别到任何委托");
         }
-        return commissions;
+        return { commissions, skippedByEncounterPoints: false };
     } catch (error) {
         log.error("识别委托时出错: {error}", error.message);
         log.debug("错误详情: {error}", error);
-        return [];
+        return { commissions: [], skippedByEncounterPoints: false };
     }
 }
 
@@ -68,7 +76,11 @@ export async function prepareForCommission() {
  */
 export async function executeMainProcess(stepRegistry, commissionScopes) {
     try {
-        await identification(commissionScopes);
+        const identificationResult = await identification(commissionScopes);
+        if (identificationResult.skippedByEncounterPoints) {
+            await genshin.returnMainUi();
+            return;
+        }
 
         await prepareForCommission();
 

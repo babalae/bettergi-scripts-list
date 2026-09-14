@@ -38,7 +38,10 @@ async function detectTextInRegion(x, y, width, height, targetText) {
         }
         
         // 如果传入了目标文字，则进行匹配
-        if (detectedText.includes(targetText)) {
+        // OCR 偶尔会把“天地万象”首字识别为“大”，保留唯一后缀作为容错。
+        const targetMatched = detectedText.includes(targetText)
+            || (targetText === "天地" && detectedText.includes("地万象"));
+        if (targetMatched) {
             log.info(`检测到目标文字：${targetText}`);
             return detectedText;
         }

@@ -757,19 +757,20 @@
             content += `${name}::${records[name]}\n`;
         }
 
-        try {
-            // 尝试创建目录（如果环境支持）
+        // 发布包中会携带 record 目录；这里仍为旧安装或目录被删除的情况兜底。
+        if (typeof file.mkdir === 'function') {
             try {
-                if (typeof file.mkdir === 'function') {
-                    file.mkdir('record');
-                }
+                await file.mkdir('record');
             } catch (e) {
-                // 忽略目录创建错误
+                // 目录已存在时部分运行环境也会抛错，交给实际写入结果判断。
             }
+        }
 
+        try {
             await file.writeText(cdRecordPath, content);
         } catch (e) {
-            log.error(`写入CD记录失败: ${e}`);
+            log.error(`写入CD记录失败，任务下次仍会执行: ${e}`);
+            throw new Error(`无法保存CD记录 ${cdRecordPath}: ${e.message || e}`);
         }
     }
 
@@ -953,10 +954,16 @@
 
             await switchPartyIfNeeded(akfTeam);
             const completed = await runAkfMachine();
-            if (!completed) { return; }
+            if (!completed) {
+                // 爱可菲流程已启动但在等待奖励时超时。按周一 4 点刷新规则写入保护性 CD，
+                // 避免奖励 OCR 偶发失败时每天重复执行。
+                updatedRecords[routeName] = getNextMonday4AMISO();
+                await writeCDRecords(updatedRecords);
+                log.warn("爱可菲流程超时，已记录至下周一4点CD，避免重复执行");
+                return;
+            }
 
-            const now = new Date();
-            updatedRecords[routeName] = new Date(now.getTime() + ((6 * 24 + 22) * 3600000)).toISOString();
+            updatedRecords[routeName] = getNextMonday4AMISO();
             await writeCDRecords(updatedRecords);
             log.info("本周爱可菲任务已完成！");
         } catch (error) {

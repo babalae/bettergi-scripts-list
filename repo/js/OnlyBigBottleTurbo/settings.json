@@ -1,0 +1,64 @@
+[
+    {
+        "name": "maxStar",
+        "type": "select",
+        "label": "允许分解的最高星级（五星始终禁止）",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4"
+        ],
+        "default": "3"
+    },
+    {
+        "name": "bottleType",
+        "type": "select",
+        "label": "目标经验瓶类型",
+        "options": [
+            "只要大瓶",
+            "只要小瓶"
+        ],
+        "default": "只要大瓶"
+    },
+    {
+        "name": "autoSwitchCount",
+        "type": "input-text",
+        "label": "自动切换临界小瓶数量\n填写后，每次运行都会识别小瓶数量：达到或超过该值时选择“只要大瓶”，否则选择“只要小瓶”\n留空则不识别，并使用上方目标经验瓶类型\n填写0可固定选择“只要大瓶”并启用数量识别"
+    },
+    {
+        "name": "recognizeBig",
+        "type": "checkbox",
+        "label": "同时识别大瓶数量并发送大小瓶数量通知\n仅在填写自动切换临界小瓶数量时生效"
+    },
+    {
+        "name": "Threshold1",
+        "type": "input-text",
+        "label": "圣遗物星级识别阈值（0-1）\n误识别时适当调高，漏识别时适当调低",
+        "default": "0.97"
+    },
+    {
+        "name": "Threshold2",
+        "type": "input-text",
+        "label": "经验瓶产物识别阈值（0-1）\n未达到目标就停止时适当调高，超过目标仍继续选择时适当调低",
+        "default": "0.99"
+    },
+    {
+        "name": "fastClickMoveDelayMs",
+        "type": "input-text",
+        "label": "极速点击：鼠标移动后等待（毫秒，0-100）",
+        "default": "2"
+    },
+    {
+        "name": "fastClickHoldMs",
+        "type": "input-text",
+        "label": "极速点击：鼠标按住时长（毫秒，10-100）",
+        "default": "10"
+    },
+    {
+        "name": "fastClickSettleMs",
+        "type": "input-text",
+        "label": "极速点击：点击后稳定等待（毫秒，20-200；漏点时优先调高）",
+        "default": "20"
+    }
+]
