@@ -6,13 +6,13 @@
         "name": "ddaodan"
       }
     ],
-    "bgi_version": "0.63.1",
-    "description": "由于录制时还不支持分层地图，洞窟中的5个无法采集",
+    "bgi_version": "0.63.2",
+    "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1786686884832,
+    "last_modified_time": 1786635933963,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "07-植绒草-至冬-汐歌洞窟-9个",
+    "name": "05-植绒草-霜殛寒峰-10个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,35 +24,35 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6647.4111,
-      "y": 7769.8589
+      "x": 6650.5137,
+      "y": 8319.9873
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 2,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 6648.3037,
-      "y": 7762.5703
+      "x": 6637.1396,
+      "y": 8331.1504
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 6639.915,
-      "y": 7784.7725
+      "x": 6630.7236,
+      "y": 8325.2559
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 6614.5947,
-      "y": 7823.7695
+      "x": 6625.9365,
+      "y": 8323.8887
     },
     {
       "action": "",
@@ -60,17 +60,17 @@
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": 6611.6855,
-      "y": 7826.1675
+      "x": 6615.7432,
+      "y": 8329.6191
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 6,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": 6611.2188,
-      "y": 7828.2988
+      "x": 6583.8965,
+      "y": 8371.2695
     },
     {
       "action": "",
@@ -78,8 +78,8 @@
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": 6580.9629,
-      "y": 7827.0688
+      "x": 6583.6309,
+      "y": 8374.1865
     },
     {
       "action": "",
@@ -87,17 +87,44 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 6559.29,
-      "y": 7843.6934
+      "x": 6581.166,
+      "y": 8384.5586
     },
     {
       "action": "",
       "action_params": "",
       "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6611.4863,
+      "y": 8381.9668
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
       "move_mode": "walk",
       "type": "path",
-      "x": 6555.2422,
-      "y": 7842.4448
+      "x": 6611.8945,
+      "y": 8378.6553
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6637.8242,
+      "y": 8423.4307
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6638.2539,
+      "y": 8429.4912
     }
   ]
 }

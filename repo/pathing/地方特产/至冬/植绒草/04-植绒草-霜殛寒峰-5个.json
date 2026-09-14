@@ -6,13 +6,13 @@
         "name": "ddaodan"
       }
     ],
-    "bgi_version": "0.63.1",
+    "bgi_version": "0.63.2",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1786635603759,
+    "last_modified_time": 1786637235404,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "01-植绒草-至冬-霜殛寒峰-9个",
+    "name": "04-植绒草-霜殛寒峰-5个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,44 +24,44 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6940.1855,
-      "y": 8730.3184
+      "x": 6796.1367,
+      "y": 8521.6738
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(1)",
       "id": 2,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 6929.1016,
-      "y": 8781.9023
+      "x": 6797.1895,
+      "y": 8530.166
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 6921.3652,
-      "y": 8820.4873
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6893.8555,
+      "y": 8388.7539
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 6922.0693,
-      "y": 8815.6533
+      "x": 6919.3154,
+      "y": 8376.7734
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "stop_flying",
+      "action_params": "1000",
       "id": 5,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": 6919.9932,
-      "y": 8813.3486
+      "x": 7094.1494,
+      "y": 8329.7607
     },
     {
       "action": "",
@@ -69,8 +69,8 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 6915.46,
-      "y": 8813.6113
+      "x": 7096.8857,
+      "y": 8329.8779
     },
     {
       "action": "",
@@ -78,17 +78,17 @@
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": 6909.415,
-      "y": 8806.3105
+      "x": 7101.75,
+      "y": 8329.7285
     },
     {
       "action": "",
       "action_params": "",
       "id": 8,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 6869.4893,
-      "y": 8824.9834
+      "x": 7100.1494,
+      "y": 8332.2061
     },
     {
       "action": "",
@@ -96,8 +96,8 @@
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": 6863.9287,
-      "y": 8825.3594
+      "x": 7091.1641,
+      "y": 8338.3848
     },
     {
       "action": "",
@@ -105,26 +105,8 @@
       "id": 10,
       "move_mode": "walk",
       "type": "path",
-      "x": 6858.4395,
-      "y": 8831.2822
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 11,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 6856.7754,
-      "y": 8837.4551
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 12,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 6860.041,
-      "y": 8838.8838
+      "x": 7087.7021,
+      "y": 8336.5576
     }
   ]
 }
