@@ -1,3 +1,5 @@
+import { parseLevelRange } from './level-state.js';
+
 /**
  * 解析 BetterGI 设置页中的简洁目标文本。
  * 支持中文/英文标点、全角箭头和换行，例如：
@@ -21,7 +23,7 @@ export function parseTargetText(input, rulebook) {
     if (parts.length > 2 || parts.some((part) => !part)) {
       throw new Error(`${label}的等级或天赋格式错误`);
     }
-    const level = parseRange(parts[0], `${label}的等级`, 90);
+    const level = parseLevelRange(parts[0], `${label}的等级`, 90);
     const isCharacter = Boolean(rulebook.characters?.[name]);
     const isWeapon = Boolean(rulebook.weapons?.[name]);
     if (!isCharacter && !isWeapon) {

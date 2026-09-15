@@ -12,7 +12,11 @@ const DOMAIN_EXPECTED_BASE_YIELD = {
  * 培养秘境按最高难度的公开统计均值；周本和圣遗物不显示预计天数。
  */
 export function buildCompletionEstimate({ plan, materials, recipes = {}, today, dailyResinBudget = DAILY_RESIN_BUDGET }) {
-  const shortages = (plan.displayShortages ?? []).filter((item) => item.shortage > 0);
+  const displayShortages = plan.displayShortages ?? [];
+  if (displayShortages.some((item) => item.status === 'unknown')) {
+    return { days: null, reason: '背包库存未确认，暂无法估算', details: [] };
+  }
+  const shortages = displayShortages.filter((item) => item.shortage > 0);
   if (shortages.length === 0) return { days: 0, reason: '材料已满足', details: [] };
 
   const groups = new Map();

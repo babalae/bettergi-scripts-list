@@ -1,4 +1,5 @@
 import { isBossTaskEnabled } from './boss-executor.js';
+import { createExecutionOutcome } from './execution-outcome.js';
 
 /** 实际执行前的配置检查。 */
 export function collectExecutionWarnings(plan, settings) {
@@ -52,6 +53,21 @@ export function collectExecutionWarnings(plan, settings) {
     warnings.push(`怪物材料仍有缺口，但未找到可执行路线：${formatRouteNames(missingRoutes, 'monster')}`);
   }
   return warnings;
+}
+
+/** 将执行前警告转换为可供历史和邮件消费的统一结果。 */
+export function collectExecutionWarningOutcomes(plan, settings) {
+  return collectExecutionWarnings(plan, settings).map((message, index) => createExecutionOutcome({
+    taskId: `preflight:${index + 1}`,
+    taskType: 'preflight',
+    targetName: null,
+    status: 'unconfirmed',
+    code: 'config_warning',
+    stage: 'preflight',
+    severity: 'warning',
+    retryable: false,
+    message,
+  }));
 }
 
 function formatRouteNames(routes, type) {

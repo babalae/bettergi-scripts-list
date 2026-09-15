@@ -1,4 +1,5 @@
 import { collectCraftingMaterialIds } from './crafting.js';
+import { createExecutionOutcome } from './execution-outcome.js';
 
 /** 将已发现路线转换为可执行配置；路径必须是 AutoPathing 根目录下的相对 JSON 路径。 */
 export function buildRouteExecutionPlan(routes, settings, recipes = {}) {
@@ -72,12 +73,14 @@ export async function runSubscribedRouteFile(pathing, routePath) {
 }
 
 /** 将整次运行结束时的背包总差值回填到路线记录。 */
-export function applyFinalRouteInventoryGains(records, before, after) {
+export function applyFinalRouteInventoryGains(records, before, after, { unreliableMaterialIds = [] } = {}) {
+  const unreliableIds = new Set(unreliableMaterialIds.map(String));
   return records.map((record) => {
     const routeMaterials = (record.materials ?? []).map((item) => {
       const previous = before[item.materialId];
       const current = after[item.materialId];
-      const gained = Number.isInteger(previous) && Number.isInteger(current) && current > previous
+      const gained = !unreliableIds.has(String(item.materialId))
+        && Number.isInteger(previous) && Number.isInteger(current) && current > previous
         ? current - previous
         : 0;
       return { ...item, gained };
@@ -87,7 +90,22 @@ export function applyFinalRouteInventoryGains(records, before, after) {
     const confirmedGain = routeMaterials.some((item) => item.gained > 0);
     return {
       ...record,
-      status: confirmedGain ? 'completed' : 'unconfirmed',
+      ...createExecutionOutcome({
+        taskId: record.taskId ?? `route:${record.type}:${record.name}`,
+        taskType: 'route',
+        targetName: record.name,
+        status: confirmedGain ? 'completed' : 'unconfirmed',
+        code: confirmedGain ? 'reward_confirmed' : 'reward_unconfirmed',
+        stage: 'reward',
+        severity: confirmedGain ? 'info' : 'warning',
+        message: confirmedGain ? '已由全部任务结束后的背包差值确认路线收益' : '全部任务结束后的背包复核未确认到材料增长',
+        evidence: {
+          ...(record.evidence ?? {}),
+          inventoryGains: gained,
+        },
+        startedAt: record.startedAt ?? null,
+        endedAt: new Date().toISOString(),
+      }),
       reason: confirmedGain ? null : '全部任务结束后的背包复核未确认到材料增长',
       materials: routeMaterials,
       gained,

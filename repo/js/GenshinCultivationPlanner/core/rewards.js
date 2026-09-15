@@ -40,12 +40,14 @@ export function reconcileRewardEvidence({
   inventoryAfter,
   trackedMaterialIds,
   materials,
+  inventoryBeforeIssueNames = [],
+  inventoryAfterIssueNames = null,
   inventoryIssueNames = [],
   taskRecognizedRewards = {},
   taskExecutionType = '',
 }) {
   const adjustedInventory = { ...inventoryAfter };
-  const inventoryTrackedRewards = buildTrackedInventoryGains(
+  const rawInventoryTrackedRewards = buildTrackedInventoryGains(
     inventoryBefore,
     inventoryAfter,
     trackedMaterialIds,
@@ -54,7 +56,11 @@ export function reconcileRewardEvidence({
   const taskTrackedRewards = taskExecutionType === 'artifactDomain'
     ? {}
     : filterTrackedRewards(taskRecognizedRewards, trackedMaterialIds, materials);
-  const issueNames = new Set(inventoryIssueNames);
+  const beforeIssueNames = new Set(inventoryBeforeIssueNames);
+  const afterIssueNames = new Set(inventoryAfterIssueNames ?? inventoryIssueNames);
+  const issueNames = new Set([...beforeIssueNames, ...afterIssueNames]);
+  const inventoryTrackedRewards = Object.fromEntries(Object.entries(rawInventoryTrackedRewards)
+    .filter(([name]) => !issueNames.has(name)));
   const trackedRewards = {};
   const gainSources = {};
   const rewardDiscrepancies = [];
@@ -77,8 +83,10 @@ export function reconcileRewardEvidence({
 
     trackedRewards[name] = taskGain;
     gainSources[name] = 'task-recognition';
-    const previous = inventoryBefore[materialId];
-    if (Number.isInteger(previous)) adjustedInventory[materialId] = previous + taskGain;
+    if (afterIssueNames.has(name)) {
+      const previous = inventoryBefore[materialId];
+      if (Number.isInteger(previous)) adjustedInventory[materialId] = previous + taskGain;
+    }
   }
 
   return {

@@ -37,6 +37,7 @@ export function applyInventoryScanResult(inventory, scanItems, counts, options =
   const nextInventory = { ...inventory };
   const scanByName = new Map(scanItems.map((item) => [item.name, item]));
   const failedNames = [];
+  const notFoundNames = [];
   const unrecognizedNames = [];
   const decreasedNames = [];
 
@@ -46,9 +47,12 @@ export function applyInventoryScanResult(inventory, scanItems, counts, options =
       failedNames.push(name);
       continue;
     }
-    if ((count === undefined || count === -1) && options.notFoundAsUnknown === true) {
-      unrecognizedNames.push(name);
-      continue;
+    if (count === undefined || count === -1) {
+      notFoundNames.push(name);
+      if (options.notFoundAsUnknown === true) {
+        unrecognizedNames.push(name);
+        continue;
+      }
     }
     const scannedCount = count === undefined || count === -1 ? 0 : count;
     const previousCount = nextInventory[item.materialId];
@@ -61,5 +65,30 @@ export function applyInventoryScanResult(inventory, scanItems, counts, options =
     nextInventory[item.materialId] = scannedCount;
   }
 
-  return { inventory: nextInventory, failedNames, unrecognizedNames, decreasedNames };
+  return { inventory: nextInventory, failedNames, notFoundNames, unrecognizedNames, decreasedNames };
+}
+
+/**
+ * 某个合成链材料的当前数量不可靠时，整条 3:1 合成链都不能继续参与缺口计算。
+ * 否则中阶材料漏识别后，高阶需求仍可能被当作真实缺口并触发重复刷取。
+ */
+export function invalidateCraftingFamilies(inventory, uncertainMaterialIds, recipes = {}) {
+  const invalidatedIds = new Set((uncertainMaterialIds ?? []).map(String));
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const [outputId, recipe] of Object.entries(recipes)) {
+      const familyIds = [String(outputId), ...(recipe.inputs ?? []).map((input) => String(input.id))];
+      if (!familyIds.some((id) => invalidatedIds.has(id))) continue;
+      for (const id of familyIds) {
+        if (invalidatedIds.has(id)) continue;
+        invalidatedIds.add(id);
+        changed = true;
+      }
+    }
+  }
+
+  const nextInventory = { ...inventory };
+  for (const materialId of invalidatedIds) delete nextInventory[materialId];
+  return { inventory: nextInventory, invalidatedIds: [...invalidatedIds] };
 }

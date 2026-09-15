@@ -4,9 +4,10 @@ import { isBossTaskEnabled } from './boss-executor.js';
  * 当天没有培养树脂任务时，构造用户主动启用的圣遗物秘境填充任务。
  * 不根据角色自动推断圣遗物套装，避免替用户做配装决策。
  */
-export function appendArtifactFallbackTask(plan, settings) {
+export function appendArtifactFallbackTask(plan, settings, resinPolicyV2 = null) {
   if (settings.artifactDomainEnabled !== true || !settings.artifactDomainName?.trim()) return plan;
-  if (plan.todayQueue.some((task) => isExecutableCultivationTask(task, settings))) return plan;
+  const allowAfterCultivation = resinPolicyV2?.mode === 'custom';
+  if (!allowAfterCultivation && plan.todayQueue.some((task) => isExecutableCultivationTask(task, settings))) return plan;
   if (plan.todayQueue.some((task) => task.executionType === 'artifactDomain')) return plan;
   plan.todayQueue.push({
     materialId: `artifact:${settings.artifactDomainName.trim()}`,
