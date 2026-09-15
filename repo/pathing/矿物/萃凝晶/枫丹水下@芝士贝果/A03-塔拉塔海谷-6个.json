@@ -1,0 +1,76 @@
+{
+  "info": {
+    "name": "A03-塔拉塔海谷-6个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.50.0",
+    "tags": [],
+    "last_modified_time": 1755600892944,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4328.417,
+      "y": 3961.0061,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4328.417,
+      "y": 3961.0061,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL);wait(5);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,571)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4349.5811,
+      "y": 3957.8794,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4361.1631,
+      "y": 3948.9119,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keydown(VK_LCONTROL);wait(3);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,571)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4363.2725,
+      "y": 3954.075,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4356.8379,
+      "y": 3943.4343,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    }
+  ]
+}

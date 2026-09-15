@@ -1,0 +1,151 @@
+{
+  "info": {
+    "name": "A03-蒙德-苍风高地-清泉镇-4个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.54.0",
+    "tags": [],
+    "last_modified_time": 1752214587753,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -872.94,
+      "y": 1993.62,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -876.53,
+      "y": 1975.49,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -880.65,
+      "y": 1955.16,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -903.92,
+      "y": 1895.1,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -902.65,
+      "y": 1862.92,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -892.07,
+      "y": 1855.87,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -874.17,
+      "y": 1864.1,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": -874.17,
+      "y": 1864.1,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(6)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": -874.17,
+      "y": 1864.1,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -875.47,
+      "y": 1878.5,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -869.13,
+      "y": 1897.24,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -869.13,
+      "y": 1897.24,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": -869.13,
+      "y": 1897.24,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(6)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": -869.13,
+      "y": 1897.24,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

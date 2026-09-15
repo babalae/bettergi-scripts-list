@@ -1,0 +1,79 @@
+{
+  "info": {
+    "name": "10-奇怪的丘丘人-蒙德-达达乌帕谷",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1432.65,
+      "y": 1464.61
+    },
+    {
+      "id": 2,
+      "x": -1443.85,
+      "y": 1477.51,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 3,
+      "x": -1445.26,
+      "y": 1494.35,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 4,
+      "x": -1453.6,
+      "y": 1504.53,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -1461.21,
+      "y": 1495.88,
+      "type": "path",
+      "move_mode": "climb",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": -1504.8,
+      "y": 1472.17,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": -1525.22,
+      "y": 1471.32,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": -1544.82,
+      "y": 1464.74,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "2个甜甜花；3个树莓；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762349608210,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C41-3-稻妻食材-鹤观-千来神饲",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2810.8848,
+      "y": -6048.5566
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2812.7617,
+      "y": -6075.1484
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -2815.5996,
+      "y": -6083.0459
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2823.3535,
+      "y": -6093.5244
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2833.1719,
+      "y": -6105.2803
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2836.0996,
+      "y": -6114.1797
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Patrick-Ze",
+        "name": "Ayaka-Main"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784353012075,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "[蒙德] 杉木x18",
+    "tags": [
+      "王树瑞佑",
+      "伐木"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -251.59,
+      "y": 2256.59
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -231.84,
+      "y": 2219.85
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "climb",
+      "type": "path",
+      "x": -221.59,
+      "y": 2218.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -154.84,
+      "y": 2198.95
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -28.12,
+      "y": 2163.09
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -33.5664,
+      "y": 2164.0664
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -25.7754,
+      "y": 2172.5283
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -21.291,
+      "y": 2168.2036
+    }
+  ]
+}

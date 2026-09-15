@@ -1,0 +1,91 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1786266102675,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C04须弥-觉王之殿右",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3591.998,
+      "y": -787.3301
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "locked": true,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3548.1934,
+      "y": -750.8145
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3525.0244,
+      "y": -722.3848
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3476.7725,
+      "y": -671.7187
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3467.543,
+      "y": -647.7881
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3467.543,
+      "y": -647.7881
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 7,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3467.543,
+      "y": -647.7881
+    }
+  ]
+}

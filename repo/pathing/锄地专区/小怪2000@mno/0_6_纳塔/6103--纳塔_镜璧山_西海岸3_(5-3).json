@@ -1,0 +1,89 @@
+{
+  "info": {
+    "author": "Demo&mno",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时112.23秒，包含7只小怪，预计收入445.5摩拉，包含以下怪物：1只铸砂勇士·叩问人、1只铸砂勇士·碎盾者、1只嵴锋龙、1只幼绒翼龙、3只绒翼龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760864908662,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6103--纳塔_镜璧山_西海岸3_(5-3)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.4"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9783.67,
+      "y": -1764.54
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9840.6,
+      "y": -1762.1
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9905.39,
+      "y": -1759.54
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9908.15,
+      "y": -1701.02
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.5)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9968.95,
+      "y": -1690.5
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9969.63,
+      "y": -1721.87
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 9969.63,
+      "y": -1721.87
+    }
+  ]
+}

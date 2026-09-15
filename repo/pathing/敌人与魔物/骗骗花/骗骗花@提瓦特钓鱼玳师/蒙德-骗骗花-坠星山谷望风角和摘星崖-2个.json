@@ -1,0 +1,93 @@
+{
+  "info": {
+    "name": "蒙德-骗骗花-坠星山谷望风角和摘星崖-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-2个\n蒙德-坠星山谷望风角和摘星崖\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1629.05,
+      "y": 2835.02,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1657.74,
+      "y": 2751.25,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1655.31,
+      "y": 2740.63,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),dash",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -1657.5,
+      "y": 2744.81,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),dash",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": -1652.94,
+      "y": 2744.0,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),dash",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": -1652.94,
+      "y": 2744.0,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": -1559.08,
+      "y": 2492.51,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 8,
+      "x": -1572.0,
+      "y": 2533.41,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

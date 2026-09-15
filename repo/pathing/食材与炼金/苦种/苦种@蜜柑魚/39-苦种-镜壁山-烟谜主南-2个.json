@@ -1,0 +1,121 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1776967791117,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "39-苦种-镜壁山-烟谜主南-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9782.6904,
+      "y": -1764.3193
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9805.7529,
+      "y": -1768.6211
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9804.5254,
+      "y": -1875.8535
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9816.2207,
+      "y": -1887.9072
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),attack(0.2)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9786.1221,
+      "y": -1917.4814
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9754.2832,
+      "y": -1931.8018
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),attack(0.2)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9752.9307,
+      "y": -1938.9463
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9752.8711,
+      "y": -1940.9541
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9727.3926,
+      "y": -1966.3281
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9722.7754,
+      "y": -1974.3184
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9720.5371,
+      "y": -1969.4971
+    }
+  ]
+}

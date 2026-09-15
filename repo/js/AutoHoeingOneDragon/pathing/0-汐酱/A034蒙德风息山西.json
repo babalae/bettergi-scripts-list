@@ -1,0 +1,177 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时55秒，包含以下怪物：2只丘丘雷兜王。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784304912474,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "A034蒙德风息山西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -745.0215,
+      "y": 2881.8022
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -727.8555,
+      "y": 2893.9131
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-3000),wait(0.25),keypress(t),wait(0.15),keypress(t),moveby(0,-1500),wait(0.25),keypress(t),wait(0.15),keypress(t),click(middle),wait(0.2)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -727.8555,
+      "y": 2893.9131
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -606.0015,
+      "y": 2885.7172
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),dash,wait(0.35),keydown(VK_LSHIFT),",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -606.0015,
+      "y": 2885.7172
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.5),keyup(VK_LSHIFT),",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -599.748,
+      "y": 2888.1338
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "sync_point_id": "fight_1",
+      "type": "path",
+      "x": -601.9648,
+      "y": 2902.7686
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "point_ext_params": {
+        "auto_fight": {
+          "reward_type": "experience"
+        }
+      },
+      "type": "path",
+      "x": -612.3379,
+      "y": 2906.0088
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -745.0215,
+      "y": 2881.8022
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -727.8555,
+      "y": 2893.9131
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-3000),wait(0.25),keypress(t),wait(0.15),keypress(t),moveby(0,-1500),wait(0.25),keypress(t),wait(0.15),keypress(t),click(middle),wait(0.2)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -727.8555,
+      "y": 2893.9131
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -712.6602,
+      "y": 2985.9814
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),dash,wait(0.35),keydown(VK_LSHIFT),wait(6),keydown(q),wait(0.8),keyup(q),keyup(VK_LSHIFT),wait(0.1),j",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -712.6602,
+      "y": 2985.9814
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -721.2715,
+      "y": 2983.5435
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -732.6013,
+      "y": 2983.672
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "point_ext_params": {
+        "auto_fight": {
+          "reward_type": "experience"
+        }
+      },
+      "type": "path",
+      "x": -732.6875,
+      "y": 2985.6485
+    }
+  ]
+}

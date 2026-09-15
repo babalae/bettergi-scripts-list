@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "06-枣椰-须弥-丰饶绿洲-8个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4794.99,
+      "y": -2577.22
+    },
+    {
+      "id": 2,
+      "x": 4865.3,
+      "y": -2531.91,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 4868.34,
+      "y": -2531.7,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 4,
+      "x": 4819.39,
+      "y": -2500.26,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 4811.63,
+      "y": -2477.83,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 4775.24,
+      "y": -2482.81,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}

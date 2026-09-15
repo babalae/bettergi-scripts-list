@@ -1,0 +1,105 @@
+{
+  "info": {
+    "name": "16-蒲公英-望风山地-2个（路远，不建议）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "秋云",
+        "links": "https://github.com/physligl"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1273.78,
+      "y": 2721.7,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1263.25,
+      "y": 2735.25,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -1263.98,
+      "y": 2773.25,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1248.98,
+      "y": 2795.25,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1216.49,
+      "y": 2803.75,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1190.37,
+      "y": 2775.9,
+      "action": "anemo_collect",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": -1142.73,
+      "y": 2736.62,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1118.2,
+      "y": 2713.29,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -1106.78,
+      "y": 2682.4,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -1093.25,
+      "y": 2645.75,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 11,
+      "x": -1096.65,
+      "y": 2595.15,
+      "action": "anemo_collect",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "B30-璃月-沉玉谷-赤璋城垣-2个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.54.0",
+    "tags": [],
+    "last_modified_time": 1752173391200,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2066.38,
+      "y": 1483.78,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2009.21,
+      "y": 1505.78,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1972.44,
+      "y": 1502.3,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 1972.44,
+      "y": 1502.3,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

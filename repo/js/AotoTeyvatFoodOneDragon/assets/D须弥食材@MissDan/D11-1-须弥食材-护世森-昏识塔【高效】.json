@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "4个香辛果；1个须弥蔷薇；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762357789772,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D11-1-须弥食材-护世森-昏识塔【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3021.373,
+      "y": -94.6309
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 3015.3438,
+      "y": -85.1982
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3018.085,
+      "y": -82.1714
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE)",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3024.4219,
+      "y": -104.8247
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3023.1221,
+      "y": -110.4526
+    }
+  ]
+}

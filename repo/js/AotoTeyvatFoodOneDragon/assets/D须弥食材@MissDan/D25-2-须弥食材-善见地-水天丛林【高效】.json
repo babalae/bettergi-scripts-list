@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个薄荷；6个香辛果；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762361429193,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D25-2-须弥食材-善见地-水天丛林【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3129.0078,
+      "y": -1734.3154
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3128.751,
+      "y": -1724.0615
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3103.5693,
+      "y": -1723.7114
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3057.3594,
+      "y": -1764.2983
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3058.9023,
+      "y": -1767.1636
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3057.957,
+      "y": -1779.9321
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 7,
+      "move_mode": "run",
+      "type": "target",
+      "x": 3036.3457,
+      "y": -1787.4565
+    }
+  ]
+}

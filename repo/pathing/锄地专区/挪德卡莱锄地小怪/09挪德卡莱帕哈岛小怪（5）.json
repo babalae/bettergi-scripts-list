@@ -1,0 +1,86 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "半夏"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757836655038,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "09挪德卡莱帕哈岛小怪（5）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9596.5,
+      "y": 3391.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9558.125,
+      "y": 3406.875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9534.75,
+      "y": 3401.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9489.25,
+      "y": 3421.25
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9491.25,
+      "y": 3430.75
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9491.25,
+      "y": 3430.75
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9537.25,
+      "y": 3474.25
+    }
+  ]
+}

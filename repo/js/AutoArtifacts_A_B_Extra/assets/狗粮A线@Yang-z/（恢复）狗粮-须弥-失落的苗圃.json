@@ -1,0 +1,38 @@
+{
+    "info": {
+        "name": "（恢复）狗粮-须弥-失落的苗圃",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": 4021.7421875,
+            "y": -719.65478515625,
+            "type": "teleport"
+        },
+        {
+            "x": 4039.89453125,
+            "y": -725.5517578125,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "x": 4040.9130859375,
+            "y": -725.21923828125,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "x": 4038.962890625,
+            "y": -718.494140625,
+            "type": "path",
+            "move_mode": "walk"
+        }
+    ]
+}

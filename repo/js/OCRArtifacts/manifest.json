@@ -1,0 +1,18 @@
+{
+  "manifest_version": 1,
+  "name": "OCRArtifacts",
+  "version": "1.0.1",
+  "description": "读取背包圣遗物并解析为json格式",
+  "authors": [
+    {
+      "name": "zlh",
+      "links": "https://github.com/coderzhlh"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "records/*.txt",
+    "records/*.json"
+  ]
+}

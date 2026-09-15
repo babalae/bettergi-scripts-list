@@ -1,0 +1,409 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个甜甜花；2个树莓；4个苹果；20个日落果；4个鸟蛋；6个蘑菇；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762329296547,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A04-1-蒙德食材-坠星山谷-星落湖【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1329.8398,
+      "y": 2564.1865
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1319.0,
+      "y": 2559.375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1300.1133,
+      "y": 2552.4407
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1270.0996,
+      "y": 2579.8704
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1261.75,
+      "y": 2584.8154
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1261.875,
+      "y": 2586.4688
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1229.9277,
+      "y": 2581.8135
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1226.0586,
+      "y": 2582.8354
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1221.709,
+      "y": 2575.022
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1204.8047,
+      "y": 2569.1963
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1203.8242,
+      "y": 2568.873
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1203.6367,
+      "y": 2548.5635
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1201.6875,
+      "y": 2542.6655
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1202.9297,
+      "y": 2535.9839
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1161.0098,
+      "y": 2512.73
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1158.1055,
+      "y": 2511.561
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1159.2344,
+      "y": 2521.4268
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1160.0703,
+      "y": 2522.7161
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1146.8086,
+      "y": 2536.7043
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -1133.0703,
+      "y": 2543.1348
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1112.7969,
+      "y": 2534.4973
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),wait(0.4)",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1112.6582,
+      "y": 2534.8965
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1119.8359,
+      "y": 2487.7913
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1122.9727,
+      "y": 2460.4536
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1123.9844,
+      "y": 2456.5403
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1119.4941,
+      "y": 2448.6465
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1115.6152,
+      "y": 2448.1404
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1113.834,
+      "y": 2441.6733
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),wait(0.4)",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1119.0801,
+      "y": 2436.5786
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 30,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1098.2812,
+      "y": 2433.864
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 31,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1097.2852,
+      "y": 2433.5718
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 32,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1112.3906,
+      "y": 2424.0146
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 33,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1126.3398,
+      "y": 2423.8396
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 34,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1127.3809,
+      "y": 2423.6775
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 35,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1149.2168,
+      "y": 2418.9941
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 36,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1159.7109,
+      "y": 2405.8049
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 37,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -1166.166,
+      "y": 2400.8301
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 38,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1179.5703,
+      "y": 2398.3428
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 39,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1203.6953,
+      "y": 2423.5166
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 40,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1237.6328,
+      "y": 2415.564
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 41,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1242.1426,
+      "y": 2415.7043
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 42,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1242.4297,
+      "y": 2417.5952
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(1)",
+      "id": 43,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1249.416,
+      "y": 2419.9385
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785343154338,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "22-莲蓬-璃月-望舒客栈西-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 730.501,
+      "y": 1062.4639
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 723.7814,
+      "y": 1045.4375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 678.5977,
+      "y": 1036.3027
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 632.1982,
+      "y": 992.042
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 628.0303,
+      "y": 983.7051
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 623.1489,
+      "y": 976.8594
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 621.4063,
+      "y": 974.2246
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 625.0645,
+      "y": 972.7598
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 635.0469,
+      "y": 943.9785
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 641.9346,
+      "y": 932.6729
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 645.4668,
+      "y": 924.1582
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 654.752,
+      "y": 911.7651
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 658.3086,
+      "y": 908.7588
+    }
+  ]
+}

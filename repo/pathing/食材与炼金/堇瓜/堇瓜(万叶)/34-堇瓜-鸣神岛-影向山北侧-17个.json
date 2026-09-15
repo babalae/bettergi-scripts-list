@@ -1,0 +1,191 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785948232509,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "34-堇瓜-鸣神岛-影向山北侧-17个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4403.84,
+      "y": -2481.96
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4408.9316,
+      "y": -2471.6826
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -4411.4648,
+      "y": -2468.1133
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4418.4531,
+      "y": -2455.9619
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4403.6348,
+      "y": -2441.9902
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4382.9902,
+      "y": -2435.0947
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(1)",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4385.6875,
+      "y": -2431.916
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -4376.1387,
+      "y": -2427.502
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.15)",
+      "id": 9,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4376.1387,
+      "y": -2427.502
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 10,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4336.6445,
+      "y": -2402.0381
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2)",
+      "id": 11,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4329.3418,
+      "y": -2399.207
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4352.8437,
+      "y": -2397.1934
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2)",
+      "id": 13,
+      "locked": true,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4369.1016,
+      "y": -2398.5654
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2)",
+      "id": 14,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4400.4824,
+      "y": -2414.1592
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4404.6211,
+      "y": -2409.5391
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 16,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4419.6523,
+      "y": -2392.0762
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2.5)",
+      "id": 17,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4421.0352,
+      "y": -2398.9727
+    }
+  ]
+}

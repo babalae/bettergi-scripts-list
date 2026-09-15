@@ -1,0 +1,164 @@
+{
+  "info": {
+    "name": "dm10荼诃落谷右上（1）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "下流山汉",
+        "links": "https://github.com/vulgar-rustic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4209.82,
+      "y": -2712.03,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 4208.24,
+      "y": -2719.26,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 4210.58,
+      "y": -2735.77,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 4213.0,
+      "y": -2744.8,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 4221.59,
+      "y": -2760.38,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 4210.11,
+      "y": -2791.37,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 4192.31,
+      "y": -2819.62,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 4162.93,
+      "y": -2821.34,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 4140.8,
+      "y": -2833.84,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 4135.82,
+      "y": -2825.66,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "wait(0.5),click(middle),wait(1),moveby(0,-7000),wait(0.5),keypress(t)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 4117.93,
+      "y": -2789.69,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 4120.99,
+      "y": -2766.2,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 4126.63,
+      "y": -2765.7,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 4143.74,
+      "y": -2762.38,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 4169.44,
+      "y": -2754.63,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": true
+    }
+  ]
+}

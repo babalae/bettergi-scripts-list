@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "02-魔像禁卫-佩特莉可镇02-1个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.47.2",
+    "tags": [],
+    "last_modified_time": 1752145782009,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4036.3,
+      "y": 1232.01,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4016.95,
+      "y": 1243.05,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3991.23,
+      "y": 1246.61,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3961.87,
+      "y": 1246.34,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3946.64,
+      "y": 1245.98,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3946.28,
+      "y": 1251.91,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(T),wait(0.5),keydown(e),wait(3).keyup(e)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3946.4,
+      "y": 1258.24,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(T)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3947.03,
+      "y": 1260.47,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3950.99,
+      "y": 1264.95,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3951.46,
+      "y": 1278.63,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3958.12,
+      "y": 1281.75,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

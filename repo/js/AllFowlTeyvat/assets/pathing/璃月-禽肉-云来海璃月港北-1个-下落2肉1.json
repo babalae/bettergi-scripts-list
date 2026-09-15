@@ -1,0 +1,75 @@
+{
+    "info": {
+        "name": "璃月-禽肉-云来海璃月港北-1个-下落2肉1",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "地区: 璃月\n类型: 禽肉\n详细位置: 云来海璃月港北\n数目: 1\n附加信息: 2禽肉鸟共1只\n注意: 使用前请将游戏时间调到白天，跑图位建议使用绮良良或埃洛伊",
+        "bgi_version": "0.43.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": 295.62,
+            "y": -247.3,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": 271.09,
+            "y": -284.52,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "w(6)"
+        },
+        {
+            "id": 3,
+            "x": 246.55,
+            "y": -321.74,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "target"
+        },
+        {
+            "id": 4,
+            "x": 247.08,
+            "y": -319.34,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "target"
+        },
+        {
+            "id": 5,
+            "x": 247.49,
+            "y": -307.56,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "target"
+        },
+        {
+            "id": 6,
+            "x": 248.97,
+            "y": -309.81,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "target"
+        },
+        {
+            "id": 7,
+            "x": 246.1,
+            "y": -310.96,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "target"
+        }
+    ]
+}

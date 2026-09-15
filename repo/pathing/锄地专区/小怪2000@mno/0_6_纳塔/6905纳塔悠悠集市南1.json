@@ -1,0 +1,59 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时52.25秒，包含以下怪物：1只疾讯勇士·重刃讯使、1只流刃勇士·锯脂者、1只结羽勇士·腾空士、1只嵴锋龙武士·碎晶打者。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757943035628,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6905纳塔悠悠集市南1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 13905.499,
+      "y": 327.8872
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13812.916,
+      "y": 298.665
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13807.3965,
+      "y": 305.022
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13807.3965,
+      "y": 305.022
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "02-枣椰-须弥-活力之家-5个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4036.23,
+      "y": -2464.99
+    },
+    {
+      "id": 2,
+      "x": 4195.82,
+      "y": -2454.89,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 4197.03,
+      "y": -2457.12,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 4,
+      "x": 4211.49,
+      "y": -2473.42,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jidingcai",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756095760206,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "04-须弥-千壑沙地-镔铁沙丘上左下-2个",
+    "tags": [
+      "精英怪",
+      "圣骸兽",
+      "等级100+"
+    ],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4428.0205,
+      "y": -741.2275
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4436.8877,
+      "y": -761.9736
+    },
+    {
+      "action": "combat_script",
+      "action_params": "dash,wait(1),attack",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4441.752,
+      "y": -770.1597
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4442.6309,
+      "y": -767.876
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4447.7949,
+      "y": -762.0049
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4453.4951,
+      "y": -756.8589
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4449.9043,
+      "y": -751.561
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4449.8086,
+      "y": -763.77
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4440.7256,
+      "y": -767.1387
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(w),wait(0.3),keypress(VK_SPACE),wait(0.3),keypress(VK_SPACE),wait(2.5),w(2),attack",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4472.6299,
+      "y": -787.6572
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4475.5469,
+      "y": -789.2588
+    }
+  ]
+}

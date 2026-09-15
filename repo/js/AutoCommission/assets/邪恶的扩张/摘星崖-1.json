@@ -1,0 +1,42 @@
+{
+  "info": {
+    "name": "坠星山谷-1",
+    "type": "collect",
+    "author": "1",
+    "version": "1.0",
+    "description": "坠星山谷-1",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1753367785939
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1509.69,
+      "y": 2294.5,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1495.94,
+      "y": 2263.25,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1475.412109375,
+      "y": 2262.197021484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

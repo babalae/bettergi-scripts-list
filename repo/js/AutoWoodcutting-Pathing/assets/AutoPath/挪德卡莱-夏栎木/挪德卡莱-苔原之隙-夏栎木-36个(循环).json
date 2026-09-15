@@ -1,0 +1,139 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763227887960,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "挪德卡莱-苔原之隙-夏栎木-36个(循环)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9797.9443,
+      "y": 1737.3906
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9766.0156,
+      "y": 1760.5508
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9773.4736328125,
+      "y": 1763.8232421875
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9778.0576,
+      "y": 1761.3906
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9778.212890625,
+      "y": 1766.88037109375
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9775.7891,
+      "y": 1773.1255
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_T),wait(0.2),w(3.5),wait(0.2),keydown(VK_SPACE),wait(1),keyup(VK_SPACE)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9742.6553,
+      "y": 1762.2539
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9742.6553,
+      "y": 1762.2539
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_T),wait(0.2),w(3.5)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9711.46,
+      "y": 1778.2476
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9711.46,
+      "y": 1778.2476
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9700.1602,
+      "y": 1796.541
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9721.8848,
+      "y": 1786.1533
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_T),wait(0.2),w(10)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9774.8594,
+      "y": 1751.231
+    }
+  ]
+}

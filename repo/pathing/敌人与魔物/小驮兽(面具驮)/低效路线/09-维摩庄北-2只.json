@@ -1,0 +1,131 @@
+{
+  "info": {
+    "name": "09-维摩庄北-2只",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "jay",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "驮兽",
+      "丘丘面具",
+      "兽肉",
+      "小驮兽"
+    ],
+    "last_modified_time": 1754660782229,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2632.1943,
+      "y": -1016.5586,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2645.5957,
+      "y": -1011.251,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2672.7793,
+      "y": -1004.6997,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2686.3242,
+      "y": -1017.3618,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 2693.7871,
+      "y": -1029.7554,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 2703.9873,
+      "y": -1032.6875,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 2733.5,
+      "y": -1012.75,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 8,
+      "x": 2806.25,
+      "y": -983.25,
+      "type": "path",
+      "move_mode": "fly"
+    },
+    {
+      "id": 9,
+      "x": 2801.3896,
+      "y": -960.0142,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 2810.7344,
+      "y": -866.7344,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 2860.6602,
+      "y": -878.1108,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 2871.873,
+      "y": -880.146,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

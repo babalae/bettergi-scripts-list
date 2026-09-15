@@ -1,0 +1,76 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "11"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758267021982,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "钥匙是易丢品-晨曦酒庄-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -578.76171875,
+      "y": 1853.5517578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -555.89453125,
+      "y": 1844.61572265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -495.7841796875,
+      "y": 1822.93310546875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -488.7841796875,
+      "y": 1820.93310546875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "100",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -456.9140625,
+      "y": 1808.41552734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.1)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -442.2568359375,
+      "y": 1790.41357421875
+    }
+  ]
+}

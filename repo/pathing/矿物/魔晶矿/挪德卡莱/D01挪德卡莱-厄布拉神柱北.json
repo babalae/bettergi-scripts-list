@@ -1,0 +1,59 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1787382407341,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "D01挪德卡莱-厄布拉神柱北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9920.3037,
+      "y": 5728.0156
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9906.708,
+      "y": 5755.9175
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9897.7734,
+      "y": 5771.395
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9897.7734,
+      "y": 5771.395
+    }
+  ]
+}

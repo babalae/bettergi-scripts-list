@@ -1,0 +1,68 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "  路线信息：该路线预计用时42秒，包含以下怪物：3只嵌合梭地兽。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1788462013656,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H008至冬彩冰镇西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6796.0313,
+      "y": 8521.7041
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6797.0127,
+      "y": 8530.5049
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6789.0674,
+      "y": 8540.1211
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6739.1436,
+      "y": 8624.998
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 6739.1436,
+      "y": 8624.998
+    }
+  ]
+}

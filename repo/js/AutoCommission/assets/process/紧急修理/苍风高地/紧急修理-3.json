@@ -1,0 +1,96 @@
+{
+  "info": {
+    "name": "紧急修理-3",
+    "type": "collect",
+    "author": "云闲vsv",
+    "version": "1.0",
+    "description": "紧急修理-3",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754029968514
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -560.8115234375,
+      "y": 1955.16357421875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack,wait(0.3),keypress(E),wait(0.6),attack(4),wait(0.3),keypress(Q),wait(2),keypress(2),wait(0.3),keypress(E),attack(4)",
+      "type": "path"
+    },
+    {
+      "id": 2,
+      "x": -560.8115234375,
+      "y": 1955.16357421875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(4),keypress(3),wait(0.3),keypress(E),wait(0.3),attack(4),wait(0.3),keypress(Q),wait(2.1),keypress(4),wait(0.3),keypress(E)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -546.9423828125,
+      "y": 1961.5341796875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -542.6171875,
+      "y": 1947.8896484375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack,wait(0.3),keypress(E),wait(0.6),attack(4),wait(0.3),keypress(Q),wait(2),keypress(2),wait(0.3),keypress(E),attack(4)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -542.6171875,
+      "y": 1947.8896484375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(4),keypress(3),wait(0.3),keypress(E),wait(0.3),attack(4),wait(0.3),keypress(Q),wait(2.1),keypress(4),wait(0.3),keypress(E)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -536.1142578125,
+      "y": 1952.3466796875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack,wait(0.3),keypress(E),wait(0.6),attack(4),wait(0.3),keypress(Q),wait(2),keypress(2),wait(0.3),keypress(E),attack(4)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -536.1142578125,
+      "y": 1952.3466796875,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(4),keypress(3),wait(0.3),keypress(E),wait(0.3),attack(4),wait(0.3),keypress(Q),wait(2.1),keypress(4),wait(0.3),keypress(E)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -546.0009765625,
+      "y": 1955.2294921875,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -549.0000401165962,
+      "y": 1957.5,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

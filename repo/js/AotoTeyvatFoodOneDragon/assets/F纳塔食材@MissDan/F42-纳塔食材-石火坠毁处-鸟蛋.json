@@ -1,0 +1,80 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "芝麻糊"
+      },
+      {
+        "links": "",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759831127359,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F42-纳塔食材-石火坠毁处-鸟蛋",
+    "tags": [],
+    "type": "collect",
+    "version": "2.11"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10595.6005859375,
+      "y": -2654.1181640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10588.80078125,
+      "y": -2601.7431640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10569.7685546875,
+      "y": -2551.869140625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10579.912109375,
+      "y": -2465.09765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10574.7412109375,
+      "y": -2461.7861328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10573.052734375,
+      "y": -2460.380859375
+    }
+  ]
+}
