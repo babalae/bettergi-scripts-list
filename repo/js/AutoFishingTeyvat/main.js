@@ -78,12 +78,12 @@
         '虹光凶凶鲨': {'bait': '清白饵', 'time': '夜晚', 'BigFishType': 'mauler_shark'},
         '蓝昼明眼鱼': {'bait': '清白饵', 'time': '白天', 'BigFishType': 'crystal_eye'},
         '夜色明眼鱼': {'bait': '清白饵', 'time': '夜晚', 'BigFishType': 'crystal_eye'},
-        '炭灰雪圆鳍': {'bait': '闪烁饵', 'time': '夜晚', 'BigFishType': ''},
-        '奶油雪圆鳍': {'bait': '闪烁饵', 'time': '全天', 'BigFishType': ''},
-        '月光雪圆鳍': {'bait': '闪烁饵', 'time': '夜晚', 'BigFishType': ''},
-        '赤甜星花鱼': {'bait': '闪烁饵', 'time': '白天', 'BigFishType': ''},
-        '青仙星花鱼': {'bait': '闪烁饵', 'time': '全天', 'BigFishType': ''},
-        '虹晶星花鱼': {'bait': '闪烁饵', 'time': '白天', 'BigFishType': ''}
+        '炭灰雪圆鳍': {'bait': '闪烁饵', 'time': '夜晚', 'BigFishType': 'Charcoal Snowfin'},
+        '奶油雪圆鳍': {'bait': '闪烁饵', 'time': '全天', 'BigFishType': 'Cream Snowfin'},
+        '月光雪圆鳍': {'bait': '闪烁饵', 'time': '夜晚', 'BigFishType': 'Moonlight Snowfin'},
+        '赤甜星花鱼': {'bait': '闪烁饵', 'time': '白天', 'BigFishType': 'Ruby Starbloom Fish'},
+        '青仙星花鱼': {'bait': '闪烁饵', 'time': '全天', 'BigFishType': 'Frostpetal Starbloom Fish'},
+        '虹晶星花鱼': {'bait': '闪烁饵', 'time': '白天', 'BigFishType': 'Iridescent Starbloom Fish'}
     }
     const path_pathing = [
         '枫丹-垂钓点-伊黎耶林区幽林雾道西南-花鳉_波波心羽鲈_烘烘心羽鲈_维护机关·水域清理者_维护机关·态势控制者_维护机关·澄金领队型-果酿饵_酸桔饵_维护机关频闪诱饵-普通',
