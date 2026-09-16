@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/zhy0070",
+        "links": "",
         "name": "烤鱼"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788440470555,
+    "last_modified_time": 1789039577164,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B02璃月-南天门",
+    "name": "17-石珀-碧水原-无妄坡南侧-2个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -20,72 +20,80 @@
   "positions": [
     {
       "action": "",
-      "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1666.1113,
-      "y": 386.8438
+      "x": 489.77,
+      "y": 1435.17
     },
     {
       "action": "",
-      "action_params": "",
       "id": 2,
-      "locked": false,
       "move_mode": "run",
       "type": "path",
-      "x": 1639.5625,
-      "y": 374.9082
+      "x": 490.88,
+      "y": 1436.85
     },
     {
       "action": "",
-      "action_params": "",
       "id": 3,
-      "move_mode": "climb",
+      "move_mode": "run",
       "type": "path",
-      "x": 1635.5186,
-      "y": 371.2324
+      "x": 460.4,
+      "y": 1464.84
     },
     {
-      "action": "mining",
-      "action_params": "",
+      "action": "stop_flying",
       "id": 4,
-      "locked": true,
-      "move_mode": "jump",
+      "move_mode": "fly",
       "type": "path",
-      "x": 1630.749,
-      "y": 360.8545
+      "x": 459.03,
+      "y": 1475.41
     },
     {
-      "action": "mining",
+      "action": "fight",
       "action_params": "",
       "id": 5,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 1630.749,
-      "y": 360.8545
+      "x": 457.4,
+      "y": 1477.97
     },
     {
       "action": "mining",
       "action_params": "",
       "id": 6,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 1628.1611,
-      "y": 371.6631
+      "x": 453.63,
+      "y": 1478.06
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(2)",
+      "action": "mining",
+      "action_params": "",
       "id": 7,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 1628.1611,
-      "y": 371.6631
+      "x": 459.85,
+      "y": 1475.39
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 456.82,
+      "y": 1481.43
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 459.15,
+      "y": 1483.42
     }
   ]
 }

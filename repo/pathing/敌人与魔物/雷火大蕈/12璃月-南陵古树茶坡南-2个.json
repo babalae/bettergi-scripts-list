@@ -6,13 +6,13 @@
         "name": "烤鱼"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.42.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787044211161,
+    "last_modified_time": 1787707773647,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "03须弥-晴雨秘境-2个",
+    "name": "12璃月-南陵古树茶坡南-2个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,62 +24,53 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3231.5254,
-      "y": -1846.2275
+      "x": 1689.44,
+      "y": 1652.72
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 3250.7109,
-      "y": -1882.6924
+      "x": 1679.9,
+      "y": 1660.48
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "fly",
+      "move_mode": "dash",
       "type": "path",
-      "x": 3281.1973,
-      "y": -1882.3877
+      "x": 1667.53,
+      "y": 1684.62
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 3308.79,
-      "y": -1896.9639
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "run",
-      "type": "path",
-      "x": 3324.9141,
-      "y": -1894.4902
+      "x": 1632.11,
+      "y": 1705.53
     },
     {
       "action": "pick_up_collect",
       "action_params": "",
-      "id": 6,
-      "move_mode": "run",
+      "id": 5,
+      "move_mode": "dash",
       "type": "path",
-      "x": 3339.7559,
-      "y": -1864.1113
+      "x": 1607.07,
+      "y": 1713.77
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 7,
-      "move_mode": "run",
+      "id": 6,
+      "move_mode": "dash",
       "type": "path",
-      "x": 3339.7559,
-      "y": -1864.1113
+      "x": 1607.07,
+      "y": 1713.77
     }
   ]
 }

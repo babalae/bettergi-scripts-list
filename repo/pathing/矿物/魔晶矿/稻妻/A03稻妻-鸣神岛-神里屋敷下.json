@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1783089139918,
+    "last_modified_time": 1788435720609,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A03稻妻-鸣神岛-神里屋敷下",
@@ -22,15 +22,35 @@
       "action": "",
       "action_params": "",
       "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": -4578.541,
       "y": -2577.4609
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4574.7969,
+      "y": -2581.4102
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4564.9023,
+      "y": -2617.1309
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": -4543.7441,
@@ -39,7 +59,16 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 3,
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4542.3047,
+      "y": -2679.8359
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
       "locked": false,
       "move_mode": "walk",
       "type": "path",
@@ -49,7 +78,8 @@
     {
       "action": "combat_script",
       "action_params": "wait(2)",
-      "id": 4,
+      "id": 7,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": -4550.1113,

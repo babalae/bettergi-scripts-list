@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/zhy0070",
+        "links": "",
         "name": "烤鱼"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788440470555,
+    "last_modified_time": 1789039516453,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "B02璃月-南天门",
+    "name": "05-石珀-碧水原-纯水精灵南侧-2个-夜泊石-1个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -20,72 +20,55 @@
   "positions": [
     {
       "action": "",
-      "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1666.1113,
-      "y": 386.8438
+      "x": 283.85,
+      "y": 1668.6
     },
     {
       "action": "",
-      "action_params": "",
       "id": 2,
-      "locked": false,
       "move_mode": "run",
       "type": "path",
-      "x": 1639.5625,
-      "y": 374.9082
+      "x": 279.56,
+      "y": 1653.75
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 3,
-      "move_mode": "climb",
+      "move_mode": "walk",
       "type": "path",
-      "x": 1635.5186,
-      "y": 371.2324
+      "x": 268.61,
+      "y": 1649.55
     },
     {
       "action": "mining",
       "action_params": "",
       "id": 4,
-      "locked": true,
-      "move_mode": "jump",
+      "move_mode": "walk",
       "type": "path",
-      "x": 1630.749,
-      "y": 360.8545
+      "x": 268.79,
+      "y": 1641.34
     },
     {
       "action": "mining",
       "action_params": "",
       "id": 5,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 1630.749,
-      "y": 360.8545
+      "x": 277.12,
+      "y": 1644.42
     },
     {
       "action": "mining",
       "action_params": "",
       "id": 6,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 1628.1611,
-      "y": 371.6631
-    },
-    {
-      "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 7,
-      "locked": false,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 1628.1611,
-      "y": 371.6631
+      "x": 282.22,
+      "y": 1631.66
     }
   ]
 }

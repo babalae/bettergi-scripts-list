@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787044221529,
+    "last_modified_time": 1789044001309,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "05须弥-沙中故里-2个",
+    "name": "22-石珀-璃沙郊-青墟浦",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,62 +24,63 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3844.2178,
-      "y": -573.1831
+      "x": 1128.7852,
+      "y": -984.084
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 2,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
-      "x": 3780.168,
-      "y": -612.811
+      "x": 1197.832,
+      "y": -894.5186
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": 3783.3965,
-      "y": -616.8945
+      "x": 1197.832,
+      "y": -894.5186
     },
     {
-      "action": "",
+      "action": "fight",
       "action_params": "",
       "id": 4,
-      "move_mode": "climb",
+      "move_mode": "dash",
       "type": "path",
-      "x": 3776.5547,
-      "y": -621.2466
+      "x": 1176.835,
+      "y": -821.6055
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": 3761.2539,
-      "y": -637.8457
+      "x": 1183.1973,
+      "y": -824.9873
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
       "move_mode": "walk",
-      "type": "path",
-      "x": 3751.2734,
-      "y": -647.8428
+      "type": "teleport",
+      "x": 611.9648,
+      "y": -284.375
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 7,
-      "move_mode": "walk",
+      "move_mode": "fly",
       "type": "path",
-      "x": 3737.416,
-      "y": -652.2129
+      "x": 715.5371,
+      "y": -79.0645
     },
     {
       "action": "",
@@ -87,44 +88,45 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 3730.0254,
-      "y": -642.9268
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 9,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 3727.8535,
-      "y": -619.2021
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 10,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 3711.6592,
-      "y": -608.5996
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 11,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 3702.4609,
-      "y": -587.2891
+      "x": 716.4736,
+      "y": -93.2197
     },
     {
       "action": "fight",
       "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 716.8271,
+      "y": -102.582
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 716.5781,
+      "y": -105.1406
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 11,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 713.2344,
+      "y": -103.4785
+    },
+    {
+      "action": "mining",
+      "action_params": "",
       "id": 12,
       "move_mode": "walk",
       "type": "path",
-      "x": 3708.25,
-      "y": -598.7354
+      "x": 713.2344,
+      "y": -103.4785
     }
   ]
 }

@@ -6,16 +6,16 @@
         "name": "烤鱼"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787740399578,
-    "map_match_method": "SIFT",
+    "last_modified_time": 1788141602415,
+    "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A03至冬-剧院左下",
+    "name": "07须弥-沙虫隧道中层北侧-1个",
     "tags": [],
     "type": "collect",
-    "version": "1.0"
+    "version": "1.1"
   },
   "positions": [
     {
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6513.7422,
-      "y": 9356.2764
+      "x": 4428.0205,
+      "y": -741.2275
     },
     {
       "action": "",
@@ -33,75 +33,81 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 6511.1563,
-      "y": 9354.0938
+      "x": 4436.8877,
+      "y": -761.9736
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(3)",
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 6527.4844,
-      "y": 9342.75
+      "x": 4440.125,
+      "y": -766.3545
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 4,
-      "locked": true,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
-      "x": 6540.4805,
-      "y": 9329.9238
+      "x": 4450.126,
+      "y": -769.2432
     },
     {
       "action": "stop_flying",
       "action_params": "",
       "id": 5,
-      "locked": false,
       "move_mode": "fly",
       "type": "path",
-      "x": 6655.3799,
-      "y": 9224.8057
+      "x": 4443.5391,
+      "y": -774.2412
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "action_params": "",
       "id": 6,
-      "locked": false,
-      "move_mode": "fly",
+      "move_mode": "walk",
       "type": "path",
-      "x": 6713.8213,
-      "y": 9157.0361
+      "x": 4454.79,
+      "y": -767.375
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 7,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 6713.8213,
-      "y": 9157.0361
+      "x": 4455.5146,
+      "y": -763.5635
     },
     {
-      "action": "mining",
+      "action": "up_down_grab_leaf",
       "action_params": "",
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 6717.7324,
-      "y": 9155.9102
-  },
+      "x": 4459.6172,
+      "y": -729.4062
+    },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
-      "id": 8,
-      "move_mode": "walk",
+      "id": 9,
+      "move_mode": "run",
       "type": "path",
-      "x": 6713.8213,
-      "y": 9157.0361
+      "x": 4453.4678,
+      "y": -669.2402
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4428.8027,
+      "y": -677.8672
     }
   ]
 }
