@@ -1,6 +1,6 @@
 (async function () {
     const guidList = (settings.g_uid).split(",");
-    let uidSwitch = true;
+    let switchCount = 0;
     const downRolls = "{ \"macroEvents\": [ { \"type\": 6, \"mouseX\": 0, \"mouseY\": -120, \"time\": 0 }, { \"type\": 6, \"mouseX\": 0, \"mouseY\": 0, \"time\": 5 } ], \"info\": { \"name\": \"\", \"description\": \"\", \"x\": 0, \"y\": 0, \"width\": 1920, \"height\": 1080, \"recordDpi\": 1 } }"
     const f_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/F.png"), 1094, 334, 50, 426);
     /**
@@ -88,13 +88,23 @@
      * @returns {Promise<string>}
      */
     async function check_world(re_tev = false) {
+        const edit_btn = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/edit_btn.png"), 703, 46, 34, 35);
         if (re_tev) {
             log.info("正在返回提瓦特...");
         }
         await genshin.returnMainUi();
         await sleep(500);
         keyPress("Escape");
-        await sleep(1000);
+        for (let i = 0; i < 100; i++) {
+            await sleep(200);
+            let capture = captureGameRegion();
+            if (capture.Find(edit_btn)) {
+                capture.dispose();
+                await sleep(1000);
+                break;
+            }
+            capture.dispose();
+        }
         let ocrResult_btn = await Ocr(1663, 997, 168, 47);
         if (ocrResult_btn && ocrResult_btn.text.includes("提瓦特")) {
             if (re_tev) {
@@ -122,6 +132,7 @@
         const active0_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/active0.png"), 1552, 352, 94, 94);
         const active1_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/active1.png"), 1552, 352, 94, 94);
         const target_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/targetIcon.png"), 708, 1, 512, 86);
+        const close_pic = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/close_btn.png"), 1811, 13, 66, 66);
         finish_pic.threshold = 0.8;
         active0_pic.threshold = 0.8;
         active1_pic.threshold = 0.8;
@@ -133,7 +144,16 @@
         await sleep(500);
 
         keyPress("F6");
-        await sleep(1500);
+        for (let i = 0; i < 100; i++) {
+            await sleep(200);
+            capture = captureGameRegion();
+            if (capture.Find(close_pic)) {
+                capture.dispose();
+                await sleep(1000);
+                break;
+            }
+            capture.dispose();
+        }
         capture = captureGameRegion();
         await sleep(500);
         const targetIcon = capture.Find(target_pic);
@@ -213,13 +233,11 @@
         await sleep(1500);
         click(1088, 143);
         await sleep(1000);
-        if (uidSwitch) {
-            inputText(`${guidList[0]}`);
-            uidSwitch = false;
-        } else {
-            inputText(`${guidList[1]}`);
-            uidSwitch = true;
-        }
+
+        // 输入GUID，并轮换奇域
+        inputText(`${guidList[(guidList.length + switchCount) % guidList.length]}`);
+        switchCount++;
+
         await sleep(1000);
         keyPress("RETURN");
         await sleep(1000);
@@ -327,7 +345,7 @@
                     click(1380, 1021);
                     await sleep(3000);
                     let capture = captureGameRegion();
-                    if (capture.Find(filterRo).isExist()) {
+                    if (capture.Find(filterRo).isExist()) { // 筛选图标
                         capture.dispose();
                         await sleep(500);
                         for (let i = 0; i < 10; i++) {
@@ -359,52 +377,78 @@
                     break;
                 case "奇域：游玩界面":
                     log.info("开始等待...")
-                    if (uidSwitch) {
-                        if (settings.self_set) {
-                            await sleep(121000); // 等待120s
-                            keyPress("Escape");
-                            await sleep(1000);
-                            click(978, 601);
-                            await sleep(1000);
-                            break;
-                        }
-                        await sleep(41000); // 等待40s
-                        keyDown("D");
-                        await sleep(700);
-                        keyUp("D");
-                        for (let i = 0; i < 5; i++) {
-                            await sleep(100);
-                            const capture = captureGameRegion();
-                            if (capture.Find(f_pic).isExist()) {
-                                keyPress("F");
-                                capture.dispose();
-                                break;
-                            }
-                            capture.dispose();
-                        }
-                    } else {
-                        if (settings.self_set) {
-                            await sleep(121000); // 等待120s
-                            keyPress("Escape");
-                            await sleep(1000);
-                            click(978, 601);
-                            await sleep(1000);
-                            break;
-                        }
-                        await sleep(61000); // 等待60s
+                    let archiveList = JSON.parse(file.readTextSync("assets/archive.json"));
+                    if (settings.self_set) {
+                        await sleep(121000); // 等待120s
                         keyPress("Escape");
                         await sleep(1000);
                         click(978, 601);
                         await sleep(1000);
+                        break;
+                    } else {
+                        let cmdList = archiveList[Object.keys(archiveList)[(guidList.length + switchCount) % guidList.length]].split("|");
+                        for (let i = 0; i < cmdList.length; i++) {
+                            if (cmdList[i].startsWith("sleep")) {
+                                await sleep(Number(cmdList[i].match(/\(([^)]*)\)/)?.[1]));
+                            } else if (cmdList[i].startsWith("keyDown")) {
+                                keyDown(cmdList[i].match(/\(([^)]*)\)/)?.[1]);
+                            } else if (cmdList[i].startsWith("keyUp")) {
+                                keyUp(cmdList[i].match(/\(([^)]*)\)/)?.[1]);
+                            } else if (cmdList[i].startsWith("keyPress")) {
+                                keyPress(cmdList[i].match(/\(([^)]*)\)/)?.[1]);
+                            } else if (cmdList[i].startsWith("click")) {
+                                const posList = (cmdList[i].match(/\(([^)]*)\)/)?.[1]).split(",");
+                                click(Number(posList[0]), Number(posList[1]));
+                            }
+                        }
                     }
+                    // if ((guidList.length + switchCount) % guidList.length !== 0) {
+                    //     if (settings.self_set) {
+                    //         await sleep(121000); // 等待120s
+                    //         keyPress("Escape");
+                    //         await sleep(1000);
+                    //         click(978, 601);
+                    //         await sleep(1000);
+                    //         break;
+                    //     }
+                    //     await sleep(41000); // 等待40s
+                    //     keyDown("D");
+                    //     await sleep(700);
+                    //     keyUp("D");
+                    //     for (let i = 0; i < 5; i++) {
+                    //         await sleep(100);
+                    //         const capture = captureGameRegion();
+                    //         if (capture.Find(f_pic).isExist()) {
+                    //             keyPress("F");
+                    //             capture.dispose();
+                    //             break;
+                    //         }
+                    //         capture.dispose();
+                    //     }
+                    // } else {
+                    //     if (settings.self_set) {
+                    //         await sleep(121000); // 等待120s
+                    //         keyPress("Escape");
+                    //         await sleep(1000);
+                    //         click(978, 601);
+                    //         await sleep(1000);
+                    //         break;
+                    //     }
+                    //     await sleep(61000); // 等待60s
+                    //     keyPress("Escape");
+                    //     await sleep(1000);
+                    //     click(978, 601);
+                    //     await sleep(1000);
+                    // }
                     break;
                 case "结算界面":
                     if (state_result === "true") {
                         extra_count--;
                     }
-                    // click(1378, 1018);  // 返回大厅
-                    click(1729, 1025);  // 返回奇域界面
-                    await sleep(3000);
+                    await sleep(5000);
+                    click(1378, 1018);  // 返回大厅
+                    // click(1729, 1025);  // 返回奇域界面
+                    await sleep(5000);
                     if (state_result !== "true") {
                         state_result = await check_state();
                         if (state_result === "error") {
@@ -422,7 +466,10 @@
         }
 
         log.info(`正在返回提瓦特`);
+        await sleep(3000);
         await check_world(true);
+        // 确认已经返回到主界面
+        await genshin.returnMainUi();
     }
 
     await main();
