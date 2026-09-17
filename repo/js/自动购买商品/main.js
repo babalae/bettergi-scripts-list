@@ -1,4 +1,3 @@
-//3.6.2
 
 // fakeLog 函数，使用方法：将本函数放在主函数前,调用时请务必使用await，否则可能出现v8白框报错
 // 在js开头处伪造该js结束运行的日志信息，如 await fakeLog("js脚本", true, true, 0);
@@ -349,8 +348,8 @@ function getThursdayOfWeek(date) {
 // ==================== 辅助函数：获取下个月1号的日期 ====================
 function getNextMonthFirstDay(date) {
     const d = new Date(date);
-    d.setMonth(d.getMonth() + 1);
     d.setDate(1);
+    d.setMonth(d.getMonth() + 1);
     d.setHours(4, 0, 0, 0);
     return d;
 }
@@ -1435,7 +1434,15 @@ async function initNpcData(records) {
     // 重置容量限制集合
     capacityLimitedFoods.clear();
     try {
-        await fakeLog(`当前版本 3.6.2`, false, false, 23333);
+        let scriptVersion = "版本号";
+        try {
+            const manifest = JSON.parse(await file.readText("manifest.json"));
+            if (manifest.version) scriptVersion = manifest.version;
+        } catch (e) {
+            log.warn(`读取 manifest.json 版本号失败: ${e.message}`);
+        }
+        await fakeLog(`当前版本 ${scriptVersion}`, false, false, 23333);
+
         // ==================== 确定账号名 ====================
         let rawUserName = settings.userName ? settings.userName.trim() : "";
         if (!rawUserName) {
