@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "",
+        "links": "https://github.com/zhy0070",
         "name": "烤鱼"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.60.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787707772065,
+    "last_modified_time": 1788437336138,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "11须弥-荼泥黑渊右上-2个",
+    "name": "B08-蒙德-千风神殿右",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -22,37 +22,38 @@
       "action": "",
       "action_params": "",
       "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6339.58,
-      "y": 738.44
+      "x": -1505.5762,
+      "y": 2296.5361
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": 6327.17,
-      "y": 720.58
+      "x": -1545.2871,
+      "y": 2295.9238
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": 6311.86,
-      "y": 692.31
+      "x": -1603.5195,
+      "y": 2302.5547
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": 6297.8,
-      "y": 667.84
+      "x": -1635.541,
+      "y": 2292.3857
     },
     {
       "action": "",
@@ -60,80 +61,84 @@
       "id": 5,
       "move_mode": "fly",
       "type": "path",
-      "x": 6294.46,
-      "y": 661.35
+      "x": -1669.4687,
+      "y": 2273.6387
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": 6304.65,
-      "y": 650.42
+      "x": -1695.4785,
+      "y": 2263.5176
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "fly",
+      "move_mode": "run",
       "type": "path",
-      "x": 6308.67,
-      "y": 646.36
+      "x": -1714.2363,
+      "y": 2256.8984
     },
     {
       "action": "",
       "action_params": "",
       "id": 8,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": 6312.08,
-      "y": 640.16
+      "x": -1748.1133,
+      "y": 2247.375
     },
     {
       "action": "",
       "action_params": "",
       "id": 9,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
-      "x": 6322.38,
-      "y": 642.82
+      "x": -1791.7031,
+      "y": 2239.7969
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 10,
-      "move_mode": "run",
+      "locked": true,
+      "move_mode": "fly",
       "type": "path",
-      "x": 6337.73,
-      "y": 644.21
+      "x": -1811.293,
+      "y": 2235.2847
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 11,
-      "move_mode": "run",
+      "locked": false,
+      "move_mode": "walk",
       "type": "path",
-      "x": 6354.35,
-      "y": 656.15
+      "x": -1805.3145,
+      "y": 2243.208
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 12,
-      "move_mode": "run",
+      "locked": false,
+      "move_mode": "walk",
       "type": "path",
-      "x": 6397.7578,
-      "y": 696.0825
+      "x": -1806.373,
+      "y": 2250.3472
     },
     {
-      "action": "fight",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(2)",
       "id": 13,
-      "move_mode": "run",
+      "locked": false,
+      "move_mode": "walk",
       "type": "path",
-      "x": 6372.3691,
-      "y": 741.5186
+      "x": -1806.373,
+      "y": 2250.3472
     }
   ]
 }

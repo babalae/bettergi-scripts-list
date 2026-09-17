@@ -9,95 +9,99 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787707764593,
-    "map_match_method": "",
+    "last_modified_time": 1787740399578,
+    "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "08须弥-饱饮之丘左上-2个",
+    "name": "A02-至冬-剧院左下",
     "tags": [],
     "type": "collect",
     "version": "1.0"
   },
   "positions": [
     {
+      "id": 1,
       "action": "",
       "action_params": "",
-      "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 5531.9961,
-      "y": -1763.8047
+      "x": 6513.7422,
+      "y": 9356.2764
     },
     {
+      "id": 2,
       "action": "",
       "action_params": "",
-      "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 5516.0293,
-      "y": -1777.2793
+      "x": 6511.1563,
+      "y": 9354.0938
     },
     {
-      "action": "",
-      "action_params": "",
       "id": 3,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 5521.8066,
-      "y": -1793.8608
-    },
-    {
       "action": "",
       "action_params": "",
-      "id": 4,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 5524.3564,
-      "y": -1806.2432
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 5503.6602,
-      "y": -1815.2793
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 5506.4941,
-      "y": -1835.502
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 7,
       "move_mode": "fly",
       "type": "path",
-      "x": 5515.7549,
-      "y": -1856.6641
+      "x": 6527.4844,
+      "y": 9342.75
     },
     {
-      "action": "pick_up_collect",
+      "id": 4,
+      "action": "",
       "action_params": "",
+      "locked": true,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 6540.4805,
+      "y": 9329.9238
+    },
+    {
+      "id": 5,
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 6655.3799,
+      "y": 9224.8057
+    },
+    {
+      "id": 6,
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 6713.8213,
+      "y": 9157.0361
+    },
+    {
+      "id": 7,
+      "action": "mining",
+      "action_params": "",
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6713.8213,
+      "y": 9157.0361
+    },
+    {
       "id": 8,
+      "action": "mining",
+      "action_params": "",
       "move_mode": "walk",
       "type": "path",
-      "x": 5497.4316,
-      "y": -1824.9199
+      "x": 6717.7324,
+      "y": 9155.9102
     },
     {
-      "action": "fight",
-      "action_params": "",
       "id": 9,
+      "action": "mining",
+      "action_params": "",
       "move_mode": "walk",
       "type": "path",
-      "x": 5497.4316,
-      "y": -1824.9199
+      "x": 6713.8213,
+      "y": 9157.0361
     }
   ]
 }

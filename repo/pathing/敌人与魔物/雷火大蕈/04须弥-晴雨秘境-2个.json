@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787707764593,
+    "last_modified_time": 1787707758457,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "08须弥-饱饮之丘左上-2个",
+    "name": "04须弥-晴雨秘境-2个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,80 +24,62 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 5531.9961,
-      "y": -1763.8047
+      "x": 3231.5254,
+      "y": -1846.2275
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": 5516.0293,
-      "y": -1777.2793
+      "x": 3250.7109,
+      "y": -1882.6924
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "dash",
+      "move_mode": "fly",
       "type": "path",
-      "x": 5521.8066,
-      "y": -1793.8608
+      "x": 3281.1973,
+      "y": -1882.3877
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
-      "x": 5524.3564,
-      "y": -1806.2432
+      "x": 3308.79,
+      "y": -1896.9639
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "dash",
+      "move_mode": "run",
       "type": "path",
-      "x": 5503.6602,
-      "y": -1815.2793
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 5506.4941,
-      "y": -1835.502
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 5515.7549,
-      "y": -1856.6641
+      "x": 3324.9141,
+      "y": -1894.4902
     },
     {
       "action": "pick_up_collect",
       "action_params": "",
-      "id": 8,
-      "move_mode": "walk",
+      "id": 6,
+      "move_mode": "run",
       "type": "path",
-      "x": 5497.4316,
-      "y": -1824.9199
+      "x": 3339.7559,
+      "y": -1864.1113
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 9,
-      "move_mode": "walk",
+      "id": 7,
+      "move_mode": "run",
       "type": "path",
-      "x": 5497.4316,
-      "y": -1824.9199
+      "x": 3339.7559,
+      "y": -1864.1113
     }
   ]
 }

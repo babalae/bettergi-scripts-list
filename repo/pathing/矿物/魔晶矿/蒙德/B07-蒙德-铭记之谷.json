@@ -2,20 +2,20 @@
   "info": {
     "authors": [
       {
-        "links": "",
+        "links": "https://github.com/zhy0070",
         "name": "烤鱼"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787707772065,
+    "last_modified_time": 1783089888298,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "11须弥-荼泥黑渊右上-2个",
+    "name": "B07-蒙德-铭记之谷",
     "tags": [],
     "type": "collect",
-    "version": "1.0"
+    "version": ""
   },
   "positions": [
     {
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6339.58,
-      "y": 738.44
+      "x": -663.63,
+      "y": 1709.65
     },
     {
       "action": "",
@@ -33,62 +33,62 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 6327.17,
-      "y": 720.58
+      "x": -666.25,
+      "y": 1700.93
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "walk",
+      "move_mode": "jump",
       "type": "path",
-      "x": 6311.86,
-      "y": 692.31
+      "x": -665.87,
+      "y": 1700.0
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "walk",
+      "move_mode": "jump",
       "type": "path",
-      "x": 6297.8,
-      "y": 667.84
+      "x": -664.64,
+      "y": 1696.8
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "fly",
+      "move_mode": "jump",
       "type": "path",
-      "x": 6294.46,
-      "y": 661.35
+      "x": -663.79,
+      "y": 1694.0
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 6304.65,
-      "y": 650.42
+      "x": -712.5,
+      "y": 1677.42
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 7,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 6308.67,
-      "y": 646.36
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 6312.08,
-      "y": 640.16
+      "x": -715.15,
+      "y": 1675.73
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "target",
+      "x": -707.05,
+      "y": 1676.41
     },
     {
       "action": "",
@@ -96,8 +96,8 @@
       "id": 9,
       "move_mode": "run",
       "type": "path",
-      "x": 6322.38,
-      "y": 642.82
+      "x": -707.94,
+      "y": 1674.9
     },
     {
       "action": "",
@@ -105,17 +105,17 @@
       "id": 10,
       "move_mode": "run",
       "type": "path",
-      "x": 6337.73,
-      "y": 644.21
+      "x": -710.8,
+      "y": 1675.26
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 11,
       "move_mode": "run",
-      "type": "path",
-      "x": 6354.35,
-      "y": 656.15
+      "type": "target",
+      "x": -713.54,
+      "y": 1681.45
     },
     {
       "action": "",
@@ -123,17 +123,45 @@
       "id": 12,
       "move_mode": "run",
       "type": "path",
-      "x": 6397.7578,
-      "y": 696.0825
+      "x": -711.27,
+      "y": 1680.13
     },
     {
-      "action": "fight",
+      "action": "mining",
       "action_params": "",
       "id": 13,
       "move_mode": "run",
+      "type": "target",
+      "x": -720.14,
+      "y": 1675.06
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -719.15,
+      "y": 1672.1
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 15,
+      "locked": false,
+      "move_mode": "walk",
       "type": "path",
-      "x": 6372.3691,
-      "y": 741.5186
+      "x": -719.8516,
+      "y": 1666.4443
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -719.8516,
+      "y": 1666.4443
     }
   ]
 }

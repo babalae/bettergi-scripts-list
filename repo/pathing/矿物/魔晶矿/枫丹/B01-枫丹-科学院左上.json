@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "",
+        "links": "https://github.com/zhy0070",
         "name": "烤鱼"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787707768137,
+    "last_modified_time": 1783088279937,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "09须弥-酣乐之殿-1个",
+    "name": "B01-枫丹-科学院左上",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,17 +24,27 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 5493.9473,
-      "y": -510.0947
+      "x": 4624.5508,
+      "y": 4952.0293
     },
     {
-      "action": "fight",
+      "action": "mining",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
+      "locked": false,
+      "move_mode": "walk",
       "type": "path",
-      "x": 5544.5313,
-      "y": -468.8574
+      "x": 4663.9365,
+      "y": 4982.7949
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4663.9365,
+      "y": 4982.7949
     }
   ]
 }

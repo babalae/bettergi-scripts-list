@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787707764593,
-    "map_match_method": "",
+    "last_modified_time": 1787622006899,
+    "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "08须弥-饱饮之丘左上-2个",
+    "name": "A04-至冬-海屑镇",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,35 +24,35 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 5531.9961,
-      "y": -1763.8047
+      "x": 7648.0557,
+      "y": 9477.2402
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": 5516.0293,
-      "y": -1777.2793
+      "x": 7662.7666,
+      "y": 9444.6191
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 3,
-      "move_mode": "dash",
+      "move_mode": "jump",
       "type": "path",
-      "x": 5521.8066,
-      "y": -1793.8608
+      "x": 7656.1543,
+      "y": 9398.2305
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 5524.3564,
-      "y": -1806.2432
+      "x": 7649.3545,
+      "y": 9408.4014
     },
     {
       "action": "",
@@ -60,8 +60,8 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 5503.6602,
-      "y": -1815.2793
+      "x": 7574.2539,
+      "y": 9434.0352
     },
     {
       "action": "",
@@ -69,35 +69,44 @@
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 5506.4941,
-      "y": -1835.502
+      "x": 7541.375,
+      "y": 9406.6831
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 7504.9121,
+      "y": 9400.6309
     },
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 7,
+      "id": 8,
       "move_mode": "fly",
       "type": "path",
-      "x": 5515.7549,
-      "y": -1856.6641
+      "x": 7447.5479,
+      "y": 9393.0742
     },
     {
-      "action": "pick_up_collect",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 5497.4316,
-      "y": -1824.9199
-    },
-    {
-      "action": "fight",
+      "action": "mining",
       "action_params": "",
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": 5497.4316,
-      "y": -1824.9199
+      "x": 7447.5479,
+      "y": 9393.0742
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7447.5479,
+      "y": 9393.0742
     }
   ]
 }
