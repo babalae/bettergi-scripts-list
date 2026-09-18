@@ -1,0 +1,54 @@
+//作者：Karrenay
+//
+// 「梦见月星扩散」· BetterGI 战斗策略（梦见月瑞希 星扩散体系）
+// ① 梦珐奥猫：迪奥娜 + 珐露珊 + 奥黛塔 + 梦见月瑞希
+// ② 梦珐奥七：七七 + 珐露珊 + 奥黛塔 + 梦见月瑞希
+// ③ 梦砂奥猫：迪奥娜 + 砂糖 + 奥黛塔 + 梦见月瑞希
+// ④ 梦砂奥七：七七 + 砂糖 + 奥黛塔 + 梦见月瑞希
+//
+// 【单轮轴 ≈ 20~21 秒】
+// 七七EA / 迪奥娜长E → 珐露珊E蓄力Q 或 砂糖E → 迪奥娜Q → 奥黛塔EE → 砂糖EQ → 瑞希EQ+绕圈站场
+// 奥黛塔：E CD15秒，独舞倒影持续20秒（每2秒挂弱冰）；唤出倒影后6秒内再按E=特殊E「破晓终奏」（内置CD15秒）；Q CD15秒/60能量，低命Q收益低，默认只打EE
+// 梦见月瑞希：E梦浮 基础5秒，解锁天赋1延长至10秒，CD15秒；Q CD15秒/60能量，小貘跟随12秒
+// 珐露珊：E CD6秒；Q 持续12秒(2命18秒)，CD20秒/80能量；6命无需蓄力箭
+// 砂糖：E CD15秒；Q 持续6秒，CD20秒/80能量；一轮两次E仅在祭礼残章重置时生效
+// 七七：E 持续15秒，CD30秒（隔轮生效，CD中按E无副作用）
+// 迪奥娜：长按E 5爪护盾约12~13秒，长按CD15秒（点按CD6秒）；Q 持续12秒，CD20秒/80能量
+//
+// 【BetterGI 设置建议】
+// 1. 战斗配置：开启「自动检测战斗结束」「派蒙辅助检测」（左上角派蒙图标勿遮挡）
+// 2. 开启「盾奶角色技能优先释放」，并准确勾选 迪奥娜 或 七七 所在的队伍栏位
+// 3. 战斗中持续索敌：开启；脱锁等待时间 1 秒
+// 4. 队伍命名保留中文「星扩散」
+// 5. 战斗超时建议 120 秒；游戏分辨率需 16:9
+//
+// ---------- 1. 生存位 ----------
+// 七七：寒病鬼差 持续15秒/CD30秒，E后A一下（参考手法：七七EA，隔轮释放）
+七七 e, attack(0.3)
+// 迪奥娜：长按E出5爪护盾（约12~13秒），CD15秒
+迪奥娜 e(hold), wait(0.8)
+
+// ---------- 2. 风系辅助 ----------
+// 珐露珊：E后蓄力箭（疾风示现瞬充、聚怪产球），再Q（持续12秒/CD20秒）
+珐露珊 e, wait(0.3), charge(0.5), wait(0.5), q, wait(0.5)
+// 6命：珐露珊 e, wait(0.3), q, wait(0.5)
+// 砂糖：先手E 风套减抗+扩散挂冰（CD15秒）
+砂糖 e, wait(0.3), click(middle)
+
+// ---------- 3. 迪奥娜大招 ----------
+// 迪奥娜Q：领域持续12秒/CD20秒，覆盖瑞希站场期治疗+挂冰
+迪奥娜 q, wait(0.5)
+
+// ---------- 4. 奥黛塔 ----------
+// EE：一E唤独舞倒影(20秒)，6秒内再按E打出特殊E
+// 高命/充能充足：奥黛塔 e, wait(0.3), q, ready, e, wait(0.5)
+奥黛塔 e, wait(0.5), e, wait(0.5)
+
+// ---------- 5. 砂糖大招 ----------
+// 第二次E仅祭礼重置时生效（CD中按E无副作用），Q持续6秒盖住瑞希开场
+砂糖 e, wait(0.2), q, wait(0.1), q, wait(0.1), click(middle)
+
+// ---------- 6. 梦见月瑞希站场 ----------
+// EQ后梦浮约10秒：每0.75秒一次风伤、每2.5秒一次星扩散直伤，贴住敌人即可
+// 参考夜兰转圈手法：顺时针2圈+逆时针2圈交替，防止单向漂移丢怪
+梦见月瑞希 attack(0.1), e, wait(0.3), q, ready, keydown(W), wait(0.05), keydown(D), keyup(W),  click(middle),wait(0.4), keydown(S), keyup(D), click(middle), wait(0.4), keydown(A), keyup(S), click(middle), wait(0.4), keydown(W), keyup(A), click(middle), wait(0.3), keyup(W), wait(0.05), keydown(W), wait(0.05), keydown(D), keyup(W), click(middle), wait(0.4), keydown(S), keyup(D), click(middle), wait(0.4), keydown(A), keyup(S), click(middle), wait(0.4), keydown(W), keyup(A), wait(0.3), keyup(W), wait(0.05), keydown(W), wait(0.05), keydown(A), keyup(W), click(middle), wait(0.4), keydown(S), keyup(A), wait(0.4),click(middle),  keydown(D), keyup(S), wait(0.4), click(middle), keydown(W), keyup(D), click(middle), wait(0.3), keyup(W), wait(0.05), keydown(W), wait(0.05), keydown(A), keyup(W), click(middle), wait(0.4), keydown(S), keyup(A), click(middle), wait(0.4), keydown(D), keyup(S), click(middle), wait(0.4), keydown(W), keyup(D), wait(0.3), keyup(W), wait(0.05), attack(0.3)
