@@ -71,7 +71,7 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 				// 路径执行前检查一次
 				await sleep(500);
 				let pickStatusBefore = await UpperLimitPreciousChest();
-				log.warn(`第 ${i + 1} 次预检测结束，系统当前状态 ${pickStatus ? "正常" : "异常"}`);
+				log.warn(`第 ${i + 1} 次预检测结束，系统当前状态 ${pickStatusBefore ? "正常" : "异常"}`);
 				if (!pickStatusBefore) {
 					log.warn("本次预检测到超过 3 次宝箱未成功拾取，推测已触发系统风控，主动终止运行");
 					break;
@@ -115,46 +115,78 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 	} else {
 		log.warn("按键或识别出现异常，请自行检查");
 	}
+
 	// 以下部分为封装函数
+
+	// 新UI：OCR 识别并点击指定文本按钮，返回是否成功
+	async function ClickButtonByText(text, x, y, w, h) {
+		const ro = captureGameRegion();
+		const resList = ro.findMulti(RecognitionObject.ocr(x, y, w, h));
+		ro.dispose();
+		for (let i = 0; i < resList.count; i++) {
+			const res = resList[i];
+			if (res.text.includes(text)) {
+				log.info(`识别到"${text}"按钮`);
+				res.click();
+				await sleep(1500);
+				return true;
+			}
+		}
+		log.warn(`未识别到"${text}"按钮`);
+		return false;
+	}
+
 	// 默认按键检测
 	async function CheckKeyBindlings() {
 		let keyStatus = false;
-		for (let i = 0; i < 2; i++) {
+		await TryOpenQuestMenu(0); // 按J
+
+		// 新UI：按J后进入"进行中"视图，检测"任务总览"按钮即可确认菜单已开
+		// （若上次停在任务总览界面，则检测右侧"传说任务"按钮）
+		const ro1 = captureGameRegion();
+		const list1 = ro1.findMulti(RecognitionObject.ocr(50, 920, 500, 160)); // 左下"任务总览"
+		const list2 = ro1.findMulti(RecognitionObject.ocr(1000, 380, 700, 300)); // 右侧"传说任务"
+		ro1.dispose();
+
+		let menuOpened = false;
+		for (let i = 0; i < list1.count; i++) if (list1[i].text.includes("任务总览")) menuOpened = true;
+		for (let i = 0; i < list2.count; i++) if (list2[i].text.includes("传说任务")) menuOpened = true;
+
+		if (menuOpened) {
+			log.info("检测到任务菜单已开启，按键正常");
+			await sleep(1000);
+			keyStatus = true;
+		} else {
+			log.info("检测到任务菜单没有开启，推测快捷键不是默认值，尝试恢复");
+			await KeyBindlings();
 			await TryOpenQuestMenu(0);
-			const ro1 = captureGameRegion();
-			let StoryQuestsButton = ro1.find(StoryQuestsButtonRo);
-			ro1.dispose();
-			if (StoryQuestsButton.isExist()) {
-				log.info("检测到任务菜单已开启，按键正常");
+
+			const ro2 = captureGameRegion();
+			const list3 = ro2.findMulti(RecognitionObject.ocr(50, 920, 500, 160));
+			const list4 = ro2.findMulti(RecognitionObject.ocr(1000, 380, 700, 300));
+			ro2.dispose();
+
+			for (let i = 0; i < list3.count; i++) if (list3[i].text.includes("任务总览")) keyStatus = true;
+			for (let i = 0; i < list4.count; i++) if (list4[i].text.includes("传说任务")) keyStatus = true;
+
+			if (keyStatus) {
+				log.info("恢复后检测到任务菜单，按键正常");
 				await sleep(1000);
-				keyStatus = true;
 			} else {
-				log.info("检测到任务菜单没有开启，推测快捷键不是默认值，尝试恢复");
-				await KeyBindlings(); // 恢复默认键位
-				await TryOpenQuestMenu(0);
-				const ro2 = captureGameRegion();
-				let StoryQuestsButton = ro2.find(StoryQuestsButtonRo);
-				ro2.dispose();
-				if (StoryQuestsButton.isExist()) {
-					log.info("识别到传说任务按钮，按键正常");
-					await sleep(1000);
-					keyStatus = true;
-				} else {
-					log.warn("尝试恢复任务菜单快捷键默认值失败");
-					keyStatus = false;
-				}
+				log.warn("尝试恢复任务菜单快捷键默认值失败");
 			}
-			break;
 		}
 		await genshin.returnMainUi();
 		await sleep(1000);
 		return keyStatus;
 	}
+
 	// 尝试打开任务菜单
 	async function TryOpenQuestMenu() {
 		keyPress("J");
 		await sleep(1500);
 	}
+
 	// 恢复任务菜单按键
 	async function KeyBindlings() {
 		await genshin.returnMainUi();
@@ -202,6 +234,7 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 		}
 		await genshin.returnMainUi();
 	}
+
 	// 识别卷心菜、白萝卜数量
 	async function CabbageRadishNum() {
 		setGameMetrics(1920, 1080, 1);
@@ -277,6 +310,7 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 			CabbageNum
 		};
 	}
+
 	// 接取任务
 	async function ReceiveHangoutEvent(times) {
 		setGameMetrics(3840, 2160, 2);
@@ -323,6 +357,7 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 		await sleep(500);
 		click(3500, 2030); // 继续按钮
 	}
+
 	// 开任务列表删任务
 	async function AbandonHangoutEvent(times) {
 		keyPress("J");
@@ -357,14 +392,9 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 			await sleep(1500);
 		}
 
-		const ro16 = captureGameRegion();
-		let StoryQuestsButton = ro16.find(StoryQuestsButtonRo);
-		ro16.dispose();
-		if (StoryQuestsButton.isExist()) {
-			log.info("识别到传说任务按钮");
-			StoryQuestsButton.click();
-			await sleep(1500);
-		}
+		// 新UI导航：任务总览 → 传说任务
+		await ClickButtonByText("任务总览", 50, 920, 500, 160);
+		await ClickButtonByText("传说任务", 1000, 380, 700, 300);
 
 		if (times == 0) {
 			let captureRegion = captureGameRegion();
@@ -387,6 +417,7 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 			}
 		}
 	}
+
 	// 检测宝箱是否已到上限
 	async function UpperLimitPreciousChest() {
 		let pickStatus = true;
@@ -410,6 +441,7 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 		}
 		return pickStatus;
 	}
+
 	// 执行路径
 	async function AutoPath(locationName) {
 		try {
@@ -421,6 +453,7 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 		}
 		await sleep(2000);
 	}
+
 	// 运行用时
 	function logTimeTaken(startTime) {
 		const currentTime = Date.now();
@@ -431,6 +464,7 @@ const LocationButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("
 		log.info(`当前运行总时长：${formattedTime}`);
 		return totalTimeInSeconds;
 	}
+
 	// 预估时间
 	function calculateEstimatedCompletion(estimatedStartTime, current, total) {
 		if (current === 0) return "计算中...";
