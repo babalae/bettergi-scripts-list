@@ -1,0 +1,51 @@
+{
+  "info": {
+    "name": "自动钓鱼路线-稻妻-千来神祠",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2809.05,
+      "y": -6045.45,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2791.62,
+      "y": -6049.88,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 3,
+      "x": -2790.91,
+      "y": -6044.78,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": -2788.11,
+      "y": -6024.98,
+      "action": "fishing",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    }
+  ]
+}

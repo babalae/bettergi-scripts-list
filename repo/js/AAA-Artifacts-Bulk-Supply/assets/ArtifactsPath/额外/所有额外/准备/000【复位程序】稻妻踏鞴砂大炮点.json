@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766677496492,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "000【复位程序】稻妻踏鞴砂大炮点",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3393.0732421875,
+      "y": -3556.0546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.15),keypress(f),",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -3399.2500079001657,
+      "y": -3551.84362115731
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.15),keypress(f),",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3402.28125,
+      "y": -3551.4999557338415
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3400.9541015625,
+      "y": -3547.1630859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "path",
+      "x": -3400.755859375,
+      "y": -3544.443359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "climb",
+      "type": "target",
+      "x": -3397.9658203125,
+      "y": -3544.044921875
+    },
+    {
+      "action": "log_output",
+      "action_params": "\n[复位大炮]汐酱大炮上上下下进进出出是对的!!!",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3275.9990234375,
+      "y": -3552.625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.5),wait(1),keypress(f),wait(0.2),keypress(f),wait(0.5),keypress(w),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(w),keypress(d),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(w),keypress(d),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(d),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(d),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(d),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(s),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(a),wait(0.1),keypress(ESCAPE),wait(3.0),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(a),wait(0.1),keypress(ESCAPE)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3275.9990234375,
+      "y": -3552.625
+    },
+    {
+      "action": "log_output",
+      "action_params": "还需要等6.5秒,让大炮电量耗尽",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3275.9990234375,
+      "y": -3552.625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(6.5)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3275.9990234375,
+      "y": -3552.625
+    }
+  ]
+}

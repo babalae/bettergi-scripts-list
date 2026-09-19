@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "璃月-骗骗花-碧水原奥藏山东北方传送锚点附近-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-2个\n璃月-碧水原奥藏山东北方传送锚点附近\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1273.27,
+      "y": 1558.87,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1270.08,
+      "y": 1563.87,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 1270.08,
+      "y": 1563.87,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1215.24,
+      "y": 1506.7,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 1191.68,
+      "y": 1465.16,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 1166.84,
+      "y": 1439.26,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 1166.84,
+      "y": 1439.26,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

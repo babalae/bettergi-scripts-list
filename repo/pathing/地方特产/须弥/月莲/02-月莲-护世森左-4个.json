@@ -1,0 +1,126 @@
+{
+  "info": {
+    "name": "02-月莲-护世森左-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芙宁娜"
+    ],
+    "last_modified_time": 1751163691448,
+    "authors": [
+      {
+        "name": "tignioj"
+      },
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2531.97,
+      "y": -144.64,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 2593.02,
+      "y": -154.65,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 2623.12,
+      "y": -165.83,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 2623.12,
+      "y": -165.83,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芙宁娜 attack,e(wait)"
+    },
+    {
+      "id": 5,
+      "x": 2640.81,
+      "y": -169.07,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 2661.5,
+      "y": -152.52,
+      "action": "",
+      "move_mode": "swim",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 2676.68,
+      "y": -165.37,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 2720.1,
+      "y": -207.3,
+      "action": "",
+      "move_mode": "dash",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 2744.03,
+      "y": -204.91,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 2774.99,
+      "y": -209.98,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芙宁娜 attack,e",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 2794.85,
+      "y": -227.92,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target",
+      "locked": false
+    }
+  ]
+}

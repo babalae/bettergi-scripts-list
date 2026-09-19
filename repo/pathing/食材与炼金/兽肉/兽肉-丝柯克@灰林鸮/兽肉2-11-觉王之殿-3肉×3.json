@@ -1,0 +1,139 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766944115518,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "兽肉2-11-觉王之殿-3肉×3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3705.8828,
+      "y": -497.1406
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3704.3135,
+      "y": -501.6362
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2500",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3676.9248,
+      "y": -537.4072
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3675.8359,
+      "y": -540.2544
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3666.3184,
+      "y": -565.2358
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3662.335,
+      "y": -571.3306
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3665.0078,
+      "y": -571.2251
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3630.0361,
+      "y": -578.4077
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3626.7939,
+      "y": -570.2617
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3621.7305,
+      "y": -555.0156
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3623.6416,
+      "y": -550.8252
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3622.6074,
+      "y": -550.5044
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3617.1504,
+      "y": -552.9067
+    }
+  ]
+}

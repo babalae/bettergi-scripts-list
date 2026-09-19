@@ -1,0 +1,70 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时78.66秒，包含以下怪物：1只坚盾重甲蟹。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767794025032,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "5906枫丹水下梅洛彼得堡",
+    "tags": [
+      "水下"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4753.86328125,
+      "y": 4498.95751953125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(e),keydown(VK_LCONTROL),wait(12),keyup(VK_LCONTROL),click(middle)",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4661.2353515625,
+      "y": 4460.14599609375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(e),keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),click(middle)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4653.744140625,
+      "y": 4453.119140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(e),keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),click(middle)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4651.908203125,
+      "y": 4462.0888671875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4661.2353515625,
+      "y": 4460.14599609375
+    }
+  ]
+}

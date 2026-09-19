@@ -1,0 +1,82 @@
+[
+  {
+    "name": "executionOrderMode",
+    "type": "select",
+    "label": "路线运行模式（按路线组读取“点赞=总数”标签）",
+    "options": [
+      "按 Point 编号",
+      "高点赞优先",
+      "高收益精简（6赞及以上）"
+    ],
+    "default": "按 Point 编号"
+  },
+  {
+    "name": "point01Enabled",
+    "type": "checkbox",
+    "label": "启用 Point 01｜北国银行门口｜预计 6 赞",
+    "default": true
+  },
+  {
+    "name": "point02Enabled",
+    "type": "checkbox",
+    "label": "启用 Point 02｜印记商店门口｜预计 8 赞",
+    "default": true
+  },
+  {
+    "name": "point03Enabled",
+    "type": "checkbox",
+    "label": "启用 Point 03｜炉灰食堂门口｜预计 4 赞",
+    "default": true
+  },
+  {
+    "name": "point04Enabled",
+    "type": "checkbox",
+    "label": "启用 Point 04｜餐厅门口｜预计 2 赞",
+    "default": true
+  },
+  {
+    "name": "point05Enabled",
+    "type": "checkbox",
+    "label": "启用 Point 05｜铁匠附近｜预计 2 赞",
+    "default": true
+  },
+  {
+    "name": "point06Enabled",
+    "type": "checkbox",
+    "label": "启用 Point 06｜曙光车站玩具附近｜预计 4 赞（需完成“雪后曙光”）",
+    "default": false
+  },
+  {
+    "name": "point07Enabled",
+    "type": "checkbox",
+    "label": "启用 Point 07｜车站餐厅｜预计 2 赞（需完成“雪后曙光”）",
+    "default": false
+  },
+  {
+    "name": "point08Enabled",
+    "type": "checkbox",
+    "label": "启用 Point 08｜车站火炬边｜预计 6 赞（接续 07；需完成“新雪来客”）",
+    "default": false
+  },
+  {
+    "name": "point09Enabled",
+    "type": "checkbox",
+    "label": "启用 Point 09｜车站台子｜预计 2 赞（接续路线；需完成“雪后曙光”）",
+    "default": false
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "defaultCameraPitchFromTop",
+    "type": "input-text",
+    "label": "冰造物放置镜头角度（从垂直上限向下移动量，推荐 7500）",
+    "default": "7500"
+  },
+  {
+    "name": "forceTDelayCompensationEnabled",
+    "type": "checkbox",
+    "label": "强制启用 4K 时序补偿（非 4K 出现点击过早时开启）",
+    "default": false
+  }
+]

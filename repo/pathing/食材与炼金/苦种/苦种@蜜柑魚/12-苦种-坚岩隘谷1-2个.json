@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777099941930,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "12-苦种-坚岩隘谷1-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8243.1045,
+      "y": -1735.8467
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8274.2432,
+      "y": -1752.1426
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8287.2363,
+      "y": -1757.3555
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8293.6104,
+      "y": -1764.4199
+    }
+  ]
+}

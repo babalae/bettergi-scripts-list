@@ -1,0 +1,202 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.54.1-alpha.3",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766149423756,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "C03-萃凝晶-远古圣山-聚火祭验所3（5个）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -245.1553,
+      "y": -291.228
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(T)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -254.8611,
+      "y": -296.0054
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -247.8333,
+      "y": -302.0095
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(Q);wait(2);keyup(Q)",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": -247.2629,
+      "y": -390.6399
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -232.1384,
+      "y": -397.5337
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -207.5066,
+      "y": -404.2061
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -193.7344,
+      "y": -416.728
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -193.8064,
+      "y": -417.7129
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -193.4529,
+      "y": -417.8821
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -200.5571,
+      "y": -419.6682
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -193.0808,
+      "y": -418.4841
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": -207.6411,
+      "y": -403.7864
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "run",
+      "type": "path",
+      "x": -234.6311,
+      "y": -392.4021
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -244.9817,
+      "y": -388.729
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -252.4399,
+      "y": -389.6904
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -263.4146,
+      "y": -394.8562
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -309.0522,
+      "y": -428.3945
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -311.4736,
+      "y": -434.5303
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -312.833,
+      "y": -436.158
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -308.2327,
+      "y": -439.0144
+    }
+  ]
+}

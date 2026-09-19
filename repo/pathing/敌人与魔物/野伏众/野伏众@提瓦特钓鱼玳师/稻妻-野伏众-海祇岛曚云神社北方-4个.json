@@ -1,0 +1,80 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-海祇岛曚云神社北方-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "野伏众-4个\n稻妻-海祇岛曚云神社北方",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -765.55,
+      "y": -3556.74,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": -698.08,
+      "y": -3561.05,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -659.05,
+      "y": -3581.06,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -632.54,
+      "y": -3596.57,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -610.02,
+      "y": -3618.58,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -583.98,
+      "y": -3659.0,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": -584.01,
+      "y": -3659.1,
+      "action_params": ""
+    }
+  ]
+}

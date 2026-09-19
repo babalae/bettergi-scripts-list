@@ -1,0 +1,174 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/PanZic",
+        "name": "不瘦五十斤不改名"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759830980462,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F25-纳塔食材-回声之子-苦种",
+    "tags": [],
+    "type": "collect",
+    "version": "2.11"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 7633.84,
+      "y": -1646.65
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),wait(0.4)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7633.53,
+      "y": -1636.96
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7593.3720703125,
+      "y": -1646.1611328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7593.73046875,
+      "y": -1647.21240234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7591.9375,
+      "y": -1648.25390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7617.8046875,
+      "y": -1671.783203125
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7613.67,
+      "y": -1679.19
+    },
+    {
+      "action": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7603.31,
+      "y": -1675.26
+    },
+    {
+      "action": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7593.94,
+      "y": -1682.87
+    },
+    {
+      "action": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7593.19,
+      "y": -1680.99
+    },
+    {
+      "action": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7579.82,
+      "y": -1670.77
+    },
+    {
+      "action": "",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7573.61,
+      "y": -1670.55
+    },
+    {
+      "action": "stop_flying",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7489.71,
+      "y": -1675.81
+    },
+    {
+      "action": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7487.47,
+      "y": -1679.21
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7493.125,
+      "y": -1690.7861328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7486.546875,
+      "y": -1687.40625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7487.9541015625,
+      "y": -1685.822265625
+    },
+    {
+      "action": "",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 7481.82,
+      "y": -1685
+    }
+  ]
+}

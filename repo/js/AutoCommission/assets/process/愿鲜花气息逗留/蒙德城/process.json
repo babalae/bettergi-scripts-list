@@ -1,0 +1,115 @@
+[
+  {
+    "type": "委托描述检测",
+    "data": {
+      "description": "对话",
+      "executeFile": "愿鲜花气息逗留-1.json",
+      "runType": "path",
+      "useKeyword": true
+    },
+    "note": ""
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 5,
+      "priorityOptions": [
+        "交给我吧"
+      ],
+      "npcWhiteList": [
+        "芙萝拉"
+      ]
+    },
+    "note": "执行对话步骤，优先选择特定选项并与白名单NPC交互"
+  },
+  {
+    "type": "地图追踪",
+    "data": "愿鲜花气息逗留-2.json",
+    "note": "执行第二个地图追踪步骤"
+  },
+  {
+    "type": "按键",
+    "data": "F",
+    "note": "按下F键"
+  },
+  {
+    "type": "等待",
+    "data": 20
+  },
+  {
+    "type": "按键",
+    "data": "F",
+    "note": "按下F键"
+  },
+  {
+    "type": "地图追踪",
+    "data": "愿鲜花气息逗留-3.json",
+    "note": "执行第三个地图追踪步骤"
+  },
+  {
+    "type": "按键",
+    "data": "F",
+    "note": "按下F键"
+  },
+  {
+    "type": "等待",
+    "data": 20
+  },
+  {
+    "type": "按键",
+    "data": "F",
+    "note": "按下F键"
+  },
+  {
+    "type": "地图追踪",
+    "data": "愿鲜花气息逗留-4.json",
+    "note": "执行第四个地图追踪步骤"
+  },
+  {
+    "type": "按键",
+    "data": "F",
+    "note": "按下F键"
+  },
+  {
+    "type": "等待",
+    "data": 20
+  },
+  {
+    "type": "按键",
+    "data": "F",
+    "note": "按下F键"
+  },
+  {
+    "type": "等待",
+    "data": 5000,
+    "note": "等待5秒钟"
+  },
+  {
+    "type": "委托描述检测",
+    "data": {
+      "description": "循着踪迹寻找包裹",
+      "executeFile": "循着踪迹寻找包裹.json",
+      "runType": "path"
+    },
+    "note": "检测委托描述并执行后续步骤"
+  },
+  {
+    "type": "地图追踪",
+    "data": "愿鲜花气息逗留-1.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 5,
+      "priorityOptions": [
+        "只拿到一份",
+        "加上这次的都在这里了"
+      ],
+      "npcWhiteList": [
+        "芙萝拉"
+      ]
+    },
+    "note": "执行对话步骤，优先选择特定选项并与白名单NPC交互"
+  }
+]

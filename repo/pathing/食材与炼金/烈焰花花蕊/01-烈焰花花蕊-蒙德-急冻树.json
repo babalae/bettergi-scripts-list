@@ -1,0 +1,43 @@
+{
+  "info": {
+    "name": "01-烈焰花花蕊-蒙德-急冻树",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "ran"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1638.52,
+      "y": 2153.89,
+      "type": "teleport",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1650.71,
+      "y": 2149.24,
+      "type": "target",
+      "move_mode": "run",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1653.63,
+      "y": 2149.98,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    }
+  ]
+}

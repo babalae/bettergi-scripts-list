@@ -1,0 +1,98 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jidingcai",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756096642365,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "08-须弥-千壑沙地-巨人峡谷右下(沙暴时失效)-1个",
+    "tags": [
+      "精英怪",
+      "圣骸兽",
+      "等级100+"
+    ],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5197.2129,
+      "y": -1336.3433
+    },
+    {
+      "action": "combat_script",
+      "action_params": "dash,wait(1.5),attack",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5197.2129,
+      "y": -1336.3433
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5137.8984,
+      "y": -1322.6514
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5091.3398,
+      "y": -1226.2324
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5056.0283,
+      "y": -1183.3638
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5051.25,
+      "y": -1168.7503
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5048.8749,
+      "y": -1167.8142
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5053.4746,
+      "y": -1169.4775
+    }
+  ]
+}

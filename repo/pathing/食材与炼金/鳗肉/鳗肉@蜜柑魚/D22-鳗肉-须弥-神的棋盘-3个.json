@@ -1,0 +1,152 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https: //github.com/OhmyPaoPao",
+        "name": "海豹穹穹队"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "3个鳗肉；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1773410661817,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D22-鳗肉-须弥-神的棋盘-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5759.7871,
+      "y": -1307.4976
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5768.5605,
+      "y": -1301.9678
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5776.9385,
+      "y": -1281.9248
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 5761.7422,
+      "y": -1222.8984
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5765.2344,
+      "y": -1219.0454
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5765.7803,
+      "y": -1218.1641
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5765.8633,
+      "y": -1217.5938
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5420.4873,
+      "y": -1463.1699
+    },
+    {
+      "action": "combat_script",
+      "action_params": "j,wait(1),j",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5434.2197,
+      "y": -1452.04
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 5445.8584,
+      "y": -1441.0586
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 5447.9824,
+      "y": -1419.2051
+    },
+    {
+      "action": "anemo_collect",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 5411.3438,
+      "y": -1397.3828
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5408.8037,
+      "y": -1395.2227
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.456)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5412.8926,
+      "y": -1398.3477
+    }
+  ]
+}

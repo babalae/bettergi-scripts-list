@@ -1,0 +1,57 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "2个鸟蛋；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762328732307,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A02-1-蒙德食材-坠星山谷-蒙德城",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -749.4385,
+      "y": 2263.0664
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -774.5,
+      "y": 2258.5
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -814.2021,
+      "y": 2225.8804
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -814.2021,
+      "y": 2225.8804
+    }
+  ]
+}

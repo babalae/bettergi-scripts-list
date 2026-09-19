@@ -1,0 +1,88 @@
+{
+  "info": {
+    "name": "纳塔龙众-万火之瓯4",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "老马RYO"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9076.32,
+      "y": -1962.7,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "climb",
+      "type": "path",
+      "x": 9096.31,
+      "y": -1981.69,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9140.55,
+      "y": -2033.71,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9141.3,
+      "y": -2055.19,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9099.07,
+      "y": -2058.44,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9065.59,
+      "y": -2063.94,
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9039.32,
+      "y": -2036.94,
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9018.0,
+      "y": -2056.75,
+      "action_params": ""
+    }
+  ]
+}

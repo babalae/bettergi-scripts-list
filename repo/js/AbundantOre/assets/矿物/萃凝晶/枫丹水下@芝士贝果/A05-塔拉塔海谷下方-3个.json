@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "A05-塔拉塔海谷下方-3个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.50.0",
+    "tags": [],
+    "last_modified_time": 1755601444267,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4191.4785,
+      "y": 3799.1582,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4213.9902,
+      "y": 3857.9004,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keydown(VK_LCONTROL);wait(5);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,571)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4216.1826,
+      "y": 3865.5454,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4213.9902,
+      "y": 3857.9004,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4224.1992,
+      "y": 3880.2942,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4218.21,
+      "y": 3902.8562,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    }
+  ]
+}

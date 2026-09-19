@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777392526118,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B19-松茸-璃月-古茶树坡-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1691.5762,
+      "y": 1829.5845
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1724.8271,
+      "y": 1957.9844
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.543)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1724.5371,
+      "y": 1969.7637
+    }
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "info": {
+    "name": "19-海露花-枫丹-沫洁站1-6个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芭芭拉"
+    ],
+    "last_modified_time": 1755413442617,
+    "authors": [
+      {
+        "name": "寥寥轻舟"
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3635.47,
+      "y": 3801.45,
+      "action": "hydro_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3635.47,
+      "y": 3801.45,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1);芭芭拉 e;",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3594.99,
+      "y": 3813.02,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3594.99,
+      "y": 3813.02,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(8);",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3562.53,
+      "y": 3805.34,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3553.19,
+      "y": 3832.84,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 e",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3552.3,
+      "y": 3835.89,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3569.82,
+      "y": 3875.4,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3552.24,
+      "y": 3925.47,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 charge(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3551.28,
+      "y": 3929,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3547.04,
+      "y": 3938.77,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 3532.31,
+      "y": 3911.9,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 e",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 3530.99,
+      "y": 3908.78,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 3530.5,
+      "y": 3938.74,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 3544.52,
+      "y": 3965.54,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 3521.43,
+      "y": 4016.83,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 charge(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 3519.3,
+      "y": 4020.19,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 3482.67,
+      "y": 4013.07,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 3469.97,
+      "y": 4017.76,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "芭芭拉 charge(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 3467.47,
+      "y": 4018.64,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1);",
+      "type": "path"
+    }
+  ]
+}

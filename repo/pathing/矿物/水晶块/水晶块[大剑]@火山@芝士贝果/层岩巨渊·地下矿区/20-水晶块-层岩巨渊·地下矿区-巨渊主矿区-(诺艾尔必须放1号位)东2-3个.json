@@ -1,0 +1,190 @@
+{
+  "info": {
+    "name": "20-水晶块-层岩巨渊·地下矿区-巨渊主矿区-(诺艾尔必须放1号位)东2-3个",
+    "type": "collect",
+    "version": "1.3",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 278.44,
+      "y": 767.26,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 263.14,
+      "y": 779.51,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 183.82,
+      "y": 877.77,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 173.7,
+      "y": 892.17,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 167.72,
+      "y": 908.84,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 167.44,
+      "y": 908.75,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 166.47,
+      "y": 908.97,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 162.27,
+      "y": 909.8,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 162.61,
+      "y": 917.47,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 10,
+      "x": 162.61,
+      "y": 917.47,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "keypress(x),wait(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 163.35,
+      "y": 918.09,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 12,
+      "x": 163.35,
+      "y": 918.09,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 161.27,
+      "y": 915.49,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 14,
+      "x": 157.98,
+      "y": 911.53,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 155.45,
+      "y": 918.38,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 16,
+      "x": 155.45,
+      "y": 918.38,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "wait(0.5),w(2)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 17,
+      "x": 156.04,
+      "y": 918.77,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 18,
+      "x": 155.45,
+      "y": 918.38,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "wait(0.2),keypress(x)",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 156.04,
+      "y": 918.77,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1.5)",
+      "type": "path"
+    }
+  ]
+}

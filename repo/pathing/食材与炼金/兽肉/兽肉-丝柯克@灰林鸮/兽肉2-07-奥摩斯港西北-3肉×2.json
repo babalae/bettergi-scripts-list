@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767111803678,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "兽肉2-07-奥摩斯港西北-3肉×2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2806.8008,
+      "y": -1790.0996
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2805.9033,
+      "y": -1783.8379
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2814.3672,
+      "y": -1731.7339
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q,wait(0.5)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2815.5867,
+      "y": -1724.3
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2815.4717,
+      "y": -1721.9629
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2813.4355,
+      "y": -1718.9448
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2817.873,
+      "y": -1715.7871
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2814.4727,
+      "y": -1720.5327
+    }
+  ]
+}

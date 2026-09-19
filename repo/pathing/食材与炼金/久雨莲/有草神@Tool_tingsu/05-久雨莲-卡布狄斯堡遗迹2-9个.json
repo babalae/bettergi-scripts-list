@@ -1,0 +1,146 @@
+{
+  "info": {
+    "name": "05-久雨莲-卡布狄斯堡遗迹2-9个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1749048654589,
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3383.26,
+      "y": 2692.28,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3345.24,
+      "y": 2675.24,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3266.5,
+      "y": 2677.47,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2500"
+    },
+    {
+      "id": 4,
+      "x": 3266.53,
+      "y": 2677.47,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(3);纳西妲 e"
+    },
+    {
+      "id": 5,
+      "x": 3256.33,
+      "y": 2668.73,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3239.21,
+      "y": 2674.49,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 3222.85,
+      "y": 2679.48,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 3199.09,
+      "y": 2681.46,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "纳西妲 e"
+    },
+    {
+      "id": 9,
+      "x": 3192.79,
+      "y": 2696.87,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 3188.18,
+      "y": 2712.62,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 3166.63,
+      "y": 2747.58,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 3162.49,
+      "y": 2785.82,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 3150.63,
+      "y": 2794.65,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 3138.2,
+      "y": 2801.64,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "纳西妲 e"
+    }
+  ]
+}

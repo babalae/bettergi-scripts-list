@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "414须弥沙漠沙虫隧道（600_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时47秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只遗迹重机。",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754750129278,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4572.27,
+      "y": -1070.77,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4593.98,
+      "y": -1031.59,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4599.19,
+      "y": -1023.56,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4625.56,
+      "y": -996.19,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4625.56,
+      "y": -996.19,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "info": {
+    "name": "01-地下矿区-起点-x2",
+    "type": "collect",
+    "version": "V1",
+    "description": "[无须战斗][周一、四定期挖矿]钟离无柱阻挡挖矿，解决全命座柱子卡人问题。刚需钟离，录制队友无任何加速效果，如双风，佳明，迪希雅，罗莎莉亚等。  地图追踪需要关闭钟离生存位的可能，需要在设置组选择中规避钟离不定时开盾。//鸣谢: 白可佬儿  V1-25年五月28",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "钟离",
+      "钟离无阻挡挖矿",
+      "无战斗挖矿",
+      "挖矿懒人包",
+      "高效线路",
+      "周一四刷矿"
+    ],
+    "last_modified_time": 1748445147912,
+    "authors": [
+      {
+        "name": "忆雪晴-828632080"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 895.74,
+      "y": 1020.9,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 895.74,
+      "y": 1020.9,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "钟离 s(0.2), e,  w(0.6)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 902.09,
+      "y": 1021.85,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 908.09,
+      "y": 1020.85,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 932.53,
+      "y": 1015.35,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 938.23,
+      "y": 1009.41,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 954.12,
+      "y": 1020.16,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "钟离 d(0.2),e",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 955.47,
+      "y": 1047.44,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 941.73,
+      "y": 1053.62,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "钟离 d(0.2),e",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 924.73,
+      "y": 1060.62,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 925.18,
+      "y": 1064.68,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 920.58,
+      "y": 1064.99,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 933.71,
+      "y": 1062.73,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 931.3,
+      "y": 1058.37,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

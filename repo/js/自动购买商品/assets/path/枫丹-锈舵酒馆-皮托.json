@@ -1,0 +1,85 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1775942763268,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "枫丹-锈舵酒馆-皮托",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3094.603515625,
+      "y": 3355.173828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3096.677734375,
+      "y": 3329.990234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3132.7119140625,
+      "y": 3296.9072265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3130.2587890625,
+      "y": 3291.216796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3114.48828125,
+      "y": 3287.9736328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3115.279296875,
+      "y": 3286.5166015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.2),wait(0.3)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3117.109375,
+      "y": 3282.5087890625
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "manifest_version": 1,
+  "name": "自动寻路+手动战斗",
+  "version": "1.0",
+  "bgi_version": "0.64",
+  "description": "自动寻怪+手动战斗；注意！在开战点走神，角色可能会被打死。\n如果暂停中角色被打死，复活，重启js。\n如果遇到不想跑的路径，可中断js，删除对应路径，再启动\n已跑完的路径会进入CD中；如果有不会，可截图问豆包",
+  "saved_files": [
+    "pathing/",
+    "user/",
+    "pathing_record/"
+  ],
+  "authors": [
+    {
+        "name": "吉吉喵",
+        "links": "https://github.com/JJMdzh"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}

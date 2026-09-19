@@ -1,0 +1,95 @@
+{
+  "info": {
+    "name": "G05-紫晶块-渊下宫-蛇心之地左上02-2个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.47.0",
+    "tags": [
+      "双手剑"
+    ],
+    "last_modified_time": 1750936261868,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 449.64,
+      "y": -122.14,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 400.56,
+      "y": -120.17,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.5)"
+    },
+    {
+      "id": 3,
+      "x": 318.09,
+      "y": -103.34,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(0.1),j,wait(1.835),j,wait(0.1)"
+    },
+    {
+      "id": 4,
+      "x": 327.88,
+      "y": -111.78,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 337.66,
+      "y": -121.58,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 342.48,
+      "y": -119.48,
+      "type": "target",
+      "move_mode": "jump",
+      "action": "combat_script",
+      "action_params": "w(0.35)"
+    },
+    {
+      "id": 7,
+      "x": 342.48,
+      "y": -119.48,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 342.48,
+      "y": -119.48,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "云闲vsv"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758271120187,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "钥匙是易丢品-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1545.7541228862283,
+      "y": 1410.9997246527928
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1588.068359375,
+      "y": 1411.39990234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1594.2646484375,
+      "y": 1466.00341796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1609.12109375,
+      "y": 1490.0986328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1611.5615234375,
+      "y": 1521.85205078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1574.181640625,
+      "y": 1561.35693359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1569.986328125,
+      "y": 1563.755859375
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1556.341796875,
+      "y": 1567.265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1561.349609375,
+      "y": 1565.6923828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1),w(0.2)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1564.125,
+      "y": 1572.529296875
+    }
+  ]
+}

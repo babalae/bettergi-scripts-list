@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "03-蒲公英-西风庙宇东-2个（有怪）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "秋云",
+        "links": "https://github.com/physligl"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1167.21,
+      "y": 2133.16
+    },
+    {
+      "id": 2,
+      "x": -1177.07,
+      "y": 2123.67,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -1182.43,
+      "y": 2128.3,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -1184.53,
+      "y": 2131.76,
+      "type": "path",
+      "move_mode": "climb",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -1192.22,
+      "y": 2131.82,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "anemo_collect"
+    },
+    {
+      "id": 6,
+      "x": -1195.7,
+      "y": 2135.14,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "anemo_collect"
+    }
+  ]
+}

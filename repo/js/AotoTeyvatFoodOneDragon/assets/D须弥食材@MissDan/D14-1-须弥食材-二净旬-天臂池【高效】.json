@@ -1,0 +1,184 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "2个甜甜花；3个薄荷；3个电气水晶；2个香辛果；4个墩墩桃；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762358869058,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D14-1-须弥食材-二净旬-天臂池【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3068.1289,
+      "y": -713.6001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3076.4932,
+      "y": -696.5718
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3088.8438,
+      "y": -674.5562
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3090.1895,
+      "y": -669.9434
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3093.2383,
+      "y": -669.6021
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3091.793,
+      "y": -655.0063
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3120.8799,
+      "y": -643.0591
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3136.3662,
+      "y": -670.1724
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3128.5879,
+      "y": -683.4961
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3136.1514,
+      "y": -692.4487
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e(wait)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3134.2666,
+      "y": -692.2832
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3120.4521,
+      "y": -695.4863
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3118.5234,
+      "y": -693.6572
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3117.5615,
+      "y": -710.8755
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3109.5088,
+      "y": -736.9839
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 16,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3098.9951,
+      "y": -754.9263
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 3108.2764,
+      "y": -766.4165
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3120.9414,
+      "y": -761.709
+    }
+  ]
+}

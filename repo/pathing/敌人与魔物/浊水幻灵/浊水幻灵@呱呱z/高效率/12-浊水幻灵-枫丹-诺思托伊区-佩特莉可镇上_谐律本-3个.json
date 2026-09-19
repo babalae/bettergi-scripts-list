@@ -1,0 +1,108 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jidingcai",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755690960120,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "12-浊水幻灵-枫丹-诺思托伊区-佩特莉可镇上_谐律本-3个",
+    "tags": [
+      "精英怪",
+      "等级100+",
+      "浊水幻灵",
+      "高效"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4200.6494,
+      "y": 1283.9976
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4215.4404,
+      "y": 1274.9316
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4224.8135,
+      "y": 1293.9316
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4227.5039,
+      "y": 1302.5684
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4242.5176,
+      "y": 1314.9932
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4252.2656,
+      "y": 1328.2422
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4242.0215,
+      "y": 1326.9028
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(0.55),attack;",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4244.2617,
+      "y": 1323.6758
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4244.2617,
+      "y": 1323.6758
+    }
+  ]
+}

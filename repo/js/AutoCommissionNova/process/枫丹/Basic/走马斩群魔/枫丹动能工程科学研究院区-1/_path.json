@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/1004452714",
+        "name": "DarkFlameMaster"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784287918125,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "枫丹-枫丹动能工程科学研究院区-走马斩群魔",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3628.8145,
+      "y": 4447.9189
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3597.6738,
+      "y": 4430.5098
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 3590.4502,
+      "y": 4428.6035
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3570.9385,
+      "y": 4397.5137
+    }
+  ]
+}

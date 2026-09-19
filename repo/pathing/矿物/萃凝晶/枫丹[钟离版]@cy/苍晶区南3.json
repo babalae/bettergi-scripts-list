@@ -1,0 +1,97 @@
+{
+  "info": {
+    "name": "苍晶区南3",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "cy"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5117.5,
+      "y": 2543.4,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "force_tp"
+    },
+    {
+      "id": 2,
+      "x": 5073.85,
+      "y": 2512.28,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 5048.6,
+      "y": 2515.39,
+      "type": "path",
+      "move_mode": "climb",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 5035.43,
+      "y": 2511.42,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 5,
+      "x": 5032.78,
+      "y": 2505.87,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 5027.0,
+      "y": 2501.63,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 5028.94,
+      "y": 2508.48,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": 5031.65,
+      "y": 2515.87,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": 5028.98,
+      "y": 2515.09,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 10,
+      "x": 5036.0,
+      "y": 2516.0,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}
