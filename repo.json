@@ -1,5 +1,5 @@
 {
-  "time": "20260918221608",
+  "time": "20260919214853",
   "url": "https://github.com/babalae/bettergi-scripts-list/archive/refs/heads/main.zip",
   "file": "repo.json",
   "indexes": [
@@ -28088,6 +28088,48 @@
                     "战斗"
                   ],
                   "lastUpdated": "2026-08-26 23:33:42"
+                }
+              ]
+            },
+            {
+              "name": "先驱秘源统辖阵列",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "01-残损的月铁-霜月-伊比尼伯龙之眼-5只.json",
+                  "type": "file",
+                  "version": "1.0",
+                  "author": "Vicissitude",
+                  "authors": [
+                    {
+                      "name": "Vicissitude"
+                    }
+                  ],
+                  "description": "注意，该怪伤害较高，且该路线有一个节点会遇到冰霜夜灵嗣",
+                  "tags": [
+                    "bgi≥0.52.0",
+                    "敌人与魔物",
+                    "战斗"
+                  ],
+                  "lastUpdated": "2026-09-19 00:13:12"
+                },
+                {
+                  "name": "02-残损的月铁-霜月-古月风暴研究所-1只.json",
+                  "type": "file",
+                  "version": "1.0",
+                  "author": "Vicissitude",
+                  "authors": [
+                    {
+                      "name": "Vicissitude"
+                    }
+                  ],
+                  "description": "",
+                  "tags": [
+                    "bgi≥0.52.0",
+                    "敌人与魔物",
+                    "战斗"
+                  ],
+                  "lastUpdated": "2026-09-19 00:13:12"
                 }
               ]
             },
@@ -108775,17 +108817,21 @@
         {
           "name": "AccountSwitchStateMachine",
           "type": "directory",
-          "version": "1.0",
+          "version": "1.1",
           "author": "mno",
           "authors": [
             {
               "name": "mno",
               "link": "https://github.com/Bedrockx"
+            },
+            {
+              "name": "lingyu",
+              "link": "https://github.com/aaahai00"
             }
           ],
           "description": "带状态机的账号切换~|~",
           "tags": [],
-          "lastUpdated": "2026-03-04 18:35:10"
+          "lastUpdated": "2026-09-19 00:16:03"
         },
         {
           "name": "ActivitySwitch",
@@ -110028,6 +110074,25 @@
           "lastUpdated": "2026-01-17 12:45:40"
         },
         {
+          "name": "IceObjectNpcLike",
+          "type": "directory",
+          "version": "1.1.0",
+          "author": "一只低熵体",
+          "authors": [
+            {
+              "name": "一只低熵体"
+            }
+          ],
+          "description": "冰造物 NPC 点赞自动化~|~自动前往至冬 NPC 点位完成两次冰造物点赞与最终清理，支持高收益精简、路线开关、多段连续路线、任务分支和定期恢复热能。",
+          "tags": [
+            "bgi≥0.64.0",
+            "冰造物",
+            "NPC点赞",
+            "地图追踪"
+          ],
+          "lastUpdated": "2026-09-19 00:27:26"
+        },
+        {
           "name": "JoinFriendsWorld",
           "type": "directory",
           "version": "1.0.0",
@@ -111146,6 +111211,23 @@
             "bgi≥0.55"
           ],
           "lastUpdated": "2026-08-29 14:19:47"
+        },
+        {
+          "name": "自动寻怪-手动战斗",
+          "type": "directory",
+          "version": "1.0",
+          "author": "吉吉喵",
+          "authors": [
+            {
+              "name": "吉吉喵",
+              "link": "https://github.com/JJMdzh"
+            }
+          ],
+          "description": "自动寻路+手动战斗~|~自动寻怪+手动战斗；注意！在开战点走神，角色可能会被打死。\n如果暂停中角色被打死，复活，重启js。\n如果遇到不想跑的路径，可中断js，删除对应路径，再启动\n已跑完的路径会进入CD中；如果有不会，可截图问豆包",
+          "tags": [
+            "bgi≥0.64"
+          ],
+          "lastUpdated": "2026-09-19 00:13:44"
         },
         {
           "name": "自动循环使用料理",
