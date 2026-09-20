@@ -604,7 +604,7 @@
                 }
 
                 for (const path of path_pathing) {
-                    if (regex_area.test(path) && regex_fish.test(path) && regex_bait_include.test(path)) { // 逻辑薄弱点，可能导致bug
+                    if (regex_area.test(path.split("-")[0]) && regex_fish.test(path.split("-")[3]) && regex_bait_include.test(path.split("-")[4])) { // [DEBUG] 如果一个名称与另一个名称为包含关系仍可能出现bug
                         path_list.push(path);
                     }
                 }
