@@ -1,0 +1,14 @@
+// 作者：火山 名称：万能战斗策略（萌新推荐） 修改者：Mezz
+// 描述：应对部分首领+副本的月感电配队
+// 机娘eq，少女eq，砂糖eq，菲林斯输出eeqaeqaeqa
+// 测试账号为 21菲，21少，11伊，讨龙砂糖，由于本人没有相关经验，不一定适配所有人，对此非常抱歉。
+
+伊涅芙 e, wait(0.1), keypress(q), wait(0.1), keypress(q), ready, check, wait(0.3),
+// 后台、挂元素、副C、先手
+哥伦比娅 e, wait(0.3), keypress(q), ready, attack(0.33), check, wait(0.3)
+// 减抗
+砂糖 e, wait(0.3), keypress(q), wait(0.1), attack(0.3), keypress(q), wait(0.1),
+// 收尾，长轴 
+菲林斯 attack(0.2), click(middle), keydown(w), e, attack(0.5), keyup(w), keydown(s), e, keypress(q), attack(0.3), keyup(s), keydown(w), attack(0.3), keyup(w), check, wait(0.3), e, keypress(q), attack(0.3), keydown(s), e, attack(0.3), keyup(s), keypress(q), attack(0.2), keydown(w), attack(0.2), keyup(w), keydown(s), e, attack(0.2), keyup(s), keypress(e), attack(0.25), e, keypress(q), ready, keydown(w), e, attack(0.3), keyup(w), check, wait(0.3), keydown(s), e, keypress(q), attack(0.3), keyup(s), keydown(w), attack(0.33), keyup(w), check, wait(0.3), e, keypress(q), attack(0.33), keydown(s), e, attack(0.33), keyup(s), attack(0.2), keypress(q), ready, check, wait(0.3)
+
+
