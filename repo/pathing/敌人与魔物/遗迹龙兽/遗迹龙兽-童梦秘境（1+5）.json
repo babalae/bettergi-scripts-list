@@ -1,0 +1,113 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.42.0",
+    "description": "1只遗迹龙兽，5只遗迹机兵",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789956048934,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "遗迹龙兽-童梦秘境（1+5）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3348.5352,
+      "y": -826.3887
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3333.9795,
+      "y": -836.9961
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3330.2588,
+      "y": -825.5293
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3320.665,
+      "y": -810.9062
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3311.4326,
+      "y": -804.7607
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3296.8525,
+      "y": -810.5244
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(6)",
+      "id": 7,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3264.1338,
+      "y": -840.0264
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3264.1338,
+      "y": -840.0264
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3234.0508,
+      "y": -858.3887
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3234.7598,
+      "y": -866.5098
+    }
+  ]
+}
