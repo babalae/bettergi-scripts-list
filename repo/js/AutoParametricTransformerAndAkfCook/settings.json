@@ -1,0 +1,47 @@
+[
+  {
+    "name": "enableCooldown",
+    "type": "checkbox",
+    "label": "启用7天质变冷却（勾选后：距上次质变完成不足7天则跳过执行；执行完成后自动记录时间）"
+  },
+  {
+    "name": "lastTransformTime",
+    "type": "input-text",
+    "label": "上次质变完成时间（手动修改无效，脚本运行后自动覆盖）",
+    "default": ""
+  },
+  {
+    "name": "enableAkfPot",
+    "type": "checkbox",
+    "label": "启用爱可菲锅配置（启用爱可菲锅队伍必须携带爱可菲）"
+  },
+  {
+    "name": "TEAMname",
+    "type": "input-text",
+    "label": "队伍名称（启用爱可菲锅配置/角色辅助时必填）"
+  },
+  {
+    "name": "enableSkillHelper",
+    "type": "checkbox",
+    "label": "启动角色辅助参量质变仪（勾选后请填写上方「队伍名称」切换队伍，队伍需包含辅助角色中的至少一个：按妮露、爱可菲、久岐忍、芙宁娜、芭芭拉优先级依次匹配）"
+  },
+  {
+    "name": "materialPlan",
+    "type": "input-text",
+    "label": "质变材料计划（格式：材料名数量@页,材料名数量@页；例：白铁块50@三,苹果100@二；@页可写一/二/三（养成道具/食物/材料），不写则默认从三到一依次找；数量可填max选最大；留空则跳过执行参量质变仪。）",
+    "default": ""
+  },
+
+  {
+    "name": "waitTimeout",
+    "type": "input-text",
+    "label": "等待参量质变完成超时时间（秒）",
+    "default": "30"
+  },
+  {
+    "name": "eWaitSec",
+    "type": "input-text",
+    "label": "爱可菲长按E后等待计时时长（秒）",
+    "default": "60"
+  }
+]

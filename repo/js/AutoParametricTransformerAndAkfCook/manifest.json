@@ -1,0 +1,24 @@
+{
+  "manifest_version": 1,
+  "name": "自动参量质变仪与爱可菲烹饪",
+  "version": "1.0.0",
+  "bgi_version": "0.36.1",
+  "tags": [
+    "参量质变仪",
+    "爱可菲"
+  ],
+  "description": "自动识别并切换爱可菲，执行路径到参量质变仪，交互后长按E技能",
+  "authors": [
+    {
+      "name": "夜雨l星辰"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "record/transform_cd.txt"
+  ],
+  "library": [
+    "."
+  ]
+}
