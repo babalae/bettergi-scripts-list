@@ -1,16 +1,7 @@
 # 自动摧毁一至三星武器
 
-这是一个 BetterGI Javascript 脚本。它会打开背包武器页，使用游戏自带的“快捷放入”选择一星、二星、三星武器，并分批执行“摧毁”。游戏界面中的正式操作名称是“摧毁”，不是可撤销的分解。
+这个脚本会打开背包武器页，使用游戏自带的“快捷放入”选择一星、二星、三星武器，并分批执行“摧毁”。
 
-## 安装
-
-将整个 `AutoDestroyLowStarWeapons` 文件夹放入：
-
-```text
-BetterGI\User\JsScript\AutoDestroyLowStarWeapons
-```
-
-在 BetterGI 中刷新本地脚本，将脚本加入配置组，然后在配置组中右键该脚本打开自定义配置。
 
 ## 使用
 
@@ -21,12 +12,11 @@ BetterGI\User\JsScript\AutoDestroyLowStarWeapons
 
 ## 安全行为
 
-- 默认是预演模式。
+- 默认是预演模式，请在脚本设置里调整摧毁设置
 - 只使用游戏自带的快捷放入规则，不会选择已锁定或游戏不允许放入的武器。
 - 切换武器页后必须 OCR 识别到“基础攻击力”，否则不会进入摧毁界面。
 - 最后一次确认前必须在弹窗中央识别到红色摧毁图标；识别失败时会按 `Esc` 取消并停止。
 - 如果界面布局、语言或游戏版本发生变化，脚本会尽量在最终确认前停止。脚本仅按简体中文界面制作。
-- 逻辑坐标按 `1920x1080` 编写，并通过 `setGameMetrics` 交给 BetterGI 适配；建议游戏使用 16:9 分辨率。
 
 ## 配置说明
 
@@ -36,10 +26,5 @@ BetterGI\User\JsScript\AutoDestroyLowStarWeapons
 - `界面操作间隔`：默认 1000 毫秒。设备或网络较慢时可提高到 1500 至 2500。
 - `执行结束后返回游戏主界面`：仅在正式执行且没有发生识别错误时生效。
 
-## 实现依据
-
-- [BetterGI 创建脚本](https://www.bettergi.com/dev/js/create.html)
-- [BetterGI 全局方法](https://www.bettergi.com/dev/js/global.html)
-- [BetterGI 图像识别与 OCR](https://www.bettergi.com/dev/js/rec.html)
 
 按钮模板取自 BetterGI 官方脚本仓库中同一背包摧毁界面的 `DestroyArtifactsForMora` 脚本，并限定在各自界面区域内匹配。
