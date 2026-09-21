@@ -233,7 +233,7 @@ function canRunPathingFile(currentTime, lastEndTime, refreshCD) {
 // ========================【fight转换模块】========================
 /**
  * 处理单一路径json对象：替换 fight 节点
- * 规则：action == "fight" 并且 action_params是空字符串
+ * 规则：action == "fight"，无action_params/空串直接新建；已有action_params字符串则头部追加 keypress(vk),wait(0.3),
  * @param {object} pathData 原始路径json对象
  * @returns {object} 修改后的pathData
  */
@@ -246,14 +246,23 @@ function convertFightToCombatScript(pathData) {
     const vkKey = settings.virtualKey || "VK_END";
     log.info(`[按键调试] settings.virtualKey原始值：${settings.virtualKey}，最终使用按键：${vkKey}`);
     for (const pos of newData.positions) {
-        if (pos.action === "fight" && pos.action_params === "") {
-            pos.action = "combat_script";
-            pos.action_params = `keypress(${vkKey})`;
-            log.info(`[转换] 找到fight节点，替换为：${pos.action_params}`);
+        if (pos.action === "fight") {
+            if (!pos.action_params) {
+                // undefined / null / "" 空串，直接新建
+                pos.action = "combat_script";
+                pos.action_params = `keypress(${vkKey})`;
+                log.info(`[转换] 找到fight节点，新建：${pos.action_params}`);
+            } else if (typeof pos.action_params === "string" && pos.action_params.trim() !== "") {
+                // 已有动作串，前置：新按键 + wait(0.3) + 原有内容
+                pos.action = "combat_script";
+                pos.action_params = `keypress(${vkKey}),wait(0.3),${pos.action_params}`;
+                log.info(`[转换] 找到fight节点，前置追加按键：${pos.action_params}`);
+            }
         }
     }
     return newData;
 }
+
 /**
  * 增强版JSON格式修复（和你原始脚本完全一样）
  * @param {string} jsonStr
