@@ -39,6 +39,31 @@ let localeTimeSupported;
 let lastBuffTime = 0;
 let currentFood = "";
 let monsterInfoObject;
+let htmlRouteCachePromise = null;
+let htmlPanelWindowId = null;
+let htmlPreviewMode = false;
+const HTML_CONFIG_ID = "auto-hoeing-config";
+const HTML_CONFIG_PATH = "assets/config.html";
+const HTML_CONFIG_IDLE_DELAY_MS = 60 * 1000;
+const HTML_CONFIG_COUNTDOWN_MS = 10 * 1000;
+const HTML_RUNTIME_FIELDS = [
+    "openHtmlConfig", "operationMode", "groupIndex", "partyName", "validateTeamMembers", "disableAsync",
+    "sortMode", "pickup_Mode", "onlyRelatedItems", "disableSecondCheck", "activeDumperMode", "eatBuff",
+    "detectRevival", "detectHealthBar", "timeRule", "findFInterval", "pickupDelay", "rollingDelay", "timeMove",
+    "enableCoordCheck", "useCrystalflyCatcher", "logMonsterCount"
+];
+const HTML_ROUTE_FIELDS = [
+    "accountName", "tagsForGroup2", "tagsForGroup3", "tagsForGroup4", "tagsForGroup5", "tagsForGroup6",
+    "tagsForGroup7", "tagsForGroup8", "tagsForGroup9", "tagsForGroup10", "targetEliteNum", "targetMonsterNum",
+    "priorityTags", "excludeTags", "efficiencyIndex", "curiosityFactor", "ignoreRate",
+    "targetMonsters"
+];
+const HTML_CONFIG_SELECTS = Object.freeze({
+    operationMode: ["运行锄地路线", "调试路线分配", "启用仅指定怪物模式"],
+    groupIndex: ["路径组一", "路径组二", "路径组三", "路径组四", "路径组五", "路径组六", "路径组七", "路径组八", "路径组九", "路径组十"],
+    sortMode: ["原文件顺序", "效率降序", "高收益优先"],
+    pickupMode: ["模板匹配拾取，拾取狗粮和怪物材料", "模板匹配拾取，只拾取狗粮", "bgi原版拾取", "不拾取任何物品"]
+});
 
 // 基础识别区域（基于 1920×1080 分辨率）
 const SCREEN_WIDTH = 1920;
@@ -159,6 +184,10 @@ const revivalMedicineRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(
 (async function () {
     //通用预处理
     await loadConfig();
+    localeTimeSupported = await checkLocaleTimeSupport();
+    if (!await openHoeingHtmlConfigPanel()) return;
+    // HTML 面板可能修改了当前配置；重新派生运行时变量。
+    await loadConfig();
     let switchPartyTask;
     if (["运行锄地路线", "启用仅指定怪物模式"].includes(operationMode)) {
         switchPartyTask = switchPartyIfNeeded(partyName);
@@ -171,7 +200,6 @@ const revivalMedicineRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(
         }
     }
     targetItems = await loadTargetItems();
-    localeTimeSupported = await checkLocaleTimeSupport();
     dispatcher.AddTrigger(new RealtimeTimer("AutoSkip"));
     await loadBlacklist(true);
     await rotateWarnIfAccountEmpty();
@@ -219,9 +247,16 @@ const revivalMedicineRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(
             await updateRecords(pathings, accountName);
             await processPathingsByGroup(pathings, accountName);
         } else {
-            log.info("强制刷新所有运行记录");
-            await initializeCdTime(pathings, "");
+            log.warn(`未知执行模式「${operationMode}」，按运行锄地路线处理`);
+            if (!settings.disableAsync) {
+                const switchSuccess = await switchPartyTask;
+                if (!switchSuccess) {
+                    log.error("队伍切换失败，脚本终止");
+                    return;
+                }
+            }
             await updateRecords(pathings, accountName);
+            await processPathingsByGroup(pathings, accountName);
         }
     }
 })();
@@ -240,6 +275,11 @@ const revivalMedicineRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(
  */
 async function loadConfig() {
     operationMode = settings.operationMode || "运行锄地路线";
+    // 旧版配置可能仍保存着已移除的强制刷新模式，改由 HTML 第三页操作。
+    if (operationMode === "强制刷新所有运行记录") {
+        operationMode = "运行锄地路线";
+        settings.operationMode = operationMode;
+    }
     accountName = settings.accountName || "默认账户";
     if (operationMode !== '启用仅指定怪物模式') {
         const FORBIDDEN = ['莫酱', '汐酱'];
@@ -255,7 +295,6 @@ async function loadConfig() {
             tagsForGroup8: settings.tagsForGroup8 ?? '',
             tagsForGroup9: settings.tagsForGroup9 ?? '',
             tagsForGroup10: settings.tagsForGroup10 ?? '',
-            disableSelfOptimization: settings.disableSelfOptimization ?? false,
             efficiencyIndex: settings.efficiencyIndex ?? 0.25,
             curiosityFactor: settings.curiosityFactor ?? '0',
             ignoreRate: settings.ignoreRate ?? -1,
@@ -350,6 +389,435 @@ async function loadConfig() {
     groupTags = groupSettings.map(str =>
         str.split('，').map(tag => tag.trim()).filter(Boolean)
     );
+}
+
+/* ========================= HTML 配置面板 ========================= */
+const HTML_SHARED_ROUTE_FIELDS = [
+    "tagsForGroup2", "tagsForGroup3", "tagsForGroup4", "tagsForGroup5", "tagsForGroup6",
+    "tagsForGroup7", "tagsForGroup8", "tagsForGroup9", "tagsForGroup10", "targetEliteNum",
+    "targetMonsterNum", "priorityTags", "excludeTags", "efficiencyIndex",
+    "curiosityFactor", "ignoreRate"
+];
+
+function htmlConfigAccountError(rawAccount) {
+    const value = String(rawAccount || "").trim();
+    if (!value) return "账户名称不能为空";
+    if (value === "." || value === ".." || /[\\/:*?"<>|\x00-\x1f]/.test(value) || /[. ]$/.test(value) || /^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\..*)?$/i.test(value)) {
+        return "账户名称不能包含路径符号、控制字符或 Windows 文件名保留名称";
+    }
+    return "";
+}
+
+function htmlStringList(value) {
+    return String(value || "").split(/[，,;；\r\n]+/).map(item => item.trim()).filter(Boolean);
+}
+
+function htmlParseRouteDescription(description) {
+    const result = { time: DEFAULT_ROUTE_TIME_SECONDS, monsterInfo: {} };
+    const text = String(description || "");
+    const timeMatch = text.match(/预计用时([\d.]+)秒/);
+    if (timeMatch) result.time = Number(timeMatch[1]) || DEFAULT_ROUTE_TIME_SECONDS;
+    const monsterMatch = text.match(/包含以下怪物：(.*?)。/);
+    if (!monsterMatch) return result;
+    monsterMatch[1].split("、").forEach(item => {
+        const parts = item.split("只");
+        if (parts.length < 2) return;
+        const count = Math.ceil(Number(parts[0].trim()) || 0);
+        const name = parts.slice(1).join("只").trim();
+        if (name && count > 0) result.monsterInfo[name] = count;
+    });
+    return result;
+}
+
+function htmlApplyHistoryTime(route, record, routeConfig) {
+    // 与 initializeCdTime/processPathings 保持一致：缺少记录时按 7 个 -1 初始化，
+    // 文件中的记录在落盘时为倒序，读取后需要翻转回运行时顺序。
+    const loaded = record && Array.isArray(record.records) ? record.records.slice().reverse() : [];
+    const values = [...new Array(RUN_RECORD_LIMIT).fill(-1), ...loaded]
+        .slice(-RUN_RECORD_LIMIT)
+        .filter(value => Number(value) > 0)
+        .map(Number);
+    const pool = [];
+    const curiosity = Math.max(0, Math.min(1, parseNumericSetting(routeConfig.curiosityFactor, 0)));
+    for (let index = 0; index < RUN_RECORD_LIMIT; index++) pool.push(index < values.length ? values[index] : route.t * (1 - curiosity));
+    const max = Math.max(...pool);
+    const min = Math.min(...pool);
+    const trimmed = pool.slice();
+    const maxIndex = trimmed.indexOf(max);
+    if (maxIndex >= 0) trimmed.splice(maxIndex, 1);
+    const minIndex = trimmed.indexOf(min);
+    if (minIndex >= 0) trimmed.splice(minIndex, 1);
+    if (trimmed.length) route.t = trimmed.reduce((sum, value) => sum + value, 0) / trimmed.length;
+}
+
+async function getHtmlRouteCache() {
+    if (htmlRouteCachePromise) return htmlRouteCachePromise;
+    htmlRouteCachePromise = (async () => {
+        const monsterRaw = await file.readText("assets/monsterInfo.json");
+        const monsters = JSON.parse(monsterRaw);
+        const monsterMap = new Map(monsters.map(item => [item.name, item]));
+        const files = await readFolder("pathing", "json");
+        const routes = [];
+        for (const entry of files) {
+            try {
+                const json = JSON.parse(await file.readText(entry.fullPath));
+                const info = json.info && typeof json.info === "object" ? json.info : {};
+                const parsed = htmlParseRouteDescription(info.description);
+                const tags = Array.isArray(info.tags) ? info.tags.slice() : [];
+                let m = 0, e = 0, moraM = 0, moraE = 0;
+                for (const [name, count] of Object.entries(parsed.monsterInfo)) {
+                    const monster = monsterMap.get(name);
+                    if (!monster) continue;
+                    if (monster.type === "普通") {
+                        m += count;
+                        moraM += count * 40.5 * monster.moraRate;
+                    } else if (monster.type === "精英") {
+                        e += count;
+                        moraE += count * 200 * monster.moraRate;
+                    }
+                    if (monster.moraRate > 1) {
+                        tags.push("高收益");
+                        if (monster.type === "精英") tags.push("精英高收益");
+                    }
+                    if (Array.isArray(monster.tags)) tags.push(...monster.tags);
+                }
+                routes.push({
+                    fullPath: entry.fullPath,
+                    fileName: entry.fileName,
+                    relativePath: String(entry.fullPath).replace(/^pathing[\\/]/i, "").replace(/\\/g, "/"),
+                    description: String(info.description || ""),
+                    name: String(info.name || entry.fileName),
+                    tags: [...new Set(tags)],
+                    monsterInfo: parsed.monsterInfo,
+                    t: parsed.time,
+                    m, e, original_e: e, mora_m: moraM, mora_e: moraE,
+                    map_name: info.map_name || "Teyvat",
+                    map_match_method: info.map_match_method || "",
+                    positionCount: Array.isArray(json.positions) ? json.positions.length : 0
+                });
+            } catch (error) {
+                log.warn(`HTML 路线预览跳过无效路线 ${entry.fullPath}：${error.message}`);
+            }
+        }
+        return routes;
+    })().catch(error => {
+        htmlRouteCachePromise = null;
+        throw error;
+    });
+    return htmlRouteCachePromise;
+}
+
+async function readHtmlRouteRecords(account) {
+    try {
+        const raw = await file.readText(`records/${account}.json`);
+        const value = JSON.parse(raw);
+        return Array.isArray(value) ? value : [];
+    } catch {
+        return [];
+    }
+}
+
+function htmlRouteClone(route, record, routeConfig) {
+    const clone = {
+        ...route,
+        tags: [...route.tags],
+        monsterInfo: { ...route.monsterInfo },
+        records: record && Array.isArray(record.records)
+            ? [...new Array(RUN_RECORD_LIMIT).fill(-1), ...record.records.slice().reverse()].slice(-RUN_RECORD_LIMIT)
+            : new Array(RUN_RECORD_LIMIT).fill(-1),
+        items: record && Array.isArray(record.items) ? record.items : [],
+        cdTime: record?.cdTime || ""
+    };
+    htmlApplyHistoryTime(clone, record, routeConfig);
+    const ignoreRateValue = parseNumericSetting(routeConfig.ignoreRate, -1);
+    if (ignoreRateValue >= 0 && clone.e > 0 && !["精英高收益", "高危", "传奇"].some(tag => clone.tags.includes(tag)) && clone.m / clone.e > ignoreRateValue) {
+        clone.e = 0;
+        clone.mora_e = 0;
+    }
+    // 原运行逻辑在 ignoreRate 处理后才追加路径组自定义标签，保持顺序一致。
+    const text = `${clone.fullPath} ${clone.description}`;
+    const configuredGroups = Array.from({ length: 9 }, (_, index) => htmlStringList(routeConfig[`tagsForGroup${index + 2}`]));
+    configuredGroups.forEach(tags => tags.forEach(tag => { if (text.includes(tag)) clone.tags.push(tag); }));
+    clone.tags = [...new Set(clone.tags)];
+    const cd = record?.cdTime ? new Date(record.cdTime) : new Date(0);
+    clone.cdTime = Number.isNaN(cd.getTime()) ? "" : cd.toISOString();
+    return clone;
+}
+
+async function buildHtmlRoutePreview(payload) {
+    const source = payload && payload.settings ? payload.settings : settings;
+    const account = String(source.accountName || accountName || "默认账户").trim() || "默认账户";
+    const records = await readHtmlRouteRecords(account);
+    const recordMap = new Map(records.map(record => [String(record.fileName || ""), record]));
+    const routeConfig = source;
+    const cached = await getHtmlRouteCache();
+    const routes = cached.map(route => htmlRouteClone(route, recordMap.get(route.fileName), routeConfig));
+    const currentMode = HTML_CONFIG_SELECTS.operationMode.includes(String(source.operationMode)) ? String(source.operationMode) : "运行锄地路线";
+    if (currentMode === "启用仅指定怪物模式") {
+        const targets = htmlStringList(source.targetMonsters);
+        routes.forEach(route => {
+            route.selected = targets.length > 0 && targets.some(target => `${route.fullPath} ${route.description}`.includes(target));
+            route.group = route.selected ? 1 : 0;
+        });
+    } else {
+        let priorities = htmlStringList(source.priorityTags);
+        let excludes = htmlStringList(source.excludeTags);
+        if (!String(source.pickup_Mode || "").includes("模板匹配")) excludes = [...new Set([...excludes, "沙暴"])];
+        const oldSortMode = settings.sortMode;
+        const oldPreviewMode = htmlPreviewMode;
+        settings.sortMode = HTML_CONFIG_SELECTS.sortMode.includes(String(source.sortMode)) ? String(source.sortMode) : "高收益优先";
+        htmlPreviewMode = true;
+        try {
+            await markPathings(routes, priorities, excludes);
+            const elite = Math.max(0, parseNumericSetting(source.targetEliteNum, DEFAULT_ELITE_TARGET_NUM)) + ELITE_TARGET_RESERVE;
+            const monster = Math.max(0, parseNumericSetting(source.targetMonsterNum, DEFAULT_MONSTER_TARGET_NUM)) + MONSTER_TARGET_RESERVE;
+            await findBestRouteGroups(routes, parseNumericSetting(source.efficiencyIndex, 0.25), elite, monster);
+            await assignGroups(routes, Array.from({ length: 10 }, (_, index) => htmlStringList(source[`tagsForGroup${index + 1}`])));
+        } finally {
+            settings.sortMode = oldSortMode;
+            htmlPreviewMode = oldPreviewMode;
+        }
+    }
+    const groupSummary = [];
+    for (let group = 1; group <= 10; group++) {
+        const selected = routes.filter(route => route.selected && route.group === group);
+        groupSummary.push({
+            group,
+            name: `路径组${["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"][group - 1]}`,
+            configuredTags: group === 1 ? "" : String(source[`tagsForGroup${group}`] || ""),
+            routeCount: selected.length,
+            elites: selected.reduce((sum, route) => sum + (route.e || 0), 0),
+            monsters: selected.reduce((sum, route) => sum + (route.m || 0), 0),
+            estimatedTime: selected.reduce((sum, route) => sum + (route.t || 0), 0)
+        });
+    }
+    const selectedRoutes = routes.filter(route => route.selected);
+    const currentGroup = HTML_CONFIG_SELECTS.groupIndex.indexOf(String(source.groupIndex || "路径组一")) + 1 || 1;
+    return {
+        currentGroup,
+        total: {
+            routeCount: selectedRoutes.length,
+            elites: selectedRoutes.reduce((sum, route) => sum + (route.e || 0), 0),
+            monsters: selectedRoutes.reduce((sum, route) => sum + (route.m || 0), 0),
+            estimatedTime: selectedRoutes.reduce((sum, route) => sum + (route.t || 0), 0)
+        },
+        groups: groupSummary,
+        routes: routes.map(route => ({
+            path: route.relativePath,
+            fileName: route.fileName,
+            name: route.name,
+            tags: route.tags,
+            description: route.description,
+            e: route.e,
+            m: route.m,
+            t: route.t,
+            selected: Boolean(route.selected),
+            group: route.group || 0,
+            cdTime: route.cdTime,
+            records: Array.isArray(route.records) ? route.records.slice() : [],
+            items: Array.isArray(route.items) ? route.items.slice() : [],
+            available: !route.cdTime || Date.now() > new Date(route.cdTime).getTime()
+        }))
+    };
+}
+
+function htmlSettingSnapshot() {
+    const result = {};
+    [...HTML_RUNTIME_FIELDS, ...HTML_ROUTE_FIELDS].forEach(name => { result[name] = settings[name] ?? ""; });
+    if (!result.operationMode || result.operationMode === "强制刷新所有运行记录") result.operationMode = "运行锄地路线";
+    if (!result.openHtmlConfig && result.openHtmlConfig !== false) result.openHtmlConfig = true;
+    return result;
+}
+
+async function collectHoeingHtmlInformation(account, preview) {
+    const records = await readHtmlRouteRecords(account);
+    let blacklistValues = [];
+    try {
+        const value = JSON.parse(await file.readText(`blacklists/${account}.json`));
+        if (Array.isArray(value)) blacklistValues = value.map(item => String(item)).filter(Boolean);
+    } catch { /* 首次运行可能还没有黑名单文件 */ }
+    const currentNames = new Set((preview?.routes || []).map(route => route.fileName));
+    const staleRecords = records.filter(record => !currentNames.has(String(record.fileName || ""))).length;
+    const duplicateMap = new Map();
+    (preview?.routes || []).forEach(route => duplicateMap.set(route.fileName, (duplicateMap.get(route.fileName) || 0) + 1));
+    return {
+        blacklist: blacklistValues,
+        diagnostics: {
+            account,
+            routeFiles: preview?.routes?.length || 0,
+            routeRecords: records.length,
+            staleRecords,
+            duplicateRouteNames: [...duplicateMap.values()].filter(count => count > 1).length,
+            historyEntries: records.reduce((sum, record) => sum + (Array.isArray(record.records) ? record.records.length : 0), 0),
+            blacklistCount: blacklistValues.length
+        }
+    };
+}
+
+async function collectHoeingHtmlModel() {
+    const settingsSnapshot = htmlSettingSnapshot();
+    const preview = await buildHtmlRoutePreview({ settings: settingsSnapshot });
+    const information = await collectHoeingHtmlInformation(String(settingsSnapshot.accountName || "默认账户"), preview);
+    return {
+        settings: settingsSnapshot,
+        routeFields: HTML_ROUTE_FIELDS,
+        runtimeFields: HTML_RUNTIME_FIELDS,
+        selects: HTML_CONFIG_SELECTS,
+        preview,
+        information,
+        startupDiagnostics: { hostModelReadyAt: Date.now() }
+    };
+}
+
+function validateHoeingHtmlConfig(payload, model) {
+    const data = payload && payload.settings ? payload.settings : {};
+    const errors = [];
+    const accountError = htmlConfigAccountError(data.accountName);
+    if (accountError) errors.push(accountError);
+    if (!HTML_CONFIG_SELECTS.operationMode.includes(String(data.operationMode || ""))) errors.push("执行模式无效");
+    if (!HTML_CONFIG_SELECTS.groupIndex.includes(String(data.groupIndex || ""))) errors.push("路径组选择无效");
+    if (!HTML_CONFIG_SELECTS.sortMode.includes(String(data.sortMode || ""))) errors.push("路线排序方式无效");
+    if (!HTML_CONFIG_SELECTS.pickupMode.includes(String(data.pickup_Mode || ""))) errors.push("拾取模式无效");
+    ["targetEliteNum", "targetMonsterNum", "efficiencyIndex", "curiosityFactor", "ignoreRate"].forEach(name => {
+        if (data[name] !== "" && !Number.isFinite(Number(data[name]))) errors.push(`${name} 必须是数字`);
+    });
+    if (Number(data.curiosityFactor) < 0 || Number(data.curiosityFactor) > 1) errors.push("好奇系数必须在 0 到 1 之间");
+    if (Number(data.efficiencyIndex) < 0) errors.push("效率权衡因数不能小于 0");
+    if (String(data.pickup_Mode || "").includes("模板匹配") && (Number(data.findFInterval) < 16 || Number(data.findFInterval) > 200)) errors.push("识别间隔必须在 16 到 200 之间");
+    if (String(data.operationMode) === "启用仅指定怪物模式" && !htmlStringList(data.targetMonsters).length) errors.push("仅指定怪物模式必须填写目标怪物");
+    const original = model?.settings || {};
+    if (String(data.groupIndex) !== "路径组一") {
+        const changedRouteConfig = HTML_ROUTE_FIELDS.some(name => String(data[name] ?? "") !== String(original[name] ?? ""));
+        if (changedRouteConfig) errors.push("当前不处于路径组一，路线选择配置无效；请切换到路径组一后再修改和保存");
+    }
+    return errors;
+}
+
+async function applyHoeingHtmlConfig(payload, model) {
+    const data = payload.settings || {};
+    const isGroupOne = String(data.groupIndex) === "路径组一";
+    HTML_RUNTIME_FIELDS.forEach(name => {
+        if (name === "openHtmlConfig") return;
+        if (Object.prototype.hasOwnProperty.call(data, name)) settings[name] = data[name];
+    });
+    settings.operationMode = data.operationMode === "强制刷新所有运行记录" ? "运行锄地路线" : String(data.operationMode || "运行锄地路线");
+    if (isGroupOne) {
+        const account = String(data.accountName || "默认账户").trim();
+        const shared = {};
+        HTML_SHARED_ROUTE_FIELDS.forEach(name => {
+            shared[name] = data[name] ?? "";
+            settings[name] = data[name] ?? "";
+        });
+        settings.accountName = account;
+        await file.writeText(`settings/${account}.json`, JSON.stringify(shared, null, 2), false);
+    }
+    return { groupIndex: String(data.groupIndex), routeConfigSaved: isGroupOne };
+}
+
+function defaultHoeingCdTime() {
+    const date = new Date(0);
+    return localeTimeSupported === false ? date.toISOString() : date.toLocaleString();
+}
+
+async function refreshHoeingRecords(account, mode) {
+    const cached = await getHtmlRouteCache();
+    const existing = await readHtmlRouteRecords(account);
+    const recordMap = new Map(existing.map(record => [String(record.fileName || ""), record]));
+    const cd = defaultHoeingCdTime();
+    const result = cached.map(route => {
+        const old = recordMap.get(route.fileName) || {};
+        if (mode === "clearHistory") {
+            return { fileName: route.fileName, 标签: route.tags, 预计用时: Number(route.t).toFixed(2), cdTime: cd, records: new Array(RUN_RECORD_LIMIT).fill(-1), items: [] };
+        }
+        return { fileName: route.fileName, 标签: old.标签 || route.tags, 预计用时: old.预计用时 || Number(route.t).toFixed(2), cdTime: cd, records: Array.isArray(old.records) ? old.records : [], items: Array.isArray(old.items) ? old.items : [] };
+    });
+    await file.writeText(`records/${account}.json`, JSON.stringify(result, null, 2), false);
+    return result.length;
+}
+
+async function openHoeingHtmlConfigPanel() {
+    if (settings.openHtmlConfig === false || String(settings.openHtmlConfig).toLowerCase() === "false") return true;
+    if (typeof htmlMask === "undefined") {
+        log.error("当前 BetterGI 未提供 HTML 配置面板能力，请升级到 0.62.0 或更高版本");
+        return false;
+    }
+    let model = null;
+    try {
+        model = await collectHoeingHtmlModel();
+        await genshin.returnMainUi();
+        htmlPanelWindowId = htmlMask.show(HTML_CONFIG_PATH, HTML_CONFIG_ID);
+        htmlMask.setClickThrough(htmlPanelWindowId, false);
+        htmlMask.send(htmlPanelWindowId, "/init", JSON.stringify(model));
+        while (htmlMask.exists(htmlPanelWindowId)) {
+            await sleep(1);
+            const raw = await htmlMask.receive(htmlPanelWindowId, 500);
+            if (!raw) continue;
+            let message;
+            try { message = JSON.parse(raw); } catch { continue; }
+            if (message.url === "/cancel") {
+                htmlMask.close(htmlPanelWindowId);
+                return false;
+            }
+            if (message.url === "/diagnostic") {
+                htmlMask.respond(htmlPanelWindowId, message.requestId, JSON.stringify({ ok: true }));
+                continue;
+            }
+            if (message.url === "/preview") {
+                try {
+                    const payload = message.data || {};
+                    const preview = await buildHtmlRoutePreview(payload);
+                    const previewSettings = payload.settings || {};
+                    const previewAccount = String(previewSettings.accountName || accountName || "默认账户").trim() || "默认账户";
+                    const information = await collectHoeingHtmlInformation(previewAccount, preview);
+                    htmlMask.respond(htmlPanelWindowId, message.requestId, JSON.stringify({ ok: true, preview, information }));
+                } catch (error) {
+                    htmlMask.respond(htmlPanelWindowId, message.requestId, JSON.stringify({ ok: false, errors: [error.message] }));
+                }
+                continue;
+            }
+            if (message.url === "/refresh-records") {
+                const account = String(message.data?.account || model.settings.accountName || "").trim();
+                const accountError = htmlConfigAccountError(account);
+                if (accountError) {
+                    htmlMask.respond(htmlPanelWindowId, message.requestId, JSON.stringify({ ok: false, errors: [accountError] }));
+                    continue;
+                }
+                try {
+                    const count = await refreshHoeingRecords(account, String(message.data?.mode || "resetCd"));
+                    const preview = await buildHtmlRoutePreview({ settings: model.settings });
+                    const information = await collectHoeingHtmlInformation(account, preview);
+                    htmlMask.respond(htmlPanelWindowId, message.requestId, JSON.stringify({ ok: true, count, preview, information }));
+                } catch (error) {
+                    htmlMask.respond(htmlPanelWindowId, message.requestId, JSON.stringify({ ok: false, errors: [error.message] }));
+                }
+                continue;
+            }
+            if (message.url !== "/save") continue;
+            const errors = validateHoeingHtmlConfig(message.data, model);
+            if (errors.length) {
+                htmlMask.respond(htmlPanelWindowId, message.requestId, JSON.stringify({ ok: false, errors }));
+                continue;
+            }
+            try {
+                const result = await applyHoeingHtmlConfig(message.data, model);
+                htmlMask.respond(htmlPanelWindowId, message.requestId, JSON.stringify({ ok: true, result }));
+                await sleep(80);
+                htmlMask.close(htmlPanelWindowId);
+                return true;
+            } catch (error) {
+                htmlMask.respond(htmlPanelWindowId, message.requestId, JSON.stringify({ ok: false, errors: [`保存配置失败：${error.message}`] }));
+            }
+        }
+        return false;
+    } catch (error) {
+        if (htmlPanelWindowId) {
+            try { htmlMask.close(htmlPanelWindowId); } catch { /* 窗口可能已关闭 */ }
+        }
+        log.error(`打开 HTML 配置面板失败：${error.message}`);
+        return false;
+    } finally {
+        htmlPanelWindowId = null;
+    }
 }
 
 /**
@@ -550,7 +1018,7 @@ async function processPathings() {
     pathings = validPathings;
 
     for (const pathing of pathings) {
-        if (!settings.disableSelfOptimization && pathing.records) {
+        if (pathing.records) {
             // 好奇系数：全局已解析，此处仅做 0-1 边界限制
             let cf = curiosityFactor;
             if (cf < 0) cf = 0;
@@ -786,7 +1254,7 @@ async function findBestRouteGroups(pathings, efficiencyIndex, targetEliteNum, ta
     log.info(`预计总用时: ${h} 时 ${m} 分 ${s.toFixed(0)} 秒`);
     if (totalSelectedElites < targetEliteNum - ELITE_TARGET_RESERVE || totalSelectedMonsters < targetMonsterNum - MONSTER_TARGET_RESERVE || totalSelectedElites > targetEliteNum * 1.1) {
         log.warn("警告，可能条件填写不合理，分配结果与目标存在较大差异");
-        await sleep(WARNING_DISPLAY_DELAY_MS);
+        if (!htmlPreviewMode) await sleep(WARNING_DISPLAY_DELAY_MS);
     }
 }
 
