@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1787707502729,
-    "map_match_method": "",
+    "last_modified_time": 1788742195290,
+    "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "02须弥-折胫谷右下-3个（沙暴）",
+    "name": "A01-魔晶矿-至冬-格鲁波夫",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -22,82 +22,79 @@
       "action": "",
       "action_params": "",
       "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 5690.25,
-      "y": -706.6934
+      "x": 6693.2041,
+      "y": 9909.9238
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
-      "x": 5669.7949,
-      "y": -720.4824
+      "x": 6679.9375,
+      "y": 9876.25
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 3,
-      "move_mode": "run",
+      "move_mode": "fly",
       "type": "path",
-      "x": 5676.835,
-      "y": -749.042
+      "x": 6623.9414,
+      "y": 9890.8604
     },
     {
-      "action": "",
+      "action": "mining",
       "action_params": "",
       "id": 4,
-      "move_mode": "run",
+      "locked": false,
+      "move_mode": "walk",
       "type": "path",
-      "x": 5685.1758,
-      "y": -769.5264
+      "x": 6621.7949,
+      "y": 9894.7539
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "climb",
+      "move_mode": "fly",
       "type": "path",
-      "x": 5671.4678,
-      "y": -779.1123
-    },
-    {
-      "action": "up_down_grab_leaf",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "orientation",
-      "x": 5668.2285,
-      "y": -809.1006
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 5643.0479,
-      "y": -902.2217
+      "x": 6580.1123,
+      "y": 9900.7529
     },
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 8,
+      "id": 6,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
-      "x": 5567.7344,
-      "y": -936.0635
+      "x": 6585.998,
+      "y": 9973.7959
     },
     {
-      "action": "fight",
+      "action": "mining",
       "action_params": "",
-      "id": 9,
-      "move_mode": "walk",
+      "id": 7,
+      "locked": false,
+      "move_mode": "fly",
       "type": "path",
-      "x": 5567.7344,
-      "y": -936.0635
+      "x": 6585.998,
+      "y": 9973.7959
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 8,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 6585.998,
+      "y": 9973.7959
     }
   ]
 }
