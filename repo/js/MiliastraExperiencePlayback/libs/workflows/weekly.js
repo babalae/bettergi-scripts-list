@@ -35,12 +35,13 @@ const execWeeklyTask = async () => {
     store.nextWeek = getNextMonday4AM().getTime();
   }
   /** 检查本周经验值是否已达上限 */
-  if (store.weekly.expGained >= userConfig.expWeeklyLimit)
+  if (store.weekly.expGained >= userConfig.expWeeklyLimit) {
     if (userConfig.force) log.warn("本周获取经验值已达上限，强制执行");
     else {
       log.warn("本周获取经验值已达上限，跳过执行");
       return;
     }
+  }
   /** 计算本次本周剩余可获取经验值 */
   let expRemaining = userConfig.expWeeklyLimit - store.weekly.expGained;
   expRemaining = expRemaining > 0 ? expRemaining : userConfig.expWeeklyLimit;

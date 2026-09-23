@@ -151,6 +151,7 @@ const exitStageToLobby = async () => {
     await exitStage();
     throw new Error("退出关卡返回大厅超时");
   }
+  await sleep(1e3);
 };
 
 //#endregion
