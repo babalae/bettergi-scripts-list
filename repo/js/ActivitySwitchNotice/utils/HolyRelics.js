@@ -1,4 +1,4 @@
-import {toMainUi, openBag, findImgAndClick, OcrFind, findText} from "./tool";
+import {toMainUi, openBag, findImgAndClick, OcrFind, findText, drawBox} from "./tool";
 import {sendText} from "./notice"
 
 /**
@@ -25,7 +25,9 @@ export async function checkHolyRelicsKey(threshold = 400) {
     }
     log.info("已进入圣遗物背包")  // 记录已进入圣遗物背包
     await sleep(ms)
-    const OcrText = await OcrFind(1612, 34, 192, 31);  // 使用OCR识别指定区域的文本
+    const regionConfig = {x: 1612, y: 34, width: 192, height: 31}
+    const OcrText = await OcrFind(regionConfig.x, regionConfig.y, regionConfig.width, regionConfig.height);  // 使用OCR识别指定区域的文本
+    await drawBox(settings.debug,regionConfig,200,new Pen(Color.Aquamarine,2))
     if (!(OcrText?.text)) {  // 如果OCR识别失败
         log.error("识别异常")  // 记录错误信息
         return  // 返回，终止函数执行

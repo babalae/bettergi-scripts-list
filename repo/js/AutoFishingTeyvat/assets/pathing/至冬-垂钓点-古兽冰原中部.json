@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "地区: 至冬\n类型: 垂钓点\n详细位置: 古兽冰原中部\n鱼类: 炭灰雪圆鳍、月光雪圆鳍、赤甜星花鱼、青仙星花鱼、虹晶星花鱼\n饵类: 闪烁饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789238173030,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "至冬-垂钓点-古兽冰原中部",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7465.9395,
+      "y": 7961.4702
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),a(1.15),w(1.5)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7476.8662,
+      "y": 7981.4976
+    },
+    {
+      "action": "combat_script",
+      "action_params": "s(0.3),wait(0.5),w(0.3),wait(1.5),keypress(f)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7481.9795,
+      "y": 7979.8804
+    }
+  ]
+}

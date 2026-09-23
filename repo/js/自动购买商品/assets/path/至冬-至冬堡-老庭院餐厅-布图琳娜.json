@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Leeon_666"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1787457830059,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "至冬-至冬堡-老庭院餐厅-布图琳娜",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6583.4863,
+      "y": 9580.4727
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6631.6953,
+      "y": 9574.3008
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(F),wait(0.2),keypress(F),wait(0.2),keypress(F),wait(7.5),walk(a,0.5),wait(0.5),walk(w,2),wait(1)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6631.6465,
+      "y": 9561.8271
+    }
+  ]
+}

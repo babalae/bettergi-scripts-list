@@ -1,4 +1,4 @@
-// 當前版本2.3.0
+// 當前版本2.3.1
 // Encounter Points
 const AdventurerHandbookButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Adventurer Handbook Button.png"), 100, 300, 700, 700);
 const EncounterPointsStageRewardsRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Encounter Points Stage Rewards.png"), 1500, 700, 100, 100);
@@ -169,7 +169,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
                     await sleep(500);
                     await pageTop(LeftSliderTopRo);
 
-                    for (let p = 0; p < 4; p++) {
+                    for (let p = 0; p < 5; p++) {
                         // 识别当前页
                         let captureRegion = captureGameRegion();
                         let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 100, 400, 900));
@@ -473,7 +473,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
         await sleep(1300);
         keyPress("VK_ESCAPE");
 
-        await sleep(2000);
+        await sleep(1500);
         const ro27 = captureGameRegion();
         let AdventurerHandbookButton = ro27.find(AdventurerHandbookButtonRo);
         ro27.dispose();
@@ -481,7 +481,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
             log.info("识别到冒险之证按钮");
             AdventurerHandbookButton.click();
 
-            await sleep(2000)
+            await sleep(1500)
             let captureRegion = captureGameRegion();
             let resList = captureRegion.findMulti(RecognitionObject.ocr(200, 300, 200, 100));
             captureRegion.dispose();
@@ -530,7 +530,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
 
                 keyPress("VK_ESCAPE");
             } else if (EncounterPointsStageRewardsButton.isEmpty()) {
-                log.info("未识别到 完成所有任務");
+                log.info("未识别到 可领取历练点奖励");
                 log.info("不领取历练点奖励");
                 returnValue = false;
             }
@@ -725,6 +725,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
         log.info(`开始前往${adventurePath}冒险家协会領奬`);
         let Catherine_Egeria = `Assets/AutoPath/冒险家协会_${adventurePath}.json`;
         await pathingScript.runFile(Catherine_Egeria);
+        await sleep(300);
         
         // 4. 如果设置了移动队伍與好感队伍，切换回来（用于领奖）
         if (settings.partyName && settingsMovePartyName) {

@@ -102,6 +102,180 @@
         return result;
     }
 
+    // ===== 每日伐木进度持久化 =====
+    const DAILY_WOOD_LIMIT = 2000;
+    const WOOD_PROGRESS_FILE = `records/${settings.username}.json`;
+    let dailyWoodProgress = null;
+
+    function getGameDayKey() {
+        // 原神每日 04:00 刷新。优先使用服务器时区，旧版环境则退回本机时间。
+        let serverOffset = 0;
+        try {
+            serverOffset = Number(ServerTime.getServerTimeZoneOffset()) || 0;
+        } catch (_) {
+            serverOffset = 0;
+        }
+
+        const date = new Date(Date.now() + serverOffset - 4 * 60 * 60 * 1000);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    function readTextCompat(path) {
+        if (typeof file.readTextSync === 'function') {
+            return file.readTextSync(path);
+        }
+        if (typeof file.ReadTextSync === 'function') {
+            return file.ReadTextSync(path);
+        }
+        throw new Error('当前 BetterGI 版本不支持同步文本读取');
+    }
+
+    function writeTextCompat(path, content) {
+        if (typeof file.writeTextSync === 'function') {
+            return file.writeTextSync(path, content, false);
+        }
+        if (typeof file.WriteTextSync === 'function') {
+            return file.WriteTextSync(path, content, false);
+        }
+        throw new Error('当前 BetterGI 版本不支持同步文本写入');
+    }
+
+    function createEmptyDailyProgress() {
+        const woods = {};
+        for (const wood of woodType) {
+            woods[wood] = 0;
+        }
+        return {
+            gameDay: getGameDayKey(),
+            woods,
+            routes: {},
+            updatedAt: new Date().toISOString()
+        };
+    }
+
+    function saveDailyProgress() {
+        if (!dailyWoodProgress) return false;
+
+        try {
+            dailyWoodProgress.updatedAt = new Date().toISOString();
+            const ok = writeTextCompat(
+                WOOD_PROGRESS_FILE,
+                JSON.stringify(dailyWoodProgress, null, 2)
+            );
+
+            if (ok === false) {
+                log.warn(`伐木进度写入失败: ${WOOD_PROGRESS_FILE}`);
+                return false;
+            }
+            return true;
+        } catch (error) {
+            log.warn(`伐木进度保存失败: ${error}`);
+            return false;
+        }
+    }
+
+    function loadDailyProgress() {
+        const gameDay = getGameDayKey();
+
+        try {
+            const parsed = JSON.parse(readTextCompat(WOOD_PROGRESS_FILE));
+
+            if (
+                parsed &&
+                parsed.gameDay === gameDay &&
+                parsed.woods &&
+                typeof parsed.woods === 'object'
+            ) {
+                for (const wood of woodType) {
+                    const value = Number(parsed.woods[wood] ?? 0);
+                    parsed.woods[wood] = Number.isFinite(value)
+                        ? Math.min(Math.max(value, 0), DAILY_WOOD_LIMIT)
+                        : 0;
+                }
+
+                if (!parsed.routes || typeof parsed.routes !== 'object') {
+                    parsed.routes = {};
+                }
+
+                dailyWoodProgress = parsed;
+                return dailyWoodProgress;
+            }
+        } catch (_) {
+            // 文件不存在、为空或损坏时，直接新建当天记录。
+        }
+
+        dailyWoodProgress = createEmptyDailyProgress();
+        saveDailyProgress();
+        return dailyWoodProgress;
+    }
+
+    function commitWoodProgress(woodCount, routeKey) {
+        // 只有路径完整执行成功后才记账，避免路线失败时误记。
+        for (const [wood, countRaw] of woodCount) {
+            const count = Number(countRaw) || 0;
+            if (count <= 0) continue;
+
+            if (woodNumberMap.has(wood)) {
+                woodNumberMap.set(wood, woodNumberMap.get(wood) - count);
+            }
+
+            if (dailyWoodProgress && Object.prototype.hasOwnProperty.call(dailyWoodProgress.woods, wood)) {
+                const oldValue = Number(dailyWoodProgress.woods[wood] ?? 0) || 0;
+                dailyWoodProgress.woods[wood] = Math.min(oldValue + count, DAILY_WOOD_LIMIT);
+            }
+        }
+
+        if (dailyWoodProgress && routeKey) {
+            const oldRuns = Number(dailyWoodProgress.routes[routeKey] ?? 0) || 0;
+            dailyWoodProgress.routes[routeKey] = oldRuns + 1;
+        }
+
+        saveDailyProgress();
+    }
+
+    function applyDailyProgress(useInventoryDetection) {
+        if (!dailyWoodProgress) {
+            dailyWoodProgress = loadDailyProgress();
+        }
+
+        const resumed = new Map();
+
+        for (const [wood, targetRaw] of woodNumberMap) {
+            const target = Math.max(Number(targetRaw) || 0, 0);
+            const doneToday = Math.min(
+                Math.max(Number(dailyWoodProgress.woods[wood] ?? 0) || 0, 0),
+                DAILY_WOOD_LIMIT
+            );
+            const remainingDaily = Math.max(DAILY_WOOD_LIMIT - doneToday, 0);
+
+            let adjustedTarget;
+            if (useInventoryDetection) {
+                // 背包检测已经把“库存增加”反映进剩余需求，不能再次减去 doneToday，
+                // 这里只限制当天剩余 2000 上限。
+                adjustedTarget = Math.min(target, remainingDaily);
+            } else {
+                // 未启用背包检测时，配置数量视为“当天总目标”，重启后扣掉当天已完成量。
+                adjustedTarget = Math.min(Math.max(target - doneToday, 0), remainingDaily);
+            }
+
+            woodNumberMap.set(wood, adjustedTarget);
+
+            if (doneToday > 0) {
+                resumed.set(wood, doneToday);
+            }
+        }
+
+        // 这里重新保存副本，保证“本次获得”统计按恢复后的剩余目标计算。
+        woodNumberMapCopy = new Map([...woodNumberMap]);
+
+        if (resumed.size > 0) {
+            log.info(`检测到今日伐木进度:${woodCountToStr(resumed)}`);
+        }
+    }
+
     async function runPathingNTimes(pathingName, wood, runTimes = null) {
         if ((runTimes === null && woodNumberMap.get(wood) <= 0) || (runTimes !== null && runTimes <= 0)) {
             return;
@@ -124,7 +298,7 @@
                 await fakeLog(`${pathing.fileName[0]}`, false, false, 0);
                 await sleep(1);
                 log.info(`完成 ${pathingName} 大循环路径, 获得${woodCountToStr(woodCount)}`);
-                woodCount.forEach((value, key) => { woodNumberMap.set(key, woodNumberMap.get(key) - value) });
+                commitWoodProgress(woodCount, `${pathingName}::大循环`);
             } catch (error) {
                 log.error(`在砍伐 ${pathingName} 时发生错误: ${error}`);
             }
@@ -157,6 +331,10 @@
                     await fakeLog(`${pathing.fileName}`, false, false, 0);
                     await sleep(1);
                 }
+                // 每完成一轮就立刻扣减本次剩余需求并写入当天断点。
+                // 脚本此后即使中断，下一次启动也不会从 2000 重新开始。
+                commitWoodProgress(woodCount, pathingName);
+
                 const jsTimeTaken = logTimeTaken(startTime);
                 const estimatedCompletion = calculateEstimatedCompletion(currentWoodStartTime, i + 1, runTimes);
                 log.info(`${pathingName} 第 ${i + 1}/${runTimes} 次循环执行完成`);
@@ -164,9 +342,6 @@
             }
             const jsTimeTaken = logTimeTaken(startTime);
             log.info(`完成 ${pathingName} 循环路径, 获得${woodCountToStr(woodCount, runTimes)}, ${jsTimeTaken}`);
-            woodCount.forEach((value, key) => {
-                woodNumberMap.set(key, woodNumberMap.get(key) - value * runTimes);
-            });
             log.info(`${pathingName} 伐木完成, 将执行下一个`);
             logRemainingItems();
         } catch (error) {
@@ -297,49 +472,37 @@
     }
 
     // 调用BGI任务读取背包中的木材数量并返回
-    async function woodInventory(woodsArray, numbersArray, woodInventoryNumber) {
-        log.info("先别急，先别动键盘鼠标，要去一个神秘的地方");
-        await genshin.Tp(1581.11, -112.45, "Enkanomiya", true);
-        await moveMouseBy(0, -114514);
-        await moveMouseBy(0, -1919810);
-        await sleep(1000);
-        if (woodsArray.length === 0) {
-            var resultDict = await dispatcher.runTask(new SoloTask("CountInventoryItem", { "gridScreenName": "Materials", "itemNames": woodType }));
-        } else {
-            var resultDict = await dispatcher.runTask(new SoloTask("CountInventoryItem", { "gridScreenName": "Materials", "itemNames": woodsArray }));
-        }
-
-        const keys = [];
-        const values = [];
-
+    async function woodInventory(woodsArray, numbersArray, woodInventoryNumber, targetInventoryNumber) {
         try {
-            for (const [key, value] of Object.entries(resultDict)) {
-                // 尝试将值转换为数字
-                const numValue = Number(value);
+            // 使用新的 CountInventoryItemParam 参数类
+            const param = new CountInventoryItemParam();
+            param.GridScreenName = GridScreenName.Materials;      // 背包“材料”页签
+            const itemNames = woodsArray.length === 0 ? woodType : woodsArray;
+            for (const name of itemNames) {
+                param.ItemNames.Add(name);                        // 逐个添加物品名
+            }
+            param.IconRecognitionMode = ItemIconRecognitionMode.Item; // 按物品图标识别
 
-                // 检查是否为有效数字（NaN 表示不是数字）
-                if (isNaN(numValue)) {
-                    console.warn(`跳过无效值: key=${key}, value=${value}`);
-                    continue;
-                }
+            // 调用 BGI 任务接口
+            const resultDict = await dispatcher.runCountInventoryItemTask(param);
 
-                // 执行计算逻辑
-                const diff = Math.min(woodInventoryNumber, 9999) - numValue; // 限制不超过背包上限
-                const result = diff > 0 ? diff : 0;
+            // 处理返回结果，计算还需砍伐的数量
+            const keys = [];
+            const values = [];
+            for (const name of itemNames) {
 
-                keys.push(key);
+                // 背包中没有该木材时，BGI可能不会返回该key
+                // 此时直接按库存0计算
+                const numValue = Number(resultDict?.[name] ?? 0);
+                if (isNaN(numValue)) continue;
+                const result = Math.min(Math.max(woodInventoryNumber, 0), 2000, Math.max(Math.min(targetInventoryNumber, 9999) - numValue, 0));
+                keys.push(name);
                 values.push(result);
             }
-            // log.info("成功检测到的木材" + keys.join(","));
-            // log.info("成功检测到的木材砍伐数量" + values.join(","));
-            if (keys.length === 0) {
-                log.warn("未识别到任何木材，使用预设数据");
-                return [woodsArray, numbersArray];
-            } else {
-                return [keys, values];
-            }
+            return [keys, values];
+
         } catch (err) {
-            log.warn("处理故障，使用预设数据")
+            log.warn(`处理故障，使用预设数据，错误：${err}`);
             return [woodsArray, numbersArray];
         }
     }
@@ -440,8 +603,8 @@
         }
     }
 
-    const woodType = ["桦木", "萃华木", "松木", "却砂木", "竹节", "垂香木", "杉木", "梦见木", "枫木", "孔雀木", "御伽木", "辉木", "业果木", "证悟木", "刺葵木", "柽木", "悬铃木", "椴木", "白梣木", "香柏木", "炬木", "白栗栎木", "灰灰楼林木", "燃爆木", "桃椰子木", "银冷杉木", "榛木", "夏栎木", "桤木"];
-    const singleWoodType = ["桦木", "萃华木", "松木", "杉木", "竹节", "却砂木", "梦见木", "枫木", "孔雀木", "御伽木", "证悟木", "业果木", "辉木", "刺葵木", "柽木", "白梣木", "炬木", "白栗栎木", "燃爆木", "灰灰楼林木", "桃椰子木", "银冷杉木", "榛木", "夏栎木", "桤木"];
+    const woodType = ["桦木", "萃华木", "松木", "却砂木", "竹节", "垂香木", "杉木", "梦见木", "枫木", "孔雀木", "御伽木", "辉木", "业果木", "证悟木", "刺葵木", "柽木", "悬铃木", "椴木", "白梣木", "香柏木", "炬木", "白栗栎木", "灰灰楼林木", "燃爆木", "桃椰子木", "银冷杉木", "榛木", "夏栎木", "桤木", "雪杨木", "白桦木", "青榉木", "落叶松木"];
+    const singleWoodType = ["桦木", "萃华木", "松木", "杉木", "竹节", "却砂木", "梦见木", "枫木", "孔雀木", "御伽木", "证悟木", "业果木", "辉木", "刺葵木", "柽木", "白梣木", "炬木", "白栗栎木", "燃爆木", "灰灰楼林木", "桃椰子木", "银冷杉木", "榛木", "夏栎木", "桤木", "雪杨木", "白桦木", "青榉木", "落叶松木"];
 
     const woodNumberMap = new Map(woodType.map(key => [key, 0]));
     let woodNumberMapCopy = new Map();
@@ -482,11 +645,15 @@
         // '桃椰子木': { fileName: ['纳塔-浮土静界-桃椰子木-0个(大循环)', '纳塔-浮土静界-桃椰子木-36个(循环)'], folderName: '纳塔-桃椰子木' },
         '桃椰子木': { fileName: ['纳塔-浮土静界-桃椰子木-42个'], folderName: '纳塔-桃椰子木' },
         '银冷杉木': { fileName: ['挪德卡莱-霜月之坊-银冷杉木-54个'] },
-        // '榛木': { fileName: ['挪德卡莱-月矩力试验设计局-榛木-57个(稳定)'], folderName: '挪德卡莱-榛木' },
+        '榛木': { fileName: ['挪德卡莱-月矩力试验设计局-榛木-57个(稳定)'], folderName: '挪德卡莱-榛木' },
         // '榛木': { fileName: ['挪德卡莱-月矩力试验设计局-榛木-57个(月灵)'], folderName: '挪德卡莱-榛木' },
-        '榛木': { fileName: ['挪德卡莱-月矩力试验设计局-榛木-57个(月灵)', '挪德卡莱-月矩力试验设计局-榛木-57个(稳定)'], folderName: '挪德卡莱-榛木' },
+        // '榛木': { fileName: ['挪德卡莱-月矩力试验设计局-榛木-57个(月灵)', '挪德卡莱-月矩力试验设计局-榛木-57个(稳定)'], folderName: '挪德卡莱-榛木' },
         '夏栎木': { fileName: ['挪德卡莱-苔原之隙-夏栎木-0个(大循环)', '挪德卡莱-苔原之隙-夏栎木-36个(循环)'], folderName: '挪德卡莱-夏栎木' },
-        '桤木': { fileName: ['挪德卡莱-伦波岛-桤木-87个'] }
+        '桤木': { fileName: ['挪德卡莱-伦波岛-桤木-87个'] },
+        '雪杨木': { fileName: ['至冬-冰凝涷土-雪杨木-0个(大循环)', '至冬-冰凝涷土-雪杨木-48个(循环)'], folderName: '至冬-雪杨木' },
+        '白桦木': { fileName: ['至冬-海屑镇北部-白桦木-102个'] },
+        '青榉木': { fileName: ['至冬-焰羽谷-青榉木-39个'] },
+        '落叶松木': { fileName: ['至冬-冰凝涷土-落叶松木-36个'] },
     };
 
     const messages = [
@@ -504,15 +671,21 @@
     let woodsArray = settings.woodsMultiCheckbox ? Array.from(settings.woodsMultiCheckbox) : [];
     let numbersArray = settings.numbers ? settings.numbers.split(/\s+/).map(Number).map(num => isNaN(num) ? 0 : num) : [];
     let woodInventoryNumber = settings.woodInventoryNumber ? (isNaN(settings.woodInventoryNumber) ? 2000 : settings.woodInventoryNumber) : 2000;
+    let targetInventoryNumber = settings.targetInventoryNumber ? (isNaN(settings.targetInventoryNumber) ? 9999 : settings.targetInventoryNumber) : 9999;
     let hasItto = settings.hasItto ? settings.hasItto : false;
     let theBoonOfTheElderTreeStatus = settings.theBoonOfTheElderTree ? await theElderTree() : true;
     // 判断是否装备王树瑞佑，如果未装备则跳过伐木
     if (theBoonOfTheElderTreeStatus) {
         // 判断是否开启背包检测，如果未开启或识别失败，则使用设置填入的数据或默认数据
-        let [woodsInventory, woodCountInventory] = settings.woodInventory ? await woodInventory(woodsArray, numbersArray, woodInventoryNumber) : [woodsArray, numbersArray];
+        let [woodsInventory, woodCountInventory] = settings.woodInventory ? await woodInventory(woodsArray, numbersArray, woodInventoryNumber, targetInventoryNumber) : [woodsArray, numbersArray];
 
         // 将识别到的木材种类和所需数量转换为映射表，并计算需要砍伐的次数
         mapWoodsToNumbers(woodsInventory, woodCountInventory, hasItto);
+
+        // 读取当天断点，并把目标限制为“今日剩余可伐数量”。
+        loadDailyProgress();
+        applyDailyProgress(Boolean(settings.woodInventory));
+
         log.info('自动伐木开始...');
         await woodCutting();
     } else {

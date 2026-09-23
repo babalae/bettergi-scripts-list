@@ -666,35 +666,56 @@
         return sevenDaysLater.toISOString();
     }
 
-    // 返回当前时间的下周一四点的时间戳
+    // 游戏服务器刷新时间按 UTC+8 计算，避免运行环境时区不同造成偏差
+    const SERVER_TIMEZONE_OFFSET_MS = 8 * 60 * 60 * 1000;
+
+    // 返回“下一次周一 04:00（UTC+8）”的时间戳。
+    // 周一 04:00 前运行时，目标应是“当天 04:00”，而不是再下一周。
     function getNextMonday4AMISO() {
-        const now = new Date();
+        const nowMs = Date.now();
+        const serverNowMs = nowMs + SERVER_TIMEZONE_OFFSET_MS;
+        const serverNow = new Date(serverNowMs);
 
-        // 获取当前是星期几
-        const currentDay = now.getDay();
+        const currentDay = serverNow.getUTCDay();
+        const daysUntilMonday = (1 - currentDay + 7) % 7;
 
-        // 计算距离下周一还有几天
-        let daysUntilMonday = 1 - currentDay;
-        if (daysUntilMonday <= 0) {
-            daysUntilMonday += 7;
+        let targetServerMs = Date.UTC(
+            serverNow.getUTCFullYear(),
+            serverNow.getUTCMonth(),
+            serverNow.getUTCDate() + daysUntilMonday,
+            4, 0, 0, 0
+        );
+
+        // 如果本周一 04:00 已经过了，才进入下一周
+        if (targetServerMs <= serverNowMs) {
+            targetServerMs += 7 * 24 * 60 * 60 * 1000;
         }
 
-        // 创建下周一4点的日期对象
-        const nextMonday4AM = new Date(now);
-        nextMonday4AM.setDate(now.getDate() + daysUntilMonday);
-        nextMonday4AM.setHours(4, 0, 0, 0);
-
-        return nextMonday4AM.toISOString();
+        return new Date(targetServerMs - SERVER_TIMEZONE_OFFSET_MS).toISOString();
     }
 
-    // 返回下月1号四点的时间戳
+    // 返回“下一次每月 1 日 04:00（UTC+8）”的时间戳。
+    // 1 日 04:00 前运行时，目标应是“当天 04:00”。
     function getNextMonthFirst4AMISO() {
-        const now = new Date();
+        const nowMs = Date.now();
+        const serverNowMs = nowMs + SERVER_TIMEZONE_OFFSET_MS;
+        const serverNow = new Date(serverNowMs);
 
-        // 获取当前月份并加一个月
-        let nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 4, 0, 0, 0);
+        let targetServerMs = Date.UTC(
+            serverNow.getUTCFullYear(),
+            serverNow.getUTCMonth(),
+            1, 4, 0, 0, 0
+        );
 
-        return nextMonth.toISOString();
+        if (targetServerMs <= serverNowMs) {
+            targetServerMs = Date.UTC(
+                serverNow.getUTCFullYear(),
+                serverNow.getUTCMonth() + 1,
+                1, 4, 0, 0, 0
+            );
+        }
+
+        return new Date(targetServerMs - SERVER_TIMEZONE_OFFSET_MS).toISOString();
     }
 
     // 检查文件是否存在
@@ -721,8 +742,19 @@
                 const lines = content.split('\n');
 
                 for (const line of lines) {
-                    if (line.trim()) {
-                        const [name, timestamp] = line.split('::');
+                    const cleanLine = line.trim();
+                    if (!cleanLine) continue;
+
+                    // 只按第一个 :: 分隔，并清理 Windows CRLF 残留的 \r / 空格。
+                    const separatorIndex = cleanLine.indexOf('::');
+                    if (separatorIndex < 0) {
+                        log.warn(`忽略格式错误的CD记录：${cleanLine}`);
+                        continue;
+                    }
+
+                    const name = cleanLine.slice(0, separatorIndex).trim();
+                    const timestamp = cleanLine.slice(separatorIndex + 2).trim();
+                    if (name && timestamp) {
                         records[name] = timestamp;
                     }
                 }
@@ -757,34 +789,59 @@
             content += `${name}::${records[name]}\n`;
         }
 
-        try {
-            // 尝试创建目录（如果环境支持）
+        // 发布包中会携带 record 目录；这里仍为旧安装或目录被删除的情况兜底。
+        if (typeof file.mkdir === 'function') {
             try {
-                if (typeof file.mkdir === 'function') {
-                    file.mkdir('record');
-                }
+                await file.mkdir('record');
             } catch (e) {
-                // 忽略目录创建错误
+                // 目录已存在时部分运行环境也会抛错，交给实际写入结果判断。
             }
+        }
 
+        try {
             await file.writeText(cdRecordPath, content);
         } catch (e) {
-            log.error(`写入CD记录失败: ${e}`);
+            log.error(`写入CD记录失败，任务下次仍会执行: ${e}`);
+            throw new Error(`无法保存CD记录 ${cdRecordPath}: ${e.message || e}`);
         }
     }
 
     // 检查路线是否可执行（CD是否已刷新）
     function isRouteAvailable(routeName, cdRecords) {
-        const now = new Date();
-
         // 如果记录中没有该路线，说明是第一次执行，可以执行
         if (!cdRecords[routeName]) {
             return true;
         }
 
-        // 检查CD时间是否已过
-        const cdTime = new Date(cdRecords[routeName]);
-        return now >= cdTime;
+        const rawTimestamp = String(cdRecords[routeName]).trim();
+
+        // 兼容 ISO 时间字符串，也兼容以后可能改成的毫秒时间戳。
+        let cdTimeMs;
+        if (/^\d+$/.test(rawTimestamp)) {
+            cdTimeMs = Number(rawTimestamp);
+        } else {
+            cdTimeMs = Date.parse(rawTimestamp);
+        }
+
+        // 记录损坏时不能让任务永久锁死：警告后允许重新执行并覆盖旧记录。
+        if (!Number.isFinite(cdTimeMs)) {
+            log.warn(`${routeName}的CD记录时间无效：${rawTimestamp}，本次按已刷新处理`);
+            return true;
+        }
+
+        const nowMs = Date.now();
+        if (nowMs >= cdTimeMs) {
+            log.info(`${routeName}CD已到期，允许执行`);
+            return true;
+        }
+
+        const remainingMinutes = Math.ceil((cdTimeMs - nowMs) / 60000);
+        const displayTime = new Date(cdTimeMs + SERVER_TIMEZONE_OFFSET_MS)
+            .toISOString()
+            .replace('T', ' ')
+            .slice(0, 19);
+        log.info(`${routeName}下次刷新：${displayTime} (UTC+8)，剩余约${remainingMinutes}分钟`);
+        return false;
     }
 
     // 自动战斗函数
@@ -953,10 +1010,16 @@
 
             await switchPartyIfNeeded(akfTeam);
             const completed = await runAkfMachine();
-            if (!completed) { return; }
+            if (!completed) {
+                // 爱可菲流程已启动但在等待奖励时超时。按周一 4 点刷新规则写入保护性 CD，
+                // 避免奖励 OCR 偶发失败时每天重复执行。
+                updatedRecords[routeName] = getNextMonday4AMISO();
+                await writeCDRecords(updatedRecords);
+                log.warn("爱可菲流程超时，已记录至下周一4点CD，避免重复执行");
+                return;
+            }
 
-            const now = new Date();
-            updatedRecords[routeName] = new Date(now.getTime() + ((6 * 24 + 22) * 3600000)).toISOString();
+            updatedRecords[routeName] = getNextMonday4AMISO();
             await writeCDRecords(updatedRecords);
             log.info("本周爱可菲任务已完成！");
         } catch (error) {

@@ -1,4 +1,4 @@
-import {findTextAndClick, formatDate, getDayOfWeek, Record, toMainUi} from "./tool";
+import {drawAndClearBox, drawBox, findTextAndClick, formatDate, getDayOfWeek, Record, toMainUi} from "./tool";
 import {sendText} from "./notice";
 
 const config_name = "config"
@@ -35,11 +35,14 @@ const ocrRegionConfig = {
     weeklyCount: {x: 809, y: 258, width: 277, height: 37},//征讨领域减半次数识别区域坐标和尺寸
     campaignArea: {x: 433, y: 215, width: 306, height: 697},//征讨领域识别区域
     dailyCommission: {x: 630, y: 312, width: 105, height: 118},//每日委托识别区域坐标和尺寸
+    longTermTrainingPoints: {x: 765, y: 823, width: 254, height: 38},//长期训练点识别区域坐标和尺寸
+    longTermTrainingPointsTime: {x: 500, y: 349, width: 395, height: 47},//长期训练点过期识别区域坐标和尺寸
 }
 const xyConfig = {
     campaignArea: {x: 493, y: 537},//征讨领域坐标
     secretRealm: {x: 304, y: 448},//秘境坐标
     dailyCommission: {x: 266, y: 318},//委托坐标 x=266, y=318, width=69, height=44
+    longTermTrainingPointsHelp: {x: 1533+15, y: 824+15},//长期训练点帮助坐标
 }
 
 /**
@@ -48,6 +51,7 @@ const xyConfig = {
  * @returns {Object} 返回包含每日委托和体力使用情况的对象
  */
 export async function ocrDailyCommission(ocrRegion = ocrRegionConfig.dailyCommission) {
+    await drawBox(settings.debug,ocrRegion,200,new Pen(Color.FromArgb(255,0,255,178), 2))
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
     try {
         const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
@@ -81,6 +85,64 @@ export async function ocrDailyCommission(ocrRegion = ocrRegionConfig.dailyCommis
 }
 
 /**
+ * OCR识别长期训练点数函数
+ * @param ocrRegion
+ * @returns {Promise<{pointNumber: number, expireTime: number, expireTimeText: string}>}
+ */
+export async function ocrLongTermTrainingPoints(ocrRegion = ocrRegionConfig.longTermTrainingPoints){
+
+    let json={
+        pointNumber:0,//长期训练点数
+        expireTime:0,//长期训练点过期时间
+        expireTimeText:'',//长期训练点过期时间
+    }
+    let ms=200
+    let captureRegion = captureGameRegion(); // 获取游戏区域截图
+    await sleep(ms*2)
+    await drawBox(settings.debug,ocrRegion,200,new Pen(Color.FromArgb(255,0,255,178), 2))
+    try {
+        const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
+        let res = captureRegion.find(ocrObject); // 在指定区域进行OCR识别
+        // 先判断识别结果是否存在，避免空对象报错
+        if (!res.isExist()) {
+            log.warn('未识别到长期训练点文本');
+            return json;
+        }
+        // 仅保留数字和小数点，并转为数值
+        const filteredText = res.text.replace(/[^0-9.]/g, '');
+        json.pointNumber = parseFloat(filteredText) || 0;
+    } finally {
+        captureRegion.dispose(); // 释放截图资源
+    }
+    // 点击长期训练点帮助
+    let ocrRegionTime = ocrRegionConfig.longTermTrainingPointsTime;
+    await sleep(ms*2)
+    await click(xyConfig.longTermTrainingPointsHelp.x, xyConfig.longTermTrainingPointsHelp.y)
+    await sleep(ms*2)
+    await drawBox(settings.debug,ocrRegion,200,new Pen(Color.FromArgb(255,0,255,178), 2))
+    //识别过期时间
+    let captureRegionTime = captureGameRegion(); // 获取游戏区域截图
+    try {
+        const ocrObject = RecognitionObject.Ocr(ocrRegionTime.x, ocrRegionTime.y, ocrRegionTime.width, ocrRegionTime.height); // 创建OCR识别对象
+        await drawBox(settings.debug,ocrRegionTime)
+        let res1 = captureRegionTime.find(ocrObject); // 在指定区域进行OCR识别
+        log.debug(`识别结果:{res1.text}`, res1.text)
+        // 先判断识别结果是否存在，避免空对象报错
+        if (res1.isExist()) {
+            const filteredText = res1.text.replace(/[^0-9]/g, '');
+            json.expireTime = filteredText || 0;
+            json.expireTimeText = res1.text;
+            // 返回
+            // await keyPress('ESCAPE')
+        }
+        // 仅保留数字和小数点，并转为数值
+    } finally {
+        captureRegionTime.dispose(); // 释放截图资源
+    }
+
+    return json;
+}
+/**
  * OCR识别周计数函数
  * @param {Object} ocrRegion - OCR识别区域配置，默认为ocrRegionConfig.weeklyCount
  * @returns {Object} 返回包含周计数信息的JSON对象，包含text、total和count属性
@@ -89,6 +151,7 @@ export async function ocrDailyCommission(ocrRegion = ocrRegionConfig.dailyCommis
 export async function ocrWeeklyCount(ocrRegion = ocrRegionConfig.weeklyCount) {
     let captureRegion = captureGameRegion(); // 获取游戏区域截图
     try {
+        await drawBox(settings.debug,ocrRegion,200,new Pen(Color.FromArgb(255,0,255,178), 2))
         const ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height); // 创建OCR识别对象
         // ocrObject.threshold = 1.0;
         let res = captureRegion.find(ocrObject); // 在指定区域进行OCR识别
@@ -218,7 +281,11 @@ export async function dailyCommissionMain(openKey = true) {
     await click(xyConfig.dailyCommission.x, xyConfig.dailyCommission.y)
     await sleep(ms * 2)
     const re = await ocrDailyCommission();
-    log.debug(`dailyCommission:{re}`, re)
+    await sleep(ms * 2)
+    let {pointNumber, expireTime,expireTimeText} = await ocrLongTermTrainingPoints();
+
+    log.debug(`dailyCommission:{re}`, JSON.stringify(re))
+    log.debug(`LongTermTrainingPoints:{LongTermTrainingPoints}`, JSON.stringify({pointNumber, expireTime,expireTimeText}))
 
     const {path, type} = keyJsonPath.dailyCommission;
 
@@ -235,13 +302,17 @@ export async function dailyCommissionMain(openKey = true) {
     }
     let readList = Record.read(path);
     const findItem = readList.find((i) => i.uid === json.uid && i.type === json.type && i.date === json.date);
-
     let noticeText = `>|每日委托奖励:${re.daily.use}/${re.daily.total}\n>|原粹树脂消耗:${re.physical.use}/${re.physical.total}`;
+    if(pointNumber<=4){
+        noticeText+=`\n>|长期训练点:${pointNumber}\n`
+    }
+    if(expireTime<=1){
+        noticeText+=`\n>|长期训练点-${expireTimeText}\n`
+    }
     let title = `UID:${uid}\n每日委托`;
 
-    // 如果有每日未完成/领取，则记录日志并发送通知
-    if (re.daily.total > re.daily.use
-        || re.physical.total > re.physical.use
+    // 如果有每日未完成/领取/长期训练点，则记录日志并发送通知
+    if (re.daily.total > re.daily.use || re.physical.total > re.physical.use || pointNumber<=4 || expireTime<=1
     ) {
         await toMainUi()
         await sendText(noticeText, title)

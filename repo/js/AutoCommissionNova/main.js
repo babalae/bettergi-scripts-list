@@ -18,7 +18,7 @@ registerAllProbes();
 
 (async function () {
     try {
-        setGameMetrics(1920, 1080, genshin.ScreenDpiScale); 
+        setGameMetrics(1920, 1080, genshin.ScreenDpiScale);
         //检查版本
         await checkVersion();
         // 获取界面设置

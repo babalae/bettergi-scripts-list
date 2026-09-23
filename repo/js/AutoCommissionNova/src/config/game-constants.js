@@ -136,6 +136,8 @@ export const UI_REGIONS = {
     DAILY_COMMISSION_REWARD: new rect(427, 345, 142, 36),
     /** 冒险历练启用状态判断区域：检测"长效历练点" */
     ADVENTURE_ENCOUNTERS_ENABLED_INDICATOR: new rect(759, 817, 125, 47),
+    /** 冒险历练点数 OCR 区域 */
+    ENCOUNTER_POINTS: new rect(765, 823, 254, 38),
     /** 追踪按钮模板匹配区域 [x, y, width, height] */
     TRACK_BUTTON: [1428, 965, 87, 86],
     /** 剧情图标识别区域 [x, y, width, height] */

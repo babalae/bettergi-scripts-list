@@ -63,6 +63,7 @@ const playStage = async (playbacks) => {
     ))
   )
     throw new Error("进入关卡超时");
+  await sleep(1e3);
   /** 直接通关结算的关卡（不会进入关卡） */
   if (findBottomBtnText("返回大厅")) {
     await exitStageToLobby();
@@ -70,17 +71,20 @@ const playStage = async (playbacks) => {
   }
   /** 关闭游戏说明对话框 */
   if (userConfig.closeStageDialog)
-    await assertRegionDisappearing(
-      findCloseDialog,
-      "关闭游戏说明对话框超时",
-      () => {
-        findCloseDialog()?.click();
-      },
-      {
-        maxAttempts: 10,
-        retryInterval: 500,
-      },
-    );
+    for (let i = 0; i < 3; i++) {
+      await sleep(500);
+      await assertRegionDisappearing(
+        findCloseDialog,
+        "关闭游戏说明对话框超时",
+        () => {
+          findCloseDialog()?.click();
+        },
+        {
+          maxAttempts: 10,
+          retryInterval: 500,
+        },
+      );
+    }
   /** 执行随机通关回放文件 */
   await execStagePlayback(playbacks);
   await sleep(3e3);

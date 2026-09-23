@@ -10,9 +10,6 @@
     "label": "账户名称（单账户可留空）"
   },
   {
-    "type": "separator"
-  },
-  {
     "name": "ifZBY",
     "type": "checkbox",
     "label": "── 参量质变仪 ──\n\n启用参量质变仪"
@@ -41,7 +38,7 @@
   {
     "name": "zbyChargingMethod",
     "type": "select",
-    "label": "请选择质变仪的充能方法",
+    "label": "充能方式",
     "options": [
       "电气水晶充能",
       "法器角色充能"
@@ -54,9 +51,6 @@
     "label": "使用队伍（选择法器角色充能时必填）"
   },
   {
-    "type": "separator"
-  },
-  {
     "name": "ifAkf",
     "type": "checkbox",
     "label": "── 爱可菲料理机关 ──\n\n启用爱可菲任务"
@@ -64,7 +58,7 @@
   {
     "name": "akfChargingMethod",
     "type": "select",
-    "label": "请选择爱可菲料理机关的充能方法",
+    "label": "充能方式",
     "options": [
       "电气水晶充能",
       "法器角色充能"
@@ -75,9 +69,6 @@
     "name": "AKFTeamName",
     "type": "input-text",
     "label": "使用队伍（启用爱可菲任务时必填）"
-  },
-  {
-    "type": "separator"
   },
   {
     "name": "skipCookingWhenBattlePassFull",
@@ -98,9 +89,6 @@
     "name": "skipDomainWhenBattlePassFull",
     "type": "checkbox",
     "label": "跳过每周秘境"
-  },
-  {
-    "type": "separator"
   },
   {
     "name": "ifCooking",

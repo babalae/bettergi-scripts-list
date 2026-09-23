@@ -85,7 +85,7 @@
 
 <div id="toast" class="toast"></div>
 <button id="floatBall" class="float-ball" title="显示自动演奏面板">🎵</button>
-<button id="playbackControl" class="playback-control" title="按 F8 暂停或继续演奏">F8</button>
+<!--<button id="playbackControl" class="playback-control" title="按 快捷键 暂停或继续演奏">F8</button>-->
 
 <div class="panel" id="app">
 
@@ -201,7 +201,7 @@
     const btnClose = document.getElementById('btnClose');
     const btnPlay = document.getElementById('btnPlay');
     const btnPause = document.getElementById('btnPause');
-    const playbackControl = document.getElementById('playbackControl');
+    // const playbackControl = document.getElementById('playbackControl');
     const btnSave = document.getElementById('btnSave');
     const btnReset = document.getElementById('btnReset');
     let isMinimized = false;
@@ -809,9 +809,9 @@
         btnPlay.disabled = isPlaying;
         btnPause.disabled = !isPlaying;
         btnPause.textContent = isPaused ? `▶ 继续（${hotkey}）` : `⏸ 暂停（${hotkey}）`;
-        playbackControl.textContent = isPaused ? '继续' : hotkey;
-        playbackControl.title = isPaused ? `按 ${hotkey} 继续演奏` : `按 ${hotkey} 暂停演奏`;
-        playbackControl.classList.toggle('visible', isPlaying);
+        // playbackControl.textContent = isPaused ? '继续' : hotkey;
+        // playbackControl.title = isPaused ? `按 ${hotkey} 继续演奏` : `按 ${hotkey} 暂停演奏`;
+        // playbackControl.classList.toggle('visible', isPlaying);
 
         if (state.message) showToast(state.message);
     }

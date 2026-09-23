@@ -402,6 +402,45 @@ export class Record {
     }
 }
 
+export async function drawBox(show,result, delay = 200, pen ){
+    if (show){
+        await  drawAndClearBox(result, delay, pen)
+    }
+}
+
+export async function drawAndClearBox(result, delay = 200, pen ) {
+    const ro1 = captureGameRegion();
+    try {
+        const drawRegion = ro1.DeriveCrop(result.x, result.y, result.width, result.height);
+        if (pen){
+            drawRegion.DrawSelf("icon", pen);
+        }else {
+            drawRegion.DrawSelf("icon",new Pen(Color.Red, 2));
+        }
+        await sleep(delay);
+        drawRegion.dispose()
+    } finally {
+        ro1.dispose();
+    }
+
+/*    await sleep(delay);
+
+    const ro2 = captureGameRegion();
+    try {
+        const drawRegion2 = ro2.DeriveCrop(result.x, result.y, result.width, result.height);
+        try {
+            if (pen){
+                drawRegion2.DrawSelf("icon", pen);
+            }else {
+                drawRegion2.DrawSelf("icon",new Pen(Color.Red, 2));
+            }
+        } finally {
+            drawRegion2.dispose();
+        }
+    } finally {
+        ro2.dispose();
+    }*/
+}
 export function formatDate(date = new Date()) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');

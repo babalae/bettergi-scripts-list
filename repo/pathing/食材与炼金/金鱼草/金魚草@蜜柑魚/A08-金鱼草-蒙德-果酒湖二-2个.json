@@ -9,7 +9,7 @@
     "bgi_version": "0.61.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1785076531784,
+    "last_modified_time": 1786085888471,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "A08-金鱼草-蒙德-果酒湖二-2个",
@@ -22,7 +22,6 @@
       "action": "",
       "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": -745.0215,
@@ -103,7 +102,7 @@
         "description": "",
         "misidentification": {
           "arrival_time": 0,
-          "handling_mode": "previousDetectedPoint",
+          "handling_mode": "mapRecognition",
           "type": [
             "unrecognized",
             "pathTooFar"

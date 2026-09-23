@@ -9,9 +9,9 @@
     ],
     "bgi_version": "0.45.0",
     "description": "  路线信息：该路线预计用时124秒，包含以下怪物：2只大型冰史莱姆、2只岩盾丘丘人、2只射手丘丘人、1只岩盾丘丘暴徒、1只幼岩龙蜥、2只岩龙蜥、1只草史莱姆。",
-    "hash_res": "50613183",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1763191557971,
+    "hash_res": "50613183",
+    "last_modified_time": 1784914320802,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B052璃月南天门",
@@ -26,8 +26,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1665.9300000000003,
-      "y": 386.6099999999997
+      "x": 1665.93,
+      "y": 386.61
     },
     {
       "action": "",
@@ -35,17 +35,22 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 1705.2700000000004,
-      "y": 348.77999999999975
+      "x": 1705.27,
+      "y": 348.78
     },
     {
       "action": "fight",
       "action_params": "",
       "id": 3,
       "move_mode": "dash",
+      "point_ext_params": {
+        "auto_fight": {
+          "reward_type": "experience"
+        }
+      },
       "type": "path",
-      "x": 1709.7700000000004,
-      "y": 327.6099999999997
+      "x": 1709.77,
+      "y": 327.61
     },
     {
       "action": "",
@@ -54,16 +59,16 @@
       "move_mode": "jump",
       "type": "path",
       "x": 1695.33,
-      "y": 327.9200000000001
+      "y": 327.92
     },
     {
       "action": "combat_script",
-      "action_params": "芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "action_params": ";芙宁娜 e;爱可菲 e;伊涅芙 e; ;",
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 1690.9501953125,
-      "y": 292.1865234375
+      "x": 1690.9502,
+      "y": 292.1865
     },
     {
       "action": "",
@@ -71,8 +76,8 @@
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": 1706.177734375,
-      "y": 273.8408203125
+      "x": 1706.1777,
+      "y": 273.8408
     },
     {
       "action": "",
@@ -80,7 +85,7 @@
       "id": 7,
       "move_mode": "dash",
       "type": "path",
-      "x": 1689.9099999999999,
+      "x": 1689.91,
       "y": 260
     },
     {
@@ -88,9 +93,14 @@
       "action_params": "",
       "id": 8,
       "move_mode": "dash",
+      "point_ext_params": {
+        "auto_fight": {
+          "reward_type": "experience"
+        }
+      },
       "type": "path",
-      "x": 1663.4423828125,
-      "y": 267.90087890625
+      "x": 1663.4424,
+      "y": 267.9009
     },
     {
       "action": "",
@@ -98,8 +108,8 @@
       "id": 9,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 1665.9300000000003,
-      "y": 386.6099999999997
+      "x": 1665.93,
+      "y": 386.61
     },
     {
       "action": "",
@@ -107,8 +117,8 @@
       "id": 10,
       "move_mode": "dash",
       "type": "path",
-      "x": 1637.712890625,
-      "y": 382.6796875
+      "x": 1637.7129,
+      "y": 382.6797
     },
     {
       "action": "",
@@ -116,17 +126,17 @@
       "id": 11,
       "move_mode": "jump",
       "type": "path",
-      "x": 1632.0146484375,
-      "y": 371.55078125
+      "x": 1632.0146,
+      "y": 371.5508
     },
     {
       "action": "combat_script",
-      "action_params": "attack(0.2);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "action_params": "attack(0.2);芙宁娜 e;爱可菲 e;伊涅芙 e;",
       "id": 12,
       "move_mode": "jump",
       "type": "path",
-      "x": 1622.369999999999,
-      "y": 371.8699999999999
+      "x": 1622.37,
+      "y": 371.87
     },
     {
       "action": "",
@@ -134,8 +144,8 @@
       "id": 13,
       "move_mode": "dash",
       "type": "path",
-      "x": 1596.4799999999996,
-      "y": 390.6800000000003
+      "x": 1596.48,
+      "y": 390.68
     },
     {
       "action": "fight",
@@ -143,8 +153,8 @@
       "id": 14,
       "move_mode": "dash",
       "type": "path",
-      "x": 1616.2000000000007,
-      "y": 398.60000000000036
+      "x": 1616.2,
+      "y": 398.6
     }
   ]
 }

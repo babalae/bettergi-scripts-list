@@ -4,6 +4,42 @@ let stateMachineConfig = null;
 // 全局游戏画面区域
 let gameRegion = null;
 
+/**
+ * 停止整个配置组
+ * @param {string} reason - 停止原因
+ */
+async function emergencyStopConfigGroup(reason) {
+    notification.error(`⛔ ${reason}\n\n已尝试终止后续任务`);
+
+    await sleep(1000);
+
+    try {
+        let hotkey = settings.stopHotkey || 'VK_F8';
+
+        if (typeof hotkey === 'string' && hotkey.trim()) {
+            hotkey = hotkey.trim().toUpperCase();
+
+            if (!hotkey.startsWith('VK_')) {
+                log.error('停止快捷键格式不正确，跳过按键');
+                throw new Error(`[CONFIG_GROUP_STOPPED] ${reason}`);
+            }
+        } else {
+            log.error('停止快捷键未配置或格式错误，跳过按键');
+            throw new Error(`[CONFIG_GROUP_STOPPED] ${reason}`);
+        }
+
+        log.info(`模拟按下停止键 (${hotkey})...`);
+        keyPress(hotkey);
+        await sleep(500);
+    } catch (e) {
+        if (!e.message.includes('[CONFIG_GROUP_STOPPED]')) {
+            log.error(`按键模拟失败: ${e.message}`);
+        }
+    }
+
+    throw new Error(`[CONFIG_GROUP_STOPPED] ${reason}`);
+}
+
 // 主逻辑
 (async function () {
     // 只有当未开启截图模式时，才检查 verifyUid 和 targetUid
@@ -141,10 +177,10 @@ let gameRegion = null;
                             const uidFound = await findAndClick(accountRo, true, 5000);
 
                             if (uidFound) {
-                                log.info(`成功点击账号图片：${settings.targetUid}.png`);
+                        log.info(`成功点击账号图片：${settings.targetUid}.png`);
 
-                                // 定位到主界面
-                                log.info('开始：尝试切换到 mainUI 状态');
+                        // 定位到主界面
+                        log.info('开始：尝试切换到 mainUI 状态');
                                 const mainUIResult = await goToState('mainUI');
                                 if (mainUIResult) {
                                     log.info('成功到达 mainUI 状态，账号切换完成');
@@ -335,6 +371,13 @@ let gameRegion = null;
                 log.warn(`切换后的账号UID ${currentUid} 与目标UID ${settings.targetUid} 不匹配，需要重新尝试`);
                 currentSwitchSuccess = false;
                 currentNotificationMessage = `切换失败，当前账号UID ${currentUid} 与目标UID ${settings.targetUid} 不匹配`;
+
+                // UID验证失败时自动停止配置组（如果开启）
+                if (settings.uidMismatchAutoStop) {
+                    await emergencyStopConfigGroup(
+                        `UID验证失败！为防止在错误账号下继续执行，已尝试终止配置组`
+                    );
+                }
             }
         }
 

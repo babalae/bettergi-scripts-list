@@ -143,6 +143,20 @@ async function findImgIcon(imagePath, xRange, yRange, judge, threshold = 0.8, ti
     return { success: false};
 };
 
+// 等待进入物品交付界面
+async function waitForSubmitGoodsPage(timeout = 5000) {
+    const result = await findImgIcon(
+        "assets/RecognitionObject/SubmitExclamationIcon.png",
+        { min: 0, max: 1920 },
+        { min: 0, max: 270 },
+        false,
+        0.8,
+        timeout
+    );
+
+    return result.success;
+}
+
 // 长对话点击
 async function clickLongTalk() {
     // 识别是不是主界面
@@ -611,15 +625,15 @@ async function recordForFile(judge) {
         let recordFilePath = `records/${accountName}.txt`;
         let lines = [
             `上次运行日期: ${record.lastRunDate}`,
-            `上次取水时间: ${record.lastWaterTime.toISOString().slice(0, 10) + ' ' + record.lastWaterTime.toTimeString().slice(0, 8)}`,
-            `上次上香时间: ${record.lastSticksTime.toISOString().slice(0, 10) + ' ' + record.lastSticksTime.toTimeString().slice(0, 8)}`,
-            `上次抽签时间: ${record.lastLotsTime.toISOString().slice(0, 10) + ' ' + record.lastLotsTime.toTimeString().slice(0, 8)}`,
-            `上次拾螺时间: ${record.lastConchsTime.toISOString().slice(0, 10) + ' ' + record.lastConchsTime.toTimeString().slice(0, 8)}`,
-            `上次探监时间: ${record.lastMealTime.toISOString().slice(0, 10) + ' ' + record.lastMealTime.toTimeString().slice(0, 8)}`,
-            `上次拾蛋时间: ${record.lastEggsTime.toISOString().slice(0, 10) + ' ' + record.lastEggsTime.toTimeString().slice(0, 8)}`,
-            `上次转盘时间: ${record.lastTurntableTime.toISOString().slice(0, 10) + ' ' + record.lastTurntableTime.toTimeString().slice(0, 8)}`,
-            `上次领菜时间: ${record.lastTodayLuckTime.toISOString().slice(0, 10) + ' ' + record.lastTodayLuckTime.toTimeString().slice(0, 8)}`,
-            `上次领糖时间: ${record.lastSweetStatueTime.toISOString().slice(0, 10) + ' ' + record.lastSweetStatueTime.toTimeString().slice(0, 8)}`,
+            `上次取水时间: ${record.lastWaterTime.toISOString()}`,
+            `上次上香时间: ${record.lastSticksTime.toISOString()}`,
+            `上次抽签时间: ${record.lastLotsTime.toISOString()}`,
+            `上次拾螺时间: ${record.lastConchsTime.toISOString()}`,
+            `上次探监时间: ${record.lastMealTime.toISOString()}`,
+            `上次拾蛋时间: ${record.lastEggsTime.toISOString()}`,
+            `上次转盘时间: ${record.lastTurntableTime.toISOString()}`,
+            `上次领菜时间: ${record.lastTodayLuckTime.toISOString()}`,
+            `上次领糖时间: ${record.lastSweetStatueTime.toISOString()}`,
             `背包龙蛋数目: ${record.lastDragonEggsNum}`,
             ...record.records.filter(Boolean)
         ];
@@ -635,20 +649,24 @@ async function recordForFile(judge) {
 };
 
 /* ---------- 工具函数：计算【下次4点刷新时间】 ---------- */
-async function getNextRefreshTime(lastTime) {
+function getNextRefreshTime(lastTime) {
     const now = new Date();
     // 取“最近一次已过去的 04:00”作为当前刷新周期的起点
-    const lastBoundary = new Date(now);
-    lastBoundary.setHours(4, 0, 0, 0);
-    if (now.getTime() < lastBoundary.getTime()) {
-        lastBoundary.setDate(lastBoundary.getDate() - 1);
-    };
     const ONE_DAY = 24 * 60 * 60 * 1000;
+    const SYS_OFFSET = 8 * 60 * 60 * 1000;
+    const server_now = new Date(now.getTime() + SYS_OFFSET);
+    let lastBoundary = Date.UTC(server_now.getUTCFullYear(),
+                                server_now.getUTCMonth(), 
+                                server_now.getUTCDate(),
+                                4) - SYS_OFFSET;
+    if (now.getTime() < lastBoundary) {
+        lastBoundary -= ONE_DAY;
+    };
     // lastTime 在当前周期之前 → 当前周期起点即可刷新（立即可执行）
     // lastTime 已在当前周期内 → 下次刷新为当前周期起点 + 24h
-    return lastTime.getTime() < lastBoundary.getTime()
-        ? lastBoundary.getTime()
-        : lastBoundary.getTime() + ONE_DAY;
+    return lastTime.getTime() < lastBoundary
+        ? lastBoundary
+        : lastBoundary + ONE_DAY;
 
 };
 
@@ -1110,13 +1128,22 @@ async function numberTemplateMatch(
         if (settings.doYouOpen) {
             await pathingScript.runFile("assets/阿敬.json");
             let figure = parseInt(settings.pickupTreasure);
+            let submitPageDetected = false;
+            let conchsTaskCompleted = false;
             let ocrResults = await performOcr("阿敬", dialogZone.x, dialogZone.y, false);
             if (ocrResults.success) {
                 await sleep(1000);
                 let ocrResults1 = await performOcr("想要", dialogZone.x, dialogZone.y, false);
                 if (ocrResults1.success) {
+                    log.info("已选择“想要开宝箱”");
                     await sleep(700);
                     leftButtonClick();
+                } else {
+                    log.info("未识别到“想要”选项，检查是否已进入物品交付界面");
+                };
+                submitPageDetected = await waitForSubmitGoodsPage();
+                if (submitPageDetected) {
+                    // 两条路径在这里汇合，后面的操作完全一样。
                     await sleep(1500);
                     //交互道具，直接选择位置点击
                     await click(111,184);
@@ -1134,6 +1161,7 @@ async function numberTemplateMatch(
                         log.info(`你即将开启${figure}号宝箱`);
                         await pathingScript.runFile(`assets/宝箱${figure}.json`);
                     };
+                    conchsTaskCompleted = true;
                 } else {
                     log.info("你开过了？look my eyes,回答我！！！");
                     await genshin.chooseTalkOption("再见");
@@ -1144,9 +1172,15 @@ async function numberTemplateMatch(
             } else {
                 log.error(`识别图像时发生异常: ${error.message}`);
             };
+            if (conchsTaskCompleted) {
+                record.lastConchsTime = new Date();
+                await recordForFile(false);
+            } else {
+                log.warn("海螺流程未确认完成，保留当天再次运行的机会");
+            };
+        } else {
+            log.info("未开启宝箱，跳过海螺交付与开箱");
         };
-        record.lastConchsTime = new Date();;
-        await recordForFile(false);
         await genshin.returnMainUi();
         await fakeLog("稻妻踏鞴砂海螺", false, false, 0)
     };
