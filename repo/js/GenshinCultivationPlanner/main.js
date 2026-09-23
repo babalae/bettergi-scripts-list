@@ -1,5 +1,5 @@
 import { createPlan } from './core/planner.js';
-import { applyInventoryScanResult, buildInventoryScanGroups, invalidateCraftingFamilies } from './core/inventory.js';
+import { applyInventoryScanResult, buildInventoryScanGroups } from './core/inventory.js';
 import { applyMatchedRouteSupport, discoverAutoPathingRoutes } from './core/routes.js';
 import { buildFailureRunSummary, buildRunSummary } from './core/report.js';
 import { collectExecutionWarningOutcomes } from './core/preflight.js';
@@ -172,14 +172,8 @@ async function main() {
       targetSummary,
     );
     if (historicalInventoryConflicts.length > 0) {
-      const invalidated = invalidateCraftingFamilies(
-        inventory,
-        historicalInventoryConflicts.map((item) => item.materialId),
-        recipes,
-      );
-      inventory = invalidated.inventory;
       for (const conflict of historicalInventoryConflicts) {
-        const message = `执行前未找到“${conflict.name}”，但同一培养目标的历史最近一次确认数量为 ${conflict.lastCount}；材料可能已消耗，也可能漏识别。为避免重复刷取，已暂停相关合成链任务；若材料已用于升级，请先更新当前等级`;
+        const message = `执行前未找到“${conflict.name}”，但同一培养目标的历史最近一次确认数量为 ${conflict.lastCount}；本次按 0 继续计算和刷取，可能重复获取。若材料已用于升级，请先更新当前等级`;
         log.warn('[背包] {message}', message);
         runWarnings.push(createExecutionOutcome({
           taskId: `inventory:history-conflict:${conflict.materialId}`,
@@ -187,7 +181,7 @@ async function main() {
           targetName: conflict.name,
           status: 'unconfirmed', code: 'inventory_history_conflict', stage: 'inventory', severity: 'warning',
           message,
-          evidence: { ...conflict, invalidatedMaterialIds: invalidated.invalidatedIds },
+          evidence: { ...conflict, assumedCount: 0, continuedExecution: true },
         }));
       }
     }
@@ -318,14 +312,7 @@ async function main() {
       }
     }
     if (execution.status !== 'failed' && !allTargetsSatisfied) {
-      execution = await executeResinQueue(
-        compiledQueue.entries,
-        scriptSettings,
-        partySwitchState,
-        historicalInventoryConflicts.length > 0
-          ? '执行前背包识别与历史确认记录冲突，已暂停相关任务'
-          : null,
-      );
+      execution = await executeResinQueue(compiledQueue.entries, scriptSettings, partySwitchState);
     }
     execution.warnings = [...runWarnings, ...(execution.warnings ?? [])];
     plan.execution = execution;
@@ -588,9 +575,9 @@ function attachTargetContext(plan, profile, targetSummary) {
   plan.targetOutcomes = profile?.targetOutcomes ?? [];
 }
 
-async function executeResinQueue(entries, settings, partySwitchState, emptyReason = null) {
+async function executeResinQueue(entries, settings, partySwitchState) {
   if (entries.length === 0) {
-    const reason = emptyReason || '今日没有已启用的树脂任务';
+    const reason = '今日没有已启用的树脂任务';
     log.info('[执行] {reason}，本次不执行', reason);
     return createRunExecution({
       status: 'skipped', code: 'no_candidate', stage: 'preflight',
