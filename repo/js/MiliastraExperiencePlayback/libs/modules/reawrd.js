@@ -70,9 +70,7 @@ const fetchBattlepassExp = async () => {
           reward.click();
           await sleep(50);
           reward.click();
-          clickToContinue();
-          await sleep(1e3);
-          clickToContinue();
+          await closeRewardPopups();
         }
       }
     },
@@ -83,6 +81,15 @@ const fetchBattlepassExp = async () => {
   );
   await genshin.returnMainUi();
 };
+/** 关闭奖励弹窗 */
+const closeRewardPopups = async () => {
+  /** 存在多重弹窗（例如随机试行斗篷），可能导致奖励领取不完整 */
+  for (let i = 0; i < 4; i++) {
+    clickToContinue();
+    await sleep(500);
+    clickToContinue();
+  }
+};
 /** 点击领取奖励按钮 */
 const clickClaimRewardBtn = async () => {
   const reward = findFetchRewardBtn();
@@ -90,9 +97,7 @@ const clickClaimRewardBtn = async () => {
     reward.click();
     await sleep(50);
     reward.click();
-    clickToContinue();
-    await sleep(1e3);
-    clickToContinue();
+    await closeRewardPopups();
   }
 };
 /** 领取星境彩馈奖励 */

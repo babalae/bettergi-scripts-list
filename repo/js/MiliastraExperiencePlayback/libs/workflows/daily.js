@@ -44,12 +44,13 @@ const execDailyTask = async () => {
     store.nextDay = getNextDay4AM().getTime();
   }
   /** 检查当日通关次数是否已达上限 */
-  if (store.daily.attempts >= userConfig.dailyLimit)
+  if (store.daily.attempts >= userConfig.dailyLimit) {
     if (userConfig.dailyForce) log.warn("当日通关次数已达上限，强制执行");
     else {
       log.warn("当日通关次数已达上限，跳过执行");
       return;
     }
+  }
   /** 计算需要进行的尝试次数 */
   let attempts = userConfig.dailyLimit - store.daily.attempts;
   attempts = attempts > 0 ? attempts : userConfig.dailyForce ? userConfig.dailyLimit : 0;
