@@ -148,7 +148,7 @@ const travelerElements = {
 
 // ============================================================================
 //  2. 角色默认词条权重 (from artis-mark.js)
-//     119 个角色
+//     121 个角色
 // ============================================================================
 
 const usefulAttr = {
@@ -497,7 +497,7 @@ const usefulAttr = {
     "mastery": 0,
     "dmg": 95,
     "phy": 0,
-    "recharge": 75,
+    "recharge": 100,
     "heal": 95
   },
   "甘雨": {
@@ -903,9 +903,9 @@ const usefulAttr = {
     "cpct": 0,
     "cdmg": 0,
     "mastery": 100,
-    "dmg": 80,
+    "dmg": 0,
     "phy": 0,
-    "recharge": 45,
+    "recharge": 75,
     "heal": 95
   },
   "米卡": {
@@ -1138,14 +1138,14 @@ const usefulAttr = {
   },
   "桑多涅": {
     "hp": 0,
-    "atk": 100,
+    "atk": 85,
     "def": 0,
     "cpct": 100,
     "cdmg": 100,
-    "mastery": 75,
+    "mastery": 60,
     "dmg": 0,
     "phy": 0,
-    "recharge": 40,
+    "recharge": 50,
     "heal": 0
   },
   "砂糖": {
@@ -1193,7 +1193,7 @@ const usefulAttr = {
     "mastery": 0,
     "dmg": 100,
     "phy": 0,
-    "recharge": 45,
+    "recharge": 55,
     "heal": 0
   },
   "神里绫人": {
@@ -1268,6 +1268,18 @@ const usefulAttr = {
     "recharge": 40,
     "heal": 0
   },
+  "薇斯纳": {
+    "hp": 0,
+    "atk": 100,
+    "def": 0,
+    "cpct": 100,
+    "cdmg": 100,
+    "mastery": 100,
+    "dmg": 0,
+    "phy": 0,
+    "recharge": 50,
+    "heal": 0
+  },
   "温迪": {
     "hp": 0,
     "atk": 100,
@@ -1279,6 +1291,18 @@ const usefulAttr = {
     "phy": 0,
     "recharge": 45,
     "heal": 0
+  },
+  "沃雅妮莎": {
+    "hp": 100,
+    "atk": 0,
+    "def": 0,
+    "cpct": 0,
+    "cdmg": 0,
+    "mastery": 0,
+    "dmg": 0,
+    "phy": 0,
+    "recharge": 0,
+    "heal": 75
   },
   "五郎": {
     "hp": 0,
@@ -1361,7 +1385,7 @@ const usefulAttr = {
     "mastery": 75,
     "dmg": 100,
     "phy": 0,
-    "recharge": 75,
+    "recharge": 100,
     "heal": 0
   },
   "宵宫": {
@@ -1409,7 +1433,7 @@ const usefulAttr = {
     "mastery": 0,
     "dmg": 100,
     "phy": 0,
-    "recharge": 75,
+    "recharge": 100,
     "heal": 0
   },
   "雅珂达": {
@@ -2052,10 +2076,20 @@ const baseAttrMap = {
     "atk": 436.56,
     "def": 837.17
   },
+  "薇斯纳": {
+    "hp": 14204.94,
+    "atk": 433.63,
+    "def": 782.02
+  },
   "温迪": {
     "hp": 11280.01,
     "atk": 322.29,
     "def": 716.17
+  },
+  "沃雅妮莎": {
+    "hp": 15870.71,
+    "atk": 131.85,
+    "def": 518.6
   },
   "五郎": {
     "hp": 10231.89,
@@ -2282,7 +2316,9 @@ const charElemMap = {
   "提纳里": "dendro",
   "托马": "pyro",
   "瓦雷莎": "electro",
+  "薇斯纳": "anemo",
   "温迪": "anemo",
+  "沃雅妮莎": "hydro",
   "五郎": "geo",
   "希格雯": "hydro",
   "希诺宁": "geo",
@@ -2353,37 +2389,6 @@ const artisDefaultWeights = {
     "phy": 0,
     "recharge": 75
   },
-  "甘雨": {
-    "atk": 75,
-    "cpct": 100,
-    "cdmg": 100,
-    "mastery": 75,
-    "dmg": 100
-  },
-  "胡桃": {
-    "hp": 80,
-    "atk": 50,
-    "cpct": 100,
-    "cdmg": 100,
-    "mastery": 75,
-    "dmg": 100
-  },
-  "可莉": {
-    "atk": 75,
-    "cpct": 100,
-    "cdmg": 100,
-    "mastery": 75,
-    "dmg": 100,
-    "recharge": 30
-  },
-  "雷电将军": {
-    "atk": 75,
-    "cpct": 100,
-    "cdmg": 100,
-    "mastery": 0,
-    "dmg": 75,
-    "recharge": 90
-  },
   "神里绫人": {
     "hp": 50,
     "atk": 75,
@@ -2391,28 +2396,6 @@ const artisDefaultWeights = {
     "cdmg": 100,
     "dmg": 100,
     "recharge": 30
-  },
-  "宵宫": {
-    "atk": 75,
-    "cpct": 100,
-    "cdmg": 100,
-    "mastery": 75,
-    "dmg": 100
-  },
-  "行秋": {
-    "atk": 75,
-    "cpct": 100,
-    "cdmg": 100,
-    "mastery": 0,
-    "dmg": 100,
-    "recharge": 75
-  },
-  "优菈": {
-    "atk": 75,
-    "cpct": 100,
-    "cdmg": 100,
-    "phy": 100,
-    "recharge": 55
   }
 }
 
@@ -2423,59 +2406,55 @@ const artisDefaultWeights = {
 const charSpecialRules = {
   '阿蕾奇诺': ({ charAttrs }) => {
     let title = []
-    let particularAttr = {...usefulAttr['阿蕾奇诺']}
+    let particularAttr = { ...usefulAttr['阿蕾奇诺'] }
     if ((charAttrs?.mastery || 0) < 50) {
       title.push('纯火')
       particularAttr.atk = 85
       particularAttr.mastery = 0
     }
     if (title.length > 0) {
-      return { title: `阿蕾奇诺-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '阿罗夏': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['阿罗夏'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.cpct = 100
       particularAttr.cdmg = 100
       particularAttr.dmg = 100
     }
     if (title.length > 0) {
-      return { title: `阿罗夏-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '爱可菲': ({ cons, weapon, charAttrs }) => {
-      let title = []
-      let particularAttr = {...usefulAttr['爱可菲']}
-      if ((weapon.bonusKey !== 'recharge' && (charAttrs?.recharge || 0) >= 200) || (weapon.bonusKey === 'recharge' && (charAttrs?.recharge || 0) >= 220)) {
-          title.push('纯辅')
-          particularAttr.atk = 75
-          particularAttr.cpct = 0
-          particularAttr.cdmg = 0
-          particularAttr.dmg = 0
-          particularAttr.recharge = 100
-          if (cons > 1) {
-              title.push('高命')
-              particularAttr.atk = 100
-          }
+    let title = []
+    let particularAttr = { ...usefulAttr['爱可菲'] }
+    if ((weapon.bonusKey !== 'recharge' && (charAttrs?.recharge || 0) >= 200) || (weapon.bonusKey === 'recharge' && (charAttrs?.recharge || 0) >= 220)) {
+      title.push('纯辅')
+      particularAttr.atk = 75
+      particularAttr.cpct = 0
+      particularAttr.cdmg = 0
+      particularAttr.dmg = 0
+      particularAttr.recharge = 100
+      if (cons > 1) {
+        title.push('高命')
+        particularAttr.atk = 100
       }
-      if (weapon.name === '西风长枪') {
-          title.push('西风')
-          particularAttr.cpct = 100
-      }
-      if (title.length > 0) {
-          return { title: `爱可菲-${title.join('|')}`, attrWeight: particularAttr, useDefaultPipeline: false }
-      }
+    }
+    if (title.length > 0) {
       return null
+    }
+    return null
   },
   '爱诺': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['爱诺'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -2485,23 +2464,23 @@ const charSpecialRules = {
       particularAttr.recharge = 40
     }
     if (title.length > 0) {
-      return { title: `爱诺-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '八重神子': ({ artis, artisSets, artifacts }) => {
-      let title = []
-      let particularAttr = {...usefulAttr['八重神子']}
-      if (artis.names.includes('影中沉凝的幻灭')) {
-          title.push('星超导')
-          particularAttr.atk = 100
-          particularAttr.mastery = 100
-          particularAttr.dmg = 0
-      }
-      if (title.length > 0) {
-          return { title: `八重神子-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
-      }
+    let title = []
+    let particularAttr = { ...usefulAttr['八重神子'] }
+    if ((artisSets||[]).includes('影中沉凝的幻灭')) {
+      title.push('星超导')
+      particularAttr.atk = 100
+      particularAttr.mastery = 100
+      particularAttr.dmg = 0
+    }
+    if (title.length > 0) {
       return null
+    }
+    return null
   },
   '芭芭拉': ({ charAttrs }) => {
     let title = []
@@ -2534,14 +2513,14 @@ const charSpecialRules = {
       particularAttr.recharge = 35
     }
     if (title.length > 0) {
-      return { title: `白术-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '班尼特': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['班尼特'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 180) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 100
       particularAttr.cpct = 100
@@ -2550,14 +2529,14 @@ const charSpecialRules = {
       particularAttr.recharge = 75
     }
     if (title.length > 0) {
-      return { title: `班尼特-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '北斗': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['北斗'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.hp = 0
       particularAttr.atk = 75
@@ -2567,28 +2546,28 @@ const charSpecialRules = {
       particularAttr.dmg = 100
     }
     if (title.length > 0) {
-      return { title: `北斗-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '布伦妮': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['布伦妮'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.cpct = 100
       particularAttr.cdmg = 100
       particularAttr.dmg = 100
     }
     if (title.length > 0) {
-      return { title: `布伦妮-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '迪奥娜': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['迪奥娜'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -2598,7 +2577,7 @@ const charSpecialRules = {
       particularAttr.recharge = 90
     }
     if (title.length > 0) {
-      return { title: `迪奥娜-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
@@ -2611,22 +2590,22 @@ const charSpecialRules = {
   },
   '杜林': ({ cons, artis, artisSets, artifacts }) => {
     let title = []
-    let particularAttr = {...usefulAttr['杜林']}
-    if (cons > 0 && artis.artis['4'].main && artis.artis['4'].main.key === 'atk') {
+    let particularAttr = { ...usefulAttr['杜林'] }
+    if (cons > 0 && ((a=>a&&["atk"].includes(a.mainKey||''))(artifacts?.find(a=>a.pos===3)))) {
       title.push('辅助')
       particularAttr.atk = 100
       particularAttr.mastery = 30
       particularAttr.dmg = 80
     }
     if (title.length > 0) {
-      return { title: `杜林-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '多莉': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['多莉'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -2636,13 +2615,13 @@ const charSpecialRules = {
       particularAttr.recharge = 75
     }
     if (title.length > 0) {
-      return { title: `多莉-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '菲林斯': ({ weapon }) => {
     let title = []
-    let particularAttr = {...usefulAttr['菲林斯']}
+    let particularAttr = { ...usefulAttr['菲林斯'] }
     let recharge = particularAttr.recharge
     if (weapon.name === '血染荒城') {
       title.push('专武')
@@ -2650,22 +2629,32 @@ const charSpecialRules = {
     }
     if (title.length > 0) {
       particularAttr.recharge = recharge
-      return { title: `菲林斯-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '枫原万叶': ({ cons }) => {
+    let title = []
+    let particularAttr = { ...usefulAttr['枫原万叶'] }
     if (cons === 6) {
-      return { title: '万叶-满命', attrWeight: { atk: 75, cpct: 100, cdmg: 100, mastery: 100, dmg: 100, recharge: 55 }, useDefaultPipeline: false }
+      title.push('满命')
+      particularAttr.atk = 75
+      particularAttr.cpct = 100
+      particularAttr.cdmg = 100
+      particularAttr.dmg = 100
+      particularAttr.recharge = 55
+    }
+    if (title.length > 0) {
+      return null
     }
     return null
   },
   '芙宁娜': ({ cons, weapon, charAttrs }) => {
     let title = []
-    let particularAttr = {...usefulAttr['芙宁娜']}
+    let particularAttr = { ...usefulAttr['芙宁娜'] }
     if (cons >= 4) {
       title.push('高命')
-      particularAttr.recharge = 60
+      particularAttr.recharge = 75
       if (cons == 6) {
         particularAttr.mastery = 45
       }
@@ -2712,19 +2701,26 @@ const charSpecialRules = {
       particularAttr.dmg = 0
     }
     if (title.length > 0) {
-      return { title: `芙宁娜-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '甘雨': ({ artis, artisSets, artifacts }) => {
+    let title = []
+    let particularAttr = { ...usefulAttr['甘雨'] }
     if ((artisSets||[]).includes('冰套')) {
-      return { title: '甘雨-永冻', attrWeight: { atk: 75, cpct: 100, cdmg: 100, dmg: 100, recharge: 55 }, useDefaultPipeline: false }
+      title.push('永冻')
+      particularAttr.mastery = 0
+      particularAttr.recharge = 55
+    }
+    if (title.length > 0) {
+      return null
     }
     return null
   },
   '哥伦比娅': ({ cons, weapon }) => {
     let title = []
-    let particularAttr = {...usefulAttr['哥伦比娅']}
+    let particularAttr = { ...usefulAttr['哥伦比娅'] }
     let recharge = particularAttr.recharge
     if (weapon.name === '帷间夜曲') {
       title.push('专武')
@@ -2736,14 +2732,7 @@ const charSpecialRules = {
     }
     if (title.length > 0) {
       particularAttr.recharge = recharge
-      return { title: `哥伦比娅-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
-    }
-    return null
-  },
-  '胡桃': ({ charAttrs }) => {
-    // 核爆胡桃
-    if ((charAttrs?.cpct || 0) < 15 && (charAttrs?.cdmg || 0) > 280) {
-      return { title: '胡桃-核爆', attrWeight: { hp: 90, atk: 50, cdmg: 100, mastery: 90, dmg: 100 }, useDefaultPipeline: false }
+      return null
     }
     return null
   },
@@ -2758,14 +2747,14 @@ const charSpecialRules = {
       }
     }
     if (title.length > 0) {
-      return { title: `基尼奇-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '久岐忍': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['久岐忍'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -2773,14 +2762,14 @@ const charSpecialRules = {
       particularAttr.dmg = 100
     }
     if (title.length > 0) {
-      return { title: `久岐忍-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '凯亚': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['凯亚'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -2790,14 +2779,14 @@ const charSpecialRules = {
       particularAttr.recharge = 30
     }
     if (title.length > 0) {
-      return { title: `凯亚-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '坎蒂丝': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['坎蒂丝'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -2807,14 +2796,14 @@ const charSpecialRules = {
       particularAttr.recharge = 75
     }
     if (title.length > 0) {
-      return { title: `坎蒂丝-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '柯莱': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['柯莱'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -2824,13 +2813,20 @@ const charSpecialRules = {
       particularAttr.recharge = 75
     }
     if (title.length > 0) {
-      return { title: `柯莱-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
-  '可莉': ({ weapon, charAttrs }) => {
-    if ((charAttrs?.mastery || 0) < 50 && (charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 320) {
-      return { title: '可莉-纯火', attrWeight: { atk: 85, cpct: 100, cdmg: 100, dmg: 100, recharge: 55 }, useDefaultPipeline: false }
+  '可莉': ({ charAttrs }) => {
+    let title = []
+    let particularAttr = { ...usefulAttr['可莉'] }
+    if ((charAttrs?.mastery || 0) < 50) {
+      title.push('纯火')
+      particularAttr.atk = 85
+      particularAttr.mastery = 0
+    }
+    if (title.length > 0) {
+      return null
     }
     return null
   },
@@ -2842,42 +2838,42 @@ const charSpecialRules = {
       particularAttr.mastery = 75
     }
     if (title.length > 0) {
-      return { title: `刻晴-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '菈乌玛': ({ charAttrs }) => {
-      let title = []
-      let particularAttr = {...usefulAttr['菈乌玛']}
-      if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
-          title.push('战斗')
-          particularAttr.atk = 50
-          particularAttr.cpct = 100
-          particularAttr.cdmg = 100
-      }
-      if (title.length > 0) {
-          return { title: `菈乌玛-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
-      }
+    let title = []
+    let particularAttr = { ...usefulAttr['菈乌玛'] }
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
+      title.push('战斗')
+      particularAttr.atk = 50
+      particularAttr.cpct = 100
+      particularAttr.cdmg = 100
+    }
+    if (title.length > 0) {
       return null
+    }
+    return null
   },
   '莱欧斯利': ({ artis, artisSets, artifacts }) => {
-      let title = []
-      let particularAttr = {...usefulAttr['莱欧斯利']}
-      if (artis.names.includes('影中沉凝的幻灭')) {
-          title.push('星超导')
-          particularAttr.atk = 100
-          particularAttr.mastery = 100
-          particularAttr.dmg = 0
-      }
-      if (title.length > 0) {
-          return { title: `莱欧斯利-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
-      }
+    let title = []
+    let particularAttr = { ...usefulAttr['莱欧斯利'] }
+    if ((artisSets||[]).includes('影中沉凝的幻灭')) {
+      title.push('星超导')
+      particularAttr.atk = 100
+      particularAttr.mastery = 100
+      particularAttr.dmg = 0
+    }
+    if (title.length > 0) {
       return null
+    }
+    return null
   },
   '莱依拉': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['莱依拉'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -2886,14 +2882,14 @@ const charSpecialRules = {
       particularAttr.recharge = 35
     }
     if (title.length > 0) {
-      return { title: `莱依拉-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '蓝砚': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['蓝砚'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.cpct = 100
       particularAttr.cdmg = 100
@@ -2901,24 +2897,31 @@ const charSpecialRules = {
       particularAttr.dmg = 100
     }
     if (title.length > 0) {
-      return { title: `蓝砚-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
-  '雷电将军': ({ weapon, charAttrs }) => {
-    // 辅助精通雷神，具体数值待定
+  '雷电将军': ({ charAttrs }) => {
+    let title = []
+    let particularAttr = { ...usefulAttr['雷电将军'] }
     if ((charAttrs?.mastery || 0) > 500) {
-      return { title: '雷神-精通', attrWeight: { atk: 75, cpct: 90, cdmg: 90, mastery: 100, dmg: 75, recharge: 90 }, useDefaultPipeline: false }
+      title.push('精通')
+      particularAttr.atk = 50
+      particularAttr.cpct = 50
+      particularAttr.cdmg = 50
+      particularAttr.mastery = 100
+      particularAttr.dmg = 50
+      particularAttr.recharge = 50
     }
-    if (weapon.name === '薙草之稻光' && weapon.affix >= 3) {
-      return { title: '雷神-高精', attrWeight: { atk: 90, cpct: 100, cdmg: 100, dmg: 90, recharge: 90 }, useDefaultPipeline: false }
+    if (title.length > 0) {
+      return null
     }
     return null
   },
   '丽莎': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['丽莎'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -2928,14 +2931,14 @@ const charSpecialRules = {
       particularAttr.recharge = 75
     }
     if (title.length > 0) {
-      return { title: `丽莎-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '琳妮特': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['琳妮特'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -2944,7 +2947,7 @@ const charSpecialRules = {
       particularAttr.recharge = 75
     }
     if (title.length > 0) {
-      return { title: `琳妮特-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
@@ -2963,7 +2966,7 @@ const charSpecialRules = {
       case 'pyro':
         return { title: '火主', attrWeight: { hp: 0, atk: 75, cpct: 100, cdmg: 100, mastery: 75, dmg: 100, recharge: 55 }, useDefaultPipeline: false }
       case 'cryo':
-        return { title: '冰主', attrWeight: { hp: 0, atk: 75, cpct: 100, cdmg: 100, mastery: 75, dmg: 100, recharge: 55 }, useDefaultPipeline: false }
+        return { title: '冰主', attrWeight: { hp: 0, atk: 75, cpct: 100, cdmg: 100, mastery: 75, dmg: 0, recharge: 55 }, useDefaultPipeline: false }
       default:
         return { title: '旅行者', attrWeight: { hp: 0, atk: 75, cpct: 100, cdmg: 100, mastery: 75, dmg: 100, recharge: 55 }, useDefaultPipeline: false }
     }
@@ -2971,7 +2974,7 @@ const charSpecialRules = {
   '罗莎莉亚': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['罗莎莉亚'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 255) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 255) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cdmg = 100
@@ -2980,7 +2983,7 @@ const charSpecialRules = {
       particularAttr.recharge = 30
     }
     if (title.length > 0) {
-      return { title: `罗莎-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
@@ -2992,7 +2995,7 @@ const charSpecialRules = {
       particularAttr.recharge = 30
     }
     if (title.length > 0) {
-      return { title: `玛拉妮-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
@@ -3008,27 +3011,28 @@ const charSpecialRules = {
       particularAttr.mastery = 100
       return { title: '玛薇卡-精通', attrWeight: particularAttr, useDefaultPipeline: false }
     },
-  '梦见月瑞希': ({ cons, weapon, charAttrs }) => {
+  '梦见月瑞希': ({ cons, charAttrs, artis, artisSets, artifacts }) => {
     let title = []
-    let particularAttr = {...usefulAttr['梦见月瑞希']}
-    if ((charAttrs?.cpct || 0) >= 60 || (charAttrs?.cdmg || 0) >= 120) {
-      title = []
+    let particularAttr = { ...usefulAttr['梦见月瑞希'] }
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 200 || (artisSets||[]).includes('血红之证')) {
       title.push('星扩散')
       particularAttr.cpct = 100
       particularAttr.cdmg = 100
-      particularAttr.mastery = 100
-      particularAttr.dmg = 0
-      particularAttr.recharge = 0
+      particularAttr.recharge = 50
+    }
+    if (cons >= 4) {
+      title.push('高命')
+      particularAttr.recharge = 30
     }
     if (title.length > 0) {
-      return { title: `梦见月瑞希-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '米卡': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['米卡'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -3038,13 +3042,13 @@ const charSpecialRules = {
       particularAttr.recharge = 55
     }
     if (title.length > 0) {
-      return { title: `米卡-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '莫娜': ({ weapon }) => {
     let title = []
-    let particularAttr = {...usefulAttr['莫娜']}
+    let particularAttr = { ...usefulAttr['莫娜'] }
     if (weapon.name === '西风秘典') {
       title.push('西风')
       particularAttr.atk = 0
@@ -3064,19 +3068,25 @@ const charSpecialRules = {
       particularAttr.dmg = 0
     }
     if (title.length > 0) {
-      return { title: `莫娜-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
-  '那维莱特': ({ weapon, charAttrs }) => {
+  '那维莱特': ({ weapon }) => {
+    let title = []
+    let particularAttr = { ...usefulAttr['那维莱特'] }
     if (weapon.name === '万世流涌大典') {
-      return { title: `那维莱特-专武`, attrWeight: { hp: 100, atk: 0, def: 0, cpct: 100, cdmg: 100, mastery: 0, dmg: 100, phy: 0, recharge: 40, heal: 0 }, useDefaultPipeline: false }
+      title.push('专武')
+      particularAttr.recharge = 40
+    }
+    if (title.length > 0) {
+      return null
     }
     return null
   },
   '娜维娅': ({ cons }) => {
     let title = []
-    let particularAttr = {...usefulAttr['娜维娅']}
+    let particularAttr = { ...usefulAttr['娜维娅'] }
     let recharge = particularAttr.recharge
     if (cons >= 1) {
       title.push('高命')
@@ -3087,7 +3097,7 @@ const charSpecialRules = {
     }
     if (title.length > 0) {
       particularAttr.recharge = recharge
-      return { title: `娜维娅-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
@@ -3101,14 +3111,14 @@ const charSpecialRules = {
       particularAttr.dmg = 100
     }
     if (title.length > 0) {
-      return { title: `妮露-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '诺艾尔': ({ charAttrs, artis, artisSets, artifacts }) => {
     let title = []
     let particularAttr = { ...usefulAttr['诺艾尔'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 50
       particularAttr.cpct = 100
@@ -3124,14 +3134,14 @@ const charSpecialRules = {
      }
     }
     if (title.length > 0) {
-      return { title: `诺艾尔-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '七七': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['七七'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.cpct = 100
       particularAttr.cdmg = 100
@@ -3139,14 +3149,14 @@ const charSpecialRules = {
       particularAttr.phy = 95
     }
     if (title.length > 0) {
-      return { title: `七七-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '绮良良': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['绮良良'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('战斗')
       particularAttr.hp = 50
       particularAttr.atk = 75
@@ -3156,7 +3166,7 @@ const charSpecialRules = {
       particularAttr.recharge = 30
     }
     if (title.length > 0) {
-      return { title: `绮良良-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
@@ -3167,7 +3177,7 @@ const charSpecialRules = {
       title.push('高命')
       particularAttr.recharge = 75
     }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('战斗')
       particularAttr.atk = 80
       particularAttr.cpct = 100
@@ -3175,14 +3185,14 @@ const charSpecialRules = {
       particularAttr.dmg = 100
     }
     if (title.length > 0) {
-      return { title: `茜特菈莉-${title.join('|')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '琴': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['琴'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.cpct = 100
       particularAttr.cdmg = 100
@@ -3190,32 +3200,44 @@ const charSpecialRules = {
       particularAttr.recharge = 75
     }
     if (title.length > 0) {
-      return { title: `琴-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '赛诺': ({ weapon, artis, artisSets, artifacts }) => {
-      let title = []
-      let particularAttr = {...usefulAttr['赛诺']}
-      if (artis.names.includes('影中沉凝的幻灭')) {
-          title.push('星超导')
-          particularAttr.mastery = 100
-          particularAttr.dmg = 0
-          particularAttr.recharge = 40
-          if (weapon.name === '赤沙之杖') {
-              title.push('|专武')
-              particularAttr.atk = 50
-          }
+    let title = []
+    let particularAttr = { ...usefulAttr['赛诺'] }
+    if ((artisSets||[]).includes('影中沉凝的幻灭')) {
+      title.push('星超导')
+      particularAttr.mastery = 100
+      particularAttr.dmg = 0
+      particularAttr.recharge = 40
+      if (weapon.name === '赤沙之杖') {
+        title.push('专武')
+        particularAttr.atk = 50
       }
-      if (title.length > 0) {
-          return { title: `赛诺-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
-      }
+    }
+    if (title.length > 0) {
       return null
+    }
+    return null
+  },
+  '桑多涅': ({ cons }) => {
+    let title = []
+    let particularAttr = { ...usefulAttr['桑多涅'] }
+    if (cons >= 2) {
+      title.push('高命')
+      particularAttr.atk = 100
+    }
+    if (title.length > 0) {
+      return null
+    }
+    return null
   },
   '砂糖': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['砂糖'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -3224,7 +3246,7 @@ const charSpecialRules = {
       particularAttr.recharge = 75
     }
     if (title.length > 0) {
-      return { title: `砂糖-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
@@ -3240,13 +3262,13 @@ const charSpecialRules = {
       particularAttr.mastery = 100
     }
     if (title.length > 0) {
-      return { title: `心海-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '申鹤': ({ cons, charAttrs }) => {
     let title = []
-    let particularAttr = {...usefulAttr['申鹤']}
+    let particularAttr = { ...usefulAttr['申鹤'] }
     if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.cpct = 100
@@ -3258,15 +3280,17 @@ const charSpecialRules = {
       particularAttr.recharge = 75
     }
     if (title.length > 0) {
-      return { title: `申鹤-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '神里绫华': ({ charAttrs }) => {
-    let particularAttr = JSON.parse(JSON.stringify(usefulAttr['神里绫华']))
+    let title = []
+    let particularAttr = { ...usefulAttr['神里绫华'] }
     if ((charAttrs?.mastery || 0) > 120) {
+      title.push('精通')
       particularAttr.mastery = 75
-      return { title: `神里-精通`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
@@ -3280,7 +3304,7 @@ const charSpecialRules = {
   '塔利雅': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['塔利雅'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -3288,14 +3312,14 @@ const charSpecialRules = {
       particularAttr.dmg = 100
     }
     if (title.length > 0) {
-      return { title: `塔利雅-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '托马': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['托马'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -3305,19 +3329,19 @@ const charSpecialRules = {
       particularAttr.recharge = 75
     }
     if (title.length > 0) {
-      return { title: `托马-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '瓦雷莎': ({ cons }) => {
     let title = []
-    let particularAttr = {...usefulAttr['瓦雷莎']}
+    let particularAttr = { ...usefulAttr['瓦雷莎'] }
     if (cons == 6) {
       title.push('满命')
       particularAttr.recharge = 0
     }
     if (title.length > 0) {
-      return { title: `瓦雷莎-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
@@ -3328,7 +3352,7 @@ const charSpecialRules = {
       title.push('治疗')
       particularAttr.heal = 100
     }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.def = 100
@@ -3338,7 +3362,7 @@ const charSpecialRules = {
       particularAttr.recharge = 55
     }
     if (title.length > 0) {
-      return { title: `五郎-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
@@ -3352,29 +3376,29 @@ const charSpecialRules = {
       particularAttr.heal = 90
     }
     if (title.length > 0) {
-      return { title: `希格雯-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '希诺宁': ({ charAttrs }) => {
-      let title = []
-      let particularAttr = {...usefulAttr['希诺宁']}
-      if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
-          title.push('战斗')
-          particularAttr.cpct = 100
-          particularAttr.cdmg = 100
-          particularAttr.recharge = 55
-          particularAttr.heal = 70
-      }
-      if (title.length > 0) {
-          return { title: `希诺宁-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
-      }
+    let title = []
+    let particularAttr = { ...usefulAttr['希诺宁'] }
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
+      title.push('战斗')
+      particularAttr.cpct = 100
+      particularAttr.cdmg = 100
+      particularAttr.recharge = 55
+      particularAttr.heal = 70
+    }
+    if (title.length > 0) {
       return null
+    }
+    return null
   },
   '夏洛蒂': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['夏洛蒂'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 85
       particularAttr.cpct = 100
@@ -3382,14 +3406,14 @@ const charSpecialRules = {
       particularAttr.dmg = 100
     }
     if (title.length > 0) {
-      return { title: `夏洛蒂-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '夏沃蕾': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['夏沃蕾'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -3397,56 +3421,65 @@ const charSpecialRules = {
       particularAttr.dmg = 100
     }
     if (title.length > 0) {
-      return { title: `夏沃蕾-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '闲云': ({ cons, weapon }) => {
-      let title = []
-      let particularAttr = {...usefulAttr['闲云']}
-      let recharge = particularAttr.recharge
-      if (weapon.name === '鹤鸣余音') {
-          recharge -= 30
-      }
-      if (cons > 0) {
-          recharge -= 30
-      }
-      if (recharge != particularAttr.recharge) {
-          title.push('高配')
-          particularAttr.recharge = recharge
-      }
-      if (cons === 6) {
-          title.push('战斗')
-          particularAttr.cpct = 100
-          particularAttr.cdmg = 100
-          particularAttr.dmg = 100
-          particularAttr.heal = 95
-      }
-      if (title.length > 0) {
-          return { title: `闲云-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
-      }
-      return null
-  },
-  '宵宫': ({ charAttrs, artis, artisSets, artifacts }) => {
-    // 宵宫纯色流派
-    if ((charAttrs?.mastery || 0) < 50 && (charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 320) {
-      return { title: '宵宫-纯火', attrWeight: { atk: 85, cpct: 100, cdmg: 100, dmg: 100 }, useDefaultPipeline: false }
+    let title = []
+    let particularAttr = {...usefulAttr['闲云']}
+    let recharge = particularAttr.recharge
+    if (weapon.name === '鹤鸣余音') {
+      recharge -= 30
     }
-    if ((charAttrs?.mastery || 0) > 200 && ((a=>a&&["mastery"].includes(a.mainKey||''))(artifacts?.find(a=>a.pos===2)))) {
-      return { title: '宵宫-精通', attrWeight: { atk: 75, cpct: 100, cdmg: 100, mastery: 100, dmg: 100 }, useDefaultPipeline: false }
+    if (cons > 0) {
+      recharge -= 30
+    }
+    if (recharge != particularAttr.recharge) {
+      title.push('高配')
+      particularAttr.recharge = recharge
+    }
+    if (cons === 6) {
+      title.push('战斗')
+      particularAttr.cpct = 100
+      particularAttr.cdmg = 100
+      particularAttr.dmg = 100
+      particularAttr.heal = 95
+    }
+    if (title.length > 0) {
+      return null
+    }
+    return null
+  },
+  '宵宫': ({ charAttrs }) => {
+    let title = []
+    let particularAttr = { ...usefulAttr['宵宫'] }
+    if ((charAttrs?.mastery || 0) < 50) {
+      title.push('纯火')
+      particularAttr.atk = 85
+      particularAttr.mastery = 0
+    }
+    if (title.length > 0) {
+      return null
     }
     return null
   },
   '行秋': ({ charAttrs }) => {
+    let title = []
+    let particularAttr = { ...usefulAttr['行秋'] }
     if ((charAttrs?.mastery || 0) > 120) {
-      return { title: '行秋-蒸发', attrWeight: { atk: 75, cpct: 100, cdmg: 100, mastery: 75, dmg: 100, recharge: 75 }, useDefaultPipeline: false }
+      title.push('蒸发')
+      particularAttr.mastery = 75
+    }
+    if (title.length > 0) {
+      return null
     }
     return null
   },
   '雅珂达': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['雅珂达'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.cpct = 100
       particularAttr.cdmg = 100
@@ -3454,14 +3487,14 @@ const charSpecialRules = {
       particularAttr.dmg = 100
     }
     if (title.length > 0) {
-      return { title: `雅珂达-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '瑶瑶': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['瑶瑶'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -3470,22 +3503,7 @@ const charSpecialRules = {
       particularAttr.recharge = 75
     }
     if (title.length > 0) {
-      return { title: `瑶瑶-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
-    }
-    return null
-  },
-  '叶洛亚': ({ charAttrs }) => {
-    let title = []
-    let particularAttr = { ...usefulAttr['叶洛亚'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
-      title.push('输出')
-      particularAttr.def = 75
-      particularAttr.cpct = 100
-      particularAttr.cdmg = 100
-      particularAttr.dmg = 100
-    }
-    if (title.length > 0) {
-      return { title: `叶洛亚-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
@@ -3505,49 +3523,42 @@ const charSpecialRules = {
       particularAttr.hp = 100
     }
     if (title.length > 0) {
-      return { title: `夜兰-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '伊安珊': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['伊安珊'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.cpct = 100
       particularAttr.cdmg = 100
       particularAttr.dmg = 100
     }
     if (title.length > 0) {
-      return { title: `伊安珊-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '伊法': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['伊法'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('直伤')
       particularAttr.cpct = 100
       particularAttr.cdmg = 100
       particularAttr.dmg = 100
     }
     if (title.length > 0) {
-      return { title: `伊法-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
-    }
-    return null
-  },
-  '优菈': ({ charAttrs }) => {
-    // 优菈核爆
-    if ((charAttrs?.cpct || 0) < 15 && (charAttrs?.cdmg || 0) > 200) {
-      return { title: '优菈-核爆', attrWeight: { atk: 100, cdmg: 100, phy: 100 }, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '云堇': ({ charAttrs, artis, artisSets, artifacts }) => {
     let title = []
     let particularAttr = { ...usefulAttr['云堇'] }
-    if (((a=>a&&["cpct","cdmg","def"].includes(a.mainKey||''))(artifacts?.find(a=>a.pos===4))) && ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240)) {
+    if (((a=>a&&["cpct","cdmg","def"].includes(a.mainKey||''))(artifacts?.find(a=>a.pos===4))) && ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240)) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.def = 100
@@ -3557,14 +3568,14 @@ const charSpecialRules = {
       particularAttr.recharge = 75
     }
     if (title.length > 0) {
-      return { title: `云堇-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
   '早柚': ({ charAttrs }) => {
     let title = []
     let particularAttr = { ...usefulAttr['早柚'] }
-    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) > 240) {
+    if ((charAttrs?.cpct || 0) * 2 + (charAttrs?.cdmg || 0) >= 240) {
       title.push('输出')
       particularAttr.atk = 75
       particularAttr.cpct = 100
@@ -3574,7 +3585,7 @@ const charSpecialRules = {
       particularAttr.recharge = 55
     }
     if (title.length > 0) {
-      return { title: `早柚-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   },
@@ -3605,13 +3616,13 @@ const charSpecialRules = {
   },
   '兹白': ({ weapon }) => {
     let title = []
-    let particularAttr = {...usefulAttr['兹白']}
+    let particularAttr = { ...usefulAttr['兹白'] }
     if (weapon.name === '息燧之笛') {
       title.push('息燧')
       particularAttr.def = 75
     }
     if (title.length > 0) {
-      return { title: `兹白-${title.join('')}`, attrWeight: particularAttr, useDefaultPipeline: false }
+      return null
     }
     return null
   }
