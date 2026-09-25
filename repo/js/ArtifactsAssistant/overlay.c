@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <limits.h>
 
 // 编译命令：gcc overlay.c -fexec-charset=UTF-8 -mcmodel=small -static -O3 -DNDEBUG -s -flto=auto -Wl,--gc-sections,--as-needed -o overlay.exe -lgdi32
 
@@ -98,8 +99,11 @@ int utf8_printf(const char *format, ...) {
 	va_end(args);
 	if(ret >= 16384) {
 		free(buffer);
-		buffer = (char*)malloc(++ret);
-		ret = vsnprintf(buffer, ret, format, args_copy);
+		if(ret == INT_MAX) { va_end(args_copy); return -1; }
+		size_t needed = (size_t)ret + 1;
+		buffer = (char*)malloc(needed);
+		if(buffer == NULL) { va_end(args_copy); return -1; }
+		ret = vsnprintf(buffer, needed, format, args_copy);
 	}
 	va_end(args_copy);
 	if(ret < 0) {
