@@ -1,0 +1,96 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "4个薄荷；3个树莓；3个堇瓜；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762334576377,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C02-1-稻妻食材-鸣神岛-离岛南",
+    "tags": [
+      "螃蟹"
+    ],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4049.8086,
+      "y": -2657.1377
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4041.3984,
+      "y": -2683.6553
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4047.1133,
+      "y": -2683.2422
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4073.5742,
+      "y": -2666.7871
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4083.125,
+      "y": -2652.1602
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4091.8359,
+      "y": -2677.5391
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4094.9824,
+      "y": -2690.7227
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4113.2598,
+      "y": -2680.1172
+    }
+  ]
+}

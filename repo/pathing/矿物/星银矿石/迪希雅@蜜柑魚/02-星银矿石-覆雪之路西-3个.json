@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774082443000,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-星银矿石-覆雪之路西-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -844.2227,
+      "y": 1268.0195
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -834.123,
+      "y": 1277.4014
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -872.0977,
+      "y": 1323.5947
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -917.623,
+      "y": 1349.3916
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -921.5156,
+      "y": 1353.8965
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -919.3359,
+      "y": 1355.0386
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -924.0645,
+      "y": 1351.7402
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.456)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -926.25,
+      "y": 1356.0098
+    }
+  ]
+}

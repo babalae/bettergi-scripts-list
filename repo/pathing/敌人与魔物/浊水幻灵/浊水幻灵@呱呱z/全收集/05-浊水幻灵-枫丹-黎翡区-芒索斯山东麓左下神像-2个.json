@@ -1,0 +1,71 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jidingcai",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755694387069,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "05-浊水幻灵-枫丹-黎翡区-芒索斯山东麓左下神像-2个",
+    "tags": [
+      "精英怪",
+      "等级100+",
+      "浊水幻灵"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4545.8281,
+      "y": 4225.9097
+    },
+    {
+      "action": "combat_script",
+      "action_params": " keypress(VK_SPACE)",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4393.2383,
+      "y": 4251.8574
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4384.6406,
+      "y": 4250.8174
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4351.9033,
+      "y": 4235.4302
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 4300.668,
+      "y": 4233.0269
+    }
+  ]
+}

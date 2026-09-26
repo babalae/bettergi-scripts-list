@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766860104596,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "兽肉3-01-隆崛坡-3肉×2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7634.1387,
+      "y": -1646.4336
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7635.0859,
+      "y": -1646.6055
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7644.249,
+      "y": -1647.5181
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7679.2402,
+      "y": -1657.2715
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7722.4648,
+      "y": -1657.1875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7743.1807,
+      "y": -1667.2168
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7739.6406,
+      "y": -1691.7329
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7738.5156,
+      "y": -1696.6792
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7737.2422,
+      "y": -1695.21
+    }
+  ]
+}

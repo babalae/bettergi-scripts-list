@@ -1,0 +1,135 @@
+{
+  "info": {
+    "name": "A00-螃蟹-蒙德-自动飞去无人岛（不抓螃蟹）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "此脚本只带你飞去无人岛，不抓螃蟹！！抓螃蟹需要手动！！耗时:3分钟；双风配队，带安柏或者柯莱飞，飞去无人岛不需要吃药；没有安柏也没有双风要吃药。飞行过程中千万不要转视角。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1505.8877,
+      "y": 2296.1931,
+      "type": "teleport",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1509.1045,
+      "y": 2301.9011,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1554.9297,
+      "y": 2350.1929,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1601.3506,
+      "y": 2363.1289,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1636.9912,
+      "y": 2385.6567,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -1684.9902,
+      "y": 2429.7373,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1721.7344,
+      "y": 2461.6929,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -1740.6797,
+      "y": 2478.2083,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -1742.7266,
+      "y": 2545.0273,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -1736.5332,
+      "y": 2592.89,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -1730.3398,
+      "y": 2640.7527,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -1734.877,
+      "y": 2641.6465,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -1802.625,
+      "y": 2639.8753,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(87),keyup(w),wait(1)"
+    }
+  ]
+}

@@ -1,0 +1,185 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777956634718,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B31-萃凝晶-纳塔-柴薪之丘2（火神赶路-13个）",
+    "tags": [
+      "双手剑"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9033.31,
+      "y": -1373.11
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(8.3),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8904.32,
+      "y": -1382.43
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8904.32,
+      "y": -1382.43
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8901.9268,
+      "y": -1383.2432
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8904.5449,
+      "y": -1388.2515
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(3.0),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8919.0811,
+      "y": -1334.5566
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8919.0811,
+      "y": -1334.5566
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8918.21,
+      "y": -1316.05
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8919.37,
+      "y": -1318.9
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8924.4131,
+      "y": -1315.4092
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8931.0449,
+      "y": -1289.8096
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle)",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8930.791,
+      "y": -1280.3652
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 charge(0.8)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8928.7383,
+      "y": -1266.4434
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8913.9961,
+      "y": -1297.1309
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8869.627,
+      "y": -1302.7705
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8868.5859,
+      "y": -1301.001
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8846.3916,
+      "y": -1276.9619
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8845.8574,
+      "y": -1276.1631
+    }
+  ]
+}

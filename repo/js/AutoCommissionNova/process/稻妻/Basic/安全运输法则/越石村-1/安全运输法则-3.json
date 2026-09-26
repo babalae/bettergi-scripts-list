@@ -1,0 +1,49 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/1004452714",
+                "name": "DarkFlameMaster"
+            }
+        ],
+        "bgi_version": "0.45.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1784258534033,
+        "map_match_method": "",
+        "map_name": "Teyvat",
+        "name": "稻妻-越石村-1-安全运输法则-3",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 5,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -4117.5664,
+            "y": -4275.25
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 6,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -4117.3867,
+            "y": -4282.9961
+        },
+        {
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(w)",
+            "id": 7,
+            "move_mode": "walk",
+            "type": "orientation",
+            "x": -4126.9375,
+            "y": -4281.707
+        }
+    ]
+}

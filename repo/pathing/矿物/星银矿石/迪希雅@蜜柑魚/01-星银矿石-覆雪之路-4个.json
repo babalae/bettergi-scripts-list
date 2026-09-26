@@ -1,0 +1,121 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774082075353,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-星银矿石-覆雪之路-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1009.7793,
+      "y": 1334.2852
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.17)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -1009.334,
+      "y": 1351.4683
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1009.334,
+      "y": 1351.4683
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1022.9141,
+      "y": 1386.6074
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1030.8789,
+      "y": 1386.9414
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -1022.0625,
+      "y": 1424.1411
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1018.8965,
+      "y": 1425.5923
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1019.3125,
+      "y": 1429.7695
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 attack(0.8),wait(0.4),j",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1015.5098,
+      "y": 1429.4434
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1017.9629,
+      "y": 1427.6758
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.456)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1014.3535,
+      "y": 1434.085
+    }
+  ]
+}

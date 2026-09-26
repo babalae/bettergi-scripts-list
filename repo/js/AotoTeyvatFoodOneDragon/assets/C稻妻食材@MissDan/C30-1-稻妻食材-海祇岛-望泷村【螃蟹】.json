@@ -1,0 +1,139 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "2个冰雾花；1个海草；3个鳗肉；2个海灵芝；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762346880436,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C30-1-稻妻食材-海祇岛-望泷村【螃蟹】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -755.3105,
+      "y": -4000.8291
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -752.7402,
+      "y": -4008.5732
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -740.4512,
+      "y": -4054.4414
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -738.0332,
+      "y": -4064.959
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -733.1914,
+      "y": -4065.916
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -724.1602,
+      "y": -4064.5195
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e(wait)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -727.8555,
+      "y": -4076.7656
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -728.9062,
+      "y": -4080.7559
+    },
+    {
+      "action": "combat_script",
+      "action_params": "迪希雅 e",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -733.9258,
+      "y": -4082.1338
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -735.9004,
+      "y": -4083.0488
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -708.2539,
+      "y": -4092.6875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -703.5762,
+      "y": -4090.5713
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -708.0781,
+      "y": -4098.2627
+    }
+  ]
+}

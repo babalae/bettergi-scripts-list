@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "说到做到-2",
+    "type": "collect",
+    "author": "LX666-666",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1131.666015625,
+      "y": 1597.25390625,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1155.25,
+      "y": 1628,
+      "type": "path",
+      "move_mode": "dash"
+    },
+    {
+      "id": 3,
+      "x": -1186.5,
+      "y": 1648,
+      "type": "path",
+      "move_mode": "fly"
+    },
+    {
+      "id": 4,
+      "x": -1198.5,
+      "y": 1654.75,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -1192.25,
+      "y": 1645,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

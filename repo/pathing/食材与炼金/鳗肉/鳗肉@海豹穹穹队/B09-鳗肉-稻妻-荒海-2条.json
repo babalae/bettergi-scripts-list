@@ -1,0 +1,151 @@
+{
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
+  "info": {
+    "authors": [
+      {
+        "links": "https: //github.com/OhmyPaoPao",
+        "name": "海豹穹穹队"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "鳗鱼拾取，队伍要有早柚/瑶瑶",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1763798485078,
+    "map_match_method": "TemplateMatch",
+    "map_name": "Teyvat",
+    "name": "B09-鳗肉-稻妻-荒海-2条",
+    "order": 0,
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4217.63,
+      "y": -2397.2
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4216.2969,
+      "y": -2386.0947
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4215.2227,
+      "y": -2353.0967
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4217.8281,
+      "y": -2312.9707
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4225.2168,
+      "y": -2274.6631
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -4233.4688,
+      "y": -2236.5693
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4234.8906,
+      "y": -2229.3008
+    },
+    {
+      "action": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4244.1406,
+      "y": -2208.8438
+    },
+    {
+      "action": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4258.9707,
+      "y": -2185.4766
+    },
+    {
+      "action": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4261.2148,
+      "y": -2183.627
+    },
+    {
+      "action": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4266.0684,
+      "y": -2177.5176
+    },
+    {
+      "action": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4264.918,
+      "y": -2175.9316
+    },
+    {
+      "action": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4265.4902,
+      "y": -2179.3516
+    },
+    {
+      "action": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4261.0918,
+      "y": -2182.8105
+    }
+  ]
+}

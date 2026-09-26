@@ -1,0 +1,111 @@
+{
+    "info": {
+        "name": "狗粮-稻妻-神无冢-九条阵屋-2个／3个-f",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": -3437.0322265625,
+            "y": -3319.720703125,
+            "type": "teleport",
+            "move_mode": "walk"
+        },
+        {
+            "x": -3438.0625,
+            "y": -3320.0234375,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": -3468.294921875,
+            "y": -3326.3857421875,
+            "type": "path",
+            "move_mode": "run"
+        },
+
+        {
+            "x": -3529.224609375,
+            "y": -3339.28125,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(0.5),click",
+            "//": "stop_flying"
+        },
+
+        {
+            "x": -3537.9952734375,
+            "y": -3343.459140625,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "#" : "1"
+        },
+        {
+            "x": -3539.8330078125,
+            "y": -3345.8359375,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "#" : "2"
+        }
+
+    ],
+
+
+
+    "positions_not_actived": [
+
+        {
+            "x": -3437.0263671875,
+            "y": -3319.755859375,
+            "type": "teleport",
+            "move_mode": "walk"
+        },
+        {
+            "x": -3420.0283203125,
+            "y": -3306.0888671875,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": -3406.646484375,
+            "y": -3286.25,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": -3405.4697265625,
+            "y": -3232.3525390625,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": -3407.9404296875,
+            "y": -3234.4228515625,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "#" : "3"
+        },
+        {
+            "x": -3407.193359375,
+            "y": -3234.5576171875,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "#" : "3"
+        },
+        {
+            "x": -3407.830078125,
+            "y": -3236.0400390625,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "#" : "3"
+        }
+    ]
+}

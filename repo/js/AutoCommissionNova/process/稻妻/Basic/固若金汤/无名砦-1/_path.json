@@ -1,0 +1,77 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/1004452714",
+                "name": "DarkFlameMaster"
+            }
+        ],
+        "bgi_version": "0.45.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1784028604290,
+        "map_match_method": "",
+        "map_name": "Teyvat",
+        "name": "稻妻-无名砦-1-固若金汤",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 1,
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -1963.8379,
+            "y": -3576.166
+        },
+        {
+            "action": "stop_flying",
+            "action_params": "",
+            "id": 2,
+            "move_mode": "fly",
+            "type": "path",
+            "x": -1882.2891,
+            "y": -3575.8711
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 3,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -1837.9766,
+            "y": -3584.2637
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 4,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -1815.6934,
+            "y": -3573.4473
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 5,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -1776.2363,
+            "y": -3563.2734
+        },
+        {
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)",
+            "id": 6,
+            "locked": false,
+            "move_mode": "walk",
+            "type": "target",
+            "x": -1768.3711,
+            "y": -3576.6348
+        }
+    ]
+}

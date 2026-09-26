@@ -1,0 +1,130 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755871320270,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C03-黎翡区上方传送锚点上面-7个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4800.332,
+      "y": 4711.5151
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,571)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4800.332,
+      "y": 4711.5151
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4853.0928,
+      "y": 4747.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4893.5059,
+      "y": 4804.7705
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4895.9287,
+      "y": 4820.2974
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4952.5605,
+      "y": 4887.1875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4990.6191,
+      "y": 4900.9814
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5023.5469,
+      "y": 4939.168
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5034.4062,
+      "y": 4942.9272
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5033.5078,
+      "y": 4947.5078
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5031.5273,
+      "y": 4950.9424
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5027.6855,
+      "y": 4947.0781
+    }
+  ]
+}

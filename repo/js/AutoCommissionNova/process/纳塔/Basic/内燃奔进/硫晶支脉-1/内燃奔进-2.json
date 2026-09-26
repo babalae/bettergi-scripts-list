@@ -1,0 +1,58 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/ABC-acf",
+        "name": "ABC-acf"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762687087116,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "内燃奔进-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8487.396484375,
+      "y": -1418.4951171875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2.5),keypress(F)wait(2.5)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8473.998046875,
+      "y": -1433.09765625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8394.822265625,
+      "y": -1451.5341796875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),walk(w,1.5),wait(1.8),keypress(F),wait(10),moveby(1450,00),wait(0.5),walk(w,2.6),wait(1),click(middle),wait(1),moveby(-850,00),wait(2),walk(w,5),",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8394.0029296875,
+      "y": -1462.24609375
+    }
+  ]
+}

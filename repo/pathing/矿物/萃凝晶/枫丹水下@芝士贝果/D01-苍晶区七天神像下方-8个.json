@@ -1,0 +1,112 @@
+{
+  "info": {
+    "name": "D01-苍晶区七天神像下方-8个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.50.0",
+    "tags": [],
+    "last_modified_time": 1755602499740,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4689.9121,
+      "y": 2430.4626,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4693.5566,
+      "y": 2450.863,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4711.5371,
+      "y": 2513.948,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "keydown(VK_LCONTROL);wait(2);keyup(VK_LCONTROL);attack",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4714.1855,
+      "y": 2508.0115,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack;moveby(0,571)",
+      "type": "orientation"
+    },
+    {
+      "id": 5,
+      "x": 4727.3965,
+      "y": 2502.3979,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4733.0244,
+      "y": 2501.5435,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4714.2656,
+      "y": 2486.7136,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4685.1455,
+      "y": 2500.8274,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4703.8223,
+      "y": 2518.9482,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4708.5498,
+      "y": 2518.7495,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    }
+  ]
+}

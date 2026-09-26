@@ -1,0 +1,98 @@
+{
+  "info": {
+    "name": "原海异种17-枫丹科学院南10",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4150.25,
+      "y": 4419.72,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4157.5,
+      "y": 4429.0,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4174.0,
+      "y": 4423.5,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4273.25,
+      "y": 4453.75,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4339.0,
+      "y": 4456.25,
+      "move_mode": "fly",
+      "action": "",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4411.5,
+      "y": 4437.25,
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4425.0,
+      "y": 4432.49,
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 4475.0,
+      "y": 4403.38,
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "target",
+      "x": 4479.13,
+      "y": 4374.88,
+      "action_params": ""
+    }
+  ]
+}

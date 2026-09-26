@@ -1,0 +1,43 @@
+{
+  "info": {
+    "name": "璃月-A08- 轻策庄",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1750869497977
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 844.169921875,
+      "y": 1535.88427734375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 840.05859375,
+      "y": 1532.77685546875,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(3)",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 840.05859375,
+      "y": 1532.77685546875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

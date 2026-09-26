@@ -1,0 +1,121 @@
+{
+  "info": {
+    "name": "520魔像禁卫-佩特莉可镇（200_1）",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ],
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时54秒，包含1只精英，预计收入200摩拉，包含以下怪物：1只魔像禁卫。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754765877097,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4036.2988,
+      "y": 1232.0088,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4016.9492,
+      "y": 1243.0547,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3991.2305,
+      "y": 1246.6089,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3961.8721,
+      "y": 1246.3384,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3946.6426,
+      "y": 1245.9766,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3946.2783,
+      "y": 1251.9141,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(T),wait(0.5),keydown(e),wait(3).keyup(e)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3946.3955,
+      "y": 1258.2358,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(T)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3947.0273,
+      "y": 1260.4727,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3950.9912,
+      "y": 1264.9497,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3951.4551,
+      "y": 1278.6318,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3958.1201,
+      "y": 1281.7505,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

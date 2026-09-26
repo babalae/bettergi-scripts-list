@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "稻妻-飘浮灵-海祇岛曚云神社东北-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "飘浮灵-3个\n稻妻-海祇岛曚云神社东北",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -575.24,
+      "y": -3832.12,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -601.64,
+      "y": -3813.76,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -603.15,
+      "y": -3757.91,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -604.25,
+      "y": -3721.16,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(2.5),attack(0.1)",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": -604.25,
+      "y": -3721.16,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

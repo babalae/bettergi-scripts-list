@@ -1,0 +1,121 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784460601838,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "13-树王圣体菇-桓那兰那 · 南侧小径-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3705.8867,
+      "y": -497.1328
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3697.2188,
+      "y": -492.4658
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3540.75,
+      "y": -431.374
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3479.9727,
+      "y": -398.7461
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3473.6348,
+      "y": -386.3262
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3464.0391,
+      "y": -367.082
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3463.707,
+      "y": -361.7031
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3450.4863,
+      "y": -356.8457
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),dash(0.9),keyup(w),wait(0.5),keypress(x)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3441.3281,
+      "y": -359.54
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3438.6162,
+      "y": -360.6436
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3422.6113,
+      "y": -373.3076
+    }
+  ]
+}
