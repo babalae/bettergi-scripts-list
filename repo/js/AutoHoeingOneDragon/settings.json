@@ -1,12 +1,17 @@
 [
   {
+    "name": "openHtmlConfig",
+    "type": "checkbox",
+    "label": "启动时打开 HTML 配置面板",
+    "default": true
+  },
+  {
     "name": "operationMode",
     "type": "select",
     "label": "第一部分：路径组执行配置\n根据每个配置组的具体需求填写\n#############################################\n\n执行模式",
     "options": [
       "运行锄地路线",
       "调试路线分配",
-      "强制刷新所有运行记录",
       "启用仅指定怪物模式"
     ],
     "default": "运行锄地路线"
@@ -188,11 +193,6 @@
     "type": "input-text",
     "label": "排除关键词，含关键词的路线会被完全排除\n范围包括文件路径、包含怪物、标签\n不同关键词使用【中文逗号】分隔\n例如填火斧丘丘暴徒，可以排除所有含有火斧丘丘暴徒的路线\n建议使用怪物图鉴中的名字",
     "default": "蕈兽，传奇，狭窄地形"
-  },
-  {
-    "name": "disableSelfOptimization",
-    "type": "checkbox",
-    "label": "勾选后禁用根据运行记录优化路线选择的功能\n完全使用路线原有信息\n【注意】启用该选项将导致无法根据个人运行清空自动优化路线选择"
   },
   {
     "name": "efficiencyIndex",
