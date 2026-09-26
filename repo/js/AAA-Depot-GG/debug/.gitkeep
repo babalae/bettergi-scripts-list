@@ -1,0 +1,7 @@
+排障日志落点。本文件只为让 git 保留这个空目录 —— 三句实话：
+1. git 不跟踪空目录，没有它这个文件夹就进不了仓库、也进不了用户的安装目录。
+2. manifest.json 的 saved_files 里有 "debug/" 这一条。BGI 只在「目录确实存在」时才把它
+   备份走，所以这个占位文件同时保证了「更新脚本时历史日志不会被删掉」。
+3. BGI 的 writeTextSync / writeImageSync 其实会自己建父目录（LimitedFile.cs 的 IsValid
+   里有 Directory.CreateDirectory），所以就算目录缺了，第一份日志也能写下去。
+   这里留占位文件是为了让落点确定、用户看得见，不是因为不建会写失败。
