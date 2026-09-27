@@ -1,0 +1,96 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/pansong291",
+        "name": "磐宋"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1790526368427,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "04-禽肉-纳塔-花羽会西北-2肉x2",
+    "tags": [
+      "食材与炼金","禽肉","绒翼龙"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9548.2979,
+      "y": -1116.5479
+    },
+    {
+      "action": "log_output",
+      "action_params": "尝试成为绒翼龙",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9556.4502,
+      "y": -1106.6611
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(T),wait(2.5)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9556.4502,
+      "y": -1106.6611
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9562.7969,
+      "y": -1105.1875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9685,
+      "y": -1078.2891
+    },
+    {
+      "action": "combat_script",
+      "action_params": "mousedown(left),wait(1.5),mouseup(left),wait(1.5),mousedown(left),wait(4.5),mouseup(left),keydown(Q),wait(1),keyup(Q),jump",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "target",
+      "x": 9704.749,
+      "y": -1075.3994
+    },
+    {
+      "action": "log_output",
+      "action_params": "尝试执行拾取动作",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9705.7109,
+      "y": -1072.3789
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9703.4219,
+      "y": -1078.2002
+    }
+  ]
+}

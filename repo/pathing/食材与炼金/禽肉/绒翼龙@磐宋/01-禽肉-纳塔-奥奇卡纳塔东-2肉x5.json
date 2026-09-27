@@ -1,0 +1,159 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/pansong291",
+        "name": "磐宋"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "需要完成世界任务「遥望苍天之梦」才能解锁建筑内部的传送锚点",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1790526396081,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-禽肉-纳塔-奥奇卡纳塔东-2肉x5",
+    "tags": [
+      "食材与炼金","禽肉","绒翼龙"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9813.8262,
+      "y": -371.9219
+    },
+    {
+      "action": "log_output",
+      "action_params": "尝试恢复燃素",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9815.3887,
+      "y": -378.1367
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9813.8262,
+      "y": -371.9219
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9788.4844,
+      "y": -376.4863
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9778.0703,
+      "y": -408.5781
+    },
+    {
+      "action": "log_output",
+      "action_params": "尝试成为绒翼龙",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9774.5186,
+      "y": -405.5801
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,1600),wait(0.6),keypress(T),wait(2.5),jump,wait(0.8),keydown(SPACE),wait(5),keyup(SPACE)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9764.293,
+      "y": -402.8555
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9742.5781,
+      "y": -348.8516
+    },
+    {
+      "action": "combat_script",
+      "action_params": "mousedown(left),wait(5),mouseup(left),keydown(Q),wait(1),keyup(Q),jump",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9742.8,
+      "y": -349.3
+    },
+    {
+      "action": "log_output",
+      "action_params": "尝试执行拾取动作",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9744.7109,
+      "y": -346.1846
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9746.5645,
+      "y": -350.9062
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9740.3574,
+      "y": -353.501
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9738.5283,
+      "y": -348.7578
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9742.6641,
+      "y": -346.9609
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9740.9453,
+      "y": -350.2266
+    }
+  ]
+}
