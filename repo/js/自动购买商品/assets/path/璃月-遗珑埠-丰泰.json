@@ -1,80 +1,89 @@
-﻿{
+{
   "info": {
-    "name": "丰泰",
-    "type": "collect",
     "authors": [],
-    "version": "1.0",
-    "description": "",
-    "map_name": "Teyvat",
     "bgi_version": "0.45.0",
-    "tags": [],
-    "last_modified_time": 1755458383522,
+    "description": "",
     "enable_monster_loot_split": false,
-    "map_match_method": ""
+    "last_modified_time": 1790277641987,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "璃月-遗珑埠-丰泰",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
   },
   "positions": [
     {
+      "action": "",
+      "action_params": "",
       "id": 1,
-      "x": 2358.486328125,
-      "y": 2414.624267578125,
+      "move_mode": "walk",
       "type": "teleport",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
+      "x": 2358.4863,
+      "y": 2414.6243
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 2,
-      "x": 2383.8759765625,
-      "y": 2422.88525390625,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 2364.8418,
+      "y": 2411.5176
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 3,
-      "x": 2403.166015625,
-      "y": 2451.765869140625,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
+      "type": "path",
+      "x": 2383.876,
+      "y": 2422.8853
     },
     {
+      "action": "",
+      "action_params": "",
       "id": 4,
-      "x": 2410.52734375,
-      "y": 2472.515625,
-      "type": "path",
       "move_mode": "dash",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 5,
-      "x": 2411.5615234375,
-      "y": 2472.385498046875,
-      "type": "target",
-      "move_mode": "walk",
-      "action": "",
-      "action_params": ""
-    },
-    {
-      "id": 6,
-      "x": 2416.25390625,
-      "y": 2470.166259765625,
       "type": "path",
-      "move_mode": "fly",
-      "action": "",
-      "action_params": ""
+      "x": 2403.166,
+      "y": 2451.7659
     },
     {
-      "id": 7,
-      "x": 2419.7177734375,
-      "y": 2471.349365234375,
-      "type": "target",
-      "move_mode": "walk",
       "action": "",
-      "action_params": ""
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2410.5273,
+      "y": 2472.5156
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2411.5615,
+      "y": 2472.3855
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2416.2539,
+      "y": 2470.1663
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2419.7178,
+      "y": 2471.3494
     }
   ]
 }

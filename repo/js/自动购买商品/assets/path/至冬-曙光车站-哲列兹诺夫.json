@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1789059491713,
+    "last_modified_time": 1790503826393,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "至冬-曙光车站-哲列兹诺夫",
@@ -55,13 +55,22 @@
       "y": 8488.0088
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.5)",
+      "action": "",
+      "action_params": "",
       "id": 5,
       "move_mode": "walk",
       "type": "target",
       "x": 7830.7861,
       "y": 8492.8262
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7830.4414,
+      "y": 8492.0586
     }
   ]
 }
