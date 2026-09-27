@@ -1,5 +1,9 @@
 import {
+    CUSTOM_SELECTION_RESTORE_EVERY_POINTS,
+    DEFAULT_ENABLED_POINT_NUMBERS,
     HIGH_YIELD_ONLY,
+    LEGACY_ORDER_BY_POINT,
+    LEGACY_RECOMMENDED_ORDER,
     ORDER_BY_LIKES,
     ORDER_BY_POINT,
     PATHS
@@ -8,7 +12,7 @@ import { runPoint } from "./actions.js";
 import {
     configureRuntimeTimings,
     parsePointIntegerOverrides,
-    readInteger,
+    readEnabledPointNumbers,
     readSelect
 } from "./config.js";
 import { discoverPoints, preflight, restoreHeat } from "./pathing.js";
@@ -22,20 +26,28 @@ import {
 } from "./planner.js";
 import { errorText } from "../utils/common.js";
 
+function hasAllDefaultPointsEnabled(points) {
+    return points.length === DEFAULT_ENABLED_POINT_NUMBERS.length &&
+        points.every(point => point.enabled && DEFAULT_ENABLED_POINT_NUMBERS.includes(point.number));
+}
+
 export async function runTask() {
     try {
         log.info("[System] 冰造物 NPC 点赞自动化开始");
         configureRuntimeTimings();
 
         const points = discoverPoints();
-        preflight(points);
+        const enabledPointNumbers = readEnabledPointNumbers(points, DEFAULT_ENABLED_POINT_NUMBERS);
+        preflight(points, enabledPointNumbers);
 
-        const orderMode = readSelect(
-            "executionOrderMode",
-            ORDER_BY_POINT,
-            [ORDER_BY_POINT, ORDER_BY_LIKES, HIGH_YIELD_ONLY]
-        );
-        const restoreEveryPoints = readInteger("restoreEveryPoints", 4, 1, 6);
+        const configuredOrderMode = String(settings.executionOrderMode || "").trim();
+        const legacyOrderMode = [LEGACY_ORDER_BY_POINT, LEGACY_RECOMMENDED_ORDER].includes(configuredOrderMode);
+        const orderMode = legacyOrderMode
+            ? ORDER_BY_POINT
+            : readSelect("executionOrderMode", ORDER_BY_POINT, [ORDER_BY_POINT, ORDER_BY_LIKES, HIGH_YIELD_ONLY]);
+        if (legacyOrderMode) {
+            log.info(`[Config] 旧版“${configuredOrderMode}”已按“${ORDER_BY_POINT}”执行`);
+        }
         const xOverrides = parsePointIntegerOverrides("cameraOffsetXOverrides", -10000, 10000);
         const pitchOverrides = parsePointIntegerOverrides("cameraPitchFromTopOverrides", 0, 10000);
 
@@ -48,6 +60,9 @@ export async function runTask() {
             return;
         }
 
+        const restoreEveryPoints = hasAllDefaultPointsEnabled(points)
+            ? null
+            : CUSTOM_SELECTION_RESTORE_EVERY_POINTS;
         validateRouteGroups(orderedGroups, restoreEveryPoints);
         logExecutionPlan(orderedGroups, orderMode, restoreEveryPoints);
 
@@ -60,7 +75,7 @@ export async function runTask() {
 
         for (const group of orderedGroups) {
             const groupSize = group.points.length;
-            const insufficientHeatQuota = completedSinceRestore > 0 &&
+            const insufficientHeatQuota = restoreEveryPoints !== null && completedSinceRestore > 0 &&
                 completedSinceRestore + groupSize > restoreEveryPoints;
             const mustReturnToRestoreStart = group.requiresRestoreStart && completedSinceRestore > 0;
 
@@ -92,7 +107,9 @@ export async function runTask() {
                     log.info(`[${point.name}] 标签预计获得 ${point.likeCount} 赞`);
                 }
 
-                log.info(`[Heat] 本轮已完成 ${completedSinceRestore}/${restoreEveryPoints} 个 Point`);
+                if (restoreEveryPoints !== null) {
+                    log.info(`[Heat] 本轮已完成 ${completedSinceRestore}/${restoreEveryPoints} 个 Point`);
+                }
             }
         }
 

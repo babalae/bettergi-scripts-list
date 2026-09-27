@@ -6,18 +6,18 @@
         "name": "一只低熵体"
       }
     ],
-    "bgi_version": "0.64.0",
-    "description": "北国银行门口3人\n伊兹麦洛夫,卡列林,尤洛娃",
+    "bgi_version": "0.45.0",
+    "description": "火炬书店1人\n莫",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1790488200371,
+    "last_modified_time": 1790489159306,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "01-冰造物点赞-至冬-北国银行门口-6赞",
+    "name": "11-冰造物点赞-至冬-火炬书店-2赞",
     "tags": [
-      "点赞=6"
+      "点赞=2"
     ],
     "type": "collect",
-    "version": "2.0"
+    "version": "1.0"
   },
   "positions": [
     {
@@ -26,8 +26,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6583.8818,
-      "y": 9576.1563
+      "x": 6752.3278,
+      "y": 9483.2867
     },
     {
       "action": "",
@@ -35,26 +35,44 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 6578.7275,
-      "y": 9599.0156
+      "x": 6748.6464,
+      "y": 9480.2536
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
       "move_mode": "walk",
-      "type": "target",
-      "x": 6561.6884,
-      "y": 9596.9531
+      "type": "path",
+      "x": 6722.6601,
+      "y": 9509.0677
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
       "move_mode": "walk",
+      "type": "path",
+      "x": 6676.1012,
+      "y": 9508.4177
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6675.8846,
+      "y": 9520.1167
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
       "type": "orientation",
-      "x": 6579.8499,
-      "y": 9479.9063
+      "x": 6662.6749,
+      "y": 9568.429
     }
   ]
 }

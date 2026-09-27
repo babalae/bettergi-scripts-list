@@ -6,15 +6,15 @@
         "name": "一只低熵体"
       }
     ],
-    "bgi_version": "0.64.0",
-    "description": "印记商店门口4人\n叶芙琳娜,齐索斯琳娜,洛浦希娜,布柳什科",
+    "bgi_version": "0.45.0",
+    "description": "冬契军训练场1人\n雅洛维娅",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1790488298359,
+    "last_modified_time": 1790509069289,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "02-冰造物点赞-至冬-印记商店门口-8赞",
+    "name": "12-冰造物点赞-至冬-冬契军训练场-2赞",
     "tags": [
-      "点赞=8"
+      "点赞=2"
     ],
     "type": "collect",
     "version": "1.0"
@@ -26,17 +26,17 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6583.8818,
-      "y": 9576.1563
+      "x": 6581.6203,
+      "y": 9582.9362
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 6581.7969,
-      "y": 9564.8125
+      "x": 6570.4301,
+      "y": 9637.1436
     },
     {
       "action": "",
@@ -44,35 +44,53 @@
       "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": 6587.6406,
-      "y": 9543.3281
+      "x": 6540.9824,
+      "y": 9646.2763
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 6555.1563,
-      "y": 9535.7656
+      "x": 6504.1728,
+      "y": 9637.4382
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 6550.0007,
-      "y": 9528.5469
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6490.9213,
+      "y": 9633.9029
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
       "move_mode": "walk",
+      "type": "path",
+      "x": 6454.579,
+      "y": 9607.0539
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6442.8295,
+      "y": 9615.7199
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
       "type": "orientation",
-      "x": 6525.5932,
-      "y": 9475.2656
+      "x": 6425.9686,
+      "y": 9633.637
     }
   ]
 }

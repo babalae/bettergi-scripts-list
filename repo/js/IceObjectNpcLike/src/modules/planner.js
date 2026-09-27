@@ -1,8 +1,11 @@
 import {
     HIGH_YIELD_MIN_LIKES,
     HIGH_YIELD_ONLY,
-    ORDER_BY_LIKES
+    ORDER_BY_LIKES,
+    RECOMMENDED_POINT_ORDER
 } from "../constants.js";
+
+const recommendedRank = new Map(RECOMMENDED_POINT_ORDER.map((number, index) => [number, index]));
 
 export function buildRouteGroups(points) {
     const groups = [];
@@ -174,7 +177,11 @@ export function orderRouteGroups(groups, orderMode) {
             return a.firstNumber - b.firstNumber;
         });
     } else {
-        ordered.sort((a, b) => a.firstNumber - b.firstNumber);
+        ordered.sort((a, b) => {
+            const aRank = recommendedRank.get(a.firstNumber) ?? RECOMMENDED_POINT_ORDER.length + a.firstNumber;
+            const bRank = recommendedRank.get(b.firstNumber) ?? RECOMMENDED_POINT_ORDER.length + b.firstNumber;
+            return aRank - bRank;
+        });
     }
 
     return ordered;
@@ -188,7 +195,7 @@ export function validateRouteGroups(groups, restoreEveryPoints) {
                 "超过已确认的60点热能容量；请拆分为可以重新传送的独立路线"
             );
         }
-        if (group.points.length > restoreEveryPoints) {
+        if (restoreEveryPoints !== null && group.points.length > restoreEveryPoints) {
             log.warn(
                 `[RouteGroup] “${routeGroupName(group)}”长度超过恢复间隔 ${restoreEveryPoints}，` +
                 "为保持连续位置，将在组开始前恢复并完整执行该组"
@@ -204,6 +211,10 @@ export function logExecutionPlan(groups, orderMode, restoreEveryPoints) {
     }).join(" | ");
 
     log.info(`[Config] 路线运行模式：${orderMode}`);
-    log.info(`[Config] 每 ${restoreEveryPoints} 个成功 Point 恢复一次热能`);
+    if (restoreEveryPoints === null) {
+        log.info("[Heat] Point 01～12 全部启用：仅开局回神像，后续依赖沿途补能，不检测实际热能值");
+    } else {
+        log.info(`[Heat] 未全选路线：每 ${restoreEveryPoints} 个成功 Point 回神像一次（连续组不拆开）`);
+    }
     log.info(`[Plan] ${plan}`);
 }
