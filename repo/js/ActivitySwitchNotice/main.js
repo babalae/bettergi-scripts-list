@@ -160,10 +160,12 @@ async function main() {
     try {
         await dailyCommissionMain(openKey)
         await sleep(ms * 2);
+        // openKey = false
     } catch (e) {
         await toMainUi()
         throw e
     }
+    await toMainUi()
     await campaignAreaMain(openKey)
     await sleep(ms * 2);
     await toMainUi()
