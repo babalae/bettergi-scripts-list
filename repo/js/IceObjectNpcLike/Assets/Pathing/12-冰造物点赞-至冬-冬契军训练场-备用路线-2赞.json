@@ -6,28 +6,28 @@
         "name": "一只低熵体"
       }
     ],
-    "bgi_version": "0.64.0",
-    "description": "印记商店门口4人\n叶芙琳娜,齐索斯琳娜,洛浦希娜,布柳什科",
+    "bgi_version": "0.45.0",
+    "description": "特殊招募计划任务入口近路；未解锁入口时脚本会改走普通锚点路线。\n冬契军训练场1人\n雅洛维娅",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1790488298359,
-    "map_match_method": "SIFT",
+    "last_modified_time": 1790493498092,
+    "map_match_method": "TemplateMatch",
     "map_name": "Teyvat",
-    "name": "02-冰造物点赞-至冬-印记商店门口-8赞",
+    "name": "12-冰造物点赞-至冬-冬契军训练场-备用路线-2赞",
     "tags": [
-      "点赞=8"
+      "点赞=2"
     ],
     "type": "collect",
     "version": "1.0"
   },
   "positions": [
     {
-      "action": "",
+      "action": "force_tp",
       "action_params": "",
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6583.8818,
-      "y": 9576.1563
+      "x": 6451.5954,
+      "y": 9626.6375
     },
     {
       "action": "",
@@ -35,8 +35,8 @@
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 6581.7969,
-      "y": 9564.8125
+      "x": 6463.3235,
+      "y": 9613.5141
     },
     {
       "action": "",
@@ -44,35 +44,26 @@
       "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": 6587.6406,
-      "y": 9543.3281
+      "x": 6454.579,
+      "y": 9607.0539
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
       "move_mode": "walk",
-      "type": "path",
-      "x": 6555.1563,
-      "y": 9535.7656
+      "type": "target",
+      "x": 6442.8295,
+      "y": 9615.7199
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
       "move_mode": "walk",
-      "type": "target",
-      "x": 6550.0007,
-      "y": 9528.5469
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
       "type": "orientation",
-      "x": 6525.5932,
-      "y": 9475.2656
+      "x": 6425.9686,
+      "y": 9633.637
     }
   ]
 }

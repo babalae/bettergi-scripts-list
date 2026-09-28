@@ -1,5 +1,5 @@
 import { DEFAULT_TIMINGS } from "../constants.js";
-import { errorText } from "../utils/common.js";
+import { errorText, formatPointNumber } from "../utils/common.js";
 
 let runtimeTDelayExtra = 0;
 
@@ -33,6 +33,61 @@ export function readSelect(name, fallback, allowedValues) {
     }
     log.warn(`[Config] ${name}=${raw} 无效，使用默认值 ${fallback}`);
     return fallback;
+}
+
+export function readEnabledPointNumbers(points, defaultNumbers) {
+    const raw = settings.enabledPoints;
+
+    if (raw === undefined || raw === null) {
+        const hasLegacySettings = points.some(point => {
+            const legacyValue = settings[`point${formatPointNumber(point.number)}Enabled`];
+            return legacyValue !== undefined && legacyValue !== null && legacyValue !== "";
+        });
+
+        if (hasLegacySettings) {
+            const legacySelection = new Set();
+            for (const point of points) {
+                const enabledByDefault = defaultNumbers.includes(point.number);
+                if (readCheckbox(`point${formatPointNumber(point.number)}Enabled`, enabledByDefault)) {
+                    legacySelection.add(point.number);
+                }
+            }
+            log.info("[Config] enabledPoints 尚未生成，已兼容读取旧版 Point 独立开关");
+            return legacySelection;
+        }
+
+        log.info("[Config] enabledPoints 尚未生成，使用默认启用路线");
+        return new Set(defaultNumbers);
+    }
+
+    let selections;
+    try {
+        selections = typeof raw === "string" ? [raw] : Array.from(raw);
+    } catch (error) {
+        log.warn(`[Config] enabledPoints 无法读取：${errorText(error)}；使用默认启用路线`);
+        return new Set(defaultNumbers);
+    }
+
+    const knownNumbers = new Set(points.map(point => point.number));
+    const selectedNumbers = new Set();
+
+    for (const selection of selections) {
+        const text = String(selection || "").trim();
+        const match = /^Point\s+(\d{1,2})(?:\D|$)/i.exec(text);
+        if (!match) {
+            log.warn(`[Config] enabledPoints 中的选项“${text}”无法识别，已忽略`);
+            continue;
+        }
+
+        const pointNumber = Number(match[1]);
+        if (!knownNumbers.has(pointNumber)) {
+            log.warn(`[Config] enabledPoints 选择了不存在的 Point ${formatPointNumber(pointNumber)}，已忽略`);
+            continue;
+        }
+        selectedNumbers.add(pointNumber);
+    }
+
+    return selectedNumbers;
 }
 
 export function readDelay(name) {
@@ -125,15 +180,4 @@ export function parsePointIntegerOverrides(settingName, min, max) {
     }
 
     return result;
-}
-
-export function normalizeVirtualKey(rawKey, fallback) {
-    const value = String(rawKey || fallback).trim().toUpperCase();
-    if (value.startsWith("VK_")) {
-        return value;
-    }
-    if (value.length === 1) {
-        return `VK_${value}`;
-    }
-    return value;
 }

@@ -1,6 +1,10 @@
 import { LIKE_TAG_PATTERN, PATHS, POINT_FILE_PATTERN } from "../constants.js";
-import { readCheckbox, readDelay, normalizeVirtualKey } from "./config.js";
+import { readDelay } from "./config.js";
 import { baseName, errorText, fileStem, formatPointNumber } from "../utils/common.js";
+
+// 普通锚点距任务入口约 137 个地图坐标单位；70 可容纳落点误差，同时排除普通锚点。
+const POINT12_SHORTCUT_MAX_DISTANCE = 70;
+const POINT12_POSITION_RETRIES = 3;
 
 function loadPathData(path) {
     let content;
@@ -139,7 +143,7 @@ function validatePoint09AlternatePath() {
     log.info("[System] Point 09 绕过 Point 08 的备用路线预检通过");
 }
 
-export function preflight(points) {
+export function preflight(points, enabledPointNumbers) {
     const restoreData = loadPathData(PATHS.restore);
     validatePathName(PATHS.restore, restoreData);
 
@@ -170,7 +174,7 @@ export function preflight(points) {
 
         point.requiresRestoreStart = !point.continueFromPrevious && firstType !== "teleport";
         point.likeCount = parseLikeCount(data, point);
-        point.enabled = readCheckbox(`point${formatPointNumber(point.number)}Enabled`, true);
+        point.enabled = enabledPointNumbers.has(point.number);
 
         const matchMethod = data.info && data.info.map_match_method;
         if (matchMethod && String(matchMethod).toUpperCase() !== "SIFT") {
@@ -204,13 +208,86 @@ export async function runPathFile(label, path) {
     log.info(`[${label}] 地图追踪完成`);
 }
 
+async function runPoint12Path(point) {
+    const cancellationToken = dispatcher.getLinkedCancellationToken();
+    let shortcutStarted = false;
+
+    try {
+        const data = loadPathData(PATHS.point12Shortcut);
+        validatePathName(PATHS.point12Shortcut, data);
+        const positions = data.positions;
+        const teleport = positions[0];
+        if (positions.length < 2 || String(teleport.type).toLowerCase() !== "teleport" ||
+            String(teleport.action).toLowerCase() !== "force_tp" ||
+            String(positions[positions.length - 1].type).toLowerCase() !== "orientation") {
+            throw new Error("近路文件缺少强制传送起点或最终朝向");
+        }
+
+        log.info(`[${point.name}] 优先尝试特殊招募计划任务入口近路`);
+        shortcutStarted = true;
+        await pathingScript.run(JSON.stringify({ ...data, positions: [teleport] }));
+
+        const mapName = data.info && data.info.map_name || "Teyvat";
+        let verified = false;
+        for (let attempt = 0; attempt < POINT12_POSITION_RETRIES; attempt += 1) {
+            const position = await genshin.getPositionFromMap(mapName, 0);
+            if (position && Number.isFinite(position.x) && Number.isFinite(position.y)) {
+                const distance = Math.hypot(position.x - teleport.x, position.y - teleport.y);
+                if (distance <= POINT12_SHORTCUT_MAX_DISTANCE) {
+                    log.info(`[${point.name}] 近路落点已确认，距任务入口约 ${distance.toFixed(1)} 个地图坐标单位`);
+                    verified = true;
+                    break;
+                }
+                log.warn(`[${point.name}] 第 ${attempt + 1} 次位置核对距任务入口约 ${distance.toFixed(1)}，继续核对`);
+            } else {
+                log.warn(`[${point.name}] 第 ${attempt + 1} 次无法取得有效地图位置，继续核对`);
+            }
+            if (attempt + 1 < POINT12_POSITION_RETRIES) {
+                await sleep(500);
+            }
+        }
+        if (!verified) {
+            throw new Error("无法确认角色已到达任务入口附近");
+        }
+
+        await pathingScript.run(JSON.stringify({ ...data, positions: positions.slice(1) }));
+        log.info(`[${point.name}] 任务入口近路已完成`);
+    } catch (error) {
+        if (cancellationToken.isCancellationRequested) {
+            throw error;
+        }
+        log.warn(`[${point.name}] 近路未完成（${errorText(error)}），改走普通锚点完整路线`);
+        if (shortcutStarted) {
+            try {
+                await genshin.returnMainUi();
+            } catch (uiError) {
+                if (cancellationToken.isCancellationRequested) {
+                    throw uiError;
+                }
+                log.warn(`[${point.name}] 返回主界面未确认：${errorText(uiError)}`);
+            }
+        }
+        if (cancellationToken.isCancellationRequested) {
+            throw error;
+        }
+        await pathingScript.runFile(point.path);
+        log.info(`[${point.name}] 普通锚点完整路线已完成`);
+    }
+}
+
 export async function runPointPath(point) {
     if (point.alternatePathReason) {
         log.info(`[${point.name}] 使用备用路线：${point.alternatePathReason}`);
     }
-    log.info(`[${point.name}] 开始地图追踪：${point.path}`);
+    log.info(point.number === 12
+        ? `[${point.name}] 开始地图追踪：优先任务入口近路，必要时改走 ${point.path}`
+        : `[${point.name}] 开始地图追踪：${point.path}`);
     try {
-        await pathingScript.runFile(point.path);
+        if (point.number === 12) {
+            await runPoint12Path(point);
+        } else {
+            await pathingScript.runFile(point.path);
+        }
     } catch (error) {
         throw new Error(`[${point.name}] 地图追踪失败：${errorText(error)}`);
     }
@@ -220,13 +297,6 @@ export async function runPointPath(point) {
 export async function restoreHeat(reason) {
     log.info(`[Heat] 开始恢复热能：${reason}`);
     await runPathFile("Heat", PATHS.restore);
-
-    if (readCheckbox("restoreInteractionEnabled", false)) {
-        const interactKey = normalizeVirtualKey(settings.restoreInteractionKey, "VK_F");
-        log.info(`[Heat] 执行固定交互键：${interactKey}`);
-        keyPress(interactKey);
-    }
-
     await sleep(readDelay("restoreDelay"));
-    log.info("[Heat] 恢复完成（未进行热能数值识别）");
+    log.info("[Heat] 七天神像范围内自动恢复完成，无需按 F（未进行热能数值识别）");
 }
