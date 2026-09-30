@@ -1,0 +1,47 @@
+[
+  {
+    "name": "includeOneStar",
+    "type": "checkbox",
+    "label": "选择一星武器",
+    "default": true
+  },
+  {
+    "name": "includeTwoStar",
+    "type": "checkbox",
+    "label": "选择二星武器",
+    "default": true
+  },
+  {
+    "name": "includeThreeStar",
+    "type": "checkbox",
+    "label": "选择三星武器（部分三星武器无法再次获取，请先锁定要保留的武器）",
+    "default": true
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "executeDestruction",
+    "type": "checkbox",
+    "label": "执行最终摧毁（关闭时仅快捷放入并停留在预览页面）",
+    "default": false
+  },
+  {
+    "name": "maxBatches",
+    "type": "input-text",
+    "label": "最多处理批次（每批最多100件）",
+    "default": "20"
+  },
+  {
+    "name": "actionDelayMs",
+    "type": "input-text",
+    "label": "界面操作间隔（毫秒，建议800以上）",
+    "default": "1000"
+  },
+  {
+    "name": "returnToMainUi",
+    "type": "checkbox",
+    "label": "执行结束后返回游戏主界面",
+    "default": true
+  }
+]
