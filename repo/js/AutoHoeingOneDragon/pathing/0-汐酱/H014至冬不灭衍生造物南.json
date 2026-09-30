@@ -9,7 +9,7 @@
     "bgi_version": "0.63.1",
     "description": "  路线信息：该路线预计用时225秒，包含以下怪物：13只幼嫩的分节树。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788185736692,
+    "last_modified_time": 1789838875300,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "H014至冬不灭衍生造物南",
@@ -32,15 +32,24 @@
       "action_params": "",
       "id": 2,
       "move_mode": "dash",
+      "type": "path",
+      "x": 7145.1436,
+      "y": 8938.4883
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "jump",
       "sync_point_id": "strict_1",
       "type": "path",
-      "x": 7149.0596,
-      "y": 8928.0303
+      "x": 7155.3271,
+      "y": 8936.6836
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 3,
+      "id": 4,
       "move_mode": "dash",
       "type": "path",
       "x": 7187.3018,
@@ -49,7 +58,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 4,
+      "id": 5,
       "move_mode": "jump",
       "type": "path",
       "x": 7179.1934,
@@ -58,7 +67,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "dash",
       "type": "path",
       "x": 7167.707,
@@ -67,28 +76,27 @@
     {
       "action": "",
       "action_params": "",
-      "id": 6,
+      "id": 7,
       "move_mode": "dash",
       "type": "path",
       "x": 7176.2324,
       "y": 9013.7705
     },
     {
-      "action": "",
-      "action_params": "",
-      "id": 7,
+      "action": "combat_script",
+      "action_params": ";茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E);attack(1)",
+      "id": 8,
       "move_mode": "dash",
-      "sync_point_id": "strict_2",
       "type": "path",
       "x": 7225.3037,
       "y": 9051.9111
     },
     {
       "action": "combat_script",
-      "action_params": ";茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E);attack(1)",
-      "id": 8,
-      "locked": false,
+      "action_params": ";万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2); ;",
+      "id": 9,
       "move_mode": "dash",
+      "sync_point_id": "strict_2",
       "type": "path",
       "x": 7212.2109,
       "y": 9055.084
@@ -96,7 +104,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 9,
+      "id": 10,
       "move_mode": "dash",
       "type": "path",
       "x": 7212.2109,
@@ -105,7 +113,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 10,
+      "id": 11,
       "move_mode": "dash",
       "type": "path",
       "x": 7243.5283,
@@ -114,9 +122,9 @@
     {
       "action": "",
       "action_params": "",
-      "id": 11,
+      "id": 12,
       "move_mode": "dash",
-      "sync_point_id": "strict_1",
+      "sync_point_id": "strict_3",
       "type": "path",
       "x": 7245.5215,
       "y": 9137.0791
@@ -124,7 +132,7 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.1),keypress(f),w(0.1),keypress(f),wait(2)",
-      "id": 12,
+      "id": 13,
       "move_mode": "dash",
       "type": "target",
       "x": 7252.5391,
@@ -133,7 +141,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 13,
+      "id": 14,
       "move_mode": "dash",
       "type": "path",
       "x": 7252.5391,
@@ -142,7 +150,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
+      "id": 15,
       "move_mode": "jump",
       "type": "path",
       "x": 7241.8037,
@@ -151,7 +159,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 15,
+      "id": 16,
       "move_mode": "dash",
       "type": "path",
       "x": 7231.1426,
@@ -160,7 +168,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 17,
       "move_mode": "dash",
       "type": "path",
       "x": 7204.2393,
@@ -169,21 +177,22 @@
     {
       "action": "combat_script",
       "action_params": "keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(1)",
-      "id": 17,
+      "id": 18,
+      "locked": false,
       "move_mode": "dash",
-      "sync_point_id": "strict_1",
-      "type": "path",
-      "x": 7201.8008,
-      "y": 9176.6719
+      "sync_point_id": "strict_4",
+      "type": "target",
+      "x": 7203.1963,
+      "y": 9175.1182
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "dash",
       "type": "path",
-      "x": 7201.8008,
-      "y": 9176.6719
+      "x": 7203.1963,
+      "y": 9175.1182
     }
   ]
 }
