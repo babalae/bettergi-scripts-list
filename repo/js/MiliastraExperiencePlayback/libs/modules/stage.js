@@ -2,6 +2,7 @@ import { __name } from "../rolldown-runtime.js";
 import {
   assertRegionAppearing,
   assertRegionDisappearing,
+  getErrorMessage,
   waitForAction,
 } from "../@bettergi+utils.js";
 import { userConfig } from "../constants/config.js";
@@ -16,6 +17,7 @@ import {
   findSetupFilterBtn,
   findSkipBtn,
   findStageEscBtn,
+  findStarlitGalaVoteBtn,
 } from "../constants/regions.js";
 import { isInLobby } from "./lobby.js";
 
@@ -40,7 +42,7 @@ const playStage = async (playbacks) => {
           clickToPrepare();
         }
         /** 判断是否需要快速编队 */
-        const findSetupMsg = () => findPromptText("至少") || findPromptText("角色");
+        const findSetupMsg = () => findBottomBtnText("快速", true) && findPromptText("请选择至少");
         if (findSetupMsg()) {
           log.info("快速编队...");
           await assertRegionDisappearing(findSetupMsg, "等待未编队提示消失超时");
@@ -137,13 +139,32 @@ const exitStageToLobby = async () => {
   if (
     !(await waitForAction(
       isInLobby,
-      async () => {
-        /** 跳过奇域等级提升页面（奇域等级每逢11、21、31、41级时出现加星页面） */
+      async (attempts) => {
+        /** 跳过奇域等级提升界面（奇域等级每逢11、21、31、41级时出现加星界面） */
         clickToContinue();
         /** 跳过结算画面 */
         findSkipBtn()?.click();
         /** 点击底部 “返回大厅” 按钮 */
-        findBottomBtnText("返回大厅")?.click();
+        const exitToLobbyBtn = findBottomBtnText("返回大厅");
+        if (exitToLobbyBtn) {
+          /** 绮星盛会投票 */
+          try {
+            if (userConfig.dailyRewards.includes("绮星盛会") && attempts <= 15)
+              /** 等待投票动画结束 */
+              await sleep(2e3);
+            if (findStarlitGalaVoteBtn())
+              await assertRegionDisappearing(
+                findStarlitGalaVoteBtn,
+                "等待绮星盛会投票完成超时",
+                () => {
+                  findStarlitGalaVoteBtn()?.doubleClick();
+                },
+              );
+          } catch (err) {
+            log.warn("绮星盛会投票失败: {error}", getErrorMessage(err));
+          }
+          exitToLobbyBtn.click();
+        }
       },
       { maxAttempts: 60 },
     ))

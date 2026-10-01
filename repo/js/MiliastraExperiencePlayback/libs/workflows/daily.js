@@ -9,6 +9,7 @@ import { userConfig } from "../constants/config.js";
 import { store } from "../constants/store.js";
 import { fetchBattlepassExp, fetchCultivateReward } from "../modules/reawrd.js";
 import { enterRoom, leaveRoom } from "../modules/room.js";
+import { ensureMultiPlayer } from "../modules/scene.js";
 import { availablePlaybackFiles, exitStage, playStage } from "../modules/stage.js";
 
 //#region src/workflows/daily.ts
@@ -17,6 +18,8 @@ const execDailyTask = async () => {
     log.warn("未启用执行每日通关任务，跳过");
     return;
   }
+  /** 确保不处于 禁止联机 状态/场景 */
+  ensureMultiPlayer();
   /** 确保通关回放文件存在 */
   if (userConfig.dailyRooms.length !== userConfig.dailyPlaybacks.length) {
     log.warn("每日奇域关卡数量与通关回放文件池数量不匹配，跳过");
