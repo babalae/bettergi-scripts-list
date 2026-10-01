@@ -6,13 +6,13 @@
         "name": "烤鱼"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788742195290,
+    "last_modified_time": 1790868837635,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A01-魔晶矿-至冬-格鲁波夫",
+    "name": "狼肉-曙光车站北部-6只",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -25,76 +25,66 @@
       "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6693.2041,
-      "y": 9909.9238
+      "x": 7472.1348,
+      "y": 8914.6465
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "locked": false,
-      "move_mode": "run",
-      "type": "path",
-      "x": 6679.9375,
-      "y": 9876.25
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 6623.9414,
-      "y": 9890.8604
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 4,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 6621.7949,
-      "y": 9894.7539
+      "x": 7472.0049,
+      "y": 8915.2119
     },
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 6580.1123,
-      "y": 9900.7529
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 6,
-      "locked": false,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 6585.998,
-      "y": 9973.7959
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 7,
-      "locked": false,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 6585.998,
-      "y": 9973.7959
+      "x": 7481.8379,
+      "y": 8941.0645
     },
     {
       "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 8,
+      "action_params": "keydown(e),wait(3)",
+      "id": 4,
       "locked": false,
-      "move_mode": "fly",
+      "move_mode": "dash",
       "type": "path",
-      "x": 6585.998,
-      "y": 9973.7959
+      "x": 7550.0215,
+      "y": 8929.9893
+    },
+    {
+      "action": "pick_up_collect",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7550.0215,
+      "y": 8929.9893
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7550.0215,
+      "y": 8929.9893
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7550.0215,
+      "y": 8929.9893
     }
   ]
 }
