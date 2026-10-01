@@ -1,0 +1,20 @@
+{
+  "manifest_version": 1,
+  "name": "角色一键养成",
+  "version": "0.9.0",
+  "bgi_version": "0.64.0",
+  "description": "选择角色、目标等级和天赋，自动识别进度与材料缺口，匹配并执行 Boss、秘境和路线，邮件汇报培养进度。",
+  "authors": [
+    {
+      "name": "yunxi",
+      "links": "https://github.com/yunxi001"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "record/*.json",
+    "data/user-targets.json",
+    "data/route-overrides.json"
+  ]
+}
