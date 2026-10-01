@@ -389,6 +389,10 @@ async function getUidFromGame() {
 // 确保设置变量存在（调试模式总开关：关闭时"显示详细日志"与"指定NPC和商品"均不生效）
 const debugMode = settings.debugMode || false;
 const ignoreRecords = settings.ignoreRecords || false;
+// “无视记录强制购买”为一次性勾选：运行开始即写回 false，本次运行结束后自动取消，
+if (ignoreRecords) {
+    settings.ignoreRecords = false;
+}
 const recordDebug = debugMode && (settings.recordDebug || false);
 
 // 商人名称兼容映射（旧拼写 -> 新规范名）
@@ -1016,13 +1020,13 @@ async function selectNpcDialogOption(npcName, npcPath) {
     return selected;
 }
 
-// 在对话中点击特殊购买选项
+// ==================== NPC特殊对话选项 ====================
 // 循环OCR检测对话：找到特殊选项立即鼠标点击；选项未出现时按F推进下一句。
 async function clickShopDialogOption(maxAttempts = 6) {
     // 设置脚本环境的游戏分辨率和DPI缩放
     setGameMetrics(1920, 1080, 1);
 
-    const keywords = ["有什么卖的", "可以卖一些", "有什么喝的"];
+    const keywords = ["有什么卖的", "可以卖一些", "有什么喝的", "我想买些古董"];
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
         let captureRegion = captureGameRegion();
@@ -1085,7 +1089,7 @@ async function spikChat(npcName, npcPath) {
         }
     }
 
-    if (npcName == "布纳马" || npcName == "杜拉夫" || npcName == "齐良诺夫") {
+    if (npcName == "琳琅" || npcName == "布纳马" || npcName == "杜拉夫" || npcName == "齐良诺夫") {
         // 设置脚本环境的游戏分辨率和DPI缩放
         setGameMetrics(1920, 1080, 1);
 
@@ -1291,6 +1295,14 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
             }
 
             let resList = captureRegion.FindMulti(ro);
+            // 截图漏检，等待后重新截图再查找，最多尝试 3 次
+            for (let findAttempt = 1; findAttempt < 3 && resList.count === 0; findAttempt++) {
+                if (recordDebug) log.info(`[调试] 本次截图未找到 "${item}"，等待后重新截图查找（第 ${findAttempt} 次）`);
+                await sleep(1000);
+                captureRegion.dispose();
+                captureRegion = captureGameRegion();
+                resList = captureRegion.FindMulti(ro);
+            }
 
             for (let res of resList) {
                 if (recordDebug) {
@@ -1362,6 +1374,11 @@ async function buyFoods(npcName, npcRecords, currentPeriod) {
                 await sleep(520);
             }
         }
+    }
+    
+    // 提示本次未能购买的商品
+    if (tempFoods.length > 0) {
+        log.warn(`${displayName} 以下商品本次未能购买，下次运行将自动重试: ${tempFoods.join(", ")}`);
     }
 
     if (purchasedFoods.length > 0) {
