@@ -2,27 +2,37 @@
   "info": {
     "name": "公式化锄地",
     "author": "mno",
-    "description": "配队公式：芙+盾位（茜/机/尼/莱）+其他（火/万/莉/爱/少/偶）用于普通精英/小怪锄地",
+    "description": "配队公式：芙+盾位（茜/机/尼/莱）+其他（火/万/莉/爱/少）用于普通精英/小怪锄地",
     "config": {},
     "preActions": []
   },
   "actions": [
     {
-      "name": "检查战斗结束",
+      "name": "盾位-开盾",
       "character": "",
-      "action": "check,w(0.05),click(middle),scroll(10)",
+      "action": "",
       "condition": {
-        "expression": "t>1.5 && since>0.7"
+        "expression": "false"
       },
       "ensureCast": false,
-      "index": 1
+      "index": 10
     },
     {
       "name": "奶奶-开盾",
       "character": "茜特菈莉",
-      "action": "attack,e",
+      "action": "e",
       "condition": {
-        "expression": "e-ready"
+        "expression": "e-ready && since>15"
+      },
+      "ensureCast": true,
+      "index": 10
+    },
+    {
+      "name": "尼可-开盾",
+      "character": "尼可",
+      "action": "e",
+      "condition": {
+        "expression": "e-ready && since>15"
       },
       "ensureCast": true,
       "index": 10
@@ -32,60 +42,164 @@
       "character": "伊涅芙",
       "action": "e",
       "condition": {
-        "expression": "e-ready"
+        "expression": "e-ready && since>15"
       },
       "ensureCast": true,
-      "index": 11
-    },
-    {
-      "name": "尼可-开盾",
-      "character": "尼可",
-      "action": "e",
-      "condition": {
-        "expression": "e-ready"
-      },
-      "ensureCast": false,
-      "index": 12
+      "index": 10
     },
     {
       "name": "莱依拉-开盾",
       "character": "莱依拉",
       "action": "e",
       "condition": {
-        "expression": "e-ready"
+        "expression": "e-ready && since>15"
+      },
+      "ensureCast": true,
+      "index": 10
+    },
+    {
+      "name": "蓝砚-开盾",
+      "character": "蓝砚",
+      "action": "e,wait(0.8),s(0.2),attack(0.33),dash(0.1),attack(0.55)",
+      "condition": {
+        "expression": "e-ready && since>10"
+      },
+      "ensureCast": true,
+      "index": 10
+    },
+    {
+      "name": "绮良良-开盾",
+      "character": "绮良良",
+      "action": "e",
+      "condition": {
+        "expression": "e-ready && since>10"
       },
       "ensureCast": false,
-      "index": 13
+      "index": 10
+    },
+    {
+      "name": "奶妈给奶-红血",
+      "character": "",
+      "action": "",
+      "condition": {
+        "expression": "false"
+      },
+      "ensureCast": false,
+      "index": 20
+    },
+    {
+      "name": "莉奈娅-q",
+      "character": "莉奈娅",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && since>16 && (since(20)>since(角色红血标记) || since(芙芙-q)<3)"
+      },
+      "ensureCast": false,
+      "index": 20,
+      "morePriorities": [
+        {
+          "expression": "q-ready && since>16",
+          "priority": 40
+        }
+      ]
     },
     {
       "name": "爱可菲-q",
       "character": "爱可菲",
       "action": "q,wait(0.1),ready",
       "condition": {
-        "expression": "(low-hp || since(41)<3) && q-ready"
+        "expression": "q-ready && since>16 && (since(20)>since(角色红血标记) || since(芙芙-q)<3)"
       },
       "ensureCast": false,
       "index": 20,
       "morePriorities": [
         {
-          "expression": "q-ready",
-          "priority": 43
+          "expression": "q-ready && since>16",
+          "priority": 40
         }
       ]
+    },
+    {
+      "name": "奶奶-q",
+      "character": "茜特菈莉",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && since>16 && (since(20)>since(角色红血标记) || since(芙芙-q)<3)"
+      },
+      "ensureCast": false,
+      "index": 20,
+      "morePriorities": [
+        {
+          "expression": "q-ready && since>16",
+          "priority": 40
+        }
+      ]
+    },
+    {
+      "name": "琴-q",
+      "character": "琴",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && since>16 && (since(20)>since(角色红血标记) || since(芙芙-q)<3)"
+      },
+      "ensureCast": false,
+      "index": 20,
+      "morePriorities": [
+        {
+          "expression": "q-ready && since>16",
+          "priority": 40
+        }
+      ]
+    },
+    {
+      "name": "芭芭拉-e",
+      "character": "芭芭拉",
+      "action": "keypress(e)",
+      "condition": {
+        "expression": "e-ready && since>32"
+      },
+      "ensureCast": false,
+      "index": 20
+    },
+    {
+      "name": "芭芭拉-q",
+      "character": "芭芭拉",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && since>16 && (since(20)>since(角色红血标记) || since(芙芙-q)<3)"
+      },
+      "ensureCast": false,
+      "index": 20,
+      "morePriorities": [
+        {
+          "expression": "q-ready && since>16",
+          "priority": 40
+        }
+      ]
+    },
+    {
+      "name": "高优先级技能",
+      "character": "",
+      "action": "",
+      "condition": {
+        "expression": "false"
+      },
+      "ensureCast": false,
+      "index": 30
     },
     {
       "name": "芙芙-e",
       "character": "芙宁娜",
       "action": "e,wait(0.3)",
       "condition": {
-        "expression": "since>28 && e-ready"
+        "expression": "since>20 && e-ready"
       },
       "ensureCast": false,
-      "index": 21,
+      "index": 30,
       "morePriorities": [
         {
-          "expression": "since>20 && e-ready",
-          "priority": 30
+          "expression": "since>28 && e-ready",
+          "priority": 20
         }
       ]
     },
@@ -97,7 +211,37 @@
         "expression": "e-ready && since>15"
       },
       "ensureCast": false,
-      "index": 22
+      "index": 30
+    },
+    {
+      "name": "火神-q",
+      "character": "玛薇卡",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && since>15"
+      },
+      "ensureCast": false,
+      "index": 30
+    },
+    {
+      "name": "丝柯克-q",
+      "character": "丝柯克",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "since>15 && q-ready"
+      },
+      "ensureCast": false,
+      "index": 30
+    },
+    {
+      "name": "少女-e",
+      "character": "哥伦比娅",
+      "action": "e",
+      "condition": {
+        "expression": "e-ready && since>15"
+      },
+      "ensureCast": false,
+      "index": 30
     },
     {
       "name": "莉奈娅-大锤",
@@ -107,57 +251,97 @@
         "expression": "e-ready && since>17"
       },
       "ensureCast": false,
-      "index": 23
+      "index": 30
+    },
+    {
+      "name": "千织-e",
+      "character": "千织",
+      "action": "keydown(e),wait(0.1),moveby(0,3000),wait(0.1),keyup(e),wait(0.1),attack,keypress(e)",
+      "condition": {
+        "expression": "e-ready && since>16"
+      },
+      "ensureCast": false,
+      "index": 30
     },
     {
       "name": "爱可菲-e",
       "character": "爱可菲",
       "action": "e,attack(0.01),keypress(e)",
       "condition": {
-        "expression": "e-ready"
+        "expression": "e-ready && since>15"
       },
       "ensureCast": false,
-      "index": 24
+      "index": 30
     },
     {
-      "name": "少女-e",
-      "character": "哥伦比娅",
+      "name": "久岐忍-e",
+      "character": "久岐忍",
       "action": "e",
       "condition": {
-        "expression": "e-ready"
+        "expression": "e-ready && since>15"
       },
       "ensureCast": false,
-      "index": 25
+      "index": 30
     },
     {
-      "name": "火神-q",
-      "character": "玛薇卡",
-      "action": "q,wait(0.1),ready",
+      "name": "千织-附魔普攻",
+      "character": "千织",
+      "action": "attack(0.5)",
       "condition": {
-        "expression": "q-ready"
+        "expression": "since(千织-e)<4"
       },
       "ensureCast": false,
-      "index": 26
+      "index": 30
     },
     {
-      "name": "满芙普攻",
-      "character": "芙宁娜",
-      "action": "keydown(w),wait(0.05),keyup(w),wait(0.05),click,wait(0.05),click,wait(0.20),click,wait(0.05),click,wait(0.25),keydown(s),wait(0.05),click,wait(0.05),click,wait(0.6),keyup(s)",
+      "name": "奥黛塔-eqe",
+      "character": "奥黛塔",
+      "action": "e,attack,keypress(q),wait(0.1),keypress(q),wait(0.1),keypress(q),wait(0.1),keypress(q),wait(0.1),keypress(q),wait(0.1),e,e",
+      "condition": {
+        "expression": "e-ready && since>15"
+      },
+      "ensureCast": false,
+      "index": 30
+    },
+    {
+      "name": "木偶-喷冰",
+      "character": "桑多涅",
+      "action": "charge(4.15)",
+      "condition": {
+        "expression": "count=0 || since()>since(木偶-e)"
+      },
+      "ensureCast": false,
+      "index": 30
+    },
+    {
+      "name": "奶妈给奶-非红血",
+      "character": "",
+      "action": "",
       "condition": {
         "expression": "false"
       },
       "ensureCast": false,
-      "index": 27
+      "index": 40
     },
     {
-      "name": "木偶-喷冰4.15",
-      "character": "桑多涅",
-      "action": "charge(4.15)",
+      "name": "其他技能",
+      "character": "",
+      "action": "",
       "condition": {
-        "expression": "count=0 || since(38)>since(44)"
+        "expression": "false"
       },
       "ensureCast": false,
-      "index": 38
+      "index": 50
+    },
+    {
+      "name": "千织-q",
+      "character": "千织",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && since>15"
+      },
+      "ensureCast": false,
+      "index": 50
     },
     {
       "name": "草神-破水盾",
@@ -167,17 +351,98 @@
         "expression": "e-ready"
       },
       "ensureCast": false,
-      "index": 39
+      "index": 50
+    },
+    {
+      "name": "莱依拉-q",
+      "character": "莱依拉",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && since>15"
+      },
+      "ensureCast": false,
+      "index": 50
+    },
+    {
+      "name": "木偶-q",
+      "character": "桑多涅",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && since>15"
+      },
+      "ensureCast": false,
+      "index": 50
+    },
+    {
+      "name": "蓝砚-q",
+      "character": "蓝砚",
+      "action": "q",
+      "condition": {
+        "expression": "q-ready && since>15"
+      },
+      "ensureCast": false,
+      "index": 50
+    },
+    {
+      "name": "白术-q",
+      "character": "白术",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && since>20"
+      },
+      "ensureCast": false,
+      "index": 50
+    },
+    {
+      "name": "木偶-e",
+      "character": "桑多涅",
+      "action": "keypress(e),attack",
+      "condition": {
+        "expression": "since>4.2"
+      },
+      "ensureCast": false,
+      "index": 99,
+      "morePriorities": []
+    },
+    {
+      "name": "拖时间动作",
+      "character": "",
+      "action": "",
+      "condition": {
+        "expression": "false"
+      },
+      "ensureCast": false,
+      "index": 100
+    },
+    {
+      "name": "少女-普攻挂水",
+      "character": "哥伦比娅",
+      "action": "attack(1)",
+      "condition": {
+        "expression": "!in-party(芙宁娜)"
+      },
+      "ensureCast": false,
+      "index": 100
+    },
+    {
+      "name": "万叶-中e",
+      "character": "枫原万叶",
+      "action": "attack,keydown(E),wait(0.48),keyup(E),attack(0.3),wait(0.2)",
+      "condition": {
+        "expression": "since>8 || since>since(万叶-q)"
+      },
+      "ensureCast": false,
+      "index": 100
     },
     {
       "name": "草神-q",
       "character": "纳西妲",
       "action": "q,wait(0.1),ready",
       "condition": {
-        "expression": "q-ready"
+        "expression": "q-ready && since>15"
       },
       "ensureCast": false,
-      "index": 40,
+      "index": 100,
       "morePriorities": [
         {
           "expression": "low-hp",
@@ -190,117 +455,80 @@
       "character": "芙宁娜",
       "action": "q,wait(0.1),ready",
       "condition": {
-        "expression": "q-ready"
+        "expression": "q-ready && since>15"
       },
       "ensureCast": false,
-      "index": 41
-    },
-    {
-      "name": "木偶-q",
-      "character": "桑多涅",
-      "action": "q,wait(0.1),ready",
-      "condition": {
-        "expression": "q-ready && since>18"
-      },
-      "ensureCast": false,
-      "index": 42
-    },
-    {
-      "name": "万叶-中e",
-      "character": "枫原万叶",
-      "action": "attack,keydown(E),wait(0.48),keyup(E),attack(0.3),wait(0.2)",
-      "condition": {
-        "expression": "since>8 || since>since(45)"
-      },
-      "ensureCast": false,
-      "index": 43
-    },
-    {
-      "name": "木偶-e",
-      "character": "桑多涅",
-      "action": "keypress(e),attack",
-      "condition": {
-        "expression": "since>5"
-      },
-      "ensureCast": false,
-      "index": 44,
-      "morePriorities": []
-    },
-    {
-      "name": "万叶-q",
-      "character": "枫原万叶",
-      "action": "q,wait(0.1),ready",
-      "condition": {
-        "expression": "q-ready"
-      },
-      "ensureCast": false,
-      "index": 45
-    },
-    {
-      "name": "莉奈娅-q",
-      "character": "莉奈娅",
-      "action": "q,wait(0.1),ready",
-      "condition": {
-        "expression": "q-ready"
-      },
-      "ensureCast": false,
-      "index": 46,
-      "morePriorities": [
-        {
-          "expression": "low-hp&&q-ready",
-          "priority": 20
-        }
-      ]
+      "index": 100
     },
     {
       "name": "少女-q",
       "character": "哥伦比娅",
       "action": "q,wait(0.1),ready",
       "condition": {
-        "expression": "q-ready"
+        "expression": "q-ready && since>15"
       },
       "ensureCast": false,
-      "index": 47
+      "index": 100
     },
     {
       "name": "伊涅芙-q",
       "character": "伊涅芙",
       "action": "q,wait(0.1),ready",
       "condition": {
-        "expression": "q-ready"
+        "expression": "q-ready && since>15"
       },
       "ensureCast": false,
-      "index": 48
+      "index": 100
     },
     {
-      "name": "奶奶-q",
-      "character": "茜特菈莉",
+      "name": "万叶-q",
+      "character": "枫原万叶",
       "action": "q,wait(0.1),ready",
       "condition": {
-        "expression": "q-ready"
+        "expression": "q-ready && since>15"
       },
       "ensureCast": false,
-      "index": 49
-    },
-    {
-      "name": "莱依拉-q",
-      "character": "莱依拉",
-      "action": "q,wait(0.1),ready",
-      "condition": {
-        "expression": "q-ready"
-      },
-      "ensureCast": false,
-      "index": 50
+      "index": 100
     },
     {
       "name": "尼可-q",
       "character": "尼可",
       "action": "q,wait(0.1),ready",
       "condition": {
-        "expression": "q-ready"
+        "expression": "q-ready && since>15"
       },
       "ensureCast": false,
-      "index": 51
+      "index": 100
+    },
+    {
+      "name": "绮良良-q",
+      "character": "绮良良",
+      "action": "q",
+      "condition": {
+        "expression": "q-ready && since>15"
+      },
+      "ensureCast": false,
+      "index": 100
+    },
+    {
+      "name": "久岐忍-q",
+      "character": "久岐忍",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && since>15"
+      },
+      "ensureCast": false,
+      "index": 100
+    },
+    {
+      "name": "夏沃蕾-q",
+      "character": "夏沃蕾",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && since>15"
+      },
+      "ensureCast": false,
+      "index": 100
     },
     {
       "name": "等待",
@@ -311,6 +539,96 @@
       },
       "ensureCast": false,
       "index": 999
+    },
+    {
+      "name": "角色红血标记",
+      "character": "",
+      "action": "",
+      "condition": {
+        "expression": "low-hp && since>3"
+      },
+      "ensureCast": false,
+      "index": 1
+    },
+    {
+      "name": "芭芭拉-普攻",
+      "character": "芭芭拉",
+      "action": "charge,attack(0.5),charge",
+      "condition": {
+        "expression": "since(芭芭拉-e)<15 && (since(20)>since(角色红血标记) || since(芙芙-q)<3)"
+      },
+      "ensureCast": false,
+      "index": 20,
+      "morePriorities": [
+        {
+          "expression": "since(芭芭拉-e)<12 && count(芭芭拉-普攻, t -12, t)<2",
+          "priority": 40
+        }
+      ]
+    },
+    {
+      "name": "白术-e",
+      "character": "白术",
+      "action": "e",
+      "condition": {
+        "expression": "e-ready && since>10"
+      },
+      "ensureCast": false,
+      "index": 20,
+      "morePriorities": []
+    },
+    {
+      "name": "希格雯-e",
+      "character": "希格雯",
+      "action": "keydown(e),wait(0.8),keyup(e),attack,keypress(e)",
+      "condition": {
+        "expression": "e-ready && since>18"
+      },
+      "ensureCast": false,
+      "index": 20,
+      "morePriorities": []
+    },
+    {
+      "name": "夏沃蕾-e",
+      "character": "夏沃蕾",
+      "action": "keydown(e),wait(0.1),moveby(0,3000),wait(0.1),keyup(e),wait(0.1),attack,keypress(e)",
+      "condition": {
+        "expression": "e-ready && since>15"
+      },
+      "ensureCast": false,
+      "index": 20
+    },
+    {
+      "name": "丝柯克-e",
+      "character": "丝柯克",
+      "action": "e(hold)",
+      "condition": {
+        "expression": "since>8"
+      },
+      "ensureCast": false,
+      "index": 30
+    },
+    {
+      "name": "荧-ezq",
+      "character": "荧",
+      "action": "e,wait(0.5),keypress(e),q",
+      "condition": {
+        "expression": "e-ready && since>15"
+      },
+      "ensureCast": false,
+      "redArrowAim": false,
+      "index": 30
+    },
+    {
+      "name": "七七-e",
+      "character": "七七",
+      "action": "e",
+      "condition": {
+        "expression": "e-ready && since>15"
+      },
+      "ensureCast": true,
+      "redArrowAim": false,
+      "index": 20
     }
   ]
 }
