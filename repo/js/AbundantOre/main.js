@@ -35,7 +35,17 @@ const country_name_tag_map = {
     "纳塔": "natlan",
     "远古圣山": "ancient sacred mountain",
     "挪德卡莱": "nod-krai",
+    "至冬": "snezhnaya"
 };
+
+const route_optimization = settings.route_optimization || "根据运行记录优化";
+const curiosity_factor = (() => {
+    let cf = Number(settings.curiosity_factor);
+    if (isNaN(cf)) cf = 0;
+    if (cf < 0) cf = 0;
+    if (cf > 1) cf = 1;
+    return cf;
+})();
 
 function get_exclude_tags() {
     const ore_name_tag_map = {
@@ -101,14 +111,28 @@ function load_filename_to_path_map() {
 
 let persistent_data = {};
 const in_memory_skip_tasks = new Set();
+let user_records = {};
+
+// 本轮已跑过的强制任务（statistics 中时长 = 0 的路线优先运行采集数据）
+const forced_ran_this_session = new Set();
 
 function load_persistent_data() {
     let file_content = "";
     try {
         file_content = file.readTextSync("local/persistent_data.json");
-    } catch (error) {}
+    } catch (error) { }
     if (file_content.length !== 0) {
         persistent_data = JSON.parse(file_content);
+    }
+}
+
+function load_user_records() {
+    let file_content = "";
+    try {
+        file_content = file.readTextSync("local/user_records.json");
+    } catch (error) { }
+    if (file_content.length !== 0) {
+        user_records = JSON.parse(file_content);
     }
 }
 
@@ -119,7 +143,7 @@ function load_disabled_paths() {
         let file_content = "";
         try {
             file_content = file.readTextSync(path);
-        } catch (error) {}
+        } catch (error) { }
         for (let l of file_content.split("\n")) {
             l = l.trim();
             if (l.length === 0) {
@@ -137,25 +161,6 @@ let statistics = {};
 
 function load_statistics_data() {
     statistics = JSON.parse(file.readTextSync("assets/statistics.json")).data;
-}
-
-const flaky_end_paths = new Set();
-
-function load_flaky_end_paths() {
-    let file_content = "";
-    try {
-        file_content = file.readTextSync("assets/flaky_end_paths.conf");
-    } catch (error) {}
-    for (let l of file_content.split("\n")) {
-        l = l.trim();
-        if (l.length === 0) {
-            continue;
-        }
-        if (l.startsWith("//") || l.startsWith("#")) {
-            continue;
-        }
-        flaky_end_paths.add(l);
-    }
 }
 
 let linnea_override_config = {};
@@ -178,6 +183,10 @@ async function flush_persistent_data() {
     await file.writeText("local/persistent_data.json", JSON.stringify(persistent_data, null, "  "));
 }
 
+async function flush_user_records() {
+    await file.writeText("local/user_records.json", JSON.stringify(user_records, null, "  "));
+}
+
 async function mark_task_finished(task_name) {
     const profile_name = get_profile_name();
     const profile_key = !profile_name ? "default-profile" : ("profile-" + profile_name);
@@ -188,6 +197,36 @@ async function mark_task_finished(task_name) {
         "last_run_time": Date.now(),
     };
     await flush_persistent_data();
+}
+
+async function record_user_time(task_name, elapsed_time_ms, tags) {
+    if (!task_name) return;
+    if (elapsed_time_ms <= 0) return;
+
+    const profile_name = get_profile_name();
+    const profile_key = !profile_name ? "default-profile" : ("profile-" + profile_name);
+    const underwater = is_underwater_tags(tags);
+    const mode_key = (!underwater && mining_character === linnea_chs_name)
+        ? "linnea_time_consumed"
+        : "time_consumed";
+
+    if (!user_records.hasOwnProperty(profile_key)) {
+        user_records[profile_key] = {};
+    }
+    if (!user_records[profile_key].hasOwnProperty(task_name)) {
+        user_records[profile_key][task_name] = {};
+    }
+    if (!user_records[profile_key][task_name].hasOwnProperty(mode_key)) {
+        user_records[profile_key][task_name][mode_key] = [];
+    }
+
+    const arr = user_records[profile_key][task_name][mode_key];
+    arr.push(Number((elapsed_time_ms / 1000).toFixed(2)));
+    while (arr.length > 7) {
+        arr.shift();
+    }
+
+    await flush_user_records();
 }
 
 function get_task_last_run_time(task_name) {
@@ -204,6 +243,84 @@ function is_ore_respawned(t) {
     }
     const respawn_time = t0 + 86400 * 3;
     return respawn_time < Date.now() / 1000;
+}
+
+function is_underwater_tags(tags) {
+    return tags.includes("fontaine underwater") || tags.includes("sea of bygone eras underwater");
+}
+
+/**
+ * 判定当前路线的时长数据模式键
+ * @param {string[]} tags 路线 tags
+ * @returns {"linnea_time_consumed"|"time_consumed"}
+ */
+function get_mode_key(tags) {
+    const underwater = is_underwater_tags(tags);
+    return (!underwater && mining_character === linnea_chs_name)
+        ? "linnea_time_consumed"
+        : "time_consumed";
+}
+
+/**
+ * 取得当前 profile 下、指定路线在指定模式下的用户记录（过滤 >0）
+ * @param {string} task_name 路线名
+ * @param {string} mode_key 模式键
+ * @returns {number[]}
+ */
+function get_user_records_for(task_name, mode_key) {
+    const profile_name = get_profile_name();
+    const profile_key = !profile_name ? "default-profile" : ("profile-" + profile_name);
+    const raw = user_records[profile_key]?.[task_name]?.[mode_key] || [];
+    return raw.filter(v => v > 0);
+}
+
+/**
+ * 调度用的有效时长
+ * 根据 settings.route_optimization 选择数据源：
+ *   使用路线默认数据 → 直接用 statistics.json 的值
+ *   根据运行记录优化 → user_records 有数据则用（配合好奇系数凑满7条去头去尾），无数据则虚拟值兜底
+ */
+function get_effective_time_consumed(stats, tags, task_name) {
+    const mode_key = get_mode_key(tags);
+    const base = (mode_key === "linnea_time_consumed")
+        ? stats.avg_linnea_time_consumed
+        : stats.avg_time_consumed;
+
+    // 使用路线默认数据 → 直接返回
+    if (route_optimization === "使用路线默认数据") {
+        return base;
+    }
+
+    const records = get_user_records_for(task_name, mode_key);
+
+    // 凑满 7 条：不足部分用 base * (1 - cf) 填充
+    const pool = [];
+    for (let i = 0; i < 7; i++) {
+        pool.push(i < records.length ? records[i] : base * (1 - curiosity_factor));
+    }
+
+    // 去头去尾取平均
+    const copy = [...pool];
+    const max = Math.max(...copy);
+    const min = Math.min(...copy);
+    copy.splice(copy.indexOf(max), 1);
+    copy.splice(copy.indexOf(min), 1);
+
+    return copy.reduce((a, b) => a + b, 0) / copy.length;
+}
+
+/**
+ * 日志用的时长来源标记
+ * [Un]：使用了 N 条用户记录
+ * [S] ：使用了 statistics.json 原值
+ */
+function get_time_consumed_source(tags, task_name) {
+    if (route_optimization === "使用路线默认数据") {
+        return "[S]";
+    }
+    const mode_key = get_mode_key(tags);
+    const records = get_user_records_for(task_name, mode_key);
+    return records.length > 0 ? `[U${records.length}]` : "[S]";
 }
 
 function get_some_tasks(hints) {
@@ -240,11 +357,21 @@ function get_some_tasks(hints) {
         if (!filename_to_path_map.hasOwnProperty(key)) {
             continue;
         }
-        if (!is_ore_respawned(get_task_last_run_time(key))) {
+
+        // 当前模式对应的时长为 0 → 优先跑一次采集数据
+        const is_underwater = is_underwater_tags(value.tags);
+        const is_forced = !forced_ran_this_session.has(key) && (
+            (!is_underwater && mining_character === linnea_chs_name)
+                ? value.statistics.avg_linnea_time_consumed === 0
+                : value.statistics.avg_time_consumed === 0
+        );
+        if (!is_forced && !is_ore_respawned(get_task_last_run_time(key))) {
             log.debug("{name} not respawned, skip", key);
             continue;
         }
-        value.statistics.avg_yield_per_min = value.statistics.avg_yield / value.statistics.avg_time_consumed * 60 / running_time_scale;
+        value.statistics.avg_yield_per_min = is_forced
+            ? 1e9
+            : value.statistics.avg_yield / get_effective_time_consumed(value.statistics, value.tags, key) * 60 / running_time_scale;
         filtered_statistics.push([key, value]);
     }
     filtered_statistics.sort((a, b) =>
@@ -256,7 +383,7 @@ function get_some_tasks(hints) {
     for (const [key, value] of filtered_statistics) {
         candidates.push([key, value]);
         sum_yield += value.statistics.avg_yield;
-        sum_running_seconds += value.statistics.avg_time_consumed * running_time_scale;
+        sum_running_seconds += get_effective_time_consumed(value.statistics, value.tags, key) * running_time_scale;
         if (hints.target_yield !== null && sum_yield >= hints.target_yield) {
             break;
         }
@@ -277,7 +404,7 @@ function get_some_tasks(hints) {
         }
         candidate_groups[group_name].tasks.push(key);
         candidate_groups[group_name].sum_yield += value.statistics.avg_yield;
-        candidate_groups[group_name].sum_running_seconds += value.statistics.avg_time_consumed * running_time_scale;
+        candidate_groups[group_name].sum_running_seconds += get_effective_time_consumed(value.statistics, value.tags, key) * running_time_scale;
     }
     for (const i of Object.values(candidate_groups)) {
         i.avg_yield_per_min = sum_yield / sum_running_seconds * 60;
@@ -289,9 +416,10 @@ function get_some_tasks(hints) {
     sum_running_seconds = 0;
     for (const i of tasks) {
         const s = statistics[i]
-        log_content += `    ${s.statistics.avg_yield_per_min.toFixed(2)} ${i}\n`;
+        const source_tag = get_time_consumed_source(s.tags, i);
+        log_content += `    ${s.statistics.avg_yield_per_min.toFixed(2)} ${source_tag} ${i}\n`;
         sum_yield += s.statistics.avg_yield;
-        sum_running_seconds += s.statistics.avg_time_consumed * running_time_scale;
+        sum_running_seconds += get_effective_time_consumed(s.statistics, s.tags, i) * running_time_scale;
     }
     log.debug(log_content);
     log.debug("Expected yield {a}, time {b} min", sum_yield, sum_running_seconds / 60);
@@ -371,8 +499,6 @@ async function get_inventory() {
     return inventory_result;
 }
 
-let last_script_end_pos = [null, null];
-let last_script_normal_completion = true;
 let mining_character = null;
 let fallback_claymore_character = null;
 
@@ -402,6 +528,7 @@ function modify_script_for_claymores(json_content) {
 
 async function modify_script_for_linnea(json_content, override_config) {
     const linnea_mining_action = `${linnea_chs_name} moveby(0,2500),wait(0.1),charge(0.65),click(middle)`;
+
     const claymore_mining_actions = {
         "诺艾尔": "attack(2.0)",
         "迪希雅": "attack(0.6),mousedown,wait(2.1),mouseup,j",
@@ -529,7 +656,7 @@ async function modify_script_for_linnea(json_content, override_config) {
                     if (wj.type === "path" && wj.action === "" && Math.hypot(wj.x - wi.x, wj.y - wi.y) <= 10 ||
                         wj.type === "target" && wj.action === "" && Math.hypot(wj.x - wi.x, wj.y - wi.y) <= 10 ||
                         wj.action === "combat_script" && wj.action_params.match(/^wait\([0-9.]+\)$/g) ||
-                        wj.action === "pick_around") {} else {
+                        wj.action === "pick_around") { } else {
                         break;
                     }
                 }
@@ -642,42 +769,59 @@ async function run_pathing_script(name, tags, path_state_change, current_states)
     const elapsed_time = Date.now() - t0;
     forge_pathing_end_log(name, elapsed_time);
     if (!cancellation_token.isCancellationRequested) {
-        const curr_pos = (() => {
+        const json_info = JSON.parse(json_content).info;
+        const curr_pos = await (async () => {
             try {
-                const p = genshin.getPositionFromMap(JSON.parse(json_content).info.map_name);
+                const p = (json_info.map_match_method && json_info.map_match_method !== "")
+                    ? await genshin.getPositionFromMapWithMatchingMethod(json_info.map_name, json_info.map_match_method)
+                    : await genshin.getPositionFromMap(json_info.map_name);
                 if (p === null) {
                     return [null, null];
                 }
                 return [p.X, p.Y];
-            } catch (e) {}
+            } catch (e) { }
             return [null, null];
         })();
+
         log.debug("Character current pos ({x},{y})", curr_pos[0], curr_pos[1]);
+
+        // 从执行版 json_content 抠终点坐标（莉奈娅模式下终点会变，不能读原文件）
+        let endX = null, endY = null;
+        {
+            const positions = JSON.parse(json_content).positions;
+            for (let i = positions.length - 1; i >= 0; i--) {
+                const p = positions[i];
+                if (p.type !== "orientation" && typeof p.x === "number" && typeof p.y === "number") {
+                    endX = p.x;
+                    endY = p.y;
+                    break;
+                }
+            }
+        }
+
         let character_moved = false;
-        if (curr_pos[0] === null || last_script_end_pos[0] === null) {
-            character_moved = curr_pos[0] !== last_script_end_pos[0] || curr_pos[1] !== last_script_end_pos[1];
-            log.debug("Character {action}", character_moved ? "moved" : "not moved");
+        if (curr_pos[0] === null) {
+            character_moved = false;
+            log.debug("Character position unavailable, assume not moved");
+        } else if (endX === null) {
+            character_moved = false;
+            log.debug("Endpoint unavailable, assume not moved");
         } else {
-            const dist = Math.sqrt(Math.pow(curr_pos[0] - last_script_end_pos[0], 2) + Math.pow(curr_pos[1] - last_script_end_pos[1], 2));
-            character_moved = dist > 5;
-            log.debug("Character moved distance of {dist}", dist);
+            const dist = Math.abs(endX - curr_pos[0]) + Math.abs(endY - curr_pos[1]);
+            character_moved = dist <= 30;
+            log.debug("Character endDiff {d} ({ok})", dist, character_moved ? "ok" : "fail");
         }
-        if (!character_moved && flaky_end_paths.has(name) && last_script_normal_completion) {
-            log.debug("Assuming script successfully completed");
-            character_moved = true;
-        }
-        last_script_end_pos = curr_pos;
+
         if (elapsed_time <= 5000) {
             in_memory_skip_tasks.add(name);
             log.warn("脚本运行时间小于5秒，可能发生了错误，不写记录");
-            last_script_normal_completion = false;
         } else if (!character_moved) {
             in_memory_skip_tasks.add(name);
-            log.warn("角色未移动，可能发生了错误，不写记录");
-            last_script_normal_completion = false;
+            log.warn("角色未移动至終点，可能发生了错误，不写记录");
         } else {
             await mark_task_finished(name);
-            last_script_normal_completion = true;
+            await record_user_time(name, elapsed_time, tags);
+            forced_ran_this_session.add(name);
         }
     } else {
         throw new Error("Cancelled");
@@ -693,13 +837,15 @@ async function run_pathing_script(name, tags, path_state_change, current_states)
 
 async function main() {
     await genshin.returnMainUi();
+
     file.writeTextSync("local/disabled_paths.txt", "", true);
     file.writeTextSync("local/persistent_data.json", "", true);
+    file.writeTextSync("local/user_records.json", "", true);
     load_filename_to_path_map();
     load_persistent_data();
+    load_user_records();
     load_disabled_paths();
     load_statistics_data();
-    load_flaky_end_paths();
     load_linnea_override_config();
     dispatcher.addTimer(new RealtimeTimer("AutoPick"));
     // Run an empty pathing script to give BGI a chance to switch team if the user specifies one.
@@ -898,6 +1044,6 @@ async function main() {
     notification.send(summary);
 }
 
-(async function() {
+(async function () {
     await main();
 })();
