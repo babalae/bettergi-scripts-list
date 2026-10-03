@@ -68,7 +68,6 @@
       "action_params": "wait(0.5)",
       "id": 6,
       "move_mode": "dash",
-      "sync_point_id": "strict_1",
       "type": "path",
       "x": 7026.8682,
       "y": 9500.7168
@@ -93,7 +92,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": ";茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E);attack(0.5)",
+      "action_params": ";茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);莱依拉 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);尼可 attack(0.05),keypress(E),wait(0.1),keypress(E);attack(0.5)",
       "id": 9,
       "move_mode": "dash",
       "type": "path",
@@ -123,7 +122,6 @@
       "action_params": "",
       "id": 12,
       "move_mode": "dash",
-      "sync_point_id": "strict_2",
       "type": "path",
       "x": 7206.0005,
       "y": 9505.4891
@@ -139,7 +137,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": ";茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E);attack(0.5)",
+      "action_params": ";茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);莱依拉 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);尼可 attack(0.05),keypress(E),wait(0.1),keypress(E);attack(0.5)",
       "id": 14,
       "move_mode": "dash",
       "type": "path",
