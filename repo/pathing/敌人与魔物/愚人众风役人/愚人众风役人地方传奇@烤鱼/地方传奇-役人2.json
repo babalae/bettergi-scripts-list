@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1790859804672,
+    "last_modified_time": 1790840500936,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A04-魔晶矿-至冬-海屑镇",
+    "name": "地方传奇-役人2",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,26 +24,26 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 7648.0557,
-      "y": 9477.2402
+      "x": 3546.1367,
+      "y": 2704.592
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
       "id": 2,
-      "move_mode": "run",
-      "type": "path",
-      "x": 7662.7666,
-      "y": 9444.6191
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3568.8799,
+      "y": 2631.3994
     },
     {
-      "action": "mining",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(40)",
       "id": 3,
-      "move_mode": "jump",
+      "move_mode": "walk",
       "type": "path",
-      "x": 7656.1543,
-      "y": 9398.2305
+      "x": 3556.4229,
+      "y": 2599.4482
     },
     {
       "action": "",
@@ -51,8 +51,8 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 7649.3545,
-      "y": 9408.4014
+      "x": 3552.6836,
+      "y": 2598.8105
     },
     {
       "action": "",
@@ -60,53 +60,54 @@
       "id": 5,
       "move_mode": "dash",
       "type": "path",
-      "x": 7574.2539,
-      "y": 9434.0352
+      "x": 3549.1738,
+      "y": 2597.3613
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 7541.375,
-      "y": 9406.6831
+      "x": 3534.5527,
+      "y": 2591.3711
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "run",
-      "type": "path",
-      "x": 7504.9121,
-      "y": 9400.6309
-    },
-    {
-      "action": "stop_flying",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 7447.5479,
-      "y": 9393.0742
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": 7447.5479,
-      "y": 9393.0742
+      "x": 3535.4336,
+      "y": 2583.915
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 10,
-      "move_mode": "fly",
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
       "type": "path",
-      "x": 7447.5479,
-      "y": 9393.0742
+      "x": 3518.0967,
+      "y": 2578.3955
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3478.8672,
+      "y": 2591.0869
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3478.8672,
+      "y": 2591.0869
     }
   ]
 }
