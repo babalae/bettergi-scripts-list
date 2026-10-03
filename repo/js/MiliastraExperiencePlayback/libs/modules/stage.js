@@ -68,7 +68,7 @@ const playStage = async (playbacks) => {
   await sleep(1e3);
   /** 直接通关结算的关卡（不会进入关卡） */
   if (findBottomBtnText("返回大厅")) {
-    await exitStageToLobby();
+    await finishStageAndReturn();
     return;
   }
   /** 关闭游戏说明对话框 */
@@ -91,7 +91,7 @@ const playStage = async (playbacks) => {
   await execStagePlayback(playbacks);
   await sleep(3e3);
   /** 退出关卡返回大厅 */
-  await exitStageToLobby();
+  await finishStageAndReturn();
 };
 /** 执行通关回放文件（随机抽取） */
 const execStagePlayback = async (playbacks) => {
@@ -99,8 +99,28 @@ const execStagePlayback = async (playbacks) => {
   log.info("执行通关回放文件: {file}", file);
   await keyMouseScript.runFile(file);
 };
-/** 退出关卡 */
-const exitStage = async () => {
+/** 返回大厅 */
+const returnToLobby = async (attempts) => {
+  /** 点击底部 “返回大厅” 按钮 */
+  const exitToLobbyBtn = findBottomBtnText("返回大厅");
+  if (exitToLobbyBtn) {
+    /** 绮星盛会投票 */
+    try {
+      if (userConfig.dailyRewards.includes("绮星盛会") && attempts && attempts <= 15)
+        /** 等待投票动画结束 */
+        await sleep(2e3);
+      if (findStarlitGalaVoteBtn())
+        await assertRegionDisappearing(findStarlitGalaVoteBtn, "等待绮星盛会投票完成超时", () => {
+          findStarlitGalaVoteBtn()?.doubleClick();
+        });
+    } catch (err) {
+      log.warn("绮星盛会投票失败: {error}", getErrorMessage(err));
+    }
+    exitToLobbyBtn.click();
+  }
+};
+/** 强制退出关卡 */
+const forceExitStage = async () => {
   if (findStageEscBtn() === void 0) return;
   log.warn("关卡超时，尝试退出关卡...");
   await assertRegionAppearing(
@@ -117,11 +137,11 @@ const exitStage = async () => {
   if (
     !(await waitForAction(
       isInLobby,
-      async () => {
+      async (attempts) => {
         /** 点击 “中断挑战” 按钮 */
         findExitStageBtn()?.click();
-        /** 点击底部 “返回大厅” 按钮 */
-        findBottomBtnText("返回大厅")?.click();
+        /** 返回大厅 */
+        await returnToLobby(attempts);
       },
       { maxAttempts: 60 },
     ))
@@ -130,7 +150,7 @@ const exitStage = async () => {
   await genshin.returnMainUi();
 };
 /** 退出关卡返回大厅 */
-const exitStageToLobby = async () => {
+const finishStageAndReturn = async () => {
   if (isInLobby()) {
     log.warn("已处于奇域大厅，跳过");
     return;
@@ -144,36 +164,17 @@ const exitStageToLobby = async () => {
         clickToContinue();
         /** 跳过结算画面 */
         findSkipBtn()?.click();
-        /** 点击底部 “返回大厅” 按钮 */
-        const exitToLobbyBtn = findBottomBtnText("返回大厅");
-        if (exitToLobbyBtn) {
-          /** 绮星盛会投票 */
-          try {
-            if (userConfig.dailyRewards.includes("绮星盛会") && attempts <= 15)
-              /** 等待投票动画结束 */
-              await sleep(2e3);
-            if (findStarlitGalaVoteBtn())
-              await assertRegionDisappearing(
-                findStarlitGalaVoteBtn,
-                "等待绮星盛会投票完成超时",
-                () => {
-                  findStarlitGalaVoteBtn()?.doubleClick();
-                },
-              );
-          } catch (err) {
-            log.warn("绮星盛会投票失败: {error}", getErrorMessage(err));
-          }
-          exitToLobbyBtn.click();
-        }
+        /** 返回大厅 */
+        await returnToLobby(attempts);
       },
       { maxAttempts: 60 },
     ))
   ) {
-    await exitStage();
+    await forceExitStage();
     throw new Error("退出关卡返回大厅超时");
   }
   await sleep(1e3);
 };
 
 //#endregion
-export { availablePlaybackFiles, exitStage, playStage };
+export { availablePlaybackFiles, forceExitStage, playStage };

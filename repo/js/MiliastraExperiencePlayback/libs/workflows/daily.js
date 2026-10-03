@@ -10,7 +10,7 @@ import { store } from "../constants/store.js";
 import { fetchBattlepassExp, fetchCultivateReward } from "../modules/reawrd.js";
 import { enterRoom, leaveRoom } from "../modules/room.js";
 import { ensureMultiPlayer } from "../modules/scene.js";
-import { availablePlaybackFiles, exitStage, playStage } from "../modules/stage.js";
+import { availablePlaybackFiles, forceExitStage, playStage } from "../modules/stage.js";
 
 //#region src/workflows/daily.ts
 const execDailyTask = async () => {
@@ -78,7 +78,7 @@ const execDailyTask = async () => {
         /** 发生主机异常（如：任务取消异常等），无法再继续执行 */
         if (isHostException(err)) throw err;
         /** 发生脚本流程异常，尝试退出关卡（如果在关卡中） */
-        await exitStage();
+        await forceExitStage();
         /** 发生脚本流程异常，尝试返回主界面 */
         await genshin.returnMainUi();
         log.error("脚本执行出错: {error}", getErrorMessage(err));

@@ -193,7 +193,7 @@ const findEditStageSaveBtn = () => {
   return findTextWithinBounds("管理", 1220, 980, 700, 100);
 };
 /** 存档：查找存档时间占位符 */
-const saveListViewBounds = [210, 250, 1650, 710];
+const saveListViewBounds = [210, 248, 1650, 670];
 const findSaveTimePlaceholder = () => {
   const [x, y, w, h] = saveListViewBounds;
   return findTextWithinBounds("1970年", x, y, w, h, { contains: true });
