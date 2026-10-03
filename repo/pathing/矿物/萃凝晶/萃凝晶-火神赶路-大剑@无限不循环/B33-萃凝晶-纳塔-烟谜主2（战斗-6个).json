@@ -6,7 +6,7 @@
         "name": "无限不循环"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
     "last_modified_time": 1758052519270,
@@ -39,8 +39,8 @@
       "y": -1719.36
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": ";茜特菈莉 e;芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
       "id": 3,
       "move_mode": "walk",
       "type": "path",
@@ -57,8 +57,8 @@
       "y": -1719.36
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "log_output",
+      "action_params": "交互或拾取：\"---战斗---\"",
       "id": 5,
       "move_mode": "jump",
       "type": "path",

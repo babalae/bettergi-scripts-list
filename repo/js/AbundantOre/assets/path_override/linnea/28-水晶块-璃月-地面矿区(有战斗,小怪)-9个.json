@@ -1,0 +1,186 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1788592981837,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "28-水晶块-璃月-地面矿区(有战斗,小怪)-9个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1701.5,
+      "y": -582.35
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "point_ext_params": {
+        "description": "盗宝团",
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        },
+        "monster_tag": "normal"
+      },
+      "type": "path",
+      "x": 1653.23,
+      "y": -586.68
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1652.09,
+      "y": -588.84
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle),wait(5)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1650.4453,
+      "y": -578.2088
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1644.66,
+      "y": -596.82
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1635.6055,
+      "y": -601.1855
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1626.8145,
+      "y": -622.7695
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1606.8232,
+      "y": -627.9014
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1602.97,
+      "y": -621.24
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1603.0055,
+      "y": -616.42
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1585.45,
+      "y": -637
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 12,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 1576.359,
+      "y": -640.4565
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1576.359,
+      "y": -640.4565
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1593.35,
+      "y": -635.07
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1605.89,
+      "y": -677.46
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 16,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1631.27,
+      "y": -702.24
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2);莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle);",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1631.2866,
+      "y": -700.36
+    }
+  ]
+}

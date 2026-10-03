@@ -6,7 +6,7 @@
         "name": "火山"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
     "last_modified_time": 1777773838273,
@@ -48,8 +48,8 @@
       "y": -586.68
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "log_output",
+      "action_params": "交互或拾取：\"---战斗---\"",
       "id": 3,
       "move_mode": "walk",
       "type": "path",
@@ -142,7 +142,7 @@
       "action_params": "",
       "id": 13,
       "move_mode": "dash",
-      "type": "path",
+      "type": "walk",
       "x": 1585.45,
       "y": -637.0
     },
