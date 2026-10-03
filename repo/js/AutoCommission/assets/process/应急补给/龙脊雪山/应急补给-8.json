@@ -1,0 +1,44 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758524693795,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "应急补给-8",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1120.03515625,
+      "y": 1326.7373046875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(4)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1121.521484375,
+      "y": 1318.2041015625
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1122.09765625,
+      "y": 1316.5498046875
+    }
+  ]
+}

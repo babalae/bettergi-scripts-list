@@ -1,0 +1,27 @@
+[
+  {
+    "name": "userName",
+    "type": "input-text",
+    "label": "账户名称\n用于多账户运行时区分不同账户",
+    "default": "默认账户"
+  },
+  {
+    "name": "recordMode",
+    "type": "select",
+    "label": "记录模式",
+    "options": ["仅记录库存", "记录并计算消耗", "重新初始化"],
+    "default": "record"
+  },
+  {
+    "name": "recoveryFoodName",
+    "type": "input-text",
+    "label": "回血药名称",
+    "default": ""
+  },
+  {
+    "name": "resurrectionFoodName",
+    "type": "input-text",
+    "label": "复活药名称",
+    "default": ""
+  }
+]

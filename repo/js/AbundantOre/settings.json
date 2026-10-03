@@ -1,0 +1,96 @@
+[
+  {
+    "name": "target_amount",
+    "type": "input-text",
+    "default": 480,
+    "label": "终止条件，满足任一条件即停止\n      1. 挖矿的个数，空表示无限制"
+  },
+  {
+    "name": "target_running_minutes",
+    "type": "input-text",
+    "label": "      2. 运行分钟数，如120，空表示无限制"
+  },
+  {
+    "name": "time_range",
+    "type": "input-text",
+    "label": "      3. 只在此时间段内运行，如23:30~03:50，空表示无限制"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "fight_option",
+    "type": "select",
+    "label": "需要战斗的路线",
+    "options": [
+      "正常挖",
+      "只跳过与精英怪战斗的路线",
+      "全跳过"
+    ],
+    "default": "正常挖"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "exclude_regions",
+    "type": "multi-checkbox",
+    "label": "跳过以下区域",
+    "default": [
+      "须弥"
+    ],
+    "options": [
+      "蒙德",
+      "璃月",
+      "层岩巨渊地下矿区",
+      "稻妻",
+      "渊下宫",
+      "须弥",
+      "枫丹地面",
+      "枫丹水下",
+      "旧日之海水下",
+      "纳塔",
+      "远古圣山",
+      "挪德卡莱"
+    ]
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "exclude_ore_types",
+    "type": "multi-checkbox",
+    "label": "不挖以下矿石",
+    "options": [
+      "水晶块",
+      "紫晶块",
+      "萃凝晶",
+      "虹滴晶"
+    ]
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "custom_mining_action",
+    "type": "input-text",
+    "label": "自定义挖矿动作，不建议填，详见README"
+  },
+  {
+    "name": "profile_id",
+    "type": "input-text",
+    "label": "（仅多帐号适用）区分帐号的唯一ID"
+  }
+]

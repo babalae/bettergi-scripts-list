@@ -1,0 +1,74 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "柒叶子"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "枫丹购买狗粮",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766154078571,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "枫丹购买狗粮",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4509.2685546875,
+      "y": 3460.351806640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 2,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4510.45019,
+      "y": 3461.465
+    },
+    {
+      "action": "stop_flying",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4522.5634765625,
+      "y": 3476.1142578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4522.37109375,
+      "y": 3482.04541015625
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 4517.3359375,
+      "y": 3485.044921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 4519.431640625,
+      "y": 3487.817138671875
+    }
+  ]
+}

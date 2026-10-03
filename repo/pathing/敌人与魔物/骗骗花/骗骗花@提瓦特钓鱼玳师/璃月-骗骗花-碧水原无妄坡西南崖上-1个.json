@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "璃月-骗骗花-碧水原无妄坡西南崖上-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-1个\n璃月-碧水原无妄坡西南崖上\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 483.12,
+      "y": 1444.07,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 476.54,
+      "y": 1515.46,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash"
+    },
+    {
+      "id": 3,
+      "x": 476.54,
+      "y": 1515.46,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

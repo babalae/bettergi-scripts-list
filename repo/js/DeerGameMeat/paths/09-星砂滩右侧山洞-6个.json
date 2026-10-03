@@ -1,0 +1,177 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1761057043543,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "09-星砂滩右侧山洞-6个",
+    "tags": [
+      "菈乌玛"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9563.109375,
+      "y": 2135.265869140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9541.5234375,
+      "y": 2133.333984375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9538.517578125,
+      "y": 2133.0029296875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9496.923828125,
+      "y": 2131.095703125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 9419.904296875,
+      "y": 2135.117431640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9410.4833984375,
+      "y": 2136.817626953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9389.5576171875,
+      "y": 2139.779052734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9378.892578125,
+      "y": 2148.5634765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9367.2197265625,
+      "y": 2156.999267578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(3),e(hold),wait(0.2),attack",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9356.44921875,
+      "y": 2162.07861328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9352.021484375,
+      "y": 2158.295654296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9350.40234375,
+      "y": 2168.16650390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9358.0048828125,
+      "y": 2166.67724609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9363.783203125,
+      "y": 2158.6142578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9356.2734375,
+      "y": 2153.78515625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9352.904296875,
+      "y": 2167.95166015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9360.15625,
+      "y": 2153.81005859375
+    }
+  ]
+}

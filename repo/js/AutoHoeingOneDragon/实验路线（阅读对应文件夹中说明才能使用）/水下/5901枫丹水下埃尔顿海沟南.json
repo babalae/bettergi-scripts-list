@@ -1,0 +1,71 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时82.85秒，包含以下怪物：2.5只重甲蟹·红、2只坚盾重甲蟹。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767786814975,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "5901枫丹水下埃尔顿海沟南",
+    "tags": [
+      "水下"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4507.2509765625,
+      "y": 2557.9501953125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4492.5205078125,
+      "y": 2489.693115234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4492.5205078125,
+      "y": 2489.693115234375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(e)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4483.89453125,
+      "y": 2449.94140625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),attack,wait(0.1),keypress(e),attack,wait(0.7),attack,wait(0.7),attack,wait(0.1),keypress(e),attack,wait(0.7),attack,wait(0.7),attack,wait(0.1),keypress(e),attack,wait(0.7),attack,wait(0.7),attack,wait(0.1),keypress(e),attack,wait(0.7),attack,wait(0.7),attack,wait(0.1),keypress(e),attack,wait(0.7),attack,wait(0.7),attack,wait(0.1),keypress(e),attack,wait(0.7),attack,wait(0.7),attack,wait(0.1),keypress(e),attack,wait(0.7),attack,wait(0.7),attack,wait(0.1),keypress(e),attack,wait(0.7),attack,wait(0.7),attack,wait(0.1),keypress(e),attack,wait(0.7),attack,wait(0.7),attack,wait(0.1),keypress(e),attack,wait(0.7),attack,wait(0.7),attack",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4477.904296875,
+      "y": 2429.523193359375
+    }
+  ]
+}

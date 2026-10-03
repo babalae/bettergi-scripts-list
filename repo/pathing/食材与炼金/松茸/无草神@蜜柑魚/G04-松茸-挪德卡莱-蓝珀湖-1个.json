@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777224116829,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "G04-松茸-挪德卡莱-蓝珀湖-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9229.0654,
+      "y": 2239.6865
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9226.6426,
+      "y": 2227.4956
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9216.7383,
+      "y": 2217.9053
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9204.9131,
+      "y": 2210.7783
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9216.4932,
+      "y": 2181.8276
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9211.6582,
+      "y": 2182.8784
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "B01-自体自身之塔左下-4个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.50.0",
+    "tags": [],
+    "last_modified_time": 1755601749069,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3656.21,
+      "y": 2433.5188,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3656.21,
+      "y": 2433.5188,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "moveby(0,571)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3733.5479,
+      "y": 2522.1218,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keydown(VK_LCONTROL);wait(5);keyup(VK_LCONTROL);click(middle);wait(0.5);moveby(0,571)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3738.6006,
+      "y": 2528.0193,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3746.8809,
+      "y": 2541.0947,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "e",
+      "type": "path"
+    }
+  ]
+}

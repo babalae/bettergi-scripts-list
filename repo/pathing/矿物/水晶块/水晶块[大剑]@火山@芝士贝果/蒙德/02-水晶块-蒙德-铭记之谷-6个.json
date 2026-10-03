@@ -1,0 +1,162 @@
+{
+  "info": {
+    "name": "02-水晶块-蒙德-铭记之谷-6个",
+    "type": "collect",
+    "version": "1.1",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -663.63,
+      "y": 1709.65,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -666.25,
+      "y": 1700.93,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -665.87,
+      "y": 1700.0,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -664.64,
+      "y": 1696.8,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -663.79,
+      "y": 1694.0,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -712.5,
+      "y": 1677.42,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -715.15,
+      "y": 1675.73,
+      "action": "stop_flying",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -707.05,
+      "y": 1676.41,
+      "action": "mining",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": -707.94,
+      "y": 1674.9,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -710.8,
+      "y": 1675.26,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -710.54,
+      "y": 1678.45,
+      "action": "mining",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": -711.27,
+      "y": 1680.13,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -720.14,
+      "y": 1675.06,
+      "action": "mining",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": -719.15,
+      "y": 1672.1,
+      "action": "mining",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": -719.7,
+      "y": 1668.07,
+      "action": "mining",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 16,
+      "x": -719.61,
+      "y": 1663.69,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(2)",
+      "type": "path"
+    }
+  ]
+}

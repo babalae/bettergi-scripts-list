@@ -1,0 +1,98 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 渊下宫\n类型: 垂钓点\n详细位置: 蛇心之地西北\n鱼类: 擒霞客、流纹京紫鲽鱼、佛玛洛鳐、迪芙妲鳐\n饵类: 果酿饵、蠕虫假饵、飞蝇假饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764523595988,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "渊下宫-垂钓点-蛇心之地西北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 449.7,
+      "y": -122.21
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 456.2,
+      "y": -171.88
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 460.75,
+      "y": -176.16
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(0.5)",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 521.02,
+      "y": -189.91
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 505.83,
+      "y": -184.02
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 486.08,
+      "y": -182.43
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 474.72,
+      "y": -175.81
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 472.6,
+      "y": -181.9
+    }
+  ]
+}

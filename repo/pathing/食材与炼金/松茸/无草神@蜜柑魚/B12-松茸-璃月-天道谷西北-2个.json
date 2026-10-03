@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777390118022,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B12-松茸-璃月-天道谷西北-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1389.3164,
+      "y": 516.7725
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1349.6367,
+      "y": 435.9141
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1390.4912,
+      "y": 373.541
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1416.5547,
+      "y": 335.4873
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2500",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1429.6699,
+      "y": 305.9961
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1431.5029,
+      "y": 309.8604
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1442.625,
+      "y": 310.5312
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1445.2305,
+      "y": 306.5859
+    }
+  ]
+}

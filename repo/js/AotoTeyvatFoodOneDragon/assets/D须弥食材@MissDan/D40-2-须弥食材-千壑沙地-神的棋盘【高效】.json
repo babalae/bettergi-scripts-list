@@ -1,0 +1,121 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "4个鸟蛋；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762454034271,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D40-2-须弥食材-千壑沙地-神的棋盘【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5759.769,
+      "y": -1307.54
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 5766.9194,
+      "y": -1325.0659
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5777.1016,
+      "y": -1377.6699
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5767.5864,
+      "y": -1383.3584
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5783.8071,
+      "y": -1407.0796
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5787.0542,
+      "y": -1411.9658
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 5785.1592,
+      "y": -1417.6299
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-2000),wait(0.5),keypress(t)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 5757.2402,
+      "y": -1419.0425
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 5753.5693,
+      "y": -1418.4595
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5777.1006,
+      "y": -1427.1816
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 11,
+      "move_mode": "jump",
+      "type": "target",
+      "x": 5777.3179,
+      "y": -1426.1997
+    }
+  ]
+}

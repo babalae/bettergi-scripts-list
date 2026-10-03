@@ -1,0 +1,112 @@
+{
+  "info": {
+    "name": "香辛果1",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "玛卡巴卡"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4693.97,
+      "y": -261.98,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 4706.97,
+      "y": -262.29,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 4717.82,
+      "y": -256.56,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": 4719.09,
+      "y": -254.91,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 5,
+      "x": 4729.12,
+      "y": -237.66,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 4707.8,
+      "y": -234.17,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 4689.77,
+      "y": -240.43,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": 4691.4,
+      "y": -242.7,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 9,
+      "x": 4675.54,
+      "y": -249.2,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 10,
+      "x": 4672.62,
+      "y": -250.17,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 11,
+      "x": 4649.49,
+      "y": -264.5,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 12,
+      "x": 4643.7,
+      "y": -268.29,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

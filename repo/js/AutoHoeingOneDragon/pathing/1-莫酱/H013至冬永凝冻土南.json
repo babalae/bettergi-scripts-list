@@ -1,0 +1,123 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "  路线信息：该路线预计用时42秒，包含以下怪物：4只嵌合梭地兽、3只嵌合鍪甲兽、1只嵌合角熊。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1788458289902,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H013至冬永凝冻土南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7328.6201,
+      "y": 8684.1602
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7280.5352,
+      "y": 8710.0078
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E);",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7268.1602,
+      "y": 8757.4795
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7264.5215,
+      "y": 8804.9785
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7277.377,
+      "y": 8797.3994
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7233.1914,
+      "y": 8827.8691
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E);",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7208.1533,
+      "y": 8839.0479
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7213.0654,
+      "y": 8809.9219
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 9,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7180.9395,
+      "y": 8805.2783
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7180.9395,
+      "y": 8805.2783
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 7180.9395,
+      "y": 8805.2783
+    }
+  ]
+}

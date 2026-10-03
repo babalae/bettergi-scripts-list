@@ -1,0 +1,151 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777453495054,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E12-松茸-枫丹-新枫丹科学院2-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4434.6318,
+      "y": 5092.0068
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4427.252,
+      "y": 5108.5918
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4412.2773,
+      "y": 5111.4761
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4405.4336,
+      "y": 5120.189
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4382.1396,
+      "y": 5125.4346
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4358.0195,
+      "y": 5146.6382
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4341.6611,
+      "y": 5139.7842
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4351.4668,
+      "y": 5150.3394
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4343.0654,
+      "y": 5163.1567
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4350.3857,
+      "y": 5161.8965
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(2),wait(0.5),s(2.5)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4355.246,
+      "y": 5171.972
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4350.3857,
+      "y": 5161.8965
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(2),wait(0.5)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4356.5127,
+      "y": 5166.9976
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4434.6318,
+      "y": 5092.0068
+    }
+  ]
+}

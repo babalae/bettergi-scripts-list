@@ -1,0 +1,146 @@
+{
+  "info": {
+    "name": "2602层岩地下主矿道东",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时101.37秒，包含131只精英与10只小怪，预计收入26605摩拉，包含以下怪物：1只盗宝团·斥候、1只盗宝团·火之药剂师、2只盗宝团·水之药剂师、3只盗宝团·雷之药剂师、2只盗宝团·拳术家、1只盗宝团·粉碎者。",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 663.83,
+      "y": 1058.85,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 668.29,
+      "y": 1072.67,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 617,
+      "y": 1083.31,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 587.07,
+      "y": 1097.48,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 579.14,
+      "y": 1107.6,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 579.14,
+      "y": 1107.6,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 564.72,
+      "y": 1119.1,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 547.28,
+      "y": 1124.12,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "attack(0.5)"
+    },
+    {
+      "id": 9,
+      "x": 555.61,
+      "y": 1145.31,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 551.46,
+      "y": 1126.69,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 534.47,
+      "y": 1126.89,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 523.07,
+      "y": 1143.72,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 514.49,
+      "y": 1152.36,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": 514.49,
+      "y": 1152.36,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

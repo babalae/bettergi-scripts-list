@@ -1,0 +1,88 @@
+{
+  "info": {
+    "name": "03-松果-仲夏庭园-9个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "玛卡巴卡"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1558.54,
+      "y": 2497.77
+    },
+    {
+      "id": 2,
+      "x": -1523.66,
+      "y": 2500.55,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -1504.6,
+      "y": 2513.18,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": -1499.5,
+      "y": 2517.55,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -1503.78,
+      "y": 2529.77,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": -1505.35,
+      "y": 2537.33,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 7,
+      "x": -1474.15,
+      "y": 2532.19,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 8,
+      "x": -1461.24,
+      "y": 2531.22,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 9,
+      "x": -1461.35,
+      "y": 2516.4,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}

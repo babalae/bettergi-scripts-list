@@ -1,0 +1,24 @@
+[
+   {
+    "type": "地图追踪",
+    "data": "此路不通-2.json",
+    "note": "执行第二个地图追踪步骤"
+  },
+  {
+    "type": "自动任务",
+    "data": {
+      "action": "enable",
+      "taskType": "AutoSkip"
+    },
+    "note": "开启自动剧情"
+  },
+  {
+    "type": "按键",
+    "data": "F",
+    "note": "按下F键"
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待返回主界面"
+  }
+]

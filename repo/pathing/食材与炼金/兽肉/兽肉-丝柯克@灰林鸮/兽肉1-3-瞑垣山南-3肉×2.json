@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766176314211,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "兽肉1-3-瞑垣山南-3肉×2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2615.1904,
+      "y": 2051.1074
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2616.9736,
+      "y": 2052.0012
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2643.7461,
+      "y": 2056.3606
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2659.1719,
+      "y": 2048.9185
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2665.5498,
+      "y": 2044.6104
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.7)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2669.5938,
+      "y": 2043.8232
+    }
+  ]
+}

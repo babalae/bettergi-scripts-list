@@ -1,0 +1,350 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zaodonganqi",
+        "name": "躁动的氨气"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1761055030770,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-蓝珀胡下方峡谷-15个",
+    "tags": [
+      "菈乌玛",
+      "路过怪物"
+    ],
+    "type": "collect",
+    "version": "1.3"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9224.7549,
+      "y": 2246.7224
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9273.1338,
+      "y": 2226.5007
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9272.7402,
+      "y": 2224.9041
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 9265.4463,
+      "y": 2203.5005
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 9261.75,
+      "y": 2185.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9212.6133,
+      "y": 2158.48
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9209.7461,
+      "y": 2134.2407
+    },
+    {
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(5),e(hold),wait(0.2),attack",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9210.0625,
+      "y": 2130.875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9205.0625,
+      "y": 2134.75
+    },
+    {
+      "action": "",
+      "id": 10,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9213.375,
+      "y": 2129.8125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9206.25,
+      "y": 2136.5625
+    },
+    {
+      "action": "",
+      "id": 12,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9215.25,
+      "y": 2132.8125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9207.375,
+      "y": 2138.8125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9214.25,
+      "y": 2131.0625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9211.875,
+      "y": 2127.875
+    },
+    {
+      "action": "",
+      "id": 16,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9204.25,
+      "y": 2133.375
+    },
+    {
+      "action": "",
+      "id": 17,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9210.9375,
+      "y": 2125.9375
+    },
+    {
+      "action": "",
+      "id": 18,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9203.625,
+      "y": 2131.4375
+    },
+    {
+      "action": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9212.3438,
+      "y": 2137.6875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9183,
+      "y": 2078.75
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9166.8223,
+      "y": 2071.209
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9151.5625,
+      "y": 2075.8125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9128.7354,
+      "y": 2088.4778
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3)",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9105,
+      "y": 2082
+    },
+    {
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(6),e(hold),wait(0.2),attack",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9072.0625,
+      "y": 2096.4375
+    },
+    {
+      "action": "",
+      "id": 26,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 9071.875,
+      "y": 2098.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 27,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9069.3125,
+      "y": 2087.9375
+    },
+    {
+      "action": "",
+      "id": 28,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9073.5625,
+      "y": 2098.4375
+    },
+    {
+      "action": "",
+      "id": 29,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9071.6875,
+      "y": 2087.1875
+    },
+    {
+      "action": "",
+      "id": 30,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9074.875,
+      "y": 2098.125
+    },
+    {
+      "action": "",
+      "id": 31,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9073.1875,
+      "y": 2086.375
+    },
+    {
+      "action": "",
+      "id": 32,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9077.25,
+      "y": 2099.625
+    },
+    {
+      "action": "",
+      "id": 33,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9074.9375,
+      "y": 2085.5
+    },
+    {
+      "action": "",
+      "id": 34,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9079,
+      "y": 2098.5625
+    },
+    {
+      "action": "",
+      "id": 35,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9069.0625,
+      "y": 2092.25
+    },
+    {
+      "action": "",
+      "id": 36,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9081.9375,
+      "y": 2094.9375
+    },
+    {
+      "action": "",
+      "id": 37,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9068.9375,
+      "y": 2090.0625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 38,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9080.3125,
+      "y": 2089.3125
+    }
+  ]
+}

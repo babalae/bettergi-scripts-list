@@ -1,0 +1,98 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jidingcai",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756108335482,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "11-浊水幻灵-枫丹-白露区-海露右上猎人_剧团本-1个",
+    "tags": [
+      "精英怪",
+      "浊水幻灵",
+      "高效"
+    ],
+    "type": "collect",
+    "version": "1.2"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4722.4326,
+      "y": 1854.8633
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4714.4355,
+      "y": 1894.064
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4714.2012,
+      "y": 1917.9692
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4713.248,
+      "y": 1945.0518
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 4730.293,
+      "y": 1962.9023
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 wait(1.5),e,attack;",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4728.2998,
+      "y": 1953.5972
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 wait(1.5),e,attack;",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4740.7676,
+      "y": 1966.6797
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 wait(1.5),e,attack;",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4721.7129,
+      "y": 1965.4434
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/1004452714",
+                "name": "DarkFlameMaster"
+            }
+        ],
+        "bgi_version": "0.45.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1784183105995,
+        "map_match_method": "",
+        "map_name": "Teyvat",
+        "name": "稻妻-绀田村-1-安全运输法则-4",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 18,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -4228.1543,
+            "y": -2716.2529
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 19,
+            "locked": false,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -4230.2852,
+            "y": -2716.6035
+        },
+        {
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(w)",
+            "id": 20,
+            "move_mode": "walk",
+            "type": "orientation",
+            "x": -4238.6094,
+            "y": -2717.3457
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 21,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -4230.2852,
+            "y": -2716.6035
+        }
+    ]
+}

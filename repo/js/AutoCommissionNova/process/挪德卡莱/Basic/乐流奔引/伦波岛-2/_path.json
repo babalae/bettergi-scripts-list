@@ -1,0 +1,112 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/1004452714",
+                "name": "DarkFlameMaster"
+            }
+        ],
+    "bgi_version": "0.45.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1784291701385,
+        "map_match_method": "TemplateMatch",
+        "map_name": "Teyvat",
+    "name": "挪德卡莱-伦波岛2-乐流奔引",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 1,
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 9458.0361,
+            "y": 1660.668
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 2,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 9436.1074,
+            "y": 1652.3257
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 3,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 9417.3936,
+            "y": 1689.29
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 4,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 9383.0156,
+            "y": 1699.1396
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 5,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 9371.1035,
+            "y": 1673.0869
+        },
+        {
+            "action": "combat_script",
+            "action_params": "wait(0.5),keydown(w),wait(2),keyup(w)",
+            "id": 6,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 9352.7656,
+            "y": 1654.6826
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 7,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 9334.4814,
+            "y": 1638.9639
+        },
+        {
+            "action": "stop_flying",
+            "action_params": "",
+            "id": 8,
+            "move_mode": "fly",
+            "type": "path",
+            "x": 9333.623,
+            "y": 1606.3633
+        },
+        {
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)",
+            "id": 9,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 9324.2158,
+            "y": 1603.3291
+        },
+        {
+            "action": "combat_script",
+            "action_params": "keypress(w)",
+            "id": 10,
+            "move_mode": "walk",
+            "type": "orientation",
+            "x": 9313.8369,
+            "y": 1601.8184
+        }
+    ]
+}

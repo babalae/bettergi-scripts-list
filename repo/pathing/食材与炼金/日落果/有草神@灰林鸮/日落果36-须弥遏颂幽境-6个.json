@@ -1,0 +1,51 @@
+{
+  "info": {
+    "name": "日落果36-须弥遏颂幽境-6个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "需携带纳西妲，部分危险路径刚需盾位",
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.0",
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3993.76,
+      "y": -989.36,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3959.49,
+      "y": -1043.01,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3988.35,
+      "y": -1070.48,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4015.6,
+      "y": -1085.72,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "type": "path"
+    }
+  ]
+}

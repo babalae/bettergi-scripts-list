@@ -1,0 +1,76 @@
+{
+  "info": {
+    "name": "230璃月沉玉谷药蝶谷西（600_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时67秒，包含1只精英与7只小怪，预计收入883.5摩拉，包含以下怪物：3只冲锋丘丘人、2只木盾丘丘人、1只雷箭丘丘人、1只丘丘雷兜王、1只水丘丘萨满。",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754741686674,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1863.64,
+      "y": 1591,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1899.94,
+      "y": 1678.88,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1911.94,
+      "y": 1688.88,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(3)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 1911.94,
+      "y": 1688.88,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1927.12,
+      "y": 1663.87,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1927.12,
+      "y": 1663.87,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

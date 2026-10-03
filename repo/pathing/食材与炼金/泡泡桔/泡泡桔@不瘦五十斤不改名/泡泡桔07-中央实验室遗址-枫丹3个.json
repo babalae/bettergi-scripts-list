@@ -1,0 +1,33 @@
+{
+  "info": {
+    "name": "泡泡桔07-中央实验室遗址-枫丹3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3636.02,
+      "y": 4796.12,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3669.25,
+      "y": 4768.25,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "type": "path"
+    }
+  ]
+}

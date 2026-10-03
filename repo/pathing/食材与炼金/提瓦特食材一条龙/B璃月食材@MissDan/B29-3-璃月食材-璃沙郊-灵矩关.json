@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "2个鸟蛋；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789028713663,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B29-3-璃月食材-璃沙郊-灵矩关",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 828.502,
+      "y": -583.1396
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 853.9629,
+      "y": -522.417
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 853.4473,
+      "y": -522.4707
+    }
+  ]
+}

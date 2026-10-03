@@ -1,0 +1,201 @@
+{
+  "info": {
+    "name": "01-海露花-枫丹-海露港-10个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芭芭拉"
+    ],
+    "last_modified_time": 1750469776906,
+    "authors": [
+      {
+        "name": "寥寥轻舟"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "hydro_collect",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4722.15,
+      "y": 1854.61,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4675.56,
+      "y": 1886.25,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 e"
+    },
+    {
+      "id": 3,
+      "x": 4669.47,
+      "y": 1890.54,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4665.23,
+      "y": 1889.99,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4646.82,
+      "y": 1899.72,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4714.16,
+      "y": 1953.13,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1);芭芭拉 e;"
+    },
+    {
+      "id": 7,
+      "x": 4728.87,
+      "y": 1952.93,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 4720.47,
+      "y": 1966.34,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 4742.36,
+      "y": 1966.26,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 4691.85,
+      "y": 1954.0,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 4622.91,
+      "y": 1971.95,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "芭芭拉 e,wait(0.2),keypress(e);"
+    },
+    {
+      "id": 12,
+      "x": 4618.92,
+      "y": 1974.46,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 4611.61,
+      "y": 1980.0,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
+      "id": 14,
+      "x": 4609.04,
+      "y": 1981.93,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 4592.12,
+      "y": 1966.55,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 4548.89,
+      "y": 1925.86,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "芭芭拉  charge(0.5)"
+    },
+    {
+      "id": 17,
+      "x": 4546.29,
+      "y": 1923.64,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": 4540.68,
+      "y": 1924.19,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
+      "id": 19,
+      "x": 4539.2,
+      "y": 1923.83,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 20,
+      "x": 4535.16,
+      "y": 1917.4,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1);"
+    }
+  ]
+}

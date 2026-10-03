@@ -1,0 +1,150 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时99.03秒，包含以下怪物：2只坚盾重甲蟹。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767790229674,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "5903枫丹水下埃尔顿海沟南",
+    "tags": [
+      "水下"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4401.1904296875,
+      "y": 2277.581787109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4443.8330078125,
+      "y": 2264.982177734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4458.318359375,
+      "y": 2261.612548828125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle),attack,keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),click(middle)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4453.3310546875,
+      "y": 2259.084228515625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle),attack,keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),click(middle)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4450.2763671875,
+      "y": 2250.439453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle),attack,keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),click(middle)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4454.8291015625,
+      "y": 2248.2265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle),attack,keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),click(middle)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4456.0703125,
+      "y": 2249.962158203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle),attack,keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),click(middle)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4454.953125,
+      "y": 2251.14306640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle),attack,keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),click(middle)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4450.2763671875,
+      "y": 2250.439453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle),attack,keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),click(middle)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4454.8291015625,
+      "y": 2248.2265625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle),attack,keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),click(middle)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4456.0703125,
+      "y": 2249.962158203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle),attack,keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),click(middle)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4454.953125,
+      "y": 2251.14306640625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(e),keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4432.212890625,
+      "y": 2196.24560546875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4432.212890625,
+      "y": 2196.24560546875
+    }
+  ]
+}

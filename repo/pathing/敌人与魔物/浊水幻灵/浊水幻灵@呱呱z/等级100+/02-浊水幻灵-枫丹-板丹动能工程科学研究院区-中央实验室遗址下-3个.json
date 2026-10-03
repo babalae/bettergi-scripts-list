@@ -1,0 +1,133 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jidingcai",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756107556144,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-浊水幻灵-枫丹-板丹动能工程科学研究院区-中央实验室遗址下-3个",
+    "tags": [
+      "精英怪",
+      "等级100+",
+      "浊水幻灵"
+    ],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3847.1914,
+      "y": 4653.0884
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3824.5449,
+      "y": 4615.5811
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3787.6035,
+      "y": 4643.8218
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3780.9971,
+      "y": 4639.4568
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3774.3906,
+      "y": 4635.0918
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3743.2734,
+      "y": 4681.7554
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3724.6475,
+      "y": 4696.521
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(F),wait(0.15),keypress(F),wait(0.15),keypress(F),wait(0.15),keypress(F),wait(0.15)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 3715.4756,
+      "y": 4716.2368
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 3715.4756,
+      "y": 4716.2368
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3770.291,
+      "y": 4741.3623
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 3818.1143,
+      "y": 4760.749
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 3818.1143,
+      "y": 4760.749
+    }
+  ]
+}

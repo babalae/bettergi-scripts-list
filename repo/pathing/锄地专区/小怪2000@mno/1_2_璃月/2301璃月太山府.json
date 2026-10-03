@@ -1,0 +1,60 @@
+{
+  "info": {
+    "author": "mno",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时58.73秒，包含7只小怪，预计收入324摩拉，包含以下怪物：6只雷史莱姆、1只变异雷史莱姆。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760726816881,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "2301璃月太山府",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1184.0947,
+      "y": 622.6318
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1172.8574,
+      "y": 637.8037
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1150.7383,
+      "y": 635.1816
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 4,
+      "move_mode": "run",
+      "type": "orientation",
+      "x": 1150.7383,
+      "y": 635.1816
+    }
+  ]
+}

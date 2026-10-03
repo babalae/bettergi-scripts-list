@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-神无冢九条阵屋西北-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "野伏众-2个\n稻妻-神无冢九条阵屋西北",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3233.86,
+      "y": -3155.07,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3235.05,
+      "y": -3133.54,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": -3257.07,
+      "y": -3127.54,
+      "action_params": ""
+    }
+  ]
+}

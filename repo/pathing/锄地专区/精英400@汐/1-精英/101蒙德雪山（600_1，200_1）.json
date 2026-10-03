@@ -1,0 +1,123 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时99秒，包含2只精英与5只小怪，预计收入1202.5摩拉，包含以下怪物：1只冰盾丘丘人、3只冰箭丘丘人、1只冰盾丘丘暴徒、1只丘丘霜铠王、1只冰丘丘萨满。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759382201069,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "101蒙德雪山（600_1，200_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -410.84,
+      "y": 1161.31
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -405.68,
+      "y": 1145.15
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -390.13,
+      "y": 1114.21
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -358.2539,
+      "y": 1089.0952
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -363.916,
+      "y": 1079.6006
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -368.2501,
+      "y": 1058.627
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": -368.74,
+      "y": 1038.8
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -372.17,
+      "y": 1031.93
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -376.45,
+      "y": 1028.28
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -396.11,
+      "y": 994.23
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -396.11,
+      "y": 994.23
+    }
+  ]
+}

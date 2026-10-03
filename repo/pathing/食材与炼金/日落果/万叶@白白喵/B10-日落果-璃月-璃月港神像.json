@@ -1,0 +1,208 @@
+{
+  "info": {
+    "name": "B10-日落果-璃月-璃月港神像",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ],
+    "version": "2.0",
+    "description": "队伍需要带上万叶",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754957382973,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 259.751,
+      "y": -13.7314,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 283.0664,
+      "y": -19.2988,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 292.9297,
+      "y": -10.6436,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 290.2656,
+      "y": -5.7871,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 285.1221,
+      "y": -6.3174,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 306.4922,
+      "y": -1.2974,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 313.2949,
+      "y": 0.9912,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 313.2676,
+      "y": 26.9385,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "枫原万叶 wait(0.5),e(hold),attack,wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 313.0518,
+      "y": 32.0498,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 326.4219,
+      "y": 46.9053,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 337.1973,
+      "y": 51.3652,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 360.3262,
+      "y": 49.9717,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 369.6963,
+      "y": 59.7388,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "wait(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 364.4352,
+      "y": 59.8752,
+      "type": "path",
+      "move_mode": "jump"
+    },
+    {
+      "id": 15,
+      "x": 352.1602,
+      "y": 60.793,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 326.5137,
+      "y": 82.2246,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(0.4)",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 301.1729,
+      "y": 83.0342,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 256.5264,
+      "y": 103.7856,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "枫原万叶 wait(0.5),e(hold),attack,wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 256.2432,
+      "y": 107.9404,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 260.6094,
+      "y": 112.4907,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 268.1289,
+      "y": 108.3232,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.4)",
+      "type": "path"
+    }
+  ]
+}

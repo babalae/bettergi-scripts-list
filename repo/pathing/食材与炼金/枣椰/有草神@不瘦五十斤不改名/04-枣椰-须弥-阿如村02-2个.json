@@ -1,0 +1,33 @@
+{
+  "info": {
+    "name": "04-枣椰-须弥-阿如村02-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4096.05,
+      "y": -2025.98
+    },
+    {
+      "id": 2,
+      "x": 4108.11,
+      "y": -2000.13,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}

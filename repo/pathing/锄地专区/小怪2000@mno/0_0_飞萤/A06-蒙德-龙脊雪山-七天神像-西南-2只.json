@@ -1,0 +1,93 @@
+{
+  "info": {
+    "name": "A06-蒙德-龙脊雪山-七天神像-西南-2只",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时125.14秒，包含以下怪物：2只冰萤。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752249613282,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1023.16,
+      "y": 1174.62,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1005.95,
+      "y": 1155.52,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1002.82,
+      "y": 1118.77,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1005.2,
+      "y": 1106.58,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "wait(2)",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -999.12,
+      "y": 1091.17,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "wait(3)",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -977.81,
+      "y": 1098.33,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -966.9,
+      "y": 1107.89,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -966.89,
+      "y": 1107.91,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}
