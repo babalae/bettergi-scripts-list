@@ -33,6 +33,7 @@ issues:
     commentAnchor: issue-bot:validation
     templates:
       - key: bug
+        issueType: Bug
         detect:
           markers:
             - bug
@@ -69,11 +70,11 @@ issues:
               - 复现步骤
               - Reproduction steps
         labels:
-          whenValid:
-            - bug
+          whenValid: []
           whenInvalid:
             - 需要更多信息
       - key: feature
+        issueType: Feature
         detect:
           markers:
             - feature
@@ -103,11 +104,11 @@ issues:
               - 影响与约束
             transferExempt: true
         labels:
-          whenValid:
-            - enhancement
+          whenValid: []
           whenInvalid:
             - 需要更多信息
       - key: question
+        issueType: Question
         detect:
           markers:
             - question
@@ -127,11 +128,11 @@ issues:
               - 已尝试内容
               - What I Tried
         labels:
-          whenValid:
-            - question
+          whenValid: []
           whenInvalid:
             - 需要更多信息
       - key: suggestion
+        issueType: Suggestions
         detect:
           markers:
             - suggestion
@@ -147,8 +148,7 @@ issues:
               - 预期收益
               - Expected Benefit
         labels:
-          whenValid:
-            - enhancement
+          whenValid: []
           whenInvalid:
             - 需要更多信息
       - key: normal
@@ -188,9 +188,6 @@ issues:
     enabled: true
     autoCreateMissing: true
     managed:
-      - bug
-      - enhancement
-      - question
       - 需要更多信息
       - duplicate
     definitions:
