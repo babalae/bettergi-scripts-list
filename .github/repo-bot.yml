@@ -42,24 +42,32 @@ issues:
           - id: scope
             aliases:
               - 涉及范围
+            transferExempt: true
           - id: bettergi-version
             aliases:
               - BetterGI 版本号
+              - BetterGI Version
           - id: script-name
             aliases:
               - 相关脚本名称与版本
+            transferExempt: true
           - id: environment
             aliases:
               - 运行环境与关键配置
+              - 系统环境
+              - System Environment
           - id: description
             aliases:
               - 问题描述
+              - Description of the issue
           - id: expected
             aliases:
               - 期望结果
+            transferExempt: true
           - id: steps
             aliases:
               - 复现步骤
+              - Reproduction steps
         labels:
           whenValid:
             - bug
@@ -75,18 +83,25 @@ issues:
           - id: scope
             aliases:
               - 涉及范围
+            transferExempt: true
           - id: request
             aliases:
               - 需求或建议
+              - 功能请求
+              - Feature Request
           - id: scenario
             aliases:
               - 使用场景
+              - Use Case
           - id: benefits
             aliases:
               - 预期收益
+              - Expected Benefit
+            transferExempt: true
           - id: constraints
             aliases:
               - 影响与约束
+            transferExempt: true
         labels:
           whenValid:
             - enhancement
@@ -102,15 +117,54 @@ issues:
           - id: scope
             aliases:
               - 涉及范围
+            transferExempt: true
           - id: question
             aliases:
               - 问题描述
+              - Problem Description
           - id: tried
             aliases:
               - 已尝试内容
+              - What I Tried
         labels:
           whenValid:
             - question
+          whenInvalid:
+            - 需要更多信息
+      - key: suggestion
+        detect:
+          markers:
+            - suggestion
+          titlePrefixes:
+            - "[suggestion]"
+        requiredSections:
+          - id: suggestion
+            aliases:
+              - 建议内容
+              - Suggestion
+          - id: benefit
+            aliases:
+              - 预期收益
+              - Expected Benefit
+        labels:
+          whenValid:
+            - enhancement
+          whenInvalid:
+            - 需要更多信息
+      - key: normal
+        detect:
+          markers:
+            - normal
+          titlePrefixes:
+            - "[feedback]"
+            - "[normal]"
+        requiredSections:
+          - id: description
+            aliases:
+              - 描述
+              - Description
+        labels:
+          whenValid: []
           whenInvalid:
             - 需要更多信息
     duplicateDetection:
