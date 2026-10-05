@@ -9,13 +9,11 @@
     "bgi_version": "0.50.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1760099210865,
+    "last_modified_time": 1757511244164,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "09-帕哈岛-4个",
-    "tags": [
-      "精英怪"
-    ],
+    "name": "06-蓝珀湖左侧-4个",
+    "tags": [],
     "type": "collect",
     "version": "1.0"
   },
@@ -26,44 +24,44 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9590.5146,
-      "y": 3399.0876
+      "x": 9224.4668,
+      "y": 2246.4006
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "walk",
       "type": "path",
-      "x": 9527.4531,
-      "y": 3434.4243
+      "x": 9255.7656,
+      "y": 2256.6868
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9277.4111,
+      "y": 2277.5261
     },
     {
       "action": "",
       "action_params": "",
-      "id": 3,
-      "move_mode": "run",
-      "type": "path",
-      "x": 9504.6182,
-      "y": 3447.0427
-    },
-    {
-      "action": "fight",
-      "action_params": "",
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 9469.7881,
-      "y": 3466.3584
+      "x": 9300.5381,
+      "y": 2305.9399
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 9469.3711,
-      "y": 3466.3218
+      "x": 9325.3438,
+      "y": 2295.5767
     },
     {
       "action": "mining",
@@ -71,26 +69,26 @@
       "id": 6,
       "move_mode": "walk",
       "type": "target",
-      "x": 9469.0928,
-      "y": 3470.3186
+      "x": 9330.0732,
+      "y": 2294.5139
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "walk",
+      "move_mode": "jump",
       "type": "path",
-      "x": 9471.3389,
-      "y": 3468.2583
+      "x": 9336.3857,
+      "y": 2296.4739
     },
     {
-      "action": "mining",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "attack;wait(0.5);attack;wait(0.5);attack;wait(0.5);attack;wait(0.5)",
       "id": 8,
       "move_mode": "walk",
-      "type": "target",
-      "x": 9473.8467,
-      "y": 3472.4099
+      "type": "path",
+      "x": 9338.2373,
+      "y": 2290.4624
     },
     {
       "action": "",
@@ -98,8 +96,8 @@
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": 9474.0664,
-      "y": 3469.5542
+      "x": 9336.3857,
+      "y": 2296.4739
     },
     {
       "action": "mining",
@@ -107,8 +105,8 @@
       "id": 10,
       "move_mode": "walk",
       "type": "target",
-      "x": 9477.9131,
-      "y": 3469.7148
+      "x": 9338.6416,
+      "y": 2298.1606
     },
     {
       "action": "",
@@ -116,8 +114,8 @@
       "id": 11,
       "move_mode": "walk",
       "type": "path",
-      "x": 9473.1279,
-      "y": 3468.1614
+      "x": 9337.5635,
+      "y": 2293.4946
     },
     {
       "action": "mining",
@@ -125,8 +123,8 @@
       "id": 12,
       "move_mode": "walk",
       "type": "target",
-      "x": 9477.0977,
-      "y": 3467.5974
+      "x": 9332.7559,
+      "y": 2291.9092
     }
   ]
 }

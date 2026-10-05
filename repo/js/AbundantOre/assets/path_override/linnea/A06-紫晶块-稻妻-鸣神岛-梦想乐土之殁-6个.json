@@ -1,0 +1,87 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1787944470389,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A06-紫晶块-稻妻-鸣神岛-梦想乐土之殁-6个",
+    "tags": [
+      "双手剑"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4403.81,
+      "y": -2481.96
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4402.61,
+      "y": -2476.96
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4396.6592,
+      "y": -2480.1548
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4398.3186,
+      "y": -2469.7894
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -4407.2012,
+      "y": -2472.0293
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -4423.55,
+      "y": -2458.4
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle);",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4407.2749,
+      "y": -2456.5346
+    }
+  ]
+}

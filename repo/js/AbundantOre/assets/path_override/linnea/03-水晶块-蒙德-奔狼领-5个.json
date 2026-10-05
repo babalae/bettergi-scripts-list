@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1790690577024,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "03-水晶块-蒙德-奔狼领-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -521.55,
+      "y": 2181.32
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -548.2461,
+      "y": 2168.1191
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -580.53,
+      "y": 2151.68
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(1),wait(0.3),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -583.3104,
+      "y": 2152.1298
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -588.0963,
+      "y": 2142.9347
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -521.59,
+      "y": 2181.4
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -473.73,
+      "y": 2180.97
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -472.92,
+      "y": 2175.18
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -467.0804,
+      "y": 2171.1974
+    }
+  ]
+}
