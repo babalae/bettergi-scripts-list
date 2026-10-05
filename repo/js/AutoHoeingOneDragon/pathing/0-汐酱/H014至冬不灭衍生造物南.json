@@ -41,7 +41,6 @@
       "action_params": "",
       "id": 3,
       "move_mode": "jump",
-      "sync_point_id": "strict_1",
       "type": "path",
       "x": 7155.3271,
       "y": 8936.6836
@@ -84,7 +83,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": ";茜特菈莉 keypress(E),wait(0.1),keypress(E);莱依拉 keypress(E),wait(0.1),keypress(E);伊涅芙 keypress(E),wait(0.1),keypress(E);尼可 keypress(E),wait(0.1),keypress(E);attack(1)",
+      "action_params": ";茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);莱依拉 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);尼可 attack(0.05),keypress(E),wait(0.1),keypress(E);attack(1)",
       "id": 8,
       "move_mode": "dash",
       "type": "path",
@@ -96,7 +95,6 @@
       "action_params": ";万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2); ;",
       "id": 9,
       "move_mode": "dash",
-      "sync_point_id": "strict_2",
       "type": "path",
       "x": 7212.2109,
       "y": 9055.084
@@ -124,7 +122,6 @@
       "action_params": "",
       "id": 12,
       "move_mode": "dash",
-      "sync_point_id": "strict_3",
       "type": "path",
       "x": 7245.5215,
       "y": 9137.0791
@@ -180,7 +177,7 @@
       "id": 18,
       "locked": false,
       "move_mode": "dash",
-      "sync_point_id": "strict_4",
+
       "type": "target",
       "x": 7203.1963,
       "y": 9175.1182
