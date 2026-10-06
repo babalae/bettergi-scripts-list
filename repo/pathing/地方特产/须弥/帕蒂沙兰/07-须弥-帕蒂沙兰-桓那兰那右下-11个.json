@@ -2,14 +2,14 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/this-Fish",
+        "links": "",
         "name": "蜜柑魚"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1785055376655,
+    "last_modified_time": 1790797293935,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "07-须弥-帕蒂沙兰-桓那兰那右下-11个",
@@ -101,7 +101,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1);迪希雅 keypress(VK_E),wait(0.2),keypress(VK_E);",
+      "action_params": "wait(0.1);迪希雅 w(0.001),keypress(VK_E),wait(0.2),keypress(VK_E);",
       "id": 11,
       "move_mode": "dash",
       "type": "path",
@@ -122,7 +122,7 @@
       "id": 13,
       "move_mode": "dash",
       "type": "path",
-      "x": 3394.0,
+      "x": 3394,
       "y": -165.5
     },
     {
@@ -136,7 +136,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1);迪希雅 keypress(VK_E),wait(0.2),keypress(VK_E);",
+      "action_params": "wait(0.1);迪希雅 w(0.001),keypress(VK_E),wait(0.2),keypress(VK_E);",
       "id": 15,
       "move_mode": "dash",
       "type": "path",
@@ -203,7 +203,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.2)",
+      "action_params": "wait(0.1);迪希雅 w(0.001),keypress(VK_E),wait(0.2),keypress(VK_E);",
       "id": 23,
       "move_mode": "walk",
       "type": "path",
