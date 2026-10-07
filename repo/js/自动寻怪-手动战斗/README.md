@@ -40,7 +40,7 @@
 
 ## 四、目录说明
 
-- `pathing/`：放置原始刷怪路径
+- `pathing/`：放置原始刷怪路径，pathing下的文件夹名参考materialsCD\怪物.txt里面的怪物名，可增自定义名
 
 - `materialsCD/`：材料刷新冷却规则配置
 
