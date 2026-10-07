@@ -469,7 +469,7 @@ function parseDebugNpcFoods() {
                 result.set(currentNpc, foods);
             }
             foods.add(canonicalFoodName(token));
-        } else {
+        } else if (recordDebug) {
             log.warn(`[调试] "${token}" 不是有效商人名，已忽略`);
         }
     }
@@ -477,19 +477,21 @@ function parseDebugNpcFoods() {
     if (result.size === 0) return null;
 
     // 输出调试配置，并校验指定商品是否存在于对应商人的商品列表
-    log.info(`[调试] 已指定运行商人: ${[...result.keys()].join(", ")}`);
-    for (const [npcName, foods] of result.entries()) {
-        if (!foods) {
-            log.info(`[调试]   ${npcName}: 全部商品`);
-            continue;
+    if (recordDebug) {
+        log.info(`[调试] 已指定运行商人: ${[...result.keys()].join(", ")}`);
+        for (const [npcName, foods] of result.entries()) {
+            if (!foods) {
+                log.info(`[调试]   ${npcName}: 全部商品`);
+                continue;
+            }
+            const npc = findNpcByName(npcName);
+            const all = npc ? getAllNpcFoods(npc).map(canonicalFoodName) : [];
+            const unknown = [...foods].filter(f => !all.includes(f));
+            if (unknown.length > 0) {
+                log.warn(`[调试] 商人 ${npcName} 不存在指定商品: ${unknown.join(", ")}`);
+            }
+            log.info(`[调试]   ${npcName}: ${[...foods].join(", ")}`);
         }
-        const npc = findNpcByName(npcName);
-        const all = npc ? getAllNpcFoods(npc).map(canonicalFoodName) : [];
-        const unknown = [...foods].filter(f => !all.includes(f));
-        if (unknown.length > 0) {
-            log.warn(`[调试] 商人 ${npcName} 不存在指定商品: ${unknown.join(", ")}`);
-        }
-        log.info(`[调试]   ${npcName}: ${[...foods].join(", ")}`);
     }
     return result;
 }
@@ -1447,6 +1449,51 @@ async function initNpcData(records) {
     }
 }
 
+// ==================== 商品预设 ====================
+// 预设由脚本目录下的“预设工具.html”维护，全局共享（与具体账户无关）；
+// 预设记录文件存放在 record/ 下
+const PRESET_FILE = "record/presets.json";
+
+async function loadPresets() {
+    try {
+        const content = await file.readText(PRESET_FILE);
+        const data = JSON.parse(content);
+        return (data && typeof data === "object" && !Array.isArray(data)) ? data : {};
+    } catch (e) {
+        // 文件不存在或内容损坏时，按"无预设"处理
+        return {};
+    }
+}
+
+function logPresetList(presets) {
+    const names = Object.keys(presets);
+    if (names.length === 0) {
+        log.warn("当前没有已保存的商品预设");
+        return;
+    }
+    log.warn(`可用的商品预设（共 ${names.length} 个）: ${names.join(", ")}`);
+}
+
+// settings.preset 选中预设时，读取该预设的商品组合覆盖商品栏；预设失效时回退为按商品栏购买
+async function applyPreset() {
+    const presetName = (settings.preset || "").trim();
+    if (!presetName || presetName === "不使用预设") return true;
+
+    const presets = await loadPresets();
+    const preset = presets[presetName];
+    if (!preset || !preset.foods) {
+        // 下拉栏残留的失效值（如预设已在工具中删除、清空 presets.json 后旧选择未复位）：
+        // 不终止运行，警告后回退为按商品栏购买，并复位下拉栏避免一直显示为空
+        log.warn(`商品预设 "${presetName}" 不存在（可能已在预设工具中删除），本次将按商品栏购买`);
+        logPresetList(presets);
+        settings.preset = "不使用预设";
+        return true;
+    }
+    settings.foodsToBuy = preset.foods;
+    log.info(`使用商品预设 "${presetName}": ${preset.foods}`);
+    return true;
+}
+
 (async function () {
     // 重置容量限制集合
     capacityLimitedFoods.clear();
@@ -1481,6 +1528,9 @@ async function initNpcData(records) {
         }
 
         log.info(`当前账户: ${userName}`);
+
+        // ==================== 商品预设：选中预设时用其商品组合覆盖商品栏（失效则回退商品栏） ====================
+        await applyPreset();
 
         // ==================== 加载外部数据 ====================
         if (!await loadExternalData()) {
