@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1790526368427,
+    "last_modified_time": 1791229515947,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "04-禽肉-纳塔-花羽会西北-2肉x2",
@@ -19,7 +19,7 @@
       "绒翼龙"
     ],
     "type": "collect",
-    "version": "1.0"
+    "version": "1.1"
   },
   "positions": [
     {
@@ -42,7 +42,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(T),wait(2.5)",
+      "action_params": "keypress(T)",
       "id": 3,
       "move_mode": "walk",
       "type": "orientation",
@@ -62,37 +62,65 @@
       "action": "",
       "action_params": "",
       "id": 5,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
-      "x": 9685.0,
-      "y": -1078.2891
-    },
-    {
-      "action": "combat_script",
-      "action_params": "mousedown(left),wait(1.5),mouseup(left),wait(1.5),mousedown(left),wait(4.5),mouseup(left),keydown(Q),wait(1),keyup(Q),jump",
-      "id": 6,
-      "move_mode": "jump",
-      "type": "target",
-      "x": 9704.749,
-      "y": -1075.3994
-    },
-    {
-      "action": "log_output",
-      "action_params": "尝试执行拾取动作",
-      "id": 7,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 9705.7109,
-      "y": -1072.3789
+      "x": 9688.6094,
+      "y": -1079.0625
     },
     {
       "action": "",
       "action_params": "",
-      "id": 8,
+      "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 9703.4219,
-      "y": -1078.2002
+      "x": 9697.2031,
+      "y": -1077.0859
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9703.0469,
+      "y": -1075.7969
+    },
+    {
+      "action": "combat_script",
+      "action_params": "mousedown(left),wait(1.5),mouseup(left),wait(1.5),mousedown(left),wait(4.5),mouseup(left),keydown(Q),wait(1),keyup(Q),jump",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9704.9043,
+      "y": -1075.4063
+    },
+    {
+      "action": "log_output",
+      "action_params": "尝试执行拾取动作",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9705.9004,
+      "y": -1072.4844
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9704.5449,
+      "y": -1078.502
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9701.8438,
+      "y": -1077.4297
     }
   ]
 }
