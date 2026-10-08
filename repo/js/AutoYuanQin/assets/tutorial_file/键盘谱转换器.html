@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>键盘谱转换器 - AutoYuanQin</title>
+	<!--
+		键盘谱转换器 (Keyboard Score Converter)
+		=====================================
+		用途：把「键盘谱」（用原神乐器键位字母写成的谱子）转换成 AutoYuanQin 可直接演奏的曲谱 JSON。
+
+		输出格式（与 assets/tutorial_file/简谱制谱器.html 一致，type = yuanqin）：
+		  {
+		    "name": ..., "author": ..., "instrument": ..., "description": ...,
+		    "bpm": "120", "time_signature": "4/4", "composer": ..., "arranger": ...,
+		    "notes": "A[4]B[4]|(QH)[8]@[4]|...",
+		    "type": "yuanqin", "ticks": 480
+		  }
+
+		为什么是 yuanqin：main.js 的 getMusicInfo() 对 type=yuanqin 调用 parseMusicSheet()，
+		随后 play_sheet() 按 [n] 计算每个音的时长（时长 = 60000/bpm * 拍号分母 / n，附点 *1.5），
+		因此 bpm + 几分音符 这两个输入正好能完整决定文件内容。
+		（type=keyboard 的网格谱单位固定为 1 拍，无法表达"几分音符"这个参数，故不作为输出。）
+
+		输入记号（兼容常见键盘谱写法）：
+		  A-Z 字母        音符（原神乐器键位：QWERTYU / ASDFGHJ / ZXCVBNM 共 21 键）
+		  (QH) [QH] {QH}  和弦（同时按下）
+		  @ 或 0          休止符
+		  -               延长前一个音一个单位
+		  | 或换行        小节线（演奏时仅作分隔，不影响时值）
+		  / 或 >          单位分隔符（网格谱的拍位分隔，不产生小节线）
+		  空格/制表符      默认忽略；勾选"空格算作休止符"后按休止符处理
+		  // 注释         该行剩余内容忽略
+		  A[8] A[8-*]     显式指定时值（8 分音符、附点 8 分音符），优先级高于全局"几分音符"
+	-->
+	<style>
+		:root {
+			--bg: #16181d;
+			--panel: #1e2127;
+			--panel-2: #24272e;
+			--border: #32363f;
+			--fg: #e6e6e6;
+			--muted: #9aa0aa;
+			--accent: #4c8dff;
+			--ok: #3ecf8e;
+			--warn: #e2b93b;
+			--err: #ff6b6b;
+			--mono: ui-monospace, "Cascadia Mono", Consolas, "Courier New", monospace;
+		}
+
+		* { box-sizing: border-box; }
+
+		body {
+			margin: 0;
+			padding: 18px;
+			background: var(--bg);
+			color: var(--fg);
+			font: 14px/1.6 "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+		}
+
+		h1 { font-size: 19px; margin: 0 0 4px; }
+		h2 { font-size: 14px; margin: 0 0 10px; color: var(--muted); font-weight: 600; }
+		.sub { color: var(--muted); font-size: 12.5px; margin-bottom: 16px; }
+		code { font-family: var(--mono); background: #0f1115; padding: 1px 5px; border-radius: 4px; }
+
+		main { max-width: 1180px; margin: 0 auto; }
+		.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+		@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+		.panel {
+			background: var(--panel);
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			padding: 14px;
+			margin-bottom: 14px;
+		}
+
+		.row { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-end; }
+		.field { display: flex; flex-direction: column; gap: 4px; }
+		.field > label { font-size: 12px; color: var(--muted); }
+		input[type="text"], input[type="number"], select, textarea {
+			background: var(--panel-2);
+			color: var(--fg);
+			border: 1px solid var(--border);
+			border-radius: 6px;
+			padding: 6px 8px;
+			font: inherit;
+		}
+		input[type="text"], input[type="number"], select { min-width: 110px; }
+		textarea { width: 100%; font-family: var(--mono); font-size: 13px; resize: vertical; }
+		#scoreInput { height: 190px; }
+
+		button {
+			background: var(--panel-2);
+			color: var(--fg);
+			border: 1px solid var(--border);
+			border-radius: 6px;
+			padding: 7px 12px;
+			font: inherit;
+			cursor: pointer;
+		}
+		button:hover { border-color: var(--accent); }
+		button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+		button:disabled { opacity: .45; cursor: not-allowed; border-color: var(--border); }
+		button.key { padding: 5px 0; width: 34px; font-family: var(--mono); }
+
+		.keysheet { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
+		.keysheet .krow { display: flex; gap: 4px; }
+		.check { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted); }
+		.check input { accent-color: var(--accent); }
+
+		.status-list { margin: 0; padding-left: 20px; }
+		.status-list li { margin: 2px 0; }
+		.err { color: var(--err); }
+		.warn { color: var(--warn); }
+		.ok { color: var(--ok); }
+		.muted { color: var(--muted); }
+		.stats { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; }
+		.stats b { color: var(--accent); font-weight: 600; }
+		pre {
+			background: #0f1115;
+			border: 1px solid var(--border);
+			border-radius: 8px;
+			padding: 10px;
+			margin: 8px 0 0;
+			max-height: 240px;
+			overflow: auto;
+			white-space: pre-wrap;
+			word-break: break-all;
+			font-family: var(--mono);
+			font-size: 12.5px;
+		}
+		.hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+	</style>
+</head>
+
+<body>
+	<main>
+		<h1>键盘谱转换器 <span class="muted" style="font-size:13px">AutoYuanQin · type=yuanqin</span></h1>
+		<div class="sub">
+			把键盘谱（原神乐器键位字母）转成可直接演奏的曲谱 JSON：填好 <b>BPM</b> 与 <b>几分音符</b>，把键盘谱粘进输入框，导出即可放进
+			<code>AutoYuanQin/assets/score_file</code> 使用。
+		</div>
+
+		<div class="panel">
+			<h2>1. 曲谱参数</h2>
+			<div class="row">
+				<div class="field"><label for="scoreName">曲名</label><input type="text" id="scoreName" placeholder="未命名曲谱"></div>
+				<div class="field"><label for="scoreAuthor">录谱人</label><input type="text" id="scoreAuthor" placeholder="键盘谱转换器"></div>
+				<div class="field"><label for="scoreBpm">BPM</label><input type="number" id="scoreBpm" min="1" max="1000" step="1" value="120"></div>
+				<div class="field"><label for="noteValue">几分音符</label>
+					<select id="noteValue">
+						<option value="1">1 分音符（全音符）</option>
+						<option value="2">2 分音符</option>
+						<option value="4" selected>4 分音符（默认）</option>
+						<option value="8">8 分音符</option>
+						<option value="16">16 分音符</option>
+						<option value="32">32 分音符</option>
+					</select>
+				</div>
+				<div class="field"><label for="timeSignature">拍号</label>
+					<select id="timeSignature">
+						<option value="4/4" selected>4/4</option>
+						<option value="3/4">3/4</option>
+						<option value="2/4">2/4</option>
+						<option value="6/8">6/8</option>
+						<option value="3/8">3/8</option>
+						<option value="2/2">2/2</option>
+						<option value="1/4">1/4</option>
+					</select>
+				</div>
+				<div class="field"><label for="instrument">乐器</label>
+					<select id="instrument">
+						<option value="风物之诗琴" selected>风物之诗琴</option>
+						<option value="老旧的诗琴">老旧的诗琴</option>
+						<option value="镜花之琴">镜花之琴</option>
+						<option value="荒泷·盛世豪鼓">荒泷·盛世豪鼓</option>
+						<option value="绮筵之鼓">绮筵之鼓</option>
+						<option value="晚风圆号">晚风圆号</option>
+						<option value="聚聚鼓">聚聚鼓</option>
+						<option value="悠可琴">悠可琴</option>
+						<option value="「余音」">「余音」</option>
+						<option value="跃律琴">跃律琴</option>
+						<option value="谐律键琴">谐律键琴</option>
+					</select>
+				</div>
+			</div>
+			<div class="row" style="margin-top:10px">
+				<div class="field"><label for="scoreComposer">曲师</label><input type="text" id="scoreComposer" placeholder="无"></div>
+				<div class="field"><label for="scoreArranger">谱师</label><input type="text" id="scoreArranger" placeholder="无"></div>
+				<div class="field" style="flex:1"><label for="scoreDescription">描述</label><input type="text" id="scoreDescription" style="width:100%" placeholder="无"></div>
+			</div>
+			<div class="row" style="margin-top:10px">
+				<label class="check"><input type="checkbox" id="spaceAsRest">空格算作休止符（网格谱写法）</label>
+				<label class="check"><input type="checkbox" id="strictKeys" checked>严格校验原神 21 键</label>
+				<label class="check"><input type="checkbox" id="barPerLine" checked>每个小节单独一行</label>
+			</div>
+		</div>
+
+		<div class="grid">
+			<div class="panel">
+				<h2>2. 键盘谱输入</h2>
+				<textarea id="scoreInput" spellcheck="false" placeholder="例如：&#10;Z Z B B | N N B - | V V C C | X X Z - |&#10;(QH) - - - | A A @ @ |"></textarea>
+				<div class="row" style="margin-top:8px">
+					<button id="btnExample">载入示例</button>
+					<button id="btnClear">清空</button>
+					<button id="btnConvert" class="primary">转换</button>
+				</div>
+				<div class="hint">键位提示（点击可插入）：</div>
+				<div class="keysheet" id="keySheet"></div>
+				<div class="hint">
+					<code>-</code> 延长前一个音 · <code>|</code> 小节线 · <code>/</code> 拍位分隔 · <code>@</code> 休止 ·
+					<code>(QH)</code> 和弦 · <code>A[8]</code> 单独指定时值 · <code>//</code> 注释
+				</div>
+			</div>
+
+			<div class="panel">
+				<h2>3. 校验与统计</h2>
+				<div id="report" class="muted">尚未转换。</div>
+			</div>
+		</div>
+
+		<div class="panel">
+			<h2>4. 输出</h2>
+			<div class="row">
+				<button id="btnDownload" class="primary" disabled>下载 JSON</button>
+				<button id="btnCopy" disabled>复制 JSON</button>
+			</div>
+			<div class="hint">notes 预览：</div>
+			<pre id="notesPreview">—</pre>
+			<div class="hint">完整 JSON：</div>
+			<pre id="jsonPreview">—</pre>
+		</div>
+	</main>
+
+	<script>
+		"use strict";
+
+		/* =====================================================================
+		   纯逻辑部分：不依赖 DOM，可在 Node 中直接加载做自检
+		   （HTML 末尾通过 globalThis.KeyboardScoreConverter 暴露）
+		   ===================================================================== */
+
+		/** 原神乐器键位：三行共 21 键（风物之诗琴等所有乐器共用同一键位布局）。 */
+		const KEY_ROWS = ["QWERTYU", "ASDFGHJ", "ZXCVBNM"];
+		const VALID_KEYS = new Set(KEY_ROWS.join("").split(""));
+
+		/** 解析结果的记号种类。 */
+		const TOKEN = { NOTE: "note", CHORD: "chord", REST: "rest", BAR: "bar" };
+
+		const isDigit = (ch) => ch >= "0" && ch <= "9";
+		const isLetter = (ch) => (ch >= "A" && ch <= "Z") || (ch >= "a" && ch <= "z");
+
+		/**
+		 * 把「以 baseValue 分音符为一个单位、共 units 个单位」的时值，
+		 * 表示成曲谱记号里中括号内的载荷。
+		 *
+		 * 记号时值规则（见 main.js play_sheet / cal_time_ornament）：
+		 *   时长 = 60000 / bpm * 拍号分母 / n        （n 即 [n] 中的数字）
+		 *   附点 [n-*]  = 上述时长 * 1.5
+		 * 因此 units 个单位 → n = baseValue / units；units=3 这类非 2 的幂用附点表达。
+		 *
+		 * @param {number} units 单位数（正整数）
+		 * @param {number} baseValue 一个单位对应几分音符（1/2/4/8/16/32）
+		 * @returns {{payloads: string[], pieces: number, warning: boolean}}
+		 */
+		function notateUnits(units, baseValue) {
+			if (!Number.isFinite(units) || units <= 0) return { payloads: [], pieces: 0, warning: false };
+
+			// 单个音符即可表达（units 为 2 的幂）
+			if ((units & (units - 1)) === 0) {
+				const denom = baseValue / units;
+				if (Number.isInteger(denom) && denom >= 1) {
+					return { payloads: [String(denom)], pieces: 1, warning: false };
+				}
+			} else if (units % 3 === 0) {
+				const per = units / 3;
+				if ((per & (per - 1)) === 0) {
+					const denom = (1.5 * baseValue) / units; // 附点后的记谱分母
+					if (Number.isInteger(denom) && denom >= 1) {
+						return { payloads: [denom + "-*"], pieces: 1, warning: false };
+					}
+				}
+			}
+
+			// 无法用单个音符表达：贪心拆成若干可表达的音符（同键连击/连音线）
+			const payloads = [];
+			let remaining = units;
+			while (remaining > 0) {
+				let best = null;
+				for (let k = 0; ; k += 1) {
+					const u = Math.pow(2, k);
+					if (u > remaining) break;
+					const denom = baseValue / u;
+					if (Number.isInteger(denom) && denom >= 1) best = { u, payload: String(denom) };
+				}
+				for (let k = 0; ; k += 1) {
+					const u = 3 * Math.pow(2, k);
+					if (u > remaining) break;
+					const denom = (1.5 * baseValue) / u;
+					if (Number.isInteger(denom) && denom >= 1 && (!best || u > best.u)) best = { u, payload: denom + "-*" };
+				}
+				if (best === null) break;
+				payloads.push(best.payload);
+				remaining -= best.u;
+			}
+			return { payloads, pieces: payloads.length, warning: payloads.length > 1 || remaining > 0 };
+		}
+
+		/**
+		 * 解析键盘谱文本。
+		 * @param {string} text 键盘谱
+		 * @param {{spaceAsRest?: boolean, strictKeys?: boolean}} [options]
+		 * @returns {{tokens: Array, errors: Array, warnings: Array}}
+		 */
+		function parseKeyboardScore(text, options) {
+			const opts = Object.assign({ spaceAsRest: false, strictKeys: true }, options || {});
+			const src = String(text == null ? "" : text);
+			const tokens = [];
+			const errors = [];
+			const warnings = [];
+
+			let i = 0;
+			let line = 1;
+			let col = 1;
+			let cellHasContent = false;
+
+			const at = () => line + ":" + col;
+
+			/** 前一个非小节线记号（用于 '-' 延长）。 */
+			const lastMeaningful = () => {
+				for (let k = tokens.length - 1; k >= 0; k -= 1) {
+					if (tokens[k].kind !== TOKEN.BAR) return tokens[k];
+				}
+				return null;
+			};
+			const pushToken = (kind, keys) => {
+				const token = { kind, keys: keys || [], units: 1, payload: null, at: at() };
+				tokens.push(token);
+				cellHasContent = true;
+				return token;
+			};
+			const pushBar = () => {
+				if (tokens.length === 0) return; // 开头不产生前导小节线
+				const last = tokens[tokens.length - 1];
+				if (last.kind === TOKEN.BAR) return; // 不产生连续小节线
+				tokens.push({ kind: TOKEN.BAR, keys: [], units: 0, payload: null, at: at() });
+			};
+			/** 跳过一格空拍（只有 / 或 > 分隔时才补休止符）。 */
+			const flushEmptyCell = () => {
+				if (!cellHasContent) pushToken(TOKEN.REST, []);
+			};
+			const advance = () => {
+				if (src[i] === "\n") { line += 1; col = 1; } else { col += 1; }
+				i += 1;
+			};
+
+			while (i < src.length) {
+				const ch = src[i];
+
+				// 行注释
+				if (ch === "/" && src[i + 1] === "/") {
+					while (i < src.length && src[i] !== "\n") advance();
+					continue;
+				}
+				// 小节线：| 与换行
+				if (ch === "\n" || ch === "|") {
+					pushBar();
+					cellHasContent = false;
+					advance();
+					continue;
+				}
+				// 拍位分隔符：/ 与 >
+				if (ch === "/" || ch === ">") {
+					flushEmptyCell();
+					cellHasContent = false;
+					advance();
+					continue;
+				}
+				// 空白
+				if (ch === " " || ch === "\t" || ch === "\r") {
+					if (opts.spaceAsRest) pushToken(TOKEN.REST, []);
+					advance();
+					continue;
+				}
+				// 显式时值（必须紧跟音符，故不会单独出现在这里；单独出现视为错误）
+				if (ch === "]") { errors.push({ at: at(), message: '多余的 "]"（时值方括号必须紧跟音符，如 A[8]）' }); advance(); continue; }
+
+				// 和弦 / 分组
+				if (ch === "(" || ch === "[" || ch === "{") {
+					const closing = ch === "(" ? ")" : (ch === "[" ? "]" : "}");
+					const startAt = at();
+					advance();
+					let content = "";
+					let closed = false;
+					while (i < src.length) {
+						const c = src[i];
+						if (c === closing) { closed = true; advance(); break; }
+						if (c === "\n") { line += 1; col = 1; i += 1; continue; }
+						content += c;
+						advance();
+					}
+					if (!closed) errors.push({ at: startAt, message: "括号未闭合：" + ch });
+
+					// 以数字开头 → 时值载荷（附加到刚读到的音符上）
+					if (content !== "" && isDigit(content[0])) {
+						const target = lastMeaningful();
+						const payload = content.replace(/\s+/g, "");
+						if (!/^\d+(-[\w.$#*]+)*$/.test(payload)) {
+							errors.push({ at: startAt, message: '时值写法无法识别："' + payload + '"（示例：4 / 8 / 4-* / 16-# / 4-8.3）' });
+						} else if (target === null || target.kind === TOKEN.BAR) {
+							errors.push({ at: startAt, message: '时值 "[' + payload + ']" 前面没有音符' });
+						} else if (target.payload !== null) {
+							errors.push({ at: startAt, message: '音符 "[' + target.payload + ']" 之后又指定了一次时值' });
+						} else {
+							target.payload = payload;
+						}
+						cellHasContent = true;
+						continue;
+					}
+
+					// 否则视为和弦
+					const keys = [];
+					let bad = null;
+					for (let k = 0; k < content.length; k += 1) {
+						const c = content[k];
+						if (c === " " || c === "\t") continue;
+						if (c === "-") continue; // 组内 '-' 忽略
+						if (isLetter(c)) {
+							const up = c.toUpperCase();
+							keys.push(up);
+							if (opts.strictKeys && !VALID_KEYS.has(up)) bad = up;
+						} else if (c === "@" || c === "0") {
+							bad = c;
+						} else {
+							bad = c;
+						}
+					}
+					if (keys.length === 0) {
+						errors.push({ at: startAt, message: "空和弦：括号内没有键位" });
+					} else if (bad !== null && opts.strictKeys) {
+						errors.push({ at: startAt, message: '和弦中的 "' + bad + '" 不是原神乐器键位' });
+						pushToken(keys.length > 1 ? TOKEN.CHORD : TOKEN.NOTE, keys);
+					} else {
+						if (bad !== null) warnings.push({ at: startAt, message: '和弦中的 "' + bad + '" 不是原神乐器键位（已按原样保留）' });
+						pushToken(keys.length > 1 ? TOKEN.CHORD : TOKEN.NOTE, keys);
+					}
+					continue;
+				}
+
+				// 休止符
+				if (ch === "@" || ch === "0") {
+					pushToken(TOKEN.REST, []);
+					advance();
+					continue;
+				}
+
+				// 延长
+				if (ch === "-") {
+					const target = lastMeaningful();
+					if (target === null) {
+						warnings.push({ at: at(), message: '开头的 "-" 没有可延长的音符，已按休止符处理' });
+						pushToken(TOKEN.REST, []);
+					} else {
+						target.units += 1;
+						cellHasContent = true;
+					}
+					advance();
+					continue;
+				}
+
+				// 音符
+				if (isLetter(ch)) {
+					const up = ch.toUpperCase();
+					if (!VALID_KEYS.has(up)) {
+						if (opts.strictKeys) {
+							errors.push({ at: at(), message: '未知键位 "' + ch + '"（原神乐器键位：' + KEY_ROWS.join(" / ") + "）" });
+						} else {
+							warnings.push({ at: at(), message: '未知键位 "' + ch + '" 不是原神乐器键位（已按原样保留）' });
+						}
+					}
+					const token = pushToken(TOKEN.NOTE, [up]);
+
+					// 紧跟的显式时值：A[8]
+					if (src[i + 1] === "[") {
+						const saveI = i, saveLine = line, saveCol = col;
+						advance(); // 跳过 '['
+						let payload = "";
+						let closed = false;
+						while (i < src.length) {
+							if (src[i] === "]") { closed = true; advance(); break; }
+							payload += src[i];
+							advance();
+						}
+						if (closed && payload !== "" && isDigit(payload[0])) {
+							const clean = payload.replace(/\s+/g, "");
+							if (/^\d+(-[\w.$#*]+)*$/.test(clean)) {
+								token.payload = clean;
+							} else {
+								errors.push({ at: saveLine + ":" + saveCol, message: '时值写法无法识别："' + clean + '"' });
+								token.payload = clean;
+							}
+						} else {
+							// 不是时值写法（例如 [HF] 和弦）：退回，交给主循环处理
+							i = saveI; line = saveLine; col = saveCol;
+						}
+					}
+					advance();
+					continue;
+				}
+
+				// 其他字符
+				errors.push({ at: at(), message: '无法识别的字符 "' + ch + '"' });
+				advance();
+			}
+
+			return { tokens, errors, warnings };
+		}
+
+		/**
+		 * 生成 notes 字符串。
+		 * @param {Array} tokens parseKeyboardScore 的结果
+		 * @param {{noteValue?: number, barPerLine?: boolean}} [options]
+		 * @returns {{notes: string, warnings: Array}}
+		 */
+		function buildNotes(tokens, options) {
+			const opts = Object.assign({ noteValue: 4, barPerLine: false }, options || {});
+			const warnings = [];
+			const parts = [];
+
+			for (const token of tokens) {
+				if (token.kind === TOKEN.BAR) { parts.push("|"); continue; }
+				if (token.kind === TOKEN.REST || token.kind === TOKEN.NOTE || token.kind === TOKEN.CHORD) {
+					const notePart = token.kind === TOKEN.REST
+						? "@"
+						: (token.kind === TOKEN.CHORD ? "(" + token.keys.join("") + ")" : token.keys[0]);
+
+					if (token.payload !== null) {
+						parts.push(notePart + "[" + token.payload + "]");
+						continue;
+					}
+					const resolved = notateUnits(token.units, opts.noteValue);
+					if (resolved.payloads.length === 0) {
+						warnings.push({ at: token.at, message: '时值 ' + token.units + " 个单位无法用当前「几分音符」表达，已跳过" });
+						continue;
+					}
+					if (resolved.warning) {
+						warnings.push({
+							at: token.at,
+							message: '时值 ' + token.units + " 个单位无法用单个音符表示，已拆成 " + resolved.payloads.join(" + ")
+								+ "（同键连击；若要连成一体请改用更小的「几分音符」）",
+						});
+					}
+					for (const payload of resolved.payloads) parts.push(notePart + "[" + payload + "]");
+				}
+			}
+
+			let notes = parts.join("");
+			if (notes !== "" && !notes.endsWith("|")) notes += "|";
+			if (opts.barPerLine) notes = notes.split("|").join("|\n").replace(/\|\n$/, "|");
+			return { notes, warnings };
+		}
+
+		/**
+		 * 复刻 main.js 的时值计算，用于统计预计演奏时长。
+		 * 时长 = 60000 / bpm * 拍号分母 / n；附点 *1.5；装饰音 = round(60000/bpm/16)。
+		 * @param {string} notes buildNotes 生成的 notes
+		 * @param {number} bpm
+		 * @param {string} timeSignature 例如 "4/4"
+		 * @returns {{ms: number, counts: {notes: number, chords: number, rests: number, bars: number, maxChord: number}}}
+		 */
+		function measure(notes, bpm, timeSignature) {
+			const den = parseInt(String(timeSignature).split("/")[1], 10) || 4;
+			const beatMs = 60000 / Number(bpm || 120);
+			const counts = { notes: 0, chords: 0, rests: 0, bars: 0, maxChord: 0 };
+			let ms = 0;
+
+			for (const bar of String(notes).split("|")) {
+				if (bar !== "") counts.bars += 1;
+				let k = 0;
+				while (k < bar.length) {
+					let note = "";
+					let chord = false;
+					if (bar[k] === "(") {
+						chord = true;
+						k += 1;
+						while (k < bar.length && bar[k] !== ")") { note += bar[k]; k += 1; }
+						k += 1;
+					} else {
+						note = bar[k];
+						k += 1;
+					}
+					let type = "";
+					if (bar[k] === "[") {
+						k += 1;
+						while (k < bar.length && bar[k] !== "]") { type += bar[k]; k += 1; }
+						k += 1;
+					}
+
+					const noteValue = parseInt(type, 10);
+					let duration = 0;
+					if (Number.isFinite(noteValue) && noteValue > 0) duration = beatMs * (den / noteValue);
+					if (type.includes("-*")) duration = duration * 1.5;
+					else if (type.includes("-#")) duration = Math.round(beatMs / 16);
+
+					if (note === "@") counts.rests += 1;
+					else if (chord) {
+						counts.chords += 1;
+						counts.maxChord = Math.max(counts.maxChord, note.length);
+					} else if (note !== "") counts.notes += 1;
+					ms += duration;
+				}
+			}
+			return { ms: Math.round(ms), counts };
+		}
+
+		/**
+		 * 主转换：键盘谱 + 参数 → 曲谱对象 / JSON 文本。
+		 * @param {string} text 键盘谱
+		 * @param {object} options {bpm, noteValue, timeSignature, instrument, name, author, composer, arranger, description, spaceAsRest, strictKeys, barPerLine}
+		 * @returns {{ok: boolean, errors: Array, warnings: Array, notes: string, json: string, score: object, stats: object}}
+		 */
+		function convert(text, options) {
+			const opts = Object.assign({
+				bpm: 120,
+				noteValue: 4,
+				timeSignature: "4/4",
+				instrument: "风物之诗琴",
+				name: "未命名曲谱",
+				author: "键盘谱转换器",
+				composer: "无",
+				arranger: "无",
+				description: "无",
+				spaceAsRest: false,
+				strictKeys: true,
+				barPerLine: false,
+			}, options || {});
+
+			const parsed = parseKeyboardScore(text, opts);
+			const built = buildNotes(parsed.tokens, opts);
+			const errors = parsed.errors.slice();
+			const warnings = parsed.warnings.concat(built.warnings);
+
+			if (parsed.tokens.filter((t) => t.kind !== TOKEN.BAR).length === 0) {
+				errors.push({ at: "1:1", message: "没有解析到任何音符" });
+			}
+
+			const stats = measure(built.notes, opts.bpm, opts.timeSignature);
+			const score = {
+				name: opts.name,
+				author: opts.author,
+				instrument: opts.instrument,
+				description: opts.description,
+				bpm: String(opts.bpm),
+				time_signature: opts.timeSignature,
+				composer: opts.composer,
+				arranger: opts.arranger,
+				notes: built.notes,
+				type: "yuanqin",
+				ticks: 480,
+			};
+
+			return {
+				ok: errors.length === 0,
+				errors,
+				warnings,
+				notes: built.notes,
+				json: JSON.stringify(score, null, 2) + "\n",
+				score,
+				stats,
+			};
+		}
+
+		globalThis.KeyboardScoreConverter = {
+			KEY_ROWS,
+			VALID_KEYS,
+			notateUnits,
+			parseKeyboardScore,
+			buildNotes,
+			measure,
+			convert,
+		};
+
+		/* =====================================================================
+		   界面绑定（仅浏览器执行；Node 自检时自动跳过）
+		   ===================================================================== */
+		if (typeof document !== "undefined") {
+			const $ = (id) => document.getElementById(id);
+			const api = globalThis.KeyboardScoreConverter;
+
+			const EXAMPLE = [
+				"// 小星星（键盘谱示例，BPM 80，4 分音符）",
+				"Z Z B B | N N B - | V V C C | X X Z - |",
+				"B B V V | C C X - | B B V V | C C X - |",
+				"Z Z B B | N N B - | V V C C | X X Z - |",
+			].join("\n");
+
+			const readOptions = () => ({
+				bpm: Number($("scoreBpm").value || 120),
+				noteValue: Number($("noteValue").value || 4),
+				timeSignature: $("timeSignature").value,
+				instrument: $("instrument").value,
+				name: $("scoreName").value.trim() || "未命名曲谱",
+				author: $("scoreAuthor").value.trim() || "键盘谱转换器",
+				composer: $("scoreComposer").value.trim() || "无",
+				arranger: $("scoreArranger").value.trim() || "无",
+				description: $("scoreDescription").value.trim() || "无",
+				spaceAsRest: $("spaceAsRest").checked,
+				strictKeys: $("strictKeys").checked,
+				barPerLine: $("barPerLine").checked,
+			});
+
+			let lastResult = null;
+
+			const render = (result) => {
+				lastResult = result;
+				const report = $("report");
+				const parts = [];
+
+				if (result.errors.length > 0) {
+					parts.push('<div class="err"><b>错误 ' + result.errors.length + " 处（导出已禁用）</b></div><ul class=\"status-list\">");
+					for (const e of result.errors.slice(0, 40)) parts.push('<li class="err">[' + e.at + "] " + e.message + "</li>");
+					if (result.errors.length > 40) parts.push('<li class="err">…还有 ' + (result.errors.length - 40) + " 处</li>");
+					parts.push("</ul>");
+				} else {
+					parts.push('<div class="ok"><b>✓ 校验通过</b></div>');
+				}
+
+				if (result.warnings.length > 0) {
+					parts.push('<div class="warn" style="margin-top:8px"><b>提示 ' + result.warnings.length + " 条</b></div><ul class=\"status-list\">");
+					for (const w of result.warnings.slice(0, 20)) parts.push('<li class="warn">[' + w.at + "] " + w.message + "</li>");
+					if (result.warnings.length > 20) parts.push('<li class="warn">…还有 ' + (result.warnings.length - 20) + " 条</li>");
+					parts.push("</ul>");
+				}
+
+				const s = result.stats;
+				parts.push('<div class="stats" style="margin-top:10px">'
+					+ "<span>音符 <b>" + s.counts.notes + "</b></span>"
+					+ "<span>和弦 <b>" + s.counts.chords + "</b>（最大 " + s.counts.maxChord + " 键）</span>"
+					+ "<span>休止 <b>" + s.counts.rests + "</b></span>"
+					+ "<span>小节 <b>" + s.counts.bars + "</b></span>"
+					+ "<span>预计时长 <b>" + (s.ms / 1000).toFixed(2) + " 秒</b></span>"
+					+ "</div>");
+				report.innerHTML = parts.join("");
+
+				$("notesPreview").textContent = result.notes || "—";
+				$("jsonPreview").textContent = result.json;
+				$("btnDownload").disabled = !result.ok;
+				$("btnCopy").disabled = !result.ok;
+			};
+
+			const run = () => {
+				try {
+					render(api.convert($("scoreInput").value, readOptions()));
+				} catch (error) {
+					$("report").innerHTML = '<div class="err"><b>转换出错：</b>' + String(error && error.message ? error.message : error) + "</div>";
+					$("btnDownload").disabled = true;
+					$("btnCopy").disabled = true;
+				}
+			};
+
+			// 键位提示
+			const keySheet = $("keySheet");
+			for (const row of api.KEY_ROWS) {
+				const div = document.createElement("div");
+				div.className = "krow";
+				for (const key of row) {
+					const button = document.createElement("button");
+					button.className = "key";
+					button.textContent = key;
+					button.addEventListener("click", () => {
+						const area = $("scoreInput");
+						const start = area.selectionStart;
+						area.value = area.value.slice(0, start) + key + area.value.slice(area.selectionEnd);
+						area.selectionStart = area.selectionEnd = start + key.length;
+						area.focus();
+						run();
+					});
+					div.appendChild(button);
+				}
+				keySheet.appendChild(div);
+			}
+
+			$("btnExample").addEventListener("click", () => {
+				$("scoreInput").value = EXAMPLE;
+				$("scoreName").value = "小星星";
+				$("scoreBpm").value = "80";
+				$("noteValue").value = "4";
+				run();
+			});
+			$("btnClear").addEventListener("click", () => {
+				$("scoreInput").value = "";
+				$("report").textContent = "尚未转换。";
+				$("notesPreview").textContent = "—";
+				$("jsonPreview").textContent = "—";
+				$("btnDownload").disabled = true;
+				$("btnCopy").disabled = true;
+				lastResult = null;
+			});
+			$("btnConvert").addEventListener("click", run);
+
+			$("btnDownload").addEventListener("click", () => {
+				if (lastResult === null || !lastResult.ok) return;
+				const blob = new Blob([lastResult.json], { type: "application/json" });
+				const url = URL.createObjectURL(blob);
+				const a = document.createElement("a");
+				a.href = url;
+				a.download = lastResult.score.name + ".json";
+				a.style.display = "none";
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
+				URL.revokeObjectURL(url);
+			});
+
+			$("btnCopy").addEventListener("click", async () => {
+				if (lastResult === null || !lastResult.ok) return;
+				const text = lastResult.json;
+				try {
+					await navigator.clipboard.writeText(text);
+					$("btnCopy").textContent = "已复制 ✓";
+				} catch (error) {
+					const area = document.createElement("textarea");
+					area.value = text;
+					document.body.appendChild(area);
+					area.select();
+					document.execCommand("copy");
+					document.body.removeChild(area);
+					$("btnCopy").textContent = "已复制 ✓";
+				}
+				setTimeout(() => { $("btnCopy").textContent = "复制 JSON"; }, 1500);
+			});
+
+			let timer = null;
+			$("scoreInput").addEventListener("input", () => {
+				clearTimeout(timer);
+				timer = setTimeout(run, 250);
+			});
+			for (const id of ["scoreBpm", "noteValue", "timeSignature", "instrument", "scoreName", "scoreAuthor",
+				"scoreComposer", "scoreArranger", "scoreDescription", "spaceAsRest", "strictKeys", "barPerLine"]) {
+				$(id).addEventListener("change", run);
+				$(id).addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(run, 250); });
+			}
+
+			// 首次打开时输入框为空，不做转换（避免一上来就报"没有音符"）
+			if ($("scoreInput").value.trim() !== "") run();
+		}
+	</script>
+</body>
+
+</html>
