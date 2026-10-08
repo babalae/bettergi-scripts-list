@@ -1,0 +1,22 @@
+// 作者:GiftedScout
+// 描述:木偶星超导（阿罗夏/奥黛塔/砂糖/桑多涅）。砂糖脱手染超导，桑多涅长按重击期间以自身为中心钟摆横扫（每段2圈，摆幅约±144°），共3段重击后开大循环。BGI 0.64.0 实测调优。
+// 循环轴：
+//   阿罗夏：Q(如有) → 短E → Q(如有)
+//   奥黛塔：E → Q(如有) → E
+//   砂糖：E(1次) → Q(如有)
+//   桑多涅：[长E0.2s → 后退+视角拉高 → 长按重击≈3.8s(期间2圈钟摆横扫)] ×3 → Q(如有)
+// 调参说明：
+//   ① 砂糖 Q 偶被动画锁吞 → 砂糖行 keypress(e) 后 wait(0.8) 提到 1.0/1.2（双q兜底已内置）
+//   ② 摆幅：全部横扫 moveby 的 600 同步改（保持成对相反、总和=0）；600px≈36°（默认镜头灵敏度3）
+//   ③ 圈数不足 → 每段"右→中"腿前再插一组 [wait(0.12) + 8步同向]（+1圈）并压缩步进 wait(0.095) 保按压≈3.8s；
+//      重击不满3次 → 加大 wait(0.095)；丢角度（转向打折=超镜头转速）→ 加大 wait(0.095) 降频
+//   ④ 换向稳定窗 wait(0.12) 是防单向偏摆的关键，勿删勿减
+//   ⑤ 行首 w(0.05)+wait(0.6) = 切人+等动画锁，勿删
+//   ⑥ 单条 moveby ≤600px（大增量会被重击动画截断）；q 指令无 Q 时约0.2s跳过，其后勿加长 wait
+// ============================================================
+
+阿罗夏 w(0.05),wait(0.6),q,e,wait(0.4),q
+奥黛塔 w(0.05),wait(0.6),e,wait(0.4),q,e,wait(0.5)
+砂糖 w(0.05),wait(0.6),keypress(e),wait(0.8),q,wait(0.3),q
+
+桑多涅 w(0.05),wait(0.6),keydown(e),wait(0.2),keyup(e),wait(0.5),s(0.15),moveby(0,-250),wait(0.3),mousedown(left),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),wait(0.12),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),wait(0.12),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),wait(0.12),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),wait(0.12),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),wait(0.15),moveby(0,250),mouseup(left),wait(0.3),keydown(e),wait(0.2),keyup(e),wait(0.5),s(0.15),moveby(0,-250),wait(0.3),mousedown(left),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),wait(0.12),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),wait(0.12),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),wait(0.12),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),wait(0.12),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),wait(0.15),moveby(0,250),mouseup(left),wait(0.3),keydown(e),wait(0.2),keyup(e),wait(0.5),s(0.15),moveby(0,-250),wait(0.3),mousedown(left),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),wait(0.12),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),wait(0.12),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),wait(0.12),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),moveby(600,0),wait(0.095),wait(0.12),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),moveby(-600,0),wait(0.095),wait(0.15),moveby(0,250),mouseup(left),wait(0.4),q
