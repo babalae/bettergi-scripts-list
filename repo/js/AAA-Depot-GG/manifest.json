@@ -1,0 +1,25 @@
+{
+  "manifest_version": 1,
+  "name": "AAA愚人众寄物装置·存完就寄",
+  "version": "1.0.0",
+  "bgi_version": "0.64.0",
+  "description": "自动完成「放置愚人众寄物装置 → 存入指定物品 → 寄出 → 拆除装置」的完整循环，支持多轮。要存哪个物品在设置下拉里选，脚本按目录内容自动刷新选项。",
+  "tags": [
+    "寄物装置",
+    "造物",
+    "存取",
+    "自动"
+  ],
+  "authors": [
+    {
+      "name": "mofan1994",
+      "link": "https://github.com/mofan1994"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "Assets/RecognitionObject/目标物品/",
+    "debug/"
+  ]
+}
