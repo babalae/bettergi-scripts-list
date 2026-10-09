@@ -7,9 +7,9 @@
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "",
+    "description": "改過，改沖",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1789181478009,
+    "last_modified_time": 1791534981693,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "D07-魔晶矿-须弥-阿如村右上",
@@ -31,7 +31,7 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
       "x": 4150.0586,
       "y": -1716.1914
@@ -40,16 +40,7 @@
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 4150.4131,
-      "y": -1717.1621
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": 4103.875,
       "y": -1714.3125
@@ -57,8 +48,8 @@
     {
       "action": "",
       "action_params": "",
-      "id": 5,
-      "move_mode": "walk",
+      "id": 4,
+      "move_mode": "dash",
       "type": "path",
       "x": 4064.6875,
       "y": -1753.5
@@ -66,7 +57,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 6,
+      "id": 5,
       "move_mode": "fly",
       "type": "path",
       "x": 4065.2705,
@@ -75,7 +66,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 7,
+      "id": 6,
       "move_mode": "walk",
       "type": "path",
       "x": 4065.2705,
@@ -84,7 +75,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 8,
+      "id": 7,
       "move_mode": "walk",
       "type": "path",
       "x": 4065.2705,

@@ -7,9 +7,9 @@
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "",
+    "description": "改過，改進洞失焦點",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1788440461899,
+    "last_modified_time": 1791534042637,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B01-魔晶矿-须弥-降诸魔山右上",
@@ -25,7 +25,7 @@
       "locked": false,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 2289.0,
+      "x": 2289,
       "y": -1197.3223
     },
     {
@@ -39,20 +39,19 @@
       "y": -1191.4199
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "keydown(w),dash(2.5),keyup(w),wait(0.5),keypress(x)",
       "id": 3,
-      "locked": false,
       "move_mode": "walk",
-      "type": "path",
-      "x": 2272.0283,
-      "y": -1182.6846
+      "type": "orientation",
+      "x": 2263.3516,
+      "y": -1171.2676
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "locked": false,
+      "locked": true,
       "move_mode": "walk",
       "type": "path",
       "x": 2266.8848,
@@ -92,6 +91,7 @@
       "action": "",
       "action_params": "",
       "id": 8,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 2150.1582,
@@ -101,7 +101,7 @@
       "action": "",
       "action_params": "",
       "id": 9,
-      "locked": true,
+      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 2115.8066,
