@@ -1,0 +1,148 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1791433997679,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "03-虹滴晶-至冬-古兽冰原东-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7387.3984,
+      "y": 8341.7197
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7381.0898,
+      "y": 8339.6719
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.4),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.15),keypress(e),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4); ;",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 7244.7832,
+      "y": 8295.8535
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7244.7832,
+      "y": 8295.8535
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7248.752,
+      "y": 8299.7188
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7244.8818,
+      "y": 8299.0967
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.5)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7244.084,
+      "y": 8299.332
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7243.8242,
+      "y": 8290.041
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7215.6484,
+      "y": 8270.5361
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7217.9912,
+      "y": 8263.6406
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7224.9355,
+      "y": 8262.1211
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7222.2031,
+      "y": 8261.5723
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7222.4014,
+      "y": 8256.5283
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7220.5176,
+      "y": 8258.6963
+    }
+  ]
+}
