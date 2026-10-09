@@ -7,9 +7,9 @@
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "",
+    "description": "改過，傳送出來回血一下",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1783088716955,
+    "last_modified_time": 1791533560136,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A04-魔晶矿-璃月-庆云顶左",
@@ -22,24 +22,36 @@
       "action": "",
       "action_params": "",
       "id": 1,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 1474.8711,
       "y": 763.9414
     },
     {
-      "action": "stop_flying",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(1)",
       "id": 2,
-      "move_mode": "fly",
+      "move_mode": "walk",
       "type": "path",
-      "x": 1491.6035,
-      "y": 874.9038
+      "x": 1472.1104,
+      "y": 764.1211
     },
     {
-      "action": "mining",
+      "action": "stop_flying",
       "action_params": "",
       "id": 3,
+      "locked": true,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1491.6035,
+      "y": 874.9038
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 1491.6035,
@@ -48,16 +60,8 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 4,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 1498.0703,
-      "y": 846.0313
-    },
-    {
-      "action": "mining",
-      "action_params": "",
       "id": 5,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 1498.0703,
@@ -67,6 +71,17 @@
       "action": "mining",
       "action_params": "",
       "id": 6,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1498.0703,
+      "y": 846.0313
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 1505.9443,
@@ -74,15 +89,6 @@
     },
     {
       "action": "stop_flying",
-      "action_params": "",
-      "id": 7,
-      "move_mode": "fly",
-      "type": "path",
-      "x": 1571.6084,
-      "y": 824.6382
-    },
-    {
-      "action": "mining",
       "action_params": "",
       "id": 8,
       "locked": false,
@@ -92,9 +98,20 @@
       "y": 824.6382
     },
     {
+      "action": "mining",
+      "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1571.6084,
+      "y": 824.6382
+    },
+    {
       "action": "combat_script",
       "action_params": "wait(2)",
-      "id": 9,
+      "id": 10,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
       "x": 1571.6084,

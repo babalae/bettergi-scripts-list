@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/zhy0070",
+        "links": "",
         "name": "烤鱼"
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "改過，改下落扣血",
+    "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1791534846146,
+    "last_modified_time": 1790837536361,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "D05-魔晶矿-须弥-茶诃之座右下",
+    "name": "地方传奇-蕴光异兽",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,35 +24,36 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 3547.0029,
-      "y": -1993.3184
+      "x": 9780.7031,
+      "y": 6212.8926
     },
     {
       "action": "stop_flying",
-      "action_params": "2500",
+      "action_params": "",
       "id": 2,
       "move_mode": "fly",
       "type": "path",
-      "x": 3505.2412,
-      "y": -1969.2998
+      "x": 9745.9834,
+      "y": 6138.1655
     },
     {
-      "action": "mining",
+      "action": "fight",
       "action_params": "",
       "id": 3,
+      "locked": false,
       "move_mode": "fly",
       "type": "path",
-      "x": 3505.2412,
-      "y": -1969.2998
+      "x": 9745.9834,
+      "y": 6138.1655
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(2)",
+      "action": "fight",
+      "action_params": "",
       "id": 4,
       "move_mode": "fly",
       "type": "path",
-      "x": 3505.2412,
-      "y": -1969.2998
+      "x": 9745.9834,
+      "y": 6138.1655
     }
   ]
 }

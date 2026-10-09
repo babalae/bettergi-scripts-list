@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1789491481496,
+    "last_modified_time": 1790999148920,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "A06-魔晶矿-至冬-彩冰镇下",
+    "name": "大灵显化身-奥奇纳塔地下（1）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,26 +24,26 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6650.4854,
-      "y": 8319.9541
+      "x": 9959.7051,
+      "y": -218.4482
     },
     {
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 6639.6973,
-      "y": 8335.7061
+      "x": 9944.6924,
+      "y": -204.8809
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 6570.625,
-      "y": 8404.3125
+      "x": 9838.7393,
+      "y": -127.2305
     },
     {
       "action": "",
@@ -51,44 +51,44 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 6548.625,
-      "y": 8429.75
+      "x": 9840.9141,
+      "y": -119.4854
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
-      "move_mode": "walk",
+      "move_mode": "run",
       "type": "path",
-      "x": 6544.4502,
-      "y": 8445.7334
+      "x": 9887.0146,
+      "y": -125.2744
     },
     {
-      "action": "stop_flying",
-      "action_params": "2000",
+      "action": "",
+      "action_params": "",
       "id": 6,
-      "move_mode": "fly",
+      "move_mode": "climb",
       "type": "path",
-      "x": 6506.3398,
-      "y": 8464.5254
+      "x": 9882.1221,
+      "y": -135.6953
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 6506.3398,
-      "y": 8464.5254
+      "x": 9869.2832,
+      "y": -160.8506
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(2)",
+      "action": "fight",
+      "action_params": "",
       "id": 8,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": 6506.3398,
-      "y": 8464.5254
+      "x": 9905.8291,
+      "y": -221.3369
     }
   ]
 }
