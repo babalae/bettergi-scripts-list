@@ -2,17 +2,17 @@
   "info": {
     "authors": [
       {
-        "links": "https://github.com/cheese-bagel",
-        "name": "芝士贝果"
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
       }
     ],
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1791347617981,
+    "last_modified_time": 1791433997679,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "C07-须弥-赤王陵上方地下传送锚点-4个",
+    "name": "03-虹滴晶-至冬-古兽冰原东-5个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,89 +24,89 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 5540.8994,
-      "y": -2052.5098
+      "x": 7387.3984,
+      "y": 8341.7197
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7381.0898,
+      "y": 8339.6719
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.5)",
-      "id": 2,
-      "move_mode": "dash",
-      "type": "orientation",
-      "x": 5529.0117,
-      "y": -2044.2832
-    },
-    {
-      "action": "",
-      "action_params": "",
+      "action_params": "玛薇卡 w(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.4),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.15),keypress(e),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4); ;",
       "id": 3,
       "move_mode": "dash",
-      "type": "path",
-      "x": 5529.0117,
-      "y": -2044.2832
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 4,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 5529.4785,
-      "y": -2029.6631
-    },
-    {
-      "action": "up_down_grab_leaf",
-      "action_params": "",
-      "id": 5,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 5535.5898,
-      "y": -2025.4414
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 6,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 5569.7969,
-      "y": -2008.8989
+      "type": "orientation",
+      "x": 7244.7832,
+      "y": 8295.8535
     },
     {
       "action": "mining",
       "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7244.7832,
+      "y": 8295.8535
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7248.752,
+      "y": 8299.7188
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7244.8818,
+      "y": 8299.0967
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.5)",
       "id": 7,
       "move_mode": "walk",
-      "type": "target",
-      "x": 5570.9434,
-      "y": -2006.6914
+      "type": "orientation",
+      "x": 7244.084,
+      "y": 8299.332
     },
     {
       "action": "",
       "action_params": "",
       "id": 8,
-      "move_mode": "walk",
+      "move_mode": "jump",
       "type": "path",
-      "x": 5573.4941,
-      "y": -2009.124
+      "x": 7243.8242,
+      "y": 8290.041
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 9,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 5574.7031,
-      "y": -2007.2085
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7215.6484,
+      "y": 8270.5361
     },
     {
-      "action": "up_down_grab_leaf",
+      "action": "",
       "action_params": "",
       "id": 10,
       "move_mode": "walk",
       "type": "path",
-      "x": 5557.9824,
-      "y": -2009.3877
+      "x": 7217.9912,
+      "y": 8263.6406
     },
     {
       "action": "",
@@ -114,8 +114,8 @@
       "id": 11,
       "move_mode": "walk",
       "type": "path",
-      "x": 5541.0723,
-      "y": -2020.6328
+      "x": 7224.9355,
+      "y": 8262.1211
     },
     {
       "action": "mining",
@@ -123,8 +123,8 @@
       "id": 12,
       "move_mode": "walk",
       "type": "target",
-      "x": 5538.6846,
-      "y": -2021.7363
+      "x": 7222.2031,
+      "y": 8261.5723
     },
     {
       "action": "",
@@ -132,8 +132,8 @@
       "id": 13,
       "move_mode": "walk",
       "type": "path",
-      "x": 5540.7031,
-      "y": -2024.4844
+      "x": 7222.4014,
+      "y": 8256.5283
     },
     {
       "action": "mining",
@@ -141,8 +141,8 @@
       "id": 14,
       "move_mode": "walk",
       "type": "target",
-      "x": 5538.2031,
-      "y": -2025.3389
+      "x": 7220.5176,
+      "y": 8258.6963
     }
   ]
 }
