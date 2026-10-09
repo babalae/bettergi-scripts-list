@@ -1,6 +1,6 @@
 (async function () {
   // 版本和编译信息
-  const VERSION = "1.4";
+  const VERSION = "1.6.1";
   const BUILD_TIME = "2025.09.24";
 
   // 定义识别对象
@@ -181,6 +181,21 @@ const isInMainUI = () => {
     },
   };
 
+  let namedQuestTracker;
+  let weatherPathing;
+  async function trackQuestByName(name) {
+    try {
+      if (!namedQuestTracker) {
+        namedQuestTracker = eval(file.readTextSync("quest-tracker.js")).createBgi();
+      }
+      return await namedQuestTracker.run(name);
+    } catch (error) {
+      const failure = new Error(error.message || String(error));
+      failure.questTracking = true;
+      throw failure;
+    }
+  }
+
   // 步骤处理器类 - 处理不同类型的委托执行步骤
   // TAG:添加脚本功能点1
   const StepProcessor = {
@@ -191,11 +206,16 @@ const isInMainUI = () => {
       }/${commissionName}/${location}/${step.data || step}`;
       log.info("执行地图追踪: {path}", fullPath);
       try {
-        await pathingScript.runFile(fullPath);
+        if (!weatherPathing) {
+          weatherPathing = eval(file.readTextSync("map-tracking.js")).createBgi(paimonMenuRo);
+        }
+        await weatherPathing.runFile(fullPath);
         log.info("地图追踪执行完成");
       } catch (error) {
         log.error("执行地图追踪时出错: {error}", error.message);
-        throw error;
+        const failure = new Error(error.message || String(error));
+        failure.mapTracking = true;
+        throw failure;
       }
     },
 
@@ -459,6 +479,10 @@ const isInMainUI = () => {
   const StepProcessorFactory = {
     // 步骤处理器映射表
     processors: {
+      追踪任务: async (step) => {
+        await trackQuestByName(step.data);
+      },
+
       地图追踪: async (step, context) => {
         await StepProcessor.processMapTracking(
           step,
@@ -972,6 +996,7 @@ const isInMainUI = () => {
         );
       } catch (error) {
         log.error("执行对话委托时出错: {error}", error.message);
+        if (error.questTracking || error.mapTracking) throw error;
         return false;
       }
     },
@@ -1032,7 +1057,9 @@ const isInMainUI = () => {
               i + 1,
               stepError.message
             );
-            // 继续执行下一步，不中断整个流程
+            // 位置或任务目标不确定时停止，不能继续执行后续动作。
+            if (stepError.questTracking || stepError.mapTracking) throw stepError;
+            // 其他步骤保留原有错误处理。
           }
 
           // 每个步骤之间等待一段时间
@@ -1043,6 +1070,7 @@ const isInMainUI = () => {
         return true;
       } catch (error) {
         log.error("执行统一对话委托流程时出错: {error}", error.message);
+        if (error.questTracking || error.mapTracking) throw error;
         return false;
       }
     },
@@ -1073,7 +1101,9 @@ const isInMainUI = () => {
 
     // 处理单个步骤
     processStep: async (step, context) => {
-      if (typeof step === "object") {
+      if (typeof step === "string" && /^追踪任务(?:\s|$)/.test(step)) {
+        await trackQuestByName(step.replace(/^追踪任务\s*/, ""));
+      } else if (typeof step === "object") {
         // JSON格式处理
         await Execute.processObjectStep(step, context);
       }
@@ -1384,11 +1414,16 @@ const Main = async () => {
   log.debug("版本: {version}", VERSION);
   
   try {
-    // 检查免责声明（除了刷新列表操作）
-    if (selectedProcess !== "刷新剧情列表" && !await checkDisclaimer()) {
+    const targetQuestName = String(settings.target_quest_name || "").trim();
+    // 追踪也会操作游戏界面；沿用原来的使用确认。
+    if ((targetQuestName || selectedProcess !== "刷新剧情列表") && !await checkDisclaimer()) {
       return;
     }
-    
+    if (targetQuestName) {
+      await trackQuestByName(targetQuestName);
+      if (settings.quest_track_only !== false) return;
+    }
+
     if (selectedProcess === "刷新剧情列表") {
       // 刷新操作：扫描所有process.json并更新设置
       await refreshProcessList();
@@ -1424,11 +1459,13 @@ const Main = async () => {
       }
       await switchPartyIfNeeded(team);
       await Execute.executeTalkCommission(folder1, folder2);
-      dispatcher.ClearAllTriggers();
     }
   } catch (error) {
     log.error("执行出错: {error}", error.message);
-    errorlog();
+    await errorlog();
+    if (error.questTracking || error.mapTracking) throw error;
+  } finally {
+    dispatcher.ClearAllTriggers();
   }
 };
 
