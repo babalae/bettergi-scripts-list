@@ -1,0 +1,377 @@
+{
+  "scope": "two actually observed one-HP survivor states before wasteful inverse switches; planning regression, not native inputs",
+  "cases": [
+    {
+      "round": 5,
+      "state": {
+        "phase": "board",
+        "turn": "user",
+        "pickSelection": null,
+        "characters": [
+          {
+            "hp": 1,
+            "dead": false,
+            "energy": 1,
+            "frozen": false,
+            "raised": true
+          },
+          {
+            "hp": 0,
+            "dead": true,
+            "energy": 0,
+            "frozen": false,
+            "raised": false
+          },
+          {
+            "hp": 1,
+            "dead": false,
+            "energy": 1,
+            "frozen": false,
+            "raised": false
+          }
+        ],
+        "active": 0,
+        "enemies": [
+          {
+            "hp": 7,
+            "dead": false,
+            "active": true
+          }
+        ],
+        "dice": {
+          "Pyro": 2,
+          "Hydro": 0,
+          "Anemo": 1,
+          "Electro": 0,
+          "Dendro": 0,
+          "Cryo": 0,
+          "Geo": 1,
+          "Omni": 1
+        },
+        "diceKnown": true,
+        "hand": [
+          {
+            "index": 0,
+            "id": "wedge",
+            "name": "雷楔",
+            "supported": true
+          },
+          {
+            "index": 1,
+            "id": "wedge",
+            "name": "雷楔",
+            "supported": true
+          },
+          {
+            "index": 2,
+            "id": "exile",
+            "name": "流放者头冠",
+            "supported": true
+          },
+          {
+            "index": 3,
+            "id": "exile",
+            "name": "流放者头冠",
+            "supported": true
+          },
+          {
+            "index": 4,
+            "id": "unsupported:运筹",
+            "name": "运筹",
+            "supported": false
+          },
+          {
+            "index": 5,
+            "id": "stars",
+            "name": "星天之兆",
+            "supported": true
+          },
+          {
+            "index": 6,
+            "id": "calx",
+            "name": "白垩之术",
+            "supported": true
+          },
+          {
+            "index": 7,
+            "id": "unsupported:镀金旅团的茶歇",
+            "name": "镀金旅团的茶歇",
+            "supported": false
+          },
+          {
+            "index": 8,
+            "id": "unsupported:镀金旅团的茶歇",
+            "name": "镀金旅团的茶歇",
+            "supported": false
+          },
+          {
+            "index": 9,
+            "id": "unsupported:镀金旅团的茶歇",
+            "name": "镀金旅团的茶歇",
+            "supported": false
+          }
+        ],
+        "handRead": "cached",
+        "confirmed": true
+      },
+      "memory": {
+        "round": 5,
+        "raidenBurst": true,
+        "colleiBurst": true,
+        "used": [
+          4,
+          3,
+          3
+        ],
+        "eyeRound": 5,
+        "dendroRound": 4,
+        "keqingInfusedRound": -10,
+        "food": [
+          false,
+          false,
+          false
+        ],
+        "normalDiscount": [
+          0,
+          0,
+          0
+        ],
+        "freeSwitch": false,
+        "fastSwitch": false,
+        "artifacts": [
+          false,
+          false,
+          false
+        ],
+        "weapons": [
+          false,
+          false,
+          false
+        ],
+        "talent": false,
+        "uncertainActions": [],
+        "defeated": [
+          false,
+          true,
+          false
+        ],
+        "thundergrassSupport": null,
+        "artifactKinds": [
+          null,
+          null,
+          null
+        ],
+        "exileUsedRound": [
+          -1,
+          -1,
+          -1
+        ],
+        "gamblerUsed": [
+          0,
+          0,
+          0
+        ],
+        "enemyAliveCount": 1,
+        "enemyLastActive": 0,
+        "penance": false,
+        "legendUsed": true,
+        "immuneUntil": [
+          2,
+          -1,
+          -1
+        ],
+        "defeatRound": 5,
+        "lostUsedRound": -1,
+        "blessingUsed": 0,
+        "costEvidence": null,
+        "probeKeys": []
+      }
+    },
+    {
+      "round": 5,
+      "state": {
+        "phase": "board",
+        "turn": "user",
+        "pickSelection": null,
+        "characters": [
+          {
+            "hp": 1,
+            "dead": false,
+            "energy": 1,
+            "frozen": false,
+            "raised": false
+          },
+          {
+            "hp": 0,
+            "dead": true,
+            "energy": 0,
+            "frozen": false,
+            "raised": false
+          },
+          {
+            "hp": 1,
+            "dead": false,
+            "energy": 1,
+            "frozen": false,
+            "raised": true
+          }
+        ],
+        "active": 2,
+        "enemies": [
+          {
+            "hp": 7,
+            "dead": false,
+            "active": true
+          }
+        ],
+        "dice": {
+          "Pyro": 2,
+          "Hydro": 0,
+          "Anemo": 1,
+          "Electro": 0,
+          "Dendro": 0,
+          "Cryo": 0,
+          "Geo": 0,
+          "Omni": 1
+        },
+        "diceKnown": true,
+        "hand": [
+          {
+            "index": 0,
+            "id": "wedge",
+            "name": "雷楔",
+            "supported": true
+          },
+          {
+            "index": 1,
+            "id": "wedge",
+            "name": "雷楔",
+            "supported": true
+          },
+          {
+            "index": 2,
+            "id": "exile",
+            "name": "流放者头冠",
+            "supported": true
+          },
+          {
+            "index": 3,
+            "id": "exile",
+            "name": "流放者头冠",
+            "supported": true
+          },
+          {
+            "index": 4,
+            "id": "unsupported:运筹",
+            "name": "运筹",
+            "supported": false
+          },
+          {
+            "index": 5,
+            "id": "stars",
+            "name": "星天之兆",
+            "supported": true
+          },
+          {
+            "index": 6,
+            "id": "calx",
+            "name": "白垩之术",
+            "supported": true
+          },
+          {
+            "index": 7,
+            "id": "unsupported:镀金旅团的茶歇",
+            "name": "镀金旅团的茶歇",
+            "supported": false
+          },
+          {
+            "index": 8,
+            "id": "unsupported:镀金旅团的茶歇",
+            "name": "镀金旅团的茶歇",
+            "supported": false
+          },
+          {
+            "index": 9,
+            "id": "unsupported:镀金旅团的茶歇",
+            "name": "镀金旅团的茶歇",
+            "supported": false
+          }
+        ],
+        "handRead": "cached",
+        "confirmed": true
+      },
+      "memory": {
+        "round": 5,
+        "raidenBurst": true,
+        "colleiBurst": true,
+        "used": [
+          4,
+          3,
+          3
+        ],
+        "eyeRound": 5,
+        "dendroRound": 4,
+        "keqingInfusedRound": -10,
+        "food": [
+          false,
+          false,
+          false
+        ],
+        "normalDiscount": [
+          0,
+          0,
+          0
+        ],
+        "freeSwitch": false,
+        "fastSwitch": false,
+        "artifacts": [
+          false,
+          false,
+          false
+        ],
+        "weapons": [
+          false,
+          false,
+          false
+        ],
+        "talent": false,
+        "uncertainActions": [],
+        "defeated": [
+          false,
+          true,
+          false
+        ],
+        "thundergrassSupport": null,
+        "artifactKinds": [
+          null,
+          null,
+          null
+        ],
+        "exileUsedRound": [
+          -1,
+          -1,
+          -1
+        ],
+        "gamblerUsed": [
+          0,
+          0,
+          0
+        ],
+        "enemyAliveCount": 1,
+        "enemyLastActive": 2,
+        "penance": false,
+        "legendUsed": true,
+        "immuneUntil": [
+          2,
+          -1,
+          -1
+        ],
+        "defeatRound": 5,
+        "lostUsedRound": -1,
+        "blessingUsed": 0,
+        "costEvidence": null,
+        "probeKeys": []
+      }
+    }
+  ]
+}
