@@ -1,0 +1,80 @@
+{
+  "info": {
+    "name": "稻妻-野伏众-八酝岛藤兜砦东略偏北岸边-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "野伏众-4个\n稻妻-八酝岛藤兜砦东略偏北岸边",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2198.5,
+      "y": -3486.5,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2250.0,
+      "y": -3503.5,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -2312.75,
+      "y": -3507.5,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -2338.25,
+      "y": -3506.25,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -2390.25,
+      "y": -3514.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -2398.75,
+      "y": -3470.48,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -2409.51,
+      "y": -3501.26,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

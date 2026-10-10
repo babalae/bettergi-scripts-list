@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "火瓶3",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "jsp"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8674.2,
+      "y": -2063.32
+    },
+    {
+      "id": 2,
+      "x": 8741.85,
+      "y": -2084.14,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 8804.71,
+      "y": -2118.86,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

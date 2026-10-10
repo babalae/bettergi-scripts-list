@@ -1,0 +1,125 @@
+{
+  "info": {
+    "name": "04-鱼肉-璃月-明蕴镇左-10",
+    "type": "collect",
+    "version": "1.0",
+    "description": "04-明蕴镇左-10",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -56.18,
+      "y": 657.41,
+      "type": "teleport",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1.06,
+      "y": 699.03,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芙宁娜 wait(0.3),e"
+    },
+    {
+      "id": 3,
+      "x": 2.07,
+      "y": 715.73,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "dash"
+    },
+    {
+      "id": 4,
+      "x": -1.31,
+      "y": 718.08,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "dash"
+    },
+    {
+      "id": 5,
+      "x": -4.17,
+      "y": 713.12,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 7.3,
+      "y": 717.41,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 7.79,
+      "y": 737.12,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -8.7,
+      "y": 745.99,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -15.4,
+      "y": 747.38,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -14.36,
+      "y": 744.56,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -14.68,
+      "y": 754.18,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -18.84,
+      "y": 760.63,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

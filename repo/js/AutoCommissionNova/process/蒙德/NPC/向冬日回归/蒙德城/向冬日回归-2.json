@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "11"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758951563818,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "向冬日回归-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -867.68359375,
+      "y": 2281.378662109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -877.1255967335346,
+      "y": 2271.624357523182
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -890.623046875,
+      "y": 2255.2197265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -900.482421875,
+      "y": 2249.692138671875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.1),wait(0.7),w(0.1)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -904.36328125,
+      "y": 2248.7431640625
+    }
+  ]
+}

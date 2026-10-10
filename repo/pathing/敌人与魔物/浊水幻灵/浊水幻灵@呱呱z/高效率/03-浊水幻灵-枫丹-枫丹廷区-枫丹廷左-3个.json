@@ -1,0 +1,98 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jidingcai",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756108136915,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "03-浊水幻灵-枫丹-枫丹廷区-枫丹廷左-3个",
+    "tags": [
+      "精英怪",
+      "浊水幻灵",
+      "高效"
+    ],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4824.0547,
+      "y": 3628.7546
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4849.5918,
+      "y": 3619.4421
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4885.1055,
+      "y": 3627.8416
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 4922.0009,
+      "y": 3621.6251
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4968.7516,
+      "y": 3632.251
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 4976.7178,
+      "y": 3662.6912
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4977.4668,
+      "y": 3672.5815
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack;attack;attack;",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4969.3516,
+      "y": 3679.9055
+    }
+  ]
+}

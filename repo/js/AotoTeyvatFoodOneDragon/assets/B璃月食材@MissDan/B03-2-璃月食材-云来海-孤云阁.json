@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "2个鸟蛋；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763411232596,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B03-2-璃月食材-云来海-孤云阁",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -963.0977,
+      "y": -288.6294
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -968.1367,
+      "y": -279.3374
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -963.5098,
+      "y": -254.583
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "target",
+      "x": -958.5098,
+      "y": -250.5381
+    }
+  ]
+}

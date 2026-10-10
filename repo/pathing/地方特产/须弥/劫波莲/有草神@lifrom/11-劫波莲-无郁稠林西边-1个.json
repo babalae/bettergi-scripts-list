@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "11-劫波莲-无郁稠林西边-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "lifrom",
+        "links": "https://github.com/pkjsjq"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2401.45,
+      "y": 150.64
+    },
+    {
+      "id": 2,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target",
+      "x": 2489.0,
+      "y": 216.05
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2560.0,
+      "y": 266.55
+    },
+    {
+      "id": 4,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2536.0,
+      "y": 315.53
+    },
+    {
+      "id": 5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2531.5,
+      "y": 337.02
+    },
+    {
+      "id": 6,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2504.0,
+      "y": 306.53
+    },
+    {
+      "id": 7,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2468.0,
+      "y": 299.04
+    },
+    {
+      "id": 8,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2438.25,
+      "y": 262.02
+    }
+  ]
+}

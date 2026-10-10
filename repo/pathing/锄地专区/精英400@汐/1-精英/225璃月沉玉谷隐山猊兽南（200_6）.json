@@ -1,0 +1,88 @@
+{
+  "info": {
+    "name": "225璃月沉玉谷隐山猊兽南（200_6）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时94秒，包含6只精英与1只小怪，预计收入1240.5摩拉，包含以下怪物：1只射手丘丘人、6只玄文兽。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2208.06,
+      "y": 1245,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2160.58,
+      "y": 1217.25,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2171,
+      "y": 1169.38,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2198.5,
+      "y": 1148.25,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 2216.62,
+      "y": 1142.38,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1904.54,
+      "y": 1196.94,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 7,
+      "x": 1881.87,
+      "y": 1205.42,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "2300",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 1857.97,
+      "y": 1186.87,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

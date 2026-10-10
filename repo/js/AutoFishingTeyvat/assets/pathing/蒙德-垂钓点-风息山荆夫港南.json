@@ -1,0 +1,121 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "地区: 蒙德\\n类型: 垂钓点\\n详细位置: 风息山荊夫港南\\n鱼类: 擒霞客、流纹茶蝶鱼、炮鲀、苦炮鲀、綦假龙\\n饵类: 果酿饵、蠕虫假饵、飞蝇假饵\\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1776018139102,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "蒙德-垂钓点-风息山荆夫港南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -295.46,
+      "y": 3541.2
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -306.21,
+      "y": 3541.86
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -314.9,
+      "y": 3524.92
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -307.75,
+      "y": 3509.12
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -308.41,
+      "y": 3499.55
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -293.98,
+      "y": 3481.45
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -279.01,
+      "y": 3468.06
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -283.79,
+      "y": 3463.07
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -290.59,
+      "y": 3465.75
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -294.25,
+      "y": 3461.73
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -292.29,
+      "y": 3459.22
+    }
+  ]
+}

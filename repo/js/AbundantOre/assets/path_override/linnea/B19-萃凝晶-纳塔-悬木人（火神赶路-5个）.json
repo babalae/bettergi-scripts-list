@@ -1,0 +1,87 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1787687335363,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B19-萃凝晶-纳塔-悬木人（火神赶路-5个）",
+    "tags": [
+      "双手剑"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8660.76,
+      "y": -2220.57
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8651.8027,
+      "y": -2182.6201
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8652.7852,
+      "y": -2182.6229
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8600.0752,
+      "y": -2185.5811
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(5),keydown(q),wait(1.5),keyup(q)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8597.125,
+      "y": -2186.9639
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8595.7705,
+      "y": -2191.875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8594.5304,
+      "y": -2190.1243
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "深渊法师_达达乌帕谷左及左上_1+1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "深渊法师",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "FuYeqi",
+        "links": "https://github.com/FuYeqi"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1097.47,
+      "y": 1600.68,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1259.47,
+      "y": 1613.68,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": -1295.47,
+      "y": 1521.68,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1317.47,
+      "y": 1476.68,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1377.47,
+      "y": 1375.68,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

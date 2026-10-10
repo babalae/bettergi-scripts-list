@@ -1,0 +1,193 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767113915771,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "兽肉3-10-安饶之野东北-3肉×3+1肉×1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9838.3311,
+      "y": -2364.8965
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9830.4453,
+      "y": -2357.4805
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9827.5859,
+      "y": -2341.5605
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9832.5762,
+      "y": -2337.2246
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9833.1699,
+      "y": -2338.3105
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9835.8984,
+      "y": -2346.0098
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9837.0215,
+      "y": -2349.127
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9836.0547,
+      "y": -2353.6738
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9836.0742,
+      "y": -2356.7402
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9837.3828,
+      "y": -2353.9531
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9826.623,
+      "y": -2352.9805
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9794.5244,
+      "y": -2295.3906
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9793.2539,
+      "y": -2259.3164
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9796.9912,
+      "y": -2255.6475
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9800.6797,
+      "y": -2251.9883
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9810.459,
+      "y": -2241.4014
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9815.7568,
+      "y": -2240.5547
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9812.0762,
+      "y": -2237.0137
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9816.9678,
+      "y": -2238.8711
+    }
+  ]
+}

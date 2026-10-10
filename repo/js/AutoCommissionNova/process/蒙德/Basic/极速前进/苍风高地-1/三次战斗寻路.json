@@ -1,0 +1,60 @@
+{
+    "info": {
+        "name": "三次战斗寻路",
+        "type": "collect",
+        "author": "星野",
+        "version": "1.0",
+        "description": "",
+        "map_name": "Teyvat",
+        "bgi_version": "0.45.0",
+        "tags": [],
+        "last_modified_time": 1752243918114
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": -442.2510229732179,
+            "y": 1990.375,
+            "action": "combat_script",
+            "move_mode": "walk",
+            "action_params": "attack",
+            "type": "path"
+        },
+        {
+            "id": 2,
+            "x": -441.75102297321786,
+            "y": 1986.125,
+            "action": "combat_script",
+            "move_mode": "walk",
+            "action_params": "wait(1),attack,wait(0.3),keypress(Space),wait(0.15),keypress(Space),wait(0.15),keypress(Space),wait(0.15),keypress(Space),",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": -417.96875,
+            "y": 1948.9755859375,
+            "action": "stop_flying",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": -388.7021484375,
+            "y": 1920.91064453125,
+            "action": "",
+            "move_mode": "dash",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 5,
+            "x": -388.7021484375,
+            "y": 1920.91064453125,
+            "action": "",
+            "move_mode": "dash",
+            "action_params": "",
+            "type": "path"
+        }
+    ]
+}

@@ -1,0 +1,130 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个薄荷；3个树莓；2个鸟蛋；4个胡萝卜；1个蘑菇；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762333292823,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A22-2-蒙德食材-苍风高地-奔狼领北【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -385.9258,
+      "y": 2297.9146
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -386.9395,
+      "y": 2302.9028
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -366.832,
+      "y": 2342.3071
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -345.4121,
+      "y": 2351.668
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -321.584,
+      "y": 2344.5991
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -316.8203,
+      "y": 2361.0249
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -309.9746,
+      "y": 2372.7651
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -315.8867,
+      "y": 2379.5542
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -317.4199,
+      "y": 2380.9873
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -319.4922,
+      "y": 2380.0771
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -317.3672,
+      "y": 2377.1626
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -326.1523,
+      "y": 2364.8477
+    }
+  ]
+}

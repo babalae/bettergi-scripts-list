@@ -1,0 +1,22 @@
+{
+  "name": "linnea-progress-mask",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "prebuild": "node -e \"const fs=require('fs');['progress-mask.html','index.html','dist','assets'].forEach(f=>{try{fs.rmSync('../assets/'+f,{recursive:true,force:true})}catch{}})\" && node scripts/subset-font.js",
+    "build": "vite build && node -e \"require('fs').copyFileSync('dist/index.html','../assets/progress-mask.html')\"",
+    "postbuild": "git checkout src/fonts/zpix.ttf",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "gsap": "^3.12.7",
+    "vite-plugin-singlefile": "^2.3.3",
+    "vue": "^3.5.30"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.4",
+    "fontmin": "^1.1.1"
+  }
+}

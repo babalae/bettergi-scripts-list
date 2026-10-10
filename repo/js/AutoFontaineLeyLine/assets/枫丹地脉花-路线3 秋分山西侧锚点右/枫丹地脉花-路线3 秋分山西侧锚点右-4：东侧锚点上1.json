@@ -1,0 +1,46 @@
+{
+  "info": {
+    "name": "枫丹地脉花-路线3 秋分山西侧锚点-4：东侧锚点上1",
+    "type": "collect",
+    "author": "平面镜&LCB茶包",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.44.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3917.2783203125,
+      "y": 2576.334716796875,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3917.228515625,
+      "y": 2573.301025390625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3907.2451171875,
+      "y": 2607.017333984375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3921.345703125,
+      "y": 2617.813232421875,
+      "type": "target",
+      "move_mode": "walk"
+    }
+  ]
+}

@@ -1,0 +1,302 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Annijang",
+        "name": "Annijang"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766334094354,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E02-丘丘人射手-稻妻-九条阵屋-8只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3436.7734,
+      "y": -3319.501
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -3450.5254,
+      "y": -3321.0762
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -3462.2871,
+      "y": -3327.6904
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -3484.1719,
+      "y": -3321.6406
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "100",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3544.5742,
+      "y": -3318.4434
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3557.1816,
+      "y": -3292.9912
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3584.0391,
+      "y": -3277.3604
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -3600.668,
+      "y": -3271.2959
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -3620.9941,
+      "y": -3251.5332
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3618.1484,
+      "y": -3236.1133
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3611.6855,
+      "y": -3224.5703
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3623.082,
+      "y": -3236.8027
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3651.6172,
+      "y": -3289.293
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3660.8906,
+      "y": -3327.0312
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3679.2656,
+      "y": -3338.6455
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3710.998,
+      "y": -3358.5703
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -3726.2363,
+      "y": -3352.834
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3436.7715,
+      "y": -3319.5107
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3409.3105,
+      "y": -3298.043
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3397.0664,
+      "y": -3269.5947
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3381.6543,
+      "y": -3235.25
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 22,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -3384.123,
+      "y": -3215.5352
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3387.6191,
+      "y": -3192.6963
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -3386.9395,
+      "y": -3195.4287
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3393.4824,
+      "y": -3160.1914
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3393.2188,
+      "y": -3148.7412
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 27,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3404.8242,
+      "y": -3143.375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e,w(9)",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3446.4941,
+      "y": -3136.9395
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 29,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3446.8281,
+      "y": -3136.8213
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 30,
+      "locked": false,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -3460.3008,
+      "y": -3128.96
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 31,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -3460.3008,
+      "y": -3128.96
+    }
+  ]
+}

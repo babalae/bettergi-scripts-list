@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "2个鸟蛋；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763411923455,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B05-2-璃月食材-琼玑野-归离原南",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 489.6289,
+      "y": 222.5474
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 486.7646,
+      "y": 243.1147
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(1.5),keyup(w),wait(0.7),keypress(VK_SPACE),wait(0.7),keypress(VK_SPACE),wait(0.7),keypress(VK_SPACE),wait(0.7),keydown(w),wait(1),keyup(w)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 486.7305,
+      "y": 246.0293
+    }
+  ]
+}

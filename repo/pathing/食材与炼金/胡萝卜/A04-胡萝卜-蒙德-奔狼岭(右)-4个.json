@@ -1,0 +1,73 @@
+{
+  "info": {
+    "author": "不瘦五十斤不改名",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1775056722557,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A04-胡萝卜-蒙德-奔狼岭(右)-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -521.54,
+      "y": 2181.37
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -495.58,
+      "y": 2154.5
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -494.44,
+      "y": 2146.61
+    },
+    {
+      "action": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -493.13,
+      "y": 2144.94
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -495.21,
+      "y": 2144.96
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.456)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -491.2324,
+      "y": 2145.8223
+    }
+  ]
+}

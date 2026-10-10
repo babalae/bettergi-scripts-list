@@ -1,0 +1,96 @@
+{
+  "info": {
+    "name": "原海异种19-伊黎耶林区南02",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3374.0,
+      "y": 3287.61,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 3340.0,
+      "y": 3286.61,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 3311.5,
+      "y": 3289.5,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": 3297.25,
+      "y": 3276.25,
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3280.5,
+      "y": 3243.01,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3253.25,
+      "y": 3227.0,
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3212.5,
+      "y": 3249.74,
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 3189.88,
+      "y": 3250.75,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 9,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "target",
+      "x": 3160.5,
+      "y": 3287.11,
+      "action_params": ""
+    }
+  ]
+}

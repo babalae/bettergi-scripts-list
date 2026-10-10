@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "A00-塞洛海原（学习螃蟹技能）",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.50.0",
+    "tags": [],
+    "last_modified_time": 1755574896298,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4399.8906,
+      "y": 3083.4001,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4421.7334,
+      "y": 3081.2798,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack;wait(0.5);moveby(0,2285);wait(0.5);attack;click(middle)",
+      "type": "orientation"
+    },
+    {
+      "id": 3,
+      "x": 4413.1172,
+      "y": 3106.9414,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "attack;wait(0.5);moveby(0,2285);wait(0.5);attack;click(middle)"
+    },
+    {
+      "id": 4,
+      "x": 4390.1826,
+      "y": 3099.9868,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack;wait(0.5);moveby(0,2285);wait(0.5);attack",
+      "type": "orientation"
+    }
+  ]
+}

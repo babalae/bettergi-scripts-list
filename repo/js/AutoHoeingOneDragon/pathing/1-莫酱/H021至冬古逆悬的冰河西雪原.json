@@ -1,0 +1,123 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "  路线信息：该路线预计用时42秒，包含以下怪物：1只兽怪敲打者、1只嵌合角熊、7只嵌合梭地兽、1只嵌合翼象兽。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1788459317298,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H021至冬古逆悬的冰河西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7467.7383,
+      "y": 8914.3115
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7501.7256,
+      "y": 8900.0996
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7522.4434,
+      "y": 8902.791
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7534.9854,
+      "y": 8906.627
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7639.0117,
+      "y": 8927.5537
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7635.2383,
+      "y": 8927.2676
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7635.2383,
+      "y": 8927.2676
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7645.4658,
+      "y": 8913.6426
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7689.0693,
+      "y": 8899.3213
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7704.0107,
+      "y": 8918.4463
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7704.0107,
+      "y": 8918.4463
+    }
+  ]
+}

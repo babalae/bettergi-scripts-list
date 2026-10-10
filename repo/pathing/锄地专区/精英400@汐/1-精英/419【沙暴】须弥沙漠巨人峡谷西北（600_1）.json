@@ -1,0 +1,69 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时65秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只遗迹重机。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756152217373,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "419【沙暴】须弥沙漠巨人峡谷西北（600_1）",
+    "tags": [
+      "沙暴"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5485.2217,
+      "y": -1240.5073
+    },
+    {
+      "action": "log_output",
+      "action_params": "此地有沙暴必摔死1次,无法解决",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": 5473.3096,
+      "y": -1220.835
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5473.3096,
+      "y": -1220.835
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5498.458,
+      "y": -1095.1597
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 5498.458,
+      "y": -1095.1597
+    }
+  ]
+}

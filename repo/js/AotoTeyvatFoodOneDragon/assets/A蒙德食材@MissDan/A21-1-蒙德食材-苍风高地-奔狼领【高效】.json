@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个螃蟹；1个金鱼草；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762332931783,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A21-1-蒙德食材-苍风高地-奔狼领【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -521.3164,
+      "y": 2181.6257
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -525.5,
+      "y": 2198.9424
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -524.9492,
+      "y": 2236.2314
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -525.8359,
+      "y": 2229.0786
+    }
+  ]
+}

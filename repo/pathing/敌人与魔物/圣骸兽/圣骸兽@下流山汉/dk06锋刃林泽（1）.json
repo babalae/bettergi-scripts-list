@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "dk06锋刃林泽（1）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "下流山汉",
+        "links": "https://github.com/vulgar-rustic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6060.06,
+      "y": 855.37,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 6030.7,
+      "y": 837.55,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 5989.22,
+      "y": 812.43,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(5),click",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 5989.22,
+      "y": 812.43,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个薄荷；2个莲蓬；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789025616888,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B27-2-璃月食材-珉林-渌华池【稀有】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 526.5098,
+      "y": 106.8027
+    },
+    {
+      "action": "combat_script",
+      "action_params": "j,wait(0.2),j,wait(4.5)",
+      "id": 2,
+      "locked": true,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 528.873,
+      "y": 104.7529
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 521.4629,
+      "y": 90.0884
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 506.1885,
+      "y": 52.2178
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 515.916,
+      "y": 45.998
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 518.8721,
+      "y": 30.0361
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 524.4258,
+      "y": 20.0054
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 526.71,
+      "y": 17.1279
+    }
+  ]
+}

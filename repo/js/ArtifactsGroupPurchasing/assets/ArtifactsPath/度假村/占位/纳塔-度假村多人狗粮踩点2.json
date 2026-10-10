@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765366141260,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔-度假村多人狗粮踩点2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 13977.25390625,
+      "y": 468.34619140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13980.2783203125,
+      "y": 468.6435546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.4)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 13982.29296875,
+      "y": 463.09814453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(0.9),keyup(VK_SPACE),keydown(w),wait(0.2),keypress(e),wait(1.7),keypress(e),wait(1.2)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14034.53125,
+      "y": 459.5859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 14034.53125,
+      "y": 459.5859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14032.1982421875,
+      "y": 450.791015625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.2),dash,wait(0.5),keyup(w),wait(1.5)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14031.06640625,
+      "y": 440.19580078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 14031.06640625,
+      "y": 440.19580078125
+    }
+  ]
+}

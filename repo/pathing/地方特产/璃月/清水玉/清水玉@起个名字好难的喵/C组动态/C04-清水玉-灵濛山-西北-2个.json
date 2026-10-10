@@ -1,0 +1,61 @@
+{
+  "info": {
+    "name": "C04-清水玉-灵濛山-西北-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2145.66,
+      "y": 2412.94
+    },
+    {
+      "id": 2,
+      "x": 2231.32,
+      "y": 2297.98,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "3000"
+    },
+    {
+      "id": 3,
+      "x": 2232.22,
+      "y": 2299.65,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2222.14,
+      "y": 2305.58,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 2226.09,
+      "y": 2300.65,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "pick_around",
+      "action_params": "3"
+    }
+  ]
+}

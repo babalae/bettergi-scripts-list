@@ -1,0 +1,184 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767163524359,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "兽肉3-06-柴薪之丘东-2肉×5+1肉×1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8671.1943,
+      "y": -1269.3872
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8670.3105,
+      "y": -1269.8857
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2800",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8633.7529,
+      "y": -1328.0107
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8619.9062,
+      "y": -1341.2754
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8592.9385,
+      "y": -1348.2153
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8588.0293,
+      "y": -1349.7871
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8588.1367,
+      "y": -1349.209
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8584.2793,
+      "y": -1367.8374
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(4),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8559.6836,
+      "y": -1362.2412
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8546.0312,
+      "y": -1354.3652
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8543.5439,
+      "y": -1351.5786
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8541.6152,
+      "y": -1354.5625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8543.7812,
+      "y": -1334.4824
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8537.6289,
+      "y": -1312.6294
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3.5),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8530.4629,
+      "y": -1304.6338
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8510.9629,
+      "y": -1304.6152
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8506.6074,
+      "y": -1308.9141
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1),keypress(m)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8503.5605,
+      "y": -1305.4321
+    }
+  ]
+}

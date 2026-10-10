@@ -1,0 +1,126 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1、砂糖行走位，且队伍里带着绮良良或埃洛伊。别带双风跑图；2、不需要生存位，生存位放技能容易惊动鸟；3、运行其它地图追踪会吓跑这里的鸟，建议优先运行此追踪；4、杀死的鸟在12小时后刷新，被吓跑的鸟0点或12点刷新，1肉鸟和2肉鸟每日上限各200只。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765938936968,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "禽肉6-6-纳塔奥奇卡-2肉×4",
+    "tags": [
+      "砂糖",
+      "禽肉",
+      "绮良良",
+      "埃洛伊"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10067.51,
+      "y": -216.77
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(10.5),attack(0.5),wait(5)",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10108.8,
+      "y": -219.13
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10114.1,
+      "y": -218.48
+    },
+    {
+      "action": "combat_script",
+      "action_params": "砂糖 e",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10119.75,
+      "y": -220.15
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10127.52,
+      "y": -221.58
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10122.7,
+      "y": -218.41
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10128.33,
+      "y": -219.44
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10122.46,
+      "y": -216.13
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10129.6,
+      "y": -222.32
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10124.22,
+      "y": -227.33
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10123.96,
+      "y": -224.2173
+    }
+  ]
+}

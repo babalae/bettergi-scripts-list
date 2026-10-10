@@ -1,0 +1,113 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "云闲vsv"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758426189994,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "钥匙是易丢品-2-3",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1414.0546875,
+      "y": 1258.63037109375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1422.056640625,
+      "y": 1258.0732421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1436.298828125,
+      "y": 1250.98681640625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1438.447265625,
+      "y": 1249.08349609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1439.005859375,
+      "y": 1249.146484375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1441.91796875,
+      "y": 1249.9091796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "climb",
+      "type": "target",
+      "x": -1446.10546875,
+      "y": 1250.7197265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1445.990234375,
+      "y": 1249.66943359375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2),keypress(F)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1446.2109375,
+      "y": 1252.74560546875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1445.990234375,
+      "y": 1249.66943359375
+    }
+  ]
+}
