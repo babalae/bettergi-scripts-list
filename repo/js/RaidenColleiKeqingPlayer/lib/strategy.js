@@ -20,7 +20,8 @@
   }
   function eligible(s,m){
     const out=[],a=s.active,c=s.characters[a],n=T.total(s.dice);
-    const add=x=>{if(!(m.uncertainActions||[]).includes(T.actionKey(x)))out.push(x);};
+    const add=x=>{if(!(m.uncertainActions||[]).includes(T.actionKey(x)) &&
+      (x.type!=="card" || T.cardLegal(s,x,m)))out.push(x);};
     for(const skill of ["Q","E","NA"])if(T.skillLegal(s,{who:a,skill},m))add({type:"skill",who:a,skill});
     for(let target=0;target<3;target++)if(target!==a && T.alive(s.characters[target]) &&
       T.payment(s.dice,{any:m.freeSwitch?0:1},T.team[target].element)) {
@@ -321,7 +322,7 @@
       frontier=next.filter(x=>!x.leaf).slice(0,width);if(!frontier.length)break;
     }
     if(!best || best.value<=.08 && T.enemyCount(best.state)!==0)return {action:null,expanded};
-    return {action:best.path[0],sequence:best.path,value:best.value,expanded};
+    return {action:best.path[0],sequence:best.path,value:best.value,expanded,terminal:T.enemyCount(best.state)===0};
   }
   function needProbe(s,m){
     if(!["shatterbolt","sharpkernel"].includes(m.thundergrassSupport) || s.quicken?.known)return null;
@@ -341,7 +342,7 @@
     const probe=needProbe(s,m);if(probe)return probe;
     const p=plan(s,m);
     if(p.action)return {...p.action,score:Math.round(p.value*10),planning:{depth:6,expanded:p.expanded,
-      value:Number(p.value.toFixed(3)),sequence:p.sequence.map(a=>T.actionKey(a))},
+      value:Number(p.value.toFixed(3)),sequence:p.sequence.map(a=>T.actionKey(a)),terminal:p.terminal===true},
       reason:"比较出牌/调和/切人/技能组合，选择当前可核实收益最高的首步"};
     return legacyChoose(s,m);
   };

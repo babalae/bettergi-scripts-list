@@ -57,6 +57,31 @@
         /^(初始手牌|请选择要替换的手牌|确定|取消|出战角色|回合结束|元素调和)$/.test(t)) return null;
     return { index, id: "unsupported:" + t, name, supported: false };
   }
+  // Shared native-play contract. Strategic value remains in strategy.js;
+  // observation/payment/target legality is identical for planning and input.
+  function cardInputError(s, a, m) {
+    const c=byId[a.id];
+    if(!c)return "未支持的卡牌禁止出牌";
+    if(c.type==="weapon" && (a.target!==c.weaponTarget || m.weapons[a.target]))
+      return "武器目标不适配或已有武器，禁止装备";
+    if(a.id==="lost" && (m.defeatRound!==m.round || m.lostUsedRound===m.round))
+      return "本大爷需要本轮阵亡且本轮尚未使用";
+    if(a.id==="edict" && m.legendUsed)return "秘传牌本局已使用";
+    if(["penance","talent"].includes(a.id) && (a.target!==(a.id==="penance"?2:1) ||
+        s.active!==a.target || s.characters[a.target]?.frozen))return "天赋出战角色/技能可用性不符";
+    if(a.id==="wedge" && (a.target!==2 || s.characters[2]?.frozen))
+      return "雷楔目标/技能可用性不符";
+    if(a.target!==null && (!Number.isInteger(a.target) || !alive(s.characters?.[a.target])))
+      return "目标角色不可用";
+    if(["weapon","artifact","food","wedge","talent","legend"].includes(c.type) &&
+        a.target===null)return "目标角色不可用";
+    if(c.type==="food" && m.food[a.target])return "目标角色本轮已食用料理";
+    if(!Number.isInteger(a.index) || s.hand?.[a.index]?.id!==a.id ||
+        !handCardKnown(s.hand[a.index]))return "执行前重新核对卡名失败";
+    if(!payment(s.dice,c.cost,team[s.active]?.element))return "卡牌费用无法支付";
+    return null;
+  }
+  function cardLegal(s,a,m) { return a.type==="card" && cardInputError(s,a,m)===null; }
   function handCardKnown(h) {
     if (!h || typeof h.id !== "string") return false;
     if (byId[h.id]) return h.supported !== false;
@@ -681,7 +706,7 @@
     return "shatterbolt";
   }
   root.TCG = { team, cards, byId, norm, identify, observedCard, handCardKnown, characterName, total, size, payment, rerollPlan,
-    known, alive, freshMemory, nextRound, OpeningFlow, freshActionBoard, skillCost, skillLegal, intent, survivorIntent, followupReachable, switchPreparationReachable, replacement, noteBoard, tuningPlan, legalState, choose, verify, commit, emptyHandEffect, diceOrder,
+    known, alive, freshMemory, nextRound, OpeningFlow, freshActionBoard, skillCost, skillLegal, cardLegal, cardInputError, intent, survivorIntent, followupReachable, switchPreparationReachable, replacement, noteBoard, tuningPlan, legalState, choose, verify, commit, emptyHandEffect, diceOrder,
     indexedHand, handPlan, verifyResynchronized, actionKey, deferUncertain, removalEffect, blessingChoice,boardKey,burnableHand,
     actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining };
 })(globalThis);

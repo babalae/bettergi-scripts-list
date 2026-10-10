@@ -9,6 +9,86 @@
     10: [570, 690, 810, 930, 1050, 1170, 1290, 1410, 1530, 1650]
   };
   const charX = [750, 960, 1175];
+  function costMarkerLayout(rects) {
+    if (
+      !rects.length ||
+      rects.some(
+        (r) =>
+          ![r.x, r.y, r.w, r.h].every(Number.isFinite) ||
+          r.w !== 10 ||
+          r.h !== 30 ||
+          r.x < 450 ||
+          r.x > 1750 ||
+          r.y < 750 ||
+          r.y > 920,
+      )
+    )
+      return null;
+    const groups = [];
+    for (const r of rects.slice().sort((a, b) => a.x - b.x || a.y - b.y)) {
+      const near = groups.find((g) => Math.abs(r.x - g[0].x) <= 14 && Math.abs(r.y - g[0].y) <= 10);
+      if (near) near.push(r);
+      else groups.push([r]);
+    }
+    // FindMulti has no confidence scalar. Deterministic rectangle-group means
+    // keep this identical to saved-pixel validation, without invented scores.
+    const marks = groups.map((g) => ({
+        x: g.reduce((s, m) => s + m.x, 0) / g.length,
+        y: g.reduce((s, m) => s + m.y, 0) / g.length,
+      })),
+      layouts = new Map();
+    for (const seed of marks) {
+      const row = marks.filter((m) => Math.abs(m.y - seed.y) <= 35).sort((a, b) => a.x - b.x),
+        n = row.length;
+      if (
+        !handX[n] ||
+        row.some((m, i) => Math.abs(m.x + 103 - handX[n][i]) > 32) ||
+        row.some((m, i) => i > 0 && m.x - row[i - 1].x < 75) ||
+        Math.max(...row.map((m) => m.y)) - Math.min(...row.map((m) => m.y)) > 35
+      )
+        continue;
+      layouts.set(JSON.stringify(row.map((m) => [m.x, m.y])), {
+        count: n,
+        markers: row.map((m) => ({ x: m.x, y: m.y })),
+        points: row.map((m) => m.x + 103),
+      });
+    }
+    return layouts.size === 1 ? [...layouts.values()][0] : null;
+  }
+  function costDigitRows(rows) {
+    // Repeated zeroes are separate rectangles. Never deduplicate by text,
+    // normalize O/D to 0/1, or interpret any cost value as a card identity.
+    return rows
+      .filter(
+        (r) =>
+          /^\d{1,2}$/.test(r.text) &&
+          [r.x, r.y, r.w, r.h].every(Number.isFinite) &&
+          r.w > 0 &&
+          r.h > 0,
+      )
+      .map((r) => ({ value: Number(r.text), x: r.x + r.w / 2, y: r.y + r.h / 2 }));
+  }
+  function costNumbersAt(marker, numbers) {
+    return numbers.filter(
+      (r) => Math.abs(r.x - marker.x - 28) <= 16 && Math.abs(r.y - marker.y - 15) <= 18,
+    );
+  }
+  function costHandSample(layout, numbers) {
+    if (!layout) return null;
+    const assigned = layout.markers.map((m) => costNumbersAt(m, numbers));
+    if (
+      assigned.some((a) => a.length !== 1) ||
+      new Set(assigned.map((a) => a[0])).size !== numbers.length ||
+      numbers.length !== layout.count
+    )
+      return null;
+    return {
+      count: layout.count,
+      points: layout.points.slice(),
+      markerYs: layout.markers.map((m) => m.y),
+      costs: assigned.map((a) => a[0].value),
+    };
+  }
   function handLayoutCount(edges) {
     // Entire low-count layout, not a matching subset of a larger hand. Extra
     // interior rim matches are harmless; any edge outside the fan rejects it.
@@ -57,6 +137,11 @@
     if (point[0] >= 1920 || point[1] >= 1080) throw new Error("鼠标坐标取整后超出1920×1080");
     return point;
   }
+  function boardDifferences(before, after) {
+    const fields={active:s=>s.active,dice:s=>TCG.diceOrder.map(e=>s.dice?.[e]||0),
+      own:s=>s.characters,enemy:s=>s.enemies,quicken:s=>s.quicken||null};
+    return Object.entries(fields).filter(([,read])=>JSON.stringify(read(before))!==JSON.stringify(read(after))).map(([name])=>name);
+  }
   class BetterGIHost {
     constructor(options) {
       this.options = options;
@@ -88,6 +173,8 @@
       this.frameMemo = null;
       this.metrics = {frames:0,captureMs:0,frameWorkMs:0,ocrCalls:0,ocrMs:0,memoHits:0};
       this.inputRevision = 0;
+      this.lastCostSample = null;
+      this.handPositionProof = null;
       this.lastObservedAt = 0;
       this.lastObservedRevision = -1;
       this.consumptionReceipt = null;
@@ -95,6 +182,7 @@
       file.createDirectory("logs");
     }
     clickAt(x, y) {
+      this.handPositionProof=null;
       const point = mousePoint(x, y);
       this.boardReady = false;
       click(point[0], point[1]);
@@ -354,23 +442,113 @@
       return { name, detail, identity: candidates.length === 1 ? candidates[0] : null };
     }
     async requireSkillPreview(action, feeProbe=false, readFee=false) {
-      let stable = 0, last = null, fee = null, feeStable = 0;
+      let stable = 0, last = null, fee = null, feeStable = 0, absent = true, missing = true;
       for (let attempt = 0; attempt < 6; attempt++) {
         last = this.frame(f => ({ ...this.skillPreviewIn(f), phase: this.phaseIn(f),
           fee: readFee && !feeProbe && ["E","Q"].includes(action.skill) ? this.skillFeeIn(f,action) : null }));
         const matched = last.identity?.who === action.who && last.identity?.skill === action.skill &&
           ["unknown", "board"].includes(last.phase.phase) && last.phase.turn !== "enemy";
         this.trace("skill-preview", { attempt, matched, ...last });
+        absent=absent && this.emptySkillPreview(last);
+        missing=missing && (this.emptySkillPreview(last) || this.characterSkillPreview(last));
         stable = matched ? stable + 1 : 0;
         feeStable = matched && last.fee!==null ? last.fee===fee ? feeStable+1 : 1 : 0;
         fee = last.fee;
         if (stable >= 2) { if(!feeProbe)await this.requireNoWarning();
-          const key=action.who+":"+action.skill;
-          if(!this.previewEvidence.has(key)){this.previewEvidence.add(key);this.captureEvidence("skill-preview-"+action.who+"-"+action.skill);}
           return { fee:feeStable>=2?fee:null }; }
         if (attempt < 5) await sleep(250);
       }
-      throw new Error("技能确认页未核实目标技能：" + (last?.name || "空标题"));
+      const error=new Error("技能确认页未核实目标技能：" + (last?.name || "空标题"));
+      if(absent)error.code="TCG_SKILL_PREVIEW_ABSENT";
+      else if(missing)error.code="TCG_SKILL_PREVIEW_CHARACTER";
+      throw error;
+    }
+    emptySkillPreview(p) {
+      return (
+        !p.identity &&
+        ![p.name, p.nativeName, p.enlargedName, p.detail, p.aliasDetail].some((v) =>
+          TCG.norm(v || ""),
+        ) &&
+        p.phase?.phase === "board" &&
+        p.phase.turn === "user"
+      );
+    }
+    characterSkillPreview(p) {
+      const names = [p.name, p.nativeName, p.enlargedName].map(v => TCG.norm(v || ""));
+      const named = names.filter(Boolean);
+      return !p.identity && !TCG.norm(p.detail || "") && !TCG.norm(p.aliasDetail || "") &&
+        named.length > 0 && named.every(name => name === named[0] && TCG.characterName(name) >= 0) &&
+        p.phase?.phase === "board" && p.phase.turn === "user";
+    }
+    characterOverviewIn(f) {
+      // Shared native character panel, adapted from Iansan/Gaming/Sayu 0.1.9.
+      // Inspect only after a failed preview, never on a normal skill path.
+      const name = this.ocr(f, [311, 115, 341, 50]);
+      const heading = this.ocr(f, [740, 123, 280, 44]);
+      return TCG.characterName(name) >= 0 &&
+        ["角色装备", "角色状态", "阵营出战状态"].includes(TCG.norm(heading)) ? {name, heading} : null;
+    }
+    async requireOpenedSkill(action, before, x, readFee = false, feeProbe = false) {
+      try {
+        return await this.requireSkillPreview(action, feeProbe, readFee);
+      } catch (error) {
+        if (!["TCG_SKILL_PREVIEW_ABSENT", "TCG_SKILL_PREVIEW_CHARACTER"].includes(error.code)) throw error;
+        let overview = null;
+        if (error.code === "TCG_SKILL_PREVIEW_CHARACTER") {
+          overview = this.frame(f => {
+            const preview = {...this.skillPreviewIn(f), phase:this.phaseIn(f)};
+            if (!this.emptySkillPreview(preview) && !this.characterSkillPreview(preview)) return null;
+            const panel = this.characterOverviewIn(f);
+            if (panel && this.characterSkillPreview(preview) && TCG.characterName(panel.name) !==
+                TCG.characterName(preview.name || preview.nativeName || preview.enlargedName)) return null;
+            return panel;
+          });
+          if (!overview) throw error;
+          this.trace("skill-preview-overview", {...overview, feeProbe, recoveryLimit:1});
+          this.boardReady=false;await this.reset();
+        }
+        // Reopen only an absent first-click preview, never an already sent skill.
+        // Two fresh full boards must prove all resources/characters unchanged;
+        // a fresh empty-detail sample also guards against a late-arriving panel.
+        for (let sample = 0; sample < 2; sample++) {
+          let board;
+          try { board = this.board(); }
+          catch (unsettled) {
+            if (unsettled.code !== "TCG_DICE_RETRY") throw unsettled;
+            const changed = new Error("技能详情缺失且骰子未读清，重新观察而不补点");
+            changed.code = "TCG_STATE_REFRESH";
+            throw changed;
+          }
+          if (
+            board.phase !== "board" ||
+            board.turn !== "user" ||
+            !board.diceKnown ||
+            boardDifferences(before, board).length !== 0
+          ) {
+            const changed = new Error("技能详情缺失且牌桌已变化，重新观察而不补点");
+            changed.code = "TCG_STATE_REFRESH";
+            throw changed;
+          }
+          if (sample === 0) await sleep(300);
+        }
+        const stillEmpty = this.frame((f) => ({
+          ...this.skillPreviewIn(f),
+          phase: this.phaseIn(f),
+        }));
+        if (!this.emptySkillPreview(stillEmpty)) throw error;
+        await this.requireNoWarning();
+        this.trace("skill-preview-reopen", {
+          who: action.who,
+          skill: action.skill,
+          proof: overview ? "verified-overview-reset-two-unchanged-boards-and-empty-details" :
+            "two-unchanged-boards-and-empty-details",
+          feeProbe,
+          limit: 1,
+        });
+        this.clickAt(x, 957);
+        await sleep(1200);
+        return this.requireSkillPreview(action, feeProbe, readFee);
+      }
     }
     diceIn(f, roll = false, expectedRollCount = 8, actionLayout = false) {
       const inAction=roll && (actionLayout || expectedRollCount!==8);
@@ -560,7 +738,7 @@
     async probeSkill(action,before,memory) {
       if(action.who!==before.active)throw new Error("费用检视只能用于当前角色");
       const x={NA:1608,E:1716,Q:1824}[action.skill];
-      this.clickAt(x,957);await sleep(800);await this.requireSkillPreview(action,true);
+      this.clickAt(x,957);await sleep(800);await this.requireOpenedSkill(action,before,x,false,true);
       let fee=null,last=null,stable=0;
       for(let i=0;i<4;i++){
         const n=this.frame(f=>this.skillFeeIn(f,action));stable=n!==null&&n===last?stable+1:1;last=n;
@@ -589,6 +767,31 @@
       }
       });
     }
+    enlargedOcrRows(f, roi, scale) {
+      return this.memoFrame(f, "enlargedRows/" + roi.join(",") + "/" + scale, () => {
+        let crop = null,
+          resized = null,
+          region = null;
+        try {
+          crop = f.DeriveCrop(...roi);
+          resized = crop.SrcMat.Resize(
+            new OpenCvSharp.OpenCvSharp.Size(roi[2] * scale, roi[3] * scale),
+          );
+          region = new ImageRegion(resized, 0, 0);
+          return this.ocrRows(region, [0, 0, roi[2] * scale, roi[3] * scale]).map((r) => ({
+            text: r.text,
+            x: roi[0] + r.x / scale,
+            y: roi[1] + r.y / scale,
+            w: r.w / scale,
+            h: r.h / scale,
+          }));
+        } finally {
+          if (region) region.dispose();
+          else if (resized) resized.dispose();
+          if (crop) crop.dispose();
+        }
+      });
+    }
     hpAt(f, x, y) {
       // V4's detector returns no boxes for the native 58x40 HP ROIs.
       // Keep the native capture/coordinates; enlarge only the numeric crop.
@@ -607,6 +810,35 @@
       if(this.precisionBoard)return;
       this.precisionBoard=true;
       this.trace("board-recovery",{reason,hpROI:["x+2","y",56,40],hpScale:4,diceBadgeCrossCheck:true});
+    }
+    releasePrecisionBoard(reason) {
+      if (!this.precisionBoard) return;
+      this.precisionBoard = false;
+      this.trace("board-recovery-complete", { reason, nextHpScale: 3, diceBadgeCrossCheck: true });
+    }
+    normalHpProfileIn(f, characters, enemies) {
+      // Downgrade only when the ordinary crops independently reproduce the
+      // accepted HP and raised/lowered positions in this SAME native frame.
+      // Read only the accepted enemy layout, not all four layout candidates.
+      if (
+        !Array.isArray(characters) ||
+        characters.length !== 3 ||
+        !Array.isArray(enemies) ||
+        !enemyHpXs[enemies.length] ||
+        TCG.enemyCount({ enemies }) === null
+      )
+        return false;
+      const at = (x, raisedY, loweredY, c, raised) => {
+        if (c.dead === true) return true;
+        if (!TCG.alive(c) || typeof raised !== "boolean") return false;
+        const a = number(this.numericAt(f, [x + 8, raisedY, 44, 40], 3)),
+          b = number(this.numericAt(f, [x + 8, loweredY, 44, 40], 3));
+        return raised ? a === c.hp && b === null : b === c.hp && a === null;
+      };
+      return (
+        characters.every((c, i) => at(enemyHpXs[3][i], 600, 640, c, c.raised)) &&
+        enemies.every((c, i) => at(enemyHpXs[enemies.length][i], 170, 212, c, !c.active))
+      );
     }
     characterIn(f, who, enemy = false, enemyLayoutCount = this.options.enemyCount) {
       const count = enemy ? enemyLayoutCount : 3;
@@ -707,14 +939,16 @@
         const characters = [0, 1, 2].map(i => this.characterIn(f, i));
         const actives = characters.map((c, i) => c.raised && !c.dead ? i : -1).filter(i => i >= 0);
         const dice = this.diceIn(f);
-        const badgeCount=this.precisionBoard && phase.phase==="board" && phase.turn==="user" ? this.diceCountIn(f) : null;
+        const badgeCount=phase.phase==="board" && phase.turn==="user" ? this.diceCountIn(f) : null;
         if(badgeCount!==null && badgeCount!==TCG.total(dice.dice)) {
           this.trace("dice-count-mismatch",{badgeCount,templateCount:TCG.total(dice.dice),dice:dice.dice});
           const error=new Error("实际骰数徽标与元素模板不一致");
           error.code="TCG_DICE_RETRY";throw error;
         }
-        return { ...phase, pickSelection:phase.phase==="pick"?this.pickSelectionIn(f):null, characters, active: actives.length === 1 ? actives[0] : null,
-          enemies: this.enemiesIn(f), quicken:phase.phase==="board"?this.quickenIn(f):{known:false,charges:null},
+        const enemies=this.enemiesIn(f);
+        const normalHpReadable=this.precisionBoard ? this.normalHpProfileIn(f,characters,enemies) : true;
+        return { ...phase, normalHpReadable, pickSelection:phase.phase==="pick"?this.pickSelectionIn(f):null, characters, active: actives.length === 1 ? actives[0] : null,
+          enemies, quicken:phase.phase==="board"?this.quickenIn(f):{known:false,charges:null},
           dice: dice.dice, diceKnown: phase.phase === "board" && (TCG.total(dice.dice) > 0 || this.zeroDiceAllowed), hand: null };
       });
     }
@@ -785,42 +1019,208 @@
       if (this.handCache !== null) this.trace("hand-cache-invalidated", { reason, count: this.handCache.length });
       this.handCache = null;
       this.handCountHint = null;
+      this.handPositionProof = null;
     }
     acceptHand(hand, reason) {
       this.handCache = TCG.indexedHand(hand);
       this.trace("hand-cache-updated", { reason, count: this.handCache.length });
     }
+    costHandIn(f) {
+      return this.memoFrame(f, "costHand", () => {
+        const roi = [450, 750, 1310, 200];
+        const matches = [
+            ...this.matches(f, "hand_cost_neutral", roi, 0.9, false),
+            ...this.matches(f, "hand_cost_element", roi, 0.9, false),
+          ],
+          layout = costMarkerLayout(matches);
+        const unresolved = (reason, detail = {}) => {
+          const key = "hand-cost-unresolved:" + reason;
+          if (!this.previewEvidence.has(key)) {
+            this.previewEvidence.add(key);
+            const data = { reason, matches, layout, ...detail };
+            // Preserve the actual failed frame, not a later settled screenshot.
+            // At most one per failure kind per run; no normal-flow screenshots.
+            if (typeof file.writeImageSync === "function" && (f.srcMat || f.SrcMat))
+              try {
+                data.screenshotPath = this.path.replace(
+                  /\.log$/,
+                  "-cost-unresolved-" + this.snapshotNumber++ + ".png",
+                );
+                file.writeImageSync(data.screenshotPath, f.srcMat ?? f.SrcMat);
+              } catch (e) {
+                data.snapshotError = String(e.message || e);
+              }
+            this.trace("hand-cost-unresolved", data);
+          }
+          return null;
+        };
+        if (!layout) return unresolved("geometry");
+        const yy = Math.floor(
+          Math.max(750, Math.min(840, Math.min(...layout.markers.map((m) => m.y)) - 40)),
+        );
+        const numbers = costDigitRows(this.enlargedOcrRows(f, [470, yy, 1290, 110], 3));
+        let localRecoveryCalls = 0;
+        for (const m of layout.markers) {
+          const found = costNumbersAt(m, numbers);
+          if (found.length > 1) return unresolved("ambiguous-digit", { marker: m, numbers });
+          if (found.length === 1) continue;
+          // Only missing locations: at most three local crops on the SAME frame.
+          // No clicks, title expansion, guessed values, or unbounded ROI search.
+          let recovered = false;
+          for (const [dx, dy, w, h] of [
+            [0, -30, 60, 90],
+            [8, -18, 44, 68],
+            [-4, -30, 68, 90],
+          ]) {
+            const local = costNumbersAt(
+              m,
+              costDigitRows(
+                this.enlargedOcrRows(f, [Math.floor(m.x + dx), Math.floor(m.y + dy), w, h], 4),
+              ),
+            );
+            localRecoveryCalls++;
+            if (local.length > 1)
+              return unresolved("ambiguous-digit", { marker: m, numbers, local });
+            if (local.length === 1) {
+              numbers.push(local[0]);
+              recovered = true;
+              break;
+            }
+          }
+          if (!recovered)
+            return unresolved("missing-digit", { marker: m, numbers, localRecoveryCalls });
+        }
+        const sample = costHandSample(layout, numbers);
+        return sample
+          ? { ...sample, localRecoveryCalls }
+          : unresolved("unpaired-digit", { numbers });
+      });
+    }
+    handSample(f) {
+      this.lastCostSample = null;
+      const count = this.handCountIn(f);
+      return { count, cost: this.lastCostSample };
+    }
+    publishHandPositions(samples, count) {
+      this.handPositionProof = null;
+      if (samples.length < 2 || !this.handFanReady) return;
+      const [a, b] = samples.slice(-2),
+        p = a.cost,
+        q = b.cost;
+      if (
+        !p ||
+        !q ||
+        a.count !== count ||
+        b.count !== count ||
+        p.count !== count ||
+        q.count !== count ||
+        p.revision !== this.inputRevision ||
+        q.revision !== this.inputRevision ||
+        p.points.length !== count ||
+        q.points.length !== count ||
+        p.costs.length !== count ||
+        q.costs.length !== count ||
+        p.markerYs.length !== count ||
+        q.markerYs.length !== count ||
+        [p, q].some(
+          (s) => !Number.isFinite(s.at) || Date.now() - s.at < 0 || Date.now() - s.at > 5000,
+        ) ||
+        p.points.some(
+          (x, i) =>
+            !Number.isFinite(x) || !Number.isFinite(q.points[i]) || Math.abs(x - q.points[i]) > 8,
+        ) ||
+        p.markerYs.some(
+          (y, i) =>
+            !Number.isFinite(y) ||
+            !Number.isFinite(q.markerYs[i]) ||
+            Math.abs(y - q.markerYs[i]) > 8,
+        ) ||
+        p.costs.some((x, i) => x !== q.costs[i])
+      )
+        return;
+      this.handPositionProof = {
+        count,
+        points: q.points.slice(),
+        costs: q.costs.slice(),
+        revision: this.inputRevision,
+        at: q.at,
+      };
+      this.trace("hand-cost-proof", {
+        count,
+        points: q.points,
+        costs: q.costs,
+        stableReads: 2,
+        localRecoveryCalls: q.localRecoveryCalls,
+        additionalInputs: 0,
+      });
+    }
+    handPoints(count) {
+      const p = this.handPositionProof,
+        age = p ? Date.now() - p.at : Infinity;
+      return p &&
+        p.count === count &&
+        p.revision === this.inputRevision &&
+        age >= 0 &&
+        age <= 5000 &&
+        this.handFanReady
+        ? p.points.slice()
+        : (handX[count] || []).slice();
+    }
     handCountIn(f) {
+      this.lastCostSample = null;
       const counts = [];
-      for (let n = 5; n <= 10; n++) if (this.has(f, "num/Hand" + n, [1463, 700, 439, 124], 0.92)) counts.push(n);
-      if (counts.length > 1) throw new Error("手牌数量模板相互冲突");
+      for (let n = 5; n <= 10; n++)
+        if (this.has(f, "num/Hand" + n, [1463, 700, 439, 124], 0.92)) counts.push(n);
+      if (counts.length > 1) {
+        const error = new Error("手牌数量模板相互冲突：" + JSON.stringify(counts));
+        error.code = "TCG_HAND_RETRY";
+        throw error;
+      }
       if (counts.length === 1) return counts[0];
       const n = number(this.ocr(f, [1730, 700, 170, 124]));
-      if(n!==null && n<=10)return n;
-      if(!this.handFanReady)return null;
+      if (n !== null && n <= 10) return n;
+      if (!this.handFanReady) return null;
+      const cost = this.costHandIn(f);
+      if (cost) {
+        this.lastCostSample = { ...cost, revision: this.inputRevision, at: Date.now() };
+        return cost.count;
+      }
       // Grayscale rim gradient: usable-card gold glow must not change count.
-      return handLayoutCount(this.matches(f,"hand_rim",[500,900,1260,135],0.85,false).map(r=>r.x));
+      return handLayoutCount(
+        this.matches(f, "hand_rim", [500, 900, 1260, 135], 0.85, false).map((r) => r.x),
+      );
     }
     recordHandLayout(count) {
-      const key="hand-layout:"+count;
-      if(count>=1 && count<=4 && !this.previewEvidence.has(key)) {
-        this.captureEvidence("hand-layout-"+count);this.previewEvidence.add(key);
+      const key = "hand-layout:" + count;
+      if (count >= 1 && count <= 4 && !this.previewEvidence.has(key)) {
+        this.trace("hand-layout", { count });
+        this.previewEvidence.add(key);
       }
     }
     async handCount(expected = null) {
       this.requireHandObservation(this.phase(), "before-hand-expand");
-      if(!this.handFanReady)await this.expand();
-      const readCount = () => this.frame(f => {
-        // The fan's count badge is transient. Collect consecutive read-only
-        // count frames quickly; full phase OCR between them can outlive it.
-        // A fresh phase guard follows the bounded sampling BEFORE any input.
-        return this.handCountIn(f);
-      });
-      const reads = []; let previous = null;
-      for (let attempt = 0; attempt < 4; attempt++) {
-        const result = readCount(); reads.push(result);
+      if (!this.handFanReady) await this.expand();
+      const readCount = () =>
+        this.frame((f) => {
+          // The fan's count badge is transient. Collect consecutive read-only
+          // count frames quickly; full phase OCR between them can outlive it.
+          // A fresh phase guard follows the bounded sampling BEFORE any input.
+          return this.handSample(f);
+        });
+      const reads = [],
+        samples = [];
+      let previous = null;
+      for (let attempt = 0; attempt < 8; attempt++) {
+        const sample = readCount(),
+          result =
+            Number.isInteger(sample.count) && sample.count >= 0 && sample.count <= 10
+              ? sample.count
+              : null;
+        reads.push(result);
+        samples.push(sample);
         if (result !== null && result === previous) {
           this.requireHandObservation(this.phase(), "hand-count-resolved");
+          this.publishHandPositions(samples, result);
           if (this.emptyHandProven && result > 0) {
             this.emptyHandProven = false;
             this.invalidateHand("visible-cards-after-empty-hand");
@@ -830,20 +1230,27 @@
           return result;
         }
         previous = result;
-        if (attempt < 3) await sleep(120);
+        // Recycle/discount and drawn-card animations can outlast the transient
+        // badge. Keep the same raised fan and wait read-only, rather than
+        // immediately toggling it. The normal two-clean-frame path is unchanged.
+        if (attempt < 7) await sleep(attempt < 3 ? 120 : 300);
       }
       this.requireHandObservation(this.phase(), "hand-count-unresolved");
-      const knownCounts = [...new Set(reads.filter(n => n !== null))];
-      if (knownCounts.length > 1) throw new Error("手牌计数复读不稳定：" + JSON.stringify(reads));
-      if (knownCounts.length === 1) {
-        const error = new Error("手牌计数未得到连续证据：" + JSON.stringify(reads));
-        error.code = "TCG_HAND_RETRY"; throw error;
+      const knownCounts = [...new Set(reads.filter((n) => n !== null))];
+      if (knownCounts.length > 0) {
+        const error = new Error(
+          (knownCounts.length > 1 ? "手牌计数复读不稳定：" : "手牌计数未得到连续证据：") +
+            JSON.stringify(reads),
+        );
+        error.code = "TCG_HAND_RETRY";
+        throw error;
       }
       // Missing badge/rim evidence is never a guessed zero or a reason to
       // click candidate positions. Retry read-only on the same raised fan.
       if (this.emptyHandProven) return 0;
       const error = new Error("无法确认手牌数量");
-      error.code = "TCG_HAND_RETRY"; throw error;
+      error.code = "TCG_HAND_RETRY";
+      throw error;
     }
     async readHand(expected = this.handCountHint, evidence = null) {
       // Evidence passed here was obtained in this very observation, not an
@@ -858,10 +1265,14 @@
       }
       this.handScanSerial++;
       this.trace("hand-scan", { count:n, expected, reusedCount:!!evidence });
+      const points=this.handPoints(n);
       for (let i = 0; i < n; i++) {
-        const raw = await this.titleAt(handX[n][i], 945, false, false, "card", null, true);
+        const raw = await this.titleAt(points[i], 945, false, false, "card", null, true);
         const c = TCG.observedCard(raw, i);
-        if (!c) throw new Error("第 " + (i + 1) + " 张手牌卡名无法可靠读取：" + (raw || "OCR为空"));
+        if (!c) {
+          const error=new Error("第 " + (i + 1) + " 张手牌卡名无法可靠读取：" + (raw || "OCR为空"));
+          error.code="TCG_HAND_RETRY";throw error;
+        }
         hand.push(c);
       }
       this.requireHandObservation(this.phase(), "before-hand-reset");
@@ -875,6 +1286,41 @@
         return await this.readHand(plan.expectedCount ?? null);
       }
       if (plan?.mode === "remove") {
+        const proof = plan.preResetEvidence,
+          receipt = this.consumptionReceipt;
+        const age = proof ? Date.now() - proof.at : Infinity;
+        if (
+          proof &&
+          receipt?.inputSent &&
+          plan.action?.type === "card" &&
+          proof.beforeKey === TCG.boardKey(plan.before) &&
+          proof.id === plan.action.id &&
+          proof.index === plan.action.index &&
+          proof.target === (plan.action.target ?? null) &&
+          proof.beforeKey === receipt.beforeKey &&
+          proof.id === receipt.id &&
+          proof.index === receipt.index &&
+          proof.target === receipt.target &&
+          proof.count === plan.hand.length &&
+          proof.stableReads >= 2 &&
+          proof.revision === this.inputRevision &&
+          age >= 0 &&
+          age <= 5000 &&
+          !this.handFanReady &&
+          !this.handNeedsReset
+        ) {
+          const count = this.frame((f) => this.handCountIn(f));
+          if (count === null || count === proof.count) {
+            this.trace("hand-incremental", {
+              mode: "remove",
+              count: proof.count,
+              proof: "two-native-counts-before-single-reset",
+            });
+            return TCG.indexedHand(plan.hand);
+          }
+          this.invalidateHand("unexpected-count-after-pre-reset-proof");
+          return await this.readHand();
+        }
         if (plan.effectProven || plan.paidProven) {
           // The settled board proves consumption independently. A visible count
           // disagreement still forces a real scan; unreadable badge is not zero.
@@ -918,32 +1364,42 @@
       return await this.readHand();
     }
     async settledBoard(pendingAction = false) {
-      let previousKey = "", last = null;
-      // Official 0.66 WaitForMyTurn also requires repeated observations before
-      // acting. Here exact HP/energy/active/dice must agree, not just an icon.
+      let previousKey = "", previousNormalHp = false, hpGapReads = 0, last = null;
       for (let attempt = 0; attempt < 12; attempt++) {
-        // board(true) reads phase and board from ONE frame, and stops before
-        // reading resources on any non-user page. No preceding duplicate phase OCR.
-        try { last=this.board(true); } catch(e) {
-          if(e.code!=="TCG_DICE_RETRY")throw e;
-          previousKey="";this.trace("board-settle-wait",{attempt,error:String(e.message||e)});await sleep(400);continue;
+        try { last = this.board(true); } catch (e) {
+          if (e.code !== "TCG_DICE_RETRY") throw e;
+          previousKey = ""; previousNormalHp = false; hpGapReads = 0;
+          this.trace("board-settle-wait", {attempt, domain:"dice", error:String(e.message || e)});
+          if (attempt < 11) await sleep(400);
+          continue;
         }
-        if(last.result || ["pick","roll","settlement","choice"].includes(last.phase) || last.turn==="enemy")return {...last,hand:null};
-        if(last.phase!=="board" || last.turn!=="user") { previousKey=""; await sleep(400); continue; }
-        const valid=TCG.legalState({...last,hand:[]});
-        let budgetValid=true;
-        if(!pendingAction)try{this.requireDiceBudget(last);}catch(e){budgetValid=false;}
-        const key=JSON.stringify([last.phase,last.turn,last.active,last.characters,last.dice,last.enemies,last.quicken||null]);
-        if(valid && budgetValid && key===previousKey)return {...last,nativeStability:{reads:2,
-          key:TCG.boardKey({...last,hand:[]}),inputRevision:this.inputRevision}};
-        previousKey=valid && budgetValid?key:"";
-        this.trace("board-settle-wait",{attempt,phase:last.phase,turn:last.turn,valid,budgetValid});
-        if(attempt===2) {this.usePrecisionBoard("three-unsettled-board-reads");previousKey="";}
-        if(attempt<11)await sleep(400);
+        if (last.result || ["pick", "roll", "settlement", "choice"].includes(last.phase) || last.turn === "enemy") {
+          this.releasePrecisionBoard("scene-exit");
+          return {...last, hand:null};
+        }
+        const userBoard = last.phase === "board" && last.turn === "user";
+        const hpGap = userBoard && [...(last.characters || []), ...(last.enemies || [])].some(
+          c => c?.dead !== true && (!Number.isInteger(c?.hp) || c.hp < 1 || c.dead !== false));
+        hpGapReads = hpGap ? hpGapReads + 1 : 0;
+        const valid = userBoard && TCG.legalState({...last, hand:[]}) && TCG.enemyCount(last)!==null;
+        let budgetValid = true;
+        if (!pendingAction && userBoard) try { this.requireDiceBudget(last); } catch (e) { budgetValid = false; }
+        const key = JSON.stringify([last.phase,last.turn,last.active,last.characters,last.dice,last.enemies,last.quicken || null]);
+        if (valid && budgetValid && key === previousKey) {
+          if (previousNormalHp && last.normalHpReadable === true) this.releasePrecisionBoard("two-stable-normal-hp-profiles");
+          return {...last,nativeStability:{reads:2,key:TCG.boardKey({...last,hand:[]}),inputRevision:this.inputRevision}};
+        }
+        previousKey = valid && budgetValid ? key : "";
+        previousNormalHp = valid && budgetValid && last.normalHpReadable === true;
+        this.trace("board-settle-wait", {attempt,phase:last.phase,turn:last.turn,valid,budgetValid,hpGapReads});
+        if (hpGapReads === 3 && !this.precisionBoard) {
+          this.usePrecisionBoard("three-consecutive-user-hp-gaps");
+          previousKey = ""; previousNormalHp = false;
+        }
+        if (attempt < 11) await sleep(400);
       }
-      this.usePrecisionBoard("board-retry-window-exhausted");
-      const error=new Error("行动页12次读取未稳定");
-      error.code="TCG_BOARD_RETRY";throw error;
+      const error = new Error("行动页12次读取未稳定");
+      error.code = "TCG_BOARD_RETRY"; throw error;
     }
     requireDiceBudget(state) {
       if (this.expectedDice !== null && state.phase === "board" && state.turn === "user") {
@@ -1004,6 +1460,16 @@
           if(e.code === "TCG_OBSERVATION_INTERRUPTED") return { ...e.phase, hand: null };
           if(e.code!=="TCG_HAND_RETRY" || attempt===2)throw e;
           this.trace("hand-read-deferred",{attempt,error:String(e.message||e)});
+          if(attempt===1) {
+            try {this.requireHandObservation(this.phase(),"before-hand-reanchor");}
+            catch(interrupted) {
+              if(interrupted.code==="TCG_OBSERVATION_INTERRUPTED")return {...interrupted.phase,hand:null};
+              throw interrupted;
+            }
+            this.invalidateHand("two-unresolved-hand-observations");
+            this.boardReady=false;await this.reset();await this.expand(false);
+            this.trace("hand-reanchored",{attempt,maximumPerObservation:1,replayedAction:false});
+          }
           await sleep(400);
         }
       }
@@ -1032,7 +1498,7 @@
         const key = JSON.stringify([last.phase, last.turn, last.active, last.dice, last.characters,last.enemies,last.quicken||null]);
         let budgetValid=true;
         if(!pendingAction)try{this.requireDiceBudget(state);}catch(e){budgetValid=false;}
-        if (TCG.legalState(state) && key === previousKey) {
+        if (TCG.legalState(state) && TCG.enemyCount(state)!==null && key === previousKey) {
           if (!pendingAction && (!budgetValid || resync)) {
             this.adoptObservedState(state, "observation-resync");
             this.trace("state-resynced", { reason:"observation-budget", after:state });
@@ -1050,7 +1516,6 @@
       this.trace("board-unstable", { last, pendingAction });
       // Preserve the already-read hand: another unstable board must NOT trigger
       // another hand scan. Recovery still requires a complete two-frame board.
-      this.usePrecisionBoard("post-hand-board-unstable");
       const settled=await this.settledBoard(true);
       if(settled.phase!=="board" || settled.turn!=="user")return {...settled,hand:null};
       const recovered={...settled,hand,...(this.pendingHandEvidence?{handEvidence:this.pendingHandEvidence}:{})};
@@ -1129,6 +1594,57 @@
       // never read/toggle opening cards. Existing manual selections stay intact.
       if (diagnostic) { this.trace("opening-skipped", { policy:"use-dealt-hand", diagnostic:true }); return; }
       await this.confirmOpening({ policy:"confirm-current", reason:"use-dealt-hand", selectedByScript:[] });
+    }
+    async removalEvidenceBeforeReset(plan) {
+      const r = this.consumptionReceipt,
+        a = plan?.action,
+        b = plan?.before;
+      // Ordinary consumption only. Draw/recycle/talent and the final-card
+      // empty-fan branch keep their existing independent native proofs.
+      if (
+        plan?.mode !== "remove" ||
+        plan.hand.length === 0 ||
+        a?.type !== "card" ||
+        !r?.inputSent ||
+        r.beforeKey !== TCG.boardKey(b) ||
+        r.id !== a.id ||
+        r.index !== a.index ||
+        r.target !== (a.target ?? null) ||
+        !this.handFanReady
+      )
+        return null;
+      const revision = this.inputRevision;
+      let stable = 0,
+        last = null;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        const p = this.frame((f) => {
+          const phase = this.phaseIn(f);
+          return {
+            ...phase,
+            count: phase.phase === "board" && phase.turn === "user" ? this.handCountIn(f) : null,
+          };
+        });
+        if (p.phase !== "board" || p.turn !== "user" || this.inputRevision !== revision)
+          return null;
+        stable =
+          p.count === plan.hand.length && p.count === last
+            ? stable + 1
+            : p.count === plan.hand.length
+              ? 1
+              : 0;
+        last = p.count;
+        if (attempt === 0) await sleep(120);
+      }
+      this.trace("hand-pre-reset-proof", {
+        id: a.id,
+        count: last,
+        expected: plan.hand.length,
+        stableReads: stable,
+        additionalInputs: 0,
+      });
+      return stable >= 2
+        ? { ...r, count: last, stableReads: stable, at: Date.now(), revision }
+        : null;
     }
     paidRemovalProven(plan,state) {
       // Only ordinary paid statuses/equipment, never free, drawing, choice,
@@ -1363,13 +1879,25 @@
       await this.requireNoWarning();
       const type = TCG.byId[action.id].type;
       const foodPage = this.frame(f => ({banner:this.ocr(f,[740,510,450,65]),phase:this.phaseIn(f)}));
-      const targetedBanners={legend:["请选择一个角色","对所选角色生效"],
+      const targetedBanners={food:["请选择一个角色食用料理"],legend:["请选择一个角色","对所选角色生效"],
         artifact:["请选择要装备圣遗物的角色","请选择一个角色装备圣遗物","请选择一个角色","对所选角色生效"],
         weapon:["请选择要装备武器的角色","请选择一个角色装备武器","请选择一个角色","对所选角色生效"]};
+      if(type==="food"&&TCG.norm(foodPage.banner)==="请选择一个角色食用料理"&&
+          (foodPage.phase.phase!=="unknown"||foodPage.phase.turn!=="none"))throw new Error("料理选人页面未核实");
       if(targetedBanners[type]?.includes(TCG.norm(foodPage.banner)) && foodPage.phase.phase==="unknown" && foodPage.phase.turn==="none"){
         if(!Number.isInteger(action.target)||action.target<0||action.target>2)throw new Error("卡牌目标不合法");
+        const layout=type==="food"?"food":"targeted";
+        if(type==="food") {
+          // A visible banner alone may arrive before the selection input layer.
+          // Observe readiness twice; do not drag or click the character again.
+          if(before && !TCG.alive(before.characters?.[action.target]))throw new Error("料理目标未核实");
+          await sleep(250);
+          const ready=this.frame(f=>({banner:TCG.norm(this.ocr(f,[740,510,450,65])),phase:this.phaseIn(f)}));
+          if(ready.banner!==TCG.norm(foodPage.banner)||ready.phase.phase!=="unknown"||ready.phase.turn!=="none")
+            throw new Error("料理选人页面已改变，不发送选择");
+        }
         const point=this.clickAt(charX[action.target],720);
-        this.trace("card-target-clicked",{id:action.id,target:action.target,point,layout:"targeted",banner:foodPage.banner});
+        this.trace("card-target-clicked",{id:action.id,target:action.target,point,layout,banner:foodPage.banner});
         await sleep(500);let stable=0,key="";
         for(let attempt=0;attempt<6;attempt++){
           await this.requireNoWarning();
@@ -1379,7 +1907,7 @@
           // successful here. Never send a second selection or a skill input.
           if(selected.phase.result || selected.phase.phase==="board" && selected.phase.turn==="user"){
             this.trace("card-target-resolved",{id:action.id,target:action.target,proof:"native-page-exit-only"});return;}
-          const play=selected.rows.filter(r=>TCG.norm(r.text)==="打出手牌");
+          const play=selected.rows.filter(r=>TCG.norm(r.text)==="打出手牌" || type==="food"&&TCG.norm(r.text)==="确定");
           const controls=selected.buttons.length?selected.buttons:play;
           const matched=selected.banner===TCG.norm(foodPage.banner)&&controls.length===1&&
             selected.phase.phase==="unknown"&&selected.phase.turn==="none";
@@ -1387,31 +1915,13 @@
           stable=matched?(current===key?stable+1:1):0;key=current;
           this.trace("card-target-preview",{id:action.id,target:action.target,attempt,matched,...selected});
           if(stable>=2){const b=controls[0];const confirmPoint=this.clickAt(b.x+b.w/2,b.y+b.h/2);
-            this.trace("card-confirm-clicked",{id:action.id,target:action.target,point:confirmPoint,layout:"targeted"});
-            this.markNativeCardConfirmation(action,"targeted");
+            this.trace("card-confirm-clicked",{id:action.id,target:action.target,point:confirmPoint,layout});
+            this.markNativeCardConfirmation(action,layout);
             await sleep(700);return;}
           if(attempt<5)await sleep(250);
         }
+        if(type==="food")throw new Error("料理选人后未识别到唯一中央确定");
         this.captureEvidence("targeted-card-"+action.id);throw new Error("目标卡牌选人后确认页未核实");
-      }
-      if (type === "food" && TCG.norm(foodPage.banner) === "请选择一个角色食用料理" && foodPage.phase.phase === "unknown") {
-        if (!Number.isInteger(action.target) || action.target < 0 || action.target > 2) throw new Error("料理目标未核实");
-        // Dropping on a character opens selection, but does not select it.
-        // Select exactly once, then require the native CENTER 确定 button.
-        const point = this.clickAt(charX[action.target],720);
-        this.trace("card-target-clicked",{id:action.id,target:action.target,point,layout:"food"});
-        await sleep(600);
-        await this.requireNoWarning();
-        const selected = this.frame(f => ({banner:this.ocr(f,[740,510,450,65]),
-          buttons:this.matches(f,"core/确定",[770,900,380,90]),phase:this.phaseIn(f)}));
-        if(TCG.norm(selected.banner)!=="请选择一个角色食用料理" || selected.buttons.length!==1 || selected.phase.phase!=="unknown") {
-          throw new Error("料理选人后未识别到唯一中央确定");
-        }
-        const b=selected.buttons[0];
-        const confirmedPoint=this.clickAt(b.x+b.w/2,b.y+b.h/2);
-        this.trace("card-confirm-clicked",{id:action.id,target:action.target,point:confirmedPoint,layout:"food"});
-        this.markNativeCardConfirmation(action,"food");
-        await sleep(700);return;
       }
       // Native 星天之兆 opens a payment page with a CENTER button. Its detail
       // panel is gone and the right skill buttons are not the confirmation.
@@ -1519,7 +2029,7 @@
           error.phase={...last,hand:null};this.boardReady=false;throw error;
         }
         const matched=keyOf(last)===expected;stable=matched?stable+1:0;
-        this.trace("execution-board-wait",{attempt,matched,stable,active:last.active,dice:last.dice});
+        this.trace("execution-board-wait",{attempt,matched,stable,active:last.active,dice:last.dice,changed:matched?[]:boardDifferences(before,last)});
         if(stable>=2 || recent&&attempt===0&&matched)return last;
         if(attempt<5)await sleep(300);
       }
@@ -1533,15 +2043,11 @@
       catch(e) { this.consumptionReceipt=null;this.pendingHandEvidence=null;throw e; }
     }
     async executePending(action, before, memory) {
-      if (action.type === "card" && !TCG.byId[action.id]) throw new Error("未支持的卡牌禁止出牌");
+      if(action.type==="card") {
+        const reason=TCG.cardInputError(before,action,memory);
+        if(reason)throw new Error(reason);
+      }
       if (action.type === "tune" && !before.hand.some(h => h.index===action.index && h.id===action.id && TCG.handCardKnown(h))) throw new Error("未核实身份的牌禁止调和");
-      if (action.type === "card" && TCG.byId[action.id].type === "weapon" &&
-          (action.target !== TCG.byId[action.id].weaponTarget || memory.weapons[action.target])) throw new Error("武器目标不适配或已有武器，禁止装备");
-      if(action.type==="card" && action.id==="lost" && (memory.defeatRound!==memory.round || memory.lostUsedRound===memory.round))throw new Error("本大爷需要本轮阵亡且本轮尚未使用");
-      if(action.type==="card" && action.id==="edict" && memory.legendUsed)throw new Error("秘传牌本局已使用");
-      if(action.type==="card" && ["penance","talent"].includes(action.id) &&
-        (action.target!==(action.id==="penance"?2:1)||before.active!==action.target||before.characters[action.target].frozen))throw new Error("天赋出战角色/技能可用性不符");
-      if(action.type==="card" && action.target!==null && !TCG.alive(before.characters[action.target]))throw new Error("目标角色不可用");
       const inputPhase=this.phase();
       if(inputPhase.phase!=="board" || inputPhase.turn!=="user") {
         const error=new Error("执行前已不是我方回合");
@@ -1566,56 +2072,64 @@
       if (action.type === "skill" && action.who === 2 && action.skill === "E" && !before.hand.some(c => c.id === "wedge")) {
         this.emptyHandProven = false;
       }
-      if (action.type === "card" || action.type === "tune") {
-        await this.prepareHandInput(before.hand.length);
-        const current = before.hand;
-        const h = current.find(c => c.index === action.index);
-        if (!h || h.id !== action.id) throw new Error("执行前重新核对卡名失败");
-        if(!this.handFanReady)await this.expand();
-        const x = handX[current.length][action.index];
-        const title = TCG.observedCard(await this.titleAt(x, 945, false, false, "card", null, true),action.index);
-        if (title?.id !== action.id) await this.refreshHandBeforeInput("拖牌前最后一次卡名校验失败");
-        if(this.phase().turn!=="user")throw new Error("拖牌前回合已改变");
-        const targeted = action.type === "card" && action.target !== null;
-        this.consumptionReceipt={id:action.id,index:action.index,target:action.target??null,
-          beforeKey:TCG.boardKey(before),inputSent:false};
-        await this.drag(x, 945, action.type === "tune" ? 1867 : targeted ? charX[action.target] : x,
-          action.type === "tune" ? 518 : targeted ? 720 : 595);
-        this.consumptionReceipt.inputSent=true;
-        if (action.type === "tune") { await this.requireNoWarning(); await this.clickButton("元素调和"); }
-        else await this.cardConfirm(action,before);
-      } else if (action.type === "skill") {
-        const x = { NA: 1608, E: 1716, Q: 1824 }[action.skill];
-        this.clickAt(x, 957);
-        await sleep(900);
-        await this.requireNoWarning();
-        // This second click confirms the already-open skill, not a repeated attempt.
-        const preview=await this.requireSkillPreview(action,false,!!memory.thundergrassSupport);
-        if(preview?.fee!==null && preview?.fee!==undefined) {
-          this.expectedDice=TCG.total(before.dice)-preview.fee;
-          this.zeroDiceAllowed=this.expectedDice===0;
-          this.trace("skill-fee-budget",{who:action.who,skill:action.skill,nominal:cost,actual:preview.fee,
-            expectedDice:this.expectedDice,source:"current-confirmed-preview"});
-        }
-        this.clickAt(x, 957);
-        this.trace("skill-confirm-clicked", { who: action.who, skill: action.skill, point: [x, 957] });
-      } else if (action.type === "switch") {
-        if(!Number.isInteger(action.target) || action.target<0 || action.target>2 ||
-            action.target===before.active || before.characters[action.target].dead!==false)throw new Error("切换目标非法");
-        // Clicking the character opens its details. Verify its exact identity
-        // before opening the payment overlay, without clicking that card again.
-        const raw=await this.titleAt(charX[action.target],720,false,false,"character",action.target);
-        if(TCG.characterName(raw)!==action.target)throw new Error("切换目标角色标题未核实");
-        this.clickAt(1820, 958);
-        await sleep(800);
-        const preview=await this.requireSwitchPreview(action,memory);
-        this.clickAt(1820, 958);
-        this.trace("switch-confirm-clicked",{target:action.target,point:[1820,958],fast:preview.fast,predictedFast:memory.fastSwitch});
-      } else if (action.type === "end") {
-        await this.clickButton("回合结束", [0, 0, 384, 1080]);
-        if (this.phase().turn === "user") await this.clickButton("回合结束", [0, 0, 384, 1080]);
-      } else throw new Error("禁止执行动作：" + action.type);
+      if (action.type === "card" || action.type === "tune") await this.inputHand(action,before,memory);
+      else if(action.type==="skill") await this.inputSkill(action,before,memory,cost);
+      else if(action.type==="switch") await this.inputSwitch(action,before,memory);
+      else if(action.type==="end") await this.inputEnd();
+      else throw new Error("禁止执行动作："+action.type);
       await sleep(1200);
+    }
+    async inputHand(action,before,memory) {
+      await this.prepareHandInput(before.hand.length);
+      const current = before.hand;
+      const h = current.find(c => c.index === action.index);
+      if (!h || h.id !== action.id) throw new Error("执行前重新核对卡名失败");
+      if(!this.handFanReady)await this.expand();
+      const x = this.handPoints(current.length)[action.index];
+      const title = TCG.observedCard(await this.titleAt(x, 945, false, false, "card", null, true),action.index);
+      if (title?.id !== action.id) await this.refreshHandBeforeInput("拖牌前最后一次卡名校验失败");
+      if(this.phase().turn!=="user")throw new Error("拖牌前回合已改变");
+      const targeted = action.type === "card" && action.target !== null;
+      this.consumptionReceipt={id:action.id,index:action.index,target:action.target??null,
+        beforeKey:TCG.boardKey(before),inputSent:false};
+      await this.drag(x, 945, action.type === "tune" ? 1867 : targeted ? charX[action.target] : x,
+        action.type === "tune" ? 518 : targeted ? 720 : 595);
+      this.consumptionReceipt.inputSent=true;
+      if (action.type === "tune") { await this.requireNoWarning(); await this.clickButton("元素调和"); }
+      else await this.cardConfirm(action,before);
+    }
+    async inputSkill(action,before,memory,cost) {
+      const x = { NA: 1608, E: 1716, Q: 1824 }[action.skill];
+      this.clickAt(x, 957);
+      await sleep(900);
+      await this.requireNoWarning();
+      // This second click confirms the already-open skill, not a repeated attempt.
+      const preview=await this.requireOpenedSkill(action,before,x,!!memory.thundergrassSupport);
+      if(preview?.fee!==null && preview?.fee!==undefined) {
+        this.expectedDice=TCG.total(before.dice)-preview.fee;
+        this.zeroDiceAllowed=this.expectedDice===0;
+        this.trace("skill-fee-budget",{who:action.who,skill:action.skill,nominal:cost,actual:preview.fee,
+          expectedDice:this.expectedDice,source:"current-confirmed-preview"});
+      }
+      this.clickAt(x, 957);
+      this.trace("skill-confirm-clicked", { who: action.who, skill: action.skill, point: [x, 957] });
+    }
+    async inputSwitch(action,before,memory) {
+      if(!Number.isInteger(action.target) || action.target<0 || action.target>2 ||
+          action.target===before.active || before.characters[action.target].dead!==false)throw new Error("切换目标非法");
+      // Clicking the character opens its details. Verify its exact identity
+      // before opening the payment overlay, without clicking that card again.
+      const raw=await this.titleAt(charX[action.target],720,false,false,"character",action.target);
+      if(TCG.characterName(raw)!==action.target)throw new Error("切换目标角色标题未核实");
+      this.clickAt(1820, 958);
+      await sleep(800);
+      const preview=await this.requireSwitchPreview(action,memory);
+      this.clickAt(1820, 958);
+      this.trace("switch-confirm-clicked",{target:action.target,point:[1820,958],fast:preview.fast,predictedFast:memory.fastSwitch});
+    }
+    async inputEnd() {
+      await this.clickButton("回合结束", [0, 0, 384, 1080]);
+      if (this.phase().turn === "user") await this.clickButton("回合结束", [0, 0, 384, 1080]);
     }
     async prepareHandInput(expected) {
       this.requireHandObservation(this.phase(), "before-target-expand");
@@ -1624,16 +2138,25 @@
       await this.expand(false);
       // Known order/count comes from this session's confirmed hand. Look for
       // visible anomalies without the redundant 1–4-card boundary/title loop.
-      const reads = [this.frame(f=>this.handCountIn(f))];
-      await sleep(120);
-      reads.push(this.frame(f=>this.handCountIn(f)));
+      let samples;
+      try {
+        samples = [this.frame((f) => this.handSample(f))];
+        await sleep(120);
+        samples.push(this.frame((f) => this.handSample(f)));
+      } catch (e) {
+        if (e.code !== "TCG_HAND_RETRY") throw e;
+        await this.refreshHandBeforeInput("执行前手牌数量证据冲突");
+        throw e;
+      }
+      const reads = samples.map((s) => s.count);
       this.requireHandObservation(this.phase(), "before-target-title");
-      this.trace("hand-input-check", { expected, reads, boundaryProbe:false });
-      if (reads.some(n=>n!==null && n!==expected)) {
+      this.trace("hand-input-check", { expected, reads, boundaryProbe: false });
+      if (reads.some((n) => n !== null && n !== expected)) {
         await this.refreshHandBeforeInput("执行前手牌张数已变化");
       }
+      this.publishHandPositions(samples, expected);
       // Reuse the existing read-only count frames; no extra hand expansion.
-      if(reads[0]!==null && reads[0]===reads[1])this.recordHandLayout(reads[0]);
+      if (reads[0] !== null && reads[0] === reads[1]) this.recordHandLayout(reads[0]);
     }
     async refreshHandBeforeInput(reason) {
       this.invalidateHand(reason);
@@ -1679,16 +2202,17 @@
           let after;
           try {
           this.requireHandObservation(p, "before-confirm-reset");
+          const preResetEvidence=await this.removalEvidenceBeforeReset(plan);
           // Hand-changing SKILLS also resolve without a hand overlay. Only a
           // genuine dirty hand/card input needs normalization before proof.
-          if (!this.boardReady && (this.handNeedsReset || this.handFanReady ||
-              ["card","tune"].includes(action.type))) await this.reset();
+          if (!this.boardReady && (this.handNeedsReset || this.handFanReady)) await this.reset();
+          if(preResetEvidence && this.inputRevision>=preResetEvidence.revision && this.inputRevision<=preResetEvidence.revision+1)
+            plan={...plan,preResetEvidence:{...preResetEvidence,revision:this.inputRevision}};
           // observe owns stable board, hand and consumption proof; no separate
           // full proof board before its already-stable observation.
           after = await this.observe(true,plan?{...plan,transitionPassed:transition}:null);
           } catch (e) {
             if(["TCG_BOARD_RETRY","TCG_DICE_RETRY"].includes(e.code)) {
-              this.usePrecisionBoard("confirmation-read-retry");
               this.trace("confirmation-read-deferred",{action,code:e.code,reason:String(e.message||e)});
               await sleep(400);continue;
             }
@@ -1786,5 +2310,5 @@
       this.roCache.clear();
     }
   }
-  root.TCGBetterGI = { BetterGIHost, handX, handLayoutCount, charX, number, captureSize };
+  root.TCGBetterGI = { BetterGIHost, handX, handLayoutCount, charX, number, captureSize, costMarkerLayout, costDigitRows, costNumbersAt, costHandSample, boardDifferences };
 })(globalThis);
