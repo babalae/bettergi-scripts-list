@@ -39,12 +39,13 @@
       ["edict","toss","lost","exile","penance"].includes(id) ? 0 : 2 }));
   const byId = Object.fromEntries(cards.map(c => [c.id, c]));
   const norm = text => String(text || "").replace(/[\s:：·!！。，,（）()]/g, "").replace(/迴/g, "回");
+  // The user accepts the two-glyph 运筹 anchor; other cards keep exact titles/aliases.
+  const cardTitleAliases = { "救免宣告":"赦免宣告", "飞叶斜":"飞叶迴斜" };
   function identify(text) {
     const t = norm(text);
-    // Exact aliases independently observed in native run titles, not fuzzy OCR.
-    if(t === "救免宣告")return byId.edict;
-    if(t === "飞叶斜")return byId.talent;
-    return cards.find(c => norm(c.name) === t) || null;
+    if (t.includes("运筹")) return byId.draw;
+    const canonical = cardTitleAliases[t] || t;
+    return cards.find(c => norm(c.name) === norm(canonical)) || null;
   }
   // A readable title is not permission to play the card. Unsupported cards have
   // stable identities for hand accounting only; empty/invalid OCR is still fatal.
@@ -523,6 +524,7 @@
   function verify(action, before, after, transition = false) {
     if(!action || !before || !after)return false;
     if (after.result) return true;
+    if (singleConsumptionEvidence(action, before, after)) return true;
     if (action.type === "end") return after.turn === "enemy" || after.phase === "roll" || after.phase === "settlement";
     if (action.type === "switch") return after.active === action.target && after.active !== before.active;
     if (action.type === "skill") {
@@ -648,6 +650,7 @@
   }
   function emptyHandEffect(action, before, after, transition) {
     if (before.hand.length !== 1 || after.turn !== "user") return false;
+    if (singleConsumptionEvidence(action, before, after)) return true;
     if (removalEffect(action, before, after)) return true;
     if (action.type === "tune") return false;
     if (action.type === "skill" && action.who === 2 && action.skill === "E" && before.hand[0].id === "wedge") {
@@ -660,7 +663,16 @@
     if (action.id === "companion") return total(after.dice) === total(before.dice) && (after.dice.Omni || 0) > (before.dice.Omni || 0);
     return transition || total(after.dice) < total(before.dice);
   }
-  function keepOpening(id) { return ["woven", "voltage", "stars", "companion", "shift", "draw", "thundergrass","edict","exile"].includes(id); }
+  function singleConsumptionEvidence(action, before, after) {
+    const proof = after.handEvidence;
+    if (after.phase !== "board" || after.turn !== "user" || before.hand?.length !== 1 ||
+        Array.isArray(after.hand) && after.hand.length !== 0 || !["card","tune"].includes(action.type) ||
+        !Number.isInteger(action.index) || before.hand[action.index]?.id !== action.id) return false;
+    return proof?.kind === "native-empty-fan" && proof.stableReads >= 2 && proof.inputSent === true &&
+      proof.sourceCount === 1 && proof.id === action.id && proof.index === action.index &&
+      proof.target === (action.target ?? null) && proof.beforeKey === boardKey(before) &&
+      handPlan(action, before).mode === "remove";
+  }
   function blessingChoice(s,m) {
     const cs=s?.characters;
     // Normally choose the cheaper burst-chain support. Collei-only without
@@ -669,7 +681,7 @@
     return "shatterbolt";
   }
   root.TCG = { team, cards, byId, norm, identify, observedCard, handCardKnown, characterName, total, size, payment, rerollPlan,
-    known, alive, freshMemory, nextRound, OpeningFlow, freshActionBoard, skillCost, skillLegal, intent, survivorIntent, followupReachable, switchPreparationReachable, replacement, noteBoard, tuningPlan, legalState, choose, verify, commit, emptyHandEffect, keepOpening, diceOrder,
+    known, alive, freshMemory, nextRound, OpeningFlow, freshActionBoard, skillCost, skillLegal, intent, survivorIntent, followupReachable, switchPreparationReachable, replacement, noteBoard, tuningPlan, legalState, choose, verify, commit, emptyHandEffect, diceOrder,
     indexedHand, handPlan, verifyResynchronized, actionKey, deferUncertain, removalEffect, blessingChoice,boardKey,burnableHand,
     actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining };
 })(globalThis);

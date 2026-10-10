@@ -5,13 +5,11 @@ eval(file.readTextSync("lib/bgi.js"));
 (async function () {
   "use strict";
   const options = {
-    mode: settings.mode || "识别诊断",
-    enemyCount: Number(settings.enemyCount || 3),
-    mulligan: settings.mulligan || "全部保留",
+    enemyCount: 3,
     maxMinutes: Number(settings.maxMinutes || 15),
     actionEntry: settings.actionEntry || "禁止从行动页启动"
   };
-  if (![2, 3, 4].includes(options.enemyCount) || ![10, 15, 20].includes(options.maxMinutes) ||
+  if (![10, 15, 20].includes(options.maxMinutes) ||
       !["禁止从行动页启动", "确认新开局未行动"].includes(options.actionEntry)) throw new Error("设置值无效");
   setGameMetrics(1920, 1080);
   const host = new TCGBetterGI.BetterGIHost(options);
@@ -37,7 +35,7 @@ eval(file.readTextSync("lib/bgi.js"));
     host.trace("opening-ready", accepted);
   }
   try {
-    host.trace("start", { version: "0.4.6", options, realCombatValidated: false });
+    host.trace("start", { version: JSON.parse(file.readTextSync("manifest.json")).version, options });
     // User-confirmed fixed team: no startup character-detail clicks/OCR.
     host.trace("team-assumed", { names:TCG.team.map(c=>c.name), order:"left-to-right", userConfirmed:true });
     await host.waitForCapture();
@@ -46,7 +44,7 @@ eval(file.readTextSync("lib/bgi.js"));
     host.trace("opening-entry", { entry: initial.phase, actionEntry: options.actionEntry, midgameRestore: false });
     // No history restore. The action-page entry requires an explicit fresh-game
     // declaration plus two stable visible opening boards, before ANY input.
-    if (initial.phase === "board" && options.mode !== "识别诊断") {
+    if (initial.phase === "board") {
       if (options.actionEntry !== "确认新开局未行动") throw new Error("行动页启动需要选择“确认新开局未行动”");
       const entryBoard = await host.admitFreshActionBoard();
       host.expectedDice = TCG.total(entryBoard.dice);
@@ -62,19 +60,16 @@ eval(file.readTextSync("lib/bgi.js"));
       if (p.result) { host.trace("result", p); log.info(p.result === "win" ? "对局胜利" : "对局失败"); return; }
       if (p.phase === "opening") {
         if (openingFlow.opened || openingFlow.picked || openingFlow.rolled || openingFlow.complete) throw new Error("开局阶段异常：再次出现初始手牌");
-        await host.opening(options.mode === "识别诊断");
-        if (options.mode === "识别诊断") { log.info("诊断完成：初始手牌"); return; }
+        await host.opening(false);
         openingFlow.record("opening");
         lastProgress = Date.now();
       } else if(p.phase === "choice") {
-        if(options.mode === "识别诊断") {host.trace("choice-diagnostic",p);log.info("诊断完成：挑选卡牌");return;}
         try{await host.resolveChoice(null,memory);lastProgress=Date.now();}
         catch(e){if(e.code!=="TCG_CHOICE_RETRY")throw e;
           if(Date.now()-lastProgress>60000)throw new Error("挑选卡牌等待超时（60秒）");
           host.trace("choice-deferred",{reason:e.message});await sleep(400);}
         readyState=null;
       } else if (p.phase === "pick") {
-        if (options.mode === "识别诊断") { log.info("诊断完成：出战页"); return; }
         if (openingFlow.complete || actions > 0) {
           try {
             const board = host.board();
@@ -98,11 +93,6 @@ eval(file.readTextSync("lib/bgi.js"));
         }
         lastProgress = Date.now();
       } else if (p.phase === "roll") {
-        if (options.mode === "识别诊断") {
-          const dice = await host.readRollDice();
-          host.trace("roll-diagnostic", dice);
-          log.info("诊断完成：掷骰"); return;
-        }
         if (!openingFlow.complete && openingFlow.rolled) throw new Error("开局阶段异常：首次掷骰后再次出现重投页");
         const afterRoll = await host.roll(memory, { allowInitialPick: !openingFlow.complete && !openingFlow.picked });
         if (!openingFlow.complete) {
@@ -112,6 +102,7 @@ eval(file.readTextSync("lib/bgi.js"));
         lastProgress = Date.now();
       } else if (p.turn === "user") {
         let state;
+        const observationStarted=Date.now(),observationMetrics=host.metricSnapshot?.(),reusedDecisionState=!!readyState;
         try{state=readyState || await host.observe();}catch(e){
           if(!["TCG_BOARD_RETRY","TCG_DICE_RETRY"].includes(e.code))throw e;
           if(Date.now()-lastProgress>60000)throw new Error("牌桌识别超时（60秒）");
@@ -120,6 +111,8 @@ eval(file.readTextSync("lib/bgi.js"));
           await sleep(400);continue;
         }
         if (readyState) host.trace("decision-state-reused", { handCount: readyState.hand.length });
+        host.trace("observation-timing",{ms:Date.now()-observationStarted,reused:reusedDecisionState,
+          handRead:state.handRead,recognition:host.metricDelta?.(observationMetrics)});
         readyState = null;
         if (state.phase !== "board" || state.turn !== "user") {
           host.trace("decision-deferred", { phase: state.phase, turn: state.turn });
@@ -134,15 +127,16 @@ eval(file.readTextSync("lib/bgi.js"));
           actionEntryHandPending = false;
         }
         if (!openingFlow.complete) finishOpening();
-        if(!openingEvidenceTaken && options.mode!=="识别诊断" && host.captureEvidence) {
+        if(!openingEvidenceTaken && host.captureEvidence) {
           host.captureEvidence("opening-board");openingEvidenceTaken=true;
         }
         TCG.noteBoard(memory,state);
         host.trace("state", { round: memory.round, state, memory });
+        const actionStarted=Date.now(),metricsBefore=host.metricSnapshot?.();
         const action = TCG.choose(state, memory);
+        const planningMs=Date.now()-actionStarted;
         host.trace("decision", action);
         if (action.type === "stop") throw new Error(action.reason);
-        if (options.mode === "识别诊断") { log.info("诊断完成：建议" + actionLabel(action, state)); return; }
         const previousBudget = { expectedDice: host.expectedDice, zeroDiceAllowed: host.zeroDiceAllowed,
           emptyHandProven: host.emptyHandProven, gamblerMayAddDice: host.gamblerMayAddDice,
           gamblerBudget: host.gamblerBudget };
@@ -167,7 +161,11 @@ eval(file.readTextSync("lib/bgi.js"));
         }
         log.info("行动：" + actionLabel(action, state));
         if(action.type==="probe" && execution?.probed){readyState=execution;lastProgress=Date.now();continue;}
+        const inputFinished=Date.now();
         const after = await host.confirm(action, state, memory);
+        host.trace("action-timing",{action:TCG.actionKey(action),planningMs,
+          inputMs:inputFinished-actionStarted-planningMs,settlementMs:Date.now()-inputFinished,
+          totalMs:Date.now()-actionStarted,recognition:host.metricDelta?.(metricsBefore),confirmed:!!after.confirmed});
         if (after.confirmed) {
           TCG.commit(memory, action, state,after);
           host.trace("confirmed", { action, after, memory });
