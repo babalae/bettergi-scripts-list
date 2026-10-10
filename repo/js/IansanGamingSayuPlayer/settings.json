@@ -1,0 +1,16 @@
+[
+  {
+    "name": "mulligan",
+    "type": "select",
+    "label": "初始手牌",
+    "options": ["优先装备与启动牌", "全部保留"],
+    "default": "优先装备与启动牌"
+  },
+  {
+    "name": "maxMinutes",
+    "type": "select",
+    "label": "单局超时保护",
+    "options": ["15", "10", "20"],
+    "default": "15"
+  }
+]
