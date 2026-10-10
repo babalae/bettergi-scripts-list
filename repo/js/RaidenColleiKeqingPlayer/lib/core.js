@@ -1,10 +1,12 @@
+// Generated from 牌手共享. Edit layered source, not this standalone output.
 /* Local rules, not an omniscient simulator. No host API, network, or LLM here. */
 (function (root) {
   "use strict";
+  function openingSetting(value) { return !value || value === "优先充能与调骰" ? "全部保留" : value; }
   const team = [
-    { name: "雷电将军", element: "Electro", maxEnergy: 2, maxHp: 10 },
-    { name: "柯莱", element: "Dendro", maxEnergy: 2, maxHp: 11 },
-    { name: "刻晴", element: "Electro", maxEnergy: 3, maxHp: 10 }
+    { name: "雷电将军", element: "Electro", maxEnergy: 2, maxHp: 10, skills:{NA:"源流",E:"神变·恶曜开眼",Q:"奥义·梦想真说"} },
+    { name: "柯莱", element: "Dendro", maxEnergy: 2, maxHp: 11, skills:{NA:"祈颂射艺",E:"拂花偈叶",Q:"猫猫秘宝"} },
+    { name: "刻晴", element: "Electro", maxEnergy: 3, maxHp: 10, skills:{NA:"云来剑法",E:"星斗归位",Q:"天街巡游"} }
   ];
   const cards = [
     ["woven", "元素共鸣：交织之雷", {}, "dice"],
@@ -38,14 +40,19 @@
     copies: id === "wedge" || type === "weapon" || type === "support" ||
       ["edict","toss","lost","exile","penance"].includes(id) ? 0 : 2 }));
   const byId = Object.fromEntries(cards.map(c => [c.id, c]));
-  const norm = text => String(text || "").replace(/[\s:：·!！。，,（）()]/g, "").replace(/迴/g, "回");
+  const norm = (t) =>
+    String(t || "")
+      .replace(/[\s:：·!！。，,（）()「」『』【】\[\]“”"‘’']/g, "")
+      .replace(/迴/g, "回");
+  // The user accepts the two-glyph 运筹 anchor; other cards keep exact titles/aliases.
+  const cardTitleAliases = { "救免宣告":"赦免宣告", "飞叶斜":"飞叶迴斜" };
   function identify(text) {
-    const t = norm(text);
-    // Exact aliases independently observed in native run titles, not fuzzy OCR.
-    if(t === "救免宣告")return byId.edict;
-    if(t === "飞叶斜")return byId.talent;
-    return cards.find(c => norm(c.name) === t) || null;
-  }
+  const title = norm(text);
+  // User-approved two-glyph anchor. Other titles remain exact aliases only.
+  if (title.includes("运筹") && byId.draw) return byId.draw;
+  const canonical = cardTitleAliases[title] || title;
+  return cards.find(c => norm(c.name) === norm(canonical)) || null;
+}
   // A readable title is not permission to play the card. Unsupported cards have
   // stable identities for hand accounting only; empty/invalid OCR is still fatal.
   function observedCard(text, index) {
@@ -56,23 +63,47 @@
         /^(初始手牌|请选择要替换的手牌|确定|取消|出战角色|回合结束|元素调和)$/.test(t)) return null;
     return { index, id: "unsupported:" + t, name, supported: false };
   }
+  // Shared native-play contract. Strategic value remains in strategy.js;
+  // observation/payment/target legality is identical for planning and input.
+  function cardInputError(s, a, m) {
+    const c=byId[a.id];
+    if(!c)return "未支持的卡牌禁止出牌";
+    if(c.type==="weapon" && (a.target!==c.weaponTarget || m.weapons[a.target]))
+      return "武器目标不适配或已有武器，禁止装备";
+    if(a.id==="lost" && (m.defeatRound!==m.round || m.lostUsedRound===m.round))
+      return "本大爷需要本轮阵亡且本轮尚未使用";
+    if(a.id==="edict" && m.legendUsed)return "秘传牌本局已使用";
+    if(["penance","talent"].includes(a.id) && (a.target!==(a.id==="penance"?2:1) ||
+        s.active!==a.target || s.characters[a.target]?.frozen))return "天赋出战角色/技能可用性不符";
+    if(a.id==="wedge" && (a.target!==2 || s.characters[2]?.frozen))
+      return "雷楔目标/技能可用性不符";
+    if(a.target!==null && (!Number.isInteger(a.target) || !alive(s.characters?.[a.target])))
+      return "目标角色不可用";
+    if(["weapon","artifact","food","wedge","talent","legend"].includes(c.type) &&
+        a.target===null)return "目标角色不可用";
+    if(c.type==="food" && m.food[a.target])return "目标角色本轮已食用料理";
+    if(!Number.isInteger(a.index) || s.hand?.[a.index]?.id!==a.id ||
+        !handCardKnown(s.hand[a.index]))return "执行前重新核对卡名失败";
+    if(!payment(s.dice,c.cost,team[s.active]?.element))return "卡牌费用无法支付";
+    return null;
+  }
+  function cardLegal(s,a,m) { return a.type==="card" && cardInputError(s,a,m)===null; }
   function handCardKnown(h) {
     if (!h || typeof h.id !== "string") return false;
     if (byId[h.id]) return h.supported !== false;
     const parsed = observedCard(h.name, h.index);
     return h.supported === false && parsed && parsed.supported === false && parsed.id === h.id;
   }
+  const characterAliases={"雷神":"雷电将军","刻睛":"刻晴"};
   function characterName(text) {
-    const t = norm(text);
-    // Exact, native-observed OCR alias only; never fuzzy-match an arbitrary hero.
-    if (t === "刻睛") return 2;
-    return team.findIndex(c => norm(c.name) === t || (c.name === "雷电将军" && t === "雷神"));
-  }
+  const title=norm(text),canonical=characterAliases[title]||title;
+  return team.findIndex(c=>norm(c.name)===norm(canonical));
+}
   const diceOrder = ["Pyro","Hydro","Anemo","Electro","Dendro","Cryo","Geo","Omni"];
   const total = dice => Object.values(dice || {}).reduce((sum, n) => sum + n, 0);
   const size = cost => (cost.n || 0) + (cost.any || 0) + (cost.aligned || 0);
   const known = n => Number.isInteger(n) && n >= 0;
-  const alive = c => c && c.dead === false && known(c.hp) && c.hp > 0;
+  const alive = (c) => !!c && c.dead === false && known(c.hp) && c.hp > 0;
   function freshMemory() {
     return { round: 0, raidenBurst: false, colleiBurst: false, used: [0, 0, 0],
       eyeRound: -10, dendroRound: -10, keqingInfusedRound: -10,
@@ -90,6 +121,14 @@
     m.uncertainActions = [];
     m.blessingUsed=0;m.costEvidence=null;m.probeKeys=[];
     // Switch discounts survive round boundaries (they are not oneDuration).
+  }
+  function rejectAction(m, action) {
+    const key = actionKey(action);
+    if (!m.uncertainActions.includes(key)) m.uncertainActions.push(key);
+    // A proven rejection consumes neither the card nor confirmed equipment.
+    if (action.type === "tune") return;
+    m.costEvidence = null;
+    m.probeKeys = [];
   }
   // Opening lifecycle is independent of round counters: a first roll may
   // precede the first character pick. This is NOT a midgame restore record.
@@ -176,7 +215,7 @@
   }
   function boardKey(s) {
     return JSON.stringify([s.active,diceOrder.map(e=>s.dice?.[e]||0),s.characters,
-      (s.hand||[]).map(h=>h.id),s.enemies,s.quicken||null]);
+      (s.hand||[]).map(h=>h.id),s.enemies,s.quicken||null,s.supportCounts||null]);
   }
   function skillCost(who, skill, m, s=null) {
     const base=skill === "Q" ? { element:team[who].element,n:who===2?4:3 } :
@@ -523,6 +562,7 @@
   function verify(action, before, after, transition = false) {
     if(!action || !before || !after)return false;
     if (after.result) return true;
+    if (singleConsumptionEvidence(action, before, after)) return true;
     if (action.type === "end") return after.turn === "enemy" || after.phase === "roll" || after.phase === "settlement";
     if (action.type === "switch") return after.active === action.target && after.active !== before.active;
     if (action.type === "skill") {
@@ -648,6 +688,7 @@
   }
   function emptyHandEffect(action, before, after, transition) {
     if (before.hand.length !== 1 || after.turn !== "user") return false;
+    if (singleConsumptionEvidence(action, before, after)) return true;
     if (removalEffect(action, before, after)) return true;
     if (action.type === "tune") return false;
     if (action.type === "skill" && action.who === 2 && action.skill === "E" && before.hand[0].id === "wedge") {
@@ -660,7 +701,16 @@
     if (action.id === "companion") return total(after.dice) === total(before.dice) && (after.dice.Omni || 0) > (before.dice.Omni || 0);
     return transition || total(after.dice) < total(before.dice);
   }
-  function keepOpening(id) { return ["woven", "voltage", "stars", "companion", "shift", "draw", "thundergrass","edict","exile"].includes(id); }
+  function singleConsumptionEvidence(action, before, after) {
+    const proof = after.handEvidence;
+    if (after.phase !== "board" || after.turn !== "user" || before.hand?.length !== 1 ||
+        Array.isArray(after.hand) && after.hand.length !== 0 || !["card","tune"].includes(action.type) ||
+        !Number.isInteger(action.index) || before.hand[action.index]?.id !== action.id) return false;
+    return proof?.kind === "native-empty-fan" && proof.stableReads >= 2 && proof.inputSent === true &&
+      proof.sourceCount === 1 && proof.id === action.id && proof.index === action.index &&
+      proof.target === (action.target ?? null) && proof.beforeKey === boardKey(before) &&
+      handPlan(action, before).mode === "remove";
+  }
   function blessingChoice(s,m) {
     const cs=s?.characters;
     // Normally choose the cheaper burst-chain support. Collei-only without
@@ -668,8 +718,33 @@
     if(Array.isArray(cs) && alive(cs[1]) && !alive(cs[0]) && !alive(cs[2]) && cs[1].energy<2)return "sharpkernel";
     return "shatterbolt";
   }
-  root.TCG = { team, cards, byId, norm, identify, observedCard, handCardKnown, characterName, total, size, payment, rerollPlan,
-    known, alive, freshMemory, nextRound, OpeningFlow, freshActionBoard, skillCost, skillLegal, intent, survivorIntent, followupReachable, switchPreparationReachable, replacement, noteBoard, tuningPlan, legalState, choose, verify, commit, emptyHandEffect, keepOpening, diceOrder,
-    indexedHand, handPlan, verifyResynchronized, actionKey, deferUncertain, removalEffect, blessingChoice,boardKey,burnableHand,
+  function openingContext() { return {}; }
+  function openingPlan(cards, original) {
+    const useful=new Set(["woven","voltage","draw","stars","talent","thundergrass","gambler","tassel","raven","sword"]);
+    const seen=new Set();
+    const replace=cards.map(c=>!useful.has(c.id) || (["weapon","artifact","talent","support"].includes(byId[c.id]?.type) && seen.has(c.id)) || !seen.add(c.id));
+    return {keep:cards.filter((c,i)=>!replace[i]),replace,duplicateWeapons:[]};
+  }
+  root.TCG = { openingContext, openingPlan, team, cards, byId, norm, identify, observedCard, handCardKnown, characterName, total, size, payment, rerollPlan,
+    openingSetting, known, alive, freshMemory, nextRound, OpeningFlow, freshActionBoard, skillCost, skillLegal, cardLegal, cardInputError, intent, survivorIntent, followupReachable, switchPreparationReachable, replacement, noteBoard, tuningPlan, legalState, choose, verify, commit, emptyHandEffect, diceOrder,
+    indexedHand, handPlan, verifyResynchronized, actionKey, rejectAction, deferUncertain, removalEffect, blessingChoice,boardKey,burnableHand,
     actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining };
 })(globalThis);
+
+globalThis.TCG.version = "0.5.1";
+globalThis.TCG.sharedVersion = "1.0.0";
+globalThis.TCG.defaultStrategy = "default";
+(function (T) {
+  const strategies = new Map();
+  T.registerStrategy = function (id, choose) {
+    if (!/^[a-z][a-z0-9-]*$/.test(id) || typeof choose !== "function" || strategies.has(id))
+      throw new Error("策略标识无效、重复或缺少决策函数：" + id);
+    strategies.set(id, choose);
+  };
+  T.selectStrategy = function (id) {
+    if (!strategies.has(id)) throw new Error("未注册策略：" + id);
+    T.choose = strategies.get(id);
+    T.activeStrategy = id;
+  };
+  T.availableStrategies = function () { return [...strategies.keys()]; };
+})(globalThis.TCG);
