@@ -1,4 +1,5 @@
 [
+  { "name": "mulligan", "type": "select", "label": "初始手牌", "options": ["优先装备与启动牌", "全部保留"], "default": "全部保留" },
   { "name": "actionEntry", "type": "select", "label": "从行动阶段启动（仅限新开局未行动）", "options": ["禁止从行动页启动", "确认新开局未行动"], "default": "禁止从行动页启动" },
   { "name": "maxMinutes", "type": "select", "label": "单局超时保护", "options": ["15", "10", "20"], "default": "15" }
 ]

@@ -356,3 +356,7 @@
     return skills>bursts && living.length===1?"sharpkernel":"shatterbolt";
   };
 })(globalThis);
+
+globalThis.TCG.registerStrategy("default", globalThis.TCG.choose);
+
+globalThis.TCG.selectStrategy(globalThis.TCG.defaultStrategy);

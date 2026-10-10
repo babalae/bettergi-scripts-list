@@ -1,3 +1,4 @@
+// Generated from 牌手共享. Edit layered source, not this standalone output.
 (function (root) {
   "use strict";
   const T = root.TCG;
@@ -39,19 +40,17 @@
     mint: "为本回合普通攻击减费",
   };
 
+  const OPENING_DEFAULT = "全部保留";
   function playerOptions(settings = {}) {
-    const options = {
-      enemyCount: 3,
-      maxMinutes: Number(settings.maxMinutes || 15),
-      actionEntry: settings.actionEntry || "禁止从行动页启动",
-    };
-    if (
-      ![10, 15, 20].includes(options.maxMinutes) ||
-      !["禁止从行动页启动", "确认新开局未行动"].includes(options.actionEntry)
-    )
-      throw new Error("设置值无效");
-    return options;
-  }
+  const supplied=settings||{};
+  const options={enemyCount:3,maxMinutes:Number(supplied.maxMinutes||15),
+    mulligan:TCG.openingSetting(supplied.mulligan),
+    actionEntry:supplied.actionEntry||"禁止从行动页启动"};
+  if(![10,15,20].includes(options.maxMinutes)||
+    !["全部保留","优先装备与启动牌"].includes(options.mulligan)||
+    !["禁止从行动页启动","确认新开局未行动"].includes(options.actionEntry))throw new Error("设置值无效");
+  return options;
+}
 
   function planSteps(action) {
     return (action.planning?.sequence || []).flatMap((key) => {
@@ -277,6 +276,8 @@
       this.host = host;
       this.options = options;
       this.memory = T.freshMemory();
+      if(T.openingContext)this.memory.openingContext=T.openingContext({});
+      host.memory=this.memory;
       this.deadline = Date.now() + options.maxMinutes * 60000;
       this.actions = 0;
       this.lastProgress = Date.now();
@@ -315,10 +316,19 @@
         });
       this.host.trace("opening-ready", accepted);
     }
+    reportResult(p) { log.info(p.result === "win" ? "对局胜利" : "对局失败"); }
+    admitActionHand(state) {
+      if (!this.actionEntryHandPending) return;
+      if (state.hand?.length !== 7)
+        throw new Error("新开局手牌数量不符：应有7张未使用的初始手牌，当前" + state.hand?.length + "张");
+      this.host.trace("fresh-action-hand-verified", { count: state.hand.length, reusedFirstRead: true });
+      this.actionEntryHandPending = false;
+    }
     async enter() {
       const host = this.host;
       host.trace("start", {
         version: JSON.parse(file.readTextSync("manifest.json")).version,
+        sharedVersion: T.sharedVersion,
         options: this.options,
       });
       host.trace("team-assumed", {
@@ -328,6 +338,11 @@
       });
       await host.waitForCapture();
       const initial = host.phase();
+      if (initial.phase === "result") {
+        host.trace("terminal-entry", initial);
+        log.info("当前对局已结束，请进入新对局后再启动。");
+        return false;
+      }
       this.openingFlow = new T.OpeningFlow(initial.phase);
       host.trace("opening-entry", {
         entry: initial.phase,
@@ -343,13 +358,26 @@
         this.actionEntryHandPending = true;
         this.finishOpening();
       }
+      return true;
     }
     async opening() {
-      const f = this.openingFlow;
-      if (f.opened || f.picked || f.rolled || f.complete)
+      const flow = this.openingFlow;
+      if (flow.opened || flow.picked || flow.rolled || flow.complete)
         throw new Error("开局阶段异常：再次出现初始手牌");
-      await this.host.opening(false);
-      f.record("opening");
+      await this.host.opening();
+      const kept = this.host.openingCards;
+      if (this.options.mulligan === "全部保留") log.info("[起手] 按设置确认当前手牌，不主动置换。");
+      else if (Array.isArray(kept))
+        log.info(
+          "[起手] " +
+            (kept.length === 5
+              ? "保留全部五张手牌，不置换。"
+              : kept.length
+                ? `保留${kept.map((c) => `「${c.name}」`).join("、")}，其余${5 - kept.length}张置换，寻找更合适的启动牌。`
+                : "置换全部五张手牌，重新寻找启动牌。"),
+        );
+      this.memory.openingIds = (this.host.openingCards || []).map((c) => c.id);
+      flow.record("opening");
       this.progress();
     }
     async choice() {
@@ -361,58 +389,74 @@
       }
       this.readyState = null;
     }
-    async pick() {
+    planOpening(stage) {
+      this.memory.openingTarget=0;
+      this.host.trace("opening-character-plan",{target:0,stage:stage||"initial-pick",openingIds:this.memory.openingIds||[]});
+      return {target:0};
+    }
+    async replacement() {
       const host = this.host,
-        flow = this.openingFlow;
-      if (flow.complete || this.actions > 0) {
-        try {
-          const board = host.board();
-          T.noteBoard(this.memory, board);
-          const wanted = T.replacement(board, this.memory);
-          if (!wanted) {
-            const e = new Error("阵亡后的存活角色未读清");
-            e.code = "TCG_PICK_RETRY";
-            throw e;
-          }
-          host.trace("replacement-plan", {
-            target: wanted.who,
-            characters: board.characters,
-            dice: board.dice,
-          });
-          host.trace("replacement-hand-policy", {
-            mode: host.handCache === null ? "full-read-required" : "reuse-with-visible-count-check",
-          });
-          this.notice(
-            "replacement:" + wanted.who,
-            "[接力] 选择" + T.team[wanted.who].name + "继续作战。",
-          );
-          const after = await host.pick(wanted.who, false);
-          if (after) T.noteBoard(this.memory, after);
-        } catch (e) {
-          await this.defer(
-            e,
-            ["TCG_PICK_RETRY", ...BOARD_RETRIES],
-            "replacement-deferred",
-            "阵亡换人识别超时（60秒）",
-          );
-          return;
+        memory = this.memory;
+      try {
+        const board = host.board();
+        T.noteBoard(memory, board);
+        const wanted = T.replacement(board, memory);
+        if (!wanted) {
+          const error = new Error("阵亡后的存活角色未读清");
+          error.code = "TCG_PICK_RETRY";
+          throw error;
         }
-      } else {
-        if (flow.picked) throw new Error("开局阶段异常：首次出战后再次出现选人页");
-        const after = await host.pick(0, true);
-        flow.record("pick");
-        if (after?.phase === "board") this.finishOpening();
+        host.trace("replacement-plan", {
+          target: wanted.who,
+          characters: board.characters,
+          dice: board.dice,
+        });
+        host.trace("replacement-hand-policy", {
+          mode: host.handCache === null ? "full-read-required" : "reuse-with-visible-count-check",
+        });
+        const defeated = board.characters.flatMap((c, i) =>
+          c.dead === true ? [T.team[i].name] : [],
+        );
+        this.notice(
+          "replacement:" + defeated.join(",") + ":" + wanted.who,
+          "[接力] " +
+            (defeated.length ? defeated.join("、") + "已阵亡，" : "") +
+            "准备切换" +
+            T.team[wanted.who].name +
+            "继续作战。",
+        );
+        const after = await host.pick(wanted.who, false);
+        if (after) T.noteBoard(memory, after);
+        this.progress();
+      } catch (error) {
+        await this.defer(
+          error,
+          ["TCG_PICK_RETRY", ...BOARD_RETRIES],
+          "replacement-deferred",
+          "阵亡换人识别超时（60秒）",
+        );
       }
+    }
+    async pick() {
+      if (this.openingFlow.complete || this.actions > 0) return this.replacement();
+      if (this.openingFlow.picked) throw new Error("开局阶段异常：首次出战后再次出现选人页");
+      const choice = this.planOpening();
+      const after = await this.host.pick(choice.target, true);
+      this.memory.lastActive = choice.target;
+      this.openingFlow.record("pick");
+      if (after?.phase === "board") this.finishOpening();
       this.progress();
     }
     async roll() {
-      const f = this.openingFlow;
-      if (!f.complete && f.rolled) throw new Error("开局阶段异常：首次掷骰后再次出现重投页");
+      const flow = this.openingFlow;
+      if (!flow.complete && flow.rolled) throw new Error("开局阶段异常：首次掷骰后再次出现重投页");
+      if (!flow.complete && !flow.picked && this.memory.openingTarget === null)
+        this.planOpening("before-initial-roll");
       const after = await this.host.roll(this.memory, {
-        allowInitialPick: !f.complete && !f.picked,
+        allowInitialPick: !flow.complete && !flow.picked,
       });
-      if (!f.complete) {
-        f.record("roll");
+      if (!flow.complete) {
+        flow.record("roll");
         if (after?.phase === "board") this.finishOpening();
       }
       this.progress();
@@ -444,21 +488,51 @@
         await sleep(300);
         return null;
       }
-      if (this.actionEntryHandPending) {
-        if (state.hand?.length !== 7)
-          throw new Error(
-            "新开局手牌数量不符：应有7张未使用的初始手牌，当前" + state.hand?.length + "张",
-          );
-        host.trace("fresh-action-hand-verified", {
-          count: state.hand.length,
-          reusedFirstRead: true,
-        });
-        this.actionEntryHandPending = false;
-      }
+      this.admitActionHand(state);
       if (!this.openingFlow.complete) this.finishOpening();
       T.noteBoard(this.memory, state);
       host.trace("state", { round: this.memory.round, state, memory: this.memory });
       return state;
+    }
+    rejectUnchangedTune(action, before, after) {
+      if (action.type !== "tune" || !T.legalState(after) || T.boardKey(before) !== T.boardKey(after))
+        return false;
+      T.rejectAction(this.memory, action);
+      this.host.trace("tuning-retry-alternative", { action, proof: "full-hand-and-board-unchanged" });
+      const card = before.hand[action.index]?.name || "这张牌";
+      this.notice("tune-rejected:" + action.id, `[调和] 「${card}」未调和成功，手牌与骰子未变，改用其他牌或行动。`);
+      return true;
+    }
+    async recoverRejectedInput(error, action, state, previousBudget) {
+      const tune = action.type === "tune";
+      if (error.code !== "TCG_INPUT_REJECTED" && !(tune && error.code === "TCG_TUNE_UNCONFIRMED")) return false;
+      const host = this.host;
+      this.readyState = null;
+      Object.assign(host, previousBudget);
+      const after = await host.observe(true, { mode: "full" });
+      if (tune) {
+        if (T.verifyResynchronized(action, state, after, false)) {
+          T.commit(this.memory, action, state, after);
+          host.trace("confirmed", { action, after, memory: this.memory, source: "tuning-recovery" });
+          log.info("[调和] 已核实手牌消耗与元素骰变化，继续后续行动。");
+        } else if (!this.rejectUnchangedTune(action, state, after)) {
+          T.deferUncertain(this.memory, action);
+          host.trace("action-uncertain", { action, after, memory: this.memory });
+          log.warn("[调整] 调和结果未能确认，按实际牌面继续，不重复烧牌。");
+        }
+      } else {
+        T.rejectAction(this.memory, action);
+        this.notice("input-rejected", "[调整] 当前行动未被游戏接受，重新同步后换一种选择。");
+        host.trace("native-input-rejected", { action, reason: error.message });
+      }
+      if (T.legalState(after)) {
+        host.adoptObservedState(after, tune ? "tuning-recovery-resync" : "native-rejection-resync");
+        this.readyState = after;
+      }
+      T.noteBoard(this.memory, after);
+      this.actions++;
+      this.progress();
+      return true;
     }
     async execute(action, state) {
       const host = this.host,
@@ -466,6 +540,7 @@
       try {
         return { sent: true, result: await host.execute(action, state, this.memory) };
       } catch (e) {
+        if (await this.recoverRejectedInput(e, action, state, budget)) return { sent: false };
         if (!INPUT_REFRESHES.includes(e.code)) throw e;
         Object.assign(host, budget);
         this.readyState = null;
@@ -551,13 +626,13 @@
     }
     async run() {
       try {
-        await this.enter();
+        if (await this.enter() === false) return;
         while (Date.now() < this.deadline && this.actions < 180) {
           const p = this.host.phase();
           if (p.phase !== "board" || p.turn !== "user") this.readyState = null;
           if (p.result) {
             this.host.trace("result", p);
-            log.info(p.result === "win" ? "对局胜利" : "对局失败");
+            this.reportResult(p);
             return;
           }
           if (p.phase === "opening") await this.opening();

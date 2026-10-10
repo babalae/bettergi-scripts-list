@@ -1,12 +1,18 @@
+// Generated from 牌手共享. Edit layered source, not this standalone output.
 (function (root) {
   "use strict";
   const elements = ["Pyro", "Hydro", "Anemo", "Electro", "Dendro", "Cryo", "Geo", "Omni"];
   const handX = {
-    1: [1120], 2: [1019, 1222], 3: [914, 1117, 1322], 4: [812, 1013, 1216, 1424],
-    5: [719, 913, 1115, 1319, 1528], 6: [614, 811, 1012, 1216, 1423, 1625],
-    7: [635, 799, 961, 1117, 1279, 1438, 1603], 8: [605, 751, 893, 1042, 1177, 1325, 1471, 1618],
+    1: [1120],
+    2: [1019, 1222],
+    3: [914, 1117, 1322],
+    4: [812, 1013, 1216, 1424],
+    5: [719, 913, 1115, 1319, 1528],
+    6: [614, 811, 1012, 1216, 1423, 1625],
+    7: [635, 799, 961, 1117, 1279, 1438, 1603],
+    8: [605, 751, 893, 1042, 1177, 1325, 1471, 1618],
     9: [587, 716, 847, 976, 1103, 1225, 1352, 1492, 1634],
-    10: [570, 690, 810, 930, 1050, 1170, 1290, 1410, 1530, 1650]
+    10: [570, 690, 810, 930, 1050, 1170, 1290, 1410, 1530, 1650],
   };
   const charX = [750, 960, 1175];
   function costMarkerLayout(rects) {
@@ -92,39 +98,47 @@
   function handLayoutCount(edges) {
     // Entire low-count layout, not a matching subset of a larger hand. Extra
     // interior rim matches are harmless; any edge outside the fan rejects it.
-    const candidates=[];
-    for(let n=1;n<=4;n++) {
-      const xs=handX[n];
-      if(edges.length && edges.every(x=>x>=xs[0]-120 && x<=xs[n-1]+130) &&
-          xs.every(c=>edges.some(x=>Math.abs(x-c-95)<=32)))candidates.push(n);
+    const candidates = [];
+    for (let n = 1; n <= 4; n++) {
+      const xs = handX[n];
+      if (
+        edges.length &&
+        edges.every((x) => x >= xs[0] - 120 && x <= xs[n - 1] + 130) &&
+        xs.every((c) => edges.some((x) => Math.abs(x - c - 95) <= 32))
+      )
+        candidates.push(n);
     }
-    return candidates.length===1?candidates[0]:null;
+    return candidates.length === 1 ? candidates[0] : null;
   }
-  const enemyHpXs={1:[856],2:[751,962],3:[646,856,1066],4:[541,751,961,1171]};
+  const enemyHpXs = { 1: [856], 2: [751, 962], 3: [646, 856, 1066], 4: [541, 751, 961, 1171] };
   // Verified skill names from DSTCG's repository card dictionary. The native
   // skill/payment preview hides the usual turn marker; it is not an unknown
   // board. Require BOTH the exact skill name and its type, not merely a panel.
-  const skillNames = [
-    { NA: "源流", E: "神变·恶曜开眼", Q: "奥义·梦想真说" },
-    { NA: "祈颂射艺", E: "拂花偈叶", Q: "猫猫秘宝" },
-    { NA: "云来剑法", E: "星斗归位", Q: "天街巡游" }
-  ];
+  const skillNames = TCG.team.map(c => c.skills);
   const skillTypes = { NA: "普通攻击", E: "元素战技", Q: "元素爆发" };
   // This asset is the tooltip ABOVE the control, not its clickable area.
   // Use it only as a scene marker. First-pick confirmation uses the official
   // character-card path, not the separate tooltip/control geometry.
   const pickLabelROI = [1730, 820, 190, 100];
-  const number = text => /^\d{1,2}$/.test(String(text).trim()) ? Number(String(text).trim()) : null;
+  const number = (text) =>
+    /^\d{1,2}$/.test(String(text).trim()) ? Number(String(text).trim()) : null;
   function captureSize(f) {
-    const width = Number(f.width ?? f.Width), height = Number(f.height ?? f.Height);
-    return { width: Number.isInteger(width) && width > 0 ? width : null,
-      height: Number.isInteger(height) && height > 0 ? height : null };
+    const width = Number(f.width ?? f.Width),
+      height = Number(f.height ?? f.Height);
+    return {
+      width: Number.isInteger(width) && width > 0 ? width : null,
+      height: Number.isInteger(height) && height > 0 ? height : null,
+    };
   }
   function requireCaptureSize(size) {
     if (size.width !== 1920 || size.height !== 1080) {
-      throw new Error("仅支持真实游戏捕获区 1920×1080；实际读取 " +
-        (size.width ?? "未知") + "×" + (size.height ?? "未知") +
-        "。请将游戏窗口设为1920×1080");
+      throw new Error(
+        "仅支持真实游戏捕获区 1920×1080；实际读取 " +
+          (size.width ?? "未知") +
+          "×" +
+          (size.height ?? "未知") +
+          "。请将游戏窗口设为1920×1080",
+      );
     }
   }
   function mousePoint(x, y) {
@@ -139,7 +153,7 @@
   }
   function boardDifferences(before, after) {
     const fields={active:s=>s.active,dice:s=>TCG.diceOrder.map(e=>s.dice?.[e]||0),
-      own:s=>s.characters,enemy:s=>s.enemies,quicken:s=>s.quicken||null};
+      own:s=>s.characters,enemy:s=>s.enemies,quicken:s=>s.quicken||null,support:s=>s.supportCounts||null};
     return Object.entries(fields).filter(([,read])=>JSON.stringify(read(before))!==JSON.stringify(read(after))).map(([name])=>name);
   }
   class BetterGIHost {
@@ -182,11 +196,11 @@
       file.createDirectory("logs");
     }
     clickAt(x, y) {
-      this.handPositionProof=null;
       const point = mousePoint(x, y);
       this.boardReady = false;
       click(point[0], point[1]);
       this.inputRevision++;
+      this.handPositionProof = null;
       return point;
     }
     moveTo(x, y) {
@@ -196,13 +210,16 @@
     }
     trace(event, data) {
       const text = JSON.stringify({ at: new Date().toISOString(), event, data });
-      if (!file.writeTextSync(this.path, text + "\n", true)) throw new Error("无法写入对局日志：" + this.path);
+      if (!file.writeTextSync(this.path, text + "\n", true))
+        throw new Error("无法写入对局日志：" + this.path);
     }
     frame(fn) {
-      const started = Date.now(), previousMemo = this.frameMemo;
+      const started = Date.now(),
+        previousMemo = this.frameMemo;
       const f = captureGameRegion();
       const captured = Date.now();
-      this.metrics.frames++; this.metrics.captureMs += captured - started;
+      this.metrics.frames++;
+      this.metrics.captureMs += captured - started;
       this.frameMemo = new WeakMap();
       try {
         requireCaptureSize(captureSize(f));
@@ -216,23 +233,49 @@
     memoFrame(f, key, read) {
       if (!this.frameMemo) return read();
       let cache = this.frameMemo.get(f);
-      if (!cache) { cache = new Map(); this.frameMemo.set(f, cache); }
-      if (cache.has(key)) { this.metrics.memoHits++; return cache.get(key); }
-      const value = read(); cache.set(key, value); return value;
+      if (!cache) {
+        cache = new Map();
+        this.frameMemo.set(f, cache);
+      }
+      if (cache.has(key)) {
+        this.metrics.memoHits++;
+        return cache.get(key);
+      }
+      const value = read();
+      cache.set(key, value);
+      return value;
     }
-    metricSnapshot() { return {...this.metrics}; }
-    metricDelta(before) { return Object.fromEntries(Object.keys(this.metrics).map(k=>[k,this.metrics[k]-(before?.[k]||0)])); }
+    metricSnapshot() {
+      return { ...this.metrics };
+    }
+    metricDelta(before) {
+      return Object.fromEntries(
+        Object.keys(this.metrics).map((k) => [k, this.metrics[k] - (before?.[k] || 0)]),
+      );
+    }
     async waitForCapture() {
       // Give an in-progress window transition a bounded chance to settle.
       // No OCR, templates, or game input until two native 1080P frames agree.
-      let stable = 0, last = { width: null, height: null }, lastKey = "";
+      let stable = 0,
+        last = { width: null, height: null },
+        lastKey = "";
       for (let attempt = 0; attempt < 20; attempt++) {
         const f = captureGameRegion();
-        try { last = captureSize(f); } finally { f.dispose(); }
+        try {
+          last = captureSize(f);
+        } finally {
+          f.dispose();
+        }
         const key = JSON.stringify(last);
-        if (key !== lastKey) { this.trace("capture-size", { ...last, attempt }); lastKey = key; }
+        if (key !== lastKey) {
+          this.trace("capture-size", { ...last, attempt });
+          lastKey = key;
+        }
         stable = last.width === 1920 && last.height === 1080 ? stable + 1 : 0;
-        if (stable >= 2) { this.trace("capture-ready", last); return; }
+        if (stable >= 2) {
+          this.trace("capture-ready", last);
+          return;
+        }
         if (attempt < 19) await sleep(300);
       }
       requireCaptureSize(last);
@@ -241,24 +284,35 @@
     ocr(f, roi) {
       const key = "ocr/" + roi.join(",");
       return this.memoFrame(f, key, () => {
-      if (!this.roCache.has(key)) this.roCache.set(key, RecognitionObject.Ocr(...roi));
-      const started = Date.now(); this.metrics.ocrCalls++;
-      const r = f.Find(this.roCache.get(key));
-      const value = r.isExist() ? String(r.text ?? r.Text ?? "").trim() : "";
-      this.metrics.ocrMs += Date.now() - started; return value;
+        if (!this.roCache.has(key)) this.roCache.set(key, RecognitionObject.Ocr(...roi));
+        const started = Date.now();
+        this.metrics.ocrCalls++;
+        const r = f.Find(this.roCache.get(key));
+        const value = r.isExist() ? String(r.text ?? r.Text ?? "").trim() : "";
+        this.metrics.ocrMs += Date.now() - started;
+        return value;
       });
     }
-    ocrRows(f,roi) {
-      const key="ocr/"+roi.join(",");
-      return this.memoFrame(f, "rows/" + key, () => {
-      if(!this.roCache.has(key))this.roCache.set(key,RecognitionObject.Ocr(...roi));
-      const started=Date.now(); this.metrics.ocrCalls++;
-      const rs=f.FindMulti(this.roCache.get(key)),out=[];
-      for(let i=0;i<rs.count;i++) {
-        const r=rs[i];out.push({text:String(r.text??r.Text??"").trim(),
-          x:Number(r.x??r.X),y:Number(r.y??r.Y),w:Number(r.width??r.Width),h:Number(r.height??r.Height)});
-      }
-      this.metrics.ocrMs+=Date.now()-started;return out;
+    ocrRows(f, roi) {
+      return this.memoFrame(f, "ocrRows/" + roi.join(","), () => {
+        const key = "ocr/" + roi.join(",");
+        if (!this.roCache.has(key)) this.roCache.set(key, RecognitionObject.Ocr(...roi));
+        const started = Date.now();
+        this.metrics.ocrCalls++;
+        const rs = f.FindMulti(this.roCache.get(key)),
+          out = [];
+        for (let i = 0; i < rs.count; i++) {
+          const r = rs[i];
+          out.push({
+            text: String(r.text ?? r.Text ?? "").trim(),
+            x: Number(r.x ?? r.X),
+            y: Number(r.y ?? r.Y),
+            w: Number(r.width ?? r.Width),
+            h: Number(r.height ?? r.Height),
+          });
+        }
+        this.metrics.ocrMs += Date.now() - started;
+        return out;
       });
     }
     choiceIn(f) {
@@ -357,9 +411,11 @@
       return results;
       });
     }
-    has(f, asset, roi, threshold) { return this.matches(f, asset, roi, threshold).length > 0; }
+    has(f, asset, roi, threshold) {
+      return this.matches(f, asset, roi, threshold).length > 0;
+    }
     button(asset, roi = [0, 540, 1920, 540]) {
-      return this.frame(f => this.matches(f, "core/" + asset, roi)[0] || null);
+      return this.frame((f) => this.matches(f, "core/" + asset, roi)[0] || null);
     }
     async clickButton(asset, roi) {
       if (asset === "出战角色") throw new Error("出战角色模板是提示文字，不是按钮");
@@ -474,19 +530,28 @@
       );
     }
     characterSkillPreview(p) {
-      const names = [p.name, p.nativeName, p.enlargedName].map(v => TCG.norm(v || ""));
+      const names = [p.name, p.nativeName, p.enlargedName].map((v) => TCG.norm(v || ""));
       const named = names.filter(Boolean);
-      return !p.identity && !TCG.norm(p.detail || "") && !TCG.norm(p.aliasDetail || "") &&
-        named.length > 0 && named.every(name => name === named[0] && TCG.characterName(name) >= 0) &&
-        p.phase?.phase === "board" && p.phase.turn === "user";
+      return (
+        !p.identity &&
+        !TCG.norm(p.detail || "") &&
+        !TCG.norm(p.aliasDetail || "") &&
+        named.length > 0 &&
+        named.every((name) => name === named[0] && TCG.characterName(name) >= 0) &&
+        p.phase?.phase === "board" &&
+        p.phase.turn === "user"
+      );
     }
     characterOverviewIn(f) {
-      // Shared native character panel, adapted from Iansan/Gaming/Sayu 0.1.9.
-      // Inspect only after a failed preview, never on a normal skill path.
+      // Native 17:18: the character overview has a role title, not a skill title.
+      // Its right-hand section varies with equipment/statuses. Read this only
+      // on a failed preview, never in the normal two-frame skill-confirm path.
       const name = this.ocr(f, [311, 115, 341, 50]);
       const heading = this.ocr(f, [740, 123, 280, 44]);
       return TCG.characterName(name) >= 0 &&
-        ["角色装备", "角色状态", "阵营出战状态"].includes(TCG.norm(heading)) ? {name, heading} : null;
+        ["角色装备", "角色状态", "阵营出战状态"].includes(TCG.norm(heading))
+        ? { name, heading }
+        : null;
     }
     async requireOpenedSkill(action, before, x, readFee = false, feeProbe = false) {
       try {
@@ -551,77 +616,117 @@
       }
     }
     diceIn(f, roll = false, expectedRollCount = 8, actionLayout = false) {
-      const inAction=roll && (actionLayout || expectedRollCount!==8);
-      const roi = inAction ? [320,280,1280,560] : roll ? [553, 330, 819, 411] : [1848, 177, 38, 737];
+      const inAction = roll && (actionLayout || expectedRollCount !== 8);
+      const roi = inAction
+        ? [320, 280, 1280, 560]
+        : roll
+          ? [553, 330, 819, 411]
+          : [1848, 177, 38, 737];
       // BetterGI0.66.0 uses COLOR dice assets and thresholds0.73/0.7,
       // not DSTCG gray crops at0.9. Keep the two asset/mode pairs together.
       const threshold = roll ? 0.73 : 0.7;
       let items = [];
       for (const e of elements) {
-        for (const r of this.matches(f, "dice/Native" + (roll ? "Roll" : "Main") + e, roi, threshold, true)) {
+        for (const r of this.matches(
+          f,
+          "dice/Native" + (roll ? "Roll" : "Main") + e,
+          roi,
+          threshold,
+          true,
+        )) {
           const [x, y] = mousePoint(r.x + r.w / 2, r.y + r.h / 2);
           items.push({ element: e, x, y });
         }
       }
-      const fail = reason => {
+      const fail = (reason) => {
         this.trace("dice-read", { roll, roi, threshold, color: true, items, error: reason });
-        const error = new Error(reason); error.code = "TCG_DICE_RETRY"; throw error;
+        const error = new Error(reason);
+        error.code = "TCG_DICE_RETRY";
+        throw error;
       };
       if (!roll) {
         const groups = [];
         for (const item of items) {
-          const group = groups.find(g => g.some(d => Math.hypot(d.x-item.x,d.y-item.y)<14));
-          if (group) group.push(item); else groups.push([item]);
+          const group = groups.find((g) =>
+            g.some((d) => Math.hypot(d.x - item.x, d.y - item.y) < 14),
+          );
+          if (group) group.push(item);
+          else groups.push([item]);
         }
-        items = groups.map(group => {
+        items = groups.map((group) => {
           if (group.length === 1) return group[0];
           // Official0.66 compares scores across templates before suppressing
           // overlaps. FindMulti exposes positions only: bound each score via
           // six threshold probes in this slot. A fixed0.8 loses real0.783 dice.
-          const localROI = [1848, Math.max(177,Math.min(...group.map(d=>d.y))-22), 38, 48];
+          const localROI = [1848, Math.max(177, Math.min(...group.map((d) => d.y)) - 22), 38, 48];
           const ranked = [];
-          for (const e of new Set(group.map(d=>d.element))) {
-            let low=0.7, high=1, best=group.find(d=>d.element===e);
-            for(let probe=0;probe<6;probe++) {
-              const threshold=(low+high)/2;
-              const hits=this.matches(f,"dice/NativeMain"+e,localROI,threshold,true).map(r=>{
-                const [x,y]=mousePoint(r.x+r.w/2,r.y+r.h/2);return {element:e,x,y};
-              }).filter(d=>group.some(g=>Math.hypot(g.x-d.x,g.y-d.y)<14));
-              if(hits.length===1){low=threshold;best=hits[0];}else high=threshold;
+          for (const e of new Set(group.map((d) => d.element))) {
+            let low = 0.7,
+              high = 1,
+              best = group.find((d) => d.element === e);
+            for (let probe = 0; probe < 6; probe++) {
+              const threshold = (low + high) / 2;
+              const hits = this.matches(f, "dice/NativeMain" + e, localROI, threshold, true)
+                .map((r) => {
+                  const [x, y] = mousePoint(r.x + r.w / 2, r.y + r.h / 2);
+                  return { element: e, x, y };
+                })
+                .filter((d) => group.some((g) => Math.hypot(g.x - d.x, g.y - d.y) < 14));
+              if (hits.length === 1) {
+                low = threshold;
+                best = hits[0];
+              } else high = threshold;
             }
-            ranked.push({...best,low,high});
+            ranked.push({ ...best, low, high });
           }
-          ranked.sort((a,b)=>b.low-a.low);
+          ranked.sort((a, b) => b.low - a.low);
           // Keep the official0.7 threshold. Margin0.03 is over six times the
           // probe interval0.0046875; near ties still cannot be classified.
-          const accepted=ranked[0].low-ranked[1].high>=0.03;
-          this.trace("dice-conflict-recheck",{group,roi:localROI,probes:6,ranked,minScore:0.7,minMargin:0.03,accepted});
+          const accepted = ranked[0].low - ranked[1].high >= 0.03;
+          this.trace("dice-conflict-recheck", {
+            group,
+            roi: localROI,
+            probes: 6,
+            ranked,
+            minScore: 0.7,
+            minMargin: 0.03,
+            accepted,
+          });
           if (!accepted) fail("同一骰子跨模板分数复核后仍不唯一或分差不足，停止");
-          const {element,x,y}=ranked[0];return {element,x,y};
+          const { element, x, y } = ranked[0];
+          return { element, x, y };
         });
       }
       // Reject ambiguous classifications instead of double-counting an Omni die.
-      for (let i = 0; i < items.length; i++) for (let j = i + 1; j < items.length; j++) {
-        if (Math.hypot(items[i].x - items[j].x, items[i].y - items[j].y) < 14) fail("同一骰子被多模板识别，停止");
-      }
-      const dice = Object.fromEntries(elements.map(e => [e, items.filter(d => d.element === e).length]));
-      if (items.length > 16 || roll && items.length !== expectedRollCount) fail("骰子识别数量异常：" + items.length);
-      if (inAction)items.sort((a,b)=>Math.abs(a.y-b.y)>40?a.y-b.y:a.x-b.x);
+      for (let i = 0; i < items.length; i++)
+        for (let j = i + 1; j < items.length; j++) {
+          if (Math.hypot(items[i].x - items[j].x, items[i].y - items[j].y) < 14)
+            fail("同一骰子被多模板识别，停止");
+        }
+      const dice = Object.fromEntries(
+        elements.map((e) => [e, items.filter((d) => d.element === e).length]),
+      );
+      if (items.length > 16 || (roll && items.length !== expectedRollCount))
+        fail("骰子识别数量异常：" + items.length);
+      if (inAction) items.sort((a, b) => (Math.abs(a.y - b.y) > 40 ? a.y - b.y : a.x - b.x));
       if (roll && !inAction) {
         // Counting8 alone could hide a missing slot plus a side-face duplicate.
         const slots = new Set();
         for (const die of items) {
           const col = Math.floor((die.x - roi[0]) / (roi[2] / 4));
           const row = die.y < 540 ? 0 : 1;
-          if (col < 0 || col > 3 || die.y < roi[1] || die.y >= roi[1] + roi[3]) fail("重投骰子位置超出已验证的八格布局");
+          if (col < 0 || col > 3 || die.y < roi[1] || die.y >= roi[1] + roi[3])
+            fail("重投骰子位置超出已验证的八格布局");
           die.slot = row * 4 + col;
-          if (slots.has(die.slot)) fail("重投骰子位置重复：第 " + (die.slot + 1) + " 格；不能用重复命中凑八颗");
+          if (slots.has(die.slot))
+            fail("重投骰子位置重复：第 " + (die.slot + 1) + " 格；不能用重复命中凑八颗");
           slots.add(die.slot);
         }
         if (slots.size !== 8) fail("重投骰子八个位置未识别完整");
-        items.sort((a,b) => a.slot - b.slot);
+        items.sort((a, b) => a.slot - b.slot);
       }
-      const key = JSON.stringify(items), domain = inAction ? "action-roll" : roll ? "roll" : "main";
+      const key = JSON.stringify(items),
+        domain = inAction ? "action-roll" : roll ? "roll" : "main";
       if (this.diceReadKeys.get(domain) !== key) {
         this.diceReadKeys.set(domain, key);
         this.trace("dice-read", { roll, roi, threshold, color: true, items, dice });
@@ -629,21 +734,29 @@
       return { dice, items };
     }
     async readRollDice() {
-      let previousKey = "", observed = null, lastError = "骰子尚未稳定";
+      let previousKey = "",
+        observed = null,
+        lastError = "骰子尚未稳定";
       for (let attempt = 0; attempt < 12; attempt++) {
         const p = this.phase();
-        if (p.phase !== "roll" && p.phase !== "unknown") throw new Error("稳定识别骰子前已离开投骰页");
+        if (p.phase !== "roll" && p.phase !== "unknown")
+          throw new Error("稳定识别骰子前已离开投骰页");
         if (p.phase === "roll") {
           try {
-            observed = this.frame(f => this.diceIn(f, true));
-            const key = JSON.stringify(observed.items.map(d => [d.slot, d.element]));
-            this.trace("roll-dice-wait", { attempt, stable: key === previousKey, count: observed.items.length });
+            observed = this.frame((f) => this.diceIn(f, true));
+            const key = JSON.stringify(observed.items.map((d) => [d.slot, d.element]));
+            this.trace("roll-dice-wait", {
+              attempt,
+              stable: key === previousKey,
+              count: observed.items.length,
+            });
             if (key === previousKey) return observed;
             previousKey = key;
             lastError = "八颗骰子的分类尚未取得连续两帧一致";
           } catch (e) {
             if (e.code !== "TCG_DICE_RETRY") throw e;
-            previousKey = ""; lastError = String(e.message || e);
+            previousKey = "";
+            lastError = String(e.message || e);
             this.trace("roll-dice-wait", { attempt, stable: false, error: lastError });
           }
         } else previousKey = "";
@@ -651,76 +764,172 @@
       }
       throw new Error("重投骰子识别12次未稳定：" + lastError);
     }
-    async actionReroll(before,memory=TCG.freshMemory()) {
-      const count=TCG.total(before.dice);
-      if(count<1 || count>16)throw new Error("战中重投的真实骰数无效");
-      const goal=TCG.actionRerollGoal(before,memory);
-      if(!this.tossSession)this.tossSession={sent:0,expected:2,selection:null,
-        wanted:goal?.element||TCG.team[before.active].element,transitioned:false,
-        previousDice:null,blankReady:false,blankSent:false};
-      const session=this.tossSession,counterROI=[700,835,520,65];
-      let stable=0,key="",lastTrace="",lastError="重投页面尚未稳定";
-      for(let attempt=0;attempt<60;attempt++) {
+    async actionReroll(before, memory = TCG.freshMemory()) {
+      const count = TCG.total(before.dice);
+      if (count < 1 || count > 16) throw new Error("战中重投的真实骰数无效");
+      const goal = TCG.actionRerollGoal(before, memory);
+      if (!this.tossSession)
+        this.tossSession = {
+          sent: 0,
+          expected: 2,
+          selection: null,
+          wanted: goal?.element || TCG.team[before.active].element,
+          transitioned: false,
+          previousDice: null,
+          blankReady: false,
+          blankSent: false,
+        };
+      const session = this.tossSession,
+        counterROI = [700, 835, 520, 65];
+      let stable = 0,
+        key = "",
+        lastTrace = "",
+        lastError = "重投页面尚未稳定";
+      for (let attempt = 0; attempt < 60; attempt++) {
         let page;
-        try{page=this.frame(f=>{
-          const phase=this.phaseIn(f);
-          if(phase.phase!=="roll")return {phase};
-          const text=this.ocr(f,counterROI),remaining=TCG.rerollCounter(text);
-          const blank=remaining===null&&TCG.norm(text)==="";
-          return {phase,text,remaining,blank,
-            blankHeader:blank ? TCG.norm(this.ocr(f,[844,167,232,65]))==="重投骰子" &&
-              TCG.norm(this.ocr(f,[700,230,520,50]))==="请选择要重投的骰子" : false,
-            buttons:this.matches(f,"core/确定",[500,900,920,150]),
-            dice:!session.selection && (remaining===session.expected ||
-              blank&&session.sent===1 || session.blankSent&&session.sent===2&&remaining===1) ?
-              this.diceIn(f,true,count,true):null};
-        });}catch(e){if(e.code!=="TCG_DICE_RETRY")throw e;
-          lastError=e.message;stable=0;key="";await sleep(300);continue;}
-        const p=page.phase;
-        if(session.sent>0 && p.phase!=="roll")session.transitioned=true;
-        if(p.result || p.phase==="board"&&p.turn==="user"&&session.sent>=2) {
-          const current=JSON.stringify([p.phase,p.turn,p.result]);stable=current===key?stable+1:1;key=current;
-          if(stable>=2){this.trace("action-reroll-resolved",{count,confirmations:session.sent,wanted:session.wanted});
-            this.tossSession=null;return {confirmations:2,inputConfirmations:session.sent};}await sleep(300);continue;
+        try {
+          page = this.frame((f) => {
+            const phase = this.phaseIn(f);
+            if (phase.phase !== "roll") return { phase };
+            const text = this.ocr(f, counterROI),
+              remaining = TCG.rerollCounter(text);
+            const blank = remaining === null && TCG.norm(text) === "";
+            return {
+              phase,
+              text,
+              remaining,
+              blank,
+              blankHeader: blank
+                ? TCG.norm(this.ocr(f, [844, 167, 232, 65])) === "重投骰子" &&
+                  TCG.norm(this.ocr(f, [700, 230, 520, 50])) === "请选择要重投的骰子"
+                : false,
+              buttons: this.matches(f, "core/确定", [500, 900, 920, 150]),
+              dice:
+                !session.selection &&
+                (remaining === session.expected ||
+                  (blank && session.sent === 1) ||
+                  (session.blankSent && session.sent === 2 && remaining === 1))
+                  ? this.diceIn(f, true, count, true)
+                  : null,
+            };
+          });
+        } catch (e) {
+          if (e.code !== "TCG_DICE_RETRY") throw e;
+          lastError = e.message;
+          stable = 0;
+          key = "";
+          await sleep(300);
+          continue;
         }
-        const traceKey=JSON.stringify([p.phase,page.remaining,page.text,page.buttons?.length]);
-        if(traceKey!==lastTrace){this.trace("action-reroll-page",{phase:p.phase,remaining:page.remaining,text:page.text,
-          expected:session.expected,count,wanted:session.wanted});lastTrace=traceKey;}
-        const diceKey=page.dice ? JSON.stringify(page.dice.items) : null;
-        const blankOK=page.blank && page.blankHeader && session.sent===1 &&
-          (session.blankReady || session.transitioned || diceKey!==null&&diceKey!==session.previousDice);
+        const p = page.phase;
+        if (session.sent > 0 && p.phase !== "roll") session.transitioned = true;
+        if (p.result || (p.phase === "board" && p.turn === "user" && session.sent >= 2)) {
+          const current = JSON.stringify([p.phase, p.turn, p.result]);
+          stable = current === key ? stable + 1 : 1;
+          key = current;
+          if (stable >= 2) {
+            this.trace("action-reroll-resolved", {
+              count,
+              confirmations: session.sent,
+              wanted: session.wanted,
+            });
+            this.tossSession = null;
+            return { confirmations: 2, inputConfirmations: session.sent };
+          }
+          await sleep(300);
+          continue;
+        }
+        const traceKey = JSON.stringify([p.phase, page.remaining, page.text, page.buttons?.length]);
+        if (traceKey !== lastTrace) {
+          this.trace("action-reroll-page", {
+            phase: p.phase,
+            remaining: page.remaining,
+            text: page.text,
+            expected: session.expected,
+            count,
+            wanted: session.wanted,
+          });
+          lastTrace = traceKey;
+        }
+        const diceKey = page.dice ? JSON.stringify(page.dice.items) : null;
+        const blankOK =
+          page.blank &&
+          page.blankHeader &&
+          session.sent === 1 &&
+          (session.blankReady ||
+            session.transitioned ||
+            (diceKey !== null && diceKey !== session.previousDice));
         // A counterless page may be either the second selection or an interim
         // acknowledgement. Only an explicit subsequent "1" permits a third
         // button confirmation; never repeat a counterless page after sending it.
-        const countedOK=page.remaining===session.expected&&session.sent<2 ||
-          session.blankSent&&session.sent===2&&page.remaining===1;
-        if(p.phase!=="roll" || !(countedOK||blankOK) || page.buttons.length!==1 || session.sent>=3) {
-          lastError=page.remaining===null?"战中重投次数未识别":"战中重投页面未就绪";
-          stable=0;key="";await sleep(300);continue;
+        const countedOK =
+          (page.remaining === session.expected && session.sent < 2) ||
+          (session.blankSent && session.sent === 2 && page.remaining === 1);
+        if (
+          p.phase !== "roll" ||
+          !(countedOK || blankOK) ||
+          page.buttons.length !== 1 ||
+          session.sent >= 3
+        ) {
+          lastError = page.remaining === null ? "战中重投次数未识别" : "战中重投页面未就绪";
+          stable = 0;
+          key = "";
+          await sleep(300);
+          continue;
         }
-        const current=JSON.stringify([page.remaining,page.buttons,page.dice?.items]);
-        stable=current===key?stable+1:1;key=current;
-        if(stable<2){await sleep(300);continue;}
-        if(!session.selection) {
-          const bad=page.dice.items.filter(d=>d.element!==session.wanted&&d.element!=="Omni");
+        const current = JSON.stringify([page.remaining, page.buttons, page.dice?.items]);
+        stable = current === key ? stable + 1 : 1;
+        key = current;
+        if (stable < 2) {
+          await sleep(300);
+          continue;
+        }
+        if (!session.selection) {
+          const bad = page.dice.items.filter(
+            (d) => d.element !== session.wanted && d.element !== "Omni",
+          );
           // Persist selection BEFORE any input. A delayed OCR/control cannot
           // cause a second click to toggle the same die back off.
-          session.blankReady=blankOK;
-          session.selection={remaining:page.remaining,selected:bad.length,diceKey,blank:blankOK};
-          for(const die of bad){this.clickAt(die.x,die.y);await sleep(120);}
-          stable=0;key="";await sleep(250);continue;
+          session.blankReady = blankOK;
+          session.selection = {
+            remaining: page.remaining,
+            selected: bad.length,
+            diceKey,
+            blank: blankOK,
+          };
+          for (const die of bad) {
+            this.clickAt(die.x, die.y);
+            await sleep(120);
+          }
+          stable = 0;
+          key = "";
+          await sleep(250);
+          continue;
         }
         // Fresh same-frame phase, exact counter and unique control after dice
         // selection. Empty OCR retries read-only; no selection replay.
-        const b=page.buttons[0];this.clickAt(b.x+b.w/2,b.y+b.h/2);
-        session.sent++;session.expected=page.remaining===null?0:page.remaining-1;
-        const selected=session.selection.selected;
-        session.previousDice=session.selection.diceKey;session.blankSent ||= session.selection.blank;
-        session.selection=null;session.blankReady=false;session.transitioned=false;
-        this.trace("action-reroll-confirmed",{remaining:page.remaining,selected,count,wanted:session.wanted});
-        stable=0;key="";await sleep(1000);
+        const b = page.buttons[0];
+        this.clickAt(b.x + b.w / 2, b.y + b.h / 2);
+        session.sent++;
+        session.expected = page.remaining === null ? 0 : page.remaining - 1;
+        const selected = session.selection.selected;
+        session.previousDice = session.selection.diceKey;
+        session.blankSent ||= session.selection.blank;
+        session.selection = null;
+        session.blankReady = false;
+        session.transitioned = false;
+        this.trace("action-reroll-confirmed", {
+          remaining: page.remaining,
+          selected,
+          count,
+          wanted: session.wanted,
+        });
+        stable = 0;
+        key = "";
+        await sleep(1000);
       }
-      this.captureEvidence("action-reroll-layout");throw new Error("战中重投等待超时："+lastError);
+      this.captureEvidence("action-reroll-layout");
+      throw new Error("战中重投等待超时：" + lastError);
     }
     skillFeeIn(f,action) {
       // Calibrated native preview fee row; identity is independently checked.
@@ -753,18 +962,22 @@
       return {...before,confirmed:false,probed:true};
     }
     numericAt(f, roi, scale) {
-      return this.memoFrame(f, "numeric/"+roi.join(",")+"/"+scale, () => {
-      let crop = null, resized = null, region = null;
-      try {
-        crop = f.DeriveCrop(...roi);
-        resized = crop.SrcMat.Resize(new OpenCvSharp.OpenCvSharp.Size(roi[2] * scale, roi[3] * scale));
-        region = new ImageRegion(resized, 0, 0);
-        return this.ocr(region, [0, 0, roi[2] * scale, roi[3] * scale]);
-      } finally {
-        if (region) region.dispose();
-        else if (resized) resized.dispose();
-        if (crop) crop.dispose();
-      }
+      return this.memoFrame(f, "numeric/" + roi.join(",") + "/" + scale, () => {
+        let crop = null,
+          resized = null,
+          region = null;
+        try {
+          crop = f.DeriveCrop(...roi);
+          resized = crop.SrcMat.Resize(
+            new OpenCvSharp.OpenCvSharp.Size(roi[2] * scale, roi[3] * scale),
+          );
+          region = new ImageRegion(resized, 0, 0);
+          return this.ocr(region, [0, 0, roi[2] * scale, roi[3] * scale]);
+        } finally {
+          if (region) region.dispose();
+          else if (resized) resized.dispose();
+          if (crop) crop.dispose();
+        }
       });
     }
     enlargedOcrRows(f, roi, scale) {
@@ -799,17 +1012,27 @@
       // Recovery profile adds horizontal context, not overlapping vertical HP
       // slots. Saved-pixel 11-HP stress test: wide4=9/9, original=7/9.
       const roi = this.precisionBoard ? [x + 2, y, 56, 40] : [x + 8, y, 44, 40];
-      return this.numericAt(f, roi, this.precisionBoard ? 4 : 3);
+      const raw = this.numericAt(f, roi, this.precisionBoard ? 4 : 3);
+      if (number(raw) !== null || !this.precisionBoard) return raw;
+      // Same-frame, read-only retry with vertical context. Saved 1-HP / empty
+      // regions were stress-tested; no cached-health or digit substitution.
+      return this.numericAt(f, [x, y - 6, 62, 52], 4);
     }
     diceCountIn(f) {
       // Official MyDiceCountRect. A missing badge is unknown, never zero.
-      const raw=this.numericAt(f,[68,642,25,31],4), count=number(raw);
-      return count!==null && count<=16 ? count : null;
+      const raw = this.numericAt(f, [68, 642, 25, 31], 4),
+        count = number(raw);
+      return count !== null && count <= 16 ? count : null;
     }
     usePrecisionBoard(reason) {
-      if(this.precisionBoard)return;
-      this.precisionBoard=true;
-      this.trace("board-recovery",{reason,hpROI:["x+2","y",56,40],hpScale:4,diceBadgeCrossCheck:true});
+      if (this.precisionBoard) return;
+      this.precisionBoard = true;
+      this.trace("board-recovery", {
+        reason,
+        hpROI: ["x+2", "y", 56, 40],
+        hpScale: 4,
+        diceBadgeCrossCheck: true,
+      });
     }
     releasePrecisionBoard(reason) {
       if (!this.precisionBoard) return;
@@ -840,22 +1063,28 @@
         enemies.every((c, i) => at(enemyHpXs[enemies.length][i], 170, 212, c, !c.active))
       );
     }
-    characterIn(f, who, enemy = false, enemyLayoutCount = this.options.enemyCount) {
+    characterIn(f, who, enemy = false, enemyLayoutCount = 3, readAura = false) {
       const count = enemy ? enemyLayoutCount : 3;
       const hpXs = enemy ? enemyHpXs[count] : enemyHpXs[3];
       const hpX = hpXs[who];
       const rawRaised = this.hpAt(f, hpX, enemy ? 170 : 600);
       const rawLowered = this.hpAt(f, hpX, enemy ? 212 : 640);
-      const raised = number(rawRaised), lowered = number(rawLowered);
+      const raised = number(rawRaised),
+        lowered = number(rawLowered);
       const stateX = hpX + 17;
       const stateY = enemy ? 105 : 545;
       const dead = this.has(f, "disable", [stateX, stateY, 167, 382], 0.9);
       // NPC/modified character cards can start above 10 (native current match
       // shows two 11-HP opponents). Do not turn every such slot into unknown.
       // This bounds a two-digit observation, not an assumed enemy max HP.
-      const maxHp = enemy ? 99 : TCG.team[who].maxHp;
-      const validHp = value => value !== null && value >= 1 && value <= maxHp;
-      const raisedValid = validHp(raised), loweredValid = validHp(lowered);
+      const maxHp = enemy
+        ? 99
+        : TCG.team[who].maxHp +
+          (this.memory?.extraMaxHp?.[who] || 0) +
+          (this.selectedSoup === "maxhp" && this.currentAction?.target === who ? 1 : 0);
+      const validHp = (value) => value !== null && value >= 1 && value <= maxHp;
+      const raisedValid = validHp(raised),
+        loweredValid = validHp(lowered);
       // Two positions containing numbers is not proof of either HP or active slot.
       const conflict = raisedValid && loweredValid;
       const hp = dead ? 0 : conflict ? null : raisedValid ? raised : loweredValid ? lowered : null;
@@ -863,61 +1092,127 @@
       const slotKey = (enemy ? "enemy" + count + "/" : "own") + who;
       if (this.hpReadKeys.get(slotKey) !== key) {
         this.hpReadKeys.set(slotKey, key);
-        this.trace("hp-read", { side: enemy ? "enemy" : "own", index: who,
-          rois: this.precisionBoard ? [[hpX+2,enemy?170:600,56,40],[hpX+2,enemy?212:640,56,40]] :
-            [[hpX + 8, enemy ? 170 : 600, 44, 40], [hpX + 8, enemy ? 212 : 640, 44, 40]],
-          scale: this.precisionBoard?4:3, raw: [rawRaised, rawLowered], hp, dead, conflict });
+        this.trace("hp-read", {
+          side: enemy ? "enemy" : "own",
+          index: who,
+          rois: this.precisionBoard
+            ? [
+                [hpX + 2, enemy ? 170 : 600, 56, 40],
+                [hpX + 2, enemy ? 212 : 640, 56, 40],
+              ]
+            : [
+                [hpX + 8, enemy ? 170 : 600, 44, 40],
+                [hpX + 8, enemy ? 212 : 640, 44, 40],
+              ],
+          scale: this.precisionBoard ? 4 : 3,
+          raw: [rawRaised, rawLowered],
+          hp,
+          dead,
+          conflict,
+        });
       }
-      if (enemy) return { hp, dead: dead ? true : hp === null ? null : false, active: !dead && loweredValid && !conflict };
+      if (enemy) {
+        // Positive aura matches only. Missing templates do NOT prove no aura.
+        const aura = readAura && !dead ? this.auraIn(f, hpX, loweredValid ? 212 : 170) : [];
+        return {
+          hp,
+          dead: dead ? true : hp === null ? null : false,
+          active: !dead && loweredValid && !conflict,
+          aura,
+          auraKnown: aura.length > 0 && aura.length <= 2,
+        };
+      }
       const cx = [812, 1022, 1233][who];
       const charged = this.matches(f, "charge", [cx, 612, 32, 180], 0.86).length;
       const empty = this.matches(f, "uncharge", [cx, 612, 32, 180], 0.86).length;
       const energy = charged + empty === TCG.team[who].maxEnergy ? charged : null;
       const statusROI = [stateX, stateY, 167, 382];
-      const frozen = this.has(f, "state/StateFreeze", statusROI, 0.9) ||
-        ["角色状态_冻结", "角色状态_冻结2", "角色状态_水泡"].some(name => this.has(f, "core/" + name, statusROI, 0.9));
-      return { hp, dead: dead ? true : hp === null ? null : false,
-        energy: dead ? 0 : energy, frozen, raised: raisedValid && !conflict };
+      const frozen =
+        this.has(f, "state/StateFreeze", statusROI, 0.9) ||
+        ["角色状态_冻结", "角色状态_冻结2", "角色状态_水泡"].some((name) =>
+          this.has(f, "core/" + name, statusROI, 0.9),
+        );
+      return {
+        hp,
+        dead: dead ? true : hp === null ? null : false,
+        energy: dead ? 0 : energy,
+        frozen,
+        raised: !dead && raisedValid && !conflict,
+      };
     }
     enemiesIn(f) {
-      // NPC defeats can disappear/recenter; character defeats can stay in
-      // their original slots. Every slot needs living HP OR a native defeat
-      // marker, and exactly one LIVING lowered active card.
+      // Defeated cards may remain in their slots OR disappear and recenter.
+      // Every slot needs positive live HP or an explicit death-template match,
+      // with exactly one lowered LIVING active card.
       // Ambiguous/partial layouts remain unknown; they never become deaths.
-      const observations=[],candidates = [];
+      const observations = [],
+        candidates = [];
       // These four native layouts already have calibrated HP geometry. Do not
       // silently crop a four-opponent mode to the configured default of three.
       for (let count = 1; count <= 4; count++) {
-        const cards = Array.from({length: count}, (_, i) => this.characterIn(f, i, true, count));
-        const row={count,cards,xs:enemyHpXs[count]};observations.push(row);
-        if (cards.every(c => c.dead===true || TCG.alive(c)) && cards.filter(c => TCG.alive(c)&&c.active).length === 1)candidates.push(row);
+        const cards = Array.from({ length: count }, (_, i) =>
+          this.characterIn(f, i, true, count, false),
+        );
+        const row = { count, cards, xs: enemyHpXs[count] };
+        observations.push(row);
+        if (
+          cards.every((c) => TCG.alive(c) || (c.dead === true && c.hp === 0 && !c.active)) &&
+          cards.filter((c) => TCG.alive(c) && c.active).length === 1
+        )
+          candidates.push(row);
       }
-      const unknown=()=>Array.from({length:this.options.enemyCount},()=>({hp:null,dead:null,active:null}));
-      if(!candidates.length)return unknown();
-      const best=candidates.sort((a,b)=>b.count-a.count)[0];
+      // Placeholder shape is not an observed enemy count or strategy setting.
+      const unknown = () =>
+        Array.from({ length: 3 }, () => ({ hp: null, dead: null, active: null }));
+      if (!candidates.length) return unknown();
+      const best = candidates.sort((a, b) => b.count - a.count)[0];
       // Three vs one and four vs two overlap at inner HP positions. Accept a
       // smaller candidate only as the EXACT same subset, not a second team.
-      for(const row of candidates.slice(1))for(let i=0;i<row.count;i++) {
-        const j=best.xs.findIndex(x=>Math.abs(x-row.xs[i])<=12);
-        if(j<0 || row.cards[i].hp!==best.cards[j].hp || row.cards[i].active!==best.cards[j].active)return unknown();
-      }
+      for (const row of candidates.slice(1))
+        for (let i = 0; i < row.count; i++) {
+          const j = best.xs.findIndex((x) => Math.abs(x - row.xs[i]) <= 12);
+          if (
+            j < 0 ||
+            row.cards[i].hp !== best.cards[j].hp ||
+            row.cards[i].dead !== best.cards[j].dead ||
+            row.cards[i].active !== best.cards[j].active
+          )
+            return unknown();
+        }
       // A temporarily unreadable outer card must not shrink a 4-card team to
       // its readable middle pair (or a 3-card team to its middle card).
-      for(const row of observations.filter(r=>r.count>best.count))if(row.cards.some((c,i)=>TCG.alive(c)&&
-          !best.xs.some(x=>Math.abs(x-row.xs[i])<=12)))return unknown();
-      return best.cards.map((c,i)=>{
-        const aura=this.auraIn(f,best.xs[i],c.active?212:170);
-        return {...c,aura,auraKnown:aura.length>0&&aura.length<=2};
+      for (const row of observations.filter((r) => r.count > best.count))
+        if (
+          row.cards.some(
+            (c, i) =>
+              (TCG.alive(c) || c.dead === true) &&
+              !best.xs.some((x) => Math.abs(x - row.xs[i]) <= 12),
+          )
+        )
+          return unknown();
+      return best.cards.map((c, i) => {
+        const aura = c.dead === true ? [] : this.auraIn(f, best.xs[i], c.active ? 212 : 170);
+        return { ...c, aura, auraKnown: aura.length > 0 && aura.length <= 2 };
       });
     }
-    auraIn(f,hpX,hpY) {
-      // Read only the glyph strip of the validated layout. Missing/conflicting
-      // matches are UNKNOWN, never proof of an aura-free target.
-      const roi=[hpX+60,hpY-70,95,62],hits=[];
-      for(const element of ["Cryo","Hydro","Pyro","Electro","Dendro"])
-        for(const r of this.matches(f,"state/State"+element,roi,0.8,true))hits.push({...r,element});
-      if(hits.some((a,i)=>hits.slice(i+1).some(b=>a.element!==b.element&&Math.hypot(a.x-b.x,a.y-b.y)<15)))return [];
-      const aura=[...new Set(hits.map(h=>h.element))];return aura.length<=2?aura:[];
+    auraIn(f, hpX, hpY) {
+      // Only the strip above this card, not its artwork/statuses. Official
+      // 15px glyphs score 0.824 on the saved Hydro frame; 0.9 rejected it.
+      const roi = [hpX + 60, hpY - 70, 95, 62],
+        hits = [];
+      for (const element of ["Cryo", "Hydro", "Pyro", "Electro", "Dendro"])
+        for (const r of this.matches(f, "state/State" + element, roi, 0.8, true))
+          hits.push({ ...r, element });
+      if (
+        hits.some((a, i) =>
+          hits
+            .slice(i + 1)
+            .some((b) => a.element !== b.element && Math.hypot(a.x - b.x, a.y - b.y) < 15),
+        )
+      )
+        return [];
+      const aura = [...new Set(hits.map((h) => h.element))];
+      return aura.length <= 2 ? aura : [];
     }
     quickenIn(f) {
       // Saved native positives from Collei/Keqing, with separate native 1/2
@@ -929,12 +1224,13 @@
       const counts=[1,2].flatMap(n=>this.matches(f,"quicken_count"+n,roi,0.92,false).map(()=>n));
       return counts.length===1?{known:true,charges:counts[0]}:unknown;
     }
-    board(actionOnly = false) {
+    board(actionOnly = false, pickTransition = false) {
       return this.frame(f => {
         const phase = this.phaseIn(f);
         // A terminal screen has no character/dice/hand UI. Do not run board
         // readers first and discover the result only after they have failed.
         if (phase.result) return { ...phase, hand: null };
+        if(pickTransition && !["pick","board"].includes(phase.phase))return {...phase,hand:null};
         if(actionOnly && (phase.phase!=="board" || phase.turn!=="user"))return {...phase,hand:null};
         const characters = [0, 1, 2].map(i => this.characterIn(f, i));
         const actives = characters.map((c, i) => c.raised && !c.dead ? i : -1).filter(i => i >= 0);
@@ -948,31 +1244,49 @@
         const enemies=this.enemiesIn(f);
         const normalHpReadable=this.precisionBoard ? this.normalHpProfileIn(f,characters,enemies) : true;
         return { ...phase, normalHpReadable, pickSelection:phase.phase==="pick"?this.pickSelectionIn(f):null, characters, active: actives.length === 1 ? actives[0] : null,
-          enemies, quicken:phase.phase==="board"?this.quickenIn(f):{known:false,charges:null},
+          enemies, ...this.boardExtrasIn(f,phase),
           dice: dice.dice, diceKnown: phase.phase === "board" && (TCG.total(dice.dice) > 0 || this.zeroDiceAllowed), hand: null };
       });
     }
+    boardExtrasIn(f,phase) { return {quicken:phase.phase==="board"?this.quickenIn(f):{known:false,charges:null}}; }
     async reset() {
-      if(this.boardReady && !this.handNeedsReset && !this.handFanReady) {
-        this.trace("hand-reset-skipped",{reason:"already-clean-board"});return;
+      if (this.boardReady && !this.handNeedsReset && !this.handFanReady) {
+        this.trace("hand-reset-skipped", { reason: "already-clean-board" });
+        return;
       }
-      this.handFanReady=false;
-      this.clickAt(1190,545);this.moveTo(1555,860);await sleep(300);
-      this.handNeedsReset=false;this.boardReady=true;this.trace("hand-reset",{});
+      this.handFanReady = false;
+      this.clickAt(1190, 545);
+      this.moveTo(1555, 545);
+      await sleep(300);
+      this.handNeedsReset = false;
+      this.boardReady = true;
+      this.trace("hand-reset", {});
     }
     async expand(resetFirst = true) {
       // The native control is a toggle. Card selection does not close the fan;
       // never click that control again while the same layout remains ready.
-      if(this.handFanReady) {this.trace("hand-expand-skipped",{reason:"fan-already-ready"});return;}
-      if(resetFirst && !this.boardReady)await this.reset();
-      this.clickAt(967,1041);await sleep(600);this.moveTo(1791,917);await sleep(100);
-      this.handFanReady=true;this.handNeedsReset=true;this.trace("hand-expanded",{resetFirst});
+      if (this.handFanReady) {
+        this.trace("hand-expand-skipped", { reason: "fan-already-ready" });
+        return;
+      }
+      if (resetFirst && !this.boardReady) await this.reset();
+      this.clickAt(967, 1041);
+      await sleep(600);
+      this.moveTo(1791, 917);
+      await sleep(100);
+      this.handFanReady = true;
+      this.handNeedsReset = true;
+      this.trace("hand-expanded", { resetFirst });
     }
     requireHandObservation(phase = this.phase(), stage = "hand") {
       // Details may legitimately hide the turn icon (unknown). Only positive
       // phase evidence interrupts observation; unreadable titles on a stable
       // board remain genuine errors, never converted into a fabricated win.
-      if (phase.result || ["pick", "roll", "settlement", "transition", "choice"].includes(phase.phase) || phase.turn === "enemy") {
+      if (
+        phase.result ||
+        ["pick", "roll", "settlement", "transition", "choice", "automatic"].includes(phase.phase) ||
+        phase.turn === "enemy"
+      ) {
         this.handFanReady = false;
         const error = new Error("读牌期间页面变化：" + phase.phase + "/" + phase.turn);
         error.code = "TCG_OBSERVATION_INTERRUPTED";
@@ -981,42 +1295,104 @@
         throw error;
       }
     }
-    async titleAt(x, y, opening = false, hover = false, kind = "card", expected = null, watchPhase = false) {
+    async titleAt(
+      x,
+      y,
+      opening = false,
+      hover = false,
+      kind = "card",
+      expected = null,
+      watchPhase = false,
+    ) {
       if (watchPhase) this.requireHandObservation(this.phase(), "before-title-input");
-      if (hover) this.moveTo(x, y); else this.clickAt(x, y);
+      if (hover) this.moveTo(x, y);
+      else this.clickAt(x, y);
       // Official DSTCG getHandMsg clicks consecutive titles on one raised fan.
       // A hand-card click is not evidence of collapse. An empty/unstable title
       // leaves layout unknown and is normalized before any further toggle.
-      if(!hover && !opening)this.handNeedsReset=true;
-      if(!hover && (opening || kind === "character"))this.handFanReady=false;
+      if (!hover && !opening) this.handNeedsReset = true;
+      if (!hover && (opening || kind === "character")) this.handFanReady = false;
       await sleep(350);
       const roi = opening ? [58, 112, 339, 53] : [311, 115, 341, 50];
-      const reads = []; let previousKey = "", lastStable = "";
+      const reads = [];
+      let previousKey = "",
+        lastStable = "";
       for (let attempt = 0; attempt < 6; attempt++) {
-        const raw = this.frame(f => {
+        const raw = this.frame((f) => {
           if (watchPhase) this.requireHandObservation(this.phaseIn(f), "title-sampling");
-          return this.ocr(f, roi);
-        }); reads.push(raw);
+          const native = this.ocr(f, roi);
+          const nativeCard = kind === "card" ? TCG.identify(native) : null;
+          if (nativeCard && TCG.norm(native) !== TCG.norm(nativeCard.name)) {
+            this.trace("title-exact-alias", {
+              native,
+              canonical: nativeCard.name,
+              id: nativeCard.id,
+              additionalInputs: 0,
+            });
+            return nativeCard.name;
+          }
+          const identified =
+            kind === "character" ? TCG.characterName(native) >= 0 : !!TCG.identify(native);
+          if (identified || !native) return native;
+          const enlarged = this.numericAt(f, roi, 3);
+          const recovered =
+            kind === "character" ? TCG.characterName(enlarged) >= 0 : !!TCG.identify(enlarged);
+          if (recovered) {
+            this.trace("title-pixel-recovery", {
+              roi,
+              kind,
+              native,
+              enlarged,
+              scale: 3,
+              additionalInputs: 0,
+            });
+            return enlarged;
+          }
+          const proofKey = "unknown-title:" + TCG.norm(native);
+          if (kind === "card" && !this.previewEvidence.has(proofKey)) {
+            this.previewEvidence.add(proofKey);
+            this.captureEvidence("unresolved-title");
+          }
+          return native;
+        });
+        reads.push(raw);
         const who = kind === "character" ? TCG.characterName(raw) : -1;
-        const key = raw ? who >= 0 ? "character:" + who : "title:" + TCG.norm(raw) : "";
+        const key = raw ? (who >= 0 ? "character:" + who : "title:" + TCG.norm(raw)) : "";
         const stable = !!key && key === previousKey;
         lastStable = stable ? raw : "";
         const matchesExpected = kind !== "character" || expected === null || who === expected;
         if (stable && matchesExpected) {
-          if(!hover && !opening && !raw)this.handFanReady=false;
-          this.trace("title-read", { point: [x,y], roi, kind, expected, reads, stable: true, matchesExpected: true });
+          if (!hover && !opening && !raw) this.handFanReady = false;
+          this.trace("title-read", {
+            point: [x, y],
+            roi,
+            kind,
+            expected,
+            reads,
+            stable: true,
+            matchesExpected: true,
+          });
           return raw;
         }
         previousKey = key;
         if (attempt < 5) await sleep(150);
       }
-      this.trace("title-read", { point: [x,y], roi, kind, expected, reads, stable: !!lastStable, matchesExpected: false });
-      if(!hover && !opening)this.handFanReady=false;
+      this.trace("title-read", {
+        point: [x, y],
+        roi,
+        kind,
+        expected,
+        reads,
+        stable: !!lastStable,
+        matchesExpected: false,
+      });
+      if (!hover && !opening) this.handFanReady = false;
       // A stable wrong character remains wrong; preserve its raw title for the error.
       return kind === "character" ? lastStable : "";
     }
     invalidateHand(reason) {
-      if (this.handCache !== null) this.trace("hand-cache-invalidated", { reason, count: this.handCache.length });
+      if (this.handCache !== null)
+        this.trace("hand-cache-invalidated", { reason, count: this.handCache.length });
       this.handCache = null;
       this.handCountHint = null;
       this.handPositionProof = null;
@@ -1099,7 +1475,7 @@
     handSample(f) {
       this.lastCostSample = null;
       const count = this.handCountIn(f);
-      return { count, cost: this.lastCostSample };
+      return { count, cost: this.lastCostSample, source: this.lastHandCountSource };
     }
     publishHandPositions(samples, count) {
       this.handPositionProof = null;
@@ -1168,6 +1544,7 @@
     }
     handCountIn(f) {
       this.lastCostSample = null;
+      this.lastHandCountSource = null;
       const counts = [];
       for (let n = 5; n <= 10; n++)
         if (this.has(f, "num/Hand" + n, [1463, 700, 439, 124], 0.92)) counts.push(n);
@@ -1176,19 +1553,28 @@
         error.code = "TCG_HAND_RETRY";
         throw error;
       }
-      if (counts.length === 1) return counts[0];
+      if (counts.length === 1) {
+        this.lastHandCountSource = "native-badge";
+        return counts[0];
+      }
       const n = number(this.ocr(f, [1730, 700, 170, 124]));
-      if (n !== null && n <= 10) return n;
+      if (n !== null && n <= 10) {
+        this.lastHandCountSource = "native-badge";
+        return n;
+      }
       if (!this.handFanReady) return null;
       const cost = this.costHandIn(f);
       if (cost) {
+        this.lastHandCountSource = "full-cost-layout";
         this.lastCostSample = { ...cost, revision: this.inputRevision, at: Date.now() };
         return cost.count;
       }
       // Grayscale rim gradient: usable-card gold glow must not change count.
-      return handLayoutCount(
+      const layout = handLayoutCount(
         this.matches(f, "hand_rim", [500, 900, 1260, 135], 0.85, false).map((r) => r.x),
       );
+      if (layout !== null) this.lastHandCountSource = "full-rim-layout";
+      return layout;
     }
     recordHandLayout(count) {
       const key = "hand-layout:" + count;
@@ -1259,25 +1645,30 @@
       const hand = [];
       // Establish the expanded fan once. Selecting a card only raises that
       // card; it does not require resetting/re-expanding the whole hand.
-      if(n>0 && !this.handFanReady) {
+      if (n > 0 && !this.handFanReady) {
         this.requireHandObservation(this.phase(), "before-scan-expand");
         await this.expand();
       }
       this.handScanSerial++;
-      this.trace("hand-scan", { count:n, expected, reusedCount:!!evidence });
-      const points=this.handPoints(n);
+      // Copy all positions before the first title click invalidates the proof.
+      // Selection raises one card but does not reorder the rest of this fan.
+      const points = this.handPoints(n);
+      this.trace("hand-scan", { count: n, expected, reusedCount: !!evidence });
       for (let i = 0; i < n; i++) {
         const raw = await this.titleAt(points[i], 945, false, false, "card", null, true);
         const c = TCG.observedCard(raw, i);
         if (!c) {
-          const error=new Error("第 " + (i + 1) + " 张手牌卡名无法可靠读取：" + (raw || "OCR为空"));
-          error.code="TCG_HAND_RETRY";throw error;
+          const error = new Error(
+            "第 " + (i + 1) + " 张手牌卡名无法可靠读取：" + (raw || "OCR为空"),
+          );
+          error.code = "TCG_HAND_RETRY";
+          throw error;
         }
         hand.push(c);
       }
       this.requireHandObservation(this.phase(), "before-hand-reset");
       await this.reset();
-      this.handCountHint=null;
+      this.handCountHint = null;
       return hand;
     }
     async observedHand(plan = null) {
@@ -1404,16 +1795,26 @@
     requireDiceBudget(state) {
       if (this.expectedDice !== null && state.phase === "board" && state.turn === "user") {
         const extra = TCG.total(state.dice) - this.expectedDice;
-        const gambler=this.gamblerBudget,afterCount=TCG.enemyCount(state);
+        const gambler = this.gamblerBudget,
+          afterCount = TCG.enemyCount(state);
         // Gambler refunds require actual defeats while its wearer is active,
         // and can never exceed the remaining match-wide uses. An arbitrary
         // +2/+4/+6 resource discrepancy is not evidence that this effect fired.
-        const defeats=gambler?.enemies!==null && gambler?.enemies!==undefined && afterCount!==null ?
-          Math.max(0,gambler.enemies-afterCount):0;
-        const refund=this.gamblerMayAddDice && state.active===gambler?.owner ?
-          2*Math.min(gambler.remaining,defeats):0;
-        if (extra !== 0 && !(extra>0 && extra%2===0 && extra<=refund)) {
-          throw new Error("骰子识别与已确认行动预算不符：预期 " + this.expectedDice + "，读取 " + TCG.total(state.dice));
+        const defeats =
+          gambler?.enemies !== null && gambler?.enemies !== undefined && afterCount !== null
+            ? Math.max(0, gambler.enemies - afterCount)
+            : 0;
+        const refund =
+          this.gamblerMayAddDice && state.active === gambler?.owner
+            ? 2 * Math.min(gambler.remaining, defeats)
+            : 0;
+        if (extra !== 0 && !(extra > 0 && extra % 2 === 0 && extra <= refund)) {
+          throw new Error(
+            "骰子识别与已确认行动预算不符：预期 " +
+              this.expectedDice +
+              "，读取 " +
+              TCG.total(state.dice),
+          );
         }
       }
     }
@@ -1573,27 +1974,119 @@
       await sleep(150);
       await this.clickButton("确定", [720, 880, 480, 140]);
       // Confirm exactly once, then prove progression; no blind double-click.
-      let stable = 0, previous = "";
+      let stable = 0,
+        previous = "";
       for (let attempt = 0; attempt < 40; attempt++) {
         const p = this.phase();
         const accepted = ["pick", "roll"].includes(p.phase);
-        stable = accepted ? p.phase === previous ? stable + 1 : 1 : 0;
-        if (p.phase !== previous || attempt === 0) this.trace("opening-confirm-wait", { attempt, phase:p.phase });
+        stable = accepted ? (p.phase === previous ? stable + 1 : 1) : 0;
+        if (p.phase !== previous || attempt === 0)
+          this.trace("opening-confirm-wait", { attempt, phase: p.phase });
         previous = p.phase;
         if (stable >= 2) {
           this.trace("opening-confirmed", { ...data, phase: p.phase });
           return p;
         }
-        if (!["opening", "unknown", "transition", "pick", "roll"].includes(p.phase)) throw new Error("起手确认后出现意外页面：" + p.phase);
+        if (!["opening", "unknown", "transition", "pick", "roll"].includes(p.phase))
+          throw new Error("起手确认后出现意外页面：" + p.phase);
         if (attempt < 39) await sleep(400);
       }
       throw new Error("初始手牌确认未生效：未进入稳定的选人或掷骰页");
     }
-    async opening(diagnostic) {
-      // Beginner policy: use the dealt hand. Ignore legacy mulligan settings;
-      // never read/toggle opening cards. Existing manual selections stay intact.
-      if (diagnostic) { this.trace("opening-skipped", { policy:"use-dealt-hand", diagnostic:true }); return; }
-      await this.confirmOpening({ policy:"confirm-current", reason:"use-dealt-hand", selectedByScript:[] });
+    async opening() {
+      const startingXs = [383, 665, 960, 1248, 1535];
+      if (TCG.openingSetting(this.options.mulligan) === "全部保留") {
+        await this.confirmOpening({
+          policy: "confirm-current",
+          reason: "keep-setting",
+          selectedByScript: [],
+        });
+        return;
+      }
+      // User and native tests confirmed hover does not reveal these titles.
+      // One click reads a title AND toggles replacement; track the actual
+      // marker, then adjust only the final mismatches. No hover probe.
+      const original = await this.openingSelections(startingXs);
+      let selected = original.slice();
+      const cards = [];
+      const toggle = async (index) => {
+        // First card's centre is covered by its own left detail panel.
+        this.clickAt(startingXs[index] + 70, 540);
+        await sleep(350);
+        const observed = await this.openingSelections(startingXs);
+        if (observed.some((value, i) => value !== (i === index ? !selected[i] : selected[i]))) {
+          throw new Error("起手置换标记未证实，不重复点击第" + (index + 1) + "张牌");
+        }
+        selected = observed;
+      };
+      try {
+        for (let i = 0; i < 5; i++) {
+          const raw = await this.titleAt(startingXs[i] + 70, 540, true, false);
+          const observed = await this.openingSelections(startingXs);
+          if (observed.some((value, j) => value !== (j === i ? !selected[j] : selected[j]))) {
+            throw new Error("起手读牌后的置换标记不符，不猜测选择状态");
+          }
+          selected = observed;
+          const c = TCG.observedCard(raw, i);
+          if (!c) throw new Error("第" + (i + 1) + "张初始牌标题未读清，不自动确认开局");
+          cards.push(c);
+          this.trace("opening-title-method", { index: i, method: "click", selectionChanged: true });
+        }
+      } catch (error) {
+        // Recover only when the actual marker can still be read. Do not
+        // confirm a game whose initial cards or selected replacements are unknown.
+        const observed = await this.openingSelections(startingXs);
+        selected = observed;
+        for (let i = 0; i < 5; i++) if (selected[i] !== original[i]) await toggle(i);
+        throw error;
+      }
+      this.trace("opening", cards);
+      const context = TCG.openingContext({});
+      const plan = TCG.openingPlan(cards, original, context);
+      this.openingCards = plan.keep;
+      const wanted = plan.replace;
+      this.trace("opening-plan", {
+        cards,
+        keep: cards.filter((h) => !wanted[h.index]).map((h) => h.id),
+        replace: cards.filter((h) => wanted[h.index]).map((h) => h.id),
+        replaceIndices: wanted.map((v, i) => (v ? i : -1)).filter((i) => i >= 0),
+        duplicateWeaponIndices: plan.duplicateWeapons,
+        context,
+      });
+      const final = wanted;
+      for (let i = 0; i < 5; i++) if (selected[i] !== final[i]) await toggle(i);
+      this.moveTo(1791, 860);
+      this.trace("opening-selection-verified", {
+        original,
+        selected,
+        proof: "two-stable-native-replace-labels-per-input",
+      });
+      await this.confirmOpening({
+        policy: "known-priority",
+        selectedByScript: selected.map((s, i) => (s ? i : -1)).filter((i) => i >= 0),
+      });
+    }
+    async openingSelections(xs) {
+      let previous = "",
+        stable = 0;
+      for (let attempt = 0; attempt < 8; attempt++) {
+        const observation = this.frame((f) => ({
+          phase: this.phaseIn(f).phase,
+          labels: xs.map((x) => TCG.norm(this.ocr(f, [x - 100, 730, 200, 60]))),
+        }));
+        if (observation.phase !== "opening") throw new Error("起手置换检查期间页面改变");
+        if (observation.labels.some((t) => t !== "" && t !== "替换")) {
+          previous = "";
+          stable = 0;
+        } else {
+          const key = JSON.stringify(observation.labels);
+          stable = key === previous ? stable + 1 : 1;
+          previous = key;
+          if (stable >= 2) return observation.labels.map((t) => t === "替换");
+        }
+        await sleep(200);
+      }
+      throw new Error("初始牌置换标记未稳定");
     }
     async removalEvidenceBeforeReset(plan) {
       const r = this.consumptionReceipt,
@@ -1673,9 +2166,13 @@
     firstPickObservation() {
       // Read the already-opened target title and phase from ONE fresh frame.
       // No startup inspection of all roles and no extra character-detail click.
-      return this.frame(f => {
+      return this.frame((f) => {
         const p = this.phaseIn(f);
-        return { ...p, selectedTarget:p.phase === "pick" ? TCG.characterName(this.ocr(f,[311,115,341,50])) : null };
+        return {
+          ...p,
+          selectedTarget:
+            p.phase === "pick" ? TCG.characterName(this.ocr(f, [311, 115, 341, 50])) : null,
+        };
       });
     }
     async pick(target, first = true) {
@@ -1720,7 +2217,7 @@
         lastKey = key;
         if (stable >= 2) { this.trace("pick-confirmed", { target, first, phase:last.phase, turn:last.turn,
           characterInputs:confirmationSent ? 2 : 1, method:"official-character-card" }); return last; }
-        if (!["pick","unknown","transition","roll","board","result"].includes(last.phase)) {
+        if (!["pick","unknown","transition","settlement","roll","board","result"].includes(last.phase)) {
           throw new Error("首次出战后出现意外页面：" + last.phase);
         }
         if (attempt < 59) await sleep(400);
@@ -1730,15 +2227,17 @@
     pickSelectionIn(f) {
       // Native forced selection can leave ALL character cards lowered. The
       // selected card opens its exact identity and a dedicated selection banner.
-      return {who:TCG.characterName(this.ocr(f,[311,115,341,50])),
-        banner:TCG.norm(this.ocr(f,[700,508,580,65]))};
+      return {
+        who: TCG.characterName(this.ocr(f, [311, 115, 341, 50])),
+        banner: TCG.norm(this.ocr(f, [700, 508, 580, 65])),
+      };
     }
     async pickForced(target) {
       // Official Character.SwitchWhenTakenOut selects and confirms on the
       // character card itself. Do not reuse first-pick tooltip/icon geometry.
       if(this.forcedPickSession)target=this.forcedPickSession.target;
       if(!this.forcedPickSession) {
-        const initial=this.board();
+        const initial=this.board(false, true);
         if(initial.result)return initial;
         if(initial.phase!=="pick" || !TCG.alive(initial.characters?.[target])) {
           const e=new Error("强制换人局面尚未核实");e.code="TCG_PICK_RETRY";throw e;
@@ -1750,7 +2249,7 @@
       }
       let confirmed=this.forcedPickSession.confirmed,stable=0,key="",last=null,selectionStable=0;
       for(let attempt=0;attempt<40;attempt++) {
-        try{last=this.board();}catch(e){
+        try{last=this.board(false, true);}catch(e){
           if(!["TCG_DICE_RETRY","TCG_BOARD_RETRY"].includes(e.code))throw e;
           stable=0;key="";selectionStable=0;
           this.trace("forced-pick-read-deferred",{target,attempt,code:e.code});await sleep(400);continue;
@@ -1778,6 +2277,23 @@
             this.forcedPickSession=null;
             return last;
           }
+        } else if(["settlement","choice","roll"].includes(last.phase)) {
+          // End-phase damage can require a replacement BEFORE remaining summons,
+          // a blessing choice, and next-round dice. Hand off the stable native
+          // phase; it is not proof of the target's final active/alive state.
+          // A preselected target can finish on the FIRST card click. Native
+          // phase exit is enough to transfer page ownership, never to assert
+          // a cast, card consumption, or an unobserved active character.
+          selectionStable=0;
+          const next=JSON.stringify(["handoff",last.phase,last.turn]);
+          stable=next===key?stable+1:1;key=next;
+          if(stable>=2) {
+            this.trace("forced-pick-handoff",{target,attempt,phase:last.phase,turn:last.turn,
+              selectionInputs:1,confirmationInputs:confirmed?1:0,
+              proof:"selection-input-and-two-stable-native-phase-exit-frames"});
+            this.forcedPickSession=null;
+            return {phase:last.phase,turn:last.turn};
+          }
         } else {
           stable=0;key="";selectionStable=0;
           if(confirmed && last.phase==="pick" && c?.dead===true) {
@@ -1796,34 +2312,52 @@
       if (this.phase().phase !== "roll") throw new Error("当前不是投骰页");
       const observed = await this.readRollDice();
       if (this.phase().phase !== "roll") throw new Error("选择骰子前页面已改变");
-      const plan = TCG.rerollPlan(observed.items, memory);
+      const plan = TCG.rerollPlan(observed.items, memory, memory.openingContext || {});
       const keep = plan.elements;
-      for (let i=0;i<observed.items.length;i++) if (!plan.indices.includes(i)) { const die=observed.items[i];this.clickAt(die.x, die.y); await sleep(130); }
-      this.trace("reroll-plan",plan);
+      for (let i = 0; i < observed.items.length; i++)
+        if (!plan.indices.includes(i)) {
+          const die = observed.items[i];
+          this.clickAt(die.x, die.y);
+          await sleep(130);
+        }
+      this.trace("reroll-plan", plan);
       if (this.phase().phase !== "roll") throw new Error("重投确认前已离开投骰页");
       await this.clickButton("确定");
-      let stable = 0, lastKey = "", last = null;
+      let stable = 0,
+        lastKey = "",
+        last = null;
       for (let attempt = 0; attempt < 30; attempt++) {
         last = this.phase();
-        const accepted = !!last.result || last.phase === "board" && ["user", "enemy"].includes(last.turn) || mayPick && last.phase === "pick";
+        const accepted =
+          !!last.result ||
+          (last.phase === "board" && ["user", "enemy"].includes(last.turn)) ||
+          (mayPick && last.phase === "pick");
         const key = JSON.stringify([last.phase, last.turn, last.result]);
-        stable = accepted ? key === lastKey ? stable + 1 : 1 : 0;
-        if (key !== lastKey) this.trace("roll-wait", { attempt, phase: last.phase, turn: last.turn });
+        stable = accepted ? (key === lastKey ? stable + 1 : 1) : 0;
+        if (key !== lastKey)
+          this.trace("roll-wait", { attempt, phase: last.phase, turn: last.turn });
         lastKey = key;
         if (stable >= 2) break;
-        if (last.phase === "opening" || last.phase === "pick" && !mayPick) throw new Error("重投确认后出现意外页面：" + last.phase);
+        if (last.phase === "opening" || (last.phase === "pick" && !mayPick))
+          throw new Error("重投确认后出现意外页面：" + last.phase);
         if (attempt < 29) await sleep(500);
       }
       if (stable < 2) throw new Error("重投确认未生效；最后页面 " + last.phase);
       TCG.nextRound(memory);
-      const nextCount=this.handCache===null ? null : Math.min(10,this.handCache.length+2);
+      const nextCount = this.handCache === null ? null : Math.min(10, this.handCache.length + 2);
       this.invalidateHand("new-round-draw-order-unknown");
-      this.handCountHint=nextCount; // Common round draw is a candidate, not proof.
-      this.handFanReady=false;this.handNeedsReset=false;this.boardReady=false;
+      this.handCountHint = nextCount; // Common round draw is a candidate, not proof.
+      this.handFanReady = false;
+      this.handNeedsReset = false;
+      this.boardReady = false;
       this.emptyHandProven = false; // Round draw adds two known cards (before deck exhaustion).
+      this.consumptionReceipt = null;
+      this.lastObservedAt = 0;
+      this.lastObservedRevision = -1;
       this.zeroDiceAllowed = false;
       this.expectedDice = 8;
-      this.gamblerMayAddDice=false;this.gamblerBudget=null;
+      this.gamblerMayAddDice = false;
+      this.gamblerBudget = null;
       this.trace("round", { round: memory.round, keep });
       return last;
     }
@@ -1843,35 +2377,51 @@
       await sleep(550);
     }
     warnings() {
-      return this.frame(f => ({
+      return this.frame((f) => ({
         lack: this.has(f, "core/元素骰子不足", [960, 0, 960, 1080]),
-        text: this.ocr(f, [1490, 790, 410, 250])
+        text: this.ocr(f, [1490, 790, 410, 250]),
       }));
     }
     async requireNoWarning() {
       const warning = this.warnings();
-      if (warning.lack || /无法|不足|不能|充能未满/.test(warning.text)) throw new Error("游戏拒绝动作：" + warning.text);
+      if (warning.lack || /无法|不足|不能|充能未满/.test(warning.text)) {
+        const e = new Error("游戏拒绝动作：" + warning.text);
+        e.code = "TCG_NATIVE_REJECTION";
+        throw e;
+      }
     }
     async requireSwitchPreview(action, memory) {
       // Native normal switching has NO bottom action label. Only the fast
       // status displays 快速行动; absence alone never identifies this overlay.
       const expectedSpeed = memory.fastSwitch ? "快速行动" : "";
-      let stable = 0, previousSpeed = null;
-      for (let attempt=0; attempt<6; attempt++) {
+      let stable = 0,
+        previousSpeed = null;
+      for (let attempt = 0; attempt < 6; attempt++) {
         await this.requireNoWarning();
-        const preview=this.frame(f=>({phase:this.phaseIn(f),
-          banner:this.ocr(f,[700,508,580,65]),
-          control:this.ocr(f,[1720,835,195,75]),
-          speed:this.ocr(f,[850,972,260,60])}));
-        const matched=preview.phase.phase==="unknown" && preview.phase.turn==="none" &&
-          TCG.norm(preview.banner)==="将所选角色切换为出战角色" &&
-          TCG.norm(preview.control)==="切换角色" && ["", "快速行动"].includes(TCG.norm(preview.speed));
-        this.trace("switch-preview",{attempt,target:action.target,expectedSpeed,matched,...preview});
+        const preview = this.frame((f) => ({
+          phase: this.phaseIn(f),
+          banner: this.ocr(f, [700, 508, 580, 65]),
+          control: this.ocr(f, [1720, 835, 195, 75]),
+          speed: this.ocr(f, [850, 972, 260, 60]),
+        }));
+        const matched =
+          preview.phase.phase === "unknown" &&
+          preview.phase.turn === "none" &&
+          TCG.norm(preview.banner) === "将所选角色切换为出战角色" &&
+          TCG.norm(preview.control) === "切换角色" &&
+          ["", "快速行动"].includes(TCG.norm(preview.speed));
+        this.trace("switch-preview", {
+          attempt,
+          target: action.target,
+          expectedSpeed,
+          matched,
+          ...preview,
+        });
         const actualSpeed = TCG.norm(preview.speed);
-        stable=matched ? actualSpeed===previousSpeed ? stable+1 : 1 : 0;
-        previousSpeed=matched ? actualSpeed : null;
-        if(stable>=2)return {fast:actualSpeed==="快速行动",speed:actualSpeed};
-        if(attempt<5)await sleep(300);
+        stable = matched ? (actualSpeed === previousSpeed ? stable + 1 : 1) : 0;
+        previousSpeed = matched ? actualSpeed : null;
+        if (stable >= 2) return { fast: actualSpeed === "快速行动", speed: actualSpeed };
+        if (attempt < 5) await sleep(300);
       }
       throw new Error("切换确认页未核实横幅、控件与行动类型");
     }
@@ -2013,10 +2563,10 @@
     async requireUnchangedBoard(before) {
       // Dice maps are unordered and zero entries may be omitted. Compare
       // resources semantically, not by host dictionary insertion order.
-      const keyOf=s=>JSON.stringify([s.active,TCG.diceOrder.map(e=>s.dice?.[e]||0),s.characters,s.enemies,s.quicken||null]);
+      const keyOf=s=>JSON.stringify([s.active,TCG.diceOrder.map(e=>s.dice?.[e]||0),s.characters,s.enemies,s.quicken||null,s.supportCounts||null]);
       const expected=keyOf(before);let stable=0,last=null;
-      const recent=this.boardReady && this.lastObservedState && keyOf(this.lastObservedState)===expected &&
-        this.lastObservedRevision===this.inputRevision && Date.now()-this.lastObservedAt<=1500;
+      const recent=this.preInputBoardClean() && this.lastObservedState && keyOf(this.lastObservedState)===expected &&
+        this.lastObservedRevision===this.inputRevision && Date.now()-this.lastObservedAt<=1500 && !this.autoRisk;
       for(let attempt=0;attempt<6;attempt++) {
         try{last=this.board();}catch(e){
           if(e.code!=="TCG_DICE_RETRY")throw e;
@@ -2037,12 +2587,29 @@
       error.code = "TCG_STATE_REFRESH";
       throw error;
     }
+    preInputBoardClean() { return this.boardReady; }
     async execute(action, before, memory) {
-      this.consumptionReceipt=null;this.pendingHandEvidence=null;
-      try { return await this.executePending(action,before,memory); }
-      catch(e) { this.consumptionReceipt=null;this.pendingHandEvidence=null;throw e; }
+      this.consumptionReceipt = null;
+      this.pendingHandEvidence = null;
+      try {
+        return await this.executeInput(action, before, memory);
+      } catch (e) {
+        this.consumptionReceipt = null;
+        this.pendingHandEvidence = null;
+        const nativeRejection = e.code === "TCG_NATIVE_REJECTION";
+        if (!nativeRejection && !(action.type === "tune" && e.code === "TCG_TUNE_UNCONFIRMED"))
+          throw e;
+        // Dismiss the existing preview once. A missing tuning button is NOT a
+        // rejection proof: Player must reread hand/resources before retrying.
+        this.boardReady = false;
+        await this.reset();
+        const p = this.phase();
+        if (p.phase !== "board" || p.turn !== "user") throw e;
+        if (nativeRejection) e.code = "TCG_INPUT_REJECTED";
+        throw e;
+      }
     }
-    async executePending(action, before, memory) {
+    async executeInput(action, before, memory) {
       if(action.type==="card") {
         const reason=TCG.cardInputError(before,action,memory);
         if(reason)throw new Error(reason);
@@ -2095,8 +2662,24 @@
       await this.drag(x, 945, action.type === "tune" ? 1867 : targeted ? charX[action.target] : x,
         action.type === "tune" ? 518 : targeted ? 720 : 595);
       this.consumptionReceipt.inputSent=true;
-      if (action.type === "tune") { await this.requireNoWarning(); await this.clickButton("元素调和"); }
+      if (action.type === "tune") await this.confirmTune();
       else await this.cardConfirm(action,before);
+    }
+    async confirmTune() {
+      for (let attempt = 0; attempt < 3; attempt++) {
+        await this.requireNoWarning();
+        const b = this.button("元素调和");
+        if (b) {
+          const point = this.clickAt(b.x + b.w / 2, b.y + b.h / 2);
+          this.trace("button-clicked", { asset: "元素调和", point });
+          await sleep(550);
+          return;
+        }
+        if (attempt < 2) await sleep(300);
+      }
+      const error = new Error("调和确认按钮未读清，核对实际手牌与骰子后再选择");
+      error.code = "TCG_TUNE_UNCONFIRMED";
+      throw error;
     }
     async inputSkill(action,before,memory,cost) {
       const x = { NA: 1608, E: 1716, Q: 1824 }[action.skill];
@@ -2150,13 +2733,21 @@
       }
       const reads = samples.map((s) => s.count);
       this.requireHandObservation(this.phase(), "before-target-title");
-      this.trace("hand-input-check", { expected, reads, boundaryProbe: false });
+      this.trace("hand-input-check", {
+        expected, reads, sources: samples.map((s) => s.source), boundaryProbe: false,
+      });
       if (reads.some((n) => n !== null && n !== expected)) {
         await this.refreshHandBeforeInput("执行前手牌张数已变化");
       }
       this.publishHandPositions(samples, expected);
       // Reuse the existing read-only count frames; no extra hand expansion.
       if (reads[0] !== null && reads[0] === reads[1]) this.recordHandLayout(reads[0]);
+      // Layout sources already validate every slot, expected spacing and extra
+      // edges/markers. A single raw hit or two unreadable samples is NOT proof.
+      return reads.every((n) => n === expected) &&
+        samples.every((s) => s.source === samples[0].source) &&
+        ["native-badge", "full-cost-layout", "full-rim-layout"].includes(samples[0].source)
+        ? { count: expected, stableReads: 2, source: samples[0].source } : null;
     }
     async refreshHandBeforeInput(reason) {
       this.invalidateHand(reason);
@@ -2278,11 +2869,18 @@
       this.acceptHand(state.hand, reason);
     }
     captureEvidence(label) {
-      let saved=null;
-      try{this.frame(f=>{saved=this.path.replace(/\.log$/,"-"+label+"-"+(this.snapshotNumber++)+".png");
-        if(file.writeImageSync(saved,f.srcMat??f.SrcMat)===false)throw new Error("证据截图写入失败");});}
-      catch(e){this.trace("evidence-capture-failed",{label,reason:String(e.message||e)});return;}
-      this.trace("evidence-captured",{label,path:saved});
+      let saved = null;
+      try {
+        this.frame((f) => {
+          saved = this.path.replace(/\.log$/, "-" + label + "-" + this.snapshotNumber++ + ".png");
+          if (file.writeImageSync(saved, f.srcMat ?? f.SrcMat) === false)
+            throw new Error("证据截图写入失败");
+        });
+      } catch (e) {
+        this.trace("evidence-capture-failed", { label, reason: String(e.message || e) });
+        return;
+      }
+      this.trace("evidence-captured", { label, path: saved });
     }
     snapshot(reason) {
       const data = { reason, capture: null, screenshotPath: null };
@@ -2292,18 +2890,31 @@
         try {
           data.capture = captureSize(f);
           const path = this.path.replace(/\.log$/, "-stop-" + this.snapshotNumber++ + ".png");
-          if (file.writeImageSync(path, f.srcMat ?? f.SrcMat) === false) throw new Error("截图文件写入失败：" + path);
+          if (file.writeImageSync(path, f.srcMat ?? f.SrcMat) === false)
+            throw new Error("截图文件写入失败：" + path);
           data.screenshotPath = path;
-        } finally { f.dispose(); }
-      } catch (e) { data.snapshotError = String(e.message || e); log.warn("诊断截图保存失败：" + data.snapshotError); }
+        } finally {
+          f.dispose();
+        }
+      } catch (e) {
+        data.snapshotError = String(e.message || e);
+        log.warn("诊断截图保存失败：" + data.snapshotError);
+      }
       // A screenshot failure must not erase the original reason from the run log.
-      try { this.trace("stop", data); } catch (e) { log.warn("停止日志保存失败：" + e.message); }
+      try {
+        this.trace("stop", data);
+      } catch (e) {
+        log.warn("停止日志保存失败：" + e.message);
+      }
     }
     dispose() {
       const gray = new Set();
       for (const ro of this.roCache.values()) {
         const mat = ro.templateImageGreyMat ?? ro.TemplateImageGreyMat;
-        if (mat && !gray.has(mat)) { gray.add(mat); mat.dispose(); }
+        if (mat && !gray.has(mat)) {
+          gray.add(mat);
+          mat.dispose();
+        }
       }
       for (const mat of this.templates.values()) mat.dispose();
       this.templates.clear();

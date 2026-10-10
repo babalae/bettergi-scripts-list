@@ -1,12 +1,10 @@
-eval(file.readTextSync("lib/core.js"));
-eval(file.readTextSync("lib/strategy.js"));
-eval(file.readTextSync("lib/bgi.js"));
-eval(file.readTextSync("lib/player.js"));
-
+// Standalone BetterGI entry: no sibling-script or development dependency.
+for (const name of ["core", "strategy", "bgi", "player"]) {
+  eval(file.readTextSync("lib/" + name + ".js"));
+}
 (async function () {
   "use strict";
-  const options = TCGPlayer.playerOptions(settings);
+  const options = TCGPlayer.playerOptions(typeof settings === "undefined" ? {} : settings);
   setGameMetrics(1920, 1080);
-  const host = new TCGBetterGI.BetterGIHost(options);
-  return new TCGPlayer.Player(host, options).run();
+  return new TCGPlayer.Player(new TCGBetterGI.BetterGIHost(options), options).run();
 })();
