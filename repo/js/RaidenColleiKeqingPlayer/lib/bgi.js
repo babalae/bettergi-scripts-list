@@ -553,6 +553,30 @@
         ? { name, heading }
         : null;
     }
+    async dismissCharacterOverview(reason) {
+      // Only an unreadable board calls this. A payment/choice/unknown page is
+      // never a blank-click opportunity; a persistent panel gets one attempt.
+      if (this.overviewClearRevision === this.inputRevision) return false;
+      const read = () => this.frame(f => {
+        const phase = this.phaseIn(f);
+        return { phase, panel: phase.phase === "board" && phase.turn === "user"
+          ? this.characterOverviewIn(f) : null };
+      });
+      const first = read();
+      if (!first.panel) return false;
+      const revision = this.inputRevision;
+      await sleep(120);
+      const second = read();
+      if (!second.panel || this.inputRevision !== revision ||
+          TCG.norm(first.panel.name) !== TCG.norm(second.panel.name) ||
+          TCG.norm(first.panel.heading) !== TCG.norm(second.panel.heading)) return false;
+      const point = this.clickAt(1190, 545);
+      this.overviewClearRevision = this.inputRevision;
+      this.moveTo(1555, 545);
+      this.trace("character-overview-dismissed", { reason, panel: second.panel, point });
+      await sleep(300);
+      return true;
+    }
     async requireOpenedSkill(action, before, x, readFee = false, feeProbe = false) {
       try {
         return await this.requireSkillPreview(action, feeProbe, readFee);
@@ -1772,6 +1796,10 @@
         const hpGap = userBoard && [...(last.characters || []), ...(last.enemies || [])].some(
           c => c?.dead !== true && (!Number.isInteger(c?.hp) || c.hp < 1 || c.dead !== false));
         hpGapReads = hpGap ? hpGapReads + 1 : 0;
+        if (hpGapReads === 1 && await this.dismissCharacterOverview("board-hp-gap")) {
+          previousKey = ""; previousNormalHp = false; hpGapReads = 0;
+          continue; // Never return the pre-dismissal HP/dice frame.
+        }
         const valid = userBoard && TCG.legalState({...last, hand:[]}) && TCG.enemyCount(last)!==null;
         let budgetValid = true;
         if (!pendingAction && userBoard) try { this.requireDiceBudget(last); } catch (e) { budgetValid = false; }
@@ -2275,6 +2303,10 @@
           if(stable>=2) {
             this.trace("forced-pick-confirmed",{target,phase:last.phase,turn:last.turn,confirmationInputs:confirmed?1:0});
             this.forcedPickSession=null;
+            if (last.enemies?.some(e => e.dead !== true &&
+                (!Number.isInteger(e.hp) || e.dead !== false)) &&
+                await this.dismissCharacterOverview("forced-pick-handoff"))
+              return this.board(false, true);
             return last;
           }
         } else if(["settlement","choice","roll"].includes(last.phase)) {
@@ -2382,6 +2414,13 @@
         text: this.ocr(f, [1490, 790, 410, 250]),
       }));
     }
+    cardPaymentControlsIn(f) {
+      // OCR Find returns only its first item, which may be a key hint. Read
+      // complete native rows; confirmation still requires a unique exact label.
+      return this.ocrRows(f, [770, 900, 380, 90]).filter(
+        (row) => TCG.norm(row.text) === "打出手牌",
+      );
+    }
     async requireNoWarning() {
       const warning = this.warnings();
       if (warning.lack || /无法|不足|不能|充能未满/.test(warning.text)) {
@@ -2475,22 +2514,9 @@
       }
       // Native 星天之兆 opens a payment page with a CENTER button. Its detail
       // panel is gone and the right skill buttons are not the confirmation.
-      const central = this.frame(f => {
-        const roi = [770, 900, 380, 90];
-        const text = this.ocr(f, roi), banner = this.ocr(f, [740, 510, 450, 65]);
-        const targets = [];
-        if (TCG.norm(text) === "打出手牌") {
-          const started=Date.now();this.metrics.ocrCalls++;
-          const rs=f.FindMulti(RecognitionObject.Ocr(...roi));
-          for(let i=0;i<rs.count;i++) {
-            const r=rs[i];
-            if(TCG.norm(String(r.text??r.Text))==="打出手牌")targets.push({
-              x:Number(r.x??r.X),y:Number(r.y??r.Y),w:Number(r.width??r.Width),h:Number(r.height??r.Height)});
-          }
-          this.metrics.ocrMs+=Date.now()-started;
-        }
-        return { text, banner, targets, phase:this.phaseIn(f) };
-      });
+      const central = this.frame(f => ({
+        banner:this.ocr(f,[740,510,450,65]),targets:this.cardPaymentControlsIn(f),phase:this.phaseIn(f),
+      }));
       if (central.targets.length) {
         const card=TCG.byId[action.id],banner=TCG.norm(central.banner);
         const activeScope=["stars","voltage","calx","lost"].includes(action.id) && banner==="对我方出战角色生效";
@@ -2512,7 +2538,7 @@
         for(let attempt=0;attempt<6;attempt++) {
           await sleep(250);await this.requireNoWarning();
           const current=this.frame(f=>({banner:TCG.norm(this.ocr(f,[740,510,450,65])),
-            controls:this.ocrRows(f,[770,900,380,90]).filter(r=>TCG.norm(r.text)==="打出手牌"),phase:this.phaseIn(f)}));
+            controls:this.cardPaymentControlsIn(f),phase:this.phaseIn(f)}));
           const c=current.controls[0],matched=current.banner===banner && current.controls.length===1 &&
             current.phase.phase==="unknown" && current.phase.turn==="none" &&
             Math.abs(c.x+c.w/2-b.x-b.w/2)<=3 && Math.abs(c.y+c.h/2-b.y-b.h/2)<=3;

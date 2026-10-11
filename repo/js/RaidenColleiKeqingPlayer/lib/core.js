@@ -731,8 +731,8 @@
     actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining };
 })(globalThis);
 
-globalThis.TCG.version = "0.5.1";
-globalThis.TCG.sharedVersion = "1.0.0";
+globalThis.TCG.version = "0.5.3";
+globalThis.TCG.sharedVersion = "1.0.2";
 globalThis.TCG.defaultStrategy = "default";
 (function (T) {
   const strategies = new Map();
