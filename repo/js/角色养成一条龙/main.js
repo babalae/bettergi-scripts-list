@@ -23,6 +23,39 @@ function sendBufferedNotifications() {
     }
 }
 
+/**
+ * 检测「手动填写数量」模式下是否误填了等级/情况字段。
+ * 背景：顶部「数量填写模式」选「手动填写数量」时，等级/情况字段不生效，
+ * 但用户很容易填了等级却忘了把模式切到「选择等级计算」，导致「明明选了等级却没生效」的困惑。
+ * 命中时给出明确提示，引导用户切换顶部模式。
+ * @param {boolean} useLevelCalc 是否已切换到「选择等级计算」模式
+ * @param {Array<[string, any]>} entries 形如 [["天赋书1 当前等级", "1-1-1"], ...]
+ */
+function warnIfLevelFieldsIgnored(useLevelCalc, entries) {
+    if (useLevelCalc) return; // 已切到「选择等级计算」，正常生效，无需提示
+
+    // 这些是「没改过/等同于未填」的状态：
+    //   - 天赋等级文本框默认 "1-1-1"
+    //   - 武器/首领的情况、武器星级已移除 default，未选时为空白("")
+    //   - 情况下拉框里主动选「无」等价于不刷，也不算有效填写
+    const DEFAULT_VALUES = new Set(["", "无", "1-1-1"]);
+    const touched = [];
+
+    for (const [label, value] of entries) {
+        if (value === undefined || value === null) continue;
+        const v = value.toString().trim();
+        if (!DEFAULT_VALUES.has(v)) touched.push(`${label}=${v}`);
+    }
+
+    if (touched.length > 0) {
+        log.warn(`检测到已填写等级/情况，但顶部「数量填写模式」不是「选择等级计算」，这些填写不会生效。`);
+        log.warn(`本次将按【手动填写数量】模式运行。若要按等级自动计算，请到设置里把顶部模式切换为「选择等级计算」后重跑。`);
+        addNotification(`⚠️ 提示：你填写了等级/情况(${touched.slice(0, 4).join('、')}${touched.length > 4 ? ' 等' : ''})，但顶部「数量填写模式」不是「选择等级计算」，将按手动填写的数量运行。`);
+    } else {
+        log.info(`当前为【手动填写数量】模式（顶部模式未切换）。若想改用「选择等级计算」，请到设置里把顶部模式切换过去。`);
+    }
+}
+
 // 添加函数来读写已完成任务记录
 async function loadCompletedTasks() {
     try {
@@ -59,6 +92,177 @@ async function addCompletedTask(materialType, materialName, requireCounts) {
     
     await saveCompletedTasks(tasks);
     log.info(`已标记 ${materialName} 为完成`);
+}
+
+/* =========================================================================
+ * 等级 -> 材料数量 换算模块
+ * 规则表存放于 assets/material_rules.json，可按需自行维护。
+ * ========================================================================= */
+
+const MATERIAL_RULES_FILE = "./assets/material_rules.json";
+
+let MATERIAL_RULES = null;
+
+/** 读取规则表（带缓存） */
+function getMaterialRules() {
+    if (MATERIAL_RULES) return MATERIAL_RULES;
+    try {
+        const content = file.readTextSync(MATERIAL_RULES_FILE);
+        MATERIAL_RULES = JSON.parse(content);
+    } catch (error) {
+        throw new Error(`读取材料规则表失败(${MATERIAL_RULES_FILE}): ${error}`);
+    }
+    return MATERIAL_RULES;
+}
+
+/**
+ * 解析 x-y-z 技能等级，例如 "1-10-10" / "888" / "9-9-9"
+ * - "888" 这种三位纯数字会被展开为 8-8-8
+ * @returns {number[]} 长度为3的数组，元素范围 1~10
+ */
+function parseTalentLevels(value, fallback) {
+    const fb = fallback || [1, 1, 1];
+    if (value === undefined || value === null) return fb.slice();
+    const raw = value.toString().trim();
+    if (!raw) return fb.slice();
+
+    let parts;
+    if (/^\d+$/.test(raw) && raw.length === 3) {
+        // "888" -> [8,8,8]
+        parts = raw.split('').map(c => parseInt(c, 10));
+    } else {
+        parts = raw.split('-').map(s => parseInt(s.trim(), 10));
+    }
+
+    const result = [];
+    for (let i = 0; i < 3; i++) {
+        let num = parts[i];
+        if (isNaN(num)) num = fb[i] || 1;
+        result.push(Math.max(1, Math.min(10, num)));
+    }
+    return result;
+}
+
+/**
+ * 把突破选项（如 "20级未突破" / "50级突破" / "80级突破"）
+ * 解析为「已经历的突破档位」数组。
+ */
+function parseBreakOption(value) {
+    const rules = getMaterialRules();
+    const map = rules._breakOptionMap || {};
+    if (value === undefined || value === null) return [];
+    const key = value.toString().trim();
+    if (Object.prototype.hasOwnProperty.call(map, key)) {
+        return map[key].slice();
+    }
+    // 兜底：从 "XX级..." 里抽数字，视为已达到该档位的突破
+    const m = key.match(/(\d+)/);
+    if (!m) return [];
+    const lv = parseInt(m[1], 10);
+    const done = [];
+    for (const b of rules.charBreakLevels) {
+        if (b <= lv && !key.includes('未突破')) done.push(b);
+    }
+    return done;
+}
+
+/**
+ * 计算「从未突破档位集合 A 到档位集合 B」之间新增的突破点。
+ * @returns {number[]} 新增的突破档位
+ */
+function newBreakLevels(currentOption, targetOption) {
+    const rules = getMaterialRules();
+    const cur = parseBreakOption(currentOption);
+    const tgt = parseBreakOption(targetOption);
+    const curSet = {};
+    cur.forEach(v => { curSet[v] = true; });
+    return tgt.filter(v => !curSet[v]);
+}
+
+/**
+ * 计算首领（BOSS）材料数量。
+ * @param {string} currentOption 当前情况，如 "50级未突破"
+ * @param {string} targetOption  目标情况，如 "80级突破"
+ * @returns {number}
+ */
+function calculateBossCount(currentOption, targetOption) {
+    const rules = getMaterialRules();
+    let total = 0;
+    for (const lv of newBreakLevels(currentOption, targetOption)) {
+        total += rules.charBossMaterialRules[String(lv)] || 0;
+    }
+    return total;
+}
+
+/**
+ * 计算天赋书数量（绿-蓝-紫）。
+ * 注：当前/目标等级解析失败时均兜底为 1-1-1（即不刷取）。
+ * @param {string} currentTalents 当前技能等级，如 "1-1-1"
+ * @param {string} targetTalents  目标技能等级，如 "10-10-10"
+ * @returns {number[]} [绿, 蓝, 紫]
+ */
+function calculateTalentBookCounts(currentTalents, targetTalents) {
+    const rules = getMaterialRules();
+    const cur = parseTalentLevels(currentTalents, [1, 1, 1]);
+    const tgt = parseTalentLevels(targetTalents, [1, 1, 1]);
+    const totals = [0, 0, 0];
+
+    for (let i = 0; i < 3; i++) {
+        if (cur[i] >= tgt[i]) continue;
+        for (let lv = cur[i]; lv < tgt[i]; lv++) {
+            const mat = rules.talentBookRules[`${lv}-${lv + 1}`] || [0, 0, 0];
+            for (let j = 0; j < 3; j++) totals[j] += mat[j] || 0;
+        }
+    }
+    return totals;
+}
+
+/**
+ * 计算武器突破材料数量（绿-蓝-紫-金）。
+ * @param {string} star           "五星" / "四星" / "三星"
+ * @param {string} currentOption  当前情况，如 "50级未突破"
+ * @param {string} targetOption   目标情况，如 "80级突破"
+ * @returns {number[]} [绿, 蓝, 紫, 金]
+ */
+function calculateWeaponMaterialCounts(star, currentOption, targetOption) {
+    const rules = getMaterialRules();
+    const starKey = rules.weaponMaterialRules[star] ? star : "四星";
+    const table = rules.weaponMaterialRules[starKey];
+    const totals = [0, 0, 0, 0];
+    for (const lv of newBreakLevels(currentOption, targetOption)) {
+        const arr = table[String(lv)];
+        if (!arr) continue;
+        for (let j = 0; j < 4; j++) totals[j] += arr[j] || 0;
+    }
+    return totals;
+}
+
+/**
+ * 解析手动填写的材料数量字符串，例如 "9-63-114" / "0-5-11-6" / "46"。
+ * 不足的位数补 0；非法字符会抛错。
+ * @param {string} input 数量字符串
+ * @param {number} expectedCount 期望的位数
+ * @returns {number[]} 长度固定为 expectedCount 的数字数组
+ */
+function parseManualCounts(input, expectedCount) {
+    const raw = (input === undefined || input === null) ? "" : input.toString().trim();
+    if (!raw) {
+        throw new Error(`未填写数量（应为 ${expectedCount} 个用 - 分隔的非负整数）`);
+    }
+    const parts = raw.split('-');
+    const result = [];
+    for (let i = 0; i < expectedCount; i++) {
+        if (i < parts.length) {
+            const num = parseInt(parts[i].trim(), 10);
+            if (isNaN(num) || num < 0 || !Number.isInteger(num)) {
+                throw new Error(`数量第 ${i + 1} 位 '${parts[i]}' 不是合法的非负整数`);
+            }
+            result.push(num);
+        } else {
+            result.push(0);
+        }
+    }
+    return result;
 }
 
 /**
@@ -290,8 +494,92 @@ async function clickTextInRegion(targetText, x=0, y=0, width=1920, height=1080, 
     return false;
 }
 
-//获取BOSS材料数量
+// 首领名称 -> 角色突破材料名称（背包「角色发育道具」页显示名）
+const bossMaterialNameMap = {
+    "爆炎树": "常燃火种",
+    "半永恒统辖矩阵": "导光四面体",
+    "掣电树": "藏雷野实",
+    "纯水精灵": "净水之心",
+    "翠翎恐蕈": "蕈王钩喙",
+    "深罪浸礼者": "常暗圆环",
+    "深邃摹结株": "深邃纠缠的凝视",
+    "风蚀沙虫": "苍砾蕊羽",
+    "冰风组曲-歌裴莉娅的葬送": "奇械发条备件·歌裴莉娅",
+    "冰风组曲-科培琉司的劫罚": "奇械发条备件·科培琉司",
+    "古岩龙蜥": "未熟之玉",
+    "恒常机关阵列": "恒常机关之心",
+    "急冻树": "极寒之核",
+    "金焰绒翼龙暴君": "受祝所缚之印",
+    "雷音权现": "雷霆数珠",
+    "灵觉隐修的迷者": "谜土的护符",
+    "魔像督军": "金色旋律的断章",
+    "秘源机兵·统御械": "秘源积气喉",
+    "秘源机兵·构型械": "秘刻金纹的源核",
+    "魔偶剑鬼": "魔偶机心",
+    "千年珍珠骏麟": "原海麟角",
+    "熔岩辉龙像": "龙像的无智核",
+    "贪食匿叶龙山王": "过熟的火榴果",
+    "铁甲熔火帝皇": "帝皇的决断",
+    "无相之草": "灭诤草蔓",
+    "无相之火": "阴燃之珠",
+    "无相之雷": "雷光棱镜",
+    "无相之水": "排异之露",
+    "无相之岩": "玄岩之塔",
+    "水形幻人": "未能达成超越之水",
+    "实验性场力发生装置": "图比昂装置",
+    "遗迹巨蛇": "符纹之齿",
+    "隐山猊兽": "凝云鳞甲",
+    "兆载永劫龙兽": "永续机芯",
+    "重拳出击鸭": "精密型月矩力冲鸭模具",
+    "蕴光月幻蝶": "承光的鳞羽",
+    "霜夜巡天灵主": "漫光的辉角",
+    "超重型陆巡舰·机动战垒": "循环式军用月矩核心",
+    "深黯魇语之主": "魇翼枯骸",
+    "守望者·堕天": "堕天的落羽",
+    "不灭衍生造物": "焰中不灭花枝",
+    "嵌合翼骏狮": "游空之物的断尾",
+    "游雪的护刃": "游离者的裂甲",
+};
+
+// 获取BOSS材料数量：优先通过背包「角色发育道具」页查询，失败时回退到冒险之证图像识别备用方法
 async function getBossMaterialCount(bossName) {
+    const count = await getBossMaterialCountByInventory(bossName);
+    if (count !== null) return count;
+    log.warn(`背包查询${bossName}材料数量失败，改用备用方法（冒险之证图像识别）`);
+    return await getBossMaterialCountByTemplate(bossName);
+}
+
+// 【主方法】通过背包「角色发育道具」页查询BOSS材料数量，返回null表示查询失败
+async function getBossMaterialCountByInventory(bossName) {
+    const materialName = bossMaterialNameMap[bossName];
+    if (!materialName) {
+        log.warn(`未配置首领「${bossName}」的材料名称映射，无法通过背包查询`);
+        return null;
+    }
+    try {
+        await genshin.returnMainUi();
+        await sleep(500);
+        const task = new SoloTask("CountInventoryItem", {
+            gridScreenName: GridScreenName.CharacterDevelopmentItems,
+            itemNames: [materialName]
+        });
+        const result = await dispatcher.RunTask(task);
+        const foundKeys = result ? Object.keys(result) : [];
+        if (foundKeys.includes(materialName)) {
+            const quantity = Number(result[materialName]) || 0;
+            log.info(`背包查询到${bossName}材料「${materialName}」数量: ${quantity}`);
+            return quantity;
+        }
+        log.warn(`背包「角色发育道具」页未找到${bossName}材料「${materialName}」`);
+        return null;
+    } catch (error) {
+        log.error(`背包查询${bossName}材料「${materialName}」数量失败: ${error?.message ?? error}`);
+        return null;
+    }
+}
+
+// 【备用方法】打开冒险之证-讨伐-首领，通过模板匹配和OCR识别BOSS材料数量
+async function getBossMaterialCountByTemplate(bossName) {
 await genshin.returnMainUi();
 await sleep(500);
 keyPress("F1");
@@ -1221,38 +1509,6 @@ if(afterStamina< 20) skipCheckStamina = 0;
          }
 }
 }
-function parseAndValidateCounts(input, expectedCount) {
-    // 检查输入是否为字符串
-    if (typeof input !== 'string') {
-        throw new Error(`Input must be a string, got ${typeof input}`);
-    }
-
-    // 分割字符串
-    const parts = input.split('-');
-    
-    // 初始化结果数组
-    const result = [];
-    
-    // 处理每个部分
-    for (let i = 0; i < expectedCount; i++) {
-        if (i < parts.length) {
-            // 尝试转换为数字
-            const num = parseInt(parts[i], 10);
-            
-            // 验证是否为有效正整数（包括0）
-            if (isNaN(num) || num < 0 || !Number.isInteger(num)) {
-                throw new Error(`Invalid number at position ${i}: '${parts[i]}'. Must be a non-negative integer.`);
-            }
-            
-            result.push(num);
-        } else {
-            // 不足的部分补0
-            result.push(0);
-        }
-    }
-    
-    return result;
-}
 
 
 (async function () {
@@ -1260,19 +1516,43 @@ function parseAndValidateCounts(input, expectedCount) {
 if(!settings.unfairContractTerms) throw new Error('未签署霸王条款，无法使用');
 const completedTasks = await loadCompletedTasks();
 log.info(`已加载 ${Object.keys(completedTasks).length} 个已完成任务记录`);
+// 数量填写模式：settings.useLevelCalc 为「选择等级计算」时才启用等级换算
+// 兼容旧配置：老版本这里是 checkbox(true/false)，true 等价于「选择等级计算」
+const levelMode = settings.useLevelCalc;
+const useLevelCalc = (levelMode === '选择等级计算') || (levelMode === true);
+log.info(useLevelCalc ? '【模式】根据等级/状态自动计算数量' : '【模式】手动填写数量');
+
+// 手动模式下若用户误填了等级字段，给出明确提示，避免「选了等级却没生效」的困惑
+warnIfLevelFieldsIgnored(useLevelCalc, [
+    ['天赋书1 当前等级', settings.talentCurrent0], ['天赋书1 目标等级', settings.talentTarget0],
+    ['天赋书2 当前等级', settings.talentCurrent1], ['天赋书2 目标等级', settings.talentTarget1],
+    ['天赋书3 当前等级', settings.talentCurrent2], ['天赋书3 目标等级', settings.talentTarget2],
+    ['武器1 星级', settings.weaponStar0], ['武器1 当前情况', settings.weaponCurrent0], ['武器1 目标情况', settings.weaponTarget0],
+    ['武器2 星级', settings.weaponStar1], ['武器2 当前情况', settings.weaponCurrent1], ['武器2 目标情况', settings.weaponTarget1],
+    ['武器3 星级', settings.weaponStar2], ['武器3 当前情况', settings.weaponCurrent2], ['武器3 目标情况', settings.weaponTarget2],
+    ['首领1 当前情况', settings.bossCurrent0], ['首领1 目标情况', settings.bossTarget0],
+    ['首领2 当前情况', settings.bossCurrent1], ['首领2 目标情况', settings.bossTarget1],
+    ['首领3 当前情况', settings.bossCurrent2], ['首领3 目标情况', settings.bossTarget2],
+]);
 
 for (let i = 0; i < 3; i++) {
 
 const talentBookName = eval(`settings.talentBookName${i}`);
 if(talentBookName != "无" && talentBookName){
 try{
-let bookRequireCounts = parseAndValidateCounts(eval(`settings.talentBookRequireCounts${i}`), 3);
-log.info(`天赋书${i+1}方案解析成功: ${bookRequireCounts.join(', ')}`);
+let bookRequireCounts;
+if (useLevelCalc) {
+    const talentCurrent = eval(`settings.talentCurrent${i}`) || "1-1-1";
+    const talentTarget  = eval(`settings.talentTarget${i}`)  || "1-1-1";
+    bookRequireCounts = calculateTalentBookCounts(talentCurrent, talentTarget);
+    log.info(`天赋书${i+1}【${talentBookName}】技能 ${talentCurrent} → ${talentTarget}，原始需 绿-蓝-紫 = ${bookRequireCounts.join('-')}`);
+} else {
+    bookRequireCounts = parseManualCounts(eval(`settings.talentBookRequireCounts${i}`), 3);
+    log.info(`天赋书${i+1}【${talentBookName}】手动数量 绿-蓝-紫 = ${bookRequireCounts.join('-')}`);
+}
 const isCompleted = await isTaskCompleted("talent", talentBookName, bookRequireCounts);
 if (isCompleted){addNotification(`天赋书${talentBookName} 已刷取至目标数量，跳过执行`);} 
 else await getTalentBook(talentBookName,bookRequireCounts);
-// 刷取完成后标记为完成
-//await addCompletedTask("talent", talentBookName, bookRequireCounts);
 }
 catch (error) {  notification.send(`天赋书${talentBookName}刷取失败，错误信息: ${error}`);}
 }
@@ -1284,11 +1564,30 @@ for (let i = 0; i < 3; i++) {
 const weaponName = eval(`settings.weaponName${i}`);
 if(weaponName != "无" && weaponName){
 try{
-weaponRequireCounts = parseAndValidateCounts(eval(`settings.weaponMaterialRequireCounts${i}`), 4);
-log.info(`武器材料${i+1}方案解析成功: ${weaponRequireCounts.join(', ')}`);
-const isCompleted = await isTaskCompleted("wepon", weaponName, weaponRequireCounts);
-if (isCompleted){addNotification(`武器材料${weaponName} 已刷取至目标数量，跳过执行`);} 
-else await getWeaponMaterial(weaponName,weaponRequireCounts);
+let weaponRequireCounts;
+if (useLevelCalc) {
+    const weaponStar    = eval(`settings.weaponStar${i}`)    || "四星";
+    const weaponCurrent = eval(`settings.weaponCurrent${i}`) || "无";
+    const weaponTarget  = eval(`settings.weaponTarget${i}`)  || "无";
+    if (weaponStar === "无") {
+        log.info(`武器材料${i+1}【${weaponName}】星级未选择（为「无」），视为无需刷取，跳过执行`);
+        weaponRequireCounts = null;
+    } else if (weaponTarget === "无") {
+        log.info(`武器材料${i+1}【${weaponName}】目标情况未选择（为「无」），视为无需刷取，跳过执行`);
+        weaponRequireCounts = null;
+    } else {
+        weaponRequireCounts = calculateWeaponMaterialCounts(weaponStar, weaponCurrent, weaponTarget);
+        log.info(`武器材料${i+1}【${weaponName}】${weaponStar} ${weaponCurrent} → ${weaponTarget}，原始需 绿-蓝-紫-金 = ${weaponRequireCounts.join('-')}`);
+    }
+} else {
+    weaponRequireCounts = parseManualCounts(eval(`settings.weaponMaterialRequireCounts${i}`), 4);
+    log.info(`武器材料${i+1}【${weaponName}】手动数量 绿-蓝-紫-金 = ${weaponRequireCounts.join('-')}`);
+}
+if (weaponRequireCounts) {
+    const isCompleted = await isTaskCompleted("wepon", weaponName, weaponRequireCounts);
+    if (isCompleted){addNotification(`武器材料${weaponName} 已刷取至目标数量，跳过执行`);} 
+    else await getWeaponMaterial(weaponName,weaponRequireCounts);
+}
 }
 catch (error) {  notification.send(`武器材料${weaponName}刷取失败，错误信息: ${error}`);}
 }
@@ -1299,10 +1598,27 @@ for (let i = 0; i < 3; i++) {
 const bossName = eval(`settings.bossName${i}`);
 if(bossName != "无" && bossName){
 try{
-bossRequireCounts = eval(`settings.bossRequireCounts${i}`);
+let bossRequireCounts;
+if (useLevelCalc) {
+    const bossCurrent = eval(`settings.bossCurrent${i}`) || "无";
+    const bossTarget  = eval(`settings.bossTarget${i}`)  || "无";
+    if (bossTarget === "无") {
+        log.info(`首领材料${i+1}【${bossName}】目标情况未选择（为「无」），视为无需刷取，跳过执行`);
+        bossRequireCounts = 0;
+    } else {
+        bossRequireCounts = calculateBossCount(bossCurrent, bossTarget);
+        log.info(`首领材料${i+1}【${bossName}】角色 ${bossCurrent} → ${bossTarget}，需 ${bossRequireCounts} 个`);
+    }
+} else {
+    bossRequireCounts = parseManualCounts(eval(`settings.bossRequireCounts${i}`), 1)[0];
+    log.info(`首领材料${i+1}【${bossName}】手动数量 = ${bossRequireCounts}`);
+}
+if (bossRequireCounts <= 0) { addNotification(`首领材料${bossName} 无需刷取，跳过`); }
+else {
 const isCompleted = await isTaskCompleted("boss", bossName, bossRequireCounts);
 if (isCompleted){addNotification(`首领材料${bossName} 已刷取至目标数量，跳过执行`);} 
 else await getBossMaterial(bossName,bossRequireCounts);
+}
 }
 catch (error) {  notification.send(`首领材料${bossName}刷取失败，错误信息: ${error}`);}
 }
