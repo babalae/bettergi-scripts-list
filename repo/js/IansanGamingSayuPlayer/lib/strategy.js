@@ -1345,10 +1345,16 @@
       a = sequence[0] || p.action,
       retreat = a.type === "switch" && retreatNeeded(s, m, a.target),
       objective = battleObjective(s, m),
-      relayTask = a.type === "switch" && !retreat && !(a.target === 1 && m.gamingReturn)
+      followup = a.type === "switch" ? sequence.slice(1).find((x) =>
+        x.type === "skill" || x.type === "switch" || (x.type === "card" && x.id === "talent")) : null,
+      // Retreat can also hand off a funded skill. Keep that realised intention,
+      // but do not invent one for bare cover or a branch ending in random draws.
+      relayTask = a.type === "switch" && !(a.target === 1 && m.gamingReturn) &&
+        ((followup?.type === "skill" && followup.who === a.target) ||
+          (followup?.id === "talent" && a.target === 2))
         ? { target: a.target, origin: s.active, round: m.round,
             allowNA: !activeOutputReachable(s, m),
-            goal: sequence.find((x) => x.type === "skill" && x.who === a.target)?.skill || "E" }
+            goal: followup.skill || "E" }
         : null;
     if (a.type === "tune") {
       const next = sequence.find((x) => x.type === "skill" || x.type === "switch" ||

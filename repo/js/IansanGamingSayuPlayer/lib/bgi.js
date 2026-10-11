@@ -716,6 +716,30 @@
         ? { name, heading }
         : null;
     }
+    async dismissCharacterOverview(reason) {
+      // Only an unreadable board calls this. A payment/choice/unknown page is
+      // never a blank-click opportunity; a persistent panel gets one attempt.
+      if (this.overviewClearRevision === this.inputRevision) return false;
+      const read = () => this.frame(f => {
+        const phase = this.phaseIn(f);
+        return { phase, panel: phase.phase === "board" && phase.turn === "user"
+          ? this.characterOverviewIn(f) : null };
+      });
+      const first = read();
+      if (!first.panel) return false;
+      const revision = this.inputRevision;
+      await sleep(120);
+      const second = read();
+      if (!second.panel || this.inputRevision !== revision ||
+          TCG.norm(first.panel.name) !== TCG.norm(second.panel.name) ||
+          TCG.norm(first.panel.heading) !== TCG.norm(second.panel.heading)) return false;
+      const point = this.clickAt(1190, 545);
+      this.overviewClearRevision = this.inputRevision;
+      this.moveTo(1555, 545);
+      this.trace("character-overview-dismissed", { reason, panel: second.panel, point });
+      await sleep(300);
+      return true;
+    }
     async requireOpenedSkill(action, before, x, feeProbe = false) {
       try {
         return await this.requireSkillPreview(action, feeProbe, !feeProbe);
@@ -2200,6 +2224,10 @@
             (c) => c?.dead !== true && (!Number.isInteger(c?.hp) || c.hp < 1 || c.dead !== false),
           );
         hpGapReads = hpGap ? hpGapReads + 1 : 0;
+        if (hpGapReads === 1 && await this.dismissCharacterOverview("board-hp-gap")) {
+          previousKey = ""; stableReads = 0; hpGapReads = 0; previousNormalHp = false;
+          continue; // Discard the obscured frame; require fresh full stability.
+        }
         let budgetValid = true;
         if (!pendingAction)
           try {
@@ -2760,6 +2788,10 @@
           if(stable>=2) {
             this.trace("forced-pick-confirmed",{target,phase:last.phase,turn:last.turn,confirmationInputs:confirmed?1:0});
             this.forcedPickSession=null;
+            if (last.enemies?.some(e => e.dead !== true &&
+                (!Number.isInteger(e.hp) || e.dead !== false)) &&
+                await this.dismissCharacterOverview("forced-pick-handoff"))
+              return this.board(false, true);
             return last;
           }
         } else if(["settlement","choice","roll"].includes(last.phase)) {
@@ -2916,6 +2948,13 @@
         if (attempt < 5) await sleep(300);
       }
       throw new Error("切换确认页未核实横幅、控件与行动类型");
+    }
+    cardPaymentControlsIn(f) {
+      // OCR Find returns only its first item, which may be a key hint. Read
+      // complete native rows; confirmation still requires a unique exact label.
+      return this.ocrRows(f, [770, 900, 380, 90]).filter(
+        (row) => TCG.norm(row.text) === "打出手牌",
+      );
     }
     cardBannerIn(f) {
       // A short crop cut the real recycle prompt after 「角」. All card
@@ -3107,24 +3146,11 @@
       // Native 星天之兆 opens a payment page with a CENTER button. Its detail
       // panel is gone and the right skill buttons are not the confirmation.
       const central = this.frame((f) => {
-        const roi = [770, 900, 380, 90];
-        const text = this.ocr(f, roi),
-          banner = this.cardBannerIn(f);
-        const targets = [];
-        if (TCG.norm(text) === "打出手牌") {
-          const rs = f.FindMulti(RecognitionObject.Ocr(...roi));
-          for (let i = 0; i < rs.count; i++) {
-            const r = rs[i];
-            if (TCG.norm(String(r.text ?? r.Text)) === "打出手牌")
-              targets.push({
-                x: Number(r.x ?? r.X),
-                y: Number(r.y ?? r.Y),
-                w: Number(r.width ?? r.Width),
-                h: Number(r.height ?? r.Height),
-              });
-          }
-        }
-        return { text, banner, targets, phase: this.phaseIn(f) };
+        // Find() returns only the first OCR row, which can be the O hint.
+        // Read the complete control rows once; scope and stability gates below
+        // still authorize exactly one payment click.
+        const targets = this.cardPaymentControlsIn(f);
+        return { banner: this.cardBannerIn(f), targets, phase: this.phaseIn(f) };
       });
       if (central.targets.length) {
         const card = TCG.byId[action.id],
@@ -3180,9 +3206,7 @@
           await this.requireNoWarning();
           const current = this.frame((f) => ({
             banner: TCG.norm(this.cardBannerIn(f)),
-            controls: this.ocrRows(f, [770, 900, 380, 90]).filter(
-              (r) => TCG.norm(r.text) === "打出手牌",
-            ),
+            controls: this.cardPaymentControlsIn(f),
             phase: this.phaseIn(f),
           }));
           const c = current.controls[0],
