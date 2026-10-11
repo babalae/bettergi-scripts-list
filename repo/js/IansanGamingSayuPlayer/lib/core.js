@@ -1,8 +1,14 @@
+// Generated from 牌手共享. Edit layered source, not this standalone output.
 /* GPL-3.0. Generic accounting adapted from 雷柯刻0.4.6; new team rules.
  * Memory records confirmed own actions, not OCR of invisible statuses.
  * Projected resources/damage are search estimates; never publish them as observations. */
 (function (root) {
   "use strict";
+  // Opening knowledge is required for the deck's route-sensitive first pick.
+  function openingSetting(value) {
+    if (value && !["全部保留", "优先装备与启动牌"].includes(value)) throw new Error("设置值无效");
+    return "优先装备与启动牌";
+  }
   const team = [
     {
       name: "伊安珊",
@@ -76,42 +82,41 @@
   // User-confirmed native OCR spelling. Match the whole card title only;
   // do not replace Hanzi globally or accept arbitrary shortened names.
   const cardTitleAliases = { 运筹惟: "运筹帷幄" };
-  function identify(t) {
-    const title = norm(t),
-      canonical = cardTitleAliases[title] || title;
-    return cards.find((c) => norm(c.name) === canonical) || null;
-  }
+  function identify(text) {
+  const title = norm(text);
+  // User-approved two-glyph anchor. Other titles remain exact aliases only.
+  if (title.includes("运筹") && byId.draw) return byId.draw;
+  const canonical = cardTitleAliases[title] || title;
+  return cards.find(c => norm(c.name) === norm(canonical)) || null;
+}
   function observedCard(text, index) {
-    const name = String(text || "").trim(),
-      t = norm(name),
-      c = identify(name);
+    const name = String(text || "").trim(), t = norm(name), c = identify(name);
     if (c) return { index, id: c.id, name: c.name, supported: true };
-    if (
-      t.length < 2 ||
-      t.length > 24 ||
-      !/[\u3400-\u9fffA-Za-z]/.test(t) ||
-      !/^[\u3400-\u9fffA-Za-z0-9「」『』\-—]+$/.test(t) ||
-      /^(初始手牌|请选择要替换的手牌|确定|取消|出战角色|回合结束|元素调和)$/.test(t)
-    )
-      return null;
+    if (t.length < 2 || t.length > 24 || !/[\u3400-\u9fffA-Za-z]/.test(t) ||
+        !/^[\u3400-\u9fffA-Za-z0-9「」『』\-—]+$/.test(t) ||
+        /^(初始手牌|请选择要替换的手牌|确定|取消|出战角色|回合结束|元素调和)$/.test(t)) return null;
     return { index, id: "unsupported:" + t, name, supported: false };
   }
   function handCardKnown(h) {
     if (!h || typeof h.id !== "string") return false;
     if (byId[h.id]) return h.supported !== false;
-    const p = observedCard(h.name, h.index);
-    return h.supported === false && p?.id === h.id;
+    const parsed = observedCard(h.name, h.index);
+    return h.supported === false && parsed && parsed.supported === false && parsed.id === h.id;
   }
-  function indexedHand(h) {
-    if (!Array.isArray(h) || !h.every(handCardKnown)) throw new Error("手牌缓存身份不完整");
-    return h.map((c, index) => ({ ...c, index }));
+  function indexedHand(hand) {
+    if (!Array.isArray(hand) || !hand.every(handCardKnown)) throw new Error("手牌缓存身份不完整");
+    return hand.map((h, index) => ({ ...h, index }));
   }
-  const characterName = (t) => team.findIndex((c) => norm(c.name) === norm(t));
-  const diceOrder = ["Pyro", "Hydro", "Anemo", "Electro", "Dendro", "Cryo", "Geo", "Omni"];
-  const known = (n) => Number.isInteger(n) && n >= 0;
+  const characterAliases={};
+  function characterName(text) {
+  const title=norm(text),canonical=characterAliases[title]||title;
+  return team.findIndex(c=>norm(c.name)===norm(canonical));
+}
+  const diceOrder = ["Pyro","Hydro","Anemo","Electro","Dendro","Cryo","Geo","Omni"];
+  const known = n => Number.isInteger(n) && n >= 0;
   const alive = (c) => !!c && c.dead === false && known(c.hp) && c.hp > 0;
-  const total = (d) => Object.values(d || {}).reduce((a, b) => a + b, 0);
-  const size = (c) => (c.n || 0) + (c.any || 0) + (c.aligned || 0);
+  const total = dice => Object.values(dice || {}).reduce((sum, n) => sum + n, 0);
+  const size = cost => (cost.n || 0) + (cost.any || 0) + (cost.aligned || 0);
   function payment(dice, cost, preserve = "Electro") {
     const list = Object.entries(dice || {}).flatMap(([e, n]) => Array(n).fill(e)),
       need = size(cost);
@@ -139,18 +144,13 @@
     visit(0, []);
     return best;
   }
-  const boardKey = (s) =>
-    JSON.stringify([
-      s.active,
-      diceOrder.map((e) => s.dice?.[e] || 0),
-      s.characters,
-      (s.hand || []).map((h) => h.id),
-      s.enemies,
-    ]);
-  const actionKey = (a) =>
-    a.type +
-    ":" +
-    (a.id || (["skill", "probe"].includes(a.type) ? a.who + ":" + a.skill : a.target));
+  function boardKey(s) {
+    return JSON.stringify([s.active,diceOrder.map(e=>s.dice?.[e]||0),s.characters,
+      (s.hand||[]).map(h=>h.id),s.enemies,s.quicken||null,s.supportCounts||null]);
+  }
+  function actionKey(action) {
+    return action.type + ":" + (action.id || (["skill","probe"].includes(action.type) ? action.who + ":" + action.skill : action.target));
+  }
   function freshMemory() {
     return {
       round: 0,
@@ -189,6 +189,7 @@
       nightsoulPassive: 0,
       switchEstimate: 0,
       passiveHealEvidence: null,
+      hpLossEvidence: null,
       manchai: 0,
       gamingReturn: false,
       sayuSummon: 0,
@@ -201,6 +202,7 @@
       thundergrassSupport: null,
       route: "接力轴",
       openingTarget: null,
+      relayTask: null,
     };
   }
   function nextRound(m) {
@@ -219,13 +221,13 @@
     m.uncertainActions = [];
     m.costEvidence = null;
     m.probeKeys = [];
+    m.relayTask = null;
     m.nightsoulPassive = 0;
     if (m.sayuSummon > 0) m.sayuSummon--;
   }
   class OpeningFlow {
     constructor(entry) {
-      if (!["opening", "pick", "roll", "board"].includes(entry))
-        throw new Error("请在起手、首次选人、首次掷骰或未行动的新开局牌桌启动");
+      if (!["opening", "pick", "roll", "board"].includes(entry)) throw new Error("请在起手、首次选人、首次掷骰或未行动的新开局牌桌启动");
       this.entry = entry;
       this.route = [entry];
       this.opened = false;
@@ -234,26 +236,19 @@
       this.complete = false;
     }
     record(stage) {
-      const p = { opening: "opened", pick: "picked", roll: "rolled" }[stage];
-      if (!p || this.complete || this[p])
-        throw new Error("开局阶段已确认或已结束，不重复执行：" + stage);
-      this[p] = true;
+      const property = { opening: "opened", pick: "picked", roll: "rolled" }[stage];
+      if (!property || this.complete || this[property]) throw new Error("开局阶段已确认或已结束，不重复执行：" + stage);
+      this[property] = true;
       if (this.route[this.route.length - 1] !== stage) this.route.push(stage);
     }
-    enterBoard(m) {
+    enterBoard(memory) {
       if (this.complete) return null;
-      if (!known(m.round) || m.round > 1) throw new Error("不接管中途对局");
-      const seeded = m.round === 0;
-      if (seeded) nextRound(m);
+      if (!known(memory.round) || memory.round > 1) throw new Error("开局回合状态不一致，不接管中途对局");
+      const seeded = memory.round === 0;
+      if (seeded) nextRound(memory);
       this.complete = true;
-      this.route.push("board");
-      return {
-        entry: this.entry,
-        route: this.route.slice(),
-        round: m.round,
-        roundSeeded: seeded,
-        midgameRestore: false,
-      };
+      if (this.route[this.route.length - 1] !== "board") this.route.push("board");
+      return { entry: this.entry, route: this.route.slice(), round: memory.round, roundSeeded: seeded, midgameRestore: false };
     }
   }
   function legalState(s) {
@@ -285,16 +280,12 @@
     );
   }
   function freshActionBoard(s) {
-    return (
-      !!s &&
-      ["user", "enemy"].includes(s.turn) &&
-      legalState({ ...s, turn: "user", hand: [] }) &&
-      total(s.dice) === 8 &&
-      s.characters.every(
-        (c, i) =>
-          c.hp === team[i].maxHp && c.energy === 0 && c.dead === false && c.frozen === false,
-      )
-    );
+    // Visible checks reject obvious midgame positions, but cannot prove that
+    // a zero-cost hidden status was never played. An explicit user declaration
+    // is additionally required by main before admitting a board entry.
+    return !!s && s.phase === "board" && ["user", "enemy"].includes(s.turn) &&
+      legalState({ ...s, turn: "user", hand: [] }) && total(s.dice) === 8 &&
+      s.characters.every((c, i) => c.hp === team[i].maxHp && c.energy === 0 && c.dead === false && c.frozen === false);
   }
   function switchCost(m) {
     return { any: m.freeSwitch || m.singCharges > 0 ? 0 : 1 };
@@ -405,12 +396,11 @@
       refund.Omni = (refund.Omni || 0) + 1;
     return refund;
   }
-  const enemyCount = (s) =>
-    Array.isArray(s?.enemies) &&
-    s.enemies.length &&
-    s.enemies.every((c) => c.dead === true || alive(c))
-      ? s.enemies.filter(alive).length
-      : null;
+  function enemyCount(s) {
+    const es=s?.enemies;
+    if(!Array.isArray(es) || !es.length || !es.every(e=>e.dead===true || alive(e)))return null;
+    return es.filter(alive).length;
+  }
   const gamblerRemaining = (m, who) => Math.max(0, 3 - (m.gamblerUsed[who] || 0));
   function noteBoard(m, s) {
     if (!Array.isArray(s?.characters)) return;
@@ -498,11 +488,32 @@
   }
   function commit(m, a, b, after, options = {}) {
     // Search projections must never validate their own hidden-state estimates.
-    if (!options.projected) confirmPassiveHealing(m, a, b, after);
+    if (!options.projected) {
+      confirmPassiveHealing(m, a, b, after);
+      // Measured net loss, not an attributed enemy skill or predicted damage.
+      // Search projections must never manufacture this observation.
+      const readable = (board) => board?.characters?.length === 3 &&
+        board.characters.every((c, i) => c.dead === true ||
+          (alive(c) && c.hp <= team[i].maxHp + (m.extraMaxHp[i] || 0)));
+      if (readable(b) && readable(after)) {
+        const loss = Math.max(0, ...b.characters.map((c, i) => {
+          const later = after.characters[i];
+          return alive(c) && (alive(later) || later.dead === true)
+            ? c.hp - (later.dead === true ? 0 : later.hp) : 0;
+        }));
+        if (loss > 0)
+          m.hpLossEvidence = {
+            loss: Math.max(loss, m.hpLossEvidence?.round === m.round ? m.hpLossEvidence.loss : 0),
+            round: m.round,
+          };
+      }
+    }
     // A card ID alone never authorizes its effect: tuning the talent is NOT
     // playing it and must not advance Sayu's skill/passive/buff accounting.
     const target = a.target,
       who = a.type === "skill" ? a.who : a.type === "card" && a.id === "talent" ? 2 : null;
+    if (!options.projected && typeof root.TCG.advanceBattleTask === "function")
+      root.TCG.advanceBattleTask(m, a, b, after);
     function passiveEstimate() {
       if (m.nightsoulEstimate > 0 && m.nightsoulPassive < 3) {
         m.nightsoulPassive++;
@@ -687,6 +698,9 @@
     // food or remove an already confirmed equipment. Drop unproven fee cuts.
     const k = actionKey(a);
     if (!m.uncertainActions.includes(k)) m.uncertainActions.push(k);
+    // A proven failed tune did not play a card, spend dice or consume any
+    // confirmed buffs. Skip this card name for the round; other cards may tune.
+    if (a.type === "tune") return;
     m.passiveHealEvidence = { status: "uncertain" };
     m.costEvidence = null;
     m.moonRound = [-1, -1, -1];
@@ -698,18 +712,14 @@
     m.singCharges = 0;
     m.manchai = 0;
   }
-  const bag = (h) => {
-    const r = {};
-    for (const c of h || []) r[c.id] = (r[c.id] || 0) + 1;
-    return r;
-  };
-  function removedOne(b, a, id) {
-    const x = bag(b),
-      y = bag(a);
-    return (
-      b.length === a.length + 1 &&
-      Object.keys({ ...x, ...y }).every((k) => (x[k] || 0) - (y[k] || 0) === (k === id ? 1 : 0))
-    );
+  function bag(hand) {
+    const out = {};
+    for (const h of hand || []) out[h.id] = (out[h.id] || 0) + 1;
+    return out;
+  }
+  function removedOne(before, after, id) {
+    const b = bag(before), a = bag(after);
+    return before.length === after.length + 1 && Object.keys({ ...b, ...a }).every(k => (b[k] || 0) - (a[k] || 0) === (k === id ? 1 : 0));
   }
   function handPlan(a, b) {
     const h = indexedHand(b.hand);
@@ -785,6 +795,27 @@
       return Number.isInteger(x) && x >= 0 && x < 4 && Number.isInteger(y) && y === x + 1;
     }
     return false;
+  }
+  function refundedCardEffect(a, b, c, m) {
+    // A changed native resource vector can prove a refunded card even when
+    // the total is unchanged or increases. An identical vector proves nothing.
+    if (
+      a.type !== "card" || handPlan(a, b).mode !== "remove" ||
+      c.phase !== "board" || c.turn !== "user" || c.active !== b.active ||
+      JSON.stringify(c.characters) !== JSON.stringify(b.characters) ||
+      JSON.stringify(c.enemies) !== JSON.stringify(b.enemies)
+    ) return false;
+    const refund = cardRefund(a, m),
+      cost = cardCost(a.id, a.target, m, b);
+    if (!total(refund) || diceOrder.every((e) => (b.dice[e] || 0) === (c.dice[e] || 0)))
+      return false;
+    const spent = {};
+    for (const e of diceOrder) {
+      const n = (b.dice[e] || 0) + (refund[e] || 0) - (c.dice[e] || 0);
+      if (!known(n) || n > (b.dice[e] || 0)) return false;
+      spent[e] = n;
+    }
+    return total(spent) === size(cost) && !!payment(spent, cost);
   }
   function emptyHandEffect(a, b, c, t) {
     if (b.hand.length !== 1 || c.turn !== "user") return false;
@@ -925,12 +956,10 @@
     };
   }
   function rerollCounter(text) {
-    const values = [];
-    for (const x of norm(text).matchAll(
-      /(?:还可重投([12])轮|(?:可重投次数|剩余重投次数|剩余次数)([12]))/g,
-    ))
-      values.push(Number(x[1] || x[2]));
-    return values.length === 1 ? values[0] : null;
+    const t=norm(text),values=[];
+    for(const match of t.matchAll(/(?:还可重投([12])轮|(?:可重投次数|剩余重投次数|剩余次数)([12]))/g))
+      values.push(Number(match[1]||match[2]));
+    return values.length===1?values[0]:null;
   }
   root.TCG = {
     team,
@@ -944,7 +973,7 @@
     indexedHand,
     characterName,
     diceOrder,
-    known,
+    openingSetting, known,
     alive,
     total,
     size,
@@ -974,6 +1003,7 @@
     verify,
     verifyResynchronized,
     removalEffect,
+    refundedCardEffect,
     emptyHandEffect,
     openingContext,
     keepOpening,
@@ -982,3 +1012,21 @@
     rerollCounter,
   };
 })(globalThis);
+
+globalThis.TCG.version = "0.2.1";
+globalThis.TCG.sharedVersion = "1.0.0";
+globalThis.TCG.defaultStrategy = "default";
+(function (T) {
+  const strategies = new Map();
+  T.registerStrategy = function (id, choose) {
+    if (!/^[a-z][a-z0-9-]*$/.test(id) || typeof choose !== "function" || strategies.has(id))
+      throw new Error("策略标识无效、重复或缺少决策函数：" + id);
+    strategies.set(id, choose);
+  };
+  T.selectStrategy = function (id) {
+    if (!strategies.has(id)) throw new Error("未注册策略：" + id);
+    T.choose = strategies.get(id);
+    T.activeStrategy = id;
+  };
+  T.availableStrategies = function () { return [...strategies.keys()]; };
+})(globalThis.TCG);
