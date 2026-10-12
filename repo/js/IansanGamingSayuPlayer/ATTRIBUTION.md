@@ -8,3 +8,5 @@
 `assets/dice/`、`assets/num/`、`assets/state/`、`assets/charge.png`、`assets/uncharge.png`、`assets/disable.png`、`assets/user_turn.png`、`assets/enemy_turn.png` 等位图来自DSTCG资产，上游提交为 `500f2a6ec564bc5f008594fb68cb8c1ae51eb58c`。`assets/core/` 与 `dice/Native*` 来自BetterGI0.66.0资产；`hand_rim.png` 沿用作者既有牌手资源。
 
 GPL-3.0许可正文保存在 `LICENSE-GPL-3.0.txt`，包内提供可读的JavaScript源码。游戏画面、角色卡牌等权利属于原权利人。
+
+`assets/hand/` 与 `assets/opening/` 的牌面图块由原生游戏画面裁剪，仅用于相应卡牌的识别，不构成对游戏素材的重新授权。
