@@ -15,7 +15,7 @@
     10: [570, 690, 810, 930, 1050, 1170, 1290, 1410, 1530, 1650],
   };
   const charX = [750, 960, 1175];
-  function costMarkerLayout(rects) {
+  function costMarkerLayout(rects, measuredCount = null) {
     if (
       !rects.length ||
       rects.some(
@@ -43,14 +43,34 @@
         y: g.reduce((s, m) => s + m.y, 0) / g.length,
       })),
       layouts = new Map();
+    // Optional count is a current-frame native rim measurement, never a
+    // projected/cache count. It binds the whole fan before artwork is filtered.
+    if (measuredCount !== null && (!Number.isInteger(measuredCount) || !handX[measuredCount]))
+      return null;
     for (const seed of marks) {
-      const row = marks.filter((m) => Math.abs(m.y - seed.y) <= 35).sort((a, b) => a.x - b.x),
-        n = row.length;
+      const band = marks.filter((m) => Math.abs(m.y - seed.y) <= 35).sort((a, b) => a.x - b.x);
+      let row = band;
+      if (measuredCount !== null) {
+        row = handX[measuredCount].map((x) => {
+          const choices = band.filter((m) => Math.abs(m.x + 103 - x) <= 32)
+            .sort((a, b) => Math.abs(a.x + 103 - x) - Math.abs(b.x + 103 - x));
+          // No invented confidence: equal geometric fits remain ambiguous.
+          return choices.length && (choices.length === 1 ||
+            Math.abs(choices[0].x + 103 - x) < Math.abs(choices[1].x + 103 - x))
+            ? choices[0] : null;
+        });
+        if (row.some((m) => !m) || new Set(row).size !== measuredCount) continue;
+      }
+      const n = row.length;
       if (
         !handX[n] ||
         row.some((m, i) => Math.abs(m.x + 103 - handX[n][i]) > 32) ||
         row.some((m, i) => i > 0 && m.x - row[i - 1].x < 75) ||
-        Math.max(...row.map((m) => m.y)) - Math.min(...row.map((m) => m.y)) > 35
+        Math.max(...row.map((m) => m.y)) - Math.min(...row.map((m) => m.y)) > 35 ||
+        // An inner artwork subrow cannot conceal outer markers above it.
+        // Lower art peaks do not add cards; competing complete rows still reject.
+        marks.some((m) => m.y <= Math.max(...row.map((r) => r.y)) &&
+          (m.x < row[0].x - 32 || m.x > row[n - 1].x + 32))
       )
         continue;
       layouts.set(JSON.stringify(row.map((m) => [m.x, m.y])), {
@@ -1432,12 +1452,16 @@
             ...this.matches(f, "hand_cost_neutral", roi, 0.9, false),
             ...this.matches(f, "hand_cost_element", roi, 0.9, false),
           ],
-          layout = costMarkerLayout(matches);
+          // Bind low-card geometry to independent same-frame native edges.
+          // Fan count hints and folded identity count are not measurements.
+          measuredCount = this.handFanReady ? this.memoFrame(f, "hand/rim-count", () =>
+            handLayoutCount(this.matches(f, "hand_rim", [500, 900, 1260, 135], 0.85, false).map((r) => r.x))) : null,
+          layout = costMarkerLayout(matches, measuredCount);
         const unresolved = (reason, detail = {}) => {
           const key = "hand-cost-unresolved:" + reason;
           if (!this.previewEvidence.has(key)) {
             this.previewEvidence.add(key);
-            const data = { reason, matches, layout, ...detail };
+            const data = { reason, matches, layout, measuredCount, ...detail };
             // Preserve the actual failed frame, not a later settled screenshot.
             // At most one per failure kind per run; no normal-flow screenshots.
             if (typeof file.writeImageSync === "function" && (f.srcMat || f.SrcMat))
@@ -1594,9 +1618,9 @@
         return cost.count;
       }
       // Grayscale rim gradient: usable-card gold glow must not change count.
-      const layout = handLayoutCount(
+      const layout = this.memoFrame(f, "hand/rim-count", () => handLayoutCount(
         this.matches(f, "hand_rim", [500, 900, 1260, 135], 0.85, false).map((r) => r.x),
-      );
+      ));
       if (layout !== null) this.lastHandCountSource = "full-rim-layout";
       return layout;
     }

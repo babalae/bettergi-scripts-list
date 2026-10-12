@@ -1,10 +1,10 @@
-// Standalone BetterGI entry: no sibling-script or development dependency.
-for (const name of ["core", "strategy", "bgi", "player"]) {
+for (const name of ["core","strategy","bgi","player","collapsed-hand","opening-hand","hand-recognition"]) {
   eval(file.readTextSync("lib/" + name + ".js"));
 }
 (async function () {
   "use strict";
   const options = TCGPlayer.playerOptions(typeof settings === "undefined" ? {} : settings);
   setGameMetrics(1920, 1080);
-  return new TCGPlayer.Player(new TCGBetterGI.BetterGIHost(options), options).run();
+  const {Host, Player} = TCGHandRecognition.classes(globalThis, JSON.parse(file.readTextSync("hand-bank.json")), JSON.parse(file.readTextSync("opening-bank.json")));
+  return new Player(new Host(options), options).run();
 })();
