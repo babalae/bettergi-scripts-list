@@ -1169,11 +1169,13 @@ async function initRo() {
             for (const imagePath of candidatePaths) {
                 try {
                     const ro = RecognitionObject.TemplateMatch(file.ReadImageMatSync(imagePath));
-                    ro.Threshold = 0.84;
+                    // 特定商品自定义阈值：默认0.84
+                    const customThresholds = { "小麦": 0.75, "土豆": 0.9, "牛奶": 0.85 };
+                    ro.Threshold = customThresholds[foodName] || 0.84;
                     ro.Use3Channels = true;
                     foodROMap[roKey] = ro;
                     loaded = true;
-                    logConditional(`已启用商品: ${foodName} (${imagePath})`);
+                    logConditional(`已启用商品: ${foodName} (${imagePath}, 阈值:${ro.Threshold})`);
                     break;
                 } catch (e) {
                     // 读取或创建识别对象失败，尝试下一个候选路径
